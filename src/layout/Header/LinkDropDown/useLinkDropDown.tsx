@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   useGetUserQuickLinksQuery,
   useUpdateSettingsQuickLinkMutation,
+  useGetQuickLinksQuery,
 } from '@/services/superAdmin/settings/quick-links';
 import { enqueueSnackbar } from 'notistack';
 import useAuth from '@/hooks/useAuth';
@@ -12,6 +13,7 @@ const useLinkDropDown = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [checkedItems, setCheckedItems] = useState<any[]>([]);
   const [toggleView, setToggleView] = useState(false);
+  const [activeLinkNumer, setActiveLinkNumer] = useState(0);
 
   // Popup show/hide
   const open = Boolean(anchorEl);
@@ -28,6 +30,18 @@ const useLinkDropDown = () => {
     setToggleView(!toggleView);
   };
 
+  // Get Active QuickLinks List
+  const {
+    data: dataActiveQuickLinks,
+    isLoading: loadingAcitiveQuickLinks,
+    isFetching: fetchingAcitiveQuickLinks,
+  } = useGetQuickLinksQuery({});
+  const activeQuickLinksData = dataActiveQuickLinks?.data?.quicklinks?.filter(
+    (item: any) => item.isActive,
+  );
+  const activeQuickLInkNumber = activeQuickLinksData?.length;
+
+  // Get Checked QuickLinks
   const payload: any = {
     type: EQuickLinksType?.PRODUCT,
     productId: user?.product?._id,
@@ -35,9 +49,12 @@ const useLinkDropDown = () => {
   // Login as SUPER_ADMIN & ORG_ADMIN
   if (user?.product?.name === EQUICKLINKSROLES?.SUPER_ADMIN) {
     payload.type = EQuickLinksType?.SUPER_ADMIN;
-  } else if (user?.product == null) {
+    payload.productId = undefined;
+  } else if (user?.product?.name === EQUICKLINKSROLES?.ORG_ADMIN) {
     payload.type = EQuickLinksType?.ORG_ADMIN;
+    payload.productId = undefined;
   }
+
   const { data, isLoading, isFetching } = useGetUserQuickLinksQuery(payload);
   const userQuickLinks = data?.data?.quickLinks || [];
   const quickLinksIds = data?.data?.quickLinksIds || [];
@@ -62,11 +79,13 @@ const useLinkDropDown = () => {
       productId: user?.product?._id,
       quickLinksIds: checkedItems,
     };
-    // Login as SUPER_ADMIN & ORG_ADMIN
+    // Logedin as SUPER_ADMIN & ORG_ADMIN
     if (user?.product?.name === EQUICKLINKSROLES?.SUPER_ADMIN) {
       payload.type = EQuickLinksType?.SUPER_ADMIN;
-    } else if (user?.product == null) {
+      payload.productId = undefined;
+    } else if (user?.product?.name === EQUICKLINKSROLES?.ORG_ADMIN) {
       payload.type = EQuickLinksType?.ORG_ADMIN;
+      payload.productId = undefined;
     }
 
     try {
@@ -89,6 +108,11 @@ const useLinkDropDown = () => {
     handleClose,
     toggleView,
     handleToggleView,
+
+    activeQuickLinksData,
+    loadingAcitiveQuickLinks,
+    fetchingAcitiveQuickLinks,
+    activeQuickLInkNumber,
     userQuickLinks,
     isLoading,
     isFetching,
@@ -97,6 +121,8 @@ const useLinkDropDown = () => {
     handleCheckboxChange,
     handleSubmitSaveQuickLinks,
     loadingSaveQuickLinks,
+    setActiveLinkNumer,
+    activeLinkNumer,
   };
 };
 

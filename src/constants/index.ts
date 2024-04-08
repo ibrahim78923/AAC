@@ -218,5 +218,5 @@ export const EQuickLinksType = {
 
 export const EQUICKLINKSROLES = {
   SUPER_ADMIN: 'Super Admin',
-  ORG_ADMIN: '',
+  ORG_ADMIN: 'Org Admin',
 };
