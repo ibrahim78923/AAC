@@ -8,9 +8,12 @@ export const useUsageActivity = (props: any) => {
   const theme: any = useTheme();
   const { width, height, left, top } = useDrawingArea();
   const searchParams = useSearchParams();
-  const softwareId = searchParams.get('softwareId');
-  const { data, isLoading, isError } =
-    useGetAssetsSoftwareOverviewQuery(softwareId);
+  const softwareId = searchParams?.get('softwareId');
+  const { data, isLoading, isError, isFetching } =
+    useGetAssetsSoftwareOverviewQuery(softwareId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!softwareId,
+    });
   return {
     theme,
     usageActivityLabel,
@@ -22,5 +25,6 @@ export const useUsageActivity = (props: any) => {
     height,
     left,
     top,
+    isFetching,
   };
 };

@@ -7,11 +7,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { RestoreModalData } from './RestoreAssign.data';
 import useRestoreAssign from './useRestoreAssign';
 
-const AssignModalBox = ({ open, onClose, seletedId }: any) => {
-  const { handleSubmit, onSubmit, methods, UserListData } = useRestoreAssign(
-    seletedId,
-    onClose,
-  );
+const AssignModalBox = ({ open, onClose, seletedId, setSelectedRows }: any) => {
+  const { handleSubmit, onSubmit, methods, UserListData, loadingUpdateOwner } =
+    useRestoreAssign(seletedId, onClose, setSelectedRows);
 
   return (
     <ScheduleModals
@@ -21,6 +19,7 @@ const AssignModalBox = ({ open, onClose, seletedId }: any) => {
       handleSubmit={handleSubmit(onSubmit)}
       submitButonText={'Update'}
       isFooter
+      loading={loadingUpdateOwner}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>

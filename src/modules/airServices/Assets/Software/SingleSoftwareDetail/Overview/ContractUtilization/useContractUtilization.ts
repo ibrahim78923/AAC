@@ -8,9 +8,13 @@ export const useContractUtilization = (props: any) => {
   const theme: any = useTheme();
   const { width, height, left, top } = useDrawingArea();
   const searchParams = useSearchParams();
-  const softwareId = searchParams.get('softwareId');
-  const { data, isLoading, isError } =
-    useGetAssetsSoftwareContractUtilizationQuery(softwareId);
+  const softwareId = searchParams?.get('softwareId');
+  const { data, isLoading, isError, isFetching } =
+    useGetAssetsSoftwareContractUtilizationQuery(softwareId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!softwareId,
+    });
+
   const transformDataIfAllZero = (contractUtilizationData: any) => {
     const inActiveUsers = data?.data?.[0]?.inActiveUsers;
     const inActiveContracts = data?.data?.[0]?.inActiveContracts;
@@ -43,5 +47,6 @@ export const useContractUtilization = (props: any) => {
     height,
     left,
     top,
+    isFetching,
   };
 };

@@ -2,7 +2,14 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { Grid, Box, Typography, Skeleton } from '@mui/material';
+import {
+  Grid,
+  Box,
+  Typography,
+  Skeleton,
+  Button,
+  InputAdornment,
+} from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -17,7 +24,7 @@ import {
   ComLogoImage,
   OrcaloLogoImage,
 } from '@/assets/images';
-import { AddPenIcon } from '@/assets/icons';
+import { AddPenIcon, EditPenBorderedIcon } from '@/assets/icons';
 
 import { styles } from './OrganizationCard.style';
 
@@ -28,6 +35,7 @@ import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys'
 import { getSession } from '@/utils';
 import { useGetAllProductsQuery } from '@/services/orgAdmin/organization';
 import { getProductIcon } from '@/modules/orgAdmin/SubscriptionAndInvoices/Subscriptions';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const OrganizationCard = () => {
   const {
@@ -37,7 +45,11 @@ const OrganizationCard = () => {
     handleSubmit,
     onSubmit,
     methods,
-    data,
+    handleCloseDrawer,
+    loadingDetails,
+    addressVal,
+    isToggled,
+    setIsToggled,
   } = useOrganizationCard();
 
   const { data: productsData, isLoading } = useGetAllProductsQuery({});
@@ -49,59 +61,6 @@ const OrganizationCard = () => {
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isOpenDrawer}
-        onClose={() => {
-          setIsOpenDrawer(false);
-        }}
-        title="Edit Info"
-        okText="Update"
-        isOk={true}
-        footer={true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <center>
-            <Box sx={{ position: 'relative' }}>
-              <Box
-                sx={{
-                  border: `1px solid ${theme?.palette?.grey[700]}`,
-                  borderRadius: '100px',
-                  width: '120px',
-                  height: '120px',
-                  boxShadow:
-                    '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
-                }}
-              >
-                <Image
-                  src={ComLogoImage}
-                  alt="NO image"
-                  style={{ borderRadius: '100px' }}
-                />
-              </Box>
-              <Box sx={{ position: 'absolute', right: '165px', bottom: 0 }}>
-                <AddPenIcon />
-              </Box>
-            </Box>
-          </center>
-          <FormProvider methods={methods}>
-            <Grid container spacing={1} sx={{ paddingTop: '1rem' }}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={uuidv4()}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
       <Box sx={{ paddingTop: '5px' }}>
         <Grid container spacing={2}>
           <Grid item lg={6} md={12} sm={12} xs={12}>
@@ -163,7 +122,7 @@ const OrganizationCard = () => {
                       </Typography>
                     </Box>
 
-                    <Typography
+                    {/* <Typography
                       variant="h3"
                       sx={{
                         fontWeight: 500,
@@ -171,8 +130,8 @@ const OrganizationCard = () => {
                         color: `${theme?.palette?.custom?.main}`,
                       }}
                     >
-                      {data?.data?.name}
-                    </Typography>
+                      {organiztionDetails?.data?.name}
+                    </Typography> */}
                     <Box
                       sx={{
                         display: 'flex',
@@ -250,17 +209,10 @@ const OrganizationCard = () => {
                         }}
                         sx={styles?.editSection}
                       >
-                        <Image src={EditImage} alt="edit" />
-                        <Typography
-                          variant="body3"
-                          sx={{
-                            fontWeight: 500,
-                            lineHeight: '18px',
-                            color: `${theme?.palette?.primary?.main}`,
-                          }}
-                        >
+                        <Button className="small" sx={{ gap: 1 }}>
+                          <Image src={EditImage} alt="edit" />
                           Edit Info
-                        </Typography>
+                        </Button>
                       </Box>
                     </Box>
                   </PermissionsGuard>
@@ -419,6 +371,142 @@ const OrganizationCard = () => {
           </Grid>
         </Grid>
       </Box>
+      {isOpenDrawer && (
+        <CommonDrawer
+          isDrawerOpen={isOpenDrawer}
+          onClose={handleCloseDrawer}
+          title="Edit Info"
+          okText="Update"
+          isOk={true}
+          footer={true}
+          submitHandler={handleSubmit(onSubmit)}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={methods}>
+              {loadingDetails ? (
+                <SkeletonTable />
+              ) : (
+                <>
+                  <center>
+                    <Box sx={{ position: 'relative' }}>
+                      <Box
+                        sx={{
+                          border: `1px solid ${theme?.palette?.grey[700]}`,
+                          borderRadius: '100px',
+                          width: '120px',
+                          height: '120px',
+                          boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green}, 5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
+                        }}
+                      >
+                        <Image
+                          src={ComLogoImage}
+                          alt="NO image"
+                          style={{ borderRadius: '100px' }}
+                        />
+                      </Box>
+                      <Box
+                        sx={{ position: 'absolute', right: '165px', bottom: 0 }}
+                      >
+                        <AddPenIcon />
+                      </Box>
+                    </Box>
+                  </center>
+                  <Grid container spacing={1} sx={{ paddingTop: '1rem' }}>
+                    {dataArray?.map((item: any) => (
+                      <Grid item xs={12} md={item?.md} key={item?.name}>
+                        {item?.componentProps?.name === 'compositeAddress' && (
+                          <Box position="relative">
+                            <InputAdornment
+                              sx={{
+                                position: 'absolute',
+                                top: 53,
+                                right: 20,
+                                zIndex: 9999,
+                              }}
+                              position="end"
+                            >
+                              {addressVal?.length > 0 ? (
+                                <Box
+                                  sx={{
+                                    cursor: 'not-allowed',
+                                    fontSize: '20px',
+                                    color: 'lightgrey',
+                                  }}
+                                >
+                                  <EditPenBorderedIcon />
+                                </Box>
+                              ) : (
+                                <Box
+                                  onClick={() => {
+                                    setIsToggled(true);
+                                  }}
+                                  sx={{ cursor: 'pointer', fontSize: '20px' }}
+                                >
+                                  <EditPenBorderedIcon />
+                                </Box>
+                              )}
+                            </InputAdornment>
+                          </Box>
+                        )}
+                        <item.component
+                          {...item?.componentProps}
+                          size={'small'}
+                          disabled={
+                            isToggled &&
+                            item?.componentProps?.name === 'compositeAddress'
+                              ? true
+                              : false
+                          }
+                        >
+                          {item?.componentProps?.select &&
+                            item?.options?.map((option: any) => (
+                              <option key={uuidv4()} value={uuidv4()}>
+                                {option?.label}
+                              </option>
+                            ))}
+                        </item.component>
+                        {isToggled && (
+                          <Grid item container spacing={2} mt={1}>
+                            {item?.componentProps?.name ===
+                              'compositeAddress' &&
+                              item?.subData?.map((data: any) => (
+                                <Grid
+                                  item
+                                  xs={12}
+                                  md={item?.md}
+                                  key={item?.name}
+                                >
+                                  <Typography variant="body2" fontWeight={500}>
+                                    {data?.title}
+                                  </Typography>
+                                  <data.component
+                                    {...data.componentProps}
+                                    size={'small'}
+                                  >
+                                    {data?.componentProps?.select
+                                      ? data?.options?.map((option: any) => (
+                                          <option
+                                            key={uuidv4()}
+                                            value={option?.value}
+                                          >
+                                            {option?.label}
+                                          </option>
+                                        ))
+                                      : null}
+                                  </data.component>
+                                </Grid>
+                              ))}
+                          </Grid>
+                        )}
+                      </Grid>
+                    ))}
+                  </Grid>
+                </>
+              )}
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
     </>
   );
 };

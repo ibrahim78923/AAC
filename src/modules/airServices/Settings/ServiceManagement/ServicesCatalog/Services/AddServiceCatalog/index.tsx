@@ -12,11 +12,9 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 
 export const AddServiceCatalog = (prop: any) => {
-  const { methodAdd, handleSubmit, onSubmit, open, setOpen } =
+  const { methodAdd, handleSubmit, onSubmit, open, handleClose } =
     useAddServiceCatalog(prop);
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   return (
     <Fragment>
       <Dialog
@@ -30,7 +28,9 @@ export const AddServiceCatalog = (prop: any) => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Typography variant="h4">New Service Category</Typography>
+          <Typography variant={'h4'} component={'span'}>
+            New Service Category
+          </Typography>
           <CloseIcon sx={{ cursor: 'pointer' }} onClick={handleClose} />
         </DialogTitle>
         <FormProvider methods={methodAdd} onSubmit={handleSubmit(onSubmit)}>

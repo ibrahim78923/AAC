@@ -18,6 +18,8 @@ export const UpsertConversation = (props: any) => {
     upsertConversationFormFields,
     selectedResponseType,
     openResponseTypeModal,
+    editTicketConversationNoteStatus,
+    postAttachmentsStatus,
   } = useUpsertConversation(props);
 
   return (
@@ -41,9 +43,21 @@ export const UpsertConversation = (props: any) => {
         footer
         isOk
         submitHandler={() => handleSubmit(submitUpsertConversation)()}
-        isLoading={postConversationStatus?.isLoading}
-        isDisabled={postConversationStatus?.isLoading}
-        disabledCancelBtn={postConversationStatus?.isLoading}
+        isLoading={
+          postConversationStatus?.isLoading ||
+          editTicketConversationNoteStatus?.isLoading ||
+          postAttachmentsStatus?.isLoading
+        }
+        isDisabled={
+          postConversationStatus?.isLoading ||
+          editTicketConversationNoteStatus?.isLoading ||
+          postAttachmentsStatus?.isLoading
+        }
+        disabledCancelBtn={
+          postConversationStatus?.isLoading ||
+          editTicketConversationNoteStatus?.isLoading ||
+          postAttachmentsStatus?.isLoading
+        }
       >
         <Box mt={1}>
           <FormProvider methods={methods}>

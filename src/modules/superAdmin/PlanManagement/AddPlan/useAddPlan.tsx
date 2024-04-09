@@ -78,6 +78,7 @@ export const useAddPlan = () => {
     useUpdatePlanMangementMutation();
   const router: any = useRouter();
   const { query } = router;
+  const [checkQuery, setCheckQuery] = useState(query?.type);
   let parsedRowData: any;
   if (router?.query?.data) {
     parsedRowData = JSON.parse(router?.query?.data);
@@ -255,7 +256,7 @@ export const useAddPlan = () => {
       setCrmValue(parsedRowData?.name);
     }
 
-    if (singlePlan && query.type === 'edit') {
+    if (singlePlan && checkQuery === 'edit') {
       const tempData = [...singlePlan?.data?.planProductPermissions];
       setPermissionSlugs(
         'permissionSlugs',
@@ -345,7 +346,6 @@ export const useAddPlan = () => {
     enqueueSnackbar('Plan Features Details Added Successfully', {
       variant: 'success',
     });
-    reset();
   };
 
   const onSubmitPlanModulesHandler = async (values: any) => {
@@ -404,10 +404,10 @@ export const useAddPlan = () => {
       }, []);
 
       const transformedModulesFormData = { planPermission };
-
+      let res: any;
       try {
         parsedRowData
-          ? updatePlanMangement({
+          ? (res = await updatePlanMangement({
               id: parsedRowData?._id,
               body: {
                 ...planFormData,
@@ -417,8 +417,8 @@ export const useAddPlan = () => {
                     : [featuresFormData],
                 ...transformedModulesFormData,
               },
-            })
-          : postPlanMangement({
+            }))
+          : (res = await postPlanMangement({
               body: {
                 ...planFormData,
                 planFeature:
@@ -427,8 +427,10 @@ export const useAddPlan = () => {
                     : [featuresFormData],
                 ...transformedModulesFormData,
               },
-            })?.unwrap();
-        setTimeout(function () {
+            })?.unwrap());
+        if (res) {
+          router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
+          setCheckQuery('');
           enqueueSnackbar(
             parsedRowData
               ? 'Plan Updated Successfully'
@@ -437,11 +439,10 @@ export const useAddPlan = () => {
               variant: 'success',
             },
           );
-        }, 5000);
-        router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
-        dispatch(setFeatureDetails(''));
-        // persistor?.purge();
-        reset();
+          dispatch(setFeatureDetails(''));
+          // persistor?.purge();
+          reset();
+        }
       } catch (error: any) {
         enqueueSnackbar('An error occured', {
           variant: 'error',
@@ -522,6 +523,8 @@ export const useAddPlan = () => {
           handleChangeSubModule={handleChangeSubModule}
           selectedModule={selectedModule}
           selectedSubModule={selectedSubModule}
+          isLoading={isLoading}
+          updatePlanLoading={updatePlanLoading}
         />
       ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
@@ -573,6 +576,9 @@ export const useAddPlan = () => {
       setValue('additionalStoragePrice', 0);
     } else if (AdditionalUsereValue[0] === 'No') {
       setValue('additionalPerUserPrice', 0);
+    } else {
+      setValue('additionalStoragePrice', 1);
+      setValue('additionalPerUserPrice', 1);
     }
   }, [AdditionalStorageValue, AdditionalUsereValue, setValue]);
 

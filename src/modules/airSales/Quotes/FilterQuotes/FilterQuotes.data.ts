@@ -1,5 +1,4 @@
 import { RHFSelect } from '@/components/ReactHookForm';
-
 export const defaultValues = {
   quoteStatus: '',
   createdBy: '',
@@ -24,9 +23,9 @@ export const dataArray = (UserListData: any) => {
     {
       md: 12,
       component: RHFSelect,
-      options: UserListData?.data?.users?.map((item: any) => ({
+      options: UserListData?.data?.usercompanyaccounts?.map((item: any) => ({
         value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
+        label: `${item?.user?.firstName} ${item?.user?.lastName}`,
       })),
       componentProps: {
         name: 'createdBy',

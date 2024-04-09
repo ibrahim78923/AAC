@@ -1,5 +1,4 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { AssociationsDrawerPropsI } from './AssociationsDrawer.interface';
 import Search from '@/components/Search';
 import { Box, Button, Checkbox, Typography, useTheme } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
@@ -9,7 +8,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
 
-export const AssociationsDrawer = (props: AssociationsDrawerPropsI) => {
+export const AssociationsDrawer = (props: any) => {
   const theme: any = useTheme();
   const {
     lazyGetTicketsStatus,

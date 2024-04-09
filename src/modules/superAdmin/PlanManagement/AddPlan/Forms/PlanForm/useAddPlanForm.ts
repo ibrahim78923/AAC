@@ -10,6 +10,7 @@ export const useAddPlanForm = (
   AdditionalUsereValue: any,
   selectProductSuite: any,
   setSelectProductSuite: any,
+  isSuccess: any,
 ) => {
   const router = useRouter();
   const { data } = useGetProductsQuery({});
@@ -19,6 +20,7 @@ export const useAddPlanForm = (
     router?.query?.action === 'view',
     AdditionalStorageValue,
     AdditionalUsereValue,
+    isSuccess,
   );
 
   const productsOptions = data?.data?.map((product: any) => ({

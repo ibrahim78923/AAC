@@ -33,6 +33,7 @@ export const DATE_TIME_FORMAT = {
   DMMMY: 'D MMM, YYYY',
   DMDHMA: 'ddd, MMM D, YYYY, h:mm A',
   WDM: 'dddd, DD MMMM',
+  MMMM: 'MMMM',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -194,6 +195,8 @@ export const Quick_Links_Routes = {
   DOCUMENT: '/social-components/my-documents',
   CHAT: '/social-components/chat',
   EMAIL: '/social-components/email',
+  COMPANIES: '/social-components/companies',
+  MEETINGS: '/social-components/meetings',
 };
 
 export const productSuiteName = {
@@ -203,4 +206,19 @@ export const productSuiteName = {
 export const DATE_RANGE = {
   START_DATE: 0,
   END_DATE: 1,
+};
+
+export const PLAN_CALCULATIONS = {
+  PLAN_DISCOUNT: 0.2,
+};
+
+export const EQuickLinksType = {
+  PRODUCT: 'PRODUCT',
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  ORG_ADMIN: 'ORG_ADMIN',
+};
+
+export const EQUICKLINKSROLES = {
+  SUPER_ADMIN: 'Super Admin',
+  ORG_ADMIN: 'Org Admin',
 };

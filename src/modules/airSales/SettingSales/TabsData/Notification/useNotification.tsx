@@ -21,6 +21,7 @@ const useNotification = () => {
     {
       icon: <DealsIcon />,
       title: 'Deals',
+      key: 'deals',
       status: notificationsStatus?.deals,
       description: 'Deals notification will be sent to your inbox.',
       permission: AIR_SALES_SETTINGS?.ACTIVE_INACTIVE_DEALS_NOTIFICATION,
@@ -28,6 +29,7 @@ const useNotification = () => {
     {
       icon: <DealsIcon />,
       title: 'Forecast',
+      key: 'forecast',
       status: notificationsStatus?.forcasts,
       description: 'Forecast notification will be sent to your inbox.',
       permission: '',
@@ -35,6 +37,7 @@ const useNotification = () => {
     {
       icon: <QuotesIcon />,
       title: 'Quotes',
+      key: 'quotes',
       status: notificationsStatus?.quotes,
       description: 'Quotes notification will be sent to your inbox.',
       permission: AIR_SALES_SETTINGS?.ACTIVE_INACTIVE_QUOTES_NOTIFICATION,
@@ -42,6 +45,7 @@ const useNotification = () => {
     {
       icon: <DealsIcon />,
       title: 'Tasks',
+      key: 'tasks',
       status: notificationsStatus?.deals,
       description: 'Tasks notification will be sent to your inbox.',
       permission: '',
@@ -49,6 +53,7 @@ const useNotification = () => {
     {
       icon: <DealsIcon />,
       title: 'Invoices',
+      key: 'invoices',
       status: notificationsStatus?.invoices,
       description: 'Invoices notification will be sent to your inbox.',
       permission: '',
@@ -56,6 +61,7 @@ const useNotification = () => {
     {
       icon: <DealsIcon />,
       title: 'Reports',
+      key: 'reports',
       status: notificationsStatus?.reports,
       description: 'Reports notification will be sent to your inbox.',
       permission: '',
@@ -63,6 +69,7 @@ const useNotification = () => {
     {
       icon: <DealsIcon />,
       title: 'Settings',
+      key: 'settings',
       status: notificationsStatus?.settings,
       description: 'Settings notification will be sent to your inbox.',
       permission: '',
@@ -70,11 +77,10 @@ const useNotification = () => {
   ];
 
   const handleSwitchNotifications = async (val: any, item: any) => {
-    const notifyKey = item?.toLowerCase();
     const notifyVal = val?.target?.checked;
     const notificationParams = {
       notificationsOff: {
-        [notifyKey]: notifyVal,
+        [item]: notifyVal,
       },
     };
     try {
@@ -97,6 +103,7 @@ const useNotification = () => {
     notificationList,
     getDataLoading,
     handleSwitchNotifications,
+    notificationsStatus,
   };
 };
 

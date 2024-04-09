@@ -30,85 +30,137 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
   DownloadInvoiceData,
   discountValue,
 }) => {
-  const columns: any = [
-    {
-      accessorFn: (row: any) => row?.id,
-      id: 'srNumber',
-      cell: () => '1',
-      header: 'Sr#',
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row?.products,
-      id: 'product',
-      cell: (info: any) => (
-        <>
-          <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info?.getValue()}
-            {info?.row?.original?.plans?.products?.map((data: any) => (
-              <Typography variant="body3" key={uuidv4()}>
-                {data?.name}{' '}
-              </Typography>
-            ))}
-          </Box>
-          <Typography variant="body3">
-            ({info?.row?.original?.plantypes})
-          </Typography>
-        </>
-      ),
-      header: 'Product/Suite',
-      isSortable: true,
-    },
-    {
-      accessorFn: (row: any) => row?.details?.plans?.planPrice,
-      id: 'planPrice',
-      isSortable: true,
-      header: 'Plan Price',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
-    },
-    {
-      accessorFn: (row: any) => row?.details?.additionalUsers,
-      id: 'additionalUsers',
-      isSortable: true,
-      header: 'Additional Users',
-      cell: (info: any) => (
-        <>
-          {info?.getValue()} (*£15) = £ {info?.getValue() * 15}
-        </>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.details?.additionalStorage,
-      id: 'additionalStorage',
-      isSortable: true,
-      header: 'Additional Storage',
-      cell: (info: any) => (
-        <>
-          {info?.getValue()} (*£15) = £{info.getValue() * 15}
-        </>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.invoiceDiscount,
-      id: 'discount',
-      isSortable: true,
-      header: 'Discount(%)',
-      cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>
-          {info?.getValue() && discountValue} %
-        </Box>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.subTotal,
-      id: 'subTotal',
-      isSortable: true,
-      header: 'Subtotal',
-      cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>£ {info?.getValue()}</Box>
-      ),
-    },
-  ];
+  let planPrice: any;
+
+  let totalAdditionalUserPrice: any;
+
+  let totalAdditionalStoragePrice: any;
+
+  let planDiscount;
+
+  let subtotalBeforeDiscount;
+
+  let subtotalAfterDiscount: any;
+
+  let invoiceDiscount;
+
+  let total;
+
+  let tax;
+
+  let netAmout;
+  let invoiceDiscountAmount;
+  let TaxAmountOfSubtotal;
+
+  const columns = (data: any) => {
+    planPrice = data?.plans?.planPrice;
+
+    totalAdditionalUserPrice = data?.details?.sumAdditionalUsersPrices;
+
+    totalAdditionalStoragePrice = data?.details?.sumAdditionalStoragePrices;
+
+    planDiscount = data?.details?.planDiscount;
+
+    subtotalBeforeDiscount =
+      planPrice + totalAdditionalUserPrice + totalAdditionalStoragePrice;
+
+    subtotalAfterDiscount =
+      subtotalBeforeDiscount - (planDiscount / 100) * subtotalBeforeDiscount;
+
+    invoiceDiscount = data?.invoiceDiscount;
+
+    invoiceDiscountAmount = (invoiceDiscount / 100) * data?.details?.subTotal;
+
+    total =
+      subtotalAfterDiscount - (invoiceDiscount / 100) * subtotalAfterDiscount;
+
+    tax = data?.tax;
+    TaxAmountOfSubtotal = (tax / 100) * total;
+
+    netAmout = data?.netAmount;
+
+    return [
+      {
+        accessorFn: (row: any) => row?.id,
+        id: 'srNumber',
+        cell: () => '1',
+        header: 'Sr#',
+        isSortable: false,
+      },
+      {
+        accessorFn: (row: any) => row?.products,
+        id: 'product',
+        cell: (info: any) => (
+          <>
+            <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
+              {info?.getValue()}
+              {info?.row?.original?.plans?.products?.map((data: any) => (
+                <Typography variant="body3" key={uuidv4()}>
+                  {data?.name}{' '}
+                </Typography>
+              ))}
+            </Box>
+            <Typography variant="body3">
+              ({info?.row?.original?.plantypes})
+            </Typography>
+          </>
+        ),
+        header: 'Product/Suite',
+        isSortable: true,
+      },
+      {
+        accessorFn: (row: any) => row?.details?.plans?.planPrice,
+        id: 'planPrice',
+        isSortable: true,
+        header: 'Plan Price',
+        cell: () => <>£ {planPrice}</>,
+      },
+      {
+        accessorFn: (row: any) => row?.details?.additionalUsers,
+        id: 'additionalUsers',
+        isSortable: true,
+        header: 'Additional Users',
+        cell: (info: any) => (
+          <>
+            {info?.getValue()} *(£
+            {info?.row?.original?.plans?.additionalPerUserPrice}) = £{' '}
+            {totalAdditionalUserPrice}
+          </>
+        ),
+      },
+      {
+        accessorFn: (row: any) => row?.details?.additionalStorage,
+        id: 'additionalStorage',
+        isSortable: true,
+        header: 'Additional Storage',
+        cell: (info: any) => (
+          <>
+            {info?.getValue()} *(£
+            {info?.row?.original?.plans?.additionalStoragePrice}) = £
+            {totalAdditionalStoragePrice}
+          </>
+        ),
+      },
+      {
+        accessorFn: (row: any) => row?.details?.planDiscount,
+        id: 'discount',
+        isSortable: true,
+        header: 'Discount(%)',
+        cell: (info: any) => (
+          <Box sx={{ fontWeight: '800' }}>{info?.getValue()} %</Box>
+        ),
+      },
+      {
+        accessorFn: (row: any) => row?.subTotal,
+        id: 'subTotal',
+        isSortable: true,
+        header: 'Subtotal',
+        cell: () => (
+          <Box sx={{ fontWeight: '800' }}>£ {subtotalAfterDiscount}</Box>
+        ),
+      },
+    ];
+  };
   const theme = useTheme();
   const router = useRouter();
 
@@ -246,7 +298,10 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
           {/* Product Table */}
           <Box sx={styles?.productCont}>
             <Box sx={styles?.productHeading}>Products</Box>
-            <TanstackTable columns={columns} data={[DownloadInvoiceData]} />
+            <TanstackTable
+              columns={columns(DownloadInvoiceData)}
+              data={[DownloadInvoiceData]}
+            />
           </Box>
 
           {/* Voucher Card*/}
@@ -259,22 +314,22 @@ const DownloadInvoices: FC<ViewInvoicesI> = ({
                 </Typography>
               </Box>
               <Box sx={styles?.vValue}>
-                (£ {DownloadInvoiceData?.invoiceDiscount && discountValue})
+                (£ {invoiceDiscountAmount?.toFixed(2)})
               </Box>
             </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Tax{' '}
                 <Typography sx={{ fontWeight: '400', fontSize: '12px' }}>
-                  (Vat {DownloadInvoiceData?.vat}%)
+                  (Vat {tax}%)
                 </Typography>
               </Box>
-              <Box sx={styles?.vValue}>£ {DownloadInvoiceData?.vat}</Box>
+              <Box sx={styles?.vValue}>£ {TaxAmountOfSubtotal?.toFixed(2)}</Box>
             </Box>
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>£ {DownloadInvoiceData?.total}</Box>
+              <Box sx={styles?.vValue}>£ {netAmout?.toFixed(2)}</Box>
             </Box>
           </Box>
 

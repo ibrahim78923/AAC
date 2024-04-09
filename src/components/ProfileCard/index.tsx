@@ -28,6 +28,16 @@ const ProfileCard = (props: CardPropsI) => {
     isLoading,
   } = props;
 
+  const myRole = role?.split('_');
+
+  // Capitalize the first letter of each word and convert the rest to lowercase
+  const capitalizedWords = myRole?.map(function (word) {
+    return word?.charAt(0)?.toUpperCase() + word?.slice(1)?.toLowerCase();
+  });
+
+  // Join the words back together with spaces
+  const capitalizedRole = capitalizedWords?.join(' ');
+
   return (
     <Box sx={styles.cardWrapper(theme)}>
       <Box
@@ -82,7 +92,7 @@ const ProfileCard = (props: CardPropsI) => {
               </Typography>
               {isBadge && (
                 <Typography component={'span'} sx={styles?.badge(theme)}>
-                  {role}
+                  {capitalizedRole}
                 </Typography>
               )}
               <Box

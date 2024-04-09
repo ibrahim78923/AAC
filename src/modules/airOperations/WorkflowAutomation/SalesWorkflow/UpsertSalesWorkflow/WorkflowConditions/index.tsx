@@ -7,7 +7,7 @@ import { styles } from './WorkflowConditions.style';
 import { useWorkflowConditions } from './useWorkflowConditions';
 
 export const WorkflowConditions = (props: any) => {
-  const { moduleType, control, watch } = props;
+  const { setValue, control, watch } = props;
   const { fields, remove, palette, handleAddGroup } =
     useWorkflowConditions(props);
   return (
@@ -23,25 +23,20 @@ export const WorkflowConditions = (props: any) => {
         What Conditions should be met?
       </Typography>
       {fields?.map((item, index) => {
-        const conditionType = watch(
-          `workflowConditions.${index}.conditionType`,
-        );
+        const conditionType = watch(`groups.${index}.conditionType`);
         return (
           <Box key={item?.id} p={1.5}>
             {index !== 0 && (
               <Box sx={styles?.logicBtnContainer(palette)}>
-                <RHFButtonGroup
-                  name={`workflowConditions.${index}.logicGate`}
-                  sx={{ gap: 0 }}
-                >
+                <RHFButtonGroup name="groupCondition" sx={{ gap: 0 }}>
                   <ToggleButton
-                    value={'and'}
+                    value={'AND'}
                     sx={styles?.logicAndButtons(palette)}
                   >
                     AND
                   </ToggleButton>
                   <ToggleButton
-                    value={'or'}
+                    value={'OR'}
                     sx={styles?.logicOrButtons(palette)}
                   >
                     OR
@@ -60,12 +55,13 @@ export const WorkflowConditions = (props: any) => {
               </Grid>
             </Box>
             <SubWorkflowConditions
-              moduleType={moduleType}
+              setValue={setValue}
               control={control}
               index={index}
               removeParent={remove}
               conditionType={conditionType}
               parentField={fields}
+              watch={watch}
             />
           </Box>
         );

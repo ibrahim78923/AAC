@@ -710,7 +710,7 @@ export const ProfileDropDown = [
   },
   {
     label: 'Change Password',
-    key: '/change-password',
+    key: '/edit-profile',
   },
   {
     label: 'Delegate',
@@ -729,31 +729,37 @@ export const QuickLinkData = [
     key: '2',
     icon: ContactImage,
     path: AIR_SOCIAL?.CONTACTS,
+    permissions: Permissions?.SOCIAL_COMPONENTS_CONTACTS,
   },
   {
     key: '3',
     icon: MeetingTopImage,
-    path: '',
+    path: Quick_Links_Routes?.MEETINGS,
+    permissions: Permissions?.SOCIAL_COMPONENTS_MEETINGS,
   },
   {
     key: '4',
     icon: DocumentImage,
-    path: Quick_Links_Routes?.CALLING,
+    path: Quick_Links_Routes?.DOCUMENT,
+    permissions: Permissions?.SOCIAL_COMPONENTS_DOCUMENTS,
   },
   {
     key: '5',
     icon: MailImage,
     path: Quick_Links_Routes?.CHAT,
+    permissions: Permissions?.SOCIAL_COMPONENTS_CHAT,
   },
   {
     key: '6',
     icon: MessageImage,
     path: Quick_Links_Routes?.EMAIL,
+    permissions: Permissions?.SOCIAL_COMPONENTS_EMAIL,
   },
   {
     key: '7',
     icon: CompaniesImage,
-    path: '',
+    path: Quick_Links_Routes?.COMPANIES,
+    permissions: Permissions?.SOCIAL_COMPONENTS_COMPANIES,
   },
 ];
 

@@ -1,12 +1,15 @@
 import { AlertModals } from '@/components/AlertModals';
 
 import { AlertModalDeleteIcon } from '@/assets/icons';
+import useRestore from '../useRestore';
 
 const RestoreDeleteModal = ({
   open,
   onClose,
   handlePermanantDeleteRetore,
 }: any) => {
+  const { restoreLoading } = useRestore();
+
   return (
     <AlertModals
       typeImage={<AlertModalDeleteIcon />}
@@ -15,6 +18,7 @@ const RestoreDeleteModal = ({
       open={open}
       handleClose={onClose}
       handleSubmitBtn={handlePermanantDeleteRetore}
+      isLoading={restoreLoading}
     ></AlertModals>
   );
 };

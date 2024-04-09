@@ -46,6 +46,7 @@ const AddPlanForm = ({
     AdditionalUsereValue,
     selectProductSuite,
     setSelectProductSuite,
+    isSuccess,
   );
 
   const filter = createFilterOptions<any>();

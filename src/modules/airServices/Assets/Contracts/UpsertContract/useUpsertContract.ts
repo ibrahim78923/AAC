@@ -126,9 +126,9 @@ export const useUpsertContract = () => {
     }
   };
 
-  const submitUpdateContract = async (data: any) => {
+  const submitUpdateContract = async (formData: any) => {
     const putContractParameter = {
-      body: data,
+      body: formData,
       pathParam: {
         contractId,
       },

@@ -10,7 +10,11 @@ import { v4 as uuidv4 } from 'uuid';
 const TaskViewCard = () => {
   const theme: any = useTheme<Theme>();
   const [taskCardData, setTaskCardData] = useState<any[]>([]);
-
+  const statusConstants = {
+    Inprogress: 'Inprogress',
+    Pending: 'Pending',
+    Complete: 'Complete',
+  };
   useEffect(() => {
     setTaskCardData([
       ...taskCardViewData.map((column: any) => ({
@@ -210,11 +214,14 @@ const TaskViewCard = () => {
                                   variant="subtitle2"
                                   sx={{
                                     color:
-                                      items?.status === 'Inprogress'
+                                      items?.status ===
+                                      statusConstants?.Inprogress
                                         ? `${theme?.palette?.warning?.main}`
-                                        : items?.status === 'Pending'
+                                        : items?.status ===
+                                            statusConstants?.Pending
                                           ? `${theme?.palette?.error?.main}`
-                                          : items?.status === 'Complete'
+                                          : items?.status ===
+                                              statusConstants?.Complete
                                             ? `${theme?.palette?.success?.main}`
                                             : '',
                                     fontWeight: 600,

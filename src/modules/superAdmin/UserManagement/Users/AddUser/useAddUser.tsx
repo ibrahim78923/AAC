@@ -36,7 +36,6 @@ const useAddUser = (useActionParams?: any) => {
   const userDetail = isOpenAddUserDrawer?.data?.data;
   const initialTab = 0;
   const tabTitle = tabVal === initialTab ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
-
   // for super admin form methods
   const superAdminValues: any = {
     firstName: '',
@@ -196,7 +195,6 @@ const useAddUser = (useActionParams?: any) => {
         '_id',
         'crn',
         'companyName',
-        'products',
         'role',
         'organization',
         'email',

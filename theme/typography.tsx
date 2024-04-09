@@ -97,6 +97,10 @@ const typography = {
     fontSize: pxToRem(12),
     color: '#fff',
   },
+  pageTitle: {
+    fontWeight: 600,
+    fontSize: pxToRem(22),
+  },
 };
 
 declare module '@mui/material/styles' {
@@ -117,6 +121,7 @@ declare module '@mui/material/Typography' {
     customStyle: true;
     body3: true;
     body4: true;
+    pageTitle: true;
   }
 }
 

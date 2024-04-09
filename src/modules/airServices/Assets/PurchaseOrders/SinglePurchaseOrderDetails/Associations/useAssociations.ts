@@ -4,9 +4,22 @@ import { useState } from 'react';
 
 export const useAssociations = () => {
   const searchParams = useSearchParams();
-  const purchaseOrderId = searchParams.get('purchaseOrderId');
+  const purchaseOrderId = searchParams?.get('purchaseOrderId');
   const [openDrawer, setOpenDrawer] = useState<any>(false);
-  const { data, isLoading, isError } = useGetAssociationsQuery(purchaseOrderId);
+  const { data, isLoading, isError, isFetching } = useGetAssociationsQuery(
+    purchaseOrderId,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!purchaseOrderId,
+    },
+  );
   const associationsList = data?.data;
-  return { associationsList, openDrawer, setOpenDrawer, isLoading, isError };
+  return {
+    associationsList,
+    openDrawer,
+    setOpenDrawer,
+    isLoading,
+    isError,
+    isFetching,
+  };
 };

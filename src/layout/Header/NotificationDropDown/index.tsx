@@ -8,12 +8,13 @@ import {
   Badge,
   Divider,
 } from '@mui/material';
-import { NotificationAvatarImage, NotificationImage } from '@/assets/images';
+import { NotificationImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
 import useNotificationDropDown from './useNotificationDropDown';
 import dayjs from 'dayjs';
 import NoData from '@/components/NoData';
 import SkeletonComponent from '@/components/CardSkeletons';
+import { generateImage } from '@/utils/avatarUtils';
 
 const NotificationDropdown = () => {
   const theme = useTheme();
@@ -95,6 +96,7 @@ const NotificationDropdown = () => {
                             sx={{
                               display: 'flex',
                               padding: '15px 0px 15px 10px',
+                              alignItems: 'center',
                               gap: 1,
                               backgroundColor:
                                 !item?.seen && theme?.palette?.grey[100],
@@ -102,7 +104,7 @@ const NotificationDropdown = () => {
                             onClick={() => handleSeenNotification(item?._id)}
                           >
                             <Image
-                              src={item?.image ?? NotificationAvatarImage}
+                              src={generateImage(item?.performedByAvatar?.url)}
                               width={32}
                               height={32}
                               alt="notification-avatar"
@@ -112,7 +114,7 @@ const NotificationDropdown = () => {
                                 variant="body2"
                                 sx={{ color: theme?.palette?.grey[600] }}
                               >
-                                {`You have received a notification from ${item?.performedByName}`}
+                                {`${item?.performedByName} updates ${item?.module}`}
                                 {item?.message}
                               </Typography>
                               <Typography

@@ -9,6 +9,7 @@ import {
   Divider,
   Avatar,
   useTheme,
+  TextField,
 } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -25,36 +26,38 @@ import InvoiceList from '../../InvoiceList';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { usePatchUpdateInvoicesMutation } from '@/services/superAdmin/billing-invoices';
 import { enqueueSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
 
 const UserInfo = () => {
   const [openViewInvoice, setOpenViewInvoice] = useState(false);
-  const [discountValue, setDiscountValue] = useState('');
-  const [dateValue, setDateValue] = useState<Date | null>(Date(''));
 
+  const router = useRouter();
+  const theme = useTheme();
+  let EditInvoice: any;
+  if (router?.query?.key) {
+    EditInvoice = JSON?.parse(router?.query?.key);
+  }
+  const [dateValue, setDateValue] = useState<Date | null>(
+    new Date(EditInvoice?.dueDate),
+  );
+  const [discountValue, setDiscountValue] = useState(
+    EditInvoice?.invoiceDiscount,
+  );
   const inputDate = new Date(dateValue);
 
-  const [updateInvoice] = usePatchUpdateInvoicesMutation();
+  const [updateInvoice, { isLoading }] = usePatchUpdateInvoicesMutation();
 
   const year = inputDate.getUTCFullYear();
   const month = (inputDate.getUTCMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
   const day = inputDate.getUTCDate().toString().padStart(2, '0');
   const formattedDateString = `${year}-${month}-${day}`;
 
-  const router = useRouter();
-  const theme = useTheme();
-
-  let EditInvoice: any;
-  if (router?.query?.key) {
-    EditInvoice = JSON?.parse(router?.query?.key);
-  }
-
-  const getDiscountValues = columns(setDiscountValue, discountValue);
+  const getDiscountValues = columns(EditInvoice);
 
   const handleUpdate = async () => {
     const updateInvoicePayload = {
       dueDate: formattedDateString,
       invoiceDiscount: discountValue,
-      status: EditInvoice?.status,
     };
 
     try {
@@ -72,6 +75,32 @@ const UserInfo = () => {
       });
     }
   };
+
+  const planPrice = EditInvoice?.plans?.planPrice;
+
+  const totalAdditionalUserPrice =
+    EditInvoice?.details?.sumAdditionalUsersPrices;
+
+  const totalAdditionalStoragePrice =
+    EditInvoice?.details?.sumAdditionalStoragePrices;
+
+  const planDiscount = EditInvoice?.details?.planDiscount;
+
+  const subtotalBeforeDiscount =
+    planPrice + totalAdditionalUserPrice + totalAdditionalStoragePrice;
+
+  const subtotalAfterDiscount =
+    subtotalBeforeDiscount - (planDiscount / 100) * subtotalBeforeDiscount;
+
+  const invoiceDiscount = EditInvoice?.invoiceDiscount;
+
+  const total =
+    subtotalAfterDiscount - (invoiceDiscount / 100) * subtotalAfterDiscount;
+
+  const tax = EditInvoice?.tax;
+  const TaxAmountOfSubtotal = (tax / 100) * total;
+
+  const netAmout = EditInvoice?.netAmount;
 
   return (
     <Box>
@@ -175,7 +204,7 @@ const UserInfo = () => {
                     inputProps: { style: { height: 2 } },
                   },
                 }}
-                // value={dateValue}
+                value={dateValue}
                 onChange={(newValue) => setDateValue(newValue)}
                 label="date picker"
               />
@@ -206,7 +235,17 @@ const UserInfo = () => {
                   ({EditInvoice?.invoiceDiscount}%)
                 </Box>
               </Box>
-              <Box sx={styles?.vValue}>(£ {EditInvoice?.invoiceDiscount})</Box>
+
+              <Box sx={styles?.vValue}>
+                <TextField
+                  type="number"
+                  sx={{ width: '100px', '& input': { padding: '11px' } }}
+                  value={discountValue}
+                  onChange={(value: any) =>
+                    setDiscountValue(value?.target?.value)
+                  }
+                />{' '}
+              </Box>
             </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
@@ -218,12 +257,15 @@ const UserInfo = () => {
                   (Vat {EditInvoice?.vat}%)
                 </Box>
               </Box>
-              <Box sx={styles?.vValue}>£ {EditInvoice?.vat}</Box>
+              <Box sx={styles?.vValue}>
+                {' '}
+                £ {TaxAmountOfSubtotal?.toFixed(2)}
+              </Box>
             </Box>
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>£ {EditInvoice?.total}</Box>
+              <Box sx={styles?.vValue}>£ {netAmout?.toFixed(2)}</Box>
             </Box>
           </Box>
         </>
@@ -240,16 +282,17 @@ const UserInfo = () => {
           >
             cancel
           </Button>
-          <Button
+          <LoadingButton
             variant="contained"
             color="primary"
             onClick={() => {
               handleUpdate();
             }}
             sx={{ marginLeft: '15px' }}
+            isLoading={isLoading}
           >
-            Next
-          </Button>
+            Update
+          </LoadingButton>
         </Box>
       )}
 
