@@ -234,10 +234,10 @@ export const addItemsToInventoryFormFieldsDynamic = (
               allAssets?.isFetching || allAssets?.isLoading
                 ? SkeletonTable
                 : allAssets?.isError
-                  ? ApiErrorState
-                  : !!!allAssets?.data?.data?.inventories?.length
-                    ? NoData
-                    : RHFRadioGroup,
+                ? ApiErrorState
+                : !!!allAssets?.data?.data?.inventories?.length
+                ? NoData
+                : RHFRadioGroup,
             componentProps: {
               ...(!!!allAssets?.data?.data?.inventories?.length ||
               allAssets?.isError
@@ -251,7 +251,7 @@ export const addItemsToInventoryFormFieldsDynamic = (
                 }),
               ),
               name: 'existingInventory',
-              boxSx: { maxHeight: '25vh', overflow: 'auto' },
+              boxSx: { maxHeight: '30vh', overflow: 'auto' },
               optionSx: {
                 border: '1px solid',
                 borderColor: 'custom.off_white_three',

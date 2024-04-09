@@ -82,8 +82,7 @@ export const AddItemsToInventory = (props: any) => {
                     variant="body2"
                     fontWeight={600}
                   >
-                    {addToItemsInventoryDetails?.data?.data?.totalReceived}/
-                    {addToItemsInventoryDetails?.data?.data?.totalQuantity}
+                    {addToItemsInventoryDetails?.data?.data?.totalReceived}
                   </Typography>
                 </Box>
               </Box>
