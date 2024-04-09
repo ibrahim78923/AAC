@@ -12,7 +12,6 @@ import { RequestApprovalForm } from './RequestApprovalForm';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { ApproveForm } from './ApproveForm';
 import { RejectForm } from './RejectForm';
-import { enqueueSnackbar } from 'notistack';
 import { NoAssociationFoundImage } from '@/assets/images';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
@@ -21,6 +20,7 @@ import { Fragment } from 'react';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { CancelRequest } from './CancelRequest';
 import { generateImage } from '@/utils/avatarUtils';
+import { LoadingButton } from '@mui/lab';
 
 export const Approvals = () => {
   const {
@@ -35,6 +35,8 @@ export const Approvals = () => {
     approvalsListMetaData,
     openDialog,
     user,
+    sendReminderForPurchaseOrderApproval,
+    postPurchaseOrderApprovalRemindersStatus,
   } = useApprovals();
   return (
     <>
@@ -161,17 +163,21 @@ export const Approvals = () => {
                       !approvalStatus?.includes(item?.approvalStatus) && (
                         <Fragment>
                           <CancelRequest approvalId={item?._id} />
-                          <Button
+                          <LoadingButton
+                            loading={
+                              postPurchaseOrderApprovalRemindersStatus?.isLoading
+                            }
+                            disabled={
+                              postPurchaseOrderApprovalRemindersStatus?.isLoading
+                            }
                             variant="outlined"
                             startIcon={<NotificationsIcon />}
                             onClick={() =>
-                              enqueueSnackbar('Reminder Sent!', {
-                                variant: 'success',
-                              })
+                              sendReminderForPurchaseOrderApproval?.()
                             }
                           >
                             Send Reminder
-                          </Button>
+                          </LoadingButton>
                         </Fragment>
                       )}
                   </Grid>

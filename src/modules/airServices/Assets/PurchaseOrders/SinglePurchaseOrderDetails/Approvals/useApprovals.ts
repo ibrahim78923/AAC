@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
 import { PAGINATION } from '@/config';
 import { useSearchParams } from 'next/navigation';
-import { useLazyGetApprovalRequestsQuery } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
+import {
+  useLazyGetApprovalRequestsQuery,
+  usePostPurchaseOrderApprovalRemindersMutation,
+} from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { useTheme } from '@mui/material';
 import useAuth from '@/hooks/useAuth';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useApprovals = () => {
   const theme: any = useTheme();
   const searchParams = useSearchParams();
   const purchaseOrderId: any = searchParams?.get('purchaseOrderId');
 
-  const { user } = useAuth();
+  const { user }: any = useAuth();
 
   const [openDialog, setOpenDialog] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -18,6 +22,10 @@ export const useApprovals = () => {
 
   const [lazyGetApprovalRequestsTrigger, lazyGetApprovalRequestsStatus]: any =
     useLazyGetApprovalRequestsQuery();
+  const [
+    postPurchaseOrderApprovalRemindersTrigger,
+    postPurchaseOrderApprovalRemindersStatus,
+  ] = usePostPurchaseOrderApprovalRemindersMutation();
 
   const approvalsList =
     lazyGetApprovalRequestsStatus?.data?.data?.purchaseapprovals;
@@ -45,6 +53,15 @@ export const useApprovals = () => {
     }
   }, [page, pageLimit, purchaseOrderId]);
 
+  const sendReminderForPurchaseOrderApproval = async () => {
+    try {
+      await postPurchaseOrderApprovalRemindersTrigger({})?.unwrap();
+      successSnackbar('Reminder Send Successfully');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
   return {
     lazyGetApprovalRequestsStatus,
     approvalsList,
@@ -57,5 +74,7 @@ export const useApprovals = () => {
     approvalsListMetaData,
     openDialog,
     user,
+    sendReminderForPurchaseOrderApproval,
+    postPurchaseOrderApprovalRemindersStatus,
   };
 };

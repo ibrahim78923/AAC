@@ -5,7 +5,6 @@ import { styles } from './OverviewBilling.style';
 const OverviewBilling = ({
   purchaseOrderDetailData,
   purchaseOrderData,
-  rowData,
 }: any) => {
   const purchaseOrderDetail = purchaseOrderDetailData?.[0];
   const subTotal = purchaseOrderData?.subTotal || 0;
@@ -17,6 +16,7 @@ const OverviewBilling = ({
     (subTotal * discount) / 100 +
     (subTotal * taxRate) / 100 +
     shipping;
+
   return (
     <Box
       sx={{
@@ -28,9 +28,7 @@ const OverviewBilling = ({
       {modalBillingData({
         purchaseOrderDetail,
         purchaseOrderData,
-        rowData,
         total,
-        purchaseOrderDetailData,
       })?.map((item: any) => {
         const totalItem = [
           purchaseOrderDetail?.[0]?.label,
