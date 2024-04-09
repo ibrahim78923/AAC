@@ -351,6 +351,9 @@ export const END_POINTS = {
   ADD_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/add_discussion`,
   UPDATE_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/update-discussion`,
   DELETE_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/delete-discussion`,
+  EDIT_TICKET_CONVERSATION_NOTE: `/email/edit-note`,
+  DELETE_TICKET_CONVERSATION: `/email/delete-note`,
+  SEND_TICKET_APPROVAL_REMINDER: `/ticket/send-reminder-ticket-approval`,
 };
 
 export const superAdminBillingInvoices = {

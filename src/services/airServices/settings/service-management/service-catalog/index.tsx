@@ -126,13 +126,15 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
-    getAssetType: builder?.query({
+    getAssetTypeForServicesDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
         method: 'GET',
         params,
       }),
-      transformResponse: (response: any) => transformResponse(response),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.assettypes;
+      },
       providesTags: [TAG_FIVE],
     }),
     getSoftwareDropdown: builder?.query({
@@ -147,7 +149,7 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       providesTags: [TAG_FIVE],
     }),
     getProductDropdown: builder?.query({
-      query: ({ param }) => ({
+      query: ({ param }: any) => ({
         url: `${END_POINTS?.GET_PRODUCT_DROPDOWN}`,
         method: 'GET',
         params: param,
@@ -174,7 +176,7 @@ export const {
   useLazyGetServiceCategoriesDropdownQuery,
   useLazyGetAgentDropdownQuery,
   useLazyGetRequesterDropdownQuery,
-  useLazyGetAssetTypeQuery,
+  useLazyGetAssetTypeForServicesDropdownQuery,
   useLazyGetSoftwareDropdownQuery,
   useLazyGetProductDropdownQuery,
 } = serviceCatalogAPI;

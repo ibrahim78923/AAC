@@ -1,4 +1,4 @@
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import { overviewTableColumns } from './Overview.data';
@@ -6,6 +6,8 @@ import OverviewModel from './OverviewModal';
 import OverviewBilling from './OverviewBilling';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useOverview } from './useOverview';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 export const Overview = () => {
   const {
     openOverviewModal,
@@ -21,8 +23,13 @@ export const Overview = () => {
     isFetching,
     handleRowClick,
     rowData,
+    isError,
   } = useOverview();
-  if (isLoading || isFetching) return <Skeleton />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+
+  if (isError) return <ApiErrorState />;
+
   return (
     <Box>
       {overviewData(purchaseOrderData)?.map((item: any) => (

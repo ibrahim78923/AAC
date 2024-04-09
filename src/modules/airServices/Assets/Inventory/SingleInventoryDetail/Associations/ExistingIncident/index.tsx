@@ -8,35 +8,34 @@ import {
   Chip,
 } from '@mui/material';
 import { chipColor } from './ExistingIncident.data';
-import { v4 as uuidv4 } from 'uuid';
 import { useExistingIncident } from './useExistingIncident';
-import { NoAssociationFoundImage } from '@/assets/images';
 import NoData from '@/components/NoData';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
+import { truncateText } from '@/utils/avatarUtils';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
-export const ExistingIncident = ({ openDrawer, onClose }: any) => {
+export const ExistingIncident = (props: any) => {
+  const { openDrawer } = props;
   const {
     handleSubmit,
-    searchBy,
     setSearchBy,
     theme,
     checkboxValues,
     handleCheckboxChange,
     existingTicketsData,
     lazyGetTicketsStatus,
-    pageLimit,
     setPageLimit,
-    page,
     setPage,
     metaData,
     isLoading,
-  } = useExistingIncident({ onClose });
+    onClose,
+  } = useExistingIncident(props);
 
   return (
     <CommonDrawer
       isDrawerOpen={openDrawer}
-      onClose={() => onClose(false)}
+      onClose={() => onClose?.()}
       title={'Associate Existing Incident'}
       okText={'Associate'}
       isOk
@@ -46,40 +45,40 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
       submitHandler={handleSubmit}
     >
       <Box my={1}>
-        <Search
-          label={'Search'}
-          value={searchBy}
-          onChange={(e) => setSearchBy(e.target.value)}
-          fullWidth
-        />
+        <Search label={'Search Here'} setSearchBy={setSearchBy} fullWidth />
       </Box>
       {!lazyGetTicketsStatus?.isFetching ? (
         existingTicketsData?.length ? (
           existingTicketsData?.map((item: any) => (
             <Box
-              border={`1px solid ${theme?.palette?.grey?.[400]}`}
+              border={`1px solid `}
+              borderColor="grey.400"
               borderRadius={2}
               p={1}
               mt={2}
               display={'flex'}
               justifyContent={'space-between'}
               alignItems={'center'}
-              key={uuidv4()}
+              key={item?._id}
             >
               <FormGroup>
                 <FormControlLabel
                   control={
                     <Checkbox
+                      icon={<CheckboxIcon />}
+                      checkedIcon={<CheckboxCheckedIcon />}
                       checked={checkboxValues?.[item?._id] || false}
                       onChange={handleCheckboxChange}
                       id={item?._id}
                     />
                   }
-                  label={`${item?.ticketIdNumber}-${item?.subject}`}
+                  label={`${'  '} ${item?.ticketIdNumber}-${truncateText(
+                    item?.subject,
+                  )}`}
                 />
               </FormGroup>
               <Chip
-                label={item?.status}
+                label={item?.status ?? '---'}
                 sx={{
                   bgcolor:
                     theme?.['palette']?.[`${chipColor(item?.status)}`]?.[
@@ -94,11 +93,7 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
             </Box>
           ))
         ) : (
-          <NoData
-            image={NoAssociationFoundImage}
-            message={'No data is available'}
-            height="40vh"
-          />
+          <NoData message={'No data is available'} height="40vh" />
         )
       ) : (
         <SkeletonTable />
@@ -106,9 +101,9 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
       {metaData && (
         <Box>
           <CustomPagination
-            currentPage={page}
+            currentPage={metaData?.page}
             count={metaData?.pages}
-            pageLimit={pageLimit}
+            pageLimit={metaData?.limit}
             totalRecords={metaData?.total}
             onPageChange={(page: any) => setPage(page)}
             setPage={setPage}

@@ -1,8 +1,8 @@
 import {
+  Box,
   Dialog,
   DialogContent,
   DialogTitle,
-  Grid,
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -26,52 +26,63 @@ export const RequestApprovalForm = (props: any) => {
       onClose={() => setOpenDialog(false)}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      maxWidth={'xs'}
+      fullWidth
     >
       <DialogTitle>
-        <Grid container justifyContent={'space-between'}>
+        <Box
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          display={'flex'}
+          gap={1}
+          flexWrap={'wrap'}
+        >
           <Typography variant="h4">Request Approval</Typography>
           <CloseIcon
             sx={{ color: 'custom.darker', cursor: 'pointer' }}
             onClick={() => setOpenDialog(false)}
           />
-        </Grid>
+        </Box>
       </DialogTitle>
 
       <DialogContent sx={{ mt: 1 }}>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <RHFAutocompleteAsync
-                name="approvers"
-                size="small"
-                placeholder="Select a User"
-                label="Approvers"
-                apiQuery={apiQueryAgents}
-                getOptionLabel={(option: any) =>
-                  `${option?.firstName} ${option?.lastName}`
-                }
-                required
-              />
-            </Grid>
+          <RHFAutocompleteAsync
+            name="approvers"
+            size="small"
+            placeholder="Select a User"
+            label="Approvers"
+            apiQuery={apiQueryAgents}
+            getOptionLabel={(option: any) =>
+              `${option?.firstName} ${option?.lastName}`
+            }
+            required
+          />
 
-            <Grid item xs={12} textAlign={'end'}>
-              <LoadingButton
-                variant="outlined"
-                sx={{ mx: 2 }}
-                onClick={() => setOpenDialog(false)}
-                color={'secondary'}
-              >
-                Cancel
-              </LoadingButton>
-              <LoadingButton
-                loading={postRequestApprovalStatus?.isLoading}
-                variant="contained"
-                type="submit"
-              >
-                Request
-              </LoadingButton>
-            </Grid>
-          </Grid>
+          <Box
+            display={'flex'}
+            gap={1}
+            alignItems={'center'}
+            flexWrap={'wrap'}
+            justifyContent={'flex-end'}
+            mt={1}
+          >
+            <LoadingButton
+              variant="outlined"
+              onClick={() => setOpenDialog(false)}
+              color={'secondary'}
+              disabled={postRequestApprovalStatus?.isLoading}
+            >
+              Cancel
+            </LoadingButton>
+            <LoadingButton
+              loading={postRequestApprovalStatus?.isLoading}
+              variant="contained"
+              type="submit"
+            >
+              Request
+            </LoadingButton>
+          </Box>
         </FormProvider>
       </DialogContent>
     </Dialog>

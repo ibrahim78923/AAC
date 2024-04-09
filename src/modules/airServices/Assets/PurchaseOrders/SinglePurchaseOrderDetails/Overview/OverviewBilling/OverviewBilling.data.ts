@@ -9,7 +9,7 @@ export const modalBillingData = ({
     label: 'subTotal ($)',
     value: rowData
       ? purchaseOrderData?.subTotal
-      : purchaseOrderDetailData[0]?.subTotal,
+      : purchaseOrderDetailData?.[0]?.subTotal,
   },
   { label: 'discount (%)', value: purchaseOrderData?.discount },
   { label: 'Tax rate (%)', value: purchaseOrderDetail?.taxRate },

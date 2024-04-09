@@ -11,7 +11,11 @@ import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 export const upsertServiceValidationSchema = Yup?.object()?.shape({
   itemName: Yup?.string()?.required(),
-  cost: Yup?.number(),
+  cost: Yup?.number()
+    ?.transform((value: any) => (isNaN(value) ? undefined : value))
+    ?.nullable()
+    ?.typeError('Not a number')
+    ?.positive('Greater than 0'),
   serviceCategory: Yup?.mixed()?.nullable(),
   estimatedDelivery: Yup?.string(),
   description: Yup?.string()?.nullable(),
@@ -149,8 +153,8 @@ export const upsertServiceData = (apiServiceCategoryQuery: any) => [
       fullWidth: true,
       placeholder: 'Description',
       multiline: true,
-      minRows: 5,
-      style: { minHeight: '100px' },
+      maxRows: 5.5,
+      minRows: 5.5,
     },
     component: RHFTextField,
     md: 6,
@@ -160,6 +164,7 @@ export const upsertServiceData = (apiServiceCategoryQuery: any) => [
     componentProps: {
       name: 'fileUrl',
       fullWidth: true,
+      label: '\u00a0\u00a0',
       fileType: 'PNG or JPG  (max 2.44 MB)',
       maxSize: 1024 * 1024 * 2.44,
       accept: {
@@ -234,7 +239,8 @@ export const categoriesOfServices = (
       label: 'Select Assets Categories',
       placeholder: 'All Assets',
       apiQuery: apiQueryAssetType,
-      externalParams: { meta: false, limit: 50 },
+      externalParams: { limit: 50, meta: true },
+      getOptionLabel: (option: any) => option?.name,
     },
     text: 'HardWare/Consumable',
     md: 6,

@@ -18,7 +18,7 @@ import {
   useLazyGetServiceCategoriesDropdownQuery,
   useLazyGetAgentDropdownQuery,
   useLazyGetRequesterDropdownQuery,
-  useLazyGetAssetTypeQuery,
+  useLazyGetAssetTypeForServicesDropdownQuery,
   useLazyGetSoftwareDropdownQuery,
   useLazyGetProductDropdownQuery,
 } from '@/services/airServices/settings/service-management/service-catalog';
@@ -32,22 +32,25 @@ const useUpsertService = () => {
   const apiServiceCategoryQuery = useLazyGetServiceCategoriesDropdownQuery();
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
   const apiServiceCategoryAgentQuery = useLazyGetAgentDropdownQuery();
-  const apiQueryAssetType = useLazyGetAssetTypeQuery();
+  const apiQueryAssetType = useLazyGetAssetTypeForServicesDropdownQuery();
   const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
   const upsertServiceFormField = upsertServiceData(apiServiceCategoryQuery);
   const apiQueryProductCatalog = useLazyGetProductDropdownQuery();
 
   const [postAddServiceCatalogTrigger, postAddServiceCatalogStatus] =
     usePostAddServiceCatalogMutation();
+
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertServiceValidationSchema),
     defaultValues: upsertServiceDefaultValues,
   });
 
   const { handleSubmit, watch, reset } = methods;
+
   const handleCancelBtn = () => {
     router?.push({ pathname: AIR_SERVICES?.SERVICE_CATALOG });
   };
+
   const assetsType = watch('assetType');
 
   let filteredServices;
@@ -107,19 +110,17 @@ const useUpsertService = () => {
     );
     !!data?.software &&
       upsertServiceFormData?.append('software', data?.software?._id);
+
     try {
       await postAddServiceCatalogTrigger({
         body: upsertServiceFormData,
       })?.unwrap();
       successSnackbar('Service Add Successfully');
-      reset(upsertServiceDefaultValues);
+      reset();
+      handleCancelBtn?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
-
-    setTimeout(() => {
-      router.push(AIR_SERVICES?.SERVICE_CATALOG);
-    }, 2000);
   };
 
   const categoriesOfServicesFormField = categoriesOfServices(
@@ -132,12 +133,12 @@ const useUpsertService = () => {
     apiQuerySoftware,
     apiQueryProductCatalog,
   );
+
   return {
     methods,
     handleSubmit,
     onSubmit,
     assetsType,
-
     upsertServiceFormField,
     categoriesOfServicesFormField,
     apiRequestorQuery,

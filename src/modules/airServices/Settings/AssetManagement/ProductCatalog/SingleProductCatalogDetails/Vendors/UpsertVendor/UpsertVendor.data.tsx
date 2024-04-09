@@ -34,10 +34,15 @@ const warrantyValidityMonthsOptions = [
 
 export const upsertVendorValidationSchema: any = Yup?.object()?.shape({
   vendorCatalog: Yup?.mixed()?.nullable()?.required('Required'),
-  price: Yup?.number()?.typeError('Enter Number')?.required('Required'),
+  price: Yup?.number()
+    ?.positive('Greater than 0')
+    ?.typeError('Enter Number')
+    ?.required('Required'),
   warrantyValidityYrs: Yup?.string(),
   warrantyValidityMonths: Yup?.string(),
-  quantity: Yup?.number(),
+  quantity: Yup?.number()
+    ?.positive('Greater than 0')
+    ?.min(0, 'Greater than or equal to 0'),
 });
 
 export const upsertVendorDefaultValues = (data?: any) => {

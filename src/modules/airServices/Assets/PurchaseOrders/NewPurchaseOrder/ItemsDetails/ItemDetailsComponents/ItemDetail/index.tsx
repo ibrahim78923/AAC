@@ -8,12 +8,12 @@ export const ItemDetail = ({ index, vendorId, watch }: any) => {
   const apiQueryVendorProducts: any = useLazyGetVendorProductsDropdownQuery();
   const itemQuantity = watch(`purchaseDetails.${index}.quantity`);
   const taxRate = watch(`purchaseDetails.${index}.taxRate`);
+  const price = watch(`purchaseDetails.${index}.costPerItem`);
   useEffect(() => {
-    const price = watch(`purchaseDetails.${index}.costPerItem`);
     //calculating total after tax and multiplying by quantity
     const totalPrice = price * (1 + taxRate / 100) * itemQuantity;
     setValue(`purchaseDetails.${index}.total`, totalPrice?.toFixed(2));
-  }, [itemQuantity, taxRate]);
+  }, [itemQuantity, taxRate, price]);
 
   return (
     <>
