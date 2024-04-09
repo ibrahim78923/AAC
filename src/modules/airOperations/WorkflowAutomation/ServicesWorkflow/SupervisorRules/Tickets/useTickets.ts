@@ -18,6 +18,7 @@ import {
 import { AIR_OPERATIONS } from '@/constants';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useCloneServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
 
 export const useTickets = () => {
   const theme = useTheme();
@@ -34,7 +35,8 @@ export const useTickets = () => {
   const [
     getWorkflowListTrigger,
     { data, isLoading, isFetching, isSuccess, isError },
-  ] = useLazyGetWorkflowListQuery();
+  ]: any = useLazyGetWorkflowListQuery();
+  const totalRecords = data?.data?.workFlows;
   const workflowParams = {
     page,
     limit,
@@ -111,9 +113,20 @@ export const useTickets = () => {
       });
     }
   };
+  const [workflowCloneTrigger] = useCloneServicesWorkflowMutation();
+  const handleCloneWorkflow = async () => {
+    try {
+      await workflowCloneTrigger(selectedId).unwrap();
+      successSnackbar('Workflow Clone Successfully');
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
+
   const dropdownOptions = EventBaseWorkflowActionsDropdown(
     handleActionClick,
     selectedAction,
+    handleCloneWorkflow,
   );
   return {
     ticketsListsColumns,
@@ -138,5 +151,6 @@ export const useTickets = () => {
     listData,
     setSelectedAction,
     isError,
+    totalRecords,
   };
 };

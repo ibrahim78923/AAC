@@ -18,6 +18,7 @@ const useServices = () => {
   const handlePageChange = (page: number) => {
     setPage(page);
   };
+
   const param = {
     page: page,
     limit: pageLimit,
@@ -27,9 +28,17 @@ const useServices = () => {
     data: Categories,
     isError,
     isSuccess,
-  } = useGetServiceCatalogCategoriesQuery({
-    param,
-  });
+    isLoading: categoriesIsLoading,
+    isFetching: categoriesIsFetching,
+  } = useGetServiceCatalogCategoriesQuery(
+    {
+      param,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
+
   const categories = Categories?.data?.servicecategories;
   const { categoryId } = router?.query;
 
@@ -55,6 +64,7 @@ const useServices = () => {
   const isAnyCheckboxSelected = () => {
     return selectedCheckboxes.length > 0;
   };
+
   return {
     results,
     selectedCheckboxes,
@@ -73,6 +83,8 @@ const useServices = () => {
     handlePageChange,
     isAnyCheckboxSelected,
     paginationData,
+    categoriesIsLoading,
+    categoriesIsFetching,
   };
 };
 

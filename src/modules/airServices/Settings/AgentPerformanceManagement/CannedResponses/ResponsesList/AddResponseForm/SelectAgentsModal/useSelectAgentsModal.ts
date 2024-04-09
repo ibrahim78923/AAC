@@ -1,5 +1,4 @@
-import { CANNED_RESPONSES, NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
+import { CANNED_RESPONSES } from '@/constants/strings';
 import { useForm } from 'react-hook-form';
 import {
   selectAgentDefaultValues,
@@ -8,6 +7,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { useEffect } from 'react';
+import { successSnackbar } from '@/utils/api';
 
 export const useSelectAgentsModal = (props: any) => {
   const {
@@ -43,9 +43,7 @@ export const useSelectAgentsModal = (props: any) => {
   };
   const onSubmit = () => {
     setAgentsResponses(mergeUniqueObjects(agentsDetails, agents));
-    enqueueSnackbar('Agents Selected!', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    successSnackbar('Agents Selected!');
     closeSelectAgentsModal();
   };
   useEffect(() => {

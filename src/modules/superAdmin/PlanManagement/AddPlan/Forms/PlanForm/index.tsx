@@ -33,6 +33,7 @@ const AddPlanForm = ({
   selectProductSuite,
   setSelectProductSuite,
   isSuccess,
+  editPlan,
 }: any) => {
   const {
     formDefaultValuesFunction,
@@ -45,6 +46,7 @@ const AddPlanForm = ({
     AdditionalUsereValue,
     selectProductSuite,
     setSelectProductSuite,
+    isSuccess,
   );
 
   const filter = createFilterOptions<any>();
@@ -86,12 +88,13 @@ const AddPlanForm = ({
             item
             xs={12}
             md={item?.md}
-            key={uuidv4()}
+            // eslint-disable-next-line
+            key={index}
             sx={{
               paddingTop: (index === 0 || index === 1) && '0px !important',
             }}
           >
-            {selectProductSuite === 'CRM' && index === 0 && (
+            {selectProductSuite === 'CRM' && index === 0 && !isSuccess && (
               <RHFMultiSearchableSelect
                 size="small"
                 name={planLabelRender}
@@ -101,11 +104,23 @@ const AddPlanForm = ({
               />
             )}
 
+            {selectProductSuite === 'CRM' && index === 0 && isSuccess && (
+              <>
+                <label style={{ marginTop: '20px' }}>Suite</label>
+                <TextField
+                  value={editPlan?.planProducts?.map((item: any) => item?.name)}
+                  disabled={isSuccess}
+                  fullWidth
+                />
+              </>
+            )}
+
             {selectProductSuite === 'product' && index === 0 && (
               <RHFSelect
                 name={planLabelRender}
                 label={planNameRender}
                 size="small"
+                disabled={isSuccess}
                 required={true}
               >
                 {productsOptions?.map((option: any) => (

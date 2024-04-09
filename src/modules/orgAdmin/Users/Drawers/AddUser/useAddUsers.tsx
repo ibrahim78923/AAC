@@ -43,11 +43,21 @@ const useAddUser = (useActionParams?: any) => {
 
   //onsubmit function of forms
   const onSubmit = async (values: any) => {
-    values.role = 'ORG_EMPLOYEE';
+    const bodyVals: any = {
+      firstName: values?.firstName,
+      lastName: values?.lastName,
+      postCode: values?.postCode,
+      phoneNumber: values?.phoneNumber,
+      jobTitle: values?.jobTitle,
+      role: 'ORG_EMPLOYEE',
+      facebookUrl: values?.facebookURl,
+      twitterUrl: values?.twitterUrl,
+    };
 
     if (isToggled) {
-      values.address = {
-        flatNumber: values.flat,
+      // If isToggled is true, construct the address object with individual fields
+      bodyVals.address = {
+        flatNumber: values?.flat,
         buildingName: values?.buildingName,
         buildingNumber: values?.buildingNumber,
         streetName: values?.streetName,
@@ -55,26 +65,14 @@ const useAddUser = (useActionParams?: any) => {
         country: values?.country,
       };
     } else {
-      values.address = {
-        composite: values?.compositeAddress,
+      // If isToggled is false, use a composite address value
+      bodyVals.address = {
+        composite: values?.address,
       };
-    }
-    const keysToDelete: any = [
-      'flat',
-      'buildingNumber',
-      'buildingName',
-      'city',
-      'country',
-      'streetName',
-      'compositeAddress',
-    ];
-
-    for (const key of keysToDelete) {
-      delete values[key];
     }
 
     try {
-      await postUserEmployee({ id: organizationId, body: values })?.unwrap();
+      await postUserEmployee({ id: organizationId, body: bodyVals })?.unwrap();
       setIsOpenAdduserDrawer(false);
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
@@ -94,6 +92,7 @@ const useAddUser = (useActionParams?: any) => {
     onSubmit,
     isToggled,
     setIsToggled,
+    addressVal: formValues.compositeAddress,
   };
 };
 

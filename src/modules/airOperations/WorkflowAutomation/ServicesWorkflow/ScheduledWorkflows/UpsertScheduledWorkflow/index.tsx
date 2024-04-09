@@ -1,12 +1,12 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { WorkflowConditions } from './WorkflowConditions';
 import { WorkflowHeader } from './WorkflowHeader';
-import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
-import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 import { scheduledWorkflowDataArray } from './UpsertScheduledWorkflow.data';
 import { useUpsertScheduledWorkflow } from './useUpsertScheduledWorkflow';
 import { WorkflowSchedule } from './WorkflowSchedule';
+import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
+import { WorkflowConditions } from './WorkflowConditions';
+import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 
 export const UpsertScheduledWorkflow = () => {
   const {
@@ -19,7 +19,13 @@ export const UpsertScheduledWorkflow = () => {
     control,
     watch,
     setValue,
+    isLoading,
+    isFetching,
+    handleSaveAsDraft,
   } = useUpsertScheduledWorkflow();
+
+  if (isLoading || isFetching) return <Skeleton />;
+
   return (
     <Box>
       <FormProvider
@@ -27,7 +33,7 @@ export const UpsertScheduledWorkflow = () => {
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <Box mb={2}>
-          <WorkflowHeader />
+          <WorkflowHeader handleSaveAsDraft={handleSaveAsDraft} />
         </Box>
         <Grid container spacing={2}>
           {scheduledWorkflowDataArray?.map((item: any) => (
@@ -55,7 +61,7 @@ export const UpsertScheduledWorkflow = () => {
           moduleType={moduleType}
           watch={watch}
         />
-        <WorkflowActionExecuted />
+        <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
     </Box>
   );

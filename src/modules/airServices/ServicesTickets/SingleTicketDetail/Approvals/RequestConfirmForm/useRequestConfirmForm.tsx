@@ -6,8 +6,12 @@ import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 
 export const useRequestConfirmForm = (props: any) => {
-  const { setIsConfirmModalOpen, selectedApproval, setSelectedApproval } =
-    props;
+  const {
+    setIsConfirmModalOpen,
+    selectedApproval,
+    setSelectedApproval,
+    refetch,
+  } = props;
 
   const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
     usePatchApprovalTicketsMutation();
@@ -41,6 +45,7 @@ export const useRequestConfirmForm = (props: any) => {
       await patchApprovalTicketsTrigger(patchParameterData)?.unwrap();
       successSnackbar?.(toastMessage);
       setModalClose?.();
+      refetch?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

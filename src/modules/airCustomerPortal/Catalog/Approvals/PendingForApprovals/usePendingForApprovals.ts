@@ -18,7 +18,7 @@ export const usePendingForApprovals = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetPendingForApprovalsTicketsQuery(
       getPendingForApprovalsTicketsParameter,
       {
@@ -45,5 +45,6 @@ export const usePendingForApprovals = () => {
     setSelectedApproval,
     setApproval,
     openApprovalDetail,
+    refetch,
   };
 };

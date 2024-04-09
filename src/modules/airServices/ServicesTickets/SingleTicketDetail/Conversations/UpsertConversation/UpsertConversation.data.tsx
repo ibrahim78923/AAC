@@ -4,15 +4,35 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
+import {
+  TICKET_CONVERSATIONS_RESPONSE_TYPE,
+  TICKET_CONVERSATIONS_TYPE,
+} from '@/constants/strings';
 import * as Yup from 'yup';
 import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
+import { Box, IconButton } from '@mui/material';
+import { ArticleModalIcon, CannedResponseModalIcon } from '@/assets/icons';
+import { CustomTooltip } from '@/components/CustomTooltip';
 
 export const upsertConversationFormDefaultValues = (data?: any) => {
   return {
-    type: data?.type ?? null,
-    recipients: data?.recipients ?? '',
-    html: data?.html ?? '',
+    type: data?.conversationType
+      ? {
+          _id: data?.conversationType,
+          label: data?.conversationType,
+        }
+      : null,
+    recipients:
+      data?.isEdit ||
+      data?.conversationType === TICKET_CONVERSATIONS_TYPE?.REPLY
+        ? data?.recipients?.[0]
+        : '',
+    html:
+      data?.conversationType === TICKET_CONVERSATIONS_TYPE?.REPLY
+        ? ''
+        : data?.html
+          ? data?.html
+          : '',
     attachments: null,
     from: data?.from ?? '',
   };
@@ -43,6 +63,7 @@ export const conversationTypesOptions = [
 
 export const upsertConversationFormFieldsDynamic = (
   selectedConversationType?: any,
+  setSelectedResponseType?: any,
 ) => [
   {
     id: 1,
@@ -94,8 +115,60 @@ export const upsertConversationFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       style: { height: '200px' },
+      disabled:
+        selectedConversationType?.conversationType ===
+        TICKET_CONVERSATIONS_TYPE?.FORWARD,
     },
     component: RHFEditor,
+  },
+  {
+    id: 6,
+    componentProps: {},
+    component: Box,
+    children: (
+      <Box
+        display={'flex'}
+        gap={0.5}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+        justifyContent={'flex-end'}
+      >
+        <CustomTooltip title="add canned response">
+          <IconButton
+            disabled={
+              selectedConversationType?.conversationType ===
+              TICKET_CONVERSATIONS_TYPE?.FORWARD
+            }
+            onClick={() =>
+              setSelectedResponseType?.({
+                type: TICKET_CONVERSATIONS_RESPONSE_TYPE?.CANNED_RESPONSES,
+                isOpen: true,
+              })
+            }
+            sx={{ cursor: 'pointer' }}
+          >
+            <CannedResponseModalIcon />
+          </IconButton>
+        </CustomTooltip>
+        <CustomTooltip title="add article">
+          <IconButton
+            disabled={
+              selectedConversationType?.conversationType ===
+              TICKET_CONVERSATIONS_TYPE?.FORWARD
+            }
+            onClick={() =>
+              setSelectedResponseType?.({
+                type: TICKET_CONVERSATIONS_RESPONSE_TYPE?.ARTICLE,
+                isOpen: true,
+              })
+            }
+            sx={{ cursor: 'pointer' }}
+          >
+            <ArticleModalIcon />
+          </IconButton>
+        </CustomTooltip>
+      </Box>
+    ),
   },
   {
     id: 5,
@@ -105,6 +178,9 @@ export const upsertConversationFormFieldsDynamic = (
       fullWidth: true,
       fileType: 'PNG or JPG  (max 2.44 MB)',
       maxSize: 1024 * 1024 * 2.44,
+      disabled:
+        selectedConversationType?.conversationType ===
+        TICKET_CONVERSATIONS_TYPE?.FORWARD,
       accept: {
         'image/*': ['.png', '.jpg'],
       },

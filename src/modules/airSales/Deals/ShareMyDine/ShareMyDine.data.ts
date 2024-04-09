@@ -6,25 +6,27 @@ export const ShareData = (data: any) => {
   return [
     {
       heading: 'Deal Owner',
-      values: `${data?.user?.firstName ? data.user?.firstName : 'N/A'} ${
-        data?.user?.lastName ? data?.user?.lastName : ''
-      }`,
+      values: `${data?.dealOwner?.name ?? 'N/A'}`,
     },
-    { heading: 'Amount', values: data?.amount ? data?.amount : 'N/A' },
+    {
+      heading: 'Amount',
+      values: data?.amount ?? 'N/A',
+    },
     {
       heading: 'Deal Stage',
-      values: data?.stage?.name ? data?.stage?.name : 'N/A',
+      values: data?.dealStage ?? 'N/A',
     },
     {
       heading: 'Deal Pipeline',
-      values: data?.pipline?.name ? data?.pipline?.name : 'N/a',
+      values: data?.dealPipeline ?? 'N/A',
     },
-    { heading: 'Priority', values: data?.priority ? data?.priority : 'N/A' },
+    {
+      heading: 'Priority',
+      values: data?.priority ?? 'N/A',
+    },
     {
       heading: 'Close Date',
-      values: dayjs(data?.createdAt)?.format(DATE_FORMAT?.UI)
-        ? dayjs(data?.createdAt)?.format(DATE_FORMAT?.UI)
-        : 'N/A',
+      values: dayjs(data?.closeDate)?.format(DATE_FORMAT?.UI) ?? 'N/A',
     },
   ];
 };

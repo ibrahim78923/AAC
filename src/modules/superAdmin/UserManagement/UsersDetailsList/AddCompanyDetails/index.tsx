@@ -7,8 +7,6 @@ import { styles } from './AddCompanyDetails.style';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import useToggle from '@/hooks/useToggle';
 import useAddCompanyDetails from './useAddCompanyDetails';
-import Image from 'next/image';
-import { IMG_URL } from '@/config';
 
 export default function AddCompanyDetails({
   isOpenDrawer,
@@ -26,12 +24,12 @@ export default function AddCompanyDetails({
     value: item?._id,
     label: (
       <Card sx={styles?.productCard}>
-        <Image
-          src={`${IMG_URL}${item?.logo?.url}`}
+        {/* <Image
+          src={generateImage(item?.logo?.url)}
           alt="sales-image"
           width={25}
           height={25}
-        />
+        /> */}
         <Typography>{item?.name}</Typography>
       </Card>
     ),

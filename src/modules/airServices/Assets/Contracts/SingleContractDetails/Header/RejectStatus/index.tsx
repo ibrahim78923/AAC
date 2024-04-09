@@ -1,13 +1,14 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useRejectStatus } from './useRejectStatus';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import CloseIcon from '@/assets/icons/shared/close-icon';
+import { Close } from '@mui/icons-material';
 
 export const RejectStatus = (props: any) => {
   const {
@@ -19,43 +20,57 @@ export const RejectStatus = (props: any) => {
     patchContractRejectStatus,
   } = useRejectStatus(props);
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} maxWidth={'sm'} fullWidth>
       <DialogTitle>
-        <Grid container justifyContent={'space-between'}>
+        <Box
+          display={'flex'}
+          gap={1}
+          alignItems={'center'}
+          flexWrap={'wrap'}
+          justifyContent={'space-between'}
+        >
           <Typography variant="h4">Rejected</Typography>
-          <CloseIcon
+          <Close
             sx={{ color: 'custom.darker', cursor: 'pointer' }}
             onClick={handleClose}
           />
-        </Grid>
+        </Box>
       </DialogTitle>
 
       <DialogContent sx={{ mt: 1 }}>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
-              <RHFTextField
-                multiline
-                rows={3}
-                name="reason"
-                label="Reason For Rejection"
-                required
-              />
-            </Grid>
+          <RHFTextField
+            multiline
+            rows={3}
+            name="reason"
+            label="Reason For Rejection"
+            required
+          />
 
-            <Grid item xs={12} textAlign={'end'}>
-              <Button variant="outlined" sx={{ mx: 2 }} onClick={handleClose}>
-                Cancel
-              </Button>
-              <LoadingButton
-                loading={patchContractRejectStatus?.isLoading}
-                variant="contained"
-                type="submit"
-              >
-                Submit
-              </LoadingButton>
-            </Grid>
-          </Grid>
+          <Box
+            display={'flex'}
+            gap={1}
+            alignItems={'center'}
+            flexWrap={'wrap'}
+            justifyContent={'flex-end'}
+            mt={1}
+          >
+            <LoadingButton
+              variant="outlined"
+              color="inherit"
+              onClick={handleClose}
+              disabled={patchContractRejectStatus?.isLoading}
+            >
+              Cancel
+            </LoadingButton>
+            <LoadingButton
+              loading={patchContractRejectStatus?.isLoading}
+              variant="contained"
+              type="submit"
+            >
+              Submit
+            </LoadingButton>
+          </Box>
         </FormProvider>
       </DialogContent>
     </Dialog>

@@ -3,12 +3,14 @@ import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 export const addItemValidationSchemaOne = Yup?.object()?.shape({
   receivedItem: Yup?.array()?.of(
-    Yup?.object()?.shape({
-      itemName: Yup?.string(),
-      received: Yup?.number()?.required('Required'),
-      quantity: Yup?.string(),
-      pending: Yup?.string(),
-    }),
+    Yup?.object()
+      ?.shape({
+        itemName: Yup?.string(),
+        received: Yup?.number()?.required('Required'),
+        quantity: Yup?.string(),
+        pending: Yup?.string(),
+      })
+      ?.nullable(),
   ),
 });
 
@@ -16,7 +18,7 @@ export const addItemDefaultValuesFunction = (data: any) => {
   return {
     receivedItem: !!data?.data?.purchaseDetails?.length
       ? data?.data?.purchaseDetails?.map((x: any) => ({
-          itemName: x?.itemName ?? '',
+          itemName: x?.name ?? '',
           received: null,
           quantity: x?.quantity ?? '',
           pending: x?.quantity ?? '',

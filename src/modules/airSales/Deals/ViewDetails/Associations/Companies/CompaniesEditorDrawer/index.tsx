@@ -2,7 +2,11 @@ import { Box, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFRadioGroup,
+  RHFSearchableSelect,
+} from '@/components/ReactHookForm';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,7 +17,6 @@ import {
   drawerTitle,
 } from './CompaniesEditorDrawer.data';
 import useCompaniesEditorDrawer from './useCompaniesEditorDrawer';
-import Search from '@/components/Search';
 
 const CompaniesEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, dealId, companyRecord } = props;
@@ -22,11 +25,9 @@ const CompaniesEditorDrawer = (props: any) => {
     onSubmit,
     methodsCompanies,
     getCompanyContacts,
-    // watchCompany,
-    searchTicket,
-    setSearchTicket,
+    watchCompany,
     postCompanyLoading,
-    defaultValue,
+    companyOptions,
   } = useCompaniesEditorDrawer({
     openDrawer,
     setOpenDrawer,
@@ -47,20 +48,17 @@ const CompaniesEditorDrawer = (props: any) => {
         isLoading={postCompanyLoading}
       >
         <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodsCompanies}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsCompanies}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <RHFRadioGroup
                   options={companiesOptions}
                   name="company"
                   label={false}
-                  defaultValue={defaultValue}
+                  defaultValue="new-Company"
                 />
               </Grid>
-              {defaultValue === 'new-Company' ? (
+              {watchCompany === 'new-Company' ? (
                 companiesDataArray(getCompanyContacts)?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component
@@ -80,12 +78,10 @@ const CompaniesEditorDrawer = (props: any) => {
                 ))
               ) : (
                 <Grid item xs={12}>
-                  <Search
-                    searchBy={searchTicket}
-                    setSearchBy={setSearchTicket}
-                    label="Search Products"
-                    size="medium"
-                    fullWidth
+                  <RHFSearchableSelect
+                    size="small"
+                    name="chooseCompany"
+                    options={companyOptions}
                   />
                 </Grid>
               )}

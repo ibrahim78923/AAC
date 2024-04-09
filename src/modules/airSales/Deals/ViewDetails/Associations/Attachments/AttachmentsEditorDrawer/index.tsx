@@ -14,9 +14,14 @@ import useAttachmentsEditorDrawer from './useAttachmentEditorDrawer';
 import { v4 as uuidv4 } from 'uuid';
 
 const AttachmentsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsAttachments } =
-    useAttachmentsEditorDrawer();
+  const { openDrawer, setOpenDrawer, attachmentRecord, dealId } = props;
+  const { handleSubmit, onSubmit, methodsAttachments, loadingPostAttachment } =
+    useAttachmentsEditorDrawer({
+      attachmentRecord,
+      openDrawer,
+      setOpenDrawer,
+      dealId,
+    });
 
   return (
     <div>
@@ -27,12 +32,11 @@ const AttachmentsEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit(onSubmit)}
+        isLoading={loadingPostAttachment}
       >
         <Box>
-          <FormProvider
-            methods={methodsAttachments}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsAttachments}>
             <Grid
               container
               sx={{

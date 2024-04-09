@@ -13,11 +13,7 @@ import {
 import CommonDrawer from '@/components/CommonDrawer';
 import { useGetDealsActionPreviewQuery } from '@/services/airSales/deals';
 
-import {
-  AccordianDetailsData,
-  ShareAccordianData,
-  ShareData,
-} from './ShareMyDine.data';
+import { ShareData } from './ShareMyDine.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -30,6 +26,8 @@ import {
 } from '@/assets/icons';
 
 import { styles } from './ShareMyDine.style';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
   const theme = useTheme();
@@ -80,66 +78,286 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
           ))}
         </Box>
         <Box>
-          {ShareAccordianData?.map((item) => (
-            <Accordion key={uuidv4()}>
-              <AccordionSummary
-                expandIcon={<ArrowBgDownIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                sx={{ padding: '0px' }}
+          <Accordion key={uuidv4()}>
+            <AccordionSummary
+              expandIcon={<ArrowBgDownIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{ padding: '0px' }}
+            >
+              <Typography sx={styles?.accordianSummary(theme)}>
+                {DealsActionData?.data?.contacts?.length < 10
+                  ? `0${DealsActionData?.data?.contacts?.length}`
+                  : DealsActionData?.data?.contacts?.length}
+              </Typography>
+              <Typography
+                sx={{
+                  color: theme?.palette?.slateBlue['main'],
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  mx: 2,
+                }}
               >
-                <Box
-                  sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}
-                >
-                  <Typography sx={styles?.accordianSummary(theme)}>
-                    {item?.number}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: theme?.palette?.slateBlue['main'],
-                      fontSize: '16px',
-                      fontWeight: 600,
-                    }}
-                  >
-                    {item.heading}
-                  </Typography>
-                </Box>
-              </AccordionSummary>
-              <AccordionDetails>
-                {AccordianDetailsData?.map((data: any) => (
-                  <Box key={uuidv4()} my={1}>
-                    <Stack direction="row" gap={1}>
-                      <Image src={data?.img} alt="" />
-                      <Stack
-                        width="100%"
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
+                {'Contacts'}
+              </Typography>
+            </AccordionSummary>
+
+            <AccordionDetails>
+              {DealsActionData?.data?.contacts?.map((data: any) => (
+                <Box key={uuidv4()} my={1}>
+                  <Stack direction="row" gap={1}>
+                    <Image src={data?.img} alt="" />
+                    <Stack
+                      width="100%"
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Stack>
+                        <Typography sx={styles?.accordianText(theme)}>
+                          {data?.name ?? 'N/A'}
+                        </Typography>
+                        <Typography sx={styles?.accordianEmail(theme)}>
+                          {data?.email ?? 'N/A'}
+                        </Typography>
+                      </Stack>
+                      <Typography
+                        sx={{
+                          color: theme?.palette?.grey['900'],
+                          fontSize: '14px',
+                          fontWeight: 500,
+                        }}
                       >
-                        <Stack>
-                          <Typography sx={styles?.accordianText(theme)}>
-                            {data?.name ?? 'N/A'}
-                          </Typography>
-                          <Typography sx={styles?.accordianEmail(theme)}>
-                            {data?.email ?? 'N/A'}
-                          </Typography>
-                        </Stack>
-                        <Typography
-                          sx={{
-                            color: theme?.palette?.grey['900'],
-                            fontSize: '14px',
-                            fontWeight: 500,
-                          }}
-                        >
-                          {data?.number ?? 'N/A'}
+                        {data?.phoneNumber ?? 'N/A'}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Box>
+              ))}
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion key={uuidv4()}>
+            <AccordionSummary
+              expandIcon={<ArrowBgDownIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{ padding: '0px' }}
+            >
+              <Typography sx={styles?.accordianSummary(theme)}>
+                {DealsActionData?.data?.companies?.length < 10
+                  ? `0${DealsActionData?.data?.companies?.length}`
+                  : DealsActionData?.data?.companies?.length}
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: theme?.palette?.slateBlue['main'],
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  mx: 2,
+                }}
+              >
+                {'Companies'}
+              </Typography>
+            </AccordionSummary>
+
+            <AccordionDetails>
+              {DealsActionData?.data?.companies?.map((data: any) => (
+                <Box key={uuidv4()} my={1}>
+                  <Stack direction="row" gap={1}>
+                    <Image src={data?.img} alt="" />
+                    <Stack
+                      width="100%"
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Stack>
+                        <Typography sx={styles?.accordianText(theme)}>
+                          {data?.owner?.firstName ?? 'N/A'}
+                          {data?.owner?.lastName ?? 'N/A'}
+                        </Typography>
+                        <Typography sx={styles?.accordianEmail(theme)}>
+                          {data?.owner?.email ?? 'N/A'}
+                        </Typography>
+                      </Stack>
+                      <Typography
+                        sx={{
+                          color: theme?.palette?.grey['900'],
+                          fontSize: '14px',
+                          fontWeight: 500,
+                        }}
+                      >
+                        {data?.owner?.phoneNumber ?? 'N/A'}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Box>
+              ))}
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion key={uuidv4()}>
+            <AccordionSummary
+              expandIcon={<ArrowBgDownIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{ padding: '0px' }}
+            >
+              <Typography sx={styles?.accordianSummary(theme)}>
+                {DealsActionData?.data?.products?.length < 10
+                  ? `0${DealsActionData?.data?.products?.length}`
+                  : DealsActionData?.data?.products?.length}
+              </Typography>
+              <Typography
+                sx={{
+                  color: theme?.palette?.slateBlue['main'],
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  mx: 2,
+                }}
+              >
+                {'Products'}
+              </Typography>
+            </AccordionSummary>
+
+            <AccordionDetails>
+              {DealsActionData?.data?.products?.map((data: any) => (
+                <Box key={uuidv4()} my={1}>
+                  <Stack direction="row" gap={1}>
+                    <Image src={data?.img} alt="" />
+                    <Stack
+                      width="100%"
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Stack>
+                        <Typography sx={styles?.accordianText(theme)}>
+                          {data?.name}
+                        </Typography>
+                      </Stack>
+                      <Typography
+                        sx={{
+                          color: theme?.palette?.grey['900'],
+                          fontSize: '14px',
+                          fontWeight: 500,
+                        }}
+                      >
+                        £ ${data?.unitPrice ?? 'N/A'}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Box>
+              ))}
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion key={uuidv4()}>
+            <AccordionSummary
+              expandIcon={<ArrowBgDownIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{ padding: '0px' }}
+            >
+              <Typography sx={styles?.accordianSummary(theme)}>
+                {DealsActionData?.data?.quotes?.length < 10
+                  ? `0${DealsActionData?.data?.quotes?.length}`
+                  : DealsActionData?.data?.quotes?.length}
+              </Typography>
+              <Typography
+                sx={{
+                  color: theme?.palette?.slateBlue['main'],
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  mx: 2,
+                }}
+              >
+                {'Quotes'}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {DealsActionData?.data?.quotes?.map((data: any) => (
+                <Box key={uuidv4()} my={1}>
+                  <Stack direction="row" gap={1}>
+                    <Image src={data?.img} alt="" />
+                    <Stack
+                      width="100%"
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Stack>
+                        <Typography sx={styles?.accordianText(theme)}>
+                          {data?.name}
+                        </Typography>
+                        <Typography sx={styles?.accordianEmail(theme)}>
+                          {dayjs(data?.expiryDate)?.format(DATE_FORMAT?.API) ??
+                            'N/A'}
+                        </Typography>
+                      </Stack>
+                      <Typography
+                        sx={{
+                          color: theme?.palette?.grey['900'],
+                          fontSize: '14px',
+                          fontWeight: 500,
+                        }}
+                      >
+                        {data?.status ? 'Published' : 'Draft'}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Box>
+              ))}
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion key={uuidv4()}>
+            <AccordionSummary
+              expandIcon={<ArrowBgDownIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{ padding: '0px' }}
+            >
+              <Typography sx={styles?.accordianSummary(theme)}>
+                {DealsActionData?.data?.attachments?.length < 10
+                  ? `0${DealsActionData?.data?.attachments?.length}`
+                  : DealsActionData?.data?.attachments?.length}
+              </Typography>
+              <Typography
+                sx={{
+                  color: theme?.palette?.slateBlue['main'],
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  mx: 2,
+                }}
+              >
+                {'Attachments'}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {DealsActionData?.data?.attachments?.map((data: any) => (
+                <Box key={uuidv4()} my={1}>
+                  <Stack direction="row" gap={1}>
+                    <Image src={data?.img} alt="" />
+                    <Stack
+                      width="100%"
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Stack>
+                        <Typography sx={styles?.accordianText(theme)}>
+                          {data?.orignalName ?? 'N/A'}
                         </Typography>
                       </Stack>
                     </Stack>
-                  </Box>
-                ))}
-              </AccordionDetails>
-            </Accordion>
-          ))}
+                  </Stack>
+                </Box>
+              ))}
+            </AccordionDetails>
+          </Accordion>
         </Box>
       </CommonDrawer>
     </>

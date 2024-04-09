@@ -6,14 +6,13 @@ import {
 import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 import {
-  // useCompanyUpdateMutation,
+  useGetAllCompaniesQuery,
   usePostCompaniesMutation,
 } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { PAGINATION } from '@/config';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const useCompaniesEditorDrawer = ({
@@ -22,9 +21,9 @@ const useCompaniesEditorDrawer = ({
   dealId,
   companyRecord,
 }: any) => {
-  const [searchTicket, setSearchTicket] = useState('');
-  const [defaultValue, setDefaultValue] = useState('new-Company');
   const { user }: any = getSession();
+  const defaultCompany = 'new-Company';
+
   const params = {
     page: PAGINATION?.PAGE_COUNT,
     limit: PAGINATION?.PAGE_LIMIT,
@@ -33,15 +32,29 @@ const useCompaniesEditorDrawer = ({
 
   const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
 
+  const companyParams = {
+    page: PAGINATION?.PAGE_COUNT,
+    limit: PAGINATION?.PAGE_LIMIT,
+    meta: false,
+  };
+  const { data: getAllCompanies } = useGetAllCompaniesQuery(companyParams);
+
+  const overAllCompaniesData = getAllCompanies?.data;
+
+  const companyOptions = overAllCompaniesData?.map((item: any) => ({
+    value: item?._id,
+    label: `${item?.name}`,
+  }));
+
   const [postCompanies, { isLoading: postCompanyLoading }] =
     usePostCompaniesMutation();
-  // const [CompanyUpdate] = useCompanyUpdateMutation();
+
   const [createAssociation] = useCreateAssociationMutation();
 
-  const methodsCompanies = useForm({
+  const methodsCompanies = useForm<any>({
     resolver: yupResolver(companiesValidationSchema),
     defaultValues: async () => {
-      if (openDrawer !== 'Add' && companyRecord) {
+      if (openDrawer === 'View' && companyRecord) {
         const {
           domain,
           name,
@@ -57,6 +70,7 @@ const useCompaniesEditorDrawer = ({
           linkedInUrl,
         } = companyRecord;
         return {
+          company: defaultCompany,
           domain,
           name,
           ownerId,
@@ -96,35 +110,50 @@ const useCompaniesEditorDrawer = ({
     formData?.append('recordType', type);
     formData?.append('recordId', dealId);
     try {
-      const response =
-        // openDrawer === 'Edit'
-        //   ? await CompanyUpdate({
-        //       body: formData,
-        //       Id: companyRecord?._id,
-        //     }).unwrap()
-        //   :
-        await postCompanies({ body: formData })?.unwrap();
-      if (response?.data) {
-        try {
-          await createAssociation({
+      watchCompany === 'existing-Company'
+        ? await createAssociation({
             body: {
               dealId: dealId,
-              companyId: response?.data?._id,
+              companyId: values?.chooseCompany,
             },
-          }).unwrap();
-          setOpenDrawer(false);
-          reset();
-          enqueueSnackbar(` Companies added Successfully`, {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
-        } catch (error: any) {
-          const errMsg = error?.data?.message;
-          const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
-          enqueueSnackbar(errMessage ?? 'Error occurred', {
-            variant: NOTISTACK_VARIANTS?.ERROR,
-          });
-        }
-      }
+          })
+            .unwrap()
+            .then((res) => {
+              if (res) {
+                setOpenDrawer(false);
+                reset();
+                enqueueSnackbar(` Companies updated Successfully`, {
+                  variant: NOTISTACK_VARIANTS?.SUCCESS,
+                });
+              }
+            })
+        : await postCompanies({ body: formData })
+            ?.unwrap()
+            .then((res) => {
+              if (res?.data) {
+                try {
+                  createAssociation({
+                    body: {
+                      dealId: dealId,
+                      companyId: res?.data?._id,
+                    },
+                  }).unwrap();
+                  setOpenDrawer(false);
+                  reset();
+                  enqueueSnackbar(` Companies added Successfully`, {
+                    variant: NOTISTACK_VARIANTS?.SUCCESS,
+                  });
+                } catch (error: any) {
+                  const errMsg = error?.data?.message;
+                  const errMessage = Array?.isArray(errMsg)
+                    ? errMsg[0]
+                    : errMsg;
+                  enqueueSnackbar(errMessage ?? 'Error occurred', {
+                    variant: NOTISTACK_VARIANTS?.ERROR,
+                  });
+                }
+              }
+            });
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
@@ -140,11 +169,8 @@ const useCompaniesEditorDrawer = ({
     methodsCompanies,
     getCompanyContacts,
     watchCompany,
-    searchTicket,
-    setSearchTicket,
     postCompanyLoading,
-    defaultValue,
-    setDefaultValue,
+    companyOptions,
   };
 };
 

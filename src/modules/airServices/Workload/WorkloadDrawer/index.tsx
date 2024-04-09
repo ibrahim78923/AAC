@@ -109,10 +109,10 @@ const WorkloadDrawer = ({
                   Manage open and in progress work
                 </Typography>
                 <Typography variant="body2">
-                  {data?.length} in Total
+                  {data?.length ?? 0} in Total
                   {state === 'UNPLANNED' ? (
                     <Chip
-                      label={`Unplanned ${dataArray?.length}`}
+                      label={`Unplanned ${dataArray?.length ?? 0}`}
                       sx={{
                         color: 'success.main',
                         ml: 2,
@@ -120,7 +120,7 @@ const WorkloadDrawer = ({
                     />
                   ) : state === 'PLANNED' ? (
                     <Chip
-                      label={`Planned ${dataArray?.length}`}
+                      label={`Planned ${dataArray?.length ?? 0}`}
                       sx={{
                         color: 'warning.main',
                         ml: 2,
@@ -128,7 +128,7 @@ const WorkloadDrawer = ({
                     />
                   ) : state === 'DELAYED' ? (
                     <Chip
-                      label={`Delayed ${dataArray?.length}`}
+                      label={`Delayed ${dataArray?.length ?? 0}`}
                       sx={{
                         color: 'custom.bright',
                         ml: 2,

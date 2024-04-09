@@ -1,15 +1,11 @@
 export const modalBillingData = ({
   purchaseOrderDetail,
   purchaseOrderData,
-  purchaseOrderDetailData,
-  rowData,
   total,
 }: any) => [
   {
     label: 'subTotal ($)',
-    value: rowData
-      ? purchaseOrderData?.subTotal
-      : purchaseOrderDetailData[0]?.subTotal,
+    value: purchaseOrderData?.subTotal,
   },
   { label: 'discount (%)', value: purchaseOrderData?.discount },
   { label: 'Tax rate (%)', value: purchaseOrderDetail?.taxRate },

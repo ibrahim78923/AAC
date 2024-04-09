@@ -51,7 +51,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       placeholder: 'Name or Email',
       apiQuery: apiQueryUsedBy,
       getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option.lastName}`,
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },
@@ -127,7 +127,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       apiQuery: apiQueryUsersCreatedBy,
       placeholder: 'Select user',
       getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option.lastName}`,
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },

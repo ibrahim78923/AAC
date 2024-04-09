@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Grid,
-  Switch,
   Typography,
   useTheme,
   Menu,
@@ -16,7 +15,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { isNullOrEmpty } from '@/utils';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
-import { quickLinksData } from '@/mock/modules/superAdmin/Settings/QuickLinks';
 import { columns, quickLinksFilterFiltersDataArray } from './QuickLinks.data';
 import {
   ArrowLeftIcon,
@@ -30,6 +28,8 @@ import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS } from '@/constants/permission-keys';
 import useQuickLinks from './useQuickLinks';
+import QuickLinkSwitch from './QuickLinkSwitch';
+import Loader from '@/components/Loader';
 
 const QuickLinks = () => {
   const theme = useTheme();
@@ -63,7 +63,11 @@ const QuickLinks = () => {
     setIsActionsDisabled,
     isActionsDisabled,
     setRowId,
-    // rowId,
+    selectProductOptions,
+    handleSwitchChange,
+    mergedProducts,
+    loadingUpdateQuickLink,
+    convertFormat,
   } = useQuickLinks();
 
   const getQuickLinksTableColumns = columns(
@@ -74,7 +78,6 @@ const QuickLinks = () => {
   );
 
   const [isManageQuickLinks, setIsManageQuickLinks] = useState<boolean>(false);
-  const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
   return (
     <>
@@ -226,26 +229,31 @@ const QuickLinks = () => {
             <>
               <FormProvider methods={methodsFilter}>
                 <Grid container spacing={'22px'}>
-                  {quickLinksFilterFiltersDataArray?.map((item: any) => (
-                    <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                      <item.component {...item.componentProps} size={'small'}>
-                        {item?.componentProps?.select
-                          ? item?.options?.map((option: any) => (
-                              <option key={option?.value} value={option?.value}>
-                                {option?.label}
-                              </option>
-                            ))
-                          : null}
-                      </item.component>
-                    </Grid>
-                  ))}
+                  {quickLinksFilterFiltersDataArray(selectProductOptions)?.map(
+                    (item: any) => (
+                      <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                        <item.component {...item.componentProps} size={'small'}>
+                          {item?.componentProps?.select
+                            ? item?.options?.map((option: any) => (
+                                <option
+                                  key={option?.value}
+                                  value={option?.value}
+                                >
+                                  {option?.label}
+                                </option>
+                              ))
+                            : null}
+                        </item.component>
+                      </Grid>
+                    ),
+                  )}
                 </Grid>
               </FormProvider>
             </>
           </CommonDrawer>
         </Box>
       ) : (
-        <Box>
+        <Box sx={{ position: 'relative' }}>
           <Box
             sx={{
               display: 'flex',
@@ -260,34 +268,32 @@ const QuickLinks = () => {
               Quick Links
             </Typography>
           </Box>
+
           <Grid container spacing={2} sx={{ marginTop: '40px' }}>
-            {!isNullOrEmpty(quickLinksData) &&
-              quickLinksData.map((item: any) => (
+            {!isNullOrEmpty(mergedProducts) &&
+              mergedProducts?.map((product: any) => (
                 <Grid item xs={12} sm={6} md={6} lg={4} key={uuidv4()}>
-                  <Box sx={styles.quickLinksCard(theme)}>
-                    <Box sx={styles.quickLinksCardHead(theme)}>
-                      <Typography variant="h6">{item.label}</Typography>
+                  <Box sx={styles?.quickLinksCard(theme)}>
+                    <Box sx={styles?.quickLinksCardHead(theme)}>
+                      <Typography variant="h6">
+                        {convertFormat(product?.productName)}
+                      </Typography>
                     </Box>
-                    {item.list.map((options: any) => (
-                      <Box
+                    {product?.data?.map((link: any) => (
+                      <QuickLinkSwitch
                         key={uuidv4()}
-                        sx={{
-                          padding: '4px 16px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Typography sx={{ fontWeight: '500' }}>
-                          {options.label}
-                        </Typography>
-                        <Switch {...label} defaultChecked={options.isChecked} />
-                      </Box>
+                        title={link?.name}
+                        name={link?._id}
+                        id={link?._id}
+                        isActive={link?.isActive}
+                        onChange={handleSwitchChange}
+                      />
                     ))}
                   </Box>
                 </Grid>
               ))}
           </Grid>
+          <Loader isLoading={loadingUpdateQuickLink} />
         </Box>
       )}
       <AlertModals
@@ -295,7 +301,7 @@ const QuickLinks = () => {
         type="delete"
         open={isLinkDeleteModal}
         handleClose={handleCloseModalDelete}
-        handleSubmit={handleDeleteQuickLink}
+        handleSubmitBtn={handleDeleteQuickLink}
         isLoading={loadingDelete}
       />
     </>

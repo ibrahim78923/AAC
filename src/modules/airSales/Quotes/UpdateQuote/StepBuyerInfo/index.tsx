@@ -1,13 +1,17 @@
 import React from 'react';
-import { Box, Grid, Typography, Button, Avatar, Checkbox } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Typography,
+  Button,
+  Avatar,
+  Checkbox,
+  Alert,
+  useTheme,
+} from '@mui/material';
 import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
-import {
-  // BuildingIcon,
-  // BuildingIcon,
-  GrayPlusIcon,
-  // ProfileCircleIcon,
-} from '@/assets/icons/index';
+import { GrayPlusIcon } from '@/assets/icons/index';
 import {
   AvatarCompanyImage,
   AvatarContactImage,
@@ -16,7 +20,6 @@ import {
 import { styles } from './StepBuyerInfo.style';
 import Image from 'next/image';
 import { AlertModals } from '@/components/AlertModals';
-// import useUpdateQuote from '../useUpdateQuote';
 import useUpdateQuote from '../useUpdateQuote';
 
 const StepBuyerInfo = ({
@@ -39,6 +42,7 @@ const StepBuyerInfo = ({
     handleDeleteContacts,
   } = useUpdateQuote();
   const contactData: any = dataGetQuoteById?.data?.deal;
+  const theme = useTheme();
 
   return (
     <>
@@ -46,6 +50,20 @@ const StepBuyerInfo = ({
         <Grid item xs={5}>
           <Box>
             <>
+              {(selectedBuyerContactIds !== null &&
+                selectedCompanyIds !== null) || (
+                <Alert
+                  sx={{
+                    mb: '16px',
+                    fontSize: '16px',
+                    fontWeight: 500,
+                    color: theme?.palette?.common?.white,
+                  }}
+                  severity="error"
+                >
+                  Please select Company and Contact to continue
+                </Alert>
+              )}
               <Box sx={styles?.rowBuyerInfo}>
                 <Typography variant="h4" sx={styles?.buyerInfoTitle}>
                   Buyer Information
@@ -95,6 +113,7 @@ const StepBuyerInfo = ({
                         </Box>
                         <Box mt={-0.7}>
                           <Checkbox
+                            defaultChecked
                             checked={selectedBuyerContactIds === item?._id}
                             value={item?._id}
                             onChange={() => handleBuyerContactChange(item?._id)}

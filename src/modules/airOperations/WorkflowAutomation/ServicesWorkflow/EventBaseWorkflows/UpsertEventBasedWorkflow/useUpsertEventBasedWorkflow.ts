@@ -24,6 +24,21 @@ export const useUpsertEventBasedWorkflow = () => {
     date: 'Date',
     objectId: 'objectId',
   };
+
+  const collectionNameData = {
+    agent: 'agent',
+    assignToAgent: 'Assign to Agent',
+    selectDepartment: 'selectDepartment',
+    department: 'department',
+    setDepartmentAs: 'Set Department as',
+    location: 'location',
+    addRequester: 'addRequester',
+    requester: 'requester',
+    setCategoryAs: 'Set Category as',
+    category: 'category',
+    users: 'users',
+  };
+
   const router = useRouter();
   const pageActionType = router?.query?.action;
   const singleId = router?.query?.id;
@@ -69,19 +84,67 @@ export const useUpsertEventBasedWorkflow = () => {
     }
   };
 
+  function getCollectionName(fieldName: any): any {
+    const fieldLabel = fieldName?.label || fieldName;
+    switch (fieldLabel) {
+      case collectionNameData?.agent:
+        return collectionNameData?.users;
+      case collectionNameData?.assignToAgent:
+        return collectionNameData?.users;
+      case collectionNameData?.selectDepartment:
+        return collectionNameData?.department;
+      case collectionNameData?.setDepartmentAs:
+        return collectionNameData?.department;
+      case collectionNameData?.location:
+        return collectionNameData?.location;
+      case collectionNameData?.addRequester:
+        return collectionNameData?.requester;
+      case collectionNameData?.setCategoryAs:
+        return collectionNameData?.category;
+      default:
+        return '';
+    }
+  }
+
   const mapGroup = (group: any, typeData: any) => ({
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
       ...condition,
-      fieldValue: condition?.fieldValue?._id,
+      fieldValue:
+        condition?.fieldName &&
+        [
+          collectionNameData?.agent,
+          collectionNameData?.selectDepartment,
+          collectionNameData?.setDepartmentAs,
+          collectionNameData?.location,
+          collectionNameData?.addRequester,
+          collectionNameData?.setCategoryAs,
+        ].includes(condition?.fieldName)
+          ? condition?.fieldValue?._id
+          : condition?.fieldValue,
       fieldType: mapField(condition, typeData),
+      collectionName: getCollectionName(condition?.fieldName),
     })),
     conditionType: group?.conditionType?.value,
   });
 
   const mapAction = (action: any, typeData: any) => ({
     ...action,
+    fieldName: action?.fieldName?.value,
+    fieldValue:
+      action?.fieldName &&
+      [
+        collectionNameData?.agent,
+        collectionNameData?.selectDepartment,
+        collectionNameData?.setDepartmentAs,
+        collectionNameData?.location,
+        collectionNameData?.addRequester,
+        collectionNameData?.setCategoryAs,
+      ].includes(action?.fieldName)
+        ? action?.fieldValue?._id
+        : action?.fieldValue,
     fieldType: mapField(action, typeData),
+    collectionName: getCollectionName(action?.fieldName),
   });
 
   const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
@@ -133,20 +196,20 @@ export const useUpsertEventBasedWorkflow = () => {
     }
   };
 
-  const handleSaveAsDraft = async (data: any) => {
+  const handleSaveAsDraft = async () => {
     const title = getValues('title');
-    if (!title) {
-      errorSnackbar('Title is required');
-      return;
-    } else {
-      try {
-        await saveWorkflowTrigger(data)?.unwrap();
-        successSnackbar('Workflow Updated Successfully');
-        reset();
-        movePage();
-      } catch (error) {
-        errorSnackbar();
-      }
+    const description = getValues('description');
+    const body = {
+      title: title,
+      description: description,
+    };
+    try {
+      await saveWorkflowTrigger(body)?.unwrap();
+      successSnackbar('Workflow Saved Successfully');
+      reset();
+      movePage();
+    } catch (error) {
+      errorSnackbar('Fill all other field');
     }
   };
 

@@ -35,8 +35,8 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
     getProductPlanListProductId: builder.query({
-      query: ({ id }) => ({
-        url: `${ORG_ADMIN?.PRODUCT_PLAN_LIST}/${id}`,
+      query: ({ id }: any) => ({
+        url: `${ORG_ADMIN?.PRODUCT_PLAN_LIST}/${id}?isCrm=false`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -50,7 +50,7 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
     }),
     getProductFeatures: builder.query({
       query: ({ id }) => ({
-        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}&productIds=${id}`,
+        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}?productIds=${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -71,6 +71,22 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    postSubscriptionPlan: builder.mutation({
+      query: ({ body }) => ({
+        url: `${ORG_ADMIN?.SUBSCRIPTION_AND_INVOICES}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    patchSubscriptionPlan: builder.mutation({
+      query: ({ body, organizationPlanId }: any) => ({
+        url: `${ORG_ADMIN?.SUBSCRIPTION_AND_INVOICES}?organizationPlanId=${organizationPlanId}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -84,4 +100,6 @@ export const {
   usePostSubscriptionMutation,
   useGetSubscriptionsAllCrmWithSubscriptionsQuery,
   useGetCRMPlanListQuery,
+  usePostSubscriptionPlanMutation,
+  usePatchSubscriptionPlanMutation,
 } = subscriptionAndInvoicesAPI;

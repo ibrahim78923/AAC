@@ -24,9 +24,11 @@ export const styles = {
       boxShadow: '0px 2px 10px 2px rgba(0, 0, 0, 0.10)',
     };
   },
-  quickLinkBox: (theme: any) => {
+  quickLinkBox: (theme: any, innerBoxesRendered: boolean) => {
     return {
-      border: `1px solid ${theme?.palette?.custom?.dark}`,
+      border: innerBoxesRendered
+        ? `1px solid ${theme?.palette?.custom?.dark}`
+        : 'none',
       display: { sm: 'flex', xs: 'none' },
       flexDirection: 'row',
       borderRadius: '6px',

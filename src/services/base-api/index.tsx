@@ -120,6 +120,8 @@ export const TAGS = [
   'TICKETS_CONVERSATION_CANNED_RESPONSES',
   'TICKETS_CONVERSATION',
   'TICKETS_CONVERSATION_ARTICLES',
+  'LOCATION_DROPDOWN',
+  'PERMISSIONS',
 ];
 
 const baseQuery = fetchBaseQuery({
@@ -140,3 +142,5 @@ export const baseAPI = createApi({
   tagTypes: TAGS,
   endpoints: () => ({}),
 });
+
+export const clearApiCache = baseAPI.util.resetApiState;

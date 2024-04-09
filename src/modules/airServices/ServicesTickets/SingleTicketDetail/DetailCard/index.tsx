@@ -112,10 +112,10 @@ export const DetailCard = () => {
             </Typography>
             <Typography
               variant="body2"
-              sx={{ flex: '1' }}
-              dangerouslySetInnerHTML={
-                { __html: detail?.data[0]?.description } ?? '-'
-              }
+              sx={{ wordBreak: 'break-all' }}
+              dangerouslySetInnerHTML={{
+                __html: detail?.data[0]?.description ?? '---',
+              }}
             />
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>

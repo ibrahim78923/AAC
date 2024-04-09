@@ -20,7 +20,6 @@ const PlanCard: FC<PlanCardI> = ({
   billOn,
   type,
   handleBillingDetail,
-  id,
   plan,
 }) => {
   const dispatch: any = useAppDispatch();
@@ -28,7 +27,7 @@ const PlanCard: FC<PlanCardI> = ({
   return (
     <Box sx={styles?.planCard}>
       <Box sx={styles?.planStatus}>
-        {status === 'active' && <Box sx={styles?.planActiveChip}>Active</Box>}
+        {plan?.orgPlanId && <Box sx={styles?.planActiveChip}>Active</Box>}
       </Box>
 
       <Box sx={styles?.planIcon}>{icon}</Box>
@@ -68,7 +67,10 @@ const PlanCard: FC<PlanCardI> = ({
             >
               <Button
                 variant="contained"
-                onClick={() => handleBillingDetail(id)}
+                onClick={() => {
+                  handleBillingDetail(plan?.orgPlanId),
+                    dispatch(setSelectedPlanData(plan));
+                }}
               >
                 Billing Details
               </Button>

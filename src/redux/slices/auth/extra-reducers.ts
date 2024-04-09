@@ -19,6 +19,6 @@ export const registerSuccess = (state: TAuthSlice, action: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const permissionsUpdate = (state: any, action: any) => {
-  const data = action.payload.data?.account?.role?.permissions;
-  state.permissions = data.permissions;
+  const data = action?.payload?.data?.account?.role?.permissions;
+  state.permissions = data?.permissions;
 };

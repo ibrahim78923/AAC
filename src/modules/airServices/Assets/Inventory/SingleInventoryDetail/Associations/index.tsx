@@ -1,76 +1,41 @@
-import { Button, useTheme, Box, Typography, Chip } from '@mui/material';
-import { Fragment, useEffect, useState } from 'react';
+import { Box, Typography, Chip } from '@mui/material';
+import { Fragment } from 'react';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoData from '@/components/NoData';
 import { chipColor } from './Associations.data';
 import { ExistingIncident } from './ExistingIncident';
-import { DialogBox } from './DialogBox';
 import { NewIncident } from './NewIncident';
 import { NoAssociationFoundImage } from '@/assets/images';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { AlertModals } from '@/components/AlertModals';
-import {
-  useDeleteInventoryAssociationListMutation,
-  useLazyGetAssociationListQuery,
-} from '@/services/airServices/assets/inventory/single-inventory-details/associations';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
-import { useRouter } from 'next/router';
+import useAssociations from './useAssociations';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
+
 export const Associations = () => {
-  const theme: any = useTheme();
-  const [openDialog, setOpenDialog] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [openNewIncident, setNewIncident] = useState(false);
-  const [openExistingIncident, setExistingIncident] = useState(false);
-  const [InventoryIncidentId, setInventoryIncidentId] = useState('');
-  const [hoveredItemId, setHoveredItemId] = useState(null);
-  const router = useRouter();
-  const associationsInventoryId = router.query.inventoryId;
+  const {
+    getInventoryListData,
+    theme,
+    lazyGetIncidentStatus,
+    handleMouseOver,
+    hoveredItemId,
+    setHoveredItemId,
+    handleMouseLeave,
+    handleDelete,
+    isDeleteModalOpen,
+    handleCloseDeleteModal,
+    handleConfirmDelete,
+    isLoading,
+    setNewIncident,
+    setExistingIncident,
+    openNewIncident,
+    openExistingIncident,
+    addAssociationsButton,
+  } = useAssociations();
 
-  const [deleteInventoryAssociationListTrigger, { isLoading }] =
-    useDeleteInventoryAssociationListMutation();
-  const handleMouseOver = (itemId: any) => {
-    setHoveredItemId(itemId);
-  };
-
-  const [lazyGetIncidentTrigger, lazyGetIncidentStatus] =
-    useLazyGetAssociationListQuery();
-  const getIncidentListData = async () => {
-    const getIncidentParams = new URLSearchParams();
-    getIncidentParams?.append('inventoryId', associationsInventoryId + '');
-
-    const getInventoryParameters = {
-      params: getIncidentParams,
-    };
-    await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
-  };
-  const getInventoryListData =
-    lazyGetIncidentStatus?.data?.data?.associationList;
-
-  useEffect(() => {
-    getIncidentListData();
-  }, [lazyGetIncidentTrigger?.toString(), openExistingIncident]);
-  const handleMouseLeave = () => {
-    setHoveredItemId(null);
-  };
-  const handleCloseDeleteModal = () => {
-    setIsDeleteModalOpen(false);
-  };
-  const handleDelete = (id: any) => {
-    setIsDeleteModalOpen(true);
-    setInventoryIncidentId(id);
-  };
-  const handleConfirmDelete = async () => {
-    try {
-      await deleteInventoryAssociationListTrigger({
-        id: associationsInventoryId,
-        ticketId: InventoryIncidentId,
-      }).unwrap();
-    } catch (error) {}
-    setIsDeleteModalOpen(false);
-    setHoveredItemId(null);
-  };
   return (
     <Fragment>
       {getInventoryListData?.length <= 0 ? (
@@ -83,14 +48,15 @@ export const Associations = () => {
               AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
             ]}
           >
-            <Button
-              variant="outlined"
-              sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
-              onClick={() => setOpenDialog(true)}
+            <SingleDropdownButton
+              dropdownOptions={addAssociationsButton}
+              dropdownName={'Associate'}
+              endIcon={<></>}
               startIcon={<AddCircleIcon />}
-            >
-              Associate
-            </Button>
+              variant="outlined"
+              color="primary"
+              sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
+            />
           </PermissionsGuard>
         </NoData>
       ) : (
@@ -101,13 +67,14 @@ export const Associations = () => {
                 AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
               ]}
             >
-              <Button
-                variant="contained"
-                onClick={() => setOpenDialog(true)}
+              <SingleDropdownButton
+                dropdownOptions={addAssociationsButton}
+                dropdownName={'Associate'}
+                endIcon={<></>}
                 startIcon={<AddCircleIcon />}
-              >
-                Associate
-              </Button>
+                color="primary"
+                variant="contained"
+              />
             </PermissionsGuard>
           </Box>
           <PermissionsGuard
@@ -123,11 +90,10 @@ export const Associations = () => {
                 </Box>
               ) : (
                 <>
-                  {' '}
                   {getInventoryListData?.map((item: any) => (
                     <Box
                       key={item?._id}
-                      border={`1px solid $ {theme?.palette?.grey?.[400]}`}
+                      border={`1px solid ${theme?.palette?.grey?.[400]}`}
                       borderLeft={`8px solid ${theme?.palette[
                         chipColor(item?.status)
                       ]?.main}`}
@@ -147,7 +113,7 @@ export const Associations = () => {
                       >
                         {hoveredItemId === item?._id && (
                           <RemoveCircleOutlineIcon
-                            style={{ marginRight: '8px' }}
+                            style={{ marginRight: '8px', cursor: 'pointer' }}
                             fontSize="small"
                             onClick={() => {
                               setHoveredItemId(item?._id);
@@ -160,7 +126,7 @@ export const Associations = () => {
                         </Typography>
                       </Box>
                       <Chip
-                        label={item?.status}
+                        label={item?.status ?? '---'}
                         sx={{
                           bgcolor:
                             theme?.palette[chipColor(item?.status)]?.main,
@@ -175,26 +141,28 @@ export const Associations = () => {
           </PermissionsGuard>
         </Fragment>
       )}
-      <AlertModals
-        message="Are you sure you want to delete this item?"
-        type="delete"
-        open={isDeleteModalOpen}
-        handleClose={handleCloseDeleteModal}
-        handleSubmitBtn={handleConfirmDelete}
-        loading={isLoading}
-      />
-
-      <DialogBox
-        openDialog={openDialog}
-        setOpenDialog={setOpenDialog}
-        setNewIncident={setNewIncident}
-        setExistingIncident={setExistingIncident}
-      />
-      <NewIncident openDrawer={openNewIncident} onClose={setNewIncident} />
-      <ExistingIncident
-        openDrawer={openExistingIncident}
-        onClose={setExistingIncident}
-      />
+      {isDeleteModalOpen && (
+        <AlertModals
+          message="Are you sure you want to delete this item?"
+          type={ALERT_MODALS_TYPE?.DELETE}
+          open={isDeleteModalOpen}
+          handleClose={handleCloseDeleteModal}
+          handleSubmitBtn={handleConfirmDelete}
+          loading={isLoading}
+        />
+      )}
+      {openNewIncident && (
+        <NewIncident
+          openDrawer={openNewIncident}
+          setIsOpenDrawer={setNewIncident}
+        />
+      )}
+      {openExistingIncident && (
+        <ExistingIncident
+          openDrawer={openExistingIncident}
+          setIsOpenDrawer={setExistingIncident}
+        />
+      )}
     </Fragment>
   );
 };

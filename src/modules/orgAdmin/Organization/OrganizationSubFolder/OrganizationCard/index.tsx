@@ -2,14 +2,19 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { Grid, Box, Typography } from '@mui/material';
+import {
+  Grid,
+  Box,
+  Typography,
+  Skeleton,
+  Button,
+  InputAdornment,
+} from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 
 import { dataArray } from './OrganizationCard.data';
-
-import { productItem } from '@/mock/modules/orgAdmin/OrganizationAdmin';
 
 import {
   MessageGreyImage,
@@ -19,7 +24,7 @@ import {
   ComLogoImage,
   OrcaloLogoImage,
 } from '@/assets/images';
-import { AddPenIcon } from '@/assets/icons';
+import { AddPenIcon, EditPenBorderedIcon } from '@/assets/icons';
 
 import { styles } from './OrganizationCard.style';
 
@@ -27,6 +32,10 @@ import { v4 as uuidv4 } from 'uuid';
 import useOrganizationCard from './useOrganizationCard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
+import { getSession } from '@/utils';
+import { useGetAllProductsQuery } from '@/services/orgAdmin/organization';
+import { getProductIcon } from '@/modules/orgAdmin/SubscriptionAndInvoices/Subscriptions';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const OrganizationCard = () => {
   const {
@@ -36,64 +45,22 @@ const OrganizationCard = () => {
     handleSubmit,
     onSubmit,
     methods,
-    data,
+    handleCloseDrawer,
+    loadingDetails,
+    addressVal,
+    isToggled,
+    setIsToggled,
   } = useOrganizationCard();
+
+  const { data: productsData, isLoading } = useGetAllProductsQuery({});
+  const { user }: { accessToken: string; refreshToken: string; user: any } =
+    getSession();
+
+  const activeProducts = user?.products?.length;
+  const inActiveProducts = productsData?.data?.length - user?.products?.length;
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isOpenDrawer}
-        onClose={() => {
-          setIsOpenDrawer(false);
-        }}
-        title="Edit Info"
-        okText="Update"
-        isOk={true}
-        footer={true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <center>
-            <Box sx={{ position: 'relative' }}>
-              <Box
-                sx={{
-                  border: `1px solid ${theme?.palette?.grey[700]}`,
-                  borderRadius: '100px',
-                  width: '120px',
-                  height: '120px',
-                  boxShadow:
-                    '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
-                }}
-              >
-                <Image
-                  src={ComLogoImage}
-                  alt="NO image"
-                  style={{ borderRadius: '100px' }}
-                />
-              </Box>
-              <Box sx={{ position: 'absolute', right: '165px', bottom: 0 }}>
-                <AddPenIcon />
-              </Box>
-            </Box>
-          </center>
-          <FormProvider methods={methods}>
-            <Grid container spacing={1} sx={{ paddingTop: '1rem' }}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={uuidv4()}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
       <Box sx={{ paddingTop: '5px' }}>
         <Grid container spacing={2}>
           <Grid item lg={6} md={12} sm={12} xs={12}>
@@ -120,7 +87,7 @@ const OrganizationCard = () => {
                     <Image src={OrcaloLogoImage} alt="Logo" />
                   </Box>
                 </Grid>
-                <Grid item lg={5} md={4} sm={6} xs={12}>
+                <Grid item lg={6} md={4} sm={6} xs={12}>
                   <Box
                     sx={{
                       display: 'grid',
@@ -132,17 +99,30 @@ const OrganizationCard = () => {
                       },
                     }}
                   >
-                    <Typography
-                      variant="h3"
+                    <Box
                       sx={{
-                        fontWeight: 500,
-                        color: `${theme?.palette?.custom?.main}`,
+                        maxWidth: '21vw',
+                        '@media (max-width: 600px)': {
+                          maxWidth: '60vw',
+                        },
                       }}
                     >
-                      Orcalo holdings
-                    </Typography>
+                      <Typography
+                        variant="h3"
+                        sx={{
+                          fontWeight: 500,
+                          color: `${theme?.palette?.custom?.main}`,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          maxWidth: '100%',
+                        }}
+                      >
+                        {user?.organization?.name}
+                      </Typography>
+                    </Box>
 
-                    <Typography
+                    {/* <Typography
                       variant="h3"
                       sx={{
                         fontWeight: 500,
@@ -150,8 +130,8 @@ const OrganizationCard = () => {
                         color: `${theme?.palette?.custom?.main}`,
                       }}
                     >
-                      {data?.data?.name}
-                    </Typography>
+                      {organiztionDetails?.data?.name}
+                    </Typography> */}
                     <Box
                       sx={{
                         display: 'flex',
@@ -169,7 +149,7 @@ const OrganizationCard = () => {
                           color: `${theme?.palette?.custom?.main}`,
                         }}
                       >
-                        John Doe
+                        {user?.firstName ?? '-'} {user?.lastName ?? '-'}
                       </Typography>
                     </Box>
                     <Box
@@ -189,7 +169,7 @@ const OrganizationCard = () => {
                           color: `${theme?.palette?.custom?.main}`,
                         }}
                       >
-                        {data?.data?.email ?? '-'}
+                        {user?.email ?? '-'}
                       </Typography>
                     </Box>
                     <Box
@@ -209,12 +189,12 @@ const OrganizationCard = () => {
                           color: `${theme?.palette?.custom?.main}`,
                         }}
                       >
-                        {data?.data?.phoneNo ?? '-'}
+                        {user?.phoneNumber ?? '-'}
                       </Typography>
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item lg={4} md={4} sm={6} xs={12}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
                   <PermissionsGuard
                     permissions={[
                       ORG_ADMIN_ORGANIZATION_PERMISSIONS?.EDIT_INFO,
@@ -229,17 +209,10 @@ const OrganizationCard = () => {
                         }}
                         sx={styles?.editSection}
                       >
-                        <Image src={EditImage} alt="edit" />
-                        <Typography
-                          variant="body3"
-                          sx={{
-                            fontWeight: 500,
-                            lineHeight: '18px',
-                            color: `${theme?.palette?.primary?.main}`,
-                          }}
-                        >
+                        <Button className="small" sx={{ gap: 1 }}>
+                          <Image src={EditImage} alt="edit" />
                           Edit Info
-                        </Typography>
+                        </Button>
                       </Box>
                     </Box>
                   </PermissionsGuard>
@@ -286,7 +259,7 @@ const OrganizationCard = () => {
                           lineHeight: '18px',
                         }}
                       >
-                        1
+                        {activeProducts ?? '-'}
                       </Typography>
                       )
                     </Box>
@@ -299,41 +272,241 @@ const OrganizationCard = () => {
                           lineHeight: '18px',
                         }}
                       >
-                        3
+                        {inActiveProducts ?? '-'}
                       </Typography>
                       )
                     </Box>
                   </Box>
                 </Grid>
               </Grid>
-              <Grid container sx={{ paddingTop: '10px' }}>
-                {productItem?.map((item) => {
-                  return (
+              <Grid container sx={{ paddingTop: '5px' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '90%',
+                    margin: '0 auto',
+                    flexWrap: 'wrap',
+                    gap: '20px',
+                    '@media (max-width: 600px)': {
+                      justifyContent: 'center',
+                    },
+                  }}
+                >
+                  {isLoading ? (
                     <>
-                      <Grid item lg={4} md={4} sm={6} xs={12} key={uuidv4()}>
-                        <Box sx={{ display: 'grid', justifyItems: 'center' }}>
-                          <Image src={item?.img} alt="no image" />
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              color: `${item.color}`,
-                              fontWeight: 600,
-                              lineHeight: '20PX',
-                              paddingTop: '10px',
-                            }}
-                          >
-                            {item?.name}
-                          </Typography>
+                      {[1, 2, 3, 4, 5]?.map(() => (
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '10px',
+                          }}
+                          key={uuidv4()}
+                        >
+                          <Skeleton variant="circular" width={60} height={60} />
+                          <Skeleton
+                            variant="rectangular"
+                            width={110}
+                            height={20}
+                          />
                         </Box>
-                      </Grid>
+                      ))}
                     </>
-                  );
-                })}
+                  ) : (
+                    <>
+                      {productsData?.data?.map((item: any) => {
+                        return (
+                          <>
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyItems: 'center',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  backgroundColor:
+                                    theme?.palette?.primary?.light,
+                                  width: '60px',
+                                  height: '60px',
+                                  borderRadius: '50%',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  filter: user?.products?.some(
+                                    (userProduct: any) =>
+                                      userProduct?._id === item?._id,
+                                  )
+                                    ? 'none'
+                                    : 'grayscale(1) brightness(1.0) opacity(0.8)',
+                                }}
+                              >
+                                {getProductIcon(item?.name)}
+                              </Box>
+                              <Typography
+                                variant="body2"
+                                sx={{
+                                  color: `${item?.color}`,
+                                  fontWeight: 600,
+                                  lineHeight: '20PX',
+                                  paddingTop: '10px',
+                                }}
+                              >
+                                {item?.name}
+                              </Typography>
+                            </Box>
+                          </>
+                        );
+                      })}
+                    </>
+                  )}
+                </Box>
               </Grid>
             </Box>
           </Grid>
         </Grid>
       </Box>
+      {isOpenDrawer && (
+        <CommonDrawer
+          isDrawerOpen={isOpenDrawer}
+          onClose={handleCloseDrawer}
+          title="Edit Info"
+          okText="Update"
+          isOk={true}
+          footer={true}
+          submitHandler={handleSubmit(onSubmit)}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={methods}>
+              {loadingDetails ? (
+                <SkeletonTable />
+              ) : (
+                <>
+                  <center>
+                    <Box sx={{ position: 'relative' }}>
+                      <Box
+                        sx={{
+                          border: `1px solid ${theme?.palette?.grey[700]}`,
+                          borderRadius: '100px',
+                          width: '120px',
+                          height: '120px',
+                          boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green}, 5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
+                        }}
+                      >
+                        <Image
+                          src={ComLogoImage}
+                          alt="NO image"
+                          style={{ borderRadius: '100px' }}
+                        />
+                      </Box>
+                      <Box
+                        sx={{ position: 'absolute', right: '165px', bottom: 0 }}
+                      >
+                        <AddPenIcon />
+                      </Box>
+                    </Box>
+                  </center>
+                  <Grid container spacing={1} sx={{ paddingTop: '1rem' }}>
+                    {dataArray?.map((item: any) => (
+                      <Grid item xs={12} md={item?.md} key={item?.name}>
+                        {item?.componentProps?.name === 'compositeAddress' && (
+                          <Box position="relative">
+                            <InputAdornment
+                              sx={{
+                                position: 'absolute',
+                                top: 53,
+                                right: 20,
+                                zIndex: 9999,
+                              }}
+                              position="end"
+                            >
+                              {addressVal?.length > 0 ? (
+                                <Box
+                                  sx={{
+                                    cursor: 'not-allowed',
+                                    fontSize: '20px',
+                                    color: 'lightgrey',
+                                  }}
+                                >
+                                  <EditPenBorderedIcon />
+                                </Box>
+                              ) : (
+                                <Box
+                                  onClick={() => {
+                                    setIsToggled(true);
+                                  }}
+                                  sx={{ cursor: 'pointer', fontSize: '20px' }}
+                                >
+                                  <EditPenBorderedIcon />
+                                </Box>
+                              )}
+                            </InputAdornment>
+                          </Box>
+                        )}
+                        <item.component
+                          {...item?.componentProps}
+                          size={'small'}
+                          disabled={
+                            isToggled &&
+                            item?.componentProps?.name === 'compositeAddress'
+                              ? true
+                              : false
+                          }
+                        >
+                          {item?.componentProps?.select &&
+                            item?.options?.map((option: any) => (
+                              <option key={uuidv4()} value={uuidv4()}>
+                                {option?.label}
+                              </option>
+                            ))}
+                        </item.component>
+                        {isToggled && (
+                          <Grid item container spacing={2} mt={1}>
+                            {item?.componentProps?.name ===
+                              'compositeAddress' &&
+                              item?.subData?.map((data: any) => (
+                                <Grid
+                                  item
+                                  xs={12}
+                                  md={item?.md}
+                                  key={item?.name}
+                                >
+                                  <Typography variant="body2" fontWeight={500}>
+                                    {data?.title}
+                                  </Typography>
+                                  <data.component
+                                    {...data.componentProps}
+                                    size={'small'}
+                                  >
+                                    {data?.componentProps?.select
+                                      ? data?.options?.map((option: any) => (
+                                          <option
+                                            key={uuidv4()}
+                                            value={option?.value}
+                                          >
+                                            {option?.label}
+                                          </option>
+                                        ))
+                                      : null}
+                                  </data.component>
+                                </Grid>
+                              ))}
+                          </Grid>
+                        )}
+                      </Grid>
+                    ))}
+                  </Grid>
+                </>
+              )}
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
     </>
   );
 };

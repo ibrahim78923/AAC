@@ -3,24 +3,28 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const companiesValidationSchema = Yup?.object()?.shape({
-  domain: Yup?.string()?.required('Field is Required'),
-  totalRevenue: Yup?.number(),
-  noOfEmloyee: Yup?.number(),
+  domain: Yup?.string()?.when('company', ([company]: any, field: any) =>
+    company === 'new-Company'
+      ? field?.required('Field is required')
+      : field?.optional(),
+  ),
+  totalRevenue: Yup?.string()?.when('company', ([company]: any, field: any) =>
+    company === 'new-Company'
+      ? field?.required('Field is required')
+      : field?.optional(),
+  ),
+  noOfEmloyee: Yup?.string()?.when('company', ([company]: any, field: any) =>
+    company === 'new-Company'
+      ? field?.required('Field is required')
+      : field?.optional(),
+  ),
 });
 
 export const companiesDefaultValues = {
+  company: 'new-Company',
   domain: '',
-  name: '',
-  ownerId: '',
-  industry: '',
-  type: '',
-  noOfEmloyee: 0,
-  totalRevenue: 0,
-  city: '',
-  postalCode: '',
-  address: '',
-  description: '',
-  linkedInUrl: '',
+  noOfEmloyee: '',
+  totalRevenue: '',
 };
 
 export const companiesDataArray = (getCompanyContacts: any) => {

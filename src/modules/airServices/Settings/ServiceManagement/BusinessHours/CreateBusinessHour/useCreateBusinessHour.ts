@@ -12,13 +12,12 @@ import {
   usePatchBusinessHourMutation,
   usePostBusinessHourMutation,
 } from '@/services/airServices/settings/service-management/business-hours';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import { useEffect, useState } from 'react';
 import { PAGINATION } from '@/config';
 import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useCreateBusinessHour = () => {
   const router = useRouter();
@@ -54,23 +53,14 @@ export const useCreateBusinessHour = () => {
   const [lazyGetHolidaysTrigger, getHolidaysStatus] = useLazyGetHolidaysQuery();
   const holidays = getHolidaysStatus?.data?.data?.holidays;
   const getHolidaysListData = async (country: any) => {
-    enqueueSnackbar(
-      'Importing can cause loss of Added or Deleted Holidays Data',
-      {
-        variant: NOTISTACK_VARIANTS?.WARNING,
-      },
-    );
+    errorSnackbar('Importing can cause loss of Added or Deleted Holidays Data');
     const getHolidaysParam = new URLSearchParams();
     getHolidaysParam?.append('country', country);
     try {
-      const response = await lazyGetHolidaysTrigger(getHolidaysParam)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Holidays Retrieved successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await lazyGetHolidaysTrigger(getHolidaysParam)?.unwrap();
+      successSnackbar('Holidays Retrieved successfully');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -82,9 +72,7 @@ export const useCreateBusinessHour = () => {
     businessHourMethod;
   const onSubmitRequest = handleSubmit(async (data: any) => {
     if (!holidaysData?.length) {
-      enqueueSnackbar('Please Import or Add Holidays Before Submitting', {
-        variant: NOTISTACK_VARIANTS?.WARNING,
-      });
+      errorSnackbar('Please Import or Add Holidays Before Submitting');
       return;
     }
     delete data?.importHolidays;
@@ -118,15 +106,11 @@ export const useCreateBusinessHour = () => {
     }
     try {
       await postBusinessHourTrigger(postBusinessHourParameter)?.unwrap();
-      enqueueSnackbar('Business Hour Created Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Business Hour Created Successfully');
       router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   });
   const submitUpdateBusinessHour = async (data: any) => {
@@ -135,15 +119,11 @@ export const useCreateBusinessHour = () => {
     };
     try {
       await patchBusinessHourTrigger(patchBusinessHourParameter)?.unwrap();
-      enqueueSnackbar('Business Hour Updated Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Business Hour Updated Successfully!');
       router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
       reset();
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {

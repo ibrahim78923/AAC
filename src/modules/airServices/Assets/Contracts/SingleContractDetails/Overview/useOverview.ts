@@ -6,11 +6,20 @@ export const useOverview = () => {
   const theme = useTheme();
   const searchParams = useSearchParams();
   const contractId = searchParams?.get('contractId');
-  const { data, isLoading, isFetching } =
-    useGetContractsOverviewQuery(contractId);
+
+  const { data, isLoading, isFetching, isError } = useGetContractsOverviewQuery(
+    contractId,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!contractId,
+    },
+  );
   const contractData = data?.data;
-  const contractItemDataArray = data?.data?.itemsDetail || [];
-  const contractItemData = contractItemDataArray.find((item: any) => ({
+  const contractItemDataArray = !!data?.data?.itemsDetail?.length
+    ? data?.data?.itemsDetail
+    : [];
+
+  const contractItemData = contractItemDataArray?.find((item: any) => ({
     serviceName: item?.serviceName,
     priceModel: item?.priceModel,
     cost: item?.cost,
@@ -18,9 +27,8 @@ export const useOverview = () => {
     comments: item?.comments,
     _id: item?._id,
   }));
-  const approverName = data?.data?.history?.find(
-    (detail: any) => detail?.performedBy,
-  )?.performedBy;
+
+  const approverName = data?.data?.approver;
 
   return {
     theme,
@@ -29,5 +37,6 @@ export const useOverview = () => {
     approverName,
     isLoading,
     isFetching,
+    isError,
   };
 };

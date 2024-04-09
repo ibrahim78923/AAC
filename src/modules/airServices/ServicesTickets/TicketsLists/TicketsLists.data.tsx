@@ -220,10 +220,7 @@ export const ticketsListsColumnFunction: any = (
                 width: 25,
                 height: 25,
               }}
-              src={generateImage(
-                info?.row?.original?.departmentsDetails?.attachment?.[0]
-                  ?.fileUrl,
-              )}
+              src={generateImage(info?.row?.original?.attachment?.fileUrl)}
             >
               <Typography variant="body2" textTransform={'uppercase'}>
                 {info?.row?.original?.departmentsDetails?.name?.[0] ?? '-'}

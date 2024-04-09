@@ -27,6 +27,8 @@ export const KnowledgeBaseTicketDetail = () => {
     handleRelatedArticles,
     singleArticleId,
     feedbackIsLoading,
+    isFetching,
+    fetchingArticles,
   } = useKnowledgeBaseTicketDetail();
   return (
     <PermissionsGuard
@@ -55,7 +57,7 @@ export const KnowledgeBaseTicketDetail = () => {
               {singleArticlesData?.title}
             </Typography>
           </Box>
-          {isLoading ? (
+          {isLoading || isFetching ? (
             <SkeletonTable />
           ) : (
             <Box
@@ -86,12 +88,12 @@ export const KnowledgeBaseTicketDetail = () => {
                 </Typography>
               )}
               <Grid item>
-                <Typography variant="h4">Related Tickets</Typography>
+                <Typography variant="h4">Related Articles</Typography>
                 <Box
                   height={showFeedbackField ? '14rem' : '33rem'}
                   overflow={'scroll'}
                 >
-                  {loadingArticles ? (
+                  {loadingArticles || fetchingArticles ? (
                     <SkeletonTable />
                   ) : (
                     <>
@@ -108,6 +110,7 @@ export const KnowledgeBaseTicketDetail = () => {
                               mt={0.5}
                               key={item?.id}
                               onClick={() => handleRelatedArticles(item?._id)}
+                              sx={{ cursor: 'pointer' }}
                             >
                               <DocumentTextIcon />
                               <Typography color="secondary">
