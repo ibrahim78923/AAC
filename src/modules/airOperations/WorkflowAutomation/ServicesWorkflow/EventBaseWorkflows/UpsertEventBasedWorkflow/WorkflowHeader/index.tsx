@@ -2,15 +2,16 @@ import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { CopyIcon, GrayBookIcon, WhiteBookIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
+import { TestWorkflowDrawer } from '../TestWorkflow/TestWorkflowDrawer';
 
 export const WorkflowHeader = ({
   setValidation,
   saveWorkflowProgress,
   postWorkflowProgress,
+  handleTestWorkflow,
 }: any) => {
-  const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal, action } =
+  const { handleMoveBack, action, setIsWorkflowDrawer, isWorkflowDrawer } =
     useWorkflowHeader();
   const EDIT_WORKFLOW = 'edit';
   const mainTitle = {
@@ -40,7 +41,11 @@ export const WorkflowHeader = ({
             startIcon={<CopyIcon />}
             variant="outlined"
             color="secondary"
-            onClick={() => setOpenWorkflowModal(true)}
+            type="submit"
+            onClick={() => {
+              setIsWorkflowDrawer(true);
+              handleTestWorkflow();
+            }}
           >
             Test Workflow
           </LoadingButton>
@@ -65,9 +70,9 @@ export const WorkflowHeader = ({
           </LoadingButton>
         </Box>
       </Box>
-      <TestWorkflow
-        openWorkflowModal={openWorkflowModal}
-        setOpenWorkflowModal={setOpenWorkflowModal}
+      <TestWorkflowDrawer
+        isWorkflowDrawer={isWorkflowDrawer}
+        setIsWorkflowDrawer={setIsWorkflowDrawer}
       />
     </Box>
   );

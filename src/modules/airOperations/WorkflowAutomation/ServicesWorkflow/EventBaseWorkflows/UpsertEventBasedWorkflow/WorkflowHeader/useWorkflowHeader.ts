@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 export const useWorkflowHeader = () => {
   const [openWorkflowModal, setOpenWorkflowModal] = useState(false);
+  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
   const searchParams = useSearchParams();
   const action = searchParams?.get('action');
 
@@ -15,5 +16,7 @@ export const useWorkflowHeader = () => {
     setOpenWorkflowModal,
     handleMoveBack,
     action,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
   };
 };

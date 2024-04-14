@@ -40,7 +40,7 @@ export const ticketsFields = [
   'source',
   'impacts',
   'status',
-  'priority',
+  'pirority',
   'agent',
   'plannedStartDate',
   'plannedEndDate',

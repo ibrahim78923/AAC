@@ -9,6 +9,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
+  usePostTestWorkflowMutation,
   useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
@@ -18,11 +19,13 @@ import { useEffect, useState } from 'react';
 
 export const useUpsertEventBasedWorkflow = () => {
   const [validation, setValidation] = useState(false);
+  const [testWorkflow, setTestWorkflow] = useState(false);
+  const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
   const typeData = {
     string: 'string',
     number: 'number',
     object: 'object',
-    date: 'Date',
+    date: 'date',
     objectId: 'objectId',
   };
 
@@ -152,27 +155,43 @@ export const useUpsertEventBasedWorkflow = () => {
     usePostServicesWorkflowMutation();
   const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
   const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
+  const [postTestTrigger] = usePostTestWorkflowMutation();
+
+  const handleTestWorkflow = async () => {
+    setTestWorkflow(true);
+  };
 
   const handleApiCall = async (body: any) => {
     try {
       let successMessage = '';
-      if (pageActionType === EDIT_WORKFLOW) {
-        await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
-        successMessage = 'Workflow Update Successfully';
-      } else if (!validation) {
-        await saveWorkflowTrigger(body).unwrap();
-        successMessage = 'Workflow Save Successfully';
+      if (testWorkflow) {
+        const response = await postTestTrigger(body).unwrap();
+        setTestWorkflowResponse(response);
+        successMessage = 'Test Workflow Executed Successfully';
       } else {
-        await postWorkflowTrigger(body).unwrap();
-        successMessage = 'Workflow Create Successfully';
+        if (pageActionType === EDIT_WORKFLOW) {
+          await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
+          successMessage = 'Workflow Update Successfully';
+        } else if (!validation) {
+          await saveWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Save Successfully';
+        } else {
+          await postWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Create Successfully';
+        }
       }
+
       successSnackbar(successMessage);
       reset();
-      movePage();
+      if (!testWorkflow) {
+        movePage();
+      }
     } catch (error) {
       errorSnackbar();
     }
   };
+
+  // console.log(testWorkflowResponse, 'response');
 
   const handleFormSubmit = async (data: any) => {
     const { options, ...rest } = data;
@@ -210,5 +229,7 @@ export const useUpsertEventBasedWorkflow = () => {
     setValidation,
     postWorkflowProgress,
     saveWorkflowProgress,
+    handleTestWorkflow,
+    testWorkflowResponse,
   };
 };
