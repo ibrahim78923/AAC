@@ -15,6 +15,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import useTaskCustomize from './EditColumn/useTaskCustomize';
 import { useGetAssignedToUsersQuery } from '@/services/airSales/task';
 import { getSession } from '@/utils';
+import { PAGINATION } from '@/config';
 
 export const filterDefaultValues = {
   assignTo: '',
@@ -172,8 +173,8 @@ export const createTaskData = ({ data }: any) => {
   const { data: usersList } = useGetAssignedToUsersQuery({
     params: {
       organization: user?.organization?._id,
-      page: '1',
-      limit: '1000',
+      page: PAGINATION?.CURRENT_PAGE,
+      limit: PAGINATION?.PAGE_LIMIT,
       role: user?.role,
     },
   });
@@ -262,19 +263,6 @@ export const createTaskData = ({ data }: any) => {
       options: formattedData,
       component: RHFSelect,
     },
-    // {
-    //   md: 12,
-    //   componentProps: {
-    //     label: 'Assigned to',
-    //     name: 'assignTo',
-    //     apiQuery: apiQueryusers,
-    //     getOptionLabel: (option: any) =>
-    //       option?.firstName + ' ' + option?.lastName,
-    //     externalParams: { role: user?.role, limit: 50 },
-    //   },
-
-    //   component: RHFAutocompleteAsync,
-    // },
     {
       md: 7,
       componentProps: {

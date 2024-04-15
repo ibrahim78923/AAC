@@ -144,9 +144,6 @@ const useCreateTask = ({ creationMode }: any) => {
     }
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitHandler);
-  // const apiQueryusers = useLazyGetAssignedToUsersQuery();
-
-  // console.log("apiQueryusers", apiQueryusers)
 
   const getCreateTaskData = createTaskData({ data: taskData?.data });
 

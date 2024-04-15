@@ -137,9 +137,6 @@ export const taskApi = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      // transformResponse: (response: any) => {
-      //   if (response) return response?.data?.users;
-      // },
       providesTags: TAG_TWO,
     }),
   }),
