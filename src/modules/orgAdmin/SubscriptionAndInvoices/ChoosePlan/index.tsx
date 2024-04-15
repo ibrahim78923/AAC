@@ -359,6 +359,14 @@ const ChoosePlan = () => {
                         return (
                           <TableCell key={uuidv4()} align="center">
                             <TickCircleIcon />
+
+                            <p>
+                              {
+                                planFeature?.planProductFeatures.find(
+                                  (row: any) => row?.featureId === feature?._id,
+                                )?.dealsAssociationsDetail
+                              }
+                            </p>
                           </TableCell>
                         );
                       } else {
