@@ -77,7 +77,6 @@ export const END_POINTS = {
   ACTIVITY_LOG: '/activity-log',
   DEAL_PIPELINE: '/deal-pipeline',
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
-  GET_PLAN_PRODUCTS_PERMISSIONS: '/plan/plan-product-permissions',
   VENDOR_LIST: '/vendors/get-vendors',
   POST_VENDOR: '/vendors/add-vendors',
   DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
