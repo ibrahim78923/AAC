@@ -45,27 +45,6 @@ const useAttachments = (contactId: any) => {
   const handleOpenDrawer = (title: any, data: any) => {
     setDrawerTitle(title);
     setAttachmentData(data);
-    // if (title === 'Add') {
-    //   console.log('Add open');
-    // }
-
-    // if (title === 'Edit') {
-    //   console.log('Edit Open');
-    // }
-
-    // if (title === 'View') {
-    //   console.log('View Open');
-    // }
-    if (data) {
-      // methodsAttachments.setValue('name', data?.name);
-      // methodsAttachments.setValue('dealPipelineId', data?.dealPipelineId);
-      // methodsAttachments.setValue('dealStageId', data?.dealStageId);
-      // methodsAttachments.setValue('amount', data?.amount);
-      // methodsAttachments.setValue('closeDate', new Date(data?.closeDate));
-      // methodsAttachments.setValue('ownerId', data?.ownerId);
-      // methodsAttachments.setValue('priority', data?.priority);
-      // methodsAttachments.setValue('addLineItemId', data?.addLineItemId);
-    }
     setOpenDrawer(true);
   };
   const handleCloseDrawer = () => {
@@ -95,8 +74,6 @@ const useAttachments = (contactId: any) => {
   const handleAddAttachmentSubmit = handleMethodAddAttachment(
     onSubmitAddAttachment,
   );
-
-  // const [isDisabledFields, setIsDisabledFields] = useState(true);
 
   // Delete Modal
   const [isOpenAlert, setIsOpenAlert] = useState(false);
