@@ -17,10 +17,12 @@ import { singleUserDealTabsData } from './ViewDetails.data';
 import { useRouter } from 'next/router';
 import { ArrowBackIcon, RestoreIcon } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
+import useDetails from './Details/useDetails';
 const ContactViewDetails = () => {
   const router = useRouter();
   const contactId = router?.query?.contactId;
   const theme = useTheme();
+  const { contactName } = useDetails();
   return (
     <Box>
       <Grid container spacing={2}>
@@ -37,7 +39,8 @@ const ContactViewDetails = () => {
                 alignItems: 'center',
               }}
             >
-              <Typography variant="h4">Ahmed Khan</Typography>
+              <Typography variant="h4">{contactName()}</Typography>
+
               <Link
                 href={`${AIR_SOCIAL?.CONTACTS}/${contactId}/${AIR_SOCIAL?.RESTORE_ACTIVITIES}`}
               >
