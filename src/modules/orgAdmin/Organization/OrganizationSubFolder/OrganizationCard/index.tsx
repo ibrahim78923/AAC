@@ -10,6 +10,7 @@ import {
   Button,
   InputAdornment,
   Avatar,
+  Stack,
 } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -72,14 +73,23 @@ const OrganizationCard = () => {
                 border: `1px solid ${theme?.palette?.grey[700]}`,
                 borderRadius: '8px',
                 padding: '1rem',
-                height: '184px',
+                height: '190px',
                 '@media (max-width:900px)': {
                   height: 'auto',
                 },
               }}
             >
-              <Grid container spacing={2}>
-                <Grid item lg={3} md={4} sm={12} xs={12}>
+              <Stack
+                direction={{ sm: 'row' }}
+                justifyContent="space-between"
+                alignItems={{ xs: 'center', sm: 'flex-start' }}
+              >
+                <Stack
+                  direction={{ sm: 'row' }}
+                  justifyContent="space-between"
+                  alignItems={'center'}
+                  gap={3}
+                >
                   <Box sx={{ position: 'relative' }}>
                     <Box
                       sx={{
@@ -87,8 +97,8 @@ const OrganizationCard = () => {
                         borderRadius: '100px',
                         width: '120px',
                         height: '120px',
-                        boxShadow:
-                          '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
+                        boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green}, 
+                          5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
                       }}
                     >
                       {/* {imagePreview && ( */}
@@ -100,39 +110,31 @@ const OrganizationCard = () => {
                         }`}
                         sx={{ height: 120, width: 120 }}
                       />
+                      <input
+                        hidden={true}
+                        id="upload-group-image"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e: any) => handleChangeImg(e)}
+                      />
+                      <label htmlFor="upload-group-image">
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            bottom: 0,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <AddPenIcon />
+                        </Box>
+                      </label>
                       {/* )} */}
                     </Box>
-                    <input
-                      hidden={true}
-                      id="upload-group-image"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e: any) => handleChangeImg(e)}
-                    />
-                    <label htmlFor="upload-group-image">
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          right: '142px',
-                          bottom: 0,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <AddPenIcon />
-                      </Box>
-                    </label>
                   </Box>
-                </Grid>
-                <Grid item lg={6} md={4} sm={6} xs={12}>
                   <Box
                     sx={{
                       display: 'grid',
-                      justifyItems: {
-                        lg: 'start',
-                        md: 'start',
-                        sm: 'start',
-                        xs: 'center',
-                      },
+                      justifyItems: 'start',
                     }}
                   >
                     <Box
@@ -229,31 +231,25 @@ const OrganizationCard = () => {
                       </Typography>
                     </Box>
                   </Box>
-                </Grid>
-                <Grid item lg={3} md={4} sm={6} xs={12}>
-                  <PermissionsGuard
-                    permissions={[
-                      ORG_ADMIN_ORGANIZATION_PERMISSIONS?.EDIT_INFO,
-                    ]}
-                  >
+                </Stack>
+                <PermissionsGuard
+                  permissions={[ORG_ADMIN_ORGANIZATION_PERMISSIONS?.EDIT_INFO]}
+                >
+                  <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Box
-                      style={{ display: 'flex', justifyContent: 'flex-end' }}
+                      onClick={() => {
+                        setIsOpenDrawer(true);
+                      }}
+                      sx={styles?.editSection}
                     >
-                      <Box
-                        onClick={() => {
-                          setIsOpenDrawer(true);
-                        }}
-                        sx={styles?.editSection}
-                      >
-                        <Button className="small" sx={{ gap: 1 }}>
-                          <Image src={EditImage} alt="edit" />
-                          Edit Info
-                        </Button>
-                      </Box>
+                      <Button className="small" sx={{ gap: 1 }}>
+                        <Image src={EditImage} alt="edit" />
+                        Edit Info
+                      </Button>
                     </Box>
-                  </PermissionsGuard>
-                </Grid>
-              </Grid>
+                  </Box>
+                </PermissionsGuard>
+              </Stack>
             </Box>
           </Grid>
           <Grid item lg={6} md={12} sm={12} xs={12}>

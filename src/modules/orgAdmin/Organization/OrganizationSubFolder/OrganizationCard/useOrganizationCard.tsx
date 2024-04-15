@@ -14,6 +14,7 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useOrganizationCard = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  // commented for future use will remove when complete work on this comp
   // const [imagePreview, setImagePreview] = useState<any>();
   // const [imageToUpload, setImageToUpload] = useState<any>();
   const [isToggled, setIsToggled] = useToggle(false);
@@ -89,6 +90,7 @@ const useOrganizationCard = () => {
     setValue('compositeAddress', addressValues);
   }, [addressValues]);
 
+  // commented for future use will remove when complete work on this comp
   // const formData = new FormData();
 
   // const handleImageChange = async (e: any) => {
