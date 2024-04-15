@@ -7,6 +7,7 @@ export const moduleOptions = [
   { value: 'ASSETS', label: 'Assets' },
   { value: 'TICKETS_TASKS', label: 'Tasks' },
 ];
+
 export const andRunOptions = [
   { value: 'ONCE', label: 'Once, for each record' },
   { value: 'RECURRENT', label: 'Recurring, for the same record' },
@@ -111,18 +112,29 @@ export const scheduledWorkflowSchema = Yup?.object()?.shape({
 });
 
 export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
+  function capitalizeFirstLetter(string: any) {
+    if (!string || typeof string !== 'string') return '';
+    return new Date(
+      Date?.parse(singleWorkflowData?.schedule?.annually?.month + ' 1, 2000'),
+    )?.getMonth();
+  }
+
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES.SCHEDULED,
     description: singleWorkflowData?.description ?? '',
-    schedule: singleWorkflowData?.schedule?.type ?? 'DAILY',
-    scheduleMonth: new Date(),
-    scheduleDay: 'Monday',
+    schedule: singleWorkflowData?.schedule?.type?.toLowerCase() ?? 'daily',
+    scheduleMonth:
+      new Date(
+        capitalizeFirstLetter(singleWorkflowData?.schedule?.annually?.month),
+      ) ?? new Date(),
+    scheduleDay:
+      singleWorkflowData?.schedule?.weekly?.days[0]?.toLowerCase() ?? 'monday',
     scheduleDate: new Date(),
     time: singleWorkflowData?.schedule?.daily?.time ?? new Date(),
     custom: {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: singleWorkflowData?.schedule?.custom?.startDate ?? new Date(),
+      endDate: singleWorkflowData?.schedule?.custom?.endDate ?? new Date(),
       key: 'selection',
     },
     runType: singleWorkflowData?.runType
@@ -135,7 +147,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
           (item: any) => item?.value === singleWorkflowData?.module,
         )
       : SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? '',
+    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: any) => {
       return {
         name: group?.name ?? '',

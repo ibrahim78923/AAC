@@ -9,6 +9,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
+  usePostTestWorkflowMutation,
   useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
@@ -18,6 +19,9 @@ import { useEffect, useState } from 'react';
 
 export const useRulesWorkflow = () => {
   const [validation, setValidation] = useState(false);
+  const [testWorkflow, setTestWorkflow] = useState(false);
+  const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
+  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
   const typeData = {
     string: 'string',
     number: 'number',
@@ -60,7 +64,7 @@ export const useRulesWorkflow = () => {
 
   const rulesMethod = useForm({
     defaultValues: rulesWorkflowValues(singleWorkflowData),
-    resolver: yupResolver(rulesWorkflowSchema),
+    resolver: validation ? yupResolver(rulesWorkflowSchema) : undefined,
   });
 
   const mapField = (field: any, typeData: any) => {
@@ -149,27 +153,43 @@ export const useRulesWorkflow = () => {
 
   const [postWorkflowTrigger, postWorkflowProgress] =
     usePostServicesWorkflowMutation();
-  const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
+  const [updateWorkflowTrigger, updatedWorkflowProcess] =
+    useUpdateWorkflowMutation();
   const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
+  const [postTestTrigger, testWorkflowProgress] = usePostTestWorkflowMutation();
+
+  const handleTestWorkflow = async () => {
+    setTestWorkflow(true);
+  };
 
   const handleApiCall = async (body: any) => {
     try {
       let successMessage = '';
-      if (pageActionType === EDIT_WORKFLOW) {
-        await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
-        successMessage = 'Workflow Update Successfully';
-      } else if (!validation) {
-        await saveWorkflowTrigger(body).unwrap();
-        successMessage = 'Workflow Save Successfully';
+      if (testWorkflow && validation) {
+        const response = await postTestTrigger(body).unwrap();
+        setIsWorkflowDrawer(true);
+        setTestWorkflowResponse(response);
+        successMessage = 'Test Workflow Executed Successfully';
       } else {
-        await postWorkflowTrigger(body).unwrap();
-        successMessage = 'Workflow Create Successfully';
+        if (pageActionType === EDIT_WORKFLOW) {
+          await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
+          successMessage = 'Workflow Update Successfully';
+        } else if (!validation) {
+          await saveWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Save Successfully';
+        } else {
+          await postWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Create Successfully';
+        }
       }
+
       successSnackbar(successMessage);
-      reset();
-      movePage();
-    } catch (error) {
-      errorSnackbar();
+      if (!testWorkflow) {
+        reset();
+        movePage();
+      }
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -209,5 +229,11 @@ export const useRulesWorkflow = () => {
     isFetching,
     setValidation,
     saveWorkflowProgress,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    updatedWorkflowProcess,
+    testWorkflowProgress,
+    handleTestWorkflow,
+    testWorkflowResponse,
   };
 };

@@ -4,15 +4,19 @@ import { CopyIcon, GrayBookIcon, WhiteBookIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useWorkflowHeader } from './useWorkflowHeader';
 import { TestWorkflowDrawer } from '../TestWorkflow/TestWorkflowDrawer';
+import { Cancel } from '@mui/icons-material';
 
 export const WorkflowHeader = ({
   setValidation,
   saveWorkflowProgress,
   postWorkflowProgress,
   handleTestWorkflow,
+  isWorkflowDrawer,
+  setIsWorkflowDrawer,
+  updatedWorkflowProcess,
+  testWorkflowProgress,
 }: any) => {
-  const { handleMoveBack, action, setIsWorkflowDrawer, isWorkflowDrawer } =
-    useWorkflowHeader();
+  const { handleMoveBack, action, handleCancel } = useWorkflowHeader();
   const EDIT_WORKFLOW = 'edit';
   const mainTitle = {
     edit: 'Edit Event Base Workflow',
@@ -38,14 +42,23 @@ export const WorkflowHeader = ({
         />
         <Box display={'flex'} gap={1} flexWrap={'wrap'}>
           <LoadingButton
+            startIcon={<Cancel color="action" />}
+            variant="outlined"
+            color="secondary"
+            onClick={handleCancel}
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
             startIcon={<CopyIcon />}
             variant="outlined"
             color="secondary"
             type="submit"
             onClick={() => {
-              setIsWorkflowDrawer(true);
+              setValidation(true);
               handleTestWorkflow();
             }}
+            disabled={testWorkflowProgress?.isLoading}
           >
             Test Workflow
           </LoadingButton>
@@ -63,7 +76,10 @@ export const WorkflowHeader = ({
             startIcon={<WhiteBookIcon />}
             variant="contained"
             type="submit"
-            disabled={postWorkflowProgress?.isLoading}
+            disabled={
+              postWorkflowProgress?.isLoading ||
+              updatedWorkflowProcess?.isLoading
+            }
             onClick={() => setValidation(true)}
           >
             {action === EDIT_WORKFLOW ? mainTitle?.update : mainTitle?.create}

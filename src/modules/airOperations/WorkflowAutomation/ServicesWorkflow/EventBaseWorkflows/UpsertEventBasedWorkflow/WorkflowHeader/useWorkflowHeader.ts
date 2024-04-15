@@ -5,18 +5,18 @@ import { useState } from 'react';
 
 export const useWorkflowHeader = () => {
   const [openWorkflowModal, setOpenWorkflowModal] = useState(false);
-  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
   const searchParams = useSearchParams();
   const action = searchParams?.get('action');
 
   const { push } = useRouter();
   const handleMoveBack = () => push(AIR_OPERATIONS?.SERVICES_WORKFLOW);
+  const handleCancel = () => push(AIR_OPERATIONS?.SERVICES_WORKFLOW);
+
   return {
     openWorkflowModal,
     setOpenWorkflowModal,
     handleMoveBack,
     action,
-    isWorkflowDrawer,
-    setIsWorkflowDrawer,
+    handleCancel,
   };
 };

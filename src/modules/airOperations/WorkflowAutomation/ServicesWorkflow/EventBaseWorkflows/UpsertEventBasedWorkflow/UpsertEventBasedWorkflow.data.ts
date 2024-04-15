@@ -131,7 +131,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           (item: any) => item?.value === singleWorkflowData?.module,
         )
       : SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? '',
+    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: number) => {
       return {
         name: group?.name ?? '',

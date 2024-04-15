@@ -8,6 +8,7 @@ import { useTheme } from '@mui/material';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
+  usePostTestWorkflowMutation,
   useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
@@ -19,6 +20,10 @@ import { useEffect, useState } from 'react';
 
 export const useUpsertScheduledWorkflow = () => {
   const [validation, setValidation] = useState(false);
+  const [testWorkflow, setTestWorkflow] = useState(false);
+  const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
+  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
+
   const typeData = {
     string: 'string',
     number: 'number',
@@ -149,33 +154,48 @@ export const useUpsertScheduledWorkflow = () => {
 
   const [postWorkflowTrigger, postWorkflowProgress] =
     usePostServicesWorkflowMutation();
-  const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
+  const [updateWorkflowTrigger, updatedWorkflowProcess] =
+    useUpdateWorkflowMutation();
   const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
+  const [postTestTrigger, testWorkflowProgress] = usePostTestWorkflowMutation();
+
+  const handleTestWorkflow = async () => {
+    setTestWorkflow(true);
+  };
 
   const handleApiCall = async (body: any) => {
     try {
       let successMessage = '';
-      if (pageActionType === EDIT_WORKFLOW) {
-        await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
-        successMessage = 'Workflow Update Successfully';
-      } else if (!validation) {
-        await saveWorkflowTrigger(body).unwrap();
-        successMessage = 'Workflow Save Successfully';
+      if (testWorkflow && validation) {
+        const response = await postTestTrigger(body).unwrap();
+        setIsWorkflowDrawer(true);
+        setTestWorkflowResponse(response);
+        successMessage = 'Test Workflow Executed Successfully';
       } else {
-        await postWorkflowTrigger(body).unwrap();
-        successMessage = 'Workflow Create Successfully';
+        if (pageActionType === EDIT_WORKFLOW) {
+          await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
+          successMessage = 'Workflow Update Successfully';
+        } else if (!validation) {
+          await saveWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Save Successfully';
+        } else {
+          await postWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Create Successfully';
+        }
       }
 
       successSnackbar(successMessage);
-      reset();
-      movePage();
-    } catch (error) {
-      errorSnackbar();
+      if (!testWorkflow) {
+        reset();
+        movePage();
+      }
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
   const handleFormSubmit = async (data: any) => {
-    const timeRange = dayjs(data?.time)?.format(TIME_FORMAT?.API);
+    const timeRange = dayjs(data?.time)?.format(TIME_FORMAT?.TH);
     const {
       options,
       time,
@@ -183,6 +203,7 @@ export const useUpsertScheduledWorkflow = () => {
       scheduleDay,
       scheduleMonth,
       scheduleDate,
+      scheduleDateRange,
       custom,
       ...rest
     } = data;
@@ -199,7 +220,7 @@ export const useUpsertScheduledWorkflow = () => {
         },
         annually: {
           month: dayjs(data?.scheduleMonth)
-            ?.format(DATE_TIME_FORMAT?.DDMMYYYY)
+            ?.format(DATE_TIME_FORMAT?.MMMM)
             ?.toLowerCase(),
           time: timeRange,
         },
@@ -221,6 +242,7 @@ export const useUpsertScheduledWorkflow = () => {
       scheduleMonth,
       time,
       scheduleDate,
+      scheduleDateRange,
       custom,
     };
   };
@@ -247,5 +269,11 @@ export const useUpsertScheduledWorkflow = () => {
     setValidation,
     saveWorkflowProgress,
     postWorkflowProgress,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    handleTestWorkflow,
+    testWorkflowProgress,
+    updatedWorkflowProcess,
+    testWorkflowResponse,
   };
 };

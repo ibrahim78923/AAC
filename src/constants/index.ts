@@ -11,6 +11,7 @@ export const TIME_FORMAT = {
   UI: 'h:mm A',
   API: 'h:mm A',
   TIME_VALIDATION: 'hh:mm:ss',
+  TH: 'HH:mm',
 };
 
 export const CALENDAR_FORMAT = {

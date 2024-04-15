@@ -62,7 +62,7 @@ export const requestedForFieldOptions = [
   'dateOfJoining',
 ];
 export const priority = ['HIGH', 'MEDIUM', 'LOW'];
-export const status = ['ACTIVE', 'INACTIVE'];
+export const status = ['open', 'pending', 'resolved', 'close'];
 
 export const statusOptions = ['open', 'pending', 'resolved', 'close'];
 

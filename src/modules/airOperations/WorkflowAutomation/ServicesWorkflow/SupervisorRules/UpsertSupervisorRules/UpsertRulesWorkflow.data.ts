@@ -115,7 +115,7 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
         )
       : null,
     module: SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? '',
+    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: any) => {
       return {
         name: group?.name ?? '',

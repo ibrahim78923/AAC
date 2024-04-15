@@ -24,6 +24,11 @@ export const UpsertScheduledWorkflow = () => {
     setValidation,
     saveWorkflowProgress,
     postWorkflowProgress,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    handleTestWorkflow,
+    testWorkflowProgress,
+    updatedWorkflowProcess,
   } = useUpsertScheduledWorkflow();
 
   if (isLoading || isFetching) return <Skeleton />;
@@ -37,8 +42,13 @@ export const UpsertScheduledWorkflow = () => {
         <Box mb={2}>
           <WorkflowHeader
             setValidation={setValidation}
-            saveWorkflowProgress={saveWorkflowProgress}
+            isWorkflowDrawer={isWorkflowDrawer}
+            setIsWorkflowDrawer={setIsWorkflowDrawer}
             postWorkflowProgress={postWorkflowProgress}
+            saveWorkflowProgress={saveWorkflowProgress}
+            handleTestWorkflow={handleTestWorkflow}
+            testWorkflowProgress={testWorkflowProgress}
+            updatedWorkflowProcess={updatedWorkflowProcess}
           />
         </Box>
         <Grid container spacing={2}>

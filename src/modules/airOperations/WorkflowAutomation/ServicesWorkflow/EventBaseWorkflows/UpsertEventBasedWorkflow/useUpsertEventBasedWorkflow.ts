@@ -21,6 +21,7 @@ export const useUpsertEventBasedWorkflow = () => {
   const [validation, setValidation] = useState(false);
   const [testWorkflow, setTestWorkflow] = useState(false);
   const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
+  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
   const typeData = {
     string: 'string',
     number: 'number',
@@ -64,7 +65,7 @@ export const useUpsertEventBasedWorkflow = () => {
 
   const eventMethod = useForm({
     defaultValues: eventBasedWorkflowValues(singleWorkflowData),
-    resolver: yupResolver(eventBasedWorkflowSchema),
+    resolver: validation ? yupResolver(eventBasedWorkflowSchema) : undefined,
   });
 
   const { reset, watch, register, handleSubmit, setValue, control } =
@@ -153,9 +154,10 @@ export const useUpsertEventBasedWorkflow = () => {
 
   const [postWorkflowTrigger, postWorkflowProgress] =
     usePostServicesWorkflowMutation();
-  const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
+  const [updateWorkflowTrigger, updatedWorkflowProcess] =
+    useUpdateWorkflowMutation();
   const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
-  const [postTestTrigger] = usePostTestWorkflowMutation();
+  const [postTestTrigger, testWorkflowProgress] = usePostTestWorkflowMutation();
 
   const handleTestWorkflow = async () => {
     setTestWorkflow(true);
@@ -164,8 +166,9 @@ export const useUpsertEventBasedWorkflow = () => {
   const handleApiCall = async (body: any) => {
     try {
       let successMessage = '';
-      if (testWorkflow) {
+      if (testWorkflow && validation) {
         const response = await postTestTrigger(body).unwrap();
+        setIsWorkflowDrawer(true);
         setTestWorkflowResponse(response);
         successMessage = 'Test Workflow Executed Successfully';
       } else {
@@ -182,22 +185,20 @@ export const useUpsertEventBasedWorkflow = () => {
       }
 
       successSnackbar(successMessage);
-      reset();
       if (!testWorkflow) {
+        reset();
         movePage();
       }
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
-
-  // console.log(testWorkflowResponse, 'response');
 
   const handleFormSubmit = async (data: any) => {
     const { options, ...rest } = data;
     const body = {
       ...rest,
-      events: [data?.events?.value],
+      events: data?.events?.value ? [data?.events?.value] : [],
       runType: data?.runType?.value,
       groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
       actions: data?.actions?.map((action: any) => mapAction(action, typeData)),
@@ -227,9 +228,14 @@ export const useUpsertEventBasedWorkflow = () => {
     isLoading,
     isFetching,
     setValidation,
+    validation,
     postWorkflowProgress,
     saveWorkflowProgress,
     handleTestWorkflow,
     testWorkflowResponse,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    updatedWorkflowProcess,
+    testWorkflowProgress,
   };
 };
