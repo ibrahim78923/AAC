@@ -7,8 +7,6 @@ import {
   CardActionArea,
   Box,
   Typography,
-  Button,
-  Avatar,
   CircularProgress,
 } from '@mui/material';
 
@@ -122,17 +120,6 @@ const ProductSuite = () => {
       >
         <Box>
           <CompanyLogoIcon />
-        </Box>
-        <Box sx={{ display: 'flex' }}>
-          <Button size="small" variant="contained">
-            Organization Admin Portal
-          </Button>
-          <Avatar
-            alt="Remy Sharp"
-            // src={AvatarImage?.src}
-            src={''}
-            sx={{ marginLeft: '20px' }}
-          ></Avatar>
         </Box>
       </Box>
       <Box sx={{ padding: '40px 0' }}>

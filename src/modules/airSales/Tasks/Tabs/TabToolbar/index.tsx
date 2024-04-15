@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
+  CircularProgress,
   MenuItem,
   Popover,
   Tooltip,
@@ -35,6 +36,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
+import ActivityAndPerformance from '../../ActivityAndPerformance';
 
 const TabToolbar = () => {
   const dispatch: any = useAppDispatch();
@@ -43,6 +45,9 @@ const TabToolbar = () => {
   const [deleteIsLoading, setDeleteIsLoading] = useState(false);
 
   const [isEditColumnOpen, setIsEditColumnOpen] = useState(false);
+
+  const [isOpenCollapsAndExpand, setIsOpenCollapsAndExpand] =
+    useState<any>(false);
 
   const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
@@ -58,12 +63,11 @@ const TabToolbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const selectedTaskIds = useAppSelector(
     (state: any) => state?.task?.selectedTaskIds,
   );
 
-  const { data: taskData } = useGetTaskDetailsQuery({
+  const { data: taskData, isLoading } = useGetTaskDetailsQuery({
     id: selectedTaskIds?.length === 1 && selectedTaskIds[0],
   });
 
@@ -113,7 +117,10 @@ const TabToolbar = () => {
       setIsCreateTaskDrawerOpen(true);
       handleClose();
     },
-    viewActivity: () => alert('viewActivity'),
+    viewActivity: () => {
+      setIsOpenCollapsAndExpand(true);
+      handleClose();
+    },
     changeStatus: () => {
       setIsChangeStatusModalOpen(true);
       handleClose();
@@ -194,11 +201,16 @@ const TabToolbar = () => {
                     item?.name === 'changeStatus');
                 return (
                   <MenuItem
-                    disabled={isAbleToEdit}
+                    disabled={isLoading ? true : isAbleToEdit}
                     onClick={menuFunctionsToRender[item?.name]}
                     key={item?.item}
                   >
-                    {item?.item}
+                    <>
+                      {item?.item}{' '}
+                      {item?.name === 'edit'
+                        ? isLoading && <CircularProgress size={15} />
+                        : ''}
+                    </>
                   </MenuItem>
                 );
               })}
@@ -300,6 +312,12 @@ const TabToolbar = () => {
             handleClose={() => setIsDeleteModalOpen(false)}
             handleSubmitBtn={deleteTaskHandler}
             loading={deleteIsLoading}
+          />
+
+          <ActivityAndPerformance
+            setIsOpenCollapsAndExpand={setIsOpenCollapsAndExpand}
+            isOpenCollapsAndExpand={isOpenCollapsAndExpand}
+            moduleId={taskData?.data?._id}
           />
         </Box>
       </Box>
