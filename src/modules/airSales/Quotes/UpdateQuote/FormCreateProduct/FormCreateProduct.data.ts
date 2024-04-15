@@ -81,10 +81,10 @@ export const addContactFields = (productCatagories: any) => [
   },
 
   {
-    id: 'isActive',
+    id: 'active',
     component: RHFCheckbox,
     componentProps: {
-      name: 'isActive',
+      name: 'active',
       label: 'Active Product',
     },
   },
@@ -103,7 +103,7 @@ export const addContactFields = (productCatagories: any) => [
     component: RHFTextField,
     componentProps: {
       name: 'purchasePrice',
-      label: 'Created Date',
+      label: 'Purchase Price',
       placeholder: '01/01/2022',
     },
   },

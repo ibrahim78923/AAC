@@ -5,7 +5,7 @@ const TAG = 'TICKETS_CONVERSATION_CANNED_RESPONSES';
 const TAG_ONE = 'TICKETS_CONVERSATION_ARTICLES';
 const TAG_TWO = 'TICKETS_CONVERSATION';
 
-export const conversationAPI = baseAPI?.injectEndpoints({
+export const conversationAPI: any = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getCannedResponses: builder?.query({
       query: (params: any) => ({
@@ -39,7 +39,7 @@ export const conversationAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG_ONE],
     }),
-    postConversation: builder.mutation({
+    postConversation: builder?.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.CONVERSATION_EMAIL}`,
         method: 'POST',
@@ -47,13 +47,29 @@ export const conversationAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG_TWO],
     }),
-    getConversation: builder.query({
+    getConversation: builder?.query({
       query: (params: any) => ({
         url: `${END_POINTS?.GET_CONVERSATION_EMAIL}`,
         method: 'GET',
         params,
       }),
       providesTags: [TAG_TWO],
+    }),
+    editTicketConversationNote: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.EDIT_TICKET_CONVERSATION_NOTE}`,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG_TWO],
+    }),
+    deleteTicketConversation: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.DELETE_TICKET_CONVERSATION}`,
+        method: 'DELETE',
+        params: apiDataParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG_TWO],
     }),
   }),
 });
@@ -67,4 +83,6 @@ export const {
   useGetConversationQuery,
   useGetCannedResponsesForConversationQuery,
   useGetAllArticlesForConversationQuery,
+  useEditTicketConversationNoteMutation,
+  useDeleteTicketConversationMutation,
 } = conversationAPI;

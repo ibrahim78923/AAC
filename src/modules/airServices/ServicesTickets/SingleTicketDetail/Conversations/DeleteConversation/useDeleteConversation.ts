@@ -1,26 +1,22 @@
-import { useDeleteDiscussionsOfTicketConversationMutation } from '@/services/airServices/tickets/single-ticket-details/conversation/discussion';
+import { useDeleteTicketConversationMutation } from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteConversation = (props: any) => {
   const { selectedConversationType, setIsDrawerOpen } = props;
 
-  const [
-    deleteDiscussionsOfTicketConversationTrigger,
-    deleteDiscussionsOfTicketConversationStatus,
-  ] = useDeleteDiscussionsOfTicketConversationMutation();
+  const [deleteTicketConversationTrigger, deleteTicketConversationStatus] =
+    useDeleteTicketConversationMutation();
 
   const deleteConversation = async () => {
     const deleteApiParameter = {
       queryParams: {
-        ticketId: selectedConversationType?.ticketId,
-        discussionId: selectedConversationType?._id,
+        // id: selectedConversationType?.ticketId,
+        id: selectedConversationType?._id,
       },
     };
     try {
       const response =
-        await deleteDiscussionsOfTicketConversationTrigger(
-          deleteApiParameter,
-        )?.unwrap();
+        await deleteTicketConversationTrigger(deleteApiParameter)?.unwrap();
 
       successSnackbar(response?.message);
       setIsDrawerOpen?.({});
@@ -34,7 +30,7 @@ export const useDeleteConversation = (props: any) => {
   };
 
   return {
-    deleteDiscussionsOfTicketConversationStatus,
+    deleteTicketConversationStatus,
     deleteConversation,
     closeDeleteModal,
   };

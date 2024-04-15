@@ -100,11 +100,11 @@ export const columns = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.total,
-      id: 'InvoiceAmount',
+      accessorFn: (row: any) => row?.netAmount,
+      id: 'netAmount',
       isSortable: true,
       header: 'Invoice Amount',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
+      cell: (info: any) => <>£ {info?.getValue()?.toFixed(2)}</>,
     },
     {
       accessorFn: (row: any) => row?.dueDate,

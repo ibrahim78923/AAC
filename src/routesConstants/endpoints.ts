@@ -10,6 +10,7 @@ export const END_POINTS = {
   WORKLOAD: `/workload/workload-management`,
   INVENTORY_EXPENSE: '/expense/add-expense',
   GET_INVENTORY_EXPENSE: '/expense/get-expense',
+  SUPER_ADMIN_ROLES: '/permissions/super-admin-roles',
   TICKET: '/ticket',
   TICKET_TIME_ENTRIES: '/ticket/add-time-entries',
   TICKET_UPDATE_TIME_ENTRIES: '/ticket/update-time-entries',
@@ -76,6 +77,7 @@ export const END_POINTS = {
   ACTIVITY_LOG: '/activity-log',
   DEAL_PIPELINE: '/deal-pipeline',
   GET_PRODUCTS_PERMISSIONS: '/permissions/permissions-by-product',
+  GET_PLAN_PRODUCTS_PERMISSIONS: '/plan/plan-product-permissions',
   VENDOR_LIST: '/vendors/get-vendors',
   POST_VENDOR: '/vendors/add-vendors',
   DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
@@ -349,6 +351,10 @@ export const END_POINTS = {
   ADD_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/add_discussion`,
   UPDATE_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/update-discussion`,
   DELETE_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/delete-discussion`,
+  EDIT_TICKET_CONVERSATION_NOTE: `/email/edit-note`,
+  DELETE_TICKET_CONVERSATION: `/email/delete-note`,
+  SEND_TICKET_APPROVAL_REMINDER: `/ticket/send-reminder-ticket-approval`,
+  SEND_PURCHASE_APPROVAL_REMINDER: `/assets/send-reminder-purchase-approval`,
 };
 
 export const superAdminBillingInvoices = {

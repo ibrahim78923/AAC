@@ -4,7 +4,7 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'TICKETS_APPROVALS';
 const TAG_FOUR = 'USERS_DROPDOWN';
 
-export const relatedTicketsAPI = baseAPI?.injectEndpoints({
+export const approvalsTicketsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getApprovalsTickets: builder?.query({
       query: (getApprovalsTicketsParameters: any) => ({
@@ -51,6 +51,13 @@ export const relatedTicketsAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FOUR],
     }),
+    postApprovalTicketsReminders: builder?.mutation({
+      query: () => ({
+        url: END_POINTS?.SEND_TICKET_APPROVAL_REMINDER,
+        method: 'POST',
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -61,4 +68,5 @@ export const {
   useLazyGetUsersDropdownQuery,
   useGetApprovalsTicketsQuery,
   useGetAllApprovalsTicketsQuery,
-} = relatedTicketsAPI;
+  usePostApprovalTicketsRemindersMutation,
+} = approvalsTicketsAPI;

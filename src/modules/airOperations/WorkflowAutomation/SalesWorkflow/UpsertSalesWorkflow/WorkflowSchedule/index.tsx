@@ -17,7 +17,6 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 
 export const WorkflowSchedule = (props: any) => {
-  const { register } = props;
   const { selectedSchedule, selectedScheduleRadio, selectedScheduleWeek } =
     useWorkflowSchedule(props);
 
@@ -25,9 +24,8 @@ export const WorkflowSchedule = (props: any) => {
     <>
       <Grid item lg={5.6} sm={8.6}>
         <RHFRadioGroup
-          name="scheduleWorkflow"
+          name="type"
           options={radioOptions}
-          inputRef={register}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -46,8 +44,8 @@ export const WorkflowSchedule = (props: any) => {
               label="Schedule"
               size="small"
               placeholder="Select"
+              required
               options={scheduleOptions}
-              inputRef={register}
               fullWidth
             />
           </Grid>
@@ -78,7 +76,6 @@ export const WorkflowSchedule = (props: any) => {
                 name="scheduleDay"
                 size="small"
                 label="Day of week"
-                inputRef={register}
                 options={weekOptions}
                 fullWidth
               />
@@ -87,7 +84,7 @@ export const WorkflowSchedule = (props: any) => {
           <Grid item xs={12} md={6.5}>
             {selectedSchedule === scheduleTypes?.customRange && (
               <RHFDateRangePicker
-                name="scheduleDateRange"
+                name="custom"
                 size="small"
                 label="Custom Range"
               />
@@ -100,12 +97,7 @@ export const WorkflowSchedule = (props: any) => {
               selectedSchedule === scheduleTypes?.customRange ||
               selectedSchedule === scheduleTypes?.annually ||
               selectedSchedule === scheduleTypes?.monthly) && (
-              <RHFTimePicker
-                name="scheduleTime"
-                label="Time"
-                size="small"
-                fullWidth
-              />
+              <RHFTimePicker name="time" label="Time" size="small" fullWidth />
             )}
           </Grid>
         </PermissionsGuard>

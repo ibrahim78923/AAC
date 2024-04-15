@@ -7,7 +7,6 @@ import {
   Grid,
   FormControl,
   TextField,
-  InputLabel,
   Select,
   MenuItem,
   SelectChangeEvent,
@@ -19,12 +18,14 @@ import { styles } from './ManagePlan.style';
 import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
 import { useUpdateSubscriptionMutation } from '@/services/orgAdmin/subscription-and-invoices';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, PLAN_CALCULATIONS } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import Link from 'next/link';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useAppSelector } from '@/redux/store';
+import usePlanCalculations from '../usePlanCalculations';
+import CustomLabel from '@/components/CustomLabel';
 
 const ManagePlan = () => {
   const router = useRouter();
@@ -38,6 +39,13 @@ const ManagePlan = () => {
 
   const [value, setValue] = useState<any>(defaultValues);
 
+  const [maxAddUsers, setMaxAddUsers] = useState(
+    parsedManageData?.additionalUsers,
+  );
+  const [maxAddStorage, setMaxAddStorage] = useState(
+    parsedManageData?.additionalStorage,
+  );
+
   const [updateSubscription] = useUpdateSubscriptionMutation({});
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -46,19 +54,32 @@ const ManagePlan = () => {
 
   const updateSubscriptionPayload = {
     planId: parsedManageData?.planId,
-    additionalUsers: parsedManageData?.additionalUsers,
-    additionalStorage: parsedManageData?.additionalStorage,
-    billingDate: dayjs(parsedManageData?.billingDate).format(DATE_FORMAT?.API),
+    additionalUsers: maxAddUsers,
+    additionalStorage: maxAddStorage,
+    billingDate: dayjs(parsedManageData?.billingDate)?.format(DATE_FORMAT?.API),
     status: parsedManageData?.status,
     //TODO:We will only send billing cycle monthly as discussed
     billingCycle: 'MONTHLY',
     planDiscount: 1,
   };
 
+  const planCalculations = usePlanCalculations({
+    additionalDefaultUser: parsedManageData?.additionalUsers,
+    additionalDefaultStorage: parsedManageData?.additionalStorage,
+    additionalUserPrice: parsedManageData?.planData?.additionalPerUserPrice,
+    additionalStoragePrice: parsedManageData?.planData?.additionalStoragePrice,
+    planDefaultPrice:
+      parsedManageData?.planData?.planPrice ||
+      parsedManageData?.planPrice ||
+      parsedManageData?.plans?.planPrice,
+    planDefaultDiscount: parsedManageData?.planDiscount,
+    PLAN_CALCULATIONS,
+  });
+
   const handleUpdateSubscription = async () => {
     try {
       await updateSubscription({
-        id: parsedManageData?._id,
+        id: parsedManageData?.orgPlanId,
         body: updateSubscriptionPayload,
       }).unwrap();
       enqueueSnackbar('Plan Updated Successfully', {
@@ -70,36 +91,6 @@ const ManagePlan = () => {
       });
     }
   };
-  const peruserPrice = parsedManageData?.planData?.additionalPerUserPrice || 0;
-  const perStoragePrice =
-    parsedManageData?.planData?.additionalStoragePrice || 0;
-
-  const planPrice =
-    parsedManageData?.planData?.planPrice ||
-    parsedManageData?.planPrice ||
-    parsedManageData?.plans?.planPrice ||
-    0;
-  const additionalUsers =
-    (parsedManageData?.additionalUsers || 0) *
-      (parsedManageData?.planData?.additionalPerUserPrice || 0) ||
-    parsedManageData?.plans?.additionalPerUserPrice ||
-    0;
-
-  const additionalStorage =
-    (parsedManageData?.additionalStorage || 0) *
-      parsedManageData?.planData?.additionalStoragePrice ||
-    parsedManageData?.plans?.additionalStoragePrice ||
-    0;
-  const planDiscount = parsedManageData?.planDiscount || 0;
-  const planTax = 0.2; // By default 20% discount
-  const convertedPlanDiscount = planDiscount / 100;
-  const totalCostBeforeDiscount =
-    planPrice + additionalUsers + additionalStorage;
-  const discountedPriceBeforeTax =
-    totalCostBeforeDiscount - totalCostBeforeDiscount * convertedPlanDiscount;
-  const discountApplied = totalCostBeforeDiscount - discountedPriceBeforeTax;
-  const taxAmount = discountedPriceBeforeTax * planTax;
-  const finalPrice = discountedPriceBeforeTax + taxAmount;
 
   useEffect(() => {
     if (Object.keys(parsedManageData)?.length === 0) {
@@ -156,12 +147,12 @@ const ManagePlan = () => {
               <Grid container spacing={3}>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
-                    <InputLabel id="billingCycle">Billing Cycle</InputLabel>
+                    <CustomLabel label={'Billing Cycle'} />
                     <Select
                       labelId="billingCycle"
                       value={value}
                       defaultValue="monthly"
-                      label="Age"
+                      // label="Age"
                       onChange={handleChange}
                     >
                       <MenuItem value={'paidMonthly'}>Paid Monthly</MenuItem>
@@ -176,19 +167,21 @@ const ManagePlan = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={4}>
+                  <CustomLabel label={'Max Additional User'} />
                   <TextField
-                    label="Max Additional User"
                     type="number"
                     fullWidth
-                    defaultValue={parsedManageData?.planData?.defaultUsers}
+                    defaultValue={maxAddUsers}
+                    onChange={(e: any) => setMaxAddUsers(e?.target?.value)}
                   />
                 </Grid>
                 <Grid item xs={4}>
+                  <CustomLabel label={'Additional Storage'} />
                   <TextField
-                    label="Additional Storage"
                     type="number"
                     fullWidth
-                    defaultValue={parsedManageData?.planData?.defaultStorage}
+                    defaultValue={maxAddStorage}
+                    onChange={(e: any) => setMaxAddStorage(e?.target?.value)}
                   />
                 </Grid>
               </Grid>
@@ -216,57 +209,76 @@ const ManagePlan = () => {
 
         <Box sx={styles?.divider}></Box>
 
-        <Typography variant="h6" sx={{ fontWeight: '600' }}>
-          {/* {parsedManageData?.planTypeName} */}
-        </Typography>
-
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>Plan Price</Box>
-          <Box sx={styles?.planTableTh}>£ {planPrice}</Box>
+          <Box sx={styles?.planTableTh}>£ {planCalculations?.planPrice}</Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
             {parsedManageData?.additionalUsers} Additional Users{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ {peruserPrice}/user)
+              (£ {planCalculations?.perUserPrice}/user)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ {additionalUsers || 0}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {(planCalculations?.additionalUsers || 0)?.toFixed(2)}
+          </Box>
         </Box>
+
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
             {parsedManageData?.additionalStorage} Additional Storage{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ {perStoragePrice}/GB)
+              (£ {planCalculations?.perStoragePrice}/GB)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ {additionalStorage || 0}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {(planCalculations?.additionalStorage || 0)?.toFixed(2)}
+          </Box>
         </Box>
+
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Discount{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              ({planDiscount} %)
+              ({planCalculations?.planDiscount} %)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>-£ {discountApplied || 0}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {(planCalculations?.discountApplied || 0)?.toFixed(2)}
+          </Box>
         </Box>
+
+        {/* <Box sx={styles?.planTableRow}>
+          <Box sx={styles?.planTableTdBold}>
+            Total{' '}
+            <Box component="span" sx={{ fontSize: '12px' }}>
+            </Box>
+          </Box>
+          <Box sx={styles?.planTableTh}>
+            £ {(planCalculations?.discountApplied || 0)?.toFixed(2)}
+          </Box>
+        </Box> */}
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Tax{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (Vat 20%)
+              ( 20%)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ {taxAmount || 0}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {(planCalculations?.taxAmount || 0).toFixed(2)}
+          </Box>
         </Box>
 
         <Box sx={styles?.divider}></Box>
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>Total Cost</Box>
-          <Box sx={styles?.planTableTh}>£ {finalPrice || 0}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {(planCalculations?.finalPrice || 0).toFixed(2)}
+          </Box>
         </Box>
       </Box>
       <PermissionsGuard

@@ -16,6 +16,7 @@ function UsageActivity(props: any) {
     height,
     left,
     top,
+    isFetching,
   } = useUsageActivity(props);
 
   return (
@@ -24,7 +25,7 @@ function UsageActivity(props: any) {
         <Typography sx={styles?.heading}>
           {usageActivityLabel?.heading}
         </Typography>
-        {isLoading ? (
+        {isLoading || isFetching ? (
           <Box p={2}>
             <Skeleton height={250} />
           </Box>

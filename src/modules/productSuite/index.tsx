@@ -31,6 +31,7 @@ import { getActivePermissionsSession, setActiveAccountSession } from '@/utils';
 // import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
 import { generateImage } from '@/utils/avatarUtils';
+// import { generateImage } from '@/utils/avatarUtils';
 
 const ProductSuite = () => {
   const theme = useTheme();

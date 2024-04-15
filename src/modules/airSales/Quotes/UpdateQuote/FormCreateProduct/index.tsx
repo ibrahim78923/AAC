@@ -55,7 +55,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
     formData?.append('category', values?.category);
     formData?.append('description', values?.description);
     formData?.append('unitPrice', values?.unitPrice);
-    formData?.append('isActive', values?.isActive);
+    formData?.append('isActive', values?.active);
     if (actionType === 'edit') {
       try {
         await updateProductById({ id: productId, body: formData })

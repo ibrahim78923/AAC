@@ -12,6 +12,7 @@ import * as Yup from 'yup';
 import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
 import { Box, IconButton } from '@mui/material';
 import { ArticleModalIcon, CannedResponseModalIcon } from '@/assets/icons';
+import { CustomTooltip } from '@/components/CustomTooltip';
 
 export const upsertConversationFormDefaultValues = (data?: any) => {
   return {
@@ -132,36 +133,40 @@ export const upsertConversationFormFieldsDynamic = (
         alignItems={'center'}
         justifyContent={'flex-end'}
       >
-        <IconButton
-          disabled={
-            selectedConversationType?.conversationType ===
-            TICKET_CONVERSATIONS_TYPE?.FORWARD
-          }
-          onClick={() =>
-            setSelectedResponseType?.({
-              type: TICKET_CONVERSATIONS_RESPONSE_TYPE?.CANNED_RESPONSES,
-              isOpen: true,
-            })
-          }
-          sx={{ cursor: 'pointer' }}
-        >
-          <CannedResponseModalIcon />
-        </IconButton>
-        <IconButton
-          disabled={
-            selectedConversationType?.conversationType ===
-            TICKET_CONVERSATIONS_TYPE?.FORWARD
-          }
-          onClick={() =>
-            setSelectedResponseType?.({
-              type: TICKET_CONVERSATIONS_RESPONSE_TYPE?.ARTICLE,
-              isOpen: true,
-            })
-          }
-          sx={{ cursor: 'pointer' }}
-        >
-          <ArticleModalIcon />
-        </IconButton>
+        <CustomTooltip title="add canned response">
+          <IconButton
+            disabled={
+              selectedConversationType?.conversationType ===
+              TICKET_CONVERSATIONS_TYPE?.FORWARD
+            }
+            onClick={() =>
+              setSelectedResponseType?.({
+                type: TICKET_CONVERSATIONS_RESPONSE_TYPE?.CANNED_RESPONSES,
+                isOpen: true,
+              })
+            }
+            sx={{ cursor: 'pointer' }}
+          >
+            <CannedResponseModalIcon />
+          </IconButton>
+        </CustomTooltip>
+        <CustomTooltip title="add article">
+          <IconButton
+            disabled={
+              selectedConversationType?.conversationType ===
+              TICKET_CONVERSATIONS_TYPE?.FORWARD
+            }
+            onClick={() =>
+              setSelectedResponseType?.({
+                type: TICKET_CONVERSATIONS_RESPONSE_TYPE?.ARTICLE,
+                isOpen: true,
+              })
+            }
+            sx={{ cursor: 'pointer' }}
+          >
+            <ArticleModalIcon />
+          </IconButton>
+        </CustomTooltip>
       </Box>
     ),
   },

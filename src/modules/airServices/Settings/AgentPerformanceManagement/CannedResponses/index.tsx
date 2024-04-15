@@ -154,12 +154,13 @@ export const CannedResponses = () => {
             </Grid>
           ))}
         </PermissionsGuard>
-        {lazyGetCannedResponsesStatus?.isLoading &&
-          Array?.from({ length: 5 })?.map((response: any) => (
-            <Grid item lg={4} sm={6} xs={12} key={response?._id}>
-              <Skeleton height="12rem" variant="rectangular" />
-            </Grid>
-          ))}
+        {lazyGetCannedResponsesStatus?.isLoading ||
+          (lazyGetCannedResponsesStatus?.isFetching &&
+            Array?.from({ length: 5 })?.map((response: any) => (
+              <Grid item lg={4} sm={6} xs={12} key={response?._id}>
+                <Skeleton height="12rem" variant="rectangular" />
+              </Grid>
+            )))}
         {cannedResponsesMetaData && cannedResponsesMetaData?.total > 5 && (
           <Grid item xs={12}>
             <CustomPagination

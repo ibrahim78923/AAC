@@ -201,8 +201,7 @@ const ChoosePlan = () => {
                           </Typography>
                           {choosePlan?.planType?.name === 'Free' ? null : (
                             <>
-                              {parsedManageData?.planData?.planTypeId ===
-                              choosePlan?.planType?._id ? (
+                              {parsedManageData?.planId === choosePlan?._id ? (
                                 <PermissionsGuard
                                   permissions={[
                                     ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,

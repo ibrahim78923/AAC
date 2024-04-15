@@ -458,3 +458,7 @@ export const TICKET_CONVERSATIONS_CONTENT_TYPE = {
   LINK: 'LINK',
   CONTENT: 'CONTENT',
 };
+export const WORKFLOW_CONDITION_TYPE = {
+  AND: 'AND',
+  OR: 'OR',
+};

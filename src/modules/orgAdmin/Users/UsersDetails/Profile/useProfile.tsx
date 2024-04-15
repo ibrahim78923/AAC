@@ -74,50 +74,35 @@ const useProfile = (profileParams: any) => {
   }, [profileData]);
 
   const onSubmit = async (values: any) => {
-    if (!isToggled) {
-      values.address = {
-        composite: values?.address,
-      };
-    } else {
-      values.address = {
+    const bodyVals: any = {
+      firstName: values?.firstName,
+      lastName: values?.lastName,
+      postCode: values?.postCode,
+      phoneNumber: values?.phoneNumber,
+      jobTitle: values?.jobTitle,
+      facebookUrl: values?.facebookURl,
+      twitterUrl: values?.twitterUrl,
+    };
+
+    if (isToggled) {
+      // If isToggled is true, construct the address object with individual fields
+      bodyVals.address = {
         flatNumber: values?.flat,
         buildingName: values?.buildingName,
         buildingNumber: values?.buildingNumber,
         streetName: values?.streetName,
         city: values?.city,
         country: values?.country,
+      };
+    } else {
+      // If isToggled is false, use a composite address value
+      bodyVals.address = {
         composite: values?.address,
       };
     }
 
-    const keysToDelete = [
-      '_id',
-      'products',
-      'role',
-      'organization',
-      'createdAt',
-      'createdBy',
-      'updatedAt',
-      'status',
-      'flat',
-      'compositeAddress',
-      'buildingNumber',
-      'buildingName',
-      'city',
-      'country',
-      'streetName',
-      'linkedInUrl',
-      'departmentId',
-      'avatar',
-      'email',
-    ];
-
-    for (const key of keysToDelete) {
-      delete values[key];
-    }
-
     try {
-      await updateUsers({ id: profileData?._id, body: values })?.unwrap();
+      await updateUsers({ id: profileData?._id, body: bodyVals })?.unwrap();
       enqueueSnackbar('User updated successfully', {
         variant: 'success',
       });

@@ -1,10 +1,9 @@
 import Image from 'next/image';
-import { Grid, Typography, Box } from '@mui/material';
-
-import { ViewDetailBackArrowIcon, ViewDetailCallIcon } from '@/assets/icons';
+import { Typography, Box } from '@mui/material';
+import { ViewDetailCallIcon } from '@/assets/icons';
 import { styles } from './Header.style';
 import { SmsImage } from '@/assets/images';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES, Quick_Links_Routes } from '@/constants';
 import { NewEmailDrawer } from './NewEmailDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
@@ -17,12 +16,12 @@ import {
 } from '@/constants/permission-keys';
 import { TicketsDelete } from '../../TicketsDelete';
 import { truncateText } from '@/utils/avatarUtils';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 const Header = () => {
   const {
     data,
     router,
-
     setIsDrawerOpen,
     isDrawerOpen,
     ticketsApprovalDropdown,
@@ -35,51 +34,35 @@ const Header = () => {
 
   return (
     <>
-      <Grid
-        container
-        spacing={2}
+      <Box
         justifyContent={'space-between'}
         display={'flex'}
-        flexDirection={'row'}
-        maxWidth={'100%'}
+        alignItems={'center'}
+        gap={1}
+        flexWrap={'wrap'}
       >
-        <Grid
-          item
-          sx={{
-            display: 'flex',
-            gap: 1,
-          }}
-        >
-          <Box
-            onClick={() => router?.push(AIR_SERVICES?.TICKETS)}
-            sx={{ cursor: 'pointer' }}
-          >
-            <ViewDetailBackArrowIcon />
-          </Box>
-          <Typography variant="h6" color="primary.main">
-            {data?.data?.[0]?.ticketIdNumber ?? '---'}
-          </Typography>
-          <Typography variant="h6" component="span">
-            {truncateText(data?.data?.[0]?.subject)}
-          </Typography>
-        </Grid>
-        <Grid item sx={{ display: 'flex', cursor: 'pointer' }}>
-          {/* TODO: comment for now. will be used if third party api is provided */}
-          {/* <PermissionsGuard
-            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING]}
-          >
-            <Box
-              sx={styles?.iconBoxStyling}
-              onClick={() => setDrawerOpen(true)}
-            >
-              <ViewDetailMeetingIcon />
+        <PageTitledHeader
+          canMovedBack
+          moveBack={() => router?.push(AIR_SERVICES?.TICKETS)}
+          title={
+            <Box display={'flex'} alignItems={'center'} gap={2}>
+              <Typography variant="h6" color="primary.main">
+                {data?.data?.[0]?.ticketIdNumber ?? '---'}
+              </Typography>
+              <Typography variant="h6" component="span">
+                {truncateText(data?.data?.[0]?.subject)}
+              </Typography>
             </Box>
-          </PermissionsGuard> */}
-          {/* <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} /> */}
+          }
+        />
+        <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           <PermissionsGuard
             permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CALLS]}
           >
-            <Box sx={styles?.iconBoxStyling}>
+            <Box
+              sx={styles?.iconBoxStyling}
+              onClick={() => router?.push(Quick_Links_Routes?.CALLING)}
+            >
               <ViewDetailCallIcon />
             </Box>
           </PermissionsGuard>
@@ -88,47 +71,46 @@ const Header = () => {
           >
             <Box
               sx={styles?.iconBoxStyling}
-              marginRight={'15px !important'}
               onClick={() => setIsDrawerOpen(true)}
             >
               <Image src={SmsImage} width={24} height={24} alt="Badge" />
             </Box>
           </PermissionsGuard>
-          {isDrawerOpen && (
-            <NewEmailDrawer
-              isDrawerOpen={isDrawerOpen}
-              setIsDrawerOpen={setIsDrawerOpen}
-            />
-          )}
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS,
             ]}
           >
-            <Box sx={styles?.iconKabaMenuStyle}>
+            <Box>
               <SingleDropdownButton
                 dropdownOptions={ticketsApprovalDropdown}
                 dropdownName={<MoreVert />}
                 hasEndIcon={false}
                 btnVariant="text"
               />
-              {isPrintDrawerOpen && (
-                <PrintDrawer
-                  isPrintDrawerOpen={isPrintDrawerOpen}
-                  setISPrintDrawerOpen={setIsPrintDrawerOpen}
-                  data={data}
-                />
-              )}
             </Box>
           </PermissionsGuard>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
       {deleteModalOpen && (
         <TicketsDelete
           deleteModalOpen={deleteModalOpen}
           setDeleteModalOpen={setDeleteModalOpen}
           selectedTicketList={[ticketId]}
           isMoveBack
+        />
+      )}
+      {isPrintDrawerOpen && (
+        <PrintDrawer
+          isPrintDrawerOpen={isPrintDrawerOpen}
+          setISPrintDrawerOpen={setIsPrintDrawerOpen}
+          data={data}
+        />
+      )}
+      {isDrawerOpen && (
+        <NewEmailDrawer
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
         />
       )}
     </>

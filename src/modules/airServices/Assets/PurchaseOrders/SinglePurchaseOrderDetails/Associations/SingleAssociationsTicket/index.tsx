@@ -54,11 +54,12 @@ export const SingleAssociationsTicket = (props: any) => {
       <AlertModals
         open={disassociateModal}
         handleClose={() => setDisassociateModal(false)}
-        type="Dissociate"
-        message="You are about to dissociate this service "
+        type="Disassociate"
+        message="You are about to disassociate this service "
         submitBtnText="Disassociate"
         handleSubmitBtn={handleSubmitDissociate}
         loading={deleteAssociationStatus?.isLoading}
+        disableCancelBtn={deleteAssociationStatus?.isLoading}
       />
     </>
   );

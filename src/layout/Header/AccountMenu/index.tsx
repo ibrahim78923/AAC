@@ -23,6 +23,7 @@ import {
 import { getRoutes } from '@/layout/Layout.data';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { generateImage } from '@/utils/avatarUtils';
 
 const role = 'sales';
 const AccountMenu = () => {
@@ -148,8 +149,10 @@ const AccountMenu = () => {
                     <Box sx={styles?.mainBox(item, role, theme)}>
                       <Box style={styles?.cartBox(item, role, theme)}>
                         <Image
-                          src={item?.icon}
-                          alt="icon"
+                          src={generateImage(item?.logo?.url)}
+                          width={25}
+                          height={25}
+                          alt="product"
                           style={{
                             filter:
                               item?.role === role

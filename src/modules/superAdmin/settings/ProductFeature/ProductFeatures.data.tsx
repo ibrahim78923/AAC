@@ -19,7 +19,6 @@ export const productFeaturesValidationSchema = Yup.object().shape({
     .max(10, 'Field is Required')
     .required('Field is Required'),
   name: Yup.string().trim().required('Field is Required'),
-  description: Yup.string().trim().required('Field is Required'),
 });
 export const addProductFeatureFormDefaultValues = {
   productIds: [],
@@ -42,6 +41,7 @@ export const addProductFeatureFormData = () => {
         label: 'Product',
         isCheckBox: true,
         options: productOptions,
+        required: true,
       },
     },
     {
@@ -49,6 +49,7 @@ export const addProductFeatureFormData = () => {
         name: 'name',
         label: 'Product Feature Name',
         fullWidth: true,
+        required: true,
       },
       component: RHFTextField,
       md: 12,
@@ -58,6 +59,7 @@ export const addProductFeatureFormData = () => {
       component: RHFTextField,
       componentProps: {
         name: 'description',
+        label: 'Description',
         fullWidth: true,
         placeholder: 'Description',
         multiline: true,

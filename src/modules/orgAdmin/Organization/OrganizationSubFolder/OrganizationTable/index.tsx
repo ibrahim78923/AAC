@@ -324,11 +324,9 @@ const OrganizationTable = () => {
                 onClick={handleClick}
                 disabled={isGetRowValues?.length === 0}
                 className="small"
+                endIcon={<ArrowDropDownIcon />}
               >
                 Action
-                <ArrowDropDownIcon
-                  sx={{ color: `${theme?.palette?.custom?.main}` }}
-                />
               </Button>
               <Menu
                 id="basic-menu"

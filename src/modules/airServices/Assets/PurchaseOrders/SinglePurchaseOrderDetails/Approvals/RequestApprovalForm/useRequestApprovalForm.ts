@@ -5,11 +5,12 @@ import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { usePostRequestApprovalMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+
 export const useRequestApprovalForm = (props: any) => {
   const { openDialog, setOpenDialog } = props;
   const apiQueryAgents = useLazyGetAgentsQuery();
   const searchParams = useSearchParams();
-  const purchaseOrderId: any = searchParams.get('purchaseOrderId');
+  const purchaseOrderId: any = searchParams?.get('purchaseOrderId');
   const [postRequestApprovalTrigger, postRequestApprovalStatus] =
     usePostRequestApprovalMutation();
   const methods: any = useForm({
@@ -27,9 +28,9 @@ export const useRequestApprovalForm = (props: any) => {
       await postRequestApprovalTrigger(params)?.unwrap();
       successSnackbar('Approval Requested Successfully!');
       setOpenDialog(false);
-      reset(defaultValues);
+      reset();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   return {
