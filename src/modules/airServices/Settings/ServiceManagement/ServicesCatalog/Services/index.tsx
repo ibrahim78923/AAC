@@ -10,12 +10,10 @@ import {
 } from '@mui/material';
 import React from 'react';
 import FolderIcon from '@mui/icons-material/Folder';
-
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
-
 import Image from 'next/image';
 import { CirclePlusIcon } from '@/assets/icons';
 import { AddServiceCatalog } from './AddServiceCatalog';
@@ -27,6 +25,8 @@ import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { generateImage } from '@/utils/avatarUtils';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+
 const Services = () => {
   const router = useRouter();
   const theme = useTheme();
@@ -43,13 +43,205 @@ const Services = () => {
     setPage,
     handlePageChange,
     paginationData,
+    categoriesIsLoading,
+    categoriesIsFetching,
+    isLoading,
+    isFetching,
   } = useServices();
 
   return (
-    <>
+    <PermissionsGuard
+      permissions={[
+        AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.VIEW_SERVICES_CATALOG,
+      ]}
+    >
+      <Box
+        display={'flex'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        flexWrap={'wrap'}
+        gap={2}
+        mb={4}
+      >
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          flexWrap={'wrap'}
+          gap={1}
+          sx={{ cursor: 'pointer' }}
+        >
+          <ArrowBackIcon
+            onClick={() => {
+              const isMatch = categories?.some(
+                (service: any) =>
+                  service?.categoryName === router?.query?.categoryName,
+              );
+
+              if (isMatch) {
+                router.push(AIR_SERVICES?.SERVICE_CATALOG);
+              } else {
+                router.push(AIR_SERVICES?.SERVICE_MANAGEMENT);
+              }
+            }}
+          />
+
+          <Typography variant="h3">Service Catalog</Typography>
+          {router?.query?.categoryName && (
+            <>
+              <ArrowForwardIosIcon fontSize="small" />
+              <Typography variant="h3">
+                {router?.query?.categoryName}
+              </Typography>
+            </>
+          )}
+        </Box>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'}>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_NEW_SERVICE,
+            ]}
+          >
+            <Button
+              variant="contained"
+              startIcon={<CirclePlusIcon />}
+              onClick={() => router.push(AIR_SERVICES?.UPSERT_SERVICE)}
+            >
+              Add Service
+            </Button>
+          </PermissionsGuard>
+        </Box>
+      </Box>
+      <Divider />
+
+      {categoriesIsLoading || categoriesIsFetching ? (
+        <SkeletonForm />
+      ) : (
+        <>
+          <Grid container spacing={2} mb={4} mt={2}>
+            <Grid item xs={12} md={6} lg={3}>
+              <Box
+                maxHeight={'300px'}
+                minHeight={'300px'}
+                mt={2}
+                borderRadius={2}
+                border={`1px solid ${theme?.palette?.primary?.main}`}
+                alignItems={'center'}
+                display={'flex'}
+                justifyContent={'center'}
+                sx={{ cursor: 'pointer' }}
+                onClick={handleClickOpen}
+              >
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_SERVICES_CATEGORY,
+                  ]}
+                >
+                  <Box
+                    alignItems={'center'}
+                    display={'flex'}
+                    justifyContent={'center'}
+                    flexDirection={'row'}
+                    onClick={handleClickOpen}
+                  >
+                    <Image
+                      src={CatalogAddImage}
+                      height={64}
+                      width={64}
+                      alt={'catalogAdd'}
+                    />
+                  </Box>
+                </PermissionsGuard>
+              </Box>
+              <AddServiceCatalog open={open} setOpen={setOpen} />
+            </Grid>
+            {categories?.map((service: any) => (
+              <Grid item xs={12} md={6} lg={3} key={service?._id}>
+                <Box
+                  maxHeight={'300px'}
+                  minHeight={'300px'}
+                  overflow={'scroll'}
+                  onClick={() => {
+                    router.push({
+                      pathname: AIR_SERVICES?.SERVICE_CATALOG_SETTINGS,
+                      query: {
+                        categoryId: service?._id,
+                        categoryName: service?.categoryName,
+                      },
+                    });
+                  }}
+                  borderRadius={2}
+                  textAlign="center"
+                  mt={2}
+                  sx={{ cursor: 'pointer' }}
+                  bgcolor={
+                    router?.query?.categoryId === service?._id
+                      ? `${theme?.palette?.primary?.light}`
+                      : ''
+                  }
+                  border={
+                    router?.query?.categoryId === service?._id
+                      ? `1px solid ${theme?.palette?.primary?.main}`
+                      : `1px solid ${theme?.palette?.primary?.light}`
+                  }
+                >
+                  <Box
+                    alignItems={'center'}
+                    display={'flex'}
+                    justifyContent={'center'}
+                    flexDirection={'column'}
+                    mt={6}
+                    mb={8}
+                  >
+                    <Box
+                      alignItems={'center'}
+                      display={'flex'}
+                      justifyContent={'center'}
+                      flexDirection={'row'}
+                      mt={2}
+                    >
+                      <FolderIcon color="primary" fontSize="large" />
+                    </Box>
+                    <Typography variant="h5" mt={1}>
+                      {service?.categoryName}
+                    </Typography>
+                    <Box
+                      alignItems={'center'}
+                      display={'flex'}
+                      justifyContent={'center'}
+                    >
+                      <Typography
+                        variant="body2"
+                        align="center"
+                        gutterBottom
+                        mt={1}
+                        mb={2}
+                        ml={2}
+                        mr={2}
+                      >
+                        {service?.description}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+
+          <CustomPagination
+            count={paginationData?.pages}
+            pageLimit={paginationData?.limit}
+            currentPage={paginationData?.page}
+            totalRecords={paginationData?.total}
+            onPageChange={handlePageChange}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </>
+      )}
+
       <PermissionsGuard
         permissions={[
-          AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.VIEW_SERVICES_CATALOG,
+          AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.VIEW_DETAILS_OF_CATALOG_SERVICE,
         ]}
       >
         <Box
@@ -58,235 +250,55 @@ const Services = () => {
           alignItems={'center'}
           flexWrap={'wrap'}
           gap={2}
-          mb={4}
         >
           <Box
             display={'flex'}
             alignItems={'center'}
             flexWrap={'wrap'}
-            gap={1}
-            sx={{ cursor: 'pointer' }}
+            bgcolor={'grey.400'}
+            borderRadius={2}
+            width={300}
+            justifyContent={'space-between'}
+            gap={2}
+            mt={6}
           >
-            <ArrowBackIcon
-              onClick={() => {
-                const isMatch = categories?.some(
-                  (service: any) =>
-                    service?.categoryName === router?.query?.categoryName,
-                );
-
-                if (isMatch) {
-                  router.push(AIR_SERVICES?.SERVICE_CATALOG);
-                } else {
-                  router.push(AIR_SERVICES?.SERVICE_MANAGEMENT);
+            <Box display={'flex'} alignItems={'center'} gap={1}>
+              <Checkbox
+                checked={
+                  selectedCheckboxes?.length !== 0 &&
+                  results?.length === selectedCheckboxes?.length
                 }
-              }}
-            />
+                onChange={(e: any) => {
+                  e?.target?.checked
+                    ? setSelectedCheckboxes(
+                        results?.map((result: any) => result?._id),
+                      )
+                    : setSelectedCheckboxes([]);
+                }}
+                color="primary"
+                name="_id"
+              />
 
-            <Typography variant="h3">Service Catalog</Typography>
-            {router?.query?.categoryName && (
-              <>
-                <ArrowForwardIosIcon fontSize="small" />
-                <Typography variant="h3">
-                  {router?.query?.categoryName}
-                </Typography>
-              </>
+              <Typography variant="h6"> Select All</Typography>
+            </Box>
+          </Box>
+          <Box mt={6}>
+            {selectedCheckboxes && (
+              <ServicesAction
+                selectedCheckboxes={selectedCheckboxes}
+                setSelectedCheckboxes={setSelectedCheckboxes}
+                isDisabled={!isAnyCheckboxSelected()}
+              />
             )}
           </Box>
-          <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'}>
-            <PermissionsGuard
-              permissions={[
-                AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_NEW_SERVICE,
-              ]}
-            >
-              <Button
-                variant="contained"
-                startIcon={<CirclePlusIcon />}
-                onClick={() => router.push(AIR_SERVICES?.UPSERT_SERVICE)}
-              >
-                Add Service
-              </Button>
-            </PermissionsGuard>
-          </Box>
         </Box>
-        <Divider />
-
-        <Grid container spacing={2} mb={4} mt={2}>
-          <Grid item xs={12} md={6} lg={3}>
-            <Box
-              maxHeight={'300px'}
-              minHeight={'300px'}
-              mt={2}
-              borderRadius={2}
-              border={`1px solid ${theme?.palette?.primary?.main}`}
-              alignItems={'center'}
-              display={'flex'}
-              justifyContent={'center'}
-              sx={{ cursor: 'pointer' }}
-              onClick={handleClickOpen}
-            >
-              <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_SERVICES_CATEGORY,
-                ]}
-              >
-                <Box
-                  alignItems={'center'}
-                  display={'flex'}
-                  justifyContent={'center'}
-                  flexDirection={'row'}
-                  onClick={handleClickOpen}
-                >
-                  <Image
-                    src={CatalogAddImage}
-                    height={64}
-                    width={64}
-                    alt={'catalogAdd'}
-                  />
-                </Box>
-              </PermissionsGuard>
-            </Box>
-            <AddServiceCatalog open={open} setOpen={setOpen} />
-          </Grid>
-          {categories?.map((service: any) => (
-            <Grid item xs={12} md={6} lg={3} key={service?.id}>
-              <Box
-                maxHeight={'300px'}
-                minHeight={'300px'}
-                overflow={'scroll'}
-                onClick={() => {
-                  router.push({
-                    pathname: AIR_SERVICES?.SERVICE_CATALOG_SETTINGS,
-                    query: {
-                      categoryId: service?._id,
-                      categoryName: service?.categoryName,
-                    },
-                  });
-                }}
-                borderRadius={2}
-                textAlign="center"
-                mt={2}
-                sx={{ cursor: 'pointer' }}
-                bgcolor={
-                  router?.query?.categoryId === service?._id
-                    ? `${theme?.palette?.primary?.light}`
-                    : ''
-                }
-                border={
-                  router?.query?.categoryId === service?._id
-                    ? `1px solid ${theme?.palette?.primary?.main}`
-                    : `1px solid ${theme?.palette?.primary?.light}`
-                }
-              >
-                <Box
-                  alignItems={'center'}
-                  display={'flex'}
-                  justifyContent={'center'}
-                  flexDirection={'column'}
-                  mt={6}
-                  mb={8}
-                >
-                  <Box
-                    alignItems={'center'}
-                    display={'flex'}
-                    justifyContent={'center'}
-                    flexDirection={'row'}
-                    mt={2}
-                  >
-                    <FolderIcon color="primary" fontSize="large" />
-                  </Box>
-                  <Typography variant="h5" mt={1}>
-                    {service?.categoryName}
-                  </Typography>
-                  <Box
-                    alignItems={'center'}
-                    display={'flex'}
-                    justifyContent={'center'}
-                  >
-                    <Typography
-                      variant="body2"
-                      align="center"
-                      gutterBottom
-                      mt={1}
-                      mb={2}
-                      ml={2}
-                      mr={2}
-                    >
-                      {service?.description}
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-
-        <CustomPagination
-          count={paginationData?.pages}
-          pageLimit={paginationData?.limit}
-          currentPage={paginationData?.page}
-          totalRecords={paginationData?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-
-        <PermissionsGuard
-          permissions={[
-            AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.VIEW_DETAILS_OF_CATALOG_SERVICE,
-          ]}
-        >
-          <Box
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            flexWrap={'wrap'}
-            gap={2}
-          >
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              flexWrap={'wrap'}
-              bgcolor={'grey.400'}
-              borderRadius={2}
-              width={300}
-              justifyContent={'space-between'}
-              gap={2}
-              mt={6}
-            >
-              <Box display={'flex'} alignItems={'center'} gap={1}>
-                <Checkbox
-                  checked={
-                    selectedCheckboxes?.length !== 0 &&
-                    results?.length === selectedCheckboxes?.length
-                  }
-                  onChange={(e: any) => {
-                    e?.target?.checked
-                      ? setSelectedCheckboxes(
-                          results?.map((result: any) => result?._id),
-                        )
-                      : setSelectedCheckboxes([]);
-                  }}
-                  color="primary"
-                  name="_id"
-                />
-
-                <Typography variant="h6"> Select All</Typography>
-              </Box>
-            </Box>
-            <Box mt={6}>
-              {selectedCheckboxes && (
-                <ServicesAction
-                  selectedCheckboxes={selectedCheckboxes}
-                  setSelectedCheckboxes={setSelectedCheckboxes}
-                  isDisabled={!isAnyCheckboxSelected()}
-                />
-              )}
-            </Box>
-          </Box>
+        {isLoading || isFetching ? (
+          <SkeletonForm />
+        ) : (
           <Grid container spacing={2} mt={2} mb={8}>
             {!!results?.length ? (
               results?.map((result: any) => (
-                <Grid item xs={12} md={6} lg={4} key={result?.id}>
+                <Grid item xs={12} md={6} lg={4} key={result?._id}>
                   <Box
                     maxHeight={'300px'}
                     minHeight={'300px'}
@@ -339,7 +351,7 @@ const Services = () => {
                         mr={1}
                         mt={2}
                       >
-                        {result?.itemName ?? '--'}
+                        {result?.itemName ?? '-'}
                       </Typography>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
@@ -350,8 +362,8 @@ const Services = () => {
                         ml={6.5}
                         mr={1}
                       >
-                        cost
-                        {(result?.cost && `: ${result?.cost}`) ?? '--'}
+                        Cost:
+                        {result?.cost ?? '-'}
                       </Typography>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
@@ -362,9 +374,8 @@ const Services = () => {
                         mr={1}
                         ml={6.5}
                       >
-                        EstimatedDelivery
-                        {result?.estimatedDelivery &&
-                          `: ${result?.estimatedDelivery}`}
+                        Estimated Delivery:
+                        {result?.estimatedDelivery ?? '-'}
                       </Typography>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
@@ -375,9 +386,8 @@ const Services = () => {
                         mr={1}
                         ml={6.5}
                       >
-                        Description
-                        {(result?.description && `: ${result?.description}`) ??
-                          '--'}
+                        Description:
+                        {result?.description ?? '-'}
                       </Typography>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
@@ -389,8 +399,8 @@ const Services = () => {
                           mr={1}
                           ml={6.5}
                         >
-                          Status
-                          {result?.status && `: ${result?.status}`}
+                          Status:
+                          {result?.status}
                         </Typography>
                       )}
                     </Box>
@@ -398,17 +408,15 @@ const Services = () => {
                 </Grid>
               ))
             ) : (
-              <>
-                <NoData
-                  image={NoAssociationFoundImage}
-                  message={'No Data Found'}
-                />
-              </>
+              <NoData
+                image={NoAssociationFoundImage}
+                message={'No Data Found'}
+              />
             )}
           </Grid>
-        </PermissionsGuard>
+        )}
       </PermissionsGuard>
-    </>
+    </PermissionsGuard>
   );
 };
 

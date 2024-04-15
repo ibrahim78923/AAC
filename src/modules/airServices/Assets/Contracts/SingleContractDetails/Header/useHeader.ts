@@ -1,4 +1,5 @@
 import { CONTRACT_STATUS } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
 import {
   useGetSingleContractByIdQuery,
   usePatchContractApproveMutation,
@@ -12,6 +13,8 @@ export const useHeader = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
+  const { user }: any = useAuth();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -19,7 +22,9 @@ export const useHeader = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const { contractId } = router?.query;
+
   const [patchContractSubmitApprovalTrigger] =
     usePatchContractSubmitForApprovalMutation();
   const [patchContractApproveTrigger] = usePatchContractApproveMutation();
@@ -35,6 +40,7 @@ export const useHeader = () => {
       refetchOnMountOrArgChange: true,
       skip: !!!contractId,
     });
+
   const handleSubmitForApproval = async () => {
     try {
       await patchContractSubmitApprovalTrigger({
@@ -46,6 +52,7 @@ export const useHeader = () => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   const handleSubmitForApprove = async () => {
     const upDateApprovesStatusData = { ...data };
     const upDateApproveStatusData = { ...upDateApprovesStatusData };
@@ -80,5 +87,6 @@ export const useHeader = () => {
     handleSubmitForApproval,
     handleSubmitForApprove,
     handleClickOpen,
+    user,
   };
 };

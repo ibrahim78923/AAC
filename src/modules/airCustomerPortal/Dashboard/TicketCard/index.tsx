@@ -58,7 +58,7 @@ export const TicketCard = (props: any) => {
         }}
       />
       <Typography variant="body2" pt={1} color="blue.main">
-        Tickets Done: {`${data?.count}/${totalCount}`}
+        Tickets Status: {`${data?.count}/${totalCount}`}
       </Typography>
     </Box>
   );

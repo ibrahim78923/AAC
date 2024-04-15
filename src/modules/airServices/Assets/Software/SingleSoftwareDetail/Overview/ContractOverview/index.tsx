@@ -5,15 +5,22 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useContractOverview } from './useContractOverview';
 
 function ContractOverview(props: any) {
-  const { data, isLoading, isError, contractOverviewLabel, formatDate, theme } =
-    useContractOverview(props);
+  const {
+    data,
+    isLoading,
+    isError,
+    contractOverviewLabel,
+    formatDate,
+    theme,
+    isFetching,
+  } = useContractOverview(props);
   return (
     <>
       <Box sx={styles?.mainBox(theme)}>
         <Typography sx={styles?.heading}>
           {contractOverviewLabel?.heading}
         </Typography>
-        {isLoading ? (
+        {isLoading || isFetching ? (
           <Box p={2}>
             <SkeletonTable />
           </Box>

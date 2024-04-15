@@ -11,11 +11,14 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 const useAddServiceCatalog = (prop: any) => {
   const { open, setOpen } = prop;
   const [postServiceCatalogTrigger] = usePostServiceCatalogMutation();
+
   const methodAdd = useForm({
     resolver: yupResolver(addServiceCatalogValidationSchema),
     defaultValues: addServiceCatalogDefaultValues,
   });
+
   const { handleSubmit, reset } = methodAdd;
+
   const onSubmit = async (data: any) => {
     try {
       await postServiceCatalogTrigger({
@@ -29,12 +32,17 @@ const useAddServiceCatalog = (prop: any) => {
     setOpen(false);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return {
     methodAdd,
     handleSubmit,
     onSubmit,
     open,
-    setOpen,
+    handleClose,
   };
 };
+
 export default useAddServiceCatalog;

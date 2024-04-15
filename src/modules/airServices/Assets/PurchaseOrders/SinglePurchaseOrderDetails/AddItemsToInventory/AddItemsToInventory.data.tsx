@@ -1,0 +1,267 @@
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFRadioGroup,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+import { Error } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
+import * as Yup from 'yup';
+import { ASSET_IMPACT } from '@/constants/strings';
+import Search from '@/components/Search';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import NoData from '@/components/NoData';
+
+export const ADDED_INVENTORY_METHODS = {
+  ADD_NEW: 'addNew',
+  UPDATE_EXISTING: 'updateExisting',
+  REVIEWED_AT_ONE_TIME: 10,
+};
+
+export const assetsImpactOptions = [
+  { _id: ASSET_IMPACT?.LOW, label: ASSET_IMPACT?.LOW },
+  { _id: ASSET_IMPACT?.MEDIUM, label: ASSET_IMPACT?.MEDIUM },
+  { _id: ASSET_IMPACT?.HIGH, label: ASSET_IMPACT?.HIGH },
+];
+
+export const addItemsToInventoryFormDefaultValues = () => {
+  return {
+    addedItemsCount: 0,
+    addInventoryMethod: 'addNew',
+    impact: null,
+    displayName: '',
+    existingInventory: '',
+    inventoryData: [],
+  };
+};
+
+export const addItemsToInventoryFormValidationSchema = (
+  purchaseOrderDetails: any,
+) => {
+  return Yup?.object()?.shape({
+    addedItemsCount: Yup?.number()
+      ?.typeError('Not a number')
+      ?.positive('Greater than 0')
+      ?.max(
+        purchaseOrderDetails?.totalReceived,
+        `less than ${purchaseOrderDetails?.totalReceived}`,
+      ),
+    addInventoryMethod: Yup?.string()?.required('Required'),
+    displayName: Yup?.string()
+      ?.trim()
+      ?.when('addInventoryMethod', {
+        is: (value: any) => value === ADDED_INVENTORY_METHODS?.ADD_NEW,
+        then: () => Yup?.string()?.trim()?.required('Display name is required'),
+        otherwise: (schema: any) => schema?.notRequired(''),
+      }),
+    impact: Yup?.mixed()
+      ?.nullable()
+      ?.when('addInventoryMethod', {
+        is: (value: any) => value === ADDED_INVENTORY_METHODS?.ADD_NEW,
+        then: () => Yup?.mixed()?.nullable()?.required('Impact is required'),
+        otherwise: (schema: any) => schema?.notRequired(''),
+      }),
+    existingInventory: Yup?.string()
+      ?.trim()
+      ?.when('addInventoryMethod', {
+        is: (value: any) => value === ADDED_INVENTORY_METHODS?.UPDATE_EXISTING,
+        then: () => Yup?.string()?.trim()?.required('Please select one option'),
+        otherwise: (schema: any) => schema?.notRequired(''),
+      }),
+    inventoryData: Yup?.array()?.of(
+      Yup?.object()?.shape({
+        itemName: Yup?.string(),
+        impact: Yup?.mixed()?.nullable(),
+        location: Yup?.mixed()?.nullable(),
+        department: Yup?.mixed()?.nullable(),
+      }),
+    ),
+  });
+};
+
+export const addItemsToInventoryCountFormFieldsDynamic = (
+  inventoryCount: any = '0',
+) => {
+  return [
+    {
+      id: 1,
+      heading: 'Items added to inventory',
+      componentProps: {
+        variant: 'body1',
+        color: 'slateBlue.main',
+        fontWeight: 600,
+      },
+      component: Typography,
+    },
+    {
+      id: 2,
+      heading: inventoryCount,
+      componentProps: {
+        variant: 'body2',
+        color: 'slateBlue.main',
+      },
+      component: Typography,
+    },
+    {
+      id: 3,
+      componentProps: {
+        label: 'Add',
+        required: true,
+        name: 'addedItemsCount',
+        fullWidth: true,
+      },
+      md: 6,
+      component: RHFTextField,
+    },
+    {
+      id: 4,
+      heading: (
+        <Box
+          display={'flex'}
+          flexWrap={'wrap'}
+          alignItems={'center'}
+          sx={{ cursor: 'pointer' }}
+          gap={0.5}
+        >
+          <Typography>Items To inventory</Typography>
+          <Error color="secondary" />
+        </Box>
+      ),
+      componentProps: {
+        variant: 'body2',
+        color: 'slateBlue.main',
+        component: 'p',
+        display: 'flex',
+        alignItems: 'flex-end',
+        height: '75%',
+      },
+      md: 6,
+      component: Typography,
+    },
+  ];
+};
+
+export const addItemsToInventoryFormFieldsDynamic = (
+  watchAddInventoryMethod: any,
+  apiQueryDepartment: any,
+  apiQueryLocation: any,
+  allAssets: any,
+  setAssetsSearch: any,
+) => {
+  return [
+    {
+      id: 6,
+      component: RHFRadioGroup,
+      md: 12,
+      componentProps: {
+        name: 'addInventoryMethod',
+        options: [
+          { value: ADDED_INVENTORY_METHODS?.ADD_NEW, label: 'Add New' },
+          {
+            value: ADDED_INVENTORY_METHODS?.UPDATE_EXISTING,
+            label: 'Update Existing',
+          },
+        ],
+      },
+    },
+    ...(watchAddInventoryMethod === ADDED_INVENTORY_METHODS?.ADD_NEW
+      ? [
+          {
+            id: 1,
+            componentProps: {
+              name: 'displayName',
+              label: 'Asset Name Prefix',
+              fullWidth: true,
+              required: true,
+            },
+            component: RHFTextField,
+            md: 12,
+          },
+          {
+            id: 2,
+            componentProps: {
+              name: 'impact',
+              label: 'Impact',
+              fullWidth: true,
+              placeholder: 'Choose Impact',
+              options: assetsImpactOptions,
+              required: true,
+              getOptionLabel: (option: any) => option?.label,
+            },
+            component: RHFAutocomplete,
+            md: 12,
+          },
+          {
+            id: 3,
+            componentProps: {
+              fullWidth: true,
+              name: 'department',
+              label: 'Department',
+              placeholder: 'Select department',
+              apiQuery: apiQueryDepartment,
+            },
+            component: RHFAutocompleteAsync,
+          },
+          {
+            id: 4,
+            componentProps: {
+              fullWidth: true,
+              name: 'location',
+              label: 'Locations',
+              placeholder: 'Select location',
+              apiQuery: apiQueryLocation,
+              getOptionLabel: (option: any) => option?.locationName,
+            },
+            component: RHFAutocompleteAsync,
+          },
+        ]
+      : []),
+    ...(watchAddInventoryMethod === ADDED_INVENTORY_METHODS?.UPDATE_EXISTING
+      ? [
+          {
+            id: 11,
+            component: Search,
+            componentProps: {
+              label: 'Search Here',
+              setSearchBy: setAssetsSearch,
+              fullWidth: true,
+            },
+          },
+          {
+            id: 10,
+            component:
+              allAssets?.isFetching || allAssets?.isLoading
+                ? SkeletonTable
+                : allAssets?.isError
+                ? ApiErrorState
+                : !!!allAssets?.data?.data?.inventories?.length
+                ? NoData
+                : RHFRadioGroup,
+            componentProps: {
+              ...(!!!allAssets?.data?.data?.inventories?.length ||
+              allAssets?.isError
+                ? { height: '100%' }
+                : {}),
+              row: false,
+              options: allAssets?.data?.data?.inventories?.map(
+                (asset: any) => ({
+                  value: asset?._id,
+                  label: asset?.displayName,
+                }),
+              ),
+              name: 'existingInventory',
+              boxSx: { maxHeight: '30vh', overflow: 'auto' },
+              optionSx: {
+                border: '1px solid',
+                borderColor: 'custom.off_white_three',
+                mb: 1,
+                borderRadius: 2,
+                p: 1,
+              },
+            },
+          },
+        ]
+      : []),
+  ];
+};

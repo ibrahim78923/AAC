@@ -148,6 +148,7 @@ export const actionBtnData = (
   selectedArticlesData: any,
 ) => [
   {
+    id: 1,
     title: 'Edit',
     permissionKey: [
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
@@ -163,6 +164,7 @@ export const actionBtnData = (
     },
   },
   {
+    id: 2,
     title: 'Delete',
     permissionKey: [
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
@@ -173,6 +175,7 @@ export const actionBtnData = (
     },
   },
   {
+    id: 3,
     title: 'Move Folder',
     permissionKey: [
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,

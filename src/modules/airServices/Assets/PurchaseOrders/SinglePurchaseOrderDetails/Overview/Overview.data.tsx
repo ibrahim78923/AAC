@@ -1,5 +1,6 @@
 import { DATE_FORMAT } from '@/constants';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -41,18 +42,16 @@ export const overviewData = (purchaseOrderData: any) => [
 
 export const overviewTableColumns: any = (
   handleRowClick: any,
-  purchaseOrderDetailData: any,
-  itemName: any,
   theme: any,
   orderStatus: string,
 ) => {
   const columns = [
     {
-      accessorFn: (row: any) => row?.itemName,
-      id: 'itemName',
-      cell: () => (
+      accessorFn: (row: any) => row?.name ?? '-',
+      id: 'name',
+      cell: (info: any) => (
         <Typography color={theme?.palette?.blue?.dull_blue}>
-          {itemName}
+          {info?.getValue()}
         </Typography>
       ),
       header: 'Item Name',
@@ -61,16 +60,10 @@ export const overviewTableColumns: any = (
       accessorFn: (row: any) => row?.description,
       id: 'description',
       header: 'Description',
-      cell: (info: any) => (
-        <Typography>
-          {info?.getValue()?.length > 30
-            ? `${info?.getValue()?.slice?.(0, 29)} ... `
-            : info?.getValue()}
-        </Typography>
-      ),
+      cell: (info: any) => truncateText(info?.getValue()),
     },
     {
-      accessorFn: (row: any) => row?.costPerItem,
+      accessorFn: (row: any) => row?.costPerItem ?? '-',
       id: 'costPerItem',
       header: 'Cost Per Item',
       cell: (info: any) => info?.getValue(),
@@ -82,24 +75,14 @@ export const overviewTableColumns: any = (
         accessorFn: (row: any) => row?.receivedVsOrdered,
         id: 'receivedVsOrdered',
         header: 'Received Vs Ordered',
-        cell: () => (
-          <Typography>
-            {`${purchaseOrderDetailData?.map(
-              (item: any) => item?.received,
-            )}/${purchaseOrderDetailData?.map((item: any) => item?.quantity)}`}
-          </Typography>
-        ),
+        cell: (info: any) =>
+          `${info?.row?.original?.received} / ${info?.row?.original?.quantity}`,
       },
       {
         accessorFn: (row: any) => row?.quantity,
         id: 'pending',
         header: 'Pending',
-        cell: (info: any) =>
-          info?.getValue(
-            <Typography>
-              {purchaseOrderDetailData?.map((item: any) => item?.quantity)}
-            </Typography>,
-          ),
+        cell: (info: any) => info?.getValue(),
       },
     );
   } else {
@@ -121,11 +104,7 @@ export const overviewTableColumns: any = (
       accessorFn: (row: any) => row?.total,
       id: 'total',
       header: 'Total ()',
-      cell: () => (
-        <Typography>
-          {purchaseOrderDetailData?.map((item: any) => item?.total)}
-        </Typography>
-      ),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.invoice,
