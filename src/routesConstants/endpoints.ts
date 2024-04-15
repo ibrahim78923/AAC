@@ -355,6 +355,8 @@ export const END_POINTS = {
   DELETE_TICKET_CONVERSATION: `/email/delete-note`,
   SEND_TICKET_APPROVAL_REMINDER: `/ticket/send-reminder-ticket-approval`,
   SEND_PURCHASE_APPROVAL_REMINDER: `/assets/send-reminder-purchase-approval`,
+  IMPORT_FILE: `/import-file`,
+  IMPORT_FILE_GET_SIGNED_URL: `/import-file/create-signed-url`,
 };
 
 export const superAdminBillingInvoices = {

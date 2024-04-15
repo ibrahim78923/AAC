@@ -34,46 +34,48 @@ export const findAttributeValues = (
   return values;
 };
 
-export const processCSV = (str: any, delim = ',') => {
+export const processCSV = (str: any, delimiter = ',') => {
   const cleanStr = str?.replace?.(/"|\r/g, '');
-  const headers = cleanStr?.slice?.(0, cleanStr?.indexOf?.('\n')).split(delim);
-  const rows = cleanStr.slice(cleanStr.indexOf('\n') + 1).split('\n');
-  const filterEmptyRows = rows?.filter((x: any) => !!x);
-  const newArray = filterEmptyRows?.map((row: any) => {
-    const values = row.split(delim);
-    const eachObject = headers.reduce((obj: any, header: any, i: any) => {
-      obj[header] = values[i];
-      return obj;
-    }, {});
-    return eachObject;
-  });
-  return newArray;
+  const headers = cleanStr
+    ?.slice?.(0, cleanStr?.indexOf?.('\n'))
+    ?.split?.(delimiter);
+  // const rows = cleanStr.slice(cleanStr.indexOf('\n') + 1).split('\n');
+  // const filterEmptyRows = rows?.filter((x: any) => !!x);
+  // const newArray = filterEmptyRows?.map((row: any) => {
+  //   const values = row.split(delim);
+  //   const eachObject = headers.reduce((obj: any, header: any, i: any) => {
+  //     obj[header] = values[i];
+  //     return obj;
+  //   }, {});
+  //   return eachObject;
+  // });
+  return headers;
 };
 
-new FileReader().onload = function (e: any) {
-  const text = e?.target?.result;
-  processCSV(text); // plugged in here
-};
+// new FileReader().onload = function (e: any) {
+//   const text = e?.target?.result;
+//   processCSV(text); // plugged in here
+// };
 
-export const csvReader = (delim = ',') => {
-  const csvFileReader = new FileReader();
+// export const csvReader = (delim = ',') => {
+//   const csvFileReader = new FileReader();
 
-  csvFileReader.onload = function (e: any) {
-    const text = e?.target?.result;
-    const cleanStr = text?.replace?.(/"|\r/g, '');
-    const headers = cleanStr
-      ?.slice?.(0, cleanStr?.indexOf?.('\n'))
-      .split(delim);
-    const rows = cleanStr.slice(cleanStr.indexOf('\n') + 1).split('\n');
-    const filterEmptyRows = rows?.filter((x: any) => !!x);
-    const newArray = filterEmptyRows?.map((row: any) => {
-      const values = row.split(delim);
-      const eachObject = headers.reduce((obj: any, header: any, i: any) => {
-        obj[header] = values[i];
-        return obj;
-      }, {});
-      return eachObject;
-    });
-    return newArray;
-  };
-};
+//   csvFileReader.onload = function (e: any) {
+//     const text = e?.target?.result;
+//     const cleanStr = text?.replace?.(/"|\r/g, '');
+//     const headers = cleanStr
+//       ?.slice?.(0, cleanStr?.indexOf?.('\n'))
+//       .split(delim);
+//     const rows = cleanStr.slice(cleanStr.indexOf('\n') + 1).split('\n');
+//     const filterEmptyRows = rows?.filter((x: any) => !!x);
+//     const newArray = filterEmptyRows?.map((row: any) => {
+//       const values = row.split(delim);
+//       const eachObject = headers.reduce((obj: any, header: any, i: any) => {
+//         obj[header] = values[i];
+//         return obj;
+//       }, {});
+//       return eachObject;
+//     });
+//     return newArray;
+//   };
+// };
