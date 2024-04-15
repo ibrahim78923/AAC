@@ -233,6 +233,13 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    getPrdouctUsers: builder.query({
+      query: ({}) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -266,4 +273,5 @@ export const {
   useUpdateQuoteSubmisionMutation,
   useGetTaxCalculationsQuery,
   usePostAttachmentQuoteMutation,
+  useGetPrdouctUsersQuery,
 } = quotesAPI;

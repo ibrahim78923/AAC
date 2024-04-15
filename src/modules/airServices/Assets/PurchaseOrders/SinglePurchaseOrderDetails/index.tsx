@@ -1,9 +1,9 @@
 import { Header } from './Header';
 import { useSinglePurchaseDetail } from './useSinglePurchaseDetail';
 import { ReceivedItems } from './ReceivedItems';
-import { AddToInventory } from './AddToInventory';
 import { SinglePurchaseOrderDetailTabs } from './SinglePurchaseOrderDetailTabs';
 import { DeletePurchaseOrder } from '../DeletePurchaseOrder';
+import { AddItemsToInventory } from './AddItemsToInventory';
 
 export const SinglePurchaseOrderDetail = () => {
   const {
@@ -40,9 +40,9 @@ export const SinglePurchaseOrderDetail = () => {
       )}
 
       {isDrawerOpen && (
-        <AddToInventory
-          isADrawerOpen={isDrawerOpen}
-          setIsADrawerOpen={setIsDrawerOpen}
+        <AddItemsToInventory
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
         />
       )}
 

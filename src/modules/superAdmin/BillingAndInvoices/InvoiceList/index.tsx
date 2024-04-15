@@ -22,6 +22,36 @@ const InvoiceList = ({
   const { isOpenInvoiceList, setIsOpenInvoiceList, handleCloseInvoiceList } =
     useInvoiceList();
   const theme = useTheme();
+
+  const planPrice = EditInvoice?.plans?.planPrice;
+
+  const totalAdditionalUserPrice =
+    EditInvoice?.details?.sumAdditionalUsersPrices;
+
+  const totalAdditionalStoragePrice =
+    EditInvoice?.details?.sumAdditionalStoragePrices;
+
+  const planDiscount = EditInvoice?.details?.planDiscount;
+
+  const subtotalBeforeDiscount =
+    planPrice + totalAdditionalUserPrice + totalAdditionalStoragePrice;
+
+  const subtotalAfterDiscount =
+    subtotalBeforeDiscount - (planDiscount / 100) * subtotalBeforeDiscount;
+
+  const invoiceDiscount = EditInvoice?.invoiceDiscount;
+
+  const invoiceDiscountAmount =
+    (invoiceDiscount / 100) * EditInvoice?.details?.subTotal;
+
+  const total =
+    subtotalAfterDiscount - (invoiceDiscount / 100) * subtotalAfterDiscount;
+
+  const tax = EditInvoice?.tax;
+  const TaxAmountOfSubtotal = (tax / 100) * total;
+
+  const netAmout = EditInvoice?.netAmount;
+
   return (
     <>
       <Box sx={styles?.card(theme)}>
@@ -64,22 +94,22 @@ const InvoiceList = ({
           <Box sx={styles?.planTableTd}>
             {EditInvoice?.details?.additionalUsers} Additional Users{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ 15/user)
+              (£ {EditInvoice?.plans?.additionalPerUserPrice}/user)
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>
-            £ {EditInvoice?.details?.additionalUsers * 15}
+            £ {EditInvoice?.details?.sumAdditionalUsersPrices}
           </Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
-            {EditInvoice?.details?.additionalStorage}GB Additional Storage{' '}
+            {EditInvoice?.details?.additionalStorage} GB Additional Storage{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ 15/GB)
+              (£ {EditInvoice?.plans?.additionalStoragePrice}/GB)
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>
-            £ {EditInvoice?.details?.additionalStorage * 15}
+            £ {EditInvoice?.details?.sumAdditionalStoragePrices}
           </Box>
         </Box>
 
@@ -96,24 +126,26 @@ const InvoiceList = ({
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>
-            £ {EditInvoice?.invoiceDiscount && discountValue}
+            £ {invoiceDiscountAmount?.toFixed(2)}
           </Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Tax{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (Vat {EditInvoice?.vat}%)
+              (Vat {EditInvoice?.tax}%)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ {EditInvoice?.vat}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {TaxAmountOfSubtotal?.toFixed(2)}
+          </Box>
         </Box>
 
         <Box sx={styles?.divider}></Box>
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>Total Cost</Box>
-          <Box sx={styles?.planTableTh}>£ {EditInvoice?.total}</Box>
+          <Box sx={styles?.planTableTh}>£ {netAmout?.toFixed(2)}</Box>
         </Box>
       </Box>
       <Grid container>

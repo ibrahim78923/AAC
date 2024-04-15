@@ -9,6 +9,7 @@ export const styles: any = {
       justifyContent: 'center',
       alignItems: 'center',
       margin: '4px',
+      cursor: 'pointer',
     };
   },
 
@@ -19,6 +20,7 @@ export const styles: any = {
     justifyContent: 'center',
     alignItems: 'center',
     margin: '4px',
+    cursor: 'pointer',
   },
 
   iconBoxTimerStyling: {
@@ -30,5 +32,6 @@ export const styles: any = {
     justifyContent: 'center',
     alignItems: 'center',
     margin: '4px',
+    cursor: 'pointer',
   },
 };

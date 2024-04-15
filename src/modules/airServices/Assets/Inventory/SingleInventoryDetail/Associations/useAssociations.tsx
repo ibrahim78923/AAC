@@ -6,11 +6,11 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { addAssociationsButtonDynamic } from './Associations.data';
 
-export default function useAssociations() {
+const useAssociations = () => {
   const theme: any = useTheme();
 
-  const [openDialog, setOpenDialog] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [openNewIncident, setNewIncident] = useState(false);
   const [openExistingIncident, setExistingIncident] = useState(false);
@@ -23,12 +23,14 @@ export default function useAssociations() {
 
   const [deleteInventoryAssociationListTrigger, { isLoading }] =
     useDeleteInventoryAssociationListMutation();
+
   const handleMouseOver = (itemId: any) => {
     setHoveredItemId(itemId);
   };
 
   const [lazyGetIncidentTrigger, lazyGetIncidentStatus] =
     useLazyGetAssociationListQuery();
+
   const getIncidentListData = async () => {
     const getIncidentParams = new URLSearchParams();
     getIncidentParams?.append('inventoryId', associationsInventoryId + '');
@@ -36,7 +38,9 @@ export default function useAssociations() {
     const getInventoryParameters = {
       params: getIncidentParams,
     };
-    await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
+    try {
+      await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
+    } catch (error) {}
   };
 
   const getInventoryListData =
@@ -44,23 +48,26 @@ export default function useAssociations() {
 
   useEffect(() => {
     getIncidentListData();
-  }, [lazyGetIncidentTrigger?.toString(), openExistingIncident]);
+  }, []);
+
   const handleMouseLeave = () => {
     setHoveredItemId(null);
   };
   const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen(false);
   };
+
   const handleDelete = (id: any) => {
     setIsDeleteModalOpen(true);
     setInventoryIncidentId(id);
   };
+
   const handleConfirmDelete = async () => {
     try {
       await deleteInventoryAssociationListTrigger({
         id: associationsInventoryId,
         ticketId: InventoryIncidentId,
-      }).unwrap();
+      })?.unwrap();
       successSnackbar('Association Detached Successfully!');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -68,11 +75,14 @@ export default function useAssociations() {
     setIsDeleteModalOpen(false);
     setHoveredItemId(null);
   };
+  const addAssociationsButton = addAssociationsButtonDynamic?.(
+    setNewIncident,
+    setExistingIncident,
+  );
 
   return {
     getInventoryListData,
     theme,
-    setOpenDialog,
     lazyGetIncidentStatus,
     handleMouseOver,
     hoveredItemId,
@@ -83,10 +93,12 @@ export default function useAssociations() {
     handleCloseDeleteModal,
     handleConfirmDelete,
     isLoading,
-    openDialog,
     setNewIncident,
     setExistingIncident,
     openNewIncident,
     openExistingIncident,
+    addAssociationsButton,
   };
-}
+};
+
+export default useAssociations;

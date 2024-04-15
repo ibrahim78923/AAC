@@ -195,6 +195,8 @@ export const Quick_Links_Routes = {
   DOCUMENT: '/social-components/my-documents',
   CHAT: '/social-components/chat',
   EMAIL: '/social-components/email',
+  COMPANIES: '/social-components/companies',
+  MEETINGS: '/social-components/meetings',
 };
 
 export const productSuiteName = {
@@ -208,4 +210,15 @@ export const DATE_RANGE = {
 
 export const PLAN_CALCULATIONS = {
   PLAN_DISCOUNT: 0.2,
+};
+
+export const EQuickLinksType = {
+  PRODUCT: 'PRODUCT',
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  ORG_ADMIN: 'ORG_ADMIN',
+};
+
+export const EQUICKLINKSROLES = {
+  SUPER_ADMIN: 'Super Admin',
+  ORG_ADMIN: 'Org Admin',
 };

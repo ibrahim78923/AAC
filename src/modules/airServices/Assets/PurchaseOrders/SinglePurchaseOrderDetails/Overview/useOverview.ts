@@ -6,22 +6,20 @@ import { useEffect, useState } from 'react';
 
 export const useOverview = () => {
   const [openOverviewModal, setOpenOverviewModal] = useState(false);
-  const [rowData, setRowData] = useState(null);
-  const handleRowClick = (rowData: any) => {
-    setRowData(rowData);
+  const handleRowClick = () => {
     setOpenOverviewModal(true);
   };
 
   const theme = useTheme();
   const router = useRouter();
   const purchaseOrderId = router?.query?.purchaseOrderId;
-  const { data, isLoading, isFetching } =
-    useGetPurchaseOrderOverviewQuery(purchaseOrderId);
+  const { data, isLoading, isFetching, isError } =
+    useGetPurchaseOrderOverviewQuery(purchaseOrderId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!purchaseOrderId,
+    });
   const purchaseOrderData = data?.data;
   const purchaseOrderDetailData = data?.data?.purchaseDetails;
-  const itemName = data?.data?.productDetails?.find(
-    (detail: any) => detail?.vendorproductcatalogsDetails,
-  )?.vendorproductcatalogsDetails?.name;
 
   const orderStatus = data?.data?.status;
 
@@ -49,13 +47,12 @@ export const useOverview = () => {
     theme,
     purchaseOrderData,
     purchaseOrderDetailData,
-    itemName,
     orderStatus,
     handleDownload,
     uniqueNumber,
     isLoading,
     isFetching,
     handleRowClick,
-    rowData,
+    isError,
   };
 };

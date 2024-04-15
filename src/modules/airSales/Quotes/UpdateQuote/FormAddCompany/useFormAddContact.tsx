@@ -44,7 +44,7 @@ const useFormAddContact = (onClose: () => void) => {
           companyId: res?.data?.data?._id,
         };
         createAssociationQuote({ body: associationBody })?.unwrap();
-        enqueueSnackbar('Company Updated Successfully', {
+        enqueueSnackbar('Company Added Successfully', {
           variant: 'success',
         });
       });

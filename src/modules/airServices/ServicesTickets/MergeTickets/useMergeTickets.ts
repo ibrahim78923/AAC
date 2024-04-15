@@ -8,14 +8,15 @@ import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
 import {
   useLazyGetRequesterDropdownQuery,
+  useLazyGetTicketByIdForMergeQuery,
   useLazyGetTicketByRequesterQuery,
   useLazyGetTicketBySubjectQuery,
   usePostMergeTicketsMutation,
 } from '@/services/airServices/tickets';
-import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect } from 'react';
 
 export const useMergedTickets = (props: any) => {
   const router = useRouter();
@@ -32,7 +33,7 @@ export const useMergedTickets = (props: any) => {
     resolver: yupResolver(mergeTicketsFormValidationSchema),
   });
 
-  const { handleSubmit, reset, control, setValue, getValues } =
+  const { handleSubmit, reset, control, clearErrors, getValues } =
     mergedTicketsFormMethod;
 
   const watchForTicketSelection: any = useWatch({
@@ -45,11 +46,7 @@ export const useMergedTickets = (props: any) => {
   });
 
   useEffect(() => {
-    setValue(
-      'searchTicket',
-      watchForTicketSelection?._id === TICKET_SELECTION_TYPE?.ID ? null : [],
-    );
-    setValue('requester', null);
+    clearErrors?.();
   }, [watchForTicketSelection?._id]);
 
   const submitMergedTicketsForm = async (data: any) => {
@@ -60,7 +57,7 @@ export const useMergedTickets = (props: any) => {
           postMergeTicketsParams?.append('searchTicket', ticketId?._id),
       );
     data?.ticketSelection?._id === TICKET_SELECTION_TYPE?.ID &&
-      postMergeTicketsParams?.append('searchTicket', data?.searchTicket?._id);
+      postMergeTicketsParams?.append('searchTicket', data?.searchTicketId?._id);
     postMergeTicketsParams?.append('findTicketBy', data?.ticketSelection?._id);
     postMergeTicketsParams?.append('ticketId', selectedTicketList?.[0]);
     const postMergeTicketsParameter = {
@@ -69,7 +66,6 @@ export const useMergedTickets = (props: any) => {
     try {
       await postMergeTicketsTrigger(postMergeTicketsParameter)?.unwrap();
       successSnackbar('Ticket merged successfully');
-      setSelectedTicketList([]);
       closeMergedTicketsModal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -84,12 +80,14 @@ export const useMergedTickets = (props: any) => {
       }),
     );
     reset();
-    setSelectedTicketList([]);
+    setSelectedTicketList?.([]);
     setIsMergedTicketsModalOpen?.(false);
   };
+
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
   const apiQueryTicketBySubject = useLazyGetTicketBySubjectQuery();
   const apiQueryTicketByRequester = useLazyGetTicketByRequesterQuery();
+  const apiQueryTicketById = useLazyGetTicketByIdForMergeQuery();
 
   const mergeTicketsFormFields = mergeTicketsFormFieldsDynamic(
     watchForTicketSelection,
@@ -97,6 +95,7 @@ export const useMergedTickets = (props: any) => {
     apiQueryTicketByRequester,
     apiQueryTicketBySubject,
     getValues,
+    apiQueryTicketById,
   );
 
   return {

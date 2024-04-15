@@ -34,53 +34,53 @@ export const Catalog = () => {
           ]}
         >
           <Grid container spacing={2}>
-            <Grid
-              item
-              xs={12}
-              md={6}
-              lg={3}
-              borderRadius={2}
-              border={'0.2rem solid'}
-              borderColor={'primary.lighter'}
-              textAlign="center"
-              mt={4}
-              sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                router.push({
-                  pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
-                  query: {
-                    categoryName: CATALOG_SERVICE_TYPES?.ALL,
-                  },
-                });
-              }}
-            >
+            <Grid item xs={12} md={6} lg={3}>
               <Box
-                alignItems={'center'}
-                display={'flex'}
-                justifyContent={'center'}
+                onClick={() => {
+                  router.push({
+                    pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
+                    query: {
+                      categoryName: CATALOG_SERVICE_TYPES?.ALL,
+                    },
+                  });
+                }}
+                borderRadius={2}
+                border={'0.2rem solid'}
+                borderColor={'primary.lighter'}
+                textAlign="center"
                 mt={2}
+                minHeight={'15rem'}
+                p={2}
+                sx={{ cursor: 'pointer' }}
               >
-                <FolderIcon />
-              </Box>
-              <Typography variant="h5" mt={2}>
-                All Services
-              </Typography>
-              <Box
-                alignItems={'center'}
-                display={'flex'}
-                justifyContent={'center'}
-              >
-                <Typography
-                  variant="body2"
-                  align="center"
-                  gutterBottom
-                  mt={1}
-                  mb={2}
-                  ml={2}
-                  mr={2}
+                <Box
+                  alignItems={'center'}
+                  display={'flex'}
+                  justifyContent={'center'}
+                  mt={2}
                 >
-                  Browse the list of all services offered and raise a request.
+                  <FolderIcon />
+                </Box>
+                <Typography variant="h5" mt={2}>
+                  All Services
                 </Typography>
+                <Box
+                  alignItems={'center'}
+                  display={'flex'}
+                  justifyContent={'center'}
+                >
+                  <Typography
+                    variant="body2"
+                    align="center"
+                    gutterBottom
+                    mt={1}
+                    mb={2}
+                    ml={2}
+                    mr={2}
+                  >
+                    Browse the list of all services offered and raise a request.
+                  </Typography>
+                </Box>
               </Box>
             </Grid>
             {!!data?.data?.servicecategories?.length &&
@@ -114,7 +114,7 @@ export const Catalog = () => {
                       <FolderIcon />
                     </Box>
                     <Typography variant="h5" mt={2}>
-                      {service?.categoryName}
+                      {service?.categoryName ?? '-'}
                     </Typography>
                     <Box
                       alignItems={'center'}
@@ -130,7 +130,7 @@ export const Catalog = () => {
                         ml={2}
                         mr={2}
                       >
-                        {service?.description}
+                        {service?.description ?? '-'}
                       </Typography>
                     </Box>
                   </Box>
@@ -196,14 +196,14 @@ export const Catalog = () => {
                       mt={2}
                     >
                       <Typography variant="h5">
-                        {allService?.itemName}
+                        {allService?.itemName ?? '-'}
                       </Typography>
 
                       <Typography variant="body2" component={'span'}>
-                        {allService?.description}
+                        {allService?.description ?? '-'}
                       </Typography>
                       <Typography variant="body2" component={'span'}>
-                        {allService?.cost}
+                        {allService?.cost ?? '-'}
                       </Typography>
                     </Box>
                   </Box>
