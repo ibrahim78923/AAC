@@ -13,7 +13,7 @@ export const useTeams = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<any>();
   const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState<boolean>(false);
   const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
-  const [isTeamDrawerOpen, setIsTeamDrawerOpen] = useState<boolean>(false);
+
   const [selectedTeamList, setSelectedTeamList] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<any>({
     val: false,
@@ -22,6 +22,7 @@ export const useTeams = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
+  const [teamData, setTeamData] = useState<any>({});
 
   const [deleteTeamUsersTrigger, deleteStatus] = useDeleteTeamUsersMutation();
 
@@ -55,12 +56,13 @@ export const useTeams = () => {
   };
 
   const teamListColumn = teamList(
-    data?.data?.userTeams,
     selectedTeamList,
     setSelectedTeamList,
-    setIsTeamDrawerOpen,
+    data?.data?.userTeams,
+    setIsDrawerOpen,
     setIsEditDrawerOpen,
     setDeleteModal,
+    setTeamData,
   );
   return {
     theme,
@@ -74,8 +76,6 @@ export const useTeams = () => {
     deleteModal,
     setDeleteModal,
     submitDeleteModal,
-    isTeamDrawerOpen,
-    setIsTeamDrawerOpen,
     submit,
     metaData,
     data,
@@ -90,5 +90,6 @@ export const useTeams = () => {
     setIsCreateDrawerOpen,
     isEditDrawerOpen,
     setIsEditDrawerOpen,
+    teamData,
   };
 };
