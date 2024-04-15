@@ -11,7 +11,6 @@ export const rolesAndRightsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['PERMISSIONS'],
     }),
-
     getPermissionsRolesById: builder.query({
       query: (id: any) => ({
         url: `${END_POINTS?.GET_PERMISSIONS_ROLES}/${id}`,

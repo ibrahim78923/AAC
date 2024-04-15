@@ -43,18 +43,36 @@ export const superAdminValidationSchema = Yup.object().shape({
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
-  phoneNumber: Yup.string().matches(
-    /^\+\d{1,}(\s\d+)*$/,
-    'Invalid phone number',
-  ),
+  phoneNumber: Yup.string()
+    .nullable() // Allow null or undefined values
+    .matches(/^\+\d{1,}(\s\d+)*$/, 'Invalid phone number')
+    .transform((value, originalValue) => {
+      if (
+        originalValue === '' ||
+        originalValue === null ||
+        originalValue === undefined
+      ) {
+        return null; // Convert empty string or null/undefined to null
+      }
+      return value;
+    }),
   postCode: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
-  address: Yup.string()?.optional(),
-  jobTitle: Yup.string().matches(
-    /^[A-Za-z]+$/,
-    'Only alphabetic characters are allowed',
-  ),
+  address: Yup.string()?.required('Field is Required'),
+  jobTitle: Yup.string()
+    .nullable() // Allow null or undefined values
+    .matches(/^[A-Za-z]*$/, 'Only alphabetic characters are allowed') // Validate alphabetic characters if provided
+    .transform((value, originalValue) => {
+      if (
+        originalValue === '' ||
+        originalValue === null ||
+        originalValue === undefined
+      ) {
+        return null; // Convert empty string or null/undefined to null
+      }
+      return value;
+    }),
   facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
