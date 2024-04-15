@@ -145,9 +145,9 @@ export const useTicketsLists: any = () => {
 
   const updateTicketStatus = async (status: any) => {
     const updateTicketStatusTicketsParameter = {
-      pathParams: { id: selectedTicketList?.[0] },
       queryParams: {
         status,
+        id: selectedTicketList?.[0],
       },
     };
     try {
