@@ -9,6 +9,7 @@ import {
   Skeleton,
   Button,
   InputAdornment,
+  Avatar,
 } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -34,6 +35,7 @@ import { getSession } from '@/utils';
 import { useGetAllProductsQuery } from '@/services/orgAdmin/organization';
 import { getProductIcon } from '@/modules/orgAdmin/SubscriptionAndInvoices/Subscriptions';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { generateImage } from '@/utils/avatarUtils';
 
 const OrganizationCard = () => {
   const {
@@ -49,8 +51,8 @@ const OrganizationCard = () => {
     isToggled,
     setIsToggled,
     loadingUpdateOrganization,
-    handleImageChange,
-    imagePreview,
+    handleChangeImg,
+    // imagePreview,
   } = useOrganizationCard();
 
   const { data: productsData, isLoading } = useGetAllProductsQuery({});
@@ -89,22 +91,23 @@ const OrganizationCard = () => {
                           '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
                       }}
                     >
-                      {imagePreview && (
-                        <Image
-                          src={imagePreview}
-                          alt="selected"
-                          width={120}
-                          height={120}
-                          style={{ borderRadius: '50%' }}
-                        />
-                      )}
+                      {/* {imagePreview && ( */}
+                      <Avatar
+                        src={`${
+                          user?.organization?.image
+                            ? generateImage(user?.organization?.image?.url)
+                            : ''
+                        }`}
+                        sx={{ height: 120, width: 120 }}
+                      />
+                      {/* )} */}
                     </Box>
                     <input
                       hidden={true}
                       id="upload-group-image"
                       type="file"
                       accept="image/*"
-                      onChange={(e: any) => handleImageChange(e)}
+                      onChange={(e: any) => handleChangeImg(e)}
                     />
                     <label htmlFor="upload-group-image">
                       <Box
@@ -119,15 +122,6 @@ const OrganizationCard = () => {
                       </Box>
                     </label>
                   </Box>
-                  {/* <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      paddingTop: { lg: '3rem', md: '2rem' },
-                    }}
-                  >
-                    <Image src={OrcaloLogoImage} alt="Logo" />
-                  </Box> */}
                 </Grid>
                 <Grid item lg={6} md={4} sm={6} xs={12}>
                   <Box

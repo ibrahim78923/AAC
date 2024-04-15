@@ -14,8 +14,8 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useOrganizationCard = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  const [imagePreview, setImagePreview] = useState<any>();
-  const [imageToUpload, setImageToUpload] = useState<any>();
+  // const [imagePreview, setImagePreview] = useState<any>();
+  // const [imageToUpload, setImageToUpload] = useState<any>();
   const [isToggled, setIsToggled] = useToggle(false);
   const theme = useTheme<Theme>();
   const { user }: any = getSession();
@@ -89,18 +89,38 @@ const useOrganizationCard = () => {
     setValue('compositeAddress', addressValues);
   }, [addressValues]);
 
-  const formData = new FormData();
+  // const formData = new FormData();
 
-  const handleImageChange = async (e: any) => {
-    const selectedImage = e?.target?.files[0];
-    setImageToUpload(selectedImage);
-    formData.append('image', selectedImage);
+  // const handleImageChange = async (e: any) => {
+  //   const selectedImage = e?.target?.files[0];
+  //   setImageToUpload(selectedImage);
+  //   formData.append('image', selectedImage);
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImagePreview(reader?.result);
-    };
-    reader?.readAsDataURL(selectedImage);
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     setImagePreview(reader?.result);
+  //   };
+  //   reader?.readAsDataURL(selectedImage);
+  // };
+
+  const handleChangeImg = async (e: any) => {
+    if (e?.target?.files?.length) {
+      const formData = new FormData();
+      formData?.append('image', e?.target?.files[0]);
+      try {
+        await updateOrganization({
+          id: currentOrganizationId,
+          body: formData,
+        })?.unwrap();
+        enqueueSnackbar('Image updated successfully', {
+          variant: 'success',
+        });
+      } catch (error: any) {
+        enqueueSnackbar(error?.data?.message, {
+          variant: 'error',
+        });
+      }
+    }
   };
 
   const onSubmit: any = async (values: any) => {
@@ -171,10 +191,10 @@ const useOrganizationCard = () => {
     addressVal: formValues.compositeAddress,
     isToggled,
     setIsToggled,
-    handleImageChange,
-    imagePreview,
+    handleChangeImg,
+    // imagePreview,
     loadingUpdateOrganization,
-    imageToUpload,
+    // imageToUpload,
   };
 };
 
