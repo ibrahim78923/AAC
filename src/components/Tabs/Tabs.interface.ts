@@ -13,7 +13,7 @@ export interface CommonTabsPropsI {
   isHeader?: boolean;
   defaultValue?: number;
   headerChildren?: React.ReactNode;
-  isSearchBar: React.ReactNode;
+  isSearchBar?: React.ReactNode;
   searchBarProps?: SearchPropsI;
   getTabVal?: ({}: number) => void;
   addIcon?: boolean;

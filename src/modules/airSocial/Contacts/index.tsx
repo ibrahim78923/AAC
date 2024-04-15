@@ -44,7 +44,6 @@ const Contacts = () => {
     loadingGetContacts,
     setPage,
     setPageLimit,
-    handlePageChange,
     handleRefresh,
     handleFiltersSubmit,
     searchValue,
@@ -227,7 +226,6 @@ const Contacts = () => {
           columns={contactsColumns}
           isLoading={loadingGetContacts}
           data={dataGetContacts}
-          onPageChange={handlePageChange}
           setPage={setPage}
           setPageLimit={setPageLimit}
         />

@@ -15,7 +15,6 @@ export const superAdminValidationSchema = Yup.object().shape({
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
-  adminRoleId: Yup.string().required('Field is Required'),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),

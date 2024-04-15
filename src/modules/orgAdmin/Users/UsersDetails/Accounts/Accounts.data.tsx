@@ -9,21 +9,23 @@ export const companyColumns: any = (handleStatusUpdate: any) => [
     id: 'product',
     isSortable: true,
     header: 'Product',
-    cell: (info: any) => (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        {info?.getValue()?.logo ? (
-          <Avatar
-            src={generateImage(info?.getValue()?.logo?.url)}
-            sx={{ width: 30, height: 30 }}
-          />
-        ) : (
-          <LogoIcon />
-        )}
-        <Typography sx={{ fontSize: '12px' }}>
-          {info?.getValue()?.name}
-        </Typography>
-      </Box>
-    ),
+    cell: (info: any) => {
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {info?.getValue()?.logo ? (
+            <Avatar
+              src={generateImage(info?.getValue()?.logo?.url)}
+              sx={{ width: 30, height: 30 }}
+            />
+          ) : (
+            <LogoIcon />
+          )}
+          <Typography sx={{ fontSize: '12px' }}>
+            {info?.getValue()?.name}
+          </Typography>
+        </Box>
+      );
+    },
   },
   {
     accessorFn: (row: any) => row?.company?.accountName,
