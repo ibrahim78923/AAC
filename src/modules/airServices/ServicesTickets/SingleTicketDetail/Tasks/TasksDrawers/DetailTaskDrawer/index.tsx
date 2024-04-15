@@ -39,7 +39,7 @@ export const DetailTaskDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmitDrawer)}
             methods={method}
           >
-            <Typography variant="body2" position={'absolute'} top={65}>
+            <Typography variant="body2" mb={-2}>
               {taskDetail?.assignedUser?.email ?? 'Email not found'}
             </Typography>
             <Grid xs={10}>

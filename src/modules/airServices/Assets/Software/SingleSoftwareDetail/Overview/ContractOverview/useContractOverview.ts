@@ -8,9 +8,12 @@ export const useContractOverview = (props: any) => {
   const { contractOverviewLabel } = props;
   const theme: any = useTheme();
   const searchParams = useSearchParams();
-  const softwareId = searchParams.get('softwareId');
-  const { data, isLoading, isError } =
-    useGetAssetsSoftwareContractValueQuery(softwareId);
+  const softwareId = searchParams?.get('softwareId');
+  const { data, isLoading, isError, isFetching } =
+    useGetAssetsSoftwareContractValueQuery(softwareId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!softwareId,
+    });
   const formatDate = (date: any) => {
     const parsedDate = dayjs(date);
     const presentDate = dayjs();
@@ -23,5 +26,13 @@ export const useContractOverview = (props: any) => {
       return finalOutput;
     }
   };
-  return { data, isLoading, isError, contractOverviewLabel, formatDate, theme };
+  return {
+    data,
+    isLoading,
+    isError,
+    contractOverviewLabel,
+    formatDate,
+    theme,
+    isFetching,
+  };
 };

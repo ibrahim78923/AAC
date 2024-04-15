@@ -1,5 +1,5 @@
 import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, EQuickLinksType } from '@/constants';
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -106,11 +106,16 @@ export const columns: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.productName,
-      id: 'productName',
-      cell: (info: any) => info?.getValue(),
+      accessorFn: (row: any) => row?.type,
+      id: 'type',
       header: 'Product',
       isSortable: false,
+      cell: (info: any) =>
+        info?.getValue() === EQuickLinksType?.SUPER_ADMIN
+          ? 'Super Admin'
+          : info?.getValue() === EQuickLinksType?.ORG_ADMIN
+            ? 'Org Admin'
+            : info?.cell?.row?.original?.productName,
     },
     {
       accessorFn: (row: any) => `${row?.parent} / ${row?.name}`,

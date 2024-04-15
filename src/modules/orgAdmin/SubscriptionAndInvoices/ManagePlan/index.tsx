@@ -7,7 +7,6 @@ import {
   Grid,
   FormControl,
   TextField,
-  InputLabel,
   Select,
   MenuItem,
   SelectChangeEvent,
@@ -26,6 +25,7 @@ import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/perm
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useAppSelector } from '@/redux/store';
 import usePlanCalculations from '../usePlanCalculations';
+import CustomLabel from '@/components/CustomLabel';
 
 const ManagePlan = () => {
   const router = useRouter();
@@ -39,6 +39,13 @@ const ManagePlan = () => {
 
   const [value, setValue] = useState<any>(defaultValues);
 
+  const [maxAddUsers, setMaxAddUsers] = useState(
+    parsedManageData?.additionalUsers,
+  );
+  const [maxAddStorage, setMaxAddStorage] = useState(
+    parsedManageData?.additionalStorage,
+  );
+
   const [updateSubscription] = useUpdateSubscriptionMutation({});
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -47,8 +54,8 @@ const ManagePlan = () => {
 
   const updateSubscriptionPayload = {
     planId: parsedManageData?.planId,
-    additionalUsers: parsedManageData?.additionalUsers,
-    additionalStorage: parsedManageData?.additionalStorage,
+    additionalUsers: maxAddUsers,
+    additionalStorage: maxAddStorage,
     billingDate: dayjs(parsedManageData?.billingDate)?.format(DATE_FORMAT?.API),
     status: parsedManageData?.status,
     //TODO:We will only send billing cycle monthly as discussed
@@ -72,7 +79,7 @@ const ManagePlan = () => {
   const handleUpdateSubscription = async () => {
     try {
       await updateSubscription({
-        id: parsedManageData?._id,
+        id: parsedManageData?.orgPlanId,
         body: updateSubscriptionPayload,
       }).unwrap();
       enqueueSnackbar('Plan Updated Successfully', {
@@ -140,12 +147,12 @@ const ManagePlan = () => {
               <Grid container spacing={3}>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
-                    <InputLabel id="billingCycle">Billing Cycle</InputLabel>
+                    <CustomLabel label={'Billing Cycle'} />
                     <Select
                       labelId="billingCycle"
                       value={value}
                       defaultValue="monthly"
-                      label="Age"
+                      // label="Age"
                       onChange={handleChange}
                     >
                       <MenuItem value={'paidMonthly'}>Paid Monthly</MenuItem>
@@ -160,19 +167,21 @@ const ManagePlan = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={4}>
+                  <CustomLabel label={'Max Additional User'} />
                   <TextField
-                    label="Max Additional User"
                     type="number"
                     fullWidth
-                    defaultValue={parsedManageData?.planData?.defaultUsers}
+                    defaultValue={maxAddUsers}
+                    onChange={(e: any) => setMaxAddUsers(e?.target?.value)}
                   />
                 </Grid>
                 <Grid item xs={4}>
+                  <CustomLabel label={'Additional Storage'} />
                   <TextField
-                    label="Additional Storage"
                     type="number"
                     fullWidth
-                    defaultValue={parsedManageData?.planData?.defaultStorage}
+                    defaultValue={maxAddStorage}
+                    onChange={(e: any) => setMaxAddStorage(e?.target?.value)}
                   />
                 </Grid>
               </Grid>
@@ -212,7 +221,7 @@ const ManagePlan = () => {
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>
-            £ {planCalculations?.additionalUsers || 0}
+            £ {(planCalculations?.additionalUsers || 0)?.toFixed(2)}
           </Box>
         </Box>
 
@@ -224,7 +233,7 @@ const ManagePlan = () => {
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>
-            £ {planCalculations?.additionalStorage || 0}
+            £ {(planCalculations?.additionalStorage || 0)?.toFixed(2)}
           </Box>
         </Box>
 
@@ -236,19 +245,30 @@ const ManagePlan = () => {
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>
-            £ {planCalculations?.discountApplied || 0}
+            £ {(planCalculations?.discountApplied || 0)?.toFixed(2)}
           </Box>
         </Box>
+
+        {/* <Box sx={styles?.planTableRow}>
+          <Box sx={styles?.planTableTdBold}>
+            Total{' '}
+            <Box component="span" sx={{ fontSize: '12px' }}>
+            </Box>
+          </Box>
+          <Box sx={styles?.planTableTh}>
+            £ {(planCalculations?.discountApplied || 0)?.toFixed(2)}
+          </Box>
+        </Box> */}
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Tax{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (Vat 20%)
+              ( 20%)
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>
-            £ {planCalculations?.taxAmount || 0}
+            £ {(planCalculations?.taxAmount || 0).toFixed(2)}
           </Box>
         </Box>
 
@@ -257,7 +277,7 @@ const ManagePlan = () => {
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>Total Cost</Box>
           <Box sx={styles?.planTableTh}>
-            £ {planCalculations?.finalPrice || 0}
+            £ {(planCalculations?.finalPrice || 0).toFixed(2)}
           </Box>
         </Box>
       </Box>

@@ -13,7 +13,7 @@ export const useCancelRequest = () => {
       await patchRequestApprovalTrigger(params)?.unwrap();
       successSnackbar('Cancelled Successfully!');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   return {

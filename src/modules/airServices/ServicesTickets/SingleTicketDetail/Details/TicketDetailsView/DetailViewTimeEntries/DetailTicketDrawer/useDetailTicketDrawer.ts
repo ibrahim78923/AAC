@@ -28,7 +28,6 @@ export const useDetailTicketDrawer = (props: any) => {
   let booleanVar = false;
   const { ticketId } = router?.query;
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
-
   const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: addTimeDefaultValues(),

@@ -38,6 +38,7 @@ export const useDeleteInventory = (props: any) => {
       await deleteInventoryTrigger(deleteInventoryParameter)?.unwrap();
       successSnackbar('Record delete successfully');
       setSelectedInventoryLists?.([]);
+      closeInventoryDeleteModal?.();
       const newPage =
         selectedInventoryLists?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
@@ -49,7 +50,6 @@ export const useDeleteInventory = (props: any) => {
           skipQueries: ['inventoryListsAction'],
         }),
       );
-      closeInventoryDeleteModal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
       closeInventoryDeleteModal?.();

@@ -1,11 +1,10 @@
-import { Button, Box, Typography, Chip } from '@mui/material';
+import { Box, Typography, Chip } from '@mui/material';
 import { Fragment } from 'react';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoData from '@/components/NoData';
 import { chipColor } from './Associations.data';
 import { ExistingIncident } from './ExistingIncident';
-import { DialogBox } from './DialogBox';
 import { NewIncident } from './NewIncident';
 import { NoAssociationFoundImage } from '@/assets/images';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -13,12 +12,13 @@ import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 import useAssociations from './useAssociations';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const Associations = () => {
   const {
     getInventoryListData,
     theme,
-    setOpenDialog,
     lazyGetIncidentStatus,
     handleMouseOver,
     hoveredItemId,
@@ -29,11 +29,11 @@ export const Associations = () => {
     handleCloseDeleteModal,
     handleConfirmDelete,
     isLoading,
-    openDialog,
     setNewIncident,
     setExistingIncident,
     openNewIncident,
     openExistingIncident,
+    addAssociationsButton,
   } = useAssociations();
 
   return (
@@ -48,14 +48,15 @@ export const Associations = () => {
               AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
             ]}
           >
-            <Button
-              variant="outlined"
-              sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
-              onClick={() => setOpenDialog(true)}
+            <SingleDropdownButton
+              dropdownOptions={addAssociationsButton}
+              dropdownName={'Associate'}
+              endIcon={<></>}
               startIcon={<AddCircleIcon />}
-            >
-              Associate
-            </Button>
+              variant="outlined"
+              color="primary"
+              sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
+            />
           </PermissionsGuard>
         </NoData>
       ) : (
@@ -66,13 +67,14 @@ export const Associations = () => {
                 AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
               ]}
             >
-              <Button
-                variant="contained"
-                onClick={() => setOpenDialog(true)}
+              <SingleDropdownButton
+                dropdownOptions={addAssociationsButton}
+                dropdownName={'Associate'}
+                endIcon={<></>}
                 startIcon={<AddCircleIcon />}
-              >
-                Associate
-              </Button>
+                color="primary"
+                variant="contained"
+              />
             </PermissionsGuard>
           </Box>
           <PermissionsGuard
@@ -88,11 +90,10 @@ export const Associations = () => {
                 </Box>
               ) : (
                 <>
-                  {' '}
                   {getInventoryListData?.map((item: any) => (
                     <Box
                       key={item?._id}
-                      border={`1px solid $ {theme?.palette?.grey?.[400]}`}
+                      border={`1px solid ${theme?.palette?.grey?.[400]}`}
                       borderLeft={`8px solid ${theme?.palette[
                         chipColor(item?.status)
                       ]?.main}`}
@@ -112,7 +113,7 @@ export const Associations = () => {
                       >
                         {hoveredItemId === item?._id && (
                           <RemoveCircleOutlineIcon
-                            style={{ marginRight: '8px' }}
+                            style={{ marginRight: '8px', cursor: 'pointer' }}
                             fontSize="small"
                             onClick={() => {
                               setHoveredItemId(item?._id);
@@ -125,7 +126,7 @@ export const Associations = () => {
                         </Typography>
                       </Box>
                       <Chip
-                        label={item?.status}
+                        label={item?.status ?? '---'}
                         sx={{
                           bgcolor:
                             theme?.palette[chipColor(item?.status)]?.main,
@@ -140,26 +141,28 @@ export const Associations = () => {
           </PermissionsGuard>
         </Fragment>
       )}
-      <AlertModals
-        message="Are you sure you want to delete this item?"
-        type="delete"
-        open={isDeleteModalOpen}
-        handleClose={handleCloseDeleteModal}
-        handleSubmitBtn={handleConfirmDelete}
-        loading={isLoading}
-      />
-
-      <DialogBox
-        openDialog={openDialog}
-        setOpenDialog={setOpenDialog}
-        setNewIncident={setNewIncident}
-        setExistingIncident={setExistingIncident}
-      />
-      <NewIncident openDrawer={openNewIncident} onClose={setNewIncident} />
-      <ExistingIncident
-        openDrawer={openExistingIncident}
-        onClose={setExistingIncident}
-      />
+      {isDeleteModalOpen && (
+        <AlertModals
+          message="Are you sure you want to delete this item?"
+          type={ALERT_MODALS_TYPE?.DELETE}
+          open={isDeleteModalOpen}
+          handleClose={handleCloseDeleteModal}
+          handleSubmitBtn={handleConfirmDelete}
+          loading={isLoading}
+        />
+      )}
+      {openNewIncident && (
+        <NewIncident
+          openDrawer={openNewIncident}
+          setIsOpenDrawer={setNewIncident}
+        />
+      )}
+      {openExistingIncident && (
+        <ExistingIncident
+          openDrawer={openExistingIncident}
+          setIsOpenDrawer={setExistingIncident}
+        />
+      )}
     </Fragment>
   );
 };

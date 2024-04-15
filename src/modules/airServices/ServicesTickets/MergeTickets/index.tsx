@@ -5,7 +5,6 @@ import {
   Avatar,
   Box,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
@@ -26,7 +25,7 @@ export const MergeTickets = (props: any) => {
     submitMergedTicketsForm,
     mergeTicketsFormFields,
     postMergeTicketsStatus,
-  } = useMergedTickets(props);
+  }: any = useMergedTickets(props);
 
   return (
     <Dialog
@@ -35,37 +34,32 @@ export const MergeTickets = (props: any) => {
       fullWidth
       maxWidth={'sm'}
     >
-      <FormProvider
-        methods={mergedTicketsFormMethod}
-        onSubmit={handleSubmit(submitMergedTicketsForm)}
-      >
-        <DialogTitle>
-          <Box
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={'space-between'}
-            gap={1}
-            flexWrap={'wrap'}
-          >
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              gap={1}
-              flexWrap={'wrap'}
-            >
-              <Typography variant="h3" textTransform={'capitalize'}>
-                Merge
-              </Typography>
-            </Box>
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => closeMergedTicketsModal?.()}
-            >
-              <AlertModalCloseIcon />
-            </Box>
+      <DialogTitle>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          gap={1}
+          flexWrap={'wrap'}
+        >
+          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+            <Typography variant="h3" textTransform={'capitalize'}>
+              Merge
+            </Typography>
           </Box>
-        </DialogTitle>
-        <DialogContent>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => closeMergedTicketsModal?.()}
+          >
+            <AlertModalCloseIcon />
+          </Box>
+        </Box>
+      </DialogTitle>
+      <DialogContent>
+        <FormProvider
+          methods={mergedTicketsFormMethod}
+          onSubmit={handleSubmit(submitMergedTicketsForm)}
+        >
           <br />
           <Grid container spacing={1}>
             {mergeTicketsFormFields?.map((item: any) => (
@@ -162,27 +156,31 @@ export const MergeTickets = (props: any) => {
               </Typography>
             </Typography>
           </Box>
-        </DialogContent>
-        <DialogActions
-          sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
-        >
-          <LoadingButton
-            disabled={postMergeTicketsStatus?.isLoading}
-            variant="outlined"
-            color="secondary"
-            onClick={() => closeMergedTicketsModal?.()}
+          <Box
+            display={'flex'}
+            justifyContent={'flex-end'}
+            alignItems={'center'}
+            gap={1}
+            mt={1}
           >
-            Cancel
-          </LoadingButton>
-          <LoadingButton
-            loading={postMergeTicketsStatus?.isLoading}
-            variant="contained"
-            type="submit"
-          >
-            Continue
-          </LoadingButton>
-        </DialogActions>
-      </FormProvider>
+            <LoadingButton
+              disabled={postMergeTicketsStatus?.isLoading}
+              variant="outlined"
+              color="secondary"
+              onClick={() => closeMergedTicketsModal?.()}
+            >
+              Cancel
+            </LoadingButton>
+            <LoadingButton
+              loading={postMergeTicketsStatus?.isLoading}
+              variant="contained"
+              type="submit"
+            >
+              Continue
+            </LoadingButton>
+          </Box>
+        </FormProvider>
+      </DialogContent>
     </Dialog>
   );
 };

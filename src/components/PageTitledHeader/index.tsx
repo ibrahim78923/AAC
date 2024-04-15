@@ -40,7 +40,7 @@ export const PageTitledHeader = ({
               }}
             />
           )}
-          <Typography variant="h4" color="SlateBlue.main">
+          <Typography variant="pageTitle" color="slateBlue.main">
             {title}
           </Typography>
         </Box>

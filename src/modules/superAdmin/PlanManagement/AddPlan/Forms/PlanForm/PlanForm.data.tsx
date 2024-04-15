@@ -28,12 +28,14 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
     ?.required('Required field')
 
     ?.min(1, 'Mininum 1 characters')
-    ?.max(30, 'Maximum 50 characters'),
+    ?.max(30, 'Maximum 50 characters')
+    ?.matches(/^[0-9]*$/, 'must be a number'),
   defaultStorage: Yup?.string()
     ?.trim()
     ?.required('Required field')
     ?.min(1, 'Mininum 1 characters')
-    ?.max(50, 'Maximum 50 characters'),
+    ?.max(50, 'Maximum 50 characters')
+    ?.matches(/^[0-9]*$/, 'must be a number'),
   planPrice: Yup?.string()
     ?.matches(/^[0-9]*$/, 'must be a number')
     ?.required('Required field')
@@ -84,6 +86,7 @@ export const dataArray = (
   _: any,
   AdditionalStorageValue: any,
   AdditionalUsereValue: any,
+  isSuccess: any,
 ) => {
   const { data: planTypeData } = useGetPlanTypesQuery<any>({
     refetchOnMountOrArgChange: true,
@@ -116,6 +119,7 @@ export const dataArray = (
         select: true,
         placeholder: 'Enter Plan Type',
         required: true,
+        disabled: isSuccess,
       },
       options: planType,
       component: RHFSelect,

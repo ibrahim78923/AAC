@@ -69,6 +69,7 @@ export const UpsertService = () => {
               sx={{ marginRight: '1rem' }}
               type="button"
               color="secondary"
+              variant="outlined"
               onClick={() => methods?.reset()}
               disabled={postAddServiceCatalogStatus?.isLoading}
             >

@@ -27,6 +27,13 @@ export const approvalsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    postPurchaseOrderApprovalReminders: builder?.mutation({
+      query: () => ({
+        url: END_POINTS?.SEND_PURCHASE_APPROVAL_REMINDER,
+        method: 'POST',
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -34,4 +41,5 @@ export const {
   usePostRequestApprovalMutation,
   usePatchRequestApprovalMutation,
   useLazyGetApprovalRequestsQuery,
+  usePostPurchaseOrderApprovalRemindersMutation,
 } = approvalsAPI;
