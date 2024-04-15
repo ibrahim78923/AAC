@@ -56,24 +56,16 @@ const useCreateContacts = () => {
 
   const onSubmit = async (values: any, closeDrawer: any) => {
     const formData = new FormData();
-    formData?.append('profilePicture', values?.profilePicture);
-    formData?.append('email', values?.email);
-    formData?.append('firstName', values?.firstName);
-    formData?.append('lastName', values?.lastName);
-    formData?.append('phoneNumber', values?.phoneNumber);
-    formData?.append('whatsAppNumber', values?.whatsAppNumber);
-    formData?.append(
-      'dateOfBirth',
-      dayjs(values?.dateOfBirth)?.format(DATE_FORMAT?.API),
-    );
-    formData?.append('address', values?.address);
-    formData?.append('jobTitle', values?.jobTitle);
-    formData?.append('lifeCycleStageId', values?.lifeCycleStageId);
-    formData?.append('statusId', values?.statusId);
-    formData?.append(
-      'dateOfJoinig',
-      dayjs(values?.dateOfJoinig)?.format(DATE_FORMAT?.API),
-    );
+    Object.entries(values).forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        // For date values, format them before appending
+        if (key === 'dateOfBirth' || key === 'dateOfJoinig') {
+          formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
+        } else {
+          formData.append(key, value);
+        }
+      }
+    });
 
     try {
       const contactResponse = await postContacts({ body: formData })?.unwrap();
