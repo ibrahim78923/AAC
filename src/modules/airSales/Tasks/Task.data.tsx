@@ -13,6 +13,8 @@ import SearchableTabsSelect from './searchableTabsSelect';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import useTaskCustomize from './EditColumn/useTaskCustomize';
+import { useGetAssignedToUsersQuery } from '@/services/airSales/task';
+import { getSession } from '@/utils';
 
 export const filterDefaultValues = {
   assignTo: '',
@@ -166,6 +168,25 @@ export const createTaskDefaultValues = ({ data }: any) => {
 };
 
 export const createTaskData = ({ data }: any) => {
+  const { user }: { user: any } = getSession();
+  const { data: usersList } = useGetAssignedToUsersQuery({
+    params: {
+      organization: user?.organization?._id,
+      page: '1',
+      limit: '1000',
+      role: user?.role,
+    },
+  });
+
+  const formattedData =
+    usersList?.data?.users &&
+    usersList?.data?.users?.map((user: any) => {
+      return {
+        label: `${user?.firstName} ${user?.lastName}`,
+        value: `${user?._id}`,
+      };
+    });
+
   return [
     {
       md: 12,
@@ -238,12 +259,22 @@ export const createTaskData = ({ data }: any) => {
         name: 'assignTo',
         select: true,
       },
-      options: [
-        { label: 'Jhon Doe', value: 'Jhon Doe' },
-        { label: 'Jhon Doe', value: 'Jhon Doe' },
-      ],
+      options: formattedData,
       component: RHFSelect,
     },
+    // {
+    //   md: 12,
+    //   componentProps: {
+    //     label: 'Assigned to',
+    //     name: 'assignTo',
+    //     apiQuery: apiQueryusers,
+    //     getOptionLabel: (option: any) =>
+    //       option?.firstName + ' ' + option?.lastName,
+    //     externalParams: { role: user?.role, limit: 50 },
+    //   },
+
+    //   component: RHFAutocompleteAsync,
+    // },
     {
       md: 7,
       componentProps: {

@@ -1,6 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 const TAG = ['TASKS'];
+const TAG_TWO = ['TASK_USERS'];
 export const taskApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getTasks: builder.query({
@@ -130,6 +131,17 @@ export const taskApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getAssignedToUsers: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.USER_LIST}`,
+        method: 'GET',
+        params: params,
+      }),
+      // transformResponse: (response: any) => {
+      //   if (response) return response?.data?.users;
+      // },
+      providesTags: TAG_TWO,
+    }),
   }),
 });
 
@@ -149,4 +161,5 @@ export const {
   useGetTaskInsightsQuery,
   useGetTaskFeedQuery,
   useGetTaskGraphDataQuery,
+  useGetAssignedToUsersQuery,
 } = taskApi;

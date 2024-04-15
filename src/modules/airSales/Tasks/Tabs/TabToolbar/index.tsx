@@ -63,7 +63,6 @@ const TabToolbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const selectedTaskIds = useAppSelector(
     (state: any) => state?.task?.selectedTaskIds,
   );
