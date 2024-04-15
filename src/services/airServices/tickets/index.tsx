@@ -50,7 +50,7 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
     }),
     putSingleTicketStatus: builder?.mutation({
       query: (putSingleTicketStatusParameter: any) => ({
-        url: `${END_POINTS?.TICKET_STATUS}/${putSingleTicketStatusParameter?.pathParams?.id}`,
+        url: `${END_POINTS?.TICKET_STATUS}`,
         method: 'PUT',
         params: putSingleTicketStatusParameter?.queryParams,
       }),
