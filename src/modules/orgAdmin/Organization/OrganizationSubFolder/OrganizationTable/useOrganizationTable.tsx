@@ -111,9 +111,9 @@ const useOrganizationTable = () => {
       methods.setValue('country', addressOthFields?.country);
       methods.setValue('address', addressOthFields?.composite);
     }
-  }, [editData, methods]);
+  }, [editData, methods, isOpenDrawer]);
 
-  const { handleSubmit, reset, watch } = methods;
+  const { handleSubmit, reset, watch, clearErrors } = methods;
 
   const addressLength = watch('address');
   const unitField = watch('unit');
@@ -218,6 +218,7 @@ const useOrganizationTable = () => {
   const handleClose = () => {
     setAnchorEl(null);
     setOpenEditDrawer(true);
+    clearErrors();
   };
   const tableRowData = data?.data?.organizationcompanyaccounts ?? [];
   const getRowValues = columns(

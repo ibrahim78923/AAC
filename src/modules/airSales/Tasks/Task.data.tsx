@@ -13,6 +13,9 @@ import SearchableTabsSelect from './searchableTabsSelect';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import useTaskCustomize from './EditColumn/useTaskCustomize';
+import { useGetAssignedToUsersQuery } from '@/services/airSales/task';
+import { getSession } from '@/utils';
+import { PAGINATION } from '@/config';
 
 export const filterDefaultValues = {
   assignTo: '',
@@ -166,6 +169,25 @@ export const createTaskDefaultValues = ({ data }: any) => {
 };
 
 export const createTaskData = ({ data }: any) => {
+  const { user }: { user: any } = getSession();
+  const { data: usersList } = useGetAssignedToUsersQuery({
+    params: {
+      organization: user?.organization?._id,
+      page: PAGINATION?.CURRENT_PAGE,
+      limit: PAGINATION?.PAGE_LIMIT,
+      role: user?.role,
+    },
+  });
+
+  const formattedData =
+    usersList?.data?.users &&
+    usersList?.data?.users?.map((user: any) => {
+      return {
+        label: `${user?.firstName} ${user?.lastName}`,
+        value: `${user?._id}`,
+      };
+    });
+
   return [
     {
       md: 12,
@@ -238,10 +260,7 @@ export const createTaskData = ({ data }: any) => {
         name: 'assignTo',
         select: true,
       },
-      options: [
-        { label: 'Jhon Doe', value: 'Jhon Doe' },
-        { label: 'Jhon Doe', value: 'Jhon Doe' },
-      ],
+      options: formattedData,
       component: RHFSelect,
     },
     {

@@ -22,7 +22,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-const Feed = () => {
+const Feed = ({ moduleId }: any) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTask, setSelectedTask] = useState('');
 
@@ -40,7 +40,7 @@ const Feed = () => {
       limit: PAGINATION?.PAGE_LIMIT,
       module: 'TASKS_MANAGEMENT',
       search: searchTerm,
-      moduleId: selectedTask,
+      moduleId: selectedTask || moduleId,
     },
   });
 
