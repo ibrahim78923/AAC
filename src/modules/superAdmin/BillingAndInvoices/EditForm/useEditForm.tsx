@@ -45,6 +45,7 @@ const useEditForm = (
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
+    // defaultValues: defaultValues,
     defaultValues: async () => {
       // if action is view or update
 
