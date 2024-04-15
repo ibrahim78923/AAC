@@ -34,17 +34,6 @@ export const AllDealColumns = ({
     if (attribute?.includes(DEAL_ATTRIBUTES?.DEAL_OWNER)) {
       return (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          {/* <Avatar
-            alt="user"
-            sx={{ background: theme?.palette?.custom?.dim_grey }}
-            src={
-              info?.row?.original?.dealOwner?.avatar?.url
-                ? IMG_URL + info.row.original.dealOwner.avatar.url
-                : AvatarImage?.src || ''
-            }
-          >
-            {info?.row?.original?.dealOwner?.name?.charAt(0) ?? '-'}
-          </Avatar> */}
           <>
             {info?.row?.original?.dealOwner?.avatar?.url && (
               <Image
