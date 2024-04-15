@@ -1,7 +1,8 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFFileImport } from '@/components/ReactHookForm';
 import { useImportProductCatalog } from './useImportProductCatalog';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
+import { MappedColumns } from './MappedColumns';
 
 export const ImportProductCatalog = (props: any) => {
   const { isDrawerOpen } = props;
@@ -19,16 +20,16 @@ export const ImportProductCatalog = (props: any) => {
       isOk
       footer
     >
-      <Typography variant="h5" color="slateBlue.main">
-        {' '}
-        Add File{' '}
-      </Typography>
       <Box marginY={2} />
       <FormProvider
         methods={importFormMethod}
         onSubmit={handleSubmit(submitImportFile)}
       >
-        <RHFFileImport name="file" />
+        {'hasColumns' ? (
+          <RHFFileImport name="file" label="Add File" />
+        ) : (
+          <MappedColumns name="csvColumns" />
+        )}
       </FormProvider>
     </CommonDrawer>
   );
