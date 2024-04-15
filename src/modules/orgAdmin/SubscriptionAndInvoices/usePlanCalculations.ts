@@ -24,7 +24,7 @@ const usePlanCalculations = ({
     const totalCostBeforeDiscount =
       planPrice + additionalUsers + additionalStorage;
     const discountedPriceBeforeTax =
-      totalCostBeforeDiscount - totalCostBeforeDiscount * convertedPlanDiscount;
+      totalCostBeforeDiscount - totalCostBeforeDiscount * convertedPlanDiscount; //discout formula;
     const discountApplied = totalCostBeforeDiscount - discountedPriceBeforeTax;
     const taxAmount = discountedPriceBeforeTax * planTax;
     const finalPrice = discountedPriceBeforeTax + taxAmount;

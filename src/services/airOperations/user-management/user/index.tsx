@@ -4,7 +4,7 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'USER_LIST';
 
 export const userManagementAPI = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     getProductUserList: builder?.query({
       query: ({ param }: any) => ({
         url: `${END_POINTS?.PRODUCTS_USERS}`,

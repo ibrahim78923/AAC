@@ -5,7 +5,7 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 export const DeleteConversation = (props: any) => {
   const { selectedConversationType } = props;
   const {
-    deleteDiscussionsOfTicketConversationStatus,
+    deleteTicketConversationStatus,
     deleteConversation,
     closeDeleteModal,
   } = useDeleteConversation(props);
@@ -17,8 +17,8 @@ export const DeleteConversation = (props: any) => {
       open={selectedConversationType?.isDelete}
       handleClose={() => closeDeleteModal?.()}
       handleSubmitBtn={() => deleteConversation?.()}
-      loading={deleteDiscussionsOfTicketConversationStatus?.isLoading}
-      disableCancelBtn={deleteDiscussionsOfTicketConversationStatus?.isLoading}
+      loading={deleteTicketConversationStatus?.isLoading}
+      disableCancelBtn={deleteTicketConversationStatus?.isLoading}
     />
   );
 };

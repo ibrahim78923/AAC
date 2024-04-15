@@ -5,6 +5,7 @@ import { usePatchRequestApprovalMutation } from '@/services/airServices/assets/p
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { approvalStatus } from '../Approvals.data';
 import { useState } from 'react';
+
 export const useRejectForm = (approvalId: any) => {
   const [rejectDialog, setRejectDialog] = useState(false);
   const methods: any = useForm({
@@ -24,9 +25,9 @@ export const useRejectForm = (approvalId: any) => {
       await patchRequestApprovalTrigger(params)?.unwrap();
       successSnackbar('Rejected Successfully!');
       setRejectDialog(false);
-      reset(defaultValues);
+      reset();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   return {

@@ -30,7 +30,9 @@ export const MoveToCategory = (prop: any) => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Typography variant="h4">Move to Category</Typography>
+          <Typography variant={'h4'} component={'span'}>
+            Move to Category
+          </Typography>
 
           <CloseIcon sx={{ cursor: 'pointer' }} onClick={handleClose} />
         </DialogTitle>

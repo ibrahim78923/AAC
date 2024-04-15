@@ -4,7 +4,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
 import Image from 'next/image';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { AUTH } from '@/constants';
 import useSignUp from './useSignUp';
 import { signUpFormFields } from './SignUp.data';
 import PermissionDenied from '@/components/PermisisonDenied';
@@ -36,10 +36,7 @@ export const SignUp = () => {
 
   return (
     <>
-      <CustomerPortalHeader
-        buttonText={'Sign In'}
-        pathname={AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_LOGIN}
-      />
+      <CustomerPortalHeader buttonText={'Sign In'} pathname={AUTH?.LOGIN} />
 
       <Grid
         container

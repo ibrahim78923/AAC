@@ -11,6 +11,13 @@ export const usersApi: any = baseAPI.injectEndpoints({
       }),
       providesTags: ['USERS'],
     }),
+    getSuperAdminRoles: builder.query({
+      query: () => ({
+        url: END_POINTS?.SUPER_ADMIN_ROLES,
+        method: 'GET',
+      }),
+      providesTags: ['USERS'],
+    }),
 
     getUsersById: builder.query({
       query: (id: any) => {
@@ -71,5 +78,6 @@ export const {
   useGetUsersQuery,
   useDeleteUsersMutation,
   useGetUsersByIdQuery,
+  useGetSuperAdminRolesQuery,
   // useUpdateUserProfileMutation,
 } = usersApi;

@@ -181,6 +181,17 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getTicketByIdForMerge: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_TICKET_BY_REQUESTER}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_THREE],
+    }),
   }),
 });
 export const {
@@ -204,4 +215,5 @@ export const {
   usePostMergeTicketsMutation,
   useGetAttachmentsByIdQuery,
   usePostAddReplyToBulkUpdateMutation,
+  useLazyGetTicketByIdForMergeQuery,
 } = ticketsAPI;
