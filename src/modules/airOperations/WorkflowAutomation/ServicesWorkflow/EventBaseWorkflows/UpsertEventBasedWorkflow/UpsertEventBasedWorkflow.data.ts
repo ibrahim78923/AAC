@@ -1,6 +1,7 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
+import { taskFieldsOption } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -26,11 +27,10 @@ export const conditionTypeOptions = [
 export const actionsOptions = [
   { value: 'status', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
-  { value: 'type', label: 'Set Type as' },
+  { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
   { value: 'dueDate', label: 'Set Due Date as' },
   { value: 'category', label: 'Set Category as' },
-  { value: 'status', label: 'Set Status as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
   { value: 'addTask', label: 'Add Task' },
@@ -112,6 +112,21 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
 });
 
 export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
+  const ticketData = {
+    ticketFields: 'Ticket Fields',
+    assetsFields: 'Assets Fields',
+    taskFields: 'Task Fields',
+  };
+  const optionsData =
+    singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS
+      ? ticketData?.ticketFields
+      : singleWorkflowData?.module === SCHEMA_KEYS?.ASSETS
+        ? ticketData?.assetsFields
+        : singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS_TASKS &&
+            taskFieldsOption
+          ? ticketData?.taskFields
+          : ticketData?.ticketFields;
+
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.EVENT_BASE,
@@ -126,11 +141,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           (item: any) => item?.value === singleWorkflowData?.runType,
         )
       : null,
-    module: singleWorkflowData?.module
-      ? moduleOptions?.find(
-          (item: any) => item?.value === singleWorkflowData?.module,
-        )
-      : SCHEMA_KEYS?.TICKETS,
+    module: singleWorkflowData?.module ?? SCHEMA_KEYS?.TICKETS,
     groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: number) => {
       return {
@@ -142,6 +153,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         conditions: group?.conditions?.map((condition: any, cIndex: number) => {
           return {
+            options: optionsData,
             fieldName: condition?.fieldName ?? '',
             condition: condition?.condition ?? '',
             fieldValue:
@@ -154,17 +166,6 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
         }),
       };
     }) ?? [
-      {
-        name: '',
-        conditionType: null,
-        conditions: [
-          {
-            fieldName: '',
-            condition: '',
-            fieldValue: null,
-          },
-        ],
-      },
       {
         name: '',
         conditionType: null,

@@ -15,6 +15,8 @@ export const WorkflowHeader = ({
   setIsWorkflowDrawer,
   updatedWorkflowProcess,
   testWorkflowProgress,
+  testWorkflowResponse,
+  watch,
 }: any) => {
   const { handleMoveBack, action, handleCancel } = useWorkflowHeader();
   const EDIT_WORKFLOW = 'edit';
@@ -89,6 +91,8 @@ export const WorkflowHeader = ({
       <TestWorkflowDrawer
         isWorkflowDrawer={isWorkflowDrawer}
         setIsWorkflowDrawer={setIsWorkflowDrawer}
+        testWorkflowResponse={testWorkflowResponse}
+        watch={watch}
       />
     </Box>
   );

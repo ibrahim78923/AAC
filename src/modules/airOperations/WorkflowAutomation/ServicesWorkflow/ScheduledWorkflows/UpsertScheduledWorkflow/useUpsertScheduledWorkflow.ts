@@ -114,7 +114,8 @@ export const useUpsertScheduledWorkflow = () => {
   const mapGroup = (group: any, typeData: any) => ({
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
-      ...condition,
+      condition: condition?.condition,
+      fieldName: condition?.fieldName,
       fieldValue:
         condition?.fieldName &&
         [
@@ -197,7 +198,6 @@ export const useUpsertScheduledWorkflow = () => {
   const handleFormSubmit = async (data: any) => {
     const timeRange = dayjs(data?.time)?.format(TIME_FORMAT?.TH);
     const {
-      options,
       time,
       schedule,
       scheduleDay,
@@ -212,8 +212,13 @@ export const useUpsertScheduledWorkflow = () => {
       ...rest,
       schedule: {
         type: data?.schedule?.toUpperCase(),
-        daily: { time: timeRange },
-        weekly: { days: [data?.scheduleDay?.toUpperCase()], time: timeRange },
+        daily: {
+          time: timeRange,
+        },
+        weekly: {
+          days: [data?.scheduleDay?.toUpperCase()],
+          time: timeRange,
+        },
         monthly: {
           day: Number(dayjs(data?.scheduleDate)?.format(DATE_TIME_FORMAT?.D)),
           time: timeRange,
@@ -236,7 +241,6 @@ export const useUpsertScheduledWorkflow = () => {
     };
     await handleApiCall(body);
     return {
-      options,
       schedule,
       scheduleDay,
       scheduleMonth,

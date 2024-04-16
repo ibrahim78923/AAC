@@ -114,7 +114,8 @@ export const useUpsertEventBasedWorkflow = () => {
   const mapGroup = (group: any, typeData: any) => ({
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
-      ...condition,
+      condition: condition?.condition,
+      fieldName: condition?.fieldName,
       fieldValue:
         condition?.fieldName &&
         [
@@ -195,18 +196,14 @@ export const useUpsertEventBasedWorkflow = () => {
   };
 
   const handleFormSubmit = async (data: any) => {
-    const { options, ...rest } = data;
     const body = {
-      ...rest,
+      ...data,
       events: data?.events?.value ? [data?.events?.value] : [],
       runType: data?.runType?.value,
       groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
       actions: data?.actions?.map((action: any) => mapAction(action, typeData)),
     };
     await handleApiCall(body);
-    return {
-      options,
-    };
   };
 
   useEffect(() => {

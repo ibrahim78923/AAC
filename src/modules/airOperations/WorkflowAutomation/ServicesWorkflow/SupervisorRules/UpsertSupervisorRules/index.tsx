@@ -28,6 +28,7 @@ export const UpsertSupervisorRules = () => {
     testWorkflowProgress,
     updatedWorkflowProcess,
     handleTestWorkflow,
+    testWorkflowResponse,
   } = useRulesWorkflow();
   if (isLoading || isFetching) return <Skeleton />;
   return (
@@ -45,6 +46,8 @@ export const UpsertSupervisorRules = () => {
           handleTestWorkflow={handleTestWorkflow}
           testWorkflowProgress={testWorkflowProgress}
           updatedWorkflowProcess={updatedWorkflowProcess}
+          testWorkflowResponse={testWorkflowResponse}
+          watch={watch}
         />
         <Grid container spacing={2}>
           {rulesWorkflowDataArray?.map((item: any) => (

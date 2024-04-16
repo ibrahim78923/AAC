@@ -20,11 +20,10 @@ export const conditionTypeOptions = [
 export const actionsOptions = [
   { value: 'status', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
-  { value: 'type', label: 'Set Type as' },
+  { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
   { value: 'dueDate', label: 'Set Due Date as' },
   { value: 'category', label: 'Set Category as' },
-  { value: 'status', label: 'Set Status as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
   { value: 'addTask', label: 'Add Task' },
@@ -126,6 +125,7 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         conditions: group?.conditions?.map((condition: any, cIndex: any) => {
           return {
+            options: 'Ticket Fields',
             fieldName: condition?.fieldName ?? '',
             condition: condition?.condition ?? '',
             fieldValue:
@@ -138,17 +138,6 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
         }),
       };
     }) ?? [
-      {
-        name: '',
-        conditionType: null,
-        conditions: [
-          {
-            fieldName: '',
-            condition: '',
-            fieldValue: null,
-          },
-        ],
-      },
       {
         name: '',
         conditionType: null,

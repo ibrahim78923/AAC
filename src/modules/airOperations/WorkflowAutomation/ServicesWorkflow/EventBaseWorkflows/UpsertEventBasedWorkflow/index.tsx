@@ -28,6 +28,7 @@ export const UpsertEventBasedWorkflow = () => {
     setIsWorkflowDrawer,
     updatedWorkflowProcess,
     testWorkflowProgress,
+    testWorkflowResponse,
   } = useUpsertEventBasedWorkflow();
   if (isLoading || isFetching) return <Skeleton />;
   return (
@@ -45,6 +46,8 @@ export const UpsertEventBasedWorkflow = () => {
           handleTestWorkflow={handleTestWorkflow}
           testWorkflowProgress={testWorkflowProgress}
           updatedWorkflowProcess={updatedWorkflowProcess}
+          testWorkflowResponse={testWorkflowResponse}
+          watch={watch}
         />
         <Grid container spacing={2}>
           {EventBasedWorkflowDataArray?.map((item: any) => (

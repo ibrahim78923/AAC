@@ -29,6 +29,7 @@ export const UpsertScheduledWorkflow = () => {
     handleTestWorkflow,
     testWorkflowProgress,
     updatedWorkflowProcess,
+    testWorkflowResponse,
   } = useUpsertScheduledWorkflow();
 
   if (isLoading || isFetching) return <Skeleton />;
@@ -49,6 +50,8 @@ export const UpsertScheduledWorkflow = () => {
             handleTestWorkflow={handleTestWorkflow}
             testWorkflowProgress={testWorkflowProgress}
             updatedWorkflowProcess={updatedWorkflowProcess}
+            testWorkflowResponse={testWorkflowResponse}
+            watch={watch}
           />
         </Box>
         <Grid container spacing={2}>
