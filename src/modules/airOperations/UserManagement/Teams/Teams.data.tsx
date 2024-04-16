@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
+import TeamsDetails from './TeamsDetails';
 
 export const teamList: any = (
   selectedTeamList: any,
@@ -8,6 +9,7 @@ export const teamList: any = (
   setIsTeamDrawerOpen: any,
   setIsEditDrawerOpen: any,
   setDeleteModal: any,
+  setTeamData: any,
 ) => [
   {
     accessorFn: (row: any) => row?.name,
@@ -34,16 +36,17 @@ export const teamList: any = (
     header: 'Action',
     cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: 1 }}>
+        <TeamsDetails
+          teamId={info?.row?.original?._id}
+          title={'Test'}
+          okText={'Save'}
+        />
         <Box
           sx={{ cursor: 'pointer' }}
-          onClick={() => setIsTeamDrawerOpen(info?.row?.original?._id)}
-        >
-          <ViewEyeIcon />
-        </Box>
-
-        <Box
-          sx={{ cursor: 'pointer' }}
-          onClick={() => setIsEditDrawerOpen(true)}
+          onClick={() => {
+            setIsEditDrawerOpen(true);
+            setTeamData(info?.row?.original);
+          }}
         >
           <EditPenIcon />
         </Box>

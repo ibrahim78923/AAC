@@ -62,8 +62,8 @@ const UserManagement = () => {
             tabVal === initialTab
               ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
               : tabVal === tabOne
-                ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
-                : [SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ADD_ROLE]
+              ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
+              : [SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ADD_ROLE]
           }
         >
           <Button
@@ -84,8 +84,8 @@ const UserManagement = () => {
             {tabVal === initialTab
               ? 'Add Company Owner'
               : tabVal === tabOne
-                ? 'Add Super Admin '
-                : 'Add Role'}
+              ? 'Add Super Admin '
+              : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
@@ -113,7 +113,11 @@ const UserManagement = () => {
                   tabVal={tabVal}
                   setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
                 />
-                <Tooltip title="Refresh Filter">
+                <Tooltip
+                  title={`${
+                    tabVal === tabOne ? 'Refresh Date Filter' : 'Refresh Filter'
+                  }`}
+                >
                   <Button
                     variant="outlined"
                     color="inherit"

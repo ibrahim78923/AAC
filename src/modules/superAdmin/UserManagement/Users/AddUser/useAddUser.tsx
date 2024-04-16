@@ -6,6 +6,7 @@ import {
   CompanyOwnerValidationSchema,
   companyOwnerDefaultValues,
   superAdminValidationSchema,
+  orgEmployeeValidationSchema,
 } from './AddUser.data';
 import { useEffect, useState } from 'react';
 import { debouncedSearch } from '@/utils';
@@ -53,6 +54,10 @@ const useAddUser = (useActionParams?: any) => {
     resolver: yupResolver(superAdminValidationSchema),
     defaultValues: superAdminValues,
   });
+  const orgEmployeeMethods: any = useForm({
+    resolver: yupResolver(orgEmployeeValidationSchema),
+    defaultValues: superAdminValues,
+  });
 
   // for company awner form values
   const companyOwnerValues = {
@@ -72,7 +77,11 @@ const useAddUser = (useActionParams?: any) => {
 
   //constant methods for both forms
   const methods =
-    tabTitle === 'SUPER_ADMIN' ? superAdminMethods : companyOwnerMethods;
+    pathName === SUPER_ADMIN?.USERS_LIST
+      ? orgEmployeeMethods
+      : tabTitle === 'SUPER_ADMIN'
+      ? superAdminMethods
+      : companyOwnerMethods;
 
   const { watch, setValue, handleSubmit, reset } = methods;
 
@@ -211,12 +220,12 @@ const useAddUser = (useActionParams?: any) => {
           reset(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-          ? (await postUserEmployee({
-              id: organizationId,
-              body: values,
-            })?.unwrap(),
-            setIsOpenAdduserDrawer(false))
-          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+        ? (await postUserEmployee({
+            id: organizationId,
+            body: values,
+          })?.unwrap(),
+          setIsOpenAdduserDrawer(false))
+        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
 
       enqueueSnackbar(
         `User ${
