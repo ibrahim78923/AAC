@@ -689,7 +689,7 @@ const Folders = () => {
           setModalHeading('');
         }}
         handleSubmit={() => onSubmit()}
-        title={modalHeading.length > 0 ? modalHeading : 'Create Folder'}
+        title={modalHeading?.length > 0 ? modalHeading : 'Create Folder'}
         okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
         cancelText="Cancel"
         footerFill={false}

@@ -222,3 +222,8 @@ export const EQUICKLINKSROLES = {
   SUPER_ADMIN: 'Super Admin',
   ORG_ADMIN: 'Org Admin',
 };
+
+export const DOCUMENTS_ACTION_TYPES = {
+  MOVE_FOLDER: 'move-folder',
+  UPDATE_FOLDER: 'update-folder',
+};

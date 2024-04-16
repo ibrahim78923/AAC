@@ -21,6 +21,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isNullOrEmpty } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
+import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 
 const useFolder: any = () => {
   const theme = useTheme<Theme>();
@@ -140,7 +141,10 @@ const useFolder: any = () => {
       name: watch('name'),
     };
     try {
-      if (actionType === 'move-folder' || actionType === 'update-folder') {
+      if (
+        actionType === DOCUMENTS_ACTION_TYPES.MOVE_FOLDER ||
+        actionType === DOCUMENTS_ACTION_TYPES.UPDATE_FOLDER
+      ) {
         await updateFolder({
           id: cardBox,
           body: documentData,

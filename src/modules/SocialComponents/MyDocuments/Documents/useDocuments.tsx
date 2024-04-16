@@ -16,6 +16,7 @@ import useAuth from '@/hooks/useAuth';
 import { enqueueSnackbar } from 'notistack';
 import { validationSchema } from './Documents.data';
 import { isNullOrEmpty } from '@/utils';
+import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 
 const useDocuments: any = () => {
   const theme = useTheme<Theme>();
@@ -127,7 +128,10 @@ const useDocuments: any = () => {
       name: watch('name'),
     };
     try {
-      if (actionType === 'move-folder' || actionType === 'update-folder') {
+      if (
+        actionType === DOCUMENTS_ACTION_TYPES.MOVE_FOLDER ||
+        actionType === DOCUMENTS_ACTION_TYPES.UPDATE_FOLDER
+      ) {
         await updateFolder({
           id: checkboxChecked,
           body: documentData,
