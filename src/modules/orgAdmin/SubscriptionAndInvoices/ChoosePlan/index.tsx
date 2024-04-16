@@ -365,7 +365,7 @@ const ChoosePlan = () => {
                             <TickCircleIcon />
                             <p>
                               {
-                                planFeature?.planProductFeatures.find(
+                                planFeature?.planProductFeatures?.find(
                                   (row: any) => row?.featureId === feature?._id,
                                 )?.dealsAssociationsDetail
                               }
