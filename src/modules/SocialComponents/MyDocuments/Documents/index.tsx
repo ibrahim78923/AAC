@@ -44,15 +44,15 @@ import { dataArray } from './Documents.data';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { AIR_MARKETER } from '@/routesConstants/paths';
+import { SOCIAL_FEATURES } from '@/routesConstants/paths';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Documents = () => {
   const navigate = useRouter();
   const {
-    value,
-    setValue,
+    searchValue,
+    setSearchValue,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenModal,
@@ -60,7 +60,9 @@ const Documents = () => {
     theme,
     isOpenFolderDrawer,
     setIsOpenFolderDrawer,
-    setIsEditOpenModal,
+    setSelectedFolder,
+    selectedFolder,
+    setActionType,
     isOpenDelete,
     setIsOpenDelete,
     anchorEl,
@@ -96,9 +98,9 @@ const Documents = () => {
           <Search
             label="Search here"
             sx={{ width: '100%' }}
-            searchBy={value}
+            searchBy={searchValue}
             setSearchBy={(e: string) => {
-              setValue(e);
+              setSearchValue(e);
             }}
           />
           <Box
@@ -221,10 +223,8 @@ const Documents = () => {
           <Search
             label="Search here"
             sx={{ width: '100%' }}
-            searchBy={value}
-            setSearchBy={(e: string) => {
-              setValue(e);
-            }}
+            searchBy={searchValue}
+            setSearchBy={setSearchValue}
           />
           {documentData?.map((item: any) => {
             return checkboxChecked?.find(
@@ -282,7 +282,8 @@ const Documents = () => {
               className="small"
               onClick={() => {
                 setIsOpenModal(true);
-                setModalHeading('Create New Folder');
+                setActionType('create-sub-folder');
+                FolderAdd?.setValue('name', '');
               }}
               sx={styles?.createFolderButton(theme)}
             >
@@ -301,9 +302,9 @@ const Documents = () => {
           <Search
             label="Search here"
             width="260px"
-            searchBy={value}
+            searchBy={searchValue}
             setSearchBy={(e: string) => {
-              setValue(e);
+              setSearchValue(e);
             }}
           />
         </Grid>
@@ -363,6 +364,8 @@ const Documents = () => {
                     handleClose();
                     setModalHeading('Edit Name');
                     setIsOpenModal(true);
+                    setActionType('move-folder');
+                    FolderAdd?.setValue('name', selectedFolder?.name);
                   }}
                 >
                   Rename
@@ -445,7 +448,7 @@ const Documents = () => {
                           checked={checkboxChecked.includes(item?._id)}
                           onChange={() => {
                             handleCheckboxChange(item?._id);
-                            setIsEditOpenModal(item);
+                            setSelectedFolder(item);
                           }}
                         />
                       </Box>
@@ -455,7 +458,7 @@ const Documents = () => {
                         sx={{ cursor: 'pointer' }}
                         onClick={() => {
                           navigate.push({
-                            pathname: AIR_MARKETER?.COMMON_DOCUMENTS_FOLDER,
+                            pathname: SOCIAL_FEATURES?.FOLDER_DETAILS,
                             query: {
                               folder: item?._id,
                               name: item?.name,
@@ -526,9 +529,13 @@ const Documents = () => {
       </Grid>
       <CommonModal
         open={isOpenModal}
-        handleCancel={() => setIsOpenModal(false)}
+        handleCancel={() => {
+          setIsOpenModal(false);
+          setActionType('');
+          setModalHeading('');
+        }}
         handleSubmit={() => onSubmit()}
-        title={`${modalHeading}`}
+        title={modalHeading?.length > 0 ? modalHeading : 'Create Folder'}
         okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
         cancelText="Cancel"
         footerFill={false}

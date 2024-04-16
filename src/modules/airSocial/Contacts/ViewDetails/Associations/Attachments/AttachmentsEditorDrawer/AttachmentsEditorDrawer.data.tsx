@@ -3,18 +3,18 @@ import { RHFDropZone } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const attachmentsValidationSchema = Yup?.object()?.shape({
-  fileUrl: Yup.string().trim().required('Field is Required'),
+  attachment: Yup.mixed().required('File is required'),
 });
 
 export const attachmentsDefaultValues = {
-  fileUrl: '',
+  attachment: null,
 };
 
 export const attachmentsDataArray = [
   {
-    id: 'fileUrl',
+    id: 'attachment',
     componentProps: {
-      name: 'fileUrl',
+      name: 'attachment',
       label: '',
       fullWidth: true,
     },

@@ -1,14 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useLazyGetOrganizationDetailsByIdQuery } from '@/services/orgAdmin/organization';
+import {
+  useLazyGetOrganizationDetailsByIdQuery,
+  useUpdateOrganizationMutation,
+} from '@/services/orgAdmin/organization';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './OrganizationCard.data';
 import { getSession } from '@/utils';
 import useToggle from '@/hooks/useToggle';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useOrganizationCard = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  // commented for future use will remove when complete work on this comp
+  // const [imagePreview, setImagePreview] = useState<any>();
+  // const [imageToUpload, setImageToUpload] = useState<any>();
   const [isToggled, setIsToggled] = useToggle(false);
   const theme = useTheme<Theme>();
   const { user }: any = getSession();
@@ -19,6 +27,9 @@ const useOrganizationCard = () => {
     { isLoading: loadingDetails, isError, isFetching, isSuccess },
   ] = useLazyGetOrganizationDetailsByIdQuery();
 
+  const [updateOrganization, { isLoading: loadingUpdateOrganization }] =
+    useUpdateOrganizationMutation();
+
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
@@ -28,17 +39,25 @@ const useOrganizationCard = () => {
   // Watch all values from forms
   const formValues = watch();
 
-  // Make sum up of address fields
-  const addressValues = [
-    formValues.flat && `Flat # ${formValues.flat}, `,
-    formValues.buildingName && `Building Name ${formValues.buildingName}, `,
-    formValues.buildingNumber && `Building # ${formValues.buildingNumber}, `,
-    formValues.streetName && `Street # ${formValues.streetName}, `,
-    formValues.city && `${formValues.city}, `,
-    formValues.country && formValues.country,
-  ]
-    .filter(Boolean)
-    .join('');
+  //make sum up of address fields
+  const addressValues = formValues?.composite?.address
+    ? formValues?.composite?.address
+    : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
+      `${
+        formValues?.buildingNumber
+          ? `Building # ${formValues?.buildingNumber}, `
+          : ''
+      }` +
+      `${
+        formValues?.buildingName
+          ? `Building Name ${formValues?.buildingName}, `
+          : ''
+      }` +
+      `${
+        formValues?.streetName ? `Street # ${formValues?.streetName}, ` : ''
+      }` +
+      `${formValues?.city ? `${formValues?.city}, ` : ''}` +
+      `${formValues?.country ? `${formValues?.country}` : ''}`;
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -46,10 +65,20 @@ const useOrganizationCard = () => {
         .unwrap()
         .then((res) => {
           if (res) {
-            const fieldsData = res?.data;
+            const fieldsData = res?.data[0];
             reset({
               registrationNumber: fieldsData?.crn,
               name: fieldsData?.name,
+              email: fieldsData?.owner?.email,
+              phoneNo: fieldsData?.owner?.phoneNumber,
+              postCode: fieldsData?.address?.postalCode,
+              address: fieldsData?.address?.composite,
+              flat: fieldsData?.address?.flatNumber ?? '',
+              city: fieldsData?.address?.city ?? '',
+              country: fieldsData?.address?.country ?? '',
+              buildingName: fieldsData?.address?.buildingName ?? '',
+              buildingNumber: fieldsData?.address?.buildingNumber ?? '',
+              streetName: fieldsData?.address?.streetName ?? '',
             });
           }
         });
@@ -61,13 +90,48 @@ const useOrganizationCard = () => {
     setValue('compositeAddress', addressValues);
   }, [addressValues]);
 
+  // commented for future use will remove when complete work on this comp
+  // const formData = new FormData();
+
+  // const handleImageChange = async (e: any) => {
+  //   const selectedImage = e?.target?.files[0];
+  //   setImageToUpload(selectedImage);
+  //   formData.append('image', selectedImage);
+
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     setImagePreview(reader?.result);
+  //   };
+  //   reader?.readAsDataURL(selectedImage);
+  // };
+
+  const handleChangeImg = async (e: any) => {
+    if (e?.target?.files?.length) {
+      const formData = new FormData();
+      formData?.append('image', e?.target?.files[0]);
+      try {
+        await updateOrganization({
+          id: currentOrganizationId,
+          body: formData,
+        })?.unwrap();
+        enqueueSnackbar('Image updated successfully', {
+          variant: 'success',
+        });
+      } catch (error: any) {
+        enqueueSnackbar(error?.data?.message, {
+          variant: 'error',
+        });
+      }
+    }
+  };
+
   const onSubmit: any = async (values: any) => {
     if (isToggled) {
       values.address = {
         flatNumber: values.flat,
         buildingName: values?.buildingName,
         buildingNumber: values?.buildingNumber,
-        streetName: values?.streetName,
+        street: values?.streetName,
         city: values?.city,
         country: values?.country,
       };
@@ -85,15 +149,34 @@ const useOrganizationCard = () => {
       'streetName',
       'compositeAddress',
     ];
-
     for (const key of keysToDelete) {
       delete values[key];
+    }
+    try {
+      await updateOrganization({ id: currentOrganizationId, body: values })
+        .unwrap()
+        .then((res) => {
+          if (res) {
+            setIsOpenDrawer(false);
+            reset();
+            enqueueSnackbar(`organization updated successfully`, {
+              variant: NOTISTACK_VARIANTS?.ERROR,
+            });
+          }
+        });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false), reset();
   };
+
   return {
     theme,
     isOpenDrawer,
@@ -110,6 +193,10 @@ const useOrganizationCard = () => {
     addressVal: formValues.compositeAddress,
     isToggled,
     setIsToggled,
+    handleChangeImg,
+    // imagePreview,
+    loadingUpdateOrganization,
+    // imageToUpload,
   };
 };
 

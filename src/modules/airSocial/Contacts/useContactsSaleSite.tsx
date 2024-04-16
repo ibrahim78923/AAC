@@ -28,15 +28,13 @@ const useContactsSaleSite = () => {
   const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const defaultParams = {
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
-  };
   const [searchValue, setSearchValue] = useState(null);
-  const [filterParams, setFilterParams] = useState({
+  const [filterParams, setFilterParams] = useState({});
+  const paginationParams = {
     page: page,
     limit: pageLimit,
-  });
+  };
+
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
@@ -46,7 +44,7 @@ const useContactsSaleSite = () => {
     methodsFilter;
   const { data: dataGetContacts, isLoading: loadingGetContacts } =
     useGetContactsQuery({
-      params: { ...filterParams, ...searchPayLoad },
+      params: { ...filterParams, ...searchPayLoad, ...paginationParams },
     });
 
   // Filters
@@ -89,19 +87,10 @@ const useContactsSaleSite = () => {
 
   // Refresh
   const handleRefresh = () => {
-    setFilterParams(defaultParams);
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
     resetFilters();
-  };
-
-  // Hadle PAGE CHANGE
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
   };
 
   // Dropdown Menu
@@ -208,7 +197,6 @@ const useContactsSaleSite = () => {
     loadingGetContacts,
     setPage,
     setPageLimit,
-    handlePageChange,
     handleRefresh,
     handleFiltersSubmit,
     searchValue,

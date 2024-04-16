@@ -6,7 +6,6 @@ const ContactsTable = ({
   isLoading,
   data,
   columns,
-  onPageChange,
   setPage,
   setPageLimit,
 }: any) => {
@@ -16,14 +15,16 @@ const ContactsTable = ({
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TanstackTable
             columns={columns}
-            isLoading={isLoading}
             data={data?.data?.contacts}
-            isPagination
+            isLoading={isLoading}
+            currentPage={data?.data?.meta?.page}
             count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
             totalRecords={data?.data?.meta?.total}
-            onPageChange={onPageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
           />
         </Paper>
       </Box>

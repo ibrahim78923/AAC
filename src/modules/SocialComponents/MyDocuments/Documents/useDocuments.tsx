@@ -16,15 +16,16 @@ import useAuth from '@/hooks/useAuth';
 import { enqueueSnackbar } from 'notistack';
 import { validationSchema } from './Documents.data';
 import { isNullOrEmpty } from '@/utils';
+import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 
 const useDocuments: any = () => {
   const theme = useTheme<Theme>();
-  const [value, setValue] = useState('Search here');
+  const [searchValue, setSearchValue] = useState('');
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenFolderDrawer, setIsOpenFolderDrawer] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isEditOpenModal, setIsEditOpenModal] = useState();
-  const [modalHeading, setModalHeading] = useState('Create New Folder');
+  const [modalHeading, setModalHeading] = useState('');
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
@@ -32,9 +33,15 @@ const useDocuments: any = () => {
   const [deleteFolders] = useDeleteFoldersMutation();
   const [checkboxChecked, setCheckboxChecked] = useState<string[]>([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
+  const [actionType, setActionType] = useState('');
+  const [selectedFolder, setSelectedFolder] = useState(null);
   const { user }: any = useAuth();
+
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetDocumentFolderQuery({ organizationId: user?.organization?._id });
+    useGetDocumentFolderQuery({
+      ...(searchValue && { search: searchValue }),
+      organizationId: user?.organization?._id,
+    });
 
   const deleteUserFolders = async () => {
     try {
@@ -121,7 +128,10 @@ const useDocuments: any = () => {
       name: watch('name'),
     };
     try {
-      if (isEditOpenModal) {
+      if (
+        actionType === DOCUMENTS_ACTION_TYPES.MOVE_FOLDER ||
+        actionType === DOCUMENTS_ACTION_TYPES.UPDATE_FOLDER
+      ) {
         await updateFolder({
           id: checkboxChecked,
           body: documentData,
@@ -136,9 +146,9 @@ const useDocuments: any = () => {
         enqueueSnackbar('Folder Created Successfully', {
           variant: 'success',
         });
-        reset(validationSchema);
-        setIsOpenModal(false);
       }
+      reset(validationSchema);
+      setIsOpenModal(false);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -153,8 +163,8 @@ const useDocuments: any = () => {
     open,
     handleClick,
     handleClose,
-    value,
-    setValue,
+    searchValue,
+    setSearchValue,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenModal,
@@ -180,6 +190,9 @@ const useDocuments: any = () => {
     setSelectedItemId,
     handleBoxClick,
     MoveToFolder,
+    setActionType,
+    setSelectedFolder,
+    selectedFolder,
   };
 };
 
