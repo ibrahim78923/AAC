@@ -421,7 +421,7 @@ const OrganizationTable = () => {
         />
       </Grid>
       <AlertModals
-        message={'Are you sure you want to delete this role?'}
+        message={'Are you sure you want to delete this company?'}
         type={'delete'}
         open={isOpenDelete}
         submitBtnText="Delete"

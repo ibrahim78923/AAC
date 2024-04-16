@@ -19,7 +19,7 @@ import { isNullOrEmpty } from '@/utils';
 
 const useDocuments: any = () => {
   const theme = useTheme<Theme>();
-  const [value, setValue] = useState('Search here');
+  const [searchValue, setSearchValue] = useState('');
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenFolderDrawer, setIsOpenFolderDrawer] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -33,8 +33,12 @@ const useDocuments: any = () => {
   const [checkboxChecked, setCheckboxChecked] = useState<string[]>([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const { user }: any = useAuth();
+
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetDocumentFolderQuery({ organizationId: user?.organization?._id });
+    useGetDocumentFolderQuery({
+      ...(searchValue && { search: searchValue }),
+      organizationId: user?.organization?._id,
+    });
 
   const deleteUserFolders = async () => {
     try {
@@ -110,7 +114,7 @@ const useDocuments: any = () => {
   useEffect(() => {
     if (isEditOpenModal) {
       const { name } = isEditOpenModal;
-      FolderAdd?.setValue('name', name);
+      FolderAdd?.setSearchValue('name', name);
     }
   }, [isEditOpenModal, FolderAdd]);
 
@@ -153,8 +157,8 @@ const useDocuments: any = () => {
     open,
     handleClick,
     handleClose,
-    value,
-    setValue,
+    searchValue,
+    setSearchValue,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenModal,
