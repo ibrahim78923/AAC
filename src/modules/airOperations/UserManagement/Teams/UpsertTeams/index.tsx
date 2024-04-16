@@ -5,16 +5,21 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertTeams } from './useUpsertTeams';
 import { USER_MANAGEMENT } from '@/constants/strings';
 
-function UpsertTeams({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
+function UpsertTeams({
+  isDrawerOpen,
+  setIsDrawerOpen,
+  title,
+  okText,
+  teamData,
+}: any) {
   const {
     methods,
     handleSubmit,
     submit,
     disabled,
     setDisabled,
-    teamData,
     usersTeamDropdown,
-  } = useUpsertTeams(setIsDrawerOpen);
+  } = useUpsertTeams(setIsDrawerOpen, teamData);
 
   return (
     <>
