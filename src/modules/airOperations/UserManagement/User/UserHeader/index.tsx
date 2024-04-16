@@ -20,7 +20,6 @@ export const UserHeader = (props: any) => {
     methods,
     handleSubmit,
     submit,
-    loading,
   } = useUserHeader(props);
 
   return (
@@ -68,7 +67,6 @@ export const UserHeader = (props: any) => {
               setDeleteModal(false);
             }}
             submitDeleteModal={submitDeleteModal}
-            loading={loading}
           />
         )}
       </Box>

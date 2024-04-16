@@ -2,6 +2,7 @@ import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { AntSwitch } from '@/components/AntSwitch';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { REQUESTORS_STATUS } from '@/constants/strings';
 
 export const userDropdown = (setDeleteModal: any) => [
   {
@@ -20,6 +21,7 @@ export const userList = (
   setSelectedUserList: any,
   setIsDrawerOpen: any,
   setTabData: any,
+  switchLoading: any,
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -107,27 +109,36 @@ export const userList = (
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '--',
   },
   {
     accessorFn: (row: any) => row?.team?.name,
     id: 'team',
     isSortable: true,
     header: 'Team',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '--',
   },
   {
     accessorFn: (row: any) => row?.role?.name,
     id: 'role',
     isSortable: true,
     header: 'Role',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '--',
   },
   {
     accessorFn: (row: any) => row?.status,
     id: 'status',
     isSortable: false,
     header: 'Status',
-    cell: (info: any) => <AntSwitch values={info?.getValue()} />,
+    cell: (info: any) => {
+      const getValues =
+        info?.getValue() === REQUESTORS_STATUS?.ACTIVE ? true : false;
+      return (
+        <AntSwitch
+          checked={getValues}
+          isLoading={switchLoading?.[info?.row?.original?._id]}
+        />
+      );
+    },
   },
 ];

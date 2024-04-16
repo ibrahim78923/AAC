@@ -31,7 +31,7 @@ export const useUser = () => {
   const [setUserData] = useState<any[]>();
   const [disabled, setDisabled] = useState(true);
   const [tabData, setTabData] = useState({});
-
+  const [switchLoading] = useState<any>({});
   const param = {
     page: page,
     limit: pageLimit,
@@ -48,9 +48,9 @@ export const useUser = () => {
     setSelectedUserList,
     setIsDrawerOpen,
     setTabData,
+    switchLoading,
   );
 
-  const departmentDropdown = useLazyGetDepartmentDropdownQuery();
   const rolesDropdown = useLazyGetDepartmentDropdownQuery();
   const usersTeamDropdown = useLazyGetTeamUserListQuery();
 
@@ -128,12 +128,12 @@ export const useUser = () => {
     setUserData,
     disabled,
     setDisabled,
-    departmentDropdown,
+    usersTeamDropdown,
     handleClose,
     metaData,
     rolesDropdown,
-    usersTeamDropdown,
     patchProductUsersStatus,
     addUsersListStatus,
+    switchLoading,
   };
 };

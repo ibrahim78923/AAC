@@ -18,7 +18,7 @@ function UpsertUser({
   const {
     disabled,
     setDisabled,
-    departmentDropdown,
+    usersTeamDropdown,
     rolesDropdown,
     patchProductUsersStatus,
     addUsersListStatus,
@@ -60,7 +60,7 @@ function UpsertUser({
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {upsertUserArray(departmentDropdown, rolesDropdown)?.map(
+              {upsertUserArray(rolesDropdown, usersTeamDropdown)?.map(
                 (item: any) => (
                   <Grid item xs={12} md={item?.md} key={item?.id}>
                     {item?.subheading &&
