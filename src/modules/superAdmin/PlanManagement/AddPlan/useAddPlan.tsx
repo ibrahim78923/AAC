@@ -308,6 +308,9 @@ export const useAddPlan = () => {
   });
 
   const onSubmitPlanFeaturesHandler = async (values: any) => {
+    // console.log('values',values);
+    // console.log('featureDetails',featureDetails);
+
     let featuresData;
     if (isNullOrEmpty(planForm?.productId)) {
       featuresData = planForm?.suite?.map((productIdItem: any) => {
@@ -576,11 +579,12 @@ export const useAddPlan = () => {
       setValue('additionalStoragePrice', 0);
     } else if (AdditionalUsereValue[0] === 'No') {
       setValue('additionalPerUserPrice', 0);
-    } else {
+    } else if (AdditionalStorageValue[0] === 'Yes') {
       setValue('additionalStoragePrice', 1);
+    } else if (AdditionalUsereValue[0] === 'Yes') {
       setValue('additionalPerUserPrice', 1);
     }
-  }, [AdditionalStorageValue, AdditionalUsereValue, setValue]);
+  }, []);
 
   return {
     methods,

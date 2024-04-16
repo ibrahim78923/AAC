@@ -25,6 +25,7 @@ const FeaturesModal = ({
   openFeaturesModal,
   handleCloseFeaturesModal,
   featureName,
+  // featureId
 }: any) => {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -37,6 +38,7 @@ const FeaturesModal = ({
   const { handleSubmit } = methods;
 
   const onSubmit = async (values: any) => {
+    //  const featureValue = {featureId,values}
     dispatch(setFeatureDetails(values));
     handleCloseFeaturesModal();
     enqueueSnackbar('Details Added Successfully', {
