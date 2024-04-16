@@ -47,6 +47,7 @@ const useAddUser = (useActionParams?: any) => {
       firstName: values?.firstName,
       lastName: values?.lastName,
       postCode: values?.postCode,
+      email: values?.email,
       phoneNumber: values?.phoneNumber,
       jobTitle: values?.jobTitle,
       role: 'ORG_EMPLOYEE',
