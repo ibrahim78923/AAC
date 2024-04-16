@@ -17,8 +17,19 @@ const importFileApi = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
+    uploadFileTos3UsingSignedUrl: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: apiDataParameter?.url,
+        method: 'PUT',
+        body: apiDataParameter?.body?.file,
+      }),
+    }),
   }),
 });
 
-export const { useGetSignedUrlForImportQuery, useImportFileMutation } =
-  importFileApi;
+export const {
+  useGetSignedUrlForImportQuery,
+  useImportFileMutation,
+  useUploadFileTos3UsingSignedUrlMutation,
+  useLazyGetSignedUrlForImportQuery,
+} = importFileApi;

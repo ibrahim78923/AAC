@@ -126,10 +126,10 @@ export const TAGS = [
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: (headers, { getState, endpoint }) => {
     const token = (getState() as RootState)?.auth?.accessToken;
 
-    if (token) {
+    if (token && endpoint !== 'uploadFileTos3UsingSignedUrl') {
       headers.set('Authorization', `Bearer ${token}`);
     }
     return headers;
