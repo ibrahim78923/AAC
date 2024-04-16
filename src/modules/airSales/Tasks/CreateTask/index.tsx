@@ -15,7 +15,7 @@ const CreateTask = ({
     getCreateTaskData,
     methodsFilter,
     onSubmitHandler,
-  } = useCreateTask({ creationMode });
+  } = useCreateTask({ creationMode, setIsCreateTaskDrawerOpen });
 
   return (
     <CommonDrawer

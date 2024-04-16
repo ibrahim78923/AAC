@@ -48,7 +48,7 @@ const useEditForm = (
     defaultValues: async () => {
       // if action is view or update
 
-      if (rowApiValues) {
+      if (!isNullOrEmpty(rowApiValues?.product)) {
         const {
           clientName,
           product,

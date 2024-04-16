@@ -113,21 +113,27 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
                 <Typography variant="caption">
-                  {data?.details?.additionalUsers} Additional Users (£ 15/user)
+                  {data?.details?.additionalUsers} Additional Users (£{' '}
+                  {data?.details?.plans?.additionalPerUserPrice}/user)
                 </Typography>
                 <Box sx={{ ml: 'auto' }}>
                   <Typography variant="overline">
-                    £ {data?.details?.additionalUsers * 15}
+                    £{' '}
+                    {data?.details?.additionalUsers *
+                      data?.details?.plans?.additionalPerUserPrice}
                   </Typography>
                 </Box>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
                 <Typography variant="caption">
-                  Additional Storage (£ 1/GB)
+                  {data?.details?.additionalStorage} Additional Storage (£{' '}
+                  {data?.details?.plans?.additionalStoragePrice}/GB)
                 </Typography>
                 <Box sx={{ ml: 'auto' }}>
                   <Typography variant="overline">
-                    £ {data?.details?.additionalStorage}
+                    £{' '}
+                    {data?.details?.additionalStorage *
+                      data?.details?.plans?.additionalStoragePrice}
                   </Typography>
                 </Box>
               </Box>
@@ -144,7 +150,11 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                 </Typography>
                 <Box sx={{ ml: 'auto' }}>
                   <Typography variant="overline">
-                    £ {data?.invoiceDiscount}
+                    £{' '}
+                    {(
+                      (data?.invoiceDiscount / 100) *
+                      data?.details?.subTotal
+                    )?.toFixed(2)}
                   </Typography>
                 </Box>
               </Box>
@@ -156,10 +166,30 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                   >
                     Tax{' '}
                   </Typography>{' '}
-                  (Vat {data?.vat}%)
+                  (Vat {data?.tax}%)
                 </Typography>
                 <Box sx={{ ml: 'auto' }}>
-                  <Typography variant="overline">£ {data?.vat}</Typography>
+                  <Typography variant="overline">
+                    £
+                    {(
+                      (data?.tax / 100) *
+                        (data?.plans?.planPrice +
+                          data?.details?.sumAdditionalUsersPrices +
+                          data?.details?.sumAdditionalStoragePrices -
+                          (data?.details?.planDiscount / 100) *
+                            (data?.plans?.planPrice +
+                              data?.details?.sumAdditionalUsersPrices +
+                              data?.details?.sumAdditionalStoragePrices)) -
+                      (data?.invoiceDiscount / 100) *
+                        (data?.plans?.planPrice +
+                          data?.details?.sumAdditionalUsersPrices +
+                          data?.details?.sumAdditionalStoragePrices -
+                          (data?.details?.planDiscount / 100) *
+                            (data?.plans?.planPrice +
+                              data?.details?.sumAdditionalUsersPrices +
+                              data?.details?.sumAdditionalStoragePrices))
+                    )?.toFixed(2)}
+                  </Typography>
                 </Box>
               </Box>
               <Divider />
@@ -172,7 +202,9 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                 </Typography>
 
                 <Box sx={{ ml: 'auto' }}>
-                  <Typography variant="overline">{data?.total}</Typography>
+                  <Typography variant="overline">
+                    {data?.netAmount?.toFixed(2)}
+                  </Typography>
                 </Box>
               </Box>
             </Box>

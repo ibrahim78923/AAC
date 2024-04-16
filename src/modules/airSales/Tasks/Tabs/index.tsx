@@ -49,6 +49,8 @@ const Tabs = ({ tabValue, assignTo }: any) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '12px',
         }}
       >
         <PermissionsGuard

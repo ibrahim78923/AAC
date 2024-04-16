@@ -36,7 +36,7 @@ export const defaultValues = {
   additionalStorage: '',
   discount: '',
   billingCycle: '',
-  date: new Date(),
+  date: null,
 };
 
 interface CRMOption {
@@ -103,6 +103,7 @@ export const assignPlanData = (
         }`,
         fullWidth: true,
         select: true,
+        disabled: isEditModal,
       },
 
       options: options,
@@ -118,6 +119,7 @@ export const assignPlanData = (
         label: 'Plan Type',
         fullWidth: true,
         select: true,
+        disabled: isEditModal,
       },
 
       options: planType,
