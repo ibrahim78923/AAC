@@ -462,3 +462,9 @@ export const WORKFLOW_CONDITION_TYPE = {
   AND: 'AND',
   OR: 'OR',
 };
+export const WORKFLOW_TYPE = {
+  SAVED: 'SAVED',
+  CREATED: 'CREATED',
+  ENABLED: 'ENABLED',
+  DISABLED: 'DISABLED',
+};

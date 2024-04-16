@@ -74,27 +74,31 @@ export const useUpsertSalesWorkflow = () => {
           time: time,
         },
       },
-      events: [data?.events?.value],
+      events: data?.events?.value ? [data?.events?.value] : [],
       groups:
         data?.groups?.map((group: any) => ({
           ...group,
           conditions: group?.conditions?.map((condition: any) => ({
-            fieldName: condition?.fieldName,
+            fieldName: condition?.fieldName?.value,
             fieldValue: condition?.fieldValue?._id
               ? condition?.fieldValue?._id
               : condition?.fieldValue,
+            condition: condition?.condition,
             fieldType: fieldTypeValues(condition),
             collectionName:
-              (condition?.fieldName === workflowFields?.name ||
-                condition?.fieldName === workflowFields?.lostReason ||
-                condition?.fieldName === workflowFields?.updateQuoteName ||
-                condition?.fieldName === workflowFields?.title) &&
+              (condition?.fieldName?.label === workflowFields?.name ||
+                condition?.fieldName?.label === workflowFields?.lostReason ||
+                condition?.fieldName?.label ===
+                  workflowFields?.updateQuoteName ||
+                condition?.fieldName?.label === workflowFields?.title) &&
               (condition?.condition === workflowFields?.isEmpty ||
                 condition?.condition === workflowFields?.isNotEmpty)
                 ? workflowFields?.deal
-                : (condition?.fieldName === workflowFields?.salesOwner ||
-                      condition?.fieldName === workflowFields?.createdBy ||
-                      condition?.fieldName === workflowFields?.updatedBy) &&
+                : (condition?.fieldName?.label === workflowFields?.salesOwner ||
+                      condition?.fieldName?.label ===
+                        workflowFields?.createdBy ||
+                      condition?.fieldName?.label ===
+                        workflowFields?.updatedBy) &&
                     (condition?.condition === workflowFields?.isEmpty ||
                       condition?.condition === workflowFields?.isNotEmpty)
                   ? workflowFields?.contact

@@ -56,10 +56,12 @@ export const workflowConditionsDataArray = (
   watch: any,
   dealDropdown: any,
   contactDropdown: any,
+  stagesDropdown: any,
 ) => {
   const moduleType = watch('module');
   const keyDropdown = workflowModuleOption[moduleType] || [];
-  const watchKey = watch(`groups.${index}.conditions.${subIndex}.fieldName`);
+  const watchKey = watch(`groups.${index}.conditions.${subIndex}.fieldName`)
+    ?.label;
   let conditionOptions: string[] = [];
   if (moduleType === conditionNames?.deals) {
     const dealConditionIndex = dealConditionIndexMap[watchKey];
@@ -81,18 +83,12 @@ export const workflowConditionsDataArray = (
 
   if (moduleType === conditionNames?.deals) {
     if (
-      watchKey === conditionNames?.name ||
-      watchKey === conditionNames?.lostReason
+      watchKey === conditionNames?.name
+      // ||  watchKey === conditionNames?.lostReason
     ) {
       if (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
-      ) {
-        component;
-        componentProps;
-      } else if (
-        watchCondition === conditionNames?.isEmpty ||
-        watchCondition === conditionNames?.isNotEmpty
       ) {
         component = RHFAutocompleteAsync;
         componentProps = {
@@ -100,6 +96,16 @@ export const workflowConditionsDataArray = (
           externalParams: { meta: false },
           placeholder: 'Select Deal',
         };
+      } else if (
+        watchCondition === conditionNames?.isEmpty ||
+        watchCondition === conditionNames?.isNotEmpty
+      ) {
+        component = Box;
+        // componentProps = {
+        //   apiQuery: dealDropdown,
+        //   externalParams: { meta: false },
+        //   placeholder: 'Select Deal',
+        // };
       }
     } else if (
       watchKey === conditionNames?.dealValue ||
@@ -110,6 +116,23 @@ export const workflowConditionsDataArray = (
         placeholder: 'Enter Value',
         type: 'number',
       };
+    } else if (watchKey === conditionNames?.dealStage) {
+      if (
+        watchCondition === conditionNames?.is ||
+        watchCondition === conditionNames?.isNot
+      ) {
+        component = RHFAutocompleteAsync;
+        componentProps = {
+          apiQuery: stagesDropdown,
+          externalParams: { limit: 100 },
+          placeholder: 'Select Deal Stage',
+        };
+      } else if (
+        watchCondition === conditionNames?.isEmpty ||
+        watchCondition === conditionNames?.isNotEmpty
+      ) {
+        component = Box;
+      }
     } else if (watchKey === conditionNames?.accountName) {
       component;
       componentProps;
@@ -144,20 +167,26 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component;
-        componentProps;
-      } else if (
-        watchCondition === conditionNames?.isEmpty ||
-        watchCondition === conditionNames?.isNotEmpty
-      ) {
         component = RHFAutocompleteAsync;
         componentProps = {
-          externalParams: { limit: 50 },
+          externalParams: { limit: 100 },
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
           apiQuery: contactDropdown,
           placeholder: 'Select Contact',
         };
+      } else if (
+        watchCondition === conditionNames?.isEmpty ||
+        watchCondition === conditionNames?.isNotEmpty
+      ) {
+        component = Box;
+        // componentProps = {
+        //   externalParams: { limit: 50 },
+        //   getOptionLabel: (option: any) =>
+        //     fullName(option?.firstName, option?.lastName),
+        //   apiQuery: contactDropdown,
+        //   placeholder: 'Select Contact',
+        // };
       }
     } else if (watchKey === conditionNames?.currency) {
       if (
@@ -170,11 +199,11 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        component = RHFAutocomplete;
-        componentProps = {
-          placeholder: 'Select Currency',
-          options: currencyDropdown,
-        };
+        component = Box;
+        // componentProps = {
+        //   placeholder: 'Select Currency',
+        //   options: currencyDropdown,
+        // };
       }
     } else if (watchKey === conditionNames?.lastActivityType) {
       if (
@@ -187,11 +216,11 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        component = RHFAutocomplete;
-        componentProps = {
-          placeholder: 'Select Activity Type',
-          options: activityTypeDropdown,
-        };
+        component = Box;
+        // componentProps = {
+        //   placeholder: 'Select Activity Type',
+        //   options: activityTypeDropdown,
+        // };
       }
     }
   } else if (moduleType === conditionNames?.quotes) {
@@ -206,12 +235,12 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        component = RHFAutocompleteAsync;
-        componentProps = {
-          apiQuery: dealDropdown,
-          externalParams: { meta: false },
-          placeholder: 'Select Deal',
-        };
+        component = Box;
+        // componentProps = {
+        //   apiQuery: dealDropdown,
+        //   externalParams: { meta: false },
+        //   placeholder: 'Select Deal',
+        // };
       }
     } else if (watchKey === conditionNames?.updateQuoteAmount) {
       (component = RHFTextField),
@@ -230,11 +259,11 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        (component = RHFAutocomplete),
-          (componentProps = {
-            placeholder: 'Select Status',
-            options: taskStatusDropdown,
-          });
+        component = Box;
+        // (componentProps = {
+        //   placeholder: 'Select Status',
+        //   options: taskStatusDropdown,
+        // });
       }
     } else if (watchKey === conditionNames?.createdBy) {
       if (
@@ -247,14 +276,14 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        (component = RHFAutocompleteAsync),
-          (componentProps = {
-            placeholder: 'Select Contact',
-            apiQuery: contactDropdown,
-            externalParams: { limit: 50 },
-            getOptionLabel: (option: any) =>
-              fullName(option?.firstName, option?.lastName),
-          });
+        component = Box;
+        // (componentProps = {
+        //   placeholder: 'Select Contact',
+        //   apiQuery: contactDropdown,
+        //   externalParams: { limit: 50 },
+        //   getOptionLabel: (option: any) =>
+        //     fullName(option?.firstName, option?.lastName),
+        // });
       }
     } else if (
       watchKey === conditionNames?.createdDate ||
@@ -287,11 +316,11 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        (component = RHFAutocomplete),
-          (componentProps = {
-            placeholder: 'Select Status',
-            options: taskStatusDropdown,
-          });
+        component = Box;
+        // (componentProps = {
+        //   placeholder: 'Select Status',
+        //   options: taskStatusDropdown,
+        // });
       }
     } else if (
       watchKey === conditionNames?.dueDate ||
@@ -322,12 +351,12 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        component = RHFAutocompleteAsync;
-        componentProps = {
-          apiQuery: dealDropdown,
-          externalParams: { meta: false },
-          placeholder: 'Select Deal',
-        };
+        component = Box;
+        // componentProps = {
+        //   apiQuery: dealDropdown,
+        //   externalParams: { meta: false },
+        //   placeholder: 'Select Deal',
+        // };
       }
     } else if (watchKey === conditionNames?.createdBy) {
       if (
@@ -340,14 +369,14 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        component = RHFAutocompleteAsync;
-        componentProps = {
-          externalParams: { limit: 50 },
-          placeholder: 'Select Contact',
-          getOptionLabel: (option: any) =>
-            fullName(option?.firstName, option?.lastName),
-          apiQuery: contactDropdown,
-        };
+        component = Box;
+        // componentProps = {
+        //   externalParams: { limit: 50 },
+        //   placeholder: 'Select Contact',
+        //   getOptionLabel: (option: any) =>
+        //     fullName(option?.firstName, option?.lastName),
+        //   apiQuery: contactDropdown,
+        // };
       }
     } else if (watchKey === conditionNames?.taskType) {
       if (
@@ -360,11 +389,11 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        (component = RHFAutocomplete),
-          (componentProps = {
-            placeholder: 'Select Type',
-            options: taskStatusDropdown,
-          });
+        component = Box;
+        // (componentProps = {
+        //   placeholder: 'Select Type',
+        //   options: taskStatusDropdown,
+        // });
       }
     }
   }
@@ -376,6 +405,8 @@ export const workflowConditionsDataArray = (
         name: `groups.${index}.conditions.${subIndex}.fieldName`,
         size: 'small',
         placeholder: 'Select',
+        getOptionLabel: (option: any) =>
+          option?.label ? option?.label : option,
         options: keyDropdown,
       },
       component: RHFAutocomplete,
@@ -406,24 +437,24 @@ export const workflowConditionsDataArray = (
 
 export const workflowModuleOption: any = {
   DEALS: [
-    'Name',
-    'Deal Value',
-    'Account Name',
-    'Deal Pipeline',
-    'Deal Stage',
-    'Lost Reason',
-    'Close Date',
-    'Sales Owner',
-    'Currency',
-    'Last Activity Type',
-    'Last Activity Date',
-    'Created By',
-    'Created At',
-    'Updated By',
-    'Updated At',
-    'Deal Stage Updated At',
-    'Last Assigned At',
-    'Expected Deal Value',
+    { label: 'Name', value: 'name' },
+    // 'Deal Value',
+    // 'Account Name',
+    { label: 'Deal Pipeline', value: 'dealPipelineId' },
+    { label: 'Deal Stage', value: 'dealStageId' },
+    // 'Lost Reason',
+    // 'Close Date',
+    { label: 'Sales Owner', value: 'ownerId' },
+    // 'Currency',
+    // 'Last Activity Type',
+    { label: 'Last Activity Date', value: 'updatedAt' },
+    // 'Created By',
+    { label: 'Created At', value: 'createdAt' },
+    // 'Updated By',
+    // 'Updated At',
+    // 'Deal Stage Updated At',
+    // 'Last Assigned At',
+    // 'Expected Deal Value',
   ],
   QUOTES: [
     'Update Quote Name',
@@ -447,7 +478,7 @@ export const dealConditions = [
   ['is', 'not equals', 'greater than', 'less than', 'is empty', 'is not empty'],
   ['is', 'is not', 'is empty', 'is not empty'],
   ['is', 'is not'],
-  ['is', 'is not'],
+  ['is', 'is not', 'is empty', 'is not empty'],
   ['is', 'is not', 'is empty', 'is not empty'],
   [
     'on a specific date',
