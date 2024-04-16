@@ -60,7 +60,9 @@ const Documents = () => {
     theme,
     isOpenFolderDrawer,
     setIsOpenFolderDrawer,
-    setIsEditOpenModal,
+    setSelectedFolder,
+    selectedFolder,
+    setActionType,
     isOpenDelete,
     setIsOpenDelete,
     anchorEl,
@@ -280,7 +282,8 @@ const Documents = () => {
               className="small"
               onClick={() => {
                 setIsOpenModal(true);
-                setModalHeading('Create New Folder');
+                setActionType('create-sub-folder');
+                FolderAdd?.setValue('name', '');
               }}
               sx={styles?.createFolderButton(theme)}
             >
@@ -361,6 +364,8 @@ const Documents = () => {
                     handleClose();
                     setModalHeading('Edit Name');
                     setIsOpenModal(true);
+                    setActionType('move-folder');
+                    FolderAdd?.setValue('name', selectedFolder?.name);
                   }}
                 >
                   Rename
@@ -443,7 +448,7 @@ const Documents = () => {
                           checked={checkboxChecked.includes(item?._id)}
                           onChange={() => {
                             handleCheckboxChange(item?._id);
-                            setIsEditOpenModal(item);
+                            setSelectedFolder(item);
                           }}
                         />
                       </Box>
@@ -524,9 +529,13 @@ const Documents = () => {
       </Grid>
       <CommonModal
         open={isOpenModal}
-        handleCancel={() => setIsOpenModal(false)}
+        handleCancel={() => {
+          setIsOpenModal(false);
+          setActionType('');
+          setModalHeading('');
+        }}
         handleSubmit={() => onSubmit()}
-        title={`${modalHeading}`}
+        title={modalHeading?.length > 0 ? modalHeading : 'Create Folder'}
         okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
         cancelText="Cancel"
         footerFill={false}
