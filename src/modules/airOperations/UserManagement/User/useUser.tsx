@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { userList } from './User.data';
 import {
   useGetProductUserListQuery,
-  useLazyGetCompanyAccountsRolesQuery,
   useLazyGetTeamUserListQuery,
   usePatchProductUsersMutation,
   usePostProductUserListMutation,
@@ -52,7 +51,7 @@ export const useUser = () => {
   );
 
   const departmentDropdown = useLazyGetDepartmentDropdownQuery();
-  const rolesDropdown = useLazyGetCompanyAccountsRolesQuery();
+  const rolesDropdown = useLazyGetDepartmentDropdownQuery();
   const usersTeamDropdown = useLazyGetTeamUserListQuery();
 
   const methods: any = useForm({

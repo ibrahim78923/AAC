@@ -130,7 +130,6 @@ export const upsertUserArray = (
       fullWidth: true,
       required: true,
       apiQuery: usersTeamDropdown,
-      getOptionLabel: (option: any) => `${option?.name}`,
     },
     component: RHFAutocompleteAsync,
     md: 12,

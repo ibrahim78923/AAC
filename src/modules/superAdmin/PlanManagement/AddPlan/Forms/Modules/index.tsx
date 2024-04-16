@@ -20,8 +20,10 @@ import SubModulesAccordion from './SubModulesAccordian';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useAppSelector } from '@/redux/store';
-import { useGetPermissionsByProductsQuery } from '@/services/superAdmin/plan-mangement';
-import { useGetProductsPermissionsQuery } from '@/services/orgAdmin/roles-and-rights';
+import {
+  useGetPermissionsByProductsQuery,
+  useGetProductsPermissionsPlanQuery,
+} from '@/services/superAdmin/plan-mangement';
 import { useGetProductsQuery } from '@/services/common-APIs';
 import { isNullOrEmpty } from '@/utils';
 
@@ -45,7 +47,7 @@ const Modules = ({
   const { planManagement }: any = useAppSelector(
     (state: any) => state?.planManagementForms,
   );
-  const { data: productPermissionsData } = useGetProductsPermissionsQuery({
+  const { data: productPermissionsData } = useGetProductsPermissionsPlanQuery({
     productId: planManagement?.addPlanForm?.productId,
   });
   const { data: modulesPermissions } = useGetPermissionsByProductsQuery({
