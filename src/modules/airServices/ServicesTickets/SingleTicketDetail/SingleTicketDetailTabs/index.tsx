@@ -12,10 +12,13 @@ import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-key
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { Meeting } from '../Meeting';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
-export const SingleTicketDetailTabs = () => {
+export const SingleTicketDetailTabs = (props: any) => {
+  const { apiStatus } = props;
   const [totalRelatedTickets, setTotalRelatedTickets] = useState();
   const [totalAssets, setTotalAssets] = useState();
+  if (apiStatus?.isLoading || apiStatus?.isFetching) return <SkeletonForm />;
   return (
     <HorizontalTabs
       tabsDataArray={singleTicketDetailTabsData?.(

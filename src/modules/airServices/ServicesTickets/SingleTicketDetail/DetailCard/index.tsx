@@ -11,11 +11,12 @@ import {
   truncateText,
 } from '@/utils/avatarUtils';
 
-export const DetailCard = () => {
-  const { data: detail, isLoading, isFetching, attachFile } = useDetailsCard();
+export const DetailCard = (props: any) => {
+  const { apiStatus } = props;
+  const { data: detail, attachFile } = useDetailsCard();
 
   const theme = useTheme();
-  if (isLoading || isFetching) return <SkeletonForm />;
+  if (apiStatus?.isLoading || apiStatus?.isFetching) return <SkeletonForm />;
   return (
     <Box
       sx={{

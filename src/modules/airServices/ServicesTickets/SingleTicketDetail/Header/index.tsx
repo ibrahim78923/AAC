@@ -17,8 +17,10 @@ import {
 import { TicketsDelete } from '../../TicketsDelete';
 import { truncateText } from '@/utils/avatarUtils';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
-const Header = () => {
+const Header = (props: any) => {
+  const { apiStatus } = props;
   const {
     data,
     router,
@@ -31,7 +33,20 @@ const Header = () => {
     setDeleteModalOpen,
     ticketId,
   } = useHeader();
-
+  // console.log('hi');
+  // console.log({
+  //   data,
+  //   router,
+  //   setIsDrawerOpen,
+  //   isDrawerOpen,
+  //   ticketsApprovalDropdown,
+  //   isPrintDrawerOpen,
+  //   setIsPrintDrawerOpen,
+  //   deleteModalOpen,
+  //   setDeleteModalOpen,
+  //   ticketId,
+  // });
+  if (apiStatus?.isLoading || apiStatus?.isFetching) return <SkeletonForm />;
   return (
     <>
       <Box

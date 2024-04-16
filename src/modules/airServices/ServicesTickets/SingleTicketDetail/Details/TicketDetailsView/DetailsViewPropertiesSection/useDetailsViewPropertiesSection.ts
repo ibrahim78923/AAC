@@ -29,7 +29,7 @@ export const useDetailsViewPropertiesSection = () => {
   const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
     getSingleTicketParameter,
     {
-      refetchOnMountOrArgChange: true,
+      // refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
     },
   );
