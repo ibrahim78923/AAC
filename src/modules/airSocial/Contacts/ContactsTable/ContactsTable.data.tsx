@@ -82,6 +82,7 @@ export const ContactsColumns = (
               selectedRow?.length === info?.table?.options?.data?.length
             }
             onChange={(event) => handleSelectAllClick(event, rows)}
+            disabled={rows?.length === 0}
           />
         );
       },
@@ -93,8 +94,15 @@ export const ContactsColumns = (
       header: 'Contacts',
       isSortable: true,
       cell: (info: any) => {
+        const firstName = info?.cell?.row?.original?.firstName
+          ? info?.cell?.row?.original?.firstName
+          : '';
+        const lastName = info?.cell?.row?.original?.lastName
+          ? info?.cell?.row?.original?.lastName
+          : '';
+        const fullName = `${firstName} ${lastName}`;
         const contactId = info?.row?.original?._id;
-        const firstChar = info?.cell?.row?.original?.firstName?.charAt(0);
+        const imgAlt = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
         const imgUrl = info?.cell?.row?.original?.profilePicture?.url;
         const email = info?.cell?.row?.original?.email;
         return (
@@ -110,35 +118,26 @@ export const ContactsColumns = (
               sx={{
                 bgcolor: 'primary.main',
                 textTransform: 'uppercase',
+                fontSize: '14px',
                 mr: '6px',
               }}
               alt={info?.getValue()}
               src={`${IMG_URL}${imgUrl}`}
             >
-              {firstChar}
+              {imgAlt}
             </Avatar>
             <Box>
-              <Box sx={{ color: 'blue.dull_blue' }}>{info?.getValue()}</Box>
+              {firstName === '' && lastName === '' ? (
+                <></>
+              ) : (
+                <Box sx={{ color: 'blue.dull_blue' }}>{fullName}</Box>
+              )}
+
               <Box sx={{ fontSize: '12px' }}>{email}</Box>
             </Box>
           </Box>
         );
       },
-      // cell: (info: any) => {
-      //   const contactId = info?.row?.original?._id;
-
-      //   return (
-      //     <Link
-      //       href={{
-      //         pathname: `${AIR_SOCIAL?.CONTACTS_VIEW_DETAILS}`,
-      //         query: { contactId: contactId },
-      //       }}
-      //       as={`${AIR_SOCIAL?.CONTACTS_VIEW_DETAILS}`}
-      //     >
-      //       {info?.getValue()}
-      //     </Link>
-      //   );
-      // },
     },
     {
       accessorFn: (row: any) => row?.email,

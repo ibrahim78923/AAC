@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import {
   Box,
   Typography,
@@ -8,20 +6,16 @@ import {
   ButtonGroup,
   Menu,
   MenuItem,
+  Avatar,
 } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import useDetails from './useDetails';
-
 import { detailsDataArray } from './Details.data';
-
 import { styles } from '../ViewDetails.style';
-
-import { ElipseImage } from '@/assets/images';
-
 import { EditProfileIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
+import Loader from '@/components/Loader';
+import { generateImage } from '@/utils/avatarUtils';
 
 const Details = () => {
   const {
@@ -35,6 +29,9 @@ const Details = () => {
     contactOwnerData,
     contactStatusData,
     lifeCycleStagesData,
+    loadingContactById,
+    fetchingContactById,
+    contactData,
   } = useDetails();
 
   const detailsFormFields = detailsDataArray(
@@ -49,16 +46,39 @@ const Details = () => {
       <Box>
         <Box
           sx={{
-            width: '100px',
-            height: '100px',
+            width: '150px',
+            height: '150px',
             borderRadius: '50%',
             mx: 'auto',
             position: 'relative',
           }}
         >
-          <Image src={ElipseImage} alt="icon" width={100} height={100} />
+          <Avatar
+            sx={{
+              bgcolor: 'secondary.main',
+              border: (theme) => `3px solid ${theme?.palette?.primary.main}`,
+              textTransform: 'uppercase',
+              width: '150px',
+              height: '150px',
+              color: (theme) => theme?.palette?.common?.white,
+            }}
+            src={generateImage(contactData?.profilePicture?.url)}
+          >
+            {loadingContactById
+              ? ''
+              : `${contactData?.firstName?.charAt(
+                  0,
+                )}${contactData?.lastName?.charAt(0)}`}
+          </Avatar>
           <Box
-            sx={{ position: 'absolute', bottom: '-10px', right: '0' }}
+            sx={{
+              position: 'absolute',
+              bottom: '-10px',
+              right: '0',
+              height: '42px',
+              width: '42px',
+              cursor: 'pointer',
+            }}
             onClick={handleShowMenuClick}
           >
             <EditProfileIcon />
@@ -150,6 +170,8 @@ const Details = () => {
           </Box>
         </Grid>
       </Box>
+
+      <Loader isLoading={loadingContactById || fetchingContactById} />
     </Box>
   );
 };

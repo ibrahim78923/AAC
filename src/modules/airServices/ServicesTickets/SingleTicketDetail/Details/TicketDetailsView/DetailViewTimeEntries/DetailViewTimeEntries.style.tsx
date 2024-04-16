@@ -9,6 +9,7 @@ export const styles: any = {
       justifyContent: 'center',
       alignItems: 'center',
       margin: '4px',
+      cursor: 'pointer',
     };
   },
 
@@ -21,6 +22,7 @@ export const styles: any = {
     justifyContent: 'center',
     alignItems: 'center',
     margin: '4px',
+    cursor: 'pointer',
   },
   buttonStyleOFTimeEntries: {
     maxWidth: '100%',

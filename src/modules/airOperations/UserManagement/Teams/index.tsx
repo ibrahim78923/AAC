@@ -4,7 +4,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { useTeams } from './useTeams';
 import UpsertTeams from './UpsertTeams';
 import { AgentConversionDelete } from '../AgentConversionDelete';
-import TeamsDetails from './TeamsDetails';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
@@ -13,8 +12,6 @@ export const Teams = () => {
     teamListColumn,
     deleteModal,
     setDeleteModal,
-    isTeamDrawerOpen,
-    setIsTeamDrawerOpen,
     metaData,
     data,
     isLoading,
@@ -27,6 +24,7 @@ export const Teams = () => {
     deleteStatus,
     isEditDrawerOpen,
     setIsEditDrawerOpen,
+    teamData,
   } = useTeams();
 
   return (
@@ -56,15 +54,10 @@ export const Teams = () => {
             pageLimit={metaData?.limit}
           />
         </PermissionsGuard>
-        <TeamsDetails
-          isTeamDrawerOpen={isTeamDrawerOpen}
-          setIsTeamDrawerOpen={setIsTeamDrawerOpen}
-          title={'Test'}
-          okText={'Save'}
-        />
         <UpsertTeams
           isDrawerOpen={isEditDrawerOpen}
           setIsDrawerOpen={setIsEditDrawerOpen}
+          teamData={teamData}
           title={'Edit Team'}
           okText={'Save'}
         />

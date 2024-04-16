@@ -1,17 +1,11 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
-
 import useAttachments from './useAttachments';
-
 import { columns } from './Attachments.data';
-
 import { styles } from '../Associations.style';
-
 import { PlusSharedIcon } from '@/assets/icons';
 
 const Attachments = ({ contactId }: any) => {
@@ -26,10 +20,11 @@ const Attachments = ({ contactId }: any) => {
     handleCloseDrawer,
     methodsAttachments,
     handleAddAttachmentSubmit,
-    loadingAddCompanyAccount,
+    loadingAddAttachment,
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
+    attachmentData,
   } = useAttachments(contactId);
   const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
 
@@ -44,7 +39,8 @@ const Attachments = ({ contactId }: any) => {
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
+            {dataGetAttachment?.data?.attachments?.length < 10 && '0'}
+            {dataGetAttachment?.data?.attachments?.length}
           </Typography>
 
           <Typography variant="subtitle2">Attachments</Typography>
@@ -81,14 +77,17 @@ const Attachments = ({ contactId }: any) => {
           />
         </Grid>
       </Grid>
+
       <AttachmentsEditorDrawer
         title={drawerTitle}
         isOpen={openDrawer}
         onClose={handleCloseDrawer}
         methods={methodsAttachments}
         handleSubmit={handleAddAttachmentSubmit}
-        loading={loadingAddCompanyAccount}
+        loading={loadingAddAttachment}
+        attachmentData={attachmentData}
       />
+
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}

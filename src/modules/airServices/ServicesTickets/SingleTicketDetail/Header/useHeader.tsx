@@ -25,9 +25,9 @@ export const useHeader = () => {
 
   const updateTicketStatus = async (status: any) => {
     const updateTicketStatusTicketsParameter = {
-      pathParams: { id: ticketId },
       queryParams: {
         status,
+        id: ticketId,
       },
     };
     try {
