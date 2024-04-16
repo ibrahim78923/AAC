@@ -178,6 +178,7 @@ export const AIR_LOYALTY_PROGRAM = {
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
   PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design`,
   EDIT_PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design/edit`,
+  TOP_USER: '/air-loyalty-program/loyalty/rewards',
 };
 
 export const SOCIAL_COMPONENTS = {

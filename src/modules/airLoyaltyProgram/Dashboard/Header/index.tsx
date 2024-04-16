@@ -14,7 +14,6 @@ const Header = () => {
     handleCloseDate,
     handleClickDate,
     anchorElDate,
-
     selectionRange,
   } = useHeader();
   return (
@@ -59,10 +58,15 @@ const Header = () => {
         />
         <Divider flexItem />
         <Box justifyContent={'end'} display={'flex'} mb={2} mr={2} mt={1}>
-          <Button variant="outlined" color="secondary" sx={{ mr: '0.5rem' }}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            sx={{ mr: '0.5rem' }}
+            onClick={handleCloseDate}
+          >
             Cancel
           </Button>
-          <Button variant="contained">Submit</Button>
+          <Button variant="contained">Apply</Button>
         </Box>
       </Popover>
     </>
