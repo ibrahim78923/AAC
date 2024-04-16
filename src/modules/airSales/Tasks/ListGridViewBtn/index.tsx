@@ -17,7 +17,7 @@ const ListGridViewBtn = () => {
     <ButtonGroup
       variant="outlined"
       aria-label="outlined button group"
-      sx={{ minHeight: '36px' }}
+      sx={{ minHeight: '36px', width: { xs: '100%', sm: 'auto' } }}
     >
       <PermissionsGuard
         permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.LIST_VIEW]}
@@ -29,6 +29,7 @@ const ListGridViewBtn = () => {
           sx={{
             '&:hover': { backgroundColor: '#F3F4F6' },
             backgroundColor: toggleTableView === 'listView' ? '#F3F4F6' : '',
+            width: { xs: '100%', sm: 'auto' },
           }}
         >
           <ListViewIcon />
@@ -44,6 +45,7 @@ const ListGridViewBtn = () => {
           sx={{
             '&:hover': { backgroundColor: '#F3F4F6' },
             backgroundColor: toggleTableView === 'gridView' ? '#F3F4F6' : '',
+            width: { xs: '100%', sm: 'auto' },
           }}
         >
           <GridViewIcon />
