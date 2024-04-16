@@ -68,7 +68,7 @@ const useAddUser = (useActionParams?: any) => {
     } else {
       // If isToggled is false, use a composite address value
       bodyVals.address = {
-        composite: values?.address,
+        composite: values?.compositeAddress,
       };
     }
 
