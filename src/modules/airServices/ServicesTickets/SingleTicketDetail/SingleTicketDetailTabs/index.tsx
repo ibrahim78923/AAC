@@ -7,25 +7,18 @@ import { AssociateAssets } from '../AssociateAssets';
 import { Details } from '../Details';
 import { Activities } from '../Activities';
 import { Conversations } from '../Conversations';
-import { useState } from 'react';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { Meeting } from '../Meeting';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { Skeleton } from '@mui/lab';
+import { TICKET_TYPE } from '@/constants/strings';
 
 export const SingleTicketDetailTabs = (props: any) => {
-  const { apiStatus } = props;
-  const [totalRelatedTickets, setTotalRelatedTickets] = useState();
-  const [totalAssets, setTotalAssets] = useState();
-  if (apiStatus?.isLoading || apiStatus?.isFetching) return <SkeletonForm />;
+  const { apiStatus, data } = props;
+  if (apiStatus?.isLoading || apiStatus?.isFetching) return <Skeleton />;
   return (
-    <HorizontalTabs
-      tabsDataArray={singleTicketDetailTabsData?.(
-        totalRelatedTickets,
-        totalAssets,
-      )}
-    >
+    <HorizontalTabs tabsDataArray={singleTicketDetailTabsData?.(data)}>
       <PermissionsGuard
         permissions={Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_TAB}
       >
@@ -41,16 +34,16 @@ export const SingleTicketDetailTabs = (props: any) => {
           Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_CHILD_TICKET
         }
       >
-        <RelatedTickets setTotalRelatedTickets={setTotalRelatedTickets} />
+        <RelatedTickets />
       </PermissionsGuard>
       <PermissionsGuard
         permissions={
           Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_ASSETS_ASSOCIATE
         }
       >
-        <AssociateAssets setTotalAssets={setTotalAssets} />
+        <AssociateAssets />
       </PermissionsGuard>
-      <Approvals />
+      {data?.data?.[0]?.ticketType === TICKET_TYPE?.SR && <Approvals />}
       <PermissionsGuard
         permissions={Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_MEETINGS}
       >

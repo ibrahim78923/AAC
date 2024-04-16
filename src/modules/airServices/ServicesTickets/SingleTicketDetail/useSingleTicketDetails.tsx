@@ -1,4 +1,3 @@
-// import { useGetTicketsDetailsByIdQuery } from '@/services/airServices/tickets/single-ticket-details/details';
 import { useRouter } from 'next/router';
 import { useGetTicketsByIdQuery } from '@/services/airServices/tickets';
 

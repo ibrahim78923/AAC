@@ -17,12 +17,12 @@ import {
 import { TicketsDelete } from '../../TicketsDelete';
 import { truncateText } from '@/utils/avatarUtils';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { Skeleton } from '@mui/lab';
 
 const Header = (props: any) => {
-  const { apiStatus } = props;
+  const { apiStatus, data } = props;
+
   const {
-    data,
     router,
     setIsDrawerOpen,
     isDrawerOpen,
@@ -33,20 +33,9 @@ const Header = (props: any) => {
     setDeleteModalOpen,
     ticketId,
   } = useHeader();
-  // console.log('hi');
-  // console.log({
-  //   data,
-  //   router,
-  //   setIsDrawerOpen,
-  //   isDrawerOpen,
-  //   ticketsApprovalDropdown,
-  //   isPrintDrawerOpen,
-  //   setIsPrintDrawerOpen,
-  //   deleteModalOpen,
-  //   setDeleteModalOpen,
-  //   ticketId,
-  // });
-  if (apiStatus?.isLoading || apiStatus?.isFetching) return <SkeletonForm />;
+
+  if (apiStatus?.isLoading || apiStatus?.isFetching) return <Skeleton />;
+
   return (
     <>
       <Box

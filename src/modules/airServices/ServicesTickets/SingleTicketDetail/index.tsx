@@ -17,7 +17,7 @@ export const SingleTicketDetail = () => {
         ]}
       >
         <DetailCard
-          data={data}
+          detail={data}
           apiStatus={{ isLoading, isFetching, isError }}
         />
       </PermissionsGuard>

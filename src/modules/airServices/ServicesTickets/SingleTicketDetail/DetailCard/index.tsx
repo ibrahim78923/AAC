@@ -12,8 +12,8 @@ import {
 } from '@/utils/avatarUtils';
 
 export const DetailCard = (props: any) => {
-  const { apiStatus } = props;
-  const { data: detail, attachFile } = useDetailsCard();
+  const { apiStatus, detail } = props;
+  const { attachFile } = useDetailsCard();
 
   const theme = useTheme();
   if (apiStatus?.isLoading || apiStatus?.isFetching) return <SkeletonForm />;

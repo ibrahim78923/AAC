@@ -1,5 +1,3 @@
-import { useGetTicketsDetailsByIdQuery } from '@/services/airServices/tickets/single-ticket-details/details';
-
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { headerDropdownFunction } from './Header.data';
@@ -44,18 +42,8 @@ export const useHeader = () => {
     updateTicketStatus,
     setDeleteModalOpen,
   );
-  const getSingleTicketParameter = {
-    pathParam: {
-      ticketId,
-    },
-  };
-  const { data } = useGetTicketsDetailsByIdQuery(getSingleTicketParameter, {
-    refetchOnMountOrArgChange: true,
-    skip: !!!ticketId,
-  });
 
   return {
-    data,
     router,
     toggleView,
     isIconVisible,
