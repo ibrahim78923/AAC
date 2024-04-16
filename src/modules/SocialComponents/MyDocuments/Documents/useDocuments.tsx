@@ -24,7 +24,7 @@ const useDocuments: any = () => {
   const [isOpenFolderDrawer, setIsOpenFolderDrawer] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isEditOpenModal, setIsEditOpenModal] = useState();
-  const [modalHeading, setModalHeading] = useState('Create New Folder');
+  const [modalHeading, setModalHeading] = useState('');
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
@@ -32,6 +32,8 @@ const useDocuments: any = () => {
   const [deleteFolders] = useDeleteFoldersMutation();
   const [checkboxChecked, setCheckboxChecked] = useState<string[]>([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
+  const [actionType, setActionType] = useState('');
+  const [selectedFolder, setSelectedFolder] = useState(null);
   const { user }: any = useAuth();
 
   const { data, isLoading, isError, isFetching, isSuccess } =
@@ -114,7 +116,7 @@ const useDocuments: any = () => {
   useEffect(() => {
     if (isEditOpenModal) {
       const { name } = isEditOpenModal;
-      FolderAdd?.setSearchValue('name', name);
+      FolderAdd?.setValue('name', name);
     }
   }, [isEditOpenModal, FolderAdd]);
 
@@ -125,7 +127,7 @@ const useDocuments: any = () => {
       name: watch('name'),
     };
     try {
-      if (isEditOpenModal) {
+      if (actionType === 'move-folder' || actionType === 'update-folder') {
         await updateFolder({
           id: checkboxChecked,
           body: documentData,
@@ -140,9 +142,9 @@ const useDocuments: any = () => {
         enqueueSnackbar('Folder Created Successfully', {
           variant: 'success',
         });
-        reset(validationSchema);
-        setIsOpenModal(false);
       }
+      reset(validationSchema);
+      setIsOpenModal(false);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -184,6 +186,9 @@ const useDocuments: any = () => {
     setSelectedItemId,
     handleBoxClick,
     MoveToFolder,
+    setActionType,
+    setSelectedFolder,
+    selectedFolder,
   };
 };
 

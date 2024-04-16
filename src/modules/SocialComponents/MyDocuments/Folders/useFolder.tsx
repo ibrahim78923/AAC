@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Theme, useTheme } from '@mui/material';
 import {
@@ -24,9 +24,10 @@ import { enqueueSnackbar } from 'notistack';
 
 const useFolder: any = () => {
   const theme = useTheme<Theme>();
-  const [value, setValue] = useState('search here');
-  const [modalHeading, setModalHeading] = useState('Create New Folder');
+  const [searchValue, setSearchValue] = useState('search here');
+  const [modalHeading, setModalHeading] = useState('');
   const [cardBox, setCardBox] = useState<string[]>([]);
+  const [selectedFolder, setSelectedFolder] = useState(null);
   const [isEditOpenModal, setIsEditOpenModal] = useState();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenFolderDrawer, setIsOpenFolderDrawer] = useState(false);
@@ -41,6 +42,8 @@ const useFolder: any = () => {
   const [isGetRowValues, setIsGetRowValues] = useState<any>([]);
   const [isChecked, setIsChecked] = useState(false);
   const [isOpenFile, setIsOpenFile] = useState(false);
+  const [actionType, setActionType] = useState('');
+
   const open = Boolean(anchorEl);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
   const [postDocumentFiles] = usePostDocumentFilesMutation();
@@ -129,13 +132,6 @@ const useFolder: any = () => {
     },
   });
 
-  useEffect(() => {
-    if (isEditOpenModal) {
-      const { name } = isEditOpenModal;
-      FolderAdd?.setValue('name', name);
-    }
-  }, [isEditOpenModal, FolderAdd]);
-
   const { handleSubmit, watch, reset } = FolderAdd;
 
   const onSubmit = async () => {
@@ -144,7 +140,7 @@ const useFolder: any = () => {
       name: watch('name'),
     };
     try {
-      if (isEditOpenModal) {
+      if (actionType === 'move-folder' || actionType === 'update-folder') {
         await updateFolder({
           id: cardBox,
           body: documentData,
@@ -159,9 +155,11 @@ const useFolder: any = () => {
         enqueueSnackbar('Folder Created Successfully', {
           variant: 'success',
         });
-        reset(validationSchema);
-        setIsOpenModal(false);
       }
+      reset(validationSchema);
+      setIsOpenModal(false);
+      setActionType('');
+      setModalHeading('');
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -207,8 +205,8 @@ const useFolder: any = () => {
     handleClick,
     handleClickSide,
     handleClose,
-    value,
-    setValue,
+    searchValue,
+    setSearchValue,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenModal,
@@ -241,6 +239,8 @@ const useFolder: any = () => {
     FolderAdd,
     cardBox,
     setCardBox,
+    setSelectedFolder,
+    selectedFolder,
     deleteUserFolders,
     setIsImage,
     isImage,
@@ -249,6 +249,7 @@ const useFolder: any = () => {
     deleteUserFiles,
     isOpenFile,
     setIsOpenFile,
+    setActionType,
   };
 };
 
