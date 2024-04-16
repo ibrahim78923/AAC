@@ -5,12 +5,16 @@ import ActivityAndPerformance from '../ActivityAndPerformance';
 import CreateTask from '../CreateTask';
 import { PlusIcon, UmbrellaIcon } from '@/assets/icons';
 import ImportTaskDrawer from '../ImportTaskDrawer';
+import { RecycleIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
 const TaskHeader = () => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
+  const [isOpenCollapsAndExpand, setIsOpenCollapsAndExpand] =
+    useState<any>(false);
+
   return (
     <Box
       sx={{
@@ -56,7 +60,18 @@ const TaskHeader = () => {
             Import
           </Button>
         </PermissionsGuard>
-        <ActivityAndPerformance />
+        <Button
+          variant="contained"
+          className="small"
+          sx={{ background: theme?.palette?.secondary?.main }}
+          onClick={() => setIsOpenCollapsAndExpand(true)}
+        >
+          <RecycleIcon />
+        </Button>
+        <ActivityAndPerformance
+          setIsOpenCollapsAndExpand={setIsOpenCollapsAndExpand}
+          isOpenCollapsAndExpand={isOpenCollapsAndExpand}
+        />
         <PermissionsGuard
           permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.CRAETE_TASK]}
         >

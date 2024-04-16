@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts';
 import { useForm } from 'react-hook-form';
-import { usePostAttachmentMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/attachments';
+import { usePostAttachmentMutation } from '@/services/commonFeatures/contacts/associations';
 import {
   attachmentsDefaultValues,
   attachmentsValidationSchema,
@@ -33,7 +33,7 @@ const useAttachments = (contactId: any) => {
     resolver: yupResolver(attachmentsValidationSchema),
     defaultValues: attachmentsDefaultValues,
   });
-  const [postAttachment, { isLoading: loadingAddCompanyAccount }] =
+  const [postAttachment, { isLoading: loadingAddAttachment }] =
     usePostAttachmentMutation();
   const {
     handleSubmit: handleMethodAddAttachment,
@@ -41,29 +41,10 @@ const useAttachments = (contactId: any) => {
   } = methodsAttachments;
   const [drawerTitle, setDrawerTitle] = useState('Add');
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [attachmentData, setAttachmentData] = useState();
   const handleOpenDrawer = (title: any, data: any) => {
     setDrawerTitle(title);
-    // if (title === 'Add') {
-    //   console.log('Add open');
-    // }
-
-    // if (title === 'Edit') {
-    //   console.log('Edit Open');
-    // }
-
-    // if (title === 'View') {
-    //   console.log('View Open');
-    // }
-    if (data) {
-      // methodsAttachments.setValue('name', data?.name);
-      // methodsAttachments.setValue('dealPipelineId', data?.dealPipelineId);
-      // methodsAttachments.setValue('dealStageId', data?.dealStageId);
-      // methodsAttachments.setValue('amount', data?.amount);
-      // methodsAttachments.setValue('closeDate', new Date(data?.closeDate));
-      // methodsAttachments.setValue('ownerId', data?.ownerId);
-      // methodsAttachments.setValue('priority', data?.priority);
-      // methodsAttachments.setValue('addLineItemId', data?.addLineItemId);
-    }
+    setAttachmentData(data);
     setOpenDrawer(true);
   };
   const handleCloseDrawer = () => {
@@ -74,9 +55,10 @@ const useAttachments = (contactId: any) => {
   // Add Attachment
   const onSubmitAddAttachment = async (values: any) => {
     const formData = new FormData();
-    formData?.append('fileUrl', values?.fileUrl);
-    formData?.append('module', 'CONTACT');
+    formData?.append('fileUrl', values?.attachment);
     formData?.append('recordId', contactId);
+    formData?.append('module', 'CONTACT');
+    formData?.append('recordType', 'contacts');
     try {
       await postAttachment(formData)?.unwrap();
       handleCloseDrawer();
@@ -92,8 +74,6 @@ const useAttachments = (contactId: any) => {
   const handleAddAttachmentSubmit = handleMethodAddAttachment(
     onSubmitAddAttachment,
   );
-
-  // const [isDisabledFields, setIsDisabledFields] = useState(true);
 
   // Delete Modal
   const [isOpenAlert, setIsOpenAlert] = useState(false);
@@ -118,12 +98,13 @@ const useAttachments = (contactId: any) => {
     handleCloseDrawer,
     methodsAttachments,
     handleAddAttachmentSubmit,
-    loadingAddCompanyAccount,
+    loadingAddAttachment,
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
     postAttachment,
     theme,
+    attachmentData,
   };
 };
 

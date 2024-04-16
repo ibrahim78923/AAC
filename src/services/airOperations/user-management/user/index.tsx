@@ -31,17 +31,6 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getCompanyAccountsRoles: builder.query({
-      query: (params: any) => ({
-        url: END_POINTS?.DROPDOWN_ACCOUNTS_ROLE,
-        method: 'GET',
-        params: params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data;
-      },
-      providesTags: ['USERS'],
-    }),
     getTeamUserList: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.SALES_TEAM}`,
@@ -100,12 +89,20 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     patchTeamUsers: builder.mutation({
-      query: (body: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}`,
+      query: (id: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}${id}`,
         method: 'PATCH',
-        body,
       }),
       invalidatesTags: [TAG],
+    }),
+    getTeamsById: builder.query({
+      query: (id: any) => {
+        return {
+          url: `${END_POINTS?.SALES_TEAM}/${id}`,
+          method: 'GET',
+        };
+      },
+      providesTags: ['TEAMS'],
     }),
   }),
 });
@@ -114,7 +111,6 @@ export const {
   useGetProductUserListQuery,
   useLazyGetProductUserListDropdownQuery,
   usePostProductUserListMutation,
-  useLazyGetCompanyAccountsRolesQuery,
   useLazyGetTeamUserListQuery,
   useDeleteProductUsersMutation,
   usePatchProductUsersMutation,
@@ -123,4 +119,5 @@ export const {
   usePostCreateTeamMutation,
   useGetViewProductUsersQuery,
   usePatchTeamUsersMutation,
+  useGetTeamsByIdQuery,
 } = userManagementAPI;

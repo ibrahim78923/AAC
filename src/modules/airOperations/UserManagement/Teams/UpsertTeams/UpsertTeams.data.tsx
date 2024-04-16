@@ -3,19 +3,13 @@ import * as Yup from 'yup';
 
 export const upsertTeamValidationSchema: any = Yup?.object()?.shape({
   name: Yup?.string()?.required('Required'),
-  userAccounts: Yup?.array()?.nullable(),
 });
 
-export const upsertTeamData = [
-  {
-    id: 1,
-    name: 'John',
-    team: 'E',
-  },
-];
-export const upsertTeamDefaultValues: any = {
-  name: '',
-  userAccounts: [],
+export const upsertTeamDefaultValues = (data?: any) => {
+  return {
+    name: data?.name ?? '',
+    userAccounts: data?.userAccounts ?? [],
+  };
 };
 
 export const upsertTeamArray = (usersTeamDropdown: any) => [
@@ -39,6 +33,7 @@ export const upsertTeamArray = (usersTeamDropdown: any) => [
       placeholder: 'Select',
       fullWidth: true,
       required: true,
+      multiple: true,
       apiQuery: usersTeamDropdown,
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option.lastName}`,
