@@ -51,7 +51,9 @@ const ChoosePlan = () => {
       name: parsedManageData?.planName || parsedManageData?.name,
     });
   const { data: featuresData } = useGetProductFeaturesQuery({
-    id: parsedManageData?.productId,
+    id: isCRM
+      ? parsedManageData?.plans?.planProducts
+      : parsedManageData?.productId,
   });
 
   const [getData, setGetData] = useState<any>([]);
@@ -118,7 +120,9 @@ const ChoosePlan = () => {
       }
     } else {
       if (data?.data) {
-        setGetData(Object?.values(data?.data));
+        setGetData(
+          Object?.values(data?.data)?.filter((val) => typeof val == 'object'),
+        );
       }
     }
   }, [data, crmPlanData]);
@@ -289,8 +293,8 @@ const ChoosePlan = () => {
                                 ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
                               ]}
                             >
-                              {item?.defaultUsers === 0 ? (
-                                <Counter inputValue={0} disabled />
+                              {item?.additionalPerUserPrice === null ? (
+                                <Counter inputValue={0} disabled value={0} />
                               ) : (
                                 <CounterMaxUser
                                   defaultUsers={item?.defaultUsers}
@@ -324,8 +328,8 @@ const ChoosePlan = () => {
                                 ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
                               ]}
                             >
-                              {item?.defaultStorage === 0 ? (
-                                <Counter inputValue={0} disabled />
+                              {item?.additionalStoragePrice === null ? (
+                                <Counter inputValue={0} disabled value={0} />
                               ) : (
                                 <CounterAdditionalStorage
                                   defaultUsers={item?.defaultStorage}
@@ -359,10 +363,9 @@ const ChoosePlan = () => {
                         return (
                           <TableCell key={uuidv4()} align="center">
                             <TickCircleIcon />
-
                             <p>
                               {
-                                planFeature?.planProductFeatures.find(
+                                planFeature?.planProductFeatures?.find(
                                   (row: any) => row?.featureId === feature?._id,
                                 )?.dealsAssociationsDetail
                               }
