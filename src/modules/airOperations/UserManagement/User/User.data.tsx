@@ -105,7 +105,7 @@ export const userList = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.team?.email,
+    accessorFn: (row: any) => row?.user?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
@@ -119,7 +119,7 @@ export const userList = (
     cell: (info: any) => info?.getValue() ?? '--',
   },
   {
-    accessorFn: (row: any) => row?.role?.name,
+    accessorFn: (row: any) => row?.user?.role,
     id: 'role',
     isSortable: true,
     header: 'Role',
