@@ -1,7 +1,4 @@
-import React from 'react';
-
 import { Box, Typography, Theme, useTheme } from '@mui/material';
-
 import OrganizationCard from './OrganizationSubFolder/OrganizationCard';
 import OrganizationTable from './OrganizationSubFolder/OrganizationTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -23,17 +20,7 @@ const Organization = () => {
             padding: '0.7rem',
           }}
         >
-          <Typography
-            variant="h3"
-            sx={{
-              textAlign: {
-                lg: 'start',
-                md: 'start',
-                sm: 'center',
-                xs: 'center',
-              },
-            }}
-          >
+          <Typography variant="h3" mb={1}>
             Organization
           </Typography>
           <OrganizationCard />
@@ -43,17 +30,11 @@ const Organization = () => {
             ]}
           >
             <Typography
-              variant="h4"
+              variant="h3"
               sx={{
                 fontWeight: 500,
                 paddingTop: '20px',
                 paddingBottom: '20px',
-                textAlign: {
-                  lg: 'start',
-                  md: 'start',
-                  sm: 'center',
-                  xs: 'center',
-                },
               }}
             >
               Company Accounts

@@ -20,7 +20,15 @@ export const UpsertEventBasedWorkflow = () => {
     setValue,
     isLoading,
     isFetching,
-    handleSaveAsDraft,
+    setValidation,
+    postWorkflowProgress,
+    saveWorkflowProgress,
+    handleTestWorkflow,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    updatedWorkflowProcess,
+    testWorkflowProgress,
+    testWorkflowResponse,
   } = useUpsertEventBasedWorkflow();
   if (isLoading || isFetching) return <Skeleton />;
   return (
@@ -29,7 +37,18 @@ export const UpsertEventBasedWorkflow = () => {
         methods={eventMethod}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <WorkflowHeader handleSaveAsDraft={handleSaveAsDraft} />
+        <WorkflowHeader
+          setValidation={setValidation}
+          isWorkflowDrawer={isWorkflowDrawer}
+          setIsWorkflowDrawer={setIsWorkflowDrawer}
+          postWorkflowProgress={postWorkflowProgress}
+          saveWorkflowProgress={saveWorkflowProgress}
+          handleTestWorkflow={handleTestWorkflow}
+          testWorkflowProgress={testWorkflowProgress}
+          updatedWorkflowProcess={updatedWorkflowProcess}
+          testWorkflowResponse={testWorkflowResponse}
+          watch={watch}
+        />
         <Grid container spacing={2}>
           {EventBasedWorkflowDataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>

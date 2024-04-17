@@ -25,7 +25,7 @@ export const WorkflowDateRange = (props: any) => {
         InputProps={{
           readOnly: true,
         }}
-        label="Custom Range"
+        label="customRange"
         name={'scheduleDateRange'}
         onClick={handleClick}
         size="small"

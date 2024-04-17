@@ -1,5 +1,5 @@
 import { END_POINTS, organization } from '@/routesConstants/endpoints';
-import { baseAPI } from '@/services/base-api';
+import { TAGS, baseAPI } from '@/services/base-api';
 
 export const organizationAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -69,11 +69,20 @@ export const organizationAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['Organization'],
     }),
+    updateOrganizationById: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${organization.GET_MAIN_ORGANIZATION}/${id}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: TAGS,
+    }),
   }),
 });
 
 export const {
   useUpdateOrganizationMutation,
+  useUpdateOrganizationByIdMutation,
   usePostOrganizationMutation,
   useGetOrganizationQuery,
   useDeleteOrganizationMutation,
