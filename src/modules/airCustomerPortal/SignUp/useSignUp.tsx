@@ -9,7 +9,7 @@ import {
 } from './SignUp.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useAuthCustomerSignUpMutation } from '@/services/airCustomerPortal/auth';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { AUTH } from '@/constants';
 
 export default function useSignUp() {
   const [stepState, setStepState] = useState(false);
@@ -81,7 +81,7 @@ export default function useSignUp() {
       await postSignUpTrigger(userDetails)?.unwrap();
       successSnackbar('Account Created Successfully!');
       reset();
-      router?.push(AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_LOGIN);
+      router?.push(AUTH?.LOGIN);
     } catch (error: any) {
       errorSnackbar();
     }

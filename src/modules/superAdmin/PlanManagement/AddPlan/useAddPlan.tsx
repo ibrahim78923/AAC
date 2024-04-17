@@ -308,6 +308,7 @@ export const useAddPlan = () => {
   });
 
   const onSubmitPlanFeaturesHandler = async (values: any) => {
+    let addExtraFeatures: any;
     let featuresData;
     if (isNullOrEmpty(planForm?.productId)) {
       featuresData = planForm?.suite?.map((productIdItem: any) => {
@@ -317,10 +318,15 @@ export const useAddPlan = () => {
               const productId = productFeatures?.data?.productfeatures?.find(
                 (id: any) => id?._id === item,
               );
+              addExtraFeatures = '';
+              if (featureDetails?.featureId === item) {
+                addExtraFeatures =
+                  featureDetails?.values?.dealsAssociationsDetail;
+              }
               if (productId?.productId === productIdItem) {
                 return {
-                  dealsAssociationsDetail:
-                    featureDetails?.dealsAssociationsDetail,
+                  dealsAssociationsDetail: addExtraFeatures,
+
                   featureId: item,
                 };
               }
@@ -333,8 +339,12 @@ export const useAddPlan = () => {
     } else {
       featuresData = {
         features: values?.features?.map((item: any) => {
+          addExtraFeatures = '';
+          if (featureDetails?.featureId === item) {
+            addExtraFeatures = featureDetails?.values?.dealsAssociationsDetail;
+          }
           return {
-            dealsAssociationsDetail: featureDetails?.dealsAssociationsDetail,
+            dealsAssociationsDetail: addExtraFeatures,
             featureId: item,
           };
         }),
@@ -428,8 +438,8 @@ export const useAddPlan = () => {
                 ...transformedModulesFormData,
               },
             })?.unwrap());
+        router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
         if (res) {
-          router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
           setCheckQuery('');
           enqueueSnackbar(
             parsedRowData
@@ -576,11 +586,12 @@ export const useAddPlan = () => {
       setValue('additionalStoragePrice', 0);
     } else if (AdditionalUsereValue[0] === 'No') {
       setValue('additionalPerUserPrice', 0);
-    } else {
+    } else if (AdditionalStorageValue[0] === 'Yes') {
       setValue('additionalStoragePrice', 1);
+    } else if (AdditionalUsereValue[0] === 'Yes') {
       setValue('additionalPerUserPrice', 1);
     }
-  }, [AdditionalStorageValue, AdditionalUsereValue, setValue]);
+  }, []);
 
   return {
     methods,
