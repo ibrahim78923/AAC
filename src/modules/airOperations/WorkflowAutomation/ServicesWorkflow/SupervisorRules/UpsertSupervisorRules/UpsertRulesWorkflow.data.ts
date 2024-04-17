@@ -12,12 +12,6 @@ export const andRunOptions = [
   { value: 'RECURRENT', label: 'Recurring, for the same record' },
 ];
 
-export const eventOptions = [
-  { value: 'created', label: 'When a record is created' },
-  { value: 'updated', label: 'When a record is updated' },
-  { value: 'deleted', label: 'When a record is deleted' },
-];
-
 export const conditionTypeOptions = [
   { value: 'AND', label: 'Match ALL condition in this group' },
   { value: 'OR', label: 'Match ANY condition in this group' },
@@ -26,11 +20,10 @@ export const conditionTypeOptions = [
 export const actionsOptions = [
   { value: 'status', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
-  { value: 'type', label: 'Set Type as' },
+  { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
   { value: 'dueDate', label: 'Set Due Date as' },
   { value: 'category', label: 'Set Category as' },
-  { value: 'status', label: 'Set Status as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
   { value: 'addTask', label: 'Add Task' },
@@ -46,7 +39,6 @@ export const rulesWorkflowSchema = Yup?.object()?.shape({
   description: Yup?.string(),
   runType: Yup?.mixed()?.nullable()?.required('Required'),
   module: Yup?.string()?.required('Required'),
-  events: Yup?.mixed()?.nullable()?.required('Required'),
   groups: Yup?.array()?.of(
     Yup?.object()?.shape({
       name: Yup?.string()?.required('Required'),
@@ -116,18 +108,13 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.SUPERVISOR_RULES,
     description: singleWorkflowData?.description ?? '',
-    events: singleWorkflowData?.events?.[0]
-      ? eventOptions?.find(
-          (item: any) => item?.value === singleWorkflowData?.events?.[0],
-        )
-      : null,
     runType: singleWorkflowData?.runType
       ? andRunOptions?.find(
           (item: any) => item?.value === singleWorkflowData?.runType,
         )
       : null,
     module: SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? '',
+    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: any) => {
       return {
         name: group?.name ?? '',
@@ -138,6 +125,7 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         conditions: group?.conditions?.map((condition: any, cIndex: any) => {
           return {
+            options: 'Ticket Fields',
             fieldName: condition?.fieldName ?? '',
             condition: condition?.condition ?? '',
             fieldValue:
@@ -150,17 +138,6 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
         }),
       };
     }) ?? [
-      {
-        name: '',
-        conditionType: null,
-        conditions: [
-          {
-            fieldName: '',
-            condition: '',
-            fieldValue: null,
-          },
-        ],
-      },
       {
         name: '',
         conditionType: null,

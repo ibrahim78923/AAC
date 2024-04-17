@@ -11,6 +11,8 @@ export const TIME_FORMAT = {
   UI: 'h:mm A',
   API: 'h:mm A',
   TIME_VALIDATION: 'hh:mm:ss',
+  TH: 'HH:mm',
+  HMA: 'hh:mm aa',
 };
 
 export const CALENDAR_FORMAT = {
@@ -32,6 +34,7 @@ export const DATE_TIME_FORMAT = {
   DDMMYYYY: 'DD MMM, YYYY hh:MM A',
   DMMMY: 'D MMM, YYYY',
   DMDHMA: 'ddd, MMM D, YYYY, h:mm A',
+  MMMM: 'MMMM',
   WDM: 'dddd, DD MMMM',
   MMMM: 'MMMM',
 };
