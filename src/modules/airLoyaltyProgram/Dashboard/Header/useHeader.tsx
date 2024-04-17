@@ -5,7 +5,7 @@ export const useHeader = () => {
   const theme = useTheme();
   const [selectionRange, setSelectionRange] = useState({
     startDate: new Date(),
-    endDate: null,
+    endDate: undefined,
     key: 'selection',
   });
 

@@ -160,8 +160,7 @@ const InvoiceCard = ({
   planDiscount,
   discount,
   tax,
-  totalCost,
-  // subTotal,
+  totalCost, // subTotal,
 }: any) => {
   const theme = useTheme();
   return (

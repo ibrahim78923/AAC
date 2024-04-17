@@ -178,6 +178,7 @@ export const AIR_LOYALTY_PROGRAM = {
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
   PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design`,
   EDIT_PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design/edit`,
+  TOP_USER: '/',
 };
 
 export const SOCIAL_COMPONENTS = {
@@ -221,4 +222,9 @@ export const EQuickLinksType = {
 export const QUICKLINKSROLES = {
   SUPER_ADMIN: 'super-admin',
   ORG_ADMIN: 'org-admin',
+};
+
+export const DOCUMENTS_ACTION_TYPES = {
+  MOVE_FOLDER: 'move-folder',
+  UPDATE_FOLDER: 'update-folder',
 };
