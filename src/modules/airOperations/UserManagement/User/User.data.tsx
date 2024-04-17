@@ -22,6 +22,7 @@ export const userList = (
   setIsDrawerOpen: any,
   setTabData: any,
   switchLoading: any,
+  handleChangeStatus: any,
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -137,6 +138,7 @@ export const userList = (
         <AntSwitch
           checked={getValues}
           isLoading={switchLoading?.[info?.row?.original?._id]}
+          onClick={() => handleChangeStatus?.(info?.row?.original)}
         />
       );
     },

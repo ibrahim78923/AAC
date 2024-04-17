@@ -17,6 +17,7 @@ import {
   upsertUserValidationSchema,
 } from './UpsertUser/UpsertUser.data';
 import { useRouter } from 'next/router';
+import { REQUESTORS_STATUS } from '@/constants/strings';
 
 export const useUser = () => {
   const router = useRouter();
@@ -31,17 +32,48 @@ export const useUser = () => {
   const [setUserData] = useState<any[]>();
   const [disabled, setDisabled] = useState(true);
   const [tabData, setTabData] = useState({});
-  const [switchLoading] = useState<any>({});
+  const [switchLoading, setSwitchLoading] = useState<any>({});
+
+  const [changeStatusTrigger] = usePatchProductUsersMutation();
+
   const param = {
     page: page,
     limit: pageLimit,
     search,
   };
+
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetProductUserListQuery({ param });
 
   const usersData = data?.data?.usercompanyaccounts;
   const metaData = data?.data?.meta;
+
+  const handleChangeStatus = async (rowData: any) => {
+    const status =
+      rowData?.status === REQUESTORS_STATUS?.ACTIVE
+        ? REQUESTORS_STATUS?.INACTIVE
+        : REQUESTORS_STATUS?.ACTIVE;
+    setSwitchLoading((prevState: any) => ({
+      ...prevState,
+      [rowData?._id]: true,
+    }));
+    const response: any = await changeStatusTrigger({
+      id: rowData?._id,
+      body: { status },
+    });
+    try {
+      response;
+      successSnackbar(
+        response?.data?.message &&
+          `${rowData?.title} ${status?.toLocaleLowerCase()} successfully`,
+      );
+    } catch (error) {
+      errorSnackbar(response?.error?.data?.message);
+    } finally {
+      setSwitchLoading({ ...switchLoading, [rowData?._id]: false });
+    }
+  };
+
   const userListColumn = userList(
     usersData,
     selectedUserList,
@@ -49,6 +81,7 @@ export const useUser = () => {
     setIsDrawerOpen,
     setTabData,
     switchLoading,
+    handleChangeStatus,
   );
 
   const rolesDropdown = useLazyGetDepartmentDropdownQuery();
@@ -58,13 +91,17 @@ export const useUser = () => {
     resolver: yupResolver(upsertUserValidationSchema),
     defaultValues: upsertUserDefaultValues(tabData),
   });
+
   const { handleSubmit, reset } = methods;
   useEffect(() => {
     reset(upsertUserDefaultValues(tabData));
   }, [isDrawerOpen]);
+
   const [patchProductUsersTrigger, patchProductUsersStatus] =
     usePatchProductUsersMutation();
+
   const [addListUsers, addUsersListStatus] = usePostProductUserListMutation();
+
   const submit = async (data: any) => {
     try {
       const body = {
@@ -79,7 +116,7 @@ export const useUser = () => {
       }
       await addListUsers({ body }).unwrap();
       successSnackbar('Users List added successfully.');
-      handleClose?.();
+      handleClose();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -135,5 +172,7 @@ export const useUser = () => {
     patchProductUsersStatus,
     addUsersListStatus,
     switchLoading,
+    handleChangeStatus,
+    editProductUsersDetails,
   };
 };

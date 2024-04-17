@@ -25,6 +25,8 @@ export const User = () => {
     methods,
     handleSubmit,
     submit,
+    addUsersListStatus,
+    editProductUsersDetails,
   } = useUser();
   return (
     <Box>
@@ -33,6 +35,9 @@ export const User = () => {
         setSelectedUserList={setSelectedUserList}
         setSearch={setSearch}
         methods={methods}
+        handleSubmit={handleSubmit}
+        addUsersListStatus={addUsersListStatus}
+        submit={submit}
       />
       <Box mt={'0.75rem'}>
         <UpsertUser
@@ -42,7 +47,7 @@ export const User = () => {
           okText={'Save'}
           methods={methods}
           handleSubmit={handleSubmit}
-          submit={submit}
+          submit={editProductUsersDetails}
         />
         <PermissionsGuard
           permissions={[

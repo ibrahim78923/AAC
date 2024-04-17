@@ -14,15 +14,10 @@ function UpsertUser({
   methods,
   handleSubmit,
   submit,
+  patchProductUsersStatus,
+  addUsersListStatus,
 }: any) {
-  const {
-    disabled,
-    setDisabled,
-    usersTeamDropdown,
-    rolesDropdown,
-    patchProductUsersStatus,
-    addUsersListStatus,
-  } = useUser();
+  const { disabled, usersTeamDropdown, rolesDropdown } = useUser();
 
   return (
     <>
@@ -30,11 +25,7 @@ function UpsertUser({
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen?.(false)}
         title={title}
-        submitHandler={() => {
-          title === USER_MANAGEMENT?.USERVIEW && disabled
-            ? setDisabled(false)
-            : handleSubmit(submit)();
-        }}
+        submitHandler={() => handleSubmit(submit)()}
         footer={true}
         isOk={true}
         okText={
@@ -62,7 +53,7 @@ function UpsertUser({
             <Grid container spacing={4}>
               {upsertUserArray(rolesDropdown, usersTeamDropdown)?.map(
                 (item: any) => (
-                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                  <Grid item xs={12} md={item?.md} key={item?._id}>
                     {item?.subheading &&
                       title !== USER_MANAGEMENT?.USERVIEW && (
                         <Typography variant="body2" sx={{ mb: 2 }}>
