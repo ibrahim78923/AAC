@@ -7,13 +7,22 @@ const TAG_TWO = 'DROPDOWN_CATEGORIES';
 const TAG_THREE = 'LOCATION_DROPDOWN';
 const TAG_FOUR = 'DROPDOWN_REQUESTER';
 
-const { OPERATION_WORKFLOW, SAVE_WORKFLOW, CLONE_WORKFLOW } = OPERATION;
+const { OPERATION_WORKFLOW, SAVE_WORKFLOW, CLONE_WORKFLOW, Test_WORKFLOW } =
+  OPERATION;
 
 export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     postServicesWorkflow: builder?.mutation({
       query: (body: any) => ({
         url: `${OPERATION_WORKFLOW}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    postTestWorkflow: builder?.mutation({
+      query: (body: any) => ({
+        url: `${Test_WORKFLOW}`,
         method: 'POST',
         body,
       }),
@@ -115,4 +124,5 @@ export const {
   useLazyGetCategoriesDropdownQuery,
   useLazyGetLocationsDropdownQuery,
   useLazyGetRequesterDropdownQuery,
+  usePostTestWorkflowMutation,
 } = servicesWorkflowAPI;

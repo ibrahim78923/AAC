@@ -18,7 +18,7 @@ export const teamList: any = (
     header: 'Team Name',
     cell: (info: any) => (
       <Typography variant="body4" color="blue.dull_blue">
-        {info?.getValue()}
+        {info?.getValue() ?? '--'}
       </Typography>
     ),
   },
@@ -27,7 +27,7 @@ export const teamList: any = (
     id: 'teamMembers',
     isSortable: true,
     header: 'Team Members',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '--',
   },
   {
     accessorFn: (row: any) => row?.actions,
