@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   useGetTaskDetailsQuery,
+  useLazyGetAssignedUsersQuery,
   usePatchCreateTaskMutation,
   usePostCreateTaskMutation,
 } from '@/services/airSales/task';
@@ -109,7 +110,7 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
       priority: values?.priority,
       ...(values?.status && { status: values?.status }),
       ...(values?.reminder && { reminder: values?.reminder }),
-      ...(values?.assignTo && { assignTo: values?.assignTo }),
+      ...(values?.assignTo && { assignTo: values?.assignTo?._id }),
       ...(values?.dueDate && {
         dueDate: dayjs(values?.dueDate)?.format(DATE_FORMAT?.API),
       }),
@@ -149,9 +150,9 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitHandler);
 
-  // const usersData = useLazyGetAssignedUsersQuery();
+  const usersData = useLazyGetAssignedUsersQuery();
 
-  const getCreateTaskData = createTaskData({ data: taskData?.data });
+  const getCreateTaskData = createTaskData({ data: taskData?.data, usersData });
 
   return {
     theme,

@@ -14,9 +14,7 @@ import SearchableTabsSelect from './searchableTabsSelect';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import useTaskCustomize from './EditColumn/useTaskCustomize';
-import { useGetAssignedToUsersQuery } from '@/services/airSales/task';
 import { getSession } from '@/utils';
-import { PAGINATION } from '@/config';
 
 export const filterDefaultValues = {
   assignTo: null,
@@ -168,7 +166,7 @@ export const createTaskDefaultValues = ({ data }: any) => {
     type: data?.type ?? '',
     priority: data?.priority ?? '',
     status: data?.status ?? '',
-    assignTo: data?.assignTo || '',
+    assignTo: data?.assignTo || null,
     dueDate: isValidDate(inputDate) ? inputDate : null,
     time: isValidDate(inputTime) ? inputTime : null,
     reminder: data?.reminder ?? '',
@@ -176,25 +174,8 @@ export const createTaskDefaultValues = ({ data }: any) => {
   };
 };
 
-export const createTaskData = ({ data }: any) => {
+export const createTaskData = ({ data, usersData }: any) => {
   const { user }: { user: any } = getSession();
-  const { data: usersList } = useGetAssignedToUsersQuery({
-    params: {
-      organization: user?.organization?._id,
-      page: PAGINATION?.CURRENT_PAGE,
-      limit: 100,
-      role: user?.role,
-    },
-  });
-
-  const formattedData =
-    usersList?.data?.users &&
-    usersList?.data?.users?.map((user: any) => {
-      return {
-        label: `${user?.firstName} ${user?.lastName}`,
-        value: `${user?._id}`,
-      };
-    });
 
   return [
     {
@@ -260,16 +241,22 @@ export const createTaskData = ({ data }: any) => {
       },
       component: SearchableTabsSelect,
     },
-
     {
       md: 12,
       componentProps: {
         label: 'Assigned to',
         name: 'assignTo',
-        select: true,
+        placeholder: 'Select option',
+        apiQuery: usersData,
+        externalParams: {
+          organization: user?.organization?._id,
+          limit: 50,
+          role: user?.role,
+        },
+        getOptionLabel: (option: any) =>
+          option?.firstName + ' ' + option?.lastName,
       },
-      options: formattedData,
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       md: 7,
