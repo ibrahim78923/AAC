@@ -2,9 +2,9 @@ import { Box, Grid, Typography } from '@mui/material';
 import {
   RHFAutocomplete,
   RHFDatePicker,
+  RHFDateRangePicker,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
-import { WorkflowDateRange } from '../WorkflowDateRange';
 import { useWorkflowSchedule } from './useWorkflowSchedule';
 import {
   scheduleOptions,
@@ -13,7 +13,7 @@ import {
 } from './WorkflowSchedule.data';
 
 export const WorkflowSchedule = (props: any) => {
-  const { register, setValue } = props;
+  const { register } = props;
   const { selectedSchedule, selectedScheduleWeek, theme } =
     useWorkflowSchedule(props);
 
@@ -87,12 +87,22 @@ export const WorkflowSchedule = (props: any) => {
             )}
           </Grid>
           <Grid item xs={12} md={6.5}>
-            {(selectedSchedule === scheduleTypes?.daily ||
-              selectedScheduleWeek) && (
-              <RHFTimePicker name="time" label="Time" size="small" fullWidth />
-            )}
             {selectedSchedule === scheduleTypes?.customRange && (
-              <WorkflowDateRange setValue={setValue} />
+              <RHFDateRangePicker
+                name="custom"
+                size="small"
+                label="Custom Range"
+              />
+            )}
+          </Grid>
+          <Grid item xs={12} md={6.5}>
+            {(selectedSchedule === scheduleTypes?.daily ||
+              selectedSchedule === scheduleTypes?.schedule ||
+              selectedScheduleWeek ||
+              selectedSchedule === scheduleTypes?.customRange ||
+              selectedSchedule === scheduleTypes?.annually ||
+              selectedSchedule === scheduleTypes?.monthly) && (
+              <RHFTimePicker name="time" label="Time" size="small" fullWidth />
             )}
           </Grid>
         </Box>

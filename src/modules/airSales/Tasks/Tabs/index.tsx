@@ -24,7 +24,7 @@ const Tabs = ({ tabValue, assignTo }: any) => {
   const taskDataArray = useAppSelector(
     (state: any) => state?.task?.taskDataArray,
   );
-  const getTaskData = TasksData();
+  const getTaskData = TasksData({ data: taskDataArray?.data?.taskmanagements });
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -49,6 +49,8 @@ const Tabs = ({ tabValue, assignTo }: any) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '12px',
         }}
       >
         <PermissionsGuard

@@ -61,7 +61,7 @@ const AddUser = ({
               item?.toShow?.includes(
                 pathName === SUPER_ADMIN?.USERMANAGMENT
                   ? tabTitle
-                  : 'SUPER_ADMIN',
+                  : 'ORG_EMPLOYEE',
               ) && (
                 <Grid item xs={12} md={item?.md} key={item?.name}>
                   {item?.componentProps?.heading && (

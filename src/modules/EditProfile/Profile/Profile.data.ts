@@ -9,7 +9,7 @@ export const editProfileValidationSchema = Yup.object().shape({
   WorkPhoneNumber: Yup.string(),
   phoneNumber: Yup.string(),
   companyName: Yup.string(),
-  jobTitle: Yup.string(),
+  jobTitle: Yup.string().min(2, 'Job title must be at least 2 characters long'),
   language: Yup.string(),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
   facebookUrl: Yup.string().url('Please enter a valid URL').optional(),

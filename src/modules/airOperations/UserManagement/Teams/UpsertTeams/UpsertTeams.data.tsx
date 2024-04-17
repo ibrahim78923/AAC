@@ -36,7 +36,7 @@ export const upsertTeamArray = (usersTeamDropdown: any) => [
       multiple: true,
       apiQuery: usersTeamDropdown,
       getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option.lastName}`,
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
     md: 12,

@@ -12,12 +12,18 @@ export const SingleContractDetails = () => {
     setTerminateModalOpen,
     handleDeleteBtn,
     handleSubmitForTerminated,
+    data,
+    isLoading,
+    isFetching,
   } = useSingleContractDetails();
   return (
     <>
       <Header dropdownOptions={singleContractDetailsActionDropdown} />
       <br />
-      <SingleContractDetailsTabs />
+      <SingleContractDetailsTabs
+        data={data}
+        apiStatus={{ isLoading, isFetching }}
+      />
       <></>
       {terminateModalOpen && (
         <AlertModals

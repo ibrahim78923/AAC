@@ -13,9 +13,9 @@ export const useWorkflowConditions = (props: any) => {
       conditionType: null,
       conditions: [
         {
-          key: '',
+          fieldName: null,
           condition: '',
-          value: null,
+          fieldValue: null,
         },
       ],
     });
