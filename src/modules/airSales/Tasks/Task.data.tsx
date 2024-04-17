@@ -26,9 +26,9 @@ export const filterDefaultValues = {
 };
 
 export const filterValidationSchema = Yup?.object()?.shape({
-  assignTo: Yup.mixed()?.nullable(),
-  status: Yup.string(),
-  priority: Yup.string(),
+  assignTo: Yup?.mixed()?.nullable(),
+  status: Yup?.string(),
+  priority: Yup?.string(),
   // dueDate: Yup.date(),
 });
 
