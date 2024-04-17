@@ -21,7 +21,15 @@ export const UpsertScheduledWorkflow = () => {
     setValue,
     isLoading,
     isFetching,
-    handleSaveAsDraft,
+    setValidation,
+    saveWorkflowProgress,
+    postWorkflowProgress,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    handleTestWorkflow,
+    testWorkflowProgress,
+    updatedWorkflowProcess,
+    testWorkflowResponse,
   } = useUpsertScheduledWorkflow();
 
   if (isLoading || isFetching) return <Skeleton />;
@@ -33,7 +41,18 @@ export const UpsertScheduledWorkflow = () => {
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <Box mb={2}>
-          <WorkflowHeader handleSaveAsDraft={handleSaveAsDraft} />
+          <WorkflowHeader
+            setValidation={setValidation}
+            isWorkflowDrawer={isWorkflowDrawer}
+            setIsWorkflowDrawer={setIsWorkflowDrawer}
+            postWorkflowProgress={postWorkflowProgress}
+            saveWorkflowProgress={saveWorkflowProgress}
+            handleTestWorkflow={handleTestWorkflow}
+            testWorkflowProgress={testWorkflowProgress}
+            updatedWorkflowProcess={updatedWorkflowProcess}
+            testWorkflowResponse={testWorkflowResponse}
+            watch={watch}
+          />
         </Box>
         <Grid container spacing={2}>
           {scheduledWorkflowDataArray?.map((item: any) => (

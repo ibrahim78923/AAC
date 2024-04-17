@@ -6,7 +6,7 @@ import {
 } from './UpsertTeams.data';
 import { useEffect, useState } from 'react';
 import {
-  useLazyGetProductUserListDropdownQuery,
+  useLazyGetProductTeamUserListDropdownQuery,
   usePatchTeamUsersMutation,
   usePostCreateTeamMutation,
 } from '@/services/airOperations/user-management/user';
@@ -24,7 +24,7 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
   useEffect(() => {
     reset(upsertTeamDefaultValues(teamData));
   }, [teamData]);
-  const usersTeamDropdown = useLazyGetProductUserListDropdownQuery();
+  const usersTeamDropdown = useLazyGetProductTeamUserListDropdownQuery();
 
   const [patchTeamsUsersTrigger] = usePatchTeamUsersMutation();
 

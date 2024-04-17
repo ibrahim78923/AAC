@@ -33,10 +33,7 @@ export const upsertUserDefaultValues = (data?: any) => {
   };
 };
 
-export const upsertUserArray = (
-  departmentDropdown: any,
-  usersTeamDropdown: any,
-) => [
+export const upsertUserArray = (rolesDropdown: any, usersTeamDropdown: any) => [
   {
     id: 1,
     subheading: 'Add a new user to this organization.',
@@ -116,7 +113,7 @@ export const upsertUserArray = (
       placeholder: 'Select',
       fullWidth: true,
       required: true,
-      apiQuery: departmentDropdown,
+      apiQuery: rolesDropdown,
     },
     component: RHFAutocompleteAsync,
     md: 12,

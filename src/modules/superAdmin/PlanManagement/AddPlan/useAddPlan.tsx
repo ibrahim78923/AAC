@@ -428,8 +428,8 @@ export const useAddPlan = () => {
                 ...transformedModulesFormData,
               },
             })?.unwrap());
+        router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
         if (res) {
-          router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
           setCheckQuery('');
           enqueueSnackbar(
             parsedRowData

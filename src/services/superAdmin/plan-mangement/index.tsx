@@ -98,6 +98,13 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getProductsPermissionsPlan: builder.query({
+      query: ({ productId }: any) => ({
+        url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${productId}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -114,4 +121,5 @@ export const {
   useGetProductsFeaturesAllQuery,
   useGetPermissionsByProductsQuery,
   useGetCrmQuery,
+  useGetProductsPermissionsPlanQuery,
 } = planManagementAPI;

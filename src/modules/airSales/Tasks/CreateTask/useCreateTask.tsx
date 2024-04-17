@@ -24,7 +24,7 @@ import {
   setTicketsSelectedIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
 
-const useCreateTask = ({ creationMode }: any) => {
+const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
   const theme = useTheme();
   const dispatch: any = useAppDispatch();
 
@@ -107,16 +107,18 @@ const useCreateTask = ({ creationMode }: any) => {
       name: values?.name,
       type: values?.type,
       priority: values?.priority,
-      status: values?.status,
-      reminder: values?.reminder,
+      ...(values?.status && { status: values?.status }),
+      ...(values?.reminder && { reminder: values?.reminder }),
+      ...(values?.assignTo && { assignTo: values?.assignTo }),
+      ...(values?.dueDate && {
+        dueDate: dayjs(values?.dueDate)?.format(DATE_FORMAT?.API),
+      }),
       note: values?.note,
-      dueDate: dayjs(values?.dueDate)?.format(DATE_FORMAT?.API),
       time: values?.time ?? '00:00',
       companiesIds: companiesSelectedIds?.map((ele: any) => ele?.id),
       dealsIds: dealsSelectedIds?.map((ele: any) => ele?.id),
       ticketsIds: ticketsSelectedIds?.map((ele: any) => ele?.id),
       contactsIds: contactsSelectedIds?.map((ele: any) => ele?.id),
-      ...(values?.assignTo && { assignTo: values?.assignTo }),
     };
     if (creationMode === 'create') {
       try {
@@ -126,6 +128,7 @@ const useCreateTask = ({ creationMode }: any) => {
         enqueueSnackbar('Task Created Successfully', {
           variant: 'success',
         });
+        setIsCreateTaskDrawerOpen(false);
       } catch (error: any) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
       }
@@ -138,6 +141,7 @@ const useCreateTask = ({ creationMode }: any) => {
         enqueueSnackbar('Task Updated Successfully', {
           variant: 'success',
         });
+        setIsCreateTaskDrawerOpen(false);
       } catch (error: any) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
       }

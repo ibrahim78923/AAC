@@ -5,12 +5,18 @@ import { AssetsAssociate } from '../AssetsAssociate';
 import { ContractHistory } from '../ContractHistory';
 import { Activity } from '../Activity';
 import { Attachment } from '../Attachment';
+import { Skeleton } from '@mui/lab';
+import { CONTRACT_TYPES } from '@/constants/strings';
 
-export const SingleContractDetailsTabs = () => {
+export const SingleContractDetailsTabs = (props: any) => {
+  const { apiStatus, data } = props;
+  if (apiStatus?.isLoading || apiStatus?.isFetching) return <Skeleton />;
   return (
-    <HorizontalTabs tabsDataArray={singleContractDetailTabsData}>
+    <HorizontalTabs tabsDataArray={singleContractDetailTabsData?.(data)}>
       <Overview />
-      <AssetsAssociate />
+      {data?.data?.contractType !== CONTRACT_TYPES?.SOFTWARE_LICENSE && (
+        <AssetsAssociate />
+      )}
       <ContractHistory />
       <Activity />
       <Attachment />

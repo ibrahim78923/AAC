@@ -1,21 +1,17 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
+import { taskFieldsOption } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
   { value: 'ASSETS', label: 'Assets' },
   { value: 'TICKETS_TASKS', label: 'Tasks' },
 ];
+
 export const andRunOptions = [
   { value: 'ONCE', label: 'Once, for each record' },
   { value: 'RECURRENT', label: 'Recurring, for the same record' },
-];
-
-export const eventOptions = [
-  { value: 'created', label: 'When a record is created' },
-  { value: 'updated', label: 'When a record is updated' },
-  { value: 'deleted', label: 'When a record is deleted' },
 ];
 
 export const conditionTypeOptions = [
@@ -26,11 +22,10 @@ export const conditionTypeOptions = [
 export const actionsOptions = [
   { value: 'status', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
-  { value: 'type', label: 'Set Type as' },
+  { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
   { value: 'dueDate', label: 'Set Due Date as' },
   { value: 'category', label: 'Set Category as' },
-  { value: 'status', label: 'Set Status as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
   { value: 'addTask', label: 'Add Task' },
@@ -42,17 +37,8 @@ export const actionsOptions = [
 
 export const scheduledWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
-  schedule: Yup?.string(),
-  scheduleMonth: Yup?.date(),
-  scheduleDay: Yup?.string(),
-  scheduleDate: Yup?.date(),
-  time: Yup?.date(),
-  custom: Yup?.object(),
-  type: Yup.string(),
   description: Yup.string(),
   runType: Yup.mixed().nullable().required('Required'),
-  module: Yup.string().required('Required'),
-  events: Yup.mixed().nullable().required('Required'),
   groups: Yup?.array()?.of(
     Yup?.object()?.shape({
       name: Yup?.string()?.required('Required'),
@@ -118,36 +104,57 @@ export const scheduledWorkflowSchema = Yup?.object()?.shape({
 });
 
 export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
+  const ticketData = {
+    ticketFields: 'Ticket Fields',
+    assetsFields: 'Assets Fields',
+    taskFields: 'Task Fields',
+  };
+  const optionsData =
+    singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS
+      ? ticketData?.ticketFields
+      : singleWorkflowData?.module === SCHEMA_KEYS?.ASSETS
+        ? ticketData?.assetsFields
+        : singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS_TASKS &&
+            taskFieldsOption
+          ? ticketData?.taskFields
+          : ticketData?.ticketFields;
+
+  function capitalizeFirstLetter(string: any) {
+    if (!string || typeof string !== 'string') return '';
+    return new Date(
+      Date?.parse(singleWorkflowData?.schedule?.annually?.month + ' 1, 2000'),
+    )?.getMonth();
+  }
+
+  const startDate = singleWorkflowData?.schedule?.custom?.startDate;
+  const endDate = singleWorkflowData?.schedule?.custom?.endDate;
+  const timeChange = singleWorkflowData?.schedule?.time;
+
   return {
     title: singleWorkflowData?.title ?? '',
-    type: MODULES.SCHEDULED,
+    type: MODULES?.SCHEDULED,
     description: singleWorkflowData?.description ?? '',
-    schedule: singleWorkflowData?.schedule?.type ?? 'DAILY',
-    scheduleMonth: new Date(),
-    scheduleDay: 'Monday',
+    schedule: singleWorkflowData?.schedule?.type?.toLowerCase() ?? 'daily',
+    scheduleMonth:
+      new Date(
+        capitalizeFirstLetter(singleWorkflowData?.schedule?.annually?.month),
+      ) ?? new Date(),
+    scheduleDay:
+      singleWorkflowData?.schedule?.weekly?.days[0]?.toLowerCase() ?? 'monday',
     scheduleDate: new Date(),
-    time: singleWorkflowData?.schedule?.daily?.time ?? new Date(),
+    time: timeChange ? new Date(timeChange) : new Date(),
     custom: {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: startDate ? new Date(startDate) : new Date(),
+      endDate: endDate ? new Date(endDate) : new Date(),
       key: 'selection',
     },
-    events: singleWorkflowData?.events?.[0]
-      ? eventOptions?.find(
-          (item: any) => item?.value === singleWorkflowData?.events?.[0],
-        )
-      : null,
     runType: singleWorkflowData?.runType
       ? andRunOptions?.find(
           (item: any) => item?.value === singleWorkflowData?.runType,
         )
       : null,
-    module: singleWorkflowData?.module
-      ? moduleOptions?.find(
-          (item: any) => item?.value === singleWorkflowData?.module,
-        )
-      : SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? '',
+    module: singleWorkflowData?.module ?? SCHEMA_KEYS?.TICKETS,
+    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: any) => {
       return {
         name: group?.name ?? '',
@@ -158,6 +165,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         conditions: group?.conditions?.map((condition: any, cIndex: number) => {
           return {
+            options: optionsData,
             fieldName: condition?.fieldName ?? '',
             condition: condition?.condition ?? '',
             fieldValue:
@@ -170,17 +178,6 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
         }),
       };
     }) ?? [
-      {
-        name: '',
-        conditionType: null,
-        conditions: [
-          {
-            fieldName: '',
-            condition: '',
-            fieldValue: null,
-          },
-        ],
-      },
       {
         name: '',
         conditionType: null,
