@@ -26,7 +26,7 @@ export const defaultValues = {
   title: '',
   description: '',
   requiredPoints: '',
-  chooseRewards: '',
+  chooseCategory: '',
   visibleto: '',
   addImage: '',
   costPrice: '',
@@ -48,16 +48,17 @@ export const addRewardsDrawerData = [
     type: ['physicalReward', 'digitalReward'],
     md: 12,
   },
+
   {
-    id: 2,
+    id: 4,
     componentProps: {
-      name: 'description',
-      label: 'Description',
+      name: 'requiredPoints',
+      label: 'RequiredPoints',
       fullWidth: true,
     },
 
     component: RHFTextField,
-    type: ['digitalReward'],
+    type: ['physicalReward', 'digitalReward'],
     md: 12,
   },
   {
@@ -72,23 +73,12 @@ export const addRewardsDrawerData = [
     type: ['physicalReward'],
     md: 12,
   },
-  {
-    id: 4,
-    componentProps: {
-      name: 'requiredPoints',
-      label: 'RequiredPoints',
-      fullWidth: true,
-    },
 
-    component: RHFTextField,
-    type: ['physicalReward', 'digitalReward'],
-    md: 12,
-  },
   {
     id: 5,
     componentProps: {
-      name: 'chooseRewards',
-      label: 'Choose Rewards',
+      name: 'chooseCategory',
+      label: 'Choose Category',
       fullWidth: true,
       options: optionsVisibleTo,
     },
@@ -117,7 +107,7 @@ export const addRewardsDrawerData = [
       label: 'CostPrice',
       fullWidth: true,
     },
-    type: ['physicalReward', 'digitalReward'],
+    type: ['physicalReward'],
     component: RHFTextField,
     md: 12,
   },

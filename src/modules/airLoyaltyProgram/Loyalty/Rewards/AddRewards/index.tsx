@@ -1,7 +1,7 @@
 import { Box, Card, Grid, Typography, useTheme } from '@mui/material';
 import { addRewardsData } from './AddRewards.data';
 import { useState } from 'react';
-import AddRewardsdrawer from './AddRewardsDrawer';
+import AddRewardsdrawer from './AddRewardsForm';
 
 export const AddRewards = () => {
   const { palette } = useTheme();

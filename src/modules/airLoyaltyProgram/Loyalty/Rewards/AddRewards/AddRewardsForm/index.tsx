@@ -11,7 +11,7 @@ import {
   addRewardsDrawerData,
   defaultValues,
   validationSchema,
-} from './AddRewardsDrawer.data';
+} from './AddRewardsForm.data';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export default function AddRewardsdrawer({
