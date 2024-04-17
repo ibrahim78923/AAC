@@ -1,4 +1,5 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
   RHFSelect,
@@ -18,72 +19,79 @@ import { getSession } from '@/utils';
 import { PAGINATION } from '@/config';
 
 export const filterDefaultValues = {
-  assignTo: '',
+  assignTo: null,
   status: '',
   priority: '',
   dueDate: null,
 };
 
 export const filterValidationSchema = Yup?.object()?.shape({
-  assignTo: Yup.string(),
+  assignTo: Yup.mixed()?.nullable(),
   status: Yup.string(),
   priority: Yup.string(),
   // dueDate: Yup.date(),
 });
 
-export const filterData = [
-  {
-    md: 12,
-    componentProps: {
-      label: 'Assignee',
-      name: 'assignTo',
-      select: true,
+export const filterData = ({ usersData }: any) => {
+  const { user }: { user: any } = getSession();
+
+  return [
+    {
+      md: 12,
+      componentProps: {
+        label: 'Assignee',
+        name: 'assignTo',
+        placeholder: 'Select option',
+        apiQuery: usersData,
+        externalParams: {
+          organization: user?.organization?._id,
+          limit: 10,
+          role: user?.role,
+        },
+        getOptionLabel: (option: any) =>
+          option?.firstName + ' ' + option?.lastName,
+      },
+      component: RHFAutocompleteAsync,
     },
-    options: [
-      { label: 'Pending', value: 'Pending' },
-      { label: 'Inprogress', value: 'Inprogress' },
-      { label: 'Complete', value: 'Complete' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    md: 12,
-    componentProps: {
-      label: 'Task Status',
-      name: 'status',
-      select: true,
+    {
+      md: 12,
+      componentProps: {
+        label: 'Task Status',
+        name: 'status',
+        select: true,
+      },
+      options: [
+        { label: 'Pending', value: 'Pending' },
+        { label: 'Inprogress', value: 'Inprogress' },
+        { label: 'Complete', value: 'Complete' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { label: 'Pending', value: 'Pending' },
-      { label: 'Inprogress', value: 'Inprogress' },
-      { label: 'Complete', value: 'Complete' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    md: 12,
-    componentProps: {
-      label: 'Priority',
-      name: 'priority',
-      select: true,
+    {
+      md: 12,
+      componentProps: {
+        label: 'Priority',
+        name: 'priority',
+        select: true,
+      },
+      options: [
+        { label: 'Low', value: 'Low' },
+        { label: 'Medium', value: 'Medium' },
+        { label: 'High', value: 'High' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { label: 'Low', value: 'Low' },
-      { label: 'Medium', value: 'Medium' },
-      { label: 'High', value: 'High' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    componentProps: {
-      name: 'dueDate',
-      label: 'Due Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'dueDate',
+        label: 'Due Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
+  ];
+};
 
 export const drawerTasksData = [
   { title: 'Task Name' },
