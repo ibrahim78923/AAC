@@ -13,7 +13,6 @@ export const assetsFieldsOption = [
   { value: 'usedBy', label: 'Used By' },
   { value: 'departmentId', label: 'Department' },
   { value: 'impact', label: 'Impact' },
-  { value: 'createdBy', label: 'Created By' },
   { value: 'assignedOn', label: 'Assigned On' },
   { value: 'description', label: 'Description' },
 ];
@@ -88,11 +87,12 @@ export const dateOperators = [
 ];
 
 const constantApiOptions = {
-  agent: 'agent',
+  agent: 'Agent',
   requester: 'Add Requester',
   department: 'Select Department',
   assetDepartment: 'Department',
-  location: 'location',
+  location: 'Location',
+  createdBy: 'Created By',
 };
 
 const optionsConstants = {

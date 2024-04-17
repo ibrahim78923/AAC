@@ -64,7 +64,9 @@ export const SubWorkflowConditions = (props: any) => {
         );
       })}
       <Button
-        onClick={() => append({ key: '', condition: '', value: null })}
+        onClick={() =>
+          append({ fieldName: null, condition: '', fieldValue: null })
+        }
         color="secondary"
         startIcon={<AddCircle color="action" />}
       >
