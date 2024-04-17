@@ -16,9 +16,9 @@ const RHFFileImport = (props: any) => {
   const { acceptedFiles, getRootProps, getInputProps, fileRejections } =
     useDropzone({
       multiple: false,
-      // accept: {
-      //   'text/csv': ['.csv'],
-      // },
+      accept: {
+        'text/csv': ['.csv'],
+      },
       onDrop: useCallback(
         (files: any) => {
           if (files && files?.length > 0) {

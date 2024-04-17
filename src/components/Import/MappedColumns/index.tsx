@@ -14,7 +14,7 @@ import {
 } from './MappedColumns.data';
 
 export const MappedColumns: any = (props: any) => {
-  const { fields, name } = props;
+  const { fields, name, remove } = props;
 
   return (
     <>
@@ -32,13 +32,15 @@ export const MappedColumns: any = (props: any) => {
               {fields?.map((item: any, index: any) => {
                 return (
                   <TableRow key={item?.id}>
-                    {mappedColumnsFormFieldsFunction?.(name, index)?.map(
-                      (singleField: any) => (
-                        <TableCell key={singleField?.id}>
-                          {singleField?.data}
-                        </TableCell>
-                      ),
-                    )}
+                    {mappedColumnsFormFieldsFunction?.(
+                      name,
+                      index,
+                      remove,
+                    )?.map((singleField: any) => (
+                      <TableCell key={singleField?.id}>
+                        {singleField?.data}
+                      </TableCell>
+                    ))}
                   </TableRow>
                 );
               })}
