@@ -314,7 +314,7 @@ export const TasksData = () => {
     (state: any) => state?.task?.selectedTaskIds,
   );
   const handleClick = (itemId: any) => {
-    if (selectedTaskIds.includes(itemId)) {
+    if (selectedTaskIds?.includes(itemId)) {
       dispatch(
         setSelectedTaskIds(selectedTaskIds?.filter((id: any) => id !== itemId)),
       );
