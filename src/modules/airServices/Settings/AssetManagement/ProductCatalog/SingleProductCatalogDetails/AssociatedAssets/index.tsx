@@ -40,10 +40,10 @@ export const AssociatedAssets = () => {
             ? productCatalogAssociatedAssetListStatus?.data?.data
                 ?.productcatalogs
             : productCatalogAssociatedAssetListStatus?.data?.data
-                  ?.productcatalogs?.[0]?.associatedAssets?._id
-              ? productCatalogAssociatedAssetListStatus?.data?.data
-                  ?.productcatalogs
-              : []
+                ?.productcatalogs?.[0]?.associatedAssets?._id
+            ? productCatalogAssociatedAssetListStatus?.data?.data
+                ?.productcatalogs
+            : []
         }
         columns={associatedAssetsColumns}
         isPagination
@@ -52,18 +52,18 @@ export const AssociatedAssets = () => {
             ?.length > 1
             ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.page
             : productCatalogAssociatedAssetListStatus?.data?.data
-                  ?.productcatalogs?.[0]?.associatedAssets?._id
-              ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.page
-              : 0
+                ?.productcatalogs?.[0]?.associatedAssets?._id
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.page
+            : 0
         }
         count={
           productCatalogAssociatedAssetListStatus?.data?.data?.productcatalogs
             ?.length > 1
             ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.pages
             : productCatalogAssociatedAssetListStatus?.data?.data
-                  ?.productcatalogs?.[0]?.associatedAssets?._id
-              ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.pages
-              : 0
+                ?.productcatalogs?.[0]?.associatedAssets?._id
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.pages
+            : 0
         }
         pageLimit={
           productCatalogAssociatedAssetListStatus?.data?.data?.meta?.limit
@@ -73,9 +73,9 @@ export const AssociatedAssets = () => {
             ?.length > 1
             ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.total
             : productCatalogAssociatedAssetListStatus?.data?.data
-                  ?.productcatalogs?.[0]?.associatedAssets?._id
-              ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.total
-              : 0
+                ?.productcatalogs?.[0]?.associatedAssets?._id
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.total
+            : 0
         }
         onPageChange={(page: any) => setPage(page)}
         setPage={setPage}

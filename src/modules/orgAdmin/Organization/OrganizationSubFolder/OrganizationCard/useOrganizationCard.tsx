@@ -3,7 +3,7 @@ import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import {
   useLazyGetOrganizationDetailsByIdQuery,
-  useUpdateOrganizationMutation,
+  useUpdateOrganizationByIdMutation,
 } from '@/services/orgAdmin/organization';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './OrganizationCard.data';
@@ -13,32 +13,26 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useOrganizationCard = () => {
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  // commented for future use will remove when complete work on this comp
-  // const [imagePreview, setImagePreview] = useState<any>();
-  // const [imageToUpload, setImageToUpload] = useState<any>();
-  const [isToggled, setIsToggled] = useToggle(false);
   const theme = useTheme<Theme>();
   const { user }: any = getSession();
   const currentOrganizationId = user?.organization?._id;
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [isToggled, setIsToggled] = useToggle(false);
 
   const [
     organiztionDetails,
     { isLoading: loadingDetails, isError, isFetching, isSuccess },
   ] = useLazyGetOrganizationDetailsByIdQuery();
 
-  const [updateOrganization, { isLoading: loadingUpdateOrganization }] =
-    useUpdateOrganizationMutation();
+  const [updateOrganizationById, { isLoading: loadingUpdateOrganization }] =
+    useUpdateOrganizationByIdMutation();
 
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
   const { handleSubmit, reset, watch, setValue } = methods;
-
-  // Watch all values from forms
   const formValues = watch();
-
   //make sum up of address fields
   const addressValues = formValues?.composite?.address
     ? formValues?.composite?.address
@@ -69,16 +63,16 @@ const useOrganizationCard = () => {
             reset({
               registrationNumber: fieldsData?.crn,
               name: fieldsData?.name,
-              email: fieldsData?.owner?.email,
-              phoneNo: fieldsData?.owner?.phoneNumber,
-              postCode: fieldsData?.address?.postalCode,
-              address: fieldsData?.address?.composite,
-              flat: fieldsData?.address?.flatNumber ?? '',
+              email: fieldsData?.email,
+              phoneNo: fieldsData?.phoneNo,
+              postCode: fieldsData?.postCode,
+              compositeAddress: fieldsData?.address?.composite,
+              flat: fieldsData?.address?.flat ?? '',
               city: fieldsData?.address?.city ?? '',
               country: fieldsData?.address?.country ?? '',
               buildingName: fieldsData?.address?.buildingName ?? '',
               buildingNumber: fieldsData?.address?.buildingNumber ?? '',
-              streetName: fieldsData?.address?.streetName ?? '',
+              streetName: fieldsData?.address?.street ?? '',
             });
           }
         });
@@ -90,27 +84,12 @@ const useOrganizationCard = () => {
     setValue('compositeAddress', addressValues);
   }, [addressValues]);
 
-  // commented for future use will remove when complete work on this comp
-  // const formData = new FormData();
-
-  // const handleImageChange = async (e: any) => {
-  //   const selectedImage = e?.target?.files[0];
-  //   setImageToUpload(selectedImage);
-  //   formData.append('image', selectedImage);
-
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     setImagePreview(reader?.result);
-  //   };
-  //   reader?.readAsDataURL(selectedImage);
-  // };
-
   const handleChangeImg = async (e: any) => {
     if (e?.target?.files?.length) {
       const formData = new FormData();
       formData?.append('image', e?.target?.files[0]);
       try {
-        await updateOrganization({
+        await updateOrganizationById({
           id: currentOrganizationId,
           body: formData,
         })?.unwrap();
@@ -126,41 +105,41 @@ const useOrganizationCard = () => {
   };
 
   const onSubmit: any = async (values: any) => {
+    const bodyVals: any = {
+      crn: values?.registrationNumber,
+      name: values?.name,
+      email: values?.email,
+      phoneNo: values?.phoneNo,
+      postCode: values?.postCode,
+    };
     if (isToggled) {
-      values.address = {
-        flatNumber: values.flat,
+      // If isToggled is true, construct the address object with individual fields
+      bodyVals.address = {
+        flatNumber: values?.flat,
         buildingName: values?.buildingName,
         buildingNumber: values?.buildingNumber,
-        street: values?.streetName,
+        streetName: values?.streetName,
         city: values?.city,
         country: values?.country,
       };
     } else {
-      values.address = {
+      // If isToggled is false, use a composite address value
+      bodyVals.address = {
         composite: values?.compositeAddress,
       };
     }
-    const keysToDelete: any = [
-      'flat',
-      'buildingNumber',
-      'buildingName',
-      'city',
-      'country',
-      'streetName',
-      'compositeAddress',
-    ];
-    for (const key of keysToDelete) {
-      delete values[key];
-    }
     try {
-      await updateOrganization({ id: currentOrganizationId, body: values })
+      await updateOrganizationById({
+        id: currentOrganizationId,
+        body: bodyVals,
+      })
         .unwrap()
         .then((res) => {
           if (res) {
-            setIsOpenDrawer(false);
             reset();
+            setIsOpenDrawer(false);
             enqueueSnackbar(`organization updated successfully`, {
-              variant: NOTISTACK_VARIANTS?.ERROR,
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
             });
           }
         });
@@ -194,9 +173,7 @@ const useOrganizationCard = () => {
     isToggled,
     setIsToggled,
     handleChangeImg,
-    // imagePreview,
     loadingUpdateOrganization,
-    // imageToUpload,
   };
 };
 
