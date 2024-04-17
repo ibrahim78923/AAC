@@ -25,7 +25,7 @@ export const useSingleContractDetails = () => {
     },
   };
 
-  const { data }: any = useGetSingleContractByIdQuery(
+  const { data, isLoading, isFetching }: any = useGetSingleContractByIdQuery(
     getSingleContractParameter,
     {
       refetchOnMountOrArgChange: true,
@@ -77,5 +77,8 @@ export const useSingleContractDetails = () => {
     setTerminateModalOpen,
     handleDeleteBtn,
     handleSubmitForTerminated,
+    data,
+    isLoading,
+    isFetching,
   };
 };
