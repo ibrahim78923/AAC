@@ -180,7 +180,9 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
           return {
             options: optionsData,
             fieldName: condition?.fieldName
-              ? allFields.find((item) => item.value === condition.fieldName)
+              ? allFields?.find(
+                  (item: any) => item?.value === condition?.fieldName,
+                )
               : null,
             condition: condition?.condition ?? '',
             fieldValue:

@@ -137,8 +137,8 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
           return {
             options: 'Ticket Fields',
             fieldName: condition?.fieldName
-              ? allFields.find(
-                  (item: any) => item.value === condition.fieldName,
+              ? allFields?.find(
+                  (item: any) => item?.value === condition?.fieldName,
                 )
               : null,
             condition: condition?.condition ?? '',
