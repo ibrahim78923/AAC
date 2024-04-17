@@ -308,9 +308,7 @@ export const useAddPlan = () => {
   });
 
   const onSubmitPlanFeaturesHandler = async (values: any) => {
-    // console.log('values',values);
-    // console.log('featureDetails',featureDetails);
-
+    let addExtraFeatures: any;
     let featuresData;
     if (isNullOrEmpty(planForm?.productId)) {
       featuresData = planForm?.suite?.map((productIdItem: any) => {
@@ -320,10 +318,15 @@ export const useAddPlan = () => {
               const productId = productFeatures?.data?.productfeatures?.find(
                 (id: any) => id?._id === item,
               );
+              addExtraFeatures = '';
+              if (featureDetails?.featureId === item) {
+                addExtraFeatures =
+                  featureDetails?.values?.dealsAssociationsDetail;
+              }
               if (productId?.productId === productIdItem) {
                 return {
-                  dealsAssociationsDetail:
-                    featureDetails?.dealsAssociationsDetail,
+                  dealsAssociationsDetail: addExtraFeatures,
+
                   featureId: item,
                 };
               }
@@ -336,8 +339,12 @@ export const useAddPlan = () => {
     } else {
       featuresData = {
         features: values?.features?.map((item: any) => {
+          addExtraFeatures = '';
+          if (featureDetails?.featureId === item) {
+            addExtraFeatures = featureDetails?.values?.dealsAssociationsDetail;
+          }
           return {
-            dealsAssociationsDetail: featureDetails?.dealsAssociationsDetail,
+            dealsAssociationsDetail: addExtraFeatures,
             featureId: item,
           };
         }),

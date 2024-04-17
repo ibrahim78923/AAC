@@ -221,7 +221,7 @@ const useEditForm = (
         : await addAssignPlan({ body: assignPlanPayload }).unwrap();
 
       enqueueSnackbar(
-        `plan ${isEditModal ? 'updated' : 'added'} Successfully`,
+        `plan ${isEditModal ? 'assign updated' : 'assign'} Successfully`,
         {
           variant: 'success',
         },
