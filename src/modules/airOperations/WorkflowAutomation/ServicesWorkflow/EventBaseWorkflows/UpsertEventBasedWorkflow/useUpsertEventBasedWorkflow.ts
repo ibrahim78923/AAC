@@ -9,19 +9,24 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
+  usePostTestWorkflowMutation,
   useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useUpsertEventBasedWorkflow = () => {
+  const [validation, setValidation] = useState(false);
+  const [testWorkflow, setTestWorkflow] = useState(false);
+  const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
+  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
   const typeData = {
     string: 'string',
     number: 'number',
     object: 'object',
-    date: 'Date',
+    date: 'date',
     objectId: 'objectId',
   };
 
@@ -60,10 +65,10 @@ export const useUpsertEventBasedWorkflow = () => {
 
   const eventMethod = useForm({
     defaultValues: eventBasedWorkflowValues(singleWorkflowData),
-    resolver: yupResolver(eventBasedWorkflowSchema),
+    resolver: validation ? yupResolver(eventBasedWorkflowSchema) : undefined,
   });
 
-  const { reset, watch, register, handleSubmit, setValue, control, getValues } =
+  const { reset, watch, register, handleSubmit, setValue, control } =
     eventMethod;
 
   const mapField = (field: any, typeData: any) => {
@@ -109,7 +114,8 @@ export const useUpsertEventBasedWorkflow = () => {
   const mapGroup = (group: any, typeData: any) => ({
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
-      ...condition,
+      condition: condition?.condition,
+      fieldName: condition?.fieldName,
       fieldValue:
         condition?.fieldName &&
         [
@@ -147,70 +153,57 @@ export const useUpsertEventBasedWorkflow = () => {
     collectionName: getCollectionName(action?.fieldName),
   });
 
-  const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
-  const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
-  const [saveWorkflowTrigger] = useSaveWorkflowMutation();
+  const [postWorkflowTrigger, postWorkflowProgress] =
+    usePostServicesWorkflowMutation();
+  const [updateWorkflowTrigger, updatedWorkflowProcess] =
+    useUpdateWorkflowMutation();
+  const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
+  const [postTestTrigger, testWorkflowProgress] = usePostTestWorkflowMutation();
 
-  const handleFormSubmit = async (data: any) => {
-    if (pageActionType === EDIT_WORKFLOW) {
-      const { options, ...rest } = data;
-      const body = {
-        ...rest,
-        id: singleId,
-        events: [data?.events?.value],
-        runType: data?.runType?.value,
-        groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-        actions: data?.actions?.map((action: any) =>
-          mapAction(action, typeData),
-        ),
-      };
-      try {
-        await updateWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Update Successfully');
+  const handleTestWorkflow = async () => {
+    setTestWorkflow(true);
+  };
+
+  const handleApiCall = async (body: any) => {
+    try {
+      let successMessage = '';
+      if (testWorkflow && validation) {
+        const response = await postTestTrigger(body).unwrap();
+        setIsWorkflowDrawer(true);
+        setTestWorkflowResponse(response);
+        successMessage = 'Test Workflow Executed Successfully';
+      } else {
+        if (pageActionType === EDIT_WORKFLOW) {
+          await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
+          successMessage = 'Workflow Update Successfully';
+        } else if (!validation) {
+          await saveWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Save Successfully';
+        } else {
+          await postWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Create Successfully';
+        }
+      }
+
+      successSnackbar(successMessage);
+      if (!testWorkflow) {
         reset();
         movePage();
-        return options;
-      } catch (error) {
-        errorSnackbar();
       }
-    } else {
-      const { options, ...rest } = data;
-      const body = {
-        ...rest,
-        events: [data?.events?.value],
-        runType: data?.runType?.value,
-        groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-        actions: data?.actions?.map((action: any) =>
-          mapAction(action, typeData),
-        ),
-      };
-      try {
-        await postWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Enabled Successfully');
-        reset();
-        movePage();
-        return options;
-      } catch (error) {
-        errorSnackbar();
-      }
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
-  const handleSaveAsDraft = async () => {
-    const title = getValues('title');
-    const description = getValues('description');
+  const handleFormSubmit = async (data: any) => {
     const body = {
-      title: title,
-      description: description,
+      ...data,
+      events: data?.events?.value ? [data?.events?.value] : [],
+      runType: data?.runType?.value,
+      groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
+      actions: data?.actions?.map((action: any) => mapAction(action, typeData)),
     };
-    try {
-      await saveWorkflowTrigger(body)?.unwrap();
-      successSnackbar('Workflow Saved Successfully');
-      reset();
-      movePage();
-    } catch (error) {
-      errorSnackbar('Fill all other field');
-    }
+    await handleApiCall(body);
   };
 
   useEffect(() => {
@@ -231,6 +224,15 @@ export const useUpsertEventBasedWorkflow = () => {
     control,
     isLoading,
     isFetching,
-    handleSaveAsDraft,
+    setValidation,
+    validation,
+    postWorkflowProgress,
+    saveWorkflowProgress,
+    handleTestWorkflow,
+    testWorkflowResponse,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    updatedWorkflowProcess,
+    testWorkflowProgress,
   };
 };

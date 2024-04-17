@@ -32,12 +32,12 @@ export const useUpsertSalesWorkflow = () => {
     return action?.fieldValue instanceof Date
       ? workflowFields?.date
       : typeof action?.fieldValue === workflowFields?.string &&
-        !isNaN(Date?.parse(action?.fieldValue))
-      ? workflowFields?.number
-      : typeof action?.fieldValue === workflowFields?.string
-      ? workflowFields?.string
-      : typeof action?.fieldValue === workflowFields?.object &&
-        workflowFields?.objectId;
+          !isNaN(Date?.parse(action?.fieldValue))
+        ? workflowFields?.number
+        : typeof action?.fieldValue === workflowFields?.string
+          ? workflowFields?.string
+          : typeof action?.fieldValue === workflowFields?.object &&
+            workflowFields?.objectId;
   };
   const submitMessage = validation
     ? 'Workflow Enabled Successfully'
@@ -93,12 +93,12 @@ export const useUpsertSalesWorkflow = () => {
                 condition?.condition === workflowFields?.isNotEmpty)
                 ? workflowFields?.deal
                 : (condition?.fieldName === workflowFields?.salesOwner ||
-                    condition?.fieldName === workflowFields?.createdBy ||
-                    condition?.fieldName === workflowFields?.updatedBy) &&
-                  (condition?.condition === workflowFields?.isEmpty ||
-                    condition?.condition === workflowFields?.isNotEmpty)
-                ? workflowFields?.contact
-                : null,
+                      condition?.fieldName === workflowFields?.createdBy ||
+                      condition?.fieldName === workflowFields?.updatedBy) &&
+                    (condition?.condition === workflowFields?.isEmpty ||
+                      condition?.condition === workflowFields?.isNotEmpty)
+                  ? workflowFields?.contact
+                  : null,
           })),
           conditionType: group?.conditionType?.value,
         })) ?? [],
@@ -114,12 +114,12 @@ export const useUpsertSalesWorkflow = () => {
           action?.fieldName === workflowFields?.selectDeal
             ? workflowFields?.deal
             : action?.fieldName === workflowFields?.setDealOwner
-            ? workflowFields?.contact
-            : action?.fieldName === workflowFields?.addLineItem
-            ? workflowFields?.product
-            : action?.fieldName === workflowFields?.setAssignedTo
-            ? workflowFields?.user
-            : null,
+              ? workflowFields?.contact
+              : action?.fieldName === workflowFields?.addLineItem
+                ? workflowFields?.product
+                : action?.fieldName === workflowFields?.setAssignedTo
+                  ? workflowFields?.user
+                  : null,
       })),
     };
     const response: any = validation

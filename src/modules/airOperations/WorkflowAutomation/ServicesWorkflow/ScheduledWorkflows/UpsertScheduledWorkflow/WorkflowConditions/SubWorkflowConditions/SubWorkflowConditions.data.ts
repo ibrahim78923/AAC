@@ -11,7 +11,7 @@ export const assetsFieldsOption = [
   'assetType',
   'location',
   'usedBy',
-  'selectDepartment',
+  'department',
   'managedBy',
   'impact',
   'endOFLife',
@@ -29,13 +29,13 @@ export const taskFieldsOption = [
   'plannedStartDate',
   'plannedEndDate',
   'plannedEffort',
-  'selectDepartment',
+  'department',
 ];
 
 export const ticketsFields = [
-  'selectDepartment',
-  'type',
-  'addRequester',
+  'department',
+  'ticketType',
+  'requester',
   'subject',
   'source',
   'impacts',
@@ -61,10 +61,9 @@ export const requestedForFieldOptions = [
   'phoneNumber',
   'dateOfJoining',
 ];
-export const priority = ['HIGH', 'MEDIUM', 'LOW'];
-export const status = ['ACTIVE', 'INACTIVE'];
-
-export const statusOptions = ['open', 'pending', 'resolved', 'close'];
+export const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
+export const impactOptions = ['HIGH', 'MEDIUM', 'LOW'];
+export const status = ['OPEN', 'CLOSED', 'RESOLVED', 'PENDING', 'SPAMS'];
 
 export const fieldOptions = [
   'is',
@@ -105,7 +104,7 @@ export const dateOperators = [
 
 const constantApiOptions = {
   agent: 'agent',
-  requester: 'addRequester',
+  requester: 'requester',
   department: 'selectDepartment',
   location: 'location',
 };
@@ -115,7 +114,7 @@ const optionsConstants = {
   impacts: 'impacts',
   assetType: 'assetType',
   source: 'source',
-  type: 'type',
+  type: 'ticketType',
   plannedStartDate: 'plannedStartDate',
   plannedEndDate: 'plannedEndDate',
   dateOfJoining: 'dateOfJoining',
@@ -168,9 +167,11 @@ export const subWorkflowData = ({
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
       ? assetsModule || []
       : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
-      ? ticketsModule || []
-      : taskModule || [];
-  const selectedOption = watch('options');
+        ? ticketsModule || []
+        : taskModule || [];
+  const selectedOption = watch(
+    `groups.${index}.conditions.${subIndex}.options`,
+  );
   const moduleListOptions = modulesOptions[selectedOption] || [];
   const operatorsOption = watch(
     `groups.${index}.conditions.${subIndex}.fieldName`,
@@ -179,16 +180,17 @@ export const subWorkflowData = ({
   let singleOperatorsOptions = [];
   const apiQuery = useApiQuery(operatorsOption);
   const valuesOptions =
-    operatorsOption === optionsConstants?.priority ||
-    operatorsOption === optionsConstants?.impacts
+    operatorsOption === optionsConstants?.priority
       ? priority
       : operatorsOption === optionsConstants?.assetType
-      ? assetsOptions
-      : operatorsOption === optionsConstants?.source
-      ? sourcesOptions
-      : operatorsOption === optionsConstants?.type
-      ? typeOptions
-      : status;
+        ? assetsOptions
+        : operatorsOption === optionsConstants?.source
+          ? sourcesOptions
+          : operatorsOption === optionsConstants?.type
+            ? typeOptions
+            : operatorsOption === optionsConstants?.impacts
+              ? impactOptions
+              : status;
   if (
     [
       optionsConstants?.plannedStartDate,
@@ -309,7 +311,7 @@ export const subWorkflowData = ({
       _id: 1,
       gridLength: 3,
       componentProps: {
-        name: `options`,
+        name: `groups.${index}.conditions.${subIndex}.options`,
         size: 'small',
         placeholder: 'Select',
         options: Object.keys(modulesOptions),

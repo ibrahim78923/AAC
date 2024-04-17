@@ -114,8 +114,8 @@ export const columns: any = (
         info?.getValue() === EQuickLinksType?.SUPER_ADMIN
           ? 'Super Admin'
           : info?.getValue() === EQuickLinksType?.ORG_ADMIN
-          ? 'Org Admin'
-          : info?.cell?.row?.original?.productName,
+            ? 'Org Admin'
+            : info?.cell?.row?.original?.productName,
     },
     {
       accessorFn: (row: any) => `${row?.parent} / ${row?.name}`,

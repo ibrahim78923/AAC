@@ -316,12 +316,12 @@ export const columns = (
           info?.getValue() === categoryConstants?.Sales
             ? 'Sales'
             : info?.getValue() === categoryConstants?.Marketing
-            ? 'Marketing'
-            : info?.getValue() === categoryConstants?.Services
-            ? 'Services'
-            : info?.getValue() === categoryConstants?.Operations
-            ? 'Operations'
-            : 'Loyalty Program';
+              ? 'Marketing'
+              : info?.getValue() === categoryConstants?.Services
+                ? 'Services'
+                : info?.getValue() === categoryConstants?.Operations
+                  ? 'Operations'
+                  : 'Loyalty Program';
         return <>{category}</>;
       },
     },
