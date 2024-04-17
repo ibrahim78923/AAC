@@ -9,8 +9,9 @@ import {
   useLazyGetAgentDropdownQuery,
   usePutTicketsMutation,
   useLazyGetCategoriesDropdownQuery,
+  useGetTicketsDetailsByIdQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
-import { useGetTicketsByIdQuery } from '@/services/airServices/tickets';
+
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
@@ -26,42 +27,44 @@ export const useDetailsViewPropertiesSection = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
-    getSingleTicketParameter,
-    {
-      // refetchOnMountOrArgChange: true,
+  const { data, isLoading, isFetching, isError } =
+    useGetTicketsDetailsByIdQuery(getSingleTicketParameter, {
+      refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
-    },
-  );
+    });
+
   const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: ticketsDetailsDefaultValuesFunction(),
   });
 
   const { handleSubmit, reset } = methods;
-
-  const requester = data?.data[0]?.requester;
-
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (formData: any) => {
     const ticketDetailsData = new FormData();
-    ticketDetailsData?.append('requester', requester);
-    ticketDetailsData.append('status', data?.status?._id);
-    ticketDetailsData.append('pirority', data?.priority?._id);
-    !!data?.source && ticketDetailsData.append('source', data?.source?._id);
-    ticketDetailsData.append('ticketType', data?.ticketType);
-    !!data?.impact && ticketDetailsData.append('impact', data?.impact?._id);
-    !!data?.agent && ticketDetailsData.append('agent', data?.agent?._id);
-    !!data?.category &&
-      ticketDetailsData.append('category', data?.category?._id);
-    ticketDetailsData?.append('moduleType', 'TICKETS');
+    ticketDetailsData?.append('requester', data?.data?.[0]?.requester);
+    ticketDetailsData.append('status', formData?.status?._id);
+    ticketDetailsData.append('pirority', formData?.priority?._id);
+    !!formData?.source &&
+      ticketDetailsData.append('source', formData?.source?._id);
+    ticketDetailsData.append('ticketType', formData?.ticketType);
+    !!formData?.impact &&
+      ticketDetailsData.append('impact', formData?.impact?._id);
+    !!formData?.agent &&
+      ticketDetailsData.append('agent', formData?.agent?._id);
+    !!formData?.category &&
+      ticketDetailsData.append('category', formData?.category?._id);
+    ticketDetailsData?.append('moduleType', data?.data?.[0]?.moduleType);
 
-    (!!data?.plannedEndDate || !!data?.plannedEndTime) &&
+    (!!formData?.plannedEndDate || !!formData?.plannedEndTime) &&
       ticketDetailsData?.append(
         'plannedEndDate',
-        makeDateTime(data?.plannedEndDate, data?.plannedEndTime)?.toISOString(),
+        makeDateTime(
+          formData?.plannedEndDate,
+          formData?.plannedEndTime,
+        )?.toISOString(),
       );
-    ticketDetailsData.append('plannedEffort', data?.plannedEffort);
-    ticketDetailsData?.append('isChildTicket', false + '');
+    ticketDetailsData.append('plannedEffort', formData?.plannedEffort);
+    ticketDetailsData?.append('isChildTicket', data?.data?.[0]?.isChildTicket);
     ticketDetailsData?.append('id', ticketId as string);
 
     const putTicketParameter = {
