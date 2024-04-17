@@ -56,7 +56,7 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
         Yup?.lazy((value: any) => {
           if (value?.key === 'email') {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.string()
                 ?.email('Invalid email')
@@ -65,13 +65,13 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
             });
           } else if (value?.key === 'number') {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.number()?.nullable()?.required('Required'),
             });
           } else {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
             });
