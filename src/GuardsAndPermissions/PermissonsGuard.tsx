@@ -20,7 +20,7 @@ function checkPermissions(permissions: any, modulePermissions: any) {
       }
     }
   }
-  return true; // None of the permissions are available
+  return false; // None of the permissions are available
 }
 
 export default function PermissionsGuard({
