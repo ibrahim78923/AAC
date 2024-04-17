@@ -25,6 +25,7 @@ export const User = () => {
     methods,
     handleSubmit,
     submit,
+    addUsersListStatus,
   } = useUser();
   return (
     <Box>
@@ -33,6 +34,9 @@ export const User = () => {
         setSelectedUserList={setSelectedUserList}
         setSearch={setSearch}
         methods={methods}
+        handleSubmit={handleSubmit}
+        addUsersListStatus={addUsersListStatus}
+        submit={submit}
       />
       <Box mt={'0.75rem'}>
         <UpsertUser
