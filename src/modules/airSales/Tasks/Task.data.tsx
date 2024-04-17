@@ -168,7 +168,7 @@ export const createTaskDefaultValues = ({ data }: any) => {
     type: data?.type ?? '',
     priority: data?.priority ?? '',
     status: data?.status ?? '',
-    assignTo: data?.assignTo ?? '',
+    assignTo: data?.assignTo || '',
     dueDate: isValidDate(inputDate) ? inputDate : null,
     time: isValidDate(inputTime) ? inputTime : null,
     reminder: data?.reminder ?? '',
@@ -182,7 +182,7 @@ export const createTaskData = ({ data }: any) => {
     params: {
       organization: user?.organization?._id,
       page: PAGINATION?.CURRENT_PAGE,
-      limit: PAGINATION?.PAGE_LIMIT,
+      limit: 100,
       role: user?.role,
     },
   });
@@ -251,7 +251,6 @@ export const createTaskData = ({ data }: any) => {
       ],
       component: RHFSelect,
     },
-
     {
       md: 12,
       componentProps: {
@@ -261,6 +260,23 @@ export const createTaskData = ({ data }: any) => {
       },
       component: SearchableTabsSelect,
     },
+    // {
+    //   md: 12,
+    //   componentProps: {
+    //     label: 'Assigned to',
+    //     name: 'assignTo',
+    //     placeholder: 'Select option',
+    //     apiQuery: usersData,
+    //     externalParams: {
+    //       organization: user?.organization?._id,
+    //       limit: 10,
+    //       role: user?.role,
+    //     },
+    //     getOptionLabel: (option: any) =>
+    //       option?.firstName + ' ' + option?.lastName,
+    //   },
+    //   component: RHFAutocompleteAsync,
+    // },
     {
       md: 12,
       componentProps: {
