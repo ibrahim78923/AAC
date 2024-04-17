@@ -39,7 +39,7 @@ export default function EditForm({
       onClose={() => {
         onClose(false), reset;
       }}
-      title={`${isEditModal ? 'Update' : 'Assign'}  Plan`}
+      title={`${isEditModal ? 'Update Assign' : 'Assign'}  Plan`}
       okText={`${isEditModal ? 'Update' : 'Assign'}`}
       isOk
       cancelText={'Cancel'}

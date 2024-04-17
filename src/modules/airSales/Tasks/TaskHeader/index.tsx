@@ -34,7 +34,7 @@ const TaskHeader = () => {
           color: theme?.palette?.grey[800],
           marginBottom: { xs: '16px', sm: 0 },
           width: { xs: '100%', sm: 'auto' },
-          textAlign: { xs: 'center', sm: 'start', md: 'start', lg: 'start' },
+          textAlign: { xs: 'start', sm: 'start', md: 'start', lg: 'start' },
         }}
       >
         Tasks
