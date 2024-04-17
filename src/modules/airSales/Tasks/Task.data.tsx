@@ -330,13 +330,14 @@ export const createTaskData = ({ data }: any) => {
   ];
 };
 
-export const TasksData = () => {
+export const TasksData = ({ data }: any) => {
   const dispatch: any = useAppDispatch();
 
   const { order } = useTaskCustomize({});
   const selectedTaskIds = useAppSelector(
     (state: any) => state?.task?.selectedTaskIds,
   );
+
   const handleClick = (itemId: any) => {
     if (selectedTaskIds?.includes(itemId)) {
       dispatch(
@@ -344,6 +345,14 @@ export const TasksData = () => {
       );
     } else {
       dispatch(setSelectedTaskIds([...selectedTaskIds, itemId]));
+    }
+  };
+  const handleSelectAll = () => {
+    if (selectedTaskIds?.length === data?.length) {
+      dispatch(setSelectedTaskIds([]));
+    } else {
+      const allTaskIds = data.map((task: any) => task?._id);
+      dispatch(setSelectedTaskIds(allTaskIds));
     }
   };
   const columns =
@@ -424,7 +433,14 @@ export const TasksData = () => {
         onClick={() => handleClick(info?.row?.original?._id)}
       />
     ),
-    header: <Checkbox color="primary" name="Id" />,
+    header: (
+      <Checkbox
+        color="primary"
+        name="Id"
+        onClick={handleSelectAll}
+        checked={selectedTaskIds?.length === data?.length}
+      />
+    ),
     isSortable: false,
   };
 

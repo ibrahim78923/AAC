@@ -8,7 +8,9 @@ const CustomBox = ({ title, count, desc }: CustomBoxI) => {
   return (
     <Box sx={weekCard}>
       <Typography className="week_title">{title}</Typography>
-      <Typography className="week_count">{count}</Typography>
+      <Typography sx={{ fontSize: '36px', fontWeight: '600' }}>
+        {count}
+      </Typography>
       {desc && (
         <Box>
           <Typography className="week_desc">{desc}</Typography>

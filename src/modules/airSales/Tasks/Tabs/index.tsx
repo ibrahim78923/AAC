@@ -24,7 +24,7 @@ const Tabs = ({ tabValue, assignTo }: any) => {
   const taskDataArray = useAppSelector(
     (state: any) => state?.task?.taskDataArray,
   );
-  const getTaskData = TasksData();
+  const getTaskData = TasksData({ data: taskDataArray?.data?.taskmanagements });
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
