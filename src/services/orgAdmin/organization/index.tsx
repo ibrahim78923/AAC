@@ -1,5 +1,5 @@
 import { END_POINTS, organization } from '@/routesConstants/endpoints';
-import { baseAPI } from '@/services/base-api';
+import { TAGS, baseAPI } from '@/services/base-api';
 
 export const organizationAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -75,7 +75,7 @@ export const organizationAPI = baseAPI.injectEndpoints({
         method: 'PUT',
         body: body,
       }),
-      invalidatesTags: ['Organization'],
+      invalidatesTags: TAGS,
     }),
   }),
 });

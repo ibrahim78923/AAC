@@ -7,16 +7,18 @@ import {
 } from '@/services/orgAdmin/organization';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './OrganizationCard.data';
-import { getSession } from '@/utils';
+
 import useToggle from '@/hooks/useToggle';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useOrganizationCard = () => {
   const theme = useTheme<Theme>();
-  const { user }: any = getSession();
-  const currentOrganizationId = user?.organization?._id;
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [isOpenDrawer, setIsOpenDrawer] = useState({
+    isToggled: false,
+    id: '',
+  });
+  const currentOrganizationId = isOpenDrawer?.id;
   const [isToggled, setIsToggled] = useToggle(false);
 
   const [
@@ -77,7 +79,7 @@ const useOrganizationCard = () => {
           }
         });
     }
-  }, [currentOrganizationId, reset]);
+  }, [isOpenDrawer?.isToggled, reset]);
 
   // Set value of address fields
   useEffect(() => {
@@ -136,8 +138,9 @@ const useOrganizationCard = () => {
         .unwrap()
         .then((res) => {
           if (res) {
+            organiztionDetails({ id: currentOrganizationId });
             reset();
-            setIsOpenDrawer(false);
+            setIsOpenDrawer({ ...isOpenDrawer, isToggled: false });
             enqueueSnackbar(`organization updated successfully`, {
               variant: NOTISTACK_VARIANTS?.SUCCESS,
             });
@@ -153,9 +156,8 @@ const useOrganizationCard = () => {
   };
 
   const handleCloseDrawer = () => {
-    setIsOpenDrawer(false), reset();
+    setIsOpenDrawer({ ...isOpenDrawer, isToggled: false }), reset();
   };
-
   return {
     theme,
     isOpenDrawer,

@@ -40,22 +40,20 @@ import { generateImage } from '@/utils/avatarUtils';
 
 const OrganizationCard = () => {
   const {
-    theme,
-    isOpenDrawer,
-    setIsOpenDrawer,
-    handleSubmit,
-    onSubmit,
-    methods,
+    loadingUpdateOrganization,
     handleCloseDrawer,
+    setIsOpenDrawer,
+    handleChangeImg,
     loadingDetails,
+    isOpenDrawer,
+    handleSubmit,
+    setIsToggled,
     addressVal,
     isToggled,
-    setIsToggled,
-    loadingUpdateOrganization,
-    handleChangeImg,
-    // imagePreview,
+    onSubmit,
+    methods,
+    theme,
   } = useOrganizationCard();
-
   const { data: productsData, isLoading } = useGetAllProductsQuery({});
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
@@ -100,7 +98,6 @@ const OrganizationCard = () => {
                           5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
                     }}
                   >
-                    {/* {imagePreview && ( */}
                     <Avatar
                       src={`${
                         user?.organization?.image
@@ -127,7 +124,6 @@ const OrganizationCard = () => {
                         <AddPenIcon />
                       </Box>
                     </label>
-                    {/* )} */}
                   </Box>
                 </Box>
                 <Box
@@ -158,17 +154,6 @@ const OrganizationCard = () => {
                       {user?.organization?.name}
                     </Typography>
                   </Box>
-
-                  {/* <Typography
-                      variant="h3"
-                      sx={{
-                        fontWeight: 500,
-                        lineHeight: '30px',
-                        color: `${theme?.palette?.custom?.main}`,
-                      }}
-                    >
-                      {organiztionDetails?.data?.name}
-                    </Typography> */}
                   <Box
                     sx={{
                       display: 'flex',
@@ -237,7 +222,10 @@ const OrganizationCard = () => {
                 <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <Box
                     onClick={() => {
-                      setIsOpenDrawer(true);
+                      setIsOpenDrawer({
+                        isToggled: true,
+                        id: user?.organization?._id,
+                      });
                     }}
                     sx={styles?.editSection}
                   >
@@ -401,9 +389,9 @@ const OrganizationCard = () => {
         </Grid>
       </Grid>
 
-      {isOpenDrawer && (
+      {isOpenDrawer.isToggled && (
         <CommonDrawer
-          isDrawerOpen={isOpenDrawer}
+          isDrawerOpen={isOpenDrawer.isToggled}
           onClose={handleCloseDrawer}
           title="Edit Info"
           okText="Update"
@@ -418,30 +406,6 @@ const OrganizationCard = () => {
                 <SkeletonTable />
               ) : (
                 <>
-                  {/* <center>
-                    <Box sx={{ position: 'relative' }}>
-                      <Box
-                        sx={{
-                          border: `1px solid ${theme?.palette?.grey[700]}`,
-                          borderRadius: '100px',
-                          width: '120px',
-                          height: '120px',
-                          boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green}, 5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
-                        }}
-                      >
-                        <Image
-                          src={ComLogoImage}
-                          alt="NO image"
-                          style={{ borderRadius: '100px' }}
-                        />
-                      </Box>
-                      <Box
-                        sx={{ position: 'absolute', right: '165px', bottom: 0 }}
-                      >
-                        <AddPenIcon />
-                      </Box>
-                    </Box>
-                  </center> */}
                   <Grid container spacing={1.5}>
                     {dataArray?.map((item: any) => (
                       <Grid item xs={12} md={item?.md} key={item?.name}>
