@@ -11,6 +11,7 @@ export const CardsWrapper = ({ href, children, title }: any) => {
           borderRadius: 2.5,
           border: '0.06rem solid',
           borderColor: 'grey.700',
+          backgroundColor: 'white',
         }}
       >
         <Box
