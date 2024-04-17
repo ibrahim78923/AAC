@@ -18,6 +18,7 @@ import {
 } from './UpsertUser/UpsertUser.data';
 import { useRouter } from 'next/router';
 import { REQUESTORS_STATUS } from '@/constants/strings';
+import { fullName } from '@/utils/avatarUtils';
 
 export const useUser = () => {
   const router = useRouter();
@@ -59,13 +60,18 @@ export const useUser = () => {
     }));
     const response: any = await changeStatusTrigger({
       id: rowData?._id,
-      body: { status },
+      body: {
+        status,
+      },
     });
     try {
       response;
       successSnackbar(
         response?.data?.message &&
-          `${rowData?.title} ${status?.toLocaleLowerCase()} successfully`,
+          `${fullName(
+            rowData?.user?.firstName,
+            rowData?.user?.lastName,
+          )} ${status?.toLocaleLowerCase()} successfully`,
       );
     } catch (error) {
       errorSnackbar(response?.error?.data?.message);

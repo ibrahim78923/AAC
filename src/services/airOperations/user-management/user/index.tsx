@@ -70,8 +70,8 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     patchProductUsers: builder.mutation({
-      query: (body: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}`,
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
         method: 'PATCH',
         body,
       }),

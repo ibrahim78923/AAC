@@ -26,7 +26,6 @@ export const User = () => {
     handleSubmit,
     submit,
     addUsersListStatus,
-    editProductUsersDetails,
   } = useUser();
   return (
     <Box>
@@ -47,7 +46,7 @@ export const User = () => {
           okText={'Save'}
           methods={methods}
           handleSubmit={handleSubmit}
-          submit={editProductUsersDetails}
+          submit={submit}
         />
         <PermissionsGuard
           permissions={[
