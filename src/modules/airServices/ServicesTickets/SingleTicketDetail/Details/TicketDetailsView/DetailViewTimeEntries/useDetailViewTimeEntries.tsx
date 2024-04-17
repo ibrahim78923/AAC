@@ -110,8 +110,6 @@ export const useDetailViewTimeEntries = (data: any) => {
       errorSnackbar(error?.data?.message);
       setIsDrawerOpen(false);
     }
-
-    start();
   };
 
   return {
