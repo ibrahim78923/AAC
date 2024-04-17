@@ -260,23 +260,7 @@ export const createTaskData = ({ data }: any) => {
       },
       component: SearchableTabsSelect,
     },
-    // {
-    //   md: 12,
-    //   componentProps: {
-    //     label: 'Assigned to',
-    //     name: 'assignTo',
-    //     placeholder: 'Select option',
-    //     apiQuery: usersData,
-    //     externalParams: {
-    //       organization: user?.organization?._id,
-    //       limit: 10,
-    //       role: user?.role,
-    //     },
-    //     getOptionLabel: (option: any) =>
-    //       option?.firstName + ' ' + option?.lastName,
-    //   },
-    //   component: RHFAutocompleteAsync,
-    // },
+
     {
       md: 12,
       componentProps: {
