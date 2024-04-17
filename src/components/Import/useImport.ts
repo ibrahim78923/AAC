@@ -11,7 +11,7 @@ import { importDefaultValues, importValidationSchema } from './Import.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export const useImport = (props: any) => {
-  const { setDrawerDefaultState } = props;
+  const { setDrawerDefaultState, objectUrl, actionType } = props;
   const [showItemsList, setShowItemsList] = useState(false);
 
   const importFormMethod = useForm<any>({
@@ -44,7 +44,7 @@ export const useImport = (props: any) => {
   const getSignedUrl = async (data: any) => {
     const signedUrlApiDataParameter = {
       queryParams: {
-        objectUrl: 'users/attachment',
+        objectUrl,
       },
     };
     try {
@@ -62,8 +62,22 @@ export const useImport = (props: any) => {
   };
 
   const uploadImportData = async (data: any) => {
+    const dataColumn = data?.csvColumns?.reduce(
+      (acc: any, item: any) => ({
+        ...acc,
+        [item?.crmColumn?._id]: item?.csvColumn,
+      }),
+      {},
+    );
+    const apiImportData = {
+      body: {
+        filePath: `${objectUrl}/${data?.file?.name}`,
+        actionType,
+        dataColumn,
+      },
+    };
     try {
-      const response: any = await importFileTrigger?.(data)?.unwrap();
+      const response: any = await importFileTrigger?.(apiImportData)?.unwrap();
       successSnackbar(response?.data?.message);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

@@ -7,6 +7,7 @@ export const mappedColumnsFormFieldsFunction = (
   name: any,
   index: any,
   remove: any,
+  crmColumnsOptions: any,
 ) => [
   {
     id: 1,
@@ -20,9 +21,9 @@ export const mappedColumnsFormFieldsFunction = (
       <RHFAutocomplete
         name={`${name}.${index}.crmColumn`}
         size="small"
-        options={[]}
+        options={crmColumnsOptions}
         fullWidth
-        sx={{ minWidth: '7rem' }}
+        sx={{ minWidth: '15rem' }}
         getOptionLabel={(option: any) => option?.label}
       />
     ),

@@ -14,13 +14,13 @@ import {
 } from './MappedColumns.data';
 
 export const MappedColumns: any = (props: any) => {
-  const { fields, name, remove } = props;
+  const { fields, name, remove, crmColumnsOptions } = props;
 
   return (
     <>
       <Box boxShadow={1}>
         <TableContainer>
-          <Table sx={{ minWidth: '500px' }}>
+          <Table sx={{ minWidth: '800px' }}>
             <TableHead>
               <TableRow>
                 {mappedColumns?.map((column: any) => (
@@ -36,6 +36,7 @@ export const MappedColumns: any = (props: any) => {
                       name,
                       index,
                       remove,
+                      crmColumnsOptions,
                     )?.map((singleField: any) => (
                       <TableCell key={singleField?.id}>
                         {singleField?.data}

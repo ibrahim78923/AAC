@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import { MappedColumns } from './MappedColumns';
 
 export const Import = (props: any) => {
-  const { isDrawerOpen } = props;
+  const { isDrawerOpen, title, crmColumnsOptions } = props;
 
   const {
     handleSubmit,
@@ -22,7 +22,7 @@ export const Import = (props: any) => {
       isDrawerOpen={isDrawerOpen}
       onClose={() => onClose?.()}
       okText={'Import'}
-      title={'Import Assets'}
+      title={title}
       submitHandler={() => handleSubmit(submitImportFile)()}
       isOk
       footer
@@ -35,7 +35,12 @@ export const Import = (props: any) => {
         {!showItemsList ? (
           <RHFFileImport name="file" label="Add File" />
         ) : (
-          <MappedColumns name="csvColumns" fields={fields} remove={remove} />
+          <MappedColumns
+            name="csvColumns"
+            fields={fields}
+            remove={remove}
+            crmColumnsOptions={crmColumnsOptions}
+          />
         )}
       </FormProvider>
     </CommonDrawer>
