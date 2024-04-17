@@ -1,6 +1,7 @@
 // API
 export const BASE_URL = process?.env?.NEXT_PUBLIC_BASE_URL;
 export const IMG_URL = process?.env?.NEXT_PUBLIC_IMG_URL;
+export const FE_BASE_URL = 'https://app-aac.apiswagger.co.uk/';
 
 //PAGINATION
 export const PAGINATION = {
