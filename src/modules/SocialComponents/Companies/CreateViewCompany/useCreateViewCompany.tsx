@@ -12,7 +12,7 @@ import { usePostCompaniesViewMutation } from '@/services/commonFeatures/companie
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const useCreateViewCompany = () => {
+const useCreateViewCompany = (setIsCreateView: any) => {
   const theme = useTheme<Theme>();
 
   const [postCompaniesView] = usePostCompaniesViewMutation();
@@ -40,6 +40,7 @@ const useCreateViewCompany = () => {
       enqueueSnackbar('Company view created successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      setIsCreateView(false);
       reset();
     } catch (error) {
       enqueueSnackbar('Error while creating company view', {

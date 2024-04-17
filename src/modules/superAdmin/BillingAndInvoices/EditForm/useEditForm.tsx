@@ -36,7 +36,7 @@ const useEditForm = (
     additionalUser: isGetRowValues?.cell?.row?.original?.additionalUsers,
     planPrice: isGetRowValues?.cell?.row?.original?.plans?.planPrice,
     defaultUser: isGetRowValues?.cell?.row?.original?.plans?.defaultUsers,
-    defaultUserTwo: isGetRowValues?.cell?.row?.original?.plans?.defaultUsers,
+    defaultStorage: isGetRowValues?.cell?.row?.original?.plans?.defaultStorage,
     additionalStorage: isGetRowValues?.cell?.row?.original?.additionalStorage,
     discount: isGetRowValues?.cell?.row?.original?.planDiscount,
     billingCycle: isGetRowValues?.cell?.row?.original?.billingCycle,
@@ -56,7 +56,7 @@ const useEditForm = (
           additionalUser,
           planPrice,
           defaultUser,
-          defaultUserTwo,
+          defaultStorage,
           additionalStorage,
           discount,
           billingCycle,
@@ -69,7 +69,7 @@ const useEditForm = (
           additionalUser,
           planPrice,
           defaultUser,
-          defaultUserTwo,
+          defaultStorage,
           additionalStorage,
           discount,
           billingCycle,
@@ -152,8 +152,8 @@ const useEditForm = (
       isSuccessPlan ? planData?.data?.plans?.defaultUsers : '',
     );
     setValue(
-      'defaultUserTwo',
-      isSuccessPlan ? planData?.data?.plans?.defaultUsers : '',
+      'defaultStorage',
+      isSuccessPlan ? planData?.data?.plans?.defaultStorage : '',
     );
   }
 
@@ -167,8 +167,10 @@ const useEditForm = (
       ExistingisSuccessPlan ? ExistingplanData?.data?.plans?.defaultUsers : '',
     );
     setValue(
-      'defaultUserTwo',
-      ExistingisSuccessPlan ? ExistingplanData?.data?.plans?.defaultUsers : '',
+      'defaultStorage',
+      ExistingisSuccessPlan
+        ? ExistingplanData?.data?.plans?.defaultStorage
+        : '',
     );
   }
 
@@ -180,7 +182,7 @@ const useEditForm = (
     ) {
       setValue('planPrice', '');
       setValue('defaultUser', '');
-      setValue('defaultUserTwo', '');
+      setValue('defaultStorage', '');
       setValue('planTypeId', '');
     }
   }, [selectProductSuite, ExistingplanData, planData]);
