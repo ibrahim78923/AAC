@@ -7,60 +7,44 @@ import {
 import { SCHEMA_KEYS } from '@/constants/strings';
 
 export const assetsFieldsOption = [
-  'name',
-  'assetType',
-  'location',
-  'usedBy',
-  'department',
-  'managedBy',
-  'impact',
-  'endOFLife',
-  'createdBy',
-  'assignedOn',
-  'description',
+  { value: 'displayName', label: 'Name' },
+  { value: 'assetType', label: 'Asset Type' },
+  { value: 'location', label: 'Location' },
+  { value: 'usedBy', label: 'Used By' },
+  { value: 'departmentId', label: 'Department' },
+  { value: 'impact', label: 'Impact' },
+  { value: 'assignedOn', label: 'Assigned On' },
+  { value: 'description', label: 'Description' },
 ];
 
 export const taskFieldsOption = [
-  'title',
-  'description',
-  'assignTo',
-  'status',
-  'notifyBefore',
-  'plannedStartDate',
-  'plannedEndDate',
-  'plannedEffort',
-  'department',
+  { value: 'title', label: 'Title' },
+  { value: 'description', label: 'Description' },
+  { value: 'assignTo', label: 'Assign To' },
+  { value: 'status', label: 'Status' },
+  { value: 'notifyBefore', label: 'Notify Before' },
+  { value: 'startDate', label: 'Planned Start Date' },
+  { value: 'endDate', label: 'Planned End Date' },
+  { value: 'plannedEffort', label: 'Planned Effort' },
+  { value: 'departmentId', label: 'Department' },
 ];
 
 export const ticketsFields = [
-  'department',
-  'ticketType',
-  'requester',
-  'subject',
-  'source',
-  'impacts',
-  'status',
-  'priority',
-  'agent',
-  'plannedStartDate',
-  'plannedEndDate',
-  'plannedEffort',
+  { value: 'department', label: 'Select Department' },
+  { value: 'ticketType', label: 'Type' },
+  { value: 'requester', label: 'Add Requester' },
+  { value: 'subject', label: 'Subject' },
+  { value: 'source', label: 'Source' },
+  { value: 'impact', label: 'Impact' },
+  { value: 'status', label: 'Status' },
+  { value: 'pirority', label: 'Priority' },
+  { value: 'description', label: 'Description' },
+  { value: 'agent', label: 'Agent' },
+  { value: 'plannedStartDate', label: 'Planned Start Date' },
+  { value: 'plannedEndDate', label: 'Planned End Date' },
+  { value: 'plannedEffort', label: 'Planned Effort' },
 ];
 
-export const requesterFieldOptions = [
-  'email',
-  'jobTitle',
-  'phoneNumber',
-  'dateOfJoining',
-];
-
-export const requestedForFieldOptions = [
-  'email',
-  'fullName',
-  'jobTitle',
-  'phoneNumber',
-  'dateOfJoining',
-];
 export const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
 export const impactOptions = ['HIGH', 'MEDIUM', 'LOW'];
 export const status = ['OPEN', 'CLOSED', 'RESOLVED', 'PENDING', 'SPAMS'];
@@ -103,32 +87,29 @@ export const dateOperators = [
 ];
 
 const constantApiOptions = {
-  agent: 'agent',
-  requester: 'requester',
-  department: 'department',
-  location: 'location',
+  agent: 'Agent',
+  requester: 'Add Requester',
+  department: 'Select Department',
+  assetDepartment: 'Department',
+  location: 'Location',
+  createdBy: 'Created By',
 };
 
 const optionsConstants = {
   priority: 'priority',
-  impacts: 'impacts',
-  assetType: 'assetType',
-  source: 'source',
-  type: 'ticketType',
-  plannedStartDate: 'plannedStartDate',
-  plannedEndDate: 'plannedEndDate',
-  dateOfJoining: 'dateOfJoining',
-  endOFLife: 'endOFLife',
-  assignedOn: 'assignedOn',
-  subject: 'subject',
-  description: 'description',
-  title: 'title',
-  plannedEffort: 'plannedEffort',
-  name: 'name',
-  email: 'email',
-  phoneNumber: 'phoneNumber',
-  jobTitle: 'jobTitle',
-  fullName: 'fullName',
+  impacts: 'Impact',
+  assetType: 'Asset Type',
+  source: 'Source',
+  description: 'Description',
+  type: 'Type',
+  plannedStartDate: 'Planned Start Date',
+  plannedEndDate: 'Planned End Date',
+  plannedEffort: 'Planned Effort',
+  subject: 'Subject',
+  title: 'Title',
+  assignedOn: 'Assigned On',
+  createdBy: 'Created By',
+  name: 'Name',
 };
 
 export const subWorkflowData = ({
@@ -145,7 +126,10 @@ export const subWorkflowData = ({
       return agentApiQuery;
     } else if (operatorsOption === constantApiOptions?.requester) {
       return requestersApiQuery;
-    } else if (operatorsOption === constantApiOptions?.department) {
+    } else if (
+      operatorsOption === constantApiOptions?.department ||
+      operatorsOption === constantApiOptions?.assetDepartment
+    ) {
       return departmentApiQuery;
     } else if (operatorsOption === constantApiOptions?.location) {
       return apiQueryLocations;
@@ -155,7 +139,6 @@ export const subWorkflowData = ({
   const moduleSelectedOption = watch('module');
   const taskModule: any = {
     'Task Fields': taskFieldsOption,
-    'Ticket Fields': ticketsFields,
   };
   const assetsModule: any = {
     'Assets Fields': assetsFieldsOption,
@@ -176,29 +159,28 @@ export const subWorkflowData = ({
   const operatorsOption = watch(
     `groups.${index}.conditions.${subIndex}.fieldName`,
   );
+  const selectedOperatorsOptions = operatorsOption?.label;
 
   let singleOperatorsOptions = [];
-  const apiQuery = useApiQuery(operatorsOption);
+  const apiQuery = useApiQuery(selectedOperatorsOptions);
   const valuesOptions =
-    operatorsOption === optionsConstants?.priority
+    selectedOperatorsOptions === optionsConstants?.priority
       ? priority
-      : operatorsOption === optionsConstants?.assetType
+      : selectedOperatorsOptions === optionsConstants?.assetType
         ? assetsOptions
-        : operatorsOption === optionsConstants?.source
+        : selectedOperatorsOptions === optionsConstants?.source
           ? sourcesOptions
-          : operatorsOption === optionsConstants?.type
+          : selectedOperatorsOptions === optionsConstants?.type
             ? typeOptions
-            : operatorsOption === optionsConstants?.impacts
+            : selectedOperatorsOptions === optionsConstants?.impacts
               ? impactOptions
               : status;
   if (
     [
       optionsConstants?.plannedStartDate,
       optionsConstants?.plannedEndDate,
-      optionsConstants?.dateOfJoining,
-      optionsConstants?.endOFLife,
       optionsConstants?.assignedOn,
-    ]?.includes(operatorsOption)
+    ]?.includes(selectedOperatorsOptions)
   ) {
     singleOperatorsOptions = dateOperators;
   } else if (
@@ -208,11 +190,7 @@ export const subWorkflowData = ({
       optionsConstants?.title,
       optionsConstants?.plannedEffort,
       optionsConstants?.name,
-      optionsConstants?.email,
-      optionsConstants?.phoneNumber,
-      optionsConstants?.jobTitle,
-      optionsConstants?.fullName,
-    ]?.includes(operatorsOption)
+    ]?.includes(selectedOperatorsOptions)
   ) {
     singleOperatorsOptions = fieldOptions;
   } else {
@@ -226,11 +204,7 @@ export const subWorkflowData = ({
       optionsConstants?.title,
       optionsConstants?.plannedEffort,
       optionsConstants?.name,
-      optionsConstants?.email,
-      optionsConstants?.phoneNumber,
-      optionsConstants?.jobTitle,
-      optionsConstants?.fullName,
-    ]?.includes(operatorsOption)
+    ]?.includes(selectedOperatorsOptions)
   ) {
     valueComponent = {
       _id: 5,
@@ -243,9 +217,9 @@ export const subWorkflowData = ({
       component: RHFTextField,
     };
   } else if (
-    operatorsOption === constantApiOptions?.agent ||
-    operatorsOption === constantApiOptions?.requester ||
-    operatorsOption === constantApiOptions?.location
+    selectedOperatorsOptions === constantApiOptions?.agent ||
+    selectedOperatorsOptions === constantApiOptions?.requester ||
+    selectedOperatorsOptions === constantApiOptions?.location
   ) {
     valueComponent = {
       _id: 6,
@@ -256,13 +230,13 @@ export const subWorkflowData = ({
         placeholder: 'Select',
         apiQuery: apiQuery,
         getOptionLabel:
-          operatorsOption === constantApiOptions?.location
+          selectedOperatorsOptions === constantApiOptions?.location
             ? (option: any) => option?.locationName
             : (option: any) => `${option?.firstName} ${option?.lastName}`,
       },
       component: RHFAutocompleteAsync,
     };
-  } else if (operatorsOption === constantApiOptions?.department) {
+  } else if (selectedOperatorsOptions === constantApiOptions?.department) {
     valueComponent = {
       _id: 6,
       gridLength: 3,
@@ -278,10 +252,8 @@ export const subWorkflowData = ({
     [
       optionsConstants?.plannedStartDate,
       optionsConstants?.plannedEndDate,
-      optionsConstants?.dateOfJoining,
-      optionsConstants?.endOFLife,
       optionsConstants?.assignedOn,
-    ]?.includes(operatorsOption)
+    ]?.includes(selectedOperatorsOptions)
   ) {
     valueComponent = {
       _id: 4,
@@ -326,6 +298,7 @@ export const subWorkflowData = ({
         size: 'small',
         placeholder: 'Select',
         options: moduleListOptions,
+        getOptionLabel: ({ label }: { label: string }) => label,
       },
       component: RHFAutocomplete,
     },
