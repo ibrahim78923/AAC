@@ -195,11 +195,15 @@ export const listsColumnsFunction = (
       const capitalizedType = type
         ? capitalizeFirstLetter(type.toLowerCase())
         : '';
-      return fullName(
-        capitalizedType ? capitalizedType + ' by' : null,
-        info?.getValue()?.user?.firstName +
-          ' ' +
-          info?.getValue()?.user?.lastName,
+      const typeText = capitalizedType ? capitalizedType + ' by' + ' ' : null;
+      return (
+        <Typography>
+          {typeText}
+          {fullName(
+            info?.getValue()?.user?.firstName,
+            info?.getValue()?.user?.lastName,
+          )}
+        </Typography>
       );
     },
   },
