@@ -35,7 +35,7 @@ export const taskFieldsOption = [
 export const ticketsFields = [
   'department',
   'ticketType',
-  'addRequester',
+  'requester',
   'subject',
   'source',
   'impacts',
@@ -104,7 +104,7 @@ export const dateOperators = [
 
 const constantApiOptions = {
   agent: 'agent',
-  requester: 'addRequester',
+  requester: 'requester',
   department: 'department',
   location: 'location',
 };
