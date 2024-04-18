@@ -39,7 +39,10 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
           >
             <EditPenIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => handleOpenAlert()}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => handleOpenAlert(info?.cell?.row?.original?._id)}
+          >
             <DeleteCrossIcon />
           </Box>
         </Box>

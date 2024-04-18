@@ -21,6 +21,7 @@ export const defaultValues = {
   ownerId: '',
   dealStageId: '',
   products: [],
+  closeDate: '',
 };
 export const createDealData = ({ dealPipelineId }: any) => {
   const userRole = 'ORG_EMPLOYEE';

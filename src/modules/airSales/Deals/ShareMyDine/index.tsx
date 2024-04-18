@@ -47,7 +47,9 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
         title={DealsActionData?.data?.name}
       >
         <Box sx={styles?.iconWrap}>
-          <MailIcon />
+          <Box>
+            <MailIcon />
+          </Box>
           <CallIcon />
           <ActivitiesIcon />
           <CalendarIcon />
@@ -63,7 +65,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
                   color: theme?.palette?.custom['main'],
                 }}
               >
-                {item?.heading}
+                {item?.heading ?? 'N/A'}
               </Typography>
               <Typography
                 sx={{
@@ -72,7 +74,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
                   color: theme?.palette?.slateBlue['main'],
                 }}
               >
-                {item?.values}
+                {item?.values ?? 'N/A'}
               </Typography>
             </Box>
           ))}
@@ -235,7 +237,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
                     >
                       <Stack>
                         <Typography sx={styles?.accordianText(theme)}>
-                          {data?.name}
+                          {data?.name ?? 'N/A'}
                         </Typography>
                       </Stack>
                       <Typography
@@ -245,7 +247,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
                           fontWeight: 500,
                         }}
                       >
-                        £ ${data?.unitPrice ?? 'N/A'}
+                        £ {data?.unitPrice ?? 'N/A'}
                       </Typography>
                     </Stack>
                   </Stack>

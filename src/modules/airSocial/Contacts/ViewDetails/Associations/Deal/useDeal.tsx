@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
-import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts';
+import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts/associations';
 import { useForm } from 'react-hook-form';
 import {
   productsDefaultValues,
@@ -11,13 +11,9 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const useDeal = (contactId: any) => {
-  // Get Association Tickets
+  // Get Association Deals
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  // const defaultParams = {
-  //   page: PAGINATION?.CURRENT_PAGE,
-  //   limit: PAGINATION?.PAGE_LIMIT,
-  // };
   const [searchValue, setSearchValue] = useState(null);
   const [filterParams] = useState({
     page: page,
