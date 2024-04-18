@@ -1,21 +1,29 @@
-import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  Skeleton,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { style } from './CheckboxCard.style';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { generateImage } from '@/utils/avatarUtils';
 
 const CheckboxCard = ({
   _id,
-  icon,
-  shopName = '',
-  shopeType = '',
-  date,
+  card,
   handleSelect,
   selectedCardList,
   handleOpenDetailModal,
+  isLoading,
+  isFetching,
 }: any) => {
   const { palette } = useTheme();
   const checked = !!selectedCardList?.find((item: any) => item?._id === _id);
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <>
       <Box sx={style?.cardWrapper(palette, checked)}>
@@ -28,9 +36,6 @@ const CheckboxCard = ({
           onClick={() => handleOpenDetailModal({ _id })}
         >
           <Avatar
-            variant="rounded"
-            src={icon}
-            alt={shopName}
             sx={{
               bgcolor: palette?.custom?.dark,
               p: 1.2,
@@ -38,16 +43,17 @@ const CheckboxCard = ({
               height: 48,
               borderRadius: '4px',
             }}
+            src={generateImage(card?.createdBy?.avatar?.url)}
           />
           <Box>
             <Typography variant="h5" fontWeight={400} color={'grey.600'}>
-              {shopName}
+              {card?.shopName}
             </Typography>
             <Typography variant="body2" color="custom.main">
-              {shopeType}
+              {card?.shopType}
             </Typography>
             <Typography variant="body3" color="grey.900">
-              {dayjs(date).format(DATE_FORMAT?.UI)}
+              {dayjs(card?.date).format(DATE_FORMAT?.UI)}
             </Typography>
           </Box>
         </Box>
