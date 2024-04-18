@@ -11,7 +11,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch } from '@/redux/store';
-import { v4 as uuidv4 } from 'uuid';
+import { useLazyGetAssignedUsersQuery } from '@/services/airSales/task';
 
 const Filter = ({ isFilterDrawerOpen, setIsFilterDrawerOpen }: any) => {
   const dispatch: any = useAppDispatch();
@@ -22,7 +22,12 @@ const Filter = ({ isFilterDrawerOpen, setIsFilterDrawerOpen }: any) => {
   const { handleSubmit } = methods;
   const onSubmit = (values: any) => {
     dispatch(setFiltersData(values));
+    setIsFilterDrawerOpen(false);
   };
+
+  const usersData = useLazyGetAssignedUsersQuery();
+
+  const getFilterData = filterData({ usersData });
 
   return (
     <CommonDrawer
@@ -37,12 +42,13 @@ const Filter = ({ isFilterDrawerOpen, setIsFilterDrawerOpen }: any) => {
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
-          {filterData?.map((item: any, index: any) => (
+          {/* eslint-disable */}
+          {getFilterData?.map((item: any, index: any) => (
             <Grid
               item
               xs={12}
               md={item?.md}
-              key={uuidv4()}
+              key={index}
               sx={{
                 paddingTop: index === 0 ? '40px !important' : '17px !important',
               }}

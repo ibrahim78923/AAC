@@ -1,6 +1,11 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
+import {
+  assetsFieldsOption,
+  taskFieldsOption,
+  ticketsFields,
+} from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -48,7 +53,7 @@ export const rulesWorkflowSchema = Yup?.object()?.shape({
         Yup?.lazy((value: any) => {
           if (value?.key === 'email') {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.string()
                 ?.email('Invalid email')
@@ -57,13 +62,13 @@ export const rulesWorkflowSchema = Yup?.object()?.shape({
             });
           } else if (value?.key === 'number') {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.number()?.nullable()?.required('Required'),
             });
           } else {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
             });
@@ -104,6 +109,11 @@ export const rulesWorkflowSchema = Yup?.object()?.shape({
 });
 
 export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
+  const allFields = [
+    ...ticketsFields,
+    ...taskFieldsOption,
+    ...assetsFieldsOption,
+  ];
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.SUPERVISOR_RULES,
@@ -126,7 +136,11 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
         conditions: group?.conditions?.map((condition: any, cIndex: any) => {
           return {
             options: 'Ticket Fields',
-            fieldName: condition?.fieldName ?? '',
+            fieldName: condition?.fieldName
+              ? allFields?.find(
+                  (item: any) => item?.value === condition?.fieldName,
+                )
+              : null,
             condition: condition?.condition ?? '',
             fieldValue:
               condition?.fieldType === 'objectId'
@@ -143,7 +157,7 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
         conditionType: null,
         conditions: [
           {
-            fieldName: '',
+            fieldName: null,
             condition: '',
             fieldValue: null,
           },

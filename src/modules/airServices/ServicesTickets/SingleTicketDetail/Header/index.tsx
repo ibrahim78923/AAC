@@ -17,10 +17,12 @@ import {
 import { TicketsDelete } from '../../TicketsDelete';
 import { truncateText } from '@/utils/avatarUtils';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { Skeleton } from '@mui/lab';
 
-const Header = () => {
+const Header = (props: any) => {
+  const { apiStatus, data } = props;
+
   const {
-    data,
     router,
     setIsDrawerOpen,
     isDrawerOpen,
@@ -31,6 +33,8 @@ const Header = () => {
     setDeleteModalOpen,
     ticketId,
   } = useHeader();
+
+  if (apiStatus?.isLoading || apiStatus?.isFetching) return <Skeleton />;
 
   return (
     <>

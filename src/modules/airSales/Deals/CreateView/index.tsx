@@ -21,7 +21,7 @@ import { AIR_SALES } from '@/routesConstants/paths';
 import { DATE_FORMAT } from '@/constants';
 
 const CreateView = ({ open, onClose }: any) => {
-  const methods: any = useForm({
+  const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
@@ -30,7 +30,6 @@ const CreateView = ({ open, onClose }: any) => {
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = (values: any) => {
-    // values.sharedWith;
     values.apiUrl = `${AIR_SALES?.DEAL_LIST_VIEW}?dateStart=${dayjs()?.format(
       DATE_FORMAT?.API,
     )}&dateEnd=${dayjs(values?.CloseDate)?.format(
