@@ -1,5 +1,4 @@
 import {
-  useImportFileMutation,
   useLazyGetSignedUrlForImportQuery,
   useUploadFileTos3UsingSignedUrlMutation,
 } from '@/services/airServices/global/import';
@@ -9,15 +8,20 @@ import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { importDefaultValues, importValidationSchema } from './Import.data';
 import { yupResolver } from '@hookform/resolvers/yup';
+import useAuth from '@/hooks/useAuth';
 
 export const useImport = (props: any) => {
-  const { setDrawerDefaultState, objectUrl, actionType } = props;
+  const { setDrawerDefaultState, objectUrl, submitImport } = props;
   const [showItemsList, setShowItemsList] = useState(false);
 
   const importFormMethod = useForm<any>({
     defaultValues: importDefaultValues,
     resolver: yupResolver(importValidationSchema),
   });
+  const auth: any = useAuth();
+
+  const { _id: organizationCompanyAccountId } =
+    auth?.product?.accounts?.[0]?.company;
 
   const { handleSubmit, reset, control } = importFormMethod;
 
@@ -30,8 +34,6 @@ export const useImport = (props: any) => {
     uploadFileTos3UsingSignedUrlTrigger,
     uploadFileTos3UsingSignedUrlStatus,
   ] = useUploadFileTos3UsingSignedUrlMutation?.();
-
-  const [importFileTrigger, importFileStatus] = useImportFileMutation?.();
 
   const [lazyGetSignedUrlForImportTrigger, lazyGetSignedUrlForImportStatus] =
     useLazyGetSignedUrlForImportQuery?.();
@@ -69,19 +71,15 @@ export const useImport = (props: any) => {
       }),
       {},
     );
-    const apiImportData = {
-      body: {
-        filePath: `${objectUrl}/${data?.file?.name}`,
-        actionType,
-        dataColumn,
-      },
+
+    const apiData = {
+      dataColumn,
+      companyAccountId: organizationCompanyAccountId,
+      filePath: `${objectUrl}/${data?.file?.name}`,
     };
-    try {
-      const response: any = await importFileTrigger?.(apiImportData)?.unwrap();
-      successSnackbar(response?.data?.message);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
+    await submitImport?.(apiData);
+    onClose?.();
+    setShowItemsList(false);
   };
 
   const uploadToS3CsvFile = async (data: any) => {
@@ -130,12 +128,10 @@ export const useImport = (props: any) => {
     onClose,
     submitImportFile,
     importFormMethod,
+    showItemsList,
+    fields,
+    remove,
     uploadFileTos3UsingSignedUrlStatus,
     lazyGetSignedUrlForImportStatus,
-    fields,
-    append,
-    showItemsList,
-    importFileStatus,
-    remove,
   };
 };

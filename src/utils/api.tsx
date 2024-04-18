@@ -14,7 +14,7 @@ export const errorSnackbar = (message?: any) => {
   );
 };
 
-export const successSnackbar = (message: any) => {
+export const successSnackbar = (message: any = 'Success') => {
   enqueueSnackbar(message, {
     variant: NOTISTACK_VARIANTS?.SUCCESS,
   });

@@ -10,7 +10,7 @@ export const importValidationSchema = Yup?.object()?.shape({
   csvColumns: Yup?.array()?.of(
     Yup?.object()?.shape({
       csvColumn: Yup?.string(),
-      crmColumn: Yup?.mixed()?.nullable()?.required('selection is required'),
+      crmColumn: Yup?.mixed()?.nullable()?.required('Selection is required'),
     }),
   ),
 });

@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import { MappedColumns } from './MappedColumns';
 
 export const Import = (props: any) => {
-  const { isDrawerOpen, title, crmColumnsOptions } = props;
+  const { isDrawerOpen, title, crmColumnsOptions, importFileStatus } = props;
 
   const {
     handleSubmit,
@@ -15,6 +15,8 @@ export const Import = (props: any) => {
     showItemsList,
     fields,
     remove,
+    uploadFileTos3UsingSignedUrlStatus,
+    lazyGetSignedUrlForImportStatus,
   } = useImport(props);
 
   return (
@@ -26,6 +28,21 @@ export const Import = (props: any) => {
       submitHandler={() => handleSubmit(submitImportFile)()}
       isOk
       footer
+      isLoading={
+        importFileStatus?.isLoading ||
+        uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+        lazyGetSignedUrlForImportStatus?.isLoading
+      }
+      isDisabled={
+        importFileStatus?.isLoading ||
+        lazyGetSignedUrlForImportStatus?.isLoading ||
+        uploadFileTos3UsingSignedUrlStatus?.isLoading
+      }
+      disabledCancelBtn={
+        importFileStatus?.isLoading ||
+        lazyGetSignedUrlForImportStatus?.isLoading ||
+        uploadFileTos3UsingSignedUrlStatus?.isLoading
+      }
     >
       <Box marginY={2} />
       <FormProvider
@@ -35,12 +52,14 @@ export const Import = (props: any) => {
         {!showItemsList ? (
           <RHFFileImport name="file" label="Add File" />
         ) : (
-          <MappedColumns
-            name="csvColumns"
-            fields={fields}
-            remove={remove}
-            crmColumnsOptions={crmColumnsOptions}
-          />
+          <>
+            <MappedColumns
+              name="csvColumns"
+              fields={fields}
+              remove={remove}
+              crmColumnsOptions={crmColumnsOptions}
+            />
+          </>
         )}
       </FormProvider>
     </CommonDrawer>
