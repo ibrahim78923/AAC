@@ -1,11 +1,10 @@
 import React from 'react';
-import { Box, Checkbox, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { generateImage } from '@/utils/avatarUtils';
-import Image from 'next/image';
 
 export const AllDealColumns = ({
   selectedRows,
@@ -33,25 +32,27 @@ export const AllDealColumns = ({
     const navigate = useRouter();
     if (attribute?.includes(DEAL_ATTRIBUTES?.DEAL_OWNER)) {
       return (
-        <Box sx={{ display: 'flex', gap: '5px' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <>
-            {info?.row?.original?.dealOwner?.avatar?.url && (
-              <Image
-                alt="user"
-                src={generateImage(info?.row?.original?.dealOwner?.avatar?.url)}
-                width={20}
-                height={20}
-              />
-            )}
-            <Typography
-              variant="h5"
+            {/* {info?.row?.original?.dealOwner?.avatar?.url && ( */}
+            <Avatar
+              alt="user"
+              src={generateImage(info?.row?.original?.dealOwner?.avatar?.url)}
               sx={{
-                marginLeft: '20px',
-                background: theme?.palette?.custom?.dim_grey,
+                width: 35,
+                height: 35,
+                background: theme?.palette?.grey[400],
               }}
             >
-              {info?.row?.original?.dealOwner?.name?.charAt(0) ?? ''}
-            </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: theme?.palette?.custom?.dim_grey,
+                }}
+              >
+                {info?.row?.original?.dealOwner?.name?.charAt(0) ?? ''}
+              </Typography>
+            </Avatar>
           </>
           <Box>
             <Typography component="p" variant="body3" fontWeight={500}>

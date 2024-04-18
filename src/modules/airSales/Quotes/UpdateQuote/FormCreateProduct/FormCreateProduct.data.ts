@@ -1,110 +1,230 @@
+// import {
+//   RHFTextField,
+//   RHFSelect,
+//   // RHFRadioGroup,
+//   RHFCheckbox,
+//   RHFEditor,
+// } from '@/components/ReactHookForm';
+// import * as Yup from 'yup';
+
+// export const validationSchema = Yup?.object()?.shape({
+//   name: Yup?.string()?.required('Field is Required'),
+//   unitPrice: Yup?.number()?.required('Field is Required'),
+//   purchasePrice: Yup?.number()?.required('Field is Required'),
+//   isActive: Yup?.boolean()?.required('Field is Required'),
+// });
+
+// export const initValues = {
+//   // image:'',
+//   name: '',
+//   sku: '',
+//   category: '',
+//   description: '',
+//   isActive: true,
+//   unitPrice: 0,
+//   purchasePrice: 0,
+// };
+
+// export const addContactFields = (productCatagories: any) => [
+//   // {
+//   //   id: 'image',
+//   //   component: RHFTextField,
+//   //   componentProps: {
+//   //     name: 'image',
+//   //     label: 'image',
+//   //     placeholder: 'Enter here',
+//   //     // required: 'true',
+//   //   },
+//   // },
+//   {
+//     id: 'productName',
+//     component: RHFTextField,
+//     componentProps: {
+//       name: 'name',
+//       label: 'Product Name',
+//       placeholder: 'Enter here',
+//       required: 'true',
+//     },
+//   },
+//   {
+//     id: 'sku',
+//     component: RHFTextField,
+//     componentProps: {
+//       name: 'sku',
+//       label: 'SKU',
+//       placeholder: 'Enter here',
+//     },
+//   },
+
+//   {
+//     id: 'category',
+//     component: RHFSelect,
+//     componentProps: {
+//       name: 'category',
+//       label: 'Category',
+//       select: true,
+//       placeholder: 'Select',
+//     },
+//     options: productCatagories?.map((item: any) => ({
+//       value: item?._id,
+//       label: item?.name,
+//     })),
+//   },
+//   {
+//     componentProps: {
+//       name: 'description',
+//       label: 'Description',
+//       fullWidth: true,
+//     },
+//     component: RHFEditor,
+//     md: 12,
+//   },
+
+//   {
+//     id: 'active',
+//     component: RHFCheckbox,
+//     componentProps: {
+//       name: 'active',
+//       label: 'Active Product',
+//     },
+//   },
+//   {
+//     id: 'unitPrice',
+//     component: RHFTextField,
+//     componentProps: {
+//       name: 'unitPrice',
+//       label: 'Unit Price (£)',
+//       placeholder: 'Enter here',
+//       required: 'true',
+//       InputProps: { inputProps: { min: 0 } },
+//     },
+//   },
+//   {
+//     id: 'purchasePrice',
+//     component: RHFTextField,
+//     componentProps: {
+//       name: 'purchasePrice',
+//       label: 'Purchase Price',
+//       placeholder: '01/01/2022',
+//       InputProps: { inputProps: { min: 0 } },
+//     },
+//   },
+// ];
+
 import {
-  RHFTextField,
-  RHFSelect,
-  // RHFRadioGroup,
-  RHFCheckbox,
+  RHFDropZone,
   RHFEditor,
+  RHFSelect,
+  RHFSwitch,
+  RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  unitPrice: Yup?.number()?.required('Field is Required'),
   purchasePrice: Yup?.number()?.required('Field is Required'),
-  isActive: Yup?.boolean()?.required('Field is Required'),
+  unitPrice: Yup?.number()?.required('Field is Required'),
 });
 
 export const initValues = {
-  // image:'',
   name: '',
+  purchasePrice: null,
+  unitPrice: null,
   sku: '',
   category: '',
+  associate: '',
   description: '',
-  isActive: true,
-  unitPrice: 0,
-  purchasePrice: 0,
+  isActive: false,
+  file: '',
 };
 
-export const addContactFields = (productCatagories: any) => [
-  // {
-  //   id: 'image',
-  //   component: RHFTextField,
-  //   componentProps: {
-  //     name: 'image',
-  //     label: 'image',
-  //     placeholder: 'Enter here',
-  //     // required: 'true',
-  //   },
-  // },
-  {
-    id: 'productName',
-    component: RHFTextField,
-    componentProps: {
-      name: 'name',
-      label: 'Product Name',
-      placeholder: 'Enter here',
-      required: 'true',
+export const addContactFields = (productCatagories: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Product Name',
+        fullWidth: true,
+        placeholder: 'Enter here',
+        required: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-  },
-  {
-    id: 'sku',
-    component: RHFTextField,
-    componentProps: {
-      name: 'sku',
-      label: 'SKU',
-      placeholder: 'Enter here',
+    {
+      componentProps: {
+        name: 'sku',
+        label: 'SKU',
+        fullWidth: true,
+        select: false,
+        placeholder: 'Enter here',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-  },
-
-  {
-    id: 'category',
-    component: RHFSelect,
-    componentProps: {
-      name: 'category',
-      label: 'Category',
-      select: true,
-      placeholder: 'Select',
+    {
+      componentProps: {
+        name: 'purchasePrice',
+        label: 'Purchase Price',
+        fullWidth: true,
+        placeholder: 'Enter here',
+        required: true,
+        type: 'number',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    options: productCatagories?.map((item: any) => ({
-      value: item?._id,
-      label: item?.name,
-    })),
-  },
-  {
-    componentProps: {
-      name: 'description',
-      label: 'Description',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'category',
+        label: 'Category',
+        fullWidth: true,
+        select: true,
+      },
+      options: productCatagories?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFEditor,
-    md: 12,
-  },
-
-  {
-    id: 'active',
-    component: RHFCheckbox,
-    componentProps: {
-      name: 'active',
-      label: 'Active Product',
+    {
+      componentProps: {
+        name: 'description',
+        label: 'Description',
+        fullWidth: true,
+      },
+      component: RHFEditor,
+      md: 12,
     },
-  },
-  {
-    id: 'unitPrice',
-    component: RHFTextField,
-    componentProps: {
-      name: 'unitPrice',
-      label: 'Unit Price (£)',
-      placeholder: 'Enter here',
-      required: 'true',
+    {
+      componentProps: {
+        name: 'unitPrice',
+        label: 'Unit Price (£)',
+        fullWidth: true,
+        placeholder: 'Enter here',
+        required: true,
+        type: 'number',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-  },
-  {
-    id: 'purchasePrice',
-    component: RHFTextField,
-    componentProps: {
-      name: 'purchasePrice',
-      label: 'Purchase Price',
-      placeholder: '01/01/2022',
+    {
+      id: 13,
+      componentProps: {
+        name: 'isActive',
+        label: 'Active Product',
+      },
+      component: RHFSwitch,
+      md: 12,
     },
-  },
-];
+    {
+      componentProps: {
+        name: 'file',
+        label: 'Upload',
+        fullWidth: true,
+      },
+      component: RHFDropZone,
+      md: 12,
+    },
+  ];
+};

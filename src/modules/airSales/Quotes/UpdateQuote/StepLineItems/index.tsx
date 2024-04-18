@@ -8,24 +8,45 @@ import { EditYellowBgIcon, ViewEyeIcon, TrashIcon } from '@/assets/icons';
 import {
   useDeleteProductsMutation,
   useGetQuoteByIdQuery,
+  useGetTaxCalculationsQuery,
 } from '@/services/airSales/quotes';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const StepLineItems = ({ openCreateProduct }: any) => {
+  const router = useRouter();
+  let quoteId: any;
+  if (router?.query?.data) {
+    quoteId = router?.query?.data;
+  }
+  const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
+
+  const param = {
+    applyOn: 'quotes',
+  };
+  const { data: taxCalculation } = useGetTaxCalculationsQuery(param);
   const [search, setSearch] = useState('');
 
-  const router = useRouter();
-  const { data } = router?.query;
+  // const { data } = router?.query;
+
+  const taxCalculationPerc = taxCalculation?.data?.taxCalculations;
+  const gettingDiscount = dataGetQuoteById?.data?.products[0]?.unitDiscount;
 
   const { data: productsData } = useGetQuoteByIdQuery({
-    id: data,
+    id: quoteId,
     ...(search && { productSearchKeyword: search }),
   });
-
   const sum = productsData?.data?.products?.reduce(
     (accumulator: any, currentValue: any) =>
       accumulator + currentValue?.unitPrice * currentValue?.quantity,
+    0,
+  );
+
+  const totalDisc = productsData?.data?.products?.reduce(
+    (accumulator: any, currentValue: any) =>
+      accumulator + (currentValue?.unitPrice * currentValue?.quantity) / 100,
     0,
   );
 
@@ -34,6 +55,14 @@ const StepLineItems = ({ openCreateProduct }: any) => {
       accumulator + currentValue?.unitDiscount * currentValue?.quantity,
     0,
   );
+  let totalPercentage = 0;
+  if (taxCalculationPerc && Array.isArray(taxCalculationPerc)) {
+    for (const tax of taxCalculationPerc) {
+      totalPercentage += tax.percentage;
+    }
+  }
+  const percentageOfSubtotal = sum * (totalPercentage / 100);
+  const FinalTotal = percentageOfSubtotal - gettingDiscount;
 
   const [deleteProducts] = useDeleteProductsMutation();
 
@@ -59,7 +88,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
   };
   const handleAction = (id: string, action: string) => {
     router.push(
-      `?data=${data}${
+      `?data=${quoteId}${
         action === 'create' ? '' : `&productId=${id}`
       }&type=${action}`,
     );
@@ -103,18 +132,18 @@ const StepLineItems = ({ openCreateProduct }: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.totalPrice ?? 'N/A',
+      accessorFn: (row: any) => row?.unitPrice * row?.quantity ?? 'N/A',
       id: 'totalPrice',
       isSortable: true,
       header: 'Total Price',
       cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row?.createdDate ?? 'N/A',
-      id: 'createdDate',
+      accessorFn: (row: any) => row?.createdAt ?? 'N/A',
+      id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: ({ _id }: { _id: string }) => _id,
@@ -188,23 +217,27 @@ const StepLineItems = ({ openCreateProduct }: any) => {
           </Box>
 
           <Box sx={styles?.voucherBody}>
-            {/* <Box sx={styles?.vRow}>
-              <Box sx={styles?.bodyCell}>V.A.T %</Box>
-              <Box sx={styles?.bodyCellH}>£ 20</Box>
-            </Box> */}
+            <Box sx={styles?.vRow}>
+              <Box sx={styles?.bodyCell}>
+                {taxCalculationPerc?.map((item: any) => {
+                  return item.name;
+                })}
+              </Box>
+              <Box sx={styles?.bodyCellH}>{totalPercentage}</Box>
+            </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.bodyCell}>Unit Discount</Box>
               <Box sx={styles?.bodyCellH}>£ {unitDiscount}</Box>
             </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.bodyCell}>Total Discount</Box>
-              <Box sx={styles?.bodyCellH}>£ 5</Box>
+              <Box sx={styles?.bodyCellH}>£ {totalDisc?.toFixed(2)}</Box>
             </Box>
           </Box>
 
           <Box sx={styles?.voucherFooter}>
-            <Box sx={styles?.fCell}>Total</Box>
-            <Box sx={styles?.fCell}>£{sum - unitDiscount}</Box>
+            <Box sx={styles?.fCell}>Total: </Box>
+            <Box sx={styles?.bodyCellH}> £{FinalTotal?.toFixed(2)}</Box>
           </Box>
         </Box>
       </Box>
