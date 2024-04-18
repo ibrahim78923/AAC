@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { userList } from './User.data';
 import {
   useGetProductUserListQuery,
+  useLazyGetProductUserDropdownQuery,
   useLazyGetTeamUserListQuery,
   usePatchProductUsersMutation,
   usePostProductUserListMutation,
@@ -88,6 +89,7 @@ export const useUser = () => {
     setTabData,
     switchLoading,
     handleChangeStatus,
+    router,
   );
 
   const rolesDropdown = useLazyGetDepartmentDropdownQuery();
@@ -148,6 +150,23 @@ export const useUser = () => {
     handleClose?.();
   };
 
+  const userId = router?.query?.userId;
+  const [userByIdTrigger, { data: userIdData }] =
+    useLazyGetProductUserDropdownQuery();
+  const handleUserById = async () => {
+    await userByIdTrigger(userId);
+  };
+  useEffect(() => {
+    handleUserById();
+  }, [userId, isDrawerOpen]);
+
+  const onClose = () => {
+    setIsDrawerOpen(false);
+    router?.push({
+      pathname: router?.pathname,
+    });
+  };
+
   return {
     usersData,
     theme,
@@ -180,5 +199,9 @@ export const useUser = () => {
     switchLoading,
     handleChangeStatus,
     editProductUsersDetails,
+    onClose,
+    data,
+    router,
+    userIdData,
   };
 };

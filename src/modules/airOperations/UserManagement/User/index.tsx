@@ -6,13 +6,13 @@ import UpsertUser from './UpsertUser';
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
-export const User = () => {
+export const User = (props: any) => {
+  const { patchProductUsersStatus, addUsersListStatus } = props;
   const {
     selectedUserList,
     setSelectedUserList,
     userListColumn,
     isDrawerOpen,
-    setIsDrawerOpen,
     usersData,
     setSearch,
     isLoading,
@@ -25,7 +25,9 @@ export const User = () => {
     methods,
     handleSubmit,
     submit,
-    addUsersListStatus,
+    router,
+    onClose,
+    userIdData,
   } = useUser();
   return (
     <Box>
@@ -39,15 +41,20 @@ export const User = () => {
         submit={submit}
       />
       <Box mt={'0.75rem'}>
-        <UpsertUser
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-          title={'User View'}
-          okText={'Save'}
-          methods={methods}
-          handleSubmit={handleSubmit}
-          submit={submit}
-        />
+        {router?.query?.userId && (
+          <UpsertUser
+            isDrawerOpen={isDrawerOpen || router?.query?.userId}
+            setIsDrawerOpen={onClose}
+            title={'User View'}
+            okText={'Save'}
+            methods={methods}
+            handleSubmit={handleSubmit}
+            submit={submit}
+            usersData={userIdData}
+            patchProductUsersStatus={patchProductUsersStatus}
+            addUsersListStatus={addUsersListStatus}
+          />
+        )}
         <PermissionsGuard
           permissions={[
             AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.USER_LIST,

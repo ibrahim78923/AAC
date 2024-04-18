@@ -8,6 +8,9 @@ export const userDropdown = (setDeleteModal: any) => [
   {
     id: 1,
     title: 'Delete',
+    // permissionKey: [
+    //   AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USER,
+    // ],
     handleClick: (close: any) => {
       setDeleteModal(true);
       close(null);
@@ -23,6 +26,7 @@ export const userList = (
   setTabData: any,
   switchLoading: any,
   handleChangeStatus: any,
+  router: any,
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -79,7 +83,7 @@ export const userList = (
     isSortable: true,
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar src={`url_for_avatar_${info.row.original._id}`} alt="users">
+        <Avatar src={`url_for_avatar_${info?.row?.original?._id}`} alt="users">
           <Typography
             variant="body2"
             textTransform={'uppercase'}
@@ -89,7 +93,11 @@ export const userList = (
             }}
             onClick={() => {
               setIsDrawerOpen(true);
-              setTabData(info.row?.original);
+              setTabData(info?.row?.original);
+              router?.push({
+                pathname: router?.pathname,
+                query: { ...router?.query, userId: info?.row?.original?._id },
+              });
             }}
           >
             {fullNameInitial(

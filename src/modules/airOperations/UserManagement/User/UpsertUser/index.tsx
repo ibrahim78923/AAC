@@ -14,10 +14,15 @@ function UpsertUser({
   methods,
   handleSubmit,
   submit,
-  patchProductUsersStatus,
-  addUsersListStatus,
 }: any) {
-  const { disabled, usersTeamDropdown, rolesDropdown } = useUser();
+  const {
+    disabled,
+    usersTeamDropdown,
+    rolesDropdown,
+    setDisabled,
+    patchProductUsersStatus,
+    addUsersListStatus,
+  } = useUser();
 
   return (
     <>
@@ -25,7 +30,11 @@ function UpsertUser({
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen?.(false)}
         title={title}
-        submitHandler={() => handleSubmit(submit)()}
+        submitHandler={() => {
+          title === USER_MANAGEMENT?.USERVIEW && disabled
+            ? setDisabled(false)
+            : handleSubmit(submit)();
+        }}
         footer={true}
         isOk={true}
         okText={

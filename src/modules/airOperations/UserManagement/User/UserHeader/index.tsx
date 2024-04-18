@@ -5,6 +5,8 @@ import { Box, Button } from '@mui/material';
 import UpsertUser from '../UpsertUser';
 import { AgentConversionDelete } from '../../AgentConversionDelete';
 import { useUserHeader } from './useUserHeader';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UserHeader = (props: any) => {
   const {
@@ -24,6 +26,7 @@ export const UserHeader = (props: any) => {
     submitDeleteModal,
     search,
     setSearch,
+    deleteStatus,
   } = useUserHeader(props);
 
   return (
@@ -42,11 +45,17 @@ export const UserHeader = (props: any) => {
         />
       </Box>
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
-        <SingleDropdownButton
-          dropdownName={'Actions'}
-          dropdownOptions={userDropdownOptions}
-          disabled={!selectedUserList?.length}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USER,
+          ]}
+        >
+          <SingleDropdownButton
+            dropdownName={'Actions'}
+            dropdownOptions={userDropdownOptions}
+            disabled={!selectedUserList?.length}
+          />
+        </PermissionsGuard>
         <Button
           startIcon={<CirclePlusIcon />}
           variant="contained"
@@ -73,6 +82,7 @@ export const UserHeader = (props: any) => {
               setDeleteModal(false);
             }}
             submitDeleteModal={submitDeleteModal}
+            deleteStatus={deleteStatus}
           />
         )}
       </Box>
