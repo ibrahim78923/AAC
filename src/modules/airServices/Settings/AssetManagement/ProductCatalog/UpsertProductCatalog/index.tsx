@@ -66,6 +66,10 @@ export const UpsertProductCatalog = () => {
                 patchProductCatalogStatus?.isLoading ||
                 postProductCatalogStatus?.isLoading
               }
+              loading={
+                patchProductCatalogStatus?.isLoading ||
+                postProductCatalogStatus?.isLoading
+              }
             >
               {!!productCatalogId ? 'Update' : 'Save'}
             </LoadingButton>

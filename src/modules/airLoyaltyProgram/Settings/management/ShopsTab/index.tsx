@@ -33,7 +33,7 @@ const ShopsTab = () => {
         setAddShopModalOpen={setAddShopModalOpen}
       />
       <Grid container spacing={2.4}>
-        {cardData?.map?.((card) => (
+        {cardData?.map?.((card: any) => (
           <Grid item xs={12} md={6} lg={4} key={card?._id}>
             <CheckboxCard
               {...card}

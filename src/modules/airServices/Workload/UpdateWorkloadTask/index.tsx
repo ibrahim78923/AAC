@@ -9,11 +9,16 @@ export const UpdateWorkloadTask = ({
   data,
   edit,
 }: any) => {
-  const { handleSubmit, onSubmit, methods, workloadDataArray } =
-    useUpdateWorkloadTask({
-      onClose,
-      dataGet: data,
-    });
+  const {
+    handleSubmit,
+    onSubmit,
+    methods,
+    workloadDataArray,
+    patchTaskStatus,
+  } = useUpdateWorkloadTask({
+    onClose,
+    dataGet: data,
+  });
 
   return (
     <CommonDrawer
@@ -25,6 +30,9 @@ export const UpdateWorkloadTask = ({
       cancelText={'Cancel'}
       footer={edit}
       submitHandler={handleSubmit(onSubmit)}
+      disabledCancelBtn={patchTaskStatus?.isLoading}
+      isDisabled={patchTaskStatus?.isLoading}
+      isLoading={patchTaskStatus?.isLoading}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
