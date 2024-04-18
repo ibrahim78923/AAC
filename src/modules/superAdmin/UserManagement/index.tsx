@@ -113,7 +113,11 @@ const UserManagement = () => {
                   tabVal={tabVal}
                   setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
                 />
-                <Tooltip title="Refresh Filter">
+                <Tooltip
+                  title={`${
+                    tabVal === tabOne ? 'Refresh Date Filter' : 'Refresh Filter'
+                  }`}
+                >
                   <Button
                     variant="outlined"
                     color="inherit"

@@ -46,17 +46,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { styles } from './Folder.style';
 import PreviewPdf from './PreviewPdf';
 import { useRouter } from 'next/router';
-import { AIR_MARKETER } from '@/routesConstants/paths';
 import { FormProvider } from '@/components/ReactHookForm';
 import { enqueueSnackbar } from 'notistack';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS } from '@/constants/permission-keys';
+import { Quick_Links_Routes } from '@/constants';
 
 const Folders = () => {
   const navigate = useRouter();
   const {
-    value,
-    setValue,
+    searchValue,
+    setSearchValue,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenModal,
@@ -93,6 +93,7 @@ const Folders = () => {
     FolderAdd,
     cardBox,
     setCardBox,
+    setSelectedFolder,
     deleteUserFolders,
     setIsImage,
     isImage,
@@ -104,6 +105,8 @@ const Folders = () => {
     deleteUserFiles,
     isOpenFile,
     setIsOpenFile,
+    selectedFolder,
+    setActionType,
   } = useFolder();
   const [sendData, setSendData] = useState(null);
 
@@ -131,9 +134,9 @@ const Folders = () => {
           <Search
             label="Search here"
             sx={{ width: '260px' }}
-            searchBy={value}
+            searchBy={searchValue}
             setSearchBy={(e: string) => {
-              setValue(e);
+              setSearchValue(e);
             }}
           />
           <Box
@@ -256,9 +259,9 @@ const Folders = () => {
           <Search
             label="Search here"
             sx={{ width: '100%' }}
-            searchBy={value}
+            searchBy={searchValue}
             setSearchBy={(e: string) => {
-              setValue(e);
+              setSearchValue(e);
             }}
           />
           <Box sx={styles?.folderRow}>
@@ -336,7 +339,7 @@ const Folders = () => {
               <ArrowBackIcon
                 onClick={() => {
                   navigate.push({
-                    pathname: AIR_MARKETER?.COMMON_DOCUMENTS,
+                    pathname: Quick_Links_Routes?.DOCUMENT,
                   });
                 }}
                 sx={{
@@ -389,6 +392,8 @@ const Folders = () => {
                       onClick={() => {
                         setAnchorElSide(null);
                         setIsOpenModal(true);
+                        setActionType('create-sub-folder');
+                        FolderAdd?.setValue('name', '');
                       }}
                     >
                       Create Sub Folder
@@ -415,6 +420,8 @@ const Folders = () => {
                       setAnchorElSide(null);
                       setModalHeading('Edit Name');
                       setIsOpenModal(true);
+                      setActionType('move-folder');
+                      FolderAdd?.setValue('name', selectedFolder?.name);
                     }}
                   >
                     Rename
@@ -468,7 +475,7 @@ const Folders = () => {
                     <Box
                       onClick={() => {
                         setCardBox([item?._id]);
-                        setIsEditOpenModal(item);
+                        setSelectedFolder(item);
                       }}
                       sx={{
                         display: 'flex',
@@ -567,9 +574,9 @@ const Folders = () => {
                 <Search
                   label="Search here"
                   width="260px"
-                  searchBy={value}
+                  searchBy={searchValue}
                   setSearchBy={(e: string) => {
-                    setValue(e);
+                    setSearchValue(e);
                   }}
                 />
               </Grid>
@@ -676,9 +683,13 @@ const Folders = () => {
       </Grid>
       <CommonModal
         open={isOpenModal}
-        handleCancel={() => setIsOpenModal(false)}
+        handleCancel={() => {
+          setIsOpenModal(false);
+          setActionType('');
+          setModalHeading('');
+        }}
         handleSubmit={() => onSubmit()}
-        title={`${modalHeading}`}
+        title={modalHeading?.length > 0 ? modalHeading : 'Create Folder'}
         okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
         cancelText="Cancel"
         footerFill={false}

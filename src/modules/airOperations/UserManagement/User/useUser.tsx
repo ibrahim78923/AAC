@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { userList } from './User.data';
 import {
   useGetProductUserListQuery,
-  useLazyGetCompanyAccountsRolesQuery,
   useLazyGetTeamUserListQuery,
   usePatchProductUsersMutation,
   usePostProductUserListMutation,
@@ -18,6 +17,8 @@ import {
   upsertUserValidationSchema,
 } from './UpsertUser/UpsertUser.data';
 import { useRouter } from 'next/router';
+import { REQUESTORS_STATUS } from '@/constants/strings';
+import { fullName } from '@/utils/avatarUtils';
 
 export const useUser = () => {
   const router = useRouter();
@@ -32,40 +33,81 @@ export const useUser = () => {
   const [setUserData] = useState<any[]>();
   const [disabled, setDisabled] = useState(true);
   const [tabData, setTabData] = useState({});
+  const [switchLoading, setSwitchLoading] = useState<any>({});
+
+  const [changeStatusTrigger] = usePatchProductUsersMutation();
 
   const param = {
     page: page,
     limit: pageLimit,
     search,
   };
+
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetProductUserListQuery({ param });
 
   const usersData = data?.data?.usercompanyaccounts;
   const metaData = data?.data?.meta;
+
+  const handleChangeStatus = async (rowData: any) => {
+    const status =
+      rowData?.status === REQUESTORS_STATUS?.ACTIVE
+        ? REQUESTORS_STATUS?.INACTIVE
+        : REQUESTORS_STATUS?.ACTIVE;
+    setSwitchLoading((prevState: any) => ({
+      ...prevState,
+      [rowData?._id]: true,
+    }));
+    const response: any = await changeStatusTrigger({
+      id: rowData?._id,
+      body: {
+        status,
+      },
+    });
+    try {
+      response;
+      successSnackbar(
+        response?.data?.message &&
+          `${fullName(
+            rowData?.user?.firstName,
+            rowData?.user?.lastName,
+          )} ${status?.toLocaleLowerCase()} successfully`,
+      );
+    } catch (error) {
+      errorSnackbar(response?.error?.data?.message);
+    } finally {
+      setSwitchLoading({ ...switchLoading, [rowData?._id]: false });
+    }
+  };
+
   const userListColumn = userList(
     usersData,
     selectedUserList,
     setSelectedUserList,
     setIsDrawerOpen,
     setTabData,
+    switchLoading,
+    handleChangeStatus,
   );
 
-  const departmentDropdown = useLazyGetDepartmentDropdownQuery();
-  const rolesDropdown = useLazyGetCompanyAccountsRolesQuery();
+  const rolesDropdown = useLazyGetDepartmentDropdownQuery();
   const usersTeamDropdown = useLazyGetTeamUserListQuery();
 
   const methods: any = useForm({
     resolver: yupResolver(upsertUserValidationSchema),
     defaultValues: upsertUserDefaultValues(tabData),
   });
+
   const { handleSubmit, reset } = methods;
   useEffect(() => {
     reset(upsertUserDefaultValues(tabData));
   }, [isDrawerOpen]);
+
   const [patchProductUsersTrigger, patchProductUsersStatus] =
     usePatchProductUsersMutation();
+
   const [addListUsers, addUsersListStatus] = usePostProductUserListMutation();
+
   const submit = async (data: any) => {
     try {
       const body = {
@@ -80,7 +122,7 @@ export const useUser = () => {
       }
       await addListUsers({ body }).unwrap();
       successSnackbar('Users List added successfully.');
-      handleClose?.();
+      handleClose();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -129,12 +171,14 @@ export const useUser = () => {
     setUserData,
     disabled,
     setDisabled,
-    departmentDropdown,
+    usersTeamDropdown,
     handleClose,
     metaData,
     rolesDropdown,
-    usersTeamDropdown,
     patchProductUsersStatus,
     addUsersListStatus,
+    switchLoading,
+    handleChangeStatus,
+    editProductUsersDetails,
   };
 };

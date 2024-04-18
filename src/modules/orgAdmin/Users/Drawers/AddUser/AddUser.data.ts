@@ -15,11 +15,35 @@ export const superAdminValidationSchema = Yup.object().shape({
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
-  adminRoleId: Yup.string().required('Field is Required'),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
-  phoneNumber: Yup.string().matches(/^\+\d{1,}$/, 'Invalid phone number'),
+  phoneNumber: Yup.string()
+    .nullable() // Allow null or undefined values
+    .matches(/^\+\d{1,}(\s\d+)*$/, 'Invalid phone number')
+    .transform((value, originalValue) => {
+      if (
+        originalValue === '' ||
+        originalValue === null ||
+        originalValue === undefined
+      ) {
+        return null; // Convert empty string or null/undefined to null
+      }
+      return value;
+    }),
+  jobTitle: Yup.string()
+    .nullable() // Allow null or undefined values
+    .matches(/^[A-Za-z]*$/, 'Only alphabetic characters are allowed') // Validate alphabetic characters if provided
+    .transform((value, originalValue) => {
+      if (
+        originalValue === '' ||
+        originalValue === null ||
+        originalValue === undefined
+      ) {
+        return null; // Convert empty string or null/undefined to null
+      }
+      return value;
+    }),
   postCode: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),

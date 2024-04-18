@@ -4,12 +4,13 @@ import { useTheme } from '@mui/material';
 
 export const useTeamsDetails = (props: any) => {
   const theme = useTheme();
-  const { isTeamDrawerOpen } = props;
-  const teamId = isTeamDrawerOpen?.rowId;
+
+  const { teamId, okText, methods } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const { data, isLoading } = useGetTeamsByIdQuery(teamId);
-
+  const [isTeamDrawerOpen, setIsTeamDrawerOpen] = useState<boolean>(false);
   const teamDataArray = data?.data?.accounts || [];
+
   const handleMenuClick = (event: any) => {
     setAnchorEl(event?.currentTarget);
   };
@@ -25,5 +26,9 @@ export const useTeamsDetails = (props: any) => {
     data,
     isLoading,
     theme,
+    isTeamDrawerOpen,
+    setIsTeamDrawerOpen,
+    okText,
+    methods,
   };
 };

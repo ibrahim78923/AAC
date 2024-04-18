@@ -28,7 +28,7 @@ const AddRole = () => {
     productPermissionsData,
     handleSubmit,
     productVal,
-    isLoading,
+    loadingProduct,
     navigate,
     onSubmit,
     disabled,
@@ -42,7 +42,6 @@ const AddRole = () => {
   } = useAddRole();
 
   const { watch } = methods;
-
   const { query } = navigate;
 
   return (
@@ -93,10 +92,12 @@ const AddRole = () => {
                 </Stack>
               </Grid>
               <Grid item xs={12} lg={10} mt={2}>
-                {isLoading ? (
+                {loadingProduct ? (
                   <Skeleton height={80} />
-                ) : viewPerdetails?.data?.permissions?.length === 0 ? (
-                  'No permissions found'
+                ) : productPermissionsData?.data?.length === 0 ? (
+                  <Typography variant="h6" color={theme?.palette?.grey[500]}>
+                    Please assign a plan to this product before proceeding.
+                  </Typography>
                 ) : (
                   <PermissionsAccordion
                     query={query}

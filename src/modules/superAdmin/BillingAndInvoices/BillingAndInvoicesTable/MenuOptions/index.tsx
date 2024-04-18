@@ -62,7 +62,7 @@ const MenuItems = ({
               setAnchorEl(null);
             }}
           >
-            Edit Plan
+            Edit Assign Plan
           </MenuItem>
         </PermissionsGuard>
 

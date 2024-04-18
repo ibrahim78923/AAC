@@ -1,4 +1,5 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
   RHFSelect,
@@ -13,74 +14,82 @@ import SearchableTabsSelect from './searchableTabsSelect';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import useTaskCustomize from './EditColumn/useTaskCustomize';
+import { getSession } from '@/utils';
 
 export const filterDefaultValues = {
-  assignTo: '',
+  assignTo: null,
   status: '',
   priority: '',
   dueDate: null,
 };
 
 export const filterValidationSchema = Yup?.object()?.shape({
-  assignTo: Yup.string(),
-  status: Yup.string(),
-  priority: Yup.string(),
+  assignTo: Yup?.mixed()?.nullable(),
+  status: Yup?.string(),
+  priority: Yup?.string(),
   // dueDate: Yup.date(),
 });
 
-export const filterData = [
-  {
-    md: 12,
-    componentProps: {
-      label: 'Assignee',
-      name: 'assignTo',
-      select: true,
+export const filterData = ({ usersData }: any) => {
+  const { user }: { user: any } = getSession();
+
+  return [
+    {
+      md: 12,
+      componentProps: {
+        label: 'Assignee',
+        name: 'assignTo',
+        placeholder: 'Select option',
+        apiQuery: usersData,
+        externalParams: {
+          organization: user?.organization?._id,
+          limit: 10,
+          role: user?.role,
+        },
+        getOptionLabel: (option: any) =>
+          option?.firstName + ' ' + option?.lastName,
+      },
+      component: RHFAutocompleteAsync,
     },
-    options: [
-      { label: 'Pending', value: 'Pending' },
-      { label: 'Inprogress', value: 'Inprogress' },
-      { label: 'Complete', value: 'Complete' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    md: 12,
-    componentProps: {
-      label: 'Task Status',
-      name: 'status',
-      select: true,
+    {
+      md: 12,
+      componentProps: {
+        label: 'Task Status',
+        name: 'status',
+        select: true,
+      },
+      options: [
+        { label: 'Pending', value: 'Pending' },
+        { label: 'Inprogress', value: 'Inprogress' },
+        { label: 'Complete', value: 'Complete' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { label: 'Pending', value: 'Pending' },
-      { label: 'Inprogress', value: 'Inprogress' },
-      { label: 'Complete', value: 'Complete' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    md: 12,
-    componentProps: {
-      label: 'Priority',
-      name: 'priority',
-      select: true,
+    {
+      md: 12,
+      componentProps: {
+        label: 'Priority',
+        name: 'priority',
+        select: true,
+      },
+      options: [
+        { label: 'Low', value: 'Low' },
+        { label: 'Medium', value: 'Medium' },
+        { label: 'High', value: 'High' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { label: 'Low', value: 'Low' },
-      { label: 'Medium', value: 'Medium' },
-      { label: 'High', value: 'High' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    componentProps: {
-      name: 'dueDate',
-      label: 'Due Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'dueDate',
+        label: 'Due Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
+  ];
+};
 
 export const drawerTasksData = [
   { title: 'Task Name' },
@@ -157,7 +166,7 @@ export const createTaskDefaultValues = ({ data }: any) => {
     type: data?.type ?? '',
     priority: data?.priority ?? '',
     status: data?.status ?? '',
-    assignTo: data?.assignTo ?? '',
+    assignTo: data?.assignTo || null,
     dueDate: isValidDate(inputDate) ? inputDate : null,
     time: isValidDate(inputTime) ? inputTime : null,
     reminder: data?.reminder ?? '',
@@ -165,7 +174,9 @@ export const createTaskDefaultValues = ({ data }: any) => {
   };
 };
 
-export const createTaskData = ({ data }: any) => {
+export const createTaskData = ({ data, usersData }: any) => {
+  const { user }: { user: any } = getSession();
+
   return [
     {
       md: 12,
@@ -221,7 +232,6 @@ export const createTaskData = ({ data }: any) => {
       ],
       component: RHFSelect,
     },
-
     {
       md: 12,
       componentProps: {
@@ -236,13 +246,17 @@ export const createTaskData = ({ data }: any) => {
       componentProps: {
         label: 'Assigned to',
         name: 'assignTo',
-        select: true,
+        placeholder: 'Select option',
+        apiQuery: usersData,
+        externalParams: {
+          organization: user?.organization?._id,
+          limit: 50,
+          role: user?.role,
+        },
+        getOptionLabel: (option: any) =>
+          option?.firstName + ' ' + option?.lastName,
       },
-      options: [
-        { label: 'Jhon Doe', value: 'Jhon Doe' },
-        { label: 'Jhon Doe', value: 'Jhon Doe' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       md: 7,
@@ -287,20 +301,29 @@ export const createTaskData = ({ data }: any) => {
   ];
 };
 
-export const TasksData = () => {
+export const TasksData = ({ data }: any) => {
   const dispatch: any = useAppDispatch();
 
   const { order } = useTaskCustomize({});
   const selectedTaskIds = useAppSelector(
     (state: any) => state?.task?.selectedTaskIds,
   );
+
   const handleClick = (itemId: any) => {
-    if (selectedTaskIds.includes(itemId)) {
+    if (selectedTaskIds?.includes(itemId)) {
       dispatch(
         setSelectedTaskIds(selectedTaskIds?.filter((id: any) => id !== itemId)),
       );
     } else {
       dispatch(setSelectedTaskIds([...selectedTaskIds, itemId]));
+    }
+  };
+  const handleSelectAll = () => {
+    if (selectedTaskIds?.length === data?.length) {
+      dispatch(setSelectedTaskIds([]));
+    } else {
+      const allTaskIds = data.map((task: any) => task?._id);
+      dispatch(setSelectedTaskIds(allTaskIds));
     }
   };
   const columns =
@@ -381,7 +404,14 @@ export const TasksData = () => {
         onClick={() => handleClick(info?.row?.original?._id)}
       />
     ),
-    header: <Checkbox color="primary" name="Id" />,
+    header: (
+      <Checkbox
+        color="primary"
+        name="Id"
+        onClick={handleSelectAll}
+        checked={selectedTaskIds?.length === data?.length}
+      />
+    ),
     isSortable: false,
   };
 

@@ -1,15 +1,12 @@
-import { useGetTicketsDetailsByIdQuery } from '@/services/airServices/tickets/single-ticket-details/details';
-
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { headerDropdownFunction } from './Header.data';
 import { usePutSingleTicketStatusMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useStopwatch } from 'react-timer-hook';
 
 export const useHeader = () => {
   const router = useRouter();
-  const { ticketId } = router.query;
+  const { ticketId } = router?.query;
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -25,9 +22,9 @@ export const useHeader = () => {
 
   const updateTicketStatus = async (status: any) => {
     const updateTicketStatusTicketsParameter = {
-      pathParams: { id: ticketId },
       queryParams: {
         status,
+        id: ticketId,
       },
     };
     try {
@@ -45,28 +42,8 @@ export const useHeader = () => {
     updateTicketStatus,
     setDeleteModalOpen,
   );
-  const getSingleTicketParameter = {
-    pathParam: {
-      ticketId,
-    },
-  };
-  const { data } = useGetTicketsDetailsByIdQuery(getSingleTicketParameter, {
-    refetchOnMountOrArgChange: true,
-    skip: !!!ticketId,
-  });
-  const {
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    reset,
-  } = useStopwatch({ autoStart: true });
+
   return {
-    data,
     router,
     toggleView,
     isIconVisible,
@@ -80,14 +57,5 @@ export const useHeader = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     ticketId,
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    reset,
   };
 };

@@ -12,7 +12,7 @@ import { DATE_FORMAT } from '@/constants';
 import { PAGINATION } from '@/config';
 import { useGetProductsQuery } from '@/services/superAdmin/plan-mangement';
 
-const useFaqs = () => {
+const useQuickLinks = () => {
   const [selectedRow, setSelectedRow]: any = useState([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
@@ -218,4 +218,4 @@ const useFaqs = () => {
   };
 };
 
-export default useFaqs;
+export default useQuickLinks;
