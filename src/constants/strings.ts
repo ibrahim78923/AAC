@@ -472,3 +472,7 @@ export const IMPORT_ACTION_TYPE = {
 export const OBJECT_URL_IMPORT = {
   USERS_ATTACHMENT: '/users/attachment',
 };
+
+export const AUTH_TOKEN_BYPASS_API = {
+  UPLOAD_FILE_TO_S3_USING_SIGNED_URL: 'uploadFileTos3UsingSignedUrl',
+};

@@ -1,4 +1,5 @@
 import { BASE_URL } from '@/config';
+import { AUTH_TOKEN_BYPASS_API } from '@/constants/strings';
 import { RootState } from '@/redux/store';
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
@@ -125,12 +126,16 @@ export const TAGS = [
   'TEAM_LIST',
 ];
 
+const BYPASS_AUTH_API_ROUTES = [
+  AUTH_TOKEN_BYPASS_API?.UPLOAD_FILE_TO_S3_USING_SIGNED_URL,
+];
+
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders: (headers, { getState, endpoint }) => {
     const token = (getState() as RootState)?.auth?.accessToken;
 
-    if (token && endpoint !== 'uploadFileTos3UsingSignedUrl') {
+    if (token && !BYPASS_AUTH_API_ROUTES?.includes(endpoint)) {
       headers.set('Authorization', `Bearer ${token}`);
     }
     return headers;
