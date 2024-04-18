@@ -14,7 +14,7 @@ import {
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const useUpsertSalesWorkflow = () => {
   const [validation, setValidation] = useState(false);
@@ -39,98 +39,100 @@ export const useUpsertSalesWorkflow = () => {
           : typeof action?.fieldValue === workflowFields?.object &&
             workflowFields?.objectId;
   };
-  const submitMessage = validation
-    ? 'Workflow Enabled Successfully'
-    : 'Workflow Saved as Draft Successfully';
+  const groupValues = (groupData: any) => {
+    return groupData?.groups?.map((group: any) => ({
+      ...group,
+      conditions: group?.conditions?.map((condition: any) => ({
+        fieldName: condition?.fieldName?.value,
+        fieldValue: condition?.fieldValue?._id
+          ? condition?.fieldValue?._id
+          : condition?.fieldValue,
+        condition: condition?.condition,
+        fieldType: fieldTypeValues(condition),
+        collectionName:
+          condition?.fieldName?.label === workflowFields?.dealPipeline
+            ? workflowFields?.dealpipelines
+            : condition?.fieldName?.label === workflowFields?.dealStage
+              ? workflowFields?.lifecycleStages
+              : condition?.fieldName?.label === workflowFields?.salesOwner ||
+                  workflowFields?.createdBy ||
+                  workflowFields?.updatedBy
+                ? workflowFields?.users
+                : '',
+      })),
+      conditionType: group?.conditionType?.value,
+    }));
+  };
+  const scheduledValues = (scheduleData: any) => {
+    const time = dayjs(scheduleData?.time)?.format('HH:mm');
+    return {
+      type: scheduleData?.schedule?.toUpperCase(),
+      daily: {
+        time: time,
+      },
+      weekly: {
+        days: [scheduleData?.scheduleDay?.toUpperCase()],
+        time: time,
+      },
+      monthly: {
+        day: Number(
+          dayjs(scheduleData?.scheduleDate)?.format(DATE_TIME_FORMAT?.D),
+        ),
+        time: time,
+      },
+      annually: {
+        month: dayjs(scheduleData?.scheduleMonth)
+          ?.format(DATE_TIME_FORMAT?.MMMM)
+          ?.toLowerCase(),
+        time: time,
+      },
+      custom: {
+        startDate: scheduleData?.custom?.startDate,
+        endDate: scheduleData?.custom?.endDate,
+        time: time,
+      },
+    };
+  };
+  const actionValues = (actionData: any) => {
+    return actionData?.actions?.map((action: any) => ({
+      fieldName: action?.fieldName,
+      fieldValue: action?.fieldValue?._id
+        ? action?.fieldValue?._id
+        : action?.fieldValue,
+      fieldType: fieldTypeValues(action),
+      collectionName:
+        action?.fieldName === workflowFields?.setDealPipeline ||
+        action?.fieldName === workflowFields?.selectDeal
+          ? workflowFields?.deal
+          : action?.fieldName === workflowFields?.setDealOwner
+            ? workflowFields?.contact
+            : action?.fieldName === workflowFields?.addLineItem
+              ? workflowFields?.product
+              : action?.fieldName === workflowFields?.setAssignedTo
+                ? workflowFields?.users
+                : null,
+    }));
+  };
   const handleFormSubmit = async (data: any) => {
-    const time = dayjs(data?.time)?.format(TIME_FORMAT?.API);
     const modifiedData: any = {
       title: data?.title,
       module: data?.module,
       type: data?.type,
       runType: data?.runType?.value,
-      schedule: {
-        type: data?.schedule?.toUpperCase(),
-        daily: {
-          time: time,
-        },
-        weekly: {
-          days: [data?.scheduleDay?.toUpperCase()],
-          time: time,
-        },
-        monthly: {
-          day: Number(dayjs(data?.scheduleDate)?.format(DATE_TIME_FORMAT?.D)),
-          time: time,
-        },
-        annually: {
-          month: dayjs(data?.scheduleMonth)
-            ?.format(DATE_TIME_FORMAT?.MMMM)
-            ?.toLowerCase(),
-          time: time,
-        },
-        custom: {
-          startDate: data?.custom?.startDate,
-          endDate: data?.custom?.endDate,
-          time: time,
-        },
-      },
+      schedule: scheduledValues(data),
       events: data?.events?.value ? [data?.events?.value] : [],
-      groups:
-        data?.groups?.map((group: any) => ({
-          ...group,
-          conditions: group?.conditions?.map((condition: any) => ({
-            fieldName: condition?.fieldName?.value,
-            fieldValue: condition?.fieldValue?._id
-              ? condition?.fieldValue?._id
-              : condition?.fieldValue,
-            condition: condition?.condition,
-            fieldType: fieldTypeValues(condition),
-            collectionName:
-              (condition?.fieldName?.label === workflowFields?.name ||
-                condition?.fieldName?.label === workflowFields?.lostReason ||
-                condition?.fieldName?.label ===
-                  workflowFields?.updateQuoteName ||
-                condition?.fieldName?.label === workflowFields?.title) &&
-              (condition?.condition === workflowFields?.isEmpty ||
-                condition?.condition === workflowFields?.isNotEmpty)
-                ? workflowFields?.deal
-                : (condition?.fieldName?.label === workflowFields?.salesOwner ||
-                      condition?.fieldName?.label ===
-                        workflowFields?.createdBy ||
-                      condition?.fieldName?.label ===
-                        workflowFields?.updatedBy) &&
-                    (condition?.condition === workflowFields?.isEmpty ||
-                      condition?.condition === workflowFields?.isNotEmpty)
-                  ? workflowFields?.contact
-                  : null,
-          })),
-          conditionType: group?.conditionType?.value,
-        })) ?? [],
+      groups: groupValues(data) ?? [],
       groupCondition: data?.groupCondition,
-      actions: data?.actions?.map((action: any) => ({
-        fieldName: action?.fieldName,
-        fieldValue: action?.fieldValue?._id
-          ? action?.fieldValue?._id
-          : action?.fieldValue,
-        fieldType: fieldTypeValues(action),
-        collectionName:
-          action?.fieldName === workflowFields?.setDealPipeline ||
-          action?.fieldName === workflowFields?.selectDeal
-            ? workflowFields?.deal
-            : action?.fieldName === workflowFields?.setDealOwner
-              ? workflowFields?.contact
-              : action?.fieldName === workflowFields?.addLineItem
-                ? workflowFields?.product
-                : action?.fieldName === workflowFields?.setAssignedTo
-                  ? workflowFields?.user
-                  : null,
-      })),
+      actions: actionValues(data),
     };
     const response: any = validation
       ? await postSalesWorkflowTrigger(modifiedData)
       : await saveDraftTrigger(modifiedData);
     try {
       response;
+      const submitMessage = validation
+        ? `${response?.data?.data?.title} Workflow Created Successfully`
+        : `${response?.data?.data?.title} Workflow Saved as Draft Successfully`;
       successSnackbar(response?.data?.message && submitMessage);
       reset();
       back();

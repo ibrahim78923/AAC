@@ -24,14 +24,21 @@ export const salesSchema: any = Yup?.object()?.shape({
         Yup?.object()?.shape({
           fieldName: Yup?.mixed()?.required('Required'),
           condition: Yup?.string()?.required('Required'),
-          fieldValue: Yup?.mixed()?.required('Required'),
+          fieldValue: Yup?.mixed()?.when('condition', {
+            is: (type: string) =>
+              type === workflowTypes?.isEmpty ||
+              workflowTypes?.isNotEmpty ||
+              workflowTypes?.isBlank,
+            then: (schema: any) => schema?.notRequired(),
+            otherwise: (schema: any) => schema?.required('Required'),
+          }),
         }),
       ),
     }),
   ),
   actions: Yup?.array()?.of(
     Yup?.object()?.shape({
-      fieldName: Yup?.string()?.required('Required'),
+      fieldName: Yup?.mixed()?.required('Required'),
       fieldValue: Yup?.mixed()?.required('Required'),
     }),
   ),
@@ -61,12 +68,15 @@ export const salesValues = {
       conditions: [{ fieldName: null, condition: '', fieldValue: null }],
     },
   ],
-  actions: [{ fieldName: '', fieldValue: null }],
+  actions: [{ fieldName: null, fieldValue: null }],
 };
 
 export const workflowTypes = {
   eventBase: 'EVENT_BASE',
   scheduled: 'SCHEDULED',
+  isEmpty: 'is empty',
+  isNotEmpty: 'is not empty',
+  isBlank: 'is blank',
 };
 export const workflowFields = {
   object: 'object',
@@ -91,5 +101,11 @@ export const workflowFields = {
   deal: 'deal',
   contact: 'contact',
   product: 'product',
-  user: 'user',
+  users: 'users',
+  isIn: 'is in',
+  isNotIn: 'is not in',
+  dealPipeline: 'Deal Pipeline',
+  dealpipelines: 'dealpipelines',
+  dealStage: 'Deal Stage',
+  lifecycleStages: 'lifecycleStages',
 };

@@ -16,10 +16,15 @@ const setDealStageOption = [
   'Lost',
 ];
 const setPriorityOption = ['Low', 'Medium', 'High'];
-const setBillOption = ['Monthly', 'Quarterly'];
+const setBillOption = [
+  'monthly',
+  'quarterly',
+  'semi annually',
+  'annually',
+  'two years',
+];
 const setTaskTypeOption = ['Call', 'Email'];
-const setTaskStatusOption = ['Pending', 'In-Progress', 'Completed'];
-const associateOption = ['Companies', 'Contacts', 'Deals', 'Tickets'];
+const setTaskStatusOption = ['Pending', 'Inprogress', 'Completed'];
 const reminderOption = [
   'Today',
   'Tomorrow',
@@ -33,12 +38,11 @@ export const actionsExecutedFields = (
   watch: any,
   dealsDropdown: any,
   contactDropdown: any,
-  productDropdown: any,
   userDropdown: any,
 ) => {
   const moduleType = watch('module');
   const keyOptions = actionKeys[moduleType] || [];
-  const watchKey = watch(`actions.${index}.fieldName`);
+  const watchKey = watch(`actions.${index}.fieldName`)?.label;
   let component = RHFTextField;
   let componentProps: any = { placeholder: 'Type here' };
   if (moduleType === actionName?.deals) {
@@ -47,7 +51,7 @@ export const actionsExecutedFields = (
         (componentProps = {
           apiQuery: dealsDropdown,
           externalParams: { meta: false },
-          placeholder: 'Select Deal',
+          placeholder: 'Select Deal Pipeline',
         });
     } else if (watchKey === actionName?.setDealStage) {
       (component = RHFAutocomplete),
@@ -71,7 +75,7 @@ export const actionsExecutedFields = (
       (component = RHFAutocompleteAsync),
         (componentProps = {
           apiQuery: contactDropdown,
-          externalParams: { limit: 50 },
+          externalParams: { limit: 100 },
           placeholder: 'Select Contact',
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
@@ -82,19 +86,20 @@ export const actionsExecutedFields = (
           options: setPriorityOption,
           placeholder: 'Select Priority',
         });
-    } else if (watchKey === actionName?.addLineItem) {
-      (component = RHFAutocompleteAsync),
-        (componentProps = {
-          apiQuery: productDropdown,
-          externalParams: { limit: 50 },
-          placeholder: 'Select Product',
-        });
     } else if (watchKey === actionName?.setBillingFrequency) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setBillOption,
           placeholder: 'Select Frequency',
         });
+    }
+  } else if (moduleType === actionName?.quotes) {
+    if (watchKey === actionName?.status) {
+      component = RHFAutocomplete;
+      componentProps = {
+        placeholder: 'Select Status',
+        options: setTaskStatusOption,
+      };
     }
   } else if (moduleType === actionName?.salesTasks) {
     if (watchKey === actionName?.setTaskType) {
@@ -114,19 +119,6 @@ export const actionsExecutedFields = (
         (componentProps = {
           options: setTaskStatusOption,
           placeholder: 'Select Status',
-        });
-    } else if (watchKey === actionName?.selectDeal) {
-      (component = RHFAutocompleteAsync),
-        (componentProps = {
-          apiQuery: dealsDropdown,
-          externalParams: { meta: false },
-          placeholder: 'Select Deal',
-        });
-    } else if (watchKey === actionName?.associateWithRecords) {
-      (component = RHFAutocomplete),
-        (componentProps = {
-          options: associateOption,
-          placeholder: 'Select Record',
         });
     } else if (watchKey === actionName?.setAssignedTo) {
       (component = RHFAutocompleteAsync),
@@ -164,6 +156,8 @@ export const actionsExecutedFields = (
         name: `actions.${index}.fieldName`,
         placeholder: 'Select Action',
         options: keyOptions,
+        getOptionLabel: (option: any) =>
+          option?.label ? option?.label : option,
       },
       component: RHFAutocomplete,
     },
@@ -181,33 +175,29 @@ export const actionsExecutedFields = (
 
 export const actionKeys: any = {
   DEALS: [
-    'Set Deal Pipeline',
-    'Set Deal Stage',
-    'Set Amount',
-    'Set Close Date',
-    'Set Deal Owner',
-    'Set Priority',
-    'Add line item',
-    'Set Billing Frequency',
-    'Send Email to contacts',
+    { value: 'dealPipelineId', label: 'Set Deal Pipeline' },
+    { value: 'dealStageId', label: 'Set Deal Stage' },
+    { value: 'amount', label: 'Set Amount' },
+    { value: 'closeDate', label: 'Set Close Date' },
+    { value: 'ownerId', label: 'Set Deal Owner' },
+    { value: 'priority', label: 'Set Priority' },
+    { value: 'billingFrequency', label: 'Set Billing Frequency' },
   ],
-  QUOTES: ['Send Email to contacts'],
+  QUOTES: [{ value: 'status', label: 'Status' }],
   SALES_TASKS: [
-    'Set Task Type',
-    'Set Priority',
-    'Set Task Status',
-    'Select deal',
-    'Associate with records',
-    'Set Assigned to',
-    'Set Due Date',
-    'Set Reminder',
-    'Add Note',
-    'Send Email to contacts',
+    { value: 'type', label: 'Set Task Type' },
+    { value: 'priority', label: 'Set Priority' },
+    { value: 'status', label: 'Set Task Status' },
+    { value: 'assignTo', label: 'Set Assigned to' },
+    { value: 'dueDate', label: 'Set Due Date' },
+    { value: 'reminder', label: 'Set Reminder' },
+    { value: 'note', label: 'Add Note' },
   ],
 };
 export const actionName = {
   deals: 'DEALS',
   salesTasks: 'SALES_TASKS',
+  quotes: 'QUOTES',
   setDealPipeline: 'Set Deal Pipeline',
   setDealStage: 'Set Deal Stage',
   setAmount: 'Set Amount',
@@ -224,4 +214,5 @@ export const actionName = {
   setDueDate: 'Set Due Date',
   setReminder: 'Set Reminder',
   addNote: 'Add Note',
+  status: 'Status',
 };

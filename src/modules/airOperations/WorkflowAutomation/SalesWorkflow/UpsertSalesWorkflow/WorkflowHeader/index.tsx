@@ -11,12 +11,8 @@ import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 
 export const WorkflowHeader = (props: any) => {
   const { isLoading, saveLoading, setValidation } = props;
-  const {
-    handleMoveBack,
-    openWorkflowModal,
-    setOpenWorkflowModal,
-    handleCancel,
-  } = useWorkflowHeader(props);
+  const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal } =
+    useWorkflowHeader(props);
   return (
     <Box>
       <Box
@@ -37,7 +33,7 @@ export const WorkflowHeader = (props: any) => {
             variant="outlined"
             color="secondary"
             disabled={saveLoading || isLoading}
-            onClick={handleCancel}
+            onClick={handleMoveBack}
           >
             Cancel
           </LoadingButton>

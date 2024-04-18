@@ -123,7 +123,22 @@ export const salesWorkflowListsColumnDynamic: any = (
       id: 'type',
       isSortable: true,
       header: 'Type',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        const capitalizeFirstLetter = (type: string) =>
+          type
+            ?.split('_')
+            ?.map(
+              (word: string) =>
+                word?.charAt(0)?.toUpperCase() + word?.slice(1)?.toLowerCase(),
+            )
+            ?.join(' ');
+
+        const capitalizedType = info?.getValue()
+          ? capitalizeFirstLetter(info?.getValue())
+          : '';
+
+        return capitalizedType;
+      },
     },
     {
       accessorFn: (row: any) => row?.activity,

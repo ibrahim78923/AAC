@@ -6,7 +6,6 @@ import { errorSnackbar, warningSnackbar } from '@/utils/api';
 import {
   useLazyGetContactDropdownListQuery,
   useLazyGetDealDropdownListQuery,
-  useLazyGetProductsDropdownListQuery,
   useLazyGetUserDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 
@@ -34,12 +33,11 @@ export const useWorkflowActionExecuted = (props: any) => {
   const { palette } = useTheme();
   const dealsDropdown = useLazyGetDealDropdownListQuery();
   const contactDropdown = useLazyGetContactDropdownListQuery();
-  const productDropdown = useLazyGetProductsDropdownListQuery();
   const userDropdown = useLazyGetUserDropdownListQuery();
   const moduleType = watch('module');
   useEffect(() => {
     fields?.forEach((_, index) => {
-      setValue(`actions.${index}.fieldName`, '');
+      setValue(`actions.${index}.fieldName`, null);
       setValue(`actions.${index}.fieldValue`, null);
     });
   }, [moduleType]);
@@ -50,7 +48,6 @@ export const useWorkflowActionExecuted = (props: any) => {
     handleDeleteClick,
     dealsDropdown,
     contactDropdown,
-    productDropdown,
     userDropdown,
   };
 };
