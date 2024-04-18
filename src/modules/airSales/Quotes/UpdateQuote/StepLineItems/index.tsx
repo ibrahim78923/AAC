@@ -220,7 +220,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
             <Box sx={styles?.vRow}>
               <Box sx={styles?.bodyCell}>
                 {taxCalculationPerc?.map((item: any) => {
-                  return item.name;
+                  return item?.name;
                 })}
               </Box>
               <Box sx={styles?.bodyCellH}>{totalPercentage}</Box>

@@ -42,7 +42,7 @@ const Quotation = () => {
       <Box sx={styles?.bRow}>
         <Box sx={styles?.bHead}>
           {taxCalculationPerc?.map((item: any) => {
-            return item.name;
+            return item?.name;
           })}
         </Box>
         <Box sx={styles?.bCell}>{totalPercentage}</Box>

@@ -11,9 +11,6 @@ import useDealTab from '../DealTab/useDealTab';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  // dealPipelineId: Yup?.string(),
-  // dealOwnerId: Yup?.string(),
-  // sharedWith: Yup?.string(),
 });
 
 export const defaultValues = {
