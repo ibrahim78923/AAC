@@ -19,12 +19,13 @@ const useNotesEditorDrawer = (props: any) => {
     setSelectedCheckboxes,
     setOpenDrawer,
     selectedCheckboxes,
+    recordId,
   } = props;
 
   // TODO: for edit getting first index of array
   const editCheckBoxes = selectedCheckboxes && selectedCheckboxes[0];
 
-  const [postDealNote] = usePostDealNoteMutation();
+  const [postDealNote, { isLoading: loadingNote }] = usePostDealNoteMutation();
   const [updateDealNote] = useUpdateDealNoteMutation();
 
   const methodsdealsNotes = useForm({
@@ -51,7 +52,7 @@ const useNotesEditorDrawer = (props: any) => {
     const formData = new FormData();
     formData.append('file', values?.file);
     //Todo: using static id temporarily because deals list will be implemented by someone else
-    formData.append('recordId', '654dbb4a211df87d0a9c4d80');
+    formData.append('recordId', recordId);
     formData.append('description', values?.description);
     formData.append('title', values?.title);
 
@@ -63,13 +64,15 @@ const useNotesEditorDrawer = (props: any) => {
           })?.unwrap()
         : await postDealNote({ body: formData })?.unwrap();
       enqueueSnackbar(
-        `Note ${openDrawer === 'Edit' ? 'Updated' : 'Added '} Successfully`,
+        `Note has been ${
+          openDrawer === 'Edit' ? 'updated' : 'added'
+        } Successfully`,
         { variant: 'success' },
       );
       onCloseDrawer();
       setSelectedCheckboxes([]);
-    } catch (error) {
-      const errMsg = error?.data?.message;
+    } catch (error: any) {
+      const errMsg = error?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
   };
@@ -79,7 +82,13 @@ const useNotesEditorDrawer = (props: any) => {
     setOpenDrawer('');
     reset();
   };
-  return { handleSubmit, onSubmit, methodsdealsNotes, onCloseDrawer };
+  return {
+    handleSubmit,
+    onSubmit,
+    methodsdealsNotes,
+    onCloseDrawer,
+    loadingNote,
+  };
 };
 
 export default useNotesEditorDrawer;

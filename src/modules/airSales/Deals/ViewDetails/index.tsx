@@ -236,7 +236,7 @@ const ViewDetails = () => {
 
               <Tasks selectedRecId={id} />
 
-              <Notes />
+              <Notes selected={id} />
               <Calls />
               <Meetings />
               <Emails />

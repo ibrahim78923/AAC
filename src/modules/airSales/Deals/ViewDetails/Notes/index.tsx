@@ -22,7 +22,7 @@ import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Notes = () => {
+const Notes = ({ selected }: any) => {
   const {
     openDrawer,
     setOpenDrawer,
@@ -31,7 +31,7 @@ const Notes = () => {
     handleCheckboxChange,
     data,
     setPagination,
-  } = useNotes();
+  } = useNotes(selected);
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
 
   return (
@@ -63,8 +63,9 @@ const Notes = () => {
                     variant="contained"
                     className="small"
                     onClick={() => setOpenDrawer('Add')}
+                    startIcon={<PlusIcon />}
                   >
-                    <PlusIcon /> Add Notes
+                    Add Notes
                   </Button>
                 </PermissionsGuard>
               </Box>
@@ -87,10 +88,11 @@ const Notes = () => {
               </Typography>
               <Button
                 variant="contained"
-                sx={{ height: '35px' }}
+                className="small"
                 onClick={() => setOpenDrawer('Add')}
+                startIcon={<PlusIcon />}
               >
-                <PlusIcon /> Add Notes
+                Add Notes
               </Button>
             </Box>
           )}
@@ -184,6 +186,7 @@ const Notes = () => {
           setOpenDrawer={setOpenDrawer}
           setSelectedCheckboxes={setSelectedCheckboxes}
           selectedCheckboxes={selectedCheckboxes}
+          recordId={selected}
         />
       )}
     </Box>
