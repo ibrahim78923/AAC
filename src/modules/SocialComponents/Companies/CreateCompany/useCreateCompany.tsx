@@ -33,8 +33,23 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
+    const formData = new FormData();
+
+    formData.append('noOfEmloyee', values?.noOfEmloyee);
+    formData.append('totalRevenue', values?.totalRevenue);
+    formData.append('domain', values?.domain);
+    formData.append('name', values?.name);
+    formData.append('ownerId', values?.ownerId);
+    formData.append('industry', values?.industry);
+    formData.append('type', values?.type);
+    formData.append('city', values?.city);
+    formData.append('postalCode', values?.postalCode);
+    formData.append('address', values?.address);
+    formData.append('description', values?.description);
+    formData.append('linkedInUrl', values?.linkedInUrl);
+
     try {
-      postCompanies({ body: values });
+      postCompanies({ body: formData });
       enqueueSnackbar(`Company Created Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });

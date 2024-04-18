@@ -6,6 +6,7 @@ export const usePlanFeatures = () => {
   const [openFeaturesModal, setOpenFeaturesModal] = useState(false);
   const [featureDetail, setFeatureDetail] = useState('');
   const [featureName, setFeatureName] = useState('');
+  const [featureId, setFeatureId] = useState('');
   const [accordianId, setAccordianId] = useState('');
   const theme = useTheme();
 
@@ -39,5 +40,7 @@ export const usePlanFeatures = () => {
     planData: data,
     setAccordianId,
     accordianId,
+    featureId,
+    setFeatureId,
   };
 };

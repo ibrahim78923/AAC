@@ -20,7 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 const CreateViewCompany = (props: any) => {
   const { isCreateView, setIsCreateView } = props;
   const { methods, theme, handleSubmit, onSubmit, reset } =
-    useCreateViewCompany();
+    useCreateViewCompany(setIsCreateView);
 
   return (
     <>
