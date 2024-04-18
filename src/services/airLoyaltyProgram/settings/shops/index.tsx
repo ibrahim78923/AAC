@@ -12,7 +12,15 @@ export const manageShopAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getShop: builder?.query({
+      query: (params: any) => ({
+        url: ``,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
-export const { useAddShopMutation } = manageShopAPI;
+export const { useAddShopMutation, useGetShopQuery } = manageShopAPI;
