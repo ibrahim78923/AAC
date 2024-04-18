@@ -17,6 +17,7 @@ export default function RHFRadioGroup({
   options,
   required,
   disabled,
+  defaultValue,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -25,6 +26,7 @@ export default function RHFRadioGroup({
     <Controller
       name={name}
       control={control}
+      defaultValue={defaultValue}
       render={({ field, fieldState: { error } }) => (
         <>
           <Box position="relative" sx={other?.boxSx}>
