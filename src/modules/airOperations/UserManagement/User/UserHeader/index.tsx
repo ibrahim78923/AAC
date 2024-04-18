@@ -11,7 +11,6 @@ import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/pe
 export const UserHeader = (props: any) => {
   const {
     selectedUserList,
-    patchProductUsersStatus,
     addUsersListStatus,
     submit,
     handleSubmit,
@@ -71,7 +70,6 @@ export const UserHeader = (props: any) => {
           methods={methods}
           handleSubmit={handleSubmit}
           submit={submit}
-          patchProductUsersStatus={patchProductUsersStatus}
           addUsersListStatus={addUsersListStatus}
         />
         {deleteModal && (

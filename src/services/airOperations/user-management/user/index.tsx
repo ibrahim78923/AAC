@@ -110,7 +110,7 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
     }),
     getViewProductUsers: builder.query({
       query: (id: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}${id}`,
+        url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
         method: 'GET',
       }),
       providesTags: [TAG],
@@ -149,4 +149,5 @@ export const {
   useLazyGetTeamsByIdQuery,
   useLazyGetProductTeamUserListDropdownQuery,
   useLazyGetProductUserDropdownQuery,
+  useLazyGetViewProductUsersQuery,
 } = userManagementAPI;

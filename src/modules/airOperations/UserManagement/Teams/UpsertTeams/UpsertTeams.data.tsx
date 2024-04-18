@@ -35,7 +35,7 @@ export const upsertTeamArray = (usersTeamDropdown: any) => [
       required: true,
       multiple: true,
       apiQuery: usersTeamDropdown,
-      externalParams: { meta: false, limit: 100 },
+      externalParams: { limit: 100 },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

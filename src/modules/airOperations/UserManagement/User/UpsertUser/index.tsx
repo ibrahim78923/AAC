@@ -10,7 +10,7 @@ function UpsertUser({
   title,
   okText,
   setIsDrawerOpen,
-  usersData,
+  tabData,
   methods,
   handleSubmit,
   submit,
@@ -75,8 +75,8 @@ function UpsertUser({
                       disabled={title === USER_MANAGEMENT?.USERVIEW && disabled}
                       placeholder={
                         title === USER_MANAGEMENT?.USERVIEW &&
-                        usersData?.length > 0
-                          ? (usersData?.[0]?.[
+                        tabData?.length > 0
+                          ? (tabData?.[0]?.[
                               item?.componentProps?.name
                             ] as string)
                           : item?.componentProps?.placeholder

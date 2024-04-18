@@ -26,7 +26,6 @@ export const userList = (
   setTabData: any,
   switchLoading: any,
   handleChangeStatus: any,
-  router: any,
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -94,10 +93,6 @@ export const userList = (
             onClick={() => {
               setIsDrawerOpen(true);
               setTabData(info?.row?.original);
-              router?.push({
-                pathname: router?.pathname,
-                query: { ...router?.query, userId: info?.row?.original?._id },
-              });
             }}
           >
             {fullNameInitial(

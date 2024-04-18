@@ -25,9 +25,8 @@ export const User = (props: any) => {
     methods,
     handleSubmit,
     submit,
-    router,
-    onClose,
-    userIdData,
+    tabData,
+    setIsDrawerOpen,
   } = useUser();
   return (
     <Box>
@@ -41,20 +40,18 @@ export const User = (props: any) => {
         submit={submit}
       />
       <Box mt={'0.75rem'}>
-        {router?.query?.userId && (
-          <UpsertUser
-            isDrawerOpen={isDrawerOpen || router?.query?.userId}
-            setIsDrawerOpen={onClose}
-            title={'User View'}
-            okText={'Save'}
-            methods={methods}
-            handleSubmit={handleSubmit}
-            submit={submit}
-            usersData={userIdData}
-            patchProductUsersStatus={patchProductUsersStatus}
-            addUsersListStatus={addUsersListStatus}
-          />
-        )}
+        <UpsertUser
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          title={'User View'}
+          okText={'Save'}
+          methods={methods}
+          handleSubmit={handleSubmit}
+          submit={submit}
+          tabData={tabData}
+          patchProductUsersStatus={patchProductUsersStatus}
+          addUsersListStatus={addUsersListStatus}
+        />
         <PermissionsGuard
           permissions={[
             AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.USER_LIST,

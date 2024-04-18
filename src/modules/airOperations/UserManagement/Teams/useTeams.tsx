@@ -32,7 +32,7 @@ export const useTeams = () => {
   const param = {
     page: page,
     limit: pageLimit,
-    search,
+    search: search,
   };
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetTeamListQuery({ param });
