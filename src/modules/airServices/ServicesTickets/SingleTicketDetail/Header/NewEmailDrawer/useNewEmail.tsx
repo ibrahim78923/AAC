@@ -10,7 +10,7 @@ import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-t
 export const useNewEmailDrawer = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
 
-  const [trigger] = usePostNewEmailMutation();
+  const [trigger, status] = usePostNewEmailMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(addEmailValidationSchema),
@@ -49,5 +49,6 @@ export const useNewEmailDrawer = (props: any) => {
     isDrawerOpen,
     setIsDrawerOpen,
     onClose,
+    status,
   };
 };
