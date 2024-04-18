@@ -48,6 +48,7 @@ export const buildQueryParams = (
     if (neglectKeysInLoop?.includes(key)) return;
     if (value instanceof Date)
       return getQueryParam?.append(key, value?.toISOString());
+    if (typeof value === 'string') return getQueryParam?.append(key, value);
     getQueryParam?.append(key, value?._id);
   });
 

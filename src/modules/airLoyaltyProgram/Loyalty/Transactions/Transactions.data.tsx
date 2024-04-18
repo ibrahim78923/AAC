@@ -1,9 +1,32 @@
 import { Avatar, Box } from '@mui/material';
-import { TransactionsListI } from './Transactions.interface';
-import { AvatarImage } from '@/assets/images';
-import { ProfileImage } from '@/assets/images';
+import {
+  LOYALTY_TRANSACTIONS_CHANNEL_MAPPED,
+  LOYALTY_TRANSACTIONS_TYPE_MAPPED,
+} from '@/constants/api-mapped';
+import {
+  LOYALTY_TRANSACTIONS_CHANNEL,
+  LOYALTY_TRANSACTIONS_TYPE,
+} from '@/constants/strings';
 
-export const transactionsListData: TransactionsListI[] = [
+export const loyaltytransactionType = [
+  {
+    _id: LOYALTY_TRANSACTIONS_TYPE?.DIGITAL_REWARD,
+    label: LOYALTY_TRANSACTIONS_TYPE_MAPPED?.DIGITAL_REWARD,
+  },
+  {
+    _id: LOYALTY_TRANSACTIONS_TYPE?.PHYSICAL_REWARD,
+    label: LOYALTY_TRANSACTIONS_TYPE_MAPPED?.PHYSICAL_REWARD,
+  },
+];
+
+export const loyaltytransactionChannel = [
+  {
+    _id: LOYALTY_TRANSACTIONS_CHANNEL?.BUSINESS_DASHBOARD,
+    label: LOYALTY_TRANSACTIONS_CHANNEL_MAPPED?.BUSINESS_DASHBOARD,
+  },
+];
+
+export const transactionsListData = [
   {
     id: 1,
     contactEmail: `peter.parker@zylker.com.`,
@@ -11,7 +34,7 @@ export const transactionsListData: TransactionsListI[] = [
     channel: `customer app`,
     type: `Physical reward`,
     credits: -72,
-    icon: AvatarImage,
+    icon: '',
   },
   {
     id: 2,
@@ -20,63 +43,10 @@ export const transactionsListData: TransactionsListI[] = [
     channel: `Business dashboard`,
     type: `Points redemption`,
     credits: 15,
-    icon: ProfileImage,
-  },
-  {
-    id: 3,
-    contactEmail: `peter.parker@zylker.com.`,
-    shopName: `ABC shop`,
-    channel: `customer app`,
-    type: `Points redemption`,
-    credits: -25,
-    icon: AvatarImage,
-  },
-  {
-    id: 4,
-    contactEmail: `peter@zylker.com.`,
-    shopName: `ABC shop`,
-    channel: `Business dashboard`,
-    type: `Points redemption`,
-    credits: -90,
-    icon: ProfileImage,
-  },
-  {
-    id: 5,
-    contactEmail: `peter@zylker.com.`,
-    shopName: `ABC shop`,
-    channel: `customer app`,
-    type: `Points redemption`,
-    credits: 90,
-    icon: AvatarImage,
-  },
-  {
-    id: 6,
-    contactEmail: `peter@zylker.com.`,
-    shopName: `ABC shop`,
-    channel: `Business dashboard`,
-    type: `loyalty credits`,
-    credits: 90,
-    icon: ProfileImage,
-  },
-  {
-    id: 7,
-    contactEmail: `peter@zylker.com.`,
-    shopName: `ABC shop`,
-    channel: `customer app`,
-    type: `loyalty credits`,
-    credits: 90,
-    icon: AvatarImage,
-  },
-  {
-    id: 8,
-    contactEmail: `peter@zylker.com.`,
-    shopName: `ABC shop`,
-    channel: `customer app`,
-    type: `loyalty credits`,
-    credits: 90,
-    icon: ProfileImage,
+    icon: '',
   },
 ];
+
 export const TransactionsList: any = () => [
   {
     accessorFn: (row: any) => row?.contactEmail,

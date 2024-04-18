@@ -20,6 +20,7 @@ export const PageTitledHeader = ({
   createPermissionKey,
   exportPermissionKey,
   importPermissionKey,
+  children,
 }: any) => {
   return (
     <>
@@ -69,6 +70,7 @@ export const PageTitledHeader = ({
               />
             </PermissionsGuard>
           )}
+          {children}
           {!!addTitle?.length && (
             <PermissionsGuard permissions={createPermissionKey}>
               <Button
