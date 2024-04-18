@@ -1,8 +1,5 @@
-import { Typography } from '@mui/material';
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
+import { Box, Typography } from '@mui/material';
 import ShopsTab from './ShopsTab';
-import GroupsTab from './GroupsTab';
-import { managementTabs } from './management.data';
 
 const Management = () => {
   return (
@@ -10,10 +7,12 @@ const Management = () => {
       <Typography variant="h3" pb={2.4} textTransform="capitalize">
         manage Shop
       </Typography>
-      <HorizontalTabs tabsDataArray={managementTabs} spacing={0}>
+      <Typography variant="h4" pb={2}>
+        Shops
+      </Typography>
+      <Box>
         <ShopsTab />
-        <GroupsTab />
-      </HorizontalTabs>
+      </Box>
     </>
   );
 };
