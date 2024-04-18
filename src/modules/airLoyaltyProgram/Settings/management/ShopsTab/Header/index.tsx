@@ -39,13 +39,15 @@ export const Header = ({
           />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={handleSelectAll}
-          >
-            Select All
-          </Button>
+          {!!selectedCardList?.length && (
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleSelectAll}
+            >
+              Select All
+            </Button>
+          )}
           <UpsertShop
             addShopModalOpen={addShopModalOpen}
             setAddShopModalOpen={setAddShopModalOpen}
