@@ -40,7 +40,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
 
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
 
-  const methods: any = useForm({
+  const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: initValues,
   });
@@ -48,14 +48,14 @@ const FormCreateProduct = ({ open, onClose }: any) => {
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
-    formData?.append('image', values?.image);
-    formData?.append('name', values?.name);
-    formData?.append('sku', values?.sku);
-    formData?.append('purchasePrice', values?.purchasePrice);
-    formData?.append('category', values?.category);
-    formData?.append('description', values?.description);
-    formData?.append('unitPrice', values?.unitPrice);
-    formData?.append('isActive', values?.active);
+    formData.append('name', values?.name);
+    formData.append('sku', values?.sku);
+    formData.append('purchasePrice', values?.purchasePrice);
+    formData.append('category', values?.category);
+    formData.append('description', values?.description);
+    formData.append('unitPrice', values?.unitPrice);
+    formData.append('isActive', values?.isActive);
+    formData.append('image', values?.file);
     if (actionType === 'edit') {
       try {
         await updateProductById({ id: productId, body: formData })
