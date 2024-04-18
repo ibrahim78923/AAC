@@ -155,8 +155,8 @@ export const assignPlanData = (
     },
     {
       componentProps: {
-        name: 'defaultUserTwo',
-        label: 'Default User',
+        name: 'defaultStorage',
+        label: 'Default storage',
         fullWidth: true,
         disabled: true,
       },

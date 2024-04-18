@@ -1,6 +1,11 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
+import {
+  assetsFieldsOption,
+  taskFieldsOption,
+  ticketsFields,
+} from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -12,12 +17,6 @@ export const andRunOptions = [
   { value: 'RECURRENT', label: 'Recurring, for the same record' },
 ];
 
-export const eventOptions = [
-  { value: 'created', label: 'When a record is created' },
-  { value: 'updated', label: 'When a record is updated' },
-  { value: 'deleted', label: 'When a record is deleted' },
-];
-
 export const conditionTypeOptions = [
   { value: 'AND', label: 'Match ALL condition in this group' },
   { value: 'OR', label: 'Match ANY condition in this group' },
@@ -26,11 +25,10 @@ export const conditionTypeOptions = [
 export const actionsOptions = [
   { value: 'status', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
-  { value: 'type', label: 'Set Type as' },
+  { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
   { value: 'dueDate', label: 'Set Due Date as' },
   { value: 'category', label: 'Set Category as' },
-  { value: 'status', label: 'Set Status as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
   { value: 'addTask', label: 'Add Task' },
@@ -46,7 +44,6 @@ export const rulesWorkflowSchema = Yup?.object()?.shape({
   description: Yup?.string(),
   runType: Yup?.mixed()?.nullable()?.required('Required'),
   module: Yup?.string()?.required('Required'),
-  events: Yup?.mixed()?.nullable()?.required('Required'),
   groups: Yup?.array()?.of(
     Yup?.object()?.shape({
       name: Yup?.string()?.required('Required'),
@@ -56,7 +53,7 @@ export const rulesWorkflowSchema = Yup?.object()?.shape({
         Yup?.lazy((value: any) => {
           if (value?.key === 'email') {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.string()
                 ?.email('Invalid email')
@@ -65,13 +62,13 @@ export const rulesWorkflowSchema = Yup?.object()?.shape({
             });
           } else if (value?.key === 'number') {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.number()?.nullable()?.required('Required'),
             });
           } else {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
             });
@@ -112,22 +109,22 @@ export const rulesWorkflowSchema = Yup?.object()?.shape({
 });
 
 export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
+  const allFields = [
+    ...ticketsFields,
+    ...taskFieldsOption,
+    ...assetsFieldsOption,
+  ];
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.SUPERVISOR_RULES,
     description: singleWorkflowData?.description ?? '',
-    events: singleWorkflowData?.events?.[0]
-      ? eventOptions?.find(
-          (item: any) => item?.value === singleWorkflowData?.events?.[0],
-        )
-      : null,
     runType: singleWorkflowData?.runType
       ? andRunOptions?.find(
           (item: any) => item?.value === singleWorkflowData?.runType,
         )
       : null,
     module: SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? '',
+    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: any) => {
       return {
         name: group?.name ?? '',
@@ -138,7 +135,12 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         conditions: group?.conditions?.map((condition: any, cIndex: any) => {
           return {
-            fieldName: condition?.fieldName ?? '',
+            options: 'Ticket Fields',
+            fieldName: condition?.fieldName
+              ? allFields?.find(
+                  (item: any) => item?.value === condition?.fieldName,
+                )
+              : null,
             condition: condition?.condition ?? '',
             fieldValue:
               condition?.fieldType === 'objectId'
@@ -155,18 +157,7 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
         conditionType: null,
         conditions: [
           {
-            fieldName: '',
-            condition: '',
-            fieldValue: null,
-          },
-        ],
-      },
-      {
-        name: '',
-        conditionType: null,
-        conditions: [
-          {
-            fieldName: '',
+            fieldName: null,
             condition: '',
             fieldValue: null,
           },

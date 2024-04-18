@@ -47,6 +47,7 @@ const useAddUser = (useActionParams?: any) => {
       firstName: values?.firstName,
       lastName: values?.lastName,
       postCode: values?.postCode,
+      email: values?.email,
       phoneNumber: values?.phoneNumber,
       jobTitle: values?.jobTitle,
       role: 'ORG_EMPLOYEE',
@@ -67,7 +68,7 @@ const useAddUser = (useActionParams?: any) => {
     } else {
       // If isToggled is false, use a composite address value
       bodyVals.address = {
-        composite: values?.address,
+        composite: values?.compositeAddress,
       };
     }
 

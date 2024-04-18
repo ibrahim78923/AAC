@@ -11,6 +11,8 @@ export const TIME_FORMAT = {
   UI: 'h:mm A',
   API: 'h:mm A',
   TIME_VALIDATION: 'hh:mm:ss',
+  TH: 'HH:mm',
+  HMA: 'hh:mm aa',
 };
 
 export const CALENDAR_FORMAT = {
@@ -32,6 +34,7 @@ export const DATE_TIME_FORMAT = {
   DDMMYYYY: 'DD MMM, YYYY hh:MM A',
   DMMMY: 'D MMM, YYYY',
   DMDHMA: 'ddd, MMM D, YYYY, h:mm A',
+  MMMM: 'MMMM',
   WDM: 'dddd, DD MMMM',
   MMMM: 'MMMM',
 };
@@ -178,6 +181,7 @@ export const AIR_LOYALTY_PROGRAM = {
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
   PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design`,
   EDIT_PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design/edit`,
+  TOP_USER: '/',
 };
 
 export const SOCIAL_COMPONENTS = {
@@ -221,4 +225,9 @@ export const EQuickLinksType = {
 export const QUICKLINKSROLES = {
   SUPER_ADMIN: 'super-admin',
   ORG_ADMIN: 'org-admin',
+};
+
+export const DOCUMENTS_ACTION_TYPES = {
+  MOVE_FOLDER: 'move-folder',
+  UPDATE_FOLDER: 'update-folder',
 };

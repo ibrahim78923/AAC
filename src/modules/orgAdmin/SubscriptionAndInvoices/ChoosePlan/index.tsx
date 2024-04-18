@@ -10,6 +10,7 @@ import {
   TableRow,
   Button,
   LinearProgress,
+  useTheme,
 } from '@mui/material';
 import { ArrowBackIcon, TickCircleIcon } from '@/assets/icons';
 import Counter from './Counter';
@@ -32,6 +33,7 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 const ChoosePlan = () => {
   const router = useRouter();
+  const theme = useTheme();
 
   const [isBuyPlan, setIsBuyPlan] = useState(false);
   const [activePlanToBuy, setActivePlanToBuy] = useState<any>();
@@ -51,7 +53,9 @@ const ChoosePlan = () => {
       name: parsedManageData?.planName || parsedManageData?.name,
     });
   const { data: featuresData } = useGetProductFeaturesQuery({
-    id: parsedManageData?.productId,
+    id: isCRM
+      ? parsedManageData?.plans?.planProducts
+      : parsedManageData?.productId,
   });
 
   const [getData, setGetData] = useState<any>([]);
@@ -118,7 +122,9 @@ const ChoosePlan = () => {
       }
     } else {
       if (data?.data) {
-        setGetData(Object?.values(data?.data));
+        setGetData(
+          Object?.values(data?.data)?.filter((val) => typeof val == 'object'),
+        );
       }
     }
   }, [data, crmPlanData]);
@@ -128,6 +134,25 @@ const ChoosePlan = () => {
       router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
     }
   }, [parsedManageData]);
+
+  const groupedData = featuresData?.data?.productfeatures?.reduce(
+    (acc: any, obj: any) => {
+      const productName = obj?.productName;
+      if (!acc[productName]) {
+        acc[productName] = [];
+      }
+      acc[productName]?.push(obj);
+      return acc;
+    },
+    {},
+  );
+
+  const groupedArray =
+    groupedData &&
+    Object?.keys(groupedData)?.map((key) => ({
+      productName: key,
+      data: groupedData[key],
+    }));
 
   return (
     <>
@@ -184,7 +209,8 @@ const ChoosePlan = () => {
                   ? getData?.map((choosePlan: any) => {
                       return (
                         <TableCell key={uuidv4()} component="th">
-                          {choosePlan?.planType?.name}
+                          {choosePlan?.planType?.name ||
+                            choosePlan?.planTypeName}
                         </TableCell>
                       );
                     })
@@ -282,15 +308,23 @@ const ChoosePlan = () => {
                         // eslint-disable-next-line
                         <TableCell key={index} sx={styles?.userIncludes}>
                           {item?.planType?.name === 'Free' ? (
-                            '-'
+                            <Box
+                              sx={{
+                                background: theme?.palette?.common?.black,
+                                width: '9px',
+                                height: '2.5px',
+                                margin: '0 auto',
+                              }}
+                            ></Box>
                           ) : (
                             <PermissionsGuard
                               permissions={[
                                 ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
                               ]}
                             >
-                              {item?.defaultUsers === 0 ? (
-                                <Counter inputValue={0} disabled />
+                              {item?.additionalPerUserPrice === null ||
+                              item?.additionalPerUserPrice === null ? (
+                                <Counter inputValue={0} disabled value={0} />
                               ) : (
                                 <CounterMaxUser
                                   defaultUsers={item?.defaultUsers}
@@ -317,15 +351,23 @@ const ChoosePlan = () => {
                         // eslint-disable-next-line
                         <TableCell key={index} sx={styles?.userIncludes}>
                           {item?.planType?.name === 'Free' ? (
-                            '-'
+                            <Box
+                              sx={{
+                                background: theme?.palette?.common?.black,
+                                width: '9px',
+                                height: '2.5px',
+                                margin: '0 auto',
+                              }}
+                            ></Box>
                           ) : (
                             <PermissionsGuard
                               permissions={[
                                 ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
                               ]}
                             >
-                              {item?.defaultStorage === 0 ? (
-                                <Counter inputValue={0} disabled />
+                              {item?.additionalStoragePrice === null ||
+                              item?.additionalStoragePrice === 0 ? (
+                                <Counter inputValue={0} disabled value={0} />
                               ) : (
                                 <CounterAdditionalStorage
                                   defaultUsers={item?.defaultStorage}
@@ -343,44 +385,134 @@ const ChoosePlan = () => {
                     })
                   : null}
               </TableRow>
-
-              {featuresData?.data?.productfeatures?.map((feature: any) => {
-                return (
-                  <TableRow key={uuidv4()}>
-                    <TableCell sx={styles?.salesActivities}>
-                      <Typography variant="h6">{feature?.name}</Typography>
-                    </TableCell>
-                    {getData?.map((planFeature: any) => {
-                      const isFeatureIncluded =
-                        planFeature?.planProductFeatures?.some(
-                          (row: any) => row?.featureId === feature?._id,
-                        );
-                      if (isFeatureIncluded) {
-                        return (
-                          <TableCell key={uuidv4()} align="center">
-                            <TickCircleIcon />
-
-                            <p>
-                              {
-                                planFeature?.planProductFeatures.find(
-                                  (row: any) => row?.featureId === feature?._id,
-                                )?.dealsAssociationsDetail
-                              }
-                            </p>
+              {isCRM ? (
+                <>
+                  {groupedArray?.map((groupItem: any) => {
+                    return (
+                      <>
+                        <TableRow>
+                          <TableCell>
+                            <Typography
+                              sx={{ fontSize: '18px', fontWeight: '600' }}
+                            >
+                              {groupItem?.productName}
+                            </Typography>
                           </TableCell>
-                        );
-                      } else {
-                        return (
-                          <TableCell key={uuidv4()} align="center">
-                            {' '}
-                            -{' '}
-                          </TableCell>
-                        );
-                      }
-                    })}
-                  </TableRow>
-                );
-              })}
+                        </TableRow>
+                        <>
+                          {groupItem?.data?.map((feature: any) => {
+                            return (
+                              <>
+                                <TableRow key={uuidv4()}>
+                                  <TableCell sx={styles?.salesActivities}>
+                                    <Typography
+                                      sx={{
+                                        color:
+                                          theme?.palette?.custom?.grayish_blue,
+                                      }}
+                                    >
+                                      {feature?.name}
+                                    </Typography>
+                                  </TableCell>
+                                  {getData?.map((planFeature: any) => {
+                                    const isFeatureIncluded =
+                                      planFeature?.planProductFeatures?.some(
+                                        (row: any) =>
+                                          row?.featureId === feature?._id,
+                                      );
+                                    if (isFeatureIncluded) {
+                                      return (
+                                        <TableCell
+                                          key={uuidv4()}
+                                          align="center"
+                                        >
+                                          <TickCircleIcon />
+                                          <p>
+                                            {
+                                              planFeature?.planProductFeatures?.find(
+                                                (row: any) =>
+                                                  row?.featureId ===
+                                                  feature?._id,
+                                              )?.dealsAssociationsDetail
+                                            }
+                                          </p>
+                                        </TableCell>
+                                      );
+                                    } else {
+                                      return (
+                                        <TableCell
+                                          key={uuidv4()}
+                                          align="center"
+                                        >
+                                          <Box
+                                            sx={{
+                                              background:
+                                                theme?.palette?.common?.black,
+                                              width: '9px',
+                                              height: '2.5px',
+                                              margin: '0 auto',
+                                            }}
+                                          ></Box>
+                                        </TableCell>
+                                      );
+                                    }
+                                  })}
+                                </TableRow>
+                              </>
+                            );
+                          })}
+                        </>
+                      </>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  {featuresData?.data?.productfeatures?.map((feature: any) => {
+                    return (
+                      <TableRow key={uuidv4()}>
+                        <TableCell sx={styles?.salesActivities}>
+                          <Typography variant="h6">{feature?.name}</Typography>
+                        </TableCell>
+                        {getData?.map((planFeature: any) => {
+                          const isFeatureIncluded =
+                            planFeature?.planProductFeatures?.some(
+                              (row: any) => row?.featureId === feature?._id,
+                            );
+                          if (isFeatureIncluded) {
+                            return (
+                              <TableCell key={uuidv4()} align="center">
+                                <TickCircleIcon />
+                                <p>
+                                  {
+                                    planFeature?.planProductFeatures?.find(
+                                      (row: any) =>
+                                        row?.featureId === feature?._id,
+                                    )?.dealsAssociationsDetail
+                                  }
+                                </p>
+                              </TableCell>
+                            );
+                          } else {
+                            return (
+                              <TableCell key={uuidv4()} align="center">
+                                <Box
+                                  sx={{
+                                    background: theme?.palette?.common?.black,
+                                    width: '9px',
+                                    height: '2.5px',
+                                    margin: '0 auto',
+                                  }}
+                                ></Box>
+                              </TableCell>
+                            );
+                          }
+                        })}
+                      </TableRow>
+                    );
+                  })}
+                </>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -403,7 +535,12 @@ const CounterMaxUser = ({
   }, [mainId, value]);
   return (
     <>
-      <Counter value={value} setValue={setValue} inputValue={0} />
+      <Counter
+        value={value}
+        setValue={setValue}
+        inputValue={0}
+        maxValue={defaultUsers}
+      />
     </>
   );
 };
@@ -426,6 +563,7 @@ const CounterAdditionalStorage = ({
         setValue={setValue}
         inputValue={0}
         fixedText="GB"
+        maxValue={defaultUsers}
       />
     </>
   );
