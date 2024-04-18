@@ -26,28 +26,7 @@ export const loyaltytransactionChannel = [
   },
 ];
 
-export const transactionsListData = [
-  {
-    id: 1,
-    contactEmail: `peter.parker@zylker.com.`,
-    shopName: `ABC shop`,
-    channel: `customer app`,
-    type: `Physical reward`,
-    credits: -72,
-    icon: '',
-  },
-  {
-    id: 2,
-    contactEmail: `peter@zylker.com.`,
-    shopName: `ABC shop`,
-    channel: `Business dashboard`,
-    type: `Points redemption`,
-    credits: 15,
-    icon: '',
-  },
-];
-
-export const TransactionsList: any = () => [
+export const transactionsListColumnDynamic: any = () => [
   {
     accessorFn: (row: any) => row?.contactEmail,
     id: 'contactEmail',

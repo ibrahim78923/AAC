@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TransactionsList } from './Transactions.data';
+import { transactionsListColumnDynamic } from './Transactions.data';
 import { TransactionFilters } from './TransactionFilters';
 import UpsertTransactions from './UpsertTransactions';
 import { PAGINATION } from '@/config';
@@ -12,7 +12,7 @@ export const useTransitions = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [transactionFilters, setTransactionsFilter] = useState<any>({});
 
-  const transactionsListColumn = TransactionsList();
+  const transactionsListColumn = transactionsListColumnDynamic();
 
   const [
     lazyGetLoyaltyTransactionsListTrigger,
