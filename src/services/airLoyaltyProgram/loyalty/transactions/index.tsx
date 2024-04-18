@@ -16,10 +16,21 @@ const loyaltyTransactionsApi: any = baseAPI?.injectEndpoints({
         body: apiDataParameter?.body,
       }),
     }),
+    getShopDropdownForLoyaltyTransaction: builder?.query({
+      query: ({ params }: any) => ({
+        url: ``,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users ?? [];
+      },
+    }),
   }),
 });
 
 export const {
   useLazyGetLoyaltyTransactionsListQuery,
   usePostLoyaltyTransactionsMutation,
+  useLazyGetShopDropdownForLoyaltyTransactionQuery,
 } = loyaltyTransactionsApi;

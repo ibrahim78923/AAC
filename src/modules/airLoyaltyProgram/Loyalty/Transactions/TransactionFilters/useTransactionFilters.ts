@@ -1,6 +1,10 @@
 import { useForm } from 'react-hook-form';
-import { filtersDefaultValues } from './TransactionFilters.data';
+import {
+  filtersDefaultValues,
+  transactionFilterFormFieldsDynamic,
+} from './TransactionFilters.data';
 import { filteredEmptyValues } from '@/utils/api';
+import { useLazyGetShopDropdownForLoyaltyTransactionQuery } from '@/services/airLoyaltyProgram/loyalty/transactions';
 
 export const useTransactionFilters = (props: any) => {
   const { setIsDrawerOpen, transactionFilters, setTransactionsFilter } = props;
@@ -24,12 +28,15 @@ export const useTransactionFilters = (props: any) => {
     reset?.();
     setIsDrawerOpen?.({});
   };
-
+  const shopApiQuery = useLazyGetShopDropdownForLoyaltyTransactionQuery?.();
+  const transactionFilterFormFields =
+    transactionFilterFormFieldsDynamic?.(shopApiQuery);
   return {
     methods,
     handleSubmit,
     submit,
     resetFilterForm,
     closeFilterForm,
+    transactionFilterFormFields,
   };
 };

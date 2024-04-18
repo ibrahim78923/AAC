@@ -1,4 +1,8 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import {
   loyaltytransactionChannel,
   loyaltytransactionType,
@@ -13,7 +17,7 @@ export const filtersDefaultValues: any = (filterValue: any) => {
   };
 };
 
-export const filtersArray = [
+export const transactionFilterFormFieldsDynamic = (shopApiQuery?: any) => [
   {
     id: 1,
     componentProps: {
@@ -22,8 +26,10 @@ export const filtersArray = [
       placeholder: 'Select shop',
       fullWidth: true,
       options: [],
+      apiQuery: shopApiQuery,
+      getOptionLabel: (option: any) => option?.shopName,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 2,
