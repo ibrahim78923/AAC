@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
-import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts';
+import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts/associations';
 import { useForm } from 'react-hook-form';
-import { usePostAttachmentMutation } from '@/services/commonFeatures/contacts/associations';
+import {
+  usePostAttachmentMutation,
+  useDeleteAttachmentMutation,
+} from '@/services/commonFeatures/contacts/associations/attachments';
 import {
   attachmentsDefaultValues,
   attachmentsValidationSchema,
@@ -11,9 +14,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 
 const useAttachments = (contactId: any) => {
-  // Get Association Tickets
+  const theme = useTheme();
+  // Get Association Attachments
   const [searchValue, setSearchValue] = useState(null);
-
   const payLoad = {
     contactId: contactId,
     association_type: 'attachments',
@@ -23,7 +26,7 @@ const useAttachments = (contactId: any) => {
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
-  const { data: dataGetAttachment, isLoading: loadingTickets } =
+  const { data: dataGetAttachment, isLoading: loadingGetAttachment } =
     useGetContactAssociationsQuery({
       params: { ...payLoad, ...searchPayLoad },
     });
@@ -75,21 +78,37 @@ const useAttachments = (contactId: any) => {
     onSubmitAddAttachment,
   );
 
-  // Delete Modal
+  // Delete Attachment
+  const [attachmentId, setAttachmentId] = useState('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
-  const handleOpenAlert = () => {
+  const handleOpenAlert = (id: string) => {
+    setAttachmentId(id);
     setIsOpenAlert(true);
   };
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
+  const [deleteAttachment, { isLoading: loadingDelete }] =
+    useDeleteAttachmentMutation();
 
-  const theme = useTheme();
+  const handleDeleteAttachment = async () => {
+    try {
+      await deleteAttachment(attachmentId)?.unwrap();
+      handleCloseAlert();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
 
   return {
     searchValue,
     setSearchValue,
-    loadingTickets,
+    loadingGetAttachment,
     dataGetAttachment,
 
     drawerTitle,
@@ -105,6 +124,9 @@ const useAttachments = (contactId: any) => {
     postAttachment,
     theme,
     attachmentData,
+
+    handleDeleteAttachment,
+    loadingDelete,
   };
 };
 
