@@ -135,7 +135,7 @@ const ChoosePlan = () => {
     }
   }, [parsedManageData]);
 
-  const groupedData = featuresData?.data?.productfeatures.reduce(
+  const groupedData = featuresData?.data?.productfeatures?.reduce(
     (acc: any, obj: any) => {
       const productName = obj?.productName;
       if (!acc[productName]) {
@@ -535,7 +535,12 @@ const CounterMaxUser = ({
   }, [mainId, value]);
   return (
     <>
-      <Counter value={value} setValue={setValue} inputValue={0} />
+      <Counter
+        value={value}
+        setValue={setValue}
+        inputValue={0}
+        maxValue={defaultUsers}
+      />
     </>
   );
 };
@@ -558,6 +563,7 @@ const CounterAdditionalStorage = ({
         setValue={setValue}
         inputValue={0}
         fixedText="GB"
+        maxValue={defaultUsers}
       />
     </>
   );

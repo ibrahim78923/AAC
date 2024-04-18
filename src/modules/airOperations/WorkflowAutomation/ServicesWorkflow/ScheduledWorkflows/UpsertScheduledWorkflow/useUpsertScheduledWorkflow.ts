@@ -35,14 +35,15 @@ export const useUpsertScheduledWorkflow = () => {
   const collectionNameData = {
     agent: 'agent',
     assignToAgent: 'Assign to Agent',
-    selectDepartment: 'selectDepartment',
-    department: 'department',
+    selectDepartment: 'Select Department',
+    department: 'Department',
     setDepartmentAs: 'Set Department as',
-    location: 'location',
-    addRequester: 'addRequester',
-    requester: 'requester',
+    location: 'Location',
+    addRequester: 'Add Requester',
+    requester: 'Requester',
     setCategoryAs: 'Set Category as',
-    category: 'category',
+    category: 'Category',
+    users: 'Users',
   };
 
   const router = useRouter();
@@ -115,7 +116,7 @@ export const useUpsertScheduledWorkflow = () => {
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
       condition: condition?.condition,
-      fieldName: condition?.fieldName,
+      fieldName: condition?.fieldName?.value,
       fieldValue:
         condition?.fieldName &&
         [
@@ -125,7 +126,7 @@ export const useUpsertScheduledWorkflow = () => {
           collectionNameData?.location,
           collectionNameData?.addRequester,
           collectionNameData?.setCategoryAs,
-        ].includes(condition?.fieldName)
+        ].includes(condition?.fieldName?.label)
           ? condition?.fieldValue?._id
           : condition?.fieldValue,
       fieldType: mapField(condition, typeData),

@@ -9,14 +9,17 @@ const Counter: FC<any> = ({
   disabled,
   value,
   setValue,
+  maxValue,
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event?.target?.value);
     setValue(isNaN(newValue) ? 0 : newValue);
   };
-
+  // setValue((prev: any) => prev + 1);
   const increment = () => {
-    setValue((prev: any) => prev + 1);
+    if (maxValue > value) {
+      setValue((prev: any) => prev + 1);
+    }
   };
 
   const decrement = () => {
@@ -41,7 +44,7 @@ const Counter: FC<any> = ({
             />
           </Box>
 
-          <Box sx={styles?.incrementBtn}>
+          <Box sx={styles?.incrementBtn} style={{ cursor: 'not-allowed' }}>
             <AddCircleIcon color="#D1D5DB" />
           </Box>
         </Box>

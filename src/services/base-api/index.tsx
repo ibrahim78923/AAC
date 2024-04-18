@@ -70,6 +70,7 @@ export const TAGS = [
   'SOFTWARE_INSTALLATION',
   'ADD-TO-INVENTORY',
   'CONTACTS',
+  'CONTACT_ASSOCIATION',
   'CONTACT_NOTE',
   'CONTACT_CALL',
   'DROPDOWN_USERS',
@@ -123,6 +124,7 @@ export const TAGS = [
   'LOCATION_DROPDOWN',
   'PERMISSIONS',
   'TEAM_LIST',
+  'MANAGE_SHOP',
 ];
 
 const baseQuery = fetchBaseQuery({

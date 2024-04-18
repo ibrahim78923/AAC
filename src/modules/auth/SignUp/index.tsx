@@ -82,7 +82,7 @@ const SignUp = () => {
         </Box>
         <Box>
           <Link href="/login" variant="contained">
-            SignIn
+            Sign In
           </Link>
         </Box>
       </Box>
