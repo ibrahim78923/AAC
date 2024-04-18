@@ -24,8 +24,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const ViewDetails = () => {
   const { theme, viewDeal, isLoading, id } = useViewDetails();
-  const searchParams = useSearchParams().get('id');
-
+  const searchParams = useSearchParams().get('tab-value');
   return (
     <Box>
       <Grid container spacing={2}>
