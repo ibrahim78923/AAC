@@ -13,10 +13,10 @@ export const getAttachmentAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
     postAttachment: builder.mutation({
-      query: (body: any) => ({
+      query: ({ body }: any) => ({
         url: `${END_POINTS?.POST_ATTACHMENT}`,
         method: 'POST',
-        body,
+        body: body,
       }),
       invalidatesTags: [TAG],
     }),

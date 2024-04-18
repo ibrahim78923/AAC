@@ -1,6 +1,8 @@
 import { Box } from '@mui/material';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DATE_TIME_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -10,19 +12,20 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row?.title,
-      id: 'contact_id',
+      accessorFn: (row: any) => row?.orignalName,
+      id: 'orignalName',
       cell: (info: any) => info?.getValue(),
       header: 'Title',
       isSortable: false,
     },
 
     {
-      accessorFn: (row: any) => row?.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
     },
 
     {

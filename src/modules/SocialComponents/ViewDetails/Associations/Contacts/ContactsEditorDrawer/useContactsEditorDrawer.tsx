@@ -96,6 +96,22 @@ const useContactsEditorDrawer = ({
       dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
     );
 
+    // const dateOfBirth = 'dateOfBirth';
+    // const dateOfJoinig = 'dateOfJoinig';
+    // const formData = new FormData();
+    // formData.append('recordType', recordType);
+    // formData.append('recordId', dealId);
+    // Object.entries(values)?.forEach(([key, value]: any) => {
+    //   if (value !== undefined && value !== null && value !== '') {
+    //     // For date values, format them before appending
+    //     if (key === dateOfBirth || key === dateOfJoinig) {
+    //       formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
+    //     } else {
+    //       formData.append(key, value);
+    //     }
+    //   }
+    // });
+
     try {
       openDrawer === 'Edit'
         ? await updateContacts({

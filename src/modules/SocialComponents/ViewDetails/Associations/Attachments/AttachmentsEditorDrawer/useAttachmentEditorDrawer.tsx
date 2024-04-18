@@ -19,8 +19,8 @@ const useAttachmentsEditorDrawer = (setOpenDrawer: any, companyId: any) => {
   const onSubmit = async (values: any) => {
     const formData = new FormData();
     formData?.append('fileUrl', values?.attachment);
+    formData?.append('recordType', 'companies');
     formData?.append('recordId', companyId?.companyId);
-    formData?.append('module ', 'Company');
 
     try {
       await postAttachment({ body: formData })?.unwrap();
