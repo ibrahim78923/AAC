@@ -88,7 +88,6 @@ export const useUser = () => {
     setTabData,
     switchLoading,
     handleChangeStatus,
-    router,
   );
 
   const rolesDropdown = useLazyGetDepartmentDropdownQuery();
