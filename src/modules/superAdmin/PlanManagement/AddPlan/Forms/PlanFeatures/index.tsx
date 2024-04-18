@@ -34,6 +34,8 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
     handleOpenFeaturesModal,
     setAccordianId,
     accordianId,
+    featureId,
+    setFeatureId,
   } = usePlanFeatures();
   const { planManagement }: any = useAppSelector(
     (state) => state?.planManagementForms,
@@ -133,6 +135,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                             onClick={() => {
                               handleOpenFeaturesModal();
                               setFeatureName(item?.name);
+                              setFeatureId(item?._id);
                             }}
                           >
                             <AddPlusPrimaryIcon />
@@ -214,6 +217,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                             onClick={() => {
                               handleOpenFeaturesModal();
                               setFeatureName(item?.name);
+                              setFeatureId(item?._id);
                             }}
                           >
                             <AddPlusPrimaryIcon />
@@ -305,6 +309,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
                           onClick={() => {
                             handleOpenFeaturesModal();
                             setFeatureName(item?.name);
+                            setFeatureId(item?._id);
                           }}
                         >
                           <AddPlusPrimaryIcon />
@@ -328,6 +333,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
           openFeaturesModal={openFeaturesModal}
           handleCloseFeaturesModal={handleCloseFeaturesModal}
           featureName={featureName}
+          featureId={featureId}
         />
       )}
     </div>
