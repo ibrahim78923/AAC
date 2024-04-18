@@ -123,6 +123,7 @@ export const TAGS = [
   'LOCATION_DROPDOWN',
   'PERMISSIONS',
   'TEAM_LIST',
+  'MANAGE_SHOP',
 ];
 
 const baseQuery = fetchBaseQuery({
