@@ -4,11 +4,7 @@ import { Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import {
-  CreateViewData,
-  defaultValues,
-  validationSchema,
-} from './CreateView.data';
+import { CreateViewData, validationSchema } from './CreateView.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import { useCreateViewDealsMutation } from '@/services/airSales/deals';
@@ -23,7 +19,7 @@ import { DATE_FORMAT } from '@/constants';
 const CreateView = ({ open, onClose }: any) => {
   const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
+    defaultValues: 'EVERYONE',
   });
   const [createViewDeals] = useCreateViewDealsMutation();
   const { handleSubmit, watch } = methods;
@@ -34,7 +30,7 @@ const CreateView = ({ open, onClose }: any) => {
       DATE_FORMAT?.API,
     )}&dateEnd=${dayjs(values?.CloseDate)?.format(
       DATE_FORMAT?.API,
-    )}&dealPiplineId=${values?.dealPiplineId}&dealOwnerId=${values?.dealOwnerId}&dealStageId=${values?.dealStageId}`;
+    )}&dealPiplineId=${values?.dealPipelineId}&dealOwnerId=${values?.dealOwnerId}&dealStageId=${values?.dealStageId}`;
 
     const obj = {
       name: values?.name,
