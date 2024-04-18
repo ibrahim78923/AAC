@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
-import {
-  useGetContactAssociationsQuery,
-  useGetContactsQuery,
-} from '@/services/commonFeatures/contacts';
+import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
+import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts/associations';
 import { useForm } from 'react-hook-form';
 
 const useCompanies = (contactId: any) => {
