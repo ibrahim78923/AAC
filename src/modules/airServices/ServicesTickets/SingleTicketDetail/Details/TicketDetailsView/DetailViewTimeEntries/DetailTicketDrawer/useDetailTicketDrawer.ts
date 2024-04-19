@@ -34,7 +34,7 @@ export const useDetailTicketDrawer = (props: any) => {
   });
   const apiQueryTask = useLazyGetTaskByIdDropDownQuery();
 
-  const { handleSubmit, reset, control } = methods;
+  const { handleSubmit, reset, control, getValues } = methods;
   const ticketDetailsFormFields = detailDrawerArray(
     apiQueryAgent,
     apiQueryTask,
@@ -56,7 +56,13 @@ export const useDetailTicketDrawer = (props: any) => {
       setIsIconVisible(false);
       start();
     }
-
+    const { hours } = getValues();
+    if (hours?.trim() !== '' && !/^\d+h\d+m$/?.test(hours)) {
+      errorSnackbar(
+        'Invalid format for Planned Effort. Please use format like 1h10m',
+      );
+      return;
+    }
     const postData = {
       ticketId: ticketId,
       taskId: data?.task?._id,
