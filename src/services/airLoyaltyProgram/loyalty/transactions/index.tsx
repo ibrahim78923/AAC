@@ -23,7 +23,7 @@ const loyaltyTransactionsApi: any = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.users ?? [];
+        if (response) return response?.data?.shops ?? [];
       },
     }),
   }),
