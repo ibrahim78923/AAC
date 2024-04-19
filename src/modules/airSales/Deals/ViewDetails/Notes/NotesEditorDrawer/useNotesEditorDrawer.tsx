@@ -11,7 +11,7 @@ import {
   useUpdateDealNoteMutation,
 } from '@/services/airSales/deals/view-details/note';
 import { enqueueSnackbar } from 'notistack';
-import { IMG_URL } from '@/config';
+// import { IMG_URL } from '@/config';
 
 const useNotesEditorDrawer = (props: any) => {
   const {
@@ -28,19 +28,19 @@ const useNotesEditorDrawer = (props: any) => {
   const [postDealNote, { isLoading: loadingNote }] = usePostDealNoteMutation();
   const [updateDealNote] = useUpdateDealNoteMutation();
 
-  const methodsdealsNotes = useForm({
+  const methodsdealsNotes = useForm<any>({
     resolver: yupResolver(dealsNotesValidationSchema),
     defaultValues: async () => {
       if (editCheckBoxes && openDrawer !== 'Add') {
         const {
           title,
-          file: { url: url },
+          // file: { url: url },
           description,
         } = editCheckBoxes;
 
         return {
           title,
-          file: `${IMG_URL}${url}`,
+          // file: `${IMG_URL}${url}`,
           description,
         };
       }
@@ -50,11 +50,19 @@ const useNotesEditorDrawer = (props: any) => {
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
-    formData.append('file', values?.file);
-    //Todo: using static id temporarily because deals list will be implemented by someone else
-    formData.append('recordId', recordId);
-    formData.append('description', values?.description);
-    formData.append('title', values?.title);
+    const desc = 'description';
+    const file = 'file';
+
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        if (key === desc || key === file) {
+          formData.append(key, value);
+        } else {
+          formData.append(key, value);
+          formData.append('recordId', recordId);
+        }
+      }
+    });
 
     try {
       openDrawer === 'Edit'

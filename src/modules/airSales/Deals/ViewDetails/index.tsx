@@ -71,10 +71,9 @@ const ViewDetails = () => {
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    Created on
-                    {dayjs(viewDeal?.owner?.createdAt)?.format(
+                    {` Created on ${dayjs(viewDeal?.owner?.createdAt)?.format(
                       DATE_TIME_FORMAT?.DMDMHA,
-                    )}
+                    )}`}
                   </Typography>
                 </Box>
               </Box>

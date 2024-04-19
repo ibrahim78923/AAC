@@ -1,6 +1,4 @@
-import Image from 'next/image';
-
-import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Button, Checkbox, Grid, Typography } from '@mui/material';
 
 import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
@@ -32,7 +30,10 @@ const Notes = ({ selected }: any) => {
     data,
     setPagination,
   } = useNotes(selected);
-  const { NameWithStyledWords, theme } = useNameWithStyledWords();
+  const {
+    // NameWithStyledWords,
+    theme,
+  } = useNameWithStyledWords();
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -144,19 +145,23 @@ const Notes = ({ selected }: any) => {
                     alignItems: 'center',
                   }}
                 >
-                  <Image
+                  <Avatar
                     src={`${IMG_URL}${item?.file?.url}`}
-                    alt="Avatar"
-                    width={66}
-                    height={66}
-                    style={{ borderRadius: '200px' }}
+                    alt="_img"
+                    sx={{ width: 66, height: 66 }}
                   />
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
-                  <NameWithStyledWords
+                  {/* <NameWithStyledWords
                     name={item?.title}
                     customKey="ActivityHead"
-                  />
+                  /> */}
+                  <Typography
+                    variant="h5"
+                    color={theme?.palette?.primary?.main}
+                  >
+                    {item?.title}
+                  </Typography>
                   <Typography
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
@@ -165,7 +170,9 @@ const Notes = ({ selected }: any) => {
                   </Typography>
                   <Typography
                     variant="body2"
-                    dangerouslySetInnerHTML={{ __html: item?.description }}
+                    dangerouslySetInnerHTML={{
+                      __html: item?.description ?? 'N/A',
+                    }}
                   />
                 </Grid>
               </Grid>

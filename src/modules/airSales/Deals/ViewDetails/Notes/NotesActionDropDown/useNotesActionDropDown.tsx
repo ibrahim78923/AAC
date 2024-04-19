@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useDeleteDealNoteMutation } from '@/services/airSales/deals/view-details/note';
 import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useNotesActionDropdown = ({
   setOpenDrawer,
@@ -20,7 +21,8 @@ const useNotesActionDropdown = ({
     setAnchorEl(null);
   };
 
-  const [deleteDealNote] = useDeleteDealNoteMutation();
+  const [deleteDealNote, { isLoading: loadingNoteDelete }] =
+    useDeleteDealNoteMutation();
 
   const handleOpenEditDrawer = () => {
     setOpenDrawer('Edit');
@@ -45,12 +47,16 @@ const useNotesActionDropdown = ({
   const handleDeleteHandler = async () => {
     try {
       await deleteDealNote({ id: selectedCheckboxesIds })?.unwrap();
-      enqueueSnackbar(`Notes Deleted Successfully`, { variant: 'success' });
+      enqueueSnackbar(`Notes Deleted Successfully`, {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       handleCloseAlert();
       setSelectedCheckboxes([]);
-    } catch (error) {
-      const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+    } catch (error: any) {
+      const errMsg = error?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
@@ -66,6 +72,7 @@ const useNotesActionDropdown = ({
     handleOpenEditDrawer,
     handleOpenViewDrawer,
     handleDeleteHandler,
+    loadingNoteDelete,
   };
 };
 
