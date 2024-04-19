@@ -1,42 +1,43 @@
 import {
-  RHFAutocompleteAsync,
+  // RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
   RHFSelect,
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
-import { getSession } from '@/utils';
+// import { getSession } from '@/utils';
 import * as Yup from 'yup';
 
 export const dealsTasksValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Field is Required'),
   type: Yup?.string()?.required('Field is Required'),
   priority: Yup?.string()?.required('Field is Required'),
-  status: Yup?.string()?.required('Field is Required'),
-  deal: Yup?.string()?.required('Field is Required'),
-  // assignto: Yup?.string()?.required('Field is Required'),
-  associate: Yup?.string()?.trim()?.required('Field is Required'),
-  reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.required('Field is Required'),
 });
 
-export const dealsTasksDefaultValues = {
-  name: '',
-  type: '',
-  priority: '',
-  status: '',
-  // TODO: Temporary id will come from backend
-  deal: '655b2b2ecd318b576d7d71e8',
-  assignto: '',
-  associate: '',
-  reminder: '',
-  note: '',
-  dueDate: null,
+export const createTaskDefaultValues = ({ data }: any) => {
+  const inputDate = new Date(data?.dueDate);
+  const inputTime = new Date(data?.time);
+
+  function isValidDate(date: any) {
+    return date instanceof Date && !isNaN(date?.getTime());
+  }
+
+  return {
+    name: data?.name ?? '',
+    type: data?.type ?? '',
+    priority: data?.priority ?? '',
+    status: data?.status ?? '',
+    assignTo: data?.assignTo || null,
+    dueDate: isValidDate(inputDate) ? inputDate : null,
+    time: isValidDate(inputTime) ? inputTime : null,
+    reminder: data?.reminder ?? '',
+    note: data?.note ?? '',
+  };
 };
 
-export const dealsTasksDataArray = ({ data, usersData }: any) => {
-  const { user }: { user: any } = getSession();
+export const dealsTasksDataArray = ({ openDrawer }: any) => {
+  // const { user }: { user: any } = getSession();
   return [
     {
       md: 12,
@@ -44,7 +45,8 @@ export const dealsTasksDataArray = ({ data, usersData }: any) => {
         placeholder: 'Enter Name',
         label: 'Task Name',
         name: 'name',
-        required: true,
+        required: openDrawer === 'View' ? false : true,
+        disabled: openDrawer === 'View' ? true : false,
       },
       component: RHFTextField,
     },
@@ -54,8 +56,9 @@ export const dealsTasksDataArray = ({ data, usersData }: any) => {
         label: 'Task Type',
         name: 'type',
         select: true,
-        required: true,
+        required: openDrawer === 'View' ? false : true,
         placeholder: 'Enter Name',
+        disabled: openDrawer === 'View' ? true : false,
       },
       options: [
         { label: 'Call', value: 'Call' },
@@ -69,7 +72,8 @@ export const dealsTasksDataArray = ({ data, usersData }: any) => {
         label: 'Priority',
         name: 'priority',
         select: true,
-        required: true,
+        required: openDrawer === 'View' ? false : true,
+        disabled: openDrawer === 'View' ? true : false,
       },
       options: [
         { label: 'Low', value: 'Low' },
@@ -84,6 +88,7 @@ export const dealsTasksDataArray = ({ data, usersData }: any) => {
         label: 'Task Status',
         name: 'status',
         select: true,
+        disabled: openDrawer === 'View' ? true : false,
       },
       options: [
         { label: 'Pending', value: 'Pending' },
@@ -92,38 +97,30 @@ export const dealsTasksDataArray = ({ data, usersData }: any) => {
       ],
       component: RHFSelect,
     },
-    {
-      md: 12,
-      componentProps: {
-        label: 'Associate with records',
-        name: '',
-        data: data,
-      },
-      component: SearchableTabsSelect,
-    },
-    {
-      md: 12,
-      componentProps: {
-        label: 'Assigned to',
-        name: 'assignTo',
-        placeholder: 'Select option',
-        apiQuery: usersData,
-        externalParams: {
-          organization: user?.organization?._id,
-          limit: 50,
-          role: user?.role,
-        },
-        getOptionLabel: (option: any) =>
-          option?.firstName + ' ' + option?.lastName,
-      },
-      component: RHFAutocompleteAsync,
-    },
+    // {
+    //   md: 12,
+    //   componentProps: {
+    //     label: 'Assigned to',
+    //     name: 'assignTo',
+    //     placeholder: 'Select option',
+    //     apiQuery: usersData,
+    //     externalParams: {
+    //       organization: user?.organization?._id,
+    //       limit: 50,
+    //       role: user?.role,
+    //     },
+    //     getOptionLabel: (option: any) =>
+    //       option?.firstName + ' ' + option?.lastName,
+    //   },
+    //   component: RHFAutocompleteAsync,
+    // },
     {
       md: 7,
       componentProps: {
         label: 'Due date',
         name: 'dueDate',
         select: true,
+        disabled: openDrawer === 'View' ? true : false,
       },
       component: RHFDatePicker,
     },
@@ -132,6 +129,7 @@ export const dealsTasksDataArray = ({ data, usersData }: any) => {
       componentProps: {
         label: 'Time',
         name: 'time',
+        disabled: openDrawer === 'View' ? true : false,
       },
       component: RHFTimePicker,
     },
@@ -140,13 +138,14 @@ export const dealsTasksDataArray = ({ data, usersData }: any) => {
       componentProps: {
         label: 'Reminder',
         name: 'reminder',
+        disabled: openDrawer === 'View' ? true : false,
         select: true,
       },
       options: [
         { label: 'Today', value: 'Today' },
         { label: 'Tomorrow', value: 'Tomorrow' },
-        { label: 'In 1 business day', value: 'in1businessday' },
-        { label: 'In 2 business day', value: 'in2businessday' },
+        { label: 'In 1 business day', value: 'In_1_Business_Day' },
+        { label: 'In 2 business day', value: 'In_2_Business_Day' },
       ],
       component: RHFSelect,
     },
@@ -155,6 +154,7 @@ export const dealsTasksDataArray = ({ data, usersData }: any) => {
       componentProps: {
         label: 'Note',
         name: 'note',
+        disabled: openDrawer === 'View' ? true : false,
       },
       component: RHFEditor,
     },

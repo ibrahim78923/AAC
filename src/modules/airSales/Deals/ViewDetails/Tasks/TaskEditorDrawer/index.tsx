@@ -11,8 +11,7 @@ import {
 } from './TaskEditor.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
-
-import { v4 as uuidv4 } from 'uuid';
+// import { useLazyGetDealsAssignedUsersQuery } from '@/services/airSales/deals/view-details/tasks';
 
 const TaskEditorDrawer = (props: any) => {
   const {
@@ -20,6 +19,8 @@ const TaskEditorDrawer = (props: any) => {
     setOpenDrawer,
     selectedCheckboxes,
     setSelectedCheckboxes,
+    selectedRecId,
+    taskData,
   } = props;
   const { handleSubmit, onSubmit, methodsdealsTasks, onCloseDrawer } =
     useTaskEditor({
@@ -27,7 +28,12 @@ const TaskEditorDrawer = (props: any) => {
       openDrawer,
       setOpenDrawer,
       setSelectedCheckboxes,
+      selectedRecId,
+      taskData,
     });
+
+  // const usersData = useLazyGetDealsAssignedUsersQuery();
+  const getDealsTasksDataArray = dealsTasksDataArray({ openDrawer });
 
   return (
     <div>
@@ -46,9 +52,10 @@ const TaskEditorDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
-              {dealsTasksDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
+              {/* eslint-disable */}
+              {getDealsTasksDataArray?.map((item: any, index: any) => (
+                <Grid item xs={12} md={item?.md} key={index}>
+                  <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

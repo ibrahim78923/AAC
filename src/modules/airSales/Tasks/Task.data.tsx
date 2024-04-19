@@ -284,8 +284,8 @@ export const createTaskData = ({ data, usersData }: any) => {
       options: [
         { label: 'Today', value: 'Today' },
         { label: 'Tomorrow', value: 'Tomorrow' },
-        { label: 'In 1 business day', value: 'in1businessday' },
-        { label: 'In 2 business day', value: 'in2businessday' },
+        { label: 'In 1 business day', value: 'In_1_Business_Day' },
+        { label: 'In 2 business day', value: 'In_2_Business_Day' },
       ],
       component: RHFSelect,
     },
@@ -301,9 +301,9 @@ export const createTaskData = ({ data, usersData }: any) => {
 };
 
 export const TasksData = ({ data }: any) => {
-  const dispatch: any = useAppDispatch();
-
   const { order } = useTaskCustomize({});
+
+  const dispatch: any = useAppDispatch();
   const selectedTaskIds = useAppSelector(
     (state: any) => state?.task?.selectedTaskIds,
   );
