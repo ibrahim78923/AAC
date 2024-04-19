@@ -23,10 +23,10 @@ export const Teams = () => {
     submitDeleteModal,
     deleteStatus,
     isEditDrawerOpen,
-    setIsEditDrawerOpen,
-    teamData,
+    router,
+    onClose,
+    teamIdData,
   } = useTeams();
-
   return (
     <Box>
       <TeamsHeader />
@@ -54,13 +54,15 @@ export const Teams = () => {
             pageLimit={metaData?.limit}
           />
         </PermissionsGuard>
-        <UpsertTeams
-          isDrawerOpen={isEditDrawerOpen}
-          setIsDrawerOpen={setIsEditDrawerOpen}
-          teamData={teamData}
-          title={'Edit Team'}
-          okText={'Save'}
-        />
+        {router?.query?.teamId && (
+          <UpsertTeams
+            isDrawerOpen={isEditDrawerOpen || router?.query?.teamId}
+            setIsDrawerOpen={onClose}
+            teamData={teamIdData}
+            title={'Edit Team'}
+            okText={'Save'}
+          />
+        )}
         {deleteModal && (
           <AgentConversionDelete
             message={'Are you sure you want to delete this Team?'}
