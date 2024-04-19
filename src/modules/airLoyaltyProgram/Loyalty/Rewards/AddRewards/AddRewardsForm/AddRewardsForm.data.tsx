@@ -7,40 +7,56 @@ import {
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
+import { LOYALTY_REWARDS_TYPE } from '../AddRewards.data';
 const optionsVisibleTo = [' All', 'lists', 'tires'];
 
-export const validationSchema = Yup?.object()?.shape({
-  title: Yup?.string(),
-
+export const addPhyicalRewardsValidationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required(),
   description: Yup?.string(),
-  requiredPoints: Yup?.string(),
+  requiredPoints: Yup?.string()?.required(),
   chooseRewards: Yup?.string(),
+  chooseVoucher: Yup?.string(),
   addImage: Yup?.string(),
-  visibleto: Yup?.string(),
-  costPrice: Yup?.string(),
+  visibleto: Yup?.mixed()?.nullable().required(),
+  costPrice: Yup?.string()?.required(),
   activefrom: Yup?.date(),
   activeto: Yup?.date(),
   untilDeacticateIt: Yup?.string(),
 });
-export const defaultValues = {
+export const addDigitalRewardsValidationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required(),
+  requiredPoints: Yup?.string()?.required(),
+  chooseRewards: Yup?.mixed()?.nullable().required(),
+  chooseVoucher: Yup?.mixed()?.nullable()?.required(),
+  activefrom: Yup?.date(),
+  activeto: Yup?.date(),
+  untilDeacticateIt: Yup?.string(),
+});
+export const REWARD_VALIDATION_SCHEMA: any = {
+  [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD]: addPhyicalRewardsValidationSchema,
+  [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD]: addDigitalRewardsValidationSchema,
+};
+export const addRewardsDefaultValues = {
   title: '',
   description: '',
   requiredPoints: '',
-  chooseCategory: '',
-  visibleto: '',
+  chooseCategory: null,
+  chooseVoucher: null,
+  visibleto: null,
   addImage: '',
   costPrice: '',
   activefrom: new Date(),
   activeto: new Date(),
-  untilDeacticateIt: true,
+  untilDeacticateIt: false,
 };
 
-export const addRewardsDrawerData = [
+export const addRewardsFormFields = [
   {
     id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
+      required: true,
       fullWidth: true,
     },
 
@@ -55,6 +71,7 @@ export const addRewardsDrawerData = [
       name: 'requiredPoints',
       label: 'RequiredPoints',
       fullWidth: true,
+      required: true,
     },
 
     component: RHFTextField,
@@ -73,6 +90,20 @@ export const addRewardsDrawerData = [
     type: ['physicalReward'],
     md: 12,
   },
+  {
+    id: 25,
+    componentProps: {
+      name: 'chooseVoucher',
+      label: 'Choose Voucher',
+      fullWidth: true,
+      required: true,
+      options: optionsVisibleTo,
+    },
+
+    component: RHFAutocomplete,
+    type: ['digitalReward'],
+    md: 12,
+  },
 
   {
     id: 5,
@@ -80,6 +111,7 @@ export const addRewardsDrawerData = [
       name: 'chooseCategory',
       label: 'Choose Category',
       fullWidth: true,
+      required: true,
       options: optionsVisibleTo,
     },
 
@@ -93,11 +125,12 @@ export const addRewardsDrawerData = [
       name: 'visibleto',
       label: 'Visible to',
       fullWidth: true,
+      required: true,
       options: optionsVisibleTo,
     },
 
     component: RHFAutocomplete,
-    type: ['physicalReward', 'digitalReward'],
+    type: ['physicalReward'],
     md: 12,
   },
   {
@@ -106,6 +139,7 @@ export const addRewardsDrawerData = [
       name: 'costPrice',
       label: 'CostPrice',
       fullWidth: true,
+      required: true,
     },
     type: ['physicalReward'],
     component: RHFTextField,

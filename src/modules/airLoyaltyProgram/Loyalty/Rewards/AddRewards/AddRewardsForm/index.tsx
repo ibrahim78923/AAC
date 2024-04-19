@@ -1,55 +1,29 @@
-import { Grid, Box } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
+import { useAddRewardsForm } from './useAddRewardsForm';
+import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
+import { addRewardsFormFields } from './AddRewardsForm.data';
 
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
-import {
-  addRewardsDrawerData,
-  defaultValues,
-  validationSchema,
-} from './AddRewardsForm.data';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-
-export default function AddRewardsdrawer({
-  isDrawerOpen,
-  onClose,
-  actionType,
-  initialValueProps = defaultValues,
-}: any) {
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
-  });
-
-  const { handleSubmit, reset } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('Saved Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    reset();
-  };
-
+export const AddRewardsForm = (props: any) => {
+  const { openDrawer, actionType } = props;
+  const { handleSubmit, methods, submitAddRewards, closeAddRewardsForm } =
+    useAddRewardsForm(props);
   return (
     <CommonDrawer
-      isDrawerOpen={isDrawerOpen}
-      onClose={() => onClose(false)}
+      isDrawerOpen={openDrawer}
+      onClose={() => closeAddRewardsForm()}
       title={'Add Rewards'}
       okText={'Save'}
       isOk
       cancelText={'Close'}
       footer
-      submitHandler={handleSubmit(onSubmit)}
+      submitHandler={handleSubmit(submitAddRewards)}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
-            {addRewardsDrawerData
-              ?.filter((fields) => fields?.type?.includes(actionType))
+          <Grid container spacing={2}>
+            {addRewardsFormFields
+              ?.filter((fields: any) => fields?.type?.includes(actionType))
               ?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
@@ -60,4 +34,4 @@ export default function AddRewardsdrawer({
       </Box>
     </CommonDrawer>
   );
-}
+};

@@ -1,21 +1,29 @@
-import { Box, Card, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Card, Grid, Typography } from '@mui/material';
 import { addRewardsData } from './AddRewards.data';
-import { useState } from 'react';
-import AddRewardsdrawer from './AddRewardsForm';
+import { AddRewardsForm } from './AddRewardsForm';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { useAddRewards } from './useAddReward';
 
 export const AddRewards = () => {
-  const { palette } = useTheme();
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [actionType, setActionType] = useState('');
+  const {
+    router,
+    palette,
+    openDrawer,
+    actionType,
+    setOpenDrawer,
+    addRewardOpenForm,
+  } = useAddRewards();
 
-  const handleOpenDrawer = () => {
-    setOpenDrawer(!openDrawer);
-  };
   return (
-    <Box>
-      <Typography variant="body1" color={'secondary'}>
-        What Kind of reward would you like to create?
-      </Typography>
+    <>
+      <PageTitledHeader
+        title={'What Kind of reward would you like to create?'}
+        canMovedBack
+        moveBack={() => {
+          router?.push(AIR_LOYALTY_PROGRAM?.REWARDS);
+        }}
+      />
       <Box mt={3}>
         <Grid container spacing={2}>
           {addRewardsData(palette)?.map((item) => (
@@ -26,8 +34,7 @@ export const AddRewards = () => {
               md={6}
               lg={4}
               onClick={() => {
-                handleOpenDrawer();
-                setActionType(item?.name);
+                addRewardOpenForm(item);
               }}
               sx={{ cursor: 'pointer' }}
             >
@@ -67,13 +74,14 @@ export const AddRewards = () => {
             </Grid>
           ))}
         </Grid>
-
-        <AddRewardsdrawer
-          isDrawerOpen={openDrawer}
-          actionType={actionType}
-          onClose={handleOpenDrawer}
-        />
+        {openDrawer && (
+          <AddRewardsForm
+            openDrawer={openDrawer}
+            actionType={actionType}
+            setOpenDrawer={setOpenDrawer}
+          />
+        )}
       </Box>
-    </Box>
+    </>
   );
 };
