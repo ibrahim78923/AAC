@@ -89,7 +89,7 @@ export const useAddItemsToInventory = (props: any) => {
 
   const addItemsToInventoryCountFormFields =
     addItemsToInventoryCountFormFieldsDynamic?.(
-      addToItemsInventoryDetails?.data?.data?.addedItems,
+      addToItemsInventoryDetails?.data?.data?.totalItemAdded,
     );
   const addItemsToInventoryFormFields = addItemsToInventoryFormFieldsDynamic?.(
     watchAddInventoryMethod,
@@ -152,6 +152,7 @@ export const useAddItemsToInventory = (props: any) => {
     );
     const postPurchaseOrderParameter = {
       body: {
+        purcahseId: purchaseOrderId,
         inventoryData: addedInventoryList,
       },
     };
@@ -202,5 +203,6 @@ export const useAddItemsToInventory = (props: any) => {
     setIsConfirmModal,
     patchAddToExistingInventoryStatus,
     postPurchaseOrderStatus,
+    watchAddInventoryMethod,
   };
 };
