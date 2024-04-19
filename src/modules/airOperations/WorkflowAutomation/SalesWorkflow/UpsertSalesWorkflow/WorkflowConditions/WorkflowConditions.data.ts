@@ -11,15 +11,8 @@ export const conditionTypeOptions = [
   { label: 'Match ALL condition in this group', value: 'AND' },
   { label: 'Match ANY condition in this group', value: 'OR' },
 ];
-export const taskStatusDropdown = ['Todo', 'In-Progress', 'Done'];
-export const currencyDropdown = ['GBP'];
-export const activityTypeDropdown = [
-  'Calls',
-  'Meetings',
-  'Task',
-  'Email',
-  'Chat',
-];
+export const taskStatusDropdown = ['Pending', 'Inprogress', 'Complete'];
+export const activityTypeDropdown = ['Call', 'Email', 'Company'];
 
 export const workflowConditionsGroupDataArray = (index: any) => [
   {
@@ -56,10 +49,12 @@ export const workflowConditionsDataArray = (
   watch: any,
   dealDropdown: any,
   contactDropdown: any,
+  stagesDropdown: any,
 ) => {
   const moduleType = watch('module');
   const keyDropdown = workflowModuleOption[moduleType] || [];
-  const watchKey = watch(`groups.${index}.conditions.${subIndex}.fieldName`);
+  const watchKey = watch(`groups.${index}.conditions.${subIndex}.fieldName`)
+    ?.label;
   let conditionOptions: string[] = [];
   if (moduleType === conditionNames?.deals) {
     const dealConditionIndex = dealConditionIndexMap[watchKey];
@@ -74,52 +69,64 @@ export const workflowConditionsDataArray = (
   const watchCondition = watch(
     `groups.${index}.conditions.${subIndex}.condition`,
   );
-  let component: any = RHFTextField;
-  let componentProps: any = {
-    placeholder: 'Type here',
-  };
+  let component: any = Box;
+  let componentProps: any = {};
 
   if (moduleType === conditionNames?.deals) {
-    if (
-      watchKey === conditionNames?.name ||
-      watchKey === conditionNames?.lostReason
-    ) {
+    if (watchKey === conditionNames?.name) {
       if (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component;
-        componentProps;
+        component = RHFTextField;
+        componentProps = {
+          placeholder: 'Enter Deal Name',
+        };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        component = RHFAutocompleteAsync;
-        componentProps = {
-          apiQuery: dealDropdown,
-          externalParams: { meta: false },
-          placeholder: 'Select Deal',
-        };
+        component = Box;
       }
-    } else if (
-      watchKey === conditionNames?.dealValue ||
-      watchKey === conditionNames?.expectedDealValue
-    ) {
+    } else if (watchKey === conditionNames?.dealValue) {
       component = RHFTextField;
       componentProps = {
         placeholder: 'Enter Value',
         type: 'number',
       };
-    } else if (watchKey === conditionNames?.accountName) {
-      component;
-      componentProps;
+    } else if (watchKey === conditionNames?.dealPipeline) {
+      if (
+        watchCondition === conditionNames?.is ||
+        watchCondition === conditionNames?.isNot
+      ) {
+        component = RHFAutocompleteAsync;
+        componentProps = {
+          apiQuery: dealDropdown,
+          externalParams: { meta: false },
+          placeholder: 'Select Deal Pipeline',
+        };
+      } else {
+        component = Box;
+      }
+    } else if (watchKey === conditionNames?.dealStage) {
+      if (
+        watchCondition === conditionNames?.is ||
+        watchCondition === conditionNames?.isNot
+      ) {
+        component = RHFAutocompleteAsync;
+        componentProps = {
+          apiQuery: stagesDropdown,
+          externalParams: { limit: 100 },
+          placeholder: 'Select Deal Stage',
+        };
+      } else {
+        component = Box;
+      }
     } else if (
       watchKey === conditionNames?.closeDate ||
       watchKey === conditionNames?.lastActivityDate ||
       watchKey === conditionNames?.createdAt ||
-      watchKey === conditionNames?.updatedAt ||
-      watchKey === conditionNames?.dealStageUpdatedAt ||
-      watchKey === conditionNames?.lastAssignedAt
+      watchKey === conditionNames?.updatedAt
     ) {
       if (
         watchCondition === conditionNames?.onASpecificDate ||
@@ -133,7 +140,6 @@ export const workflowConditionsDataArray = (
         };
       } else if (watchCondition === conditionNames?.isBlank) {
         component = Box;
-        componentProps = null;
       }
     } else if (
       watchKey === conditionNames?.salesOwner ||
@@ -144,54 +150,19 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component;
-        componentProps;
-      } else if (
-        watchCondition === conditionNames?.isEmpty ||
-        watchCondition === conditionNames?.isNotEmpty
-      ) {
         component = RHFAutocompleteAsync;
         componentProps = {
-          externalParams: { limit: 50 },
+          externalParams: { limit: 100 },
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
           apiQuery: contactDropdown,
           placeholder: 'Select Contact',
         };
-      }
-    } else if (watchKey === conditionNames?.currency) {
-      if (
-        watchCondition === conditionNames?.is ||
-        watchCondition === conditionNames?.isNot
-      ) {
-        component;
-        componentProps;
       } else if (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        component = RHFAutocomplete;
-        componentProps = {
-          placeholder: 'Select Currency',
-          options: currencyDropdown,
-        };
-      }
-    } else if (watchKey === conditionNames?.lastActivityType) {
-      if (
-        watchCondition === conditionNames?.is ||
-        watchCondition === conditionNames?.isNot
-      ) {
-        component;
-        componentProps;
-      } else if (
-        watchCondition === conditionNames?.isEmpty ||
-        watchCondition === conditionNames?.isNotEmpty
-      ) {
-        component = RHFAutocomplete;
-        componentProps = {
-          placeholder: 'Select Activity Type',
-          options: activityTypeDropdown,
-        };
+        component = Box;
       }
     }
   } else if (moduleType === conditionNames?.quotes) {
@@ -206,55 +177,26 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        component = RHFAutocompleteAsync;
-        componentProps = {
-          apiQuery: dealDropdown,
-          externalParams: { meta: false },
-          placeholder: 'Select Deal',
-        };
-      }
-    } else if (watchKey === conditionNames?.updateQuoteAmount) {
-      (component = RHFTextField),
-        (componentProps = {
-          placeholder: 'Enter Value',
-          type: 'number',
-        });
-    } else if (watchKey === conditionNames?.status) {
-      if (
-        watchCondition === conditionNames?.is ||
-        watchCondition === conditionNames?.isNot
-      ) {
-        component;
-        componentProps;
-      } else if (
-        watchCondition === conditionNames?.isEmpty ||
-        watchCondition === conditionNames?.isNotEmpty
-      ) {
-        (component = RHFAutocomplete),
-          (componentProps = {
-            placeholder: 'Select Status',
-            options: taskStatusDropdown,
-          });
+        component = Box;
       }
     } else if (watchKey === conditionNames?.createdBy) {
       if (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component;
-        componentProps;
+        component = RHFAutocompleteAsync;
+        componentProps = {
+          externalParams: { limit: 100 },
+          getOptionLabel: (option: any) =>
+            fullName(option?.firstName, option?.lastName),
+          apiQuery: contactDropdown,
+          placeholder: 'Select Contact',
+        };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        (component = RHFAutocompleteAsync),
-          (componentProps = {
-            placeholder: 'Select Contact',
-            apiQuery: contactDropdown,
-            externalParams: { limit: 50 },
-            getOptionLabel: (option: any) =>
-              fullName(option?.firstName, option?.lastName),
-          });
+        component = Box;
       }
     } else if (
       watchKey === conditionNames?.createdDate ||
@@ -271,30 +213,42 @@ export const workflowConditionsDataArray = (
           disablePast: true,
         };
       } else if (watchCondition === conditionNames?.isBlank) {
-        component = null;
-        componentProps = null;
+        component = Box;
       }
     }
+    // else if (watchKey === conditionNames?.status) {
+    //   if (
+    //     watchCondition === conditionNames?.is ||
+    //     watchCondition === conditionNames?.isNot
+    //   ) {
+    //     component;
+    //     componentProps;
+    //   } else if (
+    //     watchCondition === conditionNames?.isEmpty ||
+    //     watchCondition === conditionNames?.isNotEmpty
+    //   ) {
+    //     component = Box;
+    //   }
+    // }
   } else if (moduleType === conditionNames?.tasks) {
     if (watchKey === conditionNames?.status) {
       if (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component;
-        componentProps;
+        component = RHFAutocomplete;
+        componentProps = {
+          placeholder: 'Select Status',
+          options: taskStatusDropdown,
+        };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        (component = RHFAutocomplete),
-          (componentProps = {
-            placeholder: 'Select Status',
-            options: taskStatusDropdown,
-          });
+        component = Box;
       }
     } else if (
-      watchKey === conditionNames?.dueDate ||
+      watchKey === conditionNames?.lastDate ||
       watchKey === conditionNames?.completedDate
     ) {
       if (
@@ -308,8 +262,7 @@ export const workflowConditionsDataArray = (
           disablePast: true,
         };
       } else if (watchCondition === conditionNames?.isBlank) {
-        component = null;
-        componentProps = null;
+        component = Box;
       }
     } else if (watchKey === conditionNames?.title) {
       if (
@@ -317,54 +270,49 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.isNot
       ) {
         component;
-        componentProps;
+        componentProps = {
+          placeholder: 'Enter Task Name',
+        };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        component = RHFAutocompleteAsync;
-        componentProps = {
-          apiQuery: dealDropdown,
-          externalParams: { meta: false },
-          placeholder: 'Select Deal',
-        };
+        component = Box;
       }
     } else if (watchKey === conditionNames?.createdBy) {
       if (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component;
-        componentProps;
+        component = RHFAutocompleteAsync;
+        componentProps = {
+          externalParams: { limit: 100 },
+          getOptionLabel: (option: any) =>
+            fullName(option?.firstName, option?.lastName),
+          apiQuery: contactDropdown,
+          placeholder: 'Select Contact',
+        };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        component = RHFAutocompleteAsync;
-        componentProps = {
-          externalParams: { limit: 50 },
-          placeholder: 'Select Contact',
-          getOptionLabel: (option: any) =>
-            fullName(option?.firstName, option?.lastName),
-          apiQuery: contactDropdown,
-        };
+        component = Box;
       }
     } else if (watchKey === conditionNames?.taskType) {
       if (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component;
-        componentProps;
+        component = RHFAutocomplete;
+        componentProps = {
+          placeholder: 'Select Type',
+          options: activityTypeDropdown,
+        };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
       ) {
-        (component = RHFAutocomplete),
-          (componentProps = {
-            placeholder: 'Select Type',
-            options: taskStatusDropdown,
-          });
+        component = Box;
       }
     }
   }
@@ -376,6 +324,8 @@ export const workflowConditionsDataArray = (
         name: `groups.${index}.conditions.${subIndex}.fieldName`,
         size: 'small',
         placeholder: 'Select',
+        getOptionLabel: (option: any) =>
+          option?.label ? option?.label : option,
         options: keyDropdown,
       },
       component: RHFAutocomplete,
@@ -406,117 +356,90 @@ export const workflowConditionsDataArray = (
 
 export const workflowModuleOption: any = {
   DEALS: [
-    'Name',
-    'Deal Value',
-    'Account Name',
-    'Deal Pipeline',
-    'Deal Stage',
-    'Lost Reason',
-    'Close Date',
-    'Sales Owner',
-    'Currency',
-    'Last Activity Type',
-    'Last Activity Date',
-    'Created By',
-    'Created At',
-    'Updated By',
-    'Updated At',
-    'Deal Stage Updated At',
-    'Last Assigned At',
-    'Expected Deal Value',
+    { label: 'Name', value: 'name' },
+    { label: 'Deal Value', value: 'amount' },
+    { label: 'Deal Pipeline', value: 'dealPipelineId' },
+    { label: 'Deal Stage', value: 'dealStageId' },
+    { label: 'Close Date', value: 'closeDate' },
+    { label: 'Sales Owner', value: 'ownerId' },
+    { label: 'Last Activity Date', value: 'updatedAt' },
+    { label: 'Created By', value: 'createdBy' },
+    { label: 'Created At', value: 'createdAt' },
+    { label: 'Updated By', value: 'updatedBy' },
+    { label: 'Updated At', value: 'updatedAt' },
   ],
   QUOTES: [
-    'Update Quote Name',
-    'Update Quote Amount',
-    'Status',
-    'Created By',
-    'Created Date',
-    'Expiration Date',
+    { label: 'Update Quote Name', value: 'name' },
+    { label: 'Created By', value: 'createdBy' },
+    { label: 'Created Date', value: 'createdAt' },
+    { label: 'Expiration Date', value: 'expiryDate' },
+    // { label: 'Status', value: 'status' },
   ],
   SALES_TASKS: [
-    'Status',
-    'Due Date',
-    'Title',
-    'Created By',
-    'Task Type',
-    'Completed Date',
+    { label: 'Status', value: 'status' },
+    { label: 'Last Date', value: 'dueDate' },
+    { label: 'Title', value: 'name' },
+    { label: 'Created By', value: 'createdBy' },
+    { label: 'Task Type', value: 'type' },
+    { label: 'Completed Date', value: 'completeAt' },
   ],
 };
 export const dealConditions = [
-  ['is', 'is not', 'is empty', 'is not empty'],
-  ['is', 'not equals', 'greater than', 'less than', 'is empty', 'is not empty'],
-  ['is', 'is not', 'is empty', 'is not empty'],
-  ['is', 'is not'],
-  ['is', 'is not'],
-  ['is', 'is not', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
+  [
+    'equals',
+    'not equals',
+    'greater than',
+    'less than',
+    'is empty',
+    'is not empty',
+  ],
+  ['is in', 'is not in'],
+  ['is in', 'is not in'],
   [
     'on a specific date',
     'after a specific date',
     'before a specific date',
     'is blank',
   ],
-  ['is', 'is not', 'is empty', 'is not empty'],
-  ['is', 'is not', 'is empty', 'is not empty'],
-  ['is', 'is not', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
   [
     'on a specific date',
     'after a specific date',
     'before a specific date',
     'is blank',
   ],
-  ['is', 'is not', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
   [
     'on a specific date',
     'after a specific date',
     'before a specific date',
     'is blank',
   ],
-  ['is', 'is not', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
   [
     'on a specific date',
     'after a specific date',
     'before a specific date',
     'is blank',
   ],
-  [
-    'on a specific date',
-    'after a specific date',
-    'before a specific date',
-    'is blank',
-  ],
-  [
-    'on a specific date',
-    'after a specific date',
-    'before a specific date',
-    'is blank',
-  ],
-  ['is', 'not equals', 'greater than', 'less than', 'is empty', 'is not empty'],
 ];
 export const dealConditionIndexMap: any = {
   Name: 0,
   'Deal Value': 1,
-  'Account Name': 2,
-  'Deal Pipeline': 3,
-  'Deal Stage': 4,
-  'Lost Reason': 5,
-  'Close Date': 6,
-  'Sales Owner': 7,
-  Currency: 8,
-  'Last Activity Type': 9,
-  'Last Activity Date': 10,
-  'Created By': 11,
-  'Created At': 12,
-  'Updated By': 13,
-  'Updated At': 14,
-  'Deal Stage Updated At': 15,
-  'Last Assigned At': 16,
-  'Expected Deal Value': 17,
+  'Deal Pipeline': 2,
+  'Deal Stage': 3,
+  'Close Date': 4,
+  'Sales Owner': 5,
+  'Last Activity Date': 6,
+  'Created By': 7,
+  'Created At': 8,
+  'Updated By': 9,
+  'Updated At': 10,
 };
 export const quoteConditions = [
-  ['is', 'is not', 'is empty', 'is not empty'],
-  ['is', 'not equals', 'greater than', 'less than', 'is empty', 'is not empty'],
-  ['is', 'is not', 'is empty', 'is not empty'],
-  ['is', 'is not', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
   [
     'on a specific date',
     'after a specific date',
@@ -529,26 +452,26 @@ export const quoteConditions = [
     'before a specific date',
     'is blank',
   ],
+  // ['is in', 'is not in', 'is empty', 'is not empty'],
 ];
 export const quoteConditionIndexMap: any = {
   'Update Quote Name': 0,
-  'Update Quote Amount': 1,
-  Status: 2,
-  'Created By': 3,
-  'Created Date': 4,
-  'Expiration Date': 5,
+  'Created By': 1,
+  'Created Date': 2,
+  'Expiration Date': 3,
+  // Status: 4,
 };
 const taskConditions = [
-  ['is', 'is not', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
   [
     'on a specific date',
     'after a specific date',
     'before a specific date',
     'is blank',
   ],
-  ['is', 'is not', 'is empty', 'is not empty'],
-  ['is', 'is not', 'is empty', 'is not empty'],
-  ['is', 'is not', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
   [
     'on a specific date',
     'after a specific date',
@@ -558,7 +481,7 @@ const taskConditions = [
 ];
 export const taskConditionIndexMap: any = {
   Status: 0,
-  'Due Date': 1,
+  'Last Date': 1,
   Title: 2,
   'Created By': 3,
   'Task Type': 4,
@@ -569,8 +492,8 @@ export const conditionNames = {
   dealPipeline: 'Deal Pipeline',
   dealStage: 'Deal Stage',
   lostReason: 'Lost Reason',
-  is: 'is',
-  isNot: 'is not',
+  is: 'is in',
+  isNot: 'is not in',
   isEmpty: 'is empty',
   isNotEmpty: 'is not empty',
   dealValue: 'Deal Value',
@@ -595,7 +518,7 @@ export const conditionNames = {
   status: 'Status',
   createdDate: 'Created Date',
   expirationDate: 'Expiration Date',
-  dueDate: 'Due Date',
+  lastDate: 'Last Date',
   completedDate: 'Completed Date',
   title: 'Title',
   taskType: 'Task Type',
