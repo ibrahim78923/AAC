@@ -32,7 +32,6 @@ export const filterValidationSchema = Yup?.object()?.shape({
 
 export const filterData = ({ usersData }: any) => {
   const { user }: { user: any } = getSession();
-
   return [
     {
       md: 12,

@@ -482,15 +482,25 @@ const DashboardLayout = ({ children, window }: any) => {
           extraHeaders: {
             'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
           },
-          //   reconnection: true,
-          // reconnectionDelay: 1000,
-          // reconnectionDelayMax: 5000,
-          // reconnectionAttempts: Infinity,
         });
 
         setSocket(res);
         dispatch(setSocketConnection({ isConnected: true, socket: res }));
       }
+      // if (socket) {
+
+      //   socket.on('disconnect', () => {
+      //     console.log('Disconnected from WebSocket server');
+      //   });
+
+      //   socket.on('pong', () => {
+      //     console.log('Received pong from server');
+      //   });
+      //   const pingInterval = setInterval(() => {
+      //     socket.emit('ping');
+      //   }, 5000);
+
+      // }
     } catch (err: any) {
       enqueueSnackbar(err?.message, {
         variant: 'error',
