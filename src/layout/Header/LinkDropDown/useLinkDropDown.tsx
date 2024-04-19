@@ -34,17 +34,6 @@ const useLinkDropDown = () => {
     setToggleView(!toggleView);
   };
 
-  // Get Active QuickLinks List
-  const {
-    data: dataActiveQuickLinks,
-    isLoading: loadingAcitiveQuickLinks,
-    isFetching: fetchingAcitiveQuickLinks,
-  } = useGetQuickLinksQuery({});
-  const activeQuickLinksData = dataActiveQuickLinks?.data?.quicklinks?.filter(
-    (item: any) => item.isActive,
-  );
-  const activeQuickLInkNumber = activeQuickLinksData?.length;
-
   // Get Checked QuickLinks
   const payload: any = {
     type: EQuickLinksType?.PRODUCT,
@@ -58,6 +47,16 @@ const useLinkDropDown = () => {
     payload.type = EQuickLinksType?.ORG_ADMIN;
     payload.productId = undefined;
   }
+
+  // Get Active QuickLinks List
+  const {
+    data: dataActiveQuickLinks,
+    isLoading: loadingAcitiveQuickLinks,
+    isFetching: fetchingAcitiveQuickLinks,
+  } = useGetQuickLinksQuery({ params: { ...payload, isActive: 'TRUE' } });
+
+  const activeQuickLinksData = dataActiveQuickLinks?.data?.quicklinks;
+  const activeQuickLInkNumber = activeQuickLinksData?.length;
 
   const { data, isLoading, isFetching } = useGetUserQuickLinksQuery(payload);
   const userQuickLinks = data?.data?.quickLinks || [];
