@@ -1,8 +1,8 @@
 import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
 import { addVouchersFormFieldsDefaultValues } from './AddVouchers.data';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { usePostVouchersMutation } from '@/services/airLoyaltyProgram/loyalty/vouchers';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAddVouchers = (props: any) => {
   const { addVouchersOpen, setAddVouchersOpen } = props;
@@ -10,12 +10,20 @@ export const useAddVouchers = (props: any) => {
   const methods: any = useForm({
     defaultValues: addVouchersFormFieldsDefaultValues({}),
   });
-  const { handleSubmit, watch } = methods;
-  const submitAddVouchersForm = async () => {
-    enqueueSnackbar('Voucher added  successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    setAddVouchersOpen?.(false);
+  const { handleSubmit, watch, reset } = methods;
+  const [postVouchersTrigger, postVouchersStatus] = usePostVouchersMutation();
+  const submitAddVouchersForm = async (data: any) => {
+    const postVouchersParameter = {
+      body: data,
+    };
+    try {
+      await postVouchersTrigger(postVouchersParameter)?.unwrap();
+      successSnackbar('Voucher added  successfully!');
+      setAddVouchersOpen?.(false);
+      reset();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
   return {
     addVouchersOpen,
@@ -25,5 +33,6 @@ export const useAddVouchers = (props: any) => {
     methods,
     apiQueryOrganizations,
     watch,
+    postVouchersStatus,
   };
 };
