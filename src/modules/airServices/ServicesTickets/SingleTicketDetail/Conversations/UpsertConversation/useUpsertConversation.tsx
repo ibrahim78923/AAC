@@ -24,10 +24,11 @@ import { AIR_SERVICES } from '@/constants';
 import { useTheme } from '@mui/material';
 import { findAttributeValues } from '@/utils/file';
 import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
+import { FE_BASE_URL } from '@/config';
 
 export const useUpsertConversation = (props: any) => {
   const [selectedResponseType, setSelectedResponseType] = useState<any>({});
-  const { setIsDrawerOpen, selectedConversationType } = props;
+  const { setIsDrawerOpen, selectedConversationType, refetch } = props;
   const theme = useTheme();
   const router = useRouter();
   const { user }: any = useAuth();
@@ -78,7 +79,7 @@ export const useUpsertConversation = (props: any) => {
     formData?.attachments !== null &&
       conversationFormData?.append('attachments', formData?.attachments);
 
-    if (!!selectedConversationType?._id) {
+    if (selectedConversationType?.isEdit) {
       editConversation?.({ ...formData, articleIds });
       return;
     }
@@ -92,6 +93,7 @@ export const useUpsertConversation = (props: any) => {
         await postConversationTrigger(apiDataParameter)?.unwrap();
       reset?.();
       closeConversationDrawer?.();
+      refetch?.();
       successSnackbar(response?.message);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -116,9 +118,10 @@ export const useUpsertConversation = (props: any) => {
 
     try {
       await editTicketConversationNoteTrigger(apiDataParameter)?.unwrap();
-      closeConversationDrawer?.();
-      await submitAttachment?.(formData);
+      if (formData?.attachments !== null) await submitAttachment?.(formData);
       reset?.();
+      closeConversationDrawer?.();
+      refetch?.();
       successSnackbar('Conversation updated successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -134,7 +137,7 @@ export const useUpsertConversation = (props: any) => {
       articleType === TICKET_CONVERSATIONS_CONTENT_TYPE?.CONTENT
         ? article?.details
         : `<a style="color:${theme?.palette?.primary?.main}" 
-        href="${AIR_SERVICES?.KNOWLEDGE_BASE_VIEW_ARTICLE}?articleId=${article?._id}">
+        href="${FE_BASE_URL}${AIR_SERVICES?.KNOWLEDGE_BASE_VIEW_ARTICLE}?articleId=${article?._id}">
         Article Link
       </a> <br/>`;
 
@@ -184,7 +187,7 @@ export const useUpsertConversation = (props: any) => {
       'recordId',
       selectedConversationType?._id as string,
     );
-    attachmentFormData?.append('module', MODULE_TYPE?.ASSETS);
+    attachmentFormData?.append('module', MODULE_TYPE?.TICKET);
 
     const postAttachmentParameter = {
       body: attachmentFormData,

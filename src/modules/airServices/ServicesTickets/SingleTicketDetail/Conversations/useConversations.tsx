@@ -21,10 +21,13 @@ export const useConversations = () => {
     recordId: ticketId,
   };
 
-  const { data, isFetching, isLoading } = useGetConversationQuery(queryParams, {
-    refetchOnMountOrArgChange: true,
-    skip: !!!ticketId,
-  });
+  const { data, isFetching, isLoading, refetch } = useGetConversationQuery(
+    queryParams,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!ticketId,
+    },
+  );
 
   const addConversationDropdownButton = addConversationDropdownButtonDynamic?.(
     setSelectedConversationType,
@@ -41,6 +44,7 @@ export const useConversations = () => {
           isDrawerOpen={selectedConversationType?.isOpen}
           setIsDrawerOpen={setSelectedConversationType}
           selectedConversationType={selectedConversationType}
+          refetch={refetch}
         />
       );
     }
@@ -66,5 +70,6 @@ export const useConversations = () => {
     openConversationTypeContext,
     selectedConversationType,
     setSelectedConversationType,
+    refetch,
   };
 };

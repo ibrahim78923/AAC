@@ -24,10 +24,9 @@ export const findAttributeValues = (
   const doc = parser?.parseFromString(htmlContent, 'text/html');
 
   const elements = doc?.querySelectorAll(selectorPattern);
-  const dummyDomainForURL = window?.location?.origin;
   const values = Array?.from(elements)?.map((element) => {
     const attributes = element.getAttribute(attribute);
-    const url = new URL(`${dummyDomainForURL}${attributes}`);
+    const url = new URL(`${attributes}`);
     return url?.searchParams?.get?.(queryParams);
   });
 
