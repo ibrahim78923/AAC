@@ -2,7 +2,7 @@ import { useDeleteTicketConversationMutation } from '@/services/airServices/tick
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteConversation = (props: any) => {
-  const { selectedConversationType, setIsDrawerOpen } = props;
+  const { selectedConversationType, setIsDrawerOpen, refetch } = props;
 
   const [deleteTicketConversationTrigger, deleteTicketConversationStatus] =
     useDeleteTicketConversationMutation();
@@ -10,7 +10,6 @@ export const useDeleteConversation = (props: any) => {
   const deleteConversation = async () => {
     const deleteApiParameter = {
       queryParams: {
-        // id: selectedConversationType?.ticketId,
         id: selectedConversationType?._id,
       },
     };
@@ -20,6 +19,7 @@ export const useDeleteConversation = (props: any) => {
 
       successSnackbar(response?.message);
       setIsDrawerOpen?.({});
+      refetch?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

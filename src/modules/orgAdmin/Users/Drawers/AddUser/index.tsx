@@ -34,7 +34,7 @@ const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
       submitHandler={handleSubmit(onSubmit)}
       footer
     >
-      <Typography variant="body3">
+      <Typography variant="body2">
         Add a new user to this organization
       </Typography>
       <FormProvider methods={methods}>

@@ -16,8 +16,7 @@ export const useUserHeader = (props: any) => {
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
 
-  const [deleteUserProducts, { isLoading: loading }] =
-    useDeleteProductUsersMutation();
+  const [deleteUserProducts, deleteStatus] = useDeleteProductUsersMutation();
 
   const userDropdownOptions = userDropdown(setDeleteModal);
 
@@ -27,6 +26,7 @@ export const useUserHeader = (props: any) => {
       await deleteUserProducts({ ids: deleteIds });
       successSnackbar('Delete Successfully');
       setSelectedUserList([]);
+      setDeleteModal(false);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -52,6 +52,6 @@ export const useUserHeader = (props: any) => {
     setIsAddDrawerOpen,
     methods,
     handleSubmit,
-    loading,
+    deleteStatus,
   };
 };
