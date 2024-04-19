@@ -148,6 +148,13 @@ export const useUser = () => {
     handleClose?.();
   };
 
+  const onClose = () => {
+    setIsDrawerOpen(false);
+    router?.push({
+      pathname: router?.pathname,
+    });
+  };
+
   return {
     usersData,
     theme,
@@ -180,5 +187,9 @@ export const useUser = () => {
     switchLoading,
     handleChangeStatus,
     editProductUsersDetails,
+    onClose,
+    data,
+    router,
+    tabData,
   };
 };
