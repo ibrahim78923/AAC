@@ -156,14 +156,11 @@ const DetailViewTimeEntries = (data: any) => {
                     component="span"
                     sx={{ ml: '4rem' }}
                   >
-                    {dayjs(item?.totalTimeTrack)?.format(
-                      TIME_FORMAT?.TIME_VALIDATION,
-                    ) ?? '-'}
-                    {item?.counter}
+                    {item?.totalTimeTrack}
                   </Typography>
                 </Box>
 
-                {!!!item?.counter ? (
+                {item?.counter !== undefined && (
                   <>
                     <Box display="flex" mt={'1rem'} mb={'2rem'}>
                       <Typography variant="body1"> Start Time</Typography>
@@ -190,7 +187,8 @@ const DetailViewTimeEntries = (data: any) => {
                       </Typography>
                     </Box>
                   </>
-                ) : null}
+                )}
+
                 <Box
                   display="flex"
                   mt={'1rem'}
