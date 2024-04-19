@@ -22,6 +22,7 @@ const TicketsHeader = (props: any) => {
     router,
     setDeleteWorkflow,
     deleteWorkflow,
+    handleWorkflow,
   } = props;
   const { handleDelete, deleteStatus } = useTicketsHeader(props);
   return (
@@ -85,6 +86,7 @@ const TicketsHeader = (props: any) => {
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
         onSubmitFilter={onSubmitListFilter}
+        handleWorkflow={handleWorkflow}
       />
       <WorkflowDelete
         deleteWorkflow={deleteWorkflow}

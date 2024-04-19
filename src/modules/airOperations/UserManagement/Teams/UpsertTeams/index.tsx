@@ -19,6 +19,8 @@ function UpsertTeams({
     disabled,
     setDisabled,
     usersTeamDropdown,
+    addUsersTeamListStatus,
+    patchProductTeamStatus,
   } = useUpsertTeams(setIsDrawerOpen, teamData);
 
   return (
@@ -40,6 +42,15 @@ function UpsertTeams({
           title === USER_MANAGEMENT?.EDIT_TEAM && disabled
             ? USER_MANAGEMENT?.EDIT
             : okText
+        }
+        isLoading={
+          addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
+        }
+        isDisabled={
+          addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
+        }
+        disabledCancelBtn={
+          addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
         }
       >
         <Box mt={1}>
