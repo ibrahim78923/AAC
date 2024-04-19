@@ -10,7 +10,7 @@ import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 const NotesActionDropdown = (props: any) => {
   const { setOpenDrawer, selectedCheckboxes, setSelectedCheckboxes } = props;
   const {
-    theme,
+    // theme,
     isMenuOpen,
     anchorEl,
     handleOpenMenu,
@@ -21,6 +21,7 @@ const NotesActionDropdown = (props: any) => {
     handleOpenDeleteAlert,
     handleCloseAlert,
     handleDeleteHandler,
+    loadingNoteDelete,
   } = useNotesActionDropdown({
     setOpenDrawer,
     selectedCheckboxes,
@@ -30,13 +31,10 @@ const NotesActionDropdown = (props: any) => {
   return (
     <div>
       <Button
+        className="small"
+        variant="outlined"
+        color="inherit"
         endIcon={<ArrowDropDown />}
-        sx={{
-          border: `1px solid ${theme?.palette?.custom?.dark}`,
-          color: `${theme?.palette?.custom?.main}`,
-          minWidth: '0px',
-          height: '35px',
-        }}
         aria-controls={isMenuOpen ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
@@ -52,6 +50,11 @@ const NotesActionDropdown = (props: any) => {
         onClose={handleCloseMenu}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
+        }}
+        sx={{
+          '.MuiPopover-paper': {
+            minWidth: '100px',
+          },
         }}
       >
         <PermissionsGuard
@@ -81,15 +84,18 @@ const NotesActionDropdown = (props: any) => {
         </PermissionsGuard>
       </Menu>
 
-      <AlertModals
-        message={
-          "You're about to delete a record. Deleted records can't be restored after 90 days."
-        }
-        type={'delete'}
-        open={isOpenAlertModal}
-        handleClose={handleCloseAlert}
-        submitHandler={handleDeleteHandler}
-      />
+      {isOpenAlertModal && (
+        <AlertModals
+          message={
+            "You're about to delete a record. Deleted records can't be restored after 90 days."
+          }
+          type={'delete'}
+          open={isOpenAlertModal}
+          handleClose={handleCloseAlert}
+          handleSubmitBtn={handleDeleteHandler}
+          loading={loadingNoteDelete}
+        />
+      )}
     </div>
   );
 };

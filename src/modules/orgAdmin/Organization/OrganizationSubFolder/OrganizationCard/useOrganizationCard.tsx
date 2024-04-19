@@ -65,8 +65,8 @@ const useOrganizationCard = () => {
             reset({
               registrationNumber: fieldsData?.crn,
               name: fieldsData?.name,
-              email: fieldsData?.email,
-              phoneNo: fieldsData?.phoneNo,
+              email: fieldsData?.owner?.email,
+              phoneNo: fieldsData?.owner?.phoneNumber,
               postCode: fieldsData?.postCode,
               compositeAddress: fieldsData?.address?.composite,
               flat: fieldsData?.address?.flat ?? '',

@@ -20,6 +20,7 @@ export const dealsNotesDataArray = [
       name: 'title',
       label: 'Task Name',
       placeholder: 'Title Here',
+      required: true,
       fullWidth: true,
     },
     component: RHFTextField,
