@@ -22,6 +22,7 @@ const ListViewHeader = (props: any) => {
     router,
     setDeleteWorkflow,
     deleteWorkflow,
+    handleWorkflow,
   } = props;
   const { handleDelete, deleteStatus } = useListHeader(props);
   return (
@@ -85,6 +86,7 @@ const ListViewHeader = (props: any) => {
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
         onSubmitFilter={onSubmitListFilter}
+        handleWorkflow={handleWorkflow}
       />
       <EventBasedWorkflowDelete
         deleteWorkflow={deleteWorkflow}
