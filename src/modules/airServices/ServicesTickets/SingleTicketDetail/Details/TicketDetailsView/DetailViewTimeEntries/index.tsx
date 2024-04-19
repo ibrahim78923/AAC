@@ -160,7 +160,7 @@ const DetailViewTimeEntries = (data: any) => {
                   </Typography>
                 </Box>
 
-                {item.counter !== undefined && (
+                {item?.counter !== undefined && (
                   <>
                     <Box display="flex" mt={'1rem'} mb={'2rem'}>
                       <Typography variant="body1"> Start Time</Typography>
