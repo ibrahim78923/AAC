@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { importDefaultValues, importValidationSchema } from './Import.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import useAuth from '@/hooks/useAuth';
 
 export const useImport = (props: any) => {
   const { setDrawerDefaultState, objectUrl, submitImport } = props;
@@ -18,10 +17,6 @@ export const useImport = (props: any) => {
     defaultValues: importDefaultValues,
     resolver: yupResolver(importValidationSchema),
   });
-  const auth: any = useAuth();
-
-  const { _id: organizationCompanyAccountId } =
-    auth?.product?.accounts?.[0]?.company;
 
   const { handleSubmit, reset, control } = importFormMethod;
 
@@ -74,9 +69,9 @@ export const useImport = (props: any) => {
 
     const apiData = {
       dataColumn,
-      companyAccountId: organizationCompanyAccountId,
       filePath: `${objectUrl}/${data?.file?.name}`,
     };
+
     await submitImport?.(apiData);
     onClose?.();
     setShowItemsList(false);

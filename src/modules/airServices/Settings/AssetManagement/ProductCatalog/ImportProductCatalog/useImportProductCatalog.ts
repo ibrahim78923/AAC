@@ -24,7 +24,6 @@ export const useImportProductCatalog = (props: any) => {
   const submitImport = async (apiData: any) => {
     const apiImportData = {
       body: {
-        companyAccountId: apiData?.companyAccountId,
         filePath: apiData?.filePath,
         actionType: IMPORT_ACTION_TYPE?.PRODUCT_CATALOG,
         dataColumn: apiData?.dataColumn,
