@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
   return [
     {
-      accessorFn: (row: any) => row?.fileType,
+      accessorFn: (row: any) => row?.orignalName,
       id: 'contact_id',
       cell: (info: any) => info?.getValue(),
       header: 'Title',
@@ -25,21 +25,24 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
       id: 'actions',
       isSortable: false,
       header: 'Actions',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
           <Box
             sx={{ cursor: 'pointer' }}
-            onClick={() => handleOpenDrawer('View')}
+            onClick={() => handleOpenDrawer('View', info?.cell?.row?.original)}
           >
             <ViewEyeIcon />
           </Box>
           <Box
             sx={{ cursor: 'pointer' }}
-            onClick={() => handleOpenDrawer('Edit')}
+            onClick={() => handleOpenDrawer('Edit', info?.cell?.row?.original)}
           >
             <EditPenIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => handleOpenAlert()}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => handleOpenAlert(info?.cell?.row?.original?._id)}
+          >
             <DeleteCrossIcon />
           </Box>
         </Box>

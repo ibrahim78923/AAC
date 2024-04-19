@@ -71,7 +71,7 @@ const OrganizationTable = () => {
     handlePageChange,
     isLoading,
     addressLength,
-    handleImageChange,
+    handleImageChangeCompany,
     imagePreview,
     reset,
   } = useOrganizationTable();
@@ -111,8 +111,8 @@ const OrganizationTable = () => {
                     borderRadius: '100px',
                     width: '120px',
                     height: '120px',
-                    boxShadow:
-                      '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
+                    boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green},
+                    5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
                   }}
                 >
                   {imagePreview && (
@@ -127,12 +127,12 @@ const OrganizationTable = () => {
                 </Box>
                 <input
                   hidden={true}
-                  id="upload-group-image"
+                  id="upload-group-image-one"
                   type="file"
                   accept="image/*"
-                  onChange={(e: any) => handleImageChange(e)}
+                  onChange={(e: any) => handleImageChangeCompany(e)}
                 />
-                <label htmlFor="upload-group-image">
+                <label htmlFor="upload-group-image-one">
                   <Box
                     sx={{
                       position: 'absolute',
@@ -299,6 +299,7 @@ const OrganizationTable = () => {
         <Grid container spacing={2}>
           <Grid item lg={3} md={3} sm={6} xs={12}>
             <Search
+              size="small"
               label="Search here"
               width="260px"
               searchBy={value}
@@ -420,7 +421,7 @@ const OrganizationTable = () => {
         />
       </Grid>
       <AlertModals
-        message={'Are you sure you want to delete this role?'}
+        message={'Are you sure you want to delete this company?'}
         type={'delete'}
         open={isOpenDelete}
         submitBtnText="Delete"

@@ -22,6 +22,8 @@ const useEditForm = (
 ) => {
   const [selectProductSuite, setSelectProductSuite] = useState('product');
   const [isExistingPlan, setIsExistingPlan] = useState(false);
+  const [isUserPrice, setIsUserPrice] = useState(true);
+  const [isStoragePrice, setIsStoragePrice] = useState(true);
 
   const [addAssignPlan] = usePostBilingInvoicesMutation();
   const [updateAssignPlan] = usePatchBilingInvoicesMutation();
@@ -36,7 +38,7 @@ const useEditForm = (
     additionalUser: isGetRowValues?.cell?.row?.original?.additionalUsers,
     planPrice: isGetRowValues?.cell?.row?.original?.plans?.planPrice,
     defaultUser: isGetRowValues?.cell?.row?.original?.plans?.defaultUsers,
-    defaultUserTwo: isGetRowValues?.cell?.row?.original?.plans?.defaultUsers,
+    defaultStorage: isGetRowValues?.cell?.row?.original?.plans?.defaultStorage,
     additionalStorage: isGetRowValues?.cell?.row?.original?.additionalStorage,
     discount: isGetRowValues?.cell?.row?.original?.planDiscount,
     billingCycle: isGetRowValues?.cell?.row?.original?.billingCycle,
@@ -48,7 +50,7 @@ const useEditForm = (
     defaultValues: async () => {
       // if action is view or update
 
-      if (rowApiValues) {
+      if (!isNullOrEmpty(rowApiValues?.product)) {
         const {
           clientName,
           product,
@@ -56,7 +58,7 @@ const useEditForm = (
           additionalUser,
           planPrice,
           defaultUser,
-          defaultUserTwo,
+          defaultStorage,
           additionalStorage,
           discount,
           billingCycle,
@@ -69,7 +71,7 @@ const useEditForm = (
           additionalUser,
           planPrice,
           defaultUser,
-          defaultUserTwo,
+          defaultStorage,
           additionalStorage,
           discount,
           billingCycle,
@@ -152,8 +154,8 @@ const useEditForm = (
       isSuccessPlan ? planData?.data?.plans?.defaultUsers : '',
     );
     setValue(
-      'defaultUserTwo',
-      isSuccessPlan ? planData?.data?.plans?.defaultUsers : '',
+      'defaultStorage',
+      isSuccessPlan ? planData?.data?.plans?.defaultStorage : '',
     );
   }
 
@@ -167,10 +169,24 @@ const useEditForm = (
       ExistingisSuccessPlan ? ExistingplanData?.data?.plans?.defaultUsers : '',
     );
     setValue(
-      'defaultUserTwo',
-      ExistingisSuccessPlan ? ExistingplanData?.data?.plans?.defaultUsers : '',
+      'defaultStorage',
+      ExistingisSuccessPlan
+        ? ExistingplanData?.data?.plans?.defaultStorage
+        : '',
     );
   }
+
+  useEffect(() => {
+    if (planData?.data?.plans?.additionalPerUserPrice > 0) {
+      setIsUserPrice(false);
+    }
+    if (planData?.data?.plans?.additionalStoragePrice > 0) {
+      setIsStoragePrice(false);
+    } else {
+      setIsUserPrice(true);
+      setIsStoragePrice(true);
+    }
+  }, [planData?.data?.plans]);
 
   useEffect(() => {
     if (
@@ -180,7 +196,7 @@ const useEditForm = (
     ) {
       setValue('planPrice', '');
       setValue('defaultUser', '');
-      setValue('defaultUserTwo', '');
+      setValue('defaultStorage', '');
       setValue('planTypeId', '');
     }
   }, [selectProductSuite, ExistingplanData, planData]);
@@ -221,7 +237,7 @@ const useEditForm = (
         : await addAssignPlan({ body: assignPlanPayload }).unwrap();
 
       enqueueSnackbar(
-        `plan ${isEditModal ? 'updated' : 'added'} Successfully`,
+        `plan ${isEditModal ? 'assign updated' : 'assign'} Successfully`,
         {
           variant: 'success',
         },
@@ -303,6 +319,8 @@ const useEditForm = (
     reset,
     crmOptions,
     isExistingPlan,
+    isStoragePrice,
+    isUserPrice,
   };
 };
 

@@ -3,19 +3,13 @@ import * as Yup from 'yup';
 
 export const upsertTeamValidationSchema: any = Yup?.object()?.shape({
   name: Yup?.string()?.required('Required'),
-  userAccounts: Yup?.array()?.nullable(),
 });
 
-export const upsertTeamData = [
-  {
-    id: 1,
-    name: 'John',
-    team: 'E',
-  },
-];
-export const upsertTeamDefaultValues: any = {
-  name: '',
-  userAccounts: [],
+export const upsertTeamDefaultValues = (data?: any) => {
+  return {
+    name: data?.data?.name ?? '',
+    userAccounts: data?.data?.accounts?.map((item: any) => item?.user) ?? [],
+  };
 };
 
 export const upsertTeamArray = (usersTeamDropdown: any) => [
@@ -35,13 +29,15 @@ export const upsertTeamArray = (usersTeamDropdown: any) => [
     id: 2,
     componentProps: {
       name: 'userAccounts',
-      label: 'Select team',
+      label: 'Select Team Members',
       placeholder: 'Select',
       fullWidth: true,
       required: true,
+      multiple: true,
       apiQuery: usersTeamDropdown,
+      externalParams: { limit: 100 },
       getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option.lastName}`,
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
     md: 12,

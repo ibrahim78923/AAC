@@ -1,18 +1,13 @@
-import { Grid, useTheme } from '@mui/material';
-import { DashboardTableCard } from './DashboardTableCard';
-import {
-  dashboardCardsData,
-  loyaltyAnalyticsData,
-  loyaltyAnalyticsDataOptions,
-} from './Dashboard.data';
-import { CustomChart } from '@/components/Chart';
-import { CardsWrapper } from './CardsWrapper';
+import { Grid } from '@mui/material';
 import { Widget } from './Widget';
 import Header from './Header';
 import DashboardTopUser from './DashboardTopUser';
+import DashboardRewards from './DashboardRewards';
+import DashboardGiftCard from './DashboardGiftCard';
+import DashboardTransaction from './DashboardTransaction';
+import DashboardLoyaltyAnalytics from './DashboardLoyaltyAnalytics';
 
 export const Dashboard = () => {
-  const theme = useTheme();
   return (
     <>
       <Grid container spacing={3}>
@@ -25,30 +20,23 @@ export const Dashboard = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <CardsWrapper title="LOYALTY ANALYTICS">
-            <CustomChart
-              options={loyaltyAnalyticsDataOptions(theme)}
-              series={loyaltyAnalyticsData}
-              type="bar"
-              height={348}
-            />
-          </CardsWrapper>
+          <DashboardLoyaltyAnalytics />
         </Grid>
 
         <Grid item xs={12}>
           <DashboardTopUser />
         </Grid>
 
-        {dashboardCardsData?.map((card) => (
-          <Grid item xl={4} md={6} xs={12} key={card?.id}>
-            <DashboardTableCard
-              tableColumns={card?.tableColumns}
-              tableData={card?.tableData}
-              href={card?.href}
-              title={card?.title}
-            />
-          </Grid>
-        ))}
+        <Grid item xs={4}>
+          <DashboardRewards />
+        </Grid>
+        <Grid item xs={4}>
+          <DashboardGiftCard />
+        </Grid>
+        <Grid item xs={4}>
+          {' '}
+          <DashboardTransaction />
+        </Grid>
       </Grid>
     </>
   );

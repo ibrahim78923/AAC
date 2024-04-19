@@ -19,6 +19,7 @@ export const Conversations = () => {
     openConversationTypeContext,
     selectedConversationType,
     setSelectedConversationType,
+    refetch,
   }: any = useConversations();
 
   if (isLoading || isFetching) return <SkeletonTable />;
@@ -74,6 +75,7 @@ export const Conversations = () => {
           isDrawerOpen={selectedConversationType?.isDelete}
           setIsDrawerOpen={setSelectedConversationType}
           selectedConversationType={selectedConversationType}
+          refetch={refetch}
         />
       )}
     </>

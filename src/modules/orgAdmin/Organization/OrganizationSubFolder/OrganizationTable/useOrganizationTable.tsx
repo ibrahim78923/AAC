@@ -111,9 +111,9 @@ const useOrganizationTable = () => {
       methods.setValue('country', addressOthFields?.country);
       methods.setValue('address', addressOthFields?.composite);
     }
-  }, [editData, methods]);
+  }, [editData, methods, isOpenDrawer]);
 
-  const { handleSubmit, reset, watch } = methods;
+  const { handleSubmit, reset, watch, clearErrors } = methods;
 
   const addressLength = watch('address');
   const unitField = watch('unit');
@@ -155,7 +155,7 @@ const useOrganizationTable = () => {
 
   const formData = new FormData();
 
-  const handleImageChange = async (e: any) => {
+  const handleImageChangeCompany = async (e: any) => {
     const selectedImage = e?.target?.files[0];
     setImageToUpload(selectedImage);
     formData.append('image', selectedImage);
@@ -166,6 +166,7 @@ const useOrganizationTable = () => {
     };
     reader?.readAsDataURL(selectedImage);
   };
+
   const onSubmit = async (data: any) => {
     const products: any = [];
     user?.products?.forEach((product: any) => {
@@ -180,7 +181,6 @@ const useOrganizationTable = () => {
       country: data?.country,
       composite: data?.address,
     };
-
     formData.append('image', imageToUpload);
     formData.append('products', products);
     formData.append('accountName', data?.accountName);
@@ -218,6 +218,7 @@ const useOrganizationTable = () => {
   const handleClose = () => {
     setAnchorEl(null);
     setOpenEditDrawer(true);
+    clearErrors();
   };
   const tableRowData = data?.data?.organizationcompanyaccounts ?? [];
   const getRowValues = columns(
@@ -281,7 +282,7 @@ const useOrganizationTable = () => {
     countryField,
     setImageToUpload,
     imageToUpload,
-    handleImageChange,
+    handleImageChangeCompany,
     imagePreview,
     addressDefaultValuesCheck,
     reset,

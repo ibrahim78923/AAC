@@ -10,16 +10,16 @@ function UpsertUser({
   title,
   okText,
   setIsDrawerOpen,
-  usersData,
+  tabData,
   methods,
   handleSubmit,
   submit,
 }: any) {
   const {
     disabled,
-    setDisabled,
-    departmentDropdown,
+    usersTeamDropdown,
     rolesDropdown,
+    setDisabled,
     patchProductUsersStatus,
     addUsersListStatus,
   } = useUser();
@@ -60,9 +60,9 @@ function UpsertUser({
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {upsertUserArray(departmentDropdown, rolesDropdown)?.map(
+              {upsertUserArray(rolesDropdown, usersTeamDropdown)?.map(
                 (item: any) => (
-                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                  <Grid item xs={12} md={item?.md} key={item?._id}>
                     {item?.subheading &&
                       title !== USER_MANAGEMENT?.USERVIEW && (
                         <Typography variant="body2" sx={{ mb: 2 }}>
@@ -75,8 +75,8 @@ function UpsertUser({
                       disabled={title === USER_MANAGEMENT?.USERVIEW && disabled}
                       placeholder={
                         title === USER_MANAGEMENT?.USERVIEW &&
-                        usersData?.length > 0
-                          ? (usersData?.[0]?.[
+                        tabData?.length > 0
+                          ? (tabData?.[0]?.[
                               item?.componentProps?.name
                             ] as string)
                           : item?.componentProps?.placeholder

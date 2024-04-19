@@ -1,19 +1,21 @@
 import { useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { teamList } from './Teams.data';
 import { PAGINATION } from '@/config';
 import {
   useDeleteTeamUsersMutation,
   useGetTeamListQuery,
+  useLazyGetTeamsByIdQuery,
 } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 
 export const useTeams = () => {
   const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState<any>();
   const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState<boolean>(false);
   const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
-  const [isTeamDrawerOpen, setIsTeamDrawerOpen] = useState<boolean>(false);
+
   const [selectedTeamList, setSelectedTeamList] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<any>({
     val: false,
@@ -22,13 +24,15 @@ export const useTeams = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
+  const [teamData, setTeamData] = useState<any>({});
+  const router = useRouter();
 
   const [deleteTeamUsersTrigger, deleteStatus] = useDeleteTeamUsersMutation();
 
   const param = {
     page: page,
     limit: pageLimit,
-    search,
+    search: search,
   };
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetTeamListQuery({ param });
@@ -53,15 +57,30 @@ export const useTeams = () => {
       errorSnackbar(error?.data?.message);
     }
   };
-
   const teamListColumn = teamList(
-    data?.data?.userTeams,
     selectedTeamList,
     setSelectedTeamList,
-    setIsTeamDrawerOpen,
+    data?.data?.userTeams,
+    setIsDrawerOpen,
     setIsEditDrawerOpen,
     setDeleteModal,
+    setTeamData,
+    router,
   );
+  const teamId = router?.query?.teamId;
+  const [teamByIdTrigger, { data: teamIdData }] = useLazyGetTeamsByIdQuery();
+  const handleTeamById = async () => {
+    await teamByIdTrigger(teamId);
+  };
+  useEffect(() => {
+    handleTeamById();
+  }, [teamId, isEditDrawerOpen]);
+  const onClose = () => {
+    setIsEditDrawerOpen(false);
+    router?.push({
+      pathname: router.pathname,
+    });
+  };
   return {
     theme,
     search,
@@ -74,8 +93,6 @@ export const useTeams = () => {
     deleteModal,
     setDeleteModal,
     submitDeleteModal,
-    isTeamDrawerOpen,
-    setIsTeamDrawerOpen,
     submit,
     metaData,
     data,
@@ -90,5 +107,9 @@ export const useTeams = () => {
     setIsCreateDrawerOpen,
     isEditDrawerOpen,
     setIsEditDrawerOpen,
+    teamData,
+    router,
+    onClose,
+    teamIdData,
   };
 };

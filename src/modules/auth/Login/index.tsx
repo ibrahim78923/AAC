@@ -53,7 +53,9 @@ const Login = () => {
       login(res);
     } catch (error: any) {
       const errMsg = res?.message;
-      enqueueSnackbar(errMsg ?? 'Error occured', { variant: 'error' });
+      enqueueSnackbar(errMsg ?? error?.data?.message ?? 'Error occured', {
+        variant: 'error',
+      });
     }
   };
 

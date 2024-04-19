@@ -42,7 +42,9 @@ export const singleContractDetailsActionDropdownFunction = (
       AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
     ],
     title: 'Renew',
-    disabled: data?.data?.status !== CONTRACT_STATUS?.ACTIVE,
+    disabled:
+      data?.data?.status !== CONTRACT_STATUS?.ACTIVE &&
+      data?.data?.status !== CONTRACT_STATUS?.APPROVED,
     handleClick: (closeMenu: any) => {
       router?.push({
         pathname: AIR_SERVICES?.UPDATE_CONTRACT,
@@ -60,7 +62,9 @@ export const singleContractDetailsActionDropdownFunction = (
       AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
     ],
     title: 'Extend',
-    disabled: data?.data?.status !== CONTRACT_STATUS?.ACTIVE,
+    disabled:
+      data?.data?.status !== CONTRACT_STATUS?.ACTIVE &&
+      data?.data?.status !== CONTRACT_STATUS?.APPROVED,
     handleClick: (closeMenu: any) => {
       router?.push({
         pathname: AIR_SERVICES?.UPDATE_CONTRACT,

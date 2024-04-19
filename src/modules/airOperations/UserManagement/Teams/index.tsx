@@ -4,7 +4,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { useTeams } from './useTeams';
 import UpsertTeams from './UpsertTeams';
 import { AgentConversionDelete } from '../AgentConversionDelete';
-import TeamsDetails from './TeamsDetails';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
@@ -13,8 +12,6 @@ export const Teams = () => {
     teamListColumn,
     deleteModal,
     setDeleteModal,
-    isTeamDrawerOpen,
-    setIsTeamDrawerOpen,
     metaData,
     data,
     isLoading,
@@ -26,9 +23,10 @@ export const Teams = () => {
     submitDeleteModal,
     deleteStatus,
     isEditDrawerOpen,
-    setIsEditDrawerOpen,
+    router,
+    onClose,
+    teamIdData,
   } = useTeams();
-
   return (
     <Box>
       <TeamsHeader />
@@ -56,18 +54,15 @@ export const Teams = () => {
             pageLimit={metaData?.limit}
           />
         </PermissionsGuard>
-        <TeamsDetails
-          isTeamDrawerOpen={isTeamDrawerOpen}
-          setIsTeamDrawerOpen={setIsTeamDrawerOpen}
-          title={'Test'}
-          okText={'Save'}
-        />
-        <UpsertTeams
-          isDrawerOpen={isEditDrawerOpen}
-          setIsDrawerOpen={setIsEditDrawerOpen}
-          title={'Edit Team'}
-          okText={'Save'}
-        />
+        {router?.query?.teamId && (
+          <UpsertTeams
+            isDrawerOpen={isEditDrawerOpen || router?.query?.teamId}
+            setIsDrawerOpen={onClose}
+            teamData={teamIdData}
+            title={'Edit Team'}
+            okText={'Save'}
+          />
+        )}
         {deleteModal && (
           <AgentConversionDelete
             message={'Are you sure you want to delete this Team?'}

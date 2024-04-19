@@ -21,7 +21,14 @@ export const UpsertSupervisorRules = () => {
     postWorkflowProgress,
     isLoading,
     isFetching,
-    handleSaveAsDraft,
+    setValidation,
+    saveWorkflowProgress,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    testWorkflowProgress,
+    updatedWorkflowProcess,
+    handleTestWorkflow,
+    testWorkflowResponse,
   } = useRulesWorkflow();
   if (isLoading || isFetching) return <Skeleton />;
   return (
@@ -31,8 +38,16 @@ export const UpsertSupervisorRules = () => {
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <WorkflowHeader
+          setValidation={setValidation}
+          isWorkflowDrawer={isWorkflowDrawer}
+          setIsWorkflowDrawer={setIsWorkflowDrawer}
           postWorkflowProgress={postWorkflowProgress}
-          handleSaveAsDraft={handleSaveAsDraft}
+          saveWorkflowProgress={saveWorkflowProgress}
+          handleTestWorkflow={handleTestWorkflow}
+          testWorkflowProgress={testWorkflowProgress}
+          updatedWorkflowProcess={updatedWorkflowProcess}
+          testWorkflowResponse={testWorkflowResponse}
+          watch={watch}
         />
         <Grid container spacing={2}>
           {rulesWorkflowDataArray?.map((item: any) => (

@@ -1,44 +1,59 @@
 import { useEffect, useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useLazyGetOrganizationDetailsByIdQuery } from '@/services/orgAdmin/organization';
+import {
+  useLazyGetOrganizationDetailsByIdQuery,
+  useUpdateOrganizationByIdMutation,
+} from '@/services/orgAdmin/organization';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './OrganizationCard.data';
-import { getSession } from '@/utils';
+
 import useToggle from '@/hooks/useToggle';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useOrganizationCard = () => {
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  const [isToggled, setIsToggled] = useToggle(false);
   const theme = useTheme<Theme>();
-  const { user }: any = getSession();
-  const currentOrganizationId = user?.organization?._id;
+  const [isOpenDrawer, setIsOpenDrawer] = useState({
+    isToggled: false,
+    id: '',
+  });
+  const currentOrganizationId = isOpenDrawer?.id;
+  const [isToggled, setIsToggled] = useToggle(false);
 
   const [
     organiztionDetails,
     { isLoading: loadingDetails, isError, isFetching, isSuccess },
   ] = useLazyGetOrganizationDetailsByIdQuery();
 
+  const [updateOrganizationById, { isLoading: loadingUpdateOrganization }] =
+    useUpdateOrganizationByIdMutation();
+
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
   const { handleSubmit, reset, watch, setValue } = methods;
-
-  // Watch all values from forms
   const formValues = watch();
-
-  // Make sum up of address fields
-  const addressValues = [
-    formValues.flat && `Flat # ${formValues.flat}, `,
-    formValues.buildingName && `Building Name ${formValues.buildingName}, `,
-    formValues.buildingNumber && `Building # ${formValues.buildingNumber}, `,
-    formValues.streetName && `Street # ${formValues.streetName}, `,
-    formValues.city && `${formValues.city}, `,
-    formValues.country && formValues.country,
-  ]
-    .filter(Boolean)
-    .join('');
+  //make sum up of address fields
+  const addressValues = formValues?.composite?.address
+    ? formValues?.composite?.address
+    : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
+      `${
+        formValues?.buildingNumber
+          ? `Building # ${formValues?.buildingNumber}, `
+          : ''
+      }` +
+      `${
+        formValues?.buildingName
+          ? `Building Name ${formValues?.buildingName}, `
+          : ''
+      }` +
+      `${
+        formValues?.streetName ? `Street # ${formValues?.streetName}, ` : ''
+      }` +
+      `${formValues?.city ? `${formValues?.city}, ` : ''}` +
+      `${formValues?.country ? `${formValues?.country}` : ''}`;
 
   useEffect(() => {
     if (currentOrganizationId) {
@@ -46,25 +61,63 @@ const useOrganizationCard = () => {
         .unwrap()
         .then((res) => {
           if (res) {
-            const fieldsData = res?.data;
+            const fieldsData = res?.data[0];
             reset({
               registrationNumber: fieldsData?.crn,
               name: fieldsData?.name,
+              email: fieldsData?.email,
+              phoneNo: fieldsData?.phoneNo,
+              postCode: fieldsData?.postCode,
+              compositeAddress: fieldsData?.address?.composite,
+              flat: fieldsData?.address?.flat ?? '',
+              city: fieldsData?.address?.city ?? '',
+              country: fieldsData?.address?.country ?? '',
+              buildingName: fieldsData?.address?.buildingName ?? '',
+              buildingNumber: fieldsData?.address?.buildingNumber ?? '',
+              streetName: fieldsData?.address?.street ?? '',
             });
           }
         });
     }
-  }, [currentOrganizationId, reset]);
+  }, [isOpenDrawer?.isToggled, reset]);
 
   // Set value of address fields
   useEffect(() => {
     setValue('compositeAddress', addressValues);
   }, [addressValues]);
 
+  const handleChangeImg = async (e: any) => {
+    if (e?.target?.files?.length) {
+      const formData = new FormData();
+      formData?.append('image', e?.target?.files[0]);
+      try {
+        await updateOrganizationById({
+          id: currentOrganizationId,
+          body: formData,
+        })?.unwrap();
+        enqueueSnackbar('Image updated successfully', {
+          variant: 'success',
+        });
+      } catch (error: any) {
+        enqueueSnackbar(error?.data?.message, {
+          variant: 'error',
+        });
+      }
+    }
+  };
+
   const onSubmit: any = async (values: any) => {
+    const bodyVals: any = {
+      crn: values?.registrationNumber,
+      name: values?.name,
+      email: values?.email,
+      phoneNo: values?.phoneNo,
+      postCode: values?.postCode,
+    };
     if (isToggled) {
-      values.address = {
-        flatNumber: values.flat,
+      // If isToggled is true, construct the address object with individual fields
+      bodyVals.address = {
+        flatNumber: values?.flat,
         buildingName: values?.buildingName,
         buildingNumber: values?.buildingNumber,
         streetName: values?.streetName,
@@ -72,27 +125,38 @@ const useOrganizationCard = () => {
         country: values?.country,
       };
     } else {
-      values.address = {
+      // If isToggled is false, use a composite address value
+      bodyVals.address = {
         composite: values?.compositeAddress,
       };
     }
-    const keysToDelete: any = [
-      'flat',
-      'buildingNumber',
-      'buildingName',
-      'city',
-      'country',
-      'streetName',
-      'compositeAddress',
-    ];
-
-    for (const key of keysToDelete) {
-      delete values[key];
+    try {
+      await updateOrganizationById({
+        id: currentOrganizationId,
+        body: bodyVals,
+      })
+        .unwrap()
+        .then((res) => {
+          if (res) {
+            organiztionDetails({ id: currentOrganizationId });
+            reset();
+            setIsOpenDrawer({ ...isOpenDrawer, isToggled: false });
+            enqueueSnackbar(`organization updated successfully`, {
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
+            });
+          }
+        });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
   const handleCloseDrawer = () => {
-    setIsOpenDrawer(false), reset();
+    setIsOpenDrawer({ ...isOpenDrawer, isToggled: false }), reset();
   };
   return {
     theme,
@@ -110,6 +174,8 @@ const useOrganizationCard = () => {
     addressVal: formValues.compositeAddress,
     isToggled,
     setIsToggled,
+    handleChangeImg,
+    loadingUpdateOrganization,
   };
 };
 

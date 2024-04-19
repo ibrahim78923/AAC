@@ -89,7 +89,7 @@ export const useDetailViewTimeEntries = (data: any) => {
   };
 
   const handleSubmitPause = async () => {
-    start();
+    reset();
     const postData = {
       ticketId: ticketId,
       taskId: data?.task?._id,
@@ -110,8 +110,6 @@ export const useDetailViewTimeEntries = (data: any) => {
       errorSnackbar(error?.data?.message);
       setIsDrawerOpen(false);
     }
-    reset();
-    start();
   };
 
   return {

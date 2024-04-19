@@ -5,16 +5,23 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertTeams } from './useUpsertTeams';
 import { USER_MANAGEMENT } from '@/constants/strings';
 
-function UpsertTeams({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
+function UpsertTeams({
+  isDrawerOpen,
+  setIsDrawerOpen,
+  title,
+  okText,
+  teamData,
+}: any) {
   const {
     methods,
     handleSubmit,
     submit,
     disabled,
     setDisabled,
-    teamData,
     usersTeamDropdown,
-  } = useUpsertTeams(setIsDrawerOpen);
+    addUsersTeamListStatus,
+    patchProductTeamStatus,
+  } = useUpsertTeams(setIsDrawerOpen, teamData);
 
   return (
     <>
@@ -35,6 +42,15 @@ function UpsertTeams({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
           title === USER_MANAGEMENT?.EDIT_TEAM && disabled
             ? USER_MANAGEMENT?.EDIT
             : okText
+        }
+        isLoading={
+          addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
+        }
+        isDisabled={
+          addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
+        }
+        disabledCancelBtn={
+          addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
         }
       >
         <Box mt={1}>

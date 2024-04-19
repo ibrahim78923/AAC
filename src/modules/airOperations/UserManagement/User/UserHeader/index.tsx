@@ -5,9 +5,17 @@ import { Box, Button } from '@mui/material';
 import UpsertUser from '../UpsertUser';
 import { AgentConversionDelete } from '../../AgentConversionDelete';
 import { useUserHeader } from './useUserHeader';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UserHeader = (props: any) => {
-  const { selectedUserList } = props;
+  const {
+    selectedUserList,
+    addUsersListStatus,
+    submit,
+    handleSubmit,
+    methods,
+  } = props;
   const {
     isAddDrawerOpen,
     setIsAddDrawerOpen,
@@ -17,10 +25,7 @@ export const UserHeader = (props: any) => {
     submitDeleteModal,
     search,
     setSearch,
-    methods,
-    handleSubmit,
-    submit,
-    loading,
+    deleteStatus,
   } = useUserHeader(props);
 
   return (
@@ -39,11 +44,17 @@ export const UserHeader = (props: any) => {
         />
       </Box>
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
-        <SingleDropdownButton
-          dropdownName={'Actions'}
-          dropdownOptions={userDropdownOptions}
-          disabled={!selectedUserList?.length}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USER,
+          ]}
+        >
+          <SingleDropdownButton
+            dropdownName={'Actions'}
+            dropdownOptions={userDropdownOptions}
+            disabled={!selectedUserList?.length}
+          />
+        </PermissionsGuard>
         <Button
           startIcon={<CirclePlusIcon />}
           variant="contained"
@@ -59,6 +70,7 @@ export const UserHeader = (props: any) => {
           methods={methods}
           handleSubmit={handleSubmit}
           submit={submit}
+          addUsersListStatus={addUsersListStatus}
         />
         {deleteModal && (
           <AgentConversionDelete
@@ -68,7 +80,7 @@ export const UserHeader = (props: any) => {
               setDeleteModal(false);
             }}
             submitDeleteModal={submitDeleteModal}
-            loading={loading}
+            deleteStatus={deleteStatus}
           />
         )}
       </Box>

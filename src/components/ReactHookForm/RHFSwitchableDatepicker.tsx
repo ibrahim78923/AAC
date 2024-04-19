@@ -244,6 +244,7 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
             startDate={startDate}
             endDate={endDate}
             selectsRange={isRangePicker}
+            excludeDates={[new Date()]}
           />
         </>
       )}

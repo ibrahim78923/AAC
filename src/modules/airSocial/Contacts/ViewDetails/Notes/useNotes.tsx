@@ -63,9 +63,11 @@ const useNotes = () => {
     handleSubmitAddNote((values) => onSubmitAddNote(values, contactId));
 
   // Get Notes
-  const { data: dataGetNotes, isLoading: loagingGetNotes } = useGetNotesQuery(
-    {},
-  );
+  const {
+    data: dataGetNotes,
+    isLoading: loadingGetNotes,
+    isFetching: fetchingGetNotes,
+  } = useGetNotesQuery({});
 
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
   const handleCheckboxChange = (event: any, note: any) => {
@@ -183,7 +185,8 @@ const useNotes = () => {
     handleCloseDrawerAddNote,
     loadingAddNote,
     dataGetNotes,
-    loagingGetNotes,
+    loadingGetNotes,
+    fetchingGetNotes,
     selectedCheckboxes,
     handleCheckboxChange,
     openDrawerViewNote,

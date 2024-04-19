@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
-import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts';
+import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts/associations';
 import { useForm } from 'react-hook-form';
-import { usePostAttachmentMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/attachments';
+import {
+  usePostAttachmentMutation,
+  useDeleteAttachmentMutation,
+} from '@/services/commonFeatures/contacts/associations/attachments';
 import {
   attachmentsDefaultValues,
   attachmentsValidationSchema,
@@ -11,9 +14,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 
 const useAttachments = (contactId: any) => {
-  // Get Association Tickets
+  const theme = useTheme();
+  // Get Association Attachments
   const [searchValue, setSearchValue] = useState(null);
-
   const payLoad = {
     contactId: contactId,
     association_type: 'attachments',
@@ -23,7 +26,7 @@ const useAttachments = (contactId: any) => {
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
-  const { data: dataGetAttachment, isLoading: loadingTickets } =
+  const { data: dataGetAttachment, isLoading: loadingGetAttachment } =
     useGetContactAssociationsQuery({
       params: { ...payLoad, ...searchPayLoad },
     });
@@ -33,7 +36,7 @@ const useAttachments = (contactId: any) => {
     resolver: yupResolver(attachmentsValidationSchema),
     defaultValues: attachmentsDefaultValues,
   });
-  const [postAttachment, { isLoading: loadingAddCompanyAccount }] =
+  const [postAttachment, { isLoading: loadingAddAttachment }] =
     usePostAttachmentMutation();
   const {
     handleSubmit: handleMethodAddAttachment,
@@ -41,29 +44,10 @@ const useAttachments = (contactId: any) => {
   } = methodsAttachments;
   const [drawerTitle, setDrawerTitle] = useState('Add');
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [attachmentData, setAttachmentData] = useState();
   const handleOpenDrawer = (title: any, data: any) => {
     setDrawerTitle(title);
-    // if (title === 'Add') {
-    //   console.log('Add open');
-    // }
-
-    // if (title === 'Edit') {
-    //   console.log('Edit Open');
-    // }
-
-    // if (title === 'View') {
-    //   console.log('View Open');
-    // }
-    if (data) {
-      // methodsAttachments.setValue('name', data?.name);
-      // methodsAttachments.setValue('dealPipelineId', data?.dealPipelineId);
-      // methodsAttachments.setValue('dealStageId', data?.dealStageId);
-      // methodsAttachments.setValue('amount', data?.amount);
-      // methodsAttachments.setValue('closeDate', new Date(data?.closeDate));
-      // methodsAttachments.setValue('ownerId', data?.ownerId);
-      // methodsAttachments.setValue('priority', data?.priority);
-      // methodsAttachments.setValue('addLineItemId', data?.addLineItemId);
-    }
+    setAttachmentData(data);
     setOpenDrawer(true);
   };
   const handleCloseDrawer = () => {
@@ -74,9 +58,10 @@ const useAttachments = (contactId: any) => {
   // Add Attachment
   const onSubmitAddAttachment = async (values: any) => {
     const formData = new FormData();
-    formData?.append('fileUrl', values?.fileUrl);
-    formData?.append('module', 'CONTACT');
+    formData?.append('fileUrl', values?.attachment);
     formData?.append('recordId', contactId);
+    formData?.append('module', 'CONTACT');
+    formData?.append('recordType', 'contacts');
     try {
       await postAttachment(formData)?.unwrap();
       handleCloseDrawer();
@@ -93,23 +78,37 @@ const useAttachments = (contactId: any) => {
     onSubmitAddAttachment,
   );
 
-  // const [isDisabledFields, setIsDisabledFields] = useState(true);
-
-  // Delete Modal
+  // Delete Attachment
+  const [attachmentId, setAttachmentId] = useState('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
-  const handleOpenAlert = () => {
+  const handleOpenAlert = (id: string) => {
+    setAttachmentId(id);
     setIsOpenAlert(true);
   };
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
+  const [deleteAttachment, { isLoading: loadingDelete }] =
+    useDeleteAttachmentMutation();
 
-  const theme = useTheme();
+  const handleDeleteAttachment = async () => {
+    try {
+      await deleteAttachment(attachmentId)?.unwrap();
+      handleCloseAlert();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
 
   return {
     searchValue,
     setSearchValue,
-    loadingTickets,
+    loadingGetAttachment,
     dataGetAttachment,
 
     drawerTitle,
@@ -118,12 +117,16 @@ const useAttachments = (contactId: any) => {
     handleCloseDrawer,
     methodsAttachments,
     handleAddAttachmentSubmit,
-    loadingAddCompanyAccount,
+    loadingAddAttachment,
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
     postAttachment,
     theme,
+    attachmentData,
+
+    handleDeleteAttachment,
+    loadingDelete,
   };
 };
 

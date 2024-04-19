@@ -1,5 +1,7 @@
-import { AntSwitch } from '@/components/AntSwitch';
-import { Avatar, Box } from '@mui/material';
+import { REQUESTORS_STATUS } from '@/constants/strings';
+import { Avatar, Box, Chip } from '@mui/material';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+
 export const data: any = [
   {
     id: 6757,
@@ -10,7 +12,7 @@ export const data: any = [
     creditReceived: '30',
     noOfTransactions: '30',
     tire: 'sharemydine',
-    active: true,
+    status: 'Active',
   },
   {
     id: 1745,
@@ -21,7 +23,7 @@ export const data: any = [
     creditReceived: '30',
     noOfTransactions: '30',
     tire: 'sharemydine',
-    active: false,
+    status: 'Active',
   },
 ];
 export const dashboardTopUserColumnsFunction = (): any => [
@@ -80,10 +82,38 @@ export const dashboardTopUserColumnsFunction = (): any => [
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.active,
-    id: 'active',
-    header: 'Active',
-    isSortable: true,
-    cell: (info: any) => <AntSwitch values={info?.getValue()} />,
+    accessorFn: (row: any) => row?.status,
+    id: 'status',
+    header: 'Status',
+    cell: (info: any) => (
+      <Chip
+        sx={{
+          backgroundColor:
+            info?.getValue()?.toLowerCase() ===
+            REQUESTORS_STATUS?.ACTIVE?.toLowerCase()
+              ? 'success.lighter'
+              : 'custom.error_lighter',
+          color:
+            info?.getValue()?.toLowerCase() ===
+            REQUESTORS_STATUS?.ACTIVE?.toLowerCase()
+              ? 'success.main'
+              : 'error.main',
+          fontWeight: 500,
+          fontSize: '0.7rem',
+        }}
+        icon={
+          <FiberManualRecordIcon
+            color={
+              info?.getValue()?.toLowerCase() ===
+              REQUESTORS_STATUS?.ACTIVE?.toLowerCase()
+                ? 'success'
+                : 'error'
+            }
+            sx={{ fontSize: '0.7rem' }}
+          />
+        }
+        label={info?.getValue()}
+      />
+    ),
   },
 ];

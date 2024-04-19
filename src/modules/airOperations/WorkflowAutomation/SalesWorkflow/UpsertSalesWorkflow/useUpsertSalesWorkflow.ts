@@ -14,7 +14,7 @@ import {
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 
 export const useUpsertSalesWorkflow = () => {
   const [validation, setValidation] = useState(false);
@@ -71,7 +71,7 @@ export const useUpsertSalesWorkflow = () => {
     }));
   };
   const scheduledValues = (scheduleData: any) => {
-    const time = dayjs(scheduleData?.time)?.format('HH:mm');
+    const time = dayjs(scheduleData?.time)?.format(TIME_FORMAT?.TH);
     return {
       type: scheduleData?.schedule?.toUpperCase(),
       daily: {
