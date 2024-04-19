@@ -50,13 +50,20 @@ export const useUpsertSalesWorkflow = () => {
         condition: condition?.condition,
         fieldType: fieldTypeValues(condition),
         collectionName:
-          condition?.fieldName?.label === workflowFields?.dealPipeline
+          condition?.fieldName?.label === workflowFields?.dealPipeline &&
+          (condition?.condition === workflowFields?.isIn ||
+            condition?.condition === workflowFields?.isNotIn)
             ? workflowFields?.dealpipelines
-            : condition?.fieldName?.label === workflowFields?.dealStage
+            : condition?.fieldName?.label === workflowFields?.dealStage &&
+                (condition?.condition === workflowFields?.isIn ||
+                  condition?.condition === workflowFields?.isNotIn)
               ? workflowFields?.lifecycleStages
-              : condition?.fieldName?.label === workflowFields?.salesOwner ||
-                  workflowFields?.createdBy ||
-                  workflowFields?.updatedBy
+              : condition?.fieldName?.label ===
+                    (workflowFields?.salesOwner ||
+                      workflowFields?.createdBy ||
+                      workflowFields?.updatedBy) &&
+                  (condition?.condition === workflowFields?.isIn ||
+                    condition?.condition === workflowFields?.isNotIn)
                 ? workflowFields?.users
                 : '',
       })),
@@ -95,22 +102,20 @@ export const useUpsertSalesWorkflow = () => {
   };
   const actionValues = (actionData: any) => {
     return actionData?.actions?.map((action: any) => ({
-      fieldName: action?.fieldName,
+      fieldName: action?.fieldName?.value,
       fieldValue: action?.fieldValue?._id
         ? action?.fieldValue?._id
         : action?.fieldValue,
       fieldType: fieldTypeValues(action),
       collectionName:
-        action?.fieldName === workflowFields?.setDealPipeline ||
-        action?.fieldName === workflowFields?.selectDeal
-          ? workflowFields?.deal
-          : action?.fieldName === workflowFields?.setDealOwner
-            ? workflowFields?.contact
-            : action?.fieldName === workflowFields?.addLineItem
-              ? workflowFields?.product
-              : action?.fieldName === workflowFields?.setAssignedTo
-                ? workflowFields?.users
-                : null,
+        action?.fieldName?.label === workflowFields?.setDealPipeline
+          ? workflowFields?.dealpipelines
+          : action?.fieldName?.label === workflowFields?.setDealStage
+            ? workflowFields?.lifecycleStages
+            : action?.fieldName?.label === workflowFields?.setDealOwner ||
+                action?.fieldName?.label === workflowFields?.setAssignedTo
+              ? workflowFields?.users
+              : '',
     }));
   };
   const handleFormSubmit = async (data: any) => {

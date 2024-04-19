@@ -25,10 +25,10 @@ export const salesSchema: any = Yup?.object()?.shape({
           fieldName: Yup?.mixed()?.required('Required'),
           condition: Yup?.string()?.required('Required'),
           fieldValue: Yup?.mixed()?.when('condition', {
-            is: (type: string) =>
-              type === workflowTypes?.isEmpty ||
-              workflowTypes?.isNotEmpty ||
-              workflowTypes?.isBlank,
+            is: (condition: string) =>
+              condition === workflowTypes?.isEmpty ||
+              condition === workflowTypes?.isNotEmpty ||
+              condition === workflowTypes?.isBlank,
             then: (schema: any) => schema?.notRequired(),
             otherwise: (schema: any) => schema?.required('Required'),
           }),
@@ -108,4 +108,5 @@ export const workflowFields = {
   dealpipelines: 'dealpipelines',
   dealStage: 'Deal Stage',
   lifecycleStages: 'lifecycleStages',
+  setDealStage: 'Set Deal Stage',
 };

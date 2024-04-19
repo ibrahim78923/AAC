@@ -5,16 +5,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { fullName } from '@/utils/avatarUtils';
-
-const setDealStageOption = [
-  'New',
-  'Follow up',
-  'Under Review',
-  'Demo',
-  'Negotiation',
-  'Won',
-  'Lost',
-];
 const setPriorityOption = ['Low', 'Medium', 'High'];
 const setBillOption = [
   'monthly',
@@ -28,9 +18,8 @@ const setTaskStatusOption = ['Pending', 'Inprogress', 'Completed'];
 const reminderOption = [
   'Today',
   'Tomorrow',
-  'In 2 business day',
-  'In 3 business day',
-  'In a week',
+  'In_1_business_day',
+  'In_2_business_day',
 ];
 
 export const actionsExecutedFields = (
@@ -39,6 +28,7 @@ export const actionsExecutedFields = (
   dealsDropdown: any,
   contactDropdown: any,
   userDropdown: any,
+  stagesDropdown: any,
 ) => {
   const moduleType = watch('module');
   const keyOptions = actionKeys[moduleType] || [];
@@ -54,9 +44,10 @@ export const actionsExecutedFields = (
           placeholder: 'Select Deal Pipeline',
         });
     } else if (watchKey === actionName?.setDealStage) {
-      (component = RHFAutocomplete),
+      (component = RHFAutocompleteAsync),
         (componentProps = {
-          options: setDealStageOption,
+          apiQuery: stagesDropdown,
+          externalParams: { limit: 100 },
           placeholder: 'Select Stage',
         });
     } else if (watchKey === actionName?.setAmount) {
