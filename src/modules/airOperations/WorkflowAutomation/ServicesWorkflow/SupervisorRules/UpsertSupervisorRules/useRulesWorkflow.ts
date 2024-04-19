@@ -9,14 +9,19 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
+  usePostTestWorkflowMutation,
   useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useRulesWorkflow = () => {
+  const [validation, setValidation] = useState(false);
+  const [testWorkflow, setTestWorkflow] = useState(false);
+  const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
+  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
   const typeData = {
     string: 'string',
     number: 'number',
@@ -28,14 +33,15 @@ export const useRulesWorkflow = () => {
   const collectionNameData = {
     agent: 'agent',
     assignToAgent: 'Assign to Agent',
-    selectDepartment: 'selectDepartment',
-    department: 'department',
+    selectDepartment: 'Select Department',
+    department: 'Department',
     setDepartmentAs: 'Set Department as',
-    location: 'location',
-    addRequester: 'addRequester',
-    requester: 'requester',
+    location: 'Location',
+    addRequester: 'Add Requester',
+    requester: 'Requester',
     setCategoryAs: 'Set Category as',
-    category: 'category',
+    category: 'Category',
+    users: 'Users',
   };
 
   const router = useRouter();
@@ -59,7 +65,7 @@ export const useRulesWorkflow = () => {
 
   const rulesMethod = useForm({
     defaultValues: rulesWorkflowValues(singleWorkflowData),
-    resolver: yupResolver(rulesWorkflowSchema),
+    resolver: validation ? yupResolver(rulesWorkflowSchema) : undefined,
   });
 
   const mapField = (field: any, typeData: any) => {
@@ -105,7 +111,8 @@ export const useRulesWorkflow = () => {
   const mapGroup = (group: any, typeData: any) => ({
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
-      ...condition,
+      condition: condition?.condition,
+      fieldName: condition?.fieldName?.value,
       fieldValue:
         condition?.fieldName &&
         [
@@ -115,7 +122,7 @@ export const useRulesWorkflow = () => {
           collectionNameData?.location,
           collectionNameData?.addRequester,
           collectionNameData?.setCategoryAs,
-        ].includes(condition?.fieldName)
+        ].includes(condition?.fieldName?.label)
           ? condition?.fieldValue?._id
           : condition?.fieldValue,
       fieldType: mapField(condition, typeData),
@@ -143,74 +150,59 @@ export const useRulesWorkflow = () => {
     collectionName: getCollectionName(action?.fieldName),
   });
 
-  const { reset, watch, register, handleSubmit, setValue, control, getValues } =
+  const { reset, watch, register, handleSubmit, setValue, control } =
     rulesMethod;
 
   const [postWorkflowTrigger, postWorkflowProgress] =
     usePostServicesWorkflowMutation();
-  const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
-  const [saveWorkflowTrigger] = useSaveWorkflowMutation();
+  const [updateWorkflowTrigger, updatedWorkflowProcess] =
+    useUpdateWorkflowMutation();
+  const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
+  const [postTestTrigger, testWorkflowProgress] = usePostTestWorkflowMutation();
 
-  const handleFormSubmit = async (data: any) => {
-    if (pageActionType === EDIT_WORKFLOW) {
-      const { options, ...rest } = data;
-      const body = {
-        ...rest,
-        id: singleId,
-        events: [data?.events?.value],
-        runType: data?.runType?.value,
-        groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-        actions: data?.actions?.map((action: any) =>
-          mapAction(action, typeData),
-        ),
-      };
-      try {
-        await updateWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Update Successfully');
+  const handleTestWorkflow = async () => {
+    setTestWorkflow(true);
+  };
+
+  const handleApiCall = async (body: any) => {
+    try {
+      let successMessage = '';
+      if (testWorkflow && validation) {
+        const response = await postTestTrigger(body).unwrap();
+        setIsWorkflowDrawer(true);
+        setTestWorkflowResponse(response);
+        successMessage = 'Test Workflow Executed Successfully';
+      } else {
+        if (pageActionType === EDIT_WORKFLOW) {
+          await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
+          successMessage = 'Workflow Update Successfully';
+        } else if (!validation) {
+          await saveWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Save Successfully';
+        } else {
+          await postWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Create Successfully';
+        }
+      }
+
+      successSnackbar(successMessage);
+      if (!testWorkflow) {
         reset();
         movePage();
-        return options;
-      } catch (error) {
-        errorSnackbar();
       }
-    } else {
-      const { options, ...rest } = data;
-      const body = {
-        ...rest,
-        events: [data?.events?.value],
-        runType: data?.runType?.value,
-        groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-        actions: data?.actions?.map((action: any) =>
-          mapAction(action, typeData),
-        ),
-      };
-      try {
-        await postWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Enabled Successfully');
-        reset();
-        movePage();
-        return options;
-      } catch (error) {
-        errorSnackbar();
-      }
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
-  const handleSaveAsDraft = async (data: any) => {
-    const title = getValues('title');
-    if (!title) {
-      errorSnackbar('Title is required');
-      return;
-    } else {
-      try {
-        await saveWorkflowTrigger(data)?.unwrap();
-        successSnackbar('Workflow Updated Successfully');
-        reset();
-        movePage();
-      } catch (error) {
-        errorSnackbar();
-      }
-    }
+  const handleFormSubmit = async (data: any) => {
+    const body = {
+      ...data,
+      runType: data?.runType?.value,
+      groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
+      actions: data?.actions?.map((action: any) => mapAction(action, typeData)),
+    };
+    await handleApiCall(body);
   };
 
   useEffect(() => {
@@ -232,6 +224,13 @@ export const useRulesWorkflow = () => {
     postWorkflowProgress,
     isLoading,
     isFetching,
-    handleSaveAsDraft,
+    setValidation,
+    saveWorkflowProgress,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    updatedWorkflowProcess,
+    testWorkflowProgress,
+    handleTestWorkflow,
+    testWorkflowResponse,
   };
 };

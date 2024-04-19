@@ -6,7 +6,8 @@ import {
 } from '@/components/ReactHookForm';
 import { actionsOptions } from '../UpsertRulesWorkflow.data';
 
-const statusOptions = ['Open', 'Pending', 'Resolved', 'Closed'];
+const statusOptions = ['OPEN', 'CLOSED', 'RESOLVED', 'PENDING', 'SPAMS'];
+const impactOptions = ['HIGH', 'MEDIUM', 'LOW'];
 const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
 const typeOptions = ['INC', 'SR'];
 const sourcesOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
@@ -16,7 +17,7 @@ const optionsConstant = {
   department: 'Set Department as',
   category: 'Set Category as',
   priority: 'Set Category as',
-  impact: 'Set Impact as',
+  impacts: 'Set Impact as',
   source: 'Set Source as',
   type: 'Set Type as',
   task: 'Add Task',
@@ -46,14 +47,15 @@ export const actionsData = ({
   };
 
   const valuesOptions =
-    selectedLabel === optionsConstant?.priority ||
-    selectedLabel === optionsConstant?.impact
+    selectedLabel === optionsConstant?.priority
       ? priority
       : selectedLabel === optionsConstant?.source
         ? sourcesOptions
         : selectedLabel === optionsConstant?.type
           ? typeOptions
-          : statusOptions;
+          : selectedLabel === optionsConstant?.impacts
+            ? impactOptions
+            : statusOptions;
   let valueComponent;
   const apiQuery = useApiQuery(selectedLabel);
   if (

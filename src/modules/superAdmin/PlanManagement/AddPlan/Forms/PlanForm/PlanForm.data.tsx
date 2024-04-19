@@ -11,9 +11,9 @@ export const defaultValues = {
   defaultStorage: '',
   planPrice: '',
   allowAdditionalUsers: 'No',
-  additionalPerUserPrice: '',
+  additionalPerUserPrice: 0,
   allowAdditionalStorage: 'No',
-  additionalStoragePrice: '',
+  additionalStoragePrice: 0,
 };
 
 export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({

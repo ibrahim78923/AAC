@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import {
-  useDeleteProductUsersMutation,
-  usePostProductUserListMutation,
-} from '@/services/airOperations/user-management/user';
+import { useDeleteProductUsersMutation } from '@/services/airOperations/user-management/user';
 import { userDropdown } from '../User.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useForm } from 'react-hook-form';
@@ -38,22 +35,9 @@ export const useUserHeader = (props: any) => {
     resolver: yupResolver(upsertUserValidationSchema),
     defaultValues: upsertUserDefaultValues(null),
   });
+
   const { handleSubmit } = methods;
-  const [addListUsers] = usePostProductUserListMutation();
-  const submit = async (data: any) => {
-    try {
-      const body = {
-        ...data,
-        role: data?.role?._id,
-        team: data?.team?._id,
-        language: data?._id,
-      };
-      await addListUsers({ body }).unwrap();
-      successSnackbar('Users List added successfully.');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
+
   return {
     search,
     setSearch,
@@ -68,7 +52,6 @@ export const useUserHeader = (props: any) => {
     setIsAddDrawerOpen,
     methods,
     handleSubmit,
-    submit,
     loading,
   };
 };

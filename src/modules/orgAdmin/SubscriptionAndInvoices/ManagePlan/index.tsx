@@ -106,7 +106,9 @@ const ManagePlan = () => {
             <PlaneIcon />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: '600' }}>
-            {parsedManageData?.productName || '--'}
+            {parsedManageData?.productName ||
+              parsedManageData?.planName ||
+              '--'}
           </Typography>
           <Box sx={styles?.cardHeaderAction}>
             <PermissionsGuard
@@ -154,6 +156,7 @@ const ManagePlan = () => {
                       defaultValue="monthly"
                       // label="Age"
                       onChange={handleChange}
+                      disabled
                     >
                       <MenuItem value={'paidMonthly'}>Paid Monthly</MenuItem>
                       <MenuItem value={'paidQuarterly'}>
@@ -249,17 +252,6 @@ const ManagePlan = () => {
           </Box>
         </Box>
 
-        {/* <Box sx={styles?.planTableRow}>
-          <Box sx={styles?.planTableTdBold}>
-            Total{' '}
-            <Box component="span" sx={{ fontSize: '12px' }}>
-            </Box>
-          </Box>
-          <Box sx={styles?.planTableTh}>
-            £ {(planCalculations?.discountApplied || 0)?.toFixed(2)}
-          </Box>
-        </Box> */}
-
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Tax{' '}
@@ -296,7 +288,7 @@ const ManagePlan = () => {
             sx={styles?.cancelButton}
             onClick={() =>
               router.push(
-                `${orgAdminSubcriptionInvoices.back_subscription_invoices}`,
+                `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
               )
             }
           >

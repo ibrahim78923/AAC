@@ -30,6 +30,7 @@ export const useTicketDelete = (props: any) => {
     try {
       await deleteTicketsTrigger(deleteTicketsParameter)?.unwrap();
       successSnackbar('Ticket deleted successfully');
+      closeTicketsDeleteModal?.();
       setSelectedTicketList?.([]);
       const newPage = selectedTicketList?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
@@ -40,7 +41,6 @@ export const useTicketDelete = (props: any) => {
           skipQueries: ['ticketAction'],
         }),
       );
-      closeTicketsDeleteModal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
       setSelectedTicketList?.([]);

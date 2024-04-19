@@ -127,12 +127,8 @@ export const useAddPlan = () => {
             additionalPerUserPrice,
             additionalStoragePrice,
             description,
-            allowAdditionalUsers: !isNullOrEmpty(additionalPerUserPrice)
-              ? 'Yes'
-              : 'No',
-            allowAdditionalStorage: !isNullOrEmpty(additionalStoragePrice)
-              ? 'Yes'
-              : 'No',
+            allowAdditionalUsers: additionalPerUserPrice > 0 ? 'Yes' : 'No',
+            allowAdditionalStorage: additionalStoragePrice > 0 ? 'Yes' : 'No',
             productId,
             suite,
             planTypeId,
@@ -308,6 +304,7 @@ export const useAddPlan = () => {
   });
 
   const onSubmitPlanFeaturesHandler = async (values: any) => {
+    let addExtraFeatures: any;
     let featuresData;
     if (isNullOrEmpty(planForm?.productId)) {
       featuresData = planForm?.suite?.map((productIdItem: any) => {
@@ -317,10 +314,15 @@ export const useAddPlan = () => {
               const productId = productFeatures?.data?.productfeatures?.find(
                 (id: any) => id?._id === item,
               );
+              addExtraFeatures = '';
+              if (featureDetails?.featureId === item) {
+                addExtraFeatures =
+                  featureDetails?.values?.dealsAssociationsDetail;
+              }
               if (productId?.productId === productIdItem) {
                 return {
-                  dealsAssociationsDetail:
-                    featureDetails?.dealsAssociationsDetail,
+                  dealsAssociationsDetail: addExtraFeatures,
+
                   featureId: item,
                 };
               }
@@ -333,8 +335,12 @@ export const useAddPlan = () => {
     } else {
       featuresData = {
         features: values?.features?.map((item: any) => {
+          addExtraFeatures = '';
+          if (featureDetails?.featureId === item) {
+            addExtraFeatures = featureDetails?.values?.dealsAssociationsDetail;
+          }
           return {
-            dealsAssociationsDetail: featureDetails?.dealsAssociationsDetail,
+            dealsAssociationsDetail: addExtraFeatures,
             featureId: item,
           };
         }),
@@ -574,13 +580,18 @@ export const useAddPlan = () => {
   useEffect(() => {
     if (AdditionalStorageValue[0] === 'No') {
       setValue('additionalStoragePrice', 0);
+    } else if (
+      AdditionalStorageValue[0] === 'Yes' &&
+      isNullOrEmpty(parsedRowData)
+    ) {
+      setValue('additionalStoragePrice', 1);
+    }
+    if (AdditionalUsereValue[0] === 'Yes' && isNullOrEmpty(parsedRowData)) {
+      setValue('additionalPerUserPrice', 1);
     } else if (AdditionalUsereValue[0] === 'No') {
       setValue('additionalPerUserPrice', 0);
-    } else {
-      setValue('additionalStoragePrice', 1);
-      setValue('additionalPerUserPrice', 1);
     }
-  }, [AdditionalStorageValue, AdditionalUsereValue, setValue]);
+  }, [AdditionalStorageValue, AdditionalUsereValue]);
 
   return {
     methods,

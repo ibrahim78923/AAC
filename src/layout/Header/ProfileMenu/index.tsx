@@ -21,6 +21,7 @@ import { ArrowDownImage, ArrowUpImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 import { generateImage } from '@/utils/avatarUtils';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const ProfilMenu = () => {
   const [statusDropDown, setStatusDropDown] = useState<null | HTMLElement>(
@@ -63,9 +64,10 @@ const ProfilMenu = () => {
           display: 'flex',
           alignItems: 'center',
           cursor: 'pointer',
+          width: '50px',
         }}
       >
-        <Image src={ArrowDownImage} alt="Avatar" />
+        <ArrowDropDownIcon sx={{ fontSize: '30px' }} />
       </Box>
       <Menu
         id="basic-menu"
