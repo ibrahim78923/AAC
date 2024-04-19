@@ -4,6 +4,14 @@ const TAG = 'MANAGE_SHOP';
 
 export const manageShopAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
+    addShop: builder?.mutation({
+      query: (body: any) => ({
+        url: ``,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
     getShop: builder?.query({
       query: (params: any) => ({
         url: ``,
@@ -15,4 +23,4 @@ export const manageShopAPI = baseAPI?.injectEndpoints({
   }),
 });
 
-export const { useGetShopQuery } = manageShopAPI;
+export const { useAddShopMutation, useGetShopQuery } = manageShopAPI;

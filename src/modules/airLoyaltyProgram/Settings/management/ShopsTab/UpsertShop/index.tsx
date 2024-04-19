@@ -6,8 +6,13 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { upsertShopFields } from './UpsertShop.data';
 
 const ShopModal = ({ addShopModalOpen, setAddShopModalOpen }: any) => {
-  const { methodsUpsertShopModalForm, submitUpsertShopModalForm, handleClose } =
-    useUpsertShopModal(setAddShopModalOpen);
+  const {
+    methodsUpsertShopModalForm,
+    submitUpsertShopModalForm,
+    handleClose,
+    handleSubmit,
+    shopStatus,
+  } = useUpsertShopModal(setAddShopModalOpen);
 
   return (
     <>
@@ -24,15 +29,18 @@ const ShopModal = ({ addShopModalOpen, setAddShopModalOpen }: any) => {
           onClose={handleClose}
           okText={'Submit'}
           title={'New Shop'}
-          submitHandler={submitUpsertShopModalForm}
+          submitHandler={handleSubmit(submitUpsertShopModalForm)}
           isOk={true}
           cancelText={'Cancel'}
           footer
+          isLoading={shopStatus?.isLoading}
+          isDisabled={shopStatus?.isLoading}
+          disabledCancelBtn={shopStatus?.isLoading}
         >
           <FormProvider methods={methodsUpsertShopModalForm}>
             <Grid container gap={3.2}>
               {upsertShopFields?.map((form: any) => (
-                <Grid item xs={12} key={form?.id}>
+                <Grid item xs={12} key={form?._id}>
                   <form.component {...form?.componentProps} size="small" />
                 </Grid>
               ))}
