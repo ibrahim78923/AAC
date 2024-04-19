@@ -10,8 +10,16 @@ import {
 import { useVoucherRedemptionsList } from './useVoucherRedemptionsList';
 
 export const VoucherRedemptionsList = () => {
-  const { page, setPage, pageLimit, setPageLimit, router } =
-    useVoucherRedemptionsList();
+  const {
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    router,
+    lazyGetVoucherRedemptionListStatus,
+    voucherRedemptionListMetaData,
+    setSearch,
+  } = useVoucherRedemptionsList();
   return (
     <>
       <Grid container>
@@ -45,19 +53,19 @@ export const VoucherRedemptionsList = () => {
               flexWrap="wrap"
               gap={1.5}
             >
-              <Search label="search" />
+              <Search label="search" setSearchBy={setSearch} />
             </Box>
             <TanstackTable
               columns={voucherRedemptionsColumns}
               data={voucherRedemptionsData}
-              isLoading={false}
-              isFetching={false}
-              isError={false}
-              isSuccess={true}
+              isLoading={lazyGetVoucherRedemptionListStatus?.isLoading}
+              isFetching={lazyGetVoucherRedemptionListStatus?.isFetching}
+              isError={lazyGetVoucherRedemptionListStatus?.isError}
+              isSuccess={lazyGetVoucherRedemptionListStatus?.isSuccess || true}
               currentPage={page}
-              count={2}
+              count={voucherRedemptionListMetaData?.pages}
               pageLimit={pageLimit}
-              totalRecords={4}
+              totalRecords={voucherRedemptionListMetaData?.total}
               onPageChange={(page: any) => setPage(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
