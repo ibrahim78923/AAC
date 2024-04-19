@@ -11,9 +11,9 @@ import { PlusSharedIcon } from '@/assets/icons';
 const Attachments = ({ contactId }: any) => {
   const {
     theme,
-    searchValue,
     setSearchValue,
     dataGetAttachment,
+    loadingGetAttachment,
     drawerTitle,
     openDrawer,
     handleOpenDrawer,
@@ -25,6 +25,8 @@ const Attachments = ({ contactId }: any) => {
     handleOpenAlert,
     handleCloseAlert,
     attachmentData,
+    handleDeleteAttachment,
+    loadingDelete,
   } = useAttachments(contactId);
   const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
 
@@ -55,7 +57,6 @@ const Attachments = ({ contactId }: any) => {
             }}
           >
             <Search
-              searchBy={searchValue}
               setSearchBy={setSearchValue}
               label="Search By Name"
               size="small"
@@ -74,6 +75,7 @@ const Attachments = ({ contactId }: any) => {
           <TanstackTable
             columns={tableColumns}
             data={dataGetAttachment?.data?.attachments}
+            isLoading={loadingGetAttachment}
           />
         </Grid>
       </Grid>
@@ -93,7 +95,8 @@ const Attachments = ({ contactId }: any) => {
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
+        handleSubmitBtn={handleDeleteAttachment}
+        loading={loadingDelete}
       />
     </Box>
   );

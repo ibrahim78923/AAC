@@ -123,7 +123,11 @@ const DealsTab = () => {
         <PermissionsGuard
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEARCH_AND_FILTER]}
         >
-          <Search setSearchBy={handleSearch} placeholder="Search Here" />
+          <Search
+            setSearchBy={handleSearch}
+            placeholder="Search Here"
+            size="small"
+          />
         </PermissionsGuard>
         <Box sx={style?.headerChild}>
           {selectedRows?.length >= 2 ? (

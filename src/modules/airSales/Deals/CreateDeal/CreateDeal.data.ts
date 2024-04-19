@@ -1,7 +1,7 @@
 import {
+  RHFDatePicker,
   RHFMultiCheckbox,
   RHFSelect,
-  RHFSwitchableDatepicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
@@ -21,7 +21,7 @@ export const defaultValues = {
   ownerId: '',
   dealStageId: '',
   products: [],
-  closeDate: '',
+  closeDate: null,
 };
 export const createDealData = ({ dealPipelineId }: any) => {
   const userRole = 'ORG_EMPLOYEE';
@@ -84,8 +84,12 @@ export const createDealData = ({ dealPipelineId }: any) => {
         name: 'closeDate',
         label: 'Close Date',
         placeholder: 'MM/DD/YYYY',
+        minDate: new Date(),
+        fullWidth: true,
+        require: false,
       },
-      component: RHFSwitchableDatepicker,
+      md: 12,
+      component: RHFDatePicker,
     },
     {
       title: 'Deal Owner',
