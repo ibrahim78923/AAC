@@ -16,6 +16,7 @@ export const AgentConversionDelete = ({
         open={open}
         disabled={deleteStatus?.isLoading}
         handleClose={handleClose}
+        loading={deleteStatus?.isLoading}
         handleSubmitBtn={() => {
           submitDeleteModal();
         }}

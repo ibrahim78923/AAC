@@ -6,7 +6,16 @@ import { useFilterSalesWorkflow } from './useFilterSalesWorkflow';
 
 export const FilterSalesWorkflow = (props: any) => {
   const { isFilterOpen, setIsFilterOpen, loading, onSubmit } = props;
-  const { filterMethod, handleSubmit, userDropdown } = useFilterSalesWorkflow();
+  const {
+    filterMethod,
+    handleSubmit,
+    userDropdown,
+    handleReset,
+    buttonCalled,
+    createdByValue,
+    statusValue,
+    typeValue,
+  } = useFilterSalesWorkflow(props);
   return (
     <CommonDrawer
       isDrawerOpen={isFilterOpen}
@@ -14,10 +23,14 @@ export const FilterSalesWorkflow = (props: any) => {
       title="Filters"
       footer
       isOk
-      isCancel={false}
       okText="Apply"
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={loading}
+      isLoading={loading && !buttonCalled}
+      isCancel
+      cancelText="Reset"
+      cancelBtnHandler={handleReset}
+      disabledCancelBtn={loading}
+      isDisabled={loading || !(statusValue || createdByValue || typeValue)}
     >
       <FormProvider methods={filterMethod} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={3}>

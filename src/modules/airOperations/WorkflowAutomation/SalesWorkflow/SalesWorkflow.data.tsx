@@ -1,5 +1,5 @@
 import { Checkbox } from '@mui/material';
-import { REQUESTORS_STATUS } from '@/constants/strings';
+import { REQUESTORS_STATUS, WORKFLOW_TYPE } from '@/constants/strings';
 import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -123,7 +123,22 @@ export const salesWorkflowListsColumnDynamic: any = (
       id: 'type',
       isSortable: true,
       header: 'Type',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        const capitalizeFirstLetter = (type: string) =>
+          type
+            ?.split('_')
+            ?.map(
+              (word: string) =>
+                word?.charAt(0)?.toUpperCase() + word?.slice(1)?.toLowerCase(),
+            )
+            ?.join(' ');
+
+        const capitalizedType = info?.getValue()
+          ? capitalizeFirstLetter(info?.getValue())
+          : '';
+
+        return capitalizedType;
+      },
     },
     {
       accessorFn: (row: any) => row?.activity,
@@ -132,10 +147,10 @@ export const salesWorkflowListsColumnDynamic: any = (
       header: 'Last Activity',
       cell: (info: any) => {
         const capitalizeFirstLetter = (type: any) =>
-          type.charAt(0).toUpperCase() + type.slice(1);
+          type?.charAt(0)?.toUpperCase() + type?.slice(1);
         const type = info?.getValue()?.type;
         const capitalizedType = type
-          ? capitalizeFirstLetter(type.toLowerCase())
+          ? capitalizeFirstLetter(type?.toLowerCase())
           : '';
         return fullName(
           capitalizedType ? capitalizedType + ' by' : null,
@@ -160,6 +175,9 @@ export const salesWorkflowListsColumnDynamic: any = (
             ]}
           >
             <AntSwitch
+              disabled={
+                info?.row?.original?.activity?.type === WORKFLOW_TYPE?.SAVED
+              }
               checked={getValues}
               isLoading={switchLoading?.[info?.row?.original?._id]}
               onClick={() => handleChangeStatus?.(info?.row?.original)}

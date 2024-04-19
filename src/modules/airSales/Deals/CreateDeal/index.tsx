@@ -29,8 +29,7 @@ const CreateDeal = ({ open, onClose }: any) => {
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = async (values: any) => {
-    const [closeDate] = values?.closeDate;
-    values.closeDate = dayjs(closeDate)?.toISOString();
+    const closeDate = dayjs(values?.closeDate)?.toISOString();
     const products = values?.products?.map((id: string) => ({
       productId: id,
       quantity: 1,
@@ -38,6 +37,7 @@ const CreateDeal = ({ open, onClose }: any) => {
     }));
     delete values.products;
     const obj = {
+      closeDate,
       products,
       ...values,
     };

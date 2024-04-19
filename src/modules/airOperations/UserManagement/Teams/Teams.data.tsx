@@ -10,6 +10,7 @@ export const teamList: any = (
   setIsEditDrawerOpen: any,
   setDeleteModal: any,
   setTeamData: any,
+  router: any,
 ) => [
   {
     accessorFn: (row: any) => row?.name,
@@ -18,7 +19,7 @@ export const teamList: any = (
     header: 'Team Name',
     cell: (info: any) => (
       <Typography variant="body4" color="blue.dull_blue">
-        {info?.getValue()}
+        {info?.getValue() ?? '--'}
       </Typography>
     ),
   },
@@ -27,7 +28,7 @@ export const teamList: any = (
     id: 'teamMembers',
     isSortable: true,
     header: 'Team Members',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '--',
   },
   {
     accessorFn: (row: any) => row?.actions,
@@ -45,7 +46,10 @@ export const teamList: any = (
           sx={{ cursor: 'pointer' }}
           onClick={() => {
             setIsEditDrawerOpen(true);
-            setTeamData(info?.row?.original);
+            router?.push({
+              pathname: router.pathname,
+              query: { ...router?.query, teamId: info?.row?.original?._id },
+            });
           }}
         >
           <EditPenIcon />

@@ -93,6 +93,17 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getLifeCycleStagesDropdownList: builder?.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.DEALS_LIFECYCLE_STAGES}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.lifecycleStages;
+      },
+      providesTags: [TAG_ONE],
+    }),
   }),
 });
 
@@ -107,4 +118,5 @@ export const {
   usePostSaveDraftWorkflowMutation,
   useLazyGetUserDropdownListQuery,
   useCloneWorkflowMutation,
+  useLazyGetLifeCycleStagesDropdownListQuery,
 } = salesWorkflowAPI;

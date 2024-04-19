@@ -354,6 +354,8 @@ export const END_POINTS = {
   DELETE_TICKET_CONVERSATION: `/email/delete-note`,
   SEND_TICKET_APPROVAL_REMINDER: `/ticket/send-reminder-ticket-approval`,
   SEND_PURCHASE_APPROVAL_REMINDER: `/assets/send-reminder-purchase-approval`,
+  IMPORT_FILE: `/import-file`,
+  IMPORT_FILE_GET_SIGNED_URL: `/import-file/create-signed-url`,
   GET_PLAN_PRODUCTS_PERMISSIONS: '/plan/plan-product-permissions',
 };
 
@@ -438,6 +440,7 @@ export const OPERATION = {
   STATUS_WORKFLOW: '/workflows/change-status',
   SAVE_WORKFLOW: '/workflows/save',
   CLONE_WORKFLOW: '/workflows/clone',
+  Test_WORKFLOW: '/workflows/test',
 };
 
 export const AIR_SALES = {

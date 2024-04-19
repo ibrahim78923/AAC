@@ -155,7 +155,7 @@ const useOrganizationTable = () => {
 
   const formData = new FormData();
 
-  const handleImageChange = async (e: any) => {
+  const handleImageChangeCompany = async (e: any) => {
     const selectedImage = e?.target?.files[0];
     setImageToUpload(selectedImage);
     formData.append('image', selectedImage);
@@ -166,6 +166,7 @@ const useOrganizationTable = () => {
     };
     reader?.readAsDataURL(selectedImage);
   };
+
   const onSubmit = async (data: any) => {
     const products: any = [];
     user?.products?.forEach((product: any) => {
@@ -180,7 +181,6 @@ const useOrganizationTable = () => {
       country: data?.country,
       composite: data?.address,
     };
-
     formData.append('image', imageToUpload);
     formData.append('products', products);
     formData.append('accountName', data?.accountName);
@@ -282,7 +282,7 @@ const useOrganizationTable = () => {
     countryField,
     setImageToUpload,
     imageToUpload,
-    handleImageChange,
+    handleImageChangeCompany,
     imagePreview,
     addressDefaultValuesCheck,
     reset,

@@ -1,5 +1,6 @@
 export const style = {
   cardWrapper: (palette: any, checked: boolean) => ({
+    height: '15vh',
     display: 'flex',
     alignItems: 'start',
     justifyContent: 'space-between',

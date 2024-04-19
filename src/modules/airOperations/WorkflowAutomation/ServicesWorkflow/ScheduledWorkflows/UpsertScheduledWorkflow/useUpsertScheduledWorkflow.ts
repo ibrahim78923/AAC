@@ -8,6 +8,7 @@ import { useTheme } from '@mui/material';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
+  usePostTestWorkflowMutation,
   useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
@@ -15,9 +16,14 @@ import { useRouter } from 'next/router';
 import { AIR_OPERATIONS, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useUpsertScheduledWorkflow = () => {
+  const [validation, setValidation] = useState(false);
+  const [testWorkflow, setTestWorkflow] = useState(false);
+  const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
+  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
+
   const typeData = {
     string: 'string',
     number: 'number',
@@ -29,14 +35,15 @@ export const useUpsertScheduledWorkflow = () => {
   const collectionNameData = {
     agent: 'agent',
     assignToAgent: 'Assign to Agent',
-    selectDepartment: 'selectDepartment',
-    department: 'department',
+    selectDepartment: 'Select Department',
+    department: 'departments',
     setDepartmentAs: 'Set Department as',
     location: 'location',
-    addRequester: 'addRequester',
-    requester: 'requester',
+    addRequester: 'Add Requester',
+    requester: 'users',
     setCategoryAs: 'Set Category as',
     category: 'category',
+    users: 'users',
   };
 
   const router = useRouter();
@@ -60,9 +67,9 @@ export const useUpsertScheduledWorkflow = () => {
 
   const scheduledWorkflowMethod = useForm({
     defaultValues: scheduledWorkflowValues(singleWorkflowData),
-    resolver: yupResolver(scheduledWorkflowSchema),
+    resolver: validation ? yupResolver(scheduledWorkflowSchema) : undefined,
   });
-  const { reset, watch, register, handleSubmit, setValue, control, getValues } =
+  const { reset, watch, register, handleSubmit, setValue, control } =
     scheduledWorkflowMethod;
 
   const mapField = (field: any, typeData: any) => {
@@ -108,7 +115,8 @@ export const useUpsertScheduledWorkflow = () => {
   const mapGroup = (group: any, typeData: any) => ({
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
-      ...condition,
+      condition: condition?.condition,
+      fieldName: condition?.fieldName?.value,
       fieldValue:
         condition?.fieldName &&
         [
@@ -118,7 +126,7 @@ export const useUpsertScheduledWorkflow = () => {
           collectionNameData?.location,
           collectionNameData?.addRequester,
           collectionNameData?.setCategoryAs,
-        ].includes(condition?.fieldName)
+        ].includes(condition?.fieldName?.label)
           ? condition?.fieldValue?._id
           : condition?.fieldValue,
       fieldType: mapField(condition, typeData),
@@ -146,154 +154,102 @@ export const useUpsertScheduledWorkflow = () => {
     collectionName: getCollectionName(action?.fieldName),
   });
 
-  const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
-  const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
-  const [saveWorkflowTrigger] = useSaveWorkflowMutation();
+  const [postWorkflowTrigger, postWorkflowProgress] =
+    usePostServicesWorkflowMutation();
+  const [updateWorkflowTrigger, updatedWorkflowProcess] =
+    useUpdateWorkflowMutation();
+  const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
+  const [postTestTrigger, testWorkflowProgress] = usePostTestWorkflowMutation();
 
-  const handleFormSubmit = async (data: any) => {
-    const timeRange = dayjs(data?.time)?.format(TIME_FORMAT?.API);
-    if (pageActionType === EDIT_WORKFLOW) {
-      const {
-        options,
-        schedule,
-        scheduleDay,
-        scheduleMonth,
-        time,
-        scheduleDate,
-        custom,
-        ...rest
-      } = data;
-      const body = {
-        ...rest,
-        schedule: {
-          type: data?.schedule?.toUpperCase(),
-          daily: {
-            time: timeRange,
-          },
-          weekly: {
-            days: [data?.scheduleDay?.toUpperCase()],
-            time: timeRange,
-          },
-          monthly: {
-            day: Number(dayjs(data?.scheduleDate)?.format(DATE_TIME_FORMAT?.D)),
-            time: timeRange,
-          },
-          annually: {
-            month: dayjs(data?.scheduleMonth)
-              ?.format(DATE_TIME_FORMAT?.DDMMYYYY)
-              ?.toLowerCase(),
-            time: timeRange,
-          },
-          custom: {
-            startDate: data?.custom?.startDate,
-            endDate: data?.custom?.endDate,
-            time: timeRange,
-          },
-        },
-        events: [data?.events?.value],
-        runType: data?.runType?.value,
-        groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-        actions: data?.actions?.map((action: any) =>
-          mapAction(action, typeData),
-        ),
-      };
-      try {
-        await updateWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Enabled Successfully');
+  const handleTestWorkflow = async () => {
+    setTestWorkflow(true);
+  };
+
+  const handleApiCall = async (body: any) => {
+    try {
+      let successMessage = '';
+      if (testWorkflow && validation) {
+        const response = await postTestTrigger(body).unwrap();
+        setIsWorkflowDrawer(true);
+        setTestWorkflowResponse(response);
+        successMessage = 'Test Workflow Executed Successfully';
+      } else {
+        if (pageActionType === EDIT_WORKFLOW) {
+          await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
+          successMessage = 'Workflow Update Successfully';
+        } else if (!validation) {
+          await saveWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Save Successfully';
+        } else {
+          await postWorkflowTrigger(body).unwrap();
+          successMessage = 'Workflow Create Successfully';
+        }
+      }
+
+      successSnackbar(successMessage);
+      if (!testWorkflow) {
         reset();
         movePage();
-        return {
-          options,
-          schedule,
-          scheduleDay,
-          scheduleMonth,
-          time,
-          scheduleDate,
-          custom,
-        };
-      } catch (error) {
-        errorSnackbar();
       }
-    } else {
-      const {
-        options,
-        schedule,
-        scheduleDay,
-        scheduleMonth,
-        time,
-        scheduleDate,
-        custom,
-        ...rest
-      } = data;
-      const body = {
-        ...rest,
-        schedule: {
-          type: data?.schedule?.toUpperCase(),
-          daily: {
-            time: timeRange,
-          },
-          weekly: {
-            days: [data?.scheduleDay?.toUpperCase()],
-            time: timeRange,
-          },
-          monthly: {
-            day: Number(dayjs(data?.scheduleDate)?.format(DATE_TIME_FORMAT?.D)),
-            time: timeRange,
-          },
-          annually: {
-            month: dayjs(data?.scheduleMonth)
-              ?.format(DATE_TIME_FORMAT?.DDMMYYYY)
-              ?.toLowerCase(),
-            time: timeRange,
-          },
-          custom: {
-            startDate: data?.custom?.startDate,
-            endDate: data?.custom?.endDate,
-            time: timeRange,
-          },
-        },
-        events: [data?.events?.value],
-        runType: data?.runType?.value,
-        groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-        actions: data?.actions?.map((action: any) =>
-          mapAction(action, typeData),
-        ),
-      };
-      try {
-        await postWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Enabled Successfully');
-        reset();
-        movePage();
-        return {
-          options,
-          schedule,
-          scheduleDay,
-          scheduleMonth,
-          time,
-          scheduleDate,
-          custom,
-        };
-      } catch (error) {
-        errorSnackbar();
-      }
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
-  const handleSaveAsDraft = async (data: any) => {
-    const title = getValues('title');
-    if (!title) {
-      errorSnackbar('Title is required');
-      return;
-    } else {
-      try {
-        await saveWorkflowTrigger(data)?.unwrap();
-        successSnackbar('Workflow Updated Successfully');
-        reset();
-        movePage();
-      } catch (error) {
-        errorSnackbar();
-      }
-    }
+  const handleFormSubmit = async (data: any) => {
+    const timeRange = dayjs(data?.time)?.format(TIME_FORMAT?.TH);
+    const {
+      time,
+      schedule,
+      scheduleDay,
+      scheduleMonth,
+      scheduleDate,
+      scheduleDateRange,
+      custom,
+      ...rest
+    } = data;
+
+    const body = {
+      ...rest,
+      schedule: {
+        type: data?.schedule?.toUpperCase(),
+        daily: {
+          time: timeRange,
+        },
+        weekly: {
+          days: [data?.scheduleDay?.toUpperCase()],
+          time: timeRange,
+        },
+        monthly: {
+          day: Number(dayjs(data?.scheduleDate)?.format(DATE_TIME_FORMAT?.D)),
+          time: timeRange,
+        },
+        annually: {
+          month: dayjs(data?.scheduleMonth)
+            ?.format(DATE_TIME_FORMAT?.MMMM)
+            ?.toLowerCase(),
+          time: timeRange,
+        },
+        custom: {
+          startDate: data?.custom?.startDate,
+          endDate: data?.custom?.endDate,
+          time: timeRange,
+        },
+      },
+      runType: data?.runType?.value,
+      groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
+      actions: data?.actions?.map((action: any) => mapAction(action, typeData)),
+    };
+    await handleApiCall(body);
+    return {
+      schedule,
+      scheduleDay,
+      scheduleMonth,
+      time,
+      scheduleDate,
+      scheduleDateRange,
+      custom,
+    };
   };
 
   useEffect(() => {
@@ -313,8 +269,16 @@ export const useUpsertScheduledWorkflow = () => {
     setValue,
     watch,
     control,
-    handleSaveAsDraft,
     isFetching,
     isLoading,
+    setValidation,
+    saveWorkflowProgress,
+    postWorkflowProgress,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    handleTestWorkflow,
+    testWorkflowProgress,
+    updatedWorkflowProcess,
+    testWorkflowResponse,
   };
 };

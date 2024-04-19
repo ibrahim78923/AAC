@@ -6,7 +6,7 @@ import {
 } from './UpsertTeams.data';
 import { useEffect, useState } from 'react';
 import {
-  useLazyGetProductUserListDropdownQuery,
+  useLazyGetProductTeamUserListDropdownQuery,
   usePatchTeamUsersMutation,
   usePostCreateTeamMutation,
 } from '@/services/airOperations/user-management/user';
@@ -20,15 +20,19 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
     resolver: yupResolver(upsertTeamValidationSchema),
     defaultValues: upsertTeamDefaultValues(teamData),
   });
+
   const { handleSubmit, reset } = methods;
+
   useEffect(() => {
     reset(upsertTeamDefaultValues(teamData));
-  }, [teamData]);
-  const usersTeamDropdown = useLazyGetProductUserListDropdownQuery();
+  }, [teamData, reset]);
 
-  const [patchTeamsUsersTrigger] = usePatchTeamUsersMutation();
+  const usersTeamDropdown = useLazyGetProductTeamUserListDropdownQuery();
 
-  const [addTeamUsers] = usePostCreateTeamMutation();
+  const [patchTeamsUsersTrigger, patchProductTeamStatus] =
+    usePatchTeamUsersMutation();
+
+  const [addTeamUsers, addUsersTeamListStatus] = usePostCreateTeamMutation();
   const submit = async (data: any) => {
     const { userAccounts, ...rest } = data;
     try {
@@ -74,5 +78,7 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
     disabled,
     setDisabled,
     usersTeamDropdown,
+    patchProductTeamStatus,
+    addUsersTeamListStatus,
   };
 };

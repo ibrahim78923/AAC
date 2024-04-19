@@ -27,6 +27,7 @@ const Assets = () => {
     totalRecords,
     page,
     isError,
+    handleWorkflow,
   } = useAssets();
   return (
     <>
@@ -47,6 +48,7 @@ const Assets = () => {
         page={page}
         setPage={setPage}
         listData={listData}
+        handleWorkflow={handleWorkflow}
       />
       <TanstackTable
         data={listData}
