@@ -1,19 +1,36 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-const TAG = ['CONTACTS'];
+
 export const contactAssociationsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    postAttachment: builder.mutation({
-      query: (body: any) => {
-        return {
-          url: END_POINTS?.POST_ATTACHMENT,
-          method: 'POST',
-          body: body,
-        };
-      },
-      invalidatesTags: TAG,
+    getContactAssociations: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACT_ASSOCIATIONS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['CONTACT_ASSOCIATION', 'CONTACTS'],
+    }),
+
+    createAssociation: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.CREATE_ASSOCIATION,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['CONTACT_ASSOCIATION', 'CONTACTS'],
+    }),
+
+    deleteAssociation: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.DELETE_ASSOCIATION,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['CONTACT_ASSOCIATION'],
     }),
   }),
 });
 
-export const { usePostAttachmentMutation } = contactAssociationsAPI;
+export const { useGetContactAssociationsQuery, useCreateAssociationMutation } =
+  contactAssociationsAPI;

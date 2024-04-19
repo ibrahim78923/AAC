@@ -13,10 +13,19 @@ export const SubWorkflowConditions = (props: any) => {
     handleDeleteClick,
     dealDropdown,
     contactDropdown,
+    stagesDropdown,
   } = useSubWorkflowConditions(props);
   return (
     <>
       {fields?.map((item, subIndex) => {
+        const fieldLength = workflowConditionsDataArray(
+          index,
+          subIndex,
+          watch,
+          dealDropdown,
+          contactDropdown,
+          stagesDropdown,
+        )?.find((item) => item?.component === Box);
         return (
           <Box key={item?.id}>
             {subIndex !== 0 && (
@@ -44,8 +53,15 @@ export const SubWorkflowConditions = (props: any) => {
                   watch,
                   dealDropdown,
                   contactDropdown,
+                  stagesDropdown,
                 )?.map((item) => (
-                  <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
+                  <Grid
+                    item
+                    xs={12}
+                    lg={fieldLength ? 6 : item?.gridLength}
+                    key={item?._id}
+                    display={item?.component === Box ? 'none' : 'block'}
+                  >
                     <item.component {...item?.componentProps} />
                   </Grid>
                 ))}

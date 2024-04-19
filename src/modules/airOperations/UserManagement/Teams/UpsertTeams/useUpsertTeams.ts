@@ -20,15 +20,19 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
     resolver: yupResolver(upsertTeamValidationSchema),
     defaultValues: upsertTeamDefaultValues(teamData),
   });
+
   const { handleSubmit, reset } = methods;
+
   useEffect(() => {
     reset(upsertTeamDefaultValues(teamData));
-  }, [teamData]);
+  }, [teamData, reset]);
+
   const usersTeamDropdown = useLazyGetProductTeamUserListDropdownQuery();
 
-  const [patchTeamsUsersTrigger] = usePatchTeamUsersMutation();
+  const [patchTeamsUsersTrigger, patchProductTeamStatus] =
+    usePatchTeamUsersMutation();
 
-  const [addTeamUsers] = usePostCreateTeamMutation();
+  const [addTeamUsers, addUsersTeamListStatus] = usePostCreateTeamMutation();
   const submit = async (data: any) => {
     const { userAccounts, ...rest } = data;
     try {
@@ -74,5 +78,7 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
     disabled,
     setDisabled,
     usersTeamDropdown,
+    patchProductTeamStatus,
+    addUsersTeamListStatus,
   };
 };

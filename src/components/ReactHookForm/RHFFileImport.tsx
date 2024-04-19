@@ -3,8 +3,10 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
 import { CsvImportIcon } from '@/assets/icons';
+import CustomLabel from '../CustomLabel';
 
-const RHFFileImport = ({ name }: any) => {
+const RHFFileImport = (props: any) => {
+  const { required, name, ...other } = props;
   const {
     setValue,
     getValues,
@@ -28,6 +30,7 @@ const RHFFileImport = ({ name }: any) => {
     });
   return (
     <>
+      {other?.label && <CustomLabel label={other?.label} required={required} />}
       <Box
         {...getRootProps()}
         sx={{

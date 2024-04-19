@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import {
   useLazyGetContactDropdownListQuery,
   useLazyGetDealDropdownListQuery,
+  useLazyGetLifeCycleStagesDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, warningSnackbar } from '@/utils/api';
 
@@ -13,30 +14,31 @@ export const useSubWorkflowConditions = (props: any) => {
     name: `groups.${index}.conditions`,
   });
   const handleDeleteClick = (subIndex: any) => {
-    if (parentField?.length === 2 && fields?.length < 2) {
+    if (parentField?.length === 1 && fields?.length < 2) {
       warningSnackbar('Cannot Delete');
       return;
     }
     if (fields?.length > 1) {
       remove(subIndex);
     }
-    if (parentField?.length >= 2 && fields?.length === 1) {
+    if (parentField?.length >= 1 && fields?.length === 1) {
       removeParent(index);
     }
   };
   const handleAppend = () => {
     if (fields?.length < 10) {
-      append({ fieldName: '', condition: '', fieldValue: null });
+      append({ fieldName: null, condition: '', fieldValue: null });
     } else {
       errorSnackbar('Condition limit exceeds');
     }
   };
   const dealDropdown = useLazyGetDealDropdownListQuery();
   const contactDropdown = useLazyGetContactDropdownListQuery();
+  const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
   const moduleType = watch('module');
   useEffect(() => {
     fields?.forEach((_, subIndex) => {
-      setValue(`groups.${index}.conditions.${subIndex}.fieldName`, '');
+      setValue(`groups.${index}.conditions.${subIndex}.fieldName`, null);
       setValue(`groups.${index}.conditions.${subIndex}.condition`, '');
       setValue(`groups.${index}.conditions.${subIndex}.fieldValue`, null);
     });
@@ -47,5 +49,6 @@ export const useSubWorkflowConditions = (props: any) => {
     handleDeleteClick,
     dealDropdown,
     contactDropdown,
+    stagesDropdown,
   };
 };

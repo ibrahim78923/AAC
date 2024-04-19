@@ -8,6 +8,9 @@ export const userDropdown = (setDeleteModal: any) => [
   {
     id: 1,
     title: 'Delete',
+    // permissionKey: [
+    //   AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USER,
+    // ],
     handleClick: (close: any) => {
       setDeleteModal(true);
       close(null);
@@ -79,7 +82,7 @@ export const userList = (
     isSortable: true,
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar src={`url_for_avatar_${info.row.original._id}`} alt="users">
+        <Avatar src={`url_for_avatar_${info?.row?.original?._id}`} alt="users">
           <Typography
             variant="body2"
             textTransform={'uppercase'}
@@ -89,7 +92,7 @@ export const userList = (
             }}
             onClick={() => {
               setIsDrawerOpen(true);
-              setTabData(info.row?.original);
+              setTabData(info?.row?.original);
             }}
           >
             {fullNameInitial(

@@ -22,6 +22,8 @@ const useEditForm = (
 ) => {
   const [selectProductSuite, setSelectProductSuite] = useState('product');
   const [isExistingPlan, setIsExistingPlan] = useState(false);
+  const [isUserPrice, setIsUserPrice] = useState(true);
+  const [isStoragePrice, setIsStoragePrice] = useState(true);
 
   const [addAssignPlan] = usePostBilingInvoicesMutation();
   const [updateAssignPlan] = usePatchBilingInvoicesMutation();
@@ -175,6 +177,18 @@ const useEditForm = (
   }
 
   useEffect(() => {
+    if (planData?.data?.plans?.additionalPerUserPrice > 0) {
+      setIsUserPrice(false);
+    }
+    if (planData?.data?.plans?.additionalStoragePrice > 0) {
+      setIsStoragePrice(false);
+    } else {
+      setIsUserPrice(true);
+      setIsStoragePrice(true);
+    }
+  }, [planData?.data?.plans]);
+
+  useEffect(() => {
     if (
       selectProductSuite === 'CRM' ||
       isNullOrEmpty(ExistingplanData?.data?.plans) ||
@@ -305,6 +319,8 @@ const useEditForm = (
     reset,
     crmOptions,
     isExistingPlan,
+    isStoragePrice,
+    isUserPrice,
   };
 };
 
