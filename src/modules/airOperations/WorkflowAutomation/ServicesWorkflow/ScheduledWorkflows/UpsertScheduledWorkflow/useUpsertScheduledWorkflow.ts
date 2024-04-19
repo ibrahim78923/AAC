@@ -36,14 +36,14 @@ export const useUpsertScheduledWorkflow = () => {
     agent: 'agent',
     assignToAgent: 'Assign to Agent',
     selectDepartment: 'Select Department',
-    department: 'Department',
+    department: 'departments',
     setDepartmentAs: 'Set Department as',
-    location: 'Location',
+    location: 'location',
     addRequester: 'Add Requester',
-    requester: 'Requester',
+    requester: 'users',
     setCategoryAs: 'Set Category as',
-    category: 'Category',
-    users: 'Users',
+    category: 'category',
+    users: 'users',
   };
 
   const router = useRouter();
