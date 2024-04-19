@@ -27,6 +27,7 @@ const Tickets = () => {
     totalRecords,
     page,
     isError,
+    handleWorkflow,
   } = useTickets();
   return (
     <>
@@ -47,6 +48,7 @@ const Tickets = () => {
         page={page}
         setPage={setPage}
         listData={listData}
+        handleWorkflow={handleWorkflow}
       />
       <TanstackTable
         data={listData}

@@ -45,7 +45,6 @@ export const conversationAPI: any = baseAPI?.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: [TAG_TWO],
     }),
     getConversation: builder?.query({
       query: (params: any) => ({
@@ -61,7 +60,6 @@ export const conversationAPI: any = baseAPI?.injectEndpoints({
         method: 'POST',
         body: apiDataParameter?.body,
       }),
-      invalidatesTags: [TAG_TWO],
     }),
     deleteTicketConversation: builder?.mutation({
       query: (apiDataParameter: any) => ({
@@ -69,7 +67,6 @@ export const conversationAPI: any = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
-      invalidatesTags: [TAG_TWO],
     }),
   }),
 });
