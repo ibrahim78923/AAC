@@ -71,7 +71,7 @@ const OrganizationTable = () => {
     handlePageChange,
     isLoading,
     addressLength,
-    handleImageChange,
+    handleImageChangeCompany,
     imagePreview,
     reset,
   } = useOrganizationTable();
@@ -127,12 +127,12 @@ const OrganizationTable = () => {
                 </Box>
                 <input
                   hidden={true}
-                  id="upload-group-image"
+                  id="upload-group-image-one"
                   type="file"
                   accept="image/*"
-                  onChange={(e: any) => handleImageChange(e)}
+                  onChange={(e: any) => handleImageChangeCompany(e)}
                 />
-                <label htmlFor="upload-group-image">
+                <label htmlFor="upload-group-image-one">
                   <Box
                     sx={{
                       position: 'absolute',

@@ -11,9 +11,9 @@ export const defaultValues = {
   defaultStorage: '',
   planPrice: '',
   allowAdditionalUsers: 'No',
-  additionalPerUserPrice: '',
+  additionalPerUserPrice: 0,
   allowAdditionalStorage: 'No',
-  additionalStoragePrice: '',
+  additionalStoragePrice: 0,
 };
 
 export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
@@ -199,7 +199,7 @@ export const dataArray = (
         label: 'Additional Per User Price',
         fullWidth: true,
         placeholder: '£',
-        disabled: AdditionalUsereValue[0] === 'No' ? true : false,
+        disabled: AdditionalUsereValue[0] === 'No',
         required: AdditionalUsereValue[0] === 'No' ? false : true,
       },
       component: RHFTextField,
@@ -228,7 +228,7 @@ export const dataArray = (
         label: 'Additional Storage Price (Per GB)',
         fullWidth: true,
         placeholder: 'Enter Additional Storage Price',
-        disabled: AdditionalStorageValue[0] === 'No' ? true : false,
+        disabled: AdditionalStorageValue[0] === 'No',
         required: AdditionalStorageValue[0] === 'No' ? false : true,
       },
       component: RHFTextField,

@@ -32,3 +32,12 @@ export const findAttributeValues = (
 
   return values;
 };
+
+export const processCSV = (str: any, delimiter = ',') => {
+  const cleanStr = str?.replace?.(/"|\r/g, '');
+  const headers = cleanStr
+    ?.slice?.(0, cleanStr?.indexOf?.('\n'))
+    ?.split?.(delimiter);
+  const filterEmptyValue = headers?.filter((x: any) => !!x);
+  return filterEmptyValue;
+};

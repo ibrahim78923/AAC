@@ -1,4 +1,25 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import * as Yup from 'yup';
+
+export const upsertShopValidationScheme = Yup?.object()?.shape({
+  shopName: Yup?.string(),
+  shopType: Yup?.string(),
+  associatedEmail: Yup?.string(),
+  city: Yup?.string(),
+  country: Yup?.string(),
+  postCode: Yup?.string(),
+  address: Yup?.string(),
+});
+
+export const upsertShopFieldsValues = {
+  shopName: '',
+  shopType: '',
+  associatedEmail: '',
+  city: '',
+  country: '',
+  postCode: '',
+  address: '',
+};
 
 export const upsertShopFields = [
   {
