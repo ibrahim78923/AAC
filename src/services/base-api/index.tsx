@@ -125,6 +125,7 @@ export const TAGS = [
   'LOCATION_DROPDOWN',
   'PERMISSIONS',
   'TEAM_LIST',
+  'MANAGE_SHOP',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [
