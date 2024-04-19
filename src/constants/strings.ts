@@ -399,6 +399,7 @@ export const MODULE_TYPE = {
   ARTICLES: 'ARTICLES',
   LOCATION: 'LOCATION',
   ASSETS: 'ASSETS',
+  TICKET: 'TICKET',
 };
 export const TICKET_SELECTION_TYPE = {
   REQUESTER: 'REQUESTER',
@@ -461,4 +462,18 @@ export const TICKET_CONVERSATIONS_CONTENT_TYPE = {
 export const WORKFLOW_CONDITION_TYPE = {
   AND: 'AND',
   OR: 'OR',
+};
+
+export const IMPORT_ACTION_TYPE = {
+  INVENTORIES: 'INVENTORIES',
+  PRODUCT_CATALOG: 'PRODUCT_CATALOG',
+  DEALS: 'DEALS',
+};
+
+export const OBJECT_URL_IMPORT = {
+  USERS_ATTACHMENT: '/users/attachment',
+};
+
+export const AUTH_TOKEN_BYPASS_API = {
+  UPLOAD_FILE_TO_S3_USING_SIGNED_URL: 'uploadFileTos3UsingSignedUrl',
 };

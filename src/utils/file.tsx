@@ -24,12 +24,20 @@ export const findAttributeValues = (
   const doc = parser?.parseFromString(htmlContent, 'text/html');
 
   const elements = doc?.querySelectorAll(selectorPattern);
-  const dummyDomainForURL = window?.location?.origin;
   const values = Array?.from(elements)?.map((element) => {
     const attributes = element.getAttribute(attribute);
-    const url = new URL(`${dummyDomainForURL}${attributes}`);
+    const url = new URL(`${attributes}`);
     return url?.searchParams?.get?.(queryParams);
   });
 
   return values;
+};
+
+export const processCSV = (str: any, delimiter = ',') => {
+  const cleanStr = str?.replace?.(/"|\r/g, '');
+  const headers = cleanStr
+    ?.slice?.(0, cleanStr?.indexOf?.('\n'))
+    ?.split?.(delimiter);
+  const filterEmptyValue = headers?.filter((x: any) => !!x);
+  return filterEmptyValue;
 };

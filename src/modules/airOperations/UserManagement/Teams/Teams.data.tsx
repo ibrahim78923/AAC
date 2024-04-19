@@ -10,6 +10,7 @@ export const teamList: any = (
   setIsEditDrawerOpen: any,
   setDeleteModal: any,
   setTeamData: any,
+  router: any,
 ) => [
   {
     accessorFn: (row: any) => row?.name,
@@ -45,7 +46,10 @@ export const teamList: any = (
           sx={{ cursor: 'pointer' }}
           onClick={() => {
             setIsEditDrawerOpen(true);
-            setTeamData(info?.row?.original);
+            router?.push({
+              pathname: router.pathname,
+              query: { ...router?.query, teamId: info?.row?.original?._id },
+            });
           }}
         >
           <EditPenIcon />

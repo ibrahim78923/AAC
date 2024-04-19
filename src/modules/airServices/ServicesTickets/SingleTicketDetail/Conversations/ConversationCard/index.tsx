@@ -139,21 +139,23 @@ export const ConversationCard = (props: any) => {
               <EditBlackIcon />
             </Box>
           )}
-          <DeleteIcon
-            onClick={() =>
-              setSelectedConversationType({
-                ...data,
-                isDelete: true,
-              })
-            }
-            sx={{
-              color: 'custom.main',
-              cursor: 'pointer',
-              '&:hover': {
-                color: 'error.main',
-              },
-            }}
-          />
+          {data?.type === TICKET_CONVERSATIONS_TYPE?.NOTE && (
+            <DeleteIcon
+              onClick={() =>
+                setSelectedConversationType({
+                  ...data,
+                  isDelete: true,
+                })
+              }
+              sx={{
+                color: 'custom.main',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'error.main',
+                },
+              }}
+            />
+          )}
         </Box>
       </Box>
       <Box mt={1.5} fontWeight={600} maxHeight={'15vh'} overflow={'auto'}>
