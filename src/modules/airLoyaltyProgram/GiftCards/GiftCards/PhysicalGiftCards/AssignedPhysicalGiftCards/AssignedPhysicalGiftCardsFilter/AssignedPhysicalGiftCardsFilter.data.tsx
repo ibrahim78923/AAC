@@ -1,12 +1,4 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
-
-export const assignedPhysicalGiftFilterValidationSchema = Yup?.object()?.shape({
-  minimumCurrentAmount: Yup?.string(),
-  active: Yup?.string(),
-  upgradeAble: Yup?.string(),
-  maximumCurrentAmount: Yup?.string(),
-});
 
 export const assignedPhysicalGiftFilterDefaultValues = (data?: any) => {
   return {
