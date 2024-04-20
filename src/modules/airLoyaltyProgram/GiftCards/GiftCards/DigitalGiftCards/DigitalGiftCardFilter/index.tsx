@@ -5,20 +5,22 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useDigitalGiftCardFilter } from './useDigitalGiftCardFilter';
 
 export const DigitalGiftCardFilter = (props: any) => {
-  const { openFilter } = props;
-  const { onSubmit, handleCloseDrawer, methods, handleSubmit } =
+  const { isPortalOpen } = props;
+  const { onSubmit, closeFilterForm, resetFilterForm, methods, handleSubmit } =
     useDigitalGiftCardFilter(props);
+
   return (
     <Box>
       <CommonDrawer
-        isDrawerOpen={openFilter}
-        onClose={handleCloseDrawer}
+        isDrawerOpen={isPortalOpen?.isFilter}
+        onClose={() => closeFilterForm?.()}
         title={'Add Filters'}
         okText={'Apply'}
         isOk
-        cancelText={'Cancel'}
+        cancelText={'Reset'}
         footer
         submitHandler={handleSubmit(onSubmit)}
+        cancelBtnHandler={() => resetFilterForm?.()}
       >
         <Box>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
