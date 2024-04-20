@@ -1,106 +1,89 @@
 import {
   RHFAutocomplete,
   RHFDateRangePicker,
+  RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import {
+  LOYALTY_RULES_ATTRIBUTES_MAPPED,
+  OPERATORS_MAPPED,
+} from '@/constants/api-mapped';
+import { LOYALTY_RULES_ATTRIBUTES, OPERATORS } from '@/constants/strings';
 import * as Yup from 'yup';
 
-export const RULES_ATTRIBUTES = {
-  PURCHASE_AMOUNT: 'Purchase amount',
-  ACCOUNT_CREATION: 'Account creation',
-  PRODUCT_QTY: 'Product Qty',
-  NO_OF_VISITS: 'No of Visits',
-  BIRTHDAY: 'Birthday',
-  FIRST_PURCHASE: 'First purchase',
-  MONEY_OFF: 'Money off',
-  FREE_SHIPPING: 'Free shipping',
-};
-
 export const attributesOption = [
-  RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
-  RULES_ATTRIBUTES?.ACCOUNT_CREATION,
-  RULES_ATTRIBUTES?.PRODUCT_QTY,
-  RULES_ATTRIBUTES?.NO_OF_VISITS,
-  RULES_ATTRIBUTES?.BIRTHDAY,
-  RULES_ATTRIBUTES?.FIRST_PURCHASE,
-  RULES_ATTRIBUTES?.MONEY_OFF,
-  RULES_ATTRIBUTES?.FREE_SHIPPING,
+  {
+    label: LOYALTY_RULES_ATTRIBUTES_MAPPED?.PURCHASE_AMOUNT,
+    _id: LOYALTY_RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
+  },
+  {
+    _id: LOYALTY_RULES_ATTRIBUTES?.ACCOUNT_CREATION,
+    label: LOYALTY_RULES_ATTRIBUTES_MAPPED?.ACCOUNT_CREATION,
+  },
+  {
+    _id: LOYALTY_RULES_ATTRIBUTES?.PRODUCT_QTY,
+    label: LOYALTY_RULES_ATTRIBUTES_MAPPED?.PRODUCT_QTY,
+  },
+  {
+    _id: LOYALTY_RULES_ATTRIBUTES?.NO_OF_VISITS,
+    label: LOYALTY_RULES_ATTRIBUTES_MAPPED?.NO_OF_VISITS,
+  },
+  {
+    _id: LOYALTY_RULES_ATTRIBUTES?.BIRTHDAY,
+    label: LOYALTY_RULES_ATTRIBUTES_MAPPED?.BIRTHDAY,
+  },
+  {
+    _id: LOYALTY_RULES_ATTRIBUTES?.FIRST_PURCHASE,
+    label: LOYALTY_RULES_ATTRIBUTES_MAPPED?.FIRST_PURCHASE,
+  },
+  {
+    _id: LOYALTY_RULES_ATTRIBUTES?.MONEY_OFF,
+    label: LOYALTY_RULES_ATTRIBUTES_MAPPED?.MONEY_OFF,
+  },
+  {
+    _id: LOYALTY_RULES_ATTRIBUTES?.FREE_SHIPPING,
+    label: LOYALTY_RULES_ATTRIBUTES_MAPPED?.FREE_SHIPPING,
+  },
 ];
 
 export const validationAttributes = [
-  RULES_ATTRIBUTES?.MONEY_OFF,
-  RULES_ATTRIBUTES?.FREE_SHIPPING,
+  LOYALTY_RULES_ATTRIBUTES_MAPPED?.MONEY_OFF,
+  LOYALTY_RULES_ATTRIBUTES_MAPPED?.FREE_SHIPPING,
 ];
-
-export const upsertRulesFormValidationSchema = Yup?.object()?.shape(
-  {
-    attribute: Yup?.string(),
-    description: Yup?.string()?.trim()?.max(100, 'maximum 100 characters only'),
-    discount: Yup?.string()
-      ?.nullable()
-      ?.when(['attribute', 'awardPoints'], {
-        is: (attribute: any, awardPoints: any) =>
-          !validationAttributes?.includes(attribute) && awardPoints === '',
-        // then: (schema: any) =>
-        //   schema?.required(
-        //     'Either discount or award point or both are required',
-        //   ),
-        otherwise: (schema) => schema?.notRequired(),
-      }),
-    awardPoints: Yup?.string()
-      ?.nullable()
-      ?.when(['attribute', 'discount'], {
-        is: (attribute: any, discount: any) =>
-          !validationAttributes?.includes(attribute) && discount === '',
-        // then: (schema: any) =>
-        //   schema?.required(
-        //     'Either discount or award point or both are required',
-        //   ),
-        otherwise: (schema) => schema?.notRequired(),
-      }),
-    percentageOff: Yup?.string()?.when(['attribute', 'flatOff'], {
-      is: (attribute: any, flatOff: any) =>
-        attribute === RULES_ATTRIBUTES?.MONEY_OFF && flatOff === '',
-      then: (schema: any) =>
-        schema?.required(
-          'Either percentageOff or flatOff or both are required',
-        ),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
-    flatOff: Yup?.string()?.when(['attribute', 'percentageOff'], {
-      is: (attribute: any, percentageOff: any) =>
-        attribute === RULES_ATTRIBUTES?.MONEY_OFF && percentageOff === '',
-      then: (schema: any) =>
-        schema?.required(
-          'Either percentageOff or flatOff or both are required',
-        ),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
-  },
-  [
-    ['attribute', 'awardPoints'],
-    ['attribute', 'discount'],
-    ['awardPoints', 'discount'],
-    ['discount', 'awardPoints'],
-    ['attribute', 'percentageOff'],
-    ['attribute', 'flatOff'],
-    ['flatOff', 'percentageOff'],
-    ['percentageOff', 'flatOff'],
-  ],
-);
 
 export const tiersListsDropdown = ['Base', 'Bronze', 'Gold', 'Silver'];
 
 export const amountOperatorOption = [
-  'Less then',
-  'Greater then',
-  'Equal to',
-  'Less then or equal to',
-  'Greater then and equal to',
+  {
+    _id: OPERATORS?.EQUAL_TO,
+    label: OPERATORS_MAPPED?.EQUAL_TO,
+  },
+  {
+    _id: OPERATORS?.GREATER_THAN,
+    label: OPERATORS_MAPPED?.GREATER_THAN,
+  },
+  {
+    _id: OPERATORS?.GREATER_THEN_AND_EQUAL_TO,
+    label: OPERATORS_MAPPED?.GREATER_THEN_AND_EQUAL_TO,
+  },
+  {
+    _id: OPERATORS?.LESS_THEN,
+    label: OPERATORS_MAPPED?.LESS_THEN,
+  },
+  {
+    _id: OPERATORS?.LESS_THEN_OR_EQUAL_TO,
+    label: OPERATORS_MAPPED?.LESS_THEN_OR_EQUAL_TO,
+  },
 ];
 
+export const upsertRulesFormValidationSchema = Yup?.object()?.shape({
+  attribute: Yup?.mixed()?.nullable(),
+  description: Yup?.string()?.trim()?.max(100, 'maximum 100 characters only'),
+  loyaltyType: Yup?.string()?.required('Please select one'),
+});
+
 export const upsertRulesFormDefaultValues = {
-  attribute: '',
+  attribute: null,
   accountCreatedIn: {
     startDate: new Date(),
     endDate: new Date(),
@@ -112,13 +95,18 @@ export const upsertRulesFormDefaultValues = {
     key: 'selection',
   },
   awardPoints: '',
+  loyaltyType: '',
   discount: '',
   percentageOff: '',
   flatOff: '',
+  appliedTo: null,
   organizationNumber: [],
 };
 
-export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
+export const upsertRulesFormFieldsDynamic = (
+  onChangeCustom: any,
+  watchForLoyaltyType: any,
+) => [
   {
     id: 10,
     componentProps: {
@@ -127,7 +115,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
       placeholder: 'Enter percentage off',
       onChange: (e: any) => onChangeCustom?.(e, 'percentageOff', 'flatOff'),
     },
-    attributeType: [RULES_ATTRIBUTES?.MONEY_OFF],
+    attributeType: [LOYALTY_RULES_ATTRIBUTES_MAPPED?.MONEY_OFF],
     component: RHFTextField,
     md: 12,
   },
@@ -139,7 +127,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
       placeholder: 'Enter flat off',
       onChange: (e: any) => onChangeCustom?.(e, 'flatOff', 'percentageOff'),
     },
-    attributeType: [RULES_ATTRIBUTES?.MONEY_OFF],
+    attributeType: [LOYALTY_RULES_ATTRIBUTES_MAPPED?.MONEY_OFF],
     component: RHFTextField,
     md: 12,
   },
@@ -150,7 +138,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
       label: 'Account created in',
       placeholder: 'Select',
     },
-    attributeType: [RULES_ATTRIBUTES?.ACCOUNT_CREATION],
+    attributeType: [LOYALTY_RULES_ATTRIBUTES_MAPPED?.ACCOUNT_CREATION],
     component: RHFDateRangePicker,
     md: 12,
   },
@@ -158,17 +146,17 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
     id: 1,
     componentProps: {
       name: 'addAmount',
-      label: RULES_ATTRIBUTES?.FREE_SHIPPING
+      label: LOYALTY_RULES_ATTRIBUTES_MAPPED?.FREE_SHIPPING
         ? 'Add purchase amount'
         : 'Add Amount',
       placeholder: 'Enter operator',
       options: amountOperatorOption,
     },
     attributeType: [
-      RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
-      RULES_ATTRIBUTES?.PRODUCT_QTY,
-      RULES_ATTRIBUTES?.NO_OF_VISITS,
-      RULES_ATTRIBUTES?.FREE_SHIPPING,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.PURCHASE_AMOUNT,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.PRODUCT_QTY,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.NO_OF_VISITS,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.FREE_SHIPPING,
     ],
     component: RHFAutocomplete,
     md: 6,
@@ -183,10 +171,10 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
       type: 'number',
     },
     attributeType: [
-      RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
-      RULES_ATTRIBUTES?.PRODUCT_QTY,
-      RULES_ATTRIBUTES?.NO_OF_VISITS,
-      RULES_ATTRIBUTES?.FREE_SHIPPING,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.PURCHASE_AMOUNT,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.PRODUCT_QTY,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.NO_OF_VISITS,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.FREE_SHIPPING,
     ],
     component: RHFTextField,
     md: 6,
@@ -198,7 +186,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
       label: 'Shipping fee',
       placeholder: 'Enter shipping fee',
     },
-    attributeType: [RULES_ATTRIBUTES?.FREE_SHIPPING],
+    attributeType: [LOYALTY_RULES_ATTRIBUTES_MAPPED?.FREE_SHIPPING],
     component: RHFTextField,
     md: 12,
   },
@@ -209,48 +197,80 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
       label: 'Time span of',
       placeholder: 'Select',
     },
-    attributeType: [RULES_ATTRIBUTES?.NO_OF_VISITS, RULES_ATTRIBUTES?.BIRTHDAY],
+    attributeType: [
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.NO_OF_VISITS,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.BIRTHDAY,
+    ],
     component: RHFDateRangePicker,
     md: 12,
   },
   {
-    id: 3,
+    id: 45,
     componentProps: {
-      name: 'discount',
-      label: 'Give discount',
-      placeholder: 'Enter discount',
-      onChange: (e: any) => onChangeCustom?.(e, 'discount', 'awardPoints'),
+      name: 'loyaltyType',
+      row: false,
+      options: [
+        { value: 'discounts', label: 'Give Discount' },
+        {
+          value: 'awardPoints',
+          label: 'Award Points',
+        },
+      ],
     },
+    component: RHFRadioGroup,
     attributeType: [
-      RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
-      RULES_ATTRIBUTES?.ACCOUNT_CREATION,
-      RULES_ATTRIBUTES?.PRODUCT_QTY,
-      RULES_ATTRIBUTES?.NO_OF_VISITS,
-      RULES_ATTRIBUTES?.BIRTHDAY,
-      RULES_ATTRIBUTES?.FIRST_PURCHASE,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.PURCHASE_AMOUNT,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.ACCOUNT_CREATION,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.PRODUCT_QTY,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.NO_OF_VISITS,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.BIRTHDAY,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.FIRST_PURCHASE,
     ],
-    component: RHFTextField,
-    md: 12,
   },
-  {
-    id: 4,
-    componentProps: {
-      name: 'awardPoints',
-      label: 'Award points',
-      placeholder: 'Enter award points',
-      onChange: (e: any) => onChangeCustom?.(e, 'awardPoints', 'discount'),
-    },
-    attributeType: [
-      RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
-      RULES_ATTRIBUTES?.ACCOUNT_CREATION,
-      RULES_ATTRIBUTES?.PRODUCT_QTY,
-      RULES_ATTRIBUTES?.NO_OF_VISITS,
-      RULES_ATTRIBUTES?.BIRTHDAY,
-      RULES_ATTRIBUTES?.FIRST_PURCHASE,
-    ],
-    component: RHFTextField,
-    md: 12,
-  },
+  ...(watchForLoyaltyType === 'giveDiscount'
+    ? [
+        {
+          id: 3,
+          componentProps: {
+            name: 'discount',
+            label: 'Give discount',
+            placeholder: 'Enter discount',
+            onChange: (e: any) =>
+              onChangeCustom?.(e, 'discount', 'awardPoints'),
+          },
+          attributeType: [
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.PURCHASE_AMOUNT,
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.ACCOUNT_CREATION,
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.PRODUCT_QTY,
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.NO_OF_VISITS,
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.BIRTHDAY,
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.FIRST_PURCHASE,
+          ],
+          component: RHFTextField,
+          md: 12,
+        },
+        {
+          id: 4,
+          componentProps: {
+            name: 'awardPoints',
+            label: 'Award points',
+            placeholder: 'Enter award points',
+            onChange: (e: any) =>
+              onChangeCustom?.(e, 'awardPoints', 'discount'),
+          },
+          attributeType: [
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.PURCHASE_AMOUNT,
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.ACCOUNT_CREATION,
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.PRODUCT_QTY,
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.NO_OF_VISITS,
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.BIRTHDAY,
+            LOYALTY_RULES_ATTRIBUTES_MAPPED?.FIRST_PURCHASE,
+          ],
+          component: RHFTextField,
+          md: 12,
+        },
+      ]
+    : []),
   {
     id: 5,
     componentProps: {
@@ -260,13 +280,13 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
       options: tiersListsDropdown,
     },
     attributeType: [
-      RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
-      RULES_ATTRIBUTES?.ACCOUNT_CREATION,
-      RULES_ATTRIBUTES?.NO_OF_VISITS,
-      RULES_ATTRIBUTES?.BIRTHDAY,
-      RULES_ATTRIBUTES?.FIRST_PURCHASE,
-      RULES_ATTRIBUTES?.MONEY_OFF,
-      RULES_ATTRIBUTES?.FREE_SHIPPING,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.PURCHASE_AMOUNT,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.ACCOUNT_CREATION,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.NO_OF_VISITS,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.BIRTHDAY,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.FIRST_PURCHASE,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.MONEY_OFF,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.FREE_SHIPPING,
     ],
     component: RHFAutocomplete,
     md: 12,
@@ -281,14 +301,14 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
       minRows: 4,
     },
     attributeType: [
-      RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
-      RULES_ATTRIBUTES?.ACCOUNT_CREATION,
-      RULES_ATTRIBUTES?.PRODUCT_QTY,
-      RULES_ATTRIBUTES?.NO_OF_VISITS,
-      RULES_ATTRIBUTES?.BIRTHDAY,
-      RULES_ATTRIBUTES?.FIRST_PURCHASE,
-      RULES_ATTRIBUTES?.MONEY_OFF,
-      RULES_ATTRIBUTES?.FREE_SHIPPING,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.PURCHASE_AMOUNT,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.ACCOUNT_CREATION,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.PRODUCT_QTY,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.NO_OF_VISITS,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.BIRTHDAY,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.FIRST_PURCHASE,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.MONEY_OFF,
+      LOYALTY_RULES_ATTRIBUTES_MAPPED?.FREE_SHIPPING,
     ],
     component: RHFTextField,
     md: 12,
