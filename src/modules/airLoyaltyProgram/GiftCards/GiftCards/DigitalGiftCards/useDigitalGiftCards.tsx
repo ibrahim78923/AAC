@@ -29,7 +29,7 @@ export const useDigitalGiftCards = (setShowButtons: any) => {
   };
 
   useEffect(() => {
-    setShowButtons(false);
+    setShowButtons?.(false);
   }, []);
 
   const digitalGiftCardColumns = digitalGiftCardColumnsFunction(router);
