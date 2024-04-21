@@ -1,18 +1,19 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-const optionsVisible = ['All', 'Jane', 'John'];
 
 export const validationSchema = Yup?.object()?.shape({
-  amount: Yup?.string()?.required('Required'),
-  recipient: Yup?.string()?.required('Required'),
+  amount: Yup?.string()?.required('Amount is equired'),
+  recipient: Yup?.mixed()?.nullable()?.required('Recipient is required'),
 });
 
 export const defaultValues = {
   amount: '',
-  recipient: '',
+  recipient: null,
 };
 
-export const assignedPhysicalGiftCardFormFields = [
+export const assignedPhysicalGiftCardFormFieldsDynamic = (
+  recipientsApiQuery: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -30,10 +31,11 @@ export const assignedPhysicalGiftCardFormFields = [
       name: 'recipient',
       label: 'Recipient',
       fullWidth: true,
-      options: optionsVisible,
       placeholder: 'Select from contacts',
-      required: 'true',
+      required: true,
+      apiQuery: recipientsApiQuery,
+      getOptionLabel: (option: any) => option?.contactName,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
 ];
