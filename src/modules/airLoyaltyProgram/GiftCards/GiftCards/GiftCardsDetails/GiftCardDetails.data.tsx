@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
 export const rulesList = [
@@ -21,7 +22,7 @@ export const rulesList = [
   },
 ];
 
-export const rulesColumns = [
+export const giftCardDetailsColumn = [
   {
     accessorFn: (info: any) => info?.amount,
     id: 'amount',
@@ -41,7 +42,6 @@ export const rulesColumns = [
     id: 'date',
     header: 'Date',
     isSortable: true,
-    cell: (info: any) =>
-      dayjs(info?.getValue())?.format('MMMM DD, YYYY: hh:mm'),
+    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
   },
 ];

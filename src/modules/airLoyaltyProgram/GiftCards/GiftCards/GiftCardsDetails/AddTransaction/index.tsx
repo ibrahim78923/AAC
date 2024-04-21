@@ -3,27 +3,35 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useAddTransaction } from './useAddTransaction';
-import { addTransactionDrawerData } from './AddTranscation.data';
 export const AddTransaction = (props: any) => {
-  const { addTransaction } = props;
-  const { handleSubmit, onSubmit, methods, handleCloseDrawer } =
-    useAddTransaction(props);
+  const { isPortalOpen } = props;
+  const {
+    handleSubmit,
+    onSubmit,
+    methods,
+    closeAddDigitalGiftCardForm,
+    addGiftCardDetailsFormFields,
+    addDigitalGiftCardDetailsStatus,
+  } = useAddTransaction(props);
   return (
     <Box>
       <CommonDrawer
-        isDrawerOpen={addTransaction}
-        onClose={handleCloseDrawer}
+        isDrawerOpen={isPortalOpen?.isAdd}
+        onClose={closeAddDigitalGiftCardForm}
         title={'Add Transcation'}
         okText={'Create'}
         isOk
         cancelText={'Cancel'}
         footer
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={addDigitalGiftCardDetailsStatus?.isLoading}
+        isDisabled={addDigitalGiftCardDetailsStatus?.isLoading}
+        disabledCancelBtn={addDigitalGiftCardDetailsStatus?.isLoading}
       >
         <Box>
-          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <FormProvider methods={methods}>
             <Grid container spacing={2}>
-              {addTransactionDrawerData?.map((item) => (
+              {addGiftCardDetailsFormFields?.map((item: any) => (
                 <Grid item xs={12} sm={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>

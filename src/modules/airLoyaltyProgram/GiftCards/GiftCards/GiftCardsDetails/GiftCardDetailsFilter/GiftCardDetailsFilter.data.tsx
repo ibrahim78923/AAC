@@ -1,10 +1,8 @@
 import {
-  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDateRangePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-
-const optionsVisibleShop = ['Shop1', 'shop2'];
 
 export const giftCardDetailsDefaultValues = (data?: any) => {
   return {
@@ -18,7 +16,7 @@ export const giftCardDetailsDefaultValues = (data?: any) => {
     maxAmount: data?.maxAmount ?? '',
   };
 };
-export const giftCardDetailsFilterFromFields = [
+export const giftCardDetailsFilterFromFieldsDynamic = (shopApiQuery: any) => [
   {
     id: 1,
     componentProps: {
@@ -33,10 +31,11 @@ export const giftCardDetailsFilterFromFields = [
     componentProps: {
       name: 'shop',
       label: 'Shop',
-      options: optionsVisibleShop,
       placeholder: 'Select',
+      apiQuery: shopApiQuery,
+      getOptionLabel: (option: any) => option?.shopName,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 3,
