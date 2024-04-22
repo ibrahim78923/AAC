@@ -1,25 +1,64 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
-import { defaultValues, validationSchema } from './AddDigitalGiftCard.data';
+import {
+  addDigitalGiftCardDefaultValues,
+  addDigitalGiftCardFormFieldsDynamic,
+  addDigitalGiftCardValidationSchema,
+} from './AddDigitalGiftCard.data';
+import {
+  useAddDigitalGiftCardMutation,
+  useLazyGetContactsDropdownForDigitalGiftCardQuery,
+  useLazyGetShopDropdownForDigitalGiftCardQuery,
+} from '@/services/airLoyaltyProgram/giftCards/giftCards/digital-gift-card';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+
 export const useAddDigitalGiftCard = (props: any) => {
-  const { setAddDigitalCard } = props;
+  const { setIsPortalOpen } = props;
+  const [addDigitalGiftCardTrigger, addDigitalGiftCardStatus] =
+    useAddDigitalGiftCardMutation();
   const methods: any = useForm<any>({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
+    resolver: yupResolver(addDigitalGiftCardValidationSchema),
+    defaultValues: addDigitalGiftCardDefaultValues,
   });
   const { handleSubmit, reset } = methods;
-  const onSubmit = async () => {
-    enqueueSnackbar('Assigned Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    handleCloseDrawer?.();
+
+  const onSubmit = async (formData: any) => {
+    const body = {
+      shop: formData?._id,
+      contact: formData?.contact,
+      amount: formData?.amount,
+    };
+    const apiDataParameter = {
+      body,
+    };
+    try {
+      await addDigitalGiftCardTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Card Added Successfullt');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+    closeAddDigitalGiftCardForm?.();
     reset();
   };
-  const handleCloseDrawer = () => {
+
+  const closeAddDigitalGiftCardForm = () => {
     reset();
-    setAddDigitalCard(false);
+    setIsPortalOpen({});
   };
-  return { handleSubmit, onSubmit, methods, handleCloseDrawer };
+  const shopApiQuery = useLazyGetShopDropdownForDigitalGiftCardQuery?.();
+  const contactsApiQuery =
+    useLazyGetContactsDropdownForDigitalGiftCardQuery?.();
+
+  const addDigitalGiftCardFormFields = addDigitalGiftCardFormFieldsDynamic?.(
+    shopApiQuery,
+    contactsApiQuery,
+  );
+  return {
+    handleSubmit,
+    onSubmit,
+    methods,
+    closeAddDigitalGiftCardForm,
+    addDigitalGiftCardFormFields,
+    addDigitalGiftCardStatus,
+  };
 };
