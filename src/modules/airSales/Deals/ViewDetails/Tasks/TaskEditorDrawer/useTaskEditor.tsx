@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 
 import {
-  dealsTasksDefaultValues,
+  createTaskDefaultValues,
   dealsTasksValidationSchema,
 } from './TaskEditor.data';
 
@@ -13,75 +13,75 @@ import {
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
+import { useAppSelector } from '@/redux/store';
 
 const useTaskEditor = ({
-  selectedCheckboxes,
   openDrawer,
   setOpenDrawer,
-  setSelectedCheckboxes,
+  selectedRecId,
+  taskData,
 }: any) => {
-  // todo: for edit case taking first element from array
-  const editCheckBoxes = selectedCheckboxes && selectedCheckboxes[0];
-
+  const selectedTaskIds = useAppSelector(
+    (state: any) => state?.task_deals?.selectedDealsTaskIds,
+  );
   const methodsdealsTasks = useForm({
     resolver: yupResolver(dealsTasksValidationSchema),
-    defaultValues: async () => {
-      if (editCheckBoxes && openDrawer !== 'Add') {
-        const {
-          name,
-          reminder,
-          status,
-          type,
-          associate,
-          deal,
-          dueDate,
-          priority,
-          note,
-        } = editCheckBoxes;
-        return {
-          name,
-          reminder,
-          status,
-          type,
-          deal,
-          associate,
-          dueDate: new Date(dueDate),
-          priority,
-          note,
-        };
-      }
-      return dealsTasksDefaultValues;
-    },
+    defaultValues: createTaskDefaultValues({
+      data:
+        openDrawer === 'Edit' || openDrawer === 'View' ? taskData?.data : {},
+    }),
   });
 
   const [postDealsTasksManagement] = usePostDealsTasksManagementMutation();
   const [updatedDealsTasksManagement] = useUpdateDealsTasksManagementMutation();
 
   const onSubmit = async (values: any) => {
-    const { dueDate, ...rest } = values;
-    const DueDate = dayjs(dueDate)?.format(DATE_FORMAT?.API);
-    const body = {
-      dueDate: DueDate,
-      ...rest,
+    const payload = {
+      name: values?.name,
+      type: values?.type,
+      priority: values?.priority,
+      ...(values?.status && { status: values?.status }),
+      ...(values?.reminder && { reminder: values?.reminder }),
+      ...(values?.assignTo && { assignTo: values?.assignTo?._id }),
+      ...(values?.dueDate && {
+        dueDate: dayjs(values?.dueDate)?.format(DATE_FORMAT?.API),
+      }),
+      note: values?.note,
+      time: values?.time ?? '00:00',
+      companiesIds: [],
+      dealsIds: [selectedRecId],
+      ticketsIds: [],
+      contactsIds: [],
     };
-    try {
-      openDrawer === 'Edit'
-        ? await updatedDealsTasksManagement({
-            body,
-            id: editCheckBoxes?._id,
-          })?.unwrap()
-        : await postDealsTasksManagement({ body })?.unwrap();
-      enqueueSnackbar(
-        `Task ${openDrawer === 'Edit' ? 'Updated' : 'Added '} Successfully`,
-        { variant: 'success' },
-      );
-      onCloseDrawer();
-      setSelectedCheckboxes([]);
-    } catch (error) {
-      const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+
+    if (openDrawer === 'Edit') {
+      try {
+        await updatedDealsTasksManagement({
+          body: payload,
+          id: selectedTaskIds && selectedTaskIds[0],
+        }).unwrap();
+        enqueueSnackbar('Task Updated Successfully', {
+          variant: 'success',
+        });
+        onCloseDrawer();
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
+    } else {
+      try {
+        await postDealsTasksManagement({
+          body: payload,
+        }).unwrap();
+        enqueueSnackbar('Task Created Successfully', {
+          variant: 'success',
+        });
+        onCloseDrawer;
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
     }
   };
+
   const { handleSubmit, reset } = methodsdealsTasks;
   const onCloseDrawer = () => {
     setOpenDrawer('');

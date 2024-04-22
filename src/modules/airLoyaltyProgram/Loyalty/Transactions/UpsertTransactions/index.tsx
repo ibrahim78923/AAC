@@ -1,34 +1,41 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { upsertTransactionsArray } from './UpsertTransactions.data';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertTransactions } from './useUpsertTransactions';
 
 const UpsertTransactions = (props: any) => {
-  const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { methods, handleSubmit, submit } = useUpsertTransactions(props);
+  const { isDrawerOpen } = props;
+  const {
+    methods,
+    handleSubmit,
+    submitUpsertLoyaltyTransactions,
+    transactionFilterFormFields,
+    closeLoyaltyTransactionForm,
+    postLoyaltyTransactionsStatus,
+  } = useUpsertTransactions(props);
 
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen?.isUpsert}
-        onClose={() => {
-          setIsDrawerOpen({});
-        }}
+        onClose={() => closeLoyaltyTransactionForm()}
         title={'Add details'}
         submitHandler={() => {
-          handleSubmit(submit)();
+          handleSubmit(submitUpsertLoyaltyTransactions)();
         }}
         footer
         isOk
         okText={'Save'}
         cancelText="Close"
+        isLoading={postLoyaltyTransactionsStatus?.isLoading}
+        isDisabled={postLoyaltyTransactionsStatus?.isLoading}
+        disabledCancelBtn={postLoyaltyTransactionsStatus?.isLoading}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={2}>
-              {upsertTransactionsArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
+              {transactionFilterFormFields?.map((item: any) => (
+                <Grid item xs={12} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}

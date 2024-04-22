@@ -73,7 +73,7 @@ const Documents = () => {
     onSubmit,
     documentData,
     handleCheckboxChange,
-    checkboxChecked,
+    allSelectedFoldersIds,
     modalHeading,
     setModalHeading,
     deleteUserFolders,
@@ -227,7 +227,7 @@ const Documents = () => {
             setSearchBy={setSearchValue}
           />
           {documentData?.map((item: any) => {
-            return checkboxChecked?.find(
+            return allSelectedFoldersIds?.find(
               (val: any) => val == item?._id,
             ) ? null : (
               <>
@@ -317,7 +317,7 @@ const Documents = () => {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
               className="small"
-              disabled={checkboxChecked.length > 0 ? false : true}
+              disabled={allSelectedFoldersIds?.length > 0 ? false : true}
             >
               Action
               <ArrowDropDownIcon
@@ -367,6 +367,7 @@ const Documents = () => {
                     setActionType('move-folder');
                     FolderAdd?.setValue('name', selectedFolder?.name);
                   }}
+                  disabled={allSelectedFoldersIds?.length > 1}
                 >
                   Rename
                 </MenuItem>
@@ -445,7 +446,7 @@ const Documents = () => {
                       </Box>
                       <Box sx={{ zIndex: 999, cursor: 'unset' }}>
                         <Checkbox
-                          checked={checkboxChecked.includes(item?._id)}
+                          checked={allSelectedFoldersIds?.includes(item?._id)}
                           onChange={() => {
                             handleCheckboxChange(item?._id);
                             setSelectedFolder(item);

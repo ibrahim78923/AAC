@@ -2,7 +2,7 @@ import React from 'react';
 import { styles } from './stopWatch.style';
 
 const StopWatch = (props: any) => {
-  const { seconds, minutes, hours } = props;
+  const { hours, minutes, seconds } = props;
   return (
     <div
       style={{ textAlign: 'center', marginRight: '2rem', marginLeft: '1rem' }}

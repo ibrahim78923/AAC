@@ -3,25 +3,30 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useAssignedPhysicalGiftCard } from './useAssignedPhysicalGiftCard';
-import { assignedPhysicalGiftCardFormFields } from './AssignedPhysicalGiftCard.data';
+
 export const AssignedPhysicalGiftCard = (props: any) => {
-  const { assignedTo } = props;
-  const { handleSubmit, onSubmit, methods, handleCloseDrawer } =
-    useAssignedPhysicalGiftCard(props);
+  const { isPortalOpen } = props;
+  const {
+    handleSubmit,
+    assignedPhysicalGiftCard,
+    methods,
+    closeAssignedForm,
+    assignedPhysicalGiftCardFormFields,
+  } = useAssignedPhysicalGiftCard(props);
   return (
     <Box>
       <CommonDrawer
-        isDrawerOpen={assignedTo}
-        onClose={handleCloseDrawer}
+        isDrawerOpen={isPortalOpen?.isAssigned}
+        onClose={closeAssignedForm}
         title={'Assigned To'}
         okText={'Assign'}
         isOk
         cancelText={'Cancel'}
         footer
-        submitHandler={handleSubmit(onSubmit)}
+        submitHandler={handleSubmit(assignedPhysicalGiftCard)}
       >
         <Box>
-          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <FormProvider methods={methods}>
             <Grid container spacing={2}>
               {assignedPhysicalGiftCardFormFields?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>

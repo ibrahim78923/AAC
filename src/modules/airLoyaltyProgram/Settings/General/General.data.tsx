@@ -1,7 +1,7 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
-export const dummyOptions = ['helo', 'hello'];
+export const dummyOptions = ['option1', 'option2'];
 
-export const generalTabData = [
+export const generalFormFields = [
   {
     id: 1,
     componentProps: {

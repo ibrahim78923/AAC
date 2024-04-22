@@ -1,41 +1,36 @@
 import { Box, Button } from '@mui/material';
 
-import { GiftCardsDetailsHeader } from './GiftCardsDetailsHeader';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { rulesColumns, rulesList } from './GiftCardDetails.data';
+import { giftCardDetailsColumn } from './GiftCardDetails.data';
 
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { GiftCardDetailsFilter } from './GiftCardDetailsFilter';
-import { useState } from 'react';
-import { AddTransaction } from './AddTransaction';
-import { ExportModal } from '@/components/ExportModal';
 import { ExportBlackIcon } from '@/assets/icons';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { useGiftCardsDetails } from './useGiftCardDetails';
 
 export const GiftCardsDetails = () => {
-  const [openFilter, setOpenFilter] = useState(false);
-  const [addTransaction, setAddTransaction] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleFileExportSubmit = (type: any) => {
-    if (!!!type) {
-      setOpen(false);
-      return;
-    }
-    setOpen(false);
-    enqueueSnackbar('File Exported Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-  };
+  const {
+    setIsPortalOpen,
+    isPortalOpen,
+    renderPortalComponent,
+    lazyGetGiftCardDetailsListStatus,
+    setPage,
+    setPageLimit,
+    router,
+  } = useGiftCardsDetails?.();
   return (
     <>
       <Box>
-        <GiftCardsDetailsHeader setAddTransaction={setAddTransaction} />
+        <PageTitledHeader
+          title={'TVKP12345'}
+          addTitle={'Add Transaction'}
+          canMovedBack
+          handleAction={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+          moveBack={() => {
+            router?.push(AIR_LOYALTY_PROGRAM?.GIFT_CARDS);
+          }}
+        />
       </Box>
       <Box mt={2} border={'1px solid lightgrey'} borderRadius={3}>
         <Box display={'flex'} justifyContent={'flex-end'} mx={2} gap={1} mt={2}>
@@ -43,8 +38,7 @@ export const GiftCardsDetails = () => {
             variant="outlined"
             color="inherit"
             startIcon={<FilterListIcon />}
-            sx={{ borderRadius: '0.5rem' }}
-            onClick={() => setOpenFilter(true)}
+            onClick={() => setIsPortalOpen({ isOpen: true, isFilter: true })}
           >
             Filters
           </Button>
@@ -52,28 +46,37 @@ export const GiftCardsDetails = () => {
             variant="outlined"
             color="secondary"
             startIcon={<ExportBlackIcon />}
-            onClick={() => setOpen(true)}
+            onClick={() => setIsPortalOpen({ isOpen: true, isExport: true })}
           >
             Export
           </Button>
-          <ExportModal
-            open={open}
-            onSubmit={(exportType: any) => handleFileExportSubmit?.(exportType)}
-            handleClose={handleClose}
-          />
         </Box>
         <Box mt={2}>
-          <TanstackTable data={rulesList} columns={rulesColumns} isPagination />
+          <TanstackTable
+            columns={giftCardDetailsColumn}
+            data={lazyGetGiftCardDetailsListStatus?.data?.data}
+            isLoading={lazyGetGiftCardDetailsListStatus?.isLoading}
+            currentPage={
+              lazyGetGiftCardDetailsListStatus?.data?.data?.meta?.page
+            }
+            count={lazyGetGiftCardDetailsListStatus?.data?.data?.meta?.pages}
+            pageLimit={
+              lazyGetGiftCardDetailsListStatus?.data?.data?.meta?.limit
+            }
+            totalRecords={
+              lazyGetGiftCardDetailsListStatus?.data?.data?.meta?.total
+            }
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isFetching={lazyGetGiftCardDetailsListStatus?.isFetching}
+            isError={lazyGetGiftCardDetailsListStatus?.isError}
+            isSuccess={lazyGetGiftCardDetailsListStatus?.isSuccess}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
+          />
         </Box>
+        {isPortalOpen?.isOpen && renderPortalComponent?.()}
       </Box>
-      <GiftCardDetailsFilter
-        openFilter={openFilter}
-        setOpenFilter={setOpenFilter}
-      />
-      <AddTransaction
-        addTransaction={addTransaction}
-        setAddTransaction={setAddTransaction}
-      />
     </>
   );
 };

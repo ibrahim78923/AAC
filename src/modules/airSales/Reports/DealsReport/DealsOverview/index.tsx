@@ -28,6 +28,7 @@ const DealsOverview = () => {
         columns={columns}
         data={DealOverviewTableData}
         isPagination
+        totalRecords={5}
       />
     </>
   );

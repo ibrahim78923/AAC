@@ -10,6 +10,7 @@ import {
 
 export const filtersDefaultValues: any = (filterValue: any) => {
   return {
+    email: filterValue?.email ?? '',
     shop: filterValue?.shop ?? null,
     type: filterValue?.type ?? null,
     channel: filterValue?.channel ?? null,
@@ -21,18 +22,27 @@ export const transactionFilterFormFieldsDynamic = (shopApiQuery?: any) => [
   {
     id: 1,
     componentProps: {
+      name: 'email',
+      label: 'Email',
+      placeholder: 'Enter email',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+  },
+  {
+    id: 2,
+    componentProps: {
       name: 'shop',
       label: 'Shop',
       placeholder: 'Select shop',
       fullWidth: true,
-      options: [],
       apiQuery: shopApiQuery,
       getOptionLabel: (option: any) => option?.shopName,
     },
     component: RHFAutocompleteAsync,
   },
   {
-    id: 2,
+    id: 3,
     componentProps: {
       name: 'type',
       label: 'Type',
@@ -44,7 +54,7 @@ export const transactionFilterFormFieldsDynamic = (shopApiQuery?: any) => [
     component: RHFAutocomplete,
   },
   {
-    id: 3,
+    id: 4,
     componentProps: {
       name: 'channel',
       label: 'Channel',
