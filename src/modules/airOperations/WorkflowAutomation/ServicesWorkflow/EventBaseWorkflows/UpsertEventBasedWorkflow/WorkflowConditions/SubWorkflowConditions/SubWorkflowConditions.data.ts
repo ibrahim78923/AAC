@@ -14,6 +14,7 @@ export const assetsFieldsOption = [
   { value: 'departmentId', label: 'Department' },
   { value: 'impact', label: 'Impact' },
   { value: 'assignedOn', label: 'Assigned On' },
+  { value: 'createdBy', label: 'Created By' },
   { value: 'description', label: 'Description' },
 ];
 
@@ -26,7 +27,7 @@ export const taskFieldsOption = [
   { value: 'startDate', label: 'Planned Start Date' },
   { value: 'endDate', label: 'Planned End Date' },
   { value: 'plannedEffort', label: 'Planned Effort' },
-  { value: 'departmentId', label: 'Department' },
+  { value: 'departmentId', label: 'Select Department' },
 ];
 
 export const ticketsFields = [
@@ -52,8 +53,8 @@ export const status = ['OPEN', 'CLOSED', 'RESOLVED', 'PENDING', 'SPAMS'];
 export const fieldOptions = [
   'is',
   'is not',
-  'equal',
-  'not equal',
+  'equals',
+  'not equals',
   'contains',
   'not contains',
   'contains words',
@@ -80,10 +81,10 @@ export const dateOperators = [
   'is not',
   'is empty',
   'is not empty',
-  'Greater than',
-  'Less than',
-  'Greater than or equal to',
-  'Less than or equal to',
+  'greater than',
+  'less than',
+  'greater than or equal to',
+  'less than or equal to',
 ];
 
 const constantApiOptions = {
@@ -92,13 +93,15 @@ const constantApiOptions = {
   department: 'Select Department',
   assetDepartment: 'Department',
   location: 'Location',
+  assetType: 'Asset Type',
   createdBy: 'Created By',
+  assignTo: 'Assign To',
+  usedBy: 'Used By',
 };
 
 const optionsConstants = {
   priority: 'priority',
   impacts: 'Impact',
-  assetType: 'Asset Type',
   source: 'Source',
   description: 'Description',
   type: 'Type',
@@ -108,7 +111,6 @@ const optionsConstants = {
   subject: 'Subject',
   title: 'Title',
   assignedOn: 'Assigned On',
-  createdBy: 'Created By',
   name: 'Name',
 };
 
@@ -120,6 +122,8 @@ export const subWorkflowData = ({
   departmentApiQuery,
   requestersApiQuery,
   apiQueryLocations,
+  apiAssetType,
+  apiUsersListDropdown,
 }: any) => {
   const useApiQuery = (operatorsOption: string) => {
     if (operatorsOption === constantApiOptions?.agent) {
@@ -133,6 +137,14 @@ export const subWorkflowData = ({
       return departmentApiQuery;
     } else if (operatorsOption === constantApiOptions?.location) {
       return apiQueryLocations;
+    } else if (operatorsOption === constantApiOptions?.assetType) {
+      return apiAssetType;
+    } else if (
+      operatorsOption === constantApiOptions?.assignTo ||
+      operatorsOption === constantApiOptions?.usedBy ||
+      operatorsOption === constantApiOptions?.createdBy
+    ) {
+      return apiUsersListDropdown;
     }
     return null;
   };
@@ -146,15 +158,18 @@ export const subWorkflowData = ({
   const ticketsModule: any = {
     'Ticket Fields': ticketsFields,
   };
+
   const modulesOptions =
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
       ? assetsModule || []
       : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
         ? ticketsModule || []
         : taskModule || [];
+
   const selectedOption = watch(
     `groups.${index}.conditions.${subIndex}.options`,
   );
+
   const moduleListOptions = modulesOptions[selectedOption] || [];
   const operatorsOption = watch(
     `groups.${index}.conditions.${subIndex}.fieldName`,
@@ -166,15 +181,13 @@ export const subWorkflowData = ({
   const valuesOptions =
     selectedOperatorsOptions === optionsConstants?.priority
       ? priority
-      : selectedOperatorsOptions === optionsConstants?.assetType
-        ? assetsOptions
-        : selectedOperatorsOptions === optionsConstants?.source
-          ? sourcesOptions
-          : selectedOperatorsOptions === optionsConstants?.type
-            ? typeOptions
-            : selectedOperatorsOptions === optionsConstants?.impacts
-              ? impactOptions
-              : status;
+      : selectedOperatorsOptions === optionsConstants?.source
+        ? sourcesOptions
+        : selectedOperatorsOptions === optionsConstants?.type
+          ? typeOptions
+          : selectedOperatorsOptions === optionsConstants?.impacts
+            ? impactOptions
+            : status;
   if (
     [
       optionsConstants?.plannedStartDate,
@@ -219,7 +232,10 @@ export const subWorkflowData = ({
   } else if (
     selectedOperatorsOptions === constantApiOptions?.agent ||
     selectedOperatorsOptions === constantApiOptions?.requester ||
-    selectedOperatorsOptions === constantApiOptions?.location
+    selectedOperatorsOptions === constantApiOptions?.location ||
+    selectedOperatorsOptions === constantApiOptions?.assignTo ||
+    selectedOperatorsOptions === constantApiOptions?.usedBy ||
+    selectedOperatorsOptions === constantApiOptions?.createdBy
   ) {
     valueComponent = {
       _id: 6,
@@ -245,6 +261,19 @@ export const subWorkflowData = ({
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
+      },
+      component: RHFAutocompleteAsync,
+    };
+  } else if (selectedOperatorsOptions === constantApiOptions?.assetType) {
+    valueComponent = {
+      _id: 6,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
+        size: 'small',
+        placeholder: 'Select',
+        apiQuery: apiQuery,
+        externalParams: { meta: false, limit: 50 },
       },
       component: RHFAutocompleteAsync,
     };
@@ -286,7 +315,7 @@ export const subWorkflowData = ({
         name: `groups.${index}.conditions.${subIndex}.options`,
         size: 'small',
         placeholder: 'Select',
-        options: Object.keys(modulesOptions),
+        options: Object.keys(module),
       },
       component: RHFAutocomplete,
     },

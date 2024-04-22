@@ -44,6 +44,11 @@ export const useUpsertScheduledWorkflow = () => {
     setCategoryAs: 'Set Category as',
     category: 'category',
     users: 'users',
+    usedBy: 'Used By',
+    createdBy: 'Created By',
+    assetType: 'Asset Type',
+    assignTo: 'Assign To',
+    type: 'assettypes',
   };
 
   const router = useRouter();
@@ -107,6 +112,14 @@ export const useUpsertScheduledWorkflow = () => {
         return collectionNameData?.requester;
       case collectionNameData?.setCategoryAs:
         return collectionNameData?.category;
+      case collectionNameData?.assetType:
+        return collectionNameData?.type;
+      case collectionNameData?.usedBy:
+        return collectionNameData?.users;
+      case collectionNameData?.createdBy:
+        return collectionNameData?.users;
+      case collectionNameData?.assignTo:
+        return collectionNameData?.users;
       default:
         return '';
     }
@@ -117,18 +130,9 @@ export const useUpsertScheduledWorkflow = () => {
     conditions: group?.conditions?.map((condition: any) => ({
       condition: condition?.condition,
       fieldName: condition?.fieldName?.value,
-      fieldValue:
-        condition?.fieldName &&
-        [
-          collectionNameData?.agent,
-          collectionNameData?.selectDepartment,
-          collectionNameData?.setDepartmentAs,
-          collectionNameData?.location,
-          collectionNameData?.addRequester,
-          collectionNameData?.setCategoryAs,
-        ].includes(condition?.fieldName?.label)
-          ? condition?.fieldValue?._id
-          : condition?.fieldValue,
+      fieldValue: condition?.fieldValue?._id
+        ? condition?.fieldValue?._id
+        : condition?.fieldValue,
       fieldType: mapField(condition, typeData),
       collectionName: getCollectionName(condition?.fieldName),
     })),
@@ -138,18 +142,9 @@ export const useUpsertScheduledWorkflow = () => {
   const mapAction = (action: any, typeData: any) => ({
     ...action,
     fieldName: action?.fieldName?.value,
-    fieldValue:
-      action?.fieldName &&
-      [
-        collectionNameData?.agent,
-        collectionNameData?.selectDepartment,
-        collectionNameData?.setDepartmentAs,
-        collectionNameData?.location,
-        collectionNameData?.addRequester,
-        collectionNameData?.setCategoryAs,
-      ].includes(action?.fieldName)
-        ? action?.fieldValue?._id
-        : action?.fieldValue,
+    fieldValue: action?.fieldValue?._id
+      ? action?.fieldValue?._id
+      : action?.fieldValue,
     fieldType: mapField(action, typeData),
     collectionName: getCollectionName(action?.fieldName),
   });

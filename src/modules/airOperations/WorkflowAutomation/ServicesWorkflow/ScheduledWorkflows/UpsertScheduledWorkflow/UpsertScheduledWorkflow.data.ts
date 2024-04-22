@@ -6,6 +6,11 @@ import {
   taskFieldsOption,
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
+import {
+  capitalizeFirstLetter,
+  monthFormatter,
+  timeFormatter,
+} from '@/utils/api';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -131,31 +136,36 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
     ...taskFieldsOption,
     ...assetsFieldsOption,
   ];
+  const type: any = {
+    WEEKLY: 'weekly',
+    MONTHLY: 'monthly',
+    ANNUALLY: 'annually',
+    CUSTOM: 'custom',
+  };
 
-  function capitalizeFirstLetter(string: any) {
-    if (!string || typeof string !== 'string') return '';
-    return new Date(
-      Date?.parse(singleWorkflowData?.schedule?.annually?.month + ' 1, 2000'),
-    )?.getMonth();
-  }
+  const time =
+    singleWorkflowData?.schedule?.[type[singleWorkflowData?.schedule?.type]]
+      ?.time;
 
   const startDate = singleWorkflowData?.schedule?.custom?.startDate;
   const endDate = singleWorkflowData?.schedule?.custom?.endDate;
-  const timeChange = singleWorkflowData?.schedule?.time;
-
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.SCHEDULED,
     description: singleWorkflowData?.description ?? '',
-    schedule: singleWorkflowData?.schedule?.type?.toLowerCase() ?? 'daily',
-    scheduleMonth:
-      new Date(
-        capitalizeFirstLetter(singleWorkflowData?.schedule?.annually?.month),
-      ) ?? new Date(),
+    schedule:
+      capitalizeFirstLetter(singleWorkflowData?.schedule?.type) ?? 'Daily',
+    scheduleMonth: singleWorkflowData?.schedule?.annually?.month
+      ? monthFormatter(singleWorkflowData?.schedule?.annually?.month)
+      : new Date(),
     scheduleDay:
-      singleWorkflowData?.schedule?.weekly?.days[0]?.toLowerCase() ?? 'monday',
+      capitalizeFirstLetter(
+        singleWorkflowData?.schedule?.weekly?.days?.find(
+          (item: string) => item,
+        ),
+      ) ?? 'Monday',
     scheduleDate: new Date(),
-    time: timeChange ? new Date(timeChange) : new Date(),
+    time: time ? new Date(timeFormatter(time)) : new Date(),
     custom: {
       startDate: startDate ? new Date(startDate) : new Date(),
       endDate: endDate ? new Date(endDate) : new Date(),
@@ -188,7 +198,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
             fieldValue:
               condition?.fieldType === 'objectId'
                 ? singleWorkflowData[
-                    `${condition?.fieldName}${gIndex}${cIndex}`
+                    `${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
                 : condition?.fieldType === 'date'
                   ? new Date(condition?.fieldValue)
@@ -218,7 +228,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         fieldValue:
           action?.fieldType === 'objectId'
-            ? singleWorkflowData[`${action?.fieldName}${aIndex}`]
+            ? singleWorkflowData[`${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === 'date'
               ? new Date(action?.fieldValue)
               : action?.fieldValue,

@@ -124,7 +124,6 @@ export const eventBasedWorkflowValues: any = (
     ...taskFieldsOption,
     ...assetsFieldsOption,
   ];
-
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.EVENT_BASE,
@@ -161,7 +160,7 @@ export const eventBasedWorkflowValues: any = (
             fieldValue:
               condition?.fieldType === 'objectId'
                 ? singleWorkflowData[
-                    `${condition?.fieldName}${gIndex}${cIndex}`
+                    `${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
                 : condition?.fieldType === 'date'
                   ? new Date(condition?.fieldValue)
@@ -191,7 +190,7 @@ export const eventBasedWorkflowValues: any = (
           : null,
         fieldValue:
           action?.fieldType === 'objectId'
-            ? singleWorkflowData[`${action?.fieldName}${aIndex}`]
+            ? singleWorkflowData[`${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === 'date'
               ? new Date(action?.fieldValue)
               : action?.fieldValue,
