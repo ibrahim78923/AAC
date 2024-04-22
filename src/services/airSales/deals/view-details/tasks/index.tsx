@@ -1,6 +1,11 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+const TAG_THREE = ['TASK_DEALS_USERS_ASSIGNEE'];
 
+const transformResponse = (response: any) => {
+  // console.log("response",response)
+  if (response) return response?.data?.users;
+};
 export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealsTasksManagement: builder.query({
@@ -36,6 +41,24 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['DEALS_TASK_MANAGEMENT'],
     }),
+
+    getDealsAssignedUsers: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.USER_LIST}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => transformResponse(response),
+      providesTags: TAG_THREE,
+    }),
+
+    getDealsTaskDetails: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['DEALS_TASK_MANAGEMENT'],
+    }),
   }),
 });
 
@@ -44,4 +67,6 @@ export const {
   usePostDealsTasksManagementMutation,
   useUpdateDealsTasksManagementMutation,
   useDeleteDealsTasksManagementMutation,
+  useLazyGetDealsAssignedUsersQuery,
+  useGetDealsTaskDetailsQuery,
 } = exampleExampleAPI;
