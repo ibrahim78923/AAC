@@ -1,28 +1,28 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-const optionsVisibleShop = ['Shop 1', 'Shop 2'];
 
-export const validationSchema = Yup?.object()?.shape({
+export const addPhysicalGiftCardValidationSchema = Yup?.object()?.shape({
   shop: Yup?.mixed()?.required('Required'),
   noOfGiftCards: Yup?.string()?.trim()?.required('Required'),
 });
 
-export const defaultValues = {
+export const addPhysicalGiftCardDefaultValues = {
   noOfGiftCards: '',
   shop: null,
 };
 
-export const addPhysicalGiftCardFormFields = [
+export const addPhysicalGiftCardFormFieldsDynamic = (shopApiQuery: any) => [
   {
     id: 3,
     componentProps: {
       name: 'shop',
       label: 'Shop',
       required: true,
-      options: optionsVisibleShop,
       placeholder: 'Select',
+      apiQuery: shopApiQuery,
+      getOptionLabel: (option: any) => option?.shopName,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
