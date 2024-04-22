@@ -10,12 +10,25 @@ import { ExportModal } from '@/components/ExportModal';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 import ImportModal from './TransactionImportDrawer';
+import { useTransaction } from './useTransaction';
 
 export const Transactions = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openDrawer1, setOpenDrawer1] = useState(false);
-  const [searchValue, setSearchValue] = useState<string>('');
   const [openModal, setOpenModal] = useState(false);
+  const {
+    search,
+    setSearch,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    isFetching,
+    isLoading,
+    isError,
+    isSuccess,
+    meta,
+  } = useTransaction();
   return (
     <Box>
       <Box
@@ -50,8 +63,8 @@ export const Transactions = () => {
         <Search
           label="Search Here"
           width={'16.25rem'}
-          setSearchBy={setSearchValue}
-          searchBy={searchValue}
+          setSearchBy={setSearch}
+          searchBy={search}
         />
         <Box display={'flex'} flexWrap={'wrap'} gap={2}>
           <Button
@@ -86,7 +99,18 @@ export const Transactions = () => {
       <TanstackTable
         data={transactionTableData}
         columns={UserList}
-        isPagination={true}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess}
+        isPagination
+        count={meta?.pages}
+        pageLimit={limit}
+        currentPage={page}
+        totalRecords={meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setLimit}
       />
       <AddTransactionDrawer
         openDrawer={openDrawer1}

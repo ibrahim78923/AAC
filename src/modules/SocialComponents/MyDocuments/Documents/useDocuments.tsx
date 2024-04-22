@@ -54,6 +54,7 @@ const useDocuments: any = () => {
         variant: 'success',
       });
       setIsOpenDelete(false);
+      setAllSelectedFoldersIds([]);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', { variant: 'error' });
     }

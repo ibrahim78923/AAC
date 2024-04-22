@@ -482,10 +482,6 @@ const DashboardLayout = ({ children, window }: any) => {
           extraHeaders: {
             'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
           },
-          //   reconnection: true,
-          // reconnectionDelay: 1000,
-          // reconnectionDelayMax: 5000,
-          // reconnectionAttempts: Infinity,
         });
 
         setSocket(res);
