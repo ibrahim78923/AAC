@@ -14,9 +14,9 @@ import useAttachmentsEditorDrawer from './useAttachmentEditorDrawer';
 import { v4 as uuidv4 } from 'uuid';
 
 const AttachmentsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, companyId } = props;
+  const { openDrawer, setOpenDrawer, companyId, RowData } = props;
   const { handleSubmit, onSubmit, methodsAttachments } =
-    useAttachmentsEditorDrawer(setOpenDrawer, companyId);
+    useAttachmentsEditorDrawer(setOpenDrawer, companyId, RowData);
 
   return (
     <div>
