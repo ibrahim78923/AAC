@@ -70,7 +70,7 @@ export const TopPerformer = () => {
           </Typography>
           <Typography variant="body3" color={'slateBlue.main'}>
             {data?.totalPoints} + {data?.masterPoints - data?.totalPoints}{' '}
-            points to {AGENT_LEVELS?.MASTER} level
+            points to {AGENT_LEVELS?.MASTER}
           </Typography>
           <br />
           <Typography variant="body3" color={'primary.main'}>
