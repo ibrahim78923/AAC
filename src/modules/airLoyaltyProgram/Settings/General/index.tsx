@@ -1,19 +1,24 @@
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { Typography } from '@mui/material';
-import { Generaltab } from '../GeneralTab';
-import { BetaFeature } from '../BetaFeatureTab';
+import { Box, Grid, Typography } from '@mui/material';
+import { generalFormFields } from './General.data';
+import { FormProvider } from '@/components/ReactHookForm';
+import { useForm } from 'react-hook-form';
 
 export const General = () => {
-  const TabData = ['General', 'Beta Feature'];
+  const method = useForm();
   return (
-    <>
-      <Typography mb={2} variant="h4" fontWeight={500}>
+    <Box mt={2}>
+      <Typography variant="h3" fontWeight={500}>
         General
       </Typography>
-      <HorizontalTabs tabsDataArray={TabData}>
-        <Generaltab />
-        <BetaFeature />
-      </HorizontalTabs>
-    </>
+      <FormProvider methods={method}>
+        <Grid container display={'block'}>
+          {generalFormFields?.map((item: any) => (
+            <Grid item md={item?.md} key={item?.id} mt={1}>
+              <item.component {...item?.componentProps} size={'small'} />
+            </Grid>
+          ))}
+        </Grid>
+      </FormProvider>
+    </Box>
   );
 };
