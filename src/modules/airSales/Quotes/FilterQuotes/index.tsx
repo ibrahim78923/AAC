@@ -20,7 +20,7 @@ const FilterQuotes = ({ open, onClose, methods, onFilterSubmit }: any) => {
     >
       <Box sx={{ pt: '24px' }}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {dataArray(UserListData)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.name}>
                 <item.component {...item?.componentProps} size={'small'}>

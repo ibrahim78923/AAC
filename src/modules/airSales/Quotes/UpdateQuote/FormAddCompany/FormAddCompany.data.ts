@@ -3,6 +3,7 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const createComapnySchema = Yup?.object()?.shape({
   domain: Yup?.string()?.required('Field is Required'),
+  ownerId: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultCreateCompanyValues = {
@@ -11,8 +12,8 @@ export const defaultCreateCompanyValues = {
   ownerId: '',
   industry: '',
   type: '',
-  noOfEmloyee: 10,
-  totalRevenue: 20,
+  noOfEmloyee: null,
+  totalRevenue: null,
   city: '',
   postalCode: '',
   address: '',
@@ -51,6 +52,7 @@ export const dataArray = (contacts: any) => {
         label: 'Company Owner',
         fullWidth: true,
         select: true,
+        required: true,
       },
       options: contacts?.data?.contacts?.map((item: any) => ({
         value: item?._id,

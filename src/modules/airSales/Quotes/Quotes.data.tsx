@@ -1,5 +1,5 @@
-import { DATE_FORMAT } from '@/constants';
-import { Box, Checkbox } from '@mui/material';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 
@@ -11,6 +11,7 @@ export const quotesColumns = (
   activeColumns: any,
 ) => {
   const router = useRouter();
+  const theme = useTheme();
 
   const handleRowClick = (id: any, status: any) => {
     const selectedIndex = selectedRow?.indexOf(id);
@@ -37,11 +38,9 @@ export const quotesColumns = (
     }
     router.push({
       ...(newSelected?.length > 0 && {
-        query: { status: status ? 'published' : 'draft' },
+        query: { status: status },
       }),
     });
-
-    // console.log(newSelected);
   };
 
   // Select All Row
@@ -80,7 +79,19 @@ export const quotesColumns = (
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_AMOUNT) {
       return info?.row?.original?.deal?.amount ?? 'N/A';
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_STATUS) {
-      return info?.row?.original?.isSubmitted ? 'Published' : 'Draft';
+      return (
+        <Typography
+          variant="body4"
+          sx={{ textTransform: 'capitalize' }}
+          color={
+            info?.row?.original?.status === 'DRAFT'
+              ? theme?.palette?.custom?.main
+              : theme?.palette?.success?.main
+          }
+        >
+          {info?.row?.original?.status?.toLowerCase()}
+        </Typography>
+      );
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_DEAL_NAME) {
       return info?.row?.original?.deal?.name ?? 'N/A';
     } else if (attribute?.includes(DEAL_ATTRIBUTES?.DEAL_CREATED_BY)) {
@@ -91,12 +102,15 @@ export const quotesColumns = (
       return name ?? 'N/A';
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_CREATED_AT) {
       return (
-        dayjs(info?.row?.original?.createdAt)?.format(DATE_FORMAT?.API) ?? 'N/A'
+        dayjs(info?.row?.original?.createdAt)?.format(
+          DATE_TIME_FORMAT?.DDMMYYY,
+        ) ?? 'N/A'
       );
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_EXPIRY) {
       return (
-        dayjs(info?.row?.original?.expiryDate)?.format(DATE_FORMAT?.API) ??
-        'N/A'
+        dayjs(info?.row?.original?.expiryDate)?.format(
+          DATE_TIME_FORMAT?.DDMMYYY,
+        ) ?? 'N/A'
       );
     } else {
       return info?.row?.original[attribute] ?? 'N/A';
@@ -114,7 +128,7 @@ export const quotesColumns = (
           checked={isSelected(checked?._id)}
           name={checked?._id}
           onClick={() => {
-            handleRowClick(checked?._id, checked?.isSubmitted);
+            handleRowClick(checked?._id, checked?.status);
           }}
         />
       );

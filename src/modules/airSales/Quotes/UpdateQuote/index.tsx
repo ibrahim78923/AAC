@@ -8,6 +8,7 @@ import DialogSendToCustomer from './DialogSendToCustomer';
 import { styles } from './UpdateQuote.style';
 import { updateQuoteSteps } from './UpdateQuote.data';
 import CreateContacts from './CreateContacts';
+import { LoadingButton } from '@mui/lab';
 
 const UpdateQuote = () => {
   const {
@@ -42,6 +43,7 @@ const UpdateQuote = () => {
     selectedBuyerContactIds,
     handleCompanyChange,
     selectedCompanyIds,
+    loadingSubmit,
   } = useUpdateQuote();
 
   const stepsArgs: any = {
@@ -117,9 +119,16 @@ const UpdateQuote = () => {
 
               {activeStep === steps.length - 1 && (
                 <>
-                  <Button onClick={handleFormSubmit} variant="contained">
+                  {/* <Button onClick={handleFormSubmit} variant="contained">
                     Save & Submit Later
-                  </Button>
+                  </Button> */}
+                  <LoadingButton
+                    variant="contained"
+                    onClick={handleFormSubmit}
+                    loading={loadingSubmit}
+                  >
+                    Save & Submit Later
+                  </LoadingButton>
                   <Button onClick={handleOpenDialog} variant="contained">
                     Submit
                   </Button>

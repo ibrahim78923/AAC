@@ -62,7 +62,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
       formData.append('recordId', quoteId);
       const body = {
         id: quoteId,
-        isSubmitted: true,
+        status: 'PUBLISHED',
         email: values?.email,
         quoteNumber: dataGetQuoteById?.data?.createdBy?._id,
         validTill: dayjs(dataGetQuoteById?.data?.expiryDate)?.format(

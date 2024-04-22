@@ -41,6 +41,7 @@ const Quotes = () => {
     methodsFilter,
     handleRefresh,
     handleDeleteQoute,
+    loadingDeleteQuote,
   } = useQuotes();
 
   const { activeColumns } = useCustomizeColumn({});
@@ -108,6 +109,7 @@ const Quotes = () => {
           open={openDeleteQuote}
           handleClose={handleCloseDeleteQuote}
           handleSubmitBtn={handleDeleteQoute}
+          loading={loadingDeleteQuote}
         />
       )}
     </>

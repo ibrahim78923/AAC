@@ -3,7 +3,6 @@ import { Box, Button, Menu, MenuItem, Tooltip } from '@mui/material';
 import Search from '@/components/Search';
 import {
   CustomizeIcon,
-  DropdownIcon,
   FilterSharedIcon,
   RefreshSharedIcon,
 } from '@/assets/icons';
@@ -13,6 +12,7 @@ import { styles } from './TableToolbar.style';
 import { AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useRouter } from 'next/router';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const TableToolbar: FC<TableToolbarI> = ({
   setSearchValue,
@@ -50,9 +50,9 @@ const TableToolbar: FC<TableToolbarI> = ({
         </PermissionsGuard>
       </Box>
       <Box
+        display="flex"
+        gap={1}
         sx={{
-          display: 'flex',
-          gap: '8px',
           flexWrap: 'wrap',
           marginTop: { xs: '5px', md: '15px', lg: '0px' },
         }}
@@ -60,8 +60,9 @@ const TableToolbar: FC<TableToolbarI> = ({
         <Box sx={{ width: { xs: '100%', sm: 'fit-Content' } }}>
           <Button
             className="small"
-            sx={styles?.actionButton}
-            endIcon={<DropdownIcon />}
+            color="inherit"
+            variant="outlined"
+            endIcon={<ArrowDropDownIcon />}
             onClick={handleActionsDropdown}
             disabled={isActionsDisabled}
             style={{ width: '100%' }}
@@ -134,7 +135,6 @@ const TableToolbar: FC<TableToolbarI> = ({
               sx={{
                 width: { xs: '100%', sm: 'fit-Content' },
                 marginTop: { xs: '10px !important', sm: '0px !important' },
-                marginLeft: { xs: '0px !important', sm: '10px !important' },
               }}
             >
               <RefreshSharedIcon />

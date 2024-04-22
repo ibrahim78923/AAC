@@ -9,30 +9,6 @@ import * as Yup from 'yup';
 // Define your Yup validation schema
 export const contactsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
-  // profilePicture: Yup?.string()?.trim()?.required('Required Field'),
-  firstName: Yup?.string()
-    ?.trim()
-    // ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
-    ?.required('Required Field'),
-  lastName: Yup?.string()
-    ?.trim()
-    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
-    ?.required('Required Field'),
-  address: Yup?.string()?.trim()?.required('Required Field'),
-  phoneNumber: Yup?.string()
-    ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.min(10, 'Mininum 10 characters')
-    ?.required('Required field'),
-  whatsAppNumber: Yup?.string()
-    ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.min(10, 'Mininum 10 characters')
-    ?.required('Required field'),
-  lifeCycleStageId: Yup?.string()?.trim()?.required('Required Field'),
-  // contactOwner: Yup?.string()?.trim()?.required('Required Field'),
-  statusId: Yup?.string()?.trim()?.required('Required Field'),
-  jobTitle: Yup?.string()?.trim()?.required('Required Field'),
-  dateOfJoining: Yup?.string()?.nullable()?.required('Required Field'),
-  dateOfBirth: Yup?.string()?.nullable()?.required('Required Field'),
 });
 
 // Define your default values
@@ -46,9 +22,9 @@ export const contactsDefaultValues = {
   phoneNumber: null,
   whatsAppNumber: null,
   lifeCycleStageId: '',
-  contactOwner: '',
+  contactOwnerId: '',
   statusId: '',
-  dateOfJoining: null,
+  dateOfJoinig: null,
   dateOfBirth: null,
 };
 export const contactsDataArray = (
@@ -139,7 +115,7 @@ export const contactsDataArray = (
     },
     {
       componentProps: {
-        name: 'contactOwner',
+        name: 'contactOwnerId',
         label: 'Contact Owner',
         select: true,
       },
@@ -183,7 +159,7 @@ export const contactsDataArray = (
     {
       title: 'Date of Joining',
       componentProps: {
-        name: 'dateOfJoining',
+        name: 'dateOfJoinig',
         label: 'Date of Joining',
         fullWidth: true,
       },

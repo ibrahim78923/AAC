@@ -10,8 +10,8 @@ export const dataArray = (UserListData: any) => {
       md: 12,
       component: RHFSelect,
       options: [
-        { value: 'draft', label: 'Draft' },
-        { value: 'published', label: 'Published' },
+        { value: 'DRAFT', label: 'Draft' },
+        { value: 'PUBLISHED', label: 'Published' },
       ],
       componentProps: {
         name: 'status',
