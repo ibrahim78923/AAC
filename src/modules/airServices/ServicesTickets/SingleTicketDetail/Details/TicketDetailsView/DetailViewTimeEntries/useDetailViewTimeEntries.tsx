@@ -5,13 +5,12 @@ import {
   usePutTicketsTimeMutation,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useStopwatch } from 'react-timer-hook';
+import { useState, useEffect, useRef } from 'react';
 
 export const useDetailViewTimeEntries = (data: any) => {
   const { user }: any = useAuth();
-
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isCheckId, setCheckId] = useState<boolean>(false);
   const [isIconVisible, setIsIconVisible] = useState(true);
@@ -23,20 +22,74 @@ export const useDetailViewTimeEntries = (data: any) => {
   const toggleView = () => {
     setIsIconVisible(!isIconVisible);
   };
-
   const { ticketId } = router?.query;
+  const [hours, setHours] = useState<number>(() => {
+    const storedValue = localStorage.getItem('timerHour');
+    return storedValue ? parseInt(storedValue, 10) : 0;
+  });
 
-  const {
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    reset,
-  } = useStopwatch({ autoStart: false });
+  const [minutes, setMinutes] = useState<number>(() => {
+    const storedValue = localStorage.getItem('timerMin');
+    return storedValue ? parseInt(storedValue, 10) : 0;
+  });
+
+  const [seconds, setSeconds] = useState<number>(() => {
+    const storedValue = localStorage.getItem('timerSecond');
+    return storedValue ? parseInt(storedValue, 10) : 0;
+  });
+
+  // Rest of your code...
+
+  useEffect(() => {
+    localStorage.setItem('timerSecond', seconds.toString());
+  }, [seconds]);
+
+  useEffect(() => {
+    localStorage.setItem('timerMin', minutes.toString());
+  }, [minutes]);
+
+  useEffect(() => {
+    localStorage.setItem('timerHour', hours.toString());
+  }, [hours]);
+  const intervalRef = useRef<number | null>(null);
+
+  const start = () => {
+    if (!intervalRef.current) {
+      intervalRef.current = window.setInterval(() => {
+        setSeconds((prevSeconds) => {
+          if (prevSeconds === 59) {
+            setMinutes((prevMinutes) => {
+              if (prevMinutes === 59) {
+                setHours((prevHours) => prevHours + 1);
+                return 0;
+              }
+              return prevMinutes + 1;
+            });
+            return 0;
+          }
+          return prevSeconds + 1;
+        });
+      }, 1000);
+    }
+  };
+
+  const stop = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
+
+  const reset = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    setHours(0);
+    setMinutes(0);
+    setSeconds(0);
+  };
+
   const apiDataParameter = {
     queryParams: {
       ticketId,
@@ -65,7 +118,6 @@ export const useDetailViewTimeEntries = (data: any) => {
   }
 
   const handleSubmit = async () => {
-    pause();
     if (isCheckId === true) {
       const upDateData = {
         id: objectWithTrueCounter?._id,
@@ -80,16 +132,16 @@ export const useDetailViewTimeEntries = (data: any) => {
         await putTicketParameterTrigger(putTicketParameter)?.unwrap();
         successSnackbar('Ticket Time Updated Successfully!');
         reset();
+        stop();
       } catch (error: any) {
         errorSnackbar(error?.data?.message);
       }
     }
-    reset();
-    pause();
+
+    stop();
   };
 
   const handleSubmitPause = async () => {
-    start();
     const postData = {
       ticketId: ticketId,
       taskId: data?.task?._id,
@@ -110,7 +162,7 @@ export const useDetailViewTimeEntries = (data: any) => {
       errorSnackbar(error?.data?.message);
       setIsDrawerOpen(false);
     }
-    reset();
+
     start();
   };
 
@@ -124,17 +176,15 @@ export const useDetailViewTimeEntries = (data: any) => {
     isIconVisible,
     setIsIconVisible,
     toggleView,
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    reset,
+
     handleSubmit,
     handleSubmitPause,
     isCheckId,
+    reset,
+    stop,
+    start,
+    seconds,
+    minutes,
+    hours,
   };
 };

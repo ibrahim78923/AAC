@@ -20,7 +20,7 @@ export const useDetailTicketDrawer = (props: any) => {
     isDrawerOpen,
     setIsDrawerOpen,
     start,
-    pause,
+    stop,
     setIsIconVisible,
     isLoading,
   } = props;
@@ -51,7 +51,7 @@ export const useDetailTicketDrawer = (props: any) => {
   const onSubmit = async (data: any) => {
     if (booleanVar === true) {
       setIsIconVisible(true);
-      pause();
+      stop();
     } else {
       setIsIconVisible(false);
       start();
