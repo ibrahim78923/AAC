@@ -12,7 +12,6 @@ import {
 
 import { FormProvider } from '@/components/ReactHookForm';
 import { useLazyGetDealsAssignedUsersQuery } from '@/services/airSales/deals/view-details/tasks';
-// import { useLazyGetDealsAssignedUsersQuery } from '@/services/airSales/deals/view-details/tasks';
 
 const TaskEditorDrawer = (props: any) => {
   const {
