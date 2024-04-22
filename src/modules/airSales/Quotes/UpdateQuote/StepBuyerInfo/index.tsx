@@ -44,9 +44,6 @@ const StepBuyerInfo = ({
   } = useUpdateQuote();
   const contactData: any = dataGetQuoteById?.data?.deal;
   const theme = useTheme();
-  // console.log(selectedCompanyIds, selectedBuyerContactIds);
-
-  // const isEmptyOrNull = (val: any) => (!val || val === null ? true : false);
 
   return (
     <>
@@ -154,37 +151,6 @@ const StepBuyerInfo = ({
               <Box component="ul" sx={styles?.contactsList}>
                 {contactData &&
                   contactData[0]?.companies?.map((item: any) => (
-                    // <Box component="li" sx={styles?.listItem} key={item?.id}>
-                    //   <Box sx={styles?.itemIcon}>
-                    //     <Avatar
-                    //       src={AvatarCompanyImage?.src}
-                    //       sx={styles?.itemAvatar}
-                    //     ></Avatar>
-                    //   </Box>
-                    //   <Box sx={styles?.itemDetail}>
-                    //     <Box sx={styles?.itemTitle}>
-                    //       {item?.name}
-                    //       <Box sx={{ cursor: 'pointer' }}>
-                    //         <Image
-                    //           src={CrossCircleImage}
-                    //           alt="delIcon"
-                    //           onClick={() => handleDeleteModal(item?._id)}
-                    //         />
-                    //       </Box>
-                    //     </Box>
-                    //     <Box sx={styles?.itemText}> {item?.name}</Box>
-                    //     <Box sx={styles?.itemText}>{item?.owner?.email}</Box>
-                    //     <Box sx={styles?.itemText}>
-                    //       {item?.owner?.phoneNumber}
-                    //     </Box>
-                    //   </Box>
-                    //   <Box mt={-0.7}>
-                    //     <Checkbox
-                    //       checked={selectedCompanyIds === item?._id}
-                    //       onChange={() => handleCompanyChange(item._id)}
-                    //     />
-                    //   </Box>
-                    // </Box>
                     <Box component="li" sx={styles?.listItem} key={item?.id}>
                       <Box>
                         <Avatar
