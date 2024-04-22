@@ -10,10 +10,13 @@ export const useWorkflowHeader = () => {
 
   const { push } = useRouter();
   const handleMoveBack = () => push(AIR_OPERATIONS?.SERVICES_WORKFLOW);
+  const handleCancel = () => push(AIR_OPERATIONS?.SERVICES_WORKFLOW);
+
   return {
     openWorkflowModal,
     setOpenWorkflowModal,
     handleMoveBack,
     action,
+    handleCancel,
   };
 };

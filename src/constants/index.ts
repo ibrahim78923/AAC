@@ -11,6 +11,8 @@ export const TIME_FORMAT = {
   UI: 'h:mm A',
   API: 'h:mm A',
   TIME_VALIDATION: 'hh:mm:ss',
+  TH: 'HH:mm',
+  HMA: 'hh:mm aa',
 };
 
 export const CALENDAR_FORMAT = {
@@ -219,7 +221,12 @@ export const EQuickLinksType = {
   ORG_ADMIN: 'ORG_ADMIN',
 };
 
-export const EQUICKLINKSROLES = {
-  SUPER_ADMIN: 'Super Admin',
-  ORG_ADMIN: 'Org Admin',
+export const QUICKLINKSROLES = {
+  SUPER_ADMIN: 'super-admin',
+  ORG_ADMIN: 'org-admin',
+};
+
+export const DOCUMENTS_ACTION_TYPES = {
+  MOVE_FOLDER: 'move-folder',
+  UPDATE_FOLDER: 'update-folder',
 };

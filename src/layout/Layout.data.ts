@@ -349,7 +349,7 @@ export const AirMarketingRoutes: any = [
   },
 
   {
-    key: AIR_MARKETER?.SOCIAL_MARKETING,
+    key: AIR_MARKETER?.SOCIAL_INBOX,
     label: 'Social Marketing',
     icon: SocialMarketingImage,
     role: 'AIR_MARKETER',
@@ -359,6 +359,18 @@ export const AirMarketingRoutes: any = [
       {
         key: AIR_MARKETER?.SOCIAL_INBOX,
         label: 'SociaL Inbox',
+        permissions:
+          Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
+      },
+      {
+        key: AIR_MARKETER?.COMPARE_POST,
+        label: 'Compare Post',
+        permissions:
+          Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
+      },
+      {
+        key: AIR_MARKETER?.CALENDER,
+        label: 'Calendar',
         permissions:
           Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
       },

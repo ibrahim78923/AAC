@@ -154,5 +154,6 @@ export const useAssets = () => {
     totalRecords,
     page,
     isError,
+    handleWorkflow,
   };
 };

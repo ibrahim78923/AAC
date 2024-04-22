@@ -1,6 +1,11 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
+import {
+  assetsFieldsOption,
+  taskFieldsOption,
+  ticketsFields,
+} from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -26,11 +31,10 @@ export const conditionTypeOptions = [
 export const actionsOptions = [
   { value: 'status', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
-  { value: 'type', label: 'Set Type as' },
+  { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
   { value: 'dueDate', label: 'Set Due Date as' },
   { value: 'category', label: 'Set Category as' },
-  { value: 'status', label: 'Set Status as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
   { value: 'addTask', label: 'Add Task' },
@@ -56,7 +60,7 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
         Yup?.lazy((value: any) => {
           if (value?.key === 'email') {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.string()
                 ?.email('Invalid email')
@@ -65,13 +69,13 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
             });
           } else if (value?.key === 'number') {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.number()?.nullable()?.required('Required'),
             });
           } else {
             return Yup?.object()?.shape({
-              fieldName: Yup?.string()?.required('Required'),
+              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
               fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
             });
@@ -111,7 +115,16 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
   ),
 });
 
-export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
+export const eventBasedWorkflowValues: any = (
+  singleWorkflowData: any,
+  optionsData: any,
+) => {
+  const allFields = [
+    ...ticketsFields,
+    ...taskFieldsOption,
+    ...assetsFieldsOption,
+  ];
+
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.EVENT_BASE,
@@ -126,12 +139,8 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           (item: any) => item?.value === singleWorkflowData?.runType,
         )
       : null,
-    module: singleWorkflowData?.module
-      ? moduleOptions?.find(
-          (item: any) => item?.value === singleWorkflowData?.module,
-        )
-      : SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? '',
+    module: singleWorkflowData?.module ?? SCHEMA_KEYS?.TICKETS,
+    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: number) => {
       return {
         name: group?.name ?? '',
@@ -142,14 +151,21 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         conditions: group?.conditions?.map((condition: any, cIndex: number) => {
           return {
-            fieldName: condition?.fieldName ?? '',
+            options: optionsData,
+            fieldName: condition?.fieldName
+              ? allFields?.find(
+                  (item: any) => item?.value === condition?.fieldName,
+                )
+              : null,
             condition: condition?.condition ?? '',
             fieldValue:
               condition?.fieldType === 'objectId'
                 ? singleWorkflowData[
                     `${condition?.fieldName}${gIndex}${cIndex}`
                   ]
-                : condition?.fieldValue,
+                : condition?.fieldType === 'date'
+                  ? new Date(condition?.fieldValue)
+                  : condition?.fieldValue,
           };
         }),
       };
@@ -159,34 +175,28 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
         conditionType: null,
         conditions: [
           {
-            fieldName: '',
-            condition: '',
-            fieldValue: null,
-          },
-        ],
-      },
-      {
-        name: '',
-        conditionType: null,
-        conditions: [
-          {
-            fieldName: '',
+            fieldName: null,
             condition: '',
             fieldValue: null,
           },
         ],
       },
     ],
-    actions: singleWorkflowData?.actionValues
-      ? Object?.entries(singleWorkflowData?.actionValues)?.map(
-          ([actionName, actionData]: any) => ({
-            fieldName: actionName
-              ? actionsOptions?.find((item: any) => item?.value)
-              : null,
-            fieldValue: actionData,
-          }),
-        )
-      : [{ fieldName: null, fieldValue: null }],
+    actions: singleWorkflowData?.actions?.map(
+      (action: any, aIndex: number) => ({
+        fieldName: action?.fieldName
+          ? actionsOptions?.find(
+              (item: any) => item?.value === action?.fieldName,
+            )
+          : null,
+        fieldValue:
+          action?.fieldType === 'objectId'
+            ? singleWorkflowData[`${action?.fieldName}${aIndex}`]
+            : action?.fieldType === 'date'
+              ? new Date(action?.fieldValue)
+              : action?.fieldValue,
+      }),
+    ) ?? [{ fieldName: null, fieldValue: null }],
   };
 };
 

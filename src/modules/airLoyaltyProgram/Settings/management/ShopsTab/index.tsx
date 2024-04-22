@@ -5,6 +5,8 @@ import { cardData } from './ShopsTab.data';
 import { useShopsTab } from './useShopsTab';
 import ShopDetailsModal from './ShopDetailsModal';
 import { DeleteShop } from './DeleteShop';
+import NoData from '@/components/NoData';
+import { NoAssociationFoundImage } from '@/assets/images';
 
 const ShopsTab = () => {
   const {
@@ -19,6 +21,9 @@ const ShopsTab = () => {
     setDeleteModalOpen,
     addShopModalOpen,
     setAddShopModalOpen,
+    isLoading,
+    isFetching,
+    shopData,
   } = useShopsTab();
   return (
     <>
@@ -32,34 +37,40 @@ const ShopsTab = () => {
         addShopModalOpen={addShopModalOpen}
         setAddShopModalOpen={setAddShopModalOpen}
       />
-      <Grid container spacing={2.4}>
-        {cardData?.map?.((card) => (
-          <Grid item xs={12} md={6} lg={4} key={card?._id}>
-            <CheckboxCard
-              {...card}
-              selectedCardList={selectedCardList}
-              handleSelect={handleSelect}
-              handleOpenDetailModal={() =>
-                setOpenDetailDrawer({ isOpen: true, _id: card?._id })
-              }
-            />
-            {openDetailDrawer?._id === card?._id && (
-              <ShopDetailsModal
-                data={card}
-                isDetailDrawerOpen={openDetailDrawer?.isOpen}
-                setIsDetailDrawerOpen={setOpenDetailDrawer}
-                setAddShopModalOpen={setAddShopModalOpen}
-                setDeleteModalOpen={setDeleteModalOpen}
+      {shopData?.length ? (
+        <Grid container spacing={2.4}>
+          {shopData?.map?.((card: any) => (
+            <Grid item xs={12} md={6} lg={4} key={card?._id}>
+              <CheckboxCard
+                {...card}
+                selectedCardList={selectedCardList}
+                handleSelect={handleSelect}
+                handleOpenDetailModal={() =>
+                  setOpenDetailDrawer({ isOpen: true, _id: card?._id })
+                }
+                isFetching={isFetching}
+                isLoading={isLoading}
               />
-            )}
-          </Grid>
-        ))}
-        <DeleteShop
-          deleteModalOpen={deleteModalOpen}
-          setDeleteModalOpen={setDeleteModalOpen}
-          selectedCardList={selectedCardList}
-        />
-      </Grid>
+              {openDetailDrawer?._id === card?._id && (
+                <ShopDetailsModal
+                  data={card}
+                  isDetailDrawerOpen={openDetailDrawer?.isOpen}
+                  setIsDetailDrawerOpen={setOpenDetailDrawer}
+                  setAddShopModalOpen={setAddShopModalOpen}
+                  setDeleteModalOpen={setDeleteModalOpen}
+                />
+              )}
+            </Grid>
+          ))}
+          <DeleteShop
+            deleteModalOpen={deleteModalOpen}
+            setDeleteModalOpen={setDeleteModalOpen}
+            selectedCardList={selectedCardList}
+          />
+        </Grid>
+      ) : (
+        <NoData image={NoAssociationFoundImage} message={'No data found'} />
+      )}
     </>
   );
 };

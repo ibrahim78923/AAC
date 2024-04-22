@@ -1,38 +1,41 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { upsertTransactionsArray } from './UpsertTransactions.data';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertTransactions } from './useUpsertTransactions';
 
-function UpsertTransactions({
-  isDrawerOpen,
-  setIsDrawerOpen,
-  title,
-  okText,
-}: any) {
-  const { methods, handleSubmit, submit } =
-    useUpsertTransactions(setIsDrawerOpen);
+const UpsertTransactions = (props: any) => {
+  const { isDrawerOpen } = props;
+  const {
+    methods,
+    handleSubmit,
+    submitUpsertLoyaltyTransactions,
+    transactionFilterFormFields,
+    closeLoyaltyTransactionForm,
+    postLoyaltyTransactionsStatus,
+  } = useUpsertTransactions(props);
 
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-        }}
-        title={title}
+        isDrawerOpen={isDrawerOpen?.isUpsert}
+        onClose={() => closeLoyaltyTransactionForm()}
+        title={'Add details'}
         submitHandler={() => {
-          handleSubmit(submit)();
+          handleSubmit(submitUpsertLoyaltyTransactions)();
         }}
-        footer={true}
-        isOk={true}
-        okText={okText}
+        footer
+        isOk
+        okText={'Save'}
+        cancelText="Close"
+        isLoading={postLoyaltyTransactionsStatus?.isLoading}
+        isDisabled={postLoyaltyTransactionsStatus?.isLoading}
+        disabledCancelBtn={postLoyaltyTransactionsStatus?.isLoading}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={4}>
-              {upsertTransactionsArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
+            <Grid container spacing={2}>
+              {transactionFilterFormFields?.map((item: any) => (
+                <Grid item xs={12} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}
@@ -42,6 +45,6 @@ function UpsertTransactions({
       </CommonDrawer>
     </>
   );
-}
+};
 
 export default UpsertTransactions;

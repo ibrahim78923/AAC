@@ -130,6 +130,8 @@ export const AIR_MARKETER = {
   EMAIL_REPORTS: path(AIR_MARKETING_PAGE, '/email-marketing/email-reports'),
   SOCIAL_MARKETING: path(AIR_MARKETING_PAGE, '/social-marketing'),
   SOCIAL_INBOX: path(AIR_MARKETING_PAGE, '/social-marketing/social-inbox'),
+  COMPARE_POST: path(AIR_MARKETING_PAGE, '/social-marketing/compare-post'),
+  CALENDER: path(AIR_MARKETING_PAGE, '/social-marketing/calender'),
   SMS_MARKETING: path(AIR_MARKETING_PAGE, '/sms-marketing'),
   WHATSAPP_MARKETING: path(AIR_MARKETING_PAGE, '/whatsapp-marketing'),
   LEAD_CAPTURE: path(AIR_MARKETING_PAGE, '/lead-capture'),

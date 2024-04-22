@@ -44,10 +44,13 @@ export const useTask = () => {
     params: {
       page: page,
       limit: pageLimit,
-      status: tabsValue || filtersData?.status,
-      assignTo: assignTo || filtersData?.assignTo,
+      // status: tabsValue || filtersData?.status,
+      ...(tabsValue && { status: tabsValue || filtersData?.status }),
+      assignTo: assignTo || filtersData?.assignTo?._id,
       priority: filtersData?.priority,
-      dueDate: filtersData?.dueDate && filtersData?.dueDate?.toISOString(),
+      ...(filtersData?.dueDate && {
+        dueDate: filtersData?.dueDate && filtersData?.dueDate?.toISOString(),
+      }),
       search: searchTask,
     },
   });

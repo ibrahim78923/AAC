@@ -16,6 +16,7 @@ export const SalesWorkflowSubHeader = (props: any) => {
     disabledActionButton,
     onSubmit,
     loading,
+    handleWorkflow,
   } = props;
   return (
     <>
@@ -68,6 +69,7 @@ export const SalesWorkflowSubHeader = (props: any) => {
         setIsFilterOpen={setIsFilterOpen}
         onSubmit={onSubmit}
         loading={loading}
+        handleWorkflow={handleWorkflow}
       />
     </>
   );

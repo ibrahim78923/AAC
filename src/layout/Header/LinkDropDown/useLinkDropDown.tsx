@@ -6,10 +6,14 @@ import {
 } from '@/services/superAdmin/settings/quick-links';
 import { enqueueSnackbar } from 'notistack';
 import useAuth from '@/hooks/useAuth';
-import { EQuickLinksType, EQUICKLINKSROLES } from '@/constants';
+import { EQuickLinksType, QUICKLINKSROLES } from '@/constants';
+import { useRouter } from 'next/router';
 
 const useLinkDropDown = () => {
   const user: any = useAuth();
+  const router = useRouter();
+  const pathName = router?.pathname;
+  const userType = pathName.split('/')[1];
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [checkedItems, setCheckedItems] = useState<any[]>([]);
   const [toggleView, setToggleView] = useState(false);
@@ -30,30 +34,29 @@ const useLinkDropDown = () => {
     setToggleView(!toggleView);
   };
 
-  // Get Active QuickLinks List
-  const {
-    data: dataActiveQuickLinks,
-    isLoading: loadingAcitiveQuickLinks,
-    isFetching: fetchingAcitiveQuickLinks,
-  } = useGetQuickLinksQuery({});
-  const activeQuickLinksData = dataActiveQuickLinks?.data?.quicklinks?.filter(
-    (item: any) => item.isActive,
-  );
-  const activeQuickLInkNumber = activeQuickLinksData?.length;
-
   // Get Checked QuickLinks
   const payload: any = {
     type: EQuickLinksType?.PRODUCT,
     productId: user?.product?._id,
   };
   // Login as SUPER_ADMIN & ORG_ADMIN
-  if (user?.product?.name === EQUICKLINKSROLES?.SUPER_ADMIN) {
+  if (userType === QUICKLINKSROLES?.SUPER_ADMIN) {
     payload.type = EQuickLinksType?.SUPER_ADMIN;
     payload.productId = undefined;
-  } else if (user?.product?.name === EQUICKLINKSROLES?.ORG_ADMIN) {
+  } else if (userType === QUICKLINKSROLES?.ORG_ADMIN) {
     payload.type = EQuickLinksType?.ORG_ADMIN;
     payload.productId = undefined;
   }
+
+  // Get Active QuickLinks List
+  const {
+    data: dataActiveQuickLinks,
+    isLoading: loadingAcitiveQuickLinks,
+    isFetching: fetchingAcitiveQuickLinks,
+  } = useGetQuickLinksQuery({ params: { ...payload, isActive: 'TRUE' } });
+
+  const activeQuickLinksData = dataActiveQuickLinks?.data?.quicklinks;
+  const activeQuickLInkNumber = activeQuickLinksData?.length;
 
   const { data, isLoading, isFetching } = useGetUserQuickLinksQuery(payload);
   const userQuickLinks = data?.data?.quickLinks || [];
@@ -80,10 +83,10 @@ const useLinkDropDown = () => {
       quickLinksIds: checkedItems,
     };
     // Logedin as SUPER_ADMIN & ORG_ADMIN
-    if (user?.product?.name === EQUICKLINKSROLES?.SUPER_ADMIN) {
+    if (userType === QUICKLINKSROLES?.SUPER_ADMIN) {
       payload.type = EQuickLinksType?.SUPER_ADMIN;
       payload.productId = undefined;
-    } else if (user?.product?.name === EQUICKLINKSROLES?.ORG_ADMIN) {
+    } else if (userType === QUICKLINKSROLES?.ORG_ADMIN) {
       payload.type = EQuickLinksType?.ORG_ADMIN;
       payload.productId = undefined;
     }

@@ -25,7 +25,6 @@ import { v4 as uuidv4 } from 'uuid';
 const ViewDetails = () => {
   const { theme, viewDeal, isLoading, id } = useViewDetails();
   const searchParams = useSearchParams().get('tab-value');
-
   return (
     <Box>
       <Grid container spacing={2}>
@@ -72,10 +71,9 @@ const ViewDetails = () => {
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    Created on
-                    {dayjs(viewDeal?.owner?.createdAt)?.format(
+                    {` Created on ${dayjs(viewDeal?.owner?.createdAt)?.format(
                       DATE_TIME_FORMAT?.DMDMHA,
-                    )}
+                    )}`}
                   </Typography>
                 </Box>
               </Box>
@@ -236,7 +234,7 @@ const ViewDetails = () => {
 
               <Tasks selectedRecId={id} />
 
-              <Notes />
+              <Notes selected={id} />
               <Calls />
               <Meetings />
               <Emails />

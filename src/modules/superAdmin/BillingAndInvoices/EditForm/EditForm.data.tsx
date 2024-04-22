@@ -15,11 +15,11 @@ export const validationSchema = Yup?.object()?.shape({
   clientName: Yup?.string()?.trim()?.required('Field is Required'),
   product: Yup?.string()?.trim()?.required('Field is Required'),
   planType: Yup?.string()?.trim()?.required('Field is Required'),
-  additionalUser: Yup?.string()?.trim()?.required('Field is Required'),
+  additionalUser: Yup?.string()?.trim(),
   planPrice: Yup?.string()?.trim(),
   defaultUser: Yup?.string()?.trim(),
   defaultUserTwo: Yup?.string()?.trim(),
-  additionalStorage: Yup?.string()?.trim()?.required('Field is Required'),
+  additionalStorage: Yup?.string(),
   discount: Yup?.string()?.trim()?.required('Field is Required'),
   billingCycle: Yup?.string()?.trim()?.required('Field is Required'),
   date: Yup?.date(),
@@ -36,7 +36,7 @@ export const defaultValues = {
   additionalStorage: '',
   discount: '',
   billingCycle: '',
-  date: new Date(),
+  date: null,
 };
 
 interface CRMOption {
@@ -48,6 +48,8 @@ export const assignPlanData = (
   selectProductSuite: string,
   crmOptions: CRMOption[],
   isEditModal: boolean,
+  isStoragePrice: boolean,
+  isUserPrice: boolean,
 ) => {
   const { data: productData } = useGetProductsQuery<any>({
     refetchOnMountOrArgChange: true,
@@ -103,6 +105,7 @@ export const assignPlanData = (
         }`,
         fullWidth: true,
         select: true,
+        disabled: isEditModal,
       },
 
       options: options,
@@ -118,6 +121,7 @@ export const assignPlanData = (
         label: 'Plan Type',
         fullWidth: true,
         select: true,
+        disabled: isEditModal,
       },
 
       options: planType,
@@ -153,8 +157,8 @@ export const assignPlanData = (
     },
     {
       componentProps: {
-        name: 'defaultUserTwo',
-        label: 'Default User',
+        name: 'defaultStorage',
+        label: 'Default storage',
         fullWidth: true,
         disabled: true,
       },
@@ -168,6 +172,7 @@ export const assignPlanData = (
         name: 'additionalUser',
         label: 'Additional User',
         fullWidth: true,
+        disabled: isUserPrice,
       },
 
       component: RHFTextField,
@@ -179,6 +184,7 @@ export const assignPlanData = (
         name: 'additionalStorage',
         label: 'Additional Storage',
         fullWidth: true,
+        disabled: isStoragePrice,
       },
 
       component: RHFTextField,
