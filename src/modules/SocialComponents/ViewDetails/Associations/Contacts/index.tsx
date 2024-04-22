@@ -13,7 +13,7 @@ import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
-const Contacts = () => {
+const Contacts = ({ companyId }: any) => {
   const {
     theme,
     isOpenAlert,
@@ -93,6 +93,7 @@ const Contacts = () => {
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
           contactRecord={contactRecord}
+          companyId={companyId}
         />
       )}
       <AlertModals

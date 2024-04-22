@@ -15,12 +15,16 @@ import {
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
+import { useState } from 'react';
 
 const useContactsEditorDrawer = ({
   openDrawer,
   contactRecord,
   setOpenDrawer,
+  companyId,
 }: any) => {
+  const [imagePreview, setImagePreview] = useState<any>();
+  const [imageToUpload, setImageToUpload] = useState<any>();
   const [postContacts] = usePostContactsMutation();
   const [updateContacts] = useUpdateContactMutation();
 
@@ -49,7 +53,6 @@ const useContactsEditorDrawer = ({
           phoneNumber,
           dateOfBirth,
           contactOwnerId,
-          recordStatus,
           lifeCycleStageId,
           jobTitle,
           statusId,
@@ -63,7 +66,6 @@ const useContactsEditorDrawer = ({
           whatsAppNumber,
           dateOfBirth: new Date(dateOfBirth),
           contactOwnerId,
-          recordStatus,
           lifeCycleStageId,
           jobTitle,
           statusId,
@@ -75,48 +77,39 @@ const useContactsEditorDrawer = ({
 
   const { handleSubmit, reset } = methodscontacts;
 
-  const onSubmit = async (values: any) => {
-    const formData = new FormData();
-    formData.append('profilePicture', values?.profilePicture);
-    formData.append('email', values?.email);
-    formData.append('firstName', values?.firstName);
-    formData.append('lastName', values?.lastName);
-    formData.append('phoneNumber', values?.phoneNumber);
-    formData.append('whatsAppNumber', values?.whatsAppNumber);
-    formData.append(
-      'dateOfBirth',
-      dayjs(values?.dateOfBirth)?.format(DATE_FORMAT?.API),
-    );
-    formData.append('address', values?.address);
-    formData.append('jobTitle', values?.jobTitle);
-    formData.append('lifeCycleStageId', values?.lifeCycleStageId);
-    formData.append('statusId', values?.statusId);
-    formData.append(
-      'dataOfJoinig',
-      dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
-    );
+  const formData = new FormData();
+  const handleImageChange = async (e: any) => {
+    const selectedImage = e?.target?.files[0];
+    setImageToUpload(selectedImage);
+    formData.append('image', selectedImage);
 
-    // const dateOfBirth = 'dateOfBirth';
-    // const dateOfJoinig = 'dateOfJoinig';
-    // const formData = new FormData();
-    // formData.append('recordType', recordType);
-    // formData.append('recordId', dealId);
-    // Object.entries(values)?.forEach(([key, value]: any) => {
-    //   if (value !== undefined && value !== null && value !== '') {
-    //     // For date values, format them before appending
-    //     if (key === dateOfBirth || key === dateOfJoinig) {
-    //       formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
-    //     } else {
-    //       formData.append(key, value);
-    //     }
-    //   }
-    // });
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader?.result);
+    };
+    reader?.readAsDataURL(selectedImage);
+  };
+
+  const onSubmit = async (values: any) => {
+    Object.entries(values).forEach(([key, value]) => {
+      if (value) {
+        if (key === 'dateOfBirth' || key === 'dateOfJoinig') {
+          formData.append(key, dayjs(value)?.format(DATE_FORMAT?.API));
+        } else {
+          formData.append(key, value);
+        }
+      }
+    });
+    formData.append('profilePicture', imageToUpload);
+
+    formData.append('recordType', 'companies');
+    formData.append('recordId', companyId);
 
     try {
       openDrawer === 'Edit'
         ? await updateContacts({
             body: formData,
-            contactId: contactRecord?._id,
+            id: contactRecord?._id,
           }).unwrap()
         : await postContacts({ body: formData }).unwrap();
 
@@ -140,6 +133,9 @@ const useContactsEditorDrawer = ({
     methodscontacts,
     lifeCycleStagesData,
     contactStatusData,
+    handleImageChange,
+    imagePreview,
+    setImagePreview,
   };
 };
 

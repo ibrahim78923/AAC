@@ -1,9 +1,7 @@
-import Image from 'next/image';
-
-import { Box, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
-import { NotesAvatarImage } from '@/assets/images';
+import { IMG_URL } from '@/config';
 
 export const columns: any = ({
   setOpenDrawer,
@@ -28,20 +26,42 @@ export const columns: any = ({
       id: 'Name',
       isSortable: true,
       header: ' Name',
-      cell: (info: any) => (
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <Image src={NotesAvatarImage} width={40} height={40} alt="avatar" />
-          <Box>
-            <Typography variant="body3" sx={{ color: '#111827' }}>
-              {info?.row?.original?.firstName} {info?.row?.original?.lastName}
-            </Typography>
-            <br />
-            <Typography variant="body3">
-              {info?.row?.original?.email}
-            </Typography>
+      cell: (info: any) => {
+        const firstName = info?.cell?.row?.original?.firstName
+          ? info?.cell?.row?.original?.firstName
+          : '';
+        const lastName = info?.cell?.row?.original?.lastName
+          ? info?.cell?.row?.original?.lastName
+          : '';
+        const fullName = `${firstName} ${lastName}`;
+        const imgAlt = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
+        const imgUrl = info?.cell?.row?.original?.profilePicture?.url;
+        const email = info?.cell?.row?.original?.email;
+        return (
+          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <Avatar
+              sx={{
+                bgcolor: 'primary.main',
+                textTransform: 'uppercase',
+                fontSize: '14px',
+                mr: '6px',
+              }}
+              alt={info?.getValue()}
+              src={`${IMG_URL}${imgUrl}`}
+            >
+              {imgAlt}
+            </Avatar>
+
+            <Box>
+              <Typography variant="body3" sx={{ color: '#111827' }}>
+                {fullName} {lastName}
+              </Typography>
+              <br />
+              <Typography variant="body3">{email}</Typography>
+            </Box>
           </Box>
-        </Box>
-      ),
+        );
+      },
     },
 
     {
