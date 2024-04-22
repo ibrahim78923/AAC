@@ -68,7 +68,10 @@ export const quotesColumns = (
     DEAL_CREATED_BY: 'createdBy',
     DEAL_CREATED_AT: 'createdAt',
     DEAL_EXPIRY: 'expiryDate',
-    statusDraft: 'DRAFT',
+  };
+  const quoteStatus = {
+    draft: 'DRAFT',
+    publish: 'PUBLISHED',
   };
   const activeColumnsData = (attribute: any, info: any) => {
     if (attribute === DEAL_ATTRIBUTES?.DEAL_NAME) {
@@ -85,7 +88,7 @@ export const quotesColumns = (
           variant="body4"
           sx={{ textTransform: 'capitalize' }}
           color={
-            info?.row?.original?.status === DEAL_ATTRIBUTES?.statusDraft
+            info?.row?.original?.status === quoteStatus?.draft
               ? theme?.palette?.custom?.main
               : theme?.palette?.success?.main
           }
