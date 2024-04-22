@@ -13,7 +13,6 @@ const dealsTaskSlice = createSlice({
   initialState: initialState,
   reducers: {
     setSelectedDealsTaskIds: (state: any, action: PayloadAction<any>) => {
-      // console.log("action?.payload;",action?.payload)
       state.selectedDealsTaskIds = action?.payload;
     },
   },

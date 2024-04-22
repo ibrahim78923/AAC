@@ -24,7 +24,7 @@ export const columns = ({ data }: any) => {
     if (selectedTaskIds?.length === data?.length) {
       dispatch(setSelectedDealsTaskIds([]));
     } else {
-      const allTaskIds = data.map((task: any) => task?._id);
+      const allTaskIds = data?.map((task: any) => task?._id);
       dispatch(setSelectedDealsTaskIds(allTaskIds));
     }
   };
