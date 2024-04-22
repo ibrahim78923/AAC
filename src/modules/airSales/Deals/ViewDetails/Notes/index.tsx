@@ -1,6 +1,4 @@
-import Image from 'next/image';
-
-import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Button, Checkbox, Grid, Typography } from '@mui/material';
 
 import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
@@ -22,7 +20,7 @@ import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Notes = () => {
+const Notes = ({ selected }: any) => {
   const {
     openDrawer,
     setOpenDrawer,
@@ -31,8 +29,11 @@ const Notes = () => {
     handleCheckboxChange,
     data,
     setPagination,
-  } = useNotes();
-  const { NameWithStyledWords, theme } = useNameWithStyledWords();
+  } = useNotes(selected);
+  const {
+    // NameWithStyledWords,
+    theme,
+  } = useNameWithStyledWords();
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -63,8 +64,9 @@ const Notes = () => {
                     variant="contained"
                     className="small"
                     onClick={() => setOpenDrawer('Add')}
+                    startIcon={<PlusIcon />}
                   >
-                    <PlusIcon /> Add Notes
+                    Add Notes
                   </Button>
                 </PermissionsGuard>
               </Box>
@@ -87,10 +89,11 @@ const Notes = () => {
               </Typography>
               <Button
                 variant="contained"
-                sx={{ height: '35px' }}
+                className="small"
                 onClick={() => setOpenDrawer('Add')}
+                startIcon={<PlusIcon />}
               >
-                <PlusIcon /> Add Notes
+                Add Notes
               </Button>
             </Box>
           )}
@@ -142,19 +145,23 @@ const Notes = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Image
+                  <Avatar
                     src={`${IMG_URL}${item?.file?.url}`}
-                    alt="Avatar"
-                    width={66}
-                    height={66}
-                    style={{ borderRadius: '200px' }}
+                    alt="_img"
+                    sx={{ width: 66, height: 66 }}
                   />
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
-                  <NameWithStyledWords
+                  {/* <NameWithStyledWords
                     name={item?.title}
                     customKey="ActivityHead"
-                  />
+                  /> */}
+                  <Typography
+                    variant="h5"
+                    color={theme?.palette?.primary?.main}
+                  >
+                    {item?.title}
+                  </Typography>
                   <Typography
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
@@ -163,7 +170,9 @@ const Notes = () => {
                   </Typography>
                   <Typography
                     variant="body2"
-                    dangerouslySetInnerHTML={{ __html: item?.description }}
+                    dangerouslySetInnerHTML={{
+                      __html: item?.description ?? 'N/A',
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -184,6 +193,7 @@ const Notes = () => {
           setOpenDrawer={setOpenDrawer}
           setSelectedCheckboxes={setSelectedCheckboxes}
           selectedCheckboxes={selectedCheckboxes}
+          recordId={selected}
         />
       )}
     </Box>

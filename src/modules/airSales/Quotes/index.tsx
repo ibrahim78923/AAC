@@ -15,7 +15,6 @@ const Quotes = () => {
   const {
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     isActionsDisabled,
@@ -78,12 +77,14 @@ const Quotes = () => {
           columns={getQuotesColumns}
           data={dataGetQuotes?.data?.quotes}
           isLoading={loagingGetQuotes}
-          isPagination
+          currentPage={dataGetQuotes?.data?.meta?.page}
           count={dataGetQuotes?.data?.meta?.pages}
+          pageLimit={dataGetQuotes?.data?.meta?.limit}
           totalRecords={dataGetQuotes?.data?.meta?.total}
-          onPageChange={handlePageChange}
           setPage={setPage}
           setPageLimit={setPageLimit}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
         />
       </Box>
 

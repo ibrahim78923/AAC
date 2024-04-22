@@ -39,15 +39,13 @@ const useQuotes = () => {
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const defaultParams = {
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
-  };
   const [searchValue, setSearchValue] = useState(null);
-  const [filterParams, setFilterParams] = useState({
+  const [filterParams, setFilterParams] = useState({});
+  const paginationParams = {
     page: page,
     limit: pageLimit,
-  });
+  };
+
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
@@ -57,7 +55,7 @@ const useQuotes = () => {
     methodsFilter;
   const { data: dataGetQuotes, isLoading: loagingGetQuotes } =
     useGetQuotesQuery({
-      params: { ...filterParams, ...searchPayLoad },
+      params: { ...filterParams, ...searchPayLoad, ...paginationParams },
     });
 
   const [DeleteQuotes, { isLoading: loadingDeleteQuote }] =
@@ -83,20 +81,11 @@ const useQuotes = () => {
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
-  // Hadle PAGE CHANGE
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
-  };
-
   // Refresh
   const handleRefresh = () => {
-    setFilterParams(defaultParams);
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
     resetFilters();
   };
 
@@ -167,7 +156,6 @@ const useQuotes = () => {
     page,
     setPage,
     handleRefresh,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,

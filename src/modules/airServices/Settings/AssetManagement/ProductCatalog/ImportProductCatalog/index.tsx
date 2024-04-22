@@ -1,35 +1,23 @@
-import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider, RHFFileImport } from '@/components/ReactHookForm';
+import { Import } from '@/components/Import';
 import { useImportProductCatalog } from './useImportProductCatalog';
-import { Box, Typography } from '@mui/material';
+import { CRM_COLUMNS } from './ImportProductCatalog.data';
+import { OBJECT_URL_IMPORT } from '@/constants/strings';
 
 export const ImportProductCatalog = (props: any) => {
-  const { isDrawerOpen } = props;
-
-  const { handleSubmit, onClose, submitImportFile, importFormMethod } =
-    useImportProductCatalog(props);
+  const { isDrawerOpen, setIsDrawerOpen } = props;
+  const { setDrawerDefaultState, submitImport, importFileStatus } =
+    useImportProductCatalog?.(props);
 
   return (
-    <CommonDrawer
+    <Import
       isDrawerOpen={isDrawerOpen}
-      onClose={() => onClose?.()}
-      okText={'Import'}
-      title={'Import Assets'}
-      submitHandler={() => handleSubmit(submitImportFile)()}
-      isOk
-      footer
-    >
-      <Typography variant="h5" color="slateBlue.main">
-        {' '}
-        Add File{' '}
-      </Typography>
-      <Box marginY={2} />
-      <FormProvider
-        methods={importFormMethod}
-        onSubmit={handleSubmit(submitImportFile)}
-      >
-        <RHFFileImport name="file" />
-      </FormProvider>
-    </CommonDrawer>
+      setIsDrawerOpen={setIsDrawerOpen}
+      setDrawerDefaultState={setDrawerDefaultState}
+      title="Import Assets"
+      crmColumnsOptions={CRM_COLUMNS}
+      objectUrl={OBJECT_URL_IMPORT?.USERS_ATTACHMENT}
+      submitImport={(apiData: any) => submitImport?.(apiData)}
+      importFileStatus={importFileStatus}
+    />
   );
 };

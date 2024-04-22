@@ -1,20 +1,34 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import {
+  upsertShopFieldsValues,
+  upsertShopValidationScheme,
+} from './UpsertShop.data';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useAddShopMutation } from '@/services/airLoyaltyProgram/settings/shops';
 
 export const useUpsertShopModal = (setAddShopModalOpen: any) => {
   const [isNewUpsertShop, setIsNewUpsertShop] = useState(true);
 
   const methodsUpsertShopModalForm = useForm({
-    // defaultValues,
+    resolver: yupResolver(upsertShopValidationScheme),
+    defaultValues: upsertShopFieldsValues,
   });
 
-  const submitUpsertShopModalForm = async () => {
-    enqueueSnackbar('Shop added successfully!', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    handleClose();
+  const { handleSubmit, reset } = methodsUpsertShopModalForm;
+
+  const [postShopTrigger, shopStatus] = useAddShopMutation();
+
+  const submitUpsertShopModalForm = async (data: any) => {
+    try {
+      await postShopTrigger(data)?.unwrap();
+      successSnackbar('Shop added successfully!');
+      handleClose();
+      reset();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
   const handleClose = () => {
     setAddShopModalOpen(false);
@@ -27,5 +41,7 @@ export const useUpsertShopModal = (setAddShopModalOpen: any) => {
     isNewUpsertShop,
     setIsNewUpsertShop,
     handleClose,
+    handleSubmit,
+    shopStatus,
   };
 };

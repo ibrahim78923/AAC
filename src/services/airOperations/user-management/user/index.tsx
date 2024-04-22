@@ -14,6 +14,14 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getProductUserDropdown: builder?.query({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
+        method: 'GET',
+        body,
+      }),
+      providesTags: [TAG],
+    }),
     getProductTeamUserListDropdown: builder?.query({
       query: ({ param }: any) => ({
         url: `${END_POINTS?.PRODUCTS_USERS}`,
@@ -102,7 +110,7 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
     }),
     getViewProductUsers: builder.query({
       query: (id: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}${id}`,
+        url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
         method: 'GET',
       }),
       providesTags: [TAG],
@@ -138,6 +146,8 @@ export const {
   usePostCreateTeamMutation,
   useGetViewProductUsersQuery,
   usePatchTeamUsersMutation,
-  useGetTeamsByIdQuery,
+  useLazyGetTeamsByIdQuery,
   useLazyGetProductTeamUserListDropdownQuery,
+  useLazyGetProductUserDropdownQuery,
+  useLazyGetViewProductUsersQuery,
 } = userManagementAPI;

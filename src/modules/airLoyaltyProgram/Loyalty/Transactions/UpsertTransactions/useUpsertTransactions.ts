@@ -1,30 +1,54 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  upsertTransactionsDefaultValues,
-  upsertTransactionsValidationSchema,
+  upsertLoyaltyTransactionsDefaultValues,
+  upsertLoyaltyTransactionsFormFieldsDynamic,
+  upsertLoyaltyTransactionsValidationSchema,
 } from './UpsertTransactions.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  useLazyGetShopDropdownForLoyaltyTransactionQuery,
+  usePostLoyaltyTransactionsMutation,
+} from '@/services/airLoyaltyProgram/loyalty/transactions';
+import { successSnackbar } from '@/utils/api';
 
-export const useUpsertTransactions = (setIsDrawerOpen: any) => {
+export const useUpsertTransactions = (props: any) => {
+  const { setIsDrawerOpen } = props;
+  const [postLoyaltyTransactionsTrigger, postLoyaltyTransactionsStatus] =
+    usePostLoyaltyTransactionsMutation?.();
+
   const methods: any = useForm({
-    resolver: yupResolver(upsertTransactionsValidationSchema),
-    defaultValues: upsertTransactionsDefaultValues,
+    resolver: yupResolver(upsertLoyaltyTransactionsValidationSchema),
+    defaultValues: upsertLoyaltyTransactionsDefaultValues,
   });
+
   const { handleSubmit, reset } = methods;
 
-  const submit = async () => {
-    enqueueSnackbar('Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    setIsDrawerOpen(false);
+  const submitUpsertLoyaltyTransactions = async (data: any) => {
+    const apiDataParameter = {
+      body: data,
+    };
+    try {
+      await postLoyaltyTransactionsTrigger(apiDataParameter)?.unwrap();
+      successSnackbar?.('');
+      closeLoyaltyTransactionForm?.();
+    } catch (error) {}
+  };
+
+  const closeLoyaltyTransactionForm = () => {
+    setIsDrawerOpen({});
     reset();
   };
+
+  const shopApiQuery = useLazyGetShopDropdownForLoyaltyTransactionQuery?.();
+  const transactionFilterFormFields =
+    upsertLoyaltyTransactionsFormFieldsDynamic?.(shopApiQuery);
 
   return {
     methods,
     handleSubmit,
-    submit,
+    submitUpsertLoyaltyTransactions,
+    transactionFilterFormFields,
+    closeLoyaltyTransactionForm,
+    postLoyaltyTransactionsStatus,
   };
 };

@@ -16,6 +16,7 @@ export const AddVouchers = (props: any) => {
     methods,
     apiQueryOrganizations,
     watch,
+    postVouchersStatus,
   } = useAddVouchers(props);
   return (
     <>
@@ -26,6 +27,7 @@ export const AddVouchers = (props: any) => {
         title={'Create voucher'}
         submitHandler={() => handleSubmit(submitAddVouchersForm)()}
         isOk
+        isLoading={postVouchersStatus?.isLoading}
         cancelText={'Cancel'}
         footer
       >

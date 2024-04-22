@@ -1,4 +1,5 @@
 import { BASE_URL } from '@/config';
+import { AUTH_TOKEN_BYPASS_API } from '@/constants/strings';
 import { RootState } from '@/redux/store';
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
@@ -124,14 +125,19 @@ export const TAGS = [
   'LOCATION_DROPDOWN',
   'PERMISSIONS',
   'TEAM_LIST',
+  'MANAGE_SHOP',
+];
+
+const BYPASS_AUTH_API_ROUTES = [
+  AUTH_TOKEN_BYPASS_API?.UPLOAD_FILE_TO_S3_USING_SIGNED_URL,
 ];
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: (headers, { getState, endpoint }) => {
     const token = (getState() as RootState)?.auth?.accessToken;
 
-    if (token) {
+    if (token && !BYPASS_AUTH_API_ROUTES?.includes(endpoint)) {
       headers.set('Authorization', `Bearer ${token}`);
     }
     return headers;

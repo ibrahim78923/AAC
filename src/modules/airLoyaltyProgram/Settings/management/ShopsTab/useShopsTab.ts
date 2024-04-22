@@ -1,3 +1,4 @@
+import { useGetShopQuery } from '@/services/airLoyaltyProgram/settings/shops';
 import { useState } from 'react';
 
 export const useShopsTab = () => {
@@ -28,6 +29,11 @@ export const useShopsTab = () => {
   const handleSelectAll = (list: any) => {
     setSelectedCardList(list);
   };
+  const params: any = {
+    search,
+  };
+  const { data, isLoading, isFetching } = useGetShopQuery(params);
+  const shopData = data?.data;
 
   return {
     search,
@@ -41,5 +47,8 @@ export const useShopsTab = () => {
     setDeleteModalOpen,
     addShopModalOpen,
     setAddShopModalOpen,
+    isLoading,
+    isFetching,
+    shopData,
   };
 };

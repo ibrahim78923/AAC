@@ -11,12 +11,8 @@ import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 
 export const WorkflowHeader = (props: any) => {
   const { isLoading, saveLoading, setValidation } = props;
-  const {
-    handleMoveBack,
-    openWorkflowModal,
-    setOpenWorkflowModal,
-    handleCancel,
-  } = useWorkflowHeader(props);
+  const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal } =
+    useWorkflowHeader(props);
   return (
     <Box>
       <Box
@@ -36,7 +32,8 @@ export const WorkflowHeader = (props: any) => {
             startIcon={<Cancel color="action" />}
             variant="outlined"
             color="secondary"
-            onClick={handleCancel}
+            disabled={saveLoading || isLoading}
+            onClick={handleMoveBack}
           >
             Cancel
           </LoadingButton>
@@ -45,6 +42,7 @@ export const WorkflowHeader = (props: any) => {
             variant="outlined"
             color="secondary"
             loading={saveLoading}
+            disabled={saveLoading || isLoading}
             onClick={() => setValidation(false)}
             type="submit"
           >
@@ -59,6 +57,7 @@ export const WorkflowHeader = (props: any) => {
               startIcon={<CopyIcon />}
               variant={'outlined'}
               color={'secondary'}
+              disabled={saveLoading || isLoading}
               onClick={() => setOpenWorkflowModal(true)}
             >
               Test Workflow
@@ -74,6 +73,7 @@ export const WorkflowHeader = (props: any) => {
               variant="contained"
               type="submit"
               loading={isLoading}
+              disabled={saveLoading || isLoading}
               onClick={() => setValidation(true)}
             >
               Create
