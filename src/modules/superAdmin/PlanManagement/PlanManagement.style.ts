@@ -20,14 +20,16 @@ export const styles = {
       color: `${theme?.palette?.custom.main}`,
       display: 'flex',
       alignItems: 'center',
-      padding: '18px',
+      // padding: '18px',
       width: { xs: '100%', sm: '112px' },
+      height: '36px',
     };
   },
   filterButton: (theme: any) => {
     return {
       width: { xs: '100%', sm: '96px' },
-      padding: '18px',
+      height: '36px',
+      // padding: '18px',
       border: '1.5px solid #e7e7e9',
       fontWeight: 500,
       color: theme?.palette?.grey[600],
