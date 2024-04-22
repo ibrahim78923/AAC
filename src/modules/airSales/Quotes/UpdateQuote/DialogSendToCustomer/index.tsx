@@ -55,6 +55,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
       const pdfBlob = invoice?.output('blob');
       document.head.removeChild(style);
 
+      const status = 'PUBLISHED';
       const formData = new FormData();
       formData.append('fileUrl', pdfBlob);
       formData.append('module', 'QUOTE');
@@ -62,7 +63,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
       formData.append('recordId', quoteId);
       const body = {
         id: quoteId,
-        status: 'PUBLISHED',
+        status: status,
         email: values?.email,
         quoteNumber: dataGetQuoteById?.data?.createdBy?._id,
         validTill: dayjs(dataGetQuoteById?.data?.expiryDate)?.format(

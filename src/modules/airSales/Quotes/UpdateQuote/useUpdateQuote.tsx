@@ -105,10 +105,11 @@ const useUpdateQuote = () => {
   }, [singleQuote]);
 
   const onSubmit = async () => {
+    const status = 'DRAFT';
     try {
       putSubmitQuote({
         id: quoteId,
-        body: { id: quoteId, status: 'DRAFT' },
+        body: { id: quoteId, status: status },
       });
       enqueueSnackbar('Save as draft submit later', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
@@ -122,9 +123,10 @@ const useUpdateQuote = () => {
   };
 
   const handleSubmitBtn = async () => {
+    const status = 'PUBLISHED';
     try {
       putSubmitQuote({
-        body: { id: quoteId, status: 'PUBLISHED' },
+        body: { id: quoteId, status: status },
       });
       enqueueSnackbar('Save as draft submit later', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,

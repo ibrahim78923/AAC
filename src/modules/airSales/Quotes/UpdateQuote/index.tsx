@@ -119,9 +119,6 @@ const UpdateQuote = () => {
 
               {activeStep === steps.length - 1 && (
                 <>
-                  {/* <Button onClick={handleFormSubmit} variant="contained">
-                    Save & Submit Later
-                  </Button> */}
                   <LoadingButton
                     variant="contained"
                     onClick={handleFormSubmit}
