@@ -6,7 +6,7 @@ import {
   validationSchema,
 } from './AssignedPhysicalGiftCard.data';
 import { successSnackbar } from '@/utils/api';
-import { useLazyGetRecipientsDropdownForUnAssignedPhysicalGiftCardQuery } from '../../../../../../../services/airLoyaltyProgram/giftCards/giftCards/physical-gift-card/unassigned';
+import { useLazyGetRecipientsDropdownForUnAssignedPhysicalGiftCardQuery } from '@/services/airLoyaltyProgram/giftCards/giftCards/physical-gift-card/unassigned';
 export const useAssignedPhysicalGiftCard = (props: any) => {
   const { setIsPortalOpen } = props;
   const methods: any = useForm<any>({

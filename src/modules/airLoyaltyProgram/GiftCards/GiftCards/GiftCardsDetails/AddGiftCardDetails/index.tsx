@@ -2,8 +2,9 @@ import CommonDrawer from '@/components/CommonDrawer';
 
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useAddTransaction } from './useAddTransaction';
-export const AddTransaction = (props: any) => {
+import { useAddGiftCardDetails } from './useAddGiftCardDetails';
+
+export const AddGiftCardDetails = (props: any) => {
   const { isPortalOpen } = props;
   const {
     handleSubmit,
@@ -12,7 +13,7 @@ export const AddTransaction = (props: any) => {
     closeAddDigitalGiftCardForm,
     addGiftCardDetailsFormFields,
     addDigitalGiftCardDetailsStatus,
-  } = useAddTransaction(props);
+  } = useAddGiftCardDetails(props);
   return (
     <Box>
       <CommonDrawer

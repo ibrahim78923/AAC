@@ -1,27 +1,6 @@
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
-export const rulesList = [
-  {
-    _id: 1,
-    amount: 'PKR 100.00',
-    shop: 'sharemydine',
-    date: '2023-12-14T11:59:08.238Z',
-  },
-  {
-    _id: 2,
-    amount: 'PKR 100.00',
-    shop: 'sharemydine',
-    date: '2023-12-14T11:59:08.238Z',
-  },
-  {
-    _id: 3,
-    amount: 'PKR 100.00',
-    shop: 'sharemydine',
-    date: '2023-12-14T11:59:08.238Z',
-  },
-];
-
 export const giftCardDetailsColumn = [
   {
     accessorFn: (info: any) => info?.amount,

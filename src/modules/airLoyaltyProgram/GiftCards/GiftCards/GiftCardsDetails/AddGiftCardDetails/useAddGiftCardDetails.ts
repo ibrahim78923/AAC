@@ -8,9 +8,10 @@ import {
   addGiftCardDetailsDefaultValues,
   addGiftCardDetailsFormFieldsDynamic,
   addGiftCardDetailsValidationSchema,
-} from './AddTranscation.data';
+} from './AddGiftCardDetails.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-export const useAddTransaction = (props: any) => {
+
+export const useAddGiftCardDetails = (props: any) => {
   const { setIsPortalOpen } = props;
   const [addDigitalGiftCardDetailsTrigger, addDigitalGiftCardDetailsStatus] =
     useAddGiftCardDetailsMutation();
@@ -18,6 +19,7 @@ export const useAddTransaction = (props: any) => {
     resolver: yupResolver(addGiftCardDetailsValidationSchema),
     defaultValues: addGiftCardDetailsDefaultValues?.(),
   });
+
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (formData: any) => {

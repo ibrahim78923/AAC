@@ -83,7 +83,7 @@ export const ConversationCard = (props: any) => {
           gap={1}
         >
           <Avatar
-            src={generateImage(data?.attachments?.fileUrl)}
+            src={generateImage(data?.attachment?.fileUrl)}
             sx={{
               width: 40,
               height: 40,
@@ -92,10 +92,10 @@ export const ConversationCard = (props: any) => {
           />
           <Box>
             <Typography variant="body2" color="slateBlue.main">
-              {truncateText(data?.attachments?.orignalName)}
+              {truncateText(data?.attachment?.orignalName)}
             </Typography>
             <Typography variant="body3" color="grey.500">
-              {formatFileSize(data?.attachments?.fileSize)}
+              {formatFileSize(data?.attachment?.fileSize)}
             </Typography>
           </Box>
         </Box>

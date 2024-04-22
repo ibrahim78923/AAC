@@ -6,7 +6,7 @@ import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import { GiftCardDetailsFilter } from './GiftCardDetailsFilter';
-import { AddTransaction } from './AddTransaction';
+import { AddGiftCardDetails } from './AddGiftCardDetails';
 import {
   useLazyExportGiftCardDetailsListQuery,
   useLazyGetGiftCardDetailsListQuery,
@@ -78,7 +78,7 @@ export const useGiftCardsDetails = () => {
     }
     if (isPortalOpen?.isAdd) {
       return (
-        <AddTransaction
+        <AddGiftCardDetails
           isPortalOpen={isPortalOpen}
           setIsPortalOpen={setIsPortalOpen}
         />
