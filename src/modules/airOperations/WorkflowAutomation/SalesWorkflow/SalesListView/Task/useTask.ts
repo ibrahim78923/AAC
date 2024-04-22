@@ -154,5 +154,6 @@ export const useTask = () => {
     onSubmitFilter,
     handleDelete,
     deleteLoading,
+    handleWorkflow,
   };
 };

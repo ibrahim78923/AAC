@@ -6,23 +6,30 @@ import { useAssignedPhysicalGiftCardsFilter } from './useAssignedPhysicalGiftCar
 import { assignedPhysicalGiftFilterDataArray } from './AssignedPhysicalGiftCardsFilter.data';
 
 export const AssignedPhysicalGiftCardsFilter = (props: any) => {
-  const { isDrawerOpen } = props;
-  const { methods, onSubmit, handleClose } =
-    useAssignedPhysicalGiftCardsFilter(props);
+  const { isPortalOpen } = props;
+  const {
+    methods,
+    handleSubmit,
+    submitFilter,
+    closeFilterForm,
+    resetFilterForm,
+  } = useAssignedPhysicalGiftCardsFilter(props);
+
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
-        onClose={handleClose}
+        isDrawerOpen={isPortalOpen?.isFilter}
+        onClose={() => closeFilterForm?.()}
         okText={'Apply'}
         title={'Add Filter'}
-        submitHandler={onSubmit}
+        submitHandler={handleSubmit(submitFilter)}
         isOk
-        cancelText={'cancel'}
+        cancelText={'Reset'}
         footer
+        cancelBtnHandler={() => resetFilterForm()}
       >
         <FormProvider methods={methods}>
-          <Grid container spacing={2} mt={-1}>
+          <Grid container spacing={2}>
             {assignedPhysicalGiftFilterDataArray?.map((form: any) => (
               <Grid item xs={12} md={form?.gridLength} key={form?.id}>
                 <form.component {...form?.componentProps} size="small" />

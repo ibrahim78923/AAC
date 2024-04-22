@@ -27,6 +27,7 @@ export const Deal = () => {
     onSubmitFilter,
     handleDelete,
     deleteLoading,
+    handleWorkflow,
   } = useDeal();
   return (
     <>
@@ -39,6 +40,7 @@ export const Deal = () => {
         setIsFilterOpen={setIsFilterOpen}
         onSubmit={onSubmitFilter}
         loading={isLoading || isFetching}
+        handleWorkflow={handleWorkflow}
       />
       <br />
       <TanstackTable

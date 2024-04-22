@@ -16,6 +16,7 @@ import {
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
 import { useEffect, useState } from 'react';
+import { SCHEMA_KEYS } from '@/constants/strings';
 
 export const useUpsertEventBasedWorkflow = () => {
   const [validation, setValidation] = useState(false);
@@ -63,8 +64,23 @@ export const useUpsertEventBasedWorkflow = () => {
   );
   const singleWorkflowData = data?.data;
 
+  const ticketData: any = {
+    ticketFields: 'Ticket Fields',
+    assetsFields: 'Assets Fields',
+    taskFields: 'Task Fields',
+  };
+
+  let optionsData: any = ticketData?.ticketFields;
+  if (singleWorkflowData?.module === SCHEMA_KEYS?.ASSETS) {
+    optionsData = ticketData?.assetsFields;
+  } else if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS_TASKS) {
+    optionsData = ticketData?.taskFields;
+  } else {
+    optionsData = ticketData?.ticketFields;
+  }
+
   const eventMethod = useForm({
-    defaultValues: eventBasedWorkflowValues(singleWorkflowData),
+    defaultValues: eventBasedWorkflowValues(singleWorkflowData, optionsData),
     resolver: validation ? yupResolver(eventBasedWorkflowSchema) : undefined,
   });
 
@@ -207,8 +223,9 @@ export const useUpsertEventBasedWorkflow = () => {
   };
 
   useEffect(() => {
-    reset(eventBasedWorkflowValues(singleWorkflowData));
-  }, [reset, singleWorkflowData]);
+    reset(eventBasedWorkflowValues(singleWorkflowData, optionsData));
+  }, [reset, singleWorkflowData, optionsData]);
+
   const { palette } = useTheme();
   const moduleType = watch('module');
 

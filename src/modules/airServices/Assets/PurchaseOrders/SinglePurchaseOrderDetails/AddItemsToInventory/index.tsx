@@ -7,6 +7,7 @@ import { AddedInventoryItems } from './AddedInventoryItems';
 import { ItemsNotAdded } from './ItemsNotAdded';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { truncateText } from '@/utils/avatarUtils';
+import { ADDED_INVENTORY_METHODS } from './AddItemsToInventory.data';
 
 export const AddItemsToInventory = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
@@ -26,6 +27,7 @@ export const AddItemsToInventory = (props: any) => {
     setIsConfirmModal,
     patchAddToExistingInventoryStatus,
     postPurchaseOrderStatus,
+    watchAddInventoryMethod,
   }: any = useAddItemsToInventory(props);
 
   return (
@@ -37,7 +39,11 @@ export const AddItemsToInventory = (props: any) => {
         submitHandler={() => handleSubmit(submitAddedInventoryItems)()}
         footer
         isOk
-        okText={'Next'}
+        okText={
+          watchAddInventoryMethod === ADDED_INVENTORY_METHODS?.ADD_NEW
+            ? 'Next'
+            : 'Update'
+        }
         isLoading={
           patchAddToExistingInventoryStatus?.isLoading ||
           postPurchaseOrderStatus?.isLoading

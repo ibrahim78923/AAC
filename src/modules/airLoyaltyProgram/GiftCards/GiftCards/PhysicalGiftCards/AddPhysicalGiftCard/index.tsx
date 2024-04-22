@@ -2,26 +2,35 @@ import CommonDrawer from '@/components/CommonDrawer';
 
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { addPhysicalGiftCardFormFields } from './AddPhysicalGiftCard.data';
 import { useAddPhysicalGiftCard } from './useAddPhysicalGiftCard';
+
 export const AddPhysicalGiftCard = (props: any) => {
-  const { addPhysicalCard } = props;
-  const { handleSubmit, onSubmit, methods, handleCloseDrawer } =
-    useAddPhysicalGiftCard(props);
+  const { isPortalOpen } = props;
+  const {
+    handleSubmit,
+    submitAddPhysicalGiftCard,
+    methods,
+    closeAddPhysicalGiftCardForm,
+    addPhysicalGiftCardFormFields,
+    addPhysicalGiftCardStatus,
+  } = useAddPhysicalGiftCard(props);
   return (
     <Box>
       <CommonDrawer
-        isDrawerOpen={addPhysicalCard}
-        onClose={handleCloseDrawer}
+        isDrawerOpen={isPortalOpen?.isAdd}
+        onClose={closeAddPhysicalGiftCardForm}
         title={'Add Physical Card'}
         okText={'Create'}
         isOk
         cancelText={'Cancel'}
         footer
-        submitHandler={handleSubmit(onSubmit)}
+        submitHandler={handleSubmit(submitAddPhysicalGiftCard)}
+        isLoading={addPhysicalGiftCardStatus?.isLoading}
+        isDisabled={addPhysicalGiftCardStatus?.isLoading}
+        disabledCancelBtn={addPhysicalGiftCardStatus?.isLoading}
       >
         <Box>
-          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <FormProvider methods={methods}>
             <Grid container spacing={2}>
               {addPhysicalGiftCardFormFields?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>

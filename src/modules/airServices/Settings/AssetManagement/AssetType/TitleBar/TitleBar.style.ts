@@ -15,6 +15,7 @@ export const styles = {
     color: theme?.palette?.common?.white,
     background: theme?.palette?.primary?.main,
     borderRadius: 2,
-    cursor: 'pointer',
+    width: '1.5rem',
+    height: '1.5rem',
   }),
 };

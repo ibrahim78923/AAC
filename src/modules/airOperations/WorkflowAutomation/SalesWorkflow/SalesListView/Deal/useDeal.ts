@@ -154,5 +154,6 @@ export const useDeal = () => {
     onSubmitFilter,
     handleDelete,
     deleteLoading,
+    handleWorkflow,
   };
 };
