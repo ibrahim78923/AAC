@@ -6,13 +6,11 @@ export const useWorkflowHeader = (props: any) => {
   const { watch } = props;
   const [openWorkflowModal, setOpenWorkflowModal] = useState(false);
   const { push } = useRouter();
-  const handleMoveBack = () => push(AIR_OPERATIONS?.WORKFLOW_AUTOMATION);
-  const handleCancel = () => push(AIR_OPERATIONS?.SALES_WORKFLOW);
+  const handleMoveBack = () => push(AIR_OPERATIONS?.SALES_WORKFLOW);
   return {
     openWorkflowModal,
     setOpenWorkflowModal,
     handleMoveBack,
-    handleCancel,
     watch,
   };
 };

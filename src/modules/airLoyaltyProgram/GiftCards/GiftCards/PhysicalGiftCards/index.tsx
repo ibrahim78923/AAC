@@ -1,22 +1,20 @@
 import { Box } from '@mui/material';
-import { PhysicalGiftCardTabs } from './PhysicalGiftCardTabs';
-import { usePhysicalGiftCards } from './usePhysicalGiftCards';
-import { AddPhysicalGiftCard } from './AddPhysicalGiftCard';
+import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
+import { AssignedPhysicalGiftCards } from './AssignedPhysicalGiftCards';
+import { NotAssignedPhysicalGiftCards } from './NotAssignedPhysicalGiftCards';
 
-export const PhysicalGiftCards = (props: any) => {
-  const { setShowButtons, addPhysicalCard, setAddPhysicalCard } = props;
-  const { theme } = usePhysicalGiftCards(setShowButtons);
+export const PhysicalGiftCards = () => {
   return (
     <Box
-      border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
+      border={`.1rem solid`}
+      borderColor={'grey.700'}
       borderRadius={2}
       p={1.5}
     >
-      <PhysicalGiftCardTabs />
-      <AddPhysicalGiftCard
-        addPhysicalCard={addPhysicalCard}
-        setAddPhysicalCard={setAddPhysicalCard}
-      />
+      <HorizontalTabs tabsDataArray={['Assigned', 'Not Assigned']}>
+        <AssignedPhysicalGiftCards />
+        <NotAssignedPhysicalGiftCards />
+      </HorizontalTabs>
     </Box>
   );
 };

@@ -1,35 +1,43 @@
+import { IMPORT_ACTION_TYPE } from '@/constants/strings';
 import usePath from '@/hooks/usePath';
-import { successSnackbar } from '@/utils/api';
+import { useImportFileMutation } from '@/services/airServices/global/import';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 
 export const useImportProductCatalog = (props: any) => {
   const { setIsDrawerOpen } = props;
-  const importFormMethod = useForm({});
   const router = useRouter();
   const { makePath } = usePath();
 
-  const { handleSubmit, reset } = importFormMethod;
+  const [importFileTrigger, importFileStatus] = useImportFileMutation?.();
 
-  const submitImportFile = () => {
-    successSnackbar('File Uploaded Successfully');
-    onClose?.();
-  };
-
-  const onClose = () => {
+  const setDrawerDefaultState = () => {
     router?.push(
       makePath({
         path: router?.pathname,
         skipQueries: ['productListAction'],
       }),
     );
-    reset?.();
     setIsDrawerOpen?.(false);
   };
-  return {
-    handleSubmit,
-    onClose,
-    submitImportFile,
-    importFormMethod,
+
+  const submitImport = async (apiData: any) => {
+    const apiImportData = {
+      body: {
+        filePath: apiData?.filePath,
+        actionType: IMPORT_ACTION_TYPE?.PRODUCT_CATALOG,
+        dataColumn: apiData?.dataColumn,
+      },
+    };
+    //TODO: will handle here once import is given by BE just test here the global import
+    return;
+    try {
+      const response: any = await importFileTrigger?.(apiImportData)?.unwrap();
+      successSnackbar(response?.message);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
+
+  return { setDrawerDefaultState, submitImport, importFileStatus };
 };

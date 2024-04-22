@@ -15,6 +15,7 @@ export const validationSchema = Yup?.object()?.shape({
 
 export const defaultValues = {
   name: '',
+  sharedWith: '',
 };
 
 export const CreateViewData = (dealPipelineId: string | null) => {
@@ -84,6 +85,7 @@ export const CreateViewData = (dealPipelineId: string | null) => {
       componentProps: {
         name: 'sharedWith',
         label: 'Shared With',
+        defaultValue: 'EVERYONE',
         row: false,
         options: [
           { label: 'Private', value: 'PRIVATE' },

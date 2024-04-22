@@ -21,7 +21,7 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
 
   const { handleSubmit, reset, getValues } = methods;
 
-  const [patchTaskTrigger] = usePatchTaskMutation();
+  const [patchTaskTrigger, patchTaskStatus] = usePatchTaskMutation();
 
   const onSubmit = async (data: any) => {
     const { plannedEffort } = getValues();
@@ -65,5 +65,11 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
     apiQueryAssignTo,
   });
 
-  return { handleSubmit, onSubmit, methods, workloadDataArray };
+  return {
+    handleSubmit,
+    onSubmit,
+    methods,
+    workloadDataArray,
+    patchTaskStatus,
+  };
 };

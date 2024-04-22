@@ -27,6 +27,7 @@ const Tasks = () => {
     totalRecords,
     page,
     isError,
+    handleWorkflow,
   } = useTasks();
   return (
     <>
@@ -47,6 +48,7 @@ const Tasks = () => {
         page={page}
         setPage={setPage}
         listData={listData}
+        handleWorkflow={handleWorkflow}
       />
       <TanstackTable
         data={listData}

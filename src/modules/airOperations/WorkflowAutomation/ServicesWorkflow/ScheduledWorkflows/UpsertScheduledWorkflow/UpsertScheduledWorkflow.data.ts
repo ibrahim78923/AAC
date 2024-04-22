@@ -190,7 +190,9 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
                 ? singleWorkflowData[
                     `${condition?.fieldName}${gIndex}${cIndex}`
                   ]
-                : condition?.fieldValue,
+                : condition?.fieldType === 'date'
+                  ? new Date(condition?.fieldValue)
+                  : condition?.fieldValue,
           };
         }),
       };
@@ -207,16 +209,21 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
         ],
       },
     ],
-    actions: singleWorkflowData?.actionValues
-      ? Object?.entries(singleWorkflowData?.actionValues)?.map(
-          ([actionName, actionData]: any) => ({
-            fieldName: actionName
-              ? actionsOptions?.find((item: any) => item?.value)
-              : null,
-            fieldValue: actionData,
-          }),
-        )
-      : [{ fieldName: null, fieldValue: null }],
+    actions: singleWorkflowData?.actions?.map(
+      (action: any, aIndex: number) => ({
+        fieldName: action?.fieldName
+          ? actionsOptions?.find(
+              (item: any) => item?.value === action?.fieldName,
+            )
+          : null,
+        fieldValue:
+          action?.fieldType === 'objectId'
+            ? singleWorkflowData[`${action?.fieldName}${aIndex}`]
+            : action?.fieldType === 'date'
+              ? new Date(action?.fieldValue)
+              : action?.fieldValue,
+      }),
+    ) ?? [{ fieldName: null, fieldValue: null }],
   };
 };
 export const scheduledWorkflowDataArray = [

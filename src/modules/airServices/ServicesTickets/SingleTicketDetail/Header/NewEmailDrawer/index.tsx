@@ -6,7 +6,7 @@ import { useNewEmailDrawer } from './useNewEmail';
 import { addEmailDataArray } from './NewEmailDrawer.data';
 
 export const NewEmailDrawer = (props: any) => {
-  const { methods, handleSubmit, onSubmit, isDrawerOpen, onClose } =
+  const { methods, handleSubmit, onSubmit, isDrawerOpen, onClose, status } =
     useNewEmailDrawer(props);
 
   return (
@@ -18,6 +18,9 @@ export const NewEmailDrawer = (props: any) => {
       okText={'Send'}
       footer
       submitHandler={handleSubmit(onSubmit)}
+      disabledCancelBtn={status?.isLoading}
+      isDisabled={status?.isLoading}
+      isLoading={status?.isLoading}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>

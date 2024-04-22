@@ -69,8 +69,7 @@ const OrganizationCard = () => {
             sx={{
               border: `1px solid ${theme?.palette?.grey[700]}`,
               borderRadius: '8px',
-              padding: '1rem',
-              height: '190px',
+              padding: '1.5rem',
               '@media (max-width:900px)': {
                 height: 'auto',
               },
@@ -244,8 +243,7 @@ const OrganizationCard = () => {
             sx={{
               border: `1px solid ${theme?.palette?.grey[700]}`,
               borderRadius: '8px',
-              padding: '1rem',
-              height: '184px',
+              padding: '1.5rem',
               '@media (max-width:900px)': {
                 height: 'auto',
               },

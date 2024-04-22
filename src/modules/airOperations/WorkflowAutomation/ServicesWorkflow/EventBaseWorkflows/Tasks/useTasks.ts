@@ -155,5 +155,6 @@ export const useTasks = () => {
     setSelectedAction,
     totalRecords,
     isError,
+    handleWorkflow,
   };
 };

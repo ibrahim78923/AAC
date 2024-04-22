@@ -155,5 +155,6 @@ export const useTickets = () => {
     setSelectedAction,
     totalRecords,
     isError,
+    handleWorkflow,
   };
 };

@@ -27,6 +27,7 @@ export const Quote = () => {
     onSubmitFilter,
     handleDelete,
     deleteLoading,
+    handleWorkflow,
   } = useQuote();
   return (
     <>
@@ -39,6 +40,7 @@ export const Quote = () => {
         setIsFilterOpen={setIsFilterOpen}
         onSubmit={onSubmitFilter}
         loading={isLoading || isFetching}
+        handleWorkflow={handleWorkflow}
       />
       <br />
       <TanstackTable

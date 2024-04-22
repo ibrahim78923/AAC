@@ -27,6 +27,7 @@ export const Task = () => {
     onSubmitFilter,
     handleDelete,
     deleteLoading,
+    handleWorkflow,
   } = useTask();
   return (
     <>
@@ -39,6 +40,7 @@ export const Task = () => {
         setIsFilterOpen={setIsFilterOpen}
         onSubmit={onSubmitFilter}
         loading={isLoading || isFetching}
+        handleWorkflow={handleWorkflow}
       />
       <br />
       <TanstackTable

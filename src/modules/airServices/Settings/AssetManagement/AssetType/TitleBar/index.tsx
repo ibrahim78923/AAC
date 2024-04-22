@@ -1,4 +1,4 @@
-import { Create, KeyboardArrowDown } from '@mui/icons-material';
+import { Create } from '@mui/icons-material';
 import { Box, Divider, Typography, useTheme } from '@mui/material';
 import { styles } from './TitleBar.style';
 import AddNewAssetTypesModal from '../AddNewAssetTypesModal';
@@ -10,7 +10,7 @@ const TitleBar = (props: any) => {
     openEditAssetTypesModal,
     setEditNewAssetTypesModal,
   } = useTitleBar(props);
-  const { title, handleCollapse, icNotCollapseAble, assetTypeData } = props;
+  const { title, icNotCollapseAble, assetTypeData } = props;
   const { palette } = useTheme();
 
   return (
@@ -34,14 +34,7 @@ const TitleBar = (props: any) => {
           justifyContent="space-between"
           gap={1.8}
         >
-          {icNotCollapseAble ? (
-            'L'
-          ) : (
-            <KeyboardArrowDown
-              sx={styles?.arrowStyle}
-              onClick={handleCollapse}
-            />
-          )}
+          {icNotCollapseAble ? 'L' : <Box sx={styles?.arrowStyle}></Box>}
           <Divider orientation="vertical" variant="middle" flexItem />
           <Typography fontWeight={500} py={1.5} textTransform="capitalize">
             {title}

@@ -1,21 +1,22 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-const optionsVisible = ['All', 'Jane', 'John'];
-const optionsVisibleShop = ['Shop 1', 'Shop 2'];
 
-export const validationSchema = Yup?.object()?.shape({
+export const addDigitalGiftCardValidationSchema = Yup?.object()?.shape({
   amount: Yup?.string()?.trim()?.required('Required'),
-  recipient: Yup?.mixed()?.required('Required'),
-  shop: Yup?.mixed()?.required('Required'),
+  recipient: Yup?.mixed()?.nullable()?.required('Required'),
+  shop: Yup?.mixed()?.nullable()?.required('Required'),
 });
 
-export const defaultValues = {
+export const addDigitalGiftCardDefaultValues = {
   amount: '',
   recipient: null,
   shop: null,
 };
 
-export const addDigitalGiftCardFormFields = [
+export const addDigitalGiftCardFormFieldsDynamic = (
+  shopApiQuery: any,
+  contactsApiQuery: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -24,7 +25,6 @@ export const addDigitalGiftCardFormFields = [
       required: true,
       placeholder: 'Enter Amount',
     },
-
     component: RHFTextField,
   },
   {
@@ -32,12 +32,13 @@ export const addDigitalGiftCardFormFields = [
     componentProps: {
       name: 'recipient',
       label: 'Recipient',
+      placeholder: 'Select recipient',
       fullWidth: true,
-      options: optionsVisible,
-      placeholder: 'Select from contacts',
-      required: 'true',
+      required: true,
+      apiQuery: contactsApiQuery,
+      getOptionLabel: (option: any) => option?.contactName,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 3,
@@ -45,10 +46,10 @@ export const addDigitalGiftCardFormFields = [
       name: 'shop',
       label: 'Shop',
       required: true,
-      options: optionsVisibleShop,
-      placeholder: 'Select',
+      placeholder: 'Select shop',
+      apiQuery: shopApiQuery,
+      getOptionLabel: (option: any) => option?.shopName,
     },
-    component: RHFAutocomplete,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
 ];

@@ -12,7 +12,7 @@ const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
 const typeOptions = ['INC', 'SR'];
 const sourcesOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
 
-const optionsConstant = {
+export const optionsConstant = {
   agent: 'Assign to Agent',
   department: 'Set Department as',
   category: 'Set Category as',

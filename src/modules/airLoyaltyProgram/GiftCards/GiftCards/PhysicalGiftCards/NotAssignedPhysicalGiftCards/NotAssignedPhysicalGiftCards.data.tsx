@@ -6,56 +6,12 @@ import {
 import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { Box, Checkbox, Typography } from '@mui/material';
 
-export const data: any = [
-  {
-    id: 6757,
-    cardNumber: 'TVKP123451',
-    shop: 'Sharemydine',
-    createdAt: 'Mar 03, 2023 - 01:30PM',
-    actions: 'Assign to',
-  },
-  {
-    id: 1745,
-    cardNumber: 'TVKP123451',
-    shop: 'Sharemydine',
-    createdAt: 'Mar 03, 2023 - 01:30PM',
-    actions: 'Assign to',
-  },
-  {
-    id: 1754,
-    cardNumber: 'TVKP123451',
-    shop: 'Sharemydine',
-    createdAt: 'Mar 03, 2023 - 01:30PM',
-    actions: 'Assign to',
-  },
-  {
-    id: 7453,
-    cardNumber: 'TVKP123451',
-    shop: 'Sharemydine',
-    createdAt: 'Mar 03, 2023 - 01:30PM',
-    actions: 'Assign to',
-  },
-  {
-    id: 7881,
-    cardNumber: 'TVKP123451',
-    shop: 'Sharemydine',
-    createdAt: 'Mar 03, 2023 - 01:30PM',
-    actions: 'Assign to',
-  },
-  {
-    id: 6781,
-    cardNumber: 'TVKP123451',
-    shop: 'Sharemydine',
-    createdAt: 'Mar 03, 2023 - 01:30PM',
-    actions: 'Assign to',
-  },
-];
 export const notAssignedPhysicalGiftCardColumnsFunction = (
   router: any,
-  notAssignedPhysicalGiftCardData: any,
-  setNotAssignedPhysicalGiftCardData: any,
+  selectedUnAssignedPhysicalCards: any,
+  setSelectedUnAssignedPhysicalCards: any,
   notAssignedPhysicaldata: any,
-  setAssignedTo: any,
+  setIsPortalOpen: any,
 ): any => [
   {
     accessorFn: (row: any) => row?.id,
@@ -65,22 +21,22 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!notAssignedPhysicalGiftCardData?.find(
+          !!selectedUnAssignedPhysicalCards?.find(
             (item: any) => item?.id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setNotAssignedPhysicalGiftCardData([
-                ...notAssignedPhysicalGiftCardData,
+            ? setSelectedUnAssignedPhysicalCards([
+                ...selectedUnAssignedPhysicalCards,
                 notAssignedPhysicaldata?.find(
                   (item: any) => item?.id === info?.getValue(),
                 ),
               ])
-            : setNotAssignedPhysicalGiftCardData(
-                notAssignedPhysicalGiftCardData?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
-                }),
+            : setSelectedUnAssignedPhysicalCards(
+                selectedUnAssignedPhysicalCards?.filter(
+                  (item: any) => item?.id !== info?.getValue(),
+                ),
               );
         }}
         color="primary"
@@ -92,13 +48,17 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          notAssignedPhysicalGiftCardData?.length ===
-          notAssignedPhysicaldata?.length
+          !!notAssignedPhysicaldata?.length
+            ? selectedUnAssignedPhysicalCards?.length ===
+              notAssignedPhysicaldata?.length
+            : false
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setNotAssignedPhysicalGiftCardData([...notAssignedPhysicaldata])
-            : setNotAssignedPhysicalGiftCardData([]);
+            ? setSelectedUnAssignedPhysicalCards(
+                notAssignedPhysicaldata?.map((item: any) => item),
+              )
+            : setSelectedUnAssignedPhysicalCards([]);
         }}
         color="primary"
         name="id"
@@ -154,7 +114,7 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
       <Box display={'flex'} justifyContent={'space-between'}>
         <DocumentIcon />
         <Typography
-          onClick={() => setAssignedTo(true)}
+          onClick={() => setIsPortalOpen({ isOpen: true, isAssigned: true })}
           sx={{ cursor: 'pointer' }}
           color={'primary'}
         >

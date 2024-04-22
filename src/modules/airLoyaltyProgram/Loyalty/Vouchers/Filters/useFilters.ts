@@ -1,7 +1,6 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useForm } from 'react-hook-form';
 import { filtersFormFieldsDefaultValues } from './Filters.data';
-import { enqueueSnackbar } from 'notistack';
+import { successSnackbar } from '@/utils/api';
 
 export const useFilters = (props: any) => {
   const { filtersOpen, setFiltersOpen } = props;
@@ -10,9 +9,7 @@ export const useFilters = (props: any) => {
   });
   const { handleSubmit } = methods;
   const submitFiltersForm = async () => {
-    enqueueSnackbar('Filters Applied', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    successSnackbar('Filters Applied!');
     setFiltersOpen?.(false);
   };
   return {

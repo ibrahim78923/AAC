@@ -1,5 +1,4 @@
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteShop = (props: any) => {
   const { setDeleteModalOpen, purchaseOrderData } = props;
@@ -9,14 +8,10 @@ export const useDeleteShop = (props: any) => {
       (purchaseOrderId: any) => deleteParams?.append('ids', purchaseOrderId),
     );
     try {
-      enqueueSnackbar('Selected Shops Deleted Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Selected Shops Deleted Successfully!');
       setDeleteModalOpen?.(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
       setDeleteModalOpen?.(false);
     }
   };
