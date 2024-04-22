@@ -7,6 +7,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { fullName, generateImage } from '@/utils/avatarUtils';
 import { AGENT_LEVELS_IMAGES } from '@/constants/images';
+import { AGENT_LEVELS } from '@/constants/strings';
 
 export const TopPerformer = () => {
   const { data, isLoading, isError, isFetching } = useTopPerformer();
@@ -44,7 +45,7 @@ export const TopPerformer = () => {
             >
               <Avatar
                 alt={fullName(data?.name)}
-                src={generateImage(data?.userAvatar)}
+                src={generateImage(data?.agent?.avatar?.url)}
                 sx={{
                   width: 40,
                   height: 40,
@@ -60,13 +61,32 @@ export const TopPerformer = () => {
               </Typography>
             </Box>
           </Box>
-          <Typography variant="body1" color={'grey.600'} mb={0.5}>
+          <Typography
+            variant="body1"
+            color={'grey.600'}
+            textTransform={'capitalize'}
+          >
             {data?.badges}
           </Typography>
-          <Typography variant="body3" color={'primary.main'}>
-            {data?.totalPoints}%
+          <Typography variant="body3" color={'slateBlue.main'}>
+            {data?.totalPoints} + {data?.masterPoints - data?.totalPoints}{' '}
+            points to {AGENT_LEVELS?.MASTER} level
           </Typography>
-          <LinearProgress value={data?.totalPoints} variant="determinate" />
+          <br />
+          <Typography variant="body3" color={'primary.main'}>
+            {Math?.round(
+              (data?.totalPoints / data?.masterPoints) * 100,
+            )?.toFixed?.(2)}
+            %
+          </Typography>
+          <LinearProgress
+            value={
+              +Math?.round(
+                (data?.totalPoints / data?.masterPoints) * 100,
+              )?.toFixed?.(2)
+            }
+            variant="determinate"
+          />
         </>
       )}
     </Box>

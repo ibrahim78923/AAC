@@ -9,6 +9,8 @@ import { Box } from '@mui/material';
 import { pxToRem } from '@/utils/getFontValue';
 import { Fragment } from 'react';
 import { DeleteConversation } from './DeleteConversation';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { Permissions } from '@/constants/permissions';
 
 export const Conversations = () => {
   const {
@@ -28,14 +30,20 @@ export const Conversations = () => {
     <>
       {!!!data?.data?.length ? (
         <NoData message="There are no conversation available">
-          <SingleDropdownButton
-            dropdownOptions={addConversationDropdownButton}
-            dropdownName={'ADD'}
-            btnVariant="contained"
-            color="primary"
-            endIcon={<></>}
-            startIcon={<PlusSharedColorIcon />}
-          />
+          <PermissionsGuard
+            permissions={
+              Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_ADD_CONVERSATION
+            }
+          >
+            <SingleDropdownButton
+              dropdownOptions={addConversationDropdownButton}
+              dropdownName={'ADD'}
+              btnVariant="contained"
+              color="primary"
+              endIcon={<></>}
+              startIcon={<PlusSharedColorIcon />}
+            />
+          </PermissionsGuard>
         </NoData>
       ) : (
         <>
@@ -46,15 +54,21 @@ export const Conversations = () => {
             gap={2}
           >
             <PageTitledHeader title={'Conversation'} />
-            <SingleDropdownButton
-              dropdownOptions={addConversationDropdownButton}
-              dropdownName={'Add Conversation'}
-              btnVariant="contained"
-              color="primary"
-              endIcon={<></>}
-              startIcon={<PlusSharedColorIcon />}
-              menuSxProps={{ '.MuiPaper-root': { width: pxToRem(190) } }}
-            />
+            <PermissionsGuard
+              permissions={
+                Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_ADD_CONVERSATION
+              }
+            >
+              <SingleDropdownButton
+                dropdownOptions={addConversationDropdownButton}
+                dropdownName={'Add Conversation'}
+                btnVariant="contained"
+                color="primary"
+                endIcon={<></>}
+                startIcon={<PlusSharedColorIcon />}
+                menuSxProps={{ '.MuiPaper-root': { width: pxToRem(190) } }}
+              />
+            </PermissionsGuard>
           </Box>
           <Box maxHeight={'50vh'} overflow={'auto'}>
             {data?.data?.map((conversation: any) => (
