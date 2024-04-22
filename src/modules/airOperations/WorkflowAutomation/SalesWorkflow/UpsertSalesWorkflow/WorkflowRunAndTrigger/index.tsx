@@ -4,10 +4,12 @@ import {
   andRunOptions,
   moduleOptions,
   triggerOptions,
+  workflowType,
 } from './WorkflowRunAndTrigger.data';
 
 export const WorkflowRunAndTrigger = (props: any) => {
-  const { palette } = props;
+  const { palette, watch } = props;
+  const watchType = watch('type');
   return (
     <>
       <Grid
@@ -51,23 +53,25 @@ export const WorkflowRunAndTrigger = (props: any) => {
           When to Trigger this workflow?
         </Typography>
         <Grid container p={1.5} spacing={2}>
-          <Grid item md={6} xs={12}>
-            <RHFAutocomplete
-              name="events"
-              size="small"
-              label="Trigger"
-              required
-              options={triggerOptions}
-              placeholder="Select"
-              getOptionLabel={(option: any) => option?.label}
-            />
-          </Grid>
+          {watchType === workflowType?.EVENT_BASE && (
+            <Grid item md={6} xs={12}>
+              <RHFAutocomplete
+                name="events"
+                size="small"
+                label="Trigger"
+                required
+                options={triggerOptions}
+                placeholder="Select Trigger"
+                getOptionLabel={(option: any) => option?.label}
+              />
+            </Grid>
+          )}
           <Grid item md={6} xs={12}>
             <RHFAutocomplete
               name="runType"
               size="small"
               label="And Run"
-              placeholder="Select"
+              placeholder="Select Run Type"
               required
               options={andRunOptions}
               getOptionLabel={(option: any) => option?.label}

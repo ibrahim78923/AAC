@@ -94,3 +94,40 @@ export const addDateTimeParam = (
     getQueryParam?.append(paramKey, makeDateTime(date, time)?.toISOString());
   }
 };
+export const capitalizeFirstLetter = (type: string) => {
+  return type
+    ?.split('_')
+    ?.map(
+      (word: string) =>
+        word?.charAt(0)?.toUpperCase() + word?.slice(1)?.toLowerCase(),
+    )
+    ?.join('  ');
+};
+export const timeFormatter = (time: any) => {
+  const timeComponents = time?.split(':');
+  const hours = parseInt(timeComponents?.[0]);
+  const minutes = parseInt(timeComponents?.[1]);
+  const dateObj = new Date();
+  dateObj?.setHours(hours);
+  dateObj?.setMinutes(minutes);
+  dateObj?.setSeconds(0);
+  return dateObj;
+};
+export const monthFormatter = (monthString: any) => {
+  const monthMap: any = {
+    january: 0,
+    february: 1,
+    march: 2,
+    april: 3,
+    may: 4,
+    june: 5,
+    july: 6,
+    august: 7,
+    september: 8,
+    october: 9,
+    november: 10,
+    december: 11,
+  };
+  const monthIndex = monthMap[monthString?.toLowerCase()];
+  return new Date(2000, monthIndex, 1);
+};
