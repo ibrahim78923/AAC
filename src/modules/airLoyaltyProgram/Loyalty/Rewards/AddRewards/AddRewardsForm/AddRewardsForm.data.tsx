@@ -5,49 +5,48 @@ import {
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 
 import * as Yup from 'yup';
-import { LOYALTY_REWARDS_TYPE } from '../AddRewards.data';
+
 const optionsVisibleTo = [' All', 'lists', 'tires'];
 
 export const addPhyicalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required(),
-  description: Yup?.string(),
   requiredPoints: Yup?.string()?.required(),
-  chooseRewards: Yup?.string(),
-  chooseVoucher: Yup?.string(),
-  addImage: Yup?.string(),
-  visibleto: Yup?.mixed()?.nullable().required(),
+  addImage: Yup?.mixed()?.nullable(),
+  visibleTo: Yup?.mixed()?.nullable()?.required(),
   costPrice: Yup?.string()?.required(),
-  activefrom: Yup?.date(),
-  activeto: Yup?.date(),
-  untilDeacticateIt: Yup?.string(),
+  activeFrom: Yup?.date(),
+  activeTo: Yup?.date(),
+  untilDeactivateIt: Yup?.boolean(),
 });
+
 export const addDigitalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required(),
   requiredPoints: Yup?.string()?.required(),
-  chooseRewards: Yup?.mixed()?.nullable().required(),
+  chooseCategory: Yup?.mixed()?.nullable()?.required(),
   chooseVoucher: Yup?.mixed()?.nullable()?.required(),
-  activefrom: Yup?.date(),
-  activeto: Yup?.date(),
-  untilDeacticateIt: Yup?.string(),
+  activeFrom: Yup?.date(),
+  activeTo: Yup?.date(),
+  untilDeactivateIt: Yup?.boolean(),
 });
+
 export const REWARD_VALIDATION_SCHEMA: any = {
   [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD]: addPhyicalRewardsValidationSchema,
   [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD]: addDigitalRewardsValidationSchema,
 };
 export const addRewardsDefaultValues = {
   title: '',
-  description: '',
   requiredPoints: '',
   chooseCategory: null,
   chooseVoucher: null,
-  visibleto: null,
-  addImage: '',
+  visibleTo: null,
+  addImage: null,
   costPrice: '',
-  activefrom: new Date(),
-  activeto: new Date(),
-  untilDeacticateIt: false,
+  activeFrom: new Date(),
+  activeTo: new Date(),
+  untilDeactivateIt: false,
 };
 
 export const addRewardsFormFields = [
@@ -61,7 +60,10 @@ export const addRewardsFormFields = [
     },
 
     component: RHFTextField,
-    type: ['physicalReward', 'digitalReward'],
+    type: [
+      LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,
+      LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD,
+    ],
     md: 12,
   },
 
@@ -75,7 +77,10 @@ export const addRewardsFormFields = [
     },
 
     component: RHFTextField,
-    type: ['physicalReward', 'digitalReward'],
+    type: [
+      LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,
+      LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD,
+    ],
     md: 12,
   },
   {
@@ -87,7 +92,7 @@ export const addRewardsFormFields = [
     },
 
     component: RHFDropZone,
-    type: ['physicalReward'],
+    type: [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD],
     md: 12,
   },
   {
@@ -101,7 +106,7 @@ export const addRewardsFormFields = [
     },
 
     component: RHFAutocomplete,
-    type: ['digitalReward'],
+    type: [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD],
     md: 12,
   },
 
@@ -116,13 +121,13 @@ export const addRewardsFormFields = [
     },
 
     component: RHFAutocomplete,
-    type: ['digitalReward'],
+    type: [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD],
     md: 12,
   },
   {
     id: 6,
     componentProps: {
-      name: 'visibleto',
+      name: 'visibleTo',
       label: 'Visible to',
       fullWidth: true,
       required: true,
@@ -130,7 +135,7 @@ export const addRewardsFormFields = [
     },
 
     component: RHFAutocomplete,
-    type: ['physicalReward'],
+    type: [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD],
     md: 12,
   },
   {
@@ -141,40 +146,49 @@ export const addRewardsFormFields = [
       fullWidth: true,
       required: true,
     },
-    type: ['physicalReward'],
+    type: [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD],
     component: RHFTextField,
     md: 12,
   },
   {
     id: 8,
     componentProps: {
-      name: 'activefrom',
+      name: 'activeFrom',
       label: 'Active from',
       fullWidth: true,
     },
-    type: ['physicalReward', 'digitalReward'],
+    type: [
+      LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,
+      LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD,
+    ],
     component: RHFDatePicker,
     md: 12,
   },
   {
     id: 9,
     componentProps: {
-      name: 'activeto',
+      name: 'activeTo',
       label: 'Active to',
       fullWidth: true,
     },
-    type: ['physicalReward', 'digitalReward'],
+    type: [
+      LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,
+      LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD,
+    ],
     component: RHFDatePicker,
     md: 12,
   },
   {
     id: 10,
     componentProps: {
-      name: 'untilDeacticateIt',
+      name: 'untilDeactivateIt',
       label: 'Until Deactivate it',
-      fullWidth: true,
+      // fullWidth: true,
     },
-    type: ['physicalReward', 'digitalReward'],
+    type: [
+      LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,
+      LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD,
+    ],
     component: RHFCheckbox,
     md: 12,
   },

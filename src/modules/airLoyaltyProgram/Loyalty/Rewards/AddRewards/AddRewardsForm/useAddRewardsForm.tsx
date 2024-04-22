@@ -15,6 +15,7 @@ export const useAddRewardsForm = (props: any) => {
   });
 
   const { reset, handleSubmit } = methods;
+
   const submitAddRewards = () => {
     successSnackbar('Successfull');
     closeAddRewardsForm();

@@ -1,8 +1,6 @@
+import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
-export const LOYALTY_REWARDS_TYPE = {
-  PHYSICAL_REWARD: 'physicalReward',
-  DIGITAL_REWARD: 'digitalReward',
-};
+
 export const addRewardsData = (palette: any) => [
   {
     id: 1,
