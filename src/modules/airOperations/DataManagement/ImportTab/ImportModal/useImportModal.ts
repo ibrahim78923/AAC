@@ -23,7 +23,7 @@ export const useImportModal = () => {
   const importDeals = methodsImportModalForm?.watch()?.importDeals;
 
   const { control } = methodsImportModalForm;
-  const { fields } = useFieldArray({
+  const { fields, remove } = useFieldArray({
     control,
     name: 'importedFields',
   });
@@ -123,5 +123,6 @@ export const useImportModal = () => {
     importDeals,
     fields,
     handlePreview,
+    remove,
   };
 };

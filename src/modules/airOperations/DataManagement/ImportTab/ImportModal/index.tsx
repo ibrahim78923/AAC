@@ -23,6 +23,7 @@ const ImportModal = () => {
     importDeals,
     fields,
     handlePreview,
+    remove,
   } = useImportModal();
 
   const steps: any = {
@@ -44,6 +45,7 @@ const ImportModal = () => {
         importLog={importLog}
         methodsImportModalForm={methodsImportModalForm}
         fields={fields}
+        remove={remove}
       />
     ),
   };
@@ -67,6 +69,7 @@ const ImportModal = () => {
           isOk={true}
           cancelText={modalStep === 1 ? 'Cancel' : 'Back'}
         >
+          <Box marginY={2} />
           <Chip label={`Step ${modalStep} of 3`} color="secondary" />
           <FormProvider methods={methodsImportModalForm}>
             {steps[modalStep]}
@@ -80,6 +83,7 @@ const ImportModal = () => {
               right: 24,
               bottom: 8,
               zIndex: 50,
+              minWidth: '800px',
             }}
           >
             <Button
