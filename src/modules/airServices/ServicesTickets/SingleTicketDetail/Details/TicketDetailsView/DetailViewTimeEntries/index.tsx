@@ -18,6 +18,7 @@ import { ERROR_TIME } from '@/constants/api-mapped';
 const DetailViewTimeEntries = (data: any) => {
   const {
     isLoading,
+    isError,
     timeEntryData,
     isDrawerOpen,
     setIsDrawerOpen,
@@ -84,6 +85,7 @@ const DetailViewTimeEntries = (data: any) => {
                   variant="contained"
                   onClick={() => setIsDrawerOpen(true)}
                   startIcon={<CirclePlusIcon />}
+                  disabled={!isIconVisible}
                 >
                   Add Time
                 </Button>
@@ -98,6 +100,7 @@ const DetailViewTimeEntries = (data: any) => {
                   reset={reset}
                   setIsIconVisible={setIsIconVisible}
                   isLoading={isLoading}
+                  isError={isError}
                 />
               )}
             </Box>
@@ -147,7 +150,7 @@ const DetailViewTimeEntries = (data: any) => {
                   </Typography>
                 </Box>
 
-                {item?.counter !== undefined && (
+                {item?.counter === false && (
                   <>
                     <Box display="flex" mt={'1rem'} mb={'2rem'}>
                       <Typography variant="body1"> Start Time</Typography>
