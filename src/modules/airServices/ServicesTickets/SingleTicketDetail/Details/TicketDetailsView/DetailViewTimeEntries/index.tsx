@@ -24,17 +24,14 @@ const DetailViewTimeEntries = (data: any) => {
     isIconVisible,
     setIsIconVisible,
     toggleView,
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
     start,
-    pause,
+    stop,
     reset,
     handleSubmit,
     handleSubmitPause,
+    seconds,
+    minutes,
+    hours,
   } = useDetailViewTimeEntries(data);
 
   return (
@@ -74,17 +71,7 @@ const DetailViewTimeEntries = (data: any) => {
                 )}
               </Box>
               <Box sx={styles?.iconBoxTimerStyling}>
-                <StopWatch
-                  totalSeconds={totalSeconds}
-                  seconds={seconds}
-                  minutes={minutes}
-                  hours={hours}
-                  days={days}
-                  isRunning={isRunning}
-                  start={start}
-                  pause={pause}
-                  reset={reset}
-                />
+                <StopWatch seconds={seconds} minutes={minutes} hours={hours} />
               </Box>
             </PermissionsGuard>
             <Box sx={styles?.buttonStyleOFTimeEntries}>
@@ -107,7 +94,7 @@ const DetailViewTimeEntries = (data: any) => {
                   setIsDrawerOpen={setIsDrawerOpen}
                   data={data}
                   start={start}
-                  pause={pause}
+                  stop={stop}
                   reset={reset}
                   setIsIconVisible={setIsIconVisible}
                   isLoading={isLoading}
