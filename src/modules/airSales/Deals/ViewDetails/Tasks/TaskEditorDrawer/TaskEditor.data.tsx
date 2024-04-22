@@ -1,4 +1,5 @@
 import {
+  RHFAutocompleteAsync,
   // RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
@@ -6,6 +7,7 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import { getSession } from '@/utils';
 // import { getSession } from '@/utils';
 import * as Yup from 'yup';
 
@@ -36,8 +38,8 @@ export const createTaskDefaultValues = ({ data }: any) => {
   };
 };
 
-export const dealsTasksDataArray = ({ openDrawer }: any) => {
-  // const { user }: { user: any } = getSession();
+export const dealsTasksDataArray = ({ openDrawer, usersData }: any) => {
+  const { user }: { user: any } = getSession();
   return [
     {
       md: 12,
@@ -97,23 +99,23 @@ export const dealsTasksDataArray = ({ openDrawer }: any) => {
       ],
       component: RHFSelect,
     },
-    // {
-    //   md: 12,
-    //   componentProps: {
-    //     label: 'Assigned to',
-    //     name: 'assignTo',
-    //     placeholder: 'Select option',
-    //     apiQuery: usersData,
-    //     externalParams: {
-    //       organization: user?.organization?._id,
-    //       limit: 50,
-    //       role: user?.role,
-    //     },
-    //     getOptionLabel: (option: any) =>
-    //       option?.firstName + ' ' + option?.lastName,
-    //   },
-    //   component: RHFAutocompleteAsync,
-    // },
+    {
+      md: 12,
+      componentProps: {
+        label: 'Assigned to',
+        name: 'assignTo',
+        placeholder: 'Select option',
+        apiQuery: usersData,
+        externalParams: {
+          organization: user?.organization?._id,
+          limit: 50,
+          role: user?.role,
+        },
+        getOptionLabel: (option: any) =>
+          option?.firstName + ' ' + option?.lastName,
+      },
+      component: RHFAutocompleteAsync,
+    },
     {
       md: 7,
       componentProps: {

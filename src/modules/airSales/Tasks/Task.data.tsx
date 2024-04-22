@@ -321,7 +321,7 @@ export const TasksData = ({ data }: any) => {
     if (selectedTaskIds?.length === data?.length) {
       dispatch(setSelectedTaskIds([]));
     } else {
-      const allTaskIds = data.map((task: any) => task?._id);
+      const allTaskIds = data?.map((task: any) => task?._id);
       dispatch(setSelectedTaskIds(allTaskIds));
     }
   };

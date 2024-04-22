@@ -25,7 +25,6 @@ const ActionDropdown = (props: any) => {
     openAlertModal,
     handleOpenEditDrawer,
     handleOpenViewDrawer,
-    // handleOpenReassignAlert,
     handleOpenDeleteAlert,
     handleCloseAlert,
     handleSubmit,
@@ -74,7 +73,7 @@ const ActionDropdown = (props: any) => {
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_TASK]}
         >
           <MenuItem
-            disabled={selectedCheckboxes?.length > 1}
+            disabled={selectedTaskIds?.length > 1}
             onClick={handleOpenViewDrawer}
           >
             View
@@ -84,7 +83,7 @@ const ActionDropdown = (props: any) => {
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_TASK]}
         >
           <MenuItem
-            disabled={selectedCheckboxes?.length > 1}
+            disabled={selectedTaskIds?.length > 1}
             onClick={handleOpenEditDrawer}
           >
             Edit

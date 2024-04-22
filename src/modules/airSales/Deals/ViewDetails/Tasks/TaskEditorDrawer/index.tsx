@@ -11,6 +11,7 @@ import {
 } from './TaskEditor.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
+import { useLazyGetDealsAssignedUsersQuery } from '@/services/airSales/deals/view-details/tasks';
 // import { useLazyGetDealsAssignedUsersQuery } from '@/services/airSales/deals/view-details/tasks';
 
 const TaskEditorDrawer = (props: any) => {
@@ -32,8 +33,8 @@ const TaskEditorDrawer = (props: any) => {
       taskData,
     });
 
-  // const usersData = useLazyGetDealsAssignedUsersQuery();
-  const getDealsTasksDataArray = dealsTasksDataArray({ openDrawer });
+  const usersData = useLazyGetDealsAssignedUsersQuery();
+  const getDealsTasksDataArray = dealsTasksDataArray({ openDrawer, usersData });
 
   return (
     <div>
