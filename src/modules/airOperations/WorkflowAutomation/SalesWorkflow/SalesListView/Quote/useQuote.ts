@@ -154,5 +154,6 @@ export const useQuote = () => {
     onSubmitFilter,
     handleDelete,
     deleteLoading,
+    handleWorkflow,
   };
 };

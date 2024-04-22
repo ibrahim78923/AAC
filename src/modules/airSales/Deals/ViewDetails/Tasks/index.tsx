@@ -11,6 +11,8 @@ import { columns } from './Tasks.data';
 import { PlusIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { useAppSelector } from '@/redux/store';
+import { useGetDealsTaskDetailsQuery } from '@/services/airSales/deals/view-details/tasks';
 
 const Tasks = (props: any) => {
   const { selectedRecId } = props;
@@ -18,11 +20,24 @@ const Tasks = (props: any) => {
   const {
     openDrawer,
     setOpenDrawer,
-    handleCheckboxChange,
     selectedCheckboxes,
     taskData,
+    setPage,
+    setPageLimit,
+    status,
     setSelectedCheckboxes,
   } = useTasks(selectedRecId);
+
+  const selectedTaskIds = useAppSelector(
+    (state: any) => state?.task_deals?.selectedDealsTaskIds,
+  );
+  const { data: taskDataDefault } = useGetDealsTaskDetailsQuery({
+    id: selectedTaskIds?.length === 1 && selectedTaskIds[0],
+  });
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
   return (
     <Box
       sx={{
@@ -65,8 +80,16 @@ const Tasks = (props: any) => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ handleCheckboxChange, selectedCheckboxes })}
+            columns={columns({ data: taskData?.data?.taskmanagements })}
             data={taskData?.data?.taskmanagements}
+            // isLoading={true}
+            isLoading={status === 'pending'}
+            isPagination
+            count={taskData?.data?.meta?.pages}
+            totalRecords={taskData?.data?.meta?.total}
+            onPageChange={handlePageChange}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
           />
         </Grid>
       </Grid>
@@ -76,6 +99,8 @@ const Tasks = (props: any) => {
           setOpenDrawer={setOpenDrawer}
           setSelectedCheckboxes={setSelectedCheckboxes}
           selectedCheckboxes={selectedCheckboxes}
+          selectedRecId={selectedRecId}
+          taskData={taskDataDefault}
         />
       )}
     </Box>

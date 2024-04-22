@@ -20,6 +20,13 @@ export const associationAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['DEALS_ASSOCIATION'],
     }),
+    getAttachmentsById: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.GET_ATTACHMENT}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['Organization'],
+    }),
     postAttachments: builder.mutation({
       query: ({ body }: any) => {
         return {
@@ -37,4 +44,5 @@ export const {
   useCreateAssociationMutation,
   useDeleteAssociationMutation,
   usePostAttachmentsMutation,
+  useLazyGetAttachmentsByIdQuery,
 } = associationAPI;

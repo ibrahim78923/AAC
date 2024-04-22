@@ -115,9 +115,6 @@ export const upsertConversationFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       style: { height: '200px' },
-      disabled:
-        selectedConversationType?.conversationType ===
-        TICKET_CONVERSATIONS_TYPE?.FORWARD,
     },
     component: RHFEditor,
   },
@@ -135,10 +132,6 @@ export const upsertConversationFormFieldsDynamic = (
       >
         <CustomTooltip title="add canned response">
           <IconButton
-            disabled={
-              selectedConversationType?.conversationType ===
-              TICKET_CONVERSATIONS_TYPE?.FORWARD
-            }
             onClick={() =>
               setSelectedResponseType?.({
                 type: TICKET_CONVERSATIONS_RESPONSE_TYPE?.CANNED_RESPONSES,
@@ -152,10 +145,6 @@ export const upsertConversationFormFieldsDynamic = (
         </CustomTooltip>
         <CustomTooltip title="add article">
           <IconButton
-            disabled={
-              selectedConversationType?.conversationType ===
-              TICKET_CONVERSATIONS_TYPE?.FORWARD
-            }
             onClick={() =>
               setSelectedResponseType?.({
                 type: TICKET_CONVERSATIONS_RESPONSE_TYPE?.ARTICLE,

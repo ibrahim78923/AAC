@@ -20,6 +20,8 @@ export const Vouchers = () => {
     filtersOpen,
     theme,
     setFiltersOpen,
+    vouchersMetaData,
+    lazyGetVouchersStatus,
   } = useVouchers();
   return (
     <>
@@ -78,14 +80,14 @@ export const Vouchers = () => {
           <TanstackTable
             columns={vouchersColumns}
             data={vouchersData}
-            isLoading={false}
-            isFetching={false}
-            isError={false}
-            isSuccess={true}
+            isLoading={lazyGetVouchersStatus?.isLoading}
+            isFetching={lazyGetVouchersStatus?.isFetching}
+            isError={lazyGetVouchersStatus?.isError}
+            isSuccess={lazyGetVouchersStatus?.isSuccess || true}
             currentPage={page}
-            count={2}
+            count={vouchersMetaData?.pages}
             pageLimit={pageLimit}
-            totalRecords={4}
+            totalRecords={vouchersMetaData?.total}
             onPageChange={(page: any) => setPage(page)}
             setPage={setPage}
             setPageLimit={setPageLimit}

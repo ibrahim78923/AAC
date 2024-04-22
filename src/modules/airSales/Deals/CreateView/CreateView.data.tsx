@@ -11,16 +11,10 @@ import useDealTab from '../DealTab/useDealTab';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  dealPipelineId: Yup?.string()?.required('Field is Required'),
-  dealOwnerId: Yup?.string()?.required('Field is Required'),
-  sharedWith: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
   name: '',
-  dealPipelineId: '',
-  dealOwnerId: '',
-  dealStageId: '',
   sharedWith: '',
 };
 
@@ -80,7 +74,6 @@ export const CreateViewData = (dealPipelineId: string | null) => {
         name: 'dealStageId',
         label: 'Deal Stage',
         select: true,
-        defaultValue: 'Select',
       },
       options: filteredStages?.map((item: any) => ({
         value: item?._id,
@@ -92,7 +85,7 @@ export const CreateViewData = (dealPipelineId: string | null) => {
       componentProps: {
         name: 'sharedWith',
         label: 'Shared With',
-        required: true,
+        defaultValue: 'EVERYONE',
         row: false,
         options: [
           { label: 'Private', value: 'PRIVATE' },

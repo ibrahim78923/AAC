@@ -40,14 +40,23 @@ export const addItemsToInventoryFormValidationSchema = (
   purchaseOrderDetails: any,
 ) => {
   return Yup?.object()?.shape({
-    addedItemsCount: Yup?.number()
-      ?.typeError('Not a number')
-      ?.positive('Greater than 0')
-      ?.max(
-        purchaseOrderDetails?.totalReceived,
-        `less than ${purchaseOrderDetails?.totalReceived}`,
-      ),
     addInventoryMethod: Yup?.string()?.required('Required'),
+    addedItemsCount: Yup?.number()?.when('addInventoryMethod', {
+      is: (value: any) => value === ADDED_INVENTORY_METHODS?.ADD_NEW,
+      then: () =>
+        Yup?.number()
+          ?.typeError('Not a number')
+          ?.positive('Greater than 0')
+          ?.max(
+            purchaseOrderDetails?.totalReceived -
+              purchaseOrderDetails?.totalItemAdded,
+            `less than ${
+              purchaseOrderDetails?.totalReceived -
+              purchaseOrderDetails?.totalItemAdded
+            }`,
+          ),
+      otherwise: (schema: any) => schema?.notRequired(''),
+    }),
     displayName: Yup?.string()
       ?.trim()
       ?.when('addInventoryMethod', {

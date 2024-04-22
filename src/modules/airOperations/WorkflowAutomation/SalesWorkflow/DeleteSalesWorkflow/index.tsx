@@ -12,6 +12,7 @@ export const DeleteSalesWorkflow = (props: any) => {
         type={ALERT_MODALS_TYPE?.DELETE}
         handleSubmitBtn={handleSubmit}
         loading={loading}
+        disableCancelBtn={loading}
       />
     </>
   );
