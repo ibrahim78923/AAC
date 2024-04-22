@@ -1,29 +1,34 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import {
+  loyaltytransactionChannel,
+  loyaltytransactionType,
+} from '../Transactions.data';
 
-const jobTitleOptions = [
-  'Senior HR Executive',
-  'Software Engineer',
-  'Software Developer',
-];
+export const upsertLoyaltyTransactionsValidationSchema: any =
+  Yup?.object()?.shape({
+    email: Yup?.string()?.email('Enter a valid email'),
+    shop: Yup?.mixed()?.nullable(),
+    type: Yup?.mixed()?.nullable(),
+    channel: Yup?.string(),
+    points: Yup?.string(),
+  });
 
-export const upsertTransactionsValidationSchema: any = Yup?.object()?.shape({
-  email: Yup?.string(),
-  shop: Yup?.mixed(),
-  type: Yup?.mixed(),
-  channel: Yup?.mixed(),
-  points: Yup?.string(),
-});
-
-export const upsertTransactionsDefaultValues: any = {
+export const upsertLoyaltyTransactionsDefaultValues: any = {
   email: '',
   shop: null,
   type: null,
-  channel: null,
+  channel: loyaltytransactionChannel?.[0]?.label,
   points: '',
 };
 
-export const upsertTransactionsArray = [
+export const upsertLoyaltyTransactionsFormFieldsDynamic = (
+  shopApiQuery: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -33,57 +38,50 @@ export const upsertTransactionsArray = [
       fullWidth: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 2,
     componentProps: {
       name: 'shop',
       label: 'Shop',
-      placeholder: 'Select',
+      placeholder: 'Select shop',
       fullWidth: true,
-      options: jobTitleOptions,
-      getOptionLabel: (option: any) => option?.label,
+      apiQuery: shopApiQuery,
+      getOptionLabel: (option: any) => option?.shopName,
     },
-    component: RHFAutocomplete,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 3,
     componentProps: {
       name: 'type',
       label: 'Type',
-      placeholder: 'Select',
+      placeholder: 'Select type',
       fullWidth: true,
-      options: jobTitleOptions,
+      options: loyaltytransactionType,
       getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
-
-    md: 12,
   },
   {
     id: 4,
     componentProps: {
       name: 'channel',
       label: 'Channel',
-      placeholder: 'Select',
+      placeholder: 'Channel',
       fullWidth: true,
-      options: jobTitleOptions,
-      getOptionLabel: (option: any) => option?.label,
+      disabled: true,
     },
-    component: RHFAutocomplete,
-    md: 12,
+    component: RHFTextField,
   },
   {
     id: 5,
     componentProps: {
       name: 'points',
       label: 'Points',
-      placeholder: 'Enter',
+      placeholder: 'Enter points',
       fullWidth: true,
     },
     component: RHFTextField,
-    md: 12,
   },
 ];
