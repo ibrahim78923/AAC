@@ -63,7 +63,7 @@ const useCreateContacts = (dealId: any, onClose: () => void) => {
     formData?.append('lifeCycleStageId', values?.lifeCycleStageId);
     formData?.append('statusId', values?.statusId);
     formData?.append(
-      'dateOfJoinig',
+      'dateOfJoining',
       dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
     );
     formData?.append('recordId', dealId);

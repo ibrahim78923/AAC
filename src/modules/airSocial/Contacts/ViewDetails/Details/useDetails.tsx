@@ -88,7 +88,7 @@ const useDetails = () => {
       setValue('lifeCycleStageId', contactData?.lifeCycleStageId);
       setValue('jobTitle', contactData?.jobTitle);
       setValue('statusId', contactData?.statusId);
-      setValue('dateOfJoinig', new Date(contactData?.dateOfJoinig));
+      setValue('dateOfJoining', new Date(contactData?.dateOfJoining));
     }
   }, [contactData]);
 
@@ -110,8 +110,8 @@ const useDetails = () => {
     formData?.append('jobTitle', values?.jobTitle);
     formData?.append('statusId', values?.statusId);
     formData?.append(
-      'dateOfJoinig',
-      dayjs(values?.dateOfJoinig)?.format(DATE_FORMAT?.API),
+      'dateOfJoining',
+      dayjs(values?.dateOfJoining)?.format(DATE_FORMAT?.API),
     );
     try {
       await updateDetails({
