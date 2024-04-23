@@ -38,10 +38,15 @@ export const useUpsertSalesWorkflow = () => {
     data,
     isLoading: byIdLoading,
     isFetching,
-  } = useGetByIdSalesWorkflowQuery(workflowId, {
+    isError,
+    error: workflowByIdError,
+  }: any = useGetByIdSalesWorkflowQuery(workflowId, {
     refetchOnMountOrArgChange: true,
     skip: !!!workflowId,
   });
+  if (isError) {
+    errorSnackbar(workflowByIdError?.data?.message);
+  }
   useEffect(() => {
     reset(salesValues(data?.data));
   }, [workflowId, data]);
