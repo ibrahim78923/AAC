@@ -13,18 +13,10 @@ export const getAttachmentAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
     postAttachment: builder.mutation({
-      query: (body: any) => ({
+      query: ({ body }: any) => ({
         url: `${END_POINTS?.POST_ATTACHMENT}`,
         method: 'POST',
-        body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    deleteAttachment: builder?.mutation({
-      query: (body: any) => ({
-        url: `${END_POINTS?.DELETE_ATTACHMENT}`,
-        method: 'DELETE',
-        body,
+        body: body,
       }),
       invalidatesTags: [TAG],
     }),
@@ -39,8 +31,5 @@ export const getAttachmentAPI = baseAPI.injectEndpoints({
   }),
 });
 
-export const {
-  useGetAttachmentQuery,
-  usePostAttachmentMutation,
-  useDeleteAttachmentQuery,
-} = getAttachmentAPI;
+export const { useGetAttachmentQuery, usePostAttachmentMutation } =
+  getAttachmentAPI;
