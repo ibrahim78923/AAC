@@ -2,7 +2,7 @@ import { baseAPI } from '@/services/base-api';
 
 const loyaltyRewardsApi = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getAllLoyaltyRewardsList: builder?.query({
+    getLoyaltyAllRewardsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: '',
         method: 'GET',
@@ -50,7 +50,7 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useLazyGetAllLoyaltyRewardsListQuery,
+  useLazyGetLoyaltyAllRewardsListQuery,
   useAddLoyaltyRewardMutation,
   useLazyGetCustomersDropdownForRewardsQuery,
   useLazyGetTiersDropdownForRewardsQuery,

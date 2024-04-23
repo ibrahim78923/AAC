@@ -100,7 +100,9 @@ export const loyaltyPhysicalRewardColumnDynamic: any = (router: any) => [
         onClick={() =>
           router?.push({
             pathname: AIR_LOYALTY_PROGRAM?.PHYSICAL_REWARDS_DETAIL,
-            query: `id=${info?.row?.original?.id}`,
+            query: {
+              id: info?.row?.original?.id,
+            },
           })
         }
       >

@@ -67,7 +67,9 @@ export const loyaltyDigitalRewardColumnDynamic: any = (router: any) => [
         onClick={() =>
           router?.push({
             pathname: AIR_LOYALTY_PROGRAM?.DIGITAL_REWARDS_DETAIL,
-            query: `id=${info?.row?.original?.id}`,
+            query: {
+              id: info?.row?.original?.id,
+            },
           })
         }
       >
