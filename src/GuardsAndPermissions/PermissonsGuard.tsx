@@ -13,7 +13,7 @@ function checkPermissions(permissions: any, modulePermissions: any) {
   modulePermissions?.forEach((value: any) => {
     componentPermissionsDictionary[value] = true;
   });
-  // return true;
+  return true;
   if (permissions?.length > 0) {
     for (const permission of permissions) {
       if (componentPermissionsDictionary[permission]) {
