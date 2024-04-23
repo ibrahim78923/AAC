@@ -15,7 +15,8 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 
 export const useDetailTicketDrawer = (props: any) => {
-  const [postTicketsTimeTrigger] = usePostTicketsTimeMutation();
+  const [postTicketsTimeTrigger, postTicketStatus] =
+    usePostTicketsTimeMutation();
   const {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -23,6 +24,7 @@ export const useDetailTicketDrawer = (props: any) => {
     stop,
     setIsIconVisible,
     isLoading,
+    isError,
   } = props;
   const router = useRouter();
   let booleanVar = false;
@@ -96,5 +98,7 @@ export const useDetailTicketDrawer = (props: any) => {
     booleanVar,
     results,
     isLoading,
+    postTicketStatus,
+    isError,
   };
 };

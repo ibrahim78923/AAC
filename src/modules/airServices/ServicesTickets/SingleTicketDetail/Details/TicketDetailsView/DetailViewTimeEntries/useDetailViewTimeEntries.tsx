@@ -24,38 +24,38 @@ export const useDetailViewTimeEntries = (data: any) => {
   };
   const { ticketId } = router?.query;
   const [hours, setHours] = useState<number>(() => {
-    const storedValue = localStorage.getItem('timerHour');
+    const storedValue = localStorage?.getItem('timerHour');
     return storedValue ? parseInt(storedValue, 10) : 0;
   });
 
   const [minutes, setMinutes] = useState<number>(() => {
-    const storedValue = localStorage.getItem('timerMin');
+    const storedValue = localStorage?.getItem('timerMin');
     return storedValue ? parseInt(storedValue, 10) : 0;
   });
 
   const [seconds, setSeconds] = useState<number>(() => {
-    const storedValue = localStorage.getItem('timerSecond');
+    const storedValue = localStorage?.getItem('timerSecond');
     return storedValue ? parseInt(storedValue, 10) : 0;
   });
 
   // Rest of your code...
 
   useEffect(() => {
-    localStorage.setItem('timerSecond', seconds.toString());
+    localStorage?.setItem('timerSecond', seconds?.toString());
   }, [seconds]);
 
   useEffect(() => {
-    localStorage.setItem('timerMin', minutes.toString());
+    localStorage?.setItem('timerMin', minutes?.toString());
   }, [minutes]);
 
   useEffect(() => {
-    localStorage.setItem('timerHour', hours.toString());
+    localStorage?.setItem('timerHour', hours?.toString());
   }, [hours]);
   const intervalRef = useRef<number | null>(null);
 
   const start = () => {
-    if (!intervalRef.current) {
-      intervalRef.current = window.setInterval(() => {
+    if (!intervalRef?.current) {
+      intervalRef.current = window?.setInterval(() => {
         setSeconds((prevSeconds) => {
           if (prevSeconds === 59) {
             setMinutes((prevMinutes) => {
@@ -74,15 +74,15 @@ export const useDetailViewTimeEntries = (data: any) => {
   };
 
   const stop = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
+    if (intervalRef?.current) {
+      clearInterval(intervalRef?.current);
       intervalRef.current = null;
     }
   };
 
   const reset = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
+    if (intervalRef?.current) {
+      clearInterval(intervalRef?.current);
       intervalRef.current = null;
     }
     setHours(0);

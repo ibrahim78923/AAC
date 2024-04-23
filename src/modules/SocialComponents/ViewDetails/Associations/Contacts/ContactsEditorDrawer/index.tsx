@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, useTheme } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -12,16 +12,33 @@ import {
 } from './ContactsEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import Image from 'next/image';
+import { AddPenIcon } from '@/assets/icons';
+import { useEffect } from 'react';
+import { generateImage } from '@/utils/avatarUtils';
 
 const ContactsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, contactRecord } = props;
+  const { openDrawer, setOpenDrawer, contactRecord, companyId } = props;
   const {
     handleSubmit,
     onSubmit,
     methodscontacts,
     lifeCycleStagesData,
     contactStatusData,
-  } = useContactsEditorDrawer({ openDrawer, contactRecord, setOpenDrawer });
+    handleImageChange,
+    imagePreview,
+    setImagePreview,
+  } = useContactsEditorDrawer({
+    openDrawer,
+    contactRecord,
+    setOpenDrawer,
+    companyId,
+  });
+  const theme = useTheme();
+
+  useEffect(() => {
+    setImagePreview(generateImage(contactRecord?.profilePicture?.url));
+  }, [contactRecord?.profilePicture?.url]);
 
   return (
     <div>
@@ -39,6 +56,49 @@ const ContactsEditorDrawer = (props: any) => {
             methods={methodscontacts}
             onSubmit={handleSubmit(onSubmit)}
           >
+            <center>
+              <Box sx={{ position: 'relative' }}>
+                <Box
+                  sx={{
+                    border: `1px solid ${theme?.palette?.grey[700]}`,
+                    borderRadius: '100px',
+                    width: '120px',
+                    height: '120px',
+                    boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green},
+                    5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
+                  }}
+                >
+                  {imagePreview && (
+                    <Image
+                      src={imagePreview}
+                      alt=""
+                      width={120}
+                      height={120}
+                      style={{ borderRadius: '50%' }}
+                    />
+                  )}
+                </Box>
+                <input
+                  hidden={true}
+                  id="upload-group-image"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e: any) => handleImageChange(e)}
+                />
+                <label htmlFor="upload-group-image">
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      right: '165px',
+                      bottom: 0,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <AddPenIcon />
+                  </Box>
+                </label>
+              </Box>
+            </center>
             <Grid container spacing={4}>
               {contactsDataArray(
                 openDrawer,
