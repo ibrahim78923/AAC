@@ -16,6 +16,8 @@ import {
 } from '@/assets/icons';
 import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
 import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 export const ConversationCard = (props: any) => {
   const { data, setSelectedConversationType } = props;
@@ -83,7 +85,7 @@ export const ConversationCard = (props: any) => {
           gap={1}
         >
           <Avatar
-            src={generateImage(data?.attachments?.fileUrl)}
+            src={generateImage(data?.attachment?.fileUrl)}
             sx={{
               width: 40,
               height: 40,
@@ -92,70 +94,94 @@ export const ConversationCard = (props: any) => {
           />
           <Box>
             <Typography variant="body2" color="slateBlue.main">
-              {truncateText(data?.attachments?.orignalName)}
+              {truncateText(data?.attachment?.orignalName)}
             </Typography>
             <Typography variant="body3" color="grey.500">
-              {formatFileSize(data?.attachments?.fileSize)}
+              {formatFileSize(data?.attachment?.fileSize)}
             </Typography>
           </Box>
         </Box>
         <Box display={'flex'} flex={0.33} justifyContent={'flex-end'} gap={1.5}>
-          <Box
-            onClick={() =>
-              setSelectedConversationType({
-                ...data,
-                conversationType: TICKET_CONVERSATIONS_TYPE?.REPLY,
-                isOpen: true,
-              })
-            }
-            sx={{ cursor: 'pointer' }}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_REPLY,
+            ]}
           >
-            <ShortcutSharpLeftIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() =>
-              setSelectedConversationType({
-                ...data,
-                conversationType: TICKET_CONVERSATIONS_TYPE?.FORWARD,
-                isOpen: true,
-              })
-            }
+            <Box
+              onClick={() =>
+                setSelectedConversationType({
+                  ...data,
+                  conversationType: TICKET_CONVERSATIONS_TYPE?.REPLY,
+                  isOpen: true,
+                })
+              }
+              sx={{ cursor: 'pointer' }}
+            >
+              <ShortcutSharpLeftIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_FARWARD,
+            ]}
           >
-            <ShortcutSharpRightIcon />
-          </Box>
-          {data?.type === TICKET_CONVERSATIONS_TYPE?.NOTE && (
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() =>
                 setSelectedConversationType({
                   ...data,
-                  conversationType: data?.type,
+                  conversationType: TICKET_CONVERSATIONS_TYPE?.FORWARD,
                   isOpen: true,
-                  isEdit: true,
                 })
               }
             >
-              <EditBlackIcon />
+              <ShortcutSharpRightIcon />
             </Box>
-          )}
-          {data?.type === TICKET_CONVERSATIONS_TYPE?.NOTE && (
-            <DeleteIcon
-              onClick={() =>
-                setSelectedConversationType({
-                  ...data,
-                  isDelete: true,
-                })
-              }
-              sx={{
-                color: 'custom.main',
-                cursor: 'pointer',
-                '&:hover': {
-                  color: 'error.main',
-                },
-              }}
-            />
-          )}
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_NOTE,
+            ]}
+          >
+            {data?.type === TICKET_CONVERSATIONS_TYPE?.NOTE && (
+              <Box
+                sx={{ cursor: 'pointer' }}
+                onClick={() =>
+                  setSelectedConversationType({
+                    ...data,
+                    conversationType: data?.type,
+                    isOpen: true,
+                    isEdit: true,
+                  })
+                }
+              >
+                <EditBlackIcon />
+              </Box>
+            )}
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CONVERSATION_DELETE_NOTE,
+            ]}
+          >
+            {data?.type === TICKET_CONVERSATIONS_TYPE?.NOTE && (
+              <DeleteIcon
+                onClick={() =>
+                  setSelectedConversationType({
+                    ...data,
+                    isDelete: true,
+                  })
+                }
+                sx={{
+                  color: 'custom.main',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: 'error.main',
+                  },
+                }}
+              />
+            )}
+          </PermissionsGuard>
         </Box>
       </Box>
       <Box mt={1.5} fontWeight={600} maxHeight={'15vh'} overflow={'auto'}>

@@ -1,24 +1,20 @@
 import { Box, Button } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { ExportBlackIcon } from '@/assets/icons';
+import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useAssignedPhysicalGiftCards } from './useAssignedPhysicalGiftCards';
-import { ExportModal } from '@/components/ExportModal';
-import { AssignedPhysicalGiftCardsFilter } from './AssignedPhysicalGiftCardsFilter';
 
 export const AssignedPhysicalGiftCards = () => {
   const {
     assignedPhysicalGiftCardColumns,
-    data,
     setSearch,
-    search,
-    open,
-    setOpen,
-    handleClose,
-    isDrawerOpen,
-    setIsADrawerOpen,
-    handleFileExportSubmit,
+    setIsPortalOpen,
+    isPortalOpen,
+    renderPortalComponent,
+    lazyGetAssignedPhysicalGiftCardListStatus,
+    setPage,
+    setPageLimit,
   } = useAssignedPhysicalGiftCards();
 
   return (
@@ -30,45 +26,60 @@ export const AssignedPhysicalGiftCards = () => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Search
-          label="Search Here"
-          value={search}
-          onChange={(e: any) => setSearch(e?.target?.value)}
-        />
+        <Search label="Search Here" setSearchBy={setSearch} />
         <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
+          <Button
+            variant="contained"
+            startIcon={<AddWhiteBgIcon />}
+            onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+          >
+            Add
+          </Button>
           <Button
             variant="outlined"
             color="secondary"
             startIcon={<FilterListIcon />}
-            onClick={() => setIsADrawerOpen(true)}
+            onClick={() => setIsPortalOpen({ isOpen: true, isFilter: true })}
           >
             Filter
           </Button>
+
           <Button
             variant="outlined"
             color="secondary"
             startIcon={<ExportBlackIcon />}
-            onClick={() => setOpen(true)}
+            onClick={() => setIsPortalOpen({ isOpen: true, isExport: true })}
           >
             Export
           </Button>
-          <ExportModal
-            open={open}
-            onSubmit={(exportType: any) => handleFileExportSubmit?.(exportType)}
-            handleClose={handleClose}
-          />
         </Box>
       </Box>
       <br />
       <TanstackTable
-        data={data}
         columns={assignedPhysicalGiftCardColumns}
+        data={lazyGetAssignedPhysicalGiftCardListStatus?.data?.data}
+        isLoading={lazyGetAssignedPhysicalGiftCardListStatus?.isLoading}
+        currentPage={
+          lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.page
+        }
+        count={
+          lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.pages
+        }
+        pageLimit={
+          lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.limit
+        }
+        totalRecords={
+          lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.total
+        }
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isFetching={lazyGetAssignedPhysicalGiftCardListStatus?.isFetching}
+        isError={lazyGetAssignedPhysicalGiftCardListStatus?.isError}
+        isSuccess={lazyGetAssignedPhysicalGiftCardListStatus?.isSuccess}
+        onPageChange={(page: any) => setPage(page)}
         isPagination
       />
-      <AssignedPhysicalGiftCardsFilter
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsADrawerOpen}
-      />
+      {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>
   );
 };

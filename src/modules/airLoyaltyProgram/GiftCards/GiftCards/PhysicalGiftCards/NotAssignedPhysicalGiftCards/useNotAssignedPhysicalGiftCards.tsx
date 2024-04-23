@@ -1,55 +1,107 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { downloadFile } from '@/utils/file';
+import { ExportModal } from '@/components/ExportModal';
+import { AddPhysicalGiftCard } from '../AddPhysicalGiftCard';
 import {
-  data,
-  notAssignedPhysicalGiftCardColumnsFunction,
-} from './NotAssignedPhysicalGiftCards.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+  useLazyExportUnAssignedPhysicalGiftCardListQuery,
+  useLazyGetUnAssignedPhysicalGiftCardListQuery,
+} from '@/services/airLoyaltyProgram/giftCards/giftCards/physical-gift-card/unassigned';
+import { notAssignedPhysicalGiftCardColumnsFunction } from './NotAssignedPhysicalGiftCards.data';
+import { AssignedPhysicalGiftCard } from './AssignedPhysicalGiftCard';
 
 export const useNotAssignedPhysicalGiftCards = () => {
-  const [notAssignedPhysicalGiftCardData, setNotAssignedPhysicalGiftCardData] =
+  const [selectedUnAssignedPhysicalCards, setSelectedUnAssignedPhysicalCards] =
     useState([]);
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [assignedTo, setAssignedTo] = useState(false);
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const [
+    lazyGetUnAssignedPhysicalGiftCardListTrigger,
+    lazyGetUnAssignedPhysicalGiftCardListStatus,
+  ]: any = useLazyGetUnAssignedPhysicalGiftCardListQuery();
+  const [lazyExportUnAssignedPhysicalGiftCardListTrigger]: any =
+    useLazyExportUnAssignedPhysicalGiftCardListQuery();
 
-  const handleClose = () => {
-    setOpen(false);
+  const getAssignedPhysicalGiftCardList = async () => {
+    const queryParams: any = { page, limit: pageLimit };
+    const apiDataParameter = { queryParams };
+    try {
+      await lazyGetUnAssignedPhysicalGiftCardListTrigger(
+        apiDataParameter,
+      )?.unwrap();
+    } catch (error) {}
   };
 
-  const handleFileExportSubmit = (type: any) => {
-    if (!!!type) {
-      setOpen(false);
-      return;
+  useEffect(() => {
+    getAssignedPhysicalGiftCardList?.();
+  }, [page, pageLimit, search]);
+
+  const handleFileExportSubmit = async (type: any) => {
+    const queryParams: any = { page, limit: pageLimit };
+    const apiDataParameter = { queryParams };
+    try {
+      const response: any =
+        await lazyExportUnAssignedPhysicalGiftCardListTrigger(
+          apiDataParameter,
+        )?.unwrap();
+      downloadFile(response, 'DigitalCardList', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar(`File Exported successfully`);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
-    setOpen(false);
-    enqueueSnackbar('File Exported Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
   };
 
+  const renderPortalComponent: any = () => {
+    if (isPortalOpen?.isAdd) {
+      return (
+        <AddPhysicalGiftCard
+          isPortalOpen={isPortalOpen}
+          setIsPortalOpen={setIsPortalOpen}
+        />
+      );
+    }
+    if (isPortalOpen?.isExport) {
+      return (
+        <ExportModal
+          open={isPortalOpen?.isExport}
+          onSubmit={(exportType: any) => handleFileExportSubmit?.(exportType)}
+          handleClose={() => setIsPortalOpen({})}
+        />
+      );
+    }
+    if (isPortalOpen?.isAssigned) {
+      return (
+        <AssignedPhysicalGiftCard
+          isPortalOpen={isPortalOpen}
+          setIsPortalOpen={setIsPortalOpen}
+        />
+      );
+    }
+    return <></>;
+  };
   const notAssignedPhysicalGiftCardColumns =
     notAssignedPhysicalGiftCardColumnsFunction(
       router,
-      notAssignedPhysicalGiftCardData,
-      setNotAssignedPhysicalGiftCardData,
-      data,
-      setAssignedTo,
+      selectedUnAssignedPhysicalCards,
+      setSelectedUnAssignedPhysicalCards,
+      lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data,
+      setIsPortalOpen,
     );
 
   return {
-    router,
     notAssignedPhysicalGiftCardColumns,
-    data,
     setSearch,
-    search,
-    handleFileExportSubmit,
-    open,
-    setOpen,
-    handleClose,
-    assignedTo,
-    setAssignedTo,
+    setIsPortalOpen,
+    isPortalOpen,
+    renderPortalComponent,
+    lazyGetUnAssignedPhysicalGiftCardListStatus,
+    setPage,
+    setPageLimit,
   };
 };

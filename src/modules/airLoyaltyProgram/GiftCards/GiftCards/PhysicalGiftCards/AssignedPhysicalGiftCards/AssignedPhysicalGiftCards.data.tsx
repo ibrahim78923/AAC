@@ -30,56 +30,12 @@ export const data: any = [
     active: false,
     upGradable: false,
   },
-  {
-    id: 1754,
-    cardNumber: 'TVKP123451',
-    cardRecipient: { email: 'saqibshah@gmail.com', name: 'Saqib Shah' },
-    totalAmount: 'PKR 100.00',
-    currentAmount: 'PKR 09.00',
-    shop: 'Sharemydine',
-    createdAt: 'Mar 03, 2023 - 01:30PM',
-    active: true,
-    upGradable: true,
-  },
-  {
-    id: 7453,
-    cardNumber: 'TVKP123451',
-    cardRecipient: { email: 'saqibshah@gmail.com', name: 'Saqib Shah' },
-    totalAmount: 'PKR 100.00',
-    currentAmount: 'PKR 09.00',
-    shop: 'Sharemydine',
-    createdAt: 'Mar 03, 2023 - 01:30PM',
-    active: true,
-    upGradable: true,
-  },
-  {
-    id: 7881,
-    cardNumber: 'TVKP123451',
-    cardRecipient: { email: 'saqibshah@gmail.com', name: 'Saqib Shah' },
-    totalAmount: 'PKR 100.00',
-    currentAmount: 'PKR 09.00',
-    shop: 'Sharemydine',
-    createdAt: 'Mar 03, 2023 - 01:30PM',
-    active: false,
-    upGradable: false,
-  },
-  {
-    id: 6781,
-    cardNumber: 'TVKP123451',
-    cardRecipient: { email: 'saqibshah@gmail.com', name: 'Saqib Shah' },
-    totalAmount: 'PKR 100.00',
-    currentAmount: 'PKR 09.00',
-    shop: 'Sharemydine',
-    createdAt: 'Mar 03, 2023 - 01:30PM',
-    active: true,
-    upGradable: true,
-  },
 ];
 export const assignedPhysicalGiftCardColumnsFunction = (
   router: any,
-  assignedPhysicalGiftCardData: any,
-  setAssignedPhysicalGiftCardData: any,
-  assignedPhysicaldata: any,
+  selectedAssignedPhysicalCards: any,
+  setSelectedAssignedPhysicalCards: any,
+  assignedPhysicaldata: any = [],
 ): any => [
   {
     accessorFn: (row: any) => row?.id,
@@ -89,22 +45,22 @@ export const assignedPhysicalGiftCardColumnsFunction = (
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!assignedPhysicalGiftCardData?.find(
+          !!selectedAssignedPhysicalCards?.find(
             (item: any) => item?.id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setAssignedPhysicalGiftCardData([
-                ...assignedPhysicalGiftCardData,
+            ? setSelectedAssignedPhysicalCards([
+                ...selectedAssignedPhysicalCards,
                 assignedPhysicaldata?.find(
                   (item: any) => item?.id === info?.getValue(),
                 ),
               ])
-            : setAssignedPhysicalGiftCardData(
-                assignedPhysicalGiftCardData?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
-                }),
+            : setSelectedAssignedPhysicalCards(
+                selectedAssignedPhysicalCards?.filter(
+                  (item: any) => item?.id !== info?.getValue(),
+                ),
               );
         }}
         color="primary"
@@ -116,12 +72,17 @@ export const assignedPhysicalGiftCardColumnsFunction = (
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          assignedPhysicalGiftCardData?.length === assignedPhysicaldata?.length
+          !!assignedPhysicaldata?.length
+            ? selectedAssignedPhysicalCards?.length ===
+              assignedPhysicaldata?.length
+            : false
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setAssignedPhysicalGiftCardData([...assignedPhysicaldata])
-            : setAssignedPhysicalGiftCardData([]);
+            ? setSelectedAssignedPhysicalCards(
+                assignedPhysicaldata?.map((item: any) => item),
+              )
+            : setSelectedAssignedPhysicalCards([]);
         }}
         color="primary"
         name="id"

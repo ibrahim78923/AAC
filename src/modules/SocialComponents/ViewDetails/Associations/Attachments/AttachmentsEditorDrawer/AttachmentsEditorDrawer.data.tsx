@@ -5,13 +5,13 @@ import * as Yup from 'yup';
 export const attachmentsValidationSchema = Yup.object().shape({});
 
 export const attachmentsDefaultValues = {
-  attachment: '',
+  fileUrl: '',
 };
 
 export const attachmentsDataArray = [
   {
     componentProps: {
-      name: 'attachment',
+      name: 'fileUrl',
       label: '',
       fullWidth: true,
     },

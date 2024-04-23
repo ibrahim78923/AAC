@@ -140,6 +140,7 @@ const baseQuery = fetchBaseQuery({
     if (token && !BYPASS_AUTH_API_ROUTES?.includes(endpoint)) {
       headers.set('Authorization', `Bearer ${token}`);
     }
+    headers.set('ngrok-skip-browser-warning', 'true');
     return headers;
   },
 });

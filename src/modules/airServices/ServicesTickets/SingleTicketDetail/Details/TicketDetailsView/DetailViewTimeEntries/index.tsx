@@ -18,23 +18,21 @@ import { ERROR_TIME } from '@/constants/api-mapped';
 const DetailViewTimeEntries = (data: any) => {
   const {
     isLoading,
+    isError,
     timeEntryData,
     isDrawerOpen,
     setIsDrawerOpen,
     isIconVisible,
     setIsIconVisible,
     toggleView,
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
     start,
-    pause,
+    stop,
     reset,
     handleSubmit,
     handleSubmitPause,
+    seconds,
+    minutes,
+    hours,
   } = useDetailViewTimeEntries(data);
 
   return (
@@ -74,17 +72,7 @@ const DetailViewTimeEntries = (data: any) => {
                 )}
               </Box>
               <Box sx={styles?.iconBoxTimerStyling}>
-                <StopWatch
-                  totalSeconds={totalSeconds}
-                  seconds={seconds}
-                  minutes={minutes}
-                  hours={hours}
-                  days={days}
-                  isRunning={isRunning}
-                  start={start}
-                  pause={pause}
-                  reset={reset}
-                />
+                <StopWatch seconds={seconds} minutes={minutes} hours={hours} />
               </Box>
             </PermissionsGuard>
             <Box sx={styles?.buttonStyleOFTimeEntries}>
@@ -97,6 +85,7 @@ const DetailViewTimeEntries = (data: any) => {
                   variant="contained"
                   onClick={() => setIsDrawerOpen(true)}
                   startIcon={<CirclePlusIcon />}
+                  disabled={!isIconVisible}
                 >
                   Add Time
                 </Button>
@@ -107,10 +96,11 @@ const DetailViewTimeEntries = (data: any) => {
                   setIsDrawerOpen={setIsDrawerOpen}
                   data={data}
                   start={start}
-                  pause={pause}
+                  stop={stop}
                   reset={reset}
                   setIsIconVisible={setIsIconVisible}
                   isLoading={isLoading}
+                  isError={isError}
                 />
               )}
             </Box>
@@ -160,7 +150,7 @@ const DetailViewTimeEntries = (data: any) => {
                   </Typography>
                 </Box>
 
-                {item?.counter !== undefined && (
+                {item?.counter === false && (
                   <>
                     <Box display="flex" mt={'1rem'} mb={'2rem'}>
                       <Typography variant="body1"> Start Time</Typography>

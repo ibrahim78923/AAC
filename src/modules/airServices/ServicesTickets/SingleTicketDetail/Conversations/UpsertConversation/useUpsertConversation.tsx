@@ -24,7 +24,6 @@ import { AIR_SERVICES } from '@/constants';
 import { useTheme } from '@mui/material';
 import { findAttributeValues } from '@/utils/file';
 import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
-import { FE_BASE_URL } from '@/config';
 
 export const useUpsertConversation = (props: any) => {
   const [selectedResponseType, setSelectedResponseType] = useState<any>({});
@@ -137,7 +136,7 @@ export const useUpsertConversation = (props: any) => {
       articleType === TICKET_CONVERSATIONS_CONTENT_TYPE?.CONTENT
         ? article?.details
         : `<a style="color:${theme?.palette?.primary?.main}" 
-        href="${FE_BASE_URL}${AIR_SERVICES?.KNOWLEDGE_BASE_VIEW_ARTICLE}?articleId=${article?._id}">
+        href="${window?.location?.origin}${AIR_SERVICES?.KNOWLEDGE_BASE_VIEW_ARTICLE}?articleId=${article?._id}">
         Article Link
       </a> <br/>`;
 
