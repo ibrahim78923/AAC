@@ -7,6 +7,7 @@ import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
 import { requiredColumns } from './ImportModal.data';
+import { LoadingButton } from '@mui/lab';
 const ImportModal = () => {
   const {
     isDrawerOpen,
@@ -24,6 +25,9 @@ const ImportModal = () => {
     fields,
     handlePreview,
     remove,
+    lazyGetSignedUrlForImportStatus,
+    uploadFileTos3UsingSignedUrlStatus,
+    importFileStatus,
   } = useImportModal();
 
   const steps: any = {
@@ -90,10 +94,15 @@ const ImportModal = () => {
               variant="outlined"
               color="secondary"
               onClick={resetImportModalForm}
+              disabled={
+                lazyGetSignedUrlForImportStatus?.isLoading ||
+                uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+                importFileStatus?.isLoading
+              }
             >
               {modalStep === 1 ? 'Cancel' : 'Back'}
             </Button>
-            <Button
+            <LoadingButton
               variant="contained"
               color="primary"
               onClick={handleSubmit(submitImportModalForm)}
@@ -102,9 +111,14 @@ const ImportModal = () => {
                 product === null ||
                 (modalStep === 2 && importDeals === null)
               }
+              loading={
+                uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+                lazyGetSignedUrlForImportStatus?.isLoading ||
+                importFileStatus?.isLoading
+              }
             >
               {modalStep === 3 ? 'Import' : 'Next'}
-            </Button>
+            </LoadingButton>
           </Box>
         </CommonDrawer>
       )}
