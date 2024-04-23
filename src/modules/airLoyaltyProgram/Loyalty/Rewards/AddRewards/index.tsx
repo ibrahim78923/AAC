@@ -20,7 +20,7 @@ export const AddRewards = () => {
       />
       <Box mt={3}>
         <Grid container spacing={2}>
-          {addRewardsData?.map((item) => (
+          {addRewardsData?.map((item: any) => (
             <Grid
               item
               key={item?.id}
