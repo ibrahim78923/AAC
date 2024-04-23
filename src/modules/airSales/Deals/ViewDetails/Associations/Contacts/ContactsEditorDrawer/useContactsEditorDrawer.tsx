@@ -97,7 +97,6 @@ const useContactsEditorDrawer = ({
     formData.append('recordId', dealId);
     Object.entries(values)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {
-        // For date values, format them before appending
         if (key === dateOfBirth || key === dateOfJoinig) {
           formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
         } else {
