@@ -495,3 +495,8 @@ export const WORKFLOW_TYPE = {
   ENABLED: 'ENABLED',
   DISABLED: 'DISABLED',
 };
+
+export const LOYALTY_REWARDS_TYPE = {
+  PHYSICAL_REWARD: 'physicalReward',
+  DIGITAL_REWARD: 'digitalReward',
+};
