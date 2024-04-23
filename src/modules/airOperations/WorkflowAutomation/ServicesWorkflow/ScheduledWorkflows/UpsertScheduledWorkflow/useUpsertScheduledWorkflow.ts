@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  scheduledSaveWorkflowSchema,
   scheduledWorkflowSchema,
   scheduledWorkflowValues,
 } from './UpsertScheduledWorkflow.data';
@@ -19,7 +20,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 export const useUpsertScheduledWorkflow = () => {
-  const [validation, setValidation] = useState(false);
+  const [validation, setValidation] = useState('');
   const [testWorkflow, setTestWorkflow] = useState(false);
   const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
   const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
@@ -51,6 +52,12 @@ export const useUpsertScheduledWorkflow = () => {
     type: 'assettypes',
   };
 
+  const buttonData = {
+    save: 'save',
+    test: 'test',
+    upsert: 'upsert',
+  };
+
   const router = useRouter();
   const pageActionType = router?.query?.action;
   const singleId = router?.query?.id;
@@ -72,7 +79,10 @@ export const useUpsertScheduledWorkflow = () => {
 
   const scheduledWorkflowMethod = useForm({
     defaultValues: scheduledWorkflowValues(singleWorkflowData),
-    resolver: validation ? yupResolver(scheduledWorkflowSchema) : undefined,
+    resolver:
+      validation === buttonData?.upsert || validation === buttonData?.test
+        ? yupResolver(scheduledWorkflowSchema)
+        : yupResolver(scheduledSaveWorkflowSchema),
   });
   const { reset, watch, register, handleSubmit, setValue, control } =
     scheduledWorkflowMethod;
@@ -99,9 +109,9 @@ export const useUpsertScheduledWorkflow = () => {
     const fieldLabel = fieldName?.label || fieldName;
     switch (fieldLabel) {
       case collectionNameData?.agent:
-        return collectionNameData?.agent;
+        return collectionNameData?.users;
       case collectionNameData?.assignToAgent:
-        return collectionNameData?.agent;
+        return collectionNameData?.users;
       case collectionNameData?.selectDepartment:
         return collectionNameData?.department;
       case collectionNameData?.setDepartmentAs:
@@ -163,26 +173,29 @@ export const useUpsertScheduledWorkflow = () => {
   const handleApiCall = async (body: any) => {
     try {
       let successMessage = '';
-      if (testWorkflow && validation) {
+      if (testWorkflow && validation === buttonData?.test) {
         const response = await postTestTrigger(body).unwrap();
         setIsWorkflowDrawer(true);
         setTestWorkflowResponse(response);
         successMessage = 'Test Workflow Executed Successfully';
       } else {
-        if (pageActionType === EDIT_WORKFLOW) {
+        if (
+          pageActionType === EDIT_WORKFLOW &&
+          validation === buttonData?.upsert
+        ) {
           await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
           successMessage = 'Workflow Update Successfully';
-        } else if (!validation) {
+        } else if (validation === buttonData?.save) {
           await saveWorkflowTrigger(body).unwrap();
           successMessage = 'Workflow Save Successfully';
-        } else {
+        } else if (validation === buttonData?.upsert) {
           await postWorkflowTrigger(body).unwrap();
           successMessage = 'Workflow Create Successfully';
         }
       }
 
       successSnackbar(successMessage);
-      if (!testWorkflow) {
+      if (validation !== buttonData?.test) {
         reset();
         movePage();
       }

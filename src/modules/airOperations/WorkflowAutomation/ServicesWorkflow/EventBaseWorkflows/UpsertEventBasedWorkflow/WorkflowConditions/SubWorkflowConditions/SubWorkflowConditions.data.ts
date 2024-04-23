@@ -27,7 +27,7 @@ export const taskFieldsOption = [
   { value: 'startDate', label: 'Planned Start Date' },
   { value: 'endDate', label: 'Planned End Date' },
   { value: 'plannedEffort', label: 'Planned Effort' },
-  { value: 'departmentId', label: 'Select Department' },
+  { value: 'departmentId', label: 'Department' },
 ];
 
 export const ticketsFields = [
@@ -158,18 +158,15 @@ export const subWorkflowData = ({
   const ticketsModule: any = {
     'Ticket Fields': ticketsFields,
   };
-
   const modulesOptions =
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
       ? assetsModule || []
       : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
         ? ticketsModule || []
         : taskModule || [];
-
   const selectedOption = watch(
     `groups.${index}.conditions.${subIndex}.options`,
   );
-
   const moduleListOptions = modulesOptions[selectedOption] || [];
   const operatorsOption = watch(
     `groups.${index}.conditions.${subIndex}.fieldName`,
@@ -315,7 +312,7 @@ export const subWorkflowData = ({
         name: `groups.${index}.conditions.${subIndex}.options`,
         size: 'small',
         placeholder: 'Select',
-        options: Object.keys(module),
+        options: Object.keys(modulesOptions),
       },
       component: RHFAutocomplete,
     },

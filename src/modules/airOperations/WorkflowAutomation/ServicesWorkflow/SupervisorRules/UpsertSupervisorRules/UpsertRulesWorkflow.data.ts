@@ -37,7 +37,9 @@ export const actionsOptions = [
   { value: 'sendEmailRequester', label: 'Send Email to Requester' },
   { value: 'assignAgent', label: 'Assign to Agent' },
 ];
-
+export const rulesSaveWorkflowSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
+});
 export const rulesWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
   type: Yup?.string(),

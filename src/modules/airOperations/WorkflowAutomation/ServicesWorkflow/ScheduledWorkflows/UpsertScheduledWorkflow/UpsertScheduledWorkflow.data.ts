@@ -6,11 +6,7 @@ import {
   taskFieldsOption,
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
-import {
-  capitalizeFirstLetter,
-  monthFormatter,
-  timeFormatter,
-} from '@/utils/api';
+import { monthFormatter, timeFormatter } from '@/utils/api';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -43,7 +39,9 @@ export const actionsOptions = [
   { value: 'sendEmailRequester', label: 'Send Email to Requester' },
   { value: 'assignAgent', label: 'Assign to Agent' },
 ];
-
+export const scheduledSaveWorkflowSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
+});
 export const scheduledWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
   description: Yup.string(),
@@ -153,18 +151,14 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.SCHEDULED,
     description: singleWorkflowData?.description ?? '',
-    schedule:
-      capitalizeFirstLetter(singleWorkflowData?.schedule?.type) ?? 'Daily',
+    schedule: singleWorkflowData?.schedule?.type?.toLowerCase() ?? 'daily',
     scheduleMonth: singleWorkflowData?.schedule?.annually?.month
       ? monthFormatter(singleWorkflowData?.schedule?.annually?.month)
       : new Date(),
     scheduleDay:
-      capitalizeFirstLetter(
-        singleWorkflowData?.schedule?.weekly?.days?.find(
-          (item: string) => item,
-        ),
-      ) ?? 'Monday',
-    scheduleDate: new Date(),
+      singleWorkflowData?.schedule?.weekly?.days?.[0]?.toLowerCase() ??
+      'monday',
+    scheduleDate: singleWorkflowData?.schedule?.monthly?.day ?? null,
     time: time ? new Date(timeFormatter(time)) : new Date(),
     custom: {
       startDate: startDate ? new Date(startDate) : new Date(),
@@ -198,7 +192,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
             fieldValue:
               condition?.fieldType === 'objectId'
                 ? singleWorkflowData[
-                    `${condition?.fieldName}${gIndex}${cIndex}_lookup`
+                    `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
                 : condition?.fieldType === 'date'
                   ? new Date(condition?.fieldValue)
@@ -228,7 +222,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         fieldValue:
           action?.fieldType === 'objectId'
-            ? singleWorkflowData[`${action?.fieldName}${aIndex}_lookup`]
+            ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === 'date'
               ? new Date(action?.fieldValue)
               : action?.fieldValue,
