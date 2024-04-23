@@ -8,31 +8,66 @@ import * as Yup from 'yup';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
-  // profilePicture: Yup?.string()?.trim()?.required('Required Field'),
-  firstName: Yup?.string()
-    ?.trim()
-    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
-    ?.required('Required Field'),
-  lastName: Yup?.string()
-    ?.trim()
-    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
-    ?.required('Required Field'),
-  address: Yup?.string()?.trim()?.required('Required Field'),
-  phoneNumber: Yup?.string()
-    ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.min(10, 'Mininum 10 characters')
-    ?.required('Required field'),
-  whatsAppNumber: Yup?.string()
-    ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.min(10, 'Mininum 10 characters')
-    ?.required('Required field'),
-  lifeCycleStageId: Yup?.string()?.trim()?.required('Required Field'),
-  contactOwnerId: Yup?.string()?.trim()?.required('Required Field'),
-  statusId: Yup?.string()?.trim()?.required('Required Field'),
-  jobTitle: Yup?.string()?.trim()?.required('Required Field'),
-  dateOfJoining: Yup?.date()?.nullable()?.required('Required Field'),
-  dateOfBirth: Yup?.date()?.nullable()?.required('Required Field'),
+  firstName: Yup.string().nullable(),
+  lastName: Yup.string().nullable(),
+  address: Yup.string().nullable(),
+  dateOfBirth: Yup.date().nullable(),
+  contactOwnerId: Yup.string().nullable(),
+  phoneNumber: Yup.string()
+    .nullable()
+    .test(
+      'is-valid-phone-number',
+      'Phone number must contain only numbers',
+      function (value) {
+        if (!value) {
+          return true;
+        }
+        return /^\d+$/.test(value);
+      },
+    )
+    .test(
+      'is-minimum-digits',
+      'Phone number must contain at least 6 digits',
+      function (value) {
+        if (!value) {
+          return true;
+        }
+        return value.length >= 6;
+      },
+    ),
+  whatsAppNumber: Yup.string()
+    .nullable()
+    .test(
+      'is-valid-whatsapp-number',
+      'WhatsApp number must contain only numbers',
+      function (value) {
+        if (!value) {
+          return true;
+        }
+        return /^\d+$/.test(value);
+      },
+    )
+    .test(
+      'is-minimum-digits',
+      'WhatsApp number must contain at least 6 digits',
+      function (value) {
+        if (!value) {
+          return true;
+        }
+        return value.length >= 6;
+      },
+    ),
+  lifeCycleStageId: Yup.string().nullable(),
+  jobTitle: Yup.string().nullable(),
+  statusId: Yup.string().nullable(),
+  dateOfJoining: Yup.date().nullable(),
+  profilePicture: Yup.string().nullable(),
 });
+
+export const detailsDefaultValues = {
+  dateOfBirth: null,
+  dateOfJoining: null,
+};
 
 export const detailsDataArray = (
   contactOwnerData: any,

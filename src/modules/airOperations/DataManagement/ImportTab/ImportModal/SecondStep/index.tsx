@@ -17,7 +17,7 @@ const SecondStep = (props: any) => {
   return (
     <>
       <Typography fontWeight={600} color="custom.main" pt={1.6}>
-        Select Product and Object you’d like to Import
+        Uploaded file must have these columns
       </Typography>
       <List>
         {requiredColumns?.map?.((columnName: string) => (
@@ -27,9 +27,6 @@ const SecondStep = (props: any) => {
         ))}
       </List>
       <Box my={2.4}>
-        <Typography fontWeight={500} color="grey.600" pb={1.2}>
-          Import Deals
-        </Typography>
         <Grid container>
           {importDataField?.map(
             (item: any) =>

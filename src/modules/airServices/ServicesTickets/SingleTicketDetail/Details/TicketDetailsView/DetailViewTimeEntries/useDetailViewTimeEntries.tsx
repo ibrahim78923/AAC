@@ -137,8 +137,6 @@ export const useDetailViewTimeEntries = (data: any) => {
         errorSnackbar(error?.data?.message);
       }
     }
-
-    stop();
   };
 
   const handleSubmitPause = async () => {
@@ -158,12 +156,11 @@ export const useDetailViewTimeEntries = (data: any) => {
       await postTicketsTimeTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket Time Added Successfully!');
       setIsDrawerOpen(false);
+      start();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
       setIsDrawerOpen(false);
     }
-
-    start();
   };
 
   return {

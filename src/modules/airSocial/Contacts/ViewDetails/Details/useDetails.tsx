@@ -64,12 +64,19 @@ const useDetails = () => {
 
   const { handleSubmit, setValue } = methodsDetails;
 
-  const contactData = dataGetContactById?.data;
-
+  const contactData: any = dataGetContactById?.data;
   const contactName = () => {
     let name = '';
     if (dataGetContactById && contactData) {
-      name = `${contactData?.firstName} ${contactData?.lastName}`;
+      if (contactData?.firstName && contactData?.lastName) {
+        name = `${contactData?.firstName} ${contactData?.lastName}`;
+      } else if (!contactData?.firstName && contactData?.lastName) {
+        name = contactData?.lastName;
+      } else if (contactData?.firstName && !contactData?.lastName) {
+        name = contactData?.firstName;
+      } else if (!contactData?.firstName && !contactData?.lastName) {
+        name = '';
+      }
     }
     return name;
   };
@@ -77,42 +84,42 @@ const useDetails = () => {
   useEffect(() => {
     if (contactData) {
       // setValue('profilePicture', contactData?.profilePicture?.url);
-      setValue('firstName', contactData?.firstName);
-      setValue('lastName', contactData?.lastName);
+      setValue('firstName', contactData?.firstName || '');
+      setValue('lastName', contactData?.lastName || '');
       setValue('email', contactData?.email);
-      setValue('address', contactData?.address);
-      setValue('dateOfBirth', new Date(contactData?.dateOfBirth));
-      setValue('contactOwnerId', contactData?.contactOwnerId);
-      setValue('phoneNumber', contactData?.phoneNumber);
-      setValue('whatsAppNumber', contactData?.whatsAppNumber);
-      setValue('lifeCycleStageId', contactData?.lifeCycleStageId);
-      setValue('jobTitle', contactData?.jobTitle);
-      setValue('statusId', contactData?.statusId);
-      setValue('dateOfJoining', new Date(contactData?.dateOfJoining));
+      setValue('address', contactData?.address || '');
+      setValue(
+        'dateOfBirth',
+        contactData?.dateOfBirth ? new Date(contactData?.dateOfBirth) : null,
+      );
+      setValue('contactOwnerId', contactData?.contactOwnerId || '');
+      setValue('phoneNumber', contactData?.phoneNumber || null);
+      setValue('whatsAppNumber', contactData?.whatsAppNumber || null);
+      setValue('lifeCycleStageId', contactData?.lifeCycleStageId || '');
+      setValue('jobTitle', contactData?.jobTitle || '');
+      setValue('statusId', contactData?.statusId || '');
+      setValue(
+        'dateOfJoining',
+        contactData?.dateOfJoining
+          ? new Date(contactData?.dateOfJoining)
+          : null,
+      );
     }
   }, [contactData]);
 
   const onSubmitUpdateContactDetail = async (values: any) => {
+    const dateOfBirth = 'dateOfBirth';
+    const dateOfJoining = 'dateOfJoining';
     const formData = new FormData();
-    formData?.append('profilePicture', values?.profilePicture);
-    formData?.append('firstName', values?.firstName);
-    formData?.append('lastName', values?.lastName);
-    formData?.append('email', values?.email);
-    formData?.append('address', values?.address);
-    formData?.append(
-      'dateOfBirth',
-      dayjs(values?.dateOfBirth)?.format(DATE_FORMAT?.API),
-    );
-    formData?.append('contactOwnerId', values?.contactOwnerId);
-    formData?.append('phoneNumber', values?.phoneNumber);
-    formData?.append('whatsAppNumber', values?.whatsAppNumber);
-    formData?.append('lifeCycleStageId', values?.lifeCycleStageId);
-    formData?.append('jobTitle', values?.jobTitle);
-    formData?.append('statusId', values?.statusId);
-    formData?.append(
-      'dateOfJoining',
-      dayjs(values?.dateOfJoining)?.format(DATE_FORMAT?.API),
-    );
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null) {
+        if (key === dateOfBirth || key === dateOfJoining) {
+          formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
+        } else {
+          formData.append(key, value);
+        }
+      }
+    });
     try {
       await updateDetails({
         id: router?.query?.contactId,

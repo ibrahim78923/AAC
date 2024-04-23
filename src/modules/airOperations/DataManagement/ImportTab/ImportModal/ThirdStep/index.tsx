@@ -10,17 +10,16 @@ import {
 } from '@mui/material';
 import { importTableFields, importTableHeader } from '../ImportModal.data';
 const ThirdStep = (props: any) => {
-  const { methodsImportModalForm, importLog, fields } = props;
+  const { methodsImportModalForm, importLog, fields, remove } = props;
 
   return (
     <>
       <Typography fontWeight={600} color="custom.main" pt={1.6}>
-        Map Columns from your file to the right CRM fields. Your 5 unmapped
-        columns won’t be imported
+        Map Columns from your file to the right CRM fields.
       </Typography>
       <Grid display={'flex'} flexDirection={'row'} justifyContent={'center'}>
         <TableContainer>
-          <Table>
+          <Table sx={{ minWidth: '31rem' }}>
             <TableHead>
               <TableRow>
                 {importTableHeader?.map((column: any) => (
@@ -37,6 +36,7 @@ const ThirdStep = (props: any) => {
                       'importedFields',
                       index,
                       importLog,
+                      remove,
                     )?.map((singleField: any) => (
                       <TableCell key={item?.id}>{singleField?.data}</TableCell>
                     ))}

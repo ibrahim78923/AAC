@@ -57,7 +57,7 @@ const useContactsSaleSite = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { createdAt, lastActivityDate, nextActivityDate, ...others } = values;
+    const { createdAt, lastActivityDate, ...others } = values;
 
     setFilterParams((prev) => {
       const updatedParams = {
@@ -69,12 +69,7 @@ const useContactsSaleSite = () => {
         updatedParams.createdAt = dayjs(createdAt).format(DATE_FORMAT.API);
       }
       if (lastActivityDate) {
-        updatedParams.lastActivityDate = dayjs(lastActivityDate[0]).format(
-          DATE_FORMAT.API,
-        );
-      }
-      if (nextActivityDate) {
-        updatedParams.nextActivityDate = dayjs(nextActivityDate[0]).format(
+        updatedParams.lastActivityDate = dayjs(lastActivityDate).format(
           DATE_FORMAT.API,
         );
       }
@@ -122,10 +117,10 @@ const useContactsSaleSite = () => {
     try {
       await deleteContact({ contactIds })?.unwrap();
       handleCloseModalDelete();
-      setSelectedRow([]);
       enqueueSnackbar('Contact has been deleted.', {
         variant: 'success',
       });
+      setSelectedRow([]);
       setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
