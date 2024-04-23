@@ -7,6 +7,7 @@ import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
 import { requiredColumns } from './ImportModal.data';
+import { LoadingButton } from '@mui/lab';
 const ImportModal = () => {
   const {
     isDrawerOpen,
@@ -23,6 +24,10 @@ const ImportModal = () => {
     importDeals,
     fields,
     handlePreview,
+    remove,
+    lazyGetSignedUrlForImportStatus,
+    uploadFileTos3UsingSignedUrlStatus,
+    importFileStatus,
   } = useImportModal();
 
   const steps: any = {
@@ -44,6 +49,7 @@ const ImportModal = () => {
         importLog={importLog}
         methodsImportModalForm={methodsImportModalForm}
         fields={fields}
+        remove={remove}
       />
     ),
   };
@@ -67,6 +73,7 @@ const ImportModal = () => {
           isOk={true}
           cancelText={modalStep === 1 ? 'Cancel' : 'Back'}
         >
+          <Box marginY={2} />
           <Chip label={`Step ${modalStep} of 3`} color="secondary" />
           <FormProvider methods={methodsImportModalForm}>
             {steps[modalStep]}
@@ -80,16 +87,22 @@ const ImportModal = () => {
               right: 24,
               bottom: 8,
               zIndex: 50,
+              minWidth: '800px',
             }}
           >
             <Button
               variant="outlined"
               color="secondary"
               onClick={resetImportModalForm}
+              disabled={
+                lazyGetSignedUrlForImportStatus?.isLoading ||
+                uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+                importFileStatus?.isLoading
+              }
             >
               {modalStep === 1 ? 'Cancel' : 'Back'}
             </Button>
-            <Button
+            <LoadingButton
               variant="contained"
               color="primary"
               onClick={handleSubmit(submitImportModalForm)}
@@ -98,9 +111,14 @@ const ImportModal = () => {
                 product === null ||
                 (modalStep === 2 && importDeals === null)
               }
+              loading={
+                uploadFileTos3UsingSignedUrlStatus?.isLoading ||
+                lazyGetSignedUrlForImportStatus?.isLoading ||
+                importFileStatus?.isLoading
+              }
             >
               {modalStep === 3 ? 'Import' : 'Next'}
-            </Button>
+            </LoadingButton>
           </Box>
         </CommonDrawer>
       )}

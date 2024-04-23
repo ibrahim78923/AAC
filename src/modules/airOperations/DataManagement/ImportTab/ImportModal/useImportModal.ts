@@ -6,6 +6,12 @@ import {
 } from './ImportModal.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  useImportFileMutation,
+  useLazyGetSignedUrlForImportQuery,
+  useUploadFileTos3UsingSignedUrlMutation,
+} from '@/services/airServices/global/import';
+import { OBJECT_URL_IMPORT } from '@/constants/strings';
 
 export const useImportModal = () => {
   const [csvFileData, setCsvFileData] = useState<any[]>([]);
@@ -22,24 +28,98 @@ export const useImportModal = () => {
   const product = methodsImportModalForm?.watch()?.product;
   const importDeals = methodsImportModalForm?.watch()?.importDeals;
 
-  const { control } = methodsImportModalForm;
-  const { fields } = useFieldArray({
+  const { control, handleSubmit, reset } = methodsImportModalForm;
+  const { fields, remove } = useFieldArray({
     control,
     name: 'importedFields',
   });
 
-  const { handleSubmit, reset } = methodsImportModalForm;
-  const submitImportModalForm = async () => {
+  const [
+    uploadFileTos3UsingSignedUrlTrigger,
+    uploadFileTos3UsingSignedUrlStatus,
+  ] = useUploadFileTos3UsingSignedUrlMutation?.();
+
+  const [lazyGetSignedUrlForImportTrigger, lazyGetSignedUrlForImportStatus] =
+    useLazyGetSignedUrlForImportQuery?.();
+
+  const [importFileTrigger, importFileStatus] = useImportFileMutation?.();
+
+  const submitImportModalForm = async (data: any) => {
     try {
-      if (modalStep < 3) {
-        setModalStep((prev) => ++prev);
+      if (data?.product === 'Sales') {
+        if (modalStep === 1) {
+          setModalStep((prev) => ++prev);
+        } else if (modalStep === 2) {
+          const signedUrlApiDataParameter = {
+            queryParams: {
+              objectUrl: OBJECT_URL_IMPORT?.USERS_ATTACHMENT,
+            },
+          };
+          try {
+            const response: any = await lazyGetSignedUrlForImportTrigger?.(
+              signedUrlApiDataParameter,
+            )?.unwrap();
+            const s3Data = {
+              file: data?.importDeals,
+              signedUrl: response?.data,
+            };
+            await uploadToS3CsvFile?.(s3Data);
+          } catch (error: any) {
+            errorSnackbar(error?.data?.message);
+          }
+          setModalStep((prev) => ++prev);
+        } else {
+          const dataColumn = data?.importedFields?.reduce(
+            (acc: any, item: any) => ({
+              ...acc,
+              [item?.fileColumn]: item?.crmFields,
+            }),
+            {},
+          );
+          const apiData = {
+            body: {
+              filePath: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.name}`,
+              dataColumn: dataColumn,
+              actionType: importLog,
+            },
+          };
+          try {
+            const response: any = await importFileTrigger?.(apiData)?.unwrap();
+            successSnackbar(response?.message);
+            handleClose();
+            reset();
+          } catch (error: any) {
+            errorSnackbar(error?.data?.message);
+          }
+        }
       } else {
-        successSnackbar('File has been Imported');
-        handleClose();
-        reset();
+        if (modalStep === 1) {
+          setModalStep((prev) => ++prev);
+        } else if (modalStep === 2) {
+          setModalStep((prev) => ++prev);
+        } else {
+          successSnackbar('Service Imported');
+          handleClose();
+          reset();
+        }
       }
     } catch (error: any) {
       errorSnackbar(error?.message);
+    }
+  };
+
+  const uploadToS3CsvFile = async (data: any) => {
+    const s3ApiDataParameter = {
+      url: data?.signedUrl,
+      body: {
+        file: data?.file,
+      },
+    };
+    try {
+      await uploadFileTos3UsingSignedUrlTrigger(s3ApiDataParameter)?.unwrap();
+      successSnackbar('File Uploaded');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -123,5 +203,9 @@ export const useImportModal = () => {
     importDeals,
     fields,
     handlePreview,
+    remove,
+    lazyGetSignedUrlForImportStatus,
+    uploadFileTos3UsingSignedUrlStatus,
+    importFileStatus,
   };
 };

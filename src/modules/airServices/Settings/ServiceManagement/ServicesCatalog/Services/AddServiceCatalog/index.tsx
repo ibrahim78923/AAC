@@ -12,8 +12,14 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 
 export const AddServiceCatalog = (prop: any) => {
-  const { methodAdd, handleSubmit, onSubmit, open, handleClose } =
-    useAddServiceCatalog(prop);
+  const {
+    methodAdd,
+    handleSubmit,
+    onSubmit,
+    open,
+    handleClose,
+    postServiceCatalogTriggerStatus,
+  } = useAddServiceCatalog(prop);
 
   return (
     <Fragment>
@@ -48,10 +54,15 @@ export const AddServiceCatalog = (prop: any) => {
               color="secondary"
               variant="outlined"
               onClick={handleClose}
+              disabled={postServiceCatalogTriggerStatus?.isLoading}
             >
               cancel
             </LoadingButton>
-            <LoadingButton variant="contained" type="submit">
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={postServiceCatalogTriggerStatus?.isLoading}
+            >
               Create
             </LoadingButton>
           </DialogActions>
