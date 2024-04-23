@@ -2,20 +2,21 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetDealNoteQuery } from '@/services/airSales/deals/view-details/note';
 import { PAGINATION } from '@/config';
+import { getSession } from '@/utils';
 
 const useNotes = (selected: any) => {
   const theme = useTheme();
+  const { user }: any = getSession();
+
   const [openDrawer, setOpenDrawer] = useState('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<
     { _id: number }[]
   >([]);
 
-  const [pagination, setPagination] = useState({
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
-  });
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
-  const params = { ...pagination, recordId: selected };
+  const params = { page: page, limit: pageLimit, recordId: selected };
   const { data } = useGetDealNoteQuery({ params });
 
   const handleCheckboxChange = (
@@ -34,14 +35,16 @@ const useNotes = (selected: any) => {
   };
 
   return {
-    openDrawer,
-    setOpenDrawer,
-    theme,
-    selectedCheckboxes,
     setSelectedCheckboxes,
     handleCheckboxChange,
+    selectedCheckboxes,
+    setOpenDrawer,
+    setPageLimit,
+    openDrawer,
+    setPage,
+    theme,
     data,
-    setPagination,
+    user,
   };
 };
 
