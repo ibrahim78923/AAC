@@ -11,7 +11,7 @@ export const productData = [
   {
     icon: {},
     import: 'Services',
-    title: 'Inventory',
+    title: 'Inventors',
     checkedValue: IMPORT_ACTION_TYPE?.INVENTORIES,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
@@ -25,14 +25,14 @@ export const productData = [
   {
     icon: {},
     import: 'Services',
-    title: 'Location',
+    title: 'Locations',
     checkedValue: IMPORT_ACTION_TYPE?.LOCATIONS,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
     import: 'Services',
-    title: 'Vendor',
+    title: 'Vendors',
     checkedValue: IMPORT_ACTION_TYPE?.VENDORS,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },

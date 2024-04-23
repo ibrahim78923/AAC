@@ -15,8 +15,7 @@ const ThirdStep = (props: any) => {
   return (
     <>
       <Typography fontWeight={600} color="custom.main" pt={1.6}>
-        Map Columns from your file to the right CRM fields. Your 5 unmapped
-        columns won’t be imported
+        Map Columns from your file to the right CRM fields.
       </Typography>
       <Grid display={'flex'} flexDirection={'row'} justifyContent={'center'}>
         <TableContainer>
