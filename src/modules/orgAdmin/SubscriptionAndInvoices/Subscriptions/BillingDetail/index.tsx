@@ -79,7 +79,9 @@ const BillingDetail: FC<BillingDetailI> = ({
                         billingCycle={''}
                         payment={data?.payment}
                         billingDate={data?.billingDate}
-                        dueDate={data?.dueDate}
+                        dueDate={
+                          dayjs(data?.dueDate).format(DATE_FORMAT?.UI) || null
+                        }
                         planPrice={data?.details?.plans?.planPrice}
                         defaultUsers={parsedManageData?.planData?.defaultUsers}
                         defaultStorage={
@@ -116,7 +118,7 @@ const BillingDetail: FC<BillingDetailI> = ({
                 billingCycle={parsedManageData?.billingCycle}
                 payment={''}
                 billingDate={parsedManageData?.billingDate}
-                dueDate={parsedManageData?.dueDate || '--'}
+                dueDate={parsedManageData?.dueDate || null}
                 planPrice={parsedManageData?.planData?.planPrice}
                 defaultUsers={parsedManageData?.planData?.defaultUsers}
                 defaultStorage={parsedManageData?.planData?.defaultStorage}
@@ -210,11 +212,13 @@ const InvoiceCard = ({
       <Divider />
       <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
         <Typography variant="caption">
-          Invoice Date: {dayjs(billingDate).format(DATE_FORMAT?.UI)}
+          Invoice Date: {dayjs(billingDate)?.format(DATE_FORMAT?.UI)}
         </Typography>
-        <Box sx={{ ml: 'auto' }}>
-          <Typography variant="caption">Due Date: {dueDate}</Typography>
-        </Box>
+        {dueDate && (
+          <Box sx={{ ml: 'auto' }}>
+            <Typography variant="caption">Due Date: {dueDate}</Typography>
+          </Box>
+        )}
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
         <Typography variant="caption">Plan Price</Typography>
@@ -250,7 +254,7 @@ const InvoiceCard = ({
           ({planDiscount}%)
         </Typography>
         <Box sx={{ ml: 'auto' }}>
-          <Typography variant="overline">{discount?.toFixed(0)}</Typography>
+          <Typography variant="overline">{discount}</Typography>
         </Box>
       </Box>
 
@@ -273,7 +277,7 @@ const InvoiceCard = ({
           (Vat 20%)
         </Typography>
         <Box sx={{ ml: 'auto' }}>
-          <Typography variant="overline">{tax?.toFixed(0)}</Typography>
+          <Typography variant="overline">{tax}</Typography>
         </Box>
       </Box>
       <Divider />
@@ -283,7 +287,7 @@ const InvoiceCard = ({
         </Typography>
 
         <Box sx={{ ml: 'auto' }}>
-          <Typography variant="overline">£{totalCost?.toFixed(0)}</Typography>
+          <Typography variant="overline">£{totalCost}</Typography>
         </Box>
       </Box>
     </Box>
