@@ -186,7 +186,7 @@ export const useUpsertSalesWorkflow = () => {
     };
     try {
       await handleWorkflowApi(modifiedData);
-      if (validation !== 'test') {
+      if (validation !== workflowFields?.test) {
         successSnackbar(successMessage);
         reset();
         back();
