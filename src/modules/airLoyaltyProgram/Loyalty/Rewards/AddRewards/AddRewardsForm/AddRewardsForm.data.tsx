@@ -1,5 +1,5 @@
 import {
-  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFCheckbox,
   RHFDatePicker,
   RHFDropZone,
@@ -8,8 +8,6 @@ import {
 import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 
 import * as Yup from 'yup';
-
-const optionsVisibleTo = [' All', 'lists', 'tires'];
 
 export const addPhyicalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required(),
@@ -36,6 +34,7 @@ export const REWARD_VALIDATION_SCHEMA: any = {
   [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD]: addPhyicalRewardsValidationSchema,
   [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD]: addDigitalRewardsValidationSchema,
 };
+
 export const addRewardsDefaultValues = {
   title: '',
   requiredPoints: '',
@@ -49,7 +48,11 @@ export const addRewardsDefaultValues = {
   untilDeactivateIt: false,
 };
 
-export const addRewardsFormFields = [
+export const addRewardsFormFieldsDynamic = (
+  customersApiQuery: any,
+  vouchersApiQuery: any,
+  tiersApiQuery: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -102,10 +105,10 @@ export const addRewardsFormFields = [
       label: 'Choose Voucher',
       fullWidth: true,
       required: true,
-      options: optionsVisibleTo,
+      apiQuery: vouchersApiQuery,
+      getOptionLabel: (option: any) => option?.contactName,
     },
-
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     type: [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD],
     md: 12,
   },
@@ -117,10 +120,10 @@ export const addRewardsFormFields = [
       label: 'Choose Category',
       fullWidth: true,
       required: true,
-      options: optionsVisibleTo,
+      apiQuery: tiersApiQuery,
+      getOptionLabel: (option: any) => option?.contactName,
     },
-
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     type: [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD],
     md: 12,
   },
@@ -131,10 +134,10 @@ export const addRewardsFormFields = [
       label: 'Visible to',
       fullWidth: true,
       required: true,
-      options: optionsVisibleTo,
+      apiQuery: customersApiQuery,
+      getOptionLabel: (option: any) => option?.contactName,
     },
-
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     type: [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD],
     md: 12,
   },
@@ -183,7 +186,6 @@ export const addRewardsFormFields = [
     componentProps: {
       name: 'untilDeactivateIt',
       label: 'Until Deactivate it',
-      // fullWidth: true,
     },
     type: [
       LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,

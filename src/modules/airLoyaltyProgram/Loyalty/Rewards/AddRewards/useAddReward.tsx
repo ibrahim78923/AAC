@@ -7,10 +7,6 @@ export const useAddRewards = () => {
   const [openDrawer, setOpenDrawer] = useState<any>({});
   const router = useRouter();
 
-  const handleOpenDrawer = () => {
-    setOpenDrawer(!openDrawer);
-  };
-
   const addRewardOpenForm = (item: any) => {
     setOpenDrawer({ isOpen: true, rewardType: item?.name });
   };
@@ -19,7 +15,6 @@ export const useAddRewards = () => {
     palette,
     openDrawer,
     router,
-    handleOpenDrawer,
     setOpenDrawer,
     addRewardOpenForm,
   };

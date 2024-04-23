@@ -2,12 +2,18 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useAddRewardsForm } from './useAddRewardsForm';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { addRewardsFormFields } from './AddRewardsForm.data';
 
 export const AddRewardsForm = (props: any) => {
   const { openDrawer } = props;
-  const { handleSubmit, methods, submitAddRewards, closeAddRewardsForm } =
-    useAddRewardsForm(props);
+  const {
+    handleSubmit,
+    methods,
+    submitAddRewards,
+    closeAddRewardsForm,
+    addLoyaltyRewardsStatus,
+    addRewardsFormFields,
+  } = useAddRewardsForm(props);
+
   return (
     <CommonDrawer
       isDrawerOpen={openDrawer}
@@ -18,19 +24,18 @@ export const AddRewardsForm = (props: any) => {
       cancelText={'Close'}
       footer
       submitHandler={handleSubmit(submitAddRewards)}
+      isLoading={addLoyaltyRewardsStatus?.isLoading}
+      isDisabled={addLoyaltyRewardsStatus?.isLoading}
+      disabledCancelBtn={addLoyaltyRewardsStatus?.isLoading}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {addRewardsFormFields
-              ?.filter(
-                (fields: any) => fields?.type?.includes(openDrawer?.rewardType),
-              )
-              ?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
+            {addRewardsFormFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Grid>
+            ))}
           </Grid>
         </FormProvider>
       </Box>

@@ -1,4 +1,4 @@
-import { Box, Card, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { addRewardsData } from './AddRewards.data';
 import { AddRewardsForm } from './AddRewardsForm';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
@@ -12,12 +12,15 @@ export const AddRewards = () => {
   return (
     <>
       <PageTitledHeader
-        title={'What Kind of reward would you like to create?'}
+        title={'Add Reward'}
         canMovedBack
         moveBack={() => {
           router?.push(AIR_LOYALTY_PROGRAM?.REWARDS);
         }}
       />
+      <Typography variant="body2" color="slateBlue.main">
+        What Kind of reward would you like to create?
+      </Typography>
       <Box mt={3}>
         <Grid container spacing={2}>
           {addRewardsData?.map((item: any) => (
@@ -32,39 +35,44 @@ export const AddRewards = () => {
               }}
               sx={{ cursor: 'pointer' }}
             >
-              <Card
+              <Box
                 sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
                   gap: 2,
                   p: 1,
-                  border: `1px solid ${palette?.grey?.[700]}`,
-                  justifyContent: 'center',
-                  flexDirection: 'column',
+                  border: `1px solid`,
+                  borderColor: 'grey.700',
+                  height: '100%',
+                  borderRadius: 2,
+                  '&:hover': {
+                    borderColor: `${item?.color}`,
+                  },
                 }}
               >
                 <Box
-                  display={'flex'}
-                  flexWrap={'wrap'}
-                  alignItems={'center'}
-                  justifyContent={'center'}
                   gap={1}
-                  p={6}
                   bgcolor={item?.color}
                   borderRadius={2}
+                  py={5}
+                  mb={1}
+                  textAlign={'center'}
                 >
-                  <item.icon />
+                  <item.icon sx={{ color: 'common.white' }} />
                   <Typography color={palette?.common?.white} variant="h3">
                     {item?.heading}
                   </Typography>
                 </Box>
-                <Box display={'block'} mt={1}>
-                  <Typography variant="h5" fontWeight={400}>
-                    {item?.heading}
-                  </Typography>
-                  <Typography variant="body2">{item?.text}</Typography>
-                </Box>
-              </Card>
+                <Typography
+                  variant="h5"
+                  fontWeight={400}
+                  color="slateBlue.main"
+                >
+                  A {item?.heading?.toLowerCase()}
+                </Typography>
+
+                <Typography variant="body2" color="slateBlue.main">
+                  {item?.text}
+                </Typography>
+              </Box>
             </Grid>
           ))}
         </Grid>
