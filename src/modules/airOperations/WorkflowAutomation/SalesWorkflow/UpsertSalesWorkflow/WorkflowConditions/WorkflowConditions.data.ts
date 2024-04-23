@@ -170,8 +170,10 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component;
-        componentProps;
+        component = RHFTextField;
+        componentProps = {
+          placeholder: 'Enter Name',
+        };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
