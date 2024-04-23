@@ -15,6 +15,8 @@ export const UserHeader = (props: any) => {
     submit,
     handleSubmit,
     methods,
+    search,
+    setSearch,
   } = props;
   const {
     isAddDrawerOpen,
@@ -23,8 +25,6 @@ export const UserHeader = (props: any) => {
     setDeleteModal,
     userDropdownOptions,
     submitDeleteModal,
-    search,
-    setSearch,
     deleteStatus,
   } = useUserHeader(props);
 

@@ -1,47 +1,53 @@
-import { AvailableIcon } from '@/assets/icons';
 import {
   RHFAutocomplete,
   RHFFileImport,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Box } from '@mui/material';
 import * as Yup from 'yup';
+import { Delete } from '@mui/icons-material';
+import { IMPORT_ACTION_TYPE } from '@/constants/strings';
 
 export const productData = [
   {
     icon: {},
     import: 'Services',
-    title: 'Inventory',
+    title: 'Inventors',
+    checkedValue: IMPORT_ACTION_TYPE?.INVENTORIES,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
     import: 'Services',
-    title: 'Catalog',
+    title: 'Product Catalog',
+    checkedValue: IMPORT_ACTION_TYPE?.PRODUCT_CATALOG,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
     import: 'Services',
-    title: 'Location',
+    title: 'Locations',
+    checkedValue: IMPORT_ACTION_TYPE?.LOCATIONS,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
     import: 'Services',
-    title: 'Vendor',
+    title: 'Vendors',
+    checkedValue: IMPORT_ACTION_TYPE?.VENDORS,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
     import: 'Sales',
     title: 'Tasks',
+    checkedValue: IMPORT_ACTION_TYPE?.TASKS,
     desc: 'The revenue connected to a company, which is commonly called an opportunity',
   },
   {
     icon: {},
     import: 'Sales',
     title: 'Deals',
+    checkedValue: IMPORT_ACTION_TYPE?.DEALS,
     desc: 'The revenue connected to a company, which is commonly called an opportunity',
   },
 ];
@@ -110,7 +116,7 @@ export const stepsData: any = {
   ],
 };
 
-export const importTableHeader = ['File Column', 'Crm Fields', 'Mapped'];
+export const importTableHeader = ['File Column', 'Crm Fields', ''];
 export const requiredColumns = ['Name', 'Deal Value'];
 export const productOptions = ['Sales', 'Services'];
 
@@ -169,6 +175,7 @@ export const importTableFields = (
   name: any,
   index: any,
   importLog: any,
+  remove: any,
 ) => {
   return [
     {
@@ -191,6 +198,7 @@ export const importTableFields = (
           options={stepsData[importLog]}
           fullWidth
           required={true}
+          sx={{ minWidth: '8rem' }}
           placeholder={'Select'}
         />
       ),
@@ -198,9 +206,11 @@ export const importTableFields = (
     {
       id: 5346,
       data: (
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <AvailableIcon />
-        </Box>
+        <Delete
+          onClick={() => remove(index)}
+          sx={{ cursor: 'pointer' }}
+          color="error"
+        />
       ),
     },
   ];

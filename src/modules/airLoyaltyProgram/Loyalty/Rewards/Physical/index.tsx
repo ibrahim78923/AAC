@@ -1,26 +1,44 @@
 import { Box } from '@mui/material';
-import { UserList, physicalTableData } from './Physical.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { usePhysical } from './usePhysical';
 
 export const Physical = () => {
-  const [searchValue, setSearchValue] = useState<string>('');
-  const { push } = useRouter();
+  const {
+    lazyGetAllLoyaltyPhysicalRewardsListStatus,
+    setSearch,
+    setPageLimit,
+    setPage,
+    loyaltyPhysicalRewardColumn,
+  } = usePhysical();
+
   return (
     <Box>
-      <Search
-        label="Search Here"
-        width={'16.25rem'}
-        setSearchBy={setSearchValue}
-        searchBy={searchValue}
-      />
+      <Search label="Search Here" setSearchBy={setSearch} />
       <Box mt={'0.75rem'}>
         <TanstackTable
-          data={physicalTableData}
-          columns={UserList(push)}
-          isPagination={true}
+          columns={loyaltyPhysicalRewardColumn}
+          data={lazyGetAllLoyaltyPhysicalRewardsListStatus?.data?.data}
+          isLoading={lazyGetAllLoyaltyPhysicalRewardsListStatus?.isLoading}
+          currentPage={
+            lazyGetAllLoyaltyPhysicalRewardsListStatus?.data?.data?.meta?.page
+          }
+          count={
+            lazyGetAllLoyaltyPhysicalRewardsListStatus?.data?.data?.meta?.pages
+          }
+          pageLimit={
+            lazyGetAllLoyaltyPhysicalRewardsListStatus?.data?.data?.meta?.limit
+          }
+          totalRecords={
+            lazyGetAllLoyaltyPhysicalRewardsListStatus?.data?.data?.meta?.total
+          }
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isFetching={lazyGetAllLoyaltyPhysicalRewardsListStatus?.isFetching}
+          isError={lazyGetAllLoyaltyPhysicalRewardsListStatus?.isError}
+          isSuccess={lazyGetAllLoyaltyPhysicalRewardsListStatus?.isSuccess}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
         />
       </Box>
     </Box>
