@@ -7,6 +7,7 @@ import {
   useLazyGetLifeCycleStagesDropdownListQuery,
   useLazyGetUserDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
+import { useRouter } from 'next/router';
 
 export const useWorkflowActionExecuted = (props: any) => {
   const { watch, setValue } = props;
@@ -33,13 +34,16 @@ export const useWorkflowActionExecuted = (props: any) => {
   const dealsDropdown = useLazyGetDealDropdownListQuery();
   const userDropdown = useLazyGetUserDropdownListQuery();
   const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
+  const router = useRouter();
   const moduleType = watch('module');
-  useEffect(() => {
-    fields?.forEach((_, index) => {
-      setValue(`actions.${index}.fieldName`, null);
-      setValue(`actions.${index}.fieldValue`, null);
-    });
-  }, [moduleType]);
+  if (router?.query?.id === undefined) {
+    useEffect(() => {
+      fields?.forEach((_, index) => {
+        setValue(`actions.${index}.fieldName`, null);
+        setValue(`actions.${index}.fieldValue`, null);
+      });
+    }, [moduleType]);
+  }
   return {
     fields,
     handleAppend,

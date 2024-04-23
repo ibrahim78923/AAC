@@ -24,6 +24,9 @@ export const UpsertSalesWorkflow = () => {
     isFetching,
     updateLoading,
     testWorkflowResponse,
+    testLoading,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
   } = useUpsertSalesWorkflow();
   if (byIdLoading || isFetching) return <SkeletonForm />;
   return (
@@ -38,6 +41,9 @@ export const UpsertSalesWorkflow = () => {
           saveLoading={saveLoading}
           setValidation={setValidation}
           testWorkflowResponse={testWorkflowResponse}
+          testLoading={testLoading}
+          isWorkflowDrawer={isWorkflowDrawer}
+          setIsWorkflowDrawer={setIsWorkflowDrawer}
         />
         <Grid container>
           <WorkflowSchedule watch={watch} setValue={setValue} />

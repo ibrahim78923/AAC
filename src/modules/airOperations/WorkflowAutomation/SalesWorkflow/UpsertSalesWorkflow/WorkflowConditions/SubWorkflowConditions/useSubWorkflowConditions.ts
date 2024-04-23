@@ -38,7 +38,7 @@ export const useSubWorkflowConditions = (props: any) => {
   const userDropdown = useLazyGetUserDropdownListQuery();
   const router = useRouter();
   const moduleType = watch('module');
-  if (router?.query?.id === undefined) {
+  if (!router?.query?.id) {
     useEffect(() => {
       fields?.forEach((_, subIndex) => {
         setValue(`groups.${index}.conditions.${subIndex}.fieldName`, null);

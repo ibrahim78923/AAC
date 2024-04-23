@@ -1,4 +1,3 @@
-import { SCHEMA_KEYS } from '@/constants/strings';
 import { Cancel, CheckCircle } from '@mui/icons-material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
@@ -9,25 +8,22 @@ export const testingData = [
     description: ['Since this is a test, no actions will be executed'],
   },
 ];
-
+const moduleTitle: any = {
+  DEALS: 'Deals',
+  QUOTES: 'Quotes',
+  SALES_TASK: 'SALES_TASKS',
+};
 export const WorkflowConditionData = (
   testWorkflowResponse: any,
   watch: any,
 ) => {
-  const total = testWorkflowResponse?.data?.meta?.total;
+  const total = testWorkflowResponse?.data?.data?.meta?.total;
   const moduleSelectedOption = watch('module');
-  const titleData =
-    moduleSelectedOption === SCHEMA_KEYS?.TICKETS
-      ? 'Ticket'
-      : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
-        ? 'Assets'
-        : 'Task';
-
+  const titleData = moduleTitle[moduleSelectedOption];
   let icon;
   let heading;
   let color;
-
-  if (total === 0) {
+  if (!total) {
     icon = Cancel;
     heading = `The matching condition is ${total}`;
     color = 'error.main';

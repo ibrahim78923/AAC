@@ -13,6 +13,7 @@ import {
   useGetByIdSalesWorkflowQuery,
   usePostSalesWorkflowMutation,
   usePostSaveDraftWorkflowMutation,
+  usePostTestSalesWorkflowMutation,
   useUpdateSalesWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -21,12 +22,13 @@ import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 
 export const useUpsertSalesWorkflow = () => {
   const [validation, setValidation] = useState('');
-  const [testWorkflowResponse, setTestWorkflowResponse] = useState({});
+  const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
+  const [testWorkflowResponse, setTestWorkflowResponse] = useState(null);
   const { back, query } = useRouter();
   const salesMethod = useForm({
-    defaultValues: salesValues(null, null),
+    defaultValues: salesValues(null),
     resolver:
-      validation === workflowFields?.upsert
+      validation === workflowFields?.upsert || workflowFields?.test
         ? yupResolver(salesSchema)
         : yupResolver(salesSaveSchema),
   });
@@ -40,9 +42,8 @@ export const useUpsertSalesWorkflow = () => {
     refetchOnMountOrArgChange: true,
     skip: !!!workflowId,
   });
-  const moduleWatch = watch('module');
   useEffect(() => {
-    reset(salesValues(data?.data, moduleWatch));
+    reset(salesValues(data?.data));
   }, [workflowId, data]);
   const [updateSalesWorkflowTrigger, { isLoading: updateLoading }] =
     useUpdateSalesWorkflowMutation();
@@ -50,6 +51,8 @@ export const useUpsertSalesWorkflow = () => {
     usePostSalesWorkflowMutation();
   const [saveDraftTrigger, { isLoading: saveLoading }] =
     usePostSaveDraftWorkflowMutation();
+  const [testWorkflowTrigger, { isLoading: testLoading }] =
+    usePostTestSalesWorkflowMutation();
   const fieldTypeValues = (action: any) => {
     return action?.fieldValue instanceof Date
       ? workflowFields?.date
@@ -162,11 +165,10 @@ export const useUpsertSalesWorkflow = () => {
         `${response?.data?.data?.title} Workflow Saved as Draft Successfully`;
       errorMessage = response?.error?.data?.message;
     } else if (validation === workflowFields?.test) {
-      const response: any = await saveDraftTrigger(body);
+      const response: any = await testWorkflowTrigger(body);
       setTestWorkflowResponse(response);
-      successMessage =
-        response?.data?.message &&
-        `${response?.data?.data?.title} Workflow Saved as Draft Successfully`;
+      setIsWorkflowDrawer(true);
+      successMessage = response?.data?.message && `Workflow Test Successfully`;
       errorMessage = response?.error?.data?.message;
     }
   };
@@ -185,9 +187,11 @@ export const useUpsertSalesWorkflow = () => {
     };
     try {
       await handleWorkflowApi(modifiedData);
-      successSnackbar(successMessage);
-      reset();
-      back();
+      if (validation !== 'test') {
+        successSnackbar(successMessage);
+        reset();
+        back();
+      }
     } catch (error) {
       errorSnackbar(errorMessage);
     }
@@ -208,5 +212,8 @@ export const useUpsertSalesWorkflow = () => {
     isFetching,
     updateLoading,
     testWorkflowResponse,
+    testLoading,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
   };
 };

@@ -137,7 +137,6 @@ export const workflowConditionsDataArray = (
         component = RHFDatePicker;
         componentProps = {
           fullWidth: true,
-          disablePast: true,
         };
       } else if (watchCondition === conditionNames?.isBlank) {
         component = Box;
@@ -209,7 +208,6 @@ export const workflowConditionsDataArray = (
         component = RHFDatePicker;
         componentProps = {
           fullWidth: true,
-          disablePast: true,
         };
       } else if (watchCondition === conditionNames?.isBlank) {
         component = Box;
@@ -260,7 +258,6 @@ export const workflowConditionsDataArray = (
         component = RHFDatePicker;
         componentProps = {
           fullWidth: true,
-          disablePast: true,
         };
       } else if (watchCondition === conditionNames?.isBlank) {
         component = Box;
