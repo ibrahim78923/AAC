@@ -13,3 +13,6 @@ export const triggerOptions = [
   { label: 'When a record is updated', value: 'updated' },
   { label: 'When a record is deleted', value: 'deleted' },
 ];
+export const workflowType = {
+  EVENT_BASE: 'EVENT_BASE',
+};
