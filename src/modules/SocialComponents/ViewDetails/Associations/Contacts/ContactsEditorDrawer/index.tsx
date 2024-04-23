@@ -14,8 +14,8 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 import { AddPenIcon } from '@/assets/icons';
-import { IMG_URL } from '@/config';
 import { useEffect } from 'react';
+import { generateImage } from '@/utils/avatarUtils';
 
 const ContactsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, contactRecord, companyId } = props;
@@ -37,7 +37,7 @@ const ContactsEditorDrawer = (props: any) => {
   const theme = useTheme();
 
   useEffect(() => {
-    setImagePreview(`${IMG_URL}${contactRecord?.profilePicture?.url}`);
+    setImagePreview(generateImage(contactRecord?.profilePicture?.url));
   }, [contactRecord?.profilePicture?.url]);
 
   return (
@@ -71,7 +71,7 @@ const ContactsEditorDrawer = (props: any) => {
                   {imagePreview && (
                     <Image
                       src={imagePreview}
-                      alt="selected"
+                      alt=""
                       width={120}
                       height={120}
                       style={{ borderRadius: '50%' }}

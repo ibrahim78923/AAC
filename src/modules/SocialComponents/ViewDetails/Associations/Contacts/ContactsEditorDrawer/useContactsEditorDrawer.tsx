@@ -56,6 +56,7 @@ const useContactsEditorDrawer = ({
           lifeCycleStageId,
           jobTitle,
           statusId,
+          dateOfJoining,
         } = contactRecord;
         return {
           firstName,
@@ -69,6 +70,7 @@ const useContactsEditorDrawer = ({
           lifeCycleStageId,
           jobTitle,
           statusId,
+          dateOfJoining: new Date(dateOfJoining),
         };
       }
       return contactsDefaultValues;
@@ -93,7 +95,7 @@ const useContactsEditorDrawer = ({
   const onSubmit = async (values: any) => {
     Object.entries(values).forEach(([key, value]) => {
       if (value) {
-        if (key === 'dateOfBirth' || key === 'dateOfJoinig') {
+        if (key === 'dateOfBirth' || key === 'dateOfJoining') {
           formData.append(key, dayjs(value)?.format(DATE_FORMAT?.API));
         } else {
           formData.append(key, value);

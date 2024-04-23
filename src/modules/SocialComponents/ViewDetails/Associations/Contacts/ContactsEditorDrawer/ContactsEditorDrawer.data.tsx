@@ -176,7 +176,7 @@ export const contactsDataArray = (
     {
       title: 'Date of Joining',
       componentProps: {
-        name: 'dateOfJoinig',
+        name: 'dateOfJoining',
         disabled: openDrawer === 'View',
         label: 'Date of Joining',
         fullWidth: true,

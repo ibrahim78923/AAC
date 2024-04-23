@@ -37,7 +37,6 @@ const AttachmentsEditorDrawer = (props: any) => {
             <Grid
               container
               sx={{
-                height: '80vh',
                 display: 'flex',
                 alignItems: 'center',
               }}
@@ -56,6 +55,11 @@ const AttachmentsEditorDrawer = (props: any) => {
                 </Grid>
               ))}
             </Grid>
+            {(openDrawer === 'View' || openDrawer === 'Edit') && (
+              <Box textAlign={'center'} mt={2}>
+                {RowData?.orignalName}
+              </Box>
+            )}
           </FormProvider>
         </Box>
       </CommonDrawer>

@@ -20,14 +20,6 @@ export const getAttachmentAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    // deleteAttachment: builder?.mutation({
-    //   query: (body: any) => ({
-    //     url: `${END_POINTS?.DELETE_ATTACHMENT}`,
-    //     method: 'DELETE',
-    //     body,
-    //   }),
-    //   invalidatesTags: [TAG],
-    // }),
     patchAttachment: builder.mutation({
       query: ({ _id, body }: { _id: any; body: any }) => ({
         url: `${END_POINTS?.EDIT_ATTACHMENT}/${_id}`,
@@ -39,8 +31,5 @@ export const getAttachmentAPI = baseAPI.injectEndpoints({
   }),
 });
 
-export const {
-  useGetAttachmentQuery,
-  usePostAttachmentMutation,
-  // useDeleteAttachmentQuery,
-} = getAttachmentAPI;
+export const { useGetAttachmentQuery, usePostAttachmentMutation } =
+  getAttachmentAPI;

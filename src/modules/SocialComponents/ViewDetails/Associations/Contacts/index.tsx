@@ -79,6 +79,7 @@ const Contacts = ({ companyId }: any) => {
               setOpenDrawer,
               setIsOpenAlert,
               setContactRecord,
+              theme,
             })}
             data={data?.data?.contacts}
             isLoading={isLoading}

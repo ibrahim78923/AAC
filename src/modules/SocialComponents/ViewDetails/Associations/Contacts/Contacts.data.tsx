@@ -7,10 +7,12 @@ export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
   setContactRecord,
+  theme,
 }: {
   setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
   setContactRecord: any;
+  theme: any;
 }) => {
   return [
     {
@@ -53,7 +55,10 @@ export const columns: any = ({
             </Avatar>
 
             <Box>
-              <Typography variant="body3" sx={{ color: '#111827' }}>
+              <Typography
+                variant="body3"
+                sx={{ color: theme?.palette?.blue?.dull_blue }}
+              >
                 {fullName} {lastName}
               </Typography>
               <br />
