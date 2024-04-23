@@ -18,7 +18,7 @@ import {
 } from './OrganizationTable.data';
 import useAuth from '@/hooks/useAuth';
 import { isNullOrEmpty } from '@/utils';
-import { PAGINATION } from '@/config';
+import { IMG_URL, PAGINATION } from '@/config';
 const useOrganizationTable = () => {
   const [imageToUpload, setImageToUpload] = useState<any>();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -89,10 +89,10 @@ const useOrganizationTable = () => {
   });
 
   useEffect(() => {
-    if (editData) {
+    if (Object.keys(editData).length > 0) {
       const { accountName, phoneNo, address, postCode } = editData;
+      setImagePreview(`${IMG_URL}${editData?.image?.url}`);
 
-      // const addressOthFields = address && JSON.parse(address)
       let addressOthFields;
 
       if (typeof address === 'string') {
@@ -286,6 +286,7 @@ const useOrganizationTable = () => {
     imagePreview,
     addressDefaultValuesCheck,
     reset,
+    setImagePreview,
   };
 };
 
