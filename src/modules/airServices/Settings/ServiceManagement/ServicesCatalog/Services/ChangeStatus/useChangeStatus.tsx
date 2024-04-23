@@ -11,7 +11,8 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 const useChangeStatus = (prop: any) => {
   const { openStatus, setOpenStatus, id } = prop;
 
-  const [patchServiceCatalogTrigger] = usePatchServiceCatalogMutation();
+  const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
+    usePatchServiceCatalogMutation();
   const methodChangeStatus = useForm({
     resolver: yupResolver(changeStatusValidationSchema),
     defaultValues: changeStatusDefaultValues,
@@ -43,6 +44,7 @@ const useChangeStatus = (prop: any) => {
     onSubmit,
     openStatus,
     setOpenStatus,
+    patchServiceCatalogTriggerStatus,
   };
 };
 export default useChangeStatus;

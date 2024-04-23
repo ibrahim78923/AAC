@@ -28,8 +28,8 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['DEALS_NOTES'],
     }),
     deleteDealNote: builder.mutation({
-      query: ({ id }: any) => ({
-        url: `${END_POINTS?.VIEW_DEALS_NOTES}/${id}`,
+      query: ({ ids }: any) => ({
+        url: `${END_POINTS?.VIEW_DEALS_NOTES}/${ids}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['DEALS_NOTES'],

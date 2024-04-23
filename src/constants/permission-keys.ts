@@ -1365,3 +1365,49 @@ export const AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS = {
   DELETE_SHOP: 'loyalty-program-settings-managment-delete-shop',
   EDIT_SHOP: 'loyalty-program-settings-managment-edit-shop',
 };
+export const AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS = {
+  VIEW_REWARDS_DETAILS: 'loyalty-program-reward-view-details',
+  PHYSICAL_REWARDS: 'loyalty-program-reward-physical',
+  DIGITAL_REWARDS: 'loyalty-program-reward-digital',
+  ADD_REWARDS: 'loyalty-program-reward-add',
+  SEARCH: 'loyalty-program-reward-search',
+};
+
+export const AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS_PERMISSIONS = {
+  VIEW_TRANSACTIONS_DETAILS: 'loyalty-program-transaction-view-details',
+  ADD_TRANSACTIONS: 'loyalty-program-transaction-add',
+  APPLY_FILTERS: 'loyalty-program-transaction-apply-filters',
+};
+
+export const AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS = {
+  VIEW_RULES_AND_TIERS_DETAILS: 'loyalty-program-rules-and-tiers--view',
+  CREATE_RULES: 'loyalty-program-rules-and-tiers-create-rules',
+  CREATE_TIERS: 'loyalty-program-rules-and-tiers-create-tiers',
+  SEARCH: 'loyalty-program-rules-and-tiers-search',
+  EDIT_TIERS: 'loyalty-program-rules-and-tiers-edit-tiers',
+  EDIT_RULES: 'loyalty-program-rules-and-tiers-edit-rules',
+};
+
+export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS = {
+  VIEW_GIFT_CARD_DETAILS: 'loyalty-program-gift-card-digital-view-details',
+  ADD_GIFT_CARD: 'loyalty-program-gift-card-digital-add',
+  APPLY_FILTERS: 'loyalty-program-gift-card-digital-apply-filters',
+  EXPORT: 'loyalty-program-gift-card-digital-export',
+  ACTIVE_DE_ACTIVE: 'loyalty-program-gift-card-digital-active-deactive',
+  UPGRADEABLE: 'loyalty-program-gift-card-digital-upgradeable',
+  TRANSACTION_DETAILS: 'loyalty-program-gift-card-digital-transaction-details',
+  ADD_TRANSACTION: 'loyalty-program-gift-card-digital-add-transaction',
+};
+
+export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS = {
+  SEARCH_GIFT_CARD_DETAILS: 'loyalty-program-gift-card-physical-search',
+  VIEW_GIFT_CARD_DETAILS: 'loyalty-program-gift-card-physical-view-details',
+  ADD_GIFT_CARD: 'loyalty-program-gift-card-physical-add',
+  APPLY_FILTERS: 'loyalty-program-gift-card-physical-apply-filters',
+  DESIGN_CARD: 'loyalty-program-gift-card-physical-design-card',
+  EXPORT: 'loyalty-program-gift-card-physical-export',
+  ASSIGNED_GIFT_CARD: 'loyalty-program-gift-card-physical-assigned',
+  NOT_ASSIGNED_GIFT_CARD: 'loyalty-program-gift-card-physical-not-assigned',
+  PRINT: 'loyalty-program-gift-card-physical-print',
+  ASSIGNED_TO: 'loyalty-program-gift-card-physical-assigned-to',
+};

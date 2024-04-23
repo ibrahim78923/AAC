@@ -46,7 +46,7 @@ const useNotesActionDropdown = ({
 
   const handleDeleteHandler = async () => {
     try {
-      await deleteDealNote({ id: selectedCheckboxesIds })?.unwrap();
+      await deleteDealNote({ ids: selectedCheckboxesIds })?.unwrap();
       enqueueSnackbar(`Notes Deleted Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });

@@ -35,7 +35,6 @@ const useOrganizationCard = () => {
 
   const { handleSubmit, reset, watch, setValue } = methods;
   const formValues = watch();
-  //make sum up of address fields
   const addressValues = formValues?.composite?.address
     ? formValues?.composite?.address
     : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
