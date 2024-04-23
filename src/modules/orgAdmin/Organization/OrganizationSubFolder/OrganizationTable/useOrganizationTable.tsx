@@ -19,6 +19,7 @@ import {
 import useAuth from '@/hooks/useAuth';
 import { isNullOrEmpty } from '@/utils';
 import { PAGINATION } from '@/config';
+import { generateImage } from '@/utils/avatarUtils';
 const useOrganizationTable = () => {
   const [imageToUpload, setImageToUpload] = useState<any>();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -89,10 +90,10 @@ const useOrganizationTable = () => {
   });
 
   useEffect(() => {
-    if (editData) {
+    if (Object?.keys(editData).length > 0) {
       const { accountName, phoneNo, address, postCode } = editData;
+      setImagePreview(generateImage(editData?.image?.url));
 
-      // const addressOthFields = address && JSON.parse(address)
       let addressOthFields;
 
       if (typeof address === 'string') {
@@ -286,6 +287,7 @@ const useOrganizationTable = () => {
     imagePreview,
     addressDefaultValuesCheck,
     reset,
+    setImagePreview,
   };
 };
 
