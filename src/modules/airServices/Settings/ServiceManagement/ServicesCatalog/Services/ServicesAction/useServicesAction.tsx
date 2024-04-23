@@ -10,7 +10,8 @@ export const useServicesAction = (props: any) => {
   const [openVisibilityE1, setOpenVisibilityE1] = useState(false);
   const openMenu = Boolean(anchorEl);
 
-  const [deleteServiceCatalog] = useDeleteServiceCatalogMutation({});
+  const [deleteServiceCatalog, deleteServiceCatalogStatus] =
+    useDeleteServiceCatalogMutation({});
   const handleClickMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -85,5 +86,6 @@ export const useServicesAction = (props: any) => {
     openVisibilityE1,
     isDisabled,
     setSelectedCheckboxes,
+    deleteServiceCatalogStatus,
   };
 };
