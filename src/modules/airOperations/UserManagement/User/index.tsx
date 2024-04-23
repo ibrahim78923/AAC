@@ -27,6 +27,7 @@ export const User = (props: any) => {
     submit,
     tabData,
     setIsDrawerOpen,
+    editProductUsersDetails,
   } = useUser();
   return (
     <Box>
@@ -47,7 +48,7 @@ export const User = (props: any) => {
           okText={'Save'}
           methods={methods}
           handleSubmit={handleSubmit}
-          submit={submit}
+          submit={editProductUsersDetails}
           tabData={tabData}
           patchProductUsersStatus={patchProductUsersStatus}
           addUsersListStatus={addUsersListStatus}
