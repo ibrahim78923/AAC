@@ -1,46 +1,7 @@
 import { Avatar, Box, Chip, Typography } from '@mui/material';
-import { AvatarImage } from '@/assets/images';
 import { Circle } from '@mui/icons-material';
 
-export const allTableData = [
-  {
-    id: 1,
-    title: `You won a cap!`,
-    requiredPoints: 500,
-    status: 'Active',
-    totalRedeemable: 500,
-    voucherCode: `KINGCH2`,
-    rewardType: `Physical`,
-    totalRedeemed: 0,
-    cost: `$800`,
-    icon: AvatarImage,
-  },
-  {
-    id: 2,
-    title: `Enjoy free burger!`,
-    requiredPoints: 0,
-    status: 'Active',
-    totalRedeemable: 450,
-    voucherCode: `BF20`,
-    rewardType: `Digital`,
-    totalRedeemed: 50,
-    cost: `$300`,
-    icon: AvatarImage,
-  },
-  {
-    id: 3,
-    title: `Have some fun!`,
-    requiredPoints: 10,
-    status: 'Active',
-    totalRedeemable: 500,
-    voucherCode: `KINGCH2`,
-    rewardType: `Physical`,
-    totalRedeemed: 500,
-    cost: `$800`,
-    icon: AvatarImage,
-  },
-];
-export const UserList: any = () => [
+export const loyaltyAllRewardColumnDynamic: any = () => [
   {
     accessorFn: (row: any) => row?.title,
     id: 'title',
