@@ -90,7 +90,7 @@ export const salesValues = (data: any) => {
       capitalizeFirstLetter(
         data?.schedule?.weekly?.days?.find((item: string) => item),
       ) ?? 'Monday',
-    scheduleDate: data?.schedule?.monthly?.day ?? null,
+    scheduleDate: data?.schedule?.monthly?.day ?? 1,
     time: time ? new Date(timeFormatter(time)) : new Date(),
     custom: {
       startDate: startDate ? new Date(startDate) : new Date(),
