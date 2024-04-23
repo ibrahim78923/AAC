@@ -5,42 +5,49 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { Delete } from '@mui/icons-material';
+import { IMPORT_ACTION_TYPE } from '@/constants/strings';
 
 export const productData = [
   {
     icon: {},
     import: 'Services',
     title: 'Inventory',
+    checkedValue: IMPORT_ACTION_TYPE?.INVENTORIES,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
     import: 'Services',
     title: 'Catalog',
+    checkedValue: IMPORT_ACTION_TYPE?.PRODUCT_CATALOG,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
     import: 'Services',
     title: 'Location',
+    checkedValue: IMPORT_ACTION_TYPE?.LOCATIONS,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
     import: 'Services',
     title: 'Vendor',
+    checkedValue: IMPORT_ACTION_TYPE?.VENDORS,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
     import: 'Sales',
     title: 'Tasks',
+    checkedValue: IMPORT_ACTION_TYPE?.TASKS,
     desc: 'The revenue connected to a company, which is commonly called an opportunity',
   },
   {
     icon: {},
     import: 'Sales',
     title: 'Deals',
+    checkedValue: IMPORT_ACTION_TYPE?.DEALS,
     desc: 'The revenue connected to a company, which is commonly called an opportunity',
   },
 ];

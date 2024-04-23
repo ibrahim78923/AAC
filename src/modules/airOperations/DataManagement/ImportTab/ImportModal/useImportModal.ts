@@ -46,49 +46,61 @@ export const useImportModal = () => {
 
   const submitImportModalForm = async (data: any) => {
     try {
-      if (modalStep === 1) {
-        setModalStep((prev) => ++prev);
-      } else if (modalStep === 2) {
-        const signedUrlApiDataParameter = {
-          queryParams: {
-            objectUrl: OBJECT_URL_IMPORT?.USERS_ATTACHMENT,
-          },
-        };
-        try {
-          const response: any = await lazyGetSignedUrlForImportTrigger?.(
-            signedUrlApiDataParameter,
-          )?.unwrap();
-          const s3Data = {
-            file: data?.importDeals,
-            signedUrl: response?.data,
+      if (data?.product === 'Sales') {
+        if (modalStep === 1) {
+          setModalStep((prev) => ++prev);
+        } else if (modalStep === 2) {
+          const signedUrlApiDataParameter = {
+            queryParams: {
+              objectUrl: OBJECT_URL_IMPORT?.USERS_ATTACHMENT,
+            },
           };
-          await uploadToS3CsvFile?.(s3Data);
-        } catch (error: any) {
-          errorSnackbar(error?.data?.message);
+          try {
+            const response: any = await lazyGetSignedUrlForImportTrigger?.(
+              signedUrlApiDataParameter,
+            )?.unwrap();
+            const s3Data = {
+              file: data?.importDeals,
+              signedUrl: response?.data,
+            };
+            await uploadToS3CsvFile?.(s3Data);
+          } catch (error: any) {
+            errorSnackbar(error?.data?.message);
+          }
+          setModalStep((prev) => ++prev);
+        } else {
+          const dataColumn = data?.importedFields?.reduce(
+            (acc: any, item: any) => ({
+              ...acc,
+              [item?.fileColumn]: item?.crmFields,
+            }),
+            {},
+          );
+          const apiData = {
+            body: {
+              filePath: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.name}`,
+              dataColumn: dataColumn,
+              actionType: importLog,
+            },
+          };
+          try {
+            const response: any = await importFileTrigger?.(apiData)?.unwrap();
+            successSnackbar(response?.message);
+            handleClose();
+            reset();
+          } catch (error: any) {
+            errorSnackbar(error?.data?.message);
+          }
         }
-        setModalStep((prev) => ++prev);
       } else {
-        const dataColumn = data?.importedFields?.reduce(
-          (acc: any, item: any) => ({
-            ...acc,
-            [item?.fileColumn]: item?.crmFields,
-          }),
-          {},
-        );
-        const apiData = {
-          body: {
-            filePath: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.name}`,
-            dataColumn: dataColumn,
-            actionType: data?.product,
-          },
-        };
-        try {
-          const response: any = await importFileTrigger?.(apiData)?.unwrap();
-          successSnackbar(response?.message);
+        if (modalStep === 1) {
+          setModalStep((prev) => ++prev);
+        } else if (modalStep === 2) {
+          setModalStep((prev) => ++prev);
+        } else {
+          successSnackbar('Service Imported');
           handleClose();
           reset();
-        } catch (error: any) {
-          errorSnackbar(error?.data?.message);
         }
       }
     } catch (error: any) {
