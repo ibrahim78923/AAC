@@ -38,7 +38,7 @@ const Meetings = () => {
         <Grid container spacing={3} sx={{ marginBottom: '25px' }}>
           {Object?.entries(callsDetails)?.map(([key, value]) => (
             <Grid item md={4} xs={12} key={key}>
-              <Box sx={styles.callStatusBox(callsStatusColor, key)}>
+              <Box sx={styles?.callStatusBox(callsStatusColor, key)}>
                 <Typography variant="body2">{key}</Typography>
                 <Typography variant="subtitle2">{value}</Typography>
               </Box>
