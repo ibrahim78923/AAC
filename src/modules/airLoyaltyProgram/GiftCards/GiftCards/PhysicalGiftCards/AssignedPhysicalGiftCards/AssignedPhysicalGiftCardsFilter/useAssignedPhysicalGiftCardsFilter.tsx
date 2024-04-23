@@ -1,23 +1,42 @@
 import { useForm } from 'react-hook-form';
 import { assignedPhysicalGiftFilterDefaultValues } from './AssignedPhysicalGiftCardsFilter.data';
+import { filteredEmptyValues } from '@/utils/api';
 
 export const useAssignedPhysicalGiftCardsFilter = (props: any) => {
-  const { setIsDrawerOpen } = props;
+  const {
+    filterAssignedPhysicalCard,
+    setFilterAssignedPhysicalCard,
+    setIsPortalOpen,
+  } = props;
+
   const methods: any = useForm({
-    defaultValues: assignedPhysicalGiftFilterDefaultValues?.(),
+    defaultValues: assignedPhysicalGiftFilterDefaultValues?.(
+      filterAssignedPhysicalCard,
+    ),
   });
-  const { handleSubmit } = methods;
-  const handleClose = () => {
-    setIsDrawerOpen(false);
+
+  const { handleSubmit, reset } = methods;
+
+  const submitFilter = async (data: any) => {
+    const filterValues = filteredEmptyValues?.(data);
+    setFilterAssignedPhysicalCard?.(filterValues);
+    closeFilterForm?.();
   };
 
-  const onSubmit = () => {
-    setIsDrawerOpen(false);
+  const resetFilterForm = () => {
+    setFilterAssignedPhysicalCard?.({});
+    closeFilterForm?.();
   };
+  const closeFilterForm = () => {
+    setIsPortalOpen({});
+    reset();
+  };
+
   return {
     methods,
     handleSubmit,
-    onSubmit,
-    handleClose,
+    submitFilter,
+    closeFilterForm,
+    resetFilterForm,
   };
 };

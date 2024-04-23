@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 import { useGetDealsTasksManagementQuery } from '@/services/airSales/deals/view-details/tasks';
+import { PAGINATION } from '@/config';
 
 const useTasks = (selectedRecId: any) => {
   const theme = useTheme();
@@ -9,12 +10,15 @@ const useTasks = (selectedRecId: any) => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
   const taskType = 'deals';
 
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
   const tasksParams = {
     recordId: selectedRecId,
     recordType: taskType,
   };
 
-  const { data: taskData } = useGetDealsTasksManagementQuery({
+  const { data: taskData, status } = useGetDealsTasksManagementQuery({
     query: tasksParams,
   });
 
@@ -42,6 +46,11 @@ const useTasks = (selectedRecId: any) => {
     handleCheckboxChange,
     selectedCheckboxes,
     setSelectedCheckboxes,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    status,
   };
 };
 

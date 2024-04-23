@@ -1,53 +1,125 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { assignedPhysicalGiftCardColumnsFunction } from './AssignedPhysicalGiftCards.data';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import {
-  data,
-  assignedPhysicalGiftCardColumnsFunction,
-} from './AssignedPhysicalGiftCards.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+  useLazyExportAssignedPhysicalGiftCardListQuery,
+  useLazyGetAssignedPhysicalGiftCardListQuery,
+} from '@/services/airLoyaltyProgram/giftCards/giftCards/physical-gift-card/assigned';
+import { PAGINATION } from '@/config';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { downloadFile } from '@/utils/file';
+import { AssignedPhysicalGiftCardsFilter } from './AssignedPhysicalGiftCardsFilter';
+import { ExportModal } from '@/components/ExportModal';
+import { AddPhysicalGiftCard } from '../AddPhysicalGiftCard';
 
 export const useAssignedPhysicalGiftCards = () => {
-  const [assignedPhysicalGiftCardData, setAssignedPhysicalGiftCardData] =
+  const [selectedAssignedPhysicalCards, setSelectedAssignedPhysicalCards] =
     useState([]);
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [filterAssignedPhysicalCard, setFilterAssignedPhysicalCard] = useState(
+    {},
+  );
   const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [isDrawerOpen, setIsADrawerOpen] = useState(false);
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const [
+    lazyGetAssignedPhysicalGiftCardListTrigger,
+    lazyGetAssignedPhysicalGiftCardListStatus,
+  ]: any = useLazyGetAssignedPhysicalGiftCardListQuery();
+  const [lazyExportAssignedPhysicalGiftCardListTrigger]: any =
+    useLazyExportAssignedPhysicalGiftCardListQuery();
 
-  const handleClose = () => {
-    setOpen(false);
+  const getAssignedPhysicalGiftCardList = async () => {
+    const additionalParams = [
+      ['page', page + ''],
+      ['limit', pageLimit + ''],
+    ];
+    const getDigitalGiftCardParam: any = buildQueryParams(
+      additionalParams,
+      filterAssignedPhysicalCard,
+    );
+    const apiDataParameter = { queryParams: getDigitalGiftCardParam };
+    try {
+      await lazyGetAssignedPhysicalGiftCardListTrigger(
+        apiDataParameter,
+      )?.unwrap();
+    } catch (error) {}
   };
 
-  const handleFileExportSubmit = (type: any) => {
-    if (!!!type) {
-      setOpen(false);
-      return;
+  useEffect(() => {
+    getAssignedPhysicalGiftCardList?.();
+  }, [page, pageLimit, search, filterAssignedPhysicalCard]);
+
+  const handleFileExportSubmit = async (type: any) => {
+    const additionalParams = [
+      ['page', page + ''],
+      ['limit', pageLimit + ''],
+    ];
+    const getExportDigitalGiftCardParam: any = buildQueryParams(
+      additionalParams,
+      filterAssignedPhysicalCard,
+    );
+    const apiDataParameter = { queryParams: getExportDigitalGiftCardParam };
+    try {
+      const response: any =
+        await lazyExportAssignedPhysicalGiftCardListTrigger(
+          apiDataParameter,
+        )?.unwrap();
+      downloadFile(response, 'DigitalCardList', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar(`File Exported successfully`);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
-    setOpen(false);
-    enqueueSnackbar('File Exported Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+  };
+
+  const renderPortalComponent = () => {
+    if (isPortalOpen?.isFilter) {
+      return (
+        <AssignedPhysicalGiftCardsFilter
+          isPortalOpen={isPortalOpen}
+          setIsPortalOpen={setIsPortalOpen}
+          filterAssignedPhysicalCard={filterAssignedPhysicalCard}
+          setFilterAssignedPhysicalCard={setFilterAssignedPhysicalCard}
+        />
+      );
+    }
+    if (isPortalOpen?.isAdd) {
+      return (
+        <AddPhysicalGiftCard
+          isPortalOpen={isPortalOpen}
+          setIsPortalOpen={setIsPortalOpen}
+        />
+      );
+    }
+    if (isPortalOpen?.isExport) {
+      return (
+        <ExportModal
+          open={isPortalOpen?.isExport}
+          onSubmit={(exportType: any) => handleFileExportSubmit?.(exportType)}
+          handleClose={() => setIsPortalOpen({})}
+        />
+      );
+    }
+    return <></>;
   };
   const assignedPhysicalGiftCardColumns =
     assignedPhysicalGiftCardColumnsFunction(
       router,
-      assignedPhysicalGiftCardData,
-      setAssignedPhysicalGiftCardData,
-      data,
+      selectedAssignedPhysicalCards,
+      setSelectedAssignedPhysicalCards,
+      lazyGetAssignedPhysicalGiftCardListStatus?.data?.data,
     );
 
   return {
-    router,
     assignedPhysicalGiftCardColumns,
-    data,
-    search,
     setSearch,
-    open,
-    setOpen,
-    handleClose,
-    isDrawerOpen,
-    setIsADrawerOpen,
-    handleFileExportSubmit,
+    setIsPortalOpen,
+    isPortalOpen,
+    renderPortalComponent,
+    lazyGetAssignedPhysicalGiftCardListStatus,
+    setPage,
+    setPageLimit,
   };
 };

@@ -86,7 +86,7 @@ const useFolder: any = () => {
         variant: 'success',
       });
     } catch (error) {
-      enqueueSnackbar('Error occurred', { variant: 'error' });
+      enqueueSnackbar(error?.message, { variant: 'error' });
     }
   };
 
@@ -115,7 +115,7 @@ const useFolder: any = () => {
       });
       setIsOpenFile(false);
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      enqueueSnackbar(error?.message, { variant: 'error' });
     }
   };
 
@@ -165,7 +165,7 @@ const useFolder: any = () => {
       setActionType('');
       setModalHeading('');
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      enqueueSnackbar(error?.message, { variant: 'error' });
     }
   };
 

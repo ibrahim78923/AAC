@@ -12,7 +12,8 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const useMoveToCategory = (prop: any) => {
-  const [patchServiceCatalogTrigger] = usePatchServiceCatalogMutation();
+  const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
+    usePatchServiceCatalogMutation();
   const { open, setOpen, id, setSelectedCheckboxes } = prop;
   const methodAdd = useForm({
     resolver: yupResolver(moveToCategoryValidationSchema),
@@ -45,6 +46,7 @@ const useMoveToCategory = (prop: any) => {
     open,
     setOpen,
     apiQueryCategroy,
+    patchServiceCatalogTriggerStatus,
   };
 };
 export default useMoveToCategory;

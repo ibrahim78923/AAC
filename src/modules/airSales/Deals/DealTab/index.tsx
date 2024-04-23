@@ -208,20 +208,20 @@ const DealsTab = () => {
               </Button>
             </Tooltip>
           </PermissionsGuard>
-          {/* <PermissionsGuard
+          <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEARCH_AND_FILTER]}
-          > */}
-          <Button
-            variant="outlined"
-            color="inherit"
-            className="small"
-            onClick={handleFilter}
-            sx={{ width: { xs: '100%', sm: '100px' } }}
-            startIcon={<FilterIcon />}
           >
-            Filter
-          </Button>
-          {/* </PermissionsGuard> */}
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={handleFilter}
+              sx={{ width: { xs: '100%', sm: '100px' } }}
+              startIcon={<FilterIcon />}
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
           <ButtonGroup
             variant="outlined"
             color="inherit"

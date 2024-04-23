@@ -1,28 +1,36 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import {
+  assignedPhysicalGiftCardFormFieldsDynamic,
   defaultValues,
   validationSchema,
 } from './AssignedPhysicalGiftCard.data';
+import { successSnackbar } from '@/utils/api';
+import { useLazyGetRecipientsDropdownForUnAssignedPhysicalGiftCardQuery } from '@/services/airLoyaltyProgram/giftCards/giftCards/physical-gift-card/unassigned';
 export const useAssignedPhysicalGiftCard = (props: any) => {
-  const { setAssignedTo } = props;
-  const methods: any = useForm({
+  const { setIsPortalOpen } = props;
+  const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
   const { handleSubmit, reset } = methods;
-  const onSubmit = async () => {
-    enqueueSnackbar('Assigned Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    handleCloseDrawer?.();
-    reset();
+  const assignedPhysicalGiftCard = async () => {
+    successSnackbar('Assigned Successfully');
+    closeAssignedForm?.();
   };
-  const handleCloseDrawer = () => {
+  const closeAssignedForm = () => {
     reset();
-    setAssignedTo(false);
+    setIsPortalOpen({});
   };
-  return { handleSubmit, onSubmit, methods, handleCloseDrawer };
+  const recipientsApiQuery =
+    useLazyGetRecipientsDropdownForUnAssignedPhysicalGiftCardQuery?.();
+  const assignedPhysicalGiftCardFormFields =
+    assignedPhysicalGiftCardFormFieldsDynamic?.(recipientsApiQuery);
+  return {
+    handleSubmit,
+    assignedPhysicalGiftCard,
+    methods,
+    closeAssignedForm,
+    assignedPhysicalGiftCardFormFields,
+  };
 };
