@@ -34,10 +34,9 @@ const useContacts = () => {
   };
 
   const [deleteContact] = useDeleteContactMutation();
-
   const deleteContactHandler = async () => {
     try {
-      await deleteContact({ id: contactRecord?._id })?.unwrap();
+      await deleteContact({ contactIds: [contactRecord?._id] })?.unwrap();
       enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
       setIsOpenAlert(false);
     } catch (error) {

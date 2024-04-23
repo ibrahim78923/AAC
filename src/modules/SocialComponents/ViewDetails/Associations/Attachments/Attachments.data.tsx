@@ -1,28 +1,33 @@
 import { Box } from '@mui/material';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DATE_TIME_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 export const columns: any = ({
   setOpenDrawer,
-  setIsOpenAlert,
+  setRowData,
+  handleOpenAlert,
 }: {
   setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
-  setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  setRowData: any;
+  handleOpenAlert: any;
 }) => {
   return [
     {
-      accessorFn: (row: any) => row?.title,
-      id: 'contact_id',
+      accessorFn: (row: any) => row?.orignalName,
+      id: 'orignalName',
       cell: (info: any) => info?.getValue(),
       header: 'Title',
       isSortable: false,
     },
 
     {
-      accessorFn: (row: any) => row?.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
     },
 
     {
@@ -30,15 +35,32 @@ export const columns: any = ({
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('View')}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setOpenDrawer('View');
+              setRowData(info?.row?.original);
+            }}
+          >
             <ViewEyeIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('Edit')}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setOpenDrawer('Edit');
+              setRowData(info?.row?.original);
+            }}
+          >
             <EditPenIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpenAlert(true)}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              handleOpenAlert(info?.row?.original?._id);
+            }}
+          >
             <DeleteCrossIcon />
           </Box>
         </Box>
