@@ -33,51 +33,53 @@ const CreateGroupModal = ({
       title={`${title} Group`}
       okText={title === 'Edit' ? 'Update' : 'Create'}
       footer={title !== 'View'}
-      isSubmitDisabled={!selectedUsers?.length}
+      isSubmitDisabled={selectedUsers?.length < 2}
       handleClose={onClose}
       handleCancel={onClose}
       cancelText="Cancel"
       handleSubmit={onSubmit}
       isLoading={loadingPost}
     >
-      <FormProvider methods={methods}>
-        <Grid container spacing={1}>
-          {createGroupFiltersDataArray(title)?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
-              <item.component
-                {...item.componentProps}
-                size={'small'}
-                options={item?.options}
-              >
-                {item?.componentProps?.select
-                  ? item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))
-                  : null}
-              </item.component>
+      <Box sx={{ maxHeight: 'calc(100vh - 180px)', overflowY: 'auto' }}>
+        <FormProvider methods={methods}>
+          <Grid container spacing={1}>
+            {createGroupFiltersDataArray(title)?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                  options={item?.options}
+                >
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
+              </Grid>
+            ))}
+            <Grid item xs={12} md={12}>
+              <Box sx={{ mb: 2 }}>
+                <Search
+                  setSearchBy={setSearchValue}
+                  label="Search By Name"
+                  fullWidth
+                  size="small"
+                />
+              </Box>
             </Grid>
-          ))}
-          <Grid item xs={12} md={12}>
-            <Box sx={{ mb: 2 }}>
-              <Search
-                setSearchBy={setSearchValue}
-                label="Search By Name"
-                fullWidth
-                size="small"
+            <Grid item xs={12} md={12}>
+              <TanstackTable
+                columns={getColumns}
+                data={contactList}
+                loading={loadingTable}
               />
-            </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={12}>
-            <TanstackTable
-              columns={getColumns}
-              data={contactList}
-              loading={loadingTable}
-            />
-          </Grid>
-        </Grid>
-      </FormProvider>
+        </FormProvider>
+      </Box>
     </CommonModal>
   );
 };

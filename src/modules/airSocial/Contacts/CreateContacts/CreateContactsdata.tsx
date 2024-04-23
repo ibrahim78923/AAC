@@ -23,7 +23,7 @@ export const contactsDefaultValues = {
   lifeCycleStageId: '',
   contactOwnerId: '',
   statusId: '',
-  dateOfJoinig: null,
+  dateOfJoining: null,
   dateOfBirth: null,
 };
 export const contactsDataArray = (
@@ -183,10 +183,10 @@ export const contactsDataArray = (
       component: RHFSelect,
     },
     {
-      id: 'dateOfJoinig',
+      id: 'dateOfJoining',
       title: 'Date of Joining',
       componentProps: {
-        name: 'dateOfJoinig',
+        name: 'dateOfJoining',
         label: 'Date of Joining',
         fullWidth: true,
       },
