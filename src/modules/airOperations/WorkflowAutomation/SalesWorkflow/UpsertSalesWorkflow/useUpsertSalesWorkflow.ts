@@ -168,7 +168,6 @@ export const useUpsertSalesWorkflow = () => {
       const response: any = await testWorkflowTrigger(body);
       setTestWorkflowResponse(response);
       setIsWorkflowDrawer(true);
-      successMessage = response?.data?.message && `Workflow Test Successfully`;
       errorMessage = response?.error?.data?.message;
     }
   };

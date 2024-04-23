@@ -11,7 +11,7 @@ export const testingData = [
 const moduleTitle: any = {
   DEALS: 'Deals',
   QUOTES: 'Quotes',
-  SALES_TASK: 'SALES_TASKS',
+  SALES_TASK: 'Tasks',
 };
 export const WorkflowConditionData = (
   testWorkflowResponse: any,
