@@ -15,14 +15,16 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 
 export const useDetailTicketDrawer = (props: any) => {
-  const [postTicketsTimeTrigger] = usePostTicketsTimeMutation();
+  const [postTicketsTimeTrigger, postTicketStatus] =
+    usePostTicketsTimeMutation();
   const {
     isDrawerOpen,
     setIsDrawerOpen,
     start,
-    pause,
+    stop,
     setIsIconVisible,
     isLoading,
+    isError,
   } = props;
   const router = useRouter();
   let booleanVar = false;
@@ -34,7 +36,7 @@ export const useDetailTicketDrawer = (props: any) => {
   });
   const apiQueryTask = useLazyGetTaskByIdDropDownQuery();
 
-  const { handleSubmit, reset, control } = methods;
+  const { handleSubmit, reset, control, getValues } = methods;
   const ticketDetailsFormFields = detailDrawerArray(
     apiQueryAgent,
     apiQueryTask,
@@ -51,12 +53,18 @@ export const useDetailTicketDrawer = (props: any) => {
   const onSubmit = async (data: any) => {
     if (booleanVar === true) {
       setIsIconVisible(true);
-      pause();
+      stop();
     } else {
       setIsIconVisible(false);
       start();
     }
-
+    const { hours } = getValues();
+    if (hours?.trim() !== '' && !/^\d+h\d+m$/?.test(hours)) {
+      errorSnackbar(
+        'Invalid format for Planned Effort. Please use format like 1h10m',
+      );
+      return;
+    }
     const postData = {
       ticketId: ticketId,
       taskId: data?.task?._id,
@@ -90,5 +98,7 @@ export const useDetailTicketDrawer = (props: any) => {
     booleanVar,
     results,
     isLoading,
+    postTicketStatus,
+    isError,
   };
 };

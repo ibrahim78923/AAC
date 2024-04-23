@@ -12,6 +12,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { useAppSelector } from '@/redux/store';
 
 const ActionDropdown = (props: any) => {
   const { setOpenDrawer, selectedCheckboxes, setSelectedCheckboxes } = props;
@@ -24,7 +25,6 @@ const ActionDropdown = (props: any) => {
     openAlertModal,
     handleOpenEditDrawer,
     handleOpenViewDrawer,
-    handleOpenReassignAlert,
     handleOpenDeleteAlert,
     handleCloseAlert,
     handleSubmit,
@@ -37,6 +37,10 @@ const ActionDropdown = (props: any) => {
     selectedCheckboxes,
     setSelectedCheckboxes,
   });
+
+  const selectedTaskIds: any = useAppSelector(
+    (state: any) => state?.task_deals?.selectedDealsTaskIds,
+  );
 
   return (
     <div>
@@ -51,7 +55,7 @@ const ActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
-        disabled={selectedCheckboxes?.length === 0}
+        disabled={selectedTaskIds?.length > 0 ? false : true}
         className="small"
       >
         Action
@@ -69,7 +73,7 @@ const ActionDropdown = (props: any) => {
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_TASK]}
         >
           <MenuItem
-            disabled={selectedCheckboxes?.length > 1}
+            disabled={selectedTaskIds?.length > 1}
             onClick={handleOpenViewDrawer}
           >
             View
@@ -79,17 +83,17 @@ const ActionDropdown = (props: any) => {
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_TASK]}
         >
           <MenuItem
-            disabled={selectedCheckboxes?.length > 1}
+            disabled={selectedTaskIds?.length > 1}
             onClick={handleOpenEditDrawer}
           >
             Edit
           </MenuItem>
         </PermissionsGuard>
-        <PermissionsGuard
+        {/* <PermissionsGuard
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REASSIGN_TASK]}
         >
           <MenuItem onClick={handleOpenReassignAlert}>Re-assign</MenuItem>
-        </PermissionsGuard>
+        </PermissionsGuard> */}
         <PermissionsGuard
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_DELETE_TASK]}
         >

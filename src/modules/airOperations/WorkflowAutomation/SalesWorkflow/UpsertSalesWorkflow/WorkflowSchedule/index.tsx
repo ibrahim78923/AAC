@@ -76,6 +76,7 @@ export const WorkflowSchedule = (props: any) => {
                 name="scheduleDay"
                 size="small"
                 label="Day of week"
+                placeholder="Select Day"
                 options={weekOptions}
                 fullWidth
               />

@@ -14,9 +14,9 @@ import useAttachmentsEditorDrawer from './useAttachmentEditorDrawer';
 import { v4 as uuidv4 } from 'uuid';
 
 const AttachmentsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, companyId } = props;
+  const { openDrawer, setOpenDrawer, companyId, RowData } = props;
   const { handleSubmit, onSubmit, methodsAttachments } =
-    useAttachmentsEditorDrawer(setOpenDrawer, companyId);
+    useAttachmentsEditorDrawer(setOpenDrawer, companyId, RowData);
 
   return (
     <div>
@@ -37,7 +37,6 @@ const AttachmentsEditorDrawer = (props: any) => {
             <Grid
               container
               sx={{
-                height: '80vh',
                 display: 'flex',
                 alignItems: 'center',
               }}
@@ -56,6 +55,11 @@ const AttachmentsEditorDrawer = (props: any) => {
                 </Grid>
               ))}
             </Grid>
+            {(openDrawer === 'View' || openDrawer === 'Edit') && (
+              <Box textAlign={'center'} mt={2}>
+                {RowData?.orignalName}
+              </Box>
+            )}
           </FormProvider>
         </Box>
       </CommonDrawer>

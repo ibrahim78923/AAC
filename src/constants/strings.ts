@@ -486,3 +486,9 @@ export const OBJECT_URL_IMPORT = {
 export const AUTH_TOKEN_BYPASS_API = {
   UPLOAD_FILE_TO_S3_USING_SIGNED_URL: 'uploadFileTos3UsingSignedUrl',
 };
+export const WORKFLOW_TYPE = {
+  SAVED: 'SAVED',
+  CREATED: 'CREATED',
+  ENABLED: 'ENABLED',
+  DISABLED: 'DISABLED',
+};

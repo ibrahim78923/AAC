@@ -27,6 +27,11 @@ const Attachments = (companyId: any) => {
     setPage,
     setPageLimit,
     getCompanyAttachment,
+    RowData,
+    setRowData,
+    handleDeleteAttachment,
+    loadingDelete,
+    handleOpenAlert,
   } = useAttachments(companyId);
 
   return (
@@ -72,7 +77,12 @@ const Attachments = (companyId: any) => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
+            columns={columns({
+              setOpenDrawer,
+              setIsOpenAlert,
+              setRowData,
+              handleOpenAlert,
+            })}
             data={getCompanyAttachment?.data}
             isLoading={isLoading}
             setPage={setPage}
@@ -85,13 +95,15 @@ const Attachments = (companyId: any) => {
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
         companyId={companyId}
+        RowData={RowData}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
+        handleSubmitBtn={handleDeleteAttachment}
+        loading={loadingDelete}
       />
     </Box>
   );

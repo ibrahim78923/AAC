@@ -115,25 +115,10 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
   ),
 });
 
-export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
-  const ticketData: any = {
-    ticketFields: 'Ticket Fields',
-    assetsFields: 'Assets Fields',
-    taskFields: 'Task Fields',
-  };
-
-  let optionsData: any;
-
-  if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS) {
-    optionsData = ticketData?.ticketFields;
-  } else if (singleWorkflowData?.module === SCHEMA_KEYS?.ASSETS) {
-    optionsData = ticketData?.assetsFields;
-  } else if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS_TASKS)
-    ticketData?.taskFields;
-  else {
-    optionsData = ticketData?.ticketFields;
-  }
-
+export const eventBasedWorkflowValues: any = (
+  singleWorkflowData: any,
+  optionsData: any,
+) => {
   const allFields = [
     ...ticketsFields,
     ...taskFieldsOption,
@@ -178,7 +163,9 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
                 ? singleWorkflowData[
                     `${condition?.fieldName}${gIndex}${cIndex}`
                   ]
-                : condition?.fieldValue,
+                : condition?.fieldType === 'date'
+                  ? new Date(condition?.fieldValue)
+                  : condition?.fieldValue,
           };
         }),
       };
@@ -205,7 +192,9 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
         fieldValue:
           action?.fieldType === 'objectId'
             ? singleWorkflowData[`${action?.fieldName}${aIndex}`]
-            : action?.fieldValue,
+            : action?.fieldType === 'date'
+              ? new Date(action?.fieldValue)
+              : action?.fieldValue,
       }),
     ) ?? [{ fieldName: null, fieldValue: null }],
   };

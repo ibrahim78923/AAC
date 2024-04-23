@@ -111,6 +111,7 @@ export const detailDrawerArray = (
       name: 'note',
       label: 'Note',
       fullWidth: true,
+      style: { height: '200px' },
     },
     component: RHFEditor,
     md: 12,

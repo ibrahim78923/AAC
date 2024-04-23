@@ -13,7 +13,7 @@ const Associations = ({ companyId }: any) => {
       <Box sx={styles?.horizontalTabsInnnerBox}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Contacts />
+            <Contacts companyId={companyId} />
           </Grid>
           <Grid item xs={12}>
             <Tickets />
