@@ -1353,3 +1353,8 @@ export const AIR_SERVICES_TICKETS_TICKETS_DETAILS = {
 export const AIR_SERVICES_DASHBOARD_PERMISSIONS = {
   VIEW_DASHBOARD: 'service-dashboard-list',
 };
+
+export const AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'loyalty-program-dashboard-view',
+  APPLY_FILTERS: 'loyalty-program-dashboard-apply-filters',
+};
