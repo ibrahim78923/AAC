@@ -6,14 +6,8 @@ import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { useAddRewards } from './useAddReward';
 
 export const AddRewards = () => {
-  const {
-    router,
-    palette,
-    openDrawer,
-    actionType,
-    setOpenDrawer,
-    addRewardOpenForm,
-  } = useAddRewards();
+  const { router, palette, openDrawer, setOpenDrawer, addRewardOpenForm } =
+    useAddRewards();
 
   return (
     <>
@@ -26,7 +20,7 @@ export const AddRewards = () => {
       />
       <Box mt={3}>
         <Grid container spacing={2}>
-          {addRewardsData(palette)?.map((item) => (
+          {addRewardsData?.map((item) => (
             <Grid
               item
               key={item?.id}
@@ -74,10 +68,9 @@ export const AddRewards = () => {
             </Grid>
           ))}
         </Grid>
-        {openDrawer && (
+        {openDrawer?.isOpen && (
           <AddRewardsForm
             openDrawer={openDrawer}
-            actionType={actionType}
             setOpenDrawer={setOpenDrawer}
           />
         )}

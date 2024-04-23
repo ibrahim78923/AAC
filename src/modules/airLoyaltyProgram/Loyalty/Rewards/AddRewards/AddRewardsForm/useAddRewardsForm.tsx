@@ -6,12 +6,12 @@ import {
 import { successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-export const useAddRewardsForm = (props: any) => {
-  const { setOpenDrawer, actionType } = props;
+export const useAddRewardsForm: any = (props: any) => {
+  const { setOpenDrawer, openDrawer } = props;
 
   const methods: any = useForm<any>({
     defaultValues: addRewardsDefaultValues,
-    resolver: yupResolver(REWARD_VALIDATION_SCHEMA?.[actionType]),
+    resolver: yupResolver(REWARD_VALIDATION_SCHEMA?.[openDrawer?.rewardType]),
   });
 
   const { reset, handleSubmit } = methods;
@@ -22,7 +22,7 @@ export const useAddRewardsForm = (props: any) => {
   };
 
   const closeAddRewardsForm = () => {
-    setOpenDrawer(false);
+    setOpenDrawer({});
     reset();
   };
   return {

@@ -5,7 +5,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { addRewardsFormFields } from './AddRewardsForm.data';
 
 export const AddRewardsForm = (props: any) => {
-  const { openDrawer, actionType } = props;
+  const { openDrawer } = props;
   const { handleSubmit, methods, submitAddRewards, closeAddRewardsForm } =
     useAddRewardsForm(props);
   return (
@@ -23,7 +23,9 @@ export const AddRewardsForm = (props: any) => {
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
             {addRewardsFormFields
-              ?.filter((fields: any) => fields?.type?.includes(actionType))
+              ?.filter(
+                (fields: any) => fields?.type?.includes(openDrawer?.rewardType),
+              )
               ?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
