@@ -4,6 +4,8 @@ import { Button, Grid } from '@mui/material';
 import { useUpsertShopModal } from './useUpsertShop';
 import { FormProvider } from '@/components/ReactHookForm';
 import { upsertShopFields } from './UpsertShop.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 const ShopModal = ({ addShopModalOpen, setAddShopModalOpen }: any) => {
   const {
@@ -16,13 +18,19 @@ const ShopModal = ({ addShopModalOpen, setAddShopModalOpen }: any) => {
 
   return (
     <>
-      <Button
-        variant="contained"
-        startIcon={<PlusIcon />}
-        onClick={() => setAddShopModalOpen(true)}
+      <PermissionsGuard
+        permissions={[
+          AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS?.ADD_SHOP,
+        ]}
       >
-        Add
-      </Button>
+        <Button
+          variant="contained"
+          startIcon={<PlusIcon />}
+          onClick={() => setAddShopModalOpen(true)}
+        >
+          Add
+        </Button>
+      </PermissionsGuard>
       {addShopModalOpen && (
         <CommonDrawer
           isDrawerOpen={addShopModalOpen}

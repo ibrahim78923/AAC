@@ -1353,3 +1353,15 @@ export const AIR_SERVICES_TICKETS_TICKETS_DETAILS = {
 export const AIR_SERVICES_DASHBOARD_PERMISSIONS = {
   VIEW_DASHBOARD: 'service-dashboard-list',
 };
+
+export const AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT_PERMISSIONS = {
+  ACCOUNT_GENERAL: 'loyalty-program-settings-account-general',
+  ACCOUNT_VIEW_DETAILS: 'loyalty-program-settings-account-view-details',
+};
+export const AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS = {
+  VIEW_SHOP_DETAILS: 'loyalty-program-settings-managment-view-shop-deyails',
+  SHOP_SEARCH: 'loyalty-program-settings-managment-search-shop',
+  ADD_SHOP: 'loyalty-program-settings-managment-add-shop',
+  DELETE_SHOP: 'loyalty-program-settings-managment-delete-shop',
+  EDIT_SHOP: 'loyalty-program-settings-managment-edit-shop',
+};
