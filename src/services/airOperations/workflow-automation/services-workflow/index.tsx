@@ -1,13 +1,16 @@
 import { END_POINTS, OPERATION } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
 const TAG = 'WORKFLOWS';
 const TAG_ONE = 'DROPDOWN_DEPARTMENT';
 const TAG_TWO = 'DROPDOWN_CATEGORIES';
 const TAG_THREE = 'LOCATION_DROPDOWN';
 const TAG_FOUR = 'DROPDOWN_REQUESTER';
+const TAG_FIVE = 'DROPDOWN_ASSET_TYPE_LIST';
+const TAG_SIX = 'USER_LIST_DROPDOWN';
 
-const { OPERATION_WORKFLOW, SAVE_WORKFLOW, CLONE_WORKFLOW, Test_WORKFLOW } =
+const { OPERATION_WORKFLOW, SAVE_WORKFLOW, CLONE_WORKFLOW, TEST_WORKFLOW } =
   OPERATION;
 
 export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
@@ -22,7 +25,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
     }),
     postTestWorkflow: builder?.mutation({
       query: (body: any) => ({
-        url: `${Test_WORKFLOW}`,
+        url: `${TEST_WORKFLOW}`,
         method: 'POST',
         body,
       }),
@@ -110,6 +113,26 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FOUR],
     }),
+    getAssetType: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => transformResponse(response),
+      providesTags: [TAG_FIVE],
+    }),
+    getUsersListDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_SIX],
+    }),
   }),
 });
 
@@ -125,4 +148,6 @@ export const {
   useLazyGetLocationsDropdownQuery,
   useLazyGetRequesterDropdownQuery,
   usePostTestWorkflowMutation,
+  useLazyGetAssetTypeQuery,
+  useLazyGetUsersListDropdownQuery,
 } = servicesWorkflowAPI;

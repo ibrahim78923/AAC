@@ -3,11 +3,11 @@ import { RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const assigneeValidationSchema = Yup?.object()?.shape({
-  taskname: Yup?.string()?.trim()?.required('Field is Required'),
+  tasktype: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const assigneeDefaultValues = {
-  taskname: '',
+  tasktype: '',
 };
 
 export const assigneeDataArray = [
@@ -18,9 +18,8 @@ export const assigneeDataArray = [
       select: true,
     },
     options: [
-      { value: 'To-do', label: 'To-do' },
-      { value: 'Follow-up', label: 'Follow-up' },
-      { value: 'Call reminder', label: 'Call reminder' },
+      { value: 'Call', label: 'Call' },
+      { value: 'Email', label: 'Email' },
     ],
     component: RHFSelect,
     md: 12,

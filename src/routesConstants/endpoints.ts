@@ -407,6 +407,7 @@ export const settingContactStatus = {
 };
 export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
+  SUBSCRIPTION_AND_INVOICES_TAX_CALCULATIONS: '/tax-calculation/apply-on/',
   SUBSCRIPTION_AND_INVOICES_CRM:
     '/org-admin/subscriptions/get-all-crm-with-subscription',
   GET_INVOICES: '/org-admin/invoices',
@@ -440,7 +441,7 @@ export const OPERATION = {
   STATUS_WORKFLOW: '/workflows/change-status',
   SAVE_WORKFLOW: '/workflows/save',
   CLONE_WORKFLOW: '/workflows/clone',
-  Test_WORKFLOW: '/workflows/test',
+  TEST_WORKFLOW: '/workflows/test',
 };
 
 export const AIR_SALES = {

@@ -417,6 +417,11 @@ export const TICKET_SOURCE = {
   PORTAL: 'PORTAL',
   CHAT: 'CHAT',
 };
+export enum Ticket {
+  ticketFields = 'Ticket Fields',
+  assetsFields = 'Assets Fields',
+  taskFields = 'Task Fields',
+}
 
 export const SCHEMA_KEYS = {
   TICKETS: 'TICKETS',

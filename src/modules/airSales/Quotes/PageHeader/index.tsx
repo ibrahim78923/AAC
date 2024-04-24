@@ -10,14 +10,13 @@ const PageHeader = () => {
   const router = useRouter();
   return (
     <Box sx={styles?.pageHeader}>
-      <Typography variant="h4" sx={styles?.pageHeaderTitle}>
+      <Typography variant="h3" sx={styles?.pageHeaderTitle}>
         Quotes
       </Typography>
       <Box
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
-          gap: '8px',
           width: { xs: '100%', md: 'auto', lg: 'auto' },
         }}
       >
