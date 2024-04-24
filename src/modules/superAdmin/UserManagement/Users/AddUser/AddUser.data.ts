@@ -3,7 +3,7 @@ import { RHFMultiCheckbox, RHFSelect } from '@/components/ReactHookForm';
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 import useUserManagement from '../../useUserManagement';
 import * as Yup from 'yup';
-import { useGetSuperAdminRolesQuery } from '@/services/superAdmin/user-management/users';
+// import { useGetSuperAdminRolesQuery } from '@/services/superAdmin/user-management/users';
 
 export const CompanyOwnerValidationSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -18,7 +18,7 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
-  adminRoleId: Yup.string().required('Field is Required'),
+  // adminRoleId: Yup.string().required('Field is Required'),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
@@ -88,7 +88,7 @@ export const superAdminValidationSchema = Yup.object().shape({
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
-  adminRoleId: Yup.string().required('Field is Required'),
+  // adminRoleId: Yup.string().required('Field is Required'),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
@@ -132,7 +132,7 @@ export const companyOwnerDefaultValues = {
 
 export const addUsersArray = () => {
   const { products: productsList } = useUserManagement();
-  const { data: superAdminRoles } = useGetSuperAdminRolesQuery();
+  // const { data: superAdminRoles } = useGetSuperAdminRolesQuery();
 
   return [
     {
@@ -171,22 +171,22 @@ export const addUsersArray = () => {
       component: RHFTextField,
       md: 12,
     },
-    {
-      componentProps: {
-        name: 'adminRoleId',
-        label: 'Assign Role',
-        fullWidth: true,
-        select: true,
-        required: true,
-      },
-      options: superAdminRoles?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
-      toShow: ['SUPER_ADMIN', 'COMPANY_OWNER'],
-      md: 12,
-    },
+    // {
+    //   componentProps: {
+    //     name: 'adminRoleId',
+    //     label: 'Assign Role',
+    //     fullWidth: true,
+    //     select: true,
+    //     required: true,
+    //   },
+    //   options: superAdminRoles?.data?.map((item: any) => ({
+    //     value: item?._id,
+    //     label: item?.name,
+    //   })),
+    //   component: RHFSelect,
+    //   toShow: ['SUPER_ADMIN', 'COMPANY_OWNER'],
+    //   md: 12,
+    // },
     {
       componentProps: {
         name: 'crn',
