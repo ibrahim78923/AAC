@@ -150,7 +150,7 @@ export const contactsDataArray = ({
     {
       title: 'Date of Joining',
       componentProps: {
-        name: 'dateOfJoinig',
+        name: 'dateOfJoining',
         label: 'Date of Joining',
         fullWidth: true,
       },

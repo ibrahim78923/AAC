@@ -9,7 +9,10 @@ import {
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDeleteDealsTasksManagementMutation } from '@/services/airSales/deals/view-details/tasks';
+import {
+  useDeleteDealsTasksManagementMutation,
+  useUpdateDealsTasksManagementMutation,
+} from '@/services/airSales/deals/view-details/tasks';
 import { enqueueSnackbar } from 'notistack';
 
 const useActionDropdown = ({
@@ -28,8 +31,8 @@ const useActionDropdown = ({
     resolver: yupResolver(assigneeValidationSchema),
     defaultValues: assigneeDefaultValues,
   });
+  const [updatedDealsTasksManagement] = useUpdateDealsTasksManagementMutation();
 
-  const onSubmit = () => {};
   const { handleSubmit } = methodsAssignee;
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -60,6 +63,25 @@ const useActionDropdown = ({
   const selectedCheckboxesIds = selectedCheckboxes.map(
     (checked: any) => checked?._id,
   );
+
+  const onSubmit = async (value: any) => {
+    const body = {
+      type: value?.tasktype,
+    };
+    try {
+      await updatedDealsTasksManagement({
+        body,
+        id: selectedCheckboxes[0]?._id,
+      })?.unwrap();
+      enqueueSnackbar(`Task Re-assign Successfully`, { variant: 'success' });
+      setSelectedCheckboxes([]);
+      handleCloseAlert();
+      handleCloseMenu();
+    } catch (error) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+    }
+  };
 
   const handleDeleteHandler = async () => {
     try {

@@ -158,6 +158,8 @@ export const useAddPlan = () => {
   } = methodsPlanModules;
   const AdditionalStorageValue = watch(['allowAdditionalStorage']);
   const AdditionalUsereValue = watch(['allowAdditionalUsers']);
+  const checkValueAdditionalStoragePrice = watch(['additionalStoragePrice']);
+  const checkValueAdditionalPerUserPrice = watch(['additionalPerUserPrice']);
 
   const planTypeId = watch('planTypeId');
   const productId = watch('productId');
@@ -582,11 +584,16 @@ export const useAddPlan = () => {
       setValue('additionalStoragePrice', 0);
     } else if (
       AdditionalStorageValue[0] === 'Yes' &&
+      checkValueAdditionalStoragePrice[0] < 0 &&
       isNullOrEmpty(parsedRowData)
     ) {
       setValue('additionalStoragePrice', 1);
     }
-    if (AdditionalUsereValue[0] === 'Yes' && isNullOrEmpty(parsedRowData)) {
+    if (
+      AdditionalUsereValue[0] === 'Yes' &&
+      checkValueAdditionalPerUserPrice[0] < 0 &&
+      isNullOrEmpty(parsedRowData)
+    ) {
       setValue('additionalPerUserPrice', 1);
     } else if (AdditionalUsereValue[0] === 'No') {
       setValue('additionalPerUserPrice', 0);
