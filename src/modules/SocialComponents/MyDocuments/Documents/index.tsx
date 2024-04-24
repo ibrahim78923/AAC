@@ -350,7 +350,6 @@ const Documents = () => {
                     handleClose();
                     setIsOpenFolderDrawer(true);
                   }}
-                  disabled={allSelectedFoldersIds?.length > 1}
                 >
                   Move To Folder
                 </MenuItem>
@@ -368,6 +367,7 @@ const Documents = () => {
                     setActionType('move-folder');
                     FolderAdd?.setValue('name', selectedFolder?.name);
                   }}
+                  disabled={allSelectedFoldersIds?.length > 1}
                 >
                   Rename
                 </MenuItem>

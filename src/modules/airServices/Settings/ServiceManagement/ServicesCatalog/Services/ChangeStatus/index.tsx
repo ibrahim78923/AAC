@@ -21,6 +21,7 @@ export const ChangeStatus = (prop: any) => {
     onSubmit,
     openStatus,
     setOpenStatus,
+    patchServiceCatalogTriggerStatus,
   } = useChangeStatus(prop);
 
   const handleClose = () => {
@@ -64,10 +65,15 @@ export const ChangeStatus = (prop: any) => {
               color="secondary"
               variant="outlined"
               onClick={handleClose}
+              disabled={patchServiceCatalogTriggerStatus?.isLoading}
             >
               cancel
             </LoadingButton>
-            <LoadingButton variant="contained" type="submit">
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={patchServiceCatalogTriggerStatus?.isLoading}
+            >
               Save
             </LoadingButton>
           </DialogActions>
