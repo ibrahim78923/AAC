@@ -79,7 +79,7 @@ const BillingDetail: FC<BillingDetailI> = ({
                         billingCycle={''}
                         billingDate={data?.billingDate}
                         dueDate={
-                          dayjs(data?.dueDate).format(DATE_FORMAT?.UI) || null
+                          dayjs(data?.dueDate)?.format(DATE_FORMAT?.UI) || null
                         }
                         planPrice={data?.details?.plans?.planPrice}
                         defaultUsers={parsedManageData?.planData?.defaultUsers}
