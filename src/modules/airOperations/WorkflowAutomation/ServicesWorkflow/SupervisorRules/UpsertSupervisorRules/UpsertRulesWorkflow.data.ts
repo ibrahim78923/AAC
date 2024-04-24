@@ -37,7 +37,9 @@ export const actionsOptions = [
   { value: 'sendEmailRequester', label: 'Send Email to Requester' },
   { value: 'assignAgent', label: 'Assign to Agent' },
 ];
-
+export const rulesSaveWorkflowSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
+});
 export const rulesWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
   type: Yup?.string(),
@@ -145,7 +147,7 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
             fieldValue:
               condition?.fieldType === 'objectId'
                 ? singleWorkflowData[
-                    `${condition?.fieldName}${gIndex}${cIndex}`
+                    `${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
                 : condition?.fieldType === 'date'
                   ? new Date(condition?.fieldValue)
@@ -175,7 +177,7 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         fieldValue:
           action?.fieldType === 'objectId'
-            ? singleWorkflowData[`${action?.fieldName}${aIndex}`]
+            ? singleWorkflowData[`${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === 'date'
               ? new Date(action?.fieldValue)
               : action?.fieldValue,
