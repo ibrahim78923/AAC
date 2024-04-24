@@ -77,9 +77,10 @@ const BillingDetail: FC<BillingDetailI> = ({
                         }
                         planType={data?.details?.plantypes}
                         billingCycle={''}
-                        payment={data?.payment}
                         billingDate={data?.billingDate}
-                        dueDate={data?.dueDate}
+                        dueDate={
+                          dayjs(data?.dueDate)?.format(DATE_FORMAT?.UI) || null
+                        }
                         planPrice={data?.details?.plans?.planPrice}
                         defaultUsers={parsedManageData?.planData?.defaultUsers}
                         defaultStorage={
@@ -100,6 +101,7 @@ const BillingDetail: FC<BillingDetailI> = ({
                         tax={taxAmount?.toFixed(2)}
                         subTotal={subTotalAfterDiscount?.toFixed(2)}
                         totalCost={NetAmount?.toFixed(2)}
+                        payment={data?.status}
                       />
                     </Box>
                   </>
@@ -116,7 +118,7 @@ const BillingDetail: FC<BillingDetailI> = ({
                 billingCycle={parsedManageData?.billingCycle}
                 payment={''}
                 billingDate={parsedManageData?.billingDate}
-                dueDate={parsedManageData?.dueDate || '--'}
+                dueDate={parsedManageData?.dueDate || null}
                 planPrice={parsedManageData?.planData?.planPrice}
                 defaultUsers={parsedManageData?.planData?.defaultUsers}
                 defaultStorage={parsedManageData?.planData?.defaultStorage}
@@ -126,7 +128,7 @@ const BillingDetail: FC<BillingDetailI> = ({
                 additionalStoragePrice={planCalculations?.perStoragePrice}
                 calculatedUserPrice={planCalculations?.additionalUsers}
                 calculatedStoragePrice={planCalculations?.additionalStorage}
-                planDiscount={planCalculations?.planDiscount}
+                planDiscount={planCalculations?.planDiscount * 100}
                 discount={planCalculations?.discountApplied}
                 tax={planCalculations?.taxAmount}
                 totalCost={planCalculations?.finalPrice}
@@ -201,20 +203,23 @@ const InvoiceCard = ({
               borderRadius: '15px',
               padding: '7px',
               color: 'white',
+              textTransform: 'capitalized',
             }}
           >
-            {payment ? payment : 'Unpaid'}
+            {payment ? payment : 'Plan Type'}
           </Typography>
         </Box>
       </Box>
       <Divider />
       <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
         <Typography variant="caption">
-          Invoice Date: {dayjs(billingDate).format(DATE_FORMAT?.UI)}
+          Invoice Date: {dayjs(billingDate)?.format(DATE_FORMAT?.UI)}
         </Typography>
-        <Box sx={{ ml: 'auto' }}>
-          <Typography variant="caption">Due Date: {dueDate}</Typography>
-        </Box>
+        {dueDate && (
+          <Box sx={{ ml: 'auto' }}>
+            <Typography variant="caption">Due Date: {dueDate}</Typography>
+          </Box>
+        )}
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
         <Typography variant="caption">Plan Price</Typography>
@@ -250,7 +255,7 @@ const InvoiceCard = ({
           ({planDiscount}%)
         </Typography>
         <Box sx={{ ml: 'auto' }}>
-          <Typography variant="overline">{discount?.toFixed(0)}</Typography>
+          <Typography variant="overline">{discount}</Typography>
         </Box>
       </Box>
 
@@ -273,7 +278,7 @@ const InvoiceCard = ({
           (Vat 20%)
         </Typography>
         <Box sx={{ ml: 'auto' }}>
-          <Typography variant="overline">{tax?.toFixed(0)}</Typography>
+          <Typography variant="overline">{tax}</Typography>
         </Box>
       </Box>
       <Divider />
@@ -283,7 +288,7 @@ const InvoiceCard = ({
         </Typography>
 
         <Box sx={{ ml: 'auto' }}>
-          <Typography variant="overline">£{totalCost?.toFixed(0)}</Typography>
+          <Typography variant="overline">£{totalCost}</Typography>
         </Box>
       </Box>
     </Box>
