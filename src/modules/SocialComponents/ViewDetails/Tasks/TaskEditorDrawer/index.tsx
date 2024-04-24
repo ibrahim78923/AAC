@@ -22,13 +22,14 @@ const TaskEditorDrawer = (props: any) => {
     setSelectedCheckboxes,
     companyId,
   } = props;
-  const { handleSubmit, onSubmit, methodsdealsTasks } = useTaskEditor({
-    selectedCheckboxes,
-    openDrawer,
-    setOpenDrawer,
-    setSelectedCheckboxes,
-    companyId,
-  });
+  const { handleSubmit, onSubmit, methodsdealsTasks, contactsList } =
+    useTaskEditor({
+      selectedCheckboxes,
+      openDrawer,
+      setOpenDrawer,
+      setSelectedCheckboxes,
+      companyId,
+    });
 
   return (
     <div>
@@ -44,19 +45,21 @@ const TaskEditorDrawer = (props: any) => {
         <Box sx={{ pt: 2 }}>
           <FormProvider methods={methodsdealsTasks}>
             <Grid container spacing={4}>
-              {dealsTasksDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
+              {dealsTasksDataArray(openDrawer, contactsList)?.map(
+                (item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item?.componentProps} size={'small'}>
+                      {item?.componentProps?.select
+                        ? item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : null}
+                    </item.component>
+                  </Grid>
+                ),
+              )}
             </Grid>
           </FormProvider>
         </Box>
