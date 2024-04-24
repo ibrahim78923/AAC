@@ -77,7 +77,6 @@ const BillingDetail: FC<BillingDetailI> = ({
                         }
                         planType={data?.details?.plantypes}
                         billingCycle={''}
-                        payment={data?.payment}
                         billingDate={data?.billingDate}
                         dueDate={
                           dayjs(data?.dueDate).format(DATE_FORMAT?.UI) || null
@@ -102,6 +101,7 @@ const BillingDetail: FC<BillingDetailI> = ({
                         tax={taxAmount?.toFixed(2)}
                         subTotal={subTotalAfterDiscount?.toFixed(2)}
                         totalCost={NetAmount?.toFixed(2)}
+                        payment={data?.status}
                       />
                     </Box>
                   </>
@@ -128,7 +128,7 @@ const BillingDetail: FC<BillingDetailI> = ({
                 additionalStoragePrice={planCalculations?.perStoragePrice}
                 calculatedUserPrice={planCalculations?.additionalUsers}
                 calculatedStoragePrice={planCalculations?.additionalStorage}
-                planDiscount={planCalculations?.planDiscount}
+                planDiscount={planCalculations?.planDiscount * 100}
                 discount={planCalculations?.discountApplied}
                 tax={planCalculations?.taxAmount}
                 totalCost={planCalculations?.finalPrice}
@@ -203,9 +203,10 @@ const InvoiceCard = ({
               borderRadius: '15px',
               padding: '7px',
               color: 'white',
+              textTransform: 'capitalized',
             }}
           >
-            {payment ? payment : 'Unpaid'}
+            {payment ? payment : 'Plan Type'}
           </Typography>
         </Box>
       </Box>
