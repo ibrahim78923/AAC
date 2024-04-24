@@ -13,6 +13,7 @@ import { AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS } from '@/constants/permissi
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useRouter } from 'next/router';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { quoteStatus } from '@/routesConstants/paths';
 
 const TableToolbar: FC<TableToolbarI> = ({
   setSearchValue,
@@ -93,7 +94,7 @@ const TableToolbar: FC<TableToolbarI> = ({
               ]}
             >
               <MenuItem
-                disabled={status == 'published' || !rowId}
+                disabled={status == quoteStatus?.published || !rowId}
                 onClick={handleEditQuote}
               >
                 Edit
@@ -105,7 +106,7 @@ const TableToolbar: FC<TableToolbarI> = ({
               ]}
             >
               <MenuItem
-                disabled={status == 'published' || !rowId}
+                disabled={status == quoteStatus?.published || !rowId}
                 onClick={handleViewQuote}
               >
                 View

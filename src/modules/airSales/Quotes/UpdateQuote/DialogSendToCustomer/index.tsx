@@ -21,7 +21,7 @@ import {
   initValues,
 } from './DialogSendToCustomer.data';
 import { styles } from './DialogSendToCustomer.style';
-import { AIR_SALES } from '@/routesConstants/paths';
+import { AIR_SALES, quoteStatus } from '@/routesConstants/paths';
 import useUpdateQuote from '../useUpdateQuote';
 import {
   usePostAttachmentQuoteMutation,
@@ -55,7 +55,6 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
       const pdfBlob = invoice?.output('blob');
       document.head.removeChild(style);
 
-      const status = 'PUBLISHED';
       const formData = new FormData();
       formData.append('fileUrl', pdfBlob);
       formData.append('module', 'QUOTE');
@@ -63,7 +62,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
       formData.append('recordId', quoteId);
       const body = {
         id: quoteId,
-        status: status,
+        status: quoteStatus?.published,
         email: values?.email,
         quoteNumber: dataGetQuoteById?.data?.createdBy?._id,
         validTill: dayjs(dataGetQuoteById?.data?.expiryDate)?.format(

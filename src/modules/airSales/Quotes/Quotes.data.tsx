@@ -1,4 +1,5 @@
 import { DATE_TIME_FORMAT } from '@/constants';
+import { quoteStatus } from '@/routesConstants/paths';
 import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
@@ -69,10 +70,7 @@ export const quotesColumns = (
     DEAL_CREATED_AT: 'createdAt',
     DEAL_EXPIRY: 'expiryDate',
   };
-  const quoteStatus = {
-    draft: 'DRAFT',
-    publish: 'PUBLISHED',
-  };
+
   const activeColumnsData = (attribute: any, info: any) => {
     if (attribute === DEAL_ATTRIBUTES?.DEAL_NAME) {
       return (

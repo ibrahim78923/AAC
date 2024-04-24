@@ -38,7 +38,7 @@ export const contactsDataArray = (
         name: 'email',
         label: 'Email',
         placeholder: 'Search or Enter Email',
-        require: true,
+        required: true,
       },
       md: 12,
       component: RHFTextField,

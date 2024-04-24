@@ -20,7 +20,7 @@ import {
   useUpdateQuoteMutation,
   useUpdateSubmitEmailQuoteMutation,
 } from '@/services/airSales/quotes';
-import { AIR_SALES } from '@/routesConstants/paths';
+import { AIR_SALES, quoteStatus } from '@/routesConstants/paths';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 
@@ -105,11 +105,10 @@ const useUpdateQuote = () => {
   }, [singleQuote]);
 
   const onSubmit = async () => {
-    const status = 'DRAFT';
     try {
       putSubmitQuote({
         id: quoteId,
-        body: { id: quoteId, status: status },
+        body: { id: quoteId, status: quoteStatus?.draft },
       });
       enqueueSnackbar('Save as draft submit later', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
@@ -123,7 +122,7 @@ const useUpdateQuote = () => {
   };
 
   const handleSubmitBtn = async () => {
-    const status = 'PUBLISHED';
+    const status = quoteStatus?.published;
     try {
       putSubmitQuote({
         body: { id: quoteId, status: status },

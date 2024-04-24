@@ -1,4 +1,5 @@
 import { RHFSelect } from '@/components/ReactHookForm';
+import { quoteStatus } from '@/routesConstants/paths';
 export const defaultValues = {
   quoteStatus: '',
   createdBy: '',
@@ -10,8 +11,8 @@ export const dataArray = (UserListData: any) => {
       md: 12,
       component: RHFSelect,
       options: [
-        { value: 'DRAFT', label: 'Draft' },
-        { value: 'PUBLISHED', label: 'Published' },
+        { value: 'DRAFT', label: quoteStatus?.draft },
+        { value: 'PUBLISHED', label: quoteStatus?.published },
       ],
       componentProps: {
         name: 'status',
