@@ -34,7 +34,8 @@ const useCustomizeColumn = ({ onClose }: any) => {
     items?.splice(result?.destination?.index, 0, reOrderItem);
     setOrder(items);
   };
-  const [putCustomizedColumns] = usePutCustomizedColumnsMutation();
+  const [putCustomizedColumns, { isLoading: loadingColumns }] =
+    usePutCustomizedColumnsMutation();
 
   const handleUpdateColumns = async () => {
     if (selected?.length > 0) {
@@ -99,6 +100,7 @@ const useCustomizeColumn = ({ onClose }: any) => {
     handleChackboxChange,
     handleUpdateColumns,
     activeColumns,
+    loadingColumns,
   };
 };
 

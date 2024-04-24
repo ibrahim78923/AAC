@@ -19,7 +19,7 @@ import {
 } from '@/services/airSales/quotes';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-// import { useEffect } from 'react';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const FormCreateProduct = ({ open, onClose }: any) => {
   const params = useSearchParams();
@@ -28,8 +28,9 @@ const FormCreateProduct = ({ open, onClose }: any) => {
   const quoteId = params.get('data');
   const productId = params.get('productId');
 
-  const [postProduct] = usePostProductMutation();
-  // const [getProductsById]=useGetProductsById()
+  const [postProduct, { isLoading: loadingProductPost }] =
+    usePostProductMutation();
+
   const [updateProductById] = useUpdateProductByIdMutation();
 
   const { data: Quotenew } = useGetQuoteByIdQuery({ id: quoteId });
@@ -70,12 +71,12 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             };
             createAssociationQuote({ body: associationBody })?.unwrap();
             enqueueSnackbar('Product Updated Successfully', {
-              variant: 'success',
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
             });
           });
       } catch (err: any) {
-        enqueueSnackbar(err?.data?.message, {
-          variant: 'error',
+        enqueueSnackbar(err?.message, {
+          variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
     } else {
@@ -92,13 +93,13 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             };
             createAssociationQuote({ body: associationBody })?.unwrap();
             enqueueSnackbar('Product added Successfully', {
-              variant: 'success',
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
             });
             reset();
           });
       } catch (err: any) {
-        enqueueSnackbar(err?.data?.message, {
-          variant: 'error',
+        enqueueSnackbar(err?.response?.message, {
+          variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
     }
@@ -137,6 +138,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
       cancelText={'Cancel'}
       footer={actionType === 'view' ? false : true}
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={loadingProductPost}
     >
       <Box sx={{ pt: '27px' }}>
         <FormProvider methods={methods}>
