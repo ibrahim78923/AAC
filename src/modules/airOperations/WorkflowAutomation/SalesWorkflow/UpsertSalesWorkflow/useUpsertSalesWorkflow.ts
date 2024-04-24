@@ -1,29 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   workflowFields,
   salesSchema,
   salesValues,
+  salesSaveSchema,
 } from './UpsertSalesWorkflow.data';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
+  useGetByIdSalesWorkflowQuery,
   usePostSalesWorkflowMutation,
   usePostSaveDraftWorkflowMutation,
+  useUpdateSalesWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 
 export const useUpsertSalesWorkflow = () => {
-  const [validation, setValidation] = useState(false);
-  const { back } = useRouter();
+  const [validation, setValidation] = useState('');
+  const [testWorkflowResponse, setTestWorkflowResponse] = useState({});
+  const { back, query } = useRouter();
   const salesMethod = useForm({
-    defaultValues: salesValues,
-    resolver: validation ? yupResolver(salesSchema) : undefined,
+    defaultValues: salesValues(null, null),
+    resolver:
+      validation === workflowFields?.upsert
+        ? yupResolver(salesSchema)
+        : yupResolver(salesSaveSchema),
   });
   const { reset, watch, handleSubmit, setValue, control } = salesMethod;
+  const workflowId = query?.id;
+  const {
+    data,
+    isLoading: byIdLoading,
+    isFetching,
+  } = useGetByIdSalesWorkflowQuery(workflowId, {
+    refetchOnMountOrArgChange: true,
+    skip: !!!workflowId,
+  });
+  const moduleWatch = watch('module');
+  useEffect(() => {
+    reset(salesValues(data?.data, moduleWatch));
+  }, [workflowId, data]);
+  const [updateSalesWorkflowTrigger, { isLoading: updateLoading }] =
+    useUpdateSalesWorkflowMutation();
   const [postSalesWorkflowTrigger, { isLoading }] =
     usePostSalesWorkflowMutation();
   const [saveDraftTrigger, { isLoading: saveLoading }] =
@@ -32,12 +54,13 @@ export const useUpsertSalesWorkflow = () => {
     return action?.fieldValue instanceof Date
       ? workflowFields?.date
       : typeof action?.fieldValue === workflowFields?.string &&
-          !isNaN(Date?.parse(action?.fieldValue))
-        ? workflowFields?.number
-        : typeof action?.fieldValue === workflowFields?.string
-          ? workflowFields?.string
-          : typeof action?.fieldValue === workflowFields?.object &&
-            workflowFields?.objectId;
+        !isNaN(Date?.parse(action?.fieldValue))
+      ? workflowFields?.number
+      : typeof action?.fieldValue === workflowFields?.string
+      ? workflowFields?.string
+      : typeof action?.fieldValue === workflowFields?.object
+      ? workflowFields?.objectId
+      : '';
   };
   const groupValues = (groupData: any) => {
     return groupData?.groups?.map((group: any) => ({
@@ -55,17 +78,16 @@ export const useUpsertSalesWorkflow = () => {
             condition?.condition === workflowFields?.isNotIn)
             ? workflowFields?.dealpipelines
             : condition?.fieldName?.label === workflowFields?.dealStage &&
-                (condition?.condition === workflowFields?.isIn ||
-                  condition?.condition === workflowFields?.isNotIn)
-              ? workflowFields?.lifecycleStages
-              : condition?.fieldName?.label ===
-                    (workflowFields?.salesOwner ||
-                      workflowFields?.createdBy ||
-                      workflowFields?.updatedBy) &&
-                  (condition?.condition === workflowFields?.isIn ||
-                    condition?.condition === workflowFields?.isNotIn)
-                ? workflowFields?.users
-                : '',
+              (condition?.condition === workflowFields?.isIn ||
+                condition?.condition === workflowFields?.isNotIn)
+            ? workflowFields?.lifecycleStages
+            : (condition?.fieldName?.label === workflowFields?.salesOwner ||
+                condition?.fieldName?.label === workflowFields?.createdBy ||
+                condition?.fieldName?.label === workflowFields?.updatedBy) &&
+              (condition?.condition === workflowFields?.isIn ||
+                condition?.condition === workflowFields?.isNotIn)
+            ? workflowFields?.users
+            : '',
       })),
       conditionType: group?.conditionType?.value,
     }));
@@ -82,9 +104,7 @@ export const useUpsertSalesWorkflow = () => {
         time: time,
       },
       monthly: {
-        day: Number(
-          dayjs(scheduleData?.scheduleDate)?.format(DATE_TIME_FORMAT?.D),
-        ),
+        day: scheduleData?.scheduleDate,
         time: time,
       },
       annually: {
@@ -111,16 +131,48 @@ export const useUpsertSalesWorkflow = () => {
         action?.fieldName?.label === workflowFields?.setDealPipeline
           ? workflowFields?.dealpipelines
           : action?.fieldName?.label === workflowFields?.setDealStage
-            ? workflowFields?.lifecycleStages
-            : action?.fieldName?.label === workflowFields?.setDealOwner ||
-                action?.fieldName?.label === workflowFields?.setAssignedTo
-              ? workflowFields?.users
-              : '',
+          ? workflowFields?.lifecycleStages
+          : action?.fieldName?.label === workflowFields?.setDealOwner ||
+            action?.fieldName?.label === workflowFields?.setAssignedTo
+          ? workflowFields?.users
+          : '',
     }));
+  };
+  let successMessage = '';
+  let errorMessage = '';
+  const handleWorkflowApi = async (body: any) => {
+    if (workflowId && validation === workflowFields?.upsert) {
+      const updateData = { id: workflowId, ...body };
+      const response: any = await updateSalesWorkflowTrigger(updateData);
+      successMessage =
+        response?.data?.message &&
+        `${response?.data?.data?.title} Workflow Updated Successfully`;
+      errorMessage = response?.error?.data?.message;
+    } else if (validation === workflowFields?.upsert) {
+      const response: any = await postSalesWorkflowTrigger(body);
+      successMessage =
+        response?.data?.message &&
+        `${response?.data?.data?.title} Workflow Created Successfully`;
+      errorMessage = response?.error?.data?.message;
+    } else if (validation === workflowFields?.save) {
+      const response: any = await saveDraftTrigger(body);
+      successMessage =
+        response?.data?.message &&
+        `${response?.data?.data?.title} Workflow Saved as Draft Successfully`;
+      errorMessage = response?.error?.data?.message;
+    } else if (validation === workflowFields?.test) {
+      const response: any = await saveDraftTrigger(body);
+      setTestWorkflowResponse(response);
+      successMessage =
+        response?.data?.message &&
+        `${response?.data?.data?.title} Workflow Saved as Draft Successfully`;
+      errorMessage = response?.error?.data?.message;
+    }
   };
   const handleFormSubmit = async (data: any) => {
     const modifiedData: any = {
       title: data?.title,
+      description: data?.description,
       module: data?.module,
       type: data?.type,
       runType: data?.runType?.value,
@@ -130,19 +182,13 @@ export const useUpsertSalesWorkflow = () => {
       groupCondition: data?.groupCondition,
       actions: actionValues(data),
     };
-    const response: any = validation
-      ? await postSalesWorkflowTrigger(modifiedData)
-      : await saveDraftTrigger(modifiedData);
     try {
-      response;
-      const submitMessage = validation
-        ? `${response?.data?.data?.title} Workflow Created Successfully`
-        : `${response?.data?.data?.title} Workflow Saved as Draft Successfully`;
-      successSnackbar(response?.data?.message && submitMessage);
+      await handleWorkflowApi(modifiedData);
+      successSnackbar(successMessage);
       reset();
       back();
-    } catch (e) {
-      errorSnackbar(response?.error?.data?.message);
+    } catch (error) {
+      errorSnackbar(errorMessage);
     }
   };
   const { palette } = useTheme();
@@ -157,5 +203,9 @@ export const useUpsertSalesWorkflow = () => {
     isLoading,
     saveLoading,
     setValidation,
+    byIdLoading,
+    isFetching,
+    updateLoading,
+    testWorkflowResponse,
   };
 };

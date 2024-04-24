@@ -7,6 +7,7 @@ import {
   productsValidationSchema,
 } from './DealsEditorDrawer.data';
 import {
+  useGetDealsLifecycleStageQuery,
   usePatchDealsMutation,
   usePostDealsMutation,
 } from '@/services/airSales/deals';
@@ -26,6 +27,8 @@ const useDealsEditorDrawer = ({
   const [postDeals] = usePostDealsMutation();
   const [createAssociationDeals] = useCreateAssociationMutation();
   const [updatedAssignDeal] = usePatchDealsMutation();
+
+  const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
 
   const methodsProducts = useForm({
     resolver: yupResolver(productsValidationSchema),
@@ -61,7 +64,23 @@ const useDealsEditorDrawer = ({
 
   const onSubmit = async (values: any) => {
     delete values?.dealStatus;
-    values.closeDate = dayjs(values?.closeDate)?.format(DATE_FORMAT?.API);
+    const PayloadValue = {
+      name: values?.name,
+      dealPipelineId: values?.dealPipelineId,
+      dealStageId: values?.dealStageId,
+      amount: values?.amount,
+      closeDate: dayjs(values?.closeDate)?.format(DATE_FORMAT?.API),
+      ownerId: values?.ownerId,
+      priority: values?.priority,
+      products: [
+        {
+          productId: values?.addLineItemId,
+          quantity: 1,
+          unitDiscount: 0,
+        },
+      ],
+    };
+    delete values?.addLineItemId;
 
     try {
       let res: any;
@@ -70,7 +89,7 @@ const useDealsEditorDrawer = ({
             id: dealRecord?._id,
             body: values,
           }).unwrap()
-        : (res = await postDeals({ body: values })?.unwrap());
+        : (res = await postDeals({ body: PayloadValue })?.unwrap());
 
       if (res?.data) {
         try {
@@ -107,6 +126,7 @@ const useDealsEditorDrawer = ({
     watchProductstatus,
     searchProduct,
     setSearchProduct,
+    DealsLifecycleStageData,
   };
 };
 

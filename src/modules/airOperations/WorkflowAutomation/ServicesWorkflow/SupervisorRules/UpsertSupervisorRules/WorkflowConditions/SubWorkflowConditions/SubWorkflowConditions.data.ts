@@ -52,8 +52,8 @@ export const status = ['OPEN', 'CLOSED', 'RESOLVED', 'PENDING', 'SPAMS'];
 export const fieldOptions = [
   'is',
   'is not',
-  'equal',
-  'not equal',
+  'equals',
+  'not equals',
   'contains',
   'not contains',
   'contains words',
@@ -80,10 +80,10 @@ export const dateOperators = [
   'is not',
   'is empty',
   'is not empty',
-  'Greater than',
-  'Less than',
-  'Greater than or equal to',
-  'Less than or equal to',
+  'greater than',
+  'less than',
+  'greater than or equal to',
+  'less than or equal to',
 ];
 
 const constantApiOptions = {
@@ -150,8 +150,8 @@ export const subWorkflowData = ({
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
       ? assetsModule || []
       : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
-        ? ticketsModule || []
-        : taskModule || [];
+      ? ticketsModule || []
+      : taskModule || [];
   const selectedOption = watch(
     `groups.${index}.conditions.${subIndex}.options`,
   );
@@ -167,14 +167,14 @@ export const subWorkflowData = ({
     selectedOperatorsOptions === optionsConstants?.priority
       ? priority
       : selectedOperatorsOptions === optionsConstants?.assetType
-        ? assetsOptions
-        : selectedOperatorsOptions === optionsConstants?.source
-          ? sourcesOptions
-          : selectedOperatorsOptions === optionsConstants?.type
-            ? typeOptions
-            : selectedOperatorsOptions === optionsConstants?.impacts
-              ? impactOptions
-              : status;
+      ? assetsOptions
+      : selectedOperatorsOptions === optionsConstants?.source
+      ? sourcesOptions
+      : selectedOperatorsOptions === optionsConstants?.type
+      ? typeOptions
+      : selectedOperatorsOptions === optionsConstants?.impacts
+      ? impactOptions
+      : status;
   if (
     [
       optionsConstants?.plannedStartDate,

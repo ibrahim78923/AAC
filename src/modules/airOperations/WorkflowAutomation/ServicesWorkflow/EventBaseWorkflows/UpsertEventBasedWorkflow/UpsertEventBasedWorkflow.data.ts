@@ -43,6 +43,9 @@ export const actionsOptions = [
   { value: 'sendEmailRequester', label: 'Send Email to Requester' },
   { value: 'assignAgent', label: 'Assign to Agent' },
 ];
+export const eventBasedSaveWorkflowSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
+});
 
 export const eventBasedWorkflowSchema = Yup.object().shape({
   title: Yup?.string()?.required('Required'),
@@ -115,10 +118,25 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
   ),
 });
 
-export const eventBasedWorkflowValues: any = (
-  singleWorkflowData: any,
-  optionsData: any,
-) => {
+export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
+  const ticketData: any = {
+    ticketFields: 'Ticket Fields',
+    assetsFields: 'Assets Fields',
+    taskFields: 'Task Fields',
+  };
+
+  let optionsData: any;
+
+  if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS) {
+    optionsData = ticketData?.ticketFields;
+  } else if (singleWorkflowData?.module === SCHEMA_KEYS?.ASSETS) {
+    optionsData = ticketData?.assetsFields;
+  } else if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS_TASKS)
+    ticketData?.taskFields;
+  else {
+    optionsData = ticketData?.ticketFields;
+  }
+
   const allFields = [
     ...ticketsFields,
     ...taskFieldsOption,
@@ -161,11 +179,11 @@ export const eventBasedWorkflowValues: any = (
             fieldValue:
               condition?.fieldType === 'objectId'
                 ? singleWorkflowData[
-                    `${condition?.fieldName}${gIndex}${cIndex}`
+                    `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
                 : condition?.fieldType === 'date'
-                  ? new Date(condition?.fieldValue)
-                  : condition?.fieldValue,
+                ? new Date(condition?.fieldValue)
+                : condition?.fieldValue,
           };
         }),
       };
@@ -191,10 +209,10 @@ export const eventBasedWorkflowValues: any = (
           : null,
         fieldValue:
           action?.fieldType === 'objectId'
-            ? singleWorkflowData[`${action?.fieldName}${aIndex}`]
+            ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === 'date'
-              ? new Date(action?.fieldValue)
-              : action?.fieldValue,
+            ? new Date(action?.fieldValue)
+            : action?.fieldValue,
       }),
     ) ?? [{ fieldName: null, fieldValue: null }],
   };

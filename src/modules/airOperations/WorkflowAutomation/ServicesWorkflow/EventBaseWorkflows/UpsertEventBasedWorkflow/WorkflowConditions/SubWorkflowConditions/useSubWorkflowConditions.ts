@@ -1,8 +1,10 @@
 import { SCHEMA_KEYS } from '@/constants/strings';
 import {
+  useLazyGetAssetTypeQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
   useLazyGetRequesterDropdownQuery,
+  useLazyGetUsersListDropdownQuery,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useGetSchemaKeysQuery } from '@/services/common-APIs';
 import { useLazyGetAgentsQuery } from '@/services/dropdowns';
@@ -36,6 +38,8 @@ export const useSubWorkflowConditions = (props: any) => {
   const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
   const requestersApiQuery = useLazyGetRequesterDropdownQuery();
   const apiQueryLocations = useLazyGetLocationsDropdownQuery();
+  const apiAssetType = useLazyGetAssetTypeQuery();
+  const apiUsersListDropdown = useLazyGetUsersListDropdownQuery();
   return {
     fields,
     append,
@@ -45,5 +49,7 @@ export const useSubWorkflowConditions = (props: any) => {
     departmentApiQuery,
     requestersApiQuery,
     apiQueryLocations,
+    apiAssetType,
+    apiUsersListDropdown,
   };
 };

@@ -15,7 +15,8 @@ const useFormAddContact = (onClose: () => void) => {
   const { data: contacts } = useGetContactsQuery({});
 
   const { dataGetQuoteById, createAssociationQuote } = useUpdateQuote();
-  const [postCompanies] = usePostCompaniesMutation();
+  const [postCompanies, { isLoading: loadingCompnayPost }] =
+    usePostCompaniesMutation();
   const methods: any = useForm<any>({
     resolver: yupResolver(createComapnySchema),
     defaultValues: defaultCreateCompanyValues,
@@ -24,19 +25,11 @@ const useFormAddContact = (onClose: () => void) => {
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
-    formData?.append('domain', values?.domain);
-    formData?.append('profilePicture', values?.profilePicture);
-    formData?.append('name', values?.name);
-    formData?.append('ownerId', values?.ownerId);
-    formData?.append('industry', values?.industry);
-    formData?.append('type', values?.type);
-    formData?.append('noOfEmloyee', 12 as any);
-    formData?.append('totalRevenue', values?.totalRevenue);
-    formData?.append('city', values?.city);
-    formData?.append('postalCode', values?.postalCode);
-    formData?.append('address', values?.address);
-    formData?.append('description', values?.description);
-    formData?.append('linkedInUrl', values?.linkedInUrl);
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        formData.append(key, value);
+      }
+    });
     try {
       postCompanies({ body: formData })?.then((res: any) => {
         const associationBody = {
@@ -57,11 +50,11 @@ const useFormAddContact = (onClose: () => void) => {
     onClose();
   };
   return {
-    // getCompanyContacts,
     onSubmit,
     handleSubmit,
     methods,
     contacts,
+    loadingCompnayPost,
   };
 };
 

@@ -14,6 +14,7 @@ export const assetsFieldsOption = [
   { value: 'departmentId', label: 'Department' },
   { value: 'impact', label: 'Impact' },
   { value: 'assignedOn', label: 'Assigned On' },
+  { value: 'createdBy', label: 'Created By' },
   { value: 'description', label: 'Description' },
 ];
 
@@ -52,8 +53,8 @@ export const status = ['OPEN', 'CLOSED', 'RESOLVED', 'PENDING', 'SPAMS'];
 export const fieldOptions = [
   'is',
   'is not',
-  'equal',
-  'not equal',
+  'equals',
+  'not equals',
   'contains',
   'not contains',
   'contains words',
@@ -80,10 +81,10 @@ export const dateOperators = [
   'is not',
   'is empty',
   'is not empty',
-  'Greater than',
-  'Less than',
-  'Greater than or equal to',
-  'Less than or equal to',
+  'greater than',
+  'less than',
+  'greater than or equal to',
+  'less than or equal to',
 ];
 
 const constantApiOptions = {
@@ -92,13 +93,15 @@ const constantApiOptions = {
   department: 'Select Department',
   assetDepartment: 'Department',
   location: 'Location',
+  assetType: 'Asset Type',
   createdBy: 'Created By',
+  assignTo: 'Assign To',
+  usedBy: 'Used By',
 };
 
 const optionsConstants = {
   priority: 'priority',
   impacts: 'Impact',
-  assetType: 'Asset Type',
   source: 'Source',
   description: 'Description',
   type: 'Type',
@@ -108,7 +111,6 @@ const optionsConstants = {
   subject: 'Subject',
   title: 'Title',
   assignedOn: 'Assigned On',
-  createdBy: 'Created By',
   name: 'Name',
 };
 
@@ -120,6 +122,8 @@ export const subWorkflowData = ({
   departmentApiQuery,
   requestersApiQuery,
   apiQueryLocations,
+  apiAssetType,
+  apiUsersListDropdown,
 }: any) => {
   const useApiQuery = (operatorsOption: string) => {
     if (operatorsOption === constantApiOptions?.agent) {
@@ -133,6 +137,14 @@ export const subWorkflowData = ({
       return departmentApiQuery;
     } else if (operatorsOption === constantApiOptions?.location) {
       return apiQueryLocations;
+    } else if (operatorsOption === constantApiOptions?.assetType) {
+      return apiAssetType;
+    } else if (
+      operatorsOption === constantApiOptions?.assignTo ||
+      operatorsOption === constantApiOptions?.usedBy ||
+      operatorsOption === constantApiOptions?.createdBy
+    ) {
+      return apiUsersListDropdown;
     }
     return null;
   };
@@ -150,8 +162,8 @@ export const subWorkflowData = ({
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
       ? assetsModule || []
       : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
-        ? ticketsModule || []
-        : taskModule || [];
+      ? ticketsModule || []
+      : taskModule || [];
   const selectedOption = watch(
     `groups.${index}.conditions.${subIndex}.options`,
   );
@@ -166,15 +178,13 @@ export const subWorkflowData = ({
   const valuesOptions =
     selectedOperatorsOptions === optionsConstants?.priority
       ? priority
-      : selectedOperatorsOptions === optionsConstants?.assetType
-        ? assetsOptions
-        : selectedOperatorsOptions === optionsConstants?.source
-          ? sourcesOptions
-          : selectedOperatorsOptions === optionsConstants?.type
-            ? typeOptions
-            : selectedOperatorsOptions === optionsConstants?.impacts
-              ? impactOptions
-              : status;
+      : selectedOperatorsOptions === optionsConstants?.source
+      ? sourcesOptions
+      : selectedOperatorsOptions === optionsConstants?.type
+      ? typeOptions
+      : selectedOperatorsOptions === optionsConstants?.impacts
+      ? impactOptions
+      : status;
   if (
     [
       optionsConstants?.plannedStartDate,
@@ -219,7 +229,10 @@ export const subWorkflowData = ({
   } else if (
     selectedOperatorsOptions === constantApiOptions?.agent ||
     selectedOperatorsOptions === constantApiOptions?.requester ||
-    selectedOperatorsOptions === constantApiOptions?.location
+    selectedOperatorsOptions === constantApiOptions?.location ||
+    selectedOperatorsOptions === constantApiOptions?.assignTo ||
+    selectedOperatorsOptions === constantApiOptions?.usedBy ||
+    selectedOperatorsOptions === constantApiOptions?.createdBy
   ) {
     valueComponent = {
       _id: 6,
@@ -245,6 +258,19 @@ export const subWorkflowData = ({
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
+      },
+      component: RHFAutocompleteAsync,
+    };
+  } else if (selectedOperatorsOptions === constantApiOptions?.assetType) {
+    valueComponent = {
+      _id: 6,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
+        size: 'small',
+        placeholder: 'Select',
+        apiQuery: apiQuery,
+        externalParams: { meta: false, limit: 50 },
       },
       component: RHFAutocompleteAsync,
     };
