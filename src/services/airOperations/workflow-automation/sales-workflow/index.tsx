@@ -46,6 +46,14 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    postTestSalesWorkflow: builder?.mutation({
+      query: (body: any) => ({
+        url: `${OPERATION?.TEST_WORKFLOW}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
     updateSalesWorkflow: builder?.mutation({
       query: (body: any) => ({
         url: OPERATION?.OPERATION_WORKFLOW,
@@ -131,6 +139,7 @@ export const {
   useLazyGetContactDropdownListQuery,
   useLazyGetProductsDropdownListQuery,
   usePostSaveDraftWorkflowMutation,
+  usePostTestSalesWorkflowMutation,
   useLazyGetUserDropdownListQuery,
   useCloneWorkflowMutation,
   useLazyGetLifeCycleStagesDropdownListQuery,

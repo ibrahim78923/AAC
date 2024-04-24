@@ -10,10 +10,17 @@ import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 import { TestWorkflowDrawer } from '../TestWorkflow/TestWorkflowDrawer';
 
 export const WorkflowHeader = (props: any) => {
-  const { isLoading, saveLoading, setValidation, watch, testWorkflowResponse } =
-    props;
-  const { handleMoveBack, isWorkflowDrawer, setIsWorkflowDrawer, workflowId } =
-    useWorkflowHeader(props);
+  const {
+    isLoading,
+    saveLoading,
+    setValidation,
+    watch,
+    testWorkflowResponse,
+    testLoading,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+  } = props;
+  const { handleMoveBack, workflowId } = useWorkflowHeader(props);
   return (
     <Box>
       <Box
@@ -33,22 +40,24 @@ export const WorkflowHeader = (props: any) => {
             startIcon={<Cancel color="action" />}
             variant="outlined"
             color="secondary"
-            disabled={saveLoading || isLoading}
+            disabled={saveLoading || isLoading || testLoading}
             onClick={handleMoveBack}
           >
             Cancel
           </LoadingButton>
-          <LoadingButton
-            startIcon={<GrayBookIcon />}
-            variant="outlined"
-            color="secondary"
-            loading={saveLoading}
-            disabled={saveLoading || isLoading}
-            onClick={() => setValidation('save')}
-            type="submit"
-          >
-            Save as Draft
-          </LoadingButton>
+          {!workflowId && (
+            <LoadingButton
+              startIcon={<GrayBookIcon />}
+              variant="outlined"
+              color="secondary"
+              loading={saveLoading}
+              disabled={saveLoading || isLoading || testLoading}
+              onClick={() => setValidation('save')}
+              type="submit"
+            >
+              Save as Draft
+            </LoadingButton>
+          )}
           <PermissionsGuard
             permissions={[
               AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.TEST_WORKFLOW,
@@ -58,11 +67,10 @@ export const WorkflowHeader = (props: any) => {
               startIcon={<CopyIcon />}
               variant={'outlined'}
               color={'secondary'}
-              disabled={saveLoading || isLoading}
-              onClick={() => {
-                setIsWorkflowDrawer(true);
-                setValidation('test');
-              }}
+              loading={testLoading}
+              disabled={saveLoading || isLoading || testLoading}
+              onClick={() => setValidation('test')}
+              type="submit"
             >
               Test Workflow
             </LoadingButton>
@@ -77,7 +85,7 @@ export const WorkflowHeader = (props: any) => {
               variant="contained"
               type="submit"
               loading={isLoading}
-              disabled={saveLoading || isLoading}
+              disabled={saveLoading || isLoading || testLoading}
               onClick={() => setValidation('upsert')}
             >
               {workflowId ? 'Update' : 'Create'}
