@@ -3,6 +3,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import { useNotAssignedPhysicalGiftCards } from './useNotAssignedPhysicalGiftCards';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
 
 export const NotAssignedPhysicalGiftCards = () => {
   const {
@@ -34,15 +36,20 @@ export const NotAssignedPhysicalGiftCards = () => {
           >
             Add
           </Button>
-
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<ExportBlackIcon />}
-            onClick={() => setIsPortalOpen({ isOpen: true, isExport: true })}
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.EXPORT,
+            ]}
           >
-            Export
-          </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<ExportBlackIcon />}
+              onClick={() => setIsPortalOpen({ isOpen: true, isExport: true })}
+            >
+              Export
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <br />
