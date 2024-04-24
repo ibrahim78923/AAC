@@ -258,6 +258,7 @@ const ViewDetails = () => {
       <UploadImageModal
         isUploadImageOpen={isUploadImageOpen}
         setIsUploadImageOpen={setIsUploadImageOpen}
+        companyId={data?.data?._id}
       />
     </Box>
   );

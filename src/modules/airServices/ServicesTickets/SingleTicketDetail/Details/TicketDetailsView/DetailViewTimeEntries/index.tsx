@@ -144,7 +144,7 @@ const DetailViewTimeEntries = (data: any) => {
                   <Typography
                     variant="body1"
                     component="span"
-                    sx={{ ml: '4rem' }}
+                    sx={{ ml: '5.5rem' }}
                   >
                     {item?.totalTimeTrack}
                   </Typography>

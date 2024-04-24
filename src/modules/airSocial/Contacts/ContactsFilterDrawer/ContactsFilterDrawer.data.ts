@@ -1,8 +1,4 @@
-import {
-  RHFDatePicker,
-  RHFSelect,
-  RHFSwitchableDatepicker,
-} from '@/components/ReactHookForm';
+import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 
 export const FilterData = (
   contactOwners: any,
@@ -67,15 +63,17 @@ export const FilterData = (
         name: 'lastActivityDate',
         label: 'Last Activity Date',
       },
-      component: RHFSwitchableDatepicker,
+      component: RHFDatePicker,
     },
-    {
-      id: 'nextActivityDate',
-      componentProps: {
-        name: 'nextActivityDate',
-        label: 'Next Activity Date',
-      },
-      component: RHFSwitchableDatepicker,
-    },
+
+    // In future use
+    // {
+    //   id: 'nextActivityDate',
+    //   componentProps: {
+    //     name: 'nextActivityDate',
+    //     label: 'Next Activity Date',
+    //   },
+    //   component: RHFSwitchableDatepicker,
+    // },
   ];
 };

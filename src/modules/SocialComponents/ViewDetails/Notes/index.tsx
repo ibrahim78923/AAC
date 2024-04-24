@@ -1,6 +1,13 @@
 import Image from 'next/image';
 
-import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Grid,
+  Skeleton,
+  Typography,
+} from '@mui/material';
 
 import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
@@ -15,9 +22,9 @@ import { MessageIcon, PlusIcon } from '@/assets/icons';
 import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { NotesAvatarImage } from '@/assets/images';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { generateImage } from '@/utils/avatarUtils';
 
 const Notes = ({ companyId }: any) => {
   const {
@@ -29,29 +36,58 @@ const Notes = ({ companyId }: any) => {
     NotesData,
     rowData,
     isError,
+    isLoading,
   } = useNotes(companyId);
   const { theme } = useNameWithStyledWords();
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Box sx={styles?.headingSpacingBetween}>
-            <Typography variant="h4"> Notes</Typography>
-            {!isNullOrEmpty(NotesData?.data?.notes) && (
+        {isLoading ? (
+          <Skeleton variant="rectangular" width={'100%'} height={300} />
+        ) : (
+          <Grid item xs={12}>
+            <Box sx={styles?.headingSpacingBetween}>
+              <Typography variant="h4"> Notes</Typography>
+              {!isNullOrEmpty(NotesData?.data?.notes) && (
+                <Box
+                  sx={{
+                    gap: 1,
+                    display: 'flex',
+                    flexDirection: { xs: 'column', sm: 'row' },
+                    alignItems: 'center',
+                  }}
+                >
+                  <NotesActionDropdown
+                    setOpenDrawer={setOpenDrawer}
+                    selectedCheckboxes={selectedCheckboxes}
+                    setSelectedCheckboxes={setSelectedCheckboxes}
+                  />
+                  <Button
+                    variant="contained"
+                    className="small"
+                    onClick={() => setOpenDrawer('Add')}
+                  >
+                    <PlusIcon /> Add Notes
+                  </Button>
+                </Box>
+              )}
+            </Box>
+            {isNullOrEmpty(NotesData?.data?.notes) && !isError && (
               <Box
                 sx={{
-                  gap: 1,
+                  height: '35vh',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'row' },
+                  justifyContent: 'center',
+                  flexDirection: 'column',
                   alignItems: 'center',
+                  gap: 1.5,
                 }}
               >
-                <NotesActionDropdown
-                  setOpenDrawer={setOpenDrawer}
-                  selectedCheckboxes={selectedCheckboxes}
-                  setSelectedCheckboxes={setSelectedCheckboxes}
-                />
+                <MessageIcon />
+                <Typography variant="body3">
+                  There are no notes available{' '}
+                </Typography>
                 <Button
                   variant="contained"
                   className="small"
@@ -61,33 +97,8 @@ const Notes = ({ companyId }: any) => {
                 </Button>
               </Box>
             )}
-          </Box>
-          {isNullOrEmpty(NotesData?.data?.notes) && !isError && (
-            <Box
-              sx={{
-                height: '35vh',
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 1.5,
-              }}
-            >
-              <MessageIcon />
-              <Typography variant="body3">
-                There are no notes available{' '}
-              </Typography>
-              <Button
-                variant="contained"
-                className="small"
-                onClick={() => setOpenDrawer('Add')}
-              >
-                <PlusIcon /> Add Notes
-              </Button>
-            </Box>
-          )}
-        </Grid>
-
+          </Grid>
+        )}
         {!isNullOrEmpty(NotesData?.data?.notes) && (
           <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
             {NotesData?.data?.notes?.map((item: any) => (
@@ -135,10 +146,11 @@ const Notes = ({ companyId }: any) => {
                   }}
                 >
                   <Image
-                    src={NotesAvatarImage}
+                    src={generateImage(item?.file?.url)}
                     width={70}
                     height={70}
-                    alt="Avatar"
+                    alt="image"
+                    style={{ borderRadius: '50%' }}
                   />
                 </Grid>
                 <Grid item xs={12} lg={9} sm={9} sx={{ gap: 1 }}>
@@ -179,7 +191,7 @@ const Notes = ({ companyId }: any) => {
           sx={{ textAlign: 'center', color: theme?.palette?.error?.main }}
         >
           {' '}
-          something want worng
+          something went worng
         </Typography>
       )}
       {openDrawer && (
@@ -188,6 +200,7 @@ const Notes = ({ companyId }: any) => {
           setOpenDrawer={setOpenDrawer}
           companyId={companyId}
           rowData={rowData}
+          setSelectedCheckboxes={setSelectedCheckboxes}
         />
       )}
     </Box>

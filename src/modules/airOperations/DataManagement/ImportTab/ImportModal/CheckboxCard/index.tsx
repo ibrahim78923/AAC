@@ -6,14 +6,15 @@ const CheckboxCard = ({
   value,
   title = '',
   desc = '',
+  checkedValue,
   handleSelect,
 }: any) => {
   const { palette } = useTheme();
-  const checked = value === title;
+  const checked = value === checkedValue;
   return (
     <Box
       sx={style?.cardWrapper(palette, checked)}
-      onClick={() => handleSelect(title)}
+      onClick={() => handleSelect(checkedValue)}
     >
       <Box
         sx={{

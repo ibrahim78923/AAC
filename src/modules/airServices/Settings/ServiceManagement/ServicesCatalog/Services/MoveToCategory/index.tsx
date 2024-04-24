@@ -11,8 +11,15 @@ import { LoadingButton } from '@mui/lab';
 import useMoveToCategory from './useMoveToCategory';
 
 export const MoveToCategory = (prop: any) => {
-  const { methodAdd, handleSubmit, onSubmit, open, setOpen, apiQueryCategroy } =
-    useMoveToCategory(prop);
+  const {
+    methodAdd,
+    handleSubmit,
+    onSubmit,
+    open,
+    setOpen,
+    apiQueryCategroy,
+    patchServiceCatalogTriggerStatus,
+  } = useMoveToCategory(prop);
 
   const handleClose = () => {
     setOpen(false);
@@ -54,10 +61,15 @@ export const MoveToCategory = (prop: any) => {
               onClick={handleClose}
               variant="outlined"
               color="secondary"
+              disabled={patchServiceCatalogTriggerStatus?.isLoading}
             >
               cancel
             </LoadingButton>
-            <LoadingButton variant="contained" type="submit">
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={patchServiceCatalogTriggerStatus?.isLoading}
+            >
               Move
             </LoadingButton>
           </DialogActions>

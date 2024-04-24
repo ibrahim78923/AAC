@@ -48,7 +48,7 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
       successSnackbar('Team added successfully.');
       handleClose?.();
     } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+      errorSnackbar(error);
     }
   };
   const handleClose = () => {
@@ -66,7 +66,7 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
       successSnackbar('Products Users Edit  Successfully');
       setIsDrawerOpen(false);
     } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+      errorSnackbar('error');
     }
     handleClose?.();
   };
@@ -80,5 +80,6 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
     usersTeamDropdown,
     patchProductTeamStatus,
     addUsersTeamListStatus,
+    editTeamUsersDetails,
   };
 };

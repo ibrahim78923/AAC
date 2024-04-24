@@ -113,13 +113,10 @@ const ActionDropdown = (props: any) => {
         type={'assign'}
         open={openAlertModal === 'Reassign'}
         handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        handleSubmit={handleSubmit(onSubmit)}
         isFooter={true}
       >
-        <FormProvider
-          methods={methodsAssignee}
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <FormProvider methods={methodsAssignee}>
           <Grid container>
             {assigneeDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>

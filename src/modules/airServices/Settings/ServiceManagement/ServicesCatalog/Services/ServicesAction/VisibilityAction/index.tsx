@@ -20,6 +20,7 @@ export const VisibilityAction = (props: any) => {
     handleSubmit,
     apiQueryAgent,
     apiQueryRequester,
+    patchServiceCatalogTriggerStatus,
   } = useVisibilityAction(props);
 
   return (
@@ -105,6 +106,7 @@ export const VisibilityAction = (props: any) => {
             variant="contained"
             size="small"
             onClick={handleSubmit}
+            loading={patchServiceCatalogTriggerStatus?.isLoading}
           >
             Save
           </LoadingButton>
