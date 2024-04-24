@@ -14,6 +14,7 @@ const CustomizeColumns = ({ open, onClose }: any) => {
     selected,
     handleChackboxChange,
     handleUpdateColumns,
+    loadingColumns,
   } = useCustomizeColumn({ onClose });
 
   return (
@@ -26,6 +27,7 @@ const CustomizeColumns = ({ open, onClose }: any) => {
         submitHandler={handleUpdateColumns}
         isOk
         footer
+        isLoading={loadingColumns}
       >
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable

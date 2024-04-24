@@ -18,7 +18,11 @@ const useNotes = (companyId: any) => {
   };
 
   const params = { ...pagination, recordId: companyId };
-  const { data: NotesData, isError } = useGetDealNoteQuery({ params });
+  const {
+    data: NotesData,
+    isError,
+    isLoading,
+  } = useGetDealNoteQuery({ params });
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -49,6 +53,7 @@ const useNotes = (companyId: any) => {
     handleCheckboxChange,
     NotesData,
     rowData,
+    isLoading,
     isError,
   };
 };

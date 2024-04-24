@@ -59,10 +59,10 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     getTeamUserList: builder?.query({
-      query: ({ params }: any) => ({
+      query: ({ param }: any) => ({
         url: `${END_POINTS?.SALES_TEAM}`,
         method: 'GET',
-        params,
+        params: param,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data?.userTeams;
@@ -116,9 +116,10 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     patchTeamUsers: builder.mutation({
-      query: (id: any) => ({
-        url: `${END_POINTS?.SALES_TEAM}${id}`,
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}/${id}`,
         method: 'PATCH',
+        body,
       }),
       invalidatesTags: [TAG],
     }),
@@ -137,6 +138,7 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
 export const {
   useGetProductUserListQuery,
   useLazyGetProductUserListDropdownQuery,
+  useGetProductUserDropdownQuery,
   usePostProductUserListMutation,
   useLazyGetTeamUserListQuery,
   useDeleteProductUsersMutation,

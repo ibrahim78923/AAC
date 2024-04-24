@@ -8,6 +8,7 @@ import {
   Checkbox,
   Alert,
   useTheme,
+  Tooltip,
 } from '@mui/material';
 import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
@@ -50,8 +51,7 @@ const StepBuyerInfo = ({
         <Grid item xs={5}>
           <Box>
             <>
-              {(selectedBuyerContactIds !== null &&
-                selectedCompanyIds !== null) || (
+              {!selectedBuyerContactIds && !selectedCompanyIds && (
                 <Alert
                   sx={{
                     mb: '16px',
@@ -90,35 +90,42 @@ const StepBuyerInfo = ({
                   {contactData &&
                     contactData[0]?.contacts?.map((item: any) => (
                       <Box component="li" sx={styles?.listItem} key={item?.id}>
-                        <Box sx={styles?.itemIcon}>
-                          <Avatar
-                            src={AvatarContactImage?.src}
-                            sx={styles?.itemAvatar}
-                          ></Avatar>
-                        </Box>
-                        <Box sx={styles?.itemDetail}>
-                          <Box sx={styles?.itemTitle}>
+                        <Avatar
+                          src={AvatarContactImage?.src}
+                          sx={styles?.itemAvatar}
+                        />
+                        <Box flex={1}>
+                          <Typography sx={styles?.itemText}>
                             {item?.name}
-                            <Image
-                              src={CrossCircleImage}
-                              alt="delIcon"
-                              onClick={() =>
-                                handleContactDeleteModal(item?._id)
-                              }
-                            />
-                          </Box>
-                          <Box sx={styles?.itemText}>{item?.name}</Box>
-                          <Box sx={styles?.itemText}>{item?.email}</Box>
-                          <Box sx={styles?.itemText}>{item?.phoneNumber}</Box>
+                          </Typography>
+                          <Tooltip title={item?.email}>
+                            <Typography
+                              sx={{
+                                ...styles?.itemText,
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                width: '150px',
+                              }}
+                            >
+                              {item?.email}
+                            </Typography>
+                          </Tooltip>
+                          <Typography sx={styles?.itemText}>
+                            {item?.phoneNumber}
+                          </Typography>
                         </Box>
-                        <Box mt={-0.7}>
-                          <Checkbox
-                            defaultChecked
-                            checked={selectedBuyerContactIds === item?._id}
-                            value={item?._id}
-                            onChange={() => handleBuyerContactChange(item?._id)}
-                          />
-                        </Box>
+                        <Image
+                          src={CrossCircleImage}
+                          alt="delIcon"
+                          onClick={() => handleContactDeleteModal(item?._id)}
+                        />
+                        <Checkbox
+                          defaultChecked
+                          checked={selectedBuyerContactIds === item?._id}
+                          value={item?._id}
+                          onChange={() => handleBuyerContactChange(item?._id)}
+                        />
                       </Box>
                     ))}
                 </Box>
@@ -145,35 +152,32 @@ const StepBuyerInfo = ({
                 {contactData &&
                   contactData[0]?.companies?.map((item: any) => (
                     <Box component="li" sx={styles?.listItem} key={item?.id}>
-                      <Box sx={styles?.itemIcon}>
+                      <Box>
                         <Avatar
                           src={AvatarCompanyImage?.src}
                           sx={styles?.itemAvatar}
-                        ></Avatar>
+                        />
                       </Box>
-                      <Box sx={styles?.itemDetail}>
-                        <Box sx={styles?.itemTitle}>
-                          {item?.name}
-                          <Box sx={{ cursor: 'pointer' }}>
-                            <Image
-                              src={CrossCircleImage}
-                              alt="delIcon"
-                              onClick={() => handleDeleteModal(item?._id)}
-                            />
-                          </Box>
-                        </Box>
+                      <Box flex={1}>
+                        <Typography sx={styles?.itemTitle}>
+                          {item?.domain}
+                        </Typography>
                         <Box sx={styles?.itemText}> {item?.name}</Box>
                         <Box sx={styles?.itemText}>{item?.owner?.email}</Box>
                         <Box sx={styles?.itemText}>
                           {item?.owner?.phoneNumber}
                         </Box>
                       </Box>
-                      <Box mt={-0.7}>
-                        <Checkbox
-                          checked={selectedCompanyIds === item?._id}
-                          onChange={() => handleCompanyChange(item._id)}
-                        />
-                      </Box>
+                      <Image
+                        src={CrossCircleImage}
+                        alt="delIcon"
+                        onClick={() => handleDeleteModal(item?._id)}
+                      />
+                      <Checkbox
+                        defaultChecked
+                        checked={selectedCompanyIds === item?._id}
+                        onChange={() => handleCompanyChange(item._id)}
+                      />
                     </Box>
                   ))}
               </Box>

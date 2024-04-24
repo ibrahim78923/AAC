@@ -32,9 +32,12 @@ export const productsDefaultValues = {
   addLineItemId: '',
 };
 
-export const productsDataArray = (openDrawer: any) => {
+export const productsDataArray = (
+  openDrawer: any,
+  DealsLifecycleStageData: any,
+) => {
   const userRole = ROLES?.ORG_EMPLOYEE;
-  const { pipelineData, DealsLifecycleStageData } = useDealTab();
+  const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
   const query = '&';
   const { data: addLineItem } = useGetSalesProductQuery({

@@ -126,13 +126,6 @@ const CallsActionDropdown = (props: any) => {
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[
-            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.ADD_CALLS_OUTCOME,
-          ]}
-        >
-          <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
-        </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[
             SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.DELETE_CALLS,
           ]}
         >
