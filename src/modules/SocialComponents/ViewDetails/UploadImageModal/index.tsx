@@ -21,23 +21,48 @@ import {
 
 import { useState } from 'react';
 import { styles } from '../ViewDetails.style';
+import { enqueueSnackbar } from 'notistack';
+import { useCompanyUpdateMutation } from '@/services/commonFeatures/companies';
+import { LoadingButton } from '@mui/lab';
 
-const UploadImageModal = ({ isUploadImageOpen, setIsUploadImageOpen }: any) => {
+const UploadImageModal = ({
+  isUploadImageOpen,
+  setIsUploadImageOpen,
+  companyId,
+}: any) => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imageToUpload, setImageToUpload] = useState<any>();
 
   const theme = useTheme();
+  const formData = new FormData();
+  const [CompanyUpdate, { isLoading }] = useCompanyUpdateMutation();
 
-  const handleFileChange = (event: any) => {
-    const file = event?.target?.files[0];
+  const handleFileChange = async (e: any) => {
+    const selectedImage = e?.target?.files[0];
+    setImageToUpload(selectedImage);
+    formData.append('image', selectedImage);
 
-    if (file) {
-      const reader = new FileReader();
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSelectedImage(reader?.result);
+    };
+    reader?.readAsDataURL(selectedImage);
+  };
 
-      reader.onload = (e) => {
-        setSelectedImage(e?.target?.result);
-      };
-
-      reader?.readAsDataURL(file);
+  const onSubmit = async () => {
+    formData.append('profilePicture', imageToUpload);
+    formData.append('isDeleted', 'ACTIVE');
+    formData.append('recordType', 'companies');
+    try {
+      await CompanyUpdate({
+        body: formData,
+        id: companyId,
+      }).unwrap();
+      enqueueSnackbar(`image Updated Successfully`, { variant: 'success' });
+      setIsUploadImageOpen(false);
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
   };
 
@@ -138,13 +163,14 @@ const UploadImageModal = ({ isUploadImageOpen, setIsUploadImageOpen }: any) => {
           >
             cancel
           </Button>
-          <Button
+          <LoadingButton
             variant="contained"
-            onClick={() => setIsUploadImageOpen(false)}
+            onClick={() => onSubmit()}
             disabled={!selectedImage}
+            loading={isLoading}
           >
             confirm
-          </Button>
+          </LoadingButton>
         </Box>
         <Box></Box>
       </DialogActions>
