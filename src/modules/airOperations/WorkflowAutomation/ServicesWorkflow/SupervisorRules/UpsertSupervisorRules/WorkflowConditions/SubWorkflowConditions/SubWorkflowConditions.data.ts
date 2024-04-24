@@ -52,8 +52,8 @@ export const status = ['OPEN', 'CLOSED', 'RESOLVED', 'PENDING', 'SPAMS'];
 export const fieldOptions = [
   'is',
   'is not',
-  'equal',
-  'not equal',
+  'equals',
+  'not equals',
   'contains',
   'not contains',
   'contains words',
@@ -80,10 +80,10 @@ export const dateOperators = [
   'is not',
   'is empty',
   'is not empty',
-  'Greater than',
-  'Less than',
-  'Greater than or equal to',
-  'Less than or equal to',
+  'greater than',
+  'less than',
+  'greater than or equal to',
+  'less than or equal to',
 ];
 
 const constantApiOptions = {

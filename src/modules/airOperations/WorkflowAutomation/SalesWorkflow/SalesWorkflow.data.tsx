@@ -5,7 +5,7 @@ import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { fullName } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { warningSnackbar } from '@/utils/api';
+import { capitalizeFirstLetter, warningSnackbar } from '@/utils/api';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: any,
@@ -124,15 +124,6 @@ export const salesWorkflowListsColumnDynamic: any = (
       isSortable: true,
       header: 'Type',
       cell: (info: any) => {
-        const capitalizeFirstLetter = (type: string) =>
-          type
-            ?.split('_')
-            ?.map(
-              (word: string) =>
-                word?.charAt(0)?.toUpperCase() + word?.slice(1)?.toLowerCase(),
-            )
-            ?.join(' ');
-
         const capitalizedType = info?.getValue()
           ? capitalizeFirstLetter(info?.getValue())
           : '';
@@ -146,14 +137,10 @@ export const salesWorkflowListsColumnDynamic: any = (
       isSortable: true,
       header: 'Last Activity',
       cell: (info: any) => {
-        const capitalizeFirstLetter = (type: any) =>
-          type?.charAt(0)?.toUpperCase() + type?.slice(1);
         const type = info?.getValue()?.type;
-        const capitalizedType = type
-          ? capitalizeFirstLetter(type?.toLowerCase())
-          : '';
+        const capitalizedType = type ? capitalizeFirstLetter(type) : '';
         return fullName(
-          capitalizedType ? capitalizedType + ' by' : null,
+          capitalizedType + ' by',
           info?.getValue()?.user?.firstName +
             ' ' +
             info?.getValue()?.user?.lastName,

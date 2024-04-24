@@ -1,4 +1,12 @@
-import { Avatar, Box, Button, Checkbox, Grid, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Grid,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
@@ -27,13 +35,12 @@ const Notes = ({ selected }: any) => {
     selectedCheckboxes,
     setSelectedCheckboxes,
     handleCheckboxChange,
+    setPageLimit,
     data,
-    setPagination,
+    user,
+    setPage,
   } = useNotes(selected);
-  const {
-    // NameWithStyledWords,
-    theme,
-  } = useNameWithStyledWords();
+  const { theme } = useNameWithStyledWords();
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -142,26 +149,34 @@ const Notes = ({ selected }: any) => {
                   sx={{
                     display: 'flex',
                     justifyContent: 'center',
-                    alignItems: 'center',
                   }}
                 >
                   <Avatar
                     src={`${IMG_URL}${item?.file?.url}`}
                     alt="_img"
-                    sx={{ width: 66, height: 66 }}
+                    sx={{
+                      width: 66,
+                      height: 66,
+                      border: `2px solid ${theme?.palette?.blue?.main}`,
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
-                  {/* <NameWithStyledWords
-                    name={item?.title}
-                    customKey="ActivityHead"
-                  /> */}
-                  <Typography
-                    variant="h5"
-                    color={theme?.palette?.primary?.main}
-                  >
-                    {item?.title}
-                  </Typography>
+                  <Stack direction="row" gap={0.5}>
+                    <Typography
+                      variant="h5"
+                      color={theme?.palette?.primary?.main}
+                    >
+                      {item?.title}
+                    </Typography>
+                    <Typography variant="h5"> Created by </Typography>
+                    <Typography
+                      variant="h5"
+                      color={theme?.palette?.primary?.main}
+                    >
+                      {user?.firstName} {user?.lastName}
+                    </Typography>
+                  </Stack>
                   <Typography
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
@@ -182,7 +197,12 @@ const Notes = ({ selected }: any) => {
         <Grid item xs={12}>
           <CustomPagination
             totalRecords={data?.data?.meta?.total}
-            setPage={setPagination}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            count={data?.data?.meta?.pages}
+            isPagination
+            pageLimit={data?.data?.meta?.limit}
           />
         </Grid>
       </Grid>

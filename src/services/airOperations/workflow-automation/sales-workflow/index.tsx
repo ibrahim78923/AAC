@@ -46,6 +46,21 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    updateSalesWorkflow: builder?.mutation({
+      query: (body: any) => ({
+        url: OPERATION?.OPERATION_WORKFLOW,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getByIdSalesWorkflow: builder?.query({
+      query: (id: any) => ({
+        url: `${OPERATION?.OPERATION_WORKFLOW}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
     getDealDropdownList: builder?.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.DEALS_PIPELINE}`,
@@ -119,4 +134,6 @@ export const {
   useLazyGetUserDropdownListQuery,
   useCloneWorkflowMutation,
   useLazyGetLifeCycleStagesDropdownListQuery,
+  useUpdateSalesWorkflowMutation,
+  useGetByIdSalesWorkflowQuery,
 } = salesWorkflowAPI;

@@ -9,6 +9,7 @@ import { getSession } from '@/utils';
 
 const StepYourInfo = () => {
   const { user } = getSession();
+
   return (
     <Grid container spacing={'40px'}>
       <Grid item xs={5}>

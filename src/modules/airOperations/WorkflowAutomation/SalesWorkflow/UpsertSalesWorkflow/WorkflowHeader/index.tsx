@@ -3,15 +3,16 @@ import { LoadingButton } from '@mui/lab';
 import { Cancel } from '@mui/icons-material';
 import { CopyIcon, GrayBookIcon, WhiteBookIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
+import { TestWorkflowDrawer } from '../TestWorkflow/TestWorkflowDrawer';
 
 export const WorkflowHeader = (props: any) => {
-  const { isLoading, saveLoading, setValidation } = props;
-  const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal } =
+  const { isLoading, saveLoading, setValidation, watch, testWorkflowResponse } =
+    props;
+  const { handleMoveBack, isWorkflowDrawer, setIsWorkflowDrawer, workflowId } =
     useWorkflowHeader(props);
   return (
     <Box>
@@ -43,7 +44,7 @@ export const WorkflowHeader = (props: any) => {
             color="secondary"
             loading={saveLoading}
             disabled={saveLoading || isLoading}
-            onClick={() => setValidation(false)}
+            onClick={() => setValidation('save')}
             type="submit"
           >
             Save as Draft
@@ -58,7 +59,10 @@ export const WorkflowHeader = (props: any) => {
               variant={'outlined'}
               color={'secondary'}
               disabled={saveLoading || isLoading}
-              onClick={() => setOpenWorkflowModal(true)}
+              onClick={() => {
+                setIsWorkflowDrawer(true);
+                setValidation('test');
+              }}
             >
               Test Workflow
             </LoadingButton>
@@ -74,9 +78,9 @@ export const WorkflowHeader = (props: any) => {
               type="submit"
               loading={isLoading}
               disabled={saveLoading || isLoading}
-              onClick={() => setValidation(true)}
+              onClick={() => setValidation('upsert')}
             >
-              Create
+              {workflowId ? 'Update' : 'Create'}
             </LoadingButton>
           </PermissionsGuard>
         </Box>
@@ -95,9 +99,11 @@ export const WorkflowHeader = (props: any) => {
           style={{ minHeight: 200 }}
         />
       </Box>
-      <TestWorkflow
-        openWorkflowModal={openWorkflowModal}
-        setOpenWorkflowModal={setOpenWorkflowModal}
+      <TestWorkflowDrawer
+        isWorkflowDrawer={isWorkflowDrawer}
+        setIsWorkflowDrawer={setIsWorkflowDrawer}
+        watch={watch}
+        testWorkflowResponse={testWorkflowResponse}
       />
     </Box>
   );
