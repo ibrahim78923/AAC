@@ -13,6 +13,7 @@ export const TestWorkflowDrawer = (props: any) => {
       title="Test Result For Workflow"
       footer
       isCancel
+      cancelText="Close"
       isOk={false}
     >
       <Grid container gap={2}>

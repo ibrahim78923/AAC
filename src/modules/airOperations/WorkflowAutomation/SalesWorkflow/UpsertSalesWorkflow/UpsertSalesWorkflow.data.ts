@@ -26,13 +26,13 @@ export const salesSchema: any = Yup?.object()?.shape({
   }),
   scheduleMonth: Yup?.date(),
   scheduleDay: Yup?.string(),
-  scheduleDate: Yup?.mixed(),
+  scheduleDate: Yup?.mixed()?.nullable(),
   time: Yup?.date(),
   custom: Yup?.object(),
   type: Yup?.string(),
   module: Yup?.string()?.required('Required'),
   events: Yup?.mixed()?.when('type', {
-    is: (type: string) => type === 'EVENT_BASE',
+    is: (type: string) => type === workflowTypes?.eventBase,
     then: (schema: any) => schema?.required('Required'),
     otherwise: (schema: any) => schema?.notRequired(),
   }),
@@ -72,9 +72,9 @@ const type: any = {
   ANNUALLY: 'annually',
   CUSTOM: 'custom',
 };
-export const salesValues = (data: any, moduleWatch: any) => {
-  const keyDropdown = workflowModuleOption[moduleWatch] || [];
-  const actionKeyOptions = actionKeys[moduleWatch] || [];
+export const salesValues = (data: any) => {
+  const keyDropdown = workflowModuleOption[data?.module] || [];
+  const actionKeyOptions = actionKeys[data?.module] || [];
   const time = data?.schedule?.[type[data?.schedule?.type]]?.time;
   const startDate = data?.schedule?.custom?.startDate;
   const endDate = data?.schedule?.custom?.endDate;
@@ -90,7 +90,7 @@ export const salesValues = (data: any, moduleWatch: any) => {
       capitalizeFirstLetter(
         data?.schedule?.weekly?.days?.find((item: string) => item),
       ) ?? 'Monday',
-    scheduleDate: data?.schedule?.monthly?.day ?? null,
+    scheduleDate: data?.schedule?.monthly?.day ?? 1,
     time: time ? new Date(timeFormatter(time)) : new Date(),
     custom: {
       startDate: startDate ? new Date(startDate) : new Date(),
@@ -100,16 +100,17 @@ export const salesValues = (data: any, moduleWatch: any) => {
     module: data?.module ?? 'DEALS',
     events:
       triggerOptions?.find(
-        (item) => item?.value === data?.events?.find((event: any) => event),
+        (item: any) =>
+          item?.value === data?.events?.find((event: any) => event),
       ) ?? null,
     runType:
-      andRunOptions?.find((item) => item?.value === data?.runType) ?? null,
+      andRunOptions?.find((item: any) => item?.value === data?.runType) ?? null,
     groupCondition: data?.groupCondition ?? 'OR',
     groups: data?.groups?.map((group: any, groupIndex: number) => ({
       name: group?.name ?? '',
       conditionType:
         conditionTypeOptions?.find(
-          (type) => type?.value === group?.conditionType,
+          (type: any) => type?.value === group?.conditionType,
         ) ?? null,
       conditions: group?.conditions?.map(
         (condition: any, conditionIndex: number) => ({
