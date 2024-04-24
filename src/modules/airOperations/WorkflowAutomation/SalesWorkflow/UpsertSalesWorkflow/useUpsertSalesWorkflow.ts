@@ -51,7 +51,7 @@ export const useUpsertSalesWorkflow = () => {
   useEffect(() => {
     reset(salesValues(data?.data));
   }, [workflowId, data]);
-  const [updateSalesWorkflowTrigger, { isLoading: updateLoading }] =
+  const [updateSalesWorkflowTrigger, { isLoading: updateLoading }]: any =
     useUpdateSalesWorkflowMutation();
   const [postSalesWorkflowTrigger, { isLoading }] =
     usePostSalesWorkflowMutation();
@@ -67,7 +67,8 @@ export const useUpsertSalesWorkflow = () => {
         ? workflowFields?.number
         : typeof action?.fieldValue === workflowFields?.string
           ? workflowFields?.string
-          : typeof action?.fieldValue === workflowFields?.object
+          : typeof action?.fieldValue === workflowFields?.object &&
+              action?.fieldValue !== null
             ? workflowFields?.objectId
             : '';
   };
