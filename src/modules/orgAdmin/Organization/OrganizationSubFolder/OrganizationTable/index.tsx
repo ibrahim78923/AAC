@@ -74,6 +74,7 @@ const OrganizationTable = () => {
     handleImageChangeCompany,
     imagePreview,
     reset,
+    setImagePreview,
   } = useOrganizationTable();
   const { user }: any = useAuth();
 
@@ -391,6 +392,8 @@ const OrganizationTable = () => {
                     setIsOpenDrawer(true);
                     setEditData({});
                     setIsGetRowValues([]);
+                    reset();
+                    setImagePreview('');
                   }}
                   variant="contained"
                   className="small"
