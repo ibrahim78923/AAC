@@ -141,9 +141,10 @@ export const salesWorkflowListsColumnDynamic: any = (
         const capitalizedType = type ? capitalizeFirstLetter(type) : '';
         return fullName(
           capitalizedType + ' by',
-          info?.getValue()?.user?.firstName +
-            ' ' +
+          fullName(
+            info?.getValue()?.user?.firstName,
             info?.getValue()?.user?.lastName,
+          ),
         );
       },
     },

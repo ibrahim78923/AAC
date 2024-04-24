@@ -10,7 +10,7 @@ const TAG_FOUR = 'DROPDOWN_REQUESTER';
 const TAG_FIVE = 'DROPDOWN_ASSET_TYPE_LIST';
 const TAG_SIX = 'USER_LIST_DROPDOWN';
 
-const { OPERATION_WORKFLOW, SAVE_WORKFLOW, CLONE_WORKFLOW, Test_WORKFLOW } =
+const { OPERATION_WORKFLOW, SAVE_WORKFLOW, CLONE_WORKFLOW, TEST_WORKFLOW } =
   OPERATION;
 
 export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
@@ -25,7 +25,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
     }),
     postTestWorkflow: builder?.mutation({
       query: (body: any) => ({
-        url: `${Test_WORKFLOW}`,
+        url: `${TEST_WORKFLOW}`,
         method: 'POST',
         body,
       }),
