@@ -28,7 +28,8 @@ export const useUpsertSalesWorkflow = () => {
   const salesMethod = useForm({
     defaultValues: salesValues(null),
     resolver:
-      validation === workflowFields?.upsert || workflowFields?.test
+      validation === workflowFields?.upsert ||
+      validation === workflowFields?.test
         ? yupResolver(salesSchema)
         : yupResolver(salesSaveSchema),
   });
