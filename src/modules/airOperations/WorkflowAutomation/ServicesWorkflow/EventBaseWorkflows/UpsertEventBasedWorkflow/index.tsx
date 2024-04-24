@@ -1,4 +1,4 @@
-import { Box, Grid, Skeleton } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertEventBasedWorkflow } from './useUpsertEventBasedWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -6,6 +6,7 @@ import { WorkflowHeader } from './WorkflowHeader';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 import { EventBasedWorkflowDataArray } from './UpsertEventBasedWorkflow.data';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertEventBasedWorkflow = () => {
   const {
@@ -30,7 +31,7 @@ export const UpsertEventBasedWorkflow = () => {
     testWorkflowProgress,
     testWorkflowResponse,
   } = useUpsertEventBasedWorkflow();
-  if (isLoading || isFetching) return <Skeleton />;
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <Box>
       <FormProvider

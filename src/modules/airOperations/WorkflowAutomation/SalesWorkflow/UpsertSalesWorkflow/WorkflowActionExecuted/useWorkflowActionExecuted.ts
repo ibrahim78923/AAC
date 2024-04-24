@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { useTheme } from '@mui/material';
 import { useFieldArray } from 'react-hook-form';
-import { salesValues } from '../UpsertSalesWorkflow.data';
 import { errorSnackbar, warningSnackbar } from '@/utils/api';
 import {
-  useLazyGetContactDropdownListQuery,
   useLazyGetDealDropdownListQuery,
   useLazyGetLifeCycleStagesDropdownListQuery,
   useLazyGetUserDropdownListQuery,
@@ -26,14 +24,13 @@ export const useWorkflowActionExecuted = (props: any) => {
   };
   const handleAppend = () => {
     if (fields?.length < 5) {
-      append(salesValues?.actions);
+      append({ fieldName: null, fieldValue: null });
     } else {
       errorSnackbar('Action limit exceeds');
     }
   };
   const { palette } = useTheme();
   const dealsDropdown = useLazyGetDealDropdownListQuery();
-  const contactDropdown = useLazyGetContactDropdownListQuery();
   const userDropdown = useLazyGetUserDropdownListQuery();
   const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
   const moduleType = watch('module');
@@ -49,7 +46,6 @@ export const useWorkflowActionExecuted = (props: any) => {
     palette,
     handleDeleteClick,
     dealsDropdown,
-    contactDropdown,
     userDropdown,
     stagesDropdown,
   };
