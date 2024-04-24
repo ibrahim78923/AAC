@@ -7,13 +7,12 @@ import * as Yup from 'yup';
 export const dealsNotesValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Field is Required'),
   description: Yup?.string()?.trim()?.required('Field is Required'),
-  attachfile: Yup?.string(),
 });
 
 export const dealsNotesDefaultValues = {
   title: '',
   description: '',
-  attachfile: '',
+  file: '',
 };
 
 export const dealsNotesDataArray = (openDrawer: any) => {
@@ -42,7 +41,7 @@ export const dealsNotesDataArray = (openDrawer: any) => {
     },
     {
       componentProps: {
-        name: 'attachfile',
+        name: 'file',
         label: '',
         fullWidth: true,
         disabled: openDrawer === 'View',

@@ -20,7 +20,7 @@ export const validationSchema = Yup?.object()?.shape({
   defaultUser: Yup?.string()?.trim(),
   defaultUserTwo: Yup?.string()?.trim(),
   additionalStorage: Yup?.string(),
-  discount: Yup?.string()?.trim()?.required('Field is Required'),
+  discount: Yup?.string()?.trim(),
   billingCycle: Yup?.string()?.trim()?.required('Field is Required'),
   date: Yup?.date(),
 });
