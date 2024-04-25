@@ -79,7 +79,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
           variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
-    } else {
+    } else if (actionType === 'create') {
       try {
         await postProduct({ body: formData })
           ?.unwrap()
@@ -106,8 +106,32 @@ const FormCreateProduct = ({ open, onClose }: any) => {
     onClose();
   };
 
+  // useEffect(() => {
+  //   if (actionType !== 'create') {
+  //     lazyGetProductsByIdQuery({ id: productId }).then((res) => {
+  //       if (res?.data) {
+  //         const fieldsData = res?.data?.data;
+  //         reset({
+  //           name: fieldsData?.name,
+  //           sku: fieldsData?.sku,
+  //           category: fieldsData?.category,
+  //           description: fieldsData?.description,
+  //           isActive: fieldsData?.isActive,
+  //           unitPrice: fieldsData?.unitPrice,
+  //           purchasePrice: fieldsData?.purchasePrice,
+  //         });
+  //       }
+  //     });
+  //   }
+  //   if (actionType === 'create') {
+  //     reset(initValues);
+  //   }
+  // }, [productId, reset]);
+
   useEffect(() => {
-    if (actionType !== 'create') {
+    if (actionType === 'create') {
+      reset([]);
+    } else if ((actionType === 'edit' || actionType === 'view') && productId) {
       lazyGetProductsByIdQuery({ id: productId }).then((res) => {
         if (res?.data) {
           const fieldsData = res?.data?.data;
@@ -123,10 +147,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
         }
       });
     }
-    if (actionType === 'create') {
-      reset(initValues);
-    }
-  }, [productId, reset]);
+  }, [productId, reset, actionType]);
 
   return (
     <CommonDrawer
@@ -169,3 +190,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
 };
 
 export default FormCreateProduct;
+
+// 6629e86ab2deece196b39016
+
+// 66138ebed5542343f739014d

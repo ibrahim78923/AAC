@@ -26,16 +26,24 @@ const CreateView = ({ open, onClose }: any) => {
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = (values: any) => {
-    values.apiUrl = `${AIR_SALES?.DEAL_LIST_VIEW}?dateStart=${dayjs()?.format(
-      DATE_FORMAT?.API,
-    )}&dateEnd=${dayjs(values?.CloseDate)?.format(
-      DATE_FORMAT?.API,
-    )}&dealPiplineId=${values?.dealPipelineId}&dealOwnerId=${values?.dealOwnerId}&dealStageId=${values?.dealStageId}`;
+    const paramsObj: any = {};
+    if (values.dateStart)
+      paramsObj['dateStart'] = dayjs(values.dateStart)?.format(
+        DATE_FORMAT?.API,
+      );
+    if (values.dateEnd)
+      paramsObj['dateEnd'] = dayjs(values.dateEnd)?.format(DATE_FORMAT?.API);
+    if (values.dealPipelineId)
+      paramsObj['dealPiplineId'] = values.dealPipelineId;
+    if (values.dealOwnerId) paramsObj['dealOwnerId'] = values.dealOwnerId;
+    if (values.dealStageId) paramsObj['dealStageId'] = values.dealStageId;
 
+    const query = '?' + new URLSearchParams(paramsObj).toString();
+    values.apiUrl = `${AIR_SALES?.DEAL_LIST_VIEW}${query}`;
     const obj = {
-      name: values?.name,
-      apiUrl: values?.apiUrl,
-      sharedWith: values?.sharedWith,
+      name: values.name,
+      apiUrl: values.apiUrl,
+      sharedWith: values.sharedWith,
     };
 
     try {
@@ -50,6 +58,50 @@ const CreateView = ({ open, onClose }: any) => {
     }
     onClose();
   };
+
+  // const onSubmit = async (values: any) => {
+  //   console.log(values,'values');
+
+  //   let apiUrl = AIR_SALES?.DEAL_LIST_VIEW;
+
+  //   if (values?.CloseDate) {
+  //     apiUrl += `?dateStart=${dayjs()?.format(DATE_FORMAT?.API)}&dateEnd=${dayjs(values.CloseDate)?.format(DATE_FORMAT?.API)}`;
+  //   }
+
+  //   if (values?.dealPipelineId) {
+  //     apiUrl += `&dealPiplineId=${values?.dealPipelineId}`;
+  //   }
+
+  //   if (values?.dealOwnerId) {
+  //     apiUrl += `&dealOwnerId=${values?.dealOwnerId}`;
+  //   }
+
+  //   if (values?.dealStageId) {
+  //     apiUrl += `&dealStageId=${values?.dealStageId}`;
+  //   }
+
+  //   const obj = {
+  //     name: values?.name,
+  //     apiUrl,
+  //     sharedWith: values?.sharedWith,
+  //   };
+
+  //   console.log(obj);
+
+  //   try {
+  //     await createViewDeals(obj)?.unwrap();
+  //     enqueueSnackbar('View created successfully', {
+  //       variant: 'success',
+  //     });
+  //   } catch (error) {
+  //     enqueueSnackbar('Error while creating View', {
+  //       variant: 'error',
+  //     });
+  //   }
+
+  //   onClose();
+  // };
+
   return (
     <>
       <CommonDrawer
