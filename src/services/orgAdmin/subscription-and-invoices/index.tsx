@@ -87,6 +87,13 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    getTaxCalculations: builder.query({
+      query: () => ({
+        url: `${ORG_ADMIN?.SUBSCRIPTION_AND_INVOICES_TAX_CALCULATIONS}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -102,4 +109,5 @@ export const {
   useGetCRMPlanListQuery,
   usePostSubscriptionPlanMutation,
   usePatchSubscriptionPlanMutation,
+  useGetTaxCalculationsQuery,
 } = subscriptionAndInvoicesAPI;

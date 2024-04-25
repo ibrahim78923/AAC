@@ -13,6 +13,7 @@ export const conditionTypeOptions = [
 ];
 export const taskStatusDropdown = ['Pending', 'Inprogress', 'Complete'];
 export const activityTypeDropdown = ['Call', 'Email', 'Company'];
+export const quoteStatus = ['DRAFT', 'PUBLISHED'];
 
 export const workflowConditionsGroupDataArray = (index: any) => [
   {
@@ -48,7 +49,7 @@ export const workflowConditionsDataArray = (
   subIndex: any,
   watch: any,
   dealDropdown: any,
-  contactDropdown: any,
+  userDropdown: any,
   stagesDropdown: any,
 ) => {
   const moduleType = watch('module');
@@ -136,7 +137,6 @@ export const workflowConditionsDataArray = (
         component = RHFDatePicker;
         componentProps = {
           fullWidth: true,
-          disablePast: true,
         };
       } else if (watchCondition === conditionNames?.isBlank) {
         component = Box;
@@ -152,11 +152,10 @@ export const workflowConditionsDataArray = (
       ) {
         component = RHFAutocompleteAsync;
         componentProps = {
-          externalParams: { limit: 100 },
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
-          apiQuery: contactDropdown,
-          placeholder: 'Select Contact',
+          apiQuery: userDropdown,
+          placeholder: 'Select User',
         };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
@@ -171,8 +170,10 @@ export const workflowConditionsDataArray = (
         watchCondition === conditionNames?.is ||
         watchCondition === conditionNames?.isNot
       ) {
-        component;
-        componentProps;
+        component = RHFTextField;
+        componentProps = {
+          placeholder: 'Enter Name',
+        };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
         watchCondition === conditionNames?.isNotEmpty
@@ -186,11 +187,10 @@ export const workflowConditionsDataArray = (
       ) {
         component = RHFAutocompleteAsync;
         componentProps = {
-          externalParams: { limit: 100 },
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
-          apiQuery: contactDropdown,
-          placeholder: 'Select Contact',
+          apiQuery: userDropdown,
+          placeholder: 'Select User',
         };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
@@ -210,26 +210,27 @@ export const workflowConditionsDataArray = (
         component = RHFDatePicker;
         componentProps = {
           fullWidth: true,
-          disablePast: true,
         };
       } else if (watchCondition === conditionNames?.isBlank) {
         component = Box;
       }
+    } else if (watchKey === conditionNames?.status) {
+      if (
+        watchCondition === conditionNames?.is ||
+        watchCondition === conditionNames?.isNot
+      ) {
+        component = RHFAutocomplete;
+        componentProps = {
+          options: quoteStatus,
+          placeholder: 'Select Status',
+        };
+      } else if (
+        watchCondition === conditionNames?.isEmpty ||
+        watchCondition === conditionNames?.isNotEmpty
+      ) {
+        component = Box;
+      }
     }
-    // else if (watchKey === conditionNames?.status) {
-    //   if (
-    //     watchCondition === conditionNames?.is ||
-    //     watchCondition === conditionNames?.isNot
-    //   ) {
-    //     component;
-    //     componentProps;
-    //   } else if (
-    //     watchCondition === conditionNames?.isEmpty ||
-    //     watchCondition === conditionNames?.isNotEmpty
-    //   ) {
-    //     component = Box;
-    //   }
-    // }
   } else if (moduleType === conditionNames?.tasks) {
     if (watchKey === conditionNames?.status) {
       if (
@@ -259,7 +260,6 @@ export const workflowConditionsDataArray = (
         component = RHFDatePicker;
         componentProps = {
           fullWidth: true,
-          disablePast: true,
         };
       } else if (watchCondition === conditionNames?.isBlank) {
         component = Box;
@@ -286,11 +286,10 @@ export const workflowConditionsDataArray = (
       ) {
         component = RHFAutocompleteAsync;
         componentProps = {
-          externalParams: { limit: 100 },
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
-          apiQuery: contactDropdown,
-          placeholder: 'Select Contact',
+          apiQuery: userDropdown,
+          placeholder: 'Select User',
         };
       } else if (
         watchCondition === conditionNames?.isEmpty ||
@@ -373,7 +372,7 @@ export const workflowModuleOption: any = {
     { label: 'Created By', value: 'createdBy' },
     { label: 'Created Date', value: 'createdAt' },
     { label: 'Expiration Date', value: 'expiryDate' },
-    // { label: 'Status', value: 'status' },
+    { label: 'Status', value: 'status' },
   ],
   SALES_TASKS: [
     { label: 'Status', value: 'status' },
@@ -452,16 +451,16 @@ export const quoteConditions = [
     'before a specific date',
     'is blank',
   ],
-  // ['is in', 'is not in', 'is empty', 'is not empty'],
+  ['is in', 'is not in', 'is empty', 'is not empty'],
 ];
 export const quoteConditionIndexMap: any = {
   'Update Quote Name': 0,
   'Created By': 1,
   'Created Date': 2,
   'Expiration Date': 3,
-  // Status: 4,
+  Status: 4,
 };
-const taskConditions = [
+export const taskConditions = [
   ['is in', 'is not in', 'is empty', 'is not empty'],
   [
     'on a specific date',

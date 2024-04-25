@@ -7,6 +7,8 @@ import ShopDetailsModal from './ShopDetailsModal';
 import { DeleteShop } from './DeleteShop';
 import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 const ShopsTab = () => {
   const {
@@ -37,40 +39,46 @@ const ShopsTab = () => {
         addShopModalOpen={addShopModalOpen}
         setAddShopModalOpen={setAddShopModalOpen}
       />
-      {shopData?.length ? (
-        <Grid container spacing={2.4}>
-          {shopData?.map?.((card: any) => (
-            <Grid item xs={12} md={6} lg={4} key={card?._id}>
-              <CheckboxCard
-                {...card}
-                selectedCardList={selectedCardList}
-                handleSelect={handleSelect}
-                handleOpenDetailModal={() =>
-                  setOpenDetailDrawer({ isOpen: true, _id: card?._id })
-                }
-                isFetching={isFetching}
-                isLoading={isLoading}
-              />
-              {openDetailDrawer?._id === card?._id && (
-                <ShopDetailsModal
-                  data={card}
-                  isDetailDrawerOpen={openDetailDrawer?.isOpen}
-                  setIsDetailDrawerOpen={setOpenDetailDrawer}
-                  setAddShopModalOpen={setAddShopModalOpen}
-                  setDeleteModalOpen={setDeleteModalOpen}
+      <PermissionsGuard
+        permissions={[
+          AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS?.VIEW_SHOP_DETAILS,
+        ]}
+      >
+        {shopData?.length ? (
+          <Grid container spacing={2.4}>
+            {shopData?.map?.((card: any) => (
+              <Grid item xs={12} md={6} lg={4} key={card?._id}>
+                <CheckboxCard
+                  {...card}
+                  selectedCardList={selectedCardList}
+                  handleSelect={handleSelect}
+                  handleOpenDetailModal={() =>
+                    setOpenDetailDrawer({ isOpen: true, _id: card?._id })
+                  }
+                  isFetching={isFetching}
+                  isLoading={isLoading}
                 />
-              )}
-            </Grid>
-          ))}
-          <DeleteShop
-            deleteModalOpen={deleteModalOpen}
-            setDeleteModalOpen={setDeleteModalOpen}
-            selectedCardList={selectedCardList}
-          />
-        </Grid>
-      ) : (
-        <NoData image={NoAssociationFoundImage} message={'No data found'} />
-      )}
+                {openDetailDrawer?._id === card?._id && (
+                  <ShopDetailsModal
+                    data={card}
+                    isDetailDrawerOpen={openDetailDrawer?.isOpen}
+                    setIsDetailDrawerOpen={setOpenDetailDrawer}
+                    setAddShopModalOpen={setAddShopModalOpen}
+                    setDeleteModalOpen={setDeleteModalOpen}
+                  />
+                )}
+              </Grid>
+            ))}
+            <DeleteShop
+              deleteModalOpen={deleteModalOpen}
+              setDeleteModalOpen={setDeleteModalOpen}
+              selectedCardList={selectedCardList}
+            />
+          </Grid>
+        ) : (
+          <NoData image={NoAssociationFoundImage} message={'No data found'} />
+        )}
+      </PermissionsGuard>
     </>
   );
 };

@@ -44,11 +44,16 @@ const useNotesActionDropdown = ({
   };
 
   const handleDeleteHandler = async () => {
+    const SelectedNoteId =
+      selectedCheckboxesIds?.length > 1
+        ? selectedCheckboxesIds
+        : selectedCheckboxesIds[0];
     try {
-      await deleteDealNote({ id: selectedCheckboxesIds })?.unwrap();
+      await deleteDealNote({ ids: SelectedNoteId })?.unwrap();
       enqueueSnackbar(`Notes Deleted Successfully`, { variant: 'success' });
       handleCloseAlert();
       setSelectedCheckboxes([]);
+      handleCloseMenu();
     } catch (error) {
       const errMsg = error?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
