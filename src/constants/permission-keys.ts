@@ -1354,6 +1354,11 @@ export const AIR_SERVICES_DASHBOARD_PERMISSIONS = {
   VIEW_DASHBOARD: 'service-dashboard-list',
 };
 
+export const AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'loyalty-program-dashboard-view',
+  APPLY_FILTERS: 'loyalty-program-dashboard-apply-filters',
+};
+
 export const AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT_PERMISSIONS = {
   ACCOUNT_GENERAL: 'loyalty-program-settings-account-general',
   ACCOUNT_VIEW_DETAILS: 'loyalty-program-settings-account-view-details',

@@ -63,14 +63,14 @@ export const useUpsertSalesWorkflow = () => {
     return action?.fieldValue instanceof Date
       ? workflowFields?.date
       : typeof action?.fieldValue === workflowFields?.string &&
-          !isNaN(Date?.parse(action?.fieldValue))
-        ? workflowFields?.number
-        : typeof action?.fieldValue === workflowFields?.string
-          ? workflowFields?.string
-          : typeof action?.fieldValue === workflowFields?.object &&
-              action?.fieldValue !== null
-            ? workflowFields?.objectId
-            : '';
+        !isNaN(Date?.parse(action?.fieldValue))
+      ? workflowFields?.number
+      : typeof action?.fieldValue === workflowFields?.string
+      ? workflowFields?.string
+      : typeof action?.fieldValue === workflowFields?.object &&
+        action?.fieldValue !== null
+      ? workflowFields?.objectId
+      : '';
   };
   const groupValues = (groupData: any) => {
     return groupData?.groups?.map((group: any) => ({
@@ -88,17 +88,16 @@ export const useUpsertSalesWorkflow = () => {
             condition?.condition === workflowFields?.isNotIn)
             ? workflowFields?.dealpipelines
             : condition?.fieldName?.label === workflowFields?.dealStage &&
-                (condition?.condition === workflowFields?.isIn ||
-                  condition?.condition === workflowFields?.isNotIn)
-              ? workflowFields?.lifecycleStages
-              : (condition?.fieldName?.label === workflowFields?.salesOwner ||
-                    condition?.fieldName?.label === workflowFields?.createdBy ||
-                    condition?.fieldName?.label ===
-                      workflowFields?.updatedBy) &&
-                  (condition?.condition === workflowFields?.isIn ||
-                    condition?.condition === workflowFields?.isNotIn)
-                ? workflowFields?.users
-                : '',
+              (condition?.condition === workflowFields?.isIn ||
+                condition?.condition === workflowFields?.isNotIn)
+            ? workflowFields?.lifecycleStages
+            : (condition?.fieldName?.label === workflowFields?.salesOwner ||
+                condition?.fieldName?.label === workflowFields?.createdBy ||
+                condition?.fieldName?.label === workflowFields?.updatedBy) &&
+              (condition?.condition === workflowFields?.isIn ||
+                condition?.condition === workflowFields?.isNotIn)
+            ? workflowFields?.users
+            : '',
       })),
       conditionType: group?.conditionType?.value,
     }));
@@ -142,11 +141,11 @@ export const useUpsertSalesWorkflow = () => {
         action?.fieldName?.label === workflowFields?.setDealPipeline
           ? workflowFields?.dealpipelines
           : action?.fieldName?.label === workflowFields?.setDealStage
-            ? workflowFields?.lifecycleStages
-            : action?.fieldName?.label === workflowFields?.setDealOwner ||
-                action?.fieldName?.label === workflowFields?.setAssignedTo
-              ? workflowFields?.users
-              : '',
+          ? workflowFields?.lifecycleStages
+          : action?.fieldName?.label === workflowFields?.setDealOwner ||
+            action?.fieldName?.label === workflowFields?.setAssignedTo
+          ? workflowFields?.users
+          : '',
     }));
   };
   let successMessage = '';
