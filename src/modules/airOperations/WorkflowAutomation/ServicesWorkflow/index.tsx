@@ -70,24 +70,6 @@ export const ServicesWorkflow = () => {
                 >
                   {item?.description}
                 </Typography>
-                <Box
-                  p={1}
-                  textAlign={'center'}
-                  borderRadius={1}
-                  sx={{
-                    width: 258,
-                    backgroundColor:
-                      activeItem === item?.id
-                        ? 'primary.main'
-                        : 'primary.light',
-                    color:
-                      activeItem === item?.id
-                        ? 'common.white'
-                        : 'slateBlue.main',
-                  }}
-                >
-                  {item?.buttonTitle}
-                </Box>
               </Grid>
             );
           })}
