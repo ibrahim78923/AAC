@@ -36,13 +36,11 @@ const TicketsEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit(onSubmit)}
       >
-        <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodsTickets}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Grid container spacing={4}>
+        <Box>
+          <FormProvider methods={methodsTickets}>
+            <Grid container spacing={2}>
               <Grid item xs={12}>
                 <RHFRadioGroup
                   options={ticketOptions}

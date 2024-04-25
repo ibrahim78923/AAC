@@ -52,7 +52,7 @@ export const productData = [
   },
 ];
 export const stepsData: any = {
-  Inventory: [
+  INVENTORIES: [
     'Display name',
     'Asset Type',
     'Impact',
@@ -64,7 +64,7 @@ export const stepsData: any = {
     'Used By',
     'Attachment',
   ],
-  Location: [
+  LOCATIONS: [
     'Location Name',
     'Contact Name',
     'Email',
@@ -76,7 +76,7 @@ export const stepsData: any = {
     'State',
     'Zip Code',
   ],
-  Catalog: [
+  PRODUCT_CATALOG: [
     'Name',
     'Asset Type',
     'Manufacturer',
@@ -84,7 +84,7 @@ export const stepsData: any = {
     'Mode of Procurement',
     'Description',
   ],
-  Vendor: [
+  VENDORS: [
     'Name',
     'Contact Name',
     'Phone',
@@ -97,7 +97,7 @@ export const stepsData: any = {
     'City',
     'Zip Code',
   ],
-  Deals: [
+  DEALS: [
     'Deal Owner',
     'Deal Name',
     'Amount',
@@ -106,7 +106,7 @@ export const stepsData: any = {
     'Closed Date',
     'Email',
   ],
-  Tasks: [
+  TASKS: [
     'Task Name',
     'Task Status',
     'Linked Company',

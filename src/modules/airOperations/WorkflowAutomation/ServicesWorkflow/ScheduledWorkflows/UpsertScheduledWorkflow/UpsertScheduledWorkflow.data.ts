@@ -3,9 +3,11 @@ import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   assetsFieldsOption,
+  optionsConstants,
   taskFieldsOption,
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
+import { monthFormatter, timeFormatter } from '@/utils/api';
 
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
@@ -34,44 +36,31 @@ export const actionsOptions = [
   { value: 'department', label: 'Set Department as' },
   { value: 'addTask', label: 'Add Task' },
   { value: 'addTag', label: 'Add Tag' },
-  { value: 'sendEmailAgent', label: 'Send Email to Agent' },
-  { value: 'sendEmailRequester', label: 'Send Email to Requester' },
-  { value: 'assignAgent', label: 'Assign to Agent' },
+  { value: 'assignTo', label: 'Assign to Agent' },
 ];
-
+export const scheduledSaveWorkflowSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
+});
 export const scheduledWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
-  description: Yup.string(),
-  runType: Yup.mixed().nullable().required('Required'),
+  description: Yup?.string(),
+  runType: Yup?.mixed()?.nullable()?.required('Required'),
   groups: Yup?.array()?.of(
     Yup?.object()?.shape({
       name: Yup?.string()?.required('Required'),
       conditionType: Yup?.mixed()?.nullable()?.required('Required'),
       groupCondition: Yup?.string(),
       conditions: Yup?.array()?.of(
-        Yup?.lazy((value: any) => {
-          if (value?.key === 'email') {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.string()
-                ?.email('Invalid email')
-                ?.nullable()
-                ?.required('Required'),
-            });
-          } else if (value?.key === 'number') {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.number()?.nullable()?.required('Required'),
-            });
-          } else {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
-            });
-          }
+        Yup?.object()?.shape({
+          fieldName: Yup?.mixed()?.nullable()?.required('Required'),
+          condition: Yup?.string()?.required('Required'),
+          fieldValue: Yup?.mixed()?.when('condition', {
+            is: (condition: string) =>
+              condition === optionsConstants?.isEmpty ||
+              condition === optionsConstants?.isNotEmpty,
+            then: (schema: any) => schema?.notRequired(),
+            otherwise: (schema: any) => schema?.required('Required'),
+          }),
         }),
       ),
     }),
@@ -131,31 +120,32 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
     ...taskFieldsOption,
     ...assetsFieldsOption,
   ];
+  const type: any = {
+    WEEKLY: 'weekly',
+    MONTHLY: 'monthly',
+    ANNUALLY: 'annually',
+    CUSTOM: 'custom',
+  };
 
-  function capitalizeFirstLetter(string: any) {
-    if (!string || typeof string !== 'string') return '';
-    return new Date(
-      Date?.parse(singleWorkflowData?.schedule?.annually?.month + ' 1, 2000'),
-    )?.getMonth();
-  }
+  const time =
+    singleWorkflowData?.schedule?.[type[singleWorkflowData?.schedule?.type]]
+      ?.time;
 
   const startDate = singleWorkflowData?.schedule?.custom?.startDate;
   const endDate = singleWorkflowData?.schedule?.custom?.endDate;
-  const timeChange = singleWorkflowData?.schedule?.time;
-
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.SCHEDULED,
     description: singleWorkflowData?.description ?? '',
     schedule: singleWorkflowData?.schedule?.type?.toLowerCase() ?? 'daily',
-    scheduleMonth:
-      new Date(
-        capitalizeFirstLetter(singleWorkflowData?.schedule?.annually?.month),
-      ) ?? new Date(),
+    scheduleMonth: singleWorkflowData?.schedule?.annually?.month
+      ? monthFormatter(singleWorkflowData?.schedule?.annually?.month)
+      : new Date(),
     scheduleDay:
-      singleWorkflowData?.schedule?.weekly?.days[0]?.toLowerCase() ?? 'monday',
-    scheduleDate: new Date(),
-    time: timeChange ? new Date(timeChange) : new Date(),
+      singleWorkflowData?.schedule?.weekly?.days?.[0]?.toLowerCase() ??
+      'monday',
+    scheduleDate: singleWorkflowData?.schedule?.monthly?.day ?? null,
+    time: time ? new Date(timeFormatter(time)) : new Date(),
     custom: {
       startDate: startDate ? new Date(startDate) : new Date(),
       endDate: endDate ? new Date(endDate) : new Date(),
@@ -188,7 +178,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
             fieldValue:
               condition?.fieldType === 'objectId'
                 ? singleWorkflowData[
-                    `${condition?.fieldName}${gIndex}${cIndex}`
+                    `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
                 : condition?.fieldType === 'date'
                   ? new Date(condition?.fieldValue)
@@ -218,7 +208,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         fieldValue:
           action?.fieldType === 'objectId'
-            ? singleWorkflowData[`${action?.fieldName}${aIndex}`]
+            ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === 'date'
               ? new Date(action?.fieldValue)
               : action?.fieldValue,

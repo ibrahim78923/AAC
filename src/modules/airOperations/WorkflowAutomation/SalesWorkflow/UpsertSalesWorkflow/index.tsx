@@ -6,6 +6,7 @@ import { WorkflowSchedule } from './WorkflowSchedule';
 import { WorkflowHeader } from './WorkflowHeader';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertSalesWorkflow = () => {
   const {
@@ -19,7 +20,15 @@ export const UpsertSalesWorkflow = () => {
     isLoading,
     saveLoading,
     setValidation,
+    byIdLoading,
+    isFetching,
+    updateLoading,
+    testWorkflowResponse,
+    testLoading,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
   } = useUpsertSalesWorkflow();
+  if (byIdLoading || isFetching) return <SkeletonForm />;
   return (
     <Box>
       <FormProvider
@@ -28,13 +37,17 @@ export const UpsertSalesWorkflow = () => {
       >
         <WorkflowHeader
           watch={watch}
-          isLoading={isLoading}
+          isLoading={isLoading || updateLoading}
           saveLoading={saveLoading}
           setValidation={setValidation}
+          testWorkflowResponse={testWorkflowResponse}
+          testLoading={testLoading}
+          isWorkflowDrawer={isWorkflowDrawer}
+          setIsWorkflowDrawer={setIsWorkflowDrawer}
         />
         <Grid container>
           <WorkflowSchedule watch={watch} setValue={setValue} />
-          <WorkflowRunAndTrigger palette={palette} />
+          <WorkflowRunAndTrigger palette={palette} watch={watch} />
         </Grid>
         <WorkflowConditions
           control={control}
