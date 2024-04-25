@@ -1,14 +1,14 @@
 import { FilterIcon } from '@/assets/icons';
 import { Box, Button, ButtonGroup, Typography, useTheme } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import MailList from './MailList';
-import { LeftSideData } from '../Chat.interface';
 import ActionBtn from './ActionBtn';
 import { styles } from './LeftPane.styles';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import { setMailTabType } from '@/redux/slices/email/slice';
 import { useAppSelector } from '@/redux/store';
+import CommonDrawer from '@/components/CommonDrawer';
 
 const tabsArray = [
   {
@@ -33,32 +33,31 @@ const tabsArray = [
   },
 ];
 
-const LeftPane = (props: LeftSideData) => {
-  const { actionButtonProps, filterBtnProps } = props;
-
+const LeftPane = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-
   const mailTabType = useAppSelector((state: any) => state?.email?.mailTabType);
-
   const handelToggleTab = (value: any) => {
     dispatch(setMailTabType(value));
   };
 
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+
   return (
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>
-        <Typography>Email</Typography>
+        <Typography variant="h3">Email</Typography>
         <Box>
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
             sx={{ marginRight: '14px' }}
-            {...filterBtnProps}
+            color="inherit"
+            onClick={() => setIsFiltersOpen(true)}
           >
             Filter
           </Button>
-          <ActionBtn {...actionButtonProps} />
+          <ActionBtn />
         </Box>
       </Box>
 
@@ -91,16 +90,16 @@ const LeftPane = (props: LeftSideData) => {
       </ButtonGroup>
 
       <MailList />
-      {/* <CommonTabs
-        tabsArray={['Inbox', 'Sent', 'Draft', 'Scheduled', 'Trash']}
-        getTabVal={getTabVal}
+
+      <CommonDrawer
+        isDrawerOpen={isFiltersOpen}
+        onClose={() => setIsFiltersOpen(false)}
+        title={'filter'}
+        okText={'submit'}
+        isOk={true}
       >
-        <NotificationCard {...inboxData} />
-        <NotificationCard {...sentData} />
-        <NotificationCard {...draftData} />
-        <NotificationCard {...ScheduledData} />
-        <NotificationCard {...trashData} />
-      </CommonTabs> */}
+        <>Filter Cont.</>
+      </CommonDrawer>
     </Box>
   );
 };

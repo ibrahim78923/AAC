@@ -21,10 +21,7 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-
-import useEmailEditorDrawer from './useEmailEditorDrawer';
-
-import { options, emailsData } from './EmailEditorDrawer.data';
+import { options, emailsData } from './SendEmailDrawer.data';
 
 import {
   ExclimatoryCircleIcon,
@@ -35,8 +32,9 @@ import {
 } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
+import useSendEmailDrawer from './useSendEmailDrawer';
 
-const EmailEditorDrawer = (props: any) => {
+const SendEmailDrawer = (props: any) => {
   const {
     openDrawer,
     setOpenDrawer,
@@ -47,8 +45,8 @@ const EmailEditorDrawer = (props: any) => {
     userEmailList,
   } = props;
 
-  const { handleSubmit, onSubmit, methodsdealsTasks, watchEmailsForm, theme } =
-    useEmailEditorDrawer();
+  const { handleSubmit, onSubmit, methodsDealsTasks, watchEmailsForm, theme } =
+    useSendEmailDrawer();
 
   return (
     <div>
@@ -66,7 +64,7 @@ const EmailEditorDrawer = (props: any) => {
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
-            methods={methodsdealsTasks}
+            methods={methodsDealsTasks}
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={3}>
@@ -246,4 +244,4 @@ const EmailEditorDrawer = (props: any) => {
   );
 };
 
-export default EmailEditorDrawer;
+export default SendEmailDrawer;

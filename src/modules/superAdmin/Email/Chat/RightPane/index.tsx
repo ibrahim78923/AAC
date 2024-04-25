@@ -1,63 +1,141 @@
-import React from 'react';
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import {
+  DotsBoldIcon,
   EmailReplyIcon,
   ForwardIcon,
   ProfileCircleIcon,
   ReplyAllIcon,
+  SettingsIcon,
 } from '@/assets/icons';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './RightPane.styles';
 import { emailsData } from '../Chat.data';
+import SendEmailDrawer from '../../SendEmail';
 
 const RightPane = () => {
+  const theme = useTheme();
+
+  const [isOpenSendEmailDrawer, setIsOpenSendEmailDrawer] = useState(false);
+
   return (
     <Box>
       <Box sx={styles?.rightSide}>
         <Search size="small" placeholder="Search Here" />
         <Box>
-          <Button variant="outlined" sx={{ marginRight: '14px' }}>
+          <Button
+            variant="outlined"
+            sx={{ marginRight: '14px' }}
+            color="inherit"
+            startIcon={<SettingsIcon />}
+          >
             Email Settings
           </Button>
-          <Button variant="contained">Send Email</Button>
+          <Button
+            variant="contained"
+            onClick={() => setIsOpenSendEmailDrawer(true)}
+          >
+            Send Email
+          </Button>
         </Box>
       </Box>
-
-      {emailsData?.length > 0 ? (
-        emailsData?.map((obj: any) => (
-          <Box key={uuidv4()} sx={styles?.rightSideCard}>
-            {obj.userImg || <ProfileCircleIcon />}
-            <Box flex={1}>
-              <Box sx={styles?.emailWrap}>
-                <Box flex={1} sx={{ cursor: 'pointer' }}>
-                  <Typography variant="h5">{obj?.title}</Typography>
-                  <Typography variant="body2">To: {obj?.to}</Typography>
+      <Box
+        sx={{
+          background: theme?.palette?.common?.white,
+          borderRadius: '8px',
+          padding: '20px',
+        }}
+      >
+        <Typography variant="h4">
+          Lorem ipsum dolor sit amet consectetur. Amet turpis.
+        </Typography>
+        {emailsData?.length > 0 ? (
+          emailsData?.map((obj: any) => (
+            <Box key={uuidv4()} sx={styles?.rightSideCard}>
+              {obj.userImg || <ProfileCircleIcon />}
+              <Box flex={1}>
+                <Box sx={styles?.emailWrap}>
+                  <Box flex={1} sx={{ cursor: 'pointer' }}>
+                    <Typography variant="h5">
+                      {obj?.firstName} {obj?.lastName} {obj?.reff}
+                    </Typography>
+                    <Typography variant="body2">To: {obj?.to}</Typography>
+                  </Box>
+                  <Box display={'flex'} alignItems={'center'} gap={'14px'}>
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={400}
+                      sx={{
+                        borderRight: `1px solid ${theme?.palette.custom.light_grayish_blue}`,
+                        paddingRight: '15px',
+                      }}
+                    >
+                      {obj?.date}
+                    </Typography>
+                    <IconButton size="small">
+                      <ReplyAllIcon />
+                    </IconButton>
+                    <IconButton size="small">
+                      <EmailReplyIcon />
+                    </IconButton>
+                    <IconButton size="small">
+                      <ForwardIcon />
+                    </IconButton>
+                  </Box>
                 </Box>
-                <Box display={'flex'} alignItems={'jcenter'} gap={'14px'}>
-                  <Typography variant="subtitle2" fontWeight={400}>
-                    {obj?.date}
-                  </Typography>
-                  <IconButton size="small">
-                    <ReplyAllIcon />
-                  </IconButton>
-                  <IconButton size="small">
-                    <EmailReplyIcon />
-                  </IconButton>
-                  <IconButton size="small">
-                    <ForwardIcon />
-                  </IconButton>
-                </Box>
+                <Box
+                  mt={1}
+                  sx={{ fontSize: '14px', fontWeight: '400' }}
+                  dangerouslySetInnerHTML={{ __html: obj?.messageBody }}
+                />
+                <IconButton sx={{ transform: 'rotate(90deg)' }}>
+                  <DotsBoldIcon />
+                </IconButton>
+                {obj?.emailLogs?.map((item: any) => (
+                  <Box
+                    key={uuidv4()}
+                    sx={{
+                      borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
+                      padding: '5px 0px 5px 20px',
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="body3">
+                        <strong>From :</strong> {item?.from}{' '}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="body3">
+                        <strong>Sent :</strong> {item?.sent}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="body3">
+                        <strong>To :</strong> {item?.to}{' '}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="body3">
+                        <strong>Subject:</strong> {item?.subject}{' '}
+                      </Typography>
+                    </Box>
+                  </Box>
+                ))}
               </Box>
-              <Typography variant="body2">{obj?.description}</Typography>
             </Box>
+          ))
+        ) : (
+          <Box sx={styles?.content}>
+            <Typography variant="subtitle1">No Content to show!!</Typography>
           </Box>
-        ))
-      ) : (
-        <Box sx={styles?.content}>
-          <Typography variant="subtitle1">No Content to show!!</Typography>
-        </Box>
-      )}
+        )}
+      </Box>
+
+      <SendEmailDrawer
+        openDrawer={isOpenSendEmailDrawer}
+        setOpenDrawer={setIsOpenSendEmailDrawer}
+      />
     </Box>
   );
 };

@@ -11,7 +11,6 @@ const EmailChat = () => {
           <LeftPane />
         </Grid>
         <Grid item md={8} xs={12}>
-          {/* <Draft /> */}
           <RightPane />
         </Grid>
       </Grid>

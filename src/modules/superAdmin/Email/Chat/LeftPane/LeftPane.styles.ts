@@ -4,6 +4,8 @@ export const styles = {
     boxShadow: '0px 0px 5px rgba(0,0,0,0.1)',
     borderRadius: '8px',
     backgroundColor: theme?.palette?.common?.white,
+    position: 'sticky',
+    top: '70px',
   }),
   emailWrap: {
     display: 'flex',

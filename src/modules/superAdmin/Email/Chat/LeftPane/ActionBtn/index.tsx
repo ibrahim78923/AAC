@@ -41,6 +41,7 @@ const ActionBtn = ({
         disabled={disableActionBtn}
         classes={{ outlined: 'outlined_btn' }}
         sx={styles(theme, disableActionBtn)}
+        color="inherit"
       >
         Actions
       </Button>
