@@ -41,7 +41,7 @@ export const actionsOptions = [
   { value: 'addTag', label: 'Add Tag' },
   { value: 'sendEmailAgent', label: 'Send Email to Agent' },
   { value: 'sendEmailRequester', label: 'Send Email to Requester' },
-  { value: 'assignAgent', label: 'Assign to Agent' },
+  { value: 'assignTo', label: 'Assign to Agent' },
 ];
 export const eventBasedSaveWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
