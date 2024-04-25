@@ -446,3 +446,6 @@ export { default as StatusEditIcon } from './modules/airCallCenter/Settings/Gene
 export { default as SmsMainIcon } from './modules/airMarketer/SMSMarketing/sms-main-icon';
 export { default as PremiumIcon } from './shared/premium-icon';
 export { default as CrmSuiteIcon } from './modules/orgAdmin/SubscriptionAndInvoices/crm-suite-icon';
+export { default as OneToOneMeetingIcon } from './modules/SocialComponents/Meeting/one-to-one-meeting';
+export { default as GroupMeetingIcon } from './modules/SocialComponents/Meeting/group-meeting';
+export { default as CollectiveMeetingIcon } from './modules/SocialComponents/Meeting/collective-meeting';
