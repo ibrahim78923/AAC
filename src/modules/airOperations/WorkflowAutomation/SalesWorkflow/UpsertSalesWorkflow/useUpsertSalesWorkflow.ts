@@ -63,14 +63,14 @@ export const useUpsertSalesWorkflow = () => {
     return action?.fieldValue instanceof Date
       ? workflowFields?.date
       : typeof action?.fieldValue === workflowFields?.string &&
-        !isNaN(Date?.parse(action?.fieldValue))
-      ? workflowFields?.number
-      : typeof action?.fieldValue === workflowFields?.string
-      ? workflowFields?.string
-      : typeof action?.fieldValue === workflowFields?.object &&
-        action?.fieldValue !== null
-      ? workflowFields?.objectId
-      : '';
+          !isNaN(Date?.parse(action?.fieldValue))
+        ? workflowFields?.number
+        : typeof action?.fieldValue === workflowFields?.string
+          ? workflowFields?.string
+          : typeof action?.fieldValue === workflowFields?.object &&
+              action?.fieldValue !== null
+            ? workflowFields?.objectId
+            : workflowFields?.string;
   };
   const groupValues = (groupData: any) => {
     return groupData?.groups?.map((group: any) => ({
@@ -88,16 +88,17 @@ export const useUpsertSalesWorkflow = () => {
             condition?.condition === workflowFields?.isNotIn)
             ? workflowFields?.dealpipelines
             : condition?.fieldName?.label === workflowFields?.dealStage &&
-              (condition?.condition === workflowFields?.isIn ||
-                condition?.condition === workflowFields?.isNotIn)
-            ? workflowFields?.lifecycleStages
-            : (condition?.fieldName?.label === workflowFields?.salesOwner ||
-                condition?.fieldName?.label === workflowFields?.createdBy ||
-                condition?.fieldName?.label === workflowFields?.updatedBy) &&
-              (condition?.condition === workflowFields?.isIn ||
-                condition?.condition === workflowFields?.isNotIn)
-            ? workflowFields?.users
-            : '',
+                (condition?.condition === workflowFields?.isIn ||
+                  condition?.condition === workflowFields?.isNotIn)
+              ? workflowFields?.lifecycleStages
+              : (condition?.fieldName?.label === workflowFields?.salesOwner ||
+                    condition?.fieldName?.label === workflowFields?.createdBy ||
+                    condition?.fieldName?.label ===
+                      workflowFields?.updatedBy) &&
+                  (condition?.condition === workflowFields?.isIn ||
+                    condition?.condition === workflowFields?.isNotIn)
+                ? workflowFields?.users
+                : '',
       })),
       conditionType: group?.conditionType?.value,
     }));
@@ -141,40 +142,36 @@ export const useUpsertSalesWorkflow = () => {
         action?.fieldName?.label === workflowFields?.setDealPipeline
           ? workflowFields?.dealpipelines
           : action?.fieldName?.label === workflowFields?.setDealStage
-          ? workflowFields?.lifecycleStages
-          : action?.fieldName?.label === workflowFields?.setDealOwner ||
-            action?.fieldName?.label === workflowFields?.setAssignedTo
-          ? workflowFields?.users
-          : '',
+            ? workflowFields?.lifecycleStages
+            : action?.fieldName?.label === workflowFields?.setDealOwner ||
+                action?.fieldName?.label === workflowFields?.setAssignedTo
+              ? workflowFields?.users
+              : '',
     }));
   };
   let successMessage = '';
-  let errorMessage = '';
+  let response: any;
   const handleWorkflowApi = async (body: any) => {
     if (workflowId && validation === workflowFields?.upsert) {
       const updateData = { id: workflowId, ...body };
-      const response: any = await updateSalesWorkflowTrigger(updateData);
+      response = await updateSalesWorkflowTrigger(updateData);
       successMessage =
         response?.data?.message &&
         `${response?.data?.data?.title} Workflow Updated Successfully`;
-      errorMessage = response?.error?.data?.message;
     } else if (validation === workflowFields?.upsert) {
-      const response: any = await postSalesWorkflowTrigger(body);
+      response = await postSalesWorkflowTrigger(body);
       successMessage =
         response?.data?.message &&
         `${response?.data?.data?.title} Workflow Created Successfully`;
-      errorMessage = response?.error?.data?.message;
     } else if (validation === workflowFields?.save) {
-      const response: any = await saveDraftTrigger(body);
+      response = await saveDraftTrigger(body);
       successMessage =
         response?.data?.message &&
         `${response?.data?.data?.title} Workflow Saved as Draft Successfully`;
-      errorMessage = response?.error?.data?.message;
     } else if (validation === workflowFields?.test) {
-      const response: any = await testWorkflowTrigger(body);
+      response = await testWorkflowTrigger(body);
       setTestWorkflowResponse(response);
       setIsWorkflowDrawer(true);
-      errorMessage = response?.error?.data?.message;
     }
   };
   const handleFormSubmit = async (data: any) => {
@@ -190,15 +187,13 @@ export const useUpsertSalesWorkflow = () => {
       groupCondition: data?.groupCondition,
       actions: actionValues(data),
     };
-    try {
-      await handleWorkflowApi(modifiedData);
-      if (validation !== workflowFields?.test) {
-        successSnackbar(successMessage);
-        reset();
-        back();
-      }
-    } catch (error) {
-      errorSnackbar(errorMessage);
+    await handleWorkflowApi(modifiedData);
+    if (response?.data?.message && validation !== workflowFields?.test) {
+      successSnackbar(successMessage);
+      reset();
+      back();
+    } else if (response?.error) {
+      errorSnackbar(response?.error?.data?.message);
     }
   };
   const { palette } = useTheme();
