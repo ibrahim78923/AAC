@@ -22,15 +22,21 @@ const TaskEditorDrawer = (props: any) => {
     selectedRecId,
     taskData,
   } = props;
-  const { handleSubmit, onSubmit, methodsdealsTasks, onCloseDrawer } =
-    useTaskEditor({
-      selectedCheckboxes,
-      openDrawer,
-      setOpenDrawer,
-      setSelectedCheckboxes,
-      selectedRecId,
-      taskData,
-    });
+  const {
+    handleSubmit,
+    onSubmit,
+    methodsdealsTasks,
+    onCloseDrawer,
+    updateIsLoading,
+    postIsLoading,
+  } = useTaskEditor({
+    selectedCheckboxes,
+    openDrawer,
+    setOpenDrawer,
+    setSelectedCheckboxes,
+    selectedRecId,
+    taskData,
+  });
 
   const usersData = useLazyGetDealsAssignedUsersQuery();
   const getDealsTasksDataArray = dealsTasksDataArray({ openDrawer, usersData });
@@ -45,6 +51,7 @@ const TaskEditorDrawer = (props: any) => {
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
         footer={openDrawer === 'View' ? false : true}
+        isLoading={openDrawer === 'Edit' ? updateIsLoading : postIsLoading}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider

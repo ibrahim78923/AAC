@@ -58,8 +58,11 @@ const OrganizationCard = () => {
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
 
-  const activeProducts = user?.products?.length;
-  const inActiveProducts = productsData?.data?.length - user?.products?.length;
+  const activeProducts = user?.products?.filter(
+    (product: any) => product?.status === 'active',
+  )?.length;
+  const totalProducts = productsData?.data?.length || 0;
+  const inActiveProducts = Math?.max(totalProducts - activeProducts, 0);
 
   return (
     <>
@@ -261,7 +264,7 @@ const OrganizationCard = () => {
                       color: `${theme?.palette?.custom?.main}`,
                     }}
                   >
-                    (4)
+                    {/* (4) */}
                   </span>
                 </Typography>
               </Grid>
@@ -363,6 +366,14 @@ const OrganizationCard = () => {
                               }}
                             >
                               {getProductIcon(item?.name)}
+                              {/* {item?.logo && (
+                                <Image
+                                  src={generateImage(item?.logo?.url)}
+                                  width={25}
+                                  height={25}
+                                  alt="product"
+                                />
+                              )} */}
                             </Box>
                             <Typography
                               variant="body2"
