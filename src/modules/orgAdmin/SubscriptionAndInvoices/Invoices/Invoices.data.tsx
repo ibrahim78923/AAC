@@ -60,7 +60,10 @@ export const columns = (selectedRows: any, handleCheckboxClick: any) => {
         <>
           <Box>{info?.getValue()}</Box>
           <Box>Invoice # {info?.row?.original?.invoiceNo}</Box>
-          <Box>Due date: {info?.row?.original?.dueDate}</Box>
+          <Box>
+            Due date:{' '}
+            {dayjs(info?.row?.original?.dueDate)?.format(DATE_FORMAT?.UI)}
+          </Box>
         </>
       ),
     },
@@ -69,14 +72,16 @@ export const columns = (selectedRows: any, handleCheckboxClick: any) => {
       id: 'total',
       isSortable: true,
       header: 'Invoice amount',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
+      cell: (info: any) => <>£ {info?.row?.original?.netAmount}</>,
     },
     {
-      accessorFn: (row: any) => row?.InvoiceAmount,
+      accessorFn: (row: any) => row?.dueDate,
       id: 'InvoiceAmount',
       isSortable: true,
       header: 'Payment Date',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
+      cell: (info: any) => (
+        <>{dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)}</>
+      ),
     },
     {
       accessorFn: (row: any) => row?.status,

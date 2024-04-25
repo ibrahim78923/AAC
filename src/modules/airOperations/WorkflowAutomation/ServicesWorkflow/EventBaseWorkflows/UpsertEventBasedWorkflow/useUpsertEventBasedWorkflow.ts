@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  eventBasedSaveWorkflowSchema,
   eventBasedWorkflowSchema,
   eventBasedWorkflowValues,
 } from './UpsertEventBasedWorkflow.data';
@@ -16,10 +17,9 @@ import {
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
 import { useEffect, useState } from 'react';
-import { SCHEMA_KEYS } from '@/constants/strings';
 
 export const useUpsertEventBasedWorkflow = () => {
-  const [validation, setValidation] = useState(false);
+  const [validation, setValidation] = useState('');
   const [testWorkflow, setTestWorkflow] = useState(false);
   const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
   const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
@@ -43,6 +43,17 @@ export const useUpsertEventBasedWorkflow = () => {
     setCategoryAs: 'Set Category as',
     category: 'category',
     users: 'users',
+    usedBy: 'Used By',
+    createdBy: 'Created By',
+    assignTo: 'Assign To',
+    assetType: 'Asset Type',
+    type: 'assettypes',
+  };
+
+  const buttonData = {
+    save: 'save',
+    test: 'test',
+    upsert: 'upsert',
   };
 
   const router = useRouter();
@@ -64,24 +75,12 @@ export const useUpsertEventBasedWorkflow = () => {
   );
   const singleWorkflowData = data?.data;
 
-  const ticketData: any = {
-    ticketFields: 'Ticket Fields',
-    assetsFields: 'Assets Fields',
-    taskFields: 'Task Fields',
-  };
-
-  let optionsData: any = ticketData?.ticketFields;
-  if (singleWorkflowData?.module === SCHEMA_KEYS?.ASSETS) {
-    optionsData = ticketData?.assetsFields;
-  } else if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS_TASKS) {
-    optionsData = ticketData?.taskFields;
-  } else {
-    optionsData = ticketData?.ticketFields;
-  }
-
   const eventMethod = useForm({
-    defaultValues: eventBasedWorkflowValues(singleWorkflowData, optionsData),
-    resolver: validation ? yupResolver(eventBasedWorkflowSchema) : undefined,
+    defaultValues: eventBasedWorkflowValues(singleWorkflowData),
+    resolver:
+      validation === buttonData?.upsert || validation === buttonData?.test
+        ? yupResolver(eventBasedWorkflowSchema)
+        : yupResolver(eventBasedSaveWorkflowSchema),
   });
 
   const { reset, watch, register, handleSubmit, setValue, control } =
@@ -122,6 +121,14 @@ export const useUpsertEventBasedWorkflow = () => {
         return collectionNameData?.requester;
       case collectionNameData?.setCategoryAs:
         return collectionNameData?.category;
+      case collectionNameData?.assetType:
+        return collectionNameData?.type;
+      case collectionNameData?.usedBy:
+        return collectionNameData?.users;
+      case collectionNameData?.createdBy:
+        return collectionNameData?.users;
+      case collectionNameData?.assignTo:
+        return collectionNameData?.users;
       default:
         return '';
     }
@@ -132,18 +139,9 @@ export const useUpsertEventBasedWorkflow = () => {
     conditions: group?.conditions?.map((condition: any) => ({
       condition: condition?.condition,
       fieldName: condition?.fieldName?.value,
-      fieldValue:
-        condition?.fieldName &&
-        [
-          collectionNameData?.agent,
-          collectionNameData?.selectDepartment,
-          collectionNameData?.setDepartmentAs,
-          collectionNameData?.location,
-          collectionNameData?.addRequester,
-          collectionNameData?.setCategoryAs,
-        ].includes(condition?.fieldName?.label)
-          ? condition?.fieldValue?._id
-          : condition?.fieldValue,
+      fieldValue: condition?.fieldValue?._id
+        ? condition?.fieldValue?._id
+        : condition?.fieldValue,
       fieldType: mapField(condition, typeData),
       collectionName: getCollectionName(condition?.fieldName),
     })),
@@ -153,18 +151,9 @@ export const useUpsertEventBasedWorkflow = () => {
   const mapAction = (action: any, typeData: any) => ({
     ...action,
     fieldName: action?.fieldName?.value,
-    fieldValue:
-      action?.fieldName &&
-      [
-        collectionNameData?.agent,
-        collectionNameData?.selectDepartment,
-        collectionNameData?.setDepartmentAs,
-        collectionNameData?.location,
-        collectionNameData?.addRequester,
-        collectionNameData?.setCategoryAs,
-      ].includes(action?.fieldName)
-        ? action?.fieldValue?._id
-        : action?.fieldValue,
+    fieldValue: action?.fieldValue?._id
+      ? action?.fieldValue?._id
+      : action?.fieldValue,
     fieldType: mapField(action, typeData),
     collectionName: getCollectionName(action?.fieldName),
   });
@@ -183,26 +172,29 @@ export const useUpsertEventBasedWorkflow = () => {
   const handleApiCall = async (body: any) => {
     try {
       let successMessage = '';
-      if (testWorkflow && validation) {
+      if (testWorkflow && validation === buttonData?.test) {
         const response = await postTestTrigger(body).unwrap();
         setIsWorkflowDrawer(true);
         setTestWorkflowResponse(response);
         successMessage = 'Test Workflow Executed Successfully';
       } else {
-        if (pageActionType === EDIT_WORKFLOW) {
+        if (
+          pageActionType === EDIT_WORKFLOW &&
+          validation === buttonData?.upsert
+        ) {
           await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
           successMessage = 'Workflow Update Successfully';
-        } else if (!validation) {
+        } else if (validation === buttonData?.save) {
           await saveWorkflowTrigger(body).unwrap();
           successMessage = 'Workflow Save Successfully';
-        } else {
+        } else if (validation === buttonData?.upsert) {
           await postWorkflowTrigger(body).unwrap();
           successMessage = 'Workflow Create Successfully';
         }
       }
 
       successSnackbar(successMessage);
-      if (!testWorkflow) {
+      if (validation !== buttonData?.test) {
         reset();
         movePage();
       }
@@ -221,13 +213,12 @@ export const useUpsertEventBasedWorkflow = () => {
     };
     await handleApiCall(body);
   };
-
+  const moduleType = watch('module');
   useEffect(() => {
-    reset(eventBasedWorkflowValues(singleWorkflowData, optionsData));
-  }, [reset, singleWorkflowData, optionsData]);
+    reset(eventBasedWorkflowValues(singleWorkflowData));
+  }, [reset, singleWorkflowData]);
 
   const { palette } = useTheme();
-  const moduleType = watch('module');
 
   return {
     eventMethod,

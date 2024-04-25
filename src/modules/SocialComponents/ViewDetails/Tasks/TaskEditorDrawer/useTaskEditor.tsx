@@ -13,6 +13,7 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
 
 const useTaskEditor = ({
   selectedCheckboxes,
@@ -51,6 +52,12 @@ const useTaskEditor = ({
       return dealsTasksDefaultValues;
     },
   });
+
+  const { data: dataContactsList } = useGetContactsQuery({});
+  const contactsList = dataContactsList?.data?.contacts?.map((item: any) => ({
+    value: item?._id,
+    label: `${item?.firstName} ${item?.lastName}`,
+  }));
 
   const [postDealsTasksManagement] = usePostDealsTasksManagementMutation();
   const [updatedDealsTasksManagement] = useUpdateDealsTasksManagementMutation();
@@ -94,7 +101,8 @@ const useTaskEditor = ({
     setOpenDrawer('');
     reset();
   };
-  return { handleSubmit, onSubmit, methodsdealsTasks };
+
+  return { handleSubmit, onSubmit, methodsdealsTasks, contactsList };
 };
 
 export default useTaskEditor;

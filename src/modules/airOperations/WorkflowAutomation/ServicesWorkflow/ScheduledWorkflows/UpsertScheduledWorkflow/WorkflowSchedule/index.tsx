@@ -7,6 +7,7 @@ import {
 } from '@/components/ReactHookForm';
 import { useWorkflowSchedule } from './useWorkflowSchedule';
 import {
+  numberDaysOptions,
   scheduleOptions,
   scheduleTypes,
   weekOptions,
@@ -66,10 +67,12 @@ export const WorkflowSchedule = (props: any) => {
           </Grid>
           <Grid item xs={12} md={6.5}>
             {selectedSchedule === scheduleTypes?.monthly && (
-              <RHFDatePicker
+              <RHFAutocomplete
                 name="scheduleDate"
                 label="Day of month"
                 size="small"
+                options={numberDaysOptions}
+                getOptionLabel={(option: any) => option}
                 fullWidth
               />
             )}

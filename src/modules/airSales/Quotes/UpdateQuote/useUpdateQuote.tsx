@@ -20,7 +20,7 @@ import {
   useUpdateQuoteMutation,
   useUpdateSubmitEmailQuoteMutation,
 } from '@/services/airSales/quotes';
-import { AIR_SALES } from '@/routesConstants/paths';
+import { AIR_SALES, quoteStatus } from '@/routesConstants/paths';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 
@@ -48,7 +48,10 @@ const useUpdateQuote = () => {
     useDeleteCompaniesMutation();
   const [deleteContacts, { isLoading: isContactDeleteLoading }] =
     useDeleteContactsMutation();
-  const [putSubmitQuote] = usePutSubmitQuoteMutation();
+
+  const [putSubmitQuote, { isLoading: loadingSubmit }] =
+    usePutSubmitQuoteMutation();
+
   const [updateSubmitEmailQuote] = useUpdateSubmitEmailQuoteMutation();
 
   const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState<
@@ -105,11 +108,12 @@ const useUpdateQuote = () => {
     try {
       putSubmitQuote({
         id: quoteId,
-        body: { id: quoteId, isSubmitted: false },
+        body: { id: quoteId, status: quoteStatus?.draft },
       });
       enqueueSnackbar('Save as draft submit later', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      router?.push(AIR_SALES?.QUOTES);
     } catch (error) {
       enqueueSnackbar(`Something went wrong`, {
         variant: NOTISTACK_VARIANTS?.ERROR,
@@ -118,12 +122,13 @@ const useUpdateQuote = () => {
   };
 
   const handleSubmitBtn = async () => {
+    const status = quoteStatus?.published;
     try {
       putSubmitQuote({
-        body: { id: quoteId, isSubmitted: true },
+        body: { id: quoteId, status: status },
       });
       enqueueSnackbar('Save as draft submit later', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error) {
       enqueueSnackbar(`Something went wrong`, {
@@ -315,7 +320,6 @@ const useUpdateQuote = () => {
       selectedBuyerContactIds && selectedCompanyIds,
     ),
     handleDeleteCompanies,
-    // isLoading,
     handleDeleteModal,
     deleteModalId,
     isCompanyDeleteLoading,
@@ -329,6 +333,7 @@ const useUpdateQuote = () => {
     updateSubmitEmailQuote,
     quoteId,
     taxCalculation,
+    loadingSubmit,
   };
 };
 

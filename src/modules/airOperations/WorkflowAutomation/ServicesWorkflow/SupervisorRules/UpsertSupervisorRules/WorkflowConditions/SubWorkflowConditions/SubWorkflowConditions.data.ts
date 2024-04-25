@@ -4,7 +4,7 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { SCHEMA_KEYS } from '@/constants/strings';
+import { ROLES, SCHEMA_KEYS } from '@/constants/strings';
 
 export const assetsFieldsOption = [
   { value: 'displayName', label: 'Name' },
@@ -52,8 +52,8 @@ export const status = ['OPEN', 'CLOSED', 'RESOLVED', 'PENDING', 'SPAMS'];
 export const fieldOptions = [
   'is',
   'is not',
-  'equal',
-  'not equal',
+  'equals',
+  'not equals',
   'contains',
   'not contains',
   'contains words',
@@ -80,10 +80,10 @@ export const dateOperators = [
   'is not',
   'is empty',
   'is not empty',
-  'Greater than',
-  'Less than',
-  'Greater than or equal to',
-  'Less than or equal to',
+  'greater than',
+  'less than',
+  'greater than or equal to',
+  'less than or equal to',
 ];
 
 const constantApiOptions = {
@@ -96,7 +96,7 @@ const constantApiOptions = {
 };
 
 const optionsConstants = {
-  priority: 'priority',
+  priority: 'Priority',
   impacts: 'Impact',
   assetType: 'Asset Type',
   source: 'Source',
@@ -150,8 +150,8 @@ export const subWorkflowData = ({
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
       ? assetsModule || []
       : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
-        ? ticketsModule || []
-        : taskModule || [];
+      ? ticketsModule || []
+      : taskModule || [];
   const selectedOption = watch(
     `groups.${index}.conditions.${subIndex}.options`,
   );
@@ -167,14 +167,14 @@ export const subWorkflowData = ({
     selectedOperatorsOptions === optionsConstants?.priority
       ? priority
       : selectedOperatorsOptions === optionsConstants?.assetType
-        ? assetsOptions
-        : selectedOperatorsOptions === optionsConstants?.source
-          ? sourcesOptions
-          : selectedOperatorsOptions === optionsConstants?.type
-            ? typeOptions
-            : selectedOperatorsOptions === optionsConstants?.impacts
-              ? impactOptions
-              : status;
+      ? assetsOptions
+      : selectedOperatorsOptions === optionsConstants?.source
+      ? sourcesOptions
+      : selectedOperatorsOptions === optionsConstants?.type
+      ? typeOptions
+      : selectedOperatorsOptions === optionsConstants?.impacts
+      ? impactOptions
+      : status;
   if (
     [
       optionsConstants?.plannedStartDate,
@@ -218,7 +218,6 @@ export const subWorkflowData = ({
     };
   } else if (
     selectedOperatorsOptions === constantApiOptions?.agent ||
-    selectedOperatorsOptions === constantApiOptions?.requester ||
     selectedOperatorsOptions === constantApiOptions?.location
   ) {
     valueComponent = {
@@ -245,6 +244,21 @@ export const subWorkflowData = ({
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
+      },
+      component: RHFAutocompleteAsync,
+    };
+  } else if (selectedOperatorsOptions === constantApiOptions?.requester) {
+    valueComponent = {
+      _id: 7,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
+        size: 'small',
+        placeholder: 'Select',
+        apiQuery: apiQuery,
+        externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
       },
       component: RHFAutocompleteAsync,
     };
