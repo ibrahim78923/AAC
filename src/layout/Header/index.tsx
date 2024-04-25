@@ -145,10 +145,10 @@ const Header = (props: any) => {
             </Box>
           )}
           {role && <SocialIconsDropdown />}
-          {role !== ROLES?.SUPER_ADMIN && role !== ROLES.ORG_REQUESTER && (
+          {role !== ROLES?.SUPER_ADMIN && role !== ROLES?.ORG_REQUESTER && (
             <AccountMenu />
           )}
-          {role !== ROLES.ORG_REQUESTER && <LinkDropdown />}
+          {role !== ROLES?.ORG_REQUESTER && <LinkDropdown />}
 
           <NotificationDropdown />
 
