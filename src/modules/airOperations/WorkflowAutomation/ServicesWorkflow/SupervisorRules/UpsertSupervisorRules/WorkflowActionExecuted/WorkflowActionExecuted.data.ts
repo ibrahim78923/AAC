@@ -16,7 +16,7 @@ const optionsConstant = {
   agent: 'Assign to Agent',
   department: 'Set Department as',
   category: 'Set Category as',
-  priority: 'Set Category as',
+  priority: 'Set Priority as',
   impacts: 'Set Impact as',
   source: 'Set Source as',
   type: 'Set Type as',
