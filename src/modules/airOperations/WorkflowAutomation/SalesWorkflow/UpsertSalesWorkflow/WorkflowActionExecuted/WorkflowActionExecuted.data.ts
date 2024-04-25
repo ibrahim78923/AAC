@@ -21,6 +21,7 @@ const reminderOption = [
   'In_1_Business_Day',
   'In_2_Business_Day',
 ];
+export const quoteStatus = ['DRAFT', 'PUBLISHED'];
 
 export const actionsExecutedFields = (
   index: any,
@@ -58,7 +59,6 @@ export const actionsExecutedFields = (
     } else if (watchKey === actionName?.setCloseDate) {
       (component = RHFDatePicker),
         (componentProps = {
-          disablePast: true,
           fullWidth: true,
         });
     } else if (watchKey === actionName?.setDealOwner) {
@@ -87,7 +87,7 @@ export const actionsExecutedFields = (
       component = RHFAutocomplete;
       componentProps = {
         placeholder: 'Select Status',
-        options: setTaskStatusOption,
+        options: quoteStatus,
       };
     }
   } else if (moduleType === actionName?.salesTasks) {
@@ -120,7 +120,6 @@ export const actionsExecutedFields = (
     } else if (watchKey === actionName?.setDueDate) {
       (component = RHFDatePicker),
         (componentProps = {
-          disablePast: true,
           fullWidth: true,
         });
     } else if (watchKey === actionName?.setReminder) {

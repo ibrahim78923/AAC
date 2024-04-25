@@ -441,7 +441,7 @@ export const OPERATION = {
   STATUS_WORKFLOW: '/workflows/change-status',
   SAVE_WORKFLOW: '/workflows/save',
   CLONE_WORKFLOW: '/workflows/clone',
-  Test_WORKFLOW: '/workflows/test',
+  TEST_WORKFLOW: '/workflows/test',
 };
 
 export const AIR_SALES = {

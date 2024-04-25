@@ -68,7 +68,8 @@ export const WorkflowSchedule = (props: any) => {
                 label="Day of month"
                 size="small"
                 options={numberDaysOptions}
-                getOptionLabel={(option: any) => option}
+                placeholder="Select Day of Month"
+                getOptionLabel={(option: any) => option?.toString()}
                 fullWidth
               />
             )}
