@@ -3,6 +3,8 @@ import { RHFMultiCheckbox, RHFSelect } from '@/components/ReactHookForm';
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 import useUserManagement from '../../useUserManagement';
 import * as Yup from 'yup';
+
+// commented this code for future use
 // import { useGetSuperAdminRolesQuery } from '@/services/superAdmin/user-management/users';
 
 export const CompanyOwnerValidationSchema = Yup.object().shape({
@@ -18,12 +20,13 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
+  // commented this code for future use
   // adminRoleId: Yup.string().required('Field is Required'),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
   crn: Yup.string().required('Field is Required'),
-  // phoneNumber: Yup.string().matches(/^\+\d{1,}$/, 'Invalid phone number'),
+  phoneNumber: Yup.string().matches(/^\+\d{1,}$/, 'Invalid phone number'),
 });
 export const orgEmployeeValidationSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -88,6 +91,7 @@ export const superAdminValidationSchema = Yup.object().shape({
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
+  // commented this code for future use
   // adminRoleId: Yup.string().required('Field is Required'),
   email: Yup.string()
     .required('Field is Required')
@@ -171,6 +175,7 @@ export const addUsersArray = () => {
       component: RHFTextField,
       md: 12,
     },
+    // commented this code for future use
     // {
     //   componentProps: {
     //     name: 'adminRoleId',
