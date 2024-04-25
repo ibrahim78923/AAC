@@ -75,7 +75,7 @@ const useTaskEditor = ({
         enqueueSnackbar('Task Created Successfully', {
           variant: 'success',
         });
-        onCloseDrawer;
+        onCloseDrawer();
       } catch (error: any) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
       }
