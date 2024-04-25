@@ -70,7 +70,7 @@ export const useUpsertSalesWorkflow = () => {
           : typeof action?.fieldValue === workflowFields?.object &&
               action?.fieldValue !== null
             ? workflowFields?.objectId
-            : '';
+            : workflowFields?.string;
   };
   const groupValues = (groupData: any) => {
     return groupData?.groups?.map((group: any) => ({
@@ -150,32 +150,28 @@ export const useUpsertSalesWorkflow = () => {
     }));
   };
   let successMessage = '';
-  let errorMessage = '';
+  let response: any;
   const handleWorkflowApi = async (body: any) => {
     if (workflowId && validation === workflowFields?.upsert) {
       const updateData = { id: workflowId, ...body };
-      const response: any = await updateSalesWorkflowTrigger(updateData);
+      response = await updateSalesWorkflowTrigger(updateData);
       successMessage =
         response?.data?.message &&
         `${response?.data?.data?.title} Workflow Updated Successfully`;
-      errorMessage = response?.error?.data?.message;
     } else if (validation === workflowFields?.upsert) {
-      const response: any = await postSalesWorkflowTrigger(body);
+      response = await postSalesWorkflowTrigger(body);
       successMessage =
         response?.data?.message &&
         `${response?.data?.data?.title} Workflow Created Successfully`;
-      errorMessage = response?.error?.data?.message;
     } else if (validation === workflowFields?.save) {
-      const response: any = await saveDraftTrigger(body);
+      response = await saveDraftTrigger(body);
       successMessage =
         response?.data?.message &&
         `${response?.data?.data?.title} Workflow Saved as Draft Successfully`;
-      errorMessage = response?.error?.data?.message;
     } else if (validation === workflowFields?.test) {
-      const response: any = await testWorkflowTrigger(body);
+      response = await testWorkflowTrigger(body);
       setTestWorkflowResponse(response);
       setIsWorkflowDrawer(true);
-      errorMessage = response?.error?.data?.message;
     }
   };
   const handleFormSubmit = async (data: any) => {
@@ -191,15 +187,13 @@ export const useUpsertSalesWorkflow = () => {
       groupCondition: data?.groupCondition,
       actions: actionValues(data),
     };
-    try {
-      await handleWorkflowApi(modifiedData);
-      if (validation !== workflowFields?.test) {
-        successSnackbar(successMessage);
-        reset();
-        back();
-      }
-    } catch (error) {
-      errorSnackbar(errorMessage);
+    await handleWorkflowApi(modifiedData);
+    if (response?.data?.message) {
+      successSnackbar(successMessage);
+      reset();
+      back();
+    } else {
+      errorSnackbar(response?.error?.data?.message);
     }
   };
   const { palette } = useTheme();
