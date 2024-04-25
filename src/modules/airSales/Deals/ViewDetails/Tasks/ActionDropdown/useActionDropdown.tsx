@@ -11,17 +11,17 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDeleteDealsTasksManagementMutation } from '@/services/airSales/deals/view-details/tasks';
 import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useAppSelector } from '@/redux/store';
 
-const useActionDropdown = ({
-  setOpenDrawer,
-  selectedCheckboxes,
-  setSelectedCheckboxes,
-}: any) => {
+const useActionDropdown = ({ setOpenDrawer, selectedRecId }: any) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openAlertModal, setOpenAlertModal] = useState('');
   const isMenuOpen = Boolean(anchorEl);
+
+  const selectedTaskIds = useAppSelector(
+    (state: any) => state?.task_deals?.selectedDealsTaskIds,
+  );
 
   const [deleteDealsTasksManagement, { isLoading: deleteTaskLoading }] =
     useDeleteDealsTasksManagementMutation();
@@ -41,23 +41,21 @@ const useActionDropdown = ({
     setAnchorEl(null);
   };
 
-  const selectedCheckboxesIds = selectedCheckboxes.map(
-    (checked: any) => checked?._id,
-  );
-
   const handleDeleteHandler = async () => {
+    const payload = {
+      taskIds: selectedTaskIds,
+      dealId: selectedRecId,
+    };
     try {
-      await deleteDealsTasksManagement({ id: selectedCheckboxesIds }).unwrap();
-      enqueueSnackbar(`Task Deleted Successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      await deleteDealsTasksManagement({
+        body: payload,
+      }).unwrap();
+      enqueueSnackbar('Task Deleted Successfully', {
+        variant: 'success',
       });
       handleCloseAlert();
-      setSelectedCheckboxes([]);
     } catch (error: any) {
-      const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
   };
 

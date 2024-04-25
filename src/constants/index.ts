@@ -195,6 +195,7 @@ export const SOCIAL_COMPONENTS = {
 export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
   LOGIN: `/login`,
+  SALE_SITE: 'https://airapplecart.co.uk/',
 };
 
 export const Quick_Links_Routes = {
