@@ -150,8 +150,8 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
                     `${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
                 : condition?.fieldType === 'date'
-                  ? new Date(condition?.fieldValue)
-                  : condition?.fieldValue,
+                ? new Date(condition?.fieldValue)
+                : condition?.fieldValue,
           };
         }),
       };
@@ -179,8 +179,8 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
           action?.fieldType === 'objectId'
             ? singleWorkflowData[`${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === 'date'
-              ? new Date(action?.fieldValue)
-              : action?.fieldValue,
+            ? new Date(action?.fieldValue)
+            : action?.fieldValue,
       }),
     ) ?? [{ fieldName: null, fieldValue: null }],
   };
