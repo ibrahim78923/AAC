@@ -32,8 +32,10 @@ const useTaskEditor = ({
     }),
   });
 
-  const [postDealsTasksManagement] = usePostDealsTasksManagementMutation();
-  const [updatedDealsTasksManagement] = useUpdateDealsTasksManagementMutation();
+  const [postDealsTasksManagement, { isLoading: postIsLoading }] =
+    usePostDealsTasksManagementMutation();
+  const [updatedDealsTasksManagement, { isLoading: updateIsLoading }] =
+    useUpdateDealsTasksManagementMutation();
 
   const onSubmit = async (values: any) => {
     const payload = {
@@ -88,7 +90,14 @@ const useTaskEditor = ({
     reset();
   };
 
-  return { handleSubmit, onSubmit, methodsdealsTasks, onCloseDrawer };
+  return {
+    handleSubmit,
+    onSubmit,
+    methodsdealsTasks,
+    onCloseDrawer,
+    postIsLoading,
+    updateIsLoading,
+  };
 };
 
 export default useTaskEditor;
