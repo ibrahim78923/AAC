@@ -32,9 +32,7 @@ export const actionsOptions = [
   { value: 'category', label: 'Set Category as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
-  { value: 'addTask', label: 'Add Task' },
-  { value: 'addTag', label: 'Add Tag' },
-  { value: 'assignTo', label: 'Assign to Agent' },
+  { value: 'agent', label: 'Assign to Agent' },
 ];
 export const rulesSaveWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
