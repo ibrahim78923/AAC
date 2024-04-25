@@ -28,17 +28,17 @@ const CreateView = ({ open, onClose }: any) => {
   const onSubmit = (values: any) => {
     const paramsObj: any = {};
     if (values.dateStart)
-      paramsObj['dateStart'] = dayjs(values.dateStart)?.format(
+      paramsObj['dateStart'] = dayjs(values?.dateStart)?.format(
         DATE_FORMAT?.API,
       );
     if (values.dateEnd)
-      paramsObj['dateEnd'] = dayjs(values.dateEnd)?.format(DATE_FORMAT?.API);
-    if (values.dealPipelineId)
-      paramsObj['dealPiplineId'] = values.dealPipelineId;
-    if (values.dealOwnerId) paramsObj['dealOwnerId'] = values.dealOwnerId;
-    if (values.dealStageId) paramsObj['dealStageId'] = values.dealStageId;
+      paramsObj['dateEnd'] = dayjs(values?.dateEnd)?.format(DATE_FORMAT?.API);
+    if (values?.dealPipelineId)
+      paramsObj['dealPiplineId'] = values?.dealPipelineId;
+    if (values.dealOwnerId) paramsObj['dealOwnerId'] = values?.dealOwnerId;
+    if (values.dealStageId) paramsObj['dealStageId'] = values?.dealStageId;
 
-    const query = '?' + new URLSearchParams(paramsObj).toString();
+    const query = '?' + new URLSearchParams(paramsObj)?.toString();
     values.apiUrl = `${AIR_SALES?.DEAL_LIST_VIEW}${query}`;
     const obj = {
       name: values.name,
