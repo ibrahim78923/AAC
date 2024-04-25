@@ -1,46 +1,22 @@
 import React from 'react';
-import { Grid, TextField, Typography } from '@mui/material';
-
-import { useChat } from './useChat';
-import CommonModal from '@/components/CommonModal';
-import EmailEditorDrawer from '../SendEmail';
-import ContactModal from './ContactModal';
-import LeftSide from './ChatSectionA';
-import RightSide from './ChatSectionB';
-import Draft from './ChatSectionB/Draft';
+import { Grid } from '@mui/material';
+import LeftPane from './LeftPane';
+import RightPane from './RightPane';
 
 const EmailChat = () => {
-  const {
-    currTab,
-    leftSideData,
-    rightSideData,
-    handleLinkToDealModal,
-    linkToDealModal,
-    deleteModal,
-    handleDeleteModal,
-    sendEmailModal,
-    handleSendEmailModal,
-    handleReplyModal,
-    replyModal,
-    contactModal,
-    handleContactModal,
-  } = useChat();
   return (
     <>
       <Grid container spacing={2}>
         <Grid item md={4} xs={12}>
-          <LeftSide {...leftSideData} />
+          <LeftPane />
         </Grid>
         <Grid item md={8} xs={12}>
-          {currTab == 2 ? (
-            <Draft />
-          ) : (
-            <RightSide key={'right side'} {...rightSideData} />
-          )}
+          {/* <Draft /> */}
+          <RightPane />
         </Grid>
       </Grid>
 
-      {linkToDealModal && (
+      {/* {linkToDealModal && (
         <CommonModal
           open={linkToDealModal}
           handleClose={handleLinkToDealModal}
@@ -53,7 +29,6 @@ const EmailChat = () => {
           <TextField placeholder="Search Deal" fullWidth size="small" />
         </CommonModal>
       )}
-
       {deleteModal && (
         <CommonModal
           open={deleteModal}
@@ -66,7 +41,6 @@ const EmailChat = () => {
           <Typography>Are you sure you want to delete this email?</Typography>
         </CommonModal>
       )}
-
       {sendEmailModal && (
         <EmailEditorDrawer
           title={'New Email'}
@@ -84,7 +58,7 @@ const EmailChat = () => {
       )}
       {contactModal && (
         <ContactModal open={contactModal} onClose={handleContactModal} />
-      )}
+      )} */}
     </>
   );
 };

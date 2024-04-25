@@ -8,52 +8,29 @@ import {
 } from '@/assets/icons';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
-import { RightSideData } from '../Chat.interface';
-import { styles } from './RightSide.styles';
+import { styles } from './RightPane.styles';
+import { emailsData } from '../Chat.data';
 
-const RightSide = (props: RightSideData) => {
-  const {
-    title,
-    data = [],
-    handleReplayAll = () => {},
-    handleForward = () => {},
-    handleReplay = () => {},
-    emailSettingProps = {},
-    sendEmailProps,
-    searchProps,
-    handleContactModal,
-  } = props;
-
+const RightPane = () => {
   return (
     <Box>
       <Box sx={styles?.rightSide}>
-        <Search size="small" placeholder="Search Here" {...searchProps} />
+        <Search size="small" placeholder="Search Here" />
         <Box>
-          <Button
-            variant="outlined"
-            sx={{ marginRight: '14px' }}
-            {...emailSettingProps}
-          >
+          <Button variant="outlined" sx={{ marginRight: '14px' }}>
             Email Settings
           </Button>
-          <Button variant="contained" {...sendEmailProps}>
-            Send Email
-          </Button>
+          <Button variant="contained">Send Email</Button>
         </Box>
       </Box>
-      {title && <Typography>{title}</Typography>}
 
-      {data?.length > 0 ? (
-        data?.map((obj) => (
+      {emailsData?.length > 0 ? (
+        emailsData?.map((obj: any) => (
           <Box key={uuidv4()} sx={styles?.rightSideCard}>
             {obj.userImg || <ProfileCircleIcon />}
             <Box flex={1}>
               <Box sx={styles?.emailWrap}>
-                <Box
-                  flex={1}
-                  sx={{ cursor: 'pointer' }}
-                  onClick={handleContactModal}
-                >
+                <Box flex={1} sx={{ cursor: 'pointer' }}>
                   <Typography variant="h5">{obj?.title}</Typography>
                   <Typography variant="body2">To: {obj?.to}</Typography>
                 </Box>
@@ -61,13 +38,13 @@ const RightSide = (props: RightSideData) => {
                   <Typography variant="subtitle2" fontWeight={400}>
                     {obj?.date}
                   </Typography>
-                  <IconButton size="small" onClick={() => handleReplayAll(obj)}>
+                  <IconButton size="small">
                     <ReplyAllIcon />
                   </IconButton>
-                  <IconButton size="small" onClick={() => handleReplay(obj)}>
+                  <IconButton size="small">
                     <EmailReplyIcon />
                   </IconButton>
-                  <IconButton size="small" onClick={() => handleForward(obj)}>
+                  <IconButton size="small">
                     <ForwardIcon />
                   </IconButton>
                 </Box>
@@ -85,4 +62,4 @@ const RightSide = (props: RightSideData) => {
   );
 };
 
-export default RightSide;
+export default RightPane;
