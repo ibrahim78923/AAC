@@ -31,8 +31,6 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response && response?.data && response?.data?.usercompanyaccounts) {
           return response?.data?.usercompanyaccounts.map((item: any) => ({
-            firstName: item?.user?.firstName,
-            lastName: item?.user?.lastName,
             ...item,
           }));
         }
@@ -86,10 +84,10 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     getTeamList: builder?.query({
-      query: ({ params }: any) => ({
+      query: ({ param }: any) => ({
         url: `${END_POINTS?.SALES_TEAM}`,
         method: 'GET',
-        params,
+        params: param,
       }),
       providesTags: [TAG],
     }),
