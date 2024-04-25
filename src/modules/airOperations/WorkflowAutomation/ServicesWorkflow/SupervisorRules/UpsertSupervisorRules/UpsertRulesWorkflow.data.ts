@@ -33,8 +33,6 @@ export const actionsOptions = [
   { value: 'department', label: 'Set Department as' },
   { value: 'addTask', label: 'Add Task' },
   { value: 'addTag', label: 'Add Tag' },
-  { value: 'sendEmailAgent', label: 'Send Email to Agent' },
-  { value: 'sendEmailRequester', label: 'Send Email to Requester' },
   { value: 'assignTo', label: 'Assign to Agent' },
 ];
 export const rulesSaveWorkflowSchema = Yup?.object()?.shape({
