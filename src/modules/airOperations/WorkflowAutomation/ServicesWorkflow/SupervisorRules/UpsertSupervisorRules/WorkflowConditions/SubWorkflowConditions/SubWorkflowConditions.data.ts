@@ -96,7 +96,7 @@ const constantApiOptions = {
 };
 
 const optionsConstants = {
-  priority: 'priority',
+  priority: 'Priority',
   impacts: 'Impact',
   assetType: 'Asset Type',
   source: 'Source',

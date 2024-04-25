@@ -100,7 +100,7 @@ const constantApiOptions = {
 };
 
 const optionsConstants = {
-  priority: 'priority',
+  priority: 'Priority',
   impacts: 'Impact',
   source: 'Source',
   description: 'Description',
