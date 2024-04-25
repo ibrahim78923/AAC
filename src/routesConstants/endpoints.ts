@@ -57,6 +57,7 @@ export const END_POINTS = {
   CONTACT_STATUS: '/contact-status',
   GET_PERMISSIONS_ROLES: '/permissions/role',
   TASK_MANAGEMENT: '/task/management',
+  TASK_MANAGEMENT_UNASSIGN_DEAL: '/task/unassign-deal',
   TASK_CUSTOMIZE_COLUMN: '/customized-columns',
   TASK_MANAGEMENT_INSIGHTS: '/task/task-management-insights',
   TASK_MANAGEMENT_FEED: '/activity-log',

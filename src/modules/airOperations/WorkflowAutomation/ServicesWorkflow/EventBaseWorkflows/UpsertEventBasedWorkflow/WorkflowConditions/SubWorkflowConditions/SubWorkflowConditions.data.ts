@@ -4,7 +4,7 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { SCHEMA_KEYS } from '@/constants/strings';
+import { ROLES, SCHEMA_KEYS } from '@/constants/strings';
 
 export const assetsFieldsOption = [
   { value: 'displayName', label: 'Name' },
@@ -100,7 +100,7 @@ const constantApiOptions = {
 };
 
 const optionsConstants = {
-  priority: 'priority',
+  priority: 'Priority',
   impacts: 'Impact',
   source: 'Source',
   description: 'Description',
@@ -228,7 +228,6 @@ export const subWorkflowData = ({
     };
   } else if (
     selectedOperatorsOptions === constantApiOptions?.agent ||
-    selectedOperatorsOptions === constantApiOptions?.requester ||
     selectedOperatorsOptions === constantApiOptions?.location ||
     selectedOperatorsOptions === constantApiOptions?.assignTo ||
     selectedOperatorsOptions === constantApiOptions?.usedBy ||
@@ -263,7 +262,7 @@ export const subWorkflowData = ({
     };
   } else if (selectedOperatorsOptions === constantApiOptions?.assetType) {
     valueComponent = {
-      _id: 6,
+      _id: 7,
       gridLength: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
@@ -271,6 +270,21 @@ export const subWorkflowData = ({
         placeholder: 'Select',
         apiQuery: apiQuery,
         externalParams: { meta: false, limit: 50 },
+      },
+      component: RHFAutocompleteAsync,
+    };
+  } else if (selectedOperatorsOptions === constantApiOptions?.requester) {
+    valueComponent = {
+      _id: 7,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
+        size: 'small',
+        placeholder: 'Select',
+        apiQuery: apiQuery,
+        externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
       },
       component: RHFAutocompleteAsync,
     };
