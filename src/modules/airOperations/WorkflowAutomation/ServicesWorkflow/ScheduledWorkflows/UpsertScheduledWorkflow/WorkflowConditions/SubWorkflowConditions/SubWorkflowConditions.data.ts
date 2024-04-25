@@ -75,7 +75,14 @@ export const assetsOptions = [
 export const typeOptions = ['INC', 'SR'];
 export const sourcesOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
 
-export const commonOperators = ['is', 'is not', 'included', 'not include'];
+export const commonOperators = [
+  'is',
+  'is not',
+  'included',
+  'not include',
+  'is empty',
+  'is not empty',
+];
 export const dateOperators = [
   'is',
   'is not',
@@ -99,7 +106,7 @@ const constantApiOptions = {
   usedBy: 'Used By',
 };
 
-const optionsConstants = {
+export const optionsConstants = {
   priority: 'Priority',
   impacts: 'Impact',
   source: 'Source',
@@ -112,6 +119,8 @@ const optionsConstants = {
   title: 'Title',
   assignedOn: 'Assigned On',
   name: 'Name',
+  isEmpty: 'is empty',
+  isNotEmpty: 'is not empty',
 };
 
 export const subWorkflowData = ({
@@ -125,6 +134,12 @@ export const subWorkflowData = ({
   apiAssetType,
   apiUsersListDropdown,
 }: any) => {
+  const fieldValueDisable = watch(
+    `groups.${index}.conditions.${subIndex}.condition`,
+  );
+  const disableField =
+    fieldValueDisable === optionsConstants?.isEmpty ||
+    fieldValueDisable === optionsConstants?.isNotEmpty;
   const useApiQuery = (operatorsOption: string) => {
     if (operatorsOption === constantApiOptions?.agent) {
       return agentApiQuery;
@@ -222,6 +237,7 @@ export const subWorkflowData = ({
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
+        disabled: disableField,
         placeholder: 'Enter Text',
       },
       component: RHFTextField,
@@ -241,6 +257,7 @@ export const subWorkflowData = ({
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
+        disabled: disableField,
         getOptionLabel:
           selectedOperatorsOptions === constantApiOptions?.location
             ? (option: any) => option?.locationName
@@ -250,12 +267,13 @@ export const subWorkflowData = ({
     };
   } else if (selectedOperatorsOptions === constantApiOptions?.department) {
     valueComponent = {
-      _id: 6,
+      _id: 10,
       gridLength: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
+        disabled: disableField,
         apiQuery: apiQuery,
       },
       component: RHFAutocompleteAsync,
@@ -269,19 +287,21 @@ export const subWorkflowData = ({
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
+        disabled: disableField,
         externalParams: { meta: false, limit: 50 },
       },
       component: RHFAutocompleteAsync,
     };
   } else if (selectedOperatorsOptions === constantApiOptions?.requester) {
     valueComponent = {
-      _id: 7,
+      _id: 8,
       gridLength: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
+        disabled: disableField,
         externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
@@ -300,6 +320,7 @@ export const subWorkflowData = ({
       componentProps: {
         fullWidth: true,
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
+        disabled: disableField,
         size: 'small',
       },
       gridLength: 3,
@@ -313,6 +334,7 @@ export const subWorkflowData = ({
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
+        disabled: disableField,
         options: valuesOptions,
       },
       component: RHFAutocomplete,
