@@ -7,7 +7,12 @@ export const Notification = () => {
   return (
     <Box>
       <Typography variant="h3">Notifications</Typography>
-      <Box border="1px solid gray" borderRadius="5px" marginTop="2rem">
+      <Box
+        border="1px solid"
+        borderColor="grey.700"
+        borderRadius="5px"
+        marginTop="2rem"
+      >
         <Box
           display="flex"
           alignItems="center"
@@ -15,7 +20,13 @@ export const Notification = () => {
           m="1rem"
         >
           <Box display="flex" gap="10px" alignItems="center">
-            <Box>
+            <Box
+              bgcolor="primary.light"
+              padding={0.5}
+              borderRadius={2}
+              display="flex"
+              alignItems="center"
+            >
               <MessageNotificationIcon />
             </Box>
             <Box>
@@ -30,7 +41,12 @@ export const Notification = () => {
           </Box>
         </Box>
       </Box>
-      <Box border="1px solid gray" borderRadius="5px" marginTop="2rem">
+      <Box
+        border="1px solid"
+        borderColor="grey.700"
+        borderRadius="5px"
+        marginTop="2rem"
+      >
         <Box
           display="flex"
           alignItems="center"
@@ -38,7 +54,13 @@ export const Notification = () => {
           m="1rem"
         >
           <Box display="flex" gap="10px" alignItems="center">
-            <Box>
+            <Box
+              bgcolor="primary.light"
+              padding={0.5}
+              borderRadius={2}
+              display="flex"
+              alignItems="center"
+            >
               <BlockQuoteIcon />
             </Box>
             <Box>
