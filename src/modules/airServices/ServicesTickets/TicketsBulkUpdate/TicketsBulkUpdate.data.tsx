@@ -2,7 +2,6 @@ import {
   RHFDropZone,
   RHFEditor,
   RHFAutocomplete,
-  RHFTextField,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 
@@ -29,20 +28,25 @@ export const dropdownDummy = [
 export const isReplyAddedNeglect = ['to', 'description', 'file'];
 
 export const ticketsBulkUpdateToFormSchema: any = {
-  to: Yup?.string(),
+  to: Yup?.array()?.of(Yup?.string()),
   description: Yup?.mixed(),
   file: Yup?.mixed()?.nullable(),
 };
 
 export const ticketsBulkUpdateAddReplyFormFieldsData = [
   {
-    id: 2,
-    component: RHFTextField,
+    id: 1,
     componentProps: {
-      fullWidth: true,
       name: 'to',
       label: 'To',
+      placeholder: 'Enter Recipients',
+      required: true,
+      freeSolo: true,
+      options: [],
+      multiple: true,
+      isOptionEqualToValue: () => {},
     },
+    component: RHFAutocomplete,
   },
   {
     id: 920,
@@ -73,7 +77,7 @@ export const ticketsBulkUpdateDefaultFormValues = {
   agent: null,
   source: null,
   category: null,
-  to: '',
+  to: [],
   description: '',
   file: null,
 };
@@ -89,8 +93,21 @@ export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
     ...(isReplyAdded && {
-      to: Yup?.string()?.required(),
-      description: Yup?.mixed()?.required(),
+      to: Yup?.array()
+        ?.of(Yup?.string())
+        ?.test(
+          'is-emails-valid',
+          'Enter valid email formats',
+          function (value) {
+            if (!value || value.length === 0) {
+              return false;
+            }
+            return value.every(
+              (email) => Yup?.string().email().isValidSync(email),
+            );
+          },
+        ),
+      description: Yup?.string()?.required('Description is required'),
       file: Yup?.mixed()?.nullable(),
     }),
   });
