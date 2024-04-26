@@ -145,9 +145,11 @@ const Header = (props: any) => {
             </Box>
           )}
           {role && <SocialIconsDropdown />}
-          {role !== ROLES?.SUPER_ADMIN && <AccountMenu />}
+          {role !== ROLES?.SUPER_ADMIN && role !== ROLES?.ORG_REQUESTER && (
+            <AccountMenu />
+          )}
+          {role !== ROLES?.ORG_REQUESTER && <LinkDropdown />}
 
-          <LinkDropdown />
           <NotificationDropdown />
 
           {role === 'sales' && (

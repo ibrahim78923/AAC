@@ -1,6 +1,5 @@
 import { PAGINATION } from '@/config';
 import { useLazyGetCannedResponsesQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -32,10 +31,7 @@ export const useCannedResponses = () => {
       await lazyGetCannedResponsesTrigger(
         getCannedResponsesParameter,
       )?.unwrap();
-      successSnackbar('Canned Responses Retrieved successfully');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
+    } catch (error: any) {}
   };
   useEffect(() => {
     getCannedResponsesListData();

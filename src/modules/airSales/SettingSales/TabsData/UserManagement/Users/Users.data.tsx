@@ -22,7 +22,6 @@ export const userValidationSchema = Yup?.object()?.shape({
     ),
   email: Yup?.string()?.trim()?.required('Field is Required'),
   address: Yup?.string()?.trim()?.required('Field is Required'),
-  team: Yup?.string()?.trim()?.required('Field is Required'),
   role: Yup?.string()?.trim()?.required('Field is Required'),
   facebookUrl: Yup.string()
     .url('Please enter a valid URL starting with http://')
@@ -127,7 +126,6 @@ export const dataArray = () => {
       componentProps: {
         name: 'team',
         label: 'Select Team',
-        required: true,
         fullWidth: true,
         select: true,
       },

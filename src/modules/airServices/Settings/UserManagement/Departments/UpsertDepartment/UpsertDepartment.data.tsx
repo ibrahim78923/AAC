@@ -6,6 +6,7 @@ import {
   RHFTextField,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
 
 export const departmentFormValidation: any = Yup?.object()?.shape({
   fileUrl: Yup?.mixed()?.nullable(),
@@ -48,6 +49,7 @@ export const departmentFormFields: any = (
       placeholder: 'Select',
       fullWidth: true,
       apiQuery: userList,
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         option?.firstName + ' ' + option?.lastName,
       required: true,
@@ -80,6 +82,7 @@ export const departmentFormFields: any = (
       fullWidth: true,
       multiple: true,
       apiQuery: userListMember,
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         option?.firstName + ' ' + option?.lastName,
       required: true,

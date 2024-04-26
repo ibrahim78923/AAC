@@ -58,7 +58,8 @@ const useQuotes = () => {
       params: { ...filterParams, ...searchPayLoad, ...paginationParams },
     });
 
-  const [DeleteQuotes] = useDeleteQuotesMutation();
+  const [DeleteQuotes, { isLoading: loadingDeleteQuote }] =
+    useDeleteQuotesMutation();
 
   // Filters
   const [openFilters, setOpenFilters] = useState(false);
@@ -92,6 +93,7 @@ const useQuotes = () => {
   const [checkedColumns, setcheckedColumns] = useState<any>(null);
   const [customizedColumns, setCustomizedColumns] = useState(checkedColumns);
   const [openCustomizeColumns, setOpenCustomizeColumns] = useState(false);
+
   const handleOpenCustomizeColumns = () => {
     setOpenCustomizeColumns(true);
   };
@@ -133,6 +135,7 @@ const useQuotes = () => {
       });
       setSelectedRow([]);
       setIsActionsDisabled(true);
+      setOpenDeleteQuote(false);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -180,6 +183,7 @@ const useQuotes = () => {
     handleDeleteQoute,
     dataGetQuotes,
     loagingGetQuotes,
+    loadingDeleteQuote,
   };
 };
 

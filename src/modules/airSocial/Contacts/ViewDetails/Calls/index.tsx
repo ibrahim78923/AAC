@@ -18,6 +18,8 @@ import CallsEditorDrawer from './CallsEditorDrawer';
 import { AlertModals } from '@/components/AlertModals';
 import Reschedule from './Reschedule';
 import AddOutcome from './AddOutcome';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Calls = ({ contactId }: any) => {
   const {
@@ -82,146 +84,150 @@ const Calls = ({ contactId }: any) => {
   );
 
   return (
-    <>
-      <Box
-        sx={{
-          boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
-          padding: '15px 15px 25px 15px',
-          borderRadius: '10px',
-        }}
-      >
-        <Grid container spacing={3} sx={{ marginBottom: '25px' }}>
-          {Object?.entries(callsDetails)?.map(([key, value]) => (
-            <Grid item md={4} xs={12} key={key}>
-              <Box sx={styles?.callStatusBox(callsStatusColor, key)}>
-                <Typography variant="body2">{key}</Typography>
-                <Typography variant="subtitle2">{value}</Typography>
+    <PermissionsGuard
+      permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.VIEW_CALLS]}
+    >
+      <>
+        <Box
+          sx={{
+            boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
+            padding: '15px 15px 25px 15px',
+            borderRadius: '10px',
+          }}
+        >
+          <Grid container spacing={3} sx={{ marginBottom: '25px' }}>
+            {Object?.entries(callsDetails)?.map(([key, value]) => (
+              <Grid item md={4} xs={12} key={key}>
+                <Box sx={styles?.callStatusBox(callsStatusColor, key)}>
+                  <Typography variant="body2">{key}</Typography>
+                  <Typography variant="subtitle2">{value}</Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+          <Grid container sx={styles?.callsGrid}>
+            <Grid item xs={12}>
+              <Box sx={styles?.callsSpacingBetween}>
+                <Typography variant="h4"> Calls</Typography>
+                {!isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
+                  <Box
+                    sx={{
+                      gap: 1,
+                      display: 'flex',
+                      flexDirection: { xs: 'column', sm: 'row' },
+                      alignItems: 'center',
+                    }}
+                  >
+                    <CallsActionDropdown
+                      isActionsDisabled={isActionsDisabled}
+                      anchorEl={anchorEl}
+                      actionMenuOpen={actionMenuOpen}
+                      handleActionsMenuClick={handleActionsMenuClick}
+                      handleActionsMenuClose={handleActionsMenuClose}
+                      handleOpenDrawerEditCall={handleOpenDrawerEditCall}
+                      disabledMenuItem={rowId}
+                      handleOpenModalDelete={handleOpenModalDelete}
+                      handleOpenReschedule={handleOpenModalReschedule}
+                      handleOpenOutcome={handleOpenModalOutcome}
+                    />
+                    <Button
+                      variant="contained"
+                      sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                      onClick={handleOpenDrawerAddCall}
+                    >
+                      <PlusSharedIcon /> Add Calls
+                    </Button>
+                  </Box>
+                )}
               </Box>
             </Grid>
-          ))}
-        </Grid>
-        <Grid container sx={styles?.callsGrid}>
-          <Grid item xs={12}>
-            <Box sx={styles?.callsSpacingBetween}>
-              <Typography variant="h4"> Calls</Typography>
-              {!isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
-                <Box
-                  sx={{
-                    gap: 1,
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    alignItems: 'center',
-                  }}
-                >
-                  <CallsActionDropdown
-                    isActionsDisabled={isActionsDisabled}
-                    anchorEl={anchorEl}
-                    actionMenuOpen={actionMenuOpen}
-                    handleActionsMenuClick={handleActionsMenuClick}
-                    handleActionsMenuClose={handleActionsMenuClose}
-                    handleOpenDrawerEditCall={handleOpenDrawerEditCall}
-                    disabledMenuItem={rowId}
-                    handleOpenModalDelete={handleOpenModalDelete}
-                    handleOpenReschedule={handleOpenModalReschedule}
-                    handleOpenOutcome={handleOpenModalOutcome}
-                  />
+            {isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
+              <Grid item xs={12}>
+                <Box sx={styles?.noCallsBox}>
+                  <ViewCallIcon />
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.grey[900] }}
+                  >
+                    Schedule a call right now from the CRM
+                  </Typography>
                   <Button
                     variant="contained"
-                    sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                    sx={{ height: '35px' }}
                     onClick={handleOpenDrawerAddCall}
                   >
                     <PlusSharedIcon /> Add Calls
                   </Button>
                 </Box>
-              )}
-            </Box>
+              </Grid>
+            )}
+            {!isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
+              <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
+                <TanstackTable
+                  columns={callsTableColumns}
+                  data={dataGetCalls?.data?.contactcalls}
+                  isLoading={loadingGetCalls}
+                  isPagination={true}
+                  count={dataGetCalls?.data?.meta?.pages}
+                  totalRecords={dataGetCalls?.data?.meta?.total}
+                  onPageChange={handlePageChange}
+                  setPage={setPage}
+                  setPageLimit={setPageLimit}
+                />
+              </Grid>
+            )}
           </Grid>
-          {isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
-            <Grid item xs={12}>
-              <Box sx={styles?.noCallsBox}>
-                <ViewCallIcon />
-                <Typography
-                  variant="body3"
-                  sx={{ color: theme?.palette?.grey[900] }}
-                >
-                  Schedule a call right now from the CRM
-                </Typography>
-                <Button
-                  variant="contained"
-                  sx={{ height: '35px' }}
-                  onClick={handleOpenDrawerAddCall}
-                >
-                  <PlusSharedIcon /> Add Calls
-                </Button>
-              </Box>
-            </Grid>
-          )}
-          {!isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
-            <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
-              <TanstackTable
-                columns={callsTableColumns}
-                data={dataGetCalls?.data?.contactcalls}
-                isLoading={loadingGetCalls}
-                isPagination={true}
-                count={dataGetCalls?.data?.meta?.pages}
-                totalRecords={dataGetCalls?.data?.meta?.total}
-                onPageChange={handlePageChange}
-                setPage={setPage}
-                setPageLimit={setPageLimit}
-              />
-            </Grid>
-          )}
-        </Grid>
-      </Box>
+        </Box>
 
-      <AddCall
-        openDrawer={openDrawerAddCall}
-        onClose={handleCloseDrawerAddCall}
-        methods={methodsAddCall}
-        onSubmit={handleAddCallSubmit}
-        employeeList={employeeList}
-        contactsList={contactsList}
-      />
+        <AddCall
+          openDrawer={openDrawerAddCall}
+          onClose={handleCloseDrawerAddCall}
+          methods={methodsAddCall}
+          onSubmit={handleAddCallSubmit}
+          employeeList={employeeList}
+          contactsList={contactsList}
+        />
 
-      <CallsEditorDrawer
-        title={drawerTitle}
-        openDrawer={openDrawerEditCall}
-        onClose={handleCloseDrawerEditCall}
-        methods={methodsEditCall}
-        onSubmit={handleSubmitUpdateCall}
-        employeeList={employeeList}
-        contactsList={contactsList}
-        isFieldDisabled={isFieldDisabled}
-        loading={loadingUpdateCall}
-      />
+        <CallsEditorDrawer
+          title={drawerTitle}
+          openDrawer={openDrawerEditCall}
+          onClose={handleCloseDrawerEditCall}
+          methods={methodsEditCall}
+          onSubmit={handleSubmitUpdateCall}
+          employeeList={employeeList}
+          contactsList={contactsList}
+          isFieldDisabled={isFieldDisabled}
+          loading={loadingUpdateCall}
+        />
 
-      <AlertModals
-        message={
-          "You're about to delete a record. Deleted records can't be restored after 90 days."
-        }
-        type={'delete'}
-        open={isCallsDeleteModal}
-        handleClose={handleCloseModalDelete}
-        handleSubmitBtn={handleSubmitDeleteCalls}
-        loading={loadingDelete}
-      />
+        <AlertModals
+          message={
+            "You're about to delete a record. Deleted records can't be restored after 90 days."
+          }
+          type={'delete'}
+          open={isCallsDeleteModal}
+          handleClose={handleCloseModalDelete}
+          handleSubmitBtn={handleSubmitDeleteCalls}
+          loading={loadingDelete}
+        />
 
-      <Reschedule
-        openModal={openRescheduleModal}
-        handleClose={handleCloseModalReschedule}
-        methods={methodsReschedule}
-        handleSubmit={handleSubmitRescheduleCall}
-        loading={loadingRescheduleCall}
-      />
+        <Reschedule
+          openModal={openRescheduleModal}
+          handleClose={handleCloseModalReschedule}
+          methods={methodsReschedule}
+          handleSubmit={handleSubmitRescheduleCall}
+          loading={loadingRescheduleCall}
+        />
 
-      <AddOutcome
-        openModal={openOutcomeModal}
-        handleClose={handleCloseModalOutcome}
-        methods={methodsOutcome}
-        handleSubmit={handleSubmitOutcomeCall}
-        loading={loadingOutcome}
-      />
-    </>
+        <AddOutcome
+          openModal={openOutcomeModal}
+          handleClose={handleCloseModalOutcome}
+          methods={methodsOutcome}
+          handleSubmit={handleSubmitOutcomeCall}
+          loading={loadingOutcome}
+        />
+      </>
+    </PermissionsGuard>
   );
 };
 

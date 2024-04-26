@@ -1,10 +1,7 @@
 import { Box, Grid } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { contactsDataArray } from './CreateContactsdata';
-
 import { v4 as uuidv4 } from 'uuid';
 import useCreateContacts from './useCreateContacts';
 
@@ -14,8 +11,9 @@ const CreateContacts = ({ open, onClose, dealId }: any) => {
     onSubmit,
     methodscontacts,
     lifeCycleStagesData,
+    laodingContactPost,
     contactStatusData,
-    userList, // submitContact,
+    userList,
   }: any = useCreateContacts(dealId, onClose);
 
   return (
@@ -28,12 +26,10 @@ const CreateContacts = ({ open, onClose, dealId }: any) => {
       okText="Create"
       submitHandler={handleSubmit(onSubmit)}
       isOk
+      isLoading={laodingContactPost}
     >
       <Box sx={{ pt: 2 }}>
-        <FormProvider
-          methods={methodscontacts}
-          // onSubmit={handleSubmit(onSubmit)}
-        >
+        <FormProvider methods={methodscontacts}>
           <Grid container spacing={2}>
             {contactsDataArray(
               contactStatusData,

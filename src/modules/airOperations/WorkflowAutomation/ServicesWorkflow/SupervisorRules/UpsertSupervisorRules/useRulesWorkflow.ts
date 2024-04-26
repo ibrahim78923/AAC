@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  rulesSaveWorkflowSchema,
   rulesWorkflowSchema,
   rulesWorkflowValues,
 } from './UpsertRulesWorkflow.data';
@@ -16,9 +17,10 @@ import {
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
 import { useEffect, useState } from 'react';
+import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
 export const useRulesWorkflow = () => {
-  const [validation, setValidation] = useState(false);
+  const [validation, setValidation] = useState('');
   const [testWorkflow, setTestWorkflow] = useState(false);
   const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
   const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
@@ -30,8 +32,14 @@ export const useRulesWorkflow = () => {
     objectId: 'objectId',
   };
 
+  const buttonData = {
+    save: 'save',
+    test: 'test',
+    upsert: 'upsert',
+  };
+
   const collectionNameData = {
-    agent: 'agent',
+    agent: 'Agent',
     assignToAgent: 'Assign to Agent',
     selectDepartment: 'Select Department',
     department: 'departments',
@@ -65,7 +73,10 @@ export const useRulesWorkflow = () => {
 
   const rulesMethod = useForm({
     defaultValues: rulesWorkflowValues(singleWorkflowData),
-    resolver: validation ? yupResolver(rulesWorkflowSchema) : undefined,
+    resolver:
+      validation === buttonData?.upsert || validation === buttonData?.test
+        ? yupResolver(rulesWorkflowSchema)
+        : yupResolver(rulesSaveWorkflowSchema),
   });
 
   const mapField = (field: any, typeData: any) => {
@@ -79,10 +90,10 @@ export const useRulesWorkflow = () => {
       return typeData?.number;
     } else if (typeof fieldValue === typeData?.string) {
       return typeData?.string;
-    } else if (typeof fieldValue === typeData?.object) {
+    } else if (typeof fieldValue === typeData?.object && fieldValue !== null) {
       return typeData?.objectId;
     } else {
-      return null;
+      return typeData?.string;
     }
   };
 
@@ -90,9 +101,9 @@ export const useRulesWorkflow = () => {
     const fieldLabel = fieldName?.label || fieldName;
     switch (fieldLabel) {
       case collectionNameData?.agent:
-        return collectionNameData?.agent;
+        return collectionNameData?.users;
       case collectionNameData?.assignToAgent:
-        return collectionNameData?.agent;
+        return collectionNameData?.users;
       case collectionNameData?.selectDepartment:
         return collectionNameData?.department;
       case collectionNameData?.setDepartmentAs:
@@ -126,7 +137,11 @@ export const useRulesWorkflow = () => {
           ? condition?.fieldValue?._id
           : condition?.fieldValue,
       fieldType: mapField(condition, typeData),
-      collectionName: getCollectionName(condition?.fieldName),
+      collectionName:
+        condition?.condition === optionsConstants?.isEmpty ||
+        condition?.condition === optionsConstants?.isNotEmpty
+          ? ''
+          : getCollectionName(condition?.fieldName),
     })),
     conditionType: group?.conditionType?.value,
   });
@@ -167,26 +182,29 @@ export const useRulesWorkflow = () => {
   const handleApiCall = async (body: any) => {
     try {
       let successMessage = '';
-      if (testWorkflow && validation) {
+      if (testWorkflow && validation === buttonData?.test) {
         const response = await postTestTrigger(body).unwrap();
         setIsWorkflowDrawer(true);
         setTestWorkflowResponse(response);
         successMessage = 'Test Workflow Executed Successfully';
       } else {
-        if (pageActionType === EDIT_WORKFLOW) {
+        if (
+          pageActionType === EDIT_WORKFLOW &&
+          validation === buttonData?.upsert
+        ) {
           await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
           successMessage = 'Workflow Update Successfully';
-        } else if (!validation) {
+        } else if (validation === buttonData?.save) {
           await saveWorkflowTrigger(body).unwrap();
           successMessage = 'Workflow Save Successfully';
-        } else {
+        } else if (validation === buttonData?.upsert) {
           await postWorkflowTrigger(body).unwrap();
           successMessage = 'Workflow Create Successfully';
         }
       }
 
       successSnackbar(successMessage);
-      if (!testWorkflow) {
+      if (validation !== buttonData?.test) {
         reset();
         movePage();
       }
