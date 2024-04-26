@@ -59,7 +59,7 @@ export const ServicesWorkflow = () => {
                     boxShadow: `0 0 6px 0 ${theme?.palette?.warning?.light}`,
                   },
                 }}
-                onClick={() => handleItemClick?.(item.id)}
+                onClick={() => handleItemClick?.(item.id, item?.title)}
               >
                 <Typography variant="h5" py={1}>
                   {item?.title}

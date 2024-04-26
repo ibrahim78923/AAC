@@ -1,21 +1,26 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { serviceWorkflowsCardData } from './ServicesWorkflow.data';
+import { useState } from 'react';
 
 export const useServiceWorkflow = () => {
   const theme = useTheme();
   const router = useRouter();
-  const [activeItem, setActiveItem] = useState<any>(null);
+  const backClick =
+    router?.query?.type === 'Supervisor Rules'
+      ? 3
+      : router?.query?.type === 'Scheduled Workflows'
+        ? 2
+        : 1;
+  const [activeItem, setActiveItem] = useState<any>(backClick);
 
-  const handleItemClick = (id: any) => {
+  const handleItemClick = (id: any, title: any) => {
     setActiveItem(id);
+    router?.push({
+      query: { type: title },
+      pathname: router?.pathname,
+    });
   };
-  useEffect(() => {
-    if (activeItem === null && serviceWorkflowsCardData.length > 0) {
-      handleItemClick(serviceWorkflowsCardData[0].id);
-    }
-  }, [activeItem, handleItemClick]);
+
   return {
     theme,
     router,
