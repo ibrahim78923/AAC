@@ -233,8 +233,8 @@ const ViewDetails = () => {
         ) : (
           <Skeleton
             variant="rectangular"
-            width={210}
-            height={60}
+            width={'100%'}
+            height={180}
             sx={{ marginTop: '20px' }}
           />
         )}
@@ -258,6 +258,7 @@ const ViewDetails = () => {
       <UploadImageModal
         isUploadImageOpen={isUploadImageOpen}
         setIsUploadImageOpen={setIsUploadImageOpen}
+        companyId={data?.data?._id}
       />
     </Box>
   );

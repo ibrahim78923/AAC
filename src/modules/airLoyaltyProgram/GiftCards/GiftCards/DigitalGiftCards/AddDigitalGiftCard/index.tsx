@@ -1,24 +1,33 @@
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useAddDigitalGiftCard } from './useAddDigitalGiftCard';
-import { addDigitalGiftCardFormFields } from './AddDigitalGiftCard.data';
+
 export const AddDigitalGiftCard = (props: any) => {
-  const { addDigitalCard } = props;
-  const { handleSubmit, onSubmit, methods, handleCloseDrawer } =
-    useAddDigitalGiftCard(props);
+  const { isPortalOpen } = props;
+  const {
+    handleSubmit,
+    onSubmit,
+    methods,
+    closeAddDigitalGiftCardForm,
+    addDigitalGiftCardFormFields,
+    addDigitalGiftCardStatus,
+  } = useAddDigitalGiftCard(props);
+
   return (
     <Box>
       <CommonDrawer
-        isDrawerOpen={addDigitalCard}
-        onClose={handleCloseDrawer}
+        isDrawerOpen={isPortalOpen?.isAdd}
+        onClose={() => closeAddDigitalGiftCardForm?.()}
         title={'Add Digital Card'}
         okText={'Create'}
         isOk
         cancelText={'Cancel'}
         footer
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={addDigitalGiftCardStatus?.isLoading}
+        isDisabled={addDigitalGiftCardStatus?.isLoading}
+        disabledCancelBtn={addDigitalGiftCardStatus?.isLoading}
       >
         <Box>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

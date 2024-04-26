@@ -417,6 +417,11 @@ export const TICKET_SOURCE = {
   PORTAL: 'PORTAL',
   CHAT: 'CHAT',
 };
+export enum Ticket {
+  ticketFields = 'Ticket Fields',
+  assetsFields = 'Assets Fields',
+  taskFields = 'Task Fields',
+}
 
 export const SCHEMA_KEYS = {
   TICKETS: 'TICKETS',
@@ -476,7 +481,10 @@ export const LOYALTY_TRANSACTIONS_CHANNEL = {
 export const IMPORT_ACTION_TYPE = {
   INVENTORIES: 'INVENTORIES',
   PRODUCT_CATALOG: 'PRODUCT_CATALOG',
+  LOCATIONS: 'LOCATIONS',
+  VENDORS: 'VENDORS',
   DEALS: 'DEALS',
+  TASKS: 'TASKS',
 };
 
 export const OBJECT_URL_IMPORT = {
@@ -510,4 +518,9 @@ export const OPERATORS = {
   EQUAL_TO: 'EQUAL_TO',
   LESS_THEN_OR_EQUAL_TO: 'LESS_THEN_OR_EQUAL_TO',
   GREATER_THEN_AND_EQUAL_TO: 'GREATER_THEN_AND_EQUAL_TO',
+};
+
+export const LOYALTY_REWARDS_TYPE = {
+  PHYSICAL_REWARD: 'physicalReward',
+  DIGITAL_REWARD: 'digitalReward',
 };

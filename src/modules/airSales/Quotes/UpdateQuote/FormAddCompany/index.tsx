@@ -7,20 +7,21 @@ import { v4 as uuidv4 } from 'uuid';
 
 const FormAddCompany = ({ open, onClose }: any) => {
   const theme = useTheme();
-  const { onSubmit, handleSubmit, methods, contacts } =
+  const { onSubmit, handleSubmit, methods, contacts, loadingCompnayPost } =
     useFormAddContact(onClose);
 
   return (
     <CommonDrawer
+      submitHandler={handleSubmit(onSubmit)}
       title="Your Company Information"
-      okText="Add"
+      isLoading={loadingCompnayPost}
+      cancelBtnHandler={onClose}
+      cancelText={'Cancel'}
       isDrawerOpen={open}
       onClose={onClose}
-      cancelBtnHandler={onClose}
-      isOk
-      cancelText={'Cancel'}
+      okText="Add"
       footer
-      submitHandler={handleSubmit(onSubmit)}
+      isOk
     >
       <Box sx={{ pt: '27px' }}>
         <Alert

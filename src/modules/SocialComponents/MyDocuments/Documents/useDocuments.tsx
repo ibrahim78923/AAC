@@ -31,7 +31,9 @@ const useDocuments: any = () => {
   const [postDocumentFolder] = usePostDocumentFolderMutation();
   const [updateFolder] = useUpdateFolderMutation();
   const [deleteFolders] = useDeleteFoldersMutation();
-  const [checkboxChecked, setCheckboxChecked] = useState<string[]>([]);
+  const [allSelectedFoldersIds, setAllSelectedFoldersIds] = useState<string[]>(
+    [],
+  );
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [actionType, setActionType] = useState('');
   const [selectedFolder, setSelectedFolder] = useState(null);
@@ -46,12 +48,13 @@ const useDocuments: any = () => {
   const deleteUserFolders = async () => {
     try {
       await deleteFolders({
-        ids: checkboxChecked?.map((id) => `ids=${id}`)?.join('&'),
+        ids: allSelectedFoldersIds?.map((id) => `ids=${id}`)?.join('&'),
       }).unwrap();
       enqueueSnackbar('Company Deleted Successfully', {
         variant: 'success',
       });
       setIsOpenDelete(false);
+      setAllSelectedFoldersIds([]);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', { variant: 'error' });
     }
@@ -59,7 +62,7 @@ const useDocuments: any = () => {
 
   const MoveToFolder = async () => {
     try {
-      for (const item of checkboxChecked) {
+      for (const item of allSelectedFoldersIds) {
         await updateFolder({
           id: item,
           body: {
@@ -79,10 +82,12 @@ const useDocuments: any = () => {
   };
 
   const handleCheckboxChange = (id: string) => {
-    if (checkboxChecked?.includes(id)) {
-      setCheckboxChecked(checkboxChecked?.filter((item: string) => item != id));
+    if (allSelectedFoldersIds?.includes(id)) {
+      setAllSelectedFoldersIds(
+        allSelectedFoldersIds?.filter((item: string) => item != id),
+      );
     } else {
-      setCheckboxChecked([...checkboxChecked, id]);
+      setAllSelectedFoldersIds([...allSelectedFoldersIds, id]);
     }
   };
 
@@ -133,7 +138,7 @@ const useDocuments: any = () => {
         actionType === DOCUMENTS_ACTION_TYPES.UPDATE_FOLDER
       ) {
         await updateFolder({
-          id: checkboxChecked,
+          id: allSelectedFoldersIds,
           body: documentData,
         }).unwrap();
         enqueueSnackbar('Folder Update Successfully', {
@@ -182,7 +187,7 @@ const useDocuments: any = () => {
     onSubmit,
     FolderAdd,
     handleCheckboxChange,
-    checkboxChecked,
+    allSelectedFoldersIds,
     modalHeading,
     setModalHeading,
     deleteUserFolders,

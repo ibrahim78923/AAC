@@ -1,25 +1,61 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
-import { defaultValues, validationSchema } from './AddPhysicalGiftCard.data';
+import {
+  addPhysicalGiftCardDefaultValues,
+  addPhysicalGiftCardFormFieldsDynamic,
+  addPhysicalGiftCardValidationSchema,
+} from './AddPhysicalGiftCard.data';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  useAddPhysicalGiftCardMutation,
+  useLazyGetShopDropdownForPhysicalGiftCardQuery,
+} from '@/services/airLoyaltyProgram/giftCards/giftCards/physical-gift-card/unassigned';
+
 export const useAddPhysicalGiftCard = (props: any) => {
-  const { setAddPhysicalCard } = props;
+  const { setIsPortalOpen } = props;
+  const [addPhysicalGiftCardTrigger, addPhysicalGiftCardStatus] =
+    useAddPhysicalGiftCardMutation();
+
   const methods: any = useForm<any>({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
+    resolver: yupResolver(addPhysicalGiftCardValidationSchema),
+    defaultValues: addPhysicalGiftCardDefaultValues,
   });
+
   const { handleSubmit, reset } = methods;
-  const onSubmit = async () => {
-    enqueueSnackbar('Assigned Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    handleCloseDrawer?.();
+
+  const submitAddPhysicalGiftCard = async (formData: any) => {
+    const body = {
+      shop: formData?._id,
+      amount: formData?.noOfGiftCards,
+    };
+    const apiDataParameter = {
+      body,
+    };
+    try {
+      await addPhysicalGiftCardTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Card Added Successfullt');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+    closeAddPhysicalGiftCardForm?.();
     reset();
   };
-  const handleCloseDrawer = () => {
+
+  const closeAddPhysicalGiftCardForm = () => {
     reset();
-    setAddPhysicalCard(false);
+    setIsPortalOpen({});
   };
-  return { handleSubmit, onSubmit, methods, handleCloseDrawer };
+
+  const shopApiQuery = useLazyGetShopDropdownForPhysicalGiftCardQuery?.();
+
+  const addPhysicalGiftCardFormFields =
+    addPhysicalGiftCardFormFieldsDynamic?.(shopApiQuery);
+  return {
+    handleSubmit,
+    submitAddPhysicalGiftCard,
+    methods,
+    closeAddPhysicalGiftCardForm,
+    addPhysicalGiftCardFormFields,
+    addPhysicalGiftCardStatus,
+  };
 };

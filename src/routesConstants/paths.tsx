@@ -270,3 +270,8 @@ export const AIR_CALL_CENTER = {
     PHONE_CREDITS: '/air-call-center/settings/phone-credits',
   },
 };
+
+export const quoteStatus = {
+  draft: 'DRAFT',
+  published: 'PUBLISHED',
+};

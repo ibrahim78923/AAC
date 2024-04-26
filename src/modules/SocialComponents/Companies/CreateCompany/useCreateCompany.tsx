@@ -49,7 +49,7 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
     formData.append('linkedInUrl', values?.linkedInUrl);
 
     try {
-      postCompanies({ body: formData });
+      await postCompanies({ body: formData }).unwrap();
       enqueueSnackbar(`Company Created Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });

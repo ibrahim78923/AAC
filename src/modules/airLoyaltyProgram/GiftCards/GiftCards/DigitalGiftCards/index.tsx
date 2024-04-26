@@ -5,32 +5,23 @@ import Search from '@/components/Search';
 import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
-import { ExportModal } from '@/components/ExportModal';
-import { DigitalGiftCardFilter } from './DigitalGiftCardFilter';
-import { AddDigitalGiftCard } from './AddDigitalGiftCard';
-
-export const DigitalGiftCards = (props: any) => {
-  const { setShowButtons }: { setShowButtons: (value: boolean) => void } =
-    props;
+export const DigitalGiftCards = () => {
   const {
-    theme,
     digitalGiftCardColumns,
-    data,
     setSearch,
-    handleFileExportSubmit,
-    open,
-    setOpen,
-    handleClose,
-    openFilter,
-    setOpenFilter,
-    addDigitalCard,
-    setAddDigitalCard,
-  } = useDigitalGiftCards(setShowButtons);
+    setIsPortalOpen,
+    isPortalOpen,
+    renderPortalComponent,
+    lazyGetDigitalGiftCardListStatus,
+    setPage,
+    setPageLimit,
+  } = useDigitalGiftCards();
 
   return (
     <>
       <Box
-        border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
+        border={`1px solid`}
+        borderColor={'grey.700'}
         borderRadius={2}
         p={1.5}
       >
@@ -47,7 +38,7 @@ export const DigitalGiftCards = (props: any) => {
               variant="outlined"
               color="secondary"
               startIcon={<FilterListIcon />}
-              onClick={() => setOpenFilter(true)}
+              onClick={() => setIsPortalOpen({ isOpen: true, isFilter: true })}
             >
               Filter
             </Button>
@@ -55,21 +46,14 @@ export const DigitalGiftCards = (props: any) => {
               variant="outlined"
               color="secondary"
               startIcon={<ExportBlackIcon />}
-              onClick={() => setOpen(true)}
+              onClick={() => setIsPortalOpen({ isOpen: true, isExport: true })}
             >
               Export
             </Button>
-            <ExportModal
-              open={open}
-              onSubmit={(exportType: any) =>
-                handleFileExportSubmit?.(exportType)
-              }
-              handleClose={handleClose}
-            />
             <Button
               variant="contained"
               startIcon={<AddWhiteBgIcon />}
-              onClick={() => setAddDigitalCard(true)}
+              onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
             >
               Add
             </Button>
@@ -77,19 +61,25 @@ export const DigitalGiftCards = (props: any) => {
         </Box>
         <br />
         <TanstackTable
-          data={data}
           columns={digitalGiftCardColumns}
+          data={lazyGetDigitalGiftCardListStatus?.data?.data}
+          isLoading={lazyGetDigitalGiftCardListStatus?.isLoading}
+          currentPage={lazyGetDigitalGiftCardListStatus?.data?.data?.meta?.page}
+          count={lazyGetDigitalGiftCardListStatus?.data?.data?.meta?.pages}
+          pageLimit={lazyGetDigitalGiftCardListStatus?.data?.data?.meta?.limit}
+          totalRecords={
+            lazyGetDigitalGiftCardListStatus?.data?.data?.meta?.total
+          }
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isFetching={lazyGetDigitalGiftCardListStatus?.isFetching}
+          isError={lazyGetDigitalGiftCardListStatus?.isError}
+          isSuccess={lazyGetDigitalGiftCardListStatus?.isSuccess}
+          onPageChange={(page: any) => setPage(page)}
           isPagination
         />
       </Box>
-      <DigitalGiftCardFilter
-        openFilter={openFilter}
-        setOpenFilter={setOpenFilter}
-      />
-      <AddDigitalGiftCard
-        addDigitalCard={addDigitalCard}
-        setAddDigitalCard={setAddDigitalCard}
-      />
+      {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>
   );
 };

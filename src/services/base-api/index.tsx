@@ -126,6 +126,7 @@ export const TAGS = [
   'PERMISSIONS',
   'TEAM_LIST',
   'MANAGE_SHOP',
+  'USER_LIST_DROPDOWN',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [
@@ -140,6 +141,7 @@ const baseQuery = fetchBaseQuery({
     if (token && !BYPASS_AUTH_API_ROUTES?.includes(endpoint)) {
       headers.set('Authorization', `Bearer ${token}`);
     }
+    headers.set('ngrok-skip-browser-warning', 'true');
     return headers;
   },
 });

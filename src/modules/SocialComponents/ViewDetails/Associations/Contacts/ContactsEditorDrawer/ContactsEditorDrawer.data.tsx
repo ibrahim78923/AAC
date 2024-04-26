@@ -1,6 +1,5 @@
 import {
   RHFDatePicker,
-  RHFDropZone,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -12,27 +11,19 @@ export const contactsValidationSchema = Yup?.object()?.shape({
   profilePicture: Yup?.string(),
   firstName: Yup?.string()
     ?.trim()
-    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
-    ?.required('Required Field'),
+    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only'),
   lastName: Yup?.string()
     ?.trim()
-    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
-    ?.required('Required Field'),
-  address: Yup?.string()?.trim()?.required('Required Field'),
-  phoneNumber: Yup?.string()
-    ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.min(10, 'Mininum 10 characters')
-    ?.required('Required field'),
-  whatsAppNumber: Yup?.string()
-    ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.min(10, 'Mininum 10 characters')
-    ?.required('Required field'),
-  lifeCycleStageId: Yup?.string()?.trim()?.required('Required Field'),
+    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only'),
+  address: Yup?.string()?.trim(),
+  phoneNumber: Yup?.string()?.matches(/^[0-9]*$/, 'must be a number'),
+  whatsAppNumber: Yup?.string()?.matches(/^[0-9]*$/, 'must be a number'),
+  lifeCycleStageId: Yup?.string()?.trim(),
   contactOwner: Yup?.string(),
-  statusId: Yup?.string()?.trim()?.required('Required Field'),
-  jobTitle: Yup?.string()?.trim()?.required('Required Field'),
-  dateOfJoining: Yup?.string()?.nullable()?.required('Required Field'),
-  dateOfBirth: Yup?.string()?.nullable()?.required('Required Field'),
+  statusId: Yup?.string()?.trim(),
+  jobTitle: Yup?.string()?.trim(),
+  dateOfJoining: Yup?.string()?.nullable(),
+  dateOfBirth: Yup?.string()?.nullable(),
 });
 
 export const contactsDefaultValues = {
@@ -42,8 +33,8 @@ export const contactsDefaultValues = {
   lastName: '',
   address: '',
   jobTitle: '',
-  phoneNumber: null,
-  whatsAppNumber: null,
+  phoneNumber: '',
+  whatsAppNumber: '',
   lifeCycleStageId: '',
   contactOwner: '',
   statusId: '',
@@ -70,24 +61,11 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
-      title: 'Profile Pictures',
-      componentProps: {
-        name: 'profilePicture',
-        label: 'Profile Picture',
-
-        select: false,
-        disabled: openDrawer === 'View',
-      },
-      md: 12,
-      component: RHFDropZone,
-    },
-    {
       title: 'First Name',
       componentProps: {
         name: 'firstName',
         label: 'Enter First Name',
         placeholder: 'Enter First Name',
-        required: true,
         disabled: openDrawer === 'View',
       },
       md: 12,
@@ -99,7 +77,6 @@ export const contactsDataArray = (
         name: 'lastName',
         label: ' Enter Last Name',
         placeholder: 'Enter Last Name',
-        required: true,
         type: 'text',
         disabled: openDrawer === 'View',
       },
@@ -135,7 +112,6 @@ export const contactsDataArray = (
         type: 'number',
         disabled: openDrawer === 'View',
         placeholder: 'Enter Number',
-        required: true,
       },
       md: 12,
       component: RHFTextField,
@@ -148,7 +124,6 @@ export const contactsDataArray = (
         type: 'number',
         disabled: openDrawer === 'View',
         placeholder: 'Enter Number',
-        required: true,
       },
       md: 12,
       component: RHFTextField,
@@ -171,7 +146,6 @@ export const contactsDataArray = (
         label: 'Job Title',
         disabled: openDrawer === 'View',
         placeholder: 'Enter Job Title',
-        required: true,
       },
       md: 12,
       component: RHFTextField,

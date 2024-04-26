@@ -1,41 +1,8 @@
 import { Avatar, Box, Chip, Typography } from '@mui/material';
 import { Circle } from '@mui/icons-material';
 import { AIR_LOYALTY_PROGRAM } from '@/constants';
-import { AvatarImage } from '@/assets/images';
 
-export const digitalTableData = [
-  {
-    id: 1,
-    title: `You won 50 pts!`,
-    requiredPoints: 500,
-    status: 'Active',
-    voucherCode: `PK140`,
-    totalRedeemed: 10,
-    total_redeemable: 20,
-    icon: AvatarImage,
-  },
-  {
-    id: 2,
-    title: `Double point day`,
-    requiredPoints: 120,
-    status: 'Active',
-    voucherCode: `BF20`,
-    totalRedeemed: 10,
-    total_redeemable: 163,
-    icon: AvatarImage,
-  },
-  {
-    id: 3,
-    title: `You won 50 pts!`,
-    requiredPoints: 150,
-    status: 'Active',
-    voucherCode: `NEWYR23`,
-    totalRedeemed: 10,
-    total_redeemable: 250,
-    icon: AvatarImage,
-  },
-];
-export const UserList: any = (push: any) => [
+export const loyaltyDigitalRewardColumnDynamic: any = (router: any) => [
   {
     accessorFn: (row: any) => row?.title,
     id: 'title',
@@ -98,9 +65,11 @@ export const UserList: any = (push: any) => [
         variant="body4"
         sx={{ cursor: 'pointer' }}
         onClick={() =>
-          push({
+          router?.push({
             pathname: AIR_LOYALTY_PROGRAM?.DIGITAL_REWARDS_DETAIL,
-            query: `id=${info?.row?.original?.id}`,
+            query: {
+              id: info?.row?.original?.id,
+            },
           })
         }
       >

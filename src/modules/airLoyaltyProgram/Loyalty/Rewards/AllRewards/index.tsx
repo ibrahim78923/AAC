@@ -1,24 +1,42 @@
 import { Box } from '@mui/material';
-import { UserList, allTableData } from './All.rewards.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { useState } from 'react';
+import { useAllRewards } from './useAllRewards';
 
 export const AllRewards = () => {
-  const [searchValue, setSearchValue] = useState<string>('');
+  const {
+    lazyGetLoyaltyAllRewardsListStatus,
+    setSearch,
+    setPageLimit,
+    setPage,
+    loyaltyAllRewardColumn,
+  } = useAllRewards();
+
   return (
     <Box>
-      <Search
-        label="Search Here"
-        width={'16.25rem'}
-        setSearchBy={setSearchValue}
-        searchBy={searchValue}
-      />
+      <Search label="Search Here" setSearchBy={setSearch} />
       <Box mt={'0.75rem'}>
         <TanstackTable
-          data={allTableData}
-          columns={UserList()}
-          isPagination={true}
+          columns={loyaltyAllRewardColumn}
+          data={lazyGetLoyaltyAllRewardsListStatus?.data?.data}
+          isLoading={lazyGetLoyaltyAllRewardsListStatus?.isLoading}
+          currentPage={
+            lazyGetLoyaltyAllRewardsListStatus?.data?.data?.meta?.page
+          }
+          count={lazyGetLoyaltyAllRewardsListStatus?.data?.data?.meta?.pages}
+          pageLimit={
+            lazyGetLoyaltyAllRewardsListStatus?.data?.data?.meta?.limit
+          }
+          totalRecords={
+            lazyGetLoyaltyAllRewardsListStatus?.data?.data?.meta?.total
+          }
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isFetching={lazyGetLoyaltyAllRewardsListStatus?.isFetching}
+          isError={lazyGetLoyaltyAllRewardsListStatus?.isError}
+          isSuccess={lazyGetLoyaltyAllRewardsListStatus?.isSuccess}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
         />
       </Box>
     </Box>

@@ -117,10 +117,17 @@ const useAddRole = () => {
   const { useGetProductsPermissionsQuery, useUpdateRoleRightsMutation } =
     rolesAndRightsAPI;
 
-  const { data: productPermissionsData, isLoading: loadingProduct } =
-    useGetProductsPermissionsQuery({
-      productId: productVal,
-    });
+  const {
+    data: productPermissionsData,
+    isLoading: loadingProduct,
+    refetch,
+  } = useGetProductsPermissionsQuery({
+    productId: productVal,
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [productVal]);
 
   const [updateRoleRights, { isLoading: loadingUpdateRole }] =
     useUpdateRoleRightsMutation();
@@ -174,6 +181,7 @@ const useAddRole = () => {
     getModulePermissions,
     loadingAddRole,
     loadingUpdateRole,
+    refetch,
   };
 };
 

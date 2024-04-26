@@ -14,7 +14,8 @@ const useVisibilityAction = (props: any) => {
   );
   const [selectedRequestorCheckboxes, setSelectedRequestorCheckboxes] =
     useState<any>([]);
-  const [patchServiceCatalogTrigger] = usePatchServiceCatalogMutation();
+  const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
+    usePatchServiceCatalogMutation();
   const handleSubmit = async () => {
     const moveToCategoryData = new FormData();
     moveToCategoryData.append('id', id?.selectedCheckboxes?.[0]);
@@ -56,6 +57,7 @@ const useVisibilityAction = (props: any) => {
     handleSubmit,
     apiQueryAgent,
     apiQueryRequester,
+    patchServiceCatalogTriggerStatus,
   };
 };
 

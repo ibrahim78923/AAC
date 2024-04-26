@@ -35,7 +35,7 @@ export const physicalTableData = [
     icon: AvatarImage,
   },
 ];
-export const UserList: any = (push: any) => [
+export const loyaltyPhysicalRewardColumnDynamic: any = (router: any) => [
   {
     accessorFn: (row: any) => row?.title,
     id: 'title',
@@ -98,9 +98,11 @@ export const UserList: any = (push: any) => [
         variant="body4"
         sx={{ cursor: 'pointer' }}
         onClick={() =>
-          push({
+          router?.push({
             pathname: AIR_LOYALTY_PROGRAM?.PHYSICAL_REWARDS_DETAIL,
-            query: `id=${info?.row?.original?.id}`,
+            query: {
+              id: info?.row?.original?.id,
+            },
           })
         }
       >

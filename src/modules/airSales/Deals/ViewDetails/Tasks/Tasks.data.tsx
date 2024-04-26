@@ -1,24 +1,54 @@
 import { DATE_FORMAT } from '@/constants';
+import { setSelectedDealsTaskIds } from '@/redux/slices/airSales/Deals/ViewDetails/Tasks/taskSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
-export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
+export const columns = ({ data }: any) => {
+  const dispatch: any = useAppDispatch();
+  const selectedTaskIds = useAppSelector(
+    (state: any) => state?.task_deals?.selectedDealsTaskIds,
+  );
+  const handleClick = (itemId: any) => {
+    if (selectedTaskIds?.includes(itemId)) {
+      dispatch(
+        setSelectedDealsTaskIds(
+          selectedTaskIds?.filter((id: any) => id !== itemId),
+        ),
+      );
+    } else {
+      dispatch(setSelectedDealsTaskIds([...selectedTaskIds, itemId]));
+    }
+  };
+  const handleSelectAll = () => {
+    if (selectedTaskIds?.length === data?.length) {
+      dispatch(setSelectedDealsTaskIds([]));
+    } else {
+      const allTaskIds = data?.map((task: any) => task?._id);
+      dispatch(setSelectedDealsTaskIds(allTaskIds));
+    }
+  };
+
   return [
     {
       accessorFn: (row: any) => row?.Id,
-      id: 'Id',
+      id: '_id',
       cell: (info: any) => (
         <Checkbox
+          checked={selectedTaskIds?.includes(info?.row?.original?._id)}
           color="primary"
-          name={'name'}
-          onChange={(event) => handleCheckboxChange(event, info?.row?.original)}
-          checked={selectedCheckboxes?.some(
-            (selectedItem: any) =>
-              selectedItem?._id === info?.row?.original?._id,
-          )}
+          name={info?.getValue()}
+          onClick={() => handleClick(info?.row?.original?._id)}
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: (
+        <Checkbox
+          color="primary"
+          name="Id"
+          onClick={handleSelectAll}
+          checked={selectedTaskIds?.length === data?.length}
+        />
+      ),
       isSortable: false,
     },
 
