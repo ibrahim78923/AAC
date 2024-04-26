@@ -1,14 +1,15 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { cardTitle } from './ServicesWorkflow.data';
 
 export const useServiceWorkflow = () => {
   const theme = useTheme();
   const router = useRouter();
   const backClick =
-    router?.query?.type === 'Supervisor Rules'
+    router?.query?.type === cardTitle?.supervisorRules
       ? 3
-      : router?.query?.type === 'Scheduled Workflows'
+      : router?.query?.type === cardTitle?.scheduleWorkflow
         ? 2
         : 1;
   const [activeItem, setActiveItem] = useState<any>(backClick);
