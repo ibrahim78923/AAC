@@ -17,8 +17,9 @@ export const WorkflowHeader = ({
   testWorkflowProgress,
   testWorkflowResponse,
   watch,
+  movePage,
 }: any) => {
-  const { handleMoveBack, action, handleCancel } = useWorkflowHeader();
+  const { action } = useWorkflowHeader();
   const EDIT_WORKFLOW = 'edit';
   const mainTitle = {
     edit: 'Edit Rules',
@@ -45,14 +46,14 @@ export const WorkflowHeader = ({
             action === EDIT_WORKFLOW ? mainTitle?.edit : mainTitle?.createButton
           }
           canMovedBack
-          moveBack={handleMoveBack}
+          moveBack={movePage}
         />
         <Box display={'flex'} gap={1} flexWrap={'wrap'}>
           <LoadingButton
             startIcon={<Cancel color="action" />}
             variant="outlined"
             color="secondary"
-            onClick={handleCancel}
+            onClick={movePage}
             disabled={isLoadingButton}
           >
             Cancel
