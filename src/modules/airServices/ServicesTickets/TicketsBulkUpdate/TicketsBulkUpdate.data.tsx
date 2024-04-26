@@ -35,7 +35,7 @@ export const ticketsBulkUpdateToFormSchema: any = {
 
 export const ticketsBulkUpdateAddReplyFormFieldsData = [
   {
-    id: 1,
+    id: 12,
     componentProps: {
       name: 'to',
       label: 'To',
@@ -175,7 +175,7 @@ export const ticketsBulkUpdateFormFieldsDynamic = (
     },
   },
   {
-    id: 920,
+    id: 9200,
     componentProps: {
       fullWidth: true,
       name: 'category',
