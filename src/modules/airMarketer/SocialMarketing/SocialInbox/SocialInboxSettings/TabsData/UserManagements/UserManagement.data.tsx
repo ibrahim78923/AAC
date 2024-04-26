@@ -4,17 +4,17 @@ import { Checkbox, Select, Switch, MenuItem } from '@mui/material';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  accountName: Yup.string().required('Field is Required'),
-  phoneNumber: Yup.string().trim().required('Field is Required'),
-  postCode: Yup.string().trim().required('Field is Required'),
-  address: Yup.string(),
-  buildingName: Yup.string().required('Field is Required'),
-  unit: Yup.string().required('Field is Required'),
-  buildingNumber: Yup.string(),
-  streetName: Yup.string(),
-  city: Yup.string(),
-  country: Yup.string(),
+export const validationSchema = Yup?.object()?.shape({
+  accountName: Yup?.string()?.required('Field is Required'),
+  phoneNumber: Yup?.string()?.trim()?.required('Field is Required'),
+  postCode: Yup?.string()?.trim()?.required('Field is Required'),
+  address: Yup?.string(),
+  buildingName: Yup?.string()?.required('Field is Required'),
+  unit: Yup?.string()?.required('Field is Required'),
+  buildingNumber: Yup?.string(),
+  streetName: Yup?.string(),
+  city: Yup?.string(),
+  country: Yup?.string(),
 });
 
 export const defaultValues = {
@@ -37,8 +37,7 @@ export const dataArray = [
       label: 'First Name',
       fullWidth: true,
       select: false,
-      placeholder: 'Enter First Name',
-      required: true,
+      placeholder: 'First Name',
     },
     component: RHFTextField,
     md: 12,
@@ -47,9 +46,9 @@ export const dataArray = [
     componentProps: {
       name: 'phoneNumber',
       label: 'Middle Name',
+      placeholder: 'Middle Name',
       fullWidth: true,
       select: false,
-      placeholder: 'Enter Middle Name',
     },
     component: RHFTextField,
     md: 12,
@@ -58,9 +57,8 @@ export const dataArray = [
     componentProps: {
       name: 'postCode',
       label: 'Last Name',
+      placeholder: 'Last Name',
       fullWidth: true,
-      placeholder: 'Enter Last Name',
-      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -69,12 +67,10 @@ export const dataArray = [
     componentProps: {
       name: 'address',
       label: 'Address',
+      placeholder: 'Address',
+
       fullWidth: true,
       select: false,
-      multiline: true,
-      rows: 3,
-      placeholder: 'Enter Address',
-      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -83,10 +79,10 @@ export const dataArray = [
     componentProps: {
       name: 'email',
       label: 'Email',
+      placeholder: 'Email',
+      required: true,
       fullWidth: true,
       select: false,
-      placeholder: 'Enter email',
-      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -95,9 +91,9 @@ export const dataArray = [
     componentProps: {
       name: 'buildingName',
       label: 'Phone Number',
+      placeholder: 'Phone Number',
       fullWidth: true,
       select: false,
-      placeholder: 'Enter phone number',
     },
     component: RHFTextField,
     md: 12,
@@ -106,9 +102,10 @@ export const dataArray = [
     componentProps: {
       name: 'buildingNumber',
       label: 'Job Title',
+      placeholder: 'Job Title',
+
       fullWidth: true,
       select: false,
-      placeholder: 'Enter job',
     },
     component: RHFTextField,
     md: 12,
@@ -119,7 +116,6 @@ export const dataArray = [
       label: 'Assign role',
       fullWidth: true,
       select: true,
-      required: true,
     },
     options: [
       { value: 'United Kingdom', label: 'Account Admin' },
@@ -135,7 +131,6 @@ export const dataArray = [
       label: 'Select Team',
       fullWidth: true,
       select: true,
-      required: true,
     },
     options: [
       { value: 'United Kingdom', label: 'Alfa' },
@@ -180,21 +175,23 @@ export const dataArray = [
     componentProps: {
       name: 'country',
       label: 'Facebook URL',
+      placeholder: 'Facebook URL',
       fullWidth: true,
       select: false,
-      placeholder: 'Enter facebook url',
     },
+    options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
     component: RHFTextField,
     md: 12,
   },
   {
     componentProps: {
       name: 'country',
-      label: 'Linkedin URL',
+      label: 'Linkdin URL',
+      placeholder: 'Linkdin URL',
       fullWidth: true,
       select: false,
-      placeholder: 'Enter linkedin url',
     },
+    options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
     component: RHFTextField,
     md: 12,
   },
@@ -202,10 +199,11 @@ export const dataArray = [
     componentProps: {
       name: 'country',
       label: 'Twitter URL',
+      placeholder: 'Twitter URL',
       fullWidth: true,
       select: false,
-      placeholder: 'Enter twitter url',
     },
+    options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
     component: RHFTextField,
     md: 12,
   },
@@ -213,28 +211,28 @@ export const dataArray = [
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.Id,
+    accessorFn: (row: any) => row?.Id,
     id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
     header: <Checkbox color="primary" name="Id" />,
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.name,
+    accessorFn: (row: any) => row?.name,
     id: 'name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.email,
+    accessorFn: (row: any) => row?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.team,
+    accessorFn: (row: any) => row?.team,
     id: 'team',
     isSortable: true,
     header: 'Team',
@@ -245,7 +243,7 @@ export const columns: any = [
         id="demo-simple-select-standard"
         value="Alfa"
         label="Select"
-        name={info.getValue()}
+        name={info?.getValue()}
       >
         <MenuItem value="">
           <em>None</em>
@@ -257,7 +255,7 @@ export const columns: any = [
     ),
   },
   {
-    accessorFn: (row: any) => row.role,
+    accessorFn: (row: any) => row?.role,
     id: 'role',
     isSortable: true,
     header: 'Role',
@@ -268,7 +266,7 @@ export const columns: any = [
         id="demo-simple-select-standard"
         value="Alfa"
         label="Select"
-        name={info.getValue()}
+        name={info?.getValue()}
       >
         <MenuItem value="">
           <em>None</em>
@@ -280,10 +278,10 @@ export const columns: any = [
     ),
   },
   {
-    accessorFn: (row: any) => row.status,
+    accessorFn: (row: any) => row?.status,
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => <Switch color="primary" name={info.getValue()} />,
+    cell: (info: any) => <Switch color="primary" name={info?.getValue()} />,
   },
 ];
