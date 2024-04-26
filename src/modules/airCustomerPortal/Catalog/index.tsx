@@ -193,6 +193,9 @@ export const Catalog = () => {
                       display={'flex'}
                       justifyContent={'flex-start'}
                       flexDirection={'column'}
+                      maxHeight={'100px'}
+                      minHeight={'100px'}
+                      overflow={'scroll'}
                       mt={2}
                     >
                       <Typography variant="h5">
