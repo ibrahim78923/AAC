@@ -524,3 +524,8 @@ export const LOYALTY_REWARDS_TYPE = {
   PHYSICAL_REWARD: 'physicalReward',
   DIGITAL_REWARD: 'digitalReward',
 };
+
+export const RULES_BENEFIT_TYPE = {
+  DISCOUNT: 'DISCOUNT',
+  AWARD: 'AWARD',
+};

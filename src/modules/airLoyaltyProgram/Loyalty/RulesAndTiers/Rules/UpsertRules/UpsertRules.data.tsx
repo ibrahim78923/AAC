@@ -8,7 +8,11 @@ import {
   LOYALTY_RULES_ATTRIBUTES_MAPPED,
   OPERATORS_MAPPED,
 } from '@/constants/api-mapped';
-import { LOYALTY_RULES_ATTRIBUTES, OPERATORS } from '@/constants/strings';
+import {
+  LOYALTY_RULES_ATTRIBUTES,
+  OPERATORS,
+  RULES_BENEFIT_TYPE,
+} from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const attributesOption = [
@@ -210,9 +214,9 @@ export const upsertRulesFormFieldsDynamic = (
       name: 'loyaltyType',
       row: false,
       options: [
-        { value: 'discounts', label: 'Give Discount' },
+        { value: RULES_BENEFIT_TYPE?.DISCOUNT, label: 'Give Discount' },
         {
-          value: 'awardPoints',
+          value: RULES_BENEFIT_TYPE?.AWARD,
           label: 'Award Points',
         },
       ],
@@ -227,7 +231,7 @@ export const upsertRulesFormFieldsDynamic = (
       LOYALTY_RULES_ATTRIBUTES_MAPPED?.FIRST_PURCHASE,
     ],
   },
-  ...(watchForLoyaltyType === 'giveDiscount'
+  ...(watchForLoyaltyType === RULES_BENEFIT_TYPE?.DISCOUNT
     ? [
         {
           id: 3,
