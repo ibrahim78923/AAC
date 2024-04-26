@@ -12,14 +12,16 @@ import { PAGINATION } from '@/config';
 import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
+import { getActivePermissionsSession } from '@/utils';
 
 export const useDigitalGiftCards = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [filterDigitalCard, setFilterDigitalCard] = useState({});
-  const router = useRouter();
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const router = useRouter();
+  const overallPermissions = getActivePermissionsSession();
   const [
     lazyGetDigitalGiftCardListTrigger,
     lazyGetDigitalGiftCardListStatus,
@@ -66,7 +68,10 @@ export const useDigitalGiftCards = () => {
     }
   };
 
-  const digitalGiftCardColumns = digitalGiftCardColumnsFunction(router);
+  const digitalGiftCardColumns = digitalGiftCardColumnsFunction(
+    router,
+    overallPermissions,
+  );
 
   const renderPortalComponent = () => {
     if (isPortalOpen?.isFilter) {
