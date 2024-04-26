@@ -18,6 +18,7 @@ import { AIR_OPERATIONS, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
 export const useUpsertScheduledWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -34,7 +35,7 @@ export const useUpsertScheduledWorkflow = () => {
   };
 
   const collectionNameData = {
-    agent: 'agent',
+    agent: 'Agent',
     assignToAgent: 'Assign to Agent',
     selectDepartment: 'Select Department',
     department: 'departments',
@@ -98,10 +99,10 @@ export const useUpsertScheduledWorkflow = () => {
       return typeData?.number;
     } else if (typeof fieldValue === typeData?.string) {
       return typeData?.string;
-    } else if (typeof fieldValue === typeData?.object) {
+    } else if (typeof fieldValue === typeData?.object && fieldValue !== null) {
       return typeData?.objectId;
     } else {
-      return null;
+      return typeData?.string;
     }
   };
 
@@ -144,7 +145,11 @@ export const useUpsertScheduledWorkflow = () => {
         ? condition?.fieldValue?._id
         : condition?.fieldValue,
       fieldType: mapField(condition, typeData),
-      collectionName: getCollectionName(condition?.fieldName),
+      collectionName:
+        condition?.condition === optionsConstants?.isEmpty ||
+        condition?.condition === optionsConstants?.isNotEmpty
+          ? ''
+          : getCollectionName(condition?.fieldName),
     })),
     conditionType: group?.conditionType?.value,
   });

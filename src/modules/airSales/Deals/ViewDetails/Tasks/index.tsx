@@ -63,6 +63,7 @@ const Tasks = (props: any) => {
               selectedCheckboxes={selectedCheckboxes}
               setSelectedCheckboxes={setSelectedCheckboxes}
               setOpenDrawer={setOpenDrawer}
+              selectedRecId={selectedRecId}
             />
             <PermissionsGuard
               permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_TASK]}

@@ -18,7 +18,7 @@ export const defaultValues = {
   maxAmount: '',
   channel: null,
 };
-export const transactionFilterDrawerData = [
+export const transactionFilterData = [
   {
     id: 1,
     componentProps: {

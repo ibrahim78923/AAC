@@ -113,6 +113,17 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FOUR],
     }),
+    getAgentDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_FOUR],
+    }),
     getAssetType: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
@@ -150,4 +161,5 @@ export const {
   usePostTestWorkflowMutation,
   useLazyGetAssetTypeQuery,
   useLazyGetUsersListDropdownQuery,
+  useLazyGetAgentDropdownQuery,
 } = servicesWorkflowAPI;

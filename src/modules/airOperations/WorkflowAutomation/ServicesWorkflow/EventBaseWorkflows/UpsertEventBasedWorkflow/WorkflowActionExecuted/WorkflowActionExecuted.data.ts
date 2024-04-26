@@ -16,7 +16,7 @@ export const optionsConstant = {
   agent: 'Assign to Agent',
   department: 'Set Department as',
   category: 'Set Category as',
-  priority: 'Set Category as',
+  priority: 'Set Priority as',
   impacts: 'Set Impact as',
   source: 'Set Source as',
   type: 'Set Type as',
@@ -50,12 +50,12 @@ export const actionsData = ({
     selectedLabel === optionsConstant?.priority
       ? priority
       : selectedLabel === optionsConstant?.source
-        ? sourcesOptions
-        : selectedLabel === optionsConstant?.type
-          ? typeOptions
-          : selectedLabel === optionsConstant?.impacts
-            ? impactOptions
-            : statusOptions;
+      ? sourcesOptions
+      : selectedLabel === optionsConstant?.type
+      ? typeOptions
+      : selectedLabel === optionsConstant?.impacts
+      ? impactOptions
+      : statusOptions;
   let valueComponent;
   const apiQuery = useApiQuery(selectedLabel);
   if (

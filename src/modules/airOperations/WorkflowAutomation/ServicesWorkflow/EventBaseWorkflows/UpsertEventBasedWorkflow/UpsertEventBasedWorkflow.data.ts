@@ -3,6 +3,7 @@ import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   assetsFieldsOption,
+  optionsConstants,
   taskFieldsOption,
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
@@ -37,11 +38,7 @@ export const actionsOptions = [
   { value: 'category', label: 'Set Category as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
-  { value: 'addTask', label: 'Add Task' },
-  { value: 'addTag', label: 'Add Tag' },
-  { value: 'sendEmailAgent', label: 'Send Email to Agent' },
-  { value: 'sendEmailRequester', label: 'Send Email to Requester' },
-  { value: 'assignAgent', label: 'Assign to Agent' },
+  { value: 'agent', label: 'Assign to Agent' },
 ];
 export const eventBasedSaveWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
@@ -60,29 +57,16 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
       conditionType: Yup?.mixed()?.nullable()?.required('Required'),
       groupCondition: Yup?.string(),
       conditions: Yup?.array()?.of(
-        Yup?.lazy((value: any) => {
-          if (value?.key === 'email') {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.string()
-                ?.email('Invalid email')
-                ?.nullable()
-                ?.required('Required'),
-            });
-          } else if (value?.key === 'number') {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.number()?.nullable()?.required('Required'),
-            });
-          } else {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
-            });
-          }
+        Yup?.object()?.shape({
+          fieldName: Yup?.mixed()?.nullable()?.required('Required'),
+          condition: Yup?.string()?.required('Required'),
+          fieldValue: Yup?.mixed()?.when('condition', {
+            is: (condition: string) =>
+              condition === optionsConstants?.isEmpty ||
+              condition === optionsConstants?.isNotEmpty,
+            then: (schema: any) => schema?.notRequired(),
+            otherwise: (schema: any) => schema?.required('Required'),
+          }),
         }),
       ),
     }),
@@ -182,8 +166,8 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
                     `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
                 : condition?.fieldType === 'date'
-                  ? new Date(condition?.fieldValue)
-                  : condition?.fieldValue,
+                ? new Date(condition?.fieldValue)
+                : condition?.fieldValue,
           };
         }),
       };
@@ -211,8 +195,8 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           action?.fieldType === 'objectId'
             ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === 'date'
-              ? new Date(action?.fieldValue)
-              : action?.fieldValue,
+            ? new Date(action?.fieldValue)
+            : action?.fieldValue,
       }),
     ) ?? [{ fieldName: null, fieldValue: null }],
   };

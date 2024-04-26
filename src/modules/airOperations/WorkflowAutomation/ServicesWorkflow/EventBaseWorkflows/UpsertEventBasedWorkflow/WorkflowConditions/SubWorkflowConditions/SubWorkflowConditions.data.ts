@@ -4,7 +4,7 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { SCHEMA_KEYS } from '@/constants/strings';
+import { ROLES, SCHEMA_KEYS } from '@/constants/strings';
 
 export const assetsFieldsOption = [
   { value: 'displayName', label: 'Name' },
@@ -75,7 +75,14 @@ export const assetsOptions = [
 export const typeOptions = ['INC', 'SR'];
 export const sourcesOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
 
-export const commonOperators = ['is', 'is not', 'included', 'not include'];
+export const commonOperators = [
+  'is',
+  'is not',
+  'included',
+  'not include',
+  'is empty',
+  'is not empty',
+];
 export const dateOperators = [
   'is',
   'is not',
@@ -99,8 +106,8 @@ const constantApiOptions = {
   usedBy: 'Used By',
 };
 
-const optionsConstants = {
-  priority: 'priority',
+export const optionsConstants = {
+  priority: 'Priority',
   impacts: 'Impact',
   source: 'Source',
   description: 'Description',
@@ -112,6 +119,8 @@ const optionsConstants = {
   title: 'Title',
   assignedOn: 'Assigned On',
   name: 'Name',
+  isEmpty: 'is empty',
+  isNotEmpty: 'is not empty',
 };
 
 export const subWorkflowData = ({
@@ -125,6 +134,12 @@ export const subWorkflowData = ({
   apiAssetType,
   apiUsersListDropdown,
 }: any) => {
+  const fieldValueDisable = watch(
+    `groups.${index}.conditions.${subIndex}.condition`,
+  );
+  const disableField =
+    fieldValueDisable === optionsConstants?.isEmpty ||
+    fieldValueDisable === optionsConstants?.isNotEmpty;
   const useApiQuery = (operatorsOption: string) => {
     if (operatorsOption === constantApiOptions?.agent) {
       return agentApiQuery;
@@ -162,8 +177,8 @@ export const subWorkflowData = ({
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
       ? assetsModule || []
       : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
-        ? ticketsModule || []
-        : taskModule || [];
+      ? ticketsModule || []
+      : taskModule || [];
   const selectedOption = watch(
     `groups.${index}.conditions.${subIndex}.options`,
   );
@@ -179,12 +194,12 @@ export const subWorkflowData = ({
     selectedOperatorsOptions === optionsConstants?.priority
       ? priority
       : selectedOperatorsOptions === optionsConstants?.source
-        ? sourcesOptions
-        : selectedOperatorsOptions === optionsConstants?.type
-          ? typeOptions
-          : selectedOperatorsOptions === optionsConstants?.impacts
-            ? impactOptions
-            : status;
+      ? sourcesOptions
+      : selectedOperatorsOptions === optionsConstants?.type
+      ? typeOptions
+      : selectedOperatorsOptions === optionsConstants?.impacts
+      ? impactOptions
+      : status;
   if (
     [
       optionsConstants?.plannedStartDate,
@@ -222,13 +237,13 @@ export const subWorkflowData = ({
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
+        disabled: disableField,
         placeholder: 'Enter Text',
       },
       component: RHFTextField,
     };
   } else if (
     selectedOperatorsOptions === constantApiOptions?.agent ||
-    selectedOperatorsOptions === constantApiOptions?.requester ||
     selectedOperatorsOptions === constantApiOptions?.location ||
     selectedOperatorsOptions === constantApiOptions?.assignTo ||
     selectedOperatorsOptions === constantApiOptions?.usedBy ||
@@ -242,6 +257,7 @@ export const subWorkflowData = ({
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
+        disabled: disableField,
         getOptionLabel:
           selectedOperatorsOptions === constantApiOptions?.location
             ? (option: any) => option?.locationName
@@ -251,26 +267,44 @@ export const subWorkflowData = ({
     };
   } else if (selectedOperatorsOptions === constantApiOptions?.department) {
     valueComponent = {
-      _id: 6,
+      _id: 10,
       gridLength: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
+        disabled: disableField,
         apiQuery: apiQuery,
       },
       component: RHFAutocompleteAsync,
     };
   } else if (selectedOperatorsOptions === constantApiOptions?.assetType) {
     valueComponent = {
-      _id: 6,
+      _id: 7,
       gridLength: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
+        disabled: disableField,
         externalParams: { meta: false, limit: 50 },
+      },
+      component: RHFAutocompleteAsync,
+    };
+  } else if (selectedOperatorsOptions === constantApiOptions?.requester) {
+    valueComponent = {
+      _id: 8,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
+        size: 'small',
+        placeholder: 'Select',
+        apiQuery: apiQuery,
+        disabled: disableField,
+        externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
       },
       component: RHFAutocompleteAsync,
     };
