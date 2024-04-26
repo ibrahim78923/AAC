@@ -10,6 +10,7 @@ import { AIR_SERVICES } from '@/constants';
 import { Attachments } from '@/components/Attachments';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import { truncateText } from '@/utils/avatarUtils';
 
 export const SingleViewArticle = () => {
   const {
@@ -36,6 +37,14 @@ export const SingleViewArticle = () => {
               router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
             }}
           />
+          <Typography
+            variant="h3"
+            fontWeight={600}
+            color="slateBlue.main"
+            my={2}
+          >
+            {truncateText(data?.data?.title, 40)}
+          </Typography>
           <Box
             sx={{ wordBreak: 'break-all' }}
             dangerouslySetInnerHTML={{ __html: data?.data?.details }}

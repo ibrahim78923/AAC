@@ -15,7 +15,12 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useAppSelector } from '@/redux/store';
 
 const ActionDropdown = (props: any) => {
-  const { setOpenDrawer, selectedCheckboxes, setSelectedCheckboxes } = props;
+  const {
+    setOpenDrawer,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+    selectedRecId,
+  } = props;
   const {
     theme,
     isMenuOpen,
@@ -36,6 +41,7 @@ const ActionDropdown = (props: any) => {
     setOpenDrawer,
     selectedCheckboxes,
     setSelectedCheckboxes,
+    selectedRecId,
   });
 
   const selectedTaskIds: any = useAppSelector(
