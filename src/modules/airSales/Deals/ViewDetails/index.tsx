@@ -62,6 +62,7 @@ const ViewDetails = () => {
                       ? `${IMG_URL}${viewDeal?.dealOwner?.avatar?.url}`
                       : ''
                   }`}
+                  sx={{ border: `1px solid ${theme?.palette?.blue?.main}` }}
                 />
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: '600' }}>

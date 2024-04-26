@@ -36,6 +36,7 @@ export const DATE_TIME_FORMAT = {
   DMDHMA: 'ddd, MMM D, YYYY, h:mm A',
   WDM: 'dddd, DD MMMM',
   MMMM: 'MMMM',
+  DDMMYYY: 'DD/MM/YYYY',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -186,11 +187,15 @@ export const AIR_LOYALTY_PROGRAM = {
 export const SOCIAL_COMPONENTS = {
   COMPANIES: `/social-components/companies`,
   VIEW_COMPANY_DETAILS: '/social-components/companies/view-details',
+  MEETINGS: '/social-components/meetings',
+  MEETINGS_SETTINGS: '/social-components/meetings/settings',
+  SCHEDULE_MEETING: '/social-components/meetings/schedule-meetings',
 };
 
 export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
   LOGIN: `/login`,
+  SALE_SITE: 'https://airapplecart.co.uk/',
 };
 
 export const Quick_Links_Routes = {

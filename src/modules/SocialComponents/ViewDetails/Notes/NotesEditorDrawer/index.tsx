@@ -15,12 +15,19 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const NotesEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, companyId, rowData } = props;
+  const {
+    openDrawer,
+    setOpenDrawer,
+    companyId,
+    rowData,
+    setSelectedCheckboxes,
+  } = props;
   const { handleSubmit, onSubmit, methods } = useNotesEditorDrawer(
     openDrawer,
     setOpenDrawer,
     companyId,
     rowData,
+    setSelectedCheckboxes,
   );
 
   return (

@@ -1,35 +1,32 @@
 import {
+  RHFDatePicker,
+  RHFMultiCheckbox,
   RHFSelect,
-  RHFSwitchableDatepicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 
 import { useGetUsersListQuery } from '@/services/airSales/deals';
+import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
   dealPipelineId: Yup?.string()?.required('Field is Required'),
   dealStageId: Yup?.string()?.required('Field is Required'),
-  amount: Yup?.number()
-    ?.typeError('Please enter a valid number')
-    ?.min(0, 'please Enter positive value')
-    ?.positive('Please enter a positive number')
-    ?.required('Please enter a number'),
 });
 
 export const defaultValues = {
   name: '',
   dealPipelineId: '',
-  dealOwnerId: '',
+  ownerId: '',
   dealStageId: '',
+  products: [],
+  closeDate: null,
 };
-export const createDealData = (dealPipelineId: any) => {
+export const createDealData = ({ dealPipelineId }: any) => {
   const userRole = 'ORG_EMPLOYEE';
-  const { pipelineData } = useDealTab();
+  const { pipelineData, salesProduct } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
-
   const filteredStages =
     pipelineData?.data?.dealpipelines?.find(
       (pipeline: any) => pipeline?._id === dealPipelineId,
@@ -78,6 +75,7 @@ export const createDealData = (dealPipelineId: any) => {
         label: 'Amount',
         placeholder: 'Enter Amount',
         type: 'number',
+        InputProps: { inputProps: { min: 0 } },
       },
       component: RHFTextField,
     },
@@ -85,9 +83,13 @@ export const createDealData = (dealPipelineId: any) => {
       componentProps: {
         name: 'closeDate',
         label: 'Close Date',
-        placeholder: 'Monday, January 30, 2023',
+        placeholder: 'MM/DD/YYYY',
+        minDate: new Date(),
+        fullWidth: true,
+        require: false,
       },
-      component: RHFSwitchableDatepicker,
+      md: 12,
+      component: RHFDatePicker,
     },
     {
       title: 'Deal Owner',
@@ -117,18 +119,18 @@ export const createDealData = (dealPipelineId: any) => {
     },
     {
       componentProps: {
-        name: 'addLineItemId',
+        name: 'products',
+        GridView: 6,
+        isCheckBox: true,
         label: 'Add Line Item',
-        select: true,
+        options: salesProduct?.data?.salesproducts?.map((item: any) => ({
+          value: item?._id,
+          label: item?.name,
+        })),
+        fullWidth: true,
       },
-      options: [
-        { value: 'Sample Product: £20', label: 'Sample Product: £20' },
-        {
-          value: 'Orcalo Product: £5/month',
-          label: 'Orcalo Product: £5/month',
-        },
-      ],
-      component: RHFSelect,
+      component: RHFMultiCheckbox,
+      md: 12,
     },
     {
       componentProps: {

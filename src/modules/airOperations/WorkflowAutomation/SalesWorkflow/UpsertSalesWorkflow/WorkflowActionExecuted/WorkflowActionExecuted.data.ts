@@ -18,23 +18,23 @@ const setTaskStatusOption = ['Pending', 'Inprogress', 'Completed'];
 const reminderOption = [
   'Today',
   'Tomorrow',
-  'In_1_business_day',
-  'In_2_business_day',
+  'In_1_Business_Day',
+  'In_2_Business_Day',
 ];
+export const quoteStatus = ['DRAFT', 'PUBLISHED'];
 
 export const actionsExecutedFields = (
   index: any,
   watch: any,
   dealsDropdown: any,
-  contactDropdown: any,
   userDropdown: any,
   stagesDropdown: any,
 ) => {
   const moduleType = watch('module');
   const keyOptions = actionKeys[moduleType] || [];
   const watchKey = watch(`actions.${index}.fieldName`)?.label;
-  let component = RHFTextField;
-  let componentProps: any = { placeholder: 'Type here' };
+  let component = RHFAutocomplete;
+  let componentProps: any = { placeholder: 'Select Value', options: [] };
   if (moduleType === actionName?.deals) {
     if (watchKey === actionName?.setDealPipeline) {
       (component = RHFAutocompleteAsync),
@@ -59,15 +59,13 @@ export const actionsExecutedFields = (
     } else if (watchKey === actionName?.setCloseDate) {
       (component = RHFDatePicker),
         (componentProps = {
-          disablePast: true,
           fullWidth: true,
         });
     } else if (watchKey === actionName?.setDealOwner) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
-          apiQuery: contactDropdown,
-          externalParams: { limit: 100 },
-          placeholder: 'Select Contact',
+          apiQuery: userDropdown,
+          placeholder: 'Select User',
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
         });
@@ -89,7 +87,7 @@ export const actionsExecutedFields = (
       component = RHFAutocomplete;
       componentProps = {
         placeholder: 'Select Status',
-        options: setTaskStatusOption,
+        options: quoteStatus,
       };
     }
   } else if (moduleType === actionName?.salesTasks) {
@@ -122,7 +120,6 @@ export const actionsExecutedFields = (
     } else if (watchKey === actionName?.setDueDate) {
       (component = RHFDatePicker),
         (componentProps = {
-          disablePast: true,
           fullWidth: true,
         });
     } else if (watchKey === actionName?.setReminder) {
