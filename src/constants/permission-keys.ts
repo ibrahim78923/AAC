@@ -366,8 +366,12 @@ export const AIR_MARKETER_SETTINGS_PERMISSIONS = {
   EDIT_TEAMS: 'marketer-settings-users-management-team-edit',
   DELETE_TEAMS: 'marketer-settings-users-management-team-delete',
 
-  ACTIVE_INACTIVE_NOTIFICATIONS:
+  ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS:
     'marketer-settings-notifications-email-active-inactive',
+  ACTIVE_INACTIVE_CAMPAIGNS_NOTIFICATIONS:
+    'marketer-settings-notifications-email-active-inactive',
+  ACTIVE_INACTIVE_WEBSITE_NOTIFICATIONS:
+    'marketer-settings-notifications-campaigns-active-inactive',
 };
 
 export const AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS = {
