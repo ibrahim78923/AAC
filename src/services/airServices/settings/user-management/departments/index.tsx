@@ -37,7 +37,7 @@ export const departmentAPI = baseAPI?.injectEndpoints({
         params,
       }),
     }),
-    getUsersDropdownList: builder?.query({
+    getUsersDropdownListForDepartmentMembers: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_AGENTS}`,
         method: 'GET',
@@ -56,5 +56,5 @@ export const {
   useLazyGetServicesDepartmentListQuery,
   useUpdateDepartmentMutation,
   useDeleteDepartmentMutation,
-  useLazyGetUsersDropdownListQuery,
+  useLazyGetUsersDropdownListForDepartmentMembersQuery,
 } = departmentAPI;
