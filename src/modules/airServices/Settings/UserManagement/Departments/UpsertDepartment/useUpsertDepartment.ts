@@ -5,11 +5,11 @@ import {
 } from './UpsertDepartment.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  useLazyGetUsersDropdownListForDepartmentMembersQuery,
   usePostDepartmentMutation,
   useUpdateDepartmentMutation,
 } from '@/services/airServices/settings/user-management/departments';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useLazyGetUsersDropdownListQuery } from '@/services/airServices/settings/user-management/departments';
 
 export const useUpsertDepartment = (props: any) => {
   const { setOpenUpsertModal, selectedDepartment, setSelectedDepartment } =
@@ -76,7 +76,7 @@ export const useUpsertDepartment = (props: any) => {
     reset();
   };
 
-  const userList = useLazyGetUsersDropdownListQuery();
+  const userList = useLazyGetUsersDropdownListForDepartmentMembersQuery();
 
   return {
     handleClose,

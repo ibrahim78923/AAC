@@ -1,10 +1,10 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { useSingleTicketHeader } from './useSingleTicketHeader';
 import { LoadingButton } from '@mui/lab';
 
 export const SingleTicketHeader = (props: any) => {
-  const { setOpenShareModal, ticketNumber } = props;
+  const { ticketNumber } = props;
   const { isLoading, handleStatsChange, handleBack } =
     useSingleTicketHeader(props);
 
@@ -35,13 +35,6 @@ export const SingleTicketHeader = (props: any) => {
         gap={1}
         flexWrap={'wrap'}
       >
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => setOpenShareModal?.(true)}
-        >
-          Share
-        </Button>
         <LoadingButton
           variant="contained"
           loading={isLoading}
