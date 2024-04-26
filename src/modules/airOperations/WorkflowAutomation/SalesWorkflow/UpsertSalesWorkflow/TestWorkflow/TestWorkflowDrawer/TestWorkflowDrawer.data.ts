@@ -25,7 +25,7 @@ export const WorkflowConditionData = (
   let color;
   if (!total) {
     icon = Cancel;
-    heading = `The matching condition is ${total}`;
+    heading = `The matching condition is ${total ?? 0}`;
     color = 'error.main';
   } else {
     icon = CheckCircleIcon;
