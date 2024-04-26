@@ -42,8 +42,14 @@ const EmailDashboard = ({ isOpenDrawer, onClose }: any) => {
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={4}>
-            {dataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            {dataArray?.map((item: any, index: any) => (
+              <Grid
+                item
+                xs={12}
+                md={item?.md}
+                key={uuidv4()}
+                sx={{ paddingTop: index != 0 && '10px !important' }}
+              >
                 {item?.componentProps?.heading && (
                   <Typography variant="h5">
                     {item?.componentProps?.heading}

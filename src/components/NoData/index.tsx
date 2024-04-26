@@ -1,14 +1,19 @@
+import { NoAssociationFoundImage } from '@/assets/images';
 import { Grid, Typography, Box } from '@mui/material';
 import Image from 'next/image';
-import { NoDataPropsI } from './NoData.interface';
 
-export default function NoData({ image, message, children }: NoDataPropsI) {
+const NoData = ({
+  image = NoAssociationFoundImage,
+  message = 'No data found',
+  children,
+  height = '70vh',
+}: any) => {
   return (
     <Grid
       container
       justifyContent={'center'}
       alignItems={'center'}
-      height={'70vh'}
+      height={height}
     >
       <Grid item textAlign={'center'}>
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -21,4 +26,6 @@ export default function NoData({ image, message, children }: NoDataPropsI) {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default NoData;

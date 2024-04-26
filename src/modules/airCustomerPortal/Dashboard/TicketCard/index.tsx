@@ -1,49 +1,64 @@
 import { Avatar, Box, Typography } from '@mui/material';
-import React, { FC } from 'react';
-import { useTheme } from '@mui/material/styles';
-import LinearProgress from '@mui/material/LinearProgress';
+import LinearProgress, {
+  linearProgressClasses,
+} from '@mui/material/LinearProgress';
 import { FirstAidKitIcon } from '@/assets/icons';
-import { TicketCardI } from './TicketCard.interface';
-import { styles } from './TicketCard.style';
-import { ticketLabels } from './TicketCard.data';
 
-export const TicketCard: FC<TicketCardI> = (props) => {
-  const {
-    ticketsProgress,
-    ticketsType,
-    ticketsCount,
-    totalTickets,
-    doneTickets,
-  } = props;
-
-  const { palette }: any = useTheme();
-  const { mainWrapper, contentWrapper, ticketColors, progressBar }: any =
-    styles;
-
-  const ticketTypeColor = ticketColors?.(palette)?.[ticketsType];
+export const TicketCard = (props: any) => {
+  const { totalCount, data }: any = props;
 
   return (
-    <Box sx={mainWrapper}>
-      <Box sx={contentWrapper}>
-        <Avatar sx={{ width: 36, height: 36, background: ticketTypeColor }}>
+    <Box
+      sx={{
+        p: 1.2,
+        borderRadius: '0.5rem',
+        background: 'white',
+        flex: 1,
+        minWidth: 180,
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 1.2,
+          pb: 1.2,
+        }}
+      >
+        <Avatar
+          sx={{
+            width: 36,
+            height: 36,
+            backgroundColor: data?.color,
+          }}
+        >
           <FirstAidKitIcon />
         </Avatar>
         <Box>
-          <Typography variant="h3" fontWeight={700} color="blue?.main">
-            {ticketsCount}
+          <Typography variant="h3" fontWeight={700} color="blue.main">
+            {data?.count}
           </Typography>
-          <Typography fontSize={'0.75rem'} color="blue?.light">
-            {ticketLabels?.[ticketsType]}
+          <Typography fontSize={'0.75rem'} color="blue.light">
+            {data?.label}
           </Typography>
         </Box>
       </Box>
       <LinearProgress
-        value={ticketsProgress}
+        value={Math?.floor((data?.count / totalCount) * 100)}
         variant="determinate"
-        sx={progressBar(palette, ticketTypeColor)}
+        sx={{
+          height: 6,
+          borderRadius: 5,
+          [`&.${linearProgressClasses?.colorPrimary}`]: {
+            backgroundColor: 'grey.0',
+          },
+          [`& .${linearProgressClasses?.bar}`]: {
+            borderRadius: 5,
+            backgroundColor: data?.color,
+          },
+        }}
       />
-      <Typography variant="body2" pt={1} color="blue?.main">
-        Tickets Done: {`${doneTickets}/${totalTickets}`}
+      <Typography variant="body2" pt={1} color="blue.main">
+        Tickets Status: {`${data?.count}/${totalCount}`}
       </Typography>
     </Box>
   );

@@ -3,8 +3,12 @@ import QuoteInfo from './QuoteInfo';
 import QuoteCreatedFor from './QuoteCreatedFor';
 import ProductsAndServices from './ProductsAndServices/index';
 import Quotation from './Quotation';
+// import useViewQuotes from './useViewQuote';
 
 const ViewQuote = () => {
+  // const { viewQuotesData } = useViewQuotes();
+  // console.log(viewQuotesData);
+
   return (
     <>
       <BuyerCompany />

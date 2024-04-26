@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 
@@ -21,7 +21,11 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { smsMarketingContactsData } from '@/mock/modules/airMarketer/SMSMarketing/Contacts';
 import Search from '@/components/Search';
 
-const CreateGroupModal = ({ isCreateModalOpen, setIsCreateModalOpen }: any) => {
+const CreateGroupModal = ({
+  isCreateModalOpen,
+  setIsCreateModalOpen,
+  groupModalType,
+}: any) => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -41,12 +45,18 @@ const CreateGroupModal = ({ isCreateModalOpen, setIsCreateModalOpen }: any) => {
     smsMarketingContactsData,
   });
 
+  const titleToRender: any = {
+    view: 'View Group',
+    edit: 'Edit Group',
+    create: 'Create Group',
+  };
+
   return (
     <CommonModal
       open={isCreateModalOpen}
-      title={'Create Group'}
-      okText={'Create'}
-      footer={true}
+      title={titleToRender[groupModalType]}
+      okText={groupModalType === 'edit' ? 'Update' : 'Create'}
+      footer={groupModalType === 'view' ? false : true}
       isSubmitDisabled={!selectedUsers?.length}
       handleClose={() => {
         setIsCreateModalOpen(false), setSelectedUsers([]);
@@ -75,14 +85,15 @@ const CreateGroupModal = ({ isCreateModalOpen, setIsCreateModalOpen }: any) => {
             </Grid>
           ))}
           <Grid item xs={12} md={12}>
-            <Search
-              searchBy={searchTerm}
-              setSearchBy={setSearchTerm}
-              label="Search By Name"
-              fullWidth
-              size="small"
-              sx={{ marginBottom: '15px' }}
-            />
+            <Box sx={{ mb: 2 }}>
+              <Search
+                searchBy={searchTerm}
+                setSearchBy={setSearchTerm}
+                label="Search By Name"
+                fullWidth
+                size="small"
+              />
+            </Box>
           </Grid>
           <Grid item xs={12} md={12}>
             <TanstackTable

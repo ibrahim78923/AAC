@@ -2,12 +2,25 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 import { useGetDealsTasksManagementQuery } from '@/services/airSales/deals/view-details/tasks';
+import { PAGINATION } from '@/config';
 
-const useTasks = () => {
+const useTasks = (selectedRecId: any) => {
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
-  const { data: taskData } = useGetDealsTasksManagementQuery({});
+  const taskType = 'deals';
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const tasksParams = {
+    recordId: selectedRecId,
+    recordType: taskType,
+  };
+
+  const { data: taskData, status } = useGetDealsTasksManagementQuery({
+    query: tasksParams,
+  });
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -16,11 +29,11 @@ const useTasks = () => {
     const isChecked = event?.target?.checked;
 
     if (isChecked) {
-      setSelectedCheckboxes((prevSelected) => [...prevSelected, row]);
+      setSelectedCheckboxes((prevSelected: any) => [...prevSelected, row]);
     } else {
       setSelectedCheckboxes(
-        (prevSelected) =>
-          prevSelected?.filter((item) => item?._id !== row?._id),
+        (prevSelected: any) =>
+          prevSelected?.filter((item: any) => item?._id !== row?._id),
       );
     }
   };
@@ -33,6 +46,11 @@ const useTasks = () => {
     handleCheckboxChange,
     selectedCheckboxes,
     setSelectedCheckboxes,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    status,
   };
 };
 

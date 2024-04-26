@@ -5,10 +5,16 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { actionsOptions } from './ActionButton.data';
 
 import { AlertModals } from '@/components/AlertModals';
-import { AlertModalDeleteIcon } from '@/assets/icons';
+import { AlertModalDeleteIcon, InfoBlueIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import useEmailMarketing from '../useEmailMarketing';
+import MoveToFolder from '../MoveToFolder';
+import ViewDetailsAndPerformance from '../ViewDetailsAndPerformance';
+import SaveEmailAsTemplate from '../SaveEmailAsTemplate';
+import ManageAccess from '../ManageAccess';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants/permission-keys';
 
 const ActionButton = () => {
   const {
@@ -17,20 +23,17 @@ const ActionButton = () => {
     handleSelectedOptionValue,
     actionsModalDetails,
     setActionsModalDetails,
-    isDelete,
-    setIsDelete,
   } = useEmailMarketing();
 
   return (
     <Box>
       <Button
         onClick={handleClick}
-        className="small"
         variant="outlined"
         color="inherit"
+        className="small"
         sx={{
           width: '112px',
-          height: '36px',
         }}
       >
         Actions
@@ -56,55 +59,146 @@ const ActionButton = () => {
         })}
       </Menu>
 
-      {isDelete && (
-        <AlertModals
-          message="Are you sure you want to delete this broadcast?"
-          type="Delete SMS Broadcast"
-          typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
-          handleClose={() => setIsDelete(false)}
-          handleSubmit={() => setIsDelete(false)}
-        />
+      {actionsModalDetails?.isDelete && (
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.DELETE_EMAILS,
+          ]}
+        >
+          <AlertModals
+            message="Are you sure you want to delete this?"
+            type="Delete"
+            typeImage={<AlertModalDeleteIcon />}
+            open={actionsModalDetails?.isDelete}
+            handleClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isDelete: false,
+              })
+            }
+            handleSubmit={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isDelete: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
       {actionsModalDetails?.isDuplicate && (
-        <AlertModals
-          message="Are you sure you want to duplicate this item?"
-          type="Information"
-          typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
-          handleClose={() =>
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.DUPLICATE_EMAILS,
+          ]}
+        >
+          <AlertModals
+            message="Are you sure you want to duplicate this email?"
+            type="Information"
+            typeImage={<InfoBlueIcon />}
+            open={actionsModalDetails?.isDuplicate}
+            handleClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isDuplicate: false,
+              })
+            }
+            handleSubmit={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isDuplicate: false,
+              })
+            }
+          />
+        </PermissionsGuard>
+      )}
+      {actionsModalDetails?.isArchive && (
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.ARCHIVED_EMAILS,
+          ]}
+        >
+          <AlertModals
+            message="Are you sure you want to archive this email?"
+            type="Information"
+            typeImage={<InfoBlueIcon />}
+            open={actionsModalDetails?.isArchive}
+            handleClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isArchive: false,
+              })
+            }
+            handleSubmit={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isArchive: false,
+              })
+            }
+          />
+        </PermissionsGuard>
+      )}
+      {actionsModalDetails?.isMoveToFolder && (
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.MOVE_TO_FOLDERS,
+          ]}
+        >
+          <MoveToFolder
+            openMoveToFolderModal={actionsModalDetails?.isMoveToFolder}
+            handleCloseMoveToFolderModal={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isMoveToFolder: false,
+              })
+            }
+          />
+        </PermissionsGuard>
+      )}
+      {actionsModalDetails?.isViewDeatsils && (
+        <ViewDetailsAndPerformance
+          openViewDetails={actionsModalDetails?.isViewDeatsils}
+          handleCloseViewDetails={() =>
             setActionsModalDetails({
               ...actionsModalDetails,
-              isDuplicate: false,
-            })
-          }
-          handleSubmit={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isDuplicate: false,
+              isViewDeatsils: false,
             })
           }
         />
       )}
-      {actionsModalDetails?.isArchive && (
-        <AlertModals
-          message="Are you sure you want to archive this item?"
-          type="Information"
-          typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
-          handleClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isArchive: false,
-            })
-          }
-          handleSubmit={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isArchive: false,
-            })
-          }
-        />
+      {actionsModalDetails?.isSaveAsTemplate && (
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.SAVE_AS_TEMPLATE,
+          ]}
+        >
+          <SaveEmailAsTemplate
+            openSaveEmailAsTemplateModal={actionsModalDetails?.isSaveAsTemplate}
+            handleCloseSaveEmailAsTemplateModal={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isSaveAsTemplate: false,
+              })
+            }
+          />
+        </PermissionsGuard>
+      )}
+
+      {actionsModalDetails?.isManageAccess && (
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.MANAGE_ACCESS,
+          ]}
+        >
+          <ManageAccess
+            isOpenManageAccessModal={actionsModalDetails?.isManageAccess}
+            handleCloseManageAccessModal={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isManageAccess: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
     </Box>
   );

@@ -34,6 +34,7 @@ const Invoices = () => {
     getRowValues,
     isChecked,
     allInvoicesTableData,
+    isLoading,
     isGetRowValues,
     handleRefresh,
     searchByClientName,
@@ -51,7 +52,9 @@ const Invoices = () => {
               <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
               <Box sx={styles?.invoicesHeaderValue}>
                 {!allInvoicesTableData?.data?.widget && (
-                  <Typography>No Due Invoices </Typography>
+                  <Typography sx={styles?.invoicesHeaderValue}>
+                    No Due Invoices{' '}
+                  </Typography>
                 )}
                 {allInvoicesTableData?.data?.widget?.countInvoiceDue}
               </Box>
@@ -155,12 +158,8 @@ const Invoices = () => {
           setPageLimit={setPageLimit}
           count={allInvoicesTableData?.data?.meta?.pages}
           isPagination
+          isLoading={isLoading}
         />
-        {/* <CustomPagination
-          count={3}
-          rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={allInvoicesTableData?.data?.invoices?.length}
-        /> */}
       </Box>
 
       <ViewInvoices

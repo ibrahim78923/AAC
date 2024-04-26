@@ -10,11 +10,11 @@ const UpsertRoleAndRightForm = ({ submitHandler }: any) => {
     <>
       <Grid container>
         <Grid item xs={12}>
-          <Box mt={1}>
+          <Box>
             <FormProvider methods={rolesMethods} onSubmit={submitHandler}>
-              <Grid container spacing={4}>
+              <Grid container spacing={2}>
                 {upsertRolesData?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <Grid item xs={12} key={uuidv4()}>
                     <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (

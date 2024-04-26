@@ -1,66 +1,94 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
+  RHFSelect,
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
-import TanstackTable from '@/components/Table/TanstackTable';
-import GridView from './GridView';
-import { useTask } from './useTask';
 import * as Yup from 'yup';
-import SearchableTabsSelect from '@/modules/airSales/Tasks/searchableTabsSelect/SearchableTabsSelect';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setSelectedTaskIds } from '@/redux/slices/taskManagement/taskManagementSlice';
+import SearchableTabsSelect from './searchableTabsSelect';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
+import useTaskCustomize from './EditColumn/useTaskCustomize';
+import { getSession } from '@/utils';
 
-export const filterData = [
-  {
-    title: 'Assignee',
-    componentProps: {
-      name: 'assignee',
-      label: 'select',
-      select: true,
+export const filterDefaultValues = {
+  assignTo: null,
+  status: '',
+  priority: '',
+  dueDate: null,
+};
+
+export const filterValidationSchema = Yup?.object()?.shape({
+  assignTo: Yup?.mixed()?.nullable(),
+  status: Yup?.string(),
+  priority: Yup?.string(),
+  // dueDate: Yup.date(),
+});
+
+export const filterData = ({ usersData }: any) => {
+  const { user }: { user: any } = getSession();
+  return [
+    {
+      md: 12,
+      componentProps: {
+        label: 'Assignee',
+        name: 'assignTo',
+        placeholder: 'Select option',
+        apiQuery: usersData,
+        externalParams: {
+          organization: user?.organization?._id,
+          limit: 10,
+          role: user?.role,
+        },
+        getOptionLabel: (option: any) =>
+          option?.firstName + ' ' + option?.lastName,
+      },
+      component: RHFAutocompleteAsync,
     },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
-  },
-  {
-    title: 'Task Status',
-    componentProps: {
-      name: 'taskStatus',
-      label: 'select',
-      select: true,
+    {
+      md: 12,
+      componentProps: {
+        label: 'Task Status',
+        name: 'status',
+        select: true,
+      },
+      options: [
+        { label: 'Pending', value: 'Pending' },
+        { label: 'Inprogress', value: 'Inprogress' },
+        { label: 'Complete', value: 'Complete' },
+      ],
+      component: RHFSelect,
     },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
-  },
-  {
-    title: 'Priority',
-    componentProps: {
-      name: 'priority',
-      label: 'select',
-      select: true,
+    {
+      md: 12,
+      componentProps: {
+        label: 'Priority',
+        name: 'priority',
+        select: true,
+      },
+      options: [
+        { label: 'Low', value: 'Low' },
+        { label: 'Medium', value: 'Medium' },
+        { label: 'High', value: 'High' },
+      ],
+      component: RHFSelect,
     },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
-  },
-  {
-    title: 'Due date',
-    componentProps: {
-      name: 'dueDate',
-      label: 'select',
+    {
+      componentProps: {
+        name: 'dueDate',
+        label: 'Due Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-    component: RHFDatePicker,
-  },
-  {
-    title: 'Queue',
-    componentProps: {
-      name: 'queue',
-      label: 'select',
-      select: true,
-    },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
-  },
-];
+  ];
+};
 
 export const drawerTasksData = [
   { title: 'Task Name' },
@@ -89,7 +117,11 @@ export const matchColumnsData = [
       label: 'Status',
       select: true,
     },
-    options: [{ value: 'value', label: 'label' }],
+    options: [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Inprogress', value: 'Inprogress' },
+      { label: 'Complete', value: 'Complete' },
+    ],
     component: RHFTextField,
   },
   {
@@ -115,298 +147,274 @@ export const matchColumnsData = [
 ];
 
 export const createTaskValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required')?.trim(),
   type: Yup?.string()?.trim()?.required('Field is Required'),
   priority: Yup?.string()?.trim()?.required('Field is Required'),
-  status: Yup?.string()?.trim()?.required('Field is Required'),
-  deal: Yup?.string()?.trim()?.required('Field is Required'),
-  associate: Yup?.string()?.trim()?.required('Field is Required'),
-  assignTo: Yup?.string()?.trim()?.required('Field is Required'),
-  dueDate: Yup?.string()?.trim()?.required('Field is Required'),
-  time: Yup?.string()?.trim()?.required('Field is Required'),
-  reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
-export const createTaskDefaultValues = {
-  name: '',
-  type: '',
-  priority: '',
-  status: '',
-  deal: '',
-  associate: '',
-  assignTo: '',
-  dueDate: null,
-  time: null,
-  reminder: '',
-  note: '',
+export const createTaskDefaultValues = ({ data }: any) => {
+  const inputDate = new Date(data?.dueDate);
+  const inputTime = new Date(data?.time);
+
+  function isValidDate(date: any) {
+    return date instanceof Date && !isNaN(date?.getTime());
+  }
+
+  return {
+    name: data?.name ?? '',
+    type: data?.type ?? '',
+    priority: data?.priority ?? '',
+    status: data?.status ?? '',
+    assignTo: data?.assignTo || null,
+    dueDate: isValidDate(inputDate) ? inputDate : null,
+    time: isValidDate(inputTime) ? inputTime : null,
+    reminder: data?.reminder ?? '',
+    note: data?.note ?? '',
+  };
 };
 
-export const createTaskData = [
-  {
-    gridLength: 12,
-    title: 'Task Name',
-    symbol: '*',
-    componentProps: {
-      placeholder: 'Enter Name',
-      name: 'name',
-    },
-    component: RHFTextField,
-  },
-  {
-    gridLength: 8,
-    title: 'Task Type',
-    symbol: '*',
-    componentProps: {
-      name: 'type',
-      select: true,
-    },
-    options: [
-      { label: 'Call', value: 'Call' },
-      { label: 'Email', value: 'Email' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    gridLength: 4,
-    title: 'Priority',
-    symbol: '*',
-    componentProps: {
-      name: 'priority',
-      select: true,
-    },
-    options: [
-      { label: 'Low', value: 'Low' },
-      { label: 'Medium', value: 'Medium' },
-      { label: 'High', value: 'High' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    gridLength: 12,
-    title: 'Task Status',
-    componentProps: {
-      name: 'status',
-      select: true,
-    },
-    options: [
-      { label: 'Pending', value: 'Pending' },
-      { label: 'Inprogress', value: 'Inprogress' },
-      { label: 'Complete', value: 'Complete' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    gridLength: 12,
-    title: 'Select Deal (Optional)',
-    componentProps: {
-      name: 'deal',
-      select: true,
-    },
-    options: [
-      { label: 'Laptop Purchase', value: 'Laptop Purchase' },
-      { label: 'Mouse Repair', value: 'Mouse Repair' },
-      { label: 'AC Purchase', value: 'AC Purchase' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    gridLength: 12,
-    title: 'Associate with records',
-    componentProps: {
-      name: 'associate',
-    },
-
-    component: SearchableTabsSelect,
-  },
-  {
-    gridLength: 12,
-    title: 'Assigned to',
-    componentProps: {
-      name: 'assignTo',
-      select: true,
-    },
-    options: [
-      { label: 'Jhon Doe', value: 'Jhon Doe' },
-      { label: 'Jhon Doe', value: 'Jhon Doe' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    gridLength: 8,
-    title: 'Due date',
-    componentProps: {
-      name: 'dueDate',
-      select: true,
-    },
-    component: RHFDatePicker,
-  },
-  {
-    gridLength: 4,
-    title: 'Time',
-    componentProps: {
-      name: 'time',
-    },
-    component: RHFTimePicker,
-  },
-  {
-    gridLength: 12,
-    title: 'Reminder',
-    componentProps: {
-      name: 'reminder',
-      select: true,
-    },
-    options: [
-      { label: 'Today', value: 'Today' },
-      { label: 'Tomorrow', value: 'Tomorrow' },
-      { label: 'In 1 business day', value: 'in1businessday' },
-      { label: 'In 2 business day', value: 'in2businessday' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    gridLength: 12,
-    title: 'Note',
-    componentProps: {
-      name: 'note',
-    },
-    component: RHFEditor,
-  },
-];
-
-export const tasksColumns: any = [
-  {
-    accessorFn: (row?: any) => row?.Id,
-    id: '_id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row?: any) => row?.name,
-    id: 'name',
-    cell: (info?: any) => info?.getValue(),
-    header: 'Task Name',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row?: any) => row?.status,
-    id: 'status',
-    isSortable: true,
-    header: 'Task Status',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.associate, // TODO Need to discuss
-    id: 'associate',
-    isSortable: true,
-    header: 'Linked Company',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.assignTo,
-    id: 'assignTo',
-    isSortable: true,
-    header: 'Assigned User',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.type,
-    id: 'type',
-    isSortable: true,
-    header: 'task Type',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.updatedAt,
-    id: 'updatedAt',
-    isSortable: true,
-    header: 'last Date',
-    cell: (info?: any) => info?.getValue(),
-  },
-];
-
-export const TasksData = () => {
-  const { taskData, setPage, setPageLimit, isLoading } = useTask();
-  const dataCheck = taskData?.data?.taskmanagements ?? [];
-  const TaskTableData = (type: string) =>
-    type === 'all'
-      ? dataCheck
-      : dataCheck?.filter((obj: any) => obj?.status === type);
+export const createTaskData = ({ data, usersData }: any) => {
+  const { user }: { user: any } = getSession();
 
   return [
     {
-      index: 0,
-      label: 'All',
-      tableChildren: (
-        <TanstackTable
-          data={TaskTableData('all')}
-          columns={tasksColumns}
-          isLoading={isLoading}
-          totalRecords={taskData?.data?.meta?.total}
-          onPageChange={(page: any) => setPage(page)}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-          count={taskData?.data?.meta?.pages}
-          isPagination
-        />
-      ),
-      gridChildtren: (
-        <GridView
-          title={'All'}
-          data={TaskTableData('all')}
-          myTaskData={TaskTableData('my-task')}
-          pendingData={TaskTableData('Pending')}
-          inprogressData={TaskTableData('inprogress')}
-          completedData={TaskTableData('Complete')}
-        />
-      ),
+      md: 12,
+      componentProps: {
+        placeholder: 'Enter Name',
+        label: 'Task Name',
+        name: 'name',
+        required: true,
+      },
+      component: RHFTextField,
     },
     {
-      index: 1,
-      label: 'My Tasks',
-      tableChildren: (
-        <TanstackTable data={TaskTableData('my-task')} columns={tasksColumns} />
-      ),
-      gridChildtren: (
-        <GridView title={'My Tasks'} data={TaskTableData('my-task')} />
-      ),
+      md: 8,
+      componentProps: {
+        label: 'Task Type',
+        name: 'type',
+        select: true,
+        required: true,
+        placeholder: 'Enter Name',
+      },
+      options: [
+        { label: 'Call', value: 'Call' },
+        { label: 'Email', value: 'Email' },
+      ],
+      component: RHFSelect,
     },
     {
-      index: 2,
-      label: 'Pending',
-      tableChildren: (
-        <TanstackTable data={TaskTableData('Pending')} columns={tasksColumns} />
-      ),
-      gridChildtren: (
-        <GridView title={'Pending'} data={TaskTableData('Pending')} />
-      ),
+      md: 4,
+      componentProps: {
+        label: 'Priority',
+        name: 'priority',
+        select: true,
+        required: true,
+      },
+      options: [
+        { label: 'Low', value: 'Low' },
+        { label: 'Medium', value: 'Medium' },
+        { label: 'High', value: 'High' },
+      ],
+      component: RHFSelect,
     },
     {
-      index: 3,
-      label: 'In-Progress',
-      tableChildren: (
-        <TanstackTable
-          data={TaskTableData('inprogress')}
-          columns={tasksColumns}
-        />
-      ),
-      gridChildtren: (
-        <GridView title={'inprogress'} data={TaskTableData('inprogress')} />
-      ),
+      md: 12,
+      componentProps: {
+        label: 'Task Status',
+        name: 'status',
+        select: true,
+      },
+      options: [
+        { label: 'Pending', value: 'Pending' },
+        { label: 'Inprogress', value: 'Inprogress' },
+        { label: 'Complete', value: 'Complete' },
+      ],
+      component: RHFSelect,
     },
     {
-      index: 4,
-      label: 'Completed',
-      tableChildren: (
-        <TanstackTable
-          data={TaskTableData('Complete')}
-          columns={tasksColumns}
-        />
-      ),
-      gridChildtren: (
-        <GridView title={'Complete'} data={TaskTableData('Complete')} />
-      ),
+      md: 12,
+      componentProps: {
+        label: 'Associate with records',
+        name: '',
+        data: data,
+      },
+      component: SearchableTabsSelect,
+    },
+    {
+      md: 12,
+      componentProps: {
+        label: 'Assigned to',
+        name: 'assignTo',
+        placeholder: 'Select option',
+        apiQuery: usersData,
+        externalParams: {
+          organization: user?.organization?._id,
+          limit: 50,
+          role: user?.role,
+        },
+        getOptionLabel: (option: any) =>
+          option?.firstName + ' ' + option?.lastName,
+      },
+      component: RHFAutocompleteAsync,
+    },
+    {
+      md: 7,
+      componentProps: {
+        label: 'Due date',
+        name: 'dueDate',
+        select: true,
+      },
+      component: RHFDatePicker,
+    },
+    {
+      md: 5,
+      componentProps: {
+        label: 'Time',
+        name: 'time',
+      },
+      component: RHFTimePicker,
+    },
+    {
+      md: 12,
+      componentProps: {
+        label: 'Reminder',
+        name: 'reminder',
+        select: true,
+      },
+      options: [
+        { label: 'Today', value: 'Today' },
+        { label: 'Tomorrow', value: 'Tomorrow' },
+        { label: 'In 1 business day', value: 'In_1_Business_Day' },
+        { label: 'In 2 business day', value: 'In_2_Business_Day' },
+      ],
+      component: RHFSelect,
+    },
+    {
+      md: 12,
+      componentProps: {
+        label: 'Note',
+        name: 'note',
+      },
+      component: RHFEditor,
     },
   ];
+};
+
+export const TasksData = ({ data }: any) => {
+  const { order } = useTaskCustomize({});
+
+  const dispatch: any = useAppDispatch();
+  const selectedTaskIds = useAppSelector(
+    (state: any) => state?.task?.selectedTaskIds,
+  );
+
+  const handleClick = (itemId: any) => {
+    if (selectedTaskIds?.includes(itemId)) {
+      dispatch(
+        setSelectedTaskIds(selectedTaskIds?.filter((id: any) => id !== itemId)),
+      );
+    } else {
+      dispatch(setSelectedTaskIds([...selectedTaskIds, itemId]));
+    }
+  };
+  const handleSelectAll = () => {
+    if (selectedTaskIds?.length === data?.length) {
+      dispatch(setSelectedTaskIds([]));
+    } else {
+      const allTaskIds = data?.map((task: any) => task?._id);
+      dispatch(setSelectedTaskIds(allTaskIds));
+    }
+  };
+  const columns =
+    order &&
+    order
+      ?.filter((item: any) => item?.active)
+      ?.sort((a: any, b: any) => a?.order - b?.order)
+      ?.map((column: any) => {
+        switch (column?.attributes) {
+          case 'name':
+            return {
+              accessorFn: (row?: any) => row?.name,
+              id: 'name',
+              cell: (info?: any) => info?.getValue(),
+              header: 'Task Name',
+              isSortable: true,
+            };
+          case 'status':
+            return {
+              accessorFn: (row?: any) => row?.status,
+              id: 'status',
+              isSortable: true,
+              header: 'Task Status',
+              cell: (info?: any) => info?.row?.original?.status ?? '-',
+            };
+          case 'contactedPerson.name contactedPerson.email contactedPerson.profileImage':
+            return {
+              accessorFn: (row?: any) => row?.name, // TODO Need to discuss
+              id: 'associate',
+              isSortable: true,
+              header: 'Linked Company',
+              cell: (info?: any) => info?.row?.original?.company ?? '-',
+            };
+          case 'assignTo':
+            return {
+              accessorFn: (row?: any) => row?.assignTo,
+              id: 'assignTo',
+              isSortable: true,
+              header: 'Assigned User',
+              cell: (info?: any) =>
+                info?.row?.original?.assignTo
+                  ? info?.row?.original?.assignTo?.firstName +
+                    ' ' +
+                    info?.row?.original?.assignTo?.lastName
+                  : '-',
+            };
+          case 'type':
+            return {
+              accessorFn: (row?: any) => row?.type,
+              id: 'type',
+              isSortable: true,
+              header: 'Task Type',
+              cell: (info?: any) => info?.getValue(),
+            };
+          case 'dueDate':
+            return {
+              accessorFn: (row?: any) => row?.updatedAt,
+              id: 'updatedAt',
+              isSortable: true,
+              header: 'Last Date',
+              cell: (info?: any) =>
+                dayjs(info?.row?.original?.updatedAt).format(
+                  DATE_TIME_FORMAT?.YMDHM,
+                ),
+            };
+          default:
+            return null;
+        }
+      });
+  const fixedColumn = {
+    accessorFn: (row?: any) => row?._id,
+    id: '_id',
+    cell: (info: any) => (
+      <Checkbox
+        checked={selectedTaskIds?.includes(info?.row?.original?._id)}
+        color="primary"
+        name={info?.getValue()}
+        onClick={() => handleClick(info?.row?.original?._id)}
+      />
+    ),
+    header: (
+      <Checkbox
+        color="primary"
+        name="Id"
+        onClick={handleSelectAll}
+        checked={selectedTaskIds?.length === data?.length}
+      />
+    ),
+    isSortable: false,
+  };
+
+  columns && columns?.unshift(fixedColumn);
+
+  return columns;
 };

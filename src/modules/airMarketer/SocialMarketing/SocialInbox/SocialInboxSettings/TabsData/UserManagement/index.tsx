@@ -32,6 +32,8 @@ import { teamsDataArray } from './TeamsTable/TeamsTable.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 function CustomTabPanel(props: UserManagementProps) {
   const { children, value, index, ...other } = props;
@@ -151,29 +153,29 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
             display: 'flex',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
+            gap: 1,
+            marginBottom: 1,
           }}
         >
           <Typography variant="h3">User Management</Typography>
-          <Button
-            onClick={() => {
-              {
-                value === 0
-                  ? setIsAddUserOpen(true)
-                  : setIsCreateTeamOpen(true);
-              }
-            }}
-            className="small"
-            variant="contained"
-            sx={{ display: 'flex', alignItems: 'center', columnGap: '10px' }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.ADD_USER]}
           >
-            <AddCircleIcon
-              sx={{
-                color: `${theme?.palette?.common?.white}`,
-                fontSize: '16px',
+            <Button
+              onClick={() => {
+                {
+                  value === 0
+                    ? setIsAddUserOpen(true)
+                    : setIsCreateTeamOpen(true);
+                }
               }}
-            />
-            {value === 0 ? 'Add User' : 'Create Team'}
-          </Button>
+              className="small"
+              variant="contained"
+              startIcon={<AddCircleIcon />}
+            >
+              {value === 0 ? 'Add User' : 'Create Team'}
+            </Button>
+          </PermissionsGuard>
         </Box>
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

@@ -1,11 +1,12 @@
 import CustomPagination from '@/components/CustomPagination';
-
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './Trash.data';
 import Search from '@/components/Search';
 import { useState } from 'react';
-import { Box, Divider, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { TrashTableData } from '@/mock/modules/airMarketer/LeadCapture/Forms';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS } from '@/constants/permission-keys';
 
 const Trash = ({ setShowSignUpForm, setFindStatus }: any) => {
   const [searchByClientName, setSearchByClientName] = useState('');
@@ -16,16 +17,21 @@ const Trash = ({ setShowSignUpForm, setFindStatus }: any) => {
       sx={{
         border: '1px solid #EAECF0',
         borderRadius: '8px',
+        padding: '12px 16px',
       }}
     >
-      <Search
-        searchBy={searchByClientName}
-        setSearchBy={setSearchByClientName}
-        label="Search Here"
-        size="small"
-        sx={{ margin: '15px' }}
-      />
-      <Divider sx={{ marginBottom: '15px' }} />
+      <Box sx={{ mb: '12px' }}>
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS?.SEARCH]}
+        >
+          <Search
+            searchBy={searchByClientName}
+            setSearchBy={setSearchByClientName}
+            label="Search Here"
+            size="small"
+          />
+        </PermissionsGuard>
+      </Box>
       <TanstackTable columns={getColums} data={TrashTableData} />
       <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </Box>

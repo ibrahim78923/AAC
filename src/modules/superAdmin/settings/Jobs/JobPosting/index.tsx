@@ -1,5 +1,13 @@
 import React from 'react';
-import { Box, useTheme, Button, Grid, MenuItem, Menu } from '@mui/material';
+import {
+  Box,
+  useTheme,
+  Button,
+  Grid,
+  MenuItem,
+  Menu,
+  Tooltip,
+} from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
@@ -13,6 +21,8 @@ import { v4 as uuidv4 } from 'uuid';
 import useJobPosting from './useJobPosting';
 import { styles } from './Jobs.styles';
 import EditJobPost from './EditJobPost/index';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS } from '@/constants/permission-keys';
 
 const JobPosting = () => {
   const theme = useTheme();
@@ -43,13 +53,14 @@ const JobPosting = () => {
     methodsEditJobPosting,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
     isActionsDisabled,
     setRowId,
     rowId,
+    isFieldsDisabled,
+    drawerTitle,
   } = useJobPosting();
 
   const getColumns = columns(
@@ -62,112 +73,137 @@ const JobPosting = () => {
 
   return (
     <Box>
-      <Box
-        mt={2}
-        mb={3}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '10px',
-          padding: '0px 24px',
-        }}
+      <PermissionsGuard
+        permissions={[SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Job_List]}
       >
-        <Search
-          setSearchBy={setSearchValue}
-          label="Search Here"
-          size="small"
-          width={'100%'}
-        />
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '10px',
-          }}
-        >
-          <Button
-            id="basic-button"
-            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={actionMenuOpen ? 'true' : undefined}
-            onClick={handleActionsClick}
-            sx={{
-              color: theme?.palette?.grey[500],
-              width: '112px',
-              border: '1.5px solid #e7e7e9',
-            }}
-            className="small"
-            disabled={isActionsDisabled}
-          >
-            Actions &nbsp; <DownIcon />
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={actionMenuOpen}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-            PaperProps={{
-              style: {
-                width: '112px',
-              },
-            }}
-          >
-            <MenuItem
-              style={{ fontSize: '14px' }}
-              disabled={!rowId}
-              onClick={handleOpenEditJobPost}
+        <Box sx={styles?.filterBar}>
+          <Box sx={styles?.search}>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Search_and_Filter,
+              ]}
             >
-              Edit
-            </MenuItem>
-            <MenuItem
-              style={{ fontSize: '14px' }}
-              disabled={!rowId}
-              onClick={handleOpenEditJobPost}
+              <Search
+                setSearchBy={setSearchValue}
+                label="Search Here"
+                size="small"
+                width={'100%'}
+              />
+            </PermissionsGuard>
+          </Box>
+          <Box sx={styles?.filterButtons}>
+            <Button
+              id="basic-button"
+              aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={actionMenuOpen ? 'true' : undefined}
+              onClick={handleActionsClick}
+              sx={styles?.actionBtn}
+              className="small"
+              disabled={isActionsDisabled}
             >
-              View
-            </MenuItem>
-            <MenuItem
-              style={{ fontSize: '14px' }}
-              onClick={handleOpenModalDeleteJobPost}
+              Actions &nbsp; <DownIcon />
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={actionMenuOpen}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+              PaperProps={{
+                style: {
+                  width: '112px',
+                },
+              }}
             >
-              Delete
-            </MenuItem>
-          </Menu>
-          <Button
-            sx={styles?.refreshButton(theme)}
-            className="small"
-            onClick={handleRefresh}
-          >
-            <RefreshSharedIcon />
-          </Button>
-          <Button
-            className="small"
-            sx={styles?.filterButton(theme)}
-            onClick={handleOpenJobPostingFilters}
-          >
-            <FilterSharedIcon /> &nbsp; Filter
-          </Button>
-        </Box>
-      </Box>
-      <Box>
-        <TanstackTable
-          columns={getColumns}
-          data={jopPostingData?.data?.jobs}
-          isLoading={loadingJobPosting}
-          isPagination
-          count={jopPostingData?.data?.meta?.pages}
-          totalRecords={jopPostingData?.data?.meta?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-      </Box>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Edit_Job,
+                ]}
+              >
+                <MenuItem
+                  style={{ fontSize: '14px' }}
+                  disabled={!rowId}
+                  onClick={() => handleOpenEditJobPost('Update')}
+                >
+                  Edit
+                </MenuItem>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.View_Job,
+                ]}
+              >
+                <MenuItem
+                  style={{ fontSize: '14px' }}
+                  disabled={!rowId}
+                  onClick={() => handleOpenEditJobPost('View')}
+                >
+                  View
+                </MenuItem>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Delete_Job,
+                ]}
+              >
+                <MenuItem
+                  style={{ fontSize: '14px' }}
+                  onClick={handleOpenModalDeleteJobPost}
+                >
+                  Delete
+                </MenuItem>
+              </PermissionsGuard>
+            </Menu>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Refresh_Record,
+              ]}
+            >
+              <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                <Button
+                  sx={styles?.refreshButton(theme)}
+                  className="small"
+                  onClick={handleRefresh}
+                >
+                  <RefreshSharedIcon />
+                </Button>
+              </Tooltip>
+            </PermissionsGuard>
 
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Search_and_Filter,
+              ]}
+            >
+              <Button
+                className="small"
+                sx={styles?.filterButton(theme)}
+                onClick={handleOpenJobPostingFilters}
+              >
+                <FilterSharedIcon /> &nbsp; Filter
+              </Button>
+            </PermissionsGuard>
+          </Box>
+        </Box>
+        <Box>
+          <TanstackTable
+            columns={getColumns}
+            data={jopPostingData?.data?.jobs}
+            isLoading={loadingJobPosting}
+            currentPage={jopPostingData?.data?.meta?.page}
+            count={jopPostingData?.data?.meta?.pages}
+            pageLimit={jopPostingData?.data?.meta?.limit}
+            totalRecords={jopPostingData?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
+          />
+        </Box>
+      </PermissionsGuard>
       <CommonDrawer
         isDrawerOpen={openJobPostingFilter}
         onClose={handleCloseJobPostingFilters}
@@ -214,6 +250,8 @@ const JobPosting = () => {
         handleSubmit={handleSubmitEditJobPost}
         formMethods={methodsEditJobPosting}
         isLoading={loadingUpdateJobPost}
+        isFieldsDisabled={isFieldsDisabled}
+        title={drawerTitle}
       />
     </Box>
   );

@@ -51,6 +51,9 @@ const Search = ({
           '&.Mui-focused fieldset': {
             borderColor: theme?.palette?.grey[700],
           },
+          '& .MuiInputBase-input::placeholder': {
+            fontSize: '14px',
+          },
         },
       }}
       id="outlined-basic"

@@ -7,4 +7,5 @@ export interface ModelPropsI {
   children?: React.ReactNode;
   submitButonText: string;
   isFooter?: boolean;
+  loading?: boolean;
 }

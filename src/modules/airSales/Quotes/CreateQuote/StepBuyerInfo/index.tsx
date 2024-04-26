@@ -36,18 +36,18 @@ const StepBuyerInfo = ({ openAddContact, openAddCompany }: any) => {
                 </Typography>
                 <Box component="ul" sx={styles?.contactsList}>
                   {buyerContactList?.map((item: any) => (
-                    <Box component="li" sx={styles?.listItem} key={item.id}>
+                    <Box component="li" sx={styles?.listItem} key={item?.id}>
                       <Box sx={styles?.itemIcon}>
                         <Avatar
-                          src={AvatarContactImage.src}
+                          src={AvatarContactImage?.src}
                           sx={styles?.itemAvatar}
                         ></Avatar>
                       </Box>
                       <Box sx={styles?.itemDetail}>
-                        <Box sx={styles?.itemTitle}>{item.owner}</Box>
-                        <Box sx={styles?.itemText}>{item.title}</Box>
-                        <Box sx={styles?.itemText}>{item.email}</Box>
-                        <Box sx={styles?.itemText}>{item.phoneNumber}</Box>
+                        <Box sx={styles?.itemTitle}>{item?.owner}</Box>
+                        <Box sx={styles?.itemText}>{item?.title}</Box>
+                        <Box sx={styles?.itemText}>{item?.email}</Box>
+                        <Box sx={styles?.itemText}>{item?.phoneNumber}</Box>
                       </Box>
                     </Box>
                   ))}

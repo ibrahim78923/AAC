@@ -6,7 +6,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 
@@ -17,6 +16,8 @@ import { dataArray } from './LifeCycleStage.data';
 import { styles } from './LifeCycleStage.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const LifeCycleStage = () => {
   const {
@@ -36,6 +37,11 @@ const LifeCycleStage = () => {
     setIsModalHeading,
     tableRow,
     deleteStageLifeCycle,
+    setPage,
+    setPageLimit,
+    isSuccess,
+    isLoading,
+    loadingDelete,
   } = useLifeCycleStage();
 
   return (
@@ -52,7 +58,7 @@ const LifeCycleStage = () => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={LifeCycleStage}>
             <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
+              {dataArray(isModalHeading)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component
                     {...item.componentProps}
@@ -81,52 +87,66 @@ const LifeCycleStage = () => {
           }}
         >
           <Typography variant="h4">Life cycle Stages</Typography>
-          <Button
-            variant="contained"
-            sx={styles?.createBtn}
-            onClick={() => {
-              setIsDraweropen(true);
-              setIsModalHeading('Create');
-            }}
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS?.CREATE_STAGES,
+            ]}
           >
-            <AddCircleIcon
-              sx={{
-                color: `${theme?.palette?.common?.white}`,
-                fontSize: '16px',
+            <Button
+              variant="contained"
+              sx={styles?.createBtn}
+              onClick={() => {
+                setIsDraweropen(true);
+                setIsModalHeading('Create');
               }}
-            />{' '}
-            Add Stage
-          </Button>
+            >
+              <AddCircleIcon
+                sx={{
+                  color: `${theme?.palette?.common?.white}`,
+                  fontSize: '16px',
+                }}
+              />
+              Add Stage
+            </Button>
+          </PermissionsGuard>
         </Box>
         <Box sx={styles?.searchAction}>
           <Search
             label={'Search here'}
             searchBy={productSearch}
             setSearchBy={setproductSearch}
-            width="100%"
-            size="small"
-            sx={{
-              '@media (max-width: 500px)': {
-                width: '100%',
-              },
-            }}
+            width="260px"
           />
         </Box>
         <Grid>
-          <TanstackTable columns={getRowValues} data={tableRow} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
-          />
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS?.GRIDVIEW,
+            ]}
+          >
+            <TanstackTable
+              columns={getRowValues}
+              data={tableRow?.data?.lifecycleStages}
+              isPagination
+              count={tableRow?.data?.meta?.pages}
+              totalRecords={tableRow?.data?.meta?.total}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              pageLimit={tableRow?.data?.meta?.limit}
+              isLoading={isLoading}
+              isSuccess={isSuccess}
+            />
+          </PermissionsGuard>
         </Grid>
 
         <AlertModals
-          message={"You're about to delete the lifecycle stage Lead."}
+          message={"You're about to delete the lifecycle stage."}
           type={'delete'}
           open={isOpenAlert}
           handleClose={handleCloseAlert}
-          handleSubmitBtn={() => deleteStageLifeCycle()}
+          handleSubmitBtn={deleteStageLifeCycle}
+          loading={loadingDelete}
         />
       </Box>
     </>

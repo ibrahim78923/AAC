@@ -1,48 +1,115 @@
-import { AIR_CUSTOMER_PORTAL_TICKET } from '@/constants/strings';
-import { Box, Typography } from '@mui/material';
+import { InventoryCard } from '@/components/InventoryCard';
+import NoData from '@/components/NoData';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { Box, Chip, Divider, Typography, useTheme } from '@mui/material';
+import dayjs from 'dayjs';
+import { Fragment } from 'react';
 
-export const SingleTicketDetail = ({
-  status,
-  singleTicketDetailContent,
-}: any) => {
+export const SingleTicketDetail = (props: any) => {
+  const { singleTicketData } = props;
+  const theme = useTheme();
+
   return (
-    <Box display={'flex'} flexDirection={{ xs: 'column', sm: 'row' }}>
-      <Box
-        width={{ xs: '100%', sm: '70%' }}
-        height={'20rem'}
-        overflow={'scroll'}
-        dangerouslySetInnerHTML={{ __html: singleTicketDetailContent }}
-      />
-      <Box
-        gap={1}
-        display={'flex'}
-        flexDirection={'column'}
-        width={{ xs: '100%', sm: '30%' }}
-        padding={2}
-      >
-        <Typography variant="h4">AGENT WORKING ON</Typography>
-        <Typography variant="h6" color="error.main">
-          No Agent
-        </Typography>
-
-        <Typography variant="h4" mt={2}>
-          Status
-        </Typography>
-        <Typography
-          variant="body1"
-          borderRadius={3}
-          bgcolor="primary.main"
-          maxWidth={'7rem'}
-          width={'100%'}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          {status
-            ? AIR_CUSTOMER_PORTAL_TICKET?.CLOSED
-            : AIR_CUSTOMER_PORTAL_TICKET?.PROCESSING}
-        </Typography>
+    <>
+      <Box display={'flex'} gap={1} flexWrap={'wrap'}>
+        <Box flex={0.8}>
+          <Typography
+            fontWeight={700}
+            variant="body1"
+            color={'slateBlue.main'}
+            mb={1}
+          >
+            {singleTicketData?.subject}
+          </Typography>
+          <Typography variant="body2" color={'grey.0'} fontWeight={500}>
+            {`Created On  ${dayjs(singleTicketData?.createdAt)?.format(
+              DATE_TIME_FORMAT?.UI,
+            )}`}
+            <Typography
+              component="span"
+              fontWeight={500}
+              variant="body2"
+              color="primary.main"
+            >
+              {!!singleTicketData?.source
+                ? `- Via ${singleTicketData?.source}`
+                : ''}
+            </Typography>
+          </Typography>
+          <br />
+          <Typography mb={1} color={'grey.0'} variant="body1">
+            Description:
+          </Typography>
+          {!!singleTicketData?.description ? (
+            <Box
+              height={'20rem'}
+              overflow={'scroll'}
+              dangerouslySetInnerHTML={{
+                __html: singleTicketData?.description,
+              }}
+            />
+          ) : (
+            <Typography>No description available</Typography>
+          )}
+        </Box>
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{
+            margin: '0 2rem',
+            border: `.1rem solid ${theme?.palette?.grey[700]}`,
+            backgroundColor: 'transparent',
+          }}
+        />
+        <Box>
+          <Typography
+            variant="body1"
+            fontWeight={700}
+            color="slateBlue.main"
+            mb={1}
+          >
+            Status
+          </Typography>
+          <Box>
+            {singleTicketData?.status ? (
+              <Chip
+                label={singleTicketData?.status}
+                sx={{ backgroundColor: 'custom.bright', color: 'white' }}
+              />
+            ) : null}
+          </Box>
+        </Box>
       </Box>
-    </Box>
+      <br />
+      <Typography variant="body2" color="slateBlue.main">
+        {' '}
+        {`Assets (${singleTicketData?.associateAssetsDetails?.length})`}
+      </Typography>
+      <Box
+        maxHeight={'30vh'}
+        overflow={'auto'}
+        mt={1}
+        border={'2px solid'}
+        borderColor={'custom.off_white'}
+        p={1}
+        borderRadius={2}
+      >
+        {!!singleTicketData?.associateAssetsDetails?.length ? (
+          <>
+            {singleTicketData?.associateAssetsDetails?.map((item: any) => (
+              <Fragment key={item?._id}>
+                <InventoryCard
+                  heading={item?.displayName}
+                  key={item?._id}
+                  hasDeleteIcon={false}
+                />
+              </Fragment>
+            ))}
+          </>
+        ) : (
+          <NoData message="No assets found" height="100%" />
+        )}
+      </Box>
+    </>
   );
 };

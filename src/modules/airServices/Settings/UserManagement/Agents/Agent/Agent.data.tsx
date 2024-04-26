@@ -1,62 +1,78 @@
-import { Avatar, Box, Checkbox } from '@mui/material';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { REQUESTORS_STATUS } from '@/constants/strings';
+import { errorSnackbar } from '@/utils/api';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
+import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 
-export const agentActionsDropdown = (handleActionClick: any) => [
-  {
-    title: 'Edit',
-    handleClick: () => {
-      handleActionClick('edit');
-    },
-  },
-  {
-    title: 'Delete',
-    handleClick: () => {
-      handleActionClick?.('delete');
-    },
-  },
-];
-
-export const agentListData: any = [
+export const agentActionsDropdown = (
+  setOpenDeleteModal: any,
+  setIsAgentModalOpen: any,
+  selectedAgentList: any,
+) => [
   {
     id: 1,
-    agentName: 'Enee Well',
-    email: 'eneeewell@gmail.com',
-    department: 'IT',
-    role: 'IT Agent',
+    title: 'Edit',
+    permissionKey: [
+      AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
+    ],
+    handleClick: (close: any) => {
+      if (selectedAgentList?.length > 1) {
+        errorSnackbar(`Can't update multiple records`);
+        return;
+      }
+      setIsAgentModalOpen(true);
+      close?.();
+    },
   },
   {
     id: 2,
-    agentName: 'Nilson Mandela',
-    email: 'nilsonmadela@gmail.com',
-    department: 'Customer success',
-    role: 'Customer Support Agent',
+    title: 'Delete',
+    permissionKey: [
+      AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
+    ],
+    handleClick: (close: any) => {
+      setOpenDeleteModal?.(true);
+      close?.();
+    },
   },
 ];
+
 export const agentsListsColumnsFunction = (
   selectedAgentList: any,
   setSelectedAgentList: any,
-  listData: any,
+  processedAgentListData: any = [],
+  router: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?.id,
+    accessorFn: (row: any) => row?._id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedAgentList?.find(
-            (item: any) => item?.id === info?.getValue(),
+            (item: any) => item?._id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedAgentList([
                 ...selectedAgentList,
-                agentListData?.find(
-                  (item: any) => item?.id === info?.getValue(),
+                processedAgentListData?.find(
+                  (item: any) => item?._id === info?.getValue(),
                 ),
               ])
             : setSelectedAgentList(
                 selectedAgentList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -66,10 +82,16 @@ export const agentsListsColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={selectedAgentList?.length === listData?.length}
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={
+          !!processedAgentListData?.length
+            ? selectedAgentList?.length === processedAgentListData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedAgentList([...listData])
+            ? setSelectedAgentList([...processedAgentListData])
             : setSelectedAgentList([]);
         }}
         color="primary"
@@ -79,14 +101,49 @@ export const agentsListsColumnsFunction = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.agentName,
-    id: 'agentName',
-    isSortable: false,
+    accessorFn: (row: any) => row?.fullName,
+    id: 'fullName',
+    isSortable: true,
     header: 'Name',
     cell: (info: any) => (
-      <Box display={'flex'} gap={1} alignItems={'center'}>
-        <Avatar sx={{ backgroundColor: 'gray' }} />
-        {info?.getValue()}
+      <Box
+        display={'flex'}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+        sx={{ cursor: 'pointer' }}
+        gap={1}
+        onClick={() => {
+          if (info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE) {
+            errorSnackbar('This agent is not active');
+            return;
+          }
+          router?.push({
+            pathname: AIR_SERVICES?.SINGLE_AGENT_DETAILS,
+            query: {
+              agentId: info?.row?.original?._id,
+              departmentId: info?.row?.original?.departmentId,
+              roleId: info?.row?.original?.permissionsRole,
+            },
+          });
+        }}
+      >
+        <Avatar
+          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+          src={generateImage(info?.row?.original?.avatar?.url)}
+        >
+          <Typography variant="body3" textTransform={'uppercase'}>
+            {fullNameInitial(
+              info?.row?.original?.firstName,
+              info?.row?.original?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+          {fullName(
+            info?.row?.original?.firstName,
+            info?.row?.original?.lastName,
+          )}
+        </Typography>
       </Box>
     ),
   },
@@ -94,21 +151,21 @@ export const agentsListsColumnsFunction = (
     accessorFn: (row: any) => row?.email,
     id: 'email',
     header: 'Email',
-    isSortable: false,
+    isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.department,
-    id: 'department',
-    isSortable: false,
+    accessorFn: (row: any) => row?.departmentData?.name,
+    id: 'name',
+    isSortable: true,
     header: 'Department',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
-    accessorFn: (row: any) => row?.role,
-    id: 'role',
-    isSortable: false,
+    accessorFn: (row: any) => row?.accountsPermissions,
+    id: 'permissionsList',
+    isSortable: true,
     header: 'Role',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()?.name),
   },
 ];

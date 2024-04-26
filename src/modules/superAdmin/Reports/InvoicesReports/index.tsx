@@ -3,7 +3,6 @@ import { Box, Card, Typography } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import useUserReports from './useInvoicesReports';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { usersData, usersColumns } from './useInvoicesReports.data';
 import Link from 'next/link';
 import InvoicesAnalystGraph from './InvoicesAnalystGraph';
@@ -27,6 +26,7 @@ const InvoicesReports = () => {
       <Card>
         <Box
           display="flex"
+          flexWrap={'wrap'}
           justifyContent="space-between"
           alignItems="center"
           mx={2}
@@ -37,15 +37,15 @@ const InvoicesReports = () => {
             label="Search Here"
             searchBy={searchBy}
             setSearchBy={setSearchBy}
-            width={240}
+            width={260}
           />
         </Box>
         <Box>
-          <TanstackTable columns={usersColumns} data={usersData} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+          <TanstackTable
+            columns={usersColumns}
+            data={usersData}
+            isPagination
+            totalRecords={4}
           />
         </Box>
       </Card>

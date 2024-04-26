@@ -4,6 +4,8 @@ import {
   singlePurchaseDetailActionDropdownFunction,
   singlePurchaseDetailStatusDropdownFunction,
 } from './SinglePurchaseDetail.data';
+import { usePutPurchaseOrderStatusMutation } from '@/services/airServices/assets/purchase-orders';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useSinglePurchaseDetail = () => {
   const router = useRouter();
@@ -12,10 +14,30 @@ export const useSinglePurchaseDetail = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isADrawerOpen, setIsADrawerOpen] = useState<boolean>(false);
 
+  const [putPurchaseOrderStatusTrigger] = usePutPurchaseOrderStatusMutation();
+
+  const { purchaseOrderId }: any = router?.query;
+
+  const handleSubmitForOrdered = async (status: string) => {
+    const orderedStatusParams = {
+      id: purchaseOrderId,
+      status: status,
+    };
+
+    try {
+      await putPurchaseOrderStatusTrigger(orderedStatusParams)?.unwrap();
+      successSnackbar('purchase was sent for Approval');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  const singlePurchaseDetailStatusDropdown: any =
+    singlePurchaseDetailStatusDropdownFunction(handleSubmitForOrdered);
+
   const singlePurchaseDetailActionDropdown =
     singlePurchaseDetailActionDropdownFunction(setIsDeleteModalOpen, router);
-  const singlePurchaseDetailStatusDropdown =
-    singlePurchaseDetailStatusDropdownFunction();
+
   return {
     singlePurchaseDetailActionDropdown,
     isDeleteModalOpen,
@@ -25,5 +47,7 @@ export const useSinglePurchaseDetail = () => {
     isADrawerOpen,
     setIsADrawerOpen,
     singlePurchaseDetailStatusDropdown,
+    handleSubmitForOrdered,
+    purchaseOrderId,
   };
 };

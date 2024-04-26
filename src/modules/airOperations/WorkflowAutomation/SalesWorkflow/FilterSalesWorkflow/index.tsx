@@ -5,9 +5,17 @@ import { salesWorkflowFilterFields } from './FilterSalesWorkflow.data';
 import { useFilterSalesWorkflow } from './useFilterSalesWorkflow';
 
 export const FilterSalesWorkflow = (props: any) => {
-  const { isFilterOpen, setIsFilterOpen } = props;
-  const { filterMethod, handleSubmit, onSubmit } =
-    useFilterSalesWorkflow(props);
+  const { isFilterOpen, setIsFilterOpen, loading, onSubmit } = props;
+  const {
+    filterMethod,
+    handleSubmit,
+    userDropdown,
+    handleReset,
+    buttonCalled,
+    createdByValue,
+    statusValue,
+    typeValue,
+  } = useFilterSalesWorkflow(props);
   return (
     <CommonDrawer
       isDrawerOpen={isFilterOpen}
@@ -15,13 +23,18 @@ export const FilterSalesWorkflow = (props: any) => {
       title="Filters"
       footer
       isOk
-      isCancel={false}
       okText="Apply"
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={loading && !buttonCalled}
+      isCancel
+      cancelText="Reset"
+      cancelBtnHandler={handleReset}
+      disabledCancelBtn={loading}
+      isDisabled={loading || !(statusValue || createdByValue || typeValue)}
     >
       <FormProvider methods={filterMethod} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={3}>
-          {salesWorkflowFilterFields?.map((item) => (
+          {salesWorkflowFilterFields(userDropdown)?.map((item) => (
             <Grid item key={item?.id} xs={12}>
               <item.component {...item?.componentProps} size="small" />
             </Grid>

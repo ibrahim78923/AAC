@@ -1,8 +1,8 @@
 export const columns: any = [
   {
-    accessorFn: (row: any) => row?.productName,
-    id: 'productName',
-    cell: (info: any) => info?.getValue(),
+    accessorFn: (row: any) => row?.name,
+    id: 'name',
+    cell: (info: any) => info?.row?.original?.name,
     header: 'Product Name',
     isSortable: true,
   },
@@ -20,11 +20,20 @@ export const columns: any = [
     header: 'Quantity',
     cell: (info: any) => info?.getValue(),
   },
+  // {
+  //   accessorFn: (row: any) => row?.purchasePrice,
+  //   id: 'purchasePrice',
+  //   isSortable: true,
+  //   header: 'Total Price',
+  //   cell: (info: any) => <>£{info?.getValue()}</>,
+  // },
   {
-    accessorFn: (row: any) => row?.totalPrice,
-    id: 'totalPrice',
+    accessorFn: ({ _id }: { _id: string }) => _id,
+    id: '_id',
     isSortable: true,
     header: 'Total Price',
-    cell: (info: any) => <>£{info?.getValue()}</>,
+    cell: ({ row: { original } }: any) => (
+      <>£{original?.unitPrice * original?.quantity}</>
+    ),
   },
 ];

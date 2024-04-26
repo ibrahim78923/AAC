@@ -1,4 +1,4 @@
-import { Grid, Box, Alert } from '@mui/material';
+import { Grid, Box, Alert, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -11,6 +11,7 @@ import {
 } from './FormAddCompany.data';
 
 const FormAddCompany = ({ open, onClose }: any) => {
+  const theme = useTheme();
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: initValues,
@@ -38,8 +39,8 @@ const FormAddCompany = ({ open, onClose }: any) => {
         <Alert
           severity="info"
           sx={{
-            bgcolor: '#E6F5FE',
-            color: '#374151',
+            bgcolor: theme?.palette?.custom?.alice_blue,
+            color: theme?.palette?.slateBlue['main'],
             fontSize: '14px',
             mb: '24px',
           }}
@@ -51,8 +52,8 @@ const FormAddCompany = ({ open, onClose }: any) => {
         <FormProvider methods={methods}>
           <Grid container spacing={'32px'}>
             {addCompanyFields?.map((item) => (
-              <Grid item xs={12} key={item.id}>
-                <item.component {...item.componentProps} size={'small'} />
+              <Grid item xs={12} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
           </Grid>

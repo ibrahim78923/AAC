@@ -1,21 +1,23 @@
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import {
   modeOfProcurementOption,
-  productAssetTypeOption,
   productCatalogStatusOption,
 } from '../ProductCatalog.data';
 
 export const upsertProductCatalogValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Field is Required'),
-  assetType: Yup?.mixed()?.nullable()?.required('Field is Required'),
-  manufacturer: Yup?.string(),
-  status: Yup?.mixed()?.nullable()?.required('Field is Required'),
-  modeOfProcurement: Yup?.mixed()?.nullable(),
+  name: Yup?.string()?.trim()?.required('Name is required'),
+  assetType: Yup?.mixed()?.nullable()?.required('Asset Type is required'),
+  manufacturer: Yup?.string()?.trim()?.required('Manufacturer is required'),
+  status: Yup?.mixed()?.nullable()?.required('Status is required'),
+  modeOfProcurement: Yup?.mixed()
+    ?.nullable()
+    ?.required('Mode of procurement is required'),
   description: Yup?.string(),
 });
 
@@ -29,7 +31,9 @@ export const upsertProductCatalogDefaultValuesFunction = (data?: any) => {
     description: data?.description ?? '',
   };
 };
-export const upsertProductCatalogFormFieldsDynamic = () => [
+export const upsertProductCatalogFormFieldsDynamic = (
+  apiQueryAssetType: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -48,9 +52,10 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
       label: 'Asset Type',
       fullWidth: true,
       required: true,
-      options: productAssetTypeOption,
+      apiQuery: apiQueryAssetType,
+      externalParams: { meta: false, limit: 50 },
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 6,
   },
   {
@@ -59,6 +64,7 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
       name: 'manufacturer',
       label: 'Manufacturer',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 6,
@@ -81,6 +87,7 @@ export const upsertProductCatalogFormFieldsDynamic = () => [
       name: 'modeOfProcurement',
       label: 'Mode of Procurement',
       fullWidth: true,
+      required: true,
       options: modeOfProcurementOption,
     },
     component: RHFAutocomplete,

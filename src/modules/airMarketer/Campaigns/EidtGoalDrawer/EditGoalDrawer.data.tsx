@@ -23,7 +23,7 @@ export const dataArray = [
   {
     componentProps: {
       color: '#7a7a7b',
-      varient: 'h4',
+      varient: 'body1',
       heading:
         'Please provide a target number for each metric. These goals will be shown alongside the corresponding , metrics in your campaign',
     },

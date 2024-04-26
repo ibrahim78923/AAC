@@ -1,10 +1,19 @@
 import { Box, Checkbox, Avatar, Typography } from '@mui/material';
-import { AIR_SERVICES } from '@/constants';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS, TICKET_STATUS } from '@/constants/strings';
+import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { TICKET_STATUS } from '@/constants/strings';
 import dayjs from 'dayjs';
-
-const todayDate = dayjs()?.format('MM/DD/YYYY');
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
+import {
+  AIR_SERVICES_TICKETS_TICKETS_DETAILS,
+  AIR_SERVICES_TICKETS_TICKET_LISTS,
+} from '@/constants/permission-keys';
+import { errorSnackbar } from '@/utils/api';
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -24,12 +33,14 @@ export const ticketsActionDropdownFunction = (
   updateTicketStatus: any,
 ) => [
   {
+    id: 1,
+    permissionKey: [
+      AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
+    ],
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedTicketList?.length > 1) {
-        enqueueSnackbar('Please select only one ticket', {
-          variant: NOTISTACK_VARIANTS?.WARNING,
-        });
+        errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
       }
@@ -38,13 +49,22 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
+    id: 2,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Assign To',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
       setTicketAction(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
       closeMenu?.();
     },
   },
   {
+    id: 3,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Bulk Update',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA);
@@ -52,12 +72,12 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
+    id: 4,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Merge',
     handleClick: (closeMenu: any) => {
       if (selectedTicketList?.length > 1) {
-        enqueueSnackbar('Please select only one ticket', {
-          variant: NOTISTACK_VARIANTS?.WARNING,
-        });
+        errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
       }
@@ -66,27 +86,50 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
+    id: 5,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Move',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
       setTicketAction(TICKETS_ACTION_CONSTANTS?.MOVE_TICKET);
       closeMenu?.();
     },
   },
   {
+    id: 6,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Close',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
       updateTicketStatus?.(TICKET_STATUS?.CLOSED);
       closeMenu?.();
     },
   },
   {
+    id: 7,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Spam',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
       updateTicketStatus?.(TICKET_STATUS?.SPAM);
       closeMenu?.();
     },
   },
   {
+    id: 8,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Delete',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.DELETE_TICKET);
@@ -97,57 +140,19 @@ export const ticketsActionDropdownFunction = (
 
 export const ticketsListInitialColumns = [
   '_id',
+  'ticketIdNumber',
   'subject',
-  'requester',
-  'assignedTo',
+  'requesterDetails',
+  'agentDetails',
   'state',
   'status',
-  'priority',
-  'createdAt',
-  'impact',
-];
-
-export const ticketsListsData: any = [
-  {
-    _id: 3,
-    ticketId: ` #SR-917`,
-    subject: 'What is wrong with my email',
-    requester: { name: 'Leslie Alexander', profileImg: '' },
-    status: 'closed',
-    priority: 'medium',
-    assignedTo: 'user3',
-    department: 'IT',
-    state: 'Overdue',
-    createAt: new Date(todayDate),
-    dueDate: new Date(todayDate),
-    impact: 'high',
-    plannedStartDate: new Date(todayDate),
-    plannedEndDate: new Date(todayDate),
-    plannedEffort: '1 hour',
-  },
-  {
-    _id: 4,
-    ticketId: ` #SR-917`,
-    subject: 'What is wrong with my email',
-    requester: { name: 'Leslie Alexander', profileImg: '' },
-    status: 'closed',
-    priority: 'medium',
-    assignedTo: 'user3',
-    department: 'IT',
-    state: 'Overdue',
-    createAt: new Date(todayDate),
-    dueDate: new Date(todayDate),
-    impact: 'high',
-    plannedStartDate: new Date(todayDate),
-    plannedEndDate: new Date(todayDate),
-    plannedEffort: '1 hour',
-  },
+  'pirority',
 ];
 
 export const ticketsListsColumnFunction: any = (
   theme: any,
   router: any,
-  ticketList: any = ticketsListsData,
+  ticketList: any = [],
   selectedTicketList: any,
   setSelectedTicketList: any,
 ) => {
@@ -157,6 +162,8 @@ export const ticketsListsColumnFunction: any = (
       id: '_id',
       cell: (info: any) => (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!selectedTicketList?.find((item: any) => item === info?.getValue())
           }
@@ -175,6 +182,8 @@ export const ticketsListsColumnFunction: any = (
       ),
       header: (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
             ticketList?.length
               ? selectedTicketList?.length === ticketList?.length
@@ -194,28 +203,35 @@ export const ticketsListsColumnFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?._id,
-      id: '_id',
+      accessorFn: (row: any) => row?.ticketIdNumber,
+      id: 'ticketIdNumber',
       cell: (info: any) => {
         return (
           <Box
             display={'flex'}
-            gap={0.5}
+            gap={1.5}
             flexWrap={'wrap'}
             alignItems={'center'}
           >
             <Avatar
-              sx={{ bgcolor: theme?.palette?.blue?.main, borderRadius: 1.25 }}
-              style={{ width: 25, height: 25 }}
-              alt={info?.row?.original?.department}
+              variant="rounded"
+              sx={{
+                bgcolor: theme?.palette?.blue?.main,
+                width: 25,
+                height: 25,
+              }}
+              src={generateImage(info?.row?.original?.attachment?.fileUrl)}
             >
-              {info?.row?.original?.department}
+              <Typography variant="body2" textTransform={'uppercase'}>
+                {info?.row?.original?.departmentsDetails?.name?.[0] ?? '-'}
+              </Typography>
             </Avatar>
             <Typography
               sx={{
-                color: theme?.palette?.primary?.main,
+                color: theme?.palette?.custom?.bright,
                 cursor: 'pointer',
               }}
+              variant="body2"
               onClick={() => {
                 router?.push({
                   pathname: AIR_SERVICES?.TICKETS_LIST,
@@ -225,7 +241,7 @@ export const ticketsListsColumnFunction: any = (
                 });
               }}
             >
-              {info?.row?.original?.ticketId}
+              {info?.getValue()}
             </Typography>
           </Box>
         );
@@ -238,32 +254,39 @@ export const ticketsListsColumnFunction: any = (
       id: 'subject',
       isSortable: true,
       header: 'Subject',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => truncateText(info?.getValue()),
     },
     {
-      accessorFn: (row: any) => row?.requester,
-      id: 'requester',
+      accessorFn: (row: any) => row?.requesterDetails,
+      id: 'requesterDetails',
       isSortable: true,
       header: 'Requester',
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
-            sx={{ bgcolor: theme?.palette?.blue?.main }}
-            style={{ width: 24, height: 24 }}
-            src={info?.row?.original?.requester?.profileImg?.src}
-            alt={info?.row?.original?.requester?.name}
-          />
-
-          {info?.getValue()?.name}
+            sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
+            src={generateImage(
+              info?.row?.original?.requesterDetails?.avatar?.url,
+            )}
+          >
+            <Typography variant="body2" textTransform={'uppercase'}>
+              {fullNameInitial(
+                info?.getValue()?.firstName,
+                info?.getValue()?.lastName,
+              )}
+            </Typography>
+          </Avatar>
+          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
         </Box>
       ),
     },
     {
-      accessorFn: (row: any) => row?.assignedTo,
-      id: 'assignedTo',
+      accessorFn: (row: any) => row?.agentDetails,
+      id: 'agentDetails',
       isSortable: true,
-      header: 'Assigned To',
-      cell: (info: any) => info?.getValue(),
+      header: 'Assigned to',
+      cell: (info: any) =>
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
       accessorFn: (row: any) => row?.state,
@@ -280,32 +303,33 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.priority,
-      id: 'priority',
+      accessorFn: (row: any) => row?.pirority,
+      id: 'pirority',
       isSortable: true,
       header: 'Priority',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.department,
-      id: 'department',
+      accessorFn: (row: any) => row?.departmentsDetails,
+      id: 'departmentsDetails',
       isSortable: true,
       header: 'Department',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.name,
     },
     {
       accessorFn: (row: any) => row?.createdAt,
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.dueDate,
       id: 'dueDate',
       isSortable: true,
       header: 'Due Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
+      cell: (info: any) =>
+        dayjs(info?.row?.original?.plannedEndDate)?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.impact,
@@ -319,14 +343,14 @@ export const ticketsListsColumnFunction: any = (
       id: 'plannedStartDate',
       isSortable: true,
       header: 'Planned Start Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.plannedEndDate,
       id: 'plannedEndDate',
       isSortable: true,
       header: 'Planned End Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.plannedEffort,

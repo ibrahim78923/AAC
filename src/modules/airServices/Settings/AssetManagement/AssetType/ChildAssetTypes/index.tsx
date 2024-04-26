@@ -1,8 +1,21 @@
 import { AddBox } from '@mui/icons-material';
-import { Box, Button, useTheme } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import AddNewAssetTypesModal from '../AddNewAssetTypesModal';
+import { useChildAssetTypes } from './useChildAssetTypes';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
-const ChildAssetTypes = ({ children, boxShadow = 2 }: any) => {
-  const { palette }: any = useTheme();
+const ChildAssetTypes = (props: any) => {
+  const { children, boxShadow = 2 } = props;
+  const {
+    openAddNewChildModal,
+    setOpenAddNewChildModal,
+    palette,
+    methods,
+    handleSubmitServicesForm,
+    isLoading,
+  } = useChildAssetTypes(props);
+
   return (
     <Box
       display={'flex'}
@@ -18,15 +31,32 @@ const ChildAssetTypes = ({ children, boxShadow = 2 }: any) => {
     >
       {children}
       <Box>
-        <Button
-          variant="outlined"
-          color="secondary"
-          sx={{ mr: 5 }}
-          startIcon={<AddBox />}
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_NEW_FIELDS_FOR_ASSET_FORM,
+          ]}
         >
-          Add New Services
-        </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            sx={{ mr: 5 }}
+            startIcon={<AddBox />}
+            onClick={() => setOpenAddNewChildModal?.(true)}
+          >
+            Add New Services
+          </Button>
+        </PermissionsGuard>
       </Box>
+      {openAddNewChildModal && (
+        <AddNewAssetTypesModal
+          open={openAddNewChildModal}
+          handleClose={setOpenAddNewChildModal}
+          modalTitle={'Add New Services'}
+          methods={methods}
+          isLoading={isLoading}
+          handleSubmit={handleSubmitServicesForm}
+        />
+      )}
     </Box>
   );
 };

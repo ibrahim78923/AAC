@@ -1,9 +1,14 @@
 import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { serviceManagement } from './ServiceManagement.data';
+import { useGetClosureRulesQuery } from '@/services/airServices/settings/service-management/closureRule';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+
 export const ServiceManagement = () => {
   const theme = useTheme();
   const router = useRouter();
+  const { isLoading, isFetching } = useGetClosureRulesQuery(null);
+  if (isFetching || isLoading) return <SkeletonTable />;
   return (
     <>
       <Typography variant="h3">Service Management</Typography>

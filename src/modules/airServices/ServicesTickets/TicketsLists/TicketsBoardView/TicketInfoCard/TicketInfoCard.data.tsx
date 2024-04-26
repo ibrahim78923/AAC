@@ -1,5 +1,5 @@
 export const ticketInfoCardAppearanceColor = (appearance: string) => {
-  const New = 'New';
+  const New = 'new';
   const Overdue = 'Overdue';
 
   let color;
@@ -21,8 +21,8 @@ export const ticketInfoCardAppearanceColor = (appearance: string) => {
 };
 
 export const ticketInfoCardPriorityColor = (priority: string) => {
-  const Low = 'Low';
-  const Medium = 'Medium';
+  const Low = 'LOW';
+  const Medium = 'MEDIUM';
 
   let color;
 

@@ -1,7 +1,7 @@
 import Layout from '@/layout';
-import { GiftCards } from '@/modules/airLoyaltyProgram/GiftCards';
+import { GiftCard } from '@/modules/airLoyaltyProgram/GiftCards/GiftCards';
 
-const GiftCardsPage = () => <GiftCards />;
+const GiftCardsPage = () => <GiftCard />;
 
 export default GiftCardsPage;
 

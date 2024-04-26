@@ -1,52 +1,67 @@
-import { Box, Typography } from '@mui/material';
-import { AntSwitch } from '../SwitchButton.style';
+import { Box, CircularProgress, Divider, Typography } from '@mui/material';
+import { AntSwitch } from '@/components/AntSwitch';
 import { Fragment } from 'react';
-import { EditYellowBGPenIcon } from '@/assets/icons';
-import { useTickets } from './useTickets';
+import { ticketDataArray } from './Tickets.data';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import useTickets from './useTickets';
 
 export const Tickets = () => {
-  const { ticketData, setShowIcon, showIcon, onSwitchChange } = useTickets();
+  const {
+    isError,
+    isLoading,
+    isFetching,
+    switchLoading,
+    onSwitchChange,
+    data,
+  } = useTickets();
+
+  if (isError) return <ApiErrorState />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
-    <Fragment>
-      {ticketData?.map((item: any) => (
-        <Box key={item?.id}>
-          <Typography variant="h4">{item?.heading}</Typography>
-          {item?.detail?.map((val: any) => (
+    <>
+      {ticketDataArray?.map((head: any) => (
+        <Fragment key={head?._id}>
+          <Typography variant={'h5'} color={'blue.main'}>
+            {head?.heading}
+          </Typography>
+
+          <Divider sx={{ my: 2, borderColor: 'custom.dark' }} />
+
+          {head?.details?.map((item: any) => (
             <Box
+              key={item?._id}
               p={2}
               my={1}
               borderRadius={2}
-              bgcolor={'grey.300'}
-              height={{ xs: 'unset', md: 50 }}
+              bgcolor={'custom.white_fifty'}
               display={'flex'}
               justifyContent={'space-between'}
-              key={val?.id}
-              onMouseEnter={() => setShowIcon(val)}
-              onMouseLeave={() => setShowIcon(null)}
-              sx={{ cursor: 'pointer' }}
+              alignItems={'center'}
             >
-              <Box display={'flex'} alignItems={'center'} gap={'.5rem'}>
-                <Typography>{val?.name}</Typography>
-              </Box>
-              <Box display={'flex'} alignItems={'center'} gap={1}>
-                {showIcon === val ? (
-                  <Box>
-                    <EditYellowBGPenIcon />
-                  </Box>
-                ) : null}
+              {item.value}
+              <Typography
+                color={'custom.dim_blue'}
+                variant={'body1'}
+                fontWeight={500}
+              >
+                {item?.title}
+              </Typography>
 
+              {switchLoading[item?._id] ? (
+                <CircularProgress size={20} />
+              ) : (
                 <AntSwitch
-                  onChange={() => {
-                    onSwitchChange(val?.id);
-                  }}
-                  checked={val?.value}
+                  onChange={() => onSwitchChange(item?._id)}
+                  checked={!data?.data?.notificationsOff?.[item?._id]}
                 />
-              </Box>
+              )}
             </Box>
           ))}
-        </Box>
+        </Fragment>
       ))}
-    </Fragment>
+    </>
   );
 };

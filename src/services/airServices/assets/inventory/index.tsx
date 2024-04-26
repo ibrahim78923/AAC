@@ -1,9 +1,12 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
 const TAG = 'ASSETS_INVENTORY';
+const TAG_TWO = 'DROPDOWN_ASSET_TYPE_LIST';
+const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
 
-export const inventoryAPI: any = baseAPI?.injectEndpoints({
+export const inventoryAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getInventory: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -19,7 +22,7 @@ export const inventoryAPI: any = baseAPI?.injectEndpoints({
         url: `${END_POINTS?.ASSETS_INVENTORY}`,
         method: 'GET',
         params: apiDataParameter?.queryParams,
-        responseHandler: (response: { text: () => any }) => response?.text(),
+        responseHandler: (response: any) => response?.blob(),
       }),
       providesTags: [TAG],
     }),
@@ -48,7 +51,70 @@ export const inventoryAPI: any = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteInventoryParameter?.queryParams,
       }),
+    }),
+    getAssetType: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => transformResponse(response),
+      providesTags: [TAG_TWO],
+    }),
+    getDepartmentDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getLocationsDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_LOCATION}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getUsersDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getAddToInventoryById: builder?.query({
+      query: (getSingleAddToInventoryParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_INVENTORY_DETAIL}/${getSingleAddToInventoryParameter?.pathParam?.inventoryId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+    patchAddToInventory: builder?.mutation({
+      query: (putAddToInventoryParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_EDIT_INVENTORY}`,
+        method: 'PATCH',
+        body: putAddToInventoryParameter?.body,
+      }),
       invalidatesTags: [TAG],
+    }),
+    getAttachmentToInventory: builder?.query({
+      query: (getAttachmentToInventoryParameter: any) => ({
+        url: `${END_POINTS?.ATTACHMENT_INVENTORY}/${getAttachmentToInventoryParameter?.pathParam?.inventoryId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
     }),
   }),
 });
@@ -57,9 +123,14 @@ export const {
   usePostInventoryMutation,
   useGetInventoryQuery,
   useDeleteInventoryMutation,
-  useGetInventoryByIdQuery,
   usePutInventoryMutation,
   useLazyGetInventoryQuery,
   useLazyGetExportInventoryQuery,
-  usePatchBulkUpdateInventoryMutation,
+  useLazyGetAssetTypeQuery,
+  useLazyGetUsersDropdownQuery,
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetLocationsDropdownQuery,
+  usePatchAddToInventoryMutation,
+  useGetAddToInventoryByIdQuery,
+  useGetAttachmentToInventoryQuery,
 } = inventoryAPI;

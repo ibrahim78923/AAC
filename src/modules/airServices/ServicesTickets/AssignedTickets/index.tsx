@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useAssignedTickets } from './useAssignedTickets';
+import { ROLES } from '@/constants/strings';
 
 export const AssignedTickets = (props: any) => {
   const { isAssignedModalOpen } = props;
@@ -18,8 +19,9 @@ export const AssignedTickets = (props: any) => {
     handleSubmit,
     submitAssignedTicketsForm,
     closeTicketsAssignedModal,
-    apiQueryOrganizations,
-  } = useAssignedTickets(props);
+    apiQueryAgent,
+    putTicketStatus,
+  }: any = useAssignedTickets(props);
 
   return (
     <Dialog
@@ -61,11 +63,17 @@ export const AssignedTickets = (props: any) => {
         <DialogContent>
           <br />
           <RHFAutocompleteAsync
-            label="select User"
+            label="Select user"
             name="user"
             fullWidth
-            apiQuery={apiQueryOrganizations}
+            required
+            apiQuery={apiQueryAgent}
             size="small"
+            placeholder="Choose Agent"
+            externalParams={{ limit: 50, role: ROLES?.ORG_EMPLOYEE }}
+            getOptionLabel={(option: any) =>
+              `${option?.firstName} ${option?.lastName}`
+            }
           />
         </DialogContent>
         <DialogActions
@@ -75,10 +83,15 @@ export const AssignedTickets = (props: any) => {
             variant="outlined"
             color="secondary"
             onClick={() => closeTicketsAssignedModal?.()}
+            disabled={putTicketStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
-          <LoadingButton variant="contained" type="submit">
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={putTicketStatus?.isLoading}
+          >
             Assign
           </LoadingButton>
         </DialogActions>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   Box,
@@ -7,7 +7,6 @@ import {
   Grid,
   FormControl,
   TextField,
-  InputLabel,
   Select,
   MenuItem,
   SelectChangeEvent,
@@ -19,18 +18,33 @@ import { styles } from './ManagePlan.style';
 import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
 import { useUpdateSubscriptionMutation } from '@/services/orgAdmin/subscription-and-invoices';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, PLAN_CALCULATIONS } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import Link from 'next/link';
+import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { useAppSelector } from '@/redux/store';
+import usePlanCalculations from '../usePlanCalculations';
+import CustomLabel from '@/components/CustomLabel';
 
 const ManagePlan = () => {
   const router = useRouter();
-  const [value, setValue] = useState('');
 
-  let parsedManageData: any;
-  if (router.query.data) {
-    parsedManageData = JSON.parse(router.query.data);
-  }
+  const parsedManageData = useAppSelector(
+    (state) => state?.subscriptionAndInvoices?.selectedPlanData,
+  );
+
+  const defaultValues =
+    parsedManageData?.billingCycle === 'MONTHLY' ? 'paidMonthly' : '';
+
+  const [value, setValue] = useState<any>(defaultValues);
+
+  const [maxAddUsers, setMaxAddUsers] = useState(
+    parsedManageData?.additionalUsers,
+  );
+  const [maxAddStorage, setMaxAddStorage] = useState(
+    parsedManageData?.additionalStorage,
+  );
 
   const [updateSubscription] = useUpdateSubscriptionMutation({});
 
@@ -40,19 +54,32 @@ const ManagePlan = () => {
 
   const updateSubscriptionPayload = {
     planId: parsedManageData?.planId,
-    additionalUsers: parsedManageData?.additionalUsers,
-    additionalStorage: parsedManageData?.additionalStorage,
-    billingDate: dayjs(parsedManageData?.billingDate).format(DATE_FORMAT?.API),
+    additionalUsers: maxAddUsers,
+    additionalStorage: maxAddStorage,
+    billingDate: dayjs(parsedManageData?.billingDate)?.format(DATE_FORMAT?.API),
     status: parsedManageData?.status,
     //TODO:We will only send billing cycle monthly as discussed
     billingCycle: 'MONTHLY',
     planDiscount: 1,
   };
 
+  const planCalculations = usePlanCalculations({
+    additionalDefaultUser: parsedManageData?.additionalUsers,
+    additionalDefaultStorage: parsedManageData?.additionalStorage,
+    additionalUserPrice: parsedManageData?.planData?.additionalPerUserPrice,
+    additionalStoragePrice: parsedManageData?.planData?.additionalStoragePrice,
+    planDefaultPrice:
+      parsedManageData?.planData?.planPrice ||
+      parsedManageData?.planPrice ||
+      parsedManageData?.plans?.planPrice,
+    planDefaultDiscount: parsedManageData?.planDiscount,
+    PLAN_CALCULATIONS,
+  });
+
   const handleUpdateSubscription = async () => {
     try {
       await updateSubscription({
-        id: parsedManageData?._id,
+        id: parsedManageData?.orgPlanId,
         body: updateSubscriptionPayload,
       }).unwrap();
       enqueueSnackbar('Plan Updated Successfully', {
@@ -64,6 +91,13 @@ const ManagePlan = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (Object.keys(parsedManageData)?.length === 0) {
+      router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
+    }
+  }, [parsedManageData]);
+
   return (
     <>
       <Box sx={styles?.card}>
@@ -72,63 +106,90 @@ const ManagePlan = () => {
             <PlaneIcon />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: '600' }}>
-            Sales
+            {parsedManageData?.productName ||
+              parsedManageData?.planName ||
+              '--'}
           </Typography>
           <Box sx={styles?.cardHeaderAction}>
-            <Link
-              href={{
-                pathname: `${orgAdminSubcriptionInvoices.choose_plan}`,
-                query: { data: parsedManageData?.plans?.planProducts[0] },
-              }}
-              as={`${orgAdminSubcriptionInvoices.choose_plan}`}
+            <PermissionsGuard
+              permissions={[
+                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_CHANGE_PLAN,
+              ]}
             >
-              <Button>Change Plan</Button>
-            </Link>
+              <Link
+                href={{
+                  pathname: `${orgAdminSubcriptionInvoices.choose_plan}`,
+                  query: { data: parsedManageData?.productId },
+                }}
+                as={`${orgAdminSubcriptionInvoices?.choose_plan}`}
+              >
+                <Button>Change Plan</Button>
+              </Link>
+            </PermissionsGuard>
           </Box>
         </Box>
 
         <Box sx={styles?.divider}></Box>
 
         <Box sx={styles?.planSelectionRow}>
-          <Typography
-            variant="body1"
-            sx={{ color: 'secondary.main', mr: '24px' }}
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_UPDATE_SUBSCRIPTION,
+            ]}
           >
-            <Box>Plan</Box>
-            <Box sx={{ mt: '12px' }}>Growth</Box>
-          </Typography>
-          <Box sx={styles?.planSelectionForm}>
-            <Grid container spacing={3}>
-              <Grid item xs={4}>
-                <FormControl fullWidth>
-                  <InputLabel id="billingCycle">Billing Cycle</InputLabel>
-                  <Select
-                    labelId="billingCycle"
-                    value={value}
-                    label="Age"
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={'paidMonthly'}>Paid Monthly</MenuItem>
-                    <MenuItem value={'paidQuarterly'}>Paid Quarterly</MenuItem>
-                    <MenuItem value={'paidHalfYearly'}>
-                      Paid Half-Yearly
-                    </MenuItem>
-                    <MenuItem value={'paidAnnually'}>Paid Annually</MenuItem>
-                  </Select>
-                </FormControl>
+            <Typography
+              variant="body1"
+              sx={{ color: 'secondary.main', mr: '24px' }}
+            >
+              <Box>Plan</Box>
+              <Box sx={{ mt: '12px' }}>{parsedManageData?.planTypeName}</Box>
+            </Typography>
+
+            <Box sx={styles?.planSelectionForm}>
+              <Grid container spacing={3}>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <CustomLabel label={'Billing Cycle'} />
+                    <Select
+                      labelId="billingCycle"
+                      value={value}
+                      defaultValue="monthly"
+                      // label="Age"
+                      onChange={handleChange}
+                      disabled
+                    >
+                      <MenuItem value={'paidMonthly'}>Paid Monthly</MenuItem>
+                      <MenuItem value={'paidQuarterly'}>
+                        Paid Quarterly
+                      </MenuItem>
+                      <MenuItem value={'paidHalfYearly'}>
+                        Paid Half-Yearly
+                      </MenuItem>
+                      <MenuItem value={'paidAnnually'}>Paid Annually</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <CustomLabel label={'Max Additional User'} />
+                  <TextField
+                    type="number"
+                    fullWidth
+                    defaultValue={maxAddUsers}
+                    onChange={(e: any) => setMaxAddUsers(e?.target?.value)}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <CustomLabel label={'Additional Storage'} />
+                  <TextField
+                    type="number"
+                    fullWidth
+                    defaultValue={maxAddStorage}
+                    onChange={(e: any) => setMaxAddStorage(e?.target?.value)}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  label="Max Additional User"
-                  type="number"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField label="Additional Storage" type="number" fullWidth />
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          </PermissionsGuard>
         </Box>
       </Box>
 
@@ -142,7 +203,7 @@ const ManagePlan = () => {
             <PlaneIcon />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: '600' }}>
-            Sales
+            {parsedManageData?.planTypeName}
           </Typography>
           <Box sx={styles?.cardHeaderAction}>
             <Chip label={'Paid Monthly'} color="primary" />
@@ -151,89 +212,98 @@ const ManagePlan = () => {
 
         <Box sx={styles?.divider}></Box>
 
-        <Typography variant="h6" sx={{ fontWeight: '600' }}>
-          Growth Plan
-        </Typography>
-
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>Plan Price</Box>
-          <Box sx={styles?.planTableTh}>
-            £ {parsedManageData?.plans?.planPrice}
-          </Box>
+          <Box sx={styles?.planTableTh}>£ {planCalculations?.planPrice}</Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
             {parsedManageData?.additionalUsers} Additional Users{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ 15/user)
+              (£ {planCalculations?.perUserPrice}/user)
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>
-            £ {parsedManageData?.additionalUsers * 15}
+            £ {(planCalculations?.additionalUsers || 0)?.toFixed(2)}
           </Box>
         </Box>
+
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
-            Additional Storage{' '}
+            {parsedManageData?.additionalStorage} Additional Storage{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ 1/GB)
+              (£ {planCalculations?.perStoragePrice}/GB)
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>
-            £ {1 * parsedManageData?.additionalStorage}
+            £ {(planCalculations?.additionalStorage || 0)?.toFixed(2)}
           </Box>
         </Box>
+
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Discount{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (10%)
+              ({planCalculations?.planDiscount} %)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>-£ 10</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {(planCalculations?.discountApplied || 0)?.toFixed(2)}
+          </Box>
         </Box>
+
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Tax{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (Vat 20%)
+              ( 20%)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ 27</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {(planCalculations?.taxAmount || 0).toFixed(2)}
+          </Box>
         </Box>
 
         <Box sx={styles?.divider}></Box>
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>Total Cost</Box>
-          <Box sx={styles?.planTableTh}>£ 158</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {(planCalculations?.finalPrice || 0).toFixed(2)}
+          </Box>
         </Box>
       </Box>
-
-      <Stack
-        spacing={'12px'}
-        useFlexGap
-        direction={'row'}
-        sx={styles?.updateSubscription}
+      <PermissionsGuard
+        permissions={[
+          ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_UPDATE_SUBSCRIPTION,
+        ]}
       >
-        <Button
-          sx={styles?.cancelButton}
-          onClick={() =>
-            router.push(
-              `${orgAdminSubcriptionInvoices.back_subscription_invoices}`,
-            )
-          }
+        <Stack
+          spacing={'12px'}
+          useFlexGap
+          direction={'row'}
+          sx={styles?.updateSubscription}
         >
-          Cancel
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleUpdateSubscription}
-        >
-          Update Subscription
-        </Button>
-      </Stack>
+          <Button
+            sx={styles?.cancelButton}
+            onClick={() =>
+              router.push(
+                `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
+              )
+            }
+          >
+            Cancel
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpdateSubscription}
+          >
+            Update Subscription
+          </Button>
+        </Stack>
+      </PermissionsGuard>
     </>
   );
 };

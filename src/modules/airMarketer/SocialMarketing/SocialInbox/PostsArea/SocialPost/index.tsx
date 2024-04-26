@@ -34,6 +34,8 @@ import CommonModal from '@/components/CommonModal';
 import { v4 as uuidv4 } from 'uuid';
 import PostComments from './PostComments';
 import { POST_TYPES } from './SocialPost.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS } from '@/constants/permission-keys';
 
 const SocialPost = ({ postType }: any) => {
   const theme = useTheme();
@@ -68,15 +70,21 @@ const SocialPost = ({ postType }: any) => {
                   </Typography>
                 </Box>
               </Box>
-              <Button
-                startIcon={<UserCircleIcon />}
-                variant="outlined"
-                onClick={() => {
-                  setIsUserViewModal(true), setActiveUserProfile(userProfile);
-                }}
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.VIEW_USER_PROFILE,
+                ]}
               >
-                View User Profile
-              </Button>
+                <Button
+                  startIcon={<UserCircleIcon />}
+                  variant="outlined"
+                  onClick={() => {
+                    setIsUserViewModal(true), setActiveUserProfile(userProfile);
+                  }}
+                >
+                  View User Profile
+                </Button>
+              </PermissionsGuard>
             </Box>
             {postType === (POST_TYPES?.FB_POST || POST_TYPES?.TWITTER_POST) && (
               <Box sx={{ mt: 1, mb: 1 }}>
@@ -116,15 +124,23 @@ const SocialPost = ({ postType }: any) => {
             </Box>
             <Box sx={styles?.reactionsGripper(postType)}>
               <Box sx={styles?.reactionsFlex}>
-                <Box sx={styles?.boxReaction(postType)}>
-                  {postType === POST_TYPES?.FB_POST && <LikeIcon />}
-                  {postType === POST_TYPES?.INSTAGRAM_POST && <InstaLikeIcon />}
-                  {postType === POST_TYPES?.TWITTER_POST && <InstaLikeIcon />}
-                  <Typography variant="body2">
-                    {postType === POST_TYPES?.FB_POST && 'Like'}
-                    {postType === POST_TYPES?.TWITTER_POST && '57'}
-                  </Typography>
-                </Box>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.LIKE_POST,
+                  ]}
+                >
+                  <Box sx={styles?.boxReaction(postType)}>
+                    {postType === POST_TYPES?.FB_POST && <LikeIcon />}
+                    {postType === POST_TYPES?.INSTAGRAM_POST && (
+                      <InstaLikeIcon />
+                    )}
+                    {postType === POST_TYPES?.TWITTER_POST && <InstaLikeIcon />}
+                    <Typography variant="body2">
+                      {postType === POST_TYPES?.FB_POST && 'Like'}
+                      {postType === POST_TYPES?.TWITTER_POST && '57'}
+                    </Typography>
+                  </Box>
+                </PermissionsGuard>
                 <Box sx={styles?.boxReaction}>
                   {postType === POST_TYPES?.FB_POST && <CommentIcon />}
                   {postType === POST_TYPES?.INSTAGRAM_POST && (
@@ -234,7 +250,12 @@ const SocialPost = ({ postType }: any) => {
             </Typography>
 
             <Box
-              sx={{ display: 'flex', gap: '15px', justifyContent: 'center' }}
+              sx={{
+                display: 'flex',
+                gap: '20px',
+                justifyContent: 'center',
+                marginY: '10px',
+              }}
             >
               <Box sx={styles?.userProfiles}>
                 <Image
@@ -275,23 +296,28 @@ const SocialPost = ({ postType }: any) => {
             </Box>
 
             <Box sx={{ display: 'flex', gap: '20px' }}>
-              {activeUserProfile?.stats?.map((stat: any) => (
-                <Box key={uuidv4()}>
-                  <Typography
-                    variant="h5"
-                    sx={styles?.profileStats}
-                    color={theme?.palette?.grey[600]}
-                  >
-                    {stat?.value}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={styles?.profileStats}
-                    color={theme?.palette?.grey[600]}
-                  >
-                    {stat?.label}
-                  </Typography>
-                </Box>
+              {activeUserProfile?.stats?.map((stat: any, index: any) => (
+                <>
+                  <Box key={uuidv4()}>
+                    <Typography
+                      variant="h5"
+                      sx={styles?.profileStats}
+                      color={theme?.palette?.grey[600]}
+                    >
+                      {stat?.value}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={styles?.profileStats}
+                      color={theme?.palette?.grey[600]}
+                    >
+                      {stat?.label}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{ borderRight: index != 2 && '1px solid #EBECF1' }}
+                  ></Box>
+                </>
               ))}
             </Box>
           </Box>
@@ -306,7 +332,7 @@ const PostRedirect = ({ label }: any) => {
   return (
     <Typography
       variant="body2"
-      sx={{ display: 'flex', gap: '6px' }}
+      sx={{ display: 'flex', gap: '6px', alignItems: 'center' }}
       color={theme?.palette?.grey[600]}
     >
       <ViewExpandedIcon /> View On

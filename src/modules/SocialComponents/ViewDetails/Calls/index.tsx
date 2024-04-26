@@ -8,14 +8,34 @@ import { isNullOrEmpty } from '@/utils';
 import useCalls from './useCalls';
 
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
-import { callsDetails, callsStatusColor, columns } from './Calls.data';
+import { callsStatusColor, columns } from './Calls.data';
 
 import { PlusIcon, ViewCallIcon } from '@/assets/icons';
 
 import { styles } from './Calls.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Calls = () => {
-  const { openDrawer, setOpenDrawer, theme } = useCalls();
+const Calls = ({ companyId }: any) => {
+  const {
+    openDrawer,
+    setOpenDrawer,
+    theme,
+    CompanyCalls,
+    isLoading,
+    isError,
+    setPageLimit,
+    setPage,
+    handleCheckboxChange,
+    setSelectedCheckboxes,
+    selectedCheckboxes,
+    deleteCallsHandler,
+    openAlertModal,
+    setOpenAlertModal,
+    WidgetData,
+  } = useCalls({ companyId });
+
+  const getColumns = columns({ handleCheckboxChange, selectedCheckboxes });
 
   return (
     <Box
@@ -26,7 +46,7 @@ const Calls = () => {
       }}
     >
       <Grid container spacing={3} sx={{ marginBottom: '25px' }}>
-        {Object?.entries(callsDetails).map(([key, value]) => (
+        {Object?.entries(WidgetData).map(([key, value]) => (
           <Grid item md={4} xs={12} key={key}>
             <Box sx={styles?.callStatusBox(callsStatusColor, key)}>
               <Typography variant="body2">{key}</Typography>
@@ -48,14 +68,26 @@ const Calls = () => {
                   alignItems: 'center',
                 }}
               >
-                <CallsActionDropdown setOpenDrawer={setOpenDrawer} />
-                <Button
-                  variant="contained"
-                  sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                  onClick={() => setOpenDrawer('Add')}
+                <CallsActionDropdown
+                  setOpenDrawer={setOpenDrawer}
+                  selectedCheckboxes={selectedCheckboxes}
+                  deleteCallsHandler={deleteCallsHandler}
+                  openAlertModal={openAlertModal}
+                  setOpenAlertModal={setOpenAlertModal}
+                />
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.ADD_CALLS,
+                  ]}
                 >
-                  <PlusIcon /> Add Calls
-                </Button>
+                  <Button
+                    variant="contained"
+                    sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                    onClick={() => setOpenDrawer('Add')}
+                  >
+                    <PlusIcon /> Add Calls
+                  </Button>
+                </PermissionsGuard>
               </Box>
             )}
           </Box>
@@ -80,17 +112,41 @@ const Calls = () => {
             </Box>
           </Grid>
         )}
-        {!isNullOrEmpty(TasksTableData) && (
+        {!isNullOrEmpty(TasksTableData) && !isError && (
           <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
-            <TanstackTable columns={columns} data={TasksTableData} />
+            <PermissionsGuard
+              permissions={[
+                SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.VIEW_CALLS,
+              ]}
+            >
+              <TanstackTable
+                columns={getColumns}
+                data={CompanyCalls?.data?.schedulecalls}
+                isLoading={isLoading}
+                setPage={setPage}
+                setPageLimit={setPageLimit}
+                isPagination
+              />
+            </PermissionsGuard>
           </Grid>
         )}
       </Grid>
-
-      <CallsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {isError && (
+        <Typography
+          sx={{ textAlign: 'center', color: theme?.palette?.error?.main }}
+        >
+          something want worng
+        </Typography>
+      )}
+      {openDrawer && (
+        <CallsEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+          selectedCheckboxes={selectedCheckboxes}
+          companyId={companyId}
+        />
+      )}
     </Box>
   );
 };

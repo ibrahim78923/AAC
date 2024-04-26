@@ -10,6 +10,8 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import useProductFeature from './useProductFeature';
 import StatusBadge from '@/components/StatusBadge';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS } from '@/constants/permission-keys';
 
 export const productFeaturesValidationSchema = Yup.object().shape({
   productIds: Yup.array()
@@ -17,7 +19,6 @@ export const productFeaturesValidationSchema = Yup.object().shape({
     .max(10, 'Field is Required')
     .required('Field is Required'),
   name: Yup.string().trim().required('Field is Required'),
-  description: Yup.string().trim().required('Field is Required'),
 });
 export const addProductFeatureFormDefaultValues = {
   productIds: [],
@@ -40,6 +41,7 @@ export const addProductFeatureFormData = () => {
         label: 'Product',
         isCheckBox: true,
         options: productOptions,
+        required: true,
       },
     },
     {
@@ -47,6 +49,7 @@ export const addProductFeatureFormData = () => {
         name: 'name',
         label: 'Product Feature Name',
         fullWidth: true,
+        required: true,
       },
       component: RHFTextField,
       md: 12,
@@ -56,6 +59,7 @@ export const addProductFeatureFormData = () => {
       component: RHFTextField,
       componentProps: {
         name: 'description',
+        label: 'Description',
         fullWidth: true,
         placeholder: 'Description',
         multiline: true,
@@ -124,25 +128,31 @@ export const columns = (
       header: 'Status',
       cell: (info: any) => {
         return (
-          <StatusBadge
-            key={info?.row?.original?._id}
-            value={info?.row?.original?.status}
-            onChange={(e: any) => {
-              handleUpdateStatus(e?.target?.value, info?.row?.original?._id);
-            }}
-            options={[
-              {
-                label: 'Active',
-                value: 'active',
-                color: theme?.palette?.custom?.bluish_gray,
-              },
-              {
-                label: 'Inactive',
-                value: 'inactive',
-                color: theme?.palette?.error?.main,
-              },
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS?.Active_Inactive_Features,
             ]}
-          />
+          >
+            <StatusBadge
+              key={info?.row?.original?._id}
+              value={info?.row?.original?.status}
+              onChange={(e: any) => {
+                handleUpdateStatus(e?.target?.value, info?.row?.original?._id);
+              }}
+              options={[
+                {
+                  label: 'Active',
+                  value: 'active',
+                  color: theme?.palette?.custom?.bluish_gray,
+                },
+                {
+                  label: 'Inactive',
+                  value: 'inactive',
+                  color: theme?.palette?.error?.main,
+                },
+              ]}
+            />
+          </PermissionsGuard>
         );
       },
     },
@@ -151,7 +161,7 @@ export const columns = (
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.name,
     },
     {
       accessorFn: (row: any) => row?.createdAt,

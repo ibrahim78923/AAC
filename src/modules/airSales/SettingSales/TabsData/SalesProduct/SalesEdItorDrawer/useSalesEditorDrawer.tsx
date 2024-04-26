@@ -6,67 +6,100 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  useLazyGetSalesProductByIdQuery,
   usePostSalesProductMutation,
   useUpdateSalesProductMutation,
 } from '@/services/airSales/deals/settings/sales-product';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const useSalesEditorDrawer = ({ selectedCheckboxes, isEditMode }: any) => {
-  const editRowValue = selectedCheckboxes && selectedCheckboxes[0];
-  const [postSalesProduct] = usePostSalesProductMutation();
+import { useEffect } from 'react';
+
+const useSalesEditorDrawer = ({
+  selectedCheckboxes,
+  isEditMode,
+  setSelectedCheckboxes,
+  setIsDraweropen,
+}: any) => {
+  const [postSalesProduct, { isLoading: productLoading }] =
+    usePostSalesProductMutation();
+
   const [updateSalesProduct] = useUpdateSalesProductMutation();
+  const [getSalesProductById, { isLoading: productsDataLoading }] =
+    useLazyGetSalesProductByIdQuery();
 
   const salesProduct = useForm({
     resolver: yupResolver(salesProductvalidationSchema),
-    defaultValues: async () => {
-      if (editRowValue) {
-        const {
-          name,
-          sku,
-          purchasePrice,
-          category,
-          associate,
-          description,
-          createdBy,
-          unitPrice,
-          note,
-        } = editRowValue;
-        return {
-          name,
-          sku,
-          purchasePrice,
-          category,
-          description,
-          associate,
-          createdBy: new Date(createdBy),
-          unitPrice,
-          note,
-        };
-      }
-      return salesProductDefaultValues;
-    },
+    defaultValues: salesProductDefaultValues,
   });
-  const { handleSubmit } = salesProduct;
+  const { handleSubmit, reset } = salesProduct;
+
+  useEffect(() => {
+    if (selectedCheckboxes?.length > 0 && isEditMode) {
+      getSalesProductById(selectedCheckboxes)
+        .unwrap()
+        .then((res) => {
+          if (res) {
+            const fieldsData = res?.data;
+            reset({
+              name: fieldsData?.name,
+              sku: fieldsData?.sku,
+              purchasePrice: fieldsData?.purchasePrice,
+              category: fieldsData?.category,
+              associate: fieldsData?.associate,
+              description: fieldsData?.description,
+              isActive: fieldsData?.isActive,
+              unitPrice: fieldsData?.unitPrice,
+            });
+          }
+        });
+    }
+  }, [selectedCheckboxes, reset]);
+
   const onSubmit = async (values: any) => {
+    const formData = new FormData();
+
+    formData.append('category', values?.category);
+    formData.append('description', values?.description);
+    formData.append('isActive', values?.isActive);
+    formData.append('name', values?.name);
+    formData.append('purchasePrice', values?.purchasePrice);
+    formData.append('sku', values?.sku);
+    formData.append('unitPrice', values?.unitPrice);
+    formData.append('image', values?.image);
+
     try {
-      isEditMode
-        ? await updateSalesProduct({
-            body: values,
-            id: editRowValue?._id,
-          }).unwrap()
-        : await postSalesProduct({ body: values })?.unwrap();
-    } catch (error) {
+      if (isEditMode) {
+        await updateSalesProduct({
+          body: formData,
+          id: selectedCheckboxes,
+        })?.unwrap();
+      } else {
+        await postSalesProduct({ body: formData })?.unwrap();
+      }
+      setSelectedCheckboxes([]),
+        setIsDraweropen(false),
+        enqueueSnackbar(
+          `Product ${isEditMode ? 'Updated ' : 'Added'} Successfully`,
+          {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          },
+        );
+    } catch (error: any) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', {
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
+
   return {
     handleSubmit,
     onSubmit,
     salesProduct,
+    productLoading,
+    productsDataLoading,
   };
 };
 

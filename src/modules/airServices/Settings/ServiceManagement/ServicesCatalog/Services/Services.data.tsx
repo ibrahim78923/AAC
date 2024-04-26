@@ -17,7 +17,7 @@ export const services = [
     id: 2,
     title: CATALOG_SERVICE_TYPES?.SOFTWARE_INSTALLATION,
     description:
-      'Browse the list of  Softer ware installation services  offered and raise a request.',
+      'Browse the list of  Software installation services  offered and raise a request.',
     image: SoftwareFeaturedImage,
   },
   {

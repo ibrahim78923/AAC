@@ -5,6 +5,7 @@ import { ModelPropsI } from './ScheduleModals.interface';
 import CloseIcon from '@/assets/icons/shared/alert-modal-close-icon';
 import { styles } from './ScheduleModals.styles';
 import useScheduleModals from './useScheduleModals';
+import { LoadingButton } from '@mui/lab';
 
 export const ScheduleModals: React.FunctionComponent<ModelPropsI> = ({
   type,
@@ -14,6 +15,7 @@ export const ScheduleModals: React.FunctionComponent<ModelPropsI> = ({
   children,
   submitButonText,
   isFooter,
+  loading,
 }: ModelPropsI) => {
   const { checkModelTypeForImage, checkModelType } = useScheduleModals({
     type,
@@ -50,13 +52,14 @@ export const ScheduleModals: React.FunctionComponent<ModelPropsI> = ({
                 >
                   Cancel
                 </Button>
-                <Button
+                <LoadingButton
                   variant="contained"
                   onClick={handleSubmit}
                   sx={{ height: '35px' }}
+                  loading={loading}
                 >
                   {submitButonText}
-                </Button>
+                </LoadingButton>
               </Box>
             )}
           </Box>

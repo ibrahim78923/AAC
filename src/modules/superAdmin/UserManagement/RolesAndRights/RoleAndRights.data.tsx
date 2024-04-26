@@ -11,33 +11,35 @@ import { ExpandMore } from '@mui/icons-material';
 import { SwitchBtn } from '@/components/SwitchButton';
 
 import * as Yup from 'yup';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const data: any = [
   {
     Id: 1,
     RoleId: `123`,
-    RoleName: 'Company Owner',
+    RoleName: 'Sub Admin',
     Products: 'Sales',
     CreatedOn: '12/10/2023',
   },
   {
     Id: 2,
     RoleId: `456`,
-    RoleName: 'Company Owner',
+    RoleName: 'Sub Admin',
     Products: 'Services',
     CreatedOn: '12/10/2023',
   },
   {
     Id: 3,
     RoleId: `789`,
-    RoleName: 'Admin',
+    RoleName: 'Sub Admin',
     Products: 'Marketing',
     CreatedOn: '12/10/2023',
   },
   {
     Id: 4,
     RoleId: `752`,
-    RoleName: 'Admin',
+    RoleName: 'Sub Admin',
     Products: 'Loyalty Program',
     CreatedOn: '12/10/2023',
   },
@@ -77,7 +79,16 @@ export const columns: any = [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: <SwitchBtn defaultChecked />,
+    cell: (
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ACTIVE_INACTIVE_ROLES,
+        ]}
+      >
+        {' '}
+        <SwitchBtn defaultChecked />
+      </PermissionsGuard>
+    ),
   },
   {
     accessorFn: (row: any) => row?.CreatedOn,

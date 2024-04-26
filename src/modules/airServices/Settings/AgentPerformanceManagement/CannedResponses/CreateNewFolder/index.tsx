@@ -19,6 +19,8 @@ export const CreateNewFolder = (props: any) => {
     onSubmit,
     openCreateNewFolderModal,
     closeCreateNewFolderModal,
+    postCannedResponseStatus,
+    patchCannedResponseStatus,
   } = useCreateNewFolder(props);
   return (
     <>
@@ -76,7 +78,15 @@ export const CreateNewFolder = (props: any) => {
                 >
                   Cancel
                 </LoadingButton>
-                <LoadingButton type="submit" variant="contained">
+                <LoadingButton
+                  type="submit"
+                  loading={
+                    postCannedResponseStatus?.isLoading ||
+                    patchCannedResponseStatus?.isLoading
+                  }
+                  variant="contained"
+                  color="primary"
+                >
                   {openCreateNewFolderModal?.editData ? 'Apply' : 'Submit'}
                 </LoadingButton>
               </Box>

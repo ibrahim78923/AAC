@@ -7,6 +7,7 @@ import {
   Grid,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -24,6 +25,8 @@ import PlusShared from '@/assets/icons/shared/plus-shared';
 import { styles } from './TaxCalculations.styles';
 import { v4 as uuidv4 } from 'uuid';
 import useTaxCalculations from './useTaxCalculations';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS } from '@/constants/permission-keys';
 
 const TaxCalculation = () => {
   const {
@@ -60,7 +63,6 @@ const TaxCalculation = () => {
     loadingUpdateTax,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
@@ -80,69 +82,53 @@ const TaxCalculation = () => {
     <Box
       sx={{
         borderRadius: '15px',
-        border: '1px solid #EAECF0',
+        border: (theme: any) =>
+          `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
       }}
     >
-      <Box sx={{ padding: '16px 24px' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '19px',
-          }}
-        >
+      <Box sx={styles?.pageHeader}>
+        <Box sx={styles?.heading}>
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Tax Calculation
           </Typography>
-          <Button
-            variant="contained"
-            sx={{ height: '36px', fontWeight: '500' }}
-            onClick={handleOpenAddDrawer}
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS?.Add_Tax,
+            ]}
           >
-            <PlusShared /> &nbsp; Add
-          </Button>
+            <Button
+              variant="contained"
+              sx={{ height: '36px', fontWeight: '500' }}
+              onClick={handleOpenAddDrawer}
+            >
+              <PlusShared /> &nbsp; Add
+            </Button>
+          </PermissionsGuard>
         </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            gap: '10px',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Search
-            setSearchBy={setSearchValue}
-            label="Search Here"
-            size="small"
-            width={'100%'}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '10px',
-            }}
+        <Box sx={styles?.filterBar}>
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS?.Search_and_Filter,
+            ]}
           >
+            <Box sx={styles?.search}>
+              <Search
+                setSearchBy={setSearchValue}
+                label="Search Here"
+                size="small"
+                width={'100%'}
+              />
+            </Box>
+          </PermissionsGuard>
+
+          <Box sx={styles?.filterButtons}>
             <Button
               id="basic-button"
               aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={actionMenuOpen ? 'true' : undefined}
               onClick={handleActionsMenuClick}
-              sx={{
-                color: theme?.palette?.grey[500],
-                width: '112px',
-                border: '1.5px solid #e7e7e9',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
+              sx={styles?.actionBtn}
               className="small"
               disabled={isActionsDisabled}
             >
@@ -162,13 +148,20 @@ const TaxCalculation = () => {
                 },
               }}
             >
-              <MenuItem
-                disabled={!rowId}
-                onClick={handleOpenDrawerEditTax}
-                style={{ fontSize: '14px' }}
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS?.Edit_Tax,
+                ]}
               >
-                Edit
-              </MenuItem>
+                <MenuItem
+                  disabled={!rowId}
+                  onClick={handleOpenDrawerEditTax}
+                  style={{ fontSize: '14px' }}
+                >
+                  Edit
+                </MenuItem>
+              </PermissionsGuard>
+
               <MenuItem
                 style={{ fontSize: '14px' }}
                 disabled={!rowId}
@@ -183,44 +176,73 @@ const TaxCalculation = () => {
               >
                 Inactive
               </MenuItem>
-              <MenuItem
-                style={{ fontSize: '14px' }}
-                onClick={handleOpenModalDelete}
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS?.Delete_Tax,
+                ]}
               >
-                Delete
-              </MenuItem>
+                <MenuItem
+                  style={{ fontSize: '14px' }}
+                  onClick={handleOpenModalDelete}
+                >
+                  Delete
+                </MenuItem>
+              </PermissionsGuard>
             </Menu>
-            <Button
-              sx={styles?.refreshButton(theme)}
-              className="small"
-              onClick={handleRefresh}
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS?.Refresh_Record,
+              ]}
             >
-              <RefreshSharedIcon />
-            </Button>
-            <Button
-              sx={styles?.filterButton(theme)}
-              className="small"
-              onClick={handleOpenFilters}
+              <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                <Button
+                  sx={styles?.refreshButton(theme)}
+                  className="small"
+                  onClick={handleRefresh}
+                >
+                  <RefreshSharedIcon />
+                </Button>
+              </Tooltip>
+            </PermissionsGuard>
+
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS?.Search_and_Filter,
+              ]}
             >
-              <FilterSharedIcon /> &nbsp; Filter
-            </Button>
+              <Button
+                sx={styles?.filterButton(theme)}
+                className="small"
+                onClick={handleOpenFilters}
+              >
+                <FilterSharedIcon /> &nbsp; Filter
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Box>
       </Box>
 
-      <Box>
-        <TanstackTable
-          columns={getTableColumns}
-          data={dataGetTaxCalculation?.data?.taxCalculations}
-          isLoading={loagingGetTaxCalculation}
-          isPagination
-          count={dataGetTaxCalculation?.data?.meta?.pages}
-          totalRecords={dataGetTaxCalculation?.data?.meta?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-      </Box>
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS?.Tax_List,
+        ]}
+      >
+        <Box>
+          <TanstackTable
+            columns={getTableColumns}
+            data={dataGetTaxCalculation?.data?.taxCalculations}
+            isLoading={loagingGetTaxCalculation}
+            currentPage={dataGetTaxCalculation?.data?.meta?.page}
+            count={dataGetTaxCalculation?.data?.meta?.pages}
+            pageLimit={dataGetTaxCalculation?.data?.meta?.limit}
+            totalRecords={dataGetTaxCalculation?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
+          />
+        </Box>
+      </PermissionsGuard>
 
       <CommonDrawer
         isDrawerOpen={openFilters}
@@ -230,10 +252,11 @@ const TaxCalculation = () => {
         isOk={true}
         footer={true}
         submitHandler={handleFiltersSubmit}
+        isLoading={loagingGetTaxCalculation}
       >
         <>
           <FormProvider methods={methodsFilter}>
-            <Grid container spacing={4}>
+            <Grid container spacing={'22px'}>
               {taxFormFiltersDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
@@ -264,7 +287,7 @@ const TaxCalculation = () => {
       >
         <>
           <FormProvider methods={methodsAddTaxForm}>
-            <Grid container spacing={4}>
+            <Grid container spacing={'22px'}>
               {addTaxFormDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
@@ -287,7 +310,7 @@ const TaxCalculation = () => {
         isDrawerOpen={openDrawerEditTax}
         onClose={handleCloseDrawerEditTax}
         title="Tax Form"
-        okText="Apply"
+        okText="Update"
         isOk={true}
         footer={true}
         submitHandler={handleSubmitEditTax}
@@ -295,7 +318,7 @@ const TaxCalculation = () => {
       >
         <>
           <FormProvider methods={methodsEditTaxForm}>
-            <Grid container spacing={4}>
+            <Grid container spacing={'22px'}>
               {addTaxFormDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>

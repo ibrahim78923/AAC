@@ -1,11 +1,12 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Image from 'next/image';
 import { useAttachFileCard } from './useAttachFileCard';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { formatFileSize, truncateText } from '@/utils/avatarUtils';
 
-export const AttachFileCard = ({ data, onDelete }: any) => {
-  const { getImageByType, theme, cross, setCross } = useAttachFileCard();
-
+export const AttachFileCard = (props: any) => {
+  const { data, onDelete, permissionKey, size } = props;
+  const { theme, cross, setCross, getImageByType } = useAttachFileCard();
   return (
     <Box
       display={'flex'}
@@ -19,49 +20,51 @@ export const AttachFileCard = ({ data, onDelete }: any) => {
       onMouseEnter={() => setCross(true)}
       onMouseLeave={() => setCross(false)}
     >
-      <Image
+      <Avatar
         src={getImageByType(data)}
         alt="file-preview"
-        width={45}
-        height={45}
-        style={{ objectFit: 'cover' }}
+        sx={{ width: size?.width ?? 45, height: size?.height ?? 45 }}
+        variant={size?.variant ?? 'rounded'}
       />
       <Box
         display={'flex'}
         flex={'auto'}
         alignItems={'center'}
         justifyContent={'space-between'}
+        flexWrap={'wrap'}
       >
         <Box>
-          <Typography variant="h6" whiteSpace={'nowrap'}>
-            {data?.name}
+          <Typography variant="h6" color="slateBlue.main" whiteSpace={'nowrap'}>
+            {truncateText(data?.orignalName)}
           </Typography>
           <Typography
             variant="body3"
             color={theme?.palette?.grey?.[900]}
             whiteSpace={'nowrap'}
           >
-            {data?.size}
+            {formatFileSize(data?.fileSize)}
           </Typography>
         </Box>
-        {cross && (
-          <IconButton
-            disableFocusRipple
-            disableRipple
-            size="small"
-            sx={{
-              backgroundColor: 'custom.dark',
-              ':hover': {
-                backgroundColor: 'custom.dark ',
-              },
-            }}
-            onClick={onDelete}
-          >
-            <CloseIcon
-              sx={{ color: theme?.palette?.common?.white, fontSize: '14px' }}
-            />
-          </IconButton>
-        )}
+        <PermissionsGuard permissions={permissionKey}>
+          {cross && (
+            <IconButton
+              disableFocusRipple
+              disableRipple
+              size="small"
+              sx={{
+                backgroundColor: 'custom.dark',
+                ':hover': {
+                  backgroundColor: 'custom.dark',
+                },
+              }}
+              onClick={onDelete}
+            >
+              <CloseIcon
+                sx={{ color: theme?.palette?.common?.white, fontSize: '14px' }}
+              />
+            </IconButton>
+          )}
+        </PermissionsGuard>
       </Box>
     </Box>
   );

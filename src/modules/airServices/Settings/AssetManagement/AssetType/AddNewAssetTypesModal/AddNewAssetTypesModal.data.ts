@@ -1,14 +1,16 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchemaAddNewAssetTypes = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Required'),
+export const validationSchemaAddNewAssetTypes: any = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Name is required'),
   description: Yup?.string(),
 });
 
-export const defaultValues = {
-  name: '',
-  description: '',
+export const assetTypesDefaultValues = (assetTypeData: any) => {
+  return {
+    name: assetTypeData?.name ?? '',
+    description: assetTypeData?.description ?? '',
+  };
 };
 
 export const addNewAssetTypesModalField = [
@@ -17,7 +19,7 @@ export const addNewAssetTypesModalField = [
     componentProps: {
       name: 'name',
       fullWidth: true,
-      // placeholder: 'Enter Your Name',
+      placeholder: 'Enter Your Name',
       label: 'Name',
       required: true,
     },

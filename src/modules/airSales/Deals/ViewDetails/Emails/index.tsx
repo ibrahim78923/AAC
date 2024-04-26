@@ -22,6 +22,8 @@ import {
 } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Emails = () => {
   const { NameWithStyledWords, theme } = useNameWithStyledWords();
@@ -59,15 +61,19 @@ const Emails = () => {
                   setOpenDrawer={setOpenDrawer}
                   selectedCheckboxes={selectedCheckboxes}
                 />
-                <Button
-                  variant="contained"
-                  className="small"
-                  sx={{ gap: 0.5 }}
-                  onClick={() => setOpenDrawer('New')}
+                <PermissionsGuard
+                  permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEND_EMAIL]}
                 >
-                  <Typography variant="body2">Send Emails</Typography>
-                  <SendArrowIcon />
-                </Button>
+                  <Button
+                    variant="contained"
+                    className="small"
+                    sx={{ gap: 0.5 }}
+                    onClick={() => setOpenDrawer('New')}
+                  >
+                    <Typography variant="body2">Send Emails</Typography>
+                    <SendArrowIcon />
+                  </Button>
+                </PermissionsGuard>
               </Box>
             )}
           </Box>

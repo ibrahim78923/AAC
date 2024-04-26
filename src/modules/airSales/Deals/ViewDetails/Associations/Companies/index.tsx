@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
@@ -6,25 +6,26 @@ import CompaniesEditorDrawer from './CompaniesEditorDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 
 import useCompanies from './useCompanies';
-
 import { columns } from './Companies.data';
-import { companiesData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Companies = () => {
+const Companies = ({ companiesData, dealId, isLoading, handleSearch }: any) => {
   const {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
-    setSearchName,
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-  } = useCompanies();
+    companyRecord,
+    setCompanyRecord,
+    loadingDelete,
+    deleteCompanyHandler,
+  } = useCompanies(dealId);
 
   return (
     <Box
@@ -36,11 +37,18 @@ const Companies = () => {
     >
       <Grid container spacing={2}>
         <Grid item md={4} xs={12} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
-          </Typography>
-
-          <Typography variant="h5">Companies</Typography>
+          {isLoading ? (
+            <Skeleton variant="text" height={40} width={120} />
+          ) : (
+            <>
+              <Typography sx={styles?.associationCount(theme)} variant="body3">
+                {companiesData?.length < 10
+                  ? `0${companiesData?.length}`
+                  : companiesData?.length}
+              </Typography>
+              <Typography variant="h5">Companies</Typography>
+            </>
+          )}
         </Grid>
         <Grid item md={8} xs={12}>
           <Box
@@ -52,39 +60,54 @@ const Companies = () => {
             }}
           >
             <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
-              label="Search By Name"
-              size="medium"
+              placeholder="Search By Name"
+              onChange={({ target }) => handleSearch(target.value)}
             />
-            <Button
-              variant="contained"
-              className="medium"
-              sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_COMPANY,
+              ]}
             >
-              <PlusIcon /> Add Companies
-            </Button>
+              <Button
+                variant="contained"
+                className="medium"
+                sx={{ minWidth: '0px', gap: 0.5 }}
+                onClick={() => setOpenDrawer('Add')}
+              >
+                <PlusIcon /> Add Companies
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
+            columns={columns({
+              setOpenDrawer,
+              setIsOpenAlert,
+              setCompanyRecord,
+            })}
             data={companiesData}
           />
         </Grid>
       </Grid>
-      <CompaniesEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
-      <AlertModals
-        message={"You're about to remove a record. Are you sure?"}
-        type={'delete'}
-        open={isOpenAlert}
-        handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
-      />
+      {openDrawer && (
+        <CompaniesEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          dealId={dealId}
+          companyRecord={companyRecord}
+        />
+      )}
+      {isOpenAlert && (
+        <AlertModals
+          message={"You're about to remove a record. Are you sure?"}
+          type={'delete'}
+          open={isOpenAlert}
+          handleClose={handleCloseAlert}
+          handleSubmitBtn={deleteCompanyHandler}
+          loading={loadingDelete}
+        />
+      )}
     </Box>
   );
 };

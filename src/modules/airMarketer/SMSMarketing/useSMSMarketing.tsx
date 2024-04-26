@@ -5,6 +5,7 @@ import { Theme, useTheme } from '@mui/material';
 const useSMSMarketing = () => {
   const navigate = useRouter();
   const [tabVal, setTabVal] = useState<number>(0);
+  const [isNumberConnected, setIsNumberConnected] = useState<boolean>(true);
   const theme = useTheme<Theme>();
 
   return {
@@ -12,6 +13,8 @@ const useSMSMarketing = () => {
     tabVal,
     setTabVal,
     navigate,
+    isNumberConnected,
+    setIsNumberConnected,
   };
 };
 

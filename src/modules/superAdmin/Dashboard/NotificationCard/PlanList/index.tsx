@@ -23,7 +23,6 @@ const PlanList = () => {
           display: 'flex',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          flexDirection: { lg: 'row', md: 'row', sm: 'row', xs: 'column' },
         }}
       >
         <Typography
@@ -45,10 +44,8 @@ const PlanList = () => {
           View All
         </Typography>
       </Box>
-      <Grid container sx={{ paddingTop: '1rem' }}>
-        <Grid item xs={12}>
-          <TanstackTable columns={columns} data={planListData} />
-        </Grid>
+      <Grid sx={{ paddingTop: '1rem' }}>
+        <TanstackTable columns={columns} data={planListData} />
       </Grid>
     </Box>
   );

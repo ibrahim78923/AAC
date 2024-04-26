@@ -1,8 +1,8 @@
 import { RHFRadioGroup } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  signature: Yup.string().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  signature: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -16,7 +16,13 @@ export const signatureFields = [
     componentProps: {
       name: 'signature',
       fullWidth: true,
-      options: ['No Signature', 'Include Space for a written signature'],
+      options: [
+        { value: 'noSignature', label: 'No Signature' },
+        {
+          value: 'includeSignature',
+          label: 'Include Space for a written signature',
+        },
+      ],
       row: false,
     },
   },

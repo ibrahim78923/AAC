@@ -1,102 +1,61 @@
-import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
-import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
-import { styles } from '../RelatedTickets.styles';
-import { useRelatedTickets } from '../useRelatedTickets';
+import { Box, Button, Typography } from '@mui/material';
+import { CirclePlusIcon } from '@/assets/icons';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 
 export const RelatedTicketsHeader = ({
   isActive,
   setIsDrawerOpen,
-  setDrawerType,
+  relatedTicketsActionDropdown,
+  setSelectedChildTickets,
+  data,
 }: any) => {
-  const {
-    enqueueSnackbar,
-    handleActionClick,
-    actionExportPop,
-    actionPop,
-    setActionPop,
-    handleActionExportClose,
-    openAction,
-    handleActionExportClick,
-    handleActionClose,
-    openActionExport,
-  } = useRelatedTickets();
   return (
-    <Grid container spacing={{ sm: 0, xs: 2 }} sx={styles?.headContainer}>
-      <Grid
-        item
-        sm={6}
-        xs={12}
-        sx={{
-          display: 'flex',
-          justifyContent: { sm: 'flex-start', xs: 'center' },
-        }}
-      >
-        <Typography variant="h5" sx={styles?.headtext}>
-          Child Tickets
-        </Typography>
-      </Grid>
-      <Grid sm={6} xs={12} item sx={styles?.btnContainer}>
-        <Button
-          color="secondary"
-          endIcon={<ActionButtonIcon />}
-          onClick={handleActionClick}
-          disabled={!!!isActive?.length}
-          variant={'outlined'}
+    <Box
+      display="flex"
+      justifyContent={'space-between'}
+      flexWrap={'wrap'}
+      gap={1}
+      alignItems={'center'}
+    >
+      <Typography variant="h5" color="slateBlue.main">
+        {`Child Tickets (${
+          data?.data?.tickets?.length > 1
+            ? data?.data?.meta?.total
+            : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+              ? data?.data?.meta?.total
+              : 0
+        })`}
+      </Typography>
+      <Box display="flex" flexWrap={'wrap'} gap={1}>
+        <PermissionsGuard
+          permissions={
+            Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_CHILD_TICKET_ACTION
+          }
         >
-          Action
-        </Button>
-        <Popover
-          open={openAction}
-          anchorEl={actionPop}
-          onClose={handleActionClose}
-          sx={{ mt: '8px' }}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
+          <SingleDropdownButton
+            disabled={isActive}
+            dropdownOptions={relatedTicketsActionDropdown}
+          />
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CHILD_TICKET]}
         >
-          <MenuItem
-            sx={{ p: 1 }}
+          <Button
+            disableElevation
+            variant="contained"
             onClick={() => {
-              enqueueSnackbar('child ticket deleted successfully', {
-                variant: 'success',
-              });
+              setSelectedChildTickets?.([]);
+              setIsDrawerOpen(true);
             }}
+            startIcon={<CirclePlusIcon />}
           >
-            Delete
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setIsDrawerOpen(true), setActionPop(null);
-              setDrawerType('Update');
-            }}
-            sx={{ p: 1 }}
-          >
-            Edit
-          </MenuItem>
-
-          <MenuItem sx={{ p: 1 }}>
-            <a onClick={handleActionExportClick}>Export Ticket</a>
-            <Popover
-              open={openActionExport}
-              anchorEl={actionExportPop}
-              onClose={handleActionExportClose}
-              sx={{ ml: '-12px' }}
-              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            >
-              <MenuItem>CSV</MenuItem>
-              <MenuItem>Excel</MenuItem>
-            </Popover>
-          </MenuItem>
-        </Popover>
-        <Button
-          sx={styles?.addTicketBtn}
-          onClick={() => setIsDrawerOpen(true)}
-          startIcon={<CirclePlusIcon />}
-        >
-          Add Child Ticket
-        </Button>
-      </Grid>
-    </Grid>
+            Add Child Ticket
+          </Button>
+        </PermissionsGuard>
+      </Box>
+    </Box>
   );
 };

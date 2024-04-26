@@ -8,24 +8,32 @@ export default function Layout({
   children,
   permissions,
 }: any) {
-  let childrenEl: any = children;
+  // let childrenEl: any ;
 
-  if (permissions)
-    childrenEl = (
-      <PermissionsGuard permissions={permissions}>{children}</PermissionsGuard>
-    );
+  // if (permissions)
+  //   childrenEl = (
+  //     <PermissionsGuard permissions={permissions}>{children}</PermissionsGuard>
+  //   );
+
   let layout = null;
 
   switch (variant) {
     case 'dashboard':
       layout = (
         <AuthGuard>
-          <DashboardLayout> {childrenEl} </DashboardLayout>
+          <DashboardLayout>
+            <PermissionsGuard isPage={true} permissions={permissions}>
+              {children}
+            </PermissionsGuard>
+          </DashboardLayout>
         </AuthGuard>
       );
       break;
+    case 'public':
+      layout = <DashboardLayout>{children}</DashboardLayout>;
+      break;
     default:
-      layout = childrenEl;
+      layout = children;
       break;
   }
 

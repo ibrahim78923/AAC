@@ -5,6 +5,8 @@ import {
 } from '@/services/superAdmin/enquiries';
 import { Checkbox } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS } from '@/constants/permission-keys';
 
 export const useEnquiries = () => {
   const [search, setSearch] = useState('');
@@ -101,7 +103,15 @@ export const useEnquiries = () => {
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue() ?? '--',
+      cell: (info: any) => (
+        <PermissionsGuard
+          permissions={[
+            SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Update_Status,
+          ]}
+        >
+          {info?.getValue()} ?? '--'
+        </PermissionsGuard>
+      ),
     },
   ];
 

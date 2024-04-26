@@ -1,38 +1,47 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   validationSchemaAddNewAssetTypes,
-  defaultValues,
+  assetTypesDefaultValues,
 } from '../AddNewAssetTypesModal/AddNewAssetTypesModal.data';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { usePostAssetTypeMutation } from '@/services/airServices/settings/asset-management/asset-type';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useHeader = () => {
+export const useHeader = (props: any) => {
+  const { assetTypeData } = props;
   const [openAddNewAssetTypesModal, setOpenAddNewAssetTypesModal] =
     useState<boolean>(false);
   const router = useRouter();
-  const addNewAssetTypesMethods: any = useForm({
+  const methods: any = useForm({
     resolver: yupResolver(validationSchemaAddNewAssetTypes),
-    defaultValues: defaultValues,
+    defaultValues: assetTypesDefaultValues(assetTypeData),
   });
 
-  const { handleSubmit, reset } = addNewAssetTypesMethods;
-  const submitAddForm = async () => {
-    enqueueSnackbar('Asset Types Added Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    reset();
-    setOpenAddNewAssetTypesModal(false);
+  const { handleSubmit, reset } = methods;
+  const [postAssetTypeTrigger, postAssetTypeProgress] =
+    usePostAssetTypeMutation();
+  const isLoading = postAssetTypeProgress?.isLoading;
+  const submitAddForm = async (formData: any) => {
+    try {
+      await postAssetTypeTrigger(formData);
+      successSnackbar('Asset Types Added Successfully');
+      reset();
+      setOpenAddNewAssetTypesModal?.(false);
+    } catch (err: any) {
+      errorSnackbar();
+    }
   };
+
+  const handleSubmitAddForm = handleSubmit(submitAddForm);
 
   return {
     router,
-    handleSubmit,
-    addNewAssetTypesMethods,
-    submitAddForm,
+    handleSubmitAddForm,
+    methods,
     openAddNewAssetTypesModal,
     setOpenAddNewAssetTypesModal,
+    isLoading,
   };
 };

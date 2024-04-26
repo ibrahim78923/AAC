@@ -51,7 +51,7 @@ const ClicksChart = () => {
         color={theme?.palette?.slateBlue?.main}
         textAlign="center"
       >
-        Session Data
+        Session Date
       </Typography>
     </Card>
   );

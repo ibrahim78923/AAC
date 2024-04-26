@@ -19,7 +19,7 @@ export const styles = {
     mb: '16px',
   }),
   box: (theme: any) => ({
-    border: `1px solid ${theme.palette.grey[700]}`,
+    border: `1px solid ${theme?.palette?.grey[700]}`,
     borderRadius: '8px',
     p: '16px',
     display: 'flex',

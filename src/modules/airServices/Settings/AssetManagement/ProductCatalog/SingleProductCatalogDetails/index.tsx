@@ -11,14 +11,12 @@ export const SingleProductCatalogDetails = () => {
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     handleSubmitDelete,
+    deleteProductCatalogStatus,
   } = useSingleProductCatalogDetails();
 
   return (
     <Fragment>
-      <Header
-        dropdownOptions={singleProductDetailActionDropdown}
-        title={'Apple MacBook Air 13'}
-      />
+      <Header dropdownOptions={singleProductDetailActionDropdown} />
 
       <br />
 
@@ -31,6 +29,8 @@ export const SingleProductCatalogDetails = () => {
           handleClose={() => setIsDeleteModalOpen?.(false)}
           handleSubmitBtn={handleSubmitDelete}
           message="Are you sure want to delete this Product Catalog?"
+          loading={deleteProductCatalogStatus?.isLoading}
+          disableCancelBtn={deleteProductCatalogStatus?.isLoading}
         />
       )}
     </Fragment>

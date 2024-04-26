@@ -1,9 +1,14 @@
+import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
-export const overviewTablePdfColumns: any = (theme: any) => {
-  return [
+export const overviewTablePdfColumns: any = (
+  theme: any,
+  orderStatus: string,
+) => {
+  const columns = [
     {
-      accessorFn: (row: any) => row?.itemName,
+      accessorFn: (row: any) => row?.name,
       id: 'itemName',
       cell: (info: any) => (
         <Typography color={theme?.palette?.blue?.dull_blue}>
@@ -16,7 +21,7 @@ export const overviewTablePdfColumns: any = (theme: any) => {
       accessorFn: (row: any) => row?.description,
       id: 'description',
       header: 'Description',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => truncateText(info?.getValue()),
     },
     {
       accessorFn: (row: any) => row?.costPerItem,
@@ -24,18 +29,32 @@ export const overviewTablePdfColumns: any = (theme: any) => {
       header: 'Cost Per Item',
       cell: (info: any) => info?.getValue(),
     },
-    {
-      accessorFn: (row: any) => row?.receivedVsOrdered,
-      id: 'receivedVsOrdered',
-      header: 'Received Vs Ordered',
+  ];
+  if (orderStatus === PURCHASE_ORDER_STATUS?.RECEIVED) {
+    columns?.push(
+      {
+        accessorFn: (row: any) => row?.receivedVsOrdered,
+        id: 'receivedVsOrdered',
+        header: 'Received Vs Ordered',
+        cell: (info: any) =>
+          `${info?.row?.original?.received} / ${info?.row?.original?.quantity}`,
+      },
+      {
+        accessorFn: (row: any) => row?.quantity,
+        id: 'pending',
+        header: 'Pending',
+        cell: (info: any) => info?.getValue(),
+      },
+    );
+  } else {
+    columns?.push({
+      accessorFn: (row: any) => row?.quantity,
+      id: 'quantity',
+      header: 'Quantity',
       cell: (info: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.pending,
-      id: 'pending',
-      header: 'Pending',
-      cell: (info: any) => info?.getValue(),
-    },
+    });
+  }
+  columns?.push(
     {
       accessorFn: (row: any) => row?.taxRate,
       id: 'taxRate',
@@ -48,18 +67,7 @@ export const overviewTablePdfColumns: any = (theme: any) => {
       header: 'Total ()',
       cell: (info: any) => info?.getValue(),
     },
-  ];
-};
+  );
 
-export const overviewListPdfData: any = [
-  {
-    Id: 1,
-    itemName: `Andrea`,
-    description: 'Per Unit',
-    costPerItem: '30',
-    receivedVsOrdered: '2/2',
-    pending: '2',
-    taxRate: '0',
-    total: '60',
-  },
-];
+  return columns;
+};

@@ -38,6 +38,7 @@
     "import/no-unresolved": "off",
     "import/extensions": "off",
     "jsx-a11y/anchor-is-valid": "off",
+    "react/no-unescaped-entities": "off",
     "react/no-unknown-property": [
       "error", // or "warn" if you want it as a warning
       {

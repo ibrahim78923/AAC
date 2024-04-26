@@ -20,7 +20,7 @@ const HighCostPerClickChart = () => {
           variant="h5"
           sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
         >
-          Compaigns with high cost per click
+          Campaigns with high cost per click
         </Typography>
         <Button
           variant="outlined"

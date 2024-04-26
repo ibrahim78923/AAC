@@ -14,6 +14,8 @@ export const dataArrayFeatures = [
     componentProps: {
       name: 'completedClone',
       label: 'Name',
+      placeholder: 'Enter name',
+      required: true,
       fullWidth: true,
     },
 

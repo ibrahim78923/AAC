@@ -9,6 +9,8 @@ import StatusBadge from '@/components/StatusBadge';
 import useJobApplication from './useJobApplication';
 import * as Yup from 'yup';
 import { DATE_FORMAT } from '@/constants';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_JOB_APPLICATION_PERMISSIONS } from '@/constants/permission-keys';
 
 export const jobApplicationValidationSchema = Yup.object().shape({
   candidateId: Yup.array().min(1).required('Field is Required'),
@@ -128,35 +130,41 @@ export const columns = (theme: any) => {
       header: 'Status',
       cell: (info: any) => {
         return (
-          <StatusBadge
-            key={info?.row?.original?._id}
-            value={info?.row?.original?.status}
-            onChange={(e: any) => {
-              handleUpdateStatus(e?.target?.value, info?.row?.original?._id);
-            }}
-            options={[
-              {
-                label: 'Pending',
-                value: 'pending',
-                color: theme?.palette?.custom.bluish_gray,
-              },
-              {
-                label: 'Rejected',
-                value: 'rejected',
-                color: theme?.palette?.error.main,
-              },
-              {
-                label: 'Shortlisted',
-                value: 'shortlisted',
-                color: theme?.palette?.error?.main,
-              },
-              {
-                label: 'Interviewed',
-                value: 'interviewed',
-                color: theme?.palette?.custom.bluish_gray,
-              },
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_SETTINGS_JOB_APPLICATION_PERMISSIONS?.Update_Job_Status,
             ]}
-          />
+          >
+            <StatusBadge
+              key={info?.row?.original?._id}
+              value={info?.row?.original?.status}
+              onChange={(e: any) => {
+                handleUpdateStatus(e?.target?.value, info?.row?.original?._id);
+              }}
+              options={[
+                {
+                  label: 'Pending',
+                  value: 'pending',
+                  color: theme?.palette?.custom.bluish_gray,
+                },
+                {
+                  label: 'Rejected',
+                  value: 'rejected',
+                  color: theme?.palette?.error.main,
+                },
+                {
+                  label: 'Shortlisted',
+                  value: 'shortlisted',
+                  color: theme?.palette?.error?.main,
+                },
+                {
+                  label: 'Interviewed',
+                  value: 'interviewed',
+                  color: theme?.palette?.custom.bluish_gray,
+                },
+              ]}
+            />
+          </PermissionsGuard>
         );
       },
     },

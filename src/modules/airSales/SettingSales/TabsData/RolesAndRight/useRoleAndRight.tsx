@@ -1,56 +1,97 @@
 import React, { useState } from 'react';
-
 import { Theme, useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { validationSchema } from './RolesRight.data';
+import { useRouter } from 'next/router';
+import { PAGINATION } from '@/config';
+import { airSalesRolesAndRightsAPI } from '@/services/airSales/roles-and-rights';
+import {
+  getActiveAccountSession,
+  getActiveProductSession,
+  getSession,
+} from '@/utils';
 
 const useRoleAndRight: any = () => {
-  const [isDraweropen, setIsDraweropen] = useState(false);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
+  const { user } = getSession();
+  const theme = useTheme<Theme>();
+  const navigate = useRouter();
+  const activeProduct = getActiveProductSession();
+  const activeAccount = getActiveAccountSession();
+
   const [expanded, setExpanded] = React.useState(false);
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [checkedRows, setCheckedRows] = useState();
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+
+  const [filterValues, setFilterValues] = useState({
+    search: '',
+  });
+
+  const [isDraweropen, setIsDraweropen] = useState({
+    isToggle: false,
+    type: 'add',
+    id: '',
+  });
+
+  const { useGetPermissionsRolesQuery } = airSalesRolesAndRightsAPI;
+  const organizationId = user?.organization?._id;
+  const organizationCompanyAccountId = activeAccount?.company?._id;
+  const productId = activeProduct?._id;
+
+  const permissionParams = {
+    page: page,
+    limit: pageLimit,
+    organizationCompanyAccountId: organizationCompanyAccountId,
+    organizationId: organizationId,
+    productId: productId,
+    search: filterValues?.search ?? undefined,
+  };
+
+  const {
+    data: getPermissions,
+    isLoading,
+    isSuccess,
+  } = useGetPermissionsRolesQuery(permissionParams);
 
   const handleChange = () => {
     setExpanded(!expanded);
   };
-  const theme = useTheme<Theme>();
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
   const handleClose = () => {
-    setIsEditOpen(true);
-    setAnchorEl(null);
-  };
-  const handleCloseDrawer = () => {
-    setIsDraweropen(false);
-    setIsEditOpen(false);
+    setSelectedValue(null);
   };
 
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-  });
+  const handleClick = (event: any) => {
+    setSelectedValue(event?.currentTarget);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsDraweropen({ isToggle: false, type: '', id: '' });
+  };
+
   return {
-    isDraweropen,
-    setIsDraweropen,
-    isOpenDelete,
-    setIsOpenDelete,
-    isEditOpen,
-    setIsEditOpen,
-    expanded,
-    setExpanded,
-    open,
-    handleClick,
     handleCloseDrawer,
-    methods,
-    handleClose,
+    setIsDraweropen,
+    setFilterValues,
+    setCheckedRows,
+    getPermissions,
+    selectedValue,
     handleChange,
+    isDraweropen,
+    setPageLimit,
+    filterValues,
+    setExpanded,
+    handleClick,
+    handleClose,
+    checkedRows,
+    pageLimit,
+    isLoading,
+    expanded,
+    navigate,
     theme,
-    anchorEl,
-    setAnchorEl,
+    open,
+    page,
+    setPage,
+    isSuccess,
   };
 };
 

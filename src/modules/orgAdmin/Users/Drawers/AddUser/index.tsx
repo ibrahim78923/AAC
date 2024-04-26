@@ -1,33 +1,28 @@
-import { Grid, Typography } from '@mui/material';
-
+import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-
 import CommonDrawer from '@/components/CommonDrawer';
-
-import { addUsersArray, defaultValues, validationSchema } from './AddUser.data';
-
-import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
+import { addUsersArray } from './AddUser.data';
 import { v4 as uuidv4 } from 'uuid';
+import useAddUser from './useAddUsers';
+import useUsers from '../../useUsers';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
-import { enqueueSnackbar } from 'notistack';
-
-const AddUser = ({ isOpenDrawer, onClose }: any) => {
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
-  });
-
-  const { handleSubmit, reset } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('User Added Successfully', {
-      variant: 'success',
-    });
-    reset();
+const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
+  const { user } = useUsers();
+  const organizationId = user?.organization?._id;
+  const useActionParams: any = {
+    setIsOpenAdduserDrawer: setIsOpenAdduserDrawer,
+    organizationId: organizationId,
   };
+
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    isToggled,
+    setIsToggled,
+    addressVal,
+  } = useAddUser(useActionParams);
 
   return (
     <CommonDrawer
@@ -39,18 +34,59 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
       submitHandler={handleSubmit(onSubmit)}
       footer
     >
+      <Typography variant="body2">
+        Add a new user to this organization
+      </Typography>
       <FormProvider methods={methods}>
-        <Typography variant={'subtitle2'}>
-          Add a new user to this organization.
-        </Typography>
-        <Grid container spacing={1}>
+        <Grid container spacing={1} mt={1}>
           {addUsersArray?.map((item: any) => {
             return (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <Typography variant="body2" fontWeight={500}>
-                  {item?.title}
-                </Typography>
-                <item.component {...item?.componentProps} size={'small'}>
+              <Grid item xs={12} md={item?.md} key={item?.name}>
+                {item?.componentProps?.heading && (
+                  <Typography variant="h5">
+                    {item?.componentProps?.heading}
+                  </Typography>
+                )}
+                {item?.componentProps?.name === 'compositeAddress' && (
+                  <Box position="relative">
+                    <InputAdornment
+                      sx={{
+                        position: 'absolute',
+                        top: 53,
+                        right: 20,
+                        zIndex: 9999,
+                      }}
+                      position="end"
+                    >
+                      {addressVal?.length > 0 ? (
+                        <BorderColorIcon
+                          sx={{
+                            cursor: 'not-allowed',
+                            fontSize: '20px',
+                            color: 'lightgrey',
+                          }}
+                        />
+                      ) : (
+                        <BorderColorIcon
+                          onClick={() => {
+                            setIsToggled(true);
+                          }}
+                          sx={{ cursor: 'pointer', fontSize: '20px' }}
+                        />
+                      )}
+                    </InputAdornment>
+                  </Box>
+                )}
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                  disabled={
+                    isToggled &&
+                    item?.componentProps?.name === 'compositeAddress'
+                      ? true
+                      : false
+                  }
+                >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={uuidv4()} value={option?.value}>
@@ -58,6 +94,30 @@ const AddUser = ({ isOpenDrawer, onClose }: any) => {
                       </option>
                     ))}
                 </item.component>
+                {isToggled && (
+                  <Grid item container spacing={2} mt={1}>
+                    {item?.componentProps?.name === 'compositeAddress' &&
+                      item?.subData?.map((data: any) => (
+                        <Grid item xs={12} md={item?.md} key={item?.name}>
+                          <Typography variant="body2" fontWeight={500}>
+                            {data?.title}
+                          </Typography>
+                          <data.component
+                            {...data.componentProps}
+                            size={'small'}
+                          >
+                            {data?.componentProps?.select
+                              ? data?.options?.map((option: any) => (
+                                  <option key={uuidv4()} value={option?.value}>
+                                    {option?.label}
+                                  </option>
+                                ))
+                              : null}
+                          </data.component>
+                        </Grid>
+                      ))}
+                  </Grid>
+                )}
               </Grid>
             );
           })}

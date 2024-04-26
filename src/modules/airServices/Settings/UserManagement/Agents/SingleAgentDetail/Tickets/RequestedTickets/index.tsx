@@ -1,0 +1,41 @@
+import TanstackTable from '@/components/Table/TanstackTable';
+import { useRequestedTickets } from './useRequestedTickets';
+import { Typography } from '@mui/material';
+
+export const RequestedTickets = () => {
+  const {
+    setPage,
+    setPageLimit,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    requestedTicketsColumns,
+  }: any = useRequestedTickets();
+
+  return (
+    <>
+      <Typography variant="h4" color="slateBlue.main">
+        Requested
+      </Typography>
+      <br />
+      <TanstackTable
+        columns={requestedTicketsColumns}
+        data={data?.data?.tickets}
+        isLoading={isLoading}
+        currentPage={data?.data?.meta?.page}
+        count={data?.data?.meta?.pages}
+        pageLimit={data?.data?.meta?.limit}
+        totalRecords={data?.data?.meta?.total}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess}
+        onPageChange={(page: any) => setPage(page)}
+        isPagination
+      />
+    </>
+  );
+};

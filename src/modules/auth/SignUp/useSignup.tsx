@@ -10,14 +10,40 @@ import {
 import { debouncedSearch } from '@/utils';
 import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
 import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useRouter } from 'next/router';
+import { AUTH } from '@/constants';
 
 const useSignup = () => {
+  const { push } = useRouter();
+
+  const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
   const methodsSignup = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
 
   const { handleSubmit, watch, setValue } = methodsSignup;
+
+  const watchField = watch([
+    'firstName',
+    'lastName',
+    'email',
+    'crn',
+    'numberOfEmployees',
+    'phoneNumber',
+  ]);
+
+  const allValuesNotEmpty = () => {
+    const valuesNotEmpty = watchField?.every((value) => value?.trim() !== '');
+
+    if (!valuesNotEmpty) {
+      enqueueSnackbar('All Fields are Required', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+    return valuesNotEmpty;
+  };
 
   const organizationNumber = watch('crn');
   const email = watch('email');
@@ -40,14 +66,20 @@ const useSignup = () => {
   });
 
   const onSubmit = async (value: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { organizationName, confirmPassword, DRN, ...rest } = value;
+
     const user = {
-      ...value,
+      ...rest,
       role: 'ORG_ADMIN',
     };
 
     try {
       const response: any = await signUpValue({ user }).unwrap();
       if (response?.data) {
+        // bypassing the ig varification in future routing should be done on successful varification
+        push(AUTH.LOGIN);
+
         try {
           await authCompanyVerification({ email: { email: email } }).unwrap();
         } catch (error: any) {
@@ -67,6 +99,36 @@ const useSignup = () => {
   }
 
   useEffect(() => {
+    if (!methodsSignup?.formState?.isValid) {
+      const errors = methodsSignup?.formState?.errors;
+      const errorFieldsToCheck = [
+        'lastName',
+        'firstName',
+        'email',
+        'crn',
+        'organizationName',
+        'numberOfEmployees',
+        'phoneNumber',
+      ];
+      const hasErrorInRequiredFields = Object.keys(errors).some((fieldName) =>
+        errorFieldsToCheck.includes(fieldName),
+      );
+
+      if (hasErrorInRequiredFields) {
+        setIsStepComplete(false);
+      }
+    }
+  });
+
+  useEffect(() => {
+    if (isError) {
+      enqueueSnackbar('Please enter correct Organization Number', {
+        variant: 'error',
+      });
+    }
+  }, [data, isError]);
+
+  useEffect(() => {
     setValue('organizationName', companyDetails?.company_name);
     setOrgNumber(organizationNumber);
   }, [data, isError]);
@@ -75,9 +137,13 @@ const useSignup = () => {
     onSubmit,
     handleSubmit,
     isLoading,
+    allValuesNotEmpty,
     methodsSignup,
     productData,
     isVerifiedSuccess,
+    isStepComplete,
+    setIsStepComplete,
+    isError,
   };
 };
 

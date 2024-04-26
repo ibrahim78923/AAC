@@ -29,6 +29,7 @@ export const dataArray = [
     componentProps: {
       name: 'cardNumber',
       label: 'Card Number*',
+      placeholder: 'Card Number',
       fullWidth: true,
     },
   },
@@ -38,6 +39,7 @@ export const dataArray = [
     componentProps: {
       name: 'expirationDate',
       label: 'Expiration Date*',
+
       fullWidth: true,
     },
   },
@@ -47,6 +49,7 @@ export const dataArray = [
     componentProps: {
       name: 'nameOnCard',
       label: 'Name on Card',
+      placeholder: 'Enter Name',
       fullWidth: true,
     },
   },
@@ -56,6 +59,7 @@ export const dataArray = [
     componentProps: {
       name: 'CVVCode',
       label: 'Enter CVV code*',
+      placeholder: '3 Digits',
       fullWidth: true,
     },
   },

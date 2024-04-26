@@ -1,28 +1,48 @@
-import CommonModal from '@/components/CommonModal';
 import { useTestWorkflow } from './useTestWorkflow';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Dialog, IconButton, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import Search from '@/components/Search';
+import { AlertModalCloseIcon } from '@/assets/icons';
 import { TestWorkflowDrawer } from './TestWorkflowDrawer';
 
 export const TestWorkflow = (props: any) => {
   const { openWorkflowModal, setOpenWorkflowModal } = props;
-  const { searchBy, setSearchBy, isWorkflowDrawer, setIsWorkflowDrawer } =
-    useTestWorkflow();
+  const {
+    searchBy,
+    setSearchBy,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+    handleSubmit,
+  } = useTestWorkflow(props);
   return (
     <>
-      <CommonModal
+      <Dialog
+        fullWidth
         open={openWorkflowModal}
-        handleClose={() => setOpenWorkflowModal(false)}
-        handleCancel={() => setOpenWorkflowModal(false)}
-        title="Test Workflow"
-        footer
-        okText="Test Now"
-        cancelText="Cancel"
-        handleSubmit={() => {
-          setIsWorkflowDrawer(true);
-          setOpenWorkflowModal(false);
+        onClose={() => setOpenWorkflowModal?.(false)}
+        sx={{
+          '& .MuiDialog-container': {
+            '& .MuiPaper-root': {
+              borderRadius: 5,
+              p: 2,
+            },
+          },
         }}
       >
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+        >
+          <Typography variant="h3">Test Workflow</Typography>
+          <IconButton
+            onClick={() => setOpenWorkflowModal?.(false)}
+            style={{ cursor: 'pointer' }}
+          >
+            <AlertModalCloseIcon />
+          </IconButton>
+        </Box>
+        <br />
         <Box>
           <Typography
             variant="body2"
@@ -39,7 +59,20 @@ export const TestWorkflow = (props: any) => {
             setSearchBy={setSearchBy}
           />
         </Box>
-      </CommonModal>
+        <br />
+        <Box display={'flex'} justifyContent={'flex-end'} gap={1}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => setOpenWorkflowModal?.(false)}
+          >
+            Cancel
+          </Button>
+          <LoadingButton variant="contained" onClick={handleSubmit}>
+            Test Now
+          </LoadingButton>
+        </Box>
+      </Dialog>
       <TestWorkflowDrawer
         isWorkflowDrawer={isWorkflowDrawer}
         setIsWorkflowDrawer={setIsWorkflowDrawer}

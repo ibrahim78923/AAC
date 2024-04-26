@@ -9,19 +9,19 @@ import {
   PlanDetailsDataColumnFunction,
 } from './PlanDetails.data';
 
-export const usePlanDetails = (searchBy: any) => {
+export const usePlanDetails = (params: any) => {
   const theme = useTheme();
   const router = useRouter();
 
   const { data, isError, isFetching, isLoading, isSuccess } =
-    useGetPlanMangementQuery({ params: searchBy });
+    useGetPlanMangementQuery({ params: params });
   const [ticketsListsColumn, seTTicketsListsColumn] = useState(
     PlanDetailsDataColumnFunction(theme, router),
   );
 
   return {
     ticketsListsColumn,
-    tableRowData: data?.data?.plans,
+    tableRowData: data,
     isError,
     isFetching,
     isLoading,

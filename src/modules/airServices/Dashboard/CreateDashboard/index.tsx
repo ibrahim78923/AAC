@@ -1,4 +1,4 @@
-import { DashboardPrototypeImage } from '@/assets/images';
+import { DashboardMockImage } from '@/assets/images';
 import {
   FormProvider,
   RHFSwitch,
@@ -223,7 +223,7 @@ export const CreateDashboard = () => {
                 <>
                   <Box sx={styles()?.bgImageBox}>
                     <Image
-                      src={DashboardPrototypeImage}
+                      src={DashboardMockImage}
                       style={{ pointerEvents: 'none', userSelect: 'none' }}
                       alt={'DashboardPrototypeImage'}
                     />

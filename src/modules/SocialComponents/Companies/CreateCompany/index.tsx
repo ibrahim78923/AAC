@@ -12,15 +12,18 @@ import { dataArray } from './CreateCompany.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateCompany = ({ setIsOpenDrawer, isOpenDrawer }: any) => {
-  const { methods } = useCreateCompany();
+  const { methods, handleSubmit, onSubmit, reset } =
+    useCreateCompany(setIsOpenDrawer);
 
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isOpenDrawer}
         onClose={() => {
-          setIsOpenDrawer(false);
+          setIsOpenDrawer({ ...isOpenDrawer, createCompanyDrawer: false });
+          reset();
         }}
+        submitHandler={handleSubmit(onSubmit)}
         title="Create Company"
         okText="Add"
         isOk={true}
@@ -29,12 +32,12 @@ const CreateCompany = ({ setIsOpenDrawer, isOpenDrawer }: any) => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {dataArray?.map((item: any) => (
+              {dataArray()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={uuidv4()}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}

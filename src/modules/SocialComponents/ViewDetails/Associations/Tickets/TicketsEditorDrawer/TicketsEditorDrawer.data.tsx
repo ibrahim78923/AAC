@@ -30,6 +30,7 @@ export const ticketsDataArray = [
       name: 'requester',
       label: 'Requester',
       select: true,
+      required: true,
     },
     options: [
       { value: 'Guy Hawkins', label: 'Guy Hawkins' },
@@ -44,6 +45,8 @@ export const ticketsDataArray = [
       name: 'subject',
       label: 'subject',
       fullWidth: true,
+      required: true,
+      placeholder: 'Enter subject',
     },
     component: RHFTextField,
     md: 12,
@@ -77,6 +80,7 @@ export const ticketsDataArray = [
       name: 'status',
       label: 'Status',
       select: true,
+      required: true,
     },
     options: [
       { value: 'New', label: 'New' },

@@ -30,7 +30,9 @@ const Analyze = () => {
                     >
                       {item?.title}
                     </Typography>
-                    <Typography variant="h3">{item?.count}</Typography>
+                    <Typography variant="h3" textAlign="center">
+                      {item?.count}
+                    </Typography>
                   </Box>
                   {item?.divider && (
                     <Divider
@@ -66,7 +68,9 @@ const Analyze = () => {
                     >
                       {item?.title}
                     </Typography>
-                    <Typography variant="h3">{item?.count}</Typography>
+                    <Typography variant="h3" textAlign="center">
+                      {item?.count}
+                    </Typography>
                   </Box>
                   {item?.divider && (
                     <Divider

@@ -14,7 +14,7 @@ const TemplateBasic = ({ values }: any) => {
       <Box sx={styles?.quoteInfoHolder}>
         <Box sx={{ pb: '16px' }}>
           <Grid container spacing={'16px'}>
-            <Grid item xs={7}>
+            <Grid item xs={12} lg={7}>
               <Typography sx={styles?.buyerInfoTitle} variant="body1">
                 One Care Media
               </Typography>
@@ -28,7 +28,7 @@ const TemplateBasic = ({ values }: any) => {
                 United States
               </Typography>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={12} lg={5}>
               <Typography sx={styles?.buyerInfoTitle} variant="body1">
                 De Gea
               </Typography>
@@ -40,7 +40,7 @@ const TemplateBasic = ({ values }: any) => {
         </Box>
         <Box sx={styles?.quoteInfo}>
           <Grid container spacing={'16px'}>
-            <Grid item xs={7}>
+            <Grid item xs={7} lg={7}>
               <Box sx={styles?.quoteInfoLabel}>
                 Reference No: <Box component={'span'}>20230410-075533523</Box>
               </Box>
@@ -51,7 +51,7 @@ const TemplateBasic = ({ values }: any) => {
                 Quote Expires On: <Box component={'span'}>July 8,2023</Box>
               </Box>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={5} lg={5}>
               <Box sx={styles?.quoteInfoLabel}>
                 Quote Created By: <Box component={'span'}>Adil Khan</Box>
               </Box>
@@ -65,8 +65,8 @@ const TemplateBasic = ({ values }: any) => {
           {createQuoteFormFields?.map((item: any, index) => {
             if (index === 6) {
               return (
-                <Grid item xs={12} key={item.id}>
-                  <item.component {...item.componentProps} size={'small'}>
+                <Grid item xs={12} key={item?.id}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>
@@ -106,7 +106,7 @@ const TemplateBasic = ({ values }: any) => {
           <Box sx={styles?.total}>£0.00</Box>
         </Box>
       </Box>
-      {values?.signature === 'Include Space for a written signature' && (
+      {values?.signature === 'includeSignature' && (
         <Box sx={styles?.signatureCard}>
           <Box sx={styles?.signatureBox}>
             <Box sx={styles?.signatureSpace}>signature here...</Box>

@@ -1,5 +1,5 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Button, Stack, Tooltip, Typography } from '@mui/material';
 import { emailMarketingTabsData } from './EmailMarketing.data';
 import All from './Tabs/All';
 import Archived from './Tabs/Archived';
@@ -7,67 +7,131 @@ import Draft from './Tabs/Draft';
 import Scheduled from './Tabs/Scheduled';
 import Sent from './Tabs/Sent';
 import Search from '@/components/Search';
-import { FilterrIcon, PlusIcon } from '@/assets/icons';
+import {
+  ExportIcon,
+  FilterrIcon,
+  PlusIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 import ActionButton from './ActionButton';
 import useEmailMarketing from './useEmailMarketing';
-import EmailFolder from './EmailFolder';
+import Filters from './Filters';
+// import EmailFolder from './EmailFolder';
+import { ExportButton } from './ExportButton';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const EmailMarketing = () => {
-  const { handleOpenFilter, theme } = useEmailMarketing();
+  const {
+    isOpenFilter,
+    setIsOpenFilter,
+    handleExportModalOpen,
+    searchEmailMarketing,
+    isExportModalOpen,
+    setSearchEmailMarketing,
+  } = useEmailMarketing();
+  const router = useRouter();
   return (
-    <Grid container>
-      <Grid item lg={3}>
+    <>
+      <Stack direction={{ lg: 'row' }} justifyContent="space-between">
         <Typography variant="h4">Email Marketing</Typography>
-      </Grid>
-      <Grid item lg={9} sx={{ textAlign: 'end' }}>
-        <Search label="Search Here" width={260} size="small" />
-
-        <Button
-          variant="outlined"
-          color="inherit"
-          className="small"
-          style={{ margin: '0px 18px' }}
-        >
-          Export
-        </Button>
-        <Button variant="outlined" color="inherit" className="small">
-          Compare Email
-        </Button>
-        <Button
-          variant="contained"
-          className="small"
-          style={{ margin: '0px 18px' }}
-          startIcon={<PlusIcon />}
-        >
-          Create New Email
-        </Button>
-      </Grid>
-      <Grid
-        item
-        lg={12}
-        md={12}
-        sm={12}
-        sx={{ display: { lg: 'flex' }, justifyContent: { lg: 'end' } }}
-      >
-        <Box sx={{ display: { lg: 'flex' }, marginTop: '8px' }}>
-          <ActionButton />
-          <Button
-            startIcon={<FilterrIcon />}
-            onClick={handleOpenFilter}
-            sx={{
-              border: `1px solid ${theme?.palette?.custom?.dark}`,
-              color: theme?.palette?.custom?.main,
-              width: '95px',
-              height: '36px',
-              marginLeft: '8px',
-            }}
+        <Stack direction="row" gap={1} flexWrap="wrap">
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.SEARCH_FILTER,
+            ]}
           >
-            Filter
+            <Search
+              searchBy={searchEmailMarketing}
+              setSearchBy={setSearchEmailMarketing}
+              label="Search Here"
+              size="small"
+            />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.EXPORT_EMAILS,
+            ]}
+          >
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={handleExportModalOpen}
+              startIcon={<ExportIcon />}
+              sx={{ width: { sm: '106px', xs: '100%' } }}
+            >
+              Export
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.COMPAIR_EMAILS,
+            ]}
+          >
+            <Button
+              variant="outlined"
+              className="small"
+              color="inherit"
+              onClick={() => router.push(`${AIR_MARKETER?.COMPARE_EMAIL}`)}
+              sx={{ width: { sm: '140px', xs: '100%' } }}
+            >
+              Compare Email
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.CREATE_NEW_EMAIL,
+            ]}
+          >
+            <Button
+              onClick={() => router.push(`${AIR_MARKETER?.CREATE_NEW_EMAIL}`)}
+              variant="contained"
+              className="small"
+              startIcon={<PlusIcon />}
+              sx={{ width: { sm: '176px', xs: '100%' } }}
+            >
+              Create New Email
+            </Button>
+          </PermissionsGuard>
+        </Stack>
+      </Stack>
+      <Stack
+        direction="row"
+        flexWrap="wrap"
+        justifyContent={{ md: 'flex-end' }}
+        gap={1}
+        my={2}
+      >
+        <ActionButton />
+        <Tooltip title={'Refresh Filter'}>
+          <Button className="small" variant="outlined" color="inherit">
+            <RefreshTasksIcon />
           </Button>
-        </Box>
-      </Grid>
-
-      <Grid item lg={12}>
+        </Tooltip>
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.SEARCH_FILTER,
+          ]}
+        >
+          <Button
+            onClick={() => setIsOpenFilter(true)}
+            className="small"
+            startIcon={<FilterrIcon />}
+            variant="outlined"
+            color="inherit"
+          >
+            Filters
+          </Button>
+        </PermissionsGuard>
+      </Stack>
+      <PermissionsGuard
+        permissions={[
+          AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.VIEW_LIST,
+        ]}
+      >
         <HorizontalTabs tabsDataArray={emailMarketingTabsData}>
           <All />
           <Archived />
@@ -75,11 +139,23 @@ const EmailMarketing = () => {
           <Scheduled />
           <Sent />
         </HorizontalTabs>
-      </Grid>
-      <Grid item lg={12}>
-        <EmailFolder />
-      </Grid>
-    </Grid>
+      </PermissionsGuard>
+      {/* commented for future use  */}
+      {/* <EmailFolder /> */}
+
+      {isOpenFilter && (
+        <Filters
+          isOpenDrawer={isOpenFilter}
+          onClose={() => setIsOpenFilter(false)}
+        />
+      )}
+      {isExportModalOpen && (
+        <ExportButton
+          isExportModalOpen={isExportModalOpen}
+          handleExportModalOpen={handleExportModalOpen}
+        />
+      )}
+    </>
   );
 };
 export default EmailMarketing;

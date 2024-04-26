@@ -1,63 +1,39 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-
-const jobTitleOptions = [
-  'Senior HR Executive',
-  'Software Engineer',
-  'Software Developer',
-];
 
 export const upsertUserValidationSchema: any = Yup?.object()?.shape({
   firstName: Yup?.string()?.required('Required'),
-  middleName: Yup?.string(),
   lastName: Yup?.string()?.required('Required'),
   address: Yup?.string()?.required('Required'),
   email: Yup?.string()?.required('Required'),
   phoneNumber: Yup?.string(),
   jobTitle: Yup?.string(),
-  assignRole: Yup?.string()?.required('Required'),
-  selectTeam: Yup?.string()?.required('Required'),
-  language: Yup?.string(),
+  role: Yup?.mixed()?.nullable(),
+  team: Yup?.mixed()?.nullable(),
+  language: Yup?.mixed()?.nullable(),
   facebookUrl: Yup?.string(),
   linkedinUrl: Yup?.string(),
   twitterUrl: Yup?.string(),
 });
 
-export const upsertUserData = [
-  {
-    id: 1,
-    firstName: 'John',
-    middleName: 'E',
-    lastName: 'Doe',
-    address: 'Enter business address',
-    email: '746 SpringfieldRoad',
-    phoneNumber: '+447975777666',
-    jobTitle: 'UI UX Designer',
-    assignRole: 'Designer',
-    selectTeam: 'Alfa',
-    language: 'English',
-    facebookUrl: 'facebook.com/johnDoe',
-    linkedinUrl: 'Linkedin.com/johnDoe',
-    twitterUrl: 'Twitter.com/johnDoe',
-  },
-];
-export const upsertUserDefaultValues: any = {
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  address: '',
-  email: '',
-  phoneNumber: '',
-  jobTitle: '',
-  assignRole: '',
-  selectTeam: '',
-  language: '',
-  facebookUrl: '',
-  linkedinUrl: '',
-  twitterUrl: '',
+export const upsertUserDefaultValues = (data?: any) => {
+  return {
+    firstName: data?.user?.firstName ?? '',
+    lastName: data?.user?.lastName ?? '',
+    address: data?.address?.composite,
+    email: data?.user?.email ?? '',
+    phoneNumber: data?.user?.phoneNumber ?? '',
+    jobTitle: data?.user?.jobTitle ?? '',
+    role: data?.role ?? null,
+    team: data?.team ?? null,
+    language: data?.user?.language ?? null,
+    facebookUrl: data?.user?.facebookUrl ?? '',
+    linkedInUrl: data?.user?.linkedInUrl ?? '',
+    twitterUrl: data?.user?.twitterUrl ?? '',
+  };
 };
 
-export const upsertUserArray = [
+export const upsertUserArray = (rolesDropdown: any, usersTeamDropdown: any) => [
   {
     id: 1,
     subheading: 'Add a new user to this organization.',
@@ -74,17 +50,6 @@ export const upsertUserArray = [
   {
     id: 2,
     componentProps: {
-      name: 'middleName',
-      label: 'Middle name',
-      placeholder: 'Enter middle name',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 3,
-    componentProps: {
       name: 'lastName',
       label: 'Last name',
       placeholder: 'Enter last name',
@@ -95,7 +60,7 @@ export const upsertUserArray = [
     md: 12,
   },
   {
-    id: 4,
+    id: 3,
     componentProps: {
       name: 'address',
       label: 'Address',
@@ -107,7 +72,7 @@ export const upsertUserArray = [
     md: 12,
   },
   {
-    id: 5,
+    id: 4,
     componentProps: {
       name: 'email',
       label: 'Email',
@@ -119,7 +84,7 @@ export const upsertUserArray = [
     md: 12,
   },
   {
-    id: 6,
+    id: 5,
     componentProps: {
       name: 'phoneNumber',
       label: 'Phone number',
@@ -143,43 +108,44 @@ export const upsertUserArray = [
   {
     id: 7,
     componentProps: {
-      name: 'assignRole',
-      label: 'Assign role',
-      placeholder: 'Select role',
-      fullWidth: true,
-      required: true,
-      options: jobTitleOptions,
-    },
-    component: RHFAutocomplete,
-    md: 12,
-  },
-  {
-    id: 7,
-    componentProps: {
-      name: 'selectTeam',
-      label: 'Select team',
+      name: 'role',
+      label: 'Assign Department',
       placeholder: 'Select',
       fullWidth: true,
       required: true,
-      options: jobTitleOptions,
+      apiQuery: rolesDropdown,
+      externalParams: { limit: 100 },
     },
-    component: RHFAutocomplete,
-    md: 12,
-  },
-  {
-    id: 7,
-    componentProps: {
-      name: 'language',
-      label: 'Language',
-      placeholder: 'English',
-      fullWidth: true,
-      options: jobTitleOptions,
-    },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
     id: 8,
+    componentProps: {
+      name: 'team',
+      label: 'Select team',
+      placeholder: 'Select',
+      fullWidth: true,
+      required: true,
+      apiQuery: usersTeamDropdown,
+      externalParams: { limit: 100 },
+    },
+    component: RHFAutocompleteAsync,
+    md: 12,
+  },
+  {
+    id: 9,
+    componentProps: {
+      name: 'language',
+      label: 'Language',
+      type: 'text',
+      size: 'small',
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    id: 10,
     componentProps: {
       name: 'facebookUrl',
       label: 'Facebook url',
@@ -190,9 +156,9 @@ export const upsertUserArray = [
     md: 12,
   },
   {
-    id: 9,
+    id: 11,
     componentProps: {
-      name: 'linkedinUrl',
+      name: 'linkedInUrl',
       label: 'Linkedin url',
       placeholder: 'paste URL',
       fullWidth: true,
@@ -201,7 +167,7 @@ export const upsertUserArray = [
     md: 12,
   },
   {
-    id: 10,
+    id: 12,
     componentProps: {
       name: 'twitterUrl',
       label: 'Twitter url',

@@ -7,22 +7,54 @@ import {
 import * as Yup from 'yup';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
-  candidates: Yup?.string()?.trim()?.required('Field is Required'),
-  applyDate: Yup?.string()?.trim()?.required('Field is Required'),
-  status: Yup?.string()?.trim()?.required('Field is Required'),
+  email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
+  profilePicture: Yup?.string()?.trim()?.required('Required Field'),
+  firstName: Yup?.string()
+    ?.trim()
+    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
+    ?.required('Required Field'),
+  lastName: Yup?.string()
+    ?.trim()
+    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
+    ?.required('Required Field'),
+  address: Yup?.string()?.trim()?.required('Required Field'),
+  phoneNumber: Yup?.string()
+    ?.matches(/^[0-9]*$/, 'must be a number')
+    ?.min(10, 'Mininum 10 characters')
+    ?.required('Required field'),
+  whatsAppNumber: Yup?.string()
+    ?.matches(/^[0-9]*$/, 'must be a number')
+    ?.min(10, 'Mininum 10 characters')
+    ?.required('Required field'),
+  lifeCycleStageId: Yup?.string()?.trim()?.required('Required Field'),
+  // contactOwner: Yup?.string()?.trim()?.required('Required Field'),
+  statusId: Yup?.string()?.trim()?.required('Required Field'),
+  jobTitle: Yup?.string()?.trim()?.required('Required Field'),
+  dateOfJoining: Yup?.string()?.nullable()?.required('Required Field'),
+  dateOfBirth: Yup?.string()?.nullable()?.required('Required Field'),
 });
 
 export const detailsDefaultValues = {
-  candidates: '',
-  applyDate: '',
-  status: '',
+  email: '',
+  profilePicture: '',
+  firstName: '',
+  lastName: '',
+  address: '',
+  jobTitle: '',
+  phoneNumber: null,
+  whatsAppNumber: null,
+  lifeCycleStageId: '',
+  contactOwner: '',
+  statusId: '',
+  dateOfJoining: null,
+  dateOfBirth: null,
 };
 
 export const detailsDataArray = [
   {
     label: 'first Name',
     componentProps: {
-      name: 'Ahmed',
+      name: 'firstName',
       placeholder: 'Ahmed',
       fullWidth: true,
     },
@@ -32,7 +64,7 @@ export const detailsDataArray = [
   {
     label: 'Last Name',
     componentProps: {
-      name: 'khan',
+      name: 'lastName',
       placeholder: 'Khan',
       fullWidth: true,
     },
@@ -52,7 +84,7 @@ export const detailsDataArray = [
   {
     label: 'Address',
     componentProps: {
-      name: 'Address',
+      name: 'address',
       placeholder: '7 Park Lane, Birmingham',
       select: true,
     },
@@ -66,7 +98,7 @@ export const detailsDataArray = [
   {
     label: 'Date of birth',
     componentProps: {
-      name: 'dateofbirth',
+      name: 'dateOfBirth',
       placeholder: '10/04/2023',
       select: false,
       fullWidth: true,
@@ -77,7 +109,7 @@ export const detailsDataArray = [
   {
     label: 'Contact Owner',
     componentProps: {
-      name: 'ahmed',
+      name: 'contactOwner',
       placeholder: 'Ahmed',
       select: true,
     },
@@ -92,7 +124,7 @@ export const detailsDataArray = [
   {
     label: 'Phone Number',
     componentProps: {
-      name: '+44 063556245',
+      name: 'phoneNumber',
       placeholder: '+44 063556245',
       select: false,
     },
@@ -102,7 +134,7 @@ export const detailsDataArray = [
   {
     label: 'WhatsApp Number',
     componentProps: {
-      name: '+44 063556245',
+      name: 'whatsAppNumber',
       placeholder: '+44 063556245',
       select: false,
     },
@@ -112,7 +144,7 @@ export const detailsDataArray = [
   {
     label: 'Lifecycle Stage ',
     componentProps: {
-      name: 'Lead',
+      name: 'lifeCycleStageId',
       placeholder: 'Lead',
       select: true,
     },
@@ -131,7 +163,7 @@ export const detailsDataArray = [
   {
     label: 'Job title',
     componentProps: {
-      name: 'Data Scientist',
+      name: 'jobTitle',
       placeholder: 'Data Scientist',
       select: false,
     },
@@ -141,7 +173,7 @@ export const detailsDataArray = [
   {
     label: 'Status',
     componentProps: {
-      name: 'new',
+      name: 'statusId',
       placeholder: 'New',
       fullWidth: true,
       select: true,
@@ -161,7 +193,7 @@ export const detailsDataArray = [
   {
     label: 'Date of joining',
     componentProps: {
-      name: 'dateofjoining',
+      name: 'dateOfJoining',
       placeholder: '10/04/2023',
       select: false,
       fullWidth: true,
@@ -169,9 +201,7 @@ export const detailsDataArray = [
     component: RHFDatePicker,
     md: 4,
   },
-];
 
-export const systemInformationDataArray = [
   {
     label: 'Created at',
     componentProps: {

@@ -1,31 +1,20 @@
-import { Button } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { AssociationsImage } from '@/assets/images';
-import NoData from '@/components/NoData';
-import { assetsAssociateTableData } from './AssetsAssociateDetail/AssetsAssociateTable/AssetsAssociateTable.data';
-import { AssetsAssociateDetail } from './AssetsAssociateDetail';
+import TanstackTable from '@/components/Table/TanstackTable';
 import { useAssetAssociate } from './useAssetAssociate';
+import { assetsAssociateColumns } from './AssetsAssociate.data';
 
 export const AssetsAssociate = () => {
-  const { handleAddAssociateAsset } = useAssetAssociate();
+  const { isLoading, isFetching, isError, isSuccess, associatedAssetArray } =
+    useAssetAssociate();
   return (
     <>
-      {!!assetsAssociateTableData?.length ? (
-        <AssetsAssociateDetail />
-      ) : (
-        <NoData
-          message="There are no Asset Associations"
-          image={AssociationsImage}
-        >
-          <Button
-            variant="outlined"
-            startIcon={<AddCircleIcon />}
-            onClick={handleAddAssociateAsset}
-          >
-            Associate Asset
-          </Button>
-        </NoData>
-      )}
+      <TanstackTable
+        data={associatedAssetArray}
+        columns={assetsAssociateColumns}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess}
+      />
     </>
   );
 };

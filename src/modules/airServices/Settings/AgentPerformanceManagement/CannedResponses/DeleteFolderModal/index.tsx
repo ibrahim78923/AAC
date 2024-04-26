@@ -1,10 +1,15 @@
 import { MenuItem } from '@mui/material';
-import { useState } from 'react';
 import { AlertModals } from '@/components/AlertModals';
-import { enqueueSnackbar } from 'notistack';
-import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
-export const DeleteFolderModal = ({ id, handleActionClose }: any) => {
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { useDeleteFolderModal } from './useDeleteFolderModal';
+export const DeleteFolderModal = (props: any) => {
+  const {
+    setOpenDeleteModal,
+    openDeleteModal,
+    closeCannedResponseDeleteModal,
+    deleteCannedResponse,
+    isLoading,
+  } = useDeleteFolderModal(props);
   return (
     <>
       <MenuItem sx={{ pr: 5 }} onClick={() => setOpenDeleteModal(true)}>
@@ -14,17 +19,9 @@ export const DeleteFolderModal = ({ id, handleActionClose }: any) => {
         message={'Are you sure you want to delete this Folder?'}
         type={ALERT_MODALS_TYPE?.DELETE}
         open={openDeleteModal}
-        handleClose={() => {
-          setOpenDeleteModal(false);
-          handleActionClose();
-        }}
-        handleSubmitBtn={() => {
-          enqueueSnackbar(id + ' Folder deleted successfully', {
-            variant: NOTISTACK_VARIANTS?.ERROR,
-          });
-          setOpenDeleteModal(false);
-          handleActionClose();
-        }}
+        loading={isLoading}
+        handleClose={closeCannedResponseDeleteModal}
+        handleSubmitBtn={deleteCannedResponse}
       />
     </>
   );

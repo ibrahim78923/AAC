@@ -1,6 +1,13 @@
 import Image from 'next/image';
 
-import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Grid,
+  Skeleton,
+  Typography,
+} from '@mui/material';
 
 import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
@@ -10,42 +17,77 @@ import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
 import { isNullOrEmpty } from '@/utils';
 
-import { NotesDataArray } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import { MessageIcon, PlusIcon } from '@/assets/icons';
 
 import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { generateImage } from '@/utils/avatarUtils';
 
-const Notes = () => {
+const Notes = ({ companyId }: any) => {
   const {
     openDrawer,
     setOpenDrawer,
     selectedCheckboxes,
+    setSelectedCheckboxes,
     handleCheckboxChange,
-  } = useNotes();
-  const { NameWithStyledWords, theme } = useNameWithStyledWords();
+    NotesData,
+    rowData,
+    isError,
+    isLoading,
+  } = useNotes(companyId);
+  const { theme } = useNameWithStyledWords();
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Box sx={styles?.headingSpacingBetween}>
-            <Typography variant="h4"> Notes</Typography>
-            {!isNullOrEmpty(NotesDataArray) && (
+        {isLoading ? (
+          <Skeleton variant="rectangular" width={'100%'} height={300} />
+        ) : (
+          <Grid item xs={12}>
+            <Box sx={styles?.headingSpacingBetween}>
+              <Typography variant="h4"> Notes</Typography>
+              {!isNullOrEmpty(NotesData?.data?.notes) && (
+                <Box
+                  sx={{
+                    gap: 1,
+                    display: 'flex',
+                    flexDirection: { xs: 'column', sm: 'row' },
+                    alignItems: 'center',
+                  }}
+                >
+                  <NotesActionDropdown
+                    setOpenDrawer={setOpenDrawer}
+                    selectedCheckboxes={selectedCheckboxes}
+                    setSelectedCheckboxes={setSelectedCheckboxes}
+                  />
+                  <Button
+                    variant="contained"
+                    className="small"
+                    onClick={() => setOpenDrawer('Add')}
+                  >
+                    <PlusIcon /> Add Notes
+                  </Button>
+                </Box>
+              )}
+            </Box>
+            {isNullOrEmpty(NotesData?.data?.notes) && !isError && (
               <Box
                 sx={{
-                  gap: 1,
+                  height: '35vh',
                   display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'row' },
+                  justifyContent: 'center',
+                  flexDirection: 'column',
                   alignItems: 'center',
+                  gap: 1.5,
                 }}
               >
-                <NotesActionDropdown
-                  setOpenDrawer={setOpenDrawer}
-                  selectedCheckboxes={selectedCheckboxes}
-                />
+                <MessageIcon />
+                <Typography variant="body3">
+                  There are no notes available{' '}
+                </Typography>
                 <Button
                   variant="contained"
                   className="small"
@@ -55,32 +97,11 @@ const Notes = () => {
                 </Button>
               </Box>
             )}
-          </Box>
-          {isNullOrEmpty(NotesDataArray) && (
-            <Box
-              sx={{
-                height: '35vh',
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 1.5,
-              }}
-            >
-              <MessageIcon />
-              <Typography variant="body3">
-                There are no notes available{' '}
-              </Typography>
-              <Button variant="contained" sx={{ height: '35px' }}>
-                <PlusIcon /> Add Notes
-              </Button>
-            </Box>
-          )}
-        </Grid>
-
-        {!isNullOrEmpty(NotesDataArray) && (
+          </Grid>
+        )}
+        {!isNullOrEmpty(NotesData?.data?.notes) && (
           <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
-            {NotesDataArray?.map((item) => (
+            {NotesData?.data?.notes?.map((item: any) => (
               <Grid
                 container
                 key={uuidv4()}
@@ -107,9 +128,9 @@ const Notes = () => {
                   <Checkbox
                     color="primary"
                     name={'name'}
-                    onChange={(event) => handleCheckboxChange(event, item?.id)}
+                    onChange={(event) => handleCheckboxChange(event, item)}
                     checked={selectedCheckboxes?.some(
-                      (selectedItem) => selectedItem?.id === item?.id,
+                      (selectedItem) => selectedItem?.id === item?._id,
                     )}
                   />
                 </Grid>
@@ -117,25 +138,46 @@ const Notes = () => {
                   item
                   xs={6}
                   sm={2}
-                  lg={1}
+                  lg={2}
                   sx={{
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
                 >
-                  <Image src={item?.image} alt="Avatar" />
-                </Grid>
-                <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
-                  <NameWithStyledWords
-                    name={item?.title}
-                    customKey="ActivityHead"
+                  <Image
+                    src={generateImage(item?.file?.url)}
+                    width={70}
+                    height={70}
+                    alt="image"
+                    style={{ borderRadius: '50%' }}
                   />
+                </Grid>
+                <Grid item xs={12} lg={9} sm={9} sx={{ gap: 1 }}>
+                  <Typography
+                    sx={{
+                      color: theme?.palette?.primary?.main,
+                      fontSize: '18px',
+                    }}
+                  >
+                    Note
+                    <span
+                      style={{
+                        color: theme?.palette?.common?.black,
+                        textTransform: 'lowercase',
+                      }}
+                    >
+                      {' '}
+                      Created by
+                    </span>{' '}
+                    {item?.user?.name}
+                  </Typography>
                   <Typography
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {item?.date}
+                    {dayjs(item?.createdAt).format(DATE_FORMAT.UI)} -{' '}
+                    {item?.createdAt?.split('T')[1]?.substring(0, 5)}
                   </Typography>
                   <Typography variant="body2">{item?.description}</Typography>
                 </Grid>
@@ -144,11 +186,23 @@ const Notes = () => {
           </Grid>
         )}
       </Grid>
-
-      <NotesEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {isError && (
+        <Typography
+          sx={{ textAlign: 'center', color: theme?.palette?.error?.main }}
+        >
+          {' '}
+          something went worng
+        </Typography>
+      )}
+      {openDrawer && (
+        <NotesEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          companyId={companyId}
+          rowData={rowData}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+        />
+      )}
     </Box>
   );
 };

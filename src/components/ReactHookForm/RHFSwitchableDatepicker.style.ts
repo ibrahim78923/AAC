@@ -215,7 +215,7 @@ export const styles = {
           fontSize: '12px',
           fontWeight: '400',
           margin: '0',
-          '&:nth-child(n+5):not(:nth-last-of-type(-n+4))': {
+          '&:nth-of-type(n+5):not(:nth-last-of-type(-n+4))': {
             my: '42px',
           },
           '&:hover': {
@@ -229,5 +229,13 @@ export const styles = {
         },
       },
     },
+    '& .react-datepicker__day--disabled,& .react-datepicker__month-text--disabled, & .react-datepicker__quarter-text--disabled, & .react-datepicker__year-text--disabled':
+      {
+        color: '#ccc !important',
+        cursor: 'default',
+        '&:hover': {
+          backgroundColor: '#fff !important',
+        },
+      },
   }),
 };

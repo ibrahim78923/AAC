@@ -1,115 +1,67 @@
-import { Box, Button, Stack } from '@mui/material';
-import { FormProvider } from '@/components/ReactHookForm';
+import { Button, Stack } from '@mui/material';
 import AppHorizontalStepper from '@/components/Stepper';
 import FormCreateDeal from './FormCreateDeal';
 import useCreateQuote from './useCreateQuote';
-import FormAddContact from './FormAddContact';
-import FormAddCompany from './FormAddCompany';
-import FormCreateProduct from './FormCreateProduct';
-import DialogSendToCustomer from './DialogSendToCustomer';
-import { styles } from './CreateQuote.style';
+import { LoadingButton } from '@mui/lab';
 
 const CreateQuote = () => {
   const {
-    methods,
     createQuoteSteps,
     activeStep,
-    handleStepNext,
-    handleStepBack,
     handleStepperCancel,
-    handleFormSubmit,
     isOpenFormCreateDeal,
     handleCloseFormCreateDeal,
-    isOpenFormAddContact,
-    handleCloseFormAddContact,
-    isOpenFormAddCompany,
-    handleCloseFormAddCompany,
-    isOpenFormCreateProduct,
-    handleCloseFormCreateProduct,
-    handleOpenDialog,
-    handleCloseDialog,
-    isOpenDialog,
+    handleAddQuoteSubmit,
+    loadingAddQuote,
   } = useCreateQuote();
 
   return (
     <>
-      <FormProvider methods={methods}>
-        <AppHorizontalStepper
-          activeStep={activeStep}
-          stepperPadding="4rem 0 0"
-          stepperMargin="2rem 0 0"
-          stepsArray={createQuoteSteps}
-          stepperButtons={
-            <Box sx={styles?.stepperButtons}>
-              {activeStep !== createQuoteSteps.length - 1 && (
-                <Button
-                  onClick={handleStepBack}
-                  variant="outlined"
-                  sx={styles?.btnBack}
-                >
-                  Back
-                </Button>
-              )}
-              <Box sx={{ flex: '1' }}></Box>
-              <Stack direction={'row'} spacing={'12px'}>
-                {activeStep !== createQuoteSteps.length - 1 && (
-                  <>
-                    <Button
-                      onClick={handleStepperCancel}
-                      variant="outlined"
-                      sx={styles?.btnBack}
-                    >
-                      Cancel
-                    </Button>
-                    <Button onClick={handleStepNext} variant="contained">
-                      Save & Continue
-                    </Button>
-                  </>
-                )}
-
-                {activeStep === createQuoteSteps.length - 1 && (
-                  <>
-                    <Button onClick={handleFormSubmit} variant="contained">
-                      Save & Submit Later
-                    </Button>
-                    <Button
-                      onClick={handleStepBack}
-                      variant="outlined"
-                      sx={styles?.btnBack}
-                    >
-                      Preview
-                    </Button>
-                    <Button onClick={handleOpenDialog} variant="contained">
-                      Submit
-                    </Button>
-                  </>
-                )}
-              </Stack>
-            </Box>
-          }
-        />
-      </FormProvider>
-
-      <DialogSendToCustomer open={isOpenDialog} onClose={handleCloseDialog} />
+      <AppHorizontalStepper
+        activeStep={activeStep}
+        stepperPadding="4rem 0 0"
+        stepperMargin="2rem 0 0"
+        stepsArray={createQuoteSteps}
+        stepperButtons={
+          <Stack
+            direction={{ sm: 'row' }}
+            justifyContent="space-between"
+            gap={2}
+            mt={2}
+          >
+            <Button
+              onClick={handleStepperCancel}
+              variant="outlined"
+              color="inherit"
+            >
+              Back
+            </Button>
+            <Stack direction={{ sm: 'row' }} gap={2}>
+              <Button
+                onClick={handleStepperCancel}
+                variant="outlined"
+                color="inherit"
+              >
+                Cancel
+              </Button>
+              <LoadingButton
+                loading={loadingAddQuote}
+                variant="contained"
+                onClick={handleAddQuoteSubmit}
+                sx={{
+                  marginLeft: { xs: '3px !important', sm: '12px !important' },
+                }}
+              >
+                Save & Continue
+              </LoadingButton>
+            </Stack>
+          </Stack>
+        }
+      />
 
       <FormCreateDeal
         open={isOpenFormCreateDeal}
         onClose={handleCloseFormCreateDeal}
-      />
-
-      <FormAddContact
-        open={isOpenFormAddContact}
-        onClose={handleCloseFormAddContact}
-      />
-
-      <FormAddCompany
-        open={isOpenFormAddCompany}
-        onClose={handleCloseFormAddCompany}
-      />
-
-      <FormCreateProduct
-        open={isOpenFormCreateProduct}
-        onClose={handleCloseFormCreateProduct}
       />
     </>
   );

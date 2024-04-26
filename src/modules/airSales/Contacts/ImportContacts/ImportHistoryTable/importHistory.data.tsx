@@ -13,7 +13,7 @@ export const ContactsHistoryColumns: any = [
   {
     accessorFn: (row: any) => row?.FileName,
     id: 'fileName',
-    header: 'fileName',
+    header: 'File Name',
     isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
@@ -21,7 +21,7 @@ export const ContactsHistoryColumns: any = [
     accessorFn: (row: any) => row?.RecordsCreated,
     id: 'recordsCreated',
     isSortable: true,
-    header: 'recordsCreated',
+    header: 'Records Created',
     cell: (info: any) => {
       const route = useRouter();
       const value = info?.getValue();
@@ -50,35 +50,35 @@ export const ContactsHistoryColumns: any = [
     accessorFn: (row: any) => row?.RecordsUpdated,
     id: 'recordsUpdated',
     isSortable: true,
-    header: 'recordsUpdated',
+    header: 'Records Updated',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.RecordsErrored,
     id: 'recordsErrored',
     isSortable: true,
-    header: 'recordsErrored',
+    header: 'Records Errored',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.ImportedBy,
     id: 'importedBy',
     isSortable: true,
-    header: 'importedBy',
+    header: 'Imported By',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.ImportedAt,
     id: 'importedAt',
     isSortable: true,
-    header: 'importedAt',
+    header: 'Imported At',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.Status,
     id: 'status',
     isSortable: true,
-    header: 'status',
+    header: 'Status',
     cell: (info: any) => info?.getValue(),
   },
 ];

@@ -5,31 +5,97 @@ import {
   addResponseDefaultValues,
   addResponseValidationSchema,
 } from './AddResponseForm.data';
-import { enqueueSnackbar } from 'notistack';
-import { CANNED_RESPONSES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { CANNED_RESPONSES } from '@/constants/strings';
+import {
+  usePatchResponseMutation,
+  usePostResponseMutation,
+} from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import { useSearchParams } from 'next/navigation';
+import { getSession } from '@/utils';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAddResponseForm = (props: any) => {
-  const { open, setDrawerOpen } = props;
+  const { open, setDrawerOpen, folderName, selectedData, setSelectedData } =
+    props;
+  const searchParams = useSearchParams();
+  const cannedResponseId: any = searchParams.get('id');
+  const editableObj = selectedData?.[0];
+  const [postResponseTrigger, postResponseStatus] = usePostResponseMutation();
+  const [patchResponseTrigger, patchResponseStatus] =
+    usePatchResponseMutation();
+  const [openSelectAgentsModal, setOpenSelectAgentsModal] = useState(false);
+  const [hasAttachment, setHasAttachment] = useState(false);
+  const [agents, setAgents] = useState<any>([]);
   const methodsAddResponseForm = useForm<any>({
     resolver: yupResolver(addResponseValidationSchema),
-    defaultValues: addResponseDefaultValues,
+    defaultValues: addResponseDefaultValues(folderName),
   });
-  const { handleSubmit, watch } = methodsAddResponseForm;
-  const submitAddResponse = async () => {
-    enqueueSnackbar('Moved Successfully!', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-  };
-  const [openSelectAgentsModal, setOpenSelectAgentsModal] = useState(false);
-  const [agents, setAgents] = useState<any>([]);
+  const { handleSubmit, watch, reset, setValue } = methodsAddResponseForm;
   const availableForChanged = watch(CANNED_RESPONSES?.AVAILABLE_FOR);
-  useEffect(() => {
-    if (
-      watch(CANNED_RESPONSES?.AVAILABLE_FOR) === CANNED_RESPONSES?.SELECT_AGENTS
-    ) {
-      setOpenSelectAgentsModal(true);
+  const closeDrawer = () => {
+    setDrawerOpen(false);
+    setAgents([]);
+    setSelectedData([]);
+    reset();
+  };
+  const submitAddResponse = async (data: any) => {
+    delete data?.folder;
+    if (!data?.fileUrl) {
+      delete data?.fileUrl;
     }
-  }, [availableForChanged]);
+    const upsertResponseFormData = new FormData();
+    Object?.entries?.(data || {})?.forEach(
+      ([key, value]: any) => upsertResponseFormData?.append(key, value),
+    );
+    upsertResponseFormData?.append('folderId', cannedResponseId);
+    if (availableForChanged === CANNED_RESPONSES?.SELECT_AGENTS) {
+      if (!!!agents?.length) {
+        errorSnackbar('Please select Agents');
+        return;
+      }
+      upsertResponseFormData?.append(
+        'agents',
+        agents?.map((agent: any) => agent?._id),
+      );
+    }
+    if (availableForChanged === CANNED_RESPONSES?.MY_SELF) {
+      const { user }: any = getSession();
+      upsertResponseFormData?.append('agents', user?._id);
+    }
+    const responseParameter = {
+      body: upsertResponseFormData,
+    };
+    if (!!editableObj) {
+      upsertResponseFormData?.append('id', editableObj?._id);
+      submitUpdateResponse(upsertResponseFormData);
+      return;
+    }
+
+    try {
+      await postResponseTrigger(responseParameter)?.unwrap();
+      successSnackbar('Response Added Successfully');
+      closeDrawer();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+  const submitUpdateResponse = async (data: any) => {
+    const responseParameter = {
+      body: data,
+    };
+    try {
+      await patchResponseTrigger(responseParameter)?.unwrap();
+      successSnackbar('Response Updated Successfully!');
+      closeDrawer();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+  useEffect(() => {
+    setOpenSelectAgentsModal(false);
+    reset(addResponseDefaultValues(folderName, editableObj));
+    setAgents(editableObj?.agentDetails);
+  }, [open]);
   return {
     methodsAddResponseForm,
     handleSubmit,
@@ -39,6 +105,13 @@ export const useAddResponseForm = (props: any) => {
     setOpenSelectAgentsModal,
     openSelectAgentsModal,
     open,
-    setDrawerOpen,
+    closeDrawer,
+    editableObj,
+    postResponseStatus,
+    patchResponseStatus,
+    availableForChanged,
+    setValue,
+    hasAttachment,
+    setHasAttachment,
   };
 };

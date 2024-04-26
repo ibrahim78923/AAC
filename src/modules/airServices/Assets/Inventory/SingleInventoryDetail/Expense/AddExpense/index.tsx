@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import {
   Box,
   Button,
@@ -13,6 +12,7 @@ import {
 import { CloseModalIcon, PlusSharedColorIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import { addExpenseFormData } from '../Expense.data';
+import { LoadingButton } from '@mui/lab';
 
 export const AddExpense = ({ addExpenseProps }: any) => {
   const {
@@ -21,6 +21,7 @@ export const AddExpense = ({ addExpenseProps }: any) => {
     onAddExpenseSubmit,
     isAddExpenseModalOpen,
     handleAddExpenseModal,
+    isLoadingExpense,
   } = addExpenseProps;
 
   return (
@@ -69,16 +70,8 @@ export const AddExpense = ({ addExpenseProps }: any) => {
             <DialogContent>
               <Grid container gap={2.4}>
                 {addExpenseFormData?.map((form: any) => (
-                  <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
-                    <form.component {...form?.componentProps} size="small">
-                      {form?.componentProps?.select
-                        ? form?.componentProps?.options?.map((option: any) => (
-                            <option key={uuidv4()} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))
-                        : null}
-                    </form.component>
+                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                    <form.component {...form?.componentProps} size="small" />
                   </Grid>
                 ))}
               </Grid>
@@ -92,16 +85,21 @@ export const AddExpense = ({ addExpenseProps }: any) => {
                   gap: 2,
                 }}
               >
-                <Button
+                <LoadingButton
                   onClick={() => handleAddExpenseModal?.()}
                   variant="outlined"
                   color="secondary"
+                  disabled={isLoadingExpense}
                 >
                   Cancel
-                </Button>
-                <Button type="submit" variant="contained">
+                </LoadingButton>
+                <LoadingButton
+                  type="submit"
+                  variant="contained"
+                  disabled={isLoadingExpense}
+                >
                   save
-                </Button>
+                </LoadingButton>
               </Box>
             </DialogActions>
           </FormProvider>

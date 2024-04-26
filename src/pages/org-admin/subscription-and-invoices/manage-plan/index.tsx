@@ -1,5 +1,6 @@
 import Layout from '@/layout';
 import ManagePlan from '@/modules/orgAdmin/SubscriptionAndInvoices/ManagePlan';
+import { Permissions } from '@/constants/permissions';
 
 const ManagePlanPage = () => {
   return <ManagePlan />;
@@ -7,5 +8,12 @@ const ManagePlanPage = () => {
 
 export default ManagePlanPage;
 ManagePlanPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      guardRoute
+      permissions={Permissions?.ORG_ADMIN_SUBSCRIPTION_AND_INVOICE}
+    >
+      {page}
+    </Layout>
+  );
 };

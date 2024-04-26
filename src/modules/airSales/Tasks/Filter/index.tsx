@@ -1,55 +1,71 @@
-import React from 'react';
-import { Typography, MenuItem, Box } from '@mui/material';
-import DrawerComp from '../Drawer';
-import { FilterIcon } from '@/assets/icons';
-import { uuid } from 'uuidv4';
-import { filterData } from '../Task.data';
+// import React, { useState } from 'react';
+import { Grid } from '@mui/material';
+import { setFiltersData } from '@/redux/slices/taskManagement/taskManagementSlice';
+import CommonDrawer from '@/components/CommonDrawer';
+import {
+  filterData,
+  filterDefaultValues,
+  filterValidationSchema,
+} from '../Task.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
-import { styles } from './Filter.style';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useAppDispatch } from '@/redux/store';
+import { useLazyGetAssignedUsersQuery } from '@/services/airSales/task';
 
-const Filter = () => {
-  const methods = useForm({});
+const Filter = ({ isFilterDrawerOpen, setIsFilterDrawerOpen }: any) => {
+  const dispatch: any = useAppDispatch();
+  const methods: any = useForm({
+    resolver: yupResolver(filterValidationSchema),
+    defaultValues: filterDefaultValues,
+  });
+  const { handleSubmit } = methods;
+  const onSubmit = (values: any) => {
+    dispatch(setFiltersData(values));
+    setIsFilterDrawerOpen(false);
+  };
+
+  const usersData = useLazyGetAssignedUsersQuery();
+
+  const getFilterData = filterData({ usersData });
 
   return (
-    <DrawerComp
-      btnTitle="Filter"
-      title="Filter"
-      btnIcon={<FilterIcon />}
-      key={'filter'}
-      footer
+    <CommonDrawer
+      isDrawerOpen={isFilterDrawerOpen}
+      onClose={() => setIsFilterDrawerOpen(false)}
+      title={'Filter'}
+      okText={'Apply'}
+      isOk
+      cancelText={'Cancel'}
+      footer={true}
+      submitHandler={handleSubmit(onSubmit)}
     >
-      <FormProvider methods={methods}>
-        {filterData.map((obj) => (
-          <Box key={uuid()} mb={'32px'}>
-            <Typography
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={4}>
+          {/* eslint-disable */}
+          {getFilterData?.map((item: any, index: any) => (
+            <Grid
+              item
+              xs={12}
+              md={item?.md}
+              key={index}
               sx={{
-                color: '#4B5563',
-                fontSize: '16px',
-                fontWeight: 500,
-                mb: '8px',
+                paddingTop: index === 0 ? '40px !important' : '17px !important',
               }}
             >
-              {obj?.title}
-            </Typography>
-            <obj.component
-              size={'small'}
-              fullWidth
-              {...styles}
-              {...obj?.componentProps}
-            >
-              {obj?.componentProps.select
-                ? obj?.options?.map((option) => (
-                    <MenuItem key={option?.value} value={option?.value}>
+              <item.component {...item?.componentProps} size={'small'}>
+                {item?.componentProps?.select &&
+                  item?.options?.map((option: any) => (
+                    <option key={option?.value} value={option?.value}>
                       {option?.label}
-                    </MenuItem>
-                  ))
-                : null}
-            </obj.component>
-          </Box>
-        ))}
+                    </option>
+                  ))}
+              </item.component>
+            </Grid>
+          ))}
+        </Grid>
       </FormProvider>
-    </DrawerComp>
+    </CommonDrawer>
   );
 };
 

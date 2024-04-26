@@ -1,27 +1,61 @@
 import { Box } from '@mui/material';
 import { styles } from './Quotation.style';
+import useViewQuotes from '../useViewQuote';
 
 const Quotation = () => {
+  const { viewQuotesData, taxCalculation } = useViewQuotes();
+
+  const sum = viewQuotesData?.data?.products?.reduce(
+    (accumulator: any, currentValue: any) =>
+      accumulator + currentValue?.unitPrice * currentValue?.quantity,
+    0,
+  );
+
+  const unitDiscount = viewQuotesData?.data?.products?.reduce(
+    (accumulator: any, currentValue: any) =>
+      accumulator + currentValue?.unitDiscount * currentValue?.quantity,
+    0,
+  );
+
+  const taxCalculationPerc = taxCalculation?.data?.taxCalculations;
+
+  const gettingDiscount = viewQuotesData?.data?.products[0]?.unitDiscount;
+
+  let totalPercentage = 0;
+  if (taxCalculationPerc && Array.isArray(taxCalculationPerc)) {
+    for (const tax of taxCalculationPerc) {
+      totalPercentage += tax.percentage;
+    }
+  }
+
+  const percentageOfSubtotal = sum * (totalPercentage / 100);
+
+  const FinalTotal = percentageOfSubtotal - gettingDiscount;
+
   return (
     <Box sx={styles?.box}>
       <Box sx={styles?.bRow}>
         <Box sx={styles?.bHead}>Sub Total</Box>
-        <Box sx={styles?.bCell}>£75</Box>
+        <Box sx={styles?.bCell}>£{sum}</Box>
       </Box>
 
       <Box sx={styles?.bRow}>
-        <Box sx={styles?.bHead}>V.A.T</Box>
-        <Box sx={styles?.bCell}>20%</Box>
+        <Box sx={styles?.bHead}>
+          {taxCalculationPerc?.map((item: any) => {
+            return item?.name;
+          })}
+        </Box>
+        <Box sx={styles?.bCell}>{totalPercentage}</Box>
       </Box>
 
       <Box sx={styles?.bRow}>
         <Box sx={styles?.bHead}>Unit Discount</Box>
-        <Box sx={styles?.bCell}>30 GBP</Box>
+        <Box sx={styles?.bCell}>£ {unitDiscount} GBP</Box>
       </Box>
 
       <Box sx={styles?.bRowTotal}>
         <Box sx={styles?.bHead}>Total</Box>
-        <Box sx={styles?.bHead}>£122</Box>
+        <Box sx={styles?.bHead}>£{FinalTotal?.toFixed(2)}</Box>
       </Box>
 
       <Box sx={styles?.signatureCard}>

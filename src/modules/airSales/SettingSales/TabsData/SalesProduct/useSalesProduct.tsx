@@ -20,11 +20,13 @@ const useSalesProduct = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
 
-  const [deleteSalesProduct] = useDeleteSalesProductMutation();
+  const [deleteSalesProduct, { isLoading: deleteProduct }] =
+    useDeleteSalesProductMutation();
 
   const paramsObj: any = {};
   if (productSearch) paramsObj['search'] = productSearch;
@@ -46,12 +48,11 @@ const useSalesProduct = () => {
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false);
   };
-  const editRowValue = selectedCheckboxes && selectedCheckboxes[0];
 
   const handleDelete = async () => {
     try {
       const response: any = await deleteSalesProduct({
-        id: editRowValue?._id,
+        ids: selectedCheckboxes,
       })?.unwrap();
       enqueueSnackbar(
         response?.message ?? 'Sales Product Deleted Successfully!',
@@ -59,6 +60,7 @@ const useSalesProduct = () => {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
       );
+      setSelectedCheckboxes([]);
       setDeleteModalOpen(false);
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
@@ -67,48 +69,39 @@ const useSalesProduct = () => {
     }
   };
 
-  const handleCheckboxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    row: any,
-  ) => {
-    const isChecked = event?.target?.checked;
-
-    if (isChecked) {
-      setSelectedCheckboxes((prevSelected: any) => [...prevSelected, row]);
-    } else {
-      setSelectedCheckboxes(
-        (prevSelected: any) =>
-          prevSelected?.filter((item: any) => item?.id !== row?.id),
-      );
-    }
-  };
-  const getRowValues = columns({ handleCheckboxChange, selectedCheckboxes });
+  const getRowValues = columns({
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+    data,
+  });
 
   return {
-    isDraweropen,
-    setIsDraweropen,
-    isEditMode,
-    setIsEditMode,
-    isDeleteModalOpen,
-    setDeleteModalOpen,
-    productSearch,
-    setproductSearch,
-    setPageLimit,
-    setPage,
-    theme,
-    anchorEl,
-    open,
-    handleClick,
-    handleClose,
-    handleCloseDrawer,
+    salesProductData: data?.data,
     handleCloseDeleteModal,
-    handleDelete,
+    setSelectedCheckboxes,
     selectedCheckboxes,
+    setDeleteModalOpen,
+    handleCloseDrawer,
+    isDeleteModalOpen,
+    setproductSearch,
+    setIsDraweropen,
+    setIsEditMode,
+    productSearch,
+    deleteProduct,
+    isDraweropen,
+    setPageLimit,
+    handleDelete,
     getRowValues,
     setAnchorEl,
-    salesProductData: data?.data,
+    handleClose,
+    handleClick,
+    isEditMode,
     isLoading,
     isSuccess,
+    anchorEl,
+    setPage,
+    theme,
+    open,
   };
 };
 

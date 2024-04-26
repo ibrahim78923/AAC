@@ -88,6 +88,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => [
           </InputAdornment>
         ),
       },
+      placeholder: 'Select Contacts',
     },
     component: RHFTextField,
     md: 12,

@@ -7,7 +7,7 @@ const CreateDashboard = ({
 }: any) => {
   return (
     <>
-      <Grid container spacing={4} mt={1}>
+      <Grid container spacing={4} mt={1} style={{ marginLeft: '1px' }}>
         <Typography variant="h3" sx={{ textAlign: 'start' }}>
           {isShowEditDashboard ? 'Edit Dashboard' : 'Create Dashboard'}
         </Typography>

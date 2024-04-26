@@ -1,30 +1,58 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
 import { useFieldArray } from 'react-hook-form';
+import { useEffect } from 'react';
+import {
+  useLazyGetDealDropdownListQuery,
+  useLazyGetLifeCycleStagesDropdownListQuery,
+  useLazyGetUserDropdownListQuery,
+} from '@/services/airOperations/workflow-automation/sales-workflow';
+import { errorSnackbar, warningSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 
 export const useSubWorkflowConditions = (props: any) => {
-  const { control, index, parentField, removeParent } = props;
+  const { control, index, parentField, removeParent, setValue, watch } = props;
   const { fields, remove, append } = useFieldArray({
     control,
-    name: `workflowConditions.${index}.conditions`,
+    name: `groups.${index}.conditions`,
   });
   const handleDeleteClick = (subIndex: any) => {
-    if (parentField?.length === 2 && fields?.length < 2) {
-      enqueueSnackbar('Cannot Delete', {
-        variant: NOTISTACK_VARIANTS?.WARNING,
-      });
+    if (parentField?.length === 1 && fields?.length < 2) {
+      warningSnackbar('Cannot Delete');
       return;
     }
     if (fields?.length > 1) {
       remove(subIndex);
     }
-    if (parentField?.length >= 2 && fields?.length === 1) {
+    if (parentField?.length >= 1 && fields?.length === 1) {
       removeParent(index);
     }
   };
+  const handleAppend = () => {
+    if (fields?.length < 10) {
+      append({ fieldName: null, condition: '', fieldValue: null });
+    } else {
+      errorSnackbar('Condition limit exceeds');
+    }
+  };
+  const dealDropdown = useLazyGetDealDropdownListQuery();
+  const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
+  const userDropdown = useLazyGetUserDropdownListQuery();
+  const router = useRouter();
+  const moduleType = watch('module');
+  if (!router?.query?.id) {
+    useEffect(() => {
+      fields?.forEach((_, subIndex) => {
+        setValue(`groups.${index}.conditions.${subIndex}.fieldName`, null);
+        setValue(`groups.${index}.conditions.${subIndex}.condition`, '');
+        setValue(`groups.${index}.conditions.${subIndex}.fieldValue`, null);
+      });
+    }, [moduleType]);
+  }
   return {
     fields,
-    append,
+    handleAppend,
     handleDeleteClick,
+    dealDropdown,
+    stagesDropdown,
+    userDropdown,
   };
 };

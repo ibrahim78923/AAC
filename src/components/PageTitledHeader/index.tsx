@@ -1,7 +1,8 @@
-import { Box, Button, useTheme, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { PlusSharedColorIcon, ImportIcon } from '@/assets/icons';
 import { ExportButton } from '../ExportButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const PageTitledHeader = ({
   title,
@@ -14,9 +15,13 @@ export const PageTitledHeader = ({
   moveBack,
   canMovedBack,
   handleImport,
+  hasStartIcon = true,
+  hasEndIcon = false,
+  createPermissionKey,
+  exportPermissionKey,
+  importPermissionKey,
+  children,
 }: any) => {
-  const theme: any = useTheme();
-
   return (
     <>
       <Box
@@ -24,6 +29,7 @@ export const PageTitledHeader = ({
         alignItems={'center'}
         justifyContent={'space-between'}
         flexWrap={'wrap'}
+        gap={1}
       >
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           {canMovedBack && (
@@ -35,39 +41,48 @@ export const PageTitledHeader = ({
               }}
             />
           )}
-          <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+          <Typography variant="pageTitle" color="slateBlue.main">
             {title}
           </Typography>
         </Box>
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           {hasImport && (
-            <Button
-              color="secondary"
-              variant="outlined"
-              startIcon={<ImportIcon />}
-              onClick={() => handleImport?.()}
-            >
-              Import
-            </Button>
+            <PermissionsGuard permissions={importPermissionKey}>
+              <Button
+                color="secondary"
+                variant="outlined"
+                startIcon={<ImportIcon />}
+                onClick={() => handleImport?.()}
+              >
+                Import
+              </Button>
+            </PermissionsGuard>
           )}
           {hasExport && (
-            <ExportButton
-              handleExcelExport={() => {
-                handleExcelExport?.();
-              }}
-              handleCsvExport={() => {
-                handleCsvExport?.();
-              }}
-            />
+            <PermissionsGuard permissions={exportPermissionKey}>
+              <ExportButton
+                handleExcelExport={() => {
+                  handleExcelExport?.();
+                }}
+                handleCsvExport={() => {
+                  handleCsvExport?.();
+                }}
+              />
+            </PermissionsGuard>
           )}
+          {children}
           {!!addTitle?.length && (
-            <Button
-              variant="contained"
-              startIcon={<PlusSharedColorIcon />}
-              onClick={handleAction}
-            >
-              {addTitle}
-            </Button>
+            <PermissionsGuard permissions={createPermissionKey}>
+              <Button
+                disableElevation
+                variant="contained"
+                startIcon={hasStartIcon && <PlusSharedColorIcon />}
+                endIcon={hasEndIcon && <PlusSharedColorIcon />}
+                onClick={handleAction}
+              >
+                {addTitle}
+              </Button>
+            </PermissionsGuard>
           )}
         </Box>
       </Box>

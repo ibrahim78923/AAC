@@ -9,19 +9,30 @@ import {
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  useDeleteDealsTasksManagementMutation,
+  useUpdateDealsTasksManagementMutation,
+} from '@/services/airSales/deals/view-details/tasks';
+import { enqueueSnackbar } from 'notistack';
 
-const useActionDropdown = ({ setOpenDrawer }: any) => {
+const useActionDropdown = ({
+  setOpenDrawer,
+  selectedCheckboxes,
+  setSelectedCheckboxes,
+}: any) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openAlertModal, setOpenAlertModal] = useState('');
   const isMenuOpen = Boolean(anchorEl);
+  const [deleteCompanyTasksManagement] =
+    useDeleteDealsTasksManagementMutation();
 
   const methodsAssignee = useForm({
     resolver: yupResolver(assigneeValidationSchema),
     defaultValues: assigneeDefaultValues,
   });
+  const [updatedDealsTasksManagement] = useUpdateDealsTasksManagementMutation();
 
-  const onSubmit = () => {};
   const { handleSubmit } = methodsAssignee;
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -49,6 +60,43 @@ const useActionDropdown = ({ setOpenDrawer }: any) => {
     setOpenAlertModal('');
   };
 
+  const selectedCheckboxesIds = selectedCheckboxes.map(
+    (checked: any) => checked?._id,
+  );
+
+  const onSubmit = async (value: any) => {
+    const body = {
+      type: value?.tasktype,
+    };
+    try {
+      await updatedDealsTasksManagement({
+        body,
+        id: selectedCheckboxes[0]?._id,
+      })?.unwrap();
+      enqueueSnackbar(`Task Re-assign Successfully`, { variant: 'success' });
+      setSelectedCheckboxes([]);
+      handleCloseAlert();
+      handleCloseMenu();
+    } catch (error) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+    }
+  };
+
+  const handleDeleteHandler = async () => {
+    try {
+      await deleteCompanyTasksManagement({
+        id: selectedCheckboxesIds,
+      }).unwrap();
+      enqueueSnackbar(`Task Deleted Successfully`, { variant: 'success' });
+      handleCloseAlert();
+      setSelectedCheckboxes([]);
+    } catch (error) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+    }
+  };
+
   return {
     theme,
     isMenuOpen,
@@ -62,7 +110,7 @@ const useActionDropdown = ({ setOpenDrawer }: any) => {
     handleOpenReassignAlert,
     handleOpenDeleteAlert,
     handleCloseAlert,
-
+    handleDeleteHandler,
     handleOpenEditDrawer,
     handleOpenViewDrawer,
   };

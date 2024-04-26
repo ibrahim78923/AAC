@@ -1,6 +1,6 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { ProductCatalog } from '@/modules/airServices/Settings/AssetManagement/ProductCatalog';
-
 const ProductCatalogPage = () => {
   return <ProductCatalog />;
 };
@@ -8,5 +8,13 @@ const ProductCatalogPage = () => {
 export default ProductCatalogPage;
 
 ProductCatalogPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      permissions={
+        Permissions?.AIR_SERVICES_SETTINGS_AGENT_MANAGEMENT_PRODUCT_CATALOG
+      }
+    >
+      {page}
+    </Layout>
+  );
 };

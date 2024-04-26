@@ -73,7 +73,7 @@ const Tasks = () => {
       {isOpenDeleteDrawer && (
         <AlertModals
           message="Are you sure you want to delete this broadcast?"
-          type="Delete SMS Broadcast"
+          type="Delete"
           typeImage={<AlertModalDeleteIcon />}
           open={isOpenDeleteDrawer}
           handleClose={() => setIsOpenDeleteDrawer(false)}

@@ -1,74 +1,122 @@
 import Image from 'next/image';
-import { Grid, Typography, Box, useTheme } from '@mui/material';
-import DetailTimePicker from './TimePicker';
-import {
-  ViewDetailBackArrowIcon,
-  ViewDetailCallIcon,
-  ViewDetailKababMenuIcon,
-  ViewDetailMeetingIcon,
-  ViewDetailVuesaxIcon,
-} from '@/assets/icons';
+import { Typography, Box } from '@mui/material';
+import { ViewDetailCallIcon } from '@/assets/icons';
 import { styles } from './Header.style';
 import { SmsImage } from '@/assets/images';
-import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
-const Header = () => {
-  const theme: any = useTheme();
-  const { push } = useRouter();
+import { AIR_SERVICES, Quick_Links_Routes } from '@/constants';
+import { NewEmailDrawer } from './NewEmailDrawer';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { MoreVert } from '@mui/icons-material';
+import { PrintDrawer } from './Print';
+import { useHeader } from './useHeader';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import {
+  AIR_SERVICES_TICKETS_TICKETS_DETAILS,
+  AIR_SERVICES_TICKETS_TICKET_LISTS,
+} from '@/constants/permission-keys';
+import { TicketsDelete } from '../../TicketsDelete';
+import { truncateText } from '@/utils/avatarUtils';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { Skeleton } from '@mui/lab';
+
+const Header = (props: any) => {
+  const { apiStatus, data } = props;
+
+  const {
+    router,
+    setIsDrawerOpen,
+    isDrawerOpen,
+    ticketsApprovalDropdown,
+    isPrintDrawerOpen,
+    setIsPrintDrawerOpen,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    ticketId,
+  } = useHeader();
+
+  if (apiStatus?.isLoading || apiStatus?.isFetching) return <Skeleton />;
+
   return (
     <>
-      <Grid
-        container
-        spacing={2}
+      <Box
         justifyContent={'space-between'}
         display={'flex'}
-        flexDirection={'row'}
-        maxWidth={'100%'}
+        alignItems={'center'}
+        gap={1}
+        flexWrap={'wrap'}
       >
-        <Grid
-          item
-          sx={{
-            display: 'flex',
-            gap: 1,
-          }}
-        >
-          <Box
-            onClick={() => push(AIR_SERVICES?.TICKETS)}
-            sx={{ cursor: 'pointer' }}
+        <PageTitledHeader
+          canMovedBack
+          moveBack={() => router?.push(AIR_SERVICES?.TICKETS)}
+          title={
+            <Box display={'flex'} alignItems={'center'} gap={2}>
+              <Typography variant="h6" color="primary.main">
+                {data?.data?.[0]?.ticketIdNumber ?? '---'}
+              </Typography>
+              <Typography variant="h6" component="span">
+                {truncateText(data?.data?.[0]?.subject)}
+              </Typography>
+            </Box>
+          }
+        />
+        <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CALLS]}
           >
-            <ViewDetailBackArrowIcon />
-          </Box>
-          <Typography
-            variant="h6"
-            sx={{ color: theme?.palette?.primary?.main }}
+            <Box
+              sx={styles?.iconBoxStyling}
+              onClick={() => router?.push(Quick_Links_Routes?.CALLING)}
+            >
+              <ViewDetailCallIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.SENT_EMAIL]}
           >
-            #INC-3-
-          </Typography>
-          <Typography variant="h6" component="span">
-            What’s wrong with my email?
-          </Typography>
-        </Grid>
-        <Grid item sx={{ display: 'flex' }}>
-          <Box sx={styles?.iconBoxStyling}>
-            <ViewDetailVuesaxIcon />
-          </Box>
-          <Box sx={styles?.iconBoxTimerStyling}>
-            <DetailTimePicker />
-          </Box>
-          <Box sx={styles?.iconBoxStyling}>
-            <ViewDetailMeetingIcon />
-          </Box>
-          <Box sx={styles?.iconBoxStyling}>
-            <ViewDetailCallIcon />
-          </Box>
-          <Box sx={styles?.iconBoxStyling}>
-            <Image src={SmsImage} width={24} height={24} alt="Badge" />
-          </Box>
-          <Box sx={styles?.iconKabaMenuStyle}>
-            <ViewDetailKababMenuIcon />
-          </Box>
-        </Grid>
-      </Grid>
+            <Box
+              sx={styles?.iconBoxStyling}
+              onClick={() => setIsDrawerOpen(true)}
+            >
+              <Image src={SmsImage} width={24} height={24} alt="Badge" />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS,
+            ]}
+          >
+            <Box>
+              <SingleDropdownButton
+                dropdownOptions={ticketsApprovalDropdown}
+                dropdownName={<MoreVert />}
+                hasEndIcon={false}
+                btnVariant="text"
+              />
+            </Box>
+          </PermissionsGuard>
+        </Box>
+      </Box>
+      {deleteModalOpen && (
+        <TicketsDelete
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          selectedTicketList={[ticketId]}
+          isMoveBack
+        />
+      )}
+      {isPrintDrawerOpen && (
+        <PrintDrawer
+          isPrintDrawerOpen={isPrintDrawerOpen}
+          setISPrintDrawerOpen={setIsPrintDrawerOpen}
+          data={data}
+        />
+      )}
+      {isDrawerOpen && (
+        <NewEmailDrawer
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+        />
+      )}
     </>
   );
 };

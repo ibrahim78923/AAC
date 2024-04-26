@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function Filter({
   isOpenDrawer,
-  onClose,
+  setIsOpenDrawer,
   employeeFilter,
   setEmployeeFilter,
   initialValueProps = defaultValues,
@@ -25,13 +25,15 @@ export default function Filter({
       ...employeeFilter,
       product: values?.product,
       company: values?.company,
+      status: values?.status,
     });
+    setIsOpenDrawer(false);
   };
 
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
-      onClose={() => onClose(false)}
+      onClose={() => setIsOpenDrawer(false)}
       title={'Assign Plan'}
       okText={'Apply'}
       isOk

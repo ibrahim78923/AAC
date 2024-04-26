@@ -21,7 +21,6 @@ export const styles = () => {
       fontSize: 12,
       lineHeight: '18px',
       textTransform: 'capitalize',
-      pl: 1.6,
     },
     billingWrapper: {
       justifyContent: { xs: 'space-between', lg: 'flex-end' },

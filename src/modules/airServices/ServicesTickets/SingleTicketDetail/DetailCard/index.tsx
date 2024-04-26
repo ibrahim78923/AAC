@@ -1,11 +1,22 @@
-import { ViewDetailDocumentTextIcon } from '@/assets/icons';
-import { AvatarImage } from '@/assets/images';
 import { Avatar, Box, Chip, Grid, Typography, useTheme } from '@mui/material';
-import Image from 'next/image';
+
+import { useDetailsCard } from './useDetailCard';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import {
+  formatFileSize,
+  fullName,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 
 export const DetailCard = (props: any) => {
-  const { detail } = props;
+  const { apiStatus, detail } = props;
+  const { attachFile } = useDetailsCard();
+
   const theme = useTheme();
+  if (apiStatus?.isLoading || apiStatus?.isFetching) return <SkeletonForm />;
   return (
     <Box
       sx={{
@@ -36,11 +47,20 @@ export const DetailCard = (props: any) => {
               gap={1}
               marginBottom={1.5}
             >
-              <Image src={AvatarImage} alt="Avatar" />
+              <Avatar
+                sx={{ bgcolor: theme?.palette?.blue?.main }}
+                style={{ width: 28, height: 28 }}
+                src={generateImage(
+                  detail?.data[0]?.requesterDetails?.avatar?.url,
+                )}
+              />
               <div>
                 <Typography variant="body2" fontWeight={600}>
                   {' '}
-                  {detail?.name || 'Sophia Baxtar'}
+                  {fullName(
+                    detail?.data[0]?.requesterDetails?.firstName,
+                    detail?.data[0]?.requesterDetails?.lastName,
+                  )}
                 </Typography>
               </div>
             </Box>
@@ -54,7 +74,7 @@ export const DetailCard = (props: any) => {
                 Email:
               </Typography>
               <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-                {detail?.email || 'sophiebaxterl@gmail.com'}
+                {detail?.data[0]?.requesterDetails?.email ?? '-'}
               </Typography>
             </Box>
             <Box
@@ -67,7 +87,9 @@ export const DetailCard = (props: any) => {
                 Created on:
               </Typography>
               <Typography variant="body2">
-                {detail?.createdOn ?? 'Sun, 5 Mar 9:41 PM'}
+                {dayjs(detail?.data[0]?.requesterDetails?.createdAt)?.format(
+                  DATE_FORMAT?.UI,
+                ) ?? '-'}
               </Typography>
             </Box>
           </Box>
@@ -89,35 +111,42 @@ export const DetailCard = (props: any) => {
             <Typography variant="body2" fontWeight={600}>
               Description:
             </Typography>
-            <Typography variant="body2" sx={{ flex: '1' }}>
-              {detail?.description ??
-                ` Hi Team, I have been unable to send any emails since this morning.
-              What’s going on? Regards, Andrea`}
-            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ wordBreak: 'break-all' }}
+              dangerouslySetInnerHTML={{
+                __html: detail?.data[0]?.description ?? '---',
+              }}
+            />
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
             <Typography variant="body2" fontWeight={600}>
               Attachments:
             </Typography>
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              flexWrap={'wrap'}
-              gap={1}
-              marginBottom={1}
-            >
-              <Avatar sx={{ backgroundColor: 'primary.lighter' }}>
-                <ViewDetailDocumentTextIcon />
-              </Avatar>
-              <Box>
-                <Typography variant="body2" color="slateBlue.main">
-                  {detail?.filename ?? 'file-name-0.txt'}
-                </Typography>
-                <Typography variant="body3" color="grey.500">
-                  {detail?.size ?? '1Kb'}
-                </Typography>
+            {attachFile?.data?.length ? (
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                flexWrap={'wrap'}
+                gap={1}
+                marginBottom={1}
+              >
+                <Avatar src={generateImage(attachFile?.data?.[0]?.fileUrl)} />
+
+                <Box>
+                  <Typography variant="body2" color="slateBlue.main">
+                    {truncateText(attachFile?.data?.[0]?.orignalName)}
+                  </Typography>
+                  <Typography variant="body3" color="grey.500">
+                    {formatFileSize(attachFile?.data?.[0]?.fileSize)}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
+            ) : (
+              <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+                No attachment
+              </Typography>
+            )}
           </Box>
         </Grid>
         <Grid item xs={12} md={3.9} padding={1.5}>
@@ -130,12 +159,16 @@ export const DetailCard = (props: any) => {
             <Typography variant="body2" fontWeight={600}>
               Status:
             </Typography>
-            <Chip
-              label={detail?.status ?? 'Open'}
-              variant="outlined"
-              size="small"
-              color="primary"
-            />
+            {!!detail?.data[0]?.status ? (
+              <Chip
+                label={detail?.data[0]?.status ?? '-'}
+                variant="outlined"
+                size="small"
+                color="primary"
+              />
+            ) : (
+              '--'
+            )}
           </Box>
           <Box
             display={'flex'}
@@ -147,7 +180,9 @@ export const DetailCard = (props: any) => {
               Due by:
             </Typography>
             <Typography variant="body2">
-              {detail?.dueBy ?? 'Tue, 14 Mar 10:00 AM'}
+              {dayjs(detail?.data[0]?.plannedEndDate)?.format(
+                DATE_FORMAT?.UI,
+              ) ?? '-'}
             </Typography>
           </Box>
           <Box
@@ -163,7 +198,8 @@ export const DetailCard = (props: any) => {
               variant="body2"
               sx={{ color: 'primary.main', textDecoration: 'underline' }}
             >
-              {detail?.association ?? 'Deals'}
+              {detail?.data?.[0]?.associateAssetsDetails?.[0]?.displayName ??
+                '-'}
             </Typography>
           </Box>
         </Grid>

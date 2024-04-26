@@ -1,11 +1,10 @@
-import { Box, Checkbox, Grid, Typography } from '@mui/material';
+import { Box, Checkbox, Grid, Typography, useTheme } from '@mui/material';
 import { documentFolderData } from './Folders.data';
 import { v4 as uuidv4 } from 'uuid';
-import useEmailMarketing from '../useEmailFolder.';
 import { FolderIcon } from '@/assets/icons';
 import { styles } from './Folders.style';
 const Folders = () => {
-  const { theme } = useEmailMarketing();
+  const theme = useTheme();
   return (
     <Grid container>
       {documentFolderData?.map((item: any) => {

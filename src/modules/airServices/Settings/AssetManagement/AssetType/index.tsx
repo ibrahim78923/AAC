@@ -1,24 +1,30 @@
-import { Box } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import ChildBarWrapper from './ChildAssetTypes';
 import TitleBar from './TitleBar';
 import { useAssetType } from './useAssetType';
-import { assetTypeData } from './AssetType.data';
 import Header from './Header';
 import { Fragment } from 'react';
 import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
+import CustomPagination from '@/components/CustomPagination';
 export const AssetType = () => {
   const {
     collapseItem,
     handleCollapse,
     subChildCollapseItem,
     handleSubChildCollapse,
+    assetTypeData,
+    metaData,
+    setPage,
+    setPageLimit,
+    isLoading,
+    isFetching,
   } = useAssetType();
-
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <>
       <Box>
-        <Header />
+        <Header assetTypeData={assetTypeData} />
         {assetTypeData?.length ? (
           <Box
             borderRadius={3}
@@ -31,40 +37,61 @@ export const AssetType = () => {
               backgroundColor: 'grey.400',
             }}
           >
-            {assetTypeData?.map((asset, index) => (
-              <Fragment key={asset?.id}>
+            {assetTypeData?.map((asset: any, index: any) => (
+              <Fragment key={asset?._id}>
                 <TitleBar
-                  title={asset?.title}
+                  title={asset?.name}
                   handleCollapse={() => handleCollapse(index)}
+                  assetTypeData={asset}
                 />
-                {collapseItem === index && !!asset?.childList ? (
-                  <ChildBarWrapper>
-                    {asset?.childList?.map((childAsset, subChildIndex) => (
-                      <Fragment key={childAsset?.id}>
-                        <TitleBar
-                          title={childAsset?.title}
-                          handleCollapse={() =>
-                            handleSubChildCollapse(subChildIndex)
-                          }
-                        />
-                        {subChildIndex === subChildCollapseItem &&
-                        !!childAsset?.subChildList ? (
-                          <ChildBarWrapper boxShadow={0}>
-                            {childAsset?.subChildList?.map((subChildAsset) => (
-                              <TitleBar
-                                key={asset?.id}
-                                title={subChildAsset?.title}
-                                icNotCollapseAble
-                              />
-                            ))}
-                          </ChildBarWrapper>
-                        ) : null}
-                      </Fragment>
-                    ))}
+                {collapseItem === index && !!asset?.assetTypeChildIds ? (
+                  <ChildBarWrapper
+                    parentId={asset?._id}
+                    assetTypeData={assetTypeData}
+                  >
+                    {asset?.childList?.map(
+                      (childAsset: any, subChildIndex: any) => (
+                        <Fragment key={childAsset?._id}>
+                          <TitleBar
+                            assetTypeData={childAsset}
+                            title={childAsset?.name}
+                            handleCollapse={() =>
+                              handleSubChildCollapse(subChildIndex)
+                            }
+                          />
+                          {subChildCollapseItem === subChildIndex &&
+                          childAsset?.subchildList?.length ? (
+                            <ChildBarWrapper
+                              childId={childAsset?._id}
+                              boxShadow={0}
+                            >
+                              {childAsset?.subchildList?.map(
+                                (subChildAsset: any) => (
+                                  <TitleBar
+                                    key={subChildAsset?._id}
+                                    title={subChildAsset?.name}
+                                    icNotCollapseAble
+                                  />
+                                ),
+                              )}
+                            </ChildBarWrapper>
+                          ) : null}
+                        </Fragment>
+                      ),
+                    )}
                   </ChildBarWrapper>
                 ) : null}
               </Fragment>
             ))}
+            <CustomPagination
+              setPageLimit={setPageLimit}
+              setPage={setPage}
+              count={metaData?.pages}
+              totalRecords={metaData?.total}
+              onPageChange={(page: any) => setPage(page)}
+              currentPage={metaData?.page}
+              pageLimit={metaData?.limit}
+            />
           </Box>
         ) : (
           <NoData message="Data Not Found" image={NoAssociationFoundImage} />

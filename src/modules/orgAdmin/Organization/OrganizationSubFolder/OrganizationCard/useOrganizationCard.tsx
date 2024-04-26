@@ -1,19 +1,162 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useGetOrganizationMainIdQuery } from '@/services/orgAdmin/organization';
+import {
+  useLazyGetOrganizationDetailsByIdQuery,
+  useUpdateOrganizationByIdMutation,
+} from '@/services/orgAdmin/organization';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { validationSchema } from './OrganizationCard.data';
+
+import useToggle from '@/hooks/useToggle';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useOrganizationCard = () => {
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const theme = useTheme<Theme>();
-  const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetOrganizationMainIdQuery({ id: '6540b33a0637653df4a4f8ac' });
+  const [isOpenDrawer, setIsOpenDrawer] = useState({
+    isToggled: false,
+    id: '',
+  });
+  const currentOrganizationId = isOpenDrawer?.id;
+  const [isToggled, setIsToggled] = useToggle(false);
 
-  const methods: any = useForm({});
+  const [
+    organiztionDetails,
+    { isLoading: loadingDetails, isError, isFetching, isSuccess },
+  ] = useLazyGetOrganizationDetailsByIdQuery();
 
-  const { handleSubmit } = methods;
+  const [updateOrganizationById, { isLoading: loadingUpdateOrganization }] =
+    useUpdateOrganizationByIdMutation();
 
-  const onSubmit: any = async () => {};
+  const methods = useForm<any>({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const { handleSubmit, reset, watch, setValue } = methods;
+  const formValues = watch();
+  const addressValues = formValues?.composite?.address
+    ? formValues?.composite?.address
+    : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
+      `${
+        formValues?.buildingNumber
+          ? `Building # ${formValues?.buildingNumber}, `
+          : ''
+      }` +
+      `${
+        formValues?.buildingName
+          ? `Building Name ${formValues?.buildingName}, `
+          : ''
+      }` +
+      `${
+        formValues?.streetName ? `Street # ${formValues?.streetName}, ` : ''
+      }` +
+      `${formValues?.city ? `${formValues?.city}, ` : ''}` +
+      `${formValues?.country ? `${formValues?.country}` : ''}`;
+
+  useEffect(() => {
+    if (currentOrganizationId) {
+      organiztionDetails({ id: currentOrganizationId })
+        .unwrap()
+        .then((res) => {
+          if (res) {
+            const fieldsData = res?.data[0];
+            reset({
+              registrationNumber: fieldsData?.crn,
+              name: fieldsData?.name,
+              email: fieldsData?.owner?.email,
+              phoneNo: fieldsData?.owner?.phoneNumber,
+              postCode: fieldsData?.postCode,
+              compositeAddress: fieldsData?.address?.composite,
+              flat: fieldsData?.address?.flat ?? '',
+              city: fieldsData?.address?.city ?? '',
+              country: fieldsData?.address?.country ?? '',
+              buildingName: fieldsData?.address?.buildingName ?? '',
+              buildingNumber: fieldsData?.address?.buildingNumber ?? '',
+              streetName: fieldsData?.address?.street ?? '',
+            });
+          }
+        });
+    }
+  }, [isOpenDrawer?.isToggled, reset]);
+
+  // Set value of address fields
+  useEffect(() => {
+    setValue('compositeAddress', addressValues);
+  }, [addressValues]);
+
+  const handleChangeImg = async (e: any) => {
+    if (e?.target?.files?.length) {
+      const formData = new FormData();
+      formData?.append('image', e?.target?.files[0]);
+      try {
+        await updateOrganizationById({
+          id: currentOrganizationId,
+          body: formData,
+        })?.unwrap();
+        enqueueSnackbar('Image updated successfully', {
+          variant: 'success',
+        });
+      } catch (error: any) {
+        enqueueSnackbar(error?.data?.message, {
+          variant: 'error',
+        });
+      }
+    }
+  };
+
+  const onSubmit: any = async (values: any) => {
+    const bodyVals: any = {
+      crn: values?.registrationNumber,
+      name: values?.name,
+      email: values?.email,
+      phoneNo: values?.phoneNo,
+      postCode: values?.postCode,
+    };
+    if (isToggled) {
+      // If isToggled is true, construct the address object with individual fields
+      bodyVals.address = {
+        flatNumber: values?.flat,
+        buildingName: values?.buildingName,
+        buildingNumber: values?.buildingNumber,
+        streetName: values?.streetName,
+        city: values?.city,
+        country: values?.country,
+      };
+    } else {
+      // If isToggled is false, use a composite address value
+      bodyVals.address = {
+        composite: values?.compositeAddress,
+      };
+    }
+    try {
+      await updateOrganizationById({
+        id: currentOrganizationId,
+        body: bodyVals,
+      })
+        .unwrap()
+        .then((res) => {
+          if (res) {
+            organiztionDetails({ id: currentOrganizationId });
+            reset();
+            setIsOpenDrawer({ ...isOpenDrawer, isToggled: false });
+            enqueueSnackbar(`organization updated successfully`, {
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
+            });
+          }
+        });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const handleCloseDrawer = () => {
+    setIsOpenDrawer({ ...isOpenDrawer, isToggled: false }), reset();
+  };
   return {
     theme,
     isOpenDrawer,
@@ -21,11 +164,17 @@ const useOrganizationCard = () => {
     handleSubmit,
     onSubmit,
     methods,
-    isLoading,
+    loadingDetails,
     isError,
     isFetching,
     isSuccess,
-    data,
+    organiztionDetails,
+    handleCloseDrawer,
+    addressVal: formValues.compositeAddress,
+    isToggled,
+    setIsToggled,
+    handleChangeImg,
+    loadingUpdateOrganization,
   };
 };
 

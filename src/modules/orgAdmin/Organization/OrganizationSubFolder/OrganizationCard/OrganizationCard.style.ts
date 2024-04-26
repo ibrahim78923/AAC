@@ -31,6 +31,7 @@ export const styles = {
       fontSize: '20px',
       lineHeight: '30px',
       color: `${theme?.palette?.custom?.main}`,
+      marginBottom: '20px',
       textAlign: {
         lg: 'start',
         md: 'start',

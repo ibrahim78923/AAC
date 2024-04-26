@@ -1,134 +1,155 @@
 import React, { useState } from 'react';
-
-import { useForm } from 'react-hook-form';
-
-import { IconButton, InputAdornment, Theme, useTheme } from '@mui/material';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { v4 as uuidv4 } from 'uuid';
-
+import { Theme, useTheme } from '@mui/material';
 import {
-  dataArray,
-  dealPipelinesDefaultValues,
-  dealPipelinesvalidationSchema,
-} from './DealPipelines.data';
-
-import { RHFTextField } from '@/components/ReactHookForm';
-import { PercentageCircleIcon } from '@/assets/icons';
+  useDeleteDealsPipelineMutation,
+  useGetDealsPipelineQuery,
+  usePostDealsPipelineMutation,
+  useUpdateDealsPipelineMutation,
+} from '@/services/airSales/deals/settings/deals-pipeline';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useDealPipelines = () => {
-  const [isDraweropen, setIsDraweropen] = useState(false);
+  const theme = useTheme<Theme>();
+  const [isDraweropen, setIsDraweropen] = useState({
+    isToggle: false,
+    type: 'add',
+  });
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
   const [isDisableButton, setDisableButton] = useState(false);
   const [isdefaultValue, setdefaultValue] = useState(false);
-  const [dynamicFields, setDynamicFields] = useState([...dataArray]);
+  const [checkedDeal, setCheckedDeal] = useState<string[]>([]);
 
-  const theme = useTheme<Theme>();
+  const [postDealsPipeline, { isLoading: postDealLoading }] =
+    usePostDealsPipelineMutation();
+  const [deleteDealsPipeline, { isLoading: deleteDealLoading }] =
+    useDeleteDealsPipelineMutation();
+  const [updateDealsPipeline] = useUpdateDealsPipelineMutation();
+
+  const paramsObj: any = {};
+  if (productSearch) paramsObj['search'] = productSearch;
+  const query = '&' + new URLSearchParams(paramsObj)?.toString();
+
+  const { data, isLoading } = useGetDealsPipelineQuery({
+    query,
+    meta: false,
+  });
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleCloseDrawer = () => {
-    setIsDraweropen(false);
+    setIsDraweropen({ isToggle: false, type: '' });
   };
 
-  const dealPipelines = useForm({
-    resolver: yupResolver(dealPipelinesvalidationSchema),
-    defaultValues: dealPipelinesDefaultValues,
-  });
-  const { handleSubmit } = dealPipelines;
-  const onSubmit = () => {};
+  const onSubmit = async (values: any) => {
+    const payload = {
+      name: values?.pipelineName,
+      isDefault: values?.defaultPipeline,
+      dealStages: values?.dealStages,
+    };
+
+    try {
+      if (isDraweropen?.type === 'add') {
+        await postDealsPipeline({ body: payload })?.unwrap();
+      } else {
+        await updateDealsPipeline({ id: checkedDeal, body: payload });
+      }
+      setIsDraweropen({ isToggle: false, type: '' });
+      enqueueSnackbar(
+        `Pipeline has been ${
+          isDraweropen?.type === 'edit' ? 'Updated' : 'Created'
+        } Successfully`,
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
 
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false);
   };
 
-  const handleDelete = () => {
-    setDeleteModalOpen(false);
+  // check box function
+
+  const handleSelectDealsById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedDeal([...checkedDeal, id]);
+    } else {
+      setCheckedDeal(checkedDeal?.filter((_id: any) => _id !== id));
+    }
   };
 
-  const getCheckbox = (event: any, value: any) => {
-    setDisableButton(event?.target?.checked);
-    setdefaultValue(value === 'default');
+  const handleDelete = async () => {
+    try {
+      await deleteDealsPipeline({ ids: checkedDeal }).unwrap();
+      setCheckedDeal([]);
+      setDeleteModalOpen(false);
+      enqueueSnackbar('Deal Pipeline has been Deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
-  const addField = () => {
-    setDynamicFields((prevFields) => [
-      ...prevFields,
-      {
-        componentProps: {
-          name: `dynamicField${uuidv4()}_1`,
-          label: '',
-          fullWidth: true,
-          placeholder: 'New',
-        },
-        component: RHFTextField,
-        md: 5,
-      },
-      {
-        componentProps: {
-          name: `dynamicField${uuidv4()}_2`,
-          label: '',
-          fullWidth: true,
-          placeholder: 'New',
-          InputProps: {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton>
-                  <PercentageCircleIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          },
-        },
-        component: RHFTextField,
-        md: 5,
-      },
-    ]);
-  };
-  const deleteField = (index: any) => {
-    setDynamicFields((prevFields) => [
-      ...prevFields.slice(0, index),
-      ...prevFields.slice(index + 2),
-    ]);
+  const disabled: { [key: number]: boolean } = {
+    0: true,
+    1: true,
+    2: true,
   };
 
   return {
-    isDraweropen,
-    setIsDraweropen,
-    isEditMode,
-    setIsEditMode,
-    isDeleteModalOpen,
-    setDeleteModalOpen,
-    productSearch,
-    setproductSearch,
-    theme,
-    anchorEl,
-    open,
-    handleClick,
-    handleClose,
-    handleCloseDrawer,
-    dealPipelines,
-    handleSubmit,
-    onSubmit,
+    dealPipelinesData: data?.data,
     handleCloseDeleteModal,
-    handleDelete,
-    getCheckbox,
+    handleSelectDealsById,
+    setDeleteModalOpen,
+    isDeleteModalOpen,
+    handleCloseDrawer,
+    deleteDealLoading,
+    setproductSearch,
+    setIsDraweropen,
     setDisableButton,
+    postDealLoading,
+    setCheckedDeal,
     isDisableButton,
-    dynamicFields,
-    addField,
-    deleteField,
-    setAnchorEl,
+    isDraweropen,
+    setIsEditMode,
+    productSearch,
     isdefaultValue,
+    handleDelete,
+    checkedDeal,
+    handleClose,
+    isEditMode,
+    handleClick,
+    setAnchorEl,
+    setdefaultValue,
+    onSubmit,
+    isLoading,
+    disabled,
+    anchorEl,
+    theme,
+    open,
   };
 };
 

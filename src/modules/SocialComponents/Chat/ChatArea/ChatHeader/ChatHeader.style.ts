@@ -7,6 +7,7 @@ export const styles = {
       borderRadius: '16px 16px 0px 0px',
       display: 'flex',
       justifyContent: 'space-between',
+      borderBottom: `1px solid ${theme.palette.common.white}`,
     };
   },
   userStatus: () => {

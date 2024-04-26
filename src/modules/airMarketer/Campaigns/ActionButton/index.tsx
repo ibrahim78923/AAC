@@ -14,8 +14,10 @@ import { AlertModals } from '@/components/AlertModals';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
-import EditColumns from '../EditColumns';
 import CompaignDetails from '../CampaignDetails';
+import EditTask from '../Tasks/EditTask';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 
 const ActionButton = () => {
   const {
@@ -24,8 +26,6 @@ const ActionButton = () => {
     handleSelectedOptionValue,
     actionsModalDetails,
     setActionsModalDetails,
-    isDelete,
-    setIsDelete,
   } = useCampaigns();
 
   return (
@@ -36,7 +36,7 @@ const ActionButton = () => {
         variant="outlined"
         color="inherit"
         sx={{
-          width: '112px',
+          width: { sm: '112px', xs: '100%' },
           height: '36px',
         }}
       >
@@ -63,15 +63,29 @@ const ActionButton = () => {
         })}
       </Menu>
 
-      {isDelete && (
-        <AlertModals
-          message="Are you sure you want to delete this broadcast?"
-          type="Delete SMS Broadcast"
-          typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
-          handleClose={() => setIsDelete(false)}
-          handleSubmit={() => setIsDelete(false)}
-        />
+      {actionsModalDetails?.isDelete && (
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.CLONE_DELETE]}
+        >
+          <AlertModals
+            message="Are you sure you want to delete?"
+            type="Delete"
+            typeImage={<AlertModalDeleteIcon />}
+            open={actionsModalDetails?.isDelete}
+            handleClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isDelete: false,
+              })
+            }
+            handleSubmit={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isDelete: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
       {actionsModalDetails?.isClone && (
         <CloneModal
@@ -85,56 +99,73 @@ const ActionButton = () => {
         />
       )}
       {actionsModalDetails?.isOpenFilterDrawer && (
-        <EditGoalDrawer
-          isOpenDrawer={actionsModalDetails?.isOpenFilterDrawer}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isOpenFilterDrawer: false,
-            })
-          }
-        />
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_GOALS]}
+        >
+          <EditGoalDrawer
+            isOpenDrawer={actionsModalDetails?.isOpenFilterDrawer}
+            onClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isOpenFilterDrawer: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
       {actionsModalDetails?.isExportCompaign && (
-        <ExportCompaignDrawer
-          isOpenDrawer={actionsModalDetails?.isExportCompaign}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isExportCompaign: false,
-            })
-          }
-        />
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EXPORT_CAMPAIGNS]}
+        >
+          <ExportCompaignDrawer
+            isOpenDrawer={actionsModalDetails?.isExportCompaign}
+            onClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isExportCompaign: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
       {actionsModalDetails?.isEditCompaign && (
-        <EditCompaign
-          isOpenDrawer={actionsModalDetails?.isEditCompaign}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isEditCompaign: false,
-            })
-          }
-        />
-      )}
-      {actionsModalDetails?.isEditColumns && (
-        <EditColumns
-          open={actionsModalDetails?.isEditColumns}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isEditColumns: false,
-            })
-          }
-        />
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_CAMPAIGNS]}
+        >
+          <EditCompaign
+            isOpenDrawer={actionsModalDetails?.isEditCompaign}
+            onClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isEditCompaign: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
       {actionsModalDetails?.isViewDeatsils && (
-        <CompaignDetails
-          open={actionsModalDetails?.isViewDeatsils}
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.VIEW_DETAILS]}
+        >
+          <CompaignDetails
+            open={actionsModalDetails?.isViewDeatsils}
+            onClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isViewDeatsils: false,
+              })
+            }
+          />
+        </PermissionsGuard>
+      )}
+      {actionsModalDetails?.isCreateTask && (
+        <EditTask
+          isOpenDrawer={actionsModalDetails?.isCreateTask}
+          isType={'create'}
           onClose={() =>
             setActionsModalDetails({
               ...actionsModalDetails,
-              isViewDeatsils: false,
+              isCreateTask: false,
             })
           }
         />

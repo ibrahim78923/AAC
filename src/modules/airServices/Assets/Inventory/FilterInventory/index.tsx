@@ -11,6 +11,7 @@ export const FilterInventory = (props: any) => {
     submitInventoryFilterForm,
     handleSubmit,
     closeInventoryFilterForm,
+    resetInventoryFilterForm,
   } = useFilterInventory(props);
 
   return (
@@ -26,13 +27,14 @@ export const FilterInventory = (props: any) => {
         footer
         okText="Apply"
         onClose={() => closeInventoryFilterForm?.()}
+        cancelBtnHandler={() => resetInventoryFilterForm?.()}
       >
         <br />
         <FormProvider
           methods={methods}
           onSubmit={handleSubmit?.(submitInventoryFilterForm)}
         >
-          <Grid container spacing={2}>
+          <Grid container spacing={1.5}>
             {inventoryFilterFormFieldsData?.map((form: any) => (
               <Grid item xs={12} key={form?.id}>
                 <form.component {...form?.componentProps} size="small" />

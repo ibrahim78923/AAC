@@ -1,25 +1,68 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { singleTicketDetailTabsData } from './SingleTicketDetailTabs.data';
 import { Tasks } from '../Tasks';
-import { Meetings } from '../Meetings';
 import { Approvals } from '../Approvals';
 import RelatedTickets from '../RelatedTickets';
 import { AssociateAssets } from '../AssociateAssets';
 import { Details } from '../Details';
 import { Activities } from '../Activities';
 import { Conversations } from '../Conversations';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { Permissions } from '@/constants/permissions';
+import { Meeting } from '../Meeting';
+import { Skeleton } from '@mui/lab';
+import { TICKET_TYPE } from '@/constants/strings';
 
-export const SingleTicketDetailTabs = () => {
+export const SingleTicketDetailTabs = (props: any) => {
+  const { apiStatus, data } = props;
+  if (apiStatus?.isLoading || apiStatus?.isFetching) return <Skeleton />;
   return (
-    <HorizontalTabs tabsDataArray={singleTicketDetailTabsData}>
-      <Details />
-      <Tasks />
-      <RelatedTickets />
-      <AssociateAssets />
-      <Approvals />
-      <Meetings />
-      <Activities />
-      <Conversations />
+    <HorizontalTabs tabsDataArray={singleTicketDetailTabsData?.(data)}>
+      <PermissionsGuard
+        permissions={Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_TAB}
+      >
+        <Details />
+      </PermissionsGuard>
+      <PermissionsGuard
+        permissions={Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_TASK}
+      >
+        <Tasks />
+      </PermissionsGuard>
+      <PermissionsGuard
+        permissions={
+          Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_CHILD_TICKET
+        }
+      >
+        <RelatedTickets />
+      </PermissionsGuard>
+      <PermissionsGuard
+        permissions={
+          Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_ASSETS_ASSOCIATE
+        }
+      >
+        <AssociateAssets />
+      </PermissionsGuard>
+      {data?.data?.[0]?.ticketType === TICKET_TYPE?.SR && <Approvals />}
+      <PermissionsGuard
+        permissions={Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_MEETINGS}
+      >
+        <Meeting />
+      </PermissionsGuard>
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_TICKETS_TICKETS_DETAILS?.VIEW_ACTIVITIES_DETAILS,
+        ]}
+      >
+        <Activities />
+      </PermissionsGuard>
+      <PermissionsGuard
+        permissions={
+          Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_CONVERSATION
+        }
+      >
+        <Conversations />
+      </PermissionsGuard>
     </HorizontalTabs>
   );
 };

@@ -1,93 +1,168 @@
-import { Button, useTheme, Box, Typography, Chip } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { Box, Typography, Chip } from '@mui/material';
+import { Fragment } from 'react';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoData from '@/components/NoData';
-import { associationsDataArray, chipColor } from './Associations.data';
-import { v4 as uuidv4 } from 'uuid';
+import { chipColor } from './Associations.data';
 import { ExistingIncident } from './ExistingIncident';
-import { DialogBox } from './DialogBox';
 import { NewIncident } from './NewIncident';
 import { NoAssociationFoundImage } from '@/assets/images';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { AlertModals } from '@/components/AlertModals';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+import useAssociations from './useAssociations';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const Associations = () => {
-  const theme: any = useTheme();
-
-  const [openDialog, setOpenDialog] = useState(false);
-  const [openNewIncident, setNewIncident] = useState(false);
-  const [openExistingIncident, setExistingIncident] = useState(false);
+  const {
+    getInventoryListData,
+    theme,
+    lazyGetIncidentStatus,
+    handleMouseOver,
+    hoveredItemId,
+    setHoveredItemId,
+    handleMouseLeave,
+    handleDelete,
+    isDeleteModalOpen,
+    handleCloseDeleteModal,
+    handleConfirmDelete,
+    isLoading,
+    setNewIncident,
+    setExistingIncident,
+    openNewIncident,
+    openExistingIncident,
+    addAssociationsButton,
+  } = useAssociations();
 
   return (
     <Fragment>
-      {associationsDataArray?.length <= 0 ? (
+      {getInventoryListData?.length <= 0 ? (
         <NoData
           image={NoAssociationFoundImage}
           message={'There are no associations'}
         >
-          <Button
-            variant="outlined"
-            sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
-            onClick={() => setOpenDialog(true)}
-            startIcon={<AddCircleIcon />}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
+            ]}
           >
-            Associate
-          </Button>
+            <SingleDropdownButton
+              dropdownOptions={addAssociationsButton}
+              dropdownName={'Associate'}
+              endIcon={<></>}
+              startIcon={<AddCircleIcon />}
+              variant="outlined"
+              color="primary"
+              sx={{ backgroundColor: theme?.palette?.grey?.[400] }}
+            />
+          </PermissionsGuard>
         </NoData>
       ) : (
         <Fragment>
           <Box textAlign={'end'}>
-            <Button
-              variant="contained"
-              onClick={() => setOpenDialog(true)}
-              startIcon={<AddCircleIcon />}
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
+              ]}
             >
-              Associate
-            </Button>
-          </Box>
-          {associationsDataArray?.map((item: any) => (
-            <Box
-              border={`1px solid ${theme?.palette?.grey?.[400]}`}
-              borderLeft={`8px solid ${theme?.['palette']?.[
-                `${chipColor(item?.status)}`
-              ]?.['main']}`}
-              boxShadow={4}
-              borderRadius={2}
-              p={1}
-              mt={2}
-              display={'flex'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              key={uuidv4()}
-            >
-              <Typography variant="body2" fontWeight={600}>
-                {item?.ticketNo}
-              </Typography>
-              <Chip
-                label={item?.status}
-                sx={{
-                  bgcolor:
-                    theme?.['palette']?.[`${chipColor(item?.status)}`]?.[
-                      'main'
-                    ],
-                  color: theme?.palette?.common?.white,
-                }}
+              <SingleDropdownButton
+                dropdownOptions={addAssociationsButton}
+                dropdownName={'Associate'}
+                endIcon={<></>}
+                startIcon={<AddCircleIcon />}
+                color="primary"
+                variant="contained"
               />
-            </Box>
-          ))}
+            </PermissionsGuard>
+          </Box>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_ASSOCIATION,
+            ]}
+          >
+            <>
+              {lazyGetIncidentStatus?.isLoading ||
+              lazyGetIncidentStatus?.isFetching ? (
+                <Box mt={2}>
+                  <SkeletonTable />
+                </Box>
+              ) : (
+                <>
+                  {getInventoryListData?.map((item: any) => (
+                    <Box
+                      key={item?._id}
+                      border={`1px solid ${theme?.palette?.grey?.[400]}`}
+                      borderLeft={`8px solid ${theme?.palette[
+                        chipColor(item?.status)
+                      ]?.main}`}
+                      boxShadow={4}
+                      borderRadius={2}
+                      p={1}
+                      mt={2}
+                      display={'flex'}
+                      justifyContent={'space-between'}
+                      alignItems={'center'}
+                    >
+                      <Box
+                        display={'flex'}
+                        flexWrap={'wrap'}
+                        onMouseOver={() => handleMouseOver(item?._id)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        {hoveredItemId === item?._id && (
+                          <RemoveCircleOutlineIcon
+                            style={{ marginRight: '8px', cursor: 'pointer' }}
+                            fontSize="small"
+                            onClick={() => {
+                              setHoveredItemId(item?._id);
+                              handleDelete(item?._id);
+                            }}
+                          />
+                        )}
+                        <Typography variant="body2" fontWeight={600}>
+                          {item?.ticketIdNumber}
+                        </Typography>
+                      </Box>
+                      <Chip
+                        label={item?.status ?? '---'}
+                        sx={{
+                          bgcolor:
+                            theme?.palette[chipColor(item?.status)]?.main,
+                          color: theme?.palette?.common?.white,
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </>
+              )}
+            </>
+          </PermissionsGuard>
         </Fragment>
       )}
-
-      <DialogBox
-        openDialog={openDialog}
-        setOpenDialog={setOpenDialog}
-        setNewIncident={setNewIncident}
-        setExistingIncident={setExistingIncident}
-      />
-
-      <NewIncident openDrawer={openNewIncident} onClose={setNewIncident} />
-      <ExistingIncident
-        openDrawer={openExistingIncident}
-        onClose={setExistingIncident}
-      />
+      {isDeleteModalOpen && (
+        <AlertModals
+          message="Are you sure you want to delete this item?"
+          type={ALERT_MODALS_TYPE?.DELETE}
+          open={isDeleteModalOpen}
+          handleClose={handleCloseDeleteModal}
+          handleSubmitBtn={handleConfirmDelete}
+          loading={isLoading}
+        />
+      )}
+      {openNewIncident && (
+        <NewIncident
+          openDrawer={openNewIncident}
+          setIsOpenDrawer={setNewIncident}
+        />
+      )}
+      {openExistingIncident && (
+        <ExistingIncident
+          openDrawer={openExistingIncident}
+          setIsOpenDrawer={setExistingIncident}
+        />
+      )}
     </Fragment>
   );
 };

@@ -1,28 +1,33 @@
 import React, { FC } from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 
 import { BoardCardI } from './BoardCard.interface';
 import { styles } from './BoardCard.style';
-import DealCard from './DealCard';
 
 const BoardCard: FC<BoardCardI> = ({
-  dealStage,
   stageDealsNumber,
   stageDealsAmount,
   stageDealsPercent,
+  sx,
+  children,
+  title,
 }) => {
+  const theme = useTheme();
   return (
-    <Box sx={styles?.card}>
-      <Box sx={styles?.cardHeader}>
+    <Box sx={{ ...styles?.card, ...sx }}>
+      <Box sx={styles?.cardHeader(theme)}>
         <Box sx={styles?.cardHeaderLeft}>
           <Typography
             variant="body2"
-            sx={{ fontWeight: '700', color: 'blue.main' }}
+            sx={{
+              color: `${theme?.palette?.blue?.main}`,
+              fontWeight: 600,
+            }}
           >
-            {dealStage}
+            {title}
           </Typography>
-          <Box sx={styles.dealsNumber}>{stageDealsNumber}</Box>
+          <Box sx={styles?.dealsNumber}>{stageDealsNumber}</Box>
         </Box>
 
         <Box sx={styles?.cardHeaderRight}>
@@ -33,10 +38,7 @@ const BoardCard: FC<BoardCardI> = ({
         </Box>
       </Box>
 
-      <Box sx={styles?.cardBody}>
-        <DealCard />
-        <DealCard />
-      </Box>
+      <Box sx={styles?.cardBody}>{children}</Box>
     </Box>
   );
 };

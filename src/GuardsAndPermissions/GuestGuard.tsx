@@ -4,17 +4,78 @@ import { useRouter } from 'next/router';
 
 import useAuth from '../hooks/useAuth';
 import LoadingScreen from '@/components/LoadingScreen';
+import { ROLES } from '@/constants/strings';
+import { SUPER_ADMIN, ORG_ADMIN, AUTH, AIR_CUSTOMER_PORTAL } from '@/constants';
+import { setActivePermissionsSession, setActiveProductSession } from '@/utils';
+import {
+  orgAdminAllPermissions,
+  superAdminAllPermissions,
+} from '@/constants/permissions';
+
+// const array = [
+//   {
+//     email: 'mubashir.yusuf@ceative.co.uk',
+//     path: '/super-admin',
+//   },
+//   {
+//     email: 'azeem.aslam@ceative.co.uk',
+//     path: '/air-sales/dashboard',
+//   },
+
+//   {
+//     email: 'airmarketerapplecart@yopmail.com',
+//     path: '/air-marketer/dashboard',
+//   },
+//   {
+//     email: 'orgadminairapplecard@yopmail.com',
+//     path: '/org-admin/dashboard',
+//   },
+// ];
 
 export default function GuestGuard({ children }: any) {
   const { push } = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
-  const { isAuthenticated, isInitialized } = useAuth();
+  const { isAuthenticated, isInitialized, user, logout }: any = useAuth();
+
+  // const findSkillByEmail = ({ user, array }: any) => {
+  //   return array.find((skill: any) => skill?.email === user?.email);
+  // };
+  // const path: any = findSkillByEmail({ user, array });
+
+  let pathVariable: string;
+
+  switch (user?.role) {
+    case ROLES.ORG_REQUESTER:
+      pathVariable = AIR_CUSTOMER_PORTAL.DASHBOARD;
+      break;
+    case ROLES.ORG_EMPLOYEE:
+      pathVariable = '/';
+      break;
+    case ROLES.ORG_ADMIN:
+      pathVariable = ORG_ADMIN.DASHBOARD;
+      //these two line are for testing purpose need to remove after org amdin and super admin permissions are cattered
+      setActiveProductSession({ name: 'Org Admin' });
+      setActivePermissionsSession(orgAdminAllPermissions);
+      break;
+    case ROLES.SUPER_ADMIN:
+      pathVariable = SUPER_ADMIN.DASHBOARD;
+      //these two line are for testing purpose need to remove after org amdin and super admin permissions are cattered
+      setActiveProductSession({ name: 'Super Admin' });
+      setActivePermissionsSession(superAdminAllPermissions);
+      break;
+    default:
+      pathVariable = AUTH.LOGIN;
+      break;
+  }
 
   useEffect(() => {
     if (!isInitialized) return;
     if (isAuthenticated) {
-      push('/super-admin');
+      push(pathVariable);
+      if (pathVariable === AUTH.LOGIN) {
+        logout();
+      }
       return;
     }
     setIsLoading(false);

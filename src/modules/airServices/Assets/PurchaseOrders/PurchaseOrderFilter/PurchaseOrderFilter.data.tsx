@@ -1,141 +1,138 @@
-import { RHFAutocomplete } from '@/components/ReactHookForm';
-
-export const venderOptions = [
-  {
-    label: 'Dell',
-    value: 'Dell',
-  },
-  {
-    label: 'Apple',
-    value: 'Apple',
-  },
-  {
-    label: 'Microsoft',
-    value: 'Microsoft',
-  },
-  {
-    label: 'Huawei',
-    value: 'Huawei',
-  },
-  {
-    label: 'Hp',
-    value: 'Hp',
-  },
-];
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
+import { PURCHASE_ORDER_STATUS, TIME_PERIODS } from '@/constants/strings';
 
 export const statusOptions = [
   {
-    label: 'Approved',
-    value: 'Approved',
+    label: PURCHASE_ORDER_STATUS?.APPROVED,
+    _id: PURCHASE_ORDER_STATUS?.APPROVED,
   },
   {
-    label: 'Cancelled',
-    value: 'Cancelled',
+    label: PURCHASE_ORDER_STATUS?.CANCELLED,
+    _id: PURCHASE_ORDER_STATUS?.CANCELLED,
   },
   {
-    label: 'Closed',
-    value: 'Closed',
+    label: PURCHASE_ORDER_STATUS?.CLOSED,
+    _id: PURCHASE_ORDER_STATUS?.CLOSED,
   },
   {
-    label: 'Open',
-    value: 'Open',
+    label: PURCHASE_ORDER_STATUS?.DRAFT,
+    _id: PURCHASE_ORDER_STATUS?.DRAFT,
   },
   {
-    label: 'Ordered',
-    value: 'Ordered',
+    label: PURCHASE_ORDER_STATUS?.OPEN,
+    _id: PURCHASE_ORDER_STATUS?.OPEN,
   },
   {
-    label: 'Partly Received',
-    value: 'Partly Received',
+    label: PURCHASE_ORDER_STATUS?.ORDERED,
+    _id: PURCHASE_ORDER_STATUS?.ORDERED,
   },
   {
-    label: 'Pending approval',
-    value: 'Pending approval',
+    _id: PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED,
+    label: PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED,
   },
   {
-    label: 'Received',
-    value: 'Received',
+    label: PURCHASE_ORDER_STATUS?.PENDING_APPROVAL,
+    _id: PURCHASE_ORDER_STATUS?.PENDING_APPROVAL,
   },
   {
-    label: 'Rejected',
-    value: 'Rejected',
+    _id: PURCHASE_ORDER_STATUS?.RECEIVED,
+    label: PURCHASE_ORDER_STATUS?.RECEIVED,
+  },
+  {
+    _id: PURCHASE_ORDER_STATUS?.REJECTED,
+    label: PURCHASE_ORDER_STATUS?.REJECTED,
   },
 ];
 
-export const createdDateOptions = [
+export const dateOptions = [
   {
-    label: 'None',
-    value: 'None',
+    _id: TIME_PERIODS?.NONE,
+    label: TIME_PERIODS?.NONE,
   },
   {
-    label: 'AllTime',
-    value: 'AllTime',
+    _id: TIME_PERIODS?.ALL_TIME,
+    label: TIME_PERIODS?.ALL_TIME,
   },
   {
-    label: 'Today',
-    value: 'Today',
+    _id: TIME_PERIODS?.TODAY,
+    label: TIME_PERIODS?.TODAY,
   },
   {
-    label: 'Yesterday',
-    value: 'Yesterday',
+    _id: TIME_PERIODS?.YESTERDAY,
+    label: TIME_PERIODS?.YESTERDAY,
   },
   {
-    label: 'Previous Week',
-    value: 'Previous Week',
+    _id: TIME_PERIODS?.PREVIOUS_WEEK,
+    label: TIME_PERIODS?.PREVIOUS_WEEK,
   },
   {
-    label: 'Previous Month',
-    value: 'Previous Month',
+    _id: TIME_PERIODS?.PREVIOUS_MONTH,
+    label: TIME_PERIODS?.PREVIOUS_MONTH,
+  },
+];
+export const expectedDeliveryDateOptions = [
+  {
+    _id: TIME_PERIODS?.NONE,
+    label: TIME_PERIODS?.NONE,
+  },
+  {
+    _id: TIME_PERIODS?.ALL_TIME,
+    label: TIME_PERIODS?.ALL_TIME,
+  },
+  {
+    _id: TIME_PERIODS?.TODAY,
+    label: TIME_PERIODS?.TODAY,
+  },
+  {
+    _id: TIME_PERIODS?.YESTERDAY,
+    label: TIME_PERIODS?.YESTERDAY,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_WEEK,
+    label: TIME_PERIODS?.PREVIOUS_WEEK,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_MONTH,
+    label: TIME_PERIODS?.PREVIOUS_MONTH,
+  },
+  {
+    _id: TIME_PERIODS?.NEXT_WEEK,
+    label: TIME_PERIODS?.NEXT_WEEK,
+  },
+  {
+    _id: TIME_PERIODS?.NEXT_MONTH,
+    label: TIME_PERIODS?.NEXT_MONTH,
   },
 ];
 
-export const deliveryDateOptions = [
-  ...createdDateOptions,
-  {
-    label: 'Next Month',
-    value: 'Next Month',
-  },
-  {
-    label: 'Next week',
-    value: 'Next week',
-  },
-];
-
-export const departmentOptions = [
-  {
-    label: 'IT',
-    value: 'IT',
-  },
-  {
-    label: 'Operations',
-    value: 'Operations',
-  },
-  {
-    label: 'Microsoft',
-    value: 'Microsoft',
-  },
-];
-
-export const defaultValues = {
-  vendor: '',
-  status: '',
-  createdDate: '',
-  deliverDate: '',
-  department: '',
+export const purchaseOrderFilterFormDefaultValues = (data: any) => {
+  return {
+    vendorId: data?.vendorId ?? null,
+    status: data?.status ?? null,
+    createdAt: data?.createdAt ?? null,
+    expectedDeliveryDate: data?.expectedDeliveryDate ?? null,
+    departmentId: data?.departmentId ?? null,
+  };
 };
 
-export const filterFields = [
+export const purchaseOrderFilterFieldsDynamic = (
+  vendorDropdown: any,
+  departmentDropdown: any,
+) => [
   {
     id: 2,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     gridLength: 12,
     componentProps: {
       placeholder: 'Select Vendor',
       fullWidth: true,
-      name: 'vendor',
-      label: 'vendor',
-      select: true,
-      options: venderOptions,
+      name: 'vendorId',
+      label: 'Vendor',
+      apiQuery: vendorDropdown,
+      externalParams: { meta: false, limit: 50 },
     },
   },
   {
@@ -144,9 +141,9 @@ export const filterFields = [
       placeholder: 'Select Status',
       fullWidth: true,
       name: 'status',
-      label: 'status',
-      select: true,
+      label: 'Status',
       options: statusOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     gridLength: 12,
     component: RHFAutocomplete,
@@ -156,10 +153,10 @@ export const filterFields = [
     componentProps: {
       placeholder: 'Select time period',
       fullWidth: true,
-      name: 'createdDate',
-      label: 'created Date',
-      select: true,
-      options: createdDateOptions,
+      name: 'createdAt',
+      label: 'Created Date',
+      options: dateOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     gridLength: 12,
     component: RHFAutocomplete,
@@ -171,10 +168,10 @@ export const filterFields = [
     componentProps: {
       placeholder: 'Select time period',
       fullWidth: true,
-      name: 'deliverDate',
+      name: 'expectedDeliveryDate',
       label: 'Deliver Date',
-      select: true,
-      options: deliveryDateOptions,
+      options: expectedDeliveryDateOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
   },
   {
@@ -182,12 +179,11 @@ export const filterFields = [
     componentProps: {
       placeholder: 'Select Department',
       fullWidth: true,
-      name: 'department',
-      label: 'department',
-      select: true,
-      options: departmentOptions,
+      name: 'departmentId',
+      label: 'Department',
+      apiQuery: departmentDropdown,
     },
     gridLength: 12,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
 ];

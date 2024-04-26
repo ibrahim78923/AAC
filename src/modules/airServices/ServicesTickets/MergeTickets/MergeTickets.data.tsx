@@ -2,42 +2,183 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
+import { ROLES, TICKET_SELECTION_TYPE } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
+import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
 export const mergeTicketsFormValidationSchema = Yup?.object()?.shape({
-  ticketSelection: Yup?.string(),
-  searchTicket: Yup?.string()?.nullable(),
+  ticketSelection: Yup?.mixed()?.nullable()?.required('Required'),
+  searchTicket: Yup?.mixed()
+    ?.nullable()
+    ?.when('ticketSelection', {
+      is: (value: any) => value?._id !== TICKET_SELECTION_TYPE?.ID,
+      then: () => Yup?.array()?.min(1, 'Ticket is required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
+  requester: Yup?.mixed()
+    ?.nullable()
+    ?.when('ticketSelection', {
+      is: (value: any) => value?._id === TICKET_SELECTION_TYPE?.REQUESTER,
+      then: () => Yup?.mixed()?.nullable()?.required('Requester is required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
+  searchTicketId: Yup?.mixed()
+    ?.nullable()
+    ?.when('ticketSelection', {
+      is: (value: any) => value?._id === TICKET_SELECTION_TYPE?.ID,
+      then: () => Yup?.mixed()?.nullable()?.required('Ticket is required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
 });
 
-export const mergeTicketsFormDefaultValue = {
-  ticketSelection: 'Requester',
-  searchTicket: null,
+export const mergeTicketsFormDefaultValue: any = {
+  ticketSelection: {
+    _id: TICKET_SELECTION_TYPE?.REQUESTER,
+    label: TICKET_SELECTION_TYPE?.REQUESTER,
+  },
+  searchTicket: [],
+  requester: null,
+  searchTicketId: null,
+};
+
+const ticketSelectionType = [
+  TICKET_SELECTION_TYPE?.REQUESTER,
+  TICKET_SELECTION_TYPE?.SUBJECT,
+  TICKET_SELECTION_TYPE?.ID,
+];
+
+export const check: any = (
+  apiQueryTicketBySubject: any,
+  apiQueryTicketByRequester: any,
+  selectedSearchType: any,
+) => {
+  const respectiveParam: any = {
+    [TICKET_SELECTION_TYPE?.REQUESTER]: {
+      apiQuery: apiQueryTicketByRequester,
+      queryKey: 'id',
+    },
+    [TICKET_SELECTION_TYPE?.SUBJECT]: {
+      apiQuery: apiQueryTicketBySubject,
+      queryKey: 'search',
+    },
+  };
+
+  if (!ticketSelectionType?.includes(selectedSearchType))
+    return respectiveParam[TICKET_SELECTION_TYPE?.REQUESTER];
+  return respectiveParam[selectedSearchType];
 };
 
 const ticketSelectionOptions = [
-  { value: 'requester', label: 'Requester' },
-  { value: 'subject', label: 'Subject' },
-  { value: 'id', label: 'ID' },
-];
-export const mergeTicketsFormFieldsDynamic = (apiQuerySearch: any) => [
   {
-    id: 1,
-    component: RHFAutocomplete,
-    componentProps: {
-      name: 'ticketSelection',
-      label: 'Find ticket by',
-      fullWidth: true,
-      options: ticketSelectionOptions,
-    },
+    _id: TICKET_SELECTION_TYPE?.REQUESTER,
+    label: TICKET_SELECTION_TYPE?.REQUESTER,
   },
   {
-    id: 2,
-    component: RHFAutocompleteAsync,
-    componentProps: {
-      name: 'searchTicket',
-      label: 'search Ticket',
-      fullWidth: true,
-      apiQuery: apiQuerySearch,
-    },
+    _id: TICKET_SELECTION_TYPE?.SUBJECT,
+    label: TICKET_SELECTION_TYPE?.SUBJECT,
   },
+  { _id: TICKET_SELECTION_TYPE?.ID, label: TICKET_SELECTION_TYPE?.ID },
 ];
+
+export const mergeTicketsFormFieldsDynamic = (
+  watchForTicketSelection: any,
+  apiQueryRequester: any,
+  apiQueryTicketByRequester: any,
+  apiQueryTicketBySubject: any,
+  getValues: any,
+  apiQueryTicketById: any,
+) => {
+  return [
+    {
+      id: 1,
+      component: RHFAutocomplete,
+      componentProps: {
+        name: 'ticketSelection',
+        label: 'Find ticket by',
+        fullWidth: true,
+        options: ticketSelectionOptions,
+        getOptionLabel: (option: any) => option?.label,
+      },
+    },
+    ...(watchForTicketSelection?._id === TICKET_SELECTION_TYPE?.REQUESTER
+      ? [
+          {
+            id: 3,
+            componentProps: {
+              name: 'requester',
+              label: 'Search requester id',
+              fullWidth: true,
+              required: true,
+              apiQuery: apiQueryRequester,
+              externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+              getOptionLabel: (option: any) =>
+                `${option?.firstName} ${option?.lastName}`,
+              placeholder: 'Add Requester',
+            },
+            component: RHFAutocompleteAsync,
+          },
+          {
+            id: 4,
+            component: Typography,
+            heading: `${
+              !!getValues('requester')?._id
+                ? `The requester id is ${getValues('requester')
+                    ?._id}. Paste this in below search field`
+                : ``
+            }`,
+            componentProps: {
+              color: 'slateBlue.main',
+              variant: 'body2',
+            },
+          },
+        ]
+      : []),
+    ...(watchForTicketSelection?._id !== TICKET_SELECTION_TYPE?.ID
+      ? [
+          {
+            id: 2,
+            component: RHFAutocompleteAsync,
+            componentProps: {
+              name: 'searchTicket',
+              label: 'Search ticket',
+              fullWidth: true,
+              required: true,
+              multiple: true,
+              queryKey: check(
+                apiQueryTicketBySubject,
+                apiQueryTicketByRequester,
+                watchForTicketSelection?._id,
+              )?.queryKey,
+              apiQuery: check(
+                apiQueryTicketBySubject,
+                apiQueryTicketByRequester,
+                watchForTicketSelection?._id,
+              )?.apiQuery,
+              getOptionLabel: (option: any) =>
+                `${option?.ticketIdNumber} ${' '} ${truncateText(
+                  option?.subject,
+                )}`,
+            },
+          },
+        ]
+      : [
+          {
+            id: 5,
+            component: RHFAutocompleteAsync,
+            componentProps: {
+              name: 'searchTicketId',
+              label: 'Search ticket',
+              fullWidth: true,
+              required: true,
+              queryKey: 'ticketIdNumber',
+              apiQuery: apiQueryTicketById,
+              getOptionLabel: (option: any) =>
+                `${option?.ticketIdNumber} ${' '} ${truncateText(
+                  option?.subject,
+                )}`,
+            },
+          },
+        ]),
+  ];
+};

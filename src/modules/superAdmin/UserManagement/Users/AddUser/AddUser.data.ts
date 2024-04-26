@@ -1,56 +1,129 @@
 import { Typography } from '@mui/material';
-
 import { RHFMultiCheckbox, RHFSelect } from '@/components/ReactHookForm';
-
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
-
-import * as Yup from 'yup';
 import useUserManagement from '../../useUserManagement';
+import * as Yup from 'yup';
+import { useGetSuperAdminRolesQuery } from '@/services/superAdmin/user-management/users';
 
 export const CompanyOwnerValidationSchema = Yup.object().shape({
   firstName: Yup.string()
     .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   lastName: Yup.string()
     .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  adminRoleId: Yup.string().required('Field is Required'),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
-  crn: Yup.string()
+  crn: Yup.string().required('Field is Required'),
+  // phoneNumber: Yup.string().matches(/^\+\d{1,}$/, 'Invalid phone number'),
+});
+export const orgEmployeeValidationSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  lastName: Yup.string()
+    .required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  email: Yup.string()
+    .required('Field is Required')
+    .email('Invalid email address'),
+  phoneNumber: Yup.string()
+    .nullable() // Allow null or undefined values
+    .matches(/^\+\d{1,}(\s\d+)*$/, 'Invalid phone number')
+    .transform((value, originalValue) => {
+      if (
+        originalValue === '' ||
+        originalValue === null ||
+        originalValue === undefined
+      ) {
+        return null; // Convert empty string or null/undefined to null
+      }
+      return value;
+    }),
+  postCode: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
-  phoneNumber: Yup.string()
-    .matches(/^\+\d{1,}$/, 'Invalid phone number')
-    .required('Phone number is required'),
+  address: Yup.string()?.required('Field is Required'),
+  jobTitle: Yup.string()
+    .nullable() // Allow null or undefined values
+    .matches(/^[A-Za-z]*$/, 'Only alphabetic characters are allowed') // Validate alphabetic characters if provided
+    .transform((value, originalValue) => {
+      if (
+        originalValue === '' ||
+        originalValue === null ||
+        originalValue === undefined
+      ) {
+        return null; // Convert empty string or null/undefined to null
+      }
+      return value;
+    }),
+  facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
+  linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
 
 export const superAdminValidationSchema = Yup.object().shape({
   firstName: Yup.string()
     .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   lastName: Yup.string()
     .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  adminRoleId: Yup.string().required('Field is Required'),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
   phoneNumber: Yup.string()
-    .matches(/^\+\d{1,}$/, 'Invalid phone number')
-    .required('Phone number is required'),
+    .nullable() // Allow null or undefined values
+    .matches(/^\+\d{1,}(\s\d+)*$/, 'Invalid phone number')
+    .transform((value, originalValue) => {
+      if (
+        originalValue === '' ||
+        originalValue === null ||
+        originalValue === undefined
+      ) {
+        return null; // Convert empty string or null/undefined to null
+      }
+      return value;
+    }),
   postCode: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
-  compositeAddress: Yup.string(),
+  address: Yup.string()?.required('Field is Required'),
   jobTitle: Yup.string()
-    .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
-  facebookUrl: Yup.string()
-    .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
-  linkedInUrl: Yup.string()
-    .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
+    .nullable() // Allow null or undefined values
+    .matches(/^[A-Za-z]*$/, 'Only alphabetic characters are allowed') // Validate alphabetic characters if provided
+    .transform((value, originalValue) => {
+      if (
+        originalValue === '' ||
+        originalValue === null ||
+        originalValue === undefined
+      ) {
+        return null; // Convert empty string or null/undefined to null
+      }
+      return value;
+    }),
+  facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
+  linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
 
 export const companyOwnerDefaultValues = {
@@ -59,6 +132,8 @@ export const companyOwnerDefaultValues = {
 
 export const addUsersArray = () => {
   const { products: productsList } = useUserManagement();
+  const { data: superAdminRoles } = useGetSuperAdminRolesQuery();
+
   return [
     {
       componentProps: {
@@ -68,7 +143,7 @@ export const addUsersArray = () => {
         placeholder: 'Enter First Name',
         fullWidth: true,
       },
-      toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
+      toShow: ['COMPANY_OWNER', 'SUPER_ADMIN', 'ORG_EMPLOYEE'],
       component: RHFTextField,
       md: 12,
     },
@@ -80,7 +155,7 @@ export const addUsersArray = () => {
         placeholder: 'Enter Last  Name',
         fullWidth: true,
       },
-      toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
+      toShow: ['COMPANY_OWNER', 'SUPER_ADMIN', 'ORG_EMPLOYEE'],
       component: RHFTextField,
       md: 12,
     },
@@ -92,7 +167,47 @@ export const addUsersArray = () => {
         placeholder: 'Enter Email',
         fullWidth: true,
       },
-      toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
+      toShow: ['COMPANY_OWNER', 'SUPER_ADMIN', 'ORG_EMPLOYEE'],
+      component: RHFTextField,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'adminRoleId',
+        label: 'Assign Role',
+        fullWidth: true,
+        select: true,
+        required: true,
+      },
+      options: superAdminRoles?.data?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      toShow: ['SUPER_ADMIN', 'COMPANY_OWNER'],
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'crn',
+        label: 'Company Registration Number(CRN)',
+        required: true,
+        placeholder: 'Enter CRN number',
+        fullWidth: true,
+      },
+      toShow: ['COMPANY_OWNER'],
+      component: RHFTextField,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'companyName',
+        label: 'Company Name',
+        required: true,
+        placeholder: 'Enter Company Name',
+        fullWidth: true,
+      },
+      toShow: ['COMPANY_OWNER'],
       component: RHFTextField,
       md: 12,
     },
@@ -103,7 +218,7 @@ export const addUsersArray = () => {
         placeholder: 'Enter Number',
         fullWidth: true,
       },
-      toShow: ['COMPANY_OWNER', 'SUPER_ADMIN'],
+      toShow: ['COMPANY_OWNER', 'SUPER_ADMIN', 'ORG_EMPLOYEE'],
       component: RHFTextField,
       md: 12,
     },
@@ -142,19 +257,21 @@ export const addUsersArray = () => {
         placeholder: 'Enter Post Code',
         fullWidth: true,
       },
-      toShow: ['SUPER_ADMIN'],
+      toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
       component: RHFTextField,
       md: 12,
     },
     {
       componentProps: {
-        name: 'compositeAddress',
+        name: 'address',
         label: 'Address',
         required: true,
         placeholder: 'Address',
+        multiline: true,
+        rows: 4,
         fullWidth: true,
       },
-      toShow: ['SUPER_ADMIN'],
+      toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
       component: RHFTextField,
       md: 12,
       subData: [
@@ -165,7 +282,7 @@ export const addUsersArray = () => {
             placeholder: 'Enter Flat/Unit',
             fullWidth: true,
           },
-          toShow: ['SUPER_ADMIN'],
+          toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
           component: RHFTextField,
           md: 12,
         },
@@ -176,7 +293,7 @@ export const addUsersArray = () => {
             placeholder: 'Enter Building Name',
             fullWidth: true,
           },
-          toShow: ['SUPER_ADMIN'],
+          toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
           component: RHFTextField,
           md: 12,
         },
@@ -187,7 +304,7 @@ export const addUsersArray = () => {
             placeholder: 'Enter Building Number',
             fullWidth: true,
           },
-          toShow: ['SUPER_ADMIN'],
+          toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
           component: RHFTextField,
           md: 12,
         },
@@ -198,7 +315,7 @@ export const addUsersArray = () => {
             placeholder: 'Enter Street Name',
             fullWidth: true,
           },
-          toShow: ['SUPER_ADMIN'],
+          toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
           component: RHFTextField,
           md: 12,
         },
@@ -209,7 +326,7 @@ export const addUsersArray = () => {
             placeholder: 'Enter Town/City',
             fullWidth: true,
           },
-          toShow: ['SUPER_ADMIN'],
+          toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
           component: RHFTextField,
           md: 12,
         },
@@ -227,7 +344,7 @@ export const addUsersArray = () => {
             { value: 'us', label: 'US' },
           ],
           component: RHFSelect,
-          toShow: ['SUPER_ADMIN'],
+          toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
           md: 12,
         },
       ],
@@ -239,7 +356,7 @@ export const addUsersArray = () => {
         placeholder: 'Enter Job Title',
         fullWidth: true,
       },
-      toShow: ['SUPER_ADMIN'],
+      toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
       component: RHFTextField,
       md: 12,
     },
@@ -250,7 +367,7 @@ export const addUsersArray = () => {
         placeholder: 'Enter Facebook URL',
         fullWidth: true,
       },
-      toShow: ['SUPER_ADMIN'],
+      toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
       component: RHFTextField,
       md: 12,
     },
@@ -261,7 +378,7 @@ export const addUsersArray = () => {
         placeholder: 'Enter LinkedIn URL',
         fullWidth: true,
       },
-      toShow: ['SUPER_ADMIN'],
+      toShow: ['SUPER_ADMIN', 'ORG_EMPLOYEE'],
       component: RHFTextField,
       md: 12,
     },

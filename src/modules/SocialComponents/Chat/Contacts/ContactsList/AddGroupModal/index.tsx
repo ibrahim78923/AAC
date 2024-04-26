@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -18,40 +18,125 @@ import {
   addGroupFiltersDataArray,
   addGroupValidationSchema,
   columns,
-  participantsData,
 } from './AddGroupModal.data';
 import { AddGroupPropsI } from './AddGroup.interface';
 
-import {
-  AddRoundedImage,
-  UserProfileAvatarImage,
-  UserSenderImage,
-} from '@/assets/images';
+import { AddRoundedImage, UserDefault } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
+import { getSession, isNullOrEmpty } from '@/utils';
+import { enqueueSnackbar } from 'notistack';
+import {
+  useCreateNewGroupMutation,
+  useGetChatUsersQuery,
+} from '@/services/chat';
+import { PAGINATION } from '@/config';
 
 const AddGroupModal = ({
   isAddGroupModal,
   setIsAddGroupModal,
 }: AddGroupPropsI) => {
+  const [setValues] = useState<any>([]);
+
   const methodsAddGroup = useForm({
     resolver: yupResolver(addGroupValidationSchema),
     defaultValues: addGroupDefaultValues,
   });
 
-  const onSubmit = () => {
-    setIsAddGroupModal(false);
+  const { handleSubmit, watch } = methodsAddGroup;
+
+  const participantIds = watch('participant');
+
+  const [participantsIdsValues, setParticipantsIdsValues] = useState<any>();
+  const [groupAdmins, setGroupAdmins] = useState<any>([]);
+  const [imageToUpload, setImageToUpload] = useState<any>();
+  const [imagePreview, setImagePreview] = useState<any>();
+
+  const { user }: { user: any } = getSession();
+
+  const { data: chatsUsers } = useGetChatUsersQuery({
+    params: {
+      organization: user?.organization?._id,
+      page: PAGINATION?.CURRENT_PAGE,
+      limit: PAGINATION?.PAGE_LIMIT,
+      role: user?.role,
+    },
+  });
+  const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
+    id: item?._id,
+    label: `${item?.firstName} ${item?.lastName}`,
+    value: item?._id,
+    image: UserDefault,
+  }));
+
+  const [createNewGroup] = useCreateNewGroupMutation();
+
+  const handleRemoveParticipant = (id: any) => {
+    const updatedParticipantsIds = participantsIdsValues?.filter(
+      (participantId: any) => participantId !== id,
+    );
+    setParticipantsIdsValues(updatedParticipantsIds);
   };
 
-  const { handleSubmit } = methodsAddGroup;
+  const getColumns = columns(
+    handleRemoveParticipant,
+    groupAdmins,
+    setGroupAdmins,
+  );
 
-  const getColumns = columns();
+  const filteredParticipants = transformedData
+    ?.filter(
+      (participant: any) => participantsIdsValues?.includes(participant?.id),
+    )
+    ?.map((participant: any) => ({
+      id: participant?.id,
+      participant: participant?.label,
+    }));
+
+  useEffect(() => {
+    setParticipantsIdsValues(participantIds);
+  }, [participantIds]);
+
+  const formData = new FormData();
+
+  const onSubmit = async (values: any) => {
+    formData.append('participants', participantsIdsValues);
+    formData.append('groupAdmins', groupAdmins);
+    formData.append('groupName', values?.groupTitle);
+    formData.append('groupImage', imageToUpload);
+
+    try {
+      await createNewGroup({
+        body: formData,
+      })?.unwrap();
+      enqueueSnackbar('successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occurred', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleImageChange = async (e: any) => {
+    const selectedImage = e?.target?.files[0];
+    setImageToUpload(selectedImage);
+    formData?.append('groupImage', selectedImage);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader?.result);
+    };
+    reader.readAsDataURL(selectedImage);
+  };
 
   return (
     <CommonModal
       open={isAddGroupModal}
       handleClose={() => setIsAddGroupModal(false)}
+      handleCancel={() => setIsAddGroupModal(false)}
       handleSubmit={handleSubmit(onSubmit)}
       title="Create Group"
       okText="Create Group"
@@ -67,15 +152,41 @@ const AddGroupModal = ({
             gap: '10px',
           }}
         >
-          <Image src={AddRoundedImage} alt="upload" />
-          <Typography variant="h6">Add Photo</Typography>
+          <input
+            hidden={true}
+            id="upload-group-image"
+            type="file"
+            accept="image/*"
+            onChange={(e: any) => handleImageChange(e)}
+          />
+          <label htmlFor="upload-group-image">
+            {imagePreview ? (
+              <Image
+                src={imagePreview}
+                width={100}
+                height={100}
+                style={{ borderRadius: '50%' }}
+                alt="selected image"
+              />
+            ) : (
+              <Image
+                src={AddRoundedImage}
+                alt="upload"
+                style={{ cursor: 'pointer' }}
+              />
+            )}
+            <Typography sx={{ cursor: 'pointer' }} variant="h6">
+              Add Photo
+            </Typography>
+          </label>
         </Box>
+
         <br />
         <FormProvider
           methods={methodsAddGroup}
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {addGroupFiltersDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component
@@ -97,35 +208,18 @@ const AddGroupModal = ({
               <RHFMultiSearchableSelect
                 name="participant"
                 isCheckBox={true}
-                label="Candidates"
-                options={[
-                  {
-                    image: UserProfileAvatarImage,
-                    value: 'JohnDoe',
-                    label: 'John Doe',
-                  },
-                  {
-                    image: UserSenderImage,
-                    value: 'Andrew',
-                    label: 'Andrew',
-                  },
-                  {
-                    image: UserProfileAvatarImage,
-                    value: 'RichardRobertson',
-                    label: 'Richard robertson',
-                  },
-                  {
-                    image: UserSenderImage,
-                    value: 'Franksten',
-                    label: 'Franksten',
-                  },
-                ]}
+                label="Add Participant"
+                size="small"
+                setValues={setValues}
+                options={transformedData ?? []}
               />
             </Grid>
           </Grid>
         </FormProvider>
         <br />
-        <TanstackTable columns={getColumns} data={participantsData} />
+        {!isNullOrEmpty(filteredParticipants) && (
+          <TanstackTable columns={getColumns} data={filteredParticipants} />
+        )}
       </>
     </CommonModal>
   );

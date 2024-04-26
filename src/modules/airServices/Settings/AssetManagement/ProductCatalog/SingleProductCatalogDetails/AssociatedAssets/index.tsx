@@ -1,7 +1,6 @@
 import { Box, Button } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { associatedAssetsData } from './AssociatedAssets.data';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useAssociatedAssets } from './useAssociatedAssets';
@@ -16,6 +15,10 @@ export const AssociatedAssets = () => {
     handleSubmitDelete,
     setAddModalOpen,
     addModalOpen,
+    productCatalogAssociatedAssetListStatus,
+    setPage,
+    setPageLimit,
+    deleteAssociateAssetStatus,
   } = useAssociatedAssets();
 
   return (
@@ -31,9 +34,56 @@ export const AssociatedAssets = () => {
       </Box>
 
       <TanstackTable
-        data={associatedAssetsData}
+        data={
+          productCatalogAssociatedAssetListStatus?.data?.data?.productcatalogs
+            ?.length > 1
+            ? productCatalogAssociatedAssetListStatus?.data?.data
+                ?.productcatalogs
+            : productCatalogAssociatedAssetListStatus?.data?.data
+                  ?.productcatalogs?.[0]?.associatedAssets?._id
+              ? productCatalogAssociatedAssetListStatus?.data?.data
+                  ?.productcatalogs
+              : []
+        }
         columns={associatedAssetsColumns}
         isPagination
+        currentPage={
+          productCatalogAssociatedAssetListStatus?.data?.data?.productcatalogs
+            ?.length > 1
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.page
+            : productCatalogAssociatedAssetListStatus?.data?.data
+                  ?.productcatalogs?.[0]?.associatedAssets?._id
+              ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.page
+              : 0
+        }
+        count={
+          productCatalogAssociatedAssetListStatus?.data?.data?.productcatalogs
+            ?.length > 1
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.pages
+            : productCatalogAssociatedAssetListStatus?.data?.data
+                  ?.productcatalogs?.[0]?.associatedAssets?._id
+              ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.pages
+              : 0
+        }
+        pageLimit={
+          productCatalogAssociatedAssetListStatus?.data?.data?.meta?.limit
+        }
+        totalRecords={
+          productCatalogAssociatedAssetListStatus?.data?.data?.productcatalogs
+            ?.length > 1
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.total
+            : productCatalogAssociatedAssetListStatus?.data?.data
+                  ?.productcatalogs?.[0]?.associatedAssets?._id
+              ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.total
+              : 0
+        }
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isLoading={productCatalogAssociatedAssetListStatus?.isLoading}
+        isFetching={productCatalogAssociatedAssetListStatus?.isFetching}
+        isError={productCatalogAssociatedAssetListStatus?.isError}
+        isSuccess={productCatalogAssociatedAssetListStatus?.isSuccess}
       />
 
       {isDeleteModalOpen && (
@@ -43,6 +93,8 @@ export const AssociatedAssets = () => {
           handleClose={() => setIsDeleteModalOpen?.({ open: false, id: '' })}
           handleSubmitBtn={handleSubmitDelete}
           message="Are you sure want to delete this Asset?"
+          loading={deleteAssociateAssetStatus?.isLoading}
+          disableCancelBtn={deleteAssociateAssetStatus?.isLoading}
         />
       )}
 

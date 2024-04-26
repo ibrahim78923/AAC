@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -6,24 +5,97 @@ import {
   productsDefaultValues,
   productsValidationSchema,
 } from './ProductEditorDrawer.data';
+import { usePostSalesProductMutation } from '@/services/airSales/deals/settings/sales-product';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 
-const useProductsEditorDrawer = () => {
-  const [searchProduct, setSearchProduct] = useState('');
+const useProductsEditorDrawer = ({
+  selectedProduct,
+  openDrawer,
+  setOpenDrawer,
+  dealId,
+}: any) => {
+  const [postSalesProduct, { isLoading: addProductLoading }] =
+    usePostSalesProductMutation();
+  const [createAssociation] = useCreateAssociationMutation();
+
   const methodsProducts = useForm({
-    resolver: yupResolver(productsValidationSchema),
-    defaultValues: productsDefaultValues,
+    resolver: yupResolver<any>(productsValidationSchema),
+    defaultValues: async () => {
+      if (openDrawer !== 'Add' && selectedProduct) {
+        const {
+          name,
+          sku,
+          purchasePrice,
+          category,
+          description,
+          isActive,
+          unitPrice,
+          file,
+        } = selectedProduct;
+        return {
+          name,
+          sku,
+          purchasePrice: purchasePrice || null,
+          category,
+          description,
+          isActive,
+          unitPrice: unitPrice || null,
+          file,
+        };
+      }
+      return productsDefaultValues;
+    },
   });
 
-  const onSubmit = () => {};
-  const { handleSubmit, watch } = methodsProducts;
-  const watchProductstatus = watch(['productStatus']);
+  const onSubmit = async (values: any) => {
+    const formData = new FormData();
+    formData.append('name', values?.name);
+    formData.append('sku', values?.sku);
+    formData.append('purchasePrice', values?.purchasePrice);
+    formData.append('category', values?.category);
+    formData.append('description', values?.description);
+    formData.append('unitPrice', values?.unitPrice);
+    formData.append('isActive', values?.isActive);
+    formData.append('image', values?.file);
+
+    try {
+      const response = await postSalesProduct({ body: formData })?.unwrap();
+      setOpenDrawer('');
+      if (response?.data) {
+        try {
+          await createAssociation({
+            body: {
+              dealId: dealId,
+              product: { productId: response?.data?._id },
+            },
+          }).unwrap();
+          enqueueSnackbar(` Product Added Successfully`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
+        } catch (error: any) {
+          const errMsg = error?.data?.message;
+          enqueueSnackbar(errMsg ?? 'Error occurred', {
+            variant: NOTISTACK_VARIANTS?.ERROR,
+          });
+        }
+      }
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+  const { handleSubmit } = methodsProducts;
+
   return {
     handleSubmit,
     onSubmit,
     methodsProducts,
-    watchProductstatus,
-    searchProduct,
-    setSearchProduct,
+    addProductLoading,
   };
 };
 

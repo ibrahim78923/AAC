@@ -19,19 +19,40 @@ import {
 } from '@/services/orgAdmin/settings/contact-status';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
+import { PAGINATION } from '@/config';
 
 const useContactStatus = () => {
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [isDraweropen, setIsDraweropen] = useState(false);
-  const [productSearch, setproductSearch] = useState<string>('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
   const [rowId, setRowId] = useState<string>('');
   const [editData, setEditData] = useState<any>({});
   const [isModalHeading, setIsModalHeading] = useState('Create');
   const [postContactStatus] = usePostContactStatusMutation();
-  const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetContactStatusQuery([]);
+
+  // GET CONTACT STATUS LIST
+  const paginationParams = {
+    page: page,
+    limit: pageLimit,
+  };
+  const [searchValue, setSearchValue] = useState(null);
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+  const {
+    data,
+    refetch: refetchContactStatus,
+    isLoading: loadingList,
+    isError,
+    isFetching,
+    isSuccess,
+  } = useGetContactStatusQuery({ ...searchPayLoad, ...paginationParams });
+
   const [deleteContactStatus] = useDeleteContactStatusMutation();
-  const [updateContactStatus] = useUpdateContactStatusMutation();
+  const [updateContactStatus, { isLoading: loadingUpdateContactStatus }] =
+    useUpdateContactStatusMutation();
 
   const theme = useTheme<Theme>();
 
@@ -88,16 +109,18 @@ const useContactStatus = () => {
     }
   }, [editData, ContactStatus]);
   const { handleSubmit, reset } = ContactStatus;
+
   const onSubmit = async (data: any) => {
     const settingContactStatus = {
       ...data,
     };
     try {
-      if (editData) {
+      if (Object?.keys(editData)[0]) {
         await updateContactStatus({
           body: settingContactStatus,
           id: editData?._id,
         }).unwrap();
+        refetchContactStatus();
 
         setIsDraweropen(false);
         enqueueSnackbar('Status Updated Successfully', {
@@ -107,6 +130,7 @@ const useContactStatus = () => {
         await postContactStatus({
           body: settingContactStatus,
         }).unwrap();
+        refetchContactStatus();
         enqueueSnackbar('Status Added Successfully', {
           variant: 'success',
         });
@@ -129,15 +153,16 @@ const useContactStatus = () => {
   );
 
   return {
-    tableRow: data?.data?.conatactStatus,
-    isLoading,
+    setPageLimit,
+    setPage,
+    setSearchValue,
+    tableRow: data?.data,
+    loadingList,
     isError,
     isFetching,
     isSuccess,
     isDraweropen,
     setIsDraweropen,
-    productSearch,
-    setproductSearch,
     theme,
     handleCloseDrawer,
     ContactStatus,
@@ -149,6 +174,7 @@ const useContactStatus = () => {
     isModalHeading,
     setIsModalHeading,
     deleteContactsStatus,
+    loadingUpdateContactStatus,
   };
 };
 

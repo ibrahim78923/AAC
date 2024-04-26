@@ -2,7 +2,11 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { styles } from './CreateAudience.style';
-import { FacebookIcon, LinkdinIcon, PlusIcon } from '@/assets/icons';
+import {
+  FacebookSquareIcon,
+  LinkedInSquareIcon,
+  PlusIcon,
+} from '@/assets/icons';
 import usePaidAds from './useCreateAudience';
 import { v4 as uuidv4 } from 'uuid';
 import { createAudience } from './CreateAudience.data';
@@ -53,9 +57,9 @@ const CreateAudience = () => {
             >
               {item?.desc}
             </Typography>
-            <Box display="flex" ml="-10px">
-              <FacebookIcon />
-              <LinkdinIcon />
+            <Box display="flex" gap={1} mt={1}>
+              <LinkedInSquareIcon />
+              <FacebookSquareIcon />
             </Box>
           </Box>
         ))}

@@ -1,8 +1,14 @@
 import { useState } from 'react';
-import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
+import { useDeleteTaskMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useTasksHeader = () => {
+export const useTasksHeader = (props: any) => {
+  const {
+    activeCheck,
+    setIsEditDrawerOpen,
+    setIsAddDrawerOpen,
+    setActiveCheck,
+  } = props;
   const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
   const [actionExportPop, setActionExportPop] =
     useState<HTMLButtonElement | null>(null);
@@ -14,25 +20,49 @@ export const useTasksHeader = () => {
     setActionPop(null);
   };
   const openAction = Boolean(actionPop);
-
   const handleActionExportClick = (event: any) => {
     setActionExportPop(event?.currentTarget);
   };
-  const handleActionExportClose = () => {
+  const handleActionExportClose = (event: React.MouseEvent<HTMLElement>) => {
+    event?.stopPropagation();
     setActionExportPop(null);
   };
   const openActionExport = Boolean(actionExportPop);
+  const [deleteTaskApi, { isLoading }] = useDeleteTaskMutation();
   const submitDeleteModel = async () => {
-    enqueueSnackbar('Task Delete Successfully', {
-      variant: 'error',
-    });
-    setDeleteModal(false);
-    setActionPop(null);
+    const deleteParams = activeCheck?.map((task: any) => task?._id);
+    try {
+      const res: any = await deleteTaskApi(deleteParams);
+      successSnackbar(res?.data?.message && 'Task Delete Successfully');
+      setDeleteModal(false);
+      setActionPop(null);
+      setActiveCheck([]);
+    } catch (error: any) {
+      errorSnackbar(error?.error?.message ?? 'An error occurred');
+    }
   };
-  const theme = useTheme();
+  const exportHandler = async (
+    type: string,
+    event: React.MouseEvent<HTMLElement>,
+  ) => {
+    event.stopPropagation();
+    successSnackbar(`${type} Task file export successfully`);
+    setActionExportPop(null);
+  };
+  const openEditDrawer = () => {
+    if (activeCheck?.length > 1) {
+      errorSnackbar('Cannot edit multiple tasks');
+    } else {
+      setIsEditDrawerOpen(true);
+      setActionPop(null);
+    }
+  };
+  const openAddDrawer = () => {
+    setActiveCheck([]);
+    setIsAddDrawerOpen(true);
+  };
   return {
     actionPop,
-    setActionPop,
     openAction,
     handleActionClick,
     handleActionClose,
@@ -43,6 +73,9 @@ export const useTasksHeader = () => {
     deleteModal,
     setDeleteModal,
     submitDeleteModel,
-    theme,
+    openEditDrawer,
+    openAddDrawer,
+    exportHandler,
+    isLoading,
   };
 };

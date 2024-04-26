@@ -10,7 +10,7 @@ import StatusCards from './StatusCards';
 
 const Dashboard = () => {
   return (
-    <Box>
+    <Box sx={{ padding: '20px' }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <StatusCards />

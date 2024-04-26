@@ -2,18 +2,14 @@ import { Checkbox } from '@mui/material';
 
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 
-import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
-
 import { RHFSwitch, RHFTextField } from '@/components/ReactHookForm';
 
 import { SwitchBtn } from '@/components/SwitchButton';
 
-import { ExpandMore } from '@mui/icons-material';
-
 import * as Yup from 'yup';
 
 import { CommonAPIS } from '@/services/common-APIs';
-import { getSession } from '@/utils';
+import { convertIdToShortNumber, getSession } from '@/utils';
 
 export const columns: any = (columnsProps: any) => {
   const { updateStatus, checkedRows, setCheckedRows } = columnsProps;
@@ -36,13 +32,13 @@ export const columns: any = (columnsProps: any) => {
           }
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: <Checkbox color="primary" name="Id" disabled />,
       isSortable: false,
     },
     {
       accessorFn: (row: any) => row?._id,
       id: '_id',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => convertIdToShortNumber(info?.getValue()) ?? 'N/A',
       header: 'Role ID',
       isSortable: true,
     },
@@ -51,21 +47,21 @@ export const columns: any = (columnsProps: any) => {
       id: 'name',
       isSortable: true,
       header: 'Role Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.productDetails?.name,
       id: 'products',
       isSortable: true,
       header: 'Products',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.companyAccountDetails?.name,
       id: 'companyAccount',
       isSortable: true,
       header: 'Company Accounts',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.Status,
@@ -85,96 +81,12 @@ export const columns: any = (columnsProps: any) => {
     },
   ];
 };
-export const rolesValidationSchema = Yup.object().shape({
-  roleName: Yup?.string()?.required('Field is Required'),
-  product: Yup?.string()?.required('Field is Required'),
-  status: Yup?.string()?.required('Field is Required'),
-  createdDate: Yup?.date()?.required('Field is Required'),
-});
-
-export const rolesDefaultValues = {
-  roleName: '',
-  product: '',
-  status: '',
-  createdDate: new Date(),
-};
-
-export const rolesFiltersArray = [
-  {
-    componentProps: {
-      name: 'roleName',
-      label: 'Role Name',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'CompanyOwner', label: 'Company Owner' },
-      { value: 'SuperAdmin', label: 'Super Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'product',
-      label: 'Product',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'sales', label: 'Sales' },
-      { value: 'services', label: 'Services' },
-      { value: 'marketing', label: 'Marketing' },
-      { value: 'loyaltyProgram', label: 'Loyalty Progrma' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'status',
-      label: 'Status',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'active', label: 'Active' },
-      { value: 'inactive', label: 'Inactive' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'createdDate',
-      label: 'Created Date',
-      fullWidth: true,
-    },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
 
 export const addUserSchema = Yup.object().shape({
-  productType: Yup?.string()?.required('Field is Required'),
-  companyAccount: Yup?.string()?.required('Field is Required'),
-  roleName: Yup?.string()?.required('Field is Required'),
-  defaultUser: Yup?.string()?.required('Field is Required'),
-  // desc: Yup?.string()?.required('Field is Required'),
+  productId: Yup?.string()?.required('Field is Required'),
+  organizationCompanyAccountId: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
 });
-
-export const addUserDefault = {
-  productType: '',
-  companyAccount: '',
-  roleName: '',
-  defaultUser: '',
-  desc: '',
-  dashboardAcord: [],
-  dealsAcordList: [],
-  dealsAcordDetails: [],
-};
 
 export const addUsersArrayData = () => {
   const { user } = getSession();
@@ -188,7 +100,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Select Product',
-        name: 'productType',
+        name: 'productId',
         fullWidth: true,
         required: true,
         select: true,
@@ -203,7 +115,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Select Company Account',
-        name: 'companyAccount',
+        name: 'organizationCompanyAccountId',
         fullWidth: true,
         required: true,
         select: true,
@@ -220,7 +132,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Role Name',
-        name: 'roleName',
+        name: 'name',
         placeholder: 'Role Name',
         fullWidth: true,
         required: true,
@@ -231,7 +143,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Description',
-        name: 'desc',
+        name: 'description',
         fullWidth: true,
         placeholder: 'Description',
         multiline: true,
@@ -243,7 +155,7 @@ export const addUsersArrayData = () => {
     {
       componentProps: {
         label: 'Default User',
-        name: 'defaultUser',
+        name: 'status',
         fullWidth: true,
       },
       component: RHFSwitch,
@@ -251,17 +163,3 @@ export const addUsersArrayData = () => {
     },
   ];
 };
-export const accData = [
-  {
-    title: 'Dashboard',
-    hasSwitch: true,
-    content: 'Dashboard content here',
-    endIcon: <ExpandMore />,
-  },
-  {
-    title: 'Deals',
-    hasSwitch: true,
-    content: 'Deals content here',
-    endIcon: <ExpandMore />,
-  },
-];

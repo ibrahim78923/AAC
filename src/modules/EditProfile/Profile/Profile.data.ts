@@ -4,31 +4,17 @@ import * as Yup from 'yup';
 
 export const editProfileValidationSchema = Yup.object().shape({
   firstName: Yup.string().trim().required('Field is Required'),
-  middleName: Yup.string(),
   lastName: Yup.string().trim().required('Field is Required'),
+  email: Yup.string(),
   WorkPhoneNumber: Yup.string(),
-  MobileNumber: Yup.string(),
-  CompanyName: Yup.string(),
-  JobTitle: Yup.string(),
-  Language: Yup.string(),
-  TwitterURL: Yup.string(),
-  FacebookURL: Yup.string(),
-  LinedInURL: Yup.string(),
+  phoneNumber: Yup.string(),
+  companyName: Yup.string(),
+  jobTitle: Yup.string().min(2, 'Job title must be at least 2 characters long'),
+  language: Yup.string(),
+  linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
+  facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
+  twitterUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
-
-export const editProfileDefaultValues = {
-  firstName: '', //2
-  middleName: '',
-  lastName: '',
-  WorkPhoneNumber: '',
-  MobileNumber: '',
-  CompanyName: '',
-  JobTitle: '',
-  Language: '', //4
-  TwitterURL: '',
-  FacebookURL: '',
-  LinedInURL: '',
-};
 
 export const editProfileDataArray = [
   {
@@ -45,15 +31,7 @@ export const editProfileDataArray = [
       name: 'firstName',
       label: 'First Name',
       fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'middleName',
-      label: 'Middle Name',
-      fullWidth: true,
+      placeholder: 'Enter First Name',
     },
     component: RHFTextField,
     md: 6,
@@ -63,41 +41,46 @@ export const editProfileDataArray = [
       name: 'lastName',
       label: 'Last Name',
       fullWidth: true,
+      placeholder: 'Enter Last Name',
     },
     component: RHFTextField,
-    md: 12,
+    md: 6,
   },
   {
     componentProps: {
       name: 'WorkPhoneNumber',
       label: 'Work Phone Number',
+      placeholder: 'Enter Phone Number',
     },
     component: RHFTextField,
     md: 6,
   },
   {
     componentProps: {
-      name: 'MobileNumber',
+      name: 'phoneNumber',
       label: 'Mobile Number',
       fullWidth: true,
+      placeholder: 'Enter Mobile Number',
     },
     component: RHFTextField,
     md: 6,
   },
   {
     componentProps: {
-      name: 'CompanyName',
+      name: 'companyName',
       label: 'Company Name',
       fullWidth: true,
+      placeholder: 'Enter Company Name',
     },
     component: RHFTextField,
     md: 6,
   },
   {
     componentProps: {
-      name: 'JobTitle',
+      name: 'jobTitle',
       label: 'Job Title',
       fullWidth: true,
+      placeholder: 'Enter Job Title',
     },
     component: RHFTextField,
     md: 6,
@@ -113,7 +96,7 @@ export const editProfileDataArray = [
   },
   {
     componentProps: {
-      name: 'Language',
+      name: 'language',
       label: 'Language',
       fullWidth: true,
       select: true,
@@ -128,27 +111,30 @@ export const editProfileDataArray = [
   },
   {
     componentProps: {
-      name: 'TwitterURL',
+      name: 'twitterUrl',
       label: 'TwitterURL',
       fullWidth: true,
+      placeholder: 'Enter Twitter URL',
     },
     component: RHFTextField,
     md: 6,
   },
   {
     componentProps: {
-      name: 'FacebookURL',
+      name: 'facebookUrl',
       label: 'Facebook URL',
       fullWidth: true,
+      placeholder: 'Enter Facebook URL',
     },
     component: RHFTextField,
     md: 6,
   },
   {
     componentProps: {
-      name: 'LinedInURL',
-      label: 'LinedIn URL',
+      name: 'linkedInUrl',
+      label: 'LinkedIn URL',
       fullWidth: true,
+      placeholder: 'Enter Linked URL',
     },
     component: RHFTextField,
     md: 6,

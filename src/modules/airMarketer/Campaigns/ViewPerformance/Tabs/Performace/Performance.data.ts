@@ -21,7 +21,7 @@ export const performanceData = [
   },
   {
     headingName: 'Influenced Revenue',
-    outOf: 0,
-    total: 1000,
+    outOf: 1000,
+    total: 0,
   },
 ];

@@ -1,0 +1,67 @@
+export const allApprovalData = [
+  {
+    id: 1,
+    ticketNumber: '# SR-8',
+    ticketTitle: 'Adobe Illustrator CC',
+    user: {
+      firstName: 'Dough',
+      lastName: 'Lucas',
+      profileImage: '',
+    },
+    requestTime: '3 hours ago',
+    device: 'Via Phone',
+    status: '',
+  },
+  {
+    id: 2,
+    ticketNumber: '# SR-8',
+    ticketTitle: 'Adobe Illustrator CC',
+    user: {
+      firstName: 'Dough',
+      lastName: 'Lucas',
+      profileImage: '',
+    },
+    requestTime: '3 hours ago',
+    device: 'Via Phone',
+    status: 'Approved',
+  },
+  {
+    id: 3,
+    ticketNumber: '# SR-8',
+    ticketTitle: 'Adobe Illustrator CC',
+    user: {
+      firstName: 'Dough',
+      lastName: 'Lucas',
+      profileImage: '',
+    },
+    requestTime: '3 hours ago',
+    device: 'Via Phone',
+    status: '',
+  },
+  {
+    id: 4,
+    ticketNumber: '# SR-8',
+    ticketTitle: 'Adobe Illustrator CC',
+    user: {
+      firstName: 'Dough',
+      lastName: 'Lucas',
+      profileImage: '',
+    },
+    requestTime: '3 hours ago',
+    device: 'Via Phone',
+    status: 'Approved',
+  },
+  {
+    id: 5,
+    ticketNumber: '# SR-8',
+    ticketTitle: 'Adobe Illustrator CC',
+    user: {
+      firstName: 'Dough',
+      lastName: 'Lucas',
+      profileImage: '',
+    },
+    requestTime: '3 hours ago',
+    device: 'Via Phone',
+    status: 'Rejected',
+  },
+];

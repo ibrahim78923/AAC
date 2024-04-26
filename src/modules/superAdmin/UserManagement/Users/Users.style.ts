@@ -15,6 +15,9 @@ export const style = {
         fontSize: '12px',
         fontWeight: 500,
       },
+      '.Mui-disabled svg': {
+        fill: theme?.palette?.grey[0],
+      },
     };
   },
 };

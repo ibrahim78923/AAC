@@ -1,0 +1,15 @@
+export const columnsData = [
+  { title: 'Deal Owner' },
+  { title: 'Deal Name' },
+  { title: 'Contacted Person' },
+  { title: 'Piority' },
+  { title: 'Assigned to' },
+  { title: 'Department' },
+  { title: 'Created Date' },
+  { title: 'Due Date' },
+  { title: 'Close Date' },
+  { title: 'Deal Stage' },
+  { title: 'Deal Pipeline' },
+  { title: 'Amount' },
+  { title: 'Products' },
+];

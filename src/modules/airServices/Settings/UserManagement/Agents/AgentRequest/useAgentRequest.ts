@@ -1,19 +1,44 @@
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  useGetAgentRequesterQuery,
+  usePatchApprovedRequestMutation,
+} from '@/services/airServices/settings/user-management/agents';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAgentRequest = () => {
-  const [openRejectedModal, setOpenRejectedModal] = useState<boolean>(false);
+  const [openRejectedModal, setOpenRejectedModal] = useState(false);
+  const [selectedAgentRequest, setSelectedAgentRequest] = useState('');
 
-  const handleOpenModal = () => {
-    setOpenRejectedModal(true);
+  const { data, isLoading, isFetching, isError }: any =
+    useGetAgentRequesterQuery(
+      {},
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
+
+  const handleOpenModal = (agent: any) => {
+    setSelectedAgentRequest(agent);
+    setOpenRejectedModal?.(true);
   };
+
   const theme = useTheme();
-  const handlerStatusApprove = () => {
-    enqueueSnackbar(`Request Approved successfully`, {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+  const [patchApprovedRequestTrigger, patchApprovedRequestStatus] =
+    usePatchApprovedRequestMutation();
+
+  const handlerStatusApprove = async (_id: any) => {
+    const approvedRequestParams = new URLSearchParams();
+    approvedRequestParams?.append('id', _id);
+    const approvedRequestParameter = {
+      queryParams: approvedRequestParams,
+    };
+    try {
+      await patchApprovedRequestTrigger(approvedRequestParameter)?.unwrap();
+      successSnackbar(`Request Approved successfully`);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   return {
@@ -22,5 +47,12 @@ export const useAgentRequest = () => {
     openRejectedModal,
     setOpenRejectedModal,
     handleOpenModal,
+    isLoading,
+    isFetching,
+    isError,
+    data,
+    patchApprovedRequestStatus,
+    selectedAgentRequest,
+    setSelectedAgentRequest,
   };
 };

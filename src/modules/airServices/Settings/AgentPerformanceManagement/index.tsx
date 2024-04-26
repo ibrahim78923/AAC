@@ -30,6 +30,7 @@ export const AgentPerformanceManagement = () => {
               borderRadius={2}
               padding={2}
               textAlign={'center'}
+              height={'100%'}
             >
               <Avatar
                 sx={{

@@ -7,6 +7,7 @@ import AppHorizontalStepper from '@/components/Stepper';
 import { useAddPlan } from './useAddPlan';
 
 import { ArrowLeft } from '@/assets/icons';
+import { LoadingButton } from '@mui/lab';
 
 const AddPlan = () => {
   const {
@@ -17,6 +18,9 @@ const AddPlan = () => {
     AddPlanStepperData,
     setAddPlanFormValues,
     hanldeGoPreviousBack,
+    isLoading,
+    ifCrmExist,
+    updatePlanLoading,
   } = useAddPlan();
 
   return (
@@ -59,17 +63,23 @@ const AddPlan = () => {
               >
                 Back
               </Button>
-              <Button
+              <LoadingButton
                 type="button"
                 variant="contained"
                 fullWidth
                 onClick={handleCompleteStep}
-                disabled={activeStep === AddPlanStepperData?.length}
+                disabled={
+                  activeStep === AddPlanStepperData?.length ||
+                  isLoading ||
+                  updatePlanLoading ||
+                  ifCrmExist
+                }
+                loading={isLoading}
               >
                 {activeStep === AddPlanStepperData?.length - 1
                   ? 'Finish'
                   : 'Next'}
-              </Button>
+              </LoadingButton>
             </Box>
           </>
         }

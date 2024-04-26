@@ -7,6 +7,8 @@ import Table from './Table';
 
 import { ArrowLeft, FilterSharedIcon, PlusIcon } from '@/assets/icons';
 import Filters from './Filters';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 
 const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
   const {
@@ -18,10 +20,10 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
   const theme: any = useTheme();
 
   return (
-    <Grid container style={{ paddingLeft: '0px' }}>
+    <Grid container style={{ paddingLeft: '20px' }}>
       <Grid item xs={6} sm={6} style={{ paddingLeft: '0px' }}>
         <Box sx={{ display: 'flex' }}>
-          <Box mt={0.7} onClick={() => toggle()}>
+          <Box mt={0.7} onClick={() => toggle()} sx={{ cursor: 'pointer' }}>
             <ArrowLeft />
           </Box>
           <Typography
@@ -33,17 +35,21 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
         </Box>
       </Grid>
       <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
-        <Button
-          startIcon={<PlusIcon />}
-          variant="contained"
-          className="medium"
-          onClick={() => setIsShowCreateDashboardForm(true)}
+        <PermissionsGuard
+          permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD]}
         >
-          Create Dashboard
-        </Button>
+          <Button
+            startIcon={<PlusIcon />}
+            variant="contained"
+            className="medium"
+            onClick={() => setIsShowCreateDashboardForm(true)}
+          >
+            Create Dashboard
+          </Button>
+        </PermissionsGuard>
       </Grid>
       <Grid container mt={2}>
-        <Grid item xs={10} sm={10} mt={4} mb={3}>
+        <Grid item xs={10} sm={10} mb={3}>
           <Search
             searchBy={searchByName}
             setSearchBy={setSearchByName}
@@ -52,7 +58,7 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
           />
         </Grid>
 
-        <Grid item xs={2} sm={2} mt={4} sx={{ textAlign: 'end' }}>
+        <Grid item xs={2} sm={2} sx={{ textAlign: 'end' }}>
           <Button
             onClick={() => setIsOpenFilterDrawer(true)}
             startIcon={<FilterSharedIcon />}

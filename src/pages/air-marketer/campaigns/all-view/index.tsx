@@ -1,8 +1,8 @@
+import TanstackTable from '@/components/Table/TanstackTable';
 import Layout from '@/layout';
-import AllView from '@/modules/airMarketer/Campaigns/AllView';
 
 const AllViewPage = () => {
-  return <AllView />;
+  return <TanstackTable />;
 };
 export default AllViewPage;
 AllViewPage.getLayout = function getLayout(page: any) {

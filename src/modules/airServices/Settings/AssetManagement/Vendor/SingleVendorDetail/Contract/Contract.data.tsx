@@ -1,20 +1,11 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
-export const data: any = [
+export const contractColumns = [
   {
-    id: 1,
-    contractName: 'Sample Apple Contract',
-    type: 'Lease',
-    status: 'Active',
-    renewalStatus: 'Pending',
-    contractNumber: 'CNTR-1',
-    expiry: '3 May,2024',
-  },
-];
-export const columns = (): any => [
-  {
-    accessorFn: (row: any) => row?.contractName,
-    id: 'contractName',
+    accessorFn: (row: any) => row?.name,
+    id: 'name',
     isSortable: true,
     header: 'Contract Name',
     cell: (info: any) => (
@@ -22,8 +13,8 @@ export const columns = (): any => [
     ),
   },
   {
-    accessorFn: (row: any) => row?.type,
-    id: 'type',
+    accessorFn: (row: any) => row?.contractType,
+    id: 'contractType',
     header: 'Type',
     isSortable: true,
     cell: (info: any) => info?.getValue(),
@@ -33,24 +24,14 @@ export const columns = (): any => [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => (
-      <Box
-        color="success.main"
-        borderRadius={3}
-        width={'4rem'}
-        textAlign={'center'}
-        sx={{ backgroundColor: 'success.lighter' }}
-      >
-        {info?.getValue()}
-      </Box>
-    ),
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.renewalStatus,
-    id: 'renewalStatus',
+    id: 'statusRenewExtend',
     isSortable: true,
     header: 'Renewal Status',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.contractNumber,
@@ -60,10 +41,10 @@ export const columns = (): any => [
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.expiry,
-    id: 'expiry',
+    accessorFn: (row: any) => row?.endDate,
+    id: 'endDate',
     isSortable: true,
     header: 'Expiry',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
   },
 ];

@@ -1,149 +1,167 @@
-import { Checkbox, Typography } from '@mui/material';
-import { TableDataI } from './RelatedTickets.interface';
+import { Checkbox, Chip, Typography } from '@mui/material';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import dayjs from 'dayjs';
+import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { TICKET_STATUS } from '@/constants/strings';
+import { fullName, truncateText } from '@/utils/avatarUtils';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { errorSnackbar } from '@/utils/api';
 
-export const data: TableDataI[] = [
-  {
-    Id: 1,
-    ticketsid: `# SR - 5`,
-    taskname: 'Business Platform debt, docs, refactors and stability',
-    duedate: 'Mar 3, - Mar 26, 2022',
-    assignedto: 'Robert Fox',
-    status: 'Open',
-  },
-  {
-    Id: 2,
-    ticketsid: `# INC - 6`,
-    taskname: ' Search migration modelling',
-    duedate: 'Mar 3, - Mar 26, 2022',
-    assignedto: 'Esther Howard',
-    status: 'Pending',
-  },
-  {
-    Id: 3,
-    ticketsid: `# INC - 7`,
-    taskname: 'Style guide for online app store',
-    duedate: 'Mar 3, - Mar 27, 2022',
-    assignedto: 'Wade Warren',
-    status: 'Resolved',
-  },
-];
-export const columns: any = (
-  setIsDrawerOpen: any,
-  isActive: any,
-  setActive: any,
-  theme: any,
-) => [
-  {
-    accessorFn: (row: any) => row?.Id,
-    id: 'Id',
-    cell: (info: any) => (
-      <Checkbox
-        checked={!!isActive?.find((item: any) => item?.Id === info?.getValue())}
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setActive([
-                ...isActive,
-                data?.find((item: any) => item?.Id === info?.getValue()),
-              ])
-            : setActive(
-                isActive?.filter((item: any) => {
-                  return item?.Id !== info?.getValue();
-                }),
-              );
-        }}
-        color="primary"
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <Checkbox
-        checked={isActive?.length === data?.length}
-        onChange={(e: any) => {
-          e?.target?.checked ? setActive([...data]) : setActive([]);
-        }}
-        color="primary"
-        name="Id"
-      />
-    ),
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.ticketsid,
-    id: 'ticketsid',
-    header: 'Tickets ID',
-    isSortable: true,
-    cell: (info: any) => (
-      <Typography
-        sx={{
-          color: 'info.main',
-          cursor: 'pointer',
-        }}
-        onClick={() => {
-          setIsDrawerOpen(true);
-        }}
-      >
-        {info?.getValue()}
-      </Typography>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.taskname,
-    id: 'taskname',
-    isSortable: true,
-    header: 'Task Name',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.duedate,
-    id: 'duedate',
-    isSortable: true,
-    header: 'Due Date',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.assignedto,
-    id: 'assignedto',
-    isSortable: true,
-    header: 'Assigned To',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.status,
-    id: 'status',
-    isSortable: true,
-    header: 'Status',
-    cell: (info: any) => {
-      const status = info?.getValue();
-      const color =
-        status === 'Open'
-          ? theme?.palette?.info?.main
-          : status === 'Pending'
-          ? theme?.palette?.error?.main
-          : status === 'Resolved'
-          ? theme?.palette?.warning?.main
-          : '';
-      return (
+const TICKET_STATUS_COLOR: any = {
+  [TICKET_STATUS?.OPEN]: 'info',
+  [TICKET_STATUS?.RESOLVED]: 'success',
+  [TICKET_STATUS?.PENDING]: 'warning',
+  [TICKET_STATUS?.SPAM]: 'error',
+  [TICKET_STATUS?.CLOSED]: 'error',
+};
+
+export const columnsFunction: any = (
+  data: any = [],
+  selectedChildTickets: any = [],
+  setSelectedChildTickets?: any,
+  router?: any,
+) => {
+  return [
+    {
+      accessorFn: (row: any) => row?.childTicketDetails?._id,
+      id: '_id',
+      cell: (info: any) => (
+        <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+          checked={
+            !!selectedChildTickets?.find(
+              (item: any) => item === info?.getValue(),
+            )
+          }
+          onChange={(e: any) => {
+            e?.target?.checked
+              ? setSelectedChildTickets([
+                  ...selectedChildTickets,
+                  info?.getValue(),
+                ])
+              : setSelectedChildTickets(
+                  selectedChildTickets?.filter(
+                    (item: any) => item !== info?.getValue(),
+                  ),
+                );
+          }}
+          color="primary"
+          name={info?.getValue()}
+        />
+      ),
+      header: (
+        <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+          checked={
+            data?.length ? selectedChildTickets?.length === data?.length : false
+          }
+          onChange={(e: any) => {
+            e?.target?.checked
+              ? setSelectedChildTickets(
+                  data?.map((ticket: any) => ticket?.childTicketDetails?._id),
+                )
+              : setSelectedChildTickets([]);
+          }}
+          color="primary"
+          name="Id"
+        />
+      ),
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => row?.childTicketDetails?.ticketIdNumber,
+      id: 'ticketIdNumber',
+      header: 'Tickets ID',
+      isSortable: true,
+      cell: (info: any) => (
         <Typography
           sx={{
-            border: color ? `1px solid ${color}` : 'none',
-            color: color,
-            padding: '3px 10px',
-            borderRadius: '16px',
+            color: 'info.main',
             cursor: 'pointer',
-            width: 'fit-content',
+          }}
+          onClick={() => {
+            router?.push({
+              pathname: AIR_SERVICES?.CHILD_TICKETS_DETAIL,
+              query: {
+                ticketId: info?.row?.original?.childTicketDetails?._id,
+              },
+            });
           }}
         >
-          {status}
+          {info?.getValue()}
         </Typography>
-      );
+      ),
     },
-    sortFunction: (a: any, b: any) => {
-      const statusOrder: { [key: string]: number } = {
-        Open: 1,
-        Pending: 2,
-        Resolved: 3,
-      };
-      return statusOrder[a?.status] - statusOrder[b?.status];
+    {
+      accessorFn: (row: any) => row?.childTicketDetails?.subject,
+      id: 'subject',
+      isSortable: true,
+      header: 'Name',
+      cell: (info: any) => truncateText(info?.getValue()),
+    },
+    {
+      accessorFn: (row: any) => row?.childTicketDetails?.plannedEndDate,
+      id: 'plannedEndDate',
+      isSortable: true,
+      header: 'Due Date',
+      cell: (info: any) =>
+        info?.getValue()
+          ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+          : '---',
+    },
+    {
+      accessorFn: (row: any) => row?.childTicketDetails?.agentDetails,
+      id: 'assignedto',
+      isSortable: true,
+      header: 'Assigned To',
+      cell: (info: any) =>
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+    },
+    {
+      accessorFn: (row: any) => row?.childTicketDetails?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => (
+        <Chip
+          label={info?.getValue() ?? '---'}
+          variant="outlined"
+          size="small"
+          color={TICKET_STATUS_COLOR[info?.getValue()] ?? 'primary'}
+        />
+      ),
+    },
+  ];
+};
+
+export const relatedTicketsActionDropdownFunction = (
+  setIsDelete: any,
+  selectedChildTickets: any,
+  setIsDrawerOpen: any,
+) => [
+  {
+    id: 1,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EDIT_CHILD_TICKETS],
+    title: 'Edit',
+    handleClick: (closeMenu: any) => {
+      if (selectedChildTickets?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
+      setIsDrawerOpen(true);
+      closeMenu?.();
+    },
+  },
+  {
+    id: 2,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DELETE_CHILD_TICKETS],
+    title: 'Delete',
+    handleClick: (closeMenu: any) => {
+      setIsDelete(true);
+      closeMenu?.();
     },
   },
 ];

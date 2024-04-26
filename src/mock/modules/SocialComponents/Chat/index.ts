@@ -228,3 +228,74 @@ export const groupMembers = [
     role: 'member',
   },
 ];
+
+export const options = [
+  {
+    id: '655dcbb8425d2c04a46a3830',
+    firstName: 'waqas',
+    lastName: 'khan',
+    email: 'testWAQASKhan@example.com',
+    src: UserAvatarImage,
+  },
+  {
+    id: '655dcda7425d2c04a46a3836',
+    firstName: 'zahir',
+    lastName: 'khan',
+    email: 'testZahirKhan@example.com',
+    src: GroupAvatarImage,
+  },
+  {
+    id: '655dcdc8425d2c04a46a3838',
+    firstName: 'ahsan',
+    lastName: 'khan',
+    email: 'testAhsanKhan@example.com',
+    src: UserAvatarImage,
+  },
+  {
+    id: '655dcde8425d2c04a46a383a',
+    firstName: 'nabeel',
+    lastName: 'khan',
+    email: 'testNableeKhan@example.com',
+    src: UserAvatarImage,
+  },
+  {
+    id: '655dcdfd425d2c04a46a383c',
+    firstName: 'waseem',
+    lastName: 'khan',
+    email: 'testWaseemKhan@example.com',
+    src: UserAvatarImage,
+  },
+];
+
+export const participantsDataSelect = [
+  {
+    id: '655dcbb8425d2c04a46a3830',
+    label: 'Waqas khan',
+    value: '655dcbb8425d2c04a46a3830',
+    image: UserAvatarImage,
+  },
+  {
+    id: '655dcda7425d2c04a46a3836',
+    label: 'Zahir khan',
+    value: '655dcda7425d2c04a46a3836',
+    image: GroupAvatarImage,
+  },
+  {
+    id: '655dcdc8425d2c04a46a3838',
+    label: 'Ahsan khan',
+    value: '655dcdc8425d2c04a46a3838',
+    image: UserAvatarImage,
+  },
+  {
+    id: '655dcde8425d2c04a46a383a',
+    label: 'Nabeel khan',
+    value: '655dcde8425d2c04a46a383a',
+    image: UserAvatarImage,
+  },
+  {
+    id: '655dcdfd425d2c04a46a383c',
+    label: 'Waseem khan',
+    value: '655dcdfd425d2c04a46a383c',
+    image: UserAvatarImage,
+  },
+];

@@ -6,6 +6,8 @@ import Search from '@/components/Search';
 import { AddCircleSmallIcon } from '@/assets/icons';
 import { styles } from './StepLineItems.style';
 import { EditYellowBgIcon, ViewEyeIcon, TrashIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS } from '@/constants/permission-keys';
 
 const StepLineItems = ({ openCreateProduct }: any) => {
   const lineItemsColumns: any = [
@@ -86,15 +88,22 @@ const StepLineItems = ({ openCreateProduct }: any) => {
             Products
           </Typography>
           <Stack direction="row" spacing={'12px'}>
-            <Search size="small" placeholder="Search Here" />
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AddCircleSmallIcon />}
-              onClick={openCreateProduct}
+            <Search placeholder="Search Here" />
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.ADD_PPODUCT,
+              ]}
             >
-              Add Products
-            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<AddCircleSmallIcon />}
+                onClick={openCreateProduct}
+                className="small"
+              >
+                Add Products
+              </Button>
+            </PermissionsGuard>
           </Stack>
         </Box>
         <TanstackTable columns={lineItemsColumns} data={lineItemsData} />

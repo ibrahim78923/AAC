@@ -5,8 +5,6 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { ContactsActionInterfacePropsI } from './Actions.interface';
 
-import { styles } from './ActionBtn.style';
-
 const ContactsActions = ({
   disableActionBtn,
   onChange,
@@ -27,11 +25,12 @@ const ContactsActions = ({
     <div>
       <Button
         variant="outlined"
+        className="small"
+        color="inherit"
         endIcon={<ArrowDropDownIcon />}
         onClick={handleClick}
         disabled={disableActionBtn}
         classes={{ outlined: 'outlined_btn' }}
-        sx={styles?.ActionBtn}
       >
         Actions
       </Button>

@@ -1,41 +1,22 @@
-import React from 'react';
-
 import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
-import {
-  profileFields,
-  profileValidationSchema,
-} from './UserDetailsProfile.data';
-
-import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { v4 as uuidv4 } from 'uuid';
+import { profileFields } from './UserDetailsProfile.data';
 import useToggle from '@/hooks/useToggle';
-import { EditInputIcon, RevertIcon } from '@/assets/icons';
+import useProfile from './useProfile';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 const UserDetailsProfile = (props: any) => {
-  const { profileData } = props;
+  const { profileData, setTabVal } = props;
   const [isToggled, setIsToggled] = useToggle(false);
 
-  const profileDefaulValues = {
-    ...profileData,
-    address: profileData?.address?.composite,
+  const profileParams = {
+    isToggled,
+    setTabVal,
+    profileData,
   };
 
-  const methods: any = useForm({
-    resolver: yupResolver(profileValidationSchema),
-    defaultValues: profileDefaulValues,
-  });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {
-    alert('profile');
-  };
+  const { methods, handleSubmit, onSubmit, initialTab, addressVal } =
+    useProfile(profileParams);
 
   return (
     <FormProvider methods={methods}>
@@ -43,7 +24,7 @@ const UserDetailsProfile = (props: any) => {
       <Grid container spacing={1} sx={{ mt: '5px' }}>
         {profileFields?.map((item: any) => {
           return (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <Grid item xs={12} md={item?.md} key={item?.compoentProps?.name}>
               {item?.componentProps?.heading && (
                 <Typography variant="h5">
                   {item?.componentProps?.heading}
@@ -65,34 +46,42 @@ const UserDetailsProfile = (props: any) => {
                     }}
                     position="end"
                   >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        gap: '10px',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Box
-                        sx={{ cursor: 'pointer' }}
-                        // onClick={() => setIsToggled(false)}
-                      >
-                        <RevertIcon />
-                      </Box>
-                      <Box
-                        onClick={() => setIsToggled(true)}
+                    {addressVal?.length > 0 ? (
+                      <BorderColorIcon
+                        sx={{
+                          cursor: 'not-allowed',
+                          fontSize: '20px',
+                          color: 'lightgrey',
+                        }}
+                      />
+                    ) : (
+                      <BorderColorIcon
+                        onClick={() => {
+                          setIsToggled(true);
+                        }}
                         sx={{ cursor: 'pointer', fontSize: '20px' }}
-                      >
-                        <EditInputIcon />
-                      </Box>
-                    </Box>
+                      />
+                    )}
                   </InputAdornment>
                 </Box>
               )}
               {!item?.toShow?.includes('address') && (
-                <item.component {...item?.componentProps} size={'small'}>
+                <item.component
+                  {...item?.componentProps}
+                  size={'small'}
+                  disabled={
+                    (isToggled && item?.componentProps?.name === 'address') ||
+                    item?.componentProps?.name === 'email'
+                      ? true
+                      : false
+                  }
+                >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
+                      <option
+                        key={item?.compoentProps?.name}
+                        value={option?.value}
+                      >
                         {option?.label}
                       </option>
                     ))}
@@ -102,7 +91,10 @@ const UserDetailsProfile = (props: any) => {
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
+                      <option
+                        key={option?.compoentProps?.name}
+                        value={option?.value}
+                      >
                         {option?.label}
                       </option>
                     ))}
@@ -117,7 +109,11 @@ const UserDetailsProfile = (props: any) => {
         lg={12}
         sx={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', my: 2 }}
       >
-        <Button variant="outlined" color="inherit">
+        <Button
+          variant="outlined"
+          color="inherit"
+          onClick={() => setTabVal(initialTab)}
+        >
           Cancel
         </Button>
         <Button variant="contained" onClick={handleSubmit(onSubmit)}>

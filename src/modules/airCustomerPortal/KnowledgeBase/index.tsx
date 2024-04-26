@@ -1,29 +1,67 @@
 import { KnowledgeBaseCard } from './KnowledgeBaseCard';
-import { knowledgeBaseDataArray } from './KnowledgeBase.data';
 import { Grid } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import NoData from '@/components/NoData';
-import { NoAssociationFoundImage } from '@/assets/images';
+import { Header } from './Header';
+import { useKnowledgeBase } from './useKnowledgeBase';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS } from '@/constants/permission-keys';
 
 export const KnowledgeBase = () => {
+  const {
+    handleButtonClick,
+    handleClose,
+    anchorEl,
+    open,
+    openReportAnIssueModal,
+    setOpenReportAnIssueModal,
+    KnowledgeBaseFolderData,
+    isLoading,
+    isFetching,
+    isError,
+    setSearch,
+    handleKnowledgeBaseDetail,
+  } = useKnowledgeBase();
+
   return (
-    <Grid container gap={1}>
-      {!!knowledgeBaseDataArray?.length ? (
-        knowledgeBaseDataArray?.map((option: any) => (
-          <KnowledgeBaseCard
-            key={uuidv4()}
-            id={option?.id}
-            name={option?.name}
-            createdBy={option?.createdBy}
-            createdDate={option?.createdDate}
-          />
-        ))
+    <PermissionsGuard
+      permissions={[
+        AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS?.VIEW_ARTICLES_DIFFERENT_CATEGORY,
+      ]}
+    >
+      <Header
+        handleButtonClick={handleButtonClick}
+        setOpenReportAnIssueModal={setOpenReportAnIssueModal}
+        openReportAnIssueModal={openReportAnIssueModal}
+        handleClose={handleClose}
+        anchorEl={anchorEl}
+        open={open}
+        setSearch={setSearch}
+      />
+      {isLoading || isFetching ? (
+        <SkeletonTable />
+      ) : isError ? (
+        <ApiErrorState />
       ) : (
-        <NoData
-          message="There are no knowledge base articles available"
-          image={NoAssociationFoundImage}
-        />
+        <Grid container spacing={2}>
+          {!!KnowledgeBaseFolderData?.length ? (
+            KnowledgeBaseFolderData?.map((option: any) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={option?._id}>
+                <KnowledgeBaseCard
+                  folderId={option?._id}
+                  name={option?.name}
+                  createdBy={option?.createdBy?.firstName}
+                  createdDate={option?.createdAt}
+                  handleKnowledgeBaseDetail={handleKnowledgeBaseDetail}
+                />
+              </Grid>
+            ))
+          ) : (
+            <NoData message="There are no knowledge base articles available" />
+          )}
+        </Grid>
       )}
-    </Grid>
+    </PermissionsGuard>
   );
 };

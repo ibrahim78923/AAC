@@ -3,7 +3,6 @@ import {
   Button,
   FormControlLabel,
   Grid,
-  Switch,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -32,6 +31,7 @@ import { MircosoftTeamsIcon, ZoomIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import { attendeesOptions } from '@/mock/modules/airSales/Deals/ViewDetails';
+import { SwitchBtn } from '@/components/SwitchButton';
 
 const MeetingsEditorDrawer = (props: any) => {
   const theme = useTheme();
@@ -70,8 +70,11 @@ const MeetingsEditorDrawer = (props: any) => {
               ))}
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Switch defaultChecked />}
+                  control={
+                    <SwitchBtn defaultChecked sx={{ marginRight: '10px' }} />
+                  }
                   label="All Day"
+                  sx={{ marginLeft: '0px' }}
                 />
               </Grid>
 
@@ -85,7 +88,7 @@ const MeetingsEditorDrawer = (props: any) => {
                   }}
                 >
                   <Typography
-                    variant="body1"
+                    variant="body2"
                     sx={{ color: theme?.palette?.grey[600] }}
                   >
                     Add Video Conferencing

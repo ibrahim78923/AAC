@@ -3,16 +3,18 @@ import { ArrowBack } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import AddNewAssetTypesModal from '../AddNewAssetTypesModal';
 import { useHeader } from './useHeader';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
-const Header = () => {
+const Header = (props: any) => {
   const {
     router,
-    handleSubmit,
-    addNewAssetTypesMethods,
-    submitAddForm,
+    handleSubmitAddForm,
+    methods,
     openAddNewAssetTypesModal,
     setOpenAddNewAssetTypesModal,
-  } = useHeader();
+    isLoading,
+  } = useHeader(props);
   return (
     <>
       <Box
@@ -36,22 +38,30 @@ const Header = () => {
             asset type & fields
           </Typography>
         </Box>
-        <Button
-          variant="contained"
-          onClick={() => setOpenAddNewAssetTypesModal?.(true)}
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_ASSET_TYPES,
+          ]}
         >
-          New Asset Type
-        </Button>
+          <Button
+            variant="contained"
+            onClick={() => setOpenAddNewAssetTypesModal?.(true)}
+          >
+            New Asset Type
+          </Button>
+        </PermissionsGuard>
       </Box>
       <Box>
-        <AddNewAssetTypesModal
-          open={openAddNewAssetTypesModal}
-          handleClose={setOpenAddNewAssetTypesModal}
-          methods={addNewAssetTypesMethods}
-          submitForm={submitAddForm}
-          handleSubmit={handleSubmit}
-          modalTitle="Add New Asset Type"
-        />
+        {openAddNewAssetTypesModal && (
+          <AddNewAssetTypesModal
+            open={openAddNewAssetTypesModal}
+            handleClose={setOpenAddNewAssetTypesModal}
+            methods={methods}
+            handleSubmit={handleSubmitAddForm}
+            isLoading={isLoading}
+            modalTitle="Add New Asset Type"
+          />
+        )}
       </Box>
     </>
   );

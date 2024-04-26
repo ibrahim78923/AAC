@@ -43,9 +43,15 @@ const TanstackTable = (props: any) => {
     onPageChange,
     setPage,
     setPageLimit,
+    paginationPaddingX = 2,
+    noDataTableText = 'No data available',
+    noDataTableImage = NoAssociationFoundImage,
   } = props;
 
-  const table = useTanstackTable(data, columns, showSerialNo);
+  const { table } = useTanstackTable(data, columns, showSerialNo);
+
+  const memoizedTable = React.useMemo(() => table, []);
+
   if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
@@ -55,18 +61,19 @@ const TanstackTable = (props: any) => {
           <TableContainer>
             <Table>
               <TableHead>
-                {table?.getHeaderGroups()?.map((headerGroup) => (
+                {memoizedTable?.getHeaderGroups()?.map((headerGroup: any) => (
                   <TableRow key={uuidv4()}>
                     {headerGroup?.headers?.map((header: any) => (
                       <StyledTableCell key={uuidv4()}>
-                        <Box sx={styles?.cell}>
+                        <Box
+                          sx={styles?.cell(header?.column?.columnDef?.align)}
+                        >
                           {header?.isPlaceholder
                             ? null
                             : flexRender(
                                 header?.column?.columnDef?.header,
                                 header?.getContext(),
                               )}
-
                           {header?.column?.columnDef?.isSortable && (
                             <Box
                               display={'flex'}
@@ -106,8 +113,8 @@ const TanstackTable = (props: any) => {
               <TableBody>
                 {isSuccess &&
                   !isError &&
-                  table
-                    ?.getRowModel()
+                  memoizedTable
+                    ?.getCoreRowModel()
                     ?.rows?.map((row) => (
                       <StyledTableRow key={uuidv4()}>
                         {row
@@ -127,11 +134,12 @@ const TanstackTable = (props: any) => {
             {isError ? (
               <ApiErrorState />
             ) : (
-              !!!table?.getRowModel()?.rows?.length &&
+              !!!memoizedTable?.getCoreRowModel()?.rows?.length &&
               isSuccess && (
                 <NoData
-                  image={NoAssociationFoundImage}
-                  message={'No data is available'}
+                  image={noDataTableImage}
+                  message={noDataTableText}
+                  height="40vh"
                 />
               )
             )}
@@ -139,7 +147,7 @@ const TanstackTable = (props: any) => {
         </Grid>
       </Grid>
       {isPagination && (
-        <>
+        <Box px={paginationPaddingX}>
           <br />
           <br />
           <CustomPagination
@@ -152,7 +160,7 @@ const TanstackTable = (props: any) => {
             setPage={setPage}
             setPageLimit={setPageLimit}
           />
-        </>
+        </Box>
       )}
     </>
   );

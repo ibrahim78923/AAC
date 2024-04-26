@@ -1,7 +1,7 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup?.object()?.shape({
+export const validationSchema: any = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
 });
 
@@ -16,6 +16,7 @@ export const dataArray = [
       label: 'Folder Name',
       fullWidth: true,
       select: false,
+      placeholder: 'Enter name',
     },
     component: RHFTextField,
     md: 12,

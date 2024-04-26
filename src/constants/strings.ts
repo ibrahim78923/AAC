@@ -1,7 +1,7 @@
 export const BILLING_CYCLE = {
   MONTHLY: 'MONTHLY',
   QUARTERLY: 'QUARTERLY',
-  ANNUAL: 'ANNUAL',
+  ANNUAL: 'YEARLY',
   HALF_YEARLY: 'HALF_YEARLY',
   ONE_TIME: 'ONE_TIME',
 };
@@ -20,6 +20,7 @@ export const TIME_PERIODS = {
 export const EXPORT_TYPE = {
   CSV: 'CSV',
   XLS: 'XLS',
+  PDF: 'PDF',
 };
 
 export const TICKET_STATUS = {
@@ -27,7 +28,7 @@ export const TICKET_STATUS = {
   CLOSED: 'CLOSED',
   RESOLVED: 'RESOLVED',
   PENDING: 'PENDING',
-  SPAM: 'SPAM',
+  SPAM: 'SPAMS',
 };
 
 export const TICKET_PRIORITY = {
@@ -36,25 +37,45 @@ export const TICKET_PRIORITY = {
   HIGH: 'HIGH',
   URGENT: 'URGENT',
 };
+export const TICKET_CATEGORY = {
+  SOFTWARE: 'SOFTWARE',
+  HARDWARE: 'HARDWARE',
+  NETWORK: 'NETWORK',
+  OFFICE_APPLICATION: 'OFFICE_APPLICATION',
+  OFFICE_FURNITURE: 'OFFICE_FURNITURE',
+};
 
 export const TICKET_IMPACT = {
   LOW: 'LOW',
   MEDIUM: 'MEDIUM',
   HIGH: 'HIGH',
 };
+export const IMPORT_ACTIONS = {
+  CANCEL: 'CANCEL',
+  NEXT: 'NEXT',
+  BACK: 'BACK',
+  IMPORT: 'IMPORT',
+};
+export const IMPORT_ACTIONS_STEPS = {
+  STEP_ONE: 0,
+  STEP_TWO: 1,
+  STEP_THREE: 2,
+};
 
 export const TICKET_APPROVALS = {
-  RECEIVED: 'RECEIVED',
+  RECEIVED: 'RECIEVED',
   REQUESTED: 'REQUESTED',
-  APPROVE: 'APPROVE',
-  REJECT: 'REJECT',
-  CANCEL: 'CANCEL',
+  APPROVE: 'APPROVED',
+  REJECT: 'REJECTED',
+  CANCEL: 'CANCELED',
+  PENDING: 'PENDING',
+  REMINDER: 'REMINDER',
 };
 
 export const CONTRACT_TYPES = {
   LEASE: 'LEASE',
   MAINTENANCE: 'MAINTENANCE',
-  SOFTWARE_LICENSE: 'SOFTWARE_LICENSE',
+  SOFTWARE_LICENSE: 'SOFTWARE_LICENCE',
   WARRANTY: 'WARRANTY',
 };
 
@@ -95,6 +116,10 @@ export const ASSET_IMPACT = {
   HIGH: 'high',
 };
 
+export const TICKET_TYPE = {
+  INC: 'INC',
+  SR: 'SR',
+};
 export const ASSET_TYPE = {
   SERVICES: 'services',
   HARDWARE: 'hardware',
@@ -112,7 +137,7 @@ export const SOFTWARE_STATUS = {
 
 export const SOFTWARE_TYPE = {
   DESKTOP: 'Desktop',
-  SASS: 'Sass',
+  SAAS: 'Saas',
   MOBILE: 'Mobile',
 };
 
@@ -121,7 +146,12 @@ export const AIR_CUSTOMER_PORTAL_TICKET = {
   PROCESSING: 'Processing',
 };
 
-export const NOTISTACK_VARIANTS: any = {
+export const NOTISTACK_VARIANTS: {
+  SUCCESS: 'success';
+  ERROR: 'error';
+  WARNING: 'warning';
+  INFO: 'info';
+} = {
   SUCCESS: 'success',
   ERROR: 'error',
   WARNING: 'warning',
@@ -150,6 +180,7 @@ export const TICKETS_CONVERSATION_TYPE = {
   DISCUSS: 'Discuss',
   NOTE: 'Note',
 };
+
 export const TICKETS_CONVERSATION_VALUE = {
   FILE: 'file',
   DESCRIPTION: 'description',
@@ -168,6 +199,7 @@ export const EXPORT_FILE_TYPE: any = {
   [EXPORT_TYPE?.CSV]: 'text/csv',
   [EXPORT_TYPE?.XLS]:
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  [EXPORT_TYPE?.PDF]: 'application/pdf',
 };
 
 export const VIEW_TYPES = {
@@ -219,7 +251,6 @@ export const MESSAGE_EXPORT_FILE_TYPE: any = {
 export const AGENT_REQUEST_STATUS = {
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
-  PENDING: 'Pending',
 };
 
 export const SETTINGS_ADD_ROLE = {
@@ -237,8 +268,8 @@ export const SETTINGS_ADD_ROLE = {
   DELETE: 'Delete',
 };
 export const REQUESTORS_STATUS = {
-  ACTIVE: 'Active',
-  INACTIVE: 'Inactive',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
 };
 export const REQUESTORS_ASSIGNED_STATUS = {
   OPEN: 'Open',
@@ -251,7 +282,9 @@ export const CANNED_RESPONSES = {
   DELETE: 'delete',
   EDIT: 'edit',
   MOVE: 'move',
-  SELECT_AGENTS: 'selectAgents',
+  SELECT_AGENTS: 'SELECTED',
+  ALL_AGENTS: 'ALL_AGENTS',
+  MY_SELF: 'MY_SELF',
   AGENTS: 'agents',
 };
 
@@ -260,6 +293,9 @@ export const ROLES_ACTION_CONSTANTS = {
   VIEW: 'View',
   DELETE: 'Delete',
   ADD_NEW_ROLE: 'Add New Role',
+  SAVE: 'Save',
+  ADD: 'Add',
+  VIEW_ID: 'Id',
 };
 export const ROLES_ACTION_CONSTANTS_DRAWER_ACTION = {
   ADD_ROLE: 'Add Roles',
@@ -271,10 +307,201 @@ export const ROLES_ACCORDION_DETAILS = {
 export const DASHBOARD = {
   EDIT: 'edit',
 };
-
+export const ACTION_STATUS_OPTIONS = {
+  OPEN: 'Open',
+  PENDING: 'Pending',
+  RESOLVED: 'Resolved',
+  CLOSE: 'Close',
+};
 export const USER_MANAGEMENT = {
   USERVIEW: 'User View',
   EDIT: 'Edit',
   BACK: 'Back',
   CANCEL: 'Cancel',
+  EDIT_TEAM: 'Edit Team',
+};
+export const ACTIONS_TYPES = {
+  DELETE: 'delete',
+  EDIT: 'edit',
+  CLONE: 'clone',
+};
+export const AGENTS = {
+  INVITE_AGENT: 'Invite Agent',
+  UPDATE_AGENT: 'Update Agent',
+};
+export const SOFTWARE_USER_ACTIONS_TYPES = {
+  ALLOCATE: 'Allocate',
+  DEALLOCATE: 'Deallocate',
+  REMOVE: 'Remove',
+};
+
+export const SOFTWARE_USER_ACTIONS_CLICK = {
+  CLOSE_MENU: 'closeMenu',
+};
+export const TASK_STATUS = {
+  TO_DO: 'Todo',
+  IN_PROGRESS: 'In-Progress',
+  DONE: 'Done',
+};
+export const CONTRACT_ACTION = {
+  RENEW: 'renew',
+  EXTEND: 'extend',
+};
+
+export enum ROLES {
+  ORG_REQUESTER = 'ORG_REQUESTER',
+  ORG_AGENT = 'ORG_AGENT',
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  ORG_EMPLOYEE = 'ORG_EMPLOYEE',
+  ORG_ADMIN = 'ORG_ADMIN',
+}
+
+export const TICKETS_STATE = {
+  NEW: 'New',
+  RESPONSE_DUE: 'Response due',
+  OVERDUE: 'Overdue',
+};
+
+export const ROLE = {
+  ORG_REQUESTER: 'ORG_REQUESTER',
+  ORG_AGENT: 'ORG_EMPLOYEE',
+};
+
+export const WORKLOAD_SCHEDULE = {
+  CREATE: 'Create',
+  EDIT: 'Edit',
+  SAVE: 'Save',
+  UPDATE: 'Update',
+};
+
+export const ARTICLE_STATUS = {
+  PUBLISHED: 'PUBLISHED',
+  DRAFT: 'DRAFT',
+};
+export const MODULE_TYPE = {
+  INVENTORIES: 'INVENTORIES',
+  TICKETS: 'TICKETS',
+  USERS: 'USERS',
+  FILES: 'FILES',
+  FEATURES: 'FEATURES',
+  EXPENSES: 'EXPENSES',
+  AWARD_POINTS: 'AWARD_POINTS',
+  WORK_SCHEDULE: 'WORK_SCHEDULE',
+  ASSET_TYPE: 'ASSET_TYPE',
+  DEPARTMENT: 'DEPARTMENT',
+  ROLE_RIGHTS: 'ROLE_RIGHTS',
+  JOBS: 'JOBS',
+  OPERATIONS: 'OPERATIONS',
+  ATTACHMENTS: 'ATTACHMENTS',
+  CONTRACTS: 'CONTRACTS',
+  SERVICE_CATALOG: 'SERVICE_CATALOG',
+  PRODUCT_CATALOG: 'PRODUCT_CATALOG',
+  ARTICLES: 'ARTICLES',
+  LOCATION: 'LOCATION',
+  ASSETS: 'ASSETS',
+  TICKET: 'TICKET',
+};
+export const TICKET_SELECTION_TYPE = {
+  REQUESTER: 'REQUESTER',
+  SUBJECT: 'SUBJECT',
+  ID: 'ID',
+};
+export const TICKET_GRAPH_TYPES = {
+  STATUS: 'status',
+  PRIORITY: 'pirority',
+};
+
+export const TICKET_SOURCE = {
+  PHONE: 'PHONE',
+  EMAIL: 'EMAIL',
+  PORTAL: 'PORTAL',
+  CHAT: 'CHAT',
+};
+export enum Ticket {
+  ticketFields = 'Ticket Fields',
+  assetsFields = 'Assets Fields',
+  taskFields = 'Task Fields',
+}
+
+export const SCHEMA_KEYS = {
+  TICKETS: 'TICKETS',
+  TICKETS_TASKS: 'TICKETS_TASKS',
+  ASSETS: 'ASSETS',
+};
+export const MODULES = {
+  EVENT_BASE: 'EVENT_BASE',
+  SCHEDULED: 'SCHEDULED',
+  SUPERVISOR_RULES: 'SUPERVISOR_RULES',
+};
+
+export const AGENT_LEVELS = {
+  BEGINNER: 'beginner',
+  INTERMEDIATE: 'intermediate',
+  PROFESSIONAL: 'professional',
+  EXPERT: 'expert',
+  MASTER: 'master',
+};
+
+export const EMAIL_SENT_TYPE = {
+  REPLY: 'REPLY',
+  FORWARD: 'FORWARD',
+  NOTE: 'NOTE',
+};
+
+export const TICKET_CONVERSATIONS_TYPE = {
+  REPLY: 'REPLY',
+  FORWARD: 'FORWARD',
+  NOTE: 'NOTE',
+  DISCUSS: 'DISCUSS',
+};
+
+export const TICKET_CONVERSATIONS_RESPONSE_TYPE = {
+  ARTICLE: 'ARTICLE',
+  CANNED_RESPONSES: 'CANNED RESPONSES',
+};
+
+export const TICKET_CONVERSATIONS_CONTENT_TYPE = {
+  LINK: 'LINK',
+  CONTENT: 'CONTENT',
+};
+export const WORKFLOW_CONDITION_TYPE = {
+  AND: 'AND',
+  OR: 'OR',
+};
+
+export const LOYALTY_TRANSACTIONS_TYPE = {
+  PHYSICAL_REWARD: 'PHYSICAL_REWARD',
+  DIGITAL_REWARD: 'DIGITAL_REWARD',
+};
+
+export const LOYALTY_TRANSACTIONS_CHANNEL = {
+  BUSINESS_DASHBOARD: 'BUSINESS_DASHBOARD',
+};
+
+export const IMPORT_ACTION_TYPE = {
+  INVENTORIES: 'INVENTORIES',
+  PRODUCT_CATALOG: 'PRODUCT_CATALOG',
+  LOCATIONS: 'LOCATIONS',
+  VENDORS: 'VENDORS',
+  DEALS: 'DEALS',
+  TASKS: 'TASKS',
+};
+
+export const OBJECT_URL_IMPORT = {
+  USERS_ATTACHMENT: '/users/attachment',
+};
+
+export const AUTH_TOKEN_BYPASS_API = {
+  UPLOAD_FILE_TO_S3_USING_SIGNED_URL: 'uploadFileTos3UsingSignedUrl',
+};
+export const WORKFLOW_TYPE = {
+  SAVED: 'SAVED',
+  CREATED: 'CREATED',
+  ENABLED: 'ENABLED',
+  DISABLED: 'DISABLED',
+};
+
+export const LOYALTY_REWARDS_TYPE = {
+  PHYSICAL_REWARD: 'physicalReward',
+  DIGITAL_REWARD: 'digitalReward',
 };

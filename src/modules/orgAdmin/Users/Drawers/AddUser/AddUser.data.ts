@@ -1,112 +1,203 @@
+import { RHFSelect } from '@/components/ReactHookForm';
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
-
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required('Field is Required'),
-  lastName: Yup.string().required('Field is Required'),
-  postCode: Yup.string().required('Field is Required'),
-  address: Yup.string().required('Field is Required'),
-  email: Yup.string().required('Field is Required'),
-  phoneNo: Yup.string().required('Field is Required'),
+export const superAdminValidationSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  lastName: Yup.string()
+    .required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  email: Yup.string()
+    .required('Field is Required')
+    .email('Invalid email address'),
+  phoneNumber: Yup.string()
+    .nullable() // Allow null or undefined values
+    .matches(/^\+\d{1,}(\s\d+)*$/, 'Invalid phone number')
+    .transform((value, originalValue) => {
+      if (
+        originalValue === '' ||
+        originalValue === null ||
+        originalValue === undefined
+      ) {
+        return null; // Convert empty string or null/undefined to null
+      }
+      return value;
+    }),
+  jobTitle: Yup.string()
+    .nullable() // Allow null or undefined values
+    .matches(/^[A-Za-z]*$/, 'Only alphabetic characters are allowed') // Validate alphabetic characters if provided
+    .transform((value, originalValue) => {
+      if (
+        originalValue === '' ||
+        originalValue === null ||
+        originalValue === undefined
+      ) {
+        return null; // Convert empty string or null/undefined to null
+      }
+      return value;
+    }),
+  postCode: Yup.string()
+    .required('Field is Required')
+    .matches(/^[0-9]+$/, 'Must be a number'),
+  compositeAddress: Yup.string()?.required('Field is Required'),
+  linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
+  twitterUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
-
-export const defaultValues = {
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  postCode: '',
-  address: '',
-  email: '',
-  phoneNo: '',
-  jobTitle: '',
-  fbUrl: '',
-  linkinUrl: '',
-  twitterUrl: '',
-};
 
 export const addUsersArray = [
   {
     componentProps: {
-      label: 'First Name',
       name: 'firstName',
+      label: 'First Name',
+      required: true,
       placeholder: 'Enter First Name',
       fullWidth: true,
-      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
     componentProps: {
-      label: 'Middle Name',
-      name: 'middleName',
-      placeholder: 'Enter Middle Name',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      label: 'Last Name',
       name: 'lastName',
+      label: 'Last Name',
+      required: true,
       placeholder: 'Enter Last  Name',
       fullWidth: true,
-      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
     componentProps: {
-      label: 'Email',
-      name: 'email',
-      placeholder: 'Enter Email',
-      fullWidth: true,
-      required: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      label: 'Phone Number',
-      name: 'phoneNo',
-      placeholder: 'Enter Number',
-      fullWidth: true,
-      required: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      label: 'Post Code',
       name: 'postCode',
+      label: 'Post Code',
+      required: true,
       placeholder: 'Enter Post Code',
       fullWidth: true,
-      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
     componentProps: {
+      name: 'compositeAddress',
       label: 'Address',
-      name: 'address',
-      placeholder: 'Enter Address',
-      fullWidth: true,
       required: true,
+      placeholder: 'Address',
+      multiline: true,
+      rows: 4,
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 12,
+    subData: [
+      {
+        componentProps: {
+          name: 'flat',
+          label: 'Flat/Unit',
+          placeholder: 'Enter Flat/Unit',
+          fullWidth: true,
+        },
+
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        componentProps: {
+          name: 'buildingName',
+          label: 'Building Name',
+          placeholder: 'Enter Building Name',
+          fullWidth: true,
+        },
+
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        componentProps: {
+          name: 'buildingNumber',
+          label: 'Building Number',
+          placeholder: 'Enter Building Number',
+          fullWidth: true,
+        },
+
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        componentProps: {
+          name: 'streetName',
+          label: 'Street Name',
+          placeholder: 'Enter Street Name',
+          fullWidth: true,
+        },
+
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        componentProps: {
+          name: 'city',
+          label: 'Town/CIty',
+          placeholder: 'Enter Town/City',
+          fullWidth: true,
+        },
+
+        component: RHFTextField,
+        md: 12,
+      },
+      {
+        componentProps: {
+          name: 'country',
+          label: 'Country',
+          fullWidth: true,
+          select: true,
+        },
+        options: [
+          { value: 'pakistan', label: 'Pakistan' },
+          { value: 'India', label: 'India' },
+          { value: 'uk', label: 'UK' },
+          { value: 'us', label: 'US' },
+        ],
+        component: RHFSelect,
+
+        md: 12,
+      },
+    ],
+  },
+  {
+    componentProps: {
+      name: 'email',
+      label: 'Email',
+      required: true,
+      placeholder: 'Enter Email',
+      fullWidth: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
     componentProps: {
-      label: 'Job Title',
+      name: 'phoneNumber',
+      label: 'Phone Number',
+      placeholder: 'Enter Number',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
       name: 'jobTitle',
+      label: 'Job Title',
       placeholder: 'Enter Job Title',
       fullWidth: true,
     },
@@ -115,8 +206,8 @@ export const addUsersArray = [
   },
   {
     componentProps: {
+      name: 'facebookUrl',
       label: 'Facebook URL',
-      name: 'fbUrl',
       placeholder: 'Enter Facebook URL',
       fullWidth: true,
     },
@@ -125,8 +216,8 @@ export const addUsersArray = [
   },
   {
     componentProps: {
+      name: 'linkedInUrl',
       label: 'LinkedIn URL',
-      name: 'linkinUrl',
       placeholder: 'Enter LinkedIn URL',
       fullWidth: true,
     },
@@ -135,8 +226,8 @@ export const addUsersArray = [
   },
   {
     componentProps: {
-      label: 'Twitter URL',
       name: 'twitterUrl',
+      label: 'Twitter URL',
       placeholder: 'Enter Twitter URL',
       fullWidth: true,
     },

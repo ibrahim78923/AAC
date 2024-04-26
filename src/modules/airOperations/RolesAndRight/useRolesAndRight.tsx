@@ -34,6 +34,7 @@ const useRolesAndRight = () => {
     rolesMethods,
     handleSubmit,
     handleChangeExpandAccordion,
+    expandedRoleAccordion,
   };
 };
 

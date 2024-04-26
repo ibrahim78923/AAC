@@ -1,62 +1,85 @@
 import { Box } from '@mui/material';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
+  setTicketRecord,
 }: {
   setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  setTicketRecord: React.Dispatch<React.SetStateAction<any>>;
 }) => {
   return [
     {
       accessorFn: (row: any) => row?.taskno,
-      id: 'contact_id',
+      id: 'ticket_id',
       cell: (info: any) => info?.getValue(),
-      header: 'Contact ID',
+      header: 'Ticket No',
       isSortable: false,
     },
 
     {
       accessorFn: (row: any) => row?.taskname,
-      id: 'Name',
+      id: 'name',
       isSortable: true,
-      header: ' Name',
+      header: 'Name',
       cell: (info: any) => info?.getValue(),
     },
 
     {
       accessorFn: (row: any) => row?.duedate,
-      id: 'phonenumber',
+      id: 'status',
       isSortable: true,
-      header: 'Phone Number',
+      header: 'Status',
       cell: (info: any) => info?.getValue(),
     },
-    {
-      accessorFn: (row: any) => row?.duedate,
-      id: 'jobtitle',
-      isSortable: true,
-      header: 'Job Title ',
-      cell: (info: any) => info?.getValue(),
-    },
-
     {
       accessorFn: (row: any) => row?.assignedTo,
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('View')}>
-            <ViewEyeIcon />
-          </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('Edit')}>
-            <EditPenIcon />
-          </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpenAlert(true)}>
-            <DeleteCrossIcon />
-          </Box>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_TICKET]}
+          >
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setOpenDrawer('View'), setTicketRecord(info?.row?.original);
+              }}
+            >
+              <ViewEyeIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_TICKET]}
+          >
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setOpenDrawer('Edit'), setTicketRecord(info?.row?.original);
+              }}
+            >
+              <EditPenIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REMOVE_TICKET]}
+          >
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setIsOpenAlert(true), setTicketRecord(info?.row?.original);
+              }}
+            >
+              <DeleteCrossIcon />
+            </Box>
+          </PermissionsGuard>
         </Box>
       ),
     },

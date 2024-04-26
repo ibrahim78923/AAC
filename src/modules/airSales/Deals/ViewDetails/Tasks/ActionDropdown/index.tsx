@@ -10,6 +10,9 @@ import { assigneeDataArray } from './ActionDropDown.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { useAppSelector } from '@/redux/store';
 
 const ActionDropdown = (props: any) => {
   const { setOpenDrawer, selectedCheckboxes, setSelectedCheckboxes } = props;
@@ -22,18 +25,22 @@ const ActionDropdown = (props: any) => {
     openAlertModal,
     handleOpenEditDrawer,
     handleOpenViewDrawer,
-    handleOpenReassignAlert,
     handleOpenDeleteAlert,
     handleCloseAlert,
     handleSubmit,
     handleDeleteHandler,
     onSubmit,
     methodsAssignee,
+    deleteTaskLoading,
   } = useActionDropdown({
     setOpenDrawer,
     selectedCheckboxes,
     setSelectedCheckboxes,
   });
+
+  const selectedTaskIds: any = useAppSelector(
+    (state: any) => state?.task_deals?.selectedDealsTaskIds,
+  );
 
   return (
     <div>
@@ -48,7 +55,7 @@ const ActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
-        disabled={selectedCheckboxes?.length === 0}
+        disabled={selectedTaskIds?.length > 0 ? false : true}
         className="small"
       >
         Action
@@ -62,20 +69,36 @@ const ActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem
-          disabled={selectedCheckboxes?.length > 1}
-          onClick={handleOpenViewDrawer}
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_TASK]}
         >
-          View
-        </MenuItem>
-        <MenuItem
-          disabled={selectedCheckboxes?.length > 1}
-          onClick={handleOpenEditDrawer}
+          <MenuItem
+            disabled={selectedTaskIds?.length > 1}
+            onClick={handleOpenViewDrawer}
+          >
+            View
+          </MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_TASK]}
         >
-          Edit
-        </MenuItem>
-        <MenuItem onClick={handleOpenReassignAlert}>Re-assign</MenuItem>
-        <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+          <MenuItem
+            disabled={selectedTaskIds?.length > 1}
+            onClick={handleOpenEditDrawer}
+          >
+            Edit
+          </MenuItem>
+        </PermissionsGuard>
+        {/* <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REASSIGN_TASK]}
+        >
+          <MenuItem onClick={handleOpenReassignAlert}>Re-assign</MenuItem>
+        </PermissionsGuard> */}
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_DELETE_TASK]}
+        >
+          <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        </PermissionsGuard>
       </Menu>
 
       <ScheduleModals
@@ -119,6 +142,7 @@ const ActionDropdown = (props: any) => {
         open={openAlertModal === 'Delete'}
         handleClose={handleCloseAlert}
         handleSubmitBtn={handleDeleteHandler}
+        loading={deleteTaskLoading}
       />
     </div>
   );

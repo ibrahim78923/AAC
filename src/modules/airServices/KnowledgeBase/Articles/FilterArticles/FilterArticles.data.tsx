@@ -1,53 +1,45 @@
-import { RHFSelect } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
+import { ARTICLE_STATUS } from '@/constants/strings';
 
-export const filterArticlesValidationSchema = Yup?.object()?.shape({
-  status: Yup?.string(),
-  author: Yup?.string(),
-});
-
-export const filterArticlesDataDefaultValues = {
-  status: '',
-  author: '',
-};
 const statusOption = [
-  { value: 'Drafts', label: 'Drafts' },
-  { value: 'Published', label: 'Published' },
+  { _id: ARTICLE_STATUS?.DRAFT, label: ARTICLE_STATUS?.DRAFT },
+  { _id: ARTICLE_STATUS?.PUBLISHED, label: ARTICLE_STATUS?.PUBLISHED },
 ];
-const authorOption = [
-  { value: 'Alee', label: 'Alee' },
-  { value: 'David', label: 'David' },
-  { value: 'Raza', label: 'Raza' },
-  { value: 'Sam', label: 'Sam' },
-  { value: 'Martiz', label: 'Martiz' },
-  { value: 'Luke', label: 'Luke' },
-  { value: 'Manpreet', label: 'Manpreet' },
-];
-export const filterArticlesData = [
+
+export const filterArticlesDataDefaultValues = (data?: any) => {
+  return {
+    status: data?.status ?? null,
+    authorId: data?.authorId ?? null,
+  };
+};
+
+export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
   {
+    id: 1,
     componentProps: {
       name: 'status',
       label: 'Status',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
+      options: statusOption,
+      getOptionLabel: (option: any) => option?.label,
     },
-
-    options: statusOption,
-
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 2,
     componentProps: {
-      name: 'author',
+      name: 'authorId',
       label: 'Author',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
+      apiQuery: apiQueryAuthor,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
-
-    options: authorOption,
-
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
 ];

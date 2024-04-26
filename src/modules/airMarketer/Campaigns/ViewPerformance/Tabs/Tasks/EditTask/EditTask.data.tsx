@@ -21,8 +21,8 @@ export const defaultValues = {
   taskType: '',
   selectCompaign: '',
   assignedTo: '',
-  dueDate: '',
-  dueTime: '',
+  dueDate: null,
+  dueTime: null,
 };
 
 export const dataArray = [

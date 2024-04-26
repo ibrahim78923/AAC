@@ -10,6 +10,13 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['SETTINGS_SALE_PRODUCT'],
     }),
+    getSalesProductById: builder.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['SETTINGS_DEAL_PIPELINE'],
+    }),
     postSalesProduct: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.SALE_PRODUCTS}`,
@@ -27,9 +34,10 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['SETTINGS_SALE_PRODUCT'],
     }),
     deleteSalesProduct: builder?.mutation({
-      query: ({ id }) => ({
-        url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+      query: (ids) => ({
+        url: `${END_POINTS?.SALE_PRODUCTS}`,
         method: 'DELETE',
+        body: ids,
       }),
       invalidatesTags: ['SETTINGS_SALE_PRODUCT'],
     }),
@@ -41,4 +49,6 @@ export const {
   usePostSalesProductMutation,
   useUpdateSalesProductMutation,
   useDeleteSalesProductMutation,
+  useGetSalesProductByIdQuery,
+  useLazyGetSalesProductByIdQuery,
 } = SalesProductAPI;

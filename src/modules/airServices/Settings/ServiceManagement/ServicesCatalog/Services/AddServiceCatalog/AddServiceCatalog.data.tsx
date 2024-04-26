@@ -4,6 +4,7 @@ export const addServiceCatalogValidationSchema = Yup?.object()?.shape({
   categoryName: Yup?.string(),
   description: Yup?.string(),
 });
+
 export const addServiceCatalogDefaultValues = {
   categoryName: '',
   description: '',
@@ -15,7 +16,7 @@ export const addServiceCatalogData = [
     componentProps: {
       name: 'categoryName',
       label: 'Category Name',
-      placeholder: 'Enter Name',
+      placeholder: 'Enter name',
       fullWidth: true,
     },
 

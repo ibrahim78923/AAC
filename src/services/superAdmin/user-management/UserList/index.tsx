@@ -4,9 +4,10 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 export const userListApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsersAccounts: builder.query({
-      query: (values: any) => ({
-        url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${values?.orgId}${END_POINTS?.USER_ACCOUNT}`,
+      query: ({ id, orgId, values }: any) => ({
+        url: `${END_POINTS?.ADD_USER}/${id}${END_POINTS?.ORGANIZATION}/${orgId}${END_POINTS?.USER_ACCOUNT}`,
         method: 'GET',
+        params: values,
       }),
       providesTags: ['USERS'],
     }),
@@ -29,11 +30,23 @@ export const userListApi = baseAPI.injectEndpoints({
     }),
 
     postUsersAccount: builder.mutation({
-      query: ({ body }: any) => {
+      query: ({ id, body }: any) => {
         return {
-          url: END_POINTS?.ADD_USER_ACCOUNT,
+          url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${id}${END_POINTS?.USER_ACCOUNT}`,
           method: 'POST',
           body: body,
+        };
+      },
+      invalidatesTags: ['USERS'],
+    }),
+
+    postCompany: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.POST_COMPANY_ACCOUNT,
+          method: 'POST',
+          body: body,
+          // headers: { 'Content-Type': 'multipart/form-data' },
         };
       },
       invalidatesTags: ['USERS'],
@@ -42,7 +55,7 @@ export const userListApi = baseAPI.injectEndpoints({
     postUserEmployee: builder.mutation({
       query: ({ id, body }: any) => {
         return {
-          url: `${END_POINTS?.ORG_USER_EMPLOYEE}/${id}`,
+          url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${id}`,
           method: 'POST',
           body: body,
         };
@@ -58,6 +71,29 @@ export const userListApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['USERS'],
     }),
+
+    updateUserImg: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${END_POINTS?.ADD_USER}/${id}/${END_POINTS?.USER_AVATAR}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: ['USERS'],
+    }),
+
+    updateAccountStatus: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${END_POINTS?.ADD_USER}${END_POINTS?.USER_ACCOUNT}/${id}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: ['USERS'],
+    }),
+
     deleteUsers: builder.mutation({
       query: ({ id }: any) => ({
         url: `/${id}`,
@@ -71,9 +107,13 @@ export const userListApi = baseAPI.injectEndpoints({
 export const {
   useGetUsersAccountsQuery,
   useGetEmployeeListQuery,
+  useLazyGetEmployeeListQuery,
   useGetUserAccountsByIdQuery,
   usePostUsersAccountMutation,
+  usePostCompanyMutation,
   useUpdateUsersAccountMutation,
   useDeleteUsersMutation,
   usePostUserEmployeeMutation,
+  useUpdateUserImgMutation,
+  useUpdateAccountStatusMutation,
 } = userListApi;

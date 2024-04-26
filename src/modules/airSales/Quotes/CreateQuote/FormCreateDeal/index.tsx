@@ -1,60 +1,92 @@
-import { Grid, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
+
+import { Grid } from '@mui/material';
+
+import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
+import { usePostDealsMutation } from '@/services/airSales/deals';
+
 import {
   createDealData,
+  defaultValues,
   validationSchema,
-  initValues,
 } from './FormCreateDeal.data';
-import { FormProvider } from '@/components/ReactHookForm';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
-import CommonDrawer from '@/components/CommonDrawer';
 
-const FormCreateDeal = ({ open, onClose }: any) => {
-  const methods: any = useForm({
+import dayjs from 'dayjs';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { enqueueSnackbar } from 'notistack';
+
+const CreateDeal = ({ open, onClose }: any) => {
+  const [postDeals, { isLoading: isCreateDealLodaing }] =
+    usePostDealsMutation();
+  const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
-    defaultValues: initValues,
+    defaultValues: defaultValues,
   });
-  const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
-    });
+  const { handleSubmit, reset, watch } = methods;
+  const dealPipelineId = watch('dealPipelineId');
+
+  const onSubmit = async (values: any) => {
+    const closeDate = dayjs(values?.closeDate)?.toISOString();
+    const products = values?.products?.map((id: string) => ({
+      productId: id,
+      quantity: 1,
+      unitDiscount: 0,
+    }));
+    delete values.products;
+    const obj = {
+      closeDate,
+      products,
+      ...values,
+    };
+
+    try {
+      await postDeals({ body: obj })?.unwrap();
+      enqueueSnackbar('Deal created successfully', {
+        variant: 'success',
+      });
+      reset();
+    } catch (error) {
+      enqueueSnackbar('Error while creating deal', {
+        variant: 'error',
+      });
+    }
+    onClose();
   };
+
+  const dealDataArray = createDealData({ dealPipelineId });
 
   return (
     <CommonDrawer
-      title="Create Deal"
-      okText="Submit"
       isDrawerOpen={open}
       onClose={onClose}
-      isOk={true}
-      cancelText={'Cancel'}
-      footer={true}
+      title="Create Deal"
+      footer
+      okText="Create"
+      isOk
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={isCreateDealLodaing}
     >
-      <Box sx={{ pt: '27px' }}>
-        <FormProvider methods={methods}>
-          <Grid container spacing={'32px'}>
-            {createDealData?.map((item) => (
-              <Grid item xs={12} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
-      </Box>
+      <FormProvider methods={methods}>
+        <Grid container spacing={1}>
+          {dealDataArray?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <item.component {...item?.componentProps} size={'small'}>
+                {item?.componentProps?.select &&
+                  item?.options?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  ))}
+              </item.component>
+            </Grid>
+          ))}
+        </Grid>
+      </FormProvider>
     </CommonDrawer>
   );
 };
 
-export default FormCreateDeal;
+export default CreateDeal;

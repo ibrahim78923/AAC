@@ -44,6 +44,7 @@ const PostDetailsField = () => {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
+          overflowY: 'scroll',
         }}
       >
         <Button

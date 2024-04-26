@@ -51,7 +51,7 @@ export const columns = [
     id: 'viewName',
     cell: (info: any) => info?.getValue(),
     header: 'View Name',
-    isSortable: false,
+    isSortable: true,
   },
   {
     accessorFn: (row: any) => row?.campaignOwner,

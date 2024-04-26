@@ -12,16 +12,19 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 
 export const AddServiceCatalog = (prop: any) => {
-  const { methodAdd, handleSubmit, onSubmit, open, setOpen } =
-    useAddServiceCatalog(prop);
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const {
+    methodAdd,
+    handleSubmit,
+    onSubmit,
+    open,
+    handleClose,
+    postServiceCatalogTriggerStatus,
+  } = useAddServiceCatalog(prop);
+
   return (
     <Fragment>
       <Dialog
         onClose={handleClose}
-        onSubmit={onSubmit}
         aria-labelledby="customized-dialog-title"
         open={open}
         fullWidth
@@ -31,7 +34,9 @@ export const AddServiceCatalog = (prop: any) => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Typography variant="h4">New Service Catalog</Typography>
+          <Typography variant={'h4'} component={'span'}>
+            New Service Category
+          </Typography>
           <CloseIcon sx={{ cursor: 'pointer' }} onClick={handleClose} />
         </DialogTitle>
         <FormProvider methods={methodAdd} onSubmit={handleSubmit(onSubmit)}>
@@ -45,8 +50,19 @@ export const AddServiceCatalog = (prop: any) => {
             </Grid>
           </DialogContent>
           <DialogActions>
-            <LoadingButton onClick={handleClose}>cancel</LoadingButton>
-            <LoadingButton variant="contained" type="submit">
+            <LoadingButton
+              color="secondary"
+              variant="outlined"
+              onClick={handleClose}
+              disabled={postServiceCatalogTriggerStatus?.isLoading}
+            >
+              cancel
+            </LoadingButton>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={postServiceCatalogTriggerStatus?.isLoading}
+            >
               Create
             </LoadingButton>
           </DialogActions>

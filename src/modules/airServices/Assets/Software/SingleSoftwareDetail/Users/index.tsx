@@ -1,71 +1,46 @@
-import React, { useState } from 'react';
 import UsersTable from './UsersTable';
-import { Box, Button, Divider } from '@mui/material';
-import CustomPagination from '@/components/CustomPagination';
+import { Box } from '@mui/material';
 import { UsersAdd } from './UsersAdd';
 import { UsersFilter } from './UsersFilter';
 import { userDropdown } from './Users.data';
 import Search from '@/components/Search';
-import { enqueueSnackbar } from 'notistack';
-import ConversationModel from '@/components/Model/CoversationModel';
-
 import { ExportButton } from '@/components/ExportButton';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import UsersRemove from './UsersRemove';
 import UsersAllocate from './UsersAllocate';
 import UsersDeallocate from './UsersDeallocate';
+import useUsers from './useUsers';
+import UserActionModal from './UserActionModal';
+import { EXPORT_TYPE, SOFTWARE_USER_ACTIONS_TYPES } from '@/constants/strings';
+import { LoadingButton } from '@mui/lab';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Users = () => {
-  const [usersData, setUsersData] = useState([]);
-  const [actionModalOpen, setActionModalOpen] = useState(false);
-  const [selectedActionTitle, setSelectedActionTitle] = useState(null);
-
-  const userActionClickHandler = (title: any) => {
-    setSelectedActionTitle(title);
-    setActionModalOpen(true);
-  };
-
-  const userActionDropdownCloseHandler = () => {
-    setActionModalOpen(false);
-  };
-
-  const excelExportHandler = () => {
-    enqueueSnackbar('Excel File Download Successfully', {
-      variant: 'success',
-    });
-  };
-
-  const csvExportHandler = () => {
-    enqueueSnackbar('CSV File Download Successfully', {
-      variant: 'success',
-    });
-  };
-  const actionClickHandler = (selectedActionTitle: any) => {
-    switch (selectedActionTitle) {
-      case 'Allocate':
-        enqueueSnackbar('Contract Allocated Successfully', {
-          variant: 'success',
-        });
-        break;
-      case 'Deallocate':
-        enqueueSnackbar('Contract Deallocated Successfullyy', {
-          variant: 'success',
-        });
-        break;
-      case 'Remove':
-        enqueueSnackbar('User Removed Successfully', {
-          variant: 'success',
-        });
-        break;
-      default:
-        '';
-    }
-
-    userActionDropdownCloseHandler();
-  };
+  const {
+    setActionModalOpen,
+    getUserListDataExport,
+    usersData,
+    actionClickHandler,
+    userActionClickHandler,
+    actionModalOpen,
+    userActionDropdownCloseHandler,
+    selectedActionTitle,
+    setSearch,
+    search,
+    setUsersData,
+    methods,
+    allocateSubmit,
+    deAllocateLoading,
+    allocateLoading,
+    removeLoading,
+    setFilterValues,
+  } = useUsers();
 
   return (
-    <>
+    <PermissionsGuard
+      permissions={[AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.USERS]}
+    >
       <Box
         display={'flex'}
         justifyContent={'space-between'}
@@ -74,7 +49,7 @@ export const Users = () => {
         gap={2}
       >
         <Box>
-          <Search label="Search" searchBy="" setSearchBy="" />
+          <Search label="Search" setSearchBy={setSearch} searchBy={search} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <SingleDropdownButton
@@ -82,39 +57,48 @@ export const Users = () => {
               setActionModalOpen,
               userActionClickHandler,
             )}
-            disabled={usersData?.length === 0}
+            disabled={!usersData?.length}
           />
 
           <UsersAdd />
           <ExportButton
-            handleCsvExport={csvExportHandler}
-            handleExcelExport={excelExportHandler}
+            handleCsvExport={() => getUserListDataExport(EXPORT_TYPE?.CSV)}
+            handleExcelExport={() => getUserListDataExport(EXPORT_TYPE?.XLS)}
           />
-          <UsersFilter />
+          <UsersFilter setFilterValues={setFilterValues} />
         </Box>
       </Box>
       {actionModalOpen && (
-        <ConversationModel
+        <UserActionModal
           handleClose={userActionDropdownCloseHandler}
-          open={actionModalOpen}
+          open={
+            actionModalOpen &&
+            (selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE ||
+              ((selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE ||
+                selectedActionTitle ===
+                  SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE) &&
+                usersData?.length <= 1))
+          }
           selectedItem={
-            selectedActionTitle === 'Allocate'
+            selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
               ? 'Add Device'
-              : selectedActionTitle === 'Deallocate'
-              ? 'Deallocate Contract'
-              : selectedActionTitle === 'Remove'
-              ? 'Remove Contract'
-              : 'Add Device'
+              : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
+                ? 'Deallocate Contract '
+                : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
+                  ? 'Remove Contract'
+                  : 'Add Device'
           }
         >
-          {selectedActionTitle === 'Allocate' && <UsersAllocate />}
-          {selectedActionTitle === 'Deallocate' && <UsersDeallocate />}
-          {selectedActionTitle === 'Remove' && <UsersRemove />}
-          {selectedActionTitle === 'Allocate' && (
-            <Box sx={{ mt: 2 }}>
-              <Divider />
-            </Box>
+          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
+            <UsersAllocate methods={methods} onSubmit={allocateSubmit} />
           )}
+          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE && (
+            <UsersDeallocate />
+          )}
+          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE && (
+            <UsersRemove />
+          )}
+
           <Box
             display={'flex'}
             justifyContent={'flex-end'}
@@ -122,27 +106,31 @@ export const Users = () => {
             gap={2}
             marginTop={2}
           >
-            <Button onClick={userActionDropdownCloseHandler} variant="outlined">
+            <LoadingButton
+              onClick={userActionDropdownCloseHandler}
+              variant="outlined"
+              color="secondary"
+            >
               No
-            </Button>
-            <Button
+            </LoadingButton>
+            <LoadingButton
               variant="contained"
-              onClick={() => actionClickHandler(selectedActionTitle)}
+              loading={deAllocateLoading || allocateLoading || removeLoading}
+              onClick={
+                selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
+                  ? methods?.handleSubmit(allocateSubmit)
+                  : () => actionClickHandler(selectedActionTitle)
+              }
             >
               Yes
-            </Button>
+            </LoadingButton>
           </Box>
-        </ConversationModel>
+        </UserActionModal>
       )}
 
       <br />
-      <UsersTable usersData={usersData} setUsersData={setUsersData} />
+      <UsersTable setUsersData={setUsersData} usersData={usersData} />
       <br />
-      <CustomPagination
-        count={1}
-        rowsPerPageOptions={[1, 2]}
-        entriePages={10}
-      />
-    </>
+    </PermissionsGuard>
   );
 };

@@ -5,22 +5,25 @@ import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 import { PAGINATION } from '@/config';
 import { getSession } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useRolesAndRights = () => {
   const navigate = useRouter();
   const theme = useTheme();
-  const { user } = getSession();
+  const { user }: any = getSession();
   const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [selectedValue, setSelectedValue] = useState(null);
   const [checkedRows, setCheckedRows] = useState();
   const [filterValues, setFilterValues] = useState({
     search: '',
     status: '',
     productId: '',
+    dateStart: null,
+    dateEnd: null,
   });
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const { useGetPermissionsRolesQuery, useUpdateRoleRightsMutation } =
     rolesAndRightsAPI;
@@ -33,13 +36,16 @@ const useRolesAndRights = () => {
     organizationId: user?.organization?._id,
     productId: filterValues?.productId,
     status: filterValues?.status,
-    search: filterValues?.search,
-    //commented for future use
-    // dateStart: dayjs(filterValues?.dateStart)?.format('YYYY-MM-DD')
+    search: filterValues?.search ?? undefined,
+    dateStart: filterValues?.dateStart ?? undefined,
+    dateEnd: filterValues?.dateEnd ?? undefined,
   };
 
-  const { data: getPermissions } =
-    useGetPermissionsRolesQuery(permissionParams);
+  const {
+    data: getPermissions,
+    isSuccess,
+    isLoading,
+  } = useGetPermissionsRolesQuery(permissionParams);
 
   const handleClose = () => {
     setSelectedValue(null);
@@ -54,15 +60,25 @@ const useRolesAndRights = () => {
       search: '',
       status: '',
       productId: '',
+      dateStart: null,
+      dateEnd: null,
     });
   };
 
-  const updateStatus = (id: any, val: any) => {
+  const updateStatus = async (id: any, val: any) => {
     const status = val?.target?.checked ? 'ACTIVE' : 'INACTIVE';
-    updateRoleRights({ id, body: { status: status } });
-    enqueueSnackbar('User updated successfully', {
-      variant: 'success',
-    });
+    try {
+      await updateRoleRights({ id, body: { status: status } });
+      enqueueSnackbar('User updated successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   return {
@@ -81,10 +97,12 @@ const useRolesAndRights = () => {
     handleClose,
     handleClick,
     resetFilters,
+    updateStatus,
     navigate,
     setPage,
     theme,
-    updateStatus,
+    isSuccess,
+    isLoading,
   };
 };
 

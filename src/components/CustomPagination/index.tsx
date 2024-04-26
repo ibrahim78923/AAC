@@ -42,8 +42,12 @@ const CustomPagination = (props: any) => {
             onPageChange={(_: any, page) => onPageChange?.(page)}
             rowsPerPage={pageLimit}
             onRowsPerPageChange={(event: any) => {
-              setPageLimit?.(parseInt(event?.target?.value, 10));
-              setPage?.(0);
+              const newPageLimit = parseInt(event?.target?.value, 10);
+              const newPage =
+                Math.floor(((currentPage - 1) * pageLimit) / newPageLimit) + 1;
+
+              setPageLimit?.(newPageLimit);
+              setPage?.(newPage);
             }}
             rowsPerPageOptions={rowsPerPageOptions}
             sx={styles?.tablePaginationStyle(theme)}
@@ -51,7 +55,7 @@ const CustomPagination = (props: any) => {
         </Box>
         <Box display={'flex'}>
           <IconButton
-            disabled={currentPage === 1}
+            disabled={currentPage === 1 || currentPage < 1}
             onClick={() => setPage?.((page: any) => page - 1)}
             sx={styles?.iconStyleTwo(theme)}
           >

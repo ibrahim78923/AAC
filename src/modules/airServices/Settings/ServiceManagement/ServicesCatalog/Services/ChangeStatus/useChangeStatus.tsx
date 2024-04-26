@@ -4,21 +4,38 @@ import {
   changeStatusDefaultValues,
   changeStatusValidationSchema,
 } from './ChangeStatus.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+
+import { usePatchServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const useChangeStatus = (prop: any) => {
-  const { openStatus, setOpenStatus } = prop;
+  const { openStatus, setOpenStatus, id } = prop;
+
+  const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
+    usePatchServiceCatalogMutation();
   const methodChangeStatus = useForm({
     resolver: yupResolver(changeStatusValidationSchema),
     defaultValues: changeStatusDefaultValues,
   });
   const { handleSubmit } = methodChangeStatus;
-  const onSubmit = () => {
+  const onSubmit = async (data: any) => {
+    const moveToCategoryData = new FormData();
+
+    moveToCategoryData.append('id', id?.selectedCheckboxes?.[0]);
+    moveToCategoryData.append('status', data?.status);
+
+    const body = moveToCategoryData;
+
+    const patchServiceCatalogParameter = { body };
+    try {
+      await patchServiceCatalogTrigger(patchServiceCatalogParameter)?.unwrap();
+
+      successSnackbar('Service Status Updated ');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+
     setOpenStatus(false);
-    enqueueSnackbar('Service Change Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
   };
 
   return {
@@ -27,6 +44,7 @@ const useChangeStatus = (prop: any) => {
     onSubmit,
     openStatus,
     setOpenStatus,
+    patchServiceCatalogTriggerStatus,
   };
 };
 export default useChangeStatus;

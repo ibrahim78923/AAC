@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Typography, Box, Button, SvgIcon } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 
@@ -12,6 +10,8 @@ import useDealHeader from './useDealHeader';
 import { styles } from './DealHeader.style';
 
 import { ImportIcon, MenuIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const DealHeader = () => {
   const {
@@ -34,24 +34,34 @@ const DealHeader = () => {
         </Typography>
       </Box>
       <Box sx={styles?.HeaderChildStyle}>
-        <Button
-          variant="outlined"
-          onClick={handleImportDealOpen}
-          startIcon={<ImportIcon />}
-          sx={{ height: '35px' }}
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.IMPORT_DEALS]}
         >
-          Import
-        </Button>
-        <Box>
+          <Button
+            variant="outlined"
+            sx={{ height: '35px', width: { xs: '100%', sm: '100px' } }}
+            color="inherit"
+            className="small"
+            onClick={handleImportDealOpen}
+            startIcon={<ImportIcon />}
+          >
+            Import
+          </Button>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.CREATE_DEALS]}
+        >
           <Button
             variant="contained"
+            color="primary"
+            className="small"
             onClick={handleCreateDealOpen}
             startIcon={<AddCircle />}
-            sx={{ height: '35px' }}
+            sx={{ height: '35px', width: { xs: '100%', sm: '140px' } }}
           >
             Create Deal
           </Button>
-        </Box>
+        </PermissionsGuard>
       </Box>
       <ImportDealsDrawer open={isImportDeal} onClose={handleImportDealOpen} />
       <CreateDeal open={isCreateDeal} onClose={handleCreateDealOpen} />

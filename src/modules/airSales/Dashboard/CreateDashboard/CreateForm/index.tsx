@@ -27,7 +27,7 @@ import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import DetailsView from '../DetailsView';
-import { EyeIcon } from '@/assets/icons';
+import { PrimaryPreviewEyeIcon } from '@/assets/icons';
 import DialogCards from '../../Preview/DialogCards';
 import useCreateForm from './useCreateForm';
 
@@ -57,9 +57,9 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
 
   return (
     <>
-      <Box mt={1}>
+      <Box>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={4}>
+          <Grid container spacing={1}>
             <Grid sm={12} lg={6}>
               {dataArray?.map((item: any) => (
                 <Grid
@@ -96,7 +96,7 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                               control={<Radio />}
                               label="Everyone"
                             />
-                            {accessValue === createFormOptions?.everyOne && (
+                            {accessValue === 'everyOne' && (
                               <FormControl sx={{ ml: 2 }} component="fieldset">
                                 <RadioGroup aria-label="child" name="child">
                                   <FormControlLabel
@@ -143,7 +143,8 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                   <Button
                     variant="outlined"
                     onClick={() => setIsOpenPreview(true)}
-                    startIcon={<EyeIcon />}
+                    startIcon={<PrimaryPreviewEyeIcon />}
+                    sx={{ border: '1px solid White' }}
                   >
                     Preview Dashboard
                   </Button>

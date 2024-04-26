@@ -1,19 +1,31 @@
 import { Box, Button, Chip, Divider, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AddCircle } from '@mui/icons-material';
-import {
-  conditionTypeOptions,
-  workflowConditionsDataArray,
-} from '../WorkflowConditions.data';
-import { salesValues } from '../../UpsertSalesWorkflow.data';
+import { workflowConditionsDataArray } from '../WorkflowConditions.data';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
+import { WORKFLOW_CONDITION_TYPE } from '@/constants/strings';
 
 export const SubWorkflowConditions = (props: any) => {
-  const { moduleType, index, conditionType } = props;
-  const { append, fields, handleDeleteClick } = useSubWorkflowConditions(props);
+  const { index, conditionType, watch } = props;
+  const {
+    handleAppend,
+    fields,
+    handleDeleteClick,
+    dealDropdown,
+    stagesDropdown,
+    userDropdown,
+  } = useSubWorkflowConditions(props);
   return (
     <>
       {fields?.map((item, subIndex) => {
+        const fieldLength = workflowConditionsDataArray(
+          index,
+          subIndex,
+          watch,
+          dealDropdown,
+          userDropdown,
+          stagesDropdown,
+        )?.find((item) => item?.component === Box);
         return (
           <Box key={item?.id}>
             {subIndex !== 0 && (
@@ -26,31 +38,46 @@ export const SubWorkflowConditions = (props: any) => {
               >
                 <Chip
                   label={
-                    conditionType === conditionTypeOptions?.[0] ? 'AND' : 'OR'
+                    conditionType?.value === WORKFLOW_CONDITION_TYPE?.AND
+                      ? WORKFLOW_CONDITION_TYPE?.AND
+                      : WORKFLOW_CONDITION_TYPE?.OR
                   }
                 />
               </Divider>
             )}
             <Box pt={1} display={'flex'} alignItems={'center'} gap={1}>
               <Grid container spacing={2}>
-                {workflowConditionsDataArray(moduleType, index, subIndex)?.map(
-                  (item) => (
-                    <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
-                      <item.component {...item?.componentProps} />
-                    </Grid>
-                  ),
-                )}
+                {workflowConditionsDataArray(
+                  index,
+                  subIndex,
+                  watch,
+                  dealDropdown,
+                  userDropdown,
+                  stagesDropdown,
+                )?.map((item) => (
+                  <Grid
+                    item
+                    xs={12}
+                    lg={fieldLength ? 6 : item?.gridLength}
+                    key={item?._id}
+                    display={item?.component === Box ? 'none' : 'block'}
+                  >
+                    <item.component {...item?.componentProps} />
+                  </Grid>
+                ))}
               </Grid>
-              <DeleteIcon
-                sx={{ color: 'error.main', cursor: 'pointer' }}
-                onClick={() => handleDeleteClick?.(subIndex)}
-              />
+              <Box>
+                <DeleteIcon
+                  sx={{ color: 'error.main', cursor: 'pointer' }}
+                  onClick={() => handleDeleteClick?.(subIndex)}
+                />
+              </Box>
             </Box>
           </Box>
         );
       })}
       <Button
-        onClick={() => append(salesValues?.workflowConditions?.[0]?.conditions)}
+        onClick={handleAppend}
         color="secondary"
         startIcon={<AddCircle color="action" />}
       >

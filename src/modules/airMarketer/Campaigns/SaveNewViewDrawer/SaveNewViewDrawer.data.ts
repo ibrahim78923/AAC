@@ -1,4 +1,9 @@
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFDatePicker,
+  RHFRadioGroup,
+  RHFSelect,
+} from '@/components/ReactHookForm';
+import { Typography, useTheme } from '@mui/material';
 
 import * as Yup from 'yup';
 
@@ -10,11 +15,12 @@ export const validationSchema = Yup?.object()?.shape({
 
 export const defaultValues = {
   campaignStatus: '',
-  startDate: '',
-  endDate: '',
+  startDate: null,
+  endDate: null,
 };
 
 export const dataArray = () => {
+  const theme = useTheme();
   return [
     {
       componentProps: {
@@ -57,6 +63,30 @@ export const dataArray = () => {
 
       component: RHFDatePicker,
 
+      md: 12,
+    },
+    {
+      componentProps: {
+        color: theme?.palette?.grey[500],
+        varient: 'h4',
+        heading: 'Shared with',
+      },
+      gridLength: 12,
+      component: Typography,
+    },
+    {
+      componentProps: {
+        name: 'sharedWith',
+        fullWidth: true,
+        defaultValue: 'all',
+        row: false,
+        options: [
+          { value: 'PRIVATE', label: 'Private' },
+          { value: 'TEAM', label: 'My Team (test)' },
+          { value: 'EVERYONE', label: 'Everyone' },
+        ],
+      },
+      component: RHFRadioGroup,
       md: 12,
     },
   ];

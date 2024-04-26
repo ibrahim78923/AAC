@@ -20,7 +20,7 @@ const LowCostPerClickChart = () => {
           variant="h5"
           sx={{ color: `${theme?.palette?.slateBlue?.main}` }}
         >
-          Compaigns with low cost per click
+          Campaigns with low cost per click
         </Typography>
         <Button
           variant="outlined"
@@ -49,14 +49,6 @@ const LowCostPerClickChart = () => {
           }
         />
       </Box>
-      <Typography
-        variant="body2"
-        fontWeight={600}
-        color={theme?.palette?.slateBlue?.main}
-        textAlign="center"
-      >
-        Session Data
-      </Typography>
     </Card>
   );
 };

@@ -1,26 +1,19 @@
 import * as Yup from 'yup';
-import {
-  RHFMultiSearchableSelect,
-  RHFSelect,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import {
-  useGetPlanTypesQuery,
-  useGetProductsQuery,
-} from '@/services/superAdmin/plan-mangement';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { useGetPlanTypesQuery } from '@/services/superAdmin/plan-mangement';
 
 export const defaultValues = {
   suite: [],
   productId: [],
-  planTypeId: [],
+  planTypeId: '',
   description: '',
   defaultUsers: '',
   defaultStorage: '',
   planPrice: '',
-  allowAdditionalUsers: '',
-  additionalPerUserPrice: '',
-  allowAdditionalStorage: '',
-  additionalStoragePrice: '',
+  allowAdditionalUsers: 'No',
+  additionalPerUserPrice: 0,
+  allowAdditionalStorage: 'No',
+  additionalStoragePrice: 0,
 };
 
 export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
@@ -35,29 +28,29 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
     ?.required('Required field')
 
     ?.min(1, 'Mininum 1 characters')
-    ?.max(30, 'Maximum 50 characters'),
+    ?.max(30, 'Maximum 50 characters')
+    ?.matches(/^[0-9]*$/, 'must be a number'),
   defaultStorage: Yup?.string()
     ?.trim()
     ?.required('Required field')
     ?.min(1, 'Mininum 1 characters')
-    ?.max(50, 'Maximum 50 characters'),
+    ?.max(50, 'Maximum 50 characters')
+    ?.matches(/^[0-9]*$/, 'must be a number'),
   planPrice: Yup?.string()
     ?.matches(/^[0-9]*$/, 'must be a number')
     ?.required('Required field')
     ?.min(1, 'Mininum 1 characters')
     ?.max(12, 'max is 12'),
-  allowAdditionalUsers: Yup?.string()?.required('Required field'),
-  additionalPerUserPrice: Yup?.string()
-    ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.required('Required field')
-    ?.min(1, 'Mininum 1 characters')
-    ?.max(12, 'max is 12'),
-  allowAdditionalStorage: Yup?.string()?.required('Required field'),
-  additionalStoragePrice: Yup?.string()
-    ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.required('Required field')
-    ?.min(1, 'Mininum 1 characters')
-    ?.max(12, 'max is 12'),
+  allowAdditionalUsers: Yup?.string(),
+  additionalPerUserPrice: Yup?.string()?.matches(
+    /^[0-9]*$/,
+    'must be a number',
+  ),
+  allowAdditionalStorage: Yup?.string(),
+  additionalStoragePrice: Yup?.string()?.matches(
+    /^[0-9]*$/,
+    'must be a number',
+  ),
 });
 
 export const defaultValuesFunction = (data: any = defaultValues) => {
@@ -89,14 +82,12 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
   };
 };
 
-export const dataArray = (_: any, selectProductSuite: any) => {
-  const { data } = useGetProductsQuery({});
-
-  const productsOptions = data?.data?.map((product: any) => ({
-    value: product?._id,
-    label: product?.name,
-  }));
-
+export const dataArray = (
+  _: any,
+  AdditionalStorageValue: any,
+  AdditionalUsereValue: any,
+  isSuccess: any,
+) => {
   const { data: planTypeData } = useGetPlanTypesQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
@@ -107,20 +98,16 @@ export const dataArray = (_: any, selectProductSuite: any) => {
     label: planType?.name,
   }));
 
-  const planLabelRender =
-    selectProductSuite == 'product' ? 'productId' : 'suite';
-  const planNameRender =
-    selectProductSuite == 'product' ? 'productId' : 'suite';
-
   return [
     {
       componentProps: {
-        name: planLabelRender,
-        label: planNameRender,
-        isCheckBox: selectProductSuite == 'product' ? false : true,
-        options: productsOptions,
+        name: 'planLabelRender',
+        label: 'planNameRender',
+        placeholder: 'Select',
+        required: true,
+        options: planType,
       },
-      component: RHFMultiSearchableSelect,
+      component: 'RHFMultiSearchableSelect',
       md: 6,
     },
     {
@@ -130,11 +117,15 @@ export const dataArray = (_: any, selectProductSuite: any) => {
         name: 'planTypeId',
         label: 'Plan Type',
         select: true,
+        placeholder: 'Enter Plan Type',
+        required: true,
+        disabled: isSuccess,
       },
       options: planType,
       component: RHFSelect,
       md: 6,
     },
+
     {
       id: 3,
       componentProps: {
@@ -143,6 +134,7 @@ export const dataArray = (_: any, selectProductSuite: any) => {
         fullWidth: true,
         multiline: true,
         rows: 4,
+        placeholder: 'Enter Description',
       },
       component: RHFTextField,
       gridLength: 6,
@@ -154,6 +146,8 @@ export const dataArray = (_: any, selectProductSuite: any) => {
         name: 'defaultUsers',
         label: 'Default Users',
         fullWidth: true,
+        placeholder: 'Enter Default Users',
+        required: true,
       },
       component: RHFTextField,
       md: 6,
@@ -164,6 +158,8 @@ export const dataArray = (_: any, selectProductSuite: any) => {
         name: 'defaultStorage',
         label: 'Default Storage',
         fullWidth: true,
+        placeholder: 'Enter Default Storage',
+        required: true,
       },
       component: RHFTextField,
       md: 6,
@@ -174,6 +170,8 @@ export const dataArray = (_: any, selectProductSuite: any) => {
         name: 'planPrice',
         label: 'Plan Price',
         fullWidth: true,
+        placeholder: '£',
+        required: true,
       },
       component: RHFTextField,
       md: 6,
@@ -185,9 +183,13 @@ export const dataArray = (_: any, selectProductSuite: any) => {
         label: 'Allow Additional Users',
         fullWidth: true,
         select: true,
+        placeholder: 'Select',
       },
       component: RHFSelect,
-      options: [{ value: 'User', label: 'User' }],
+      options: [
+        { value: 'Yes', label: 'Yes' },
+        { value: 'No', label: 'No' },
+      ],
       md: 6,
     },
     {
@@ -196,6 +198,9 @@ export const dataArray = (_: any, selectProductSuite: any) => {
         name: 'additionalPerUserPrice',
         label: 'Additional Per User Price',
         fullWidth: true,
+        placeholder: '£',
+        disabled: AdditionalUsereValue[0] === 'No',
+        required: AdditionalUsereValue[0] === 'No' ? false : true,
       },
       component: RHFTextField,
       md: 6,
@@ -207,9 +212,13 @@ export const dataArray = (_: any, selectProductSuite: any) => {
         label: 'Allow Additional Storage',
         fullWidth: true,
         select: true,
+        placeholder: 'Select',
       },
       component: RHFSelect,
-      options: [{ value: 'Storage', label: 'Storage' }],
+      options: [
+        { value: 'Yes', label: 'Yes' },
+        { value: 'No', label: 'No' },
+      ],
       md: 6,
     },
     {
@@ -218,9 +227,17 @@ export const dataArray = (_: any, selectProductSuite: any) => {
         name: 'additionalStoragePrice',
         label: 'Additional Storage Price (Per GB)',
         fullWidth: true,
+        placeholder: 'Enter Additional Storage Price',
+        disabled: AdditionalStorageValue[0] === 'No',
+        required: AdditionalStorageValue[0] === 'No' ? false : true,
       },
       component: RHFTextField,
       md: 6,
     },
   ];
+};
+
+export const selectProductSuites = {
+  crm: 'CRM',
+  planTypeId: 'planTypeId',
 };

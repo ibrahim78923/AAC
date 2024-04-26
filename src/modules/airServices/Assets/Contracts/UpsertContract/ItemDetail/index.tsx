@@ -14,7 +14,6 @@ import {
   itemDetailColumns,
   itemDetailFormFieldsFunction,
 } from './ItemDetail.data';
-import { v4 as uuidv4 } from 'uuid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export const ItemDetail: any = (props: any) => {
@@ -26,7 +25,6 @@ export const ItemDetail: any = (props: any) => {
     control,
     name,
   });
-  //TODO: use item.id as a key because RHF fieldArray is using and it recommends that.
 
   return (
     <>
@@ -36,7 +34,7 @@ export const ItemDetail: any = (props: any) => {
             <TableHead>
               <TableRow>
                 {itemDetailColumns?.map((column: any) => (
-                  <TableCell key={uuidv4()}>{column}</TableCell>
+                  <TableCell key={column}>{column}</TableCell>
                 ))}
               </TableRow>
             </TableHead>
@@ -46,7 +44,7 @@ export const ItemDetail: any = (props: any) => {
                   <TableRow key={item?.id}>
                     {itemDetailFormFieldsFunction?.(name, index, remove)?.map(
                       (singleField: any) => (
-                        <TableCell key={uuidv4()}>
+                        <TableCell key={singleField?.id}>
                           {singleField?.data}
                         </TableCell>
                       ),
@@ -63,7 +61,7 @@ export const ItemDetail: any = (props: any) => {
           onClick={() => {
             append({
               serviceName: '',
-              priceModel: '',
+              priceModel: null,
               cost: 0,
               count: 0,
               comments: '',

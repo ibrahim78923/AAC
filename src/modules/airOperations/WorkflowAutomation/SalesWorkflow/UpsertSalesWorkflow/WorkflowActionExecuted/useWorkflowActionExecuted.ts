@@ -1,28 +1,56 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useEffect } from 'react';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 import { useFieldArray } from 'react-hook-form';
+import { errorSnackbar, warningSnackbar } from '@/utils/api';
+import {
+  useLazyGetDealDropdownListQuery,
+  useLazyGetLifeCycleStagesDropdownListQuery,
+  useLazyGetUserDropdownListQuery,
+} from '@/services/airOperations/workflow-automation/sales-workflow';
+import { useRouter } from 'next/router';
 
-export const useWorkflowActionExecuted = () => {
+export const useWorkflowActionExecuted = (props: any) => {
+  const { watch, setValue } = props;
   const { fields, append, remove } = useFieldArray({
-    name: 'actionsExecuted',
+    name: 'actions',
   });
   const handleDeleteClick = (index: any) => {
     if (fields?.length <= 1) {
-      enqueueSnackbar('Cannot delete this action', {
-        variant: NOTISTACK_VARIANTS?.WARNING,
-      });
+      warningSnackbar('Cannot delete this action');
       return;
     }
     if (fields?.length >= 2) {
       remove?.(index);
     }
   };
+  const handleAppend = () => {
+    if (fields?.length < 5) {
+      append({ fieldName: null, fieldValue: null });
+    } else {
+      errorSnackbar('Action limit exceeds');
+    }
+  };
   const { palette } = useTheme();
+  const dealsDropdown = useLazyGetDealDropdownListQuery();
+  const userDropdown = useLazyGetUserDropdownListQuery();
+  const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
+  const router = useRouter();
+  const moduleType = watch('module');
+  if (router?.query?.id === undefined) {
+    useEffect(() => {
+      fields?.forEach((_, index) => {
+        setValue(`actions.${index}.fieldName`, null);
+        setValue(`actions.${index}.fieldValue`, null);
+      });
+    }, [moduleType]);
+  }
   return {
     fields,
-    append,
+    handleAppend,
     palette,
     handleDeleteClick,
+    dealsDropdown,
+    userDropdown,
+    stagesDropdown,
   };
 };

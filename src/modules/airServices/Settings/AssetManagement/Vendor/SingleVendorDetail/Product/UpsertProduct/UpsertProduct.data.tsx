@@ -1,22 +1,27 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const upsertProductValidationSchema = Yup?.object()?.shape({
-  productCatalog: Yup?.string(),
-  price: Yup?.number()
-    ?.typeError('Price should be number')
-    ?.required('Required'),
-  years: Yup?.string()?.required('Required'),
-  months: Yup?.string()?.required('Required'),
-  quantity: Yup?.number(),
+  productCatalog: Yup?.object()?.required('Required'),
+  price: Yup?.number()?.min(1)?.typeError('Enter Number')?.required('Required'),
+  years: Yup?.string(),
+  months: Yup?.string(),
+  quantity: Yup?.number()?.typeError('Enter Number'),
 });
 
 export const upsertProductDefaultValues = (data?: any) => {
   return {
-    productCatalog: data?.productName ?? '',
-    price: data?.price ?? null,
-    years: data?.warrantyValidity?.month ?? '',
-    months: data?.warrantyValidity?.year ?? '',
+    productCatalog: !!Object?.keys(data?.vendorproductcatalogsDetails ?? {})
+      ?.length
+      ? data?.vendorproductcatalogsDetails
+      : null,
+    price: data?.price ?? 0,
+    years: data?.yrs ?? '',
+    months: data?.months ?? '',
     quantity: data?.quantity ?? 0,
   };
 };
@@ -48,12 +53,10 @@ const warrantyValidityMonthsOptions = [
   '11',
 ];
 
-const productCatalogOptions = [
-  'Dell 22-inch Monitor',
-  'Logitech M705 Wireless Mouse',
-];
-
-export const upsertProductDataArray = [
+export const upsertProductDataArray = (
+  apiQueryProductCatalog: any,
+  editData: any,
+) => [
   {
     id: 9478,
     componentProps: {
@@ -61,17 +64,20 @@ export const upsertProductDataArray = [
       label: 'Product Catalog',
       type: 'text',
       size: 'small',
-      placeholder: 'Catalog',
-      fullWidth: true,
-      options: productCatalogOptions,
+      required: true,
+      disabled: editData?.length === 0 ? false : true,
+      placeholder: '---Choose---',
+      apiQuery: apiQueryProductCatalog,
+      externalParams: { meta: false, limit: 50, page: 1 },
+      getOptionLabel: (option: any) => option?.name,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 2786,
     componentProps: {
       name: 'price',
-      label: 'Price',
+      label: 'Price (£)',
       type: 'number',
       size: 'small',
       fullWidth: true,
@@ -87,7 +93,6 @@ export const upsertProductDataArray = [
       label: 'Warranty/Validity',
       size: 'small',
       placeholder: 'Yrs',
-      required: true,
       options: warrantyValidityYrsOptions,
     },
     component: RHFAutocomplete,
@@ -109,7 +114,7 @@ export const upsertProductDataArray = [
     componentProps: {
       name: 'quantity',
       label: 'Quantity',
-      type: 'text',
+      type: 'number',
       size: 'small',
       fullWidth: true,
     },

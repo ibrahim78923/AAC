@@ -8,31 +8,76 @@ import Contacts from './Contacts';
 import Products from './Products';
 import Quotes from './Quotes';
 import useAssociations from './useAssociations';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
-const Associations = () => {
-  const { assocaitionData } = useAssociations();
+const Associations = (props: any) => {
+  const { selected, viewDeal } = props;
+
+  const sectionId = useSearchParams().get('section-id');
+  const {
+    assocaitionData,
+    isLoading,
+    handleContactSearch,
+    handleComapanySearch,
+  } = useAssociations(selected);
+
+  const router = useRouter();
+  useEffect(() => {
+    if (sectionId) {
+      router.push('/air-sales/deals/view-details?tab-value=2#companies');
+    }
+  }, [sectionId]);
+
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Associations </Typography>
       <Box sx={styles?.horizontalTabsInnnerBox}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Contacts contactsData={assocaitionData?.contacts} />
+            <Contacts
+              contactsData={assocaitionData?.contacts}
+              dealId={selected}
+              isLoading={isLoading}
+              handleSearch={handleContactSearch}
+            />
           </Grid>
           <Grid item xs={12}>
-            <Tickets />
+            <Tickets
+              ticketsData={assocaitionData?.tickets}
+              isLoading={isLoading}
+              dealId={selected}
+            />
+          </Grid>
+          <Grid item xs={12} id="companies">
+            <Companies
+              companiesData={assocaitionData?.companies}
+              dealId={selected}
+              isLoading={isLoading}
+              handleSearch={handleComapanySearch}
+            />
           </Grid>
           <Grid item xs={12}>
-            <Companies />
+            <Products
+              productsData={assocaitionData?.products}
+              viewDeal={viewDeal}
+              isLoading={isLoading}
+              dealId={selected}
+            />
           </Grid>
           <Grid item xs={12}>
-            <Products />
+            <Quotes
+              quotesData={assocaitionData?.quotes}
+              isLoading={isLoading}
+              dealId={selected}
+            />
           </Grid>
           <Grid item xs={12}>
-            <Quotes />
-          </Grid>
-          <Grid item xs={12}>
-            <Attachments />
+            <Attachments
+              attachmentsData={assocaitionData?.attachments}
+              isLoading={isLoading}
+              dealId={selected}
+            />
           </Grid>
         </Grid>
       </Box>

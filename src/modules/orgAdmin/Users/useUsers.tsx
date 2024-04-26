@@ -1,40 +1,73 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getSession } from '@/utils';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 
 const useUsers = () => {
-  const { user } = getSession();
+  const { user }: any = getSession();
   const [employeeDataById, setEmployeeDataById] = useState();
   const [searchEmployee, setSearchEmployee] = useState('');
   const [employeeFilter, setEmployeeFilter] = useState({
-    status: '',
     product: '',
     company: '',
+    status: '',
   });
+  const [searchAccount, setSearchAccount] = useState('');
+
+  const [page, setPage] = useState(1);
+  const employeeRecordsLimit = 10;
+
   const empListParams = {
-    page: 1,
-    limit: 10,
+    page: page,
+    limit: employeeRecordsLimit,
     search: searchEmployee,
-    // status:'ACTIVE'
     product: employeeFilter?.product,
     company: employeeFilter?.company,
+    status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
-  const { data: employeeList } = useGetEmployeeListQuery({
-    orgId: user?.organization?._id,
-    values: empListParams,
-  });
+
+  const { data: employeeList, isLoading: employeeListLoading } =
+    useGetEmployeeListQuery({
+      orgId: user?.organization?._id,
+      values: empListParams,
+    });
   const employeeDetails = employeeList?.data?.users;
+  const employeeMetaData = employeeList?.data?.meta;
+
+  useEffect(() => {
+    setEmployeeDataById(employeeList?.data?.users[0]?._id ?? null);
+  }, [employeeList?.data?.users]);
+
+  const handleEmpListPaginationChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setPage(value);
+  };
+
+  const resetFilter = () => {
+    setEmployeeFilter({
+      product: '',
+      company: '',
+      status: '',
+    });
+  };
 
   return {
     user,
     employeeList,
     employeeFilter,
     setEmployeeFilter,
+    handleEmpListPaginationChange,
     searchEmployee,
     setSearchEmployee,
     employeeDetails,
     employeeDataById,
     setEmployeeDataById,
+    resetFilter,
+    employeeMetaData,
+    searchAccount,
+    setSearchAccount,
+    employeeListLoading,
   };
 };
 

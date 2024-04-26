@@ -1,38 +1,55 @@
-import { ticketDataArray } from './Tickets.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
+import {
+  useGetEmailNotificationQuery,
+  usePatchEmailNotificationMutation,
+} from '@/services/airServices/settings/account-settings/email-notification';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
 
-export const useTickets = () => {
-  const [showIcon, setShowIcon] = useState<any>(null);
-  const [ticketData, setTicketData] = useState(ticketDataArray);
+export default function useTickets() {
+  const [switchLoading, setSwitchLoading] = useState<any>({});
 
-  const onSwitchChange = (id: any) => {
-    const updatedTicketData: any = ticketData?.map((item: any) => {
-      const updatedDetail = item?.detail?.map((val: any) => {
-        if (val?.id === id) {
-          const updatedValue = !val?.value;
+  const auth: any = useAuth();
+  const { _id: accountId } = auth?.product?.accounts?.[0];
 
-          enqueueSnackbar(
-            `${val?.name} ${
-              updatedValue ? 'Actived' : 'Deactived'
-            } Successfully`,
-            {
-              variant: updatedValue
-                ? NOTISTACK_VARIANTS?.SUCCESS
-                : NOTISTACK_VARIANTS?.ERROR,
-            },
-          );
-          return {
-            ...val,
-            value: updatedValue,
-          };
-        }
-        return val;
-      });
-      return { ...item, detail: updatedDetail };
-    });
-    setTicketData(updatedTicketData);
+  const { data, isLoading, isFetching, isError } = useGetEmailNotificationQuery(
+    {
+      accountId,
+    },
+    { skip: !accountId, refetchOnMountOrArgChange: true },
+  );
+
+  const [patchEmailTrigger] = usePatchEmailNotificationMutation();
+
+  const onSwitchChange = async (_id: any) => {
+    setSwitchLoading({ ...switchLoading, [_id]: true });
+
+    const updatedData = {
+      ...data?.data?.notificationsOff,
+      [_id]: !data?.data?.notificationsOff?.[_id],
+    };
+
+    const patchData = {
+      accountId,
+      data: { notificationsOff: updatedData },
+    };
+
+    try {
+      await patchEmailTrigger(patchData)?.unwrap();
+      successSnackbar('Notification Updated Successfully');
+    } catch (error) {
+      errorSnackbar();
+    } finally {
+      setSwitchLoading({ ...switchLoading, [_id]: false });
+    }
   };
-  return { ticketData, setShowIcon, showIcon, onSwitchChange };
-};
+
+  return {
+    isError,
+    isLoading,
+    isFetching,
+    switchLoading,
+    onSwitchChange,
+    data,
+  };
+}

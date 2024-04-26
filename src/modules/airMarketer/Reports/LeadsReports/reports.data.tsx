@@ -1,11 +1,10 @@
-import { Avatar, Box, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 
 import { AvatarImage } from '@/assets/images';
 
 import { styles } from './InVoiceReports.style';
 
 export const usersData = () => {
-  const theme = useTheme();
   return [
     {
       Id: 1,
@@ -24,7 +23,7 @@ export const usersData = () => {
       details: 'Invoices # 4236346',
       dueDate: 'Mar 04, 2023',
       invoiceAmount: '£ 4521,11',
-      status: <Box sx={styles?.statusButton(theme)}>Paid</Box>,
+      status: <Box sx={styles?.statusButton()}>Published</Box>,
     },
     {
       Id: 2,
@@ -43,7 +42,7 @@ export const usersData = () => {
       details: 'Invoices # 4236346',
       dueDate: 'Mar 04, 2023',
       invoiceAmount: '£ 4521,11',
-      status: <Box sx={styles?.statusButton(theme)}>Follow up soon</Box>,
+      status: <Box sx={styles?.statusButton()}>Published</Box>,
     },
     {
       Id: 3,
@@ -62,7 +61,7 @@ export const usersData = () => {
       details: 'Invoices # 4236346',
       dueDate: 'Mar 04, 2023',
       invoiceAmount: '£ 4521,11',
-      status: <Box sx={styles?.statusButton(theme)}>Follow up soon</Box>,
+      status: <Box sx={styles?.statusButton()}>Draft</Box>,
     },
     {
       Id: 4,
@@ -81,7 +80,7 @@ export const usersData = () => {
       details: 'Invoices # 4236346',
       dueDate: 'Mar 04, 2023',
       invoiceAmount: '£ 4521,11',
-      status: <Box sx={styles?.statusButton(theme)}>Paid</Box>,
+      status: <Box sx={styles?.statusButton()}>Published</Box>,
     },
   ];
 };

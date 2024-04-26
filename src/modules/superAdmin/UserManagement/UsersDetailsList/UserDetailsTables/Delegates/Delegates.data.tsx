@@ -86,7 +86,7 @@ export const delegatesColumns: any = [
     accessorFn: (row: any) => row?.EarnedAmmount,
     id: 'earnedAmmount',
     isSortable: true,
-    header: 'Earnned Amount',
+    header: 'Earned Amount',
     cell: (info: any) => info?.getValue(),
   },
   {

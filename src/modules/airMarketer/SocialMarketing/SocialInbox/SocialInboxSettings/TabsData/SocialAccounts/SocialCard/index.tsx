@@ -12,6 +12,8 @@ import { accountData } from './SocialCard.data';
 import { styles } from './SocialCard.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 const SocialCard = ({ handleShowCard }: { handleShowCard: () => void }) => {
   return (
@@ -23,7 +25,7 @@ const SocialCard = ({ handleShowCard }: { handleShowCard: () => void }) => {
         sx={{ maxWidth: '900px', paddingTop: '20px' }}
       >
         {accountData?.map((item) => (
-          <Grid item xs={6} key={uuidv4()}>
+          <Grid item xs={12} md={6} key={uuidv4()}>
             <Box sx={styles?.socialCards}>
               <Box>
                 <Image src={item?.logo} alt="logo" />
@@ -40,14 +42,26 @@ const SocialCard = ({ handleShowCard }: { handleShowCard: () => void }) => {
                   padding: '20px 0px',
                 }}
               >
-                <Box>
-                  <Button variant="contained">Connect Now</Button>
-                </Box>
-                <Box>
-                  <Button variant="outlined" onClick={handleShowCard}>
-                    View Accounts
-                  </Button>
-                </Box>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_MARKETER_SETTINGS_PERMISSIONS?.CONNECT_SOCIAL,
+                  ]}
+                >
+                  <Box>
+                    <Button variant="contained">Connect Now</Button>
+                  </Box>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_MARKETER_SETTINGS_PERMISSIONS?.VIEW_ACCOUNT,
+                  ]}
+                >
+                  <Box>
+                    <Button variant="outlined" onClick={handleShowCard}>
+                      View Accounts
+                    </Button>
+                  </Box>
+                </PermissionsGuard>
               </Box>
             </Box>
           </Grid>

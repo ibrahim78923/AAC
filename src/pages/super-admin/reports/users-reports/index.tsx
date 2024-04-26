@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import UsersReports from '@/modules/superAdmin/Reports/UsersReports';
 
@@ -7,5 +8,5 @@ const UsersReportsPage = () => {
 
 export default UsersReportsPage;
 UsersReportsPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return <Layout permissions={Permissions?.SUPER_ADMIN_REPORTS}>{page}</Layout>;
 };

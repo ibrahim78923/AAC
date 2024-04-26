@@ -1,4 +1,4 @@
-import { RHFSearchableSelect } from '@/components/ReactHookForm';
+import { RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchemaMoveToFolder = Yup?.object()?.shape({
@@ -13,7 +13,7 @@ export const dataArrayMoveToFolder = [
   {
     componentProps: {
       name: 'chooseFolder',
-      label: 'Name',
+      label: 'Folder',
       fullWidth: true,
       isCheckBox: true,
       options: [
@@ -24,7 +24,7 @@ export const dataArrayMoveToFolder = [
       ],
     },
 
-    component: RHFSearchableSelect,
+    component: RHFSelect,
 
     md: 12,
   },

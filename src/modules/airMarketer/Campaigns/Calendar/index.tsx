@@ -33,7 +33,6 @@ const Calendar = () => {
     calendarDate,
     handlePrevClick,
     handleNextClick,
-    calendarDateClick,
     handleEventClick,
     handleMoreLinkClick,
     isDrawerOpen,
@@ -43,6 +42,7 @@ const Calendar = () => {
     isDelete,
     setIsDelete,
     theme,
+    todayDate,
   } = useCalendar();
   return (
     <>
@@ -200,7 +200,7 @@ const Calendar = () => {
           </Button>
         </Box>
       </CommonDrawer>
-      <Box sx={{ paddingTop: '1rem' }}>
+      <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
           <FormControl sx={{ width: '100px' }}>
             <InputLabel id="demo-simple-select-label">Year</InputLabel>
@@ -208,6 +208,7 @@ const Calendar = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Year"
+              sx={{ height: '50px' }}
             >
               {yearsArray?.map((item: any) => (
                 <MenuItem key={uuidv4()} value={item}>
@@ -222,6 +223,7 @@ const Calendar = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Month"
+              sx={{ height: '50px' }}
             >
               {monthsArray?.map((item: any) => (
                 <MenuItem key={uuidv4()} value={item}>
@@ -268,7 +270,7 @@ const Calendar = () => {
           }}
           initialView="dayGridMonth"
           noEventsText="No Events to Show"
-          events={taskEvents}
+          events={taskEvents(todayDate, theme)}
           dayMaxEventRows={3}
           moreLinkClick={handleMoreLinkClick}
           editable={true}
@@ -281,7 +283,6 @@ const Calendar = () => {
           slotLabelFormat={[
             { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' },
           ]}
-          dateClick={calendarDateClick}
           eventClick={handleEventClick}
         />
       </Box>

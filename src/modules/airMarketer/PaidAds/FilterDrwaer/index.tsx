@@ -31,10 +31,11 @@ const PaidAdsFilterDrawer = (props: any) => {
       submitHandler={handleSubmit(onSubmit)}
       onClose={onClose}
       isOk={true}
+      isCancel={false}
       footer
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {usersFilterArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item.componentProps} size={'small'}>

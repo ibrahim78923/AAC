@@ -9,21 +9,21 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
   title: Yup?.string()?.required('Field is Required'),
-  compaignOwner: Yup?.string()?.trim()?.required('Field is Required'),
-  startDate: Yup?.string()?.required('Field is Required'),
-  endDate: Yup?.string()?.required('Field is Required'),
-  compaignGoal: Yup?.string()?.required('Field is Required'),
-  compaignAudience: Yup?.string()?.required('Field is Required'),
-  compaignBudget: Yup?.string()?.required('Field is Required'),
-  compaignStatus: Yup?.string()?.required('Field is Required'),
-  editor: Yup?.string()?.required('Field is Required'),
+  // compaignOwner: Yup?.string()?.trim()?.required('Field is Required'),
+  // startDate: Yup?.string()?.required('Field is Required'),
+  // endDate: Yup?.string()?.required('Field is Required'),
+  // compaignGoal: Yup?.string()?.required('Field is Required'),
+  // compaignAudience: Yup?.string()?.required('Field is Required'),
+  // compaignBudget: Yup?.string()?.required('Field is Required'),
+  // compaignStatus: Yup?.string()?.required('Field is Required'),
+  // editor: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
   title: '',
   compaignOwner: '',
-  startDate: '',
-  endDate: '',
+  startDate: null,
+  endDate: null,
   compaignGoal: '',
   compaignAudience: '',
   compaignBudget: '',
@@ -35,11 +35,11 @@ export const dataArray = [
     componentProps: {
       name: 'title',
       label: 'Title',
+      placeholder: 'John Allen',
+      required: true,
       fullWidth: true,
     },
-
     component: RHFTextField,
-
     md: 12,
   },
   {
@@ -85,22 +85,30 @@ export const dataArray = [
     componentProps: {
       name: 'compaignGoal',
       label: 'Compaign Goal',
+      placeholder: 'Get 5k likes on instagram',
       fullWidth: true,
     },
-
     component: RHFTextField,
-
     md: 12,
   },
   {
     componentProps: {
       name: 'compaignAudience',
       label: 'Compaign Audience',
+      placeholder: 'Instagram influencers',
       fullWidth: true,
     },
-
     component: RHFTextField,
-
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'compaignBudget',
+      label: 'Compaign Budget',
+      placeholder: '£20.105.00',
+      fullWidth: true,
+    },
+    component: RHFTextField,
     md: 12,
   },
   {
@@ -125,6 +133,7 @@ export const dataArray = [
       name: 'editor',
       label: '',
       fullWidth: true,
+      placeholder: 'This campaign is created to market our instagram page',
     },
     component: RHFEditor,
     md: 12,

@@ -11,6 +11,8 @@ import { styles } from './Invoices.style';
 import { FilterInvoiceFiltersDataArray } from './Invoices.data';
 import { isNullOrEmpty } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 
 const Invoices = () => {
   const {
@@ -31,10 +33,11 @@ const Invoices = () => {
     FilterInvoiceFilters,
     handleSubmit,
     getRowValues,
-    isChecked,
     invoicesTableData,
     setSearchByInvoices,
     searchByInvoices,
+    data,
+    selectedRows,
   } = useInvoices();
 
   return (
@@ -42,75 +45,105 @@ const Invoices = () => {
       <Box sx={styles?.invoicesTableWrapper}>
         <Box sx={styles?.invoicesHeader}>
           <Grid container>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
               <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
-              <Box sx={styles?.invoicesHeaderValue}>1</Box>
+              <Box sx={styles?.invoicesHeaderValue}>
+                {data?.data?.widget?.countInvoiceDue}
+              </Box>
             </Grid>
-            <Grid item xs={9}>
+            <Grid item xs={12} sm={6} md={6} lg={9}>
               <Box sx={styles?.invoicesHeaderLabel}>Total Balance Due</Box>
-              <Box sx={styles?.invoicesHeaderValue}>£ 1,234.11</Box>
+              <Box sx={styles?.invoicesHeaderValue}>
+                £ {data?.data?.widget?.countInvoiceDue}
+              </Box>
             </Grid>
           </Grid>
         </Box>
 
         <Box sx={styles?.tableToolbar}>
           <Box sx={styles?.tableSearch}>
-            <Search
-              searchBy={searchByInvoices}
-              setSearchBy={setSearchByInvoices}
-              size="small"
-              placeholder="search here"
-            />
+            <PermissionsGuard
+              permissions={[
+                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_SEARCH_INVOICE,
+              ]}
+            >
+              <Search
+                searchBy={searchByInvoices}
+                setSearchBy={setSearchByInvoices}
+                size="small"
+                placeholder="search here"
+              />
+            </PermissionsGuard>
           </Box>
           <Box sx={styles?.tableToolbarActions}>
-            <Box>
-              <Button
-                size="small"
-                onClick={handleActionsClick}
-                sx={styles?.actionButton}
-                endIcon={<DropdownIcon />}
-                disabled={!isChecked}
-              >
-                Actions
-              </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                sx={{
-                  '& .MuiList-root': {
-                    minWidth: '112px',
-                  },
-                }}
+            {/* <Box> */}
+            <Button
+              size="small"
+              onClick={handleActionsClick}
+              sx={styles?.actionButton}
+              endIcon={<DropdownIcon />}
+              disabled={selectedRows?.length === 1 ? false : true}
+            >
+              Actions
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              sx={{
+                '& .MuiList-root': {
+                  minWidth: '112px',
+                },
+              }}
+            >
+              <PermissionsGuard
+                permissions={[
+                  ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_PAY_INVOICE,
+                ]}
               >
                 <MenuItem onClick={handleOpenPayInvoice}>Pay Now</MenuItem>
-                <MenuItem onClick={handleOpenViewInvoice}>View</MenuItem>
-              </Menu>
+              </PermissionsGuard>
 
+              <PermissionsGuard
+                permissions={[
+                  ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_VIEW_INVOICE,
+                ]}
+              >
+                <MenuItem onClick={handleOpenViewInvoice}>View</MenuItem>
+              </PermissionsGuard>
+            </Menu>
+            <PermissionsGuard
+              permissions={[
+                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_SEARCH_INVOICE,
+              ]}
+            >
               <Button
                 size="small"
                 sx={styles?.actionButton}
-                style={{ marginLeft: '10px' }}
                 onClick={() => setIsOpenFilter(true)}
               >
                 <FilterSharedIcon /> Filter
               </Button>
-            </Box>
+            </PermissionsGuard>
+            {/* </Box> */}
           </Box>
         </Box>
-
         <TanstackTable columns={getRowValues} data={invoicesTableData} />
       </Box>
 
-      <ViewInvoices open={openViewInvoice} onClose={handleCloseViewInvoice} />
+      <ViewInvoices
+        open={openViewInvoice}
+        onClose={handleCloseViewInvoice}
+        invoiceData={selectedRows ? selectedRows[0] : {}}
+      />
       <PayInvoice open={openPayInvoice} onClose={handleClosePayInvoice} />
 
       <CommonDrawer

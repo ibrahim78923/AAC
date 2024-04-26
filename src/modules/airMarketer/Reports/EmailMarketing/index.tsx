@@ -17,11 +17,15 @@ import LinearProgress from '@mui/material/LinearProgress';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { DownloadIcon } from '@/assets/icons';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_REPORTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const EmailMarketing = () => {
   const theme = useTheme();
   return (
-    <>
+    <PermissionsGuard
+      permissions={[AIR_MARKETER_REPORTS_PERMISSIONS?.EMAIL_MARKETING]}
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -46,8 +50,15 @@ const EmailMarketing = () => {
             Email Marketing
           </Typography>
         </Box>
-        <Box display="flex" flexWrap="wrap" alignItems="center" gap={1}>
-          <SwitchableDatepicker />
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          alignItems="center"
+          fontSize="16px"
+          fontWeight={500}
+          gap={1}
+        >
+          <SwitchableDatepicker placement="right" renderInput={'button'} />
           <Button
             sx={{ p: 0 }}
             className="small"
@@ -130,7 +141,6 @@ const EmailMarketing = () => {
                       }}
                     >
                       <Typography variant="h4" sx={{ textAlign: 'end' }}>
-                        {' '}
                         {item?.precentage}
                       </Typography>
                       <Stack gap={1}>
@@ -185,7 +195,7 @@ const EmailMarketing = () => {
       <Box>
         <ProductWiseGrpah />
       </Box>
-    </>
+    </PermissionsGuard>
   );
 };
 

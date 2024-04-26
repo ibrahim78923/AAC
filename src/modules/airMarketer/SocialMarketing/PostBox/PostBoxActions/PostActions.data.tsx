@@ -1,13 +1,9 @@
-import {
-  FacebookIcon,
-  InstagramIcon,
-  LinkedInIcon,
-  TwitterIcon,
-} from '@/assets/icons';
+import { InstagramIcon, LinkedInIcon, TwitterIcon } from '@/assets/icons';
+import Facebook from '@/assets/icons/modules/airMarketer/SocialMarketing/PostBox/facebook';
 
 export const platFormDropdownData = [
   {
-    icon: <FacebookIcon />,
+    icon: <Facebook />,
     platform: 'Facebook',
   },
   {

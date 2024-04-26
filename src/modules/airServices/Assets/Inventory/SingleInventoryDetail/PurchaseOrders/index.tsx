@@ -1,21 +1,47 @@
 import NoData from '@/components/NoData';
-import { Box, Typography, useTheme } from '@mui/material';
-import { purchaseOrderData } from './PurchaseOrder.data';
+import { Box, Typography } from '@mui/material';
 import { InventoryCard } from '@/components/InventoryCard/index';
-import { v4 as uuidv4 } from 'uuid';
 import { PurchaseImage } from '@/assets/images';
+import { usePurchaseOrders } from './usePurchaseOrders';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const PurchaseOrder = () => {
-  const theme: any = useTheme();
+  const {
+    isLoading,
+    isFetching,
+    isError,
+    openDeleteModal,
+    setOpenDeleteModal,
+    handleDelete,
+    theme,
+    setDelateRecord,
+    data,
+    deleteIsLoading,
+  } = usePurchaseOrders();
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError) return <ApiErrorState />;
   return (
-    <>
-      {!!purchaseOrderData?.length ? (
-        purchaseOrderData?.map((singlePurchaseOrder: any) => (
-          <div key={uuidv4()}>
+    <PermissionsGuard
+      permissions={[
+        AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_RESPECTIVE_PURCHASE_ORDER,
+      ]}
+    >
+      {!!data?.data?.purchaseOrdersList?.length ? (
+        data?.data?.purchaseOrdersList?.map((singlePurchaseOrder: any) => (
+          <div key={singlePurchaseOrder?._id}>
             <InventoryCard
-              heading={singlePurchaseOrder?.heading}
+              openDeleteModal={openDeleteModal}
+              setOpenDeleteModal={setOpenDeleteModal}
+              handleDelete={handleDelete}
+              setDelateRecord={setDelateRecord}
+              deletedRecordId={singlePurchaseOrder?._id}
+              heading={singlePurchaseOrder?.orderName}
               status={singlePurchaseOrder?.status}
-              key={uuidv4()}
+              key={singlePurchaseOrder?._id}
+              deleteIsLoading={deleteIsLoading?.isLoading}
               showChild
             >
               <Box
@@ -27,7 +53,7 @@ export const PurchaseOrder = () => {
                 <Typography color={theme?.palette?.grey?.[900]}>
                   Cost:
                 </Typography>
-                <Typography>{singlePurchaseOrder?.cost}</Typography>
+                <Typography>${singlePurchaseOrder?.subTotal}</Typography>
               </Box>
             </InventoryCard>
           </div>
@@ -38,6 +64,6 @@ export const PurchaseOrder = () => {
           message={'No purchase order associated'}
         />
       )}
-    </>
+    </PermissionsGuard>
   );
 };

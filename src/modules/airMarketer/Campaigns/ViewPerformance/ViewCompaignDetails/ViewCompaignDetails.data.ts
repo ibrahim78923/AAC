@@ -15,7 +15,7 @@ export const CompainDetailsCard: ViewCmpaignDetailsI[] = [
   },
   {
     headingName: 'Total Budget',
-    detail: '20.000',
+    detail: '₤200',
   },
   {
     headingName: 'Total Spend',
@@ -23,10 +23,10 @@ export const CompainDetailsCard: ViewCmpaignDetailsI[] = [
   },
   {
     headingName: 'Start Date',
-    detail: 'May 16 2023',
+    detail: 'May 16,2023',
   },
   {
     headingName: 'End Date',
-    detail: 'May 16 2023',
+    detail: 'May 28,2023',
   },
 ];

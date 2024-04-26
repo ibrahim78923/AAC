@@ -31,7 +31,6 @@ const CustomTextEditor = ({
           { list: 'bullet' },
           { list: 'ordered' },
           'link',
-          'image',
           'code-block',
           'blockquote',
         ],
@@ -43,7 +42,9 @@ const CustomTextEditor = ({
     <Box
       sx={{
         position: 'relative',
-        border: `1px solid ${theme?.palette?.grey?.['0']}`,
+        border: other?.error
+          ? `1px solid ${theme?.palette?.error?.main}`
+          : `1px solid ${theme?.palette?.grey?.['0']}`,
         borderRadius: '8px',
         overflow: 'hidden',
         '& .ql-toolbar.ql-snow': {

@@ -5,6 +5,8 @@ import { useSingleVendorDetails } from './useSingleVendorDetails';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import AddNewVendor from '../AddNewVendor';
 import { Box } from '@mui/material';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SingleVendorDetail = () => {
   const {
@@ -14,12 +16,21 @@ export const SingleVendorDetail = () => {
     handleDeleteBtn,
     isADrawerOpen,
     setIsADrawerOpen,
+    update,
+    deleteVendorStatus,
   } = useSingleVendorDetails();
+
   return (
     <>
       <Header dropdownOptions={singleVendorDetailsActionDropdown} />
       <br />
-      <SingleContractDetailsTabs />
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.VIEW_VENDOR_DETAILS,
+        ]}
+      >
+        <SingleContractDetailsTabs />
+      </PermissionsGuard>
 
       {deleteModalOpen && (
         <AlertModals
@@ -28,13 +39,18 @@ export const SingleVendorDetail = () => {
           handleClose={() => setDeleteModalOpen(false)}
           handleSubmitBtn={handleDeleteBtn}
           message="Are you sure you want to delete this Vendor?"
+          loading={deleteVendorStatus?.isLoading}
+          disableCancelBtn={deleteVendorStatus?.isLoading}
         />
       )}
       <Box>
-        <AddNewVendor
-          isADrawerOpen={isADrawerOpen}
-          setIsADrawerOpen={setIsADrawerOpen}
-        />
+        {isADrawerOpen && (
+          <AddNewVendor
+            update={update}
+            isADrawerOpen={isADrawerOpen}
+            setIsADrawerOpen={setIsADrawerOpen}
+          />
+        )}
       </Box>
     </>
   );

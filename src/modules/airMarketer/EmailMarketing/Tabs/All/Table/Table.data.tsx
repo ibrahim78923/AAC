@@ -1,4 +1,4 @@
-import { Checkbox } from '@mui/material';
+import { Checkbox, Typography } from '@mui/material';
 
 export const allTabTableData: any = [
   {
@@ -68,9 +68,13 @@ export const columns: any = [
   {
     accessorFn: (row: any) => row?.subjectName,
     id: 'subjectName',
-    cell: (info: any) => info?.getValue(),
-    header: 'Subject Name',
-    isSortable: false,
+    cell: (info: any) => (
+      <Typography variant="body3" fontWeight={500}>
+        {info?.getValue()}
+      </Typography>
+    ),
+    header: 'Subject',
+    isSortable: true,
   },
   {
     accessorFn: (row: any) => row?.visibleTo,
@@ -98,7 +102,11 @@ export const columns: any = [
     id: 'openRate',
     isSortable: true,
     header: 'Open Rate',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography variant="body3" fontWeight={500}>
+        {info?.getValue()}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.lastUpdated,

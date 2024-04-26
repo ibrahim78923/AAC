@@ -25,6 +25,8 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { formsArray } from './Forms.data';
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS } from '@/constants/permission-keys';
 
 const Forms = () => {
   const {
@@ -58,15 +60,20 @@ const Forms = () => {
             sx={{ padding: { xs: '0px 10px' }, display: { md: 'flex' } }}
           >
             <Typography variant="h4">Forms</Typography>
-
-            <Button
-              variant="contained"
-              className="small"
-              startIcon={<PlusIcon />}
-              onClick={() => setIsDraweropen(true)}
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS?.ADD_FORM,
+              ]}
             >
-              Add
-            </Button>
+              <Button
+                variant="contained"
+                className="small"
+                startIcon={<PlusIcon />}
+                onClick={() => setIsDraweropen(true)}
+              >
+                Add
+              </Button>
+            </PermissionsGuard>
           </Box>
 
           <Box sx={{ padding: { xs: '0px' } }}>
@@ -75,22 +82,44 @@ const Forms = () => {
               isHeader={false}
               tabsArray={['All', 'Published', 'Draft', 'Trash']}
             >
-              <AllForms
-                setShowSignUpForm={setShowSignUpForm}
-                setFindStatus={setFindStatus}
-              />
-              <Published
-                setShowSignUpForm={setShowSignUpForm}
-                setFindStatus={setFindStatus}
-              />
-              <Draft
-                setShowSignUpForm={setShowSignUpForm}
-                setFindStatus={setFindStatus}
-              />
-              <Trash
-                setShowSignUpForm={setShowSignUpForm}
-                setFindStatus={setFindStatus}
-              />
+              <PermissionsGuard
+                permissions={[AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS?.ALL]}
+              >
+                <AllForms
+                  setShowSignUpForm={setShowSignUpForm}
+                  setFindStatus={setFindStatus}
+                />
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS?.PUBLISHED,
+                ]}
+              >
+                <Published
+                  setShowSignUpForm={setShowSignUpForm}
+                  setFindStatus={setFindStatus}
+                />
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS?.DRAFT,
+                ]}
+              >
+                <Draft
+                  setShowSignUpForm={setShowSignUpForm}
+                  setFindStatus={setFindStatus}
+                />
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS?.TRASH,
+                ]}
+              >
+                <Trash
+                  setShowSignUpForm={setShowSignUpForm}
+                  setFindStatus={setFindStatus}
+                />
+              </PermissionsGuard>
             </CommonTabs>
           </Box>
         </>

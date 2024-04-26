@@ -8,6 +8,7 @@ export const authAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: credentials,
       }),
+      invalidatesTags: ['PERMISSIONS'],
     }),
 
     signUp: builder.mutation({
@@ -18,10 +19,10 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
     }),
     forgotPassword: builder.mutation({
-      query: (user: string) => ({
+      query: (payload) => ({
         url: END_POINTS.FORGOT_PASSWORD,
         method: 'POST',
-        body: user,
+        body: payload,
       }),
     }),
     resetPassword: builder.mutation({
@@ -29,6 +30,13 @@ export const authAPI = baseAPI.injectEndpoints({
         url: END_POINTS.RESET_PASSWORD,
         method: 'POST',
         body: user,
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: (payload: any) => ({
+        url: END_POINTS?.CHANGE_PASSWORD,
+        method: 'POST',
+        body: payload,
       }),
     }),
 
@@ -59,6 +67,30 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['companies'],
     }),
+    getAuthAccounts: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.AUTH_ACCOUNTS}`,
+        method: 'GET',
+      }),
+      providesTags: ['companies'],
+    }),
+
+    postAuthAccountSelect: builder.mutation({
+      query: (payload: any) => ({
+        url: END_POINTS?.AUTH_ACCOUNTS_SELECT,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['ACCOUNTS'],
+    }),
+
+    getAuthMyAccount: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.AUTH_MY_ACCOUNT}`,
+        method: 'GET',
+      }),
+      providesTags: ['companies', 'ACCOUNTS', 'PERMISSIONS'],
+    }),
   }),
 });
 
@@ -70,5 +102,9 @@ export const {
   useLogoutMutation,
   useGetPermissionsQuery,
   useGetAuthCompaniesQuery,
+  useGetAuthAccountsQuery,
+  usePostAuthAccountSelectMutation,
+  useGetAuthMyAccountQuery,
   useAuthCompanyVerificationMutation,
+  useChangePasswordMutation,
 } = authAPI;

@@ -1,0 +1,207 @@
+import {
+  RHFDatePicker,
+  RHFDropZone,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+import * as Yup from 'yup';
+// Define your Yup validation schema
+export const contactsValidationSchema = Yup?.object()?.shape({
+  email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
+});
+
+// Define your default values
+export const contactsDefaultValues = {
+  email: '',
+  profilePicture: '',
+  firstName: '',
+  lastName: '',
+  address: '',
+  jobTitle: '',
+  phoneNumber: null,
+  whatsAppNumber: null,
+  lifeCycleStageId: '',
+  contactOwnerId: '',
+  statusId: '',
+  dateOfJoining: null,
+  dateOfBirth: null,
+};
+export const contactsDataArray = (
+  contactOwnerData: any,
+  lifeCycleStagesData: any,
+  contactStatusData: any,
+) => {
+  return [
+    {
+      id: 'email',
+      componentProps: {
+        name: 'email',
+        label: 'Email',
+        placeholder: 'Enter Email',
+        required: true,
+      },
+      md: 12,
+      component: RHFTextField,
+    },
+    {
+      id: 'profilePicture',
+      componentProps: {
+        name: 'profilePicture',
+        label: 'Profile Picture',
+
+        select: false,
+      },
+      md: 12,
+      component: RHFDropZone,
+    },
+    {
+      id: 'firstName',
+      componentProps: {
+        name: 'firstName',
+        label: 'First Name',
+        placeholder: 'Enter First Name',
+      },
+      md: 12,
+      component: RHFTextField,
+    },
+    {
+      id: 'lastName',
+      title: 'Last Name',
+      componentProps: {
+        name: 'lastName',
+        label: 'Last Name',
+        placeholder: 'Enter Last Name',
+        type: 'text',
+      },
+      md: 12,
+      component: RHFTextField,
+    },
+    {
+      id: 'address',
+      componentProps: {
+        name: 'address',
+        label: 'Address',
+        placeholder: 'Enter Address',
+      },
+      md: 12,
+      component: RHFTextField,
+    },
+    {
+      id: 'dateOfBirth',
+      componentProps: {
+        name: 'dateOfBirth',
+        label: 'Date Of Birth',
+        fullWidth: true,
+      },
+      md: 12,
+      component: RHFDatePicker,
+    },
+    {
+      id: 'phoneNumber',
+      title: 'Phone Number',
+      componentProps: {
+        name: 'phoneNumber',
+        label: 'Phone Number',
+        placeholder: 'Enter Phone ',
+        type: 'number',
+        InputProps: {
+          sx: {
+            '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
+              {
+                '-webkit-appearance': 'none',
+                margin: 0,
+              },
+          },
+        },
+      },
+      md: 12,
+      component: RHFTextField,
+    },
+    {
+      id: 'whatsAppNumber',
+      componentProps: {
+        name: 'whatsAppNumber',
+        label: 'WhatsApp Number',
+        placeholder: 'Enter WhatsApp Number',
+        type: 'number',
+        InputProps: {
+          sx: {
+            '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
+              {
+                '-webkit-appearance': 'none',
+                margin: 0,
+              },
+          },
+        },
+      },
+      md: 12,
+      component: RHFTextField,
+    },
+    {
+      id: 'contactOwnerId',
+      title: 'Contact Owner',
+      componentProps: {
+        name: 'contactOwnerId',
+        label: 'Contact Owner',
+        select: true,
+      },
+      options: contactOwnerData,
+      md: 12,
+      component: RHFSelect,
+    },
+    {
+      id: 'jobTitle',
+      componentProps: {
+        name: 'jobTitle',
+        label: 'Job Title',
+        placeholder: 'Enter Job Title',
+      },
+      md: 12,
+      component: RHFTextField,
+    },
+    {
+      id: 'lifeCycleStageId',
+      title: 'Lifecycle Stage',
+      componentProps: {
+        name: 'lifeCycleStageId',
+        label: 'Lifecycle Stage',
+        select: true,
+      },
+      options: lifeCycleStagesData,
+      md: 12,
+      component: RHFSelect,
+    },
+    {
+      id: 'statusId',
+      componentProps: {
+        name: 'statusId',
+        label: 'Status',
+        select: true,
+      },
+      options: contactStatusData,
+      md: 12,
+      component: RHFSelect,
+    },
+    {
+      id: 'dateOfJoining',
+      title: 'Date of Joining',
+      componentProps: {
+        name: 'dateOfJoining',
+        label: 'Date of Joining',
+        fullWidth: true,
+      },
+      md: 12,
+      component: RHFDatePicker,
+    },
+  ];
+};
+
+export const drawerTitle: any = {
+  Add: 'Add Contacts',
+  Edit: 'Edit Contacts',
+  View: 'View Contacts',
+};
+export const drawerButtonTitle: any = {
+  Add: 'Add',
+  Edit: 'Edit',
+};

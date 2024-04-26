@@ -1,97 +1,77 @@
-import { useForm } from 'react-hook-form';
-import ConversationModel from '@/components/Model/CoversationModel';
-import { FormProvider, RHFSearchableSelect } from '@/components/ReactHookForm';
-import { Box, Button, Divider, useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
-import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
-import { SoftwareAssignCategoryPropsI } from './SoftwareAssignCategory.interface';
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+import { useSoftwareAssignCategory } from './useSoftwareAssignCategory';
+import { LoadingButton } from '@mui/lab';
 
-function SoftwareAssignCategory({
-  title,
-  openAssignModal,
-  setOpenAssignModal,
-  dataArray,
-  cancelText,
-  okText,
-  successMessage,
-  setData,
-}: SoftwareAssignCategoryPropsI) {
-  const methods: any = useForm({});
-  const theme: any = useTheme();
-  const [disable, setDisable] = useState(true);
+export const SoftwareAssignCategory = (params: any) => {
+  const { openAssignModal, setOpenAssignModal } = params;
+  const {
+    onSubmit,
+    handleSubmit,
+    methods,
+    putSoftwareAssignCategoryStatus,
+    handleClose,
+  } = useSoftwareAssignCategory(params);
 
   return (
-    <>
-      <ConversationModel
-        selectedItem={title}
-        open={openAssignModal}
-        handleClose={() => {
-          setOpenAssignModal(false);
-        }}
-      >
-        <Box>
-          <Box width={{ xs: '18rem', sm: '24rem', lg: '28rem' }} mt={1}>
-            <FormProvider methods={methods}>
-              {dataArray?.map((item: any) => (
-                <Box
-                  width={{ xs: '18rem', sm: '24rem', lg: '28rem' }}
-                  onClick={() => {
-                    setDisable(false);
-                  }}
-                  key={uuidv4()}
-                >
-                  <RHFSearchableSelect
-                    name="Search or add category"
-                    options={item?.options}
-                    control={methods?.control}
-                  />
-                </Box>
-              ))}
-            </FormProvider>
-          </Box>
-          <Divider
-            sx={{
-              height: '.1rem',
-              backgroundColor: theme?.palette?.grey?.[700],
-              marginTop: '1.5rem',
-            }}
-          />
+    <Dialog
+      open={openAssignModal}
+      onClose={() => setOpenAssignModal(false)}
+      maxWidth={'sm'}
+      fullWidth
+    >
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <DialogTitle>
           <Box
-            marginTop={'1.5rem'}
             display={'flex'}
-            alignItems={'center'}
-            justifyContent={'flex-end'}
-            gap={'1rem'}
+            justifyContent={'space-between'}
+            flexWrap={'wrap'}
+            gap={2}
+            mb={1.5}
           >
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setOpenAssignModal(false);
-                setDisable(true);
-              }}
-            >
-              {cancelText}
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => {
-                enqueueSnackbar(successMessage, {
-                  variant: 'success',
-                  autoHideDuration: 2000,
-                });
-                setOpenAssignModal(false);
-                setData(true);
-              }}
-              disabled={disable}
-            >
-              {okText}
-            </Button>
+            <Typography variant="h4">Assign Category</Typography>
+            <CloseIcon
+              sx={{ color: 'custom.darker', cursor: 'pointer' }}
+              onClick={() => handleClose?.()}
+            />
           </Box>
-        </Box>
-      </ConversationModel>
-    </>
+        </DialogTitle>
+        <DialogContent>
+          <RHFTextField
+            name="category"
+            size="small"
+            required
+            fullWidth
+            label="Category"
+          />
+        </DialogContent>
+        <DialogActions>
+          <LoadingButton
+            variant="outlined"
+            color="inherit"
+            onClick={() => handleClose?.()}
+            disabled={putSoftwareAssignCategoryStatus?.isLoading}
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            disabled={putSoftwareAssignCategoryStatus?.isLoading}
+            loading={putSoftwareAssignCategoryStatus?.isLoading}
+          >
+            Assign
+          </LoadingButton>
+        </DialogActions>
+      </FormProvider>
+    </Dialog>
   );
-}
-
-export default SoftwareAssignCategory;
+};

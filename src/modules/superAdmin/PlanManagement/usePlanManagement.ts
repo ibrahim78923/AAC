@@ -14,7 +14,7 @@ import { DATE_FORMAT } from '@/constants';
 
 export const usePlanManagement = () => {
   const [isOpenEditDrawer, setIsOpenEditDrawer] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [tableRowValues, setTableRowValues] = useState();
   const [searchBy, setSearchBy] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -39,15 +39,23 @@ export const usePlanManagement = () => {
 
   const onSubmit = (values: any) => {
     const filterPlanManagementValues = {
-      productId: values?.productId,
-      planTypeId: values?.planTypeId,
-      createdAt: dayjs(values?.createdAt)?.format(DATE_FORMAT?.API),
+      ...(values?.productId && { productId: values?.productId }),
+      ...(values?.planTypeId && { planTypeId: values?.planTypeId }),
+      ...(values?.createdAt && {
+        createdAt: dayjs(values?.createdAt)?.format(DATE_FORMAT?.API),
+      }),
     };
     setFilterValues(filterPlanManagementValues);
+    setIsFaqsFilterDrawerOpen(false);
   };
 
-  const { handleSubmit } = methodsFaqsFilters;
+  const { handleSubmit, reset: ressetFilterForm } = methodsFaqsFilters;
   const filterSubmit = handleSubmit(onSubmit);
+
+  const handleRefresh = () => {
+    setFilterValues('');
+    ressetFilterForm();
+  };
 
   return {
     searchBy,
@@ -70,5 +78,6 @@ export const usePlanManagement = () => {
     setTableRowValues,
     isOpenEditDrawer,
     setIsOpenEditDrawer,
+    handleRefresh,
   };
 };

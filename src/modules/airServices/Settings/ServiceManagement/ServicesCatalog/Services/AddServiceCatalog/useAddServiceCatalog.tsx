@@ -4,21 +4,37 @@ import {
   addServiceCatalogDefaultValues,
   addServiceCatalogValidationSchema,
 } from './AddServiceCatalog.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+
+import { usePostServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const useAddServiceCatalog = (prop: any) => {
   const { open, setOpen } = prop;
+  const [postServiceCatalogTrigger, postServiceCatalogTriggerStatus] =
+    usePostServiceCatalogMutation();
+
   const methodAdd = useForm({
     resolver: yupResolver(addServiceCatalogValidationSchema),
     defaultValues: addServiceCatalogDefaultValues,
   });
-  const { handleSubmit } = methodAdd;
-  const onSubmit = () => {
+
+  const { handleSubmit, reset } = methodAdd;
+
+  const onSubmit = async (data: any) => {
+    try {
+      await postServiceCatalogTrigger({
+        body: data,
+      })?.unwrap();
+      successSnackbar('Service Add Successfully');
+      reset(addServiceCatalogDefaultValues);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
     setOpen(false);
-    enqueueSnackbar('Service Add Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return {
@@ -26,7 +42,9 @@ const useAddServiceCatalog = (prop: any) => {
     handleSubmit,
     onSubmit,
     open,
-    setOpen,
+    handleClose,
+    postServiceCatalogTriggerStatus,
   };
 };
+
 export default useAddServiceCatalog;

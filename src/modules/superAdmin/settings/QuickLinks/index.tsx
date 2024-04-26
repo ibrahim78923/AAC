@@ -1,79 +1,83 @@
 import React, { useState } from 'react';
-
 import {
   Box,
   Button,
   Grid,
-  Switch,
   Typography,
   useTheme,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
-
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
-
-import { useForm } from 'react-hook-form';
-
 import { isNullOrEmpty } from '@/utils';
-
-import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
-
-import {
-  quickLinksData,
-  quickLinksTableData,
-} from '@/mock/modules/superAdmin/Settings/QuickLinks';
 import { columns, quickLinksFilterFiltersDataArray } from './QuickLinks.data';
-import {
-  jobApplicationDefaultValues,
-  jobApplicationValidationSchema,
-} from '../Jobs/JobApplication/JobApplication.data';
-
 import {
   ArrowLeftIcon,
   DownIcon,
   FilterSharedIcon,
   RefreshSharedIcon,
 } from '@/assets/icons';
-
 import PlusShared from '@/assets/icons/shared/plus-shared';
-
 import { styles } from './QuickLinks.style';
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS } from '@/constants/permission-keys';
+import useQuickLinks from './useQuickLinks';
+import QuickLinkSwitch from './QuickLinkSwitch';
+import Loader from '@/components/Loader';
 
 const QuickLinks = () => {
   const theme = useTheme();
-  const [isQuickLinksFilterDrawerOpen, setIsQuickLinksFilterDrawerOpen] =
-    useState(false);
-  const [quickLinksSearch, setQuickLinksSearch] = useState('');
+  const {
+    loagingGetQuickLinks,
+    dataGetQuickLinks,
+
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+
+    setSearchValue,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
+
+    loadingDelete,
+    handleDeleteQuickLink,
+    isLinkDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+
+    setPageLimit,
+    setPage,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    selectProductOptions,
+    handleSwitchChange,
+    mergedProducts,
+    loadingUpdateQuickLink,
+    convertFormat,
+  } = useQuickLinks();
+
+  const getQuickLinksTableColumns = columns(
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
+  );
+
   const [isManageQuickLinks, setIsManageQuickLinks] = useState<boolean>(false);
-  const [isQuickLinksDeleteModal, setisQuickLinksDeleteModal] = useState(false);
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const label = { inputProps: { 'aria-label': 'Switch demo' } };
-
-  const methodsJobApplication = useForm({
-    resolver: yupResolver(jobApplicationValidationSchema),
-    defaultValues: jobApplicationDefaultValues,
-  });
-
-  const onSubmit = () => {
-    setIsQuickLinksFilterDrawerOpen(false);
-  };
-  const { handleSubmit } = methodsJobApplication;
 
   return (
     <>
@@ -84,68 +88,51 @@ const QuickLinks = () => {
             border: '1px solid #EAECF0',
           }}
         >
-          <Box sx={{ padding: '16px 24px' }}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '19px',
-              }}
-            >
+          <Box sx={styles?.pageHeader}>
+            <Box sx={styles?.heading}>
               <Typography variant="h3" sx={{ fontWeight: '600' }}>
                 Quick Links
               </Typography>
-              <Button
-                variant="contained"
-                sx={{ height: '36px', fontWeight: '500' }}
-                onClick={() => setIsManageQuickLinks(true)}
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Manage_Links,
+                ]}
               >
-                <PlusShared /> &nbsp; Manage
-              </Button>
+                <Button
+                  variant="contained"
+                  sx={{ height: '36px', fontWeight: '500' }}
+                  onClick={() => setIsManageQuickLinks(true)}
+                >
+                  <PlusShared /> &nbsp; Manage
+                </Button>
+              </PermissionsGuard>
             </Box>
-            <Box
-              mt={2}
-              mb={3}
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '10px',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Search
-                label={'Search here'}
-                searchBy={quickLinksSearch}
-                setSearchBy={setQuickLinksSearch}
-                width="260px"
-                size="small"
-              />
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  gap: '10px',
-                }}
+            <Box sx={styles?.filterBar}>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Search_and_Filter,
+                ]}
               >
+                <Box sx={styles?.search}>
+                  <Search
+                    setSearchBy={setSearchValue}
+                    label="Search Here"
+                    size="small"
+                    width={'100%'}
+                  />
+                </Box>
+              </PermissionsGuard>
+
+              <Box sx={styles?.filterButtons}>
                 <Button
                   id="basic-button"
                   aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={actionMenuOpen ? 'true' : undefined}
-                  onClick={handleClick}
-                  sx={{
-                    color: theme?.palette?.grey[500],
-                    width: '112px',
-                    border: '1.5px solid #e7e7e9',
-                    '@media (max-width:581px)': {
-                      width: '100%',
-                    },
-                  }}
+                  onClick={handleActionsMenuClick}
+                  sx={styles?.actionBtn}
                   className="small"
+                  disabled={isActionsDisabled}
                 >
                   Actions &nbsp; <DownIcon />
                 </Button>
@@ -153,7 +140,7 @@ const QuickLinks = () => {
                   id="basic-menu"
                   anchorEl={anchorEl}
                   open={actionMenuOpen}
-                  onClose={handleClose}
+                  onClose={handleActionsMenuClose}
                   MenuListProps={{
                     'aria-labelledby': 'basic-button',
                   }}
@@ -163,69 +150,110 @@ const QuickLinks = () => {
                     },
                   }}
                 >
-                  <MenuItem
-                    style={{ fontSize: '14px' }}
-                    onClick={() => setisQuickLinksDeleteModal(true)}
+                  <PermissionsGuard
+                    permissions={[
+                      SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Delete_Link,
+                    ]}
                   >
-                    Delete
-                  </MenuItem>
+                    <MenuItem
+                      style={{ fontSize: '14px' }}
+                      onClick={handleOpenModalDelete}
+                    >
+                      Delete
+                    </MenuItem>
+                  </PermissionsGuard>
                 </Menu>
-                <Button sx={styles?.refreshButton(theme)} className="small">
-                  <RefreshSharedIcon />
-                </Button>
-                <Button
-                  sx={styles?.filterButton(theme)}
-                  className="small"
-                  onClick={() => setIsQuickLinksFilterDrawerOpen(true)}
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Refresh_Record,
+                  ]}
                 >
-                  <FilterSharedIcon /> &nbsp; Filter
-                </Button>
+                  <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                    <Button
+                      sx={styles?.refreshButton}
+                      className="small"
+                      onClick={handleRefresh}
+                    >
+                      <RefreshSharedIcon />
+                    </Button>
+                  </Tooltip>
+                </PermissionsGuard>
+
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Search_and_Filter,
+                  ]}
+                >
+                  <Button
+                    sx={styles?.filterButton}
+                    className="small"
+                    onClick={handleOpenFilters}
+                  >
+                    <FilterSharedIcon /> &nbsp; Filter
+                  </Button>
+                </PermissionsGuard>
               </Box>
             </Box>
           </Box>
-          <Box>
-            <TanstackTable columns={columns} data={quickLinksTableData} />
-            <CustomPagination
-              count={1}
-              rowsPerPageOptions={[1, 2]}
-              entriePages={1}
-            />
-          </Box>
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Links_List,
+            ]}
+          >
+            <Box>
+              <TanstackTable
+                columns={getQuickLinksTableColumns}
+                data={dataGetQuickLinks?.data?.quicklinks}
+                isLoading={loagingGetQuickLinks}
+                currentPage={dataGetQuickLinks?.data?.meta?.page}
+                count={dataGetQuickLinks?.data?.meta?.pages}
+                pageLimit={dataGetQuickLinks?.data?.meta?.limit}
+                totalRecords={dataGetQuickLinks?.data?.meta?.total}
+                setPage={setPage}
+                setPageLimit={setPageLimit}
+                onPageChange={(page: any) => setPage(page)}
+                isPagination
+              />
+            </Box>
+          </PermissionsGuard>
+
           <CommonDrawer
-            isDrawerOpen={isQuickLinksFilterDrawerOpen}
-            onClose={() => setIsQuickLinksFilterDrawerOpen(false)}
+            isDrawerOpen={openFilters}
+            onClose={handleCloseFilters}
             title="Filters"
             okText="Apply"
             isOk={true}
             footer={true}
-            submitHandler={() => setIsQuickLinksFilterDrawerOpen(false)}
+            submitHandler={handleFiltersSubmit}
           >
             <>
-              <FormProvider
-                methods={methodsJobApplication}
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                <Grid container spacing={4}>
-                  {quickLinksFilterFiltersDataArray?.map((item: any) => (
-                    <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                      <item.component {...item.componentProps} size={'small'}>
-                        {item?.componentProps?.select
-                          ? item?.options?.map((option: any) => (
-                              <option key={option?.value} value={option?.value}>
-                                {option?.label}
-                              </option>
-                            ))
-                          : null}
-                      </item.component>
-                    </Grid>
-                  ))}
+              <FormProvider methods={methodsFilter}>
+                <Grid container spacing={'22px'}>
+                  {quickLinksFilterFiltersDataArray(selectProductOptions)?.map(
+                    (item: any) => (
+                      <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                        <item.component {...item.componentProps} size={'small'}>
+                          {item?.componentProps?.select
+                            ? item?.options?.map((option: any) => (
+                                <option
+                                  key={option?.value}
+                                  value={option?.value}
+                                >
+                                  {option?.label}
+                                </option>
+                              ))
+                            : null}
+                        </item.component>
+                      </Grid>
+                    ),
+                  )}
                 </Grid>
               </FormProvider>
             </>
           </CommonDrawer>
         </Box>
       ) : (
-        <Box>
+        <Box sx={{ position: 'relative' }}>
           <Box
             sx={{
               display: 'flex',
@@ -240,42 +268,41 @@ const QuickLinks = () => {
               Quick Links
             </Typography>
           </Box>
+
           <Grid container spacing={2} sx={{ marginTop: '40px' }}>
-            {!isNullOrEmpty(quickLinksData) &&
-              quickLinksData.map((item: any) => (
+            {!isNullOrEmpty(mergedProducts) &&
+              mergedProducts?.map((product: any) => (
                 <Grid item xs={12} sm={6} md={6} lg={4} key={uuidv4()}>
-                  <Box sx={styles.quickLinksCard(theme)}>
-                    <Box sx={styles.quickLinksCardHead(theme)}>
-                      <Typography variant="h6">{item.label}</Typography>
+                  <Box sx={styles?.quickLinksCard(theme)}>
+                    <Box sx={styles?.quickLinksCardHead(theme)}>
+                      <Typography variant="h6">
+                        {convertFormat(product?.productName)}
+                      </Typography>
                     </Box>
-                    {item.list.map((options: any) => (
-                      <Box
+                    {product?.data?.map((link: any) => (
+                      <QuickLinkSwitch
                         key={uuidv4()}
-                        sx={{
-                          padding: '4px 16px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Typography sx={{ fontWeight: '500' }}>
-                          {options.label}
-                        </Typography>
-                        <Switch {...label} defaultChecked={options.isChecked} />
-                      </Box>
+                        title={link?.name}
+                        name={link?._id}
+                        id={link?._id}
+                        isActive={link?.isActive}
+                        onChange={handleSwitchChange}
+                      />
                     ))}
                   </Box>
                 </Grid>
               ))}
           </Grid>
+          <Loader isLoading={loadingUpdateQuickLink} />
         </Box>
       )}
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
-        open={isQuickLinksDeleteModal}
-        handleClose={() => setisQuickLinksDeleteModal(false)}
-        handleSubmit={() => setisQuickLinksDeleteModal(false)}
+        open={isLinkDeleteModal}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteQuickLink}
+        isLoading={loadingDelete}
       />
     </>
   );

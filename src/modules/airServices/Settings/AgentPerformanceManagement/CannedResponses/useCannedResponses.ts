@@ -1,33 +1,64 @@
+import { PAGINATION } from '@/config';
+import { useLazyGetCannedResponsesQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { MouseEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useCannedResponses = () => {
   const router = useRouter();
-  const [actionPop, setActionPop] = useState<HTMLElement | null>(null);
   const [openCreateNewFolderModal, setOpenCreateNewFolderModal] = useState<any>(
     { open: false, editData: null },
   );
-  const handleActionClick = (event: MouseEvent<HTMLElement>) => {
-    setActionPop(event?.currentTarget);
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<any>('');
+  const getCannedResponsesParam = new URLSearchParams();
+  getCannedResponsesParam?.append('page', page + '');
+  getCannedResponsesParam?.append('limit', pageLimit + '');
+  getCannedResponsesParam?.append('search', search);
+  const getCannedResponsesParameter = {
+    queryParams: getCannedResponsesParam,
   };
-  const handleActionClose = () => {
-    setActionPop(null);
+
+  const [lazyGetCannedResponsesTrigger, lazyGetCannedResponsesStatus] =
+    useLazyGetCannedResponsesQuery();
+  const cannedResponses =
+    lazyGetCannedResponsesStatus?.data?.data?.cannedresponses;
+  const cannedResponsesMetaData =
+    lazyGetCannedResponsesStatus?.data?.data?.meta;
+  const getCannedResponsesListData = async () => {
+    try {
+      await lazyGetCannedResponsesTrigger(
+        getCannedResponsesParameter,
+      )?.unwrap();
+      successSnackbar('Canned Responses Retrieved successfully');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
+  useEffect(() => {
+    getCannedResponsesListData();
+  }, [search, page, pageLimit]);
   const convertToHyphenCase = (str: string): string => {
     return str
       ?.split(' ')
       ?.map((word) => word?.toLowerCase())
       ?.join('-');
   };
-  const openAction = Boolean(actionPop);
   return {
     router,
     convertToHyphenCase,
-    handleActionClose,
-    actionPop,
-    openAction,
-    handleActionClick,
     setOpenCreateNewFolderModal,
     openCreateNewFolderModal,
+    search,
+    setSearch,
+    cannedResponses,
+    lazyGetCannedResponsesStatus,
+    setPageLimit,
+    setPage,
+    pageLimit,
+    page,
+    cannedResponsesMetaData,
   };
 };

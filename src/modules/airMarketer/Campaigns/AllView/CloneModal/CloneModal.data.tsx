@@ -15,7 +15,7 @@ export const dataArraySavedView = [
       name: 'newSaveViewCopy',
       label: 'Name',
       fullWidth: true,
-      require: true,
+      required: true,
       placeholder: 'New save view copy',
     },
 

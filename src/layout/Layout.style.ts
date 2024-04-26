@@ -69,6 +69,7 @@ export const styles = {
             ? theme?.palette?.grey[400]
             : 'transparent',
       },
+      fontWeight: routerPathName === pathNameKey ? 500 : 400,
       padding: '7px 0px 7px 10px',
       borderRadius: '5px',
       fontSize: '14px',
@@ -159,6 +160,7 @@ export const styles = {
       height: 'auto',
       padding: `${isZeroPaddingRoutes ? '1px' : '24px'}`,
       borderRadius: '8px',
+      position: 'relative',
     };
   },
 };

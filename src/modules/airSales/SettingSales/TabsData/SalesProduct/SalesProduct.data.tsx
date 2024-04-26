@@ -1,64 +1,52 @@
+import { SwitchBtn } from '@/components/SwitchButton';
 import { DATE_FORMAT } from '@/constants';
-import { Checkbox, Switch } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
-// todo:temporary data will be removed after api integration
-export const SalesProductTableData: any = [
-  {
-    id: 1,
-    name: `Orcalo Holdings`,
-    sku: '123412341',
-    unitPrice: '563',
-    purchasePrice: '563',
-    createdBy: 'John Doe',
-    createdDate: '12/01/2023',
-    action: 'action',
-    category: 'All',
-    description: 'Sales',
-  },
-  {
-    id: 2,
-    name: `Airapplecart`,
-    sku: '76548709',
-    unitPrice: '888',
-    purchasePrice: '888',
-    createdBy: 'Liever anderson',
-    createdDate: '12/02/2023',
-    action: 'action',
-    category: 'All',
-    description: 'Sales',
-  },
+export const columns = ({
+  selectedCheckboxes,
+  setSelectedCheckboxes,
+  data,
+}: any) => {
+  const handleSelectProductById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setSelectedCheckboxes([...selectedCheckboxes, id]);
+    } else {
+      setSelectedCheckboxes(
+        selectedCheckboxes?.filter((_id: any) => _id !== id),
+      );
+    }
+  };
 
-  {
-    id: 3,
-    name: `PPCN`,
-    sku: '44 1234 567',
-    unitPrice: '123',
-    purchasePrice: '123',
-    createdBy: 'Little Struit',
-    createdDate: '23/12/2022',
-    action: 'action',
-    category: 'All',
-    description: 'Sales',
-  },
-];
+  const handleSelectAllproducts = (checked: boolean): void => {
+    setSelectedCheckboxes(
+      checked ? data?.data?.salesproducts?.map(({ _id }: any) => _id) : [],
+    );
+  };
 
-export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
   return [
     {
-      accessorFn: (row: any) => row?.id,
+      accessorFn: (row: any) => row?._id,
       id: 'Id',
-      cell: (info: any) => (
+      cell: ({ row: { original } }: any) => (
         <Checkbox
-          color="primary"
-          name="name"
-          onChange={(event) => handleCheckboxChange(event, info?.row?.original)}
-          checked={selectedCheckboxes?.some(
-            (selectedItem: any) => selectedItem?.id === info?.row?.original?.id,
-          )}
+          checked={selectedCheckboxes?.includes(original?._id)}
+          onChange={({ target }) => {
+            handleSelectProductById(target.checked, original?._id);
+          }}
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectAllproducts(target.checked);
+          }}
+          checked={
+            data?.data?.salesproducts?.length &&
+            selectedCheckboxes?.length === data?.data?.salesproducts?.length
+          }
+        />
+      ),
       isSortable: false,
     },
     {
@@ -70,10 +58,10 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
     },
     {
       accessorFn: (row: any) => row?.sku,
-      id: 'sku',
+      id: 'SKU',
       isSortable: true,
       header: 'SKU',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (info?.getValue() === '' ? 'N/A' : info?.getValue()),
     },
     {
       accessorFn: (row: any) => row?.unitPrice,
@@ -90,11 +78,12 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.createdBy,
+      accessorFn: (row: any) =>
+        `${row?.createdBy?.firstName} ${row?.createdBy?.lastName}`,
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.createdAt,
@@ -104,11 +93,15 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
       cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
-      accessorFn: (row: any) => row?.action,
+      accessorFn: (row: any) => row?.isActive,
       id: 'action',
       isSortable: true,
       header: 'Action',
-      cell: (info: any) => <Switch defaultChecked name={info?.getValue()} />,
+      cell: (info: any) => (
+        <SwitchBtn
+          defaultChecked={info?.row?.original?.isActive === true ? true : false}
+        />
+      ),
     },
   ];
 };

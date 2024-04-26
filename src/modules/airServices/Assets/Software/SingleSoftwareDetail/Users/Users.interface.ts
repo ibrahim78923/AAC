@@ -1,4 +1,4 @@
 export interface UserActionI {
   title: string;
-  handleClick: () => void;
+  handleClick: (closeMenu?: () => void) => any;
 }

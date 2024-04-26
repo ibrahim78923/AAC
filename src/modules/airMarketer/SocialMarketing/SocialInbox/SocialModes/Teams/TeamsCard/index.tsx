@@ -9,6 +9,8 @@ import { AlertModals } from '@/components/AlertModals';
 import { ArchiveIcon, DeleteIcon, PinIcon } from '@/assets/icons';
 
 import { styles } from './TeamsCard.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS } from '@/constants/permission-keys';
 
 const TeamsCard = ({ chatGroupsData, setPostMode }: any) => {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -88,11 +90,29 @@ const TeamsCard = ({ chatGroupsData, setPostMode }: any) => {
             >
               {isCardHover && (
                 <Box sx={{ display: 'flex', gap: '10px' }}>
-                  <Box onClick={() => setIsDeleteModal(true)}>
-                    <DeleteIcon />
-                  </Box>
-                  <PinIcon />
-                  <ArchiveIcon />
+                  <PermissionsGuard
+                    permissions={[
+                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.DELETE_TEAMS_MEMBERS,
+                    ]}
+                  >
+                    <Box onClick={() => setIsDeleteModal(true)}>
+                      <DeleteIcon />
+                    </Box>
+                  </PermissionsGuard>
+                  <PermissionsGuard
+                    permissions={[
+                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.PIN_MEMBER,
+                    ]}
+                  >
+                    <PinIcon />
+                  </PermissionsGuard>
+                  <PermissionsGuard
+                    permissions={[
+                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.TAG_MEMBER,
+                    ]}
+                  >
+                    <ArchiveIcon />
+                  </PermissionsGuard>
                 </Box>
               )}
             </Box>

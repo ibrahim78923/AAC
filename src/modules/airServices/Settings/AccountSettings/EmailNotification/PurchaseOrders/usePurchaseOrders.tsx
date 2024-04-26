@@ -1,35 +1,55 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
+import useAuth from '@/hooks/useAuth';
+import {
+  useGetEmailNotificationQuery,
+  usePatchEmailNotificationMutation,
+} from '@/services/airServices/settings/account-settings/email-notification';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
-import { purchaseOrdersData } from './PurchaseOrders.data';
 
-export const usePurchaseOrders = () => {
-  const [showIcon, setShowIcon] = useState<any>(null);
-  const [purchaseOrder, setPurchaseOrder] = useState(purchaseOrdersData);
+export default function usePurchaseOrders() {
+  const [switchLoading, setSwitchLoading] = useState<any>({});
 
-  const onSwitchChange = (id: any) => {
-    const updatedDetails = purchaseOrder?.map((item: any) => {
-      if (item?.id === id) {
-        const updatedValue = !item?.value;
-        enqueueSnackbar(
-          `${item?.name} ${
-            updatedValue ? 'Activated' : 'Deactivated'
-          } Successfully `,
-          {
-            variant: updatedValue
-              ? NOTISTACK_VARIANTS?.SUCCESS
-              : NOTISTACK_VARIANTS?.ERROR,
-          },
-        );
-        return {
-          ...item,
-          value: updatedValue,
-        };
-      }
-      return item;
-    });
+  const auth: any = useAuth();
+  const { _id: accountId } = auth?.product?.accounts?.[0];
 
-    setPurchaseOrder(updatedDetails);
+  const { data, isLoading, isFetching, isError } = useGetEmailNotificationQuery(
+    {
+      accountId,
+    },
+    { skip: !accountId, refetchOnMountOrArgChange: true },
+  );
+
+  const [patchEmailTrigger] = usePatchEmailNotificationMutation();
+
+  const onSwitchChange = async (_id: any) => {
+    setSwitchLoading({ ...switchLoading, [_id]: true });
+
+    const updatedData = {
+      ...data?.data?.notificationsOff,
+      [_id]: !data?.data?.notificationsOff?.[_id],
+    };
+
+    const patchData = {
+      accountId,
+      data: { notificationsOff: updatedData },
+    };
+
+    try {
+      await patchEmailTrigger(patchData)?.unwrap();
+      successSnackbar('Notification Updated Successfully');
+    } catch (error) {
+      errorSnackbar();
+    } finally {
+      setSwitchLoading({ ...switchLoading, [_id]: false });
+    }
   };
-  return { purchaseOrder, setShowIcon, showIcon, onSwitchChange };
-};
+
+  return {
+    isError,
+    isLoading,
+    isFetching,
+    switchLoading,
+    onSwitchChange,
+    data,
+  };
+}

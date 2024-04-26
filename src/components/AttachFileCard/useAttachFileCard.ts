@@ -1,4 +1,5 @@
 import { PdfImage, XlsImage, DocImage } from '@/assets/images';
+import { generateImage } from '@/utils/avatarUtils';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 
@@ -9,7 +10,7 @@ export const useAttachFileCard = () => {
       xls: XlsImage,
       doc: DocImage,
     };
-    return imageData?.[data?.type] || data?.image;
+    return imageData?.[data?.fileType]?.src || generateImage(data?.fileUrl);
   };
 
   const theme = useTheme();
@@ -17,9 +18,9 @@ export const useAttachFileCard = () => {
   const [cross, setCross] = useState(false);
 
   return {
-    getImageByType,
     theme,
     cross,
     setCross,
+    getImageByType,
   };
 };

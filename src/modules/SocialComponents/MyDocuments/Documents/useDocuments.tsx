@@ -1,32 +1,104 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Theme, useTheme } from '@mui/material';
+
 import {
+  useDeleteFoldersMutation,
   useGetDocumentFolderQuery,
   usePostDocumentFolderMutation,
+  useUpdateFolderMutation,
 } from '@/services/commonFeatures/documents';
-import { enqueueSnackbar } from 'notistack';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { defaultValuesFolder, validationSchema } from './Documents.data';
 
-const useDocuments = () => {
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import useAuth from '@/hooks/useAuth';
+
+import { enqueueSnackbar } from 'notistack';
+import { validationSchema } from './Documents.data';
+import { isNullOrEmpty } from '@/utils';
+import { DOCUMENTS_ACTION_TYPES } from '@/constants';
+
+const useDocuments: any = () => {
   const theme = useTheme<Theme>();
-  const [value, setValue] = useState('search here');
+  const [searchValue, setSearchValue] = useState('');
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenFolderDrawer, setIsOpenFolderDrawer] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [isEditOpenModal, setIsEditOpenModal] = useState(false);
+  const [isEditOpenModal, setIsEditOpenModal] = useState();
+  const [modalHeading, setModalHeading] = useState('');
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
+  const [updateFolder] = useUpdateFolderMutation();
+  const [deleteFolders] = useDeleteFoldersMutation();
+  const [allSelectedFoldersIds, setAllSelectedFoldersIds] = useState<string[]>(
+    [],
+  );
+  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [actionType, setActionType] = useState('');
+  const [selectedFolder, setSelectedFolder] = useState(null);
+  const { user }: any = useAuth();
+
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetDocumentFolderQuery([]);
+    useGetDocumentFolderQuery({
+      ...(searchValue && { search: searchValue }),
+      organizationId: user?.organization?._id,
+    });
+
+  const deleteUserFolders = async () => {
+    try {
+      await deleteFolders({
+        ids: allSelectedFoldersIds?.map((id) => `ids=${id}`)?.join('&'),
+      }).unwrap();
+      enqueueSnackbar('Company Deleted Successfully', {
+        variant: 'success',
+      });
+      setIsOpenDelete(false);
+      setAllSelectedFoldersIds([]);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
+  };
+
+  const MoveToFolder = async () => {
+    try {
+      for (const item of allSelectedFoldersIds) {
+        await updateFolder({
+          id: item,
+          body: {
+            parentFolderId: selectedItemId,
+            name: data?.data?.folders.find((item2: any) => item2?._id == item)
+              .name,
+          },
+        }).unwrap();
+      }
+      enqueueSnackbar('Folder Moved Successfully', {
+        variant: 'success',
+      });
+      setIsOpenFolderDrawer(false);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
+  };
+
+  const handleCheckboxChange = (id: string) => {
+    if (allSelectedFoldersIds?.includes(id)) {
+      setAllSelectedFoldersIds(
+        allSelectedFoldersIds?.filter((item: string) => item != id),
+      );
+    } else {
+      setAllSelectedFoldersIds([...allSelectedFoldersIds, id]);
+    }
+  };
+
+  const handleBoxClick = (itemId: any) => {
+    setSelectedItemId(itemId === selectedItemId ? null : itemId);
+  };
 
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -35,8 +107,24 @@ const useDocuments = () => {
 
   const FolderAdd: any = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: defaultValuesFolder,
+    defaultValues: async () => {
+      if (isEditOpenModal) {
+        if (!isNullOrEmpty(Object?.keys(isEditOpenModal))) {
+          return {
+            name: watch('name'),
+          };
+        }
+      }
+      return validationSchema;
+    },
   });
+
+  useEffect(() => {
+    if (isEditOpenModal) {
+      const { name } = isEditOpenModal;
+      FolderAdd?.setValue('name', name);
+    }
+  }, [isEditOpenModal, FolderAdd]);
 
   const { handleSubmit, watch, reset } = FolderAdd;
 
@@ -45,12 +133,25 @@ const useDocuments = () => {
       name: watch('name'),
     };
     try {
-      await postDocumentFolder({
-        body: documentData,
-      }).unwrap();
-      enqueueSnackbar('Folder Created Successfully', {
-        variant: 'success',
-      });
+      if (
+        actionType === DOCUMENTS_ACTION_TYPES.MOVE_FOLDER ||
+        actionType === DOCUMENTS_ACTION_TYPES.UPDATE_FOLDER
+      ) {
+        await updateFolder({
+          id: allSelectedFoldersIds,
+          body: documentData,
+        }).unwrap();
+        enqueueSnackbar('Folder Update Successfully', {
+          variant: 'success',
+        });
+      } else {
+        await postDocumentFolder({
+          body: documentData,
+        }).unwrap();
+        enqueueSnackbar('Folder Created Successfully', {
+          variant: 'success',
+        });
+      }
       reset(validationSchema);
       setIsOpenModal(false);
     } catch (error: any) {
@@ -59,7 +160,7 @@ const useDocuments = () => {
   };
 
   return {
-    data: data?.folders,
+    documentData: data?.data?.folders,
     isLoading,
     isError,
     isFetching,
@@ -67,8 +168,8 @@ const useDocuments = () => {
     open,
     handleClick,
     handleClose,
-    value,
-    setValue,
+    searchValue,
+    setSearchValue,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenModal,
@@ -85,6 +186,18 @@ const useDocuments = () => {
     handleSubmit,
     onSubmit,
     FolderAdd,
+    handleCheckboxChange,
+    allSelectedFoldersIds,
+    modalHeading,
+    setModalHeading,
+    deleteUserFolders,
+    selectedItemId,
+    setSelectedItemId,
+    handleBoxClick,
+    MoveToFolder,
+    setActionType,
+    setSelectedFolder,
+    selectedFolder,
   };
 };
 

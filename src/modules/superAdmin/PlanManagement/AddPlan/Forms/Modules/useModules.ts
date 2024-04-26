@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 
-export const useModules = () => {
+export function useModules() {
   const theme = useTheme();
 
   const [isAccordionExpanded, setIsAccordionExpanded] = useState<
@@ -20,4 +20,4 @@ export const useModules = () => {
     setIsAccordionExpanded,
     handleExpandAccordionChange,
   };
-};
+}

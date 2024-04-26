@@ -11,15 +11,15 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row?.taskno,
-      id: 'contact_id',
+      accessorFn: (row: any) => row?.ticketIdNumber,
+      id: 'ticket_no',
       cell: (info: any) => info?.getValue(),
-      header: 'Contact ID',
+      header: 'Ticket No',
       isSortable: false,
     },
 
     {
-      accessorFn: (row: any) => row?.taskname,
+      accessorFn: (row: any) => row?.Name,
       id: 'Name',
       isSortable: true,
       header: ' Name',
@@ -27,20 +27,12 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.duedate,
-      id: 'phonenumber',
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
       isSortable: true,
-      header: 'Phone Number',
+      header: 'Status',
       cell: (info: any) => info?.getValue(),
     },
-    {
-      accessorFn: (row: any) => row?.duedate,
-      id: 'jobtitle',
-      isSortable: true,
-      header: 'Job Title ',
-      cell: (info: any) => info?.getValue(),
-    },
-
     {
       accessorFn: (row: any) => row?.assignedTo,
       id: 'assignedTo',

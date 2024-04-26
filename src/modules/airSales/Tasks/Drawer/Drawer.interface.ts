@@ -10,4 +10,5 @@ export interface TaskDrawerI {
   btnVariant?: 'outlined' | 'contained';
   footer?: boolean;
   hideBtn?: boolean;
+  color?: 'inherit' | 'secondary' | 'primary';
 }

@@ -9,30 +9,25 @@ import {
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
-export const columns = (
-  setIsGetRowValues: any,
-  setIschecked: any,
-  ischecked: any,
-  isGetRowValues: any,
-) => {
+export const columns = (selectedRows: any, handleCheckboxClick: any) => {
   return [
     {
       accessorFn: (row: any) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
-        <Checkbox
-          color="primary"
-          checked={
-            info?.cell?.row?.original?.id ===
-              isGetRowValues?.cell?.row?.original?.id && ischecked
-          }
-          name={info?.getValue()}
-          onClick={() => {
-            setIsGetRowValues(info), setIschecked(!ischecked);
-          }}
-        />
+        <>
+          <Checkbox
+            color="primary"
+            checked={selectedRows?.some(
+              (selectedRow: any) =>
+                selectedRow?._id === info?.row?.original?._id,
+            )}
+            name={info?.getValue()}
+            onClick={() => handleCheckboxClick(info?.row?.original)}
+          />
+        </>
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: '',
       isSortable: false,
     },
     {
@@ -65,7 +60,10 @@ export const columns = (
         <>
           <Box>{info?.getValue()}</Box>
           <Box>Invoice # {info?.row?.original?.invoiceNo}</Box>
-          <Box>Due date: {info?.row?.original?.dueDate}</Box>
+          <Box>
+            Due date:{' '}
+            {dayjs(info?.row?.original?.dueDate)?.format(DATE_FORMAT?.UI)}
+          </Box>
         </>
       ),
     },
@@ -74,14 +72,16 @@ export const columns = (
       id: 'total',
       isSortable: true,
       header: 'Invoice amount',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
+      cell: (info: any) => <>£ {info?.row?.original?.netAmount}</>,
     },
     {
-      accessorFn: (row: any) => row?.InvoiceAmount,
+      accessorFn: (row: any) => row?.dueDate,
       id: 'InvoiceAmount',
       isSortable: true,
       header: 'Payment Date',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
+      cell: (info: any) => (
+        <>{dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)}</>
+      ),
     },
     {
       accessorFn: (row: any) => row?.status,

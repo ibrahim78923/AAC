@@ -10,25 +10,37 @@ import {
   useGetContactsStatusQuery,
   useGetLifeCycleQuery,
   usePostContactsMutation,
-  useUpdateContactsMutation,
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { DATE_FORMAT } from '@/constants';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
+import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
 
 const useContactsEditorDrawer = ({
   openDrawer,
   contactRecord,
   setOpenDrawer,
+  dealId,
 }: any) => {
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
-
   const { data: ContactsStatus } = useGetContactsStatusQuery({});
+  const { user }: any = useAuth();
 
-  const [postContacts] = usePostContactsMutation();
-  const [updateContacts] = useUpdateContactsMutation();
+  const { data: ContactOwners } = useGetOrganizationUsersQuery(
+    user?.organization?._id,
+  );
+
+  const [postContacts, { isLoading: postContactLoading }] =
+    usePostContactsMutation();
   const [createAssociation] = useCreateAssociationMutation();
+
+  const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
+    value: user?._id,
+    label: `${user?.firstName} ${user?.lastName}`,
+  }));
 
   const contactStatusData = ContactsStatus?.data?.conatactStatus?.map(
     (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
@@ -51,10 +63,10 @@ const useContactsEditorDrawer = ({
           phoneNumber,
           dateOfBirth,
           contactOwnerId,
-          recordStatus,
           lifeCycleStageId,
           jobTitle,
           statusId,
+          dateOfJoining,
         } = contactRecord;
         return {
           firstName,
@@ -65,10 +77,10 @@ const useContactsEditorDrawer = ({
           whatsAppNumber,
           dateOfBirth: new Date(dateOfBirth),
           contactOwnerId,
-          recordStatus,
           lifeCycleStageId,
           jobTitle,
           statusId,
+          dateOfJoining: new Date(dateOfJoining),
         };
       }
       return contactsDefaultValues;
@@ -76,62 +88,53 @@ const useContactsEditorDrawer = ({
   });
 
   const onSubmit = async (values: any) => {
+    const recordType = 'deals';
+
+    const dateOfBirth = 'dateOfBirth';
+    const dateOfJoining = 'dateOfJoining';
     const formData = new FormData();
-    formData.append('profilePicture', values?.profilePicture);
-    formData.append('email', values?.email);
-    formData.append('firstName', values?.firstName);
-    formData.append('lastName', values?.lastName);
-    formData.append('phoneNumber', values?.phoneNumber);
-    formData.append('whatsAppNumber', values?.whatsAppNumber);
-    formData.append(
-      'dateOfBirth',
-      dayjs(values?.dateOfBirth)?.format(DATE_FORMAT?.API),
-    );
-    formData.append('address', values?.address);
-    formData.append('jobTitle', values?.jobTitle);
-    formData.append('lifeCycleStageId', values?.lifeCycleStageId);
-    formData.append('statusId', values?.statusId);
-    formData.append(
-      'dataOfJoinig',
-      dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
-    );
-    formData.append('title', values?.title);
+    formData.append('recordType', recordType);
+    formData.append('recordId', dealId);
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        // For date values, format them before appending
+        if (key === dateOfBirth || key === dateOfJoining) {
+          formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
+        } else {
+          formData.append(key, value);
+        }
+      }
+    });
 
     try {
-      const response =
-        openDrawer === 'Edit'
-          ? await updateContacts({
-              body: formData,
-              contactId: contactRecord?._id,
-            }).unwrap()
-          : await postContacts({ body: formData }).unwrap();
+      const response = await postContacts({ body: formData }).unwrap();
 
       if (response?.data) {
         try {
           await createAssociation({
             body: {
-              //TODO:temporary id data come from backend
-              dealId: '655b2b2ecd318b576d7d71e8',
+              dealId: dealId,
               contactId: response?.data?._id,
             },
           }).unwrap();
-          enqueueSnackbar(
-            ` Connect ${
-              openDrawer === 'Edit' ? 'Updated' : 'Added'
-            } Successfully`,
-            {
-              variant: 'success',
-            },
-          );
+          enqueueSnackbar(`Contact Added Successfully`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
           onCloseHandler();
         } catch (error: any) {
           const errMsg = error?.data?.message;
-          enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+          const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+          enqueueSnackbar(errMessage ?? 'Error occurred', {
+            variant: NOTISTACK_VARIANTS?.ERROR,
+          });
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
@@ -147,6 +150,8 @@ const useContactsEditorDrawer = ({
     lifeCycleStagesData,
     contactStatusData,
     onCloseHandler,
+    contactOwnerData,
+    postContactLoading,
   };
 };
 

@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -14,31 +13,28 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useAddHoliday } from './useAddHoliday';
+import { LoadingButton } from '@mui/lab';
 
-export const AddHoliday = () => {
-  const [openAddHolidayModal, setOpenAddHolidayModal] = useState(false);
-  const method = useForm({
-    defaultValues: {
-      holidayName: '',
-      date: null,
-    },
-  });
+export const AddHoliday = (props: any) => {
+  const {
+    openAddHolidayModal,
+    setOpenAddHolidayModal,
+    method,
+    onSubmitRequest,
+    reset,
+    postHolidayStatus,
+  } = useAddHoliday(props);
 
   return (
     <>
-      <Button
-        variant="contained"
-        disableElevation
-        onClick={() => setOpenAddHolidayModal(true)}
-      >
-        Add
-      </Button>
       {openAddHolidayModal && (
         <Dialog
           open={openAddHolidayModal}
-          onClose={() => setOpenAddHolidayModal(false)}
+          onClose={() => {
+            setOpenAddHolidayModal(false);
+            reset();
+          }}
           aria-labelledby="responsive-dialog-title"
           PaperProps={{
             style: {
@@ -47,7 +43,7 @@ export const AddHoliday = () => {
             },
           }}
         >
-          <FormProvider methods={method}>
+          <FormProvider methods={method} onSubmit={onSubmitRequest}>
             <DialogTitle
               sx={{
                 display: 'flex',
@@ -64,15 +60,18 @@ export const AddHoliday = () => {
               <Grid container gap={2.4}>
                 <Grid item xs={12}>
                   <RHFTextField
-                    name="holidayName"
+                    name="name"
                     label="Holiday Name"
                     size="small"
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <RHFDatePicker
                     name="date"
                     label="Date"
+                    disablePast
+                    required
                     size="small"
                     fullWidth={true}
                   />
@@ -80,27 +79,34 @@ export const AddHoliday = () => {
               </Grid>
             </DialogContent>
             <Divider />
-          </FormProvider>
-          <DialogActions>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                gap: 2,
-              }}
-            >
-              <Button
-                onClick={() => setOpenAddHolidayModal(false)}
-                variant="outlined"
-                color="secondary"
+            <DialogActions>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  gap: 2,
+                }}
               >
-                Cancel
-              </Button>
-              <Button type="submit" variant="contained">
-                Add
-              </Button>
-            </Box>
-          </DialogActions>
+                <LoadingButton
+                  onClick={() => {
+                    setOpenAddHolidayModal(false);
+                    reset();
+                  }}
+                  variant="outlined"
+                  color="secondary"
+                >
+                  Cancel
+                </LoadingButton>
+                <LoadingButton
+                  loading={postHolidayStatus?.isLoading}
+                  type="submit"
+                  variant="contained"
+                >
+                  Add
+                </LoadingButton>
+              </Box>
+            </DialogActions>
+          </FormProvider>
         </Dialog>
       )}
     </>

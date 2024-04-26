@@ -14,8 +14,9 @@ export const styles = {
       alignItems: 'center',
       justifyContent: 'space-between',
       border: '1px solid #E5E7EB',
-      width: '90%',
+      width: '92%',
       borderRadius: '8px',
+      paddingRight: '10px',
       '@media (max-width:700px)': {
         width: '70vw',
       },

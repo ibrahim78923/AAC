@@ -1,11 +1,20 @@
-import { Box, Card, Grid, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
-import { agentRequestData } from './AgentRequest.data';
-import { styles } from './AgentRequest.style';
-import Image from 'next/image';
+import { Avatar, Box, Grid, Typography } from '@mui/material';
 import RejectedModal from './RejectedModal';
 import { useAgentRequest } from './useAgentRequest';
 import { AGENT_REQUEST_STATUS } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { LoadingButton } from '@mui/lab';
 
 const AgentRequest = () => {
   const {
@@ -14,79 +23,122 @@ const AgentRequest = () => {
     openRejectedModal,
     setOpenRejectedModal,
     handleOpenModal,
+    isLoading,
+    isFetching,
+    isError,
+    data,
+    patchApprovedRequestStatus,
+    selectedAgentRequest,
+    setSelectedAgentRequest,
   } = useAgentRequest();
+
+  if (isLoading || isFetching) return <SkeletonForm />;
+  if (isError) return <ApiErrorState />;
+
   return (
     <>
       <Grid container spacing={2}>
-        {agentRequestData?.map((item: any) => {
-          return (
-            <Grid item xs={12} sm={6} md={4} xl={3} key={uuidv4()}>
-              <Card sx={styles?.cardStyling}>
-                <Box
-                  border={`2px solid ${theme?.palette?.secondary?.main}`}
-                  borderRadius={'50%'}
-                  p={'0.05rem'}
-                >
-                  <Image
-                    src={item?.image}
-                    alt="Profile"
-                    style={styles?.imageStyle}
-                  />
-                </Box>
-                <Typography variant="h4" py={0.5} fontWeight={700}>
-                  {item?.name}
+        {data?.data?.map((item: any) => (
+          <Grid item xs={12} sm={6} md={4} xl={3} key={item?._id}>
+            <Box
+              textAlign={'center'}
+              display={'flex'}
+              flexDirection={'column'}
+              border={'1px solid'}
+              borderColor={'custom.off_white'}
+              borderRadius={3}
+              p={1}
+              height={'100%'}
+            >
+              <Avatar
+                sx={{
+                  bgcolor: theme?.palette?.blue?.main,
+                  width: 80,
+                  height: 80,
+                  border: '2px solid',
+                  borderColor: 'primary.main',
+                  margin: 'auto',
+                }}
+                src={generateImage(item?.userDetails?.avatar?.url)}
+              >
+                <Typography textTransform={'uppercase'}>
+                  {fullNameInitial(
+                    item?.userDetails?.firstName,
+                    item?.userDetails?.lastName,
+                  )}
                 </Typography>
-                <Typography variant="body2">{item?.role}</Typography>
-                <Typography variant="subtitle2">{item?.date}</Typography>
-                {item?.status === AGENT_REQUEST_STATUS?.PENDING ? (
+              </Avatar>
+              <Typography variant="h4" py={0.5} fontWeight={700}>
+                {fullName(
+                  item?.userDetails?.firstName,
+                  item?.userDetails?.lastName,
+                )}
+              </Typography>
+              <Typography variant="body2" color="slateBlue.main">
+                {truncateText(item?.userDetails?.jobTitle)}
+              </Typography>
+              <Typography variant="subtitle2" mb={1} color="slateBlue.main">
+                {dayjs(item?.userDetails?.createdAt)?.format(DATE_FORMAT?.UI)}
+              </Typography>
+              {item?.status === AGENT_REQUEST_STATUS?.APPROVED ||
+              item?.status === AGENT_REQUEST_STATUS?.REJECTED ? (
+                <Box alignItems={'self-end'}>
+                  <Typography
+                    variant="body2"
+                    color={
+                      item?.status === AGENT_REQUEST_STATUS?.APPROVED
+                        ? theme?.palette?.success?.main
+                        : theme?.palette?.error?.main
+                    }
+                  >
+                    {item?.status}
+                  </Typography>
+                  <Typography variant="body2">
+                    {dayjs(item?.updatedAt)?.format(DATE_FORMAT?.UI)}
+                  </Typography>
+                </Box>
+              ) : (
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.APPROVE_REJECT_AGENT_REQUEST,
+                  ]}
+                >
                   <Box
                     display={'flex'}
                     justifyContent={'space-around'}
-                    width={'90%'}
-                    py={2}
-                    mt={2}
+                    flexGrow={1}
+                    alignItems={'self-end'}
                   >
-                    <Typography
-                      variant="body2"
-                      color={theme?.palette?.success?.main}
-                      sx={{ cursor: 'pointer' }}
-                      onClick={handlerStatusApprove}
+                    <LoadingButton
+                      onClick={() => handlerStatusApprove(item?._id)}
+                      color={'success'}
+                      disabled={patchApprovedRequestStatus?.isLoading}
+                      loading={patchApprovedRequestStatus?.isLoading}
                     >
-                      {item?.approve}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color={theme?.palette?.error?.main}
-                      sx={{ cursor: 'pointer' }}
-                      onClick={handleOpenModal}
+                      Approve
+                    </LoadingButton>
+                    <LoadingButton
+                      onClick={() => handleOpenModal(item?._id)}
+                      color={'error'}
+                      disabled={patchApprovedRequestStatus?.isLoading}
                     >
-                      {item?.reject}
-                    </Typography>
+                      Reject
+                    </LoadingButton>
                   </Box>
-                ) : (
-                  <Box py={2} textAlign={'center'}>
-                    <Typography
-                      variant="body2"
-                      color={
-                        item?.status === AGENT_REQUEST_STATUS?.APPROVED
-                          ? theme?.palette?.success?.main
-                          : theme?.palette?.error?.main
-                      }
-                    >
-                      {item?.status}
-                    </Typography>
-                    <Typography variant="body2">{item?.requestedOn}</Typography>
-                  </Box>
-                )}
-              </Card>
-            </Grid>
-          );
-        })}
+                </PermissionsGuard>
+              )}
+            </Box>
+          </Grid>
+        ))}
       </Grid>
-      <RejectedModal
-        openRejectedModal={openRejectedModal}
-        setOpenRejectedModal={setOpenRejectedModal}
-      />
+      {openRejectedModal && (
+        <RejectedModal
+          openRejectedModal={openRejectedModal}
+          setOpenRejectedModal={setOpenRejectedModal}
+          selectedAgentRequest={selectedAgentRequest}
+          setSelectedAgentRequest={setSelectedAgentRequest}
+        />
+      )}
     </>
   );
 };

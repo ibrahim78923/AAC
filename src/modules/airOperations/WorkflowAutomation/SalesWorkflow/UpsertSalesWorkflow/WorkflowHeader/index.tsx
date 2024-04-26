@@ -1,24 +1,26 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Cancel } from '@mui/icons-material';
-import {
-  CopyIcon,
-  EditBlackIcon,
-  GrayBookIcon,
-  WhiteBookIcon,
-} from '@/assets/icons';
+import { CopyIcon, GrayBookIcon, WhiteBookIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
+import { TestWorkflowDrawer } from '../TestWorkflow/TestWorkflowDrawer';
 
-const SCHEDULE = 'Schedule';
 export const WorkflowHeader = (props: any) => {
   const {
-    handleMoveBack,
-    openWorkflowModal,
-    setOpenWorkflowModal,
-    scheduleWorkflow,
-  } = useWorkflowHeader(props);
+    isLoading,
+    saveLoading,
+    setValidation,
+    watch,
+    testWorkflowResponse,
+    testLoading,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
+  } = props;
+  const { handleMoveBack, workflowId } = useWorkflowHeader(props);
   return (
     <Box>
       <Box
@@ -38,46 +40,78 @@ export const WorkflowHeader = (props: any) => {
             startIcon={<Cancel color="action" />}
             variant="outlined"
             color="secondary"
+            disabled={saveLoading || isLoading || testLoading}
+            onClick={handleMoveBack}
           >
             Cancel
           </LoadingButton>
-          {scheduleWorkflow === SCHEDULE && (
+          {!workflowId && (
             <LoadingButton
               startIcon={<GrayBookIcon />}
               variant="outlined"
               color="secondary"
+              loading={saveLoading}
+              disabled={saveLoading || isLoading || testLoading}
+              onClick={() => setValidation('save')}
+              type="submit"
             >
-              Save as Default
+              Save as Draft
             </LoadingButton>
           )}
-          <LoadingButton
-            startIcon={<CopyIcon />}
-            variant={scheduleWorkflow === SCHEDULE ? 'contained' : 'outlined'}
-            color={scheduleWorkflow === SCHEDULE ? 'primary' : 'secondary'}
-            onClick={() => setOpenWorkflowModal(true)}
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.TEST_WORKFLOW,
+            ]}
           >
-            Test Workflow
-          </LoadingButton>
-          {scheduleWorkflow !== SCHEDULE && (
+            <LoadingButton
+              startIcon={<CopyIcon />}
+              variant={'outlined'}
+              color={'secondary'}
+              loading={testLoading}
+              disabled={saveLoading || isLoading || testLoading}
+              onClick={() => setValidation('test')}
+              type="submit"
+            >
+              Test Workflow
+            </LoadingButton>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ENABLE_NOW,
+            ]}
+          >
             <LoadingButton
               startIcon={<WhiteBookIcon />}
               variant="contained"
               type="submit"
+              loading={isLoading}
+              disabled={saveLoading || isLoading || testLoading}
+              onClick={() => setValidation('upsert')}
             >
-              Enable
+              {workflowId ? 'Update' : 'Create'}
             </LoadingButton>
-          )}
+          </PermissionsGuard>
         </Box>
       </Box>
-      <Box display={'flex'} alignItems={'center'} gap={1} py={1}>
-        <Typography variant="h4" color="slateBlue.main">
-          Dummy Title Workflow - 09 May 2023, 10:50:12 GMT+05:00
-        </Typography>
-        <EditBlackIcon />
+      <Box py={2} maxWidth={{ md: '54%', xs: '100%' }}>
+        <RHFTextField
+          name="title"
+          size="small"
+          label="Title"
+          placeholder="Title"
+          required
+        />
+        <RHFEditor
+          name="description"
+          label="Description"
+          style={{ minHeight: 200 }}
+        />
       </Box>
-      <TestWorkflow
-        openWorkflowModal={openWorkflowModal}
-        setOpenWorkflowModal={setOpenWorkflowModal}
+      <TestWorkflowDrawer
+        isWorkflowDrawer={isWorkflowDrawer}
+        setIsWorkflowDrawer={setIsWorkflowDrawer}
+        watch={watch}
+        testWorkflowResponse={testWorkflowResponse}
       />
     </Box>
   );

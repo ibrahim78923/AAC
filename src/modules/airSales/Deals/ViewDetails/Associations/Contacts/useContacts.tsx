@@ -4,34 +4,39 @@ import { useTheme } from '@mui/material';
 
 import { enqueueSnackbar } from 'notistack';
 import { useDeleteAssociationMutation } from '@/services/airSales/deals/view-details/association';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const useContacts = () => {
+const useContacts = (dealId: any) => {
   const theme = useTheme();
-  const [searchName, setSearchName] = useState('');
   const [openDrawer, setOpenDrawer] = useState('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
-  const [contactRecord, setContactRecord] = useState({});
+  const [contactRecord, setContactRecord] = useState<any>({});
+  const [searchName, setSearchName] = useState('');
 
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
 
-  const [deleteAssociation] = useDeleteAssociationMutation();
+  const [deleteAssociation, { isLoading: contactLoading }] =
+    useDeleteAssociationMutation();
 
   const deleteContactHandler = async () => {
     try {
       await deleteAssociation({
         body: {
-          //todo:temporary id
-          dealId: '655b2b2ecd318b576d7d71e8',
+          dealId: dealId,
           contactId: contactRecord?._id,
         },
       })?.unwrap();
-      enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
-      setOpenDrawer('');
-    } catch (error) {
+      enqueueSnackbar('Record Deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      setIsOpenAlert(false);
+    } catch (error: any) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
@@ -39,14 +44,15 @@ const useContacts = () => {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
-    setSearchName,
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
     deleteContactHandler,
     contactRecord,
     setContactRecord,
+    contactLoading,
+    searchName,
+    setSearchName,
   };
 };
 

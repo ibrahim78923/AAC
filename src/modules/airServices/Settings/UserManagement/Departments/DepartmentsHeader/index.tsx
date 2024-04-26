@@ -1,55 +1,55 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
-import { ArrowLeftIcon, PlusSharedColorIcon } from '@/assets/icons';
+import { Box, Button } from '@mui/material';
+import { PlusSharedColorIcon } from '@/assets/icons';
 import Search from '@/components/Search';
-import { useDepartmentsHeader } from './useDepartmentsHeader';
-import { DepartmentsFormModal } from '../DepartmentsFormModal';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
 
-export const DepartmentsHeader = () => {
-  const { backArrowClick, openAddModal, setOpenAddModal, formProps } =
-    useDepartmentsHeader();
-  const { addFormMethod, handleSubmit, submitAddForm } = formProps;
+export const DepartmentsHeader = (props: any) => {
+  const { setSearch, setOpenUpsertModal, setSelectedDepartment } = props;
+  const router = useRouter();
   return (
-    <>
-      <Grid
-        container
-        alignItems={'center'}
+    <Box
+      display={'flex'}
+      justifyContent={'space-between'}
+      alignItems={'center'}
+      flexWrap={'wrap'}
+      gap={1}
+    >
+      <PageTitledHeader
+        title={'Departments'}
+        canMovedBack
+        moveBack={() =>
+          router?.push({ pathname: AIR_SERVICES?.USER_MANAGEMENT })
+        }
+      />
+      <Box
+        display={'flex'}
         justifyContent={'space-between'}
-        spacing={{ md: 0, xs: 2 }}
+        alignItems={'center'}
+        flexWrap={'wrap'}
+        gap={1}
       >
-        <Grid item display={'flex'} gap={1}>
-          <Box
-            onClick={backArrowClick}
-            sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-          >
-            <ArrowLeftIcon />
-          </Box>
-          <Typography variant="h3">Departments</Typography>
-        </Grid>
-        <Grid
-          item
-          display={'flex'}
-          gap={2}
-          alignItems={'center'}
-          flexWrap={'wrap'}
+        <Search placeholder="Search Here" setSearchBy={setSearch} />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_DEPARTMENTS,
+          ]}
         >
-          <Search value="" placeholder="Search Here" />
           <Button
             startIcon={<PlusSharedColorIcon />}
             variant="contained"
-            onClick={() => setOpenAddModal(true)}
+            onClick={() => {
+              setOpenUpsertModal?.(true);
+              setSelectedDepartment?.('');
+            }}
           >
             Add New Department
           </Button>
-        </Grid>
-      </Grid>
-      <DepartmentsFormModal
-        methods={addFormMethod}
-        handleSubmit={handleSubmit}
-        submitForm={submitAddForm}
-        open={openAddModal}
-        handleClose={setOpenAddModal}
-        formTitle="Add Department"
-      />
-    </>
+        </PermissionsGuard>
+      </Box>
+    </Box>
   );
 };

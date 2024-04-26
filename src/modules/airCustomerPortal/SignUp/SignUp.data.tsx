@@ -1,36 +1,48 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-
-const companyName = [
-  { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-  { value: 'Cameron', label: 'Cameron' },
-];
+import { IconButton, InputAdornment } from '@mui/material';
+import { EyeIcon, EyeSlashIcon } from '@/assets/icons';
 
 export const SignUpDefaultValues = {
   firstName: '',
   lastName: '',
   email: '',
-  companyName: '',
+  companyName: null,
+  phoneNumber: '',
+  password: '',
+  confirmPassword: '',
 };
 
 export const SignUpValidationSchema: any = Yup?.object()?.shape({
-  firstName: Yup?.string()
-    ?.required('firstName is Required')
-    ?.max(30, 'character must not be greater then 30'),
-  lastName: Yup?.string()?.max(30, 'character must not be greater then 30'),
+  firstName: Yup?.string()?.trim()?.required('Required')?.max(30),
+  lastName: Yup?.string()?.trim()?.required('Required')?.max(30),
   email: Yup?.string()
-    ?.required('email is Required')
-    ?.max(100, 'character must not be greater then 30'),
+    ?.trim()
+    ?.required('Required')
+    ?.max(100)
+    ?.email('Invalid Email'),
+  companyName: Yup?.string()?.nullable(),
+  phoneNumber: Yup?.string()?.required('Required'),
+  password: Yup?.string()
+    ?.required('Required')
+    ?.max(30, 'Password should be less than 30 characters')
+    ?.min(8, 'Password should contain at least 8 characters')
+    ?.matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,30}$/,
+      'Password must include at least 1 capital letter, 1 small letter, 1 numeric digit, and 1 special character',
+    ),
+  confirmPassword: Yup?.string()
+    ?.required('Required')
+    ?.oneOf([Yup.ref('password')], 'Passwords do not match'),
 });
 
-export const SignUpFormFields = [
+export const signUpFormFields = [
   {
     id: 1,
     componentProps: {
       name: 'firstName',
       label: 'First Name',
       placeholder: 'Enter First Name',
-      fullWidth: true,
       required: true,
     },
     component: RHFTextField,
@@ -41,7 +53,7 @@ export const SignUpFormFields = [
       name: 'lastName',
       label: 'Last Name',
       placeholder: 'Enter Last Name',
-      fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
   },
@@ -49,10 +61,9 @@ export const SignUpFormFields = [
     id: 3,
     componentProps: {
       name: 'email',
-      label: 'email',
+      label: 'Email',
       type: 'email',
       placeholder: 'Enter Email',
-      fullWidth: true,
       required: true,
     },
     component: RHFTextField,
@@ -60,12 +71,63 @@ export const SignUpFormFields = [
   {
     id: 4,
     componentProps: {
-      name: 'companyName',
-      label: 'CompanyName',
-      fullWidth: true,
-      select: true,
+      name: 'phoneNumber',
+      label: 'Phone Number',
+      placeholder: 'Enter Phone Number',
+      required: true,
     },
-    options: companyName,
-    component: RHFSelect,
+    component: RHFTextField,
+  },
+];
+
+export const createPasswordFields = (
+  togglePasswordVisibility: any,
+  passwordVisibility: any,
+) => [
+  {
+    id: 6,
+    componentProps: {
+      name: 'password',
+      label: 'Create Password',
+      placeholder: 'Enter Password',
+      type: passwordVisibility?.password ? 'text' : 'password',
+      required: true,
+      InputProps: {
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton onClick={() => togglePasswordVisibility('password')}>
+              {passwordVisibility?.password ? <EyeSlashIcon /> : <EyeIcon />}
+            </IconButton>
+          </InputAdornment>
+        ),
+      },
+    },
+    component: RHFTextField,
+  },
+  {
+    id: 7,
+    componentProps: {
+      name: 'confirmPassword',
+      label: 'Confirm Password',
+      placeholder: 'Enter password',
+      type: passwordVisibility?.confirmPassword ? 'text' : 'password',
+      required: true,
+      InputProps: {
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              onClick={() => togglePasswordVisibility('confirmPassword')}
+            >
+              {passwordVisibility?.confirmPassword ? (
+                <EyeSlashIcon />
+              ) : (
+                <EyeIcon />
+              )}
+            </IconButton>
+          </InputAdornment>
+        ),
+      },
+    },
+    component: RHFTextField,
   },
 ];

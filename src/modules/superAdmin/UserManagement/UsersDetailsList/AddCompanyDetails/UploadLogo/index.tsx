@@ -8,8 +8,14 @@ import { UserProfileImage } from '@/assets/images';
 
 import { AddPenIcon } from '@/assets/icons';
 
-const UploadLogo = () => {
-  const { handleChangeImg, onImageError } = useUploadLogo();
+const UploadLogo = (props: any) => {
+  const { companyImg, setCompanyImg } = props;
+
+  const { handleChangeImg, onImageError } = useUploadLogo(
+    companyImg,
+    setCompanyImg,
+  );
+
   return (
     <Box
       className="my-account"
@@ -32,7 +38,7 @@ const UploadLogo = () => {
           onError={onImageError}
         />
 
-        <label htmlFor="upload-button">
+        <label htmlFor="upload-img-button">
           <Box
             className="upload-icon"
             sx={{
@@ -47,9 +53,10 @@ const UploadLogo = () => {
         </label>
         <input
           type="file"
-          id="upload-button"
+          name="file"
+          id="upload-img-button"
           style={{ display: 'none' }}
-          accept="image/png, image/gif, image/jpeg, image/webp"
+          accept="image/png, image/gif, image/jpeg, image/webp,image/jfif"
           onChange={handleChangeImg}
         />
       </Box>

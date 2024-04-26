@@ -18,26 +18,45 @@ import {
 } from './OrganizationTable.data';
 import useAuth from '@/hooks/useAuth';
 import { isNullOrEmpty } from '@/utils';
+import { PAGINATION } from '@/config';
+import { generateImage } from '@/utils/avatarUtils';
 const useOrganizationTable = () => {
+  const [imageToUpload, setImageToUpload] = useState<any>();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [editData, setEditData] = useState<any>({});
+  const [drawerHeading, setDrawerHeading] = useState('Create Company');
   const [isGetRowValues, setIsGetRowValues] = useState<any>([]);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const [isToggled, toggle] = useToggle(false);
+
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
-  const [value, setValue] = useState('search here');
+  const [value, setValue] = useState('');
+  const [imagePreview, setImagePreview] = useState<any>();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme<Theme>();
-  const [postOrganization] = usePostOrganizationMutation();
+  const [postOrganization, { isLoading: loadingAddCompanyAccount }] =
+    usePostOrganizationMutation();
   const [updateOrganizationCompany] = useUpdateOrganizationMutation();
   const [deleteOrganization] = useDeleteOrganizationMutation();
   const [updateOrganizationStatus] = useUpdateOrganizationStatusMutation();
   const [imageHandler, setImageHandler] = useState(false);
   const { user }: any = useAuth();
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetOrganizationQuery({ organizationId: user?.organization?._id });
+    useGetOrganizationQuery({
+      organizationId: user?.organization?._id,
+      search: value,
+      pages: page,
+      limit: pageLimit,
+    });
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
 
   const deleteOrganizationCompany = async () => {
     try {
@@ -57,7 +76,7 @@ const useOrganizationTable = () => {
     defaultValues: async () => {
       if (editData) {
         const { accountName, phoneNo, postCode, address } = editData;
-        if (!isNullOrEmpty(Object.keys(editData))) {
+        if (!isNullOrEmpty(Object?.keys(editData))) {
           return {
             accountName,
             phoneNo,
@@ -71,36 +90,119 @@ const useOrganizationTable = () => {
   });
 
   useEffect(() => {
-    if (editData) {
+    if (Object?.keys(editData).length > 0) {
       const { accountName, phoneNo, address, postCode } = editData;
+      setImagePreview(generateImage(editData?.image?.url));
+
+      let addressOthFields;
+
+      if (typeof address === 'string') {
+        addressOthFields = JSON.parse(address);
+      } else {
+        addressOthFields = address;
+      }
       methods.setValue('accountName', accountName);
       methods.setValue('phoneNo', phoneNo);
       methods.setValue('postCode', postCode);
-      methods.setValue('address', address);
+      methods.setValue('unit', addressOthFields?.flatNumber);
+      methods.setValue('buildingName', addressOthFields?.buildingName);
+      methods.setValue('buildingNumber', addressOthFields?.buildingNumber);
+      methods.setValue('streetName', addressOthFields?.streetName);
+      methods.setValue('city', addressOthFields?.city);
+      methods.setValue('country', addressOthFields?.country);
+      methods.setValue('address', addressOthFields?.composite);
     }
-  }, [editData, methods]);
+  }, [editData, methods, isOpenDrawer]);
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch, clearErrors } = methods;
+
+  const addressLength = watch('address');
+  const unitField = watch('unit');
+  const buildingNameField = watch('buildingName');
+  const buildingNumberField = watch('buildingNumber');
+  const streetNameField = watch('streetName');
+  const cityField = watch('city');
+  const countryField = watch('country');
+
+  const addressDefaultValuesCheck =
+    unitField?.length ||
+    buildingNameField?.length ||
+    buildingNumberField?.length;
+  const [isToggled, toggle] = useToggle(false);
+
+  const addressValues =
+    (unitField !== undefined && unitField?.length > 0
+      ? 'Flat # ' + unitField
+      : '') +
+    (buildingNameField !== undefined && buildingNameField?.length > 0
+      ? ' ,Building Name # ' + buildingNameField
+      : '') +
+    (buildingNumberField !== undefined && buildingNumberField?.length > 0
+      ? ' ,Building Number # ' + buildingNumberField
+      : '') +
+    (streetNameField !== undefined && streetNameField?.length > 0
+      ? ' ,Street Name # ' + streetNameField
+      : '') +
+    (cityField !== undefined && cityField?.length > 0
+      ? ' ,City # ' + cityField
+      : '') +
+    (countryField !== undefined && countryField?.length > 0
+      ? ' ,Country # ' + countryField
+      : '');
+
+  useEffect(() => {
+    methods.setValue('address', addressValues);
+  }, [addressValues]);
+
+  const formData = new FormData();
+
+  const handleImageChangeCompany = async (e: any) => {
+    const selectedImage = e?.target?.files[0];
+    setImageToUpload(selectedImage);
+    formData.append('image', selectedImage);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader?.result);
+    };
+    reader?.readAsDataURL(selectedImage);
+  };
 
   const onSubmit = async (data: any) => {
-    const organizationData = {
-      ...data,
-      logoUrl: data?.logoUrl?.path,
-      organizationId: user?.organization?._id,
-      products: [],
-      status: 'Active',
+    const products: any = [];
+    user?.products?.forEach((product: any) => {
+      if (data[product?._id]) products?.push(product?._id);
+    });
+    const address = {
+      flatNumber: data?.unit,
+      buildingName: data?.buildingName,
+      buildingNumber: data?.buildingNumber,
+      streetName: data?.streetName,
+      city: data?.city,
+      country: data?.country,
+      composite: data?.address,
     };
+    formData.append('image', imageToUpload);
+    formData.append('products', products);
+    formData.append('accountName', data?.accountName);
+    formData.append('phoneNo', data?.phoneNo);
+    formData.append('postCode', data?.postCode);
+    formData.append('address', JSON.stringify(address));
+    formData.append('organizationId', user?.organization?._id);
+    formData.append('isActive', 'true');
+
     try {
-      if (editData) {
+      if (Object?.keys(editData)[0]) {
         await updateOrganizationCompany({
-          body: organizationData,
+          body: formData,
           id: editData?._id,
         }).unwrap();
         enqueueSnackbar('Company Updated Successfully', {
           variant: 'success',
         });
+        setIsOpenDrawer(false);
       } else {
-        await postOrganization({ body: organizationData }).unwrap();
+        await postOrganization({ body: formData }).unwrap();
         enqueueSnackbar('Company Created Successfully', {
           variant: 'success',
         });
@@ -111,28 +213,27 @@ const useOrganizationTable = () => {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
   };
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
     setOpenEditDrawer(true);
+    clearErrors();
   };
-
+  const tableRowData = data?.data?.organizationcompanyaccounts ?? [];
   const getRowValues = columns(
     setIsGetRowValues,
     setIsChecked,
-    isChecked,
     isGetRowValues,
     setEditData,
     updateOrganizationStatus,
+    tableRowData,
   );
 
   return {
-    tableRow: data?.data?.organizationcompanyaccounts,
-    tablePagination: data?.meta?.pages,
+    tableRow: data?.data?.organizationcompanyaccounts ?? [],
+    tableInfo: data?.data?.meta,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenDelete,
@@ -167,6 +268,26 @@ const useOrganizationTable = () => {
     imageHandler,
     setImageHandler,
     editData,
+    drawerHeading,
+    setDrawerHeading,
+    loadingAddCompanyAccount,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    addressLength,
+    unitField,
+    buildingNameField,
+    buildingNumberField,
+    streetNameField,
+    cityField,
+    countryField,
+    setImageToUpload,
+    imageToUpload,
+    handleImageChangeCompany,
+    imagePreview,
+    addressDefaultValuesCheck,
+    reset,
+    setImagePreview,
   };
 };
 

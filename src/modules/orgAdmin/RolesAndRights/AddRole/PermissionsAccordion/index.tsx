@@ -17,140 +17,96 @@ import { v4 as uuidv4 } from 'uuid';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const PermissionsAccordion = (props: any) => {
-  const { permissionsData } = props;
-  const { theme, isAccordionExpanded, handleExpandAccordionChange } =
-    usePermissionAccordion();
+  const {
+    permissionsData,
+    query,
+    getModulePermissions,
+    selectAllPermissions,
+    watch,
+    disabled,
+  } = props;
+  const {
+    theme,
+    // commented for future use
+    selectedModule,
+    handleExpandAccordionChange,
+    handleChangeSubModule,
+    selectedSubModule,
+  } = usePermissionAccordion();
 
-  const uniqueModulesSet = new Set<string>();
-
+  const dataArray =
+    query?.type === 'view'
+      ? permissionsData?.permissions
+      : permissionsData?.data;
   return (
     <Stack gap={3}>
-      {permissionsData?.data?.map((item: any) => {
-        const moduleLowerCase = item?.module?.toLowerCase();
-        if (!uniqueModulesSet.has(moduleLowerCase)) {
-          uniqueModulesSet.add(moduleLowerCase);
-
-          return (
-            <Accordion
-              key={uuidv4()}
-              expanded={isAccordionExpanded === item?.module?.toLowerCase()}
-              onChange={handleExpandAccordionChange(
-                item?.module?.toLowerCase(),
-              )}
-              disableGutters
-              sx={{
-                '&.MuiAccordion': {
-                  '&.Mui-expanded': {
-                    boxShadow: 'theme.customShadows.z8',
-                    borderRadius: '8px',
-                  },
-                  '&.Mui-disabled': {
-                    backgroundColor: 'transparent',
-                  },
-                },
-                '& .MuiAccordionSummary-root': {
-                  backgroundColor: theme?.palette?.blue?.main,
-                  color: theme.palette.common.white,
+      {dataArray?.map((item: any) => (
+        <>
+          {' '}
+          <Accordion
+            key={uuidv4()}
+            expanded={selectedModule === item?.name?.toLowerCase()}
+            disableGutters
+            sx={{
+              '&.MuiAccordion': {
+                '&.Mui-expanded': {
+                  boxShadow: 'theme.customShadows.z8',
                   borderRadius: '8px',
                 },
-              }}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="dashboard"
-                id="dashboard"
-              >
-                <Box display="flex" alignItems="center">
-                  <FormControlLabel control={<SwitchBtn />} label="" />
-                  <Typography variant="h4" fontWeight={700}>
-                    {item?.module}
-                  </Typography>
-                </Box>
-              </AccordionSummary>
-              <AccordionDetails>
-                <DashboardAccordion />
-              </AccordionDetails>
-            </Accordion>
-          );
-        }
-
-        return null;
-      })}
-
-      {/* 
-      commented for future use
-      {permissionsData?.data?.map((item: any) => (
-        <Accordion
-          expanded={isAccordionExpanded === item?.module?.toLowerCase()}
-          onChange={handleExpandAccordionChange(item?.module?.toLowerCase())}
-          disableGutters
-          sx={{
-            '&.MuiAccordion': {
-              '&.Mui-expanded': {
-                boxShadow: 'theme.customShadows.z8',
+                '&.Mui-disabled': {
+                  backgroundColor: 'transparent',
+                },
+              },
+              '& .MuiAccordionSummary-root': {
+                backgroundColor: theme?.palette?.blue?.main,
+                color: theme.palette.common.white,
                 borderRadius: '8px',
               },
-              '&.Mui-disabled': {
-                backgroundColor: 'transparent',
-              },
-            },
-            '& .MuiAccordionSummary-root': {
-              backgroundColor: theme?.palette?.blue?.main,
-              color: theme.palette.common.white,
-              borderRadius: '8px',
-            },
-          }}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="dashboard"
-            id="dashboard">
-            <Box display="flex" alignItems="center">
-              <FormControlLabel control={<SwitchBtn />} label="" />
-              <Typography variant="h4" fontWeight={700}>
-                {item?.module}
-              </Typography>
-            </Box>
-          </AccordionSummary>
-          <AccordionDetails>
-            <DashboardAccordion />
-          </AccordionDetails>
-        </Accordion>
-      ))} */}
-      {/* <Accordion
-        expanded={isAccordionExpanded === 'deals'}
-        onChange={handleExpandAccordionChange('deals')}
-        disableGutters
-        sx={{
-          '&.MuiAccordion': {
-            '&.Mui-expanded': {
-              boxShadow: 'theme.customShadows.z8',
-              borderRadius: '8px',
-            },
-            '&.Mui-disabled': {
-              backgroundColor: 'transparent',
-            },
-          },
-          '& .MuiAccordionSummary-root': {
-            backgroundColor: theme?.palette?.blue?.main,
-            color: theme?.palette?.common?.white,
-            borderRadius: '8px',
-          },
-        }}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="deals"
-          id="deals"
-        >
-          <Box display="flex" alignItems="center">
-            <FormControlLabel control={<SwitchBtn />} label="" />
-            <Typography variant="h4">Deals</Typography>
-          </Box>
-        </AccordionSummary>
-        <AccordionDetails sx={{ p: 0 }}>
-          <DealsAccordion />
-        </AccordionDetails>
-      </Accordion> */}
+            }}
+          >
+            <AccordionSummary
+              expandIcon={
+                <ExpandMoreIcon
+                  onClick={() => {
+                    handleExpandAccordionChange(item?.name?.toLowerCase());
+                  }}
+                />
+              }
+              aria-controls="dashboard"
+              id="dashboard"
+            >
+              <Box display="flex" alignItems="center">
+                <FormControlLabel
+                  control={
+                    <SwitchBtn
+                      checked={getModulePermissions(item?.subModules)?.every(
+                        (permission: any) =>
+                          watch('permissions')?.includes(permission),
+                      )}
+                      handleSwitchChange={() =>
+                        selectAllPermissions(item?.subModules)
+                      }
+                    />
+                  }
+                  label=""
+                />
+
+                <Typography variant="h4" fontWeight={700}>
+                  {item?.name}
+                </Typography>
+              </Box>
+            </AccordionSummary>
+            <AccordionDetails>
+              <DashboardAccordion
+                subModules={item?.subModules}
+                disabled={disabled}
+                handleChangeSubModule={handleChangeSubModule}
+                selectedSubModule={selectedSubModule}
+              />
+            </AccordionDetails>
+          </Accordion>
+        </>
+      ))}
     </Stack>
   );
 };

@@ -1,5 +1,5 @@
-import { organization } from '@/routesConstants/endpoints';
-import { baseAPI } from '@/services/base-api';
+import { END_POINTS, organization } from '@/routesConstants/endpoints';
+import { TAGS, baseAPI } from '@/services/base-api';
 
 export const organizationAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,8 +12,15 @@ export const organizationAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['Organization'],
     }),
     getOrganization: builder.query({
-      query: ({ organizationId, pages = 1, limit = 10, search = '' }: any) => ({
-        url: `${organization.GET_ORGANIZATION_ACCOUNT_ALL}/${organizationId}?page=${pages}&limit=${limit}&search=${search}`,
+      query: ({ organizationId, pages, limit, search = '' }: any) => ({
+        url: `${organization?.GET_ORGANIZATION_ACCOUNT_ALL}/${organizationId}?page=${pages}&limit=${limit}&search=${search}`,
+        method: 'GET',
+      }),
+      providesTags: ['Organization'],
+    }),
+    getAllProducts: builder.query({
+      query: () => ({
+        url: `${organization?.GET_PRODUCTS_ALL}?status=active`,
         method: 'GET',
       }),
       providesTags: ['Organization'],
@@ -21,6 +28,13 @@ export const organizationAPI = baseAPI.injectEndpoints({
     getOrganizationById: builder.query({
       query: ({ id }: any) => ({
         url: `${organization.GET_ORGANIZATION_ACCOUNT_ID}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['Organization'],
+    }),
+    getOrganizationDetailsById: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.ORGANIZATION}/${id}`,
         method: 'GET',
       }),
       providesTags: ['Organization'],
@@ -55,15 +69,26 @@ export const organizationAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['Organization'],
     }),
+    updateOrganizationById: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${organization.GET_MAIN_ORGANIZATION}/${id}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: TAGS,
+    }),
   }),
 });
 
 export const {
   useUpdateOrganizationMutation,
+  useUpdateOrganizationByIdMutation,
   usePostOrganizationMutation,
   useGetOrganizationQuery,
   useDeleteOrganizationMutation,
   useGetOrganizationByIdQuery,
   useGetOrganizationMainIdQuery,
+  useLazyGetOrganizationDetailsByIdQuery,
   useUpdateOrganizationStatusMutation,
+  useGetAllProductsQuery,
 } = organizationAPI;

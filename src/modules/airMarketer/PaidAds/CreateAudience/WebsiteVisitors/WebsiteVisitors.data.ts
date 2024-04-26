@@ -1,4 +1,4 @@
-import { RHFSelect } from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
@@ -6,15 +6,14 @@ export const validationSchema = Yup.object().shape({
 });
 
 export const defaultValues = {
-  name: '',
+  lastVisited: '90 days',
 };
 
 export const websiteVIisitorsData = [
   {
-    title: 'Name',
     componentProps: {
       label: 'Source Pixel',
-      name: 'name',
+      name: 'sourcePixel',
       fullWidth: true,
       select: true,
     },
@@ -28,9 +27,8 @@ export const websiteVIisitorsData = [
     md: 12,
   },
   {
-    title: 'Name',
     componentProps: {
-      name: 'name',
+      name: 'peopleVisited',
       label: 'People Visited',
       fullWidth: true,
       select: true,
@@ -45,25 +43,16 @@ export const websiteVIisitorsData = [
     md: 12,
   },
   {
-    title: 'Name',
     componentProps: {
-      name: 'name',
+      name: 'lastVisited',
       label: 'Visited in the last',
       fullWidth: true,
-      select: true,
       disabled: true,
     },
-    options: [
-      { value: 'pakistan', label: 'Pakistan' },
-      { value: 'India', label: 'India' },
-      { value: 'uk', label: 'UK' },
-      { value: 'us', label: 'US' },
-    ],
-    component: RHFSelect,
+    component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Name',
     componentProps: {
       name: 'name',
       label: 'Name',

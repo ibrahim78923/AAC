@@ -20,6 +20,14 @@ const FilterDropdown = ({
         anchorEl={anchorEl}
         open={actionMenuOpen}
         onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
       >
         {menuItemsData?.map((menu: any) => (
           <MenuItem key={uuidv4()} onClick={handleClose}>

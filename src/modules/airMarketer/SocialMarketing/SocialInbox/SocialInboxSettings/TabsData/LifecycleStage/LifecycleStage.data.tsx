@@ -3,6 +3,8 @@ import { Box } from '@mui/material';
 import * as Yup from 'yup';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const socialSalesvalidationSchema = Yup?.object()?.shape({
   stageName: Yup?.string()?.required('Field is Required'),
@@ -46,28 +48,40 @@ export const columns = (setIsDraweropen: any, setDeleteModalOpen: any) => {
       header: 'Action',
       cell: () => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsDraweropen('View');
-            }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.VIEW_LIFECYCLE]}
           >
-            <ViewEyeIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsDraweropen('Edit');
-            }}
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setIsDraweropen('View');
+              }}
+            >
+              <ViewEyeIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.EDIT_LIFECYCLE]}
           >
-            <EditPenIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => setDeleteModalOpen(true)}
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setIsDraweropen('Edit');
+              }}
+            >
+              <EditPenIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.DELETE_LIFECYCLE]}
           >
-            <DeleteCrossIcon />
-          </Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setDeleteModalOpen(true)}
+            >
+              <DeleteCrossIcon />
+            </Box>
+          </PermissionsGuard>
         </Box>
       ),
     },

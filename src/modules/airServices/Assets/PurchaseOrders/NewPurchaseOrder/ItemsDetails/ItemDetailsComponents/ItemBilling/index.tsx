@@ -1,10 +1,32 @@
-import { Box, Divider, Grid, Typography, TextField } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import { styles } from '../../ItemsDetails.style';
-import { v4 as uuidv4 } from 'uuid';
 import { billingData } from '../../ItemsDetails.data';
+import { RHFTextField } from '@/components/ReactHookForm';
+import { useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-const ItemBilling = () => {
+const ItemBilling = ({ watch }: any) => {
   const { flexBetween, billingWrapper, billingLabel, billingValue } = styles();
+  const items = watch(`purchaseDetails`);
+  const subTotal = Number(watch(`subTotal`));
+  const discount = Number(watch(`discount`));
+  const taxRatio = Number(watch(`taxRatio`));
+  const shipping = Number(watch(`shipping`));
+  const { setValue } = useFormContext();
+  useEffect(() => {
+    setValue(
+      `subTotal`,
+      items?.reduce((n: any, { total }: any) => n + Number(total), 0),
+    );
+  }, [items?.reduce((n: any, { total }: any) => n + Number(total), 0)]);
+  useEffect(() => {
+    //calculating total after tax and multiplying by subtotal of items
+    let total = subTotal * (1 + taxRatio / 100);
+    //modifying total when discount added
+    total = total - total * (discount / 100);
+    //adding shipping cost in total amount
+    setValue(`total`, total + shipping);
+  }, [discount, taxRatio, shipping]);
   return (
     <Box
       sx={{
@@ -15,12 +37,12 @@ const ItemBilling = () => {
     >
       {billingData?.map((item: any) => {
         const totalItem = [
-          billingData?.[0]?.label,
-          billingData?.[billingData?.length - 1]?.label,
+          billingData?.[0]?.name,
+          billingData?.[billingData?.length - 1]?.name,
         ];
         return (
           <Grid
-            key={uuidv4()}
+            key={item?.name}
             container
             xs={12}
             sm={6}
@@ -32,30 +54,33 @@ const ItemBilling = () => {
               ...billingWrapper,
             }}
           >
-            {totalItem?.includes(item?.label) && (
+            {totalItem?.includes(item?.name) && (
               <Divider sx={{ width: '100%' }} />
             )}
             <Grid item>
               <Typography
                 sx={{
                   ...billingLabel,
-                  fontWeight: totalItem?.includes(item?.label) ? 600 : 400,
-                  pt: totalItem?.includes(item?.label) ? 1 : 0,
+                  fontWeight: totalItem?.includes(item?.name) ? 600 : 400,
+                  pt: totalItem?.includes(item?.name) ? 1 : 0,
                 }}
               >
                 {item?.label}
               </Typography>
             </Grid>
             <Grid item>
-              {totalItem?.includes(item?.label) ? (
-                <Typography sx={billingValue}>{item?.value}</Typography>
+              {totalItem?.includes(item?.name) ? (
+                <Typography sx={billingValue}>
+                  {watch(item?.name)?.toFixed(2)}
+                </Typography>
               ) : (
-                <TextField
-                  key={item?.value}
-                  name={item?.value}
-                  value={item?.value}
-                  type={item?.value === 'description' ? 'text' : 'number'}
+                <RHFTextField
+                  key={item?.name}
+                  name={item?.name}
+                  type="number"
                   inputProps={{
+                    max: item?.name === 'shipping' ? null : 100,
+                    min: 0,
                     style: {
                       width: 50,
                       height: 1,
@@ -64,7 +89,7 @@ const ItemBilling = () => {
                 />
               )}
             </Grid>
-            {totalItem?.includes(item?.label) && (
+            {totalItem?.includes(item?.name) && (
               <Divider sx={{ width: '100%', height: '10px' }} />
             )}
           </Grid>

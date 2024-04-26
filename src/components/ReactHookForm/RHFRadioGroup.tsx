@@ -16,6 +16,8 @@ export default function RHFRadioGroup({
   name,
   options,
   required,
+  disabled,
+  defaultValue,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -24,28 +26,32 @@ export default function RHFRadioGroup({
     <Controller
       name={name}
       control={control}
+      defaultValue={defaultValue}
       render={({ field, fieldState: { error } }) => (
-        <Box position="relative">
-          {other?.label && (
-            <CustomLabel label={other?.label} required={required} />
-          )}
-          <RadioGroup {...field} row {...other}>
-            {options?.map((option: any) => (
-              <FormControlLabel
-                key={option?.value}
-                value={option?.value}
-                control={<Radio />}
-                label={option?.label}
-              />
-            ))}
-          </RadioGroup>
-
+        <>
+          <Box position="relative" sx={other?.boxSx}>
+            {other?.label && (
+              <CustomLabel label={other?.label} required={required} />
+            )}
+            <RadioGroup {...field} row {...other}>
+              {options?.map((option: any) => (
+                <FormControlLabel
+                  key={option?.value}
+                  value={option?.value}
+                  control={<Radio />}
+                  label={option?.label}
+                  disabled={disabled}
+                  sx={other?.optionSx}
+                />
+              ))}
+            </RadioGroup>
+          </Box>
           {!!error && (
             <FormHelperText error sx={{ display: 'block', mt: -0.5, ml: 0 }}>
               {error?.message}
             </FormHelperText>
           )}
-        </Box>
+        </>
       )}
     />
   );

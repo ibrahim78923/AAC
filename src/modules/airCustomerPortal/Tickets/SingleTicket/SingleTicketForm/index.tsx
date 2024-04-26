@@ -1,35 +1,49 @@
-import { FormProvider } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  FormProvider,
+  RHFDropZone,
+  RHFEditor,
+} from '@/components/ReactHookForm';
 import { useSingleTicketForm } from './useSingleTicketForm';
 import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 export const SingleTicketForm = (props: any) => {
   const {
-    singleTicketFormDataArray,
-    singleTicketFormDefaultValues,
-    singleTicketFormValidationSchema,
-  } = props;
-  const { methods, handleSubmit, onSubmit } = useSingleTicketForm({
-    singleTicketFormDefaultValues,
-    singleTicketFormValidationSchema,
-  });
+    methods,
+    handleSubmit,
+    onSubmit,
+    postReplyToConversationEmailStatus,
+  } = useSingleTicketForm(props);
 
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        {singleTicketFormDataArray?.map((item: any) => (
-          <item.component
-            {...item?.componentProps}
-            key={uuidv4()}
-          ></item.component>
-        ))}
+        <RHFEditor
+          name="yourReply"
+          label="Your Reply"
+          style={{ height: 150 }}
+        />
+        <br />
+        <RHFDropZone
+          name="attachFile"
+          fullWidth
+          fileType={'PNG or JPG  (max 2.44 MB)'}
+          maxSize={1024 * 1024 * 2.44}
+          accept={{
+            'image/*': ['.png', '.jpg'],
+          }}
+        />
+        <br />
+        <Box textAlign={'end'}>
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={postReplyToConversationEmailStatus?.isLoading}
+          >
+            Send
+          </LoadingButton>
+        </Box>
       </FormProvider>
-      <Box display={'flex'} justifyContent={'flex-end'} mt={2}>
-        <LoadingButton variant="contained" onClick={onSubmit}>
-          Send
-        </LoadingButton>
-      </Box>
     </>
   );
 };

@@ -5,29 +5,23 @@ import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
 export const profileValidationSchema = Yup.object().shape({
-  firstName: Yup.string().required('Field is Required'),
-  lastName: Yup.string().required('Field is Required'),
+  firstName: Yup.string()
+    .required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  lastName: Yup.string()
+    .required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   postCode: Yup.string().required('Field is Required'),
   address: Yup.string().required('Field is Required'),
+  facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
+  twitterUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
-
-export const profileDefaultValues = {
-  firstName: '',
-  lastName: '',
-  phoneNumber: '',
-  email: '',
-  jobTitlle: '',
-  postCode: '',
-  address: '',
-  flatUnit: '',
-  buildingName: '',
-  buildingNum: '',
-  streetName: '',
-  townCity: '',
-  country: '',
-  facebookUrl: '',
-  TwitterUrl: '',
-};
 
 export const profileFields = [
   {
@@ -102,6 +96,8 @@ export const profileFields = [
       placeholder: 'Enter Address',
       fullWidth: true,
       required: true,
+      multiline: true,
+      rows: 4,
     },
     component: RHFTextField,
     md: 6,
@@ -152,7 +148,7 @@ export const profileFields = [
   },
   {
     componentProps: {
-      label: 'Town/CIty',
+      label: 'Town/City',
       name: 'city',
       placeholder: 'Enter Town/City',
       fullWidth: true,

@@ -20,7 +20,6 @@ const useCreateForm = () => {
   const [value, setValue] = useState('1');
   const [showView, setShowView] = useState(true);
   const [editFormName, setEditFormName] = useState(true);
-  const [pageName, setPageName] = useState('Profile');
   const [isDraweropen, setIsDraweropen] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [showExportText, setShowExportText] = useState(false);
@@ -34,11 +33,6 @@ const useCreateForm = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
-    if (value === '1') {
-      setPageName('Success');
-    } else {
-      setPageName('Profile');
-    }
   };
 
   const handleCloseDrawer = () => {
@@ -186,8 +180,6 @@ const useCreateForm = () => {
     onSubmit,
     styleFormMethods,
     value,
-    pageName,
-    setPageName,
     handleChange,
     editFormName,
     setEditFormName,

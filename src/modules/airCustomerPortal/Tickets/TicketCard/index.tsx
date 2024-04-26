@@ -1,68 +1,81 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import { useTickets } from '../useTickets';
+import { Box, Typography, Chip, Avatar } from '@mui/material';
+import dayjs from 'dayjs';
+import { AIR_CUSTOMER_PORTAL, DATE_TIME_FORMAT } from '@/constants';
+import { useRouter } from 'next/router';
+import { generateImage } from '@/utils/avatarUtils';
+import { TICKET_TYPE } from '@/constants/strings';
 
 export const TicketsCard = (props: any) => {
-  const { id, heading, subHeading, created, status, icon } = props;
-  const { handleSingleTickets } = useTickets();
-  const theme = useTheme();
+  const { ticket } = props;
+
+  const router = useRouter();
+
   return (
     <Box
-      gap={2}
-      padding={1.4}
-      borderRadius={3}
-      display={'flex'}
-      flexDirection={{ xs: 'column', sm: 'row', lg: 'row' }}
-      justifyContent={{
-        xs: 'center',
-        sm: 'space-between',
-        lg: 'space-between',
+      key={ticket?._id}
+      sx={{
+        p: 1,
+        backgroundColor: 'grey.100',
+        borderRadius: 3,
+        mb: 1,
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: 1,
+        justifyContent: 'space-between',
+        cursor: 'pointer',
       }}
-      alignItems={'center'}
-      width={'100%'}
-      height={'auto'}
-      bgcolor={theme?.palette?.grey?.[100]}
-      sx={{ cursor: 'pointer' }}
-      onClick={() => handleSingleTickets(id)}
+      onClick={() => {
+        router?.push({
+          pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
+          query: {
+            id: ticket?._id,
+          },
+        });
+      }}
     >
-      <Box
-        display={'flex'}
-        justifyContent={'center'}
-        flexDirection={'column'}
-        alignItems={'center'}
-        padding={2}
-        gap={1}
-      >
-        <Typography variant="h5">{heading}</Typography>
-
-        <Typography
-          width={'100%'}
-          gap={1}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'flex-start'}
-          variant="body1"
-        >
-          {icon}
-          {subHeading}
+      <Box>
+        <Typography fontWeight={600} variant="body2" color={'blue.main'}>
+          {ticket?.subject}
         </Typography>
-
-        <Box display={'flex'} alignItems={'center'}>
-          <Typography variant="body2">Created: {created} -</Typography>
-          <Typography variant="body2" color="primary">
-            Via Portal
-          </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: 1,
+            my: 0.5,
+          }}
+        >
+          <Avatar
+            src={generateImage(ticket?.requesterDetails?.avatar?.url)}
+            sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
+          />
+          <Typography variant="body2" color={'blue.main'} fontWeight={500}>{` ${
+            ticket?.ticketType === TICKET_TYPE?.INC ? '' : ticket?.ticketTitle
+          } ${ticket?.ticketIdNumber}`}</Typography>
         </Box>
+        <Typography variant="body2" color={'blue.main'} fontWeight={500}>
+          {`Created On  ${dayjs(ticket?.createdAt)?.format(
+            DATE_TIME_FORMAT?.UI,
+          )}`}
+          <Typography
+            component="span"
+            fontWeight={500}
+            variant="body2"
+            color="primary.main"
+          >
+            {!!ticket?.source ? `- Via ${ticket?.source}` : ''}
+          </Typography>
+        </Typography>
       </Box>
-      <Box
-        display={'flex'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        borderRadius={5}
-        padding={1}
-        bgcolor={theme?.palette?.grey?.[400]}
-      >
-        <Typography variant="body2">{status}</Typography>
-      </Box>
+      <Chip
+        label={ticket?.status ?? '---'}
+        sx={{
+          backgroundColor: 'grey.400',
+          color: 'slateBlue.main',
+        }}
+      />
     </Box>
   );
 };

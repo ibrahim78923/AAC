@@ -1,14 +1,24 @@
 import { useTheme } from '@mui/material';
 import { useFieldArray } from 'react-hook-form';
-import { salesValues } from '../UpsertSalesWorkflow.data';
+import { errorSnackbar } from '@/utils/api';
 
 export const useWorkflowConditions = (props: any) => {
   const { control } = props;
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'workflowConditions',
+    name: 'groups',
   });
-  const handleAddGroup = () => append(salesValues?.workflowConditions[0]);
+  const handleAddGroup = () => {
+    if (fields.length < 5) {
+      append({
+        name: '',
+        conditionType: null,
+        conditions: [{ fieldName: '', condition: '', fieldValue: null }],
+      });
+    } else {
+      errorSnackbar('Group limit exceeds');
+    }
+  };
   const { palette } = useTheme();
   return { fields, append, remove, palette, handleAddGroup };
 };

@@ -1,4 +1,3 @@
-import Button from '@mui/material/Button';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { AIR_OPERATIONS } from '@/constants';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -6,7 +5,6 @@ import {
   cardRelatedData,
   serviceWorkflowsCardData,
 } from './ServicesWorkflow.data';
-import { v4 as uuidv4 } from 'uuid';
 import { useServiceWorkflow } from './useServiceWorkflow';
 
 export const ServicesWorkflow = () => {
@@ -38,12 +36,13 @@ export const ServicesWorkflow = () => {
           <Typography variant="h5">Services Workflow</Typography>
         </Box>
         <Grid container gap={4} justifyContent={'center'}>
-          {serviceWorkflowsCardData?.map((item) => {
+          {serviceWorkflowsCardData?.map((item: any) => {
             return (
               <Grid
-                key={uuidv4()}
+                key={item?._id}
                 item
-                md={3.7}
+                xl={3.7}
+                md={5.5}
                 p={2}
                 display={'flex'}
                 justifyContent={'center'}
@@ -65,10 +64,16 @@ export const ServicesWorkflow = () => {
                 <Typography variant="h5" py={1}>
                   {item?.title}
                 </Typography>
-                <Typography textAlign={'center'} height={90}>
+                <Typography
+                  textAlign={'center'}
+                  height={{ lg: 100, md: 150, xs: 140 }}
+                >
                   {item?.description}
                 </Typography>
-                <Button
+                <Box
+                  p={1}
+                  textAlign={'center'}
+                  borderRadius={1}
                   sx={{
                     width: 258,
                     backgroundColor:
@@ -82,7 +87,7 @@ export const ServicesWorkflow = () => {
                   }}
                 >
                   {item?.buttonTitle}
-                </Button>
+                </Box>
               </Grid>
             );
           })}

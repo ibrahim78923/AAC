@@ -1,56 +1,112 @@
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { data, softwareListsColumnsFunction } from './Contracts.data';
+import { contractsListsColumnsFunction } from './Contracts.data';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { downloadFile } from '@/utils/file';
+import {
+  useLazyGetContractQuery,
+  useLazyGetExportContractQuery,
+} from '@/services/airServices/assets/contracts';
+import { PAGINATION } from '@/config';
+import { useTheme } from '@mui/material';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 
-export function useContracts() {
-  const [contractsData, setContractsData] = useState([]);
+export const useContracts = () => {
+  const theme = useTheme();
+  const [selectedContractList, setSelectedContractList] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [openModel, setOpenModel] = useState<boolean>(false);
-  const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const router = useRouter();
+  const [contractFilterLists, setContractFilterLists] = useState({});
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState('');
+
+  const [lazyGetContractTrigger, lazyGetContractStatus]: any =
+    useLazyGetContractQuery();
+
+  const [lazyGetExportContractTrigger] = useLazyGetExportContractQuery();
+
+  const getContractListData = async (pages = page) => {
+    const additionalParams = [
+      ['page', pages + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+    ];
+    const getContractParam: any = buildQueryParams(
+      additionalParams,
+      contractFilterLists,
+    );
+
+    const getContractParameter = {
+      queryParams: getContractParam,
+    };
+
+    try {
+      await lazyGetContractTrigger(getContractParameter)?.unwrap();
+      setSelectedContractList([]);
+    } catch (error: any) {}
+  };
+
+  const getContractListDataExport = async (type: any) => {
+    const exportContractParams = new URLSearchParams();
+    Object?.entries(contractFilterLists || {})?.forEach(
+      ([key, value]: any) => exportContractParams?.append(key, value?._id),
+    );
+    exportContractParams?.append('page', page + '');
+    exportContractParams?.append('limit', pageLimit + '');
+    exportContractParams?.append('search', search);
+    exportContractParams?.append('exportType', type);
+
+    const getContractExportParameter = {
+      queryParams: exportContractParams,
+    };
+
+    try {
+      const response: any = await lazyGetExportContractTrigger(
+        getContractExportParameter,
+      )?.unwrap();
+      downloadFile(response, 'ContractLists', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar('File Exported successfully');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    getContractListData();
+  }, [search, page, pageLimit, contractFilterLists]);
+
   const handleAddNewContractClick = () => {
     router?.push({
       pathname: AIR_SERVICES?.UPSERT_CONTRACT,
     });
   };
-  useEffect(() => {}, []);
-  const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event?.currentTarget);
-  };
-  const softwareListsColumns = softwareListsColumnsFunction(
-    contractsData,
-    setContractsData,
-    data,
+  const contractListsColumns = contractsListsColumnsFunction(
+    selectedContractList,
+    setSelectedContractList,
+    lazyGetContractStatus?.data?.data?.contracts,
     router,
   );
-  const handleActionClose = () => {
-    setActionPop(null);
-  };
-  const openAction = Boolean(actionPop);
-  const handleSubmitModel = () => {
-    enqueueSnackbar('Delete successfully', {
-      variant: 'error',
-      autoHideDuration: 3000,
-    });
-    setOpenModel(false);
-  };
   return {
-    contractsData,
-    setContractsData,
     isDrawerOpen,
     setIsDrawerOpen,
-    openModel,
-    setOpenModel,
-    actionPop,
-    setActionPop,
+    setIsDeleteModalOpen,
+    isDeleteModalOpen,
     handleAddNewContractClick,
-    handleActionClick,
-    handleActionClose,
-    openAction,
-    handleSubmitModel,
-    router,
-    softwareListsColumns,
+    contractListsColumns,
+    getContractListDataExport,
+    lazyGetContractStatus,
+    setPage,
+    setPageLimit,
+    setSearch,
+    selectedContractList,
+    setSelectedContractList,
+    getContractListData,
+    setContractFilterLists,
+    contractFilterLists,
+    theme,
+    page,
   };
-}
+};

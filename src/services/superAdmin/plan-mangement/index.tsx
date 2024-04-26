@@ -1,4 +1,7 @@
-import { superAdminBillingInvoices } from '@/routesConstants/endpoints';
+import {
+  END_POINTS,
+  superAdminBillingInvoices,
+} from '@/routesConstants/endpoints';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 
@@ -23,14 +26,14 @@ export const planManagementAPI = baseAPI.injectEndpoints({
     }),
     getProducts: builder.query({
       query: () => ({
-        url: `${superAdminBillingInvoices?.get_Products}`,
+        url: `${superAdminBillingInvoices?.GET_PRODUCTS}`,
         method: 'GET',
       }),
       providesTags: TAG,
     }),
     getProductsFeatures: builder.query({
       query: ({ id }) => ({
-        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}&productId=${id}`,
+        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}?productIds=${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -65,7 +68,13 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
-
+    getPermissionsByProducts: builder.query({
+      query: ({ id }) => ({
+        url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
     updatePlanMangement: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT}/${id}`,
@@ -82,6 +91,20 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    getCrm: builder.query({
+      query: () => ({
+        url: `${superAdminBillingInvoices?.GET_CRM}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    getProductsPermissionsPlan: builder.query({
+      query: ({ productId }: any) => ({
+        url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${productId}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -96,4 +119,7 @@ export const {
   useGetPlanTypesQuery,
   useGetProductsFeaturesQuery,
   useGetProductsFeaturesAllQuery,
+  useGetPermissionsByProductsQuery,
+  useGetCrmQuery,
+  useGetProductsPermissionsPlanQuery,
 } = planManagementAPI;

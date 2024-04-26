@@ -19,7 +19,7 @@ const ChatDropdown = ({
         open={actionMenuOpen}
         onClose={handleClose}
       >
-        {menuData.map((menu: any) => (
+        {menuData?.map((menu: any) => (
           <MenuItem onClick={menu?.handler} key={uuidv4()}>
             {menu?.menuLabel}
           </MenuItem>

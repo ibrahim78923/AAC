@@ -30,17 +30,19 @@ export const useCustomizeInventoryColumn = (props: any) => {
     onClose?.();
   };
   const onClose = () => {
-    makePath({
-      path: router?.pathname,
-      skipQueries: ['inventoryListsAction'],
-    }),
-      setIsDrawerOpen?.(false);
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['inventoryListsAction'],
+      }),
+    );
+    setIsDrawerOpen?.(false);
   };
 
   const applyAllCheckboxHandler = (e: any) => {
     e?.target?.checked
       ? setCustomizeColumn(inventoryListsInitialColumns)
-      : setCustomizeColumn([]);
+      : setCustomizeColumn(['_id', 'displayName', 'assetType']);
   };
 
   return {

@@ -3,7 +3,6 @@ import { Fragment } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useVendors } from './useVendors';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { vendorsData } from './Vendors.data';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { UpsertAsset } from './UpsertVendor';
@@ -16,6 +15,10 @@ export const Vendors = () => {
     handleSubmitDelete,
     setIsUpsertModalOpen,
     isUpsertModalOpen,
+    productCatalogVendorListStatus,
+    setPage,
+    setPageLimit,
+    deleteVendorStatus,
   } = useVendors();
 
   return (
@@ -30,7 +33,31 @@ export const Vendors = () => {
         </Button>
       </Box>
 
-      <TanstackTable data={vendorsData} columns={vendorsColumns} isPagination />
+      <Box
+        borderRadius={2}
+        boxShadow={1}
+        border={`1px solid`}
+        borderColor={'custom.off_white_three'}
+      >
+        <TanstackTable
+          data={
+            productCatalogVendorListStatus?.data?.data?.vendorproductcatalogs
+          }
+          columns={vendorsColumns}
+          isPagination
+          currentPage={productCatalogVendorListStatus?.data?.data?.meta?.page}
+          count={productCatalogVendorListStatus?.data?.data?.meta?.pages}
+          pageLimit={productCatalogVendorListStatus?.data?.data?.meta?.limit}
+          totalRecords={productCatalogVendorListStatus?.data?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isLoading={productCatalogVendorListStatus?.isLoading}
+          isFetching={productCatalogVendorListStatus?.isFetching}
+          isError={productCatalogVendorListStatus?.isError}
+          isSuccess={productCatalogVendorListStatus?.isSuccess}
+        />
+      </Box>
 
       {isDeleteModalOpen && (
         <AlertModals
@@ -39,6 +66,8 @@ export const Vendors = () => {
           handleClose={() => setIsDeleteModalOpen?.({ open: false, id: '' })}
           handleSubmitBtn={handleSubmitDelete}
           message="Are you sure want to delete this Vendor?"
+          loading={deleteVendorStatus?.isLoading}
+          disableCancelBtn={deleteVendorStatus?.isLoading}
         />
       )}
 

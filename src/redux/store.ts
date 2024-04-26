@@ -7,6 +7,9 @@ import authSlice from './slices/auth/slice';
 import SocialInboxSlice from './slices/socialInbox/index';
 import { persistReducer } from 'redux-persist';
 import planManagementSlice from './slices/planManagement/planManagementSlice';
+import taskManagementSlice from './slices/taskManagement/taskManagementSlice';
+import dealsTaskSlice from './slices/airSales/Deals/ViewDetails/Tasks/taskSlice';
+import subscriptionAndInvoicesSlice from './slices/orgAdmin/SubscriptionAndInvoices';
 
 const persistConfig = {
   key: 'role',
@@ -24,6 +27,9 @@ const store = configureStore({
   reducer: {
     [baseAPI.reducerPath]: baseAPI.reducer,
     chat: chatSlice,
+    task: taskManagementSlice,
+    task_deals: dealsTaskSlice,
+    subscriptionAndInvoices: subscriptionAndInvoicesSlice,
     auth: authSlice,
     socialInbox: SocialInboxSlice,
     planManagementForms: persistedReducer,

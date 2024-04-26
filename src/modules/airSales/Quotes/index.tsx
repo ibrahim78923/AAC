@@ -1,72 +1,118 @@
 import { Box } from '@mui/material';
 import { AlertModals } from '@/components/AlertModals';
-import { quotesListData } from '@/mock/modules/Quotes';
 import TanstackTable from '@/components/Table/TanstackTable';
 import TableToolbar from './TableToolbar';
 import PageHeader from './PageHeader';
-import CustomPagination from '@/components/CustomPagination';
 import FilterQuotes from './FilterQuotes';
 import useQuotes from './useQuotes';
 import CustomizeColumns from './CustomizeColumns';
-import { initColumns } from './Quotes.data';
+import { quotesColumns } from './Quotes.data';
 import { styles } from './Quotes.style';
+import { useEffect } from 'react';
+import useCustomizeColumn from './CustomizeColumns/useCustomizeColumn';
 
 const Quotes = () => {
   const {
-    openFilter,
-    handleCloseFilter,
-    handleOpenFilter,
+    setPageLimit,
+    setPage,
+    selectedRow,
+    setSelectedRow,
+    isActionsDisabled,
+    setIsActionsDisabled,
+    rowId,
+    setRowId,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    setSearchValue,
     openCustomizeColumns,
     handleOpenCustomizeColumns,
     handleCloseCustomizeColumns,
-    customizedColumns,
-    handleApplyColumns,
+    setcheckedColumns,
     handleEditQuote,
     handleViewQuote,
     openDeleteQuote,
     handleOpenDeleteQuote,
     handleCloseDeleteQuote,
+    dataGetQuotes,
+    loagingGetQuotes,
+    handleFiltersSubmit,
+    methodsFilter,
+    handleRefresh,
+    handleDeleteQoute,
+    loadingDeleteQuote,
   } = useQuotes();
 
+  const { activeColumns } = useCustomizeColumn({});
+
+  const getQuotesColumns = quotesColumns(
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
+    activeColumns,
+  );
+
+  useEffect(() => {
+    setcheckedColumns(getQuotesColumns?.map((column: any) => column?.id));
+  }, []);
   return (
     <>
       <Box sx={styles?.TableWrapper}>
         <PageHeader />
 
         <TableToolbar
-          handleFilters={handleOpenFilter}
+          setSearchValue={setSearchValue}
+          handleFilters={handleOpenFilters}
           handleCustomizeColumns={handleOpenCustomizeColumns}
-          handleResetFilters={() => alert('Refresh')}
-          handleEditQuote={handleEditQuote}
+          handleResetFilters={handleRefresh}
+          handleEditQuote={() => handleEditQuote(rowId)}
           handleViewQuote={handleViewQuote}
           handleOpenDeleteQuote={handleOpenDeleteQuote}
+          isActionsDisabled={isActionsDisabled}
+          rowId={rowId}
         />
 
-        <TanstackTable columns={customizedColumns} data={quotesListData} />
-
-        <CustomPagination
-          count={3}
-          rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={quotesListData.length}
+        <TanstackTable
+          columns={getQuotesColumns}
+          data={dataGetQuotes?.data?.quotes}
+          isLoading={loagingGetQuotes}
+          currentPage={dataGetQuotes?.data?.meta?.page}
+          count={dataGetQuotes?.data?.meta?.pages}
+          pageLimit={dataGetQuotes?.data?.meta?.limit}
+          totalRecords={dataGetQuotes?.data?.meta?.total}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
         />
       </Box>
 
-      <FilterQuotes open={openFilter} onClose={handleCloseFilter} />
+      {openFilters && (
+        <FilterQuotes
+          open={openFilters}
+          onClose={handleCloseFilters}
+          methods={methodsFilter}
+          onFilterSubmit={handleFiltersSubmit}
+        />
+      )}
 
-      <CustomizeColumns
-        open={openCustomizeColumns}
-        onClose={handleCloseCustomizeColumns}
-        columns={initColumns}
-        onSubmit={handleApplyColumns}
-      />
-
-      <AlertModals
-        message="You're about to delete a record. Are you sure?"
-        type="delete"
-        open={openDeleteQuote}
-        handleClose={handleCloseDeleteQuote}
-        handleSubmit={handleCloseDeleteQuote}
-      />
+      {openCustomizeColumns && (
+        <CustomizeColumns
+          open={openCustomizeColumns}
+          onClose={handleCloseCustomizeColumns}
+        />
+      )}
+      {openDeleteQuote && (
+        <AlertModals
+          message="You're about to delete a record. Are you sure?"
+          type="delete"
+          open={openDeleteQuote}
+          handleClose={handleCloseDeleteQuote}
+          handleSubmitBtn={handleDeleteQoute}
+          loading={loadingDeleteQuote}
+        />
+      )}
     </>
   );
 };

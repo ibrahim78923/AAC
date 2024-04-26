@@ -9,6 +9,8 @@ import useCalling from '../../useCalling';
 import { CallsDullIcon, MessageDullIcon } from '@/assets/icons';
 
 import { styles } from './UserDetailCard.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CALLING_PERMISSIONS } from '@/constants/permission-keys';
 
 const UserDetailCard = ({ image, name, phone, handelCall, isMessage }: any) => {
   const theme = useTheme();
@@ -47,9 +49,16 @@ const UserDetailCard = ({ image, name, phone, handelCall, isMessage }: any) => {
           </Box>
         </Box>
         <Box sx={styles?.cardFeatures}>
-          <Box onClick={handelCall}>
-            <CallsDullIcon />
-          </Box>
+          <PermissionsGuard
+            permissions={[
+              SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.ONE_TO_ONE_CALL,
+            ]}
+          >
+            <Box onClick={handelCall}>
+              <CallsDullIcon />
+            </Box>
+          </PermissionsGuard>
+
           {isMessage && <MessageDullIcon />}
         </Box>
       </Box>

@@ -1,11 +1,9 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import { dropDownMenus, dashboardFunction } from './HeaderDashboard.data';
-import { useRouter } from 'next/router';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { Box, Typography } from '@mui/material';
+import useAuth from '@/hooks/useAuth';
 
 export const HeaderDashboard = () => {
-  const theme = useTheme();
-  const router = useRouter();
+  const { user }: any = useAuth();
+
   return (
     <>
       <Typography variant="h3" color="primary.main">
@@ -21,13 +19,14 @@ export const HeaderDashboard = () => {
       >
         <Typography variant="h4" fontWeight={500} color="blue.main">
           <Typography component="span" variant="h4">
-            Hi Sam!
+            Hi {user?.firstName ?? '-'}!
           </Typography>{' '}
           Happy to See You again
         </Typography>
+        {/* TODO: Will be catered in V2
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
           <SingleDropdownButton
-            dropdownOptions={dropDownMenus}
+            dropdownOptions={dropDownMenus(setIsDrawerOpen)}
             dropdownName="Actions"
           />
           <SingleDropdownButton
@@ -35,6 +34,10 @@ export const HeaderDashboard = () => {
             dropdownName="Dashboards"
           />
         </Box>
+        <EmailThisDashboard
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+        /> */}
       </Box>
     </>
   );

@@ -14,6 +14,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 
 import { drawerButtonTitle, drawerTitle } from './LifecycleStage.data';
 import { LifeCycleStageTableData } from '@/mock/modules/airMarketer/SocialMarketing/SocialInbox';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 const LifeCycleStage = () => {
   const {
@@ -51,6 +53,8 @@ const LifeCycleStage = () => {
                   name="StageName"
                   label="Stage Name"
                   size="small"
+                  placeholder="Stage Name"
+                  required={true}
                 />
               </Grid>
             </Grid>
@@ -71,19 +75,12 @@ const LifeCycleStage = () => {
             display: 'flex',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
+            marginBottom: '10px',
           }}
         >
           <Typography variant="h3">Life Cycle Stages</Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              '@media (max-width: 500px)': {
-                justifyContent: 'end',
-                marginTop: '10px',
-              },
-            }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.ADD_STAGE]}
           >
             <Button
               variant="contained"
@@ -99,19 +96,21 @@ const LifeCycleStage = () => {
               />
               Add Stage
             </Button>
-          </Box>
+          </PermissionsGuard>
         </Box>
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.SEARCH_LIFECYCLE]}
+        >
+          <Search
+            label={'Search here'}
+            searchBy={productSearch}
+            setSearchBy={setproductSearch}
+            width="260px"
+            size="small"
+          />
+        </PermissionsGuard>
 
-        <Search
-          label={'Search here'}
-          searchBy={productSearch}
-          setSearchBy={setproductSearch}
-          width="100%"
-          size="small"
-          sx={{ marginTop: '2rem', marginBottom: '1rem' }}
-        />
-
-        <Grid>
+        <Grid sx={{ marginTop: '2rem' }}>
           <TanstackTable
             columns={getRowValues}
             data={LifeCycleStageTableData}

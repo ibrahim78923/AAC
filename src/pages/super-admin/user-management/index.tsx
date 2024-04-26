@@ -10,7 +10,7 @@ export default UserManagementPage;
 
 UserManagementPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout guardRoute permissions={Permissions.user_management}>
+    <Layout guardRoute permissions={Permissions?.user_management}>
       {page}
     </Layout>
   );

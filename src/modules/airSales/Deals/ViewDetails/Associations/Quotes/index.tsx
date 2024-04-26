@@ -1,19 +1,28 @@
-import { useState } from 'react';
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
-
+import { Box, Grid, Skeleton, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import { columns } from './Quotes.data';
-import { quotesData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
-import { PlusIcon } from '@/assets/icons';
-
 import { styles } from '../Associations.style';
+import useQuotes from './useQuotes';
+import { AlertModals } from '@/components/AlertModals';
+import QuotesDrawer from './QuotesDrawer';
 
-const Quotes = () => {
-  const theme = useTheme();
-  const [searchName, setSearchName] = useState('');
+const Quotes = ({ quotesData, isLoading, dealId }: any) => {
+  const {
+    theme,
+    searchName,
+    setSearchName,
+    isOpenAlert,
+    setIsOpenAlert,
+    setOpenDrawer,
+    openDrawer,
+    handleCloseAlert,
+    deleteQuoteHandler,
+    quoteLoading,
+    setSelectedQuote,
+    quotesDetails,
+    quoteDetailsLoading,
+  } = useQuotes(dealId);
   return (
     <Box
       sx={{
@@ -24,11 +33,18 @@ const Quotes = () => {
     >
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
-          </Typography>
-
-          <Typography variant="h5">Quotes</Typography>
+          {isLoading ? (
+            <Skeleton variant="text" height={40} width={120} />
+          ) : (
+            <>
+              <Typography sx={styles?.associationCount(theme)} variant="body3">
+                {quotesData?.length < 10
+                  ? `0${quotesData?.length}`
+                  : quotesData?.length}
+              </Typography>
+              <Typography variant="h5">Quotes</Typography>
+            </>
+          )}
         </Grid>
         <Grid item md={8} xs={12}>
           <Box
@@ -45,19 +61,39 @@ const Quotes = () => {
               label="Search By Name"
               size="medium"
             />
-            <Button
-              variant="contained"
-              className="medium"
-              sx={{ minWidth: '0px', gap: 0.5 }}
-            >
-              <PlusIcon /> Add Quotes
-            </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <TanstackTable columns={columns()} data={quotesData} />
+          <TanstackTable
+            columns={columns({
+              setOpenDrawer,
+              setIsOpenAlert,
+              setSelectedQuote,
+            })}
+            data={quotesData}
+          />
         </Grid>
       </Grid>
+
+      {openDrawer && (
+        <QuotesDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          quotesDetails={quotesDetails}
+          isLoading={quoteDetailsLoading}
+        />
+      )}
+
+      {isOpenAlert && (
+        <AlertModals
+          message={"You're about to remove a record. Are you sure?"}
+          type={'delete'}
+          open={isOpenAlert}
+          handleClose={handleCloseAlert}
+          handleSubmitBtn={deleteQuoteHandler}
+          loading={quoteLoading}
+        />
+      )}
     </Box>
   );
 };

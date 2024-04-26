@@ -1,90 +1,76 @@
 import React from 'react';
+import { Box } from '@mui/material';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { useTicketRelated } from './useTicketRelated';
+import TanstackTable from '@/components/Table/TanstackTable';
 import {
-  Typography,
-  useTheme,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Box,
-  Grid,
-} from '@mui/material';
-import { styles } from '../KnowledgeInsights.style';
-import { v4 as uuidv4 } from 'uuid';
-import { ViewDetailBackArrowIcon } from '@/assets/icons';
+  NO_DATA_MESSAGE,
+  knowledgeInsightsRelatedTicketColumns,
+} from './TicketRelated.data';
+import NoData from '@/components/NoData';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { truncateText } from '@/utils/avatarUtils';
 
-export const TicketRelated = ({
-  getRelatedDataArray,
-  setTicketRelatedToggler,
-}: any) => {
-  const theme = useTheme();
+export const TicketRelated = (props: any) => {
+  const { selectedArticle, setSelectedArticle } = props;
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    setPageLimit,
+    setPage,
+    error,
+  }: any = useTicketRelated(props);
 
+  if (isLoading || isFetching) return <SkeletonTable />;
+
+  if (isError)
+    return (
+      <>
+        <PageTitledHeader
+          moveBack={() => setSelectedArticle?.({})}
+          canMovedBack
+        />
+        <NoData
+          message={
+            error?.data?.message === NO_DATA_MESSAGE
+              ? error?.data?.message
+              : 'SOMETHING WENT WRONG'
+          }
+        />
+      </>
+    );
   return (
     <>
-      {getRelatedDataArray?.map((item: any) => (
-        <React.Fragment key={uuidv4()}>
-          <Box display={'flex'} gap={1} alignItems={'center'}>
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => setTicketRelatedToggler(true)}
-            >
-              <ViewDetailBackArrowIcon />
-            </Box>
-            <Typography variant="h5" py={'1rem'}>
-              {item?.mainTitle}
-            </Typography>
-          </Box>
-          <Grid container position={'relative'} overflow={'scroll'}>
-            <Grid item xs={12}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Subject</TableCell>
-                    <TableCell>Agent</TableCell>
-                    <TableCell>Group</TableCell>
-                    <TableCell>Created on</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {item?.relatedData?.map((relatedData: any) => (
-                    <TableRow key={uuidv4()}>
-                      <TableCell sx={styles?.insightsItemsStyles}>
-                        <Box display={'flex'}>
-                          <Typography
-                            variant="body4"
-                            color={theme?.palette?.info?.main}
-                          >
-                            {relatedData?.subjectDetail}
-                          </Typography>
-                          <Typography variant="body2" ml={'.5rem'}>
-                            {relatedData?.subjectDetailNumber}
-                          </Typography>
-                        </Box>
-                      </TableCell>
-                      <TableCell sx={styles?.mentionsItemsStyles}>
-                        <Typography variant="body4">
-                          {relatedData?.agentDetail}
-                        </Typography>
-                      </TableCell>
-                      <TableCell sx={styles?.mentionsItemsStyles}>
-                        <Typography variant="body4">
-                          {relatedData?.groupDetail}
-                        </Typography>
-                      </TableCell>
-                      <TableCell sx={styles?.mentionsItemsStyles}>
-                        <Typography variant="body4">
-                          {relatedData?.createdOnDetail}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Grid>
-          </Grid>
-        </React.Fragment>
-      ))}
+      {data?.data?.articles?.length ? (
+        <Box>
+          <PageTitledHeader
+            moveBack={() => setSelectedArticle?.({})}
+            canMovedBack
+            title={truncateText?.(selectedArticle?.title)}
+          />
+          <TanstackTable
+            data={data?.data?.articles}
+            columns={knowledgeInsightsRelatedTicketColumns}
+            isLoading={isLoading}
+            currentPage={data?.data?.meta?.page}
+            count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
+            totalRecords={data?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isFetching={isFetching}
+            isError={isError}
+            isSuccess={isSuccess}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
+          />
+        </Box>
+      ) : (
+        <NoData message="No inserted tickets found" />
+      )}
     </>
   );
 };

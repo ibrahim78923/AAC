@@ -1,106 +1,198 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Box, Button, Grid, Typography } from '@mui/material';
-
-import { FormProvider } from '@/components/ReactHookForm';
-import CustomDropZone from '@/components/CustomDropZone';
-
-import { ArrowLeftIcon } from '@/assets/icons';
-
-import { newArticleFieldsFunction } from './UpsertArticle.data';
+import { Box, Grid, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import {
+  FormProvider,
+  RHFDropZone,
+  RHFEditor,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { useUpsertArticle } from './useUpsertArticle';
-import { styles } from './UpsertArticle.style';
-import CustomTextEditor from '@/components/CustomTextEditor';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { AIR_SERVICES } from '@/constants';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ARTICLE_STATUS } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import {
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS,
+  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS,
+} from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
+import { Attachments } from '@/components/Attachments';
 
 export const UpsertArticle = () => {
   const {
-    upsertArticleMethods: methods,
+    editArticleMethods: methods,
     upsertArticleSubmit,
-    handlePageBack,
     needApprovals,
+    theme,
+    newArticleFields,
+    articleId,
+    router,
+    postArticleStatus,
+    patchArticleStatus,
+    isLoading,
+    isFetching,
+    cancelBtnHandler,
   } = useUpsertArticle();
 
-  const {
-    flexBetween,
-    mainHeading,
-    mainWrapper,
-    formGridWrapper,
-    formBtnWrapper,
-  } = styles();
-
-  const newArticleFields = newArticleFieldsFunction?.(needApprovals);
-
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
-    <FormProvider
-      methods={methods}
-      onSubmit={methods?.handleSubmit?.(upsertArticleSubmit)}
+    <PermissionsGuard
+      permissions={Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_UPSERT_ARTICLE}
     >
-      <Grid
-        container
-        rowSpacing={1.4}
-        columnSpacing={2.4}
-        sx={{ ...mainWrapper }}
-      >
-        <Grid item xs={12} lg={9} pr={2.4}>
-          <Box
-            sx={{
-              ...flexBetween,
-              display: 'inline-flex',
-              mb: 2.5,
-              gap: 1.4,
-            }}
-          >
-            <Box
-              onClick={handlePageBack}
-              sx={{ ...flexBetween, cursor: 'pointer' }}
-            >
-              <ArrowLeftIcon />
-            </Box>
-            <Typography variant="h3" sx={mainHeading}>
-              Write an article
-            </Typography>
-          </Box>
-          <Box pb={1.4}>
-            <CustomTextEditor
-              value=""
-              onChange={() => {}}
-              style={{ height: '65vh' }}
-              placeholder={`Title for article \n Description`}
+      <FormProvider methods={methods}>
+        <Grid container sx={{ borderRadius: '12px' }}>
+          <Grid item xs={12} lg={9} pr={{ lg: 2.4 }}>
+            <PageTitledHeader
+              title={articleId ? 'Edit article' : 'Write an article'}
+              canMovedBack
+              moveBack={() => {
+                router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
+              }}
             />
-          </Box>
-          <CustomDropZone name="file" />
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          lg={3}
-          position={'relative'}
-          sx={{ ...formGridWrapper }}
-        >
-          {newArticleFields?.map((form: any) => (
-            <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
-              <form.component {...form?.componentProps} size="small">
-                {form?.componentProps?.select
-                  ? form?.componentProps?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))
-                  : null}
-              </form.component>
-            </Grid>
-          ))}
-          <Grid item width="100%" xs={12} minHeight={44}>
-            <Box sx={{ ...formBtnWrapper }}>
-              <Button onClick={() => methods?.reset?.()} variant="outlined">
-                Save as Draft
-              </Button>
-              <Button type="submit" variant="contained">
-                {needApprovals ? 'Send For Approval' : 'Publish Now'}
-              </Button>
+            <RHFTextField name="title" label="Title" required fullWidth />
+            <Box pb={1.4}>
+              <RHFEditor
+                name="details"
+                label="Description"
+                style={{ height: 500 }}
+                required
+              />
+            </Box>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.ATTACHMENT,
+              ]}
+            >
+              <RHFDropZone
+                name="attachments"
+                fileType="PNG or JPG  (max 2.44 MB)"
+                maxSize={1024 * 1024 * 2.44}
+                accept={{
+                  'image/*': ['.png', '.jpg'],
+                }}
+              />
+              {!!articleId && (
+                <>
+                  <Typography
+                    variant="body1"
+                    fontWeight={500}
+                    color="slateBlue.main"
+                    my={2}
+                  >
+                    {' '}
+                    Attachments{' '}
+                  </Typography>
+                  <Box maxHeight={'20vh'}>
+                    <Attachments
+                      recordId={articleId}
+                      permissionKey={[
+                        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.ATTACHMENT,
+                      ]}
+                    />
+                  </Box>
+                </>
+              )}
+            </PermissionsGuard>
+            <br />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            lg={3}
+            minHeight={{ xs: 'inherit', lg: '100vh' }}
+            sx={{
+              borderLeft: { lg: `1px solid ${theme?.palette?.custom?.dark}` },
+              padding: { lg: 2 },
+            }}
+            display={'flex'}
+            flexDirection={'column'}
+          >
+            <Box>
+              {newArticleFields?.map((form: any) => (
+                <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                  <form.component {...form?.componentProps} size="small" />
+                </Grid>
+              ))}
+            </Box>
+            <Box flexGrow={{ lg: 1 }}></Box>
+            <Box>
+              <Box
+                sx={{
+                  height: { lg: '100%' },
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 1,
+                  alignItems: 'center',
+                }}
+              >
+                <PermissionsGuard
+                  permissions={
+                    needApprovals
+                      ? [
+                          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_ARTICLE,
+                        ]
+                      : articleId
+                        ? [
+                            AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+                          ]
+                        : [
+                            AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.SAVE_AS_DRAFT,
+                          ]
+                  }
+                >
+                  <LoadingButton
+                    variant="outlined"
+                    type="button"
+                    disabled={
+                      postArticleStatus?.isLoading ||
+                      patchArticleStatus?.isLoading
+                    }
+                    onClick={() =>
+                      cancelBtnHandler(
+                        needApprovals ? '' : ARTICLE_STATUS?.DRAFT,
+                      )
+                    }
+                  >
+                    {needApprovals
+                      ? 'Cancel'
+                      : articleId
+                        ? 'Save'
+                        : 'Save as Draft'}
+                  </LoadingButton>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={
+                    needApprovals
+                      ? [
+                          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_ARTICLE,
+                        ]
+                      : [
+                          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.PUBLISH_NOW,
+                        ]
+                  }
+                >
+                  <LoadingButton
+                    type="button"
+                    onClick={() =>
+                      methods?.handleSubmit?.(upsertArticleSubmit)(
+                        ARTICLE_STATUS?.PUBLISHED,
+                      )
+                    }
+                    loading={
+                      postArticleStatus?.isLoading ||
+                      patchArticleStatus?.isLoading
+                    }
+                    variant="contained"
+                  >
+                    {needApprovals ? 'Send For Approval' : 'Publish Now'}
+                  </LoadingButton>
+                </PermissionsGuard>
+              </Box>
             </Box>
           </Grid>
         </Grid>
-      </Grid>
-    </FormProvider>
+      </FormProvider>
+    </PermissionsGuard>
   );
 };

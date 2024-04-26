@@ -1,35 +1,52 @@
 import { Box, Button } from '@mui/material';
-import { useState } from 'react';
-import { data, columns, dataArray } from './Software.data';
+import { columns } from './Software.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { FilterSharedIcon } from '@/assets/icons';
-import { useTheme } from '@emotion/react';
 import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
-import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
 import SoftwareFilter from './SoftwareFilter';
-import SoftwareAssignCategory from './SoftwareAssignCategory';
+import { SoftwareAssignCategory } from './SoftwareAssignCategory';
 import { UpsertSoftware } from './UpsertSoftware';
-import { useRouter } from 'next/router';
-import CustomPagination from '@/components/CustomPagination';
+import { useSoftware } from './useSoftware';
+import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
-function Software() {
-  const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
-  const [softwareData, setSoftwareData] = useState([]);
-  const [openAssignModal, setOpenAssignModal] = useState(false);
-  const [assignCategory, setAssignCategory] = useState(false);
-  const [searchValue, SetSearchValue] = useState<string>('');
-
-  const theme: any = useTheme();
-  const router = useRouter();
-  const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
+const Software = () => {
+  const {
+    router,
+    isError,
+    isLoading,
+    isSuccess,
+    isFetching,
+    assetsSoftwares,
+    isAddDrawerOpen,
+    setIsAddDrawerOpen,
+    softwareData,
+    setSoftwareData,
+    openAssignModal,
+    setOpenAssignModal,
+    setSearchValue,
+    setPage,
+    setPageLimit,
+    paginationData,
+    setFilterValues,
+    isOpenFilterDrawer,
+    setIsOpenFilterDrawer,
+    filterValues,
+  } = useSoftware();
 
   return (
     <>
       <PageTitledHeader
         title={'Software'}
         addTitle={'New Software'}
-        handleAction={() => setIsAddDrawerOpen(true)}
+        createPermissionKey={[
+          AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.NEW_SOFTWARE,
+        ]}
+        handleAction={() => {
+          setSoftwareData?.([]);
+          setIsAddDrawerOpen(true);
+        }}
       />
       <Box
         display={'flex'}
@@ -39,71 +56,95 @@ function Software() {
         gap={1.5}
       >
         <Box>
-          <Search
-            label="Search Here"
-            width="100%"
-            searchBy={searchValue}
-            setSearchBy={SetSearchValue}
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
+            ]}
+          >
+            <Search label="Search Here" setSearchBy={setSearchValue} />
+          </PermissionsGuard>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <Button
             color="secondary"
             variant="outlined"
             disabled={!!!softwareData?.length}
-            onClick={() => {
-              setOpenAssignModal(true);
-            }}
+            onClick={() => setOpenAssignModal?.(true)}
           >
             Assign Category
           </Button>
-          <Button
-            color="secondary"
-            variant="outlined"
-            startIcon={<FilterSharedIcon />}
-            onClick={() => setIsOpenFilterDrawer(true)}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
+            ]}
           >
-            Filter
-          </Button>
+            <Button
+              color="secondary"
+              variant="outlined"
+              startIcon={<FilterSharedIcon />}
+              onClick={() => setIsOpenFilterDrawer(true)}
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <br />
       <Box>
-        <TanstackTable
-          data={data}
-          columns={columns(softwareData, setSoftwareData, data, theme, router)}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SOFTWARE_LIST_VIEW,
+          ]}
+        >
+          <TanstackTable
+            isError={isError}
+            isSuccess={isSuccess}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            data={assetsSoftwares}
+            columns={columns(
+              softwareData,
+              setSoftwareData,
+              assetsSoftwares,
+              router,
+            )}
+            isPagination
+            count={paginationData?.pages}
+            totalRecords={paginationData?.total}
+            pageLimit={paginationData?.limit}
+            currentPage={paginationData?.page}
+            onPageChange={(page: any) => setPage(page)}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+          />
+        </PermissionsGuard>
       </Box>
 
       {isOpenFilterDrawer && (
         <SoftwareFilter
           isOpenDrawer={isOpenFilterDrawer}
-          onClose={() => setIsOpenFilterDrawer(false)}
+          setIsOpenFilterDrawer={setIsOpenFilterDrawer}
+          setFilterValues={setFilterValues}
+          filterValues={filterValues}
+          setPage={setPage}
         />
       )}
-
-      <SoftwareAssignCategory
-        openAssignModal={openAssignModal}
-        setOpenAssignModal={setOpenAssignModal}
-        title={'Assign Category'}
-        dataArray={dataArray}
-        cancelText={'Cancel'}
-        okText={'Assign'}
-        successMessage={'Assign Successfully'}
-        setData={setAssignCategory}
-      />
-      <UpsertSoftware
-        isDrawerOpen={isAddDrawerOpen}
-        onClose={setIsAddDrawerOpen}
-      />
-      {assignCategory && null}
+      {openAssignModal && (
+        <SoftwareAssignCategory
+          openAssignModal={openAssignModal}
+          setOpenAssignModal={setOpenAssignModal}
+          selectedSoftware={softwareData}
+          setSoftwareData={setSoftwareData}
+        />
+      )}
+      {isAddDrawerOpen && (
+        <UpsertSoftware
+          isAddDrawerOpen={isAddDrawerOpen}
+          setIsAddDrawerOpen={setIsAddDrawerOpen}
+        />
+      )}
     </>
   );
-}
+};
 
 export default Software;

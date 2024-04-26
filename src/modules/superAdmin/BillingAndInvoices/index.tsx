@@ -18,7 +18,7 @@ const BillingAndInvoices = () => {
           onChange={handleChange}
           aria-label="subscription & invoices tabs"
         >
-          <Tab label="Subscription" value="subscription" />
+          <Tab label="Plan Assignment" value="subscription" />
           <Tab label="Invoices" value="invoices" />
         </TabList>
       </Box>

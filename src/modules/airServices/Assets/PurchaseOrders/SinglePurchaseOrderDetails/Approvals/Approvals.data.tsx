@@ -1,4 +1,3 @@
-import { PlaceImage } from '@/assets/images';
 import { Fragment } from 'react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -7,13 +6,19 @@ import {
   PrimaryReceivedIcon,
   PrimaryRequestIcon,
 } from '@/assets/icons';
-
-export const approvalsStatusObj = (status: any) => {
-  const RECEIVED = 'Received';
-  const REQUEST_SENT = 'RequestSent';
-  const APPROVED = 'Approved';
-  const REJECTED = 'Rejected';
-
+export const approvalStatus = ['APPROVED', 'REJECTED', 'CANCELED'];
+export const approvalsStatusObj = (
+  status: any,
+  approverId: any,
+  userId: any,
+) => {
+  const RECEIVED = 'RECEIVED';
+  const REQUEST_SENT = 'REQUEST_SENT';
+  const APPROVED = 'APPROVED';
+  const REJECTED = 'REJECTED';
+  if (!approvalStatus?.includes(status) && !!userId && !!approverId) {
+    status = userId === approverId ? RECEIVED : REQUEST_SENT;
+  }
   let statusObj: any;
 
   switch (status) {
@@ -77,45 +82,8 @@ export const approvalsStatusObj = (status: any) => {
   return statusObj;
 };
 
-export const approvalsDataArray = [
-  {
-    src: PlaceImage,
-    title: 'John Doe',
-    status: 'Received',
-    time: 'Wed May 10 2023 00:00:00 GMT+0500 (Pakistan Standard Time)',
-    message:
-      'Hi Guys We have been facing issue when we try to reach email server 3 Hi Guys.',
-  },
-  {
-    src: PlaceImage,
-    title: 'John Doe',
-    status: 'RequestSent',
-    time: 'Wed May 10 2023 00:00:00 GMT+0500 (Pakistan Standard Time)',
-    message:
-      'Hi Guys We have been facing issue when we try to reach email server 3 Hi Guys.',
-  },
-  {
-    src: PlaceImage,
-    title: 'John Doe',
-    status: 'Approved',
-    time: 'Wed May 10 2023 00:00:00 GMT+0500 (Pakistan Standard Time)',
-    message:
-      'Hi Guys We have been facing issue when we try to reach email server 3 Hi Guys.',
-  },
-  {
-    src: PlaceImage,
-    title: 'John Doe',
-    status: 'Rejected',
-    time: 'Wed May 10 2023 00:00:00 GMT+0500 (Pakistan Standard Time)',
-    message:
-      'Hi Guys We have been facing issue when we try to reach email server 3 Hi Guys.',
-  },
-  {
-    src: PlaceImage,
-    title: 'John Doe',
-    status: 'Cancelled',
-    time: 'Wed May 10 2023 00:00:00 GMT+0500 (Pakistan Standard Time)',
-    message:
-      'Hi Guys We have been facing issue when we try to reach email server 3 Hi Guys.',
-  },
-];
+export const stringAvatar = (name: string) => {
+  return {
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+  };
+};

@@ -2,6 +2,7 @@ import {
   RHFDropZone,
   RHFEditor,
   RHFSelect,
+  RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
@@ -9,24 +10,23 @@ import * as Yup from 'yup';
 
 export const salesProductvalidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  SKU: Yup?.string(),
-  purchasePrice: Yup?.string()?.required('Field is Required'),
+  sku: Yup?.string(),
+  purchasePrice: Yup?.number()?.positive()?.required('Field is Required'),
   category: Yup?.string(),
   description: Yup?.string(),
-  activeProduct: Yup?.string(),
-  unitPrice: Yup?.string()?.required('Field is Required'),
-  upload: Yup?.string(),
+  unitPrice: Yup?.number()?.positive()?.required('Field is Required'),
 });
 
-export const salesProductDefaultValues = {
+export const salesProductDefaultValues: any = {
   name: '',
-  SKU: '',
-  purchasePrice: '',
+  sku: '',
+  purchasePrice: null,
   category: '',
+  associate: '',
   description: '',
-  activeProduct: '',
-  unitPrice: '',
-  upload: '',
+  isActive: false,
+  unitPrice: null,
+  image: '',
 };
 
 export const dataArray = [
@@ -59,6 +59,7 @@ export const dataArray = [
       fullWidth: true,
       placeholder: 'Enter here',
       required: true,
+      type: 'number',
     },
     component: RHFTextField,
     md: 12,
@@ -91,35 +92,28 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'activeProduct',
-      label: 'Active Product',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'all', label: 'All' },
-      { value: 'copyUrl', label: 'Copy URL' },
-      { value: 'createDashboard', label: 'Create Dashboard' },
-      { value: 'updateDashboard', label: 'Update Dashboard' },
-      { value: 'view-dashboard', label: 'View Dashboard' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
       name: 'unitPrice',
       label: 'Unit Price (£)',
       fullWidth: true,
       placeholder: 'Enter here',
       required: true,
+      type: 'number',
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: 13,
     componentProps: {
-      name: 'upload',
+      name: 'isActive',
+      label: 'Active Product',
+    },
+    component: RHFSwitch,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'image',
       label: 'Upload',
       fullWidth: true,
     },

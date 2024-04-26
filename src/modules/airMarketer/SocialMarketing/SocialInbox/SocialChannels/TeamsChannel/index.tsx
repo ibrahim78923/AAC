@@ -12,18 +12,26 @@ import { AddChannelIcon } from '@/assets/icons';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS } from '@/constants/permission-keys';
 
 const TeamsChannel = () => {
   const router = useRouter();
   return (
     <>
       <Box sx={styles?.subChannels}>
-        <Box
-          onClick={() => router?.push(AIR_MARKETER?.SOCIAL_INBOX_SETTINGS)}
-          sx={{ cursor: 'pointer' }}
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.ADD_TEAMS,
+          ]}
         >
-          <AddChannelIcon />
-        </Box>
+          <Box
+            onClick={() => router?.push(AIR_MARKETER?.SOCIAL_INBOX_SETTINGS)}
+            sx={{ cursor: 'pointer' }}
+          >
+            <AddChannelIcon />
+          </Box>
+        </PermissionsGuard>
         <Box sx={styles?.subChannelBox}>
           {socialSubChannelData?.map((channel) => (
             <Box

@@ -82,10 +82,11 @@ export const jobPostingDataArray = [
       select: true,
     },
     options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-      { value: 'Urgent', label: 'Urgent' },
+      { value: 'No Experience', label: 'No Experience' },
+      { value: 'Less than 1 years', label: 'Less than 1 years' },
+      { value: '1 to 2 Years', label: '1 to 2 Years' },
+      { value: '3 to 4 Years', label: '3 to 4 Years' },
+      { value: '5 or more than 5 Years', label: '5 or more than 5 Years' },
     ],
     component: RHFSelect,
     md: 12,
@@ -247,6 +248,13 @@ export const columns = (
   };
 
   const isSelected = (id: any) => selectedRow?.indexOf(id) !== -1;
+  const categoryConstants = {
+    Sales: 'SALES',
+    Marketing: 'MARKETING',
+    Services: 'SERVICES',
+    Operations: 'OPERATIONS',
+  };
+
   return [
     {
       accessorFn: (row: any) => row._id,
@@ -305,15 +313,15 @@ export const columns = (
       header: 'Category',
       cell: (info: any) => {
         const category =
-          info?.getValue() === 'SALES'
+          info?.getValue() === categoryConstants?.Sales
             ? 'Sales'
-            : info?.getValue() === 'MARKETING'
-            ? 'Marketing'
-            : info?.getValue() === 'SERVICES'
-            ? 'Services'
-            : info?.getValue() === 'OPERATIONS'
-            ? 'Operations'
-            : 'Loyalty Program';
+            : info?.getValue() === categoryConstants?.Marketing
+              ? 'Marketing'
+              : info?.getValue() === categoryConstants?.Services
+                ? 'Services'
+                : info?.getValue() === categoryConstants?.Operations
+                  ? 'Operations'
+                  : 'Loyalty Program';
         return <>{category}</>;
       },
     },
@@ -321,7 +329,7 @@ export const columns = (
       accessorFn: (row: any) => row?.numberOfVacancy,
       id: 'numberOfVacancy',
       isSortable: true,
-      header: <Box sx={{ textTransform: 'none' }}>No. of Vacency</Box>,
+      header: <Box sx={{ textTransform: 'none' }}>No. of Vacancy</Box>,
       cell: (info: any) => info?.getValue(),
     },
     {

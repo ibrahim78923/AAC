@@ -6,34 +6,109 @@ import {
   updateContractFormDefaultValuesFunction,
 } from './UpdateContract.data';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
+
 import { AIR_SERVICES } from '@/constants';
 import { useTheme } from '@mui/material';
+import {
+  useGetSingleContractByIdQuery,
+  useLazyGetAgentsDropdownQuery,
+  usePatchContractRenewExtendMutation,
+} from '@/services/airServices/assets/contracts';
+import { useSearchParams } from 'next/navigation';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useEffect } from 'react';
+import { CONTRACT_ACTION, MODULE_TYPE } from '@/constants/strings';
+import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
 
 export const useUpdateContract = () => {
   const theme = useTheme();
   const router = useRouter();
+  const [patchAddToContractTrigger] = usePatchContractRenewExtendMutation();
+  const [postAttachmentsTrigger] = usePostAttachmentsMutation();
+  const { contractId } = router?.query;
+  const getSingleContractParameter = {
+    pathParam: {
+      contractId,
+    },
+  };
+
+  const actionRenewExtend = useSearchParams().get('action');
+  const { data }: any = useGetSingleContractByIdQuery(
+    getSingleContractParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!contractId,
+    },
+  );
 
   const methods: any = useForm({
     resolver: yupResolver<any>(updateContractFormValidationSchema),
-    defaultValues: updateContractFormDefaultValuesFunction(router),
+    defaultValues: updateContractFormDefaultValuesFunction(data),
     reValidateMode: 'onBlur',
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const handleCancelBtn = () => {
     router?.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });
   };
 
-  const submitUpdateContractForm = async () => {
-    enqueueSnackbar('Contract Extended successfully', {
-      variant: 'success',
-      autoHideDuration: 3000,
-    });
-  };
+  const submitUpdateContractForm = async (data: any) => {
+    if (data?.attachment) {
+      const ContractAttachment = new FormData();
+      ContractAttachment?.append('fileUrl', data?.attachment);
+      ContractAttachment?.append('recordId', contractId as string);
+      ContractAttachment?.append('module', MODULE_TYPE?.CONTRACTS);
+      const postContractAttachmentParameter = {
+        body: ContractAttachment,
+      };
+      try {
+        await postAttachmentsTrigger(postContractAttachmentParameter)?.unwrap();
+      } catch (error: any) {
+        errorSnackbar?.(error?.data?.message);
+      }
+    }
 
-  const updateContractFormFields = updateContractFormFieldsFunction(router);
+    const ContractDetailsData = new FormData();
+    ContractDetailsData?.append('id', contractId as string);
+    ContractDetailsData?.append(
+      'statusRenewExtend',
+      actionRenewExtend?.toUpperCase() as string,
+    );
+    ContractDetailsData?.append('startDate', data?.startDate?.toISOString());
+    ContractDetailsData?.append('endDate', data?.endDate?.toISOString());
+    ContractDetailsData?.append('cost', data?.cost);
+    data?.approver !== null &&
+      ContractDetailsData?.append('approver', data?.approver?._id);
+
+    const body = ContractDetailsData;
+
+    const postContractParameter = {
+      pathParam: { contractId },
+      body,
+    };
+
+    try {
+      await patchAddToContractTrigger(postContractParameter)?.unwrap();
+      if (actionRenewExtend === CONTRACT_ACTION?.RENEW)
+        successSnackbar?.('Contract Renew Successfully');
+      else if (actionRenewExtend === CONTRACT_ACTION?.EXTEND)
+        successSnackbar?.('Contract Extend Successfully');
+      router?.push(AIR_SERVICES?.ASSETS_CONTRACTS);
+      reset?.();
+    } catch (error: any) {
+      errorSnackbar?.(error?.data?.message);
+    }
+  };
+  useEffect(() => {
+    reset(() => updateContractFormDefaultValuesFunction(data));
+  }, [data, reset]);
+  const apiQueryApprover = useLazyGetAgentsDropdownQuery();
+  const updateContractFormFields = updateContractFormFieldsFunction(
+    apiQueryApprover,
+    actionRenewExtend,
+  );
+
   return {
     methods,
     handleSubmit,
@@ -42,5 +117,6 @@ export const useUpdateContract = () => {
     theme,
     handleCancelBtn,
     updateContractFormFields,
+    contractId,
   };
 };

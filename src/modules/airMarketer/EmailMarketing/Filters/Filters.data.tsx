@@ -9,14 +9,14 @@ export const validationSchema = Yup?.object()?.shape({
 
 export const defaultValues = {
   users: '',
-  createdDate: '',
+  createdDate: null,
 };
 
 export const dataArray = [
   {
     componentProps: {
       name: 'users',
-      label: 'users',
+      label: 'Users',
       fullWidth: true,
       select: true,
     },

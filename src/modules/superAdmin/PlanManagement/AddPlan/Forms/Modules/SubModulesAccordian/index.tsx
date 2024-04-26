@@ -1,5 +1,3 @@
-import { Fragment } from 'react';
-
 import { Grid, Typography } from '@mui/material';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
@@ -12,45 +10,51 @@ import { styled } from '@mui/material/styles';
 
 import { RHFMultiCheckbox } from '@/components/ReactHookForm';
 import { FormProvider } from '@/components/ReactHookForm';
-import useSubModulesAccordian from './useSubModulesAccordian';
-
 import { v4 as uuidv4 } from 'uuid';
 
-const SubModulesAccordion = ({ subModules, methods, handleSubmit }: any) => {
-  const { expandedAccordian, handleChangeAccordian } = useSubModulesAccordian();
-
+const SubModulesAccordion = ({
+  subModules,
+  methods,
+  handleSubmit,
+  selectedSubModule,
+  handleChangeSubModule,
+}: any) => {
   return (
     <>
-      {subModules?.map((subModule: any) => {
-        const permissions = subModule?.permissions;
-
-        return (
-          <Accordion
-            key={uuidv4()}
-            expanded={expandedAccordian === subModule?.name}
-            onChange={handleChangeAccordian(subModule?.name)}
+      {subModules?.map((item: any) => (
+        <Accordion
+          sx={{ p: 0 }}
+          key={uuidv4()}
+          expanded={selectedSubModule === item?.name?.toLowerCase()}
+          onChange={() => {
+            handleChangeSubModule(item?.name?.toLowerCase());
+          }}
+        >
+          <AccordionSummary
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+            sx={{ p: 0 }}
           >
-            <Fragment key={subModule?.name}>
-              <AccordionSummary
-                aria-controls={`accordion-${subModule?.name}`}
-                id={`accordion-${subModule?.name}`}
-              >
-                <Typography variant="h4">{subModule?.name}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <FormProvider methods={methods} onSubmit={handleSubmit}>
-                  <Grid container>
-                    <RHFMultiCheckbox
-                      name="permissionSlugs"
-                      options={permissions}
-                    />
-                  </Grid>
-                </FormProvider>
-              </AccordionDetails>
-            </Fragment>
-          </Accordion>
-        );
-      })}
+            <Typography variant="h6" fontWeight={600}>
+              {item?.name}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 0 }}>
+            <Grid container>
+              <FormProvider methods={methods} handleSubmit={handleSubmit}>
+                <RHFMultiCheckbox
+                  name="permissionSlugs"
+                  options={item?.permissions?.map((item: any) => ({
+                    label: item?.name,
+                    value: `${item?.productId}:${item?.slug}`,
+                  }))}
+                  GridView={3}
+                />
+              </FormProvider>
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      ))}
     </>
   );
 };

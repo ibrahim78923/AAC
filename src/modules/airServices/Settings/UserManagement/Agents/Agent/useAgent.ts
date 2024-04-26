@@ -1,83 +1,86 @@
-import { enqueueSnackbar } from 'notistack';
-import { useState } from 'react';
-import {
-  agentListData,
-  agentsListsColumnsFunction,
-  agentActionsDropdown,
-} from './Agent.data';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useEffect, useState } from 'react';
+import { agentsListsColumnsFunction, agentActionsDropdown } from './Agent.data';
+import { ROLES } from '@/constants/strings';
+import { useLazyGetServicesUserAgentsQuery } from '@/services/airServices/settings/user-management/agents';
+import { PAGINATION } from '@/config';
+import { useRouter } from 'next/router';
+import { buildQueryParams } from '@/utils/api';
 
 export const useAgent = () => {
   const [selectedAgentList, setSelectedAgentList] = useState([]);
   const [isAgentFilterDrawerOpen, setAgentFilterDrawerOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
-  const [editAgentModalTitle, setEditAgentModalTitle] = useState('Edit');
   const [isAgentModalOpen, setIsAgentModalOpen] = useState<boolean>(false);
-  const [openDeleteModel, setOpenDeleteModel] = useState<boolean>(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [filterAgentData, setFilterAgentData] = useState({});
+  const router = useRouter();
 
-  const handleOpenDrawer = () => {
-    setAgentFilterDrawerOpen(true);
+  const [lazyGetAgentsTrigger, lazyGetAgentsStatus]: any =
+    useLazyGetServicesUserAgentsQuery();
+
+  const getAgentsListData = async (currentPage = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', searchValue],
+      ['role', ROLES?.ORG_EMPLOYEE],
+    ];
+
+    const getAgentsListParam: any = buildQueryParams(
+      additionalParams,
+      filterAgentData,
+    );
+
+    const getAgentsListParameter = {
+      queryParams: getAgentsListParam,
+    };
+
+    try {
+      await lazyGetAgentsTrigger(getAgentsListParameter)?.unwrap();
+      setSelectedAgentList([]);
+    } catch (error: any) {
+      setSelectedAgentList([]);
+    }
   };
 
-  const handleActionClick = (ActionType: string) => {
-    if (ActionType === 'delete') {
-      return setOpenDeleteModel(true);
-    }
-    if (selectedAgentList?.length > 1) {
-      enqueueSnackbar(`Can't update multiple records`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-      return;
-    }
-    setEditAgentModalTitle('Update Agent');
-    setIsAgentModalOpen(true);
-  };
-
-  const handleAddAgentModal = (isOpen?: boolean) => {
-    if (isOpen) {
-      setEditAgentModalTitle('Invite Agent');
-      return setIsAgentModalOpen(true);
-    }
-    setIsAgentModalOpen(false);
-  };
+  useEffect(() => {
+    getAgentsListData();
+  }, [searchValue, page, pageLimit, filterAgentData]);
 
   const agentListsColumns = agentsListsColumnsFunction(
     selectedAgentList,
     setSelectedAgentList,
-    agentListData,
+    lazyGetAgentsStatus?.data?.data?.users,
+    router,
   );
 
-  const handleDelete = () => {
-    setOpenDeleteModel(false);
-    setSelectedAgentList([]);
-    enqueueSnackbar('Record deleted Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-  };
-
-  const deleteAgentProps = {
-    openDeleteModel,
-    setOpenDeleteModel,
-    handleDelete,
-  };
-
-  const dropdownOptions = agentActionsDropdown(handleActionClick);
+  const dropdownOptions = agentActionsDropdown(
+    setOpenDeleteModal,
+    setIsAgentModalOpen,
+    selectedAgentList,
+  );
 
   return {
-    selectedAgentList,
     agentListsColumns,
     dropdownOptions,
-    handleActionClick,
     setSearchValue,
-    searchValue,
-    deleteAgentProps,
-    handleOpenDrawer,
     isAgentFilterDrawerOpen,
     setAgentFilterDrawerOpen,
-    setIsAgentModalOpen,
     isAgentModalOpen,
-    setEditAgentModalTitle,
-    editAgentModalTitle,
-    handleAddAgentModal,
+    lazyGetAgentsStatus,
+    setPageLimit,
+    setPage,
+    pageLimit,
+    setFilterAgentData,
+    selectedAgentList,
+    setSelectedAgentList,
+    getAgentsListData,
+    page,
+    openDeleteModal,
+    setOpenDeleteModal,
+    setIsAgentModalOpen,
+    filterAgentData,
   };
 };

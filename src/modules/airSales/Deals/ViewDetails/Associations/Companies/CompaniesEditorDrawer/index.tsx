@@ -2,7 +2,11 @@ import { Box, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFRadioGroup,
+  RHFSearchableSelect,
+} from '@/components/ReactHookForm';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,46 +17,55 @@ import {
   drawerTitle,
 } from './CompaniesEditorDrawer.data';
 import useCompaniesEditorDrawer from './useCompaniesEditorDrawer';
-import Search from '@/components/Search';
 
 const CompaniesEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
+  const { openDrawer, setOpenDrawer, dealId, companyRecord } = props;
   const {
     handleSubmit,
     onSubmit,
     methodsCompanies,
-    searchProduct,
-    setSearchProduct,
-    watchProducts,
-  } = useCompaniesEditorDrawer();
+    getCompanyContacts,
+    watchCompany,
+    postCompanyLoading,
+    companyOptions,
+  } = useCompaniesEditorDrawer({
+    openDrawer,
+    setOpenDrawer,
+    dealId,
+    companyRecord,
+  });
 
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={openDrawer}
         onClose={() => setOpenDrawer('')}
+        submitHandler={handleSubmit(onSubmit)}
         title={drawerTitle[openDrawer]}
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        isLoading={postCompanyLoading}
       >
         <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodsCompanies}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Grid container spacing={4}>
+          <FormProvider methods={methodsCompanies}>
+            <Grid container spacing={2}>
               <Grid item xs={12}>
                 <RHFRadioGroup
                   options={companiesOptions}
-                  name={'companyStatus'}
+                  name="company"
                   label={false}
+                  defaultValue="new-Company"
                 />
               </Grid>
-              {watchProducts[0] === 'new-company' ? (
-                companiesDataArray?.map((item: any) => (
+              {watchCompany === 'new-Company' ? (
+                companiesDataArray(getCompanyContacts)?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component {...item?.componentProps} size={'small'}>
+                    <item.component
+                      disabled={openDrawer === 'View' ? true : false}
+                      {...item?.componentProps}
+                      size={'small'}
+                    >
                       {item?.componentProps?.select
                         ? item?.options?.map((option: any) => (
                             <option key={option?.value} value={option?.value}>
@@ -65,12 +78,10 @@ const CompaniesEditorDrawer = (props: any) => {
                 ))
               ) : (
                 <Grid item xs={12}>
-                  <Search
-                    searchBy={searchProduct}
-                    setSearchBy={setSearchProduct}
-                    label="Search Companies"
-                    size="medium"
-                    fullWidth
+                  <RHFSearchableSelect
+                    size="small"
+                    name="chooseCompany"
+                    options={companyOptions}
                   />
                 </Grid>
               )}

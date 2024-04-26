@@ -3,13 +3,13 @@ import { ExportIcon } from '@/assets/icons';
 import { useExportButton } from './useExportButton';
 
 export const ExportButton = (props: any) => {
-  const { handleCsvExport, handleExcelExport } = props;
+  const { handleCsvExport, handleExcelExport, btnVariant = 'outlined' } = props;
   const { anchorEl, open, theme, handleClick, handleClose } = useExportButton();
 
   return (
     <div>
       <Button
-        variant="outlined"
+        variant={btnVariant}
         id="demo-positioned-button"
         aria-controls={open ? 'demo-positioned-menu' : undefined}
         aria-haspopup="true"

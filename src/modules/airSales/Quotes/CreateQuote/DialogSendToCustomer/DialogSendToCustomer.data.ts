@@ -1,8 +1,8 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  email: Yup.string().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  email: Yup?.string()?.required('Field is Required'),
 });
 
 export const initValues = {
@@ -17,6 +17,7 @@ export const formFields = [
       name: 'email',
       label: 'Email',
       placeholder: 'abc@gmail.com , Johndoe@ceative.co.uk',
+      required: true,
     },
   },
 ];

@@ -10,6 +10,7 @@ import {
   useTheme,
   IconButton,
   Dialog,
+  Avatar,
 } from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -21,27 +22,31 @@ import NotificationDropdown from './NotificationDropDown';
 import SocialIconsDropdown from './SocialIconsDropdown';
 import ProfilMenu from './ProfileMenu';
 
-import { isNullOrEmpty } from '@/utils';
+import { getSession, isNullOrEmpty } from '@/utils';
 
 import { QuickLinkData } from '../Layout.data';
 
 import { SearchSharedIcon } from '@/assets/icons';
-import { AvatarImage } from '@/assets/images';
 
 import { styles } from './Header.style';
 
 import { v4 as uuidv4 } from 'uuid';
-
-const role = 'super-admin';
+import { generateImage } from '@/utils/avatarUtils';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ROLES } from '@/constants/strings';
 
 const Header = (props: any) => {
   const { handleDrawerToggle } = props;
   const theme = useTheme();
+  const { user } = getSession();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
   const [searchValue, SetSearchValue] = useState<string>('');
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [innerBoxesRendered, setInnerBoxesRendered] = useState(false);
+
+  const role = user?.role;
 
   const handleClickOpen = () => {
     setIsOpenModal(true);
@@ -110,25 +115,37 @@ const Header = (props: any) => {
             alignItems: 'center',
           }}
         >
-          {role && (
-            <Box sx={styles?.quickLinkBox(theme)}>
+          {role !== ROLES?.SUPER_ADMIN && (
+            <Box sx={styles?.quickLinkBox(theme, innerBoxesRendered)}>
               {!isNullOrEmpty(QuickLinkData) &&
                 QuickLinkData?.map((image) => (
-                  <Box key={uuidv4()} sx={styles?.innerQuickLinkBox(theme)}>
-                    <Link href={image?.path}>
-                      <Image
-                        src={image?.icon}
-                        alt="logo"
-                        width={18}
-                        height={18}
-                      />
-                    </Link>
-                  </Box>
+                  <PermissionsGuard
+                    key={uuidv4()}
+                    permissions={image?.permissions}
+                  >
+                    <Box
+                      sx={styles?.innerQuickLinkBox(theme)}
+                      onLoad={() => {
+                        if (!innerBoxesRendered) {
+                          setInnerBoxesRendered(true);
+                        }
+                      }}
+                    >
+                      <Link href={image?.path}>
+                        <Image
+                          src={image?.icon}
+                          alt="logo"
+                          width={18}
+                          height={18}
+                        />
+                      </Link>
+                    </Box>
+                  </PermissionsGuard>
                 ))}
             </Box>
           )}
           {role && <SocialIconsDropdown />}
-          {role && <AccountMenu />}
+          {role !== ROLES?.SUPER_ADMIN && <AccountMenu />}
 
           <LinkDropdown />
           <NotificationDropdown />
@@ -141,7 +158,12 @@ const Header = (props: any) => {
               Orcalo Limited
             </Typography>
           )}
-          <Image src={AvatarImage} alt="Avatar" />
+          <Avatar
+            src={generateImage(user?.avatar?.url)}
+            sx={{ width: 30, height: 30 }}
+          >
+            {`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`}
+          </Avatar>
           <ProfilMenu />
         </Box>
       </Box>

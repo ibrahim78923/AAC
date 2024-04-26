@@ -1,14 +1,16 @@
 import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
-import { Checkbox } from '@mui/material';
+import { DATE_FORMAT } from '@/constants';
+import { Checkbox, Typography } from '@mui/material';
+import dayjs from 'dayjs';
 import * as Yup from 'yup';
 export const newsAndEventsDateValidationSchema = Yup.object().shape({
-  createdDate: Yup.string().trim().required('Field is Required'),
-  status: Yup.string().trim().required('Field is Required'),
-  type: Yup.string().trim().required('Field is Required'),
+  createdDate: Yup?.string(),
+  status: Yup?.string(),
+  type: Yup?.string(),
 });
 
 export const newsAndEventsDateDefaultValues = {
-  createdDate: null,
+  createdDate: '',
   status: '',
   type: '',
 };
@@ -21,7 +23,7 @@ export const newsAndEventsDateFiltersDataArray = [
       select: true,
     },
     options: [
-      { value: 'Active', label: 'Active' },
+      { value: 'active', label: 'active' },
       { value: 'inactive', label: 'inactive' },
     ],
     component: RHFSelect,
@@ -43,8 +45,8 @@ export const newsAndEventsDateFiltersDataArray = [
       select: true,
     },
     options: [
-      { value: 'Event', label: 'Event' },
-      { value: 'News', label: 'News' },
+      { value: 'events', label: 'event' },
+      { value: 'news', label: 'news' },
     ],
     component: RHFSelect,
     md: 12,
@@ -56,6 +58,7 @@ export const columns = (
   setIsDisabled: (value: boolean) => void,
   tableRowValues: any,
   setTableRowValues: any,
+  theme: any,
 ) => {
   return [
     {
@@ -65,10 +68,10 @@ export const columns = (
         <Checkbox
           color="primary"
           checked={
-            info?.cell?.row?.original?.Id ===
-              tableRowValues?.cell?.row?.original?.Id && isDisabled
+            info?.cell?.row?.original?._id ===
+              tableRowValues?.cell?.row?.original?._id && isDisabled
           }
-          name={info.getValue()}
+          name={info?.getValue()}
           onClick={() => {
             setTableRowValues(info), setIsDisabled(!isDisabled);
           }}
@@ -80,37 +83,55 @@ export const columns = (
     {
       accessorFn: (row: any) => row.name,
       id: 'name',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
       header: 'Name',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.description,
+      accessorFn: (row: any) => row?.description,
       id: 'description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.type,
+      accessorFn: (row: any) => row?.type,
       id: 'type',
       isSortable: true,
       header: 'Type',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Created Date & Time',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Typography
+          variant="body4"
+          sx={{
+            borderRadius: '25px',
+            padding: '2px 6px',
+            color:
+              info?.getValue() === 'inactive'
+                ? theme?.palette?.error?.main
+                : theme?.palette?.success?.main,
+            backgroundColor:
+              info?.getValue() === 'inactive'
+                ? theme?.palette?.custom?.inactive_bg
+                : theme?.palette?.custom?.active_bg,
+          }}
+        >
+          {info?.getValue()}
+        </Typography>
+      ),
     },
   ];
 };

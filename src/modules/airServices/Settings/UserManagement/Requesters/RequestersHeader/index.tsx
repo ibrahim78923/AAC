@@ -1,84 +1,58 @@
 import Search from '@/components/Search';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { CirclePlusIcon } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
-import UpsertRequesters from '../UpsertRequesters';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { AgentConversionDelete } from '../AgentConversionDelete';
-import { AgentConversionWarning } from '../AgentConversionWarning';
-import { useRequestersHeader } from './useRequestersHeader';
-export const RequestersHeader = ({ selectedRequestorsList }: any) => {
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { Permissions } from '@/constants/permissions';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+
+export const RequestersHeader = (props: any) => {
   const {
-    setSearchValue,
-    deleteModal,
-    setDeleteModal,
-    warningModal,
-    setWarningModal,
-    isDrawerOpen,
+    selectedRequestersList,
     setIsDrawerOpen,
-    requestorsDropdownOptions,
-    router,
-  } = useRequestersHeader();
+    setSearch,
+    requestersDropdownOptions,
+  } = props;
 
   return (
     <Box>
-      <Box display={'flex'} alignItems={'center'} gap={2}>
-        <Box sx={{ cursor: 'pointer' }}>
-          <ArrowBackIcon
-            onClick={() =>
-              router?.push({ pathname: AIR_SERVICES?.USER_MANAGEMENT })
-            }
-          />
-        </Box>
-        <Box mb={1}>
-          <Typography variant="h3">Requesters</Typography>
-        </Box>
-      </Box>
       <Box
-        mt={3}
         display={'flex'}
         justifyContent={'space-between'}
-        flexDirection={{ xs: 'column', sm: 'column', md: 'row' }}
+        flexWrap={'wrap'}
+        gap={1}
       >
-        <Box>
-          <Search
-            label="Search Here"
-            width={'16.25rem'}
-            setSearchBy={setSearchValue}
-          />
-        </Box>
-        <Box display={'flex'} gap={1} mt={{ xs: 3 }}>
-          <SingleDropdownButton
-            dropdownName={'Actions'}
-            dropdownOptions={requestorsDropdownOptions}
-            disabled={!!!selectedRequestorsList?.length}
-          />
-          <Button
-            startIcon={<CirclePlusIcon />}
-            variant="contained"
-            onClick={() => setIsDrawerOpen(true)}
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.FILTERS_SEARCH,
+          ]}
+        >
+          <Search label="Search Here" setSearchBy={setSearch} />
+        </PermissionsGuard>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
+          <PermissionsGuard
+            permissions={
+              Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_REQUESTERS_ACTIONS
+            }
           >
-            Add Requestors
-          </Button>
-          <UpsertRequesters
-            isDrawerOpen={isDrawerOpen}
-            setIsDrawerOpen={setIsDrawerOpen}
-            title={'Add Requestor'}
-            okText={'Submit'}
-          />
-          <AgentConversionDelete
-            open={deleteModal}
-            handleClose={() => {
-              setDeleteModal(false);
-            }}
-          />
-          <AgentConversionWarning
-            open={warningModal}
-            handleClose={() => {
-              setWarningModal(false);
-            }}
-          />
+            <SingleDropdownButton
+              dropdownOptions={requestersDropdownOptions}
+              disabled={!selectedRequestersList?.length}
+            />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_REQUESTER,
+            ]}
+          >
+            <Button
+              startIcon={<CirclePlusIcon />}
+              variant="contained"
+              onClick={() => setIsDrawerOpen(true)}
+            >
+              Add Requestors
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
     </Box>

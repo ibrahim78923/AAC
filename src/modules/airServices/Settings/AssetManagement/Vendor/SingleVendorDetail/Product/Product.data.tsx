@@ -1,23 +1,15 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import ModeEditOutlineSharpIcon from '@mui/icons-material/ModeEditOutlineSharp';
+import { EditYellowBGPenIcon } from '@/assets/icons';
+import { DeleteForever } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 
-export const productData: any = [
-  {
-    _id: 1,
-    productName: 'Apple MacBook Air 13',
-    price: '1099.00',
-    warrantyValidity: { month: '2', year: '6' },
-    quantity: '1',
-  },
-];
 export const productColumns = (
   setUpsertProductModal: any,
   setDeleteModalOpen: any,
   setEditData: any,
+  setDeleteId: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?.productName,
+    accessorFn: (row: any) => row?.vendorproductcatalogsDetails?.name,
     id: 'productName',
     isSortable: true,
     header: 'Product Name',
@@ -38,7 +30,9 @@ export const productColumns = (
     isSortable: true,
     header: 'Warranty/Validity',
     cell: (info: any) =>
-      `${info?.getValue()?.month} Months  ${info?.getValue()?.year} Yrs`,
+      `${!!info?.row?.original?.yrs ? info?.row?.original?.yrs : '0'} Yrs  ${
+        !!info?.row?.original?.months ? info?.row?.original?.months : '0'
+      } Months`,
   },
   {
     accessorFn: (row: any) => row?.quantity,
@@ -53,19 +47,23 @@ export const productColumns = (
     isSortable: true,
     header: 'Action',
     cell: (info: any) => (
-      <Box display={'flex'} alignItems={'center'}>
-        <ModeEditOutlineSharpIcon
-          sx={{ color: 'warning.main', cursor: 'pointer' }}
+      <Box display={'flex'}>
+        <Box
           onClick={() => {
             setEditData(info?.row?.original);
             setUpsertProductModal(true);
           }}
-        />
-        <DeleteIcon
+          sx={{ cursor: 'pointer' }}
+        >
+          <EditYellowBGPenIcon />
+        </Box>
+        <DeleteForever
+          color={'error'}
+          sx={{ cursor: 'pointer' }}
           onClick={() => {
             setDeleteModalOpen(true);
+            setDeleteId(info?.row?.original?._id);
           }}
-          sx={{ color: 'red', cursor: 'pointer' }}
         />
       </Box>
     ),

@@ -38,6 +38,6 @@ export const exploreProduct = [
   },
   {
     icon: <OperationIcon />,
-    heading: 'Air Oprations',
+    heading: 'Air Operations',
   },
 ];

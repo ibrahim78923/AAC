@@ -1,31 +1,98 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { initColumns } from './Quotes.data';
+import { PAGINATION } from '@/config';
+import { useForm } from 'react-hook-form';
+import { AIR_SALES } from '@/routesConstants/paths';
+import {
+  useDeleteQuotesMutation,
+  useGetQuotesQuery,
+  // useDeleteQuotesMutation,
+  // useUpdateQuoteMutation,
+} from '@/services/airSales/quotes';
+import { enqueueSnackbar } from 'notistack';
 
 const useQuotes = () => {
   const router = useRouter();
+  // Actions Dopdown
   const [actionsEl, setActionsEl] = useState<null | HTMLElement>(null);
   const openActionsDropdown = Boolean(actionsEl);
-  const [openFilter, setOpenFilter] = useState(false);
-  const [openCustomizeColumns, setOpenCustomizeColumns] = useState(false);
-  const [colsChecked, setColsChecked] = useState(
-    initColumns.map((col: any) => col.id),
-  );
-  const [customizedColumns, setCustomizedColumns] = useState(initColumns);
-  const [openDeleteQuote, setOpenDeleteQuote] = useState(false);
   const handleActionsDropdown = (event: React.MouseEvent<HTMLElement>) => {
-    setActionsEl(event.currentTarget);
+    setActionsEl(event?.currentTarget);
   };
   const handleActionsDropdownClose = () => {
     setActionsEl(null);
   };
 
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
+  const handleEditQuote = (id: any) => {
+    router.push({ pathname: AIR_SALES?.UPDATE_QUOTE, query: { data: id } });
+    handleActionsDropdownClose();
   };
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
+  // Row Selection
+  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
+  const [rowId, setRowId] = useState(null);
+
+  const handleViewQuote = () => {
+    router.push(`${AIR_SALES?.VIEW_QUOTE}?id=${rowId}`);
+    handleActionsDropdownClose();
   };
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [searchValue, setSearchValue] = useState(null);
+  const [filterParams, setFilterParams] = useState({});
+  const paginationParams = {
+    page: page,
+    limit: pageLimit,
+  };
+
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+  const methodsFilter: any = useForm();
+  const { handleSubmit: handleMethodFilter, reset: resetFilters } =
+    methodsFilter;
+  const { data: dataGetQuotes, isLoading: loagingGetQuotes } =
+    useGetQuotesQuery({
+      params: { ...filterParams, ...searchPayLoad, ...paginationParams },
+    });
+
+  const [DeleteQuotes, { isLoading: loadingDeleteQuote }] =
+    useDeleteQuotesMutation();
+
+  // Filters
+  const [openFilters, setOpenFilters] = useState(false);
+
+  const handleOpenFilters = () => {
+    setOpenFilters(true);
+  };
+  const handleCloseFilters = () => {
+    setOpenFilters(false);
+  };
+  const onSubmitFilters = async (values: any) => {
+    setFilterParams((prev) => {
+      return {
+        ...prev,
+        ...values,
+      };
+    });
+    handleCloseFilters();
+  };
+  const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
+
+  // Refresh
+  const handleRefresh = () => {
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
+    resetFilters();
+  };
+
+  // Customize Columns Drawer
+  const [checkedColumns, setcheckedColumns] = useState<any>(null);
+  const [customizedColumns, setCustomizedColumns] = useState(checkedColumns);
+  const [openCustomizeColumns, setOpenCustomizeColumns] = useState(false);
 
   const handleOpenCustomizeColumns = () => {
     setOpenCustomizeColumns(true);
@@ -33,35 +100,25 @@ const useQuotes = () => {
   const handleCloseCustomizeColumns = () => {
     setOpenCustomizeColumns(false);
   };
-
   const handleToggleColumns = (value: number) => () => {
-    const currentIndex = colsChecked.indexOf(value);
-    const newChecked = [...colsChecked];
+    const currentIndex = checkedColumns?.indexOf(value);
+    const newChecked = [...checkedColumns];
 
     if (currentIndex === -1) {
-      newChecked.push(value);
+      newChecked?.push(value);
     } else {
-      newChecked.splice(currentIndex, 1);
+      newChecked?.splice(currentIndex, 1);
     }
-    setColsChecked(newChecked);
+    setcheckedColumns(newChecked);
   };
-
   const handleApplyColumns = () => {
-    const col = customizedColumns.filter((column: any) =>
-      colsChecked.includes(column.id),
+    customizedColumns.filter((column: any) =>
+      checkedColumns.includes(column?.id),
     );
-    setCustomizedColumns(col);
   };
 
-  const handleEditQuote = () => {
-    router.push('/air-sales/quotes/create-quote');
-    handleActionsDropdownClose();
-  };
-
-  const handleViewQuote = () => {
-    router.push('/air-sales/quotes/view-quote');
-    handleActionsDropdownClose();
-  };
+  // Modal Delete Quote
+  const [openDeleteQuote, setOpenDeleteQuote] = useState(false);
 
   const handleOpenDeleteQuote = () => {
     setOpenDeleteQuote(true);
@@ -70,20 +127,51 @@ const useQuotes = () => {
   const handleCloseDeleteQuote = () => {
     setOpenDeleteQuote(false);
   };
+  const handleDeleteQoute = async () => {
+    try {
+      await DeleteQuotes(selectedRow)?.unwrap();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setSelectedRow([]);
+      setIsActionsDisabled(true);
+      setOpenDeleteQuote(false);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
 
   return {
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleMethodFilter,
+    handleFiltersSubmit,
+    pageLimit,
+    setPageLimit,
+    setSearchValue,
+    page,
+    setPage,
+    handleRefresh,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
     actionsEl,
     openActionsDropdown,
     handleActionsDropdown,
     handleActionsDropdownClose,
-    openFilter,
-    handleOpenFilter,
-    handleCloseFilter,
     openCustomizeColumns,
     handleOpenCustomizeColumns,
     handleCloseCustomizeColumns,
     handleToggleColumns,
-    colsChecked,
+    checkedColumns,
+    setcheckedColumns,
     customizedColumns,
     setCustomizedColumns,
     handleApplyColumns,
@@ -92,6 +180,10 @@ const useQuotes = () => {
     openDeleteQuote,
     handleOpenDeleteQuote,
     handleCloseDeleteQuote,
+    handleDeleteQoute,
+    dataGetQuotes,
+    loagingGetQuotes,
+    loadingDeleteQuote,
   };
 };
 

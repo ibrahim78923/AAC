@@ -18,9 +18,12 @@ import {
   useLazyGetProductCatalogQuery,
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { downloadFile } from '@/utils/file';
+import { useTheme } from '@mui/material';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useProductCatalog = () => {
   const [search, setSearch] = useState('');
+  const theme = useTheme();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const { makePath } = usePath();
@@ -44,16 +47,12 @@ export const useProductCatalog = () => {
 
   const getProductCatalogListData = async () => {
     try {
-      const response = await lazyGetProductCatalogTrigger(
-        getProductCatalogParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Tickets Retrieved successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await lazyGetProductCatalogTrigger(getProductCatalogParameter)?.unwrap();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      !!error?.data?.data?.message &&
+        enqueueSnackbar(error?.data?.data?.message, {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
     }
   };
   useEffect(() => {
@@ -65,36 +64,34 @@ export const useProductCatalog = () => {
     );
   }, []);
 
-  //TODO: we will be used while doing BE integration
-  // useEffect(() => {
-  //   getProductCatalogListData();
-  // }, [search, page, pageLimit]);
+  useEffect(() => {
+    getProductCatalogListData();
+  }, [search, page, pageLimit]);
 
   const getProductListsDataExport = async (type: any) => {
     const getProductCatalogExportParam = {
       exportType: type,
+      page,
+      limit: pageLimit,
+      search,
     };
 
     const getProductCatalogExportParameter = {
       queryParams: getProductCatalogExportParam,
     };
-    const response: any = await lazyGetExportProductCatalogTrigger(
-      getProductCatalogExportParameter,
-    )?.unwrap();
-    downloadFile(response, 'productCatalogLists', EXPORT_FILE_TYPE?.[type]);
     try {
-      enqueueSnackbar(
+      const response: any = await lazyGetExportProductCatalogTrigger(
+        getProductCatalogExportParameter,
+      )?.unwrap();
+      downloadFile(response, 'productCatalogLists', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar(
         `Product exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[type]}`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
       );
     } catch (error: any) {
-      enqueueSnackbar(`Product not exported as ${type}`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
+
   const productListActionComponent: any = {
     [PRODUCT_LISTS_ACTION_CONSTANTS?.IMPORT]: (
       <ImportProductCatalog
@@ -103,6 +100,7 @@ export const useProductCatalog = () => {
       />
     ),
   };
+
   const setProductListAction = (productListActionQuery: any) => {
     router?.push({
       pathname: router?.pathname,
@@ -130,5 +128,6 @@ export const useProductCatalog = () => {
     getProductCatalogListData,
     setPage,
     setPageLimit,
+    theme,
   };
 };

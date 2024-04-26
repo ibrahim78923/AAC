@@ -1,0 +1,62 @@
+export const style = {
+  postCompareBox: (theme: any, firstPostLength: any) => ({
+    backgroundColor: theme?.primary?.lighter,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '366px',
+    padding: '20px',
+    borderRadius: '8px',
+    height: firstPostLength ? '80px' : 'fit-content',
+    '.postContent': {
+      whiteSpace: 'nowrap',
+      width: '215px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
+  }),
+  comparePosts: {
+    '.MuiTableRow-head': {
+      display: 'none',
+    },
+  },
+  avatarStyle: (category: any, theme?: any) => ({
+    backgroundColor: category === 'facebook' ? '#3B5998' : '#E1306C',
+    height: '44px',
+    width: '44px',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    // justifyContent: 'center',
+    position: 'relative',
+    '.MuiAvatar-root': {
+      border: `2px solid ${theme?.common?.white}`,
+    },
+    '.avatar-category': {
+      position: 'absolute',
+      right: '0',
+      bottom: '-7px',
+      svg: {
+        backgroundColor: 'white',
+        padding: '1px',
+        borderRadius: '50%',
+        width: '16px',
+        height: '16px',
+      },
+    },
+  }),
+  selectCard: {
+    position: 'absolute',
+    right: '5px',
+    top: '6px',
+    backgroundColor: 'white',
+    borderRadius: '50%',
+    width: '16px',
+    height: '16px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '2px',
+  },
+};

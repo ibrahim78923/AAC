@@ -1,13 +1,17 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import { Dashboard } from '@/modules/airOperations/Dashboard';
-import React from 'react';
+import { DataManagement } from '@/modules/airOperations/DataManagement';
 
-const AirOperationsDashboard = () => {
-  return <Dashboard />;
+const DataManagementPage = () => {
+  return <DataManagement />;
 };
 
-export default AirOperationsDashboard;
+export default DataManagementPage;
 
-AirOperationsDashboard.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+DataManagementPage.getLayout = function getLayout(page: any) {
+  return (
+    <Layout permissions={Permissions?.AIR_OPERATIONS_DATA_MANAGEMENT}>
+      {page}
+    </Layout>
+  );
 };

@@ -1,227 +1,331 @@
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFDropZone,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import * as Yup from 'yup';
+import dayjs from 'dayjs';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
   ticketSourceOptions,
   ticketStatusOptions,
 } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
-import * as Yup from 'yup';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { Box, Typography } from '@mui/material';
+import { ROLES } from '@/constants/strings';
 
-export const incidentFormValidationSchema = Yup?.object()?.shape({
-  requester: Yup?.string()?.required('Field is Required'),
-  subject: Yup?.string()?.trim()?.required('Field is Required'),
-  description: Yup?.string()?.trim(),
-  category: Yup?.string()?.trim(),
-  status: Yup?.string()?.required('Field is Required'),
-  priority: Yup?.string()?.required('Field is Required'),
-  department: Yup?.string(),
-  source: Yup?.string(),
-  impact: Yup?.string(),
-  agent: Yup?.string(),
+const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
+
+export const newIncidentValidationSchema = Yup?.object()?.shape({
+  requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
+  subject: Yup?.string()?.trim()?.required('Subject is required'),
+  description: Yup?.string()?.trim()?.required('Description is Required'),
+  category: Yup?.mixed()?.nullable(),
+  status: Yup?.mixed()?.nullable()?.required('Status is required'),
+  priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
+  department: Yup?.mixed()?.nullable(),
+  source: Yup?.mixed()?.nullable(),
+  impact: Yup?.mixed()?.nullable(),
+  agent: Yup?.mixed()?.nullable(),
   plannedStartDate: Yup?.date(),
-  plannedStartTime: Yup?.date(),
-  plannedEndDate: Yup?.date(),
-  plannedEndTime: Yup?.date(),
+  plannedStartTime: Yup?.date()?.nullable(),
+  plannedEndDate: Yup?.date()?.nullable(),
+  plannedEndTime: Yup?.date()?.nullable(),
   plannedEffort: Yup?.string()?.trim(),
-  associateAssets: Yup?.mixed(),
+  associatesAssets: Yup?.mixed()?.nullable(),
+  attachFile: Yup?.mixed()?.nullable(),
 });
 
-export const incidentFormDefaultValues = {
-  requester: '',
-  subject: '',
-  description: '',
-  category: '',
-  status: '',
-  priority: '',
-  department: '',
-  source: '',
-  impact: '',
-  agent: '',
-  plannedStartDate: new Date(),
-  plannedStartTime: new Date(),
-  plannedEndDate: new Date(),
-  plannedEndTime: new Date(),
-  plannedEffort: '',
-  associateAssets: [],
+export const newIncidentsDefaultValuesFunction = (data?: any) => {
+  return {
+    requester: !!Object?.keys(data?.requesterDetails ?? {})?.length
+      ? data?.requesterDetails
+      : null,
+    subject: data?.subject ?? '',
+    description: data?.description ?? '',
+    category: data?.categoryDetails ?? null,
+    status: data?.status ? { _id: data?.status, label: data?.status } : null,
+    priority: data?.pirority
+      ? { _id: data?.pirority, label: data?.pirority }
+      : null,
+    department: !!Object?.keys(data?.departmentDetails ?? {})?.length
+      ? data?.departmentDetails
+      : null,
+    source: data?.source ? { _id: data?.source, label: data?.source } : null,
+    impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
+    agent: !!Object?.keys(data?.agentDetails ?? {})?.length
+      ? data?.agentDetails
+      : null,
+    plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
+    plannedStartTime:
+      typeof data?.plannedStartDate === 'string'
+        ? new Date(data?.plannedStartDate)
+        : new Date(),
+    plannedEndDate:
+      typeof data?.plannedEndDate === 'string'
+        ? new Date(data?.plannedEndDate)
+        : null,
+    plannedEndTime:
+      typeof data?.plannedEndDate === 'string'
+        ? new Date(data?.plannedEndDate)
+        : null,
+    plannedEffort: data?.plannedEffort ?? '',
+    associatesAssets: !!data?.associateAssets?.length
+      ? data?.associateAssetsDetails
+      : null,
+    attachFile: null,
+  };
 };
-
-export const dataArray = [
+export const newIncidentFormFieldsDynamic = (
+  apiQueryRequester?: any,
+  apiQueryDepartment?: any,
+  apiQueryAgent?: any,
+  apiQueryCategory?: any,
+  apiQueryAssociateAsset?: any,
+  router?: any,
+) => [
   {
+    id: 1,
     componentProps: {
       name: 'requester',
       label: 'Requester',
       fullWidth: true,
       required: true,
-      options: ['BE', 'BE1', 'BE2'],
+      apiQuery: apiQueryRequester,
+      EndIcon: AddCircleIcon,
+      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
+      endIconClick: () => {
+        router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
+      },
+      placeholder: 'Add Requester',
     },
-    component: RHFAutocomplete,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
   {
+    id: 2,
     componentProps: {
       name: 'subject',
       label: 'Subject',
-      required: true,
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
+    id: 3,
     componentProps: {
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      required: true,
+      style: { height: '250px' },
     },
     component: RHFEditor,
-    md: 12,
   },
   {
+    id: 4,
     componentProps: {
       name: 'category',
       label: 'Category',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      apiQuery: apiQueryCategory,
+      placeholder: 'Choose Category',
+      getOptionLabel: (option: any) => option?.categoryName,
     },
-    component: RHFAutocomplete,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
   {
+    id: 5,
     componentProps: {
       name: 'status',
       label: 'Status',
       fullWidth: true,
       required: true,
-      select: true,
+      placeholder: 'Choose Status',
+      options: ticketStatusOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
-    options: ticketStatusOptions,
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 6,
     componentProps: {
       name: 'priority',
       label: 'Priority',
       fullWidth: true,
       required: true,
-      select: true,
+      placeholder: 'Choose Priority',
+      options: ticketPriorityOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
-    options: ticketPriorityOptions,
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 7,
     componentProps: {
       name: 'department',
       label: 'Department',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      apiQuery: apiQueryDepartment,
+      placeholder: 'Choose Department',
     },
-    component: RHFAutocomplete,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
   {
+    id: 8,
     componentProps: {
       name: 'source',
       label: 'Source',
       fullWidth: true,
-      select: true,
+      placeholder: 'Choose Source',
+      options: ticketSourceOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
-    options: ticketSourceOptions,
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 9,
     componentProps: {
       name: 'impact',
       label: 'Impact',
       fullWidth: true,
-      select: true,
+      placeholder: 'Choose Impact',
+      options: ticketImpactOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
-    options: ticketImpactOptions,
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 10,
     componentProps: {
       name: 'agent',
       label: 'Agent',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
+      apiQuery: apiQueryAgent,
+      placeholder: 'Choose Agent',
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
-    component: RHFAutocomplete,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
   {
+    id: 11,
     componentProps: {
       name: 'plannedStartDate',
       label: 'Planned Start Date',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFDatePicker,
     md: 7.5,
   },
   {
+    id: 12,
     componentProps: {
       name: 'plannedStartTime',
       label: '\u00a0\u00a0',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTimePicker,
     md: 4.5,
   },
   {
+    id: 13,
     componentProps: {
       name: 'plannedEndDate',
       label: 'Planned End Date',
       fullWidth: true,
+      disablePast: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFDatePicker,
     md: 7.5,
   },
   {
+    id: 14,
     componentProps: {
       name: 'plannedEndTime',
       label: '\u00a0\u00a0',
       fullWidth: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFTimePicker,
     md: 4.5,
   },
   {
+    id: 15,
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',
       fullWidth: true,
+      multiple: true,
+      placeholder: 'Eg: 1h 10m',
     },
     component: RHFTextField,
-    md: 12,
   },
   {
+    id: 16,
     componentProps: {
-      name: 'associateAssets',
+      name: 'associatesAssets',
       label: 'Associate Assets',
       fullWidth: true,
-      options: ['BE', 'BE1', 'BE2'],
-      multiple: true,
+      multiple: false,
+      apiQuery: apiQueryAssociateAsset,
+      externalParams: { limit: 50 },
+      getOptionLabel: (option: any) => option?.displayName,
+      renderOption: (option: any) => (
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          width={'100%'}
+        >
+          <Box>
+            <Typography variant={'body2'} color={'grey.600'} fontWeight={500}>
+              {option?.displayName}
+            </Typography>
+            <Typography variant={'body4'} color={'grey.900'}>
+              {option?.assetType}
+            </Typography>
+          </Box>
+          <Typography variant={'body4'} color={'grey.900'}>
+            EOL:
+            {dayjs(option?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ??
+              dayjs(new Date())?.format(DATE_FORMAT?.UI)}
+          </Typography>
+        </Box>
+      ),
+      placeholder: 'Choose Assets',
+      EndIcon: AddCircleIcon,
+
+      endIconSx: { color: 'primary.main' },
+      endIconClick: () => {
+        router?.push(AIR_SERVICES?.UPSERT_INVENTORY);
+      },
     },
-    component: RHFAutocomplete,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
   {
+    id: 17,
     componentProps: {
-      name: 'associateAssets',
+      name: 'attachFile',
       fullWidth: true,
+      fileType: 'PNG or JPG  (max 2.44 MB)',
+      maxSize: 1024 * 1024 * 2.44,
+      accept: {
+        'image/*': ['.png', '.jpg'],
+      },
     },
     component: RHFDropZone,
-    md: 12,
   },
 ];

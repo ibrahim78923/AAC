@@ -1,27 +1,28 @@
 export const taskData = [
   {
-    id: 27,
-    name: 'Task Assigned to Agent',
-    value: true,
-  },
-  {
-    id: 28,
-    name: 'Task Reassigned to Agent ',
-    value: false,
-  },
-  {
-    id: 29,
-    name: 'Task Rescheduled',
-    value: true,
-  },
-  {
-    id: 30,
-    name: 'Task Closed',
-    value: false,
-  },
-  {
-    id: 31,
-    name: 'Task Reminder',
-    value: true,
+    _id: 1,
+    heading: 'Requester Notification',
+    details: [
+      {
+        _id: 'taskAssignToAgent',
+        title: 'Task Assigned to Agent',
+      },
+      {
+        _id: 'taskReassignToAgent',
+        title: 'Task Reassigned to Agent',
+      },
+      {
+        _id: 'taskRescheduled',
+        title: 'Task Rescheduled',
+      },
+      {
+        _id: 'taskClosed',
+        title: 'Task Closed',
+      },
+      {
+        _id: 'taskReminder',
+        title: 'Task Reminder',
+      },
+    ],
   },
 ];

@@ -1,41 +1,34 @@
-import React, { useState } from 'react';
-import { Tab, Box } from '@mui/material';
-import { TabList, TabPanel, TabContext } from '@mui/lab';
+import React from 'react';
 import PaymentMethods from './PaymentMethods';
 import Subscriptions from './Subscriptions';
 import Invoices from './Invoices';
+import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 
 const SubscriptionAndInvoices = () => {
-  const [value, setValue] = useState('subscription');
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
   return (
-    <TabContext value={value}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <TabList
-          onChange={handleChange}
-          aria-label="subscription & invoices tabs"
-        >
-          <Tab label="Subscription" value="subscription" />
-          <Tab label="Invoices" value="invoices" />
-          <Tab label="Payment Methods" value="paymentMethods" />
-        </TabList>
-      </Box>
-      <Box sx={{ pt: '40px', '& .MuiTabPanel-root': { p: '0' } }}>
-        <TabPanel value="subscription">
-          <Subscriptions />
-        </TabPanel>
-        <TabPanel value="invoices">
-          <Invoices />
-        </TabPanel>
-        <TabPanel value="paymentMethods">
-          <PaymentMethods />
-        </TabPanel>
-      </Box>
-    </TabContext>
+    <HorizontalTabs
+      tabsDataArray={['subscriptions', 'invoices', 'payment Methods']}
+    >
+      <PermissionsGuard
+        permissions={[
+          ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_VIEW_PRODUCTS_PLANS,
+        ]}
+      >
+        <Subscriptions />
+      </PermissionsGuard>
+
+      <PermissionsGuard
+        permissions={[
+          ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_LIST_VIEW,
+        ]}
+      >
+        <Invoices />
+      </PermissionsGuard>
+
+      <PaymentMethods />
+    </HorizontalTabs>
   );
 };
 

@@ -6,9 +6,23 @@ import { vouchersColumns, vouchersData } from './Vouchers.data';
 import Image from 'next/image';
 import { VoucherImage } from '@/assets/images';
 import { useVouchers } from './useVouchers';
+import { AddVouchers } from './AddVouchers';
+import { Filters } from './Filters';
 
 export const Vouchers = () => {
-  const { page, setPage, pageLimit, setPageLimit } = useVouchers();
+  const {
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    addVouchersOpen,
+    setAddVouchersOpen,
+    filtersOpen,
+    theme,
+    setFiltersOpen,
+    vouchersMetaData,
+    lazyGetVouchersStatus,
+  } = useVouchers();
   return (
     <>
       <Grid
@@ -32,7 +46,9 @@ export const Vouchers = () => {
         }}
       >
         <Grid item xs={6} className="no-print">
-          <Typography variant="h3">Vouchers</Typography>
+          <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+            Vouchers
+          </Typography>
         </Grid>
         <Grid
           item
@@ -46,6 +62,7 @@ export const Vouchers = () => {
             variant="outlined"
             color="secondary"
             startIcon={<FilterListIcon />}
+            onClick={() => setFiltersOpen(true)}
           >
             Filters
           </Button>
@@ -53,6 +70,7 @@ export const Vouchers = () => {
             variant="contained"
             color="primary"
             startIcon={<AddCircleIcon />}
+            onClick={() => setAddVouchersOpen(true)}
             disableElevation
           >
             Add
@@ -62,14 +80,14 @@ export const Vouchers = () => {
           <TanstackTable
             columns={vouchersColumns}
             data={vouchersData}
-            isLoading={false}
-            isFetching={false}
-            isError={false}
-            isSuccess={true}
+            isLoading={lazyGetVouchersStatus?.isLoading}
+            isFetching={lazyGetVouchersStatus?.isFetching}
+            isError={lazyGetVouchersStatus?.isError}
+            isSuccess={lazyGetVouchersStatus?.isSuccess || true}
             currentPage={page}
-            count={2}
+            count={vouchersMetaData?.pages}
             pageLimit={pageLimit}
-            totalRecords={4}
+            totalRecords={vouchersMetaData?.total}
             onPageChange={(page: any) => setPage(page)}
             setPage={setPage}
             setPageLimit={setPageLimit}
@@ -80,6 +98,11 @@ export const Vouchers = () => {
           <Image src={VoucherImage} alt="voucher" />
         </Grid>
       </Grid>
+      <AddVouchers
+        addVouchersOpen={addVouchersOpen}
+        setAddVouchersOpen={setAddVouchersOpen}
+      />
+      <Filters filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} />
     </>
   );
 };

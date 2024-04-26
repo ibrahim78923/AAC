@@ -1,5 +1,5 @@
-import { useState, Children, cloneElement } from 'react';
-import { Tabs, Tab, Typography, useTheme, Box, Card } from '@mui/material';
+import { useState, Children, cloneElement, useEffect } from 'react';
+import { Tabs, Tab, useTheme, Box, Card } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './HorizontalTabs.style';
 import { v4 as uuidv4 } from 'uuid';
@@ -24,6 +24,9 @@ const HorizontalTabs = (props: any) => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
   const arrayChildren = Children?.toArray(children);
 
   const theme: any = useTheme();
@@ -51,22 +54,24 @@ const HorizontalTabs = (props: any) => {
             onClick={() => {
               setActiveTab ? setActiveTab(title) : null;
             }}
-            label={
-              <Typography variant="subtitle2" component="span">
-                {title}
-              </Typography>
-            }
+            label={title}
           />
         ))}
         {addIcon && (
           <AddCircleIcon sx={styles?.circleIconStyle} onClick={handleAddTab} />
         )}
       </Tabs>
-      <br />
       <Box sx={{ py: { md: 2, xs: 0.5 } }}>
-        {arrayChildren?.map((child: any, index) => (
+        {arrayChildren?.map((child: any, index: any) => (
           <Box key={uuidv4()}>
-            {value === index && cloneElement(child, { setValue })}
+            {value === index &&
+              cloneElement(
+                <>
+                  <br />
+                  {child}
+                </>,
+                { setValue },
+              )}
           </Box>
         ))}
       </Box>

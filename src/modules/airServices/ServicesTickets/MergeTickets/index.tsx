@@ -5,7 +5,6 @@ import {
   Avatar,
   Box,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
@@ -13,17 +12,20 @@ import {
   useTheme,
 } from '@mui/material';
 import { useMergedTickets } from './useMergeTickets';
+import { fullName } from '@/utils/avatarUtils';
+import { formatTimeDifference } from '@/utils/dateTime';
 
 export const MergeTickets = (props: any) => {
   const theme = useTheme();
-  const { isMergedTicketsModalOpen } = props;
+  const { isMergedTicketsModalOpen, singleTicketDetail } = props;
   const {
     mergedTicketsFormMethod,
     closeMergedTicketsModal,
     handleSubmit,
     submitMergedTicketsForm,
     mergeTicketsFormFields,
-  } = useMergedTickets(props);
+    postMergeTicketsStatus,
+  }: any = useMergedTickets(props);
 
   return (
     <Dialog
@@ -32,62 +34,55 @@ export const MergeTickets = (props: any) => {
       fullWidth
       maxWidth={'sm'}
     >
-      <FormProvider
-        methods={mergedTicketsFormMethod}
-        onSubmit={handleSubmit(submitMergedTicketsForm)}
-      >
-        <DialogTitle>
-          <Box
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={'space-between'}
-            gap={1}
-            flexWrap={'wrap'}
-          >
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              gap={1}
-              flexWrap={'wrap'}
-            >
-              <Typography variant="h3" textTransform={'capitalize'}>
-                Merge
-              </Typography>
-            </Box>
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => closeMergedTicketsModal?.()}
-            >
-              <AlertModalCloseIcon />
-            </Box>
+      <DialogTitle>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          gap={1}
+          flexWrap={'wrap'}
+        >
+          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+            <Typography variant="h3" textTransform={'capitalize'}>
+              Merge
+            </Typography>
           </Box>
-        </DialogTitle>
-        <DialogContent>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => closeMergedTicketsModal?.()}
+          >
+            <AlertModalCloseIcon />
+          </Box>
+        </Box>
+      </DialogTitle>
+      <DialogContent>
+        <FormProvider
+          methods={mergedTicketsFormMethod}
+          onSubmit={handleSubmit(submitMergedTicketsForm)}
+        >
           <br />
-          <Grid container spacing={4}>
+          <Grid container spacing={1}>
             {mergeTicketsFormFields?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.select
-                    ? item?.componentProps?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))
-                    : null}
+                  {item?.heading ? item?.heading : null}
                 </item.component>
               </Grid>
             ))}
           </Grid>
           <br />
-          <Typography variant="body1" textTransform={'capitalize'}>
+          <Typography
+            variant="h6"
+            mb={0.5}
+            fontWeight={600}
+            color="slateBlue.main"
+          >
             Primary
           </Typography>
           <Box
             padding={1.5}
-            border={{
-              md: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-            }}
+            borderRadius={2}
+            border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
           >
             <Box
               display={'flex'}
@@ -104,14 +99,17 @@ export const MergeTickets = (props: any) => {
                 <Avatar
                   sx={{
                     bgcolor: theme?.palette?.blue?.main,
-                    borderRadius: 1.25,
+                    width: 28,
+                    height: 28,
                   }}
-                  style={{ width: 28, height: 28 }}
+                  variant="rounded"
                 >
-                  IT
+                  <Typography variant="body2" textTransform={'uppercase'}>
+                    {singleTicketDetail?.departmentDetails?.name?.[0] ?? '-'}
+                  </Typography>
                 </Avatar>
                 <Typography variant="h6" color="secondary">
-                  #INC-3
+                  {singleTicketDetail?.ticketIdNumber}
                 </Typography>
               </Box>
               <Box
@@ -126,46 +124,63 @@ export const MergeTickets = (props: any) => {
                     cursor: 'pointer',
                   }}
                 >
-                  Request for John Dyson
+                  Request for{' '}
+                  {fullName(
+                    singleTicketDetail?.requesterDetails?.firstName,
+                    singleTicketDetail?.requesterDetails?.lastName,
+                  )}
                 </Typography>
                 <Typography
                   component={'span'}
                   color="secondary"
                   variant="body1"
+                  sx={{ wordBreak: 'break-all' }}
                 >
-                  Whats wrong with my email
+                  {singleTicketDetail?.subject}
                 </Typography>
               </Box>
             </Box>
             <Typography color={'grey.0'} my={0.5}>
               From :{' '}
               <Typography component={'span'} color="secondary" variant="body1">
-                John Dyson
+                {fullName(
+                  singleTicketDetail?.requesterDetails?.firstName,
+                  singleTicketDetail?.requesterDetails?.lastName,
+                )}
               </Typography>
             </Typography>
             <Typography color="grey.0">
               Created :{' '}
               <Typography component={'span'} color="secondary" variant="body1">
-                12 hours ago
+                {formatTimeDifference(singleTicketDetail?.createdAt)}
               </Typography>
             </Typography>
           </Box>
-        </DialogContent>
-        <DialogActions
-          sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
-        >
-          <LoadingButton
-            variant="outlined"
-            color="secondary"
-            onClick={() => closeMergedTicketsModal?.()}
+          <Box
+            display={'flex'}
+            justifyContent={'flex-end'}
+            alignItems={'center'}
+            gap={1}
+            mt={1}
           >
-            Cancel
-          </LoadingButton>
-          <LoadingButton variant="contained" type="submit">
-            Continue
-          </LoadingButton>
-        </DialogActions>
-      </FormProvider>
+            <LoadingButton
+              disabled={postMergeTicketsStatus?.isLoading}
+              variant="outlined"
+              color="secondary"
+              onClick={() => closeMergedTicketsModal?.()}
+            >
+              Cancel
+            </LoadingButton>
+            <LoadingButton
+              loading={postMergeTicketsStatus?.isLoading}
+              variant="contained"
+              type="submit"
+            >
+              Continue
+            </LoadingButton>
+          </Box>
+        </FormProvider>
+      </DialogContent>
     </Dialog>
   );
 };

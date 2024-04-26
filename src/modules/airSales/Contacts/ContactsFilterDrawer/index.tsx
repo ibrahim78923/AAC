@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import { Grid, MenuItem, Typography, useTheme } from '@mui/material';
+import { Grid, MenuItem } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -10,7 +10,6 @@ import { FilterData } from './ContactsFilterDrawer.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const ContactsFilterDrawer = ({ open, onClose }: any) => {
-  const theme = useTheme();
   const methods = useForm({});
 
   return (
@@ -23,19 +22,9 @@ const ContactsFilterDrawer = ({ open, onClose }: any) => {
       title="Filter"
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           {FilterData?.map((obj) => (
             <Grid item xs={12} key={uuidv4()}>
-              <Typography
-                variant="body4"
-                sx={{
-                  colors: theme?.palette?.grey[600],
-                  fontSize: '14px',
-                  fontWeight: 500,
-                }}
-              >
-                {obj?.title}
-              </Typography>
               <obj.component
                 fullWidth
                 size={'small'}

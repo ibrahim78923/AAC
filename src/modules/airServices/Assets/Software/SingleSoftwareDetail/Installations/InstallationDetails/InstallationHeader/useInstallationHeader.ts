@@ -1,25 +1,39 @@
 import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
+import { useRemoveInstallationMutation } from '@/services/airServices/assets/software/single-software-detail/installations';
+import { useSearchParams } from 'next/navigation';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useInstallationHeader = () => {
+export const useInstallationHeader = (props: any) => {
+  const { activeCheck, setActiveCheck } = props;
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const handleMenuExport = () => {
-    enqueueSnackbar('File export successfully', {
-      variant: 'success',
-      autoHideDuration: 2000,
-    });
-  };
-
+  const [removeDeviceTrigger, { isLoading }] = useRemoveInstallationMutation();
+  const searchParams = useSearchParams();
+  const softwareId = searchParams?.get('softwareId');
   const submitDeleteModel = async () => {
-    enqueueSnackbar('Device Removed Successfully', {
-      variant: 'success',
-    });
-    setDeleteModal(false);
+    try {
+      const deleteRes: any = await removeDeviceTrigger({
+        body: {
+          softwareId: activeCheck?.map((item: any) => item?._id),
+          id: softwareId,
+        },
+      });
+      successSnackbar(
+        deleteRes?.data?.message && 'Device Removed Successfully',
+      );
+      setDeleteModal(false);
+      setActiveCheck([]);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message ?? 'An error occurred');
+    }
+  };
+  const handleOpenDelete = () => {
+    setDeleteModal(true);
   };
   return {
     deleteModal,
     setDeleteModal,
     submitDeleteModel,
-    handleMenuExport,
+    isLoading,
+    handleOpenDelete,
   };
 };

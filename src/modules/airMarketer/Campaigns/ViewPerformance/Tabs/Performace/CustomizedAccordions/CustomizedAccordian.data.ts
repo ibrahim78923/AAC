@@ -197,7 +197,7 @@ export const columnsSocialPosts: any = [
 ];
 
 export const accordionNames = [
-  { id: 1, name: 'Ad campaigns(1)', description: 'Attribution' },
+  { id: 1, name: 'Ad campaigns(1)', description: 'Attribution Reports' },
   {
     id: 2,
     name: "CTA'S",

@@ -1,34 +1,45 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   validationSchemaAddNewAssetTypes,
-  defaultValues,
+  assetTypesDefaultValues,
 } from '../AddNewAssetTypesModal/AddNewAssetTypesModal.data';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { usePatchEditAssetTypeMutation } from '@/services/airServices/settings/asset-management/asset-type';
 
-export const useTitleBar = () => {
+export const useTitleBar = (props: any) => {
+  const { assetTypeData } = props;
   const [openEditAssetTypesModal, setEditNewAssetTypesModal] =
     useState<boolean>(false);
-  const editAssetTypesMethods: any = useForm({
+  const methods: any = useForm({
     resolver: yupResolver(validationSchemaAddNewAssetTypes),
-    defaultValues: defaultValues,
+    defaultValues: assetTypesDefaultValues(assetTypeData),
   });
-
-  const { handleSubmit, reset } = editAssetTypesMethods;
-  const submitAddForm = async () => {
-    enqueueSnackbar('Asset Type Edit Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    reset();
-    setEditNewAssetTypesModal(false);
+  const [editAssetTypeTrigger] = usePatchEditAssetTypeMutation();
+  const { handleSubmit, reset } = methods;
+  useEffect(() => {
+    reset(assetTypesDefaultValues(assetTypeData));
+  }, [openEditAssetTypesModal]);
+  const submitEditForm = async (formData: any) => {
+    const assetEditData = {
+      id: assetTypeData?._id,
+      name: formData?.name,
+      description: formData?.description,
+    };
+    try {
+      await editAssetTypeTrigger(assetEditData);
+      successSnackbar('Asset Type Edit Successfully');
+      reset();
+      setEditNewAssetTypesModal?.(false);
+    } catch (error: any) {
+      errorSnackbar();
+    }
   };
-
+  const handleSubmitEditForm = handleSubmit(submitEditForm);
   return {
-    handleSubmit,
-    editAssetTypesMethods,
-    submitAddForm,
+    methods,
+    handleSubmitEditForm,
     openEditAssetTypesModal,
     setEditNewAssetTypesModal,
   };

@@ -1,45 +1,69 @@
 import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFSelect,
   RHFSwitch,
-  RHFTextField,
 } from '@/components/ReactHookForm';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+import * as Yup from 'yup';
 
-const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
+const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
-export const defaultValues = {
-  content: '',
-  folder: '',
-  tags: '',
-  keywords: '',
-  needsApproval: false,
-  approver: '',
-  reviewDate: new Date(),
+export const defaultValues = (articleData?: any) => {
+  return {
+    folder: articleData?.folder ?? null,
+    title: articleData?.title ?? '',
+    details: articleData?.details ?? '',
+    tags: articleData?.tags ?? [],
+    keywords: articleData?.keywords ?? [],
+    needsApproval: articleData?.isApproval ?? false,
+    approver: articleData?.approver ?? null,
+    reviewDate: new Date(articleData?.reviewDate ?? todayDate),
+    attachments: articleData?.attachments ?? null,
+  };
 };
 
-export const newArticleFieldsFunction = (needApprovals: any) => {
+export const upsertArticleValidationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
+  details: Yup?.string()?.required('Required'),
+  folder: Yup?.mixed()?.nullable()?.required('Required'),
+  needsApproval: Yup?.boolean(),
+  reviewDate: Yup?.date()?.when('needsApproval', {
+    is: (approval: any) => approval,
+    then: (schema: any) => schema?.required('Required'),
+    otherwise: (schema: any) => schema?.notRequired(),
+  }),
+  approver: Yup?.mixed()
+    ?.nullable()
+    ?.when('needsApproval', {
+      is: (approval: any) => approval,
+      then: (schema: any) => schema?.required('Required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
+});
+
+export const editArticleFieldsFunction = (
+  needApprovals: any,
+  apiQueryFolder: any,
+  apiQueryApprover: any,
+) => {
   const conditionalFields = [
     {
-      id: 5,
+      id: 1,
       componentProps: {
         fullWidth: true,
         name: 'approver',
-        label: 'approver',
-        select: true,
-        options: dropdownDummy,
+        label: 'Approver',
+        required: needApprovals,
+        placeholder: 'Select',
         sx: { pb: 1.2 },
+        apiQuery: apiQueryApprover,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
       },
       gridLength: 12,
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       id: 6,
@@ -47,10 +71,9 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
       gridLength: 12,
       componentProps: {
         fullWidth: true,
+        required: needApprovals,
         name: 'reviewDate',
         label: 'Review Date',
-        select: true,
-        options: dropdownDummy,
         sx: { pb: 1.2 },
       },
     },
@@ -58,15 +81,15 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
   const defaultFields = [
     {
       id: 3,
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       gridLength: 12,
       componentProps: {
         fullWidth: true,
+        required: true,
         name: 'folder',
         label: 'Folder',
-        placeholder: 'Training',
-        select: true,
-        options: dropdownDummy,
+        placeholder: 'Select',
+        apiQuery: apiQueryFolder,
         sx: { pb: 1.2 },
       },
     },
@@ -76,23 +99,28 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
         fullWidth: true,
         name: 'tags',
         label: 'Tags',
-        placeholder: '#example',
         sx: { pb: 1.2 },
+        freeSolo: true,
+        options: [],
+        multiple: true,
+        isOptionEqualToValue: () => {},
       },
       gridLength: 12,
-      component: RHFTextField,
+      component: RHFAutocomplete,
     },
     {
-      id: 8,
+      id: 2,
       componentProps: {
         fullWidth: true,
         name: 'keywords',
         label: 'Keywords',
-        placeholder: 'Keywords',
-        sx: { pb: 1.2 },
+        freeSolo: true,
+        options: [],
+        multiple: true,
+        isOptionEqualToValue: () => {},
       },
       gridLength: 12,
-      component: RHFTextField,
+      component: RHFAutocomplete,
     },
     {
       id: 4,

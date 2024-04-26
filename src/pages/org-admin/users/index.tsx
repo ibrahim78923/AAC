@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 
 import Users from '@/modules/orgAdmin/Users';
@@ -8,5 +9,9 @@ const OrganizationAdminUsersPage = () => {
 export default OrganizationAdminUsersPage;
 
 OrganizationAdminUsersPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout guardRoute permissions={Permissions?.ORG_ADMIN_USER}>
+      {page}
+    </Layout>
+  );
 };

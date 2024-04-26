@@ -27,9 +27,9 @@ export const dataArray = [
   {
     componentProps: {
       color: '#7a7a7b',
-      varient: 'h4',
+      varient: 'body1',
       heading:
-        'Export the data from your campaigns dashboard into a spreadsheet. The exported file will be sent to the email address and also posted to your Notification Center',
+        'Export the data from your campaigns dashboard into a spreadsheet. The exported file will be sent to the email address and also posted to your Notification Center.',
     },
 
     gridLength: 12,
@@ -39,6 +39,8 @@ export const dataArray = [
     componentProps: {
       name: 'name',
       label: 'Name',
+      placeholder: 'John Allen',
+      required: true,
       fullWidth: true,
     },
 
@@ -68,6 +70,7 @@ export const dataArray = [
     componentProps: {
       name: 'sendTo',
       label: 'Send To',
+      placeholder: 'Example@airapplecart.co.uk',
       fullWidth: true,
     },
 
@@ -97,11 +100,10 @@ export const dataArray = [
   {
     componentProps: {
       color: '#7a7a7b',
-      varient: 'h4',
+      varient: 'body1',
       heading:
         'Note: Only data available from the campaigns dashboard can be included in the export',
     },
-
     gridLength: 12,
     component: Typography,
   },

@@ -52,6 +52,7 @@ const ImportColumns = () => {
                 <data.component
                   size="small"
                   fullWidth
+                  sx={{ width: '100px' }}
                   {...data?.componentProps}
                 >
                   {data?.componentProps?.select

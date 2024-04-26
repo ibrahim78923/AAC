@@ -30,13 +30,12 @@ export default function RHFAutocompleteAsync({
     option?._id === newValue?._id,
   renderOption,
   required,
+  endIconSx,
   ...other
 }: any): JSX.Element {
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
-
   const [trigger, { data, isLoading, isFetching }]: any = apiQuery;
-
   const triggerDebounce = debounce((newInputValue) => {
     trigger({ params: { [queryKey]: newInputValue, ...externalParams } });
   }, debounceTime);
@@ -67,7 +66,7 @@ export default function RHFAutocompleteAsync({
             {...other}
             onOpen={() => {
               setOpen(true);
-              trigger({ params: {} });
+              trigger({ params: { ...externalParams } });
             }}
             onClose={() => {
               setOpen(false);
@@ -77,19 +76,25 @@ export default function RHFAutocompleteAsync({
             loading={isLoading || isFetching}
             onChange={(e: React.SyntheticEvent, newValue: any) => {
               onChanged(e, newValue, form?.field?.onChange);
-              setOpen(false);
+              if (!multiple) setOpen(false);
             }}
             PaperComponent={(props) => (
               <Paper
                 {...props}
-                style={{ backgroundColor: theme?.palette?.grey?.[100] }}
+                sx={{
+                  backgroundColor: theme?.palette?.common?.white,
+                  border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+                  borderRadius: 1,
+                  boxShadow: 1,
+                  color: 'grey.600',
+                }}
               >
                 {props?.children}
               </Paper>
             )}
             onInputChange={(event, newInputValue) => {
               triggerDebounce?.cancel();
-              if (newInputValue?.trim()) triggerDebounce(newInputValue);
+              triggerDebounce(newInputValue);
             }}
             filterOptions={(x) => x}
             renderOption={(props, option: any, { selected }) => {
@@ -104,8 +109,8 @@ export default function RHFAutocompleteAsync({
                       checked={selected}
                     />
                   )}
-                  {renderOption && renderOption(option)}
-                  {getOptionLabel(option)}
+                  {renderOption ? renderOption(option) : getOptionLabel(option)}
+                  {/* {getOptionLabel(option)} */}
                 </li>
               );
             }}
@@ -149,7 +154,7 @@ export default function RHFAutocompleteAsync({
                         {EndIcon && (
                           <EndIcon
                             onClick={() => endIconClick?.()}
-                            sx={{ cursor: 'pointer' }}
+                            sx={{ cursor: 'pointer', ...endIconSx }}
                           />
                         )}
                         {params?.InputProps?.endAdornment}

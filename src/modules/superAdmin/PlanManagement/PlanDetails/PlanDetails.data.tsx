@@ -1,6 +1,9 @@
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox, Typography } from '@mui/material';
 
 import { avatarGroupMockData } from '../PlanManagement.data';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -63,7 +66,7 @@ export const PlanDetailsDataColumnFunction: any = (
           color="primary"
           checked={
             info?.cell?.row?.original?._id ===
-              tableRowValues?.cell?.row?.original?._id && isDisabled
+              tableRowValues?.cell?.row?.original?._id && !isDisabled
           }
           name={info.getValue()}
           onClick={() => {
@@ -74,86 +77,80 @@ export const PlanDetailsDataColumnFunction: any = (
       header: <Checkbox color="primary" name="id" />,
       isSortable: false,
     },
-    // {
-    //   accessorFn: (row: any) => row.planId,
-    //   id: 'planId',
-    //   cell: (info: any) => (
-    //     <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
-    //       <Image src={AvatarImage} alt="Avatar" />
-    //       <div
-    //         style={{
-    //           color: theme?.palette?.primary?.main,
-    //           cursor: 'pointer',
-    //         }}
-    //         onClick={() => {
-    //           router.push({
-    //             pathname: `#`,
-    //             query: {
-    //               id: info?.getValue(),
-    //             },
-    //           });
-    //         }}
-    //       >
-    //         {info?.getValue()}
-    //       </div>
-    //     </Box>
-    //   ),
-    //   header: 'Plan ID',
-    //   isSortable: false,
-    // },
-    // {
-    //   accessorFn: (row: any) => row?.product,
-    //   id: 'product',
-    //   isSortable: true,
-    //   header: 'Product/Suite',
-    //   cell: (info: any) => (
-    //     <Box margin={'auto'}>
-    //       <AppAvatarGroup data={info?.getValue()} />
-    //     </Box>
-    //   ),
-    // },
-    // {
-    //   accessorFn: (row: any) => row?.planType,
-    //   id: 'planType',
-    //   isSortable: true,
-    //   header: 'Plan Type',
-    //   cell: (info: any) => (
-    //     <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-    //       <Image src={AvatarImage} alt="Avatar" />
-    //       <div style={{ color: theme?.palette?.primary?.main }}>
-    //         {info?.getValue()}
-    //       </div>
-    //     </Box>
-    //   ),
-    // },
     {
+      accessorFn: (row: any) => row?.planProducts,
+      id: 'productsSuite',
+      isSortable: true,
+      header: 'Products/Suite',
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          {info?.row?.original?.planProducts?.length > 1 ? (
+            <>
+              <Typography variant="body2" sx={{ fontWeight: '700' }}>
+                {info?.row?.original?.name}
+              </Typography>
+              {info?.row?.original?.planProducts?.map((data: any) => (
+                <Typography variant="body3" key={uuidv4()}>
+                  {data?.name}
+                </Typography>
+              ))}
+            </>
+          ) : (
+            info?.row?.original?.planProducts?.map((data: any) => (
+              <Typography variant="body3" key={uuidv4()}>
+                {data?.name}{' '}
+              </Typography>
+            ))
+          )}
+        </Box>
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.planType?.name,
+      id: 'planType',
+      isSortable: true,
+      header: 'Plan Type',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      //Todo: Getting description at index 0
       accessorFn: (row: any) => row?.description,
       id: 'description',
       isSortable: true,
-      header: 'Created On',
+      header: 'Description',
       cell: (info: any) => info?.getValue(),
     },
-    // {
-    //   accessorFn: (row: any) => row?.createdOn,
-    //   id: 'createdOn',
-    //   isSortable: true,
-    //   header: 'Default Users',
-    //   cell: (info: any) => info?.getValue(),
-    // },
-    // {
-    //   accessorFn: (row: any) => row?.planPrice,
-    //   id: 'planPrice',
-    //   isSortable: true,
-    //   header: 'Plan Price',
-    //   cell: (info: any) => info?.getValue(),
-    // },
-    // {
-    //   accessorFn: (row: any) => row?.status,
-    //   id: 'status',
-    //   isSortable: true,
-    //   header: 'Status',
-    //   cell: (info: any) => info?.getValue(),
-    // },
+    {
+      //Todo: Getting createdAt at index 0
+      accessorFn: (row: any) => dayjs(row?.createdAt)?.format(DATE_FORMAT?.UI),
+      id: 'createdAt',
+      isSortable: true,
+      header: 'Created on',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      //Todo: Getting status at index 0
+      accessorFn: (row: any) => row?.planProducts[0]?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.defaultUsers,
+      id: 'defaultUsers',
+      isSortable: true,
+      header: 'Default Users',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.planPrice,
+      id: 'planPrice',
+      isSortable: true,
+      header: 'Plan Price',
+      cell: (info: any) => info?.getValue(),
+    },
+
     {
       accessorFn: (row: any) => row?.defaultStorage,
       id: 'defaultStorage',

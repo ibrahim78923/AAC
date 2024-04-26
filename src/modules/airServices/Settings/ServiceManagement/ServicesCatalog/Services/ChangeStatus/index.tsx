@@ -21,6 +21,7 @@ export const ChangeStatus = (prop: any) => {
     onSubmit,
     openStatus,
     setOpenStatus,
+    patchServiceCatalogTriggerStatus,
   } = useChangeStatus(prop);
 
   const handleClose = () => {
@@ -30,7 +31,6 @@ export const ChangeStatus = (prop: any) => {
     <Fragment>
       <Dialog
         onClose={handleClose}
-        onSubmit={onSubmit}
         aria-labelledby="customized-dialog-title"
         open={openStatus}
         fullWidth
@@ -51,18 +51,29 @@ export const ChangeStatus = (prop: any) => {
         >
           {' '}
           <DialogContent dividers>
-            <Grid container spacing={2} mb={2}>
+            <Grid container spacing={4}>
               {changeStatusData?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} />
+                  <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}
             </Grid>
           </DialogContent>
           <Divider />
           <DialogActions>
-            <LoadingButton onClick={handleClose}>cancel</LoadingButton>
-            <LoadingButton variant="contained" type="submit">
+            <LoadingButton
+              color="secondary"
+              variant="outlined"
+              onClick={handleClose}
+              disabled={patchServiceCatalogTriggerStatus?.isLoading}
+            >
+              cancel
+            </LoadingButton>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={patchServiceCatalogTriggerStatus?.isLoading}
+            >
               Save
             </LoadingButton>
           </DialogActions>

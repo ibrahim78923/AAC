@@ -9,6 +9,7 @@ export const styles: any = {
       justifyContent: 'center',
       alignItems: 'center',
       margin: '4px',
+      cursor: 'pointer',
     };
   },
 
@@ -21,6 +22,7 @@ export const styles: any = {
     justifyContent: 'center',
     alignItems: 'center',
     margin: '4px',
+    cursor: 'pointer',
   },
   buttonStyleOFTimeEntries: {
     maxWidth: '100%',
@@ -59,8 +61,9 @@ export const styles: any = {
   },
   timeEnterInnerBox: {
     display: 'flex',
-    justifyContent: 'space-between',
-    m: '4px',
+    justifyContent: 'start',
+
+    m: '2rem',
     flexDirection: 'row',
   },
   timeEnterInnerSecBox: {

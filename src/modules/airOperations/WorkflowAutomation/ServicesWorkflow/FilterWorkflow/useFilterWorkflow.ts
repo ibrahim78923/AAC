@@ -4,20 +4,34 @@ import {
   filterWorkflowsValidationSchema,
   defaultValues,
 } from './FilterWorkflow.data';
+import { useLazyGetUsersDropdownListQuery } from '@/services/airServices/settings/user-management/departments';
+import { useState } from 'react';
 
 export const useFilterWorkflow = (props: any) => {
-  const { setIsDrawerOpen } = props;
+  const { handleWorkflow, setIsDrawerOpen } = props;
+  const [buttonCalled, setButtonCalled] = useState(false);
   const methods = useForm({
     resolver: yupResolver(filterWorkflowsValidationSchema),
     defaultValues,
   });
-  const { handleSubmit } = methods;
-  const onSubmit = async () => {
+  const { handleSubmit, watch, reset } = methods;
+  const userDropdown = useLazyGetUsersDropdownListQuery();
+  const handleReset = async () => {
+    setButtonCalled(true);
+    reset();
+    await handleWorkflow();
     setIsDrawerOpen(false);
+    setButtonCalled(false);
   };
+  const statusValue = watch('status');
+  const createdByValue = watch('createdBy');
   return {
     handleSubmit,
-    onSubmit,
     methods,
+    userDropdown,
+    statusValue,
+    createdByValue,
+    buttonCalled,
+    handleReset,
   };
 };

@@ -2,64 +2,72 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { v4 as uuidv4 } from 'uuid';
-import { Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { useSingleDropdownButton } from './useSingleDropdownButton';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const SingleDropdownButton = (props: any) => {
   const {
     dropdownOptions,
     disabled,
     dropdownName = 'Actions',
+    hasEndIcon = true,
+    btnVariant = 'outlined',
+    Variant = hasEndIcon ? Button : IconButton,
+    menuSxProps,
     ...buttonProps
   } = props;
   const { anchorEl, open, theme, handleClick, handleClose } =
     useSingleDropdownButton();
   return (
     <>
-      <Button
-        variant="outlined"
+      <Variant
+        variant={btnVariant}
         id="demo-positioned-button"
         aria-controls={open ? 'demo-positioned-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        endIcon={<ArrowDropDownIcon />}
+        endIcon={hasEndIcon && <ArrowDropDownIcon />}
         color="secondary"
         disabled={disabled}
         sx={{ textTransform: 'capitalize' }}
         {...buttonProps}
       >
-        {dropdownName?.[0]?.toUpperCase() +
-          dropdownName?.slice?.(1)?.toLowerCase()}
-      </Button>
+        {dropdownName}
+      </Variant>
       <Menu
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        sx={{ padding: 2 }}
+        sx={{ padding: 2, ...menuSxProps }}
       >
         {dropdownOptions?.map((singleOption: any) => (
-          <MenuItem
-            key={uuidv4()}
-            onClick={() => singleOption?.handleClick?.(handleClose)}
-            sx={{
-              '&.MuiMenuItem-root': {
-                marginBottom: { md: 0.5 },
-                marginX: { md: 0.5 },
-              },
-            }}
+          <PermissionsGuard
+            permissions={singleOption?.permissionKey}
+            key={singleOption?.id}
           >
-            <Typography
-              variant="body2"
-              color={theme?.palette?.grey?.[600]}
-              fontWeight={500}
+            <MenuItem
+              disabled={singleOption?.disabled}
+              onClick={() => singleOption?.handleClick?.(handleClose)}
+              sx={{
+                '&.MuiMenuItem-root': {
+                  marginBottom: { md: 0.5 },
+                  marginX: { md: 0.5 },
+                },
+              }}
             >
-              {singleOption?.title}{' '}
-            </Typography>
-          </MenuItem>
+              <Typography
+                variant="body2"
+                color={theme?.palette?.grey?.[600]}
+                fontWeight={500}
+              >
+                {singleOption?.title}{' '}
+              </Typography>
+            </MenuItem>
+          </PermissionsGuard>
         ))}
       </Menu>
     </>

@@ -1,38 +1,113 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { defaultValues } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { AIR_SERVICES } from '@/constants';
+import { PAGINATION } from '@/config';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { downloadFile } from '@/utils/file';
+import {
+  useLazyGetExportPurchaseOrderListQuery,
+  useLazyGetPurchaseOrderListQuery,
+} from '@/services/airServices/assets/purchase-orders';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { purchaseOrderColumnsFunction } from './PurchaseOrders.data';
 
 const { NEW_PURCHASE_ORDER } = AIR_SERVICES;
 
 const usePurchaseOrders = () => {
   const router = useRouter();
   const [purchaseOrderData, setPurchaseOrderData] = useState([]);
+  const [searchValue, setSearchValue] = useState<string>('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isNewPurchaseOrder, setIsNewPurchaseOrder] = useState(true);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const methodsPurchaseOrderFilterForm = useForm({
-    defaultValues,
-  });
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [purchaseOrderFilter, setPurchaseOrderFilter] = useState({});
+
   const handleNewPurchaseOrder = () => {
     router?.push(NEW_PURCHASE_ORDER);
   };
 
-  const submitPurchaseOrderFilterForm = async () => {};
+  const [lazyGetPurchaseOrderListTrigger, lazyGetPurchaseOrderListStatus] =
+    useLazyGetPurchaseOrderListQuery<any>();
 
-  const resetPurchaseOrderFilterForm = async () => {
-    methodsPurchaseOrderFilterForm?.reset();
-    setIsDrawerOpen(false);
+  const [lazyGetExportPurchaseOrderListTrigger] =
+    useLazyGetExportPurchaseOrderListQuery();
+
+  const getPurchaseOrderListData = async (currentPage: any = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', searchValue],
+    ];
+    const getPurchaseOrderListParam: any = buildQueryParams(
+      additionalParams,
+      purchaseOrderFilter,
+    );
+
+    const getPurchaseOrderListParameter = {
+      queryParams: getPurchaseOrderListParam,
+    };
+
+    try {
+      await lazyGetPurchaseOrderListTrigger(
+        getPurchaseOrderListParameter,
+      )?.unwrap();
+      setPurchaseOrderData([]);
+    } catch (error: any) {}
+  };
+
+  const getPurchaseOrderListDataExport = async (type: any) => {
+    const additionalParams = [
+      ['page', page + ''],
+      ['limit', pageLimit + ''],
+      ['search', searchValue],
+      ['exportType', type],
+    ];
+
+    const exportInventoryParams: any = buildQueryParams(
+      additionalParams,
+      purchaseOrderFilter,
+    );
+
+    const getInventoryExportParameter = {
+      queryParams: exportInventoryParams,
+    };
+
+    try {
+      const response: any = await lazyGetExportPurchaseOrderListTrigger(
+        getInventoryExportParameter,
+      )?.unwrap();
+      downloadFile(response, 'Purchase Order Lists', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar('File export successfully');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    getPurchaseOrderListData();
+  }, [searchValue, page, pageLimit, purchaseOrderFilter]);
+
+  const purchaseOrderColumns = purchaseOrderColumnsFunction(
+    purchaseOrderData,
+    setPurchaseOrderData,
+    lazyGetPurchaseOrderListStatus?.data?.data?.purchases,
+    router,
+  );
+
+  const onDeleteClick = () => {
+    if (purchaseOrderData?.length > 1) {
+      errorSnackbar('Please select only 1');
+      return;
+    }
+    setDeleteModalOpen?.(true);
   };
 
   return {
     isDrawerOpen,
     setIsDrawerOpen,
     handleNewPurchaseOrder,
-    methodsPurchaseOrderFilterForm,
-    submitPurchaseOrderFilterForm,
-    resetPurchaseOrderFilterForm,
     isNewPurchaseOrder,
     setIsNewPurchaseOrder,
     router,
@@ -40,6 +115,19 @@ const usePurchaseOrders = () => {
     setDeleteModalOpen,
     purchaseOrderData,
     setPurchaseOrderData,
+    setPage,
+    setPageLimit,
+    page,
+    pageLimit,
+    searchValue,
+    setSearchValue,
+    lazyGetPurchaseOrderListStatus,
+    purchaseOrderColumns,
+    getPurchaseOrderListDataExport,
+    purchaseOrderFilter,
+    setPurchaseOrderFilter,
+    getPurchaseOrderListData,
+    onDeleteClick,
   };
 };
 export default usePurchaseOrders;

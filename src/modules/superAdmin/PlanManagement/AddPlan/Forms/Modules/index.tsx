@@ -7,6 +7,7 @@ import {
   Typography,
   FormControlLabel,
   Box,
+  CircularProgress,
 } from '@mui/material';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -17,107 +18,282 @@ import { useModules } from './useModules';
 import SubModulesAccordion from './SubModulesAccordian';
 
 import { v4 as uuidv4 } from 'uuid';
-import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+
 import { useAppSelector } from '@/redux/store';
-import { useGetProductsFeaturesAllQuery } from '@/services/superAdmin/plan-mangement';
+import {
+  useGetPermissionsByProductsQuery,
+  useGetProductsPermissionsPlanQuery,
+} from '@/services/superAdmin/plan-mangement';
+import { useGetProductsQuery } from '@/services/common-APIs';
 import { isNullOrEmpty } from '@/utils';
 
-const Modules = ({ methods, handleSubmit }: any) => {
-  const { theme, isAccordionExpanded, handleExpandAccordionChange } =
-    useModules();
-  const { data, isSuccess } = useGetProductsFeaturesAllQuery({});
-  let productFeatures: any;
-  if (isSuccess) {
-    productFeatures = data;
-  }
+const Modules = ({
+  methods,
+  handleSubmit,
+  selectedPermission,
+  selectAllPermissions,
+  getModulePermissions,
+  editPlan,
+  handleExpandAccordionChange,
+  handleChangeSubModule,
+  selectedModule,
+  selectedSubModule,
+  updatePlanLoading,
+  isLoading,
+}: any) => {
+  const { theme } = useModules();
+  let prevProductId: any = null;
 
   const { planManagement }: any = useAppSelector(
     (state: any) => state?.planManagementForms,
   );
-
-  const productModules = isNullOrEmpty(planManagement?.addPlanForm?.suite)
-    ? planManagement?.addPlanForm?.productId?.map((module: any) => {
-        const products = productFeatures?.data?.productfeatures?.find(
-          (id: any) => id?.productId === module,
-        );
-        return {
-          productName: products?.productName,
-        };
-      })
-    : planManagement?.addPlanForm?.suite?.map((module: any) => {
-        const products = productFeatures?.data?.productfeatures?.find(
-          (id: any) => id?.productId === module,
-        );
-        return {
-          productName: products?.productName,
-        };
-      });
-
-  const productModulesPermissions = productModules?.map((productName: any) => {
-    return {
-      productName: productName?.productName,
-      permissions: SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.filter(
-        (permissionsArray) =>
-          permissionsArray?.ProductName === productName?.productName,
-      ),
-    };
+  const { data: productPermissionsData } = useGetProductsPermissionsPlanQuery({
+    productId: planManagement?.addPlanForm?.productId,
+  });
+  const { data: modulesPermissions } = useGetPermissionsByProductsQuery({
+    id: planManagement?.addPlanForm?.productId,
   });
 
+  let productIdArray: any = [];
+  if (!isNullOrEmpty(planManagement?.addPlanForm?.suite)) {
+    productIdArray = planManagement?.addPlanForm?.suite;
+  }
+
+  const modulesPermissionsArray = [];
+
+  for (const productId of productIdArray) {
+    const { data: modulesPermissions } = useGetPermissionsByProductsQuery({
+      id: productId,
+    });
+
+    modulesPermissionsArray.push(modulesPermissions);
+  }
+
+  const groupedData: any = {};
+  modulesPermissions?.data?.forEach((item: any) => {
+    const moduleName = item?.module;
+
+    if (!groupedData[moduleName]) {
+      groupedData[moduleName] = [];
+    }
+
+    groupedData[moduleName].push({
+      slug: item?.slug,
+      name: item?.name,
+      subModule: item?.subModule,
+    });
+  });
+  const groupedDataCrm: any = {};
+  modulesPermissionsArray?.map((modulesPermissions: any) => {
+    return modulesPermissions?.data.forEach((item: any) => {
+      const moduleName = item?.module;
+      if (!groupedDataCrm[moduleName]) {
+        groupedDataCrm[moduleName] = [];
+      }
+      groupedDataCrm[moduleName].push({
+        slug: item?.slug,
+        name: item?.name,
+        subModule: item?.subModule,
+      });
+    });
+  });
+  const { data: productList } = useGetProductsQuery({});
+
+  const productsOptions = productList?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
   return (
     <div>
-      {productModulesPermissions?.map((productModulePermissions: any) => (
-        <Accordion
-          key={uuidv4()}
-          expanded={
-            isAccordionExpanded === productModulePermissions?.productName
-          }
-          onChange={handleExpandAccordionChange(
-            productModulePermissions?.productName,
-          )}
-          disableGutters
+      {isLoading?.isLoading || updatePlanLoading ? (
+        <Box
           sx={{
-            '&.MuiAccordion': {
-              '&.Mui-expanded': {
-                boxShadow: 'theme.customShadows.z8',
-                borderRadius: '8px',
-              },
-              '&.Mui-disabled': {
-                backgroundColor: 'transparent',
-              },
-            },
-            '& .MuiAccordionSummary-root': {
-              backgroundColor: theme?.palette?.blue?.main,
-              color: theme?.palette?.common?.white,
-              borderRadius: '8px',
-              marginBottom: '11px',
-            },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '50vh',
           }}
         >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls={`accordion-${productModulePermissions?.productName}`}
-            id={`accordion-${productModulePermissions?.productName}`}
-          >
-            <Box display="flex" alignItems="center">
-              <FormControlLabel control={<SwitchBtn />} label="" />
-              <Typography variant="h4">
-                {productModulePermissions?.productName}
-              </Typography>
-            </Box>
-          </AccordionSummary>
+          <CircularProgress />{' '}
+        </Box>
+      ) : (
+        <>
+          {productPermissionsData?.data?.map((item: any) => (
+            <Accordion
+              key={uuidv4()}
+              disableGutters
+              expanded={
+                selectedModule ===
+                `${item?.subModules[0]?.permissions[0]?.productId}:${item?.name}`
+              }
+              sx={{
+                '&.MuiAccordion': {
+                  '&.Mui-expanded': {
+                    boxShadow: 'theme.customShadows.z8',
+                    borderRadius: '8px',
+                  },
+                  '&.Mui-disabled': {
+                    backgroundColor: 'transparent',
+                  },
+                },
+                '& .MuiAccordionSummary-root': {
+                  backgroundColor: theme?.palette?.blue?.main,
+                  color: theme.palette.common.white,
+                  borderRadius: '8px',
+                },
+              }}
+            >
+              <AccordionSummary
+                onClick={() => {
+                  handleExpandAccordionChange(
+                    `${item?.subModules[0]?.permissions[0]?.productId}:${item?.name}`,
+                  );
+                }}
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="dashboard"
+                id="dashboard"
+              >
+                <Box display="flex" alignItems="center">
+                  <FormControlLabel
+                    control={
+                      <SwitchBtn
+                        checked={getModulePermissions(item?.subModules)?.every(
+                          (permission: any) =>
+                            selectedPermission?.includes(permission),
+                        )}
+                        onClick={(
+                          event: React.MouseEvent<HTMLButtonElement>,
+                        ) => {
+                          event.stopPropagation();
+                          selectAllPermissions(item?.subModules);
+                        }}
+                      />
+                    }
+                    label=""
+                  />
+                  <Typography variant="h4" fontWeight={700}>
+                    {item?.name}
+                  </Typography>
+                </Box>
+              </AccordionSummary>
+              <AccordionDetails>
+                <SubModulesAccordion
+                  subModules={item?.subModules}
+                  methods={methods}
+                  handleSubmit={handleSubmit}
+                  editPlan={
+                    editPlan?.planProductPermissions[0]?.permissionSlugs
+                  }
+                  handleChangeSubModule={handleChangeSubModule}
+                  selectedSubModule={selectedSubModule}
+                />
+              </AccordionDetails>
+            </Accordion>
+          ))}
 
-          <AccordionDetails>
-            {productModulePermissions?.permissions?.map((permission: any) => (
-              <SubModulesAccordion
-                key={uuidv4()}
-                subModules={permission?.Sub_Modules}
-                methods={methods}
-                handleSubmit={handleSubmit}
-              />
-            ))}
-          </AccordionDetails>
-        </Accordion>
-      ))}
+          {modulesPermissionsArray?.map((perProduct: any) => (
+            <>
+              {perProduct?.data?.map(
+                (itema: any) =>
+                  itema?.subModules?.map(
+                    (itemb: any) =>
+                      itemb?.permissions?.map((itemc: any) => {
+                        const currentProductId = itemc?.productId;
+                        const productName =
+                          productList &&
+                          productsOptions?.find(
+                            (obj: any) => obj?.value === currentProductId,
+                          )?.label;
+
+                        if (currentProductId !== prevProductId) {
+                          prevProductId = currentProductId;
+                          return (
+                            <Typography variant="h4" my={2} key={uuidv4()}>
+                              {productName}
+                            </Typography>
+                          );
+                        } else {
+                          return null;
+                        }
+                      }),
+                  ),
+              )}
+
+              {perProduct?.data?.map((item: any) => (
+                <Accordion
+                  key={uuidv4()}
+                  disableGutters
+                  expanded={
+                    selectedModule ===
+                    `${item?.subModules[0]?.permissions[0]?.productId}:${item?.name}`
+                  }
+                  sx={{
+                    '&.MuiAccordion': {
+                      '&.Mui-expanded': {
+                        boxShadow: 'theme.customShadows.z8',
+                        borderRadius: '8px',
+                      },
+                      '&.Mui-disabled': {
+                        backgroundColor: 'transparent',
+                      },
+                    },
+                    '& .MuiAccordionSummary-root': {
+                      backgroundColor: theme?.palette?.blue?.main,
+                      color: theme.palette.common.white,
+                      borderRadius: '8px',
+                    },
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="dashboard"
+                    id="dashboard"
+                    onClick={() => {
+                      handleExpandAccordionChange(
+                        `${item?.subModules[0]?.permissions[0]?.productId}:${item?.name}`,
+                      );
+                    }}
+                  >
+                    <Box display="flex" alignItems="center">
+                      <FormControlLabel
+                        control={
+                          <SwitchBtn
+                            checked={getModulePermissions(
+                              item?.subModules,
+                            )?.every(
+                              (permission: any) =>
+                                selectedPermission?.includes(permission),
+                            )}
+                            onClick={(
+                              event: React.MouseEvent<HTMLButtonElement>,
+                            ) => {
+                              event.stopPropagation();
+                              selectAllPermissions(item?.subModules);
+                            }}
+                          />
+                        }
+                        label=""
+                      />
+                      <Typography variant="h4" fontWeight={700}>
+                        {item?.name}
+                      </Typography>
+                    </Box>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <SubModulesAccordion
+                      subModules={item?.subModules}
+                      methods={methods}
+                      handleSubmit={handleSubmit}
+                      handleChangeSubModule={handleChangeSubModule}
+                      selectedSubModule={selectedSubModule}
+                    />
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </>
+          ))}
+        </>
+      )}
     </div>
   );
 };

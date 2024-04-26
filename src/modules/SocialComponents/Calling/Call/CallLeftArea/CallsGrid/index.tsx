@@ -11,6 +11,8 @@ import { callsContactsData } from '@/mock/modules/SocialComponents/Calling';
 import { styles } from './CallsGrid.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { SOCIAL_COMPONENTS_CALLING_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const CallsGrid = ({
   setActiveCallsSelectedData,
@@ -97,16 +99,23 @@ const CallsGrid = ({
                     </Box>
                   </Box>
                 </Box>
-                <Box
-                  sx={{
-                    filter: 'brightness(1) grayscale(1)',
-                  }}
-                  onClick={() => {
-                    setIsActiveCalling(true), setActiveCallsSelectedData(item);
-                  }}
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.ONE_TO_ONE_CALL,
+                  ]}
                 >
-                  <CallContainedIcon />
-                </Box>
+                  <Box
+                    sx={{
+                      filter: 'brightness(1) grayscale(1)',
+                    }}
+                    onClick={() => {
+                      setIsActiveCalling(true),
+                        setActiveCallsSelectedData(item);
+                    }}
+                  >
+                    <CallContainedIcon />
+                  </Box>
+                </PermissionsGuard>
               </Box>
             </Box>
           );

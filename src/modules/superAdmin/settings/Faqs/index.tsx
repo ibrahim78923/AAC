@@ -4,9 +4,9 @@ import {
   Button,
   Typography,
   Grid,
-  useTheme,
   MenuItem,
   Menu,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -27,6 +27,8 @@ import { styles } from './Faqs.styles';
 import { v4 as uuidv4 } from 'uuid';
 import useFaqs from './useFaqs';
 import EditFaq from './EditFaq';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_FAQS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Faqs = () => {
   const {
@@ -55,6 +57,8 @@ const Faqs = () => {
     handleOpenModalDelete,
     handleCloseModalDelete,
     openModalEditFaq,
+    drawerTitle,
+    onViewDisabled,
     handleOpenModalEditFaq,
     handleCloseModalEditFaq,
     handleSubmitUpdateFaq,
@@ -62,7 +66,6 @@ const Faqs = () => {
     methodsEditFaq,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
@@ -70,7 +73,6 @@ const Faqs = () => {
     setRowId,
     rowId,
   } = useFaqs();
-  const theme = useTheme();
   const getFaqsTableColumns = columns(
     selectedRow,
     setSelectedRow,
@@ -83,140 +85,159 @@ const Faqs = () => {
       sx={{
         borderRadius: '15px',
         border: '1px solid #EAECF0',
-        // padding: '16px 24px',
       }}
     >
-      <Box sx={{ padding: '16px 24px' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            marginBottom: '19px',
-          }}
-        >
-          <Typography variant="h3" sx={{ fontWeight: '600' }}>
-            FAQs
-          </Typography>
-          <Button
-            variant="contained"
-            sx={{ height: '36px', fontWeight: '500' }}
-            onClick={() => handleOpenModalFaq('Add a New FAQ')}
-          >
-            <PlusShared /> &nbsp; Add
-          </Button>
-        </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '10px',
-            width: '100%',
-          }}
-        >
-          <Search
-            setSearchBy={setSearchValue}
-            label="Search Here"
-            size="small"
-            width={'100%'}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
-            <Button
-              id="basic-button"
-              aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={actionMenuOpen ? 'true' : undefined}
-              onClick={handleActionsMenuClick}
-              sx={{
-                color: theme?.palette?.grey[500],
-                width: '112px',
-                border: '1.5px solid #e7e7e9',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
-              className="small"
-              disabled={isActionsDisabled}
+      <PermissionsGuard
+        permissions={[SUPER_ADMIN_SETTINGS_FAQS_PERMISSIONS?.FAQs_List]}
+      >
+        <Box sx={styles?.pageHeader}>
+          <Box sx={styles?.heading}>
+            <Typography variant="h3" sx={{ fontWeight: '600' }}>
+              FAQs
+            </Typography>
+            <PermissionsGuard
+              permissions={[SUPER_ADMIN_SETTINGS_FAQS_PERMISSIONS?.Add_FAQ]}
             >
-              Actions &nbsp; <DownIcon />
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={actionMenuOpen}
-              onClose={handleActionsMenuClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-              PaperProps={{
-                style: {
-                  width: '112px',
-                },
-              }}
-            >
-              <MenuItem
-                disabled={!rowId}
-                onClick={() => handleOpenModalEditFaq()}
-                style={{ fontSize: '14px' }}
+              <Button
+                variant="contained"
+                sx={{ height: '36px', fontWeight: '500' }}
+                onClick={() => handleOpenModalFaq('Add a New FAQ')}
               >
-                Edit
-              </MenuItem>
-              <MenuItem
-                disabled={!rowId}
-                onClick={() => handleOpenModalEditFaq()}
-                style={{ fontSize: '14px' }}
+                <PlusShared /> &nbsp; Add
+              </Button>
+            </PermissionsGuard>
+          </Box>
+          <Box sx={styles?.filterBar}>
+            <Box sx={styles?.search}>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_FAQS_PERMISSIONS?.Search_and_Filter,
+                ]}
               >
-                View
-              </MenuItem>
-              <MenuItem
-                onClick={handleOpenModalDelete}
-                style={{ fontSize: '14px' }}
+                <Search
+                  setSearchBy={setSearchValue}
+                  label="Search Here"
+                  size="small"
+                  width={'100%'}
+                />
+              </PermissionsGuard>
+            </Box>
+            <Box sx={styles?.filterButtons}>
+              <Button
+                id="basic-button"
+                aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={actionMenuOpen ? 'true' : undefined}
+                onClick={handleActionsMenuClick}
+                sx={styles?.actionBtn}
+                className="small"
+                disabled={isActionsDisabled}
               >
-                Delete
-              </MenuItem>
-            </Menu>
-            <Button
-              sx={styles?.refreshButton(theme)}
-              className="small"
-              onClick={handleRefresh}
-            >
-              <RefreshSharedIcon />
-            </Button>
-            <Button
-              sx={styles?.filterButton(theme)}
-              onClick={handleOpenFilters}
-              className="small"
-            >
-              <FilterSharedIcon /> &nbsp; Filter
-            </Button>
+                Actions &nbsp; <DownIcon />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={actionMenuOpen}
+                onClose={handleActionsMenuClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+                PaperProps={{
+                  style: {
+                    width: '112px',
+                  },
+                }}
+              >
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_FAQS_PERMISSIONS?.Edit_FAQ,
+                  ]}
+                >
+                  <MenuItem
+                    disabled={!rowId}
+                    onClick={() => handleOpenModalEditFaq('Edit')}
+                    style={{ fontSize: '14px' }}
+                  >
+                    Edit
+                  </MenuItem>
+                </PermissionsGuard>
+
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_FAQS_PERMISSIONS?.View_FAQ,
+                  ]}
+                >
+                  <MenuItem
+                    disabled={!rowId}
+                    onClick={() => handleOpenModalEditFaq('View')}
+                    style={{ fontSize: '14px' }}
+                  >
+                    View
+                  </MenuItem>
+                </PermissionsGuard>
+
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_FAQS_PERMISSIONS?.Delete_FAQ,
+                  ]}
+                >
+                  <MenuItem
+                    onClick={handleOpenModalDelete}
+                    style={{ fontSize: '14px' }}
+                  >
+                    Delete
+                  </MenuItem>
+                </PermissionsGuard>
+              </Menu>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_FAQS_PERMISSIONS?.Refresh_Record,
+                ]}
+              >
+                <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                  <Button
+                    sx={styles?.refreshButton}
+                    className="small"
+                    onClick={handleRefresh}
+                  >
+                    <RefreshSharedIcon />
+                  </Button>
+                </Tooltip>
+              </PermissionsGuard>
+
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_FAQS_PERMISSIONS?.Search_and_Filter,
+                ]}
+              >
+                <Button
+                  sx={styles?.filterButton}
+                  onClick={handleOpenFilters}
+                  className="small"
+                >
+                  <FilterSharedIcon /> &nbsp; Filter
+                </Button>
+              </PermissionsGuard>
+            </Box>
           </Box>
         </Box>
-      </Box>
-      <Box>
-        <TanstackTable
-          columns={getFaqsTableColumns}
-          data={dataGetFaqs?.data?.faqs}
-          isLoading={loagingGetFaqs}
-          isPagination
-          count={dataGetFaqs?.data?.meta?.pages}
-          totalRecords={dataGetFaqs?.data?.meta?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-      </Box>
+        <Box>
+          <TanstackTable
+            columns={getFaqsTableColumns}
+            data={dataGetFaqs?.data?.faqs}
+            isLoading={loagingGetFaqs}
+            currentPage={dataGetFaqs?.data?.meta?.page}
+            count={dataGetFaqs?.data?.meta?.pages}
+            pageLimit={dataGetFaqs?.data?.meta?.limit}
+            totalRecords={dataGetFaqs?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
+          />
+        </Box>
+      </PermissionsGuard>
       <CommonDrawer
         isDrawerOpen={openFilters}
         onClose={handleCloseFilters}
@@ -227,7 +248,7 @@ const Faqs = () => {
         submitHandler={handleFiltersSubmit}
       >
         <FormProvider methods={methodsFilter}>
-          <Grid container spacing={4}>
+          <Grid container spacing={'22px'}>
             {faqsFilterFiltersDataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
@@ -267,6 +288,8 @@ const Faqs = () => {
         formMethods={methodsEditFaq}
         handleSubmit={handleSubmitUpdateFaq}
         isLoading={loadingUpdateFaq}
+        title={drawerTitle}
+        onViewDisabled={onViewDisabled}
       />
     </Box>
   );

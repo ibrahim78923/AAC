@@ -1,10 +1,27 @@
 import { useDeleteInventoryMutation } from '@/services/airServices/assets/inventory';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useRouter } from 'next/router';
+import usePath from '@/hooks/usePath';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { AIR_SERVICES } from '@/constants';
 
 export const useDeleteInventory = (props: any) => {
-  const { setDeleteModalOpen, selectedInventoryLists } = props;
-  const [deleteInventoryTrigger] = useDeleteInventoryMutation();
+  const {
+    setDeleteModalOpen,
+    selectedInventoryLists,
+    setSelectedInventoryLists,
+    setPage,
+    totalRecords,
+    page,
+    getInventoryListData,
+    isMoveBack = false,
+  } = props;
+
+  const [deleteInventoryTrigger, deleteInventoryStatus] =
+    useDeleteInventoryMutation();
+
+  const router = useRouter();
+
+  const { makePath } = usePath();
 
   const deleteInventory = async () => {
     const deleteParams = new URLSearchParams();
@@ -18,28 +35,40 @@ export const useDeleteInventory = (props: any) => {
     };
 
     try {
-      const response: any = await deleteInventoryTrigger(
-        deleteInventoryParameter,
-      )?.unwrap();
+      await deleteInventoryTrigger(deleteInventoryParameter)?.unwrap();
+      successSnackbar('Record delete successfully');
+      setSelectedInventoryLists?.([]);
+      closeInventoryDeleteModal?.();
+      const newPage =
+        selectedInventoryLists?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
+      await getInventoryListData?.(newPage);
 
-      enqueueSnackbar(
-        response?.message ?? 'Selected Inventories Deleted Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
+      router?.push(
+        makePath({
+          path: AIR_SERVICES?.ASSETS_INVENTORY,
+          skipQueries: ['inventoryListsAction'],
+        }),
       );
-
-      setDeleteModalOpen?.(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-
-      setDeleteModalOpen?.(false);
+      errorSnackbar(error?.data?.message);
+      closeInventoryDeleteModal?.();
     }
   };
-
+  const closeInventoryDeleteModal = () => {
+    !isMoveBack &&
+      router?.push(
+        makePath({
+          path: router?.pathname,
+          skipQueries: ['inventoryListsAction'],
+        }),
+      );
+    setSelectedInventoryLists?.([]);
+    setDeleteModalOpen?.(false);
+  };
   return {
     deleteInventory,
+    deleteInventoryStatus,
+    closeInventoryDeleteModal,
   };
 };

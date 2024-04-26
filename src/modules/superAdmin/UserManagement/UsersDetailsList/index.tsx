@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import {
   Box,
   Button,
@@ -9,6 +8,8 @@ import {
   Avatar,
   Card,
   Tooltip,
+  Pagination,
+  Skeleton,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -31,25 +32,27 @@ import Delegates from './UserDetailsTables/Delegates';
 
 import { ArrowBack, AddCircleOutlined } from '@mui/icons-material';
 
-import {
-  AddShopIcon,
-  AddUserCircleIcon,
-  FilterrIcon,
-  RefreshTasksIcon,
-} from '@/assets/icons';
+import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 
-import { AvatarImage } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
+import useOrgUserDetailsList from '@/modules/orgAdmin/Users/UsersDetails/useUsersDetails';
 import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
 import StatusBadge from '@/components/StatusBadge';
 import { v4 as uuidv4 } from 'uuid';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
+import NoData from '@/components/NoData';
+import useUserManagement from '../useUserManagement';
+import { useEffect } from 'react';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import SkeletonComponent from '@/components/CardSkeletons';
+import { generateImage } from '@/utils/avatarUtils';
 
 const UsersDetailsList = () => {
   const {
-    handleCloseDrawer,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenAddCompanyDrawer,
@@ -58,12 +61,8 @@ const UsersDetailsList = () => {
     handleAddUserDrawer,
     isOpenAdduserDrawer,
     setIsOpenAdduserDrawer,
-    userStatus,
-    setUserStatus,
     isOpenAddAccountDrawer,
     setIsOpenAddAccountDrawer,
-    search,
-    setSearch,
     tabVal,
     setTabVal,
     theme,
@@ -77,27 +76,48 @@ const UsersDetailsList = () => {
     employeeFilter,
     setEmployeeFilter,
     resetFilters,
+    handleEmpListPaginationChange,
+    page,
+    searchAccount,
+    setSearchAccount,
   }: any = useUserDetailsList();
 
-  const { userName, organizationId } = navigate.query;
+  const { handleUserSwitchChange } = useUserManagement();
+
+  const { id } = navigate.query;
+  const { data: userDataById, isLoading: userDataLoading } =
+    useGetUsersByIdQuery(id);
+
+  const organizationId = userDataById?.data?.organization?._id;
+  const organizationBasesProducts = userDataById?.data?.products;
+  const employeeRecordsLimit = 10;
 
   const empListParams = {
-    page: 1,
-    limit: 10,
+    page: page,
+    limit: employeeRecordsLimit,
     search: searchEmployee,
-    // status:'ACTIVE'
     product: employeeFilter?.product,
     company: employeeFilter?.company,
+    status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
-  const { data: employeeList } = useGetEmployeeListQuery({
-    orgId: organizationId,
-    values: empListParams,
-  });
+  const { data: employeeList, isLoading: employeeListLoading } =
+    useGetEmployeeListQuery({
+      orgId: organizationId,
+      values: empListParams,
+    });
   const empDetail = employeeList?.data?.users;
 
-  const { data: profileData } = useGetUsersByIdQuery(
-    employeeDataById ? employeeDataById : employeeList?.data?.users[0]?._id,
-  );
+  const { data: profileData, isLoading: profileDataLoading } =
+    useGetUsersByIdQuery(
+      employeeDataById
+        ? employeeDataById
+        : employeeList?.data?.users && employeeList?.data?.users[0]?._id,
+    );
+  useEffect(() => {
+    setEmployeeDataById(employeeList?.data?.users[0]?._id);
+  }, [employeeList]);
+
+  const { handleChangeImg } = useOrgUserDetailsList();
 
   return (
     <Box>
@@ -108,59 +128,69 @@ const UsersDetailsList = () => {
               padding: '24px 16px',
               borderRadius: '8px 0px 0px 8px',
               background: theme?.palette?.common?.white,
-              minHeight: `calc(100% - ${0}px)`,
+              minHeight: `calc(89vh - ${15}px)`,
             }}
           >
             <Box
               py={1}
-              sx={{ display: 'flex', justifyContent: 'space-between' }}
+              sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
             >
-              <Stack direction={'row'} gap={1} alignItems="center">
-                <ArrowBack
-                  onClick={() => {
-                    navigate.push(SUPER_ADMIN.USERMANAGMENT);
-                  }}
-                  sx={{ cursor: 'pointer' }}
-                />
-                <Typography variant="h3">{userName}</Typography>
-              </Stack>
-              <Stack direction="row" gap={1}>
-                <Button
-                  sx={{
-                    border: '1px solid grey',
-                    height: '44px',
-                    width: '44px',
-                  }}
-                  variant="outlined"
-                  className="small"
-                  onClick={() => {
-                    setIsOpenAdduserDrawer(true);
-                  }}
+              {userDataLoading ? (
+                <Skeleton animation="wave" height={50} width="100%" />
+              ) : (
+                <Stack direction={'row'} gap={1} alignItems="center">
+                  <ArrowBack
+                    onClick={() => {
+                      navigate.push(SUPER_ADMIN.USERMANAGMENT);
+                    }}
+                    sx={{ cursor: 'pointer' }}
+                  />
+                  <Typography variant="h3">{`${userDataById?.data?.firstName} ${userDataById?.data?.firstName}`}</Typography>
+                </Stack>
+              )}
+              <Stack direction={{ sm: 'row' }} gap={1}>
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.ADD_SUB_USER,
+                  ]}
                 >
-                  <AddUserCircleIcon />
-                </Button>
-                <Button
-                  sx={{
-                    border: '1px solid grey',
-                    height: '44px',
-                    width: '44px',
-                  }}
-                  variant="outlined"
-                  className="small"
-                  onClick={() => {
-                    setISOpenCompanyDrawer(true);
-                  }}
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    className="small"
+                    onClick={() => {
+                      setIsOpenAdduserDrawer(true);
+                    }}
+                  >
+                    Add User
+                    {/* <AddUserCircleIcon /> */}
+                  </Button>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.ADD_COMPANY,
+                  ]}
                 >
-                  <AddShopIcon />
-                </Button>
+                  <Button
+                    variant="outlined"
+                    className="small"
+                    color="inherit"
+                    onClick={() => {
+                      setISOpenCompanyDrawer(true);
+                    }}
+                  >
+                    Add Company
+                    {/* <AddShopIcon /> */}
+                  </Button>
+                </PermissionsGuard>
               </Stack>
             </Box>
             <Divider />
             <Box sx={{ mt: 2 }}>
               <Stack
-                direction={'row'}
+                direction={{ sm: 'row', xs: 'column' }}
                 justifyContent={'space-between'}
-                alignItems={'center'}
+                alignItems={{ sm: 'center' }}
                 gap={1}
               >
                 <Search
@@ -168,174 +198,268 @@ const UsersDetailsList = () => {
                   size="small"
                   onChange={(val: any) => setSearchEmployee(val?.target?.value)}
                 />
-                <Tooltip title={'Refresh Filter'}>
+                <Box gap={1} display="flex" justifyContent="flex-end">
+                  <Tooltip title={'Refresh Filter'}>
+                    <Button
+                      variant="outlined"
+                      color="inherit"
+                      className="small"
+                      onClick={resetFilters}
+                    >
+                      <RefreshTasksIcon />
+                    </Button>
+                  </Tooltip>
                   <Button
-                    variant="outlined"
-                    color="inherit"
                     className="small"
-                    onClick={resetFilters}
+                    sx={{
+                      border: '1px solid grey',
+                      justifyContent: 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      height: '44px',
+                    }}
+                    onClick={() => setIsOpenDrawer(true)}
                   >
-                    <RefreshTasksIcon />
+                    <FilterrIcon />
                   </Button>
-                </Tooltip>
-                <Button
-                  className="small"
-                  sx={{
-                    border: '1px solid grey',
-                    justifyContent: 'center',
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: '44px',
-                  }}
-                  onClick={() => setIsOpenDrawer(true)}
-                >
-                  <FilterrIcon />
-                </Button>
+                </Box>
               </Stack>
             </Box>
-            {empDetail?.length === 0 && <Typography>No user found</Typography>}
-            {empDetail?.map((item: any, index: number) => (
-              <Box
-                className="users-wrapper"
-                sx={{
-                  my: 2,
-                  backgroundColor:
-                    isActiveEmp === index ? theme?.palette?.grey[400] : '',
-                  borderRadius: '4px',
-                  padding: '11px 8px',
-                  width: '100%',
-                }}
-                key={uuidv4()}
-                onClick={() => {
-                  setEmployeeDataById(item?._id);
-                  setIsActiveEmp(index);
-                }}
-              >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    gap: '10px',
-                    alignItems: 'center',
-                    flexWrap: {
-                      xs: 'wrap',
-                      sm: 'nowrap',
-                      lg: 'wrap',
-                      xl: 'nowrap',
-                    },
-                  }}
+            {employeeListLoading ? (
+              <SkeletonComponent numberOfSkeletons={7} />
+            ) : (
+              <Box>
+                {empDetail?.length === 0 && (
+                  <NoData
+                    image={NoAssociationFoundImage}
+                    message={'No data is available'}
+                  />
+                )}
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.VIEW_USER_LIST,
+                  ]}
                 >
-                  <Avatar>
-                    <Image
-                      src={AvatarImage}
-                      alt="Avatar"
-                      width={40}
-                      height={40}
-                    />
-                  </Avatar>
-                  <Box sx={{ width: '100%' }}>
-                    <Box
-                      sx={{ display: 'flex', justifyContent: 'space-between' }}
-                    >
-                      <Typography>
-                        {item?.firstName} {item?.lastName}
-                      </Typography>
-                      <StatusBadge
-                        defaultValue={item?.status}
-                        value={userStatus}
-                        onChange={(e: any) => setUserStatus(e?.target?.value)}
-                        options={[
-                          {
-                            label: 'Active',
-                            value: 'ACTIVE',
-                            color: theme?.palette?.success?.main,
-                          },
-                          {
-                            label: 'Inactive',
-                            value: 'INACTIVE',
-                            color: theme?.palette?.error?.main,
-                          },
-                        ]}
-                      />
-                    </Box>
-                    <Typography>{item?.email}</Typography>
+                  <Box
+                    sx={{ height: `calc(62vh - ${15}px)`, overflow: 'auto' }}
+                  >
+                    {empDetail?.map((item: any, index: number) => (
+                      <Box
+                        className="users-wrapper"
+                        sx={{
+                          my: 2,
+                          backgroundColor:
+                            isActiveEmp === index
+                              ? theme?.palette?.grey[400]
+                              : '',
+                          borderRadius: '4px',
+                          padding: '11px 8px',
+                          width: '100%',
+                          cursor: 'pointer',
+                        }}
+                        key={uuidv4()}
+                        onClick={() => {
+                          setEmployeeDataById(item?._id);
+                          setIsActiveEmp(index);
+                          setSearchAccount('');
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            gap: '10px',
+                            alignItems: 'center',
+                            flexWrap: {
+                              xs: 'wrap',
+                              sm: 'nowrap',
+                              lg: 'wrap',
+                              xl: 'nowrap',
+                            },
+                          }}
+                        >
+                          <Avatar
+                            src={generateImage(item?.avatar?.url)}
+                            sx={{
+                              color: theme?.palette?.grey[600],
+                              fontWeight: 500,
+                            }}
+                          >
+                            {`${item?.firstName?.charAt(
+                              0,
+                            )}${item?.lastName?.charAt(0)}`}
+                          </Avatar>
+                          <Box sx={{ width: '100%' }}>
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                              }}
+                            >
+                              <Typography>
+                                {item?.firstName} {item?.lastName}
+                              </Typography>
+                              <PermissionsGuard
+                                permissions={[
+                                  SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.ACTIVE_INACTIVE_USERS,
+                                ]}
+                              >
+                                <StatusBadge
+                                  defaultValue={item?.status}
+                                  value={item?.status}
+                                  onChange={(e: any) =>
+                                    handleUserSwitchChange(e, item?._id)
+                                  }
+                                  options={[
+                                    {
+                                      label: 'Active',
+                                      value: 'ACTIVE',
+                                      color: theme?.palette?.success?.main,
+                                    },
+                                    {
+                                      label: 'Inactive',
+                                      value: 'INACTIVE',
+                                      color: theme?.palette?.error?.main,
+                                    },
+                                  ]}
+                                />
+                              </PermissionsGuard>
+                            </Box>
+                            <Typography>{item?.email}</Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+                    ))}
                   </Box>
-                </Box>
+                  <Pagination
+                    count={employeeList?.data?.meta?.pages}
+                    variant="outlined"
+                    shape="rounded"
+                    onChange={handleEmpListPaginationChange}
+                    sx={{ display: 'flex', justifyContent: 'flex-end' }}
+                  />
+                </PermissionsGuard>
               </Box>
-            ))}
+            )}
           </Box>
         </Grid>
-        {empDetail?.length > 0 ? (
-          <Grid item xl={9} lg={8} xs={12}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <ProfileCard
-                  userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
-                  role={profileData?.data?.role}
-                  email={profileData?.data?.email}
-                  phone={profileData?.data?.phoneNumber}
-                  handleEditProfile={() => setTabVal(1)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Box
-                  p="10px"
-                  sx={{
-                    borderRadius: '8px',
-                    background: theme?.palette?.common?.white,
-                  }}
-                >
-                  <Card sx={{ padding: '0px 24px' }}>
-                    <CommonTabs
-                      getTabVal={(val: number) => setTabVal(val)}
-                      searchBarProps={{
-                        label: 'Search Here',
-                        setSearchBy: setSearch,
-                        searchBy: search,
-                      }}
-                      isHeader={tabVal === 0 ? true : false}
-                      tabsArray={['Company Accounts', 'Profile', 'Delegates']}
-                      headerChildren={
-                        <>
-                          <Button
-                            onClick={() => {
-                              setIsOpenAddAccountDrawer(true);
-                            }}
-                            sx={{
-                              border: `1px solid ${theme?.palette?.custom?.dark}`,
-                              color: theme?.palette?.custom?.main,
-                              width: '146px',
-                              height: '36px',
-                            }}
-                            startIcon={<AddCircleOutlined />}
-                          >
-                            Add Account
-                          </Button>
-                        </>
+        <Grid item xl={9} lg={8} xs={12}>
+          <Grid container spacing={2}>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.VIEW_USER_LIST,
+              ]}
+            >
+              {empDetail?.length > 0 ? (
+                <>
+                  <Grid item xs={12}>
+                    <ProfileCard
+                      userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
+                      isBadge={false}
+                      email={profileData?.data?.email}
+                      phone={profileData?.data?.phoneNumber}
+                      handleEditProfile={() => setTabVal(1)}
+                      src={`${
+                        profileData?.data?.avatar
+                          ? generateImage(profileData?.data?.avatar?.url)
+                          : ''
+                      }`}
+                      isLoading={profileDataLoading}
+                      handleChangeImg={(e: any) =>
+                        handleChangeImg(e, employeeDataById)
                       }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Box
+                      p="10px"
+                      sx={{
+                        borderRadius: '8px',
+                        background: theme?.palette?.common?.white,
+                        maxHeight: `calc(68vh - ${15}px)`,
+                      }}
                     >
-                      <CompanyAccounts organizationId={organizationId} />
-                      <UserDetailsProfile userDetails={profileData?.data} />
-                      <Delegates />
-                    </CommonTabs>
-                  </Card>
-                </Box>
-              </Grid>
-            </Grid>
+                      <Card sx={{ padding: '0px 24px' }}>
+                        <CommonTabs
+                          getTabVal={(val: number) => setTabVal(val)}
+                          activeTab={tabVal}
+                          isSearchBar={
+                            <Search
+                              placeholder="Search here"
+                              value={searchAccount}
+                              onChange={(val: any) =>
+                                setSearchAccount(val?.target?.value)
+                              }
+                            />
+                          }
+                          isHeader={tabVal === 0 ? true : false}
+                          tabsArray={[
+                            'Company Accounts',
+                            'Profile',
+                            'Delegates',
+                          ]}
+                          headerChildren={
+                            <>
+                              <PermissionsGuard
+                                permissions={[
+                                  SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.ADD_COMPANY_ACCOUNTS,
+                                ]}
+                              >
+                                <Button
+                                  onClick={() => {
+                                    setIsOpenAddAccountDrawer(true);
+                                  }}
+                                  sx={{
+                                    border: `1px solid ${theme?.palette?.custom?.dark}`,
+                                    color: theme?.palette?.custom?.main,
+                                    width: '146px',
+                                    height: '36px',
+                                  }}
+                                  startIcon={<AddCircleOutlined />}
+                                >
+                                  Add Account
+                                </Button>
+                              </PermissionsGuard>
+                            </>
+                          }
+                        >
+                          <CompanyAccounts
+                            organizationId={organizationId}
+                            employeeDataById={employeeDataById}
+                            searchAccount={searchAccount}
+                          />
+                          <UserDetailsProfile
+                            userDetails={profileData?.data}
+                            setTabVal={setTabVal}
+                          />
+                          <Delegates />
+                        </CommonTabs>
+                      </Card>
+                    </Box>
+                  </Grid>{' '}
+                </>
+              ) : (
+                <NoData
+                  image={NoAssociationFoundImage}
+                  message={'No data is available'}
+                />
+              )}
+            </PermissionsGuard>
           </Grid>
-        ) : (
-          'No user found'
-        )}
+        </Grid>
       </Grid>
       {isOpenAddAccountDrawer && (
         <AddAccountDrawer
           isOpen={isOpenAddAccountDrawer}
           setIsOpen={setIsOpenAddAccountDrawer}
+          organizationId={organizationId}
+          userId={employeeDataById}
+          organizationBasesProducts={organizationBasesProducts}
         />
       )}
       {isOpenDrawer && (
         <Filter
           isOpenDrawer={isOpenDrawer}
-          onClose={handleCloseDrawer}
+          setIsOpenDrawer={setIsOpenDrawer}
           employeeFilter={employeeFilter}
           setEmployeeFilter={setEmployeeFilter}
         />
@@ -344,6 +468,9 @@ const UsersDetailsList = () => {
         <AddCompanyDetails
           isOpenDrawer={isOpenAddCompanyDrawer}
           onClose={handleCloseAddCompanyDrawer}
+          organizationId={organizationId}
+          organizationBasesProducts={organizationBasesProducts}
+          setISOpenCompanyDrawer={setISOpenCompanyDrawer}
         />
       )}
       {isOpenAdduserDrawer && (
@@ -351,6 +478,7 @@ const UsersDetailsList = () => {
           isOpenDrawer={isOpenAdduserDrawer}
           onClose={handleAddUserDrawer}
           organizationId={organizationId}
+          setIsOpenAdduserDrawer={setIsOpenAdduserDrawer}
         />
       )}
     </Box>

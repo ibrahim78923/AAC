@@ -7,6 +7,8 @@ import useNotification from './useNotification';
 import { styles } from './Notification.style';
 
 import { DealsIcon, NotificationIcon, QuotesIcon } from '@/assets/icons';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const Notification = () => {
   const { theme } = useNotification();
@@ -45,8 +47,13 @@ const Notification = () => {
               </Typography>
             </Box>
           </Box>
-
-          <Switch defaultChecked />
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_NOTIFICATIONS,
+            ]}
+          >
+            <Switch defaultChecked />
+          </PermissionsGuard>
         </Box>
         <Typography variant="h6" sx={{ marginY: '20px', fontWeight: '600' }}>
           Notification List
@@ -69,8 +76,13 @@ const Notification = () => {
               </Typography>
             </Box>
           </Box>
-
-          <Switch defaultChecked />
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_NOTIFICATIONS,
+            ]}
+          >
+            <Switch defaultChecked />
+          </PermissionsGuard>
         </Box>
 
         <Box sx={styles?.BoxStyling(theme)} style={{ marginTop: '25px' }}>
@@ -92,7 +104,13 @@ const Notification = () => {
             </Box>
           </Box>
 
-          <Switch defaultChecked />
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_NOTIFICATIONS,
+            ]}
+          >
+            <Switch defaultChecked />
+          </PermissionsGuard>
         </Box>
       </Box>
     </>

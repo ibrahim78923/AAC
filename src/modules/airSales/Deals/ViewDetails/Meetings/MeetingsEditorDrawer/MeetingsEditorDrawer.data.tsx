@@ -42,21 +42,21 @@ export const dealsCallsDataArray = [
   },
   {
     componentProps: {
-      name: 'starttime',
-      label: 'Start Time',
-      fullWidth: true,
-    },
-    component: RHFTimePicker,
-    md: 6,
-  },
-  {
-    componentProps: {
       name: 'enddate',
       label: '  End Date',
       required: true,
       fullWidth: true,
     },
     component: RHFDatePicker,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'starttime',
+      label: 'Start Time',
+      fullWidth: true,
+    },
+    component: RHFTimePicker,
     md: 6,
   },
   {

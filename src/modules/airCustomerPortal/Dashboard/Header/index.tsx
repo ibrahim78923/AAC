@@ -1,11 +1,16 @@
-import { Box, Button, MenuItem, Popover, Typography } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import React from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ReportAnIssueModal from '../ReportAnIssueModal';
 import { useDashboard } from '../useDashboard';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { AIR_CUSTOMER_PORTAL, AIR_SERVICES } from '@/constants';
+import { useRouter } from 'next/router';
+import { AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import useAuth from '@/hooks/useAuth';
+import { ROLES } from '@/constants/strings';
 
 export const Header = () => {
   const {
@@ -18,6 +23,10 @@ export const Header = () => {
     handleSubmitModal,
     push,
   }: any = useDashboard();
+  const router = useRouter();
+
+  const { user }: any = useAuth();
+
   return (
     <>
       <Box
@@ -43,15 +52,18 @@ export const Header = () => {
             gap: 2.4,
           }}
         >
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={
-              <ArrowBackIcon color={'secondary'} sx={{ cursor: 'pointer' }} />
-            }
-          >
-            revert
-          </Button>
+          {user?.role === ROLES?.ORG_EMPLOYEE && (
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={
+                <ArrowBackIcon color={'secondary'} sx={{ cursor: 'pointer' }} />
+              }
+              onClick={() => router?.push(AIR_SERVICES?.DASHBOARD)}
+            >
+              Revert
+            </Button>
+          )}
           <Button
             id="demo-customized-button"
             aria-controls={open ? 'demo-customized-menu' : undefined}
@@ -65,38 +77,53 @@ export const Header = () => {
           >
             New
           </Button>
-          <Popover
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            sx={{ mt: '0.5rem' }}
+            sx={{ padding: 2 }}
           >
-            <MenuItem onClick={handleClose}>Report an Issue</MenuItem>
-            <MenuItem
-              onClick={() =>
-                push({
-                  pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
-                })
-              }
+            <PermissionsGuard
+              permissions={[
+                AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.REPORT_AN_ISSUES,
+              ]}
             >
-              Request a service
-            </MenuItem>
-          </Popover>
+              <MenuItem
+                onClick={() => {
+                  setOpenReportAnIssueModal?.(true);
+                  handleClose?.();
+                }}
+              >
+                Report an Issue
+              </MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.SENT_SERVICES_REQUEST,
+              ]}
+            >
+              <MenuItem
+                onClick={() =>
+                  push({
+                    pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
+                  })
+                }
+              >
+                Request a service
+              </MenuItem>
+            </PermissionsGuard>
+          </Menu>
         </Box>
       </Box>
-      <ReportAnIssueModal
-        openReportAnIssueModal={openReportAnIssueModal}
-        setOpenReportAnIssueModal={setOpenReportAnIssueModal}
-        handleSubmitModal={handleSubmitModal}
-      />
+      {openReportAnIssueModal && (
+        <ReportAnIssueModal
+          openReportAnIssueModal={openReportAnIssueModal}
+          setOpenReportAnIssueModal={setOpenReportAnIssueModal}
+          handleSubmitModal={handleSubmitModal}
+        />
+      )}
     </>
   );
 };

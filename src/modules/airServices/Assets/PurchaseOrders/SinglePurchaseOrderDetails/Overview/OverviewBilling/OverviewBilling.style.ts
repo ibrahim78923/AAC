@@ -43,6 +43,7 @@ export const styles = {
     textAlign: 'right',
     fontSize: 12,
     textTransform: 'capitalize',
+    marginTop: 1,
   },
   billingValue: {
     width: 80,

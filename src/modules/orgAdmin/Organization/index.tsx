@@ -1,9 +1,8 @@
-import React from 'react';
-
 import { Box, Typography, Theme, useTheme } from '@mui/material';
-
 import OrganizationCard from './OrganizationSubFolder/OrganizationCard';
 import OrganizationTable from './OrganizationSubFolder/OrganizationTable';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
 
 const Organization = () => {
   const theme = useTheme<Theme>();
@@ -21,37 +20,27 @@ const Organization = () => {
             padding: '0.7rem',
           }}
         >
-          <Typography
-            variant="h3"
-            sx={{
-              textAlign: {
-                lg: 'start',
-                md: 'start',
-                sm: 'center',
-                xs: 'center',
-              },
-            }}
-          >
+          <Typography variant="h3" mb={1}>
             Organization
           </Typography>
           <OrganizationCard />
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 500,
-              paddingTop: '20px',
-              paddingBottom: '20px',
-              textAlign: {
-                lg: 'start',
-                md: 'start',
-                sm: 'center',
-                xs: 'center',
-              },
-            }}
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_ORGANIZATION_PERMISSIONS?.COMPANY_ACCOUNT_LIST,
+            ]}
           >
-            Company Accounts
-          </Typography>
-          <OrganizationTable />
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 500,
+                paddingTop: '20px',
+                paddingBottom: '20px',
+              }}
+            >
+              Company Accounts
+            </Typography>
+            <OrganizationTable />
+          </PermissionsGuard>
         </Box>
       </Box>
     </>

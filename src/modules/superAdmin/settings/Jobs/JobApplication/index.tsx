@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, useTheme, Button, Grid } from '@mui/material';
+import { Box, useTheme, Button, Grid, Tooltip } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -9,6 +9,8 @@ import { columns, getFiltersDataArray } from './JobApplication.data';
 import { styles } from './JobsApplication.styles';
 import { v4 as uuidv4 } from 'uuid';
 import useJobApplication from './useJobApplication';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_JOB_APPLICATION_PERMISSIONS } from '@/constants/permission-keys';
 
 const JobApplication = () => {
   const {
@@ -23,66 +25,73 @@ const JobApplication = () => {
     handleFiltersSubmit,
     setPageLimit,
     setPage,
-    handlePageChange,
   } = useJobApplication();
   const theme = useTheme();
   const getColumns = columns(theme);
 
   return (
     <Box>
-      <Box
-        mt={2}
-        mb={3}
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          gap: '10px',
-          padding: '0px 24px',
-        }}
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_SETTINGS_JOB_APPLICATION_PERMISSIONS?.Application_List,
+        ]}
       >
-        <Search
-          setSearchBy={setSearchValue}
-          label="Search Here"
-          size="small"
-          width={'100%'}
-        />
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}
-        >
-          <Button
-            sx={styles?.refreshButton(theme)}
-            className="small"
-            onClick={handleRefresh}
-          >
-            <RefreshSharedIcon />
-          </Button>
-          <Button
-            sx={styles?.filterButton(theme)}
-            className="small"
-            onClick={handleOpenFilters}
-          >
-            <FilterSharedIcon /> &nbsp; Filter
-          </Button>
+        <Box sx={styles?.filterBar}>
+          <Box sx={styles?.search}>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_JOB_APPLICATION_PERMISSIONS?.Search_and_Filter,
+              ]}
+            >
+              <Search
+                setSearchBy={setSearchValue}
+                label="Search Here"
+                size="small"
+                width={'100%'}
+              />
+            </PermissionsGuard>
+          </Box>
+          <Box sx={styles?.filterButtons}>
+            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+              <Button
+                sx={styles?.refreshButton}
+                className="small"
+                onClick={handleRefresh}
+              >
+                <RefreshSharedIcon />
+              </Button>
+            </Tooltip>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_JOB_APPLICATION_PERMISSIONS?.Search_and_Filter,
+              ]}
+            >
+              <Button
+                sx={styles?.filterButton}
+                className="small"
+                onClick={handleOpenFilters}
+              >
+                <FilterSharedIcon /> &nbsp; Filter
+              </Button>
+            </PermissionsGuard>
+          </Box>
         </Box>
-      </Box>
-      <Box>
-        <TanstackTable
-          columns={getColumns}
-          data={data?.data?.jobApplications}
-          isLoading={isLoading}
-          isPagination
-          count={data?.data?.meta?.pages}
-          totalRecords={data?.data?.meta?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-      </Box>
+        <Box>
+          <TanstackTable
+            columns={getColumns}
+            data={data?.data?.jobApplications}
+            isLoading={isLoading}
+            currentPage={data?.data?.meta?.page}
+            count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
+            totalRecords={data?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
+          />
+        </Box>
+      </PermissionsGuard>
       <CommonDrawer
         isDrawerOpen={openDrawerFilter}
         onClose={handleCloseFilters}

@@ -20,84 +20,137 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
 const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
-  const columns: any = [
-    {
-      accessorFn: (row: any) => row?.id,
-      id: 'srNumber',
-      cell: () => '1',
-      header: 'Sr#',
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row?.products,
-      id: 'product',
-      cell: (info: any) => (
-        <>
-          <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
-            {info?.getValue()}
-            {info?.row?.original?.plans?.products?.map((data: any) => (
-              <Typography variant="body3" key={uuidv4()}>
-                {data?.name}{' '}
-              </Typography>
-            ))}
-          </Box>
-          <Typography variant="body3">
-            ({info?.row?.original?.plantypes})
-          </Typography>
-        </>
-      ),
-      header: 'Product/Suite',
-      isSortable: true,
-    },
-    {
-      accessorFn: (row: any) => row?.details?.plans?.planPrice,
-      id: 'planPrice',
-      isSortable: true,
-      header: 'Plan Price',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
-    },
-    {
-      accessorFn: (row: any) => row?.details?.additionalUsers,
-      id: 'additionalUsers',
-      isSortable: true,
-      header: 'Additional Users',
-      cell: (info: any) => (
-        <>
-          {info?.getValue()} (*£15) = £ {info?.getValue() * 15}
-        </>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.details?.additionalStorage,
-      id: 'additionalStorage',
-      isSortable: true,
-      header: 'Additional Storage',
-      cell: (info: any) => (
-        <>
-          {info?.getValue()} (*£15) = £{info.getValue() * 15}
-        </>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.invoiceDiscount,
-      id: 'discount',
-      isSortable: true,
-      header: 'Discount(%)',
-      cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>{info?.getValue()} %</Box>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.subTotal,
-      id: 'subTotal',
-      isSortable: true,
-      header: 'Subtotal',
-      cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>£ {info?.getValue()}</Box>
-      ),
-    },
-  ];
+  let planPrice: any;
 
+  let totalAdditionalUserPrice: any;
+
+  let totalAdditionalStoragePrice: any;
+
+  let planDiscount;
+
+  let subtotalBeforeDiscount;
+
+  let subtotalAfterDiscount: any;
+
+  let invoiceDiscount;
+
+  let total;
+
+  let tax;
+
+  let netAmout;
+  let invoiceDiscountAmount;
+  let TaxAmountOfSubtotal;
+
+  const columns = (data: any) => {
+    planPrice = data?.plans?.planPrice;
+
+    totalAdditionalUserPrice = data?.details?.sumAdditionalUsersPrices;
+
+    totalAdditionalStoragePrice = data?.details?.sumAdditionalStoragePrices;
+
+    planDiscount = data?.details?.planDiscount;
+
+    subtotalBeforeDiscount =
+      planPrice + totalAdditionalUserPrice + totalAdditionalStoragePrice;
+
+    subtotalAfterDiscount =
+      subtotalBeforeDiscount - (planDiscount / 100) * subtotalBeforeDiscount;
+
+    invoiceDiscount = data?.invoiceDiscount;
+
+    invoiceDiscountAmount = (invoiceDiscount / 100) * data?.details?.subTotal;
+
+    total =
+      subtotalAfterDiscount - (invoiceDiscount / 100) * subtotalAfterDiscount;
+
+    tax = data?.tax;
+    TaxAmountOfSubtotal = (tax / 100) * total;
+
+    netAmout = data?.netAmount;
+
+    return [
+      {
+        accessorFn: (row: any) => row?.id,
+        id: 'srNumber',
+        cell: () => '1',
+        header: 'Sr#',
+        isSortable: false,
+      },
+      {
+        accessorFn: (row: any) => row?.products,
+        id: 'product',
+        cell: (info: any) => (
+          <>
+            <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
+              {info?.getValue()}
+              {info?.row?.original?.plans?.products?.map((data: any) => (
+                <Typography variant="body3" key={uuidv4()}>
+                  {data?.name}{' '}
+                </Typography>
+              ))}
+            </Box>
+            <Typography variant="body3">
+              ({info?.row?.original?.plantypes})
+            </Typography>
+          </>
+        ),
+        header: 'Product/Suite',
+        isSortable: true,
+      },
+      {
+        accessorFn: (row: any) => row?.details?.plans?.planPrice,
+        id: 'planPrice',
+        isSortable: true,
+        header: 'Plan Price',
+        cell: () => <>£ {planPrice}</>,
+      },
+      {
+        accessorFn: (row: any) => row?.details?.additionalUsers,
+        id: 'additionalUsers',
+        isSortable: true,
+        header: 'Additional Users',
+        cell: (info: any) => (
+          <>
+            {info?.getValue()} *(£
+            {info?.row?.original?.plans?.additionalPerUserPrice}) = £{' '}
+            {totalAdditionalUserPrice}
+          </>
+        ),
+      },
+      {
+        accessorFn: (row: any) => row?.details?.additionalStorage,
+        id: 'additionalStorage',
+        isSortable: true,
+        header: 'Additional Storage',
+        cell: (info: any) => (
+          <>
+            {info?.getValue()} *(£
+            {info?.row?.original?.plans?.additionalStoragePrice}) = £
+            {totalAdditionalStoragePrice}
+          </>
+        ),
+      },
+      {
+        accessorFn: (row: any) => row?.details?.planDiscount,
+        id: 'discount',
+        isSortable: true,
+        header: 'Discount(%)',
+        cell: (info: any) => (
+          <Box sx={{ fontWeight: '800' }}>{info?.getValue()} %</Box>
+        ),
+      },
+      {
+        accessorFn: (row: any) => row?.subTotal,
+        id: 'subTotal',
+        isSortable: true,
+        header: 'Subtotal',
+        cell: () => (
+          <Box sx={{ fontWeight: '800' }}>£ {subtotalAfterDiscount}</Box>
+        ),
+      },
+    ];
+  };
   const handleDownload = () => {
     const invoice: any = new jsPDF('portrait', 'pt', [1200, 1200]);
     invoice.html(document.querySelector('#invoice-data')).then(() => {
@@ -105,6 +158,13 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
     });
     onClose();
   };
+  // const TaxAmountOfSubtotal =
+  //   (isGetRowValues?.row?.original?.vat / 100) *
+  //   isGetRowValues?.row?.original?.subTotal;
+  // const findAmountAfterTax =
+  //   (isGetRowValues?.row?.original?.vat / 100) *
+  //   isGetRowValues?.row?.original?.subTotal +
+  //   isGetRowValues?.row?.original?.subTotal;
 
   return (
     <Dialog
@@ -248,7 +308,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
           <Box sx={styles?.productCont}>
             <Box sx={styles?.productHeading}>Products</Box>
             <TanstackTable
-              columns={columns}
+              columns={columns(isGetRowValues?.row?.original)}
               data={[isGetRowValues?.row?.original]}
             />
           </Box>
@@ -263,26 +323,22 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
                 </Typography>
               </Box>
               <Box sx={styles?.vValue}>
-                (£ {isGetRowValues?.row?.original?.invoiceDiscount})
+                (£ {invoiceDiscountAmount?.toFixed(2)})
               </Box>
             </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Tax{' '}
                 <Typography sx={{ fontWeight: '400', fontSize: '12px' }}>
-                  (Vat {isGetRowValues?.row?.original?.vat}%)
+                  ({tax}%)
                 </Typography>
               </Box>
-              <Box sx={styles?.vValue}>
-                £ {isGetRowValues?.row?.original?.vat}
-              </Box>
+              <Box sx={styles?.vValue}>£ {TaxAmountOfSubtotal?.toFixed(2)}</Box>
             </Box>
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>
-                £ {isGetRowValues?.row?.original?.total}
-              </Box>
+              <Box sx={styles?.vValue}>£ {netAmout?.toFixed(2)}</Box>
             </Box>
           </Box>
 

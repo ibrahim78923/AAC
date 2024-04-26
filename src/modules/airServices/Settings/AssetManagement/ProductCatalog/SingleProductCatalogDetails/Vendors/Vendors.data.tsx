@@ -1,50 +1,42 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
+import { truncateText } from '@/utils/avatarUtils';
 import { DeleteForever } from '@mui/icons-material';
 import { Box } from '@mui/material';
-import dayjs from 'dayjs';
-
-export const vendorsData = [
-  {
-    _id: 1,
-    vendorName: "Andrea's laptop",
-    price: 'Andrea',
-    warrantyValidity: '2023-11-06T10:34:00.891Z',
-    quantity: '4',
-  },
-];
 
 export const getVendorsColumns = (
   setIsDeleteModalOpen: any,
   setIsUpsertModalOpen: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.vendorName,
+    accessorFn: (row: any) => row?.vendor?.name,
     id: 'vendorName',
     isSortable: true,
     header: 'Vendor Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.price,
     id: 'price',
     isSortable: true,
     header: 'Price',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.warrantyValidity,
+    accessorFn: (row: any) => row?.months,
     id: 'warrantyValidity',
     isSortable: true,
     header: 'Warranty/Validity',
     cell: (info: any) =>
-      dayjs(info?.getValue()).format('dddd, MMMM DD, YYYY - HH:mm'),
+      `${!!info?.row?.original?.yrs ? info?.row?.original?.yrs : '0'} Yrs  ${
+        info?.getValue() ? info.getValue() : '0'
+      } Months`,
   },
   {
     accessorFn: (row: any) => row?.quantity,
     id: 'quantity',
     isSortable: true,
     header: 'Quantity',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?._id,
@@ -54,7 +46,7 @@ export const getVendorsColumns = (
       <Box display={'flex'}>
         <Box
           onClick={() => {
-            setIsUpsertModalOpen({ open: true, id: info?.getValue() });
+            setIsUpsertModalOpen({ open: true, data: info?.row?.original });
           }}
           sx={{ cursor: 'pointer' }}
         >

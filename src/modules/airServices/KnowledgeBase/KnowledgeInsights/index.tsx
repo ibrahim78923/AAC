@@ -1,64 +1,62 @@
-import { Box, Grid, Typography } from '@mui/material';
-import { styles } from './KnowledgeInsights.style';
-import { trendingInsightsData } from './KnowledgeInsights.data';
+import { Box, Typography } from '@mui/material';
 import { TicketRelated } from './TicketRelated';
-import { v4 as uuidv4 } from 'uuid';
 import { useKnowledgeInsights } from './useKnowledgeInsights';
 import NoData from '@/components/NoData';
-import { NoSearchResultFoundImage } from '@/assets/images';
+import TanstackTable from '@/components/Table/TanstackTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const KnowledgeInsights = () => {
   const {
-    getRelatedDataArray,
-    ticketRelatedToggler,
-    getIdHandler,
-    setTicketRelatedToggler,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    setPageLimit,
+    setPage,
+    knowledgeInsightsColumns,
+    selectedArticle,
+    setSelectedArticle,
   } = useKnowledgeInsights();
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError) return <ApiErrorState />;
+
   return (
     <>
-      {trendingInsightsData?.length < 1 ? (
-        <NoData
-          image={NoSearchResultFoundImage}
-          message={'No approval found'}
-        />
+      {!!!data?.data?.articles?.length ? (
+        <NoData message={'No Knowledge Insights found'} />
       ) : (
         <>
-          {ticketRelatedToggler ? (
+          {!!!selectedArticle?._id ? (
             <Box>
-              <Typography variant="h5" py={'0.625rem'}>
+              <Typography variant="h5" py={1}>
                 Trending insights
               </Typography>
-              <Grid container alignItems={'center'}>
-                <Grid item md={10} xs={8} sx={styles?.insightsStyles}>
-                  <Typography variant="body4">Insights</Typography>
-                </Grid>
-                <Grid item md={2} xs={4} sx={styles?.mentionsStyles}>
-                  <Typography variant="body4">Mentions</Typography>
-                </Grid>
-                {trendingInsightsData?.map((item) => (
-                  <Grid container alignItems={'center'} key={uuidv4()}>
-                    <Grid item md={10} xs={8} sx={styles?.insightsItemsStyles}>
-                      <Typography
-                        variant="body4"
-                        onClick={() => getIdHandler(item?.id)}
-                      >
-                        {item?.insights}
-                      </Typography>
-                    </Grid>
-                    <Grid item md={2} xs={4} sx={styles?.mentionsItemsStyles}>
-                      <Typography variant="body4">{item?.mentions}</Typography>
-                    </Grid>
-                  </Grid>
-                ))}
-              </Grid>
+
+              <TanstackTable
+                data={data?.data?.articles}
+                columns={knowledgeInsightsColumns}
+                isLoading={isLoading}
+                currentPage={data?.data?.meta?.page}
+                count={data?.data?.meta?.pages}
+                pageLimit={data?.data?.meta?.limit}
+                totalRecords={data?.data?.meta?.total}
+                setPage={setPage}
+                setPageLimit={setPageLimit}
+                isFetching={isFetching}
+                isError={isError}
+                isSuccess={isSuccess}
+                onPageChange={(page: any) => setPage(page)}
+                isPagination
+              />
             </Box>
           ) : (
-            <>
-              <TicketRelated
-                getRelatedDataArray={getRelatedDataArray}
-                setTicketRelatedToggler={setTicketRelatedToggler}
-              />
-            </>
+            <TicketRelated
+              selectedArticle={selectedArticle}
+              setSelectedArticle={setSelectedArticle}
+            />
           )}
         </>
       )}

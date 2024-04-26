@@ -15,7 +15,7 @@ const ImportCompanies = ({ isImport, setIsImport }: any) => {
     if (!isToggled) {
       toggle(true);
     } else {
-      setIsImport(false);
+      setIsImport({ ...isImport, importDrawer: false });
       enqueueSnackbar('File Import Successfully', {
         variant: 'success',
       });
@@ -27,7 +27,7 @@ const ImportCompanies = ({ isImport, setIsImport }: any) => {
       <CommonDrawer
         isDrawerOpen={isImport}
         onClose={() => {
-          setIsImport(false);
+          setIsImport({ ...isImport, importDrawer: false });
         }}
         title="Import Companies"
         okText={isToggled ? 'Import' : 'Next'}

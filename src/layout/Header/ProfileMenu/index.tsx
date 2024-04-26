@@ -10,15 +10,18 @@ import {
   Typography,
   Divider,
   useTheme,
+  Avatar,
 } from '@mui/material';
 
-import { isNullOrEmpty } from '@/utils';
+import { getSession, isNullOrEmpty } from '@/utils';
 
 import { ProfileDropDown, StatusDropDown } from '@/layout/Layout.data';
 
-import { ArrowDownImage, ArrowUpImage, AvatarImage } from '@/assets/images';
+import { ArrowDownImage, ArrowUpImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
+import { generateImage } from '@/utils/avatarUtils';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const ProfilMenu = () => {
   const [statusDropDown, setStatusDropDown] = useState<null | HTMLElement>(
@@ -26,6 +29,7 @@ const ProfilMenu = () => {
   );
 
   const theme = useTheme();
+  const { user }: any = getSession();
 
   const [profileDropDown, setProfileDropDown] = useState<null | HTMLElement>(
     null,
@@ -60,9 +64,10 @@ const ProfilMenu = () => {
           display: 'flex',
           alignItems: 'center',
           cursor: 'pointer',
+          width: '50px',
         }}
       >
-        <Image src={ArrowDownImage} alt="Avatar" />
+        <ArrowDropDownIcon sx={{ fontSize: '30px' }} />
       </Box>
       <Menu
         id="basic-menu"
@@ -78,7 +83,12 @@ const ProfilMenu = () => {
       >
         <MenuItem>
           <Box sx={{ gap: 1, display: 'flex', alignItems: 'center' }}>
-            <Image src={AvatarImage} alt="Avatar" />
+            <Avatar
+              src={generateImage(user?.avatar?.url)}
+              sx={{ width: 30, height: 30 }}
+            >
+              {`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`}
+            </Avatar>
             <Box onClick={statusDropdownHandler}>
               <Image
                 src={isStatusOpen ? ArrowUpImage : ArrowDownImage}
@@ -90,13 +100,13 @@ const ProfilMenu = () => {
                 variant="subtitle2"
                 sx={{ color: theme?.palette?.grey[600] }}
               >
-                Sophie Turner
+                {`${user?.firstName} ${user?.lastName}`}
               </Typography>
               <Typography
                 variant="body2"
                 sx={{ color: theme?.palette?.grey[600] }}
               >
-                Sales Manager
+                {user?.jobTitle}
               </Typography>
             </Box>
           </Box>

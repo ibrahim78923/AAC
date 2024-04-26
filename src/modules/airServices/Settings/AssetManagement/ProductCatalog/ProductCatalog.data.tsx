@@ -4,6 +4,7 @@ import {
   MODE_OF_PROCUREMENT,
   PRODUCT_CATALOG_STATUS,
 } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
 import { Box } from '@mui/material';
 
 export const productAssetTypeOption = [
@@ -27,16 +28,6 @@ export const PRODUCT_LISTS_ACTION_CONSTANTS = {
   IMPORT: 'import',
 };
 
-export const productListsData: any = [
-  {
-    _id: 3,
-    name: `Apple`,
-    type: 'Laptop',
-    manufacturer: 'Apple',
-    status: 'In Production',
-  },
-];
-
 export const productListsColumnDynamic: any = (router?: any) => {
   return [
     {
@@ -50,37 +41,37 @@ export const productListsColumnDynamic: any = (router?: any) => {
             router?.push({
               pathname: AIR_SERVICES?.SINGLE_PRODUCT_CATALOG,
               query: {
-                productCatalogId: info?.getValue(),
+                productCatalogId: info?.row?.original?._id,
               },
             });
           }}
           sx={{ cursor: 'pointer' }}
           color="custom.bright"
         >
-          {info?.getValue()}
+          {truncateText(info?.getValue())}
         </Box>
       ),
     },
     {
-      accessorFn: (row: any) => row?.type,
-      id: 'type',
+      accessorFn: (row: any) => row?.assetTypeName,
+      id: 'assetTypeName',
       isSortable: true,
       header: 'Type',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => truncateText(info?.getValue()),
     },
     {
       accessorFn: (row: any) => row?.manufacturer,
       id: 'manufacturer',
       isSortable: true,
       header: 'Manufacturer',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => truncateText(info?.getValue()),
     },
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.replaceAll('_', ' '),
     },
   ];
 };

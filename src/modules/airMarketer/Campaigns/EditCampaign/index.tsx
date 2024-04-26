@@ -38,7 +38,7 @@ export default function EditCampaign({
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
       title={'Edit Campaign'}
-      okText={'Export'}
+      okText={'Update'}
       isOk
       cancelText={'Cancel'}
       footer
@@ -46,7 +46,7 @@ export default function EditCampaign({
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {dataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item?.componentProps} size={'small'}>

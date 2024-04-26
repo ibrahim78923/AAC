@@ -13,7 +13,7 @@ const StatisticsCard = () => {
   });
 
   return (
-    <>
+    <Box sx={{ p: '0 24px' }}>
       <Box sx={styles?.staticCardStyle}>
         <Typography
           variant="h4"
@@ -22,7 +22,7 @@ const StatisticsCard = () => {
             fontWeight: 600,
           }}
         >
-          Total Conversions
+          Total Conversion
         </Typography>
         <ReactApexChart
           options={options}
@@ -31,7 +31,7 @@ const StatisticsCard = () => {
           height={450}
         />
       </Box>
-    </>
+    </Box>
   );
 };
 

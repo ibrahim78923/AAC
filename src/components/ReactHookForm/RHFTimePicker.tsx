@@ -26,6 +26,7 @@ export default function RHFTimePicker({
             {...other}
             slotProps={{
               textField: {
+                ...other?.textFieldProps,
                 helperText: (
                   <Typography
                     component={'span'}

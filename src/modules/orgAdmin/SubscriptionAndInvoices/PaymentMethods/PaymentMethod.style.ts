@@ -6,8 +6,10 @@ export const styles = {
   }),
   paymentsHeader: (theme: any) => ({
     display: 'flex',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: '20px',
     p: '16px 24px',
     borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
   }),
@@ -29,12 +31,19 @@ export const styles = {
   }),
   tableToolbar: () => ({
     display: 'flex',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
     alignItems: 'center',
+    gap: '15px',
     p: '12px 24px',
   }),
-  tableSearch: () => ({}),
+  tableSearch: () => ({
+    '@media (max-width:581px)': {
+      width: '100%',
+    },
+  }),
   tableToolbarActions: () => ({
-    ml: 'auto',
+    // ml: 'auto',
   }),
   actionButton: (theme: any) => ({
     border: `1px solid ${theme?.palette?.grey[0]}`,
@@ -43,6 +52,9 @@ export const styles = {
     fontWeight: '500',
     p: '6px 18px',
     height: '36px',
+    '@media (max-width:581px)': {
+      width: '100%',
+    },
   }),
   chip: (theme: any) => ({
     backgroundColor: theme?.palette?.grey[400],

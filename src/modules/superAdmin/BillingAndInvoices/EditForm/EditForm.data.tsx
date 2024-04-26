@@ -15,12 +15,12 @@ export const validationSchema = Yup?.object()?.shape({
   clientName: Yup?.string()?.trim()?.required('Field is Required'),
   product: Yup?.string()?.trim()?.required('Field is Required'),
   planType: Yup?.string()?.trim()?.required('Field is Required'),
-  additionalUser: Yup?.string()?.trim()?.required('Field is Required'),
+  additionalUser: Yup?.string()?.trim(),
   planPrice: Yup?.string()?.trim(),
   defaultUser: Yup?.string()?.trim(),
   defaultUserTwo: Yup?.string()?.trim(),
-  additionalStorage: Yup?.string()?.trim()?.required('Field is Required'),
-  discount: Yup?.string()?.trim()?.required('Field is Required'),
+  additionalStorage: Yup?.string(),
+  discount: Yup?.string()?.trim(),
   billingCycle: Yup?.string()?.trim()?.required('Field is Required'),
   date: Yup?.date(),
 });
@@ -36,18 +36,23 @@ export const defaultValues = {
   additionalStorage: '',
   discount: '',
   billingCycle: '',
-  date: new Date(),
+  date: null,
 };
 
-const CRMSuite = [
-  { value: 'CRM1', label: 'CRM1' },
-  { value: 'CRM2', label: 'CRM2' },
-  { value: 'CRM3', label: 'CRM3' },
-];
-export const assignPlanData = (selectProductSuite: string) => {
+interface CRMOption {
+  value: string;
+  label: string;
+}
+
+export const assignPlanData = (
+  selectProductSuite: string,
+  crmOptions: CRMOption[],
+  isEditModal: boolean,
+  isStoragePrice: boolean,
+  isUserPrice: boolean,
+) => {
   const { data: productData } = useGetProductsQuery<any>({
     refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
   });
 
   const productSuite = productData?.data?.map((product: any) => ({
@@ -57,7 +62,6 @@ export const assignPlanData = (selectProductSuite: string) => {
 
   const { data: planTypeData } = useGetPlanTypeQuery<any>({
     refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
   });
 
   const planType = planTypeData?.data?.map((planType: any) => ({
@@ -67,7 +71,6 @@ export const assignPlanData = (selectProductSuite: string) => {
 
   const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
     refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
   });
 
   const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
@@ -75,7 +78,7 @@ export const assignPlanData = (selectProductSuite: string) => {
     label: Organizations?.name,
   }));
 
-  const options = selectProductSuite === 'product' ? productSuite : CRMSuite;
+  const options = selectProductSuite === 'product' ? productSuite : crmOptions;
 
   return [
     {
@@ -84,6 +87,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         label: 'Client Name & Organization',
         fullWidth: true,
         select: true,
+        disabled: isEditModal,
       },
 
       options: Organizations,
@@ -101,6 +105,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         }`,
         fullWidth: true,
         select: true,
+        disabled: isEditModal,
       },
 
       options: options,
@@ -116,6 +121,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         label: 'Plan Type',
         fullWidth: true,
         select: true,
+        disabled: isEditModal,
       },
 
       options: planType,
@@ -151,8 +157,8 @@ export const assignPlanData = (selectProductSuite: string) => {
     },
     {
       componentProps: {
-        name: 'defaultUserTwo',
-        label: 'Default User',
+        name: 'defaultStorage',
+        label: 'Default storage',
         fullWidth: true,
         disabled: true,
       },
@@ -166,6 +172,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         name: 'additionalUser',
         label: 'Additional User',
         fullWidth: true,
+        disabled: isUserPrice,
       },
 
       component: RHFTextField,
@@ -177,6 +184,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         name: 'additionalStorage',
         label: 'Additional Storage',
         fullWidth: true,
+        disabled: isStoragePrice,
       },
 
       component: RHFTextField,

@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { Departments } from '@/modules/airServices/Settings/UserManagement/Departments';
 
@@ -8,5 +9,13 @@ const DepartmentsPage = () => {
 export default DepartmentsPage;
 
 DepartmentsPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      permissions={
+        Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_DEPARTMENTS
+      }
+    >
+      {page}
+    </Layout>
+  );
 };

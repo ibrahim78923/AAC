@@ -1,12 +1,7 @@
 import * as Yup from 'yup';
-export const moveFolderSchema = Yup?.object()?.shape({
-  folderName: Yup?.object()?.required('Required'),
+export const moveFolderSchema: any = Yup?.object()?.shape({
+  folder: Yup?.object()?.nullable()?.required('Required'),
 });
 export const moveFolderDefaultValues = {
-  folderName: { label: '', value: '' },
+  folder: null,
 };
-export const moveFolderOptions = [
-  { label: 'Personal', value: 'Personal' },
-  { label: 'General', value: 'General' },
-  { label: 'Approval Responses', value: 'Approval Responses' },
-];

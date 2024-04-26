@@ -1,22 +1,37 @@
 import { AntSwitch } from '@/components/AntSwitch';
 import { Avatar, Box, Checkbox, Chip } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import dayjs from 'dayjs';
+import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
   {
+    id: 1,
     title: 'Edit',
+    permissionKey: [
+      AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
+    ],
     handleClick: () => {
       handleActionClick('edit');
     },
   },
   {
+    id: 2,
     title: 'Clone',
+    permissionKey: [
+      AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.CLONE_WORKFLOW,
+    ],
     handleClick: () => {
       handleActionClick('clone');
     },
   },
   {
+    id: 3,
     title: 'Delete',
+    permissionKey: [
+      AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.DELETE,
+    ],
     handleClick: () => {
       handleActionClick?.('delete');
     },
@@ -29,7 +44,7 @@ export const meetingsListData: any = [
     workflowName: 'Update Tasks',
     status: true,
     createdBy: 'Jane Cooper',
-    createdOn: 'Oct 15, 2023 4:56:44 PM',
+    createdOn: '2023-12-14T11:59:08.238Z',
     lastActivity: 'Update by Andrew',
   },
   {
@@ -37,7 +52,7 @@ export const meetingsListData: any = [
     workflowName: 'Update Task',
     status: false,
     createdBy: 'Esther Howard',
-    createdOn: 'Oct 15, 2023 4:56:44 PM',
+    createdOn: '2023-12-14T11:59:08.238Z',
     lastActivity: 'Update by Shaw',
   },
 ];
@@ -117,7 +132,15 @@ export const meetingsListsColumnsFunction = (
     id: 'status',
     header: 'Status',
     isSortable: false,
-    cell: (info: any) => <AntSwitch values={info?.getValue()} />,
+    cell: (info: any) => (
+      <PermissionsGuard
+        permissions={[
+          AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.ENABLE_DISABLE,
+        ]}
+      >
+        <AntSwitch values={info?.getValue()} />{' '}
+      </PermissionsGuard>
+    ),
   },
   {
     accessorFn: (row: any) => row?.createdBy,
@@ -136,7 +159,8 @@ export const meetingsListsColumnsFunction = (
     id: 'createdOn',
     isSortable: false,
     header: 'Created On',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      dayjs(info?.getValue())?.format('MMMM DD, YYYY: hh:mm'),
   },
   {
     accessorFn: (row: any) => row?.lastActivity,

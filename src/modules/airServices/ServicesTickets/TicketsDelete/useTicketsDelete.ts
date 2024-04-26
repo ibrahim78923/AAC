@@ -1,52 +1,67 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { AIR_SERVICES } from '@/constants';
 import usePath from '@/hooks/usePath';
 import { useDeleteTicketsMutation } from '@/services/airServices/tickets';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 
 export const useTicketDelete = (props: any) => {
   const router = useRouter();
   const { makePath } = usePath();
-  const { setDeleteModalOpen, selectedTicketList, setSelectedTicketList } =
-    props;
-  const [deleteTicketsTrigger] = useDeleteTicketsMutation();
+  const {
+    setDeleteModalOpen,
+    selectedTicketList,
+    setSelectedTicketList,
+    setPage,
+    getTicketsListData,
+    totalRecords,
+    page,
+    isMoveBack = false,
+  } = props;
+  const [deleteTicketsTrigger, deleteTicketsStatus] =
+    useDeleteTicketsMutation();
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();
     selectedTicketList?.forEach(
-      (ticketId: any) => deleteParams?.append('ids', ticketId),
+      (ticketId: any) => deleteParams?.append('Ids', ticketId),
     );
     const deleteTicketsParameter = {
       queryParams: deleteParams,
     };
     try {
-      const response: any = await deleteTicketsTrigger(
-        deleteTicketsParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket deleted successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      setSelectedTicketList([]);
+      await deleteTicketsTrigger(deleteTicketsParameter)?.unwrap();
+      successSnackbar('Ticket deleted successfully');
       closeTicketsDeleteModal?.();
+      setSelectedTicketList?.([]);
+      const newPage = selectedTicketList?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
+      await getTicketsListData?.(newPage);
+      router?.push(
+        makePath({
+          path: AIR_SERVICES?.TICKETS,
+          skipQueries: ['ticketAction'],
+        }),
+      );
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.error ?? 'Ticket not deleted', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-      setSelectedTicketList([]);
+      errorSnackbar(error?.data?.message);
+      setSelectedTicketList?.([]);
       closeTicketsDeleteModal?.();
     }
   };
   const closeTicketsDeleteModal = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
+    !isMoveBack &&
+      router?.push(
+        makePath({
+          path: router?.pathname,
+          skipQueries: ['ticketAction'],
+        }),
+      );
+    setSelectedTicketList?.([]);
     setDeleteModalOpen?.(false);
   };
 
   return {
     deleteTicket,
     closeTicketsDeleteModal,
+    deleteTicketsStatus,
   };
 };

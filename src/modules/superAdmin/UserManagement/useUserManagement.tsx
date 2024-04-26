@@ -7,11 +7,11 @@ import { useTheme } from '@mui/material';
 import { SUPER_ADMIN } from '@/constants';
 
 import {
-  useUpdateUserProfileMutation,
+  // useUpdateUserProfileMutation,
   usersApi,
 } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
-import { CommonAPIS, useGetOrganizationsQuery } from '@/services/common-APIs';
+import { CommonAPIS } from '@/services/common-APIs';
 import { PAGINATION } from '@/config';
 
 const useUserManagement = () => {
@@ -24,18 +24,24 @@ const useUserManagement = () => {
   });
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [userType, setUserType] = useState();
-  const [checkedRows, setCheckedRows] = useState<any>();
+  const [selectedRow, setSelectedRow] = useState<any>({
+    page: PAGINATION?.CURRENT_PAGE,
+    selectedValue: null,
+  });
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [searchVal, setSearchVal] = useState('');
+  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
   const [filterValues, setFilterValues] = useState<any>({
     role: '',
     products: '',
     organization: '',
     createdDate: '',
   });
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const initialTab = 0;
+  const tabOne = 1;
+  const tabTwo = 2;
 
   // imports users API's
   const {
@@ -44,12 +50,12 @@ const useUserManagement = () => {
     useGetCompaniesCRNQuery,
     useGetUsersByIdQuery,
   }: any = usersApi;
-  const { useGetProductsQuery } = CommonAPIS;
+  const { useGetProductsQuery, useGetOrganizationsQuery } = CommonAPIS;
 
   const [updateUsers] = useUpdateUsersMutation();
-  const [updateUserProfile] = useUpdateUserProfileMutation();
   const { data: products } = useGetProductsQuery({});
   const { data: organizations } = useGetOrganizationsQuery({});
+
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
@@ -64,20 +70,26 @@ const useUserManagement = () => {
   const handleUsersList = (data: any) => {
     navigate.push({
       pathname: SUPER_ADMIN?.USERS_LIST,
-      query: {
-        userName: `${data?.firstName} ${data?.lastName}`,
-        organizationId: data?.organization,
-      },
+      query: { id: data?._id },
     });
     setSelectedValue(null);
   };
 
-  const handleUserSwitchChange = (e: any, id: any) => {
-    const status = e?.target?.checked ? 'ACTIVE' : 'INACTIVE';
-    updateUsers({ id, body: { status: status } });
-    enqueueSnackbar('User updated successfully', {
-      variant: 'success',
-    });
+  const handleUserSwitchChange = async (e: any, id: any) => {
+    const status =
+      e?.target?.checked || e?.target?.value === 'ACTIVE'
+        ? 'ACTIVE'
+        : 'INACTIVE';
+    try {
+      await updateUsers({ id, body: { status: status } })?.unwrap();
+      enqueueSnackbar('User updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   const resetFilters = () => {
@@ -85,7 +97,7 @@ const useUserManagement = () => {
       role: '',
       products: '',
       organization: '',
-      createdDate: '',
+      createdDate: null,
     });
   };
 
@@ -111,18 +123,21 @@ const useUserManagement = () => {
     useGetCompaniesCRNQuery,
     handleUserSwitchChange,
     useGetUsersByIdQuery,
-    checkedRows,
-    setCheckedRows,
-    updateUserProfile,
+    selectedRow,
+    setSelectedRow,
+    updateUsers,
     products,
     searchVal,
     setSearchVal,
     resetFilters,
-    organizations,
     pageLimit,
     setPageLimit,
-    page,
-    setPage,
+    organizations,
+    initialTab,
+    tabTwo,
+    tabOne,
+    datePickerVal,
+    setDatePickerVal,
   };
 };
 

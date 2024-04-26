@@ -12,4 +12,5 @@ export interface PlanCardI {
   handleManagePlan?: any;
   id?: string;
   plan?: any;
+  isCRM?: any;
 }

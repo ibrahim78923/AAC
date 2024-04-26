@@ -1,17 +1,16 @@
-import { Create, KeyboardArrowDown } from '@mui/icons-material';
+import { Create } from '@mui/icons-material';
 import { Box, Divider, Typography, useTheme } from '@mui/material';
 import { styles } from './TitleBar.style';
 import AddNewAssetTypesModal from '../AddNewAssetTypesModal';
 import { useTitleBar } from './useTitleBar';
-const TitleBar = (props?: any) => {
+const TitleBar = (props: any) => {
   const {
-    handleSubmit,
-    editAssetTypesMethods,
-    submitAddForm,
+    methods,
+    handleSubmitEditForm,
     openEditAssetTypesModal,
     setEditNewAssetTypesModal,
-  } = useTitleBar();
-  const { title, handleCollapse, icNotCollapseAble } = props;
+  } = useTitleBar(props);
+  const { title, icNotCollapseAble, assetTypeData } = props;
   const { palette } = useTheme();
 
   return (
@@ -35,14 +34,7 @@ const TitleBar = (props?: any) => {
           justifyContent="space-between"
           gap={1.8}
         >
-          {icNotCollapseAble ? (
-            'L'
-          ) : (
-            <KeyboardArrowDown
-              sx={styles?.arrowStyle}
-              onClick={handleCollapse}
-            />
-          )}
+          {icNotCollapseAble ? 'L' : <Box sx={styles?.arrowStyle}></Box>}
           <Divider orientation="vertical" variant="middle" flexItem />
           <Typography fontWeight={500} py={1.5} textTransform="capitalize">
             {title}
@@ -55,11 +47,11 @@ const TitleBar = (props?: any) => {
       </Box>
       <Box>
         <AddNewAssetTypesModal
+          assetTypeData={assetTypeData}
           open={openEditAssetTypesModal}
           handleClose={setEditNewAssetTypesModal}
-          methods={editAssetTypesMethods}
-          submitForm={submitAddForm}
-          handleSubmit={handleSubmit}
+          methods={methods}
+          handleSubmit={handleSubmitEditForm}
           modalTitle="Edit Asset Types"
         />
       </Box>

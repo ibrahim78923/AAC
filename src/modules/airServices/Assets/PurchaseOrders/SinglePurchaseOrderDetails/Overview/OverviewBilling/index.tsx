@@ -1,8 +1,22 @@
-import { Box, Divider, Grid, Typography, TextField } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import { modalBillingData } from './OverviewBilling.data';
 import { styles } from './OverviewBilling.style';
 
-const OverviewBilling = () => {
+const OverviewBilling = ({
+  purchaseOrderDetailData,
+  purchaseOrderData,
+}: any) => {
+  const purchaseOrderDetail = purchaseOrderDetailData?.[0];
+  const subTotal = purchaseOrderData?.subTotal || 0;
+  const discount = purchaseOrderData?.discount || 0;
+  const taxRate = purchaseOrderDetail?.taxRate || 0;
+  const shipping = purchaseOrderData?.shipping || 0;
+  const total =
+    subTotal -
+    (subTotal * discount) / 100 +
+    (subTotal * taxRate) / 100 +
+    shipping;
+
   return (
     <Box
       sx={{
@@ -11,10 +25,14 @@ const OverviewBilling = () => {
         flexDirection: 'column',
       }}
     >
-      {modalBillingData?.map((item: any) => {
+      {modalBillingData({
+        purchaseOrderDetail,
+        purchaseOrderData,
+        total,
+      })?.map((item: any) => {
         const totalItem = [
-          modalBillingData?.[0]?.label,
-          modalBillingData?.[modalBillingData?.length - 1]?.label,
+          purchaseOrderDetail?.[0]?.label,
+          purchaseOrderDetail?.[purchaseOrderDetail?.length - 1]?.label,
         ];
         return (
           <Grid
@@ -44,22 +62,25 @@ const OverviewBilling = () => {
                 {item?.label}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid
+              item
+              sx={{
+                width: 70,
+                height: 44,
+                maxHeight: 44,
+                border: '1px solid black',
+                padding: '8px',
+                mt: 1,
+                borderRadius: 1,
+                textAlign: 'center',
+                overflow: 'auto',
+              }}
+              key={item?.value}
+            >
               {totalItem?.includes(item?.label) ? (
                 <Typography sx={styles?.billingValue}>{item?.value}</Typography>
               ) : (
-                <TextField
-                  key={item?.value}
-                  name={item?.value}
-                  value={item?.value}
-                  type={item?.value === 'description' ? 'text' : 'number'}
-                  inputProps={{
-                    style: {
-                      width: 50,
-                      height: 1,
-                    },
-                  }}
-                />
+                <Typography>{item?.value}</Typography>
               )}
             </Grid>
             {totalItem?.includes(item?.label) && (

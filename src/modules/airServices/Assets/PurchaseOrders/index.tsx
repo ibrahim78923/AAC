@@ -1,88 +1,108 @@
-import { Box } from '@mui/material';
-import { data, purchaseOrderColumnsFunction } from './PurchaseOrders.data';
 import TanstackTable from '@/components/Table/TanstackTable';
-import Search from '@/components/Search';
-
-import { PurchaseOrderExport } from './PurchaseOrderExport';
 import { PurchaseOrderFilter } from './PurchaseOrderFilter';
-
 import usePurchaseOrders from './usePurchaseOrders';
-import { filterFields } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import CustomPagination from '@/components/CustomPagination';
 import { DeletePurchaseOrder } from './DeletePurchaseOrder';
+import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { PurchaseOrderHeader } from './PurchaseOrderHeader';
+import { EXPORT_TYPE } from '@/constants/strings';
 
-function PurchaseOrder() {
+const PurchaseOrder = () => {
   const {
     isDrawerOpen,
     setIsDrawerOpen,
     handleNewPurchaseOrder,
-    methodsPurchaseOrderFilterForm,
-    submitPurchaseOrderFilterForm,
-    resetPurchaseOrderFilterForm,
-    router,
     deleteModalOpen,
     setDeleteModalOpen,
     purchaseOrderData,
     setPurchaseOrderData,
-  } = usePurchaseOrders();
-
-  const purchaseOrderColumns = purchaseOrderColumnsFunction(
-    purchaseOrderData,
-    setPurchaseOrderData,
-    data,
-    router,
-  );
+    setPage,
+    setPageLimit,
+    page,
+    setSearchValue,
+    lazyGetPurchaseOrderListStatus,
+    purchaseOrderColumns,
+    getPurchaseOrderListDataExport,
+    purchaseOrderFilter,
+    setPurchaseOrderFilter,
+    getPurchaseOrderListData,
+    onDeleteClick,
+  }: any = usePurchaseOrders();
 
   return (
     <>
       <PageTitledHeader
         title={'Purchase Order'}
         addTitle={'New Purchase Order'}
+        createPermissionKey={[
+          AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.NEW_PURCAHSE_ORDER,
+        ]}
         handleAction={handleNewPurchaseOrder}
       />
-      <Box>
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          flexWrap={'wrap'}
-          gap={1.5}
-        >
-          <Search label="Search Here" searchBy="" setSearchBy={''} />
-          <Box
-            display={'flex'}
-            alignItems={'center'}
-            flexWrap={'wrap'}
-            gap={1.5}
-          >
-            <DeletePurchaseOrder
-              deleteModalOpen={deleteModalOpen}
-              setDeleteModalOpen={setDeleteModalOpen}
-              purchaseOrderData={purchaseOrderData}
-              isDisabled={!!!purchaseOrderData?.length}
-            />
-            <PurchaseOrderExport />
-            <PurchaseOrderFilter
-              isDrawerOpen={isDrawerOpen}
-              setIsDrawerOpen={setIsDrawerOpen}
-              filterFields={filterFields}
-              methods={methodsPurchaseOrderFilterForm}
-              handleSubmit={submitPurchaseOrderFilterForm}
-              handleReset={resetPurchaseOrderFilterForm}
-            />
-          </Box>
-        </Box>
-        <br />
-        <TanstackTable data={data} columns={purchaseOrderColumns} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+      <br />
+      <PurchaseOrderHeader
+        handleExcelExport={() =>
+          getPurchaseOrderListDataExport?.(EXPORT_TYPE?.XLS)
+        }
+        handleCsvExport={() =>
+          getPurchaseOrderListDataExport?.(EXPORT_TYPE?.CSV)
+        }
+        deleteButtonDisabled={!!!purchaseOrderData?.length}
+        setSearchValue={setSearchValue}
+        onFilterClick={() => setIsDrawerOpen?.(true)}
+        onDeleteClick={() => onDeleteClick?.()}
+      />
+      <br />
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.PURCAHSE_ORDER_LIST_VIEW,
+        ]}
+      >
+        <TanstackTable
+          data={lazyGetPurchaseOrderListStatus?.data?.data?.purchases}
+          columns={purchaseOrderColumns}
+          isPagination
+          isLoading={lazyGetPurchaseOrderListStatus?.isLoading}
+          isError={lazyGetPurchaseOrderListStatus?.isError}
+          isFetching={lazyGetPurchaseOrderListStatus?.isFetching}
+          isSuccess={lazyGetPurchaseOrderListStatus?.isSuccess}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+          count={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.pages}
+          totalRecords={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          currentPage={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.page}
+          pageLimit={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.limit}
         />
-      </Box>
+      </PermissionsGuard>
+
+      {deleteModalOpen && (
+        <DeletePurchaseOrder
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          purchaseOrderData={purchaseOrderData}
+          setPurchaseOrderData={setPurchaseOrderData}
+          setPage={setPage}
+          page={page}
+          getPurchaseOrderListData={getPurchaseOrderListData}
+          totalRecords={
+            lazyGetPurchaseOrderListStatus?.data?.data?.purchases?.length
+          }
+        />
+      )}
+
+      {isDrawerOpen && (
+        <PurchaseOrderFilter
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          purchaseOrderFilter={purchaseOrderFilter}
+          setPurchaseOrderFilter={setPurchaseOrderFilter}
+          setPage={setPage}
+        />
+      )}
     </>
   );
-}
+};
 
 export default PurchaseOrder;

@@ -1,84 +1,99 @@
-import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFDatePicker,
+  RHFRadioGroup,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
-export const CreateViewData = [
-  {
-    componentProps: {
-      name: 'Name',
-      label: 'Enter Name',
-      select: false,
+import * as Yup from 'yup';
+import { useGetUsersListQuery } from '@/services/airSales/deals';
+import useDealTab from '../DealTab/useDealTab';
+
+export const validationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
+});
+
+export const defaultValues = {
+  name: '',
+  sharedWith: '',
+};
+
+export const CreateViewData = (dealPipelineId: string | null) => {
+  const { pipelineData } = useDealTab();
+  const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
+  const filteredStages = pipelineData?.data?.dealpipelines?.find(
+    (obj: { _id: string }) => obj?._id === dealPipelineId,
+  )?.stages;
+
+  return [
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Name',
+        select: false,
+        required: true,
+        placeholder: 'Enter Name',
+      },
+      component: RHFTextField,
     },
-    options: [
-      { value: 'All Pipelines', label: 'All Pipelines' },
-      { value: 'Sales Pipelines', label: 'Sales Pipelines' },
-      { value: 'Recruitment Pipelines', label: 'Recruitment Pipelines' },
-      { value: 'Test Pipelines', label: 'Test Pipelines' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    componentProps: {
-      name: 'DealPipline',
-      label: 'DealPipline',
-      select: true,
+    {
+      componentProps: {
+        name: 'dealPipelineId',
+        label: 'Deal Pipline',
+        select: true,
+      },
+      options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
     },
-    options: [
-      { value: 'All Pipelines', label: 'All Pipelines' },
-      { value: 'Sales Pipelines', label: 'Sales Pipelines' },
-      { value: 'Recruitment Pipelines', label: 'Recruitment Pipelines' },
-      { value: 'Test Pipelines', label: 'Test Pipelines' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    componentProps: {
-      name: 'DealName',
-      label: 'DealName',
-      select: true,
+    {
+      componentProps: {
+        name: 'dealOwnerId',
+        label: 'Deal Owner',
+        select: true,
+      },
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })),
+      component: RHFSelect,
     },
-    options: [
-      { value: 'Air Apple Cart', label: 'Air Apple Cart' },
-      { value: 'Phoenix Baker', label: 'Phoenix Baker' },
-      { value: 'Fooster App', label: 'Fooster App' },
-      { value: 'Share My Dine', label: 'Share My Dine' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    componentProps: {
-      name: 'DealOwner',
-      label: 'DealOwner',
-      select: true,
+    {
+      componentProps: {
+        name: 'CloseDate',
+        label: 'Close Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-    options: [
-      { value: 'Savannah Shane', label: 'Savannah Shane' },
-      { value: 'Phoenix Baker', label: 'Phoenix Baker' },
-      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-      { value: 'Brooklyn Simmons', label: 'Brooklyn Simmons' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    componentProps: {
-      name: 'CloseDate',
-      label: 'CloseDate',
+    {
+      componentProps: {
+        name: 'dealStageId',
+        label: 'Deal Stage',
+        select: true,
+      },
+      options: filteredStages?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
     },
-    component: RHFDatePicker,
-  },
-  {
-    componentProps: {
-      name: 'DealStage',
-      label: 'DealStage',
-      select: true,
+    {
+      componentProps: {
+        name: 'sharedWith',
+        label: 'Shared With',
+        defaultValue: 'EVERYONE',
+        row: false,
+        options: [
+          { label: 'Private', value: 'PRIVATE' },
+          { label: 'My Teams (worked)', value: 'MY_TEAMS' },
+          { label: 'Everyone', value: 'EVERYONE' },
+        ],
+      },
+      component: RHFRadioGroup,
     },
-    options: [
-      { value: 'New', label: 'New' },
-      { value: 'Follow Up', label: 'Follow Up' },
-      { value: 'Under Review', label: 'Under Review' },
-      { value: 'Demo', label: 'Demo' },
-      { value: 'Negotiation', label: 'Negotiation' },
-      { value: 'Won', label: 'Won' },
-      { value: 'Lost', label: 'Lost' },
-    ],
-    component: RHFTextField,
-  },
-];
+  ];
+};

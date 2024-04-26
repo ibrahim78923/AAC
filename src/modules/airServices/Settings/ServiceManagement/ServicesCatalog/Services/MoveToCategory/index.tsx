@@ -6,14 +6,20 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import CloseIcon from '@mui/icons-material/Close';
 import { Typography } from '@mui/material';
-import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import useMoveToCategory from './useMoveToCategory';
-import { moveToCategoryOption } from './MoveToCategory.data';
 
 export const MoveToCategory = (prop: any) => {
-  const { methodAdd, handleSubmit, onSubmit, open, setOpen } =
-    useMoveToCategory(prop);
+  const {
+    methodAdd,
+    handleSubmit,
+    onSubmit,
+    open,
+    setOpen,
+    apiQueryCategroy,
+    patchServiceCatalogTriggerStatus,
+  } = useMoveToCategory(prop);
 
   const handleClose = () => {
     setOpen(false);
@@ -22,7 +28,6 @@ export const MoveToCategory = (prop: any) => {
     <Fragment>
       <Dialog
         onClose={handleClose}
-        onSubmit={onSubmit}
         aria-labelledby="customized-dialog-title"
         open={open}
         fullWidth
@@ -32,24 +37,39 @@ export const MoveToCategory = (prop: any) => {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Typography variant="h4">Move To Category</Typography>
+          <Typography variant={'h4'} component={'span'}>
+            Move to Category
+          </Typography>
 
           <CloseIcon sx={{ cursor: 'pointer' }} onClick={handleClose} />
         </DialogTitle>
 
         <FormProvider methods={methodAdd} onSubmit={handleSubmit(onSubmit)}>
           <DialogContent dividers>
-            <RHFAutocomplete
+            <RHFAutocompleteAsync
               name="category"
               label="Category"
+              placeholder="Select"
               select={true}
               md={12}
-              options={moveToCategoryOption}
+              apiQuery={apiQueryCategroy}
+              getOptionLabel={(option: any) => option?.categoryName}
             />
           </DialogContent>
           <DialogActions>
-            <LoadingButton onClick={handleClose}>cancel</LoadingButton>
-            <LoadingButton variant="contained" type="submit">
+            <LoadingButton
+              onClick={handleClose}
+              variant="outlined"
+              color="secondary"
+              disabled={patchServiceCatalogTriggerStatus?.isLoading}
+            >
+              cancel
+            </LoadingButton>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={patchServiceCatalogTriggerStatus?.isLoading}
+            >
               Move
             </LoadingButton>
           </DialogActions>

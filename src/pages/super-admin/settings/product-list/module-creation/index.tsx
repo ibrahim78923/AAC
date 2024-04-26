@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import ModuleCreation from '@/modules/superAdmin/settings/ProductList/ModuleCreation';
 const ModuleCreationPage = () => {
@@ -5,5 +6,7 @@ const ModuleCreationPage = () => {
 };
 export default ModuleCreationPage;
 ModuleCreationPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout permissions={Permissions?.SETTING_PRODUCT_LIST}>{page}</Layout>
+  );
 };

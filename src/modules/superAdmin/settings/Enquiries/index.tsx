@@ -5,16 +5,15 @@ import {
   Box,
   Button,
   Typography,
-  useTheme,
   Grid,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
 import QueryModal from './QueryModal';
@@ -33,9 +32,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEnquiries } from './useEnquiries';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS } from '@/constants/permission-keys';
 
 const Enquiries = () => {
-  const theme = useTheme();
   const [isEnquiriesFilterDrawerOpen, setIsEnquiriesFilterDrawerOpen] =
     useState(false);
   const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
@@ -77,113 +77,125 @@ const Enquiries = () => {
         border: '1px solid #EAECF0',
       }}
     >
-      <Box sx={{ padding: '16px 24px' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '19px',
-          }}
-        >
-          <Typography variant="h3" sx={{ fontWeight: '600' }}>
-            Enquiries
-          </Typography>
-        </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '10px',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Search
-            label={'Search here'}
-            searchBy={search}
-            setSearchBy={setSearch}
-            width="260px"
-            size="small"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
-            <Button
-              disabled={tableRowIds.length > 0 ? false : true}
-              id="basic-button"
-              aria-controls={isActionMenuOpen ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={isActionMenuOpen ? 'true' : undefined}
-              onClick={handleClick}
-              sx={{
-                color: theme?.palette?.grey[500],
-                width: '112px',
-                border: '1.5px solid #e7e7e9',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
-              className="small"
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Enquiries_List,
+        ]}
+      >
+        <Box sx={styles?.pageHeader}>
+          <Box sx={styles?.heading}>
+            <Typography variant="h3" sx={{ fontWeight: '600' }}>
+              Enquiries
+            </Typography>
+          </Box>
+          <Box sx={styles?.filterBar}>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Search_and_Filter,
+              ]}
             >
-              Actions &nbsp; <DownIcon />
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={isActionMenuOpen}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-              PaperProps={{
-                style: {
-                  width: '112px',
-                },
-              }}
-            >
-              <MenuItem
-                onClick={() => setIsQueryModalOpen(true)}
-                style={{ fontSize: '14px' }}
+              <Box sx={styles?.search}>
+                <Search
+                  label={'Search here'}
+                  searchBy={search}
+                  setSearchBy={setSearch}
+                  width="260px"
+                  size="small"
+                />
+              </Box>
+            </PermissionsGuard>
+
+            <Box sx={styles?.filterButtons}>
+              <Button
+                disabled={tableRowIds.length > 0 ? false : true}
+                id="basic-button"
+                aria-controls={isActionMenuOpen ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={isActionMenuOpen ? 'true' : undefined}
+                onClick={handleClick}
+                sx={styles?.actionBtn}
+                className="small"
               >
-                Reply
-              </MenuItem>
-              <MenuItem style={{ fontSize: '14px' }}>View</MenuItem>
-              <MenuItem
-                onClick={handleDeleteModal}
-                style={{ fontSize: '14px' }}
+                Actions &nbsp; <DownIcon />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={isActionMenuOpen}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+                PaperProps={{
+                  style: {
+                    width: '112px',
+                  },
+                }}
               >
-                Delete
-              </MenuItem>
-            </Menu>
-            <Button sx={styles?.refreshButton(theme)} className="small">
-              <RefreshSharedIcon />
-            </Button>
-            <Button
-              sx={styles?.filterButton(theme)}
-              className="small"
-              onClick={() => setIsEnquiriesFilterDrawerOpen(true)}
-            >
-              <FilterSharedIcon /> &nbsp; Filter
-            </Button>
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Reply_Enquiry,
+                  ]}
+                >
+                  <MenuItem
+                    onClick={() => setIsQueryModalOpen(true)}
+                    style={{ fontSize: '14px' }}
+                  >
+                    Reply
+                  </MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.View_Enquiry,
+                  ]}
+                >
+                  <MenuItem style={{ fontSize: '14px' }}>View</MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Delete_Enquiry,
+                  ]}
+                >
+                  <MenuItem
+                    onClick={handleDeleteModal}
+                    style={{ fontSize: '14px' }}
+                  >
+                    Delete
+                  </MenuItem>
+                </PermissionsGuard>
+              </Menu>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Refresh_Record,
+                ]}
+              >
+                <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                  <Button sx={styles?.refreshButton} className="small">
+                    <RefreshSharedIcon />
+                  </Button>
+                </Tooltip>
+              </PermissionsGuard>
+
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Search_and_Filter,
+                ]}
+              >
+                <Button
+                  sx={styles?.filterButton}
+                  className="small"
+                  onClick={() => setIsEnquiriesFilterDrawerOpen(true)}
+                >
+                  <FilterSharedIcon /> &nbsp; Filter
+                </Button>
+              </PermissionsGuard>
+            </Box>
           </Box>
         </Box>
-      </Box>
-      <Box>
-        <TanstackTable {...tableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
-        />
-      </Box>
+        <Box>
+          <TanstackTable {...tableData} isPagination={true} />
+        </Box>
+      </PermissionsGuard>
       <CommonDrawer
         isDrawerOpen={isEnquiriesFilterDrawerOpen}
         onClose={() => setIsEnquiriesFilterDrawerOpen(false)}

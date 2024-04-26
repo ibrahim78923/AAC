@@ -1,12 +1,19 @@
-import { Box, Button, Chip, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import { AddCircle, Delete } from '@mui/icons-material';
 import { actionsExecutedFields } from './WorkflowActionExecuted.data';
-import { salesValues } from '../UpsertSalesWorkflow.data';
 import { useWorkflowActionExecuted } from './useWorkflowActionExecuted';
 
-export const WorkflowActionExecuted = () => {
-  const { append, fields, palette, handleDeleteClick } =
-    useWorkflowActionExecuted();
+export const WorkflowActionExecuted = (props: any) => {
+  const { watch } = props;
+  const {
+    handleAppend,
+    fields,
+    palette,
+    handleDeleteClick,
+    dealsDropdown,
+    userDropdown,
+    stagesDropdown,
+  } = useWorkflowActionExecuted(props);
   return (
     <Box
       border={`1px solid ${palette?.custom?.off_white_three}`}
@@ -18,7 +25,7 @@ export const WorkflowActionExecuted = () => {
         p={1.5}
         borderBottom={`1px solid ${palette?.custom?.off_white_three}`}
       >
-        When action Should be executed
+        When action should be executed
       </Typography>
       {fields?.map((item, index) => {
         return (
@@ -26,24 +33,26 @@ export const WorkflowActionExecuted = () => {
             {index !== 0 && (
               <Divider
                 sx={{
-                  '&::before, &::after': {
-                    borderColor: palette?.grey?.[700],
-                  },
+                  borderColor: palette?.grey?.[700],
                 }}
-              >
-                <Chip label={'AND'} />
-              </Divider>
+              />
             )}
             <Box display={'flex'} alignItems={'center'} gap={1} pt={1.5}>
               <Grid container spacing={2}>
-                {actionsExecutedFields?.map((item) => (
+                {actionsExecutedFields(
+                  index,
+                  watch,
+                  dealsDropdown,
+                  userDropdown,
+                  stagesDropdown,
+                )?.map((item) => (
                   <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
                     <item.component {...item?.componentProps} size="small" />
                   </Grid>
                 ))}
               </Grid>
               <Delete
-                sx={{ color: palette?.error?.main, cursor: 'pointer' }}
+                sx={{ color: palette?.error?.main, cursor: 'pointer', mb: 1 }}
                 onClick={() => handleDeleteClick?.(index)}
               />
             </Box>
@@ -52,11 +61,11 @@ export const WorkflowActionExecuted = () => {
       })}
       <Box p={1.5}>
         <Button
-          onClick={() => append(salesValues?.actionsExecuted)}
+          onClick={handleAppend}
           color="secondary"
           startIcon={<AddCircle color="action" />}
         >
-          Add Condition
+          Add Action
         </Button>
       </Box>
     </Box>

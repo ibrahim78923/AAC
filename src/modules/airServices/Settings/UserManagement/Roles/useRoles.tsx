@@ -1,88 +1,58 @@
+import { PAGINATION } from '@/config';
+import useAuth from '@/hooks/useAuth';
+import { useLazyGetPermissionsRoleQuery } from '@/services/airServices/settings/user-management/roles';
+import { buildQueryParams } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  upsertRolesDefaultValues,
-  upsertRolesValidationSchema,
-} from './Roles.data';
-import { useTheme } from '@mui/material';
-import { useState } from 'react';
-import { NOTISTACK_VARIANTS, SETTINGS_ADD_ROLE } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
-export const useRoles = () => {
-  const theme = useTheme();
-  const [checkboxState, setCheckboxState] = useState({});
-  const router = useRouter();
-  const [rolesMenu, setRolesMenu] = useState<null | HTMLElement>(null);
-  const [isRoleDeleteModalOpen, setIsRoleDeleteModalOpen] = useState(false);
-  const [roleEdit, setRoleEdit] = useState(false);
+import { useEffect, useState } from 'react';
 
-  const roleCloseHandler = () => {
-    setIsRoleDeleteModalOpen(false);
-  };
-  const roleDeleteHandler = () => {
-    setIsRoleDeleteModalOpen(true);
+export default function useRoles() {
+  const router: any = useRouter();
+  const [searchValue, setSearchValue] = useState<any>('');
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const auth: any = useAuth();
+
+  const { _id: productId } = auth?.product;
+  const { _id: organizationCompanyAccountId } =
+    auth?.product?.accounts?.[0]?.company;
+  const { _id: organizationId } = auth?.user?.organization;
+
+  const [permissionsRoleTrigger, permissionsRoleStatus] =
+    useLazyGetPermissionsRoleQuery();
+
+  const rolesListData = async (currentPage: any = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', searchValue + ''],
+      ['organizationCompanyAccountId', organizationCompanyAccountId + ''],
+      ['organizationId', organizationId + ''],
+      ['productId', productId],
+    ];
+    const rolesListParam: any = buildQueryParams(additionalParams);
+
+    const getRolesParameter = {
+      queryParams: rolesListParam,
+    };
+
+    try {
+      await permissionsRoleTrigger(getRolesParameter)?.unwrap();
+    } catch (error: any) {}
   };
 
-  const openRolesMenu = Boolean(rolesMenu);
-
-  const handleClickMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setRolesMenu(event.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setRolesMenu(null);
-  };
-  const rolesMethods: any = useForm({
-    resolver: yupResolver(upsertRolesValidationSchema),
-    defaultValues: upsertRolesDefaultValues,
-  });
-  const addNewRole = () => {
-    router?.push(AIR_SERVICES?.USER_ADD_NEW_ROLES_SETTINGS);
-  };
-  const backToRoles = () => {
-    router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS);
-  };
-  const { handleSubmit, reset } = rolesMethods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('Role Add Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    reset(upsertRolesDefaultValues);
-    backToRoles();
-  };
-  const roleEditClickHandler = () => {
-    setRoleEdit(true);
-    addNewRole();
-  };
-  const handleMenuOptionClick = (option: string) => {
-    handleCloseMenu();
-    if (option === SETTINGS_ADD_ROLE.EDIT) {
-      roleEditClickHandler();
-    } else if (option === SETTINGS_ADD_ROLE.DELETE) {
-      roleDeleteHandler();
-    }
-  };
+  useEffect(() => {
+    rolesListData?.();
+  }, [page, pageLimit, searchValue]);
 
   return {
-    addNewRole,
-    rolesMethods,
-    theme,
-    backToRoles,
-    onSubmit,
-    handleSubmit,
-    checkboxState,
-    setCheckboxState,
-    handleClickMenu,
-    openRolesMenu,
-    handleCloseMenu,
-    rolesMenu,
-    isRoleDeleteModalOpen,
-    roleCloseHandler,
-    roleDeleteHandler,
-    roleEditClickHandler,
-    roleEdit,
-    handleMenuOptionClick,
+    router,
+    setSearchValue,
+    permissionsRoleStatus,
+    setPage,
+    setPageLimit,
+    rolesListData,
+    page,
   };
-};
+}

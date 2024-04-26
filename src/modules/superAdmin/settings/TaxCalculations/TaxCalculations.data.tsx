@@ -9,6 +9,9 @@ import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { DATE_FORMAT } from '@/constants';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS } from '@/constants/permission-keys';
+
 export const addTaxFormValidationSchema = Yup.object().shape({
   name: Yup.string().trim().required('Field is Required'),
   percentage: Yup.string().trim().required('Field is Required'),
@@ -16,12 +19,14 @@ export const addTaxFormValidationSchema = Yup.object().shape({
     .required('Field is Required')
     .min(1, 'At least one item is required'),
 });
+
 export const addTaxFormDefaultValues = {
   name: '',
   percentage: '',
   applyOn: [],
   description: '',
 };
+
 export const addTaxFormDataArray = [
   {
     componentProps: {
@@ -221,7 +226,7 @@ export const columns = (
       accessorFn: (row: any) => row.createdAt,
       id: 'createdAt',
       isSortable: true,
-      header: 'Create Date',
+      header: 'Created Date',
       cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
     },
     {
@@ -236,7 +241,15 @@ export const columns = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <PermissionsGuard
+          permissions={[
+            SUPER_ADMIN_SETTINGS_TAX_CALCULATIONS_PERMISSIONS?.Active_Inactive_Tax,
+          ]}
+        >
+          {info.getValue()}
+        </PermissionsGuard>
+      ),
     },
   ];
 };

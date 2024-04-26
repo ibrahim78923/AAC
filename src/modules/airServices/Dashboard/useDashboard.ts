@@ -1,19 +1,19 @@
-import { useState } from 'react';
 import { useTheme } from '@mui/material';
+import { useGetDashboardCardsTicketsQuery } from '@/services/airServices/dashboard';
 
-export function useDashboard() {
+export const useDashboard = () => {
   const theme = useTheme();
-  const [isbarchart, setIsBarChart] = useState(true);
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const handleIconButton = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
+  const {
+    data: cardsData,
+    isLoading,
+    isFetching,
+  } = useGetDashboardCardsTicketsQuery(null);
+  const cardData = cardsData?.data;
+
   return {
-    setIsDrawerOpen,
-    isDrawerOpen,
     theme,
-    handleIconButton,
-    isbarchart,
-    setIsBarChart,
+    cardData,
+    isLoading,
+    isFetching,
   };
-}
+};

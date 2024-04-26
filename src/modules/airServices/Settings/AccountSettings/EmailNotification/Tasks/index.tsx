@@ -1,54 +1,66 @@
-import { Box, Divider, Typography } from '@mui/material';
-import { AntSwitch } from '../SwitchButton.style';
-import { EditYellowBGPenIcon } from '@/assets/icons';
-import { useTask } from './useTask';
+import { Box, CircularProgress, Divider, Typography } from '@mui/material';
+import { Fragment } from 'react';
+import { taskData } from './Task.data';
+import { AntSwitch } from '@/components/AntSwitch';
+import useTasks from './useTasks';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const Tasks = () => {
-  const { tasks, setShowIcon, showIcon, onSwitchChange } = useTask();
+  const {
+    isError,
+    isLoading,
+    isFetching,
+    switchLoading,
+    onSwitchChange,
+    data,
+  } = useTasks();
+
+  if (isError) return <ApiErrorState />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
-    <Box>
-      <Box>
-        <Typography variant="h4">Requester Notification</Typography>
-      </Box>
-      <Box mt={2}>
-        <Divider />
-      </Box>
+    <>
+      {taskData?.map((head: any) => (
+        <Fragment key={head?._id}>
+          <Typography variant={'h5'} color={'blue.main'}>
+            {head?.heading}
+          </Typography>
 
-      {tasks?.map((item) => {
-        return (
-          <Box
-            key={item?.id}
-            p={2}
-            my={1}
-            display={'flex'}
-            height={{ xs: 'unset', md: 50 }}
-            bgcolor={'grey.300'}
-            borderRadius={2}
-            justifyContent={'space-between'}
-            onMouseEnter={() => setShowIcon(item)}
-            onMouseLeave={() => setShowIcon(null)}
-            sx={{ cursor: 'pointer' }}
-          >
-            {item?.name}
-            <Box display={'flex'} alignItems={'center'} gap={1}>
-              <Box>
-                {showIcon === item ? (
-                  <Box>
-                    <EditYellowBGPenIcon />
-                  </Box>
-                ) : null}
-              </Box>
-              <AntSwitch
-                onChange={() => {
-                  onSwitchChange(item?.id);
-                }}
-                checked={item?.value}
-              />
+          <Divider sx={{ my: 2, borderColor: 'custom.dark' }} />
+
+          {head?.details?.map((item: any) => (
+            <Box
+              key={item?._id}
+              p={2}
+              my={1}
+              borderRadius={2}
+              bgcolor={'custom.white_fifty'}
+              display={'flex'}
+              justifyContent={'space-between'}
+            >
+              {item.value}
+              <Typography
+                color={'custom.dim_blue'}
+                variant={'body1'}
+                fontWeight={500}
+              >
+                {item?.title}
+              </Typography>
+
+              {switchLoading[item?._id] ? (
+                <CircularProgress size={20} />
+              ) : (
+                <AntSwitch
+                  onChange={() => onSwitchChange(item?._id)}
+                  checked={!data?.data?.notificationsOff?.[item?._id]}
+                />
+              )}
             </Box>
-          </Box>
-        );
-      })}
-    </Box>
+          ))}
+        </Fragment>
+      ))}
+    </>
   );
 };

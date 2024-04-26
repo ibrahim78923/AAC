@@ -1,150 +1,173 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
+import useCreateCompany from './useCreateCompany';
 
-export const validationSchema = Yup?.object()?.shape({
-  domainName: Yup?.string()?.required('Field is Required'),
-  name: Yup?.string()?.trim()?.required('Field is Required'),
-  companyOwner: Yup?.string()?.trim()?.required('Field is Required'),
-  industry: Yup?.string()?.trim()?.required('Field is Required'),
-  companyType: Yup?.string()?.trim()?.required('Field is Required'),
-  noOfEmployees: Yup?.string()?.trim()?.required('Field is Required'),
-  totalRevenue: Yup?.string()?.trim()?.required('Field is Required'),
-  streetName: Yup?.string()?.trim()?.required('Field is Required'),
-  companyAddress: Yup?.string()?.trim()?.required('Field is Required'),
-  description: Yup?.string()?.trim()?.required('Field is Required'),
-  linkdInCompany: Yup?.string()?.trim()?.required('Field is Required'),
+export const createComapnySchema = Yup?.object()?.shape({
+  domain: Yup?.string()?.required('Field is Required'),
+  totalRevenue: Yup?.number(),
+  noOfEmloyee: Yup?.number(),
 });
 
-export const defaultValuesOrganization = {
-  domainName: '',
+export const defaultCreateCompanyValues = {
+  domain: '',
   name: '',
-  companyOwner: '',
+  ownerId: '',
   industry: '',
-  companyType: '',
-  noOfEmployees: '',
-  totalRevenue: '',
-  streetName: '',
-  companyAddress: '',
-  description: '',
+  type: '',
+  noOfEmloyee: 0,
+  totalRevenue: 0,
   city: '',
-  linkdInCompany: '',
+  postalCode: '',
+  address: '',
+  description: '',
+  linkedInUrl: '',
 };
 
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'domainName',
-      label: 'Company Domain Name',
-      fullWidth: true,
-      select: false,
+export const dataArray = () => {
+  const { getCompanyContacts } = useCreateCompany();
+  return [
+    {
+      componentProps: {
+        name: 'domain',
+        label: 'Company Domain Name (URL)',
+        placeholder: 'Enter here',
+        required: true,
+        fullWidth: true,
+        select: false,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'name',
-      label: 'Company Name',
-      fullWidth: true,
-      select: false,
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Company Name',
+        placeholder: 'Company name',
+        fullWidth: true,
+        select: false,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'companyOwner',
-      label: 'Company Owner',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'ownerId',
+        label: 'Company Owner',
+        fullWidth: true,
+        select: true,
+      },
+      options: getCompanyContacts?.data?.contacts?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })),
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'industry',
-      label: 'Industry',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'industry',
+        label: 'Industry',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'computerSoftware', label: 'Computer software' },
+        { value: 'computerServices', label: 'Computer Services' },
+        { value: 'construction', label: 'Construction' },
+        { value: 'none', label: 'None' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'companyType',
-      label: 'Company Type',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'type',
+        label: 'Company Type',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'Partner', label: 'Partner' },
+        { value: 'Vendor', label: 'Vendor' },
+        { value: 'None', label: 'None' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    md: 12,
-    component: RHFTextField,
-    componentProps: {
-      name: 'noOfEmployees',
-      fullWidth: true,
-      label: 'No of Employees',
+    {
+      componentProps: {
+        name: 'noOfEmloyee',
+        label: 'No of Employees',
+        placeholder: 'Enter here',
+        fullWidth: true,
+      },
+      md: 12,
+      component: RHFTextField,
     },
-  },
-  {
-    md: 12,
-    component: RHFTextField,
-    componentProps: {
-      name: 'totalRevenue',
-      fullWidth: true,
-      label: 'Total Revenue',
+    {
+      md: 12,
+      component: RHFTextField,
+      componentProps: {
+        name: 'totalRevenue',
+        label: 'Total Revenue',
+        placeholder: 'Enter here',
+        fullWidth: true,
+      },
     },
-  },
-  {
-    md: 12,
-    component: RHFTextField,
-    componentProps: {
-      name: 'city',
-      fullWidth: true,
-      label: 'City',
+    {
+      md: 12,
+      component: RHFTextField,
+      componentProps: {
+        name: 'city',
+        label: 'City',
+        placeholder: 'Enter here',
+        fullWidth: true,
+      },
     },
-  },
-  {
-    md: 12,
-    component: RHFTextField,
-    componentProps: {
-      name: 'postCode',
-      fullWidth: true,
-      label: 'Postal Code',
+    {
+      md: 12,
+      component: RHFTextField,
+      componentProps: {
+        name: 'postalCode',
+        label: 'Postal Code',
+        placeholder: 'Enter here',
+        fullWidth: true,
+      },
     },
-  },
-  {
-    md: 12,
-    component: RHFTextField,
-    componentProps: {
-      name: 'companyAddress',
-      fullWidth: true,
-      label: 'Company Address',
+    {
+      md: 12,
+      component: RHFTextField,
+      componentProps: {
+        name: 'address',
+        label: 'Company Address',
+        placeholder: 'Enter here',
+        fullWidth: true,
+        multiline: true,
+        rows: 4,
+      },
     },
-  },
-  {
-    md: 12,
-    component: RHFTextField,
-    componentProps: {
-      name: 'description',
-      fullWidth: true,
-      label: 'Description',
-      multiline: true,
-      rows: 3,
+    {
+      md: 12,
+      component: RHFTextField,
+      componentProps: {
+        name: 'description',
+        label: 'Description',
+        placeholder: 'Enter here',
+        fullWidth: true,
+        multiline: true,
+        rows: 3,
+      },
     },
-  },
-  {
-    md: 12,
-    component: RHFTextField,
-    componentProps: {
-      name: 'linkdInCompany',
-      fullWidth: true,
-      label: 'LinkdIn Company Page',
+    {
+      md: 12,
+      component: RHFTextField,
+      componentProps: {
+        name: 'linkedInUrl',
+        label: 'LinkdIn Company Page',
+        placeholder: 'Enter here',
+        fullWidth: true,
+      },
     },
-  },
-];
+  ];
+};

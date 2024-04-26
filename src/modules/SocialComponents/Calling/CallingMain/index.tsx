@@ -11,44 +11,31 @@ import {
   useTheme,
 } from '@mui/material';
 
-import Search from '@/components/Search';
-import { AlertModals } from '@/components/AlertModals';
-
 import { callingData } from '@/mock/modules/SocialComponents/Calling';
-import { columns } from './CallingMain.data';
-
 import useCallingMain from './useCallingMain';
 
 import { DownIcon, MobileIcon, PlusIcon } from '@/assets/icons';
-import ScheduleCallDrawer from './ScheduleCallDrawer';
-import TanstackTable from '@/components/Table/TanstackTable';
+import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
+import ScheduleCalls from './ScheduleCalls';
+import ScheduleEditorDrawer from './ScheduleCallDrawer';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CALLING_PERMISSIONS } from '@/constants/permission-keys';
+
+const CallsTabsData = ['Schedule Calls', 'Call logs'];
 
 const CallingMain = ({ setAddaNumber }: any) => {
   const {
-    callingSearch,
-    setCallingSearch,
     openDrawer,
     setOpenDrawer,
     anchorElCallNow,
-
     handleClickCallNow,
     handleCloseCallNow,
-
     anchorElScheduleCall,
     handleClickScheduleCall,
     handleCloseScheduleCall,
     setAnchorElScheduleCall,
-
-    anchorElAction,
-    actionMenuOpenAction,
-    handleClickAction,
-    handleCloseAction,
-
-    setIsDeleteModalOpen,
-    isDeleteModalOpen,
   } = useCallingMain();
 
-  const getColumns = columns();
   const theme = useTheme();
   return (
     <Box
@@ -71,19 +58,34 @@ const CallingMain = ({ setAddaNumber }: any) => {
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Calling
           </Typography>
-          <Box sx={{ display: 'flex', gap: '10px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '10px',
+              flexDirection: { xs: 'column', sm: 'row' },
+              '@media(max-width: 500px)': {
+                width: '100%',
+              },
+            }}
+          >
             {callingData?.length > 0 ? (
               <>
-                <Button
-                  variant="text"
-                  sx={{ background: theme?.palette?.primary?.light }}
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={handleClickCallNow}
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.MAKE_A_CALL,
+                  ]}
                 >
-                  <MobileIcon /> &nbsp; Make a call now &nbsp;{' '}
-                  <DownIcon color={'#38CAB5'} />
-                </Button>
+                  <Button
+                    variant="text"
+                    sx={{ background: theme?.palette?.primary?.light }}
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={handleClickCallNow}
+                  >
+                    <MobileIcon /> &nbsp; Make a call now &nbsp;{' '}
+                    <DownIcon color={'#38CAB5'} />
+                  </Button>
+                </PermissionsGuard>
                 <Menu
                   id="simple-menu"
                   anchorEl={anchorElCallNow}
@@ -96,16 +98,21 @@ const CallingMain = ({ setAddaNumber }: any) => {
                   </Link>
                   <MenuItem>For Mobile</MenuItem>
                 </Menu>
-
-                <Button
-                  variant="contained"
-                  aria-controls="schedule-a-call"
-                  aria-haspopup="true"
-                  onClick={handleClickScheduleCall}
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.SCHEDULE_CALL,
+                  ]}
                 >
-                  Schedule a call &nbsp;
-                  <PlusIcon />
-                </Button>
+                  <Button
+                    variant="contained"
+                    aria-controls="schedule-a-call"
+                    aria-haspopup="true"
+                    onClick={handleClickScheduleCall}
+                  >
+                    Schedule a call &nbsp;
+                    <PlusIcon />
+                  </Button>
+                </PermissionsGuard>
                 <Menu
                   id="schedule-a-call"
                   anchorEl={anchorElScheduleCall}
@@ -130,82 +137,16 @@ const CallingMain = ({ setAddaNumber }: any) => {
             )}
           </Box>
         </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Search
-            label={'Search here'}
-            searchBy={callingSearch}
-            setSearchBy={setCallingSearch}
-            width="100%"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
-            <Button
-              id="basic-button"
-              aria-controls={actionMenuOpenAction ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={actionMenuOpenAction ? 'true' : undefined}
-              onClick={handleClickAction}
-              sx={{
-                color: theme?.palette?.grey[500],
-                height: '40px',
-                border: '1?.5px solid #e7e7e9',
-              }}
-            >
-              Actions &nbsp; <DownIcon />
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorElAction}
-              open={actionMenuOpenAction}
-              onClose={handleCloseAction}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem
-                onClick={() => {
-                  setOpenDrawer('Edit'), handleCloseAction;
-                }}
-              >
-                Edit
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  setIsDeleteModalOpen(true), handleCloseAction;
-                }}
-              >
-                Delete
-              </MenuItem>
-            </Menu>
-          </Box>
-        </Box>
       </Box>
-      <TanstackTable columns={getColumns} data={callingData} />
 
-      <ScheduleCallDrawer
+      <HorizontalTabs tabsDataArray={CallsTabsData}>
+        <ScheduleCalls />
+        <ScheduleCalls />
+      </HorizontalTabs>
+
+      <ScheduleEditorDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
-      />
-
-      <AlertModals
-        message={'Are you sure you want to delete this entry ?'}
-        type="delete"
-        open={isDeleteModalOpen}
-        handleClose={() => setIsDeleteModalOpen(false)}
-        handleSubmit={() => setIsDeleteModalOpen(false)}
       />
     </Box>
   );

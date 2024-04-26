@@ -1,32 +1,54 @@
+import { DATE_FORMAT } from '@/constants';
+import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
+import dayjs from 'dayjs';
 
-export const overviewData = [
+export const overviewData = (purchaseOrderData: any) => [
   {
-    id: '1',
+    id: purchaseOrderData?._id,
     heading: 'Purchase Details',
     detailsData: [
-      { name: 'Vendor', detail: 'Dell' },
-      { name: 'Details', detail: 'Dell monitor' },
-      { name: 'Currency', detail: 'Pound' },
-      { name: 'Department', detail: '--' },
-      { name: 'Expected delivery date', detail: '28 Mar, 2023' },
-      { name: 'Location', detail: 'Street no 22' },
+      {
+        name: 'Vendor',
+        detail: purchaseOrderData?.vendorDetails?.name ?? '---',
+      },
+      { name: 'Details', detail: purchaseOrderData?.orderName ?? '---' },
+      { name: 'Currency', detail: purchaseOrderData?.currency ?? '---' },
+      {
+        name: 'Department',
+        detail: purchaseOrderData?.departmentDetails?.name ?? '---',
+      },
+      {
+        name: 'Expected delivery date',
+        detail:
+          dayjs(purchaseOrderData?.expectedDeliveryDate)?.format(
+            DATE_FORMAT?.UI,
+          ) ?? '---',
+      },
+      {
+        name: 'Location',
+        detail: purchaseOrderData?.locationDetails?.locationName ?? '---',
+      },
       {
         name: 'Terms and conditions',
-        detail: 'I agree all the terms and conditions',
+        detail:
+          `${purchaseOrderData?.termAndCondition?.slice?.(0, 29)} ... ` ??
+          '---',
       },
     ],
   },
 ];
 
 export const overviewTableColumns: any = (
-  setOpenOverviewModal: any,
+  handleRowClick: any,
   theme: any,
+  orderStatus: string,
 ) => {
-  return [
+  const columns = [
     {
-      accessorFn: (row: any) => row?.itemName,
-      id: 'itemName',
+      accessorFn: (row: any) => row?.name ?? '-',
+      id: 'name',
       cell: (info: any) => (
         <Typography color={theme?.palette?.blue?.dull_blue}>
           {info?.getValue()}
@@ -38,20 +60,40 @@ export const overviewTableColumns: any = (
       accessorFn: (row: any) => row?.description,
       id: 'description',
       header: 'Description',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => truncateText(info?.getValue()),
     },
     {
-      accessorFn: (row: any) => row?.costPerItem,
+      accessorFn: (row: any) => row?.costPerItem ?? '-',
       id: 'costPerItem',
       header: 'Cost Per Item',
       cell: (info: any) => info?.getValue(),
     },
-    {
+  ];
+  if (orderStatus === PURCHASE_ORDER_STATUS?.RECEIVED) {
+    columns.push(
+      {
+        accessorFn: (row: any) => row?.receivedVsOrdered,
+        id: 'receivedVsOrdered',
+        header: 'Received Vs Ordered',
+        cell: (info: any) =>
+          `${info?.row?.original?.received} / ${info?.row?.original?.quantity}`,
+      },
+      {
+        accessorFn: (row: any) => row?.quantity,
+        id: 'pending',
+        header: 'Pending',
+        cell: (info: any) => info?.getValue(),
+      },
+    );
+  } else {
+    columns.push({
       accessorFn: (row: any) => row?.quantity,
       id: 'quantity',
       header: 'Quantity',
       cell: (info: any) => info?.getValue(),
-    },
+    });
+  }
+  columns.push(
     {
       accessorFn: (row: any) => row?.taxRate,
       id: 'taxRate',
@@ -68,26 +110,17 @@ export const overviewTableColumns: any = (
       accessorFn: (row: any) => row?.invoice,
       id: 'invoice',
       header: 'Invoice',
-      cell: (info: any) => (
+      cell: () => (
         <Typography
-          sx={{ cursor: 'pointer', color: theme?.palette?.primary?.main }}
-          onClick={() => setOpenOverviewModal(true)}
+          sx={{ cursor: 'pointer' }}
+          color={theme?.palette?.primary?.main}
+          onClick={handleRowClick}
         >
-          {info?.getValue()}
+          PDF
         </Typography>
       ),
     },
-  ];
+  );
+
+  return columns;
 };
-export const overviewListData: any = [
-  {
-    Id: 1,
-    itemName: `Andrea`,
-    description: 'Per Unit',
-    costPerItem: '30',
-    quantity: '2',
-    taxRate: '0',
-    total: '60',
-    invoice: 'pdf',
-  },
-];

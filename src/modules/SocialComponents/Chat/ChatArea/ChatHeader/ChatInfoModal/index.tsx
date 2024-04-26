@@ -25,20 +25,31 @@ import {
 } from './ChatInfoModal.data';
 
 import CloseIcon from '@/assets/icons/shared/close-icon';
-import { UserProfileAvatarImage } from '@/assets/images';
+import { UserDefault } from '@/assets/images';
 
 import { styles } from './ChatInfoModal.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { useAppSelector } from '@/redux/store';
+import { useGetUserChatsInfoQuery } from '@/services/chat';
 
 const ChatInfoModal = ({
   isUserProfile,
   setIsUserProfile,
   chatMode,
+  activeParticipant,
 }: ChatInfoModalPropsI) => {
   const theme = useTheme();
-  const [toggleSwitchActive, setToggleSwitchActive] = useState('media');
-
+  const [toggleSwitchActive, setToggleSwitchActive] = useState('image');
+  const activeChatId = useAppSelector(
+    (state: any) => state?.chat?.activeChatId,
+  );
+  const { data: chatsData, status } = useGetUserChatsInfoQuery({
+    activeChatId: activeChatId,
+    limit: '100',
+    isGroup: chatMode === 'groupChat' ? true : false,
+    mediaType: toggleSwitchActive,
+  });
   const handleSelection = (_: any, newValue: any) => {
     if (newValue !== null) {
       setToggleSwitchActive(newValue);
@@ -49,6 +60,10 @@ const ChatInfoModal = ({
     chatMode === 'groupChat'
       ? viewGroupInfoButtonData
       : viewUserProfileButtonData;
+
+  const activeConversation = useAppSelector(
+    (state) => state?.chat?.activeConversation,
+  );
 
   return (
     <Modal
@@ -68,27 +83,22 @@ const ChatInfoModal = ({
           </Box>
         </Box>
         <Box sx={styles?.chatInfoDetails(theme)}>
-          <Image
-            src={UserProfileAvatarImage}
-            width={95}
-            height={95}
-            alt="profile-image"
-          />
+          <Image src={UserDefault} width={95} height={95} alt="profile-image" />
           <br />
           {chatMode === 'groupChat' ? (
             <Typography
               variant="h6"
               sx={{ fontWeight: '600', color: theme?.palette?.common?.black }}
             >
-              Product Catalog
+              {activeConversation?.groupName}
             </Typography>
           ) : (
             <>
               <Typography variant="body3" sx={{ fontWeight: '500' }}>
-                Phone: (+312) 123456789
+                Phone: {activeParticipant?.phone}
               </Typography>
               <Typography variant="body3" sx={{ fontWeight: '500' }}>
-                Email: info@aritablecart.com
+                Email: {activeParticipant?.email}
               </Typography>
             </>
           )}
@@ -116,9 +126,15 @@ const ChatInfoModal = ({
           </ToggleButtonGroup>
         </Box>
         <Box>
-          {toggleSwitchActive === 'media' && <MediaAssets />}
-          {toggleSwitchActive === 'docs' && <DocumentAssets />}
-          {toggleSwitchActive === 'link' && <LinksAssets />}
+          {toggleSwitchActive === 'image' && (
+            <MediaAssets data={chatsData?.data?.messages} status={status} />
+          )}
+          {toggleSwitchActive === 'docs' && (
+            <DocumentAssets data={chatsData?.data?.messages} status={status} />
+          )}
+          {toggleSwitchActive === 'link' && (
+            <LinksAssets data={chatsData?.data?.messages} status={status} />
+          )}
           {toggleSwitchActive === 'members' && <Members />}
         </Box>
       </Box>

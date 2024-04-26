@@ -4,17 +4,18 @@ import {
   DialogTitle,
   Typography,
   Grid,
-  Button,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider } from '@/components/ReactHookForm';
 import { addAssetDataArray } from './AddAsset.data';
 import { useAddAsset } from './useAddAsset';
+import { LoadingButton } from '@mui/lab';
 
 export const AddAsset = (props: any) => {
   const { addModalOpen, setAddModalOpen } = props;
 
-  const { methods, handleSubmit, onSubmit } = useAddAsset(setAddModalOpen);
+  const { methods, handleSubmit, onSubmit, postAssociatedAssetStatus } =
+    useAddAsset(setAddModalOpen);
 
   return (
     <Dialog
@@ -43,18 +44,24 @@ export const AddAsset = (props: any) => {
               </Grid>
             ))}
             <Grid item xs={12} textAlign={'end'}>
-              <Button
+              <LoadingButton
                 type={'button'}
                 variant={'outlined'}
                 color={'secondary'}
                 sx={{ mr: 2 }}
                 onClick={() => setAddModalOpen?.(false)}
+                disabled={postAssociatedAssetStatus?.isLoading}
               >
                 Cancel
-              </Button>
-              <Button type={'submit'} variant={'contained'}>
+              </LoadingButton>
+              <LoadingButton
+                type={'submit'}
+                variant={'contained'}
+                disabled={postAssociatedAssetStatus?.isLoading}
+                loading={postAssociatedAssetStatus?.isLoading}
+              >
                 Save
-              </Button>
+              </LoadingButton>
             </Grid>
           </Grid>
         </FormProvider>

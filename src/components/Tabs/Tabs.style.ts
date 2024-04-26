@@ -1,9 +1,18 @@
 export const styles = {
-  tabWrapper: {
-    '& .text-primary-my': { minWidth: 'auto', paddingBottom: '0px' },
+  tabWrapper: (tabStyle: any) => {
+    return {
+      display: `${tabStyle === 'vertical' && 'flex'}`,
+      flexWrap: 'wrap',
+      gap: 2,
+      '& .tabs-main-class .MuiTabs-flexContainer': {
+        display: 'flex',
+        alignItems: 'flex-start',
+      },
+      '& .text-primary-my': { minWidth: 'auto', paddingBottom: '0px' },
+    };
   },
   headerWrapper: {
-    padding: '12px 0px',
+    padding: '18px 0px 0px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',

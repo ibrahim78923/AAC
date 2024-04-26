@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -37,26 +37,26 @@ import {
 } from '@/assets/icons';
 import { UserRoundImage } from '@/assets/images';
 
-import {
-  documentTableData,
-  folderArr,
-} from '@/mock/modules/SocialComponents/Documents';
-
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
-import { columns, toolTipData } from './Folder.data';
+import { dataArray, dataArrayImage, toolTipData } from './Folder.data';
 import useFolder from './useFolder';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './Folder.style';
 import PreviewPdf from './PreviewPdf';
+import { useRouter } from 'next/router';
+import { FormProvider } from '@/components/ReactHookForm';
+import { enqueueSnackbar } from 'notistack';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS } from '@/constants/permission-keys';
+import { Quick_Links_Routes } from '@/constants';
 
-const Folders = (props: any) => {
-  const { toggle } = props;
+const Folders = () => {
+  const navigate = useRouter();
   const {
-    value,
-    setValue,
+    searchValue,
+    setSearchValue,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenModal,
@@ -64,7 +64,6 @@ const Folders = (props: any) => {
     theme,
     isOpenFolderDrawer,
     setIsOpenFolderDrawer,
-    isEditOpenModal,
     setIsEditOpenModal,
     isOpenDelete,
     setIsOpenDelete,
@@ -86,7 +85,39 @@ const Folders = (props: any) => {
     handlePdfOpen,
     handlePdfClose,
     setAnchorElSide,
+    documentSubData,
+    parentFolderName,
+    modalHeading,
+    setModalHeading,
+    onSubmit,
+    FolderAdd,
+    cardBox,
+    setCardBox,
+    setSelectedFolder,
+    deleteUserFolders,
+    setIsImage,
+    isImage,
+    onSubmitImage,
+    addFile,
+    imageData,
+    getRowValues,
+    isGetRowValues,
+    deleteUserFiles,
+    isOpenFile,
+    setIsOpenFile,
+    selectedFolder,
+    setActionType,
   } = useFolder();
+  const [sendData, setSendData] = useState(null);
+
+  useEffect(() => {
+    if (isGetRowValues?.length === 1) {
+      setSendData(
+        imageData?.find((img: any) => img?._id === isGetRowValues.at(0)),
+      );
+    }
+  }, [isGetRowValues]);
+
   return (
     <>
       <CommonDrawer
@@ -103,9 +134,9 @@ const Folders = (props: any) => {
           <Search
             label="Search here"
             sx={{ width: '260px' }}
-            searchBy={value}
+            searchBy={searchValue}
             setSearchBy={(e: string) => {
-              setValue(e);
+              setSearchValue(e);
             }}
           />
           <Box
@@ -228,9 +259,9 @@ const Folders = (props: any) => {
           <Search
             label="Search here"
             sx={{ width: '100%' }}
-            searchBy={value}
+            searchBy={searchValue}
             setSearchBy={(e: string) => {
-              setValue(e);
+              setSearchValue(e);
             }}
           />
           <Box sx={styles?.folderRow}>
@@ -296,7 +327,7 @@ const Folders = (props: any) => {
         </Box>
       </CommonDrawer>
       <Grid container spacing={2}>
-        <Grid item lg={3}>
+        <Grid item lg={3} md={4} sm={12} xs={12}>
           <Box
             sx={{
               border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
@@ -306,7 +337,11 @@ const Folders = (props: any) => {
           >
             <Box sx={{ paddingBottom: '0.5rem' }}>
               <ArrowBackIcon
-                onClick={() => toggle()}
+                onClick={() => {
+                  navigate.push({
+                    pathname: Quick_Links_Routes?.DOCUMENT,
+                  });
+                }}
                 sx={{
                   color: `${theme?.palette?.custom?.light}`,
                   fontSize: '30px',
@@ -348,14 +383,22 @@ const Folders = (props: any) => {
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorElSide(null);
-                      setIsOpenModal(true);
-                    }}
+                  <PermissionsGuard
+                    permissions={[
+                      SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.CREATE_SUB_FOLDER,
+                    ]}
                   >
-                    Create Folder
-                  </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorElSide(null);
+                        setIsOpenModal(true);
+                        setActionType('create-sub-folder');
+                        FolderAdd?.setValue('name', '');
+                      }}
+                    >
+                      Create Sub Folder
+                    </MenuItem>
+                  </PermissionsGuard>
                   <MenuItem
                     onClick={() => {
                       setAnchorElSide(null);
@@ -375,7 +418,10 @@ const Folders = (props: any) => {
                   <MenuItem
                     onClick={() => {
                       setAnchorElSide(null);
-                      setIsOpenDelete(true);
+                      setModalHeading('Edit Name');
+                      setIsOpenModal(true);
+                      setActionType('move-folder');
+                      FolderAdd?.setValue('name', selectedFolder?.name);
                     }}
                   >
                     Rename
@@ -412,7 +458,7 @@ const Folders = (props: any) => {
                 variant="h6"
                 sx={{ fontWeight: 400, color: `${theme?.palette?.grey[600]}` }}
               >
-                Default
+                {parentFolderName}
               </Typography>
             </Box>
             <Box
@@ -423,15 +469,25 @@ const Folders = (props: any) => {
                 paddingTop: '10px',
               }}
             >
-              {folderArr?.map((item) => {
+              {documentSubData?.map((item: any) => {
                 return (
                   <>
                     <Box
+                      onClick={() => {
+                        setCardBox([item?._id]);
+                        setSelectedFolder(item);
+                      }}
                       sx={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: '1rem',
-                        paddingY: '10PX',
+                        marginY: '4px',
+                        cursor: 'pointer',
+                        background: cardBox?.includes(item?._id)
+                          ? `${theme?.palette?.grey[400]}`
+                          : `${theme?.palette?.common?.white}`,
+                        borderRadius: '8px',
+                        padding: '8px',
                       }}
                       key={uuidv4()}
                     >
@@ -452,7 +508,7 @@ const Folders = (props: any) => {
             </Box>
           </Box>
         </Grid>
-        <Grid item lg={9}>
+        <Grid item lg={9} md={8} sm={12} xs={12}>
           <Box
             sx={{
               border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
@@ -474,22 +530,38 @@ const Folders = (props: any) => {
                 xs={12}
                 sx={styles?.actionButtonBox}
               >
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    setIsOpenModal(true);
-                  }}
-                  sx={styles?.createFolderButton(theme)}
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.CREATE_SUB_FOLDER,
+                  ]}
                 >
-                  <AddCircle /> Create Folder
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => {}}
-                  sx={styles?.uploadDocumentsButton(theme)}
+                  <Button
+                    variant="outlined"
+                    className="small"
+                    onClick={() => {
+                      setIsOpenModal(true);
+                    }}
+                    sx={styles?.createFolderButton(theme)}
+                  >
+                    <AddCircle /> Create Folder
+                  </Button>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.UPLOAD_DOCUMENT,
+                  ]}
                 >
-                  Upload Documents
-                </Button>
+                  <Button
+                    variant="contained"
+                    className="small"
+                    onClick={() => {
+                      setIsImage(true);
+                    }}
+                    sx={styles?.uploadDocumentsButton(theme)}
+                  >
+                    Upload Documents
+                  </Button>
+                </PermissionsGuard>
               </Grid>
               <Grid
                 item
@@ -502,9 +574,9 @@ const Folders = (props: any) => {
                 <Search
                   label="Search here"
                   width="260px"
-                  searchBy={value}
+                  searchBy={searchValue}
                   setSearchBy={(e: string) => {
-                    setValue(e);
+                    setSearchValue(e);
                   }}
                 />
               </Grid>
@@ -517,6 +589,7 @@ const Folders = (props: any) => {
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                     className="small"
+                    disabled={isGetRowValues?.length === 0}
                   >
                     Action
                     <ArrowDropDownIcon
@@ -567,7 +640,7 @@ const Folders = (props: any) => {
                     <MenuItem
                       onClick={() => {
                         setAnchorEl(null);
-                        setIsOpenDelete(true);
+                        setIsOpenFile(true);
                       }}
                     >
                       Delete
@@ -593,16 +666,15 @@ const Folders = (props: any) => {
                     sx={styles?.fiterButton(theme)}
                     className="small"
                   >
-                    <FilterrIcon /> Any
+                    <FilterrIcon /> Filters
                   </Button>
                 </Box>
               </Grid>
               <Grid item lg={12} md={12} sm={12} xs={12}>
-                <TanstackTable columns={columns} data={documentTableData} />
-                <CustomPagination
-                  count={1}
-                  rowsPerPageOptions={[1, 2]}
-                  entriePages={1}
+                <TanstackTable
+                  columns={getRowValues}
+                  data={imageData}
+                  isPagination
                 />
               </Grid>
             </Grid>
@@ -611,83 +683,41 @@ const Folders = (props: any) => {
       </Grid>
       <CommonModal
         open={isOpenModal}
-        handleClose={() => setIsOpenModal(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
+        handleCancel={() => {
+          setIsOpenModal(false);
+          setActionType('');
+          setModalHeading('');
         }}
-        title={'Create new folder'}
-        okText={'Create Folder'}
-        footerFill={undefined}
+        handleSubmit={() => onSubmit()}
+        title={modalHeading?.length > 0 ? modalHeading : 'Create Folder'}
+        okText={modalHeading === 'Edit Name' ? 'Update' : 'Create Folder'}
+        cancelText="Cancel"
+        footerFill={false}
+        footer={true}
       >
-        <Typography
-          variant="body2"
-          sx={{
-            fontWeight: 500,
-            color: `${theme?.palette?.grey[600]}`,
-            paddingBottom: '5px',
-          }}
-        >
-          Folder Name
-        </Typography>
-        <TextField type="text" placeholder="Enter Name" fullWidth />
-        <Box
-          sx={{
-            paddingTop: '10px',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '1rem',
-          }}
-        >
-          <Button
-            variant="outlined"
-            className="small"
-            onClick={() => setIsOpenModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button variant="contained">Create Folder</Button>
-        </Box>
-      </CommonModal>
-      <CommonModal
-        open={isEditOpenModal}
-        handleClose={() => setIsEditOpenModal(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-        title={'Edit Name'}
-        okText={'Save'}
-        footerFill={undefined}
-      >
-        <TextField type="text" placeholder="Enter Name" fullWidth />
-        <Box
-          sx={{
-            paddingTop: '10px',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '1rem',
-          }}
-        >
-          <Button
-            variant="outlined"
-            className="small"
-            onClick={() => setIsEditOpenModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button variant="contained" className="small">
-            Save
-          </Button>
-        </Box>
+        <FormProvider methods={FolderAdd}>
+          <Grid container spacing={4}>
+            {dataArray?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                ></item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
       </CommonModal>
       <CommonModal
         open={isLinkOpen}
-        handleClose={() => setIsLinkOpen(false)}
+        handleCancel={() => setIsLinkOpen(false)}
         handleSubmit={function (): void {
           throw new Error('Function not implemented.');
         }}
         title={'Create Link'}
         okText={'Share'}
-        footerFill={undefined}
+        cancelText="Cancel"
+        footerFill={false}
       >
         <Typography
           variant="h6"
@@ -758,13 +788,14 @@ const Folders = (props: any) => {
 
       <CommonModal
         open={isCreateLinkOpen}
-        handleClose={() => setIsCreateLinkOpen(false)}
+        handleCancel={() => setIsCreateLinkOpen(false)}
         handleSubmit={function (): void {
           throw new Error('Function not implemented.');
         }}
         title={'Create Link'}
         okText={'Share'}
-        footerFill={undefined}
+        cancelText="Cancel"
+        footerFill={false}
       >
         <Typography
           variant="h6"
@@ -777,9 +808,22 @@ const Folders = (props: any) => {
           You have created a link for adnanlatif2000@gmail.com. You can view
           document using this link.
         </Typography>
-        <TextField type="text" placeholder="Enter Name" fullWidth />
+        <TextField
+          type="text"
+          placeholder="https://eu1.hubs.ly/H0361Lq0"
+          fullWidth
+        />
 
-        <Typography> Or </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            color: `${theme?.palette?.slateBlue?.main}`,
+            textAlign: 'center',
+            fontWeight: 600,
+          }}
+        >
+          OR
+        </Typography>
         <Box
           sx={{
             paddingTop: '10px',
@@ -789,7 +833,12 @@ const Folders = (props: any) => {
           }}
         >
           <Button
-            onClick={() => setIsCreateLinkOpen(false)}
+            onClick={() => {
+              setIsCreateLinkOpen(false);
+              enqueueSnackbar('Email sent Successfully', {
+                variant: 'success',
+              });
+            }}
             variant="contained"
             className="small"
           >
@@ -803,16 +852,47 @@ const Folders = (props: any) => {
         type={'delete'}
         open={isOpenDelete}
         handleClose={() => setIsOpenDelete(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
+        handleSubmitBtn={deleteUserFolders}
+      />
+      <AlertModals
+        message={'Are you sure you want to delete this file?'}
+        type={'delete'}
+        open={isOpenFile}
+        handleClose={() => setIsOpenFile(false)}
+        handleSubmitBtn={deleteUserFiles}
       />
       <PreviewPdf
         isPdfOpen={isPdfOpen}
         setIsPdfOpen={setIsPdfOpen}
         handlePdfOpen={handlePdfOpen}
         handlePdfClose={handlePdfClose}
+        sendData={sendData}
       />
+      <CommonModal
+        open={isImage}
+        handleCancel={() => setIsImage(false)}
+        handleSubmit={() => {
+          onSubmitImage();
+        }}
+        title={'Upload Documents'}
+        okText={'Upload'}
+        cancelText="Cancel"
+        footerFill={false}
+        footer={true}
+      >
+        <FormProvider methods={addFile}>
+          <Grid container spacing={4}>
+            {dataArrayImage?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                ></item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      </CommonModal>
     </>
   );
 };

@@ -1,43 +1,112 @@
-import React from 'react';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { Box, Typography, useTheme } from '@mui/material';
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { Box, LinearProgress, Typography, useTheme } from '@mui/material';
 import CustomBox from './CustomBox';
 import { styles } from './Insight.style';
 
+import useInsightCard from './useInsite';
+import { CanlendarButtonIcon } from '@/assets/icons';
+import { useGetTaskInsightsQuery } from '@/services/airSales/task';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
+import dayjs from 'dayjs';
+import { DATE_FORMAT, DATE_RANGE } from '@/constants';
+import { getSession } from '@/utils';
+
 const Insights = () => {
   const { activity, dateRange, activityReportDate } = styles(useTheme());
+  const [datePickerValue, setDatePickerValue] = useState<any>();
+
+  const { chartOptions, transformedData } = useInsightCard({
+    startDate: dayjs(datePickerValue ? datePickerValue[0] : Date.now())?.format(
+      DATE_FORMAT?.API,
+    ),
+  });
+  const ReactApexChart = dynamic(() => import('react-apexcharts'), {
+    ssr: false,
+  });
+  const [toggleDatePicker, setToggleDatePicker] = useState(false);
+
+  const { user }: { accessToken: string; refreshToken: string; user: any } =
+    getSession();
+
+  const { data: taskInsightsData, isLoading } = useGetTaskInsightsQuery({
+    params: {
+      companyId: user?.organization?._id ? user?.organization?._id : '',
+    },
+  });
+  const taskInsights = taskInsightsData?.data?.Pending;
+
   return (
-    <Box>
-      <Typography sx={activity}>
-        Activity <ArrowDropDownIcon />
-      </Typography>
-      <Typography sx={dateRange}>
-        Date Range: This week so <ArrowDropDownIcon />
-      </Typography>
-      <CustomBox title={'CALL CONNECTED THIS WEEK'} count={0} />
-      <CustomBox
-        title={'MISSING COMPLETED THIS WEEK'}
-        count={0}
-        desc={'Date Range: This week so  | Compared To: Last week'}
-      />
-      <Typography variant="subtitle2" mb={'10px'}>
-        Weekly activity report
-      </Typography>
-      <Typography sx={activityReportDate}>
-        Date Range: This week so | Compared To: Last week
-      </Typography>
-      <CustomBox
-        title={'EMAIL SENT TO CONTACT'}
-        count={1}
-        desc={'Performance vs. previous week'}
-      />
-      <Typography variant="subtitle2" mb={'10px'}>
-        Task Performance
-      </Typography>
-      <Typography sx={activityReportDate}>
-        Date Range: From 22-03-2023 to 25-03-2023 | Frequency: Daily
-      </Typography>
-    </Box>
+    <>
+      {isLoading ? (
+        <Box sx={{ width: '100%' }}>
+          <LinearProgress />
+        </Box>
+      ) : (
+        <Box>
+          <Typography sx={activity}>Activity</Typography>
+          <Typography sx={dateRange}>
+            Date Range: This week so{' '}
+            <Box onClick={() => setToggleDatePicker(!toggleDatePicker)}>
+              <CanlendarButtonIcon />
+            </Box>
+          </Typography>
+
+          <SwitchableDatepicker
+            isCalendarOpen={toggleDatePicker}
+            dateValue={datePickerValue}
+            setDateValue={setDatePickerValue}
+          />
+
+          <CustomBox
+            title={'CALL CONNECTED THIS WEEK'}
+            count={taskInsights?.callCount || 0}
+          />
+          <CustomBox
+            title={'MISSING COMPLETED THIS WEEK'}
+            count={taskInsights?.total || 0}
+            desc={'Date Range: This week so  | Compared To: Last week'}
+          />
+          <Typography variant="h5" mb={'10px'}>
+            Weekly activity report
+          </Typography>
+          <Typography sx={activityReportDate}>
+            Date Range: This week so | Compared To: Last week
+          </Typography>
+          <CustomBox
+            title={'EMAIL SENT TO CONTACT'}
+            count={taskInsights?.emailCount || 0}
+            desc={'Performance vs. previous week'}
+          />
+          <Typography variant="h5" mb={'10px'}>
+            Task Performance
+          </Typography>
+          <Typography sx={activityReportDate}>
+            Date Range: From{' '}
+            {dayjs(
+              datePickerValue
+                ? datePickerValue[DATE_RANGE?.START_DATE]
+                : Date.now(),
+            )?.format(DATE_FORMAT?.API)}{' '}
+            to{' '}
+            {dayjs(
+              datePickerValue
+                ? datePickerValue[DATE_RANGE?.END_DATE]
+                : Date.now(),
+            )?.format(DATE_FORMAT?.API)}{' '}
+            | Frequency: Daily
+          </Typography>
+          <Box mt={2}>
+            <ReactApexChart
+              options={chartOptions}
+              series={[{ data: transformedData }]}
+              type="bar"
+              height={450}
+            />
+          </Box>
+        </Box>
+      )}
+    </>
   );
 };
 

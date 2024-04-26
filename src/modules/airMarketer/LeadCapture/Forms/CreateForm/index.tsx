@@ -42,8 +42,6 @@ const CreateForm = () => {
     onSubmit,
     styleFormMethods,
     value,
-    pageName,
-    setPageName,
     handleChange,
     editFormName,
     setEditFormName,
@@ -218,35 +216,6 @@ const CreateForm = () => {
                     },
                   }}
                 >
-                  <TextField
-                    value={pageName}
-                    onChange={(e) => setPageName(e.target.value)}
-                    sx={{
-                      backgroundColor: '#E9EAEF',
-                      borderRadius: '5px',
-                      '& input': {
-                        width: '70px',
-                        height: '6px',
-                        color: '#1F305D',
-                        fontWeight: '500',
-                      },
-                    }}
-                    disabled={editFormName}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => {
-                              setEditFormName(!editFormName);
-                            }}
-                          >
-                            <EditFormIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-
                   <Box
                     sx={{
                       backgroundColor: '#F9FAFB',
@@ -254,7 +223,6 @@ const CreateForm = () => {
                       width: 'fit-content',
                       margin: 'auto',
                       padding: '10px',
-                      marginTop: '-45px',
                       marginBottom: '35px',
                       '@media (max-width:700px)': {
                         marginTop: '45px',
@@ -316,35 +284,6 @@ const CreateForm = () => {
                     },
                   }}
                 >
-                  <TextField
-                    value={pageName}
-                    onChange={(e) => setPageName(e.target.value)}
-                    sx={{
-                      backgroundColor: '#E9EAEF',
-                      borderRadius: '5px',
-                      '& input': {
-                        width: '70px',
-                        height: '6px',
-                        color: '#1F305D',
-                        fontWeight: '500',
-                      },
-                    }}
-                    disabled={editFormName}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => {
-                              setEditFormName(!editFormName);
-                            }}
-                          >
-                            <EditFormIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-
                   <Box
                     sx={{
                       backgroundColor: '#F9FAFB',
@@ -352,7 +291,6 @@ const CreateForm = () => {
                       width: 'fit-content',
                       margin: 'auto',
                       padding: '10px',
-                      marginTop: '-45px',
                       marginBottom: '35px',
                       '@media (max-width:700px)': {
                         marginTop: '45px',

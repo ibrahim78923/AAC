@@ -14,7 +14,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const ContactsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, contactRecord } = props;
+  const { openDrawer, setOpenDrawer, contactRecord, dealId } = props;
 
   const {
     handleSubmit,
@@ -22,8 +22,15 @@ const ContactsEditorDrawer = (props: any) => {
     methodscontacts,
     lifeCycleStagesData,
     contactStatusData,
+    contactOwnerData,
+    postContactLoading,
     onCloseHandler,
-  } = useContactsEditorDrawer({ openDrawer, contactRecord, setOpenDrawer });
+  } = useContactsEditorDrawer({
+    openDrawer,
+    contactRecord,
+    setOpenDrawer,
+    dealId,
+  });
 
   return (
     <div>
@@ -35,19 +42,25 @@ const ContactsEditorDrawer = (props: any) => {
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
         footer={openDrawer === 'View' ? false : true}
+        isLoading={postContactLoading}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
             methods={methodscontacts}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               {contactsDataArray({
                 lifeCycleStagesData,
                 contactStatusData,
+                contactOwnerData,
               })?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
+                  <item.component
+                    disabled={openDrawer === 'View' ? true : false}
+                    {...item?.componentProps}
+                    size={'small'}
+                  >
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

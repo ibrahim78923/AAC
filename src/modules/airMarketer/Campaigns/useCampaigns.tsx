@@ -21,10 +21,14 @@ const useCampaigns = () => {
     isEditColumns: false,
     isViewDeatsils: false,
     isSaveView: false,
+    isDelete: false,
+    isCreateTask: false,
   });
   const [isDelete, setIsDelete] = useState(false);
   const [isCreateTask, setIsCreateTask] = useState(false);
   const [isCompare, setIsCompare] = useState(false);
+  const [searchVal, setSearchVal] = useState('');
+  const [isResetTaskFilter, setIsResetTaskFilter] = useState(false);
 
   const CampaignTask: any = useForm({});
   const router = useRouter();
@@ -44,7 +48,7 @@ const useCampaigns = () => {
   const handleSelectedOptionValue = (option: any) => {
     switch (option) {
       case campaignsOptions?.DELETE:
-        setIsDelete(true);
+        setActionsModalDetails({ ...actionsModalDetails, isDelete: true });
         break;
       case campaignsOptions?.CLONE:
         setActionsModalDetails({ ...actionsModalDetails, isClone: true });
@@ -82,7 +86,12 @@ const useCampaigns = () => {
           isViewDeatsils: true,
         });
         break;
-
+      case campaignsOptions?.CREATE_TASK:
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isCreateTask: true,
+        });
+        break;
       default:
         break;
     }
@@ -117,6 +126,10 @@ const useCampaigns = () => {
     handleSaveView,
     handleCloseAddAssetsModal,
     handleOpenFilter,
+    searchVal,
+    setSearchVal,
+    isResetTaskFilter,
+    setIsResetTaskFilter,
   };
 };
 export default useCampaigns;

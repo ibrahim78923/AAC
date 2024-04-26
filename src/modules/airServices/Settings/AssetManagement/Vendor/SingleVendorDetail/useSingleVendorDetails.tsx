@@ -1,25 +1,36 @@
 import { useState } from 'react';
 import { singleVendorDetailsActionDropdownFunction } from './SingleVendorDetail.data';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useDeleteVendorMutation } from '@/services/airServices/settings/asset-management/vendor';
+import { AIR_SERVICES } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useSingleVendorDetails = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isADrawerOpen, setIsADrawerOpen] = useState(false);
   const router = useRouter();
-
+  const update = 'update';
+  const { vendorId } = router?.query;
+  const [deleteVendorTrigger, deleteVendorStatus] = useDeleteVendorMutation();
   const singleVendorDetailsActionDropdown =
     singleVendorDetailsActionDropdownFunction(
       setDeleteModalOpen,
       router,
       setIsADrawerOpen,
     );
-  const handleDeleteBtn = () => {
-    setDeleteModalOpen(false);
-    enqueueSnackbar('Vendor deleted Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+
+  const handleDeleteBtn = async () => {
+    const updatedData = { queryParams: { id: vendorId } };
+
+    try {
+      await deleteVendorTrigger(updatedData)?.unwrap();
+      successSnackbar('Vendor Deleted Successfully!');
+      setDeleteModalOpen?.(false);
+      router?.push(AIR_SERVICES?.VENDOR_SETTINGS);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+      setDeleteModalOpen?.(false);
+    }
   };
   return {
     singleVendorDetailsActionDropdown,
@@ -28,5 +39,7 @@ export const useSingleVendorDetails = () => {
     handleDeleteBtn,
     isADrawerOpen,
     setIsADrawerOpen,
+    update,
+    deleteVendorStatus,
   };
 };

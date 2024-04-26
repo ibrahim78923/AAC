@@ -5,7 +5,7 @@ export const styles = {
     borderRadius: '10px',
   },
   horizontalTabsInnnerBox: {
-    pt: 1,
+    pt: 3,
     height: '33vh',
     overflow: 'scroll',
     width: '100%',
@@ -60,6 +60,31 @@ export const styles = {
       display: 'flex',
       alignItems: 'center',
       gap: 0.2,
+    };
+  },
+  uploadImage: (theme: any) => {
+    return {
+      borderRadius: '50%',
+      border: `2px solid ${theme?.palette?.custom?.dark}`,
+      height: '80px',
+      width: '80px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: 'auto',
+      marginBottom: '15px',
+    };
+  },
+  inputStyle: {
+    display: 'none', // Hide the default input element
+  },
+  labelStyle: (theme: any) => {
+    return {
+      color: theme?.palette?.grey[900],
+      padding: '8px',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      fontSize: '12px',
     };
   },
 };

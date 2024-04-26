@@ -1,12 +1,16 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { TicketCard } from '../TicketCard';
-import { v4 as uuidv4 } from 'uuid';
 import { styles } from './WelcomeCard.style';
 import { WelcomeCardImage } from '@/assets/images';
+import { useWelcomeCard } from './useWelcomeCard';
+import ApiErrorState from '@/components/ApiErrorState';
+import { TICKET_TYPE } from './WelcomeCard.data';
 
-export const WelcomeCard = ({ ticketsTypeList, ticketsData }: any) => {
+export const WelcomeCard = () => {
   const { mainWrapper, ticketCardWrapper } = styles;
+  const { data, isLoading, isFetching, isError, ticketsCountsData } =
+    useWelcomeCard();
   return (
     <>
       <Box
@@ -23,18 +27,28 @@ export const WelcomeCard = ({ ticketsTypeList, ticketsData }: any) => {
             We are here to help you, Please let us know what you need.
           </Typography>
         </Box>
-        <Box sx={ticketCardWrapper}>
-          {ticketsTypeList?.map((ticketType: string) => (
-            <TicketCard
-              key={uuidv4()}
-              ticketsProgress={50}
-              ticketsType={ticketType}
-              ticketsCount={ticketsData?.[ticketType]}
-              totalTickets={ticketsData?.totalTickets}
-              doneTickets={ticketsData?.doneTickets}
-            />
-          ))}
-        </Box>
+        {isLoading || isFetching ? (
+          <Skeleton
+            variant="rounded"
+            width={'100%'}
+            height={50}
+            sx={{ bgcolor: 'grey.900', borderRadius: 3 }}
+          />
+        ) : isError ? (
+          <Box width="100%" borderRadius={3}>
+            <ApiErrorState height="" textColor="common.white" />
+          </Box>
+        ) : (
+          <Box sx={ticketCardWrapper}>
+            {ticketsCountsData?.map((singleData: any) => (
+              <TicketCard
+                key={singleData?._id}
+                data={singleData}
+                totalCount={data?.ticketsCount[TICKET_TYPE?.TOTAL]}
+              />
+            ))}
+          </Box>
+        )}
       </Box>
     </>
   );

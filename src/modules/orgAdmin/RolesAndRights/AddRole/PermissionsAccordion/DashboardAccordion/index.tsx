@@ -6,36 +6,50 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { styled } from '@mui/material/styles';
-
-import { useListAccordion } from './useDashboardAccordion';
-
 import { RHFMultiCheckbox } from '@/components/ReactHookForm';
+import { v4 as uuidv4 } from 'uuid';
 
-const DashboardAccordion = () => {
-  const { ListAccordionDashboardData } = useListAccordion();
-
+const DashboardAccordion = ({
+  subModules,
+  disabled,
+  selectedSubModule,
+  handleChangeSubModule,
+}: any) => {
   return (
     <>
-      <Accordion sx={{ p: 0 }}>
-        <AccordionSummary
-          aria-controls="panel2a-content"
-          id="panel2a-header"
+      {subModules?.map((item: any) => (
+        <Accordion
           sx={{ p: 0 }}
+          key={uuidv4()}
+          expanded={selectedSubModule === item?.name?.toLowerCase()}
+          onChange={() => {
+            handleChangeSubModule(item?.name?.toLowerCase());
+          }}
         >
-          <Typography variant="h6" fontWeight={600}>
-            Dashboard Details
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{ p: 0 }}>
-          <Grid container>
-            <RHFMultiCheckbox
-              name="dashboardAcord"
-              options={ListAccordionDashboardData}
-              GridView={3}
-            />
-          </Grid>
-        </AccordionDetails>
-      </Accordion>
+          <AccordionSummary
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+            sx={{ p: 0 }}
+          >
+            <Typography variant="h6" fontWeight={600}>
+              {item?.name}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ p: 0 }}>
+            <Grid container>
+              <RHFMultiCheckbox
+                disabled={disabled}
+                name="permissions"
+                options={item?.permissions?.map((item: any) => ({
+                  label: item?.name,
+                  value: item?.slug,
+                }))}
+                GridView={4}
+              />
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      ))}
     </>
   );
 };

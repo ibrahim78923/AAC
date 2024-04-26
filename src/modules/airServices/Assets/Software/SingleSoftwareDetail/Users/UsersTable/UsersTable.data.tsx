@@ -1,33 +1,34 @@
-import { Box, Checkbox } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import dayjs from 'dayjs';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const usersTableColumns = (
   usersData: any,
   setUsersData: any,
-  usersMainData: any,
+  tableData: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!usersData?.find((item: any) => item?.id === info?.getValue())
+          !!usersData?.find((item: any) => item?._id === info?.getValue())
         }
-        onChange={(e) => {
-          const selectedId = info?.getValue();
-          if (e?.target?.checked) {
-            setUsersData([
-              ...usersData,
-              usersMainData?.find((item: any) => item?.id === selectedId),
-            ]);
-          } else {
-            setUsersData(
-              usersData?.filter((item: any) => item?.id !== selectedId),
-            );
-          }
+        onChange={(e: any) => {
+          e?.target?.checked
+            ? setUsersData([
+                ...usersData,
+                tableData?.find((item: any) => item?._id === info?.getValue()),
+              ])
+            : setUsersData(
+                usersData?.filter((item: any) => {
+                  return item?._id !== info?.getValue();
+                }),
+              );
         }}
         color="primary"
         name={info?.getValue()}
@@ -37,99 +38,64 @@ export const usersTableColumns = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={usersData?.length === usersMainData?.length}
-        onChange={(e) => {
-          if (e?.target?.checked) {
-            setUsersData([...usersMainData]);
-          } else {
-            setUsersData([]);
-          }
+        checked={
+          tableData?.length ? usersData?.length === tableData?.length : false
+        }
+        onChange={(e: any) => {
+          e?.target?.checked ? setUsersData([...tableData]) : setUsersData([]);
         }}
         color="primary"
-        name="id"
+        name="_id"
       />
     ),
-    isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.username,
+    accessorFn: (row: any) => row?.Name,
     id: 'Name',
-    cell: (info: any) => <Box fontWeight={700}>{info?.getValue()}</Box>,
+    cell: (info: any) => info?.getValue() ?? '__',
     header: 'Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.department,
+    accessorFn: (row: any) => row?.Department,
     id: 'Department',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '__',
     header: 'Department',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.source,
+    accessorFn: (row: any) => row?.Source,
     id: 'Source',
     isSortable: true,
     header: 'Source',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '__',
   },
   {
-    accessorFn: (row: any) => row?.usage,
-    id: 'Usage',
-    isSortable: true,
-    header: 'Usage',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.firstseen,
-    id: 'First Seen',
+    accessorFn: (row: any) => row?.data?.createdAt,
+    id: 'createdAt',
     isSortable: true,
     header: 'First Seen',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.lastseen,
-    id: 'Last Seen',
+    accessorFn: (row: any) => row?.data?.updatedAt,
+    id: 'updatedAt',
     isSortable: true,
     header: 'Last Seen',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.assigneddate,
-    id: 'Assigned Date',
+    accessorFn: (row: any) => row?.data?.createdAt,
+    id: 'createdAt',
     isSortable: true,
     header: 'Assigned Date',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.contract,
+    accessorFn: (row: any) => row?.Contract,
     id: 'Contract',
     isSortable: true,
     header: 'Contract',
-    cell: (info: any) => info?.getValue(),
-  },
-];
-
-export const usersTableData: any = [
-  {
-    id: '1',
-    username: 'Andrea',
-    department: '-',
-    source: '-',
-    usage: '10',
-    firstseen: '22 Mar, 2023',
-    lastseen: '22 Mar, 2023',
-    assigneddate: '22 Mar, 2023',
-    contract: 'Freshservice Trial License',
-  },
-  {
-    id: '2',
-    username: 'Andrea',
-    department: '-',
-    source: '-',
-    usage: '10',
-    firstseen: '22 Mar, 2023',
-    lastseen: '22 Mar, 2023',
-    assigneddate: '22 Mar, 2023',
-    contract: 'Freshservice Trial License',
+    cell: (info: any) => info?.getValue() ?? '__',
   },
 ];

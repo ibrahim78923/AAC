@@ -37,6 +37,7 @@ export const dataArray = [
       label: 'First Name',
       fullWidth: true,
       select: false,
+      placeholder: 'First Name',
     },
     component: RHFTextField,
     md: 12,
@@ -45,6 +46,7 @@ export const dataArray = [
     componentProps: {
       name: 'phoneNumber',
       label: 'Middle Name',
+      placeholder: 'Middle Name',
       fullWidth: true,
       select: false,
     },
@@ -55,6 +57,7 @@ export const dataArray = [
     componentProps: {
       name: 'postCode',
       label: 'Last Name',
+      placeholder: 'Last Name',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -64,6 +67,8 @@ export const dataArray = [
     componentProps: {
       name: 'address',
       label: 'Address',
+      placeholder: 'Address',
+
       fullWidth: true,
       select: false,
     },
@@ -74,6 +79,8 @@ export const dataArray = [
     componentProps: {
       name: 'email',
       label: 'Email',
+      placeholder: 'Email',
+      required: true,
       fullWidth: true,
       select: false,
     },
@@ -84,6 +91,7 @@ export const dataArray = [
     componentProps: {
       name: 'buildingName',
       label: 'Phone Number',
+      placeholder: 'Phone Number',
       fullWidth: true,
       select: false,
     },
@@ -94,6 +102,8 @@ export const dataArray = [
     componentProps: {
       name: 'buildingNumber',
       label: 'Job Title',
+      placeholder: 'Job Title',
+
       fullWidth: true,
       select: false,
     },
@@ -165,6 +175,7 @@ export const dataArray = [
     componentProps: {
       name: 'country',
       label: 'Facebook URL',
+      placeholder: 'Facebook URL',
       fullWidth: true,
       select: false,
     },
@@ -176,6 +187,7 @@ export const dataArray = [
     componentProps: {
       name: 'country',
       label: 'Linkdin URL',
+      placeholder: 'Linkdin URL',
       fullWidth: true,
       select: false,
     },
@@ -187,6 +199,7 @@ export const dataArray = [
     componentProps: {
       name: 'country',
       label: 'Twitter URL',
+      placeholder: 'Twitter URL',
       fullWidth: true,
       select: false,
     },

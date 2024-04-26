@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
-
-import { Box, useTheme, Popover, Typography } from '@mui/material';
-
-import { isNullOrEmpty } from '@/utils';
-
-import { NotificationData } from '@/mock/modules/superAdmin/SuperAdminDashboard';
-
+import {
+  Box,
+  useTheme,
+  Popover,
+  Typography,
+  Badge,
+  Divider,
+} from '@mui/material';
 import { NotificationImage } from '@/assets/images';
-
 import { v4 as uuidv4 } from 'uuid';
+import useNotificationDropDown from './useNotificationDropDown';
+import dayjs from 'dayjs';
+import NoData from '@/components/NoData';
+import SkeletonComponent from '@/components/CardSkeletons';
+import { generateImage } from '@/utils/avatarUtils';
 
 const NotificationDropdown = () => {
   const theme = useTheme();
@@ -27,20 +32,28 @@ const NotificationDropdown = () => {
   };
 
   const isOpenPopover = Boolean(openPopver);
-  const id = isOpenPopover ? 'simple-popover' : undefined;
+  const { notificationsList, getNotificationLoading, handleSeenNotification } =
+    useNotificationDropDown();
+  const newNotificationsLength =
+    notificationsList?.data?.notificationslogs?.filter((item: any) => {
+      return item?.seen === false;
+    });
 
   return (
     <div>
       <Box onClick={handleClick}>
-        <Image
-          src={NotificationImage}
-          alt="notification"
-          style={{ cursor: 'pointer' }}
-        />
+        {
+          <Badge badgeContent={newNotificationsLength?.length} color="error">
+            <Image
+              src={NotificationImage}
+              alt="notification"
+              style={{ cursor: 'pointer' }}
+            />
+          </Badge>
+        }
       </Box>
-
       <Popover
-        id={id}
+        // id={id}
         open={isOpenPopover}
         anchorEl={openPopver}
         onClose={handleClose}
@@ -69,46 +82,61 @@ const NotificationDropdown = () => {
           >
             <Typography variant="h5">Notifications</Typography>
           </Box>
-          <Box>
-            <Box sx={{ px: 2 }} key={uuidv4()}>
+          <Box sx={{ px: 2 }}>
+            {getNotificationLoading ? (
+              <SkeletonComponent numberOfSkeletons={5} />
+            ) : (
               <Box>
-                {!isNullOrEmpty(NotificationData) &&
-                  NotificationData?.map((item) => {
-                    return (
-                      <Box
-                        sx={{
-                          display: 'flex',
-
-                          padding: '15px 0px 15px 10px',
-                          gap: 1,
-                        }}
-                        key={uuidv4()}
-                      >
-                        <Image
-                          src={item?.icon}
-                          width={32}
-                          height={32}
-                          alt="notification-avatar"
-                        />
-                        <Box>
-                          <Typography
-                            variant="body2"
-                            sx={{ color: theme?.palette?.grey[600] }}
+                {notificationsList?.data?.notificationslogs?.length > 0 ? (
+                  notificationsList?.data?.notificationslogs?.map(
+                    (item: any) => {
+                      return (
+                        <Box key={uuidv4()}>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              padding: '15px 0px 15px 10px',
+                              alignItems: 'center',
+                              gap: 1,
+                              backgroundColor:
+                                !item?.seen && theme?.palette?.grey[100],
+                            }}
+                            onClick={() => handleSeenNotification(item?._id)}
                           >
-                            {item?.message}
-                          </Typography>
-                          <Typography
-                            variant="body3"
-                            sx={{ color: theme?.palette?.custom?.main }}
-                          >
-                            {item?.date}
-                          </Typography>
+                            <Image
+                              src={generateImage(item?.performedByAvatar?.url)}
+                              width={32}
+                              height={32}
+                              alt="notification-avatar"
+                            />
+                            <Box>
+                              <Typography
+                                variant="body2"
+                                sx={{ color: theme?.palette?.grey[600] }}
+                              >
+                                {`${item?.performedByName} updates ${item?.module}`}
+                                {item?.message}
+                              </Typography>
+                              <Typography
+                                variant="body3"
+                                sx={{ color: theme?.palette?.custom?.main }}
+                              >
+                                {dayjs(item?.createdAt)?.format(
+                                  'MMM DD [at] h:mm A',
+                                )}
+                              </Typography>
+                            </Box>
+                          </Box>
+                          <Divider />
                         </Box>
-                      </Box>
-                    );
-                  })}
+                      );
+                    },
+                  )
+                ) : (
+                  <NoData />
+                )}
               </Box>
-            </Box>
+            )}
           </Box>
         </>
       </Popover>

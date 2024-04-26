@@ -1,27 +1,45 @@
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { AIR_SERVICES } from '@/constants';
+import { useDeletePurchaseOrderMutation } from '@/services/airServices/assets/purchase-orders';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 
 export const useDeletePurchaseOrder = (props: any) => {
-  const { setDeleteModalOpen, purchaseOrderData } = props;
+  const {
+    setDeleteModalOpen,
+    purchaseOrderData,
+    setPage,
+    totalRecords,
+    page,
+    getPurchaseOrderListData,
+    setPurchaseOrderData,
+    canMoveBack = false,
+  } = props;
+
+  const router = useRouter();
+
+  const [deletePurchaseOrderTrigger, deletePurchaseOrderStatus] =
+    useDeletePurchaseOrderMutation();
   const deletePurchaseOrder = async () => {
-    const deleteParams = new URLSearchParams();
-    purchaseOrderData?.forEach(
-      (purchaseOrderId: any) => deleteParams?.append('ids', purchaseOrderId),
-    );
     try {
-      enqueueSnackbar('Selected Purchase Orders Deleted Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      setDeleteModalOpen?.(false);
+      await deletePurchaseOrderTrigger(purchaseOrderData?.[0]?._id)?.unwrap();
+      successSnackbar('Purchase Order Deleted Successfully!');
+      closePurchaseOrderDeleteModal?.();
+      canMoveBack && router?.push(AIR_SERVICES?.PURCHASE_ORDER);
+      const newPage = purchaseOrderData?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
+      await getPurchaseOrderListData?.(newPage);
     } catch (error: any) {
-      enqueueSnackbar('Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-      setDeleteModalOpen?.(false);
+      errorSnackbar(error?.data?.message);
     }
   };
 
+  const closePurchaseOrderDeleteModal = () => {
+    setPurchaseOrderData?.([]);
+    setDeleteModalOpen?.(false);
+  };
   return {
     deletePurchaseOrder,
+    deletePurchaseOrderStatus,
+    closePurchaseOrderDeleteModal,
   };
 };

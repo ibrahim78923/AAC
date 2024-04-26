@@ -31,40 +31,30 @@ const useJobPosting = () => {
   // GET JOB POSTINGS
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const defaultParams = {
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
-  };
   const [searchValue, setSearchValue] = useState(null);
-  const [filterParams, setFilterParams] = useState({
+  const [filterParams, setFilterParams] = useState({});
+  const paginationParams = {
     page: page,
     limit: pageLimit,
-  });
+  };
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
   const { data: jopPostingData, isLoading: loadingJobPosting } =
-    useGetJobsQuery({ params: { ...filterParams, ...searchPayLoad } });
+    useGetJobsQuery({
+      params: { ...paginationParams, ...searchPayLoad, ...filterParams },
+    });
   const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: ressetFilterForm } =
     methodsFilter;
 
   // HANDLE REFRESH
   const handleRefresh = () => {
-    setFilterParams(defaultParams);
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
     ressetFilterForm();
-  };
-
-  // Hadle PAGE CHANGE
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
   };
 
   // OPEN/CLOSE FILTER DRAWER
@@ -78,30 +68,25 @@ const useJobPosting = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    if (values?.createdAt) {
-      if (!Array.isArray(values?.createdAt)) {
-        setFilterParams((prev) => {
-          return {
-            ...prev,
-            dateStart: dayjs(values?.createdAt).format(DATE_FORMAT.API),
-            dateEnd: dayjs(values?.createdAt).format(DATE_FORMAT.API),
-          };
-        });
-      } else {
-        setFilterParams((prev) => {
-          return {
-            ...prev,
-            dateStart: dayjs(values?.createdAt[0]).format(DATE_FORMAT.API),
-            dateEnd: dayjs(values?.createdAt[1]).format(DATE_FORMAT.API),
-          };
-        });
-      }
-    }
+    const { createdAt, ...others } = values;
+    const dateStart = createdAt?.[0]
+      ? dayjs(createdAt[0]).format(DATE_FORMAT.API)
+      : null;
+    const dateEnd = createdAt?.[1]
+      ? dayjs(createdAt[1]).format(DATE_FORMAT.API)
+      : null;
     setFilterParams((prev) => {
-      return {
+      const updatedParams = {
         ...prev,
-        ...values,
+        ...others,
       };
+
+      if (dateStart !== null && dateEnd !== null) {
+        updatedParams.dateStart = dateStart;
+        updatedParams.dateEnd = dateEnd;
+      }
+
+      return updatedParams;
     });
     setOpenJobPostingFilter(false);
   };
@@ -115,7 +100,16 @@ const useJobPosting = () => {
   });
   const { handleSubmit: handleMethodEditJobPosting } = methodsEditJobPosting;
   const [openEditJobPost, setOpenEditJobPost] = useState(false);
-  const handleOpenEditJobPost = () => {
+  const [drawerTitle, setDrawerTitle] = useState('Update');
+  const [isFieldsDisabled, setIsFieldsDisabled] = useState(false);
+
+  const handleOpenEditJobPost = (title: string) => {
+    setDrawerTitle(title);
+    if (title === 'View') {
+      setIsFieldsDisabled(true);
+    } else {
+      setIsFieldsDisabled(false);
+    }
     handleClose();
     const selectedItem =
       jopPostingData?.data?.jobs.find((item: any) => item?._id === rowId) || {};
@@ -221,7 +215,7 @@ const useJobPosting = () => {
     handleRefresh,
     setPageLimit,
     setPage,
-    handlePageChange,
+    // handlePageChange,
     openJobPostingFilter,
     handleOpenJobPostingFilters,
     handleCloseJobPostingFilters,
@@ -237,6 +231,8 @@ const useJobPosting = () => {
     handleCloseEditJobPost,
     handleSubmitEditJobPost,
     loadingUpdateJobPost,
+    isFieldsDisabled,
+    drawerTitle,
     methodsEditJobPosting,
     handleUpdateStatus,
     selectedRow,

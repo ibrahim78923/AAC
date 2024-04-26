@@ -17,8 +17,12 @@ import { FilterrIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import useUserManagement from './useUserManagement';
 import ActionButton from './ActionButton';
 
-import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS,
+  SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS,
+} from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
 const UserManagement = () => {
   const {
@@ -32,13 +36,17 @@ const UserManagement = () => {
     filterValues,
     setFilterValues,
     handleAddRole,
-    checkedRows,
-    setCheckedRows,
+    selectedRow,
+    setSelectedRow,
     searchVal,
     setSearchVal,
     resetFilters,
+    initialTab,
+    tabTwo,
+    tabOne,
+    datePickerVal,
+    setDatePickerVal,
   } = useUserManagement();
-
   return (
     <Box
       sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
@@ -50,12 +58,19 @@ const UserManagement = () => {
       >
         <Typography variant="h3">User Management</Typography>
         <PermissionsGuard
-          permissions={[SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]}
+          permissions={
+            tabVal === initialTab
+              ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
+              : tabVal === tabOne
+                ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
+                : [SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ADD_ROLE]
+          }
         >
           <Button
             sx={{ mt: { md: 0, xs: 1 } }}
+            className="small"
             onClick={() =>
-              tabVal === 2
+              tabVal === tabTwo
                 ? handleAddRole()
                 : setIsOpenAddUserDrawer({
                     drawer: true,
@@ -66,24 +81,22 @@ const UserManagement = () => {
             variant="contained"
             startIcon={<PlusIcon />}
           >
-            {tabVal === 0
+            {tabVal === initialTab
               ? 'Add Company Owner'
-              : tabVal === 1
-              ? 'Add Super Admin '
-              : 'Add Role'}
+              : tabVal === tabOne
+                ? 'Add Super Admin '
+                : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
       <PermissionsGuard
-        permissions={[
-          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
-        ]}
+        permissions={[SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_LIST]}
       >
         <Box sx={{ padding: '0px 24px' }}>
           <CommonTabs
             getTabVal={(val: number) => setTabVal(val)}
             searchBarProps={{
-              label: 'Search Here',
+              label: 'Search by Name',
               setSearchBy: setSearchVal,
               searchBy: searchVal,
             }}
@@ -96,11 +109,15 @@ const UserManagement = () => {
             headerChildren={
               <>
                 <ActionButton
-                  checkedRows={checkedRows}
+                  checkedRows={selectedRow?.selectedValue}
                   tabVal={tabVal}
                   setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
                 />
-                <Tooltip title={'Refresh Filter'}>
+                <Tooltip
+                  title={`${
+                    tabVal === tabOne ? 'Refresh Date Filter' : 'Refresh Filter'
+                  }`}
+                >
                   <Button
                     variant="outlined"
                     color="inherit"
@@ -110,33 +127,57 @@ const UserManagement = () => {
                     <RefreshTasksIcon />
                   </Button>
                 </Tooltip>
-                <Button
-                  onClick={() => {
-                    setIsOpenFilterDrawer(true);
-                  }}
-                  startIcon={<FilterrIcon />}
-                  sx={{
-                    border: `1px solid ${theme?.palette?.custom?.dark}`,
-                    color: theme?.palette?.custom?.main,
-                    width: '95px',
-                    height: '36px',
-                  }}
-                >
-                  Filter
-                </Button>
+                {tabVal !== tabOne ? (
+                  <PermissionsGuard
+                    permissions={
+                      tabVal === initialTab
+                        ? [
+                            SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
+                          ]
+                        : [
+                            SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ROLE_SEARCH_AND_FILTER,
+                          ]
+                    }
+                  >
+                    <Button
+                      onClick={() => {
+                        setIsOpenFilterDrawer(true);
+                      }}
+                      startIcon={<FilterrIcon />}
+                      sx={{
+                        border: `1px solid ${theme?.palette?.custom?.dark}`,
+                        color: theme?.palette?.custom?.main,
+                        width: '95px',
+                        height: '36px',
+                      }}
+                    >
+                      Filter
+                    </Button>
+                  </PermissionsGuard>
+                ) : (
+                  <SwitchableDatepicker
+                    renderInput="button"
+                    placement="right"
+                    dateValue={datePickerVal}
+                    setDateValue={setDatePickerVal}
+                    handleDateSubmit={() => {
+                      setFilterValues({ ...filterValues, date: datePickerVal });
+                    }}
+                  />
+                )}
               </>
             }
           >
             <Users
-              checkedRows={checkedRows}
-              setCheckedRows={setCheckedRows}
+              checkedRows={selectedRow}
+              setCheckedRows={setSelectedRow}
               filterValues={filterValues}
               searchVal={searchVal}
             />
             <SuperAdminUsers
-              checkedRows={checkedRows}
-              setCheckedRows={setCheckedRows}
-              filterValues={filterValues}
+              checkedRows={selectedRow}
+              setCheckedRows={setSelectedRow}
+              date={filterValues?.date}
               searchVal={searchVal}
             />
             <RolesAndRights />

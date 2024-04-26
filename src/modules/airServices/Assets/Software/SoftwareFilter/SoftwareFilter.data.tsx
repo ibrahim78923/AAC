@@ -1,108 +1,87 @@
-import { RHFAutocomplete } from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 
-import * as Yup from 'yup';
+import {
+  softwareDateOptions,
+  softwareStatusOptions,
+  softwareTypeOptions,
+} from '../Software.data';
 
-export const drawerFormValidationSchema = Yup?.object()?.shape({
-  status: Yup?.string(),
-  type: Yup?.string(),
-  category: Yup?.string(),
-  publisher: Yup?.string(),
-  createdDate: Yup?.date(),
-  updatedDate: Yup?.date(),
-});
-
-export const defaultValues = {
-  type: '',
-  status: '',
-  category: '',
-  publisher: '',
-  createdDate: '',
-  updatedDate: '',
+export const softwareFilterDefaultValues = (filterValues: any) => {
+  return {
+    type: filterValues?.type ?? null,
+    status: filterValues?.status ?? null,
+    category: filterValues?.category ?? '',
+    publisher: filterValues?.publisher ?? '',
+    createdDate: filterValues?.createdDate ?? null,
+    updatedDate: filterValues?.updatedDate ?? null,
+  };
 };
 
-export const dataArray = [
+export const softwareFilterDataArray = [
   {
+    id: 2435,
     componentProps: {
       name: 'status',
       label: 'Status',
       fullWidth: true,
-      select: true,
-      options: ['Restricted', 'Ignored', 'Managed', 'disabled', 'InReview'],
+      options: softwareStatusOptions,
+      placeholder: 'Select status',
     },
     component: RHFAutocomplete,
-    md: 12,
   },
   {
+    id: 6546,
     componentProps: {
       name: 'type',
       label: 'Type',
       fullWidth: true,
-      select: true,
-      options: ['Desktop', 'SaaS', 'Mobile'],
+      options: softwareTypeOptions,
+      placeholder: 'Select type',
     },
     component: RHFAutocomplete,
-    md: 12,
   },
 
   {
+    id: 5674,
     componentProps: {
       name: 'category',
       label: 'Category',
       fullWidth: true,
-      select: false,
     },
-    component: RHFAutocomplete,
-    md: 12,
+    component: RHFTextField,
   },
 
   {
+    id: 9877,
     componentProps: {
       name: 'publisher',
       label: 'Publisher',
       fullWidth: true,
-      select: false,
     },
-    component: RHFAutocomplete,
-    md: 12,
+    component: RHFTextField,
   },
 
   {
+    id: 6566,
     componentProps: {
       name: 'createdDate',
       label: 'Created Date',
       fullWidth: true,
-      select: true,
       placeholder: 'Select a time period',
-      options: [
-        'None',
-        'AllTime',
-        'Today',
-        'Yesterday',
-        'PreviousWeek',
-        'PreviousMonth',
-      ],
+      options: softwareDateOptions,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
 
   {
+    id: 6785,
     componentProps: {
       name: 'updatedDate',
       label: 'Updated Date',
       fullWidth: true,
-      select: true,
       placeholder: 'Select a time period',
-      options: [
-        'None',
-        'AllTime',
-        'Today',
-        'Yesterday',
-        'PreviousWeek',
-        'PreviousMonth',
-      ],
+      options: softwareDateOptions,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
 ];

@@ -1,53 +1,84 @@
-import { useState } from 'react';
-import { useSnackbar } from 'notistack';
-import { useTheme } from '@mui/material';
-export function useRelatedTickets() {
-  const { enqueueSnackbar } = useSnackbar();
-  const theme = useTheme();
+import { useEffect, useState } from 'react';
+import { useLazyGetChildTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
+import {
+  columnsFunction,
+  relatedTicketsActionDropdownFunction,
+} from './RelatedTickets.data';
+import { PAGINATION } from '@/config';
+import { useRouter } from 'next/router';
+import { buildQueryParams } from '@/utils/api';
+
+export const useRelatedTickets = () => {
+  const router = useRouter();
+  const ticketId = router?.query?.ticketId;
+  const [isDelete, setIsDelete] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [drawerType, setDrawerType] = useState<string>('Add');
-  const [isActive, setActive] = useState<any>([]);
-  const handleCheckboxChange = (event: any) => {
-    setActive(event?.target.checked);
-  };
-  const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
-  const [actionExportPop, setActionExportPop] =
-    useState<HTMLButtonElement | null>(null);
-  const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event?.currentTarget);
-  };
-  const handleActionClose = () => {
-    setActionPop(null);
-  };
-  const openAction = Boolean(actionPop);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const handleActionExportClick = (event: any) => {
-    setActionExportPop(event.currentTarget);
-  };
-  const handleActionExportClose = () => {
-    setActionExportPop(null);
-  };
+  const [selectedChildTickets, setSelectedChildTickets] = useState<any>([]);
+  const [
+    lazyGetChildTicketsTrigger,
+    { data, isLoading, isFetching, isError, isSuccess },
+  ] = useLazyGetChildTicketsQuery<any>();
 
-  const openActionExport = Boolean(actionExportPop);
+  const getChildTicketsListData = async (currentPage: any = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+    ];
+
+    const getChildTicketsParam: any = buildQueryParams(additionalParams);
+
+    const getChildTicketsParameter = {
+      queryParams: getChildTicketsParam,
+      pathParam: {
+        id: ticketId,
+      },
+    };
+
+    try {
+      await lazyGetChildTicketsTrigger(getChildTicketsParameter)?.unwrap();
+      setSelectedChildTickets([]);
+    } catch (error: any) {}
+  };
+  const relatedTicketsColumns = columnsFunction(
+    data?.data?.tickets?.length > 1
+      ? data?.data?.tickets
+      : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+        ? data?.data?.tickets
+        : [],
+    selectedChildTickets,
+    setSelectedChildTickets,
+    router,
+  );
+  useEffect(() => {
+    getChildTicketsListData();
+  }, [page, pageLimit]);
+
+  const relatedTicketsActionDropdown = relatedTicketsActionDropdownFunction(
+    setIsDelete,
+    selectedChildTickets,
+    setIsDrawerOpen,
+  );
 
   return {
-    enqueueSnackbar,
     setIsDrawerOpen,
     isDrawerOpen,
-    drawerType,
-    setDrawerType,
-    handleCheckboxChange,
-    setActive,
-    isActive,
-    handleActionClick,
-    actionExportPop,
-    actionPop,
-    setActionPop,
-    handleActionExportClose,
-    openAction,
-    handleActionExportClick,
-    handleActionClose,
-    openActionExport,
-    theme,
+    selectedChildTickets,
+    relatedTicketsColumns,
+    setPage,
+    setPageLimit,
+    setSelectedChildTickets,
+    relatedTicketsActionDropdown,
+    isDelete,
+    setIsDelete,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    getChildTicketsListData,
+    page,
   };
-}
+};

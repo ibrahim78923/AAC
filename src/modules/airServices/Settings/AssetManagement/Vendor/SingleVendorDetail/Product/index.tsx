@@ -1,5 +1,4 @@
 import { Box, Button } from '@mui/material';
-import { productData } from './Product.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { UpsertProduct } from './UpsertProduct';
 import { GrayPlusIcon } from '@/assets/icons';
@@ -17,6 +16,14 @@ export const Product = () => {
     upsertProductModal,
     setUpsertProductModal,
     productListColumns,
+    setPage,
+    setPageLimit,
+    productVendorData,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+    deleteVendorStatus,
   } = useProduct();
 
   return (
@@ -37,27 +44,44 @@ export const Product = () => {
           Add Product
         </Button>
       </Box>
+
       <br />
       <TanstackTable
-        data={productData}
+        data={productVendorData?.data?.vendorproductcatalogs}
         columns={productListColumns}
         isPagination
+        isLoading={isLoading}
+        isError={isError}
+        isFetching={isFetching}
+        isSuccess={isSuccess}
+        setPageLimit={setPageLimit}
+        setPage={setPage}
+        currentPage={productVendorData?.data?.meta?.page}
+        count={productVendorData?.data?.meta?.pages}
+        pageLimit={productVendorData?.data?.meta?.limit}
+        totalRecords={productVendorData?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
       />
 
-      <UpsertProduct
-        upsertProductModal={upsertProductModal}
-        setUpsertProductModal={setUpsertProductModal}
-        editData={editData}
-        setEditData={setEditData}
-      />
-
-      <AlertModals
-        type={ALERT_MODALS_TYPE?.DELETE}
-        open={deleteModalOpen}
-        handleClose={() => setDeleteModalOpen(false)}
-        handleSubmitBtn={handleDeleteBtn}
-        message="Are you sure you want to delete this Product?"
-      />
+      {upsertProductModal && (
+        <UpsertProduct
+          upsertProductModal={upsertProductModal}
+          setUpsertProductModal={setUpsertProductModal}
+          editData={editData}
+          setEditData={setEditData}
+        />
+      )}
+      {deleteModalOpen && (
+        <AlertModals
+          type={ALERT_MODALS_TYPE?.DELETE}
+          open={deleteModalOpen}
+          handleClose={() => setDeleteModalOpen(false)}
+          handleSubmitBtn={handleDeleteBtn}
+          message="Are you sure you want to delete this Product?"
+          loading={deleteVendorStatus?.isLoading}
+          disableCancelBtn={deleteVendorStatus?.isLoading}
+        />
+      )}
     </>
   );
 };

@@ -2,10 +2,11 @@ import Image from 'next/image';
 import { Box, Typography } from '@mui/material';
 import { NoAssociationFoundImage } from '@/assets/images';
 
-const ApiErrorState = () => {
+const ApiErrorState = (props: any) => {
+  const { height = '50vh', textColor = 'slateBlue.main' } = props;
   return (
     <Box
-      height={'50vh'}
+      height={height}
       display={'flex'}
       flexDirection={'column'}
       alignItems={'center'}
@@ -26,7 +27,9 @@ const ApiErrorState = () => {
           style={{ width: '100%', height: '100%' }}
         />
       </Box>
-      <Typography variant="h5">SOMETHING WENT WRONG!</Typography>
+      <Typography variant="h5" color={textColor}>
+        SOMETHING WENT WRONG!
+      </Typography>
     </Box>
   );
 };

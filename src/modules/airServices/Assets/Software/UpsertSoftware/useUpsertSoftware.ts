@@ -1,29 +1,94 @@
+import { useRouter } from 'next/router';
+import {
+  usePostSoftwareMutation,
+  useLazyGetUserDropdownQuery,
+  useEditSoftwareMutation,
+} from '@/services/airServices/assets/software';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
+
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   upsertSoftwareFormDefaultValues,
   upsertSoftwareFormValidationSchema,
 } from './UpsertSoftware.data';
+import { useEffect } from 'react';
 
 export const useUpsertSoftware = (props: any) => {
-  const { onClose } = props;
+  const { setIsAddDrawerOpen, data, isLoading, isFetching } = props;
+  const router = useRouter();
+  const { softwareId } = router?.query;
+
+  const [postSoftwareTrigger, postSoftwareStatus] = usePostSoftwareMutation();
+
+  const [editSoftwareTrigger, editSoftwareStatus] = useEditSoftwareMutation();
+
   const methods = useForm({
     resolver: yupResolver(upsertSoftwareFormValidationSchema),
-    defaultValues: upsertSoftwareFormDefaultValues,
+    defaultValues: upsertSoftwareFormDefaultValues(),
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
-  const submitUpsertSoftwareForm = async () => {
-    onClose(false);
-    enqueueSnackbar('Information Created Successfully', {
-      variant: 'success',
-      autoHideDuration: 1000,
-    });
+  const submitUpsertSoftware = async (formData: any) => {
+    const modifiedData = {
+      name: formData?.name,
+      status: formData?.status,
+      type: formData?.type,
+      details: {
+        description: formData?.description,
+        category: formData?.category,
+        publisher: formData?.publisher,
+        managedBy: formData?.managedBy?._id,
+      },
+    };
+    if (!!softwareId) {
+      updateSoftware?.(modifiedData);
+      return;
+    }
+    try {
+      await postSoftwareTrigger(modifiedData);
+      successSnackbar('Software Created Successfully');
+      onClose?.();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
+
+  const updateSoftware = async (formData: any) => {
+    const editSoftwareParams = {
+      id: softwareId,
+      body: formData,
+    };
+    try {
+      await editSoftwareTrigger(editSoftwareParams);
+      successSnackbar('Software Updated Successfully');
+      onClose?.();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    reset(() => upsertSoftwareFormDefaultValues(data));
+  }, [reset, data]);
+
+  const onClose = () => {
+    setIsAddDrawerOpen?.(false);
+    reset();
+  };
+
+  const userQuery = useLazyGetUserDropdownQuery();
+
   return {
+    onClose,
     methods,
     handleSubmit,
-    submitUpsertSoftwareForm,
+    postSoftwareStatus,
+    userQuery,
+    softwareId,
+    isLoading,
+    isFetching,
+    editSoftwareStatus,
+    submitUpsertSoftware,
   };
 };

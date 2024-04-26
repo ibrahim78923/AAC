@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import Jobs from '@/modules/superAdmin/settings/Jobs';
 
@@ -6,5 +7,5 @@ const JobsPage = () => {
 };
 export default JobsPage;
 JobsPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return <Layout permissions={Permissions?.SETTING_JOBS}>{page}</Layout>;
 };

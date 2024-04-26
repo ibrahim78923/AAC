@@ -88,7 +88,7 @@ export const dataArray = [
     componentProps: {
       name: 'totalDeals',
       label:
-        'Total Deals, Open Deals, Team Goals, Cloded Won, Published Quotes',
+        'Total Deals, Open Deals, Team Goals, Closed Won, Published Quotes',
       fullWidth: true,
     },
     component: RHFCheckbox,

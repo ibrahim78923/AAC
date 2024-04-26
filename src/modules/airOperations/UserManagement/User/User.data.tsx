@@ -1,63 +1,55 @@
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
-import { UserListI } from './User.interface';
-import { AvatarImage } from '@/assets/images';
 import { AntSwitch } from '@/components/AntSwitch';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { REQUESTORS_STATUS } from '@/constants/strings';
 
-export const userListData: UserListI[] = [
+export const userDropdown = (setDeleteModal: any) => [
   {
     id: 1,
-    name: `Olivia Rhye`,
-    email: `Orcalo@airapple.co.uk`,
-    team: `Alfa`,
-    role: 'Sales manager',
-    status: true,
-    icon: AvatarImage,
-  },
-  {
-    id: 2,
-    name: `Olivia Rhye`,
-    email: `Orcalo@airapple.co.uk`,
-    team: `Orcalo`,
-    role: 'Sales manager',
-    status: false,
-    icon: AvatarImage,
-  },
-  {
-    id: 3,
-    name: `Olivia Rhye`,
-    email: `Orcalo@airapple.co.uk`,
-    team: `Test`,
-    role: 'Sales manager',
-    status: true,
-    icon: AvatarImage,
+    title: 'Delete',
+    // permissionKey: [
+    //   AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USER,
+    // ],
+    handleClick: (close: any) => {
+      setDeleteModal(true);
+      close(null);
+    },
   },
 ];
-export const userList: any = (
+
+export const userList = (
+  usersData: any = [],
   selectedUserList: any,
   setSelectedUserList: any,
   setIsDrawerOpen: any,
+  setTabData: any,
+  switchLoading: any,
+  handleChangeStatus: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         color="primary"
         name={info?.getValue()}
         checked={
-          !!selectedUserList?.find((item: any) => item?.id === info?.getValue())
+          !!selectedUserList?.find(
+            (item: any) => item?._id === info?.getValue(),
+          )
         }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedUserList([
                 ...selectedUserList,
-                userListData?.find(
-                  (item: any) => item?.id === info?.getValue(),
-                ),
+                usersData?.find((item: any) => item?._id === info?.getValue()),
               ])
             : setSelectedUserList(
                 selectedUserList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -65,12 +57,18 @@ export const userList: any = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         color="primary"
-        name="id"
-        checked={selectedUserList?.length === userListData?.length}
+        name="_id"
+        checked={
+          !!usersData?.length
+            ? selectedUserList?.length === usersData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList([...userListData])
+            ? setSelectedUserList([...usersData])
             : setSelectedUserList([]);
         }}
       />
@@ -78,65 +76,74 @@ export const userList: any = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.name,
-    id: 'name',
+    accessorFn: (row: any) => row?.user?.firstName,
+    id: 'firstName',
     header: 'Name',
     isSortable: true,
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar
-          src={info?.row?.original?.icon?.src}
-          alt={info?.row?.original?.icon?.name}
-        />{' '}
-        <Typography
-          sx={{
-            color: 'blue.dull_blue',
-            cursor: 'pointer',
-          }}
-          onClick={() => setIsDrawerOpen(info?.getValue(), true)}
-        >
-          {info?.getValue()}
-        </Typography>
+        <Avatar src={`url_for_avatar_${info?.row?.original?._id}`} alt="users">
+          <Typography
+            variant="body2"
+            textTransform={'uppercase'}
+            sx={{
+              color: 'blue.dull_blue',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              setIsDrawerOpen(true);
+              setTabData(info?.row?.original);
+            }}
+          >
+            {fullNameInitial(
+              info?.row?.original?.user?.firstName,
+              info?.row?.original?.user?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        {fullName(
+          info?.row?.original?.user?.firstName,
+          info?.row?.original?.user?.lastName,
+        )}
       </Box>
     ),
   },
   {
-    accessorFn: (row: any) => row?.email,
+    accessorFn: (row: any) => row?.user?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
-    cell: (info: any) => {
-      return (
-        <Typography
-          style={{
-            textTransform: 'lowercase',
-            cursor: 'pointer',
-          }}
-        >
-          {info?.getValue()}
-        </Typography>
-      );
-    },
+    cell: (info: any) => info?.getValue() ?? '--',
   },
   {
-    accessorFn: (row: any) => row?.team,
+    accessorFn: (row: any) => row?.team?.name,
     id: 'team',
     isSortable: true,
     header: 'Team',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '--',
   },
   {
-    accessorFn: (row: any) => row?.role,
+    accessorFn: (row: any) => row?.user?.role,
     id: 'role',
     isSortable: true,
     header: 'Role',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '--',
   },
   {
     accessorFn: (row: any) => row?.status,
     id: 'status',
-    isSortable: true,
+    isSortable: false,
     header: 'Status',
-    cell: (info: any) => <AntSwitch values={info?.getValue()} />,
+    cell: (info: any) => {
+      const getValues =
+        info?.getValue() === REQUESTORS_STATUS?.ACTIVE ? true : false;
+      return (
+        <AntSwitch
+          checked={getValues}
+          isLoading={switchLoading?.[info?.row?.original?._id]}
+          onClick={() => handleChangeStatus?.(info?.row?.original)}
+        />
+      );
+    },
   },
 ];

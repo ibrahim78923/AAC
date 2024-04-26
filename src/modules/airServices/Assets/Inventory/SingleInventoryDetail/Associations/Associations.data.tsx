@@ -1,26 +1,43 @@
-export const chipColor = (chipLabel: string) => {
-  const Open = 'Open';
-  const InProgress = 'InProgress';
+import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 
-  let color;
-
-  switch (chipLabel) {
-    case Open:
-      color = 'success';
-      break;
-
-    case InProgress:
-      color = 'warning';
-      break;
-
-    default:
-      color = 'error';
-      break;
-  }
-  return color;
+const STATUS_COLORS: { [key: string]: string } = {
+  OPEN: 'success',
+  CLOSED: 'error',
+  RESOLVED: 'success',
+  PENDING: 'warning',
+  SPAMS: 'error',
 };
 
-export const associationsDataArray = [
-  { ticketNo: '#INC-5-test', status: 'Open' },
-  { ticketNo: '#INC-5-test', status: 'InProgress' },
+export const chipColor = (status: string): string => {
+  return STATUS_COLORS?.[status] ?? 'error';
+};
+
+export const addAssociationsButtonDynamic = (
+  setNewIncident: any,
+  setExistingIncident: any,
+) => [
+  {
+    id: 1,
+    title: 'New Incident',
+    permissionKey: [
+      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
+      ,
+    ],
+    handleClick: (closeMenu: any) => {
+      setNewIncident?.(true);
+      closeMenu();
+    },
+  },
+  {
+    id: 2,
+    title: 'Existing Incident',
+    permissionKey: [
+      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSOCIATION,
+      ,
+    ],
+    handleClick: (closeMenu: any) => {
+      setExistingIncident?.(true);
+      closeMenu();
+    },
+  },
 ];

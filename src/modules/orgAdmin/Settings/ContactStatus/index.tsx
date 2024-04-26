@@ -6,7 +6,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 
 import { AlertModals } from '@/components/AlertModals';
@@ -18,13 +17,15 @@ import { dataArray } from './ContactStatus.data';
 import { styles } from './ContactStatus.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS } from '@/constants/permission-keys';
 
 const ContactStatus = () => {
   const {
+    setPageLimit,
+    setPage,
     isDraweropen,
     setIsDraweropen,
-    productSearch,
-    setproductSearch,
     theme,
     handleCloseDrawer,
     ContactStatus,
@@ -36,7 +37,10 @@ const ContactStatus = () => {
     isModalHeading,
     setIsModalHeading,
     tableRow,
+    loadingList,
     deleteContactsStatus,
+    loadingUpdateContactStatus,
+    setSearchValue,
   } = useContactStatus();
 
   return (
@@ -49,6 +53,7 @@ const ContactStatus = () => {
         footer={isModalHeading === 'View' ? false : true}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={loadingUpdateContactStatus}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={ContactStatus}>
@@ -82,44 +87,56 @@ const ContactStatus = () => {
           }}
         >
           <Typography variant="h4">Contact Status</Typography>
-          <Button
-            variant="contained"
-            sx={styles?.createBtn}
-            onClick={() => {
-              setIsDraweropen(true);
-              setIsModalHeading('Create');
-            }}
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS?.ADD_CONTACT,
+            ]}
           >
-            <AddCircleIcon
-              sx={{
-                color: `${theme?.palette?.common?.white}`,
-                fontSize: '16px',
+            <Button
+              variant="contained"
+              sx={styles?.createBtn}
+              onClick={() => {
+                setIsDraweropen(true);
+                setIsModalHeading('Create');
               }}
-            />{' '}
-            Add Status
-          </Button>
+            >
+              <AddCircleIcon
+                sx={{
+                  color: `${theme?.palette?.common?.white}`,
+                  fontSize: '16px',
+                }}
+              />{' '}
+              Add Status
+            </Button>
+          </PermissionsGuard>
         </Box>
         <Box sx={styles?.searchAction}>
           <Search
             label={'Search here'}
-            searchBy={productSearch}
-            setSearchBy={setproductSearch}
-            width="100%"
-            size="small"
-            sx={{
-              '@media (max-width: 500px)': {
-                width: '100%',
-              },
-            }}
+            setSearchBy={setSearchValue}
+            width="260px"
           />
         </Box>
         <Grid>
-          <TanstackTable columns={getRowValues} data={tableRow} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
-          />
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS?.GRIDVIEW,
+            ]}
+          >
+            <TanstackTable
+              columns={getRowValues}
+              data={tableRow?.conatactStatus}
+              isLoading={loadingList}
+              currentPage={tableRow?.meta?.page}
+              count={tableRow?.meta?.pages}
+              pageLimit={tableRow?.meta?.limit}
+              totalRecords={tableRow?.meta?.total}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              onPageChange={(page: any) => setPage(page)}
+              isPagination
+            />
+          </PermissionsGuard>
         </Grid>
 
         <AlertModals

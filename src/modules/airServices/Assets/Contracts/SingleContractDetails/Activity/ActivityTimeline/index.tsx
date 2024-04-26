@@ -1,13 +1,16 @@
 import Typography from '@mui/material/Typography';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Divider, IconButton } from '@mui/material';
-import { useTheme } from '@mui/material';
+import { useActivity } from '../useActivity';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 export const ActivityTimeline = ({ activityData }: any) => {
-  const theme = useTheme();
+  const { theme } = useActivity();
   return (
     <>
       <Box
+        key={activityData?._id}
         display={'flex'}
         flexWrap={'wrap'}
         alignItems={'center'}
@@ -15,8 +18,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
         marginBottom={1.5}
       >
         <Typography variant="body3" sx={{ flex: 0.15 }}>
-          {' '}
-          {activityData?.date}
+          {dayjs(activityData?.createdAt)?.format(DATE_FORMAT?.UI)}
         </Typography>
         <IconButton
           disabled
@@ -26,11 +28,12 @@ export const ActivityTimeline = ({ activityData }: any) => {
           <BorderColorIcon color="primary" />
         </IconButton>
         <Typography variant="body2" sx={{ flex: 0.8 }}>
-          {' '}
           <Typography variant="body2" color="primary" marginRight={0.3}>
-            {activityData?.createdBy}
+            {activityData?.performedBy?.firstName +
+              ' ' +
+              activityData?.performedBy?.lastName}
           </Typography>
-          {activityData?.description}
+          {activityData?.activity}{' '}
         </Typography>
       </Box>
       <Box

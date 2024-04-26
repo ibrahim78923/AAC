@@ -4,7 +4,7 @@ import CommonTabs from '@/components/Tabs';
 import { Box, Button } from '@mui/material';
 import SegmentsConditions from './SegmentsConditions';
 import SegmentContacts from './SegmentsContacts';
-import { BackArrIcon, ExportIcon } from '@/assets/icons';
+import { ExportIcon } from '@/assets/icons';
 
 const Segments = ({ open, onClose }: any) => {
   return (
@@ -15,15 +15,14 @@ const Segments = ({ open, onClose }: any) => {
       title="Segments"
       isOk
       footer
-      headerIcon={<BackArrIcon />}
     >
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-          <Button variant="outlined" startIcon={<ExportIcon />}>
+          <Button variant="outlined" color="inherit" startIcon={<ExportIcon />}>
             Export Contacts
           </Button>
         </Box>
-        <CommonTabs tabsArray={['Segments Condition ', 'Contacts(0)']}>
+        <CommonTabs tabsArray={['Segments Conditions ', 'Contacts(0)']}>
           <SegmentsConditions />
           <SegmentContacts />
         </CommonTabs>

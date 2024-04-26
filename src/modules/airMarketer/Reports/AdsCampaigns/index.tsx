@@ -13,7 +13,6 @@ import { ArrowBack } from '@mui/icons-material';
 import Search from '@/components/Search';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 
 import {
   CampaignsCradsData,
@@ -27,13 +26,17 @@ import { DownloadIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { AIR_MARKETER_REPORTS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const AdsCampaigns = () => {
   const theme = useTheme();
   const { searchBy, setSearchBy }: any = useMarketerReports();
 
   return (
-    <>
+    <PermissionsGuard
+      permissions={[AIR_MARKETER_REPORTS_PERMISSIONS?.ADS_CAMPAIGNS]}
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -59,7 +62,11 @@ const AdsCampaigns = () => {
           </Typography>
         </Box>
         <Box display="flex" flexWrap="wrap" alignItems="center" gap={1}>
-          <SwitchableDatepicker />
+          <SwitchableDatepicker
+            sx={{ fontSize: '16px', fontWeight: 500 }}
+            placement={'right'}
+            renderInput={'button'}
+          />
           <Button
             sx={{ p: 0 }}
             className="small"
@@ -120,12 +127,17 @@ const AdsCampaigns = () => {
           display="flex"
           justifyContent="space-between"
           alignItems="center"
+          flexWrap="wrap"
           mx={2}
           my={1}
         >
           <Typography
             variant="h5"
-            sx={{ color: theme?.palette?.blue['light'], fontSize: '16px' }}
+            sx={{
+              color: theme?.palette?.blue['light'],
+              fontSize: '16px',
+              mb: { xs: 1 },
+            }}
           >
             Ad Campaigns
           </Typography>
@@ -136,16 +148,9 @@ const AdsCampaigns = () => {
             width={240}
           />
         </Box>
-        <Box>
-          <TanstackTable columns={usersColumns} data={usersData()} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
-          />
-        </Box>
+        <TanstackTable columns={usersColumns} data={usersData()} isPagination />
       </Card>
-    </>
+    </PermissionsGuard>
   );
 };
 

@@ -155,7 +155,7 @@ const CreateForm = ({
                 Back
               </Button>
             </Grid>
-            <Grid item sm={8} style={{ textAlign: 'end' }}>
+            <Grid item sm={7.6} style={{ textAlign: 'end' }}>
               <Button
                 className="small"
                 sx={{

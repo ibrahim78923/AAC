@@ -7,19 +7,31 @@ import {
   upsertTicketFormFieldsDynamic,
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
-import { enqueueSnackbar } from 'notistack';
+
+import { useEffect } from 'react';
+import usePath from '@/hooks/usePath';
 import {
   useGetTicketsByIdQuery,
+  useLazyGetAgentDropdownQuery,
+  useLazyGetAssociateAssetsDropdownQuery,
+  useLazyGetCategoriesDropdownQuery,
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetRequesterDropdownQuery,
   usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
-import { useEffect } from 'react';
-import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
-import usePath from '@/hooks/usePath';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
+import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 
 export const useUpsertTicket = (props: any) => {
-  const { setIsDrawerOpen, ticketId, setSelectedTicketList } = props;
+  const {
+    setIsDrawerOpen,
+    ticketId,
+    setSelectedTicketList,
+    setFilterTicketLists,
+    getTicketsListData,
+    setPage,
+  } = props;
 
   const router = useRouter();
   const theme: any = useTheme();
@@ -32,7 +44,6 @@ export const useUpsertTicket = (props: any) => {
       ticketId,
     },
   };
-
   const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
     getSingleTicketParameter,
     {
@@ -46,65 +57,103 @@ export const useUpsertTicket = (props: any) => {
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, getValues } = methods;
 
-  const submitUpsertTicket = async (data: any) => {
-    enqueueSnackbar(`Ticket ${ticketId ? 'Updated' : 'Created'} Successfully`, {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    setSelectedTicketList?.([]);
-    reset();
-    setIsDrawerOpen?.(false);
-    return;
+  const submitUpsertTicket = async (formData: any) => {
+    const { plannedEffort } = getValues();
+    if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
+      errorSnackbar(
+        'Invalid format for Planned Effort. Please use format like 1h10m',
+      );
+      return;
+    }
+
     const upsertTicketFormData = new FormData();
-    Object?.entries?.(data || {})?.forEach(
-      ([key, value]: any) => upsertTicketFormData?.append(key, value),
+    upsertTicketFormData?.append('requester', formData?.requester?._id);
+    upsertTicketFormData?.append('subject', formData?.subject);
+    !!formData?.description &&
+      upsertTicketFormData?.append('description', formData?.description);
+    !!formData?.category?._id &&
+      upsertTicketFormData?.append('category', formData?.category?._id);
+    upsertTicketFormData?.append('status', formData?.status?._id);
+    upsertTicketFormData?.append('pirority', formData?.priority?._id);
+    !!formData?.department?._id &&
+      upsertTicketFormData?.append('department', formData?.department?._id);
+    !!formData?.source &&
+      upsertTicketFormData?.append('source', formData?.source?._id);
+    !!formData?.impact &&
+      upsertTicketFormData?.append('impact', formData?.impact?._id);
+    !!formData?.agent &&
+      upsertTicketFormData?.append('agent', formData?.agent?._id);
+    (!!formData?.plannedEndDate || !!data?.plannedEndTime) &&
+      upsertTicketFormData?.append(
+        'plannedEndDate',
+        makeDateTime(
+          formData?.plannedEndDate,
+          formData?.plannedEndTime,
+        )?.toISOString(),
+      );
+    !!formData?.plannedEffort &&
+      upsertTicketFormData?.append('plannedEffort', formData?.plannedEffort);
+    formData?.attachFile !== null &&
+      upsertTicketFormData?.append('fileUrl', formData?.attachFile);
+    !!formData?.associatesAssets?.length &&
+      upsertTicketFormData?.append(
+        'associateAssets',
+        formData?.associatesAssets?.map((asset: any) => asset?._id),
+      );
+    upsertTicketFormData?.append(
+      'moduleType',
+      data?.data?.[0]?.moduleType ?? MODULE_TYPE?.TICKETS,
+    );
+    upsertTicketFormData?.append(
+      'ticketType',
+      data?.data?.[0]?.ticketType ?? TICKET_TYPE?.INC,
     );
     if (!!ticketId) {
       submitUpdateTicket(upsertTicketFormData);
       return;
     }
     const postTicketParameter = {
-      body: data,
+      body: upsertTicketFormData,
     };
 
     try {
-      const response = await postTicketTrigger(postTicketParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postTicketTrigger(postTicketParameter)?.unwrap();
+      successSnackbar('Ticket Added Successfully');
       reset();
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
-  const submitUpdateTicket = async (data: any) => {
+  const submitUpdateTicket = async (formData: any) => {
+    formData?.append('isChildTicket', data?.data?.[0]?.isChildTicket);
+    formData?.append('id', ticketId);
+
     const putTicketParameter = {
-      body: data,
-      pathParam: {
-        id: ticketId,
-      },
+      body: formData,
     };
+
     try {
-      const response = await putTicketTrigger(putTicketParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket Created Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await putTicketTrigger(putTicketParameter)?.unwrap();
+      successSnackbar('Ticket Updated Successfully');
       setSelectedTicketList([]);
       reset();
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {
-    reset(() => upsertTicketDefaultValuesFunction(data?.data));
+    reset(() => upsertTicketDefaultValuesFunction(data?.data?.[0]));
   }, [data, reset]);
 
   const onClose = () => {
@@ -118,13 +167,19 @@ export const useUpsertTicket = (props: any) => {
     reset?.();
     setIsDrawerOpen?.(false);
   };
-  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+
+  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
+  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
+  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
+  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
 
   const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
-    apiQueryOrganizations,
-    apiQueryOrganizations,
-    apiQueryOrganizations,
-    apiQueryOrganizations,
+    apiQueryRequester,
+    apiQueryDepartment,
+    apiQueryAgent,
+    apiQueryCategories,
+    apiQueryAssociateAsset,
     router,
   );
   return {
@@ -134,10 +189,10 @@ export const useUpsertTicket = (props: any) => {
     submitUpsertTicket,
     methods,
     onClose,
+    putTicketStatus,
     postTicketStatus,
     isLoading,
     isFetching,
-    putTicketStatus,
     ticketId,
     upsertTicketFormFields,
     isError,

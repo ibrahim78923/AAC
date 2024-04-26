@@ -1,6 +1,12 @@
-import Image from 'next/image';
-
-import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Grid,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
@@ -16,27 +22,31 @@ import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import { IMG_URL } from '@/config';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import CustomPagination from '@/components/CustomPagination';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Notes = () => {
+const Notes = ({ selected }: any) => {
   const {
     openDrawer,
     setOpenDrawer,
     selectedCheckboxes,
     setSelectedCheckboxes,
     handleCheckboxChange,
+    setPageLimit,
     data,
-    setPagination,
-  } = useNotes();
-  const { NameWithStyledWords, theme } = useNameWithStyledWords();
+    user,
+    setPage,
+  } = useNotes(selected);
+  const { theme } = useNameWithStyledWords();
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h4"> Notes</Typography>
+          <Typography variant="h4">Notes</Typography>
         </Grid>
         <Grid item xs={12}>
           <Box sx={styles?.headingSpacingBetween}>
@@ -54,13 +64,18 @@ const Notes = () => {
                   selectedCheckboxes={selectedCheckboxes}
                   setSelectedCheckboxes={setSelectedCheckboxes}
                 />
-                <Button
-                  variant="contained"
-                  className="small"
-                  onClick={() => setOpenDrawer('Add')}
+                <PermissionsGuard
+                  permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_NOTE]}
                 >
-                  <PlusIcon /> Add Notes
-                </Button>
+                  <Button
+                    variant="contained"
+                    className="small"
+                    onClick={() => setOpenDrawer('Add')}
+                    startIcon={<PlusIcon />}
+                  >
+                    Add Notes
+                  </Button>
+                </PermissionsGuard>
               </Box>
             )}
           </Box>
@@ -77,10 +92,15 @@ const Notes = () => {
             >
               <MessageIcon />
               <Typography variant="body3">
-                There are no notes available{' '}
+                There are no notes available
               </Typography>
-              <Button variant="contained" sx={{ height: '35px' }}>
-                <PlusIcon /> Add Notes
+              <Button
+                variant="contained"
+                className="small"
+                onClick={() => setOpenDrawer('Add')}
+                startIcon={<PlusIcon />}
+              >
+                Add Notes
               </Button>
             </Box>
           )}
@@ -88,7 +108,7 @@ const Notes = () => {
 
         {!isNullOrEmpty(data?.data?.notes) && (
           <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
-            {data?.data?.notes?.map((item) => (
+            {data?.data?.notes?.map((item: any) => (
               <Grid
                 container
                 key={uuidv4()}
@@ -129,32 +149,45 @@ const Notes = () => {
                   sx={{
                     display: 'flex',
                     justifyContent: 'center',
-                    alignItems: 'center',
                   }}
                 >
-                  <Image
+                  <Avatar
                     src={`${IMG_URL}${item?.file?.url}`}
-                    alt="Avatar"
-                    width={66}
-                    height={66}
-                    style={{ borderRadius: '200px' }}
+                    alt="_img"
+                    sx={{
+                      width: 66,
+                      height: 66,
+                      border: `2px solid ${theme?.palette?.blue?.main}`,
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
-                  <NameWithStyledWords
-                    name={item?.title}
-                    customKey="ActivityHead"
-                  />
+                  <Stack direction="row" gap={0.5}>
+                    <Typography
+                      variant="h5"
+                      color={theme?.palette?.primary?.main}
+                    >
+                      {item?.title}
+                    </Typography>
+                    <Typography variant="h5"> Created by </Typography>
+                    <Typography
+                      variant="h5"
+                      color={theme?.palette?.primary?.main}
+                    >
+                      {user?.firstName} {user?.lastName}
+                    </Typography>
+                  </Stack>
                   <Typography
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {dayjs(item?.createdAt).format(DATE_FORMAT.UI)}
-                    <></>
+                    {dayjs(item?.createdAt)?.format(DATE_TIME_FORMAT?.DMYhmma)}
                   </Typography>
                   <Typography
                     variant="body2"
-                    dangerouslySetInnerHTML={{ __html: item?.description }}
+                    dangerouslySetInnerHTML={{
+                      __html: item?.description ?? 'N/A',
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -164,7 +197,12 @@ const Notes = () => {
         <Grid item xs={12}>
           <CustomPagination
             totalRecords={data?.data?.meta?.total}
-            setPage={setPagination}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            count={data?.data?.meta?.pages}
+            isPagination
+            pageLimit={data?.data?.meta?.limit}
           />
         </Grid>
       </Grid>
@@ -175,6 +213,7 @@ const Notes = () => {
           setOpenDrawer={setOpenDrawer}
           setSelectedCheckboxes={setSelectedCheckboxes}
           selectedCheckboxes={selectedCheckboxes}
+          recordId={selected}
         />
       )}
     </Box>

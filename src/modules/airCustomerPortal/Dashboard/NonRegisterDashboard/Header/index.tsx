@@ -10,7 +10,7 @@ export const Header = () => {
         alignItems={'center'}
         p={1.5}
         borderRadius={'1rem'}
-        boxShadow={1}
+        sx={{ backgroundColor: 'white' }}
       >
         <Typography variant="h3">Customer Portal - Dashboard</Typography>
       </Box>

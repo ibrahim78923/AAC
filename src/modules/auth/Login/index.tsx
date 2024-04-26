@@ -46,14 +46,16 @@ const Login = () => {
 
   const { login } = useAuth();
   const [authLogin, { isLoading }] = useAuthLoginMutation();
-
+  let res: any;
   const onSubmit = async (credentials: any) => {
     try {
-      const res: any = await authLogin(credentials)?.unwrap();
+      res = await authLogin(credentials)?.unwrap();
       login(res);
     } catch (error: any) {
-      const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occured', { variant: 'error' });
+      const errMsg = res?.message;
+      enqueueSnackbar(errMsg ?? error?.data?.message ?? 'Error occured', {
+        variant: 'error',
+      });
     }
   };
 
@@ -131,6 +133,8 @@ const Login = () => {
           lg={6}
           style={styles.loginDashboard}
           sx={{
+            width: 'auto',
+            height: 'auto',
             '@media (max-width: 900px)': {
               display: 'none !important', // Hide the element when the screen width is less than 900px
             },

@@ -2,8 +2,8 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const newVendorValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Required'),
-  contactNumber: Yup?.string(),
+  name: Yup?.string()?.trim()?.required('Name is required'),
+  contactName: Yup?.string(),
   phone: Yup?.string(),
   mobiles: Yup?.string(),
   email: Yup?.string(),
@@ -14,19 +14,30 @@ export const newVendorValidationSchema = Yup?.object()?.shape({
   city: Yup?.string(),
   zipCode: Yup?.string(),
 });
-
-export const newVendorDefaultValues = {
-  name: '',
-  contactNumber: '',
-  phone: '',
-  mobile: '',
-  email: '',
-  description: '',
-  address: '',
-  country: '',
-  state: '',
-  city: '',
-  zipCode: '',
+export const newVendorDefaultValuesFunction = (data?: any) => {
+  return {
+    name: data?.name ?? '',
+    assetType: data?.assetType ?? null,
+    manufacturer: data?.manufacturer === '--' ? '' : data?.manufacturer ?? '',
+    status: data?.status ?? null,
+    modeOfProcurement: data?.modeOfProcurement ?? null,
+    description: data?.description ?? '',
+  };
+};
+export const newVendorDefaultValues = (data?: any) => {
+  return {
+    name: data?.name ?? '',
+    contactName: data?.contactName ?? '',
+    phone: data?.phone ?? '',
+    mobile: data?.mobile ?? '',
+    email: data?.email ?? '',
+    description: data?.description ?? '',
+    address: data?.address ?? '',
+    country: data?.country ?? '',
+    state: data?.state ?? '',
+    city: data?.city ?? '',
+    zipCode: data?.zipCode ?? '',
+  };
 };
 
 export const newVendorDataArray = [
@@ -45,8 +56,8 @@ export const newVendorDataArray = [
   {
     id: 2,
     componentProps: {
-      name: 'contactNumber',
-      label: 'Contact Number',
+      name: 'contactName',
+      label: 'Contact Name',
       fullWidth: true,
     },
 

@@ -4,6 +4,8 @@ import { Button, Menu, MenuItem, Fade, useTheme } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 
 import useMenuOptions from './useMenuOptions';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS } from '@/constants/permission-keys';
 
 const MenuItems = ({
   setIsOpenDrawer,
@@ -11,8 +13,13 @@ const MenuItems = ({
   isChecked,
   setIsEditModal,
 }: any) => {
-  const { handleClickActions, handleCloseMenuOptions, anchorEl, openDropDown } =
-    useMenuOptions();
+  const {
+    handleClickActions,
+    handleCloseMenuOptions,
+    anchorEl,
+    openDropDown,
+    setAnchorEl,
+  } = useMenuOptions();
   const theme = useTheme();
   return (
     <>
@@ -43,22 +50,35 @@ const MenuItems = ({
         onClose={handleCloseMenuOptions}
         TransitionComponent={Fade}
       >
-        <MenuItem
-          onClick={() => {
-            setIsOpenDrawer(true);
-            setIsEditModal(true);
-          }}
+        <PermissionsGuard
+          permissions={[
+            SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS?.BILLING_EDIT_PLAN,
+          ]}
         >
-          Edit Plan
-        </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setIsOpenDrawer(true);
+              setIsEditModal(true);
+              setAnchorEl(null);
+            }}
+          >
+            Edit Assign Plan
+          </MenuItem>
+        </PermissionsGuard>
 
-        <MenuItem
-          onClick={() => {
-            setIsShowViewBillingDetails(true);
-          }}
+        <PermissionsGuard
+          permissions={[
+            SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS?.VIEW_BILLING_DETAILS,
+          ]}
         >
-          View Billing History
-        </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setIsShowViewBillingDetails(true);
+            }}
+          >
+            View Billing History
+          </MenuItem>
+        </PermissionsGuard>
       </Menu>
     </>
   );

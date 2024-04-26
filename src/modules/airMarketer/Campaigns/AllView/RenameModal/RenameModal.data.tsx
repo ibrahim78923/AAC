@@ -14,6 +14,7 @@ export const dataArrayRename = [
     componentProps: {
       name: 'rename',
       label: 'Rename',
+      placeholder: 'Enter name',
       fullWidth: true,
       required: true,
     },

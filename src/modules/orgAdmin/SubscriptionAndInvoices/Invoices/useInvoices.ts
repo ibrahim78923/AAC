@@ -16,12 +16,25 @@ const useInvoices = () => {
   const [openViewInvoice, setOpenViewInvoice] = useState(false);
   const [openPayInvoice, setOpenPayInvoice] = useState(false);
   const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const [isGetRowValues, setIsGetRowValues] = useState('');
   const [filterValues, setFilterValues] = useState({});
   const [searchByInvoices, setSearchByInvoices] = useState('');
+  const [selectedRows, setSelectedRows] = useState<any>([]);
 
-  const searchParam = { seacrh: searchByInvoices };
+  const handleCheckboxClick = (row: any) => {
+    const index = selectedRows.findIndex(
+      (selectedRow: any) => selectedRow?._id === row?._id,
+    );
+    if (index === -1) {
+      setSelectedRows([...selectedRows, row]);
+    } else {
+      const updatedRows = selectedRows?.filter(
+        (selectedRow: any) => selectedRow?._id !== row?._id,
+      );
+      setSelectedRows(updatedRows);
+    }
+  };
+
+  const searchParam = { search: searchByInvoices };
   const { data } = useGetInvoicesQuery({
     params: { ...filterValues, ...searchParam },
   });
@@ -79,12 +92,7 @@ const useInvoices = () => {
 
   const { handleSubmit, reset } = FilterInvoiceFilters;
 
-  const getRowValues = columns(
-    setIsGetRowValues,
-    setIsChecked,
-    isChecked,
-    isGetRowValues,
-  );
+  const getRowValues = columns(selectedRows, handleCheckboxClick);
 
   return {
     anchorEl,
@@ -104,12 +112,12 @@ const useInvoices = () => {
     FilterInvoiceFilters,
     handleSubmit,
     getRowValues,
-    setIsGetRowValues,
-    setIsChecked,
-    isChecked,
+
     invoicesTableData: data?.data?.invoices,
     searchByInvoices,
     setSearchByInvoices,
+    data,
+    selectedRows,
   };
 };
 

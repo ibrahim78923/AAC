@@ -21,7 +21,10 @@ import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import useProductFeature from './useProductFeature';
-import MultiSearchableSelect from './multiSearchableSelect';
+// import MultiSearchableSelect from './multiSearchableSelect';
+import { styles } from './ProductFeature.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS } from '@/constants/permission-keys';
 
 const ProductFeature = () => {
   const theme = useTheme();
@@ -69,27 +72,12 @@ const ProductFeature = () => {
         border: '1px solid #EAECF0',
       }}
     >
-      <Box sx={{ padding: '16px 24px' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '10px',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '19px',
-          }}
-        >
+      <Box sx={styles?.pageHeader}>
+        <Box sx={styles?.heading}>
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Product Features Setup
           </Typography>
-          <Box
-            sx={{
-              '@media (max-width:581px)': {
-                width: '100%',
-              },
-            }}
-          >
+          {/* <Box>
             <MultiSearchableSelect
               options={[
                 { value: 'JohnDoe', label: 'John Doe' },
@@ -98,33 +86,25 @@ const ProductFeature = () => {
               setValue={setValue}
               isCheckBox={true}
             />
-          </Box>
+          </Box> */}
         </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '10px',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Search
-            setSearchBy={setSearchValue}
-            label="Search Here"
-            size="small"
-            width={'100%'}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '10px',
-            }}
+        <Box sx={styles?.filterBar}>
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS?.Search,
+            ]}
           >
+            <Box sx={styles?.search}>
+              <Search
+                setSearchBy={setSearchValue}
+                label="Search Here"
+                size="small"
+                width={'100%'}
+              />
+            </Box>
+          </PermissionsGuard>
+
+          <Box sx={styles?.filterButtons}>
             <Button
               id="basic-button"
               aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
@@ -132,14 +112,8 @@ const ProductFeature = () => {
               aria-expanded={actionMenuOpen ? 'true' : undefined}
               onClick={handleActionsMenuClick}
               disabled={isDisabled}
-              sx={{
-                color: theme?.palette?.grey[500],
-                width: '112px',
-                border: '1.5px solid #e7e7e9',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
+              sx={styles?.actionBtn}
+              className="small"
             >
               Actions &nbsp; <DownIcon />
             </Button>
@@ -165,49 +139,60 @@ const ProductFeature = () => {
                 horizontal: 'right',
               }}
             >
-              <MenuItem
-                onClick={handleOpenDrawerEditFeature}
-                style={{ fontSize: '14px' }}
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS?.Edit_Features,
+                ]}
               >
-                Edit
-              </MenuItem>
+                <MenuItem
+                  onClick={handleOpenDrawerEditFeature}
+                  style={{ fontSize: '14px' }}
+                >
+                  Edit
+                </MenuItem>
+              </PermissionsGuard>
             </Menu>
-            <Button
-              variant="contained"
-              sx={{
-                height: '36px',
-                width: '153px',
-                fontWeight: '500',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
-              onClick={handleOpenDrawerAddFeature}
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS?.Add_Features,
+              ]}
             >
-              <PlusShared /> &nbsp; Add Feature
-            </Button>
+              <Button
+                variant="contained"
+                className="small"
+                onClick={handleOpenDrawerAddFeature}
+              >
+                <PlusShared /> &nbsp; Add Feature
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Box>
       </Box>
-      <Box>
-        <TanstackTable
-          columns={ProductFeatureTableColumns}
-          data={dataProductFeatures?.data?.productfeatures}
-          isLoading={loagingProductFeatures}
-          isPagination
-          count={dataProductFeatures?.data?.meta?.pages}
-          totalRecords={dataProductFeatures?.data?.meta?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-      </Box>
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS?.Product_List,
+        ]}
+      >
+        <Box>
+          <TanstackTable
+            columns={ProductFeatureTableColumns}
+            data={dataProductFeatures?.data?.productfeatures}
+            isLoading={loagingProductFeatures}
+            isPagination
+            count={dataProductFeatures?.data?.meta?.pages}
+            totalRecords={dataProductFeatures?.data?.meta?.total}
+            onPageChange={handlePageChange}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </Box>
+      </PermissionsGuard>
 
       <CommonDrawer
         isDrawerOpen={openDrawerAddFeature}
         onClose={handleCloseDrawerAddFeature}
         title={'Add Product Feature form'}
-        okText="Apply"
+        okText="Add"
         isOk={true}
         footer={true}
         submitHandler={handleAddFeatureSubmit}

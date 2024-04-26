@@ -8,6 +8,8 @@ import JobApplication from './JobApplication';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import { jobPostingDataArray } from './Jobs.data';
 import useJobs from './useJobs';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS } from '@/constants/permission-keys';
 
 const Jobs = () => {
   const [tabsValue, setTabsValue] = React.useState(0);
@@ -43,19 +45,25 @@ const Jobs = () => {
         <Typography variant="h3" sx={{ fontWeight: '600' }}>
           Jobs
         </Typography>
-        {tabsValue === 0 && (
-          <Button
-            variant="contained"
-            sx={{
-              height: '36px',
-              fontWeight: '500',
-              textTransform: 'none !important',
-            }}
-            onClick={handleOpenAddJobPost}
-          >
-            <PlusShared /> &nbsp; Post a Job
-          </Button>
-        )}
+        <PermissionsGuard
+          permissions={[
+            SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Post_a_Job,
+          ]}
+        >
+          {tabsValue === 0 && (
+            <Button
+              variant="contained"
+              sx={{
+                height: '36px',
+                fontWeight: '500',
+                textTransform: 'none !important',
+              }}
+              onClick={handleOpenAddJobPost}
+            >
+              <PlusShared /> &nbsp; Post a Job
+            </Button>
+          )}
+        </PermissionsGuard>
       </Box>
 
       <Box sx={{ padding: '0px 24px' }}>

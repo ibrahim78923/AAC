@@ -8,13 +8,12 @@ import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
 import useAttachments from './useAttachments';
 
 import { columns } from './Attachments.data';
-import { attachmentData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
-const Attachments = () => {
+const Attachments = (companyId: any) => {
   const {
     theme,
     isOpenAlert,
@@ -24,7 +23,16 @@ const Attachments = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-  } = useAttachments();
+    isLoading,
+    setPage,
+    setPageLimit,
+    getCompanyAttachment,
+    RowData,
+    setRowData,
+    handleDeleteAttachment,
+    loadingDelete,
+    handleOpenAlert,
+  } = useAttachments(companyId);
 
   return (
     <Box
@@ -69,21 +77,33 @@ const Attachments = () => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={attachmentData}
+            columns={columns({
+              setOpenDrawer,
+              setIsOpenAlert,
+              setRowData,
+              handleOpenAlert,
+            })}
+            data={getCompanyAttachment?.data}
+            isLoading={isLoading}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isPagination
           />
         </Grid>
       </Grid>
       <AttachmentsEditorDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
+        companyId={companyId}
+        RowData={RowData}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
+        handleSubmitBtn={handleDeleteAttachment}
+        loading={loadingDelete}
       />
     </Box>
   );

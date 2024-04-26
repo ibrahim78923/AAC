@@ -1,119 +1,148 @@
 import {
   RHFDatePicker,
-  RHFTextField,
+  RHFMultiCheckbox,
   RHFSelect,
+  RHFTextField,
 } from '@/components/ReactHookForm';
+
+import { useGetUsersListQuery } from '@/services/airSales/deals';
+import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  dealName: Yup.string().required('Field is Required'),
-  dealPipeline: Yup.string().required('Field is Required'),
-  dealStage: Yup.string().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
+  dealPipelineId: Yup?.string()?.required('Field is Required'),
+  dealStageId: Yup?.string()?.required('Field is Required'),
 });
 
-export const initValues = {
-  dealName: '',
-  dealPipeline: '',
-  dealStage: '',
-  amount: '',
-  closeDate: new Date(),
-  dealOwner: '',
-  priority: '',
-  lineItem: '',
+export const defaultValues = {
+  name: '',
+  dealPipelineId: '',
+  ownerId: '',
+  dealStageId: '',
+  products: [],
+  closeDate: null,
 };
+export const createDealData = ({ dealPipelineId }: any) => {
+  const userRole = 'ORG_EMPLOYEE';
+  const { pipelineData, salesProduct } = useDealTab();
+  const { data: UserListData } = useGetUsersListQuery({ role: userRole });
+  const filteredStages =
+    pipelineData?.data?.dealpipelines?.find(
+      (pipeline: any) => pipeline?._id === dealPipelineId,
+    )?.stages || [];
 
-export const createDealData = [
-  {
-    component: RHFTextField,
-    componentProps: {
-      name: 'dealName',
-      label: 'Deal Name',
+  return [
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Deal Name',
+        required: true,
+        placeholder: 'Enter Name',
+      },
+      component: RHFTextField,
     },
-  },
-  {
-    component: RHFSelect,
-    componentProps: {
-      name: 'dealPipeline',
-      label: 'Deal Pipeline',
-      select: true,
+    {
+      componentProps: {
+        name: 'dealPipelineId',
+        label: 'Deal Pipeline',
+        select: true,
+        required: true,
+      },
+      options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })) ?? [{ label: '', value: '' }],
+      component: RHFSelect,
     },
-    options: [
-      { value: 'Registering Pipeline', label: 'Registering Pipeline' },
-      { value: 'Sales Pipeline', label: 'Sales Pipeline' },
-      { value: 'Recruitment Pipeline', label: 'Recruitment Pipeline' },
-      { value: 'Test Pipeline', label: 'Test Pipeline' },
-    ],
-  },
-  {
-    component: RHFSelect,
-    componentProps: {
-      name: 'dealStage',
-      label: 'Deal Stage',
-      select: true,
+    {
+      componentProps: {
+        name: 'dealStageId',
+        label: 'Deal Stage',
+        select: true,
+        required: true,
+      },
+      options: filteredStages?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
     },
-    options: [
-      { value: 'New', label: 'New' },
-      { value: 'Follow Up', label: 'Follow Up' },
-      { value: 'Under Review', label: 'Under Review' },
-      { value: 'Demo', label: 'Demo' },
-      { value: 'Negotiation', label: 'Negotiation' },
-      { value: 'Won', label: 'Won' },
-      { value: 'Lost', label: 'Lost' },
-    ],
-  },
-  {
-    component: RHFTextField,
-    componentProps: {
-      name: 'amount',
-      label: 'Amount',
-      type: 'number',
+    {
+      title: 'Amount',
+      componentProps: {
+        name: 'amount',
+        label: 'Amount',
+        placeholder: 'Enter Amount',
+        type: 'number',
+        InputProps: { inputProps: { min: 0 } },
+      },
+      component: RHFTextField,
     },
-  },
-  {
-    component: RHFDatePicker,
-    componentProps: {
-      name: 'closeDate',
-      label: 'Close Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'closeDate',
+        label: 'Close Date',
+        placeholder: 'MM/DD/YYYY',
+        minDate: new Date(),
+        fullWidth: true,
+        require: false,
+      },
+      md: 12,
+      component: RHFDatePicker,
     },
-  },
-  {
-    component: RHFSelect,
-    componentProps: {
-      name: 'dealOwner',
-      label: 'Deal Owner',
-      select: true,
+    {
+      title: 'Deal Owner',
+      componentProps: {
+        name: 'ownerId',
+        label: 'Deal Owner',
+        select: true,
+      },
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })) ?? [{ label: '', value: '' }],
+      component: RHFSelect,
     },
-    options: [
-      { value: 'Dianne Russell', label: 'Dianne Russell' },
-      { value: 'Phoenix Baker', label: 'Phoenix Baker' },
-      { value: 'Lesile Alexander', label: 'Lesile Alexander' },
-      { value: 'Marvin McKinney', label: 'Marvin McKinney' },
-    ],
-  },
-  {
-    component: RHFSelect,
-    componentProps: {
-      name: 'priority',
-      label: 'Priority',
-      select: true,
+    {
+      componentProps: {
+        name: 'priority',
+        label: 'Priority',
+        select: true,
+      },
+      options: [
+        { value: 'Low', label: 'Low' },
+        { value: 'Medium', label: 'Medium' },
+        { value: 'High', label: 'High' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-    ],
-  },
-  {
-    component: RHFSelect,
-    componentProps: {
-      name: 'lineItem',
-      label: 'Add Line Item',
-      select: true,
+    {
+      componentProps: {
+        name: 'products',
+        GridView: 6,
+        isCheckBox: true,
+        label: 'Add Line Item',
+        options: salesProduct?.data?.salesproducts?.map((item: any) => ({
+          value: item?._id,
+          label: item?.name,
+        })),
+        fullWidth: true,
+      },
+      component: RHFMultiCheckbox,
+      md: 12,
     },
-    options: [
-      { value: 'Sample Product: £20', label: 'Sample Product: £20' },
-      { value: 'Orcalo Product: £5/month', label: 'Orcalo Product: £5/month' },
-    ],
-  },
-];
+    {
+      componentProps: {
+        name: 'billingFrequency',
+        label: 'Billing Frequency',
+        select: true,
+      },
+      options: [
+        { value: 'monthly', label: 'monthly' },
+        { value: 'quarterly', label: 'quarterly' },
+      ],
+      component: RHFSelect,
+    },
+  ];
+};

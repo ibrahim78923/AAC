@@ -89,9 +89,9 @@ export const columns: any = [
   },
   {
     accessorFn: (row: any) => row?.compareBugets,
-    id: 'compareBugets',
+    id: 'compareBudget',
     isSortable: true,
-    header: 'Campaign Bugets',
+    header: 'Campaign Budget',
     cell: (info: any) => info?.getValue(),
   },
   {

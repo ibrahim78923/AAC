@@ -6,40 +6,55 @@ import { WorkflowSchedule } from './WorkflowSchedule';
 import { WorkflowHeader } from './WorkflowHeader';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertSalesWorkflow = () => {
   const {
     salesMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
-    moduleType,
     setValue,
     control,
     watch,
+    isLoading,
+    saveLoading,
+    setValidation,
+    byIdLoading,
+    isFetching,
+    updateLoading,
+    testWorkflowResponse,
+    testLoading,
+    isWorkflowDrawer,
+    setIsWorkflowDrawer,
   } = useUpsertSalesWorkflow();
+  if (byIdLoading || isFetching) return <SkeletonForm />;
   return (
     <Box>
       <FormProvider
         methods={salesMethod}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <WorkflowHeader watch={watch} />
+        <WorkflowHeader
+          watch={watch}
+          isLoading={isLoading || updateLoading}
+          saveLoading={saveLoading}
+          setValidation={setValidation}
+          testWorkflowResponse={testWorkflowResponse}
+          testLoading={testLoading}
+          isWorkflowDrawer={isWorkflowDrawer}
+          setIsWorkflowDrawer={setIsWorkflowDrawer}
+        />
         <Grid container>
-          <WorkflowSchedule
-            register={register}
-            watch={watch}
-            setValue={setValue}
-          />
-          <WorkflowRunAndTrigger palette={palette} register={register} />
+          <WorkflowSchedule watch={watch} setValue={setValue} />
+          <WorkflowRunAndTrigger palette={palette} watch={watch} />
         </Grid>
         <WorkflowConditions
           control={control}
-          moduleType={moduleType}
+          setValue={setValue}
           watch={watch}
         />
-        <WorkflowActionExecuted />
+        <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
     </Box>
   );

@@ -6,7 +6,7 @@ import { AlertModals } from '@/components/AlertModals';
 import useNotesActionDropdown from './useNotesActionDropDown';
 
 const NotesActionDropdown = (props: any) => {
-  const { setOpenDrawer, selectedCheckboxes } = props;
+  const { setOpenDrawer, selectedCheckboxes, setSelectedCheckboxes } = props;
   const {
     theme,
     isMenuOpen,
@@ -18,7 +18,12 @@ const NotesActionDropdown = (props: any) => {
     handleOpenViewDrawer,
     handleOpenDeleteAlert,
     handleCloseAlert,
-  } = useNotesActionDropdown({ setOpenDrawer });
+    handleDeleteHandler,
+  } = useNotesActionDropdown({
+    setOpenDrawer,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+  });
 
   return (
     <div>
@@ -35,7 +40,7 @@ const NotesActionDropdown = (props: any) => {
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
         disabled={
-          selectedCheckboxes?.length === 0 || selectedCheckboxes.length > 1
+          selectedCheckboxes?.length === 0 || selectedCheckboxes?.length > 1
         }
       >
         Action
@@ -61,7 +66,7 @@ const NotesActionDropdown = (props: any) => {
         type={'delete'}
         open={isOpenAlertModal}
         handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        handleSubmitBtn={handleDeleteHandler}
       />
     </div>
   );

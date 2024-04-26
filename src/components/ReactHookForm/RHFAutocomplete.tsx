@@ -16,6 +16,12 @@ export default function RHFAutocomplete({
   noOptionsText = 'Nothing in the List',
   multiple = false,
   placeholder,
+  freeSolo = false,
+  limitTags = 3,
+  endAdornment = false,
+  isOptionEqualToValue = (option: any, newValue: any) =>
+    option?._id === newValue?._id,
+  getOptionLabel = (option: any) => option?.replaceAll?.('_', ' '),
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -38,7 +44,9 @@ export default function RHFAutocomplete({
       render={({ field: { onChange, value }, fieldState: { error } }) => {
         return (
           <Autocomplete
+            freeSolo={freeSolo}
             id={name}
+            limitTags={limitTags}
             open={open}
             multiple={multiple}
             onOpen={() => {
@@ -54,11 +62,18 @@ export default function RHFAutocomplete({
             autoComplete
             noOptionsText={noOptionsText}
             value={value}
-            getOptionLabel={(options) => options?.replaceAll?.('_', ' ')}
+            getOptionLabel={getOptionLabel}
+            isOptionEqualToValue={isOptionEqualToValue}
             PaperComponent={(props) => (
               <Paper
                 {...props}
-                style={{ backgroundColor: theme?.palette?.grey?.[100] }}
+                sx={{
+                  backgroundColor: theme?.palette?.common?.white,
+                  border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+                  borderRadius: 1,
+                  boxShadow: 1,
+                  color: 'grey.600',
+                }}
               >
                 {props?.children}
               </Paper>
@@ -85,7 +100,10 @@ export default function RHFAutocomplete({
                   InputProps={{
                     ...params?.InputProps,
                     endAdornment: (
-                      <Fragment>{params?.InputProps?.endAdornment}</Fragment>
+                      <Fragment>
+                        {endAdornment && endAdornment}
+                        {params?.InputProps?.endAdornment}
+                      </Fragment>
                     ),
                   }}
                 />

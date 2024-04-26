@@ -25,6 +25,7 @@ const useActionsOptions = () => {
   const handleShowEmailDashboard = () => {
     setIsShowEmailDashboard(true);
     setIsShowDrawer(true);
+    setAnchorEl(null);
   };
 
   const handleShowEditDashboard = () => {

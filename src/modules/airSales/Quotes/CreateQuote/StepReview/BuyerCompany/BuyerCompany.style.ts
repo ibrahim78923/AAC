@@ -1,6 +1,6 @@
 export const styles = {
   card: (theme: any) => ({
-    border: `1px solid ${theme.palette.grey[700]}`,
+    border: `1px solid ${theme?.palette?.grey[700]}`,
     borderRadius: '8px',
     p: '32px 32px 20px',
   }),
@@ -20,7 +20,7 @@ export const styles = {
   }),
   infoSubtitle: (theme: any) => ({
     display: 'block',
-    color: theme.palette.custom.main,
+    color: theme?.palette?.custom?.main,
     lineHeight: '1.5',
     mt: '8px',
   }),
