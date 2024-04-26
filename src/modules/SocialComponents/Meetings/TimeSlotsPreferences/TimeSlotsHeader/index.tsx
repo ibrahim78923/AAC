@@ -1,10 +1,21 @@
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { useTimeSlots } from './useTimeSlots';
+import { PlusSharedColorIcon } from '@/assets/icons';
 
-export const TimeSlotsHeader = () => {
+const TimeSlotsHeader = () => {
+  const { timeSlotsData } = useTimeSlots();
   return (
-    <Box>
-      <SingleDropdownButton />
+    <Box display={'flex'} gap={1} justifyContent={'right'}>
+      <SingleDropdownButton
+        dropdownName={'Select Months'}
+        dropdownOptions={timeSlotsData}
+      />
+      <Button variant="contained" startIcon={<PlusSharedColorIcon />}>
+        Add Schedule
+      </Button>
     </Box>
   );
 };
+
+export default TimeSlotsHeader;
