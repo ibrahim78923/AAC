@@ -48,6 +48,17 @@ export const departmentAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_TWO],
     }),
+    getUsersDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_TWO],
+    }),
   }),
 });
 
@@ -57,4 +68,5 @@ export const {
   useUpdateDepartmentMutation,
   useDeleteDepartmentMutation,
   useLazyGetUsersDropdownListForDepartmentMembersQuery,
+  useLazyGetUsersDropdownListQuery,
 } = departmentAPI;
