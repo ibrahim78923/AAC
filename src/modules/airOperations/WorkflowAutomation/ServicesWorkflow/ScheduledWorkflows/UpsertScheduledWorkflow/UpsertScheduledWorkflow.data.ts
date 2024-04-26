@@ -34,9 +34,7 @@ export const actionsOptions = [
   { value: 'category', label: 'Set Category as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
-  { value: 'addTask', label: 'Add Task' },
-  { value: 'addTag', label: 'Add Tag' },
-  { value: 'assignTo', label: 'Assign to Agent' },
+  { value: 'agent', label: 'Assign to Agent' },
 ];
 export const scheduledSaveWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
@@ -121,6 +119,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
     ...assetsFieldsOption,
   ];
   const type: any = {
+    DAILY: 'daily',
     WEEKLY: 'weekly',
     MONTHLY: 'monthly',
     ANNUALLY: 'annually',
@@ -130,7 +129,6 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
   const time =
     singleWorkflowData?.schedule?.[type[singleWorkflowData?.schedule?.type]]
       ?.time;
-
   const startDate = singleWorkflowData?.schedule?.custom?.startDate;
   const endDate = singleWorkflowData?.schedule?.custom?.endDate;
   return {
@@ -144,7 +142,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
     scheduleDay:
       singleWorkflowData?.schedule?.weekly?.days?.[0]?.toLowerCase() ??
       'monday',
-    scheduleDate: singleWorkflowData?.schedule?.monthly?.day ?? null,
+    scheduleDate: singleWorkflowData?.schedule?.monthly?.day ?? 1,
     time: time ? new Date(timeFormatter(time)) : new Date(),
     custom: {
       startDate: startDate ? new Date(startDate) : new Date(),
@@ -181,8 +179,8 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
                     `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
                 : condition?.fieldType === 'date'
-                  ? new Date(condition?.fieldValue)
-                  : condition?.fieldValue,
+                ? new Date(condition?.fieldValue)
+                : condition?.fieldValue,
           };
         }),
       };
@@ -210,8 +208,8 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
           action?.fieldType === 'objectId'
             ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === 'date'
-              ? new Date(action?.fieldValue)
-              : action?.fieldValue,
+            ? new Date(action?.fieldValue)
+            : action?.fieldValue,
       }),
     ) ?? [{ fieldName: null, fieldValue: null }],
   };
