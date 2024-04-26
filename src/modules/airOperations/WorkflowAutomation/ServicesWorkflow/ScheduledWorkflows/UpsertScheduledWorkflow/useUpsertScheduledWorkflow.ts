@@ -14,7 +14,7 @@ import {
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
-import { AIR_OPERATIONS, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
@@ -63,9 +63,7 @@ export const useUpsertScheduledWorkflow = () => {
   const pageActionType = router?.query?.action;
   const singleId = router?.query?.id;
   const movePage = () => {
-    router.push({
-      pathname: AIR_OPERATIONS?.SERVICES_WORKFLOW,
-    });
+    router?.back();
   };
 
   const EDIT_WORKFLOW = 'edit';
@@ -293,5 +291,6 @@ export const useUpsertScheduledWorkflow = () => {
     testWorkflowProgress,
     updatedWorkflowProcess,
     testWorkflowResponse,
+    movePage,
   };
 };
