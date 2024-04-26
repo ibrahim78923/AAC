@@ -4,6 +4,9 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
+import { data } from './DigitalGiftCards.data';
 
 export const DigitalGiftCards = () => {
   const {
@@ -34,35 +37,58 @@ export const DigitalGiftCards = () => {
         >
           <Search label="Search Here" setSearchBy={setSearch} />
           <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              startIcon={<FilterListIcon />}
-              onClick={() => setIsPortalOpen({ isOpen: true, isFilter: true })}
+            <PermissionsGuard
+              permissions={[
+                AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.APPLY_FILTER,
+              ]}
             >
-              Filter
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              startIcon={<ExportBlackIcon />}
-              onClick={() => setIsPortalOpen({ isOpen: true, isExport: true })}
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<FilterListIcon />}
+                onClick={() =>
+                  setIsPortalOpen({ isOpen: true, isFilter: true })
+                }
+              >
+                Filter
+              </Button>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.EXPORT,
+              ]}
             >
-              Export
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<AddWhiteBgIcon />}
-              onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<ExportBlackIcon />}
+                onClick={() =>
+                  setIsPortalOpen({ isOpen: true, isExport: true })
+                }
+              >
+                Export
+              </Button>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.ADD_GIFT_CARD,
+              ]}
             >
-              Add
-            </Button>
+              <Button
+                variant="contained"
+                startIcon={<AddWhiteBgIcon />}
+                onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+              >
+                Add
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Box>
         <br />
         <TanstackTable
           columns={digitalGiftCardColumns}
-          data={lazyGetDigitalGiftCardListStatus?.data?.data}
+          // data={lazyGetDigitalGiftCardListStatus?.data?.data}
+          data={data}
           isLoading={lazyGetDigitalGiftCardListStatus?.isLoading}
           currentPage={lazyGetDigitalGiftCardListStatus?.data?.data?.meta?.page}
           count={lazyGetDigitalGiftCardListStatus?.data?.data?.meta?.pages}
@@ -73,8 +99,8 @@ export const DigitalGiftCards = () => {
           setPage={setPage}
           setPageLimit={setPageLimit}
           isFetching={lazyGetDigitalGiftCardListStatus?.isFetching}
-          isError={lazyGetDigitalGiftCardListStatus?.isError}
-          isSuccess={lazyGetDigitalGiftCardListStatus?.isSuccess}
+          // isError={lazyGetDigitalGiftCardListStatus?.isError}
+          isSuccess={lazyGetDigitalGiftCardListStatus?.isSuccess || true}
           onPageChange={(page: any) => setPage(page)}
           isPagination
         />

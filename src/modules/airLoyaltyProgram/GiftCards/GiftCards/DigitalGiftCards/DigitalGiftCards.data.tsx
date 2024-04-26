@@ -1,5 +1,7 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
 import { Typography } from '@mui/material';
 
 export const data: any = [
@@ -97,7 +99,15 @@ export const digitalGiftCardColumnsFunction = (router: any): any => [
     id: 'active',
     header: 'Active',
     isSortable: true,
-    cell: (info: any) => <AntSwitch values={info?.getValue()} />,
+    cell: (info: any) => (
+      <PermissionsGuard
+        permissions={[
+          AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.ACTIVE_DE_ACTIVE,
+        ]}
+      >
+        <AntSwitch values={info?.getValue()} />
+      </PermissionsGuard>
+    ),
   },
   {
     accessorFn: (row: any) => row?.upGradable,
