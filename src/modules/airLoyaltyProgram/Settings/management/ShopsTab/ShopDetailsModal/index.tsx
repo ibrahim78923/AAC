@@ -1,4 +1,6 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import CommonDrawer from '@/components/CommonDrawer';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button, Typography } from '@mui/material';
 const ShopDetailsModal = ({
   data,
@@ -35,7 +37,7 @@ const ShopDetailsModal = ({
           pt: 1,
         }}
       >
-        {Object.entries(formattedData)?.map(([key, value]) => (
+        {Object.entries(formattedData)?.map(([key, value]: any) => (
           <Box
             key={key}
             sx={{
@@ -64,26 +66,38 @@ const ShopDetailsModal = ({
           zIndex: 50,
         }}
       >
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => {
-            setDeleteModalOpen(true);
-            setIsDetailDrawerOpen(false);
-          }}
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS?.DELETE_SHOP,
+          ]}
         >
-          Delete
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setIsDetailDrawerOpen(false);
-            setAddShopModalOpen(true);
-          }}
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => {
+              setDeleteModalOpen(true);
+              setIsDetailDrawerOpen(false);
+            }}
+          >
+            Delete
+          </Button>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS?.EDIT_SHOP,
+          ]}
         >
-          Edit
-        </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setIsDetailDrawerOpen(false);
+              setAddShopModalOpen(true);
+            }}
+          >
+            Edit
+          </Button>
+        </PermissionsGuard>
       </Box>
     </CommonDrawer>
   );

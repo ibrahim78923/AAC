@@ -1354,6 +1354,22 @@ export const AIR_SERVICES_DASHBOARD_PERMISSIONS = {
   VIEW_DASHBOARD: 'service-dashboard-list',
 };
 
+export const AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'loyalty-program-dashboard-view',
+  APPLY_FILTERS: 'loyalty-program-dashboard-apply-filters',
+};
+
+export const AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT_PERMISSIONS = {
+  ACCOUNT_GENERAL: 'loyalty-program-settings-account-general',
+  ACCOUNT_VIEW_DETAILS: 'loyalty-program-settings-account-view-details',
+};
+export const AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS = {
+  VIEW_SHOP_DETAILS: 'loyalty-program-settings-managment-view-shop-deyails',
+  SHOP_SEARCH: 'loyalty-program-settings-managment-search-shop',
+  ADD_SHOP: 'loyalty-program-settings-managment-add-shop',
+  DELETE_SHOP: 'loyalty-program-settings-managment-delete-shop',
+  EDIT_SHOP: 'loyalty-program-settings-managment-edit-shop',
+};
 export const AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS = {
   VIEW_REWARDS_DETAILS: 'loyalty-program-reward-view-details',
   PHYSICAL_REWARDS: 'loyalty-program-reward-physical',
@@ -1399,4 +1415,13 @@ export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS = {
   NOT_ASSIGNED_GIFT_CARD: 'loyalty-program-gift-card-physical-not-assigned',
   PRINT: 'loyalty-program-gift-card-physical-print',
   ASSIGNED_TO: 'loyalty-program-gift-card-physical-assigned-to',
+};
+
+export const AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS = {
+  VIEW_DETAILS: 'loyalty-program-voucher-view-details',
+  ADD_VOUCHER: 'loyalty-program-voucher-add',
+  APPLY_FILTERS: 'loyalty-program-voucher-apply-filters',
+  PRINT: 'loyalty-program-voucher-print',
+  ACTIVE_DEACTIVATE_VOUCHERS: 'loyalty-program-voucher-active-deactive',
+  SEARCH: 'loyalty-program-voucher-search',
 };

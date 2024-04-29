@@ -25,10 +25,13 @@ import {
   loginDefaultValues,
   loginValidationSchema,
 } from './Login.data';
+import { useRouter } from 'next/router';
+import { AUTH } from '@/constants';
 
 const Login = () => {
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
+  const { push } = useRouter();
 
   const handleClickShowPassword = () => {
     setShowPassword((show) => !show);
@@ -64,7 +67,7 @@ const Login = () => {
   return (
     <Box sx={{ height: '100vh' }}>
       <Box sx={styles?.AuthHeader}>
-        <Box>
+        <Box sx={{ cursor: 'pointer' }} onClick={() => push(AUTH?.SALE_SITE)}>
           <CompanyLogoIcon />
         </Box>
         <Box>

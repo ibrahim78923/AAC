@@ -17,8 +17,9 @@ export const WorkflowHeader = ({
   updatedWorkflowProcess,
   testWorkflowResponse,
   watch,
+  movePage,
 }: any) => {
-  const { handleMoveBack, action, handleCancel } = useWorkflowHeader();
+  const { action } = useWorkflowHeader();
   const EDIT_WORKFLOW = 'edit';
   const mainTitle = {
     edit: 'Edit Scheduled Workflow',
@@ -26,6 +27,11 @@ export const WorkflowHeader = ({
     update: 'Update',
     create: 'Create',
   };
+  const isLoadingButton =
+    testWorkflowProgress?.isLoading ||
+    saveWorkflowProgress?.isLoading ||
+    postWorkflowProgress?.isLoading ||
+    updatedWorkflowProcess?.isLoading;
   return (
     <Box>
       <Box
@@ -40,14 +46,15 @@ export const WorkflowHeader = ({
             action === EDIT_WORKFLOW ? mainTitle?.edit : mainTitle?.createButton
           }
           canMovedBack
-          moveBack={handleMoveBack}
+          moveBack={movePage}
         />
         <Box display={'flex'} gap={1} flexWrap={'wrap'}>
           <LoadingButton
             startIcon={<Cancel color="action" />}
             variant="outlined"
             color="secondary"
-            onClick={handleCancel}
+            onClick={movePage}
+            disabled={isLoadingButton}
           >
             Cancel
           </LoadingButton>
@@ -56,33 +63,38 @@ export const WorkflowHeader = ({
             variant="outlined"
             color="secondary"
             type="submit"
+            loading={testWorkflowProgress?.isLoading}
             onClick={() => {
-              setValidation(true);
+              setValidation('test');
               handleTestWorkflow();
             }}
-            disabled={testWorkflowProgress?.isLoading}
+            disabled={isLoadingButton}
           >
             Test Workflow
           </LoadingButton>
-          <LoadingButton
-            startIcon={<GrayBookIcon />}
-            variant="outlined"
-            color="secondary"
-            type="submit"
-            disabled={saveWorkflowProgress?.isLoading}
-            onClick={() => setValidation(false)}
-          >
-            Save as Draft
-          </LoadingButton>
+          {action !== EDIT_WORKFLOW && (
+            <LoadingButton
+              startIcon={<GrayBookIcon />}
+              variant="outlined"
+              color="secondary"
+              type="submit"
+              loading={saveWorkflowProgress?.isLoading}
+              disabled={isLoadingButton}
+              onClick={() => setValidation('save')}
+            >
+              Save as Draft
+            </LoadingButton>
+          )}
           <LoadingButton
             startIcon={<WhiteBookIcon />}
             variant="contained"
             type="submit"
-            disabled={
+            loading={
               postWorkflowProgress?.isLoading ||
               updatedWorkflowProcess?.isLoading
             }
-            onClick={() => setValidation(true)}
+            disabled={isLoadingButton}
+            onClick={() => setValidation('upsert')}
           >
             {action === EDIT_WORKFLOW ? mainTitle?.update : mainTitle?.create}
           </LoadingButton>

@@ -1,11 +1,12 @@
 import { useFieldArray } from 'react-hook-form';
 import { useEffect } from 'react';
 import {
-  useLazyGetContactDropdownListQuery,
   useLazyGetDealDropdownListQuery,
   useLazyGetLifeCycleStagesDropdownListQuery,
+  useLazyGetUserDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, warningSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 
 export const useSubWorkflowConditions = (props: any) => {
   const { control, index, parentField, removeParent, setValue, watch } = props;
@@ -33,22 +34,25 @@ export const useSubWorkflowConditions = (props: any) => {
     }
   };
   const dealDropdown = useLazyGetDealDropdownListQuery();
-  const contactDropdown = useLazyGetContactDropdownListQuery();
   const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
+  const userDropdown = useLazyGetUserDropdownListQuery();
+  const router = useRouter();
   const moduleType = watch('module');
-  useEffect(() => {
-    fields?.forEach((_, subIndex) => {
-      setValue(`groups.${index}.conditions.${subIndex}.fieldName`, null);
-      setValue(`groups.${index}.conditions.${subIndex}.condition`, '');
-      setValue(`groups.${index}.conditions.${subIndex}.fieldValue`, null);
-    });
-  }, [moduleType]);
+  if (!router?.query?.id) {
+    useEffect(() => {
+      fields?.forEach((_, subIndex) => {
+        setValue(`groups.${index}.conditions.${subIndex}.fieldName`, null);
+        setValue(`groups.${index}.conditions.${subIndex}.condition`, '');
+        setValue(`groups.${index}.conditions.${subIndex}.fieldValue`, null);
+      });
+    }, [moduleType]);
+  }
   return {
     fields,
     handleAppend,
     handleDeleteClick,
     dealDropdown,
-    contactDropdown,
     stagesDropdown,
+    userDropdown,
   };
 };
