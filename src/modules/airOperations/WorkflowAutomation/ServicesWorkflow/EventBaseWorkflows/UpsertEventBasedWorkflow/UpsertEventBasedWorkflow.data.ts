@@ -166,8 +166,8 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
                     `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
                 : condition?.fieldType === 'date'
-                ? new Date(condition?.fieldValue)
-                : condition?.fieldValue,
+                  ? new Date(condition?.fieldValue)
+                  : condition?.fieldValue,
           };
         }),
       };
@@ -195,8 +195,8 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           action?.fieldType === 'objectId'
             ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === 'date'
-            ? new Date(action?.fieldValue)
-            : action?.fieldValue,
+              ? new Date(action?.fieldValue)
+              : action?.fieldValue,
       }),
     ) ?? [{ fieldName: null, fieldValue: null }],
   };
