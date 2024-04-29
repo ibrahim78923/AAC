@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import PermissionDenied from '@/components/PermisisonDenied';
-import { Box } from '@mui/material';
 import useAuth from '@/hooks/useAuth';
 import { ROLES } from '@/constants/strings';
 import {
@@ -56,6 +55,6 @@ export default function PermissionsGuard({
   } else if (isPage) {
     <PermissionDenied />;
   } else {
-    return <Box></Box>;
+    return <></>;
   }
 }

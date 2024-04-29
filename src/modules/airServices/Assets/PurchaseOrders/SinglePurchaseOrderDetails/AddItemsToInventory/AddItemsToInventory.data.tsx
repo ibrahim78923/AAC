@@ -243,10 +243,10 @@ export const addItemsToInventoryFormFieldsDynamic = (
               allAssets?.isFetching || allAssets?.isLoading
                 ? SkeletonTable
                 : allAssets?.isError
-                ? ApiErrorState
-                : !!!allAssets?.data?.data?.inventories?.length
-                ? NoData
-                : RHFRadioGroup,
+                  ? ApiErrorState
+                  : !!!allAssets?.data?.data?.inventories?.length
+                    ? NoData
+                    : RHFRadioGroup,
             componentProps: {
               ...(!!!allAssets?.data?.data?.inventories?.length ||
               allAssets?.isError
