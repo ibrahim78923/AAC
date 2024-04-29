@@ -15,7 +15,6 @@ import {
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
-import { AIR_OPERATIONS } from '@/constants';
 import { useEffect, useState } from 'react';
 import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
@@ -61,9 +60,7 @@ export const useUpsertEventBasedWorkflow = () => {
   const pageActionType = router?.query?.action;
   const singleId = router?.query?.id;
   const movePage = () => {
-    router.push({
-      pathname: AIR_OPERATIONS?.SERVICES_WORKFLOW,
-    });
+    router?.back();
   };
 
   const EDIT_WORKFLOW = 'edit';
@@ -247,5 +244,6 @@ export const useUpsertEventBasedWorkflow = () => {
     setIsWorkflowDrawer,
     updatedWorkflowProcess,
     testWorkflowProgress,
+    movePage,
   };
 };

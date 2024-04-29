@@ -25,7 +25,6 @@ export const SingleViewArticle = () => {
   } = useSingleViewArticle();
 
   if (isLoading || isFetching) return <Skeleton />;
-
   return (
     <>
       <Grid container spacing={1} justifyContent={'space-between'}>

@@ -12,7 +12,16 @@ export const giftCardTransactionApi = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    postAddTransaction: builder?.mutation({
+      query: (params) => ({
+        url: `${OPERATION?.OPERATION_WORKFLOW}`,
+        method: 'POST',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
-export const { useLazyGetTransactionListQuery } = giftCardTransactionApi;
+export const { useLazyGetTransactionListQuery, usePostAddTransactionMutation } =
+  giftCardTransactionApi;

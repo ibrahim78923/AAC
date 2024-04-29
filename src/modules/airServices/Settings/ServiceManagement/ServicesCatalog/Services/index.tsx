@@ -378,7 +378,11 @@ const Services = () => {
                         {result?.estimatedDelivery ?? '-'}
                       </Typography>
                     </Box>
-                    <Box alignItems={'center'} display={'flex'}>
+                    <Box
+                      alignItems={'center'}
+                      display={'flex'}
+                      sx={{ wordBreak: 'break-all' }}
+                    >
                       <Typography
                         variant="body3"
                         align="center"
