@@ -7,7 +7,6 @@ import usePath from '@/hooks/usePath';
 
 export const useRulesAndTiers = () => {
   const [hasRulesAndTiersAction, setHasRulesAndTiersAction] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
   const router = useRouter();
   const { makePath } = usePath();
   useEffect(() => {
@@ -24,8 +23,6 @@ export const useRulesAndTiers = () => {
       <UpsertRules
         isDrawerOpen={hasRulesAndTiersAction}
         setIsDrawerOpen={setHasRulesAndTiersAction}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
       />
     ),
     [RULES_AND_TIERS_ACTION_CONSTANTS?.UPSERT_TIERS]: (
@@ -53,7 +50,5 @@ export const useRulesAndTiers = () => {
     rulesAndTiersActionComponent,
     router,
     setRulesAndTiersAction,
-    setActiveTab,
-    activeTab,
   };
 };

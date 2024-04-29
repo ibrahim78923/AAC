@@ -14,7 +14,7 @@ export const defaultValues = {
   shop: '',
   giftCardNo: '',
 };
-export const addTransactionDrawerData = [
+export const addTransactionData = [
   {
     id: 1,
     componentProps: {
