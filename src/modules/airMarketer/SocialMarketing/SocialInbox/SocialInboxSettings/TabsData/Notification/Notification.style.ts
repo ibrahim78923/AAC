@@ -8,6 +8,7 @@ export const styles = {
       display: 'flex',
       justifyContent: 'space-between',
       flexWrap: 'wrap',
+      alignItems: 'center',
     };
   },
 };
