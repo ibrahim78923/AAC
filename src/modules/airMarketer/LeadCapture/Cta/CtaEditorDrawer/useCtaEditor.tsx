@@ -1,22 +1,13 @@
-import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  CTADefaultValues,
-  CTAValidationSchema,
   CTA_BUTTON_TITLE,
   FORM_STEP,
   drawerButtonTitle,
 } from './CtaEditorDrawer.data';
 import { useState } from 'react';
 
-const useCtaEditor = ({
-  selectedCheckboxes,
-  openDrawer,
-  setOpenDrawer,
-}: any) => {
+const useCtaEditor = () => {
   // todo: for edit case taking first element from array
-  const editCheckBoxes = selectedCheckboxes && selectedCheckboxes[0];
+  // const editCheckBoxes = selectedCheckboxes && selectedCheckboxes[0];
 
   const [selectProductSuite, setSelectProductSuite] = useState(
     CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON,
@@ -37,7 +28,7 @@ const useCtaEditor = ({
     ) {
       return drawerButtonTitle['Next'];
     }
-    return drawerButtonTitle[openDrawer];
+    // return drawerButtonTitle[openDrawer];
   };
 
   const drawerSubmitHandler = () => {
@@ -49,49 +40,48 @@ const useCtaEditor = ({
     }
   };
 
-  const methodsdealsTasks = useForm({
-    resolver: yupResolver(CTAValidationSchema),
-    defaultValues: async () => {
-      if (editCheckBoxes && openDrawer !== 'Add') {
-        const {
-          name,
-          reminder,
-          status,
-          type,
-          associate,
-          deal,
-          dueDate,
-          priority,
-          note,
-        } = editCheckBoxes;
-        return {
-          name,
-          reminder,
-          status,
-          type,
-          deal,
-          associate,
-          dueDate: new Date(dueDate),
-          priority,
-          note,
-        };
-      }
-      return CTADefaultValues;
-    },
-  });
+  // const methodsdealsTasks = useForm({
+  //   resolver: yupResolver(CTAValidationSchema),
+  //   defaultValues: async () => {
+  //     if (editCheckBoxes && openDrawer !== 'Add') {
+  //       const {
+  //         name,
+  //         reminder,
+  //         status,
+  //         type,
+  //         associate,
+  //         deal,
+  //         dueDate,
+  //         priority,
+  //         note,
+  //       } = editCheckBoxes;
+  //       return {
+  //         name,
+  //         reminder,
+  //         status,
+  //         type,
+  //         deal,
+  //         associate,
+  //         dueDate: new Date(dueDate),
+  //         priority,
+  //         note,
+  //       };
+  //     }
+  //     return CTADefaultValues;
+  //   },
+  // });
 
-  const onSubmit = async () => {};
-  const { handleSubmit, reset } = methodsdealsTasks;
-  const onCloseDrawer = () => {
-    setOpenDrawer('');
-    reset();
-  };
+  // const onSubmit = async () => {};
+  // const { handleSubmit, reset } = methodsdealsTasks;
+  // const onCloseDrawer = () => {
+  //   reset();
+  // };
 
   return {
-    handleSubmit,
-    onSubmit,
-    methodsdealsTasks,
-    onCloseDrawer,
+    // handleSubmit,
+    // onSubmit,
+    // methodsdealsTasks,
+    // onCloseDrawer,
     selectProductSuite,
     setSelectProductSuite,
     buttonStyle,

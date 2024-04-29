@@ -8,35 +8,27 @@ import { Button } from '@mui/material';
 import * as Yup from 'yup';
 
 export const CTAValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Field is Required'),
-  type: Yup?.string()?.required('Field is Required'),
-  priority: Yup?.string()?.required('Field is Required'),
-  status: Yup?.string()?.required('Field is Required'),
-  deal: Yup?.string()?.required('Field is Required'),
-  // assignto: Yup?.string()?.required('Field is Required'),
-  associate: Yup?.string()?.trim()?.required('Field is Required'),
-  reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.required('Field is Required'),
+  buttonHtml: Yup?.string()?.trim()?.required('Field is Required'),
+  // ctaInternalName: Yup?.string()?.trim()?.required('Field is Required'),
+  // url: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const CTADefaultValues = {
-  name: '',
-  type: '',
-  priority: '',
-  status: '',
-  // TODO: Temporary id will come from backend
-  deal: '655b2b2ecd318b576d7d71e8',
-  assignto: '',
-  associate: '',
-  reminder: '',
-  note: '',
-  dueDate: null,
+  buttonHtml: '',
+  // buttonStyle: '',
+  // buttonColor: '',
+  // buttonSize: '',
+  // buttonPadding: '',
+  // buttonMargin: '',
+  // ctaInternalName: '',
+  // urlRedirectType: '',
+  // url: ''
 };
 
 export const CTADataArray = [
   {
     componentProps: {
-      name: 'ButtonContent',
+      name: 'buttonHtml',
       label: 'Button content',
       fullWidth: true,
       required: true,
@@ -46,7 +38,7 @@ export const CTADataArray = [
   },
   {
     componentProps: {
-      name: 'style',
+      name: 'buttonStyle',
       label: 'Button style',
       select: true,
     },
@@ -63,7 +55,7 @@ export const CTADataArray = [
 
   {
     componentProps: {
-      name: 'color',
+      name: 'buttonColor',
       label: 'Button Color',
       fullWidth: true,
     },
@@ -73,7 +65,7 @@ export const CTADataArray = [
 
   {
     componentProps: {
-      name: 'size',
+      name: 'buttonSize',
       label: 'Button Size',
       select: true,
     },
@@ -84,7 +76,7 @@ export const CTADataArray = [
 
   {
     componentProps: {
-      name: 'padding',
+      name: 'buttonPadding',
       label: 'Button Padding',
       fullWidth: true,
     },
@@ -93,7 +85,7 @@ export const CTADataArray = [
   },
   {
     componentProps: {
-      name: 'margin',
+      name: 'buttonMargin',
       label: 'Button Margin',
       fullWidth: true,
     },
@@ -141,7 +133,7 @@ export const CTAInternalName = [
 
   {
     componentProps: {
-      name: 'enterUrl',
+      name: 'url',
       label: 'Enter URL',
       fullWidth: true,
     },
@@ -195,6 +187,7 @@ export const drawerTitle: any = {
   Edit: 'Edit CTA',
   View: 'View CTA',
 };
+
 export const drawerButtonTitle: any = {
   Add: 'Add',
   Edit: 'Edit',
@@ -214,9 +207,9 @@ export const FORM_STEP = {
 };
 
 export const urlRedirectType = [
-  { value: 'New', label: 'New' },
-  { value: 'Air Apple Cart Page', label: 'Air Apple Cart Page' },
-  { value: 'Air Apple Blog Post', label: 'Air Apple Blog Post' },
-  { value: 'Meeting Link', label: 'Meeting Link' },
-  { value: 'File Link', label: 'File Link' },
+  { value: 'new', label: 'New' },
+  { value: 'air apple cart page', label: 'Air Apple Cart Page' },
+  { value: 'air apple blog post', label: 'Air Apple Blog Post' },
+  { value: 'meeting link', label: 'Meeting Link' },
+  { value: 'file link', label: 'File Link' },
 ];

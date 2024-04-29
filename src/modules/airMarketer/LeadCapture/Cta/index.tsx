@@ -16,7 +16,7 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { ScheduleModals } from '@/components/ScheduleModals';
 
-import { columns, ctAdata, exportData } from './Cta.data';
+import { columns, exportData } from './Cta.data';
 
 import { DeleteIcon, ExportDownloadIcon, PlusIcon } from '@/assets/icons';
 
@@ -27,18 +27,31 @@ import { AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS } from '@/constants/permission-ke
 
 const CTA = () => {
   const {
+    drawerTitle,
     openDrawer,
-    setOpenDrawer,
+    handleDrawerOpen,
+    handleDrawerClose,
+    displayOkText,
+    selectedForm,
+    buttonStyle,
+    methodsEditCTA,
+    handleDrawerSubmit,
+    dataGetCTAs,
+    loadingGetCTAs,
+    setSearchValue,
+    setPageLimit,
+    setPage,
+    selectedRow,
+    setSelectedRow,
+
     openModal,
     setOpenModal,
-    handleCheckboxChange,
-    selectedCheckboxes,
-    setSelectedCheckboxes,
-    searchTerm,
-    setSearchTerm,
     handlecheckExportFormats,
     checkExportFormats,
   } = useCta();
+
+  const tableColumns = columns(selectedRow, setSelectedRow);
+
   return (
     <Box
       sx={{
@@ -57,7 +70,7 @@ const CTA = () => {
               <Button
                 variant="contained"
                 sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                onClick={() => setOpenDrawer('Add')}
+                onClick={() => handleDrawerOpen('Create')}
               >
                 <PlusIcon /> Create CTA
               </Button>
@@ -69,8 +82,7 @@ const CTA = () => {
             permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.SERACH]}
           >
             <Search
-              searchBy={searchTerm}
-              setSearchBy={setSearchTerm}
+              setSearchBy={setSearchValue}
               label="Search By Name"
               fullWidth
               size="small"
@@ -92,7 +104,7 @@ const CTA = () => {
                 <Button
                   variant="outlined"
                   color="inherit"
-                  disabled={selectedCheckboxes?.length === 0}
+                  disabled={selectedRow?.length === 0}
                   sx={{
                     minWidth: '0px',
                     height: '35px',
@@ -102,9 +114,7 @@ const CTA = () => {
                   onClick={() => setOpenModal('Delete')}
                 >
                   <DeleteIcon
-                    color={
-                      selectedCheckboxes?.length > 0 ? '#FF4A4A' : '#D1D5DB'
-                    }
+                    color={selectedRow?.length > 0 ? '#FF4A4A' : '#D1D5DB'}
                   />
                   Delete
                 </Button>
@@ -126,12 +136,17 @@ const CTA = () => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({
-              handleCheckboxChange,
-              selectedCheckboxes,
-              setOpenDrawer,
-            })}
-            data={ctAdata}
+            columns={tableColumns}
+            data={dataGetCTAs?.data?.leadcapturectas}
+            isLoading={loadingGetCTAs}
+            currentPage={dataGetCTAs?.data?.meta?.page}
+            count={dataGetCTAs?.data?.meta?.pages}
+            pageLimit={dataGetCTAs?.data?.meta?.limit}
+            totalRecords={dataGetCTAs?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
           />
         </Grid>
 
@@ -172,15 +187,6 @@ const CTA = () => {
         </ScheduleModals>
       </Grid>
 
-      {openDrawer && (
-        <CtaEditorDrawer
-          openDrawer={openDrawer}
-          setOpenDrawer={setOpenDrawer}
-          setSelectedCheckboxes={setSelectedCheckboxes}
-          selectedCheckboxes={selectedCheckboxes}
-        />
-      )}
-
       <AlertModals
         message={
           "You're about to delete a record. Deleted records can't be restored after 90 days."
@@ -189,6 +195,17 @@ const CTA = () => {
         open={openModal === 'Delete'}
         handleClose={() => setOpenModal('')}
         handleSubmit={() => setOpenModal('')}
+      />
+
+      <CtaEditorDrawer
+        title={drawerTitle}
+        okText={displayOkText()}
+        isOpen={openDrawer}
+        onClose={handleDrawerClose}
+        methods={methodsEditCTA}
+        onSubmit={handleDrawerSubmit}
+        selectedForm={selectedForm}
+        buttonStyle={buttonStyle}
       />
     </Box>
   );

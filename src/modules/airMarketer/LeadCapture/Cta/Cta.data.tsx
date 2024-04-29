@@ -1,39 +1,46 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS } from '@/constants/permission-keys';
+import RowSelection from '@/components/RowSelection';
+import RowSelectionAll from '@/components/RowSelectionAll';
+import { Box } from '@mui/material';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
-import { Box, Checkbox } from '@mui/material';
-
-export const columns = ({
-  handleCheckboxChange,
-  selectedCheckboxes,
-  setOpenDrawer,
-}: any) => {
+export const columns = (selectedRow: any, setSelectedRow: any) => {
   return [
     {
       accessorFn: (row: any) => row?.Id,
       id: 'Id',
-      cell: (info: any) => (
-        <Checkbox
-          color="primary"
-          name={'name'}
-          onChange={(event) => handleCheckboxChange(event, info?.row?.original)}
-          checked={selectedCheckboxes?.some(
-            (selectedItem: any) =>
-              selectedItem?._id === info?.row?.original?._id,
-          )}
-        />
-      ),
-      header: <Checkbox color="primary" name="Id" />,
       isSortable: false,
+      header: (info: any) => {
+        const rows = info?.table?.options?.data;
+        return (
+          <RowSelectionAll
+            rows={rows}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
+          />
+        );
+      },
+      cell: (info: any) => {
+        const id = info?.cell?.row?.original?._id;
+        return (
+          <RowSelection
+            id={id}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
+          />
+        );
+      },
     },
 
     {
-      accessorFn: (row: any) => row?.name,
-      id: 'name',
-      cell: (info: any) => info?.getValue(),
-      header: 'Name',
+      accessorFn: (row: any) => row?.ctaInternalName,
+      id: 'ctaInternalName',
       isSortable: false,
+      header: 'Name',
+      cell: (info: any) => info?.getValue(),
     },
 
     {
@@ -60,11 +67,11 @@ export const columns = ({
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.lastModified,
-      id: 'lastModified',
+      accessorFn: (row: any) => row?.updatedAt,
+      id: 'updatedAt',
       isSortable: true,
       header: 'Last Modified',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.assignedTo,
@@ -136,3 +143,21 @@ export const ctAdata = [
     lastModified: 'Mar 3 - Mar 26, 2022',
   },
 ];
+
+export const CTA_FORM = {
+  CUSTOMIZED_BUTTON: 'Customized_Button',
+  IMAGE_BUTTON: 'Image_Button',
+};
+
+export const FORM_STEP = {
+  CUSTOM_ACTION: 'custom-action',
+  CTA_INTERNAL: 'cta-internal',
+  IMAGE_ACTION: 'image-action',
+  IMAGE_CTA_INTERNAL: 'custom-action',
+};
+
+export const drawerOkText: any = {
+  Add: 'Add',
+  Edit: 'Edit',
+  Next: 'Next',
+};

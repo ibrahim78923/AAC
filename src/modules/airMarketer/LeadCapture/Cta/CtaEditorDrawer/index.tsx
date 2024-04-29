@@ -12,48 +12,48 @@ import useCtaEditor from './useCtaEditor';
 import {
   CTADataArray,
   CTAImageDataArray,
-  CTA_BUTTON_TITLE,
-  FORM_STEP,
-  drawerTitle,
   urlRedirectType,
 } from './CtaEditorDrawer.data';
+import useCta from '../useCta';
+import { CTA_FORM, FORM_STEP } from '../Cta.data';
 
 const CtaEditorDrawer = (props: any) => {
   const {
-    openDrawer,
-    setOpenDrawer,
-    selectedCheckboxes,
-    setSelectedCheckboxes,
-  } = props;
-  const {
-    handleSubmit,
+    title,
+    okText,
+    isOpen,
+    onClose,
+    methods,
     onSubmit,
-    methodsdealsTasks,
-    onCloseDrawer,
-    selectProductSuite,
-    setSelectProductSuite,
+    selectedForm,
     buttonStyle,
-    setButtonStyle,
-    drawerButtonTitleHandler,
-    drawerSubmitHandler,
-  } = useCtaEditor({
-    selectedCheckboxes,
-    openDrawer,
-    setOpenDrawer,
-    setSelectedCheckboxes,
-  });
+  } = props;
+
+  const {
+    // handleSubmit,
+    // methodsdealsTasks,
+    // onCloseDrawer,
+    // selectedForm,
+    // setselectedForm,
+    // buttonStyle,
+    // setButtonStyle,
+    // drawerButtonTitleHandler,
+    // drawerSubmitHandler,
+  } = useCtaEditor();
+
+  const { handleFormSwitcher, setButtonStyle } = useCta();
 
   return (
     <div>
       <CommonDrawer
-        isDrawerOpen={openDrawer}
-        onClose={onCloseDrawer}
-        title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitleHandler()}
+        isDrawerOpen={isOpen}
+        onClose={onClose}
+        title={`${title} CTA`}
+        okText={okText}
         isOk={true}
         cancelText={'Back'}
-        submitHandler={drawerSubmitHandler}
-        footer={openDrawer === 'View' ? false : true}
+        submitHandler={onSubmit}
+        footer={title === 'View' ? false : true}
       >
         <Box sx={{ pt: 2 }}>
           <Box
@@ -74,16 +74,16 @@ const CtaEditorDrawer = (props: any) => {
             >
               <Button
                 onClick={() => {
-                  setSelectProductSuite(CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON),
+                  handleFormSwitcher(CTA_FORM?.CUSTOMIZED_BUTTON),
                     setButtonStyle(FORM_STEP?.CUSTOM_ACTION);
                 }}
                 variant={`${
-                  selectProductSuite === CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON
+                  selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON
                     ? 'outlined'
                     : 'text'
                 }`}
                 color={`${
-                  selectProductSuite === CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON
+                  selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON
                     ? 'primary'
                     : 'inherit'
                 }`}
@@ -97,16 +97,14 @@ const CtaEditorDrawer = (props: any) => {
               </Button>
               <Button
                 onClick={() => {
-                  setSelectProductSuite(CTA_BUTTON_TITLE?.IMAGE_CUSTOMIZE),
+                  handleFormSwitcher(CTA_FORM?.IMAGE_BUTTON),
                     setButtonStyle(FORM_STEP?.IMAGE_ACTION);
                 }}
                 variant={`${
-                  selectProductSuite === CTA_BUTTON_TITLE?.IMAGE_CUSTOMIZE
-                    ? 'outlined'
-                    : 'text'
+                  selectedForm === CTA_FORM?.IMAGE_BUTTON ? 'outlined' : 'text'
                 }`}
                 color={`${
-                  selectProductSuite === CTA_BUTTON_TITLE?.IMAGE_CUSTOMIZE
+                  selectedForm === CTA_FORM?.IMAGE_BUTTON
                     ? 'primary'
                     : 'inherit'
                 }`}
@@ -121,11 +119,8 @@ const CtaEditorDrawer = (props: any) => {
             </Box>
           </Box>
 
-          <FormProvider
-            methods={methodsdealsTasks}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            {selectProductSuite === CTA_BUTTON_TITLE?.CUSTOMIZE_BUTTON ? (
+          <FormProvider methods={methods}>
+            {selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON ? (
               <Grid container spacing={4}>
                 {buttonStyle === FORM_STEP?.CUSTOM_ACTION && (
                   <>
@@ -163,13 +158,13 @@ const CtaEditorDrawer = (props: any) => {
                         name="ctaInternalName"
                         label="CTA Internal Name "
                         size="small"
-                        placeholder="Left"
+                        placeholder="Left18px"
                         required
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <RHFSelect
-                        name="URL Redirect Type"
+                        name="urlRedirectType"
                         label="URL Redirect Type"
                         size="small"
                       >
@@ -183,7 +178,7 @@ const CtaEditorDrawer = (props: any) => {
 
                     <Grid item xs={12} md={8}>
                       <RHFTextField
-                        name="ctaInternalName"
+                        name="url"
                         label="Enter Url "
                         size="small"
                         placeholder="Left"
@@ -194,7 +189,7 @@ const CtaEditorDrawer = (props: any) => {
                     <Grid item xs={12} md={4}>
                       <Box sx={{ paddingTop: { md: '22px' } }}>
                         <Button variant="outlined" fullWidth>
-                          Text URL
+                          Test URL
                         </Button>
                       </Box>
                     </Grid>
