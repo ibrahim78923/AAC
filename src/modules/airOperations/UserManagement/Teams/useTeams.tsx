@@ -31,11 +31,10 @@ export const useTeams = () => {
   const param = {
     page: page,
     limit: pageLimit,
-    search: search,
+    search,
   };
-
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetTeamListQuery({ param });
+    useGetTeamListQuery({ param }, { refetchOnMountOrArgChange: true });
 
   const metaData = data?.data?.meta;
 
@@ -49,14 +48,6 @@ export const useTeams = () => {
     }
   };
 
-  const submit = async () => {
-    try {
-      successSnackbar('Team Add Successfully');
-      setIsDrawerOpen(false);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
   const teamListColumn = teamList(
     selectedTeamList,
     setSelectedTeamList,
@@ -93,7 +84,6 @@ export const useTeams = () => {
     deleteModal,
     setDeleteModal,
     submitDeleteModal,
-    submit,
     metaData,
     data,
     isLoading,

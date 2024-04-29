@@ -596,6 +596,11 @@ export const LowerOrgAdminRoutes = [
         label: 'Contact Status',
         permissions: Permissions?.ORG_ADMIN_SETTINGS_CONTACT_STATUS,
       },
+      {
+        key: '/org-admin/settings/bank-accounts',
+        label: 'Receiver Bank Account',
+        permissions: Permissions?.ORG_ADMIN_SETTINGS_CONTACT_STATUS,
+      },
     ],
   },
 ];

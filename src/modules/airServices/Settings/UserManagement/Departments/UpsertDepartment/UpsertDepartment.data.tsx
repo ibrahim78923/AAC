@@ -82,6 +82,7 @@ export const departmentFormFields: any = (
       fullWidth: true,
       multiple: true,
       apiQuery: userListMember,
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         option?.firstName + ' ' + option?.lastName,
       required: true,
