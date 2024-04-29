@@ -12,7 +12,14 @@ export const Header = () => {
         gap={1}
       >
         <Search label="Search Here" />
-        <IconButton sx={{}}>
+        <IconButton
+          sx={{
+            height: '50px',
+            width: '50px',
+            borderRadius: 2,
+            boxShadow: 2,
+          }}
+        >
           <ListViewIcon />
         </IconButton>
       </Box>
