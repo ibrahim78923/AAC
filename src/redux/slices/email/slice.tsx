@@ -13,7 +13,7 @@ const emailSlice = createSlice({
   initialState: initialState,
   reducers: {
     setMailTabType: (state, action: PayloadAction<string>) => {
-      state.mailTabType = action.payload;
+      state.mailTabType = action?.payload;
     },
   },
 });

@@ -72,7 +72,7 @@ const EmailSettingDrawer = ({
                 </Grid>
               ))}
               <Grid item xs={12}>
-                <Box sx={styles?.emailWrap}>
+                <Box sx={styles?.emailWrap(theme)}>
                   <Typography variant="body2">John@dummy.com</Typography>
                 </Box>
                 <Box sx={{ mt: 1.5 }}>
@@ -92,18 +92,18 @@ const EmailSettingDrawer = ({
                     label="Font Size"
                     sx={{ ml: 1 }}
                   />
-                  <Box sx={styles?.emailBoxWrap}>
+                  <Box sx={styles?.emailBoxWrap(theme)}>
                     <Typography
                       variant="h2"
                       sx={{ fontSize: '16px !important' }}
                     >
                       Preview
                     </Typography>
-                    <Typography sx={styles?.previewWrap}>
+                    <Typography sx={styles?.previewWrap(theme)}>
                       What contacts will see in the ‘from address’ when they
                       receive an email from this shared email address
                     </Typography>
-                    <Box sx={styles?.sendEmail}>
+                    <Box sx={styles?.sendEmail(theme)}>
                       <Box>
                         <Typography
                           variant="h2"
@@ -127,7 +127,7 @@ const EmailSettingDrawer = ({
         </Box>
         <Box>
           {EmailArray?.map((item) => (
-            <Box key={uuidv4()} sx={styles?.emailArray}>
+            <Box key={uuidv4()} sx={styles?.emailArray(theme)}>
               {item?.Icon}
               <Typography variant="h6">{item?.Text}</Typography>
             </Box>

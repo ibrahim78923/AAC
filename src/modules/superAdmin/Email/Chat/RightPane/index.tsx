@@ -78,7 +78,7 @@ const RightPane = () => {
         {emailsData?.length > 0 ? (
           emailsData?.map((obj: any) => (
             <Box key={uuidv4()} sx={styles?.rightSideCard}>
-              {obj.userImg || <ProfileCircleIcon />}
+              {obj?.userImg || <ProfileCircleIcon />}
               <Box flex={1}>
                 <Box sx={styles?.emailWrap}>
                   <Box flex={1} sx={{ cursor: 'pointer' }}>
@@ -92,7 +92,7 @@ const RightPane = () => {
                       variant="subtitle2"
                       fontWeight={400}
                       sx={{
-                        borderRight: `1px solid ${theme?.palette.custom.light_grayish_blue}`,
+                        borderRight: `1px solid ${theme?.palette?.custom?.light_grayish_blue}`,
                         paddingRight: '15px',
                       }}
                     >
