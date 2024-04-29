@@ -63,40 +63,39 @@ const Notification = () => {
                     Module List Notification
                   </Typography>
                 )}
-
-                <Box sx={styles?.BoxStyling(theme)} key={uuidv4()}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      flexWrap: 'wrap',
-                    }}
-                  >
-                    {item?.icon}
-                    <Box sx={{ marginLeft: '15px' }}>
-                      <Typography
-                        variant="h6"
-                        sx={{ color: theme?.palette?.slateBlue?.main }}
-                      >
-                        {item?.title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{ color: theme?.palette?.custom?.main }}
-                      >
-                        {item?.description}
-                      </Typography>
+                <PermissionsGuard permissions={[item?.permission]}>
+                  <Box sx={styles?.BoxStyling(theme)} key={uuidv4()}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                      }}
+                    >
+                      {item?.icon}
+                      <Box sx={{ marginLeft: '15px' }}>
+                        <Typography
+                          variant="h6"
+                          sx={{ color: theme?.palette?.slateBlue?.main }}
+                        >
+                          {item?.title}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: theme?.palette?.custom?.main }}
+                        >
+                          {item?.description}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                  <PermissionsGuard permissions={[item?.permission]}>
                     <SwitchBtn
                       defaultChecked={item?.status}
                       handleSwitchChange={(val: any) => {
                         handleSwitchNotifications(val, item?.key);
                       }}
                     />
-                  </PermissionsGuard>
-                </Box>
+                  </Box>
+                </PermissionsGuard>
               </>
             ))}
           </Box>
