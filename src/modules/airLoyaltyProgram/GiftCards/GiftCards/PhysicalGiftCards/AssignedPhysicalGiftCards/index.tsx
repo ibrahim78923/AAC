@@ -4,6 +4,8 @@ import Search from '@/components/Search';
 import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useAssignedPhysicalGiftCards } from './useAssignedPhysicalGiftCards';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
 
 export const AssignedPhysicalGiftCards = () => {
   const {
@@ -26,59 +28,88 @@ export const AssignedPhysicalGiftCards = () => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Search label="Search Here" setSearchBy={setSearch} />
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.SEARCH_GIFT_CARD_DETAILS,
+          ]}
+        >
+          <Search label="Search Here" setSearchBy={setSearch} />
+        </PermissionsGuard>
         <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
-          <Button
-            variant="contained"
-            startIcon={<AddWhiteBgIcon />}
-            onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.ADD_GIFT_CARD,
+            ]}
           >
-            Add
-          </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<FilterListIcon />}
-            onClick={() => setIsPortalOpen({ isOpen: true, isFilter: true })}
+            <Button
+              variant="contained"
+              startIcon={<AddWhiteBgIcon />}
+              onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+            >
+              Add
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.ADD_GIFT_CARD,
+            ]}
           >
-            Filter
-          </Button>
-
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<ExportBlackIcon />}
-            onClick={() => setIsPortalOpen({ isOpen: true, isExport: true })}
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<FilterListIcon />}
+              onClick={() => setIsPortalOpen({ isOpen: true, isFilter: true })}
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.EXPORT,
+            ]}
           >
-            Export
-          </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<ExportBlackIcon />}
+              onClick={() => setIsPortalOpen({ isOpen: true, isExport: true })}
+            >
+              Export
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <br />
-      <TanstackTable
-        columns={assignedPhysicalGiftCardColumns}
-        data={lazyGetAssignedPhysicalGiftCardListStatus?.data?.data}
-        isLoading={lazyGetAssignedPhysicalGiftCardListStatus?.isLoading}
-        currentPage={
-          lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.page
-        }
-        count={
-          lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.pages
-        }
-        pageLimit={
-          lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.limit
-        }
-        totalRecords={
-          lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.total
-        }
-        setPage={setPage}
-        setPageLimit={setPageLimit}
-        isFetching={lazyGetAssignedPhysicalGiftCardListStatus?.isFetching}
-        isError={lazyGetAssignedPhysicalGiftCardListStatus?.isError}
-        isSuccess={lazyGetAssignedPhysicalGiftCardListStatus?.isSuccess}
-        onPageChange={(page: any) => setPage(page)}
-        isPagination
-      />
+      <PermissionsGuard
+        permissions={[
+          AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.VIEW_GIFT_CARD_DETAILS,
+        ]}
+      >
+        <TanstackTable
+          columns={assignedPhysicalGiftCardColumns}
+          data={lazyGetAssignedPhysicalGiftCardListStatus?.data?.data}
+          isLoading={lazyGetAssignedPhysicalGiftCardListStatus?.isLoading}
+          currentPage={
+            lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.page
+          }
+          count={
+            lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.pages
+          }
+          pageLimit={
+            lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.limit
+          }
+          totalRecords={
+            lazyGetAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.total
+          }
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isFetching={lazyGetAssignedPhysicalGiftCardListStatus?.isFetching}
+          isError={lazyGetAssignedPhysicalGiftCardListStatus?.isError}
+          isSuccess={lazyGetAssignedPhysicalGiftCardListStatus?.isSuccess}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
+        />
+      </PermissionsGuard>
       {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>
   );

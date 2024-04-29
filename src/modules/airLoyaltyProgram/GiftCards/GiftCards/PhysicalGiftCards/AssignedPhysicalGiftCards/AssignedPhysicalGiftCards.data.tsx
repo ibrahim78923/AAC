@@ -5,6 +5,7 @@ import {
 } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
 import { Checkbox, Typography } from '@mui/material';
 
 export const data: any = [
@@ -36,6 +37,7 @@ export const assignedPhysicalGiftCardColumnsFunction = (
   selectedAssignedPhysicalCards: any,
   setSelectedAssignedPhysicalCards: any,
   assignedPhysicaldata: any = [],
+  overallPermissions: any = [],
 ): any => [
   {
     accessorFn: (row: any) => row?.id,
@@ -99,7 +101,11 @@ export const assignedPhysicalGiftCardColumnsFunction = (
     cell: (info: any) => (
       <Typography
         component="span"
-        onClick={() =>
+        onClick={() => {
+          if (
+            AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.VIEW_GIFT_CARD_DETAILS
+          )
+            return;
           router?.push({
             pathname: AIR_LOYALTY_PROGRAM?.SINGLE_GIFT_CARD_TRANSACTION_DETAIL,
             query: {
@@ -107,8 +113,8 @@ export const assignedPhysicalGiftCardColumnsFunction = (
               type: 'physical',
               category: 'assigned',
             },
-          })
-        }
+          });
+        }}
         sx={{ cursor: 'pointer', color: 'black' }}
       >
         {info?.getValue()}
@@ -170,11 +176,18 @@ export const assignedPhysicalGiftCardColumnsFunction = (
     isSortable: true,
     cell: (info: any) => <AntSwitch values={info?.getValue()} />,
   },
-  {
-    accessorFn: (row: any) => row?.actions,
-    id: 'actions',
-    isSortable: true,
-    header: 'Actions',
-    cell: () => <DocumentIcon />,
-  },
+
+  ...(overallPermissions?.includes(
+    AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.PRINT,
+  )
+    ? [
+        {
+          accessorFn: (row: any) => row?.actions,
+          id: 'actions',
+          isSortable: true,
+          header: 'Actions',
+          cell: () => <DocumentIcon />,
+        },
+      ]
+    : []),
 ];

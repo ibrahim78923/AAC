@@ -27,15 +27,27 @@ export const NotAssignedPhysicalGiftCards = () => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Search label="Search Here" setSearchBy={setSearch} />
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.SEARCH_GIFT_CARD_DETAILS,
+          ]}
+        >
+          <Search label="Search Here" setSearchBy={setSearch} />
+        </PermissionsGuard>
         <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
-          <Button
-            variant="contained"
-            startIcon={<AddWhiteBgIcon />}
-            onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.ADD_GIFT_CARD,
+            ]}
           >
-            Add
-          </Button>
+            <Button
+              variant="contained"
+              startIcon={<AddWhiteBgIcon />}
+              onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+            >
+              Add
+            </Button>
+          </PermissionsGuard>
           <PermissionsGuard
             permissions={[
               AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.EXPORT,
@@ -53,30 +65,36 @@ export const NotAssignedPhysicalGiftCards = () => {
         </Box>
       </Box>
       <br />
-      <TanstackTable
-        columns={notAssignedPhysicalGiftCardColumns}
-        data={lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data}
-        isLoading={lazyGetUnAssignedPhysicalGiftCardListStatus?.isLoading}
-        currentPage={
-          lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.page
-        }
-        count={
-          lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.pages
-        }
-        pageLimit={
-          lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.limit
-        }
-        totalRecords={
-          lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.total
-        }
-        setPage={setPage}
-        setPageLimit={setPageLimit}
-        isFetching={lazyGetUnAssignedPhysicalGiftCardListStatus?.isFetching}
-        isError={lazyGetUnAssignedPhysicalGiftCardListStatus?.isError}
-        isSuccess={lazyGetUnAssignedPhysicalGiftCardListStatus?.isSuccess}
-        onPageChange={(page: any) => setPage(page)}
-        isPagination
-      />
+      <PermissionsGuard
+        permissions={[
+          AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.VIEW_GIFT_CARD_DETAILS,
+        ]}
+      >
+        <TanstackTable
+          columns={notAssignedPhysicalGiftCardColumns}
+          data={lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data}
+          isLoading={lazyGetUnAssignedPhysicalGiftCardListStatus?.isLoading}
+          currentPage={
+            lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.page
+          }
+          count={
+            lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.pages
+          }
+          pageLimit={
+            lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.limit
+          }
+          totalRecords={
+            lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data?.meta?.total
+          }
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isFetching={lazyGetUnAssignedPhysicalGiftCardListStatus?.isFetching}
+          isError={lazyGetUnAssignedPhysicalGiftCardListStatus?.isError}
+          isSuccess={lazyGetUnAssignedPhysicalGiftCardListStatus?.isSuccess}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
+        />
+      </PermissionsGuard>
       {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>
   );
