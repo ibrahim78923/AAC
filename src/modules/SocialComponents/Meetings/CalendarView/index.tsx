@@ -7,6 +7,7 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { FullCalendarView } from './FullCalendarView';
 import { useCalendarView } from './useCalendarView';
 import { MeetingCard } from './MeetingCard';
+import styles from './CalendarView.module.scss';
 
 export const CalendarView = () => {
   const {
@@ -21,7 +22,7 @@ export const CalendarView = () => {
   } = useCalendarView();
 
   return (
-    <>
+    <Box className={styles?.calendarWrapper}>
       <Grid container spacing={1}>
         {meetingCard?.map((item: any) => (
           <Grid item xs={12} md={6} lg={4} key={item?.id}>
@@ -107,6 +108,6 @@ export const CalendarView = () => {
         eventData={eventData}
         setOpenEventModal={setOpenEventModal}
       />
-    </>
+    </Box>
   );
 };

@@ -275,3 +275,4 @@ export { default as PageNotFoundImage } from './shared/page-Not-found.png';
 export { default as ComingSoonImage } from './shared/coming-soon.png';
 export { default as PhysicalCardBackImage } from './shared/physical-card-back-image.png';
 export { default as PhysicalCardFrontImage } from './shared/physical-card-front-image.png';
+export { default as XlFileImg } from './shared/xl-file-img.png';

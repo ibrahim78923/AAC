@@ -65,7 +65,7 @@ export const eventArray = [
   },
   {
     title: 'Testing 5',
-    start: '2024-04-26T14:30:00',
+    start: '2024-04-29T14:30:00',
     data: {
       email: 'ahmer.raza@ceative.co.uk',
       meetingTitle: 'HR meeting',
@@ -81,7 +81,7 @@ export const eventArray = [
   },
   {
     title: 'Testing 6',
-    start: '2024-04-26T10:00:00',
+    start: '2024-04-29T10:00:00',
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',

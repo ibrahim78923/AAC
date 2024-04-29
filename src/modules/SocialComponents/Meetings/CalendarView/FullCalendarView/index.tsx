@@ -4,7 +4,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import multiMonthPlugin from '@fullcalendar/multimonth';
 import { eventArray } from '../CalendarView.data';
 import { EventDialog } from '../EventDialog';
-
+import styles from '../CalendarView.module.scss';
+import { Box } from '@mui/material';
 export const FullCalendarView = (props: any) => {
   const {
     currentView,
@@ -15,12 +16,13 @@ export const FullCalendarView = (props: any) => {
   } = props;
 
   return (
-    <>
+    <Box>
       {currentView === 'timeGridDay' && (
         <FullCalendar
           plugins={[timeGridPlugin]}
           initialView="timeGridDay"
           allDaySlot={false}
+          weekends={true}
           slotLabelFormat={{
             hour: 'numeric',
             minute: '2-digit',
@@ -28,6 +30,7 @@ export const FullCalendarView = (props: any) => {
           }}
           events={eventArray}
           eventClick={handleEventClick}
+          eventClassNames={styles?.eventClassNames}
         />
       )}
       {currentView === 'timeGridWeek' && (
@@ -43,12 +46,14 @@ export const FullCalendarView = (props: any) => {
           }}
           events={eventArray}
           eventClick={handleEventClick}
+          eventClassNames={styles?.eventClassNames}
         />
       )}
       {currentView === 'dayGridMonth' && (
         <FullCalendar
           plugins={[dayGridPlugin]}
           initialView="dayGridMonth"
+          weekends={true}
           allDaySlot={false}
           slotLabelFormat={{
             hour: 'numeric',
@@ -57,12 +62,14 @@ export const FullCalendarView = (props: any) => {
           }}
           events={eventArray}
           eventClick={handleEventClick}
+          eventClassNames={styles?.eventClassNames}
         />
       )}
       {currentView === 'multiMonthYear' && (
         <FullCalendar
           plugins={[multiMonthPlugin]}
           initialView="multiMonthYear"
+          weekends={true}
           allDaySlot={false}
           slotLabelFormat={{
             hour: 'numeric',
@@ -71,6 +78,7 @@ export const FullCalendarView = (props: any) => {
           }}
           events={eventArray}
           eventClick={handleEventClick}
+          eventClassNames={styles?.eventClassNames}
         />
       )}
       {openEventModal && (
@@ -80,6 +88,6 @@ export const FullCalendarView = (props: any) => {
           eventData={eventData}
         />
       )}
-    </>
+    </Box>
   );
 };

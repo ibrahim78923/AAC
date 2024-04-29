@@ -10,6 +10,9 @@ import {
   useTheme,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { XlFileImg } from '@/assets/images';
+import Image from 'next/image';
+import { truncateText } from '@/utils/avatarUtils';
 
 export const EventDialog = (params: any) => {
   const { openEventModal, setOpenEventModal, eventData } = params;
@@ -130,22 +133,12 @@ export const EventDialog = (params: any) => {
             border: `.1rem solid ${theme?.palette?.grey?.[0]}`,
             borderRadius: 2,
             margin: 1,
+            maxWidth: '50%',
           }}
         >
-          <Avatar
-            variant="rounded"
-            src={''}
-            alt={''}
-            sx={{
-              bgcolor: 'primary.light',
-              p: 1.2,
-              width: 20,
-              height: 20,
-              borderRadius: '50%',
-            }}
-          />
+          <Image src={XlFileImg} alt={''} />
           <Typography variant="body1">
-            {eventData?.data?.attachment} invited you.
+            {truncateText(eventData?.data?.attachment)}
           </Typography>
         </Box>
       </DialogContent>
