@@ -1,8 +1,8 @@
-import { AvatarImage } from '@/assets/images';
 import { DATE_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const companyTabs: any = ['All Companies', 'My Companies'];
 
@@ -53,9 +53,21 @@ export const columns: any = (columnsProps: any) => {
     } else if (attribute === 'owner.phoneNumber') {
       return info?.row?.original?.owner?.phoneNumber ?? 'N/A';
     } else if (attribute === 'owner.name') {
+      const imgAlt = `${info?.row?.original?.owner?.name?.charAt(1)}`;
       return (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar
+            sx={{
+              bgcolor: 'primary.main',
+              textTransform: 'uppercase',
+              fontSize: '14px',
+              mr: '6px',
+            }}
+            alt={info?.getValue()}
+            src={generateImage(info?.row?.original?.owner?.profilePicture)}
+          >
+            {imgAlt}
+          </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'} variant="body3" fontWeight={500}>
               {info?.row?.original?.owner?.name ?? 'N/A'}
