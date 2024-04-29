@@ -1,34 +1,30 @@
 import { useState } from 'react';
 
-import { Popover, Button, MenuItem, useTheme } from '@mui/material';
+import {
+  Popover,
+  Button,
+  MenuItem,
+  useTheme,
+  Typography,
+  TextField,
+} from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import { actionBtnPRops } from '../../Chat.interface';
-
 import { styles } from './ActionBtn.style';
-import { uuid } from 'uuidv4';
+import CommonModal from '@/components/CommonModal';
 
-const ActionBtn = ({
-  disableActionBtn,
-  onChange = () => {},
-}: actionBtnPRops) => {
+const ActionBtn = ({ disableActionBtn }: any) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  const MenuItems = [
-    'Mark as Read',
-    'Link to deal',
-    'Reply',
-    'Forward',
-    'Delete',
-  ];
+
+  const [isLinkToDealModal, setIsLinkToDealModal] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -41,6 +37,7 @@ const ActionBtn = ({
         disabled={disableActionBtn}
         classes={{ outlined: 'outlined_btn' }}
         sx={styles(theme, disableActionBtn)}
+        style={{ height: '36px' }}
         color="inherit"
       >
         Actions
@@ -59,18 +56,30 @@ const ActionBtn = ({
           horizontal: 'right',
         }}
       >
-        {MenuItems?.map((item) => (
-          <MenuItem
-            onClick={() => {
-              onChange(item);
-              handleClose();
-            }}
-            key={uuid()}
-          >
-            {item}
-          </MenuItem>
-        ))}
+        <MenuItem> Mark as Read </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setIsLinkToDealModal(true), handleClose();
+          }}
+        >
+          Link to deal
+        </MenuItem>
+        <MenuItem> Reply </MenuItem>
+        <MenuItem> Forward </MenuItem>
+        <MenuItem> Delete </MenuItem>
       </Popover>
+
+      <CommonModal
+        open={isLinkToDealModal}
+        handleClose={() => setIsLinkToDealModal(false)}
+        title="Link to deal"
+        okText="Save"
+        footer
+        cancelText="Cancel"
+      >
+        <Typography>Deal</Typography>
+        <TextField placeholder="Search Deal" fullWidth size="small" />
+      </CommonModal>
     </>
   );
 };

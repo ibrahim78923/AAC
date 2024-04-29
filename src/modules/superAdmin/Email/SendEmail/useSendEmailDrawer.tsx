@@ -17,7 +17,6 @@ const useSendEmailDrawer = () => {
     resolver: yupResolver(emailValidationsSchema),
     defaultValues: emailDefaultValues,
   });
-
   const onSubmit = () => {};
   const { handleSubmit, watch } = methodsDealsTasks;
   const watchEmailsForm = watch(['cc', 'bcc']);

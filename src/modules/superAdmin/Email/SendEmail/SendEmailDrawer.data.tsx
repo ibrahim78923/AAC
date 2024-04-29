@@ -73,15 +73,15 @@ export const drawerButtonTitle: any = {
 
 export const emailsData = [
   {
-    from: 'shayan@ceative.co.uk',
-    to: 'azeem@ceative.co.uk',
-    sent: 'Wednesday, April 19,2023 - 11:14AM',
-    subject: 'Test Mail',
+    from: 'John Doe <johndoe@dummy.com>',
+    sent: 'Wednesday April 19, 2023 - 11:30PM',
+    to: 'John Doe <johndoe@dummy.com>',
+    subject: 'Test mail',
   },
   {
-    from: 'shayan@ceative.co.uk',
-    to: 'azeem@ceative.co.uk',
-    sent: 'Wednesday, April 19,2023 - 11:14AM',
-    subject: 'Test Mail',
+    from: 'John Doe <johndoe@dummy.com>',
+    sent: 'Wednesday April 19, 2023 - 11:30PM',
+    to: 'John Doe <johndoe@dummy.com>',
+    subject: 'Test mail',
   },
 ];

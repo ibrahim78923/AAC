@@ -13,28 +13,50 @@ import { v4 as uuidv4 } from 'uuid';
 import { styles } from './RightPane.styles';
 import { emailsData } from '../Chat.data';
 import SendEmailDrawer from '../../SendEmail';
+import EmailSettingDrawer from '../../EmailSettingDrawer';
+import { CREATE_EMAIL_TYPES } from '@/constants';
 
 const RightPane = () => {
   const theme = useTheme();
 
   const [isOpenSendEmailDrawer, setIsOpenSendEmailDrawer] = useState(false);
+  const [isEmailSettingsDrawerOpen, setIsEmailSettingsDrawerOpen] =
+    useState(false);
+  const [mailType, setMailType] = useState('');
+  const [searchValue, setSearchValue] = useState<any>('');
 
   return (
     <Box>
       <Box sx={styles?.rightSide}>
-        <Search size="small" placeholder="Search Here" />
-        <Box>
+        <Search
+          searchBy={searchValue}
+          setSearchBy={setSearchValue}
+          size="medium"
+          placeholder="Search Here"
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '13px',
+          }}
+        >
           <Button
             variant="outlined"
-            sx={{ marginRight: '14px' }}
+            sx={{ height: '33px' }}
             color="inherit"
             startIcon={<SettingsIcon />}
+            onClick={() => setIsEmailSettingsDrawerOpen(true)}
           >
             Email Settings
           </Button>
           <Button
             variant="contained"
-            onClick={() => setIsOpenSendEmailDrawer(true)}
+            onClick={() => {
+              setIsOpenSendEmailDrawer(true);
+              setMailType(CREATE_EMAIL_TYPES?.NEW_EMAIL);
+            }}
+            sx={{ height: '33px' }}
           >
             Send Email
           </Button>
@@ -50,6 +72,9 @@ const RightPane = () => {
         <Typography variant="h4">
           Lorem ipsum dolor sit amet consectetur. Amet turpis.
         </Typography>
+
+        {/* mail display section  */}
+
         {emailsData?.length > 0 ? (
           emailsData?.map((obj: any) => (
             <Box key={uuidv4()} sx={styles?.rightSideCard}>
@@ -76,10 +101,22 @@ const RightPane = () => {
                     <IconButton size="small">
                       <ReplyAllIcon />
                     </IconButton>
-                    <IconButton size="small">
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        setIsOpenSendEmailDrawer(true);
+                        setMailType(CREATE_EMAIL_TYPES?.REPLY);
+                      }}
+                    >
                       <EmailReplyIcon />
                     </IconButton>
-                    <IconButton size="small">
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        setIsOpenSendEmailDrawer(true);
+                        setMailType(CREATE_EMAIL_TYPES?.FORWARD);
+                      }}
+                    >
                       <ForwardIcon />
                     </IconButton>
                   </Box>
@@ -135,6 +172,11 @@ const RightPane = () => {
       <SendEmailDrawer
         openDrawer={isOpenSendEmailDrawer}
         setOpenDrawer={setIsOpenSendEmailDrawer}
+        drawerType={mailType}
+      />
+      <EmailSettingDrawer
+        isOpenDrawer={isEmailSettingsDrawerOpen}
+        setIsOpenDrawer={setIsEmailSettingsDrawerOpen}
       />
     </Box>
   );

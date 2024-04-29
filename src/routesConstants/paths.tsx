@@ -226,6 +226,11 @@ export const SOCIAL_FEATURES_CHAT = {
   UPLOAD_ATTACHMENT_CHAT: 'chat/message',
   CREATE_GROUP: 'chat/create-group',
 };
+
+export const SOCIAL_FEATURES_EMAIL = {
+  CREATE_CONFIG: '/other-mail/create-config',
+};
+
 export const CHAT_SOCKETS = {
   ON_STATUS_CHANGE: 'on-status-change',
   ON_GROUP_CREATE: 'on-group-create',

@@ -1,11 +1,29 @@
 'use client';
-import React from 'react';
-import EmailChat from './Chat';
+import React, { useState } from 'react';
+import { Box, Typography, useTheme } from '@mui/material';
+import { styles } from './Email.styles';
+import { Settings } from '@mui/icons-material';
+import { EmailInfoIcon } from '@/assets/icons';
+import { v4 as uuidv4 } from 'uuid';
+import { emailsDataArray } from './Email.data';
+import { OthersMail } from '@/assets/images';
+import Image from 'next/image';
+import Link from 'next/link';
+import { EMAIL_SUB_ROUTES } from '@/constants';
+import EmailSettingDrawer from './EmailSettingDrawer';
+import OtherMailDrawer from './OtherMailDrawer';
 
 const Email = () => {
+  const theme = useTheme();
+
+  const [isEmailSettingsDrawerOpen, setIsEmailSettingsDrawerOpen] =
+    useState(false);
+
+  const [isOtherEmailDrawerOpen, setIsOtherEmailDrawerOpen] = useState(false);
+
   return (
     <>
-      {/* <>
+      <>
         <Box sx={styles?.emailWrapper}>
           <Box>
             <Typography variant="h3" sx={styles?.heading(theme)}>
@@ -16,7 +34,10 @@ const Email = () => {
               your email provider.
             </Typography>
           </Box>
-          <Box sx={styles?.settingIcon} onClick={() => setIsOpenDrawer(true)}>
+          <Box
+            sx={styles?.settingIcon}
+            onClick={() => setIsEmailSettingsDrawerOpen(true)}
+          >
             <Settings />
             <Typography variant="body2" sx={{ fontWeight: 500 }}>
               Email Settings
@@ -32,25 +53,35 @@ const Email = () => {
           provider
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} gap={'15px'}>
-          {EmailArray?.map((item: any) => (
+          {emailsDataArray?.map((item: any) => (
             <Box key={uuidv4()} sx={styles?.emailArray}>
-              {item?.Icon}
-              <Typography variant="h6">{item?.Text}</Typography>
+              {item?.icon}
+              <Typography variant="h6">{item?.label}</Typography>
             </Box>
           ))}
-          <Box sx={styles?.emailArray}>
+          <Box
+            sx={styles?.emailArray}
+            onClick={() => setIsOtherEmailDrawerOpen(true)}
+          >
+            <Image src={OthersMail} alt="other" />
             <Typography variant="h6">Others</Typography>
           </Box>
         </Box>
-        {isOpenDrawer && (
-          <EmailSettingDrawer
-            isOpenDrawer={isOpenDrawer}
-            setIsOpenDrawer={setIsOpenDrawer}
-          />
-        )}
-      </> */}
+        <Link href={`${EMAIL_SUB_ROUTES?.EMAIL_CONVERSATIONS}`}>
+          <Box>conversations</Box>
+        </Link>
+        <EmailSettingDrawer
+          isOpenDrawer={isEmailSettingsDrawerOpen}
+          setIsOpenDrawer={setIsEmailSettingsDrawerOpen}
+        />
 
-      <EmailChat />
+        <OtherMailDrawer
+          openDrawer={isOtherEmailDrawerOpen}
+          setOpenDrawer={setIsOtherEmailDrawerOpen}
+        />
+      </>
+
+      {/* <EmailChat /> */}
     </>
   );
 };

@@ -28,7 +28,7 @@ const Search = ({
     <TextField
       onChange={handleChangeSearch}
       sx={{
-        background: 'transparent',
+        background: '#fff',
         width: { width },
         '@media (max-width: 600px)': {
           width: '100%',

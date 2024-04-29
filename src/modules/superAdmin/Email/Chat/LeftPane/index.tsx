@@ -51,7 +51,7 @@ const LeftPane = () => {
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ marginRight: '14px' }}
+            sx={{ marginRight: '14px', height: '36px' }}
             color="inherit"
             onClick={() => setIsFiltersOpen(true)}
           >
