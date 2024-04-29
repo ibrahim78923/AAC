@@ -13,6 +13,7 @@ export const MeetingCard = (props: any) => {
       padding={1.5}
       borderRadius={2}
       marginBottom={2}
+      sx={{ cursor: 'pointer' }}
     >
       <Typography color={'secondary'}>{heading}</Typography>
       <Typography variant="h4">{meetingsCount}</Typography>

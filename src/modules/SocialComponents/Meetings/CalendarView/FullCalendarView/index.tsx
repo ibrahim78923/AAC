@@ -22,13 +22,15 @@ export const FullCalendarView = (props: any) => {
           plugins={[timeGridPlugin]}
           initialView="timeGridDay"
           allDaySlot={false}
-          weekends={true}
           slotLabelFormat={{
             hour: 'numeric',
             minute: '2-digit',
             meridiem: true,
           }}
-          events={eventArray}
+          events={eventArray?.map((event: any) => ({
+            ...event,
+            end: new Date(event?.start)?.getTime() + 60 * 60 * 1000,
+          }))}
           eventClick={handleEventClick}
           eventClassNames={styles?.eventClassNames}
         />
@@ -37,14 +39,16 @@ export const FullCalendarView = (props: any) => {
         <FullCalendar
           plugins={[timeGridPlugin]}
           initialView="timeGridWeek"
-          weekends={true}
           allDaySlot={false}
           slotLabelFormat={{
             hour: 'numeric',
             minute: '2-digit',
             meridiem: true,
           }}
-          events={eventArray}
+          events={eventArray?.map((event: any) => ({
+            ...event,
+            end: new Date(event?.start)?.getTime() + 60 * 60 * 1000,
+          }))}
           eventClick={handleEventClick}
           eventClassNames={styles?.eventClassNames}
         />
@@ -53,7 +57,7 @@ export const FullCalendarView = (props: any) => {
         <FullCalendar
           plugins={[dayGridPlugin]}
           initialView="dayGridMonth"
-          weekends={true}
+          dayMaxEventRows={true}
           allDaySlot={false}
           slotLabelFormat={{
             hour: 'numeric',
@@ -69,7 +73,7 @@ export const FullCalendarView = (props: any) => {
         <FullCalendar
           plugins={[multiMonthPlugin]}
           initialView="multiMonthYear"
-          weekends={true}
+          dayMaxEventRows={true}
           allDaySlot={false}
           slotLabelFormat={{
             hour: 'numeric',

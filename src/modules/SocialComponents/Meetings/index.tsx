@@ -3,7 +3,6 @@ import { useMeetings } from './useMeetings';
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { Settings } from '@mui/icons-material';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
-import { CalendarView } from './CalendarView';
 
 export const Meetings = () => {
   const { router } = useMeetings();
@@ -22,8 +21,6 @@ export const Meetings = () => {
           onClick={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS_SETTINGS)}
         />
       </PageTitledHeader>
-      <br />
-      <CalendarView />
     </>
   );
 };

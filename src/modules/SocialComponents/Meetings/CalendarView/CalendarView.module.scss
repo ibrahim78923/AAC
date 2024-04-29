@@ -1,8 +1,4 @@
-
 .calendarWrapper {
-  th {
-    font-size: 0.9rem !important;
-  }
   tr th div div table thead tr th {
     padding: 1rem;
     background-color: #f6faf9;
@@ -14,9 +10,6 @@
     border-left: .5rem solid #278d7f ;
     background-color: #38cab5 !important;
     color: #f6faf9;
-    .fc-daygrid-event-dot {
-      display: none !important;
-    }
   }
  
   .eventClassNames:hover {
