@@ -35,7 +35,8 @@ export const UpsertRules = (props: any) => {
                 name="attribute"
                 label="Select attribute"
                 options={attributesOption}
-                placeholder="Select"
+                getOptionLabel={(option: any) => option?.label}
+                placeholder="Select attribute"
                 size={'small'}
               />
             </Grid>

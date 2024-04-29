@@ -174,6 +174,8 @@ export const AIR_LOYALTY_PROGRAM = {
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
   ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,
   GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
+  VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
+  VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
   SINGLE_GIFT_CARD_TRANSACTION_DETAIL: `/air-loyalty-program/gift-cards/gift-cards/transaction-details`,
   DIGITAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/digital/single-digital-detail`,
   PHYSICAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/physical/single-physical-detail`,
@@ -187,11 +189,15 @@ export const AIR_LOYALTY_PROGRAM = {
 export const SOCIAL_COMPONENTS = {
   COMPANIES: `/social-components/companies`,
   VIEW_COMPANY_DETAILS: '/social-components/companies/view-details',
+  MEETINGS: '/social-components/meetings',
+  MEETINGS_SETTINGS: '/social-components/meetings/settings',
+  SCHEDULE_MEETING: '/social-components/meetings/schedule-meetings',
 };
 
 export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
   LOGIN: `/login`,
+  SALE_SITE: 'https://airapplecart.co.uk/',
 };
 
 export const Quick_Links_Routes = {

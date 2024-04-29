@@ -1,11 +1,13 @@
 import { CirclePlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
-import { useTeams } from '../useTeams';
 import UpsertTeams from '../UpsertTeams';
 
-export const TeamsHeader = () => {
-  const { search, setSearch, isDrawerOpen, setIsDrawerOpen } = useTeams();
+export const TeamsHeader = ({
+  setSearch,
+  isDrawerOpen,
+  setIsDrawerOpen,
+}: any) => {
   return (
     <Box
       display={'flex'}
@@ -18,7 +20,6 @@ export const TeamsHeader = () => {
           label="Search Here"
           width={'16.25rem'}
           setSearchBy={setSearch}
-          searchBy={search}
         />
       </Box>
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>

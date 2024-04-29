@@ -97,7 +97,7 @@ export const useTicketBulkUpdate = (props: any) => {
       getTicketsListData(1, {});
       setFilterTicketLists?.({});
       setPage?.(1);
-      if (!!data?.to && !!data?.description) {
+      if (!!data?.to?.length && !!data?.description) {
         submitReply?.(data);
       }
       reset();

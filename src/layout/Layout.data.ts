@@ -39,6 +39,7 @@ import {
   SocialMarketingImage,
   TicketDiscountImage,
   UserManagementImage,
+  WhatsappMarketingImage,
   WorkFlowAutomationImage,
   WorkLoadImage,
 } from '@/assets/images';
@@ -310,7 +311,7 @@ export const AirMarketingRoutes: any = [
     icon: PaidAdsImage,
     label: 'Paid Ads',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER,
   },
   {
     key: AIR_MARKETER?.CAMPAIGNS,
@@ -385,11 +386,18 @@ export const AirMarketingRoutes: any = [
     permissions: Permissions?.AIR_MARKETER_SMS_MARKETING,
   },
   {
-    key: AIR_MARKETER?.LEAD_CAPTURE,
+    key: AIR_MARKETER?.WHATSAPP_MERKETING,
+    icon: WhatsappMarketingImage,
+    label: 'WhatsApp Marketing',
+    role: 'AIR_MARKETER',
+    permissions: Permissions?.AIR_MARKETER_WHATSAPP_MARKETING,
+  },
+  {
+    key: AIR_MARKETER?.LEAD_CAPTURE_CTA,
     label: 'Lead Capture',
     icon: LeadCaptureImage,
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER_LEAD_CAPTURE,
     textNames: [
       {
         key: AIR_MARKETER?.LEAD_CAPTURE_CTA,
@@ -596,6 +604,11 @@ export const LowerOrgAdminRoutes = [
         label: 'Contact Status',
         permissions: Permissions?.ORG_ADMIN_SETTINGS_CONTACT_STATUS,
       },
+      {
+        key: '/org-admin/settings/bank-accounts',
+        label: 'Receiver Bank Account',
+        permissions: Permissions?.ORG_ADMIN_SETTINGS_CONTACT_STATUS,
+      },
     ],
   },
 ];
@@ -627,7 +640,7 @@ export const LowerAirMarketingRoutes = [
     icon: SettingImage,
     role: 'AIR_MARKETER',
     key: AIR_MARKETER?.SETTINGS,
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER_SETTINGS,
   },
 ];
 export const LowerServicesRoutes = [
