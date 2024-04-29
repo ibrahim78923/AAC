@@ -1,4 +1,4 @@
-import { DealsIcon, QuotesIcon } from '@/assets/icons';
+import { DealsIcon, NotificationIcon, QuotesIcon } from '@/assets/icons';
 import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 import {
   useGetSettingNotificationsQuery,
@@ -20,13 +20,22 @@ const useNotification = () => {
 
   const notificationList = [
     {
+      icon: <NotificationIcon />,
+      title: 'Email',
+      key: 'emailNotification',
+      status: !notificationsStatus?.emailNotification,
+      description: 'email notification will be sent to your inbox.',
+      permission:
+        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS,
+    },
+    {
       icon: <DealsIcon />,
       title: 'Companies',
       key: 'companies',
       status: !notificationsStatus?.companies,
       description: 'companies notification will be sent to your inbox.',
       permission:
-        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_CAMPAIGNS_NOTIFICATIONS,
+        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_COMPANIES_NOTIFICATIONS,
     },
     {
       icon: <DealsIcon />,
@@ -35,7 +44,7 @@ const useNotification = () => {
       status: !notificationsStatus?.campaigns,
       description: 'campaigns notification will be sent to your inbox.',
       permission:
-        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS,
+        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_CAMPAIGNS_NOTIFICATIONS,
     },
     {
       icon: <DealsIcon />,
@@ -44,16 +53,7 @@ const useNotification = () => {
       status: !notificationsStatus?.paidAds,
       description: 'paidAds notification will be sent to your inbox.',
       permission:
-        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS,
-    },
-    {
-      icon: <DealsIcon />,
-      title: 'EmailMarketing',
-      key: 'emailMarketing',
-      status: !notificationsStatus?.emailMarketing,
-      description: 'emailMarketing notification will be sent to your inbox.',
-      permission:
-        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS,
+        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_PAIDADS_NOTIFICATIONS,
     },
     {
       icon: <DealsIcon />,
@@ -62,7 +62,7 @@ const useNotification = () => {
       status: !notificationsStatus?.socialMarketing,
       description: 'socialMarketing notification will be sent to your inbox.',
       permission:
-        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS,
+        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_SOCIALMARKETING_NOTIFICATIONS,
     },
     {
       icon: <DealsIcon />,
@@ -71,7 +71,7 @@ const useNotification = () => {
       status: !notificationsStatus?.smsMarketing,
       description: 'smsMarketing notification will be sent to your inbox.',
       permission:
-        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS,
+        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_SMSMARKETING_NOTIFICATIONS,
     },
     {
       icon: <DealsIcon />,
@@ -80,7 +80,7 @@ const useNotification = () => {
       status: !notificationsStatus?.whatsappMarketing,
       description: 'whatsappMarketing notification will be sent to your inbox.',
       permission:
-        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS,
+        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_WHATSAPPMARKETING_NOTIFICATIONS,
     },
     {
       icon: <DealsIcon />,
@@ -89,7 +89,7 @@ const useNotification = () => {
       status: !notificationsStatus?.leadCapture,
       description: 'leadCapture notification will be sent to your inbox.',
       permission:
-        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS,
+        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_LEADCAPTURE_NOTIFICATIONS,
     },
     {
       icon: <QuotesIcon />,
@@ -98,7 +98,16 @@ const useNotification = () => {
       status: !notificationsStatus?.reportsMarketing,
       description: 'reports notification will be sent to your inbox.',
       permission:
-        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS,
+        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_REPORT_NOTIFICATIONS,
+    },
+    {
+      icon: <QuotesIcon />,
+      title: 'Setting',
+      key: 'setting',
+      status: !notificationsStatus?.setting,
+      description: 'Setting notification will be sent to your inbox.',
+      permission:
+        AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_SETTING_NOTIFICATIONS,
     },
   ];
 
@@ -133,7 +142,6 @@ const useNotification = () => {
     notificationList,
     getDataLoading,
     handleSwitchNotifications,
-    notificationsStatus,
     updateLoading,
   };
 };

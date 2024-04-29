@@ -372,6 +372,22 @@ export const AIR_MARKETER_SETTINGS_PERMISSIONS = {
     'marketer-settings-notifications-email-active-inactive',
   ACTIVE_INACTIVE_WEBSITE_NOTIFICATIONS:
     'marketer-settings-notifications-campaigns-active-inactive',
+  ACTIVE_INACTIVE_COMPANIES_NOTIFICATIONS:
+    'marketer-settings-notifications-companies-active-inactive',
+  ACTIVE_INACTIVE_PAIDADS_NOTIFICATIONS:
+    'marketer-settings-notifications-paid-ads-active-inactive',
+  ACTIVE_INACTIVE_SOCIALMARKETING_NOTIFICATIONS:
+    'marketer-settings-notifications-social-marketing-active-inactive',
+  ACTIVE_INACTIVE_SMSMARKETING_NOTIFICATIONS:
+    'marketer-settings-notifications-sms-marketing-active-inactive',
+  ACTIVE_INACTIVE_WHATSAPPMARKETING_NOTIFICATIONS:
+    'marketer-settings-notifications-whatsapp-marketing-active-inactive',
+  ACTIVE_INACTIVE_LEADCAPTURE_NOTIFICATIONS:
+    'marketer-settings-notifications-lead-capture-active-inactive',
+  ACTIVE_INACTIVE_REPORT_NOTIFICATIONS:
+    'marketer-settings-notifications-reports-active-inactive',
+  ACTIVE_INACTIVE_SETTING_NOTIFICATIONS:
+    'marketer-settings-notifications-settings-active-inactive',
 };
 
 export const AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS = {

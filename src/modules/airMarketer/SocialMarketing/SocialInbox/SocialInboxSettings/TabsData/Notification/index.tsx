@@ -6,8 +6,6 @@ import useNotification from './useNotification';
 
 import { styles } from './Notification.style';
 
-import { NotificationIcon } from '@/assets/icons';
-import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { SwitchBtn } from '@/components/SwitchButton';
@@ -19,7 +17,6 @@ const Notification = () => {
     notificationList,
     getDataLoading,
     handleSwitchNotifications,
-    notificationsStatus,
     updateLoading,
   } = useNotification();
 
@@ -46,80 +43,61 @@ const Notification = () => {
             <Typography variant="h4">Notifications</Typography>
           </Box>
 
-          <Typography variant="h6" sx={{ marginY: '20px', fontWeight: '600' }}>
-            Email Notification
-          </Typography>
-          <Box sx={styles.BoxStyling(theme)}>
-            <Box
-              sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}
-            >
-              <NotificationIcon />
-              <Box sx={{ marginLeft: '15px' }}>
-                <Typography
-                  variant="h6"
-                  sx={{ color: theme.palette.slateBlue.main }}
-                >
-                  Email
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: theme.palette.custom.main }}
-                >
-                  Email notification will be sent to your inbox.
-                </Typography>
-              </Box>
-            </Box>
-            <PermissionsGuard
-              permissions={[
-                AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS,
-              ]}
-            >
-              <SwitchBtn
-                defaultChecked={!notificationsStatus?.emailNotification}
-                handleSwitchChange={(val: any) => {
-                  handleSwitchNotifications(val, 'emailNotification');
-                }}
-              />
-            </PermissionsGuard>
-          </Box>
-          <Typography variant="h6" sx={{ marginY: '20px', fontWeight: '600' }}>
-            Notification List
-          </Typography>
           <Box display="flex" gap={2} flexDirection="column">
             {notificationList?.map((item: any) => (
-              <Box sx={styles?.BoxStyling(theme)} key={uuidv4()}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                  }}
-                >
-                  {item?.icon}
-                  <Box sx={{ marginLeft: '15px' }}>
-                    <Typography
-                      variant="h6"
-                      sx={{ color: theme?.palette?.slateBlue?.main }}
-                    >
-                      {item?.title}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: theme?.palette?.custom?.main }}
-                    >
-                      {item?.description}
-                    </Typography>
-                  </Box>
-                </Box>
-                <PermissionsGuard permissions={[item?.permission]}>
-                  <SwitchBtn
-                    defaultChecked={item?.status}
-                    handleSwitchChange={(val: any) => {
-                      handleSwitchNotifications(val, item?.key);
+              <>
+                {item?.title === 'Email' && (
+                  <Typography
+                    variant="h6"
+                    sx={{ marginTop: '20px', fontWeight: '600' }}
+                  >
+                    Email Notification
+                  </Typography>
+                )}
+
+                {item?.title === 'Companies' && (
+                  <Typography
+                    variant="h6"
+                    sx={{ marginTop: '20px', fontWeight: '600' }}
+                  >
+                    Module List Notification
+                  </Typography>
+                )}
+
+                <Box sx={styles?.BoxStyling(theme)} key={uuidv4()}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
                     }}
-                  />
-                </PermissionsGuard>
-              </Box>
+                  >
+                    {item?.icon}
+                    <Box sx={{ marginLeft: '15px' }}>
+                      <Typography
+                        variant="h6"
+                        sx={{ color: theme?.palette?.slateBlue?.main }}
+                      >
+                        {item?.title}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: theme?.palette?.custom?.main }}
+                      >
+                        {item?.description}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <PermissionsGuard permissions={[item?.permission]}>
+                    <SwitchBtn
+                      defaultChecked={item?.status}
+                      handleSwitchChange={(val: any) => {
+                        handleSwitchNotifications(val, item?.key);
+                      }}
+                    />
+                  </PermissionsGuard>
+                </Box>
+              </>
             ))}
           </Box>
         </Box>
