@@ -1,10 +1,6 @@
-import React from 'react';
-
 import { Box, Grid } from '@mui/material';
-
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import { columnsTeams, teamsDataArray } from './TeamsTable.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';

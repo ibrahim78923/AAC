@@ -8,6 +8,8 @@ import useUserManagement from '../useUserManagement';
 import useUsers from './useUsers';
 import { DeleteIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 const UserTable = (props: any) => {
   const { setIsAddUserDrawer, isAddUserDrawer, checkedUser, setCheckedUser } =
@@ -46,12 +48,16 @@ const UserTable = (props: any) => {
           marginBottom: '1rem',
         }}
       >
-        <Search
-          searchBy={searchUser}
-          width="260px"
-          label={'Search here'}
-          setSearchBy={setSearchUser}
-        />
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.SEARCH_USERS]}
+        >
+          <Search
+            searchBy={searchUser}
+            width="260px"
+            label={'Search here'}
+            setSearchBy={setSearchUser}
+          />
+        </PermissionsGuard>
         {checkedUser?.length > 1 ? (
           <LoadingButton
             className="small"
@@ -95,37 +101,49 @@ const UserTable = (props: any) => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem
-            onClick={() => {
-              setIsAddUserDrawer({
-                isToggle: true,
-                type: 'edit',
-              });
-              handleClose();
-            }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.EDIT_USERS]}
           >
-            Edit
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setIsAddUserDrawer({
-                ...isAddUserDrawer,
-                isToggle: true,
-                type: 'view',
-              });
-              handleClose();
-            }}
+            <MenuItem
+              onClick={() => {
+                setIsAddUserDrawer({
+                  isToggle: true,
+                  type: 'edit',
+                });
+                handleClose();
+              }}
+            >
+              Edit
+            </MenuItem>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.VIEW_USERS]}
           >
-            View
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setIsOpenDelete(true);
-              handleClose();
-            }}
+            <MenuItem
+              onClick={() => {
+                setIsAddUserDrawer({
+                  ...isAddUserDrawer,
+                  isToggle: true,
+                  type: 'view',
+                });
+                handleClose();
+              }}
+            >
+              View
+            </MenuItem>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.DELETE_USERS]}
           >
-            Delete
-          </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setIsOpenDelete(true);
+                handleClose();
+              }}
+            >
+              Delete
+            </MenuItem>
+          </PermissionsGuard>
         </Menu>
       </Box>
       <TanstackTable

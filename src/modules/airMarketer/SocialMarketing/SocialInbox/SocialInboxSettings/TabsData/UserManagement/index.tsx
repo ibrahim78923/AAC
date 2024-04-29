@@ -7,7 +7,7 @@ import CommonTabs from '@/components/Tabs';
 import { AlertModals } from '@/components/AlertModals';
 import AddUsers from './Users/AddUsers';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Users = () => {
   const theme = useTheme<Theme>();
@@ -48,7 +48,9 @@ const Users = () => {
           }}
         >
           <Typography variant="h4">User Management</Typography>
-          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.ADD_USER]}>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.ADD_USER]}
+          >
             <Button
               className="small"
               onClick={() => {
