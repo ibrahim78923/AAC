@@ -311,7 +311,7 @@ export const AirMarketingRoutes: any = [
     icon: PaidAdsImage,
     label: 'Paid Ads',
     role: 'AIR_MARKETER',
-    permissions: Permissions.AIR_MARKETER,
+    permissions: Permissions?.AIR_MARKETER,
   },
   {
     key: AIR_MARKETER?.CAMPAIGNS,
