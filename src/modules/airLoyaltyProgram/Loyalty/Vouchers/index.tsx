@@ -8,6 +8,8 @@ import { VoucherImage } from '@/assets/images';
 import { useVouchers } from './useVouchers';
 import { AddVouchers } from './AddVouchers';
 import { Filters } from './Filters';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Vouchers = () => {
   const {
@@ -58,23 +60,35 @@ export const Vouchers = () => {
           justifyContent="flex-end"
           className="no-print"
         >
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<FilterListIcon />}
-            onClick={() => setFiltersOpen(true)}
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.APPLY_FILTERS,
+            ]}
           >
-            Filters
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<AddCircleIcon />}
-            onClick={() => setAddVouchersOpen(true)}
-            disableElevation
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<FilterListIcon />}
+              onClick={() => setFiltersOpen(true)}
+            >
+              Filters
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.ADD_VOUCHER,
+            ]}
           >
-            Add
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<AddCircleIcon />}
+              onClick={() => setAddVouchersOpen(true)}
+              disableElevation
+            >
+              Add
+            </Button>
+          </PermissionsGuard>
         </Grid>
         <Grid item xs={12} mt={3} className="no-print">
           <TanstackTable
