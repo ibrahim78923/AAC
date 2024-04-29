@@ -15,7 +15,6 @@ import Associations from './Associations';
 import { singleUserDealTabsData } from './ViewDetails.data';
 
 import { ArrowBackIcon, EditFormIcon } from '@/assets/icons';
-import { NotesAvatarImage } from '@/assets/images';
 
 import { styles } from './ViewDetails.style';
 import { useGetCompaniesDetailsQuery } from '@/services/commonFeatures/companies';
@@ -24,6 +23,7 @@ import { DATE_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
 import { useRouter } from 'next/router';
+import { generateImage } from '@/utils/avatarUtils';
 const ViewDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isUploadImageOpen, setIsUploadImageOpen] = useState(false);
@@ -71,10 +71,11 @@ const ViewDetails = () => {
                   onClick={() => setIsUploadImageOpen(true)}
                 >
                   <Image
-                    src={NotesAvatarImage}
+                    src={generateImage(data?.data?.profilePicture?.url)}
                     width={50}
                     height={50}
                     alt="companyLogo"
+                    style={{ borderRadius: '50%' }}
                   />
                   {isHovered && (
                     <Box sx={{ position: 'absolute' }}>
@@ -109,10 +110,11 @@ const ViewDetails = () => {
               <Box sx={styles.detailsBox}>
                 <Box sx={{ display: 'flex', gap: 1, marginBottom: '7px' }}>
                   <Image
-                    src={NotesAvatarImage}
+                    src={generateImage(data?.data?.profilePicture?.url)}
                     width={40}
                     height={40}
                     alt="NotesAvatarImage"
+                    style={{ borderRadius: '50%' }}
                   />
                   <Box>
                     <Typography variant="body2" sx={{ fontWeight: '600' }}>
