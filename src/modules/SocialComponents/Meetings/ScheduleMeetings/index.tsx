@@ -14,7 +14,7 @@ export const ScheduleMeetings = () => {
         canMovedBack
         moveBack={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS)}
       />
-      <Grid container spacing={3}>
+      <Grid container spacing={{ lg: 3, xs: 2 }}>
         {scheduleCards?.map((item: any) => (
           <Grid item xl={3} lg={4} md={6} xs={12} key={item?.id}>
             <Box sx={styles?.cardBox} onClick={() => router?.push(item?.link)}>

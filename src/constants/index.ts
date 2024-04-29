@@ -191,10 +191,10 @@ export const SOCIAL_COMPONENTS = {
   MEETINGS_SETTINGS: '/social-components/meetings/settings',
   SCHEDULE_MEETING: '/social-components/meetings/schedule-meetings',
   ONE_TO_ONE_MEETING:
-    'social-components/meetings/schedule-meetings/one-to-one-meeting',
+    '/social-components/meetings/schedule-meetings/one-to-one-meeting',
   COLLECTIVE_MEETING:
-    'social-components/meetings/schedule-meetings/collective-meeting',
-  GROUP_MEETING: 'social-components/meetings/schedule-meetings/group-meeting',
+    '/social-components/meetings/schedule-meetings/collective-meeting',
+  GROUP_MEETING: '/social-components/meetings/schedule-meetings/group-meeting',
 };
 
 export const AUTH = {

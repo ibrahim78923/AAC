@@ -1,0 +1,21 @@
+export const oneToOneDefaultValues = {
+  title: '',
+  allDay: false,
+  fromDate: new Date(),
+  fromTime: null,
+  toDate: new Date(),
+  toTime: null,
+  recurring: false,
+  description: '',
+  meetingType: '',
+  location: '',
+  bufferBefore: false,
+  bufferAfter: false,
+  bufferBeforeTime: '',
+  bufferAfterTime: '',
+  people: null,
+  reminder: [
+    { type: '', counter: null, duration: '' },
+    { type: '', counter: null, duration: '' },
+  ],
+};
