@@ -14,7 +14,7 @@ export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
 
     getPermissionsRolesById: builder.query({
       query: (id: any) => ({
-        url: `${END_POINTS?.GET_PERMISSIONS_ROLES}/${id}`,
+        url: `${END_POINTS?.GET_PLAN_PRODUCTS_PERMISSIONS}/${id}`,
         method: 'GET',
       }),
       providesTags: ['PERMISSIONS'],
