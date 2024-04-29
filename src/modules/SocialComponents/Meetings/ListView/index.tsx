@@ -1,10 +1,9 @@
-import { Grid, useTheme } from '@mui/material';
+import { Grid } from '@mui/material';
 import { MeetingCards } from './MeetingCards';
-import { meetingCardsDetails } from './MeetingCards.data';
+import { useListView } from './useListView';
 
 export const ListView = () => {
-  const theme = useTheme();
-  const meetings = meetingCardsDetails(theme);
+  const { meetings } = useListView();
   return (
     <Grid container spacing={2}>
       {' '}
