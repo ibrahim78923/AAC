@@ -59,7 +59,9 @@ export const VideoConferencing = () => {
                     </Typography>
                   </Box>
                   <Box display="flex" flexDirection="column" m={2}>
-                    <Button variant="contained">Connect Now</Button>
+                    <Button variant="contained" disableElevation>
+                      Connect Now
+                    </Button>
                   </Box>
                 </Box>
               </Grid>
