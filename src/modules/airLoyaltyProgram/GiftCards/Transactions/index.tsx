@@ -4,8 +4,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { useState } from 'react';
 import { CirclePlusIcon, ExportIcon, FilterLinesIcon } from '@/assets/icons';
-import { TransactionFilterDrawer } from './TransactionFilterDrawer';
-import { AddTransactionDrawer } from './AddTransactionDrawer';
+import { AddTransaction } from './AddTransaction';
+import { TransactionFilter } from './TransactionFilter';
 import { ExportModal } from '@/components/ExportModal';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
@@ -112,11 +112,8 @@ export const Transactions = () => {
         setPage={setPage}
         setPageLimit={setLimit}
       />
-      <AddTransactionDrawer
-        openDrawer={openDrawer1}
-        setOpenDrawer={setOpenDrawer1}
-      />
-      <TransactionFilterDrawer
+      <AddTransaction openDrawer={openDrawer1} setOpenDrawer={setOpenDrawer1} />
+      <TransactionFilter
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
       />

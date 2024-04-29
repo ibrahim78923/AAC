@@ -80,8 +80,8 @@ const useAddUser = (useActionParams?: any) => {
     pathName === SUPER_ADMIN?.USERS_LIST
       ? orgEmployeeMethods
       : tabTitle === 'SUPER_ADMIN'
-      ? superAdminMethods
-      : companyOwnerMethods;
+        ? superAdminMethods
+        : companyOwnerMethods;
 
   const { watch, setValue, handleSubmit, reset } = methods;
 
@@ -220,12 +220,12 @@ const useAddUser = (useActionParams?: any) => {
           reset(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-        ? (await postUserEmployee({
-            id: organizationId,
-            body: values,
-          })?.unwrap(),
-          setIsOpenAdduserDrawer(false))
-        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+          ? (await postUserEmployee({
+              id: organizationId,
+              body: values,
+            })?.unwrap(),
+            setIsOpenAdduserDrawer(false))
+          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
       enqueueSnackbar(
         `User ${
           isOpenAddUserDrawer?.type === 'edit' ? 'updated' : 'added'

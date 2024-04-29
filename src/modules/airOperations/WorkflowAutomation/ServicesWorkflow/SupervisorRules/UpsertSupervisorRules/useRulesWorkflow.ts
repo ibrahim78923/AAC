@@ -15,8 +15,8 @@ import {
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
-import { AIR_OPERATIONS } from '@/constants';
 import { useEffect, useState } from 'react';
+import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
 export const useRulesWorkflow = () => {
   const [validation, setValidation] = useState('');
@@ -38,7 +38,7 @@ export const useRulesWorkflow = () => {
   };
 
   const collectionNameData = {
-    agent: 'agent',
+    agent: 'Agent',
     assignToAgent: 'Assign to Agent',
     selectDepartment: 'Select Department',
     department: 'departments',
@@ -55,9 +55,7 @@ export const useRulesWorkflow = () => {
   const pageActionType = router?.query?.action;
   const singleId = router?.query?.id;
   const movePage = () => {
-    router.push({
-      pathname: AIR_OPERATIONS?.SERVICES_WORKFLOW,
-    });
+    router?.back();
   };
 
   const EDIT_WORKFLOW = 'edit';
@@ -89,10 +87,10 @@ export const useRulesWorkflow = () => {
       return typeData?.number;
     } else if (typeof fieldValue === typeData?.string) {
       return typeData?.string;
-    } else if (typeof fieldValue === typeData?.object) {
+    } else if (typeof fieldValue === typeData?.object && fieldValue !== null) {
       return typeData?.objectId;
     } else {
-      return null;
+      return typeData?.string;
     }
   };
 
@@ -136,7 +134,11 @@ export const useRulesWorkflow = () => {
           ? condition?.fieldValue?._id
           : condition?.fieldValue,
       fieldType: mapField(condition, typeData),
-      collectionName: getCollectionName(condition?.fieldName),
+      collectionName:
+        condition?.condition === optionsConstants?.isEmpty ||
+        condition?.condition === optionsConstants?.isNotEmpty
+          ? ''
+          : getCollectionName(condition?.fieldName),
     })),
     conditionType: group?.conditionType?.value,
   });
@@ -245,5 +247,6 @@ export const useRulesWorkflow = () => {
     testWorkflowProgress,
     handleTestWorkflow,
     testWorkflowResponse,
+    movePage,
   };
 };

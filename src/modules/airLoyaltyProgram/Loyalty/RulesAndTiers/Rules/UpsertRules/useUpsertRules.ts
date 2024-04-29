@@ -6,13 +6,12 @@ import {
 } from './UpsertRules.data';
 import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
+import { successSnackbar } from '@/utils/api';
 
 export const useUpsertRules = (props: any) => {
-  const { setIsDrawerOpen, setActiveTab } = props;
+  const { setIsDrawerOpen } = props;
   const router = useRouter();
   const { makePath } = usePath();
 
@@ -33,16 +32,19 @@ export const useUpsertRules = (props: any) => {
   };
 
   const submitUpsertRuleForm = () => {
-    setActiveTab(1);
-    enqueueSnackbar('Rules created successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    successSnackbar('Rules created successfully');
     closeUpsertRule();
   };
 
   const watchForAttribute = useWatch({
     control,
     name: 'attribute',
+    defaultValue: null,
+  });
+
+  const watchForLoyaltyType = useWatch({
+    control,
+    name: 'loyaltyType',
     defaultValue: '',
   });
 
@@ -52,8 +54,10 @@ export const useUpsertRules = (props: any) => {
 
   const upsertRulesFormFields = upsertRulesFormFieldsDynamic(
     onChangeCustom,
+    watchForLoyaltyType,
   )?.filter(
-    (formField: any) => formField?.attributeType?.includes(watchForAttribute),
+    (formField: any) =>
+      formField?.attributeType?.includes(watchForAttribute?.label),
   );
 
   const closeUpsertRule = () => {
@@ -66,6 +70,7 @@ export const useUpsertRules = (props: any) => {
     reset?.();
     setIsDrawerOpen?.(false);
   };
+
   return {
     closeUpsertRule,
     upsertRuleMethod,
