@@ -103,7 +103,9 @@ export const assignedPhysicalGiftCardColumnsFunction = (
         component="span"
         onClick={() => {
           if (
-            AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.VIEW_GIFT_CARD_DETAILS
+            !overallPermissions?.includes(
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.VIEW_GIFT_CARD_DETAILS,
+            )
           )
             return;
           router?.push({
