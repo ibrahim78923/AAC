@@ -27,6 +27,9 @@ import { AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS } from '@/constants/permission-ke
 
 const CTA = () => {
   const {
+    toggleButtonType,
+    handleSwitchButtonType,
+    activeStep,
     drawerTitle,
     openDrawer,
     handleDrawerOpen,
@@ -198,6 +201,8 @@ const CTA = () => {
       />
 
       <CtaEditorDrawer
+        toggleButtonType={toggleButtonType}
+        handleSwitchButtonType={handleSwitchButtonType}
         title={drawerTitle}
         okText={displayOkText()}
         isOpen={openDrawer}
@@ -206,6 +211,7 @@ const CTA = () => {
         onSubmit={handleDrawerSubmit}
         selectedForm={selectedForm}
         buttonStyle={buttonStyle}
+        activeStep={activeStep}
       />
     </Box>
   );

@@ -1,6 +1,6 @@
 import {
   RHFDropZone,
-  RHFEditor,
+  // RHFEditor,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -33,7 +33,7 @@ export const CTADataArray = [
       fullWidth: true,
       required: true,
     },
-    component: RHFEditor,
+    component: RHFTextField,
     xs: 12,
   },
   {

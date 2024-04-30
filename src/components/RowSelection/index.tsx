@@ -1,7 +1,7 @@
 import { Checkbox } from '@mui/material';
 import React from 'react';
 
-const RowSelection = ({ id, selectedRow, setSelectedRow }: any) => {
+const RowSelection = ({ id, selectedRow, setSelectedRow, disabled }: any) => {
   const handleClick = () => {
     const selectedIndex = selectedRow?.indexOf(id);
     let newSelected: any = [];
@@ -29,6 +29,7 @@ const RowSelection = ({ id, selectedRow, setSelectedRow }: any) => {
       checked={isSelected}
       name={id}
       onClick={handleClick}
+      disabled={disabled}
     />
   );
 };

@@ -20,10 +20,16 @@ const useCta = () => {
   const [checkExportFormats, setCheckExportFormats] = useState([]);
 
   // Drawer Open/Close
+  const [toggleButtonType, setToggleButtonType] = useState(true);
+  const [activeStep, setActiveStep] = useState(0);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('Create');
   const [selectedForm, setSelectedForm] = useState(CTA_FORM?.CUSTOMIZED_BUTTON);
   const [buttonStyle, setButtonStyle] = useState(FORM_STEP?.CUSTOM_ACTION);
+
+  const handleSwitchButtonType = () => {
+    setToggleButtonType(!toggleButtonType);
+  };
 
   const handleFormSwitcher = (type: string) => {
     setSelectedForm(type);
@@ -67,9 +73,11 @@ const useCta = () => {
   };
 
   const onSubmitEditCTA = async (values: any) => {
+    setActiveStep(1);
+    const buttonHtml = 'buttonHtml';
     const formData = new FormData();
     if (selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON) {
-      await trigger('buttonHtml');
+      await trigger(buttonHtml);
       if (buttonStyle === FORM_STEP?.CUSTOM_ACTION) {
         setButtonStyle(FORM_STEP?.CTA_INTERNAL);
       }
@@ -77,6 +85,12 @@ const useCta = () => {
         formData.append('buttonType', 'customized');
         Object.entries(values)?.forEach(([key, value]: any) => {
           if (value !== undefined && value !== null && value !== '') {
+            if (key === buttonHtml) {
+              formData.append(
+                buttonHtml,
+                encodeURIComponent(`<a>${value}</a>`),
+              );
+            }
             formData.append(key, value);
           }
         });
@@ -137,6 +151,9 @@ const useCta = () => {
 
   return {
     theme,
+    toggleButtonType,
+    handleSwitchButtonType,
+    activeStep,
     handleFormSwitcher,
     drawerTitle,
     openDrawer,

@@ -1,7 +1,12 @@
 import { Checkbox } from '@mui/material';
 import React from 'react';
 
-const RowSelectionAll = ({ rows, selectedRow, setSelectedRow }: any) => {
+const RowSelectionAll = ({
+  rows,
+  selectedRow,
+  setSelectedRow,
+  disabled,
+}: any) => {
   const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event?.target?.checked) {
       const newSelected = rows?.map((row: any) => row?._id);
@@ -20,6 +25,7 @@ const RowSelectionAll = ({ rows, selectedRow, setSelectedRow }: any) => {
       indeterminate={isIndeterminate}
       checked={isChecked}
       onChange={(event) => handleClick(event)}
+      disabled={disabled}
     />
   );
 };

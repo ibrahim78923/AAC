@@ -3,45 +3,53 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
   FormProvider,
-  RHFSelect,
-  RHFTextField,
+  // RHFSelect,
+  // RHFTextField,
 } from '@/components/ReactHookForm';
 
-import { v4 as uuidv4 } from 'uuid';
-import useCtaEditor from './useCtaEditor';
-import {
-  CTADataArray,
-  CTAImageDataArray,
-  urlRedirectType,
-} from './CtaEditorDrawer.data';
-import useCta from '../useCta';
-import { CTA_FORM, FORM_STEP } from '../Cta.data';
+// import { v4 as uuidv4 } from 'uuid';
+// import useCtaEditor from './useCtaEditor';
+// import {
+//   CTADataArray,
+//   CTAImageDataArray,
+//   urlRedirectType,
+// } from './CtaEditorDrawer.data';
+// import useCta from '../useCta';
+// import { CTA_FORM, FORM_STEP } from '../Cta.data';
+import StepCustomizedButton from './StepCustomizedButton';
+import StepButtonInfo from './StepButtonInfo';
+import StepCopyCode from './StepCopyCode';
+import StepImageButton from './StepImageButton';
 
 const CtaEditorDrawer = (props: any) => {
   const {
+    handleSwitchButtonType,
+    toggleButtonType,
+    activeStep,
     title,
     okText,
     isOpen,
     onClose,
     methods,
     onSubmit,
-    selectedForm,
-    buttonStyle,
+    // selectedForm,
+    // buttonStyle,
   } = props;
 
-  const {
-    // handleSubmit,
-    // methodsdealsTasks,
-    // onCloseDrawer,
-    // selectedForm,
-    // setselectedForm,
-    // buttonStyle,
-    // setButtonStyle,
-    // drawerButtonTitleHandler,
-    // drawerSubmitHandler,
-  } = useCtaEditor();
+  const steps = [
+    {
+      label: 'FirstStep',
+      component: toggleButtonType ? (
+        <StepCustomizedButton />
+      ) : (
+        <StepImageButton />
+      ),
+    },
+    { label: 'SecondStep', component: <StepButtonInfo /> },
+    { label: 'ThirdStep', component: <StepCopyCode /> },
+  ];
 
-  const { handleFormSwitcher, setButtonStyle } = useCta();
+  // const { handleFormSwitcher, setButtonStyle } = useCta();
 
   return (
     <div>
@@ -73,20 +81,9 @@ const CtaEditorDrawer = (props: any) => {
               }}
             >
               <Button
-                onClick={() => {
-                  handleFormSwitcher(CTA_FORM?.CUSTOMIZED_BUTTON),
-                    setButtonStyle(FORM_STEP?.CUSTOM_ACTION);
-                }}
-                variant={`${
-                  selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON
-                    ? 'outlined'
-                    : 'text'
-                }`}
-                color={`${
-                  selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON
-                    ? 'primary'
-                    : 'inherit'
-                }`}
+                onClick={handleSwitchButtonType}
+                variant={toggleButtonType ? 'outlined' : 'text'}
+                color={toggleButtonType ? 'primary' : 'inherit'}
                 sx={{
                   height: '25px',
                   borderRadius: '10px',
@@ -96,18 +93,9 @@ const CtaEditorDrawer = (props: any) => {
                 <Typography variant="body3">Customized Button </Typography>
               </Button>
               <Button
-                onClick={() => {
-                  handleFormSwitcher(CTA_FORM?.IMAGE_BUTTON),
-                    setButtonStyle(FORM_STEP?.IMAGE_ACTION);
-                }}
-                variant={`${
-                  selectedForm === CTA_FORM?.IMAGE_BUTTON ? 'outlined' : 'text'
-                }`}
-                color={`${
-                  selectedForm === CTA_FORM?.IMAGE_BUTTON
-                    ? 'primary'
-                    : 'inherit'
-                }`}
+                onClick={handleSwitchButtonType}
+                variant={!toggleButtonType ? 'outlined' : 'text'}
+                color={!toggleButtonType ? 'primary' : 'inherit'}
                 sx={{
                   height: '25px',
                   borderRadius: '10px',
@@ -120,8 +108,12 @@ const CtaEditorDrawer = (props: any) => {
           </Box>
 
           <FormProvider methods={methods}>
-            {selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON ? (
-              <Grid container spacing={4}>
+            <Grid container spacing={'22px'}>
+              {steps[activeStep].component}
+            </Grid>
+
+            {/* {selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON ? (
+              <Grid container spacing={'22px'}>
                 {buttonStyle === FORM_STEP?.CUSTOM_ACTION && (
                   <>
                     <Grid item xs={12}>
@@ -268,7 +260,7 @@ const CtaEditorDrawer = (props: any) => {
                   </>
                 )}
               </Grid>
-            )}
+            )} */}
           </FormProvider>
         </Box>
       </CommonDrawer>

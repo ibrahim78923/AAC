@@ -20,6 +20,7 @@ export const columns = (selectedRow: any, setSelectedRow: any) => {
             rows={rows}
             selectedRow={selectedRow}
             setSelectedRow={setSelectedRow}
+            disabled={rows?.length === 0}
           />
         );
       },
