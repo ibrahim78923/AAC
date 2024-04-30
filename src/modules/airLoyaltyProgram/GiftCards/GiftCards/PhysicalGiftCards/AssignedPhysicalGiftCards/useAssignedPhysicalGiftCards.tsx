@@ -11,7 +11,6 @@ import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import { downloadFile } from '@/utils/file';
 import { AssignedPhysicalGiftCardsFilter } from './AssignedPhysicalGiftCardsFilter';
 import { ExportModal } from '@/components/ExportModal';
-import { AddPhysicalGiftCard } from '../AddPhysicalGiftCard';
 import { getActivePermissionsSession } from '@/utils';
 
 export const useAssignedPhysicalGiftCards = () => {
@@ -85,14 +84,6 @@ export const useAssignedPhysicalGiftCards = () => {
           setIsPortalOpen={setIsPortalOpen}
           filterAssignedPhysicalCard={filterAssignedPhysicalCard}
           setFilterAssignedPhysicalCard={setFilterAssignedPhysicalCard}
-        />
-      );
-    }
-    if (isPortalOpen?.isAdd) {
-      return (
-        <AddPhysicalGiftCard
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
         />
       );
     }

@@ -5,7 +5,6 @@ import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { downloadFile } from '@/utils/file';
 import { ExportModal } from '@/components/ExportModal';
-import { AddPhysicalGiftCard } from '../AddPhysicalGiftCard';
 import {
   useLazyExportUnAssignedPhysicalGiftCardListQuery,
   useLazyGetUnAssignedPhysicalGiftCardListQuery,
@@ -60,14 +59,6 @@ export const useNotAssignedPhysicalGiftCards = () => {
   };
 
   const renderPortalComponent: any = () => {
-    if (isPortalOpen?.isAdd) {
-      return (
-        <AddPhysicalGiftCard
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-        />
-      );
-    }
     if (isPortalOpen?.isExport) {
       return (
         <ExportModal

@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
+import { ExportBlackIcon } from '@/assets/icons';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useAssignedPhysicalGiftCards } from './useAssignedPhysicalGiftCards';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -36,19 +36,6 @@ export const AssignedPhysicalGiftCards = () => {
           <Search label="Search Here" setSearchBy={setSearch} />
         </PermissionsGuard>
         <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.ADD_GIFT_CARD,
-            ]}
-          >
-            <Button
-              variant="contained"
-              startIcon={<AddWhiteBgIcon />}
-              onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
-            >
-              Add
-            </Button>
-          </PermissionsGuard>
           <PermissionsGuard
             permissions={[
               AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.ADD_GIFT_CARD,
