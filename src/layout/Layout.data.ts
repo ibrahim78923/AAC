@@ -258,17 +258,17 @@ export const LoyaltyProgramsRoutes: any = [
     label: 'Gift Cards',
     icon: GiftCardImage,
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS,
     textNames: [
       {
         key: LOYALTY_PROGRAM?.GIFT_CARDS,
         label: 'Gift Cards',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD,
       },
       {
         key: LOYALTY_PROGRAM?.GIFT_CARDS_TRANSACTIONS,
         label: 'Transactions',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS,
       },
       {
         key: LOYALTY_PROGRAM?.GIFT_CARDS_SETTLEMENTS,
