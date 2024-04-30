@@ -18,7 +18,9 @@ export const MeetingCard = (props: any) => {
       onClick={() =>
         router?.push({
           pathname: SOCIAL_COMPONENTS?.MEETINGS,
-          query: heading,
+          query: {
+            type: heading,
+          },
         })
       }
     >
