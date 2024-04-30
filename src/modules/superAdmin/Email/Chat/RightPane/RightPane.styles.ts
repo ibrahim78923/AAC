@@ -1,11 +1,11 @@
 export const styles = {
-  rightSide: {
+  rightSide: () => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     mb: '24px',
-  },
+  }),
   rightSideCard: {
     p: '14px',
     my: '24px',
