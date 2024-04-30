@@ -3,6 +3,7 @@ import { baseAPI } from '../services/base-api';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import storage from 'redux-persist/lib/storage';
 import chatSlice from './slices/chat/slice';
+import emailSlice from './slices/email/slice';
 import authSlice from './slices/auth/slice';
 import SocialInboxSlice from './slices/socialInbox/index';
 import { persistReducer } from 'redux-persist';
@@ -27,6 +28,7 @@ const store = configureStore({
   reducer: {
     [baseAPI.reducerPath]: baseAPI.reducer,
     chat: chatSlice,
+    email: emailSlice,
     task: taskManagementSlice,
     task_deals: dealsTaskSlice,
     subscriptionAndInvoices: subscriptionAndInvoicesSlice,

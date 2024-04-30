@@ -11,7 +11,6 @@ export const RulesAndTiers = () => {
     rulesAndTiersActionComponent,
     router,
     setRulesAndTiersAction,
-    activeTab,
   } = useRulesAndTiers();
   return (
     <>
@@ -28,10 +27,7 @@ export const RulesAndTiers = () => {
         }
       />
       <br />
-      <HorizontalTabs
-        defaultValue={activeTab}
-        tabsDataArray={['Tiers', 'Rules']}
-      >
+      <HorizontalTabs tabsDataArray={['Tiers', 'Rules']}>
         <Tiers />
         <Rules />
       </HorizontalTabs>

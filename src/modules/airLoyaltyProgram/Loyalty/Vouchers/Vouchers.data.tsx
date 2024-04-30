@@ -8,6 +8,8 @@ import { EyeIcon } from '@/assets/icons';
 import { UserAvatarImage } from '@/assets/images';
 import LocalPrintshopRoundedIcon from '@mui/icons-material/LocalPrintshopRounded';
 import { REQUESTORS_STATUS } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const vouchersColumns = [
   {
@@ -93,14 +95,28 @@ export const vouchersColumns = [
     header: 'Actions',
     cell: () => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <LocalPrintshopRoundedIcon
-          sx={{ cursor: 'pointer' }}
-          onClick={() => window?.print()}
-        />
-        <Link href={`${AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST}`}>
-          <EyeIcon />
-        </Link>
-        <AntSwitch />
+        <PermissionsGuard
+          permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.PRINT]}
+        >
+          <LocalPrintshopRoundedIcon
+            sx={{ cursor: 'pointer' }}
+            onClick={() => window?.print()}
+          />
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.VIEW_DETAILS]}
+        >
+          <Link href={`${AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST}`}>
+            <EyeIcon />
+          </Link>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.ACTIVE_DEACTIVATE_VOUCHERS,
+          ]}
+        >
+          <AntSwitch />
+        </PermissionsGuard>
       </Box>
     ),
   },

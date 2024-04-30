@@ -4,6 +4,8 @@ import { AddRewardsForm } from './AddRewardsForm';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { useAddRewards } from './useAddReward';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const AddRewards = () => {
   const { router, palette, openDrawer, setOpenDrawer, addRewardOpenForm } =
@@ -76,12 +78,18 @@ export const AddRewards = () => {
             </Grid>
           ))}
         </Grid>
-        {openDrawer?.isOpen && (
-          <AddRewardsForm
-            openDrawer={openDrawer}
-            setOpenDrawer={setOpenDrawer}
-          />
-        )}
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.ADD_REWARDS,
+          ]}
+        >
+          {openDrawer?.isOpen && (
+            <AddRewardsForm
+              openDrawer={openDrawer}
+              setOpenDrawer={setOpenDrawer}
+            />
+          )}
+        </PermissionsGuard>
       </Box>
     </>
   );

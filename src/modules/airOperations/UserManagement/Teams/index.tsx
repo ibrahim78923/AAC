@@ -26,10 +26,17 @@ export const Teams = () => {
     router,
     onClose,
     teamIdData,
+    setSearch,
+    isDrawerOpen,
+    setIsDrawerOpen,
   } = useTeams();
   return (
     <Box>
-      <TeamsHeader />
+      <TeamsHeader
+        setSearch={setSearch}
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
       <br />
       <Box mt={'0.75rem'}>
         <PermissionsGuard

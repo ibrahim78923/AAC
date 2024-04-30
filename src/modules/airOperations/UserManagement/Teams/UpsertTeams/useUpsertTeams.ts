@@ -14,63 +14,56 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
   const router = useRouter();
-  const { _id } = router?.query;
+  const { teamId } = router?.query;
   const [disabled, setDisabled] = useState(true);
   const methods: any = useForm({
     resolver: yupResolver(upsertTeamValidationSchema),
     defaultValues: upsertTeamDefaultValues(teamData),
   });
-
   const { handleSubmit, reset } = methods;
-
   useEffect(() => {
     reset(upsertTeamDefaultValues(teamData));
   }, [teamData, reset]);
-
   const usersTeamDropdown = useLazyGetProductTeamUserListDropdownQuery();
-
   const [patchTeamsUsersTrigger, patchProductTeamStatus] =
     usePatchTeamUsersMutation();
-
   const [addTeamUsers, addUsersTeamListStatus] = usePostCreateTeamMutation();
   const submit = async (data: any) => {
     const { userAccounts, ...rest } = data;
-    try {
-      const body = {
+    const formData = {
+      id: teamId,
+      body: {
         ...rest,
         userAccounts: userAccounts?.map((item: any) => item?._id),
-      };
-      if (!!_id) {
-        editTeamUsersDetails?.(body);
-        return;
+      },
+    };
+    if (!!teamId) {
+      try {
+        await patchTeamsUsersTrigger(formData)?.unwrap();
+        successSnackbar('Products Users Edit  Successfully');
+        setIsDrawerOpen(false);
+      } catch (error: any) {
+        errorSnackbar('error');
       }
-      await addTeamUsers({ body }).unwrap();
-      successSnackbar('Team added successfully.');
       handleClose?.();
-    } catch (error: any) {
-      errorSnackbar(error);
+    } else {
+      try {
+        const body = {
+          ...rest,
+          userAccounts: userAccounts?.map((item: any) => item?._id),
+        };
+        await addTeamUsers({ body }).unwrap();
+        successSnackbar('Team added successfully.');
+        handleClose?.();
+      } catch (error: any) {
+        errorSnackbar(error?.data?.message);
+      }
     }
   };
   const handleClose = () => {
     setIsDrawerOpen({ val: false });
     reset?.();
   };
-
-  const editTeamUsersDetails = async (data: any) => {
-    const formData = {
-      id: _id,
-      ...data,
-    };
-    try {
-      await patchTeamsUsersTrigger(formData)?.unwrap();
-      successSnackbar('Products Users Edit  Successfully');
-      setIsDrawerOpen(false);
-    } catch (error: any) {
-      errorSnackbar('error');
-    }
-    handleClose?.();
-  };
-
   return {
     methods,
     handleSubmit,
@@ -80,6 +73,5 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
     usersTeamDropdown,
     patchProductTeamStatus,
     addUsersTeamListStatus,
-    editTeamUsersDetails,
   };
 };
