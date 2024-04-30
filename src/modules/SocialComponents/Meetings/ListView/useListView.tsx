@@ -1,6 +1,7 @@
 import { useTheme } from '@mui/material';
 import { listViewDetailsData, meetingCardsDetails } from './ListView.data';
 import { useEffect, useState } from 'react';
+import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 
 export const useListView = () => {
   const theme = useTheme();
@@ -10,7 +11,7 @@ export const useListView = () => {
   const meetings = meetingCardsDetails(theme);
 
   useEffect(() => {
-    if (cardValue === 'All') {
+    if (cardValue === MEETINGS_DETAILS_TYPE?.ALL) {
       setListData(listViewDetailsData);
     } else {
       const listFilter = listViewDetailsData?.filter(

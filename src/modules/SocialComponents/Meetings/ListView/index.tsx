@@ -38,7 +38,7 @@ export const ListView = () => {
               boxShadow: 1,
             }}
           >
-            <CalenderViewIcon />
+            <CalenderViewIcon theme={theme} />
           </IconButton>
         </Box>
         <br />
