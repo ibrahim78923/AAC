@@ -39,6 +39,7 @@ import {
   SocialMarketingImage,
   TicketDiscountImage,
   UserManagementImage,
+  WhatsappMarketingImage,
   WorkFlowAutomationImage,
   WorkLoadImage,
 } from '@/assets/images';
@@ -220,7 +221,7 @@ export const LoyaltyProgramsRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_DASHBOARD,
   },
 
   {
@@ -228,27 +229,27 @@ export const LoyaltyProgramsRoutes: any = [
     label: 'Loyalty',
     icon: LoyaltyImage,
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY,
     textNames: [
       {
         key: LOYALTY_PROGRAM?.LOYALTY_REWARD,
         label: 'Rewards',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS,
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_TRANSACTIONS,
         label: 'Transactions',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS,
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_RULES_TIERS,
         label: 'Rules & Tiers',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS,
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_RULES_VOUCHERS,
         label: 'Vouchers',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_VOUCHERS,
       },
     ],
   },
@@ -257,27 +258,17 @@ export const LoyaltyProgramsRoutes: any = [
     label: 'Gift Cards',
     icon: GiftCardImage,
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS,
     textNames: [
       {
         key: LOYALTY_PROGRAM?.GIFT_CARDS,
         label: 'Gift Cards',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD,
       },
       {
         key: LOYALTY_PROGRAM?.GIFT_CARDS_TRANSACTIONS,
         label: 'Transactions',
-        permissions: [],
-      },
-      {
-        key: LOYALTY_PROGRAM?.GIFT_CARDS_SETTLEMENTS,
-        label: 'Settlements',
-        permissions: [],
-      },
-      {
-        key: LOYALTY_PROGRAM?.GIFT_CARDS_SETTLED,
-        label: 'Settled',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS,
       },
     ],
   },
@@ -310,7 +301,7 @@ export const AirMarketingRoutes: any = [
     icon: PaidAdsImage,
     label: 'Paid Ads',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER,
   },
   {
     key: AIR_MARKETER?.CAMPAIGNS,
@@ -385,11 +376,18 @@ export const AirMarketingRoutes: any = [
     permissions: Permissions?.AIR_MARKETER_SMS_MARKETING,
   },
   {
-    key: AIR_MARKETER?.LEAD_CAPTURE,
+    key: AIR_MARKETER?.WHATSAPP_MERKETING,
+    icon: WhatsappMarketingImage,
+    label: 'WhatsApp Marketing',
+    role: 'AIR_MARKETER',
+    permissions: Permissions?.AIR_MARKETER_WHATSAPP_MARKETING,
+  },
+  {
+    key: AIR_MARKETER?.LEAD_CAPTURE_CTA,
     label: 'Lead Capture',
     icon: LeadCaptureImage,
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER_LEAD_CAPTURE,
     textNames: [
       {
         key: AIR_MARKETER?.LEAD_CAPTURE_CTA,
@@ -596,6 +594,11 @@ export const LowerOrgAdminRoutes = [
         label: 'Contact Status',
         permissions: Permissions?.ORG_ADMIN_SETTINGS_CONTACT_STATUS,
       },
+      {
+        key: '/org-admin/settings/bank-accounts',
+        label: 'Receiver Bank Account',
+        permissions: Permissions?.ORG_ADMIN_SETTINGS_CONTACT_STATUS,
+      },
     ],
   },
 ];
@@ -617,7 +620,7 @@ export const LowerLoyaltyProgramRoutes = [
     icon: SettingImage,
     role: 'Loyalty-program',
     key: LOYALTY_PROGRAM?.SETTINGS,
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT,
   },
 ];
 
@@ -627,7 +630,7 @@ export const LowerAirMarketingRoutes = [
     icon: SettingImage,
     role: 'AIR_MARKETER',
     key: AIR_MARKETER?.SETTINGS,
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER_SETTINGS,
   },
 ];
 export const LowerServicesRoutes = [
@@ -806,6 +809,7 @@ export const getLowerRoutes = (product: any) => {
 
 export const zeroPaddingRoutes = [
   '/social-components/chat',
+  '/social-components/email/conversations',
   '/social-components/calling/call',
   '/org-admin/users',
   '/super-admin/user-management/users-list',

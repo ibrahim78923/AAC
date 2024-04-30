@@ -366,8 +366,28 @@ export const AIR_MARKETER_SETTINGS_PERMISSIONS = {
   EDIT_TEAMS: 'marketer-settings-users-management-team-edit',
   DELETE_TEAMS: 'marketer-settings-users-management-team-delete',
 
-  ACTIVE_INACTIVE_NOTIFICATIONS:
+  ACTIVE_INACTIVE_EMAIL_NOTIFICATIONS:
     'marketer-settings-notifications-email-active-inactive',
+  ACTIVE_INACTIVE_CAMPAIGNS_NOTIFICATIONS:
+    'marketer-settings-notifications-email-active-inactive',
+  ACTIVE_INACTIVE_WEBSITE_NOTIFICATIONS:
+    'marketer-settings-notifications-campaigns-active-inactive',
+  ACTIVE_INACTIVE_COMPANIES_NOTIFICATIONS:
+    'marketer-settings-notifications-companies-active-inactive',
+  ACTIVE_INACTIVE_PAIDADS_NOTIFICATIONS:
+    'marketer-settings-notifications-paid-ads-active-inactive',
+  ACTIVE_INACTIVE_SOCIALMARKETING_NOTIFICATIONS:
+    'marketer-settings-notifications-social-marketing-active-inactive',
+  ACTIVE_INACTIVE_SMSMARKETING_NOTIFICATIONS:
+    'marketer-settings-notifications-sms-marketing-active-inactive',
+  ACTIVE_INACTIVE_WHATSAPPMARKETING_NOTIFICATIONS:
+    'marketer-settings-notifications-whatsapp-marketing-active-inactive',
+  ACTIVE_INACTIVE_LEADCAPTURE_NOTIFICATIONS:
+    'marketer-settings-notifications-lead-capture-active-inactive',
+  ACTIVE_INACTIVE_REPORT_NOTIFICATIONS:
+    'marketer-settings-notifications-reports-active-inactive',
+  ACTIVE_INACTIVE_SETTING_NOTIFICATIONS:
+    'marketer-settings-notifications-settings-active-inactive',
 };
 
 export const AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS = {
@@ -1354,6 +1374,11 @@ export const AIR_SERVICES_DASHBOARD_PERMISSIONS = {
   VIEW_DASHBOARD: 'service-dashboard-list',
 };
 
+export const AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'loyalty-program-dashboard-view',
+  APPLY_FILTERS: 'loyalty-program-dashboard-apply-filters',
+};
+
 export const AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT_PERMISSIONS = {
   ACCOUNT_GENERAL: 'loyalty-program-settings-account-general',
   ACCOUNT_VIEW_DETAILS: 'loyalty-program-settings-account-view-details',
@@ -1410,4 +1435,22 @@ export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS = {
   NOT_ASSIGNED_GIFT_CARD: 'loyalty-program-gift-card-physical-not-assigned',
   PRINT: 'loyalty-program-gift-card-physical-print',
   ASSIGNED_TO: 'loyalty-program-gift-card-physical-assigned-to',
+};
+
+export const AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS = {
+  VIEW_DETAILS: 'loyalty-program-voucher-view-details',
+  ADD_VOUCHER: 'loyalty-program-voucher-add',
+  APPLY_FILTERS: 'loyalty-program-voucher-apply-filters',
+  PRINT: 'loyalty-program-voucher-print',
+  ACTIVE_DEACTIVATE_VOUCHERS: 'loyalty-program-voucher-active-deactive',
+  SEARCH: 'loyalty-program-voucher-search',
+};
+
+export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS = {
+  VIEW_DETAILS: 'loyalty-program-gift-card-transaction-view-details',
+  ADD_TRANSACTIONS: 'loyalty-program-gift-card-transaction-add',
+  IMPORT: 'loyalty-program-gift-card-transaction-import',
+  EXPORT: 'loyalty-program-gift-card-transaction-export',
+  APPLY_FILTERS: 'loyalty-program-gift-card-transaction-apply-filters',
+  SEARCH_DETAILS: 'loyalty-program-gift-card-transaction-search',
 };

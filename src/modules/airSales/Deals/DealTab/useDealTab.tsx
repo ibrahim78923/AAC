@@ -81,8 +81,8 @@ const useDealTab = () => {
   const { data: pipelineData } = useGetDealPipeLineQuery(params);
 
   const dealListApiUrl = dealViewsData?.data?.map((obj: any) => {
-    const dateStart = obj?.apiUrl?.match(/dateStart=([^&]*)/)[1];
-    const dateEnd = obj?.apiUrl?.match(/dateEnd=([^&]*)/)[1];
+    const dateStart = obj?.apiUrl?.match(/dateStart=([^&]*)/);
+    const dateEnd = obj?.apiUrl?.match(/dateEnd=([^&]*)/);
     let dealPipelineId;
     let dealOwnerId;
     let dealStageId;
@@ -97,8 +97,8 @@ const useDealTab = () => {
       dealStageId = obj?.apiUrl?.match(/dealStageId=([^&]*)/)[1];
     }
     return {
-      dateStart,
-      dateEnd,
+      ...(dateStart && { dateStart }),
+      ...(dateEnd && { dateEnd }),
       name: obj?.name,
       ...(dealPipelineId && { dealPipelineId }),
       ...(dealOwnerId && { dealOwnerId }),

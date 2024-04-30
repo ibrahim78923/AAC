@@ -59,7 +59,7 @@ export const ServicesWorkflow = () => {
                     boxShadow: `0 0 6px 0 ${theme?.palette?.warning?.light}`,
                   },
                 }}
-                onClick={() => handleItemClick?.(item.id)}
+                onClick={() => handleItemClick?.(item?.id, item?.title)}
               >
                 <Typography variant="h5" py={1}>
                   {item?.title}
@@ -70,24 +70,6 @@ export const ServicesWorkflow = () => {
                 >
                   {item?.description}
                 </Typography>
-                <Box
-                  p={1}
-                  textAlign={'center'}
-                  borderRadius={1}
-                  sx={{
-                    width: 258,
-                    backgroundColor:
-                      activeItem === item?.id
-                        ? 'primary.main'
-                        : 'primary.light',
-                    color:
-                      activeItem === item?.id
-                        ? 'common.white'
-                        : 'slateBlue.main',
-                  }}
-                >
-                  {item?.buttonTitle}
-                </Box>
               </Grid>
             );
           })}
