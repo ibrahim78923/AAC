@@ -226,7 +226,6 @@ const useAddUser = (useActionParams?: any) => {
             })?.unwrap(),
             setIsOpenAdduserDrawer(false))
           : await updateUsers({ id: updateUserId, body: values })?.unwrap();
-
       enqueueSnackbar(
         `User ${
           isOpenAddUserDrawer?.type === 'edit' ? 'updated' : 'added'

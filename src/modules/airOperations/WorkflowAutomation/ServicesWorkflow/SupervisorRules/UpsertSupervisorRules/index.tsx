@@ -30,6 +30,7 @@ export const UpsertSupervisorRules = () => {
     updatedWorkflowProcess,
     handleTestWorkflow,
     testWorkflowResponse,
+    movePage,
   } = useRulesWorkflow();
   if (isLoading || isFetching) return <SkeletonForm />;
   return (
@@ -49,6 +50,7 @@ export const UpsertSupervisorRules = () => {
           updatedWorkflowProcess={updatedWorkflowProcess}
           testWorkflowResponse={testWorkflowResponse}
           watch={watch}
+          movePage={movePage}
         />
         <Grid container spacing={2}>
           {rulesWorkflowDataArray?.map((item: any) => (

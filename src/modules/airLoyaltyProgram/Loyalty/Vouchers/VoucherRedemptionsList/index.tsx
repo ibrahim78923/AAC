@@ -8,6 +8,8 @@ import {
   voucherRedemptionsData,
 } from './VoucherRedemptionsList.data';
 import { useVoucherRedemptionsList } from './useVoucherRedemptionsList';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const VoucherRedemptionsList = () => {
   const {
@@ -30,14 +32,18 @@ export const VoucherRedemptionsList = () => {
             moveBack={() => router?.push(AIR_LOYALTY_PROGRAM?.VOUCHERS)}
           />
         </Grid>
-        <Grid item xs={12}>
-          <Typography variant="body2" fontWeight={500} color="slateBlue.main">
-            50 Dollars reward:
-          </Typography>
-          <Typography variant="body2" color="custom.main">
-            VEf12UYBN
-          </Typography>
-        </Grid>
+        <PermissionsGuard
+          permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.VIEW_DETAILS]}
+        >
+          <Grid item xs={12}>
+            <Typography variant="body2" fontWeight={500} color="slateBlue.main">
+              50 Dollars reward:
+            </Typography>
+            <Typography variant="body2" color="custom.main">
+              VEf12UYBN
+            </Typography>
+          </Grid>
+        </PermissionsGuard>
         <Grid item xs={12}>
           <Box
             border="1px solid"
@@ -53,24 +59,36 @@ export const VoucherRedemptionsList = () => {
               flexWrap="wrap"
               gap={1.5}
             >
-              <Search label="search" setSearchBy={setSearch} />
+              <PermissionsGuard
+                permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.SEARCH]}
+              >
+                <Search label="search" setSearchBy={setSearch} />
+              </PermissionsGuard>
             </Box>
-            <TanstackTable
-              columns={voucherRedemptionsColumns}
-              data={voucherRedemptionsData}
-              isLoading={lazyGetVoucherRedemptionListStatus?.isLoading}
-              isFetching={lazyGetVoucherRedemptionListStatus?.isFetching}
-              isError={lazyGetVoucherRedemptionListStatus?.isError}
-              isSuccess={lazyGetVoucherRedemptionListStatus?.isSuccess || true}
-              currentPage={page}
-              count={voucherRedemptionListMetaData?.pages}
-              pageLimit={pageLimit}
-              totalRecords={voucherRedemptionListMetaData?.total}
-              onPageChange={(page: any) => setPage(page)}
-              setPage={setPage}
-              setPageLimit={setPageLimit}
-              isPagination
-            />
+            <PermissionsGuard
+              permissions={[
+                AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.VIEW_DETAILS,
+              ]}
+            >
+              <TanstackTable
+                columns={voucherRedemptionsColumns}
+                data={voucherRedemptionsData}
+                isLoading={lazyGetVoucherRedemptionListStatus?.isLoading}
+                isFetching={lazyGetVoucherRedemptionListStatus?.isFetching}
+                isError={lazyGetVoucherRedemptionListStatus?.isError}
+                isSuccess={
+                  lazyGetVoucherRedemptionListStatus?.isSuccess || true
+                }
+                currentPage={page}
+                count={voucherRedemptionListMetaData?.pages}
+                pageLimit={pageLimit}
+                totalRecords={voucherRedemptionListMetaData?.total}
+                onPageChange={(page: any) => setPage(page)}
+                setPage={setPage}
+                setPageLimit={setPageLimit}
+                isPagination
+              />
+            </PermissionsGuard>
           </Box>
         </Grid>
       </Grid>

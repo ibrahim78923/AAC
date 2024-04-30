@@ -2,6 +2,11 @@ import EventBaseWorkflows from './EventBaseWorkflows';
 import ScheduledWorkflows from './ScheduledWorkflows';
 import SupervisorRules from './SupervisorRules';
 
+export const cardTitle = {
+  eventBaseWorkflow: 'Event Base Workflows',
+  scheduleWorkflow: 'Scheduled Workflows',
+  supervisorRules: 'Supervisor Rules',
+};
 export const serviceWorkflowsCardData = [
   {
     id: 1,
