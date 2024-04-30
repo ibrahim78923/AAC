@@ -2,9 +2,9 @@ import { RHFRadioGroup, RHFSelect } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  fromName: Yup.string().trim().required('Field is Required'),
-  fromAddress: Yup.string().trim().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  fromName: Yup?.string()?.trim()?.required('Field is Required'),
+  fromAddress: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -29,9 +29,17 @@ export const dataArray = [
     componentProps: {
       name: 'fromAddress',
       fullWidth: true,
-      options: ['Use default', 'Customize from address'],
-      row: true,
-      sx: { marginLeft: 0 },
+      defaultValue: '',
+      options: [
+        {
+          value: 'useDefault',
+          label: 'Use Default',
+        },
+        {
+          value: 'customizeFromAddress',
+          label: 'Customize from address',
+        },
+      ],
     },
     component: RHFRadioGroup,
     md: 12,
