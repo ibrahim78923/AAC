@@ -23,7 +23,7 @@ export const CalendarView = () => {
     eventData,
     handleEventClick,
     router,
-    theme,
+    CALENDER_TYPES,
   } = useCalendarView();
 
   return (
@@ -36,99 +36,115 @@ export const CalendarView = () => {
               heading={item?.heading}
               meetingsCount={item?.meetingsCount}
               color={item?.color}
+              router={router}
             />
           </Grid>
         ))}
       </Grid>
       <Box
-        border={`.1rem solid ${theme?.palette?.grey?.[0]}`}
-        padding={2.5}
-        borderRadius={3}
+        display={'flex'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
       >
+        <Search label="Search Here" setSearchBy={setSearch} />
         <Box
           display={'flex'}
-          justifyContent={'space-between'}
+          justifyContent={'center'}
           alignItems={'center'}
+          gap={1}
         >
-          <Search label="Search Here" setSearchBy={setSearch} />
-          <Box
-            display={'flex'}
-            justifyContent={'center'}
-            alignItems={'center'}
-            gap={1}
+          <Button
+            variant={
+              currentView === CALENDER_TYPES?.DAY_VIEW_CALENDER
+                ? 'contained'
+                : 'outlined'
+            }
+            startIcon={<CalendarTodayIcon />}
+            color="secondary"
+            onClick={() => handleViewChange(CALENDER_TYPES?.DAY_VIEW_CALENDER)}
+            sx={{
+              backgroundColor:
+                currentView === CALENDER_TYPES?.DAY_VIEW_CALENDER
+                  ? 'primary.main'
+                  : undefined,
+            }}
           >
-            <Button
-              variant={currentView === 'timeGridDay' ? 'contained' : 'outlined'}
-              startIcon={<CalendarTodayIcon />}
-              color="secondary"
-              onClick={() => handleViewChange('timeGridDay')}
-              sx={{
-                backgroundColor:
-                  currentView === 'timeGridDay' ? 'primary.main' : undefined,
-              }}
-            >
-              Today
-            </Button>
-            <Button
-              variant={
-                currentView === 'timeGridWeek' ? 'contained' : 'outlined'
-              }
-              startIcon={<DateRangeIcon />}
-              color="secondary"
-              onClick={() => handleViewChange('timeGridWeek')}
-              sx={{
-                backgroundColor:
-                  currentView === 'timeGridWeek' ? 'primary.main' : undefined,
-              }}
-            >
-              Weekly
-            </Button>
-            <Button
-              variant={
-                currentView === 'dayGridMonth' ? 'contained' : 'outlined'
-              }
-              startIcon={<CalendarMonthIcon />}
-              color="secondary"
-              onClick={() => handleViewChange('dayGridMonth')}
-              sx={{
-                backgroundColor:
-                  currentView === 'dayGridMonth' ? 'primary.main' : undefined,
-              }}
-            >
-              Monthly
-            </Button>
-            <Button
-              variant={
-                currentView === 'multiMonthYear' ? 'contained' : 'outlined'
-              }
-              startIcon={<EventAvailableIcon />}
-              color="secondary"
-              onClick={() => handleViewChange('multiMonthYear')}
-              sx={{
-                backgroundColor:
-                  currentView === 'multiMonthYear' ? 'primary.main' : undefined,
-              }}
-            >
-              yearly
-            </Button>
-            <Button
-              startIcon={<ReorderIcon sx={{ ml: 1 }} />}
-              color="secondary"
-              variant="outlined"
-              onClick={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS)}
-            />
-          </Box>
+            Today
+          </Button>
+          <Button
+            variant={
+              currentView === CALENDER_TYPES?.WEEK_VIEW_CALENDER
+                ? 'contained'
+                : 'outlined'
+            }
+            startIcon={<DateRangeIcon />}
+            color="secondary"
+            onClick={() => handleViewChange(CALENDER_TYPES?.WEEK_VIEW_CALENDER)}
+            sx={{
+              backgroundColor:
+                currentView === CALENDER_TYPES?.WEEK_VIEW_CALENDER
+                  ? 'primary.main'
+                  : undefined,
+            }}
+          >
+            Weekly
+          </Button>
+          <Button
+            variant={
+              currentView === CALENDER_TYPES?.MONTH_VIEW_CALENDER
+                ? 'contained'
+                : 'outlined'
+            }
+            startIcon={<CalendarMonthIcon />}
+            color="secondary"
+            onClick={() =>
+              handleViewChange(CALENDER_TYPES?.MONTH_VIEW_CALENDER)
+            }
+            sx={{
+              backgroundColor:
+                currentView === CALENDER_TYPES?.MONTH_VIEW_CALENDER
+                  ? 'primary.main'
+                  : undefined,
+            }}
+          >
+            Monthly
+          </Button>
+          <Button
+            variant={
+              currentView === CALENDER_TYPES?.YEAR_VIEW_CALENDER
+                ? 'contained'
+                : 'outlined'
+            }
+            startIcon={<EventAvailableIcon />}
+            color="secondary"
+            onClick={() => handleViewChange(CALENDER_TYPES?.YEAR_VIEW_CALENDER)}
+            sx={{
+              backgroundColor:
+                currentView === CALENDER_TYPES?.YEAR_VIEW_CALENDER
+                  ? 'primary.main'
+                  : undefined,
+            }}
+          >
+            yearly
+          </Button>
+          <Button
+            startIcon={<ReorderIcon sx={{ ml: 1 }} />}
+            color="secondary"
+            variant="outlined"
+            onClick={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS)}
+          />
         </Box>
-        <br />
-        <br />
-        <FullCalendarView
-          currentView={currentView}
-          openEventModal={openEventModal}
-          handleEventClick={handleEventClick}
-          eventData={eventData}
-          setOpenEventModal={setOpenEventModal}
-        />
       </Box>
+      <br />
+      <br />
+      <FullCalendarView
+        currentView={currentView}
+        openEventModal={openEventModal}
+        handleEventClick={handleEventClick}
+        eventData={eventData}
+        setOpenEventModal={setOpenEventModal}
+        CALENDER_TYPES={CALENDER_TYPES}
+      />
     </Box>
   );
 };

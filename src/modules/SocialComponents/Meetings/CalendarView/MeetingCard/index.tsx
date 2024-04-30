@@ -1,7 +1,8 @@
+import { SOCIAL_COMPONENTS } from '@/constants';
 import { Box, Typography } from '@mui/material';
 
 export const MeetingCard = (props: any) => {
-  const { heading, meetingsCount, color } = props;
+  const { heading, meetingsCount, color, router } = props;
 
   return (
     <Box
@@ -14,6 +15,12 @@ export const MeetingCard = (props: any) => {
       borderRadius={2}
       marginBottom={2}
       sx={{ cursor: 'pointer' }}
+      onClick={() =>
+        router?.push({
+          pathname: SOCIAL_COMPONENTS?.MEETINGS,
+          query: heading,
+        })
+      }
     >
       <Typography color={'secondary'}>{heading}</Typography>
       <Typography variant="h4">{meetingsCount}</Typography>

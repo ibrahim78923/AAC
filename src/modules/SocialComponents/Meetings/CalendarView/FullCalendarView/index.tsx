@@ -13,50 +13,45 @@ export const FullCalendarView = (props: any) => {
     setOpenEventModal,
     eventData,
     handleEventClick,
+    CALENDER_TYPES,
   } = props;
 
   return (
     <Box>
-      {currentView === 'timeGridDay' && (
+      {currentView === CALENDER_TYPES?.DAY_VIEW_CALENDER && (
         <FullCalendar
           plugins={[timeGridPlugin]}
-          initialView="timeGridDay"
+          initialView={CALENDER_TYPES?.DAY_VIEW_CALENDER}
           allDaySlot={false}
           slotLabelFormat={{
             hour: 'numeric',
             minute: '2-digit',
             meridiem: true,
           }}
-          events={eventArray?.map((event: any) => ({
-            ...event,
-            end: new Date(event?.start)?.getTime() + 60 * 60 * 1000,
-          }))}
+          events={eventArray}
           eventClick={handleEventClick}
           eventClassNames={styles?.eventClassNames}
         />
       )}
-      {currentView === 'timeGridWeek' && (
+      {currentView === CALENDER_TYPES?.WEEK_VIEW_CALENDER && (
         <FullCalendar
           plugins={[timeGridPlugin]}
-          initialView="timeGridWeek"
+          initialView={CALENDER_TYPES?.WEEK_VIEW_CALENDER}
           allDaySlot={false}
           slotLabelFormat={{
             hour: 'numeric',
             minute: '2-digit',
             meridiem: true,
           }}
-          events={eventArray?.map((event: any) => ({
-            ...event,
-            end: new Date(event?.start)?.getTime() + 60 * 60 * 1000,
-          }))}
+          events={eventArray}
           eventClick={handleEventClick}
           eventClassNames={styles?.eventClassNames}
         />
       )}
-      {currentView === 'dayGridMonth' && (
+      {currentView === CALENDER_TYPES?.MONTH_VIEW_CALENDER && (
         <FullCalendar
           plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
+          initialView={CALENDER_TYPES?.MONTH_VIEW_CALENDER}
           dayMaxEventRows={true}
           allDaySlot={false}
           slotLabelFormat={{
@@ -69,10 +64,10 @@ export const FullCalendarView = (props: any) => {
           eventClassNames={styles?.eventClassNames}
         />
       )}
-      {currentView === 'multiMonthYear' && (
+      {currentView === CALENDER_TYPES?.YEAR_VIEW_CALENDER && (
         <FullCalendar
           plugins={[multiMonthPlugin]}
-          initialView="multiMonthYear"
+          initialView={CALENDER_TYPES?.YEAR_VIEW_CALENDER}
           dayMaxEventRows={true}
           allDaySlot={false}
           slotLabelFormat={{

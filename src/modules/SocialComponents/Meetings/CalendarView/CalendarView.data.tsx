@@ -127,6 +127,38 @@ export const eventArray = [
       attachment: 'BA module division.xlsx',
     },
   },
+  {
+    title: 'Testing 6',
+    start: '2024-04-29T10:00:00',
+    data: {
+      email: 'ali.haider@ceative.co.uk',
+      meetingTitle: 'Developer meeting',
+      date: 'MON 2/11/23',
+      startTime: '11:15 Am',
+      endTime: '12:00 Pm',
+      invitedBy: 'Ahsan Ali',
+      accepted: '3',
+      notResponding: '33',
+      listeners: 'Management',
+      attachment: 'BA module division.xlsx',
+    },
+  },
+  {
+    title: 'Testing 6',
+    start: '2024-04-30T10:00:00',
+    data: {
+      email: 'ali.haider@ceative.co.uk',
+      meetingTitle: 'Developer meeting',
+      date: 'MON 2/11/23',
+      startTime: '11:15 Am',
+      endTime: '12:00 Pm',
+      invitedBy: 'Ahsan Ali',
+      accepted: '3',
+      notResponding: '33',
+      listeners: 'Management',
+      attachment: 'BA module division.xlsx',
+    },
+  },
 ];
 
 export const meetingCardArray = (theme: any) => [
