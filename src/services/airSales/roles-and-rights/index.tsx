@@ -20,6 +20,14 @@ export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
       providesTags: ['PERMISSIONS'],
     }),
 
+    getRolesDataById: builder.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.GET_PERMISSIONS_ROLES}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['PERMISSIONS'],
+    }),
+
     getProductsPermissions: builder.query({
       query: ({ productId }: any) => ({
         url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${productId}`,
@@ -56,7 +64,8 @@ export const {
   useGetPermissionsRolesQuery,
   useGetProductsPermissionsQuery,
   useUpdateRoleRightsMutation,
-  useGetPermissionsRolesByIdQuery,
+  // useGetPermissionsRolesByIdQuery,
   useLazyGetPermissionsRolesByIdQuery,
   usePostPermissionRoleMutation,
+  useGetRolesDataByIdQuery,
 } = airSalesRolesAndRightsAPI;

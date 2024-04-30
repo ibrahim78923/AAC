@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './AddRoleDrawer.data';
 import {
   airSalesRolesAndRightsAPI,
-  useGetPermissionsRolesByIdQuery,
+  useGetRolesDataByIdQuery,
   usePostPermissionRoleMutation,
   useUpdateRoleRightsMutation,
 } from '@/services/airSales/roles-and-rights';
@@ -20,8 +20,13 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const { user }: any = getSession();
   const theme = useTheme<Theme>();
+  const drawerConstants = {
+    EDIT: 'edit',
+    ADD: 'add',
+    VIEW: 'view',
+  };
 
-  const disabled = isDrawerOpen?.type === 'view';
+  const disabled = isDrawerOpen?.type === drawerConstants?.VIEW;
   const activeProduct = getActiveProductSession();
   const activeAccount = getActiveAccountSession();
 
@@ -33,8 +38,8 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const [trigger, { data: viewPerdetails, isLoading }] =
     useLazyGetPermissionsRolesByIdQuery();
 
-  const { data: defaultPermissions } = useGetPermissionsRolesByIdQuery(
-    isDrawerOpen?.type === 'view' ? isDrawerOpen?.id : activeAccount?.role,
+  const { data: defaultPermissions } = useGetRolesDataByIdQuery(
+    isDrawerOpen?.id,
   );
 
   const defaultActivePermissions =
@@ -48,7 +53,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
 
   const allPermissions = defaultPermissions;
 
-  const filteredPermissions = viewPerdetails?.data?.permissions?.flatMap(
+  const filteredPermissions = defaultPermissions?.data?.permissions?.flatMap(
     (rec: any) => {
       return rec?.subModules?.flatMap((item: any) => {
         return item?.permissions?.filter((e: any) => {
@@ -72,19 +77,17 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const { handleSubmit, reset, setValue } = methods;
 
   useEffect(() => {
-    trigger(
-      isDrawerOpen?.type !== 'add' ? isDrawerOpen?.id : activeAccount?.role,
-    );
+    trigger(activeProduct?._id);
   }, [isDrawerOpen]);
 
   useEffect(() => {
-    const data = viewPerdetails?.data;
-
+    const data = defaultPermissions?.data;
     const fieldsToSet: any = {
-      name: isDrawerOpen?.type === 'add' ? '' : data?.name,
-      description: isDrawerOpen?.type === 'add' ? '' : data?.description,
+      name: isDrawerOpen?.type === drawerConstants?.ADD ? '' : data?.name,
+      description:
+        isDrawerOpen?.type === drawerConstants?.ADD ? '' : data?.description,
       permissions:
-        isDrawerOpen?.type === 'add'
+        isDrawerOpen?.type === drawerConstants?.ADD
           ? []
           : filteredPermissions?.map((item: any) => {
               return item?.slug;
@@ -102,7 +105,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     const organizationCompanyAccountId = activeAccount?.company?._id;
     const productId = activeProduct?._id;
     try {
-      if (isDrawerOpen?.type === 'add') {
+      if (isDrawerOpen?.type === drawerConstants?.ADD) {
         values.organizationId = organizationId;
         values.organizationCompanyAccountId = organizationCompanyAccountId;
         values.productId = productId;
@@ -115,7 +118,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
       onClose();
       enqueueSnackbar(
         `${
-          isDrawerOpen?.type === 'edit'
+          isDrawerOpen?.type === drawerConstants?.EDIT
             ? 'Changes save successfully'
             : 'New role added successfully'
         }`,
@@ -131,9 +134,10 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   };
 
   return {
-    allPermissions,
     postRoleLoading,
+    drawerConstants,
     viewPerdetails,
+    allPermissions,
     activeAccount,
     handleSubmit,
     isLoading,

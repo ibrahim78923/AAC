@@ -19,22 +19,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const PermissionsAccordion = (props: any) => {
   const { permissionsData, disabled } = props;
 
-  const {
-    theme,
-    // commented for future use
-    // isAccordionExpanded,
-    //  handleExpandAccordionChange
-  } = usePermissionAccordion();
+  const { theme } = usePermissionAccordion();
 
   return (
     <Stack gap={3}>
-      {permissionsData?.data?.permissions?.map((item: any) => (
+      {permissionsData?.map((item: any) => (
         <Accordion
           key={uuidv4()}
-          // expanded={isAccordionExpanded === item?.module?.toLowerCase()}
-          // onChange={handleExpandAccordionChange(
-          //   item?.module?.toLowerCase(),
-          // )}
           disableGutters
           sx={{
             '&.MuiAccordion': {

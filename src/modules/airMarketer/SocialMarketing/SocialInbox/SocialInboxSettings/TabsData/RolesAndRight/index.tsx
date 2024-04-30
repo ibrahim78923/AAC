@@ -39,7 +39,7 @@ const RolesRight = () => {
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
           padding: '1rem',
-          boxShadow: '0px 1px 2px 0px #1018280F',
+          boxShadow: `0px 1px 2px 0px ${theme?.palette?.custom?.dark_shade_green}`,
           borderRadius: '8px',
         }}
       >
@@ -79,12 +79,10 @@ const RolesRight = () => {
               }}
             />
           </PermissionsGuard>
-
           <ActionButton
             checkedRows={checkedRows}
             setIsDraweropen={setIsDraweropen}
             setIsOpenDelete={setIsOpenDelete}
-            // permissions={getPermissions?.}
           />
         </Stack>
         <Grid>
