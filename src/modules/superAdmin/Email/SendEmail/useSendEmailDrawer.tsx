@@ -9,17 +9,16 @@ import {
   emailValidationsSchema,
   scheduleEmailDefaultValues,
   scheduleEmailValidationSchema,
-} from './EmailEditorDrawer.data';
+} from './SendEmailDrawer.data';
 
-const useEmailEditorDrawer = () => {
+const useSendEmailDrawer = () => {
   const theme = useTheme();
-  const methodsdealsTasks = useForm({
+  const methodsDealsTasks: any = useForm({
     resolver: yupResolver(emailValidationsSchema),
     defaultValues: emailDefaultValues,
   });
-
   const onSubmit = () => {};
-  const { handleSubmit, watch } = methodsdealsTasks;
+  const { handleSubmit, watch } = methodsDealsTasks;
   const watchEmailsForm = watch(['cc', 'bcc']);
 
   const methodsScheduleEmail = useForm({
@@ -33,7 +32,7 @@ const useEmailEditorDrawer = () => {
   return {
     handleSubmit,
     onSubmit,
-    methodsdealsTasks,
+    methodsDealsTasks,
     watchEmailsForm,
     theme,
     handleScheduleEmail,
@@ -41,4 +40,4 @@ const useEmailEditorDrawer = () => {
     onSubmitEmail,
   };
 };
-export default useEmailEditorDrawer;
+export default useSendEmailDrawer;

@@ -9,6 +9,8 @@ import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import * as Yup from 'yup';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS } from '@/constants/permission-keys';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const ContactStatusvalidationSchema: any = Yup.object().shape({
   name: Yup.string()
@@ -26,9 +28,10 @@ export const dataArray = [
   {
     componentProps: {
       name: 'name',
-      label: 'Add Status Name',
+      label: 'Status Name',
       fullWidth: true,
       disable: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -38,6 +41,7 @@ export const dataArray = [
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      required: true,
     },
     component: RHFEditor,
     md: 12,
@@ -106,7 +110,7 @@ export const columns = (
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.action,

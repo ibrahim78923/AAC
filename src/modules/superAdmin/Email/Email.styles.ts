@@ -47,9 +47,10 @@ export const styles = {
     borderRadius: '8px',
     display: 'flex',
     alignItems: 'center',
-    gap: '24px',
+    gap: '10px',
     mb: '24px',
     border: '1px solid #E5E7EB',
     p: '16px',
+    cursor: 'pointer',
   },
 };

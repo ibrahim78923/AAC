@@ -210,6 +210,10 @@ export const Quick_Links_Routes = {
   MEETINGS: '/social-components/meetings',
 };
 
+export const EMAIL_SUB_ROUTES = {
+  EMAIL_CONVERSATIONS: '/social-components/email/conversations',
+};
+
 export const productSuiteName = {
   crm: 'CRM',
 };
@@ -237,4 +241,10 @@ export const QUICKLINKSROLES = {
 export const DOCUMENTS_ACTION_TYPES = {
   MOVE_FOLDER: 'move-folder',
   UPDATE_FOLDER: 'update-folder',
+};
+
+export const CREATE_EMAIL_TYPES = {
+  NEW_EMAIL: 'new',
+  FORWARD: 'forward',
+  REPLY: 'reply',
 };
