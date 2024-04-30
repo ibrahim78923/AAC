@@ -12,7 +12,7 @@ import { enqueueSnackbar } from 'notistack';
 import ImportModal from './TransactionImportDrawer';
 import { useTransaction } from './useTransaction';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Transactions = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -43,10 +43,16 @@ export const Transactions = () => {
           Gift Card Transactions
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-          <ImportModal />
           <PermissionsGuard
             permissions={[
-              AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS_PERMISSIONS?.ADD_TRANSACTIONS,
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.IMPORT,
+            ]}
+          >
+            <ImportModal />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.ADD_TRANSACTIONS,
             ]}
           >
             <Button
@@ -70,7 +76,7 @@ export const Transactions = () => {
       >
         <PermissionsGuard
           permissions={[
-            AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS_PERMISSIONS?.VIEW_TRANSACTIONS_DETAILS,
+            AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.SEARCH_DETAILS,
           ]}
         >
           <Search
@@ -81,18 +87,24 @@ export const Transactions = () => {
           />
         </PermissionsGuard>
         <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-          <Button
-            variant="outlined"
-            color="inherit"
-            startIcon={<ExportIcon />}
-            sx={{ borderRadius: '0.5rem' }}
-            onClick={() => setOpenModal(true)}
-          >
-            Export
-          </Button>
           <PermissionsGuard
             permissions={[
-              AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS_PERMISSIONS?.APPLY_FILTERS,
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.EXPORT,
+            ]}
+          >
+            <Button
+              variant="outlined"
+              color="inherit"
+              startIcon={<ExportIcon />}
+              sx={{ borderRadius: '0.5rem' }}
+              onClick={() => setOpenModal(true)}
+            >
+              Export
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.APPLY_FILTERS,
             ]}
           >
             <Button
@@ -118,7 +130,7 @@ export const Transactions = () => {
       </Box>
       <PermissionsGuard
         permissions={[
-          AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS_PERMISSIONS?.VIEW_TRANSACTIONS_DETAILS,
+          AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.VIEW_DETAILS,
         ]}
       >
         <TanstackTable
