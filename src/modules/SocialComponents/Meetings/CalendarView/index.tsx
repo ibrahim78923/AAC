@@ -11,6 +11,7 @@ import styles from './CalendarView.module.scss';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { Header } from './Header';
+import { CALENDER_TYPES, MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 
 export const CalendarView = () => {
   const {
@@ -23,7 +24,6 @@ export const CalendarView = () => {
     eventData,
     handleEventClick,
     router,
-    CALENDER_TYPES,
   } = useCalendarView();
 
   return (
@@ -131,7 +131,14 @@ export const CalendarView = () => {
             startIcon={<ReorderIcon sx={{ ml: 1 }} />}
             color="secondary"
             variant="outlined"
-            onClick={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS)}
+            onClick={() =>
+              router?.push({
+                pathname: SOCIAL_COMPONENTS?.MEETINGS,
+                query: {
+                  type: MEETINGS_DETAILS_TYPE?.ALL,
+                },
+              })
+            }
           />
         </Box>
       </Box>
@@ -143,7 +150,6 @@ export const CalendarView = () => {
         handleEventClick={handleEventClick}
         eventData={eventData}
         setOpenEventModal={setOpenEventModal}
-        CALENDER_TYPES={CALENDER_TYPES}
       />
     </Box>
   );

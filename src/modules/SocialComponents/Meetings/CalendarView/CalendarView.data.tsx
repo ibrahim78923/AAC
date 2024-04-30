@@ -165,19 +165,19 @@ export const meetingCardArray = (theme: any) => [
   {
     id: 3543,
     heading: 'All',
-    meetingsCount: '30',
+    meetingsCount: '5',
     color: theme?.palette?.info?.main,
   },
   {
     id: 8476,
     heading: 'Upcoming',
-    meetingsCount: '10',
+    meetingsCount: '2',
     color: theme?.palette?.error?.main,
   },
   {
     id: 8210,
     heading: 'Completed',
-    meetingsCount: '20',
+    meetingsCount: '3',
     color: theme?.palette?.success?.dark,
   },
 ];
