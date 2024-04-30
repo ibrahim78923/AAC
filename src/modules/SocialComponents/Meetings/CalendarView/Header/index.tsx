@@ -9,7 +9,7 @@ export const Header = () => {
   return (
     <>
       <PageTitledHeader
-        title={'Meetings'}
+        title={'All Meetings'}
         addTitle="Schedule Meeting"
         handleAction={() => router?.push(SOCIAL_COMPONENTS?.SCHEDULE_MEETING)}
         createPermissionKey={[
