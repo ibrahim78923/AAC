@@ -17,15 +17,15 @@ export const AllRewards = () => {
   return (
     <Box>
       <PermissionsGuard
-        permissions={AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.SEARCH}
+        permissions={[AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.SEARCH]}
       >
         <Search label="Search Here" setSearchBy={setSearch} />
       </PermissionsGuard>
       <Box mt={'0.75rem'}>
         <PermissionsGuard
-          permissions={
-            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.VIEW_REWARDS_DETAILS
-          }
+          permissions={[
+            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.VIEW_REWARDS_DETAILS,
+          ]}
         >
           <TanstackTable
             columns={loyaltyAllRewardColumn}
