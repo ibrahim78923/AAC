@@ -229,7 +229,7 @@ export const LoyaltyProgramsRoutes: any = [
     label: 'Loyalty',
     icon: LoyaltyImage,
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY,
     textNames: [
       {
         key: LOYALTY_PROGRAM?.LOYALTY_REWARD,
@@ -269,16 +269,6 @@ export const LoyaltyProgramsRoutes: any = [
         key: LOYALTY_PROGRAM?.GIFT_CARDS_TRANSACTIONS,
         label: 'Transactions',
         permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS,
-      },
-      {
-        key: LOYALTY_PROGRAM?.GIFT_CARDS_SETTLEMENTS,
-        label: 'Settlements',
-        permissions: [],
-      },
-      {
-        key: LOYALTY_PROGRAM?.GIFT_CARDS_SETTLED,
-        label: 'Settled',
-        permissions: [],
       },
     ],
   },
@@ -630,7 +620,7 @@ export const LowerLoyaltyProgramRoutes = [
     icon: SettingImage,
     role: 'Loyalty-program',
     key: LOYALTY_PROGRAM?.SETTINGS,
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT,
   },
 ];
 
