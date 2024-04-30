@@ -4,6 +4,7 @@ import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { dataArray } from '../Users.data';
 import useAddUser from './useAddUser';
+import useUserManagement from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings/TabsData/UserManagement/useUserManagement';
 
 const AddUsers = (props: any) => {
   const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
@@ -12,6 +13,7 @@ const AddUsers = (props: any) => {
     checkedUser,
     isAddUserDrawer?.type,
   );
+  const { EDIT, VIEW } = useUserManagement();
 
   return (
     <CommonDrawer
@@ -19,8 +21,8 @@ const AddUsers = (props: any) => {
       onClose={() =>
         setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false })
       }
-      title={isAddUserDrawer?.type === 'edit' ? 'Edit User' : 'Add User'}
-      okText={isAddUserDrawer?.type === 'edit' ? 'Edit' : 'Add'}
+      title={isAddUserDrawer?.type === EDIT ? 'Edit User' : 'Add User'}
+      okText={isAddUserDrawer?.type === EDIT ? 'Edit' : 'Add'}
       footer={true}
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
@@ -43,8 +45,8 @@ const AddUsers = (props: any) => {
                   {...item.componentProps}
                   size={'small'}
                   disabled={
-                    isAddUserDrawer?.type === 'view' ||
-                    (isAddUserDrawer?.type === 'edit' &&
+                    isAddUserDrawer?.type === VIEW ||
+                    (isAddUserDrawer?.type === EDIT &&
                       item?.componentProps?.name === 'email')
                       ? true
                       : false

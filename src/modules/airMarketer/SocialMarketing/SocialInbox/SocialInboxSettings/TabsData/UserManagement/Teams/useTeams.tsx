@@ -3,7 +3,7 @@ import { Theme, useTheme } from '@mui/material';
 import {
   useGetTeamsByIdQuery,
   useGetTeamsQuery,
-} from '@/services/airSales/settings/teams';
+} from '@/services/airMarketer/settings/teams';
 import { PAGINATION } from '@/config';
 
 const useTeams = (teamId?: any) => {

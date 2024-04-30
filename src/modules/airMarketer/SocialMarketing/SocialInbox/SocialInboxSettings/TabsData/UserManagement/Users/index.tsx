@@ -35,6 +35,8 @@ const UserTable = (props: any) => {
     setPageLimit,
     isLoading,
     isSuccess,
+    EDIT,
+    VIEW,
   } = useUserManagement();
 
   return (
@@ -108,7 +110,7 @@ const UserTable = (props: any) => {
               onClick={() => {
                 setIsAddUserDrawer({
                   isToggle: true,
-                  type: 'edit',
+                  type: EDIT,
                 });
                 handleClose();
               }}
@@ -124,7 +126,7 @@ const UserTable = (props: any) => {
                 setIsAddUserDrawer({
                   ...isAddUserDrawer,
                   isToggle: true,
-                  type: 'view',
+                  type: VIEW,
                 });
                 handleClose();
               }}

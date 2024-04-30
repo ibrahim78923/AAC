@@ -22,12 +22,6 @@ const MemberDetails = (props: any) => {
             gap: 1.5,
           }}
         >
-          {/* <Image
-            src={gene}
-            alt="img"
-            width={40}
-            height={40}
-          /> */}
           <Avatar src={generateImage(props?.img)}></Avatar>
           <Box sx={{ display: 'grid' }}>
             <Typography

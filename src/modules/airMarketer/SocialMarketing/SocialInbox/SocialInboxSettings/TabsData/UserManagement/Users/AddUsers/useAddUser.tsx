@@ -6,7 +6,7 @@ import {
   useGetproductUsersByIdQuery,
   usePostPoductUserMutation,
   useUpdateProductsUsersMutation,
-} from '@/services/airSales/settings/users';
+} from '@/services/airMarketer/settings/users';
 import { enqueueSnackbar } from 'notistack';
 
 const useAddUser = (checkedUser: any, drawerType: any) => {

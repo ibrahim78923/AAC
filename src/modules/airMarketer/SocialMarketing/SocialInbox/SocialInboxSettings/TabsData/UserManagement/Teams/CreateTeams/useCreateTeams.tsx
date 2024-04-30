@@ -4,7 +4,7 @@ import { teamsDefaultValues, teamsValidationSchema } from './CreateTeams.data';
 import {
   usePostTeamsMutation,
   useUpdateTeamsMutation,
-} from '@/services/airSales/settings/teams';
+} from '@/services/airMarketer/settings/teams';
 import { enqueueSnackbar } from 'notistack';
 import useUserManagement from '../../useUserManagement';
 import { useEffect } from 'react';
@@ -14,7 +14,7 @@ const useCreateTeams = (
   setIsAddTeam: any,
   drawerType: any,
 ) => {
-  const { productsUsers } = useUserManagement();
+  const { productsUsers, EDIT, ADD } = useUserManagement();
   const [postTeams, { isLoading: postTeamLoading }] = usePostTeamsMutation();
   const [updateTeams, { isLoading: updateTeamLoading }] =
     useUpdateTeamsMutation();
@@ -27,7 +27,7 @@ const useCreateTeams = (
   const { handleSubmit, reset, setValue } = methods;
 
   useEffect(() => {
-    if (drawerType === 'edit') {
+    if (drawerType === EDIT) {
       const data = teamDataById?.data;
       const fieldsToSet: any = {
         name: data?.name,
@@ -42,7 +42,7 @@ const useCreateTeams = (
 
   const onSubmit = async (values: any) => {
     try {
-      if (drawerType === 'add') {
+      if (drawerType === ADD) {
         await postTeams({ body: values })?.unwrap();
         reset();
         enqueueSnackbar('Team created successfully', {

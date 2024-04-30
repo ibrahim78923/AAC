@@ -3,7 +3,7 @@ import { Theme, useTheme } from '@mui/material';
 import {
   useDeleteProductUserMutation,
   useUpdateProductsUsersMutation,
-} from '@/services/airSales/settings/users';
+} from '@/services/airMarketer/settings/users';
 import { enqueueSnackbar } from 'notistack';
 import { getSession } from '@/utils';
 import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
@@ -16,7 +16,9 @@ const useUsers: any = () => {
   const [updateProductsUsers] = useUpdateProductsUsersMutation();
   const [deleteProductUser, { isLoading: deleteProductUsersLoading }] =
     useDeleteProductUserMutation();
-  const { user } = getSession();
+  const { user }: any = getSession();
+  const ACTIVE = 'ACTIVE';
+  const INACTIVE = 'INACTIVE';
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -30,7 +32,7 @@ const useUsers: any = () => {
   });
 
   const handleUpdateStatus = async (id: any, value: any) => {
-    const statusVal = value?.target?.checked ? 'ACTIVE' : 'INACTIVE';
+    const statusVal = value?.target?.checked ? ACTIVE : INACTIVE;
     try {
       await updateProductsUsers({
         id: id,

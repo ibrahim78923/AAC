@@ -16,19 +16,17 @@ const CreateTeams = (props?: any) => {
     postTeamLoading,
     updateTeamLoading,
   } = useCreateTeams(teamDataById, setIsAddTeam, isAddTeam?.type);
-  const { skeletonLines } = useUserManagement();
+  const { skeletonLines, ADD, EDIT } = useUserManagement();
 
   return (
     <CommonDrawer
       isDrawerOpen={isAddTeam?.isToggle}
       onClose={() => setIsAddTeam(false)}
-      title={isAddTeam?.type === 'add' ? 'Create Team' : 'Edit Team'}
-      okText={isAddTeam?.type === 'add' ? 'Add' : 'Edit'}
+      title={isAddTeam?.type === ADD ? 'Create Team' : 'Edit Team'}
+      okText={isAddTeam?.type === ADD ? ADD : EDIT}
       footer={true}
       isOk={true}
-      isLoading={
-        isAddTeam?.type === 'add' ? postTeamLoading : updateTeamLoading
-      }
+      isLoading={isAddTeam?.type === ADD ? postTeamLoading : updateTeamLoading}
       submitHandler={handleSubmit(onSubmit)}
     >
       {teamByIdLoading ? (

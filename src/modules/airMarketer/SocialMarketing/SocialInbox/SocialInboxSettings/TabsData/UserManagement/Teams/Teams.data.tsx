@@ -4,10 +4,12 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { EditPenIcon } from '@/assets/icons';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { UserAvatarImage } from '@/assets/images';
+import useUserManagement from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings/TabsData/UserManagement/useUserManagement';
 
 export const columnsTeams = (props: any) => {
   const { setIsTeamDrawer, setIsOpenDelete, theme, setTeamId, setIsAddTeam } =
     props;
+  const { EDIT } = useUserManagement();
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -50,7 +52,7 @@ export const columnsTeams = (props: any) => {
             onClick={() => {
               setIsAddTeam({
                 isToggle: true,
-                type: 'edit',
+                type: EDIT,
               });
               setTeamId(info?.row?.original?._id);
             }}

@@ -1,12 +1,13 @@
+import { useState } from 'react';
 import { PAGINATION } from '@/config';
-import { useDeleteTeamsMutation } from '@/services/airSales/settings/teams';
-import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
+import { useDeleteTeamsMutation } from '@/services/airMarketer/settings/teams';
+import { useGetProductsUsersQuery } from '@/services/airMarketer/settings/users';
 import { Skeleton } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-import { useState } from 'react';
 
 const useUserManagement = () => {
   const skeletonLines = [];
+  const INITIAL_VAL = 0;
   const [teamId, setTeamId] = useState();
   const [checkedUser, setCheckedUser] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState(0);
@@ -36,6 +37,10 @@ const useUserManagement = () => {
     isLoading,
     isSuccess,
   } = useGetProductsUsersQuery(productUserParams);
+
+  const ADD = 'add';
+  const EDIT = 'edit';
+  const VIEW = 'view';
 
   //handler delete team
   const handleDeleteTeam = async (id: any) => {
@@ -83,6 +88,10 @@ const useUserManagement = () => {
     handleDeleteTeam,
     deleteTeamLoading,
     skeletonLines,
+    ADD,
+    EDIT,
+    VIEW,
+    INITIAL_VAL,
   };
 };
 

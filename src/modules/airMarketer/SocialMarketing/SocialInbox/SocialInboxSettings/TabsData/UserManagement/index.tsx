@@ -28,84 +28,77 @@ const Users = () => {
     setIsOpenDelete,
     handleDeleteTeam,
     deleteTeamLoading,
+    ADD,
+    INITIAL_VAL,
   } = useUserManagement();
 
   return (
     <>
       <Box
         sx={{
-          border: `1px solid ${theme?.palette?.grey[700]}`,
-          borderRadius: '8px',
-          boxShadow: '0px 1px 2px 0px #1018280F, 0px 1px 3px 0px #1018281A',
-          padding: '1rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-          }}
+        <Typography variant="h4">User Management</Typography>
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.ADD_USER]}
         >
-          <Typography variant="h4">User Management</Typography>
-          <PermissionsGuard
-            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.ADD_USER]}
+          <Button
+            className="small"
+            onClick={() => {
+              {
+                activeTab === INITIAL_VAL
+                  ? (setIsAddUserDrawer({
+                      isToggle: true,
+                      type: ADD,
+                    }),
+                    setCheckedUser([]))
+                  : setIsAddTeam({ isToggle: true, type: ADD });
+              }
+            }}
+            variant="contained"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              columnGap: '10px',
+              marginTop: { xs: '10px', sm: '0px' },
+              width: { xs: '100%', sm: 'fit-content' },
+            }}
           >
-            <Button
-              className="small"
-              onClick={() => {
-                {
-                  activeTab === 0
-                    ? (setIsAddUserDrawer({
-                        isToggle: true,
-                        type: 'add',
-                      }),
-                      setCheckedUser([]))
-                    : setIsAddTeam({ isToggle: true, type: 'add' });
-                }
-              }}
-              variant="contained"
+            <AddCircleIcon
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                columnGap: '10px',
-                marginTop: { xs: '10px', sm: '0px' },
-                width: { xs: '100%', sm: 'fit-content' },
+                color: `${theme?.palette?.common.white}`,
+                fontSize: '16px',
               }}
-            >
-              <AddCircleIcon
-                sx={{
-                  color: `${theme?.palette?.common.white}`,
-                  fontSize: '16px',
-                }}
-              />
-              {activeTab === 0 ? 'Add User' : 'Create Team'}
-            </Button>
-          </PermissionsGuard>
-        </Box>
-        <Box sx={{ width: '100%' }}>
-          <CommonTabs
-            getTabVal={(val: any) => setActiveTab(val)}
-            tabsArray={['Users', 'Teams']}
-          >
-            <UserTable
-              isAddUserDrawer={isAddUserDrawer}
-              setIsAddUserDrawer={setIsAddUserDrawer}
-              checkedUser={checkedUser}
-              setCheckedUser={setCheckedUser}
             />
+            {activeTab === INITIAL_VAL ? 'Add User' : 'Create Team'}
+          </Button>
+        </PermissionsGuard>
+      </Box>
+      <Box sx={{ width: '100%' }}>
+        <CommonTabs
+          getTabVal={(val: any) => setActiveTab(val)}
+          tabsArray={['Users', 'Teams']}
+        >
+          <UserTable
+            isAddUserDrawer={isAddUserDrawer}
+            setIsAddUserDrawer={setIsAddUserDrawer}
+            checkedUser={checkedUser}
+            setCheckedUser={setCheckedUser}
+          />
 
-            <TeamsTable
-              isAddTeam={isAddTeam}
-              teamId={teamId}
-              setTeamId={setTeamId}
-              setIsAddTeam={setIsAddTeam}
-              setIsOpenDelete={setIsOpenDelete}
-              setIsTeamDrawer={setIsTeamDrawer}
-              isTeamDrawer={isTeamDrawer}
-            />
-          </CommonTabs>
-        </Box>
+          <TeamsTable
+            isAddTeam={isAddTeam}
+            teamId={teamId}
+            setTeamId={setTeamId}
+            setIsAddTeam={setIsAddTeam}
+            setIsOpenDelete={setIsOpenDelete}
+            setIsTeamDrawer={setIsTeamDrawer}
+            isTeamDrawer={isTeamDrawer}
+          />
+        </CommonTabs>
       </Box>
 
       <AddUsers

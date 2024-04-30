@@ -1,7 +1,5 @@
 import { Box, Checkbox } from '@mui/material';
-
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-
 import * as Yup from 'yup';
 import { SwitchBtn } from '@/components/SwitchButton';
 import useTeams from '../Teams/useTeams';
@@ -133,36 +131,6 @@ export const dataArray = () => {
         value: item?._id,
         label: item?.name,
       })),
-      component: RHFSelect,
-      md: 12,
-    },
-    {
-      componentProps: {
-        name: 'language',
-        label: 'Language',
-        fullWidth: true,
-        select: true,
-      },
-      options: [
-        { value: 'United Kingdom', label: 'English' },
-        { value: 'United Kingdom', label: 'Spanish' },
-        { value: 'United Kingdom', label: 'Chinese' },
-      ],
-      component: RHFSelect,
-      md: 12,
-    },
-    {
-      componentProps: {
-        name: 'timezone',
-        label: 'Time Zone',
-        fullWidth: true,
-        select: true,
-      },
-      options: [
-        { value: 'United Kingdom', label: '(GMT-11:00) London' },
-        { value: 'United Kingdom', label: '(GMT-11:00) London' },
-        { value: 'United Kingdom', label: '(GMT-11:00) London' },
-      ],
       component: RHFSelect,
       md: 12,
     },
