@@ -1,40 +1,23 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
-import { useState } from 'react';
 import UpsertLocations from './UpsertLocations';
 import { Box } from '@mui/material';
 import Search from '@/components/Search';
-// import { NOTISTACK_VARIANTS } from '@/constants/strings';
-// import { enqueueSnackbar } from 'notistack';
 import TanstackTable from '@/components/Table/TanstackTable';
-import {
-  // teamDropdown,
-  locationsList,
-  locationsListData,
-} from './Locations.data';
+import { useLocations } from './useLocations';
+import { LocationDeleteModal } from './LocationDeleteModal';
 
 export const Locations = () => {
-  const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
-  const [searchValue, SetSearchValue] = useState<string>('');
-  const [selectedLocationsList, setSelectedLocationsList] = useState<any>([]);
-  // const [deleteModal, setDeleteModal] = useState<boolean>(false);
-
-  // const submitDeleteModal = () => {
-  //   enqueueSnackbar('Delete Successfully', {
-  //     variant: NOTISTACK_VARIANTS?.SUCCESS,
-  //   });
-  //   setDeleteModal(false);
-  // };
-  // const teamDropdownOptions = teamDropdown(setDeleteModal);
-
-  const LocationsListColumn = locationsList(
-    selectedLocationsList,
-    setSelectedLocationsList,
-    locationsListData,
+  const {
+    isAddDrawerOpen,
     setIsAddDrawerOpen,
-    // setDeleteModal,
-  );
-
+    searchValue,
+    SetSearchValue,
+    deleteModal,
+    setDeleteModal,
+    locationsListData,
+    LocationsListColumn,
+  } = useLocations();
   return (
     <>
       <PageTitledHeader
@@ -62,6 +45,12 @@ export const Locations = () => {
       <UpsertLocations
         isDrawerOpen={isAddDrawerOpen}
         onClose={setIsAddDrawerOpen}
+      />
+      <LocationDeleteModal
+        open={deleteModal}
+        handleClose={() => {
+          setDeleteModal(false);
+        }}
       />
     </>
   );
