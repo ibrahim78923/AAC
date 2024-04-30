@@ -17,7 +17,9 @@ export const useCalendarView = () => {
     setCurrentView(view);
   };
   const handleCloseViewMorePopover = () => {
-    const viewMorePopover = document?.querySelector('.fc-more-popover');
+    const viewMorePopover = document?.querySelector(
+      '.fc-more-popover',
+    ) as HTMLElement | null;
     if (viewMorePopover) {
       viewMorePopover.style.display = 'none';
     }
