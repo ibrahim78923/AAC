@@ -13,7 +13,7 @@ const AddUsers = (props: any) => {
     checkedUser,
     isAddUserDrawer?.type,
   );
-  const { EDIT, VIEW } = useUserManagement();
+  const { drawyerType } = useUserManagement();
 
   return (
     <CommonDrawer
@@ -21,8 +21,10 @@ const AddUsers = (props: any) => {
       onClose={() =>
         setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false })
       }
-      title={isAddUserDrawer?.type === EDIT ? 'Edit User' : 'Add User'}
-      okText={isAddUserDrawer?.type === EDIT ? 'Edit' : 'Add'}
+      title={
+        isAddUserDrawer?.type === drawyerType?.EDIT ? 'Edit User' : 'Add User'
+      }
+      okText={isAddUserDrawer?.type === drawyerType?.EDIT ? 'Edit' : 'Add'}
       footer={true}
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
@@ -45,8 +47,8 @@ const AddUsers = (props: any) => {
                   {...item.componentProps}
                   size={'small'}
                   disabled={
-                    isAddUserDrawer?.type === VIEW ||
-                    (isAddUserDrawer?.type === EDIT &&
+                    isAddUserDrawer?.type === drawyerType?.VIEW ||
+                    (isAddUserDrawer?.type === drawyerType?.EDIT &&
                       item?.componentProps?.name === 'email')
                       ? true
                       : false

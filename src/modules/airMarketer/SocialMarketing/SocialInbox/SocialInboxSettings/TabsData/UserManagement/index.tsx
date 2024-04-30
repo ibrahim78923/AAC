@@ -28,7 +28,7 @@ const Users = () => {
     setIsOpenDelete,
     handleDeleteTeam,
     deleteTeamLoading,
-    ADD,
+    drawyerType,
     INITIAL_VAL,
   } = useUserManagement();
 
@@ -52,10 +52,10 @@ const Users = () => {
                 activeTab === INITIAL_VAL
                   ? (setIsAddUserDrawer({
                       isToggle: true,
-                      type: ADD,
+                      type: drawyerType?.ADD,
                     }),
                     setCheckedUser([]))
-                  : setIsAddTeam({ isToggle: true, type: ADD });
+                  : setIsAddTeam({ isToggle: true, type: drawyerType?.ADD });
               }
             }}
             variant="contained"

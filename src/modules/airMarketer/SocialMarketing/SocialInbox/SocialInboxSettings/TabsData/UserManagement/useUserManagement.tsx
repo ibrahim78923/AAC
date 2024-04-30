@@ -37,10 +37,11 @@ const useUserManagement = () => {
     isLoading,
     isSuccess,
   } = useGetProductsUsersQuery(productUserParams);
-
-  const ADD = 'add';
-  const EDIT = 'edit';
-  const VIEW = 'view';
+  const drawyerType = {
+    ADD: 'add',
+    EDIT: 'edit',
+    VIEW: 'view',
+  };
 
   //handler delete team
   const handleDeleteTeam = async (id: any) => {
@@ -88,9 +89,7 @@ const useUserManagement = () => {
     handleDeleteTeam,
     deleteTeamLoading,
     skeletonLines,
-    ADD,
-    EDIT,
-    VIEW,
+    drawyerType,
     INITIAL_VAL,
   };
 };

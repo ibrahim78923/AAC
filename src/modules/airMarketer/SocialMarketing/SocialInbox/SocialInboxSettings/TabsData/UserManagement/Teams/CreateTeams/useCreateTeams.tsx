@@ -14,7 +14,7 @@ const useCreateTeams = (
   setIsAddTeam: any,
   drawerType: any,
 ) => {
-  const { productsUsers, EDIT, ADD } = useUserManagement();
+  const { productsUsers, drawyerType } = useUserManagement();
   const [postTeams, { isLoading: postTeamLoading }] = usePostTeamsMutation();
   const [updateTeams, { isLoading: updateTeamLoading }] =
     useUpdateTeamsMutation();
@@ -27,7 +27,7 @@ const useCreateTeams = (
   const { handleSubmit, reset, setValue } = methods;
 
   useEffect(() => {
-    if (drawerType === EDIT) {
+    if (drawerType === drawyerType?.EDIT) {
       const data = teamDataById?.data;
       const fieldsToSet: any = {
         name: data?.name,
@@ -42,7 +42,7 @@ const useCreateTeams = (
 
   const onSubmit = async (values: any) => {
     try {
-      if (drawerType === ADD) {
+      if (drawerType === drawyerType?.ADD) {
         await postTeams({ body: values })?.unwrap();
         reset();
         enqueueSnackbar('Team created successfully', {
