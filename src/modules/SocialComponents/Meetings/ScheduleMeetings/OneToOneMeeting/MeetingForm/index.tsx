@@ -17,13 +17,10 @@ export const MeetingForm = (props: any) => {
                 md={item?.md}
                 sm={item?.sm}
                 xs={12}
+                sx={item?.sx}
                 key={item?.id}
               >
-                <item.component
-                  {...item?.componentProps}
-                  fullWidth
-                  size="small"
-                />
+                <item.component {...item?.componentProps} />
               </Grid>
             ))}
           </Grid>

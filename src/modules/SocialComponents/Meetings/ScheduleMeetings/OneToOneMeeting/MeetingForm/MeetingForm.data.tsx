@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import {
   RHFAutocomplete,
   RHFCheckbox,
@@ -8,9 +7,10 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { Recurring } from './Reccuring';
+import { Recurring } from './Recurring';
 import { AllowAttendee } from './AllowAttendee';
 import { Reminder } from './Reminder';
+import { timeZone } from '@/constants/time-zone';
 
 const meetingTypeOption = [
   'In person meeting',
@@ -18,7 +18,6 @@ const meetingTypeOption = [
   'Zoom',
   'MS teams',
 ];
-const allDayMeetingOption = ['In person meeting'];
 const locationOption = [
   'Meeting hall 1',
   'Meeting hall 2',
@@ -39,6 +38,7 @@ const meetingContents = {
 export const meetingFormFields = (props: any) => {
   const { watch } = props;
   const watchAllDay = watch('allDay');
+  const watchRecurring = watch('recurring');
   const watchMeetingType = watch('meetingType');
   const watchBefore = watch('bufferBefore');
   const watchAfter = watch('bufferAfter');
@@ -50,6 +50,8 @@ export const meetingFormFields = (props: any) => {
         name: 'title',
         required: true,
         placeholder: 'Title',
+        fullWidth: true,
+        size: 'small',
       },
       component: RHFTextField,
     },
@@ -63,94 +65,128 @@ export const meetingFormFields = (props: any) => {
     },
     {
       id: 3,
-      lg: 6,
-      sm: 6,
       componentProps: {
-        label: 'From',
-        name: 'fromDate',
-        disablePast: true,
+        label: 'Time Zone',
+        name: 'timeZone',
+        required: true,
+        placeholder: 'Select Time Zone',
+        options: timeZone,
+        getOptionLabel: (option: any) => option?.label,
+        fullWidth: true,
+        size: 'small',
       },
-      component: RHFDatePicker,
+      component: RHFAutocomplete,
     },
     {
       id: 4,
       lg: 6,
       sm: 6,
       componentProps: {
-        label: 'Time',
-        name: 'fromTime',
-        disabled: watchAllDay,
+        label: 'From',
+        name: 'fromDate',
+        disablePast: true,
+        required: true,
+        fullWidth: true,
+        size: 'small',
       },
-      component: RHFTimePicker,
+      component: RHFDatePicker,
     },
     {
       id: 5,
       lg: 6,
       sm: 6,
       componentProps: {
-        label: 'To',
-        name: 'toDate',
-        disablePast: true,
+        label: 'Time',
+        name: 'fromTime',
+        disabled: watchAllDay,
+        required: true,
+        fullWidth: true,
+        size: 'small',
       },
-      component: RHFDatePicker,
+      component: RHFTimePicker,
     },
     {
       id: 6,
       lg: 6,
       sm: 6,
       componentProps: {
+        label: 'To',
+        name: 'toDate',
+        disablePast: true,
+        required: !watchRecurring,
+        fullWidth: true,
+        size: 'small',
+      },
+      component: RHFDatePicker,
+    },
+    {
+      id: 7,
+      lg: 6,
+      sm: 6,
+      componentProps: {
         label: 'Time',
         name: 'toTime',
         disabled: watchAllDay,
+        required: !watchRecurring,
+        fullWidth: true,
+        size: 'small',
       },
       component: RHFTimePicker,
     },
     {
-      id: 7,
+      id: 8,
       componentProps: props,
       component: Recurring,
     },
     {
-      id: 8,
+      id: 9,
       sm: 6,
       componentProps: {
         label: 'Meeting Type',
         name: 'meetingType',
         placeholder: 'Select Type',
         required: true,
-        options: watchAllDay ? allDayMeetingOption : meetingTypeOption,
+        disabled: watchAllDay,
+        options: meetingTypeOption,
+        fullWidth: true,
+        size: 'small',
       },
       component: RHFAutocomplete,
     },
     {
-      id: 9,
+      id: 10,
       sm: 6,
+      sx: {
+        display:
+          watchMeetingType === meetingContents?.inPersonMeeting
+            ? 'block'
+            : 'none',
+      },
       componentProps: {
         label: 'Location',
         name: 'location',
         placeholder: 'Select Location',
         required: true,
         options: locationOption,
-        style: {
-          display:
-            watchMeetingType === meetingContents?.inPersonMeeting
-              ? 'block'
-              : 'none',
-        },
+        fullWidth: true,
+        size: 'small',
       },
       component: RHFAutocomplete,
     },
     {
-      id: 10,
+      id: 11,
       componentProps: props,
       component: AllowAttendee,
     },
     {
-      id: 11,
+      id: 12,
       md: 1.5,
       sm: 3,
+      sx: {
+        display: watchAllDay ? 'none' : 'block',
+      },
       componentProps: {
-        label: <Typography variant="body1">Before</Typography>,
+        label: 'Before',
         name: 'bufferBefore',
         icon: <CheckboxIcon />,
         checkedIcon: <CheckboxCheckedIcon />,
@@ -158,23 +194,31 @@ export const meetingFormFields = (props: any) => {
       component: RHFCheckbox,
     },
     {
-      id: 12,
+      id: 13,
       md: 4.5,
       sm: 9,
+      sx: {
+        display: watchAllDay ? 'none' : 'block',
+      },
       componentProps: {
         name: 'bufferBeforeTime',
         disabled: !watchBefore,
         options: bufferTimeOption,
         placeholder: 'Select Buffer time',
+        fullWidth: true,
+        size: 'small',
       },
       component: RHFAutocomplete,
     },
     {
-      id: 13,
+      id: 14,
       md: 1.5,
       sm: 3,
+      sx: {
+        display: watchAllDay ? 'none' : 'block',
+      },
       componentProps: {
-        label: <Typography variant="body1">After</Typography>,
+        label: 'After',
         name: 'bufferAfter',
         icon: <CheckboxIcon />,
         checkedIcon: <CheckboxCheckedIcon />,
@@ -182,19 +226,24 @@ export const meetingFormFields = (props: any) => {
       component: RHFCheckbox,
     },
     {
-      id: 14,
+      id: 15,
       md: 4.5,
       sm: 9,
+      sx: {
+        display: watchAllDay ? 'none' : 'block',
+      },
       componentProps: {
         name: 'bufferAfterTime',
         disabled: !watchAfter,
         options: bufferTimeOption,
         placeholder: 'Select Buffer time',
+        fullWidth: true,
+        size: 'small',
       },
       component: RHFAutocomplete,
     },
     {
-      id: 15,
+      id: 16,
       componentProps: props,
       component: Reminder,
     },

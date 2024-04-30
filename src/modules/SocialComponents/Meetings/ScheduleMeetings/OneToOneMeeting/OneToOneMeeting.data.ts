@@ -5,17 +5,52 @@ export const oneToOneDefaultValues = {
   fromTime: null,
   toDate: new Date(),
   toTime: null,
-  recurring: false,
+  recurring: true,
   description: '',
   meetingType: '',
   location: '',
-  bufferBefore: false,
-  bufferAfter: false,
+  bufferBefore: true,
+  bufferAfter: true,
   bufferBeforeTime: '',
   bufferAfterTime: '',
   people: null,
-  reminder: [
-    { type: '', counter: null, duration: '' },
-    { type: '', counter: null, duration: '' },
-  ],
+  reminder: [{ type: '', counter: null, duration: '' }],
 };
+export const allDayValues = [
+  {
+    name: 'meetingType',
+    value: 'In person meeting',
+  },
+  {
+    name: 'location',
+    value: '',
+  },
+  {
+    name: 'fromTime',
+    value: null,
+  },
+  {
+    name: 'toTime',
+    value: null,
+  },
+  {
+    name: 'recurring',
+    value: false,
+  },
+  {
+    name: 'bufferBefore',
+    value: false,
+  },
+  {
+    name: 'bufferBeforeTime',
+    value: '',
+  },
+  {
+    name: 'bufferAfter',
+    value: false,
+  },
+  {
+    name: 'bufferAfterTime',
+    value: '',
+  },
+];

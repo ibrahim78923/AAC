@@ -6,7 +6,7 @@ const durationOption = ['Minutes', 'Hours', 'Days', 'Weeks'];
 export const reminderFields = (index: number) => [
   {
     id: 1,
-    lg: 6,
+    md: 6,
     componentProps: {
       name: `reminder.${index}.type`,
       fullWidth: true,
@@ -19,7 +19,7 @@ export const reminderFields = (index: number) => [
   },
   {
     id: 2,
-    lg: 3,
+    md: 3,
     componentProps: {
       name: `reminder.${index}.counter`,
       fullWidth: true,
@@ -32,7 +32,7 @@ export const reminderFields = (index: number) => [
   },
   {
     id: 3,
-    lg: 3,
+    md: 3,
     componentProps: {
       name: `reminder.${index}.duration`,
       fullWidth: true,

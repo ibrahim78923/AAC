@@ -1,13 +1,20 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import { useAttendeePeople } from './useAttendeePeople';
-import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateColorFromName,
+} from '@/utils/avatarUtils';
 import { generateImage } from '@/utils/avatarUtils';
 import { meetingPeople, suggestedData } from './AttendeePeople.data';
 import { DateRangePickerIcon } from '@/assets/icons';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const AttendeePeople = (props: any) => {
-  const { contactDropdown, watchPeople, organizer } = useAttendeePeople(props);
+  const { contactDropdown, watchPeople, organizer, handleDateValues } =
+    useAttendeePeople(props);
   return (
     <>
       <Box
@@ -31,7 +38,7 @@ export const AttendeePeople = (props: any) => {
         />
         <Box display="flex" flexDirection="column" gap={2} mt={2}>
           {meetingPeople(organizer, watchPeople)?.map(
-            (item) =>
+            (item: any) =>
               item?.firstName && (
                 <Box
                   display={'flex'}
@@ -40,7 +47,13 @@ export const AttendeePeople = (props: any) => {
                   key={item?.id}
                 >
                   <Avatar
-                    sx={{ bgcolor: 'blue.main', width: 40, height: 40 }}
+                    sx={{
+                      bgcolor: generateColorFromName(
+                        item?.firstName + item?.lastName,
+                      ),
+                      width: 40,
+                      height: 40,
+                    }}
                     src={generateImage(item?.avatar)}
                   >
                     <Typography variant="body3" textTransform={'uppercase'}>
@@ -76,8 +89,8 @@ export const AttendeePeople = (props: any) => {
           <Button sx={{ fontWeight: 500 }}>Check Availability</Button>
         </Box>
         <Grid container spacing={2} mt={0}>
-          {suggestedData?.map((item) => (
-            <Grid item xs={6} key={item?.id}>
+          {suggestedData?.map((item: any) => (
+            <Grid item lg={6} sm={6} xs={12} key={item?.id}>
               <Box
                 p={1}
                 border="1px solid"
@@ -86,6 +99,8 @@ export const AttendeePeople = (props: any) => {
                 display="flex"
                 flexDirection="column"
                 gap={1}
+                sx={{ cursor: 'pointer' }}
+                onClick={() => handleDateValues(item)}
               >
                 <Typography variant="subtitle2">
                   Available: {item?.available}
@@ -100,7 +115,10 @@ export const AttendeePeople = (props: any) => {
                   alignItems="center"
                   gap={0.5}
                 >
-                  <DateRangePickerIcon /> {item?.date}
+                  <DateRangePickerIcon />{' '}
+                  {dayjs(item?.date?.toString())?.format(
+                    DATE_TIME_FORMAT?.DDDDDD,
+                  )}
                 </Typography>
               </Box>
             </Grid>

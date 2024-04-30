@@ -1,7 +1,7 @@
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { oneToOneDefaultValues } from './OneToOneMeeting.data';
+import { allDayValues, oneToOneDefaultValues } from './OneToOneMeeting.data';
 import { useEffect } from 'react';
 
 export const useOneToOneMeeting = () => {
@@ -19,8 +19,7 @@ export const useOneToOneMeeting = () => {
   const watchBefore = watch('bufferBefore');
   const watchAfter = watch('bufferAfter');
   useEffect(() => {
-    setValue('meetingType', '');
-    setValue('location', '');
+    allDayValues?.forEach((item: any) => setValue(item?.name, item?.value));
   }, [watchAllDay]);
   useEffect(() => {
     setValue('location', '');
@@ -31,6 +30,6 @@ export const useOneToOneMeeting = () => {
   useEffect(() => {
     setValue('bufferAfterTime', '');
   }, [watchAfter]);
-  const meetingProps = { watch, control };
+  const meetingProps = { watch, control, setValue };
   return { methods, handleSubmit, onSubmit, handleMoveBack, meetingProps };
 };
