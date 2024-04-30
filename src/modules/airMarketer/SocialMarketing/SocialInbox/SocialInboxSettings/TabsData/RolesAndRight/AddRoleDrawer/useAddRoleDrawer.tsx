@@ -4,18 +4,18 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './AddRoleDrawer.data';
 import {
-  airSalesRolesAndRightsAPI,
-  useGetRolesDataByIdQuery,
-  usePostPermissionRoleMutation,
-  useUpdateRoleRightsMutation,
-} from '@/services/airSales/roles-and-rights';
-import {
   getActiveAccountSession,
   getActiveProductSession,
   getSession,
 } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  airMarketerRolesAndRightsAPI,
+  useGetRolesDataByIdQuery,
+  usePostPermissionRoleMutation,
+  useUpdateRoleRightsMutation,
+} from '@/services/airMarketer/settings/roles-and-rights';
 
 const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const { user }: any = getSession();
@@ -30,7 +30,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const activeProduct = getActiveProductSession();
   const activeAccount = getActiveAccountSession();
 
-  const { useLazyGetPermissionsRolesByIdQuery } = airSalesRolesAndRightsAPI;
+  const { useLazyGetPermissionsRolesByIdQuery } = airMarketerRolesAndRightsAPI;
 
   const [postPermissionRole, { isLoading: postRoleLoading }] =
     usePostPermissionRoleMutation();
@@ -113,7 +113,13 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
         await postPermissionRole({ body: values });
         reset();
       } else {
-        await updateRoleRights({ id: isDrawerOpen?.id, body: values });
+        const newPermissions = [...values.permissions];
+        const editVals = {
+          ...values,
+          permissions: newPermissions,
+          productId: activeProduct?._id,
+        };
+        await updateRoleRights({ id: isDrawerOpen?.id, body: editVals });
       }
       onClose();
       enqueueSnackbar(
