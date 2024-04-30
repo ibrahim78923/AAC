@@ -5,6 +5,7 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { listViewDetails } from './ListView.data';
 import CalenderViewIcon from '@/assets/icons/modules/SocialComponents/CalenderView/calender-view-icon';
+import { SOCIAL_COMPONENTS } from '@/constants';
 import { AgentConversionDelete } from './AgentConversionDelete';
 
 export const ListView = () => {
@@ -17,6 +18,7 @@ export const ListView = () => {
     setDeleteModal,
     deleteModal,
     submitDeleteModal,
+    router,
   } = useListView();
   return (
     <>
@@ -42,11 +44,12 @@ export const ListView = () => {
           <Search label="Search Here" setSearchBy={setSearch} />
           <IconButton
             sx={{
-              height: '36px',
-              width: '52px',
+              height: '44px',
+              width: '60px',
               borderRadius: 2,
-              boxShadow: 1,
+              border: 1,
             }}
+            onClick={() => router?.push(SOCIAL_COMPONENTS?.CALENDER_VIEW)}
           >
             <CalenderViewIcon theme={theme} />
           </IconButton>

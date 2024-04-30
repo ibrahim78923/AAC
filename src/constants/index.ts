@@ -192,6 +192,7 @@ export const SOCIAL_COMPONENTS = {
   MEETINGS: '/social-components/meetings',
   MEETINGS_SETTINGS: '/social-components/meetings/settings',
   SCHEDULE_MEETING: '/social-components/meetings/schedule-meetings',
+  CALENDER_VIEW: '/social-components/meetings/calendar-view',
 };
 
 export const AUTH = {

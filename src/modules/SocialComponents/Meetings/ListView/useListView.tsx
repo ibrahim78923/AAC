@@ -2,15 +2,21 @@ import { useTheme } from '@mui/material';
 import { listViewDetailsData, meetingCardsDetails } from './ListView.data';
 import { useEffect, useState } from 'react';
 import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
+import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useListView = () => {
   const theme = useTheme();
+  const router = useRouter();
   const [search, setSearch] = useState('');
-  const [cardValue, setCardValue] = useState('All');
+  const [cardValue, setCardValue] = useState<any>('All');
   const [listData, setListData] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<any>();
   const meetings = meetingCardsDetails(theme);
+  const meetingsType = router?.query?.type;
+  useEffect(() => {
+    setCardValue(meetingsType);
+  }, [meetingsType]);
 
   useEffect(() => {
     if (cardValue === MEETINGS_DETAILS_TYPE?.ALL) {
@@ -42,5 +48,6 @@ export const useListView = () => {
     deleteModal,
     setDeleteModal,
     submitDeleteModal,
+    router,
   };
 };
