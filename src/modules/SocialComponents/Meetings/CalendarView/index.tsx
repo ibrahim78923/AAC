@@ -8,6 +8,9 @@ import { FullCalendarView } from './FullCalendarView';
 import { useCalendarView } from './useCalendarView';
 import { MeetingCard } from './MeetingCard';
 import styles from './CalendarView.module.scss';
+import ReorderIcon from '@mui/icons-material/Reorder';
+import { SOCIAL_COMPONENTS } from '@/constants';
+import { Header } from './Header';
 
 export const CalendarView = () => {
   const {
@@ -19,10 +22,12 @@ export const CalendarView = () => {
     setOpenEventModal,
     eventData,
     handleEventClick,
+    router,
   } = useCalendarView();
 
   return (
     <Box className={styles?.calendarWrapper}>
+      <Header />
       <Grid container spacing={1}>
         {meetingCard?.map((item: any) => (
           <Grid item xs={12} md={6} lg={4} key={item?.id}>
@@ -97,6 +102,12 @@ export const CalendarView = () => {
           >
             yearly
           </Button>
+          <Button
+            startIcon={<ReorderIcon sx={{ ml: 1 }} />}
+            color="secondary"
+            variant="outlined"
+            onClick={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS)}
+          />
         </Box>
       </Box>
       <br />
