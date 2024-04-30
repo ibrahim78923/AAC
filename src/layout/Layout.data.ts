@@ -221,7 +221,7 @@ export const LoyaltyProgramsRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_DASHBOARD,
   },
 
   {
@@ -234,22 +234,22 @@ export const LoyaltyProgramsRoutes: any = [
       {
         key: LOYALTY_PROGRAM?.LOYALTY_REWARD,
         label: 'Rewards',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS,
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_TRANSACTIONS,
         label: 'Transactions',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS,
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_RULES_TIERS,
         label: 'Rules & Tiers',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS,
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_RULES_VOUCHERS,
         label: 'Vouchers',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_VOUCHERS,
       },
     ],
   },
