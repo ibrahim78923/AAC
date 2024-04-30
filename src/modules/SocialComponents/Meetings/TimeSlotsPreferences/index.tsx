@@ -1,15 +1,20 @@
-import { useForm } from 'react-hook-form';
 import TimeSlotsHeader from './TimeSlotsHeader';
 import TimeSlotsWeekly from './TimeSlotsWeekly';
 import { FormProvider } from '@/components/ReactHookForm';
+import { Grid } from '@mui/material';
+import { useTimeSlotPreferences } from './useTimeSlotPreferences';
 
 export const TimeSlotPreferences = () => {
-  const methods = useForm({});
+  const { methods } = useTimeSlotPreferences();
   return (
     <>
       <FormProvider methods={methods}>
         <TimeSlotsHeader />
-        <TimeSlotsWeekly />
+        <Grid container>
+          <Grid item xs={6}>
+            <TimeSlotsWeekly />
+          </Grid>
+        </Grid>
       </FormProvider>
     </>
   );
