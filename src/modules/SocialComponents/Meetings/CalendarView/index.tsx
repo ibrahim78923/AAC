@@ -131,7 +131,14 @@ export const CalendarView = () => {
             startIcon={<ReorderIcon sx={{ ml: 1 }} />}
             color="secondary"
             variant="outlined"
-            onClick={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS)}
+            onClick={() =>
+              router?.push({
+                pathname: SOCIAL_COMPONENTS?.MEETINGS,
+                query: {
+                  type: 'All',
+                },
+              })
+            }
           />
         </Box>
       </Box>
