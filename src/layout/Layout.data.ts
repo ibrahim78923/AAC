@@ -221,7 +221,7 @@ export const LoyaltyProgramsRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_DASHBOARD,
   },
 
   {
