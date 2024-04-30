@@ -6,6 +6,7 @@ import { eventArray } from '../CalendarView.data';
 import { EventDialog } from '../EventDialog';
 import styles from '../CalendarView.module.scss';
 import { Box } from '@mui/material';
+import { CALENDER_TYPES } from '@/constants/strings';
 export const FullCalendarView = (props: any) => {
   const {
     currentView,
@@ -13,7 +14,6 @@ export const FullCalendarView = (props: any) => {
     setOpenEventModal,
     eventData,
     handleEventClick,
-    CALENDER_TYPES,
   } = props;
 
   return (

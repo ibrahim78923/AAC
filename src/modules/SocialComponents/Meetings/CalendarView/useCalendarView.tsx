@@ -29,12 +29,6 @@ export const useCalendarView = () => {
     setEventData(clickInfo?.event?._def?.extendedProps);
     handleCloseViewMorePopover();
   };
-  const CALENDER_TYPES = {
-    DAY_VIEW_CALENDER: 'timeGridDay',
-    WEEK_VIEW_CALENDER: 'timeGridWeek',
-    MONTH_VIEW_CALENDER: 'dayGridMonth',
-    YEAR_VIEW_CALENDER: 'multiMonthYear',
-  };
   return {
     handleViewChange,
     currentView,
@@ -46,6 +40,5 @@ export const useCalendarView = () => {
     eventData,
     handleEventClick,
     router,
-    CALENDER_TYPES,
   };
 };
