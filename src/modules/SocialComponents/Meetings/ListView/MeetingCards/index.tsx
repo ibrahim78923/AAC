@@ -1,6 +1,11 @@
 import { Box, Grid, Typography } from '@mui/material';
 
-export const MeetingCards = ({ meetingHeading, meetingCount, color }: any) => {
+export const MeetingCards = ({
+  meetingHeading,
+  meetingCount,
+  color,
+  setCardValue,
+}: any) => {
   return (
     <Grid item xs={12} sm={6} md={4} lg={4}>
       <Box
@@ -12,6 +17,8 @@ export const MeetingCards = ({ meetingHeading, meetingCount, color }: any) => {
         padding={1.5}
         borderRadius={2}
         marginBottom={2}
+        onClick={() => setCardValue(meetingHeading)}
+        sx={{ cursor: 'pointer' }}
       >
         <Typography color={'secondary'}>{meetingHeading}</Typography>
         <Typography variant="h4">{meetingCount}</Typography>

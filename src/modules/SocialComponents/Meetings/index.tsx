@@ -4,7 +4,6 @@ import { SOCIAL_COMPONENTS } from '@/constants';
 import { Settings } from '@mui/icons-material';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { ListView } from './ListView';
-import { Header } from './ListView/Header';
 
 export const Meetings = () => {
   const { router } = useMeetings();
@@ -24,7 +23,6 @@ export const Meetings = () => {
         />
       </PageTitledHeader>
       <ListView />
-      <Header />
     </>
   );
 };

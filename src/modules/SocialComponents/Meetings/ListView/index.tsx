@@ -1,20 +1,53 @@
-import { Grid } from '@mui/material';
+import { Box, Grid, IconButton } from '@mui/material';
 import { MeetingCards } from './MeetingCards';
 import { useListView } from './useListView';
+import Search from '@/components/Search';
+import TanstackTable from '@/components/Table/TanstackTable';
+import { listViewDetails } from './ListView.data';
+import CalenderViewIcon from '@/assets/icons/modules/SocialComponents/CalenderView/calender-view-icon';
 
 export const ListView = () => {
-  const { meetings } = useListView();
+  const { meetings, setSearch, setCardValue, listData, theme } = useListView();
   return (
-    <Grid container spacing={2}>
-      {' '}
-      {meetings?.map((meeting) => (
-        <MeetingCards
-          key={meeting?.id}
-          meetingHeading={meeting?.meetingHeading}
-          meetingCount={meeting?.meetingCount}
-          color={meeting?.color}
+    <>
+      <Grid container spacing={2}>
+        {' '}
+        {meetings?.map((meeting) => (
+          <MeetingCards
+            key={meeting?.id}
+            meetingHeading={meeting?.meetingHeading}
+            meetingCount={meeting?.meetingCount}
+            color={meeting?.color}
+            setCardValue={setCardValue}
+          />
+        ))}
+      </Grid>
+      <Box>
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          flexWrap={'wrap'}
+          gap={1}
+        >
+          <Search label="Search Here" setSearchBy={setSearch} />
+          <IconButton
+            sx={{
+              height: '36px',
+              width: '52px',
+              borderRadius: 2,
+              boxShadow: 1,
+            }}
+          >
+            <CalenderViewIcon />
+          </IconButton>
+        </Box>
+        <br />
+        <TanstackTable
+          data={listData}
+          columns={listViewDetails(theme)}
+          isPagination
         />
-      ))}
-    </Grid>
+      </Box>
+    </>
   );
 };

@@ -1,4 +1,4 @@
-const ListViewIcon = () => {
+const CalenderViewIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,4 +18,4 @@ const ListViewIcon = () => {
   );
 };
 
-export default ListViewIcon;
+export default CalenderViewIcon;
