@@ -1,3 +1,4 @@
+import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 import { Box } from '@mui/material';
 export const meetingCardsDetails = (theme: any) => [
   {
@@ -73,7 +74,7 @@ export const listViewDetailsData = [
   },
 ];
 
-export const listViewDetails = (theme: any) => [
+export const listViewDetails = (theme: any, setDeleteModal: any) => [
   {
     accessorFn: (row: any) => {
       return `${row?.meetingName}\n${row?.meetingEmail}`;
@@ -123,5 +124,21 @@ export const listViewDetails = (theme: any) => [
     isSortable: false,
     header: 'Meeting Booked',
     cell: (info: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row?.actions,
+    id: 'actions',
+    isSortable: true,
+    header: 'Action',
+    cell: () => (
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ cursor: 'pointer' }}>
+          <EditPenIcon />
+        </Box>
+        <Box sx={{ cursor: 'pointer' }} onClick={() => setDeleteModal(true)}>
+          <DeleteCrossIcon />
+        </Box>
+      </Box>
+    ),
   },
 ];
