@@ -1,12 +1,11 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { useMeetings } from './useMeetings';
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { Settings } from '@mui/icons-material';
 import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
-import { ListView } from './ListView';
+import { useCalendarView } from '../useCalendarView';
 
-export const Meetings = () => {
-  const { router } = useMeetings();
+export const Header = () => {
+  const { router } = useCalendarView();
   return (
     <>
       <PageTitledHeader
@@ -22,7 +21,6 @@ export const Meetings = () => {
           onClick={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS_SETTINGS)}
         />
       </PageTitledHeader>
-      <ListView />
     </>
   );
 };

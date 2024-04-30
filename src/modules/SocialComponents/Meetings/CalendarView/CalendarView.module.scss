@@ -1,0 +1,21 @@
+//ToDo: We can not make styles for these build in classes of calendar we have to go with scss file.
+//ToDo: we can not import theme for colors in scss file. 
+.calendarWrapper {
+  tr th div div table thead tr th {
+    padding: 1rem;
+    background-color: #f6faf9;
+  }
+  .eventClassNames {
+    padding: .2rem;
+    border-radius: .2rem;
+    border: none;
+    border-left: .5rem solid #278d7f ;
+    background-color: #38cab5 !important;
+    color: #f6faf9;
+  }
+ 
+  .eventClassNames:hover {
+    background-color: #5ec9bf !important;
+    cursor: pointer; 
+  }
+}
