@@ -43,6 +43,12 @@ const LeftPane = () => {
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
+  // const {
+  //   data: foldersData,
+  // } = useGetMailFoldersQuery({});
+
+  // console.log("foldersData", foldersData?.data)
+
   return (
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>

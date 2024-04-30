@@ -27,7 +27,7 @@ const OtherMailDrawer = (props: any) => {
   const { handleSubmit, methodsOtherMail, onSubmit, loadingPost } =
     useOtherMailDrawer();
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<any>(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -59,7 +59,7 @@ const OtherMailDrawer = (props: any) => {
                   label="Email"
                   size="small"
                   required={true}
-                  placeholder="Type here"
+                  placeholder="Type Here"
                   autoComplete="off"
                 />
               </Grid>
@@ -70,7 +70,7 @@ const OtherMailDrawer = (props: any) => {
                   size="small"
                   required={true}
                   autoComplete="off"
-                  placeholder="Type here"
+                  placeholder="Type Here"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -78,6 +78,7 @@ const OtherMailDrawer = (props: any) => {
                   name="password"
                   label="Password"
                   size="small"
+                  placeholder="Password Here"
                   type={showPassword ? 'text' : 'password'}
                   InputProps={{
                     endAdornment: (
@@ -108,6 +109,7 @@ const OtherMailDrawer = (props: any) => {
               </Grid>
               <Grid item xs={6}>
                 <RHFTextField
+                  type="number"
                   name="imapServerPort"
                   label={<Box color={'transparent'}>.</Box>}
                   size="small"
@@ -146,6 +148,7 @@ const OtherMailDrawer = (props: any) => {
               <Grid item xs={6}>
                 <RHFTextField
                   name="smtpServerPort"
+                  type="number"
                   label={<Box color={'transparent'}>.</Box>}
                   size="small"
                 />

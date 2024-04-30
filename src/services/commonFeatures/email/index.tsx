@@ -16,7 +16,16 @@ export const emailApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+    getMailFolders: builder.query({
+      query: () => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.GET_MAIL_FOLDERS}`,
+          method: 'GET',
+        };
+      },
+      providesTags: TAG,
+    }),
   }),
 });
 
-export const { usePostEmailConfigMutation } = emailApi;
+export const { usePostEmailConfigMutation, useGetMailFoldersQuery } = emailApi;

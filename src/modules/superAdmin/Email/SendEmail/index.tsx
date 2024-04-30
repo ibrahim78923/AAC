@@ -129,7 +129,7 @@ const SendEmailDrawer = (props: any) => {
               <Grid item xs={12}>
                 <Box
                   sx={{
-                    background: '#FFF6D9',
+                    background: theme?.palette?.custom?.pastel_yellow,
                     borderRadius: '6px',
                     padding: '12px',
                   }}

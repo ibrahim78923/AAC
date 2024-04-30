@@ -34,7 +34,7 @@ const useOtherMailDrawer = () => {
     try {
       await postEmailConfig({
         body: payload,
-      }).unwrap();
+      })?.unwrap();
       enqueueSnackbar('Email Configuration successful', {
         variant: 'success',
       });

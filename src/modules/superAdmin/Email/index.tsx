@@ -1,4 +1,3 @@
-'use client';
 import React, { useState } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import { styles } from './Email.styles';
@@ -20,6 +19,12 @@ const Email = () => {
     useState(false);
 
   const [isOtherEmailDrawerOpen, setIsOtherEmailDrawerOpen] = useState(false);
+
+  // const {
+  //   data: foldersData,
+  // } = useGetMailFoldersQuery({});
+
+  // console.log("foldersData", foldersData?.data)
 
   return (
     <>
@@ -44,7 +49,10 @@ const Email = () => {
             </Typography>
           </Box>
         </Box>
-        <Typography variant="h4" sx={{ color: '#374151' }}>
+        <Typography
+          variant="h4"
+          sx={{ color: theme?.palette?.slateBlue?.main }}
+        >
           Select Your Email Provider:
         </Typography>
         <Typography variant="body2" sx={styles?.emailAlert}>
@@ -80,9 +88,9 @@ const Email = () => {
           setOpenDrawer={setIsOtherEmailDrawerOpen}
         />
       </>
-
       {/* <EmailChat /> */}
     </>
   );
 };
+
 export default Email;
