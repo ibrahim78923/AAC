@@ -7,6 +7,7 @@ export const createComapnySchema = Yup?.object()?.shape({
   domain: Yup?.string()?.required('Field is Required'),
   totalRevenue: Yup?.number(),
   noOfEmloyee: Yup?.number(),
+  linkedInUrl: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultCreateCompanyValues = {
@@ -167,6 +168,7 @@ export const dataArray = () => {
         label: 'LinkdIn Company Page',
         placeholder: 'Enter here',
         fullWidth: true,
+        required: true,
       },
     },
   ];

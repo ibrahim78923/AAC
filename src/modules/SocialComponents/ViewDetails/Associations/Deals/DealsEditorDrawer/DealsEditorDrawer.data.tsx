@@ -26,7 +26,7 @@ export const productsDefaultValues = {
   dealPipelineId: '',
   dealStageId: '',
   amount: '',
-  closeDate: '',
+  closeDate: null,
   ownerId: '',
   priority: '',
   addLineItemId: '',

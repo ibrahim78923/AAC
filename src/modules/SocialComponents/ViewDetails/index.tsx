@@ -110,7 +110,7 @@ const ViewDetails = () => {
               <Box sx={styles.detailsBox}>
                 <Box sx={{ display: 'flex', gap: 1, marginBottom: '7px' }}>
                   <Image
-                    src={generateImage(data?.data?.profilePicture?.url)}
+                    src={generateImage(data?.data?.owner?.profilePicture)}
                     width={40}
                     height={40}
                     alt="NotesAvatarImage"
