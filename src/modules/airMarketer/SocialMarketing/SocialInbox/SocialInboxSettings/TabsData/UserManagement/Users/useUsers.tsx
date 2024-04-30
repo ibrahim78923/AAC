@@ -17,8 +17,10 @@ const useUsers: any = () => {
   const [deleteProductUser, { isLoading: deleteProductUsersLoading }] =
     useDeleteProductUserMutation();
   const { user }: any = getSession();
-  const ACTIVE = 'ACTIVE';
-  const INACTIVE = 'INACTIVE';
+  const statusType = {
+    ACTIVE: 'ACTIVE',
+    INACTIVE: 'INACTIVE',
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -32,7 +34,9 @@ const useUsers: any = () => {
   });
 
   const handleUpdateStatus = async (id: any, value: any) => {
-    const statusVal = value?.target?.checked ? ACTIVE : INACTIVE;
+    const statusVal = value?.target?.checked
+      ? statusType?.ACTIVE
+      : statusType?.INACTIVE;
     try {
       await updateProductsUsers({
         id: id,
