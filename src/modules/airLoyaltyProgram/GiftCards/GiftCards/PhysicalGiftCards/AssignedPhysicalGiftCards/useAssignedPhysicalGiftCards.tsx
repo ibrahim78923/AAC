@@ -11,7 +11,7 @@ import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import { downloadFile } from '@/utils/file';
 import { AssignedPhysicalGiftCardsFilter } from './AssignedPhysicalGiftCardsFilter';
 import { ExportModal } from '@/components/ExportModal';
-import { AddPhysicalGiftCard } from '../AddPhysicalGiftCard';
+import { getActivePermissionsSession } from '@/utils';
 
 export const useAssignedPhysicalGiftCards = () => {
   const [selectedAssignedPhysicalCards, setSelectedAssignedPhysicalCards] =
@@ -22,6 +22,8 @@ export const useAssignedPhysicalGiftCards = () => {
   const [filterAssignedPhysicalCard, setFilterAssignedPhysicalCard] = useState(
     {},
   );
+  const overallPermissions = getActivePermissionsSession();
+
   const router = useRouter();
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
   const [
@@ -85,14 +87,6 @@ export const useAssignedPhysicalGiftCards = () => {
         />
       );
     }
-    if (isPortalOpen?.isAdd) {
-      return (
-        <AddPhysicalGiftCard
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-        />
-      );
-    }
     if (isPortalOpen?.isExport) {
       return (
         <ExportModal
@@ -110,6 +104,7 @@ export const useAssignedPhysicalGiftCards = () => {
       selectedAssignedPhysicalCards,
       setSelectedAssignedPhysicalCards,
       lazyGetAssignedPhysicalGiftCardListStatus?.data?.data,
+      overallPermissions,
     );
 
   return {
