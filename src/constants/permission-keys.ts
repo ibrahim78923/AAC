@@ -1445,3 +1445,10 @@ export const AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS = {
   ACTIVE_DEACTIVATE_VOUCHERS: 'loyalty-program-voucher-active-deactive',
   SEARCH: 'loyalty-program-voucher-search',
 };
+export const AIR_LOYALTY_PROGRAM_REWARDS_PERMISSIONS = {
+  VIEW_REWARD_DETAILS: 'loyalty-program-reward-view-details',
+  PHYSICAL_REWARDS: 'loyalty-program-reward-physical',
+  DIGITAL_REWARDS: 'loyalty-program-reward-digital',
+  ADD_REWARDS: 'loyalty-program-reward-add',
+  SEARCH: 'loyalty-program-reward-search',
+};
