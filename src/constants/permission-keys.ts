@@ -1445,3 +1445,18 @@ export const AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS = {
   ACTIVE_DEACTIVATE_VOUCHERS: 'loyalty-program-voucher-active-deactive',
   SEARCH: 'loyalty-program-voucher-search',
 };
+export const AIR_LOYALTY_PROGRAM_REWARDS_PERMISSIONS = {
+  VIEW_REWARD_DETAILS: 'loyalty-program-reward-view-details',
+  PHYSICAL_REWARDS: 'loyalty-program-reward-physical',
+  DIGITAL_REWARDS: 'loyalty-program-reward-digital',
+  ADD_REWARDS: 'loyalty-program-reward-add',
+  SEARCH: 'loyalty-program-reward-search',
+};
+export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS = {
+  VIEW_DETAILS: 'loyalty-program-gift-card-transaction-view-details',
+  ADD_TRANSACTIONS: 'loyalty-program-gift-card-transaction-add',
+  IMPORT: 'loyalty-program-gift-card-transaction-import',
+  EXPORT: 'loyalty-program-gift-card-transaction-export',
+  APPLY_FILTERS: 'loyalty-program-gift-card-transaction-apply-filters',
+  SEARCH_DETAILS: 'loyalty-program-gift-card-transaction-search',
+};

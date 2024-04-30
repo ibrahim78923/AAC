@@ -529,3 +529,7 @@ export const RULES_BENEFIT_TYPE = {
   DISCOUNT: 'DISCOUNT',
   AWARD: 'AWARD',
 };
+
+export const MEETINGS_DETAILS_TYPE = {
+  ALL: 'All',
+};
