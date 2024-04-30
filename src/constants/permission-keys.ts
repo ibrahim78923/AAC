@@ -1452,3 +1452,11 @@ export const AIR_LOYALTY_PROGRAM_REWARDS_PERMISSIONS = {
   ADD_REWARDS: 'loyalty-program-reward-add',
   SEARCH: 'loyalty-program-reward-search',
 };
+export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS = {
+  VIEW_DETAILS: 'loyalty-program-gift-card-transaction-view-details',
+  ADD_TRANSACTIONS: 'loyalty-program-gift-card-transaction-add',
+  IMPORT: 'loyalty-program-gift-card-transaction-import',
+  EXPORT: 'loyalty-program-gift-card-transaction-export',
+  APPLY_FILTERS: 'loyalty-program-gift-card-transaction-apply-filters',
+  SEARCH_DETAILS: 'loyalty-program-gift-card-transaction-search',
+};
