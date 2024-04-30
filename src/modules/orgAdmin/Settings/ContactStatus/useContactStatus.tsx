@@ -29,7 +29,8 @@ const useContactStatus = () => {
   const [rowId, setRowId] = useState<string>('');
   const [editData, setEditData] = useState<any>({});
   const [isModalHeading, setIsModalHeading] = useState('Create');
-  const [postContactStatus] = usePostContactStatusMutation();
+  const [postContactStatus, { isLoading: loadingAddStatus }] =
+    usePostContactStatusMutation();
 
   // GET CONTACT STATUS LIST
   const paginationParams = {
@@ -50,7 +51,8 @@ const useContactStatus = () => {
     isSuccess,
   } = useGetContactStatusQuery({ ...searchPayLoad, ...paginationParams });
 
-  const [deleteContactStatus] = useDeleteContactStatusMutation();
+  const [deleteContactStatus, { isLoading: loadingDelete }] =
+    useDeleteContactStatusMutation();
   const [updateContactStatus, { isLoading: loadingUpdateContactStatus }] =
     useUpdateContactStatusMutation();
 
@@ -76,16 +78,12 @@ const useContactStatus = () => {
         variant: 'success',
       });
       setIsOpenAlert(false);
+      refetchContactStatus();
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', { variant: 'error' });
     }
   };
 
-  const handleCloseDrawer = () => {
-    reset(ContactStatusvalidationSchema);
-    setEditData({});
-    setIsDraweropen(false);
-  };
   const ContactStatus: any = useForm({
     resolver: yupResolver(ContactStatusvalidationSchema),
     defaultValues: async () => {
@@ -101,6 +99,13 @@ const useContactStatus = () => {
       return ContactStatusDefaultValues;
     },
   });
+  const { handleSubmit, reset } = ContactStatus;
+
+  const handleCloseDrawer = () => {
+    setIsDraweropen(false);
+    setEditData({});
+    reset();
+  };
   useEffect(() => {
     if (editData) {
       const { name, description } = editData;
@@ -108,7 +113,6 @@ const useContactStatus = () => {
       ContactStatus.setValue('description', description);
     }
   }, [editData, ContactStatus]);
-  const { handleSubmit, reset } = ContactStatus;
 
   const onSubmit = async (data: any) => {
     const settingContactStatus = {
@@ -120,9 +124,8 @@ const useContactStatus = () => {
           body: settingContactStatus,
           id: editData?._id,
         }).unwrap();
+        handleCloseDrawer();
         refetchContactStatus();
-
-        setIsDraweropen(false);
         enqueueSnackbar('Status Updated Successfully', {
           variant: 'success',
         });
@@ -130,12 +133,11 @@ const useContactStatus = () => {
         await postContactStatus({
           body: settingContactStatus,
         }).unwrap();
+        handleCloseDrawer();
         refetchContactStatus();
         enqueueSnackbar('Status Added Successfully', {
           variant: 'success',
         });
-        reset(ContactStatusvalidationSchema);
-        setIsDraweropen(false);
       }
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
@@ -174,7 +176,9 @@ const useContactStatus = () => {
     isModalHeading,
     setIsModalHeading,
     deleteContactsStatus,
+    loadingDelete,
     loadingUpdateContactStatus,
+    loadingAddStatus,
   };
 };
 
