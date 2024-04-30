@@ -50,12 +50,12 @@ export const departmentAPI = baseAPI?.injectEndpoints({
     }),
     getUsersDropdownList: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
+        if (response) return response?.data;
       },
       providesTags: [TAG_TWO],
     }),
