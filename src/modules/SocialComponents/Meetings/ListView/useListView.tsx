@@ -9,10 +9,14 @@ export const useListView = () => {
   const theme = useTheme();
   const router = useRouter();
   const [search, setSearch] = useState('');
-  const [cardValue, setCardValue] = useState('All');
+  const [cardValue, setCardValue] = useState<any>('All');
   const [listData, setListData] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<any>();
   const meetings = meetingCardsDetails(theme);
+  const meetingsType = router?.query?.type;
+  useEffect(() => {
+    setCardValue(meetingsType);
+  }, [meetingsType]);
 
   useEffect(() => {
     if (cardValue === MEETINGS_DETAILS_TYPE?.ALL) {
