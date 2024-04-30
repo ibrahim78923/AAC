@@ -1,5 +1,12 @@
 import { FilterIcon } from '@/assets/icons';
-import { Box, Button, ButtonGroup, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Skeleton,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import React, { useState } from 'react';
 import MailList from './MailList';
 import ActionBtn from './ActionBtn';
@@ -9,29 +16,7 @@ import { useDispatch } from 'react-redux';
 import { setMailTabType } from '@/redux/slices/email/slice';
 import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
-
-const tabsArray = [
-  {
-    label: 'Inbox',
-    value: 'inbox',
-  },
-  {
-    label: 'Sent',
-    value: 'sent',
-  },
-  {
-    label: 'Draft',
-    value: 'draft',
-  },
-  {
-    label: 'Scheduled',
-    value: 'scheduled',
-  },
-  {
-    label: 'Trash',
-    value: 'trash',
-  },
-];
+import { useGetMailFoldersQuery } from '@/services/commonFeatures/email';
 
 const LeftPane = () => {
   const theme = useTheme();
@@ -43,12 +28,13 @@ const LeftPane = () => {
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-  // const {
-  //   data: foldersData,
-  // } = useGetMailFoldersQuery({});
-
-  // console.log("foldersData", foldersData?.data)
-
+  const { data: foldersData } = useGetMailFoldersQuery({});
+  const dataToShow = ['Inbox', 'Drafts', 'Sent', 'Schedule', 'Trash'];
+  const filteredData = foldersData?.data?.filter((item: any) => {
+    return dataToShow
+      ?.map((name) => name.toLowerCase())
+      ?.includes(item?.display_name?.toLowerCase());
+  });
   return (
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>
@@ -67,30 +53,37 @@ const LeftPane = () => {
         </Box>
       </Box>
 
+      <Skeleton animation="wave" variant="rounded" width={50} height={40} />
+
       <ButtonGroup
         fullWidth
         variant="outlined"
         aria-label="Basic button group"
         sx={{ mb: 1 }}
       >
-        {tabsArray?.map((item: any) => (
+        {filteredData?.map((item: any) => (
           <Button
             key={uuidv4()}
-            onClick={() => handelToggleTab(item?.value)}
+            onClick={() => handelToggleTab(item?.display_name?.toLowerCase())}
             sx={{
               border: `1px solid ${theme?.palette?.grey[700]}`,
               borderRadius: '8px',
               color: theme?.palette?.secondary?.main,
+              textTransform: 'capitalize',
               backgroundColor:
-                mailTabType === item?.value ? theme?.palette?.grey[400] : '',
+                mailTabType === item?.display_name.toLowerCase()
+                  ? theme?.palette?.grey[400]
+                  : '',
               '&:hover': {
                 backgroundColor:
-                  mailTabType === item?.value ? theme?.palette?.grey[400] : '',
+                  mailTabType === item?.display_name.toLowerCase()
+                    ? theme?.palette?.grey[400]
+                    : '',
                 border: `1px solid ${theme?.palette?.grey[700]}`,
               },
             }}
           >
-            {item?.label}
+            {item?.display_name?.toLowerCase()}
           </Button>
         ))}
       </ButtonGroup>

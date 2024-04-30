@@ -11,6 +11,10 @@ import Link from 'next/link';
 import { EMAIL_SUB_ROUTES } from '@/constants';
 import EmailSettingDrawer from './EmailSettingDrawer';
 import OtherMailDrawer from './OtherMailDrawer';
+import { useGetMailFoldersQuery } from '@/services/commonFeatures/email';
+import { enqueueSnackbar } from 'notistack';
+import { END_POINTS } from '@/routesConstants/endpoints';
+import { useRouter } from 'next/router';
 
 const Email = () => {
   const theme = useTheme();
@@ -20,11 +24,18 @@ const Email = () => {
 
   const [isOtherEmailDrawerOpen, setIsOtherEmailDrawerOpen] = useState(false);
 
-  // const {
-  //   data: foldersData,
-  // } = useGetMailFoldersQuery({});
-
-  // console.log("foldersData", foldersData?.data)
+  const { data: foldersData } = useGetMailFoldersQuery({});
+  const router = useRouter();
+  const handelRedirect = () => {
+    if (foldersData?.data) {
+      router.push(END_POINTS?.CONVERSATION_EMAIL_VIEW);
+    } else {
+      enqueueSnackbar('Unable to configure email', {
+        variant: 'error',
+      });
+      setIsOtherEmailDrawerOpen(true);
+    }
+  };
 
   return (
     <>
@@ -67,10 +78,7 @@ const Email = () => {
               <Typography variant="h6">{item?.label}</Typography>
             </Box>
           ))}
-          <Box
-            sx={styles?.emailArray}
-            onClick={() => setIsOtherEmailDrawerOpen(true)}
-          >
+          <Box sx={styles?.emailArray} onClick={handelRedirect}>
             <Image src={OthersMail} alt="other" />
             <Typography variant="h6">Others</Typography>
           </Box>

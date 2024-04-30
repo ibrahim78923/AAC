@@ -119,7 +119,7 @@ export const END_POINTS = {
   TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
   CONVERSATION_EMAIL: `/email`,
-  // CONVERSATION_EMAIL_VIEW: `/social-components/email/conversations`,
+  CONVERSATION_EMAIL_VIEW: `/social-components/email/conversations`,
   DROPDOWN_TASK: '/task',
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
