@@ -23,6 +23,7 @@ export const CalendarView = () => {
     eventData,
     handleEventClick,
     router,
+    theme,
   } = useCalendarView();
 
   return (
@@ -39,86 +40,95 @@ export const CalendarView = () => {
           </Grid>
         ))}
       </Grid>
-      <br />
       <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
+        border={`.1rem solid ${theme?.palette?.grey?.[0]}`}
+        padding={2.5}
+        borderRadius={3}
       >
-        <Search label="Search Here" setSearchBy={setSearch} />
         <Box
           display={'flex'}
-          justifyContent={'center'}
+          justifyContent={'space-between'}
           alignItems={'center'}
-          gap={1}
         >
-          <Button
-            variant={currentView === 'timeGridDay' ? 'contained' : 'outlined'}
-            startIcon={<CalendarTodayIcon />}
-            color="secondary"
-            onClick={() => handleViewChange('timeGridDay')}
-            sx={{
-              backgroundColor:
-                currentView === 'timeGridDay' ? 'primary.main' : undefined,
-            }}
+          <Search label="Search Here" setSearchBy={setSearch} />
+          <Box
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            gap={1}
           >
-            Today
-          </Button>
-          <Button
-            variant={currentView === 'timeGridWeek' ? 'contained' : 'outlined'}
-            startIcon={<DateRangeIcon />}
-            color="secondary"
-            onClick={() => handleViewChange('timeGridWeek')}
-            sx={{
-              backgroundColor:
-                currentView === 'timeGridWeek' ? 'primary.main' : undefined,
-            }}
-          >
-            Weekly
-          </Button>
-          <Button
-            variant={currentView === 'dayGridMonth' ? 'contained' : 'outlined'}
-            startIcon={<CalendarMonthIcon />}
-            color="secondary"
-            onClick={() => handleViewChange('dayGridMonth')}
-            sx={{
-              backgroundColor:
-                currentView === 'dayGridMonth' ? 'primary.main' : undefined,
-            }}
-          >
-            Monthly
-          </Button>
-          <Button
-            variant={
-              currentView === 'multiMonthYear' ? 'contained' : 'outlined'
-            }
-            startIcon={<EventAvailableIcon />}
-            color="secondary"
-            onClick={() => handleViewChange('multiMonthYear')}
-            sx={{
-              backgroundColor:
-                currentView === 'multiMonthYear' ? 'primary.main' : undefined,
-            }}
-          >
-            yearly
-          </Button>
-          <Button
-            startIcon={<ReorderIcon sx={{ ml: 1 }} />}
-            color="secondary"
-            variant="outlined"
-            onClick={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS)}
-          />
+            <Button
+              variant={currentView === 'timeGridDay' ? 'contained' : 'outlined'}
+              startIcon={<CalendarTodayIcon />}
+              color="secondary"
+              onClick={() => handleViewChange('timeGridDay')}
+              sx={{
+                backgroundColor:
+                  currentView === 'timeGridDay' ? 'primary.main' : undefined,
+              }}
+            >
+              Today
+            </Button>
+            <Button
+              variant={
+                currentView === 'timeGridWeek' ? 'contained' : 'outlined'
+              }
+              startIcon={<DateRangeIcon />}
+              color="secondary"
+              onClick={() => handleViewChange('timeGridWeek')}
+              sx={{
+                backgroundColor:
+                  currentView === 'timeGridWeek' ? 'primary.main' : undefined,
+              }}
+            >
+              Weekly
+            </Button>
+            <Button
+              variant={
+                currentView === 'dayGridMonth' ? 'contained' : 'outlined'
+              }
+              startIcon={<CalendarMonthIcon />}
+              color="secondary"
+              onClick={() => handleViewChange('dayGridMonth')}
+              sx={{
+                backgroundColor:
+                  currentView === 'dayGridMonth' ? 'primary.main' : undefined,
+              }}
+            >
+              Monthly
+            </Button>
+            <Button
+              variant={
+                currentView === 'multiMonthYear' ? 'contained' : 'outlined'
+              }
+              startIcon={<EventAvailableIcon />}
+              color="secondary"
+              onClick={() => handleViewChange('multiMonthYear')}
+              sx={{
+                backgroundColor:
+                  currentView === 'multiMonthYear' ? 'primary.main' : undefined,
+              }}
+            >
+              yearly
+            </Button>
+            <Button
+              startIcon={<ReorderIcon sx={{ ml: 1 }} />}
+              color="secondary"
+              variant="outlined"
+              onClick={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS)}
+            />
+          </Box>
         </Box>
+        <br />
+        <br />
+        <FullCalendarView
+          currentView={currentView}
+          openEventModal={openEventModal}
+          handleEventClick={handleEventClick}
+          eventData={eventData}
+          setOpenEventModal={setOpenEventModal}
+        />
       </Box>
-      <br />
-      <br />
-      <FullCalendarView
-        currentView={currentView}
-        openEventModal={openEventModal}
-        handleEventClick={handleEventClick}
-        eventData={eventData}
-        setOpenEventModal={setOpenEventModal}
-      />
     </Box>
   );
 };

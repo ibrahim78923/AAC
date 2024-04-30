@@ -38,5 +38,6 @@ export const useCalendarView = () => {
     eventData,
     handleEventClick,
     router,
+    theme,
   };
 };
