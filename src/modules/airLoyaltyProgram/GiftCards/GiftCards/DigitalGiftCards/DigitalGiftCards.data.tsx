@@ -1,5 +1,7 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
 import { Typography } from '@mui/material';
 
 export const data: any = [
@@ -27,7 +29,10 @@ export const data: any = [
   },
 ];
 
-export const digitalGiftCardColumnsFunction = (router: any): any => [
+export const digitalGiftCardColumnsFunction = (
+  router: any,
+  overallPermissions: any,
+): any => [
   {
     accessorFn: (row: any) => row?.cardNumber,
     id: 'cardNumber',
@@ -36,15 +41,21 @@ export const digitalGiftCardColumnsFunction = (router: any): any => [
     cell: (info: any) => (
       <Typography
         component="span"
-        onClick={() =>
+        onClick={() => {
+          if (
+            !overallPermissions?.includes(
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.TRANSACTION_DETAILS,
+            )
+          )
+            return;
           router?.push({
             pathname: AIR_LOYALTY_PROGRAM?.SINGLE_GIFT_CARD_TRANSACTION_DETAIL,
             query: {
               giftCardId: info?.row?.id,
               type: 'digital',
             },
-          })
-        }
+          });
+        }}
         sx={{ cursor: 'pointer', color: 'black' }}
       >
         {info?.getValue()}
@@ -92,18 +103,46 @@ export const digitalGiftCardColumnsFunction = (router: any): any => [
     isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
-  {
-    accessorFn: (row: any) => row?.active,
-    id: 'active',
-    header: 'Active',
-    isSortable: true,
-    cell: (info: any) => <AntSwitch values={info?.getValue()} />,
-  },
-  {
-    accessorFn: (row: any) => row?.upGradable,
-    id: 'upGradable',
-    header: 'Up Gradable',
-    isSortable: true,
-    cell: (info: any) => <AntSwitch values={info?.getValue()} />,
-  },
+  ...(overallPermissions?.includes(
+    AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.ACTIVE_DE_ACTIVE,
+  )
+    ? [
+        {
+          accessorFn: (row: any) => row?.active,
+          id: 'active',
+          header: 'Active',
+          isSortable: true,
+          cell: (info: any) => (
+            <PermissionsGuard
+              permissions={[
+                AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.ACTIVE_DE_ACTIVE,
+              ]}
+            >
+              <AntSwitch values={info?.getValue()} />
+            </PermissionsGuard>
+          ),
+        },
+      ]
+    : []),
+  ...(overallPermissions?.includes(
+    AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.UPGRADEABLE,
+  )
+    ? [
+        {
+          accessorFn: (row: any) => row?.upGradable,
+          id: 'upGradable',
+          header: 'Up Gradable',
+          isSortable: true,
+          cell: (info: any) => (
+            <PermissionsGuard
+              permissions={[
+                AIR_LOYALTY_PROGRAM_GIFT_CARDS_DIGITAL_GIFT_CARD_PERMISSIONS?.UPGRADEABLE,
+              ]}
+            >
+              <AntSwitch values={info?.getValue()} />
+            </PermissionsGuard>
+          ),
+        },
+      ]
+    : []),
 ];
