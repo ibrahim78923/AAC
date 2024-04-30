@@ -17,7 +17,7 @@ export const meetingCardsDetails = (theme: any) => [
     id: 3,
     meetingHeading: 'Completed',
     meetingCount: '3',
-    color: theme?.palette?.success?.main,
+    color: theme?.palette?.success?.dark,
   },
 ];
 
