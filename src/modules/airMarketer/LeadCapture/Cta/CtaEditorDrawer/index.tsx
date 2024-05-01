@@ -30,6 +30,7 @@ const CtaEditorDrawer = (props: any) => {
     okText,
     isOpen,
     onClose,
+    handleBack,
     methods,
     onSubmit,
     // selectedForm,
@@ -56,6 +57,7 @@ const CtaEditorDrawer = (props: any) => {
       <CommonDrawer
         isDrawerOpen={isOpen}
         onClose={onClose}
+        cancelBtnHandler={handleBack}
         title={`${title} CTA`}
         okText={okText}
         isOk={true}

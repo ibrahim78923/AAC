@@ -3,60 +3,57 @@ import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import {
   useGetLeadCaptureCTAQuery,
-  usePostLeadCaptureCTAMutation,
+  // usePostLeadCaptureCTAMutation,
 } from '@/services/airMarketer/lead-capture/cta';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { CTA_FORM, FORM_STEP, drawerOkText } from './Cta.data';
+import { FORM_STEP } from './Cta.data';
 import {
-  // CTADefaultValues,
-  CTAValidationSchema,
+  CTADefaultValues,
+  step1ValidationSchema,
 } from './CtaEditorDrawer/CtaEditorDrawer.data';
-import { enqueueSnackbar } from 'notistack';
+// import { enqueueSnackbar } from 'notistack';
 
 const useCta = () => {
   const theme = useTheme();
   const [openModal, setOpenModal] = useState('');
   const [checkExportFormats, setCheckExportFormats] = useState([]);
 
-  // Drawer Open/Close
+  // Editor Drawer Create & Edit CTA
   const [toggleButtonType, setToggleButtonType] = useState(true);
   const [activeStep, setActiveStep] = useState(0);
+  const [okText, setOkText] = useState('Next');
   const [openDrawer, setOpenDrawer] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('Create');
-  const [selectedForm, setSelectedForm] = useState(CTA_FORM?.CUSTOMIZED_BUTTON);
+  // const [selectedForm, setSelectedForm] = useState(CTA_FORM?.CUSTOMIZED_BUTTON);
   const [buttonStyle, setButtonStyle] = useState(FORM_STEP?.CUSTOM_ACTION);
 
   const handleSwitchButtonType = () => {
     setToggleButtonType(!toggleButtonType);
   };
 
-  const handleFormSwitcher = (type: string) => {
-    setSelectedForm(type);
-  };
+  // const displayOkText = () => {
+  //   if (
+  //     (buttonStyle === FORM_STEP?.CUSTOM_ACTION ||
+  //       buttonStyle === FORM_STEP?.CTA_INTERNAL) &&
+  //     selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON
+  //   ) {
+  //     return drawerOkText['Next'];
+  //   }
+  //   if (
+  //     (buttonStyle === FORM_STEP?.IMAGE_ACTION ||
+  //       buttonStyle === FORM_STEP?.IMAGE_CTA_INTERNAL) &&
+  //     selectedForm === CTA_FORM?.IMAGE_BUTTON
+  //   ) {
+  //     return drawerOkText['Next'];
+  //   }
+  //   return drawerOkText['Add'];
+  // };
 
-  const displayOkText = () => {
-    if (
-      (buttonStyle === FORM_STEP?.CUSTOM_ACTION ||
-        buttonStyle === FORM_STEP?.CTA_INTERNAL) &&
-      selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON
-    ) {
-      return drawerOkText['Next'];
-    }
-    if (
-      (buttonStyle === FORM_STEP?.IMAGE_ACTION ||
-        buttonStyle === FORM_STEP?.IMAGE_CTA_INTERNAL) &&
-      selectedForm === CTA_FORM?.IMAGE_BUTTON
-    ) {
-      return drawerOkText['Next'];
-    }
-    return drawerOkText['Add'];
-  };
-
-  const [createCTA, { isLoading: loadingCreateCTA }] =
-    usePostLeadCaptureCTAMutation();
+  // const [createCTA, { isLoading: loadingCreateCTA }] = usePostLeadCaptureCTAMutation();
   const methodsEditCTA = useForm({
-    resolver: yupResolver(CTAValidationSchema),
+    resolver: yupResolver(step1ValidationSchema),
+    defaultValues: CTADefaultValues,
   });
   const { handleSubmit: handleMethodEditCTA, trigger } = methodsEditCTA;
 
@@ -65,48 +62,67 @@ const useCta = () => {
     setOpenDrawer(true);
   };
   const handleDrawerClose = () => {
-    if (buttonStyle === FORM_STEP?.CTA_INTERNAL) {
-      setButtonStyle(FORM_STEP?.CUSTOM_ACTION);
-      return;
-    }
     setOpenDrawer(false);
   };
 
-  const onSubmitEditCTA = async (values: any) => {
-    setActiveStep(1);
+  const handleBack = () => {
+    if (activeStep === 0) {
+      handleDrawerClose();
+    } else {
+      setActiveStep((prev) => prev - 1);
+    }
+  };
+
+  const onSubmitEditCTA = async () => {
     const buttonHtml = 'buttonHtml';
-    const formData = new FormData();
-    if (selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON) {
-      await trigger(buttonHtml);
-      if (buttonStyle === FORM_STEP?.CUSTOM_ACTION) {
-        setButtonStyle(FORM_STEP?.CTA_INTERNAL);
+    // const formData = new FormData();
+    if (toggleButtonType) {
+      let isValid = false;
+      if (activeStep === 0) {
+        const isbuttonHtmlValid = await trigger(buttonHtml);
+        isValid = isbuttonHtmlValid;
       }
-      if (buttonStyle === FORM_STEP?.CTA_INTERNAL) {
-        formData.append('buttonType', 'customized');
-        Object.entries(values)?.forEach(([key, value]: any) => {
-          if (value !== undefined && value !== null && value !== '') {
-            if (key === buttonHtml) {
-              formData.append(
-                buttonHtml,
-                encodeURIComponent(`<a>${value}</a>`),
-              );
-            }
-            formData.append(key, value);
-          }
-        });
-
-        try {
-          await createCTA({ body: formData })?.unwrap();
-
-          enqueueSnackbar('CTA created successfully', {
-            variant: 'success',
-          });
-        } catch (error: any) {
-          enqueueSnackbar('An error occured', {
-            variant: 'error',
-          });
-        }
+      if (activeStep === 1) {
+        const isInternalNameValid = await trigger('ctaInternalName');
+        const isUrlValid = await trigger('url');
+        isValid = isInternalNameValid && isUrlValid;
       }
+      if (isValid) {
+        setActiveStep((prev) => prev + 1);
+      }
+      if (activeStep === 2) {
+        setOkText('Finish');
+      }
+
+      // if (buttonStyle === FORM_STEP?.CUSTOM_ACTION) {
+      //   setButtonStyle(FORM_STEP?.CTA_INTERNAL);
+      // }
+      // if (buttonStyle === FORM_STEP?.CTA_INTERNAL) {
+      //   formData.append('buttonType', 'customized');
+      //   Object.entries(values)?.forEach(([key, value]: any) => {
+      //     if (value !== undefined && value !== null && value !== '') {
+      //       if (key === buttonHtml) {
+      //         formData.append(
+      //           buttonHtml,
+      //           encodeURIComponent(`<a>${value}</a>`),
+      //         );
+      //       }
+      //       formData.append(key, value);
+      //     }
+      //   });
+
+      //   try {
+      //     await createCTA({ body: formData })?.unwrap();
+
+      //     enqueueSnackbar('CTA created successfully', {
+      //       variant: 'success',
+      //     });
+      //   } catch (error: any) {
+      //     enqueueSnackbar('An error occured', {
+      //       variant: 'error',
+      //     });
+      //   }
+      // }
     }
     // if (selectedForm === CTA_FORM?.IMAGE_BUTTON) {
     //   setButtonStyle(FORM_STEP?.IMAGE_CTA_INTERNAL);
@@ -154,13 +170,13 @@ const useCta = () => {
     toggleButtonType,
     handleSwitchButtonType,
     activeStep,
-    handleFormSwitcher,
     drawerTitle,
     openDrawer,
     handleDrawerOpen,
     handleDrawerClose,
-    displayOkText,
-    selectedForm,
+    handleBack,
+    okText,
+    // selectedForm,
     buttonStyle,
     setButtonStyle,
     methodsEditCTA,

@@ -7,10 +7,13 @@ import {
 import { Button } from '@mui/material';
 import * as Yup from 'yup';
 
-export const CTAValidationSchema = Yup?.object()?.shape({
+export const step1ValidationSchema = Yup?.object()?.shape({
   buttonHtml: Yup?.string()?.trim()?.required('Field is Required'),
-  // ctaInternalName: Yup?.string()?.trim()?.required('Field is Required'),
-  // url: Yup?.string()?.trim()?.required('Field is Required'),
+});
+
+export const step2ValidationSchema = Yup?.object()?.shape({
+  ctaInternalName: Yup?.string()?.trim()?.required('Field is Required'),
+  url: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const CTADefaultValues = {

@@ -34,7 +34,8 @@ const CTA = () => {
     openDrawer,
     handleDrawerOpen,
     handleDrawerClose,
-    displayOkText,
+    handleBack,
+    okText,
     selectedForm,
     buttonStyle,
     methodsEditCTA,
@@ -204,9 +205,10 @@ const CTA = () => {
         toggleButtonType={toggleButtonType}
         handleSwitchButtonType={handleSwitchButtonType}
         title={drawerTitle}
-        okText={displayOkText()}
+        okText={okText}
         isOpen={openDrawer}
         onClose={handleDrawerClose}
+        handleBack={handleBack}
         methods={methodsEditCTA}
         onSubmit={handleDrawerSubmit}
         selectedForm={selectedForm}
