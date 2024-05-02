@@ -1352,6 +1352,12 @@ export const AIR_SERVICES_TICKETS_TICKETS_DETAILS = {
 };
 export const AIR_SERVICES_DASHBOARD_PERMISSIONS = {
   VIEW_DASHBOARD: 'service-dashboard-list',
+  CREATE_DASHBOARD: 'service-create-dashboard',
+  EDIT_DASHBOARD: 'service-edit-dashboard',
+  SHARE_DASHBOARD: 'service-share-via-email',
+  SET_DEFAULT_DASHBOARD: 'service-set-default-dashboard',
+  VIEW_MANAGE_DASHBOARD: 'service-view-dashboard',
+  DELETE_DASHBOARD: 'service-delete-dashboard',
 };
 
 export const AIR_LOYALTY_PROGRAM_DASHBOARD_PERMISSIONS = {

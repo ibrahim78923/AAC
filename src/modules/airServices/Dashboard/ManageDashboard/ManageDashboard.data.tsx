@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
 import { AntSwitch } from './ManageDashboard.styles';
 import { DASHBOARD } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 
 export const manageDashboardsDataColumns = [
   {
@@ -22,7 +24,15 @@ export const manageDashboardsDataColumns = [
     id: 'default',
     isSortable: true,
     header: 'Default',
-    cell: (info: any) => <AntSwitch checked={info?.getValue()} />,
+    cell: (info: any) => (
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_DASHBOARD_PERMISSIONS?.SET_DEFAULT_DASHBOARD,
+        ]}
+      >
+        <AntSwitch checked={info?.getValue()} />
+      </PermissionsGuard>
+    ),
   },
   {
     accessorFn: (row: any) => row?.owner,
@@ -77,15 +87,31 @@ export const manageDashboardsDataColumns = [
     header: 'Actions',
     cell: () => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <PreviewDashboardModal
-          dashboardItems={['Graphical Representation of Tickets by Statuses']}
-        />
-        <Link
-          href={`${AIR_SERVICES?.CREATE_DASHBOARD}?action=${DASHBOARD?.EDIT}`}
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_MANAGE_DASHBOARD,
+          ]}
         >
-          <EditYellowBGPenIcon />
-        </Link>
-        <DeleteDashboardModal />
+          <PreviewDashboardModal
+            dashboardItems={['Graphical Representation of Tickets by Statuses']}
+          />
+        </PermissionsGuard>
+
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.EDIT_DASHBOARD]}
+        >
+          <Link
+            href={`${AIR_SERVICES?.CREATE_DASHBOARD}?action=${DASHBOARD?.EDIT}`}
+          >
+            <EditYellowBGPenIcon />
+          </Link>
+        </PermissionsGuard>
+
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD]}
+        >
+          <DeleteDashboardModal />
+        </PermissionsGuard>
       </Box>
     ),
   },
