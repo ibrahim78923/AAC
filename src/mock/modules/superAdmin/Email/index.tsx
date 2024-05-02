@@ -10,8 +10,4 @@ export const EmailArray = [
     Icon: <Outlook />,
     Text: `Microsoft Outlook`,
   },
-  {
-    Icon: '',
-    Text: `Others`,
-  },
 ];
