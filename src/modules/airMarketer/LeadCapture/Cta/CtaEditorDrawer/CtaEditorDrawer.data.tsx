@@ -4,34 +4,35 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Button } from '@mui/material';
 import * as Yup from 'yup';
 
 export const step1ValidationSchema = Yup?.object()?.shape({
-  buttonHtml: Yup?.string()?.trim()?.required('Field is Required'),
+  buttonHtml: Yup?.string()?.trim()?.nullable()?.required('Field is Required'),
+  // ctaInternalName: Yup?.string()?.trim()?.nullable()?.required('Field is Required'),
+  // url: Yup?.string()?.trim()?.nullable()?.required('Field is Required'),
 });
 
-export const step2ValidationSchema = Yup?.object()?.shape({
-  ctaInternalName: Yup?.string()?.trim()?.required('Field is Required'),
-  url: Yup?.string()?.trim()?.required('Field is Required'),
-});
+// export const step2ValidationSchema = Yup?.object()?.shape({
+//   ctaInternalName: Yup?.string()?.trim()?.required('Field is Required'),
+//   url: Yup?.string()?.trim()?.required('Field is Required'),
+// });
 
 export const CTADefaultValues = {
-  buttonHtml: '',
+  buttonHtml: null,
   // buttonStyle: '',
   // buttonColor: '',
   // buttonSize: '',
   // buttonPadding: '',
   // buttonMargin: '',
-  // ctaInternalName: '',
-  // urlRedirectType: '',
-  // url: ''
+  ctaInternalName: null,
+  urlRedirectType: '',
+  url: null,
 };
 
-export const CTADataArray = [
+export const customizedButtonData = [
   {
     componentProps: {
-      name: 'buttonHtml',
+      name: 'buttonContent',
       label: 'Button content',
       fullWidth: true,
       required: true,
@@ -97,58 +98,49 @@ export const CTADataArray = [
   },
 ];
 
-export const CTAInternalName = [
+export const buttonInfoData = [
   {
+    component: RHFTextField,
+    xs: 12,
     componentProps: {
       name: 'ctaInternalName',
       label: 'CTA Internal Name',
+      placeholder: 'Left18px',
       fullWidth: true,
+      required: true,
     },
-    component: RHFTextField,
-    xs: 12,
   },
   {
+    component: RHFSelect,
+    xs: 8,
     componentProps: {
       name: 'urlRedirectType',
       label: 'URL Redirect Type',
       select: true,
     },
     options: [
-      { value: 'New', label: 'New' },
-      { value: 'Air Apple Cart Page', label: 'Air Apple Cart Page' },
-      { value: 'Air Apple Blog Post', label: 'Air Apple Blog Post' },
-      { value: 'Meeting Link', label: 'Meeting Link' },
-      { value: 'File Link', label: 'File Link' },
+      { value: 'new', label: 'New' },
+      { value: 'air apple cart page', label: 'Air Apple Cart Page' },
+      { value: 'air apple blog post', label: 'Air Apple Blog Post' },
+      { value: 'meeting link', label: 'Meeting Link' },
+      { value: 'file link', label: 'File Link' },
     ],
-    component: RHFSelect,
-    xs: 8,
   },
-
   {
-    componentProps: {
-      variant: 'outlined',
-      text: 'dddd',
-    },
-
-    component: Button,
-    xs: 4,
-  },
-
-  {
+    component: RHFTextField,
+    xs: 12,
     componentProps: {
       name: 'url',
       label: 'Enter URL',
       fullWidth: true,
     },
-    component: RHFTextField,
-    xs: 12,
   },
 ];
 
-export const CTAImageDataArray = [
+export const ImageButtonData = [
   {
     componentProps: {
-      name: 'ButtonContent',
+      name: 'buttonContent',
       label: 'Button content',
       fullWidth: true,
     },

@@ -1,18 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import ReactDOMServer from 'react-dom/server';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
+import * as Yup from 'yup';
 import {
   useGetLeadCaptureCTAQuery,
-  // usePostLeadCaptureCTAMutation,
+  usePostLeadCaptureCTAMutation,
 } from '@/services/airMarketer/lead-capture/cta';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FORM_STEP } from './Cta.data';
-import {
-  CTADefaultValues,
-  step1ValidationSchema,
-} from './CtaEditorDrawer/CtaEditorDrawer.data';
-// import { enqueueSnackbar } from 'notistack';
+import { enqueueSnackbar } from 'notistack';
+
+const step1ValidationSchema = Yup?.object()?.shape({
+  buttonContent: Yup?.string()
+    ?.trim()
+    ?.nullable()
+    ?.required('Field is Required'),
+});
+
+const step2ValidationSchema = Yup?.object()?.shape({
+  ctaInternalName: Yup?.string()
+    ?.trim()
+    ?.nullable()
+    ?.required('Field is Required'),
+  url: Yup?.string()?.trim()?.nullable()?.required('Field is Required'),
+});
+
+const CTADefaultValues = {
+  buttonContent: '',
+  ctaInternalName: '',
+  urlRedirectType: '',
+  url: '',
+};
 
 const useCta = () => {
   const theme = useTheme();
@@ -25,43 +45,35 @@ const useCta = () => {
   const [okText, setOkText] = useState('Next');
   const [openDrawer, setOpenDrawer] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('Create');
-  // const [selectedForm, setSelectedForm] = useState(CTA_FORM?.CUSTOMIZED_BUTTON);
   const [buttonStyle, setButtonStyle] = useState(FORM_STEP?.CUSTOM_ACTION);
+  const [buttonData, setButtonData] = useState<any>({});
+  const validationSchema =
+    activeStep === 0 ? step1ValidationSchema : step2ValidationSchema;
+  const buttonType = toggleButtonType ? 'customized' : 'image';
+
+  const [createCTA, { isLoading: loadingCreateCTA }] =
+    usePostLeadCaptureCTAMutation();
+  const methodsEditCTA = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: CTADefaultValues,
+  });
+  const {
+    handleSubmit: handleMethodEditCTA,
+    trigger,
+    reset: resetEditorForm,
+  } = methodsEditCTA;
 
   const handleSwitchButtonType = () => {
     setToggleButtonType(!toggleButtonType);
+    resetEditorForm();
   };
-
-  // const displayOkText = () => {
-  //   if (
-  //     (buttonStyle === FORM_STEP?.CUSTOM_ACTION ||
-  //       buttonStyle === FORM_STEP?.CTA_INTERNAL) &&
-  //     selectedForm === CTA_FORM?.CUSTOMIZED_BUTTON
-  //   ) {
-  //     return drawerOkText['Next'];
-  //   }
-  //   if (
-  //     (buttonStyle === FORM_STEP?.IMAGE_ACTION ||
-  //       buttonStyle === FORM_STEP?.IMAGE_CTA_INTERNAL) &&
-  //     selectedForm === CTA_FORM?.IMAGE_BUTTON
-  //   ) {
-  //     return drawerOkText['Next'];
-  //   }
-  //   return drawerOkText['Add'];
-  // };
-
-  // const [createCTA, { isLoading: loadingCreateCTA }] = usePostLeadCaptureCTAMutation();
-  const methodsEditCTA = useForm({
-    resolver: yupResolver(step1ValidationSchema),
-    defaultValues: CTADefaultValues,
-  });
-  const { handleSubmit: handleMethodEditCTA, trigger } = methodsEditCTA;
-
   const handleDrawerOpen = (title: string) => {
     setDrawerTitle(title);
     setOpenDrawer(true);
   };
   const handleDrawerClose = () => {
+    resetEditorForm();
+    setActiveStep(0);
     setOpenDrawer(false);
   };
 
@@ -72,61 +84,82 @@ const useCta = () => {
       setActiveStep((prev) => prev - 1);
     }
   };
-
-  const onSubmitEditCTA = async () => {
-    const buttonHtml = 'buttonHtml';
-    // const formData = new FormData();
-    if (toggleButtonType) {
-      let isValid = false;
-      if (activeStep === 0) {
-        const isbuttonHtmlValid = await trigger(buttonHtml);
-        isValid = isbuttonHtmlValid;
-      }
-      if (activeStep === 1) {
-        const isInternalNameValid = await trigger('ctaInternalName');
-        const isUrlValid = await trigger('url');
-        isValid = isInternalNameValid && isUrlValid;
-      }
-      if (isValid) {
-        setActiveStep((prev) => prev + 1);
-      }
-      if (activeStep === 2) {
-        setOkText('Finish');
-      }
-
-      // if (buttonStyle === FORM_STEP?.CUSTOM_ACTION) {
-      //   setButtonStyle(FORM_STEP?.CTA_INTERNAL);
-      // }
-      // if (buttonStyle === FORM_STEP?.CTA_INTERNAL) {
-      //   formData.append('buttonType', 'customized');
-      //   Object.entries(values)?.forEach(([key, value]: any) => {
-      //     if (value !== undefined && value !== null && value !== '') {
-      //       if (key === buttonHtml) {
-      //         formData.append(
-      //           buttonHtml,
-      //           encodeURIComponent(`<a>${value}</a>`),
-      //         );
-      //       }
-      //       formData.append(key, value);
-      //     }
-      //   });
-
-      //   try {
-      //     await createCTA({ body: formData })?.unwrap();
-
-      //     enqueueSnackbar('CTA created successfully', {
-      //       variant: 'success',
-      //     });
-      //   } catch (error: any) {
-      //     enqueueSnackbar('An error occured', {
-      //       variant: 'error',
-      //     });
-      //   }
-      // }
+  useEffect(() => {
+    if (activeStep < 2) {
+      setOkText('Next');
+    } else {
+      setOkText('Finish');
     }
-    // if (selectedForm === CTA_FORM?.IMAGE_BUTTON) {
-    //   setButtonStyle(FORM_STEP?.IMAGE_CTA_INTERNAL);
-    // }
+  }, [activeStep]);
+
+  const onSubmitEditCTA = async (values: any) => {
+    const formData = new FormData();
+    let isValid = false;
+
+    // Check validation based on active step
+    if (activeStep === 0) {
+      isValid = await trigger('buttonContent');
+      const newData = values;
+      setButtonData((prevData: any) => {
+        return {
+          ...prevData,
+          ...newData,
+        };
+      });
+    } else if (activeStep === 1) {
+      const [isInternalNameValid, isUrlValid] = await Promise.all([
+        trigger('ctaInternalName'),
+        trigger('url'),
+      ]);
+      isValid = isInternalNameValid && isUrlValid;
+      const newData = values;
+      setButtonData((prevData: any) => {
+        return {
+          ...prevData,
+          ...newData,
+        };
+      });
+    } else if (activeStep === 2) {
+      const buttonUrl = buttonData?.url;
+      const buttonContent = buttonData?.buttonContent;
+      const styles = {
+        display: 'inline-block',
+        padding: buttonData?.buttonPadding || '0',
+        margin: buttonData?.buttonMargin || '0',
+      };
+      const ButtonHtmlComponent = () => (
+        <a href={buttonUrl} style={styles}>
+          {buttonContent}
+        </a>
+      );
+
+      // Render the ButtonHtml component to a string
+      const buttonHtmlString = ReactDOMServer.renderToString(
+        <ButtonHtmlComponent />,
+      );
+      formData.append('buttonType', buttonType);
+      formData.append('buttonHtml', buttonHtmlString);
+      formData.append('ctaInternalName', buttonData?.ctaInternalName);
+      formData.append('urlRedirectType', buttonData?.urlRedirectType);
+      formData.append('url', buttonData?.url);
+
+      try {
+        await createCTA({ body: formData })?.unwrap();
+        await handleDrawerClose();
+        enqueueSnackbar('CTA created successfully', {
+          variant: 'success',
+        });
+      } catch (error: any) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
+      }
+    }
+
+    // Proceed if the form is valid
+    if (isValid) {
+      setActiveStep((prev) => prev + 1);
+    }
   };
   const handleDrawerSubmit = handleMethodEditCTA(onSubmitEditCTA);
 
@@ -176,7 +209,6 @@ const useCta = () => {
     handleDrawerClose,
     handleBack,
     okText,
-    // selectedForm,
     buttonStyle,
     setButtonStyle,
     methodsEditCTA,

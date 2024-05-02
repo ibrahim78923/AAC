@@ -36,7 +36,7 @@ const CTA = () => {
     handleDrawerClose,
     handleBack,
     okText,
-    selectedForm,
+    loadingCreateCTA,
     buttonStyle,
     methodsEditCTA,
     handleDrawerSubmit,
@@ -211,7 +211,7 @@ const CTA = () => {
         handleBack={handleBack}
         methods={methodsEditCTA}
         onSubmit={handleDrawerSubmit}
-        selectedForm={selectedForm}
+        isLoading={loadingCreateCTA}
         buttonStyle={buttonStyle}
         activeStep={activeStep}
       />

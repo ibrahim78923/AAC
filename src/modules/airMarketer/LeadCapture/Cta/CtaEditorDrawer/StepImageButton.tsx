@@ -1,12 +1,12 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Grid } from '@mui/material';
-import { CTAImageDataArray } from './CtaEditorDrawer.data';
+import { ImageButtonData } from './CtaEditorDrawer.data';
 
 const StepImageButton = () => {
   return (
     <>
-      {CTAImageDataArray?.map((item: any) => (
+      {ImageButtonData?.map((item: any) => (
         <Grid item xs={12} md={item?.md} key={uuidv4()}>
           <item.component {...item?.componentProps} size={'small'}>
             {item?.componentProps?.select
