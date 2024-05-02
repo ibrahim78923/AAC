@@ -6,12 +6,12 @@ import { dataArray } from './AddRoleDrawer.data';
 import PermissionsAccordion from '../PermissionsAccordion';
 import { FormProvider } from '@/components/ReactHookForm';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const AddRoleDrawer = (props: any) => {
   const { isDrawerOpen, onClose } = props;
   const {
     postRoleLoading,
-    drawerConstants,
     viewPerdetails,
     allPermissions,
     handleSubmit,
@@ -27,14 +27,12 @@ const AddRoleDrawer = (props: any) => {
       isDrawerOpen={isDrawerOpen?.isToggle}
       onClose={onClose}
       title={
-        isDrawerOpen?.type === drawerConstants?.ADD
-          ? 'Add New Role'
-          : 'User Role'
+        isDrawerOpen?.type === DRAWER_TYPES?.ADD ? 'Add New Role' : 'User Role'
       }
-      okText={isDrawerOpen?.type === drawerConstants?.ADD ? 'Add' : 'Edit'}
+      okText={isDrawerOpen?.type === DRAWER_TYPES?.ADD ? 'Add' : 'Edit'}
       footer={
-        isDrawerOpen?.type === drawerConstants?.ADD ||
-        isDrawerOpen?.type === drawerConstants?.EDIT
+        isDrawerOpen?.type === DRAWER_TYPES?.ADD ||
+        isDrawerOpen?.type === DRAWER_TYPES?.EDIT
           ? true
           : false
       }
@@ -52,9 +50,7 @@ const AddRoleDrawer = (props: any) => {
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component
                     disabled={
-                      isDrawerOpen?.type === drawerConstants?.VIEW
-                        ? true
-                        : false
+                      isDrawerOpen?.type === DRAWER_TYPES?.VIEW ? true : false
                     }
                     {...item.componentProps}
                     size={'small'}
@@ -87,7 +83,7 @@ const AddRoleDrawer = (props: any) => {
             ) : (
               <PermissionsAccordion
                 permissionsData={
-                  isDrawerOpen?.type === drawerConstants?.VIEW
+                  isDrawerOpen?.type === DRAWER_TYPES?.VIEW
                     ? allPermissions?.data?.permissions
                     : viewPerdetails?.data
                 }

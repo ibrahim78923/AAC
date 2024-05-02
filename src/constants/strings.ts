@@ -540,3 +540,9 @@ export const CALENDER_TYPES = {
   MONTH_VIEW_CALENDER: 'dayGridMonth',
   YEAR_VIEW_CALENDER: 'multiMonthYear',
 };
+
+export const DRAWER_TYPES = {
+  EDIT: 'edit',
+  ADD: 'add',
+  VIEW: 'view',
+};
