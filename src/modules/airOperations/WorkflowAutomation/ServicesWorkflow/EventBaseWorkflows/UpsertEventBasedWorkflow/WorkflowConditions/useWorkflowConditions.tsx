@@ -13,6 +13,7 @@ export const useWorkflowConditions = (props: any) => {
       conditionType: null,
       conditions: [
         {
+          options: '',
           fieldName: null,
           condition: '',
           fieldValue: null,

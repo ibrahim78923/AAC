@@ -1,8 +1,12 @@
 import { Box, Typography } from '@mui/material';
-import useAuth from '@/hooks/useAuth';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { dashboardFunction, dropDownMenus } from './HeaderDashboard.data';
+import EmailThisDashboard from '../EmailThisDashboard';
+import { useHeaderDashboard } from './useHeaderDashboard ';
 
 export const HeaderDashboard = () => {
-  const { user }: any = useAuth();
+  const { theme, router, isDrawerOpen, setIsDrawerOpen, user } =
+    useHeaderDashboard();
 
   return (
     <>
@@ -23,7 +27,6 @@ export const HeaderDashboard = () => {
           </Typography>{' '}
           Happy to See You again
         </Typography>
-        {/* TODO: Will be catered in V2
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
           <SingleDropdownButton
             dropdownOptions={dropDownMenus(setIsDrawerOpen)}
@@ -37,7 +40,7 @@ export const HeaderDashboard = () => {
         <EmailThisDashboard
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
-        /> */}
+        />
       </Box>
     </>
   );

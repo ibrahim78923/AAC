@@ -1,22 +1,47 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { VALIDATION_CONSTANT } from '@/constants';
 import { timeZone } from '@/constants/time-zone';
 import * as Yup from 'yup';
 
-export const profileValidationSchema = Yup?.object()?.shape({
+export const profileValidationSchema: any = Yup?.object()?.shape({
   firstName: Yup?.string()
+    ?.trim()
     ?.required('First name is Required')
     ?.max(30, 'First Name up to 30 characters'),
   lastName: Yup?.string()
+    ?.trim()
     ?.required('Last name is Required')
     ?.max(30, 'Last Name up to 30 characters'),
-  workPhoneNumber: Yup?.string(),
-  mobileNumber: Yup?.string(),
-  jobTitle: Yup?.string(),
-  language: Yup?.string(),
+  workPhoneNumber: Yup?.string()
+    ?.trim()
+    ?.test(
+      'is-valid-phone',
+      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+      function (value) {
+        if (value) {
+          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+        }
+        return true;
+      },
+    ),
+  mobileNumber: Yup?.string()
+    ?.trim()
+    ?.test(
+      'is-valid-phone',
+      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+      function (value) {
+        if (value) {
+          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+        }
+        return true;
+      },
+    ),
+  jobTitle: Yup?.string()?.trim()?.max(30, 'Job Title up to 30 characters'),
+  language: Yup?.string()?.trim()?.max(30, 'Language up to 30 characters'),
   timeZone: Yup?.mixed()?.nullable(),
-  facebookURL: Yup?.string(),
-  linkedinURL: Yup?.string(),
-  twitterURL: Yup?.string(),
+  facebookURL: Yup?.string()?.trim(),
+  linkedinURL: Yup?.string()?.trim(),
+  twitterURL: Yup?.string()?.trim(),
 });
 
 export const profileDefaultValues = (profileDetail: any) => {

@@ -1,74 +1,46 @@
 import { AIR_SERVICES } from '@/constants';
-import { Box, Button } from '@mui/material';
+import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import { Box, Button, Chip } from '@mui/material';
 
 export const dropDownMenus = (setIsDrawerOpen: any) => [
   {
+    id: 1,
     title: 'Copy URL',
     handleClick: (closeMenu: any) => {
       closeMenu?.();
     },
+    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD],
   },
   {
+    id: 2,
     title: 'Email this dashboard',
     handleClick: (closeMenu: any) => {
       setIsDrawerOpen(true);
       closeMenu?.();
     },
-  },
-  {
-    title: 'Edit',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
-    },
+    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.SHARE_DASHBOARD],
   },
 ];
 
 export const dashboardFunction = (theme: any, router: any) => [
   {
     title: (
-      <Box display={'flex'} gap={'3rem'}>
+      <Box display={'flex'} gap={'3rem'} alignItems={'center'}>
         Services
-        <Box
-          sx={{
-            color: theme?.palette?.success?.main,
-            border: '1px solid',
-            padding: '0 10px',
-            borderRadius: '16px',
-            cursor: 'pointer',
-            width: 'fit-content',
-          }}
-        >
-          open
-        </Box>
+        <Chip label="Default" variant="outlined" color={'success'} />
       </Box>
     ),
     handleClick: (closeMenu: any) => {
       closeMenu?.();
     },
+    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD],
   },
   {
-    title: 'Services_1',
+    title: 'Dashboards List',
     handleClick: (closeMenu: any) => {
       closeMenu?.();
     },
-  },
-  {
-    title: 'Services_2',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
-    },
-  },
-  {
-    title: 'Services_3',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
-    },
-  },
-  {
-    title: 'Services_4',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
-    },
+    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD],
   },
   {
     title: (
@@ -82,5 +54,6 @@ export const dashboardFunction = (theme: any, router: any) => [
         Manage Dashboards
       </Button>
     ),
+    permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD],
   },
 ];
