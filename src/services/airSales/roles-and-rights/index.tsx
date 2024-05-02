@@ -64,7 +64,7 @@ export const {
   useGetPermissionsRolesQuery,
   useGetProductsPermissionsQuery,
   useUpdateRoleRightsMutation,
-  // useGetPermissionsRolesByIdQuery,
+  useGetPermissionsRolesByIdQuery,
   useLazyGetPermissionsRolesByIdQuery,
   usePostPermissionRoleMutation,
   useGetRolesDataByIdQuery,

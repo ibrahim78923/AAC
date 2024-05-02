@@ -4,6 +4,7 @@ import { useDeleteTeamsMutation } from '@/services/airMarketer/settings/teams';
 import { useGetProductsUsersQuery } from '@/services/airMarketer/settings/users';
 import { Skeleton } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const useUserManagement = () => {
   const skeletonLines = [];
@@ -37,11 +38,7 @@ const useUserManagement = () => {
     isLoading,
     isSuccess,
   } = useGetProductsUsersQuery(productUserParams);
-  const drawyerType = {
-    ADD: 'add',
-    EDIT: 'edit',
-    VIEW: 'view',
-  };
+  const drawyerType = DRAWER_TYPES;
 
   //handler delete team
   const handleDeleteTeam = async (id: any) => {

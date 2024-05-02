@@ -25,6 +25,10 @@ export const useSingleTicketForm = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (data: any) => {
+    if (!singleTicketData?.agentDetails?.email) {
+      errorSnackbar('Ticket is not assigned');
+      return;
+    }
     const emailFormData = new FormData();
     emailFormData?.append('recipients', singleTicketData?.agentDetails?.email);
     emailFormData?.append('html', data?.yourReply);
