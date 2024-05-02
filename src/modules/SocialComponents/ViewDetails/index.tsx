@@ -1,7 +1,13 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
-import { Box, Grid, Skeleton, Typography, useTheme } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Grid,
+  Skeleton,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import Details from './Details';
 import ActivityLog from './ActivityLog';
@@ -70,13 +76,25 @@ const ViewDetails = () => {
                   onMouseLeave={() => setIsHovered(false)}
                   onClick={() => setIsUploadImageOpen(true)}
                 >
-                  <Image
-                    src={generateImage(data?.data?.profilePicture?.url)}
+                  {/* <Image
+                    src={data?.data?.profilePicture?.url ? generateImage(data?.data?.profilePicture?.url) : "abc"}
                     width={50}
                     height={50}
                     alt="companyLogo"
-                    style={{ borderRadius: '50%' }}
-                  />
+                    style={{ borderRadius: '50%', border: `1px solid ${theme?.palette?.grey[700]}` }}
+                  /> */}
+                  <Avatar
+                    sx={{
+                      bgcolor: 'primary.main',
+                      textTransform: 'uppercase',
+                      fontSize: '14px',
+                      mr: '6px',
+                    }}
+                    alt="companyLogo"
+                    src={generateImage(data?.data?.profilePicture?.url)}
+                  >
+                    {data?.data?.name?.charAt(0)}
+                  </Avatar>
                   {isHovered && (
                     <Box sx={{ position: 'absolute' }}>
                       {' '}
@@ -109,13 +127,27 @@ const ViewDetails = () => {
             <Grid item xs={12} sm={6} lg={3}>
               <Box sx={styles.detailsBox}>
                 <Box sx={{ display: 'flex', gap: 1, marginBottom: '7px' }}>
-                  <Image
+                  {/* <Image
                     src={generateImage(data?.data?.owner?.profilePicture)}
                     width={40}
                     height={40}
                     alt="NotesAvatarImage"
-                    style={{ borderRadius: '50%' }}
-                  />
+                    style={{ borderRadius: '50%', border: `1px solid ${theme?.palette?.grey[700]}` }}
+                  /> */}
+
+                  <Avatar
+                    sx={{
+                      bgcolor: 'primary.main',
+                      textTransform: 'uppercase',
+                      fontSize: '14px',
+                      mr: '6px',
+                    }}
+                    alt="companyLogo"
+                    src={generateImage(data?.data?.owner?.profilePicture)}
+                  >
+                    {data?.data?.owner?.name?.charAt(0)}
+                  </Avatar>
+
                   <Box>
                     <Typography variant="body2" sx={{ fontWeight: '600' }}>
                       {data?.data?.owner?.name}

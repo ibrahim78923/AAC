@@ -43,7 +43,7 @@ const Deals = (companyId: any) => {
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
+            {getCompanyDeals?.data?.meta?.total}
           </Typography>
 
           <Typography variant="subtitle2">Deals</Typography>

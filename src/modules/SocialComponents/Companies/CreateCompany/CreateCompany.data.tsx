@@ -7,7 +7,7 @@ export const createComapnySchema = Yup?.object()?.shape({
   domain: Yup?.string()?.required('Field is Required'),
   totalRevenue: Yup?.number(),
   noOfEmloyee: Yup?.number(),
-  linkedInUrl: Yup?.string()?.required('Field is Required'),
+  ownerId: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultCreateCompanyValues = {
@@ -57,6 +57,7 @@ export const dataArray = () => {
         label: 'Company Owner',
         fullWidth: true,
         select: true,
+        required: true,
       },
       options: getCompanyContacts?.data?.contacts?.map((item: any) => ({
         value: item?._id,
@@ -165,10 +166,9 @@ export const dataArray = () => {
       component: RHFTextField,
       componentProps: {
         name: 'linkedInUrl',
-        label: 'LinkdIn Company Page',
+        label: 'LinkedIn Company Page',
         placeholder: 'Enter here',
         fullWidth: true,
-        required: true,
       },
     },
   ];

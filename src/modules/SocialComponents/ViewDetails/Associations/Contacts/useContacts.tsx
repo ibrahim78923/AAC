@@ -1,15 +1,12 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
-import { getSession } from '@/utils';
-import {
-  useDeleteContactMutation,
-  useGetContactsQuery,
-} from '@/services/commonFeatures/contacts';
+import { useDeleteContactMutation } from '@/services/commonFeatures/contacts';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
+import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/companies';
 
-const useContacts = () => {
+const useContacts = (companyId: any) => {
   const theme = useTheme();
   const [searchName, setSearchName] = useState('');
   const [openDrawer, setOpenDrawer] = useState('');
@@ -17,16 +14,16 @@ const useContacts = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [contactRecord, setContactRecord] = useState({});
-  const { user } = getSession();
 
-  const searchObj = {
+  const paramObj = {
     search: searchName,
-    contactOwnerId: user?._id,
+    association_type: 'contacts',
   };
-  const { data, isLoading } = useGetContactsQuery({
+  const { data, isLoading } = useGetCompanyAssociationsQuery({
+    id: companyId,
     page,
     pageLimit,
-    params: searchObj,
+    params: paramObj,
   });
 
   const handleCloseAlert = () => {

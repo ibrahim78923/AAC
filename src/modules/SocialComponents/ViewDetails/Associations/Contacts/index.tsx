@@ -30,7 +30,7 @@ const Contacts = ({ companyId }: any) => {
     contactRecord,
     setContactRecord,
     deleteContactHandler,
-  } = useContacts();
+  } = useContacts(companyId);
 
   return (
     <Box

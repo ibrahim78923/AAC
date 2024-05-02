@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
-import { useGetCompanyDealsQuery } from '@/services/commonFeatures/companies';
+import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/companies';
 import { useDeleteDealsMutation } from '@/services/airSales/deals';
 import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
@@ -24,11 +24,16 @@ const useDeals = (companyId: any) => {
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
-  const { data: getCompanyDeals, isLoading } = useGetCompanyDealsQuery({
+
+  const paramObj = {
+    search: searchName,
+    association_type: 'deals',
+  };
+  const { data: getCompanyDeals, isLoading } = useGetCompanyAssociationsQuery({
+    id: companyId?.companyId,
     page,
     pageLimit,
-    // params: searchObj,
-    id: companyId.companyId,
+    params: paramObj,
   });
 
   const handleDeleteDeals = async () => {
