@@ -41,6 +41,8 @@ const ContactStatus = () => {
     deleteContactsStatus,
     loadingUpdateContactStatus,
     setSearchValue,
+    loadingAddStatus,
+    loadingDelete,
   } = useContactStatus();
 
   return (
@@ -53,7 +55,7 @@ const ContactStatus = () => {
         footer={isModalHeading === 'View' ? false : true}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
-        isLoading={loadingUpdateContactStatus}
+        isLoading={loadingUpdateContactStatus || loadingAddStatus}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={ContactStatus}>
@@ -147,6 +149,7 @@ const ContactStatus = () => {
           handleSubmitBtn={() => {
             deleteContactsStatus();
           }}
+          loading={loadingDelete}
         />
       </Box>
     </>

@@ -41,7 +41,7 @@ interface SingleMessageProps {
   description?: React.ReactNode;
 }
 
-export interface RightSideData {
+export interface RightPaneData {
   title?: React.ReactNode;
   data?: SingleMessageProps[];
   handleReplayAll?: (obj: object) => void;

@@ -5,13 +5,13 @@ import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { downloadFile } from '@/utils/file';
 import { ExportModal } from '@/components/ExportModal';
-import { AddPhysicalGiftCard } from '../AddPhysicalGiftCard';
 import {
   useLazyExportUnAssignedPhysicalGiftCardListQuery,
   useLazyGetUnAssignedPhysicalGiftCardListQuery,
 } from '@/services/airLoyaltyProgram/giftCards/giftCards/physical-gift-card/unassigned';
 import { notAssignedPhysicalGiftCardColumnsFunction } from './NotAssignedPhysicalGiftCards.data';
 import { AssignedPhysicalGiftCard } from './AssignedPhysicalGiftCard';
+import { getActivePermissionsSession } from '@/utils';
 
 export const useNotAssignedPhysicalGiftCards = () => {
   const [selectedUnAssignedPhysicalCards, setSelectedUnAssignedPhysicalCards] =
@@ -20,6 +20,7 @@ export const useNotAssignedPhysicalGiftCards = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const router = useRouter();
+  const overallPermissions = getActivePermissionsSession();
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
   const [
     lazyGetUnAssignedPhysicalGiftCardListTrigger,
@@ -58,14 +59,6 @@ export const useNotAssignedPhysicalGiftCards = () => {
   };
 
   const renderPortalComponent: any = () => {
-    if (isPortalOpen?.isAdd) {
-      return (
-        <AddPhysicalGiftCard
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-        />
-      );
-    }
     if (isPortalOpen?.isExport) {
       return (
         <ExportModal
@@ -92,6 +85,7 @@ export const useNotAssignedPhysicalGiftCards = () => {
       setSelectedUnAssignedPhysicalCards,
       lazyGetUnAssignedPhysicalGiftCardListStatus?.data?.data,
       setIsPortalOpen,
+      overallPermissions,
     );
 
   return {

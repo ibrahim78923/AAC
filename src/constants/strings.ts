@@ -529,3 +529,14 @@ export const RULES_BENEFIT_TYPE = {
   DISCOUNT: 'DISCOUNT',
   AWARD: 'AWARD',
 };
+
+export const MEETINGS_DETAILS_TYPE = {
+  ALL: 'All',
+};
+
+export const CALENDER_TYPES = {
+  DAY_VIEW_CALENDER: 'timeGridDay',
+  WEEK_VIEW_CALENDER: 'timeGridWeek',
+  MONTH_VIEW_CALENDER: 'dayGridMonth',
+  YEAR_VIEW_CALENDER: 'multiMonthYear',
+};
