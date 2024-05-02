@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
-import { useGetAttachmentQuery } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/attachments';
 import { PAGINATION } from '@/config';
 import { useDeleteAttachmentMutation } from '@/services/commonFeatures/contacts/associations/attachments';
 import { enqueueSnackbar } from 'notistack';
+import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/companies';
 
 const useAttachments = (companyId: any) => {
   const theme = useTheme();
@@ -21,12 +21,17 @@ const useAttachments = (companyId: any) => {
   //    id: companyId?.companyId,
   // };
 
-  const { data: getCompanyAttachment, isLoading } = useGetAttachmentQuery({
-    page,
-    pageLimit,
-    // params: searchObj,
-    id: companyId?.companyId,
-  });
+  const paramObj = {
+    search: searchName,
+    association_type: 'attachments',
+  };
+  const { data: getCompanyAttachment, isLoading } =
+    useGetCompanyAssociationsQuery({
+      id: companyId?.companyId,
+      page,
+      pageLimit,
+      params: paramObj,
+    });
   const [deleteAttachment, { isLoading: loadingDelete }] =
     useDeleteAttachmentMutation();
 

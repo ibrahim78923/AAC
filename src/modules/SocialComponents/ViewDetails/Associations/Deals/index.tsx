@@ -76,7 +76,7 @@ const Deals = (companyId: any) => {
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert, setDealRecord })}
-            data={getCompanyDeals?.data}
+            data={getCompanyDeals?.data?.deals}
             isLoading={isLoading}
             setPage={setPage}
             setPageLimit={setPageLimit}

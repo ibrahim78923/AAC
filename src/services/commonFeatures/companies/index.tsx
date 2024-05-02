@@ -141,7 +141,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['COMPANY', 'CONTACTS'],
+      providesTags: ['COMPANY', 'CONTACTS', 'ATTACHMENT'],
     }),
   }),
 });

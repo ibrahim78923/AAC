@@ -124,7 +124,7 @@ const useContactsEditorDrawer = ({
       setOpenDrawer('');
       reset();
     } catch (error: any) {
-      const errMsg = error?.data?.message;
+      const errMsg = error?.data?.message[0];
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
   };

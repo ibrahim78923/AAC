@@ -293,6 +293,7 @@ const ViewDetails = () => {
         isUploadImageOpen={isUploadImageOpen}
         setIsUploadImageOpen={setIsUploadImageOpen}
         companyId={data?.data?._id}
+        profilePicture={data?.data?.profilePicture?.url}
       />
     </Box>
   );
