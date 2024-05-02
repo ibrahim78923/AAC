@@ -229,7 +229,9 @@ export const SOCIAL_FEATURES_CHAT = {
 
 export const SOCIAL_FEATURES_EMAIL = {
   CREATE_CONFIG: '/other-mail/create-config',
+  UPDATE_CONFIG: '/other-mail/update-config',
   GET_MAIL_FOLDERS: '/other-mail/get-folders',
+  GET_OTHER_MAIL_CONFIG: '/other-mail/get-config',
 };
 
 export const CHAT_SOCKETS = {

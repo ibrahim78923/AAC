@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { styles } from './Email.styles';
 import { Settings } from '@mui/icons-material';
-import { EmailInfoIcon } from '@/assets/icons';
+import { EmailInfoIcon, PencilEditIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { emailsDataArray } from './Email.data';
 import { OthersMail } from '@/assets/images';
 import Image from 'next/image';
-import Link from 'next/link';
-import { EMAIL_SUB_ROUTES } from '@/constants';
 import EmailSettingDrawer from './EmailSettingDrawer';
 import OtherMailDrawer from './OtherMailDrawer';
 import { useGetMailFoldersQuery } from '@/services/commonFeatures/email';
@@ -23,17 +27,21 @@ const Email = () => {
     useState(false);
 
   const [isOtherEmailDrawerOpen, setIsOtherEmailDrawerOpen] = useState(false);
+  const [isOtherEmailDrawerType, setIsOtherEmailDrawerType] = useState('');
 
-  const { data: foldersData } = useGetMailFoldersQuery({});
+  const { data: foldersData, isLoading } = useGetMailFoldersQuery({});
   const router = useRouter();
   const handelRedirect = () => {
-    if (foldersData?.data) {
-      router.push(END_POINTS?.CONVERSATION_EMAIL_VIEW);
-    } else {
-      enqueueSnackbar('Unable to configure email', {
-        variant: 'error',
-      });
-      setIsOtherEmailDrawerOpen(true);
+    if (!isLoading) {
+      if (foldersData?.data) {
+        router.push(END_POINTS?.CONVERSATION_EMAIL_VIEW);
+      } else {
+        enqueueSnackbar('Unable to configure email', {
+          variant: 'error',
+        });
+        setIsOtherEmailDrawerOpen(true);
+        setIsOtherEmailDrawerType('create');
+      }
     }
   };
 
@@ -74,26 +82,65 @@ const Email = () => {
         <Box display={'flex'} flexWrap={'wrap'} gap={'15px'}>
           {emailsDataArray?.map((item: any) => (
             <Box key={uuidv4()} sx={styles?.emailArray}>
-              {item?.icon}
-              <Typography variant="h6">{item?.label}</Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  width: 'fit-content',
+                  padding: '16px',
+                }}
+              >
+                {item?.icon}
+                <Typography variant="h6">{item?.label}</Typography>
+              </Box>
             </Box>
           ))}
-          <Box sx={styles?.emailArray} onClick={handelRedirect}>
-            <Image src={OthersMail} alt="other" />
-            <Typography variant="h6">Others</Typography>
+          <Box sx={styles?.emailArray}>
+            <Box sx={{ position: 'absolute', top: '10px', right: '10px' }}>
+              {isLoading ? (
+                <CircularProgress size={20} thickness={4} />
+              ) : (
+                <>
+                  {foldersData?.data && (
+                    <>
+                      <IconButton
+                        onClick={() => {
+                          setIsOtherEmailDrawerOpen(true);
+                          setIsOtherEmailDrawerType('update');
+                        }}
+                      >
+                        <PencilEditIcon />
+                      </IconButton>
+                    </>
+                  )}
+                </>
+              )}
+            </Box>
+            <Box
+              onClick={handelRedirect}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                width: 'fit-content',
+                padding: '16px',
+              }}
+            >
+              <Image src={OthersMail} alt="other" />
+              <Typography variant="h6">Others</Typography>
+            </Box>
           </Box>
         </Box>
-        <Link href={`${EMAIL_SUB_ROUTES?.EMAIL_CONVERSATIONS}`}>
-          <Box>conversations</Box>
-        </Link>
         <EmailSettingDrawer
           isOpenDrawer={isEmailSettingsDrawerOpen}
           setIsOpenDrawer={setIsEmailSettingsDrawerOpen}
         />
-
         <OtherMailDrawer
           openDrawer={isOtherEmailDrawerOpen}
           setOpenDrawer={setIsOtherEmailDrawerOpen}
+          isOtherEmailDrawerType={isOtherEmailDrawerType}
+          setIsOtherEmailDrawerType={setIsOtherEmailDrawerType}
         />
       </>
       {/* <EmailChat /> */}

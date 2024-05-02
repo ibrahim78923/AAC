@@ -43,6 +43,7 @@ export const styles = {
     cursor: 'pointer',
   },
   emailArray: {
+    position: 'relative',
     flexBasis: '256px',
     borderRadius: '8px',
     display: 'flex',
@@ -50,7 +51,6 @@ export const styles = {
     gap: '10px',
     mb: '24px',
     border: '1px solid #E5E7EB',
-    p: '16px',
     cursor: 'pointer',
   },
 };
