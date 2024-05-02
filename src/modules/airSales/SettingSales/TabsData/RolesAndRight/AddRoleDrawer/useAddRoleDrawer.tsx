@@ -4,28 +4,33 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './AddRoleDrawer.data';
 import {
-  airSalesRolesAndRightsAPI,
-  useGetPermissionsRolesByIdQuery,
-  usePostPermissionRoleMutation,
-  useUpdateRoleRightsMutation,
-} from '@/services/airSales/roles-and-rights';
-import {
   getActiveAccountSession,
   getActiveProductSession,
   getSession,
 } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  airMarketerRolesAndRightsAPI,
+  useGetRolesDataByIdQuery,
+  usePostPermissionRoleMutation,
+  useUpdateRoleRightsMutation,
+} from '@/services/airMarketer/settings/roles-and-rights';
 
 const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const { user }: any = getSession();
   const theme = useTheme<Theme>();
+  const drawerConstants = {
+    EDIT: 'edit',
+    ADD: 'add',
+    VIEW: 'view',
+  };
 
-  const disabled = isDrawerOpen?.type === 'view';
+  const disabled = isDrawerOpen?.type === drawerConstants?.VIEW;
   const activeProduct = getActiveProductSession();
   const activeAccount = getActiveAccountSession();
 
-  const { useLazyGetPermissionsRolesByIdQuery } = airSalesRolesAndRightsAPI;
+  const { useLazyGetPermissionsRolesByIdQuery } = airMarketerRolesAndRightsAPI;
 
   const [postPermissionRole, { isLoading: postRoleLoading }] =
     usePostPermissionRoleMutation();
@@ -33,7 +38,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const [trigger, { data: viewPerdetails, isLoading }] =
     useLazyGetPermissionsRolesByIdQuery();
 
-  const { data: defaultPermissions } = useGetPermissionsRolesByIdQuery(
+  const { data: defaultPermissions } = useGetRolesDataByIdQuery(
     isDrawerOpen?.id,
   );
 
@@ -46,7 +51,9 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
       });
     });
 
-  const filteredPermissions = viewPerdetails?.data?.permissions?.flatMap(
+  const allPermissions = defaultPermissions;
+
+  const filteredPermissions = defaultPermissions?.data?.permissions?.flatMap(
     (rec: any) => {
       return rec?.subModules?.flatMap((item: any) => {
         return item?.permissions?.filter((e: any) => {
@@ -70,37 +77,26 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const { handleSubmit, reset, setValue } = methods;
 
   useEffect(() => {
-    trigger(
-      isDrawerOpen?.type === 'view' ? isDrawerOpen?.id : activeAccount?.role,
-    );
+    trigger(activeProduct?._id);
   }, [isDrawerOpen]);
 
   useEffect(() => {
-    const data = viewPerdetails?.data;
-
-    // const permissionsArray =
-    //   // isDrawerOpen?.type !== 'add'
-    //   isDrawerOpen?.type === 'view' || isDrawerOpen?.type === 'edit'
-    //     ? data?.permissions?.flatMap(
-    //       (item: any) =>
-    //         item?.subModules?.flatMap(
-    //           (mod: any) => mod?.permissions?.map((slg: any) => slg?.slug),
-    //         ),
-    //     )
-    //     : [];
-
+    const data = defaultPermissions?.data;
     const fieldsToSet: any = {
-      name: isDrawerOpen?.type === 'add' ? '' : data?.name,
-      description: isDrawerOpen?.type === 'add' ? '' : data?.description,
+      name: isDrawerOpen?.type === drawerConstants?.ADD ? '' : data?.name,
+      description:
+        isDrawerOpen?.type === drawerConstants?.ADD ? '' : data?.description,
       permissions:
-        filteredPermissions?.map((item: any) => {
-          return item?.slug;
-        }) || [],
+        isDrawerOpen?.type === drawerConstants?.ADD
+          ? []
+          : filteredPermissions?.map((item: any) => {
+              return item?.slug;
+            }),
     };
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
     }
-  }, [viewPerdetails]);
+  }, [viewPerdetails, filteredPermissions]);
 
   const [updateRoleRights] = useUpdateRoleRightsMutation();
 
@@ -109,7 +105,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     const organizationCompanyAccountId = activeAccount?.company?._id;
     const productId = activeProduct?._id;
     try {
-      if (isDrawerOpen?.type === 'add') {
+      if (isDrawerOpen?.type === drawerConstants?.ADD) {
         values.organizationId = organizationId;
         values.organizationCompanyAccountId = organizationCompanyAccountId;
         values.productId = productId;
@@ -117,12 +113,18 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
         await postPermissionRole({ body: values });
         reset();
       } else {
-        await updateRoleRights({ id: isDrawerOpen?.id, body: values });
+        const newPermissions = [...values.permissions];
+        const editVals = {
+          ...values,
+          permissions: newPermissions,
+          productId: activeProduct?._id,
+        };
+        await updateRoleRights({ id: isDrawerOpen?.id, body: editVals });
       }
       onClose();
       enqueueSnackbar(
         `${
-          isDrawerOpen?.type === 'edit'
+          isDrawerOpen?.type === drawerConstants?.EDIT
             ? 'Changes save successfully'
             : 'New role added successfully'
         }`,
@@ -138,15 +140,17 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   };
 
   return {
-    theme,
-    methods,
-    onSubmit,
-    handleSubmit,
-    viewPerdetails,
-    activeAccount,
-    isLoading,
-    disabled,
     postRoleLoading,
+    drawerConstants,
+    viewPerdetails,
+    allPermissions,
+    activeAccount,
+    handleSubmit,
+    isLoading,
+    onSubmit,
+    disabled,
+    methods,
+    theme,
   };
 };
 

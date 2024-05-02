@@ -10,24 +10,31 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 const AddRoleDrawer = (props: any) => {
   const { isDrawerOpen, onClose } = props;
   const {
+    postRoleLoading,
+    drawerConstants,
+    viewPerdetails,
+    allPermissions,
+    handleSubmit,
+    isLoading,
+    onSubmit,
+    disabled,
     methods,
     theme,
-    onSubmit,
-    handleSubmit,
-    viewPerdetails,
-    isLoading,
-    disabled,
-    postRoleLoading,
   } = useAddRoleDrawer(isDrawerOpen, onClose);
 
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen?.isToggle}
       onClose={onClose}
-      title={isDrawerOpen?.type === 'add' ? 'Add New Role' : 'User Role'}
-      okText={isDrawerOpen?.type === 'add' ? 'Add' : 'Edit'}
+      title={
+        isDrawerOpen?.type === drawerConstants?.ADD
+          ? 'Add New Role'
+          : 'User Role'
+      }
+      okText={isDrawerOpen?.type === drawerConstants?.ADD ? 'Add' : 'Edit'}
       footer={
-        isDrawerOpen?.type === 'add' || isDrawerOpen?.type === 'edit'
+        isDrawerOpen?.type === drawerConstants?.ADD ||
+        isDrawerOpen?.type === drawerConstants?.EDIT
           ? true
           : false
       }
@@ -44,7 +51,11 @@ const AddRoleDrawer = (props: any) => {
               {dataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component
-                    disabled={isDrawerOpen?.type === 'view' ? true : false}
+                    disabled={
+                      isDrawerOpen?.type === drawerConstants?.VIEW
+                        ? true
+                        : false
+                    }
                     {...item.componentProps}
                     size={'small'}
                   >
@@ -69,13 +80,17 @@ const AddRoleDrawer = (props: any) => {
               Permissions
               <span style={{ color: `${theme?.palette?.error?.main}` }}>*</span>
             </Typography>
-            {viewPerdetails?.data?.permissions?.length === 0 ? (
+            {allPermissions?.data?.permissions?.length === 0 ? (
               <Typography variant="body2" color={theme?.palette?.grey[0]}>
-                No permissions found
+                Please assign a plan to this product before proceeding.
               </Typography>
             ) : (
               <PermissionsAccordion
-                permissionsData={viewPerdetails}
+                permissionsData={
+                  isDrawerOpen?.type === drawerConstants?.VIEW
+                    ? allPermissions?.data?.permissions
+                    : viewPerdetails?.data
+                }
                 disabled={disabled}
               />
             )}
