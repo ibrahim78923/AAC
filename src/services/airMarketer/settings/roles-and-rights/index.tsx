@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-export const airSalesRolesAndRightsAPI = baseAPI.injectEndpoints({
+export const airMarketerRolesAndRightsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getPermissionsRoles: builder.query({
       query: (values: any) => ({
@@ -64,8 +64,7 @@ export const {
   useGetPermissionsRolesQuery,
   useGetProductsPermissionsQuery,
   useUpdateRoleRightsMutation,
-  useGetPermissionsRolesByIdQuery,
   useLazyGetPermissionsRolesByIdQuery,
   usePostPermissionRoleMutation,
   useGetRolesDataByIdQuery,
-} = airSalesRolesAndRightsAPI;
+} = airMarketerRolesAndRightsAPI;

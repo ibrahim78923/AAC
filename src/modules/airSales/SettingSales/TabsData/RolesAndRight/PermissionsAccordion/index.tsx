@@ -17,24 +17,28 @@ import { v4 as uuidv4 } from 'uuid';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const PermissionsAccordion = (props: any) => {
-  const { permissionsData, disabled } = props;
+  const {
+    getModulePermissions,
+    selectAllPermissions,
+    permissionsData,
+    disabled,
+    watch,
+  } = props;
 
   const {
     theme,
-    // commented for future use
-    // isAccordionExpanded,
-    //  handleExpandAccordionChange
+    handleExpandAccordionChange,
+    handleChangeSubModule,
+    selectedSubModule,
+    selectedModule,
   } = usePermissionAccordion();
 
   return (
     <Stack gap={3}>
-      {permissionsData?.data?.permissions?.map((item: any) => (
+      {permissionsData?.map((item: any) => (
         <Accordion
+          expanded={selectedModule === item?.name?.toLowerCase()}
           key={uuidv4()}
-          // expanded={isAccordionExpanded === item?.module?.toLowerCase()}
-          // onChange={handleExpandAccordionChange(
-          //   item?.module?.toLowerCase(),
-          // )}
           disableGutters
           sx={{
             '&.MuiAccordion': {
@@ -55,12 +59,32 @@ const PermissionsAccordion = (props: any) => {
           }}
         >
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={
+              <ExpandMoreIcon
+                onClick={() => {
+                  handleExpandAccordionChange(item?.name?.toLowerCase());
+                }}
+              />
+            }
             aria-controls="dashboard"
             id="dashboard"
           >
             <Box display="flex" alignItems="center">
-              <FormControlLabel control={<SwitchBtn />} label="" />
+              <FormControlLabel
+                control={
+                  <SwitchBtn
+                    disabled={disabled}
+                    checked={getModulePermissions(item?.subModules)?.every(
+                      (permission: any) =>
+                        watch('permissions')?.includes(permission),
+                    )}
+                    handleSwitchChange={() =>
+                      selectAllPermissions(item?.subModules)
+                    }
+                  />
+                }
+                label=""
+              />
               <Typography variant="body2" fontWeight={700}>
                 {item?.name}
               </Typography>
@@ -70,6 +94,8 @@ const PermissionsAccordion = (props: any) => {
             <DashboardAccordion
               subModules={item?.subModules}
               disabled={disabled}
+              handleChangeSubModule={handleChangeSubModule}
+              selectedSubModule={selectedSubModule}
             />
           </AccordionDetails>
         </Accordion>
