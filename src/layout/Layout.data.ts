@@ -229,27 +229,27 @@ export const LoyaltyProgramsRoutes: any = [
     label: 'Loyalty',
     icon: LoyaltyImage,
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY,
     textNames: [
       {
         key: LOYALTY_PROGRAM?.LOYALTY_REWARD,
         label: 'Rewards',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS,
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_TRANSACTIONS,
         label: 'Transactions',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_TRANSACTIONS,
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_RULES_TIERS,
         label: 'Rules & Tiers',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS,
       },
       {
         key: LOYALTY_PROGRAM?.LOYALTY_RULES_VOUCHERS,
         label: 'Vouchers',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_VOUCHERS,
       },
     ],
   },
@@ -258,27 +258,17 @@ export const LoyaltyProgramsRoutes: any = [
     label: 'Gift Cards',
     icon: GiftCardImage,
     role: 'Loyalty-Program',
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS,
     textNames: [
       {
         key: LOYALTY_PROGRAM?.GIFT_CARDS,
         label: 'Gift Cards',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_GIFT_CARD,
       },
       {
         key: LOYALTY_PROGRAM?.GIFT_CARDS_TRANSACTIONS,
         label: 'Transactions',
-        permissions: [],
-      },
-      {
-        key: LOYALTY_PROGRAM?.GIFT_CARDS_SETTLEMENTS,
-        label: 'Settlements',
-        permissions: [],
-      },
-      {
-        key: LOYALTY_PROGRAM?.GIFT_CARDS_SETTLED,
-        label: 'Settled',
-        permissions: [],
+        permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS,
       },
     ],
   },
@@ -630,7 +620,7 @@ export const LowerLoyaltyProgramRoutes = [
     icon: SettingImage,
     role: 'Loyalty-program',
     key: LOYALTY_PROGRAM?.SETTINGS,
-    permissions: [],
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT,
   },
 ];
 
@@ -819,6 +809,7 @@ export const getLowerRoutes = (product: any) => {
 
 export const zeroPaddingRoutes = [
   '/social-components/chat',
+  '/social-components/email/conversations',
   '/social-components/calling/call',
   '/org-admin/users',
   '/super-admin/user-management/users-list',

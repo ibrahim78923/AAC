@@ -102,3 +102,6 @@ a {
   font-weight: 500 !important;
   color: #6b7280 !important;
 }
+.fc-daygrid-event-dot {
+  display: none !important;
+}
