@@ -10,8 +10,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        // hostname: 'airapplecart.s3.eu-west-2.amazonaws.com',
-        hostname: 'aac-dev-001.s3.eu-west-2.amazonaws.com',
+        hostname: 'airapplecart-dev.s3.eu-west-2.amazonaws.com',
       },
     ],
   },
