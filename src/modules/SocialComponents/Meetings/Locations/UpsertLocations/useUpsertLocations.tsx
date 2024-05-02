@@ -5,27 +5,28 @@ import {
   upsertLocationsFormValidationSchema,
 } from './UpsertLocations.data';
 import { enqueueSnackbar } from 'notistack';
-import { useState } from 'react';
 
 export const useUpsertLocations = (props: any) => {
-  const [isUpdate, setIsUpdate] = useState(false);
-  const { setIsAddDrawerOpen } = props;
+  const { onClose, isUpdate } = props;
   const methods = useForm({
     resolver: yupResolver(upsertLocationsFormValidationSchema),
     defaultValues: upsertLocationsDefaultValues,
   });
   const { handleSubmit } = methods;
   const submitUpsertLocationForm = async () => {
-    setIsAddDrawerOpen(false);
-    enqueueSnackbar('Location Added Successfully', {
-      variant: 'success',
-    });
+    onClose();
+    enqueueSnackbar(
+      isUpdate
+        ? 'Location Updated Successfully'
+        : 'Location Added Successfully',
+      {
+        variant: 'success',
+      },
+    );
   };
   return {
     methods,
     handleSubmit,
     submitUpsertLocationForm,
-    isUpdate,
-    setIsUpdate,
   };
 };

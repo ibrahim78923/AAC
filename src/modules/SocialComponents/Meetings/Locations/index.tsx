@@ -17,6 +17,8 @@ export const Locations = () => {
     setDeleteModal,
     locationsListData,
     LocationsListColumn,
+    isUpdate,
+    openAddDrawer,
   } = useLocations();
   return (
     <>
@@ -26,7 +28,7 @@ export const Locations = () => {
         createPermissionKey={[
           SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
         ]}
-        handleAction={() => setIsAddDrawerOpen(true)}
+        handleAction={openAddDrawer}
       />
       <Box>
         <Search
@@ -45,6 +47,7 @@ export const Locations = () => {
       <UpsertLocations
         isDrawerOpen={isAddDrawerOpen}
         onClose={setIsAddDrawerOpen}
+        isUpdate={isUpdate}
       />
       <LocationDeleteModal
         open={deleteModal}

@@ -14,33 +14,37 @@ export const locationDeletehandler = (setDeleteModal: any) => [
 export const locationsListData = [
   {
     id: 1,
-    teamName: `Conference Room1`,
-    teamDestination: `Conference Room1`,
-    teamMembers: 'Lorum ipsum',
+    locationName: `Conference Room1`,
+    locationDescription: `Conference Room1`,
+    locationDestination: 'Lorum ipsum',
+    locationDate: '12/01/2023',
     actions: '',
   },
   {
     id: 2,
-    teamName: `Conference Room1`,
-    teamDestination: `Conference Room1`,
-    teamMembers: 'Lorum ipsum',
+    locationName: `Conference Room1`,
+    locationDescription: `Conference Room1`,
+    locationDestination: 'Lorum ipsum',
+    locationDate: '12/01/2023',
     actions: '',
   },
   {
     id: 3,
-    teamName: `Conference Room1`,
-    teamDestination: `Conference Room1`,
-    teamMembers: 'Lorum ipsum',
+    locationName: `Conference Room1`,
+    locationDescription: `Conference Room1`,
+    locationDestination: 'Lorum ipsum',
+    locationDate: '12/01/2023',
     actions: '',
   },
 ];
 export const locationsList: any = (
   setIsAddDrawerOpen: any,
   setDeleteModal: any,
+  setIsUpdate: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.teamName,
-    id: 'teamName',
+    accessorFn: (row: any) => row?.locationName,
+    id: 'locationName',
     isSortable: true,
     header: 'Location Name',
     cell: (info: any) => (
@@ -50,8 +54,8 @@ export const locationsList: any = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.teamDestination,
-    id: 'teamName',
+    accessorFn: (row: any) => row?.locationDescription,
+    id: 'locationDescription',
     isSortable: true,
     header: 'Destination`',
     cell: (info: any) => (
@@ -61,10 +65,17 @@ export const locationsList: any = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.teamMembers,
-    id: 'teamMembers',
+    accessorFn: (row: any) => row?.locationDestination,
+    id: 'locationDestination',
     isSortable: true,
     header: 'Description',
+    cell: (info: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row?.locationDate,
+    id: 'locationDate',
+    isSortable: true,
+    header: 'Created Date',
     cell: (info: any) => info?.getValue(),
   },
   {
@@ -76,7 +87,10 @@ export const locationsList: any = (
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Box
           sx={{ cursor: 'pointer' }}
-          onClick={() => setIsAddDrawerOpen(true)}
+          onClick={() => {
+            setIsUpdate(true);
+            setIsAddDrawerOpen(true);
+          }}
         >
           <EditPenIcon />
         </Box>

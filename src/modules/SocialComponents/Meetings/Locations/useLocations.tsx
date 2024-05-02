@@ -17,8 +17,15 @@ export const useLocations = () => {
   };
   const teamDropdownOptions = locationDeletehandler(setDeleteModal);
 
-  const LocationsListColumn = locationsList(setIsAddDrawerOpen, setDeleteModal);
-
+  const LocationsListColumn = locationsList(
+    setIsAddDrawerOpen,
+    setDeleteModal,
+    setIsUpdate,
+  );
+  const openAddDrawer = () => {
+    setIsUpdate(false);
+    setIsAddDrawerOpen(true);
+  };
   const onClose = () => {
     setIsEditDrawerOpen(false);
   };
@@ -38,5 +45,6 @@ export const useLocations = () => {
     isEditDrawerOpen,
     isUpdate,
     setIsUpdate,
+    openAddDrawer,
   };
 };

@@ -15,7 +15,6 @@ export const LocationDeleteModal = ({ open, handleClose }: any) => {
         handleClose={handleClose}
         handleSubmitBtn={() => {
           submitDeleteModal();
-          handleClose();
         }}
       />
     </>

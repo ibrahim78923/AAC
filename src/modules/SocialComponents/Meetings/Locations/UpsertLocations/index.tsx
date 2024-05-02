@@ -4,7 +4,7 @@ import { useUpsertLocations } from './useUpsertLocations';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
 
-const UpsertLocations = (props) => {
+const UpsertLocations = (props: any) => {
   const { isDrawerOpen, onClose, isUpdate } = props;
   const { methods, handleSubmit, submitUpsertLocationForm } =
     useUpsertLocations(props);
@@ -27,17 +27,9 @@ const UpsertLocations = (props) => {
           onSubmit={handleSubmit(submitUpsertLocationForm)}
         >
           <Grid container spacing={1}>
-            {upsertFormFields?.map((item) => (
+            {upsertFormFields?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} size="small">
-                  {item?.componentProps.select
-                    ? item?.options?.map((option) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))
-                    : null}
-                </item.component>
+                <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
           </Grid>
