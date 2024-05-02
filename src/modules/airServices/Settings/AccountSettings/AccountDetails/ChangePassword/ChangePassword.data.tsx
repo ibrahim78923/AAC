@@ -8,11 +8,11 @@ import * as Yup from 'yup';
 export const changePasswordValidationSchema = Yup?.object()?.shape({
   currentPassword: Yup?.string()
     ?.required('Required')
-    ?.max(100, 'Password up to 100 characters'),
+    ?.max(30, 'Password up to 30 characters'),
   newPassword: Yup?.string()
     ?.required('Required')
     ?.min(8, 'Password must be at least 8 characters')
-    ?.max(100, 'Password up to 100 characters')
+    ?.max(30, 'Password up to 30 characters')
     ?.matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
       'Password should be at least 8 characters long having 1 Capital letter, 1 Small letter and 1 number digit and 1 Special Character',

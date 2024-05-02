@@ -2,10 +2,11 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const createNewFolderSchema = Yup?.object()?.shape({
   folderName: Yup?.string()
-    ?.required('Required')
+    ?.trim()
+    ?.required('Folder Name is Required')
     ?.min(3, 'At least 3 characters Required')
     ?.max(30, 'Must not exceed 30 characters'),
-  description: Yup?.string(),
+  description: Yup?.string()?.trim(),
 });
 export const upsertFolderDefaultValuesFunction: any = (data?: any) => {
   return {

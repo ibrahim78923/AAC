@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
+import { VALIDATION_CONSTANT } from '@/constants';
 
 export const LOCATION_TYPE = {
   PARENT: 'parent',
@@ -9,16 +10,37 @@ export const LOCATION_TYPE = {
 
 export const validationSchemaAddNewLocation = yup?.object()?.shape({
   locationName: yup?.string()?.trim()?.required('Location name is required'),
-  contactName: yup?.string(),
-  email: yup?.string()?.email('Please provide valid email'),
-  phone: yup?.string(),
+  contactName: yup
+    ?.string()
+    ?.trim()
+    ?.max(30, 'Contact Name up to 30 characters'),
+  email: yup?.string()?.trim()?.email('Please provide valid email'),
+  phone: yup
+    ?.string()
+    ?.trim()
+    ?.test(
+      'is-valid-phone',
+      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+      function (value) {
+        if (value) {
+          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+        }
+        return true;
+      },
+    ),
   address: yup?.object()?.shape({
-    addressLine1: yup?.string(),
-    addressLine2: yup?.string(),
-    city: yup?.string(),
-    country: yup?.string(),
-    state: yup?.string(),
-    zipCode: yup?.string(),
+    addressLine1: yup
+      ?.string()
+      ?.trim()
+      ?.max(500, 'Address up to 500 characters'),
+    addressLine2: yup
+      ?.string()
+      ?.trim()
+      ?.max(500, 'Address Name up to 500 characters'),
+    city: yup?.string()?.trim()?.max(30, 'City up to 30 characters'),
+    country: yup?.string()?.trim()?.max(30, 'Country up to 30 characters'),
+    state: yup?.string()?.trim()?.max(30, 'State up to 30 characters'),
+    zipCode: yup?.string()?.trim()?.max(30, 'Zip Code up to 30 characters'),
   }),
 });
 
