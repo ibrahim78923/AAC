@@ -11,13 +11,17 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
-  airMarketerRolesAndRightsAPI,
+  airSalesRolesAndRightsAPI,
   useGetRolesDataByIdQuery,
   usePostPermissionRoleMutation,
   useUpdateRoleRightsMutation,
-} from '@/services/airMarketer/settings/roles-and-rights';
+} from '@/services/airSales/roles-and-rights';
 
-const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
+const useAddRoleDrawer: any = (
+  isDrawerOpen: any,
+  onClose: any,
+  setCheckedRows: any,
+) => {
   const { user }: any = getSession();
   const theme = useTheme<Theme>();
 
@@ -25,7 +29,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const activeProduct = getActiveProductSession();
   const activeAccount = getActiveAccountSession();
 
-  const { useLazyGetPermissionsRolesByIdQuery } = airMarketerRolesAndRightsAPI;
+  const { useLazyGetPermissionsRolesByIdQuery } = airSalesRolesAndRightsAPI;
 
   const [postPermissionRole, { isLoading: postRoleLoading }] =
     usePostPermissionRoleMutation();
@@ -121,7 +125,8 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     setPayload(permissionsArray);
   }, [defaultPermissions]);
 
-  const [updateRoleRights] = useUpdateRoleRightsMutation();
+  const [updateRoleRights, { isLoading: editRoleLoading }] =
+    useUpdateRoleRightsMutation();
 
   const onSubmit = async (values: any) => {
     const organizationId = user?.organization?._id;
@@ -144,6 +149,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
         };
         await updateRoleRights({ id: isDrawerOpen?.id, body: editVals });
       }
+      setCheckedRows([]);
       onClose();
       enqueueSnackbar(
         `${
@@ -166,6 +172,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     selectAllPermissions,
     getModulePermissions,
     postRoleLoading,
+    editRoleLoading,
     viewPerdetails,
     allPermissions,
     activeAccount,
