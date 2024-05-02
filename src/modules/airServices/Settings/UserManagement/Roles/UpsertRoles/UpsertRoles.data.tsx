@@ -2,8 +2,11 @@ import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const upsertRolesValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Required'),
-  description: Yup?.string()?.trim()?.required('Required'),
+  name: Yup?.string()
+    ?.trim()
+    ?.required('Name is Required')
+    ?.max(30, 'Name up to 30 characters'),
+  description: Yup?.string()?.trim()?.required('Description is Required'),
 });
 
 export const upsertRolesDefaultValues: any = (slugs: any) => {
