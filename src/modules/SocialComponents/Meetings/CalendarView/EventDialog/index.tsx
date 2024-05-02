@@ -133,7 +133,7 @@ export const EventDialog = (params: any) => {
             border: `.1rem solid ${theme?.palette?.grey?.[0]}`,
             borderRadius: 2,
             margin: 1,
-            maxWidth: '50%',
+            maxWidth: '45%',
           }}
         >
           <Image src={XlFileImg} alt={''} />
