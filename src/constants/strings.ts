@@ -548,3 +548,8 @@ export const DRAWER_TYPES = {
   ADD: 'add',
   VIEW: 'view',
 };
+
+export const FIELD_TYPES = {
+  MANDATORY_FIELD: 'Mandatory Field',
+  OPTIONAL_FIELD: 'Optional Field',
+};
