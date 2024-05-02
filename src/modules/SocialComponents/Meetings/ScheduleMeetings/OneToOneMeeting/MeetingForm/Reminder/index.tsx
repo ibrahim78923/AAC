@@ -11,7 +11,7 @@ export const Reminder = (props: any) => {
         <Box key={field?.id} display="flex" alignItems="center" gap={1}>
           <Grid container spacing={{ md: 2 }}>
             {reminderFields(index)?.map((item: any) => (
-              <Grid item md={item?.md} xs={12} key={item?.id} mt={1}>
+              <Grid item md={item?.md} xs={12} key={item?.id} mt={{ md: 1 }}>
                 <item.component {...item?.componentProps} />
               </Grid>
             ))}

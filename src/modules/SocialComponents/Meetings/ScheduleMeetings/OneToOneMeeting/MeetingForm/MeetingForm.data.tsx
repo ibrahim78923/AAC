@@ -42,6 +42,8 @@ export const meetingFormFields = (props: any) => {
   const watchMeetingType = watch('meetingType');
   const watchBefore = watch('bufferBefore');
   const watchAfter = watch('bufferAfter');
+  const watchFrom = watch('fromDate');
+  const watchAllowAttendee = watch('allowAttendee');
   return [
     {
       id: 1,
@@ -98,7 +100,7 @@ export const meetingFormFields = (props: any) => {
       componentProps: {
         label: 'Time',
         name: 'fromTime',
-        disabled: watchAllDay,
+        disabled: watchAllDay || watchAllowAttendee,
         required: true,
         fullWidth: true,
         size: 'small',
@@ -112,7 +114,7 @@ export const meetingFormFields = (props: any) => {
       componentProps: {
         label: 'To',
         name: 'toDate',
-        disablePast: true,
+        minDate: watchFrom,
         required: !watchRecurring,
         fullWidth: true,
         size: 'small',
@@ -126,7 +128,7 @@ export const meetingFormFields = (props: any) => {
       componentProps: {
         label: 'Time',
         name: 'toTime',
-        disabled: watchAllDay,
+        disabled: watchAllDay || watchAllowAttendee,
         required: !watchRecurring,
         fullWidth: true,
         size: 'small',

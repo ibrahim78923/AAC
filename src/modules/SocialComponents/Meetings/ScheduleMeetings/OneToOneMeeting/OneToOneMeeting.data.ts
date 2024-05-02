@@ -3,7 +3,7 @@ export const oneToOneDefaultValues = {
   allDay: false,
   fromDate: new Date(),
   fromTime: null,
-  toDate: new Date(),
+  toDate: null,
   toTime: null,
   recurring: true,
   description: '',
@@ -14,6 +14,8 @@ export const oneToOneDefaultValues = {
   bufferBeforeTime: '',
   bufferAfterTime: '',
   people: null,
+  allowAttendee: false,
+  weekDays: [],
   reminder: [{ type: '', counter: null, duration: '' }],
 };
 export const allDayValues = [

@@ -6,6 +6,17 @@ import {
 } from '@/components/ReactHookForm';
 import { useRecurring } from './useRecurring';
 import { Grid } from '@mui/material';
+import {
+  checkOption,
+  dayOption,
+  dayTypeOption,
+  monthOption,
+  monthTypeOption,
+  monthWeekOption,
+  optionTypes,
+  recurringTypeOption,
+  weekDayOption,
+} from './Recurring.data';
 
 export const Recurring = (props: any) => {
   const {
@@ -17,20 +28,6 @@ export const Recurring = (props: any) => {
     watchDailyType,
     watchMonthType,
   } = useRecurring(props);
-  const checkOption = [
-    { label: 'Sunday', value: 'sunday' },
-    { label: 'Monday', value: 'monday' },
-    { label: 'Tuesday', value: 'tuesday' },
-    { label: 'Wednesday', value: 'wednesday' },
-    { label: 'Thursday', value: 'Thursday' },
-    { label: 'Friday', value: 'Friday' },
-    { label: 'Saturday', value: 'saturday' },
-  ];
-  const monthOption = Array?.from(
-    { length: 30 },
-    (_, index) => (index + 1)?.toString(),
-  );
-  monthOption?.push('Last Day of Month');
   return (
     <>
       <RHFSwitch
@@ -47,26 +44,17 @@ export const Recurring = (props: any) => {
               size="small"
               placeholder="Select"
               required
-              options={['Daily', 'Weekly', 'Monthly']}
+              options={recurringTypeOption}
               getOptionDisabled={(option: any) =>
-                (option === 'Weekly' && differenceInDays < 7) ||
-                (option === 'Monthly' && differenceInDays < 30)
+                (option === optionTypes?.weekly && differenceInDays < 7) ||
+                (option === optionTypes?.monthly && differenceInDays < 30)
               }
             />
           </Grid>
-          {watchRecurringType === 'Daily' && (
+          {watchRecurringType === optionTypes?.daily && (
             <>
               <Grid item xs={12}>
-                <RHFRadioGroup
-                  name="dailyType"
-                  options={[
-                    { label: 'Every', value: 'everyDay' },
-                    {
-                      label: 'Every weekly(Only Working Days)',
-                      value: 'workingDay',
-                    },
-                  ]}
-                />
+                <RHFRadioGroup name="dailyType" options={dayTypeOption} />
               </Grid>
               <Grid item xs={6}>
                 <RHFAutocomplete
@@ -74,13 +62,13 @@ export const Recurring = (props: any) => {
                   label="Days"
                   size="small"
                   placeholder="Select Day"
-                  options={['1', '2', '3', '4', '5', '6', '7']}
-                  disabled={watchDailyType === 'workingDay'}
+                  options={dayOption}
+                  disabled={watchDailyType === optionTypes?.workingDay}
                 />
               </Grid>
             </>
           )}
-          {watchRecurringType === 'Weekly' && (
+          {watchRecurringType === optionTypes?.weekly && (
             <Grid item xs={12}>
               <RHFMultiCheckbox
                 name="weekDays"
@@ -89,18 +77,12 @@ export const Recurring = (props: any) => {
               />
             </Grid>
           )}
-          {watchRecurringType === 'Monthly' && (
+          {watchRecurringType === optionTypes?.monthly && (
             <>
               <Grid item xs={12}>
-                <RHFRadioGroup
-                  name="monthType"
-                  options={[
-                    { label: 'On Date', value: 'onDate' },
-                    { label: 'On The', value: 'onThe' },
-                  ]}
-                />
+                <RHFRadioGroup name="monthType" options={monthTypeOption} />
               </Grid>
-              {watchMonthType === 'onDate' && (
+              {watchMonthType === optionTypes?.onDate && (
                 <Grid item xs={6}>
                   <RHFAutocomplete
                     name="recurringMonthlyDate"
@@ -115,7 +97,7 @@ export const Recurring = (props: any) => {
                   />
                 </Grid>
               )}
-              {watchMonthType === 'onThe' && (
+              {watchMonthType === optionTypes?.onThe && (
                 <>
                   <Grid item xs={6}>
                     <RHFAutocomplete
@@ -123,7 +105,7 @@ export const Recurring = (props: any) => {
                       label="Week"
                       size="small"
                       placeholder="Select Week"
-                      options={['First', 'Second', 'Third', 'Fourth', 'Last']}
+                      options={monthWeekOption}
                       multiple
                       isOptionEqualToValue={(option: any, newValue: any) =>
                         option === newValue
@@ -136,15 +118,7 @@ export const Recurring = (props: any) => {
                       label="Days"
                       size="small"
                       placeholder="Select Day"
-                      options={[
-                        'Monday',
-                        'Tuesday',
-                        'Wednesday',
-                        'Thursday',
-                        'Friday',
-                        'Saturday',
-                        'Sunday',
-                      ]}
+                      options={weekDayOption}
                     />
                   </Grid>
                 </>
