@@ -197,6 +197,7 @@ export const SOCIAL_COMPONENTS = {
   COLLECTIVE_MEETING:
     '/social-components/meetings/schedule-meetings/collective-meeting',
   GROUP_MEETING: '/social-components/meetings/schedule-meetings/group-meeting',
+  CALENDER_VIEW: '/social-components/meetings/calendar-view',
 };
 
 export const AUTH = {
@@ -212,6 +213,10 @@ export const Quick_Links_Routes = {
   EMAIL: '/social-components/email',
   COMPANIES: '/social-components/companies',
   MEETINGS: '/social-components/meetings',
+};
+
+export const EMAIL_SUB_ROUTES = {
+  EMAIL_CONVERSATIONS: '/social-components/email/conversations',
 };
 
 export const productSuiteName = {
@@ -241,4 +246,10 @@ export const QUICKLINKSROLES = {
 export const DOCUMENTS_ACTION_TYPES = {
   MOVE_FOLDER: 'move-folder',
   UPDATE_FOLDER: 'update-folder',
+};
+
+export const CREATE_EMAIL_TYPES = {
+  NEW_EMAIL: 'new',
+  FORWARD: 'forward',
+  REPLY: 'reply',
 };
