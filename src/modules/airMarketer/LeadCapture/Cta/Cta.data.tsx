@@ -7,7 +7,11 @@ import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
-export const columns = (selectedRow: any, setSelectedRow: any) => {
+export const columns = (
+  selectedRow: any,
+  setSelectedRow: any,
+  handleDrawerOpen: any,
+) => {
   return [
     {
       accessorFn: (row: any) => row?.Id,
@@ -86,9 +90,7 @@ export const columns = (selectedRow: any, setSelectedRow: any) => {
           >
             <Box
               sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                setOpenDrawer('View');
-              }}
+              onClick={() => handleDrawerOpen('View')}
             >
               <ViewEyeIcon />
             </Box>
@@ -98,9 +100,7 @@ export const columns = (selectedRow: any, setSelectedRow: any) => {
           >
             <Box
               sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                setOpenDrawer('Edit');
-              }}
+              onClick={() => handleDrawerOpen('Edit')}
             >
               <EditPenIcon />
             </Box>

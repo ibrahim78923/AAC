@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import {
   useGetLeadCaptureCTAQuery,
   usePostLeadCaptureCTAMutation,
+  useDeleteLeadCaptureCTAMutation,
 } from '@/services/airMarketer/lead-capture/cta';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -36,7 +37,6 @@ const CTADefaultValues = {
 
 const useCta = () => {
   const theme = useTheme();
-  const [openModal, setOpenModal] = useState('');
   const [checkExportFormats, setCheckExportFormats] = useState([]);
 
   // Editor Drawer Create & Edit CTA
@@ -198,6 +198,34 @@ const useCta = () => {
     }
   };
 
+  // Delete CTA
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [deleteCTA, { isLoading: loadingDelete }] =
+    useDeleteLeadCaptureCTAMutation();
+  const handleOpenModalDelete = () => {
+    setIsDeleteModal(true);
+  };
+  const handleCloseModalDelete = () => {
+    setIsDeleteModal(false);
+  };
+
+  const handleDeleteCTA = async () => {
+    // const items = await selectedRow?.join(',');
+    const id = await selectedRow[0];
+    try {
+      await deleteCTA(id)?.unwrap();
+      handleCloseModalDelete();
+      setSelectedRow([]);
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
   return {
     theme,
     toggleButtonType,
@@ -222,8 +250,11 @@ const useCta = () => {
     selectedRow,
     setSelectedRow,
 
-    openModal,
-    setOpenModal,
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteCTA,
+    loadingDelete,
 
     handlecheckExportFormats,
     checkExportFormats,

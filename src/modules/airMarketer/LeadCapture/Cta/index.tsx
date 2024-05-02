@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 
 import CtaEditorDrawer from './CtaEditorDrawer';
-
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { ScheduleModals } from '@/components/ScheduleModals';
@@ -48,13 +47,17 @@ const CTA = () => {
     selectedRow,
     setSelectedRow,
 
-    openModal,
-    setOpenModal,
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteCTA,
+    loadingDelete,
+
     handlecheckExportFormats,
     checkExportFormats,
   } = useCta();
 
-  const tableColumns = columns(selectedRow, setSelectedRow);
+  const tableColumns = columns(selectedRow, setSelectedRow, handleDrawerOpen);
 
   return (
     <Box
@@ -115,7 +118,7 @@ const CTA = () => {
                     gap: 0.5,
                     color: 'red',
                   }}
-                  onClick={() => setOpenModal('Delete')}
+                  onClick={handleOpenModalDelete}
                 >
                   <DeleteIcon
                     color={selectedRow?.length > 0 ? '#FF4A4A' : '#D1D5DB'}
@@ -130,7 +133,7 @@ const CTA = () => {
                   variant="outlined"
                   color="inherit"
                   sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                  onClick={() => setOpenModal('Export')}
+                  onClick={handleOpenModalDelete}
                 >
                   <ExportDownloadIcon /> Export
                 </Button>
@@ -157,9 +160,9 @@ const CTA = () => {
         <ScheduleModals
           submitButonText="Export"
           type={'export'}
-          open={openModal === 'Export'}
-          handleClose={() => setOpenModal('')}
-          handleSubmit={() => setOpenModal('')}
+          // open={}
+          // handleClose={}
+          // handleSubmit={}
           isFooter={true}
         >
           <Grid
@@ -196,9 +199,10 @@ const CTA = () => {
           "You're about to delete a record. Deleted records can't be restored after 90 days."
         }
         type={'delete'}
-        open={openModal === 'Delete'}
-        handleClose={() => setOpenModal('')}
-        handleSubmit={() => setOpenModal('')}
+        open={isDeleteModal}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteCTA}
+        loadingDelete={loadingDelete}
       />
 
       <CtaEditorDrawer
