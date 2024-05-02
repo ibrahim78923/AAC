@@ -1,4 +1,5 @@
 import { RHFMultiCheckbox } from '@/components/ReactHookForm';
+import { SOCIAL_COMPONENTS_EMAIL_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button, Grid } from '@mui/material';
 
 export const timeSlotsWeeklyDataArray = [
@@ -22,13 +23,14 @@ export const timeSlotsWeeklyData = [
 ];
 
 export const weeklyData = timeSlotsWeeklyDataArray?.map((item: any) => ({
-  value: item.value,
-  label: item.label,
+  value: item?.value,
+  label: item?.label,
 }));
 
 export const timeSlotsWeeklyDropdown = () => [
   {
     _id: 1,
+    permissionKey: [SOCIAL_COMPONENTS_EMAIL_PERMISSIONS?.APPLY_FILTER],
     title: (
       <Grid container>
         <Grid item>
@@ -50,6 +52,8 @@ export const timeSlotsWeeklyDropdown = () => [
 
 export const defaultValues = () => {
   return {
+    months: [],
+    weekly: [],
     timeSlot: [
       {
         timeSlotStart: '',
