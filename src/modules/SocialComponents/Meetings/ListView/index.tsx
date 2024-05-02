@@ -23,8 +23,7 @@ export const ListView = () => {
   return (
     <>
       <Grid container spacing={2}>
-        {' '}
-        {meetings?.map((meeting) => (
+        {meetings?.map((meeting: any) => (
           <MeetingCards
             key={meeting?.id}
             meetingHeading={meeting?.meetingHeading}
@@ -45,8 +44,8 @@ export const ListView = () => {
           <IconButton
             sx={{
               height: '44px',
-              width: '60px',
-              borderRadius: 2,
+              width: '66px',
+              borderRadius: 1,
               border: 1,
             }}
             onClick={() => router?.push(SOCIAL_COMPONENTS?.CALENDER_VIEW)}
