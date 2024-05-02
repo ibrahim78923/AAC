@@ -1,18 +1,17 @@
-import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const loyaltyTransactionsApi: any = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getLoyaltyTransactionsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_LOYALTY_TRANSACTION,
+        url: '',
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
     }),
     postLoyaltyTransactions: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.ADD_LOYALTY_TRANSACTION,
+        url: '',
         method: 'POST',
         body: apiDataParameter?.body,
       }),
