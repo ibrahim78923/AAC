@@ -25,6 +25,11 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import dynamic from 'next/dynamic';
 import { LoadingButton } from '@mui/lab';
 import { DASHBOARD } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { AIR_SERVICES } from '@/constants';
+
 const RHFMultiCheckboxDraggable = dynamic(
   () => import('@/components/ReactHookForm/RHFMultiCheckboxDraggable'),
   { ssr: false },
@@ -51,22 +56,29 @@ export const CreateDashboard = () => {
     onDragEnd,
     dashboardCheckboxItems,
     action,
+    router,
   } = useCreateDashboard();
+
   return (
     <>
       <FormProvider methods={methodsCreateDashboardFilterForm}>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          position="relative"
-        >
-          <Typography variant="h3" color="grey.800">
-            {action === DASHBOARD?.EDIT ? 'Edit' : 'Create'} dashboard
-          </Typography>
-          <Box sx={styles()?.rhfSwitchBox}>
-            <RHFSwitch name="default" label="Set as default" />
-          </Box>
+        <Box display="flex" alignItems="center" position="relative">
+          <PageTitledHeader
+            title={`${
+              action === DASHBOARD?.EDIT ? 'Edit' : 'Create'
+            } Dashboard`}
+            canMovedBack
+            moveBack={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
+          />
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_DASHBOARD_PERMISSIONS?.SET_DEFAULT_DASHBOARD,
+            ]}
+          >
+            <Box sx={styles()?.rhfSwitchBox}>
+              <RHFSwitch name="default" label="Set as default" />
+            </Box>
+          </PermissionsGuard>
         </Box>
         <Grid container spacing={3} sx={styles()?.createDashboardContainer}>
           <Grid item xl={6} xs={12}>
@@ -171,7 +183,7 @@ export const CreateDashboard = () => {
                       control={
                         <Radio
                           checked={user?.permission === 'View and edit'}
-                          onChange={(event) =>
+                          onChange={(event: any) =>
                             setSpecificUserPermissions(user?.id, event)
                           }
                         />
@@ -185,7 +197,7 @@ export const CreateDashboard = () => {
                       control={
                         <Radio
                           checked={user?.permission === 'View only'}
-                          onChange={(event) =>
+                          onChange={(event: any) =>
                             setSpecificUserPermissions(user?.id, event)
                           }
                         />

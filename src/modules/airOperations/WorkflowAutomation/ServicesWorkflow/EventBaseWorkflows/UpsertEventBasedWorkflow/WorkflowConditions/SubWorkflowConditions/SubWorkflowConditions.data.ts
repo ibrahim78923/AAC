@@ -320,6 +320,7 @@ export const subWorkflowData = ({
       componentProps: {
         fullWidth: true,
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
+        disabled: disableField,
         size: 'small',
       },
       gridLength: 3,
@@ -333,6 +334,7 @@ export const subWorkflowData = ({
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
+        disabled: disableField,
         options: valuesOptions,
       },
       component: RHFAutocomplete,

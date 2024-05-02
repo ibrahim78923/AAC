@@ -2,8 +2,10 @@ import { useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { defaultValuesManageDashboard } from './ManageDashboardFilter/ManageDashboardFilter.data';
+import { useRouter } from 'next/router';
 export const useManageDashboard = () => {
   const matches = useMediaQuery('(max-width:590px)');
+  const router: any = useRouter();
   const [searchValue, SetSearchValue] = useState<string>('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const methodsManageDashboardFilterForm = useForm({
@@ -25,5 +27,6 @@ export const useManageDashboard = () => {
     resetManageDashboardFilterForm,
     submitManageDashboardFilterForm,
     methodsManageDashboardFilterForm,
+    router,
   };
 };

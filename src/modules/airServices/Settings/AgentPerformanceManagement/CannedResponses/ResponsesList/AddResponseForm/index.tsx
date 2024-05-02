@@ -57,7 +57,6 @@ export const AddResponseForm = (props: any) => {
           >
             <Grid container spacing={4}>
               {addResponseDataArray(
-                availableForChanged,
                 setOpenSelectAgentsModal,
                 hasAttachment,
               )?.map((item: any) => (

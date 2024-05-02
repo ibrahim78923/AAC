@@ -29,9 +29,9 @@ export const CalendarView = () => {
   return (
     <Box className={styles?.calendarWrapper}>
       <Header />
-      <Grid container spacing={1}>
+      <Grid container spacing={2}>
         {meetingCard?.map((item: any) => (
-          <Grid item xs={12} md={6} lg={4} key={item?.id}>
+          <Grid item xs={12} sm={6} lg={4} key={item?.id}>
             <MeetingCard
               heading={item?.heading}
               meetingsCount={item?.meetingsCount}
@@ -45,6 +45,7 @@ export const CalendarView = () => {
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
+        mb={'4rem'}
       >
         <Search label="Search Here" setSearchBy={setSearch} />
         <Box
@@ -142,8 +143,6 @@ export const CalendarView = () => {
           />
         </Box>
       </Box>
-      <br />
-      <br />
       <FullCalendarView
         currentView={currentView}
         openEventModal={openEventModal}
