@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
-import { useDeleteContactMutation } from '@/services/commonFeatures/contacts';
+import { useUpdateContactMutation } from '@/services/commonFeatures/contacts';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/companies';
@@ -30,10 +30,15 @@ const useContacts = (companyId: any) => {
     setIsOpenAlert(false);
   };
 
-  const [deleteContact] = useDeleteContactMutation();
+  const [updateContacts] = useUpdateContactMutation();
+
   const deleteContactHandler = async () => {
+    const formData = new FormData();
+
+    formData.append('recordType', 'contacts');
+    formData.append('recordId', '');
     try {
-      await deleteContact({ contactIds: [contactRecord?._id] })?.unwrap();
+      await updateContacts({ body: formData, id: contactRecord?._id }).unwrap();
       enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
       setIsOpenAlert(false);
     } catch (error) {

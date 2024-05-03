@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/companies';
-import { useDeleteDealsMutation } from '@/services/airSales/deals';
 import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
+import { useDeleteAssociationMutation } from '@/services/commonFeatures/contacts/associations';
 
 const useDeals = (companyId: any) => {
   const theme = useTheme();
@@ -14,7 +14,6 @@ const useDeals = (companyId: any) => {
   const [isOpenAlert, setIsOpenAlert] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [deleteDealsMutation] = useDeleteDealsMutation();
 
   // const searchObj = {
   //    search: searchName,
@@ -35,17 +34,23 @@ const useDeals = (companyId: any) => {
     pageLimit,
     params: paramObj,
   });
+  const [DeleteAssociationDeals] = useDeleteAssociationMutation();
 
   const handleDeleteDeals = async () => {
     try {
-      await deleteDealsMutation({ ids: dealRecord });
+      await DeleteAssociationDeals({
+        body: {
+          dealId: dealRecord,
+          companyId: companyId?.companyId,
+        },
+      }).unwrap();
       enqueueSnackbar('Deals deleted successfully', {
         variant: 'success',
       });
       setDealRecord('');
       handleCloseAlert();
     } catch (error) {
-      enqueueSnackbar('Error while deleting deals', {
+      enqueueSnackbar(error?.data?.message ?? 'Error occurred', {
         variant: 'error',
       });
     }

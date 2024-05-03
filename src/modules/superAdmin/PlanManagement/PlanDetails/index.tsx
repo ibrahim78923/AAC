@@ -36,6 +36,7 @@ const PlanDetails = ({
           count={tableRowData?.data?.meta?.pages}
           totalRecords={tableRowData?.data?.meta?.total}
           onPageChange={(page: any) => setPage(page)}
+          currentPage={tableRowData?.data?.meta?.page}
         />
       </PermissionsGuard>
     </div>

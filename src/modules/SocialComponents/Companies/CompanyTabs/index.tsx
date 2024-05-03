@@ -304,6 +304,7 @@ const CompanyTabs = () => {
               isPagination
               isLoading={isLoading}
               isSuccess={isSuccess}
+              currentPage={getAllCompanies?.data?.meta?.page}
             />
           </Box>
 
