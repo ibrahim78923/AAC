@@ -532,4 +532,19 @@ export const RULES_BENEFIT_TYPE = {
 
 export const MEETINGS_DETAILS_TYPE = {
   ALL: 'All',
+  UPCOMING: 'Upcoming',
+  COMPLETED: 'Completed',
+};
+
+export const CALENDER_TYPES = {
+  DAY_VIEW_CALENDER: 'timeGridDay',
+  WEEK_VIEW_CALENDER: 'timeGridWeek',
+  MONTH_VIEW_CALENDER: 'dayGridMonth',
+  YEAR_VIEW_CALENDER: 'multiMonthYear',
+};
+
+export const DRAWER_TYPES = {
+  EDIT: 'edit',
+  ADD: 'add',
+  VIEW: 'view',
 };

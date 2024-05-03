@@ -8,23 +8,29 @@ import { timeZone } from '@/constants/time-zone';
 import { VALIDATION_CONSTANT } from '@/constants';
 
 export const validationSchemaAgentFields: any = yup?.object()?.shape({
-  firstName: yup?.string()?.required('First name is required'),
-  lastName: yup?.string()?.required('Last name is required'),
+  firstName: yup?.string()?.trim()?.required('First name is required'),
+  lastName: yup?.string()?.trim()?.required('Last name is required'),
   email: yup
     ?.string()
+    ?.trim()
     ?.email('Please provide valid email')
     ?.required('Email is required'),
   phoneNumber: yup
     ?.string()
     ?.trim()
-    ?.required('Phone number is required')
-    ?.matches(
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.regex,
+    ?.test(
+      'is-valid-phone',
       VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+      function (value) {
+        if (value) {
+          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+        }
+        return true;
+      },
     ),
-  departmentId: yup?.mixed()?.required('Department is required'),
-  permissionsRole: yup?.mixed()?.nullable()?.required('Role is required'),
-  timezone: yup?.mixed()?.nullable()?.required('TimeZone is required'),
+  departmentId: yup?.mixed()?.nullable(),
+  permissionsRole: yup?.mixed()?.nullable(),
+  timezone: yup?.mixed()?.nullable(),
 });
 
 export const defaultValues = (selectedAgentList: any) => {
@@ -90,7 +96,6 @@ export const agentFieldsData = (
       fullWidth: true,
       placeholder: 'Phone Number',
       label: 'Phone Number',
-      required: true,
     },
     gridLength: 12,
     component: RHFTextField,
@@ -103,7 +108,6 @@ export const agentFieldsData = (
       label: 'Department',
       placeholder: 'Select Department',
       apiQuery: departmentDropdown,
-      required: true,
     },
     gridLength: 12,
     component: RHFAutocompleteAsync,
@@ -115,7 +119,6 @@ export const agentFieldsData = (
       name: 'permissionsRole',
       label: 'Role',
       placeholder: 'Select Role',
-      required: true,
       apiQuery: roleApiQuery,
       externalParams: roleApiQueryParams,
     },
@@ -129,7 +132,6 @@ export const agentFieldsData = (
       name: 'timezone',
       label: 'Time Zone',
       placeholder: 'Select Time Zone',
-      required: true,
       options: timeZone?.map((timeZone: any) => timeZone?.label),
     },
     gridLength: 12,

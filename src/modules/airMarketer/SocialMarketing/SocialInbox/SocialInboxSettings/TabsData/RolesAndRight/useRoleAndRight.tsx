@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
-import { airSalesRolesAndRightsAPI } from '@/services/airSales/roles-and-rights';
 import {
   getActiveAccountSession,
   getActiveProductSession,
   getSession,
 } from '@/utils';
+import { airMarketerRolesAndRightsAPI } from '@/services/airMarketer/settings/roles-and-rights';
 
 const useRoleAndRight: any = () => {
   const { user }: any = getSession();
@@ -32,7 +32,7 @@ const useRoleAndRight: any = () => {
     id: '',
   });
 
-  const { useGetPermissionsRolesQuery } = airSalesRolesAndRightsAPI;
+  const { useGetPermissionsRolesQuery } = airMarketerRolesAndRightsAPI;
   const organizationId = user?.organization?._id;
   const organizationCompanyAccountId = activeAccount?.company?._id;
   const productId = activeProduct?._id;

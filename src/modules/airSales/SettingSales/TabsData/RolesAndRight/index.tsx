@@ -105,6 +105,7 @@ const RolesRight = () => {
           setIsDraweropen
           onClose={handleCloseDrawer}
           getPermissionsData={getPermissions}
+          setCheckedRows={setCheckedRows}
         />
       )}
     </>

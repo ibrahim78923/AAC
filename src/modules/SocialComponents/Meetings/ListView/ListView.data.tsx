@@ -1,22 +1,24 @@
+import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
+import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 import { Box } from '@mui/material';
 export const meetingCardsDetails = (theme: any) => [
   {
     id: 1,
-    meetingHeading: 'All',
-    meetingCount: 0,
+    meetingHeading: MEETINGS_DETAILS_TYPE?.ALL,
+    meetingCount: '5',
     color: theme?.palette?.info?.main,
   },
   {
     id: 2,
-    meetingHeading: 'Upcoming',
-    meetingCount: 0,
+    meetingHeading: MEETINGS_DETAILS_TYPE?.UPCOMING,
+    meetingCount: '2',
     color: theme?.palette?.error?.main,
   },
   {
     id: 3,
-    meetingHeading: 'Completed',
-    meetingCount: 0,
-    color: theme?.palette?.success?.main,
+    meetingHeading: MEETINGS_DETAILS_TYPE?.COMPLETED,
+    meetingCount: '3',
+    color: theme?.palette?.success?.dark,
   },
 ];
 
@@ -73,7 +75,7 @@ export const listViewDetailsData = [
   },
 ];
 
-export const listViewDetails = (theme: any) => [
+export const listViewDetails = (theme: any, setDeleteModal: any) => [
   {
     accessorFn: (row: any) => {
       return `${row?.meetingName}\n${row?.meetingEmail}`;
@@ -123,5 +125,21 @@ export const listViewDetails = (theme: any) => [
     isSortable: false,
     header: 'Meeting Booked',
     cell: (info: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row?.actions,
+    id: 'actions',
+    isSortable: true,
+    header: 'Action',
+    cell: () => (
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ cursor: 'pointer' }}>
+          <EditPenIcon />
+        </Box>
+        <Box sx={{ cursor: 'pointer' }} onClick={() => setDeleteModal(true)}>
+          <DeleteCrossIcon />
+        </Box>
+      </Box>
+    ),
   },
 ];

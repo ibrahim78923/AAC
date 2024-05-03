@@ -16,23 +16,33 @@ export const Rewards = () => {
       <PageTitledHeader
         title="Rewards"
         addTitle="Add"
+        createPermissionKey={[
+          AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.ADD_REWARDS,
+        ]}
         handleAction={() => {
           router?.push(AIR_LOYALTY_PROGRAM?.ADD_REWARDS);
         }}
       />
       <HorizontalTabs tabsDataArray={singleRewardsTab}>
-        <AllRewards />
         <PermissionsGuard
-          permissions={
-            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.PHYSICAL_REWARDS
-          }
+          permissions={[
+            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.PHYSICAL_REWARDS,
+            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.DIGITAL_REWARDS,
+          ]}
+        >
+          <AllRewards />
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.PHYSICAL_REWARDS,
+          ]}
         >
           <Physical />
         </PermissionsGuard>
         <PermissionsGuard
-          permissions={
-            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.DIGITAL_REWARDS
-          }
+          permissions={[
+            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.DIGITAL_REWARDS,
+          ]}
         >
           <Digital />
         </PermissionsGuard>

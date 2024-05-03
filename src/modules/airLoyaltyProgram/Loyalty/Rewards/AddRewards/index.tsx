@@ -79,9 +79,9 @@ export const AddRewards = () => {
           ))}
         </Grid>
         <PermissionsGuard
-          permissions={
-            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.ADD_REWARDS
-          }
+          permissions={[
+            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.ADD_REWARDS,
+          ]}
         >
           {openDrawer?.isOpen && (
             <AddRewardsForm

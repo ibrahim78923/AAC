@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 
-import { ListAccordionDashboardData } from './DashboardAccordion.data';
-
 export const useListAccordion = () => {
   const [isExpanded, setIsExpanded] = useState<string | false>('panel1');
 
@@ -19,6 +17,5 @@ export const useListAccordion = () => {
     isExpanded,
     setIsExpanded,
     handleChange,
-    ListAccordionDashboardData,
   };
 };

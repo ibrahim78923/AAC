@@ -8,7 +8,7 @@ export default RewardsPage;
 
 RewardsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permission={Permissions?.AIR_LOYALTY_PROGRAM_REWARDS}>
+    <Layout permissions={Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS}>
       {page}
     </Layout>
   );
