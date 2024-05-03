@@ -1,6 +1,5 @@
 import React from 'react';
 import useCta from './useCta';
-
 import {
   Box,
   Grid,
@@ -9,16 +8,12 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@mui/material';
-
 import CtaEditorDrawer from './CtaEditorDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { ScheduleModals } from '@/components/ScheduleModals';
-
 import { columns, exportData } from './Cta.data';
-
 import { DeleteIcon, ExportDownloadIcon, PlusIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
 import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

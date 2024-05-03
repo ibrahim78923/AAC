@@ -1,33 +1,8 @@
 import {
   RHFDropZone,
-  // RHFEditor,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
-
-export const step1ValidationSchema = Yup?.object()?.shape({
-  buttonHtml: Yup?.string()?.trim()?.nullable()?.required('Field is Required'),
-  // ctaInternalName: Yup?.string()?.trim()?.nullable()?.required('Field is Required'),
-  // url: Yup?.string()?.trim()?.nullable()?.required('Field is Required'),
-});
-
-// export const step2ValidationSchema = Yup?.object()?.shape({
-//   ctaInternalName: Yup?.string()?.trim()?.required('Field is Required'),
-//   url: Yup?.string()?.trim()?.required('Field is Required'),
-// });
-
-export const CTADefaultValues = {
-  buttonHtml: null,
-  // buttonStyle: '',
-  // buttonColor: '',
-  // buttonSize: '',
-  // buttonPadding: '',
-  // buttonMargin: '',
-  ctaInternalName: null,
-  urlRedirectType: '',
-  url: null,
-};
 
 export const customizedButtonData = [
   {
@@ -98,6 +73,46 @@ export const customizedButtonData = [
   },
 ];
 
+export const ImageButtonData = [
+  {
+    componentProps: {
+      name: 'buttonContent',
+      label: 'Picture',
+      fullWidth: true,
+    },
+    component: RHFDropZone,
+    xs: 12,
+  },
+
+  {
+    componentProps: {
+      name: 'imageWidth',
+      label: 'Image Width',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    xs: 12,
+  },
+  {
+    componentProps: {
+      name: 'imageHeight',
+      label: 'Image Height',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    xs: 12,
+  },
+  {
+    componentProps: {
+      name: 'altText',
+      label: 'Alt Text',
+      fullWidth: true,
+    },
+    component: RHFTextField,
+    xs: 12,
+  },
+];
+
 export const buttonInfoData = [
   {
     component: RHFTextField,
@@ -137,46 +152,6 @@ export const buttonInfoData = [
   },
 ];
 
-export const ImageButtonData = [
-  {
-    componentProps: {
-      name: 'buttonContent',
-      label: 'Button content',
-      fullWidth: true,
-    },
-    component: RHFDropZone,
-    xs: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'imageWidth',
-      label: 'Image Width',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    xs: 12,
-  },
-  {
-    componentProps: {
-      name: 'imageHeight',
-      label: 'Image Height',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    xs: 12,
-  },
-  {
-    componentProps: {
-      name: 'altText',
-      label: 'Alt Text',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    xs: 12,
-  },
-];
-
 export const drawerTitle: any = {
   Add: 'Create CTA',
   Edit: 'Edit CTA',
@@ -200,11 +175,3 @@ export const FORM_STEP = {
   IMAGE_ACTION: 'image-action',
   IMAGE_CTA_INTERNAL: 'custom-action',
 };
-
-export const urlRedirectType = [
-  { value: 'new', label: 'New' },
-  { value: 'air apple cart page', label: 'Air Apple Cart Page' },
-  { value: 'air apple blog post', label: 'Air Apple Blog Post' },
-  { value: 'meeting link', label: 'Meeting Link' },
-  { value: 'file link', label: 'File Link' },
-];

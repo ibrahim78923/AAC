@@ -3,6 +3,7 @@ import ReactDOMServer from 'react-dom/server';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import * as Yup from 'yup';
+import Image from 'next/image';
 import {
   useGetLeadCaptureCTAQuery,
   usePostLeadCaptureCTAMutation,
@@ -18,6 +19,30 @@ const step1ValidationSchema = Yup?.object()?.shape({
     ?.trim()
     ?.nullable()
     ?.required('Field is Required'),
+  imageWidth: Yup.mixed()
+    .nullable()
+    .test(
+      'is-number-or-empty',
+      'Image width must be a number',
+      function (value: any) {
+        if (value === undefined || value === null || value === '') {
+          return true;
+        }
+        return !isNaN(value);
+      },
+    ),
+  imageHeight: Yup.mixed()
+    .nullable()
+    .test(
+      'is-number-or-empty',
+      'Image height must be a number',
+      function (value: any) {
+        if (value === undefined || value === null || value === '') {
+          return true;
+        }
+        return !isNaN(value);
+      },
+    ),
 });
 
 const step2ValidationSchema = Yup?.object()?.shape({
@@ -25,14 +50,45 @@ const step2ValidationSchema = Yup?.object()?.shape({
     ?.trim()
     ?.nullable()
     ?.required('Field is Required'),
-  url: Yup?.string()?.trim()?.nullable()?.required('Field is Required'),
+  url: Yup?.string()
+    ?.trim()
+    ?.nullable()
+    ?.matches(
+      /^(https?|http):\/\//,
+      'URL must start with "http://" or "https://"',
+    )
+    ?.url('Invalid URL format')
+    ?.required('Field is Required'),
 });
 
+interface DefaultValuesType {
+  buttonContent: string | null;
+  ctaInternalName: string | null;
+  urlRedirectType: string | null;
+  url: string | null;
+  buttonStyle: string | null;
+  buttonColor: string | null;
+  buttonSize: string | null;
+  buttonPadding: string | null;
+  buttonMargin: string | null;
+  imageWidth: number | null;
+  imageHeight: number | null;
+  altText: string | null;
+}
+
 const CTADefaultValues = {
-  buttonContent: '',
-  ctaInternalName: '',
-  urlRedirectType: '',
-  url: '',
+  buttonContent: null,
+  ctaInternalName: null,
+  urlRedirectType: null,
+  url: null,
+  buttonStyle: null,
+  buttonColor: null,
+  buttonSize: null,
+  buttonPadding: null,
+  buttonMargin: null,
+  imageWidth: null,
+  imageHeight: null,
+  altText: null,
 };
 
 const useCta = () => {
@@ -50,12 +106,14 @@ const useCta = () => {
   const validationSchema =
     activeStep === 0 ? step1ValidationSchema : step2ValidationSchema;
   const buttonType = toggleButtonType ? 'customized' : 'image';
+  const [ctaDefaultValues, setCtaDefaultValues] =
+    useState<DefaultValuesType>(CTADefaultValues);
 
   const [createCTA, { isLoading: loadingCreateCTA }] =
     usePostLeadCaptureCTAMutation();
   const methodsEditCTA = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: CTADefaultValues,
+    defaultValues: ctaDefaultValues,
   });
   const {
     handleSubmit: handleMethodEditCTA,
@@ -67,13 +125,30 @@ const useCta = () => {
     setToggleButtonType(!toggleButtonType);
     resetEditorForm();
   };
-  const handleDrawerOpen = (title: string) => {
+  const handleDrawerOpen = (title: string = drawerTitle, data: any) => {
     setDrawerTitle(title);
+    if (data) {
+      setCtaDefaultValues({
+        buttonContent: null,
+        ctaInternalName: null,
+        urlRedirectType: null,
+        url: null,
+        buttonStyle: null,
+        buttonColor: null,
+        buttonSize: null,
+        buttonPadding: null,
+        buttonMargin: null,
+        imageWidth: null,
+        imageHeight: null,
+        altText: null,
+      });
+    }
     setOpenDrawer(true);
   };
   const handleDrawerClose = () => {
     resetEditorForm();
     setActiveStep(0);
+    setToggleButtonType(true);
     setOpenDrawer(false);
   };
 
@@ -98,7 +173,13 @@ const useCta = () => {
 
     // Check validation based on active step
     if (activeStep === 0) {
-      isValid = await trigger('buttonContent');
+      const [isButtonContentValid, isWidthValid, isHeightValid] =
+        await Promise.all([
+          trigger('buttonContent'),
+          trigger('imageWidth'),
+          trigger('imageHeight'),
+        ]);
+      isValid = isButtonContentValid && isWidthValid && isHeightValid;
       const newData = values;
       setButtonData((prevData: any) => {
         return {
@@ -121,7 +202,12 @@ const useCta = () => {
       });
     } else if (activeStep === 2) {
       const buttonUrl = buttonData?.url;
-      const buttonContent = buttonData?.buttonContent;
+      const altText = buttonData?.altText || '';
+      const imgWidth = buttonData?.imageWidth ? buttonData?.imageWidth : 'auto';
+      const imgHeight = buttonData?.imageHeight
+        ? buttonData?.imageHeight
+        : 'auto';
+
       const styles = {
         display: 'inline-block',
         padding: buttonData?.buttonPadding || '0',
@@ -129,7 +215,16 @@ const useCta = () => {
       };
       const ButtonHtmlComponent = () => (
         <a href={buttonUrl} style={styles}>
-          {buttonContent}
+          {buttonData?.buttonContent instanceof File ? (
+            <Image
+              src="buttonImageUrl"
+              alt={altText}
+              width={imgWidth}
+              height={imgHeight}
+            />
+          ) : (
+            buttonData?.buttonContent
+          )}
         </a>
       );
 
@@ -137,6 +232,9 @@ const useCta = () => {
       const buttonHtmlString = ReactDOMServer.renderToString(
         <ButtonHtmlComponent />,
       );
+      if (buttonType === 'image') {
+        formData.append('buttonImage', buttonData.buttonContent);
+      }
       formData.append('buttonType', buttonType);
       formData.append('buttonHtml', buttonHtmlString);
       formData.append('ctaInternalName', buttonData?.ctaInternalName);

@@ -53,7 +53,8 @@ export const columns = (
       id: 'viewCount',
       isSortable: true,
       header: 'View Count',
-      cell: (info: any) => (info?.getValue() ? info?.getValue() : 'N/A'),
+      cell: (info: any) =>
+        info?.getValue() < 10 ? `0${info?.getValue()}` : info?.getValue(),
     },
 
     {
@@ -61,7 +62,7 @@ export const columns = (
       id: 'clickRate',
       isSortable: true,
       header: 'Click Rate(%)',
-      cell: (info: any) => (info?.getValue() ? info?.getValue() : 'N/A'),
+      cell: (info: any) => `${info?.getValue()}%`,
     },
 
     {
@@ -69,7 +70,8 @@ export const columns = (
       id: 'clickCount',
       isSortable: true,
       header: 'Clicks Count',
-      cell: (info: any) => (info?.getValue() ? info?.getValue() : 'N/A'),
+      cell: (info: any) =>
+        info?.getValue() < 10 ? `0${info?.getValue()}` : info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.updatedAt,
