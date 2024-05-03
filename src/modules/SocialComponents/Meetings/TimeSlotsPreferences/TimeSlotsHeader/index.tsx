@@ -15,6 +15,7 @@ const TimeSlotsHeader = (props: any) => {
           dropdownName={'Select Months'}
           dropdownOptions={timeSlotsData}
           disabled={disabled}
+          menuSxProps={{ '.MuiPaper-root': { height: 300 } }}
         />
       </PermissionsGuard>
       <Button

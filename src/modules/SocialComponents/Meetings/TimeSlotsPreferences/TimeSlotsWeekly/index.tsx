@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Checkbox,
@@ -7,9 +6,13 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import { Delete, MoreVert } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import {
+  CheckboxCheckedIcon,
+  CheckboxIcon,
+  CopyIconButton,
+} from '@/assets/icons';
 import { RHFTimePicker } from '@/components/ReactHookForm';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useTimeSlotsWeekly } from './useTimeSlotsWeekly';
@@ -57,12 +60,14 @@ const TimeSlotsWeekly = ({ disabled, theme }: any) => {
                         alignItems="center"
                         gap={1}
                       >
-                        <Box display="flex" gap={1}>
+                        <Box display="flex" gap={1} pt={1}>
                           <RHFTimePicker
-                            name={`${slot?.day}-start-${dayIndex}`}
+                            name={`${slot?.day}start${dayIndex}`}
+                            size={'small'}
                           />
                           <RHFTimePicker
-                            name={`${slot?.day}-end-${dayIndex}`}
+                            name={`${slot?.day}end${dayIndex}`}
+                            size={'small'}
                           />
                         </Box>
                         <IconButton onClick={() => remove(index)}>
@@ -85,7 +90,7 @@ const TimeSlotsWeekly = ({ disabled, theme }: any) => {
                 >
                   <SingleDropdownButton
                     dropdownOptions={timeSlotsData}
-                    dropdownName={<MoreVert />}
+                    dropdownName={<CopyIconButton />}
                     hasEndIcon={false}
                     btnVariant="text"
                   />

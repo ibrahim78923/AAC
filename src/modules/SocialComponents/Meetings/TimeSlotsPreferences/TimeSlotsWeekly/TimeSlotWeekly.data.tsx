@@ -1,15 +1,15 @@
-import { RHFMultiCheckbox } from '@/components/ReactHookForm';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { SOCIAL_COMPONENTS_EMAIL_PERMISSIONS } from '@/constants/permission-keys';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Checkbox, Typography } from '@mui/material';
 
 export const timeSlotsWeeklyDataArray = [
-  { value: 'Monday', label: 'Monday' },
-  { value: 'Tuesday', label: 'Tuesday' },
-  { value: 'Wednesday', label: 'Wednesday' },
-  { value: 'Thursday', label: 'Thursday' },
-  { value: 'Friday', label: 'Friday' },
-  { value: 'Saturday', label: 'Saturday' },
-  { value: 'Sunday', label: 'Sunday' },
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
 ];
 
 export const timeSlotsWeeklyData = [
@@ -22,29 +22,28 @@ export const timeSlotsWeeklyData = [
   { day: 'Sat' },
 ];
 
-export const weeklyData = timeSlotsWeeklyDataArray?.map((item: any) => ({
-  value: item?.value,
-  label: item?.label,
-}));
-
 export const timeSlotsWeeklyDropdown = () => [
-  {
-    _id: 1,
+  ...timeSlotsWeeklyDataArray?.map((days: any, index: number) => ({
+    _id: index + 1,
     permissionKey: [SOCIAL_COMPONENTS_EMAIL_PERMISSIONS?.APPLY_FILTER],
     title: (
-      <Grid container>
-        <Grid item>
-          <RHFMultiCheckbox
-            name="weekly"
-            isCheckBox={true}
-            options={weeklyData}
-            sx={{ width: '10px' }}
-          />
-          <Box pt={1} display={'flex'} justifyContent={'center'}>
-            <Button variant="contained">Apply</Button>
-          </Box>
-        </Grid>
-      </Grid>
+      <Box display={'flex'} alignItems={'center'} gap={0.5} key={days?._id}>
+        <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+        />
+        <Typography>{days}</Typography>
+      </Box>
+    ),
+    handleClick: () => {},
+  })),
+  {
+    _id: 22,
+    permissionKey: [SOCIAL_COMPONENTS_EMAIL_PERMISSIONS?.APPLY_FILTER],
+    title: (
+      <Box ml={3}>
+        <Button variant="contained">Apply</Button>
+      </Box>
     ),
     handleClick: () => {},
   },
@@ -57,10 +56,9 @@ export const defaultValues = () => {
     timeSlot: [
       {
         timeSlotStart: '',
-      },
-      {
         timeSlotEnd: '',
       },
     ],
+    overrides: [{ start: null, end: null }],
   };
 };

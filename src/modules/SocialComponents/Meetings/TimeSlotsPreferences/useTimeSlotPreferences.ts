@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material';
 
 export const useTimeSlotPreferences = () => {
   const theme = useTheme();
-  const [disabled, setDisabled] = useState('true');
+  const [disabled, setDisabled] = useState(true);
   const methods = useForm({
     defaultValues: defaultValues(),
   });
