@@ -72,7 +72,7 @@ export const useImport = (props: any) => {
       {},
     );
 
-    const allCrmColumnsKeys = Object?.keys(dataColumn);
+    const allCrmColumnsKeys = Object?.keys(dataColumn ?? {});
 
     const isRequiredFieldMap = allCrmColumnsKeys?.reduce(
       (acc: any, curr: any) => ((acc[curr] = true), acc),
