@@ -21,6 +21,8 @@ import {
 import { EyeIcon, EyeSlashIcon } from '@/assets/icons';
 
 import useOtherMailDrawer from './useOtherMailDrawer';
+import { DRAWER_TYPES } from '@/constants/strings';
+import { API_STATUS } from '@/constants';
 
 const OtherMailDrawer = (props: any) => {
   const {
@@ -47,7 +49,7 @@ const OtherMailDrawer = (props: any) => {
     event.preventDefault();
   };
 
-  const isCreateDrawer = isOtherEmailDrawerType === 'create';
+  const isCreateDrawer = isOtherEmailDrawerType === DRAWER_TYPES?.ADD;
 
   return (
     <div>
@@ -65,7 +67,7 @@ const OtherMailDrawer = (props: any) => {
         submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ pt: 2 }}>
-          {isLoadingOtherDetails === 'pending' ? (
+          {isLoadingOtherDetails === API_STATUS?.PENDING ? (
             <>
               <LinearProgress />
             </>

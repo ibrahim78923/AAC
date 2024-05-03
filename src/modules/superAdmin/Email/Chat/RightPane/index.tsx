@@ -21,7 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { styles } from './RightPane.styles';
 import SendEmailDrawer from '../../SendEmail';
 import EmailSettingDrawer from '../../EmailSettingDrawer';
-import { CREATE_EMAIL_TYPES } from '@/constants';
+import { API_STATUS, CREATE_EMAIL_TYPES } from '@/constants';
 import { useGetMessageDetailsQuery } from '@/services/commonFeatures/email';
 import { useAppSelector } from '@/redux/store';
 import { UnixDateFormatter } from '@/utils/dateTime';
@@ -109,7 +109,7 @@ const RightPane = () => {
 
       {activeRecord?.thread_id ? (
         <>
-          {statusMessageDetailsData === 'pending' ? (
+          {statusMessageDetailsData === API_STATUS?.PENDING ? (
             <>
               <Box
                 sx={{

@@ -17,6 +17,7 @@ import {
   setSelectedRecords,
 } from '@/redux/slices/email/slice';
 import { PAGINATION } from '@/config';
+import { API_STATUS } from '@/constants';
 
 const MailList = () => {
   const theme = useTheme();
@@ -118,7 +119,7 @@ const MailList = () => {
         </Button>
       </Box>
 
-      {isLoadingEmailsByFolderIdData === 'pending' ? (
+      {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
         <>
           <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
         </>

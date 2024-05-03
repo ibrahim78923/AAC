@@ -246,3 +246,8 @@ export const CREATE_EMAIL_TYPES = {
   FORWARD: 'forward',
   REPLY: 'reply',
 };
+
+export const API_STATUS = {
+  PENDING: 'pending',
+  REJECTED: 'rejected',
+};

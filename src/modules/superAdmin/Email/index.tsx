@@ -19,6 +19,7 @@ import { useGetMailFoldersQuery } from '@/services/commonFeatures/email';
 import { enqueueSnackbar } from 'notistack';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { useRouter } from 'next/router';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const Email = () => {
   const theme = useTheme();
@@ -41,7 +42,7 @@ const Email = () => {
           variant: 'error',
         });
         setIsOtherEmailDrawerOpen(true);
-        setIsOtherEmailDrawerType('create');
+        setIsOtherEmailDrawerType(DRAWER_TYPES?.ADD);
       }
     }
   };
@@ -108,7 +109,7 @@ const Email = () => {
                       <IconButton
                         onClick={() => {
                           setIsOtherEmailDrawerOpen(true);
-                          setIsOtherEmailDrawerType('update');
+                          setIsOtherEmailDrawerType(DRAWER_TYPES?.EDIT);
                         }}
                       >
                         <PencilEditIcon />

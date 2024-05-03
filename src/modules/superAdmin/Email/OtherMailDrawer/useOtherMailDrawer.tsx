@@ -16,6 +16,7 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { getSession } from '@/utils';
 import { useEffect } from 'react';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const useOtherMailDrawer = ({ isOtherEmailDrawerType, setOpenDrawer }: any) => {
   const theme = useTheme();
@@ -43,7 +44,7 @@ const useOtherMailDrawer = ({ isOtherEmailDrawerType, setOpenDrawer }: any) => {
   });
 
   useEffect(() => {
-    if (isOtherEmailDrawerType === 'update') {
+    if (isOtherEmailDrawerType === DRAWER_TYPES?.EDIT) {
       if (defaultMailData) {
         methodsOtherMail.reset({
           email: defaultMailData?.data?.email ?? '',
@@ -70,10 +71,12 @@ const useOtherMailDrawer = ({ isOtherEmailDrawerType, setOpenDrawer }: any) => {
     const payload = {
       ...values,
       createdBy: user?._id,
-      ...(isOtherEmailDrawerType === 'create' && { userId: user?._id }),
+      ...(isOtherEmailDrawerType === DRAWER_TYPES?.ADD && {
+        userId: user?._id,
+      }),
     };
 
-    if (isOtherEmailDrawerType === 'update') {
+    if (isOtherEmailDrawerType === DRAWER_TYPES?.EDIT) {
       try {
         await updateEmailConfig({
           body: payload,
