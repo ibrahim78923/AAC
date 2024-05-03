@@ -1,5 +1,8 @@
 import { GoogleCalenderIcon, OfficeCalenderIcon } from '@/assets/icons';
+import { SOCIAL_COMPONENTS } from '@/constants';
 import { Box, Button, Grid, Typography } from '@mui/material';
+import Link from 'next/link';
+import { GOOGLEACCOUNTS, MICROSOFTACCOUNTS } from './CalendarIntegration.data';
 
 export const CalendarIntegration = () => {
   return (
@@ -53,7 +56,13 @@ export const CalendarIntegration = () => {
                   <Button sx={{ mb: 1 }} variant="contained" disableElevation>
                     Connect Now
                   </Button>
-                  <Button variant="outlined">View Accounts</Button>
+                  <Button
+                    variant="outlined"
+                    LinkComponent={Link}
+                    href={`${SOCIAL_COMPONENTS?.MEETINGS_SETTINGS}/${GOOGLEACCOUNTS}`}
+                  >
+                    View Accounts
+                  </Button>
                 </Box>
               </Box>
             </Grid>
@@ -92,7 +101,13 @@ export const CalendarIntegration = () => {
                   <Button sx={{ mb: 1 }} variant="contained" disableElevation>
                     Connect Now
                   </Button>
-                  <Button variant="outlined">View Accounts</Button>
+                  <Button
+                    variant="outlined"
+                    LinkComponent={Link}
+                    href={`${SOCIAL_COMPONENTS?.MEETINGS_SETTINGS}/${MICROSOFTACCOUNTS}`}
+                  >
+                    View Accounts
+                  </Button>
                 </Box>
               </Box>
             </Grid>
