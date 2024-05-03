@@ -1,12 +1,16 @@
 import { Import } from '@/components/Import';
 import { useImportProductCatalog } from './useImportProductCatalog';
 import { CRM_COLUMNS } from './ImportProductCatalog.data';
-import { FIELD_TYPES, OBJECT_URL_IMPORT } from '@/constants/strings';
+import { OBJECT_URL_IMPORT } from '@/constants/strings';
 
 export const ImportProductCatalog = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { setDrawerDefaultState, submitImport, importFileStatus } =
-    useImportProductCatalog?.(props);
+  const {
+    setDrawerDefaultState,
+    submitImport,
+    importFileStatus,
+    filterMandatoryFields,
+  } = useImportProductCatalog?.(props);
 
   return (
     <Import
@@ -18,9 +22,7 @@ export const ImportProductCatalog = (props: any) => {
       objectUrl={OBJECT_URL_IMPORT?.USERS_ATTACHMENT}
       submitImport={(apiData: any) => submitImport?.(apiData)}
       importFileStatus={importFileStatus}
-      mandatoryColumnsList={CRM_COLUMNS?.filter(
-        (column: any) => column?.groupBy === FIELD_TYPES?.MANDATORY_FIELD,
-      )}
+      mandatoryColumnsList={filterMandatoryFields?.()}
     />
   );
 };

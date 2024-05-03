@@ -65,7 +65,7 @@ export const Import = (props: any) => {
             {!!mandatoryColumnsList?.length ? (
               mandatoryColumnsList?.map((columnList: any) => (
                 <>
-                  <ListItem sx={{ color: 'grey.900' }}>
+                  <ListItem sx={{ color: 'grey.900' }} key={columnList?._id}>
                     <ListItemIcon>
                       <FiberManualRecord sx={{ fontSize: '10px' }} />
                     </ListItemIcon>
