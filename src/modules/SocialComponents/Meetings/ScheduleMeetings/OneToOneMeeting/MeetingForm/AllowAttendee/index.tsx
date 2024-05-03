@@ -1,38 +1,38 @@
-import { Box, Button, Dialog, Grid, Typography } from '@mui/material';
+import { Box, Button, Dialog, Typography } from '@mui/material';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { RHFAutocomplete, RHFCheckbox } from '@/components/ReactHookForm';
-import { useAllowAttendee } from './useAllowAttendee';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { useAllowAttendee } from './useAllowAttendee';
 
 export const AllowAttendee = (props: any) => {
   const {
     openCalender,
-    watchFrom,
-    watchTo,
     handleOpen,
     handleClose,
     handleSave,
+    selectedEvents,
+    handleEvents,
+    timeSlotDuration,
+    handleAllowDuration,
   } = useAllowAttendee(props);
   return (
     <>
-      <Grid item xs={12}>
-        <RHFCheckbox
-          name="allowAttendee"
-          label={
-            <Typography variant="body1" color="primary.main">
-              Allow Attendee To Set Meeting Time
-            </Typography>
-          }
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
-          onClick={handleOpen}
-        />
-      </Grid>
+      <RHFCheckbox
+        name="allowAttendee"
+        label={
+          <Typography variant="body1" color="primary.main">
+            Allow Attendee To Set Meeting Time
+          </Typography>
+        }
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        onClick={handleOpen}
+      />
       <Dialog open={openCalender} onClose={handleClose} fullWidth>
-        <Grid
-          item
+        <Box
           p={2}
           sx={{
             '.fc-timegrid-event-short .fc-event-time::after': {
@@ -50,14 +50,26 @@ export const AllowAttendee = (props: any) => {
             label="Time Slot Duration"
             size="small"
             placeholder="Select Duration"
-            options={['30 Minutes']}
+            getOptionLabel={(option: any) => option?.label}
+            options={[
+              { label: '15 Minutes', value: 15 },
+              { label: '30 Minutes', value: 30 },
+              { label: '45 Minutes', value: 45 },
+              { label: '1 Hour', value: 60 },
+            ]}
           />
           <br />
           <FullCalendar
-            plugins={[timeGridPlugin]}
+            plugins={[timeGridPlugin, interactionPlugin]}
             initialView={'timeGridDay'}
             allDaySlot={false}
             headerToolbar={false}
+            selectable
+            select={handleEvents}
+            slotDuration={{
+              minutes: timeSlotDuration?.value ? timeSlotDuration?.value : 30,
+            }}
+            selectAllow={handleAllowDuration}
             slotLabelFormat={{
               hour: 'numeric',
               minute: '2-digit',
@@ -67,12 +79,10 @@ export const AllowAttendee = (props: any) => {
               hour: '2-digit',
               minute: '2-digit',
             }}
-            events={[
-              {
-                start: watchFrom,
-                end: watchTo,
-              },
-            ]}
+            events={selectedEvents?.map((event: any) => ({
+              start: event?.startStr,
+              end: event?.endStr,
+            }))}
           />
           <Box display="flex" justifyContent="flex-end" gap={1} mt={2}>
             <Button variant="outlined" color="secondary" onClick={handleClose}>
@@ -82,7 +92,7 @@ export const AllowAttendee = (props: any) => {
               Save
             </Button>
           </Box>
-        </Grid>
+        </Box>
       </Dialog>
     </>
   );

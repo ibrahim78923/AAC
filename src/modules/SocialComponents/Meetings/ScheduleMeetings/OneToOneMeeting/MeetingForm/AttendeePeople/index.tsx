@@ -115,10 +115,8 @@ export const AttendeePeople = (props: any) => {
                   alignItems="center"
                   gap={0.5}
                 >
-                  <DateRangePickerIcon />{' '}
-                  {dayjs(item?.date?.toString())?.format(
-                    DATE_TIME_FORMAT?.DDDDDD,
-                  )}
+                  <DateRangePickerIcon />
+                  {dayjs(item?.date?.toString())?.format(DATE_TIME_FORMAT?.WDM)}
                 </Typography>
               </Box>
             </Grid>

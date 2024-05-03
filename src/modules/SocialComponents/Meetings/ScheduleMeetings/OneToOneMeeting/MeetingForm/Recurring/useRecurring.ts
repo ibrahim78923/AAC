@@ -26,5 +26,6 @@ export const useRecurring = (props: any) => {
     watchRecurringType,
     watchDailyType,
     watchMonthType,
+    watchToDate,
   };
 };

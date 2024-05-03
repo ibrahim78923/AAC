@@ -2,7 +2,7 @@ export const oneToOneDefaultValues = {
   title: '',
   allDay: false,
   fromDate: new Date(),
-  fromTime: null,
+  fromTime: new Date(),
   toDate: null,
   toTime: null,
   recurring: true,
@@ -16,6 +16,7 @@ export const oneToOneDefaultValues = {
   people: null,
   allowAttendee: false,
   weekDays: [],
+  timeSlotDuration: { label: '30 Minutes', value: 30 },
   reminder: [{ type: '', counter: null, duration: '' }],
 };
 export const allDayValues = [
@@ -29,7 +30,7 @@ export const allDayValues = [
   },
   {
     name: 'fromTime',
-    value: null,
+    value: new Date(),
   },
   {
     name: 'toTime',

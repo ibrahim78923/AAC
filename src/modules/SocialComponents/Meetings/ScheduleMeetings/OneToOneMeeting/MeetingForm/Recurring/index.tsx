@@ -27,13 +27,14 @@ export const Recurring = (props: any) => {
     watchRecurringType,
     watchDailyType,
     watchMonthType,
+    watchToDate,
   } = useRecurring(props);
   return (
     <>
       <RHFSwitch
         name="recurring"
         label="Recurring"
-        disabled={watchAllDay || isSameDate}
+        disabled={watchAllDay || isSameDate || !watchToDate}
       />
       {watchRecurring && (
         <Grid container pt={1} spacing={2}>
