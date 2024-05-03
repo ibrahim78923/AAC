@@ -9,7 +9,7 @@ export const validationSchema = Yup?.object()?.shape({
   giftCardNo: Yup?.string()?.required('Required'),
 });
 export const defaultValues = {
-  add: '',
+  add: '-',
   amount: '',
   shop: '',
   giftCardNo: '',

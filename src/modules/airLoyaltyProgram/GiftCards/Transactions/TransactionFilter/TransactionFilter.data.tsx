@@ -9,8 +9,8 @@ const optionsVisibleChannel = ['Channel 1', 'Channel 2'];
 export const defaultValues = {
   type: null,
   dateRange: {
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: null,
+    endDate: null,
     key: 'selection',
   },
   shop: null,
