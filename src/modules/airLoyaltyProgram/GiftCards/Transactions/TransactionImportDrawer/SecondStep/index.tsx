@@ -34,12 +34,12 @@ const SecondStep = () => {
         borderRadius={2}
       >
         <InfoCircleGreenIcon />
-        <Typography variant="body2">
+        <Typography variant="body2" p={0.96}>
           To proceed, you must map “Card Number, Amount & Email”.
         </Typography>
       </Box>
       <Grid item md={12}>
-        {productData?.map?.((card) => (
+        {productData?.map?.((card: any) => (
           <CheckboxCard
             key={card?.title}
             {...card}

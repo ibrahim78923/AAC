@@ -89,21 +89,6 @@ export const Transactions = () => {
         <Box display={'flex'} flexWrap={'wrap'} gap={2}>
           <PermissionsGuard
             permissions={[
-              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.EXPORT,
-            ]}
-          >
-            <Button
-              variant="outlined"
-              color="inherit"
-              startIcon={<ExportIcon />}
-              sx={{ borderRadius: '0.5rem' }}
-              onClick={() => setOpenModal(true)}
-            >
-              Export
-            </Button>
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[
               AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.APPLY_FILTERS,
             ]}
           >
@@ -114,6 +99,20 @@ export const Transactions = () => {
               onClick={() => setOpenDrawer(true)}
             >
               Filters
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.EXPORT,
+            ]}
+          >
+            <Button
+              variant="outlined"
+              color="inherit"
+              startIcon={<ExportIcon />}
+              onClick={() => setOpenModal(true)}
+            >
+              Export
             </Button>
           </PermissionsGuard>
           <ExportModal
