@@ -10,7 +10,12 @@ import { importDefaultValues, importValidationSchema } from './Import.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export const useImport = (props: any) => {
-  const { setDrawerDefaultState, objectUrl, submitImport } = props;
+  const {
+    setDrawerDefaultState,
+    objectUrl,
+    submitImport,
+    mandatoryColumnsList = [],
+  } = props;
   const [showItemsList, setShowItemsList] = useState(false);
 
   const importFormMethod = useForm<any>({
@@ -66,6 +71,22 @@ export const useImport = (props: any) => {
       }),
       {},
     );
+
+    const allCrmColumnsKeys = Object?.keys(dataColumn);
+
+    const isRequiredFieldMap = allCrmColumnsKeys?.reduce(
+      (acc: any, curr: any) => ((acc[curr] = true), acc),
+      {},
+    );
+
+    const isAllRequiredFieldPresent = mandatoryColumnsList?.every(
+      (crmColumn: any) => isRequiredFieldMap?.[crmColumn?._id],
+    );
+
+    if (!isAllRequiredFieldPresent) {
+      errorSnackbar('Select all mandatory field ');
+      return;
+    }
 
     const apiData = {
       dataColumn,
