@@ -48,6 +48,28 @@ export const emailApi = baseAPI.injectEndpoints({
       },
       providesTags: TAG,
     }),
+
+    getEmailsByFolderId: builder.query({
+      query: ({ params }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.GET_MAILS_BY_FOLDER_ID}`,
+          method: 'GET',
+          params: params,
+        };
+      },
+      providesTags: TAG,
+    }),
+
+    getMessageDetails: builder.query({
+      query: ({ params }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.GET_MAIL_DETAILS}`,
+          method: 'GET',
+          params: params,
+        };
+      },
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -56,4 +78,6 @@ export const {
   useUpdateEmailConfigMutation,
   useGetMailFoldersQuery,
   useGetOtherMailDetailsQuery,
+  useGetEmailsByFolderIdQuery,
+  useGetMessageDetailsQuery,
 } = emailApi;

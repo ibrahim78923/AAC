@@ -75,19 +75,21 @@ const LeftPane = () => {
           {filteredData?.map((item: any) => (
             <Button
               key={uuidv4()}
-              onClick={() => handelToggleTab(item?.display_name?.toLowerCase())}
+              onClick={() => handelToggleTab(item)}
               sx={{
                 border: `1px solid ${theme?.palette?.grey[700]}`,
                 borderRadius: '8px',
                 color: theme?.palette?.secondary?.main,
                 textTransform: 'capitalize',
                 backgroundColor:
-                  mailTabType === item?.display_name.toLowerCase()
+                  mailTabType?.display_name?.toLowerCase() ===
+                  item?.display_name.toLowerCase()
                     ? theme?.palette?.grey[400]
                     : '',
                 '&:hover': {
                   backgroundColor:
-                    mailTabType === item?.display_name.toLowerCase()
+                    mailTabType?.display_name?.toLowerCase() ===
+                    item?.display_name.toLowerCase()
                       ? theme?.palette?.grey[400]
                       : '',
                   border: `1px solid ${theme?.palette?.grey[700]}`,

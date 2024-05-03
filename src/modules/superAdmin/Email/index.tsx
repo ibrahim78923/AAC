@@ -30,6 +30,7 @@ const Email = () => {
   const [isOtherEmailDrawerType, setIsOtherEmailDrawerType] = useState('');
 
   const { data: foldersData, isLoading } = useGetMailFoldersQuery({});
+
   const router = useRouter();
   const handelRedirect = () => {
     if (!isLoading) {
