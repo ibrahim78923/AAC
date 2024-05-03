@@ -33,7 +33,11 @@ export const ListView = () => {
           />
         ))}
       </Grid>
-      <Box>
+      <Box
+        p={2}
+        border={`.1rem solid ${theme?.palette?.grey[0]}`}
+        borderRadius={3}
+      >
         <Box
           display={'flex'}
           justifyContent={'space-between'}
@@ -59,17 +63,17 @@ export const ListView = () => {
           columns={listViewDetails(theme, setDeleteModal)}
           isPagination
         />
-        {deleteModal && (
-          <AgentConversionDelete
-            message={'Are you sure you want to delete this entry?'}
-            open={deleteModal}
-            handleClose={() => {
-              setDeleteModal(false);
-            }}
-            submitDeleteModal={submitDeleteModal}
-          />
-        )}
       </Box>
+      {deleteModal && (
+        <AgentConversionDelete
+          message={'Are you sure you want to delete this entry?'}
+          open={deleteModal}
+          handleClose={() => {
+            setDeleteModal(false);
+          }}
+          submitDeleteModal={submitDeleteModal}
+        />
+      )}
     </>
   );
 };

@@ -28,3 +28,10 @@ const formatTimeUnit = (diff: number, unit: string, base: number = 1) => {
   const value = Math.floor(diff / base);
   return `${value} ${unit}${value !== 1 ? 's' : ''} ago`;
 };
+
+export const formatDateTime = (start: string, end: string): string => {
+  const startTime = dayjs(start).format('h:mm A');
+  const endTime = dayjs(end).format('h:mm A');
+  const date = dayjs(start).format('ddd M/D/YYYY');
+  return `${date} - ${startTime} to ${endTime}`;
+};
