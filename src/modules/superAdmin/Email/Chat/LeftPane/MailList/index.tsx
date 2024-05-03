@@ -135,7 +135,7 @@ const MailList = () => {
                       background:
                         activeRecord?.id === item?.id
                           ? theme?.palette?.grey[100]
-                          : 'white',
+                          : theme?.palette?.common?.white,
                     }}
                     onClick={() => dispatch(setActiveRecord(item))}
                   >

@@ -42,7 +42,7 @@ export const styles = {
     py: '12px',
     cursor: 'pointer',
   },
-  emailArray: {
+  emailArray: (theme: any) => ({
     position: 'relative',
     flexBasis: '256px',
     borderRadius: '8px',
@@ -50,7 +50,7 @@ export const styles = {
     alignItems: 'center',
     gap: '10px',
     mb: '24px',
-    border: '1px solid #E5E7EB',
+    border: `1px solid ${theme?.palette?.gray[700]}`,
     cursor: 'pointer',
-  },
+  }),
 };

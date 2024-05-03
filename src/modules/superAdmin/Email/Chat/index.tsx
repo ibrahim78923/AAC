@@ -10,7 +10,7 @@ const EmailChat = () => {
   const dispatch = useDispatch();
   const { data: foldersData } = useGetMailFoldersQuery({});
   const result = foldersData?.data?.find((item: any) => {
-    return item.display_name.toLowerCase() === 'inbox';
+    return item?.display_name?.toLowerCase() === 'inbox';
   });
 
   useEffect(() => {

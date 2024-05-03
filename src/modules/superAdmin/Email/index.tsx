@@ -82,7 +82,7 @@ const Email = () => {
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} gap={'15px'}>
           {emailsDataArray?.map((item: any) => (
-            <Box key={uuidv4()} sx={styles?.emailArray}>
+            <Box key={uuidv4()} sx={styles?.emailArray(theme)}>
               <Box
                 sx={{
                   display: 'flex',

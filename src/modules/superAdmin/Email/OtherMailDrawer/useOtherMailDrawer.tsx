@@ -46,8 +46,8 @@ const useOtherMailDrawer = ({ isOtherEmailDrawerType, setOpenDrawer }: any) => {
     if (isOtherEmailDrawerType === 'update') {
       if (defaultMailData) {
         methodsOtherMail.reset({
-          email: defaultMailData?.data?.email ?? 'er',
-          username: defaultMailData?.data?.username ?? 'e',
+          email: defaultMailData?.data?.email ?? '',
+          username: defaultMailData?.data?.username ?? '',
           password: defaultMailData?.data?.password ?? '',
           imapServerHost: defaultMailData?.data?.imapServerHost ?? '',
           imapServerPort: defaultMailData?.data?.imapServerPort ?? '',

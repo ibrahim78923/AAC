@@ -83,13 +83,13 @@ const LeftPane = () => {
                 textTransform: 'capitalize',
                 backgroundColor:
                   mailTabType?.display_name?.toLowerCase() ===
-                  item?.display_name.toLowerCase()
+                  item?.display_name?.toLowerCase()
                     ? theme?.palette?.grey[400]
                     : '',
                 '&:hover': {
                   backgroundColor:
                     mailTabType?.display_name?.toLowerCase() ===
-                    item?.display_name.toLowerCase()
+                    item?.display_name?.toLowerCase()
                       ? theme?.palette?.grey[400]
                       : '',
                   border: `1px solid ${theme?.palette?.grey[700]}`,
