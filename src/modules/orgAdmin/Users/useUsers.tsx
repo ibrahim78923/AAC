@@ -6,9 +6,9 @@ const useUsers = () => {
   const { user }: any = getSession();
   const [employeeDataById, setEmployeeDataById] = useState();
   const [searchEmployee, setSearchEmployee] = useState('');
-  const [employeeFilter, setEmployeeFilter] = useState({
-    product: '',
-    company: '',
+  const [employeeFilter, setEmployeeFilter] = useState<any>({
+    product: {},
+    company: {},
     status: '',
   });
   const [searchAccount, setSearchAccount] = useState('');
@@ -20,9 +20,11 @@ const useUsers = () => {
     page: page,
     limit: employeeRecordsLimit,
     search: searchEmployee,
-    product: employeeFilter?.product,
-    company: employeeFilter?.company,
-    status: employeeFilter?.status ? employeeFilter?.status : undefined,
+    product: employeeFilter?.product?._id,
+    company: employeeFilter?.company?._id,
+    status: employeeFilter?.status
+      ? employeeFilter?.status?.toUpperCase()
+      : undefined,
   };
 
   const { data: employeeList, isLoading: employeeListLoading } =

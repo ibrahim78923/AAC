@@ -10,12 +10,32 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['PRODUCTS'],
     }),
+    getProductsList: builder.query({
+      query: () => ({
+        url: END_POINTS?.PRODUCTS,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['PRODUCTS'],
+    }),
     getOrganizations: builder.query({
       query: () => ({
         url: END_POINTS?.ORGANIZATIONS,
         method: 'GET',
       }),
       providesTags: ['ORGANIZATIONS'],
+    }),
+    getOrganizationsList: builder.query({
+      query: () => ({
+        url: END_POINTS?.ORGANIZATIONS,
+        method: 'GET',
+      }),
+      providesTags: ['ORGANIZATIONS'],
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
     }),
 
     getCompanyAccounts: builder.query({
@@ -63,7 +83,9 @@ export const CommonAPIS = baseAPI.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useLazyGetProductsListQuery,
   useGetOrganizationsQuery,
+  useLazyGetOrganizationsListQuery,
   useGetCompanyAccountsQuery,
   useGetCompanyAccountsRolesQuery,
   useGetDepartmentQuery,
