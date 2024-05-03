@@ -5,20 +5,32 @@ import { useTheme } from '@mui/material';
 const usePermissionAccordion = () => {
   const theme = useTheme();
 
-  const [isAccordionExpanded, setIsAccordionExpanded] = useState<
-    string | false
-  >('plan-air-sales-accordion');
+  const [selectedModule, setSelectedModule] = useState<string>();
+  const [selectedSubModule, setSelectedSubModule] = useState<string>();
 
-  const handleExpandAccordionChange =
-    (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-      setIsAccordionExpanded(newExpanded ? panel : false);
-    };
+  const handleExpandAccordionChange = (module: string) => {
+    if (module === selectedModule) {
+      setSelectedModule('');
+    } else {
+      setSelectedModule(module);
+    }
+  };
+
+  const handleChangeSubModule = (subModule: any) => {
+    if (subModule === selectedSubModule) {
+      setSelectedSubModule('');
+    } else {
+      setSelectedSubModule(subModule);
+    }
+  };
 
   return {
-    theme,
-    isAccordionExpanded,
-    setIsAccordionExpanded,
     handleExpandAccordionChange,
+    handleChangeSubModule,
+    setSelectedModule,
+    selectedSubModule,
+    selectedModule,
+    theme,
   };
 };
 

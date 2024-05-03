@@ -9,9 +9,12 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { DRAWER_TYPES } from '@/constants/strings';
 
 const AddRoleDrawer = (props: any) => {
-  const { isDrawerOpen, onClose } = props;
+  const { isDrawerOpen, onClose, setCheckedRows } = props;
   const {
+    selectAllPermissions,
+    getModulePermissions,
     postRoleLoading,
+    loadingEditRole,
     viewPerdetails,
     allPermissions,
     handleSubmit,
@@ -20,8 +23,8 @@ const AddRoleDrawer = (props: any) => {
     disabled,
     methods,
     theme,
-  } = useAddRoleDrawer(isDrawerOpen, onClose);
-
+  } = useAddRoleDrawer(isDrawerOpen, onClose, setCheckedRows);
+  const { watch } = methods;
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen?.isToggle}
@@ -38,7 +41,11 @@ const AddRoleDrawer = (props: any) => {
       }
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={postRoleLoading}
+      isLoading={
+        isDrawerOpen?.type === DRAWER_TYPES?.ADD
+          ? postRoleLoading
+          : loadingEditRole
+      }
     >
       {isLoading ? (
         <SkeletonTable />
@@ -88,6 +95,9 @@ const AddRoleDrawer = (props: any) => {
                     : viewPerdetails?.data
                 }
                 disabled={disabled}
+                getModulePermissions={getModulePermissions}
+                selectAllPermissions={selectAllPermissions}
+                watch={watch}
               />
             )}
           </FormProvider>
