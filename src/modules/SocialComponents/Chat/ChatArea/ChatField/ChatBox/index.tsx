@@ -236,30 +236,43 @@ const ChatBox = ({
                     )}
                   </>
                 )}
-                {item?.type === 'image' && (
-                  <Box key={uuidv4()} sx={{ width: '16vw' }}>
-                    <Grid
-                      container
-                      spacing={1}
-                      sx={{
-                        marginTop: '1px',
-                        marginBottom: '2px',
-                      }}
-                    >
-                      {item?.media?.map((item: any) => (
-                        <Grid item xs={9} sm={4} md={4} lg={4} key={uuidv4()}>
-                          <Image
-                            src={`${IMG_URL}${item?.url}`}
-                            width={100}
-                            height={80}
-                            style={{ borderRadius: '8px' }}
-                            alt="media"
-                          />
+
+                {!item?.isDeleted && (
+                  <>
+                    {item?.type === 'image' && (
+                      <Box key={uuidv4()} sx={{ width: '16vw' }}>
+                        <Grid
+                          container
+                          spacing={1}
+                          sx={{
+                            marginTop: '1px',
+                            marginBottom: '2px',
+                          }}
+                        >
+                          {item?.media?.map((item: any) => (
+                            <Grid
+                              item
+                              xs={9}
+                              sm={4}
+                              md={4}
+                              lg={4}
+                              key={uuidv4()}
+                            >
+                              <Image
+                                src={`${IMG_URL}${item?.url}`}
+                                width={100}
+                                height={80}
+                                style={{ borderRadius: '8px' }}
+                                alt="media"
+                              />
+                            </Grid>
+                          ))}
                         </Grid>
-                      ))}
-                    </Grid>
-                  </Box>
+                      </Box>
+                    )}
+                  </>
                 )}
+
                 {!item?.isDeleted && (
                   <>
                     {item?.type === 'docs' && (
@@ -314,7 +327,7 @@ const ChatBox = ({
                     bottom: '0px',
                   }}
                 >
-                  <CharmTickIcon isRead={item?.isRead} />
+                  {!item?.isDeleted && <CharmTickIcon isRead={item?.isRead} />}
                 </Box>
 
                 {!item?.isDeleted && (

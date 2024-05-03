@@ -117,7 +117,7 @@ export default function RHFMultiSearchableSelect({
   };
 
   useEffect(() => {
-    if (searchValue.length > 0) {
+    if (searchValue?.length > 0) {
       setCurrentPage(1);
     }
   }, [searchValue]);

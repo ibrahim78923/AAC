@@ -142,6 +142,8 @@ const ContactsCard = ({
   const handelDeleteChatList = () => {
     updateChatHandler('isDeleted');
     setIsDeleteModal(false);
+    dispatch(setChatMessages([]));
+    dispatch(setActiveReceiverId(null));
   };
   return (
     <>

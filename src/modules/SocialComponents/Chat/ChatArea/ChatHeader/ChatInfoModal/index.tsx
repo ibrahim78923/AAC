@@ -40,7 +40,9 @@ const ChatInfoModal = ({
   activeParticipant,
 }: ChatInfoModalPropsI) => {
   const theme = useTheme();
-  const [toggleSwitchActive, setToggleSwitchActive] = useState('image');
+  const [toggleSwitchActive, setToggleSwitchActive] = useState(
+    chatMode === 'groupChat' ? 'members' : 'image',
+  );
   const activeChatId = useAppSelector(
     (state: any) => state?.chat?.activeChatId,
   );

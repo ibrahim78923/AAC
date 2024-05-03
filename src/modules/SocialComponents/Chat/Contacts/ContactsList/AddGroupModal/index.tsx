@@ -44,7 +44,7 @@ const AddGroupModal = ({
     defaultValues: addGroupDefaultValues,
   });
 
-  const { handleSubmit, watch } = methodsAddGroup;
+  const { handleSubmit, watch, reset } = methodsAddGroup;
 
   const participantIds = watch('participant');
 
@@ -100,6 +100,10 @@ const AddGroupModal = ({
       participant: participant?.label,
     }));
 
+  const exceptCurrentUser =
+    transformedData &&
+    transformedData.filter((item: any) => item?.id !== user?._id);
+
   useEffect(() => {
     setParticipantsIdsValues(participantIds);
   }, [participantIds]);
@@ -141,8 +145,14 @@ const AddGroupModal = ({
   return (
     <CommonModal
       open={isAddGroupModal}
-      handleClose={() => setIsAddGroupModal(false)}
-      handleCancel={() => setIsAddGroupModal(false)}
+      handleClose={() => {
+        setIsAddGroupModal(false);
+        reset();
+      }}
+      handleCancel={() => {
+        setIsAddGroupModal(false);
+        reset();
+      }}
       handleSubmit={handleSubmit(onSubmit)}
       title="Create Group"
       okText="Create Group"
@@ -217,7 +227,7 @@ const AddGroupModal = ({
                 label="Add Participant"
                 size="small"
                 setValues={setValues}
-                options={transformedData ?? []}
+                options={exceptCurrentUser ?? []}
                 isPagination={true}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}

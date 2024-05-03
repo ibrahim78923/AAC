@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Grid } from '@mui/material';
 
-import { FormProvider } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFMultiSearchableSelect,
+} from '@/components/ReactHookForm';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
-  addMembersDataArray,
   addMembersDefaultValues,
   addMembersValidationSchema,
 } from './AddMembers.data';
 
 import { AddMembersPropsI } from './AddMembers.interface';
-
-import { v4 as uuidv4 } from 'uuid';
 
 import { useForm } from 'react-hook-form';
 import { useGetChatUsersQuery } from '@/services/chat';
@@ -33,12 +33,18 @@ const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
   const { handleSubmit } = methodsAddGroup;
 
   const { user }: { user: any } = getSession();
-  const { data: chatsUsers } = useGetChatUsersQuery({
+
+  const [currentPage, setCurrentPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const pageLimit = PAGINATION?.PAGE_LIMIT;
+  const [searchValue, setSearchValue] = useState('');
+
+  const { data: chatsUsers, status } = useGetChatUsersQuery({
     params: {
       organization: user?.organization?._id,
-      page: PAGINATION?.CURRENT_PAGE,
-      limit: PAGINATION?.PAGE_LIMIT,
+      page: currentPage,
+      limit: pageLimit,
       role: user?.role,
+      search: searchValue,
     },
   });
   const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
@@ -48,15 +54,19 @@ const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
     image: UserDefault,
   }));
 
-  const getAddMembersDataArray = addMembersDataArray(
-    setIsAddMembers,
-    transformedData,
-  );
+  const exceptCurrentUser =
+    transformedData &&
+    transformedData.filter((item: any) => item?.id !== user?._id);
+
+  // const getAddMembersDataArray = addMembersDataArray(
+  //   setIsAddMembers,
+  //   exceptCurrentUser,
+  // );
 
   return (
     <FormProvider methods={methodsAddGroup} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={4}>
-        {getAddMembersDataArray?.map((item: any) => (
+        {/* {getAddMembersDataArray?.map((item: any) => (
           <Grid item xs={12} md={item?.md} key={uuidv4()}>
             <item.component
               {...item.componentProps}
@@ -72,7 +82,30 @@ const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
                 : null}
             </item.component>
           </Grid>
-        ))}
+        ))} */}
+        <Grid item xs={12} md={12}>
+          <RHFMultiSearchableSelect
+            name="participant"
+            isCheckBox={true}
+            label="Add Participant"
+            size="small"
+            // setValues={setValues}
+            options={exceptCurrentUser ?? []}
+            isPagination={true}
+            defaultOpen={true}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={chatsUsers?.data?.meta?.pages}
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            customSearch={true}
+            isLoading={status === 'pending' ? true : false}
+            isFooter={true}
+            footerText="Add"
+            footerActionHandler={() => alert('Add')}
+            setIsDropdownClose={setIsAddMembers}
+          />
+        </Grid>
       </Grid>
     </FormProvider>
   );
