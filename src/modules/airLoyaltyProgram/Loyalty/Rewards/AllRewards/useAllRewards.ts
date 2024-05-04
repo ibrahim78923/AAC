@@ -2,12 +2,18 @@ import { PAGINATION } from '@/config';
 import { useLazyGetLoyaltyAllRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards';
 import { useEffect, useState } from 'react';
 import { loyaltyAllRewardColumnDynamic } from './AllRewards.data';
+import { getActivePermissionsSession } from '@/utils';
 
 export const useAllRewards = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
+  const overallPermissions = getActivePermissionsSession();
 
+  const [isRewardDetailsOpen, setIsRewardDetailsOpen] = useState({
+    isOpen: false,
+    rewardType: '',
+  });
   const [
     lazyGetLoyaltyAllRewardsListTrigger,
     lazyGetLoyaltyAllRewardsListStatus,
@@ -30,7 +36,10 @@ export const useAllRewards = () => {
     getAllLoyaltyAllRewardsList?.();
   }, [page, search, pageLimit]);
 
-  const loyaltyAllRewardColumn = loyaltyAllRewardColumnDynamic?.();
+  const loyaltyAllRewardColumn = loyaltyAllRewardColumnDynamic?.(
+    setIsRewardDetailsOpen,
+    overallPermissions,
+  );
 
   return {
     lazyGetLoyaltyAllRewardsListStatus,
@@ -38,5 +47,7 @@ export const useAllRewards = () => {
     setPageLimit,
     setPage,
     loyaltyAllRewardColumn,
+    isRewardDetailsOpen,
+    setIsRewardDetailsOpen,
   };
 };
