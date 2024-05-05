@@ -76,7 +76,7 @@ interface DefaultValuesType {
   altText: string | null;
 }
 
-const CTADefaultValues = {
+const ctaDefaultValues: DefaultValuesType = {
   buttonContent: null,
   ctaInternalName: null,
   urlRedirectType: null,
@@ -106,8 +106,6 @@ const useCta = () => {
   const validationSchema =
     activeStep === 0 ? step1ValidationSchema : step2ValidationSchema;
   const buttonType = toggleButtonType ? 'customized' : 'image';
-  const [ctaDefaultValues, setCtaDefaultValues] =
-    useState<DefaultValuesType>(CTADefaultValues);
 
   const [createCTA, { isLoading: loadingCreateCTA }] =
     usePostLeadCaptureCTAMutation();
@@ -123,25 +121,36 @@ const useCta = () => {
 
   const handleSwitchButtonType = () => {
     setToggleButtonType(!toggleButtonType);
-    resetEditorForm();
+    if (drawerTitle === 'Create') {
+      resetEditorForm();
+    }
   };
   const handleDrawerOpen = (title: string = drawerTitle, data: any) => {
     setDrawerTitle(title);
     if (data) {
-      setCtaDefaultValues({
-        buttonContent: null,
-        ctaInternalName: null,
-        urlRedirectType: null,
-        url: null,
-        buttonStyle: null,
-        buttonColor: null,
-        buttonSize: null,
-        buttonPadding: null,
-        buttonMargin: null,
-        imageWidth: null,
-        imageHeight: null,
-        altText: null,
+      const buttonHTML = data?.buttonHtml;
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = buttonHTML;
+
+      const anchorElem = tempDiv.querySelector('a');
+      const textContent = anchorElem?.textContent;
+      const styleAttribute = anchorElem?.getAttribute('style');
+      const stylesArray = styleAttribute?.split(';');
+      const stylesObject: any = {};
+      stylesArray?.forEach((style) => {
+        const [property, value] = style.split(':');
+        stylesObject[property] = value;
       });
+      methodsEditCTA.setValue('buttonContent', textContent || null);
+      methodsEditCTA.setValue('ctaInternalName', data?.ctaInternalName);
+      methodsEditCTA.setValue('urlRedirectType', data?.urlRedirectType);
+      methodsEditCTA.setValue('url', data?.url);
+      methodsEditCTA.setValue('buttonStyle', data?.buttonStyle);
+      methodsEditCTA.setValue('buttonColor', data?.buttonColor);
+      methodsEditCTA.setValue('buttonSize', data?.buttonSize);
+      methodsEditCTA.setValue('buttonPadding', stylesObject?.padding || null);
+      methodsEditCTA.setValue('buttonMargin', stylesObject?.margin || null);
+      // methodsEditCTA.setValue('buttonSize', data?.buttonSize)
     }
     setOpenDrawer(true);
   };

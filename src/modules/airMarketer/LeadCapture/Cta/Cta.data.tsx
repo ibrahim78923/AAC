@@ -85,38 +85,41 @@ export const columns = (
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',
-      cell: () => (
-        <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <PermissionsGuard
-            permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.PREVIEW]}
-          >
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => handleDrawerOpen('View')}
+      cell: (info: any) => {
+        const data = info?.cell?.row?.original;
+        return (
+          <Box sx={{ display: 'flex', gap: 0.5 }}>
+            <PermissionsGuard
+              permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.PREVIEW]}
             >
-              <ViewEyeIcon />
-            </Box>
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.EDIT]}
-          >
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => handleDrawerOpen('Edit')}
+              <Box
+                sx={{ cursor: 'pointer' }}
+                onClick={() => handleDrawerOpen('View')}
+              >
+                <ViewEyeIcon />
+              </Box>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.EDIT]}
             >
-              <EditPenIcon />
-            </Box>
-          </PermissionsGuard>
+              <Box
+                sx={{ cursor: 'pointer' }}
+                onClick={() => handleDrawerOpen('Edit', data)}
+              >
+                <EditPenIcon />
+              </Box>
+            </PermissionsGuard>
 
-          <PermissionsGuard
-            permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.DELETE]}
-          >
-            <Box sx={{ cursor: 'pointer' }}>
-              <DeleteCrossIcon />
-            </Box>
-          </PermissionsGuard>
-        </Box>
-      ),
+            <PermissionsGuard
+              permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.DELETE]}
+            >
+              <Box sx={{ cursor: 'pointer' }}>
+                <DeleteCrossIcon />
+              </Box>
+            </PermissionsGuard>
+          </Box>
+        );
+      },
     },
   ];
 };
