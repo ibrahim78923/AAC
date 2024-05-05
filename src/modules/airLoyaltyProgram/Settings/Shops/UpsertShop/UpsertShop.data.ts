@@ -2,26 +2,28 @@ import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const upsertShopValidationScheme = Yup?.object()?.shape({
-  shopName: Yup?.string(),
-  shopType: Yup?.string(),
-  associatedEmail: Yup?.string(),
-  city: Yup?.string(),
-  country: Yup?.string(),
-  postCode: Yup?.string(),
-  address: Yup?.string(),
+  shopName: Yup?.string()?.trim(),
+  shopType: Yup?.mixed()?.nullable?.(),
+  associatedEmail: Yup?.string()?.trim()?.email('Enter valid email'),
+  city: Yup?.string()?.trim(),
+  country: Yup?.mixed()?.nullable(),
+  postCode: Yup?.string()?.trim(),
+  address: Yup?.string()?.trim(),
 });
 
-export const upsertShopFieldsValues = {
-  shopName: '',
-  shopType: '',
-  associatedEmail: '',
-  city: '',
-  country: '',
-  postCode: '',
-  address: '',
+export const upsertShopFieldsValues = (data?: any) => {
+  return {
+    shopName: data?.shopName ?? '',
+    shopType: data?.shopType ?? null,
+    associatedEmail: data?.associatedEmail ?? '',
+    city: data?.city ?? '',
+    country: data?.country ?? null,
+    postCode: data?.postCode ?? '',
+    address: data?.address ?? '',
+  };
 };
 
-export const upsertShopFields = [
+export const upsertShopFormFieldsDynamic = () => [
   {
     id: 1,
     component: RHFTextField,
@@ -39,7 +41,6 @@ export const upsertShopFields = [
       fullWidth: true,
       name: 'shopType',
       label: 'Shop Type',
-      select: true,
       placeholder: 'Select',
       options: [''],
     },
@@ -71,7 +72,6 @@ export const upsertShopFields = [
       fullWidth: true,
       name: 'country',
       label: 'Country',
-      select: true,
       placeholder: 'Select',
       options: [''],
     },
