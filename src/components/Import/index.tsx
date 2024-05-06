@@ -58,10 +58,9 @@ export const Import = (props: any) => {
       >
         {!showItemsList ? (
           <>
-            <Typography variant="h4" fontWeight={700} color="slateBlue.main">
+            <Typography variant="h5" fontWeight={700} color="custom.main">
               Uploaded file must have these columns
             </Typography>
-            <br />
             {!!mandatoryColumnsList?.length ? (
               mandatoryColumnsList?.map((columnList: any) => (
                 <ListItem sx={{ color: 'grey.900' }} key={columnList?._id}>
