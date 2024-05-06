@@ -102,7 +102,7 @@ const AddGroupModal = ({
 
   const exceptCurrentUser =
     transformedData &&
-    transformedData.filter((item: any) => item?.id !== user?._id);
+    transformedData?.filter((item: any) => item?.id !== user?._id);
 
   useEffect(() => {
     setParticipantsIdsValues(participantIds);

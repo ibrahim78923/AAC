@@ -56,33 +56,11 @@ const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
 
   const exceptCurrentUser =
     transformedData &&
-    transformedData.filter((item: any) => item?.id !== user?._id);
-
-  // const getAddMembersDataArray = addMembersDataArray(
-  //   setIsAddMembers,
-  //   exceptCurrentUser,
-  // );
+    transformedData?.filter((item: any) => item?.id !== user?._id);
 
   return (
     <FormProvider methods={methodsAddGroup} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={4}>
-        {/* {getAddMembersDataArray?.map((item: any) => (
-          <Grid item xs={12} md={item?.md} key={uuidv4()}>
-            <item.component
-              {...item.componentProps}
-              size={'small'}
-              options={item?.options}
-            >
-              {item?.componentProps?.select
-                ? item?.options?.map((option: any) => (
-                    <option key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))
-                : null}
-            </item.component>
-          </Grid>
-        ))} */}
         <Grid item xs={12} md={12}>
           <RHFMultiSearchableSelect
             name="participant"

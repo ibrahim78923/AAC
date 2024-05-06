@@ -91,7 +91,7 @@ const ChatField = ({ isError }: any) => {
               </Box>
             )}
             <Box sx={{ paddingTop: '30px' }}>
-              {chatDataToShow.length ? (
+              {chatDataToShow?.length ? (
                 chatDataToShow
                   ?.slice()
                   ?.reverse()
