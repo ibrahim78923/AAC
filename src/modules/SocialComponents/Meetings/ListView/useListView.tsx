@@ -9,11 +9,16 @@ export const useListView = () => {
   const theme = useTheme();
   const router = useRouter();
   const [search, setSearch] = useState('');
-  const [cardValue, setCardValue] = useState<any>('All');
+  const [cardValue, setCardValue] = useState<any>(MEETINGS_DETAILS_TYPE?.ALL);
   const [listData, setListData] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<any>();
+  const [isActiveCard, setIsActiveCard] = useState();
   const meetings = meetingCardsDetails(theme);
   const meetingsType = router?.query?.type;
+
+  const activeCard = (meetingHeading: any) => {
+    setIsActiveCard(meetingHeading);
+  };
 
   useEffect(() => {
     if (meetingsType != null) {
@@ -54,5 +59,8 @@ export const useListView = () => {
     setDeleteModal,
     submitDeleteModal,
     router,
+    isActiveCard,
+    setIsActiveCard,
+    activeCard,
   };
 };
