@@ -32,6 +32,7 @@ const useUsers = () => {
       orgId: user?.organization?._id,
       values: empListParams,
     });
+
   const employeeDetails = employeeList?.data?.users;
   const employeeMetaData = employeeList?.data?.meta;
 
