@@ -12,7 +12,9 @@ export const useListView = () => {
   const [cardValue, setCardValue] = useState<any>(MEETINGS_DETAILS_TYPE?.ALL);
   const [listData, setListData] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<any>();
-  const [isActiveCard, setIsActiveCard] = useState();
+  const [isActiveCard, setIsActiveCard] = useState<any>(
+    MEETINGS_DETAILS_TYPE?.ALL,
+  );
   const meetings = meetingCardsDetails(theme);
   const meetingsType = router?.query?.type;
 
