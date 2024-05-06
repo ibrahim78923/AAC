@@ -1,4 +1,4 @@
-const EditPenWhiteIcon = ({ penColor }: any) => {
+const EditPenCustomIcon = ({ penColor }: any) => {
   return (
     <svg
       width="22"
@@ -15,4 +15,4 @@ const EditPenWhiteIcon = ({ penColor }: any) => {
   );
 };
 
-export default EditPenWhiteIcon;
+export default EditPenCustomIcon;

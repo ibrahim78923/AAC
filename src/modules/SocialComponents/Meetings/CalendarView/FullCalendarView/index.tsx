@@ -6,7 +6,7 @@ import { eventArray } from '../CalendarView.data';
 import { Box, Tooltip, Typography } from '@mui/material';
 import { CALENDER_TYPES } from '@/constants/strings';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { EditPenWhiteIcon } from '@/assets/icons';
+import { EditPenCustomIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { truncateSmallText, truncateText } from '@/utils/avatarUtils';
 import { TIME_FORMAT } from '@/constants';
@@ -104,7 +104,7 @@ export const FullCalendarView = (props: any) => {
                           alignItems={'center'}
                           sx={{ cursor: 'pointer' }}
                         >
-                          <EditPenWhiteIcon
+                          <EditPenCustomIcon
                             penColor={theme?.palette?.primary?.dark}
                           />
                           <DeleteIcon onClick={handleDelete} />
@@ -181,7 +181,7 @@ export const FullCalendarView = (props: any) => {
                       </Box>
                       {isHovered && (
                         <Box sx={{ cursor: 'pointer' }}>
-                          <EditPenWhiteIcon
+                          <EditPenCustomIcon
                             penColor={theme?.palette?.primary?.dark}
                           />
                           <DeleteIcon onClick={handleDelete} />
@@ -267,7 +267,7 @@ export const FullCalendarView = (props: any) => {
                     left={125}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <EditPenWhiteIcon
+                    <EditPenCustomIcon
                       penColor={theme?.palette?.primary?.lighter}
                     />
                     <DeleteIcon onClick={handleDelete} />
@@ -346,7 +346,7 @@ export const FullCalendarView = (props: any) => {
                     alignItems={'center'}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <EditPenWhiteIcon
+                    <EditPenCustomIcon
                       penColor={theme?.palette?.primary?.lighter}
                     />
                     <DeleteIcon onClick={handleDelete} />
