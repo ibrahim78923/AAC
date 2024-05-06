@@ -26,7 +26,7 @@ export const truncateText = (text = '---', sliceLimit = 20) => {
     : text;
 };
 
-export const truncateSmallText = (text = '---', sliceLimit = 9) => {
+export const truncateSmallText = (text = '---', sliceLimit = 10) => {
   return text?.length > sliceLimit
     ? `${text?.slice?.(0, sliceLimit)} ...`
     : text;
