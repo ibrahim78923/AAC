@@ -10,6 +10,7 @@ export const reminderFields = (index: number) => [
     componentProps: {
       name: `reminder.${index}.type`,
       fullWidth: true,
+      required: true,
       label: `Reminder ${index + 1}`,
       size: 'small',
       placeholder: 'Select',

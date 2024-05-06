@@ -9,6 +9,7 @@ import {
 } from './UpsertMeeting.data';
 import { useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { successSnackbar } from '@/utils/api';
 
 export const useUpsertMeeting = () => {
   const methods = useForm({
@@ -16,12 +17,14 @@ export const useUpsertMeeting = () => {
     resolver: yupResolver(upsertMeetingSchema),
   });
   const { handleSubmit, watch, setValue, control } = methods;
-  const onSubmit = async () => {};
   const router: any = useRouter();
+  const meetingType = meetingTitle?.[router?.query?.type];
+  const onSubmit = async () => {
+    successSnackbar(`${meetingType} Meeting created successfully`);
+  };
   const handleMoveBack = () => {
     router?.push(SOCIAL_COMPONENTS?.SCHEDULE_MEETING);
   };
-  const meetingType = meetingTitle?.[router?.query?.type];
   const watchAllDay = watch('allDay');
   const watchMeetingType = watch('meetingType');
   const watchBefore = watch('bufferBefore');

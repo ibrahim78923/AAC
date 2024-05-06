@@ -1,5 +1,21 @@
 import * as Yup from 'yup';
 
+const schemaTypes = {
+  allDay: 'allDay',
+  recurring: 'recurring',
+  allowAttendee: 'allowAttendee',
+  dailyType: 'dailyType',
+  recurringType: 'recurringType',
+  everyDay: 'everyDay',
+  daily: 'Daily',
+  weekly: 'Weekly',
+  monthType: 'monthType',
+  onThe: 'onThe',
+  meetingType: 'meetingType',
+  inPersonMeeting: 'In person meeting',
+  onDate: 'onDate',
+  monthly: 'Monthly',
+};
 export const upsertMeetingValues = {
   title: '',
   allDay: false,
@@ -35,67 +51,106 @@ export const upsertMeetingSchema: any = Yup?.object()?.shape({
   allDay: Yup?.boolean(),
   timeZone: Yup?.mixed()?.required('Required'),
   startDate: Yup?.date()?.required('Required'),
-  startTime: Yup?.date()?.when('allDay', {
+  startTime: Yup?.date()?.when(schemaTypes?.allDay, {
     is: (allDay: string) => allDay,
     then: (schema: any) => schema?.notRequired(),
     otherwise: (schema: any) => schema?.required('Required'),
   }),
-  endDate: Yup?.mixed()?.when(['recurring', 'allowAttendee'], {
-    is: (recurring: string, allowAttendee: boolean) =>
-      recurring || allowAttendee,
-    then: (schema: any) => schema?.notRequired(),
-    otherwise: (schema: any) => schema?.required('Required'),
-  }),
-  endTime: Yup?.mixed()?.when(['allDay', 'recurring', 'allowAttendee'], {
-    is: (allDay: boolean, recurring: boolean, allowAttendee: boolean) =>
-      allDay || recurring || allowAttendee,
-    then: (schema: any) => schema?.notRequired(),
-    otherwise: (schema: any) => schema?.required('Required'),
-  }),
+  endDate: Yup?.mixed()?.when(
+    [schemaTypes?.recurring, schemaTypes?.allowAttendee],
+    {
+      is: (recurring: string, allowAttendee: boolean) =>
+        recurring || allowAttendee,
+      then: (schema: any) => schema?.notRequired(),
+      otherwise: (schema: any) => schema?.required('Required'),
+    },
+  ),
+  endTime: Yup?.mixed()?.when(
+    [schemaTypes?.allDay, schemaTypes?.recurring, schemaTypes?.allowAttendee],
+    {
+      is: (allDay: boolean, recurring: boolean, allowAttendee: boolean) =>
+        allDay || recurring || allowAttendee,
+      then: (schema: any) => schema?.notRequired(),
+      otherwise: (schema: any) => schema?.required('Required'),
+    },
+  ),
   recurring: Yup?.boolean(),
-  recurringType: Yup?.string()?.when('recurring', {
+  recurringType: Yup?.string()?.when(schemaTypes?.recurring, {
     is: (recurring: string) => recurring,
     then: (schema: any) => schema?.required('Required'),
     otherwise: (schema: any) => schema?.notRequired(),
   }),
   dailyType: Yup?.string()?.required('Required'),
-  recurringDay: Yup?.string()?.when(['dailyType', 'recurringType'], {
-    is: (type: string, recurringType: any) =>
-      type === 'everyDay' && recurringType === 'Daily',
-    then: (schema: any) => schema?.required('Required'),
-    otherwise: (schema: any) => schema?.notRequired(),
-  }),
-  weekDays: Yup?.array()?.when('recurringType', {
-    is: (recurringType: string) => recurringType === 'Weekly',
+  recurringDay: Yup?.string()?.when(
+    [
+      schemaTypes?.dailyType,
+      schemaTypes?.recurringType,
+      schemaTypes?.recurring,
+    ],
+    {
+      is: (type: string, recurringType: any, recurring: boolean) =>
+        type === schemaTypes?.everyDay &&
+        recurringType === schemaTypes?.daily &&
+        recurring,
+      then: (schema: any) => schema?.required('Required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    },
+  ),
+  weekDays: Yup?.array()?.when(schemaTypes?.recurringType, {
+    is: (recurringType: string) => recurringType === schemaTypes?.weekly,
     then: (schema: any) => schema?.min(1, 'Required'),
     otherwise: (schema: any) => schema?.notRequired(),
   }),
   monthType: Yup?.string(),
-  monthlyDate: Yup?.array()?.when(['monthType', 'recurringType', 'recurring'], {
-    is: (type: string, recurringType: string, recurring: boolean) =>
-      type === 'onDate' && recurringType === 'Monthly' && recurring,
-    then: (schema: any) => schema?.min(1, 'Required'),
-    otherwise: (schema: any) => schema?.notRequired(),
-  }),
-  monthlyWeeks: Yup?.array()?.when(
-    ['monthType', 'recurringType', 'recurring'],
+  monthlyDate: Yup?.array()?.when(
+    [
+      schemaTypes?.monthType,
+      schemaTypes?.recurringType,
+      schemaTypes?.recurring,
+    ],
     {
       is: (type: string, recurringType: string, recurring: boolean) =>
-        type === 'onThe' && recurringType === 'Monthly' && recurring,
+        type === schemaTypes?.onDate &&
+        recurringType === schemaTypes?.monthly &&
+        recurring,
       then: (schema: any) => schema?.min(1, 'Required'),
       otherwise: (schema: any) => schema?.notRequired(),
     },
   ),
-  monthlyDays: Yup?.array()?.when(['monthType', 'recurringType', 'recurring'], {
-    is: (type: string, recurringType: string, recurring: boolean) =>
-      type === 'onThe' && recurringType === 'Monthly' && recurring,
-    then: (schema: any) => schema?.min(1, 'Required'),
-    otherwise: (schema: any) => schema?.notRequired(),
-  }),
+  monthlyWeeks: Yup?.array()?.when(
+    [
+      schemaTypes?.monthType,
+      schemaTypes?.recurringType,
+      schemaTypes?.recurring,
+    ],
+    {
+      is: (type: string, recurringType: string, recurring: boolean) =>
+        type === schemaTypes?.onThe &&
+        recurringType === schemaTypes?.monthly &&
+        recurring,
+      then: (schema: any) => schema?.min(1, 'Required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    },
+  ),
+  monthlyDays: Yup?.array()?.when(
+    [
+      schemaTypes?.monthType,
+      schemaTypes?.recurringType,
+      schemaTypes?.recurring,
+    ],
+    {
+      is: (type: string, recurringType: string, recurring: boolean) =>
+        type === schemaTypes?.onThe &&
+        recurringType === schemaTypes?.monthly &&
+        recurring,
+      then: (schema: any) => schema?.min(1, 'Required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    },
+  ),
   description: Yup?.string(),
   meetingType: Yup?.string()?.required('Required'),
-  location: Yup?.string()?.when('meetingType', {
-    is: (type: string) => type === 'In person meeting',
+  location: Yup?.string()?.when(schemaTypes?.meetingType, {
+    is: (type: string) => type === schemaTypes?.inPersonMeeting,
     then: (schema: any) => schema?.notRequired(),
     otherwise: (schema: any) => schema?.required('Required'),
   }),
@@ -107,11 +162,13 @@ export const upsertMeetingSchema: any = Yup?.object()?.shape({
   allowAttendee: Yup?.boolean(),
   timeSlotDuration: Yup?.mixed(),
   selectedSlots: Yup?.mixed(),
-  reminder: Yup?.object()?.shape({
-    reminder: Yup?.string()?.required('Required'),
-    counter: Yup?.number()?.nullable()?.required('Required'),
-    duration: Yup?.string()?.required('Required'),
-  }),
+  reminder: Yup?.array()?.of(
+    Yup?.object()?.shape({
+      type: Yup?.string()?.required('Required'),
+      counter: Yup?.string()?.required('Required'),
+      duration: Yup?.string()?.required('Required'),
+    }),
+  ),
 });
 export const allDayValues = [
   {
