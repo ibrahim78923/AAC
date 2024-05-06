@@ -17,8 +17,7 @@ export const MeetingCard = (props: any) => {
       sx={{
         cursor: 'pointer',
         '&:hover': {
-          border: `0.1rem solid ${color}`,
-          borderLeft: `0.5rem solid ${color}`,
+          boxShadow: `0px 0px 1px 1px ${color}`,
         },
       }}
       onClick={() =>

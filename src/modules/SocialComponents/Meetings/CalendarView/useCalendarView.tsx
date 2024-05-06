@@ -30,7 +30,6 @@ export const useCalendarView = () => {
   const handleEventClick = (clickInfo: any) => {
     setOpenEventModal(true);
     setEventData(clickInfo?.event);
-    // setEventData(clickInfo?.event?._def?.extendedProps);
     handleCloseViewMorePopover();
   };
   const handleDeleteSubmit = async () => {

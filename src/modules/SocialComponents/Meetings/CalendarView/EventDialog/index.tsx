@@ -18,6 +18,7 @@ import { formatDateTime } from '@/utils/dateTime';
 export const EventDialog = (params: any) => {
   const { openEventModal, setOpenEventModal, eventData } = params;
   const theme: any = useTheme();
+  const { start, end } = eventData;
 
   return (
     <Dialog
@@ -57,10 +58,7 @@ export const EventDialog = (params: any) => {
         />
         <Box sx={{ margin: 1 }}>
           <Typography variant="body1" mb={0.4}>
-            {formatDateTime(
-              eventData?._instance?.range?.start,
-              eventData?._instance?.range?.end,
-            )}
+            {formatDateTime(start, end)}
           </Typography>
           <Typography variant="body1" mb={0.4}>
             Microsoft teams meeting

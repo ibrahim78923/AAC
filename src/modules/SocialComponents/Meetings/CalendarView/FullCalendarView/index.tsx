@@ -7,6 +7,7 @@ import { Box, Tooltip, Typography } from '@mui/material';
 import { CALENDER_TYPES } from '@/constants/strings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { EditPenWhiteIcon } from '@/assets/icons';
+
 export const FullCalendarView = (props: any) => {
   const {
     currentView,
@@ -45,7 +46,8 @@ export const FullCalendarView = (props: any) => {
           allDaySlot={false}
           eventTimeFormat={{
             hour: 'numeric',
-            meridiem: true,
+            minute: '2-digit',
+            timeZone: 'UTC',
           }}
           events={eventArray}
           eventClick={handleEventClick}
@@ -124,13 +126,15 @@ export const FullCalendarView = (props: any) => {
           allDaySlot={false}
           eventTimeFormat={{
             hour: 'numeric',
-            meridiem: true,
+            minute: '2-digit',
+            timeZone: 'UTC',
           }}
           events={eventArray}
           eventClick={handleEventClick}
           eventContent={(eventInfo: any) => {
             const eventId = eventInfo?.event?._def?.defId;
             const isHovered = eventId === hoveredEvent;
+
             return (
               <Tooltip
                 componentsProps={{
@@ -184,7 +188,7 @@ export const FullCalendarView = (props: any) => {
                   </>
                 }
               >
-                <Typography variant="body2" align="center">
+                <Typography variant="body2">
                   {eventInfo?.event?._def?.title}
                 </Typography>
               </Tooltip>
@@ -200,7 +204,8 @@ export const FullCalendarView = (props: any) => {
           allDaySlot={false}
           eventTimeFormat={{
             hour: 'numeric',
-            meridiem: true,
+            minute: '2-digit',
+            timeZone: 'UTC',
           }}
           events={eventArray}
           eventContent={(eventInfo: any) => {
@@ -220,6 +225,7 @@ export const FullCalendarView = (props: any) => {
                 <Box
                   onClick={() => handleEventClick(eventInfo)}
                   sx={{ cursor: 'pointer' }}
+                  width={'100%'}
                 >
                   <Typography>{eventInfo?.event?._def?.title}</Typography>
                   <Typography>
@@ -251,7 +257,8 @@ export const FullCalendarView = (props: any) => {
           allDaySlot={false}
           eventTimeFormat={{
             hour: 'numeric',
-            meridiem: true,
+            minute: '2-digit',
+            timeZone: 'UTC',
           }}
           events={eventArray}
           eventContent={(eventInfo: any) => {
@@ -272,6 +279,7 @@ export const FullCalendarView = (props: any) => {
                 <Box
                   onClick={() => handleEventClick(eventInfo)}
                   sx={{ cursor: 'pointer' }}
+                  width={'100%'}
                 >
                   <Typography>{eventInfo?.event?._def?.title}</Typography>
                   <Typography>

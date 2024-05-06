@@ -6,9 +6,6 @@ export const eventArray = [
     data: {
       email: 'kamran.zafar@ceative.co.uk',
       meetingTitle: 'BA meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Waqas Ahmed',
       accepted: '3',
       notResponding: '33',
@@ -23,9 +20,6 @@ export const eventArray = [
     data: {
       email: 'ali.raza@ceative.co.uk',
       meetingTitle: 'Demo meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Umer Arshed',
       accepted: '3',
       notResponding: '33',
@@ -40,9 +34,6 @@ export const eventArray = [
     data: {
       email: 'umer.awan@ceative.co.uk',
       meetingTitle: 'Coordinator meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Ali Raza',
       accepted: '3',
       notResponding: '33',
@@ -57,9 +48,6 @@ export const eventArray = [
     data: {
       email: 'auns.ali@ceative.co.uk',
       meetingTitle: 'PM meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Faisal Naeem',
       accepted: '3',
       notResponding: '33',
@@ -74,9 +62,6 @@ export const eventArray = [
     data: {
       email: 'ahmer.raza@ceative.co.uk',
       meetingTitle: 'HR meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Muhammad Afaq',
       accepted: '3',
       notResponding: '33',
@@ -91,8 +76,6 @@ export const eventArray = [
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
-      startDate: 'MON 2/11/23',
-      endDate: '2024-04-29T12:00 Pm',
       invitedBy: 'Ahsan Ali',
       accepted: '3',
       notResponding: '33',
@@ -107,9 +90,6 @@ export const eventArray = [
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
-      // date: 'MON 2/11/23',
-      // startTime: '11:15 Am',
-      // endTime: '12:00 Pm',
       invitedBy: 'Ahsan Ali',
       accepted: '3',
       notResponding: '33',
@@ -124,9 +104,6 @@ export const eventArray = [
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Ahsan Ali',
       accepted: '3',
       notResponding: '33',
@@ -141,9 +118,6 @@ export const eventArray = [
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Ahsan Ali',
       accepted: '3',
       notResponding: '33',
@@ -158,9 +132,6 @@ export const eventArray = [
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Ahsan Ali',
       accepted: '3',
       notResponding: '33',
