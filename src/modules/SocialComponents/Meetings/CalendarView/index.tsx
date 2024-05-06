@@ -61,17 +61,14 @@ export const CalendarView = () => {
       >
         <Box
           display={'flex'}
+          flexWrap={'wrap'}
           justifyContent={'space-between'}
           alignItems={'center'}
           mb={'4rem'}
+          gap={1}
         >
           <Search label="Search Here" setSearchBy={setSearch} />
-          <Box
-            display={'flex'}
-            justifyContent={'center'}
-            alignItems={'center'}
-            gap={1}
-          >
+          <Box display={'flex'} flexWrap={'wrap'} gap={1}>
             <Button
               variant={
                 currentView === CALENDER_TYPES?.DAY_VIEW_CALENDER
