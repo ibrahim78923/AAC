@@ -124,6 +124,9 @@ const AddGroupModal = ({
         variant: 'success',
       });
       setIsAddGroupModal(false);
+      setImagePreview(null);
+      setImageToUpload(null);
+      reset();
     } catch (error: any) {
       enqueueSnackbar('An error occurred', {
         variant: 'error',
