@@ -7,6 +7,9 @@ import { Box, Tooltip, Typography } from '@mui/material';
 import { CALENDER_TYPES } from '@/constants/strings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { EditPenWhiteIcon } from '@/assets/icons';
+import dayjs from 'dayjs';
+import { truncateSmallText, truncateText } from '@/utils/avatarUtils';
+import { TIME_FORMAT } from '@/constants';
 
 export const FullCalendarView = (props: any) => {
   const {
@@ -112,7 +115,7 @@ export const FullCalendarView = (props: any) => {
                 }
               >
                 <Typography variant="body2" align="center">
-                  {eventInfo?.event?._def?.title}
+                  {truncateText(eventInfo?.event?._def?.title)}
                 </Typography>
               </Tooltip>
             );
@@ -189,7 +192,7 @@ export const FullCalendarView = (props: any) => {
                 }
               >
                 <Typography variant="body2">
-                  {eventInfo?.event?._def?.title}
+                  {truncateText(eventInfo?.event?._def?.title)}
                 </Typography>
               </Tooltip>
             );
@@ -211,6 +214,7 @@ export const FullCalendarView = (props: any) => {
           eventContent={(eventInfo: any) => {
             const eventId = eventInfo?.event?._def?.defId;
             const isHovered = eventId === hoveredEvent;
+            const { start, end } = eventInfo?.event;
             return (
               <Box
                 display={'flex'}
@@ -219,23 +223,48 @@ export const FullCalendarView = (props: any) => {
                 gap={'.5rem'}
                 onMouseEnter={() => handleEventMouseEnter(eventId)}
                 onMouseLeave={handleEventMouseLeave}
-                ml={1}
+                ml={0.2}
                 key={eventId}
               >
                 <Box
+                  position="relative"
+                  display={'flex'}
                   onClick={() => handleEventClick(eventInfo)}
                   sx={{ cursor: 'pointer' }}
+                  gap={0.3}
                   width={'100%'}
                 >
-                  <Typography>{eventInfo?.event?._def?.title}</Typography>
-                  <Typography>
-                    {eventInfo?.event?._def?.extendedProps?.data?.invitedBy}
-                  </Typography>
+                  <Box>
+                    <Typography variant="body4">
+                      {dayjs(start).format(TIME_FORMAT?.UI)}
+                    </Typography>
+                    <br />
+                    <Typography variant="body4">
+                      {dayjs(end).format(TIME_FORMAT?.UI)}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="body4">
+                      {truncateSmallText(eventInfo?.event?._def?.title)}
+                    </Typography>
+                    <br />
+                    <Typography variant="body4">
+                      {truncateSmallText(
+                        eventInfo?.event?._def?.extendedProps?.data?.invitedBy,
+                      )}
+                    </Typography>
+                  </Box>
                 </Box>
                 {isHovered && (
                   <Box
+                    position="absolute"
                     display={'flex'}
                     alignItems={'center'}
+                    justifyContent={'center'}
+                    top={0}
+                    right={0}
+                    bottom={0}
+                    left={125}
                     sx={{ cursor: 'pointer' }}
                   >
                     <EditPenWhiteIcon
@@ -264,6 +293,7 @@ export const FullCalendarView = (props: any) => {
           eventContent={(eventInfo: any) => {
             const eventId = eventInfo?.event?._def?.defId;
             const isHovered = eventId === hoveredEvent;
+            const { start, end } = eventInfo?.event;
             return (
               <Box
                 display={'flex'}
@@ -273,21 +303,45 @@ export const FullCalendarView = (props: any) => {
                 gap={'.5rem'}
                 onMouseEnter={() => handleEventMouseEnter(eventId)}
                 onMouseLeave={handleEventMouseLeave}
-                ml={1}
+                ml={0.2}
                 key={eventId}
               >
                 <Box
+                  position="relative"
+                  display={'flex'}
                   onClick={() => handleEventClick(eventInfo)}
                   sx={{ cursor: 'pointer' }}
+                  gap={0.4}
                   width={'100%'}
                 >
-                  <Typography>{eventInfo?.event?._def?.title}</Typography>
-                  <Typography>
-                    {eventInfo?.event?._def?.extendedProps?.data?.invitedBy}
-                  </Typography>
+                  <Box>
+                    <Typography variant="body4">
+                      {dayjs(start).format(TIME_FORMAT?.UI)}
+                    </Typography>
+                    <br />
+                    <Typography variant="body4">
+                      {dayjs(end).format(TIME_FORMAT?.UI)}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="body4">
+                      {truncateSmallText(eventInfo?.event?._def?.title)}
+                    </Typography>
+                    <br />
+                    <Typography variant="body4">
+                      {truncateSmallText(
+                        eventInfo?.event?._def?.extendedProps?.data?.invitedBy,
+                      )}
+                    </Typography>
+                  </Box>
                 </Box>
                 {isHovered && (
                   <Box
+                    position="absolute"
+                    top={0}
+                    right={0}
+                    bottom={0}
+                    left={140}
                     display={'flex'}
                     alignItems={'center'}
                     sx={{ cursor: 'pointer' }}
