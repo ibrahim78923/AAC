@@ -1,10 +1,14 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
-import { useUpdateContactMutation } from '@/services/commonFeatures/contacts';
+import {
+  useGetContactsQuery,
+  useUpdateContactMutation,
+} from '@/services/commonFeatures/contacts';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/companies';
+import { isNullOrEmpty } from '@/utils';
 
 const useContacts = (companyId: any) => {
   const theme = useTheme();
@@ -25,6 +29,26 @@ const useContacts = (companyId: any) => {
     pageLimit,
     params: paramObj,
   });
+
+  const { data: GetAllContacts } = useGetContactsQuery({});
+
+  const newArray = filterArray(
+    GetAllContacts?.data?.contacts,
+    data?.data?.contacts,
+  );
+
+  const existingContactData = newArray?.map((lifecycle: any) => ({
+    value: lifecycle?._id,
+    label: isNullOrEmpty(lifecycle?.firstName)
+      ? lifecycle?.email
+      : `${lifecycle?.firstName} ${lifecycle?.lastName}`,
+  }));
+
+  function filterArray(mainArray: any, subArray: any) {
+    return mainArray?.filter((mainItem: any) => {
+      return !subArray?.some((subItem: any) => subItem?._id === mainItem?._id);
+    });
+  }
 
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
@@ -63,6 +87,8 @@ const useContacts = (companyId: any) => {
     contactRecord,
     setContactRecord,
     deleteContactHandler,
+    existingContactData,
+    newArray,
   };
 };
 
