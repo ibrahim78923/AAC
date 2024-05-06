@@ -70,6 +70,7 @@ export const SubWorkflowConditions = (props: any) => {
       <Button
         onClick={() =>
           append({
+            options: '',
             fieldName: null,
             condition: '',
             fieldValue: null,

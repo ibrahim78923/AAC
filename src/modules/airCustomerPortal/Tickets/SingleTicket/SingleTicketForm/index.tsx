@@ -22,6 +22,7 @@ export const SingleTicketForm = (props: any) => {
           name="yourReply"
           label="Your Reply"
           style={{ height: 150 }}
+          required
         />
         <br />
         <RHFDropZone

@@ -28,7 +28,7 @@ const LeftPane = () => {
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-  const { data: foldersData } = useGetMailFoldersQuery({});
+  const { data: foldersData, isLoading } = useGetMailFoldersQuery({});
   const dataToShow = ['Inbox', 'Drafts', 'Sent', 'Schedule', 'Trash'];
   const filteredData = foldersData?.data?.filter((item: any) => {
     return dataToShow
@@ -53,40 +53,54 @@ const LeftPane = () => {
         </Box>
       </Box>
 
-      <Skeleton animation="wave" variant="rounded" width={50} height={40} />
-
-      <ButtonGroup
-        fullWidth
-        variant="outlined"
-        aria-label="Basic button group"
-        sx={{ mb: 1 }}
-      >
-        {filteredData?.map((item: any) => (
-          <Button
-            key={uuidv4()}
-            onClick={() => handelToggleTab(item?.display_name?.toLowerCase())}
-            sx={{
-              border: `1px solid ${theme?.palette?.grey[700]}`,
-              borderRadius: '8px',
-              color: theme?.palette?.secondary?.main,
-              textTransform: 'capitalize',
-              backgroundColor:
-                mailTabType === item?.display_name.toLowerCase()
-                  ? theme?.palette?.grey[400]
-                  : '',
-              '&:hover': {
+      {isLoading ? (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          {[1, 2, 3, 4, 5]?.map(() => (
+            <Skeleton
+              animation="wave"
+              variant="rounded"
+              width={100}
+              height={40}
+              key={uuidv4()}
+            />
+          ))}
+        </Box>
+      ) : (
+        <ButtonGroup
+          fullWidth
+          variant="outlined"
+          aria-label="Basic button group"
+          sx={{ mb: 1 }}
+        >
+          {filteredData?.map((item: any) => (
+            <Button
+              key={uuidv4()}
+              onClick={() => handelToggleTab(item)}
+              sx={{
+                border: `1px solid ${theme?.palette?.grey[700]}`,
+                borderRadius: '8px',
+                color: theme?.palette?.secondary?.main,
+                textTransform: 'capitalize',
                 backgroundColor:
-                  mailTabType === item?.display_name.toLowerCase()
+                  mailTabType?.display_name?.toLowerCase() ===
+                  item?.display_name?.toLowerCase()
                     ? theme?.palette?.grey[400]
                     : '',
-                border: `1px solid ${theme?.palette?.grey[700]}`,
-              },
-            }}
-          >
-            {item?.display_name?.toLowerCase()}
-          </Button>
-        ))}
-      </ButtonGroup>
+                '&:hover': {
+                  backgroundColor:
+                    mailTabType?.display_name?.toLowerCase() ===
+                    item?.display_name?.toLowerCase()
+                      ? theme?.palette?.grey[400]
+                      : '',
+                  border: `1px solid ${theme?.palette?.grey[700]}`,
+                },
+              }}
+            >
+              {item?.display_name?.toLowerCase()}
+            </Button>
+          ))}
+        </ButtonGroup>
+      )}
 
       <MailList />
 

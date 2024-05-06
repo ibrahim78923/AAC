@@ -109,16 +109,14 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
     taskFields: 'Task Fields',
   };
 
-  let optionsData: any;
+  let optionsData: any = ticketData?.ticketFields;
 
   if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS) {
     optionsData = ticketData?.ticketFields;
   } else if (singleWorkflowData?.module === SCHEMA_KEYS?.ASSETS) {
     optionsData = ticketData?.assetsFields;
-  } else if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS_TASKS)
+  } else if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS_TASKS) {
     ticketData?.taskFields;
-  else {
-    optionsData = ticketData?.ticketFields;
   }
 
   const allFields = [
@@ -177,6 +175,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
         conditionType: null,
         conditions: [
           {
+            options: '',
             fieldName: null,
             condition: '',
             fieldValue: null,

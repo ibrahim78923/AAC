@@ -1,7 +1,8 @@
 export const eventArray = [
   {
     title: 'Testing 1',
-    start: '2024-04-10T14:30:00',
+    start: '2024-04-10T12:30:00',
+    end: '2024-04-10T13:30:00',
     data: {
       email: 'kamran.zafar@ceative.co.uk',
       meetingTitle: 'BA meeting',
@@ -17,7 +18,8 @@ export const eventArray = [
   },
   {
     title: 'Testing 2',
-    start: '2024-04-08T14:30:00',
+    start: '2024-04-08T9:30:00',
+    end: '2024-04-08T10:00:00',
     data: {
       email: 'ali.raza@ceative.co.uk',
       meetingTitle: 'Demo meeting',
@@ -33,7 +35,8 @@ export const eventArray = [
   },
   {
     title: 'Testing 3',
-    start: '2024-04-06T14:30:00',
+    start: '2024-04-06T11:30:00',
+    end: '2024-04-06T12:00:00',
     data: {
       email: 'umer.awan@ceative.co.uk',
       meetingTitle: 'Coordinator meeting',
@@ -50,6 +53,7 @@ export const eventArray = [
   {
     title: 'Testing 4',
     start: '2024-04-23T14:30:00',
+    end: '2024-04-23T15:30:00',
     data: {
       email: 'auns.ali@ceative.co.uk',
       meetingTitle: 'PM meeting',
@@ -66,6 +70,7 @@ export const eventArray = [
   {
     title: 'Testing 5',
     start: '2024-04-29T14:30:00',
+    end: '2024-04-29T15:00:00',
     data: {
       email: 'ahmer.raza@ceative.co.uk',
       meetingTitle: 'HR meeting',
@@ -82,6 +87,7 @@ export const eventArray = [
   {
     title: 'Testing 6',
     start: '2024-04-29T10:00:00',
+    end: '2024-04-29T10:40:00',
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
@@ -96,8 +102,9 @@ export const eventArray = [
     },
   },
   {
-    title: 'Testing 6',
-    start: '2024-04-29T10:00:00',
+    title: 'Testing 7',
+    start: '2024-04-29T11:00:00',
+    end: '2024-04-29T11:10:00',
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
@@ -112,8 +119,9 @@ export const eventArray = [
     },
   },
   {
-    title: 'Testing 6',
-    start: '2024-04-29T10:00:00',
+    title: 'Testing 8',
+    start: '2024-04-29T9:00:00',
+    end: '2024-04-29T9:50:00',
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
@@ -128,8 +136,9 @@ export const eventArray = [
     },
   },
   {
-    title: 'Testing 6',
-    start: '2024-04-29T10:00:00',
+    title: 'Testing 9',
+    start: '2024-04-29T14:00:00',
+    end: '2024-04-29T14:30:00',
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
@@ -144,8 +153,9 @@ export const eventArray = [
     },
   },
   {
-    title: 'Testing 6',
-    start: '2024-04-30T10:00:00',
+    title: 'Testing 10',
+    start: '2024-04-30T13:00:00',
+    end: '2024-04-30T13:40:00',
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',

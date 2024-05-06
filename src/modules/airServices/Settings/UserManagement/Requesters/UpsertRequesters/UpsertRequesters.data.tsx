@@ -10,18 +10,24 @@ import * as Yup from 'yup';
 
 export const upsertRequestersValidationSchema: any = Yup?.object()?.shape({
   email: Yup?.string()
-    ?.email('Invalid email address')
-    ?.required('Email is required')
-    ?.matches(/@/, 'Email must contain the @ symbol and Email not exist'),
-  firstName: Yup?.string()?.required('First name is required'),
-  lastName: Yup?.string()?.required('Last name is required'),
+    ?.trim()
+    ?.email('Please provide valid email')
+    ?.required('Email is required'),
+  firstName: Yup?.string()?.trim()?.required('First name is required'),
+  lastName: Yup?.string()?.trim()?.required('Last name is required'),
   timezone: Yup?.mixed()?.nullable(),
-  jobTitle: Yup?.string()?.required('Job title is required'),
+  jobTitle: Yup?.string()?.trim(),
   phoneNumber: Yup?.string()
-    ?.required('Phone number is required')
-    ?.matches(
-      VALIDATION_CONSTANT.PHONE_NUMBER.regex,
-      VALIDATION_CONSTANT.PHONE_NUMBER.message,
+    ?.trim()
+    ?.test(
+      'is-valid-phone',
+      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+      function (value) {
+        if (value) {
+          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+        }
+        return true;
+      },
     ),
 });
 
@@ -81,7 +87,6 @@ export const upsertRequestersArray = (selectedRequester: any) => [
       name: 'jobTitle',
       label: 'Job Title',
       fullWidth: true,
-      required: true,
       placeholder: 'Job Title',
     },
     component: RHFTextField,
@@ -94,7 +99,6 @@ export const upsertRequestersArray = (selectedRequester: any) => [
       label: 'Phone Number',
       fullWidth: true,
       placeholder: 'Phone Number',
-      required: true,
     },
     component: RHFTextField,
     md: 12,

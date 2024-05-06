@@ -1,7 +1,60 @@
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
+import UpsertLocations from './UpsertLocations';
+import { Box } from '@mui/material';
+import Search from '@/components/Search';
+import TanstackTable from '@/components/Table/TanstackTable';
+import { useLocations } from './useLocations';
+import { LocationDeleteModal } from './LocationDeleteModal';
+
 export const Locations = () => {
+  const {
+    isAddDrawerOpen,
+    setIsAddDrawerOpen,
+    searchValue,
+    SetSearchValue,
+    deleteModal,
+    setDeleteModal,
+    locationsListData,
+    LocationsListColumn,
+    isUpdate,
+    openAddDrawer,
+  } = useLocations();
   return (
     <>
-      <>Locations</>
+      <PageTitledHeader
+        title={'Meeting Locations'}
+        addTitle={'Add Locations'}
+        createPermissionKey={[
+          SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
+        ]}
+        handleAction={openAddDrawer}
+      />
+      <Box>
+        <Search
+          label="search"
+          width="small"
+          searchBy={searchValue}
+          setSearchBy={SetSearchValue}
+        />
+      </Box>
+      <br />
+      <TanstackTable
+        data={locationsListData}
+        columns={LocationsListColumn}
+        isPagination={true}
+      />
+      <UpsertLocations
+        isDrawerOpen={isAddDrawerOpen}
+        onClose={setIsAddDrawerOpen}
+        isUpdate={isUpdate}
+      />
+      <LocationDeleteModal
+        open={deleteModal}
+        handleClose={() => {
+          setDeleteModal(false);
+        }}
+      />
     </>
   );
 };

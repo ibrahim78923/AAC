@@ -9,7 +9,7 @@ import useUserManagement from '@/modules/airMarketer/SocialMarketing/SocialInbox
 export const columnsTeams = (props: any) => {
   const { setIsTeamDrawer, setIsOpenDelete, theme, setTeamId, setIsAddTeam } =
     props;
-  const { EDIT } = useUserManagement();
+  const { drawyerType } = useUserManagement();
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -52,7 +52,7 @@ export const columnsTeams = (props: any) => {
             onClick={() => {
               setIsAddTeam({
                 isToggle: true,
-                type: EDIT,
+                type: drawyerType?.EDIT,
               });
               setTeamId(info?.row?.original?._id);
             }}

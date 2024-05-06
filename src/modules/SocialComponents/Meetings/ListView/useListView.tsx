@@ -14,8 +14,17 @@ export const useListView = () => {
   const [deleteModal, setDeleteModal] = useState<any>();
   const meetings = meetingCardsDetails(theme);
   const meetingsType = router?.query?.type;
+
+  const isAll = MEETINGS_DETAILS_TYPE?.ALL;
+  const isUpcoming = MEETINGS_DETAILS_TYPE?.UPCOMING;
+  const isCompleted = MEETINGS_DETAILS_TYPE?.COMPLETED;
+
   useEffect(() => {
-    setCardValue(meetingsType);
+    if (meetingsType != null) {
+      setCardValue(meetingsType);
+    } else {
+      setCardValue(MEETINGS_DETAILS_TYPE?.ALL);
+    }
   }, [meetingsType]);
 
   useEffect(() => {
@@ -49,5 +58,8 @@ export const useListView = () => {
     setDeleteModal,
     submitDeleteModal,
     router,
+    isAll,
+    isUpcoming,
+    isCompleted,
   };
 };
