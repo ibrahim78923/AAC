@@ -7,7 +7,6 @@ import {
   DialogTitle,
   Divider,
   Typography,
-  useTheme,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { XlFileImg } from '@/assets/images';
@@ -16,8 +15,7 @@ import { truncateText } from '@/utils/avatarUtils';
 import { formatDateTime } from '@/utils/dateTime';
 
 export const EventDialog = (params: any) => {
-  const { openEventModal, setOpenEventModal, eventData } = params;
-  const theme: any = useTheme();
+  const { openEventModal, setOpenEventModal, eventData, theme } = params;
   const { start, end } = eventData;
 
   return (

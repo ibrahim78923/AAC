@@ -194,6 +194,7 @@ export const CalendarView = () => {
           openEventModal={openEventModal}
           setOpenEventModal={setOpenEventModal}
           eventData={eventData}
+          theme={theme}
         />
       )}
     </>
