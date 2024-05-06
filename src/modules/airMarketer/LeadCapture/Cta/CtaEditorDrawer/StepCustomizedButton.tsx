@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { customizedButtonData } from './CtaEditorDrawer.data';
 
-const StepCustomizedButton = () => {
+const StepCustomizedButton = ({ drawerTitle }: any) => {
   return (
     <>
       <Grid item xs={12}>
@@ -11,19 +11,23 @@ const StepCustomizedButton = () => {
           New Call-To-Action
         </Button>
       </Grid>
-      {customizedButtonData?.map((item: any) => (
-        <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
-          <item.component {...item?.componentProps} size={'small'}>
-            {item?.componentProps?.select
-              ? item?.options?.map((option: any) => (
-                  <option key={option?.value} value={option?.value}>
-                    {option?.label}
-                  </option>
-                ))
-              : null}
-          </item.component>
-        </Grid>
-      ))}
+      {drawerTitle !== 'View' && (
+        <>
+          {customizedButtonData?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
+              <item.component {...item?.componentProps} size={'small'}>
+                {item?.componentProps?.select
+                  ? item?.options?.map((option: any) => (
+                      <option key={option?.value} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))
+                  : null}
+              </item.component>
+            </Grid>
+          ))}
+        </>
+      )}
     </>
   );
 };

@@ -14,13 +14,13 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { ScheduleModals } from '@/components/ScheduleModals';
 import { columns, exportData } from './Cta.data';
 import { DeleteIcon, ExportDownloadIcon, PlusIcon } from '@/assets/icons';
-import { v4 as uuidv4 } from 'uuid';
 import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS } from '@/constants/permission-keys';
 
 const CTA = () => {
   const {
+    theme,
     toggleButtonType,
     handleSwitchButtonType,
     activeStep,
@@ -31,7 +31,6 @@ const CTA = () => {
     handleBack,
     okText,
     loadingCreateCTA,
-    buttonStyle,
     methodsEditCTA,
     handleDrawerSubmit,
     dataGetCTAs,
@@ -41,15 +40,19 @@ const CTA = () => {
     setPage,
     selectedRow,
     setSelectedRow,
-
+    ctaButtonData,
     isDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,
     handleDeleteCTA,
     loadingDelete,
 
-    handlecheckExportFormats,
-    checkExportFormats,
+    openModalExport,
+    handleOpenModalExport,
+    handleCloseModalExport,
+    handleExportSubmit,
+    handleChangeCheckbox,
+    checkedValue,
   } = useCta();
 
   const tableColumns = columns(selectedRow, setSelectedRow, handleDrawerOpen);
@@ -116,7 +119,11 @@ const CTA = () => {
                   onClick={handleOpenModalDelete}
                 >
                   <DeleteIcon
-                    color={selectedRow?.length > 0 ? '#FF4A4A' : '#D1D5DB'}
+                    color={
+                      selectedRow?.length > 0
+                        ? theme?.palette?.error?.main
+                        : theme?.palette?.custom?.dark
+                    }
                   />
                   Delete
                 </Button>
@@ -128,7 +135,7 @@ const CTA = () => {
                   variant="outlined"
                   color="inherit"
                   sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                  onClick={handleOpenModalDelete}
+                  onClick={handleOpenModalExport}
                 >
                   <ExportDownloadIcon /> Export
                 </Button>
@@ -151,48 +158,10 @@ const CTA = () => {
             isPagination
           />
         </Grid>
-
-        <ScheduleModals
-          submitButonText="Export"
-          type={'export'}
-          // open={}
-          // handleClose={}
-          // handleSubmit={}
-          isFooter={true}
-        >
-          <Grid
-            container
-            spacing={2}
-            sx={{ padding: '0px 10px 10px 22px', maxWidth: '480px' }}
-          >
-            <Grid item xs={12}>
-              <Typography variant="body2">File Format</Typography>
-            </Grid>
-            {exportData?.map((item) => (
-              <Grid item md={4} xs={12} key={uuidv4()}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      color="primary"
-                      name={'name'}
-                      onChange={(event) =>
-                        handlecheckExportFormats(event, item?.value)
-                      }
-                      checked={checkExportFormats?.includes(`${item?.value}`)}
-                    />
-                  }
-                  label={item?.label}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </ScheduleModals>
       </Grid>
 
       <AlertModals
-        message={
-          "You're about to delete a record. Deleted records can't be restored after 90 days."
-        }
+        message="You’re about to delete CTA."
         type={'delete'}
         open={isDeleteModal}
         handleClose={handleCloseModalDelete}
@@ -211,9 +180,44 @@ const CTA = () => {
         methods={methodsEditCTA}
         onSubmit={handleDrawerSubmit}
         isLoading={loadingCreateCTA}
-        buttonStyle={buttonStyle}
         activeStep={activeStep}
+        ctaButtonData={ctaButtonData}
       />
+
+      <ScheduleModals
+        submitButonText="Export"
+        type={'export'}
+        open={openModalExport}
+        handleClose={handleCloseModalExport}
+        handleSubmit={handleExportSubmit}
+        isFooter={true}
+        disabledSubmitButton={!checkedValue}
+      >
+        <Grid
+          container
+          spacing={2}
+          sx={{ padding: '0px 10px 10px 22px', maxWidth: '480px' }}
+        >
+          <Grid item xs={12}>
+            <Typography variant="body2">File Format</Typography>
+          </Grid>
+          {exportData?.map((item) => (
+            <Grid item md={4} xs={12} key={item?.value}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    color="primary"
+                    name={item?.value}
+                    onChange={() => handleChangeCheckbox(item.value)}
+                    checked={checkedValue === item.value}
+                  />
+                }
+                label={item?.label}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </ScheduleModals>
     </Box>
   );
 };

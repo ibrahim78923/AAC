@@ -7,18 +7,33 @@ import Image from 'next/image';
 import {
   useGetLeadCaptureCTAQuery,
   usePostLeadCaptureCTAMutation,
+  useUpdateLeadCaptureCTAMutation,
   useDeleteLeadCaptureCTAMutation,
 } from '@/services/airMarketer/lead-capture/cta';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FORM_STEP } from './Cta.data';
 import { enqueueSnackbar } from 'notistack';
+import { isNullOrEmpty } from '@/utils';
 
 const step1ValidationSchema = Yup?.object()?.shape({
   buttonContent: Yup?.string()
     ?.trim()
     ?.nullable()
     ?.required('Field is Required'),
+  buttonPadding: Yup.string()
+    .trim()
+    .nullable()
+    .matches(/^(\d+px,?\s*){0,3}\d+px$/, {
+      message: 'Invalid padding format.',
+      excludeEmptyString: true,
+    }),
+  buttonMargin: Yup.string()
+    .trim()
+    .nullable()
+    .matches(/^(\d+px,?\s*){0,3}\d+px$/, {
+      message: 'Invalid Margin format',
+      excludeEmptyString: true,
+    }),
   imageWidth: Yup.mixed()
     .nullable()
     .test(
@@ -91,9 +106,23 @@ const ctaDefaultValues: DefaultValuesType = {
   altText: null,
 };
 
+const getMarPad = (value: string) => {
+  let str = '';
+  if (!isNullOrEmpty(value)) {
+    value.split(',').forEach((value: string, index: number) => {
+      str += value.trim();
+      if (index !== value.length) {
+        str += ' ';
+      }
+    });
+  } else {
+    str = '0';
+  }
+  return str;
+};
+
 const useCta = () => {
   const theme = useTheme();
-  const [checkExportFormats, setCheckExportFormats] = useState([]);
 
   // Editor Drawer Create & Edit CTA
   const [toggleButtonType, setToggleButtonType] = useState(true);
@@ -101,18 +130,22 @@ const useCta = () => {
   const [okText, setOkText] = useState('Next');
   const [openDrawer, setOpenDrawer] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('Create');
-  const [buttonStyle, setButtonStyle] = useState(FORM_STEP?.CUSTOM_ACTION);
-  const [buttonData, setButtonData] = useState<any>({});
+  const [drawerFormValues, setDrawerFormValues] = useState<any>({});
+  const [ctaButtonData, setCtaButtonData] = useState<any>({});
   const validationSchema =
     activeStep === 0 ? step1ValidationSchema : step2ValidationSchema;
   const buttonType = toggleButtonType ? 'customized' : 'image';
 
   const [createCTA, { isLoading: loadingCreateCTA }] =
     usePostLeadCaptureCTAMutation();
+  const [updateCTA, { isLoading: loadingUpdateCTA }] =
+    useUpdateLeadCaptureCTAMutation();
+
   const methodsEditCTA = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: ctaDefaultValues,
   });
+
   const {
     handleSubmit: handleMethodEditCTA,
     trigger,
@@ -125,9 +158,13 @@ const useCta = () => {
       resetEditorForm();
     }
   };
-  const handleDrawerOpen = (title: string = drawerTitle, data: any) => {
+  const handleDrawerOpen = (title: string = drawerTitle, data?: any) => {
     setDrawerTitle(title);
     if (data) {
+      const isImage = data?.buttonType === 'image';
+      setToggleButtonType(!isImage);
+      setCtaButtonData(data);
+
       const buttonHTML = data?.buttonHtml;
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = buttonHTML;
@@ -141,6 +178,21 @@ const useCta = () => {
         const [property, value] = style.split(':');
         stylesObject[property] = value;
       });
+
+      let imgWidth;
+      let imgHeight;
+      let imgAlt = '';
+      const imgElem = anchorElem?.querySelector('img');
+      if (imgElem) {
+        imgWidth = imgElem.width;
+        imgHeight = imgElem.height;
+        imgAlt = imgElem.alt;
+      }
+      if (isImage) {
+        methodsEditCTA.setValue('imageWidth', imgWidth || null);
+        methodsEditCTA.setValue('imageHeight', imgHeight || null);
+        methodsEditCTA.setValue('altText', imgAlt);
+      }
       methodsEditCTA.setValue('buttonContent', textContent || null);
       methodsEditCTA.setValue('ctaInternalName', data?.ctaInternalName);
       methodsEditCTA.setValue('urlRedirectType', data?.urlRedirectType);
@@ -150,10 +202,10 @@ const useCta = () => {
       methodsEditCTA.setValue('buttonSize', data?.buttonSize);
       methodsEditCTA.setValue('buttonPadding', stylesObject?.padding || null);
       methodsEditCTA.setValue('buttonMargin', stylesObject?.margin || null);
-      // methodsEditCTA.setValue('buttonSize', data?.buttonSize)
     }
     setOpenDrawer(true);
   };
+
   const handleDrawerClose = () => {
     resetEditorForm();
     setActiveStep(0);
@@ -168,6 +220,7 @@ const useCta = () => {
       setActiveStep((prev) => prev - 1);
     }
   };
+
   useEffect(() => {
     if (activeStep < 2) {
       setOkText('Next');
@@ -190,7 +243,7 @@ const useCta = () => {
         ]);
       isValid = isButtonContentValid && isWidthValid && isHeightValid;
       const newData = values;
-      setButtonData((prevData: any) => {
+      setDrawerFormValues((prevData: any) => {
         return {
           ...prevData,
           ...newData,
@@ -201,30 +254,36 @@ const useCta = () => {
         trigger('ctaInternalName'),
         trigger('url'),
       ]);
+
       isValid = isInternalNameValid && isUrlValid;
       const newData = values;
-      setButtonData((prevData: any) => {
+      setDrawerFormValues((prevData: any) => {
         return {
           ...prevData,
           ...newData,
         };
       });
     } else if (activeStep === 2) {
-      const buttonUrl = buttonData?.url;
-      const altText = buttonData?.altText || '';
-      const imgWidth = buttonData?.imageWidth ? buttonData?.imageWidth : 'auto';
-      const imgHeight = buttonData?.imageHeight
-        ? buttonData?.imageHeight
+      const buttonUrl = drawerFormValues?.url;
+      const altText = drawerFormValues?.altText || '';
+      const imgWidth = drawerFormValues?.imageWidth
+        ? drawerFormValues?.imageWidth
         : 'auto';
+      const imgHeight = drawerFormValues?.imageHeight
+        ? drawerFormValues?.imageHeight
+        : 'auto';
+      const padding = getMarPad(drawerFormValues?.buttonPadding);
+      const margin = getMarPad(drawerFormValues?.buttonMargin);
 
       const styles = {
         display: 'inline-block',
-        padding: buttonData?.buttonPadding || '0',
-        margin: buttonData?.buttonMargin || '0',
+        padding: padding,
+        margin: margin,
       };
+
       const ButtonHtmlComponent = () => (
         <a href={buttonUrl} style={styles}>
-          {buttonData?.buttonContent instanceof File ? (
+          {drawerFormValues?.buttonContent instanceof File ? (
             <Image
               src="buttonImageUrl"
               alt={altText}
@@ -232,7 +291,7 @@ const useCta = () => {
               height={imgHeight}
             />
           ) : (
-            buttonData?.buttonContent
+            drawerFormValues?.buttonContent
           )}
         </a>
       );
@@ -241,25 +300,57 @@ const useCta = () => {
       const buttonHtmlString = ReactDOMServer.renderToString(
         <ButtonHtmlComponent />,
       );
+
       if (buttonType === 'image') {
-        formData.append('buttonImage', buttonData.buttonContent);
+        formData.append('buttonImage', drawerFormValues.buttonContent);
       }
       formData.append('buttonType', buttonType);
       formData.append('buttonHtml', buttonHtmlString);
-      formData.append('ctaInternalName', buttonData?.ctaInternalName);
-      formData.append('urlRedirectType', buttonData?.urlRedirectType);
-      formData.append('url', buttonData?.url);
+      formData.append('ctaInternalName', drawerFormValues?.ctaInternalName);
+      formData.append('urlRedirectType', drawerFormValues?.urlRedirectType);
+      formData.append('url', drawerFormValues?.url);
 
-      try {
-        await createCTA({ body: formData })?.unwrap();
-        await handleDrawerClose();
-        enqueueSnackbar('CTA created successfully', {
-          variant: 'success',
-        });
-      } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
+      if (drawerTitle === 'Create') {
+        try {
+          await createCTA({ body: formData })?.unwrap();
+          await handleDrawerClose();
+          enqueueSnackbar('CTA created successfully', {
+            variant: 'success',
+          });
+        } catch (error: any) {
+          enqueueSnackbar('An error occured', {
+            variant: 'error',
+          });
+        }
+      } else {
+        const formData = new FormData();
+        if (drawerFormValues?.buttonContent instanceof File) {
+          formData.append('buttonImage', drawerFormValues.buttonContent);
+        }
+        if (
+          drawerFormValues?.ctaInternalName !== ctaButtonData?.ctaInternalName
+        ) {
+          formData.append('ctaInternalName', drawerFormValues?.ctaInternalName);
+        }
+        if (
+          drawerFormValues?.urlRedirectType !== ctaButtonData?.urlRedirectType
+        ) {
+          formData.append('urlRedirectType', drawerFormValues?.urlRedirectType);
+        }
+        if (drawerFormValues?.url !== ctaButtonData?.url) {
+          formData.append('url', drawerFormValues?.url);
+        }
+        try {
+          await updateCTA({ id: ctaButtonData?._id, body: formData })?.unwrap();
+          await handleDrawerClose();
+          enqueueSnackbar('CTA updated successfully', {
+            variant: 'success',
+          });
+        } catch (error: any) {
+          enqueueSnackbar('An error occured', {
+            variant: 'error',
+          });
+        }
       }
     }
 
@@ -290,25 +381,11 @@ const useCta = () => {
       params: { ...searchPayLoad, ...paginationParams },
     });
 
-  const handlecheckExportFormats = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    name: string,
-  ) => {
-    const isChecked = event?.target?.checked;
-
-    if (isChecked) {
-      setCheckExportFormats((prevSelected) => [...prevSelected, name]);
-    } else {
-      setCheckExportFormats(
-        (prevSelected) => prevSelected?.filter((item) => item !== name),
-      );
-    }
-  };
-
   // Delete CTA
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [deleteCTA, { isLoading: loadingDelete }] =
     useDeleteLeadCaptureCTAMutation();
+
   const handleOpenModalDelete = () => {
     setIsDeleteModal(true);
   };
@@ -333,9 +410,31 @@ const useCta = () => {
     }
   };
 
+  // Export CTA
+  const [openModalExport, setOpenModalExport] = useState(false);
+  const [checkedValue, setCheckedValue] = useState(null);
+
+  const handleOpenModalExport = () => {
+    setOpenModalExport(true);
+  };
+
+  const handleCloseModalExport = () => {
+    setOpenModalExport(false);
+    setCheckedValue(null);
+  };
+
+  const handleChangeCheckbox = (value: any) => {
+    setCheckedValue(value === checkedValue ? null : value);
+  };
+
+  const handleExportSubmit = () => {
+    handleCloseModalExport();
+  };
+
   return {
     theme,
     toggleButtonType,
+    ctaButtonData,
     handleSwitchButtonType,
     activeStep,
     drawerTitle,
@@ -344,8 +443,6 @@ const useCta = () => {
     handleDrawerClose,
     handleBack,
     okText,
-    buttonStyle,
-    setButtonStyle,
     methodsEditCTA,
     handleDrawerSubmit,
     loadingCreateCTA,
@@ -356,6 +453,7 @@ const useCta = () => {
     setPage,
     selectedRow,
     setSelectedRow,
+    loadingUpdateCTA,
 
     isDeleteModal,
     handleOpenModalDelete,
@@ -363,8 +461,12 @@ const useCta = () => {
     handleDeleteCTA,
     loadingDelete,
 
-    handlecheckExportFormats,
-    checkExportFormats,
+    openModalExport,
+    handleOpenModalExport,
+    handleCloseModalExport,
+    handleExportSubmit,
+    handleChangeCheckbox,
+    checkedValue,
   };
 };
 

@@ -58,6 +58,8 @@ export const customizedButtonData = [
       name: 'buttonPadding',
       label: 'Button Padding',
       fullWidth: true,
+      helperText:
+        "Enter padding, e.g., '12px', or multiple values separated by commas, e.g., '10px, 12px, 13px'.",
     },
     component: RHFTextField,
     xs: 12,
@@ -67,6 +69,8 @@ export const customizedButtonData = [
       name: 'buttonMargin',
       label: 'Button Margin',
       fullWidth: true,
+      helperText:
+        "Enter margin, e.g., '12px', or multiple values separated by commas, e.g., '10px, 12px, 13px'.",
     },
     component: RHFTextField,
     xs: 12,
@@ -151,27 +155,3 @@ export const buttonInfoData = [
     },
   },
 ];
-
-export const drawerTitle: any = {
-  Add: 'Create CTA',
-  Edit: 'Edit CTA',
-  View: 'View CTA',
-};
-
-export const drawerButtonTitle: any = {
-  Add: 'Add',
-  Edit: 'Edit',
-  Next: 'Next',
-};
-
-export const CTA_BUTTON_TITLE = {
-  CUSTOMIZE_BUTTON: 'Customize',
-  IMAGE_CUSTOMIZE: 'Image',
-};
-
-export const FORM_STEP = {
-  CUSTOM_ACTION: 'custom-action',
-  CTA_INTERNAL: 'cta-internal',
-  IMAGE_ACTION: 'image-action',
-  IMAGE_CTA_INTERNAL: 'custom-action',
-};

@@ -1,5 +1,5 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { CtaExternalLink, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS } from '@/constants/permission-keys';
 import RowSelection from '@/components/RowSelection';
 import RowSelectionAll from '@/components/RowSelectionAll';
@@ -114,7 +114,7 @@ export const columns = (
               permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.DELETE]}
             >
               <Box sx={{ cursor: 'pointer' }}>
-                <DeleteCrossIcon />
+                <CtaExternalLink />
               </Box>
             </PermissionsGuard>
           </Box>
@@ -138,32 +138,3 @@ export const exportData = [
     label: 'PDF',
   },
 ];
-
-// Todo: Temporay data will be removed afterapi integration
-export const ctAdata = [
-  {
-    name: 'Files 2',
-    viewCount: '00',
-    clickRate: '0%',
-    clickCount: '00',
-    lastModified: 'Mar 3 - Mar 26, 2022',
-  },
-];
-
-export const CTA_FORM = {
-  CUSTOMIZED_BUTTON: 'Customized_Button',
-  IMAGE_BUTTON: 'Image_Button',
-};
-
-export const FORM_STEP = {
-  CUSTOM_ACTION: 'custom-action',
-  CTA_INTERNAL: 'cta-internal',
-  IMAGE_ACTION: 'image-action',
-  IMAGE_CTA_INTERNAL: 'custom-action',
-};
-
-export const drawerOkText: any = {
-  Add: 'Add',
-  Edit: 'Edit',
-  Next: 'Next',
-};

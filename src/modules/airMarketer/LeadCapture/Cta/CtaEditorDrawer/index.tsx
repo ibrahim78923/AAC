@@ -1,21 +1,6 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
-import {
-  FormProvider,
-  // RHFSelect,
-  // RHFTextField,
-} from '@/components/ReactHookForm';
-
-// import { v4 as uuidv4 } from 'uuid';
-// import useCtaEditor from './useCtaEditor';
-// import {
-//   CTADataArray,
-//   CTAImageDataArray,
-//   urlRedirectType,
-// } from './CtaEditorDrawer.data';
-// import useCta from '../useCta';
-// import { CTA_FORM, FORM_STEP } from '../Cta.data';
+import { FormProvider } from '@/components/ReactHookForm';
 import StepCustomizedButton from './StepCustomizedButton';
 import StepButtonInfo from './StepButtonInfo';
 import StepCopyCode from './StepCopyCode';
@@ -34,14 +19,14 @@ const CtaEditorDrawer = (props: any) => {
     methods,
     onSubmit,
     isLoading,
-    // buttonStyle,
+    ctaButtonData,
   } = props;
 
   const steps = [
     {
       label: 'FirstStep',
       component: toggleButtonType ? (
-        <StepCustomizedButton />
+        <StepCustomizedButton drawerTitle={title} />
       ) : (
         <StepImageButton />
       ),
@@ -49,8 +34,6 @@ const CtaEditorDrawer = (props: any) => {
     { label: 'SecondStep', component: <StepButtonInfo /> },
     { label: 'ThirdStep', component: <StepCopyCode /> },
   ];
-
-  // const { handleFormSwitcher, setButtonStyle } = useCta();
 
   return (
     <div>
@@ -83,30 +66,51 @@ const CtaEditorDrawer = (props: any) => {
                 boxShadow: '0px 9px 16px 0px rgba(245, 250, 255, 0.04)',
               }}
             >
-              <Button
-                onClick={handleSwitchButtonType}
-                variant={toggleButtonType ? 'outlined' : 'text'}
-                color={toggleButtonType ? 'primary' : 'inherit'}
-                sx={{
-                  height: '25px',
-                  borderRadius: '10px',
-                  boxShadow: 'none',
-                }}
-              >
-                <Typography variant="body3">Customized Button </Typography>
-              </Button>
-              <Button
-                onClick={handleSwitchButtonType}
-                variant={!toggleButtonType ? 'outlined' : 'text'}
-                color={!toggleButtonType ? 'primary' : 'inherit'}
-                sx={{
-                  height: '25px',
-                  borderRadius: '10px',
-                  boxShadow: 'none',
-                }}
-              >
-                <Typography variant="body3"> Image Button</Typography>
-              </Button>
+              {title === 'Create' && (
+                <>
+                  <Button
+                    onClick={handleSwitchButtonType}
+                    variant={toggleButtonType ? 'outlined' : 'text'}
+                    color={toggleButtonType ? 'primary' : 'inherit'}
+                    sx={{
+                      height: '25px',
+                      borderRadius: '10px',
+                      boxShadow: 'none',
+                    }}
+                  >
+                    <Typography variant="body3">Customized Button </Typography>
+                  </Button>
+                  <Button
+                    onClick={handleSwitchButtonType}
+                    variant={!toggleButtonType ? 'outlined' : 'text'}
+                    color={!toggleButtonType ? 'primary' : 'inherit'}
+                    sx={{
+                      height: '25px',
+                      borderRadius: '10px',
+                      boxShadow: 'none',
+                    }}
+                  >
+                    <Typography variant="body3"> Image Button</Typography>
+                  </Button>
+                </>
+              )}
+              {title === 'Edit' && (
+                <Button
+                  variant={'outlined'}
+                  color={'primary'}
+                  sx={{
+                    height: '25px',
+                    borderRadius: '10px',
+                    boxShadow: 'none',
+                  }}
+                >
+                  <Typography variant="body3">
+                    {ctaButtonData?.buttonType === 'image'
+                      ? 'Image Button'
+                      : 'Customized Button'}
+                  </Typography>
+                </Button>
+              )}
             </Box>
           </Box>
 

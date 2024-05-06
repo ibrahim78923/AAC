@@ -14,6 +14,7 @@ export const ScheduleModals: React.FunctionComponent<ModelPropsI> = ({
   handleSubmit,
   children,
   submitButonText,
+  disabledSubmitButton,
   isFooter,
   loading,
 }: ModelPropsI) => {
@@ -57,6 +58,7 @@ export const ScheduleModals: React.FunctionComponent<ModelPropsI> = ({
                   onClick={handleSubmit}
                   sx={{ height: '35px' }}
                   loading={loading}
+                  disabled={disabledSubmitButton}
                 >
                   {submitButonText}
                 </LoadingButton>
