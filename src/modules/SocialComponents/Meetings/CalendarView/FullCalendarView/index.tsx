@@ -32,7 +32,7 @@ export const FullCalendarView = (props: any) => {
           borderLeft: `.5rem solid ${theme?.palette?.primary?.dark}`,
           color: 'white',
           '&:hover': {
-            backgroundColor: 'primary.darker',
+            backgroundColor: 'primary.dark',
             cursor: 'pointer',
           },
         },

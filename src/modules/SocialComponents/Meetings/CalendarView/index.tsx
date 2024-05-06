@@ -1,22 +1,15 @@
 import { Box, Button, Grid } from '@mui/material';
 import Search from '@/components/Search';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import DateRangeIcon from '@mui/icons-material/DateRange';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { FullCalendarView } from './FullCalendarView';
 import { useCalendarView } from './useCalendarView';
 import { MeetingCard } from './MeetingCard';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { Header } from './Header';
-import {
-  ALERT_MODALS_TYPE,
-  CALENDER_TYPES,
-  MEETINGS_DETAILS_TYPE,
-} from '@/constants/strings';
+import { ALERT_MODALS_TYPE, MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 import { AlertModals } from '@/components/AlertModals';
 import { EventDialog } from './EventDialog';
+import { calendarButtons } from './CalendarView.data';
 
 export const CalendarView = () => {
   const {
@@ -69,86 +62,20 @@ export const CalendarView = () => {
         >
           <Search label="Search Here" setSearchBy={setSearch} />
           <Box display={'flex'} flexWrap={'wrap'} gap={1}>
-            <Button
-              variant={
-                currentView === CALENDER_TYPES?.DAY_VIEW_CALENDER
-                  ? 'contained'
-                  : 'outlined'
-              }
-              startIcon={<CalendarTodayIcon />}
-              color="secondary"
-              onClick={() =>
-                handleViewChange(CALENDER_TYPES?.DAY_VIEW_CALENDER)
-              }
-              sx={{
-                backgroundColor:
-                  currentView === CALENDER_TYPES?.DAY_VIEW_CALENDER
-                    ? 'primary.main'
-                    : undefined,
-              }}
-            >
-              Today
-            </Button>
-            <Button
-              variant={
-                currentView === CALENDER_TYPES?.WEEK_VIEW_CALENDER
-                  ? 'contained'
-                  : 'outlined'
-              }
-              startIcon={<DateRangeIcon />}
-              color="secondary"
-              onClick={() =>
-                handleViewChange(CALENDER_TYPES?.WEEK_VIEW_CALENDER)
-              }
-              sx={{
-                backgroundColor:
-                  currentView === CALENDER_TYPES?.WEEK_VIEW_CALENDER
-                    ? 'primary.main'
-                    : undefined,
-              }}
-            >
-              Weekly
-            </Button>
-            <Button
-              variant={
-                currentView === CALENDER_TYPES?.MONTH_VIEW_CALENDER
-                  ? 'contained'
-                  : 'outlined'
-              }
-              startIcon={<CalendarMonthIcon />}
-              color="secondary"
-              onClick={() =>
-                handleViewChange(CALENDER_TYPES?.MONTH_VIEW_CALENDER)
-              }
-              sx={{
-                backgroundColor:
-                  currentView === CALENDER_TYPES?.MONTH_VIEW_CALENDER
-                    ? 'primary.main'
-                    : undefined,
-              }}
-            >
-              Monthly
-            </Button>
-            <Button
-              variant={
-                currentView === CALENDER_TYPES?.YEAR_VIEW_CALENDER
-                  ? 'contained'
-                  : 'outlined'
-              }
-              startIcon={<EventAvailableIcon />}
-              color="secondary"
-              onClick={() =>
-                handleViewChange(CALENDER_TYPES?.YEAR_VIEW_CALENDER)
-              }
-              sx={{
-                backgroundColor:
-                  currentView === CALENDER_TYPES?.YEAR_VIEW_CALENDER
-                    ? 'primary.main'
-                    : undefined,
-              }}
-            >
-              yearly
-            </Button>
+            {calendarButtons?.map((data: any) => (
+              <Box key={data?.id}>
+                <Button
+                  variant={
+                    currentView === data?.type ? 'contained' : 'outlined'
+                  }
+                  startIcon={data?.icon}
+                  onClick={() => handleViewChange(data?.type)}
+                  color={currentView === data?.type ? 'primary' : 'secondary'}
+                >
+                  {data?.label}
+                </Button>
+              </Box>
+            ))}
             <Button
               startIcon={<ReorderIcon sx={{ ml: 1 }} />}
               color="secondary"
