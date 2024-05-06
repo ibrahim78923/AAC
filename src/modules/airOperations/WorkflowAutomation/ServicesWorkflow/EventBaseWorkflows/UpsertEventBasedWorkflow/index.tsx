@@ -30,6 +30,7 @@ export const UpsertEventBasedWorkflow = () => {
     updatedWorkflowProcess,
     testWorkflowProgress,
     testWorkflowResponse,
+    movePage,
   } = useUpsertEventBasedWorkflow();
   if (isLoading || isFetching) return <SkeletonForm />;
   return (
@@ -49,6 +50,7 @@ export const UpsertEventBasedWorkflow = () => {
           updatedWorkflowProcess={updatedWorkflowProcess}
           testWorkflowResponse={testWorkflowResponse}
           watch={watch}
+          movePage={movePage}
         />
         <Grid container spacing={2}>
           {EventBasedWorkflowDataArray?.map((item: any) => (

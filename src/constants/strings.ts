@@ -501,7 +501,51 @@ export const WORKFLOW_TYPE = {
   DISABLED: 'DISABLED',
 };
 
+export const LOYALTY_RULES_ATTRIBUTES = {
+  PURCHASE_AMOUNT: 'PURCHASE_AMOUNT',
+  ACCOUNT_CREATION: 'ACCOUNT_CREATION',
+  PRODUCT_QTY: 'PRODUCT_QTY',
+  NO_OF_VISITS: 'NO_OF_VISITS',
+  BIRTHDAY: 'BIRTHDAY',
+  FIRST_PURCHASE: 'FIRST_PURCHASE',
+  MONEY_OFF: 'MONEY_OFF',
+  FREE_SHIPPING: 'FREE_SHIPPING',
+};
+
+export const OPERATORS = {
+  LESS_THEN: 'LESS_THEN',
+  GREATER_THAN: 'GREATER_THAN',
+  EQUAL_TO: 'EQUAL_TO',
+  LESS_THEN_OR_EQUAL_TO: 'LESS_THEN_OR_EQUAL_TO',
+  GREATER_THEN_AND_EQUAL_TO: 'GREATER_THEN_AND_EQUAL_TO',
+};
+
 export const LOYALTY_REWARDS_TYPE = {
   PHYSICAL_REWARD: 'physicalReward',
   DIGITAL_REWARD: 'digitalReward',
+};
+
+export const RULES_BENEFIT_TYPE = {
+  DISCOUNT: 'DISCOUNT',
+  AWARD: 'AWARD',
+};
+
+export const MEETINGS_DETAILS_TYPE = {
+  ALL: 'All',
+  UPCOMING: 'Upcoming',
+  COMPLETED: 'Completed',
+};
+
+export const CALENDER_TYPES = {
+  DAY_VIEW_CALENDER: 'timeGridDay',
+  WEEK_VIEW_CALENDER: 'timeGridWeek',
+  MONTH_VIEW_CALENDER: 'dayGridMonth',
+  YEAR_VIEW_CALENDER: 'multiMonthYear',
+};
+
+export const DRAWER_TYPES = {
+  EDIT: 'edit',
+  ADD: 'add',
+  VIEW: 'view',
+  UPDATE: 'update',
 };

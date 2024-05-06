@@ -42,14 +42,15 @@ export const styles = {
     py: '12px',
     cursor: 'pointer',
   },
-  emailArray: {
+  emailArray: (theme: any) => ({
+    position: 'relative',
     flexBasis: '256px',
     borderRadius: '8px',
     display: 'flex',
     alignItems: 'center',
-    gap: '24px',
+    gap: '10px',
     mb: '24px',
-    border: '1px solid #E5E7EB',
-    p: '16px',
-  },
+    border: `1px solid ${theme?.palette?.gray[700]}`,
+    cursor: 'pointer',
+  }),
 };

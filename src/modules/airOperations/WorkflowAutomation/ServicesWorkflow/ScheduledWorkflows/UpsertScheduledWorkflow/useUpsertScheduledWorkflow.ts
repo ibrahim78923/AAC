@@ -14,7 +14,7 @@ import {
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
-import { AIR_OPERATIONS, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
@@ -63,9 +63,7 @@ export const useUpsertScheduledWorkflow = () => {
   const pageActionType = router?.query?.action;
   const singleId = router?.query?.id;
   const movePage = () => {
-    router.push({
-      pathname: AIR_OPERATIONS?.SERVICES_WORKFLOW,
-    });
+    router?.back();
   };
 
   const EDIT_WORKFLOW = 'edit';
@@ -88,7 +86,7 @@ export const useUpsertScheduledWorkflow = () => {
   const { reset, watch, register, handleSubmit, setValue, control } =
     scheduledWorkflowMethod;
 
-  const mapField = (field: any, typeData: any) => {
+  const mapField = (field: any) => {
     const fieldValue = field?.fieldValue;
     if (fieldValue instanceof Date) {
       return typeData?.date;
@@ -99,7 +97,7 @@ export const useUpsertScheduledWorkflow = () => {
       return typeData?.number;
     } else if (typeof fieldValue === typeData?.string) {
       return typeData?.string;
-    } else if (typeof fieldValue === typeData?.object && fieldValue !== null) {
+    } else if (fieldValue?._id) {
       return typeData?.objectId;
     } else {
       return typeData?.string;
@@ -136,7 +134,7 @@ export const useUpsertScheduledWorkflow = () => {
     }
   }
 
-  const mapGroup = (group: any, typeData: any) => ({
+  const mapGroup = (group: any) => ({
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
       condition: condition?.condition,
@@ -144,7 +142,7 @@ export const useUpsertScheduledWorkflow = () => {
       fieldValue: condition?.fieldValue?._id
         ? condition?.fieldValue?._id
         : condition?.fieldValue,
-      fieldType: mapField(condition, typeData),
+      fieldType: mapField(condition),
       collectionName:
         condition?.condition === optionsConstants?.isEmpty ||
         condition?.condition === optionsConstants?.isNotEmpty
@@ -154,13 +152,13 @@ export const useUpsertScheduledWorkflow = () => {
     conditionType: group?.conditionType?.value,
   });
 
-  const mapAction = (action: any, typeData: any) => ({
+  const mapAction = (action: any) => ({
     ...action,
     fieldName: action?.fieldName?.value,
     fieldValue: action?.fieldValue?._id
       ? action?.fieldValue?._id
       : action?.fieldValue,
-    fieldType: mapField(action, typeData),
+    fieldType: mapField(action),
     collectionName: getCollectionName(action?.fieldName),
   });
 
@@ -250,8 +248,8 @@ export const useUpsertScheduledWorkflow = () => {
         },
       },
       runType: data?.runType?.value,
-      groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-      actions: data?.actions?.map((action: any) => mapAction(action, typeData)),
+      groups: data?.groups?.map((group: any) => mapGroup(group)),
+      actions: data?.actions?.map((action: any) => mapAction(action)),
     };
     await handleApiCall(body);
     return {
@@ -293,5 +291,6 @@ export const useUpsertScheduledWorkflow = () => {
     testWorkflowProgress,
     updatedWorkflowProcess,
     testWorkflowResponse,
+    movePage,
   };
 };

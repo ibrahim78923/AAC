@@ -174,11 +174,11 @@ export const AIR_LOYALTY_PROGRAM = {
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
   ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,
   GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
+  VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
+  VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
   SINGLE_GIFT_CARD_TRANSACTION_DETAIL: `/air-loyalty-program/gift-cards/gift-cards/transaction-details`,
   DIGITAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/digital/single-digital-detail`,
   PHYSICAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/physical/single-physical-detail`,
-  VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
-  VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
   PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design`,
   EDIT_PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design/edit`,
   TOP_USER: '/',
@@ -190,6 +190,7 @@ export const SOCIAL_COMPONENTS = {
   MEETINGS: '/social-components/meetings',
   MEETINGS_SETTINGS: '/social-components/meetings/settings',
   SCHEDULE_MEETING: '/social-components/meetings/schedule-meetings',
+  CALENDER_VIEW: '/social-components/meetings/calendar-view',
 };
 
 export const AUTH = {
@@ -205,6 +206,10 @@ export const Quick_Links_Routes = {
   EMAIL: '/social-components/email',
   COMPANIES: '/social-components/companies',
   MEETINGS: '/social-components/meetings',
+};
+
+export const EMAIL_SUB_ROUTES = {
+  EMAIL_CONVERSATIONS: '/social-components/email/conversations',
 };
 
 export const productSuiteName = {
@@ -234,4 +239,15 @@ export const QUICKLINKSROLES = {
 export const DOCUMENTS_ACTION_TYPES = {
   MOVE_FOLDER: 'move-folder',
   UPDATE_FOLDER: 'update-folder',
+};
+
+export const CREATE_EMAIL_TYPES = {
+  NEW_EMAIL: 'new',
+  FORWARD: 'forward',
+  REPLY: 'reply',
+};
+
+export const API_STATUS = {
+  PENDING: 'pending',
+  REJECTED: 'rejected',
 };

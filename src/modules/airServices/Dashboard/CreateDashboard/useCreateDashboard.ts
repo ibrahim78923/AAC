@@ -8,7 +8,9 @@ import {
   dashboardCheckboxData,
 } from './CreateDashboard.data';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 export const useCreateDashboard = () => {
+  const router: any = useRouter();
   const theme = useTheme();
   const searchParams = useSearchParams();
   const action = searchParams.get('action');
@@ -39,13 +41,18 @@ export const useCreateDashboard = () => {
       anchorElUserList?.focus();
     }
     const uniqueNewPermissions = pendingValue?.filter(
-      (newItem) => !usersPermissions?.some((item) => item?.id === newItem?.id),
+      (newItem: any) =>
+        !usersPermissions?.some((item: any) => item?.id === newItem?.id),
     );
     const updatedPermissions = usersPermissions?.filter(
-      (item) => pendingValue?.some((newItem) => newItem?.id === item?.id),
+      (item: any) =>
+        pendingValue?.some((newItem: any) => newItem?.id === item?.id),
     );
     const combinedPermissions = updatedPermissions?.concat(
-      uniqueNewPermissions?.map((newItem) => ({ ...newItem, permission: '' })),
+      uniqueNewPermissions?.map((newItem: any) => ({
+        ...newItem,
+        permission: '',
+      })),
     );
     setUsersPermissions(combinedPermissions);
     setAnchorElUserList(null);
@@ -55,7 +62,7 @@ export const useCreateDashboard = () => {
     setUsersPermissions([]);
   };
   const setSpecificUserPermissions = (id: string, event: any) => {
-    const tempUsersList = usersPermissions?.map((user) =>
+    const tempUsersList = usersPermissions?.map((user: any) =>
       user?.id === id ? { ...user, permission: event?.target?.value } : user,
     );
     setUsersPermissions([...tempUsersList]);
@@ -66,7 +73,7 @@ export const useCreateDashboard = () => {
     methodsCreateDashboardFilterForm?.reset();
   };
   const alignArrays = (firstArray: string[], secondArray: any[]) => {
-    const dragAndDropAlignment = secondArray?.reduce((acc, item) => {
+    const dragAndDropAlignment = secondArray?.reduce((acc: any, item: any) => {
       if (firstArray?.includes(item)) {
         acc?.push(item);
       }
@@ -116,5 +123,6 @@ export const useCreateDashboard = () => {
     onDragEnd,
     dashboardCheckboxItems,
     action,
+    router,
   };
 };

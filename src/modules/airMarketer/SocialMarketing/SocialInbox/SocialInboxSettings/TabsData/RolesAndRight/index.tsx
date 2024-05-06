@@ -1,246 +1,115 @@
-import React, { useState } from 'react';
-
-import {
-  Box,
-  Typography,
-  Button,
-  MenuItem,
-  Menu,
-  Theme,
-  useTheme,
-  Grid,
-} from '@mui/material';
-
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Box, Typography, Button, Grid, Stack } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
-import { FormProvider } from '@/components/ReactHookForm';
-import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
-import { AlertModals } from '@/components/AlertModals';
-
-import {
-  columns,
-  dataArray,
-  defaultValues,
-  validationSchema,
-} from './RolesRight.data';
-
-import { rolesAndRightTableData } from '@/mock/modules/airSales/SettingSales';
-
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { v4 as uuidv4 } from 'uuid';
+import { columns } from './RolesRight.data';
+import useRoleAndRight from './useRoleAndRight';
 import Search from '@/components/Search';
-import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
+import ActionButton from './ActionButton';
+import AddRoleDrawer from './AddRoleDrawer';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
-const RolesRight = ({ initialValueProps = defaultValues }: any) => {
-  const [isDraweropen, setIsDraweropen] = useState(false);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const theme = useTheme<Theme>();
+const RolesRight = () => {
+  const {
+    handleCloseDrawer,
+    setIsDraweropen,
+    setIsOpenDelete,
+    setFilterValues,
+    setCheckedRows,
+    getPermissions,
+    isDraweropen,
+    filterValues,
+    setPageLimit,
+    checkedRows,
+    setPage,
+    theme,
+    isLoading,
+    isSuccess,
+  } = useRoleAndRight();
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const columnsProps = {
+    checkedRows: checkedRows,
+    setCheckedRows: setCheckedRows,
   };
-  const handleClose = () => {
-    setIsEditOpen(true);
-    setAnchorEl(null);
-  };
-  const handleCloseDrawer = () => {
-    setIsDraweropen(false);
-    setIsEditOpen(false);
-  };
-
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
-  });
-  const [productSearch, setproductSearch] = useState('');
+  const columnParams = columns(columnsProps);
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isDraweropen}
-        onClose={handleCloseDrawer}
-        title={'Add New Role'}
-        okText={'OK'}
-        footer={true}
-        isOk={true}
+      <Box
+        sx={{
+          border: `1px solid ${theme?.palette?.grey[700]}`,
+          padding: '1rem',
+          boxShadow: `0px 1px 2px 0px ${theme?.palette?.custom?.dark_shade_green}`,
+          borderRadius: '8px',
+        }}
       >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-      <CommonDrawer
-        isDrawerOpen={isEditOpen}
-        onClose={handleCloseDrawer}
-        title={'User Role'}
-        okText={'OK'}
-        footer={true}
-        isOk={true}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-      <Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-          }}
+        <Stack
+          direction={{ sm: 'row', xs: 'column' }}
+          justifyContent="space-between"
+          gap={1}
         >
           <Typography variant="h3">Roles and Rights</Typography>
-
           <PermissionsGuard
             permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.ADD_NEW_ROLE]}
           >
             <Button
-              variant="contained"
-              sx={{
-                display: 'flex',
-                columnGap: '10px',
-                '@media (max-width: 500px)': {
-                  marginTop: '20px',
-                  width: '100%',
-                },
-              }}
               className="small"
-              onClick={() => setIsDraweropen(true)}
+              variant="contained"
+              startIcon={<AddCircleIcon />}
+              onClick={() => setIsDraweropen({ isToggle: true, type: 'add' })}
             >
-              <AddCircleIcon
-                sx={{
-                  color: `${theme?.palette?.common.white}`,
-                  fontSize: '16px',
-                }}
-              />
               Add New Role
             </Button>
           </PermissionsGuard>
-        </Box>
-
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            marginTop: '1rem',
-            marginBottom: '1rem',
-            gap: 1,
-          }}
+        </Stack>
+        <Stack
+          direction={{ sm: 'row', xs: 'column' }}
+          justifyContent="space-between"
+          gap={1}
+          my={2}
         >
           <PermissionsGuard
             permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.SEARCH_ROLE]}
           >
             <Search
-              label={'Search here'}
-              searchBy={productSearch}
-              setSearchBy={setproductSearch}
-              width="260px"
+              placeholder="Search Here"
               size="small"
+              onChange={(e: any) => {
+                setFilterValues({ ...filterValues, search: e?.target?.value });
+              }}
             />
           </PermissionsGuard>
-
-          <Button
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-            className="small"
-            sx={{
-              border: `1px solid ${theme?.palette?.custom?.dark}`,
-              borderRadius: '4px',
-              color: `${theme?.palette?.custom?.main}`,
-              display: 'flex',
-              alignItems: 'center',
-              '@media (max-width: 500px)': {
-                width: '100%',
-              },
-            }}
-          >
-            Actions <ArrowDropDownIcon />
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <PermissionsGuard
-              permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.VIEW_ROLE]}
-            >
-              <MenuItem onClick={handleClose}>View</MenuItem>
-            </PermissionsGuard>
-            <PermissionsGuard
-              permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.EDIT_ROLE]}
-            >
-              <MenuItem onClick={handleClose}>Edit</MenuItem>
-            </PermissionsGuard>
-            <PermissionsGuard
-              permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.DELETE_ROLE]}
-            >
-              <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
-            </PermissionsGuard>
-          </Menu>
-        </Box>
+          <ActionButton
+            checkedRows={checkedRows}
+            setIsDraweropen={setIsDraweropen}
+            setIsOpenDelete={setIsOpenDelete}
+          />
+        </Stack>
         <Grid>
-          <TanstackTable columns={columns} data={rolesAndRightTableData} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
+          <TanstackTable
+            columns={columnParams}
+            data={getPermissions?.data?.companyaccountroles}
+            totalRecords={getPermissions?.data?.meta?.total}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            count={getPermissions?.data?.meta?.pages}
+            isPagination
+            pageLimit={getPermissions?.data?.meta?.limit}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
           />
         </Grid>
       </Box>
-      <AlertModals
-        message={'Are you sure you want to delete this role?'}
-        type={'delete'}
-        open={isOpenDelete}
-        handleClose={() => setIsOpenDelete(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-      />
+      {isDraweropen?.isToggle && (
+        <AddRoleDrawer
+          isDrawerOpen={isDraweropen}
+          setIsDraweropen
+          onClose={handleCloseDrawer}
+          getPermissionsData={getPermissions}
+          setCheckedRows={setCheckedRows}
+        />
+      )}
     </>
   );
 };

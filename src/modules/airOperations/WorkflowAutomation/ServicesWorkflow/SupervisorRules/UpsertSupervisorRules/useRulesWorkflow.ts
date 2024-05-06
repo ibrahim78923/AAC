@@ -15,7 +15,6 @@ import {
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
-import { AIR_OPERATIONS } from '@/constants';
 import { useEffect, useState } from 'react';
 import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
@@ -56,9 +55,7 @@ export const useRulesWorkflow = () => {
   const pageActionType = router?.query?.action;
   const singleId = router?.query?.id;
   const movePage = () => {
-    router.push({
-      pathname: AIR_OPERATIONS?.SERVICES_WORKFLOW,
-    });
+    router?.back();
   };
 
   const EDIT_WORKFLOW = 'edit';
@@ -79,7 +76,7 @@ export const useRulesWorkflow = () => {
         : yupResolver(rulesSaveWorkflowSchema),
   });
 
-  const mapField = (field: any, typeData: any) => {
+  const mapField = (field: any) => {
     const fieldValue = field?.fieldValue;
     if (fieldValue instanceof Date) {
       return typeData?.date;
@@ -90,7 +87,7 @@ export const useRulesWorkflow = () => {
       return typeData?.number;
     } else if (typeof fieldValue === typeData?.string) {
       return typeData?.string;
-    } else if (typeof fieldValue === typeData?.object && fieldValue !== null) {
+    } else if (fieldValue?._id) {
       return typeData?.objectId;
     } else {
       return typeData?.string;
@@ -119,24 +116,15 @@ export const useRulesWorkflow = () => {
     }
   }
 
-  const mapGroup = (group: any, typeData: any) => ({
+  const mapGroup = (group: any) => ({
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
       condition: condition?.condition,
       fieldName: condition?.fieldName?.value,
-      fieldValue:
-        condition?.fieldName &&
-        [
-          collectionNameData?.agent,
-          collectionNameData?.selectDepartment,
-          collectionNameData?.setDepartmentAs,
-          collectionNameData?.location,
-          collectionNameData?.addRequester,
-          collectionNameData?.setCategoryAs,
-        ].includes(condition?.fieldName?.label)
-          ? condition?.fieldValue?._id
-          : condition?.fieldValue,
-      fieldType: mapField(condition, typeData),
+      fieldValue: condition?.fieldValue?._id
+        ? condition?.fieldValue?._id
+        : condition?.fieldValue,
+      fieldType: mapField(condition),
       collectionName:
         condition?.condition === optionsConstants?.isEmpty ||
         condition?.condition === optionsConstants?.isNotEmpty
@@ -146,22 +134,13 @@ export const useRulesWorkflow = () => {
     conditionType: group?.conditionType?.value,
   });
 
-  const mapAction = (action: any, typeData: any) => ({
+  const mapAction = (action: any) => ({
     ...action,
     fieldName: action?.fieldName?.value,
-    fieldValue:
-      action?.fieldName &&
-      [
-        collectionNameData?.agent,
-        collectionNameData?.selectDepartment,
-        collectionNameData?.setDepartmentAs,
-        collectionNameData?.location,
-        collectionNameData?.addRequester,
-        collectionNameData?.setCategoryAs,
-      ].includes(action?.fieldName)
-        ? action?.fieldValue?._id
-        : action?.fieldValue,
-    fieldType: mapField(action, typeData),
+    fieldValue: action?.fieldValue?._id
+      ? action?.fieldValue?._id
+      : action?.fieldValue,
+    fieldType: mapField(action),
     collectionName: getCollectionName(action?.fieldName),
   });
 
@@ -217,8 +196,8 @@ export const useRulesWorkflow = () => {
     const body = {
       ...data,
       runType: data?.runType?.value,
-      groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-      actions: data?.actions?.map((action: any) => mapAction(action, typeData)),
+      groups: data?.groups?.map((group: any) => mapGroup(group)),
+      actions: data?.actions?.map((action: any) => mapAction(action)),
     };
     await handleApiCall(body);
   };
@@ -250,5 +229,6 @@ export const useRulesWorkflow = () => {
     testWorkflowProgress,
     handleTestWorkflow,
     testWorkflowResponse,
+    movePage,
   };
 };

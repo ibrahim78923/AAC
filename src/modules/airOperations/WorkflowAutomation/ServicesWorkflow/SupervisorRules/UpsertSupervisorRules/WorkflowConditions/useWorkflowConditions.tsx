@@ -11,7 +11,9 @@ export const useWorkflowConditions = (props: any) => {
     append({
       name: '',
       conditionType: null,
-      conditions: [{ fieldName: null, condition: '', fieldValue: null }],
+      conditions: [
+        { options: '', fieldName: null, condition: '', fieldValue: null },
+      ],
     });
   const { palette } = useTheme();
   return { fields, append, remove, palette, handleAddGroup };

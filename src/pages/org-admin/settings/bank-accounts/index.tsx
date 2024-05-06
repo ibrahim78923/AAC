@@ -1,5 +1,6 @@
-import Layout from '@/layout';
 import BankAccounts from '@/modules/orgAdmin/Settings/BankAccounts';
+import SuperAdminLayout from '../../../../layout';
+import { Permissions } from '@/constants/permissions';
 
 const BankAccountsPage = () => {
   return <BankAccounts />;
@@ -8,5 +9,12 @@ const BankAccountsPage = () => {
 export default BankAccountsPage;
 
 BankAccountsPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <SuperAdminLayout
+      guardRoute
+      permissions={Permissions?.ORG_ADMIN_SETTINGS_CONTACT_STATUS}
+    >
+      {page}
+    </SuperAdminLayout>
+  );
 };
