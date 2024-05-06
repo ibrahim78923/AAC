@@ -549,3 +549,11 @@ export const DRAWER_TYPES = {
   VIEW: 'view',
   UPDATE: 'update',
 };
+
+export const LOYALTY_SHOP_TYPE = {
+  ON_SITE: 'ON_SITE',
+  DEPARTMENT: 'DEPARTMENT',
+  HEADQUARTERS: 'HEADQUARTERS',
+  POINT_OF_SALE: 'POINT_OF_SALE',
+  WEB_SHOP: 'WEB_SHOP',
+};

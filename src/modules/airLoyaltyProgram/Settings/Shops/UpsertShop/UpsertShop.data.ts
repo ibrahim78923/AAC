@@ -1,5 +1,37 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { LOYALTY_SHOP_TYPE_MAPPED } from '@/constants/api-mapped';
+import { LOYALTY_SHOP_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
+
+export const shopTypeOptions = [
+  {
+    _id: LOYALTY_SHOP_TYPE?.ON_SITE,
+    label: LOYALTY_SHOP_TYPE_MAPPED?.ON_SITE,
+  },
+  {
+    _id: LOYALTY_SHOP_TYPE?.DEPARTMENT,
+    label: LOYALTY_SHOP_TYPE_MAPPED?.DEPARTMENT,
+  },
+  {
+    _id: LOYALTY_SHOP_TYPE?.HEADQUARTERS,
+    label: LOYALTY_SHOP_TYPE_MAPPED?.HEADQUARTERS,
+  },
+  {
+    _id: LOYALTY_SHOP_TYPE?.POINT_OF_SALE,
+    label: LOYALTY_SHOP_TYPE_MAPPED?.POINT_OF_SALE,
+  },
+  {
+    _id: LOYALTY_SHOP_TYPE?.WEB_SHOP,
+    label: LOYALTY_SHOP_TYPE_MAPPED?.WEB_SHOP,
+  },
+];
+
+export const countryOptions = [
+  {
+    _id: 'United Kingdom',
+    label: 'United Kingdom',
+  },
+];
 
 export const upsertShopValidationScheme = Yup?.object()?.shape({
   shopName: Yup?.string()?.trim(),
@@ -41,8 +73,9 @@ export const upsertShopFormFieldsDynamic = () => [
       fullWidth: true,
       name: 'shopType',
       label: 'Shop Type',
-      placeholder: 'Select',
-      options: [''],
+      placeholder: 'Select shop type',
+      options: shopTypeOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
   },
   {
@@ -73,7 +106,8 @@ export const upsertShopFormFieldsDynamic = () => [
       name: 'country',
       label: 'Country',
       placeholder: 'Select',
-      options: [''],
+      options: countryOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
   },
   {
