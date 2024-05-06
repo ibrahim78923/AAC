@@ -77,12 +77,12 @@ const TimeSlotsWeekly = ({ disabled, theme }: any) => {
                     ))}
                 </Grid>
               ) : (
-                <Grid item lg={7} xs={9} textAlign={'center'}>
+                <Grid item lg={6} xs={5} textAlign={'center'}>
                   <Typography>Unavailable</Typography>
                 </Grid>
               )}
-              <Grid item xs={12} lg={2}>
-                <IconButton onClick={() => addNewField(index, fields?.length)}>
+              <Grid item xs={12} md={2}>
+                <IconButton onClick={() => addNewField(index)}>
                   <AddCircleIcon />
                 </IconButton>
                 <PermissionsGuard

@@ -2,12 +2,12 @@ import { timeSlotsWeeklyDropdown } from './TimeSlotWeekly.data';
 import { useFieldArray } from 'react-hook-form';
 
 export const useTimeSlotsWeekly = () => {
+  const timeSlotsData = timeSlotsWeeklyDropdown();
   const { fields, append, remove } = useFieldArray({
     name: 'timeSlot',
   });
-  const timeSlotsData = timeSlotsWeeklyDropdown();
 
-  const handleAddTimeSlot = (dayIndex: number) => {
+  const handleAddTimeSlot = (dayIndex: any) => {
     append({
       dayIndex: dayIndex,
       timeSlotStart: '',
