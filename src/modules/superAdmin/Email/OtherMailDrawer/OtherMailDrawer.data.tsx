@@ -7,18 +7,20 @@ export const otherEmailValidationSchema = Yup?.object()?.shape({
   smtpServerHost: Yup?.string()?.required('Field is Required')?.trim(),
 });
 
-export const otherEmailDefaultValues = {
-  email: '',
-  username: '',
-  password: '',
-  imapServerHost: '',
-  imapServerPort: '',
-  useSSL: false,
-  imapAuthenticationType: '',
-  smtpServerHost: '',
-  smtpServerPort: '',
-  securityMode: '',
-  smtpAuthenticationType: '',
+export const otherEmailDefaultValues = () => {
+  return {
+    email: '',
+    username: '',
+    password: '',
+    imapServerHost: '',
+    imapServerPort: '',
+    useSSL: false,
+    imapAuthenticationType: '',
+    smtpServerHost: '',
+    smtpServerPort: '',
+    securityMode: '',
+    smtpAuthenticationType: '',
+  };
 };
 
 export const emailsData = [

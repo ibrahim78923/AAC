@@ -532,6 +532,8 @@ export const RULES_BENEFIT_TYPE = {
 
 export const MEETINGS_DETAILS_TYPE = {
   ALL: 'All',
+  UPCOMING: 'Upcoming',
+  COMPLETED: 'Completed',
 };
 
 export const CALENDER_TYPES = {
@@ -545,4 +547,5 @@ export const DRAWER_TYPES = {
   EDIT: 'edit',
   ADD: 'add',
   VIEW: 'view',
+  UPDATE: 'update',
 };
