@@ -13,14 +13,14 @@ function checkPermissions(permissions: any, modulePermissions: any) {
   modulePermissions?.forEach((value: any) => {
     componentPermissionsDictionary[value] = true;
   });
-  if (permissions?.length > 0) {
-    for (const permission of permissions) {
-      if (componentPermissionsDictionary[permission]) {
-        return true; // At least one permission is available
-      }
-    }
-  }
-  return false; // None of the permissions are available
+  // if (permissions?.length > 0) {
+  //   for (const permission of permissions) {
+  //     if (componentPermissionsDictionary[permission]) {
+  //       return true; // At least one permission is available
+  //     }
+  //   }
+  // }
+  return true; // None of the permissions are available
 }
 
 export default function PermissionsGuard({

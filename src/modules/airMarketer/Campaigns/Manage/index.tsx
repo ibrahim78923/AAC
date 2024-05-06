@@ -1,6 +1,6 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { columns, data } from './Manage.data';
+import { columns } from './Manage.data';
 import {
   Box,
   Button,
@@ -34,6 +34,7 @@ const Manage = () => {
     handleSaveView,
     actionsModalDetails,
     setActionsModalDetails,
+    campaignsData,
   } = useCampaigns();
   const router = useRouter();
   return (
@@ -166,7 +167,11 @@ const Manage = () => {
         </Button>
       </ButtonGroup>
 
-      <TanstackTable columns={columns} data={data} isPagination />
+      <TanstackTable
+        columns={columns()}
+        data={campaignsData?.data?.campaigns}
+        isPagination
+      />
 
       {isOpenFilter && (
         <Filters

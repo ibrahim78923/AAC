@@ -8,6 +8,7 @@ import {
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import * as Yup from 'yup';
+import { getSession } from '@/utils';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -24,9 +25,14 @@ export const defaultValues = {
   closeDate: null,
 };
 export const createDealData = ({ dealPipelineId }: any) => {
+  const { user } = getSession();
   const userRole = 'ORG_EMPLOYEE';
+  const organizationId: any = user?.organization?._id;
   const { pipelineData, salesProduct } = useDealTab();
-  const { data: UserListData } = useGetUsersListQuery({ role: userRole });
+  const { data: UserListData } = useGetUsersListQuery({
+    role: userRole,
+    organization: organizationId,
+  });
   const filteredStages =
     pipelineData?.data?.dealpipelines?.find(
       (pipeline: any) => pipeline?._id === dealPipelineId,
