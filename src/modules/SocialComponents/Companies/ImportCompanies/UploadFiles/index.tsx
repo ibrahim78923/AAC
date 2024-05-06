@@ -2,16 +2,16 @@ import React from 'react';
 
 import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
 
-import { FormProvider } from '@/components/ReactHookForm';
+// import { FormProvider } from '@/components/ReactHookForm';
 
 import { dataArray } from './UploadFiles.data';
 
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const UploadFiles = () => {
-  const methods: any = useForm({});
+  // const methods: any = useForm({});
   const theme = useTheme<Theme>();
 
   return (
@@ -19,8 +19,8 @@ const UploadFiles = () => {
       <Box
         sx={{
           backgroundColor: `${theme?.palette?.slateBlue?.main}`,
-          width: '72px',
-          padding: '7px',
+          width: '80px',
+          padding: '7px 10px',
           fontWeight: 400,
           fontSize: '12px',
           color: 'white',
@@ -51,7 +51,7 @@ const UploadFiles = () => {
               marginBottom: '0.5rem',
             }}
           >
-            Name
+            Domain Name
           </li>
           <li
             style={{
@@ -60,7 +60,7 @@ const UploadFiles = () => {
               fontWeight: 500,
             }}
           >
-            Deal Value
+            Company Name
           </li>
         </ul>
         <Typography
@@ -70,22 +70,22 @@ const UploadFiles = () => {
           Import Companies
         </Typography>
         <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={uuidv4()}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
+          {/* <FormProvider methods={methods}> */}
+          <Grid container spacing={1}>
+            {dataArray?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={uuidv4()} value={uuidv4()}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
+              </Grid>
+            ))}
+          </Grid>
+          {/* </FormProvider> */}
         </Box>
       </Box>
     </>

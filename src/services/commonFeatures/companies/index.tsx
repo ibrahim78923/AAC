@@ -135,6 +135,35 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['COMPANY'],
     }),
+    // import companies end points
+    getSignedUrlForImport: builder?.query({
+      query: (param: any) => ({
+        url: `${END_POINTS?.IMPORT_FILE_GET_SIGNED_URL}`,
+        method: 'GET',
+        params: param,
+      }),
+      providesTags: ['COMPANY'],
+    }),
+
+    uploadFileTos3UsingSignedUrl: builder?.mutation({
+      query: ({ s3Url, body }: any) => {
+        // console.log('url', url)
+        // console.log('body', body)
+        return {
+          url: s3Url,
+          method: 'PUT',
+          body: body,
+        };
+      },
+    }),
+
+    // uploadFileTos3UsingSignedUrl: builder?.mutation({
+    //   query: (apiDataParameter: any) => ({
+    //     url: apiDataParameter?.url,
+    //     method: 'PUT',
+    //     body: apiDataParameter?.body?.file,
+    //   }),
+    // }),
   }),
 });
 
@@ -154,4 +183,6 @@ export const {
   useGetCompaniesViewsQuery,
   usePutCustomizedColumnsMutation,
   useGetCompanyDealsQuery,
+  useGetSignedUrlForImportQuery,
+  useUploadFileTos3UsingSignedUrlMutation,
 } = companiesAPI;

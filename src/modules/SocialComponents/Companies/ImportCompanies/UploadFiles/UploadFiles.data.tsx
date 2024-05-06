@@ -1,14 +1,13 @@
-import { RHFDropZone } from '@/components/ReactHookForm';
+import { RHFFileImport } from '@/components/ReactHookForm';
 
 export const dataArray = [
   {
     componentProps: {
-      name: 'domainName',
-      label: 'Company Domain Name',
+      name: 'file',
       fullWidth: true,
       select: false,
     },
-    component: RHFDropZone,
+    component: RHFFileImport,
     md: 12,
   },
 ];
