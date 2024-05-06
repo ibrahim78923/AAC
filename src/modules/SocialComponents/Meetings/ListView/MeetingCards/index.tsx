@@ -8,10 +8,6 @@ export const MeetingCards = ({
   isActive,
   setCardValue,
 }: any) => {
-  const handleClick = () => {
-    onClick(meetingHeading);
-    setCardValue(meetingHeading);
-  };
   return (
     <Grid item xs={12} sm={6} lg={4}>
       <Box
@@ -23,7 +19,10 @@ export const MeetingCards = ({
         padding={1.5}
         borderRadius={2}
         marginBottom={2}
-        onClick={handleClick}
+        onClick={() => {
+          onClick(meetingHeading);
+          setCardValue(meetingHeading);
+        }}
         sx={{
           cursor: 'pointer',
           boxShadow: isActive ? `0px 0px 1px 1px ${color}` : 2,
