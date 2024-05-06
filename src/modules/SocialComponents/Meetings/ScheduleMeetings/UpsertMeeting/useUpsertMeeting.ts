@@ -1,19 +1,27 @@
 import { SOCIAL_COMPONENTS } from '@/constants';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { allDayValues, oneToOneDefaultValues } from './OneToOneMeeting.data';
+import {
+  allDayValues,
+  meetingTitle,
+  upsertMeetingSchema,
+  upsertMeetingValues,
+} from './UpsertMeeting.data';
 import { useEffect } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-export const useOneToOneMeeting = () => {
+export const useUpsertMeeting = () => {
   const methods = useForm({
-    defaultValues: oneToOneDefaultValues,
+    defaultValues: upsertMeetingValues,
+    resolver: yupResolver(upsertMeetingSchema),
   });
   const { handleSubmit, watch, setValue, control } = methods;
   const onSubmit = async () => {};
-  const router = useRouter();
+  const router: any = useRouter();
   const handleMoveBack = () => {
     router?.push(SOCIAL_COMPONENTS?.SCHEDULE_MEETING);
   };
+  const meetingType = meetingTitle?.[router?.query?.type];
   const watchAllDay = watch('allDay');
   const watchMeetingType = watch('meetingType');
   const watchBefore = watch('bufferBefore');
@@ -30,6 +38,13 @@ export const useOneToOneMeeting = () => {
   useEffect(() => {
     setValue('bufferAfterTime', '');
   }, [watchAfter]);
-  const meetingProps = { watch, control, setValue };
-  return { methods, handleSubmit, onSubmit, handleMoveBack, meetingProps };
+  const meetingProps = { watch, control, setValue, meetingType };
+  return {
+    methods,
+    handleSubmit,
+    onSubmit,
+    handleMoveBack,
+    meetingProps,
+    meetingType,
+  };
 };

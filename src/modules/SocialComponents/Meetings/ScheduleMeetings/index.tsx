@@ -17,7 +17,15 @@ export const ScheduleMeetings = () => {
       <Grid container spacing={{ lg: 3, xs: 2 }}>
         {scheduleCards?.map((item: any) => (
           <Grid item xl={3} lg={4} md={6} xs={12} key={item?.id}>
-            <Box sx={styles?.cardBox} onClick={() => router?.push(item?.link)}>
+            <Box
+              sx={styles?.cardBox}
+              onClick={() =>
+                router?.push({
+                  pathname: SOCIAL_COMPONENTS?.UPSERT_MEETING,
+                  query: item?.query,
+                })
+              }
+            >
               <Card sx={styles?.cardStyle}>
                 <item.icon />
                 <Typography variant="formTopHeading" color="slateBlue.main">

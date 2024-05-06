@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 export const useRecurring = (props: any) => {
   const { watch, setValue } = props;
   const watchAllDay = watch('allDay');
-  const watchFromDate = watch('fromDate');
-  const watchToDate = watch('toDate');
+  const watchFromDate = watch('startDate');
+  const watchToDate = watch('endDate');
   const watchRecurring = watch('recurring');
   const watchRecurringType = watch('recurringType');
   const watchDailyType = watch('dailyType');
@@ -26,6 +26,5 @@ export const useRecurring = (props: any) => {
     watchRecurringType,
     watchDailyType,
     watchMonthType,
-    watchToDate,
   };
 };

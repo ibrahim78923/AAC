@@ -27,17 +27,16 @@ export const Recurring = (props: any) => {
     watchRecurringType,
     watchDailyType,
     watchMonthType,
-    watchToDate,
   } = useRecurring(props);
   return (
     <>
       <RHFSwitch
         name="recurring"
         label="Recurring"
-        disabled={watchAllDay || isSameDate || !watchToDate}
+        disabled={watchAllDay || isSameDate}
       />
       {watchRecurring && (
-        <Grid container pt={1} spacing={2}>
+        <Grid container pt={1.5} spacing={2}>
           <Grid item xs={6}>
             <RHFAutocomplete
               name="recurringType"
@@ -57,16 +56,18 @@ export const Recurring = (props: any) => {
               <Grid item xs={12}>
                 <RHFRadioGroup name="dailyType" options={dayTypeOption} />
               </Grid>
-              <Grid item xs={6}>
-                <RHFAutocomplete
-                  name="recurringDay"
-                  label="Days"
-                  size="small"
-                  placeholder="Select Day"
-                  options={dayOption}
-                  disabled={watchDailyType === optionTypes?.workingDay}
-                />
-              </Grid>
+              {watchDailyType === optionTypes?.everyDay && (
+                <Grid item xs={6}>
+                  <RHFAutocomplete
+                    name="recurringDay"
+                    label="Days"
+                    size="small"
+                    required
+                    placeholder="Select Day"
+                    options={dayOption}
+                  />
+                </Grid>
+              )}
             </>
           )}
           {watchRecurringType === optionTypes?.weekly && (
@@ -86,10 +87,11 @@ export const Recurring = (props: any) => {
               {watchMonthType === optionTypes?.onDate && (
                 <Grid item xs={6}>
                   <RHFAutocomplete
-                    name="recurringMonthlyDate"
+                    name="monthlyDate"
                     label="Date"
                     size="small"
                     placeholder="Select Date"
+                    required
                     options={monthOption}
                     multiple
                     isOptionEqualToValue={(option: any, newValue: any) =>
@@ -102,10 +104,11 @@ export const Recurring = (props: any) => {
                 <>
                   <Grid item xs={6}>
                     <RHFAutocomplete
-                      name="recurringMonthlyWeek"
+                      name="monthlyWeeks"
                       label="Week"
                       size="small"
                       placeholder="Select Week"
+                      required
                       options={monthWeekOption}
                       multiple
                       isOptionEqualToValue={(option: any, newValue: any) =>
@@ -115,11 +118,16 @@ export const Recurring = (props: any) => {
                   </Grid>
                   <Grid item xs={6}>
                     <RHFAutocomplete
-                      name="recurringMonthlyDay"
+                      name="monthlyDays"
                       label="Days"
                       size="small"
-                      placeholder="Select Day"
                       options={weekDayOption}
+                      required
+                      multiple
+                      placeholder="Select Day"
+                      isOptionEqualToValue={(option: any, newValue: any) =>
+                        option === newValue
+                      }
                     />
                   </Grid>
                 </>

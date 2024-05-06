@@ -1,16 +1,22 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box } from '@mui/material';
-import { useOneToOneMeeting } from './useOneToOneMeeting';
+import { useUpsertMeeting } from './useUpsertMeeting';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { MeetingForm } from './MeetingForm';
 
-export const OneToOneMeeting = () => {
-  const { methods, handleSubmit, onSubmit, handleMoveBack, meetingProps } =
-    useOneToOneMeeting();
+export const UpsertMeeting = () => {
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    handleMoveBack,
+    meetingProps,
+    meetingType,
+  } = useUpsertMeeting();
   return (
     <Box>
       <PageTitledHeader
-        title="One to One Meeting"
+        title={`${meetingType} Meeting`}
         canMovedBack
         moveBack={handleMoveBack}
       />

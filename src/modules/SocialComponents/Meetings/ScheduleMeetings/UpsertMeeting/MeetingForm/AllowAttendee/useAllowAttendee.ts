@@ -6,8 +6,8 @@ export const useAllowAttendee = (props: any) => {
   const [openCalender, setOpenCalender] = useState(false);
   const [selectedEvents, setSelectedEvents] = useState<any[]>([]);
   const timeSlotDuration = watch('timeSlotDuration');
-  const watchFrom = watch('fromTime');
-  const watchTo = watch('toTime');
+  const watchFrom = watch('startTime');
+  const watchTo = watch('endTime');
   const allowAttendee = watch('allowAttendee');
   const handleClose = () => {
     setValue('allowAttendee', false);
@@ -34,6 +34,12 @@ export const useAllowAttendee = (props: any) => {
   const handleEvents = (info: any) => {
     if (selectedEvents?.length < 6) {
       setSelectedEvents([...selectedEvents, info]);
+      setValue('selectedSlots', [
+        [...selectedEvents]?.map((item: any) => ({
+          start: item?.start,
+          end: item?.end,
+        })),
+      ]);
       return;
     }
     errorSnackbar('Slot limit exceeds');

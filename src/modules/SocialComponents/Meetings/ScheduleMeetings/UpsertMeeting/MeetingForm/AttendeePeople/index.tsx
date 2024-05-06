@@ -29,6 +29,7 @@ export const AttendeePeople = (props: any) => {
           label="People"
           apiQuery={contactDropdown}
           externalParam={{ limit: 100 }}
+          required
           getOptionLabel={(option: any) =>
             fullName(option?.firstName, option?.lastName)
           }

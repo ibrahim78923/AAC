@@ -38,6 +38,9 @@ export const AllowAttendee = (props: any) => {
             '.fc-timegrid-event-short .fc-event-time::after': {
               content: 'none',
             },
+            '.fc-event': {
+              cursor: 'pointer',
+            },
           }}
         >
           <PageTitledHeader

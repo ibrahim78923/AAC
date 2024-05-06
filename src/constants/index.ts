@@ -192,11 +192,8 @@ export const SOCIAL_COMPONENTS = {
   MEETINGS: '/social-components/meetings',
   MEETINGS_SETTINGS: '/social-components/meetings/settings',
   SCHEDULE_MEETING: '/social-components/meetings/schedule-meetings',
-  ONE_TO_ONE_MEETING:
-    '/social-components/meetings/schedule-meetings/one-to-one-meeting',
-  COLLECTIVE_MEETING:
-    '/social-components/meetings/schedule-meetings/collective-meeting',
-  GROUP_MEETING: '/social-components/meetings/schedule-meetings/group-meeting',
+  UPSERT_MEETING:
+    '/social-components/meetings/schedule-meetings/upsert-meeting',
   CALENDER_VIEW: '/social-components/meetings/calendar-view',
 };
 

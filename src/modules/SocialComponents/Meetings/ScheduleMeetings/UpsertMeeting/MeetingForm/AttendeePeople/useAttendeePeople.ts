@@ -7,8 +7,8 @@ export const useAttendeePeople = (props: any) => {
   const contactDropdown = useLazyGetContactDropdownQuery();
   const organizer = getSession()?.user;
   const handleDateValues = (slot: any) => {
-    setValue('fromDate', new Date(slot?.date));
-    setValue('toDate', new Date(slot?.date));
+    setValue('startDate', new Date(slot?.date));
+    setValue('endDate', new Date(slot?.date));
   };
   return {
     contactDropdown,

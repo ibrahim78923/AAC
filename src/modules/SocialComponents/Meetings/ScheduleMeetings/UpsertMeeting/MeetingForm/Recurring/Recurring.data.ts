@@ -33,7 +33,7 @@ export const optionTypes = {
   daily: 'Daily',
   weekly: 'Weekly',
   monthly: 'Monthly',
-  workingDay: 'workingDay',
+  everyDay: 'everyDay',
   onDate: 'onDate',
   onThe: 'onThe',
 };

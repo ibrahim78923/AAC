@@ -1,8 +1,8 @@
 import { Button, DialogActions, Divider, Grid } from '@mui/material';
-import { meetingFormFields } from './MeetingForm.data';
-import { RHFEditor } from '@/components/ReactHookForm';
-import { AttendeePeople } from './AttendeePeople';
 import { LoadingButton } from '@mui/lab';
+import { RHFEditor } from '@/components/ReactHookForm';
+import { meetingFormFields } from './MeetingForm.data';
+import { AttendeePeople } from './AttendeePeople';
 
 export const MeetingForm = (props: any) => {
   return (
@@ -40,7 +40,9 @@ export const MeetingForm = (props: any) => {
         <Button variant="outlined" color="secondary">
           Cancel
         </Button>
-        <LoadingButton variant="contained">Save</LoadingButton>
+        <LoadingButton variant="contained" type="submit">
+          Save & Next
+        </LoadingButton>
       </DialogActions>
       <Divider />
     </>

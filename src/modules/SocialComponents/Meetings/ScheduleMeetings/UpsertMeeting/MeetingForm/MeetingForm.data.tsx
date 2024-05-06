@@ -36,7 +36,7 @@ const meetingContents = {
   inPersonMeeting: 'In person meeting',
 };
 export const meetingFormFields = (props: any) => {
-  const { watch } = props;
+  const { watch, meetingType } = props;
   const watchAllDay = watch('allDay');
   const watchRecurring = watch('recurring');
   const watchMeetingType = watch('meetingType');
@@ -84,8 +84,8 @@ export const meetingFormFields = (props: any) => {
       lg: 6,
       sm: 6,
       componentProps: {
-        label: 'From',
-        name: 'fromDate',
+        label: 'Start Date',
+        name: 'startDate',
         disablePast: true,
         required: true,
         fullWidth: true,
@@ -98,8 +98,8 @@ export const meetingFormFields = (props: any) => {
       lg: 6,
       sm: 6,
       componentProps: {
-        label: 'Time',
-        name: 'fromTime',
+        label: 'Start Time',
+        name: 'startTime',
         disabled: watchAllDay || watchAllowAttendee,
         required: true,
         fullWidth: true,
@@ -112,8 +112,8 @@ export const meetingFormFields = (props: any) => {
       lg: 6,
       sm: 6,
       componentProps: {
-        label: 'To',
-        name: 'toDate',
+        label: 'End Date',
+        name: 'endDate',
         minDate: watchFrom,
         required: !watchRecurring,
         fullWidth: true,
@@ -126,8 +126,8 @@ export const meetingFormFields = (props: any) => {
       lg: 6,
       sm: 6,
       componentProps: {
-        label: 'Time',
-        name: 'toTime',
+        label: 'End Time',
+        name: 'endTime',
         disabled: watchAllDay || watchAllowAttendee,
         required: !watchRecurring,
         fullWidth: true,
@@ -177,6 +177,7 @@ export const meetingFormFields = (props: any) => {
     },
     {
       id: 11,
+      sx: { display: meetingType === 'Group' && 'none' },
       componentProps: props,
       component: AllowAttendee,
     },
