@@ -30,7 +30,6 @@ const Members = () => {
     );
 
     const payload = {
-      // ...activeConversation,
       conversationId: activeConversation?.conversationId,
       participants: updatedParticipants?.map((item: any) => item?._id),
     };

@@ -29,7 +29,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from '../ChatField.style';
 import dayjs from 'dayjs';
-import { TIME_FORMAT } from '@/constants';
+import { CHAT_MESSAGE_TYPE, TIME_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { IMG_URL } from '@/config';
 import { CHAT_SOCKETS_EMIT } from '@/routesConstants/paths';
@@ -239,7 +239,7 @@ const ChatBox = ({
 
                 {!item?.isDeleted && (
                   <>
-                    {item?.type === 'image' && (
+                    {item?.type === CHAT_MESSAGE_TYPE?.IMAGE && (
                       <Box key={uuidv4()} sx={{ width: '16vw' }}>
                         <Grid
                           container

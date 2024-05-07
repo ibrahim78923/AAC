@@ -31,6 +31,7 @@ import { styles } from './Chat.style';
 import { enqueueSnackbar } from 'notistack';
 import { UserDefault } from '@/assets/images';
 import { PAGINATION } from '@/config';
+import { API_STATUS } from '@/constants';
 
 const Chat = () => {
   const dispatch: any = useAppDispatch();
@@ -252,7 +253,7 @@ const Chat = () => {
           ) : (
             <>
               <Box sx={styles?.usersBox}>
-                {chatUsersStatus === 'pending' ? (
+                {chatUsersStatus === API_STATUS?.PENDING ? (
                   <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     <CircularProgress />
                   </Box>

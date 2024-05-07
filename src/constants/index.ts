@@ -246,3 +246,13 @@ export const CREATE_EMAIL_TYPES = {
   FORWARD: 'forward',
   REPLY: 'reply',
 };
+
+export const CHAT_MESSAGE_TYPE = {
+  IMAGE: 'image',
+  DOC: 'document',
+  PLAIN: 'plain',
+};
+
+export const API_STATUS = {
+  PENDING: 'pending',
+};
