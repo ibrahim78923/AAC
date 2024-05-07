@@ -540,3 +540,10 @@ export const CALENDER_TYPES = {
   MONTH_VIEW_CALENDER: 'dayGridMonth',
   YEAR_VIEW_CALENDER: 'multiMonthYear',
 };
+
+export const TIME_UNITS = {
+  MS: 1000,
+  SEC_PER_HOUR: 3600,
+  HOURS_PER_DAY: 24,
+  MS_PER_MINUTE: 60000,
+};

@@ -7,13 +7,17 @@ import {
   generateColorFromName,
 } from '@/utils/avatarUtils';
 import { generateImage } from '@/utils/avatarUtils';
-import { meetingPeople, suggestedData } from './AttendeePeople.data';
+import {
+  meetingPeople,
+  peopleTypes,
+  suggestedData,
+} from './AttendeePeople.data';
 import { DateRangePickerIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 
 export const AttendeePeople = (props: any) => {
-  const { contactDropdown, watchPeople, organizer, handleDateValues } =
+  const { contactDropdown, peopleData, organizer, handleDateValues, router } =
     useAttendeePeople(props);
   return (
     <>
@@ -33,12 +37,13 @@ export const AttendeePeople = (props: any) => {
           getOptionLabel={(option: any) =>
             fullName(option?.firstName, option?.lastName)
           }
+          multiple={router?.query?.type === peopleTypes?.group}
           size="small"
           placeholder="Invite Someone"
           fullWidth
         />
         <Box display="flex" flexDirection="column" gap={2} mt={2}>
-          {meetingPeople(organizer, watchPeople)?.map(
+          {meetingPeople(organizer, peopleData)?.map(
             (item: any) =>
               item?.firstName && (
                 <Box

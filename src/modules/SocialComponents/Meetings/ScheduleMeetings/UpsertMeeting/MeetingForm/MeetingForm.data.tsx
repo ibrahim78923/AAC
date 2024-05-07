@@ -34,6 +34,7 @@ const bufferTimeOption = [
 ];
 const meetingContents = {
   inPersonMeeting: 'In person meeting',
+  group: 'Group',
 };
 export const meetingFormFields = (props: any) => {
   const { watch, meetingType } = props;
@@ -177,7 +178,7 @@ export const meetingFormFields = (props: any) => {
     },
     {
       id: 11,
-      sx: { display: meetingType === 'Group' && 'none' },
+      sx: { display: meetingType === meetingContents?.group && 'none' },
       componentProps: props,
       component: AllowAttendee,
     },

@@ -13,7 +13,7 @@ import { successSnackbar } from '@/utils/api';
 
 export const useUpsertMeeting = () => {
   const methods = useForm({
-    defaultValues: upsertMeetingValues,
+    defaultValues: upsertMeetingValues(),
     resolver: yupResolver(upsertMeetingSchema),
   });
   const { handleSubmit, watch, setValue, control } = methods;

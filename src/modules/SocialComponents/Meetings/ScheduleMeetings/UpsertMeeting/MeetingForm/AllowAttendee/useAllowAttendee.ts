@@ -1,3 +1,4 @@
+import { TIME_UNITS } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
 
@@ -47,7 +48,7 @@ export const useAllowAttendee = (props: any) => {
   const handleAllowDuration = (info: any) => {
     return (
       info?.end?.getTime() - info?.start?.getTime() ===
-      timeSlotDuration?.value * 60000
+      timeSlotDuration?.value * TIME_UNITS?.MS_PER_MINUTE
     );
   };
   return {

@@ -12,7 +12,7 @@ export const monthTypeOption = [
   { label: 'On The', value: 'onThe' },
 ];
 export const dayTypeOption = [
-  { label: 'Every', value: 'everyDay' },
+  { label: 'On The', value: 'onThe' },
   {
     label: 'Every weekly(Only Working Days)',
     value: 'workingDay',
@@ -33,7 +33,6 @@ export const optionTypes = {
   daily: 'Daily',
   weekly: 'Weekly',
   monthly: 'Monthly',
-  everyDay: 'everyDay',
   onDate: 'onDate',
   onThe: 'onThe',
 };

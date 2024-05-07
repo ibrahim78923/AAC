@@ -37,7 +37,7 @@ export const Recurring = (props: any) => {
       />
       {watchRecurring && (
         <Grid container pt={1.5} spacing={2}>
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12}>
             <RHFAutocomplete
               name="recurringType"
               label="Type"
@@ -56,8 +56,8 @@ export const Recurring = (props: any) => {
               <Grid item xs={12}>
                 <RHFRadioGroup name="dailyType" options={dayTypeOption} />
               </Grid>
-              {watchDailyType === optionTypes?.everyDay && (
-                <Grid item xs={6}>
+              {watchDailyType === optionTypes?.onThe && (
+                <Grid item md={6} xs={12}>
                   <RHFAutocomplete
                     name="recurringDay"
                     label="Days"
@@ -85,7 +85,7 @@ export const Recurring = (props: any) => {
                 <RHFRadioGroup name="monthType" options={monthTypeOption} />
               </Grid>
               {watchMonthType === optionTypes?.onDate && (
-                <Grid item xs={6}>
+                <Grid item md={6} xs={12}>
                   <RHFAutocomplete
                     name="monthlyDate"
                     label="Date"
@@ -102,7 +102,7 @@ export const Recurring = (props: any) => {
               )}
               {watchMonthType === optionTypes?.onThe && (
                 <>
-                  <Grid item xs={6}>
+                  <Grid item sm={6} xs={12}>
                     <RHFAutocomplete
                       name="monthlyWeeks"
                       label="Week"
@@ -116,7 +116,7 @@ export const Recurring = (props: any) => {
                       }
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item sm={6} xs={12}>
                     <RHFAutocomplete
                       name="monthlyDays"
                       label="Days"

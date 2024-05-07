@@ -1,4 +1,4 @@
-export const meetingPeople = (organizer: any, attendee: any) => [
+export const meetingPeople = (organizer: any, peopleData: any) => [
   {
     id: 1,
     firstName: organizer?.firstName,
@@ -6,13 +6,13 @@ export const meetingPeople = (organizer: any, attendee: any) => [
     avatar: organizer?.avatar?.url,
     status: 'Organizer',
   },
-  {
-    id: 2,
-    firstName: attendee?.firstName,
-    lastName: attendee?.lastName,
-    avatar: attendee?.profilePicture?.url,
-    status: 'Free',
-  },
+  ...peopleData?.map((item: any) => ({
+    id: item?._id,
+    firstName: item?.firstName,
+    lastName: item?.lastName,
+    avatar: item?.profilePicture?.url,
+    status: item?.recordStatus,
+  })),
 ];
 export const suggestedData = [
   {
@@ -44,3 +44,6 @@ export const suggestedData = [
     date: new Date(),
   },
 ];
+export const peopleTypes = {
+  group: 'group',
+};

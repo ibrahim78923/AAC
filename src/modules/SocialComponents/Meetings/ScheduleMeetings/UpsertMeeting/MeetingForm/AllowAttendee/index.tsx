@@ -6,6 +6,7 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { RHFAutocomplete, RHFCheckbox } from '@/components/ReactHookForm';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useAllowAttendee } from './useAllowAttendee';
+import { slotDurationOption } from './AllowAttendee.data';
 
 export const AllowAttendee = (props: any) => {
   const {
@@ -54,12 +55,7 @@ export const AllowAttendee = (props: any) => {
             size="small"
             placeholder="Select Duration"
             getOptionLabel={(option: any) => option?.label}
-            options={[
-              { label: '15 Minutes', value: 15 },
-              { label: '30 Minutes', value: 30 },
-              { label: '45 Minutes', value: 45 },
-              { label: '1 Hour', value: 60 },
-            ]}
+            options={slotDurationOption}
           />
           <br />
           <FullCalendar
