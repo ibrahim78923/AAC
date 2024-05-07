@@ -5,8 +5,6 @@ import {
   useUpdateProductsUsersMutation,
 } from '@/services/airMarketer/settings/users';
 import { enqueueSnackbar } from 'notistack';
-import { getSession } from '@/utils';
-import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
 
 const useUsers: any = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -16,7 +14,7 @@ const useUsers: any = () => {
   const [updateProductsUsers] = useUpdateProductsUsersMutation();
   const [deleteProductUser, { isLoading: deleteProductUsersLoading }] =
     useDeleteProductUserMutation();
-  const { user }: any = getSession();
+
   const statusType = {
     ACTIVE: 'ACTIVE',
     INACTIVE: 'INACTIVE',
@@ -29,9 +27,6 @@ const useUsers: any = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { data: rolesByCompanyId } = useGetCompanyAccountsRolesQuery({
-    organizationId: user?.organization?._id,
-  });
 
   const handleUpdateStatus = async (id: any, value: any) => {
     const statusVal = value?.target?.checked
@@ -74,7 +69,6 @@ const useUsers: any = () => {
     theme,
     handleClick,
     handleClose,
-    rolesByCompanyId,
     handleUpdateStatus,
     deleteHandler,
     deleteProductUsersLoading,

@@ -1,11 +1,16 @@
 import { Box, Checkbox } from '@mui/material';
-
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { SwitchBtn } from '@/components/SwitchButton';
-import useTeams from '../Teams/useTeams';
 import useUsers from './useUsers';
+import { getSession } from '@/utils';
+import { useLazyGetCompanyAccountsRolesListQuery } from '@/services/common-APIs';
+import { useLazyGetTeamsListQuery } from '@/services/airSales/settings/teams';
 
 export const userValidationSchema = Yup?.object()?.shape({
   firstName: Yup?.string()
@@ -22,7 +27,7 @@ export const userValidationSchema = Yup?.object()?.shape({
     ),
   email: Yup?.string()?.trim()?.required('Field is Required'),
   address: Yup?.string()?.trim()?.required('Field is Required'),
-  role: Yup?.string()?.trim()?.required('Field is Required'),
+  role: Yup?.object()?.required('Field is Required'),
   facebookUrl: Yup.string()
     .url('Please enter a valid URL starting with http://')
     .optional(),
@@ -35,8 +40,10 @@ export const userValidationSchema = Yup?.object()?.shape({
 });
 
 export const dataArray = () => {
-  const { teamsData } = useTeams();
-  const { rolesByCompanyId } = useUsers();
+  const { user }: any = getSession();
+  const rolesByCompanyId = useLazyGetCompanyAccountsRolesListQuery();
+  const teamsList = useLazyGetTeamsListQuery();
+
   return [
     {
       componentProps: {
@@ -113,13 +120,13 @@ export const dataArray = () => {
         label: 'Assign role',
         fullWidth: true,
         required: true,
-        select: true,
+        placeholder: 'Select role',
+        apiQuery: rolesByCompanyId,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: { organizationId: user?.organization?._id },
+        queryKey: 'organizationId',
       },
-      options: rolesByCompanyId?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
@@ -127,13 +134,11 @@ export const dataArray = () => {
         name: 'team',
         label: 'Select Team',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select team',
+        apiQuery: teamsList,
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: teamsData?.data?.userTeams?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
@@ -141,14 +146,10 @@ export const dataArray = () => {
         name: 'language',
         label: 'Language',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select language',
+        options: ['English', 'Spanish', 'Chinese'],
       },
-      options: [
-        { value: 'United Kingdom', label: 'English' },
-        { value: 'United Kingdom', label: 'Spanish' },
-        { value: 'United Kingdom', label: 'Chinese' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
     {
