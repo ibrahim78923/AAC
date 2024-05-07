@@ -12,7 +12,7 @@ import CtaEditorDrawer from './CtaEditorDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { ScheduleModals } from '@/components/ScheduleModals';
-import { columns, exportData } from './Cta.data';
+import { DRAWER_TITLE, columns, exportData } from './Cta.data';
 import { DeleteIcon, ExportDownloadIcon, PlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -75,7 +75,7 @@ const CTA = () => {
               <Button
                 variant="contained"
                 sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                onClick={() => handleDrawerOpen('Create')}
+                onClick={() => handleDrawerOpen(DRAWER_TITLE?.create)}
               >
                 <PlusIcon /> Create CTA
               </Button>
@@ -208,8 +208,8 @@ const CTA = () => {
                   <Checkbox
                     color="primary"
                     name={item?.value}
-                    onChange={() => handleChangeCheckbox(item.value)}
-                    checked={checkedValue === item.value}
+                    onChange={() => handleChangeCheckbox(item?.value)}
+                    checked={checkedValue === item?.value}
                   />
                 }
                 label={item?.label}

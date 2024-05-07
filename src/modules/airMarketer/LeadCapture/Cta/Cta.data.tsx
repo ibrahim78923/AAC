@@ -138,3 +138,14 @@ export const exportData = [
     label: 'PDF',
   },
 ];
+
+export const DRAWER_TITLE = {
+  create: 'Create',
+  edit: 'Edit',
+  view: 'view',
+};
+
+export const BUTTON_TYPE = {
+  image: 'image',
+  customized: 'customized',
+};

@@ -14,6 +14,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
+import { BUTTON_TYPE, DRAWER_TITLE } from './Cta.data';
 
 const step1ValidationSchema = Yup?.object()?.shape({
   buttonContent: Yup?.string()
@@ -154,14 +155,14 @@ const useCta = () => {
 
   const handleSwitchButtonType = () => {
     setToggleButtonType(!toggleButtonType);
-    if (drawerTitle === 'Create') {
+    if (drawerTitle === DRAWER_TITLE?.create) {
       resetEditorForm();
     }
   };
   const handleDrawerOpen = (title: string = drawerTitle, data?: any) => {
     setDrawerTitle(title);
     if (data) {
-      const isImage = data?.buttonType === 'image';
+      const isImage = data?.buttonType === BUTTON_TYPE?.image;
       setToggleButtonType(!isImage);
       setCtaButtonData(data);
 

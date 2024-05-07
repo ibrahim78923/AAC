@@ -5,6 +5,7 @@ import StepCustomizedButton from './StepCustomizedButton';
 import StepButtonInfo from './StepButtonInfo';
 import StepCopyCode from './StepCopyCode';
 import StepImageButton from './StepImageButton';
+import { BUTTON_TYPE, DRAWER_TITLE } from '../Cta.data';
 
 const CtaEditorDrawer = (props: any) => {
   const {
@@ -46,7 +47,7 @@ const CtaEditorDrawer = (props: any) => {
         isOk={true}
         cancelText={'Back'}
         submitHandler={onSubmit}
-        footer={title === 'View' ? false : true}
+        footer={title === DRAWER_TITLE?.view ? false : true}
         isLoading={isLoading}
       >
         <Box sx={{ pt: 2 }}>
@@ -66,7 +67,7 @@ const CtaEditorDrawer = (props: any) => {
                 boxShadow: '0px 9px 16px 0px rgba(245, 250, 255, 0.04)',
               }}
             >
-              {title === 'Create' && (
+              {title === DRAWER_TITLE?.create && (
                 <>
                   <Button
                     onClick={handleSwitchButtonType}
@@ -105,7 +106,7 @@ const CtaEditorDrawer = (props: any) => {
                   }}
                 >
                   <Typography variant="body3">
-                    {ctaButtonData?.buttonType === 'image'
+                    {ctaButtonData?.buttonType === BUTTON_TYPE?.image
                       ? 'Image Button'
                       : 'Customized Button'}
                   </Typography>

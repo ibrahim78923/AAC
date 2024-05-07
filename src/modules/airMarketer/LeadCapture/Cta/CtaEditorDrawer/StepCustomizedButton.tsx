@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { customizedButtonData } from './CtaEditorDrawer.data';
+import { DRAWER_TITLE } from '../Cta.data';
 
 const StepCustomizedButton = ({ drawerTitle }: any) => {
   return (
@@ -11,7 +12,7 @@ const StepCustomizedButton = ({ drawerTitle }: any) => {
           New Call-To-Action
         </Button>
       </Grid>
-      {drawerTitle !== 'View' && (
+      {drawerTitle !== DRAWER_TITLE?.view && (
         <>
           {customizedButtonData?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
