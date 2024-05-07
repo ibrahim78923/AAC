@@ -12,7 +12,7 @@ import {
   usePatchDealsMutation,
   usePostDealsMutation,
 } from '@/services/airSales/deals';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, existingDeals } from '@/constants';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -103,12 +103,12 @@ const useDealsEditorDrawer = ({
             }).unwrap()
           : (res = await postDeals({ body: PayloadValue })?.unwrap());
       }
-      if (res?.data || selectedValue === 'Existing Deals') {
+      if (res?.data || selectedValue === existingDeals) {
         try {
           await createAssociationDeals({
             body: {
               dealId:
-                selectedValue === 'Existing Deals'
+                selectedValue === existingDeals
                   ? values?.existingDeals
                   : res?.data?._id,
               companyId: companyId?.companyId,

@@ -13,7 +13,7 @@ import {
   useUpdateContactMutation,
 } from '@/services/commonFeatures/contacts';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, existingContacts, newContacts } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { useState } from 'react';
@@ -102,29 +102,24 @@ const useContactsEditorDrawer = ({
   );
 
   function findObjectById(mainArray: any, id: string) {
-    return mainArray.find((item: any) => item._id === id);
+    return mainArray?.find((item: any) => item?._id === id);
   }
 
-  if (watchContactStatus[0] === 'Existing Contacts') {
+  if (watchContactStatus[0] === existingContacts) {
     setOpenDrawer('Edit');
   }
   const onSubmit = async (values: any) => {
-    if (
-      watchContactStatus[0] === 'New Contact' &&
-      isNullOrEmpty(values?.email)
-    ) {
+    if (watchContactStatus[0] === newContacts && isNullOrEmpty(values?.email)) {
       enqueueSnackbar(`Please Enter Email`, { variant: 'error' });
     } else if (
-      watchContactStatus[0] === 'Existing Contacts' &&
+      watchContactStatus[0] === existingContacts &&
       isNullOrEmpty(values?.existingContact)
     ) {
       enqueueSnackbar(`Please Select Existing Contact`, { variant: 'error' });
     } else {
       delete values?.contactStatus;
       Object.entries(
-        watchContactStatus[0] === 'New Contact'
-          ? values
-          : existingContactObject,
+        watchContactStatus[0] === newContacts ? values : existingContactObject,
       ).forEach(([key, value]) => {
         if (
           value &&

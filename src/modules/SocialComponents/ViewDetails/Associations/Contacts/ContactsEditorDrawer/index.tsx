@@ -20,6 +20,7 @@ import Image from 'next/image';
 import { AddPenIcon } from '@/assets/icons';
 import { useEffect } from 'react';
 import { generateImage } from '@/utils/avatarUtils';
+import { newContacts, zero } from '@/constants';
 
 const ContactsEditorDrawer = (props: any) => {
   const {
@@ -71,7 +72,7 @@ const ContactsEditorDrawer = (props: any) => {
           >
             <Grid container spacing={4}>
               <Grid item xs={12} sx={{ paddingTop: '20px !important' }}>
-                {watchContactStatus[0] === 'New Contact' && (
+                {watchContactStatus[0] === newContacts && (
                   <RHFRadioGroup
                     options={[
                       { value: 'New Contact', label: 'New Contact' },
@@ -86,7 +87,7 @@ const ContactsEditorDrawer = (props: any) => {
                 )}
               </Grid>
 
-              {watchContactStatus[0] === 'New Contact' && (
+              {watchContactStatus[0] === newContacts && (
                 <Grid item xs={12}>
                   <center>
                     <Box sx={{ position: 'relative' }}>
@@ -139,7 +140,7 @@ const ContactsEditorDrawer = (props: any) => {
                 lifeCycleStagesData,
                 contactStatusData,
               )?.map((item: any, index: any) =>
-                watchContactStatus[0] === 'New Contact' ? (
+                watchContactStatus[0] === newContacts ? (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select
@@ -152,7 +153,7 @@ const ContactsEditorDrawer = (props: any) => {
                     </item.component>
                   </Grid>
                 ) : (
-                  index === 0 && (
+                  index === zero && (
                     <Grid
                       item
                       xs={12}
