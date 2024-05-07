@@ -1,4 +1,4 @@
-import { SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { UpsertMeeting } from '@/modules/SocialComponents/Meetings/ScheduleMeetings/UpsertMeeting';
 
@@ -9,9 +9,7 @@ export default UpsertMeetingPage;
 
 UpsertMeetingPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout
-      permissions={[SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING]}
-    >
+    <Layout permissions={Permissions?.SOCIAL_COMPONENT_UPSERT_MEETING}>
       {page}
     </Layout>
   );
