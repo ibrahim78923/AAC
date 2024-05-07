@@ -3,6 +3,7 @@ import { Circle } from '@mui/icons-material';
 import { LOYALTY_REWARDS_STATUS } from '@/constants/strings';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 import { truncateText } from '@/utils/avatarUtils';
+import { LOYALTY_REWARDS_TYPE_MAPPED } from '@/constants/api-mapped';
 
 export const LOYALTY_REWARDS_STATUS_PILL: any = {
   [LOYALTY_REWARDS_STATUS?.ACTIVE]: {
@@ -10,7 +11,7 @@ export const LOYALTY_REWARDS_STATUS_PILL: any = {
     bgColor: 'success.lighter',
     iconColor: 'success',
   },
-  [LOYALTY_REWARDS_STATUS?.IN_ACTIVE]: {
+  [LOYALTY_REWARDS_STATUS?.EXPIRED]: {
     fontColor: 'error.main',
     bgColor: 'custom.error_lighter',
     iconColor: 'error',
@@ -90,7 +91,7 @@ export const loyaltyAllRewardColumnDynamic: any = (
     id: 'rewardType',
     isSortable: true,
     header: 'Reward Type',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => LOYALTY_REWARDS_TYPE_MAPPED?.[info?.getValue()],
   },
   {
     accessorFn: (row: any) => row?.totalRedeemed,

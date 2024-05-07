@@ -52,11 +52,11 @@ export const loyaltyDigitalRewardColumnDynamic: any = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.voucherCode,
+    accessorFn: (row: any) => row?.vouchersDetail,
     id: 'voucherCode',
     isSortable: true,
     header: 'Voucher code',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue()?.voucherCode,
   },
   {
     accessorFn: (row: any) => row?.totalRedeemed,

@@ -553,8 +553,8 @@ export const DRAWER_TYPES = {
 };
 
 export const LOYALTY_REWARDS_STATUS = {
-  ACTIVE: 'ACTIVE',
-  IN_ACTIVE: 'IN_ACTIVE',
+  ACTIVE: 'Active',
+  EXPIRED: 'Expired',
 };
 
 export const FIELD_TYPES = {
