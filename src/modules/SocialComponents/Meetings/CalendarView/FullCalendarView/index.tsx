@@ -114,7 +114,7 @@ export const FullCalendarView = (props: any) => {
                   </>
                 }
               >
-                <Typography variant="body2" align="center">
+                <Typography variant="body2" align="center" height={'100%'}>
                   {truncateText(eventInfo?.event?._def?.title)}
                 </Typography>
               </Tooltip>
@@ -191,7 +191,7 @@ export const FullCalendarView = (props: any) => {
                   </>
                 }
               >
-                <Typography variant="body2">
+                <Typography variant="body2" height={'100%'}>
                   {truncateText(eventInfo?.event?._def?.title)}
                 </Typography>
               </Tooltip>
