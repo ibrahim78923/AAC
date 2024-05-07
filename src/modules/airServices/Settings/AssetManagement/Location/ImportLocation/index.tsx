@@ -1,34 +1,28 @@
-import { Box, Grid, Typography } from '@mui/material';
-import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
-import CommonDrawer from '@/components/CommonDrawer';
+import { Import } from '@/components/Import';
+import { OBJECT_URL_IMPORT } from '@/constants/strings';
+import { CRM_COLUMNS_LOCATION } from './ImportLocation.data';
 import { useImportLocation } from './useImportLocation';
 
 export const ImportLocation = (props: any) => {
-  const { isDrawerOpen } = props;
-  const { handleSubmit, submitImportLocation, methods, onClose } =
-    useImportLocation(props);
+  const { isDrawerOpen, setIsDrawerOpen } = props;
+  const {
+    setDrawerDefaultState,
+    submitImport,
+    importFileStatus,
+    filterMandatoryFields,
+  } = useImportLocation?.(props);
 
   return (
-    <CommonDrawer
+    <Import
       isDrawerOpen={isDrawerOpen}
-      onClose={() => onClose()}
-      okText={'Import'}
-      title={'Location Import'}
-      submitHandler={handleSubmit(submitImportLocation)}
-      isOk
-      cancelText={'Cancel'}
-      footer
-    >
-      <Box mt={1}>
-        <FormProvider methods={methods}>
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
-              <Typography variant="body2">Add File</Typography>
-              <RHFDropZone />
-            </Grid>
-          </Grid>
-        </FormProvider>
-      </Box>
-    </CommonDrawer>
+      setIsDrawerOpen={setIsDrawerOpen}
+      setDrawerDefaultState={setDrawerDefaultState}
+      title="Import"
+      crmColumnsOptions={CRM_COLUMNS_LOCATION}
+      objectUrl={OBJECT_URL_IMPORT?.USERS_ATTACHMENT}
+      submitImport={(apiData: any) => submitImport?.(apiData)}
+      importFileStatus={importFileStatus}
+      mandatoryColumnsList={filterMandatoryFields?.()}
+    />
   );
 };
