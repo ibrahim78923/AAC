@@ -22,11 +22,11 @@ export default function RHFAutocomplete({
   isOptionEqualToValue = (option: any, newValue: any) =>
     option?._id === newValue?._id,
   getOptionLabel = (option: any) => option?.replaceAll?.('_', ' '),
+  groupBy = (option: any) => option?.groupBy,
   ...other
 }: any) {
   const { control } = useFormContext();
   const [open, setOpen] = useState(false);
-
   const theme: any = useTheme();
 
   const onChanged = (e: any, newValue: any, onChange: any) => {
@@ -61,6 +61,7 @@ export default function RHFAutocomplete({
             }}
             autoComplete
             noOptionsText={noOptionsText}
+            groupBy={groupBy}
             value={value}
             getOptionLabel={getOptionLabel}
             isOptionEqualToValue={isOptionEqualToValue}

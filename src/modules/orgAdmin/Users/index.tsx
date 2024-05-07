@@ -12,15 +12,24 @@ const Users = () => {
     employeeDetails,
     searchAccount,
     setSearchAccount,
+    setSearchEmployee,
+    employeeFilter,
+    setEmployeeFilter,
+    resetFilter,
   } = useUsers();
 
   return (
     <Grid container spacing={2}>
       <Grid item xl={3} lg={4} xs={12}>
         <UsersSidebar
+          employeeDetails={employeeDetails}
           setSearchAccount={setSearchAccount}
           employeeDataById={employeeDataById}
           setEmployeeDataById={setEmployeeDataById}
+          setSearchEmployee={setSearchEmployee}
+          employeeFilter={employeeFilter}
+          setEmployeeFilter={setEmployeeFilter}
+          resetFilter={resetFilter}
         />
       </Grid>
       <Grid item xl={9} lg={8} xs={12}>
