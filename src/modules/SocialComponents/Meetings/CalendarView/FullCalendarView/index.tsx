@@ -40,7 +40,7 @@ export const FullCalendarView = (props: any) => {
           padding: '1rem',
           backgroundColor: theme?.palette?.grey[700],
         },
-        '.fc-timegrid-slot-lane': {
+        '.fc-timegrid-slot': {
           padding: '.25rem',
         },
         '.fc-timegrid-slot-minor': {
