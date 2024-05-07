@@ -29,8 +29,8 @@ export const conditionTypeOptions = [
   { value: 'OR', label: 'Match ANY condition in this group' },
 ];
 
-export const actionsOptions = [
-  { value: 'status', label: 'Set Priority as' },
+export const actionsTicketOptions = [
+  { value: 'pirority', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
   { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
@@ -40,6 +40,22 @@ export const actionsOptions = [
   { value: 'department', label: 'Set Department as' },
   { value: 'agent', label: 'Assign to Agent' },
 ];
+export const actionsTaskOptions = [
+  { value: 'status', label: 'Set Status as' },
+  { value: 'plannedStartDate', label: 'Set planned Start dates as' },
+  { value: 'plannedEndDate', label: 'Set planned end dates as' },
+  { value: 'plannedEffort', label: 'Set planned Efforts as' },
+  { value: 'agent', label: 'Assign to Agent' },
+];
+export const actionsAssetOptions = [
+  { value: 'status', label: 'Set Status as' },
+  { value: 'impact', label: 'Set Impact as' },
+  { value: 'locationId', label: 'Set location as' },
+  { value: 'assetLifeExpiry', label: 'Set end of life as' },
+  { value: 'category', label: 'Set Category as' },
+  { value: 'department', label: 'Set Department as' },
+];
+
 export const eventBasedSaveWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
 });
@@ -124,6 +140,11 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
     ...taskFieldsOption,
     ...assetsFieldsOption,
   ];
+  const allActionFields = [
+    ...actionsTicketOptions,
+    ...actionsTaskOptions,
+    ...actionsAssetOptions,
+  ];
 
   return {
     title: singleWorkflowData?.title ?? '',
@@ -141,35 +162,28 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
       : null,
     module: singleWorkflowData?.module ?? SCHEMA_KEYS?.TICKETS,
     groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
-    groups: singleWorkflowData?.groups?.map((group: any, gIndex: number) => {
-      return {
-        name: group?.name ?? '',
-        conditionType: group?.conditionType
-          ? conditionTypeOptions?.find(
-              (item: any) => item?.value === group?.conditionType,
-            )
+    groups: singleWorkflowData?.groups?.map((group: any, gIndex: number) => ({
+      name: group?.name ?? '',
+      conditionType:
+        conditionTypeOptions?.find(
+          (type: any) => type?.value === group?.conditionType,
+        ) ?? null,
+      conditions: group?.conditions?.map((condition: any, cIndex: number) => ({
+        options: optionsData,
+        fieldName: condition?.fieldName
+          ? allFields?.find((item: any) => item?.value === condition?.fieldName)
           : null,
-        conditions: group?.conditions?.map((condition: any, cIndex: number) => {
-          return {
-            options: optionsData,
-            fieldName: condition?.fieldName
-              ? allFields?.find(
-                  (item: any) => item?.value === condition?.fieldName,
-                )
-              : null,
-            condition: condition?.condition ?? '',
-            fieldValue:
-              condition?.fieldType === 'objectId'
-                ? singleWorkflowData[
-                    `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
-                  ]
-                : condition?.fieldType === 'date'
-                  ? new Date(condition?.fieldValue)
-                  : condition?.fieldValue,
-          };
-        }),
-      };
-    }) ?? [
+        condition: condition?.condition ?? '',
+        fieldValue:
+          condition?.fieldType === 'objectId'
+            ? singleWorkflowData[
+                `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
+              ]
+            : condition?.fieldType === 'date'
+              ? new Date(condition?.fieldValue)
+              : condition?.fieldValue,
+      })),
+    })) ?? [
       {
         name: '',
         conditionType: null,
@@ -186,7 +200,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
     actions: singleWorkflowData?.actions?.map(
       (action: any, aIndex: number) => ({
         fieldName: action?.fieldName
-          ? actionsOptions?.find(
+          ? allActionFields?.find(
               (item: any) => item?.value === action?.fieldName,
             )
           : null,

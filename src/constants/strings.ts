@@ -549,3 +549,8 @@ export const DRAWER_TYPES = {
   VIEW: 'view',
   UPDATE: 'update',
 };
+
+export const LOGICS = {
+  AND: 'AND',
+  OR: 'OR',
+};

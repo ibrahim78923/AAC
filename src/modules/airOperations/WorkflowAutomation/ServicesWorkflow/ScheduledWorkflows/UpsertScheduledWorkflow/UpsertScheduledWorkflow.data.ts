@@ -25,8 +25,8 @@ export const conditionTypeOptions = [
   { value: 'OR', label: 'Match ANY condition in this group' },
 ];
 
-export const actionsOptions = [
-  { value: 'status', label: 'Set Priority as' },
+export const actionsTicketOptions = [
+  { value: 'pirority', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
   { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
@@ -36,6 +36,22 @@ export const actionsOptions = [
   { value: 'department', label: 'Set Department as' },
   { value: 'agent', label: 'Assign to Agent' },
 ];
+export const actionsTaskOptions = [
+  { value: 'status', label: 'Set Status as' },
+  { value: 'plannedStartDate', label: 'Set planned Start dates as' },
+  { value: 'plannedEndDate', label: 'Set planned end dates as' },
+  { value: 'plannedEffort', label: 'Set planned Efforts as' },
+  { value: 'agent', label: 'Assign to Agent' },
+];
+export const actionsAssetOptions = [
+  { value: 'status', label: 'Set Status as' },
+  { value: 'impact', label: 'Set Impact as' },
+  { value: 'locationId', label: 'Set location as' },
+  { value: 'assetLifeExpiry', label: 'Set end of life as' },
+  { value: 'category', label: 'Set Category as' },
+  { value: 'department', label: 'Set Department as' },
+];
+
 export const scheduledSaveWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
 });
@@ -118,6 +134,11 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
     ...taskFieldsOption,
     ...assetsFieldsOption,
   ];
+  const allActionFields = [
+    ...actionsTicketOptions,
+    ...actionsTaskOptions,
+    ...actionsAssetOptions,
+  ];
   const type: any = {
     DAILY: 'daily',
     WEEKLY: 'weekly',
@@ -159,11 +180,10 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: any) => {
       return {
         name: group?.name ?? '',
-        conditionType: group?.conditionType
-          ? conditionTypeOptions?.find(
-              (item: any) => item?.value === group?.conditionType,
-            )
-          : null,
+        conditionType:
+          conditionTypeOptions?.find(
+            (type: any) => type?.value === group?.conditionType,
+          ) ?? null,
         conditions: group?.conditions?.map((condition: any, cIndex: number) => {
           return {
             options: optionsData,
@@ -201,7 +221,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
     actions: singleWorkflowData?.actions?.map(
       (action: any, aIndex: number) => ({
         fieldName: action?.fieldName
-          ? actionsOptions?.find(
+          ? allActionFields?.find(
               (item: any) => item?.value === action?.fieldName,
             )
           : null,

@@ -114,11 +114,10 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: any) => {
       return {
         name: group?.name ?? '',
-        conditionType: group?.conditionType
-          ? conditionTypeOptions?.find(
-              (item: any) => item?.value === group?.conditionType,
-            )
-          : null,
+        conditionType:
+          conditionTypeOptions?.find(
+            (type: any) => type?.value === group?.conditionType,
+          ) ?? null,
         conditions: group?.conditions?.map((condition: any, cIndex: any) => {
           return {
             options: 'Ticket Fields',

@@ -40,7 +40,8 @@ export const useUpsertScheduledWorkflow = () => {
     selectDepartment: 'Select Department',
     department: 'departments',
     setDepartmentAs: 'Set Department as',
-    location: 'location',
+    location: 'Location',
+    locations: 'locations',
     addRequester: 'Add Requester',
     requester: 'users',
     setCategoryAs: 'Set Category as',
@@ -116,7 +117,7 @@ export const useUpsertScheduledWorkflow = () => {
       case collectionNameData?.setDepartmentAs:
         return collectionNameData?.department;
       case collectionNameData?.location:
-        return collectionNameData?.location;
+        return collectionNameData?.locations;
       case collectionNameData?.addRequester:
         return collectionNameData?.requester;
       case collectionNameData?.setCategoryAs:

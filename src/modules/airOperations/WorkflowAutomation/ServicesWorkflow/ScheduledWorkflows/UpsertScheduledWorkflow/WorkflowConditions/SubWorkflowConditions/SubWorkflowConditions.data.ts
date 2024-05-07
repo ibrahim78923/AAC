@@ -9,9 +9,9 @@ import { ROLES, SCHEMA_KEYS } from '@/constants/strings';
 export const assetsFieldsOption = [
   { value: 'displayName', label: 'Name' },
   { value: 'assetType', label: 'Asset Type' },
-  { value: 'location', label: 'Location' },
+  { value: 'locationId', label: 'Location' },
   { value: 'usedBy', label: 'Used By' },
-  { value: 'departmentId', label: 'Department' },
+  { value: 'department', label: 'Select Department' },
   { value: 'impact', label: 'Impact' },
   { value: 'assignedOn', label: 'Assigned On' },
   { value: 'createdBy', label: 'Created By' },
@@ -27,7 +27,7 @@ export const taskFieldsOption = [
   { value: 'startDate', label: 'Planned Start Date' },
   { value: 'endDate', label: 'Planned End Date' },
   { value: 'plannedEffort', label: 'Planned Effort' },
-  { value: 'departmentId', label: 'Department' },
+  { value: 'department', label: 'Select Department' },
 ];
 
 export const ticketsFields = [

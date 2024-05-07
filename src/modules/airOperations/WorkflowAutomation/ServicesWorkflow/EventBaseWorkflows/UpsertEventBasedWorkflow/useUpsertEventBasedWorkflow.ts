@@ -37,7 +37,9 @@ export const useUpsertEventBasedWorkflow = () => {
     selectDepartment: 'Select Department',
     department: 'departments',
     setDepartmentAs: 'Set Department as',
-    location: 'location',
+    location: 'Location',
+    setLocationAs: 'Set location as',
+    locations: 'locations',
     addRequester: 'Add Requester',
     requester: 'users',
     setCategoryAs: 'Set Category as',
@@ -114,7 +116,9 @@ export const useUpsertEventBasedWorkflow = () => {
       case collectionNameData?.setDepartmentAs:
         return collectionNameData?.department;
       case collectionNameData?.location:
-        return collectionNameData?.location;
+        return collectionNameData?.locations;
+      case collectionNameData?.setLocationAs:
+        return collectionNameData?.locations;
       case collectionNameData?.addRequester:
         return collectionNameData?.requester;
       case collectionNameData?.setCategoryAs:
