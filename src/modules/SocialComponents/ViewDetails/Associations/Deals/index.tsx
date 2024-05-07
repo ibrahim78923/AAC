@@ -30,6 +30,7 @@ const Deals = (companyId: any) => {
     isLoading,
     setPage,
     setPageLimit,
+    existingDealsData,
   } = useDeals(companyId);
 
   return (
@@ -90,6 +91,7 @@ const Deals = (companyId: any) => {
           setOpenDrawer={setOpenDrawer}
           companyId={companyId}
           dealRecord={dealRecord}
+          existingDealsData={existingDealsData}
         />
       )}
       <AlertModals

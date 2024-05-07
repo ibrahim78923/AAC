@@ -5,6 +5,7 @@ import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/compan
 import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { useDeleteAssociationMutation } from '@/services/commonFeatures/contacts/associations';
+import { useGetDealsListQuery } from '@/services/airSales/deals';
 
 const useDeals = (companyId: any) => {
   const theme = useTheme();
@@ -34,6 +35,27 @@ const useDeals = (companyId: any) => {
     pageLimit,
     params: paramObj,
   });
+  const filterValues = {
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
+  };
+  const { data: getDealsTableList } = useGetDealsListQuery(filterValues);
+
+  const newArray = filterArray(
+    getDealsTableList?.data?.deals,
+    getCompanyDeals?.data?.deals,
+  );
+
+  const existingDealsData = newArray?.map((lifecycle: any) => ({
+    value: lifecycle?._id,
+    label: lifecycle?.name,
+  }));
+
+  function filterArray(mainArray: any, subArray: any) {
+    return mainArray?.filter((mainItem: any) => {
+      return !subArray?.some((subItem: any) => subItem?._id === mainItem?._id);
+    });
+  }
   const [DeleteAssociationDeals] = useDeleteAssociationMutation();
 
   const handleDeleteDeals = async () => {
@@ -72,6 +94,7 @@ const useDeals = (companyId: any) => {
     isLoading,
     setPage,
     setPageLimit,
+    existingDealsData,
   };
 };
 
