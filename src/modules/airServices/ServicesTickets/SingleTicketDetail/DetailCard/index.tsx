@@ -14,7 +14,6 @@ import {
 export const DetailCard = (props: any) => {
   const { apiStatus, detail } = props;
   const { attachFile } = useDetailsCard();
-
   const theme = useTheme();
   if (apiStatus?.isLoading || apiStatus?.isFetching) return <SkeletonForm />;
   return (
@@ -198,8 +197,7 @@ export const DetailCard = (props: any) => {
               variant="body2"
               sx={{ color: 'primary.main', textDecoration: 'underline' }}
             >
-              {detail?.data?.[0]?.associateAssetsDetails?.[0]?.displayName ??
-                '-'}
+              {detail?.data?.[0]?.moduleType ?? '-'}
             </Typography>
           </Box>
         </Grid>

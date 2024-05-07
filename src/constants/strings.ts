@@ -400,6 +400,7 @@ export const MODULE_TYPE = {
   LOCATION: 'LOCATION',
   ASSETS: 'ASSETS',
   TICKET: 'TICKET',
+  CUSTOMER_PORTAL: 'CUSTOMER_PORTAL',
 };
 export const TICKET_SELECTION_TYPE = {
   REQUESTER: 'REQUESTER',
@@ -548,4 +549,9 @@ export const DRAWER_TYPES = {
   ADD: 'add',
   VIEW: 'view',
   UPDATE: 'update',
+};
+
+export const FIELD_TYPES = {
+  MANDATORY_FIELD: 'Mandatory Field',
+  OPTIONAL_FIELD: 'Optional Field',
 };
