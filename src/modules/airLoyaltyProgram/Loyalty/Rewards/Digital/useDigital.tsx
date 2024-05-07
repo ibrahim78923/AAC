@@ -2,14 +2,18 @@ import { PAGINATION } from '@/config';
 import { useLazyGetAllLoyaltyDigitalRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards/digital';
 import { useEffect, useState } from 'react';
 import { loyaltyDigitalRewardColumnDynamic } from './Digital.data';
-import { useRouter } from 'next/router';
+import { getActivePermissionsSession } from '@/utils';
 
 export const useDigital = () => {
-  const router = useRouter?.();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
+  const overallPermissions = getActivePermissionsSession();
 
+  const [isRewardDetailsOpen, setIsRewardDetailsOpen] = useState({
+    isOpen: false,
+    rewardType: '',
+  });
   const [
     lazyGetAllLoyaltyDigitalRewardsListTrigger,
     lazyGetAllLoyaltyDigitalRewardsListStatus,
@@ -34,8 +38,10 @@ export const useDigital = () => {
     getAllLoyaltyDigitalRewardsList?.();
   }, [page, search, pageLimit]);
 
-  const loyaltyDigitalRewardColumn =
-    loyaltyDigitalRewardColumnDynamic?.(router);
+  const loyaltyDigitalRewardColumn = loyaltyDigitalRewardColumnDynamic?.(
+    setIsRewardDetailsOpen,
+    overallPermissions,
+  );
 
   return {
     lazyGetAllLoyaltyDigitalRewardsListStatus,
@@ -43,5 +49,7 @@ export const useDigital = () => {
     setPageLimit,
     setPage,
     loyaltyDigitalRewardColumn,
+    isRewardDetailsOpen,
+    setIsRewardDetailsOpen,
   };
 };
