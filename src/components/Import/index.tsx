@@ -12,6 +12,7 @@ export const Import = (props: any) => {
     crmColumnsOptions,
     importFileStatus,
     mandatoryColumnsList = [],
+    labelForImport = 'Add File',
   } = props;
 
   const {
@@ -80,7 +81,7 @@ export const Import = (props: any) => {
               </Typography>
             )}
             <br />
-            <RHFFileImport name="file" label="Add File" />
+            <RHFFileImport name="file" label={labelForImport} />
           </>
         ) : (
           <>

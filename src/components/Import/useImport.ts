@@ -46,7 +46,7 @@ export const useImport = (props: any) => {
   const getSignedUrl = async (data: any) => {
     const signedUrlApiDataParameter = {
       queryParams: {
-        objectUrl,
+        objectUrl: `${objectUrl}/${data?.file?.name}`,
       },
     };
     try {
