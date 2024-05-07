@@ -34,11 +34,14 @@ export const useUpsertShopModal = (props: any) => {
     shopFormData?.append('country', formData?.country?._id);
     shopFormData?.append('postCode', formData?.postCode);
     shopFormData?.append('address', formData?.address);
+    formData?.fileUrl !== null &&
+      shopFormData?.append('fileUrl', formData?.fileUrl);
 
     if (isPortalOpen?.data?._id) {
       submitUpdateShop?.(shopFormData);
       return;
     }
+
     const apiDataParameter = {
       body: shopFormData,
     };

@@ -1,7 +1,13 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFDropZone,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+import { FILE_MAX_SIZE } from '@/config';
 import { LOYALTY_SHOP_TYPE_MAPPED } from '@/constants/api-mapped';
 import { LOYALTY_SHOP_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
+
 export const shopTypeOptions = [
   {
     _id: LOYALTY_SHOP_TYPE?.ON_SITE,
@@ -43,6 +49,7 @@ export const upsertShopValidationScheme = Yup?.object()?.shape({
   country: Yup?.mixed()?.nullable()?.required('Country is required'),
   postCode: Yup?.string()?.trim()?.required('Post code is required'),
   address: Yup?.string()?.trim()?.required('Address is required'),
+  fileUrl: Yup?.mixed()?.nullable(),
 });
 
 export const upsertShopFieldsValues = (data?: any) => {
@@ -54,6 +61,7 @@ export const upsertShopFieldsValues = (data?: any) => {
     country: data?.country ?? null,
     postCode: data?.postCode ?? '',
     address: data?.address ?? '',
+    fileUrl: null,
   };
 };
 
@@ -138,5 +146,19 @@ export const upsertShopFormFieldsDynamic = () => [
       placeholder: 'Enter Address',
       required: true,
     },
+  },
+  {
+    id: 17,
+    componentProps: {
+      name: 'fileUrl',
+      fullWidth: true,
+      label: 'Logo',
+      fileType: 'PNG or JPG  (max 2.44 MB)',
+      maxSize: FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE,
+      accept: {
+        'image/*': ['.png', '.jpg'],
+      },
+    },
+    component: RHFDropZone,
   },
 ];

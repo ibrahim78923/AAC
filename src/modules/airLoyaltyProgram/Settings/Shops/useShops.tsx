@@ -4,21 +4,27 @@ import SingleShopDetail from './SingleShopDetail';
 import UpsertShop from './UpsertShop';
 import { DeleteShop } from './DeleteShop';
 import { cardData } from './Shops.data';
+import { PAGINATION } from '@/config';
 
 export const useShops = () => {
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
   const [selectedShopsList, setSelectedShopsList] = useState<any>([]);
   const [search, setSearch] = useState<any>('');
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const [lazyGetShopListTrigger, lazyGetShopListStatus]: any =
     useLazyGetShopListQuery?.();
 
-  const getShopLists = async () => {
+  const getShopLists = async (currentPage = page) => {
     const queryParams = {
       search,
-      // limit
+      limit: pageLimit,
+      page: currentPage,
     };
+
     const apiDataParameter = { queryParams };
+
     try {
       await lazyGetShopListTrigger?.(apiDataParameter)?.unwrap();
     } catch (error) {}
@@ -26,7 +32,7 @@ export const useShops = () => {
 
   useEffect(() => {
     getShopLists?.();
-  }, [search]);
+  }, [search, page, pageLimit]);
 
   const selectAllShops = () => {
     setSelectedShopsList(cardData);
@@ -84,5 +90,7 @@ export const useShops = () => {
     renderPortalComponent,
     selectAllShops,
     toggleShopSelection,
+    setPageLimit,
+    setPage,
   };
 };

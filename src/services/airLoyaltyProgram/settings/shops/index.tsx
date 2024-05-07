@@ -6,7 +6,7 @@ export const manageShopAPI = baseAPI?.injectEndpoints({
     getShopList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: END_POINTS?.GET_SHOP_LIST,
-        method: 'GET',
+        method: 'POST',
         params: apiDataParameter?.queryParams,
       }),
     }),
