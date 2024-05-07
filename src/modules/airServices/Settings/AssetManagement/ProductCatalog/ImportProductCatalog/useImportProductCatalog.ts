@@ -1,8 +1,9 @@
-import { IMPORT_ACTION_TYPE } from '@/constants/strings';
+import { FIELD_TYPES, IMPORT_ACTION_TYPE } from '@/constants/strings';
 import usePath from '@/hooks/usePath';
 import { useImportFileMutation } from '@/services/airServices/global/import';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { CRM_COLUMNS } from './ImportProductCatalog.data';
 
 export const useImportProductCatalog = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -19,6 +20,12 @@ export const useImportProductCatalog = (props: any) => {
       }),
     );
     setIsDrawerOpen?.(false);
+  };
+
+  const filterMandatoryFields = () => {
+    return CRM_COLUMNS?.filter(
+      (column: any) => column?.groupBy === FIELD_TYPES?.MANDATORY_FIELD,
+    );
   };
 
   const submitImport = async (apiData: any) => {
@@ -39,5 +46,10 @@ export const useImportProductCatalog = (props: any) => {
     }
   };
 
-  return { setDrawerDefaultState, submitImport, importFileStatus };
+  return {
+    setDrawerDefaultState,
+    submitImport,
+    importFileStatus,
+    filterMandatoryFields,
+  };
 };

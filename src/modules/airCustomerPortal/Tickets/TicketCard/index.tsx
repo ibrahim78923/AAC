@@ -65,7 +65,7 @@ export const TicketsCard = (props: any) => {
             variant="body2"
             color="primary.main"
           >
-            {!!ticket?.source ? `- Via ${ticket?.source}` : ''}
+            {!!ticket?.moduleType ? `- Via ${ticket?.moduleType}` : ''}
           </Typography>
         </Typography>
       </Box>
