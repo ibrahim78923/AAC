@@ -38,7 +38,13 @@ export const FullCalendarView = (props: any) => {
         },
         '.fc-col-header-cell': {
           padding: '1rem',
-          backgroundColor: 'primary.lighter',
+          backgroundColor: theme?.palette?.grey[700],
+        },
+        '.fc-timegrid-slot-lane': {
+          padding: '.25rem',
+        },
+        '.fc-timegrid-slot-minor': {
+          borderTop: 'none',
         },
       }}
     >
