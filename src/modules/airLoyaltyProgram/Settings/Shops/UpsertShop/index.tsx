@@ -2,6 +2,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Grid } from '@mui/material';
 import { useUpsertShopModal } from './useUpsertShop';
 import { FormProvider } from '@/components/ReactHookForm';
+import { UPSERT_SHOP_FORM_CONSTANT } from '../Shops.data';
 
 const UpsertShop = (props: any) => {
   const { isPortalOpen } = props;
@@ -21,8 +22,16 @@ const UpsertShop = (props: any) => {
       <CommonDrawer
         isDrawerOpen={isPortalOpen?.isOpen}
         onClose={handleClose}
-        okText={isPortalOpen?.data?._id ? 'Edit' : 'Submit'}
-        title={isPortalOpen?.data?._id ? 'Update Shop' : 'New Shop'}
+        okText={
+          isPortalOpen?.data?._id
+            ? UPSERT_SHOP_FORM_CONSTANT?.EDIT
+            : UPSERT_SHOP_FORM_CONSTANT?.SUBMIT
+        }
+        title={
+          isPortalOpen?.data?._id
+            ? UPSERT_SHOP_FORM_CONSTANT?.UPDATE_SHOP
+            : UPSERT_SHOP_FORM_CONSTANT?.NEW_SHOP
+        }
         submitHandler={handleSubmit(submitUpsertShopForm)}
         isOk
         footer
