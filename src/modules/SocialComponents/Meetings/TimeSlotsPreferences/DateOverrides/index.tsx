@@ -51,7 +51,7 @@ const DateOverrides = (props: any) => {
                         : ''}
                     </Typography>
                     <Box>
-                      {data?.overrides.map((time: any) => (
+                      {data?.overrides?.map((time: any) => (
                         <Typography key={time?._id}>
                           {`${dayjs(time?.start)?.format(
                             TIME_FORMAT?.UI,
