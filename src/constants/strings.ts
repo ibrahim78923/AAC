@@ -522,8 +522,8 @@ export const OPERATORS = {
 };
 
 export const LOYALTY_REWARDS_TYPE = {
-  PHYSICAL_REWARD: 'physicalReward',
-  DIGITAL_REWARD: 'digitalReward',
+  PHYSICAL_REWARD: 'PHYSICAL_REWARD',
+  DIGITAL_REWARD: 'DIGITAL_REWARD',
 };
 
 export const RULES_BENEFIT_TYPE = {
@@ -555,6 +555,11 @@ export const LOGICS = {
   AND: 'AND',
   OR: 'OR',
 };
+export const LOYALTY_REWARDS_STATUS = {
+  ACTIVE: 'ACTIVE',
+  IN_ACTIVE: 'IN_ACTIVE',
+};
+
 export const FIELD_TYPES = {
   MANDATORY_FIELD: 'Mandatory Field',
   OPTIONAL_FIELD: 'Optional Field',
