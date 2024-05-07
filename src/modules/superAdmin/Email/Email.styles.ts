@@ -50,7 +50,7 @@ export const styles = {
     alignItems: 'center',
     gap: '10px',
     mb: '24px',
-    border: `1px solid ${theme?.palette?.gray[700]}`,
+    border: `1px solid ${theme?.palette?.grey[700]}`,
     cursor: 'pointer',
   }),
 };

@@ -4,6 +4,8 @@ interface EmailStateI {
   mailTabType: any;
   selectedRecords: any;
   activeRecord: any;
+  currentEmailAssets: any;
+  loggedInState: any;
 }
 
 const initialState: EmailStateI = {
@@ -12,6 +14,8 @@ const initialState: EmailStateI = {
   },
   selectedRecords: [],
   activeRecord: {},
+  currentEmailAssets: {},
+  loggedInState: 'umarkhattab555@zohomail.com',
 };
 
 const emailSlice = createSlice({
@@ -27,8 +31,19 @@ const emailSlice = createSlice({
     setActiveRecord: (state, action: PayloadAction<any>) => {
       state.activeRecord = action?.payload;
     },
+    setCurrentEmailAssets: (state, action: PayloadAction<any>) => {
+      state.currentEmailAssets = action?.payload;
+    },
+    setLoggedInState: (state, action: PayloadAction<any>) => {
+      state.currentEmailAssets = action?.payload;
+    },
   },
 });
-export const { setMailTabType, setSelectedRecords, setActiveRecord } =
-  emailSlice.actions;
+export const {
+  setMailTabType,
+  setLoggedInState,
+  setSelectedRecords,
+  setActiveRecord,
+  setCurrentEmailAssets,
+} = emailSlice.actions;
 export default emailSlice.reducer;

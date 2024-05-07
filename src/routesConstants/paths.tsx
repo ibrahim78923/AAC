@@ -234,6 +234,9 @@ export const SOCIAL_FEATURES_EMAIL = {
   GET_OTHER_MAIL_CONFIG: '/other-mail/get-config',
   GET_MAILS_BY_FOLDER_ID: '/other-mail/get-emails-by-folderId',
   GET_MAIL_DETAILS: '/other-mail/get-message-details',
+
+  SEND_EMAIL_OTHER: '/other-mail/send-email',
+  REPLY_EMAIL_OTHER: '/other-mail/reply-email',
 };
 
 export const CHAT_SOCKETS = {

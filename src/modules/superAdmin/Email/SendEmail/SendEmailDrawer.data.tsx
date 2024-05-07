@@ -6,7 +6,9 @@ import {
 
 import * as Yup from 'yup';
 
-export const emailValidationsSchema = Yup?.object()?.shape({});
+export const emailValidationsSchema: any = Yup?.object()?.shape({
+  // to: Yup?.string()?.required('Field is Required')?.trim(),
+});
 export const emailDefaultValues = {};
 
 export const options = [

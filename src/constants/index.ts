@@ -245,6 +245,8 @@ export const CREATE_EMAIL_TYPES = {
   NEW_EMAIL: 'new',
   FORWARD: 'forward',
   REPLY: 'reply',
+  REPLY_ALL: 'reply-all',
+  DRAFT: 'draft',
 };
 
 export const API_STATUS = {

@@ -25,9 +25,13 @@ import { API_STATUS, CREATE_EMAIL_TYPES } from '@/constants';
 import { useGetMessageDetailsQuery } from '@/services/commonFeatures/email';
 import { useAppSelector } from '@/redux/store';
 import { UnixDateFormatter } from '@/utils/dateTime';
+import { useDispatch } from 'react-redux';
+import { setCurrentEmailAssets } from '@/redux/slices/email/slice';
 
 const RightPane = () => {
   const theme = useTheme();
+
+  const dispatch = useDispatch();
 
   const [isOpenSendEmailDrawer, setIsOpenSendEmailDrawer] = useState(false);
   const [isEmailSettingsDrawerOpen, setIsEmailSettingsDrawerOpen] =
@@ -40,6 +44,9 @@ const RightPane = () => {
 
   const activeRecord = useAppSelector(
     (state: any) => state?.email?.activeRecord,
+  );
+  const loggedInState = useAppSelector(
+    (state: any) => state?.email?.loggedInState,
   );
 
   const { data: messageDetailsData, status: statusMessageDetailsData } =
@@ -167,7 +174,13 @@ const RightPane = () => {
                               timeZone="Asia/Karachi"
                             ></UnixDateFormatter>
                           </Typography>
-                          <IconButton size="small">
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              setIsOpenSendEmailDrawer(true);
+                              setMailType(CREATE_EMAIL_TYPES?.REPLY_ALL);
+                            }}
+                          >
                             <ReplyAllIcon />
                           </IconButton>
                           <IconButton
@@ -175,6 +188,26 @@ const RightPane = () => {
                             onClick={() => {
                               setIsOpenSendEmailDrawer(true);
                               setMailType(CREATE_EMAIL_TYPES?.REPLY);
+                              dispatch(
+                                setCurrentEmailAssets({
+                                  threadId: obj?.thread_id,
+                                  id: obj?.id,
+                                  from:
+                                    obj?.from[0]?.email === loggedInState
+                                      ? obj?.to[0]?.email
+                                      : obj?.from[0]?.email,
+                                  others: {
+                                    from: `${obj?.from[0]?.name} ${'<'}
+                                    ${obj?.from[0]?.email}
+                                    ${'>'}`,
+                                    sent: obj?.date,
+                                    to: `${obj?.from[0]?.name} ${'<'}
+                                    ${obj?.from[0]?.email}
+                                    ${'>'}`,
+                                    subject: obj?.subject,
+                                  },
+                                }),
+                              );
                             }}
                           >
                             <EmailReplyIcon />
@@ -291,6 +324,7 @@ const RightPane = () => {
         openDrawer={isOpenSendEmailDrawer}
         setOpenDrawer={setIsOpenSendEmailDrawer}
         drawerType={mailType}
+        setMailType={setMailType}
       />
       <EmailSettingDrawer
         isOpenDrawer={isEmailSettingsDrawerOpen}

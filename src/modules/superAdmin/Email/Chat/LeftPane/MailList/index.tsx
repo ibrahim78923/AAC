@@ -119,71 +119,92 @@ const MailList = () => {
         </Button>
       </Box>
 
-      {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
-        <>
-          <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
-        </>
-      ) : (
-        <>
-          {emailsByFolderIdData?.data ? (
-            <>
-              {emailsByFolderIdData?.data?.length > 0 ? (
-                emailsByFolderIdData?.data?.map((item: any) => (
-                  <Box
-                    key={uuidv4()}
-                    sx={styles?.card}
-                    style={{
-                      background:
-                        activeRecord?.id === item?.id
-                          ? theme?.palette?.grey[100]
-                          : theme?.palette?.common?.white,
-                    }}
-                    onClick={() => dispatch(setActiveRecord(item))}
-                  >
-                    <Checkbox
-                      checked={selectedRecords?.some(
-                        (email: any) => email?.id === item?.id,
-                      )}
-                      onChange={() => handleCheckboxClick(item)}
-                    />
-                    <Box>
-                      <Typography variant="h6">
-                        {item?.from[0]?.name} {item?.lastName} {item?.reff}
-                      </Typography>
-                      <Typography
-                        variant="body3"
-                        sx={{ fontWeight: '600' }}
-                        color={'primary'}
-                        margin={'8px 0px'}
-                      >
-                        {item?.subject}
-                      </Typography>
-                      <Typography
-                        variant="body3"
-                        margin={'3px 0px'}
-                        sx={{
-                          display: '-webkit-box',
-                          WebkitBoxOrient: 'vertical',
-                          WebkitLineClamp: 3,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {item?.snippet}
-                      </Typography>
-                      <Typography variant="body2">{item?.time}</Typography>
-                    </Box>
-                  </Box>
-                ))
-              ) : (
-                <>No record found</>
-              )}
-            </>
-          ) : (
-            <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
-          )}
-        </>
+      {mailTabType?.display_name === 'Trash' && (
+        <Box
+          sx={{
+            background: theme?.palette?.grey[100],
+            padding: '20px',
+            borderRadius: '10px',
+            marginTop: '-20px',
+          }}
+        >
+          <Typography variant="body2" sx={{ color: theme?.palette?.grey[800] }}>
+            Messages that have been in Trash more than 30 days will be
+            automatically deleted.{' '}
+            <strong>
+              <u>Empty Trash now</u>
+            </strong>
+          </Typography>
+        </Box>
       )}
+
+      <Box sx={{ maxHeight: '62vh', overflow: 'auto' }}>
+        {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
+          <>
+            <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
+          </>
+        ) : (
+          <>
+            {emailsByFolderIdData?.data ? (
+              <>
+                {emailsByFolderIdData?.data?.length > 0 ? (
+                  emailsByFolderIdData?.data?.map((item: any) => (
+                    <Box
+                      key={uuidv4()}
+                      sx={styles?.card}
+                      style={{
+                        background:
+                          activeRecord?.id === item?.id
+                            ? theme?.palette?.grey[100]
+                            : theme?.palette?.common?.white,
+                      }}
+                      onClick={() => dispatch(setActiveRecord(item))}
+                    >
+                      <Checkbox
+                        checked={selectedRecords?.some(
+                          (email: any) => email?.id === item?.id,
+                        )}
+                        onChange={() => handleCheckboxClick(item)}
+                      />
+                      <Box>
+                        <Typography variant="h6">
+                          {item?.from[0]?.name} {item?.lastName} {item?.reff}
+                        </Typography>
+                        <Typography
+                          variant="body3"
+                          sx={{ fontWeight: '600' }}
+                          color={'primary'}
+                          margin={'8px 0px'}
+                        >
+                          {item?.subject}
+                        </Typography>
+                        <Typography
+                          variant="body3"
+                          margin={'3px 0px'}
+                          sx={{
+                            display: '-webkit-box',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 3,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {item?.snippet}
+                        </Typography>
+                        <Typography variant="body2">{item?.time}</Typography>
+                      </Box>
+                    </Box>
+                  ))
+                ) : (
+                  <>No record found</>
+                )}
+              </>
+            ) : (
+              <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
+            )}
+          </>
+        )}
+      </Box>
     </Box>
   );
 };
