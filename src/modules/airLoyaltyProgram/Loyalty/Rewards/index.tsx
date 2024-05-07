@@ -24,7 +24,14 @@ export const Rewards = () => {
         }}
       />
       <HorizontalTabs tabsDataArray={singleRewardsTab}>
-        <AllRewards />
+        <PermissionsGuard
+          permissions={[
+            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.PHYSICAL_REWARDS,
+            AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.DIGITAL_REWARDS,
+          ]}
+        >
+          <AllRewards />
+        </PermissionsGuard>
         <PermissionsGuard
           permissions={[
             AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.PHYSICAL_REWARDS,

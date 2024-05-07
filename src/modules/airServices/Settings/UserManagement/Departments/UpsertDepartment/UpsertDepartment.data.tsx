@@ -10,10 +10,13 @@ import { ROLES } from '@/constants/strings';
 
 export const departmentFormValidation: any = Yup?.object()?.shape({
   fileUrl: Yup?.mixed()?.nullable(),
-  name: Yup?.string()?.required('Name is required'),
-  departmentHeadDetails: Yup?.mixed()?.required('Department head is required'),
-  description: Yup?.string(),
-  membersListDetails: Yup?.array()?.min(1, 'Member is required'),
+  name: Yup?.string()
+    ?.trim()
+    ?.required('Name is required')
+    ?.max(30, 'First Name up to 30 characters'),
+  departmentHeadDetails: Yup?.mixed()?.nullable(),
+  description: Yup?.string()?.trim(),
+  membersListDetails: Yup?.array()?.nullable(),
 });
 
 export const departmentFormValues: any = (data: any) => {
@@ -52,7 +55,6 @@ export const departmentFormFields: any = (
       externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         option?.firstName + ' ' + option?.lastName,
-      required: true,
     },
     component: RHFAutocompleteAsync,
   },
@@ -85,7 +87,6 @@ export const departmentFormFields: any = (
       externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         option?.firstName + ' ' + option?.lastName,
-      required: true,
     },
     component: RHFAutocompleteAsync,
   },

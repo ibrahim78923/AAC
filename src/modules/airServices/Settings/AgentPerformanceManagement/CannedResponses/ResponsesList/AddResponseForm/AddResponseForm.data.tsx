@@ -22,10 +22,13 @@ const availableForOptions = [
 ];
 
 export const addResponseValidationSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
-  message: Yup?.string()?.required('Required'),
+  title: Yup?.string()
+    ?.trim()
+    ?.max(30, 'Title up to 30 characters')
+    ?.required('Title is Required'),
+  message: Yup?.string()?.trim()?.required('Message is Required'),
   fileUrl: Yup?.mixed()?.nullable(),
-  availableFor: Yup?.string()?.required('Required'),
+  availableFor: Yup?.string()?.trim(),
 });
 
 export const addResponseDefaultValues: any = (folderName: any, data?: any) => {
@@ -39,7 +42,6 @@ export const addResponseDefaultValues: any = (folderName: any, data?: any) => {
 };
 
 export const addResponseDataArray = (
-  availableForChanged: any,
   setOpenSelectAgentsModal: any,
   hasAttachment: any,
 ) => [
@@ -47,7 +49,7 @@ export const addResponseDataArray = (
     id: 1,
     componentProps: {
       name: 'title',
-      label: 'Responses title',
+      label: 'Responses Title',
       fullWidth: true,
       required: true,
     },
@@ -75,7 +77,6 @@ export const addResponseDataArray = (
       label: 'Available for:',
       fullWidth: true,
       avatarGroup: true,
-      required: true,
       options: availableForOptions,
       onClick: (e: any) => {
         if (e?.target?.value === CANNED_RESPONSES?.SELECT_AGENTS) {

@@ -11,14 +11,15 @@ import {
 } from '../ProductCatalog.data';
 
 export const upsertProductCatalogValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Name is required'),
+  name: Yup?.string()
+    ?.trim()
+    ?.required('Name is required')
+    ?.max(30, 'Name up to 30 characters'),
   assetType: Yup?.mixed()?.nullable()?.required('Asset Type is required'),
-  manufacturer: Yup?.string()?.trim()?.required('Manufacturer is required'),
+  manufacturer: Yup?.string()?.trim(),
   status: Yup?.mixed()?.nullable()?.required('Status is required'),
-  modeOfProcurement: Yup?.mixed()
-    ?.nullable()
-    ?.required('Mode of procurement is required'),
-  description: Yup?.string(),
+  modeOfProcurement: Yup?.mixed()?.nullable(),
+  description: Yup?.string()?.trim(),
 });
 
 export const upsertProductCatalogDefaultValuesFunction = (data?: any) => {
@@ -64,7 +65,6 @@ export const upsertProductCatalogFormFieldsDynamic = (
       name: 'manufacturer',
       label: 'Manufacturer',
       fullWidth: true,
-      required: true,
     },
     component: RHFTextField,
     md: 6,
@@ -87,7 +87,6 @@ export const upsertProductCatalogFormFieldsDynamic = (
       name: 'modeOfProcurement',
       label: 'Mode of Procurement',
       fullWidth: true,
-      required: true,
       options: modeOfProcurementOption,
     },
     component: RHFAutocomplete,

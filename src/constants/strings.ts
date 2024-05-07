@@ -400,6 +400,7 @@ export const MODULE_TYPE = {
   LOCATION: 'LOCATION',
   ASSETS: 'ASSETS',
   TICKET: 'TICKET',
+  CUSTOMER_PORTAL: 'CUSTOMER_PORTAL',
 };
 export const TICKET_SELECTION_TYPE = {
   REQUESTER: 'REQUESTER',
@@ -532,6 +533,8 @@ export const RULES_BENEFIT_TYPE = {
 
 export const MEETINGS_DETAILS_TYPE = {
   ALL: 'All',
+  UPCOMING: 'Upcoming',
+  COMPLETED: 'Completed',
 };
 
 export const CALENDER_TYPES = {
@@ -539,6 +542,18 @@ export const CALENDER_TYPES = {
   WEEK_VIEW_CALENDER: 'timeGridWeek',
   MONTH_VIEW_CALENDER: 'dayGridMonth',
   YEAR_VIEW_CALENDER: 'multiMonthYear',
+};
+
+export const DRAWER_TYPES = {
+  EDIT: 'edit',
+  ADD: 'add',
+  VIEW: 'view',
+  UPDATE: 'update',
+};
+
+export const FIELD_TYPES = {
+  MANDATORY_FIELD: 'Mandatory Field',
+  OPTIONAL_FIELD: 'Optional Field',
 };
 
 export const TIME_UNITS = {

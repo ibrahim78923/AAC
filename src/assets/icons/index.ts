@@ -30,6 +30,7 @@ export { default as EditBlackIcon } from './shared/edit-black-icon';
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ViewEyeIcon } from './modules/airSales/SettingsUserManagement/view-eye';
 export { default as DeleteCrossIcon } from './modules/airSales/SettingsUserManagement/delete-cross';
+export { default as CopyIconButton } from './shared/copy-icon';
 export { default as EditPenIcon } from './modules/airSales/SettingsUserManagement/edit-pen';
 export { default as SearchSharedIcon } from './shared/search-shared';
 export { default as PlusIcon } from './shared/plus-shared';
@@ -449,3 +450,9 @@ export { default as CrmSuiteIcon } from './modules/orgAdmin/SubscriptionAndInvoi
 export { default as OneToOneMeetingIcon } from './modules/SocialComponents/Meeting/one-to-one-meeting';
 export { default as GroupMeetingIcon } from './modules/SocialComponents/Meeting/group-meeting';
 export { default as CollectiveMeetingIcon } from './modules/SocialComponents/Meeting/collective-meeting';
+export { default as MailColoredIcon } from './shared/mail-icon';
+export { default as GoogleCalenderIcon } from './shared/google-calender-icon';
+export { default as OfficeCalenderIcon } from './shared/office-calender-icon';
+export { default as ZoomVideoIcon } from './shared/zoom-icon';
+export { default as GoogleMeetIcon } from './shared/google-meet-icon';
+export { default as MSTeamsIcon } from './shared/ms-teams-icon';

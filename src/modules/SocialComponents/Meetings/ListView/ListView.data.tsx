@@ -1,21 +1,22 @@
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
+import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 import { Box } from '@mui/material';
 export const meetingCardsDetails = (theme: any) => [
   {
     id: 1,
-    meetingHeading: 'All',
+    meetingHeading: MEETINGS_DETAILS_TYPE?.ALL,
     meetingCount: '5',
     color: theme?.palette?.info?.main,
   },
   {
     id: 2,
-    meetingHeading: 'Upcoming',
+    meetingHeading: MEETINGS_DETAILS_TYPE?.UPCOMING,
     meetingCount: '2',
     color: theme?.palette?.error?.main,
   },
   {
     id: 3,
-    meetingHeading: 'Completed',
+    meetingHeading: MEETINGS_DETAILS_TYPE?.COMPLETED,
     meetingCount: '3',
     color: theme?.palette?.success?.dark,
   },

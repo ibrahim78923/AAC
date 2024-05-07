@@ -6,12 +6,15 @@ import { dataArray } from './AddRoleDrawer.data';
 import PermissionsAccordion from '../PermissionsAccordion';
 import { FormProvider } from '@/components/ReactHookForm';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const AddRoleDrawer = (props: any) => {
-  const { isDrawerOpen, onClose } = props;
+  const { isDrawerOpen, onClose, setCheckedRows } = props;
   const {
+    selectAllPermissions,
+    getModulePermissions,
     postRoleLoading,
-    drawerConstants,
+    loadingEditRole,
     viewPerdetails,
     allPermissions,
     handleSubmit,
@@ -20,27 +23,29 @@ const AddRoleDrawer = (props: any) => {
     disabled,
     methods,
     theme,
-  } = useAddRoleDrawer(isDrawerOpen, onClose);
-
+  } = useAddRoleDrawer(isDrawerOpen, onClose, setCheckedRows);
+  const { watch } = methods;
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen?.isToggle}
       onClose={onClose}
       title={
-        isDrawerOpen?.type === drawerConstants?.ADD
-          ? 'Add New Role'
-          : 'User Role'
+        isDrawerOpen?.type === DRAWER_TYPES?.ADD ? 'Add New Role' : 'User Role'
       }
-      okText={isDrawerOpen?.type === drawerConstants?.ADD ? 'Add' : 'Edit'}
+      okText={isDrawerOpen?.type === DRAWER_TYPES?.ADD ? 'Add' : 'Edit'}
       footer={
-        isDrawerOpen?.type === drawerConstants?.ADD ||
-        isDrawerOpen?.type === drawerConstants?.EDIT
+        isDrawerOpen?.type === DRAWER_TYPES?.ADD ||
+        isDrawerOpen?.type === DRAWER_TYPES?.EDIT
           ? true
           : false
       }
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={postRoleLoading}
+      isLoading={
+        isDrawerOpen?.type === DRAWER_TYPES?.ADD
+          ? postRoleLoading
+          : loadingEditRole
+      }
     >
       {isLoading ? (
         <SkeletonTable />
@@ -52,9 +57,7 @@ const AddRoleDrawer = (props: any) => {
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component
                     disabled={
-                      isDrawerOpen?.type === drawerConstants?.VIEW
-                        ? true
-                        : false
+                      isDrawerOpen?.type === DRAWER_TYPES?.VIEW ? true : false
                     }
                     {...item.componentProps}
                     size={'small'}
@@ -87,11 +90,14 @@ const AddRoleDrawer = (props: any) => {
             ) : (
               <PermissionsAccordion
                 permissionsData={
-                  isDrawerOpen?.type === drawerConstants?.VIEW
+                  isDrawerOpen?.type === DRAWER_TYPES?.VIEW
                     ? allPermissions?.data?.permissions
                     : viewPerdetails?.data
                 }
                 disabled={disabled}
+                getModulePermissions={getModulePermissions}
+                selectAllPermissions={selectAllPermissions}
+                watch={watch}
               />
             )}
           </FormProvider>

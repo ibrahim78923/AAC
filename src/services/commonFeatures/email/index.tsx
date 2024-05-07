@@ -16,6 +16,19 @@ export const emailApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+    updateEmailConfig: builder.mutation({
+      query: ({ body, id }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.UPDATE_CONFIG}/${id}`,
+          method: 'PATCH',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
     getMailFolders: builder.query({
       query: () => {
         return {
@@ -25,7 +38,46 @@ export const emailApi = baseAPI.injectEndpoints({
       },
       providesTags: TAG,
     }),
+    getOtherMailDetails: builder.query({
+      query: ({ params }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.GET_OTHER_MAIL_CONFIG}`,
+          method: 'GET',
+          params: params,
+        };
+      },
+      providesTags: TAG,
+    }),
+
+    getEmailsByFolderId: builder.query({
+      query: ({ params }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.GET_MAILS_BY_FOLDER_ID}`,
+          method: 'GET',
+          params: params,
+        };
+      },
+      providesTags: TAG,
+    }),
+
+    getMessageDetails: builder.query({
+      query: ({ params }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.GET_MAIL_DETAILS}`,
+          method: 'GET',
+          params: params,
+        };
+      },
+      providesTags: TAG,
+    }),
   }),
 });
 
-export const { usePostEmailConfigMutation, useGetMailFoldersQuery } = emailApi;
+export const {
+  usePostEmailConfigMutation,
+  useUpdateEmailConfigMutation,
+  useGetMailFoldersQuery,
+  useGetOtherMailDetailsQuery,
+  useGetEmailsByFolderIdQuery,
+  useGetMessageDetailsQuery,
+} = emailApi;

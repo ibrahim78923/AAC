@@ -1,5 +1,5 @@
 import { RHFDropZone, RHFTextField } from '@/components/ReactHookForm';
-import { IMG_URL } from '@/config';
+import { generateImage } from '@/utils/avatarUtils';
 import { Box, Checkbox } from '@mui/material';
 import Image from 'next/image';
 
@@ -48,7 +48,7 @@ export const columns: any = (
         return (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             <Image
-              src={`${IMG_URL} ${info?.row?.original?.media?.url}`}
+              src={generateImage(info?.row?.original?.media?.url)}
               alt="no image"
               width={20}
               height={20}
