@@ -1,41 +1,13 @@
 import { Avatar, Box, Chip, Typography } from '@mui/material';
-import { AvatarImage } from '@/assets/images';
 import { Circle } from '@mui/icons-material';
-import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
+import { LOYALTY_REWARDS_STATUS_PILL } from '../AllRewards/AllRewards.data';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 
-export const physicalTableData = [
-  {
-    id: 1,
-    title: `You won a cap!`,
-    requiredPoints: 100,
-    status: 'Active',
-    totalRedeemable: 500,
-    totalRedeemed: 500,
-    cost: `$800`,
-    icon: AvatarImage,
-  },
-  {
-    id: 2,
-    title: `Enjoy free burger!`,
-    requiredPoints: 120,
-    status: 'Active',
-    totalRedeemable: 500,
-    totalRedeemed: 500,
-    cost: `$563`,
-    icon: AvatarImage,
-  },
-  {
-    id: 3,
-    title: `Have some fun!`,
-    requiredPoints: 150,
-    status: 'Active',
-    totalRedeemable: 500,
-    totalRedeemed: 500,
-    cost: `$874`,
-    icon: AvatarImage,
-  },
-];
-export const loyaltyPhysicalRewardColumnDynamic: any = (router: any) => [
+export const loyaltyPhysicalRewardColumnDynamic: any = (
+  setIsRewardDetailsOpen: any,
+  overallPermissions: any,
+) => [
   {
     accessorFn: (row: any) => row?.title,
     id: 'title',
@@ -73,10 +45,15 @@ export const loyaltyPhysicalRewardColumnDynamic: any = (router: any) => [
     cell: (info: any) => (
       <Chip
         sx={{
-          bgcolor: 'success.lighter',
-          color: 'success.main',
+          bgcolor: LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.bgColor,
+          color: LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.fontColor,
         }}
-        icon={<Circle color={'success'} sx={{ fontSize: '0.7rem' }} />}
+        icon={
+          <Circle
+            color={LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.iconColor}
+            sx={{ fontSize: '0.7rem' }}
+          />
+        }
         label={info?.getValue()}
       />
     ),
@@ -97,14 +74,18 @@ export const loyaltyPhysicalRewardColumnDynamic: any = (router: any) => [
       <Typography
         variant="body4"
         sx={{ cursor: 'pointer' }}
-        onClick={() =>
-          router?.push({
-            pathname: AIR_LOYALTY_PROGRAM?.PHYSICAL_REWARDS_DETAIL,
-            query: {
-              id: info?.row?.original?.id,
-            },
-          })
-        }
+        onClick={() => {
+          if (
+            !overallPermissions?.includes(
+              AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.VIEW_REWARDS_DETAILS,
+            )
+          )
+            return;
+          setIsRewardDetailsOpen?.({
+            isOpen: true,
+            rewardType: LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,
+          });
+        }}
       >
         {info?.getValue()}
       </Typography>

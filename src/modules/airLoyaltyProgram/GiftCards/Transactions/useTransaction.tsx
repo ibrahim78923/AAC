@@ -1,10 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import { useLazyGetTransactionListQuery } from '@/services/airLoyaltyProgram/giftCards/transactions';
+import { successSnackbar } from '@/utils/api';
+import { TRANSACTIONS_ACTIONS } from './Transactions.data';
+import { AddTransaction } from './AddTransaction';
+import { ExportModal } from '@/components/ExportModal';
+import { TransactionFilter } from './TransactionFilter';
 
 export const useTransaction = () => {
   const [search, setSearch] = useState('');
@@ -13,6 +16,7 @@ export const useTransaction = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [openDrawer, setOpenDrawer] = useState<any>({});
   const transactionParams = {
     page,
     limit,
@@ -42,11 +46,35 @@ export const useTransaction = () => {
     setOpen(false);
   };
 
-  const onSubmit = () => {
+  const exportFile = () => {
     setOpen(false);
-    enqueueSnackbar('File Exported Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    successSnackbar('File Exported Successfully');
+  };
+
+  const setTransactionDrawerContent = () => {
+    if (openDrawer?.type === TRANSACTIONS_ACTIONS?.ADD) {
+      return (
+        <AddTransaction openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+      );
+    }
+    if (openDrawer?.type === TRANSACTIONS_ACTIONS?.EXPORT) {
+      return (
+        <ExportModal
+          open={openDrawer}
+          handleClose={() => setOpenDrawer('')}
+          onSubmit={() => exportFile()}
+        />
+      );
+    }
+    if (openDrawer?.type === TRANSACTIONS_ACTIONS?.FILTER) {
+      return (
+        <TransactionFilter
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+        />
+      );
+    }
+    return <></>;
   };
 
   return {
@@ -55,7 +83,6 @@ export const useTransaction = () => {
     search,
     setSearch,
     handleClick,
-    onSubmit,
     open,
     setOpen,
     handleClose,
@@ -69,5 +96,8 @@ export const useTransaction = () => {
     isError,
     isSuccess,
     meta,
+    openDrawer,
+    setOpenDrawer,
+    setTransactionDrawerContent,
   };
 };

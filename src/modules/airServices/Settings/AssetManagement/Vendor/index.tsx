@@ -6,9 +6,9 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import AddNewVendor from './AddNewVendor';
 import { EXPORT_TYPE } from '@/constants/strings';
-import { VENDOR_LISTS_ACTION_CONSTANTS } from './Vendor.data';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ImportVendor } from './ImportVendor';
 
 export const Vendor = () => {
   const {
@@ -25,9 +25,8 @@ export const Vendor = () => {
     setPage,
     setSearch,
     getNewVendorDataExport,
-    vendorListActionComponent,
-    hasVendorAction,
-    setVendorListAction,
+    isDrawerOpen,
+    setIsDrawerOpen,
   } = useVendor();
 
   return (
@@ -36,9 +35,7 @@ export const Vendor = () => {
         title={'Vendor'}
         addTitle={'Add New Vendor'}
         hasImport
-        handleImport={() =>
-          setVendorListAction?.(VENDOR_LISTS_ACTION_CONSTANTS?.IMPORT)
-        }
+        handleImport={() => setIsDrawerOpen?.(true)}
         hasExport
         exportPermissionKey={[
           AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_VENDORS,
@@ -102,16 +99,16 @@ export const Vendor = () => {
         />
       </PermissionsGuard>
       <Box>
-        {hasVendorAction &&
-          vendorListActionComponent?.[
-            router?.query?.VendorListAction as string
-          ]}
-      </Box>
-      <Box>
         {isADrawerOpen && (
           <AddNewVendor
             isADrawerOpen={isADrawerOpen}
             setIsADrawerOpen={setIsADrawerOpen}
+          />
+        )}
+        {isDrawerOpen && (
+          <ImportVendor
+            setIsDrawerOpen={setIsDrawerOpen}
+            isDrawerOpen={isDrawerOpen}
           />
         )}
       </Box>
