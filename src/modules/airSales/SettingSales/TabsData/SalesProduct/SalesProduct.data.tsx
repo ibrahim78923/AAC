@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 export const columns = ({
   selectedCheckboxes,
   setSelectedCheckboxes,
+  handleUserSwitchChange,
   data,
 }: any) => {
   const handleSelectProductById = (checked: boolean, id: string): void => {
@@ -98,8 +99,17 @@ export const columns = ({
       isSortable: true,
       header: 'Action',
       cell: (info: any) => (
+        // <SwitchBtn
+        //   defaultChecked={info?.row?.original?.isActive === true ? true : false}
+        // />
         <SwitchBtn
+          // defaultChecked={
+          //   info?.row?.original?.status === 'ACTIVE' ? true : false
+          // }
           defaultChecked={info?.row?.original?.isActive === true ? true : false}
+          handleSwitchChange={(e: any) =>
+            handleUserSwitchChange(e, info?.row?.original?._id)
+          }
         />
       ),
     },
