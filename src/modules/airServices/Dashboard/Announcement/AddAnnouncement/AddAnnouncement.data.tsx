@@ -39,7 +39,7 @@ export const createAddAnnouncementDataArray = (
       label: 'Title',
       fullWidth: true,
       required: true,
-      placeholder: 'Enter a project name',
+      placeholder: 'Enter Title',
     },
     component: RHFTextField,
     md: 12,
