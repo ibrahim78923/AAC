@@ -7,17 +7,22 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useAddLoyaltyRewardMutation,
+  useAddDigitalLoyaltyRewardMutation,
+  useAddPhysicalLoyaltyRewardMutation,
   useLazyGetCustomersDropdownForRewardsQuery,
   useLazyGetTiersDropdownForRewardsQuery,
   useLazyGetVoucherDropdownForRewardsQuery,
 } from '@/services/airLoyaltyProgram/loyalty/rewards';
+import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 
 export const useAddRewardsForm: any = (props: any) => {
   const { setOpenDrawer, openDrawer } = props;
 
-  const [addLoyaltyRewardsTrigger, addLoyaltyRewardsStatus] =
-    useAddLoyaltyRewardMutation?.();
+  const [addDigitalLoyaltyRewardTrigger, addDigitalLoyaltyRewardStatus] =
+    useAddDigitalLoyaltyRewardMutation?.();
+
+  const [addPhysicalLoyaltyRewardTrigger, addPhysicalLoyaltyRewardStatus] =
+    useAddPhysicalLoyaltyRewardMutation?.();
 
   const methods: any = useForm<any>({
     defaultValues: addRewardsDefaultValues,
@@ -26,12 +31,73 @@ export const useAddRewardsForm: any = (props: any) => {
 
   const { reset, handleSubmit } = methods;
 
-  const submitAddRewards = async (data: any) => {
+  const submitAddRewards = async (formData: any) => {
+    if (openDrawer?.rewardType === LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD) {
+      await submitAddPhysicalRewards?.(formData);
+      return;
+    }
+    await submitAddDigitalRewards?.(formData);
+  };
+
+  const submitAddDigitalRewards = async (formData: any) => {
+    const digitalRewardFormData = new FormData();
+    digitalRewardFormData?.append('title', formData?.title);
+    digitalRewardFormData?.append('requiredPoints', formData?.requiredPoints);
+    digitalRewardFormData?.append('voucherId', formData?.chooseVoucher?._id);
+    formData?.activeFrom !== null &&
+      digitalRewardFormData?.append(
+        'activeFrom',
+        formData?.activeFrom?.toISOString(),
+      );
+    formData?.activeTo !== null &&
+      digitalRewardFormData?.append(
+        'activeTo',
+        formData?.activeTo?.toISOString(),
+      );
+    digitalRewardFormData?.append('untilDeactivate', formData?.untilDeactivate);
+    digitalRewardFormData?.append('tiersId', formData?.chooseCategory._id);
+    digitalRewardFormData?.append('status', 'Active');
     const apiDataParameter = {
-      body: data,
+      body: digitalRewardFormData,
     };
     try {
-      await addLoyaltyRewardsTrigger?.(apiDataParameter)?.unwrap();
+      await addDigitalLoyaltyRewardTrigger?.(apiDataParameter)?.unwrap();
+      successSnackbar('Successful');
+      closeAddRewardsForm();
+    } catch (error: any) {
+      errorSnackbar?.(error?.data?.message);
+    }
+  };
+
+  const submitAddPhysicalRewards = async (formData: any) => {
+    const physicalRewardFormData = new FormData();
+    physicalRewardFormData?.append('title', formData?.title);
+    physicalRewardFormData?.append('requiredPoints', formData?.requiredPoints);
+    physicalRewardFormData?.append('cost', formData?.costPrice);
+    formData?.activeFrom !== null &&
+      physicalRewardFormData?.append(
+        'activeFrom',
+        formData?.activeFrom?.toISOString(),
+      );
+    formData?.activeTo !== null &&
+      physicalRewardFormData?.append(
+        'activeTo',
+        formData?.activeTo?.toISOString(),
+      );
+    physicalRewardFormData?.append(
+      'untilDeactivate',
+      formData?.untilDeactivate,
+    );
+    physicalRewardFormData?.append(
+      'visibleTo',
+      formData?.visibleTo?.map((user: any) => user?._id),
+    );
+    physicalRewardFormData?.append('status', 'Active');
+    const apiDataParameter = {
+      body: physicalRewardFormData,
+    };
+    try {
+      await addPhysicalLoyaltyRewardTrigger?.(apiDataParameter)?.unwrap();
       successSnackbar('Successful');
       closeAddRewardsForm();
     } catch (error: any) {
@@ -59,7 +125,8 @@ export const useAddRewardsForm: any = (props: any) => {
     methods,
     submitAddRewards,
     closeAddRewardsForm,
-    addLoyaltyRewardsStatus,
+    addDigitalLoyaltyRewardStatus,
+    addPhysicalLoyaltyRewardStatus,
     addRewardsFormFields,
   };
 };

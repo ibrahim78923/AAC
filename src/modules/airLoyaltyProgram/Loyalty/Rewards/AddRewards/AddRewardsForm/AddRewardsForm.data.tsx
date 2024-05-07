@@ -11,23 +11,32 @@ import * as Yup from 'yup';
 
 export const addPhyicalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Title is required'),
-  requiredPoints: Yup?.string()?.required('Required points are required'),
+  requiredPoints: Yup?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number')
+    ?.required('Required points are required'),
   addImage: Yup?.mixed()?.nullable(),
   visibleTo: Yup?.mixed()?.nullable()?.required('Visible To is required'),
-  costPrice: Yup?.string()?.required('Cost price is required'),
-  activeFrom: Yup?.date(),
-  activeTo: Yup?.date(),
-  untilDeactivateIt: Yup?.boolean(),
+  costPrice: Yup?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number')
+    ?.required('Cost price is required'),
+  activeFrom: Yup?.date()?.nullable(),
+  activeTo: Yup?.date()?.nullable(),
+  untilDeactivate: Yup?.boolean(),
 });
 
 export const addDigitalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Title is required'),
-  requiredPoints: Yup?.string()?.required('Required points are required'),
+  requiredPoints: Yup?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number')
+    ?.required('Required points are required'),
   chooseCategory: Yup?.mixed()?.nullable()?.required('Category is required'),
   chooseVoucher: Yup?.mixed()?.nullable()?.required('Voucher is required'),
-  activeFrom: Yup?.date(),
-  activeTo: Yup?.date(),
-  untilDeactivateIt: Yup?.boolean(),
+  activeFrom: Yup?.date()?.nullable(),
+  activeTo: Yup?.date()?.nullable(),
+  untilDeactivate: Yup?.boolean(),
 });
 
 export const REWARD_VALIDATION_SCHEMA: any = {
@@ -37,15 +46,15 @@ export const REWARD_VALIDATION_SCHEMA: any = {
 
 export const addRewardsDefaultValues = {
   title: '',
-  requiredPoints: '',
+  requiredPoints: 0,
   chooseCategory: null,
   chooseVoucher: null,
-  visibleTo: null,
+  visibleTo: [],
   addImage: null,
-  costPrice: '',
-  activeFrom: new Date(),
-  activeTo: new Date(),
-  untilDeactivateIt: false,
+  costPrice: 0,
+  activeFrom: null,
+  activeTo: null,
+  untilDeactivate: false,
 };
 
 export const addRewardsFormFieldsDynamic = (
@@ -106,13 +115,13 @@ export const addRewardsFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       apiQuery: vouchersApiQuery,
+      externalParams: { meta: false, limit: 50 },
       getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
     type: [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD],
     md: 12,
   },
-
   {
     id: 5,
     componentProps: {
@@ -120,6 +129,7 @@ export const addRewardsFormFieldsDynamic = (
       label: 'Choose Category',
       fullWidth: true,
       required: true,
+      externalParams: { limit: 50, type: 'TIERS' },
       apiQuery: tiersApiQuery,
       getOptionLabel: (option: any) => option?.name,
     },
@@ -134,7 +144,9 @@ export const addRewardsFormFieldsDynamic = (
       label: 'Visible to',
       fullWidth: true,
       required: true,
+      multiple: true,
       apiQuery: customersApiQuery,
+      externalParams: { meta: false, limit: 50 },
       getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
@@ -184,7 +196,7 @@ export const addRewardsFormFieldsDynamic = (
   {
     id: 10,
     componentProps: {
-      name: 'untilDeactivateIt',
+      name: 'untilDeactivate',
       label: 'Until Deactivate it',
     },
     type: [

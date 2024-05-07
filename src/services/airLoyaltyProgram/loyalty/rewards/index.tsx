@@ -1,3 +1,4 @@
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const loyaltyRewardsApi = baseAPI?.injectEndpoints({
@@ -9,26 +10,33 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
-    addLoyaltyReward: builder?.mutation({
+    addDigitalLoyaltyReward: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: '',
+        url: END_POINTS?.CREATE_DIGITAL_REWARD,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+    }),
+    addPhysicalLoyaltyReward: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.CREATE_PHYSICAL_REWARD,
         method: 'POST',
         body: apiDataParameter?.body,
       }),
     }),
     getVoucherDropdownForRewards: builder?.query({
       query: ({ params }: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_VOUCHERS_REWARDS_DROPDOWN,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.vouchers ?? [];
+        if (response) return response?.data ?? [];
       },
     }),
     getTiersDropdownForRewards: builder?.query({
       query: ({ params }: any) => ({
-        url: ``,
+        url: END_POINTS?.TIERS_DROPDOWN_FOR_REWARDS,
         method: 'GET',
         params,
       }),
@@ -38,12 +46,12 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
     }),
     getCustomersDropdownForRewards: builder?.query({
       query: ({ params }: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_VOUCHERS_REWARDS_DROPDOWN,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.customer ?? [];
+        if (response) return response?.data ?? [];
       },
     }),
   }),
@@ -51,8 +59,9 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
 
 export const {
   useLazyGetLoyaltyAllRewardsListQuery,
-  useAddLoyaltyRewardMutation,
   useLazyGetCustomersDropdownForRewardsQuery,
   useLazyGetTiersDropdownForRewardsQuery,
   useLazyGetVoucherDropdownForRewardsQuery,
+  useAddDigitalLoyaltyRewardMutation,
+  useAddPhysicalLoyaltyRewardMutation,
 } = loyaltyRewardsApi;
