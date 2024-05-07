@@ -1,14 +1,9 @@
 import { Grid, Typography } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import CommonDrawer from '@/components/CommonDrawer';
-
-import { usersFilterArray } from './FilterUser.data';
-
+import { usersFilterArray, usersFilterDefaultValues } from './FilterUser.data';
 import { useForm } from 'react-hook-form';
-
-import { v4 as uuidv4 } from 'uuid';
+import { filteredEmptyValues } from '@/utils/api';
 
 const FilterUser = ({
   isOpenDrawer,
@@ -16,16 +11,15 @@ const FilterUser = ({
   employeeFilter,
   setEmployeeFilter,
 }: any) => {
-  const methods: any = useForm();
+  const methods: any = useForm({
+    defaultValues: usersFilterDefaultValues(employeeFilter),
+  });
+
   const { handleSubmit } = methods;
 
-  const onSubmit = async (values: any) => {
-    setEmployeeFilter({
-      ...employeeFilter,
-      product: values?.product,
-      company: values?.company,
-      status: values?.status,
-    });
+  const onSubmit = async (data: any) => {
+    const filterValues = filteredEmptyValues?.(data);
+    setEmployeeFilter(filterValues);
     setIsOpenFilterDrawer(false);
   };
 
@@ -43,18 +37,11 @@ const FilterUser = ({
         <Grid container spacing={1}>
           {usersFilterArray()?.map((item: any) => {
             return (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
                 <Typography variant="body2" fontWeight={500}>
                   {item?.title}
                 </Typography>
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
+                <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             );
           })}

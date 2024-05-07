@@ -49,7 +49,7 @@ export const addResponseDataArray = (
     id: 1,
     componentProps: {
       name: 'title',
-      label: 'Responses title',
+      label: 'Responses Title',
       fullWidth: true,
       required: true,
     },

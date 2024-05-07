@@ -1,10 +1,8 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
   RHFAutocompleteAsync,
   RHFCheckbox,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { AIR_SERVICES } from '@/constants';
 import { CATALOG_SERVICE_TYPES, ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 export const placeRequestValidationSchema = (searchStringLowerCase: any) =>
@@ -63,15 +61,11 @@ export const placeRequest = (
       label: 'Requester',
       fullWidth: true,
       required: true,
-      disabled: requestForSomeOne === true ? true : false,
+      disabled: requestForSomeOne,
       apiQuery: apiQueryRequester,
-      EndIcon: AddCircleIcon,
       externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
-      endIconClick: () => {
-        router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
-      },
       placeholder: 'Add Requester',
     },
     component: RHFAutocompleteAsync,
@@ -94,13 +88,9 @@ export const placeRequest = (
       fullWidth: true,
       required: true,
       apiQuery: apiQueryRequester,
-      EndIcon: AddCircleIcon,
       externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
-      endIconClick: () => {
-        router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
-      },
       placeholder: 'Add Requester',
     },
     component: RHFAutocompleteAsync,

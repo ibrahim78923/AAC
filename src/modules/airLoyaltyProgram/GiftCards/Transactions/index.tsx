@@ -1,23 +1,18 @@
 import { Box, Button, Typography, useTheme } from '@mui/material';
-import { UserList, transactionTableData } from './Transactions.data';
+import {
+  TRANSACTIONS_ACTIONS,
+  UserList,
+  transactionTableData,
+} from './Transactions.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { useState } from 'react';
 import { CirclePlusIcon, ExportIcon, FilterLinesIcon } from '@/assets/icons';
-import { AddTransaction } from './AddTransaction';
-import { TransactionFilter } from './TransactionFilter';
-import { ExportModal } from '@/components/ExportModal';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
 import ImportModal from './TransactionImportDrawer';
 import { useTransaction } from './useTransaction';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Transactions = () => {
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [openDrawer1, setOpenDrawer1] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
   const theme = useTheme();
   const {
     search,
@@ -31,6 +26,9 @@ export const Transactions = () => {
     isError,
     isSuccess,
     meta,
+    openDrawer,
+    setOpenDrawer,
+    setTransactionDrawerContent,
   } = useTransaction();
   return (
     <Box>
@@ -57,7 +55,9 @@ export const Transactions = () => {
             ]}
           >
             <Button
-              onClick={() => setOpenDrawer1(true)}
+              onClick={() =>
+                setOpenDrawer({ isOpen: true, type: TRANSACTIONS_ACTIONS?.ADD })
+              }
               startIcon={<CirclePlusIcon />}
               variant="contained"
             >
@@ -103,7 +103,12 @@ export const Transactions = () => {
                 variant="outlined"
                 color="inherit"
                 startIcon={<FilterLinesIcon />}
-                onClick={() => setOpenDrawer(true)}
+                onClick={() =>
+                  setOpenDrawer({
+                    isOpen: true,
+                    type: TRANSACTIONS_ACTIONS?.FILTER,
+                  })
+                }
               >
                 Filters
               </Button>
@@ -117,21 +122,16 @@ export const Transactions = () => {
                 variant="outlined"
                 color="inherit"
                 startIcon={<ExportIcon />}
-                onClick={() => setOpenModal(true)}
+                onClick={() =>
+                  setOpenDrawer({
+                    isOpen: true,
+                    type: TRANSACTIONS_ACTIONS?.EXPORT,
+                  })
+                }
               >
                 Export
               </Button>
             </PermissionsGuard>
-            <ExportModal
-              open={openModal}
-              handleClose={() => setOpenModal(false)}
-              onSubmit={() => {
-                enqueueSnackbar('Export Successfully', {
-                  variant: NOTISTACK_VARIANTS?.SUCCESS,
-                });
-                setOpenModal(false);
-              }}
-            />
           </Box>
         </Box>
         <PermissionsGuard
@@ -157,11 +157,7 @@ export const Transactions = () => {
           />
         </PermissionsGuard>
       </Box>
-      <AddTransaction openDrawer={openDrawer1} setOpenDrawer={setOpenDrawer1} />
-      <TransactionFilter
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer?.isOpen && setTransactionDrawerContent()}
     </Box>
   );
 };

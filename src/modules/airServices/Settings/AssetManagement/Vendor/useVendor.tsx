@@ -1,9 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import {
-  VENDOR_LISTS_ACTION_CONSTANTS,
-  vendorListsColumnsFunction,
-} from './Vendor.data';
+import { vendorListsColumnsFunction } from './Vendor.data';
 import {
   useGetVendorsListQuery,
   useLazyGetExportNewVendorQuery,
@@ -14,7 +11,6 @@ import {
   MESSAGE_EXPORT_FILE_TYPE,
 } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
-import ImportVendor from './ImportVendor';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useVendor = () => {
@@ -24,7 +20,6 @@ export const useVendor = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const router = useRouter();
-  const [hasVendorAction, setHasVendorAction] = useState(false);
   const vendorListsColumns = vendorListsColumnsFunction(router);
 
   const param = {
@@ -67,31 +62,10 @@ export const useVendor = () => {
       errorSnackbar(error?.data?.message);
     }
   };
-  const vendorListActionComponent: any = {
-    [VENDOR_LISTS_ACTION_CONSTANTS?.IMPORT]: (
-      <ImportVendor
-        setIsDrawerOpen={setHasVendorAction}
-        isDrawerOpen={hasVendorAction}
-      />
-    ),
-  };
-  const setVendorListAction = (VendorListActionQuery: any) => {
-    router?.push({
-      pathname: router?.pathname,
-      query: {
-        ...router?.query,
-        VendorListAction: VendorListActionQuery,
-      },
-    });
-    setTimeout(() => {
-      setHasVendorAction?.(true);
-    }, 100);
-  };
+
   return {
     router,
     vendorListsColumns,
-    isDrawerOpen,
-    setIsDrawerOpen,
     isADrawerOpen,
     setIsADrawerOpen,
     vendorData,
@@ -103,8 +77,7 @@ export const useVendor = () => {
     setPage,
     setSearch,
     getNewVendorDataExport,
-    vendorListActionComponent,
-    hasVendorAction,
-    setVendorListAction,
+    isDrawerOpen,
+    setIsDrawerOpen,
   };
 };

@@ -2,6 +2,12 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
+export const TRANSACTIONS_ACTIONS = {
+  ADD: 'add',
+  EXPORT: 'export',
+  IMPORT: 'import',
+  FILTER: 'filter',
+};
 export const transactionTableData = [
   {
     id: 1,

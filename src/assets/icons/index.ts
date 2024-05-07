@@ -30,6 +30,7 @@ export { default as EditBlackIcon } from './shared/edit-black-icon';
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ViewEyeIcon } from './modules/airSales/SettingsUserManagement/view-eye';
 export { default as DeleteCrossIcon } from './modules/airSales/SettingsUserManagement/delete-cross';
+export { default as CopyIconButton } from './shared/copy-icon';
 export { default as EditPenIcon } from './modules/airSales/SettingsUserManagement/edit-pen';
 export { default as SearchSharedIcon } from './shared/search-shared';
 export { default as PlusIcon } from './shared/plus-shared';
