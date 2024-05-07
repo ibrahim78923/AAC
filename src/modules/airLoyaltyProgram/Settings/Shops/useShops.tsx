@@ -16,6 +16,7 @@ export const useShops = () => {
   const getShopLists = async () => {
     const queryParams = {
       search,
+      // limit
     };
     const apiDataParameter = { queryParams };
     try {

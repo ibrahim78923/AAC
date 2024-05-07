@@ -14,7 +14,7 @@ import {
 export const useUpsertShopModal = (props: any) => {
   const { isPortalOpen, setIsPortalOpen, getShopLists } = props;
 
-  const method = useForm<any>({
+  const method: any = useForm<any>({
     resolver: yupResolver(upsertShopValidationScheme),
     defaultValues: upsertShopFieldsValues?.(),
   });
@@ -26,12 +26,25 @@ export const useUpsertShopModal = (props: any) => {
     useEditSingleShopMutation();
 
   const submitUpsertShopForm = async (formData: any) => {
+    const shopFormData = new FormData();
+    shopFormData?.append('name', formData?.name);
+    shopFormData?.append('shopType', formData?.shopType?._id);
+    shopFormData?.append('email', formData?.email);
+    shopFormData?.append('city', formData?.city);
+    shopFormData?.append('country', formData?.country?._id);
+    shopFormData?.append('postCode', formData?.postCode);
+    shopFormData?.append('address', formData?.address);
+
     if (isPortalOpen?.data?._id) {
-      submitUpdateShop?.(formData);
+      submitUpdateShop?.(shopFormData);
       return;
     }
+    const apiDataParameter = {
+      body: shopFormData,
+    };
+
     try {
-      await addShopTrigger(formData)?.unwrap();
+      await addShopTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Shop added successfully!');
       await getShopLists?.();
       handleClose();
@@ -41,6 +54,7 @@ export const useUpsertShopModal = (props: any) => {
   };
 
   const submitUpdateShop = async (formData: any) => {
+    formData?.append('name', formData?.name);
     try {
       await editSingleShopTrigger(formData)?.unwrap();
       successSnackbar('Shop added successfully!');
