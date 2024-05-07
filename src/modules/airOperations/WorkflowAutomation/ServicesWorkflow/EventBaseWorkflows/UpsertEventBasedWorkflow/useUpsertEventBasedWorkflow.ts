@@ -50,6 +50,7 @@ export const useUpsertEventBasedWorkflow = () => {
     assignTo: 'Assign To',
     assetType: 'Asset Type',
     type: 'assettypes',
+    notifyBefore: 'notifyBefore',
   };
 
   const buttonData = {
@@ -143,7 +144,9 @@ export const useUpsertEventBasedWorkflow = () => {
       fieldName: condition?.fieldName?.value,
       fieldValue: condition?.fieldValue?._id
         ? condition?.fieldValue?._id
-        : condition?.fieldValue,
+        : condition?.fieldName?.value === collectionNameData?.notifyBefore
+          ? condition?.fieldValue?.value
+          : condition?.fieldValue,
       fieldType: mapField(condition),
       collectionName:
         condition?.condition === optionsConstants?.isEmpty ||

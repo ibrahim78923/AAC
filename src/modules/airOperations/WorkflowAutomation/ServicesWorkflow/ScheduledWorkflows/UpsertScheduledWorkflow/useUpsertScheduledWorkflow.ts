@@ -52,6 +52,7 @@ export const useUpsertScheduledWorkflow = () => {
     assetType: 'Asset Type',
     assignTo: 'Assign To',
     type: 'assettypes',
+    notifyBefore: 'notifyBefore',
   };
 
   const buttonData = {
@@ -142,7 +143,9 @@ export const useUpsertScheduledWorkflow = () => {
       fieldName: condition?.fieldName?.value,
       fieldValue: condition?.fieldValue?._id
         ? condition?.fieldValue?._id
-        : condition?.fieldValue,
+        : condition?.fieldName?.value === collectionNameData?.notifyBefore
+          ? condition?.fieldValue?.value
+          : condition?.fieldValue,
       fieldType: mapField(condition),
       collectionName:
         condition?.condition === optionsConstants?.isEmpty ||

@@ -3,6 +3,7 @@ import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   assetsFieldsOption,
+  notifyBeforeOptions,
   optionsConstants,
   taskFieldsOption,
   ticketsFields,
@@ -181,7 +182,11 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
               ]
             : condition?.fieldType === 'date'
               ? new Date(condition?.fieldValue)
-              : condition?.fieldValue,
+              : condition?.fieldName === 'notifyBefore'
+                ? notifyBeforeOptions?.find(
+                    (item: any) => item?.value === condition?.fieldValue,
+                  )
+                : condition?.fieldValue,
       })),
     })) ?? [
       {

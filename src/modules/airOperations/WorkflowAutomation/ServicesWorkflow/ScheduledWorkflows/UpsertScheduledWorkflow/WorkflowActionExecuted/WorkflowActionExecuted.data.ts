@@ -16,6 +16,7 @@ const impactOptions = ['HIGH', 'MEDIUM', 'LOW'];
 const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
 const typeOptions = ['INC', 'SR'];
 const sourcesOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
+const statusTasksOptions = ['Todo', 'In-Progress', 'Done'];
 
 export const optionsConstant = {
   agent: 'Assign to Agent',
@@ -78,7 +79,10 @@ export const actionsData = ({
           ? typeOptions
           : selectedLabel === optionsConstant?.impacts
             ? impactOptions
-            : statusOptions;
+            : selectedLabel === optionsConstant?.status &&
+                moduleTypeOptions === SCHEMA_KEYS?.TICKETS_TASKS
+              ? statusTasksOptions
+              : statusOptions;
   let valueComponent;
   const apiQuery = useApiQuery(selectedLabel);
   if (
