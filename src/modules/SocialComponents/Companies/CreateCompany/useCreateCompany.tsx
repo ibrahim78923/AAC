@@ -47,7 +47,9 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
     formData.append('city', values?.city);
     formData.append('postalCode', values?.postalCode);
     formData.append('address', values?.address);
-    formData.append('description', values?.description);
+    if (!isNullOrEmpty(values?.description)) {
+      formData.append('description', values?.description);
+    }
     if (!isNullOrEmpty(values?.linkedInUrl)) {
       formData.append('linkedInUrl', values?.linkedInUrl);
     }
