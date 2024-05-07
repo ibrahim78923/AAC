@@ -3,8 +3,10 @@ import { LoadingButton } from '@mui/lab';
 import { RHFEditor } from '@/components/ReactHookForm';
 import { meetingFormFields } from './MeetingForm.data';
 import { AttendeePeople } from './AttendeePeople';
+import { useRouter } from 'next/router';
 
 export const MeetingForm = (props: any) => {
+  const router = useRouter();
   return (
     <>
       <Grid container spacing={2}>
@@ -37,7 +39,11 @@ export const MeetingForm = (props: any) => {
       <br />
       <Divider sx={{ borderColor: 'grey.700' }} />
       <DialogActions>
-        <Button variant="outlined" color="secondary">
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => router?.back()}
+        >
           Cancel
         </Button>
         <LoadingButton variant="contained" type="submit">

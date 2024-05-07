@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 
 const schemaTypes = {
@@ -19,7 +18,6 @@ const schemaTypes = {
   group: 'group',
 };
 export const upsertMeetingValues = () => {
-  const router = useRouter();
   return {
     title: '',
     allDay: false,
@@ -44,7 +42,7 @@ export const upsertMeetingValues = () => {
     bufferAfter: true,
     bufferBeforeTime: '',
     bufferAfterTime: '',
-    people: router?.query?.type === schemaTypes?.group ? [] : null,
+    people: [],
     allowAttendee: false,
     timeSlotDuration: { label: '30 Minutes', value: 30 },
     selectedSlots: [],

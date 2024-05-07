@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import {
   RHFAutocomplete,
   RHFCheckbox,
@@ -7,10 +8,11 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { timeZone } from '@/constants/time-zone';
+import CustomLabel from '@/components/CustomLabel';
 import { Recurring } from './Recurring';
 import { AllowAttendee } from './AllowAttendee';
 import { Reminder } from './Reminder';
-import { timeZone } from '@/constants/time-zone';
 
 const meetingTypeOption = [
   'In person meeting',
@@ -184,6 +186,21 @@ export const meetingFormFields = (props: any) => {
     },
     {
       id: 12,
+      sx: {
+        display: watchAllDay ? 'none' : 'block',
+        mt: -1,
+      },
+      componentProps: {
+        label: (
+          <Typography variant="h6" mb={-2}>
+            Buffer Time
+          </Typography>
+        ),
+      },
+      component: CustomLabel,
+    },
+    {
+      id: 13,
       md: 1.5,
       sm: 3,
       sx: {
@@ -198,7 +215,7 @@ export const meetingFormFields = (props: any) => {
       component: RHFCheckbox,
     },
     {
-      id: 13,
+      id: 14,
       md: 4.5,
       sm: 9,
       sx: {
@@ -215,7 +232,7 @@ export const meetingFormFields = (props: any) => {
       component: RHFAutocomplete,
     },
     {
-      id: 14,
+      id: 15,
       md: 1.5,
       sm: 3,
       sx: {
@@ -230,7 +247,7 @@ export const meetingFormFields = (props: any) => {
       component: RHFCheckbox,
     },
     {
-      id: 15,
+      id: 16,
       md: 4.5,
       sm: 9,
       sx: {
@@ -247,7 +264,7 @@ export const meetingFormFields = (props: any) => {
       component: RHFAutocomplete,
     },
     {
-      id: 16,
+      id: 17,
       componentProps: props,
       component: Reminder,
     },

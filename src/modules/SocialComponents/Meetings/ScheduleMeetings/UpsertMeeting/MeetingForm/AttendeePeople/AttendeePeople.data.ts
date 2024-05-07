@@ -1,17 +1,15 @@
 export const meetingPeople = (organizer: any, peopleData: any) => [
   {
-    id: 1,
+    _id: 1,
     firstName: organizer?.firstName,
     lastName: organizer?.lastName,
     avatar: organizer?.avatar?.url,
     status: 'Organizer',
   },
   ...peopleData?.map((item: any) => ({
-    id: item?._id,
-    firstName: item?.firstName,
-    lastName: item?.lastName,
     avatar: item?.profilePicture?.url,
     status: item?.recordStatus,
+    ...item,
   })),
 ];
 export const suggestedData = [

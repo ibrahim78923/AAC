@@ -42,7 +42,14 @@ export const AttendeePeople = (props: any) => {
           placeholder="Invite Someone"
           fullWidth
         />
-        <Box display="flex" flexDirection="column" gap={2} mt={2}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap={1.5}
+          mt={2}
+          maxHeight={180}
+          overflow="scroll"
+        >
           {meetingPeople(organizer, peopleData)?.map(
             (item: any) =>
               item?.firstName && (
@@ -50,7 +57,7 @@ export const AttendeePeople = (props: any) => {
                   display={'flex'}
                   gap={1}
                   alignItems={'center'}
-                  key={item?.id}
+                  key={item?._id}
                 >
                   <Avatar
                     sx={{

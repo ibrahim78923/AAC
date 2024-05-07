@@ -1,6 +1,6 @@
+import { useRouter } from 'next/router';
 import { useLazyGetContactDropdownQuery } from '@/services/dropdowns';
 import { getSession } from '@/utils';
-import { useRouter } from 'next/router';
 import { peopleTypes } from './AttendeePeople.data';
 
 export const useAttendeePeople = (props: any) => {
