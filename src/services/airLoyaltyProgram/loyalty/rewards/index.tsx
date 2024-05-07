@@ -5,7 +5,7 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getLoyaltyAllRewardsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: '',
+        url: END_POINTS?.GET_REWARDS_LIST,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),

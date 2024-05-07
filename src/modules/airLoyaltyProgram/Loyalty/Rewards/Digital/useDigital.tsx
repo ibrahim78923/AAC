@@ -3,6 +3,7 @@ import { useLazyGetAllLoyaltyDigitalRewardsListQuery } from '@/services/airLoyal
 import { useEffect, useState } from 'react';
 import { loyaltyDigitalRewardColumnDynamic } from './Digital.data';
 import { getActivePermissionsSession } from '@/utils';
+import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 
 export const useDigital = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -25,6 +26,7 @@ export const useDigital = () => {
         page,
         limit: pageLimit,
         search,
+        type: LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD,
       },
     };
     try {
