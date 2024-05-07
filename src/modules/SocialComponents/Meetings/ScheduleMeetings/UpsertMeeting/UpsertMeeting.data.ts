@@ -28,7 +28,7 @@ export const upsertMeetingValues = () => {
     endTime: null,
     recurring: false,
     recurringType: '',
-    dailyType: 'everyDay',
+    dailyType: 'onThe',
     recurringDay: '',
     weekDays: [],
     monthType: 'onDate',
