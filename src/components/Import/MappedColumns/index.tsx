@@ -6,6 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material';
 
 import {
@@ -18,6 +19,11 @@ export const MappedColumns: any = (props: any) => {
 
   return (
     <>
+      <Typography fontWeight={600} color="custom.main">
+        Map columns from your file to the right CRM fields and delete the extra
+        columns
+      </Typography>
+      <br />
       <Box boxShadow={1}>
         <TableContainer>
           <Table sx={{ minWidth: '800px' }}>

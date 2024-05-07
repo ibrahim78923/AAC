@@ -1,9 +1,9 @@
 import { FIELD_TYPES } from '@/constants/strings';
 
-export const CRM_COLUMNS_LOCATION = [
+export const CRM_COLUMNS_VENDOR = [
   {
-    _id: 'locationname',
-    label: 'Location Name',
+    _id: 'name',
+    label: 'Name',
     groupBy: FIELD_TYPES?.MANDATORY_FIELD,
   },
   {
@@ -13,18 +13,23 @@ export const CRM_COLUMNS_LOCATION = [
   },
   { _id: 'phone', label: 'Phone', groupBy: FIELD_TYPES?.OPTIONAL_FIELD },
   {
+    _id: 'mobile',
+    label: 'Mobile',
+    groupBy: FIELD_TYPES?.OPTIONAL_FIELD,
+  },
+  {
     _id: 'email',
     label: 'Email',
     groupBy: FIELD_TYPES?.OPTIONAL_FIELD,
   },
   {
-    _id: 'addressLine1',
-    label: 'Address Line 1',
+    _id: 'description',
+    label: 'Description',
     groupBy: FIELD_TYPES?.OPTIONAL_FIELD,
   },
   {
-    _id: 'addressLine2',
-    label: 'Address Line 2',
+    _id: 'address',
+    label: 'Address',
     groupBy: FIELD_TYPES?.OPTIONAL_FIELD,
   },
   {
