@@ -10,6 +10,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['PRODUCTS'],
     }),
+
     getProductsList: builder.query({
       query: () => ({
         url: END_POINTS?.PRODUCTS,
@@ -20,6 +21,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['PRODUCTS'],
     }),
+
     getOrganizations: builder.query({
       query: () => ({
         url: END_POINTS?.ORGANIZATIONS,
@@ -27,6 +29,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['ORGANIZATIONS'],
     }),
+
     getOrganizationsList: builder.query({
       query: () => ({
         url: END_POINTS?.ORGANIZATIONS,
@@ -45,8 +48,23 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['USERS', 'PERMISSIONS'],
     }),
+    getCompanyAccountsList: builder.query({
+      query: ({ orgId }: any) => ({
+        url: `${END_POINTS?.GET_COMPANY_ORGANIZATION_DROPDOWN}/${orgId}${END_POINTS?.GET_COMPANY_ACCOUNTS}`,
+        method: 'GET',
+      }),
+      providesTags: ['USERS', 'PERMISSIONS'],
+    }),
 
     getCompanyAccountsRoles: builder.query({
+      query: (params: any) => ({
+        url: END_POINTS?.DROPDOWN_ACCOUNTS_ROLE,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['USERS', 'PERMISSIONS'],
+    }),
+    getCompanyAccountsRolesList: builder.query({
       query: (params: any) => ({
         url: END_POINTS?.DROPDOWN_ACCOUNTS_ROLE,
         method: 'GET',
@@ -87,7 +105,9 @@ export const {
   useGetOrganizationsQuery,
   useLazyGetOrganizationsListQuery,
   useGetCompanyAccountsQuery,
+  useLazyGetCompanyAccountsListQuery,
   useGetCompanyAccountsRolesQuery,
+  useLazyGetCompanyAccountsRolesListQuery,
   useGetDepartmentQuery,
   useGetCompanyContactsQuery,
   useGetSchemaKeysQuery,
