@@ -12,7 +12,7 @@ import {
   usePatchDealsMutation,
   usePostDealsMutation,
 } from '@/services/airSales/deals';
-import { DATE_FORMAT, existingDeals } from '@/constants';
+import { DATE_FORMAT, existingDeals, invalidDate, newDeal } from '@/constants';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -37,7 +37,7 @@ const useDealsEditorDrawer = ({
 
   const methodsProducts = useForm({
     resolver: yupResolver(
-      selectedValue === 'New Deal'
+      selectedValue === newDeal
         ? productsValidationSchema
         : productsValidationSchemaOnExistingDeals,
     ),
@@ -89,13 +89,13 @@ const useDealsEditorDrawer = ({
       ],
     };
     delete values?.addLineItemId;
-    if (PayloadValue?.closeDate === 'Invalid Date') {
+    if (PayloadValue?.closeDate === invalidDate) {
       delete PayloadValue?.closeDate;
     }
 
     try {
       let res: any;
-      if (selectedValue === 'New Deal') {
+      if (selectedValue === newDeal) {
         openDrawer === 'Edit'
           ? await updatedAssignDeal({
               id: dealRecord?._id,
