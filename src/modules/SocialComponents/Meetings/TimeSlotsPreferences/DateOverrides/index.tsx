@@ -34,8 +34,8 @@ const DateOverrides = (props: any) => {
             </Typography>
           ) : (
             <>
-              {submittedData && (
-                <Box>
+              {submittedData?.map((data: any, index: number) => (
+                <Box key={data?._id}>
                   <Box
                     display={'flex'}
                     justifyContent={'center'}
@@ -44,14 +44,14 @@ const DateOverrides = (props: any) => {
                     p={1}
                   >
                     <Typography>
-                      {submittedData?.overrideDate
-                        ? dayjs(submittedData?.overrideDate)?.format(
+                      {data?.overrideDate
+                        ? dayjs(data?.overrideDate)?.format(
                             DATE_TIME_FORMAT?.DMY,
                           )
                         : ''}
                     </Typography>
                     <Box>
-                      {submittedData?.overrides?.map((time: any) => (
+                      {data?.overrides.map((time: any) => (
                         <Typography key={time?._id}>
                           {`${dayjs(time?.start)?.format(
                             TIME_FORMAT?.UI,
@@ -60,8 +60,13 @@ const DateOverrides = (props: any) => {
                       ))}
                     </Box>
                   </Box>
+                  {index !== submittedData?.length - 1 && (
+                    <Grid item xs={12}>
+                      <Divider />
+                    </Grid>
+                  )}
                 </Box>
-              )}
+              ))}
             </>
           )}
           <Grid item xs={12}>

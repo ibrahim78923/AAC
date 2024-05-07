@@ -6,7 +6,7 @@ import { overridesDefaultValues } from '../AddDateOverrides/AddDateOverrides.dat
 export const useDateOverrides = () => {
   const [openModule, setOpenModule] = useState(false);
   const [showData, setShowData] = useState(false);
-  const [submittedData, setSubmittedData] = useState<any>(null);
+  const [submittedData, setSubmittedData] = useState<any>([]);
 
   const methods = useForm({
     defaultValues: overridesDefaultValues,
@@ -18,12 +18,18 @@ export const useDateOverrides = () => {
     try {
       await methods?.trigger();
       successSnackbar('Override Date Added Successfully');
-      setSubmittedData(data);
-      setShowData(true);
+      setSubmittedData((prevData: any) => [...prevData, data]);
+      if (submittedData?.length === 0) {
+        setShowData(true);
+      }
       setOpenModule(false);
     } catch (error) {
       errorSnackbar();
     }
+  };
+
+  const storeFirstObjectById = (_id: string) => {
+    submittedData?.find((obj: any) => obj?._id === _id);
   };
 
   return {
@@ -35,5 +41,6 @@ export const useDateOverrides = () => {
     handleSubmit,
     onSubmit,
     submittedData,
+    storeFirstObjectById,
   };
 };

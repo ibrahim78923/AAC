@@ -3,10 +3,12 @@ import * as Yup from 'yup';
 export const weeklyDaysSchemaFields: any = Yup?.object()?.shape({
   months: Yup?.string(),
   weekly: Yup?.string(),
-  timeSlot: Yup?.object()?.shape({
-    timeSlotStart: Yup?.mixed()?.nullable(),
-    timeSlotEnd: Yup?.mixed()?.nullable(),
-  }),
+  timeSlot: Yup?.array()?.of(
+    Yup?.object()?.shape({
+      timeSlotStart: Yup?.mixed()?.nullable(),
+      timeSlotEnd: Yup?.mixed()?.nullable(),
+    }),
+  ),
   beforeEvent: Yup?.mixed()?.nullable(),
   afterEvent: Yup?.mixed()?.nullable(),
 });
