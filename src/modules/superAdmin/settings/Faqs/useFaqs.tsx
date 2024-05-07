@@ -117,8 +117,14 @@ const useFaqs = () => {
   };
 
   const onSubmitAddFaq = async (values: any) => {
+    const payload = {
+      faqCategory: values?.faqCategory?._id,
+      faqQuestion: values?.faqQuestion,
+      faqAnswer: values?.faqAnswer,
+    };
+
     try {
-      await postAddFaq({ body: values })?.unwrap();
+      await postAddFaq({ body: payload })?.unwrap();
       handleCloseModalFaq();
       enqueueSnackbar('FAQ added successfully', {
         variant: 'success',
@@ -153,7 +159,9 @@ const useFaqs = () => {
     const selectedItem =
       dataGetFaqs?.data?.faqs?.find((item: any) => item?._id === rowId) || {};
     if (selectedItem) {
-      methodsEditFaq.setValue('faqCategory', selectedItem?.faqCategory);
+      methodsEditFaq.setValue('faqCategory', {
+        _id: selectedItem?.faqCategory,
+      });
       methodsEditFaq.setValue('faqQuestion', selectedItem?.faqQuestion);
       methodsEditFaq.setValue('faqAnswer', selectedItem?.faqAnswer);
     }

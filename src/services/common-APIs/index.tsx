@@ -10,6 +10,16 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['PRODUCTS'],
     }),
+    getDropdownProducts: builder.query({
+      query: () => ({
+        url: END_POINTS?.DROPDOWN_PRODUCTS,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['PRODUCTS'],
+    }),
     getOrganizations: builder.query({
       query: () => ({
         url: END_POINTS?.ORGANIZATIONS,
@@ -63,6 +73,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useLazyGetDropdownProductsQuery,
   useGetOrganizationsQuery,
   useGetCompanyAccountsQuery,
   useGetCompanyAccountsRolesQuery,
