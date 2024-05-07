@@ -255,4 +255,5 @@ export const CHAT_MESSAGE_TYPE = {
 
 export const API_STATUS = {
   PENDING: 'pending',
+  REJECTED: 'rejected',
 };

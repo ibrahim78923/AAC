@@ -30,6 +30,7 @@ export { default as EditBlackIcon } from './shared/edit-black-icon';
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ViewEyeIcon } from './modules/airSales/SettingsUserManagement/view-eye';
 export { default as DeleteCrossIcon } from './modules/airSales/SettingsUserManagement/delete-cross';
+export { default as CopyIconButton } from './shared/copy-icon';
 export { default as EditPenIcon } from './modules/airSales/SettingsUserManagement/edit-pen';
 export { default as SearchSharedIcon } from './shared/search-shared';
 export { default as PlusIcon } from './shared/plus-shared';
@@ -446,6 +447,7 @@ export { default as StatusEditIcon } from './modules/airCallCenter/Settings/Gene
 export { default as SmsMainIcon } from './modules/airMarketer/SMSMarketing/sms-main-icon';
 export { default as PremiumIcon } from './shared/premium-icon';
 export { default as CrmSuiteIcon } from './modules/orgAdmin/SubscriptionAndInvoices/crm-suite-icon';
+export { default as MailColoredIcon } from './shared/mail-icon';
 export { default as GoogleCalenderIcon } from './shared/google-calender-icon';
 export { default as OfficeCalenderIcon } from './shared/office-calender-icon';
 export { default as ZoomVideoIcon } from './shared/zoom-icon';

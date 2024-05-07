@@ -33,7 +33,16 @@ import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import SkeletonComponent from '@/components/CardSkeletons';
 
 const UsersSidebar = (props: any) => {
-  const { setEmployeeDataById, setSearchAccount } = props;
+  const {
+    setEmployeeDataById,
+    setSearchAccount,
+    employeeDetails,
+    setSearchEmployee,
+    employeeFilter,
+    setEmployeeFilter,
+    resetFilter,
+  } = props;
+
   const {
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
@@ -45,11 +54,6 @@ const UsersSidebar = (props: any) => {
   } = useUsersSidebar();
 
   const {
-    employeeDetails,
-    setSearchEmployee,
-    employeeFilter,
-    setEmployeeFilter,
-    resetFilter,
     employeeMetaData,
     handleEmpListPaginationChange,
     employeeListLoading,

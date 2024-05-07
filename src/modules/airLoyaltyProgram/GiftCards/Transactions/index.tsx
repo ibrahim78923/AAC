@@ -1,23 +1,19 @@
-import { Box, Button, Typography } from '@mui/material';
-import { UserList, transactionTableData } from './Transactions.data';
+import { Box, Button, Typography, useTheme } from '@mui/material';
+import {
+  TRANSACTIONS_ACTIONS,
+  UserList,
+  transactionTableData,
+} from './Transactions.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { useState } from 'react';
 import { CirclePlusIcon, ExportIcon, FilterLinesIcon } from '@/assets/icons';
-import { AddTransaction } from './AddTransaction';
-import { TransactionFilter } from './TransactionFilter';
-import { ExportModal } from '@/components/ExportModal';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
 import ImportModal from './TransactionImportDrawer';
 import { useTransaction } from './useTransaction';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Transactions = () => {
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [openDrawer1, setOpenDrawer1] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const theme = useTheme();
   const {
     search,
     setSearch,
@@ -30,6 +26,9 @@ export const Transactions = () => {
     isError,
     isSuccess,
     meta,
+    openDrawer,
+    setOpenDrawer,
+    setTransactionDrawerContent,
   } = useTransaction();
   return (
     <Box>
@@ -56,7 +55,9 @@ export const Transactions = () => {
             ]}
           >
             <Button
-              onClick={() => setOpenDrawer1(true)}
+              onClick={() =>
+                setOpenDrawer({ isOpen: true, type: TRANSACTIONS_ACTIONS?.ADD })
+              }
               startIcon={<CirclePlusIcon />}
               variant="contained"
             >
@@ -67,94 +68,96 @@ export const Transactions = () => {
       </Box>
       <br />
       <Box
-        m={1}
-        display={'flex'}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-        flexWrap={'wrap'}
-        gap={1}
+        sx={{
+          border: `.1rem solid ${theme?.palette?.grey[700]}`,
+          borderRadius: '8px',
+        }}
       >
+        <Box
+          m={1}
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          flexWrap={'wrap'}
+          gap={1}
+        >
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.SEARCH_DETAILS,
+            ]}
+          >
+            <Search
+              label="Search Here"
+              width={'16.25rem'}
+              setSearchBy={setSearch}
+              searchBy={search}
+            />
+          </PermissionsGuard>
+          <Box display={'flex'} flexWrap={'wrap'} gap={2}>
+            <PermissionsGuard
+              permissions={[
+                AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.APPLY_FILTERS,
+              ]}
+            >
+              <Button
+                variant="outlined"
+                color="inherit"
+                startIcon={<FilterLinesIcon />}
+                onClick={() =>
+                  setOpenDrawer({
+                    isOpen: true,
+                    type: TRANSACTIONS_ACTIONS?.FILTER,
+                  })
+                }
+              >
+                Filters
+              </Button>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.EXPORT,
+              ]}
+            >
+              <Button
+                variant="outlined"
+                color="inherit"
+                startIcon={<ExportIcon />}
+                onClick={() =>
+                  setOpenDrawer({
+                    isOpen: true,
+                    type: TRANSACTIONS_ACTIONS?.EXPORT,
+                  })
+                }
+              >
+                Export
+              </Button>
+            </PermissionsGuard>
+          </Box>
+        </Box>
         <PermissionsGuard
           permissions={[
-            AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.SEARCH_DETAILS,
+            AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.VIEW_DETAILS,
           ]}
         >
-          <Search
-            label="Search Here"
-            width={'16.25rem'}
-            setSearchBy={setSearch}
-            searchBy={search}
+          <TanstackTable
+            data={transactionTableData}
+            columns={UserList}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            isError={isError}
+            isSuccess={isSuccess}
+            isPagination
+            count={meta?.pages}
+            pageLimit={limit}
+            currentPage={page}
+            totalRecords={meta?.total}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setLimit}
           />
         </PermissionsGuard>
-        <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.EXPORT,
-            ]}
-          >
-            <Button
-              variant="outlined"
-              color="inherit"
-              startIcon={<ExportIcon />}
-              sx={{ borderRadius: '0.5rem' }}
-              onClick={() => setOpenModal(true)}
-            >
-              Export
-            </Button>
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[
-              AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.APPLY_FILTERS,
-            ]}
-          >
-            <Button
-              variant="outlined"
-              color="inherit"
-              startIcon={<FilterLinesIcon />}
-              onClick={() => setOpenDrawer(true)}
-            >
-              Filters
-            </Button>
-          </PermissionsGuard>
-          <ExportModal
-            open={openModal}
-            handleClose={() => setOpenModal(false)}
-            onSubmit={() => {
-              enqueueSnackbar('Export Successfully', {
-                variant: NOTISTACK_VARIANTS?.SUCCESS,
-              });
-              setOpenModal(false);
-            }}
-          />
-        </Box>
       </Box>
-      <PermissionsGuard
-        permissions={[
-          AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS?.VIEW_DETAILS,
-        ]}
-      >
-        <TanstackTable
-          data={transactionTableData}
-          columns={UserList}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          isError={isError}
-          isSuccess={isSuccess}
-          isPagination
-          count={meta?.pages}
-          pageLimit={limit}
-          currentPage={page}
-          totalRecords={meta?.total}
-          onPageChange={(page: any) => setPage(page)}
-          setPage={setPage}
-          setPageLimit={setLimit}
-        />
-      </PermissionsGuard>
-      <AddTransaction openDrawer={openDrawer1} setOpenDrawer={setOpenDrawer1} />
-      <TransactionFilter
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer?.isOpen && setTransactionDrawerContent()}
     </Box>
   );
 };

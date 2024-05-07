@@ -400,6 +400,7 @@ export const MODULE_TYPE = {
   LOCATION: 'LOCATION',
   ASSETS: 'ASSETS',
   TICKET: 'TICKET',
+  CUSTOMER_PORTAL: 'CUSTOMER_PORTAL',
 };
 export const TICKET_SELECTION_TYPE = {
   REQUESTER: 'REQUESTER',
@@ -521,8 +522,8 @@ export const OPERATORS = {
 };
 
 export const LOYALTY_REWARDS_TYPE = {
-  PHYSICAL_REWARD: 'physicalReward',
-  DIGITAL_REWARD: 'digitalReward',
+  PHYSICAL_REWARD: 'PHYSICAL_REWARD',
+  DIGITAL_REWARD: 'DIGITAL_REWARD',
 };
 
 export const RULES_BENEFIT_TYPE = {
@@ -547,4 +548,15 @@ export const DRAWER_TYPES = {
   EDIT: 'edit',
   ADD: 'add',
   VIEW: 'view',
+  UPDATE: 'update',
+};
+
+export const LOYALTY_REWARDS_STATUS = {
+  ACTIVE: 'ACTIVE',
+  IN_ACTIVE: 'IN_ACTIVE',
+};
+
+export const FIELD_TYPES = {
+  MANDATORY_FIELD: 'Mandatory Field',
+  OPTIONAL_FIELD: 'Optional Field',
 };
