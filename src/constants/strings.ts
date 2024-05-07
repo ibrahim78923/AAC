@@ -560,3 +560,10 @@ export const FIELD_TYPES = {
   MANDATORY_FIELD: 'Mandatory Field',
   OPTIONAL_FIELD: 'Optional Field',
 };
+
+export const UPSERT_SHOP_FORM_CONSTANT = {
+  EDIT: 'Edit',
+  SUBMIT: 'Submit',
+  UPDATE_SHOP: 'Update Shop',
+  NEW_SHOP: 'New Shop',
+};

@@ -2,7 +2,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Grid } from '@mui/material';
 import { useUpsertShopModal } from './useUpsertShop';
 import { FormProvider } from '@/components/ReactHookForm';
-import { UPSERT_SHOP_FORM_CONSTANT } from '../Shops.data';
+import { UPSERT_SHOP_FORM_CONSTANT } from '@/constants/strings';
 
 const UpsertShop = (props: any) => {
   const { isPortalOpen } = props;

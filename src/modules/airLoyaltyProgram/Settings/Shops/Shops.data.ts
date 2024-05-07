@@ -1,10 +1,3 @@
-export const UPSERT_SHOP_FORM_CONSTANT = {
-  EDIT: 'Edit',
-  SUBMIT: 'Submit',
-  UPDATE_SHOP: 'Update Shop',
-  NEW_SHOP: 'New Shop',
-};
-
 export const cardData = [
   {
     _id: 1,
