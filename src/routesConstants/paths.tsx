@@ -236,6 +236,7 @@ export const SOCIAL_FEATURES_EMAIL = {
   GET_MAIL_DETAILS: '/other-mail/get-message-details',
 
   SEND_EMAIL_OTHER: '/other-mail/send-email',
+  DRAFT_EMAIL_OTHER: '/other-mail/draft-email',
   REPLY_EMAIL_OTHER: '/other-mail/reply-email',
 };
 

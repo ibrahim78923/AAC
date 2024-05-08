@@ -11,6 +11,7 @@ import {
   scheduleEmailValidationSchema,
 } from './SendEmailDrawer.data';
 import {
+  usePostDraftOtherEmailMutation,
   usePostReplyOtherEmailMutation,
   usePostSendOtherEmailMutation,
 } from '@/services/commonFeatures/email';
@@ -30,12 +31,13 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const [isProcessDraft, setIsProcessDraft] = useState(false);
 
   const { handleSubmit, watch, reset } = methodsDealsTasks;
-  const watchEmailsForm = watch(['ccChecked', 'bccChecked']);
+  const watchEmailsForm = watch(['ccChecked', 'bccChecked', 'to']);
 
   const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
     usePostSendOtherEmailMutation();
   const [postReplyOtherEmail, { isLoading: loadingOtherReply }] =
     usePostReplyOtherEmailMutation();
+  const [postDraftOtherEmail] = usePostDraftOtherEmailMutation();
 
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.email?.currentEmailAssets,
@@ -57,16 +59,44 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [isProcessDraft]);
 
+  const isToExists = watchEmailsForm[2];
+
   const onSubmit = async (values: any) => {
     if (isProcessDraft) {
-      setIsLoadingProcessDraft(true);
-      // console.log("process saving draft")
-      setTimeout(() => {
+      if (isToExists?.length > 1) {
+        setIsLoadingProcessDraft(true);
+        //draft process
+        const formDataSend = new FormData();
+        formDataSend.append('to', values?.to);
+        formDataSend.append('subject', values?.subject);
+        formDataSend.append('content', values?.description);
+        if (values?.cc && values?.cc?.trim() !== '') {
+          formDataSend.append('cc', values.cc);
+        }
+        if (values?.bcc && values?.bcc?.trim() !== '') {
+          formDataSend.append('bcc', values.bcc);
+        }
+        try {
+          await postDraftOtherEmail({
+            body: formDataSend,
+          })?.unwrap();
+          enqueueSnackbar('Draft saved successfully', {
+            variant: 'success',
+          });
+          setIsProcessDraft(false);
+          setIsLoadingProcessDraft(false);
+          reset();
+          setOpenDrawer(false);
+        } catch (error: any) {
+          enqueueSnackbar('Something went wrong while saving draft !', {
+            variant: 'error',
+          });
+        }
+      } else {
         setIsProcessDraft(false);
-        setIsLoadingProcessDraft(false);
-        reset();
         setOpenDrawer(false);
-      }, 1000);
+        reset();
+      }
     } else {
       if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
         const formDataSend = new FormData();
