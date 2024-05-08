@@ -358,6 +358,7 @@ export const END_POINTS = {
   IMPORT_FILE: `/import-file`,
   IMPORT_FILE_GET_SIGNED_URL: `/import-file/create-signed-url`,
   GET_PLAN_PRODUCTS_PERMISSIONS: '/plan/plan-product-permissions',
+  ADD_VOUCHERS: '/vouchers/create-voucher',
 };
 
 export const superAdminBillingInvoices = {
