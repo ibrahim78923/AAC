@@ -17,6 +17,7 @@ import { DATE_FORMAT, existingContacts, newContacts } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { useState } from 'react';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const useContactsEditorDrawer = ({
   openDrawer,
@@ -106,7 +107,7 @@ const useContactsEditorDrawer = ({
   }
 
   if (watchContactStatus[0] === existingContacts) {
-    setOpenDrawer('Edit');
+    setOpenDrawer(DRAWER_TYPES?.EDIT);
   }
   const onSubmit = async (values: any) => {
     if (watchContactStatus[0] === newContacts && isNullOrEmpty(values?.email)) {
@@ -147,7 +148,7 @@ const useContactsEditorDrawer = ({
       formData.append('recordId', companyId);
 
       try {
-        openDrawer === 'Edit'
+        openDrawer === DRAWER_TYPES?.EDIT
           ? await updateContacts({
               body: formData,
               id: existingContactId[0],
@@ -156,7 +157,9 @@ const useContactsEditorDrawer = ({
 
         enqueueSnackbar(
           ` contact ${
-            openDrawer === 'Edit' ? 'Updated' : 'Added'
+            openDrawer === DRAWER_TYPES?.EDIT
+              ? DRAWER_TYPES?.UPDATE
+              : DRAWER_TYPES?.ADD
           } Successfully`,
           {
             variant: 'success',
