@@ -3,6 +3,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { dataArray } from '../Users.data';
 import useAddUser from './useAddUser';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const AddUsers = (props: any) => {
   const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
@@ -19,8 +20,10 @@ const AddUsers = (props: any) => {
       onClose={() =>
         setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false })
       }
-      title={isAddUserDrawer?.type === 'edit' ? 'Edit User' : 'Add User'}
-      okText={isAddUserDrawer?.type === 'edit' ? 'Edit' : 'Add'}
+      title={
+        isAddUserDrawer?.type === DRAWER_TYPES?.EDIT ? 'Edit User' : 'Add User'
+      }
+      okText={isAddUserDrawer?.type === DRAWER_TYPES?.EDIT ? 'Edit' : 'Add'}
       footer={true}
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
@@ -43,8 +46,8 @@ const AddUsers = (props: any) => {
                   {...item.componentProps}
                   size={'small'}
                   disabled={
-                    isAddUserDrawer?.type === 'view' ||
-                    (isAddUserDrawer?.type === 'edit' &&
+                    isAddUserDrawer?.type === DRAWER_TYPES?.VIEW ||
+                    (isAddUserDrawer?.type === DRAWER_TYPES?.EDIT &&
                       item?.componentProps?.name === 'email')
                       ? true
                       : false

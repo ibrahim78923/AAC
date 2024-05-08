@@ -8,6 +8,7 @@ import { AlertModals } from '@/components/AlertModals';
 import AddUsers from './Users/AddUsers';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const Users = () => {
   const theme = useTheme<Theme>();
@@ -56,10 +57,10 @@ const Users = () => {
                   activeTab === 0
                     ? (setIsAddUserDrawer({
                         isToggle: true,
-                        type: 'add',
+                        type: DRAWER_TYPES?.ADD,
                       }),
                       setCheckedUser([]))
-                    : setIsAddTeam({ isToggle: true, type: 'add' });
+                    : setIsAddTeam({ isToggle: true, type: DRAWER_TYPES?.ADD });
                 }
               }}
               variant="contained"

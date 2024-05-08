@@ -8,6 +8,7 @@ import {
   useUpdateProductsUsersMutation,
 } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const useAddUser = (
   checkedUser: any,
@@ -73,7 +74,7 @@ const useAddUser = (
     values.role = values?.role?._id;
     values.team = values?.team?._id;
     try {
-      if (drawerType?.type === 'add') {
+      if (drawerType?.type === DRAWER_TYPES?.ADD) {
         await postPoductUser({ body: values })?.unwrap();
         reset();
         enqueueSnackbar('User added successfully', {
