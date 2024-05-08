@@ -87,6 +87,9 @@ const useSalesProductCategories = () => {
     const salesProductCartegoryData = {
       ...data,
     };
+    if (isNullOrEmpty(data?.description)) {
+      delete salesProductCartegoryData.description;
+    }
     try {
       if (Object?.keys(editData)[0]) {
         await updateSalesProductCategories({

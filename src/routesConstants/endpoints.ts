@@ -147,6 +147,7 @@ export const END_POINTS = {
   RESTORE_COMPANIES: '/companies/restore-action',
   MERGE_COMPANIES: '/companies/merge-company',
   REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
+  GET_COMPANY_ASSOICATION: '/companies/get-company-associations',
   COMPANY_VIEWS: '/company-views',
   CUSTOMIZE_COLUMNS: '/customized-columns',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',

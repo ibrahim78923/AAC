@@ -8,9 +8,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useCompanyUpdateMutation } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
 import { useGetLifeCycleQuery } from '@/services/commonFeatures/contacts';
-import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { getSession } from '@/utils';
+import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 
 const useDetails = (data: any) => {
   const theme = useTheme();
@@ -18,18 +19,22 @@ const useDetails = (data: any) => {
 
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
 
-  const params = {
-    role: 'ORG_ADMIN',
-  };
-  const { data: userList } = useGetUsersQuery(params);
-
   const lifeCycleStagesData = lifeCycleStages?.data?.lifecycleStages?.map(
     (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
   );
 
-  const UserListData = userList?.data?.users?.map((lifecycle: any) => ({
-    value: lifecycle?._id,
-    label: `${lifecycle?.firstName} ${lifecycle?.lastName}`,
+  const { user } = getSession();
+
+  const params = {
+    page: 1,
+    limit: 100,
+    contactOwnerId: user?._id,
+  };
+
+  const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
+  const UserListData = getCompanyContacts?.data?.contacts?.map((item: any) => ({
+    value: item?._id,
+    label: `${item?.firstName} ${item?.lastName}`,
   }));
 
   const rowApiValues = {

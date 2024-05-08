@@ -30,7 +30,9 @@ const Contacts = ({ companyId }: any) => {
     contactRecord,
     setContactRecord,
     deleteContactHandler,
-  } = useContacts();
+    existingContactData,
+    newArray,
+  } = useContacts(companyId);
 
   return (
     <Box
@@ -95,6 +97,8 @@ const Contacts = ({ companyId }: any) => {
           setOpenDrawer={setOpenDrawer}
           contactRecord={contactRecord}
           companyId={companyId}
+          existingContactData={existingContactData}
+          newArray={newArray}
         />
       )}
       <AlertModals
