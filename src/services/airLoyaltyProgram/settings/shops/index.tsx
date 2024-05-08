@@ -21,7 +21,7 @@ export const manageShopAPI = baseAPI?.injectEndpoints({
       query: (apiDataParameter: any) => ({
         url: END_POINTS?.UPDATE_SHOP,
         method: 'PATCH',
-        body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
       }),
     }),
     deleteShop: builder?.mutation({

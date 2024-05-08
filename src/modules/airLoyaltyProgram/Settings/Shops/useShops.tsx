@@ -46,7 +46,7 @@ export const useShops = () => {
     e?.target?.checked
       ? setSelectedShopsList([...selectedShopsList, data])
       : setSelectedShopsList(
-          selectedShopsList?.filter((item: any) => item?._id !== data?.id),
+          selectedShopsList?.filter((item: any) => item?._id !== data?._id),
         );
   };
 
@@ -78,6 +78,9 @@ export const useShops = () => {
           selectedShopsList={selectedShopsList}
           setSelectedShopsList={setSelectedShopsList}
           getShopLists={getShopLists}
+          setPage={setPage}
+          page={page}
+          totalRecords={lazyGetShopListStatus?.data?.data?.shops?.length}
         />
       );
     }
