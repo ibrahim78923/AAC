@@ -151,7 +151,7 @@ const useDealTab = () => {
   const handeApplyFilter = (values: any) => {
     const filteredObj = Object?.fromEntries(
       Object?.entries(values)?.filter(
-        (value) => value[1] !== '' && value[1] !== null,
+        (value: any) => value[1] !== '' && value[1] !== null,
       ),
     );
     setFilters({ ...filters, ...filteredObj });
