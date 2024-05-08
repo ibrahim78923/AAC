@@ -106,7 +106,7 @@ const TableToolbar: FC<TableToolbarI> = ({
               ]}
             >
               <MenuItem
-                disabled={status == quoteStatus?.published || !rowId}
+                // disabled={status == quoteStatus?.published || !rowId}
                 onClick={handleViewQuote}
               >
                 View
