@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { AUTH } from '@/constants';
 import useSignUp from './useSignUp';
 import { signUpFormFields } from './SignUp.data';
-import PermissionDenied from '@/components/PermisisonDenied';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const SignUp = () => {
   const {
@@ -30,7 +30,7 @@ export const SignUp = () => {
         alignItems={'center'}
         justifyContent={'center'}
       >
-        <PermissionDenied />
+        <SkeletonForm />
       </Box>
     );
 

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import ShopsTab from './ShopsTab';
+import ShopsTab from '../Shops';
 
 const Management = () => {
   return (
