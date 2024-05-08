@@ -448,3 +448,7 @@ export const OPERATION = {
 export const AIR_SALES = {
   INVOICES: '/quote-invoice',
 };
+
+export const SUPER_ADMIN_SETTINGS = {
+  FAQS: 'faqs',
+};

@@ -63,26 +63,44 @@ const useFaqs = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { createdAt, ...others } = values;
-    const dateStart = createdAt?.[0]
-      ? dayjs(createdAt[0]).format(DATE_FORMAT.API)
-      : null;
-    const dateEnd = createdAt?.[1]
-      ? dayjs(createdAt[1]).format(DATE_FORMAT.API)
-      : null;
-    setFilterParams((prev) => {
-      const updatedParams = {
+    const updateFilterParams = (key: string, value: any) => {
+      setFilterParams((prev: any) => ({
         ...prev,
-        ...others,
-      };
+        [key]: value,
+      }));
+    };
 
-      if (dateStart !== null && dateEnd !== null) {
-        updatedParams.dateStart = dateStart;
-        updatedParams.dateEnd = dateEnd;
-      }
+    const createdAt = values?.createdAt;
+    const faqCategory = values?.faqCategory?._id;
+    const createdBy = values?.createdBy?._id;
 
-      return updatedParams;
-    });
+    if (createdAt && createdAt.length === 2) {
+      const [start, end] = createdAt;
+      updateFilterParams(
+        'dateStart',
+        start ? dayjs(start).format(DATE_FORMAT.API) : null,
+      );
+      updateFilterParams(
+        'dateEnd',
+        end ? dayjs(end).format(DATE_FORMAT.API) : null,
+      );
+    } else {
+      updateFilterParams('dateStart', undefined);
+      updateFilterParams('dateEnd', undefined);
+    }
+
+    if (faqCategory) {
+      updateFilterParams('faqCategory', faqCategory);
+    } else {
+      updateFilterParams('faqCategory', undefined);
+    }
+
+    if (createdBy) {
+      updateFilterParams('createdBy', createdBy);
+    } else {
+      updateFilterParams('createdBy', undefined);
+    }
+
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
@@ -159,9 +177,7 @@ const useFaqs = () => {
     const selectedItem =
       dataGetFaqs?.data?.faqs?.find((item: any) => item?._id === rowId) || {};
     if (selectedItem) {
-      methodsEditFaq.setValue('faqCategory', {
-        _id: selectedItem?.faqCategory,
-      });
+      methodsEditFaq.setValue('faqCategory', selectedItem?.faqCategory);
       methodsEditFaq.setValue('faqQuestion', selectedItem?.faqQuestion);
       methodsEditFaq.setValue('faqAnswer', selectedItem?.faqAnswer);
     }

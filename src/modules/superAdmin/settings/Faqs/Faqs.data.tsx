@@ -162,7 +162,7 @@ export const columns = (
       id: 'faqCategory',
       isSortable: true,
       header: 'FAQ Category',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.name,
     },
     {
       accessorFn: (row: any) => row?.faqAnswer,

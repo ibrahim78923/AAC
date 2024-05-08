@@ -3,32 +3,24 @@ import {
   Box,
   Button,
   Typography,
-  Grid,
   MenuItem,
   Menu,
   Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
-import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import AddFaq from './AddFaq';
-
-import { columns, faqsFilterFiltersDataArray } from './Faqs.data';
-
-import { FormProvider } from '@/components/ReactHookForm';
-
+import { columns } from './Faqs.data';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import PlusShared from '@/assets/icons/shared/plus-shared';
-
 import { styles } from './Faqs.styles';
-
-import { v4 as uuidv4 } from 'uuid';
 import useFaqs from './useFaqs';
 import EditFaq from './EditFaq';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_SETTINGS_FAQS_PERMISSIONS } from '@/constants/permission-keys';
+import FilterDrawer from './FilterDrawer';
 
 const Faqs = () => {
   const {
@@ -238,33 +230,14 @@ const Faqs = () => {
           />
         </Box>
       </PermissionsGuard>
-      <CommonDrawer
-        isDrawerOpen={openFilters}
+
+      <FilterDrawer
+        open={openFilters}
         onClose={handleCloseFilters}
-        title="Filters"
-        okText="Apply"
-        isOk={true}
-        footer={true}
-        submitHandler={handleFiltersSubmit}
-      >
-        <FormProvider methods={methodsFilter}>
-          <Grid container spacing={'22px'}>
-            {faqsFilterFiltersDataArray()?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select
-                    ? item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))
-                    : null}
-                </item.component>
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
-      </CommonDrawer>
+        onSubmit={handleFiltersSubmit}
+        formMethods={methodsFilter}
+        isLoading={loagingGetFaqs}
+      />
 
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
@@ -274,6 +247,7 @@ const Faqs = () => {
         handleSubmitBtn={handleDeleteFaq}
         loading={loadingDelete}
       />
+
       <AddFaq
         isAddModalOpen={openModalAddFaq}
         onClose={handleCloseModalFaq}
