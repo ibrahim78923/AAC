@@ -370,6 +370,7 @@ export const END_POINTS = {
   UPDATE_SHOP: `/shops/update-shop`,
   SHOP_DETAIL: `/shops/shop-details`,
   ADD_VOUCHERS: '/vouchers/create-voucher',
+  DELETE_SHOP: `/shops/delete-shops`,
 };
 
 export const superAdminBillingInvoices = {
