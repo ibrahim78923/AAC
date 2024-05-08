@@ -18,7 +18,7 @@ export const dealsNotesDataArray = [
   {
     componentProps: {
       name: 'title',
-      label: 'Task Name',
+      label: 'Title',
       placeholder: 'Title Here',
       required: true,
       fullWidth: true,
@@ -54,6 +54,6 @@ export const drawerTitle: any = {
   View: 'View Notes',
 };
 export const drawerButtonTitle: any = {
-  Add: 'Add',
+  Add: 'Save',
   Edit: 'Edit',
 };

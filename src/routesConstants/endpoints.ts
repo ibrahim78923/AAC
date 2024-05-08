@@ -363,6 +363,11 @@ export const END_POINTS = {
   GET_REWARDS_LIST: `/rewards/rewards-list`,
   GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
   TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers`,
+  LEAD_CAPTURE_CTA: '/lead-capture',
+  CREATE_SHOP: `/shops/create-shops`,
+  GET_SHOP_LIST: `/shops/shops-list`,
+  UPDATE_SHOP: `/shops/update-shop`,
+  SHOP_DETAIL: `/shops/shop-details`,
 };
 
 export const superAdminBillingInvoices = {

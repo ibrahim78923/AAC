@@ -30,16 +30,17 @@ import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Notes = ({ selected }: any) => {
   const {
-    openDrawer,
-    setOpenDrawer,
-    selectedCheckboxes,
     setSelectedCheckboxes,
     handleCheckboxChange,
+    selectedCheckboxes,
+    setOpenDrawer,
     setPageLimit,
+    openDrawer,
+    setPage,
     data,
     user,
-    setPage,
   } = useNotes(selected);
+
   const { theme } = useNameWithStyledWords();
 
   return (
@@ -70,7 +71,7 @@ const Notes = ({ selected }: any) => {
                   <Button
                     variant="contained"
                     className="small"
-                    onClick={() => setOpenDrawer('Add')}
+                    onClick={() => setOpenDrawer('add')}
                     startIcon={<PlusIcon />}
                   >
                     Add Notes
@@ -82,11 +83,11 @@ const Notes = ({ selected }: any) => {
           {isNullOrEmpty(data?.data?.notes) && (
             <Box
               sx={{
-                height: '35vh',
-                display: 'flex',
                 justifyContent: 'center',
                 flexDirection: 'column',
                 alignItems: 'center',
+                display: 'flex',
+                height: '35vh',
                 gap: 1.5,
               }}
             >
@@ -95,10 +96,10 @@ const Notes = ({ selected }: any) => {
                 There are no notes available
               </Typography>
               <Button
-                variant="contained"
-                className="small"
                 onClick={() => setOpenDrawer('Add')}
                 startIcon={<PlusIcon />}
+                variant="contained"
+                className="small"
               >
                 Add Notes
               </Button>
@@ -159,7 +160,19 @@ const Notes = ({ selected }: any) => {
                       height: 66,
                       border: `2px solid ${theme?.palette?.blue?.main}`,
                     }}
-                  />
+                  >
+                    <Typography
+                      variant="body1"
+                      fontWeight={500}
+                      sx={{
+                        color: theme?.palette?.custom?.dim_grey,
+                        textTransform: 'upperCase',
+                      }}
+                    >
+                      {item?.title?.charAt(0)}
+                      {item?.title?.charAt(item?.title?.length - 1)}
+                    </Typography>
+                  </Avatar>
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
                   <Stack direction="row" gap={0.5}>
@@ -196,23 +209,24 @@ const Notes = ({ selected }: any) => {
         )}
         <Grid item xs={12}>
           <CustomPagination
-            totalRecords={data?.data?.meta?.total}
             onPageChange={(page: any) => setPage(page)}
-            setPage={setPage}
-            setPageLimit={setPageLimit}
-            count={data?.data?.meta?.pages}
-            isPagination
+            totalRecords={data?.data?.meta?.total}
+            currentPage={data?.data?.meta?.page}
             pageLimit={data?.data?.meta?.limit}
+            count={data?.data?.meta?.pages}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+            isPagination
           />
         </Grid>
       </Grid>
 
       {openDrawer && (
         <NotesEditorDrawer
-          openDrawer={openDrawer}
-          setOpenDrawer={setOpenDrawer}
           setSelectedCheckboxes={setSelectedCheckboxes}
           selectedCheckboxes={selectedCheckboxes}
+          setOpenDrawer={setOpenDrawer}
+          openDrawer={openDrawer}
           recordId={selected}
         />
       )}

@@ -23,16 +23,17 @@ const NotesEditorDrawer = (props: any) => {
     recordId,
   } = props;
   const {
-    handleSubmit,
-    onSubmit,
     methodsdealsNotes,
     onCloseDrawer,
+    handleSubmit,
+    DRAWER_TYPES,
     loadingNote,
+    onSubmit,
   } = useNotesEditorDrawer({
-    openDrawer,
     setSelectedCheckboxes,
-    setOpenDrawer,
     selectedCheckboxes,
+    setOpenDrawer,
+    openDrawer,
     recordId,
   });
 
@@ -41,11 +42,21 @@ const NotesEditorDrawer = (props: any) => {
       <CommonDrawer
         isDrawerOpen={openDrawer}
         onClose={onCloseDrawer}
-        title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
+        title={
+          openDrawer === DRAWER_TYPES?.ADD
+            ? drawerTitle?.Add
+            : openDrawer === DRAWER_TYPES?.EDIT
+              ? drawerTitle?.Edit
+              : drawerTitle?.View
+        }
+        okText={
+          openDrawer === DRAWER_TYPES?.ADD
+            ? drawerButtonTitle?.Add
+            : drawerButtonTitle?.Edit
+        }
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
-        footer={openDrawer === 'View' ? false : true}
+        footer={openDrawer === DRAWER_TYPES?.VIEW ? false : true}
         isLoading={loadingNote}
       >
         <Box sx={{ pt: 2 }}>
@@ -56,7 +67,11 @@ const NotesEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               {dealsNotesDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
+                  <item.component
+                    disabled={openDrawer === DRAWER_TYPES?.VIEW}
+                    {...item?.componentProps}
+                    size={'small'}
+                  >
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>
