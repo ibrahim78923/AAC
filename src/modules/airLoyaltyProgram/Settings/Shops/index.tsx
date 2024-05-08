@@ -35,9 +35,9 @@ const Shops = () => {
           AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS?.VIEW_SHOP_DETAILS,
         ]}
       >
-        {!!lazyGetShopListStatus?.data?.data?.shop?.length ? (
+        {!!lazyGetShopListStatus?.data?.data?.shops?.length ? (
           <Grid container spacing={2}>
-            {lazyGetShopListStatus?.data?.data?.shop?.map?.((item: any) => (
+            {lazyGetShopListStatus?.data?.data?.shops?.map?.((item: any) => (
               <Grid item xs={12} md={6} lg={4} key={item?._id}>
                 <CheckboxCard
                   data={item}

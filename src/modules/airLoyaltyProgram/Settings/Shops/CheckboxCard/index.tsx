@@ -53,17 +53,17 @@ const CheckboxCard = (props: any) => {
               height: 48,
             }}
             variant="rounded"
-            src={generateImage(data?.createdBy?.avatar?.url)}
+            src={generateImage(data?.attachmentsDetails?.fileUrl)}
           />
           <Box>
             <Typography variant="h5" fontWeight={600} color={'slateBlue.main'}>
-              {data?.shopName ?? 'HIOP'}
+              {data?.name}
             </Typography>
             <Typography variant="body2" color="slateBlue.main" fontWeight={500}>
-              {data?.shopType ?? 'KOPL'}
+              {data?.shopType}
             </Typography>
             <Typography variant="body3" color="grey.900">
-              Date: {dayjs(data?.date).format(DATE_FORMAT?.UI)}
+              Date: {dayjs(data?.createdAt).format(DATE_FORMAT?.UI)}
             </Typography>
           </Box>
         </Box>
