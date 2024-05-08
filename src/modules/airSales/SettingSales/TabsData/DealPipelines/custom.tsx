@@ -164,6 +164,7 @@ export function CustomField({
               )}
               <Grid item xs={5}>
                 <TextField
+                  disabled={disabled[index]}
                   size="small"
                   placeholder="Stage"
                   fullWidth

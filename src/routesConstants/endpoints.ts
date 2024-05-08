@@ -359,6 +359,10 @@ export const END_POINTS = {
   IMPORT_FILE_GET_SIGNED_URL: `/import-file/create-signed-url`,
   GET_PLAN_PRODUCTS_PERMISSIONS: '/plan/plan-product-permissions',
   LEAD_CAPTURE_CTA: '/lead-capture',
+  CREATE_SHOP: `/shops/create-shops`,
+  GET_SHOP_LIST: `/shops/shops-list`,
+  UPDATE_SHOP: `/shops/update-shop`,
+  SHOP_DETAIL: `/shops/shop-details`,
 };
 
 export const superAdminBillingInvoices = {

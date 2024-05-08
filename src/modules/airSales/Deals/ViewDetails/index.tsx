@@ -206,7 +206,7 @@ const ViewDetails = () => {
               </Box>
               <Box sx={styles?.salesBox}>
                 <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                  Closes Date
+                  Closed Date
                 </Typography>
                 <Typography variant="body3" sx={styles?.salesHeading(theme)}>
                   {dayjs(viewDeal?.closeDate)?.format(
