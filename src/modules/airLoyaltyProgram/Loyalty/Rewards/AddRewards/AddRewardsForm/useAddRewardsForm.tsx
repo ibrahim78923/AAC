@@ -57,12 +57,11 @@ export const useAddRewardsForm: any = (props: any) => {
     digitalRewardFormData?.append('title', formData?.title);
     digitalRewardFormData?.append('requiredPoints', formData?.requiredPoints);
     digitalRewardFormData?.append('voucherId', formData?.chooseVoucher?._id);
-    formData?.activeFrom !== null &&
-      digitalRewardFormData?.append(
-        'activeFrom',
-        formData?.activeFrom?.toISOString(),
-      );
-    formData?.activeTo !== null &&
+    digitalRewardFormData?.append(
+      'activeFrom',
+      formData?.activeFrom?.toISOString(),
+    );
+    !formData?.untilDeactivate &&
       digitalRewardFormData?.append(
         'activeTo',
         formData?.activeTo?.toISOString(),
@@ -87,16 +86,15 @@ export const useAddRewardsForm: any = (props: any) => {
     physicalRewardFormData?.append('title', formData?.title);
     physicalRewardFormData?.append('requiredPoints', formData?.requiredPoints);
     physicalRewardFormData?.append('cost', formData?.costPrice);
-    formData?.activeFrom !== null &&
-      physicalRewardFormData?.append(
-        'activeFrom',
-        formData?.activeFrom?.toISOString(),
-      );
-    formData?.activeTo !== null && !formData?.untilDeactivate;
     physicalRewardFormData?.append(
-      'activeTo',
-      formData?.activeTo?.toISOString(),
+      'activeFrom',
+      formData?.activeFrom?.toISOString(),
     );
+    !formData?.untilDeactivate &&
+      physicalRewardFormData?.append(
+        'activeTo',
+        formData?.activeTo?.toISOString(),
+      );
 
     physicalRewardFormData?.append(
       'untilDeactivate',
