@@ -25,11 +25,11 @@ const useNotesActionDropdown = ({
     useDeleteDealNoteMutation();
 
   const handleOpenEditDrawer = () => {
-    setOpenDrawer('Edit');
+    setOpenDrawer('edit');
     handleCloseMenu();
   };
   const handleOpenViewDrawer = () => {
-    setOpenDrawer('View');
+    setOpenDrawer('view');
     handleCloseMenu();
   };
 
