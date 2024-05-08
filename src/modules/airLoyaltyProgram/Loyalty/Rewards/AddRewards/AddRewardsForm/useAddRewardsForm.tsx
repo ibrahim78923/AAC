@@ -74,7 +74,7 @@ export const useAddRewardsForm: any = (props: any) => {
     };
     try {
       await addDigitalLoyaltyRewardTrigger?.(apiDataParameter)?.unwrap();
-      successSnackbar('Successful');
+      successSnackbar('Reward added Successfully');
       closeAddRewardsForm();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
@@ -110,7 +110,7 @@ export const useAddRewardsForm: any = (props: any) => {
     };
     try {
       await addPhysicalLoyaltyRewardTrigger?.(apiDataParameter)?.unwrap();
-      successSnackbar('Successful');
+      successSnackbar('Reward added Successfully');
       closeAddRewardsForm();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
