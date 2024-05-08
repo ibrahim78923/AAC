@@ -17,12 +17,12 @@ const useUserManagement = () => {
     useDeleteTeamsMutation();
   const [isAddTeam, setIsAddTeam] = useState({
     isToggle: false,
-    type: 'add',
+    type: DRAWER_TYPES?.ADD,
   });
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
   const [isAddUserDrawer, setIsAddUserDrawer] = useState({
     isToggle: false,
-    type: 'add',
+    type: DRAWER_TYPES?.ADD,
   });
   const [searchUser, setSearchUser] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
