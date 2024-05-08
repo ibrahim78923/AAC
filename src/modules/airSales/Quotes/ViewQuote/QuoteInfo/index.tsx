@@ -29,7 +29,9 @@ const QuoteInfo = () => {
               Valid Till:
               <Box component="span">
                 {' '}
-                {dayjs(viewQuotesData?.expiryDate)?.format(DATE_FORMAT?.API)}
+                {dayjs(viewQuotesData?.data?.expiryDate)?.format(
+                  DATE_FORMAT?.API,
+                )}
               </Box>
             </Box>
           </Grid>

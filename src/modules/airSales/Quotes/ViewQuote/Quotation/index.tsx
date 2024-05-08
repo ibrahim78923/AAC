@@ -29,8 +29,14 @@ const Quotation = () => {
   }
 
   const percentageOfSubtotal = sum * (totalPercentage / 100);
+  const discount = isNaN(gettingDiscount) ? 0 : gettingDiscount;
 
-  const FinalTotal = percentageOfSubtotal - gettingDiscount;
+  let FinalTotal;
+  if (!isNaN(percentageOfSubtotal) && !isNaN(discount)) {
+    FinalTotal = (percentageOfSubtotal - discount)?.toFixed(2);
+  } else {
+    FinalTotal = 'N/A';
+  }
 
   return (
     <Box sx={styles?.box}>
@@ -45,17 +51,17 @@ const Quotation = () => {
             return item?.name;
           })}
         </Box>
-        <Box sx={styles?.bCell}>{totalPercentage}</Box>
+        <Box sx={styles?.bCell}>{totalPercentage ?? 'N/A'}</Box>
       </Box>
 
       <Box sx={styles?.bRow}>
         <Box sx={styles?.bHead}>Unit Discount</Box>
-        <Box sx={styles?.bCell}>£ {unitDiscount} GBP</Box>
+        <Box sx={styles?.bCell}>£ {unitDiscount ?? 'N/A'} GBP</Box>
       </Box>
 
       <Box sx={styles?.bRowTotal}>
         <Box sx={styles?.bHead}>Total</Box>
-        <Box sx={styles?.bHead}>£{FinalTotal?.toFixed(2)}</Box>
+        <Box sx={styles?.bHead}>£{FinalTotal}</Box>
       </Box>
 
       <Box sx={styles?.signatureCard}>
