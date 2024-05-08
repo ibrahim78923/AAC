@@ -3,12 +3,15 @@ import { LOYALTY_REWARDS_CLASS } from '@/constants/strings';
 import { useLazyGetTiersListQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
 import { useEffect, useState } from 'react';
 import { tiersColumnsDynamic } from './Tiers.data';
+import { getActivePermissionsSession } from '@/utils';
 
-export const useTiers = (props: any) => {
-  const { setRulesAndTiersAction } = props;
+export const useTiers = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const overallPermissions = getActivePermissionsSession();
+
   const [lazyGetTiersListTrigger, lazyGetTiersListStatus]: any =
     useLazyGetTiersListQuery?.();
 
@@ -30,7 +33,10 @@ export const useTiers = (props: any) => {
     getTiersList?.();
   }, [page, search, pageLimit]);
 
-  const tiersColumns = tiersColumnsDynamic?.(setRulesAndTiersAction);
+  const tiersColumns = tiersColumnsDynamic?.(
+    setIsPortalOpen,
+    overallPermissions,
+  );
 
   return {
     setSearch,
@@ -38,5 +44,7 @@ export const useTiers = (props: any) => {
     setPage,
     lazyGetTiersListStatus,
     tiersColumns,
+    isPortalOpen,
+    setIsPortalOpen,
   };
 };

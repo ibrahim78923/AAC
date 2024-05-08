@@ -14,6 +14,7 @@ export const RulesAndTiers = () => {
     router,
     setRulesAndTiersAction,
   } = useRulesAndTiers();
+
   return (
     <>
       <Header
@@ -33,7 +34,7 @@ export const RulesAndTiers = () => {
         <PermissionsGuard
           permissions={Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_TIERS}
         >
-          <Tiers setRulesAndTiersAction={setRulesAndTiersAction} />
+          <Tiers />
         </PermissionsGuard>
         <PermissionsGuard
           permissions={Permissions?.AIR_LOYALTY_PROGRAM_LOYALTY_RULES}

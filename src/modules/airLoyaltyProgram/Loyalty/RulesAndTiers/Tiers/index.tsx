@@ -2,17 +2,20 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useTiers } from './useTiers';
 import { Box } from '@mui/material';
+import { SingleTierDetail } from './SingleTierDetail';
 
-export const Tiers = (props: any) => {
+export const Tiers = () => {
   const {
     setSearch,
     setPageLimit,
     setPage,
     lazyGetTiersListStatus,
     tiersColumns,
-  } = useTiers(props);
+    isPortalOpen,
+    setIsPortalOpen,
+  } = useTiers();
   return (
-    <Box>
+    <>
       <Search label="Search Here" setSearchBy={setSearch} />
       <Box marginY={2}></Box>
       <TanstackTable
@@ -31,6 +34,12 @@ export const Tiers = (props: any) => {
         onPageChange={(page: any) => setPage(page)}
         isPagination
       />
-    </Box>
+      {isPortalOpen?.isOpen && (
+        <SingleTierDetail
+          isDrawerOpen={isPortalOpen?.isDetail}
+          setIsDrawerOpen={setIsPortalOpen}
+        />
+      )}
+    </>
   );
 };

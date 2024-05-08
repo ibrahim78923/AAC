@@ -1,6 +1,6 @@
 import { truncateText } from '@/utils/avatarUtils';
 import { Visibility } from '@mui/icons-material';
-import { RULES_AND_TIERS_ACTION_CONSTANTS } from '../RulesAndTiers.data';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const tiersList = [
   {
@@ -15,7 +15,10 @@ export const tiersList = [
   },
 ];
 
-export const tiersColumnsDynamic = (setRulesAndTiersAction: any) => [
+export const tiersColumnsDynamic = (
+  setIsPortalOpen: any,
+  overallPermissions: any,
+) => [
   {
     accessorFn: (info: any) => info?.name,
     id: 'tiers',
@@ -30,19 +33,21 @@ export const tiersColumnsDynamic = (setRulesAndTiersAction: any) => [
     cell: (info: any) => info?.getValue(),
     isSortable: true,
   },
-  {
-    accessorFn: (info: any) => info?._id,
-    id: '_id',
-    header: 'Action',
-    cell: () => (
-      <Visibility
-        sx={{ cursor: 'pointer' }}
-        onClick={() =>
-          setRulesAndTiersAction?.(
-            RULES_AND_TIERS_ACTION_CONSTANTS?.TIER_DETAILS,
-          )
-        }
-      />
-    ),
-  },
+  ...(overallPermissions?.includes(
+    AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.VIEW_RULES_AND_TIERS_DETAILS,
+  )
+    ? [
+        {
+          accessorFn: (info: any) => info?._id,
+          id: '_id',
+          header: 'Action',
+          cell: () => (
+            <Visibility
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setIsPortalOpen({ isOpen: true, isDetail: true })}
+            />
+          ),
+        },
+      ]
+    : []),
 ];
