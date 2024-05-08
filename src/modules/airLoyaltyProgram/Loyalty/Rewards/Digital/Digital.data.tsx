@@ -3,6 +3,7 @@ import { Circle } from '@mui/icons-material';
 import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 import { LOYALTY_REWARDS_STATUS_PILL } from '../AllRewards/AllRewards.data';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
+import { generateImage, truncateText } from '@/utils/avatarUtils';
 
 export const loyaltyDigitalRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,
@@ -16,10 +17,12 @@ export const loyaltyDigitalRewardColumnDynamic: any = (
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
         <Avatar
-          src={info?.row?.original?.icon?.src}
+          src={generateImage(info?.row?.original?.icon?.src)}
           alt={info?.row?.original?.icon?.name}
         />
-        <Typography variant="body4">{info?.getValue()}</Typography>
+        <Typography variant="body4">
+          {truncateText(info?.getValue())}
+        </Typography>
       </Box>
     ),
   },
@@ -28,7 +31,7 @@ export const loyaltyDigitalRewardColumnDynamic: any = (
     id: 'requiredPoints',
     isSortable: true,
     header: 'Required Points',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -52,24 +55,24 @@ export const loyaltyDigitalRewardColumnDynamic: any = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.voucherCode,
+    accessorFn: (row: any) => row?.vouchersDetail,
     id: 'voucherCode',
     isSortable: true,
     header: 'Voucher code',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue()?.voucherCode ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.totalRedeemed,
-    id: 'totalRedeemed',
-    isSortable: true,
-    header: 'Total redeemed',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.totalRedeemable,
+    accessorFn: (row: any) => row?.redeemable,
     id: 'totalRedeemable',
-    isSortable: true,
     header: 'Total redeemable (quantity)',
+    isSortable: true,
+    cell: (info: any) => info?.getValue() ?? '---',
+  },
+  {
+    accessorFn: (row: any) => row?.redeem,
+    id: 'totalRedeemed',
+    header: 'Total redeemed',
+    isSortable: true,
     cell: (info: any) => (
       <Typography
         variant="body4"
@@ -87,7 +90,7 @@ export const loyaltyDigitalRewardColumnDynamic: any = (
           });
         }}
       >
-        {info?.getValue()}
+        {info?.getValue() ?? 0}
       </Typography>
     ),
   },

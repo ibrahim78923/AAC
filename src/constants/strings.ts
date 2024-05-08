@@ -522,8 +522,9 @@ export const OPERATORS = {
 };
 
 export const LOYALTY_REWARDS_TYPE = {
-  PHYSICAL_REWARD: 'PHYSICAL_REWARD',
-  DIGITAL_REWARD: 'DIGITAL_REWARD',
+  ALL: 'ALL',
+  PHYSICAL_REWARD: 'PHYSICAL_REWARDS',
+  DIGITAL_REWARD: 'DIGITAL_REWARDS',
 };
 
 export const RULES_BENEFIT_TYPE = {
@@ -564,8 +565,8 @@ export const LOGICS = {
   OR: 'OR',
 };
 export const LOYALTY_REWARDS_STATUS = {
-  ACTIVE: 'ACTIVE',
-  IN_ACTIVE: 'IN_ACTIVE',
+  ACTIVE: 'Active',
+  EXPIRED: 'Expired',
 };
 
 export const FIELD_TYPES = {
@@ -584,4 +585,9 @@ export const TIME_UNITS = {
   SEC_PER_HOUR: 3600,
   HOURS_PER_DAY: 24,
   MS_PER_MINUTE: 60000,
+};
+
+export const LOYALTY_REWARDS_CLASS = {
+  RULES: 'RULES',
+  TIERS: 'TIERS',
 };

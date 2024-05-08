@@ -35,6 +35,7 @@ const useAttachmentsEditorDrawer = (
     const formData = new FormData();
     formData?.append('fileUrl', values?.fileUrl);
     formData?.append('recordType', 'companies');
+    formData?.append('module', 'COMPANIES');
     formData?.append('recordId', companyId?.companyId);
 
     try {

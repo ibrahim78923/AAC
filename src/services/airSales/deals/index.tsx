@@ -38,7 +38,7 @@ export const dealsApi = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['DEALS'],
+      invalidatesTags: ['DEALS', 'DEALS_ASSOCIATION'],
     }),
 
     getDealPipeLine: builder.query({

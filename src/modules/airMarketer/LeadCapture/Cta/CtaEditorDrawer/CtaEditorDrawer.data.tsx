@@ -1,52 +1,23 @@
 import {
   RHFDropZone,
-  RHFEditor,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Button } from '@mui/material';
-import * as Yup from 'yup';
 
-export const CTAValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Field is Required'),
-  type: Yup?.string()?.required('Field is Required'),
-  priority: Yup?.string()?.required('Field is Required'),
-  status: Yup?.string()?.required('Field is Required'),
-  deal: Yup?.string()?.required('Field is Required'),
-  // assignto: Yup?.string()?.required('Field is Required'),
-  associate: Yup?.string()?.trim()?.required('Field is Required'),
-  reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.required('Field is Required'),
-});
-
-export const CTADefaultValues = {
-  name: '',
-  type: '',
-  priority: '',
-  status: '',
-  // TODO: Temporary id will come from backend
-  deal: '655b2b2ecd318b576d7d71e8',
-  assignto: '',
-  associate: '',
-  reminder: '',
-  note: '',
-  dueDate: null,
-};
-
-export const CTADataArray = [
+export const customizedButtonData = [
   {
     componentProps: {
-      name: 'ButtonContent',
+      name: 'buttonContent',
       label: 'Button content',
       fullWidth: true,
       required: true,
     },
-    component: RHFEditor,
+    component: RHFTextField,
     xs: 12,
   },
   {
     componentProps: {
-      name: 'style',
+      name: 'buttonStyle',
       label: 'Button style',
       select: true,
     },
@@ -63,7 +34,7 @@ export const CTADataArray = [
 
   {
     componentProps: {
-      name: 'color',
+      name: 'buttonColor',
       label: 'Button Color',
       fullWidth: true,
     },
@@ -73,7 +44,7 @@ export const CTADataArray = [
 
   {
     componentProps: {
-      name: 'size',
+      name: 'buttonSize',
       label: 'Button Size',
       select: true,
     },
@@ -84,77 +55,33 @@ export const CTADataArray = [
 
   {
     componentProps: {
-      name: 'padding',
+      name: 'buttonPadding',
       label: 'Button Padding',
       fullWidth: true,
+      helperText:
+        "Enter padding, e.g., '12px', or multiple values separated by commas, e.g., '10px, 12px, 13px'.",
     },
     component: RHFTextField,
     xs: 12,
   },
   {
     componentProps: {
-      name: 'margin',
+      name: 'buttonMargin',
       label: 'Button Margin',
       fullWidth: true,
+      helperText:
+        "Enter margin, e.g., '12px', or multiple values separated by commas, e.g., '10px, 12px, 13px'.",
     },
     component: RHFTextField,
     xs: 12,
   },
 ];
 
-export const CTAInternalName = [
+export const ImageButtonData = [
   {
     componentProps: {
-      name: 'ctaInternalName',
-      label: 'CTA Internal Name',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    xs: 12,
-  },
-  {
-    componentProps: {
-      name: 'urlRedirectType',
-      label: 'URL Redirect Type',
-      select: true,
-    },
-    options: [
-      { value: 'New', label: 'New' },
-      { value: 'Air Apple Cart Page', label: 'Air Apple Cart Page' },
-      { value: 'Air Apple Blog Post', label: 'Air Apple Blog Post' },
-      { value: 'Meeting Link', label: 'Meeting Link' },
-      { value: 'File Link', label: 'File Link' },
-    ],
-    component: RHFSelect,
-    xs: 8,
-  },
-
-  {
-    componentProps: {
-      variant: 'outlined',
-      text: 'dddd',
-    },
-
-    component: Button,
-    xs: 4,
-  },
-
-  {
-    componentProps: {
-      name: 'enterUrl',
-      label: 'Enter URL',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    xs: 12,
-  },
-];
-
-export const CTAImageDataArray = [
-  {
-    componentProps: {
-      name: 'ButtonContent',
-      label: 'Button content',
+      name: 'buttonContent',
+      label: 'Picture',
       fullWidth: true,
     },
     component: RHFDropZone,
@@ -190,33 +117,41 @@ export const CTAImageDataArray = [
   },
 ];
 
-export const drawerTitle: any = {
-  Add: 'Create CTA',
-  Edit: 'Edit CTA',
-  View: 'View CTA',
-};
-export const drawerButtonTitle: any = {
-  Add: 'Add',
-  Edit: 'Edit',
-  Next: 'Next',
-};
-
-export const CTA_BUTTON_TITLE = {
-  CUSTOMIZE_BUTTON: 'Customize',
-  IMAGE_CUSTOMIZE: 'Image',
-};
-
-export const FORM_STEP = {
-  CUSTOM_ACTION: 'custom-action',
-  CTA_INTERNAL: 'cta-internal',
-  IMAGE_ACTION: 'image-action',
-  IMAGE_CTA_INTERNAL: 'custom-action',
-};
-
-export const urlRedirectType = [
-  { value: 'New', label: 'New' },
-  { value: 'Air Apple Cart Page', label: 'Air Apple Cart Page' },
-  { value: 'Air Apple Blog Post', label: 'Air Apple Blog Post' },
-  { value: 'Meeting Link', label: 'Meeting Link' },
-  { value: 'File Link', label: 'File Link' },
+export const buttonInfoData = [
+  {
+    component: RHFTextField,
+    xs: 12,
+    componentProps: {
+      name: 'ctaInternalName',
+      label: 'CTA Internal Name',
+      placeholder: 'Left18px',
+      fullWidth: true,
+      required: true,
+    },
+  },
+  {
+    component: RHFSelect,
+    xs: 8,
+    componentProps: {
+      name: 'urlRedirectType',
+      label: 'URL Redirect Type',
+      select: true,
+    },
+    options: [
+      { value: 'new', label: 'New' },
+      { value: 'air apple cart page', label: 'Air Apple Cart Page' },
+      { value: 'air apple blog post', label: 'Air Apple Blog Post' },
+      { value: 'meeting link', label: 'Meeting Link' },
+      { value: 'file link', label: 'File Link' },
+    ],
+  },
+  {
+    component: RHFTextField,
+    xs: 12,
+    componentProps: {
+      name: 'url',
+      label: 'Enter URL',
+      fullWidth: true,
+    },
+  },
 ];

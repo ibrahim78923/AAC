@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
   addContactFields,
-  validationSchema,
+  ProductValidationSchema,
   initValues,
 } from './FormCreateProduct.data';
 import {
@@ -42,7 +42,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
 
   const methods: any = useForm<any>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(ProductValidationSchema),
     defaultValues: initValues,
   });
   const { handleSubmit, reset } = methods;
@@ -98,56 +98,42 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             reset();
           });
       } catch (err: any) {
-        enqueueSnackbar(err?.response?.message, {
+        enqueueSnackbar(err?.message, {
           variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
     }
     onClose();
   };
-
-  // useEffect(() => {
-  //   if (actionType !== 'create') {
-  //     lazyGetProductsByIdQuery({ id: productId }).then((res) => {
-  //       if (res?.data) {
-  //         const fieldsData = res?.data?.data;
-  //         reset({
-  //           name: fieldsData?.name,
-  //           sku: fieldsData?.sku,
-  //           category: fieldsData?.category,
-  //           description: fieldsData?.description,
-  //           isActive: fieldsData?.isActive,
-  //           unitPrice: fieldsData?.unitPrice,
-  //           purchasePrice: fieldsData?.purchasePrice,
-  //         });
-  //       }
-  //     });
-  //   }
-  //   if (actionType === 'create') {
-  //     reset(initValues);
-  //   }
-  // }, [productId, reset]);
-
   useEffect(() => {
-    if (actionType === 'create') {
-      reset([]);
-    } else if ((actionType === 'edit' || actionType === 'view') && productId) {
-      lazyGetProductsByIdQuery({ id: productId }).then((res) => {
+    if ((actionType === 'edit' || actionType === 'view') && productId) {
+      lazyGetProductsByIdQuery({ id: productId }).then((res: any) => {
         if (res?.data) {
           const fieldsData = res?.data?.data;
           reset({
-            name: fieldsData?.name,
-            sku: fieldsData?.sku,
-            category: fieldsData?.category,
-            description: fieldsData?.description,
-            isActive: fieldsData?.isActive,
-            unitPrice: fieldsData?.unitPrice,
-            purchasePrice: fieldsData?.purchasePrice,
+            name: fieldsData?.name || '',
+            sku: fieldsData?.sku || '',
+            category: fieldsData?.category || '',
+            description: fieldsData?.description || '',
+            isActive: fieldsData?.isActive || false,
+            unitPrice: fieldsData?.unitPrice || null,
+            purchasePrice: fieldsData?.purchasePrice || null,
           });
         }
       });
+    } else {
+      // Reset form fields if actionType or productId changes
+      reset({
+        name: '',
+        sku: '',
+        category: '',
+        description: '',
+        isActive: false,
+        unitPrice: null,
+        purchasePrice: null,
+      });
     }
-  }, [productId, reset, actionType]);
+  }, [productId, actionType, reset, lazyGetProductsByIdQuery]);
 
   return (
     <CommonDrawer
@@ -166,7 +152,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
           <Grid container spacing={'22px'}>
             {addContactFields(productCatagories?.data?.productcategories)?.map(
               (item: any) => (
-                <Grid item xs={12} key={item.id}>
+                <Grid item xs={12} key={item?.id}>
                   <item.component
                     disabled={disableForm}
                     {...item?.componentProps}
@@ -190,7 +176,3 @@ const FormCreateProduct = ({ open, onClose }: any) => {
 };
 
 export default FormCreateProduct;
-
-// 6629e86ab2deece196b39016
-
-// 66138ebed5542343f739014d

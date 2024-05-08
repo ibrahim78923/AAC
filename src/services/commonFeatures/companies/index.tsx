@@ -135,6 +135,20 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['COMPANY'],
     }),
+    getCompanyAssociations: builder.query({
+      query: ({ id, params }: any) => ({
+        url: `${END_POINTS?.GET_COMPANY_ASSOICATION}/${id}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: [
+        'COMPANY',
+        'CONTACTS',
+        'ATTACHMENT',
+        'DEALS',
+        'DEALS_ASSOCIATION',
+      ],
+    }),
     // import companies end points
     getSignedUrlForImport: builder?.query({
       query: (param: any) => ({
@@ -147,8 +161,6 @@ export const companiesAPI = baseAPI.injectEndpoints({
 
     uploadFileTos3UsingSignedUrl: builder?.mutation({
       query: ({ s3Url, body }: any) => {
-        // console.log('url', url)
-        // console.log('body', body)
         return {
           url: s3Url,
           method: 'PUT',
@@ -183,6 +195,7 @@ export const {
   useGetCompaniesViewsQuery,
   usePutCustomizedColumnsMutation,
   useGetCompanyDealsQuery,
+  useGetCompanyAssociationsQuery,
   useGetSignedUrlForImportQuery,
   useUploadFileTos3UsingSignedUrlMutation,
 } = companiesAPI;

@@ -3,6 +3,7 @@ import { Circle } from '@mui/icons-material';
 import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 import { LOYALTY_REWARDS_STATUS_PILL } from '../AllRewards/AllRewards.data';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
+import { generateImage, truncateText } from '@/utils/avatarUtils';
 
 export const loyaltyPhysicalRewardColumnDynamic: any = (
   setIsRewardDetailsOpen: any,
@@ -16,7 +17,7 @@ export const loyaltyPhysicalRewardColumnDynamic: any = (
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
         <Avatar
-          src={info?.row?.original?.icon?.src}
+          src={generateImage(info?.row?.original?.icon?.src)}
           alt={info?.row?.original?.icon?.name}
         />
         <Typography
@@ -25,7 +26,7 @@ export const loyaltyPhysicalRewardColumnDynamic: any = (
             color: 'blue.dull_blue',
           }}
         >
-          {info?.getValue()}
+          {truncateText(info?.getValue())}
         </Typography>
       </Box>
     ),
@@ -35,7 +36,7 @@ export const loyaltyPhysicalRewardColumnDynamic: any = (
     id: 'requiredPoints',
     isSortable: true,
     header: 'Required Points',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -59,11 +60,11 @@ export const loyaltyPhysicalRewardColumnDynamic: any = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.totalRedeemable,
+    accessorFn: (row: any) => row?.redeemable,
     id: 'totalRedeemable',
     isSortable: true,
     header: 'Total redeemable (quantity)',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.totalRedeemed,
@@ -87,7 +88,7 @@ export const loyaltyPhysicalRewardColumnDynamic: any = (
           });
         }}
       >
-        {info?.getValue()}
+        {info?.getValue() ?? 0}
       </Typography>
     ),
   },
@@ -96,6 +97,6 @@ export const loyaltyPhysicalRewardColumnDynamic: any = (
     id: 'cost',
     isSortable: true,
     header: 'Cost',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
 ];

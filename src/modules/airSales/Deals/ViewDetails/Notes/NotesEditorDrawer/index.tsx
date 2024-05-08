@@ -46,8 +46,8 @@ const NotesEditorDrawer = (props: any) => {
           openDrawer === DRAWER_TYPES?.ADD
             ? drawerTitle?.Add
             : openDrawer === DRAWER_TYPES?.EDIT
-            ? drawerTitle?.Edit
-            : drawerTitle?.View
+              ? drawerTitle?.Edit
+              : drawerTitle?.View
         }
         okText={
           openDrawer === DRAWER_TYPES?.ADD

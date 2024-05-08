@@ -10,6 +10,22 @@ const DeleteModal = ({
   setCheckedRows,
 }: any) => {
   const { deleteCompanies } = useCompanies();
+
+  const deleteTicket = async () => {
+    try {
+      await deleteCompanies({ ids: checkedRows })?.unwrap();
+      enqueueSnackbar(`Company deleted successfully`, {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      setIsDeleteCompany({ deleteModal: false });
+      setCheckedRows([]);
+    } catch (error: any) {
+      enqueueSnackbar(`something went wrong`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
   return (
     <>
       <AlertModals
@@ -22,14 +38,7 @@ const DeleteModal = ({
         handleClose={() =>
           setIsDeleteCompany({ ...isDeleteCompany, deleteModal: false })
         }
-        handleSubmitBtn={() => {
-          deleteCompanies({ ids: checkedRows });
-          setIsDeleteCompany({ deleteModal: false });
-          setCheckedRows([]);
-          enqueueSnackbar(`Company deleted successfully`, {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
-        }}
+        handleSubmitBtn={() => deleteTicket()}
       />
     </>
   );
