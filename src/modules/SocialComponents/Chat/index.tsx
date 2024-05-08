@@ -5,6 +5,7 @@ import {
   Button,
   CircularProgress,
   Grid,
+  Pagination,
   Popover,
   Typography,
   useTheme,
@@ -29,6 +30,8 @@ import { getSession, isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
 import { enqueueSnackbar } from 'notistack';
 import { UserDefault } from '@/assets/images';
+import { PAGINATION } from '@/config';
+import { API_STATUS } from '@/constants';
 
 const Chat = () => {
   const dispatch: any = useAppDispatch();
@@ -37,6 +40,8 @@ const Chat = () => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null,
   );
+
+  const [loadingCreatingUser, setLoadingCreatingUser] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -74,12 +79,12 @@ const Chat = () => {
   });
 
   const { user }: { user: any } = getSession();
-
+  const [currentPage, setCurrentPage] = useState(PAGINATION?.CURRENT_PAGE);
   const { data: chatsUsers, status: chatUsersStatus } = useGetChatUsersQuery({
     params: {
       organization: user?.organization?._id,
-      page: '1',
-      limit: '20',
+      page: currentPage,
+      limit: PAGINATION?.PAGE_LIMIT,
       role: user?.role,
       search: searchTerm,
     },
@@ -121,6 +126,7 @@ const Chat = () => {
   const id = open ? 'simple-popover' : undefined;
 
   const handelNewUserChat = (item: any) => {
+    setLoadingCreatingUser(true);
     socket.emit(
       'add-message',
       {
@@ -130,6 +136,7 @@ const Chat = () => {
       (response: any) => {
         if (response) {
           handleClose();
+          setLoadingCreatingUser(false);
           enqueueSnackbar('New chat created', {
             variant: 'success',
           });
@@ -143,6 +150,19 @@ const Chat = () => {
       variant: 'info',
     });
   };
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setCurrentPage(value);
+  };
+
+  useEffect(() => {
+    if (searchTerm) {
+      setCurrentPage(1);
+    }
+  }, [searchTerm]);
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -202,7 +222,7 @@ const Chat = () => {
           horizontal: 'left',
         }}
       >
-        <Box sx={{ width: '300px', m: 2 }}>
+        <Box sx={{ width: '350px', m: 2 }}>
           <Typography
             variant="h5"
             color={theme?.palette?.grey[600]}
@@ -217,56 +237,83 @@ const Chat = () => {
             width="100%"
             size="small"
           />
-          <Box sx={styles?.usersBox}>
-            {chatUsersStatus === 'pending' ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <CircularProgress />
-              </Box>
-            ) : (
-              <>
-                {!isNullOrEmpty(transformedData) ? (
-                  transformedData?.map((item: any) => {
-                    const isUserExists = chatContacts?.some(
-                      (chat: any) =>
-                        chat?.participants?.some(
-                          (participant: any) => participant?._id === item?.id,
-                        ),
-                    );
-                    return (
-                      <>
-                        {user?._id !== item?.id && (
-                          <Button
-                            key={uuidv4()}
-                            sx={styles?.userCard}
-                            onClick={() =>
-                              isUserExists
-                                ? handelUserExists()
-                                : handelNewUserChat(item)
-                            }
-                          >
-                            <Image
-                              width={30}
-                              height={30}
-                              src={item?.src}
-                              alt={item?.name}
-                            />
-                            <Typography
-                              variant="body2"
-                              color={theme?.palette?.grey[600]}
-                            >
-                              {item?.firstName}&nbsp;{item?.lastName}
-                            </Typography>
-                          </Button>
-                        )}
-                      </>
-                    );
-                  })
+
+          {loadingCreatingUser ? (
+            <Box
+              sx={{
+                height: '200px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+              }}
+            >
+              <CircularProgress size={20} /> Creating user
+            </Box>
+          ) : (
+            <>
+              <Box sx={styles?.usersBox}>
+                {chatUsersStatus === API_STATUS?.PENDING ? (
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <CircularProgress />
+                  </Box>
                 ) : (
-                  <>No Data Found</>
+                  <>
+                    {!isNullOrEmpty(transformedData) ? (
+                      transformedData?.map((item: any) => {
+                        const isUserExists = chatContacts?.some(
+                          (chat: any) =>
+                            chat?.participants?.some(
+                              (participant: any) =>
+                                participant?._id === item?.id,
+                            ),
+                        );
+                        return (
+                          <>
+                            {user?._id !== item?.id && (
+                              <Button
+                                key={uuidv4()}
+                                sx={styles?.userCard}
+                                onClick={() =>
+                                  isUserExists
+                                    ? handelUserExists()
+                                    : handelNewUserChat(item)
+                                }
+                              >
+                                <Image
+                                  width={30}
+                                  height={30}
+                                  src={item?.src}
+                                  alt={item?.name}
+                                />
+                                <Typography
+                                  variant="body2"
+                                  color={theme?.palette?.grey[600]}
+                                >
+                                  {item?.firstName}&nbsp;{item?.lastName}
+                                </Typography>
+                              </Button>
+                            )}
+                          </>
+                        );
+                      })
+                    ) : (
+                      <>No Data Found</>
+                    )}
+                  </>
                 )}
-              </>
-            )}
-          </Box>
+              </Box>
+            </>
+          )}
+
+          {chatsUsers?.data?.meta?.pages > 1 && (
+            <Pagination
+              count={chatsUsers?.data?.meta?.pages}
+              page={chatsUsers?.data?.meta?.page}
+              siblingCount={0}
+              onChange={handlePageChange}
+            />
+          )}
         </Box>
       </Popover>
     </Box>

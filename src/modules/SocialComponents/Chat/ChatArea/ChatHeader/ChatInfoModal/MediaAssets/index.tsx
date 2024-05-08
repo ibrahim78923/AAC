@@ -1,7 +1,7 @@
 import { IMG_URL } from '@/config';
 import { Box, Typography, Grid, CircularProgress } from '@mui/material';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const groupImagesByDate = (data: any) => {
@@ -25,8 +25,12 @@ const groupImagesByDate = (data: any) => {
   return result;
 };
 
-const MediaAssets = ({ data, status }: any) => {
+const MediaAssets = ({ data, status, handelRefetch }: any) => {
   const groupedData = groupImagesByDate(data);
+
+  useEffect(() => {
+    handelRefetch();
+  }, []);
 
   return (
     <>

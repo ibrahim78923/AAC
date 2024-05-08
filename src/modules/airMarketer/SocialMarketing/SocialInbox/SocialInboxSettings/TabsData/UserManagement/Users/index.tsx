@@ -164,6 +164,7 @@ const UserTable = (props: any) => {
         totalRecords={productsUsers?.data?.meta?.total}
         isLoading={isLoading}
         isSuccess={isSuccess}
+        currentPage={productsUsers?.data?.meta?.page}
       />
       <AlertModals
         message={'Are you sure you want to delete this user?'}

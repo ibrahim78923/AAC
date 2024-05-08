@@ -26,6 +26,12 @@ export const truncateText = (text = '---', sliceLimit = 20) => {
     : text;
 };
 
+export const truncateSmallText = (text = '---', sliceLimit = 10) => {
+  return text?.length > sliceLimit
+    ? `${text?.slice?.(0, sliceLimit)} ...`
+    : text;
+};
+
 export const fullName = (firstName?: any, lastName?: any) => {
   if (!!!firstName && !!!lastName) return 'None';
   return `${firstName ?? ''} ${lastName ?? ''}`;

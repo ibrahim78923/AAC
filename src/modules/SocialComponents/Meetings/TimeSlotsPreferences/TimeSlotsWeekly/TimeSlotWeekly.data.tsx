@@ -48,17 +48,3 @@ export const timeSlotsWeeklyDropdown = () => [
     handleClick: () => {},
   },
 ];
-
-export const defaultValues = () => {
-  return {
-    months: [],
-    weekly: [],
-    timeSlot: [
-      {
-        timeSlotStart: '',
-        timeSlotEnd: '',
-      },
-    ],
-    overrides: [{ start: null, end: null }],
-  };
-};

@@ -7,7 +7,7 @@ import { usePostAddTransactionMutation } from '@/services/airLoyaltyProgram/gift
 export const useAddTransaction = (props: any) => {
   const { setOpenDrawer } = props;
   const handleCloseDrawer = () => {
-    setOpenDrawer(false);
+    setOpenDrawer('');
   };
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),

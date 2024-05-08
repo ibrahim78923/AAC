@@ -9,9 +9,9 @@ import { ROLES, SCHEMA_KEYS } from '@/constants/strings';
 export const assetsFieldsOption = [
   { value: 'displayName', label: 'Name' },
   { value: 'assetType', label: 'Asset Type' },
-  { value: 'location', label: 'Location' },
+  { value: 'locationId', label: 'Location' },
   { value: 'usedBy', label: 'Used By' },
-  { value: 'departmentId', label: 'Department' },
+  { value: 'department', label: 'Select Department' },
   { value: 'impact', label: 'Impact' },
   { value: 'assignedOn', label: 'Assigned On' },
   { value: 'createdBy', label: 'Created By' },
@@ -27,7 +27,7 @@ export const taskFieldsOption = [
   { value: 'startDate', label: 'Planned Start Date' },
   { value: 'endDate', label: 'Planned End Date' },
   { value: 'plannedEffort', label: 'Planned Effort' },
-  { value: 'departmentId', label: 'Department' },
+  { value: 'department', label: 'Select Department' },
 ];
 
 export const ticketsFields = [
@@ -49,6 +49,13 @@ export const ticketsFields = [
 export const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
 export const impactOptions = ['HIGH', 'MEDIUM', 'LOW'];
 export const status = ['OPEN', 'CLOSED', 'RESOLVED', 'PENDING', 'SPAMS'];
+export const statusTasksOptions = ['Todo', 'In-Progress', 'Done'];
+export const notifyBeforeOptions = [
+  { value: '5', label: '5 Minutes' },
+  { value: '10', label: '10 Minutes' },
+  { value: '15', label: '15 Minutes' },
+  { value: '30', label: '30 Minutes' },
+];
 
 export const fieldOptions = [
   'is',
@@ -121,6 +128,8 @@ export const optionsConstants = {
   name: 'Name',
   isEmpty: 'is empty',
   isNotEmpty: 'is not empty',
+  statusTasks: 'Status',
+  notifyBefore: 'Notify Before',
 };
 
 export const subWorkflowData = ({
@@ -199,7 +208,12 @@ export const subWorkflowData = ({
           ? typeOptions
           : selectedOperatorsOptions === optionsConstants?.impacts
             ? impactOptions
-            : status;
+            : selectedOperatorsOptions === optionsConstants?.notifyBefore
+              ? notifyBeforeOptions
+              : selectedOperatorsOptions === optionsConstants?.statusTasks &&
+                  moduleSelectedOption === SCHEMA_KEYS?.TICKETS_TASKS
+                ? statusTasksOptions
+                : status;
   if (
     [
       optionsConstants?.plannedStartDate,
@@ -238,7 +252,10 @@ export const subWorkflowData = ({
         name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         disabled: disableField,
-        placeholder: 'Enter Text',
+        placeholder:
+          selectedOperatorsOptions === optionsConstants?.plannedEffort
+            ? 'Eg: 1h 10m'
+            : 'Enter Text',
       },
       component: RHFTextField,
     };
@@ -336,6 +353,10 @@ export const subWorkflowData = ({
         placeholder: 'Select',
         disabled: disableField,
         options: valuesOptions,
+        getOptionLabel:
+          selectedOperatorsOptions === optionsConstants?.notifyBefore
+            ? ({ label }: { label: string }) => label
+            : undefined,
       },
       component: RHFAutocomplete,
     };

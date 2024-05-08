@@ -32,7 +32,7 @@ export const chatApi = baseAPI.injectEndpoints({
     }),
     getChatsContacts: builder.query({
       query: ({ params, isGroup, query }: any) => ({
-        url: `${SOCIAL_FEATURES_CHAT?.CHAT_LIST}?page=1&limit=10&isGroup=${isGroup}${query}`,
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT_LIST}?isGroup=${isGroup}${query}`,
         method: 'GET',
         params: params,
         headers: {
