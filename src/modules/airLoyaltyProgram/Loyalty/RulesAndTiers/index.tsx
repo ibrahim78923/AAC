@@ -11,7 +11,6 @@ export const RulesAndTiers = () => {
   const {
     hasRulesAndTiersAction,
     rulesAndTiersActionComponent,
-    router,
     setRulesAndTiersAction,
   } = useRulesAndTiers();
 
@@ -42,10 +41,8 @@ export const RulesAndTiers = () => {
           <Rules />
         </PermissionsGuard>
       </HorizontalTabs>
-      {hasRulesAndTiersAction &&
-        rulesAndTiersActionComponent?.[
-          router?.query?.rulesAndTierAction as string
-        ]}
+      {hasRulesAndTiersAction?.isOpen &&
+        rulesAndTiersActionComponent?.[hasRulesAndTiersAction?.type as string]}
     </>
   );
 };

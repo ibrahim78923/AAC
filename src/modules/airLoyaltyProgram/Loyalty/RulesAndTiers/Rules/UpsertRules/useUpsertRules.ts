@@ -4,16 +4,12 @@ import {
   upsertRulesFormFieldsDynamic,
   upsertRulesFormValidationSchema,
 } from './UpsertRules.data';
-import { useRouter } from 'next/router';
-import usePath from '@/hooks/usePath';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { successSnackbar } from '@/utils/api';
 
 export const useUpsertRules = (props: any) => {
   const { setIsDrawerOpen } = props;
-  const router = useRouter();
-  const { makePath } = usePath();
 
   const upsertRuleMethod = useForm<any>({
     resolver: yupResolver(upsertRulesFormValidationSchema),
@@ -61,12 +57,6 @@ export const useUpsertRules = (props: any) => {
   );
 
   const closeUpsertRule = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['rulesAndTierAction'],
-      }),
-    );
     reset?.();
     setIsDrawerOpen?.(false);
   };
