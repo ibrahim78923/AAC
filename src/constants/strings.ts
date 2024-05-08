@@ -552,6 +552,10 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const LOGICS = {
+  AND: 'AND',
+  OR: 'OR',
+};
 export const LOYALTY_REWARDS_STATUS = {
   ACTIVE: 'Active',
   EXPIRED: 'Expired',
@@ -560,4 +564,11 @@ export const LOYALTY_REWARDS_STATUS = {
 export const FIELD_TYPES = {
   MANDATORY_FIELD: 'Mandatory Field',
   OPTIONAL_FIELD: 'Optional Field',
+};
+
+export const TIME_UNITS = {
+  MS: 1000,
+  SEC_PER_HOUR: 3600,
+  HOURS_PER_DAY: 24,
+  MS_PER_MINUTE: 60000,
 };

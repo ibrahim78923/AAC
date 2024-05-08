@@ -65,11 +65,14 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['USERS', 'PERMISSIONS'],
     }),
     getCompanyAccountsRolesList: builder.query({
-      query: (params: any) => ({
+      query: ({ params }: any) => ({
         url: END_POINTS?.DROPDOWN_ACCOUNTS_ROLE,
         method: 'GET',
         params: params,
       }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
       providesTags: ['USERS', 'PERMISSIONS'],
     }),
     getDepartment: builder.query({

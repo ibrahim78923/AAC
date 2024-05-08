@@ -1,22 +1,46 @@
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
-import { useFieldArray } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { overridesDefaultValues } from '../AddDateOverrides/AddDateOverrides.data';
 
 export const useDateOverrides = () => {
   const [openModule, setOpenModule] = useState(false);
   const [showData, setShowData] = useState(false);
-  const { fields, remove, append } = useFieldArray({
-    name: 'overrides',
+  const [submittedData, setSubmittedData] = useState<any>([]);
+
+  const methods = useForm({
+    defaultValues: overridesDefaultValues,
   });
-  const addDateOverride = () => {
-    append({ start: null, end: null });
+
+  const { handleSubmit } = methods;
+
+  const onSubmit = async (data: any) => {
+    try {
+      await methods?.trigger();
+      successSnackbar('Override Date Added Successfully');
+      setSubmittedData((prevData: any) => [...prevData, data]);
+      if (submittedData?.length === 0) {
+        setShowData(true);
+      }
+      setOpenModule(false);
+    } catch (error) {
+      errorSnackbar();
+    }
   };
+
+  const storeFirstObjectById = (_id: string) => {
+    submittedData?.find((obj: any) => obj?._id === _id);
+  };
+
   return {
     openModule,
     setOpenModule,
-    fields,
-    remove,
-    addDateOverride,
     showData,
     setShowData,
+    methods,
+    handleSubmit,
+    onSubmit,
+    submittedData,
+    storeFirstObjectById,
   };
 };

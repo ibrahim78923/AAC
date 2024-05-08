@@ -12,6 +12,17 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
       providesTags: ['TEAMS'],
     }),
 
+    getTeamsList: builder.query({
+      query: () => ({
+        url: END_POINTS?.SALES_TEAM,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.userTeams;
+      },
+      providesTags: ['TEAMS'],
+    }),
+
     getTeamsById: builder.query({
       query: (id: any) => {
         return {
@@ -56,6 +67,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
 
 export const {
   useGetTeamsQuery,
+  useLazyGetTeamsListQuery,
   useGetTeamsByIdQuery,
   usePostTeamsMutation,
   useUpdateTeamsMutation,
