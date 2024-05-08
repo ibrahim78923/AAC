@@ -1,6 +1,5 @@
 import React from 'react';
 import useCta from './useCta';
-
 import {
   Box,
   Grid,
@@ -9,36 +8,55 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@mui/material';
-
 import CtaEditorDrawer from './CtaEditorDrawer';
-
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { ScheduleModals } from '@/components/ScheduleModals';
-
-import { columns, ctAdata, exportData } from './Cta.data';
-
+import { DRAWER_TITLE, columns, exportData } from './Cta.data';
 import { DeleteIcon, ExportDownloadIcon, PlusIcon } from '@/assets/icons';
-
-import { v4 as uuidv4 } from 'uuid';
 import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS } from '@/constants/permission-keys';
 
 const CTA = () => {
   const {
+    theme,
+    toggleButtonType,
+    handleSwitchButtonType,
+    activeStep,
+    drawerTitle,
     openDrawer,
-    setOpenDrawer,
-    openModal,
-    setOpenModal,
-    handleCheckboxChange,
-    selectedCheckboxes,
-    setSelectedCheckboxes,
-    searchTerm,
-    setSearchTerm,
-    handlecheckExportFormats,
-    checkExportFormats,
+    handleDrawerOpen,
+    handleDrawerClose,
+    handleBack,
+    okText,
+    loadingCreateCTA,
+    methodsEditCTA,
+    handleDrawerSubmit,
+    dataGetCTAs,
+    loadingGetCTAs,
+    setSearchValue,
+    setPageLimit,
+    setPage,
+    selectedRow,
+    setSelectedRow,
+    ctaButtonData,
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteCTA,
+    loadingDelete,
+
+    openModalExport,
+    handleOpenModalExport,
+    handleCloseModalExport,
+    handleExportSubmit,
+    handleChangeCheckbox,
+    checkedValue,
   } = useCta();
+
+  const tableColumns = columns(selectedRow, setSelectedRow, handleDrawerOpen);
+
   return (
     <Box
       sx={{
@@ -57,7 +75,7 @@ const CTA = () => {
               <Button
                 variant="contained"
                 sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                onClick={() => setOpenDrawer('Add')}
+                onClick={() => handleDrawerOpen(DRAWER_TITLE?.create)}
               >
                 <PlusIcon /> Create CTA
               </Button>
@@ -69,8 +87,7 @@ const CTA = () => {
             permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.SERACH]}
           >
             <Search
-              searchBy={searchTerm}
-              setSearchBy={setSearchTerm}
+              setSearchBy={setSearchValue}
               label="Search By Name"
               fullWidth
               size="small"
@@ -92,18 +109,20 @@ const CTA = () => {
                 <Button
                   variant="outlined"
                   color="inherit"
-                  disabled={selectedCheckboxes?.length === 0}
+                  disabled={selectedRow?.length === 0}
                   sx={{
                     minWidth: '0px',
                     height: '35px',
                     gap: 0.5,
                     color: 'red',
                   }}
-                  onClick={() => setOpenModal('Delete')}
+                  onClick={handleOpenModalDelete}
                 >
                   <DeleteIcon
                     color={
-                      selectedCheckboxes?.length > 0 ? '#FF4A4A' : '#D1D5DB'
+                      selectedRow?.length > 0
+                        ? theme?.palette?.error?.main
+                        : theme?.palette?.custom?.dark
                     }
                   />
                   Delete
@@ -116,7 +135,7 @@ const CTA = () => {
                   variant="outlined"
                   color="inherit"
                   sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                  onClick={() => setOpenModal('Export')}
+                  onClick={handleOpenModalExport}
                 >
                   <ExportDownloadIcon /> Export
                 </Button>
@@ -126,70 +145,79 @@ const CTA = () => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({
-              handleCheckboxChange,
-              selectedCheckboxes,
-              setOpenDrawer,
-            })}
-            data={ctAdata}
+            columns={tableColumns}
+            data={dataGetCTAs?.data?.leadcapturectas}
+            isLoading={loadingGetCTAs}
+            currentPage={dataGetCTAs?.data?.meta?.page}
+            count={dataGetCTAs?.data?.meta?.pages}
+            pageLimit={dataGetCTAs?.data?.meta?.limit}
+            totalRecords={dataGetCTAs?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
           />
         </Grid>
-
-        <ScheduleModals
-          submitButonText="Export"
-          type={'export'}
-          open={openModal === 'Export'}
-          handleClose={() => setOpenModal('')}
-          handleSubmit={() => setOpenModal('')}
-          isFooter={true}
-        >
-          <Grid
-            container
-            spacing={2}
-            sx={{ padding: '0px 10px 10px 22px', maxWidth: '480px' }}
-          >
-            <Grid item xs={12}>
-              <Typography variant="body2">File Format</Typography>
-            </Grid>
-            {exportData?.map((item) => (
-              <Grid item md={4} xs={12} key={uuidv4()}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      color="primary"
-                      name={'name'}
-                      onChange={(event) =>
-                        handlecheckExportFormats(event, item?.value)
-                      }
-                      checked={checkExportFormats?.includes(`${item?.value}`)}
-                    />
-                  }
-                  label={item?.label}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </ScheduleModals>
       </Grid>
 
-      {openDrawer && (
-        <CtaEditorDrawer
-          openDrawer={openDrawer}
-          setOpenDrawer={setOpenDrawer}
-          setSelectedCheckboxes={setSelectedCheckboxes}
-          selectedCheckboxes={selectedCheckboxes}
-        />
-      )}
-
       <AlertModals
-        message={
-          "You're about to delete a record. Deleted records can't be restored after 90 days."
-        }
+        message="You’re about to delete CTA."
         type={'delete'}
-        open={openModal === 'Delete'}
-        handleClose={() => setOpenModal('')}
-        handleSubmit={() => setOpenModal('')}
+        open={isDeleteModal}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteCTA}
+        loadingDelete={loadingDelete}
       />
+
+      <CtaEditorDrawer
+        toggleButtonType={toggleButtonType}
+        handleSwitchButtonType={handleSwitchButtonType}
+        title={drawerTitle}
+        okText={okText}
+        isOpen={openDrawer}
+        onClose={handleDrawerClose}
+        handleBack={handleBack}
+        methods={methodsEditCTA}
+        onSubmit={handleDrawerSubmit}
+        isLoading={loadingCreateCTA}
+        activeStep={activeStep}
+        ctaButtonData={ctaButtonData}
+      />
+
+      <ScheduleModals
+        submitButonText="Export"
+        type={'export'}
+        open={openModalExport}
+        handleClose={handleCloseModalExport}
+        handleSubmit={handleExportSubmit}
+        isFooter={true}
+        disabledSubmitButton={!checkedValue}
+      >
+        <Grid
+          container
+          spacing={2}
+          sx={{ padding: '0px 10px 10px 22px', maxWidth: '480px' }}
+        >
+          <Grid item xs={12}>
+            <Typography variant="body2">File Format</Typography>
+          </Grid>
+          {exportData?.map((item) => (
+            <Grid item md={4} xs={12} key={item?.value}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    color="primary"
+                    name={item?.value}
+                    onChange={() => handleChangeCheckbox(item?.value)}
+                    checked={checkedValue === item?.value}
+                  />
+                }
+                label={item?.label}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </ScheduleModals>
     </Box>
   );
 };

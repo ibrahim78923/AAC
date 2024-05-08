@@ -14,7 +14,7 @@ export const General = () => {
           AIR_LOYALTY_PROGRAM_SETTINGS_ACCOUNT_PERMISSIONS?.ACCOUNT_VIEW_DETAILS,
         ]}
       >
-        <Typography variant="h3" fontWeight={500}>
+        <Typography variant="h3" fontWeight={500} color="slateBlue.main">
           General
         </Typography>
         <FormProvider methods={method}>
