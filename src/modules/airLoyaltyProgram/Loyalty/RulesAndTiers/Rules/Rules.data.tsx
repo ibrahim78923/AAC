@@ -15,9 +15,9 @@ export const rulesList = [
   },
 ];
 
-export const rulesColumns = [
+export const rulesColumnsDynamic = () => [
   {
-    accessorFn: (info: any) => info?.rulesTitle,
+    accessorFn: (info: any) => info?.attribute,
     id: 'rulesTitle',
     header: 'Rules Title',
     isSortable: true,
