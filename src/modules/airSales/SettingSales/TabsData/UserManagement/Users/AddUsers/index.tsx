@@ -9,7 +9,8 @@ const AddUsers = (props: any) => {
   const theme = useTheme();
   const { methods, handleSubmit, onSubmit } = useAddUser(
     checkedUser,
-    isAddUserDrawer?.type,
+    isAddUserDrawer,
+    setIsAddUserDrawer,
   );
 
   return (
