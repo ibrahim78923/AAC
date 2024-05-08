@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -56,14 +56,7 @@ export const columns: any = ({
           >
             <ViewEyeIcon />
           </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setOpenDrawer('Edit'), setDealRecord(info?.row?.original);
-            }}
-          >
-            <EditPenIcon />
-          </Box>
+
           <Box
             sx={{ cursor: 'pointer' }}
             onClick={() => {

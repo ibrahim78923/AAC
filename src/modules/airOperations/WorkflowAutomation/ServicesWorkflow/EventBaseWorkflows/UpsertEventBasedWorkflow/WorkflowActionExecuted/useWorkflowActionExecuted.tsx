@@ -2,6 +2,7 @@ import {
   useLazyGetCategoriesDropdownQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
+  useLazyGetUsersListDropdownQuery,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { errorSnackbar } from '@/utils/api';
@@ -35,6 +36,8 @@ export const useWorkflowActionExecuted = (props: any) => {
   const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
   const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
   const apiQueryLocations = useLazyGetLocationsDropdownQuery();
+  const apiUsersListDropdown = useLazyGetUsersListDropdownQuery();
+
   return {
     fields,
     append,
@@ -45,5 +48,6 @@ export const useWorkflowActionExecuted = (props: any) => {
     departmentApiQuery,
     apiQueryCategories,
     apiQueryLocations,
+    apiUsersListDropdown,
   };
 };

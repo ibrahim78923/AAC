@@ -5,13 +5,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   productsDefaultValues,
   productsValidationSchema,
+  productsValidationSchemaOnExistingDeals,
 } from './DealsEditorDrawer.data';
 import {
   useGetDealsLifecycleStageQuery,
   usePatchDealsMutation,
   usePostDealsMutation,
 } from '@/services/airSales/deals';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, associationCompanies } from '@/constants';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -23,15 +24,23 @@ const useDealsEditorDrawer = ({
   companyId,
   dealRecord,
 }: any) => {
-  const [searchProduct, setSearchProduct] = useState('');
   const [postDeals] = usePostDealsMutation();
   const [createAssociationDeals] = useCreateAssociationMutation();
   const [updatedAssignDeal] = usePatchDealsMutation();
 
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
+  const [selectedValue, setSelectedValue] = useState('New Deal');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedValue(event.target.value);
+  };
 
   const methodsProducts = useForm({
-    resolver: yupResolver(productsValidationSchema),
+    resolver: yupResolver(
+      selectedValue === associationCompanies?.newDeal
+        ? productsValidationSchema
+        : productsValidationSchemaOnExistingDeals,
+    ),
     defaultValues: async () => {
       if (dealRecord) {
         const {
@@ -59,8 +68,7 @@ const useDealsEditorDrawer = ({
     },
   });
 
-  const { handleSubmit, watch, reset } = methodsProducts;
-  const watchProductstatus = watch(['dealStatus']);
+  const { handleSubmit, reset } = methodsProducts;
 
   const onSubmit = async (values: any) => {
     delete values?.dealStatus;
@@ -71,7 +79,7 @@ const useDealsEditorDrawer = ({
       amount: values?.amount,
       closeDate: dayjs(values?.closeDate)?.format(DATE_FORMAT?.API),
       ownerId: values?.ownerId,
-      priority: values?.priority,
+      ...(values?.priority && { priority: values?.priority }),
       products: [
         {
           productId: values?.addLineItemId,
@@ -81,21 +89,28 @@ const useDealsEditorDrawer = ({
       ],
     };
     delete values?.addLineItemId;
+    if (PayloadValue?.closeDate === associationCompanies?.invalidDate) {
+      delete PayloadValue?.closeDate;
+    }
 
     try {
       let res: any;
-      openDrawer === 'Edit'
-        ? await updatedAssignDeal({
-            id: dealRecord?._id,
-            body: values,
-          }).unwrap()
-        : (res = await postDeals({ body: PayloadValue })?.unwrap());
-
-      if (res?.data) {
+      if (selectedValue === associationCompanies?.newDeal) {
+        openDrawer === 'Edit'
+          ? await updatedAssignDeal({
+              id: dealRecord?._id,
+              body: values,
+            }).unwrap()
+          : (res = await postDeals({ body: PayloadValue })?.unwrap());
+      }
+      if (res?.data || selectedValue === associationCompanies?.existingDeals) {
         try {
           await createAssociationDeals({
             body: {
-              dealId: res?.data?._id,
+              dealId:
+                selectedValue === associationCompanies?.existingDeals
+                  ? values?.existingDeals
+                  : res?.data?._id,
               companyId: companyId?.companyId,
             },
           }).unwrap();
@@ -123,10 +138,10 @@ const useDealsEditorDrawer = ({
     handleSubmit,
     onSubmit,
     methodsProducts,
-    watchProductstatus,
-    searchProduct,
-    setSearchProduct,
+
     DealsLifecycleStageData,
+    selectedValue,
+    handleChange,
   };
 };
 

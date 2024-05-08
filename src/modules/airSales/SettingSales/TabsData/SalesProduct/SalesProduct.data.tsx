@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 export const columns = ({
   selectedCheckboxes,
   setSelectedCheckboxes,
+  handleUserSwitchChange,
   data,
 }: any) => {
   const handleSelectProductById = (checked: boolean, id: string): void => {
@@ -100,6 +101,9 @@ export const columns = ({
       cell: (info: any) => (
         <SwitchBtn
           defaultChecked={info?.row?.original?.isActive === true ? true : false}
+          handleSwitchChange={(e: any) =>
+            handleUserSwitchChange(e, info?.row?.original?._id)
+          }
         />
       ),
     },

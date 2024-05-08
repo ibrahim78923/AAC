@@ -63,6 +63,8 @@ const CompanyTabs = () => {
     handleSearch,
     handleApplyFilter,
     activeColumns,
+    isDrawerOpen,
+    setIsDrawerOpen,
   } = useCompanies();
 
   const columnsProps = {
@@ -112,7 +114,9 @@ const CompanyTabs = () => {
                     color="inherit"
                     variant="outlined"
                     startIcon={<ImportCompaniesIcon />}
-                    onClick={() => setIsOpen({ ...isOpen, importDrawer: true })}
+                    onClick={() => {
+                      setIsDrawerOpen(true);
+                    }}
                   >
                     Import
                   </Button>
@@ -304,6 +308,7 @@ const CompanyTabs = () => {
               isPagination
               isLoading={isLoading}
               isSuccess={isSuccess}
+              currentPage={getAllCompanies?.data?.meta?.page}
             />
           </Box>
 
@@ -372,10 +377,10 @@ const CompanyTabs = () => {
             />
           )}
 
-          {isOpen?.importDrawer && (
+          {isDrawerOpen && (
             <ImportCompanies
-              isImport={isOpen?.importDrawer}
-              setIsImport={setIsOpen}
+              isDrawerOpen={isDrawerOpen}
+              setIsDrawerOpen={setIsDrawerOpen}
             />
           )}
 

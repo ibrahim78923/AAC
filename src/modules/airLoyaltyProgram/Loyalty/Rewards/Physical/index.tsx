@@ -23,7 +23,10 @@ export const Physical = () => {
           <Box mt={'0.75rem'}>
             <TanstackTable
               columns={loyaltyPhysicalRewardColumn}
-              data={lazyGetAllLoyaltyPhysicalRewardsListStatus?.data?.data}
+              data={
+                lazyGetAllLoyaltyPhysicalRewardsListStatus?.data?.data
+                  ?.physicalrewards
+              }
               isLoading={lazyGetAllLoyaltyPhysicalRewardsListStatus?.isLoading}
               currentPage={
                 lazyGetAllLoyaltyPhysicalRewardsListStatus?.data?.data?.meta

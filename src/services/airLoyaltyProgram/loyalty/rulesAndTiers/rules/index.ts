@@ -5,7 +5,7 @@ export const rulesAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getRulesList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_RULES_AND_TIERS_LIST,
+        url: END_POINTS?.GET_RULES_LIST,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),

@@ -94,12 +94,31 @@ const useSalesEditorDrawer = ({
     }
   };
 
+  const handleUserSwitchChange = async (e: any, id: any) => {
+    const status =
+      e?.target?.checked || e?.target?.value === true ? true : false;
+    try {
+      await updateSalesProduct({
+        body: { isActive: status },
+        id: id,
+      })?.unwrap();
+      enqueueSnackbar('Product updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
+  };
+
   return {
     handleSubmit,
     onSubmit,
     salesProduct,
     productLoading,
     productsDataLoading,
+    handleUserSwitchChange,
   };
 };
 

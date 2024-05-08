@@ -1,20 +1,5 @@
 import { AntSwitch } from '@/components/AntSwitch';
 
-export const rulesList = [
-  {
-    _id: 1,
-    rulesTitle: 'Purchase amount',
-    tiers: 'Base tier',
-    status: true,
-  },
-  {
-    _id: 2,
-    rulesTitle: 'Amount creation',
-    tiers: 'gold',
-    status: false,
-  },
-];
-
 export const rulesColumnsDynamic = () => [
   {
     accessorFn: (info: any) => info?.attribute,

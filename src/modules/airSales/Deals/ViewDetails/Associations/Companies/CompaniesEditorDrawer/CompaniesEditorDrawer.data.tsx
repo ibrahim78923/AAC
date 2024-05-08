@@ -8,12 +8,7 @@ export const companiesValidationSchema = Yup?.object()?.shape({
       ? field?.required('Field is required')
       : field?.optional(),
   ),
-  totalRevenue: Yup?.string()?.when('company', ([company]: any, field: any) =>
-    company === 'new-Company'
-      ? field?.required('Field is required')
-      : field?.optional(),
-  ),
-  noOfEmloyee: Yup?.string()?.when('company', ([company]: any, field: any) =>
+  ownerId: Yup?.string()?.when('company', ([company]: any, field: any) =>
     company === 'new-Company'
       ? field?.required('Field is required')
       : field?.optional(),
@@ -58,6 +53,7 @@ export const companiesDataArray = (getCompanyContacts: any) => {
         label: 'Company Owner',
         fullWidth: true,
         select: true,
+        required: true,
       },
       options: getCompanyContacts?.data?.contacts?.map((item: any) => ({
         value: item?._id,

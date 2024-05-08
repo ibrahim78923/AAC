@@ -21,7 +21,9 @@ const Tasks = ({ companyId }: any) => {
     setSelectedCheckboxes,
     handleCheckboxChange,
     isLoading,
-  } = useTasks();
+    setPageLimit,
+    setPage,
+  } = useTasks(companyId);
   return (
     <PermissionsGuard
       permissions={[
@@ -65,6 +67,13 @@ const Tasks = ({ companyId }: any) => {
             <TanstackTable
               columns={columns({ handleCheckboxChange, selectedCheckboxes })}
               data={taskData?.data?.taskmanagements}
+              totalRecords={taskData?.data?.meta?.total}
+              pageLimit={taskData?.data?.meta?.limit}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              count={taskData?.data?.meta?.pages}
+              isPagination
               isLoading={isLoading}
             />
           </Grid>
