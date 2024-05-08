@@ -1,66 +1,58 @@
-import { RHFSelect } from '@/components/ReactHookForm';
-import { CommonAPIS } from '@/services/common-APIs';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
+import {
+  useLazyGetOrganizationsListQuery,
+  useLazyGetProductsListQuery,
+} from '@/services/common-APIs';
 
-import * as Yup from 'yup';
-
-export const validationSchema = Yup.object().shape({
-  product: Yup.string().trim(),
-  company: Yup.string().trim(),
-  status: Yup.string().trim(),
-});
-
-export const defaultValues = {
-  status: '',
-  product: '',
-  company: '',
+export const usersFilterDefaultValues = (data: any) => {
+  return {
+    product: data?.product?.name ? data?.product : null,
+    company: data?.company?.name ? data?.company : null,
+    status: data?.status ?? null,
+  };
 };
 
 export const dataArray = () => {
-  const { useGetProductsQuery, useGetOrganizationsQuery }: any = CommonAPIS;
-  const { data: products } = useGetProductsQuery();
-  const { data: organizations } = useGetOrganizationsQuery();
+  const products = useLazyGetProductsListQuery();
+  const organizations = useLazyGetOrganizationsListQuery();
 
   return [
     {
-      title: 'Product',
       componentProps: {
+        label: 'Product',
         name: 'product',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select product',
+        apiQuery: products,
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: products?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
-      title: 'Company',
       componentProps: {
+        label: 'Company',
         name: 'company',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select company',
+        apiQuery: organizations,
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: organizations?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
-      title: 'Status',
       componentProps: {
+        label: 'Status',
         name: 'status',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select status',
+        options: ['Active', 'Inactive'],
       },
-      options: [
-        { value: 'ACTIVE', label: 'Active' },
-        { value: 'INACTIVE', label: 'Inactive' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
   ];

@@ -7,15 +7,17 @@ import {
   Checkbox,
   Tooltip,
 } from '@mui/material';
-import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import { SwitchBtn } from '@/components/SwitchButton';
 import { style } from './Users.style';
-import useUserManagement from '../useUserManagement';
 import dayjs from 'dayjs';
-import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 import { DATE_FORMAT } from '@/constants';
+import {
+  useLazyGetOrganizationsListQuery,
+  useLazyGetProductsListQuery,
+} from '@/services/common-APIs';
+import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 
 export const columns: any = (columnsProps: any) => {
   const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
@@ -242,21 +244,18 @@ export const superAdminColumns: any = (columnsProps: any) => {
   ];
 };
 
-export const usersValidationSchema = Yup.object().shape({
-  role: Yup.string(),
-  organization: Yup.string(),
-  products: Yup.string(),
-});
-
-export const usersDefaultValues = {
-  role: '',
-  organization: '',
-  products: '',
-  createdDate: null,
+export const usersFilterDefaultValues = (data: any) => {
+  return {
+    products: data?.products?.name ? data?.products : null,
+    organization: data?.organization?.name ? data?.organization : null,
+    role: '',
+    createdDate: null,
+  };
 };
 
 export const usersFilterArray = () => {
-  const { products, organizations } = useUserManagement();
+  const products = useLazyGetProductsListQuery();
+  const organizations = useLazyGetOrganizationsListQuery();
 
   return [
     {
@@ -264,13 +263,11 @@ export const usersFilterArray = () => {
         name: 'organization',
         label: 'Organization Name',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select organization',
+        apiQuery: organizations,
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: organizations?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
@@ -278,13 +275,11 @@ export const usersFilterArray = () => {
         name: 'products',
         label: 'Product',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select product',
+        apiQuery: products,
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: products?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {

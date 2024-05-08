@@ -1,22 +1,22 @@
-import React from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import AddDateOverrides from '../AddDateOverrides';
 import { useDateOverrides } from './useDateOverrides';
-import { dateData } from './DateOverrides.data';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 
 const DateOverrides = (props: any) => {
   const { theme, disabled } = props;
   const {
     openModule,
     setOpenModule,
-    fields,
-    remove,
-    addDateOverride,
     showData,
     setShowData,
+    methods,
+    handleSubmit,
+    onSubmit,
+    submittedData,
   } = useDateOverrides();
-
   return (
     <>
       <Typography variant="h3">Date Overrides</Typography>
@@ -29,14 +29,13 @@ const DateOverrides = (props: any) => {
           textAlign={'center'}
         >
           {showData === false ? (
-            <Typography p={3}>
-              Add dates when your availability changes from your weekly
-              hours....
+            <Typography p={3} textAlign={'center'}>
+              Add dates when your availability changes from your weekly hours
             </Typography>
           ) : (
             <>
-              {dateData?.map((ele: any, index: number) => (
-                <React.Fragment key={ele?._id}>
+              {submittedData?.map((data: any, index: number) => (
+                <Box key={data?._id}>
                   <Box
                     display={'flex'}
                     justifyContent={'center'}
@@ -44,19 +43,29 @@ const DateOverrides = (props: any) => {
                     gap={2}
                     p={1}
                   >
-                    <Typography>{ele?.date}</Typography>
+                    <Typography>
+                      {data?.overrideDate
+                        ? dayjs(data?.overrideDate)?.format(
+                            DATE_TIME_FORMAT?.DMY,
+                          )
+                        : ''}
+                    </Typography>
                     <Box>
-                      {ele?.times?.map((time: any) => (
-                        <Typography key={time?._id}>{time}</Typography>
+                      {data?.overrides?.map((time: any) => (
+                        <Typography key={time?._id}>
+                          {`${dayjs(time?.start)?.format(
+                            TIME_FORMAT?.UI,
+                          )} - ${dayjs(time?.end)?.format(TIME_FORMAT?.UI)}`}
+                        </Typography>
                       ))}
                     </Box>
                   </Box>
-                  {index !== dateData?.length - 1 && (
+                  {index !== submittedData?.length - 1 && (
                     <Grid item xs={12}>
                       <Divider />
                     </Grid>
                   )}
-                </React.Fragment>
+                </Box>
               ))}
             </>
           )}
@@ -83,16 +92,16 @@ const DateOverrides = (props: any) => {
           justifyContent={'center'}
         >
           <Typography width={'310px'}>
-            Add dates when your availability changes from your weekly hours....
+            Add dates when your availability changes from your weekly hours
           </Typography>
         </Box>
       )}
       <AddDateOverrides
+        methods={methods}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
         openModule={openModule}
         setOpenModule={setOpenModule}
-        remove={remove}
-        fields={fields}
-        addDateOverride={addDateOverride}
         setShowData={setShowData}
       />
     </>

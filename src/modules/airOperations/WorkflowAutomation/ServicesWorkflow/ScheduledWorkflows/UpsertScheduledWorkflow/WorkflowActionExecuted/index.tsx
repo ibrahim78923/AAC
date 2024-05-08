@@ -13,6 +13,7 @@ export const WorkflowActionExecuted = (props: any) => {
     agentApiQuery,
     departmentApiQuery,
     apiQueryCategories,
+    apiQueryLocations,
   } = useWorkflowActionExecuted(props);
 
   return (
@@ -45,6 +46,7 @@ export const WorkflowActionExecuted = (props: any) => {
               agentApiQuery,
               departmentApiQuery,
               apiQueryCategories,
+              apiQueryLocations,
             })?.map((actionItem: any) => (
               <Grid
                 item

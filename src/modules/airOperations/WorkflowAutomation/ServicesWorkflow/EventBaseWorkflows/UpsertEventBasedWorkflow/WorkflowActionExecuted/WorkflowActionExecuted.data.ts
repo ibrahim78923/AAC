@@ -4,13 +4,19 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { actionsOptions } from '../UpsertEventBasedWorkflow.data';
+import {
+  actionsAssetOptions,
+  actionsTaskOptions,
+  actionsTicketOptions,
+} from '../UpsertEventBasedWorkflow.data';
+import { SCHEMA_KEYS } from '@/constants/strings';
 
 const statusOptions = ['OPEN', 'CLOSED', 'RESOLVED', 'PENDING', 'SPAMS'];
 const impactOptions = ['HIGH', 'MEDIUM', 'LOW'];
 const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
 const typeOptions = ['INC', 'SR'];
 const sourcesOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
+const statusTasksOptions = ['Todo', 'In-Progress', 'Done'];
 
 export const optionsConstant = {
   agent: 'Assign to Agent',
@@ -25,6 +31,12 @@ export const optionsConstant = {
   agentEmail: 'Send Email to Agent',
   requesterEmail: 'Send Email to Requester',
   date: 'Set Due Date as',
+  endOfLife: 'Set end of life as',
+  startDate: 'Set planned Start dates as',
+  endDate: 'Set planned end dates as',
+  plannedEffort: 'Set planned Efforts as',
+  setLocationAs: 'Set location as',
+  status: 'Set Status as',
 };
 export const actionsData = ({
   index,
@@ -32,7 +44,17 @@ export const actionsData = ({
   agentApiQuery,
   departmentApiQuery,
   apiQueryCategories,
+  apiQueryLocations,
 }: any) => {
+  const moduleTypeOptions = watch('module');
+
+  const modulesOptions =
+    moduleTypeOptions === SCHEMA_KEYS?.ASSETS
+      ? actionsAssetOptions || []
+      : moduleTypeOptions === SCHEMA_KEYS?.TICKETS
+        ? actionsTicketOptions || []
+        : actionsTaskOptions || [];
+
   const selectedOptionsKey = watch(`actions.${index}.fieldName`);
   const selectedLabel = selectedOptionsKey?.label;
   const useApiQuery = (selectedLabel: string) => {
@@ -42,6 +64,8 @@ export const actionsData = ({
       return departmentApiQuery;
     } else if (selectedLabel === optionsConstant?.category) {
       return apiQueryCategories;
+    } else if (selectedLabel === optionsConstant?.setLocationAs) {
+      return apiQueryLocations;
     }
     return null;
   };
@@ -55,7 +79,10 @@ export const actionsData = ({
           ? typeOptions
           : selectedLabel === optionsConstant?.impacts
             ? impactOptions
-            : statusOptions;
+            : selectedLabel === optionsConstant?.status &&
+                moduleTypeOptions === SCHEMA_KEYS?.TICKETS_TASKS
+              ? statusTasksOptions
+              : statusOptions;
   let valueComponent;
   const apiQuery = useApiQuery(selectedLabel);
   if (
@@ -78,6 +105,7 @@ export const actionsData = ({
     };
   } else if (
     selectedLabel === optionsConstant?.agent ||
+    selectedLabel === optionsConstant?.setLocationAs ||
     selectedLabel === optionsConstant?.category
   ) {
     valueComponent = {
@@ -91,7 +119,9 @@ export const actionsData = ({
         getOptionLabel:
           selectedLabel === optionsConstant?.agent
             ? (option: any) => `${option?.firstName} ${option?.lastName}`
-            : (option: any) => option?.categoryName,
+            : selectedLabel === optionsConstant?.setLocationAs
+              ? (option: any) => option?.locationName
+              : (option: any) => option?.categoryName,
       },
       component: RHFAutocompleteAsync,
     };
@@ -107,7 +137,13 @@ export const actionsData = ({
       },
       component: RHFAutocompleteAsync,
     };
-  } else if ([optionsConstant?.date]?.includes(selectedLabel)) {
+  } else if (
+    selectedLabel === optionsConstant?.date ||
+    selectedLabel === optionsConstant?.endOfLife ||
+    selectedLabel === optionsConstant?.startDate ||
+    selectedLabel === optionsConstant?.endDate ||
+    selectedLabel === optionsConstant?.plannedEffort
+  ) {
     valueComponent = {
       _id: 4,
       componentProps: {
@@ -139,7 +175,7 @@ export const actionsData = ({
         name: `actions.${index}.fieldName`,
         size: 'small',
         placeholder: 'Select',
-        options: actionsOptions,
+        options: modulesOptions,
         getOptionLabel: ({ label }: { label: string }) => label,
       },
       component: RHFAutocomplete,

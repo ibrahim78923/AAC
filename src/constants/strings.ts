@@ -559,6 +559,10 @@ export const LOYALTY_SHOP_TYPE = {
   WEB_SHOP: 'WEBSHOP',
 };
 
+export const LOGICS = {
+  AND: 'AND',
+  OR: 'OR',
+};
 export const LOYALTY_REWARDS_STATUS = {
   ACTIVE: 'ACTIVE',
   IN_ACTIVE: 'IN_ACTIVE',
@@ -574,4 +578,10 @@ export const UPSERT_SHOP_FORM_CONSTANT = {
   SUBMIT: 'Submit',
   UPDATE_SHOP: 'Update Shop',
   NEW_SHOP: 'New Shop',
+};
+export const TIME_UNITS = {
+  MS: 1000,
+  SEC_PER_HOUR: 3600,
+  HOURS_PER_DAY: 24,
+  MS_PER_MINUTE: 60000,
 };
