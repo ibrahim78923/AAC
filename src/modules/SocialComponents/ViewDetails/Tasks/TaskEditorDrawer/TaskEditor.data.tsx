@@ -125,8 +125,8 @@ export const dealsTasksDataArray = (openDrawer: any, contactsList: any) => {
       options: [
         { value: 'Today', label: 'Today' },
         { value: 'Tomorrow', label: 'Tomorrow' },
-        { value: 'in1businessday', label: 'In 1 business Day' },
-        { value: 'in2businessday', label: 'In 2 business Day' },
+        { value: 'In_1_Business_Day', label: 'In 1 business Day' },
+        { value: 'In_2_Business_Day', label: 'In 2 business Day' },
       ],
       component: RHFSelect,
       md: 12,

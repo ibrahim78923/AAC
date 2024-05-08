@@ -159,6 +159,7 @@ const Invoices = () => {
           count={allInvoicesTableData?.data?.meta?.pages}
           isPagination
           isLoading={isLoading}
+          currentPage={allInvoicesTableData?.data?.meta?.page}
         />
       </Box>
 

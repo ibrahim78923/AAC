@@ -10,10 +10,10 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealsTasksManagement: builder.query({
       //  todo: pagination will be implemented at the end .
-      query: ({ query }) => ({
-        url: `${END_POINTS?.TASK_MANAGEMENT}?page=1&limit=100`,
+      query: ({ params }) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}`,
         method: 'GET',
-        params: query,
+        params: params,
       }),
       providesTags: ['DEALS_TASK_MANAGEMENT'],
     }),

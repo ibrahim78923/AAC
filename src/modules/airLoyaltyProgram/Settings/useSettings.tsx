@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SETTINGS_MODULES, settingsDataDynamic } from './Settings.data';
-import Management from './management';
+import Management from './Managements';
 import { General } from './General';
 
 export const useSettings = () => {

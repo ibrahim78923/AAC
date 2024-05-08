@@ -9,24 +9,39 @@ import { useGetUsersListQuery } from '@/services/airSales/deals';
 import { useGetSalesProductQuery } from '@/services/airSales/deals/settings/sales-product';
 import * as Yup from 'yup';
 export const productsValidationSchema = Yup?.object()?.shape({
+  existingDeals: Yup?.string(),
   dealStatus: Yup?.string(),
   name: Yup?.string()?.trim()?.required('Field is Required'),
   dealPipelineId: Yup?.string()?.trim()?.required('Field is Required'),
   dealStageId: Yup?.string()?.trim()?.required('Field is Required'),
   amount: Yup?.string(),
-  closeDate: Yup?.string(),
+  closeDate: Yup?.string()?.nullable(),
+  ownerId: Yup?.string(),
+  priority: Yup?.string(),
+  addLineItemId: Yup?.string()?.required('Field is Required'),
+});
+
+export const productsValidationSchemaOnExistingDeals = Yup?.object()?.shape({
+  existingDeals: Yup?.string()?.required('Field is Required'),
+  dealStatus: Yup?.string(),
+  name: Yup?.string()?.trim(),
+  dealPipelineId: Yup?.string()?.trim(),
+  dealStageId: Yup?.string()?.trim(),
+  amount: Yup?.string(),
+  closeDate: Yup?.string()?.nullable(),
   ownerId: Yup?.string(),
   priority: Yup?.string(),
   addLineItemId: Yup?.string(),
 });
 
 export const productsDefaultValues = {
+  existingDeals: '',
   dealStatus: 'New Deal',
   name: '',
   dealPipelineId: '',
   dealStageId: '',
   amount: '',
-  closeDate: '',
+  closeDate: null,
   ownerId: '',
   priority: '',
   addLineItemId: '',
@@ -148,6 +163,7 @@ export const productsDataArray = (
         label: 'Add Line Item',
         select: true,
         disabled: openDrawer === 'View',
+        required: true,
       },
       options: addLineItem?.data?.salesproducts?.map((item: any) => ({
         value: item?._id,

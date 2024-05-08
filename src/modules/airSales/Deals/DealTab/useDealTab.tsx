@@ -14,18 +14,6 @@ import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { useGetSalesProductlineItemQuery } from '@/services/airSales/quotes';
 
-interface Filters {
-  page: number;
-  limit: number;
-  search?: string;
-  dealPipelineId?: string;
-  name?: string;
-  ownerId?: string;
-  dealStageId?: string;
-  dateStart?: string;
-  dateEnd?: string;
-}
-
 const useDealTab = () => {
   const router = useRouter();
   const [isFilterDrawer, setIsFilterDrawer] = useState(false);
@@ -44,13 +32,17 @@ const useDealTab = () => {
     'dealPipeline',
   ]);
 
-  const filterValues = {
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
-  };
-
   const [value, setValue] = useState(0);
-  const [filters, setFilters] = useState<Filters>(filterValues);
+  const [filters, setFilters] = useState({
+    dealPipelineId: '',
+    dealName: '',
+    dealOwner: '',
+    dealStage: '',
+    closeDate: null,
+  });
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [searchDeal, setSearchDeal] = useState('');
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [listView, setListView] = useState<string>('listView');
@@ -59,11 +51,25 @@ const useDealTab = () => {
     useDeleteDealsMutation();
 
   const { data: dealViewsData } = useGetDealsViewsQuery({});
+
+  const dealListparams: any = {
+    page: page,
+    limit: pageLimit,
+    search: searchDeal ? searchDeal : undefined,
+    dealPipelineId: filters?.dealPipelineId
+      ? filters?.dealPipelineId
+      : undefined,
+    name: filters?.dealName ? filters?.dealName : undefined,
+    ownerId: filters?.dealOwner ? filters?.dealOwner : undefined,
+    dealStageId: filters?.dealStage ? filters?.dealStage : undefined,
+    // CloseDate: filters?.CloseDate ? filters?.CloseDate : undefined,
+  };
+
   const {
     data: getDealsTableList,
     isLoading,
     isSuccess,
-  } = useGetDealsListQuery(filters);
+  } = useGetDealsListQuery(dealListparams);
 
   const params = {
     meta: true,
@@ -87,8 +93,8 @@ const useDealTab = () => {
     let dealOwnerId;
     let dealStageId;
 
-    if (obj?.apiUrl?.match(/dealPipelineId=([^&]*)/)) {
-      dealPipelineId = obj?.apiUrl?.match(/dealPipelineId=([^&]*)/)[1];
+    if (obj?.apiUrl?.match(/dealPiplineId=([^&]*)/)) {
+      dealPipelineId = obj?.apiUrl?.match(/dealPiplineId=([^&]*)/)[1];
     }
     if (obj?.apiUrl?.match(/dealOwnerId=([^&]*)/)) {
       dealOwnerId = obj?.apiUrl?.match(/dealOwnerId=([^&]*)/)[1];
@@ -120,9 +126,9 @@ const useDealTab = () => {
     tab;
     setValue(index);
   };
-  const handleSearch = (value: string) => {
-    if (value) setFilters({ ...filters, search: value });
-    else setFilters(filterValues);
+  const allDealsParams: any = {
+    page: page,
+    limit: pageLimit,
   };
   const handleTabChange = (tab: any) => {
     const tabName = tab?.name;
@@ -130,32 +136,35 @@ const useDealTab = () => {
     delete tab?.name;
     delete tab?.dealOwnerId;
     if (tabName === 'All Deals') {
-      setFilters(filterValues);
+      setFilters(allDealsParams);
     } else {
       setFilters({
         ...tab,
-        ownerId,
+        dealOwner: ownerId,
+        dealPipelineId: tab?.dealPipelineId,
+        dealStage: tab?.dealStageId,
+        dateStart: tab?.CloseDate,
       });
     }
-  };
-  const onPageChange = (page: number) => {
-    setFilters({ ...filters, page });
-  };
-  const onPageLimitChange = (limit: number) => {
-    setFilters({ ...filters, limit });
   };
 
   const handeApplyFilter = (values: any) => {
     const filteredObj = Object?.fromEntries(
       Object?.entries(values)?.filter(
-        (value) => value[1] !== '' && value[1] !== null,
+        (value: any) => value[1] !== '' && value[1] !== null,
       ),
     );
     setFilters({ ...filters, ...filteredObj });
   };
 
   const handleResetFilters = () => {
-    setFilters(filterValues);
+    setFilters({
+      dealPipelineId: '',
+      dealName: '',
+      dealOwner: '',
+      dealStage: '',
+      closeDate: null,
+    });
   };
 
   const handleListViewClick = (val: string) => {
@@ -226,9 +235,9 @@ const useDealTab = () => {
     data: allDealsData,
     totalRecords: getDealsTableList?.data?.meta?.total,
     pageLimit: getDealsTableList?.data?.meta?.limit,
-    onPageChange,
-    setPage: onPageChange,
-    setPageLimit: onPageLimitChange,
+    onPageChange: (val: any) => setPage(val),
+    setPage: setPage,
+    setPageLimit: setPageLimit,
     count: getDealsTableList?.data?.meta?.pages,
     isPagination: true,
     isLoading,
@@ -254,12 +263,12 @@ const useDealTab = () => {
     tabsArray,
     value,
     handleChange,
+    searchDeal,
+    setSearchDeal,
     handleTabChange,
     allDealsData,
     dealTableData,
-    handleSearch,
     selectedRows,
-    setFilters,
     setSelectedRows,
     handleDeleteDeals,
     handeApplyFilter,

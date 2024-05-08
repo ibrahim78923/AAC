@@ -1,43 +1,51 @@
-import { Box, Avatar, Typography } from '@mui/material';
+import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { styles } from './BuyerCompany.style';
-import { AvatarCompanyImage } from '@/assets/images';
 import useViewQuotes from '../useViewQuote';
+import { generateImage } from '@/utils/avatarUtils';
 
 const BuyerCompany = () => {
   const { viewQuotesData } = useViewQuotes();
+  const theme = useTheme();
 
   return (
     <>
       <Box sx={styles?.card}>
         <Box sx={styles?.company}>
-          <Avatar src={AvatarCompanyImage?.src} sx={styles?.avatar}>
-            OM
-          </Avatar>
           <Box>
-            {viewQuotesData?.data?.buyerCompany?.map(
-              (
-                item: any, // change reqiure by BE Side
-              ) => (
+            {viewQuotesData?.data?.buyerCompany?.map((item: any) => {
+              return (
                 <>
+                  <Avatar
+                    src={generateImage(item?.owner?.profilePicture?.url)}
+                    sx={{
+                      color: theme?.palette?.grey[600],
+                      fontWeight: 500,
+                    }}
+                  >
+                    {`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(
+                      0,
+                    )}`}
+                  </Avatar>
                   <Typography variant="h6" sx={styles?.title}>
                     {item?.name ?? 'N/A'}
                   </Typography>
                   <Typography variant="body3" sx={styles?.infoSubtitle}>
-                    {item?.address ?? 'N/A'}
+                    {/* {item?.owner?.address?.split(',').join(' | ') ?? 'N/A'} */}
+                    {item?.address}
                   </Typography>
 
                   <Typography variant="body3" sx={styles?.infoSubtitle}>
-                    {` ${item?.city} | ${item?.postalCode}`}
+                    {` ${item?.city ?? 'N/A'} | ${item?.postalCode ?? 'N/A'}`}
                   </Typography>
                   <Typography variant="body3" sx={styles?.infoSubtitle}>
-                    {item?.phoneNumber ?? 'N/A'}
+                    {item?.phone ?? 'N/A'}
                   </Typography>
                   <Typography variant="body3" sx={styles?.infoSubtitle}>
-                    {item?.email ?? 'N/A'}
+                    {item?.owner?.email ?? 'N/A'}
                   </Typography>
                 </>
-              ),
-            )}
+              );
+            })}
           </Box>
         </Box>
       </Box>

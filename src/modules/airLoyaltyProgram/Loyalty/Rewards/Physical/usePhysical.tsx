@@ -3,6 +3,7 @@ import { useLazyGetAllLoyaltyPhysicalRewardsListQuery } from '@/services/airLoya
 import { useEffect, useState } from 'react';
 import { loyaltyPhysicalRewardColumnDynamic } from './Physical.data';
 import { getActivePermissionsSession } from '@/utils';
+import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 
 export const usePhysical = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -25,6 +26,7 @@ export const usePhysical = () => {
         page,
         limit: pageLimit,
         search,
+        type: LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,
       },
     };
     try {

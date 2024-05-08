@@ -47,7 +47,7 @@ export const useRulesWorkflow = () => {
     addRequester: 'Add Requester',
     requester: 'users',
     setCategoryAs: 'Set Category as',
-    category: 'category',
+    category: 'servicecategories',
     users: 'users',
   };
 

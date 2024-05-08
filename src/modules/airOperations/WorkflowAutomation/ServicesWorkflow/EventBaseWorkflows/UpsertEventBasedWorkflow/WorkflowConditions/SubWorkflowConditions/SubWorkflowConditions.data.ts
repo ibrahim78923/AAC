@@ -11,11 +11,12 @@ export const assetsFieldsOption = [
   { value: 'assetType', label: 'Asset Type' },
   { value: 'locationId', label: 'Location' },
   { value: 'usedBy', label: 'Used By' },
-  { value: 'department', label: 'Select Department' },
+  { value: 'departmentId', label: 'Select Department' },
   { value: 'impact', label: 'Impact' },
   { value: 'assignedOn', label: 'Assigned On' },
   { value: 'createdBy', label: 'Created By' },
   { value: 'description', label: 'Description' },
+  { value: 'assetLifeExpiry', label: 'End of life' },
 ];
 
 export const taskFieldsOption = [
@@ -27,7 +28,7 @@ export const taskFieldsOption = [
   { value: 'startDate', label: 'Planned Start Date' },
   { value: 'endDate', label: 'Planned End Date' },
   { value: 'plannedEffort', label: 'Planned Effort' },
-  { value: 'department', label: 'Select Department' },
+  { value: 'departmentId', label: 'Select Department' },
 ];
 
 export const ticketsFields = [
@@ -130,6 +131,7 @@ export const optionsConstants = {
   isNotEmpty: 'is not empty',
   statusTasks: 'Status',
   notifyBefore: 'Notify Before',
+  assetLifeExpiry: 'End of life',
 };
 
 export const subWorkflowData = ({
@@ -330,6 +332,7 @@ export const subWorkflowData = ({
       optionsConstants?.plannedStartDate,
       optionsConstants?.plannedEndDate,
       optionsConstants?.assignedOn,
+      optionsConstants?.assetLifeExpiry,
     ]?.includes(selectedOperatorsOptions)
   ) {
     valueComponent = {

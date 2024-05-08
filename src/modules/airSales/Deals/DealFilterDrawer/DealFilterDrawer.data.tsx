@@ -4,6 +4,8 @@ import {
   useGetUsersListQuery,
 } from '@/services/airSales/deals';
 import useDealTab from '../DealTab/useDealTab';
+import { getSession } from '@/utils';
+import { ROLES } from '@/constants/strings';
 
 export const defaultValues = {
   dealPipelineId: '',
@@ -15,7 +17,12 @@ export const defaultValues = {
 
 export const FilterData = (dealPipelineId: any) => {
   const { pipelineData } = useDealTab();
-  const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
+  const { user } = getSession();
+  const organizationId: any = user?.organization?._id;
+  const { data: UserListData } = useGetUsersListQuery({
+    role: ROLES?.ORG_EMPLOYEE,
+    organization: organizationId,
+  });
 
   const filteredStages =
     pipelineData?.data?.dealpipelines?.find(
