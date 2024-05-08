@@ -54,6 +54,6 @@ export const drawerTitle: any = {
   View: 'View Notes',
 };
 export const drawerButtonTitle: any = {
-  Add: 'Add',
+  Add: 'Save',
   Edit: 'Edit',
 };
