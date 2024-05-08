@@ -5,11 +5,15 @@ import {
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
+import { PAGINATION } from '@/config';
+import {
+  LOYALTY_REWARDS_CLASS,
+  LOYALTY_REWARDS_TYPE,
+} from '@/constants/strings';
 
 import * as Yup from 'yup';
 
-export const addPhyicalRewardsValidationSchema = Yup?.object()?.shape({
+export const addPhysicalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Title is required'),
   requiredPoints: Yup?.number()
     ?.positive('Greater than zero')
@@ -22,8 +26,14 @@ export const addPhyicalRewardsValidationSchema = Yup?.object()?.shape({
     ?.typeError('Not a number')
     ?.required('Cost price is required'),
   activeFrom: Yup?.date()?.nullable(),
-  activeTo: Yup?.date()?.nullable(),
   untilDeactivate: Yup?.boolean(),
+  activeTo: Yup?.date()
+    ?.nullable()
+    ?.when('untilDeactivate', {
+      is: (value: any) => !value,
+      then: (schema: any) => schema?.required('Active to is required'),
+      otherwise: (schema) => schema?.notRequired(),
+    }),
 });
 
 export const addDigitalRewardsValidationSchema = Yup?.object()?.shape({
@@ -35,12 +45,18 @@ export const addDigitalRewardsValidationSchema = Yup?.object()?.shape({
   chooseCategory: Yup?.mixed()?.nullable()?.required('Category is required'),
   chooseVoucher: Yup?.mixed()?.nullable()?.required('Voucher is required'),
   activeFrom: Yup?.date()?.nullable(),
-  activeTo: Yup?.date()?.nullable(),
   untilDeactivate: Yup?.boolean(),
+  activeTo: Yup?.date()
+    ?.nullable()
+    ?.when('untilDeactivate', {
+      is: (value: any) => !value,
+      then: (schema: any) => schema?.required('Active to is required'),
+      otherwise: (schema) => schema?.notRequired(),
+    }),
 });
 
 export const REWARD_VALIDATION_SCHEMA: any = {
-  [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD]: addPhyicalRewardsValidationSchema,
+  [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD]: addPhysicalRewardsValidationSchema,
   [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD]: addDigitalRewardsValidationSchema,
 };
 
@@ -52,7 +68,7 @@ export const addRewardsDefaultValues = {
   visibleTo: [],
   addImage: null,
   costPrice: 0,
-  activeFrom: null,
+  activeFrom: new Date(),
   activeTo: null,
   untilDeactivate: false,
 };
@@ -61,12 +77,14 @@ export const addRewardsFormFieldsDynamic = (
   customersApiQuery: any,
   vouchersApiQuery: any,
   tiersApiQuery: any,
+  watchForDeactivate: any,
 ) => [
   {
     id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
+      placeholder: 'Enter title',
       required: true,
       fullWidth: true,
     },
@@ -115,7 +133,10 @@ export const addRewardsFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       apiQuery: vouchersApiQuery,
-      externalParams: { meta: false, limit: 50 },
+      externalParams: {
+        meta: false,
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+      },
       getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
@@ -129,7 +150,10 @@ export const addRewardsFormFieldsDynamic = (
       label: 'Choose Category',
       fullWidth: true,
       required: true,
-      externalParams: { limit: 50, type: 'TIERS' },
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        type: LOYALTY_REWARDS_CLASS?.TIERS,
+      },
       apiQuery: tiersApiQuery,
       getOptionLabel: (option: any) => option?.name,
     },
@@ -146,7 +170,10 @@ export const addRewardsFormFieldsDynamic = (
       required: true,
       multiple: true,
       apiQuery: customersApiQuery,
-      externalParams: { meta: false, limit: 50 },
+      externalParams: {
+        meta: false,
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+      },
       getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
@@ -185,6 +212,9 @@ export const addRewardsFormFieldsDynamic = (
       name: 'activeTo',
       label: 'Active to',
       fullWidth: true,
+      disablePast: true,
+      disabled: watchForDeactivate,
+      required: !watchForDeactivate,
     },
     type: [
       LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,

@@ -2,7 +2,7 @@ import { Avatar, Box, Chip, Typography } from '@mui/material';
 import { Circle } from '@mui/icons-material';
 import { LOYALTY_REWARDS_STATUS } from '@/constants/strings';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
-import { truncateText } from '@/utils/avatarUtils';
+import { generateImage, truncateText } from '@/utils/avatarUtils';
 import { LOYALTY_REWARDS_TYPE_MAPPED } from '@/constants/api-mapped';
 
 export const LOYALTY_REWARDS_STATUS_PILL: any = {
@@ -30,7 +30,7 @@ export const loyaltyAllRewardColumnDynamic: any = (
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
         <Avatar
-          src={info?.row?.original?.icon?.src}
+          src={generateImage(info?.row?.original?.icon?.src)}
           alt={info?.row?.original?.icon?.name}
         />
         <Typography
@@ -49,7 +49,7 @@ export const loyaltyAllRewardColumnDynamic: any = (
     id: 'requiredPoints',
     isSortable: true,
     header: 'Required Points',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -73,18 +73,18 @@ export const loyaltyAllRewardColumnDynamic: any = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.totalRedeemable,
+    accessorFn: (row: any) => row?.redeemable,
     id: 'totalRedeemable',
     isSortable: true,
     header: 'Total redeemable (quantity)',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.voucherCode,
+    accessorFn: (row: any) => row?.vouchersDetail,
     id: 'voucherCode',
     isSortable: true,
     header: 'Voucher code',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue()?.voucherCode ?? '---',
   },
   {
     accessorFn: (row: any) => row?.rewardType,
@@ -115,7 +115,7 @@ export const loyaltyAllRewardColumnDynamic: any = (
           });
         }}
       >
-        {info?.getValue()}
+        {info?.getValue() ?? 0}
       </Typography>
     ),
   },
@@ -124,6 +124,6 @@ export const loyaltyAllRewardColumnDynamic: any = (
     id: 'cost',
     isSortable: true,
     header: 'Cost',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
 ];

@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import {
   addRewardsDefaultValues,
   addRewardsFormFieldsDynamic,
@@ -13,7 +13,11 @@ import {
   useLazyGetTiersDropdownForRewardsQuery,
   useLazyGetVoucherDropdownForRewardsQuery,
 } from '@/services/airLoyaltyProgram/loyalty/rewards';
-import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
+import {
+  LOYALTY_REWARDS_STATUS,
+  LOYALTY_REWARDS_TYPE,
+} from '@/constants/strings';
+import { useEffect } from 'react';
 
 export const useAddRewardsForm: any = (props: any) => {
   const { setOpenDrawer, openDrawer } = props;
@@ -29,8 +33,17 @@ export const useAddRewardsForm: any = (props: any) => {
     resolver: yupResolver(REWARD_VALIDATION_SCHEMA?.[openDrawer?.rewardType]),
   });
 
-  const { reset, handleSubmit } = methods;
+  const { reset, handleSubmit, control, clearErrors } = methods;
 
+  const watchForDeactivate = useWatch({
+    control,
+    name: 'untilDeactivate',
+    defaultValue: false,
+  });
+
+  useEffect(() => {
+    clearErrors?.('activeTo');
+  }, [watchForDeactivate]);
   const submitAddRewards = async (formData: any) => {
     if (openDrawer?.rewardType === LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD) {
       await submitAddPhysicalRewards?.(formData);
@@ -56,7 +69,7 @@ export const useAddRewardsForm: any = (props: any) => {
       );
     digitalRewardFormData?.append('untilDeactivate', formData?.untilDeactivate);
     digitalRewardFormData?.append('tiersId', formData?.chooseCategory._id);
-    digitalRewardFormData?.append('status', 'Active');
+    digitalRewardFormData?.append('status', LOYALTY_REWARDS_STATUS?.ACTIVE);
     const apiDataParameter = {
       body: digitalRewardFormData,
     };
@@ -79,11 +92,12 @@ export const useAddRewardsForm: any = (props: any) => {
         'activeFrom',
         formData?.activeFrom?.toISOString(),
       );
-    formData?.activeTo !== null &&
-      physicalRewardFormData?.append(
-        'activeTo',
-        formData?.activeTo?.toISOString(),
-      );
+    formData?.activeTo !== null && !formData?.untilDeactivate;
+    physicalRewardFormData?.append(
+      'activeTo',
+      formData?.activeTo?.toISOString(),
+    );
+
     physicalRewardFormData?.append(
       'untilDeactivate',
       formData?.untilDeactivate,
@@ -92,7 +106,7 @@ export const useAddRewardsForm: any = (props: any) => {
       'visibleTo',
       formData?.visibleTo?.map((user: any) => user?._id),
     );
-    physicalRewardFormData?.append('status', 'Active');
+    physicalRewardFormData?.append('status', LOYALTY_REWARDS_STATUS?.ACTIVE);
     const apiDataParameter = {
       body: physicalRewardFormData,
     };
@@ -118,6 +132,7 @@ export const useAddRewardsForm: any = (props: any) => {
     customersApiQuery,
     vouchersApiQuery,
     tiersApiQuery,
+    watchForDeactivate,
   )?.filter((fields: any) => fields?.type?.includes(openDrawer?.rewardType));
 
   return {
