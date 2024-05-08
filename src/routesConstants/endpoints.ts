@@ -372,6 +372,8 @@ export const END_POINTS = {
   GET_SHOP_LIST: `/shops/shops-list`,
   UPDATE_SHOP: `/shops/update-shop`,
   SHOP_DETAIL: `/shops/shop-details`,
+  GET_RULES_LIST: `/rules-and-tiers/rules`,
+  GET_TIERS_LIST: `/rules-and-tiers/tiers`,
 };
 
 export const superAdminBillingInvoices = {
