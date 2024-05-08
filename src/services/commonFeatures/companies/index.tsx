@@ -156,7 +156,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
         };
       },
     }),
-
+    //working on it commented for future use
     // uploadFileTos3UsingSignedUrl: builder?.mutation({
     //   query: (apiDataParameter: any) => ({
     //     url: apiDataParameter?.url,

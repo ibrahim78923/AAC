@@ -94,21 +94,19 @@ const useCompaniesEditorDrawer = ({
 
   const onSubmit = async (values: any) => {
     const type = 'deals';
+    const ExistingCompany = 'company';
     const formData = new FormData();
-    formData?.append('domain', values?.domain);
-    formData?.append('name', values?.name);
-    formData?.append('ownerId', values?.ownerId);
-    formData?.append('industry', values?.industry);
-    formData?.append('type', values?.type);
-    formData?.append('noOfEmloyee', values?.noOfEmloyee);
-    formData?.append('totalRevenue', values?.totalRevenue);
-    formData?.append('city', values?.city);
-    formData?.append('postalCode', values?.postalCode);
-    formData?.append('address', values?.address);
-    formData?.append('description', values?.description);
-    formData?.append('linkedInUrl', values?.linkedInUrl);
     formData?.append('recordType', type);
     formData?.append('recordId', dealId);
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        if (key === ExistingCompany) {
+          return;
+        } else {
+          formData.append(key, value);
+        }
+      }
+    });
     try {
       watchCompany === 'existing-Company'
         ? await createAssociation({

@@ -1,17 +1,9 @@
 import React from 'react';
-
 import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
-
-// import { FormProvider } from '@/components/ReactHookForm';
-
 import { dataArray } from './UploadFiles.data';
-
-// import { useForm } from 'react-hook-form';
-
 import { v4 as uuidv4 } from 'uuid';
 
 const UploadFiles = () => {
-  // const methods: any = useForm({});
   const theme = useTheme<Theme>();
 
   return (
@@ -70,7 +62,6 @@ const UploadFiles = () => {
           Import Companies
         </Typography>
         <Box sx={{ paddingTop: '1rem' }}>
-          {/* <FormProvider methods={methods}> */}
           <Grid container spacing={1}>
             {dataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
@@ -85,7 +76,6 @@ const UploadFiles = () => {
               </Grid>
             ))}
           </Grid>
-          {/* </FormProvider> */}
         </Box>
       </Box>
     </>
