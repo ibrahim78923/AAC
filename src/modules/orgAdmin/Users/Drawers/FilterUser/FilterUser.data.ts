@@ -1,10 +1,22 @@
-import { RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
 import { CommonAPIS } from '@/services/common-APIs';
 
+export const usersFilterDefaultValues = (data: any) => {
+  return {
+    product: data?.product?.name ? data?.product : null,
+    company: data?.company?.name ? data?.company : null,
+    status: data?.status ?? null,
+  };
+};
+
 export const usersFilterArray = () => {
-  const { useGetProductsQuery, useGetOrganizationsQuery }: any = CommonAPIS;
-  const { data: products } = useGetProductsQuery();
-  const { data: organizations } = useGetOrganizationsQuery();
+  const { useLazyGetOrganizationsListQuery, useLazyGetProductsListQuery }: any =
+    CommonAPIS;
+  const products = useLazyGetProductsListQuery();
+  const organizations = useLazyGetOrganizationsListQuery();
 
   return [
     {
@@ -12,13 +24,11 @@ export const usersFilterArray = () => {
         label: 'Product',
         name: 'product',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select product',
+        apiQuery: products,
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: products?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
@@ -26,13 +36,11 @@ export const usersFilterArray = () => {
         label: 'Company',
         name: 'company',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select company',
+        apiQuery: organizations,
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: organizations?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
@@ -40,13 +48,10 @@ export const usersFilterArray = () => {
         label: 'Status',
         name: 'status',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select status',
+        options: ['Active', 'Inactive'],
       },
-      options: [
-        { value: 'ACTIVE', label: 'Active' },
-        { value: 'INACTIVE', label: 'Inactive' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
   ];
