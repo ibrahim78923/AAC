@@ -1,5 +1,5 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
+import { LOGICS, MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   assetsFieldsOption,
@@ -147,6 +147,11 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
     ...actionsAssetOptions,
   ];
 
+  const constantsData = {
+    date: 'date',
+    object: 'objectId',
+    notifyBefore: 'notifyBefore',
+  };
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.EVENT_BASE,
@@ -162,7 +167,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
         )
       : null,
     module: singleWorkflowData?.module ?? SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
+    groupCondition: singleWorkflowData?.groupCondition ?? LOGICS?.AND,
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: number) => ({
       name: group?.name ?? '',
       conditionType:
@@ -176,13 +181,13 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         condition: condition?.condition ?? '',
         fieldValue:
-          condition?.fieldType === 'objectId'
+          condition?.fieldType === constantsData?.object
             ? singleWorkflowData[
                 `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
               ]
-            : condition?.fieldType === 'date'
+            : condition?.fieldType === constantsData?.date
               ? new Date(condition?.fieldValue)
-              : condition?.fieldName === 'notifyBefore'
+              : condition?.fieldName === constantsData?.notifyBefore
                 ? notifyBeforeOptions?.find(
                     (item: any) => item?.value === condition?.fieldValue,
                   )
@@ -210,9 +215,9 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
             )
           : null,
         fieldValue:
-          action?.fieldType === 'objectId'
+          action?.fieldType === constantsData?.object
             ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
-            : action?.fieldType === 'date'
+            : action?.fieldType === constantsData?.date
               ? new Date(action?.fieldValue)
               : action?.fieldValue,
       }),
