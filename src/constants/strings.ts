@@ -551,6 +551,14 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const LOYALTY_SHOP_TYPE = {
+  ON_SITE: 'ONSITE',
+  DEPARTMENT: 'DEPARTMENT',
+  HEADQUARTERS: 'HEADQUARTERS',
+  POINT_OF_SALE: 'POINT_OF_SALES',
+  WEB_SHOP: 'WEBSHOP',
+};
+
 export const LOGICS = {
   AND: 'AND',
   OR: 'OR',
@@ -565,6 +573,12 @@ export const FIELD_TYPES = {
   OPTIONAL_FIELD: 'Optional Field',
 };
 
+export const UPSERT_SHOP_FORM_CONSTANT = {
+  EDIT: 'Edit',
+  SUBMIT: 'Submit',
+  UPDATE_SHOP: 'Update Shop',
+  NEW_SHOP: 'New Shop',
+};
 export const TIME_UNITS = {
   MS: 1000,
   SEC_PER_HOUR: 3600,
