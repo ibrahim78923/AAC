@@ -117,7 +117,13 @@ const TableToolbar: FC<TableToolbarI> = ({
                 AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.DELETE_QUOTE,
               ]}
             >
-              <MenuItem onClick={handleOpenDeleteQuote}>Delete</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleOpenDeleteQuote(), handleActionsDropdownClose();
+                }}
+              >
+                Delete
+              </MenuItem>
             </PermissionsGuard>
           </Menu>
         </Box>

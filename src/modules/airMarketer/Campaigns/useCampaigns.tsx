@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { campaignsOptions } from './Campaigns.data';
 import { useGetCampaignsQuery } from '@/services/airMarketer/campaigns';
+import { PAGINATION } from '@/config';
 
 const useCampaigns = () => {
   const theme = useTheme();
@@ -32,8 +33,8 @@ const useCampaigns = () => {
   const [isResetTaskFilter, setIsResetTaskFilter] = useState(false);
 
   const { data: campaignsData } = useGetCampaignsQuery({
-    page: 1,
-    limit: 10,
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
   });
 
   const CampaignTask: any = useForm({});

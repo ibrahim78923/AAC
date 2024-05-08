@@ -116,13 +116,10 @@ const useQuotes = () => {
       checkedColumns.includes(column?.id),
     );
   };
-
-  // Modal Delete Quote
   const [openDeleteQuote, setOpenDeleteQuote] = useState(false);
 
   const handleOpenDeleteQuote = () => {
     setOpenDeleteQuote(true);
-    handleActionsDropdownClose();
   };
   const handleCloseDeleteQuote = () => {
     setOpenDeleteQuote(false);

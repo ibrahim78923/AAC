@@ -98,7 +98,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             reset();
           });
       } catch (err: any) {
-        enqueueSnackbar(err?.response?.message, {
+        enqueueSnackbar(err?.message, {
           variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
