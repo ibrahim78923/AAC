@@ -10,8 +10,9 @@ export const AddRewardsForm = (props: any) => {
     methods,
     submitAddRewards,
     closeAddRewardsForm,
-    addLoyaltyRewardsStatus,
     addRewardsFormFields,
+    addDigitalLoyaltyRewardStatus,
+    addPhysicalLoyaltyRewardStatus,
   } = useAddRewardsForm(props);
 
   return (
@@ -24,9 +25,18 @@ export const AddRewardsForm = (props: any) => {
       cancelText={'Close'}
       footer
       submitHandler={handleSubmit(submitAddRewards)}
-      isLoading={addLoyaltyRewardsStatus?.isLoading}
-      isDisabled={addLoyaltyRewardsStatus?.isLoading}
-      disabledCancelBtn={addLoyaltyRewardsStatus?.isLoading}
+      isLoading={
+        addDigitalLoyaltyRewardStatus?.isLoading ||
+        addPhysicalLoyaltyRewardStatus?.isLoading
+      }
+      isDisabled={
+        addDigitalLoyaltyRewardStatus?.isLoading ||
+        addPhysicalLoyaltyRewardStatus?.isLoading
+      }
+      disabledCancelBtn={
+        addDigitalLoyaltyRewardStatus?.isLoading ||
+        addPhysicalLoyaltyRewardStatus?.isLoading
+      }
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
