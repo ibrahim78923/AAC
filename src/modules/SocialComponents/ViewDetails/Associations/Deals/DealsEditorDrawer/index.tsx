@@ -11,7 +11,7 @@ import {
   drawerTitle,
   productsDataArray,
 } from './DealsEditorDrawer.data';
-import { existingDeals, newDeal } from '@/constants';
+import { associationCompanies } from '@/constants';
 
 const DealsEditorDrawer = (props: any) => {
   const {
@@ -49,11 +49,11 @@ const DealsEditorDrawer = (props: any) => {
         <Box>
           <Grid item xs={12} sx={{ paddingBottom: '40px !important' }}>
             <Radio
-              checked={selectedValue === newDeal}
+              checked={selectedValue === associationCompanies?.newDeal}
               onChange={handleChange}
               value="New Deal"
               name="radio-buttons"
-              inputProps={{ 'aria-label': newDeal }}
+              inputProps={{ 'aria-label': associationCompanies?.newDeal }}
             />
             <FormLabel
               id="demo-row-radio-buttons-group-label"
@@ -63,7 +63,7 @@ const DealsEditorDrawer = (props: any) => {
             </FormLabel>
 
             <Radio
-              checked={selectedValue === existingDeals}
+              checked={selectedValue === associationCompanies?.existingDeals}
               onChange={handleChange}
               value="Existing Deals"
               name="radio-buttons"
@@ -80,7 +80,7 @@ const DealsEditorDrawer = (props: any) => {
             <Grid container spacing={4}>
               {productsDataArray(openDrawer, DealsLifecycleStageData)?.map(
                 (item: any, index: any) =>
-                  selectedValue === newDeal ? (
+                  selectedValue === associationCompanies?.newDeal ? (
                     <Grid
                       item
                       xs={12}

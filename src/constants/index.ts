@@ -259,12 +259,12 @@ export const API_STATUS = {
   PENDING: 'pending',
   REJECTED: 'rejected',
 };
-
-export const existingContacts = 'Existing Contacts';
-export const newContacts = 'New Contact';
-export const existingDeals = 'Existing Deals';
-export const associationTypeDeals = 'deals';
-export const newDeal = 'New Deal';
-export const invalidDate = 'Invalid Date';
-
-export const zero = 0;
+export const associationCompanies = {
+  existingContacts: 'Existing Contacts',
+  newContacts: 'New Contact',
+  existingDeals: 'Existing Deals',
+  associationTypeDeals: 'deals',
+  newDeal: 'New Deal',
+  invalidDate: 'Invalid Date',
+  zero: 0,
+};

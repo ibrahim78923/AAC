@@ -6,7 +6,7 @@ import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { useDeleteAssociationMutation } from '@/services/commonFeatures/contacts/associations';
 import { useGetDealsListQuery } from '@/services/airSales/deals';
-import { associationTypeDeals } from '@/constants';
+import { associationCompanies } from '@/constants';
 
 const useDeals = (companyId: any) => {
   const theme = useTheme();
@@ -28,7 +28,7 @@ const useDeals = (companyId: any) => {
 
   const paramObj = {
     search: searchName,
-    association_type: associationTypeDeals,
+    association_type: associationCompanies?.associationTypeDeals,
   };
   const { data: getCompanyDeals, isLoading } = useGetCompanyAssociationsQuery({
     id: companyId?.companyId,

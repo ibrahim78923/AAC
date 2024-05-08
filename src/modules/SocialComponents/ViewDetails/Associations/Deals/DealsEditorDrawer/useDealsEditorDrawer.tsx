@@ -12,7 +12,7 @@ import {
   usePatchDealsMutation,
   usePostDealsMutation,
 } from '@/services/airSales/deals';
-import { DATE_FORMAT, existingDeals, invalidDate, newDeal } from '@/constants';
+import { DATE_FORMAT, associationCompanies } from '@/constants';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -37,7 +37,7 @@ const useDealsEditorDrawer = ({
 
   const methodsProducts = useForm({
     resolver: yupResolver(
-      selectedValue === newDeal
+      selectedValue === associationCompanies?.newDeal
         ? productsValidationSchema
         : productsValidationSchemaOnExistingDeals,
     ),
@@ -89,13 +89,13 @@ const useDealsEditorDrawer = ({
       ],
     };
     delete values?.addLineItemId;
-    if (PayloadValue?.closeDate === invalidDate) {
+    if (PayloadValue?.closeDate === associationCompanies?.invalidDate) {
       delete PayloadValue?.closeDate;
     }
 
     try {
       let res: any;
-      if (selectedValue === newDeal) {
+      if (selectedValue === associationCompanies?.newDeal) {
         openDrawer === 'Edit'
           ? await updatedAssignDeal({
               id: dealRecord?._id,
@@ -103,12 +103,12 @@ const useDealsEditorDrawer = ({
             }).unwrap()
           : (res = await postDeals({ body: PayloadValue })?.unwrap());
       }
-      if (res?.data || selectedValue === existingDeals) {
+      if (res?.data || selectedValue === associationCompanies?.existingDeals) {
         try {
           await createAssociationDeals({
             body: {
               dealId:
-                selectedValue === existingDeals
+                selectedValue === associationCompanies?.existingDeals
                   ? values?.existingDeals
                   : res?.data?._id,
               companyId: companyId?.companyId,
