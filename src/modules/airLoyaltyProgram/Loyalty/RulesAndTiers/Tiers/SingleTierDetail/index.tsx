@@ -1,11 +1,15 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { useSingleTierDetail } from './useSingleTierDetail';
 import { Box, IconButton, Slider, Typography } from '@mui/material';
 import { EditInputIcon } from '@/assets/icons';
+import { LOYALTY_RULES_ATTRIBUTES_MAPPED } from '@/constants/api-mapped';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import NoData from '@/components/NoData';
+import { useSingleTierDetail } from './useSingleTierDetail';
 
 export const SingleTierDetail = (props: any) => {
   const { isDrawerOpen } = props;
-  const { closeUpsertTier } = useSingleTierDetail(props);
+  const { closeUpsertTier, data, isLoading, isFetching } =
+    useSingleTierDetail(props);
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen?.isOpen}
@@ -19,51 +23,56 @@ export const SingleTierDetail = (props: any) => {
         </IconButton>
       }
     >
-      <Box>
+      {isLoading || isFetching ? (
+        <SkeletonTable />
+      ) : (
         <Box>
-          <Typography variant="h6" color="common.black">
-            Base tier
-          </Typography>
-          <Typography
-            variant="body3"
-            color="grey.900"
-            display="flex"
-            gap={1.5}
-            alignItems="center"
-          >
-            ({isDrawerOpen?.isDetail?.amount} dollar equivalent to
-            <Slider sx={{ width: 100 }} value={[0, 100]} disabled />
-            {isDrawerOpen?.isDetail?.points} pts)
-          </Typography>
+          <Box>
+            <Typography variant="h6" color="common.black">
+              Base tier
+            </Typography>
+            <Typography
+              variant="body3"
+              color="grey.900"
+              display="flex"
+              gap={1.5}
+              alignItems="center"
+            >
+              ({data?.data?.amount} dollar equivalent to
+              <Slider sx={{ width: 100 }} value={[0, 100]} disabled />
+              {data?.data?.points} pts)
+            </Typography>
+          </Box>
+          <br />
+          <Box>
+            <Typography variant="h5" color="common.black">
+              Points calculation
+            </Typography>
+            <br />
+            {!!data?.data?.tierRule?.length ? (
+              data?.data?.tierRule?.map((item: any) => (
+                <Box
+                  key={item?._id}
+                  display="flex"
+                  justifyContent="space-between"
+                  mb={1.5}
+                >
+                  <Typography variant="h6">
+                    {LOYALTY_RULES_ATTRIBUTES_MAPPED?.[item?.attribute]}:
+                  </Typography>
+                  <Typography variant="body1" color="grey.900">
+                    {item?.rewardType === 'FIXED_DISCOUNT'
+                      ? item?.rewards + '%'
+                      : item?.rewards + ' ' + 'pts'}
+                  </Typography>
+                </Box>
+              ))
+            ) : (
+              <NoData height="30vh" />
+            )}
+          </Box>
         </Box>
-        <br />
-        <Box>
-          <Typography variant="h5" color="common.black">
-            Points calculation
-          </Typography>
-          <br />
-          <Box display="flex" justifyContent="space-between">
-            <Typography variant="h6">Percentage off:</Typography>
-            <Typography variant="body1" color="grey.900">
-              10% off on entire purchase
-            </Typography>
-          </Box>
-          <br />
-          <Box display="flex" justifyContent="space-between">
-            <Typography variant="h6">Account creation: </Typography>
-            <Typography variant="body1" color="grey.900">
-              0.2 pts
-            </Typography>
-          </Box>
-          <br />
-          <Box display="flex" justifyContent="space-between">
-            <Typography variant="h6">First purchase: </Typography>
-            <Typography variant="body1" color="grey.900">
-              0.5 pts
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
+      )}
     </CommonDrawer>
   );
 };
