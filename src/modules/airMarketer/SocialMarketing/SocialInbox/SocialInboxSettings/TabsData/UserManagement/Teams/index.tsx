@@ -74,6 +74,7 @@ const Teams = (props: any) => {
             totalRecords={teamsData?.data?.meta?.total}
             isLoading={teamsDataLoading}
             isSuccess={isSuccess}
+            currentPage={teamsData?.data?.meta?.page}
           />
         </Grid>
         <ViewTeams
