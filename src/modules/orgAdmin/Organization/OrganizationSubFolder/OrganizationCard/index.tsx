@@ -102,8 +102,8 @@ const OrganizationCard = () => {
                   >
                     <Avatar
                       src={`${
-                        user?.organization?.image
-                          ? generateImage(user?.organization?.image?.url)
+                        user?.organization?.avatar
+                          ? generateImage(user?.organization?.avatar?.url)
                           : ''
                       }`}
                       sx={{ height: 120, width: 120 }}
@@ -119,7 +119,7 @@ const OrganizationCard = () => {
                       <Box
                         sx={{
                           position: 'absolute',
-                          bottom: 0,
+                          bottom: 2,
                           cursor: 'pointer',
                         }}
                       >
