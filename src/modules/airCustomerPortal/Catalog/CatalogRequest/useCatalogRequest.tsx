@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   CATALOG_SERVICE_TYPES,
+  MODULE_TYPE,
   TICKET_STATUS,
   TICKET_TYPE,
 } from '@/constants/strings';
@@ -21,8 +22,7 @@ import { AIR_CUSTOMER_PORTAL } from '@/constants';
 const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
   const router = useRouter();
   const { serviceId } = router?.query;
-  const [postTicketTrigger] = usePostTicketsMutation();
-
+  const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const CategoryType =
     servicesDetails?.data?.categoryDetails?.categoryName ||
     servicesDetails?.data?.itemName;
@@ -50,9 +50,9 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
       data?.requestor?._id || data?.requestorFor?._id,
     );
     placeRequestData?.append('status', TICKET_STATUS?.OPEN);
-    placeRequestData?.append('subject', 'test subject');
+    placeRequestData?.append('subject', servicesDetails?.data?.itemName);
     placeRequestData?.append('serviceId', serviceId as string);
-    placeRequestData?.append('moduleType', 'TICKETS');
+    placeRequestData?.append('moduleType', MODULE_TYPE?.CUSTOMER_PORTAL);
     placeRequestData?.append('ticketType', TICKET_TYPE?.SR);
     placeRequestData?.append('description', addItemToDescription);
     const postTicketParameter = {
@@ -96,6 +96,7 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
     handleClose,
     searchStringLowerCase,
     reset,
+    postTicketStatus,
   };
 };
 export default useCatalogRequest;

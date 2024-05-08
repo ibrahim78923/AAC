@@ -1,3 +1,9 @@
+import { CALENDER_TYPES } from '@/constants/strings';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+
 export const eventArray = [
   {
     title: 'Testing 1',
@@ -6,9 +12,6 @@ export const eventArray = [
     data: {
       email: 'kamran.zafar@ceative.co.uk',
       meetingTitle: 'BA meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Waqas Ahmed',
       accepted: '3',
       notResponding: '33',
@@ -23,9 +26,6 @@ export const eventArray = [
     data: {
       email: 'ali.raza@ceative.co.uk',
       meetingTitle: 'Demo meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Umer Arshed',
       accepted: '3',
       notResponding: '33',
@@ -40,9 +40,6 @@ export const eventArray = [
     data: {
       email: 'umer.awan@ceative.co.uk',
       meetingTitle: 'Coordinator meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Ali Raza',
       accepted: '3',
       notResponding: '33',
@@ -57,9 +54,6 @@ export const eventArray = [
     data: {
       email: 'auns.ali@ceative.co.uk',
       meetingTitle: 'PM meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Faisal Naeem',
       accepted: '3',
       notResponding: '33',
@@ -74,9 +68,6 @@ export const eventArray = [
     data: {
       email: 'ahmer.raza@ceative.co.uk',
       meetingTitle: 'HR meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Muhammad Afaq',
       accepted: '3',
       notResponding: '33',
@@ -86,14 +77,11 @@ export const eventArray = [
   },
   {
     title: 'Testing 6',
-    start: '2024-04-29T10:00:00',
-    end: '2024-04-29T10:40:00',
+    start: '2024-04-29T11:15:00',
+    end: '2024-04-29T12:00:00',
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Ahsan Ali',
       accepted: '3',
       notResponding: '33',
@@ -103,14 +91,11 @@ export const eventArray = [
   },
   {
     title: 'Testing 7',
-    start: '2024-04-29T11:00:00',
-    end: '2024-04-29T11:10:00',
+    start: '2024-05-03T11:00:00',
+    end: '2024-05-03T14:10:00',
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Ahsan Ali',
       accepted: '3',
       notResponding: '33',
@@ -125,9 +110,6 @@ export const eventArray = [
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Ahsan Ali',
       accepted: '3',
       notResponding: '33',
@@ -142,9 +124,6 @@ export const eventArray = [
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Ahsan Ali',
       accepted: '3',
       notResponding: '33',
@@ -154,14 +133,11 @@ export const eventArray = [
   },
   {
     title: 'Testing 10',
-    start: '2024-04-30T13:00:00',
-    end: '2024-04-30T13:40:00',
+    start: '2024-05-03T13:00:00',
+    end: '2024-05-03T13:40:00',
     data: {
       email: 'ali.haider@ceative.co.uk',
       meetingTitle: 'Developer meeting',
-      date: 'MON 2/11/23',
-      startTime: '11:15 Am',
-      endTime: '12:00 Pm',
       invitedBy: 'Ahsan Ali',
       accepted: '3',
       notResponding: '33',
@@ -189,5 +165,32 @@ export const meetingCardArray = (theme: any) => [
     heading: 'Completed',
     meetingsCount: '3',
     color: theme?.palette?.success?.dark,
+  },
+];
+
+export const calendarButtons = [
+  {
+    id: 5575,
+    type: CALENDER_TYPES?.DAY_VIEW_CALENDER,
+    icon: <CalendarTodayIcon />,
+    label: 'Today',
+  },
+  {
+    id: 9009,
+    type: CALENDER_TYPES?.WEEK_VIEW_CALENDER,
+    icon: <DateRangeIcon />,
+    label: 'Weekly',
+  },
+  {
+    id: 7887,
+    type: CALENDER_TYPES?.MONTH_VIEW_CALENDER,
+    icon: <CalendarMonthIcon />,
+    label: 'Monthly',
+  },
+  {
+    id: 7569,
+    type: CALENDER_TYPES?.YEAR_VIEW_CALENDER,
+    icon: <EventAvailableIcon />,
+    label: 'Yearly',
   },
 ];

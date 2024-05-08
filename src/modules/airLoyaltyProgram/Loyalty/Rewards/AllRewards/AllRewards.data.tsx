@@ -1,7 +1,25 @@
 import { Avatar, Box, Chip, Typography } from '@mui/material';
 import { Circle } from '@mui/icons-material';
+import { LOYALTY_REWARDS_STATUS } from '@/constants/strings';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 
-export const loyaltyAllRewardColumnDynamic: any = () => [
+export const LOYALTY_REWARDS_STATUS_PILL: any = {
+  [LOYALTY_REWARDS_STATUS?.ACTIVE]: {
+    fontColor: 'success.main',
+    bgColor: 'success.lighter',
+    iconColor: 'success',
+  },
+  [LOYALTY_REWARDS_STATUS?.IN_ACTIVE]: {
+    fontColor: 'error.main',
+    bgColor: 'custom.error_lighter',
+    iconColor: 'error',
+  },
+};
+
+export const loyaltyAllRewardColumnDynamic: any = (
+  setIsRewardDetailsOpen: any,
+  overallPermissions: any,
+) => [
   {
     accessorFn: (row: any) => row?.title,
     id: 'title',
@@ -12,7 +30,7 @@ export const loyaltyAllRewardColumnDynamic: any = () => [
         <Avatar
           src={info?.row?.original?.icon?.src}
           alt={info?.row?.original?.icon?.name}
-        />{' '}
+        />
         <Typography
           variant="body4"
           sx={{
@@ -39,10 +57,15 @@ export const loyaltyAllRewardColumnDynamic: any = () => [
     cell: (info: any) => (
       <Chip
         sx={{
-          bgcolor: 'success.lighter',
-          color: 'success.main',
+          bgcolor: LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.bgColor,
+          color: LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.fontColor,
         }}
-        icon={<Circle color={'success'} sx={{ fontSize: '0.7rem' }} />}
+        icon={
+          <Circle
+            color={LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.iconColor}
+            sx={{ fontSize: '0.7rem' }}
+          />
+        }
         label={info?.getValue()}
       />
     ),
@@ -73,7 +96,26 @@ export const loyaltyAllRewardColumnDynamic: any = () => [
     id: 'totalRedeemed',
     isSortable: true,
     header: 'Total redeemed',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography
+        variant="body4"
+        sx={{ cursor: 'pointer' }}
+        onClick={() => {
+          if (
+            !overallPermissions?.includes(
+              AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.VIEW_REWARDS_DETAILS,
+            )
+          )
+            return;
+          setIsRewardDetailsOpen?.({
+            isOpen: true,
+            rewardType: info?.row?.original?.rewardType,
+          });
+        }}
+      >
+        {info?.getValue()}
+      </Typography>
+    ),
   },
   {
     accessorFn: (row: any) => row?.cost,

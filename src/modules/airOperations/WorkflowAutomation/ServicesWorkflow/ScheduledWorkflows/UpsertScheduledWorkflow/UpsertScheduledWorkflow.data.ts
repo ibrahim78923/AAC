@@ -1,8 +1,9 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
+import { LOGICS, MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   assetsFieldsOption,
+  notifyBeforeOptions,
   optionsConstants,
   taskFieldsOption,
   ticketsFields,
@@ -25,8 +26,8 @@ export const conditionTypeOptions = [
   { value: 'OR', label: 'Match ANY condition in this group' },
 ];
 
-export const actionsOptions = [
-  { value: 'status', label: 'Set Priority as' },
+export const actionsTicketOptions = [
+  { value: 'pirority', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
   { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
@@ -36,6 +37,22 @@ export const actionsOptions = [
   { value: 'department', label: 'Set Department as' },
   { value: 'agent', label: 'Assign to Agent' },
 ];
+export const actionsTaskOptions = [
+  { value: 'status', label: 'Set Status as' },
+  { value: 'plannedStartDate', label: 'Set planned Start dates as' },
+  { value: 'plannedEndDate', label: 'Set planned end dates as' },
+  { value: 'plannedEffort', label: 'Set planned Efforts as' },
+  { value: 'agent', label: 'Assign to Agent' },
+];
+export const actionsAssetOptions = [
+  { value: 'status', label: 'Set Status as' },
+  { value: 'impact', label: 'Set Impact as' },
+  { value: 'locationId', label: 'Set location as' },
+  { value: 'assetLifeExpiry', label: 'Set end of life as' },
+  { value: 'category', label: 'Set Category as' },
+  { value: 'department', label: 'Set Department as' },
+];
+
 export const scheduledSaveWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
 });
@@ -118,12 +135,23 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
     ...taskFieldsOption,
     ...assetsFieldsOption,
   ];
+  const allActionFields = [
+    ...actionsTicketOptions,
+    ...actionsTaskOptions,
+    ...actionsAssetOptions,
+  ];
   const type: any = {
     DAILY: 'daily',
     WEEKLY: 'weekly',
     MONTHLY: 'monthly',
     ANNUALLY: 'annually',
     CUSTOM: 'custom',
+  };
+
+  const constantsData = {
+    date: 'date',
+    object: 'objectId',
+    notifyBefore: 'notifyBefore',
   };
 
   const time =
@@ -155,15 +183,14 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
         )
       : null,
     module: singleWorkflowData?.module ?? SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
+    groupCondition: singleWorkflowData?.groupCondition ?? LOGICS?.AND,
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: any) => {
       return {
         name: group?.name ?? '',
-        conditionType: group?.conditionType
-          ? conditionTypeOptions?.find(
-              (item: any) => item?.value === group?.conditionType,
-            )
-          : null,
+        conditionType:
+          conditionTypeOptions?.find(
+            (type: any) => type?.value === group?.conditionType,
+          ) ?? null,
         conditions: group?.conditions?.map((condition: any, cIndex: number) => {
           return {
             options: optionsData,
@@ -174,13 +201,17 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
               : null,
             condition: condition?.condition ?? '',
             fieldValue:
-              condition?.fieldType === 'objectId'
+              condition?.fieldType === constantsData?.object
                 ? singleWorkflowData[
                     `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
-                : condition?.fieldType === 'date'
+                : condition?.fieldType === constantsData?.date
                   ? new Date(condition?.fieldValue)
-                  : condition?.fieldValue,
+                  : condition?.fieldName === constantsData?.notifyBefore
+                    ? notifyBeforeOptions?.find(
+                        (item: any) => item?.value === condition?.fieldValue,
+                      )
+                    : condition?.fieldValue,
           };
         }),
       };
@@ -201,14 +232,14 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
     actions: singleWorkflowData?.actions?.map(
       (action: any, aIndex: number) => ({
         fieldName: action?.fieldName
-          ? actionsOptions?.find(
+          ? allActionFields?.find(
               (item: any) => item?.value === action?.fieldName,
             )
           : null,
         fieldValue:
-          action?.fieldType === 'objectId'
+          action?.fieldType === constantsData?.object
             ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
-            : action?.fieldType === 'date'
+            : action?.fieldType === constantsData?.date
               ? new Date(action?.fieldValue)
               : action?.fieldValue,
       }),
