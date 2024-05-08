@@ -43,7 +43,7 @@ export const useUpsertEventBasedWorkflow = () => {
     addRequester: 'Add Requester',
     requester: 'users',
     setCategoryAs: 'Set Category as',
-    category: 'category',
+    category: 'servicecategories',
     users: 'users',
     usedBy: 'Used By',
     createdBy: 'Created By',
