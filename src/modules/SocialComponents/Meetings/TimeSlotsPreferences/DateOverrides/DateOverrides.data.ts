@@ -14,5 +14,5 @@ export const bufferTime = [
   '5 minutes',
   '10 Minutes',
   '15 Minutes',
-  '20   Minutes',
+  '20 Minutes',
 ];

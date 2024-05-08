@@ -7,7 +7,9 @@ import {
 import * as Yup from 'yup';
 
 export const contactsValidationSchema = Yup?.object()?.shape({
-  email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
+  existingContact: Yup?.string(),
+  contactStatus: Yup?.string(),
+  email: Yup?.string()?.email('Invalid email'),
   profilePicture: Yup?.string(),
   firstName: Yup?.string()
     ?.trim()
@@ -27,6 +29,8 @@ export const contactsValidationSchema = Yup?.object()?.shape({
 });
 
 export const contactsDefaultValues = {
+  existingContact: '',
+  contactStatus: 'New Contact',
   email: '',
   profilePicture: '',
   firstName: '',

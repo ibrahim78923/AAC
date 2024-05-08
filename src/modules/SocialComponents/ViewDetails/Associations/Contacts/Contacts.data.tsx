@@ -1,6 +1,6 @@
 import { Avatar, Box, Typography } from '@mui/material';
 
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import { IMG_URL } from '@/config';
 
 export const columns: any = ({
@@ -59,7 +59,7 @@ export const columns: any = ({
                 variant="body3"
                 sx={{ color: theme?.palette?.blue?.dull_blue }}
               >
-                {fullName} {lastName}
+                {fullName}
               </Typography>
               <br />
               <Typography variant="body3">{email}</Typography>
@@ -99,14 +99,7 @@ export const columns: any = ({
           >
             <ViewEyeIcon />
           </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setOpenDrawer('Edit'), setContactRecord(info?.row?.original);
-            }}
-          >
-            <EditPenIcon />
-          </Box>
+
           <Box
             sx={{ cursor: 'pointer' }}
             onClick={() => {

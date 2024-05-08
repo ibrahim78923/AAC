@@ -43,6 +43,7 @@ const Accounts = (props: any) => {
       totalRecords={userAccounts?.data?.meta?.total}
       isLoading={isLoading}
       isSuccess={isSuccess}
+      currentPage={userAccounts?.data?.meta?.page}
     />
   );
 };

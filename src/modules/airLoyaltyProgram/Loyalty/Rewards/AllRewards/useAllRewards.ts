@@ -3,6 +3,7 @@ import { useLazyGetLoyaltyAllRewardsListQuery } from '@/services/airLoyaltyProgr
 import { useEffect, useState } from 'react';
 import { loyaltyAllRewardColumnDynamic } from './AllRewards.data';
 import { getActivePermissionsSession } from '@/utils';
+import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 
 export const useAllRewards = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -25,6 +26,7 @@ export const useAllRewards = () => {
         page,
         limit: pageLimit,
         search,
+        type: LOYALTY_REWARDS_TYPE?.ALL,
       },
     };
     try {

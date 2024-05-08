@@ -5,59 +5,86 @@ import {
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
+import { PAGINATION } from '@/config';
+import {
+  LOYALTY_REWARDS_CLASS,
+  LOYALTY_REWARDS_TYPE,
+} from '@/constants/strings';
 
 import * as Yup from 'yup';
 
-export const addPhyicalRewardsValidationSchema = Yup?.object()?.shape({
+export const addPhysicalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Title is required'),
-  requiredPoints: Yup?.string()?.required('Required points are required'),
+  requiredPoints: Yup?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number')
+    ?.required('Required points are required'),
   addImage: Yup?.mixed()?.nullable(),
   visibleTo: Yup?.mixed()?.nullable()?.required('Visible To is required'),
-  costPrice: Yup?.string()?.required('Cost price is required'),
-  activeFrom: Yup?.date(),
-  activeTo: Yup?.date(),
-  untilDeactivateIt: Yup?.boolean(),
+  costPrice: Yup?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number')
+    ?.required('Cost price is required'),
+  activeFrom: Yup?.date()?.nullable(),
+  untilDeactivate: Yup?.boolean(),
+  activeTo: Yup?.date()
+    ?.nullable()
+    ?.when('untilDeactivate', {
+      is: (value: any) => !value,
+      then: (schema: any) => schema?.required('Active to is required'),
+      otherwise: (schema) => schema?.notRequired(),
+    }),
 });
 
 export const addDigitalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Title is required'),
-  requiredPoints: Yup?.string()?.required('Required points are required'),
+  requiredPoints: Yup?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number')
+    ?.required('Required points are required'),
   chooseCategory: Yup?.mixed()?.nullable()?.required('Category is required'),
   chooseVoucher: Yup?.mixed()?.nullable()?.required('Voucher is required'),
-  activeFrom: Yup?.date(),
-  activeTo: Yup?.date(),
-  untilDeactivateIt: Yup?.boolean(),
+  activeFrom: Yup?.date()?.nullable(),
+  untilDeactivate: Yup?.boolean(),
+  activeTo: Yup?.date()
+    ?.nullable()
+    ?.when('untilDeactivate', {
+      is: (value: any) => !value,
+      then: (schema: any) => schema?.required('Active to is required'),
+      otherwise: (schema) => schema?.notRequired(),
+    }),
 });
 
 export const REWARD_VALIDATION_SCHEMA: any = {
-  [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD]: addPhyicalRewardsValidationSchema,
+  [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD]: addPhysicalRewardsValidationSchema,
   [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD]: addDigitalRewardsValidationSchema,
 };
 
 export const addRewardsDefaultValues = {
   title: '',
-  requiredPoints: '',
+  requiredPoints: 0,
   chooseCategory: null,
   chooseVoucher: null,
-  visibleTo: null,
+  visibleTo: [],
   addImage: null,
-  costPrice: '',
+  costPrice: 0,
   activeFrom: new Date(),
-  activeTo: new Date(),
-  untilDeactivateIt: false,
+  activeTo: null,
+  untilDeactivate: false,
 };
 
 export const addRewardsFormFieldsDynamic = (
   customersApiQuery: any,
   vouchersApiQuery: any,
   tiersApiQuery: any,
+  watchForDeactivate: any,
 ) => [
   {
     id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
+      placeholder: 'Enter title',
       required: true,
       fullWidth: true,
     },
@@ -106,13 +133,16 @@ export const addRewardsFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       apiQuery: vouchersApiQuery,
+      externalParams: {
+        meta: false,
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+      },
       getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
     type: [LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD],
     md: 12,
   },
-
   {
     id: 5,
     componentProps: {
@@ -120,6 +150,10 @@ export const addRewardsFormFieldsDynamic = (
       label: 'Choose Category',
       fullWidth: true,
       required: true,
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        type: LOYALTY_REWARDS_CLASS?.TIERS,
+      },
       apiQuery: tiersApiQuery,
       getOptionLabel: (option: any) => option?.name,
     },
@@ -134,7 +168,12 @@ export const addRewardsFormFieldsDynamic = (
       label: 'Visible to',
       fullWidth: true,
       required: true,
+      multiple: true,
       apiQuery: customersApiQuery,
+      externalParams: {
+        meta: false,
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+      },
       getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
@@ -173,6 +212,9 @@ export const addRewardsFormFieldsDynamic = (
       name: 'activeTo',
       label: 'Active to',
       fullWidth: true,
+      disablePast: true,
+      disabled: watchForDeactivate,
+      required: !watchForDeactivate,
     },
     type: [
       LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,
@@ -184,7 +226,7 @@ export const addRewardsFormFieldsDynamic = (
   {
     id: 10,
     componentProps: {
-      name: 'untilDeactivateIt',
+      name: 'untilDeactivate',
       label: 'Until Deactivate it',
     },
     type: [
