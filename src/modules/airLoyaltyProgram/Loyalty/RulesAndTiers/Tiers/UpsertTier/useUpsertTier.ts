@@ -4,15 +4,17 @@ import {
   upsertTierDefaultValues,
   upsertTierValidationSchema,
 } from './UpsertTier.data';
+import { useState } from 'react';
 
 export const useUpsertTier = (props: any) => {
   const { setIsDrawerOpen } = props;
+  const [termData, setTermData] = useState(false);
   const upsertTierMethod = useForm({
     resolver: yupResolver(upsertTierValidationSchema),
     defaultValues: upsertTierDefaultValues,
   });
 
-  const { handleSubmit, reset } = upsertTierMethod;
+  const { handleSubmit, reset, watch } = upsertTierMethod;
 
   const submitTierForm = () => {
     closeUpsertTier?.();
@@ -28,5 +30,8 @@ export const useUpsertTier = (props: any) => {
     upsertTierMethod,
     handleSubmit,
     submitTierForm,
+    termData,
+    setTermData,
+    watch,
   };
 };
