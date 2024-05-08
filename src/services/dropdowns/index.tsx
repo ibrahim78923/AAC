@@ -54,6 +54,17 @@ export const dropdownsAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
     }),
+    getContactDropdown: builder?.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.CONTACTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contacts;
+      },
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -63,4 +74,5 @@ export const {
   useLazyGetFoldersQuery,
   useLazyGetAgentsQuery,
   useGetOrganizationUsersQuery,
+  useLazyGetContactDropdownQuery,
 } = dropdownsAPI;

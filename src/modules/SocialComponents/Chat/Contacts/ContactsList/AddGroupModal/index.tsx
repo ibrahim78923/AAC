@@ -44,7 +44,7 @@ const AddGroupModal = ({
     defaultValues: addGroupDefaultValues,
   });
 
-  const { handleSubmit, watch } = methodsAddGroup;
+  const { handleSubmit, watch, reset } = methodsAddGroup;
 
   const participantIds = watch('participant');
 
@@ -55,14 +55,20 @@ const AddGroupModal = ({
 
   const { user }: { user: any } = getSession();
 
-  const { data: chatsUsers } = useGetChatUsersQuery({
+  const [currentPage, setCurrentPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const pageLimit = PAGINATION?.PAGE_LIMIT;
+  const [searchValue, setSearchValue] = useState('');
+
+  const { data: chatsUsers, status } = useGetChatUsersQuery({
     params: {
       organization: user?.organization?._id,
-      page: PAGINATION?.CURRENT_PAGE,
-      limit: PAGINATION?.PAGE_LIMIT,
+      page: currentPage,
+      limit: pageLimit,
       role: user?.role,
+      search: searchValue,
     },
   });
+
   const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
     id: item?._id,
     label: `${item?.firstName} ${item?.lastName}`,
@@ -94,6 +100,10 @@ const AddGroupModal = ({
       participant: participant?.label,
     }));
 
+  const exceptCurrentUser =
+    transformedData &&
+    transformedData?.filter((item: any) => item?.id !== user?._id);
+
   useEffect(() => {
     setParticipantsIdsValues(participantIds);
   }, [participantIds]);
@@ -110,16 +120,19 @@ const AddGroupModal = ({
       await createNewGroup({
         body: formData,
       })?.unwrap();
-      enqueueSnackbar('successfully', {
+      enqueueSnackbar('Group created successfully', {
         variant: 'success',
       });
+      setIsAddGroupModal(false);
+      setImagePreview(null);
+      setImageToUpload(null);
+      reset();
     } catch (error: any) {
       enqueueSnackbar('An error occurred', {
         variant: 'error',
       });
     }
   };
-
   const handleImageChange = async (e: any) => {
     const selectedImage = e?.target?.files[0];
     setImageToUpload(selectedImage);
@@ -135,8 +148,14 @@ const AddGroupModal = ({
   return (
     <CommonModal
       open={isAddGroupModal}
-      handleClose={() => setIsAddGroupModal(false)}
-      handleCancel={() => setIsAddGroupModal(false)}
+      handleClose={() => {
+        setIsAddGroupModal(false);
+        reset();
+      }}
+      handleCancel={() => {
+        setIsAddGroupModal(false);
+        reset();
+      }}
       handleSubmit={handleSubmit(onSubmit)}
       title="Create Group"
       okText="Create Group"
@@ -211,7 +230,15 @@ const AddGroupModal = ({
                 label="Add Participant"
                 size="small"
                 setValues={setValues}
-                options={transformedData ?? []}
+                options={exceptCurrentUser ?? []}
+                isPagination={true}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={chatsUsers?.data?.meta?.pages}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                customSearch={true}
+                isLoading={status === 'pending' ? true : false}
               />
             </Grid>
           </Grid>

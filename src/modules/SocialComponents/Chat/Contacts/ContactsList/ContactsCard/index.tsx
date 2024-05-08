@@ -124,11 +124,6 @@ const ContactsCard = ({
     }
   }, [isCardHover, selectedValues]);
 
-  const handleButtonClick = () => {
-    handleCurrentUserSelect();
-    handleManualRefetch();
-  };
-
   const activeConversation = useAppSelector(
     (state) => state?.chat?.activeConversation,
   );
@@ -139,9 +134,18 @@ const ContactsCard = ({
       : null,
   );
 
+  const handleButtonClick = () => {
+    if (!isActiveUser) {
+      handleCurrentUserSelect();
+      handleManualRefetch();
+    }
+  };
+
   const handelDeleteChatList = () => {
     updateChatHandler('isDeleted');
     setIsDeleteModal(false);
+    dispatch(setChatMessages([]));
+    dispatch(setActiveReceiverId(null));
   };
   return (
     <>
