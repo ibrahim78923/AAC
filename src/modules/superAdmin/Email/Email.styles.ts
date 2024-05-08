@@ -53,4 +53,17 @@ export const styles = {
     border: `1px solid ${theme?.palette?.grey[700]}`,
     cursor: 'pointer',
   }),
+  overlayWrapper: (theme: any) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '10px',
+    height: '85vh',
+    width: '100%',
+    left: '0',
+    position: 'absolute',
+    zIndex: '1',
+    backgroundColor: theme?.palette?.custom?.translucent_white,
+    backdropFilter: 'blur(2px)',
+  }),
 };

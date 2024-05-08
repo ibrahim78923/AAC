@@ -1,6 +1,4 @@
-import React, { useEffect, useRef } from 'react';
-
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -27,19 +25,19 @@ import useSendEmailDrawer from './useSendEmailDrawer';
 import { CREATE_EMAIL_TYPES } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import { UnixDateFormatter } from '@/utils/dateTime';
-import { enqueueSnackbar } from 'notistack';
+import { styles } from '../Email.styles';
 
 const SendEmailDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, drawerType, setMailType } = props;
-
+  const { openDrawer, setOpenDrawer, drawerType } = props;
   const {
     handleSubmit,
     onSubmit,
     methodsDealsTasks,
     watchEmailsForm,
     theme,
-    reset,
     loadingOtherSend,
+    isLoadingProcessDraft,
+    handleOnClose,
   } = useSendEmailDrawer({ setOpenDrawer, drawerType });
 
   const isCrmConnected = false;
@@ -47,29 +45,8 @@ const SendEmailDrawer = (props: any) => {
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.email?.currentEmailAssets,
   );
-
   const removeRePrefix = (title: any) => {
     return title?.startsWith('Re: ') ? title?.replace(/^Re: /, '') : title;
-  };
-
-  const drawerTypeRef = useRef(drawerType);
-
-  useEffect(() => {
-    drawerTypeRef.current = drawerType;
-  }, [drawerType]);
-
-  const handleOnClose = () => {
-    setOpenDrawer(false);
-    reset();
-    if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
-      setMailType(CREATE_EMAIL_TYPES?.DRAFT);
-    }
-    enqueueSnackbar('Processing draft', { variant: 'info' });
-    setTimeout(() => {
-      if (drawerTypeRef?.current === CREATE_EMAIL_TYPES?.DRAFT) {
-        handleSubmit(onSubmit)();
-      }
-    }, 1000);
   };
 
   return (
@@ -103,6 +80,13 @@ const SendEmailDrawer = (props: any) => {
         footerActionTextIcon={<TimeClockIcon />}
         submitHandler={handleSubmit(onSubmit)}
       >
+        {isLoadingProcessDraft && (
+          <Box sx={styles?.overlayWrapper(theme)}>
+            <CircularProgress size={20} />
+            <Typography variant="body1">Saving Draft</Typography>
+          </Box>
+        )}
+
         <Box sx={{ pt: 2 }}>
           <FormProvider
             methods={methodsDealsTasks}
