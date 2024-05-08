@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 import useDealTab from '../DealTab/useDealTab';
 import { getSession } from '@/utils';
+import { userRole } from '@/routesConstants/paths';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -22,10 +23,10 @@ export const defaultValues = {
 export const CreateViewData = (dealPipelineId: string | null) => {
   const { pipelineData } = useDealTab();
   const { user } = getSession();
-  const userRole = 'ORG_EMPLOYEE';
+  const Role = userRole;
   const organizationId: any = user?.organization?._id;
   const { data: UserListData } = useGetUsersListQuery({
-    role: userRole,
+    role: Role,
     organization: organizationId,
   });
   const filteredStages = pipelineData?.data?.dealpipelines?.find(

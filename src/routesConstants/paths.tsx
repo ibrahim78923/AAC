@@ -285,3 +285,5 @@ export const quoteStatus = {
   draft: 'DRAFT',
   published: 'PUBLISHED',
 };
+
+export const userRole = 'ORG_EMPLOYEE';

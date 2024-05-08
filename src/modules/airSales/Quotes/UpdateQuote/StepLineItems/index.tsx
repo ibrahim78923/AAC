@@ -21,48 +21,6 @@ const StepLineItems = ({ openCreateProduct }: any) => {
   if (router?.query?.data) {
     quoteId = router?.query?.data;
   }
-  //  const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
-
-  // const param = {
-  //   applyOn: 'quotes',
-  // };
-  // const { data: taxCalculation } = useGetTaxCalculationsQuery(param);
-  // const [search, setSearch] = useState('');
-
-  // // const { data } = router?.query;
-
-  // const taxCalculationPerc = taxCalculation?.data?.taxCalculations;
-  // const gettingDiscount = dataGetQuoteById?.data?.products[0]?.unitDiscount;
-
-  // const { data: productsData } = useGetQuoteByIdQuery({
-  //   id: quoteId,
-  //   ...(search && { productSearchKeyword: search }),
-  // });
-  // const sum = productsData?.data?.products?.reduce(
-  //   (accumulator: any, currentValue: any) =>
-  //     accumulator + currentValue?.unitPrice * currentValue?.quantity,
-  //   0,
-  // );
-
-  // const totalDisc = productsData?.data?.products?.reduce(
-  //   (accumulator: any, currentValue: any) =>
-  //     accumulator + (currentValue?.unitPrice * currentValue?.quantity) / 100,
-  //   0,
-  // );
-
-  // const unitDiscount = productsData?.data?.products?.reduce(
-  //   (accumulator: any, currentValue: any) =>
-  //     accumulator + currentValue?.unitDiscount * currentValue?.quantity,
-  //   0,
-  // );
-  // let totalPercentage = 0;
-  // if (taxCalculationPerc && Array.isArray(taxCalculationPerc)) {
-  //   for (const tax of taxCalculationPerc) {
-  //     totalPercentage += tax.percentage;
-  //   }
-  // }
-  // const percentageOfSubtotal = sum * (totalPercentage / 100);
-  // const FinalTotal = percentageOfSubtotal - gettingDiscount;
 
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
   const param = {

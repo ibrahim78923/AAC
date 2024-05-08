@@ -27,10 +27,7 @@ const CreateView = ({ open, onClose }: any) => {
 
   const onSubmit = (values: any) => {
     const paramsObj: any = {};
-    //   if (values?.dateStart)
-    //     paramsObj['dateStart'] = dayjs(values?.dateStart)?.format(
-    //   DATE_FORMAT?.API,
-    // );
+
     if (values?.CloseDate)
       paramsObj['CloseDate'] = dayjs(values?.CloseDate)?.format(
         DATE_FORMAT?.API,

@@ -11,7 +11,6 @@ import { ExpandMore } from '@mui/icons-material';
 import { SwitchBtn } from '@/components/SwitchButton';
 
 import * as Yup from 'yup';
-// import useCampaigns from '../useCampaigns';
 
 export const data: any = [
   {
@@ -67,8 +66,6 @@ export const data: any = [
 ];
 
 export const columns: any = () => {
-  // const {campaignsData}=useCampaigns();
-  // const campaignsValue=campaignsData?.data?.campaigns
   return [
     {
       accessorFn: (row: any) => row?.id,

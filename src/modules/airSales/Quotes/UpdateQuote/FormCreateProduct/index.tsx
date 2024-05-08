@@ -152,7 +152,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
           <Grid container spacing={'22px'}>
             {addContactFields(productCatagories?.data?.productcategories)?.map(
               (item: any) => (
-                <Grid item xs={12} key={item.name}>
+                <Grid item xs={12} key={item?.id}>
                   <item.component
                     disabled={disableForm}
                     {...item?.componentProps}

@@ -1,9 +1,7 @@
 import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { styles } from './BuyerCompany.style';
-// import { AvatarCompanyImage } from '@/assets/images';
 import useUpdateQuote from '../../useUpdateQuote';
 import { generateImage } from '@/utils/avatarUtils';
-// import { getSession } from '@/utils';
 
 const BuyerCompany = () => {
   const { dataGetQuoteById } = useUpdateQuote();
