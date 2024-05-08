@@ -27,8 +27,8 @@ export const columns: any = [
         <MenuItem value={10}>Mandatory Fields</MenuItem>
         <MenuItem value={20}>Domain Name</MenuItem>
         <MenuItem value={30}>Company Name</MenuItem>
-        <MenuItem value={30}>Optional Fields</MenuItem>
-        <MenuItem value={30}>Marketing Owner</MenuItem>
+        <MenuItem value={40}>Optional Fields</MenuItem>
+        <MenuItem value={50}>Marketing Owner</MenuItem>
       </Select>
     ),
   },

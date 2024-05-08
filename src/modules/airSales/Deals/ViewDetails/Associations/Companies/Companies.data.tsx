@@ -30,7 +30,7 @@ export const columns: any = ({
               variant="body3"
               sx={{ color: theme?.palette?.blue?.dull_blue }}
             >
-              {info?.row?.original?.name}
+              {info?.row?.original?.name ?? 'N/A'}
             </Typography>
             <br />
             <Typography variant="body3">
@@ -48,7 +48,7 @@ export const columns: any = ({
       id: 'Phone Number',
       isSortable: true,
       header: ' Phone Number',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
 
     {
@@ -57,7 +57,7 @@ export const columns: any = ({
       id: 'owner',
       isSortable: true,
       header: 'Company Owner',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
 
     {

@@ -14,7 +14,12 @@ export const MeetingCard = (props: any) => {
       padding={1.5}
       borderRadius={2}
       marginBottom={2}
-      sx={{ cursor: 'pointer' }}
+      sx={{
+        cursor: 'pointer',
+        '&:hover': {
+          boxShadow: `0px 0px 1px 1px ${color}`,
+        },
+      }}
       onClick={() =>
         router?.push({
           pathname: SOCIAL_COMPONENTS?.MEETINGS,

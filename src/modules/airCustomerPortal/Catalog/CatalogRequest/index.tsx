@@ -17,6 +17,7 @@ export const CatalogRequest = ({ open, setOpen, servicesDetails }: any) => {
     getValues,
     handleClose,
     searchStringLowerCase,
+    postTicketStatus,
   } = useCatalogRequest(servicesDetails, setOpen);
 
   return (
@@ -25,21 +26,27 @@ export const CatalogRequest = ({ open, setOpen, servicesDetails }: any) => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        maxWidth="xs"
+        fullWidth
       >
         <DialogTitle>
-          <Typography variant="h4">Item Requested</Typography>
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: (theme) => theme?.palette?.grey?.[500],
-            }}
+          <Box
+            display={'flex'}
+            justifyContent={'space-between'}
+            gap={2}
+            flexWrap={'wrap'}
           >
-            <CloseIcon />
-          </IconButton>
+            <Typography variant="h4">Item Requested</Typography>
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                color: (theme) => theme?.palette?.grey?.[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
         </DialogTitle>
 
         <DialogContent dividers>
@@ -64,15 +71,21 @@ export const CatalogRequest = ({ open, setOpen, servicesDetails }: any) => {
                 );
               })}
             </Grid>
+            <br />
             <Box display={'flex'} justifyContent={'flex-end'} gap={1}>
               <LoadingButton
                 variant="outlined"
                 color="secondary"
                 onClick={handleClose}
+                disabled={postTicketStatus?.isLoading}
               >
                 cancel
               </LoadingButton>
-              <LoadingButton variant="contained" type="submit">
+              <LoadingButton
+                variant="contained"
+                type="submit"
+                loading={postTicketStatus?.isLoading}
+              >
                 confirm
               </LoadingButton>
             </Box>

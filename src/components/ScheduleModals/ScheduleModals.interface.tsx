@@ -8,4 +8,5 @@ export interface ModelPropsI {
   submitButonText: string;
   isFooter?: boolean;
   loading?: boolean;
+  disabledSubmitButton?: boolean;
 }
