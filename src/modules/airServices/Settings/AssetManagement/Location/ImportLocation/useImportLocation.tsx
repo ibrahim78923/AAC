@@ -1,46 +1,45 @@
-import { useTheme } from '@mui/material';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  importLocationValidationSchema,
-  importLocationDefaultValue,
-} from './ImportLocation.data';
+import { FIELD_TYPES, IMPORT_ACTION_TYPE } from '@/constants/strings';
+import { useImportFileMutation } from '@/services/airServices/global/import';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { CRM_COLUMNS_LOCATION } from './ImportLocation.data';
 
 export const useImportLocation = (props: any) => {
   const { setIsDrawerOpen } = props;
 
-  const router = useRouter();
-  const theme: any = useTheme();
+  const [importFileTrigger, importFileStatus] = useImportFileMutation?.();
 
-  const methods: any = useForm<any>({
-    resolver: yupResolver(importLocationValidationSchema),
-    defaultValues: importLocationDefaultValue,
-  });
+  const setDrawerDefaultState = () => {
+    setIsDrawerOpen?.(false);
+  };
 
-  const { handleSubmit, reset } = methods;
-  const submitImportLocation = async () => {
+  const filterMandatoryFields = () => {
+    return CRM_COLUMNS_LOCATION?.filter(
+      (column: any) => column?.groupBy === FIELD_TYPES?.MANDATORY_FIELD,
+    );
+  };
+
+  const submitImport = async (apiData: any) => {
+    const apiImportData = {
+      body: {
+        filePath: apiData?.filePath,
+        actionType: IMPORT_ACTION_TYPE?.PRODUCT_CATALOG,
+        dataColumn: apiData?.dataColumn,
+      },
+    };
+    //TODO: will handle here once import is given by BE just test here the global import
+    return;
     try {
-      successSnackbar('Import Successfully');
-      reset(importLocationDefaultValue);
-      setIsDrawerOpen?.(false);
-    } catch (error) {
-      errorSnackbar(error);
+      const response: any = await importFileTrigger?.(apiImportData)?.unwrap();
+      successSnackbar(response?.message);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
-  const onClose = () => {
-    reset(importLocationDefaultValue);
-    setIsDrawerOpen(false);
-  };
-
   return {
-    router,
-    theme,
-    handleSubmit,
-    submitImportLocation,
-    methods,
-    onClose,
+    setDrawerDefaultState,
+    submitImport,
+    importFileStatus,
+    filterMandatoryFields,
   };
 };

@@ -3,13 +3,12 @@ import { Box, CircularProgress, Typography, useTheme } from '@mui/material';
 import ChatFooter from './ChatFooter';
 import { AlertModals } from '@/components/AlertModals';
 import ChatBox from './ChatBox';
-import { chatsData } from '@/mock/modules/SocialComponents/Chat';
 
 import { customEmojis } from './ChatField.data';
 
 import { useChatField } from './useChatField.hook';
 
-import { getSession, isNullOrEmpty } from '@/utils';
+import { getSession } from '@/utils';
 
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
@@ -92,8 +91,7 @@ const ChatField = ({ isError }: any) => {
               </Box>
             )}
             <Box sx={{ paddingTop: '30px' }}>
-              {!isNullOrEmpty(chatsData) &&
-                chatDataToShow &&
+              {chatDataToShow?.length ? (
                 chatDataToShow
                   ?.slice()
                   ?.reverse()
@@ -112,7 +110,25 @@ const ChatField = ({ isError }: any) => {
                         />
                       </>
                     );
-                  })}
+                  })
+              ) : (
+                <>
+                  {!isChatMessagesLoading && (
+                    <Box
+                      sx={{
+                        background: theme?.palette?.grey[700],
+                        padding: '5px 10px',
+                        borderRadius: '4px',
+                        width: 'fit-content',
+                        margin: '0 auto',
+                        marginTop: '-50px',
+                      }}
+                    >
+                      <Typography variant="body2">Start a new chat</Typography>
+                    </Box>
+                  )}
+                </>
+              )}
             </Box>
           </>
         )}

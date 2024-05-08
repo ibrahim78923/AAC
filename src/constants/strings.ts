@@ -400,6 +400,7 @@ export const MODULE_TYPE = {
   LOCATION: 'LOCATION',
   ASSETS: 'ASSETS',
   TICKET: 'TICKET',
+  CUSTOMER_PORTAL: 'CUSTOMER_PORTAL',
 };
 export const TICKET_SELECTION_TYPE = {
   REQUESTER: 'REQUESTER',
@@ -521,8 +522,8 @@ export const OPERATORS = {
 };
 
 export const LOYALTY_REWARDS_TYPE = {
-  PHYSICAL_REWARD: 'physicalReward',
-  DIGITAL_REWARD: 'digitalReward',
+  PHYSICAL_REWARD: 'PHYSICAL_REWARD',
+  DIGITAL_REWARD: 'DIGITAL_REWARD',
 };
 
 export const RULES_BENEFIT_TYPE = {
@@ -548,4 +549,39 @@ export const DRAWER_TYPES = {
   ADD: 'add',
   VIEW: 'view',
   UPDATE: 'update',
+};
+
+export const LOYALTY_SHOP_TYPE = {
+  ON_SITE: 'ONSITE',
+  DEPARTMENT: 'DEPARTMENT',
+  HEADQUARTERS: 'HEADQUARTERS',
+  POINT_OF_SALE: 'POINT_OF_SALES',
+  WEB_SHOP: 'WEBSHOP',
+};
+
+export const LOGICS = {
+  AND: 'AND',
+  OR: 'OR',
+};
+export const LOYALTY_REWARDS_STATUS = {
+  ACTIVE: 'ACTIVE',
+  IN_ACTIVE: 'IN_ACTIVE',
+};
+
+export const FIELD_TYPES = {
+  MANDATORY_FIELD: 'Mandatory Field',
+  OPTIONAL_FIELD: 'Optional Field',
+};
+
+export const UPSERT_SHOP_FORM_CONSTANT = {
+  EDIT: 'Edit',
+  SUBMIT: 'Submit',
+  UPDATE_SHOP: 'Update Shop',
+  NEW_SHOP: 'New Shop',
+};
+export const TIME_UNITS = {
+  MS: 1000,
+  SEC_PER_HOUR: 3600,
+  HOURS_PER_DAY: 24,
+  MS_PER_MINUTE: 60000,
 };

@@ -53,6 +53,7 @@ const ChatFooter = ({ setChangeScroll }: any) => {
 
   const [imageToUpload, setImageToUpload] = useState([]);
   const [attachmentType, setAttachmentType] = useState('');
+  const [isMessageLoading, setIsMessageLoading] = useState(false);
 
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
   const activeReply = useAppSelector((state) => state?.chat?.activeReply);
@@ -83,6 +84,7 @@ const ChatFooter = ({ setChangeScroll }: any) => {
   };
 
   const setAddMessageHandler = () => {
+    setIsMessageLoading(true);
     const addMessagePayloadFrGroup = {
       chatId: activeChatId && activeChatId,
       content: messageText,
@@ -122,6 +124,7 @@ const ChatFooter = ({ setChangeScroll }: any) => {
         setImageToUpload([]);
         dispatch(setActiveReply({}));
         setChangeScroll(response?.data);
+        setIsMessageLoading(false);
       },
     );
   };
@@ -148,6 +151,7 @@ const ChatFooter = ({ setChangeScroll }: any) => {
     useChatAttachmentUploadMutation();
 
   const handleImage = async (e: any) => {
+    e.preventDefault();
     handleCloseAttachment();
     const formData = new FormData();
     for (let i = 0; i < e?.target?.files?.length; i++) {
@@ -220,7 +224,7 @@ const ChatFooter = ({ setChangeScroll }: any) => {
 
         <Box sx={styles?.chatFooter}>
           {isLoading ? (
-            <CircularProgress color="success" />
+            <CircularProgress color="success" size={20} />
           ) : (
             <Button
               sx={styles?.unStyledButton}
@@ -250,15 +254,18 @@ const ChatFooter = ({ setChangeScroll }: any) => {
                 Select Attachment Type
               </Typography>
               <Box sx={{ display: 'flex', gap: '10px' }}>
-                <input
-                  hidden
-                  type="file"
-                  id="upload-button"
-                  multiple
-                  accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                <form onSubmit={(e) => e.preventDefault()}>
+                  <input
+                    hidden
+                    type="file"
+                    id="upload-button"
+                    multiple
+                    accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
                             text/plain, application/pdf, image/*"
-                  onChange={(e: any) => handleImage(e)}
-                />
+                    onChange={(e: any) => handleImage(e)}
+                  />
+                </form>
+
                 <label
                   htmlFor="upload-button"
                   style={styles?.customButtons(theme)}
@@ -303,9 +310,13 @@ const ChatFooter = ({ setChangeScroll }: any) => {
           >
             <StickerIcon />
           </Button>
-          <Button sx={styles?.unStyledButton} onClick={setAddMessageHandler}>
-            <PostIcon />
-          </Button>
+          {isMessageLoading ? (
+            <CircularProgress color="success" size={20} />
+          ) : (
+            <Button sx={styles?.unStyledButton} onClick={setAddMessageHandler}>
+              <PostIcon />
+            </Button>
+          )}
         </Box>
       </Box>
 

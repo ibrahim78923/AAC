@@ -8,7 +8,7 @@ export const useTransactionFilter = (props: any) => {
     useLazyGetTransactionListQuery();
   const { setOpenDrawer } = props;
   const handleCloseDrawer = () => {
-    setOpenDrawer(false);
+    setOpenDrawer('');
   };
   const methods: any = useForm({
     defaultValues,

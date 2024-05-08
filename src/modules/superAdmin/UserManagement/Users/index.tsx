@@ -14,8 +14,8 @@ const Users = (props: any) => {
     limit: pageLimit,
     role: 'ORG_ADMIN',
     search: searchVal ?? '',
-    products: filterValues?.products ?? '',
-    organization: filterValues?.organization ?? '',
+    products: filterValues?.products?._id ?? '',
+    organization: filterValues?.organization?._id ?? '',
     createdAt: filterValues?.createdDate
       ? dayjs(filterValues?.createdDate).format(DATE_FORMAT?.API)
       : undefined,
