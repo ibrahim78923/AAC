@@ -1,5 +1,6 @@
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -64,6 +65,36 @@ export const attributesData = [
   },
 ];
 
+export const namesOperator = [
+  { value: 'equals', label: 'Equal' },
+  { value: 'not equals', label: 'Not Equal' },
+  { value: 'is known', label: 'Known' },
+  { value: 'is unknown', label: 'Unknown' },
+];
+export const dateOperator = [
+  { value: 'equals', label: 'Equal' },
+  { value: 'not equals', label: 'Not Equal' },
+  { value: 'contains', label: 'Contains' },
+  { value: 'is known', label: 'Known' },
+  { value: 'is unknown', label: 'Unknown' },
+];
+export const ageOperator = [
+  { value: 'equals', label: 'Equal' },
+  { value: 'not equals', label: 'Not Equal' },
+  { value: 'greater than', label: 'Greater Than' },
+  { value: 'less than', label: 'Less Than' },
+  { value: 'is known', label: 'Known' },
+  { value: 'is unknown', label: 'Unknown' },
+];
+export const lastTransactionOperator = [
+  { value: 'equals', label: 'Equal' },
+  { value: 'not equals', label: 'Not Equal' },
+  { value: 'before', label: 'Before' },
+  { value: 'after', label: 'After' },
+  { value: 'is known', label: 'Known' },
+  { value: 'is unknown', label: 'Unknown' },
+];
+
 export const upsertTierValidationSchema: any = Yup?.object()?.shape({
   tierName: Yup?.string()?.required('Required'),
   tierDescription: Yup?.string()?.required('Required'),
@@ -72,7 +103,8 @@ export const upsertTierValidationSchema: any = Yup?.object()?.shape({
   points: Yup?.number()?.nullable(),
   type: Yup?.string(),
   attributes: Yup?.mixed()?.nullable(),
-  operator: Yup?.mixed()?.nullable(),
+  operators: Yup?.mixed()?.nullable(),
+  fieldValue: Yup?.string(),
 });
 
 export const upsertTierDefaultValues = {
@@ -83,10 +115,124 @@ export const upsertTierDefaultValues = {
   points: null,
   type: '',
   attributes: null,
-  operator: null,
+  operators: null,
+  fieldValue: '',
 };
 
-export const upsertTierDataArray = (termData: any) => {
+export const constantsValues = {
+  SELECT_CONTACT: 'Contact',
+  firstName: 'First Name',
+  lastName: 'Last Name',
+  address: 'Address',
+  phoneNumber: 'Telephone number',
+  AGE: 'Age',
+  LAST_TRANSACTION_DATE: 'Last transaction date',
+  NO_OF_TRANSACTIONS: 'Number of transactions',
+  TOTAL_RECEIVED_CREDITS: 'Total credits received',
+};
+
+export const operatorsConstantsValues = {
+  equals: 'Equal',
+  notEquals: 'Not Equal',
+  isKnown: 'Known',
+  isUnknown: 'Unknown',
+  contains: 'Contains',
+  greaterThan: 'Greater Than',
+  lessThan: 'Less Than',
+  before: 'Before',
+  after: 'After',
+};
+
+export const upsertTierDataArray = (termData: any, watch: any) => {
+  const attributesValues = watch('attributes');
+  const selectedAttributesValues = attributesValues?.label;
+
+  const operatorsValues = watch('operators');
+  const selectedOperatorsValue = operatorsValues?.label;
+
+  let componentProps: any = {};
+  let component: any = Box;
+
+  if (selectedAttributesValues === constantsValues?.SELECT_CONTACT) {
+    component = RHFAutocompleteAsync;
+    componentProps = {
+      placeholder: 'select',
+      apiQuery: namesOperator,
+      getOptionLabel: (option: any) => option?.contactName,
+    };
+  } else if (
+    [constantsValues?.firstName, constantsValues?.lastName]?.includes(
+      selectedAttributesValues,
+    )
+  ) {
+    component = RHFAutocomplete;
+    componentProps = {
+      placeholder: 'select',
+      options: namesOperator,
+      getOptionLabel: (option: any) => option?.label,
+    };
+  } else if (
+    [constantsValues?.address, constantsValues?.phoneNumber]?.includes(
+      selectedAttributesValues,
+    )
+  ) {
+    component = RHFAutocomplete;
+    componentProps = {
+      placeholder: 'select',
+      options: dateOperator,
+      getOptionLabel: (option: any) => option?.label,
+    };
+  } else if (
+    [
+      constantsValues?.AGE,
+      constantsValues?.NO_OF_TRANSACTIONS,
+      constantsValues?.TOTAL_RECEIVED_CREDITS,
+    ]?.includes(selectedAttributesValues)
+  ) {
+    component = RHFAutocomplete;
+    componentProps = {
+      placeholder: 'select',
+      options: ageOperator,
+      getOptionLabel: (option: any) => option?.label,
+    };
+  } else if (
+    [constantsValues?.LAST_TRANSACTION_DATE]?.includes(selectedAttributesValues)
+  ) {
+    component = RHFAutocomplete;
+    componentProps = {
+      placeholder: 'select',
+      options: lastTransactionOperator,
+      getOptionLabel: (option: any) => option?.label,
+    };
+  } else {
+    component = Box;
+  }
+  let componentPropsTwo: any = {};
+  let componentTwo: any = Box;
+  if (
+    [
+      operatorsConstantsValues?.after,
+      operatorsConstantsValues?.before,
+      operatorsConstantsValues?.contains,
+      operatorsConstantsValues?.equals,
+      operatorsConstantsValues?.greaterThan,
+      operatorsConstantsValues?.lessThan,
+      operatorsConstantsValues?.notEquals,
+    ]?.includes(selectedOperatorsValue)
+  ) {
+    componentTwo = RHFTextField;
+    componentPropsTwo = {
+      label: selectedAttributesValues,
+      placeholder: `Enter ${selectedAttributesValues}`,
+    };
+  } else if (
+    [
+      operatorsConstantsValues?.isKnown,
+      operatorsConstantsValues?.isUnknown,
+    ]?.includes(selectedOperatorsValue)
+  ) {
+    componentTwo = Box;
+  }
   if (!termData) {
     return [
       {
@@ -218,13 +364,21 @@ export const upsertTierDataArray = (termData: any) => {
       {
         id: 10,
         componentProps: {
-          name: 'operator',
-          label: 'Operator',
-          placeholder: 'Contact',
-          disabled: true,
+          name: 'operators',
+          label: 'Operators',
           fullWidth: true,
+          ...componentProps,
         },
-        component: RHFTextField,
+        component: component,
+      },
+      {
+        id: 11,
+        componentProps: {
+          name: 'fieldValues',
+          fullWidth: true,
+          ...componentPropsTwo,
+        },
+        component: componentTwo,
       },
     ];
   }

@@ -38,6 +38,16 @@ export const tiersAPI = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
+    getContactsDropdownForTiers: builder?.query({
+      query: ({ params }: any) => ({
+        url: ``,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contacts ?? [];
+      },
+    }),
   }),
 });
 
@@ -48,4 +58,5 @@ export const {
   useDeleteTiersMutation,
   useEditSingleTiersMutation,
   useGetSingleTiersDetailsQuery,
+  useGetContactsDropdownForTiersMutation,
 } = tiersAPI;

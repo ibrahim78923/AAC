@@ -24,7 +24,6 @@ export const useUpsertTier = (props: any) => {
     reset?.();
     setIsDrawerOpen?.({});
   };
-
   return {
     closeUpsertTier,
     upsertTierMethod,

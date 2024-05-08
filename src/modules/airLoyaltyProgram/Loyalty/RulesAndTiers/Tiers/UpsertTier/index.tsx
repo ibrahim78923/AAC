@@ -13,6 +13,7 @@ export const UpsertTier = (props: any) => {
     upsertTierMethod,
     termData,
     setTermData,
+    watch,
   } = useUpsertTier(props);
 
   return (
@@ -20,8 +21,8 @@ export const UpsertTier = (props: any) => {
       isOk
       variant={'contained'}
       isDrawerOpen={isDrawerOpen}
-      onClose={!termData ? () => closeUpsertTier?.() : () => setTermData(false)}
-      okText={!!tierId ? 'Update' : 'Create'}
+      onClose={() => closeUpsertTier?.()}
+      okText={!termData ? (!!tierId ? 'Update' : 'Create') : 'Done'}
       title={!!tierId ? 'Edit Tier' : 'Create Tier'}
       submitHandler={
         !termData
@@ -30,15 +31,21 @@ export const UpsertTier = (props: any) => {
       }
       isFooterFeatureText="Define Term"
       isFooterFeatureHandler={() => setTermData(true)}
-      cancelText={!termData ? 'Cancel' : 'Done'}
+      cancelText={'Cancel'}
       footer
-      isFooterFeature
+      isFooterFeature={!termData}
     >
       <Box mt={1}>
         <FormProvider methods={upsertTierMethod}>
           <Grid container spacing={2}>
-            {upsertTierDataArray(termData)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
+            {upsertTierDataArray(termData, watch)?.map((item: any) => (
+              <Grid
+                item
+                xs={12}
+                md={item?.md}
+                key={item?.id}
+                display={item?.component === Box ? 'none' : 'block'}
+              >
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.heading && item?.heading}
                 </item.component>
