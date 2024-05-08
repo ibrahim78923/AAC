@@ -35,8 +35,9 @@ export const optionsConstant = {
   startDate: 'Set planned Start dates as',
   endDate: 'Set planned end dates as',
   plannedEffort: 'Set planned Efforts as',
-  status: 'Set Status as',
   setLocationAs: 'Set location as',
+  status: 'Set Status as',
+  usedBy: 'Set used by as',
 };
 export const actionsData = ({
   index,
@@ -45,6 +46,7 @@ export const actionsData = ({
   departmentApiQuery,
   apiQueryCategories,
   apiQueryLocations,
+  apiUsersListDropdown,
 }: any) => {
   const moduleTypeOptions = watch('module');
 
@@ -66,6 +68,8 @@ export const actionsData = ({
       return apiQueryCategories;
     } else if (selectedLabel === optionsConstant?.setLocationAs) {
       return apiQueryLocations;
+    } else if (selectedLabel === optionsConstant?.usedBy) {
+      return apiUsersListDropdown;
     }
     return null;
   };
@@ -91,6 +95,7 @@ export const actionsData = ({
       optionsConstant?.tag,
       optionsConstant?.agentEmail,
       optionsConstant?.requesterEmail,
+      optionsConstant?.plannedEffort,
     ]?.includes(selectedLabel)
   ) {
     valueComponent = {
@@ -99,14 +104,17 @@ export const actionsData = ({
       componentProps: {
         name: `actions.${index}.fieldValue`,
         size: 'small',
-        placeholder: 'Enter Text',
+        placeholder: optionsConstant?.plannedEffort
+          ? 'Eg: 1h 10m'
+          : 'Enter Text',
       },
       component: RHFTextField,
     };
   } else if (
     selectedLabel === optionsConstant?.agent ||
     selectedLabel === optionsConstant?.setLocationAs ||
-    selectedLabel === optionsConstant?.category
+    selectedLabel === optionsConstant?.category ||
+    selectedLabel === optionsConstant?.usedBy
   ) {
     valueComponent = {
       _id: 6,
@@ -117,7 +125,8 @@ export const actionsData = ({
         placeholder: 'Select',
         apiQuery: apiQuery,
         getOptionLabel:
-          selectedLabel === optionsConstant?.agent
+          selectedLabel === optionsConstant?.agent ||
+          selectedLabel === optionsConstant?.usedBy
             ? (option: any) => `${option?.firstName} ${option?.lastName}`
             : selectedLabel === optionsConstant?.setLocationAs
               ? (option: any) => option?.locationName
@@ -141,8 +150,7 @@ export const actionsData = ({
     selectedLabel === optionsConstant?.date ||
     selectedLabel === optionsConstant?.endOfLife ||
     selectedLabel === optionsConstant?.startDate ||
-    selectedLabel === optionsConstant?.endDate ||
-    selectedLabel === optionsConstant?.plannedEffort
+    selectedLabel === optionsConstant?.endDate
   ) {
     valueComponent = {
       _id: 4,

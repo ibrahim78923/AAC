@@ -35,6 +35,9 @@ export const actionsTicketOptions = [
   { value: 'impact', label: 'Set Impact as' },
   { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
+  { value: 'plannedStartDate', label: 'Set planned Start dates as' },
+  { value: 'plannedEndDate', label: 'Set planned end dates as' },
+  { value: 'plannedEffort', label: 'Set planned Efforts as' },
   { value: 'dueDate', label: 'Set Due Date as' },
   { value: 'category', label: 'Set Category as' },
   { value: 'source', label: 'Set Source as' },
@@ -43,18 +46,19 @@ export const actionsTicketOptions = [
 ];
 export const actionsTaskOptions = [
   { value: 'status', label: 'Set Status as' },
-  { value: 'plannedStartDate', label: 'Set planned Start dates as' },
-  { value: 'plannedEndDate', label: 'Set planned end dates as' },
+  { value: 'startDate', label: 'Set planned Start dates as' },
+  { value: 'endDate', label: 'Set planned end dates as' },
   { value: 'plannedEffort', label: 'Set planned Efforts as' },
-  { value: 'agent', label: 'Assign to Agent' },
+  { value: 'assignTo', label: 'Assign to Agent' },
 ];
 export const actionsAssetOptions = [
   { value: 'status', label: 'Set Status as' },
   { value: 'impact', label: 'Set Impact as' },
   { value: 'locationId', label: 'Set location as' },
   { value: 'assetLifeExpiry', label: 'Set end of life as' },
-  { value: 'category', label: 'Set Category as' },
-  { value: 'department', label: 'Set Department as' },
+  { value: 'assetType', label: 'Set Category as' },
+  { value: 'departmentId', label: 'Set Department as' },
+  { value: 'usedBy', label: 'Set used by as' },
 ];
 
 export const eventBasedSaveWorkflowSchema = Yup?.object()?.shape({
