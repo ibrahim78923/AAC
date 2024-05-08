@@ -27,11 +27,11 @@ export const defaultValues = {
 };
 export const createDealData = ({ dealPipelineId }: any) => {
   const { user } = getSession();
-  const Role = userRole;
+
   const organizationId: any = user?.organization?._id;
   const { pipelineData, salesProduct } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({
-    role: Role,
+    role: userRole?.OrgEmploye,
     organization: organizationId,
   });
   const filteredStages =

@@ -286,4 +286,4 @@ export const quoteStatus = {
   published: 'PUBLISHED',
 };
 
-export const userRole = 'ORG_EMPLOYEE';
+export const userRole = { OrgEmploye: 'ORG_EMPLOYEE' };

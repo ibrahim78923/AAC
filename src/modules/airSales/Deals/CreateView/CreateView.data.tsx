@@ -23,10 +23,9 @@ export const defaultValues = {
 export const CreateViewData = (dealPipelineId: string | null) => {
   const { pipelineData } = useDealTab();
   const { user } = getSession();
-  const Role = userRole;
   const organizationId: any = user?.organization?._id;
   const { data: UserListData } = useGetUsersListQuery({
-    role: Role,
+    role: userRole?.OrgEmploye,
     organization: organizationId,
   });
   const filteredStages = pipelineData?.data?.dealpipelines?.find(
