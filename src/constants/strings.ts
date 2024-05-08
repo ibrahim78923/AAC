@@ -551,6 +551,10 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const LOGICS = {
+  AND: 'AND',
+  OR: 'OR',
+};
 export const LOYALTY_REWARDS_STATUS = {
   ACTIVE: 'ACTIVE',
   IN_ACTIVE: 'IN_ACTIVE',
