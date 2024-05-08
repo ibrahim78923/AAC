@@ -8,8 +8,13 @@ import {
   useUpdateProductsUsersMutation,
 } from '@/services/airMarketer/settings/users';
 import { enqueueSnackbar } from 'notistack';
+import { DRAWER_TYPES } from '@/constants/strings';
 
-const useAddUser = (checkedUser: any, drawerType: any) => {
+const useAddUser = (
+  checkedUser: any,
+  drawerType: any,
+  setIsAddUserDrawer: any,
+) => {
   const [postPoductUser] = usePostPoductUserMutation();
   const [updateProductsUsers] = useUpdateProductsUsersMutation();
 
@@ -41,7 +46,6 @@ const useAddUser = (checkedUser: any, drawerType: any) => {
   });
 
   useEffect(() => {
-    // if (drawerType === 'edit') {
     const data = productUsersById?.data;
     const fieldsToSet: any = {
       firstName: data?.user?.firstName,
@@ -61,7 +65,6 @@ const useAddUser = (checkedUser: any, drawerType: any) => {
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
     }
-    // }
   }, [productUsersById?.data]);
 
   const onSubmit = async (values: any) => {
@@ -71,12 +74,13 @@ const useAddUser = (checkedUser: any, drawerType: any) => {
     values.role = values?.role?._id;
     values.team = values?.team?._id;
     try {
-      if (drawerType === 'add') {
+      if (drawerType?.type === DRAWER_TYPES?.ADD) {
         await postPoductUser({ body: values })?.unwrap();
         reset();
         enqueueSnackbar('User added successfully', {
           variant: 'success',
         });
+        setIsAddUserDrawer({ ...drawerType, isToggle: false });
       } else {
         delete values['email'];
         delete values['timeZone'];
@@ -84,8 +88,8 @@ const useAddUser = (checkedUser: any, drawerType: any) => {
         enqueueSnackbar('User updated successfully', {
           variant: 'success',
         });
+        setIsAddUserDrawer({ ...drawerType, isToggle: false });
       }
-      // setIsAddUserDrawer({ isToggle: false, type: 'add' });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
