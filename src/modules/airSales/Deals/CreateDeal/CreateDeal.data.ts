@@ -9,7 +9,7 @@ import { useGetUsersListQuery } from '@/services/airSales/deals';
 import useDealTab from '../DealTab/useDealTab';
 import * as Yup from 'yup';
 import { getSession } from '@/utils';
-import { userRole } from '@/routesConstants/paths';
+import { ROLES } from '@/constants/strings';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -31,7 +31,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
 
   const { pipelineData, salesProduct } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({
-    role: userRole?.OrgEmploye,
+    role: ROLES?.ORG_EMPLOYEE,
     organization: organizationId,
   });
   const filteredStages =
