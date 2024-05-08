@@ -4,6 +4,7 @@ import { UpsertRules } from './Rules/UpsertRules';
 import { useRouter } from 'next/router';
 import { UpsertTier } from './Tiers/UpsertTier';
 import usePath from '@/hooks/usePath';
+import { SingleTierDetail } from './Tiers/SingleTierDetail';
 
 export const useRulesAndTiers = () => {
   const [hasRulesAndTiersAction, setHasRulesAndTiersAction] = useState(false);
@@ -27,6 +28,12 @@ export const useRulesAndTiers = () => {
     ),
     [RULES_AND_TIERS_ACTION_CONSTANTS?.UPSERT_TIERS]: (
       <UpsertTier
+        isDrawerOpen={hasRulesAndTiersAction}
+        setIsDrawerOpen={setHasRulesAndTiersAction}
+      />
+    ),
+    [RULES_AND_TIERS_ACTION_CONSTANTS?.TIER_DETAILS]: (
+      <SingleTierDetail
         isDrawerOpen={hasRulesAndTiersAction}
         setIsDrawerOpen={setHasRulesAndTiersAction}
       />

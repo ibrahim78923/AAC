@@ -1,16 +1,36 @@
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { tiersColumns, tiersList } from './Tiers.data';
 import { useTiers } from './useTiers';
 import { Box } from '@mui/material';
 
-export const Tiers = () => {
-  const { search, setSearch } = useTiers();
+export const Tiers = (props: any) => {
+  const {
+    setSearch,
+    setPageLimit,
+    setPage,
+    lazyGetTiersListStatus,
+    tiersColumns,
+  } = useTiers(props);
   return (
     <Box>
-      <Search label="Search Here" searchBy={search} setSearchBy={setSearch} />
+      <Search label="Search Here" setSearchBy={setSearch} />
       <Box marginY={2}></Box>
-      <TanstackTable isPagination data={tiersList} columns={tiersColumns} />
+      <TanstackTable
+        columns={tiersColumns}
+        data={lazyGetTiersListStatus?.data?.data?.tiers}
+        isLoading={lazyGetTiersListStatus?.isLoading}
+        currentPage={lazyGetTiersListStatus?.data?.data?.meta?.page}
+        count={lazyGetTiersListStatus?.data?.data?.meta?.pages}
+        pageLimit={lazyGetTiersListStatus?.data?.data?.meta?.limit}
+        totalRecords={lazyGetTiersListStatus?.data?.data?.meta?.total}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isFetching={lazyGetTiersListStatus?.isFetching}
+        isError={lazyGetTiersListStatus?.isError}
+        isSuccess={lazyGetTiersListStatus?.isSuccess}
+        onPageChange={(page: any) => setPage(page)}
+        isPagination
+      />
     </Box>
   );
 };

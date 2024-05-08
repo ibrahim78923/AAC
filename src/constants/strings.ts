@@ -560,3 +560,8 @@ export const FIELD_TYPES = {
   MANDATORY_FIELD: 'Mandatory Field',
   OPTIONAL_FIELD: 'Optional Field',
 };
+
+export const LOYALTY_REWARDS_CLASS = {
+  RULES: 'RULES',
+  TIERS: 'TIERS',
+};
