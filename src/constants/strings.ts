@@ -571,3 +571,8 @@ export const TIME_UNITS = {
   HOURS_PER_DAY: 24,
   MS_PER_MINUTE: 60000,
 };
+
+export const LOYALTY_REWARDS_CLASS = {
+  RULES: 'RULES',
+  TIERS: 'TIERS',
+};
