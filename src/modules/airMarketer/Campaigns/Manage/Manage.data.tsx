@@ -65,65 +65,66 @@ export const data: any = [
   },
 ];
 
-export const columns: any = [
-  {
-    accessorFn: (row: any) => row?.id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.campaignName,
-    id: 'campaignName',
-    cell: (info: any) => info?.getValue(),
-    header: 'Campaign Name',
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.compareOwner,
-    id: 'compareOwner',
-    isSortable: true,
-    header: 'Campaign Owner',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.compareBugets,
-    id: 'compareBudget',
-    isSortable: true,
-    header: 'Campaign Budget',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.campaignComments,
-    id: 'campaignComments',
-    isSortable: true,
-    header: 'Campaign Comments',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.startDate,
-    id: 'startDate',
-    isSortable: true,
-    header: 'Start Date',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.endDate,
-    id: 'endDate',
-    isSortable: true,
-    header: 'End Date',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.campaignStatus,
-    id: 'campaignStatus',
-    isSortable: true,
-    header: 'Campaign Status',
-    cell: (info: any) => info?.getValue(),
-  },
-];
-
+export const columns: any = () => {
+  return [
+    {
+      accessorFn: (row: any) => row?.id,
+      id: 'Id',
+      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
+      header: <Checkbox color="primary" name="id" />,
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => row?.campaignName,
+      id: 'campaignName',
+      cell: (info: any) => info?.getValue(),
+      header: 'Campaign Name',
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => row?.campaignOwner,
+      id: 'campaignOwner',
+      isSortable: true,
+      header: 'Campaign Owner',
+      cell: (info: any) => info?.row?.original?.campaignOwner,
+    },
+    {
+      accessorFn: (row: any) => row?.campaignBudget,
+      id: 'compareBudget',
+      isSortable: true,
+      header: 'Campaign Budget',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.campaignAudience,
+      id: 'campaignComments',
+      isSortable: true,
+      header: 'Campaign Comments',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.startDate,
+      id: 'startDate',
+      isSortable: true,
+      header: 'Start Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.endDate,
+      id: 'endDate',
+      isSortable: true,
+      header: 'End Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.campaignStatus,
+      id: 'campaignStatus',
+      isSortable: true,
+      header: 'Campaign Status',
+      cell: (info: any) => info?.getValue(),
+    },
+  ];
+};
 export const rolesValidationSchema = Yup?.object()?.shape({
   roleName: Yup?.string()?.required('Field is Required'),
   product: Yup?.string()?.required('Field is Required'),

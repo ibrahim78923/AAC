@@ -190,6 +190,8 @@ export const SOCIAL_COMPONENTS = {
   MEETINGS: '/social-components/meetings',
   MEETINGS_SETTINGS: '/social-components/meetings/settings',
   SCHEDULE_MEETING: '/social-components/meetings/schedule-meetings',
+  UPSERT_MEETING:
+    '/social-components/meetings/schedule-meetings/upsert-meeting',
   CALENDER_VIEW: '/social-components/meetings/calendar-view',
 };
 
@@ -247,7 +249,22 @@ export const CREATE_EMAIL_TYPES = {
   REPLY: 'reply',
 };
 
+export const CHAT_MESSAGE_TYPE = {
+  IMAGE: 'image',
+  DOC: 'document',
+  PLAIN: 'plain',
+};
+
 export const API_STATUS = {
   PENDING: 'pending',
   REJECTED: 'rejected',
+};
+export const associationCompanies = {
+  existingContacts: 'Existing Contacts',
+  newContacts: 'New Contact',
+  existingDeals: 'Existing Deals',
+  associationTypeDeals: 'deals',
+  newDeal: 'New Deal',
+  invalidDate: 'Invalid Date',
+  zero: 0,
 };

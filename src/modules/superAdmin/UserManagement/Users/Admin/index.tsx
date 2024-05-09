@@ -41,17 +41,18 @@ const Admin = (props: any) => {
       <TanstackTable
         columns={columnParams}
         data={data?.data?.users}
+        isPagination
         onPageChange={(page: any) =>
           setCheckedRows({ ...checkedRows, page: page })
         }
-        setPage={setCheckedRows}
+        setPage={setCheckedRows?.page}
         setPageLimit={setPageLimit}
         count={data?.data?.meta?.pages}
-        isPagination
         pageLimit={data?.data?.meta?.limit}
         totalRecords={data?.data?.meta?.total}
         isLoading={isLoading}
         isSuccess={isSuccess}
+        currentPage={data?.data?.meta?.page}
       />
     </>
   );

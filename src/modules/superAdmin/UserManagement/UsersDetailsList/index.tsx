@@ -96,8 +96,8 @@ const UsersDetailsList = () => {
     page: page,
     limit: employeeRecordsLimit,
     search: searchEmployee,
-    product: employeeFilter?.product,
-    company: employeeFilter?.company,
+    product: employeeFilter?.product?._id,
+    company: employeeFilter?.company?._id,
     status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
   const { data: employeeList, isLoading: employeeListLoading } =

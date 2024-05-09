@@ -15,7 +15,7 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
     }),
     postVouchers: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ADD_CANNED_RESPONSES}`,
+        url: `${END_POINTS?.ADD_VOUCHERS}`,
         method: 'POST',
         body: apiDataParameter?.body,
       }),

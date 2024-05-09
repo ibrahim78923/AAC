@@ -23,7 +23,10 @@ export const Digital = () => {
           <Box mt={'0.75rem'}>
             <TanstackTable
               columns={loyaltyDigitalRewardColumn}
-              data={lazyGetAllLoyaltyDigitalRewardsListStatus?.data?.data}
+              data={
+                lazyGetAllLoyaltyDigitalRewardsListStatus?.data?.data
+                  ?.digitalrewards
+              }
               isLoading={lazyGetAllLoyaltyDigitalRewardsListStatus?.isLoading}
               currentPage={
                 lazyGetAllLoyaltyDigitalRewardsListStatus?.data?.data?.meta

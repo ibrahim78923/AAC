@@ -6,22 +6,22 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const validationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
-  purchasePrice: Yup?.number()?.required('Field is Required'),
-  unitPrice: Yup?.number()?.required('Field is Required'),
+
+export const ProductValidationSchema = Yup.object().shape({
+  name: Yup.string().required('Field is Required'),
+  purchasePrice: Yup?.string().required('Field is Required'),
+  unitPrice: Yup?.string().required('Field is Required'),
 });
 
 export const initValues = {
   name: '',
-  purchasePrice: null,
-  unitPrice: null,
+  purchasePrice: '',
+  unitPrice: '',
   sku: '',
   category: '',
-  associate: '',
   description: '',
   isActive: false,
-  file: '',
+  image: '',
 };
 
 export const addContactFields = (productCatagories: any) => {
@@ -66,6 +66,7 @@ export const addContactFields = (productCatagories: any) => {
         label: 'Category',
         fullWidth: true,
         select: true,
+        required: true,
       },
       options: productCatagories?.map((item: any) => ({
         value: item?._id,
@@ -106,7 +107,7 @@ export const addContactFields = (productCatagories: any) => {
     },
     {
       componentProps: {
-        name: 'file',
+        name: 'image',
         label: 'Upload',
         fullWidth: true,
       },

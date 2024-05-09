@@ -8,15 +8,15 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 export const useListView = () => {
   const theme = useTheme();
   const router = useRouter();
+  const meetingsType = router?.query?.type;
   const [search, setSearch] = useState('');
   const [cardValue, setCardValue] = useState<any>(MEETINGS_DETAILS_TYPE?.ALL);
   const [listData, setListData] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<any>();
   const [isActiveCard, setIsActiveCard] = useState<any>(
-    MEETINGS_DETAILS_TYPE?.ALL,
+    meetingsType ? meetingsType : MEETINGS_DETAILS_TYPE?.ALL,
   );
   const meetings = meetingCardsDetails(theme);
-  const meetingsType = router?.query?.type;
 
   const activeCard = (meetingHeading: any) => {
     setIsActiveCard(meetingHeading);

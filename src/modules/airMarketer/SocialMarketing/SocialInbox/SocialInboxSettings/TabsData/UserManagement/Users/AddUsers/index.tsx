@@ -1,7 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import { dataArray } from '../Users.data';
 import useAddUser from './useAddUser';
 import useUserManagement from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings/TabsData/UserManagement/useUserManagement';
@@ -11,7 +10,8 @@ const AddUsers = (props: any) => {
   const theme = useTheme();
   const { methods, handleSubmit, onSubmit } = useAddUser(
     checkedUser,
-    isAddUserDrawer?.type,
+    isAddUserDrawer,
+    setIsAddUserDrawer,
   );
   const { drawyerType } = useUserManagement();
 
@@ -42,7 +42,7 @@ const AddUsers = (props: any) => {
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
             {dataArray()?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
                 <item.component
                   {...item.componentProps}
                   size={'small'}
@@ -56,7 +56,7 @@ const AddUsers = (props: any) => {
                 >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
+                      <option key={option.value} value={option?.value}>
                         {option?.label}
                       </option>
                     ))}

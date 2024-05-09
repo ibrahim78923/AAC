@@ -98,6 +98,7 @@ const RolesRight = () => {
             pageLimit={getPermissions?.data?.meta?.limit}
             isLoading={isLoading}
             isSuccess={isSuccess}
+            currentPage={getPermissions?.data?.meta?.page}
           />
         </Grid>
       </Box>

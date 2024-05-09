@@ -40,17 +40,19 @@ export const useUpsertScheduledWorkflow = () => {
     selectDepartment: 'Select Department',
     department: 'departments',
     setDepartmentAs: 'Set Department as',
-    location: 'location',
+    location: 'Location',
+    locations: 'locations',
     addRequester: 'Add Requester',
     requester: 'users',
     setCategoryAs: 'Set Category as',
-    category: 'category',
+    category: 'servicecategories',
     users: 'users',
     usedBy: 'Used By',
     createdBy: 'Created By',
     assetType: 'Asset Type',
     assignTo: 'Assign To',
     type: 'assettypes',
+    notifyBefore: 'notifyBefore',
   };
 
   const buttonData = {
@@ -116,7 +118,7 @@ export const useUpsertScheduledWorkflow = () => {
       case collectionNameData?.setDepartmentAs:
         return collectionNameData?.department;
       case collectionNameData?.location:
-        return collectionNameData?.location;
+        return collectionNameData?.locations;
       case collectionNameData?.addRequester:
         return collectionNameData?.requester;
       case collectionNameData?.setCategoryAs:
@@ -141,7 +143,9 @@ export const useUpsertScheduledWorkflow = () => {
       fieldName: condition?.fieldName?.value,
       fieldValue: condition?.fieldValue?._id
         ? condition?.fieldValue?._id
-        : condition?.fieldValue,
+        : condition?.fieldName?.value === collectionNameData?.notifyBefore
+          ? condition?.fieldValue?.value
+          : condition?.fieldValue,
       fieldType: mapField(condition),
       collectionName:
         condition?.condition === optionsConstants?.isEmpty ||

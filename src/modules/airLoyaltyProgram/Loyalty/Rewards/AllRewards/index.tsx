@@ -31,7 +31,7 @@ export const AllRewards = () => {
           <Box mt={'0.75rem'}>
             <TanstackTable
               columns={loyaltyAllRewardColumn}
-              data={lazyGetLoyaltyAllRewardsListStatus?.data?.data}
+              data={lazyGetLoyaltyAllRewardsListStatus?.data?.data?.rewards}
               isLoading={lazyGetLoyaltyAllRewardsListStatus?.isLoading}
               currentPage={
                 lazyGetLoyaltyAllRewardsListStatus?.data?.data?.meta?.page

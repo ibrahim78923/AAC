@@ -147,6 +147,7 @@ export const END_POINTS = {
   RESTORE_COMPANIES: '/companies/restore-action',
   MERGE_COMPANIES: '/companies/merge-company',
   REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
+  GET_COMPANY_ASSOICATION: '/companies/get-company-associations',
   COMPANY_VIEWS: '/company-views',
   CUSTOMIZE_COLUMNS: '/customized-columns',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
@@ -361,6 +362,18 @@ export const END_POINTS = {
   GET_RULES_AND_TIERS_LIST: `/rules-and-tiers`,
   ADD_RULES: `/rules-and-tiers/rule`,
   ADD_TIERS: `/rules-and-tiers/tier`,
+  CREATE_DIGITAL_REWARD: `/rewards/create-digital-reward`,
+  CREATE_PHYSICAL_REWARD: `/rewards/create-physical-reward`,
+  GET_REWARDS_LIST: `/rewards/rewards-list`,
+  GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
+  TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers`,
+  LEAD_CAPTURE_CTA: '/lead-capture',
+  CREATE_SHOP: `/shops/create-shops`,
+  GET_SHOP_LIST: `/shops/shops-list`,
+  UPDATE_SHOP: `/shops/update-shops`,
+  SHOP_DETAIL: `/shops/shop-details`,
+  ADD_VOUCHERS: '/vouchers/create-voucher',
+  DELETE_SHOP: `/shops/delete-shops`,
 };
 
 export const superAdminBillingInvoices = {
@@ -450,4 +463,8 @@ export const OPERATION = {
 
 export const AIR_SALES = {
   INVOICES: '/quote-invoice',
+};
+export const AIR_MARKETER = {
+  CAMPAIGNS_VIEW: '/campaigns/view',
+  CAMPAIGNS: '/campaigns',
 };

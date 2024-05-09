@@ -1,4 +1,5 @@
 import { PAGINATION } from '@/config';
+import { DRAWER_TYPES } from '@/constants/strings';
 import { useDeleteTeamsMutation } from '@/services/airSales/settings/teams';
 import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
 import { Skeleton } from '@mui/material';
@@ -15,12 +16,13 @@ const useUserManagement = () => {
     useDeleteTeamsMutation();
   const [isAddTeam, setIsAddTeam] = useState({
     isToggle: false,
-    type: 'add',
+    type: DRAWER_TYPES?.ADD,
   });
+
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
   const [isAddUserDrawer, setIsAddUserDrawer] = useState({
     isToggle: false,
-    type: 'add',
+    type: DRAWER_TYPES?.ADD,
   });
   const [searchUser, setSearchUser] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);

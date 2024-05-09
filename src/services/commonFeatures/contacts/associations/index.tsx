@@ -27,10 +27,20 @@ export const contactAssociationsAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: ['CONTACT_ASSOCIATION'],
+      invalidatesTags: [
+        'CONTACT_ASSOCIATION',
+        'DEALS',
+        'DEALS_ASSOCIATION',
+        'COMPANY',
+        'CONTACTS',
+        'ATTACHMENT',
+      ],
     }),
   }),
 });
 
-export const { useGetContactAssociationsQuery, useCreateAssociationMutation } =
-  contactAssociationsAPI;
+export const {
+  useGetContactAssociationsQuery,
+  useCreateAssociationMutation,
+  useDeleteAssociationMutation,
+} = contactAssociationsAPI;

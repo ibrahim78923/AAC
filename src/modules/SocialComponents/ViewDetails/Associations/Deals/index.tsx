@@ -30,6 +30,7 @@ const Deals = (companyId: any) => {
     isLoading,
     setPage,
     setPageLimit,
+    existingDealsData,
   } = useDeals(companyId);
 
   return (
@@ -43,7 +44,7 @@ const Deals = (companyId: any) => {
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
+            {getCompanyDeals?.data?.meta?.total}
           </Typography>
 
           <Typography variant="subtitle2">Deals</Typography>
@@ -76,7 +77,7 @@ const Deals = (companyId: any) => {
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert, setDealRecord })}
-            data={getCompanyDeals?.data}
+            data={getCompanyDeals?.data?.deals}
             isLoading={isLoading}
             setPage={setPage}
             setPageLimit={setPageLimit}
@@ -90,6 +91,7 @@ const Deals = (companyId: any) => {
           setOpenDrawer={setOpenDrawer}
           companyId={companyId}
           dealRecord={dealRecord}
+          existingDealsData={existingDealsData}
         />
       )}
       <AlertModals

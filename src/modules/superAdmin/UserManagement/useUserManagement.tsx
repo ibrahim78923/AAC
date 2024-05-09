@@ -6,13 +6,10 @@ import { useTheme } from '@mui/material';
 
 import { SUPER_ADMIN } from '@/constants';
 
-import {
-  // useUpdateUserProfileMutation,
-  usersApi,
-} from '@/services/superAdmin/user-management/users';
+import { usersApi } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
-import { CommonAPIS } from '@/services/common-APIs';
 import { PAGINATION } from '@/config';
+import { useGetProductsQuery } from '@/services/common-APIs';
 
 const useUserManagement = () => {
   const navigate = useRouter();
@@ -34,8 +31,8 @@ const useUserManagement = () => {
   const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
   const [filterValues, setFilterValues] = useState<any>({
     role: '',
-    products: '',
-    organization: '',
+    products: {},
+    organization: {},
     createdDate: '',
   });
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -50,11 +47,9 @@ const useUserManagement = () => {
     useGetCompaniesCRNQuery,
     useGetUsersByIdQuery,
   }: any = usersApi;
-  const { useGetProductsQuery, useGetOrganizationsQuery } = CommonAPIS;
 
   const [updateUsers] = useUpdateUsersMutation();
-  const { data: products } = useGetProductsQuery({});
-  const { data: organizations } = useGetOrganizationsQuery({});
+  const { data: productsList } = useGetProductsQuery({});
 
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
@@ -126,18 +121,17 @@ const useUserManagement = () => {
     selectedRow,
     setSelectedRow,
     updateUsers,
-    products,
     searchVal,
     setSearchVal,
     resetFilters,
     pageLimit,
     setPageLimit,
-    organizations,
     initialTab,
     tabTwo,
     tabOne,
     datePickerVal,
     setDatePickerVal,
+    productsList,
   };
 };
 
