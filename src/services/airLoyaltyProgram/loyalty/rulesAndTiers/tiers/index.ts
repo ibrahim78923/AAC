@@ -32,10 +32,9 @@ export const tiersAPI = baseAPI?.injectEndpoints({
       }),
     }),
     getSingleTiersDetails: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: '',
+      query: (id: any) => ({
+        url: `${END_POINTS?.GET_TIERS_BY_ID}/${id}`,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
       }),
     }),
   }),
@@ -47,5 +46,5 @@ export const {
   useLazyGetTiersListQuery,
   useDeleteTiersMutation,
   useEditSingleTiersMutation,
-  useGetSingleTiersDetailsQuery,
+  useLazyGetSingleTiersDetailsQuery,
 } = tiersAPI;

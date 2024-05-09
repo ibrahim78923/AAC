@@ -29,10 +29,12 @@ export const tiersColumnsDynamic = (
           accessorFn: (info: any) => info?._id,
           id: '_id',
           header: 'Action',
-          cell: () => (
+          cell: (info: any) => (
             <Visibility
               sx={{ cursor: 'pointer' }}
-              onClick={() => setIsPortalOpen({ isOpen: true, isDetail: true })}
+              onClick={() =>
+                setIsPortalOpen({ isDetail: info?.row?.original, isOpen: true })
+              }
             />
           ),
         },

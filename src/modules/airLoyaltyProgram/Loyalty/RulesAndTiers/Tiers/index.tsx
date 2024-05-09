@@ -36,7 +36,7 @@ export const Tiers = () => {
       />
       {isPortalOpen?.isOpen && (
         <SingleTierDetail
-          isDrawerOpen={isPortalOpen?.isDetail}
+          isDrawerOpen={isPortalOpen}
           setIsDrawerOpen={setIsPortalOpen}
         />
       )}
