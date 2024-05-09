@@ -13,15 +13,12 @@ import {
 import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
 import { GrayPlusIcon } from '@/assets/icons/index';
-import {
-  AvatarCompanyImage,
-  AvatarContactImage,
-  CrossCircleImage,
-} from '@/assets/images';
+import { CrossCircleImage } from '@/assets/images';
 import { styles } from './StepBuyerInfo.style';
 import Image from 'next/image';
 import { AlertModals } from '@/components/AlertModals';
 import useUpdateQuote from '../useUpdateQuote';
+import { generateImage } from '@/utils/avatarUtils';
 
 const StepBuyerInfo = ({
   openAddContact,
@@ -44,7 +41,6 @@ const StepBuyerInfo = ({
   } = useUpdateQuote();
   const contactData: any = dataGetQuoteById?.data?.deal;
   const theme = useTheme();
-
   return (
     <>
       <Grid container spacing={'40px'}>
@@ -91,9 +87,16 @@ const StepBuyerInfo = ({
                     contactData[0]?.contacts?.map((item: any) => (
                       <Box component="li" sx={styles?.listItem} key={item?.id}>
                         <Avatar
-                          src={AvatarContactImage?.src}
-                          sx={styles?.itemAvatar}
-                        />
+                          src={generateImage(item?.owner?.profilePicture?.url)}
+                          sx={{
+                            color: theme?.palette?.grey[600],
+                            fontWeight: 500,
+                          }}
+                        >
+                          {`${item?.firstName?.charAt(
+                            0,
+                          )}${item?.lastName?.charAt(0)}`}
+                        </Avatar>
                         <Box flex={1}>
                           <Typography sx={styles?.itemText}>
                             {item?.name}
@@ -154,9 +157,16 @@ const StepBuyerInfo = ({
                     <Box component="li" sx={styles?.listItem} key={item?.id}>
                       <Box>
                         <Avatar
-                          src={AvatarCompanyImage?.src}
-                          sx={styles?.itemAvatar}
-                        />
+                          src={generateImage(item?.owner?.profilePicture?.url)}
+                          sx={{
+                            color: theme?.palette?.grey[600],
+                            fontWeight: 500,
+                          }}
+                        >
+                          {`${item?.firstName?.charAt(
+                            0,
+                          )}${item?.lastName?.charAt(0)}`}
+                        </Avatar>
                       </Box>
                       <Box flex={1}>
                         <Typography sx={styles?.itemTitle}>
@@ -174,7 +184,7 @@ const StepBuyerInfo = ({
                         onClick={() => handleDeleteModal(item?._id)}
                       />
                       <Checkbox
-                        defaultChecked
+                        defaultChecked={selectedCompanyIds === item?._id}
                         checked={selectedCompanyIds === item?._id}
                         onChange={() => handleCompanyChange(item._id)}
                       />

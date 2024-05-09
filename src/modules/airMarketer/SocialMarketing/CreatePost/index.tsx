@@ -20,8 +20,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const CreatePost = () => {
-  const { router, methods, handleSubmit, onSubmit, theme } = useCreatePost();
-
+  const { router, methods, handleSubmit, onSubmit, theme, campaignsViewData } =
+    useCreatePost();
   return (
     <Grid container spacing={4}>
       <Grid item xs={12} lg={6}>
@@ -37,27 +37,29 @@ const CreatePost = () => {
 
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={4}>
-            {createPostDataArray?.map((item: any, index: any) => (
-              <Grid
-                item
-                xs={12}
-                md={item?.md}
-                key={uuidv4()}
-                sx={{
-                  paddingTop:
-                    index === 0 ? '40px !important' : '17px !important',
-                }}
-              >
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              </Grid>
-            ))}
+            {createPostDataArray(campaignsViewData)?.map(
+              (item: any, index: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={uuidv4()}
+                  sx={{
+                    paddingTop:
+                      index === 0 ? '40px !important' : '17px !important',
+                  }}
+                >
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ),
+            )}
           </Grid>
         </FormProvider>
       </Grid>

@@ -370,11 +370,13 @@ export const END_POINTS = {
   LEAD_CAPTURE_CTA: '/lead-capture',
   CREATE_SHOP: `/shops/create-shops`,
   GET_SHOP_LIST: `/shops/shops-list`,
-  UPDATE_SHOP: `/shops/update-shop`,
+  UPDATE_SHOP: `/shops/update-shops`,
   SHOP_DETAIL: `/shops/shop-details`,
   GET_RULES_LIST: `/rules-and-tiers/rules`,
   GET_TIERS_LIST: `/rules-and-tiers/tiers`,
   GET_TIERS_BY_ID: `/rules-and-tiers/tier`,
+  ADD_VOUCHERS: '/vouchers/create-voucher',
+  DELETE_SHOP: `/shops/delete-shops`,
 };
 
 export const superAdminBillingInvoices = {
@@ -464,4 +466,8 @@ export const OPERATION = {
 
 export const AIR_SALES = {
   INVOICES: '/quote-invoice',
+};
+export const AIR_MARKETER = {
+  CAMPAIGNS_VIEW: '/campaigns/view',
+  CAMPAIGNS: '/campaigns',
 };
