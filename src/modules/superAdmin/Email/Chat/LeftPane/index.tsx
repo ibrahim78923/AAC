@@ -7,7 +7,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MailList from './MailList';
 import ActionBtn from './ActionBtn';
 import { styles } from './LeftPane.styles';
@@ -16,12 +16,19 @@ import { useDispatch } from 'react-redux';
 import { setMailTabType } from '@/redux/slices/email/slice';
 import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useGetMailFoldersQuery } from '@/services/commonFeatures/email';
+import {
+  useGetDraftsQuery,
+  useGetEmailsByFolderIdQuery,
+  useGetMailFoldersQuery,
+} from '@/services/commonFeatures/email';
+import { PAGINATION } from '@/config';
 
 const LeftPane = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const mailTabType = useAppSelector((state: any) => state?.email?.mailTabType);
+  const mailTabType: any = useAppSelector(
+    (state: any) => state?.email?.mailTabType,
+  );
   const handelToggleTab = (value: any) => {
     dispatch(setMailTabType(value));
   };
@@ -35,6 +42,44 @@ const LeftPane = () => {
       ?.map((name) => name.toLowerCase())
       ?.includes(item?.display_name?.toLowerCase());
   });
+
+  const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
+
+  const {
+    data: emailsByFolderIdData,
+    status: isLoadingEmailsByFolderIdData,
+    refetch,
+  } = useGetEmailsByFolderIdQuery(
+    {
+      params: {
+        page: PAGINATION?.CURRENT_PAGE,
+        limit: PAGINATION?.PAGE_LIMIT,
+        folderId: mailTabType?.id,
+      },
+    },
+    { skip: isGetEmailsRequest },
+  );
+
+  useEffect(() => {
+    if (mailTabType) {
+      setIsGetEmailsRequest(false);
+    }
+  }, [mailTabType]);
+
+  const {
+    data: draftsData,
+    status: isLoadingDraftsData,
+    refetch: draftsDataRefetch,
+  } = useGetDraftsQuery(
+    {
+      params: {
+        page: PAGINATION?.CURRENT_PAGE,
+        limit: PAGINATION?.PAGE_LIMIT,
+      },
+    },
+    // { skip: isGetEmailsRequest },
+  );
+
   return (
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>
@@ -102,7 +147,22 @@ const LeftPane = () => {
         </ButtonGroup>
       )}
 
-      <MailList />
+      <MailList
+        emailsByFolderIdData={
+          mailTabType?.display_name === 'Drafts'
+            ? draftsData
+            : emailsByFolderIdData
+        }
+        isLoadingEmailsByFolderIdData={
+          mailTabType?.display_name === 'Drafts'
+            ? isLoadingDraftsData
+            : isLoadingEmailsByFolderIdData
+        }
+        refetch={
+          mailTabType?.display_name === 'Drafts' ? draftsDataRefetch : refetch
+        }
+        mailTabType={mailTabType}
+      />
 
       <CommonDrawer
         isDrawerOpen={isFiltersOpen}

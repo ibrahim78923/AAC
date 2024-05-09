@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -10,45 +9,23 @@ import {
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './NotificationCard.styles';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useGetEmailsByFolderIdQuery } from '@/services/commonFeatures/email';
+import { useAppSelector } from '@/redux/store';
 import {
   setActiveRecord,
   setSelectedRecords,
 } from '@/redux/slices/email/slice';
-import { PAGINATION } from '@/config';
 import { API_STATUS } from '@/constants';
+import { useDispatch } from 'react-redux';
 
-const MailList = () => {
+const MailList = ({
+  emailsByFolderIdData,
+  isLoadingEmailsByFolderIdData,
+  refetch,
+  mailTabType,
+}: any) => {
   const theme = useTheme();
-  const mailTabType: any = useAppSelector(
-    (state: any) => state?.email?.mailTabType,
-  );
 
-  const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
-
-  const dispatch: any = useAppDispatch();
-
-  const {
-    data: emailsByFolderIdData,
-    status: isLoadingEmailsByFolderIdData,
-    refetch,
-  } = useGetEmailsByFolderIdQuery(
-    {
-      params: {
-        page: PAGINATION?.CURRENT_PAGE,
-        limit: PAGINATION?.PAGE_LIMIT,
-        folderId: mailTabType?.id,
-      },
-    },
-    { skip: isGetEmailsRequest },
-  );
-
-  useEffect(() => {
-    if (mailTabType) {
-      setIsGetEmailsRequest(false);
-    }
-  }, [mailTabType]);
+  const dispatch = useDispatch();
 
   const selectedRecords = useAppSelector(
     (state: any) => state?.email?.selectedRecords,
@@ -80,7 +57,7 @@ const MailList = () => {
       ? selectedRecords
       : [];
     const isAlreadySelected = safeSelectedRecords.some(
-      (item) => item.id === email.id,
+      (item) => item?.id === email?.id,
     );
 
     if (isAlreadySelected) {

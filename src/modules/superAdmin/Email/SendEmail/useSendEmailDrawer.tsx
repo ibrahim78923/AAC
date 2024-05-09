@@ -91,6 +91,10 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           enqueueSnackbar('Something went wrong while saving draft !', {
             variant: 'error',
           });
+          setIsProcessDraft(false);
+          setIsLoadingProcessDraft(false);
+          reset();
+          setOpenDrawer(false);
         }
       } else {
         setIsProcessDraft(false);

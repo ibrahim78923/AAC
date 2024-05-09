@@ -11,12 +11,16 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CommonModal from '@/components/CommonModal';
 import { useAppSelector } from '@/redux/store';
 import { CREATE_EMAIL_TYPES } from '@/constants';
+import { AlertModals } from '@/components/AlertModals';
+import { WarningIcon } from '@/assets/icons';
+import { useMoveFolderOtherEmailMutation } from '@/services/commonFeatures/email';
+import { enqueueSnackbar } from 'notistack';
 
 const ActionBtn = () => {
   const mailTabType: any = useAppSelector(
     (state: any) => state?.email?.mailTabType,
   );
-  const selectedRecords = useAppSelector(
+  const selectedRecords: any = useAppSelector(
     (state: any) => state?.email?.selectedRecords,
   );
   const tabName = mailTabType?.display_name.toLowerCase();
@@ -26,12 +30,36 @@ const ActionBtn = () => {
   const id = open ? 'simple-popover' : undefined;
 
   const [isLinkToDealModal, setIsLinkToDealModal] = useState(false);
+  const [isRestoreEmail, setIsRestoreEmail] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const [moveFolderOtherEmail, { isLoading: loadingRestore }] =
+    useMoveFolderOtherEmailMutation();
+
+  const handelRestore = async () => {
+    const ids =
+      selectedRecords && selectedRecords?.map((message: any) => message?.id);
+    const payload = {
+      messageId: ids,
+      folderId: 'Drafts',
+    };
+    try {
+      await moveFolderOtherEmail({
+        body: payload,
+      })?.unwrap();
+      enqueueSnackbar('Email restore successfully', {
+        variant: 'success',
+      });
+      setIsRestoreEmail(false);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
   };
 
   return (
@@ -82,7 +110,7 @@ const ActionBtn = () => {
         )}
         <MenuItem> Delete </MenuItem>
         {tabName === CREATE_EMAIL_TYPES?.TRASH && (
-          <MenuItem> Restore </MenuItem>
+          <MenuItem onClick={() => setIsRestoreEmail(true)}> Restore </MenuItem>
         )}
       </Popover>
 
@@ -97,6 +125,17 @@ const ActionBtn = () => {
         <Typography>Deal</Typography>
         <TextField placeholder="Search Deal" fullWidth size="small" />
       </CommonModal>
+
+      <AlertModals
+        type={'Restore'}
+        typeImage={<WarningIcon />}
+        message={'Are you sure you want to restore email.'}
+        open={isRestoreEmail}
+        disabled={false}
+        handleClose={() => setIsRestoreEmail(false)}
+        loading={loadingRestore}
+        handleSubmitBtn={handelRestore}
+      />
     </>
   );
 };
