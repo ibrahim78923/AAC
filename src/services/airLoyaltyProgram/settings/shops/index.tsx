@@ -6,7 +6,7 @@ export const manageShopAPI = baseAPI?.injectEndpoints({
     getShopList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: END_POINTS?.GET_SHOP_LIST,
-        method: 'POST',
+        method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
     }),
@@ -21,12 +21,12 @@ export const manageShopAPI = baseAPI?.injectEndpoints({
       query: (apiDataParameter: any) => ({
         url: END_POINTS?.UPDATE_SHOP,
         method: 'PATCH',
-        body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
       }),
     }),
     deleteShop: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.DELETE_SHOP,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),

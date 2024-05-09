@@ -1,8 +1,10 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { useUpsertShopModal } from './useUpsertShop';
 import { FormProvider } from '@/components/ReactHookForm';
 import { UPSERT_SHOP_FORM_CONSTANT } from '@/constants/strings';
+import { Attachments } from '@/components/Attachments';
+import { AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 const UpsertShop = (props: any) => {
   const { isPortalOpen } = props;
@@ -50,6 +52,28 @@ const UpsertShop = (props: any) => {
             ))}
           </Grid>
         </FormProvider>
+        {!!isPortalOpen?.data?._id && (
+          <>
+            <Typography
+              variant="body1"
+              fontWeight={500}
+              color="slateBlue.main"
+              mb={2}
+            >
+              {' '}
+              Attachments{' '}
+            </Typography>
+            <Box maxHeight={'20vh'}>
+              <Attachments
+                recordId={isPortalOpen?.data?._id}
+                permissionKey={[
+                  AIR_LOYALTY_PROGRAM_SETTINGS_MANAGEMENT_PERMISSIONS?.EDIT_SHOP,
+                ]}
+                colSpan={{ sm: 12, lg: 12 }}
+              />
+            </Box>
+          </>
+        )}
       </CommonDrawer>
     </>
   );

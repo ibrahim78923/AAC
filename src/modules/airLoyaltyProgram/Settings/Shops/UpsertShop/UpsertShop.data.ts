@@ -55,10 +55,13 @@ export const upsertShopValidationScheme = Yup?.object()?.shape({
 export const upsertShopFieldsValues = (data?: any) => {
   return {
     name: data?.name ?? '',
-    shopType: data?.shopType ?? null,
+    shopType:
+      shopTypeOptions?.find((item: any) => item?._id === data?.shopType) ??
+      null,
     email: data?.email ?? '',
     city: data?.city ?? '',
-    country: data?.country ?? null,
+    country:
+      countryOptions?.find((item: any) => item?._id === data?.country) ?? null,
     postCode: data?.postCode ?? '',
     address: data?.address ?? '',
     fileUrl: null,

@@ -367,9 +367,10 @@ export const END_POINTS = {
   LEAD_CAPTURE_CTA: '/lead-capture',
   CREATE_SHOP: `/shops/create-shops`,
   GET_SHOP_LIST: `/shops/shops-list`,
-  UPDATE_SHOP: `/shops/update-shop`,
+  UPDATE_SHOP: `/shops/update-shops`,
   SHOP_DETAIL: `/shops/shop-details`,
   ADD_VOUCHERS: '/vouchers/create-voucher',
+  DELETE_SHOP: `/shops/delete-shops`,
 };
 
 export const superAdminBillingInvoices = {

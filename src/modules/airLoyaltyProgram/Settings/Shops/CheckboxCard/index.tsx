@@ -1,29 +1,14 @@
-import {
-  Avatar,
-  Box,
-  Checkbox,
-  Skeleton,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { generateImage } from '@/utils/avatarUtils';
+import { generateImage, truncateText } from '@/utils/avatarUtils';
+import { LOYALTY_SHOP_TYPE_MAPPED } from '@/constants/api-mapped';
 
 const CheckboxCard = (props: any) => {
-  const {
-    data,
-    handleSelect,
-    selectedShopsList,
-    isLoading,
-    isFetching,
-    setIsPortalOpen,
-  } = props;
+  const { data, handleSelect, selectedShopsList, setIsPortalOpen } = props;
 
   const theme = useTheme();
-
-  if (isLoading || isFetching) return <Skeleton />;
 
   return (
     <>
@@ -35,6 +20,7 @@ const CheckboxCard = (props: any) => {
         justifyContent={'space-between'}
         border="1px solid"
         mb={1}
+        height="100%"
         sx={{
           cursor: 'pointer',
           borderColor: 'custom.pale_gray',
@@ -57,10 +43,10 @@ const CheckboxCard = (props: any) => {
           />
           <Box>
             <Typography variant="h5" fontWeight={600} color={'slateBlue.main'}>
-              {data?.name}
+              {truncateText(data?.name)}
             </Typography>
             <Typography variant="body2" color="slateBlue.main" fontWeight={500}>
-              {data?.shopType}
+              {LOYALTY_SHOP_TYPE_MAPPED?.[data?.shopType]}
             </Typography>
             <Typography variant="body3" color="grey.900">
               Date: {dayjs(data?.createdAt).format(DATE_FORMAT?.UI)}
@@ -75,9 +61,9 @@ const CheckboxCard = (props: any) => {
               !!selectedShopsList?.find((item: any) => item?._id === data?._id)
             }
             onClick={(e: any) => {
-              e.stopPropagation();
+              e?.stopPropagation();
             }}
-            onChange={(e: any) => handleSelect(e, data)}
+            onChange={(e: any) => handleSelect?.(e, data)}
             color="primary"
             name="id"
           />
