@@ -5,10 +5,12 @@ import { LOYALTY_RULES_ATTRIBUTES_MAPPED } from '@/constants/api-mapped';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
 import { useSingleTierDetail } from './useSingleTierDetail';
+import ApiErrorState from '@/components/ApiErrorState';
+import { LOYALTY_TIERS_REWARD_TYPE } from '@/constants/strings';
 
 export const SingleTierDetail = (props: any) => {
   const { isDrawerOpen } = props;
-  const { closeUpsertTier, data, isLoading, isFetching } =
+  const { closeUpsertTier, data, isLoading, isFetching, sliderValue, isError } =
     useSingleTierDetail(props);
   return (
     <CommonDrawer
@@ -25,6 +27,8 @@ export const SingleTierDetail = (props: any) => {
     >
       {isLoading || isFetching ? (
         <SkeletonTable />
+      ) : isError ? (
+        <ApiErrorState />
       ) : (
         <Box>
           <Box>
@@ -38,8 +42,8 @@ export const SingleTierDetail = (props: any) => {
               gap={1.5}
               alignItems="center"
             >
-              ({data?.data?.amount} dollar equivalent to
-              <Slider sx={{ width: 100 }} value={[0, 100]} disabled />
+              ({data?.data?.amount} pound equivalent to
+              <Slider sx={{ width: 100 }} value={sliderValue} disabled />
               {data?.data?.points} pts)
             </Typography>
           </Box>
@@ -61,14 +65,15 @@ export const SingleTierDetail = (props: any) => {
                     {LOYALTY_RULES_ATTRIBUTES_MAPPED?.[item?.attribute]}:
                   </Typography>
                   <Typography variant="body1" color="grey.900">
-                    {item?.rewardType === 'FIXED_DISCOUNT'
-                      ? item?.rewards + '%'
-                      : item?.rewards + ' ' + 'pts'}
+                    {item?.rewardType ===
+                    LOYALTY_TIERS_REWARD_TYPE?.FIXED_DISCOUNT
+                      ? `${item?.rewards}%`
+                      : `${item?.rewards} pts`}
                   </Typography>
                 </Box>
               ))
             ) : (
-              <NoData height="30vh" />
+              <NoData height="30vh" message="No rules added in this tier" />
             )}
           </Box>
         </Box>
