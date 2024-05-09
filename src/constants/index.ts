@@ -255,7 +255,9 @@ export const CREATE_EMAIL_TYPES = {
 export const EMAIL_TABS_TYPES = {
   SENT: 'sent',
   DRAFT: 'draft',
+  DRAFTS: 'drafts',
   INBOX: 'inbox',
+  TRASH: 'trash',
 };
 
 export const CHAT_MESSAGE_TYPE = {

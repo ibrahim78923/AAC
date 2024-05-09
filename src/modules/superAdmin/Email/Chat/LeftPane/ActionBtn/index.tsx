@@ -10,7 +10,7 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CommonModal from '@/components/CommonModal';
 import { useAppSelector } from '@/redux/store';
-import { CREATE_EMAIL_TYPES } from '@/constants';
+import { CREATE_EMAIL_TYPES, EMAIL_TABS_TYPES } from '@/constants';
 import { AlertModals } from '@/components/AlertModals';
 import { WarningIcon } from '@/assets/icons';
 import { useMoveFolderOtherEmailMutation } from '@/services/commonFeatures/email';
@@ -23,7 +23,7 @@ const ActionBtn = () => {
   const selectedRecords: any = useAppSelector(
     (state: any) => state?.email?.selectedRecords,
   );
-  const tabName = mailTabType?.display_name.toLowerCase();
+  const tabName = mailTabType?.display_name?.toLowerCase();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
@@ -47,7 +47,7 @@ const ActionBtn = () => {
       selectedRecords && selectedRecords?.map((message: any) => message?.id);
     const payload = {
       messageId: ids,
-      folderId: 'Drafts',
+      folderId: EMAIL_TABS_TYPES?.DRAFTS,
     };
     try {
       await moveFolderOtherEmail({

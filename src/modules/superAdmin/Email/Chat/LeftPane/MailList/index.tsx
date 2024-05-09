@@ -14,7 +14,7 @@ import {
   setActiveRecord,
   setSelectedRecords,
 } from '@/redux/slices/email/slice';
-import { API_STATUS } from '@/constants';
+import { API_STATUS, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
 
 const MailList = ({
@@ -39,12 +39,12 @@ const MailList = ({
     const safeSelectedRecords = Array.isArray(selectedRecords)
       ? selectedRecords
       : [];
-    const isAlreadySelected = safeSelectedRecords.some(
+    const isAlreadySelected = safeSelectedRecords?.some(
       (item) => item?.id === email?.id,
     );
 
     if (isAlreadySelected) {
-      const updatedSelection = safeSelectedRecords.filter(
+      const updatedSelection = safeSelectedRecords?.filter(
         (item) => item?.id !== email?.id,
       );
       dispatch(setSelectedRecords(updatedSelection));
@@ -96,7 +96,7 @@ const MailList = ({
         </Button>
       </Box>
 
-      {mailTabType?.display_name === 'Trash' && (
+      {mailTabType?.display_name === EMAIL_TABS_TYPES?.TRASH && (
         <Box
           sx={{
             background: theme?.palette?.grey[100],

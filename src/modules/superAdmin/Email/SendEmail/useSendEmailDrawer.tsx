@@ -71,10 +71,10 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         formDataSend.append('subject', values?.subject);
         formDataSend.append('content', values?.description);
         if (values?.cc && values?.cc?.trim() !== '') {
-          formDataSend.append('cc', values.cc);
+          formDataSend.append('cc', values?.cc);
         }
         if (values?.bcc && values?.bcc?.trim() !== '') {
-          formDataSend.append('bcc', values.bcc);
+          formDataSend.append('bcc', values?.bcc);
         }
         try {
           await postDraftOtherEmail({
@@ -108,10 +108,10 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         formDataSend.append('subject', values?.subject);
         formDataSend.append('content', values?.description);
         if (values?.cc && values?.cc?.trim() !== '') {
-          formDataSend.append('cc', values.cc);
+          formDataSend.append('cc', values?.cc);
         }
         if (values?.bcc && values?.bcc?.trim() !== '') {
-          formDataSend.append('bcc', values.bcc);
+          formDataSend.append('bcc', values?.bcc);
         }
         try {
           await postSendOtherEmail({
