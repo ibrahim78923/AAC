@@ -16,7 +16,7 @@ export const SingleTierDetail = (props: any) => {
     <CommonDrawer
       isDrawerOpen={isDrawerOpen?.isOpen}
       onClose={() => closeUpsertTier?.()}
-      cancelText={'Cancel'}
+      cancelText="Cancel"
       title={isDrawerOpen?.isDetail?.name}
       footer
       headerIcon={
