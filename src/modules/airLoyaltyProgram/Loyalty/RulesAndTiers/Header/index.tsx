@@ -1,8 +1,9 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
+import { Box, Button, Typography } from '@mui/material';
 
 export const Header = (props: any) => {
   const { upsertTiersHandler, upsertRulesHandler } = props;
-  const theme: any = useTheme();
   return (
     <>
       <Box
@@ -12,16 +13,28 @@ export const Header = (props: any) => {
         gap={1}
         flexWrap={'wrap'}
       >
-        <Typography variant="h3" color={theme?.palette?.slateBlue?.main}>
+        <Typography variant="h3" color={'slateBlue.main'}>
           Tiers and Rules
         </Typography>
         <Box display={'flex'} gap={2} flexWrap={'wrap'}>
-          <Button variant="contained" onClick={() => upsertRulesHandler?.()}>
-            Create Rules
-          </Button>
-          <Button variant="contained" onClick={() => upsertTiersHandler?.()}>
-            Create Tiers
-          </Button>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.CREATE_RULES,
+            ]}
+          >
+            <Button variant="contained" onClick={() => upsertRulesHandler?.()}>
+              Create Rules
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.CREATE_TIERS,
+            ]}
+          >
+            <Button variant="contained" onClick={() => upsertTiersHandler?.()}>
+              Create Tiers
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
     </>

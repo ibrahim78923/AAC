@@ -580,6 +580,7 @@ export const UPSERT_SHOP_FORM_CONSTANT = {
   UPDATE_SHOP: 'Update Shop',
   NEW_SHOP: 'New Shop',
 };
+
 export const TIME_UNITS = {
   MS: 1000,
   SEC_PER_HOUR: 3600,
@@ -590,4 +591,10 @@ export const TIME_UNITS = {
 export const LOYALTY_REWARDS_CLASS = {
   RULES: 'RULES',
   TIERS: 'TIERS',
+};
+
+export const LOYALTY_TIERS_REWARD_TYPE = {
+  FIXED_DISCOUNT: 'FIXED_DISCOUNT',
+  FLAT_DISCOUNT: 'FLAT_DISCOUNT',
+  POINTS: 'POINTS',
 };
