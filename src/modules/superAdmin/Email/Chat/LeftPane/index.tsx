@@ -13,7 +13,12 @@ import ActionBtn from './ActionBtn';
 import { styles } from './LeftPane.styles';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
-import { setActiveRecord, setMailTabType } from '@/redux/slices/email/slice';
+import {
+  setActiveRecord,
+  setMailDraftList,
+  setMailList,
+  setMailTabType,
+} from '@/redux/slices/email/slice';
 import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
@@ -22,6 +27,7 @@ import {
   useGetMailFoldersQuery,
 } from '@/services/commonFeatures/email';
 import { PAGINATION } from '@/config';
+import { EMAIL_TABS_TYPES } from '@/constants';
 
 const LeftPane = () => {
   const theme = useTheme();
@@ -30,13 +36,17 @@ const LeftPane = () => {
     (state: any) => state?.email?.mailTabType,
   );
 
+  const mailList: any = useAppSelector((state: any) => state?.email?.mailList);
+  const mailDraftList: any = useAppSelector(
+    (state: any) => state?.email?.mailDraftList,
+  );
+
   const handelToggleTab = (value: any) => {
     dispatch(setMailTabType(value));
     dispatch(setActiveRecord({}));
   };
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-
   const { data: foldersData, isLoading } = useGetMailFoldersQuery({});
   const dataToShow = ['Inbox', 'Drafts', 'Sent', 'Schedule', 'Trash'];
   const filteredData = foldersData?.data?.filter((item: any) => {
@@ -81,6 +91,18 @@ const LeftPane = () => {
     },
     // { skip: isGetEmailsRequest },
   );
+
+  useEffect(() => {
+    if (emailsByFolderIdData) {
+      dispatch(setMailList(emailsByFolderIdData));
+    }
+  }, [emailsByFolderIdData]);
+
+  useEffect(() => {
+    if (draftsData) {
+      dispatch(setMailDraftList(draftsData));
+    }
+  }, [draftsData]);
 
   return (
     <Box sx={styles?.card(theme)}>
@@ -148,20 +170,21 @@ const LeftPane = () => {
           ))}
         </ButtonGroup>
       )}
-
       <MailList
         emailsByFolderIdData={
-          mailTabType?.display_name === 'Drafts'
-            ? draftsData
-            : emailsByFolderIdData
+          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
+            ? mailDraftList
+            : mailList
         }
         isLoadingEmailsByFolderIdData={
-          mailTabType?.display_name === 'Drafts'
+          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
             ? isLoadingDraftsData
             : isLoadingEmailsByFolderIdData
         }
         refetch={
-          mailTabType?.display_name === 'Drafts' ? draftsDataRefetch : refetch
+          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
+            ? draftsDataRefetch
+            : refetch
         }
         mailTabType={mailTabType}
       />

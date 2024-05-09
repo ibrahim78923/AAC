@@ -27,7 +27,7 @@ const MailList = ({
 
   const dispatch = useDispatch();
 
-  const selectedRecords = useAppSelector(
+  const selectedRecords: any = useAppSelector(
     (state: any) => state?.email?.selectedRecords,
   );
 
@@ -144,12 +144,15 @@ const MailList = ({
                         onChange={() => handleCheckboxClick(item)}
                       />
                       <Box>
-                        <Typography variant="h6">
+                        <Typography
+                          variant="h6"
+                          sx={{ fontWeight: item?.unread ? '700' : '' }}
+                        >
                           {item?.from[0]?.name} {item?.lastName} {item?.reff}
                         </Typography>
                         <Typography
                           variant="body3"
-                          sx={{ fontWeight: '600' }}
+                          sx={{ fontWeight: item?.unread ? '700' : '600' }}
                           color={'primary'}
                           margin={'8px 0px'}
                         >

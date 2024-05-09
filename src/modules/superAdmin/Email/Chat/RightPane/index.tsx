@@ -21,7 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { styles } from './RightPane.styles';
 import SendEmailDrawer from '../../SendEmail';
 import EmailSettingDrawer from '../../EmailSettingDrawer';
-import { API_STATUS, CREATE_EMAIL_TYPES } from '@/constants';
+import { API_STATUS, CREATE_EMAIL_TYPES, EMAIL_TABS_TYPES } from '@/constants';
 import { useGetMessageDetailsQuery } from '@/services/commonFeatures/email';
 import { useAppSelector } from '@/redux/store';
 import { UnixDateFormatter } from '@/utils/dateTime';
@@ -119,7 +119,7 @@ const RightPane = () => {
         </Box>
       </Box>
 
-      {mailTabType?.display_name === 'Drafts' ? (
+      {mailTabType?.display_name?.toLowerCase === EMAIL_TABS_TYPES?.DRAFTS ? (
         <>
           <Draft />
         </>
@@ -161,7 +161,6 @@ const RightPane = () => {
                             <Box flex={1} sx={{ cursor: 'pointer' }}>
                               <Typography variant="h5">
                                 {obj?.from[0]?.name}
-                                {/* {obj?.firstName} {obj?.lastName} {obj?.reff} */}
                               </Typography>
                               <Typography variant="body2">
                                 To: {obj?.to[0]?.name}{' '}
