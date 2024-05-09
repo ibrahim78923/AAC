@@ -8,7 +8,7 @@ export const tiersAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getTiersList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_RULES_AND_TIERS_LIST,
+        url: END_POINTS?.GET_TIERS_LIST,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -36,10 +36,9 @@ export const tiersAPI = baseAPI?.injectEndpoints({
       }),
     }),
     getSingleTiersDetails: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: '',
+      query: (id: any) => ({
+        url: `${END_POINTS?.GET_TIERS_BY_ID}/${id}`,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
       }),
     }),
     getContactListForTier: builder?.query({
@@ -64,4 +63,5 @@ export const {
   useEditSingleTiersMutation,
   useGetSingleTiersDetailsQuery,
   useLazyGetContactListForTierQuery,
+  useLazyGetSingleTiersDetailsQuery,
 } = tiersAPI;

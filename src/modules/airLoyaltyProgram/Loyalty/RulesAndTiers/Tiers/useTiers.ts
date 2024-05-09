@@ -1,5 +1,4 @@
 import { PAGINATION } from '@/config';
-import { LOYALTY_REWARDS_CLASS } from '@/constants/strings';
 import { useLazyGetTiersListQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
 import { useEffect, useState } from 'react';
 import { tiersColumnsDynamic } from './Tiers.data';
@@ -21,7 +20,6 @@ export const useTiers = () => {
         page,
         limit: pageLimit,
         search,
-        type: LOYALTY_REWARDS_CLASS?.TIERS,
       },
     };
     try {

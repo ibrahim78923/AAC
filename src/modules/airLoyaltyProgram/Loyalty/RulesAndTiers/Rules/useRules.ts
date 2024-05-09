@@ -1,5 +1,4 @@
 import { PAGINATION } from '@/config';
-import { LOYALTY_REWARDS_CLASS } from '@/constants/strings';
 import { useLazyGetRulesListQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
 import { useEffect, useState } from 'react';
 import { rulesColumnsDynamic } from './Rules.data';
@@ -17,7 +16,6 @@ export const useRules = () => {
         page,
         limit: pageLimit,
         search,
-        type: LOYALTY_REWARDS_CLASS?.RULES,
       },
     };
     try {

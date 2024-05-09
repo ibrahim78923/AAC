@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -10,47 +9,25 @@ import {
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './NotificationCard.styles';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useGetEmailsByFolderIdQuery } from '@/services/commonFeatures/email';
+import { useAppSelector } from '@/redux/store';
 import {
   setActiveRecord,
   setSelectedRecords,
 } from '@/redux/slices/email/slice';
-import { PAGINATION } from '@/config';
-import { API_STATUS } from '@/constants';
+import { API_STATUS, EMAIL_TABS_TYPES } from '@/constants';
+import { useDispatch } from 'react-redux';
 
-const MailList = () => {
+const MailList = ({
+  emailsByFolderIdData,
+  isLoadingEmailsByFolderIdData,
+  refetch,
+  mailTabType,
+}: any) => {
   const theme = useTheme();
-  const mailTabType: any = useAppSelector(
-    (state: any) => state?.email?.mailTabType,
-  );
 
-  const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
+  const dispatch = useDispatch();
 
-  const dispatch: any = useAppDispatch();
-
-  const {
-    data: emailsByFolderIdData,
-    status: isLoadingEmailsByFolderIdData,
-    refetch,
-  } = useGetEmailsByFolderIdQuery(
-    {
-      params: {
-        page: PAGINATION?.CURRENT_PAGE,
-        limit: PAGINATION?.PAGE_LIMIT,
-        folderId: mailTabType?.id,
-      },
-    },
-    { skip: isGetEmailsRequest },
-  );
-
-  useEffect(() => {
-    if (mailTabType) {
-      setIsGetEmailsRequest(false);
-    }
-  }, [mailTabType]);
-
-  const selectedRecords = useAppSelector(
+  const selectedRecords: any = useAppSelector(
     (state: any) => state?.email?.selectedRecords,
   );
 
@@ -59,23 +36,23 @@ const MailList = () => {
   );
 
   const handleCheckboxClick = (email: any) => {
-    const safeSelectedRecords: any = Array.isArray(selectedRecords)
+    const safeSelectedRecords = Array.isArray(selectedRecords)
       ? selectedRecords
       : [];
-
     const isAlreadySelected = safeSelectedRecords?.some(
-      (item: any) => item?.id === email?.id,
+      (item) => item?.id === email?.id,
     );
 
     if (isAlreadySelected) {
       const updatedSelection = safeSelectedRecords?.filter(
-        (item: any) => item?.id !== email?.id,
+        (item) => item?.id !== email?.id,
       );
       dispatch(setSelectedRecords(updatedSelection));
     } else {
       dispatch(setSelectedRecords([...safeSelectedRecords, email]));
     }
   };
+
   const handleSelectAll = () => {
     const totalEmails = emailsByFolderIdData?.data?.length || 0;
     const selectedCount = selectedRecords?.length;
@@ -119,71 +96,95 @@ const MailList = () => {
         </Button>
       </Box>
 
-      {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
-        <>
-          <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
-        </>
-      ) : (
-        <>
-          {emailsByFolderIdData?.data ? (
-            <>
-              {emailsByFolderIdData?.data?.length > 0 ? (
-                emailsByFolderIdData?.data?.map((item: any) => (
-                  <Box
-                    key={uuidv4()}
-                    sx={styles?.card}
-                    style={{
-                      background:
-                        activeRecord?.id === item?.id
-                          ? theme?.palette?.grey[100]
-                          : theme?.palette?.common?.white,
-                    }}
-                    onClick={() => dispatch(setActiveRecord(item))}
-                  >
-                    <Checkbox
-                      checked={selectedRecords?.some(
-                        (email: any) => email?.id === item?.id,
-                      )}
-                      onChange={() => handleCheckboxClick(item)}
-                    />
-                    <Box>
-                      <Typography variant="h6">
-                        {item?.from[0]?.name} {item?.lastName} {item?.reff}
-                      </Typography>
-                      <Typography
-                        variant="body3"
-                        sx={{ fontWeight: '600' }}
-                        color={'primary'}
-                        margin={'8px 0px'}
-                      >
-                        {item?.subject}
-                      </Typography>
-                      <Typography
-                        variant="body3"
-                        margin={'3px 0px'}
-                        sx={{
-                          display: '-webkit-box',
-                          WebkitBoxOrient: 'vertical',
-                          WebkitLineClamp: 3,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {item?.snippet}
-                      </Typography>
-                      <Typography variant="body2">{item?.time}</Typography>
-                    </Box>
-                  </Box>
-                ))
-              ) : (
-                <>No record found</>
-              )}
-            </>
-          ) : (
-            <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
-          )}
-        </>
+      {mailTabType?.display_name === EMAIL_TABS_TYPES?.TRASH && (
+        <Box
+          sx={{
+            background: theme?.palette?.grey[100],
+            padding: '20px',
+            borderRadius: '10px',
+            marginTop: '-20px',
+          }}
+        >
+          <Typography variant="body2" sx={{ color: theme?.palette?.grey[800] }}>
+            Messages that have been in Trash more than 30 days will be
+            automatically deleted.{' '}
+            <strong>
+              <u>Empty Trash now</u>
+            </strong>
+          </Typography>
+        </Box>
       )}
+
+      <Box sx={{ maxHeight: '62vh', overflow: 'auto' }}>
+        {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
+          <>
+            <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
+          </>
+        ) : (
+          <>
+            {emailsByFolderIdData?.data ? (
+              <>
+                {emailsByFolderIdData?.data?.length > 0 ? (
+                  emailsByFolderIdData?.data?.map((item: any) => (
+                    <Box
+                      key={uuidv4()}
+                      sx={styles?.card}
+                      style={{
+                        background:
+                          activeRecord?.id === item?.id
+                            ? theme?.palette?.grey[100]
+                            : theme?.palette?.common?.white,
+                      }}
+                      onClick={() => dispatch(setActiveRecord(item))}
+                    >
+                      <Checkbox
+                        checked={selectedRecords?.some(
+                          (email: any) => email?.id === item?.id,
+                        )}
+                        onChange={() => handleCheckboxClick(item)}
+                      />
+                      <Box>
+                        <Typography
+                          variant="h6"
+                          sx={{ fontWeight: item?.unread ? '700' : '' }}
+                        >
+                          {item?.from[0]?.name} {item?.lastName} {item?.reff}
+                        </Typography>
+                        <Typography
+                          variant="body3"
+                          sx={{ fontWeight: item?.unread ? '700' : '600' }}
+                          color={'primary'}
+                          margin={'8px 0px'}
+                        >
+                          {item?.subject}
+                        </Typography>
+                        <Typography
+                          variant="body3"
+                          margin={'3px 0px'}
+                          sx={{
+                            display: '-webkit-box',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 3,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {item?.snippet}
+                        </Typography>
+                        <Typography variant="body2">{item?.time}</Typography>
+                      </Box>
+                    </Box>
+                  ))
+                ) : (
+                  <>No record found</>
+                )}
+              </>
+            ) : (
+              <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
+            )}
+          </>
+        )}
+      </Box>
     </Box>
   );
 };

@@ -2,19 +2,6 @@ import { truncateText } from '@/utils/avatarUtils';
 import { Visibility } from '@mui/icons-material';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
 
-export const tiersList = [
-  {
-    _id: 1,
-    tiers: 'Base tier',
-    noOfMembers: 10,
-  },
-  {
-    _id: 2,
-    tiers: 'Gold',
-    noOfMembers: 4,
-  },
-];
-
 export const tiersColumnsDynamic = (
   setIsPortalOpen: any,
   overallPermissions: any,
@@ -27,10 +14,11 @@ export const tiersColumnsDynamic = (
     isSortable: true,
   },
   {
-    accessorFn: (info: any) => info?.noOfMembers,
+    accessorFn: (info: any) => info?.contacts,
     id: 'noOfMembers',
     header: 'No of members',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      !!info?.getValue()?.length ? info?.getValue()?.length : '---',
     isSortable: true,
   },
   ...(overallPermissions?.includes(
@@ -41,10 +29,12 @@ export const tiersColumnsDynamic = (
           accessorFn: (info: any) => info?._id,
           id: '_id',
           header: 'Action',
-          cell: () => (
+          cell: (info: any) => (
             <Visibility
               sx={{ cursor: 'pointer' }}
-              onClick={() => setIsPortalOpen({ isOpen: true, isDetail: true })}
+              onClick={() =>
+                setIsPortalOpen({ isDetail: info?.row?.original, isOpen: true })
+              }
             />
           ),
         },
