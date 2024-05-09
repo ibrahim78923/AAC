@@ -1,39 +1,43 @@
-import { RHFEditor, RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocompleteAsync,
+  RHFEditor,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
-export const editFaqsDataArray = (onViewDisabled: boolean) => [
-  {
-    componentProps: {
-      name: 'faqCategory',
-      label: 'Select FAQ Category',
-      select: true,
-      disabled: onViewDisabled,
+export const editFaqsDataArray = (onViewDisabled: boolean, products: any) => {
+  return [
+    {
+      md: 12,
+      component: RHFAutocompleteAsync,
+      componentProps: {
+        name: 'faqCategory',
+        label: 'Select FAQ Category',
+        placeholder: 'Select product',
+        apiQuery: products,
+        getOptionLabel: (option: any) => option?.name,
+        required: true,
+        disabled: onViewDisabled,
+      },
     },
-    options: [
-      { value: 'Sales', label: 'Sales' },
-      { value: 'Marketing', label: 'Marketing' },
-      { value: 'Service', label: 'Service' },
-      { value: 'Operations', label: 'Operations' },
-      { value: 'Loyalty Program', label: 'Loyalty Program' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'faqQuestion',
-      label: 'Question',
-      disabled: onViewDisabled,
+    {
+      componentProps: {
+        name: 'faqQuestion',
+        label: 'Question',
+        disabled: onViewDisabled,
+        required: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'faqAnswer',
-      label: 'Answer',
-      disabled: onViewDisabled,
+    {
+      componentProps: {
+        name: 'faqAnswer',
+        label: 'Answer',
+        disabled: onViewDisabled,
+        required: true,
+      },
+      component: RHFEditor,
+      md: 12,
     },
-    component: RHFEditor,
-    md: 12,
-  },
-];
+  ];
+};
