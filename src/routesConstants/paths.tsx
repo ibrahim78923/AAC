@@ -234,6 +234,13 @@ export const SOCIAL_FEATURES_EMAIL = {
   GET_OTHER_MAIL_CONFIG: '/other-mail/get-config',
   GET_MAILS_BY_FOLDER_ID: '/other-mail/get-emails-by-folderId',
   GET_MAIL_DETAILS: '/other-mail/get-message-details',
+  GET_OTHERS_DRAFTS: '/other-mail/get-draft-emails',
+
+  SEND_EMAIL_OTHER: '/other-mail/send-email',
+  DRAFT_EMAIL_OTHER: '/other-mail/draft-email',
+  REPLY_EMAIL_OTHER: '/other-mail/reply-email',
+
+  MOVE_FOLDER_EMAIL_OTHER: '/other-mail/move-email',
 };
 
 export const CHAT_SOCKETS = {

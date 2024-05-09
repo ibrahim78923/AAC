@@ -52,7 +52,11 @@ export const CustomGridWithCardContent = ({
               <CustomBox label={'Linked Company'} value={obj?.associate} />
               <CustomBox
                 label={'Assigned User'}
-                value={obj?.assignTo?.firstName + '' + obj?.assignTo?.lastName}
+                value={
+                  (obj?.assignTo?.firstName || '-') +
+                  '' +
+                  (obj?.assignTo?.lastName || '-')
+                }
               />
               <CustomBox
                 label={'Task Status'}
