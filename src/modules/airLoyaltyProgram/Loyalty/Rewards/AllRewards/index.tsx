@@ -10,8 +10,6 @@ export const AllRewards = () => {
   const {
     lazyGetLoyaltyAllRewardsListStatus,
     setSearch,
-    setPageLimit,
-    setPage,
     loyaltyAllRewardColumn,
     isRewardDetailsOpen,
     setIsRewardDetailsOpen,
@@ -33,25 +31,9 @@ export const AllRewards = () => {
               columns={loyaltyAllRewardColumn}
               data={lazyGetLoyaltyAllRewardsListStatus?.data?.data?.rewards}
               isLoading={lazyGetLoyaltyAllRewardsListStatus?.isLoading}
-              currentPage={
-                lazyGetLoyaltyAllRewardsListStatus?.data?.data?.meta?.page
-              }
-              count={
-                lazyGetLoyaltyAllRewardsListStatus?.data?.data?.meta?.pages
-              }
-              pageLimit={
-                lazyGetLoyaltyAllRewardsListStatus?.data?.data?.meta?.limit
-              }
-              totalRecords={
-                lazyGetLoyaltyAllRewardsListStatus?.data?.data?.meta?.total
-              }
-              setPage={setPage}
-              setPageLimit={setPageLimit}
               isFetching={lazyGetLoyaltyAllRewardsListStatus?.isFetching}
               isError={lazyGetLoyaltyAllRewardsListStatus?.isError}
               isSuccess={lazyGetLoyaltyAllRewardsListStatus?.isSuccess}
-              onPageChange={(page: any) => setPage(page)}
-              isPagination
             />
           </Box>
         </Box>

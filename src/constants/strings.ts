@@ -591,3 +591,7 @@ export const LOYALTY_REWARDS_CLASS = {
   RULES: 'RULES',
   TIERS: 'TIERS',
 };
+
+export const DATA_TYPES = {
+  NULL: null,
+};

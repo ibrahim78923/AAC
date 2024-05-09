@@ -6,20 +6,19 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import {
-  LOYALTY_REWARDS_CLASS,
-  LOYALTY_REWARDS_TYPE,
-} from '@/constants/strings';
+import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 
 import * as Yup from 'yup';
 
 export const addPhysicalRewardsValidationSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Title is required'),
+  title: Yup?.string()
+    ?.required('Title is required')
+    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string'),
   requiredPoints: Yup?.number()
     ?.positive('Greater than zero')
     ?.typeError('Not a number')
     ?.required('Required points are required'),
-  addImage: Yup?.mixed()?.nullable(),
+  fileUrl: Yup?.mixed()?.nullable(),
   visibleTo: Yup?.mixed()?.nullable()?.required('Visible To is required'),
   costPrice: Yup?.number()
     ?.positive('Greater than zero')
@@ -37,7 +36,9 @@ export const addPhysicalRewardsValidationSchema = Yup?.object()?.shape({
 });
 
 export const addDigitalRewardsValidationSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Title is required'),
+  title: Yup?.string()
+    ?.required('Title is required')
+    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string'),
   requiredPoints: Yup?.number()
     ?.positive('Greater than zero')
     ?.typeError('Not a number')
@@ -66,7 +67,7 @@ export const addRewardsDefaultValues = {
   chooseCategory: null,
   chooseVoucher: null,
   visibleTo: [],
-  addImage: null,
+  fileUrl: null,
   costPrice: 0,
   activeFrom: new Date(),
   activeTo: null,
@@ -116,7 +117,7 @@ export const addRewardsFormFieldsDynamic = (
   {
     id: 3,
     componentProps: {
-      name: 'addImage',
+      name: 'fileUrl',
       label: 'Add Image',
       fullWidth: true,
     },
@@ -152,7 +153,6 @@ export const addRewardsFormFieldsDynamic = (
       required: true,
       externalParams: {
         limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-        type: LOYALTY_REWARDS_CLASS?.TIERS,
       },
       apiQuery: tiersApiQuery,
       getOptionLabel: (option: any) => option?.name,
