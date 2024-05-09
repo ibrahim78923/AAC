@@ -96,7 +96,7 @@ export const UpsertInventory = () => {
               <LoadingButton
                 variant="outlined"
                 color="secondary"
-                onClick={() => methods?.reset()}
+                onClick={() => moveBack?.()}
                 disabled={
                   postAddToInventoryStatus?.isLoading ||
                   patchAddToInventoryStatus?.isLoading

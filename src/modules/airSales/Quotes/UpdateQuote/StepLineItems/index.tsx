@@ -21,15 +21,13 @@ const StepLineItems = ({ openCreateProduct }: any) => {
   if (router?.query?.data) {
     quoteId = router?.query?.data;
   }
-  const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
 
+  const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
   const param = {
     applyOn: 'quotes',
   };
   const { data: taxCalculation } = useGetTaxCalculationsQuery(param);
   const [search, setSearch] = useState('');
-
-  // const { data } = router?.query;
 
   const taxCalculationPerc = taxCalculation?.data?.taxCalculations;
   const gettingDiscount = dataGetQuoteById?.data?.products[0]?.unitDiscount;
@@ -40,19 +38,13 @@ const StepLineItems = ({ openCreateProduct }: any) => {
   });
   const sum = productsData?.data?.products?.reduce(
     (accumulator: any, currentValue: any) =>
-      accumulator + currentValue?.unitPrice * currentValue?.quantity,
-    0,
-  );
-
-  const totalDisc = productsData?.data?.products?.reduce(
-    (accumulator: any, currentValue: any) =>
-      accumulator + (currentValue?.unitPrice * currentValue?.quantity) / 100,
+      accumulator + (currentValue?.unitPrice * currentValue?.quantity || 0),
     0,
   );
 
   const unitDiscount = productsData?.data?.products?.reduce(
     (accumulator: any, currentValue: any) =>
-      accumulator + currentValue?.unitDiscount * currentValue?.quantity,
+      accumulator + (currentValue?.unitDiscount * currentValue?.quantity || 0),
     0,
   );
   let totalPercentage = 0;
@@ -62,7 +54,19 @@ const StepLineItems = ({ openCreateProduct }: any) => {
     }
   }
   const percentageOfSubtotal = sum * (totalPercentage / 100);
-  const FinalTotal = percentageOfSubtotal - gettingDiscount;
+
+  const discount = isNaN(gettingDiscount) ? 0 : gettingDiscount;
+
+  const subtotal = isNaN(sum) ? 0 : sum;
+
+  const totalDisc = subtotal * (unitDiscount / 100);
+
+  let FinalTotal;
+  if (!isNaN(percentageOfSubtotal) && !isNaN(discount)) {
+    FinalTotal = (percentageOfSubtotal - discount).toFixed(2);
+  } else {
+    FinalTotal = 'N/A';
+  }
 
   const [deleteProducts] = useDeleteProductsMutation();
 
@@ -237,7 +241,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
 
           <Box sx={styles?.voucherFooter}>
             <Box sx={styles?.fCell}>Total: </Box>
-            <Box sx={styles?.bodyCellH}> £{FinalTotal?.toFixed(2)}</Box>
+            <Box sx={styles?.bodyCellH}> £{FinalTotal}</Box>
           </Box>
         </Box>
       </Box>

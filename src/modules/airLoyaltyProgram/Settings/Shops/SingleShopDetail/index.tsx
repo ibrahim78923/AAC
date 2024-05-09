@@ -4,17 +4,17 @@ import { getActivePermissionsSession } from '@/utils';
 import { Box, Typography } from '@mui/material';
 
 const SingleShopDetail = (props: any) => {
-  const { isPortalOpen, setIsPortalOpen } = props;
+  const { isPortalOpen, setIsPortalOpen, setSelectedShopsList } = props;
   const overallPermissions = getActivePermissionsSession();
 
   const formattedData = {
-    'Shop Name': isPortalOpen?.data?.shopName,
-    'Shope Type': isPortalOpen?.data?.shopeType,
-    'Associated Email': isPortalOpen?.data?.associatedEmail,
-    City: isPortalOpen?.data?.city,
-    Country: isPortalOpen?.data?.country,
-    'Post Code': isPortalOpen?.data?.postCode,
-    Address: isPortalOpen?.data?.address,
+    'Shop Name': isPortalOpen?.data?.name,
+    'Shope Type': isPortalOpen?.data?.shopType ?? '---',
+    'Associated Email': isPortalOpen?.data?.email ?? '---',
+    City: isPortalOpen?.data?.city ?? '---',
+    Country: isPortalOpen?.data?.country ?? '---',
+    'Post Code': isPortalOpen?.data?.postCode ?? '---',
+    Address: isPortalOpen?.data?.address ?? '---',
   };
 
   return (
@@ -31,13 +31,14 @@ const SingleShopDetail = (props: any) => {
       )}
       footer
       cancelText={'Delete'}
-      cancelBtnHandler={() =>
+      cancelBtnHandler={() => {
         setIsPortalOpen({
           isOpen: true,
           isDelete: true,
           data: isPortalOpen?.data,
-        })
-      }
+        });
+        setSelectedShopsList?.([isPortalOpen?.data]);
+      }}
       submitHandler={() =>
         setIsPortalOpen({
           isOpen: true,
@@ -52,16 +53,15 @@ const SingleShopDetail = (props: any) => {
             key={key}
             sx={{
               display: 'flex',
-              alignItems: 'center',
               justifyContent: 'space-between',
-              gap: 2,
+              gap: 3,
               mb: 3,
             }}
           >
             <Typography variant="h5" fontWeight={500} color="blue.dull_blue">
               {key}
             </Typography>
-            <Typography variant="body3" color="custom.main">
+            <Typography variant="body2" color="custom.main">
               {value}
             </Typography>
           </Box>

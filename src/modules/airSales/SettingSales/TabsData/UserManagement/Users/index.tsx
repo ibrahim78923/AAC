@@ -8,6 +8,7 @@ import useUserManagement from '../useUserManagement';
 import useUsers from './useUsers';
 import { DeleteIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const UserTable = (props: any) => {
   const { setIsAddUserDrawer, isAddUserDrawer, checkedUser, setCheckedUser } =
@@ -99,7 +100,7 @@ const UserTable = (props: any) => {
             onClick={() => {
               setIsAddUserDrawer({
                 isToggle: true,
-                type: 'edit',
+                type: DRAWER_TYPES?.EDIT,
               });
               handleClose();
             }}
@@ -111,7 +112,7 @@ const UserTable = (props: any) => {
               setIsAddUserDrawer({
                 ...isAddUserDrawer,
                 isToggle: true,
-                type: 'view',
+                type: DRAWER_TYPES?.VIEW,
               });
               handleClose();
             }}
