@@ -9,7 +9,7 @@ const GridView = ({ data }: GridViewI) => {
   const InprogressTasks =
     data && data?.filter((task) => task?.status === 'Inprogress');
   const completedTasks =
-    data && data?.filter((task) => task?.status === 'Completed');
+    data && data?.filter((task) => task?.status === 'Complete');
 
   return (
     <Grid container spacing={3}>

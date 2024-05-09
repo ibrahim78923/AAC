@@ -16,6 +16,47 @@ export const emailApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+
+    postSendOtherEmail: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.SEND_EMAIL_OTHER}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+    postDraftOtherEmail: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.DRAFT_EMAIL_OTHER}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+    postReplyOtherEmail: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.REPLY_EMAIL_OTHER}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
     updateEmailConfig: builder.mutation({
       query: ({ body, id }: any) => {
         return {
@@ -60,6 +101,17 @@ export const emailApi = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
 
+    getDrafts: builder.query({
+      query: ({ params }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.GET_OTHERS_DRAFTS}`,
+          method: 'GET',
+          params: params,
+        };
+      },
+      providesTags: TAG,
+    }),
+
     getMessageDetails: builder.query({
       query: ({ params }: any) => {
         return {
@@ -69,6 +121,17 @@ export const emailApi = baseAPI.injectEndpoints({
         };
       },
       providesTags: TAG,
+    }),
+
+    moveFolderOtherEmail: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.MOVE_FOLDER_EMAIL_OTHER}`,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
     }),
   }),
 });
@@ -80,4 +143,10 @@ export const {
   useGetOtherMailDetailsQuery,
   useGetEmailsByFolderIdQuery,
   useGetMessageDetailsQuery,
+
+  usePostSendOtherEmailMutation,
+  usePostReplyOtherEmailMutation,
+  usePostDraftOtherEmailMutation,
+  useMoveFolderOtherEmailMutation,
+  useGetDraftsQuery,
 } = emailApi;

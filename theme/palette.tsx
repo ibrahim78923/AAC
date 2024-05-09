@@ -145,6 +145,9 @@ const CUSTOM_COLORS = {
   inactive_bg: '#FF4A4A33',
   active_bg: '#47B26333',
   pastel_yellow: 'FFF6D9',
+  translucent_white: 'rgba(255, 255, 255, 0.5)',
+  periwinkle_blue: '#CDE1FF',
+  dodger_blue: '#4B8DF0',
 };
 const GRAPH = {
   cyan: 'blue',
