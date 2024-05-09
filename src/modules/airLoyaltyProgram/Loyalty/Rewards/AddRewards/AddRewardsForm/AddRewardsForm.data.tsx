@@ -13,7 +13,8 @@ import * as Yup from 'yup';
 export const addPhysicalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()
     ?.required('Title is required')
-    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string'),
+    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string')
+    ?.max(30, 'maximum 30 characters'),
   requiredPoints: Yup?.number()
     ?.positive('Greater than zero')
     ?.typeError('Not a number')
@@ -38,7 +39,8 @@ export const addPhysicalRewardsValidationSchema = Yup?.object()?.shape({
 export const addDigitalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()
     ?.required('Title is required')
-    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string'),
+    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string')
+    ?.max(30, 'maximum 30 characters'),
   requiredPoints: Yup?.number()
     ?.positive('Greater than zero')
     ?.typeError('Not a number')
