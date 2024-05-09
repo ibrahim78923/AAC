@@ -38,6 +38,16 @@ export const rulesAPI = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
+    getTiersDropdownForRules: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.GET_TIERS_LIST,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.tiers ?? [];
+      },
+    }),
   }),
 });
 
@@ -48,4 +58,5 @@ export const {
   useDeleteRulesMutation,
   useEditSingleRulesMutation,
   useGetSingleRulesDetailsQuery,
+  useLazyGetTiersDropdownForRulesQuery,
 } = rulesAPI;

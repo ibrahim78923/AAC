@@ -598,3 +598,19 @@ export const LOYALTY_TIERS_REWARD_TYPE = {
   FLAT_DISCOUNT: 'FLAT_DISCOUNT',
   POINTS: 'POINTS',
 };
+
+export const RULES_TIME_SPAN = {
+  THIS_WEEK: 'THIS_WEEK',
+  LAST_WEEK: 'LAST_WEEK',
+  THIS_MONTH: 'THIS_MONTH',
+  LAST_MONTH: 'LAST_MONTH',
+  CUSTOM_DATE: 'CUSTOM_DATE',
+};
+
+export const RULES_OPERATORS = {
+  LESS_THAN: 'less than',
+  GREATER_THAN: 'greater than',
+  EQUAL_TO: 'equal to',
+  GREATER_THAN_OR_EQUAL_TO: 'greater than or equal to',
+  LESS_THAN_OR_EQUAL_TO: 'less than or equal to',
+};

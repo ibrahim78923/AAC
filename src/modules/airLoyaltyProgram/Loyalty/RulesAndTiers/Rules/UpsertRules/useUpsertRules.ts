@@ -7,6 +7,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { successSnackbar } from '@/utils/api';
+import { useLazyGetTiersDropdownForRulesQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
 
 export const useUpsertRules = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -48,9 +49,12 @@ export const useUpsertRules = (props: any) => {
     clearErrors();
   }, [watchForAttribute]);
 
+  const apiQueryTiers = useLazyGetTiersDropdownForRulesQuery?.();
+
   const upsertRulesFormFields = upsertRulesFormFieldsDynamic(
     onChangeCustom,
     watchForLoyaltyType,
+    apiQueryTiers,
   )?.filter(
     (formField: any) =>
       formField?.attributeType?.includes(watchForAttribute?.label),

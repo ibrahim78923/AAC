@@ -1,4 +1,5 @@
 import { AntSwitch } from '@/components/AntSwitch';
+import { LOYALTY_RULES_ATTRIBUTES_MAPPED } from '@/constants/api-mapped';
 
 export const rulesColumnsDynamic = () => [
   {
@@ -6,7 +7,7 @@ export const rulesColumnsDynamic = () => [
     id: 'rulesTitle',
     header: 'Rules Title',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => LOYALTY_RULES_ATTRIBUTES_MAPPED?.[info?.getValue()],
   },
   {
     accessorFn: (info: any) => info?.tiers,
@@ -15,7 +16,6 @@ export const rulesColumnsDynamic = () => [
     isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
-
   {
     accessorFn: (info: any) => info?.status,
     id: 'status',
