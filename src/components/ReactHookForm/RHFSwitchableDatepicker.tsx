@@ -7,6 +7,8 @@ import {
   ListItemButton,
   TextField,
   Typography,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import { useFormContext, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
@@ -15,8 +17,14 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { DATE_FORMAT } from '@/constants';
 import CustomLabel from '../CustomLabel';
 import { styles } from './RHFSwitchableDatepicker.style';
+import ClearIcon from '@mui/icons-material/Clear';
 
-const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
+const RHFSwitchableDatepicker = ({
+  name,
+  required,
+  excludeDates,
+  ...other
+}: any) => {
   const { control, setValue } = useFormContext();
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
@@ -73,7 +81,10 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    setIsOpen(!isOpen);
+    const isClearButtonClicked = e?.target?.closest('.clearButton') !== null;
+    if (!isClearButtonClicked) {
+      setIsOpen(!isOpen);
+    }
   };
 
   const handleChange = (date: any) => {
@@ -129,6 +140,13 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
       setFormattedDate(`${dayjs(date).format(DATE_FORMAT.UI)}`);
       setValue(name, [date, date]);
     }
+  };
+
+  const handleClear = () => {
+    setFormattedDate('');
+    setStartDate(null);
+    setEndDate(null);
+    setValue(name, null);
   };
 
   // Datepicker custom container
@@ -227,6 +245,21 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
               {...other}
               label=""
               value={formattedDate}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {formattedDate && (
+                      <IconButton
+                        className="clearButton"
+                        onClick={handleClear}
+                        size="small"
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    )}
+                  </InputAdornment>
+                ),
+              }}
             />
           </>
         )}
@@ -244,7 +277,7 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
             startDate={startDate}
             endDate={endDate}
             selectsRange={isRangePicker}
-            excludeDates={[new Date()]}
+            excludeDates={excludeDates || []}
           />
         </>
       )}
