@@ -83,7 +83,7 @@ const Attachments = (companyId: any) => {
               setRowData,
               handleOpenAlert,
             })}
-            data={getCompanyAttachment?.data}
+            data={getCompanyAttachment?.data?.attachments}
             isLoading={isLoading}
             setPage={setPage}
             setPageLimit={setPageLimit}

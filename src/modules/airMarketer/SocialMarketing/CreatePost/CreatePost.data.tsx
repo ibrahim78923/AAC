@@ -24,87 +24,91 @@ export const defaultValues = {
   Media: '',
 };
 
-export const createPostDataArray = [
-  {
-    componentProps: {
-      name: 'SocialAccount',
-      label: 'Add Social Account',
-      isCheckBox: false,
-      isSearch: true,
-      isAllSelect: false,
-      options: [
-        {
-          label: 'Facebook',
-          image: FacebookLogo,
-          options: [
-            {
-              image: UserProfileAvatarImage,
-              value: 'JohnDoe',
-              label: 'John Doe',
-            },
-            { image: UserProfileAvatarImage, value: 'Andrew', label: 'Andrew' },
-          ],
-        },
-        {
-          label: 'Instagram',
-          image: InstagramLogo,
-          options: [
-            {
-              image: UserProfileAvatarImage,
-              value: 'RichardRobertson',
-              label: 'Richard robertson',
-            },
-            {
-              image: UserProfileAvatarImage,
-              value: 'Franksten',
-              label: 'Franksten',
-            },
-          ],
-        },
-      ],
+export const createPostDataArray = (campaignsViewData: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'SocialAccount',
+        isCheckBox: false,
+        isSearch: true,
+        isAllSelect: false,
+        placeholder: 'Add Social Account',
+        options: [
+          {
+            label: 'Facebook',
+            image: FacebookLogo,
+            options: [
+              {
+                image: UserProfileAvatarImage,
+                value: 'JohnDoe',
+                label: 'John Doe',
+              },
+              {
+                image: UserProfileAvatarImage,
+                value: 'Andrew',
+                label: 'Andrew',
+              },
+            ],
+          },
+          {
+            label: 'Instagram',
+            image: InstagramLogo,
+            options: [
+              {
+                image: UserProfileAvatarImage,
+                value: 'RichardRobertson',
+                label: 'Richard robertson',
+              },
+              {
+                image: UserProfileAvatarImage,
+                value: 'Franksten',
+                label: 'Franksten',
+              },
+            ],
+          },
+        ],
+      },
+      component: RHFMultiSearchableSelectWithAccordion,
+      md: 12,
     },
-    component: RHFMultiSearchableSelectWithAccordion,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'Campaign',
-      label: 'Campaign',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'Campaign',
+        label: 'Campaign',
+        fullWidth: true,
+        select: true,
+      },
+      options: campaignsViewData?.data?.views?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+
+      md: 12,
     },
-    options: [
-      { value: 'Campaign1', label: 'Campaign1' },
-      { value: 'Campaign2', label: 'Campaign2' },
-      { value: 'Campaign3', label: 'Campaign3' },
-    ],
+    {
+      componentProps: {
+        name: 'PostDetails',
+        label: 'Post Details',
+        fullWidth: true,
+        select: false,
+      },
 
-    component: RHFSelect,
+      component: PostDetailsField,
 
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'PostDetails',
-      label: 'Post Details',
-      fullWidth: true,
-      select: false,
+      md: 12,
     },
+    {
+      componentProps: {
+        name: 'Media',
+        label: 'Media',
+        fullWidth: true,
+        select: false,
+      },
 
-    component: PostDetailsField,
+      component: UploadMedia,
 
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'Media',
-      label: 'Media',
-      fullWidth: true,
-      select: false,
+      md: 12,
     },
-
-    component: UploadMedia,
-
-    md: 12,
-  },
-];
+  ];
+};

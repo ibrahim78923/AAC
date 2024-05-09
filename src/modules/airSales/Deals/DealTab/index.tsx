@@ -45,7 +45,6 @@ const DealsTab = () => {
     handleChange,
     handleTabChange,
     dealTableData,
-    handleSearch,
     selectedRows,
     handleDeleteDeals,
     handeApplyFilter,
@@ -71,6 +70,8 @@ const DealsTab = () => {
     viewColumns,
     deleteDealLoading,
     setSelectedRows,
+    searchDeal,
+    setSearchDeal,
   } = useDealTab();
   const theme = useTheme();
 
@@ -97,22 +98,24 @@ const DealsTab = () => {
             onChange={handleChange}
             aria-label="common tabs"
           >
-            {tabsArray?.map((tab: any, index: number) => (
-              <Tab
-                sx={{
-                  '&.Mui-selected': {
-                    color: theme?.palette?.custom?.turquoise_Blue,
-                  },
-                }}
-                classes={{ textColorPrimary: 'text-primary-my' }}
-                disableRipple
-                key={uuidv4()}
-                label={tab?.name}
-                id={`simple-tab-${index}`}
-                aria-controls={`simple-tabpanel-${index}`}
-                onClick={() => handleTabChange(tab)}
-              />
-            ))}
+            {tabsArray?.map((tab: any, index: number) => {
+              return (
+                <Tab
+                  sx={{
+                    '&.Mui-selected': {
+                      color: theme?.palette?.custom?.turquoise_Blue,
+                    },
+                  }}
+                  classes={{ textColorPrimary: 'text-primary-my' }}
+                  disableRipple
+                  key={uuidv4()}
+                  label={tab?.name}
+                  id={`simple-tab-${index}`}
+                  aria-controls={`simple-tabpanel-${index}`}
+                  onClick={() => handleTabChange(tab)}
+                />
+              );
+            })}
           </Tabs>
         </PermissionsGuard>
         <Box sx={{ ml: '50px' }}>
@@ -124,7 +127,8 @@ const DealsTab = () => {
           permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEARCH_AND_FILTER]}
         >
           <Search
-            setSearchBy={handleSearch}
+            setSearchBy={setSearchDeal}
+            searchBy={searchDeal}
             placeholder="Search Here"
             size="small"
           />

@@ -2,13 +2,18 @@ import { PAGINATION } from '@/config';
 import { useLazyGetAllLoyaltyPhysicalRewardsListQuery } from '@/services/airLoyaltyProgram/loyalty/rewards/physical';
 import { useEffect, useState } from 'react';
 import { loyaltyPhysicalRewardColumnDynamic } from './Physical.data';
-import { useRouter } from 'next/router';
+import { getActivePermissionsSession } from '@/utils';
+import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
 
 export const usePhysical = () => {
-  const router = useRouter?.();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
+  const [isRewardDetailsOpen, setIsRewardDetailsOpen] = useState({
+    isOpen: false,
+    rewardType: '',
+  });
+  const overallPermissions = getActivePermissionsSession();
 
   const [
     lazyGetAllLoyaltyPhysicalRewardsListTrigger,
@@ -21,6 +26,7 @@ export const usePhysical = () => {
         page,
         limit: pageLimit,
         search,
+        type: LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD,
       },
     };
     try {
@@ -34,8 +40,10 @@ export const usePhysical = () => {
     getAllLoyaltyPhysicalRewardsList?.();
   }, [page, search, pageLimit]);
 
-  const loyaltyPhysicalRewardColumn =
-    loyaltyPhysicalRewardColumnDynamic?.(router);
+  const loyaltyPhysicalRewardColumn = loyaltyPhysicalRewardColumnDynamic?.(
+    setIsRewardDetailsOpen,
+    overallPermissions,
+  );
 
   return {
     lazyGetAllLoyaltyPhysicalRewardsListStatus,
@@ -43,5 +51,7 @@ export const usePhysical = () => {
     setPageLimit,
     setPage,
     loyaltyPhysicalRewardColumn,
+    isRewardDetailsOpen,
+    setIsRewardDetailsOpen,
   };
 };

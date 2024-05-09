@@ -1,63 +1,44 @@
 import { Grid, Typography } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
-
 import {
-  usersDefaultValues,
+  usersFilterDefaultValues,
   usersFilterArray,
-  usersValidationSchema,
 } from '../Users/Users.data';
-
 import {
   rolesDefaultValues,
   rolesFiltersArray,
-  rolesValidationSchema,
 } from '../RolesAndRights/RoleAndRights.data';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { v4 as uuidv4 } from 'uuid';
+import { filteredEmptyValues } from '@/utils/api';
 
 const UsersManagementFilters = (props: any) => {
-  const { isOpen, setIsOpen, tabVal, filterValues, setFilterValues } = props;
+  const { isOpen, setIsOpen, tabVal, setFilterValues, filterValues } = props;
 
   const tabsFilter: any = {
     0: {
-      schema: usersValidationSchema,
       array: usersFilterArray(),
-      defaultVal: usersDefaultValues,
+      defaultVal: usersFilterDefaultValues(filterValues),
     },
     1: {
-      schema: usersValidationSchema,
       array: usersFilterArray(),
-      defaultVal: usersDefaultValues,
+      defaultVal: usersFilterDefaultValues(filterValues),
     },
     2: {
-      schema: rolesValidationSchema,
       array: rolesFiltersArray,
       defaultVal: rolesDefaultValues,
     },
   };
 
   const methods: any = useForm({
-    resolver: yupResolver(tabsFilter[tabVal]?.schema),
     defaultValues: tabsFilter[tabVal]?.defaultVal,
   });
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async (values: any) => {
-    await setFilterValues({
-      ...filterValues,
-      products: values?.products,
-      role: values?.role,
-      organization: values?.organization,
-      createdDate: values.createdDate,
-    });
+  const onSubmit = async (data: any) => {
+    const filterValues = filteredEmptyValues?.(data);
+    setFilterValues(filterValues);
     setIsOpen(false);
   };
 
@@ -76,14 +57,14 @@ const UsersManagementFilters = (props: any) => {
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
           {tabsFilter[tabVal]?.array?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <Grid item xs={12} md={item?.md} key={item?.comonentProps?.name}>
               <Typography variant="body2" fontWeight={500}>
                 {item?.title}
               </Typography>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
+                    <option key={option?.value} value={option?.value}>
                       {option?.label}
                     </option>
                   ))}

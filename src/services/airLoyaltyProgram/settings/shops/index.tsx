@@ -1,26 +1,51 @@
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-
-const TAG = 'MANAGE_SHOP';
 
 export const manageShopAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    addShop: builder?.mutation({
-      query: (body: any) => ({
-        url: ``,
-        method: 'POST',
-        body,
-      }),
-      invalidatesTags: [TAG],
-    }),
-    getShop: builder?.query({
-      query: (params: any) => ({
-        url: ``,
+    getShopList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.GET_SHOP_LIST,
         method: 'GET',
-        params,
+        params: apiDataParameter?.queryParams,
       }),
-      providesTags: [TAG],
+    }),
+    addShop: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.CREATE_SHOP,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+    }),
+    editSingleShop: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.UPDATE_SHOP,
+        method: 'PATCH',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    deleteShop: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.DELETE_SHOP,
+        method: 'DELETE',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    getSingleShopDetails: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.SHOP_DETAIL,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
     }),
   }),
 });
 
-export const { useAddShopMutation, useGetShopQuery } = manageShopAPI;
+export const {
+  useAddShopMutation,
+  useGetShopListQuery,
+  useLazyGetShopListQuery,
+  useDeleteShopMutation,
+  useEditSingleShopMutation,
+  useGetSingleShopDetailsQuery,
+} = manageShopAPI;

@@ -4,6 +4,7 @@ const ThirdStep = () => {
   return (
     <Box pt={2}>
       <Typography fontWeight={600}>Select Gift Card Shop</Typography>
+      <br />
       <RHFAutocomplete
         name="shop"
         label="Shop"

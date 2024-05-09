@@ -10,6 +10,8 @@ import {
   Typography,
   Button,
   useTheme,
+  Pagination,
+  CircularProgress,
 } from '@mui/material';
 import Search from '../Search';
 
@@ -30,6 +32,14 @@ export default function RHFMultiSearchableSelect({
   setIsDropdownClose,
   label,
   size,
+  currentPage,
+  setCurrentPage,
+  totalPages,
+  searchValue,
+  setSearchValue,
+  customSearch = false,
+  isLoading,
+  isPagination = false,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -99,6 +109,19 @@ export default function RHFMultiSearchableSelect({
     }
   }, [defaultOpen]);
 
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setCurrentPage(value);
+  };
+
+  useEffect(() => {
+    if (searchValue?.length > 0) {
+      setCurrentPage(1);
+    }
+  }, [searchValue]);
+
   return (
     <Controller
       name={name}
@@ -143,8 +166,8 @@ export default function RHFMultiSearchableSelect({
             <>
               {searchHandler && (
                 <Search
-                  searchBy={searchTerm}
-                  setSearchBy={setSearchTerm}
+                  searchBy={customSearch ? searchValue : searchTerm}
+                  setSearchBy={customSearch ? setSearchValue : setSearchTerm}
                   label="Search By Name"
                   fullWidth
                   size="small"
@@ -173,60 +196,86 @@ export default function RHFMultiSearchableSelect({
                   <Typography variant="body1">All</Typography>
                 </Box>
               )}
-              <Box sx={{ overflow: 'scroll', maxHeight: '200px' }}>
-                {filteredOptions &&
-                  filteredOptions?.map((option: any) => (
-                    <Box
-                      key={option?.value}
-                      onClick={() => {
-                        {
-                          isCheckBox
-                            ? null
-                            : handleOptionSelect(option?.value, field);
-                        }
-                      }}
-                      sx={{
-                        width: '100%',
-                        height: '30px',
-                        padding: '5px 10px',
-                        display: 'flex',
-                        marginBottom: '10px',
-                        marginTop: '10px',
-                        gap: '5px',
-                        borderRadius: '5px',
-                        backgroundColor: isCheckBox
-                          ? 'transparent'
-                          : selectedValues?.includes(option?.value)
-                            ? theme?.palette?.custom?.hex_grey
-                            : 'transparent',
-                        '&:hover': {
-                          backgroundColor: theme?.palette?.custom?.hex_grey,
-                        },
-                      }}
-                    >
-                      {option?.image && (
-                        <Image
-                          width={24}
-                          height={24}
-                          alt="user"
-                          src={option?.image}
-                        />
-                      )}
-                      {isCheckBox && (
-                        <Checkbox
+              <div style={{ overflow: 'scroll', maxHeight: '410px' }}>
+                {isLoading ? (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: '200px',
+                    }}
+                  >
+                    <CircularProgress />
+                  </Box>
+                ) : (
+                  <>
+                    {filteredOptions &&
+                      filteredOptions?.map((option: any) => (
+                        <Box
+                          key={option?.value}
                           onClick={() => {
-                            handleOptionSelect(option?.value, field);
+                            {
+                              isCheckBox
+                                ? null
+                                : handleOptionSelect(option?.value, field);
+                            }
                           }}
-                          checked={
-                            selectedValues?.includes(option?.value)
-                              ? true
-                              : false
-                          }
-                        />
-                      )}
-                      <Typography variant="body1">{option?.label}</Typography>
-                    </Box>
-                  ))}
+                          sx={{
+                            width: '100%',
+                            height: '30px',
+                            padding: '5px 10px',
+                            display: 'flex',
+                            marginBottom: '10px',
+                            marginTop: '10px',
+                            gap: '5px',
+                            borderRadius: '5px',
+                            backgroundColor: isCheckBox
+                              ? 'transparent'
+                              : selectedValues?.includes(option?.value)
+                                ? theme?.palette?.custom?.hex_grey
+                                : 'transparent',
+                            '&:hover': {
+                              backgroundColor: theme?.palette?.custom?.hex_grey,
+                            },
+                          }}
+                        >
+                          {option?.image && (
+                            <Image
+                              width={24}
+                              height={24}
+                              alt="user"
+                              src={option?.image}
+                            />
+                          )}
+                          {isCheckBox && (
+                            <Checkbox
+                              onClick={() => {
+                                handleOptionSelect(option?.value, field);
+                              }}
+                              checked={
+                                selectedValues?.includes(option?.value)
+                                  ? true
+                                  : false
+                              }
+                            />
+                          )}
+                          <Typography variant="body1">
+                            {option?.label}
+                          </Typography>
+                        </Box>
+                      ))}
+                  </>
+                )}
+              </div>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                {isPagination && (
+                  <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                  />
+                )}
               </Box>
               {isFooter && (
                 <Button

@@ -5,8 +5,12 @@ import { OBJECT_URL_IMPORT } from '@/constants/strings';
 
 export const ImportProductCatalog = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { setDrawerDefaultState, submitImport, importFileStatus } =
-    useImportProductCatalog?.(props);
+  const {
+    setDrawerDefaultState,
+    submitImport,
+    importFileStatus,
+    filterMandatoryFields,
+  } = useImportProductCatalog?.(props);
 
   return (
     <Import
@@ -18,6 +22,7 @@ export const ImportProductCatalog = (props: any) => {
       objectUrl={OBJECT_URL_IMPORT?.USERS_ATTACHMENT}
       submitImport={(apiData: any) => submitImport?.(apiData)}
       importFileStatus={importFileStatus}
+      mandatoryColumnsList={filterMandatoryFields?.()}
     />
   );
 };

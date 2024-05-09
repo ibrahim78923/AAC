@@ -113,13 +113,14 @@ const RolesAndRights = () => {
         data={getPermissions?.data?.companyaccountroles}
         totalRecords={getPermissions?.data?.meta?.total}
         onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
-        setPageLimit={setPageLimit}
         count={getPermissions?.data?.meta?.pages}
-        isPagination
         pageLimit={getPermissions?.data?.meta?.limit}
+        currentPage={getPermissions?.data?.meta?.page}
+        setPageLimit={setPageLimit}
         isLoading={isLoading}
         isSuccess={isSuccess}
+        setPage={setPage}
+        isPagination
       />
 
       {isOpenFilterDrawer && (

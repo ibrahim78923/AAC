@@ -15,7 +15,6 @@ import {
 import {
   AlertModalCloseIcon,
   DeleteIcon,
-  ImagePreviewIcon,
   ImageUploadIcon,
 } from '@/assets/icons';
 
@@ -24,11 +23,13 @@ import { styles } from '../ViewDetails.style';
 import { enqueueSnackbar } from 'notistack';
 import { useCompanyUpdateMutation } from '@/services/commonFeatures/companies';
 import { LoadingButton } from '@mui/lab';
+import { generateImage } from '@/utils/avatarUtils';
 
 const UploadImageModal = ({
   isUploadImageOpen,
   setIsUploadImageOpen,
   companyId,
+  profilePicture,
 }: any) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageToUpload, setImageToUpload] = useState<any>();
@@ -105,7 +106,13 @@ const UploadImageModal = ({
                 style={{ borderRadius: '50%' }}
               />
             ) : (
-              <ImagePreviewIcon />
+              <Image
+                src={generateImage(profilePicture)}
+                alt="Selected"
+                width={75}
+                height={75}
+                style={{ borderRadius: '50%' }}
+              />
             )}
           </Box>
           <Typography variant="body3" sx={{ color: theme?.palette?.grey[900] }}>

@@ -175,6 +175,7 @@ const BillingAndInvoicesTable = () => {
           count={assignPlanTableData?.data?.meta?.pages}
           isPagination
           isLoading={isLoading}
+          currentPage={assignPlanTableData?.data?.meta?.page}
         />
       </Grid>
       {/* <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} /> */}

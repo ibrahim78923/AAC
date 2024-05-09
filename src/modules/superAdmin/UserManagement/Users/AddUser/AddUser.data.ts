@@ -135,7 +135,7 @@ export const companyOwnerDefaultValues = {
 };
 
 export const addUsersArray = () => {
-  const { products: productsList } = useUserManagement();
+  const { productsList } = useUserManagement();
   // const { data: superAdminRoles } = useGetSuperAdminRolesQuery();
 
   return [

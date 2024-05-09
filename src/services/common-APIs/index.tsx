@@ -10,6 +10,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['PRODUCTS'],
     }),
+
+    getProductsList: builder.query({
+      query: () => ({
+        url: END_POINTS?.PRODUCTS,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['PRODUCTS'],
+    }),
+
     getOrganizations: builder.query({
       query: () => ({
         url: END_POINTS?.ORGANIZATIONS,
@@ -18,7 +30,25 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['ORGANIZATIONS'],
     }),
 
+    getOrganizationsList: builder.query({
+      query: () => ({
+        url: END_POINTS?.ORGANIZATIONS,
+        method: 'GET',
+      }),
+      providesTags: ['ORGANIZATIONS'],
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+
     getCompanyAccounts: builder.query({
+      query: ({ orgId }: any) => ({
+        url: `${END_POINTS?.GET_COMPANY_ORGANIZATION_DROPDOWN}/${orgId}${END_POINTS?.GET_COMPANY_ACCOUNTS}`,
+        method: 'GET',
+      }),
+      providesTags: ['USERS', 'PERMISSIONS'],
+    }),
+    getCompanyAccountsList: builder.query({
       query: ({ orgId }: any) => ({
         url: `${END_POINTS?.GET_COMPANY_ORGANIZATION_DROPDOWN}/${orgId}${END_POINTS?.GET_COMPANY_ACCOUNTS}`,
         method: 'GET',
@@ -32,6 +62,17 @@ export const CommonAPIS = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
+      providesTags: ['USERS', 'PERMISSIONS'],
+    }),
+    getCompanyAccountsRolesList: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.DROPDOWN_ACCOUNTS_ROLE,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
       providesTags: ['USERS', 'PERMISSIONS'],
     }),
     getDepartment: builder.query({
@@ -63,9 +104,13 @@ export const CommonAPIS = baseAPI.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useLazyGetProductsListQuery,
   useGetOrganizationsQuery,
+  useLazyGetOrganizationsListQuery,
   useGetCompanyAccountsQuery,
+  useLazyGetCompanyAccountsListQuery,
   useGetCompanyAccountsRolesQuery,
+  useLazyGetCompanyAccountsRolesListQuery,
   useGetDepartmentQuery,
   useGetCompanyContactsQuery,
   useGetSchemaKeysQuery,

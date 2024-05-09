@@ -8,6 +8,7 @@ import {
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import useSalesEditorDrawer from './SalesEdItorDrawer/useSalesEditorDrawer';
 
 const useSalesProduct = () => {
   const theme = useTheme<Theme>();
@@ -20,6 +21,7 @@ const useSalesProduct = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { handleUserSwitchChange } = useSalesEditorDrawer({});
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
@@ -72,6 +74,7 @@ const useSalesProduct = () => {
   const getRowValues = columns({
     selectedCheckboxes,
     setSelectedCheckboxes,
+    handleUserSwitchChange,
     data,
   });
 
