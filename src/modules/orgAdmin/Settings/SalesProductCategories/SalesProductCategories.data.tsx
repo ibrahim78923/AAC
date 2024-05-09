@@ -10,7 +10,7 @@ export const ProductCategoryvalidationSchema: any = Yup.object().shape({
   name: Yup.string()
     .required('Field is Required')
     .matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
-  description: Yup.string().required('Field is Required'),
+  description: Yup.string(),
 });
 
 export const ProductCategoryDefaultValues = {
@@ -24,6 +24,7 @@ export const dataArray = [
       name: 'name',
       label: 'Product Category Name',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,

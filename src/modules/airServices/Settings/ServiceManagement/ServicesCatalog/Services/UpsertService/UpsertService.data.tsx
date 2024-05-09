@@ -79,7 +79,7 @@ export const upsertServiceValidationSchema = Yup?.object()?.shape({
 
 export const upsertServiceDefaultValues = {
   itemName: '',
-  cost: 0,
+  cost: null,
   serviceCategory: null,
   estimatedDelivery: '',
   description: '',

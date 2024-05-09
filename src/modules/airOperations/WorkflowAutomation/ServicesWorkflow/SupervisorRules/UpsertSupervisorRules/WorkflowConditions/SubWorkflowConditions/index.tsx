@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { AddCircle } from '@mui/icons-material';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 import { subWorkflowData } from './SubWorkflowConditions.data';
-import { conditionTypeOptions } from '../WorkflowConditions.data';
+import { LOGICS } from '@/constants/strings';
 
 export const SubWorkflowConditions = (props: any) => {
   const { index, conditionType, watch, setValue } = props;
@@ -31,7 +31,9 @@ export const SubWorkflowConditions = (props: any) => {
               >
                 <Chip
                   label={
-                    conditionType === conditionTypeOptions?.[0] ? 'AND' : 'OR'
+                    conditionType?.value === LOGICS?.AND
+                      ? LOGICS?.AND
+                      : LOGICS?.OR
                   }
                 />
               </Divider>

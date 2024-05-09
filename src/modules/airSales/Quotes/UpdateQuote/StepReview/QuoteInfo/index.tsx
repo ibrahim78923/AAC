@@ -29,7 +29,7 @@ const QuoteInfo = () => {
             <Box sx={styles?.quoteInfoTitle}>
               Valid Till:{' '}
               <Box component="span">
-                {dayjs(dataGetQuoteById?.expiryDate)?.format(
+                {dayjs(dataGetQuoteById?.data?.expiryDate)?.format(
                   DATE_FORMAT?.API,
                 ) ?? 'N/A'}
               </Box>

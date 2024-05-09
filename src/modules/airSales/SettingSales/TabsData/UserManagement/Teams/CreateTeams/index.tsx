@@ -5,6 +5,7 @@ import useCreateTeams from './useCreateTeams';
 import { v4 as uuidv4 } from 'uuid';
 import { teamsDataArray } from './CreateTeams.data';
 import useUserManagement from '../../useUserManagement';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const CreateTeams = (props?: any) => {
   const { isAddTeam, setIsAddTeam, teamDataById, teamByIdLoading } = props;
@@ -22,12 +23,16 @@ const CreateTeams = (props?: any) => {
     <CommonDrawer
       isDrawerOpen={isAddTeam?.isToggle}
       onClose={() => setIsAddTeam(false)}
-      title={isAddTeam?.type === 'add' ? 'Create Team' : 'Edit Team'}
-      okText={isAddTeam?.type === 'add' ? 'Add' : 'Edit'}
+      title={
+        isAddTeam?.type === DRAWER_TYPES?.ADD ? 'Create Team' : 'Edit Team'
+      }
+      okText={isAddTeam?.type === DRAWER_TYPES?.ADD ? 'Add' : 'Edit'}
       footer={true}
       isOk={true}
       isLoading={
-        isAddTeam?.type === 'add' ? postTeamLoading : updateTeamLoading
+        isAddTeam?.type === DRAWER_TYPES?.ADD
+          ? postTeamLoading
+          : updateTeamLoading
       }
       submitHandler={handleSubmit(onSubmit)}
     >

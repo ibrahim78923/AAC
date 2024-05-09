@@ -103,8 +103,8 @@ const useNotification = () => {
     {
       icon: <QuotesIcon />,
       title: 'Setting',
-      key: 'setting',
-      status: !notificationsStatus?.setting,
+      key: 'settingsMarketing',
+      status: !notificationsStatus?.settingsMarketing,
       description: 'Setting notification will be sent to your inbox.',
       permission:
         AIR_MARKETER_SETTINGS_PERMISSIONS?.ACTIVE_INACTIVE_SETTING_NOTIFICATIONS,

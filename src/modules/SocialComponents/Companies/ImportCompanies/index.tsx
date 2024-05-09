@@ -1,30 +1,36 @@
-import React from 'react';
+// import CommonDrawer from '@/components/CommonDrawer';
+// import UploadFiles from './UploadFiles';
+// import ColumnFiles from './ColumnFiles';
+// import { FormProvider } from '@/components/ReactHookForm';
+import useImportCompanies from './useImportCompanies';
+import { Import } from '@/components/Import';
+import { CRM_COLUMNS } from './importCompanies.data';
+import { OBJECT_URL_IMPORT } from '@/constants/strings';
 
-import CommonDrawer from '@/components/CommonDrawer';
-import { enqueueSnackbar } from 'notistack';
-
-import UploadFiles from './UploadFiles';
-import ColumnFiles from './ColumnFiles';
-
-import useToggle from '@/hooks/useToggle';
-
-const ImportCompanies = ({ isImport, setIsImport }: any) => {
-  const [isToggled, toggle] = useToggle();
-
-  const handelSubmit = () => {
-    if (!isToggled) {
-      toggle(true);
-    } else {
-      setIsImport({ ...isImport, importDrawer: false });
-      enqueueSnackbar('File Import Successfully', {
-        variant: 'success',
-      });
-    }
-  };
+const ImportCompanies = ({ isDrawerOpen, setIsDrawerOpen }: any) => {
+  const {
+    // isToggled,
+    // methods,
+    // handleSubmit,
+    // onSubmit,
+    setDrawerDefaultState,
+    importFileStatus,
+    submitImport,
+  } = useImportCompanies(setIsDrawerOpen);
 
   return (
     <>
-      <CommonDrawer
+      <Import
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        setDrawerDefaultState={setDrawerDefaultState}
+        title="Import Companies"
+        crmColumnsOptions={CRM_COLUMNS}
+        objectUrl={OBJECT_URL_IMPORT?.USERS_ATTACHMENT}
+        submitImport={(apiData: any) => submitImport?.(apiData)}
+        importFileStatus={importFileStatus}
+      />
+      {/* <CommonDrawer
         isDrawerOpen={isImport}
         onClose={() => {
           setIsImport({ ...isImport, importDrawer: false });
@@ -33,10 +39,16 @@ const ImportCompanies = ({ isImport, setIsImport }: any) => {
         okText={isToggled ? 'Import' : 'Next'}
         isOk={true}
         footer={true}
-        submitHandler={handelSubmit}
-      >
-        {isToggled ? <ColumnFiles /> : <UploadFiles />}
-      </CommonDrawer>
+        submitHandler={handleSubmit(onSubmit)}
+        >
+        {isToggled ?
+          <ColumnFiles />
+          :
+          <FormProvider methods={methods}>
+            <UploadFiles />
+          </FormProvider>
+        }
+      </CommonDrawer> */}
     </>
   );
 };

@@ -62,11 +62,11 @@ const useCreateQuote = () => {
     }
 
     if (isValid) {
-      setActiveStep((prev) => prev + 1);
+      setActiveStep((prev: any) => prev + 1);
     }
   };
   const handleStepBack = () => {
-    setActiveStep((prev) => prev - 1);
+    setActiveStep((prev: any) => prev - 1);
   };
   const handleStepperCancel = () => {
     router?.push(AIR_SALES?.QUOTES);

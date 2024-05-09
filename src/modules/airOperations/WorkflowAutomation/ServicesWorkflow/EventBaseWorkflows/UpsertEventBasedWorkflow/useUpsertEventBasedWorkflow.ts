@@ -37,17 +37,20 @@ export const useUpsertEventBasedWorkflow = () => {
     selectDepartment: 'Select Department',
     department: 'departments',
     setDepartmentAs: 'Set Department as',
-    location: 'location',
+    location: 'Location',
+    setLocationAs: 'Set location as',
+    locations: 'locations',
     addRequester: 'Add Requester',
     requester: 'users',
     setCategoryAs: 'Set Category as',
-    category: 'category',
+    category: 'servicecategories',
     users: 'users',
     usedBy: 'Used By',
     createdBy: 'Created By',
     assignTo: 'Assign To',
     assetType: 'Asset Type',
     type: 'assettypes',
+    notifyBefore: 'notifyBefore',
   };
 
   const buttonData = {
@@ -114,7 +117,9 @@ export const useUpsertEventBasedWorkflow = () => {
       case collectionNameData?.setDepartmentAs:
         return collectionNameData?.department;
       case collectionNameData?.location:
-        return collectionNameData?.location;
+        return collectionNameData?.locations;
+      case collectionNameData?.setLocationAs:
+        return collectionNameData?.locations;
       case collectionNameData?.addRequester:
         return collectionNameData?.requester;
       case collectionNameData?.setCategoryAs:
@@ -139,7 +144,9 @@ export const useUpsertEventBasedWorkflow = () => {
       fieldName: condition?.fieldName?.value,
       fieldValue: condition?.fieldValue?._id
         ? condition?.fieldValue?._id
-        : condition?.fieldValue,
+        : condition?.fieldName?.value === collectionNameData?.notifyBefore
+          ? condition?.fieldValue?.value
+          : condition?.fieldValue,
       fieldType: mapField(condition),
       collectionName:
         condition?.condition === optionsConstants?.isEmpty ||
