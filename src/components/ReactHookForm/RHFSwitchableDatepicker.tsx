@@ -7,6 +7,8 @@ import {
   ListItemButton,
   TextField,
   Typography,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import { useFormContext, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
@@ -17,7 +19,12 @@ import CustomLabel from '../CustomLabel';
 import { styles } from './RHFSwitchableDatepicker.style';
 import ClearIcon from '@mui/icons-material/Clear';
 
-const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
+const RHFSwitchableDatepicker = ({
+  name,
+  required,
+  excludeDates,
+  ...other
+}: any) => {
   const { control, setValue } = useFormContext();
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +35,6 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
   const [isRangePicker, setIsRangePicker] = useState(false);
   const [startDate, setStartDate]: any = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [showClearIcon, setShowClearIcon] = useState(false);
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -75,7 +81,10 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    setIsOpen(!isOpen);
+    const isClearButtonClicked = e?.target?.closest('.clearButton') !== null;
+    if (!isClearButtonClicked) {
+      setIsOpen(!isOpen);
+    }
   };
 
   const handleChange = (date: any) => {
@@ -134,11 +143,10 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
   };
 
   const handleClear = () => {
-    setFormattedDate(''); // Clear the formatted date
+    setFormattedDate('');
     setStartDate(null);
     setEndDate(null);
-    setValue(name, null); // Clear the form value
-    setShowClearIcon(false); // Hide the clear icon
+    setValue(name, null);
   };
 
   // Datepicker custom container
@@ -210,7 +218,7 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
       <Controller
         name={name}
         control={control}
-        render={({ field, fieldState: { error }, onChange }) => (
+        render={({ field, fieldState: { error } }) => (
           <>
             {other?.label && (
               <CustomLabel label={other?.label} required={required} />
@@ -238,16 +246,19 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
               label=""
               value={formattedDate}
               InputProps={{
-                endAdornment: showClearIcon && (
-                  <Button onClick={handleClear}>
-                    <ClearIcon />
-                  </Button>
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {formattedDate && (
+                      <IconButton
+                        className="clearButton"
+                        onClick={handleClear}
+                        size="small"
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    )}
+                  </InputAdornment>
                 ),
-              }}
-              onChange={(e) => {
-                setFormattedDate(e.target.value);
-                setShowClearIcon(!!e.target.value); // Show the clear icon when there is a value
-                onChange(e.target.value); // Update form value
               }}
             />
           </>
@@ -266,6 +277,7 @@ const RHFSwitchableDatepicker = ({ name, required, ...other }: any) => {
             startDate={startDate}
             endDate={endDate}
             selectsRange={isRangePicker}
+            excludeDates={excludeDates || []}
           />
         </>
       )}

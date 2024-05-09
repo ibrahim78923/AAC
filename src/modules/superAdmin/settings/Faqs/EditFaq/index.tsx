@@ -14,6 +14,7 @@ const EditFaq = ({
   isLoading,
   title,
   onViewDisabled,
+  disabledSubmit,
 }: EditFaqPropsI) => {
   const { useLazyGetDropdownProductsQuery }: any = CommonAPIS;
   const products = useLazyGetDropdownProductsQuery();
@@ -28,6 +29,7 @@ const EditFaq = ({
       okText="Update"
       footer={title === 'Edit'}
       isLoading={isLoading}
+      isSubmitDisabled={disabledSubmit}
     >
       <FormProvider methods={formMethods}>
         <Grid container spacing={4}>

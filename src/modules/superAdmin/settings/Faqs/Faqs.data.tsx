@@ -71,7 +71,6 @@ export const faqsFilterFiltersDataArray = () => {
 export const columns = (
   selectedRow: any,
   setSelectedRow: any,
-  setIsActionsDisabled: (value: boolean) => void,
   setRowId: any,
 ) => {
   const handleRowClick = (id: any) => {
@@ -91,7 +90,6 @@ export const columns = (
       );
     }
     setSelectedRow(newSelected);
-    setIsActionsDisabled(newSelected.length === 0);
     if (newSelected.length === 1) {
       setRowId(newSelected[0]);
     } else {
@@ -107,11 +105,10 @@ export const columns = (
     if (event?.target?.checked) {
       const newSelected = rows?.map((n: any) => n?._id);
       setSelectedRow(newSelected);
-      setIsActionsDisabled(false);
       return;
+    } else {
+      setSelectedRow([]);
     }
-    setSelectedRow([]);
-    setIsActionsDisabled(true);
   };
 
   const isSelected = (id: any) => selectedRow?.indexOf(id) !== -1;
@@ -140,10 +137,7 @@ export const columns = (
             indeterminate={
               selectedRow?.length > 0 && selectedRow?.length < rows?.length
             }
-            checked={
-              rows?.length > 0 &&
-              selectedRow?.length === info?.table?.options?.data?.length
-            }
+            checked={rows?.length > 0 && selectedRow?.length === rows?.length}
             onChange={(event) => handleSelectAllClick(event, rows)}
           />
         );

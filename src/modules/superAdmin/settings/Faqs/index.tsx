@@ -60,17 +60,11 @@ const Faqs = () => {
     setPage,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
     isActionsDisabled,
     setRowId,
     rowId,
   } = useFaqs();
-  const getFaqsTableColumns = columns(
-    selectedRow,
-    setSelectedRow,
-    setIsActionsDisabled,
-    setRowId,
-  );
+  const getFaqsTableColumns = columns(selectedRow, setSelectedRow, setRowId);
 
   return (
     <Box

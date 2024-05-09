@@ -35,6 +35,7 @@ export const filtersDataArray = (products: any, createdByUsers: any) => {
         name: 'createdAt',
         label: 'Created Date',
         fullWidth: true,
+        placeholder: 'Select date',
       },
       component: RHFSwitchableDatepicker,
       md: 12,

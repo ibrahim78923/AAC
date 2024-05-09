@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
@@ -25,6 +25,13 @@ const useFaqs = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
   const [filterParams, setFilterParams] = useState({});
+  useEffect(() => {
+    if (selectedRow?.length === 0) {
+      setIsActionsDisabled(true);
+    } else {
+      setIsActionsDisabled(false);
+    }
+  }, [selectedRow]);
   const paginationParams = {
     page: page,
     limit: pageLimit,
@@ -60,6 +67,7 @@ const useFaqs = () => {
   };
   const handleCloseFilters = () => {
     setOpenFilters(false);
+    resetFilters();
   };
 
   const onSubmitFilters = async (values: any) => {
@@ -74,7 +82,7 @@ const useFaqs = () => {
     const faqCategory = values?.faqCategory?._id;
     const createdBy = values?.createdBy?._id;
 
-    if (createdAt && createdAt.length === 2) {
+    if (createdAt && createdAt?.length === 2) {
       const [start, end] = createdAt;
       updateFilterParams(
         'dateStart',
@@ -188,13 +196,27 @@ const useFaqs = () => {
   };
 
   const onSubmitEditJob = async (values: any) => {
+    const selectedItem =
+      dataGetFaqs?.data?.faqs?.find((item: any) => item?._id === rowId) || {};
+
+    const payload: any = {};
+    if (selectedItem?.faqCategory?._id !== values?.faqCategory?._id) {
+      payload.faqCategory = values?.faqCategory?._id;
+    }
+    if (selectedItem?.faqQuestion !== values?.faqQuestion) {
+      payload.faqQuestion = values?.faqQuestion;
+    }
+    if (selectedItem?.faqAnswer !== values?.faqAnswer) {
+      payload.faqAnswer = values?.faqAnswer;
+    }
+
     try {
-      await updateFaq({ id: rowId, body: values })?.unwrap();
-      handleCloseModalEditFaq();
-      setSelectedRow([]);
+      await updateFaq({ id: rowId, body: payload })?.unwrap();
+      await handleCloseModalEditFaq();
       enqueueSnackbar('FAQ updated successfully', {
         variant: 'success',
       });
+      setSelectedRow([]);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -223,7 +245,6 @@ const useFaqs = () => {
       enqueueSnackbar('Record has been deleted.', {
         variant: 'success',
       });
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -271,7 +292,6 @@ const useFaqs = () => {
     setPage,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
     isActionsDisabled,
     setRowId,
     rowId,
