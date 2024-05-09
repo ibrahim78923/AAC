@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
@@ -25,6 +25,13 @@ const useFaqs = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
   const [filterParams, setFilterParams] = useState({});
+  useEffect(() => {
+    if (selectedRow?.length === 0) {
+      setIsActionsDisabled(true);
+    } else {
+      setIsActionsDisabled(false);
+    }
+  }, [selectedRow]);
   const paginationParams = {
     page: page,
     limit: pageLimit,
@@ -60,29 +67,48 @@ const useFaqs = () => {
   };
   const handleCloseFilters = () => {
     setOpenFilters(false);
+    resetFilters();
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { createdAt, ...others } = values;
-    const dateStart = createdAt?.[0]
-      ? dayjs(createdAt[0]).format(DATE_FORMAT.API)
-      : null;
-    const dateEnd = createdAt?.[1]
-      ? dayjs(createdAt[1]).format(DATE_FORMAT.API)
-      : null;
-    setFilterParams((prev) => {
-      const updatedParams = {
+    const updateFilterParams = (key: string, value: any) => {
+      setFilterParams((prev: any) => ({
         ...prev,
-        ...others,
-      };
+        [key]: value,
+      }));
+    };
 
-      if (dateStart !== null && dateEnd !== null) {
-        updatedParams.dateStart = dateStart;
-        updatedParams.dateEnd = dateEnd;
-      }
+    const createdAt = values?.createdAt;
+    const faqCategory = values?.faqCategory?._id;
+    const createdBy = values?.createdBy?._id;
 
-      return updatedParams;
-    });
+    if (createdAt && createdAt?.length === 2) {
+      const [start, end] = createdAt;
+      updateFilterParams(
+        'dateStart',
+        start ? dayjs(start).format(DATE_FORMAT.API) : null,
+      );
+      updateFilterParams(
+        'dateEnd',
+        end ? dayjs(end).format(DATE_FORMAT.API) : null,
+      );
+    } else {
+      updateFilterParams('dateStart', undefined);
+      updateFilterParams('dateEnd', undefined);
+    }
+
+    if (faqCategory) {
+      updateFilterParams('faqCategory', faqCategory);
+    } else {
+      updateFilterParams('faqCategory', undefined);
+    }
+
+    if (createdBy) {
+      updateFilterParams('createdBy', createdBy);
+    } else {
+      updateFilterParams('createdBy', undefined);
+    }
+
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
@@ -117,8 +143,14 @@ const useFaqs = () => {
   };
 
   const onSubmitAddFaq = async (values: any) => {
+    const payload = {
+      faqCategory: values?.faqCategory?._id,
+      faqQuestion: values?.faqQuestion,
+      faqAnswer: values?.faqAnswer,
+    };
+
     try {
-      await postAddFaq({ body: values })?.unwrap();
+      await postAddFaq({ body: payload })?.unwrap();
       handleCloseModalFaq();
       enqueueSnackbar('FAQ added successfully', {
         variant: 'success',
@@ -164,13 +196,27 @@ const useFaqs = () => {
   };
 
   const onSubmitEditJob = async (values: any) => {
+    const selectedItem =
+      dataGetFaqs?.data?.faqs?.find((item: any) => item?._id === rowId) || {};
+
+    const payload: any = {};
+    if (selectedItem?.faqCategory?._id !== values?.faqCategory?._id) {
+      payload.faqCategory = values?.faqCategory?._id;
+    }
+    if (selectedItem?.faqQuestion !== values?.faqQuestion) {
+      payload.faqQuestion = values?.faqQuestion;
+    }
+    if (selectedItem?.faqAnswer !== values?.faqAnswer) {
+      payload.faqAnswer = values?.faqAnswer;
+    }
+
     try {
-      await updateFaq({ id: rowId, body: values })?.unwrap();
-      handleCloseModalEditFaq();
-      setSelectedRow([]);
+      await updateFaq({ id: rowId, body: payload })?.unwrap();
+      await handleCloseModalEditFaq();
       enqueueSnackbar('FAQ updated successfully', {
         variant: 'success',
       });
+      setSelectedRow([]);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -199,7 +245,6 @@ const useFaqs = () => {
       enqueueSnackbar('Record has been deleted.', {
         variant: 'success',
       });
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -247,7 +292,6 @@ const useFaqs = () => {
     setPage,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
     isActionsDisabled,
     setRowId,
     rowId,
