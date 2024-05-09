@@ -13,7 +13,7 @@ import ActionBtn from './ActionBtn';
 import { styles } from './LeftPane.styles';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
-import { setMailTabType } from '@/redux/slices/email/slice';
+import { setActiveRecord, setMailTabType } from '@/redux/slices/email/slice';
 import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
@@ -29,8 +29,10 @@ const LeftPane = () => {
   const mailTabType: any = useAppSelector(
     (state: any) => state?.email?.mailTabType,
   );
+
   const handelToggleTab = (value: any) => {
     dispatch(setMailTabType(value));
+    dispatch(setActiveRecord({}));
   };
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -39,7 +41,7 @@ const LeftPane = () => {
   const dataToShow = ['Inbox', 'Drafts', 'Sent', 'Schedule', 'Trash'];
   const filteredData = foldersData?.data?.filter((item: any) => {
     return dataToShow
-      ?.map((name) => name.toLowerCase())
+      ?.map((name) => name?.toLowerCase())
       ?.includes(item?.display_name?.toLowerCase());
   });
 

@@ -250,6 +250,12 @@ export const CREATE_EMAIL_TYPES = {
   TRASH: 'trash',
 };
 
+export const EMAIL_TABS_TYPES = {
+  SENT: 'sent',
+  DRAFT: 'draft',
+  INBOX: 'inbox',
+};
+
 export const API_STATUS = {
   PENDING: 'pending',
   REJECTED: 'rejected',

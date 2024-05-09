@@ -35,23 +35,6 @@ const MailList = ({
     (state: any) => state?.email?.activeRecord,
   );
 
-  // const handleCheckboxClick = (email: any) => {
-  //   const safeSelectedRecords: any = Array.isArray(selectedRecords)
-  //     ? selectedRecords
-  //     : [];
-  //   const isAlreadySelected = safeSelectedRecords?.some(
-  //     (item: any) => item?.id === email?.id,
-  //   );
-  //   if (isAlreadySelected) {
-  //     const updatedSelection = safeSelectedRecords?.filter(
-  //       (item: any) => item?.id !== email?.id,
-  //     );
-  //     dispatch(setSelectedRecords(updatedSelection));
-  //   } else {
-  //     dispatch(setSelectedRecords([...safeSelectedRecords, email]));
-  //   }
-  // };
-
   const handleCheckboxClick = (email: any) => {
     const safeSelectedRecords = Array.isArray(selectedRecords)
       ? selectedRecords
