@@ -366,7 +366,7 @@ export const END_POINTS = {
   CREATE_PHYSICAL_REWARD: `/rewards/create-physical-reward`,
   GET_REWARDS_LIST: `/rewards/rewards-list`,
   GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
-  TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers`,
+  TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers/tiers`,
   LEAD_CAPTURE_CTA: '/lead-capture',
   CREATE_SHOP: `/shops/create-shops`,
   GET_SHOP_LIST: `/shops/shops-list`,
