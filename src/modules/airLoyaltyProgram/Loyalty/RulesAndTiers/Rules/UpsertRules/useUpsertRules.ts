@@ -17,16 +17,8 @@ export const useUpsertRules = (props: any) => {
     defaultValues: upsertRulesFormDefaultValues,
   });
 
-  const { handleSubmit, control, reset, clearErrors, setValue, getValues } =
+  const { handleSubmit, control, reset, clearErrors, setValue } =
     upsertRuleMethod;
-
-  const onChangeCustom = (e: any, name: any, dependantField: any) => {
-    setValue?.(name, e?.target?.value);
-    if (getValues(name) !== '') {
-      clearErrors(name);
-      clearErrors(dependantField);
-    }
-  };
 
   const submitUpsertRuleForm = () => {
     successSnackbar('Rules created successfully');
@@ -45,19 +37,35 @@ export const useUpsertRules = (props: any) => {
     defaultValue: '',
   });
 
+  const watchForTimeSpan = useWatch({
+    control,
+    name: 'timeSpanOf',
+    defaultValue: null,
+  });
+
+  const watchForDiscountType = useWatch({
+    control,
+    name: 'discountType',
+    defaultValue: null,
+  });
+
   useEffect(() => {
     clearErrors();
-  }, [watchForAttribute]);
+    reset();
+    setValue?.('attribute', watchForAttribute);
+  }, [watchForAttribute?._id]);
 
   const apiQueryTiers = useLazyGetTiersDropdownForRulesQuery?.();
 
   const upsertRulesFormFields = upsertRulesFormFieldsDynamic(
-    onChangeCustom,
     watchForLoyaltyType,
     apiQueryTiers,
+    watchForTimeSpan,
+    watchForAttribute,
+    watchForDiscountType,
   )?.filter(
     (formField: any) =>
-      formField?.attributeType?.includes(watchForAttribute?.label),
+      formField?.attributeType?.includes(watchForAttribute?._id),
   );
 
   const closeUpsertRule = () => {
