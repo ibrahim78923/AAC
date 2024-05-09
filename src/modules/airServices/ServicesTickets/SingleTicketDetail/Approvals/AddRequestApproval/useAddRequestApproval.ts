@@ -1,5 +1,5 @@
 import {
-  useLazyGetUsersDropdownQuery,
+  useLazyGetUsersDropdownListForTicketsApprovalsQuery,
   usePostApprovalTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/approvals';
 
@@ -57,7 +57,8 @@ export const useAddRequestApproval = (props: any) => {
     setIsDrawerOpen(false);
   };
 
-  const apiQueryApprover = useLazyGetUsersDropdownQuery();
+  const apiQueryApprover =
+    useLazyGetUsersDropdownListForTicketsApprovalsQuery();
   const addRequestApprovalFormFields =
     addRequestApprovalFormFieldsDynamic(apiQueryApprover);
 

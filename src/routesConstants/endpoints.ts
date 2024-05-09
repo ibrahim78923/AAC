@@ -377,6 +377,8 @@ export const END_POINTS = {
   GET_TIERS_BY_ID: `/rules-and-tiers/tier`,
   ADD_VOUCHERS: '/vouchers/create-voucher',
   DELETE_SHOP: `/shops/delete-shops`,
+  ADD_LOYALTY_TRANSACTION: `/Transactions/add-transaction`,
+  GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
 };
 
 export const superAdminBillingInvoices = {
