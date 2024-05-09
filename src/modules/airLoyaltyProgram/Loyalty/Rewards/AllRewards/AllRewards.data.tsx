@@ -1,6 +1,9 @@
 import { Avatar, Box, Chip, Typography } from '@mui/material';
 import { Circle } from '@mui/icons-material';
-import { LOYALTY_REWARDS_STATUS } from '@/constants/strings';
+import {
+  LOYALTY_REWARDS_STATUS,
+  LOYALTY_REWARDS_TYPE,
+} from '@/constants/strings';
 import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
 import { generateImage, truncateText } from '@/utils/avatarUtils';
 import { LOYALTY_REWARDS_TYPE_MAPPED } from '@/constants/api-mapped';
@@ -29,10 +32,13 @@ export const loyaltyAllRewardColumnDynamic: any = (
     isSortable: true,
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar
-          src={generateImage(info?.row?.original?.icon?.src)}
-          alt={info?.row?.original?.icon?.name}
-        />
+        {info?.row?.original?.rewardType ===
+          LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD && (
+          <Avatar
+            src={generateImage(info?.row?.original?.icon?.src)}
+            alt={info?.row?.original?.icon?.name}
+          />
+        )}
         <Typography
           variant="body4"
           sx={{

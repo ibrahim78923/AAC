@@ -593,6 +593,10 @@ export const LOYALTY_REWARDS_CLASS = {
   TIERS: 'TIERS',
 };
 
+export const DATA_TYPES = {
+  NULL: null,
+};
+
 export const LOYALTY_TIERS_REWARD_TYPE = {
   FIXED_DISCOUNT: 'FIXED_DISCOUNT',
   FLAT_DISCOUNT: 'FLAT_DISCOUNT',
