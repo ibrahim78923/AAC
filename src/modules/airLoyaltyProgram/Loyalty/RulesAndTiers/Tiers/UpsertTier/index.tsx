@@ -14,6 +14,8 @@ export const UpsertTier = (props: any) => {
     termData,
     setTermData,
     watch,
+    apiContactQuery,
+    postTierProgress,
   } = useUpsertTier(props);
 
   return (
@@ -34,23 +36,28 @@ export const UpsertTier = (props: any) => {
       cancelText={'Cancel'}
       footer
       isFooterFeature={!termData}
+      isLoading={postTierProgress?.isLoading}
+      isDisabled={postTierProgress?.isLoading}
+      disabledCancelBtn={postTierProgress?.isLoading}
     >
       <Box mt={1}>
         <FormProvider methods={upsertTierMethod}>
           <Grid container spacing={2}>
-            {upsertTierDataArray(termData, watch)?.map((item: any) => (
-              <Grid
-                item
-                xs={12}
-                md={item?.md}
-                key={item?.id}
-                display={item?.component === Box ? 'none' : 'block'}
-              >
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.heading && item?.heading}
-                </item.component>
-              </Grid>
-            ))}
+            {upsertTierDataArray({ termData, watch, apiContactQuery })?.map(
+              (item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.id}
+                  display={item?.component === Box ? 'none' : 'block'}
+                >
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.heading && item?.heading}
+                  </item.component>
+                </Grid>
+              ),
+            )}
           </Grid>
         </FormProvider>
       </Box>

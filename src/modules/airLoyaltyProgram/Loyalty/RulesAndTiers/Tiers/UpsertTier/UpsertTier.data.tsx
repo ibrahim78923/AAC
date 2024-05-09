@@ -96,27 +96,29 @@ export const lastTransactionOperator = [
 ];
 
 export const upsertTierValidationSchema: any = Yup?.object()?.shape({
-  tierName: Yup?.string()?.required('Required'),
-  tierDescription: Yup?.string()?.required('Required'),
-  addLogo: Yup?.mixed()?.nullable(),
-  amount: Yup?.string()?.nullable(),
-  points: Yup?.number()?.nullable(),
+  name: Yup?.string()?.required('Required'),
+  description: Yup?.string()?.required('Required'),
+  logo: Yup?.mixed()?.nullable(),
+  amount: Yup?.string()?.nullable()?.required('Required'),
+  points: Yup?.number()?.nullable()?.required('Required'),
   type: Yup?.string(),
-  attributes: Yup?.mixed()?.nullable(),
-  operators: Yup?.mixed()?.nullable(),
+  contacts: Yup?.mixed()?.nullable(),
+  attribute: Yup?.mixed()?.nullable(),
+  operator: Yup?.mixed()?.nullable(),
   fieldValue: Yup?.string(),
 });
 
 export const upsertTierDefaultValues = {
-  tierName: '',
-  tierDescription: '',
-  addLogo: null,
+  name: '',
+  description: '',
+  logo: null,
   amount: '',
   points: null,
-  type: '',
-  attributes: null,
-  operators: null,
-  fieldValue: '',
+  type: 'CONTACTS',
+  attribute: null,
+  operator: null,
+  fieldValue: {},
+  contacts: [],
 };
 
 export const constantsValues = {
@@ -143,24 +145,37 @@ export const operatorsConstantsValues = {
   after: 'After',
 };
 
-export const upsertTierDataArray = (termData: any, watch: any) => {
-  const attributesValues = watch('attributes');
+export const upsertTierDataArray = ({
+  termData,
+  watch,
+  apiContactQuery,
+}: any) => {
+  const attributesValues = watch('attribute');
   const selectedAttributesValues = attributesValues?.label;
 
-  const operatorsValues = watch('operators');
+  const operatorsValues = watch('operator');
   const selectedOperatorsValue = operatorsValues?.label;
 
+  let componentPropsContact: any = {};
+  let componentContact: any = Box;
+
+  if (selectedAttributesValues === constantsValues?.SELECT_CONTACT) {
+    componentContact = RHFAutocompleteAsync;
+    componentPropsContact = {
+      placeholder: 'select',
+      multiple: true,
+      apiQuery: apiContactQuery,
+      externalParams: { limit: 50 },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
+    };
+  } else {
+    componentContact = Box;
+  }
   let componentProps: any = {};
   let component: any = Box;
 
-  if (selectedAttributesValues === constantsValues?.SELECT_CONTACT) {
-    component = RHFAutocompleteAsync;
-    componentProps = {
-      placeholder: 'select',
-      apiQuery: namesOperator,
-      getOptionLabel: (option: any) => option?.contactName,
-    };
-  } else if (
+  if (
     [constantsValues?.firstName, constantsValues?.lastName]?.includes(
       selectedAttributesValues,
     )
@@ -238,7 +253,7 @@ export const upsertTierDataArray = (termData: any, watch: any) => {
       {
         id: 1,
         componentProps: {
-          name: 'tierName',
+          name: 'name',
           label: 'Tier Name',
           placeholder: 'Enter name',
           fullWidth: true,
@@ -249,7 +264,7 @@ export const upsertTierDataArray = (termData: any, watch: any) => {
       {
         id: 2,
         componentProps: {
-          name: 'tierDescription',
+          name: 'description',
           label: 'Tier Description',
           placeholder: 'Enter description',
           fullWidth: true,
@@ -260,7 +275,7 @@ export const upsertTierDataArray = (termData: any, watch: any) => {
       {
         id: 3,
         componentProps: {
-          name: 'addLogo',
+          name: 'logo',
           label: 'Add Logo',
           fileType: 'PNG or JPG',
           fileName: 'Logo',
@@ -281,6 +296,7 @@ export const upsertTierDataArray = (termData: any, watch: any) => {
           name: 'amount',
           label: 'Amount',
           fullWidth: true,
+          required: true,
           options: ['1'],
           placeholder: 'Select',
         },
@@ -308,6 +324,7 @@ export const upsertTierDataArray = (termData: any, watch: any) => {
           placeholder: 'Enter',
           type: 'number',
           fullWidth: true,
+          required: true,
         },
         component: RHFTextField,
       },
@@ -328,7 +345,7 @@ export const upsertTierDataArray = (termData: any, watch: any) => {
       {
         id: 9,
         componentProps: {
-          name: 'attributes',
+          name: 'attribute',
           label: 'Attributes',
           placeholder: 'Select',
           fullWidth: true,
@@ -364,17 +381,27 @@ export const upsertTierDataArray = (termData: any, watch: any) => {
       {
         id: 10,
         componentProps: {
-          name: 'operators',
-          label: 'Operators',
+          name: 'contacts',
+          label: 'Contacts',
+          fullWidth: true,
+          ...componentPropsContact,
+        },
+        component: componentContact,
+      },
+      {
+        id: 11,
+        componentProps: {
+          name: 'operator',
+          label: 'Operator',
           fullWidth: true,
           ...componentProps,
         },
         component: component,
       },
       {
-        id: 11,
+        id: 12,
         componentProps: {
-          name: 'fieldValues',
+          name: 'fieldValue',
           fullWidth: true,
           ...componentPropsTwo,
         },
