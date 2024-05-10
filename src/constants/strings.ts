@@ -627,3 +627,7 @@ export const RULES_OPERATORS = {
   GREATER_THAN_OR_EQUAL_TO: 'greater than or equal to',
   LESS_THAN_OR_EQUAL_TO: 'less than or equal to',
 };
+
+export const LOYALTY_RULE_STATUS = {
+  ACTIVE: 'ACTIVE',
+};
