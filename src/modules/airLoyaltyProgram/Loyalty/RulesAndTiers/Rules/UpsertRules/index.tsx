@@ -2,7 +2,8 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertRules } from './useUpsertRules';
 import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
-import { attributesOption } from './UpsertRules.data';
+import { rulesAudienceType, attributesOption } from './UpsertRules.data';
+import { RuleTypeCard } from '../RuleTypeCard';
 
 export const UpsertRules = (props: any) => {
   const { isDrawerOpen } = props;
@@ -13,6 +14,8 @@ export const UpsertRules = (props: any) => {
     upsertRuleMethod,
     upsertRulesFormFields,
     watchForAttribute,
+    hasAudience,
+    setAudienceType,
   } = useUpsertRules(props);
 
   return (
@@ -28,27 +31,37 @@ export const UpsertRules = (props: any) => {
       footer
     >
       <Box mt={1}>
-        <FormProvider methods={upsertRuleMethod}>
-          <Grid container mb={1}>
-            <Grid item xs={12}>
-              <RHFAutocomplete
-                name="attribute"
-                label="Select attribute"
-                options={attributesOption}
-                getOptionLabel={(option: any) => option?.label}
-                placeholder="Select attribute"
-                size={'small'}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={1}>
-            {upsertRulesFormFields?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
+        {!hasAudience ? (
+          <>
+            {rulesAudienceType?.map((rule: any) => (
+              <>
+                <RuleTypeCard type={rule} handleClick={setAudienceType} />
+              </>
             ))}
-          </Grid>
-        </FormProvider>
+          </>
+        ) : (
+          <FormProvider methods={upsertRuleMethod}>
+            <Grid container mb={1}>
+              <Grid item xs={12}>
+                <RHFAutocomplete
+                  name="attribute"
+                  label="Select attribute"
+                  options={attributesOption}
+                  getOptionLabel={(option: any) => option?.label}
+                  placeholder="Select attribute"
+                  size={'small'}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={1}>
+              {upsertRulesFormFields?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={item?.id}>
+                  <item.component {...item?.componentProps} size={'small'} />
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        )}
       </Box>
     </CommonDrawer>
   );

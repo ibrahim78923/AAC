@@ -9,16 +9,25 @@ import { PAGINATION } from '@/config';
 import {
   LOYALTY_RULES_ATTRIBUTES_MAPPED,
   LOYALTY_TIERS_REWARD_TYPE_MAPPED,
+  RULES_AUDIENCE_TYPE_MAPPED,
   RULES_TIME_SPAN_MAPPED,
 } from '@/constants/api-mapped';
 import {
   LOYALTY_RULES_ATTRIBUTES,
   LOYALTY_TIERS_REWARD_TYPE,
+  RULES_AUDIENCE_TYPE,
   RULES_BENEFIT_TYPE,
   RULES_OPERATORS,
   RULES_TIME_SPAN,
 } from '@/constants/strings';
 import * as Yup from 'yup';
+
+export const rulesAudienceType = [
+  {
+    _id: RULES_AUDIENCE_TYPE?.CUSTOMER,
+    label: RULES_AUDIENCE_TYPE_MAPPED?.[RULES_AUDIENCE_TYPE?.CUSTOMER],
+  },
+];
 
 export const attributesOption = [
   {
@@ -129,9 +138,20 @@ export const upsertRulesFormValidationSchema = Yup?.object()?.shape({
   appliedTo: Yup?.mixed()?.nullable()?.required('Applied to is required'),
 });
 
+export const timeSpanExists = [
+  LOYALTY_RULES_ATTRIBUTES?.BIRTHDAY,
+  LOYALTY_RULES_ATTRIBUTES?.ACCOUNT_CREATION,
+];
+
+export const operatorExists = [
+  LOYALTY_RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
+  LOYALTY_RULES_ATTRIBUTES?.PRODUCT_QTY,
+  LOYALTY_RULES_ATTRIBUTES?.NO_OF_VISITS,
+];
+
 export const upsertRulesFormDefaultValues = {
   attribute: null,
-  accountCreatedIn: {
+  customDate: {
     startDate: new Date(),
     endDate: new Date(),
     key: 'selection',
@@ -139,11 +159,12 @@ export const upsertRulesFormDefaultValues = {
   timeSpanOf: null,
   awardPoints: '',
   loyaltyType: '',
-  discount: '',
-  percentageOff: '',
-  flatOff: '',
+  rewards: 0,
   appliedTo: null,
-  organizationNumber: [],
+  attributeValue: 0,
+  operator: null,
+  description: '',
+  discountType: null,
 };
 
 export const upsertRulesFormFieldsDynamic = (
@@ -156,7 +177,7 @@ export const upsertRulesFormFieldsDynamic = (
   {
     id: 1,
     componentProps: {
-      name: 'addAmount',
+      name: 'operator',
       label:
         watchForAttribute?._id === LOYALTY_RULES_ATTRIBUTES?.NO_OF_VISITS
           ? 'No of Visits'
@@ -177,7 +198,7 @@ export const upsertRulesFormFieldsDynamic = (
   {
     id: 2,
     componentProps: {
-      name: 'amount',
+      name: 'attributeValue',
       label: '\u00a0\u00a0',
       placeholder: 'Enter amount',
     },
@@ -272,7 +293,7 @@ export const upsertRulesFormFieldsDynamic = (
         {
           id: 4,
           componentProps: {
-            name: 'discount',
+            name: 'rewards',
             label:
               watchForDiscountType?._id ===
               LOYALTY_TIERS_REWARD_TYPE?.FIXED_DISCOUNT
@@ -302,7 +323,7 @@ export const upsertRulesFormFieldsDynamic = (
         {
           id: 487,
           componentProps: {
-            name: 'awardPoints',
+            name: 'rewards',
             label: 'Points',
             placeholder: 'Enter award points',
           },

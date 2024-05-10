@@ -1,16 +1,31 @@
 import { useForm, useWatch } from 'react-hook-form';
 import {
+  operatorExists,
+  timeSpanExists,
   upsertRulesFormDefaultValues,
   upsertRulesFormFieldsDynamic,
   upsertRulesFormValidationSchema,
 } from './UpsertRules.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
-import { successSnackbar } from '@/utils/api';
-import { useLazyGetTiersDropdownForRulesQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
+import { useEffect, useState } from 'react';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  useAddRulesMutation,
+  useLazyGetTiersDropdownForRulesQuery,
+} from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
+import {
+  LOYALTY_TIERS_REWARD_TYPE,
+  RULES_BENEFIT_TYPE,
+  RULES_TIME_SPAN,
+} from '@/constants/strings';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const useUpsertRules = (props: any) => {
+  const [hasAudience, setHasAudience] = useState('');
   const { setIsDrawerOpen } = props;
+
+  const [addRulesTrigger, addRulesStatus] = useAddRulesMutation();
 
   const upsertRuleMethod = useForm<any>({
     resolver: yupResolver(upsertRulesFormValidationSchema),
@@ -20,9 +35,55 @@ export const useUpsertRules = (props: any) => {
   const { handleSubmit, control, reset, clearErrors, setValue } =
     upsertRuleMethod;
 
-  const submitUpsertRuleForm = () => {
-    successSnackbar('Rules created successfully');
-    closeUpsertRule();
+  const submitUpsertRuleForm = async (formData: any) => {
+    const timeSpan = {
+      type: formData?.timeSpanOf?._id,
+      ...(formData?.timeSpanOf?._id === RULES_TIME_SPAN?.CUSTOM_DATE
+        ? {
+            startDate: dayjs(formData?.customDate?.startDate)?.format(
+              DATE_FORMAT?.UI,
+            ),
+            endDate: dayjs(formData?.customDate?.endDate)?.format(
+              DATE_FORMAT?.UI,
+            ),
+          }
+        : {}),
+    };
+
+    const operator = {
+      operator: formData?.operator?._id,
+      attributeValue: +formData?.attributeValue,
+    };
+
+    const body = {
+      type: hasAudience,
+      attribute: formData?.attribute?._id,
+      description: formData?.description,
+      tierId: formData?.appliedTo?._id,
+      rewardType:
+        formData?.loyaltyType === RULES_BENEFIT_TYPE?.DISCOUNT
+          ? formData?.discountType?._id
+          : LOYALTY_TIERS_REWARD_TYPE?.POINTS,
+      rewards: +formData?.rewards,
+      ...(timeSpanExists?.includes(formData?.attribute?._id)
+        ? { timeSpan }
+        : {}),
+      ...(operatorExists?.includes(formData?.attribute?._id)
+        ? { ...operator }
+        : {}),
+    };
+
+    const apiDataParameter = {
+      body,
+    };
+
+    try {
+      await addRulesTrigger(apiDataParameter)?.unwrap();
+      successSnackbar?.('Rules added successfully');
+      closeUpsertRule();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   const watchForAttribute = useWatch({
@@ -71,6 +132,11 @@ export const useUpsertRules = (props: any) => {
   const closeUpsertRule = () => {
     reset?.();
     setIsDrawerOpen?.(false);
+    setHasAudience?.('');
+  };
+
+  const setAudienceType = (type: any) => {
+    setHasAudience?.(type?._id);
   };
 
   return {
@@ -80,5 +146,8 @@ export const useUpsertRules = (props: any) => {
     submitUpsertRuleForm,
     upsertRulesFormFields,
     watchForAttribute,
+    hasAudience,
+    setAudienceType,
+    addRulesStatus,
   };
 };

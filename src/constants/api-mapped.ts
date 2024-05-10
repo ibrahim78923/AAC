@@ -6,6 +6,7 @@ import {
   LOYALTY_TRANSACTIONS_CHANNEL,
   LOYALTY_TRANSACTIONS_TYPE,
   OPERATORS,
+  RULES_AUDIENCE_TYPE,
   RULES_TIME_SPAN,
 } from './strings';
 
@@ -66,4 +67,8 @@ export const RULES_TIME_SPAN_MAPPED = {
   [RULES_TIME_SPAN?.THIS_MONTH]: 'This month',
   [RULES_TIME_SPAN?.LAST_MONTH]: 'Last month',
   [RULES_TIME_SPAN?.CUSTOM_DATE]: 'Custom Date',
+};
+
+export const RULES_AUDIENCE_TYPE_MAPPED = {
+  [RULES_AUDIENCE_TYPE?.CUSTOMER]: 'Customer',
 };
