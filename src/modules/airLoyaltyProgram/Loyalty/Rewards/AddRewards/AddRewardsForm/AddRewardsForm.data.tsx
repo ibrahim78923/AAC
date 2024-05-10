@@ -81,6 +81,7 @@ export const addRewardsFormFieldsDynamic = (
   vouchersApiQuery: any,
   tiersApiQuery: any,
   watchForDeactivate: any,
+  externalParamsVisible: any,
 ) => [
   {
     id: 1,
@@ -172,11 +173,9 @@ export const addRewardsFormFieldsDynamic = (
       required: true,
       multiple: true,
       apiQuery: customersApiQuery,
-      externalParams: {
-        meta: false,
-        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-      },
-      getOptionLabel: (option: any) => option?.name,
+      externalParams: externalParamsVisible,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
     type: [LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD],

@@ -46,13 +46,19 @@ const loyaltyRewardsApi = baseAPI?.injectEndpoints({
     }),
     getCustomersDropdownForRewards: builder?.query({
       query: ({ params }: any) => ({
-        url: END_POINTS?.GET_VOUCHERS_REWARDS_DROPDOWN,
+        url: `${END_POINTS?.USER_LIST}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data ?? [];
+        if (response) return response?.data?.users ?? [];
       },
+    }),
+    getAuthAccountsForRewards: builder?.query({
+      query: () => ({
+        url: `${END_POINTS?.AUTH_ACCOUNTS}`,
+        method: 'GET',
+      }),
     }),
   }),
 });
@@ -64,4 +70,5 @@ export const {
   useLazyGetVoucherDropdownForRewardsQuery,
   useAddDigitalLoyaltyRewardMutation,
   useAddPhysicalLoyaltyRewardMutation,
+  useGetAuthAccountsForRewardsQuery,
 } = loyaltyRewardsApi;

@@ -602,3 +602,12 @@ export const LOYALTY_TIERS_REWARD_TYPE = {
   FLAT_DISCOUNT: 'FLAT_DISCOUNT',
   POINTS: 'POINTS',
 };
+
+export const PRODUCTS_LISTS = {
+  AIR_SALES: 'Air Sales',
+  AIR_SERVICES: 'Air Services',
+  AIR_CUSTOMER_PORTAL: 'Customer Portal',
+  AIR_OPERATIONS: 'Air Operations',
+  AIR_LOYALTY_PROGRAM: 'Loyalty Program',
+  AIR_MARKETER: 'Air Marketer',
+};
