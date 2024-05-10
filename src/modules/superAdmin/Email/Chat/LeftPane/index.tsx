@@ -7,34 +7,103 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MailList from './MailList';
 import ActionBtn from './ActionBtn';
 import { styles } from './LeftPane.styles';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
-import { setMailTabType } from '@/redux/slices/email/slice';
+import {
+  setActiveRecord,
+  setMailDraftList,
+  setMailList,
+  setMailTabType,
+} from '@/redux/slices/email/slice';
 import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useGetMailFoldersQuery } from '@/services/commonFeatures/email';
+import {
+  useGetDraftsQuery,
+  useGetEmailsByFolderIdQuery,
+  useGetMailFoldersQuery,
+} from '@/services/commonFeatures/email';
+import { PAGINATION } from '@/config';
+import { EMAIL_TABS_TYPES } from '@/constants';
 
 const LeftPane = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const mailTabType = useAppSelector((state: any) => state?.email?.mailTabType);
+  const mailTabType: any = useAppSelector(
+    (state: any) => state?.email?.mailTabType,
+  );
+
+  const mailList: any = useAppSelector((state: any) => state?.email?.mailList);
+  const mailDraftList: any = useAppSelector(
+    (state: any) => state?.email?.mailDraftList,
+  );
+
   const handelToggleTab = (value: any) => {
     dispatch(setMailTabType(value));
+    dispatch(setActiveRecord({}));
   };
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-
   const { data: foldersData, isLoading } = useGetMailFoldersQuery({});
   const dataToShow = ['Inbox', 'Drafts', 'Sent', 'Schedule', 'Trash'];
   const filteredData = foldersData?.data?.filter((item: any) => {
     return dataToShow
-      ?.map((name) => name.toLowerCase())
+      ?.map((name) => name?.toLowerCase())
       ?.includes(item?.display_name?.toLowerCase());
   });
+
+  const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
+
+  const {
+    data: emailsByFolderIdData,
+    status: isLoadingEmailsByFolderIdData,
+    refetch,
+  } = useGetEmailsByFolderIdQuery(
+    {
+      params: {
+        page: PAGINATION?.CURRENT_PAGE,
+        limit: PAGINATION?.PAGE_LIMIT,
+        folderId: mailTabType?.id,
+      },
+    },
+    { skip: isGetEmailsRequest },
+  );
+
+  useEffect(() => {
+    if (mailTabType) {
+      setIsGetEmailsRequest(false);
+    }
+  }, [mailTabType]);
+
+  const {
+    data: draftsData,
+    status: isLoadingDraftsData,
+    refetch: draftsDataRefetch,
+  } = useGetDraftsQuery(
+    {
+      params: {
+        page: PAGINATION?.CURRENT_PAGE,
+        limit: PAGINATION?.PAGE_LIMIT,
+      },
+    },
+    // { skip: isGetEmailsRequest },
+  );
+
+  useEffect(() => {
+    if (emailsByFolderIdData) {
+      dispatch(setMailList(emailsByFolderIdData));
+    }
+  }, [emailsByFolderIdData]);
+
+  useEffect(() => {
+    if (draftsData) {
+      dispatch(setMailDraftList(draftsData));
+    }
+  }, [draftsData]);
+
   return (
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>
@@ -101,8 +170,24 @@ const LeftPane = () => {
           ))}
         </ButtonGroup>
       )}
-
-      <MailList />
+      <MailList
+        emailsByFolderIdData={
+          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
+            ? mailDraftList
+            : mailList
+        }
+        isLoadingEmailsByFolderIdData={
+          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
+            ? isLoadingDraftsData
+            : isLoadingEmailsByFolderIdData
+        }
+        refetch={
+          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
+            ? draftsDataRefetch
+            : refetch
+        }
+        mailTabType={mailTabType}
+      />
 
       <CommonDrawer
         isDrawerOpen={isFiltersOpen}

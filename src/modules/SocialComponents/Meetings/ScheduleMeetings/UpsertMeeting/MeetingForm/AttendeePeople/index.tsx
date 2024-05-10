@@ -35,7 +35,7 @@ export const AttendeePeople = (props: any) => {
           externalParam={{ limit: 100 }}
           required
           getOptionLabel={(option: any) =>
-            fullName(option?.firstName, option?.lastName)
+            `${option?.firstName}  ${option?.lastName}`
           }
           multiple={router?.query?.type === peopleTypes?.group}
           size="small"
