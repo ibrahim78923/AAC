@@ -1,21 +1,18 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import useToggle from '@/hooks/useToggle';
-import { useGetSignedUrlForImportQuery } from '@/services/commonFeatures/companies';
 import { useForm } from 'react-hook-form';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useImportFileMutation } from '@/services/airServices/global/import';
+import { CRM_COLUMNS } from './importCompanies.data';
+import { FIELD_TYPES } from '@/constants/strings';
 
 const useImportCompanies = (setIsDrawerOpen: any) => {
   const theme = useTheme();
   const [isToggled, toggle] = useToggle();
   const [filePath, setFilePath] = useState();
 
-  const { data: getSignedUrlForImport } = useGetSignedUrlForImportQuery({
-    objectUrl: filePath,
-  });
   const [importFileTrigger, importFileStatus] = useImportFileMutation?.();
-  const data = getSignedUrlForImport?.data;
 
   const methods = useForm({});
   const { handleSubmit } = methods;
@@ -24,6 +21,12 @@ const useImportCompanies = (setIsDrawerOpen: any) => {
 
   const setDrawerDefaultState = () => {
     setIsDrawerOpen?.(false);
+  };
+
+  const filterMandatoryFields = () => {
+    return CRM_COLUMNS?.filter(
+      (column: any) => column?.groupBy === FIELD_TYPES?.MANDATORY_FIELD,
+    );
   };
 
   const submitImport = async (apiData: any) => {
@@ -35,7 +38,7 @@ const useImportCompanies = (setIsDrawerOpen: any) => {
       },
     };
 
-    return;
+    // return;
     try {
       const response: any = await importFileTrigger?.(apiImportData)?.unwrap();
       successSnackbar(response?.message);
@@ -55,7 +58,8 @@ const useImportCompanies = (setIsDrawerOpen: any) => {
     theme,
     setFilePath,
     toggle,
-    data,
+    filePath,
+    filterMandatoryFields,
   };
 };
 
