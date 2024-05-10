@@ -18,8 +18,6 @@ import {
   RULES_BENEFIT_TYPE,
   RULES_TIME_SPAN,
 } from '@/constants/strings';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 
 export const useUpsertRules = (props: any) => {
   const [hasAudience, setHasAudience] = useState('');
@@ -40,12 +38,8 @@ export const useUpsertRules = (props: any) => {
       type: formData?.timeSpanOf?._id,
       ...(formData?.timeSpanOf?._id === RULES_TIME_SPAN?.CUSTOM_DATE
         ? {
-            startDate: dayjs(formData?.customDate?.startDate)?.format(
-              DATE_FORMAT?.UI,
-            ),
-            endDate: dayjs(formData?.customDate?.endDate)?.format(
-              DATE_FORMAT?.UI,
-            ),
+            startDate: formData?.customDate?.startDate?.toISOString(),
+            endDate: formData?.customDate?.endDate?.toISOString(),
           }
         : {}),
     };

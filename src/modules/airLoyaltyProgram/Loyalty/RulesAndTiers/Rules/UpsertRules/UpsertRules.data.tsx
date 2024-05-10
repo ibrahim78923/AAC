@@ -22,6 +22,17 @@ import {
 } from '@/constants/strings';
 import * as Yup from 'yup';
 
+export const timeSpanExists = [
+  LOYALTY_RULES_ATTRIBUTES?.BIRTHDAY,
+  LOYALTY_RULES_ATTRIBUTES?.ACCOUNT_CREATION,
+];
+
+export const operatorExists = [
+  LOYALTY_RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
+  LOYALTY_RULES_ATTRIBUTES?.PRODUCT_QTY,
+  LOYALTY_RULES_ATTRIBUTES?.NO_OF_VISITS,
+];
+
 export const rulesAudienceType = [
   {
     _id: RULES_AUDIENCE_TYPE?.CUSTOMER,
@@ -136,18 +147,48 @@ export const upsertRulesFormValidationSchema = Yup?.object()?.shape({
   description: Yup?.string()?.trim()?.max(100, 'maximum 100 characters only'),
   loyaltyType: Yup?.string()?.required('Please select one'),
   appliedTo: Yup?.mixed()?.nullable()?.required('Applied to is required'),
+  attributeValue: Yup?.number()
+    ?.typeError('Must be a number')
+    ?.when('attribute', {
+      is: (value: any) => operatorExists?.includes(value?._id),
+      then: (schema: any) =>
+        schema
+          ?.positive('Amount is required')
+          ?.max(9999999999, 'Must be at most 10 digits'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
+  operator: Yup?.mixed()
+    ?.nullable()
+    ?.when('attribute', {
+      is: (value: any) => operatorExists?.includes(value?._id),
+      then: (schema: any) => schema?.required('operator is required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
+  timeSpanOf: Yup?.mixed()
+    ?.nullable()
+    ?.when('attribute', {
+      is: (value: any) => timeSpanExists?.includes(value?._id),
+      then: (schema: any) => schema?.required('time Span is required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
+  discountType: Yup?.mixed()
+    ?.nullable()
+    ?.when('loyaltyType', {
+      is: (value: any) => value === RULES_BENEFIT_TYPE?.DISCOUNT,
+      then: (schema: any) => schema?.required('Discount Type is required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
+  rewards: Yup?.number()
+    ?.typeError('Must be a number')
+    ?.when('loyaltyType', {
+      is: (value: any) => !!value,
+      then: (schema: any) =>
+        schema
+          ?.positive('Amount is required')
+          ?.max(9999999999, 'Must be at most 10 digits'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
 });
-
-export const timeSpanExists = [
-  LOYALTY_RULES_ATTRIBUTES?.BIRTHDAY,
-  LOYALTY_RULES_ATTRIBUTES?.ACCOUNT_CREATION,
-];
-
-export const operatorExists = [
-  LOYALTY_RULES_ATTRIBUTES?.PURCHASE_AMOUNT,
-  LOYALTY_RULES_ATTRIBUTES?.PRODUCT_QTY,
-  LOYALTY_RULES_ATTRIBUTES?.NO_OF_VISITS,
-];
 
 export const upsertRulesFormDefaultValues = {
   attribute: null,

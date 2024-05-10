@@ -16,6 +16,7 @@ export const UpsertRules = (props: any) => {
     watchForAttribute,
     hasAudience,
     setAudienceType,
+    addRulesStatus,
   } = useUpsertRules(props);
 
   return (
@@ -29,6 +30,9 @@ export const UpsertRules = (props: any) => {
       cancelText={'Cancel'}
       isCancel={!!watchForAttribute}
       footer
+      isLoading={addRulesStatus?.isLoading}
+      isDisabled={addRulesStatus?.isLoading}
+      disabledCancelBtn={addRulesStatus?.isLoading}
     >
       <Box mt={1}>
         {!hasAudience ? (
