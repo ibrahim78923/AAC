@@ -2,9 +2,8 @@ import { Button, Grid, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { vouchersColumns, vouchersData } from './Vouchers.data';
-import Image from 'next/image';
-import { VoucherImage } from '@/assets/images';
+import { vouchersColumns } from './Vouchers.data';
+import { VoucherCardBg } from '@/assets/images';
 import { useVouchers } from './useVouchers';
 import { AddVouchers } from './AddVouchers';
 import { Filters } from './Filters';
@@ -23,7 +22,16 @@ export const Vouchers = () => {
     theme,
     setFiltersOpen,
     vouchersMetaData,
-    lazyGetVouchersStatus,
+    isFetching,
+    isSuccess,
+    isError,
+    isLoading,
+    vouchers,
+    onSwitchChange,
+    switchLoading,
+    setFilterValues,
+    filterValues,
+    handlePrintVoucher,
   } = useVouchers();
   return (
     <>
@@ -44,6 +52,9 @@ export const Vouchers = () => {
             '@page': {
               size: 'portrait',
             },
+            '.*': {
+              printColorAdjust: 'exact',
+            },
           },
         }}
       >
@@ -52,6 +63,7 @@ export const Vouchers = () => {
             Vouchers
           </Typography>
         </Grid>
+
         <Grid
           item
           xs={6}
@@ -92,12 +104,16 @@ export const Vouchers = () => {
         </Grid>
         <Grid item xs={12} mt={3} className="no-print">
           <TanstackTable
-            columns={vouchersColumns}
-            data={vouchersData}
-            isLoading={lazyGetVouchersStatus?.isLoading}
-            isFetching={lazyGetVouchersStatus?.isFetching}
-            isError={lazyGetVouchersStatus?.isError}
-            isSuccess={lazyGetVouchersStatus?.isSuccess || true}
+            columns={vouchersColumns(
+              onSwitchChange,
+              switchLoading,
+              handlePrintVoucher,
+            )}
+            data={vouchers}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            isError={isError}
+            isSuccess={isSuccess || true}
             currentPage={page}
             count={vouchersMetaData?.pages}
             pageLimit={pageLimit}
@@ -109,14 +125,71 @@ export const Vouchers = () => {
           />
         </Grid>
         <Grid item xs={12} display="none" className="printable-voucher">
-          <Image src={VoucherImage} alt="voucher" />
+          <Grid
+            container
+            height={'316px'}
+            width={'738px'}
+            display={'flex'}
+            position={'absolute'}
+            zIndex={100}
+            sx={{
+              backgroundImage: `url(${VoucherCardBg.src})`,
+              backgroundPosition: 'cover',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '100%',
+            }}
+          >
+            <Grid item xs={6} p={3}>
+              <Typography color={'white'} variant="h1" mb={2}>
+                {' '}
+                Enjoy Mighty Zinger
+              </Typography>
+              <Typography color={'white'} variant="body4">
+                Under this revised policy, if an employee takes leave on either
+                a Friday or the following Monday
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              display={'flex'}
+              flexDirection={'column'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              gap={1}
+            >
+              <Typography color={'white'} variant="h6">
+                VEf12UYBN
+              </Typography>
+              <Typography color={'white'} variant="h4">
+                Expiry Date
+              </Typography>
+              <Typography color={'white'} variant="body1">
+                20/2/2024
+              </Typography>
+              <Typography color={'white'} variant="h4">
+                No. of Redemptions
+              </Typography>
+              <Typography color={'white'} variant="body1">
+                04
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <AddVouchers
         addVouchersOpen={addVouchersOpen}
         setAddVouchersOpen={setAddVouchersOpen}
       />
-      <Filters filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} />
+      {filtersOpen && (
+        <Filters
+          filtersOpen={filtersOpen}
+          setFiltersOpen={setFiltersOpen}
+          setFilterValues={setFilterValues}
+          filterValues={filterValues}
+          setPage={setPage}
+        />
+      )}
     </>
   );
 };

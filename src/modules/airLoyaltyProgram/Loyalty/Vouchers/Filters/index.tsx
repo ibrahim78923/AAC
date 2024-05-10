@@ -7,21 +7,23 @@ import { filtersFormFieldsDataFunction } from './Filters.data';
 export const Filters = (props: any) => {
   const {
     filtersOpen,
-    setFiltersOpen,
     handleSubmit,
     submitFiltersForm,
     methods,
+    clearFilter,
+    onClose,
   } = useFilters(props);
   return (
     <>
       <CommonDrawer
         isDrawerOpen={filtersOpen}
-        onClose={() => setFiltersOpen?.(false)}
+        onClose={() => onClose?.()}
         okText={'Apply'}
         title={'Filter'}
         submitHandler={() => handleSubmit(submitFiltersForm)()}
+        cancelBtnHandler={() => clearFilter?.()}
         isOk
-        cancelText={'Cancel'}
+        cancelText={'Reset'}
         footer
       >
         <FormProvider

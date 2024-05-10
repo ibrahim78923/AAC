@@ -371,6 +371,9 @@ export const END_POINTS = {
   SHOP_DETAIL: `/shops/shop-details`,
   ADD_VOUCHERS: '/vouchers/create-voucher',
   DELETE_SHOP: `/shops/delete-shops`,
+  GET_VOUCHERS: '/vouchers/list-voucher',
+  GET_SINGLE_VOUCHERS: '/vouchers/get-voucher-details',
+  UPDATE_VOUCHERS_STATUS: '/vouchers/update-voucher-status',
 };
 
 export const superAdminBillingInvoices = {

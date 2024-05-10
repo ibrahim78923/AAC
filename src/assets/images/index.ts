@@ -277,3 +277,4 @@ export { default as PhysicalCardBackImage } from './shared/physical-card-back-im
 export { default as PhysicalCardFrontImage } from './shared/physical-card-front-image.png';
 export { default as XlFileImg } from './shared/xl-file-img.png';
 export { default as OthersMail } from './shared/others-mail.png';
+export { default as VoucherCardBg } from './modules/loyaltyProgram/Vouchers/voucher-card-bg.png';
