@@ -17,7 +17,7 @@ export const loyaltyPhysicalRewardColumnDynamic: any = (
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
         <Avatar
-          src={generateImage(info?.row?.original?.icon?.src)}
+          src={generateImage(info?.row?.original?.rewardAttachment?.fileUrl)}
           alt={info?.row?.original?.icon?.name}
         />
         <Typography
