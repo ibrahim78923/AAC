@@ -458,3 +458,4 @@ export { default as ZoomVideoIcon } from './shared/zoom-icon';
 export { default as GoogleMeetIcon } from './shared/google-meet-icon';
 export { default as MSTeamsIcon } from './shared/ms-teams-icon';
 export { default as EditPenCustomIcon } from './modules/SocialComponents/CalenderView/edit-pen-custom-icon';
+export { default as HeaderInfoIcon } from './shared/header-info';
