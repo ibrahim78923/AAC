@@ -11,7 +11,16 @@ export const socialMarketerAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['CAMPAIGNS'],
     }),
+    getCampaignsTasks: builder.query({
+      query: ({ ...params }) => ({
+        url: `${AIR_MARKETER?.CAMPAIGNS}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['CAMPAIGNS'],
+    }),
   }),
 });
 
-export const { useGetCampaignsQuery } = socialMarketerAPI;
+export const { useGetCampaignsQuery, useGetCampaignsTasksQuery } =
+  socialMarketerAPI;
