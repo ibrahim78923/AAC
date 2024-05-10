@@ -14,19 +14,20 @@ export const tiersAPI = baseAPI?.injectEndpoints({
       }),
     }),
     addTiers: builder?.mutation({
-      query: (apiDataParameter: any) => ({
+      query: (postApiDataParameter: any) => ({
         url: END_POINTS?.ADD_TIERS,
         method: 'POST',
-        body: apiDataParameter?.body,
+        body: postApiDataParameter?.body,
       }),
       invalidatesTags: [TAGS],
     }),
     editSingleTiers: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: '',
-        method: 'PATCH',
-        body: apiDataParameter?.body,
+      query: (putApiDataParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_TIERS}/${putApiDataParameter?.id}`,
+        method: 'PUT',
+        body: putApiDataParameter?.body,
       }),
+      invalidatesTags: [TAGS],
     }),
     deleteTiers: builder?.mutation({
       query: (apiDataParameter: any) => ({

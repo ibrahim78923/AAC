@@ -362,6 +362,7 @@ export const END_POINTS = {
   GET_RULES_AND_TIERS_LIST: `/rules-and-tiers`,
   ADD_RULES: `/rules-and-tiers/rule`,
   ADD_TIERS: `/rules-and-tiers/tier`,
+  UPDATE_TIERS: `/rules-and-tiers/tier`,
   CREATE_DIGITAL_REWARD: `/rewards/create-digital-reward`,
   CREATE_PHYSICAL_REWARD: `/rewards/create-physical-reward`,
   GET_REWARDS_LIST: `/rewards/rewards-list`,

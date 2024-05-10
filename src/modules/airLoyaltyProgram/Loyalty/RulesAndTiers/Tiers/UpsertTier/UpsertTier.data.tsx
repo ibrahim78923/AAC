@@ -66,29 +66,29 @@ export const attributesData = [
 ];
 
 export const namesOperator = [
-  { value: 'equals', label: 'Equal' },
-  { value: 'not equals', label: 'Not Equal' },
+  { value: 'equals', label: 'Equals' },
+  { value: 'not equals', label: 'Not Equals' },
   { value: 'is known', label: 'Known' },
   { value: 'is unknown', label: 'Unknown' },
 ];
 export const dateOperator = [
-  { value: 'equals', label: 'Equal' },
-  { value: 'not equals', label: 'Not Equal' },
+  { value: 'equals', label: 'Equals' },
+  { value: 'not equals', label: 'Not Equals' },
   { value: 'contains', label: 'Contains' },
   { value: 'is known', label: 'Known' },
   { value: 'is unknown', label: 'Unknown' },
 ];
 export const ageOperator = [
-  { value: 'equals', label: 'Equal' },
-  { value: 'not equals', label: 'Not Equal' },
+  { value: 'equals', label: 'Equals' },
+  { value: 'not equals', label: 'Not Equals' },
   { value: 'greater than', label: 'Greater Than' },
   { value: 'less than', label: 'Less Than' },
   { value: 'is known', label: 'Known' },
   { value: 'is unknown', label: 'Unknown' },
 ];
 export const lastTransactionOperator = [
-  { value: 'equals', label: 'Equal' },
-  { value: 'not equals', label: 'Not Equal' },
+  { value: 'equals', label: 'Equals' },
+  { value: 'not equals', label: 'Not Equals' },
   { value: 'before', label: 'Before' },
   { value: 'after', label: 'After' },
   { value: 'is known', label: 'Known' },
@@ -108,17 +108,32 @@ export const upsertTierValidationSchema: any = Yup?.object()?.shape({
   fieldValue: Yup?.string(),
 });
 
-export const upsertTierDefaultValues = {
-  name: '',
-  description: '',
-  logo: null,
-  amount: '',
-  points: null,
-  type: 'CONTACTS',
-  attribute: null,
-  operator: null,
-  fieldValue: {},
-  contacts: [],
+export const upsertTierDefaultValues = (formData: any) => {
+  const allOperators = [
+    ...namesOperator,
+    ...dateOperator,
+    ...ageOperator,
+    ...lastTransactionOperator,
+  ];
+
+  return {
+    name: formData?.name ?? '',
+    description: formData?.description ?? '',
+    logo: formData?.logo ?? null,
+    amount: formData?.amount ?? '',
+    points: formData?.points ?? null,
+    type: 'CONTACTS',
+    attribute:
+      attributesData?.find(
+        (attribute: any) => attribute?.value === formData?.attribute,
+      ) ?? null,
+    operator:
+      allOperators?.find(
+        (operator: any) => operator?.value === formData?.operator,
+      ) ?? null,
+    fieldValue: formData?.fieldValue ?? '',
+    contacts: [],
+  };
 };
 
 export const constantsValues = {
@@ -134,8 +149,8 @@ export const constantsValues = {
 };
 
 export const operatorsConstantsValues = {
-  equals: 'Equal',
-  notEquals: 'Not Equal',
+  equals: 'Equals',
+  notEquals: 'Not Equals',
   isKnown: 'Known',
   isUnknown: 'Unknown',
   contains: 'Contains',
@@ -182,9 +197,7 @@ export const upsertTierDataArray = ({
   ) {
     component = RHFAutocomplete;
     componentProps = {
-      placeholder: 'select',
       options: namesOperator,
-      getOptionLabel: (option: any) => option?.label,
     };
   } else if (
     [constantsValues?.address, constantsValues?.phoneNumber]?.includes(
@@ -193,9 +206,7 @@ export const upsertTierDataArray = ({
   ) {
     component = RHFAutocomplete;
     componentProps = {
-      placeholder: 'select',
       options: dateOperator,
-      getOptionLabel: (option: any) => option?.label,
     };
   } else if (
     [
@@ -206,18 +217,14 @@ export const upsertTierDataArray = ({
   ) {
     component = RHFAutocomplete;
     componentProps = {
-      placeholder: 'select',
       options: ageOperator,
-      getOptionLabel: (option: any) => option?.label,
     };
   } else if (
     [constantsValues?.LAST_TRANSACTION_DATE]?.includes(selectedAttributesValues)
   ) {
     component = RHFAutocomplete;
     componentProps = {
-      placeholder: 'select',
       options: lastTransactionOperator,
-      getOptionLabel: (option: any) => option?.label,
     };
   } else {
     component = Box;
@@ -297,10 +304,10 @@ export const upsertTierDataArray = ({
           label: 'Amount',
           fullWidth: true,
           required: true,
-          options: ['1'],
-          placeholder: 'Select',
+          type: 'number',
+          placeholder: 'Enter Number',
         },
-        component: RHFAutocomplete,
+        component: RHFTextField,
       },
       {
         id: 6,
@@ -321,7 +328,7 @@ export const upsertTierDataArray = ({
         componentProps: {
           name: 'points',
           label: 'Points',
-          placeholder: 'Enter',
+          placeholder: 'Enter Points',
           type: 'number',
           fullWidth: true,
           required: true,
@@ -394,6 +401,8 @@ export const upsertTierDataArray = ({
           name: 'operator',
           label: 'Operator',
           fullWidth: true,
+          placeholder: 'select',
+          getOptionLabel: (option: any) => option?.label,
           ...componentProps,
         },
         component: component,

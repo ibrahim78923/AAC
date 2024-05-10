@@ -7,46 +7,78 @@ import {
 import { useEffect, useState } from 'react';
 import {
   useAddTiersMutation,
+  useEditSingleTiersMutation,
+  useGetSingleTiersDetailsQuery,
   useLazyGetContactListForTierQuery,
 } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertTier = (props: any) => {
-  const { setIsDrawerOpen } = props;
+  const { setIsDrawerOpen, tierId } = props;
   const [termData, setTermData] = useState(false);
+
+  const storedId = tierId?._id;
+  const { data, isLoading, isFetching, isError }: any =
+    useGetSingleTiersDetailsQuery(storedId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!storedId,
+    });
+
+  const formData = data?.data;
+
   const upsertTierMethod = useForm({
     resolver: yupResolver(upsertTierValidationSchema),
-    defaultValues: upsertTierDefaultValues,
+    defaultValues: upsertTierDefaultValues(formData),
   });
 
   const { handleSubmit, reset, watch, setValue } = upsertTierMethod;
+
   const apiContactQuery = useLazyGetContactListForTierQuery();
-
   const [postTierTrigger, postTierProgress] = useAddTiersMutation();
+  const [updateTierTrigger, updateTierProgress] = useEditSingleTiersMutation();
 
-  const submitTierForm = async (data: any) => {
+  const submitTierForm = async (tierData: any) => {
     const tierFormData = new FormData();
-    tierFormData?.append('name', data?.name);
-    tierFormData?.append('description', data?.description);
-    tierFormData?.append('logo', data?.logo);
-    tierFormData?.append('points', data?.points);
-    tierFormData?.append('amount', data?.amount);
-    tierFormData?.append('type', data?.type);
-    tierFormData?.append('attribute', data?.attribute?.value);
-    tierFormData?.append('operator', data?.operator?.value);
-    tierFormData?.append('fieldValue', data?.fieldValue);
+    tierFormData?.append('name', tierData?.name);
+    tierFormData?.append('description', tierData?.description);
+    tierFormData?.append('logo', tierData?.logo);
+    tierFormData?.append('points', tierData?.points);
+    tierFormData?.append('amount', tierData?.amount);
+    tierFormData?.append('type', tierData?.type);
+    tierFormData?.append('attribute', tierData?.attribute?.value);
+    tierFormData?.append('operator', tierData?.operator?.value);
+    tierFormData?.append('fieldValue', tierData?.fieldValue);
     tierFormData?.append(
       'contacts',
-      data?.contacts?.map((item: any) => item?._id),
+      tierData?.contacts?.map((item: any) => item?._id),
     );
 
-    const apiDataParameter = {
+    const postApiDataParameter = {
       body: tierFormData,
     };
 
+    if (!!storedId) {
+      return submitUpdateTierForm(tierFormData);
+    }
+
     try {
-      await postTierTrigger(apiDataParameter)?.unwrap();
+      await postTierTrigger(postApiDataParameter)?.unwrap();
       successSnackbar('Tier added successfully');
+      closeUpsertTier?.();
+      reset?.();
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
+
+  const submitUpdateTierForm = async (tierData: any) => {
+    const putApiDataParameter = {
+      id: storedId,
+      body: tierData,
+    };
+    try {
+      await updateTierTrigger(putApiDataParameter)?.unwrap();
+      successSnackbar('Tier update successfully');
       closeUpsertTier?.();
       reset?.();
     } catch (error) {
@@ -60,11 +92,12 @@ export const useUpsertTier = (props: any) => {
   };
 
   const attributesValues = watch('attribute');
-
   useEffect(() => {
-    setValue('operator', null);
-    setValue('contacts', []);
-    setValue('fieldValue', '');
+    if (storedId === undefined) {
+      setValue('operator', null);
+      setValue('contacts', []);
+      setValue('fieldValue', '');
+    }
   }, [attributesValues]);
 
   return {
@@ -77,5 +110,10 @@ export const useUpsertTier = (props: any) => {
     watch,
     apiContactQuery,
     postTierProgress,
+    tierId,
+    isLoading,
+    isError,
+    isFetching,
+    updateTierProgress,
   };
 };
