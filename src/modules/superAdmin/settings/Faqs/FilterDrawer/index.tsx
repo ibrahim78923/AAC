@@ -1,39 +1,37 @@
 import React from 'react';
+import CommonDrawer from '@/components/CommonDrawer';
 import { Grid } from '@mui/material';
-import CommonModal from '@/components/CommonModal';
 import { FormProvider } from '@/components/ReactHookForm';
-import { EditFaqPropsI } from './EditFaq.interface';
-import { editFaqsDataArray } from './EditFaq.data';
-import { CommonAPIS } from '@/services/common-APIs';
+import { FilterPropsI } from './interface';
+import { filtersDataArray } from './data';
+import { useLazyGetDropdownProductsQuery } from '@/services/common-APIs';
+import { useLazyGetUserDropdownListQuery } from '@/services/superAdmin/settings/faqs';
 
-const EditFaq = ({
-  isModalOpen,
+const FilterDrawer = ({
+  open,
   onClose,
-  handleSubmit,
+  onSubmit,
   formMethods,
   isLoading,
-  title,
-  onViewDisabled,
-  disabledSubmit,
-}: EditFaqPropsI) => {
-  const { useLazyGetDropdownProductsQuery }: any = CommonAPIS;
+}: FilterPropsI) => {
+  const createdByUsers = useLazyGetUserDropdownListQuery();
   const products = useLazyGetDropdownProductsQuery();
+  const formFieldsArray = filtersDataArray(products, createdByUsers);
 
   return (
-    <CommonModal
-      open={isModalOpen}
-      handleClose={onClose}
-      handleCancel={onClose}
-      handleSubmit={handleSubmit}
-      title={`${title} FAQ`}
-      okText="Update"
-      footer={title === 'Edit'}
+    <CommonDrawer
+      isDrawerOpen={open}
+      onClose={onClose}
+      title="Filters"
+      okText="Apply"
+      isOk={true}
+      footer={true}
+      submitHandler={onSubmit}
       isLoading={isLoading}
-      isSubmitDisabled={disabledSubmit}
     >
       <FormProvider methods={formMethods}>
-        <Grid container spacing={4}>
-          {editFaqsDataArray(onViewDisabled, products)?.map((item: any) => (
+        <Grid container spacing={'22px'}>
+          {formFieldsArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select
@@ -48,8 +46,8 @@ const EditFaq = ({
           ))}
         </Grid>
       </FormProvider>
-    </CommonModal>
+    </CommonDrawer>
   );
 };
 
-export default EditFaq;
+export default FilterDrawer;

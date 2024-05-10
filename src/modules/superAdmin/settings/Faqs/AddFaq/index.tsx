@@ -4,7 +4,7 @@ import CommonModal from '@/components/CommonModal';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AddFaqPropsI } from './AddFaq.interface';
 import { addFaqsFiltersDataArray } from './AddFaq.data';
-import { v4 as uuidv4 } from 'uuid';
+import { CommonAPIS } from '@/services/common-APIs';
 
 const AddFaq = ({
   isAddModalOpen,
@@ -13,6 +13,9 @@ const AddFaq = ({
   formMethods,
   isLoading,
 }: AddFaqPropsI) => {
+  const { useLazyGetDropdownProductsQuery }: any = CommonAPIS;
+  const products = useLazyGetDropdownProductsQuery();
+  const formFields = addFaqsFiltersDataArray(products);
   return (
     <CommonModal
       open={isAddModalOpen}
@@ -27,8 +30,8 @@ const AddFaq = ({
       <>
         <FormProvider methods={formMethods}>
           <Grid container spacing={4}>
-            {addFaqsFiltersDataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            {formFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (

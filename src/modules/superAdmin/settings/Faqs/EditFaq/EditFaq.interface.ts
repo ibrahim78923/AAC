@@ -5,5 +5,6 @@ export interface EditFaqPropsI {
   formMethods: any;
   isLoading?: boolean;
   title?: string;
-  onViewDisabled: boolean;
+  onViewDisabled?: boolean;
+  disabledSubmit?: boolean;
 }

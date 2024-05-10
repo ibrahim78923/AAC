@@ -9,6 +9,7 @@ import { SUPER_ADMIN } from '@/constants';
 import { usersApi } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
+import { useGetProductsQuery } from '@/services/common-APIs';
 
 const useUserManagement = () => {
   const navigate = useRouter();
@@ -48,6 +49,7 @@ const useUserManagement = () => {
   }: any = usersApi;
 
   const [updateUsers] = useUpdateUsersMutation();
+  const { data: productsList } = useGetProductsQuery({});
 
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
@@ -129,6 +131,7 @@ const useUserManagement = () => {
     tabOne,
     datePickerVal,
     setDatePickerVal,
+    productsList,
   };
 };
 

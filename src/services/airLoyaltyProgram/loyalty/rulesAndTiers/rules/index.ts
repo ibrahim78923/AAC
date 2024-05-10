@@ -1,39 +1,39 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-export const manageShopAPI = baseAPI?.injectEndpoints({
+export const rulesAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getShopList: builder?.query({
+    getRulesList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.GET_SHOP_LIST,
+        url: END_POINTS?.GET_RULES_LIST,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
     }),
-    addShop: builder?.mutation({
+    addRules: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.CREATE_SHOP,
+        url: END_POINTS?.ADD_RULES,
         method: 'POST',
         body: apiDataParameter?.body,
       }),
     }),
-    editSingleShop: builder?.mutation({
+    editSingleRules: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.UPDATE_SHOP,
+        url: '',
         method: 'PATCH',
-        params: apiDataParameter?.queryParams,
+        body: apiDataParameter?.body,
       }),
     }),
-    deleteShop: builder?.mutation({
+    deleteRules: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.DELETE_SHOP,
+        url: ``,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
     }),
-    getSingleShopDetails: builder?.query({
+    getSingleRulesDetails: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: END_POINTS?.SHOP_DETAIL,
+        url: '',
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -42,10 +42,10 @@ export const manageShopAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useAddShopMutation,
-  useGetShopListQuery,
-  useLazyGetShopListQuery,
-  useDeleteShopMutation,
-  useEditSingleShopMutation,
-  useGetSingleShopDetailsQuery,
-} = manageShopAPI;
+  useAddRulesMutation,
+  useGetRulesListQuery,
+  useLazyGetRulesListQuery,
+  useDeleteRulesMutation,
+  useEditSingleRulesMutation,
+  useGetSingleRulesDetailsQuery,
+} = rulesAPI;
