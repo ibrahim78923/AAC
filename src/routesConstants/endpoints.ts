@@ -379,6 +379,7 @@ export const END_POINTS = {
   DELETE_SHOP: `/shops/delete-shops`,
   ADD_LOYALTY_TRANSACTION: `/Transactions/add-transaction`,
   GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
+  CHANGE_RULES_STATUS: `/rules-and-tiers/rules/change-status`,
 };
 
 export const superAdminBillingInvoices = {

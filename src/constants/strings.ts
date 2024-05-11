@@ -630,6 +630,7 @@ export const RULES_OPERATORS = {
 
 export const LOYALTY_RULE_STATUS = {
   ACTIVE: 'ACTIVE',
+  IN_ACTIVE: 'IN_ACTIVE',
 };
 
 export const RULES_AUDIENCE_TYPE = {

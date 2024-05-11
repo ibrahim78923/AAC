@@ -1,6 +1,8 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const TAG = 'RULES';
+
 export const rulesAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getRulesList: builder?.query({
@@ -9,6 +11,7 @@ export const rulesAPI = baseAPI?.injectEndpoints({
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
+      providesTags: [TAG],
     }),
     addRules: builder?.mutation({
       query: (apiDataParameter: any) => ({
@@ -16,6 +19,7 @@ export const rulesAPI = baseAPI?.injectEndpoints({
         method: 'POST',
         body: apiDataParameter?.body,
       }),
+      invalidatesTags: [TAG],
     }),
     editSingleRules: builder?.mutation({
       query: (apiDataParameter: any) => ({
@@ -48,6 +52,14 @@ export const rulesAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data?.tiers ?? [];
       },
     }),
+    changeSingleRuleStatus: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.CHANGE_RULES_STATUS}/${apiDataParameter?.pathParams?.id}`,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -59,4 +71,5 @@ export const {
   useEditSingleRulesMutation,
   useGetSingleRulesDetailsQuery,
   useLazyGetTiersDropdownForRulesQuery,
+  useChangeSingleRuleStatusMutation,
 } = rulesAPI;
