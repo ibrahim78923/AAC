@@ -7,14 +7,18 @@ import {
 } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
 import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
+import { CHARACTERS_LIMIT, REGEX } from '@/constants/validation';
 
 import * as Yup from 'yup';
 
 export const addPhysicalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()
     ?.required('Title is required')
-    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s]+$/, 'must be a string')
-    ?.max(30, 'maximum 30 characters'),
+    ?.matches(REGEX?.ALPHABETS_AND_SPACE, 'must be a string')
+    ?.max(
+      CHARACTERS_LIMIT?.LOYALTY_REWARDS_TITLE_MAX_CHARACTERS,
+      `maximum ${CHARACTERS_LIMIT?.LOYALTY_REWARDS_TITLE_MAX_CHARACTERS} characters`,
+    ),
   requiredPoints: Yup?.number()
     ?.positive('Greater than zero')
     ?.typeError('Not a number')
@@ -39,8 +43,11 @@ export const addPhysicalRewardsValidationSchema = Yup?.object()?.shape({
 export const addDigitalRewardsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()
     ?.required('Title is required')
-    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s]+$/, 'must be a string')
-    ?.max(30, 'maximum 30 characters'),
+    ?.matches(REGEX?.ALPHABETS_AND_SPACE, 'must be a string')
+    ?.max(
+      CHARACTERS_LIMIT?.LOYALTY_REWARDS_TITLE_MAX_CHARACTERS,
+      `maximum ${CHARACTERS_LIMIT?.LOYALTY_REWARDS_TITLE_MAX_CHARACTERS} characters`,
+    ),
   requiredPoints: Yup?.number()
     ?.positive('Greater than zero')
     ?.typeError('Not a number')

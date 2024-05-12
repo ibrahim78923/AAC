@@ -20,6 +20,7 @@ import {
   RULES_OPERATORS,
   RULES_TIME_SPAN,
 } from '@/constants/strings';
+import { CHARACTERS_LIMIT } from '@/constants/validation';
 import * as Yup from 'yup';
 
 export const timeSpanExists = [
@@ -144,7 +145,12 @@ export const timeSpanOptions = [
 
 export const upsertRulesFormValidationSchema = Yup?.object()?.shape({
   attribute: Yup?.mixed()?.nullable(),
-  description: Yup?.string()?.trim()?.max(100, 'maximum 100 characters only'),
+  description: Yup?.string()
+    ?.trim()
+    ?.max(
+      CHARACTERS_LIMIT?.LOYALTY_RULES_DESCRIPTION_MAX_CHARACTERS,
+      `maximum ${CHARACTERS_LIMIT?.LOYALTY_RULES_DESCRIPTION_MAX_CHARACTERS} characters`,
+    ),
   loyaltyType: Yup?.string()?.required('Please select one'),
   appliedTo: Yup?.mixed()?.nullable()?.required('Applied to is required'),
   attributeValue: Yup?.number()
@@ -154,7 +160,11 @@ export const upsertRulesFormValidationSchema = Yup?.object()?.shape({
       then: (schema: any) =>
         schema
           ?.positive('Amount is required')
-          ?.max(9999999999, 'Must be at most 10 digits'),
+          ?.max(
+            CHARACTERS_LIMIT?.LOYALTY_RULES_ATTRIBUTES_MAX_CHARACTERS,
+            `Must be at most ${CHARACTERS_LIMIT?.LOYALTY_RULES_ATTRIBUTES_MAX_CHARACTERS?.toString()
+              ?.length} digits`,
+          ),
       otherwise: (schema: any) => schema?.notRequired(),
     }),
   operator: Yup?.mixed()
@@ -185,7 +195,11 @@ export const upsertRulesFormValidationSchema = Yup?.object()?.shape({
       then: (schema: any) =>
         schema
           ?.positive('Amount is required')
-          ?.max(9999999999, 'Must be at most 10 digits'),
+          ?.max(
+            CHARACTERS_LIMIT?.LOYALTY_RULES_REWARDS_MAX_CHARACTERS,
+            `Must be at most ${CHARACTERS_LIMIT?.LOYALTY_RULES_REWARDS_MAX_CHARACTERS?.toString()
+              ?.length} digits`,
+          ),
       otherwise: (schema: any) => schema?.notRequired(),
     }),
 });
