@@ -108,6 +108,25 @@ const setActivePermissionsSession = (permissions: any) => {
   }
 };
 
+const setAccountsData = (accountsData: any) => {
+  if (typeof localStorage !== 'undefined') {
+    if (accountsData) {
+      localStorage.setItem('accountsData', JSON.stringify(accountsData));
+    } else {
+      localStorage.removeItem('accountsData');
+    }
+  }
+};
+
+const getAccountsData = () => {
+  if (typeof localStorage !== 'undefined') {
+    const sessionJSON = localStorage?.getItem('accountsData');
+
+    if (sessionJSON) return JSON.parse(sessionJSON);
+    return {};
+  }
+};
+
 const getActivePermissionsSession = () => {
   if (typeof localStorage !== 'undefined') {
     const sessionJSON = localStorage?.getItem('ActivePermissions');
@@ -171,4 +190,6 @@ export {
   getActivePermissionsSession,
   getActiveAccountSession,
   setActiveAccountSession,
+  setAccountsData,
+  getAccountsData,
 };
