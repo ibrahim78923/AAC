@@ -1,9 +1,13 @@
-import { Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { vouchersColumns } from './Vouchers.data';
-import { VoucherCardBg } from '@/assets/images';
+import {
+  VoucherCardBg,
+  VoucherCardIcon,
+  VoucherCardIconBg,
+} from '@/assets/images';
 import { useVouchers } from './useVouchers';
 import { AddVouchers } from './AddVouchers';
 import { Filters } from './Filters';
@@ -12,6 +16,7 @@ import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission
 import { truncateLargeText, truncateText } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
+import Image from 'next/image';
 
 export const Vouchers = () => {
   const {
@@ -37,6 +42,8 @@ export const Vouchers = () => {
     handlePrintVoucher,
     singleVouchers,
     router,
+    ScreenPosition,
+    ImgPosition,
   } = useVouchers();
   return (
     <>
@@ -131,20 +138,26 @@ export const Vouchers = () => {
         <Grid item xs={12} display="none" className="printable-voucher">
           <Grid
             container
-            height={'316px'}
-            width={'730px'}
+            width={'738px'}
             display={'flex'}
-            sx={{
-              backgroundImage: `url(${VoucherCardBg.src})`,
-              backgroundPosition: 'cover',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: '100%',
-              overflow: 'visible',
-            }}
+            bgcolor={'primary.main'}
+            borderRadius={'20px'}
           >
-            <Grid item xs={6} p={4}>
+            <Grid
+              item
+              xs={6}
+              p={3}
+              bgcolor={'secondary.main'}
+              borderRadius={'20px 0px 0px 20px'}
+              sx={{
+                backgroundImage: `url(${VoucherCardBg.src})`,
+                backgroundPosition: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '100%',
+                height: '308px',
+              }}
+            >
               <Typography color={'white'} variant="h1" mb={2}>
-                {' '}
                 {truncateText(singleVouchers?.name)}
               </Typography>
               <Typography color={'white'} variant="body1">
@@ -154,29 +167,54 @@ export const Vouchers = () => {
             <Grid
               item
               xs={6}
-              display={'flex'}
-              flexDirection={'column'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              gap={1}
+              bgcolor={'primary.main'}
+              borderRadius={'0px 20px 20px 0px'}
+              position={'relative'}
             >
-              <Typography color={'white'} variant="h6">
-                {singleVouchers?.voucherCode}
-              </Typography>
-              <Typography color={'white'} variant="h4">
-                Expiry Date
-              </Typography>
-              <Typography color={'white'} variant="body1">
-                {dayjs(singleVouchers?.voucherTimeLimit)?.format(
-                  CALENDAR_FORMAT?.YMD,
-                )}
-              </Typography>
-              <Typography color={'white'} variant="h4">
-                No. of Redemptions
-              </Typography>
-              <Typography color={'white'} variant="body1">
-                04
-              </Typography>
+              <Image
+                src={VoucherCardIconBg}
+                alt={'IconBg'}
+                style={{
+                  position: 'absolute',
+                  ...ImgPosition,
+                }}
+              />
+              <Image
+                src={VoucherCardIcon}
+                alt={'IconBg'}
+                style={{
+                  position: 'absolute',
+                  ...ImgPosition,
+                }}
+              />
+              <Box
+                position={'absolute'}
+                {...ScreenPosition}
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                gap={1}
+                zIndex={100}
+              >
+                <Typography color={'white'} variant="h5">
+                  {singleVouchers?.voucherCode}
+                </Typography>
+                <Typography color={'white'} variant="h3">
+                  Expiry Date
+                </Typography>
+                <Typography color={'white'} variant="h6">
+                  {dayjs(singleVouchers?.voucherTimeLimit)?.format(
+                    CALENDAR_FORMAT?.YMD,
+                  )}
+                </Typography>
+                <Typography color={'white'} variant="h3">
+                  No. of Redemptions
+                </Typography>
+                <Typography color={'white'} variant="h6">
+                  04
+                </Typography>
+              </Box>
             </Grid>
           </Grid>
         </Grid>

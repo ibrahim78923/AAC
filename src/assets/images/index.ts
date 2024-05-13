@@ -277,4 +277,6 @@ export { default as PhysicalCardBackImage } from './shared/physical-card-back-im
 export { default as PhysicalCardFrontImage } from './shared/physical-card-front-image.png';
 export { default as XlFileImg } from './shared/xl-file-img.png';
 export { default as OthersMail } from './shared/others-mail.png';
-export { default as VoucherCardBg } from './modules/loyaltyProgram/Vouchers/voucher-card-bg.png';
+export { default as VoucherCardIcon } from './modules/loyaltyProgram/Vouchers/vouchers-icon.png';
+export { default as VoucherCardIconBg } from './modules/loyaltyProgram/Vouchers/Ellipse.png';
+export { default as VoucherCardBg } from './modules/loyaltyProgram/Vouchers/Decore.png';

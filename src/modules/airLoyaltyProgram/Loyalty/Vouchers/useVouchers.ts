@@ -21,6 +21,8 @@ export const useVouchers = () => {
   const [filterValues, setFilterValues] = useState<any>({});
   const [printVoucherId, setPrintVoucherId] = useState<any>();
   const [openPrintVoucher, setOpenPrintVoucher] = useState<any>(false);
+  const ScreenPosition = { top: 0, left: 0, right: 0, bottom: 0 };
+  const ImgPosition = { top: 0, right: 0 };
 
   const theme: any = useTheme();
   const router = useRouter();
@@ -121,5 +123,7 @@ export const useVouchers = () => {
     setOpenPrintVoucher,
     singleIsLoading,
     router,
+    ScreenPosition,
+    ImgPosition,
   };
 };
