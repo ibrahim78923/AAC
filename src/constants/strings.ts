@@ -209,7 +209,7 @@ export const VIEW_TYPES = {
 
 export const EXPENSE_TYPE = {
   PURCHASE: 'Purchase Cost',
-  MAINTENANCE: 'maintenance cost',
+  MAINTENANCE: 'Maintenance Cost',
 };
 
 export const TICKETS_ISSUES_TYPE = {

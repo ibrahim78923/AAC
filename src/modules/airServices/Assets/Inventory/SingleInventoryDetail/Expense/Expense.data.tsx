@@ -50,7 +50,7 @@ export const addExpenseFormData = [
     componentProps: {
       name: 'cost',
       fullWidth: true,
-      placeholder: 'cost',
+      placeholder: 'Cost',
       label: 'Cost (£)',
       required: true,
     },

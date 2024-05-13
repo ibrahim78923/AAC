@@ -114,6 +114,7 @@ export const END_POINTS = {
   DELETE_AGENT: '/agent/agent-delete',
   EDIT_AGENT: '/agent/edit-agent',
   TASK: '/task',
+  UPDATE_TASK: '/task/update-tasks',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   TICKET_DETAILS: '/ticket',
