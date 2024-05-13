@@ -104,7 +104,7 @@ const ProductSuite = () => {
     refetch();
   }, []);
 
-  if (accountsData) {
+  if (accountsData?.data) {
     setAccountsData(accountsData);
   }
   return (

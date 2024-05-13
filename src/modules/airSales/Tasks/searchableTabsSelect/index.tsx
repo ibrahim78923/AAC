@@ -183,6 +183,16 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
     (state: any) => state?.task?.companiesSelectedIds,
   );
 
+  const contactsDataToShow =
+    contactsSelectedIds && contactsSelectedIds?.map((item: any) => item?.label);
+  const dealsDataToShow =
+    dealsSelectedIds && dealsSelectedIds?.map((item: any) => item?.label);
+  const ticketsDataToShow =
+    ticketsSelectedIds && ticketsSelectedIds?.map((item: any) => item?.label);
+  const companiesDataToShow =
+    companiesSelectedIds &&
+    companiesSelectedIds?.map((item: any) => item?.label);
+
   const [activeSidebarItem, setActiveSidebarItem] = useState('associations');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -256,6 +266,20 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
         placeholder="Select Option"
         onClick={handleClick}
         label=""
+        value={
+          (contactsDataToShow?.length > 0
+            ? contactsDataToShow?.join(', ') + ', '
+            : '') +
+          (dealsDataToShow?.length > 0
+            ? dealsDataToShow?.join(', ') + ', '
+            : '') +
+          (ticketsDataToShow?.length > 0
+            ? ticketsDataToShow?.join(', ') + ', '
+            : '') +
+          (companiesDataToShow?.length > 0
+            ? companiesDataToShow?.join(', ') + ', '
+            : '')
+        }
         InputProps={{
           endAdornment: (
             <InputAdornment position="start">
