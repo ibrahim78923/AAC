@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { dashboardFunction, dropDownMenus } from './HeaderDashboard.data';
 import EmailThisDashboard from '../EmailThisDashboard';
-import { useHeaderDashboard } from './useHeaderDashboard ';
+import { useHeaderDashboard } from './useHeaderDashboard';
 
 export const HeaderDashboard = () => {
   const { theme, router, isDrawerOpen, setIsDrawerOpen, user } =

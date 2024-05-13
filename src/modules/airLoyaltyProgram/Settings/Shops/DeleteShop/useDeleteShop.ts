@@ -7,6 +7,9 @@ export const useDeleteShop = (props: any) => {
     selectedShopsList,
     setSelectedShopsList,
     getShopLists,
+    totalRecords,
+    setPage,
+    page,
   } = props;
 
   const [deleteShopTrigger, deleteShopStatus] = useDeleteShopMutation();
@@ -23,7 +26,9 @@ export const useDeleteShop = (props: any) => {
       await deleteShopTrigger?.(apiDataParameter)?.unwrap();
       successSnackbar('Selected Shops Deleted Successfully!');
       closeDeleteModal?.();
-      await getShopLists?.();
+      const newPage = selectedShopsList?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
+      await getShopLists?.(newPage);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

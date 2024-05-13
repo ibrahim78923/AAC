@@ -1,5 +1,5 @@
 import { baseAPI } from '@/services/base-api';
-import { SUPER_ADMIN_SETTINGS } from '@/routesConstants/paths';
+import { END_POINTS, SUPER_ADMIN_SETTINGS } from '@/routesConstants/endpoints';
 
 const TAG = ['SETTINGS_FAQS'];
 export const settingsFaqsAPI = baseAPI.injectEndpoints({
@@ -46,6 +46,18 @@ export const settingsFaqsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getUserDropdownList: builder?.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.USERS_LIST_ADMIN}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        return response?.data?.users;
+      },
+      providesTags: ['USERS'],
+    }),
   }),
 });
 
@@ -55,4 +67,5 @@ export const {
   useUpdateFaqsMutation,
   usePostFaqsMutation,
   useDeleteFaqsMutation,
+  useLazyGetUserDropdownListQuery,
 } = settingsFaqsAPI;

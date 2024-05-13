@@ -12,12 +12,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { successSnackbar } from '@/utils/api';
 
 export const useUpsertMeeting = () => {
-  const methods = useForm({
-    defaultValues: upsertMeetingValues(),
-    resolver: yupResolver(upsertMeetingSchema),
-  });
-  const { handleSubmit, watch, setValue, control } = methods;
   const router: any = useRouter();
+  const methods = useForm({
+    defaultValues: upsertMeetingValues(router),
+    resolver: yupResolver(upsertMeetingSchema(router)),
+  });
+  const { handleSubmit, watch, setValue, control, clearErrors } = methods;
   const meetingType = meetingTitle?.[router?.query?.type];
   const onSubmit = async () => {
     successSnackbar(`${meetingType} Meeting created successfully`);
@@ -29,12 +29,16 @@ export const useUpsertMeeting = () => {
   const watchMeetingType = watch('meetingType');
   const watchBefore = watch('bufferBefore');
   const watchAfter = watch('bufferAfter');
+  const watchRecurring = watch('recurring');
   useEffect(() => {
     allDayValues?.forEach((item: any) => setValue(item?.name, item?.value));
   }, [watchAllDay]);
   useEffect(() => {
     setValue('location', '');
   }, [watchMeetingType]);
+  useEffect(() => {
+    clearErrors(['endDate', 'endTime']);
+  }, [watchRecurring]);
   useEffect(() => {
     setValue('bufferBeforeTime', '');
   }, [watchBefore]);

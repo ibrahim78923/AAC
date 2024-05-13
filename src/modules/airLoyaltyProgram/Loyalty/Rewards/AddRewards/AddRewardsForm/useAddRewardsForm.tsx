@@ -14,6 +14,7 @@ import {
   useLazyGetVoucherDropdownForRewardsQuery,
 } from '@/services/airLoyaltyProgram/loyalty/rewards';
 import {
+  DATA_TYPES,
   LOYALTY_REWARDS_STATUS,
   LOYALTY_REWARDS_TYPE,
 } from '@/constants/strings';
@@ -33,7 +34,7 @@ export const useAddRewardsForm: any = (props: any) => {
     resolver: yupResolver(REWARD_VALIDATION_SCHEMA?.[openDrawer?.rewardType]),
   });
 
-  const { reset, handleSubmit, control, clearErrors } = methods;
+  const { reset, handleSubmit, control, clearErrors, setValue } = methods;
 
   const watchForDeactivate = useWatch({
     control,
@@ -43,7 +44,9 @@ export const useAddRewardsForm: any = (props: any) => {
 
   useEffect(() => {
     clearErrors?.('activeTo');
+    if (watchForDeactivate) setValue?.('activeTo', null);
   }, [watchForDeactivate]);
+
   const submitAddRewards = async (formData: any) => {
     if (openDrawer?.rewardType === LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD) {
       await submitAddPhysicalRewards?.(formData);
@@ -69,9 +72,11 @@ export const useAddRewardsForm: any = (props: any) => {
     digitalRewardFormData?.append('untilDeactivate', formData?.untilDeactivate);
     digitalRewardFormData?.append('tiersId', formData?.chooseCategory._id);
     digitalRewardFormData?.append('status', LOYALTY_REWARDS_STATUS?.ACTIVE);
+
     const apiDataParameter = {
       body: digitalRewardFormData,
     };
+
     try {
       await addDigitalLoyaltyRewardTrigger?.(apiDataParameter)?.unwrap();
       successSnackbar('Reward added Successfully');
@@ -105,9 +110,13 @@ export const useAddRewardsForm: any = (props: any) => {
       formData?.visibleTo?.map((user: any) => user?._id),
     );
     physicalRewardFormData?.append('status', LOYALTY_REWARDS_STATUS?.ACTIVE);
+    formData?.fileUrl !== DATA_TYPES?.NULL &&
+      physicalRewardFormData?.append('fileUrl', formData?.fileUrl);
+
     const apiDataParameter = {
       body: physicalRewardFormData,
     };
+
     try {
       await addPhysicalLoyaltyRewardTrigger?.(apiDataParameter)?.unwrap();
       successSnackbar('Reward added Successfully');

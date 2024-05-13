@@ -5,6 +5,7 @@ import { styles } from './PageHeader.style';
 import { AIR_SALES } from '@/routesConstants/paths';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS } from '@/constants/permission-keys';
+import { LoadingButton } from '@mui/lab';
 
 const PageHeader = () => {
   const router = useRouter();
@@ -36,12 +37,14 @@ const PageHeader = () => {
             AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.CREATE_QUOTES,
           ]}
         >
-          <Button
+          <LoadingButton
             className="small"
             variant="contained"
             color="primary"
             startIcon={<AddCircleSmallIcon />}
-            onClick={() => router?.push(AIR_SALES?.CREATE_QUOTES)}
+            onClick={() => {
+              router?.push(AIR_SALES?.CREATE_QUOTES);
+            }}
             sx={{
               width: { xs: '100%', sm: 'fit-Content' },
               marginTop: {
@@ -51,9 +54,11 @@ const PageHeader = () => {
               },
               marginLeft: { xs: '0px !important', sm: '15px !important' },
             }}
+            // disabled={isLoading}
           >
+            {/* {isLoading ? 'Loading...' : ' Create Quote'} */}
             Create Quote
-          </Button>
+          </LoadingButton>
         </PermissionsGuard>
       </Box>
     </Box>
