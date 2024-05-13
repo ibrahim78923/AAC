@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
-import { departmentFormFields } from './UpsertDepartment.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertDepartment } from './useUpsertDepartment';
 import { Attachments } from '@/components/Attachments';
@@ -23,9 +22,9 @@ export const UpsertDepartment = (props: any) => {
     handleSubmit,
     submitUpsertDepartment,
     postDepartmentStatus,
-    userList,
     method,
     updateDepartmentStatus,
+    departmentFormFields,
   } = useUpsertDepartment(props);
   return (
     <Dialog
@@ -56,7 +55,7 @@ export const UpsertDepartment = (props: any) => {
       >
         <DialogContent>
           <Grid container spacing={1}>
-            {departmentFormFields(userList, userList)?.map((item: any) => (
+            {departmentFormFields?.map((item: any) => (
               <Grid item key={item?.id} xs={12}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.heading ? item?.heading : null}

@@ -128,6 +128,7 @@ export const TAGS = [
   'MANAGE_SHOP',
   'USER_LIST_DROPDOWN',
   'LEAD_CAPTURE_CTA',
+  'RULES',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [
