@@ -224,7 +224,10 @@ const EmailSettingDrawer = ({
                     >
                       standard-sandbox-1.orcalo.co.uk
                     </Typography>
-                    <Typography variant="customStyle" sx={{ color: '#6B7280' }}>
+                    <Typography
+                      variant="customStyle"
+                      sx={{ color: theme?.palette?.custom?.main }}
+                    >
                       support@standard-sandbox-1.orcalo.co.uk.eu.eu1.r.hs-inbox.com
                     </Typography>
                   </Box>
