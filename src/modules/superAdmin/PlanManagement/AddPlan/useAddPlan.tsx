@@ -90,6 +90,7 @@ export const useAddPlan = () => {
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
     router?.back();
+    window.location.href = SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID;
   };
 
   const methods: any = useForm({
