@@ -1,4 +1,6 @@
 import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFSelect,
   RHFTextField,
@@ -6,9 +8,11 @@ import {
 
 import * as Yup from 'yup';
 import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
-import { useGetUsersListQuery } from '@/services/airSales/deals';
+// import { useGetUsersListQuery } from '@/services/airSales/deals';
 import useDetails from './useDetails';
 import { ROLES } from '@/constants/strings';
+// import { getSession } from '@/utils';
+import { useLazyGetDealOwnersListQuery } from '@/services/common-APIs';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
   name: Yup?.string(),
@@ -32,9 +36,7 @@ export const detailsDefaultValues = {
 export const detailsDataArray = (dealPipelineId: string) => {
   const { getDealOwnerContacts } = useDetails({});
   const { pipelineData } = useDealTab();
-  const { data: UserListData } = useGetUsersListQuery({
-    role: ROLES?.ORG_EMPLOYEE,
-  });
+  const userListData = useLazyGetDealOwnersListQuery();
 
   const filteredStages =
     pipelineData?.data?.dealpipelines?.find(
@@ -65,42 +67,37 @@ export const detailsDataArray = (dealPipelineId: string) => {
     },
     {
       componentProps: {
+        placeholder: 'Select deal owner',
         name: 'ownerId',
         label: 'Deal Owner',
-        select: true,
+        apiQuery: userListData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { role: ROLES?.ORG_EMPLOYEE },
+        queryKey: 'role',
       },
-      options: UserListData?.data?.users?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
-      })) ?? [{ label: '', value: '' }],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 4,
     },
     {
       componentProps: {
+        placeholder: 'Select type',
         name: 'type',
         label: 'Deal Type',
-        select: true,
+        options: ['New Business', 'Existing Business'],
       },
-      options: [
-        { value: 'new business', label: 'New Business' },
-        { value: 'existing business', label: 'Existing Business' },
-      ],
-      component: RHFSelect,
+
+      component: RHFAutocomplete,
       md: 4,
     },
     {
       componentProps: {
         name: 'priority',
         label: 'Priority',
-        select: true,
+        options: ['Low', 'Medium', 'High'],
       },
-      options: [
-        { value: 'Low', label: 'Low' },
-        { value: 'Medium', label: 'Medium' },
-        { value: 'High', label: 'High' },
-      ],
-      component: RHFSelect,
+
+      component: RHFAutocomplete,
       md: 4,
     },
     {
@@ -144,16 +141,12 @@ export const detailsDataArray = (dealPipelineId: string) => {
     },
     {
       componentProps: {
+        placeholder: 'Select mode',
         name: 'contactMode',
         label: 'Contacted Mode',
-        select: true,
+        options: ['Email', 'Call', 'Meeting'],
       },
-      options: [
-        { value: 'Email', label: 'Email' },
-        { value: 'Call', label: 'Call' },
-        { value: 'Meeting', label: 'Meeting' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 4,
     },
     {

@@ -1,14 +1,9 @@
 import { Box, Button, ButtonGroup, Menu, MenuItem, Stack } from '@mui/material';
-
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
-
 import { columns } from './Tasks.data';
 import useTasks from './useTasks';
 import EditTask from './EditTask';
-
-import { tableData } from '@/mock/modules/airMarketer/Campaigns/Tasks';
-
 import {
   AlertModalDeleteIcon,
   ArrowDownDarkIcon,
@@ -17,32 +12,44 @@ import {
   ListViewIcon,
 } from '@/assets/icons';
 import Search from '@/components/Search';
-
 import TaskViewCard from './TaskCardView';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Tasks = () => {
   const {
-    anchorEl,
-    theme,
-    actionMenuOpen,
+    setIsOpenEditTaskDrawer,
     handleActionsMenuClose,
     handleActionsMenuClick,
-    isOpenEditTaskDrawer,
-    setIsOpenEditTaskDrawer,
-    isOpenDeleteDrawer,
-    handleDeleteModal,
     setIsOpenDeleteDrawer,
-    // setTaskCreate,
+    setIsOpenChangeStatus,
+    isOpenEditTaskDrawer,
+    handleListViewClick,
+    isOpenDeleteDrawer,
+    compaignsTasksData,
     handleChangeStatus,
     isOpenChangeStatus,
-    setIsOpenChangeStatus,
-    handleListViewClick,
-    isListView,
-    searchValue,
+    deleteTaskLoading,
+    handleDeleteModal,
+    actionMenuOpen,
     setSearchValue,
+    setSelectedRec,
+    setPageLimit,
+    searchValue,
+    selectedRec,
+    isListView,
+    isLoading,
+    isSuccess,
+    anchorEl,
+    setPage,
+    theme,
   } = useTasks();
+
+  const columnsProps = {
+    selectedRec: selectedRec,
+    setSelectedRec: setSelectedRec,
+    compaignsTasksData: compaignsTasksData,
+  };
 
   return (
     <>
@@ -80,13 +87,15 @@ const Tasks = () => {
               className="small"
               variant="outlined"
               color="inherit"
+              endIcon={<DownIcon />}
+              disabled={selectedRec?.length < 1 ? true : false}
               onClick={handleActionsMenuClick}
               sx={{
                 width: { sm: '112px', xs: '100%' },
                 height: '36px',
               }}
             >
-              Actions &nbsp; <DownIcon />
+              Actions
             </Button>
             <Menu
               id="basic-menu"
@@ -101,6 +110,7 @@ const Tasks = () => {
                 permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_TASK]}
               >
                 <MenuItem
+                  disabled={selectedRec?.length > 1 ? true : false}
                   onClick={() =>
                     setIsOpenEditTaskDrawer({ isToggle: true, type: 'edit' })
                   }
@@ -113,12 +123,19 @@ const Tasks = () => {
                   AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.CHANGE_STATUS,
                 ]}
               >
-                <MenuItem onClick={handleChangeStatus}>Change Status</MenuItem>
+                <MenuItem
+                  disabled={selectedRec?.length > 1 ? true : false}
+                  onClick={handleChangeStatus}
+                >
+                  Change Status
+                </MenuItem>
               </PermissionsGuard>
               <PermissionsGuard
                 permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.DELETE]}
               >
-                <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+                <MenuItem onClick={() => setIsOpenDeleteDrawer(true)}>
+                  Delete
+                </MenuItem>
               </PermissionsGuard>
             </Menu>
           </Box>
@@ -127,8 +144,7 @@ const Tasks = () => {
           >
             <Button
               onClick={() => {
-                setIsOpenEditTaskDrawer({ isToggle: true, type: 'create' });
-                // setTaskCreate('Create Task');
+                setIsOpenEditTaskDrawer({ isToggle: true, type: 'add' });
               }}
               startIcon={<ArrowDownDarkIcon />}
               className="small"
@@ -171,7 +187,20 @@ const Tasks = () => {
         </Stack>
       </Box>
       {isListView === 'listView' ? (
-        <TanstackTable columns={columns} data={tableData} isPagination />
+        <TanstackTable
+          columns={columns(columnsProps)}
+          data={compaignsTasksData}
+          totalRecords={compaignsTasksData?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          count={compaignsTasksData?.data?.meta?.pages}
+          pageLimit={compaignsTasksData?.data?.meta?.limit}
+          currentPage={compaignsTasksData?.data?.meta?.page}
+          setPageLimit={setPageLimit}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          setPage={setPage}
+          isPagination
+        />
       ) : (
         <TaskViewCard />
       )}
@@ -193,7 +222,8 @@ const Tasks = () => {
           typeImage={<AlertModalDeleteIcon />}
           open={isOpenDeleteDrawer}
           handleClose={() => setIsOpenDeleteDrawer(false)}
-          handleSubmit={() => setIsOpenDeleteDrawer(false)}
+          handleSubmitBtn={() => handleDeleteModal(selectedRec)}
+          loading={deleteTaskLoading}
         />
       )}
       {isOpenChangeStatus && (
@@ -201,7 +231,7 @@ const Tasks = () => {
           message={
             <>
               <Stack
-                justifyContent={'center'}
+                justifyContent={'space-between'}
                 display="flex"
                 direction="row"
                 gap={2}

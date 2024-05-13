@@ -1,12 +1,14 @@
 import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { Typography, useTheme } from '@mui/material';
 
 import * as Yup from 'yup';
+import { useLazyGetAllCampaignsListQuery } from '@/services/common-APIs';
 
 export const validationSchema = Yup?.object().shape({
   taskName: Yup?.string()?.required('Field is Required'),
@@ -23,6 +25,7 @@ export const defaultValues = {
 
 export const dataArray = () => {
   const theme = useTheme();
+  const campaignsList = useLazyGetAllCampaignsListQuery();
   return [
     {
       componentProps: {
@@ -37,44 +40,38 @@ export const dataArray = () => {
     },
     {
       componentProps: {
+        placeholder: 'Select type',
         name: 'taskType',
         label: 'Task Type',
         fullWidth: true,
-        select: true,
+        options: ['Email', 'Other'],
       },
-      options: [
-        { value: 'email', label: 'Email' },
-        { value: 'other', label: 'Other' },
-      ],
-      component: RHFSelect,
+
+      component: RHFAutocomplete,
       md: 12,
     },
     {
       componentProps: {
+        placeholder: 'Select campaign',
         name: 'selectCompaign',
         label: 'Select Campaign',
+        apiQuery: campaignsList,
         fullWidth: true,
-        select: true,
+        getOptionLabel: (option: any) => option?.title,
       },
-      options: [
-        { value: 'fabrizioRomano', label: 'fabrizioRomano' },
-        { value: 'fabrizioRomano', label: 'fabrizioRomano' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
       componentProps: {
+        placeholder: 'Select assignee',
         name: 'assignedTo',
         label: 'Assigned To',
         fullWidth: true,
-        select: true,
+        options: ['fabrizioRomano', 'fabrizioRomano'],
       },
-      options: [
-        { value: 'fabrizioRomano', label: 'fabrizioRomano' },
-        { value: 'fabrizioRomano', label: 'fabrizioRomano' },
-      ],
-      component: RHFSelect,
+
+      component: RHFAutocomplete,
       md: 12,
     },
     {

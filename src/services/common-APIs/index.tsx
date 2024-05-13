@@ -1,5 +1,9 @@
 import { baseAPI } from '@/services/base-api';
-import { END_POINTS, OPERATION } from '@/routesConstants/endpoints';
+import {
+  AIR_MARKETER,
+  END_POINTS,
+  OPERATION,
+} from '@/routesConstants/endpoints';
 
 export const CommonAPIS = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -110,6 +114,29 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['SCHEMA_KEYS'],
     }),
+
+    getAllCampaignsList: builder.query({
+      query: () => ({
+        url: AIR_MARKETER?.CAMPAIGNS,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.campaigns;
+      },
+      providesTags: ['CAMPAIGNS_LISTS'],
+    }),
+
+    getDealOwnersList: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.USERS_LIST_ADMIN,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: ['DEALOWNERS_LISTS'],
+    }),
   }),
 });
 
@@ -126,4 +153,6 @@ export const {
   useGetDepartmentQuery,
   useGetCompanyContactsQuery,
   useGetSchemaKeysQuery,
+  useLazyGetAllCampaignsListQuery,
+  useLazyGetDealOwnersListQuery,
 } = CommonAPIS;
