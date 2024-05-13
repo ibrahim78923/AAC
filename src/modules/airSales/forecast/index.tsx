@@ -3,21 +3,16 @@ import { Box, Button, Card, Stack, Typography, useTheme } from '@mui/material';
 import { style } from './forecast.style';
 import { PlusIcon } from '@/assets/icons';
 import CommonTabs from '@/components/Tabs';
-// import Audience from './Audience';
-// import Analyze from './Analyze';
-// import Manage from './Manage';
-// import Events from './Events';
-// import CreateAudience from './CreateAudience';
+
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
-// import useForecast from './useforecast';
 import DealStage from './DealStage';
-// import CreateEvent from './CreateEvent';
+import ForecastCategory from './ForecastCategory';
 
 const Forecast = () => {
   const theme = useTheme();
   const router = useRouter();
-  // const { isOpenEventDrawer, setIsOpenEventDrawer } = useForecast();
+
   return (
     <Card sx={{ p: '16px 24px' }}>
       <Stack
@@ -48,19 +43,9 @@ const Forecast = () => {
       <Box>
         <CommonTabs tabsArray={['Deal Stage', 'Forecast Category', 'Goals']}>
           <DealStage />
-          {/*<Audience />
-        <Events />
-        <Analyze /> */}
+          <ForecastCategory />
         </CommonTabs>
       </Box>
-      {/* {isOpenEventDrawer && (
-      <CreateEvent
-        isDrawerOpen={isOpenEventDrawer}
-        onClose={() => {
-          setIsOpenEventDrawer(false);
-        }}
-      />
-    )} */}
     </Card>
   );
 };
