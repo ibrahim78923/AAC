@@ -85,6 +85,16 @@ export const articlesAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FOUR],
     }),
+    getUsersDropdownListForArticlesApprovals: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.AGENTS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+    }),
   }),
 });
 
@@ -99,4 +109,5 @@ export const {
   useLazyGetFoldersDropdownQuery,
   useLazyGetUsersDropdownQuery,
   useGetArticlesFoldersForFilterQuery,
+  useLazyGetUsersDropdownListForArticlesApprovalsQuery,
 } = articlesAPI;

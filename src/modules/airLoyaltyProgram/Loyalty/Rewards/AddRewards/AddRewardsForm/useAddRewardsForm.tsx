@@ -17,12 +17,14 @@ import {
   DATA_TYPES,
   LOYALTY_REWARDS_STATUS,
   LOYALTY_REWARDS_TYPE,
+  ROLES,
 } from '@/constants/strings';
 import { useEffect } from 'react';
+import useAuth from '@/hooks/useAuth';
 
 export const useAddRewardsForm: any = (props: any) => {
-  const { setOpenDrawer, openDrawer } = props;
-
+  const { setOpenDrawer, openDrawer, airSalesAccount } = props;
+  const { user }: any = useAuth();
   const [addDigitalLoyaltyRewardTrigger, addDigitalLoyaltyRewardStatus] =
     useAddDigitalLoyaltyRewardMutation?.();
 
@@ -35,7 +37,11 @@ export const useAddRewardsForm: any = (props: any) => {
   });
 
   const { reset, handleSubmit, control, clearErrors, setValue } = methods;
-
+  const externalParamsVisible = {
+    products: airSalesAccount?.(),
+    organization: user?.organization?._id,
+    role: ROLES?.ORG_EMPLOYEE,
+  };
   const watchForDeactivate = useWatch({
     control,
     name: 'untilDeactivate',
@@ -140,6 +146,7 @@ export const useAddRewardsForm: any = (props: any) => {
     vouchersApiQuery,
     tiersApiQuery,
     watchForDeactivate,
+    externalParamsVisible,
   )?.filter((fields: any) => fields?.type?.includes(openDrawer?.rewardType));
 
   return {

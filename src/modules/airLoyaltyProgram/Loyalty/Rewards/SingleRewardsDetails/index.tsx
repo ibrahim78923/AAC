@@ -3,6 +3,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useSingleRewardsDetails } from './useSingleRewardsDetails';
+import { LOYALTY_REWARDS_TYPE_MAPPED } from '@/constants/api-mapped';
 
 export const SingleRewardDetails = (props: any) => {
   const { isRewardDetailsOpen, setIsRewardDetailsOpen } = props;
@@ -17,7 +18,9 @@ export const SingleRewardDetails = (props: any) => {
   return (
     <>
       <PageTitledHeader
-        title={`${isRewardDetailsOpen?.rewardType}`}
+        title={`${LOYALTY_REWARDS_TYPE_MAPPED?.[
+          isRewardDetailsOpen?.rewardType
+        ]}`}
         canMovedBack
         moveBack={() =>
           setIsRewardDetailsOpen?.({ isOpen: false, rewardType: '' })

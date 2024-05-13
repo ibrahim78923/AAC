@@ -18,6 +18,8 @@ import {
   List,
   Collapse,
   Typography,
+  Skeleton,
+  Grid,
 } from '@mui/material';
 
 import Header from './Header';
@@ -90,6 +92,7 @@ const drawerWidth = 230;
 
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
+  const { authMeLoadingState } = useAuth();
 
   const router = useRouter();
   const currentPath = router.pathname;
@@ -135,325 +138,350 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const drawer = (
     <>
-      <Box sx={{ padding: '0px 0px 20px 10px' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-          <Image src={LogoImage} alt="logo" />
-          <Box>
-            <Typography variant="h5">Air Applecart</Typography>
-            <Typography
-              sx={{
-                fontSize: '11px',
-                fontWeight: 800,
-                color: theme?.palette?.primary?.main,
-                textTransform: 'uppercase',
-              }}
-            >
-              {productName}
-            </Typography>
-          </Box>
+      {authMeLoadingState ? (
+        <Box sx={{ width: '100%' }}>
+          {[1, 2, 3, 4, 5, 6]?.map((index: any) => (
+            <Skeleton
+              variant="rectangular"
+              key={index}
+              width={190}
+              height={40}
+              sx={{ mb: 1 }}
+            />
+          ))}
         </Box>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          flexDirection: 'column',
-          height: '100%',
-        }}
-      >
-        <Box>
-          <List>
-            {!isNullOrEmpty(routes) &&
-              routes?.map((link: any) => {
-                const pathNameKey =
-                  link?.key?.split('/')[2] ?? link?.key?.split('/')[1];
+      ) : (
+        <>
+          <Box sx={{ padding: '0px 0px 20px 10px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+              <Image src={LogoImage} alt="logo" />
+              <Box>
+                <Typography variant="h5">Air Applecart</Typography>
+                <Typography
+                  sx={{
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    color: theme?.palette?.primary?.main,
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {productName}
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexDirection: 'column',
+              height: '100%',
+            }}
+          >
+            <Box>
+              <List>
+                {!isNullOrEmpty(routes) &&
+                  routes?.map((link: any) => {
+                    const pathNameKey =
+                      link?.key?.split('/')[2] ?? link?.key?.split('/')[1];
 
-                return (
-                  <div key={uuidv4()}>
-                    {link?.textNames ? (
-                      <>
-                        <PermissionsGuard permissions={link?.permissions}>
-                          <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                            <Link
-                              href={`${link?.key}`}
-                              style={{
-                                width: '100%',
-                                padding: '0px',
-                              }}
-                            >
-                              <ListItemButton
-                                sx={styles?.mainNavLink(
-                                  pathNameKey,
-                                  routerPathName,
-                                  theme,
-                                )}
-                                onClick={() => toggleDropDown(link?.key)}
-                              >
-                                <ListItemIcon
-                                  sx={{ minWidth: 20, marginRight: '10px' }}
+                    return (
+                      <div key={uuidv4()}>
+                        {link?.textNames ? (
+                          <>
+                            <PermissionsGuard permissions={link?.permissions}>
+                              <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                                <Link
+                                  href={`${link?.key}`}
+                                  style={{
+                                    width: '100%',
+                                    padding: '0px',
+                                  }}
                                 >
-                                  <Image
-                                    src={link?.icon}
-                                    alt="icons"
-                                    style={{
-                                      opacity:
-                                        routerPathName === pathNameKey
+                                  <ListItemButton
+                                    sx={styles?.mainNavLink(
+                                      pathNameKey,
+                                      routerPathName,
+                                      theme,
+                                    )}
+                                    onClick={() => toggleDropDown(link?.key)}
+                                  >
+                                    <ListItemIcon
+                                      sx={{ minWidth: 20, marginRight: '10px' }}
+                                    >
+                                      <Image
+                                        src={link?.icon}
+                                        alt="icons"
+                                        style={{
+                                          opacity:
+                                            routerPathName === pathNameKey
+                                              ? '1'
+                                              : '0.4',
+                                        }}
+                                      />
+                                    </ListItemIcon>
+
+                                    {link?.label}
+
+                                    <Box sx={{ paddingLeft: '15px' }}>
+                                      <Image
+                                        src={
+                                          routerPathName === pathNameKey
+                                            ? ArrowUpImage
+                                            : ArrowDownImage
+                                        }
+                                        alt="Avatar"
+                                      />
+                                    </Box>
+                                  </ListItemButton>
+                                </Link>
+                              </ListItem>
+                            </PermissionsGuard>
+                            <Collapse
+                              in={routerPathName === pathNameKey}
+                              timeout="auto"
+                              unmountOnExit
+                            >
+                              <List component="div" disablePadding>
+                                {link?.textNames?.map((subItem: any) => (
+                                  <Link href={`${subItem?.key}`} key={uuidv4()}>
+                                    <PermissionsGuard
+                                      permissions={link?.permissions}
+                                    >
+                                      <ListItem sx={{ padding: '0px' }}>
+                                        <ListItemButton
+                                          sx={styles?.collapseMenu(
+                                            subItem,
+                                            router,
+                                            theme,
+                                          )}
+                                        >
+                                          <Box
+                                            sx={styles?.dropdownChildren(theme)}
+                                          >
+                                            {subItem?.label}
+                                          </Box>
+                                        </ListItemButton>
+                                      </ListItem>
+                                    </PermissionsGuard>
+                                  </Link>
+                                ))}
+                              </List>
+                            </Collapse>
+                          </>
+                        ) : (
+                          <PermissionsGuard permissions={link?.permissions}>
+                            <Link key={uuidv4()} href={`${link?.key}`}>
+                              <ListItem
+                                sx={{ padding: '6px 0px 6px 0px' }}
+                                onClick={() => {
+                                  setDropDownOpen({});
+                                }}
+                              >
+                                <ListItemButton
+                                  sx={styles?.mainNavLink(
+                                    pathNameKey,
+                                    routerPathName,
+                                    theme,
+                                  )}
+                                >
+                                  <ListItemIcon
+                                    sx={{ minWidth: 20, marginRight: '10px' }}
+                                  >
+                                    <Image
+                                      src={link?.icon}
+                                      alt={link?.icon}
+                                      style={{
+                                        opacity:
+                                          routerPathName === pathNameKey
+                                            ? '1'
+                                            : '0.4',
+                                      }}
+                                    />
+                                  </ListItemIcon>
+                                  {link?.label}
+                                </ListItemButton>
+                              </ListItem>
+                            </Link>
+                          </PermissionsGuard>
+                        )}
+                      </div>
+                    );
+                  })}
+              </List>
+            </Box>
+
+            <Box sx={{ paddingBottom: '20px' }}>
+              <List>
+                {!isNullOrEmpty(lowerRoutes) &&
+                  lowerRoutes?.map((link: any) => {
+                    const lowerPathNameKey =
+                      link?.key?.split('/')?.splice(2)[0] ??
+                      link?.key?.split('/')?.splice(1)[0] ??
+                      link?.key?.split('/')?.splice(0)[0];
+
+                    return (
+                      <div key={uuidv4()}>
+                        {link?.textNames ? (
+                          <>
+                            <PermissionsGuard permissions={link?.permissions}>
+                              <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                                <ListItemButton
+                                  sx={styles?.LowerNavLink(
+                                    lowerPathNameKey,
+                                    routerPathName,
+                                    dropDownOpen[link?.key],
+                                    theme,
+                                  )}
+                                  onClick={() => toggleDropDown(link?.key)}
+                                >
+                                  <ListItemIcon sx={{ minWidth: 20 }}>
+                                    <Image
+                                      src={link?.icon}
+                                      alt="icons"
+                                      style={{
+                                        opacity:
+                                          routerPathName === lowerPathNameKey ||
+                                          dropDownOpen[link?.key]
+                                            ? '1'
+                                            : '0.4',
+                                      }}
+                                    />
+                                  </ListItemIcon>
+
+                                  {link.label}
+                                  <Box sx={{ paddingLeft: '20px' }}>
+                                    <Image
+                                      src={
+                                        routerPathName === lowerPathNameKey ||
+                                        dropDownOpen[link.key]
+                                          ? ArrowUpImage
+                                          : ArrowDownImage
+                                      }
+                                      alt="Avatar"
+                                    />
+                                  </Box>
+                                </ListItemButton>
+                              </ListItem>
+                            </PermissionsGuard>
+                            <Collapse
+                              in={
+                                dropDownOpen[link?.key] ||
+                                routerPathName === lowerPathNameKey
+                              }
+                              timeout="auto"
+                              unmountOnExit
+                            >
+                              <List component="div" disablePadding>
+                                {link?.textNames?.map((subItem: any) => (
+                                  <Link href={`${subItem?.key}`} key={uuidv4()}>
+                                    <PermissionsGuard
+                                      permissions={link?.permissions}
+                                    >
+                                      <ListItem sx={{ padding: '0px' }}>
+                                        <ListItemButton
+                                          sx={styles?.collapseMenu(
+                                            subItem,
+                                            router,
+                                            theme,
+                                          )}
+                                        >
+                                          <Box
+                                            sx={styles?.dropdownChildren(theme)}
+                                          >
+                                            {subItem?.label}
+                                          </Box>
+                                        </ListItemButton>
+                                      </ListItem>
+                                    </PermissionsGuard>
+                                  </Link>
+                                ))}
+                              </List>
+                            </Collapse>
+                          </>
+                        ) : (
+                          <PermissionsGuard permissions={link?.permissions}>
+                            <Link key={uuidv4()} href={`${link?.key}`}>
+                              <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                                <ListItemButton
+                                  sx={styles?.mainNavLink(link, router, theme)}
+                                >
+                                  <ListItemIcon sx={{ minWidth: 20 }}>
+                                    <Image
+                                      src={link?.icon}
+                                      alt={link?.icon}
+                                      style={{
+                                        opacity: router?.pathname?.includes(
+                                          `${link?.key}`,
+                                        )
                                           ? '1'
                                           : '0.4',
-                                    }}
-                                  />
-                                </ListItemIcon>
-
-                                {link?.label}
-
-                                <Box sx={{ paddingLeft: '15px' }}>
-                                  <Image
-                                    src={
-                                      routerPathName === pathNameKey
-                                        ? ArrowUpImage
-                                        : ArrowDownImage
-                                    }
-                                    alt="Avatar"
-                                  />
-                                </Box>
-                              </ListItemButton>
+                                      }}
+                                    />
+                                  </ListItemIcon>
+                                  {link?.label}
+                                </ListItemButton>
+                              </ListItem>
                             </Link>
-                          </ListItem>
-                        </PermissionsGuard>
-                        <Collapse
-                          in={routerPathName === pathNameKey}
-                          timeout="auto"
-                          unmountOnExit
+                          </PermissionsGuard>
+                        )}
+
+                        <ListItem
+                          sx={{ padding: '6px 0px 6px 0px' }}
+                          onClick={logout}
                         >
-                          <List component="div" disablePadding>
-                            {link?.textNames?.map((subItem: any) => (
-                              <Link href={`${subItem?.key}`} key={uuidv4()}>
-                                <PermissionsGuard
-                                  permissions={link?.permissions}
-                                >
-                                  <ListItem sx={{ padding: '0px' }}>
-                                    <ListItemButton
-                                      sx={styles?.collapseMenu(
-                                        subItem,
-                                        router,
-                                        theme,
-                                      )}
-                                    >
-                                      <Box sx={styles?.dropdownChildren(theme)}>
-                                        {subItem?.label}
-                                      </Box>
-                                    </ListItemButton>
-                                  </ListItem>
-                                </PermissionsGuard>
-                              </Link>
-                            ))}
-                          </List>
-                        </Collapse>
-                      </>
-                    ) : (
-                      <PermissionsGuard permissions={link?.permissions}>
-                        <Link key={uuidv4()} href={`${link?.key}`}>
-                          <ListItem
-                            sx={{ padding: '6px 0px 6px 0px' }}
-                            onClick={() => {
-                              setDropDownOpen({});
-                            }}
+                          <ListItemButton
+                            sx={styles?.mainNavLink(link, router, theme)}
                           >
-                            <ListItemButton
-                              sx={styles?.mainNavLink(
-                                pathNameKey,
-                                routerPathName,
-                                theme,
-                              )}
+                            <ListItemIcon
+                              sx={{ minWidth: 20, marginRight: '10px' }}
                             >
-                              <ListItemIcon
-                                sx={{ minWidth: 20, marginRight: '10px' }}
-                              >
-                                <Image
-                                  src={link?.icon}
-                                  alt={link?.icon}
-                                  style={{
-                                    opacity:
-                                      routerPathName === pathNameKey
-                                        ? '1'
-                                        : '0.4',
-                                  }}
-                                />
-                              </ListItemIcon>
-                              {link?.label}
-                            </ListItemButton>
-                          </ListItem>
-                        </Link>
-                      </PermissionsGuard>
-                    )}
-                  </div>
-                );
-              })}
-          </List>
-        </Box>
-
-        <Box sx={{ paddingBottom: '20px' }}>
-          <List>
-            {!isNullOrEmpty(lowerRoutes) &&
-              lowerRoutes?.map((link: any) => {
-                const lowerPathNameKey =
-                  link?.key?.split('/')?.splice(2)[0] ??
-                  link?.key?.split('/')?.splice(1)[0] ??
-                  link?.key?.split('/')?.splice(0)[0];
-
-                return (
-                  <div key={uuidv4()}>
-                    {link?.textNames ? (
-                      <>
-                        <PermissionsGuard permissions={link?.permissions}>
-                          <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                            <ListItemButton
-                              sx={styles?.LowerNavLink(
-                                lowerPathNameKey,
-                                routerPathName,
-                                dropDownOpen[link?.key],
-                                theme,
-                              )}
-                              onClick={() => toggleDropDown(link?.key)}
-                            >
-                              <ListItemIcon sx={{ minWidth: 20 }}>
-                                <Image
-                                  src={link?.icon}
-                                  alt="icons"
-                                  style={{
-                                    opacity:
-                                      routerPathName === lowerPathNameKey ||
-                                      dropDownOpen[link?.key]
-                                        ? '1'
-                                        : '0.4',
-                                  }}
-                                />
-                              </ListItemIcon>
-
-                              {link.label}
-                              <Box sx={{ paddingLeft: '20px' }}>
-                                <Image
-                                  src={
-                                    routerPathName === lowerPathNameKey ||
-                                    dropDownOpen[link.key]
-                                      ? ArrowUpImage
-                                      : ArrowDownImage
-                                  }
-                                  alt="Avatar"
-                                />
-                              </Box>
-                            </ListItemButton>
-                          </ListItem>
-                        </PermissionsGuard>
-                        <Collapse
-                          in={
-                            dropDownOpen[link?.key] ||
-                            routerPathName === lowerPathNameKey
-                          }
-                          timeout="auto"
-                          unmountOnExit
-                        >
-                          <List component="div" disablePadding>
-                            {link?.textNames?.map((subItem: any) => (
-                              <Link href={`${subItem?.key}`} key={uuidv4()}>
-                                <PermissionsGuard
-                                  permissions={link?.permissions}
-                                >
-                                  <ListItem sx={{ padding: '0px' }}>
-                                    <ListItemButton
-                                      sx={styles?.collapseMenu(
-                                        subItem,
-                                        router,
-                                        theme,
-                                      )}
-                                    >
-                                      <Box sx={styles?.dropdownChildren(theme)}>
-                                        {subItem?.label}
-                                      </Box>
-                                    </ListItemButton>
-                                  </ListItem>
-                                </PermissionsGuard>
-                              </Link>
-                            ))}
-                          </List>
-                        </Collapse>
-                      </>
-                    ) : (
-                      <PermissionsGuard permissions={link?.permissions}>
-                        <Link key={uuidv4()} href={`${link?.key}`}>
-                          <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                            <ListItemButton
-                              sx={styles?.mainNavLink(link, router, theme)}
-                            >
-                              <ListItemIcon sx={{ minWidth: 20 }}>
-                                <Image
-                                  src={link?.icon}
-                                  alt={link?.icon}
-                                  style={{
-                                    opacity: router?.pathname?.includes(
-                                      `${link?.key}`,
-                                    )
-                                      ? '1'
-                                      : '0.4',
-                                  }}
-                                />
-                              </ListItemIcon>
-                              {link?.label}
-                            </ListItemButton>
-                          </ListItem>
-                        </Link>
-                      </PermissionsGuard>
-                    )}
-
-                    <ListItem
-                      sx={{ padding: '6px 0px 6px 0px' }}
-                      onClick={logout}
+                              <Image
+                                src={LogoutImage}
+                                alt={'LogoutImage'}
+                                style={{
+                                  opacity: '0.4',
+                                }}
+                              />
+                            </ListItemIcon>
+                            <Typography fontWeight={500} fontSize={14}>
+                              {' '}
+                              Logout
+                            </Typography>
+                          </ListItemButton>
+                        </ListItem>
+                      </div>
+                    );
+                  })}
+                {isNullOrEmpty(lowerRoutes) && (
+                  <ListItem
+                    sx={{ padding: '6px 0px 6px 0px' }}
+                    onClick={logout}
+                  >
+                    <ListItemButton
+                      sx={styles?.mainNavLink('link', router, theme)}
                     >
-                      <ListItemButton
-                        sx={styles?.mainNavLink(link, router, theme)}
-                      >
-                        <ListItemIcon
-                          sx={{ minWidth: 20, marginRight: '10px' }}
-                        >
-                          <Image
-                            src={LogoutImage}
-                            alt={'LogoutImage'}
-                            style={{
-                              opacity: '0.4',
-                            }}
-                          />
-                        </ListItemIcon>
-                        <Typography fontWeight={500} fontSize={14}>
-                          {' '}
-                          Logout
-                        </Typography>
-                      </ListItemButton>
-                    </ListItem>
-                  </div>
-                );
-              })}
-            {isNullOrEmpty(lowerRoutes) && (
-              <ListItem sx={{ padding: '6px 0px 6px 0px' }} onClick={logout}>
-                <ListItemButton sx={styles?.mainNavLink('link', router, theme)}>
-                  <ListItemIcon sx={{ minWidth: 20, marginRight: '10px' }}>
-                    <Image
-                      src={LogoutImage}
-                      alt={'LogoutImage'}
-                      style={{
-                        opacity: '0.4',
-                      }}
-                    />
-                  </ListItemIcon>
-                  <Typography fontWeight={500} fontSize={14}>
-                    {' '}
-                    Logout
-                  </Typography>
-                </ListItemButton>
-              </ListItem>
-            )}
-          </List>
-        </Box>
-      </Box>
+                      <ListItemIcon sx={{ minWidth: 20, marginRight: '10px' }}>
+                        <Image
+                          src={LogoutImage}
+                          alt={'LogoutImage'}
+                          style={{
+                            opacity: '0.4',
+                          }}
+                        />
+                      </ListItemIcon>
+                      <Typography fontWeight={500} fontSize={14}>
+                        {' '}
+                        Logout
+                      </Typography>
+                    </ListItemButton>
+                  </ListItem>
+                )}
+              </List>
+            </Box>
+          </Box>
+        </>
+      )}
     </>
   );
 
@@ -576,7 +604,42 @@ const DashboardLayout = ({ children, window }: any) => {
       <Box component="main" sx={styles?.layoutBox(drawerWidth)}>
         <Toolbar />
         <Box sx={styles?.layoutInnerBox(theme, isZeroPaddingRoutes)}>
-          {children}
+          {authMeLoadingState ? (
+            <>
+              <Grid container spacing={2}>
+                <Grid item xs={12} lg={6}>
+                  <Skeleton
+                    variant="rectangular"
+                    height={300}
+                    animation="wave"
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Skeleton
+                    variant="rectangular"
+                    height={300}
+                    animation="wave"
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Skeleton
+                    variant="rectangular"
+                    height={300}
+                    animation="wave"
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Skeleton
+                    variant="rectangular"
+                    height={300}
+                    animation="wave"
+                  />
+                </Grid>
+              </Grid>
+            </>
+          ) : (
+            children
+          )}
         </Box>
       </Box>
     </Box>
