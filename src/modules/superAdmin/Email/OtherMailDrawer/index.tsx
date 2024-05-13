@@ -152,8 +152,8 @@ const OtherMailDrawer = (props: any) => {
                     select={true}
                     md={12}
                   >
-                    <option value={'plain'}>Plain</option>
-                    <option value={'login'}>Login</option>
+                    <option value={'Major'}>Major</option>
+                    <option value={'Minor'}>Minor</option>
                   </RHFSelect>
                 </Grid>
 
@@ -197,7 +197,7 @@ const OtherMailDrawer = (props: any) => {
                     select={true}
                     md={12}
                   >
-                    <option value={'plain'}>Plain</option>
+                    <option value={'Plain'}>Plain</option>
                     <option value={'login'}>Login</option>
                   </RHFSelect>
                 </Grid>

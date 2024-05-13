@@ -3,8 +3,8 @@ import { RHFRadioGroup, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
-  fromName: Yup?.string()?.trim()?.required('Field is Required'),
-  fromAddress: Yup?.string()?.trim()?.required('Field is Required'),
+  // fromName: Yup?.string()?.trim()?.required('Field is Required'),
+  // fromAddress: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValues = {
