@@ -9,6 +9,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 export const useVouchers = () => {
@@ -22,7 +23,7 @@ export const useVouchers = () => {
   const [openPrintVoucher, setOpenPrintVoucher] = useState<any>(false);
 
   const theme: any = useTheme();
-
+  const router = useRouter();
   const filterBody = {
     dateStart:
       filterValues?.date &&
@@ -118,5 +119,7 @@ export const useVouchers = () => {
     singleVouchers,
     openPrintVoucher,
     setOpenPrintVoucher,
+    singleIsLoading,
+    router,
   };
 };

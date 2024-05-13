@@ -1,4 +1,10 @@
-import { Box, Chip, CircularProgress, Typography } from '@mui/material';
+import {
+  Box,
+  Chip,
+  CircularProgress,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { AntSwitch } from '@/components/AntSwitch';
 import Link from 'next/link';
@@ -15,6 +21,7 @@ export const vouchersColumns = (
   onSwitchChange: any,
   switchLoading: any,
   handlePrintVoucher: any,
+  router: any,
 ) => [
   {
     accessorFn: (row: any) => row?.information,
@@ -112,17 +119,22 @@ export const vouchersColumns = (
         <PermissionsGuard
           permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.PRINT]}
         >
-          <LocalPrintshopRoundedIcon
-            sx={{ cursor: 'pointer' }}
+          <IconButton
             onClick={() => handlePrintVoucher(info?.row?.original?._id)}
-          />
+          >
+            <LocalPrintshopRoundedIcon />
+          </IconButton>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.VIEW_DETAILS]}
         >
-          <Link href={`${AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST}`}>
+          <IconButton
+            onClick={() =>
+              router?.push(AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST)
+            }
+          >
             <EyeIcon />
-          </Link>
+          </IconButton>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[

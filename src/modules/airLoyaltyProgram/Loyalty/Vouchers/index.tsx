@@ -36,6 +36,7 @@ export const Vouchers = () => {
     filterValues,
     handlePrintVoucher,
     singleVouchers,
+    router,
   } = useVouchers();
   return (
     <>
@@ -110,6 +111,7 @@ export const Vouchers = () => {
               onSwitchChange,
               switchLoading,
               handlePrintVoucher,
+              router,
             )}
             data={vouchers}
             isLoading={isLoading}
@@ -130,15 +132,14 @@ export const Vouchers = () => {
           <Grid
             container
             height={'316px'}
-            width={'738px'}
+            width={'730px'}
             display={'flex'}
-            position={'absolute'}
-            zIndex={100}
             sx={{
               backgroundImage: `url(${VoucherCardBg.src})`,
               backgroundPosition: 'cover',
               backgroundRepeat: 'no-repeat',
               backgroundSize: '100%',
+              overflow: 'visible',
             }}
           >
             <Grid item xs={6} p={4}>
