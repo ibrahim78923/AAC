@@ -16,6 +16,7 @@ export const Header = (props: any) => {
         <Typography variant="h3" color={'slateBlue.main'}>
           Tiers and Rules
         </Typography>
+
         <Box display={'flex'} gap={2} flexWrap={'wrap'}>
           <PermissionsGuard
             permissions={[
@@ -37,6 +38,10 @@ export const Header = (props: any) => {
           </PermissionsGuard>
         </Box>
       </Box>
+      <br />
+      <Typography variant="body1" fontWeight={600} color={'slateBlue.main'}>
+        Customers
+      </Typography>
     </>
   );
 };

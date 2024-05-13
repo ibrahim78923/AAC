@@ -53,6 +53,7 @@ export const styles: any = {
   timeEnterInnerGrid: {
     display: 'flex',
     m: '1rem',
+    cursor: 'pointer',
   },
   timeEnterInnerSecGrid: {
     display: 'flex',

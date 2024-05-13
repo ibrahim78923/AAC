@@ -14,16 +14,22 @@ export const upsertLoyaltyTransactionsValidationSchema: any =
     email: Yup?.string()?.email('Enter a valid email'),
     shop: Yup?.mixed()?.nullable(),
     type: Yup?.mixed()?.nullable(),
-    channel: Yup?.string(),
-    points: Yup?.string(),
+    channel: Yup?.mixed()?.nullable(),
+    points: Yup?.mixed()
+      ?.test('is-number', 'Please enter a valid number', (value: any) => {
+        if (!value) return true;
+        return !isNaN(value);
+      })
+      ?.typeError('must be a number')
+      ?.nullable(),
   });
 
 export const upsertLoyaltyTransactionsDefaultValues: any = {
   email: '',
   shop: null,
   type: null,
-  channel: loyaltytransactionChannel?.[0]?.label,
-  points: '',
+  channel: null,
+  points: null,
 };
 
 export const upsertLoyaltyTransactionsFormFieldsDynamic = (
@@ -47,7 +53,7 @@ export const upsertLoyaltyTransactionsFormFieldsDynamic = (
       placeholder: 'Select shop',
       fullWidth: true,
       apiQuery: shopApiQuery,
-      getOptionLabel: (option: any) => option?.shopName,
+      getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
   },
@@ -70,9 +76,10 @@ export const upsertLoyaltyTransactionsFormFieldsDynamic = (
       label: 'Channel',
       placeholder: 'Channel',
       fullWidth: true,
-      disabled: true,
+      options: loyaltytransactionChannel,
+      getOptionLabel: (option: any) => option?.label,
     },
-    component: RHFTextField,
+    component: RHFAutocomplete,
   },
   {
     id: 5,

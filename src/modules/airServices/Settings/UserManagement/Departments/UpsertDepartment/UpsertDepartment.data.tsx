@@ -7,6 +7,7 @@ import {
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 import { ROLES } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 
 export const departmentFormValidation: any = Yup?.object()?.shape({
   fileUrl: Yup?.mixed()?.nullable(),
@@ -29,9 +30,10 @@ export const departmentFormValues: any = (data: any) => {
   };
 };
 
-export const departmentFormFields: any = (
-  userList: any,
-  userListMember: any,
+export const departmentFormFieldsDynamic: any = (
+  headAPiQuery: any,
+  memberApiQuery: any,
+  auth: any,
 ) => [
   {
     id: 2,
@@ -51,8 +53,12 @@ export const departmentFormFields: any = (
       name: 'departmentHeadDetails',
       placeholder: 'Select',
       fullWidth: true,
-      apiQuery: userList,
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
+      apiQuery: headAPiQuery,
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        organization: auth?.user?.organization?._id,
+        role: ROLES?.ORG_ADMIN,
+      },
       getOptionLabel: (option: any) =>
         option?.firstName + ' ' + option?.lastName,
     },
@@ -83,8 +89,7 @@ export const departmentFormFields: any = (
       name: 'membersListDetails',
       fullWidth: true,
       multiple: true,
-      apiQuery: userListMember,
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
+      apiQuery: memberApiQuery,
       getOptionLabel: (option: any) =>
         option?.firstName + ' ' + option?.lastName,
     },

@@ -19,6 +19,7 @@ export const useDetailViewTimeEntries = (data: any) => {
   const [hasExecuted, setHasExecuted] = useState(false);
 
   const router = useRouter();
+
   const toggleView = () => {
     setIsIconVisible(!isIconVisible);
   };
@@ -145,7 +146,7 @@ export const useDetailViewTimeEntries = (data: any) => {
       taskId: data?.task?._id,
       status: data?.data?.data?.[0]?.status,
       on: data?.data?.data?.[0]?.plannedStartDate,
-      agentId: user?._id,
+      agentId: data?.data?.data?.[0]?.agentDetails?._id,
     };
 
     const putTicketParameter = {
@@ -183,5 +184,7 @@ export const useDetailViewTimeEntries = (data: any) => {
     seconds,
     minutes,
     hours,
+    data,
+    user,
   };
 };

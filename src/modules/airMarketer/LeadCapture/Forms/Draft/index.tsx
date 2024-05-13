@@ -1,17 +1,21 @@
-import CustomPagination from '@/components/CustomPagination';
-
+import { Box, useTheme } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { columns } from './Draft.data';
+import { columns } from '../Forms.data';
 import Search from '@/components/Search';
-import { useState } from 'react';
-import { Box } from '@mui/material';
-import { DraftTableData } from '@/mock/modules/airMarketer/LeadCapture/Forms';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS } from '@/constants/permission-keys';
+import useDraft from './useDraft';
 
 const Draft = ({ setShowSignUpForm, setFindStatus }: any) => {
-  const [searchByClientName, setSearchByClientName] = useState('');
-  const getColums = columns(setShowSignUpForm, setFindStatus);
+  const theme = useTheme();
+  const {
+    setSearchValue,
+    loadingGetForms,
+    dataGetForms,
+    setPageLimit,
+    setPage,
+  } = useDraft();
+  const getColums = columns(setShowSignUpForm, setFindStatus, theme);
 
   return (
     <Box
@@ -26,15 +30,25 @@ const Draft = ({ setShowSignUpForm, setFindStatus }: any) => {
           permissions={[AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS?.SEARCH]}
         >
           <Search
-            searchBy={searchByClientName}
-            setSearchBy={setSearchByClientName}
+            setSearchBy={setSearchValue}
             label="Search Here"
             size="small"
           />
         </PermissionsGuard>
       </Box>
-      <TanstackTable columns={getColums} data={DraftTableData} />
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      <TanstackTable
+        columns={getColums}
+        data={dataGetForms?.data?.leadcaptureforms}
+        isLoading={loadingGetForms}
+        currentPage={dataGetForms?.data?.meta?.page}
+        count={dataGetForms?.data?.meta?.pages}
+        pageLimit={dataGetForms?.data?.meta?.limit}
+        totalRecords={dataGetForms?.data?.meta?.total}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        onPageChange={(page: any) => setPage(page)}
+        isPagination
+      />
     </Box>
   );
 };

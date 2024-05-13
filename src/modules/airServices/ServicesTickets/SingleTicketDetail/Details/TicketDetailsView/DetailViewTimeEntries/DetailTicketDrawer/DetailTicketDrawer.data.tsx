@@ -10,7 +10,7 @@ import { ticketStatusOptions } from '@/modules/airServices/ServicesTickets/Servi
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
-  task: Yup?.mixed()?.nullable(),
+  task: Yup?.mixed()?.nullable()?.required('Field is Required'),
   agent: Yup?.mixed()?.nullable()?.required('Field is Required'),
   hours: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable(),
@@ -39,6 +39,7 @@ export const detailDrawerArray = (
       name: 'task',
       label: 'Task',
       fullWidth: true,
+      required: true,
       apiQuery: apiQueryTask,
       placeholder: 'Choose Task',
       externalParams: {
