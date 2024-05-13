@@ -415,6 +415,7 @@ export const upsertRulesFormFieldsDynamic = (
       LOYALTY_RULES_ATTRIBUTES?.NO_OF_VISITS,
       LOYALTY_RULES_ATTRIBUTES?.BIRTHDAY,
       LOYALTY_RULES_ATTRIBUTES?.FIRST_PURCHASE,
+      LOYALTY_RULES_ATTRIBUTES?.PRODUCT_QTY,
     ],
     component: RHFAutocompleteAsync,
     md: 12,
