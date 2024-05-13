@@ -380,6 +380,7 @@ export const upsertRulesFormFieldsDynamic = (
           componentProps: {
             name: 'rewards',
             label: 'Points',
+            required: true,
             placeholder: 'Enter award points',
           },
           attributeType: [
