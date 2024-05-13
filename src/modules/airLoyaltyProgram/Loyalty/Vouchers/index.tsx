@@ -9,6 +9,9 @@ import { AddVouchers } from './AddVouchers';
 import { Filters } from './Filters';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
+import { truncateLargeText, truncateText } from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const Vouchers = () => {
   const {
@@ -32,6 +35,7 @@ export const Vouchers = () => {
     setFilterValues,
     filterValues,
     handlePrintVoucher,
+    singleVouchers,
   } = useVouchers();
   return (
     <>
@@ -45,15 +49,13 @@ export const Vouchers = () => {
               top: '-1px',
               left: '-1px',
               zIndex: 1402,
+              overflow: 'visible',
             },
             '& .no-print': {
               display: 'none',
             },
             '@page': {
               size: 'portrait',
-            },
-            '.*': {
-              printColorAdjust: 'exact',
             },
           },
         }}
@@ -139,14 +141,13 @@ export const Vouchers = () => {
               backgroundSize: '100%',
             }}
           >
-            <Grid item xs={6} p={3}>
+            <Grid item xs={6} p={4}>
               <Typography color={'white'} variant="h1" mb={2}>
                 {' '}
-                Enjoy Mighty Zinger
+                {truncateText(singleVouchers?.name)}
               </Typography>
-              <Typography color={'white'} variant="body4">
-                Under this revised policy, if an employee takes leave on either
-                a Friday or the following Monday
+              <Typography color={'white'} variant="body1">
+                {truncateLargeText(singleVouchers?.description)}
               </Typography>
             </Grid>
             <Grid
@@ -159,13 +160,15 @@ export const Vouchers = () => {
               gap={1}
             >
               <Typography color={'white'} variant="h6">
-                VEf12UYBN
+                {singleVouchers?.voucherCode}
               </Typography>
               <Typography color={'white'} variant="h4">
                 Expiry Date
               </Typography>
               <Typography color={'white'} variant="body1">
-                20/2/2024
+                {dayjs(singleVouchers?.voucherTimeLimit)?.format(
+                  CALENDAR_FORMAT?.YMD,
+                )}
               </Typography>
               <Typography color={'white'} variant="h4">
                 No. of Redemptions

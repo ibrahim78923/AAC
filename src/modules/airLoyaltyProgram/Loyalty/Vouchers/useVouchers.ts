@@ -9,7 +9,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useVouchers = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -19,15 +19,17 @@ export const useVouchers = () => {
   const [switchLoading, setSwitchLoading] = useState<any>({});
   const [filterValues, setFilterValues] = useState<any>({});
   const [printVoucherId, setPrintVoucherId] = useState<any>();
+  const [openPrintVoucher, setOpenPrintVoucher] = useState<any>(false);
+
   const theme: any = useTheme();
 
   const filterBody = {
-    dateStart: dayjs(filterValues?.date?.toISOString())?.format(
-      CALENDAR_FORMAT?.YMD,
-    ),
-    dateEnd: dayjs(filterValues?.date?.toISOString())?.format(
-      CALENDAR_FORMAT?.YMD,
-    ),
+    dateStart:
+      filterValues?.date &&
+      dayjs(filterValues?.date)?.format(CALENDAR_FORMAT?.YMD),
+    dateEnd:
+      filterValues?.date &&
+      dayjs(filterValues?.date)?.format(CALENDAR_FORMAT?.YMD),
     status: filterValues?.status,
   };
   const vouchersParameter = {
@@ -36,7 +38,6 @@ export const useVouchers = () => {
     ...filterBody,
     meta: true,
   };
-
   const [patchVouchersTrigger] = usePatchVoucherMutation();
 
   const { data, isLoading, isError, isSuccess, isFetching } =
@@ -48,8 +49,8 @@ export const useVouchers = () => {
 
   const {
     data: singleVoucherData,
-    isLoading: singleVoucherLoading,
-    isFetching: singleVoucherFetching,
+    isLoading: singleIsLoading,
+    isFetching: singleISFetching,
   } = useGetSingleVouchersQuery(printVoucherId, {
     refetchOnMountOrArgChange: true,
   });
@@ -78,9 +79,19 @@ export const useVouchers = () => {
       setSwitchLoading({ ...switchLoading, [voucherId]: false });
     }
   };
+  useEffect(() => {
+    if (
+      printVoucherId &&
+      singleISFetching === false &&
+      singleIsLoading === false
+    ) {
+      window.print();
+      setPrintVoucherId(null);
+    }
+  }, [printVoucherId, singleIsLoading, singleISFetching]);
+
   const handlePrintVoucher = (id: any) => {
     setPrintVoucherId(id);
-    window?.print();
   };
 
   return {
@@ -104,8 +115,8 @@ export const useVouchers = () => {
     setFilterValues,
     filterValues,
     handlePrintVoucher,
-    singleVoucherFetching,
-    singleVoucherLoading,
     singleVouchers,
+    openPrintVoucher,
+    setOpenPrintVoucher,
   };
 };
