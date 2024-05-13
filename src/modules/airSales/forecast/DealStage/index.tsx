@@ -23,13 +23,18 @@ import Search from '@/components/Search';
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import useForecast from '../useforecast';
 import ForecastFilterDrawer from '../FilterDrwaer';
-import Link from 'next/link';
 import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import { styles } from './DealStage.style';
 import useDealStage from './useDealStage';
+import ViewDealsDrawer from '../ViewDealsDrwaer';
 
 const DealStage = () => {
-  const { isFilterDrawer, setIsFilterDrawer } = useForecast();
+  const {
+    isFilterDrawer,
+    setIsFilterDrawer,
+    isViewDealDrawer,
+    setIsViewDealDrawer,
+  } = useForecast();
   const {
     theme,
     anchorEl,
@@ -40,6 +45,7 @@ const DealStage = () => {
     open,
     handleClose,
     handleClick,
+    setAnchorEl,
   } = useDealStage();
 
   return (
@@ -173,9 +179,14 @@ const DealStage = () => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <Link href="">
-                <MenuItem>View Deal</MenuItem>
-              </Link>
+              <MenuItem
+                onClick={() => {
+                  setIsViewDealDrawer(true);
+                  setAnchorEl(null);
+                }}
+              >
+                View Deal
+              </MenuItem>
             </Menu>
           </Stack>
           <Tooltip title={'Refresh Filter'}>
@@ -216,6 +227,12 @@ const DealStage = () => {
         <ForecastFilterDrawer
           isOpenDrawer={isFilterDrawer}
           onClose={() => setIsFilterDrawer(false)}
+        />
+      )}
+      {isViewDealDrawer && (
+        <ViewDealsDrawer
+          isOpenDrawer={isViewDealDrawer}
+          onClose={() => setIsViewDealDrawer(false)}
         />
       )}
     </Box>

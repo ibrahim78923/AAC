@@ -27,6 +27,7 @@ const useDealStage = () => {
     open,
     handleClose,
     handleClick,
+    setAnchorEl,
   };
 };
 

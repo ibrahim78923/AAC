@@ -214,7 +214,50 @@ export const manageTableColumns: any = (
         </Box>
       ),
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => (
+        <Stack direction="row" gap={2} alignItems="center">
+          <Box display="flex" gap={0.5}>
+            <Tooltip
+              title={
+                <Box>
+                  <Typography variant="body4">
+                    <b> Forecast Submission</b> <br />
+                  </Typography>
+                  <Box display={'flex'} justifyContent={'space-between'}>
+                    <Typography variant="body4">Time Forecast</Typography>
+                    <Typography variant="body4">
+                      May 2023 <br />
+                    </Typography>
+                  </Box>
+
+                  <Box display={'flex'} justifyContent={'space-between'}>
+                    <Typography variant="body4">Total</Typography>
+                    <Typography variant="body4">
+                      N/A <br />
+                    </Typography>
+                  </Box>
+
+                  <Box display={'flex'} justifyContent={'space-between'}>
+                    <Typography variant="body4">Team Submission</Typography>
+                    <Typography variant="body4">
+                      £45.00 <br />
+                    </Typography>
+                  </Box>
+                </Box>
+              }
+              placement="top-end"
+              arrow
+              PopperProps={{
+                style: { width: '220px' },
+              }}
+            >
+              <Typography sx={{ cursor: 'pointer' }}>
+                {info.getValue()}
+              </Typography>
+            </Tooltip>
+          </Box>
+        </Stack>
+      ),
     },
   ];
 };
