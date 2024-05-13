@@ -8,7 +8,7 @@ export const Reminder = (props: any) => {
   return (
     <Box mt={-1}>
       {fields?.map((field: any, index: number) => (
-        <Box key={field?.id} display="flex" alignItems="center" gap={1}>
+        <Box key={field?.id} display="flex" gap={1}>
           <Grid container spacing={{ md: 2 }}>
             {reminderFields(index)?.map((item: any) => (
               <Grid item md={item?.md} xs={12} key={item?.id} mt={{ md: 1 }}>
@@ -16,7 +16,7 @@ export const Reminder = (props: any) => {
               </Grid>
             ))}
           </Grid>
-          <Box mt={3.5}>
+          <Box mt={4.5}>
             <Cancel
               sx={{ color: 'error.main', cursor: 'pointer' }}
               onClick={() => handleRemove?.(index)}
