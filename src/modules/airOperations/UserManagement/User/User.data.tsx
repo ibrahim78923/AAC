@@ -3,14 +3,15 @@ import { AntSwitch } from '@/components/AntSwitch';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { REQUESTORS_STATUS } from '@/constants/strings';
+import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const userDropdown = (setDeleteModal: any) => [
   {
     id: 1,
     title: 'Delete',
-    // permissionKey: [
-    //   AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USER,
-    // ],
+    permissionKey: [
+      AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USER,
+    ],
     handleClick: (close: any) => {
       setDeleteModal(true);
       close(null);

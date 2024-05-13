@@ -40,7 +40,6 @@ const Dashboard = () => {
             <Grid item xs={12} lg={6} sx={{ paddingLeft: '0px' }}>
               <ContactCustomerGraph />
             </Grid>
-
             <Grid item xs={12} lg={6}>
               <CtaViews />
             </Grid>

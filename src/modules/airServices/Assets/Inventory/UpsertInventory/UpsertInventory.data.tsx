@@ -188,7 +188,7 @@ export const upsertInventoryFormFieldsDynamic = (
       fullWidth: true,
       name: 'usedBy',
       label: 'Used By',
-      placeholder: 'Name or Email',
+      placeholder: 'Name',
       apiQuery: apiQueryUsedByType,
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option.lastName}`,
