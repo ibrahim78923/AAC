@@ -108,7 +108,7 @@ const useFolder: any = () => {
   const deleteUserFiles = async () => {
     try {
       await deleteFiles({
-        ids: isGetRowValues?.map((id: any) => `ids=${id}`)?.join('&'),
+        ids: isGetRowValues.join(','),
       }).unwrap();
       enqueueSnackbar('File Deleted Successfully', {
         variant: 'success',
