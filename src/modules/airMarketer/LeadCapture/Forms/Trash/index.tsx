@@ -4,7 +4,7 @@ import Search from '@/components/Search';
 import { Box, useTheme } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS } from '@/constants/permission-keys';
-import useTrash from './useDraft';
+import useTrash from './useTrash';
 
 const Trash = ({ setShowSignUpForm, setFindStatus }: any) => {
   const theme = useTheme();

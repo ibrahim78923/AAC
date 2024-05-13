@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGetLeadCaptureFormQuery } from '@/services/airMarketer/lead-capture/forms';
 import { PAGINATION } from '@/config';
+import { formStatus } from '../Forms.data';
 
 const useDraft = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -17,7 +18,11 @@ const useDraft = () => {
   }
   const { data: dataGetForms, isLoading: loadingGetForms } =
     useGetLeadCaptureFormQuery({
-      params: { status: 'DRAFT', ...searchPayLoad, ...paginationParams },
+      params: {
+        status: formStatus?.DRAFT,
+        ...searchPayLoad,
+        ...paginationParams,
+      },
     });
 
   return {

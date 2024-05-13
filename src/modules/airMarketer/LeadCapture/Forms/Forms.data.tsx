@@ -138,3 +138,9 @@ export const columns: any = (
     },
   ];
 };
+
+export const formStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  TRASH: 'TRASH',
+};
