@@ -129,6 +129,7 @@ export const TAGS = [
   'USER_LIST_DROPDOWN',
   'LEAD_CAPTURE_CTA',
   'TIERS',
+  'RULES',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [

@@ -23,10 +23,18 @@ export const useUpsertTransactions = (props: any) => {
 
   const { handleSubmit, reset } = methods;
 
-  const submitUpsertLoyaltyTransactions = async (data: any) => {
-    const apiDataParameter = {
-      body: data,
+  const submitUpsertLoyaltyTransactions = async (formData: any) => {
+    const body = {
+      ...formData,
+      channel: formData?.channel?._id,
+      shop: formData?.shop?._id,
+      type: formData?.type?._id,
     };
+
+    const apiDataParameter = {
+      body,
+    };
+
     try {
       await postLoyaltyTransactionsTrigger(apiDataParameter)?.unwrap();
       successSnackbar?.('');

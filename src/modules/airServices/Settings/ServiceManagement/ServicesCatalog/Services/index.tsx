@@ -353,7 +353,7 @@ const Services = () => {
                         variant="h5"
                         align="center"
                         gutterBottom
-                        ml={6.5}
+                        ml={4}
                         mr={1}
                         mt={2}
                       >
@@ -361,13 +361,7 @@ const Services = () => {
                       </Typography>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
-                      <Typography
-                        variant="body2"
-                        align="center"
-                        gutterBottom
-                        ml={6.5}
-                        mr={1}
-                      >
+                      <Typography variant="body2" align="left" gutterBottom>
                         Cost:
                         {result?.cost ?? '-'}
                       </Typography>
@@ -378,7 +372,7 @@ const Services = () => {
                         align="center"
                         gutterBottom
                         mr={1}
-                        ml={6.5}
+                        ml={4}
                       >
                         Estimated Delivery:
                         {result?.estimatedDelivery ?? '-'}
@@ -394,7 +388,7 @@ const Services = () => {
                         align="center"
                         gutterBottom
                         mr={1}
-                        ml={6.5}
+                        ml={4}
                       >
                         Description:
                         {result?.description ?? '-'}
@@ -407,7 +401,7 @@ const Services = () => {
                           align="center"
                           gutterBottom
                           mr={1}
-                          ml={6.5}
+                          ml={4}
                         >
                           Status:
                           {result?.status}
