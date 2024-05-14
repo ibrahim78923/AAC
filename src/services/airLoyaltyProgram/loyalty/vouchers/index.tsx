@@ -45,6 +45,16 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getContactsList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.CONTACTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contacts;
+      },
+    }),
   }),
 });
 
@@ -54,5 +64,6 @@ export const {
   useLazyGetVoucherRedemptionListQuery,
   usePostVouchersMutation,
   usePatchVoucherMutation,
+  useLazyGetContactsListQuery,
   useGetSingleVouchersQuery,
 } = vouchersAPI;

@@ -100,6 +100,9 @@ export const addVouchersFormFieldsDataFunction = (apiQueryAgent?: any) => [
       name: 'assignTo',
       label: 'Assign to',
       placeholder: 'Assign to',
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
+      renderOption: (option: any) => `${option?.firstName} ${option?.lastName}`,
       apiQuery: apiQueryAgent,
     },
     component: RHFAutocompleteAsync,
