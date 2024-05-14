@@ -17,7 +17,7 @@ export const taskAPI = baseAPI?.injectEndpoints({
     }),
     patchTaskById: builder?.mutation({
       query: (item: any) => ({
-        url: `${END_POINTS?.UPDATE_TASK}/${item?.id}`,
+        url: `${END_POINTS?.UPDATE_TASK}`,
         method: 'PATCH',
         params: item?.data,
       }),
