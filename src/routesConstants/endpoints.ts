@@ -384,7 +384,7 @@ export const END_POINTS = {
   UPDATE_VOUCHERS_STATUS: '/vouchers/update-voucher-status',
   ADD_LOYALTY_TRANSACTION: `/Transactions/add-transaction`,
   GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
-  CHANGE_RULES_STATUS: `/rules-and-tiers/rules/change-status`,
+  CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
 };
 
 export const LEAD_CAPTURE_FORM = {

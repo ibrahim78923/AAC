@@ -3,7 +3,10 @@ import { LOYALTY_RULES_ATTRIBUTES_MAPPED } from '@/constants/api-mapped';
 import { LOYALTY_RULE_STATUS } from '@/constants/strings';
 import { truncateText } from '@/utils/avatarUtils';
 
-export const rulesColumnsDynamic = (changeStatus: any) => [
+export const rulesColumnsDynamic = (
+  changeStatus: any,
+  changeSingleRuleStatusStatus: any,
+) => [
   {
     accessorFn: (info: any) => info?.attribute,
     id: 'rulesTitle',
@@ -26,6 +29,12 @@ export const rulesColumnsDynamic = (changeStatus: any) => [
       <AntSwitch
         checked={info?.getValue() === LOYALTY_RULE_STATUS?.ACTIVE}
         onChange={(e: any) => changeStatus?.(e, info?.row?.original?._id)}
+        isLoading={
+          changeSingleRuleStatusStatus?.isLoading &&
+          changeSingleRuleStatusStatus?.originalArgs?.pathParams?.id ===
+            info?.row?.original?._id
+        }
+        disabled={changeSingleRuleStatusStatus?.isLoading}
       />
     ),
   },
