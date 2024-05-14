@@ -1,4 +1,5 @@
 import HeaderInfoIcon from '@/assets/icons/shared/header-info';
+import { goalsStatus } from '@/constants';
 import {
   Box,
   Checkbox,
@@ -39,7 +40,7 @@ export const manageTableColumns: any = (
             info?.cell?.row?.original?.id ===
               tableRowValues?.cell?.row?.original?.id && !isDisabled
           }
-          name={info.getValue()}
+          name={info?.getValue()}
           onClick={() => {
             setTableRowValues(info), setIsDisabled(!isDisabled);
           }}
@@ -53,7 +54,7 @@ export const manageTableColumns: any = (
       id: 'contributor',
       header: 'Contributor',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
@@ -61,14 +62,14 @@ export const manageTableColumns: any = (
       id: 'type',
       header: 'Type',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.goalName,
       id: 'goalName',
       header: 'Goal Name',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.duration,
@@ -78,7 +79,7 @@ export const manageTableColumns: any = (
       cell: (info: any) => (
         <Stack direction="row" gap={2} alignItems="center">
           <Box>
-            <Typography>{info.getValue()}</Typography>
+            <Typography>{info?.getValue()}</Typography>
 
             <Box display="flex" gap={0.5}>
               <Typography fontSize="12px" fontWeight={500}>
@@ -94,7 +95,7 @@ export const manageTableColumns: any = (
       id: 'target',
       header: 'Target',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.progress,
@@ -123,7 +124,7 @@ export const manageTableColumns: any = (
         <Stack>
           <Box>
             <Typography textAlign={'right'} mb={0.2}>
-              {info.getValue()}%
+              {info?.getValue()}%
             </Typography>
             <LinearProgress
               sx={{ color: theme?.Palette?.primary?.main, height: '5px' }}
@@ -137,7 +138,7 @@ export const manageTableColumns: any = (
               textAlign={'right'}
               mt={0.5}
             >
-              £{info.getValue()} of £120
+              £{info?.getValue()} of £120
             </Typography>
           </Box>
         </Stack>
@@ -156,14 +157,18 @@ export const manageTableColumns: any = (
             borderRadius: '25px',
             width: 'fit-content',
             backgroundColor: `${
-              info.getValue() === 'In-Progress' ? '#FFFCF1' : '#ECFFF1'
+              info?.getValue() === goalsStatus?.inProgress
+                ? '#FFFCF1'
+                : '#ECFFF1'
             }`,
             color: `${
-              info.getValue() === 'In-Progress' ? '#FFC20E' : '#47B263'
+              info?.getValue() === goalsStatus?.inProgress
+                ? '#FFC20E'
+                : '#47B263'
             }`,
           }}
         >
-          {info.getValue()}
+          {info?.getValue()}
         </Typography>
       ),
     },

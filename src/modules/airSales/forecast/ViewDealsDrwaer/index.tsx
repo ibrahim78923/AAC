@@ -73,7 +73,7 @@ const ViewDealsDrawer = (props: any) => {
           sx={{
             padding: '10px',
             borderRadius: '6px',
-            boxShadow: '0px 0px 16px 0px #9b979726',
+            boxShadow: `0px 0px 16px 0px ${theme?.palette?.custom?.light_gray_shadow}`,
           }}
         >
           <Box
@@ -139,10 +139,10 @@ const ViewDealsDrawer = (props: any) => {
             value={personName}
             onChange={handleChange}
             input={<OutlinedInput label="Tag" />}
-            renderValue={(selected) => selected?.join(', ')}
+            renderValue={(selected: any) => selected?.join(', ')}
             placeholder="all"
           >
-            {names?.map((name) => (
+            {names?.map((name: any) => (
               <MenuItem key={name} value={name}>
                 <Checkbox checked={personName?.indexOf(name) > -1} />
                 <ListItemText primary={name} />

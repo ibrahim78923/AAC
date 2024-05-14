@@ -39,7 +39,7 @@ export const manageTableColumns: any = (
             info?.cell?.row?.original?.id ===
               tableRowValues?.cell?.row?.original?.id && !isDisabled
           }
-          name={info.getValue()}
+          name={info?.getValue()}
           onClick={() => {
             setTableRowValues(info), setIsDisabled(!isDisabled);
           }}
@@ -53,7 +53,7 @@ export const manageTableColumns: any = (
       id: 'name',
       header: 'Name',
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.goalOutcome,
@@ -82,7 +82,7 @@ export const manageTableColumns: any = (
         <Stack>
           <Box>
             <Typography textAlign={'right'} mb={0.2}>
-              {info.getValue()}%
+              {info?.getValue()}%
             </Typography>
             <LinearProgress
               sx={{ color: theme?.Palette?.primary?.main, height: '5px' }}
@@ -96,7 +96,7 @@ export const manageTableColumns: any = (
               textAlign={'right'}
               mt={0.5}
             >
-              £{info.getValue()} of £120
+              £{info?.getValue()} of £120
             </Typography>
           </Box>
         </Stack>
@@ -126,7 +126,7 @@ export const manageTableColumns: any = (
         </Box>
       ),
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.coverageRatio,
@@ -151,7 +151,7 @@ export const manageTableColumns: any = (
         </Box>
       ),
       isSortable: true,
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.closedDeal,
@@ -179,7 +179,7 @@ export const manageTableColumns: any = (
       cell: (info: any) => (
         <Stack direction="row" gap={2} alignItems="center">
           <Box>
-            <Typography>{info.getValue()}</Typography>
+            <Typography>{info?.getValue()}</Typography>
 
             <Box display="flex" gap={0.5}>
               <Typography fontSize="12px" fontWeight={500}>
@@ -216,7 +216,7 @@ export const manageTableColumns: any = (
       cell: (info: any) => (
         <Stack direction="row" gap={2} alignItems="center">
           <Box>
-            <Typography>{info.getValue()}</Typography>
+            <Typography>{info?.getValue()}</Typography>
 
             <Box display="flex" gap={0.5}>
               <Typography fontSize="12px" fontWeight={500}>
@@ -235,7 +235,7 @@ export const manageTableColumns: any = (
       cell: (info: any) => (
         <Stack direction="row" gap={2} alignItems="center">
           <Box>
-            <Typography>{info.getValue()}</Typography>
+            <Typography>{info?.getValue()}</Typography>
 
             <Box display="flex" gap={0.5}>
               <Typography fontSize="12px" fontWeight={500}>
@@ -307,7 +307,7 @@ export const manageTableColumns: any = (
               }}
             >
               <Typography sx={{ cursor: 'pointer' }}>
-                {info.getValue()}
+                {info?.getValue()}
               </Typography>
             </Tooltip>
           </Box>

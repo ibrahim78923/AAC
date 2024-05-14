@@ -18,7 +18,6 @@ import {
 } from './ForecastCategory.data';
 import { v4 as uuidv4 } from 'uuid';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import useForecast from '../useforecast';
@@ -216,11 +215,7 @@ const ForecastCategory = () => {
             setTableRowValues,
           )}
           data={manageTableData}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          isPagination
         />
       </Box>
       {isFilterDrawer && (
