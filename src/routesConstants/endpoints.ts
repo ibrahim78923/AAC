@@ -384,6 +384,14 @@ export const END_POINTS = {
   CHANGE_RULES_STATUS: `/rules-and-tiers/rules/change-status`,
 };
 
+export const LEAD_CAPTURE_FORM = {
+  CREATE_FORM: '/lead-capture-form/create-form',
+  GET_FORM: '/lead-capture-form/get-forms',
+  GET_FORM_BY_ID: '/lead-capture-form/get-form',
+  UPDATE_FORM: '/lead-capture-form/update-form',
+  DELETE_FORM: '/lead-capture-form/delete-form',
+};
+
 export const superAdminBillingInvoices = {
   GET_ORG_PLAN: '/super-admin/get-all-orgplans?',
   GET_PRODUCTS: '/products?status=active',
