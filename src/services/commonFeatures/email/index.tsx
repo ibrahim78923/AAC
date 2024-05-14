@@ -133,6 +133,27 @@ export const emailApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+
+    patchEmailSettings: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.UPDATE_EMAIL_SETTINGS}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
+    getEmailSettings: builder.query({
+      query: () => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.GET_EMAIL_SETTINGS}`,
+          method: 'GET',
+        };
+      },
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -149,4 +170,6 @@ export const {
   usePostDraftOtherEmailMutation,
   useMoveFolderOtherEmailMutation,
   useGetDraftsQuery,
+  usePatchEmailSettingsMutation,
+  useGetEmailSettingsQuery,
 } = emailApi;

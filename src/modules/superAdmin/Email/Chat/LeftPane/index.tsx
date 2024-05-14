@@ -89,7 +89,7 @@ const LeftPane = () => {
         limit: PAGINATION?.PAGE_LIMIT,
       },
     },
-    // { skip: isGetEmailsRequest },
+    { skip: isGetEmailsRequest },
   );
 
   useEffect(() => {
