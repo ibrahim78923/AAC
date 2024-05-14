@@ -1,9 +1,11 @@
 import { RHFAutocomplete, RHFDatePicker } from '@/components/ReactHookForm';
 
-const statusOptions = ['Active', 'Deactivated', 'Expired'];
-export const filtersFormFieldsDefaultValues = {
-  date: new Date(),
-  status: '',
+const statusOptions = ['Active', 'Deactivate', 'Expired'];
+export const filtersFormFieldsDefaultValues = (filterValues: any) => {
+  return {
+    date: filterValues?.date ?? null,
+    status: filterValues?.status ?? '',
+  };
 };
 export const filtersFormFieldsDataFunction = [
   {
