@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLazyGetSingleTiersDetailsQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
 
 export const useSingleTierDetail = (props: any) => {
   const { setIsDrawerOpen, isDrawerOpen } = props;
+  const [isUpdateDrawer, setIsUpdateDrawer] = useState<any>({});
   const closeUpsertTier = () => {
     setIsDrawerOpen?.(false);
   };
@@ -22,5 +23,7 @@ export const useSingleTierDetail = (props: any) => {
     isFetching,
     sliderValue,
     isError,
+    isUpdateDrawer,
+    setIsUpdateDrawer,
   };
 };

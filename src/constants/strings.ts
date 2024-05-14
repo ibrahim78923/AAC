@@ -271,6 +271,7 @@ export const REQUESTORS_STATUS = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
 };
+
 export const REQUESTORS_ASSIGNED_STATUS = {
   OPEN: 'Open',
   CLOSED: 'Closed',
@@ -592,7 +593,11 @@ export const LOYALTY_REWARDS_CLASS = {
   RULES: 'RULES',
   TIERS: 'TIERS',
 };
-
+export const VOUCHERS_STATUS = {
+  ACTIVE: 'Active',
+  DEACTIVATE: 'Deactivate',
+  EXPIRED: 'Expired',
+};
 export const DATA_TYPES = {
   NULL: null,
 };

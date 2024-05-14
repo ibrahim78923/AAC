@@ -1,6 +1,9 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const TAGS = 'TIERS';
+const TAG_ONE = 'CONTACTS';
+
 export const tiersAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getTiersList: builder?.query({
@@ -11,18 +14,20 @@ export const tiersAPI = baseAPI?.injectEndpoints({
       }),
     }),
     addTiers: builder?.mutation({
-      query: (apiDataParameter: any) => ({
+      query: (postApiDataParameter: any) => ({
         url: END_POINTS?.ADD_TIERS,
         method: 'POST',
-        body: apiDataParameter?.body,
+        body: postApiDataParameter?.body,
       }),
+      invalidatesTags: [TAGS],
     }),
     editSingleTiers: builder?.mutation({
-      query: (apiDataParameter: any) => ({
-        url: '',
-        method: 'PATCH',
-        body: apiDataParameter?.body,
+      query: (putApiDataParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_TIERS}/${putApiDataParameter?.id}`,
+        method: 'PUT',
+        body: putApiDataParameter?.body,
       }),
+      invalidatesTags: [TAGS],
     }),
     deleteTiers: builder?.mutation({
       query: (apiDataParameter: any) => ({
@@ -37,6 +42,17 @@ export const tiersAPI = baseAPI?.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getContactListForTier: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.CONTACTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contacts;
+      },
+      providesTags: [TAG_ONE],
+    }),
   }),
 });
 
@@ -46,5 +62,7 @@ export const {
   useLazyGetTiersListQuery,
   useDeleteTiersMutation,
   useEditSingleTiersMutation,
+  useGetSingleTiersDetailsQuery,
+  useLazyGetContactListForTierQuery,
   useLazyGetSingleTiersDetailsQuery,
 } = tiersAPI;

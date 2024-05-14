@@ -7,12 +7,20 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getVouchers: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.GET_CANNED_RESPONSES}`,
+        url: `${END_POINTS?.GET_VOUCHERS}`,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
+        params: apiDataParameter,
       }),
       providesTags: [TAG],
     }),
+    getSingleVouchers: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_VOUCHERS}/${apiDataParameter}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+
     postVouchers: builder?.mutation({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.ADD_VOUCHERS}`,
@@ -22,16 +30,16 @@ export const vouchersAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     patchVoucher: builder?.mutation({
-      query: (patchVoucherParameter: any) => ({
-        url: `${END_POINTS?.UPDATE_CANNED_RESPONSES}`,
+      query: (patchData: any) => ({
+        url: `${END_POINTS?.UPDATE_VOUCHERS_STATUS}/${patchData?.id}`,
         method: 'PATCH',
-        body: patchVoucherParameter?.body,
+        body: patchData?.body,
       }),
       invalidatesTags: [TAG],
     }),
     getVoucherRedemptionList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.GET_RESPONSES_LIST}`,
+        url: `${END_POINTS?.GET_VOUCHERS}`,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -57,4 +65,5 @@ export const {
   usePostVouchersMutation,
   usePatchVoucherMutation,
   useLazyGetContactsListQuery,
+  useGetSingleVouchersQuery,
 } = vouchersAPI;
