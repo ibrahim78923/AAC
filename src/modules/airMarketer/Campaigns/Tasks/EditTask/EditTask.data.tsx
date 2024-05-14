@@ -8,7 +8,11 @@ import {
 import { Typography, useTheme } from '@mui/material';
 
 import * as Yup from 'yup';
-import { useLazyGetAllCampaignsListQuery } from '@/services/common-APIs';
+import {
+  useLazyGetAllCampaignsListQuery,
+  useLazyGetDealOwnersListQuery,
+} from '@/services/common-APIs';
+import { ROLES } from '@/constants/strings';
 
 export const validationSchema = Yup?.object().shape({
   taskName: Yup?.string()?.required('Field is Required'),
@@ -26,6 +30,7 @@ export const defaultValues = {
 export const dataArray = () => {
   const theme = useTheme();
   const campaignsList = useLazyGetAllCampaignsListQuery();
+  const userListData = useLazyGetDealOwnersListQuery();
   return [
     {
       componentProps: {
@@ -44,7 +49,7 @@ export const dataArray = () => {
         name: 'taskType',
         label: 'Task Type',
         fullWidth: true,
-        options: ['Email', 'Other'],
+        options: ['Email', 'Call', 'Other'],
       },
 
       component: RHFAutocomplete,
@@ -62,16 +67,30 @@ export const dataArray = () => {
       component: RHFAutocompleteAsync,
       md: 12,
     },
+    // {
+    //   componentProps: {
+    //     placeholder: 'Select assignee',
+    //     name: 'assignedTo',
+    //     label: 'Assigned To',
+    //     fullWidth: true,
+    //     options: ['fabrizioRomano', 'fabrizioRomano'],
+    //   },
+
+    //   component: RHFAutocomplete,
+    //   md: 12,
+    // },
     {
       componentProps: {
         placeholder: 'Select assignee',
         name: 'assignedTo',
         label: 'Assigned To',
-        fullWidth: true,
-        options: ['fabrizioRomano', 'fabrizioRomano'],
+        apiQuery: userListData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { role: ROLES?.ORG_EMPLOYEE },
+        queryKey: 'role',
       },
-
-      component: RHFAutocomplete,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
