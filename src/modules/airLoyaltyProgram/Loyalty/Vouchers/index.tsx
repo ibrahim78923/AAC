@@ -143,26 +143,29 @@ export const Vouchers = () => {
             bgcolor={'primary.main'}
             borderRadius={'20px'}
           >
-            <Grid
-              item
-              xs={6}
-              p={3}
-              bgcolor={'secondary.main'}
-              borderRadius={'20px 0px 0px 20px'}
-              sx={{
-                backgroundImage: `url(${VoucherCardBg.src})`,
-                backgroundPosition: 'cover',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: '100%',
-                height: '308px',
-              }}
-            >
-              <Typography color={'white'} variant="h1" mb={2}>
-                {truncateText(singleVouchers?.name)}
-              </Typography>
-              <Typography color={'white'} variant="body1">
-                {truncateLargeText(singleVouchers?.description)}
-              </Typography>
+            <Grid item xs={6} position="relative">
+              <Box
+                height={'308px'}
+                borderRadius={'20px 0px 0px 20px'}
+                overflow={'hidden'}
+              >
+                <Image src={VoucherCardBg} alt="CardBg" />
+              </Box>
+              <Box
+                position={'absolute'}
+                {...ScreenPosition}
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'flex-start'}
+                padding={3}
+              >
+                <Typography color={'white'} variant="h1" mb={2}>
+                  {truncateText(singleVouchers?.name)}
+                </Typography>
+                <Typography color={'white'} variant="body1">
+                  {truncateLargeText(singleVouchers?.description)}
+                </Typography>
+              </Box>
             </Grid>
             <Grid
               item
