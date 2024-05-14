@@ -49,22 +49,63 @@ export const manageTableColumns: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.name,
-      id: 'name',
-      header: 'Name',
+      accessorFn: (row: any) => row?.contributor,
+      id: 'contributor',
+      header: 'Contributor',
+      isSortable: true,
+      cell: (info: any) => info.getValue(),
+    },
+
+    {
+      accessorFn: (row: any) => row?.type,
+      id: 'type',
+      header: 'Type',
       isSortable: true,
       cell: (info: any) => info.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.goalOutcome,
-      id: 'goalOutcome',
+      accessorFn: (row: any) => row?.goalName,
+      id: 'goalName',
+      header: 'Goal Name',
+      isSortable: true,
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.duration,
+      id: 'duration',
+      header: 'Duration',
+      isSortable: true,
+      cell: (info: any) => (
+        <Stack direction="row" gap={2} alignItems="center">
+          <Box>
+            <Typography>{info.getValue()}</Typography>
+
+            <Box display="flex" gap={0.5}>
+              <Typography fontSize="12px" fontWeight={500}>
+                {info?.row?.original?.durationData} Deals
+              </Typography>
+            </Box>
+          </Box>
+        </Stack>
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.target,
+      id: 'target',
+      header: 'Target',
+      isSortable: true,
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.progress,
+      id: 'progress',
       header: (
         <Box display={'flex'} gap={1}>
-          Goal Outcome
+          Progress
           <Tooltip
             title={
               <Typography variant="body4">
-                Closed revenue relative <br /> to the revenue goal
+                Progress bar updates will <br /> take upto 24 hours
               </Typography>
             }
             placement="top-start"
@@ -103,160 +144,27 @@ export const manageTableColumns: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.total,
-      id: 'total',
-      header: (
-        <Box display={'flex'} gap={1}>
-          Total
-          <Tooltip
-            title={
-              <Typography variant="body4" style={{ textAlign: 'center' }}>
-                How it's calculated <br /> Forecasted Deals + Closed Won <br />{' '}
-                = Total
-              </Typography>
-            }
-            placement="top-start"
-            arrow
-          >
-            <Box>
-              {' '}
-              <HeaderInfoIcon />{' '}
-            </Box>
-          </Tooltip>
-        </Box>
-      ),
-      isSortable: true,
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.coverageRatio,
-      id: 'coverageRatio',
-      header: (
-        <Box display={'flex'} gap={1}>
-          Coverage Ratio
-          <Tooltip
-            title={
-              <Typography variant="body4" style={{ textAlign: 'center' }}>
-                How it's calculated <br /> Total / Goal = Coverage Ratio
-              </Typography>
-            }
-            placement="top-start"
-            arrow
-          >
-            <Box>
-              {' '}
-              <HeaderInfoIcon />{' '}
-            </Box>
-          </Tooltip>
-        </Box>
-      ),
-      isSortable: true,
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.appointmentSch,
-      id: 'appointmentSch',
-      header: 'Appointmentsch',
-      isSortable: true,
-      cell: (info: any) => (
-        <Stack direction="row" gap={2} alignItems="center">
-          <Box>
-            <Typography>{info.getValue()}</Typography>
-
-            <Box display="flex" gap={0.5}>
-              <Typography fontSize="12px" fontWeight={500}>
-                {info?.row?.original?.deals} Deals
-              </Typography>
-            </Box>
-          </Box>
-        </Stack>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.contactSent,
-      id: 'contactSent',
-      header: 'Contact Sent',
-      isSortable: true,
-      cell: (info: any) => (
-        <Stack direction="row" gap={2} alignItems="center">
-          <Box>
-            <Typography>{info.getValue()}</Typography>
-
-            <Box display="flex" gap={0.5}>
-              <Typography fontSize="12px" fontWeight={500}>
-                {info?.row?.original?.deals} Deals
-              </Typography>
-            </Box>
-          </Box>
-        </Stack>
-      ),
-    },
-    {
       accessorFn: (row: any) => row?.forecastSub,
       id: 'forecastSub',
-      header: (
-        <Box display={'flex'} gap={1}>
-          Forecast Sub..
-          <Tooltip
-            title={
-              <Typography variant="body4" style={{ textAlign: 'center' }}>
-                Forecast Submission
-              </Typography>
-            }
-            placement="top-end"
-            arrow
-          >
-            <Box>
-              {' '}
-              <HeaderInfoIcon />{' '}
-            </Box>
-          </Tooltip>
-        </Box>
-      ),
+      header: 'Forecast Sub..',
       isSortable: true,
       cell: (info: any) => (
-        <Stack direction="row" gap={2} alignItems="center">
-          <Box display="flex" gap={0.5}>
-            <Tooltip
-              title={
-                <Box>
-                  <Typography variant="body4">
-                    <b> Forecast Submission</b> <br />
-                  </Typography>
-                  <Box display={'flex'} justifyContent={'space-between'}>
-                    <Typography variant="body4">Time Forecast</Typography>
-                    <Typography variant="body4">
-                      May 2023 <br />
-                    </Typography>
-                  </Box>
-
-                  <Box display={'flex'} justifyContent={'space-between'}>
-                    <Typography variant="body4">Total</Typography>
-                    <Typography variant="body4">
-                      N/A <br />
-                    </Typography>
-                  </Box>
-
-                  <Box display={'flex'} justifyContent={'space-between'}>
-                    <Typography variant="body4">Team Submission</Typography>
-                    <Typography variant="body4">
-                      £45.00 <br />
-                    </Typography>
-                  </Box>
-                </Box>
-              }
-              placement="top-end"
-              arrow
-              PopperProps={{
-                style: { width: '220px' },
-              }}
-            >
-              <Typography sx={{ cursor: 'pointer' }}>
-                {info.getValue()}
-              </Typography>
-            </Tooltip>
-          </Box>
-        </Stack>
+        <Typography
+          sx={{
+            cursor: 'pointer',
+            padding: '4px 8px',
+            borderRadius: '25px',
+            width: 'fit-content',
+            backgroundColor: `${
+              info.getValue() === 'In-Progress' ? '#FFFCF1' : '#ECFFF1'
+            }`,
+            color: `${
+              info.getValue() === 'In-Progress' ? '#FFC20E' : '#47B263'
+            }`,
+          }}
+        >
+          {info.getValue()}
+        </Typography>
       ),
     },
   ];
@@ -265,57 +173,62 @@ export const manageTableColumns: any = (
 export const manageTableData = [
   {
     id: '1',
-    name: 'User 1',
-    goalOutcome: '0',
-    total: ' £ 20',
-    coverageRatio: '0.0x',
-    appointmentSch: '£0.00',
+    contributor: 'User 1',
+    type: 'Revenue',
+    goalName: 'Testers',
+    duration: 'Monthly',
+    durationData: 'Apr 01 2023- Apr 30 2023',
     deals: '0',
-    contactSent: '£0.00',
-    forecastSub: ' £ 20,000.00',
+    target: '£1200',
+    progress: '0',
+    forecastSub: 'In-Progress',
   },
   {
     id: '2',
-    name: 'New Team',
-    goalOutcome: '0',
-    total: ' £ 20',
-    coverageRatio: '1.0x',
-    appointmentSch: '£0.00',
+    contributor: 'New Team',
+    type: 'Revenue',
+    goalName: 'Testers',
+    duration: 'Monthly',
+    durationData: 'Apr 01 2023- Apr 30 2023',
     deals: '0',
-    contactSent: '£0.00',
-    forecastSub: ' £ 20,000.00',
+    target: '£1200',
+    progress: '0',
+    forecastSub: 'Achieved',
   },
   {
     id: '3',
-    name: 'User 3456',
-    goalOutcome: '0',
-    total: ' £ 20',
-    coverageRatio: '1.5x',
-    appointmentSch: '£0.00',
+    contributor: 'User 3456',
+    type: 'Revenue',
+    goalName: 'Testers',
+    duration: 'Monthly',
+    durationData: 'Apr 01 2023- Apr 30 2023',
     deals: '0',
-    contactSent: '£0.00',
-    forecastSub: ' £ 20,000.00',
+    target: '£1200',
+    progress: '0',
+    forecastSub: 'Achieved',
   },
   {
     id: '4',
-    name: 'Sales Team UK',
-    goalOutcome: '0',
-    total: ' £ 20',
-    coverageRatio: '2.0x',
-    appointmentSch: '£0.00',
+    contributor: 'Sales Team UK',
+    type: 'Revenue',
+    goalName: 'Testers',
+    duration: 'Monthly',
+    durationData: 'Apr 01 2023- Apr 30 2023',
     deals: '0',
-    contactSent: '£0.00',
-    forecastSub: ' £ 20,000.00',
+    target: '£1200',
+    progress: '0',
+    forecastSub: 'Achieved',
   },
   {
     id: '5',
-    name: 'User 2',
-    goalOutcome: '0',
-    total: ' £ 20',
-    coverageRatio: '1.0x',
-    appointmentSch: '£0.00',
+    contributor: 'User 2',
+    type: 'Revenue',
+    goalName: 'Testers',
+    duration: 'Monthly',
+    durationData: 'Apr 01 2023- Apr 30 2023',
     deals: '0',
-    contactSent: '£0.00',
-    forecastSub: ' £ 20,000.00',
+    target: '£1200',
+    progress: '0',
+    forecastSub: 'Achieved',
   },
 ];

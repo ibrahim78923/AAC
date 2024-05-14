@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import DealStage from './DealStage';
 import ForecastCategory from './ForecastCategory';
-// import Goals from './Goals';
+import Goals from './Goals';
 
 const Forecast = () => {
   const theme = useTheme();
@@ -45,7 +45,7 @@ const Forecast = () => {
         <CommonTabs tabsArray={['Deal Stage', 'Forecast Category', 'Goals']}>
           <DealStage />
           <ForecastCategory />
-          {/* <Goals/> */}
+          <Goals />
         </CommonTabs>
       </Box>
     </Card>
