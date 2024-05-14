@@ -35,7 +35,7 @@ export const loyaltyAllRewardColumnDynamic: any = (
         {info?.row?.original?.rewardType ===
           LOYALTY_REWARDS_TYPE?.PHYSICAL_REWARD && (
           <Avatar
-            src={generateImage(info?.row?.original?.icon?.src)}
+            src={generateImage(info?.row?.original?.rewardAttachment?.fileUrl)}
             alt={info?.row?.original?.icon?.name}
           />
         )}

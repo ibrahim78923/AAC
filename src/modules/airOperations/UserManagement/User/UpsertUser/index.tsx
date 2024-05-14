@@ -14,15 +14,10 @@ function UpsertUser({
   methods,
   handleSubmit,
   submit,
+  patchProductUsersStatus,
+  addUsersListStatus,
 }: any) {
-  const {
-    disabled,
-    usersTeamDropdown,
-    rolesDropdown,
-    setDisabled,
-    patchProductUsersStatus,
-    addUsersListStatus,
-  } = useUser();
+  const { disabled, usersTeamDropdown, rolesDropdown, setDisabled } = useUser();
 
   return (
     <>

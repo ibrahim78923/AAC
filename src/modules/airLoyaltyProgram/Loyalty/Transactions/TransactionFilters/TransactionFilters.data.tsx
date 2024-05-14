@@ -14,7 +14,7 @@ export const filtersDefaultValues: any = (filterValue: any) => {
     shop: filterValue?.shop ?? null,
     type: filterValue?.type ?? null,
     channel: filterValue?.channel ?? null,
-    credit: filterValue?.credit ?? '',
+    points: filterValue?.points ?? '',
   };
 };
 
@@ -37,7 +37,7 @@ export const transactionFilterFormFieldsDynamic = (shopApiQuery?: any) => [
       placeholder: 'Select shop',
       fullWidth: true,
       apiQuery: shopApiQuery,
-      getOptionLabel: (option: any) => option?.shopName,
+      getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
   },
@@ -68,7 +68,7 @@ export const transactionFilterFormFieldsDynamic = (shopApiQuery?: any) => [
   {
     id: 5,
     componentProps: {
-      name: 'credit',
+      name: 'points',
       label: 'Credits',
       placeholder: 'credits',
       fullWidth: true,

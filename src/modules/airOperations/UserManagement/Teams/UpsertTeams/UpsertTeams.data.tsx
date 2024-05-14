@@ -33,7 +33,7 @@ export const upsertTeamArray = (usersTeamDropdown: any) => [
       label: 'Select Team Members',
       placeholder: 'Select',
       fullWidth: true,
-      required: true,
+      required: false,
       multiple: true,
       apiQuery: usersTeamDropdown,
       externalParams: { limit: 100 },

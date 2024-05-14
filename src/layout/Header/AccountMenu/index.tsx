@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { Box, useTheme, Popover, Typography } from '@mui/material';
@@ -28,10 +28,12 @@ import { generateImage } from '@/utils/avatarUtils';
 const role = 'sales';
 const AccountMenu = () => {
   const theme = useTheme();
-  const { setActiveProduct, setPermissions } = useAuth();
+  const { setActiveProduct, setPermissions, setAuthLoading } = useAuth();
   const router = useRouter();
-  const { data: accountsData } = useGetAuthAccountsQuery({});
-  const [PostAuthAccountSelect] = usePostAuthAccountSelectMutation();
+  const { data: accountsData, isFetching: postAuthAccountSelectFetching } =
+    useGetAuthAccountsQuery({});
+  const [PostAuthAccountSelect, { isLoading }] =
+    usePostAuthAccountSelectMutation();
   const [selectedProduct, setSelectedProduct] = useState<any>([]);
   const [activePermissions, setActivePermissions] = useState<any>([]);
 
@@ -93,6 +95,14 @@ const AccountMenu = () => {
 
   const isOpenPopover = Boolean(openPopver);
   const id = isOpenPopover ? 'simple-popover' : undefined;
+
+  useEffect(() => {
+    if (isLoading || postAuthAccountSelectFetching) {
+      setAuthLoading(true);
+    } else {
+      setAuthLoading(false);
+    }
+  }, [isLoading, postAuthAccountSelectFetching]);
   return (
     <div>
       <Box onClick={handleClick}>

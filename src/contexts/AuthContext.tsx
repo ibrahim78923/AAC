@@ -42,8 +42,11 @@ const AuthContext = createContext({
   logout: () => Promise.resolve(),
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setActiveProduct: (res: any) => Promise.resolve(),
+
+  setAuthLoading: () => Promise.resolve(),
+
   setPermissions: () => Promise.resolve(),
-  authMeLoadingState: Boolean,
+  authMeLoadingState: false,
   currentPermissions: [],
 });
 
@@ -101,6 +104,13 @@ const handlers = {
       isPermissions: isPermissions,
     };
   },
+
+  authMeLoadingState: (state: any, action: any) => {
+    return {
+      ...state,
+      authMeLoadingState: action.payload,
+    };
+  },
 };
 
 //TODO:reducers check our handler type and call method according to that for global state recognitions
@@ -115,11 +125,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const {
-    data: permissionsData,
-    refetch,
-    isLoading: authMeLoadingState,
-  } = useGetAuthMyAccountQuery({});
+  const { data: permissionsData, refetch } = useGetAuthMyAccountQuery({});
 
   // const [logoutTrigger] = useLogoutMutation();
   const permissionsFromApi = permissionsData?.data?.account?.role?.permissions;
@@ -133,6 +139,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setActivePermissionsSession(permissionsFromApi);
   }
 
+  const setAuthLoading = (res: boolean) => {
+    dispatch({
+      type: 'authMeLoadingState',
+      payload: res,
+    });
+  };
   const appDispatch = useAppDispatch();
   const dispatchClearCache = useDispatch();
 
@@ -252,8 +264,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
         logout,
         setActiveProduct,
         setPermissions,
-        authMeLoadingState,
         currentPermissions,
+        setAuthLoading,
       }}
     >
       {children}
