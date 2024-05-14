@@ -280,3 +280,7 @@ export const associationCompanies = {
   invalidDate: 'Invalid Date',
   zero: 0,
 };
+
+export const goalsStatus = {
+  inProgress: 'In-Progress',
+};

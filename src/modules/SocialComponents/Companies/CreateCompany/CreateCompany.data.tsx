@@ -2,6 +2,7 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 import useCreateCompany from './useCreateCompany';
+import { isNullOrEmpty } from '@/utils';
 
 export const createComapnySchema = Yup?.object()?.shape({
   domain: Yup?.string()?.required('Field is Required'),
@@ -61,7 +62,9 @@ export const dataArray = () => {
       },
       options: getCompanyContacts?.data?.contacts?.map((item: any) => ({
         value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
+        label: isNullOrEmpty(item?.firstName)
+          ? item?.email
+          : `${item?.firstName} ${item?.lastName}`,
       })),
       component: RHFSelect,
       md: 12,
