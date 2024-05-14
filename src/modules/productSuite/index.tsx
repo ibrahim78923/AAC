@@ -25,7 +25,11 @@ import {
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { getActivePermissionsSession, setActiveAccountSession } from '@/utils';
+import {
+  getActivePermissionsSession,
+  setAccountsData,
+  setActiveAccountSession,
+} from '@/utils';
 // import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
 import { generateImage } from '@/utils/avatarUtils';
@@ -99,6 +103,10 @@ const ProductSuite = () => {
   useEffect(() => {
     refetch();
   }, []);
+
+  if (accountsData) {
+    setAccountsData(accountsData);
+  }
   return (
     <Box
       sx={{

@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material';
 import {
   useGetArticleByIdQuery,
   useLazyGetFoldersDropdownQuery,
+  useLazyGetUsersDropdownListForArticlesApprovalsQuery,
   usePatchArticleMutation,
   usePostArticleMutation,
 } from '@/services/airServices/knowledge-base/articles';
@@ -13,7 +14,6 @@ import {
   editArticleFieldsFunction,
   upsertArticleValidationSchema,
 } from './UpsertArticle.data';
-import { useLazyGetUsersDropdownQuery } from '@/services/airServices/assets/contracts';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
@@ -116,7 +116,8 @@ export const useUpsertArticle: any = () => {
   };
 
   const apiQueryFolder = useLazyGetFoldersDropdownQuery();
-  const apiQueryApprover = useLazyGetUsersDropdownQuery();
+  const apiQueryApprover =
+    useLazyGetUsersDropdownListForArticlesApprovalsQuery();
   const newArticleFields = editArticleFieldsFunction?.(
     needApprovals,
     apiQueryFolder,

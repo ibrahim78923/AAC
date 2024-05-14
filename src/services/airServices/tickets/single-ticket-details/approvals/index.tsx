@@ -58,6 +58,16 @@ export const approvalsTicketsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getUsersDropdownListForTicketsApprovals: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.AGENTS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+    }),
   }),
 });
 
@@ -69,4 +79,5 @@ export const {
   useGetApprovalsTicketsQuery,
   useGetAllApprovalsTicketsQuery,
   usePostApprovalTicketsRemindersMutation,
+  useLazyGetUsersDropdownListForTicketsApprovalsQuery,
 } = approvalsTicketsAPI;

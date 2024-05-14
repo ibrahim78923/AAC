@@ -8,8 +8,14 @@ import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/per
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const AddRewards = () => {
-  const { router, palette, openDrawer, setOpenDrawer, addRewardOpenForm } =
-    useAddRewards();
+  const {
+    router,
+    palette,
+    openDrawer,
+    setOpenDrawer,
+    addRewardOpenForm,
+    airSalesAccount,
+  } = useAddRewards();
 
   return (
     <>
@@ -87,6 +93,7 @@ export const AddRewards = () => {
             <AddRewardsForm
               openDrawer={openDrawer}
               setOpenDrawer={setOpenDrawer}
+              airSalesAccount={airSalesAccount}
             />
           )}
         </PermissionsGuard>

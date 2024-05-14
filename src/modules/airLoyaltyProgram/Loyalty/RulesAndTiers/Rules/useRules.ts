@@ -1,7 +1,12 @@
 import { PAGINATION } from '@/config';
-import { useLazyGetRulesListQuery } from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
+import {
+  useChangeSingleRuleStatusMutation,
+  useLazyGetRulesListQuery,
+} from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/rules';
 import { useEffect, useState } from 'react';
 import { rulesColumnsDynamic } from './Rules.data';
+import { errorSnackbar } from '@/utils/api';
+import { LOYALTY_RULE_STATUS } from '@/constants/strings';
 
 export const useRules = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -9,6 +14,9 @@ export const useRules = () => {
   const [search, setSearch] = useState('');
   const [lazyGetRulesListTrigger, lazyGetRulesListStatus]: any =
     useLazyGetRulesListQuery?.();
+
+  const [changeSingleRuleStatusTrigger, changeSingleRuleStatusStatus]: any =
+    useChangeSingleRuleStatusMutation?.();
 
   const getRulesList = async () => {
     const apiDataParameter = {
@@ -27,7 +35,28 @@ export const useRules = () => {
     getRulesList?.();
   }, [page, search, pageLimit]);
 
-  const rulesColumns = rulesColumnsDynamic?.();
+  const changeStatus = async (e: any, id: any) => {
+    const body = {
+      status: e?.target?.checked
+        ? LOYALTY_RULE_STATUS?.ACTIVE
+        : LOYALTY_RULE_STATUS?.IN_ACTIVE,
+    };
+
+    const apiDataParameter = {
+      pathParams: {
+        id,
+      },
+      body,
+    };
+
+    try {
+      await changeSingleRuleStatusTrigger(apiDataParameter)?.unwrap();
+    } catch (error: any) {
+      errorSnackbar?.(error?.data?.message);
+    }
+  };
+
+  const rulesColumns = rulesColumnsDynamic?.(changeStatus);
 
   return {
     setSearch,
@@ -35,5 +64,6 @@ export const useRules = () => {
     setPage,
     lazyGetRulesListStatus,
     rulesColumns,
+    changeSingleRuleStatusStatus,
   };
 };

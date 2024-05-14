@@ -209,7 +209,7 @@ export const VIEW_TYPES = {
 
 export const EXPENSE_TYPE = {
   PURCHASE: 'Purchase Cost',
-  MAINTENANCE: 'maintenance cost',
+  MAINTENANCE: 'Maintenance Cost',
 };
 
 export const TICKETS_ISSUES_TYPE = {
@@ -271,6 +271,7 @@ export const REQUESTORS_STATUS = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
 };
+
 export const REQUESTORS_ASSIGNED_STATUS = {
   OPEN: 'Open',
   CLOSED: 'Closed',
@@ -476,7 +477,7 @@ export const LOYALTY_TRANSACTIONS_TYPE = {
 };
 
 export const LOYALTY_TRANSACTIONS_CHANNEL = {
-  BUSINESS_DASHBOARD: 'BUSINESS_DASHBOARD',
+  BUSINESS_DASHBOARD: 'THROUGH_BUISNESS_DASHBOARD',
 };
 
 export const IMPORT_ACTION_TYPE = {
@@ -592,7 +593,11 @@ export const LOYALTY_REWARDS_CLASS = {
   RULES: 'RULES',
   TIERS: 'TIERS',
 };
-
+export const VOUCHERS_STATUS = {
+  ACTIVE: 'Active',
+  DEACTIVATE: 'Deactivate',
+  EXPIRED: 'Expired',
+};
 export const DATA_TYPES = {
   NULL: null,
 };
@@ -601,4 +606,38 @@ export const LOYALTY_TIERS_REWARD_TYPE = {
   FIXED_DISCOUNT: 'FIXED_DISCOUNT',
   FLAT_DISCOUNT: 'FLAT_DISCOUNT',
   POINTS: 'POINTS',
+};
+
+export const PRODUCTS_LISTS = {
+  AIR_SALES: 'Air Sales',
+  AIR_SERVICES: 'Air Services',
+  AIR_CUSTOMER_PORTAL: 'Customer Portal',
+  AIR_OPERATIONS: 'Air Operations',
+  AIR_LOYALTY_PROGRAM: 'Loyalty Program',
+  AIR_MARKETER: 'Air Marketer',
+};
+
+export const RULES_TIME_SPAN = {
+  THIS_WEEK: 'THIS_WEEK',
+  LAST_WEEK: 'LAST_WEEK',
+  THIS_MONTH: 'THIS_MONTH',
+  LAST_MONTH: 'LAST_MONTH',
+  CUSTOM_DATE: 'CUSTOM_DATE',
+};
+
+export const RULES_OPERATORS = {
+  LESS_THAN: 'less than',
+  GREATER_THAN: 'greater than',
+  EQUAL_TO: 'equal to',
+  GREATER_THAN_OR_EQUAL_TO: 'greater than or equal to',
+  LESS_THAN_OR_EQUAL_TO: 'less than or equal to',
+};
+
+export const LOYALTY_RULE_STATUS = {
+  ACTIVE: 'ACTIVE',
+  IN_ACTIVE: 'IN_ACTIVE',
+};
+
+export const RULES_AUDIENCE_TYPE = {
+  CUSTOMER: 'CUSTOMER',
 };

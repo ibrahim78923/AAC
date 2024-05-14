@@ -1,15 +1,44 @@
 import { useForm } from 'react-hook-form';
 import { filtersFormFieldsDefaultValues } from './Filters.data';
-import { successSnackbar } from '@/utils/api';
 
 export const useFilters = (props: any) => {
-  const { filtersOpen, setFiltersOpen } = props;
+  const {
+    filtersOpen,
+    setFiltersOpen,
+    setFilterValues,
+    filterValues,
+    setPage,
+  } = props;
+
   const methods: any = useForm({
-    defaultValues: filtersFormFieldsDefaultValues,
+    defaultValues: filtersFormFieldsDefaultValues(filterValues),
   });
-  const { handleSubmit } = methods;
-  const submitFiltersForm = async () => {
-    successSnackbar('Filters Applied!');
+  const { handleSubmit, reset } = methods;
+
+  const submitFiltersForm = async (data: any) => {
+    const softwareFiltered: any = Object?.entries(data || {})
+      ?.filter(
+        ([, value]: any) => value !== undefined && value != '' && value != null,
+      )
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+
+    if (!Object?.keys(softwareFiltered || {})?.length) {
+      setFilterValues?.(softwareFiltered);
+      onClose();
+      return;
+    }
+    setPage?.(1);
+    setFilterValues?.(softwareFiltered);
+    setFiltersOpen?.(false);
+  };
+
+  const clearFilter = () => {
+    reset?.();
+    setFilterValues?.(null);
+    setFiltersOpen?.(false);
+  };
+  const onClose = () => {
+    reset?.();
     setFiltersOpen?.(false);
   };
   return {
@@ -18,5 +47,7 @@ export const useFilters = (props: any) => {
     handleSubmit,
     submitFiltersForm,
     methods,
+    clearFilter,
+    onClose,
   };
 };
