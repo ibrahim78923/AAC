@@ -90,6 +90,9 @@ const useTasks = () => {
         id: selectedId,
         body: { status: status },
       })?.unwrap();
+      setIsOpenChangeStatus(false);
+      setAnchorEl(null);
+      setSelectedRec([]);
       enqueueSnackbar('Task status updated Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });

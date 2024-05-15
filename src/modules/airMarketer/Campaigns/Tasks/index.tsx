@@ -228,6 +228,7 @@ const Tasks = () => {
           loading={deleteTaskLoading}
         />
       )}
+
       {isOpenChangeStatus && (
         <AlertModals
           message={

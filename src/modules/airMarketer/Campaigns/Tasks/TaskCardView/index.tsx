@@ -35,9 +35,6 @@ const TaskViewCard = ({ data }: any) => {
 
   return (
     <>
-      {/* <Box mb={1} sx={{ cursor: 'pointer' }} onClick={() => router.back()}>
-        <BackArrIcon />
-      </Box> */}
       <Box
         sx={{
           display: 'flex',
