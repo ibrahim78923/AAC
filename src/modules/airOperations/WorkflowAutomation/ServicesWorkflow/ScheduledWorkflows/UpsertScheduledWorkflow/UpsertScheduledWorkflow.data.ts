@@ -129,7 +129,7 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
   } else if (singleWorkflowData?.module === SCHEMA_KEYS?.ASSETS) {
     optionsData = ticketData?.assetsFields;
   } else if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS_TASKS)
-    ticketData?.taskFields;
+    optionsData = ticketData?.taskFields;
   else {
     optionsData = ticketData?.ticketFields;
   }
