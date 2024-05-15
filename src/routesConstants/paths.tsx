@@ -86,6 +86,10 @@ export const AIR_SALES = {
   VIEW_DETAILS: '/air-sales/deals/view-details',
   DEAL_LIST_VIEW: '/deals/get-deals-list-view',
   DEALS_VIEWDEATAILS: '/air-sales/deals/view-details',
+  REPORTS: path(AIR_SALES_PAGE, '/reports'),
+  DEALS_REPORTS: path(AIR_SALES_PAGE, '/reports/deals-reports'),
+  CATEOGRORY_REPORTS: path(AIR_SALES_PAGE, '/reports/categoryForecast-reports'),
+  PIPELINE_REPORTS: path(AIR_SALES_PAGE, '/reports/pipelineForecast-reports'),
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {

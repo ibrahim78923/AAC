@@ -33,6 +33,7 @@ export { default as ContactImage } from './modules/HeaderAndSidebar/contact.png'
 export { default as MeetingTopImage } from './modules/HeaderAndSidebar/meeting-icon.png';
 export { default as DocumentImage } from './modules/HeaderAndSidebar/document.png';
 export { default as MailImage } from './modules/HeaderAndSidebar/mail.png';
+export { default as ForecaseCardImg } from './shared/forecastImg.png';
 export { default as MessageImage } from './modules/HeaderAndSidebar/message-top.png';
 export { default as IcLinkImage } from './modules/HeaderAndSidebar/ic-link.png';
 export { default as CrossImage } from './modules/HeaderAndSidebar/cross.png';

@@ -28,6 +28,7 @@ export const userValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.trim()?.required('Field is Required'),
   address: Yup?.string()?.trim()?.required('Field is Required'),
   role: Yup?.object()?.required('Field is Required'),
+  team: Yup?.object(),
   facebookUrl: Yup.string()
     .url('Please enter a valid URL starting with http://')
     .optional(),

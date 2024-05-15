@@ -11,13 +11,14 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { DownloadLargeIcon } from '@/assets/icons';
-import CardAndGraphs from './CardAndGraph';
-import DealsOverview from './DealsOverview';
+import CardAndGraphs from './PipelineGraph';
+import PipelineOverview from './PipelineTable';
 import { v4 as uuidv4 } from 'uuid';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import ArrowDown from '@/assets/icons/modules/airSales/deals/arrow-down';
 import { AIR_SALES } from '@/routesConstants/paths';
-import { useRouter } from 'next/router';
+import PipeLineCards from './PipelineCards';
+import usePipelineForcastReports from './usePipelineForcastReports';
 
 const customizeData = [
   {
@@ -64,7 +65,7 @@ const pipeLineData = [
   },
 ];
 
-const DealsReport = () => {
+const PipelineForecastReports = () => {
   const theme = useTheme<Theme>();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [anchorElNew, setAnchorElnew] = useState<HTMLButtonElement | null>(
@@ -85,7 +86,8 @@ const DealsReport = () => {
   const handleClosePipleine = () => {
     setAnchorElnew(null);
   };
-  const router = useRouter();
+  const { router, activeCard, setActiveCard } = usePipelineForcastReports();
+
   return (
     <>
       <Box
@@ -107,7 +109,7 @@ const DealsReport = () => {
             variant="h3"
             sx={{ color: `${theme?.palette?.grey[800]}` }}
           >
-            Deals Report
+            Pipeline Forecast Report
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
@@ -190,14 +192,17 @@ const DealsReport = () => {
           </Button>
         </Box>
       </Box>
-      <Box sx={{ marginTop: '1rem' }}>
-        <CardAndGraphs />
+      <Box mt={4}>
+        <PipeLineCards activeCard={activeCard} setActiveCard={setActiveCard} />
       </Box>
       <Box sx={{ marginTop: '1rem' }}>
-        <DealsOverview />
+        <CardAndGraphs activeCard={activeCard} />
+      </Box>
+      <Box sx={{ marginTop: '1rem' }}>
+        <PipelineOverview activeCard={activeCard} />
       </Box>
     </>
   );
 };
 
-export default DealsReport;
+export default PipelineForecastReports;

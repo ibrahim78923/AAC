@@ -52,6 +52,17 @@ export const generateImage = (imgSrc?: any) => {
   return `${IMG_URL}${imgSrc}`;
 };
 
+export const generateRandomNumbers = (min: any, max: any, precision: any) => {
+  const result = [];
+  for (let i = 0; i <= 22; i++) {
+    const randomNumber = (Math?.random() * (max - min) + min)?.toFixed(
+      precision,
+    );
+    result?.push(parseFloat(randomNumber));
+  }
+  return result;
+};
+
 export const formatFileSize = (fileSize = 0) => {
   const MARKER = 1024;
   const DECIMAL = 2;
