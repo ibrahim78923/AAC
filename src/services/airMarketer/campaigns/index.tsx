@@ -39,6 +39,17 @@ export const socialMarketerAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['CAMPAIGNS_TASKS'],
     }),
+
+    updateCampaignTasks: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${AIR_MARKETER?.CAMPAIGNS_TASKS}/${id}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: ['CAMPAIGNS_TASKS'],
+    }),
   }),
 });
 
@@ -47,4 +58,5 @@ export const {
   useGetCampaignsTasksQuery,
   usePostCampaignTaskMutation,
   useDeleteCampaignTasksMutation,
+  useUpdateCampaignTasksMutation,
 } = socialMarketerAPI;

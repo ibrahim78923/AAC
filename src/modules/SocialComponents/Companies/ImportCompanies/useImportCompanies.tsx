@@ -37,8 +37,6 @@ const useImportCompanies = (setIsDrawerOpen: any) => {
         dataColumn: apiData?.dataColumn,
       },
     };
-
-    // return;
     try {
       const response: any = await importFileTrigger?.(apiImportData)?.unwrap();
       successSnackbar(response?.message);

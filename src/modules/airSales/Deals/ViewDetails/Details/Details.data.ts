@@ -8,10 +8,8 @@ import {
 
 import * as Yup from 'yup';
 import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
-// import { useGetUsersListQuery } from '@/services/airSales/deals';
 import useDetails from './useDetails';
 import { ROLES } from '@/constants/strings';
-// import { getSession } from '@/utils';
 import { useLazyGetDealOwnersListQuery } from '@/services/common-APIs';
 
 export const detailsValidationSchema = Yup?.object()?.shape({

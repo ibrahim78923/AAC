@@ -25,12 +25,14 @@ const Tasks = () => {
     setIsOpenChangeStatus,
     isOpenEditTaskDrawer,
     handleListViewClick,
+    handleUpdateStatus,
     isOpenDeleteDrawer,
     compaignsTasksData,
     handleChangeStatus,
     isOpenChangeStatus,
     deleteTaskLoading,
     handleDeleteModal,
+    statusConstants,
     actionMenuOpen,
     setSearchValue,
     setSelectedRec,
@@ -202,7 +204,7 @@ const Tasks = () => {
           isPagination
         />
       ) : (
-        <TaskViewCard />
+        <TaskViewCard data={compaignsTasksData} />
       )}
 
       {isOpenEditTaskDrawer?.isToggle && (
@@ -236,11 +238,33 @@ const Tasks = () => {
                 direction="row"
                 gap={2}
               >
-                <Button variant="contained">Inprogress</Button>
-                <Button variant="outlined" color="inherit">
+                <Button
+                  onClick={() => {
+                    handleUpdateStatus(
+                      selectedRec,
+                      statusConstants?.INPROGRESS,
+                    );
+                  }}
+                  variant="contained"
+                >
+                  Inprogress
+                </Button>
+                <Button
+                  onClick={() => {
+                    handleUpdateStatus(selectedRec, statusConstants?.PENDING);
+                  }}
+                  variant="outlined"
+                  color="inherit"
+                >
                   Pending
                 </Button>
-                <Button variant="outlined" color="inherit">
+                <Button
+                  onClick={() => {
+                    handleUpdateStatus(selectedRec, statusConstants?.COMPLETED);
+                  }}
+                  variant="outlined"
+                  color="inherit"
+                >
                   Completed
                 </Button>
               </Stack>

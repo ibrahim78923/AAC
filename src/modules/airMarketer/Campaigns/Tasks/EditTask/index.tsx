@@ -3,6 +3,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { dataArray, defaultValues } from './EditTask.data';
 import useEditTask from './useEditTask';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 export default function EditTask({
   onClose,
@@ -16,8 +17,8 @@ export default function EditTask({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={isType === 'add' ? 'Create Task' : 'Edit Task'}
-      okText={isType === 'add' ? 'Create' : 'Update'}
+      title={isType === DRAWER_TYPES?.ADD ? 'Create Task' : 'Edit Task'}
+      okText={isType === DRAWER_TYPES?.ADD ? 'Create' : 'Update'}
       isOk
       cancelText={'Cancel'}
       footer

@@ -3,6 +3,7 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useDeleteCampaignTasksMutation,
   useGetCampaignsTasksQuery,
+  useUpdateCampaignTasksMutation,
 } from '@/services/airMarketer/campaigns';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
@@ -23,12 +24,18 @@ const useTasks = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [searchValue, setSearchValue] = useState('');
   const actionMenuOpen = Boolean(anchorEl);
+  const statusConstants = {
+    INPROGRESS: 'inprogress',
+    PENDING: 'pending',
+    COMPLETED: 'completed',
+  };
 
   const taskParams = {
     page: page,
     limit: pageLimit,
     search: searchValue ?? undefined,
   };
+
   const {
     data: getCampaignsTasks,
     isLoading,
@@ -39,6 +46,9 @@ const useTasks = () => {
 
   const [deleteTasks, { isLoading: deleteTaskLoading }] =
     useDeleteCampaignTasksMutation();
+
+  const [updateCampaignTasks, { isLoading: updateTaskLoading }] =
+    useUpdateCampaignTasksMutation();
 
   const handleDeleteModal = async (id: any) => {
     try {
@@ -74,6 +84,24 @@ const useTasks = () => {
     setIsListView(val);
   };
 
+  const handleUpdateStatus = async (selectedId: any, status: any) => {
+    try {
+      await updateCampaignTasks({
+        id: selectedId,
+        body: { status: status },
+      })?.unwrap();
+      enqueueSnackbar('Task status updated Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
   return {
     setIsOpenEditTaskDrawer,
     handleActionsMenuClose,
@@ -88,6 +116,9 @@ const useTasks = () => {
     compaignsTasksData,
     handleDeleteModal,
     deleteTaskLoading,
+    updateTaskLoading,
+    handleUpdateStatus,
+    statusConstants,
     actionMenuOpen,
     setSearchValue,
     setSelectedRec,
