@@ -101,7 +101,7 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     }
   }, [taskData?.data]);
 
-  const { handleSubmit: handleMethodFilter } = methodsFilter;
+  const { handleSubmit: handleMethodFilter, reset } = methodsFilter;
 
   const onSubmitHandler = async (values: any) => {
     const payload = {
@@ -130,6 +130,7 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
           variant: 'success',
         });
         setIsCreateTaskDrawerOpen(false);
+        reset();
       } catch (error: any) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
       }
@@ -142,6 +143,7 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
         enqueueSnackbar('Task Updated Successfully', {
           variant: 'success',
         });
+        reset();
         setIsCreateTaskDrawerOpen(false);
       } catch (error: any) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
@@ -161,6 +163,7 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     methodsFilter,
     onSubmitHandler,
     taskData,
+    reset,
   };
 };
 

@@ -148,9 +148,9 @@ export const profileFields = [
   },
   {
     componentProps: {
-      label: 'Town/City',
+      label: 'City',
       name: 'city',
-      placeholder: 'Enter Town/City',
+      placeholder: 'Enter City',
       fullWidth: true,
     },
     toShow: ['address'],

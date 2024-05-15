@@ -281,6 +281,11 @@ export const associationCompanies = {
   zero: 0,
 };
 
+export const TASK_TYPE = {
+  CREATE_TASK: 'create',
+  EDIT_TASK: 'edit',
+  UPDATE_TASK: 'update',
+};
 export const goalsStatus = {
   inProgress: 'In-Progress',
 };

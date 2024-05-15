@@ -79,7 +79,9 @@ const Tabs = ({ tabValue, assignTo }: any) => {
             columns={getTaskData}
             data={taskDataArray?.data?.taskmanagements}
             isLoading={status === 'pending'}
-            isPagination
+            isPagination={
+              taskDataArray?.data?.taskmanagements?.length ? true : false
+            }
             count={taskDataArray?.data?.meta?.pages}
             totalRecords={taskDataArray?.data?.meta?.total}
             onPageChange={handlePageChange}
