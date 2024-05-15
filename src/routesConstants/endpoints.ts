@@ -491,4 +491,5 @@ export const SUPER_ADMIN_SETTINGS = {
 export const AIR_MARKETER = {
   CAMPAIGNS_VIEW: '/campaigns/view',
   CAMPAIGNS: '/campaigns',
+  CAMPAIGNS_TASKS: '/campaigns/task',
 };

@@ -38,16 +38,16 @@ const useDetails = ({ selected }: any) => {
     resolver: yupResolver(detailsValidationSchema),
     defaultValues: detailsDefaultValues,
   });
-  const { handleSubmit, reset, watch }: any = methodsDetails;
+  const { handleSubmit, setValue, watch }: any = methodsDetails;
 
   const dealPipelineId = watch('dealPipelineId');
 
   useEffect(() => {
     const fieldsData = data?.data;
-    reset({
+    const fieldsToSet: any = {
       name: fieldsData?.name,
       amount: fieldsData?.amount,
-      ownerId: fieldsData?.ownerId,
+      ownerId: fieldsData?.dealOwner ?? null,
       priority: fieldsData?.priority,
       dealStageId: fieldsData?.dealStageId,
       type: fieldsData?.type,
@@ -57,13 +57,19 @@ const useDetails = ({ selected }: any) => {
       updatedAt: new Date(fieldsData?.updatedAt),
       createdAt: new Date(fieldsData?.createdAt),
       closeDate: new Date(fieldsData?.closeDate),
-    });
+    };
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
   }, [data]);
 
   const onSubmit = async (values: any) => {
+    values.ownerId = values?.ownerId?._id;
+    delete values?.createdDate;
+    delete values?.createdAt;
+    delete values?.updatedAt;
+    delete values?.lastActivity;
     try {
-      delete values?.createdAt;
-      delete values?.updatedAt;
       await patchDeals({ id: selected, body: values });
       enqueueSnackbar('Deal updated successfully.', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,

@@ -1,14 +1,8 @@
 import { Box, Typography, Grid, Button, Divider } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import useDetails from './useDetails';
-
 import { detailsDataArray } from './Details.data';
-
 import { styles } from '../ViewDetails.style';
-
-import { v4 as uuidv4 } from 'uuid';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { LoadingButton } from '@mui/lab';
 
@@ -34,7 +28,7 @@ const Details = (props: any) => {
           <FormProvider methods={methodsDetails}>
             <Grid container spacing={4}>
               {detailsDataArray(dealPipelineId)?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Grid item xs={12} md={item?.md} key={item?.component?.name}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
