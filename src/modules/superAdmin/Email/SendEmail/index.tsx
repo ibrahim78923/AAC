@@ -1,30 +1,16 @@
-import React from 'react';
-
-import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  Grid,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
 import {
   FormProvider,
-  RHFAutocomplete,
   RHFCheckbox,
   RHFDropZone,
   RHFEditor,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-
-import useEmailEditorDrawer from './useEmailEditorDrawer';
-
-import { options, emailsData } from './EmailEditorDrawer.data';
+import { options } from './SendEmailDrawer.data';
 
 import {
   ExclimatoryCircleIcon,
@@ -35,90 +21,133 @@ import {
 } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
+import useSendEmailDrawer from './useSendEmailDrawer';
+import { CREATE_EMAIL_TYPES } from '@/constants';
+import { useAppSelector } from '@/redux/store';
+import { UnixDateFormatter } from '@/utils/dateTime';
+import { styles } from '../Email.styles';
 
-const EmailEditorDrawer = (props: any) => {
+const SendEmailDrawer = (props: any) => {
+  const { openDrawer, setOpenDrawer, drawerType } = props;
   const {
-    openDrawer,
-    setOpenDrawer,
-    title,
-    okText = 'Save',
-    onFooterActionSubmit,
-    submitHandler,
-    userEmailList,
-  } = props;
+    handleSubmit,
+    onSubmit,
+    methodsDealsTasks,
+    watchEmailsForm,
+    theme,
+    loadingOtherSend,
+    isLoadingProcessDraft,
+    handleOnClose,
+  } = useSendEmailDrawer({ setOpenDrawer, drawerType });
 
-  const { handleSubmit, onSubmit, methodsdealsTasks, watchEmailsForm, theme } =
-    useEmailEditorDrawer();
+  const isCrmConnected = false;
+
+  const currentEmailAssets = useAppSelector(
+    (state: any) => state?.email?.currentEmailAssets,
+  );
+  const removeRePrefix = (title: any) => {
+    return title?.startsWith('Re: ') ? title?.replace(/^Re: /, '') : title;
+  };
 
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
-        title={title}
-        okText={okText}
+        onClose={handleOnClose}
+        title={(() => {
+          if (!drawerType) {
+            return '';
+          }
+          switch (drawerType) {
+            case CREATE_EMAIL_TYPES?.NEW_EMAIL:
+              return 'New Email';
+            case CREATE_EMAIL_TYPES?.FORWARD:
+              return 'Forward';
+            case CREATE_EMAIL_TYPES?.REPLY:
+              return 'Reply';
+            case CREATE_EMAIL_TYPES?.REPLY_ALL:
+              return 'Reply all';
+            default:
+              return '';
+          }
+        })()}
+        // isLoading={loadingOtherSend}
+        isLoading={loadingOtherSend}
+        okText={'Send'}
         isOk={true}
-        footer={openDrawer}
+        footer={true}
         footerActionText="Send Later"
         footerActionTextIcon={<TimeClockIcon />}
-        onFooterActionSubmit={onFooterActionSubmit}
-        submitHandler={submitHandler}
+        submitHandler={handleSubmit(onSubmit)}
       >
+        {isLoadingProcessDraft && (
+          <Box sx={styles?.overlayWrapper(theme)}>
+            <CircularProgress size={20} />
+            <Typography variant="body1">Saving Draft</Typography>
+          </Box>
+        )}
+
         <Box sx={{ pt: 2 }}>
           <FormProvider
-            methods={methodsdealsTasks}
+            methods={methodsDealsTasks}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <RHFAutocomplete
-                  name="toEmail"
-                  label="To"
-                  options={options}
-                  multiple
-                  freeSolo
-                  size="small"
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <RHFCheckbox name="from" label="From" />
-              </Grid>
-              <Grid item xs={4}>
-                <RHFCheckbox name="cc" label="CC" />
-              </Grid>
-              <Grid item xs={4}>
-                <RHFCheckbox name="bcc" label="BCC" />
-              </Grid>
+            <Grid container spacing={2}>
+              {drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+              drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ? (
+                <Grid item xs={12}>
+                  <RHFTextField
+                    name="to"
+                    label="to"
+                    size="small"
+                    required={false}
+                    disabled
+                    value={currentEmailAssets?.from || ''}
+                  />
+                </Grid>
+              ) : (
+                <Grid item xs={12}>
+                  <RHFTextField
+                    name="to"
+                    label="to"
+                    size="small"
+                    required={
+                      drawerType === CREATE_EMAIL_TYPES?.REPLY ? false : true
+                    }
+                  />
+                </Grid>
+              )}
 
+              <Grid item xs={4}>
+                <RHFCheckbox name="fromChecked" label="From" />
+              </Grid>
+              <Grid item xs={4}>
+                <RHFCheckbox name="ccChecked" label="CC" />
+              </Grid>
+              <Grid item xs={4}>
+                <RHFCheckbox name="bccChecked" label="BCC" />
+              </Grid>
               {watchEmailsForm[0] && (
                 <Grid item xs={12}>
-                  <RHFAutocomplete
-                    name="ccEmail"
-                    label="CC"
-                    options={options}
-                    multiple
-                    freeSolo
-                    size="small"
-                  />
+                  <RHFTextField name="cc" label="CC" size="small" />
                 </Grid>
               )}
               {watchEmailsForm[1] && (
                 <Grid item xs={12}>
-                  <RHFAutocomplete
-                    name="bccEmail"
-                    label="BCC"
-                    options={options}
-                    multiple
-                    freeSolo
-                    size="small"
-                  />
+                  <RHFTextField name="bcc" label="BCC" size="small" />
                 </Grid>
               )}
               <Grid item md={6}>
-                {openDrawer !== 'New' ? (
-                  <RHFTextField name="re" label="Re:" size="small" />
-                ) : (
+                {drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL ? (
                   <RHFTextField name="subject" label="Subject" size="small" />
+                ) : (
+                  <RHFTextField
+                    name="re"
+                    label="Re:"
+                    size="small"
+                    value={removeRePrefix(currentEmailAssets?.others?.subject)}
+                    disabled
+                  />
                 )}
               </Grid>
 
@@ -131,11 +160,11 @@ const EmailEditorDrawer = (props: any) => {
                   ))}
                 </RHFSelect>
               </Grid>
-              {openDrawer === 'New' && (
+              {isCrmConnected && (
                 <Grid item xs={12}>
                   <Box
                     sx={{
-                      background: '#FFF6D9',
+                      background: theme?.palette?.custom?.pastel_yellow,
                       borderRadius: '6px',
                       padding: '12px',
                     }}
@@ -152,7 +181,6 @@ const EmailEditorDrawer = (props: any) => {
                       <Box>
                         <ExclimatoryCircleIcon />
                       </Box>
-
                       <Typography
                         variant="body2"
                         sx={{ color: theme?.palette?.slateBlue?.main }}
@@ -178,7 +206,7 @@ const EmailEditorDrawer = (props: any) => {
                         }}
                         className="small"
                       >
-                        <GmailIcon />{' '}
+                        <GmailIcon width={'18'} />{' '}
                         <Typography variant="body2">Gmail</Typography>
                       </Button>
 
@@ -188,15 +216,15 @@ const EmailEditorDrawer = (props: any) => {
                           color: 'grey',
                           gap: 0.5,
                           background: theme?.palette?.common?.white,
+                          whiteSpace: 'nowrap',
                         }}
                         className="small"
                       >
-                        <OutlookIcon />
+                        <OutlookIcon width={'22'} />
                         <Typography variant="body2">
                           Microsoft Outlook
                         </Typography>
                       </Button>
-
                       <Button
                         variant="outlined"
                         sx={{
@@ -206,7 +234,7 @@ const EmailEditorDrawer = (props: any) => {
                         }}
                         className="small"
                       >
-                        <SMSIcon />{' '}
+                        <SMSIcon width={'18'} />{' '}
                         <Typography variant="body2">Others</Typography>
                       </Button>
                     </Box>
@@ -214,36 +242,56 @@ const EmailEditorDrawer = (props: any) => {
                 </Grid>
               )}
               <Grid item xs={12}>
-                <RHFEditor name="description" label="To" />
+                <RHFEditor
+                  name="description"
+                  label="Description"
+                  required={true}
+                />
               </Grid>
               <Grid item xs={12}>
-                <RHFDropZone name="attachFile" label="To" />
+                <RHFDropZone name="attachFile" label="Attachments" />
               </Grid>
             </Grid>
           </FormProvider>
-          {userEmailList && (
-            <Box>
-              <Card sx={{ padding: '8px 12px', mt: 3 }}>
-                <Stack>
-                  {emailsData?.map((item: any) => (
-                    <Box key={uuidv4()}>
-                      <Stack gap={0.5}>
-                        <Typography>From: {item?.from}</Typography>
-                        <Typography>Sent: {item?.sent}</Typography>
-                        <Typography>To: {item?.to}</Typography>
-                        <Typography>Subject: {item?.subject}</Typography>
-                      </Stack>
-                      <Divider sx={{ my: 1 }} />
-                    </Box>
-                  ))}
-                </Stack>
-              </Card>
+          <Box mt={2}>
+            <Box
+              sx={{
+                borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
+                padding: '5px 0px 5px 20px',
+              }}
+            >
+              <Box>
+                <Typography variant="body3">
+                  <strong>From :</strong> {currentEmailAssets?.others?.from}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="body3">
+                  <strong>Sent :</strong>{' '}
+                  <UnixDateFormatter
+                    timestamp={currentEmailAssets?.others?.sent}
+                    timeZone="Asia/Karachi"
+                  ></UnixDateFormatter>
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="body3">
+                  <strong>To :</strong>
+                  {currentEmailAssets?.others?.to}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="body3">
+                  <strong>Subject:</strong>{' '}
+                  {currentEmailAssets?.others?.subject}
+                </Typography>
+              </Box>
             </Box>
-          )}
+          </Box>
         </Box>
       </CommonDrawer>
     </div>
   );
 };
 
-export default EmailEditorDrawer;
+export default SendEmailDrawer;

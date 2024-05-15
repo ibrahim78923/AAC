@@ -25,6 +25,7 @@ import { v4 as uuidv4 } from 'uuid';
 const ViewDetails = () => {
   const { theme, viewDeal, isLoading, id } = useViewDetails();
   const searchParams = useSearchParams().get('tab-value');
+
   return (
     <Box>
       <Grid container spacing={2}>
@@ -62,7 +63,19 @@ const ViewDetails = () => {
                       ? `${IMG_URL}${viewDeal?.dealOwner?.avatar?.url}`
                       : ''
                   }`}
-                />
+                  sx={{ border: `1px solid ${theme?.palette?.blue?.main}` }}
+                >
+                  <Typography
+                    variant="body1"
+                    fontWeight={500}
+                    sx={{
+                      color: theme?.palette?.custom?.dim_grey,
+                      textTransform: 'upperCase',
+                    }}
+                  >
+                    {viewDeal?.dealOwner?.name?.charAt(0)}
+                  </Typography>
+                </Avatar>
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: '600' }}>
                     {viewDeal?.dealOwner?.name ?? 'N/A'}
@@ -205,7 +218,7 @@ const ViewDetails = () => {
               </Box>
               <Box sx={styles?.salesBox}>
                 <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                  Closes Date
+                  Closed Date
                 </Typography>
                 <Typography variant="body3" sx={styles?.salesHeading(theme)}>
                   {dayjs(viewDeal?.closeDate)?.format(

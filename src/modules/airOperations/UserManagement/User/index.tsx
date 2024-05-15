@@ -6,8 +6,7 @@ import UpsertUser from './UpsertUser';
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
-export const User = (props: any) => {
-  const { patchProductUsersStatus, addUsersListStatus } = props;
+export const User = () => {
   const {
     selectedUserList,
     setSelectedUserList,
@@ -27,6 +26,9 @@ export const User = (props: any) => {
     submit,
     tabData,
     setIsDrawerOpen,
+    editProductUsersDetails,
+    patchProductUsersStatus,
+    addUsersListStatus,
   } = useUser();
   return (
     <Box>
@@ -47,10 +49,9 @@ export const User = (props: any) => {
           okText={'Save'}
           methods={methods}
           handleSubmit={handleSubmit}
-          submit={submit}
+          submit={editProductUsersDetails}
           tabData={tabData}
           patchProductUsersStatus={patchProductUsersStatus}
-          addUsersListStatus={addUsersListStatus}
         />
         <PermissionsGuard
           permissions={[

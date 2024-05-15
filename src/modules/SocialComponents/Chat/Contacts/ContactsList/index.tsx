@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Button, Checkbox, Skeleton, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Pagination,
+  Skeleton,
+  useTheme,
+} from '@mui/material';
 
 import ContactsCard from './ContactsCard';
 import Search from '@/components/Search';
@@ -22,6 +29,7 @@ import {
 import { isNullOrEmpty } from '@/utils';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
+import { PAGINATION } from '@/config';
 
 const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   const theme = useTheme();
@@ -47,6 +55,8 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
 
   const dispatch = useAppDispatch();
 
+  const [currentPage, setCurrentPage] = useState(PAGINATION?.CURRENT_PAGE);
+
   const paramsObj: any = {};
   paramsObj['isDeleted'] = isDeletedFilter;
   paramsObj['unRead'] = unReadFilter;
@@ -54,6 +64,9 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   paramsObj['isPinned'] = isPinnedFilter;
   paramsObj['isArchived'] = isArchivedFilter;
   paramsObj['search'] = searchContacts;
+  paramsObj['page'] = currentPage;
+  paramsObj['limit'] = PAGINATION?.PAGE_LIMIT;
+
   const queryParams = Object?.entries(paramsObj)
     ?.map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
     ?.join('&');
@@ -63,14 +76,11 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
     isGroup: chatMode === 'groupChat' ? true : false,
     query,
   });
-
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
   const isChatContactsLoading = useAppSelector(
     (state) => state?.chat?.isChatContactsLoading,
   );
-
   const chatsTypeToShow = chatContacts;
-
   const handleSelectAll = () => {
     if (selectedValues?.length === chatsTypeToShow?.length) {
       setSelectedValues([]);
@@ -147,6 +157,19 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
       },
     },
   ];
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setCurrentPage(value);
+  };
+
+  useEffect(() => {
+    if (searchContacts) {
+      setCurrentPage(1);
+    }
+  }, [searchContacts]);
 
   return (
     <>
@@ -252,6 +275,13 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
             </>
           )}
         </Box>
+        {contactsData?.data?.meta?.pages > 1 && (
+          <Pagination
+            count={contactsData?.data?.meta?.pages}
+            page={contactsData?.data?.meta?.page}
+            onChange={handlePageChange}
+          />
+        )}
       </Box>
       <AddGroupModal
         setIsAddGroupModal={setIsAddGroupModal}

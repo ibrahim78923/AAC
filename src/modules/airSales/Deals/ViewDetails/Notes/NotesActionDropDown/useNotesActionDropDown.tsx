@@ -25,11 +25,11 @@ const useNotesActionDropdown = ({
     useDeleteDealNoteMutation();
 
   const handleOpenEditDrawer = () => {
-    setOpenDrawer('Edit');
+    setOpenDrawer('edit');
     handleCloseMenu();
   };
   const handleOpenViewDrawer = () => {
-    setOpenDrawer('View');
+    setOpenDrawer('view');
     handleCloseMenu();
   };
 
@@ -46,7 +46,7 @@ const useNotesActionDropdown = ({
 
   const handleDeleteHandler = async () => {
     try {
-      await deleteDealNote({ id: selectedCheckboxesIds })?.unwrap();
+      await deleteDealNote({ ids: selectedCheckboxesIds })?.unwrap();
       enqueueSnackbar(`Notes Deleted Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });

@@ -1,71 +1,62 @@
-import React from 'react';
-
 import Image from 'next/image';
-
 import { Box, Theme, Typography, useTheme } from '@mui/material';
-
-import { DealReportImage } from '@/assets/images';
-
-import useToggle from '@/hooks/useToggle';
-
-import DealsReport from './DealsReport';
-
 import { styles } from './Reports.style';
+import { reportsCardsData } from './Reports.data';
+import { useRouter } from 'next/router';
 
 const Reports = () => {
-  const [isToggled, toggle] = useToggle(false);
-
   const theme = useTheme<Theme>();
-
+  const navigae = useRouter();
   return (
     <>
-      {isToggled ? (
-        <DealsReport toggle={toggle} />
-      ) : (
-        <>
+      {reportsCardsData?.map((item: any) => (
+        <Box key={item?.heading}>
           <Typography
-            variant="h3"
-            sx={{ color: `${theme?.palette?.grey[800]}` }}
+            variant="h4"
+            sx={{
+              fontWeight: 500,
+              color: `${theme?.palette?.grey[800]}`,
+            }}
           >
-            Reports
+            {item?.heading}
           </Typography>
-          <Box sx={{ paddingTop: '2rem' }}>
-            <Typography
-              variant="h4"
-              sx={{
-                fontWeight: 500,
-                color: `${theme?.palette?.grey[800]}`,
-                paddingBottom: '2rem',
-              }}
-            >
-              Deals
-            </Typography>
-            <Box onClick={() => toggle(true)} sx={styles?.mainDealBox(theme)}>
-              <Image src={DealReportImage} alt="no image" />
-              <Box sx={{ marginLeft: '1rem' }}>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: 700,
-                    color: `${theme?.palette?.custom?.grayish_blue}`,
-                  }}
-                >
-                  Deals
-                </Typography>
-                <Typography
-                  variant="body3"
-                  sx={{
-                    fontWeight: 500,
-                    color: `${theme?.palette?.custom?.grayish_blue}`,
-                  }}
-                >
-                  Overview Deals Report
-                </Typography>
+          <Box display="flex" gap={2}>
+            {item?.cards?.map((val: any) => (
+              <Box
+                my={2}
+                width={360}
+                onClick={() => {
+                  navigae?.push(val?.navigateLink);
+                }}
+                sx={styles?.mainDealBox(theme)}
+                key={val?.title}
+              >
+                <Image src={val?.img} alt="no image" />
+                <Box sx={{ marginLeft: '1rem' }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 700,
+                      color: `${theme?.palette?.custom?.grayish_blue}`,
+                    }}
+                  >
+                    {val?.title}
+                  </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      fontWeight: 500,
+                      color: `${theme?.palette?.custom?.grayish_blue}`,
+                    }}
+                  >
+                    {val?.description}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
+            ))}
           </Box>
-        </>
-      )}
+        </Box>
+      ))}
     </>
   );
 };

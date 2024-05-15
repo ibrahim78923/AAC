@@ -80,7 +80,6 @@ const RolesRight = () => {
             checkedRows={checkedRows}
             setIsDraweropen={setIsDraweropen}
             setIsOpenDelete={setIsOpenDelete}
-            // permissions={getPermissions?.}
           />
         </Stack>
         <Grid>
@@ -92,10 +91,11 @@ const RolesRight = () => {
             setPage={setPage}
             setPageLimit={setPageLimit}
             count={getPermissions?.data?.meta?.pages}
-            isPagination
             pageLimit={getPermissions?.data?.meta?.limit}
+            currentPage={getPermissions?.data?.meta?.page}
             isLoading={isLoading}
             isSuccess={isSuccess}
+            isPagination
           />
         </Grid>
       </Box>
@@ -105,6 +105,7 @@ const RolesRight = () => {
           setIsDraweropen
           onClose={handleCloseDrawer}
           getPermissionsData={getPermissions}
+          setCheckedRows={setCheckedRows}
         />
       )}
     </>

@@ -11,13 +11,17 @@ import { validationSchema } from './OrganizationCard.data';
 import useToggle from '@/hooks/useToggle';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { getSession } from '@/utils';
 
 const useOrganizationCard = () => {
+  const { user }: any = getSession();
   const theme = useTheme<Theme>();
+
   const [isOpenDrawer, setIsOpenDrawer] = useState({
     isToggled: false,
     id: '',
   });
+
   const currentOrganizationId = isOpenDrawer?.id;
   const [isToggled, setIsToggled] = useToggle(false);
 
@@ -35,7 +39,6 @@ const useOrganizationCard = () => {
 
   const { handleSubmit, reset, watch, setValue } = methods;
   const formValues = watch();
-  //make sum up of address fields
   const addressValues = formValues?.composite?.address
     ? formValues?.composite?.address
     : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
@@ -89,10 +92,10 @@ const useOrganizationCard = () => {
   const handleChangeImg = async (e: any) => {
     if (e?.target?.files?.length) {
       const formData = new FormData();
-      formData?.append('image', e?.target?.files[0]);
+      formData?.append('avatar', e?.target?.files[0]);
       try {
         await updateOrganizationById({
-          id: currentOrganizationId,
+          id: user?.organization?._id,
           body: formData,
         })?.unwrap();
         enqueueSnackbar('Image updated successfully', {

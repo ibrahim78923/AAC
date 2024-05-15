@@ -57,12 +57,13 @@ export const END_POINTS = {
   CONTACT_STATUS: '/contact-status',
   GET_PERMISSIONS_ROLES: '/permissions/role',
   TASK_MANAGEMENT: '/task/management',
+  TASK_MANAGEMENT_UNASSIGN_DEAL: '/task/unassign-deal',
   TASK_CUSTOMIZE_COLUMN: '/customized-columns',
   TASK_MANAGEMENT_INSIGHTS: '/task/task-management-insights',
   TASK_MANAGEMENT_FEED: '/activity-log',
   TASK_MANAGEMENT_INSIGHTS_NEW: '/task/task-management-insights-new',
   DEALS_ASSOCIATION: '/deals/get-associations',
-  ENQUIRIES: '/enquiries/',
+  ENQUIRIES: '/enquiries',
   CREATE_ASSOCIATION: '/deals/create-association',
   DELETE_ASSOCIATION: '/deals/delete-association',
   ASSETS_INVENTORY: '/assets/inventory',
@@ -113,12 +114,13 @@ export const END_POINTS = {
   DELETE_AGENT: '/agent/agent-delete',
   EDIT_AGENT: '/agent/edit-agent',
   TASK: '/task',
+  UPDATE_TASK: '/task/update-tasks',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
   CONVERSATION_EMAIL: `/email`,
-
+  CONVERSATION_EMAIL_VIEW: `/social-components/email/conversations`,
   DROPDOWN_TASK: '/task',
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
@@ -146,6 +148,7 @@ export const END_POINTS = {
   RESTORE_COMPANIES: '/companies/restore-action',
   MERGE_COMPANIES: '/companies/merge-company',
   REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
+  GET_COMPANY_ASSOICATION: '/companies/get-company-associations',
   COMPANY_VIEWS: '/company-views',
   CUSTOMIZE_COLUMNS: '/customized-columns',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
@@ -357,6 +360,39 @@ export const END_POINTS = {
   IMPORT_FILE: `/import-file`,
   IMPORT_FILE_GET_SIGNED_URL: `/import-file/create-signed-url`,
   GET_PLAN_PRODUCTS_PERMISSIONS: '/plan/plan-product-permissions',
+  GET_RULES_AND_TIERS_LIST: `/rules-and-tiers`,
+  ADD_RULES: `/rules-and-tiers/rule`,
+  ADD_TIERS: `/rules-and-tiers/tier`,
+  UPDATE_TIERS: `/rules-and-tiers/tier`,
+  CREATE_DIGITAL_REWARD: `/rewards/create-digital-reward`,
+  CREATE_PHYSICAL_REWARD: `/rewards/create-physical-reward`,
+  GET_REWARDS_LIST: `/rewards/rewards-list`,
+  GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
+  TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers/tiers`,
+  LEAD_CAPTURE_CTA: '/lead-capture',
+  CREATE_SHOP: `/shops/create-shops`,
+  GET_SHOP_LIST: `/shops/shops-list`,
+  UPDATE_SHOP: `/shops/update-shops`,
+  SHOP_DETAIL: `/shops/shop-details`,
+  GET_RULES_LIST: `/rules-and-tiers/rules`,
+  GET_TIERS_LIST: `/rules-and-tiers/tiers`,
+  GET_TIERS_BY_ID: `/rules-and-tiers/tier`,
+  ADD_VOUCHERS: '/vouchers/create-voucher',
+  DELETE_SHOP: `/shops/delete-shops`,
+  GET_VOUCHERS: '/vouchers/list-voucher',
+  GET_SINGLE_VOUCHERS: '/vouchers/get-voucher-details',
+  UPDATE_VOUCHERS_STATUS: '/vouchers/update-voucher-status',
+  ADD_LOYALTY_TRANSACTION: `/Transactions/add-transaction`,
+  GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
+  CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
+};
+
+export const LEAD_CAPTURE_FORM = {
+  CREATE_FORM: '/lead-capture-form/create-form',
+  GET_FORM: '/lead-capture-form/get-forms',
+  GET_FORM_BY_ID: '/lead-capture-form/get-form',
+  UPDATE_FORM: '/lead-capture-form/update-form',
+  DELETE_FORM: '/lead-capture-form/delete-form',
 };
 
 export const superAdminBillingInvoices = {
@@ -407,6 +443,7 @@ export const settingContactStatus = {
 };
 export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
+  SUBSCRIPTION_AND_INVOICES_TAX_CALCULATIONS: '/tax-calculation/apply-on/',
   SUBSCRIPTION_AND_INVOICES_CRM:
     '/org-admin/subscriptions/get-all-crm-with-subscription',
   GET_INVOICES: '/org-admin/invoices',
@@ -440,9 +477,19 @@ export const OPERATION = {
   STATUS_WORKFLOW: '/workflows/change-status',
   SAVE_WORKFLOW: '/workflows/save',
   CLONE_WORKFLOW: '/workflows/clone',
-  Test_WORKFLOW: '/workflows/test',
+  TEST_WORKFLOW: '/workflows/test',
 };
 
 export const AIR_SALES = {
   INVOICES: '/quote-invoice',
+};
+
+export const SUPER_ADMIN_SETTINGS = {
+  FAQS: 'faqs',
+};
+
+export const AIR_MARKETER = {
+  CAMPAIGNS_VIEW: '/campaigns/view',
+  CAMPAIGNS: '/campaigns',
+  CAMPAIGNS_TASKS: '/campaigns/task',
 };

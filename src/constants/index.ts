@@ -18,6 +18,7 @@ export const TIME_FORMAT = {
 export const CALENDAR_FORMAT = {
   UI: 'D MMMM YYYY',
   API: 'YYYY MMMM D',
+  YMD: 'YYYY-MM-DD',
 };
 
 export const DATE_TIME_FORMAT = {
@@ -27,7 +28,7 @@ export const DATE_TIME_FORMAT = {
   MMMDDYYYY: 'MMM DD, YYYY',
   DDMYHMA: 'ddd, D MMM, YYYY h:mm A',
   DMY: 'DDMMMYYYY',
-  YMDHM: 'YYYY-MM-DD hh:mm A',
+  YMDHM: 'YYYY-MM-DD, hh:mm A',
   DMYHMSA: 'ddd MM, YYYY hh:mm:ss A',
   D: 'D',
   DDDDDD: 'ddd - DD',
@@ -36,6 +37,8 @@ export const DATE_TIME_FORMAT = {
   DMDHMA: 'ddd, MMM D, YYYY, h:mm A',
   WDM: 'dddd, DD MMMM',
   MMMM: 'MMMM',
+  DDMMYYY: 'DD/MM/YYYY',
+  DDMMYYYYT: 'DD-MM-YYYY hh:MM A',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -173,11 +176,11 @@ export const AIR_LOYALTY_PROGRAM = {
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
   ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,
   GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
+  VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
+  VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
   SINGLE_GIFT_CARD_TRANSACTION_DETAIL: `/air-loyalty-program/gift-cards/gift-cards/transaction-details`,
   DIGITAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/digital/single-digital-detail`,
   PHYSICAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/physical/single-physical-detail`,
-  VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
-  VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
   PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design`,
   EDIT_PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design/edit`,
   TOP_USER: '/',
@@ -186,11 +189,18 @@ export const AIR_LOYALTY_PROGRAM = {
 export const SOCIAL_COMPONENTS = {
   COMPANIES: `/social-components/companies`,
   VIEW_COMPANY_DETAILS: '/social-components/companies/view-details',
+  MEETINGS: '/social-components/meetings',
+  MEETINGS_SETTINGS: '/social-components/meetings/settings',
+  SCHEDULE_MEETING: '/social-components/meetings/schedule-meetings',
+  UPSERT_MEETING:
+    '/social-components/meetings/schedule-meetings/upsert-meeting',
+  CALENDER_VIEW: '/social-components/meetings/calendar-view',
 };
 
 export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
   LOGIN: `/login`,
+  SALE_SITE: 'https://airapplecart.co.uk/',
 };
 
 export const Quick_Links_Routes = {
@@ -200,6 +210,10 @@ export const Quick_Links_Routes = {
   EMAIL: '/social-components/email',
   COMPANIES: '/social-components/companies',
   MEETINGS: '/social-components/meetings',
+};
+
+export const EMAIL_SUB_ROUTES = {
+  EMAIL_CONVERSATIONS: '/social-components/email/conversations',
 };
 
 export const productSuiteName = {
@@ -229,4 +243,50 @@ export const QUICKLINKSROLES = {
 export const DOCUMENTS_ACTION_TYPES = {
   MOVE_FOLDER: 'move-folder',
   UPDATE_FOLDER: 'update-folder',
+};
+
+export const CREATE_EMAIL_TYPES = {
+  NEW_EMAIL: 'new',
+  FORWARD: 'forward',
+  REPLY: 'reply',
+  REPLY_ALL: 'reply-all',
+  DRAFT: 'draft',
+  TRASH: 'trash',
+};
+
+export const EMAIL_TABS_TYPES = {
+  SENT: 'sent',
+  DRAFT: 'draft',
+  DRAFTS: 'drafts',
+  INBOX: 'inbox',
+  TRASH: 'trash',
+};
+
+export const CHAT_MESSAGE_TYPE = {
+  IMAGE: 'image',
+  DOC: 'document',
+  PLAIN: 'plain',
+};
+
+export const API_STATUS = {
+  PENDING: 'pending',
+  REJECTED: 'rejected',
+};
+export const associationCompanies = {
+  existingContacts: 'Existing Contacts',
+  newContacts: 'New Contact',
+  existingDeals: 'Existing Deals',
+  associationTypeDeals: 'deals',
+  newDeal: 'New Deal',
+  invalidDate: 'Invalid Date',
+  zero: 0,
+};
+
+export const TASK_TYPE = {
+  CREATE_TASK: 'create',
+  EDIT_TASK: 'edit',
+  UPDATE_TASK: 'update',
+};
+export const goalsStatus = {
+  inProgress: 'In-Progress',
 };

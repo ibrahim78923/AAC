@@ -11,7 +11,7 @@ import {
   useUpdateDealNoteMutation,
 } from '@/services/airSales/deals/view-details/note';
 import { enqueueSnackbar } from 'notistack';
-// import { IMG_URL } from '@/config';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useNotesEditorDrawer = (props: any) => {
   const {
@@ -31,16 +31,11 @@ const useNotesEditorDrawer = (props: any) => {
   const methodsdealsNotes = useForm<any>({
     resolver: yupResolver(dealsNotesValidationSchema),
     defaultValues: async () => {
-      if (editCheckBoxes && openDrawer !== 'Add') {
-        const {
-          title,
-          // file: { url: url },
-          description,
-        } = editCheckBoxes;
+      if (editCheckBoxes && openDrawer !== DRAWER_TYPES?.ADD) {
+        const { title, description } = editCheckBoxes;
 
         return {
           title,
-          // file: `${IMG_URL}${url}`,
           description,
         };
       }
@@ -65,7 +60,7 @@ const useNotesEditorDrawer = (props: any) => {
     });
 
     try {
-      openDrawer === 'Edit'
+      openDrawer === DRAWER_TYPES?.EDIT
         ? await updateDealNote({
             body: formData,
             id: editCheckBoxes?._id,
@@ -73,15 +68,17 @@ const useNotesEditorDrawer = (props: any) => {
         : await postDealNote({ body: formData })?.unwrap();
       enqueueSnackbar(
         `Note has been ${
-          openDrawer === 'Edit' ? 'updated' : 'added'
+          openDrawer === DRAWER_TYPES?.EDIT ? 'updated' : 'added'
         } Successfully`,
-        { variant: 'success' },
+        { variant: NOTISTACK_VARIANTS?.SUCCESS },
       );
       onCloseDrawer();
       setSelectedCheckboxes([]);
     } catch (error: any) {
       const errMsg = error?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
@@ -91,11 +88,12 @@ const useNotesEditorDrawer = (props: any) => {
     reset();
   };
   return {
-    handleSubmit,
-    onSubmit,
     methodsdealsNotes,
     onCloseDrawer,
+    DRAWER_TYPES,
+    handleSubmit,
     loadingNote,
+    onSubmit,
   };
 };
 

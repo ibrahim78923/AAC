@@ -26,6 +26,18 @@ export const truncateText = (text = '---', sliceLimit = 20) => {
     : text;
 };
 
+export const truncateSmallText = (text = '---', sliceLimit = 10) => {
+  return text?.length > sliceLimit
+    ? `${text?.slice?.(0, sliceLimit)} ...`
+    : text;
+};
+
+export const truncateLargeText = (text = '---', sliceLimit = 160) => {
+  return text?.length > sliceLimit
+    ? `${text?.slice?.(0, sliceLimit)} ...`
+    : text;
+};
+
 export const fullName = (firstName?: any, lastName?: any) => {
   if (!!!firstName && !!!lastName) return 'None';
   return `${firstName ?? ''} ${lastName ?? ''}`;
@@ -38,6 +50,17 @@ export const fullNameInitial = (firstName?: any, lastName?: any) => {
 
 export const generateImage = (imgSrc?: any) => {
   return `${IMG_URL}${imgSrc}`;
+};
+
+export const generateRandomNumbers = (min: any, max: any, precision: any) => {
+  const result = [];
+  for (let i = 0; i <= 22; i++) {
+    const randomNumber = (Math?.random() * (max - min) + min)?.toFixed(
+      precision,
+    );
+    result?.push(parseFloat(randomNumber));
+  }
+  return result;
 };
 
 export const formatFileSize = (fileSize = 0) => {

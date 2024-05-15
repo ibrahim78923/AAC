@@ -17,7 +17,7 @@ export const taskAPI = baseAPI?.injectEndpoints({
     }),
     patchTaskById: builder?.mutation({
       query: (item: any) => ({
-        url: `${END_POINTS?.TASK}/${item?.id}`,
+        url: `${END_POINTS?.UPDATE_TASK}`,
         method: 'PATCH',
         params: item?.data,
       }),
@@ -51,7 +51,7 @@ export const taskAPI = baseAPI?.injectEndpoints({
     }),
     getUsersDropdownList: builder?.query({
       query: ({ params }) => ({
-        url: `${END_POINTS?.USERS_DROPDOWN}`,
+        url: `${END_POINTS?.DROPDOWN_ALL_AGENTS}`,
         method: 'GET',
         params,
       }),

@@ -1,4 +1,4 @@
-import { Box, Grid, Skeleton } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { WorkflowHeader } from './WorkflowHeader';
 import { scheduledWorkflowDataArray } from './UpsertScheduledWorkflow.data';
@@ -7,6 +7,7 @@ import { WorkflowSchedule } from './WorkflowSchedule';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowConditions } from './WorkflowConditions';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertScheduledWorkflow = () => {
   const {
@@ -30,9 +31,10 @@ export const UpsertScheduledWorkflow = () => {
     testWorkflowProgress,
     updatedWorkflowProcess,
     testWorkflowResponse,
+    movePage,
   } = useUpsertScheduledWorkflow();
 
-  if (isLoading || isFetching) return <Skeleton />;
+  if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
     <Box>
@@ -52,6 +54,7 @@ export const UpsertScheduledWorkflow = () => {
             updatedWorkflowProcess={updatedWorkflowProcess}
             testWorkflowResponse={testWorkflowResponse}
             watch={watch}
+            movePage={movePage}
           />
         </Box>
         <Grid container spacing={2}>

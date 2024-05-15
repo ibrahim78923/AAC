@@ -6,48 +6,48 @@ import {
 import { ExpirationDuration } from './ExpirationDuration';
 const vouchersRadioGroupOptions = [
   {
-    value: 'unlimitedVouchers',
+    value: 'unlimited',
     labelOne: 'Unlimited vouchers',
     labelTwo: 'for this promotion',
   },
   {
-    value: 'limitedVouchers',
+    value: 'limited',
     labelOne: 'Limited number of vouchers',
     labelTwo: 'for this promotion',
   },
 ];
 const redemptionsRadioGroupOptions = [
   {
-    value: 'unlimitedRedemptions',
+    value: 'unlimited',
     labelOne: 'Unlimited redemptions',
     labelTwo: 'per contact',
   },
   {
-    value: 'limitedRedemptions',
+    value: 'limited',
     labelOne: 'Limited redemptions',
     labelTwo: 'per contact',
   },
 ];
 const timeRadioGroupOptions = [
   {
-    value: 'unlimitedTime',
+    value: 'unlimited',
     labelOne: 'Unlimited time',
     labelTwo: 'to redeem',
   },
   {
-    value: 'limitedTime',
+    value: 'limited',
     labelOne: 'Limited time',
     labelTwo: 'to redeem',
   },
 ];
 const offRadioGroupOptions = [
   {
-    value: 'flatOff',
+    value: 'FlatOff',
     labelOne: 'Flat off',
     labelTwo: 'for this promotion',
   },
   {
-    value: 'percentageOff',
+    value: 'PercentageOff',
     labelOne: 'Percentage off',
     labelTwo: 'for this promotion',
   },
@@ -100,6 +100,9 @@ export const addVouchersFormFieldsDataFunction = (apiQueryAgent?: any) => [
       name: 'assignTo',
       label: 'Assign to',
       placeholder: 'Assign to',
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
+      renderOption: (option: any) => `${option?.firstName} ${option?.lastName}`,
       apiQuery: apiQueryAgent,
     },
     component: RHFAutocompleteAsync,

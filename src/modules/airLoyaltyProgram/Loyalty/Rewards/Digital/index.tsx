@@ -1,28 +1,65 @@
 import { Box } from '@mui/material';
-import { UserList, digitalTableData } from './Digital.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useDigital } from './useDigital';
+import { SingleRewardDetails } from '../SingleRewardsDetails';
 
 export const Digital = () => {
-  const [searchValue, setSearchValue] = useState<string>('');
-  const { push } = useRouter();
+  const {
+    lazyGetAllLoyaltyDigitalRewardsListStatus,
+    setSearch,
+    setPageLimit,
+    setPage,
+    loyaltyDigitalRewardColumn,
+    isRewardDetailsOpen,
+    setIsRewardDetailsOpen,
+  } = useDigital();
+
   return (
-    <Box>
-      <Search
-        label="Search Here"
-        width={'16.25rem'}
-        searchBy={searchValue}
-        setSearchBy={setSearchValue}
-      />
-      <Box mt={'0.75rem'}>
-        <TanstackTable
-          data={digitalTableData}
-          columns={UserList?.(push)}
-          isPagination={true}
+    <>
+      {!isRewardDetailsOpen?.isOpen ? (
+        <Box>
+          <Search label="Search Here" setSearchBy={setSearch} />
+          <Box mt={'0.75rem'}>
+            <TanstackTable
+              columns={loyaltyDigitalRewardColumn}
+              data={
+                lazyGetAllLoyaltyDigitalRewardsListStatus?.data?.data
+                  ?.digitalrewards
+              }
+              isLoading={lazyGetAllLoyaltyDigitalRewardsListStatus?.isLoading}
+              currentPage={
+                lazyGetAllLoyaltyDigitalRewardsListStatus?.data?.data?.meta
+                  ?.page
+              }
+              count={
+                lazyGetAllLoyaltyDigitalRewardsListStatus?.data?.data?.meta
+                  ?.pages
+              }
+              pageLimit={
+                lazyGetAllLoyaltyDigitalRewardsListStatus?.data?.data?.meta
+                  ?.limit
+              }
+              totalRecords={
+                lazyGetAllLoyaltyDigitalRewardsListStatus?.data?.data?.meta
+                  ?.total
+              }
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              isFetching={lazyGetAllLoyaltyDigitalRewardsListStatus?.isFetching}
+              isError={lazyGetAllLoyaltyDigitalRewardsListStatus?.isError}
+              isSuccess={lazyGetAllLoyaltyDigitalRewardsListStatus?.isSuccess}
+              onPageChange={(page: any) => setPage(page)}
+              isPagination
+            />
+          </Box>
+        </Box>
+      ) : (
+        <SingleRewardDetails
+          isRewardDetailsOpen={isRewardDetailsOpen}
+          setIsRewardDetailsOpen={setIsRewardDetailsOpen}
         />
-      </Box>
-    </Box>
+      )}
+    </>
   );
 };

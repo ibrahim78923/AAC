@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { ManageDashboard } from '@/modules/airServices/Dashboard/ManageDashboard';
 import React from 'react';
@@ -9,5 +10,9 @@ const AirServicesManageDashboard = () => {
 export default AirServicesManageDashboard;
 
 AirServicesManageDashboard.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout permissions={Permissions?.AIR_SERVICES_VIEW_DASHBOARD}>
+      {page}
+    </Layout>
+  );
 };

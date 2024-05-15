@@ -15,7 +15,6 @@ export const useTeams = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<any>();
   const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState<boolean>(false);
   const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
-
   const [selectedTeamList, setSelectedTeamList] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<any>({
     val: false,
@@ -23,7 +22,7 @@ export const useTeams = () => {
   });
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState('');
   const [teamData, setTeamData] = useState<any>({});
   const router = useRouter();
 
@@ -32,10 +31,10 @@ export const useTeams = () => {
   const param = {
     page: page,
     limit: pageLimit,
-    search: search,
+    search,
   };
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetTeamListQuery({ param });
+    useGetTeamListQuery({ param }, { refetchOnMountOrArgChange: true });
 
   const metaData = data?.data?.meta;
 
@@ -49,14 +48,6 @@ export const useTeams = () => {
     }
   };
 
-  const submit = async () => {
-    try {
-      successSnackbar('Team Add Successfully');
-      setIsDrawerOpen(false);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
   const teamListColumn = teamList(
     selectedTeamList,
     setSelectedTeamList,
@@ -93,7 +84,6 @@ export const useTeams = () => {
     deleteModal,
     setDeleteModal,
     submitDeleteModal,
-    submit,
     metaData,
     data,
     isLoading,

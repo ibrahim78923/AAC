@@ -28,3 +28,36 @@ const formatTimeUnit = (diff: number, unit: string, base: number = 1) => {
   const value = Math.floor(diff / base);
   return `${value} ${unit}${value !== 1 ? 's' : ''} ago`;
 };
+
+export const formatDateTime = (start: string, end: string): string => {
+  const startTime = dayjs(start)?.format('h:mm A');
+  const endTime = dayjs(end)?.format('h:mm A');
+  const date = dayjs(start)?.format('ddd M/D/YYYY');
+  return `${date} - ${startTime} to ${endTime}`;
+};
+
+export const UnixDateFormatter = ({
+  timestamp,
+  timeZone = 'UTC',
+  locale = 'en-GB',
+}: any) => {
+  if (typeof timestamp !== 'number') {
+    return <span>Invalid timestamp</span>;
+  }
+  const date = new Date(timestamp * 1000);
+
+  const formatter = new Intl.DateTimeFormat(locale, {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    timeZone,
+    timeZoneName: 'short',
+  });
+
+  const formattedDate = formatter?.format(date);
+
+  return <span>{formattedDate}</span>;
+};

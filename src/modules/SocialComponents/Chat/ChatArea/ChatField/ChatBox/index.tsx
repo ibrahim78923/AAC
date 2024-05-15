@@ -29,7 +29,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from '../ChatField.style';
 import dayjs from 'dayjs';
-import { TIME_FORMAT } from '@/constants';
+import { CHAT_MESSAGE_TYPE, TIME_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { IMG_URL } from '@/config';
 import { CHAT_SOCKETS_EMIT } from '@/routesConstants/paths';
@@ -236,30 +236,43 @@ const ChatBox = ({
                     )}
                   </>
                 )}
-                {item?.type === 'image' && (
-                  <Box key={uuidv4()} sx={{ width: '16vw' }}>
-                    <Grid
-                      container
-                      spacing={1}
-                      sx={{
-                        marginTop: '1px',
-                        marginBottom: '2px',
-                      }}
-                    >
-                      {item?.media?.map((item: any) => (
-                        <Grid item xs={9} sm={4} md={4} lg={4} key={uuidv4()}>
-                          <Image
-                            src={`${IMG_URL}${item?.url}`}
-                            width={100}
-                            height={80}
-                            style={{ borderRadius: '8px' }}
-                            alt="media"
-                          />
+
+                {!item?.isDeleted && (
+                  <>
+                    {item?.type === CHAT_MESSAGE_TYPE?.IMAGE && (
+                      <Box key={uuidv4()} sx={{ width: '16vw' }}>
+                        <Grid
+                          container
+                          spacing={1}
+                          sx={{
+                            marginTop: '1px',
+                            marginBottom: '2px',
+                          }}
+                        >
+                          {item?.media?.map((item: any) => (
+                            <Grid
+                              item
+                              xs={9}
+                              sm={4}
+                              md={4}
+                              lg={4}
+                              key={uuidv4()}
+                            >
+                              <Image
+                                src={`${IMG_URL}${item?.url}`}
+                                width={100}
+                                height={80}
+                                style={{ borderRadius: '8px' }}
+                                alt="media"
+                              />
+                            </Grid>
+                          ))}
                         </Grid>
-                      ))}
-                    </Grid>
-                  </Box>
+                      </Box>
+                    )}
+                  </>
                 )}
+
                 {!item?.isDeleted && (
                   <>
                     {item?.type === 'docs' && (
@@ -314,7 +327,7 @@ const ChatBox = ({
                     bottom: '0px',
                   }}
                 >
-                  <CharmTickIcon isRead={item?.isRead} />
+                  {!item?.isDeleted && <CharmTickIcon isRead={item?.isRead} />}
                 </Box>
 
                 {!item?.isDeleted && (

@@ -91,7 +91,7 @@ export const columns: any = ({
               selectedUsers?.length === info?.table?.options?.data?.length
             }
             onChange={(event) => handleSelectAllClick(event, rows)}
-            disabled={title === 'View'}
+            disabled={title === 'View' || rows?.length === 0}
           />
         );
       },
@@ -100,12 +100,34 @@ export const columns: any = ({
     {
       accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,
       id: 'name',
-      header: 'name',
-      cell: (info: any) => (
-        <>
-          <Box sx={{ display: 'flex', gap: 1 }}>{info?.getValue()}</Box>
-        </>
-      ),
+      header: 'Contact',
+      cell: (info: any) => {
+        const row = info?.row?.original;
+        const email = row?.email;
+        const firstName = row?.firstName;
+        const lastName = row?.lastName;
+        const fullName = () => {
+          if (!firstName && !lastName) {
+            return false;
+          } else if (firstName && !lastName) {
+            return firstName;
+          } else if (!firstName && lastName) {
+            return lastName;
+          } else if (firstName && lastName) {
+            return firstName + ' ' + lastName;
+          }
+        };
+
+        return (
+          <Box>
+            {fullName() && (
+              <Box sx={{ color: 'blue.dull_blue' }}>{fullName()}</Box>
+            )}
+
+            <Box sx={{ fontSize: '12px' }}>{email}</Box>
+          </Box>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.phoneNumber,

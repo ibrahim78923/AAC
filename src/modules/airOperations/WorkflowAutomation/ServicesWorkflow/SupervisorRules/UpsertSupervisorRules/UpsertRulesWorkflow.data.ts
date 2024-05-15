@@ -1,8 +1,9 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
+import { LOGICS, MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   assetsFieldsOption,
+  optionsConstants,
   taskFieldsOption,
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
@@ -23,21 +24,22 @@ export const conditionTypeOptions = [
 ];
 
 export const actionsOptions = [
-  { value: 'status', label: 'Set Priority as' },
+  { value: 'pirority', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
   { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
+  { value: 'plannedStartDate', label: 'Set planned Start dates as' },
+  { value: 'plannedEndDate', label: 'Set planned end dates as' },
+  { value: 'plannedEffort', label: 'Set planned Efforts as' },
   { value: 'dueDate', label: 'Set Due Date as' },
   { value: 'category', label: 'Set Category as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
-  { value: 'addTask', label: 'Add Task' },
-  { value: 'addTag', label: 'Add Tag' },
-  { value: 'sendEmailAgent', label: 'Send Email to Agent' },
-  { value: 'sendEmailRequester', label: 'Send Email to Requester' },
-  { value: 'assignAgent', label: 'Assign to Agent' },
+  { value: 'agent', label: 'Assign to Agent' },
 ];
-
+export const rulesSaveWorkflowSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
+});
 export const rulesWorkflowSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
   type: Yup?.string(),
@@ -50,29 +52,16 @@ export const rulesWorkflowSchema = Yup?.object()?.shape({
       conditionType: Yup?.mixed()?.nullable()?.required('Required'),
       groupCondition: Yup?.string(),
       conditions: Yup?.array()?.of(
-        Yup?.lazy((value: any) => {
-          if (value?.key === 'email') {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.string()
-                ?.email('Invalid email')
-                ?.nullable()
-                ?.required('Required'),
-            });
-          } else if (value?.key === 'number') {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.number()?.nullable()?.required('Required'),
-            });
-          } else {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
-            });
-          }
+        Yup?.object()?.shape({
+          fieldName: Yup?.mixed()?.nullable()?.required('Required'),
+          condition: Yup?.string()?.required('Required'),
+          fieldValue: Yup?.mixed()?.when('condition', {
+            is: (condition: string) =>
+              condition === optionsConstants?.isEmpty ||
+              condition === optionsConstants?.isNotEmpty,
+            then: (schema: any) => schema?.notRequired(),
+            otherwise: (schema: any) => schema?.required('Required'),
+          }),
         }),
       ),
     }),
@@ -114,6 +103,12 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
     ...taskFieldsOption,
     ...assetsFieldsOption,
   ];
+
+  const constantsData = {
+    date: 'date',
+    object: 'objectId',
+    notifyBefore: 'notifyBefore',
+  };
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.SUPERVISOR_RULES,
@@ -124,15 +119,14 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
         )
       : null,
     module: SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
+    groupCondition: singleWorkflowData?.groupCondition ?? LOGICS?.AND,
     groups: singleWorkflowData?.groups?.map((group: any, gIndex: any) => {
       return {
         name: group?.name ?? '',
-        conditionType: group?.conditionType
-          ? conditionTypeOptions?.find(
-              (item: any) => item?.value === group?.conditionType,
-            )
-          : null,
+        conditionType:
+          conditionTypeOptions?.find(
+            (type: any) => type?.value === group?.conditionType,
+          ) ?? null,
         conditions: group?.conditions?.map((condition: any, cIndex: any) => {
           return {
             options: 'Ticket Fields',
@@ -143,11 +137,11 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
               : null,
             condition: condition?.condition ?? '',
             fieldValue:
-              condition?.fieldType === 'objectId'
+              condition?.fieldType === constantsData?.object
                 ? singleWorkflowData[
-                    `${condition?.fieldName}${gIndex}${cIndex}`
+                    `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
                   ]
-                : condition?.fieldType === 'date'
+                : condition?.fieldType === constantsData?.date
                   ? new Date(condition?.fieldValue)
                   : condition?.fieldValue,
           };
@@ -174,9 +168,9 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
             )
           : null,
         fieldValue:
-          action?.fieldType === 'objectId'
-            ? singleWorkflowData[`${action?.fieldName}${aIndex}`]
-            : action?.fieldType === 'date'
+          action?.fieldType === constantsData?.object
+            ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
+            : action?.fieldType === constantsData?.date
               ? new Date(action?.fieldValue)
               : action?.fieldValue,
       }),

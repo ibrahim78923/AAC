@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { campaignsOptions } from './Campaigns.data';
+import { useGetCampaignsQuery } from '@/services/airMarketer/campaigns';
+import { PAGINATION } from '@/config';
 
 const useCampaigns = () => {
   const theme = useTheme();
@@ -29,6 +31,11 @@ const useCampaigns = () => {
   const [isCompare, setIsCompare] = useState(false);
   const [searchVal, setSearchVal] = useState('');
   const [isResetTaskFilter, setIsResetTaskFilter] = useState(false);
+
+  const { data: campaignsData } = useGetCampaignsQuery({
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
+  });
 
   const CampaignTask: any = useForm({});
   const router = useRouter();
@@ -130,6 +137,7 @@ const useCampaigns = () => {
     setSearchVal,
     isResetTaskFilter,
     setIsResetTaskFilter,
+    campaignsData,
   };
 };
 export default useCampaigns;

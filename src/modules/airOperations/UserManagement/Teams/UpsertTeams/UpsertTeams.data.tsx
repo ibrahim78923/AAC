@@ -1,4 +1,5 @@
 import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
+import { fullName } from '@/utils/avatarUtils';
 import * as Yup from 'yup';
 
 export const upsertTeamValidationSchema: any = Yup?.object()?.shape({
@@ -8,7 +9,7 @@ export const upsertTeamValidationSchema: any = Yup?.object()?.shape({
 export const upsertTeamDefaultValues = (data?: any) => {
   return {
     name: data?.data?.name ?? '',
-    userAccounts: data?.data?.accounts?.map((item: any) => item?.user) ?? [],
+    userAccounts: data?.data?.accounts?.map((user: any) => user?.user) ?? [],
   };
 };
 
@@ -32,12 +33,16 @@ export const upsertTeamArray = (usersTeamDropdown: any) => [
       label: 'Select Team Members',
       placeholder: 'Select',
       fullWidth: true,
-      required: true,
+      required: false,
       multiple: true,
       apiQuery: usersTeamDropdown,
       externalParams: { limit: 100 },
+      isOptionEqualToValue: (option: any, newValue: any) =>
+        option?.user?._id === newValue?._id,
       getOptionLabel: (option: any) =>
-        `${option?.firstName} ${option?.lastName}`,
+        option?.user?.firstName
+          ? fullName(option?.user?.firstName, option?.user?.lastName)
+          : fullName(option?.firstName, option?.lastName),
     },
     component: RHFAutocompleteAsync,
     md: 12,

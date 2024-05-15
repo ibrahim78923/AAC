@@ -8,6 +8,7 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import useUserManagement from '../../useUserManagement';
 import { useEffect } from 'react';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const useCreateTeams = (
   teamDataById: any,
@@ -27,7 +28,7 @@ const useCreateTeams = (
   const { handleSubmit, reset, setValue } = methods;
 
   useEffect(() => {
-    if (drawerType === 'edit') {
+    if (drawerType === DRAWER_TYPES?.EDIT) {
       const data = teamDataById?.data;
       const fieldsToSet: any = {
         name: data?.name,
@@ -42,7 +43,7 @@ const useCreateTeams = (
 
   const onSubmit = async (values: any) => {
     try {
-      if (drawerType === 'add') {
+      if (drawerType === DRAWER_TYPES?.ADD) {
         await postTeams({ body: values })?.unwrap();
         reset();
         enqueueSnackbar('Team created successfully', {

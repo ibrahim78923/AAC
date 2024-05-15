@@ -126,6 +126,12 @@ export const TAGS = [
   'PERMISSIONS',
   'TEAM_LIST',
   'MANAGE_SHOP',
+  'USER_LIST_DROPDOWN',
+  'LEAD_CAPTURE_CTA',
+  'AIR_SERVICES_ENQUIRIES',
+  'TIERS',
+  'LEAD_CAPTURE_FORM',
+  'RULES',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [
@@ -140,7 +146,7 @@ const baseQuery = fetchBaseQuery({
     if (token && !BYPASS_AUTH_API_ROUTES?.includes(endpoint)) {
       headers.set('Authorization', `Bearer ${token}`);
     }
-    headers.set('ngrok-skip-browser-warning', 'true');
+    headers.set('ngrok-skip-browser-warning', 'Bearer YOUR_ACCESS_TOKEN_HERE');
     return headers;
   },
 });

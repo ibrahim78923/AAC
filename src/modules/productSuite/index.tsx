@@ -25,7 +25,11 @@ import {
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { getActivePermissionsSession, setActiveAccountSession } from '@/utils';
+import {
+  getActivePermissionsSession,
+  setAccountsData,
+  setActiveAccountSession,
+} from '@/utils';
 // import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
 import { generateImage } from '@/utils/avatarUtils';
@@ -99,6 +103,10 @@ const ProductSuite = () => {
   useEffect(() => {
     refetch();
   }, []);
+
+  if (accountsData?.data) {
+    setAccountsData(accountsData);
+  }
   return (
     <Box
       sx={{
@@ -161,7 +169,7 @@ const ProductSuite = () => {
               <Card
                 className="card-hover-color cursor-pointer"
                 sx={{
-                  boxShadow: 'none',
+                  boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
                   borderRadius: '6px',
                   '&:hover': {
                     transition: '0.3s',

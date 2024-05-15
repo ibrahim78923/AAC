@@ -2,11 +2,13 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 import useCreateCompany from './useCreateCompany';
+import { isNullOrEmpty } from '@/utils';
 
 export const createComapnySchema = Yup?.object()?.shape({
   domain: Yup?.string()?.required('Field is Required'),
   totalRevenue: Yup?.number(),
   noOfEmloyee: Yup?.number(),
+  ownerId: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultCreateCompanyValues = {
@@ -56,10 +58,13 @@ export const dataArray = () => {
         label: 'Company Owner',
         fullWidth: true,
         select: true,
+        required: true,
       },
       options: getCompanyContacts?.data?.contacts?.map((item: any) => ({
         value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
+        label: isNullOrEmpty(item?.firstName)
+          ? item?.email
+          : `${item?.firstName} ${item?.lastName}`,
       })),
       component: RHFSelect,
       md: 12,
@@ -164,7 +169,7 @@ export const dataArray = () => {
       component: RHFTextField,
       componentProps: {
         name: 'linkedInUrl',
-        label: 'LinkdIn Company Page',
+        label: 'LinkedIn Company Page',
         placeholder: 'Enter here',
         fullWidth: true,
       },

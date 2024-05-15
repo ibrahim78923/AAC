@@ -124,7 +124,9 @@ const ProfilMenu = () => {
                 color: theme?.palette?.grey[600],
               }}
             >
-              <Link href={`${item?.key}`}>{item?.label}</Link>
+              <Link href={`${item?.key}`} onClick={closeProfileDropDown}>
+                {item?.label}
+              </Link>
             </MenuItem>
           ))}
       </Menu>

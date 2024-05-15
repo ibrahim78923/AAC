@@ -119,6 +119,7 @@ export const ASSET_IMPACT = {
 export const TICKET_TYPE = {
   INC: 'INC',
   SR: 'SR',
+  EQ: 'EQ',
 };
 export const ASSET_TYPE = {
   SERVICES: 'services',
@@ -209,7 +210,7 @@ export const VIEW_TYPES = {
 
 export const EXPENSE_TYPE = {
   PURCHASE: 'Purchase Cost',
-  MAINTENANCE: 'maintenance cost',
+  MAINTENANCE: 'Maintenance Cost',
 };
 
 export const TICKETS_ISSUES_TYPE = {
@@ -271,6 +272,7 @@ export const REQUESTORS_STATUS = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
 };
+
 export const REQUESTORS_ASSIGNED_STATUS = {
   OPEN: 'Open',
   CLOSED: 'Closed',
@@ -400,6 +402,7 @@ export const MODULE_TYPE = {
   LOCATION: 'LOCATION',
   ASSETS: 'ASSETS',
   TICKET: 'TICKET',
+  CUSTOMER_PORTAL: 'CUSTOMER_PORTAL',
 };
 export const TICKET_SELECTION_TYPE = {
   REQUESTER: 'REQUESTER',
@@ -417,6 +420,11 @@ export const TICKET_SOURCE = {
   PORTAL: 'PORTAL',
   CHAT: 'CHAT',
 };
+export enum Ticket {
+  ticketFields = 'Ticket Fields',
+  assetsFields = 'Assets Fields',
+  taskFields = 'Task Fields',
+}
 
 export const SCHEMA_KEYS = {
   TICKETS: 'TICKETS',
@@ -470,13 +478,16 @@ export const LOYALTY_TRANSACTIONS_TYPE = {
 };
 
 export const LOYALTY_TRANSACTIONS_CHANNEL = {
-  BUSINESS_DASHBOARD: 'BUSINESS_DASHBOARD',
+  BUSINESS_DASHBOARD: 'THROUGH_BUISNESS_DASHBOARD',
 };
 
 export const IMPORT_ACTION_TYPE = {
   INVENTORIES: 'INVENTORIES',
   PRODUCT_CATALOG: 'PRODUCT_CATALOG',
+  LOCATIONS: 'LOCATIONS',
+  VENDORS: 'VENDORS',
   DEALS: 'DEALS',
+  TASKS: 'TASKS',
 };
 
 export const OBJECT_URL_IMPORT = {
@@ -491,4 +502,143 @@ export const WORKFLOW_TYPE = {
   CREATED: 'CREATED',
   ENABLED: 'ENABLED',
   DISABLED: 'DISABLED',
+};
+
+export const LOYALTY_RULES_ATTRIBUTES = {
+  PURCHASE_AMOUNT: 'PURCHASE_AMOUNT',
+  ACCOUNT_CREATION: 'ACCOUNT_CREATION',
+  PRODUCT_QTY: 'PRODUCT_QTY',
+  NO_OF_VISITS: 'NO_OF_VISITS',
+  BIRTHDAY: 'BIRTHDAY',
+  FIRST_PURCHASE: 'FIRST_PURCHASE',
+  MONEY_OFF: 'MONEY_OFF',
+  FREE_SHIPPING: 'FREE_SHIPPING',
+};
+
+export const OPERATORS = {
+  LESS_THEN: 'LESS_THEN',
+  GREATER_THAN: 'GREATER_THAN',
+  EQUAL_TO: 'EQUAL_TO',
+  LESS_THEN_OR_EQUAL_TO: 'LESS_THEN_OR_EQUAL_TO',
+  GREATER_THEN_AND_EQUAL_TO: 'GREATER_THEN_AND_EQUAL_TO',
+};
+
+export const LOYALTY_REWARDS_TYPE = {
+  ALL: 'ALL',
+  PHYSICAL_REWARD: 'PHYSICAL_REWARDS',
+  DIGITAL_REWARD: 'DIGITAL_REWARDS',
+};
+
+export const RULES_BENEFIT_TYPE = {
+  DISCOUNT: 'DISCOUNT',
+  AWARD: 'AWARD',
+};
+
+export const MEETINGS_DETAILS_TYPE = {
+  ALL: 'All',
+  UPCOMING: 'Upcoming',
+  COMPLETED: 'Completed',
+};
+
+export const CALENDER_TYPES = {
+  DAY_VIEW_CALENDER: 'timeGridDay',
+  WEEK_VIEW_CALENDER: 'timeGridWeek',
+  MONTH_VIEW_CALENDER: 'dayGridMonth',
+  YEAR_VIEW_CALENDER: 'multiMonthYear',
+};
+
+export const DRAWER_TYPES = {
+  EDIT: 'edit',
+  ADD: 'add',
+  VIEW: 'view',
+  UPDATE: 'update',
+};
+
+export const LOYALTY_SHOP_TYPE = {
+  ON_SITE: 'ONSITE',
+  DEPARTMENT: 'DEPARTMENT',
+  HEADQUARTERS: 'HEADQUARTERS',
+  POINT_OF_SALE: 'POINT_OF_SALES',
+  WEB_SHOP: 'WEBSHOP',
+};
+
+export const LOGICS = {
+  AND: 'AND',
+  OR: 'OR',
+};
+export const LOYALTY_REWARDS_STATUS = {
+  ACTIVE: 'Active',
+  EXPIRED: 'Expired',
+};
+
+export const FIELD_TYPES = {
+  MANDATORY_FIELD: 'Mandatory Field',
+  OPTIONAL_FIELD: 'Optional Field',
+};
+
+export const UPSERT_SHOP_FORM_CONSTANT = {
+  EDIT: 'Edit',
+  SUBMIT: 'Submit',
+  UPDATE_SHOP: 'Update Shop',
+  NEW_SHOP: 'New Shop',
+};
+
+export const TIME_UNITS = {
+  MS: 1000,
+  SEC_PER_HOUR: 3600,
+  HOURS_PER_DAY: 24,
+  MS_PER_MINUTE: 60000,
+};
+
+export const LOYALTY_REWARDS_CLASS = {
+  RULES: 'RULES',
+  TIERS: 'TIERS',
+};
+export const VOUCHERS_STATUS = {
+  ACTIVE: 'Active',
+  DEACTIVATE: 'Deactivate',
+  EXPIRED: 'Expired',
+};
+export const DATA_TYPES = {
+  NULL: null,
+};
+
+export const LOYALTY_TIERS_REWARD_TYPE = {
+  FIXED_DISCOUNT: 'FIXED_DISCOUNT',
+  FLAT_DISCOUNT: 'FLAT_DISCOUNT',
+  POINTS: 'POINTS',
+};
+
+export const PRODUCTS_LISTS = {
+  AIR_SALES: 'Air Sales',
+  AIR_SERVICES: 'Air Services',
+  AIR_CUSTOMER_PORTAL: 'Customer Portal',
+  AIR_OPERATIONS: 'Air Operations',
+  AIR_LOYALTY_PROGRAM: 'Loyalty Program',
+  AIR_MARKETER: 'Air Marketer',
+};
+
+export const RULES_TIME_SPAN = {
+  THIS_WEEK: 'THIS_WEEK',
+  LAST_WEEK: 'LAST_WEEK',
+  THIS_MONTH: 'THIS_MONTH',
+  LAST_MONTH: 'LAST_MONTH',
+  CUSTOM_DATE: 'CUSTOM_DATE',
+};
+
+export const RULES_OPERATORS = {
+  LESS_THAN: 'less than',
+  GREATER_THAN: 'greater than',
+  EQUAL_TO: 'equal to',
+  GREATER_THAN_OR_EQUAL_TO: 'greater than or equal to',
+  LESS_THAN_OR_EQUAL_TO: 'less than or equal to',
+};
+
+export const LOYALTY_RULE_STATUS = {
+  ACTIVE: 'ACTIVE',
+  IN_ACTIVE: 'INACTIVE',
+};
+
+export const RULES_AUDIENCE_TYPE = {
+  CUSTOMER: 'CUSTOMER',
 };

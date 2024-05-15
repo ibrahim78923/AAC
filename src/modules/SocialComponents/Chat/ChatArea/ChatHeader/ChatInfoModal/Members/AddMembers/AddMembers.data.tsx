@@ -10,7 +10,7 @@ export const addMembersDefaultValues = {
 
 export const addMembersDataArray = (
   setIsAddMembers: any,
-  transformedData: any,
+  exceptCurrentUser: any,
 ) => {
   return [
     {
@@ -24,7 +24,7 @@ export const addMembersDataArray = (
         footerActionHandler: () => alert('Add'),
         setIsDropdownClose: setIsAddMembers,
       },
-      options: transformedData,
+      options: exceptCurrentUser,
       component: RHFMultiSearchableSelect,
       md: 12,
     },

@@ -10,7 +10,10 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 export const upsertServiceValidationSchema = Yup?.object()?.shape({
-  itemName: Yup?.string()?.required('Item Name is Required'),
+  itemName: Yup?.string()
+    ?.trim()
+    ?.required('Item Name is Required')
+    ?.max(30, 'Item Name up to 30 characters'),
   cost: Yup?.number()
     ?.nullable()
     ?.typeError('Not a number')
@@ -76,7 +79,7 @@ export const upsertServiceValidationSchema = Yup?.object()?.shape({
 
 export const upsertServiceDefaultValues = {
   itemName: '',
-  cost: 0,
+  cost: null,
   serviceCategory: null,
   estimatedDelivery: '',
   description: '',

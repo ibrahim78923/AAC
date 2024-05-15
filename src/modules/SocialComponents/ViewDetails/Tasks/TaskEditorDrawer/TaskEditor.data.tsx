@@ -22,113 +22,117 @@ export const dealsTasksDefaultValues = {
   name: '',
   note: '',
   type: '',
-  dueDate: '',
-  createTime: '',
+  dueDate: null,
+  createTime: null,
   assignTo: '',
   priority: '',
   reminder: '',
 };
 
-export const dealsTasksDataArray = [
-  {
-    componentProps: {
-      name: 'name',
-      label: 'Title',
-      fullWidth: true,
-      required: true,
-      placeholder: 'Title Here',
+export const dealsTasksDataArray = (openDrawer: any, contactsList: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Title',
+        fullWidth: true,
+        required: true,
+        placeholder: 'Title Here',
+        disabled: openDrawer === 'View',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'note',
-      label: 'Description',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'note',
+        label: 'Description',
+        fullWidth: true,
+        disabled: openDrawer === 'View',
+      },
+      component: RHFEditor,
+      md: 12,
     },
-    component: RHFEditor,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'type',
-      label: 'Task Type',
-      select: true,
-      required: true,
+    {
+      componentProps: {
+        name: 'type',
+        label: 'Task Type',
+        select: true,
+        required: true,
+        disabled: openDrawer === 'View',
+      },
+      options: [
+        { value: 'Call', label: 'Call' },
+        { value: 'Email', label: 'Email' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'Call', label: 'Call' },
-      { value: 'Company', label: 'Company' },
-      { value: 'Email', label: 'Email' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'dueDate',
-      label: 'Due Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'dueDate',
+        label: 'Due Date',
+        fullWidth: true,
+        disabled: openDrawer === 'View',
+      },
+      component: RHFDatePicker,
+      md: 6,
     },
-    component: RHFDatePicker,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'createTime',
-      label: 'Time',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'createTime',
+        label: 'Time',
+        fullWidth: true,
+        disabled: openDrawer === 'View',
+      },
+      component: RHFTimePicker,
+      md: 6,
     },
-    component: RHFTimePicker,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'assignTo',
-      label: 'Assign To',
-      select: true,
+    {
+      componentProps: {
+        name: 'assignTo',
+        label: 'Assign To',
+        select: true,
+        disabled: openDrawer === 'View',
+      },
+      options: contactsList,
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: '65782638da7b3457092af1dd', label: 'John Doe' },
-      { value: '65782638da7b3457092af1dd', label: 'Alfa Bravo' },
-      { value: '65782638da7b3457092af1dd', label: 'John Charlie' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'priority',
-      label: 'Priority',
-      select: true,
-      required: true,
+    {
+      componentProps: {
+        name: 'priority',
+        label: 'Priority',
+        select: true,
+        required: true,
+        disabled: openDrawer === 'View',
+      },
+      options: [
+        { value: '-', label: '-' },
+        { value: 'Low', label: 'Low' },
+        { value: 'Medium', label: 'Medium' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: '-', label: '-' },
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'reminder',
-      label: 'Notify Before',
-      select: true,
+    {
+      componentProps: {
+        name: 'reminder',
+        label: 'Notify Before',
+        select: true,
+        disabled: openDrawer === 'View',
+      },
+      options: [
+        { value: 'Today', label: 'Today' },
+        { value: 'Tomorrow', label: 'Tomorrow' },
+        { value: 'In_1_Business_Day', label: 'In 1 business Day' },
+        { value: 'In_2_Business_Day', label: 'In 2 business Day' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'Today', label: 'Today' },
-      { value: 'Tomorrow', label: 'Tomorrow' },
-      { value: 'in1businessday', label: 'In 1 business Day' },
-      { value: 'in2businessday', label: 'In 2 business Day' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-];
-
+  ];
+};
 export const drawerTitle: any = {
   Add: 'Add Tasks',
   Edit: 'Edit Tasks',

@@ -37,8 +37,8 @@ export const useEditTaskDrawer = (props: any) => {
         assignTo: data?.assignTo?._id,
         departmentId: data?.departmentId?._id,
         notifyBefore: data?.notifyBefore?.value,
+        id: activeCheck?.[0]?._id,
       },
-      id: activeCheck?.[0]?._id,
     };
     try {
       await patchMutation(editData)?.unwrap();

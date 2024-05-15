@@ -1,4 +1,4 @@
-import { Typography, Box, Divider, Avatar } from '@mui/material';
+import { Typography, Box, Divider, Avatar, IconButton } from '@mui/material';
 import { Button } from '@mui/material';
 import { CirclePlusIcon, ViewDetailVuesaxIcon } from '@/assets/icons';
 import { styles } from './DetailViewTimeEntries.style';
@@ -33,6 +33,7 @@ const DetailViewTimeEntries = (data: any) => {
     seconds,
     minutes,
     hours,
+    user,
   } = useDetailViewTimeEntries(data);
 
   return (
@@ -55,9 +56,24 @@ const DetailViewTimeEntries = (data: any) => {
                 AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TIME_TRACK_PLAY_PAUSE,
               ]}
             >
-              <Box sx={styles?.iconBoxStyling} onClick={toggleView}>
+              <IconButton
+                sx={styles?.iconBoxStyling}
+                onClick={toggleView}
+                disabled={
+                  data?.data?.data?.[0]?.agentDetails?._id !== user?._id &&
+                  isIconVisible
+                }
+              >
                 {isIconVisible ? (
-                  <Box onClick={handleSubmitPause}>
+                  <Box
+                    onClick={
+                      data?.data?.data?.[0]?.agentDetails?._id === user?._id
+                        ? handleSubmitPause
+                        : null
+                    }
+                    mt={0.5}
+                    ml={0.3}
+                  >
                     <ViewDetailVuesaxIcon />
                   </Box>
                 ) : (
@@ -70,7 +86,7 @@ const DetailViewTimeEntries = (data: any) => {
                     />
                   </Box>
                 )}
-              </Box>
+              </IconButton>
               <Box sx={styles?.iconBoxTimerStyling}>
                 <StopWatch seconds={seconds} minutes={minutes} hours={hours} />
               </Box>
@@ -144,7 +160,7 @@ const DetailViewTimeEntries = (data: any) => {
                   <Typography
                     variant="body1"
                     component="span"
-                    sx={{ ml: '4rem' }}
+                    sx={{ ml: '5.5rem' }}
                   >
                     {item?.totalTimeTrack}
                   </Typography>

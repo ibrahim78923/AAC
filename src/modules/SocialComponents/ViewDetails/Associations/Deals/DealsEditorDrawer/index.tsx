@@ -1,8 +1,7 @@
-import { Box, Grid } from '@mui/material';
+import { Box, FormLabel, Grid, Radio } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
-import Search from '@/components/Search';
+import { FormProvider, RHFSearchableSelect } from '@/components/ReactHookForm';
 
 import useDealsEditorDrawer from './useDealsEditorDrawer';
 
@@ -12,16 +11,23 @@ import {
   drawerTitle,
   productsDataArray,
 } from './DealsEditorDrawer.data';
+import { associationCompanies } from '@/constants';
 
 const DealsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, companyId, dealRecord } = props;
+  const {
+    openDrawer,
+    setOpenDrawer,
+    companyId,
+    dealRecord,
+    existingDealsData,
+  } = props;
   const {
     handleSubmit,
     onSubmit,
     methodsProducts,
-    watchProductstatus,
-    searchProduct,
-    setSearchProduct,
+    DealsLifecycleStageData,
+    selectedValue,
+    handleChange,
   } = useDealsEditorDrawer({
     openDrawer,
     setOpenDrawer,
@@ -40,70 +46,75 @@ const DealsEditorDrawer = (props: any) => {
         footer={openDrawer === 'View' ? false : true}
         submitHandler={handleSubmit(onSubmit)}
       >
-        <Box sx={{ pt: 2 }}>
+        <Box>
+          <Grid item xs={12} sx={{ paddingBottom: '40px !important' }}>
+            <Radio
+              checked={selectedValue === associationCompanies?.newDeal}
+              onChange={handleChange}
+              value="New Deal"
+              name="radio-buttons"
+              inputProps={{ 'aria-label': associationCompanies?.newDeal }}
+            />
+            <FormLabel
+              id="demo-row-radio-buttons-group-label"
+              sx={{ marginRight: '30px' }}
+            >
+              New Deal
+            </FormLabel>
+
+            <Radio
+              checked={selectedValue === associationCompanies?.existingDeals}
+              onChange={handleChange}
+              value="Existing Deals"
+              name="radio-buttons"
+              inputProps={{ 'aria-label': 'Existing Deals' }}
+            />
+            <FormLabel id="demo-row-radio-buttons-group-label">
+              Existing Deals
+            </FormLabel>
+          </Grid>
           <FormProvider
             methods={methodsProducts}
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
-              <Grid item xs={12} sx={{ paddingTop: '20px !important' }}>
-                {watchProductstatus[0] === 'New Deal' && (
-                  <RHFRadioGroup
-                    options={[
-                      { value: 'New Deal', label: 'New Deal' },
-                      { value: 'Existing Deals', label: 'Existing Deals' },
-                    ]}
-                    name={'dealStatus'}
-                    row={true}
-                  />
-                )}
-              </Grid>
-              {productsDataArray(openDrawer)?.map((item: any, index: any) =>
-                watchProductstatus[0] === 'New Deal' ? (
-                  <Grid
-                    item
-                    xs={12}
-                    md={item?.md}
-                    key={uuidv4()}
-                    sx={{ paddingTop: '20px !important' }}
-                  >
-                    <item.component {...item?.componentProps} size={'small'}>
-                      {item?.componentProps?.select
-                        ? item?.options?.map((option: any) => (
-                            <option key={option?.value} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))
-                        : null}
-                    </item.component>
-                  </Grid>
-                ) : (
-                  index === 0 && (
+              {productsDataArray(openDrawer, DealsLifecycleStageData)?.map(
+                (item: any, index: any) =>
+                  selectedValue === associationCompanies?.newDeal ? (
                     <Grid
                       item
                       xs={12}
                       md={item?.md}
                       key={uuidv4()}
-                      sx={{ paddingTop: '0px !important' }}
+                      sx={{ paddingTop: '20px !important' }}
                     >
-                      <RHFRadioGroup
-                        options={[
-                          { value: 'New Deal', label: 'New Deal' },
-                          { value: 'Existing Deals', label: 'Existing Deals' },
-                        ]}
-                        name={'dealStatus'}
-                        row={true}
-                      />
-                      <Search
-                        searchBy={searchProduct}
-                        setSearchBy={setSearchProduct}
-                        label="Search Deal"
-                        size="medium"
-                        fullWidth
-                      />
+                      <item.component {...item?.componentProps} size={'small'}>
+                        {item?.componentProps?.select
+                          ? item?.options?.map((option: any) => (
+                              <option key={option?.value} value={option?.value}>
+                                {option?.label}
+                              </option>
+                            ))
+                          : null}
+                      </item.component>
                     </Grid>
-                  )
-                ),
+                  ) : (
+                    index === 0 && (
+                      <Grid
+                        item
+                        xs={12}
+                        md={item?.md}
+                        key={uuidv4()}
+                        sx={{ paddingTop: '0px !important' }}
+                      >
+                        <RHFSearchableSelect
+                          size="small"
+                          name="existingDeals"
+                          options={existingDealsData}
+                        />
+                      </Grid>
+                    )
+                  ),
               )}
             </Grid>
           </FormProvider>

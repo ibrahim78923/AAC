@@ -1,15 +1,16 @@
-import PageNotFound from '@/components/pageNotFound';
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import Email from '@/modules/superAdmin/Email';
-function EmailPage() {
-  return <Email />;
-}
-export default EmailPage;
-EmailPage.getLayout = function getLayout() {
+import { Meetings } from '@/modules/SocialComponents/Meetings';
+
+const MeetingsPage = () => {
+  return <Meetings />;
+};
+export default MeetingsPage;
+
+MeetingsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout guardRoute permissions={Permissions?.SOCIAL_COMPONENTS_MEETINGS}>
-      <PageNotFound />
+    <Layout permissions={Permissions?.SOCIAL_COMPONENTS_MEETINGS}>
+      {page}
     </Layout>
   );
 };

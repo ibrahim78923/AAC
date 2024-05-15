@@ -78,7 +78,6 @@ const Forms = () => {
 
           <Box sx={{ padding: { xs: '0px' } }}>
             <CommonTabs
-              // getTabVal={(val: number) => setTabVal(val)}
               isHeader={false}
               tabsArray={['All', 'Published', 'Draft', 'Trash']}
             >

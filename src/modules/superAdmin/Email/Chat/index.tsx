@@ -1,90 +1,34 @@
-import React from 'react';
-import { Grid, TextField, Typography } from '@mui/material';
-
-import { useChat } from './useChat';
-import CommonModal from '@/components/CommonModal';
-import EmailEditorDrawer from '../SendEmail';
-import ContactModal from './ContactModal';
-import LeftSide from './ChatSectionA';
-import RightSide from './ChatSectionB';
-import Draft from './ChatSectionB/Draft';
+import React, { useEffect } from 'react';
+import { Grid } from '@mui/material';
+import LeftPane from './LeftPane';
+import RightPane from './RightPane';
+import { useGetMailFoldersQuery } from '@/services/commonFeatures/email';
+import { useDispatch } from 'react-redux';
+import { setMailTabType } from '@/redux/slices/email/slice';
 
 const EmailChat = () => {
-  const {
-    currTab,
-    leftSideData,
-    rightSideData,
-    handleLinkToDealModal,
-    linkToDealModal,
-    deleteModal,
-    handleDeleteModal,
-    sendEmailModal,
-    handleSendEmailModal,
-    handleReplyModal,
-    replyModal,
-    contactModal,
-    handleContactModal,
-  } = useChat();
+  const dispatch = useDispatch();
+  const { data: foldersData } = useGetMailFoldersQuery({});
+  const result = foldersData?.data?.find((item: any) => {
+    return item?.display_name?.toLowerCase() === 'inbox';
+  });
+
+  useEffect(() => {
+    if (result) {
+      dispatch(setMailTabType(result));
+    }
+  }, [result]);
+
   return (
     <>
       <Grid container spacing={2}>
         <Grid item md={4} xs={12}>
-          <LeftSide {...leftSideData} />
+          <LeftPane />
         </Grid>
         <Grid item md={8} xs={12}>
-          {currTab == 2 ? (
-            <Draft />
-          ) : (
-            <RightSide key={'right side'} {...rightSideData} />
-          )}
+          <RightPane />
         </Grid>
       </Grid>
-
-      {linkToDealModal && (
-        <CommonModal
-          open={linkToDealModal}
-          handleClose={handleLinkToDealModal}
-          title="Link to deal"
-          okText="Save"
-          footer
-          cancelText="Cancel"
-        >
-          <Typography>Deal</Typography>
-          <TextField placeholder="Search Deal" fullWidth size="small" />
-        </CommonModal>
-      )}
-
-      {deleteModal && (
-        <CommonModal
-          open={deleteModal}
-          handleClose={handleDeleteModal}
-          title="Delete"
-          okText="Delete"
-          footer
-          cancelText="Cancel"
-        >
-          <Typography>Are you sure you want to delete this email?</Typography>
-        </CommonModal>
-      )}
-
-      {sendEmailModal && (
-        <EmailEditorDrawer
-          title={'New Email'}
-          openDrawer={sendEmailModal}
-          setOpenDrawer={handleSendEmailModal}
-        />
-      )}
-      {replyModal && (
-        <EmailEditorDrawer
-          title={'Email'}
-          userEmailList
-          openDrawer={replyModal}
-          setOpenDrawer={handleReplyModal}
-        />
-      )}
-      {contactModal && (
-        <ContactModal open={contactModal} onClose={handleContactModal} />
-      )}
     </>
   );
 };

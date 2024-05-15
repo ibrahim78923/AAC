@@ -10,10 +10,10 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealsTasksManagement: builder.query({
       //  todo: pagination will be implemented at the end .
-      query: ({ query }) => ({
-        url: `${END_POINTS?.TASK_MANAGEMENT}?page=1&limit=100`,
+      query: ({ params }) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}`,
         method: 'GET',
-        params: query,
+        params: params,
       }),
       providesTags: ['DEALS_TASK_MANAGEMENT'],
     }),
@@ -35,9 +35,10 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['DEALS_TASK_MANAGEMENT'],
     }),
     deleteDealsTasksManagement: builder.mutation({
-      query: ({ id }: any) => ({
-        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
-        method: 'DELETE',
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT_UNASSIGN_DEAL}`,
+        method: 'POST',
+        body: body,
       }),
       invalidatesTags: ['DEALS_TASK_MANAGEMENT'],
     }),

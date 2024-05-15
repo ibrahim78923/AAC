@@ -37,6 +37,17 @@ export const departmentAPI = baseAPI?.injectEndpoints({
         params,
       }),
     }),
+    getUsersDropdownListForDepartmentMembers: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.AGENTS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_TWO],
+    }),
     getUsersDropdownList: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_USERS}`,
@@ -48,6 +59,17 @@ export const departmentAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_TWO],
     }),
+    getUsersDropdownListForDepartmentHead: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.USER_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_TWO],
+    }),
   }),
 });
 
@@ -56,5 +78,7 @@ export const {
   useLazyGetServicesDepartmentListQuery,
   useUpdateDepartmentMutation,
   useDeleteDepartmentMutation,
+  useLazyGetUsersDropdownListForDepartmentMembersQuery,
   useLazyGetUsersDropdownListQuery,
+  useLazyGetUsersDropdownListForDepartmentHeadQuery,
 } = departmentAPI;

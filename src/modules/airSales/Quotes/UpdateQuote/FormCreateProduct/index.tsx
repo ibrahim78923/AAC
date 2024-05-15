@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
   addContactFields,
-  validationSchema,
+  ProductValidationSchema,
   initValues,
 } from './FormCreateProduct.data';
 import {
@@ -19,7 +19,7 @@ import {
 } from '@/services/airSales/quotes';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-// import { useEffect } from 'react';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const FormCreateProduct = ({ open, onClose }: any) => {
   const params = useSearchParams();
@@ -28,8 +28,9 @@ const FormCreateProduct = ({ open, onClose }: any) => {
   const quoteId = params.get('data');
   const productId = params.get('productId');
 
-  const [postProduct] = usePostProductMutation();
-  // const [getProductsById]=useGetProductsById()
+  const [postProduct, { isLoading: loadingProductPost }] =
+    usePostProductMutation();
+
   const [updateProductById] = useUpdateProductByIdMutation();
 
   const { data: Quotenew } = useGetQuoteByIdQuery({ id: quoteId });
@@ -41,7 +42,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
 
   const methods: any = useForm<any>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(ProductValidationSchema),
     defaultValues: initValues,
   });
   const { handleSubmit, reset } = methods;
@@ -70,15 +71,15 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             };
             createAssociationQuote({ body: associationBody })?.unwrap();
             enqueueSnackbar('Product Updated Successfully', {
-              variant: 'success',
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
             });
           });
       } catch (err: any) {
-        enqueueSnackbar(err?.data?.message, {
-          variant: 'error',
+        enqueueSnackbar(err?.message, {
+          variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
-    } else {
+    } else if (actionType === 'create') {
       try {
         await postProduct({ body: formData })
           ?.unwrap()
@@ -92,40 +93,47 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             };
             createAssociationQuote({ body: associationBody })?.unwrap();
             enqueueSnackbar('Product added Successfully', {
-              variant: 'success',
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
             });
             reset();
           });
       } catch (err: any) {
-        enqueueSnackbar(err?.data?.message, {
-          variant: 'error',
+        enqueueSnackbar(err?.message, {
+          variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
     }
     onClose();
   };
-
   useEffect(() => {
-    if (actionType !== 'create') {
-      lazyGetProductsByIdQuery({ id: productId }).then((res) => {
+    if ((actionType === 'edit' || actionType === 'view') && productId) {
+      lazyGetProductsByIdQuery({ id: productId }).then((res: any) => {
         if (res?.data) {
           const fieldsData = res?.data?.data;
           reset({
-            name: fieldsData?.name,
-            sku: fieldsData?.sku,
-            category: fieldsData?.category,
-            description: fieldsData?.description,
-            isActive: fieldsData?.isActive,
-            unitPrice: fieldsData?.unitPrice,
-            purchasePrice: fieldsData?.purchasePrice,
+            name: fieldsData?.name || '',
+            sku: fieldsData?.sku || '',
+            category: fieldsData?.category || '',
+            description: fieldsData?.description || '',
+            isActive: fieldsData?.isActive || false,
+            unitPrice: fieldsData?.unitPrice || null,
+            purchasePrice: fieldsData?.purchasePrice || null,
           });
         }
       });
+    } else {
+      // Reset form fields if actionType or productId changes
+      reset({
+        name: '',
+        sku: '',
+        category: '',
+        description: '',
+        isActive: false,
+        unitPrice: null,
+        purchasePrice: null,
+      });
     }
-    if (actionType === 'create') {
-      reset(initValues);
-    }
-  }, [productId, reset]);
+  }, [productId, actionType, reset, lazyGetProductsByIdQuery]);
 
   return (
     <CommonDrawer
@@ -137,13 +145,14 @@ const FormCreateProduct = ({ open, onClose }: any) => {
       cancelText={'Cancel'}
       footer={actionType === 'view' ? false : true}
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={loadingProductPost}
     >
       <Box sx={{ pt: '27px' }}>
         <FormProvider methods={methods}>
           <Grid container spacing={'22px'}>
             {addContactFields(productCatagories?.data?.productcategories)?.map(
               (item: any) => (
-                <Grid item xs={12} key={item.id}>
+                <Grid item xs={12} key={item?.id}>
                   <item.component
                     disabled={disableForm}
                     {...item?.componentProps}

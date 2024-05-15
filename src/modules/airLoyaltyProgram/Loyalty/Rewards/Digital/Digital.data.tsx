@@ -1,41 +1,14 @@
-import { Avatar, Box, Chip, Typography } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 import { Circle } from '@mui/icons-material';
-import { AIR_LOYALTY_PROGRAM } from '@/constants';
-import { AvatarImage } from '@/assets/images';
+import { LOYALTY_REWARDS_TYPE } from '@/constants/strings';
+import { LOYALTY_REWARDS_STATUS_PILL } from '../AllRewards/AllRewards.data';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
+import { truncateText } from '@/utils/avatarUtils';
 
-export const digitalTableData = [
-  {
-    id: 1,
-    title: `You won 50 pts!`,
-    requiredPoints: 500,
-    status: 'Active',
-    voucherCode: `PK140`,
-    totalRedeemed: 10,
-    total_redeemable: 20,
-    icon: AvatarImage,
-  },
-  {
-    id: 2,
-    title: `Double point day`,
-    requiredPoints: 120,
-    status: 'Active',
-    voucherCode: `BF20`,
-    totalRedeemed: 10,
-    total_redeemable: 163,
-    icon: AvatarImage,
-  },
-  {
-    id: 3,
-    title: `You won 50 pts!`,
-    requiredPoints: 150,
-    status: 'Active',
-    voucherCode: `NEWYR23`,
-    totalRedeemed: 10,
-    total_redeemable: 250,
-    icon: AvatarImage,
-  },
-];
-export const UserList: any = (push: any) => [
+export const loyaltyDigitalRewardColumnDynamic: any = (
+  setIsRewardDetailsOpen: any,
+  overallPermissions: any,
+) => [
   {
     accessorFn: (row: any) => row?.title,
     id: 'title',
@@ -43,11 +16,9 @@ export const UserList: any = (push: any) => [
     isSortable: true,
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar
-          src={info?.row?.original?.icon?.src}
-          alt={info?.row?.original?.icon?.name}
-        />{' '}
-        <Typography variant="body4">{info?.getValue()}</Typography>
+        <Typography variant="body4">
+          {truncateText(info?.getValue())}
+        </Typography>
       </Box>
     ),
   },
@@ -56,7 +27,7 @@ export const UserList: any = (push: any) => [
     id: 'requiredPoints',
     isSortable: true,
     header: 'Required Points',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -66,45 +37,56 @@ export const UserList: any = (push: any) => [
     cell: (info: any) => (
       <Chip
         sx={{
-          bgcolor: 'success.lighter',
-          color: 'success.main',
+          bgcolor: LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.bgColor,
+          color: LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.fontColor,
         }}
-        icon={<Circle color={'success'} sx={{ fontSize: '0.7rem' }} />}
+        icon={
+          <Circle
+            color={LOYALTY_REWARDS_STATUS_PILL?.[info?.getValue()]?.iconColor}
+            sx={{ fontSize: '0.7rem' }}
+          />
+        }
         label={info?.getValue()}
       />
     ),
   },
   {
-    accessorFn: (row: any) => row?.voucherCode,
+    accessorFn: (row: any) => row?.vouchersDetail,
     id: 'voucherCode',
     isSortable: true,
     header: 'Voucher code',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue()?.voucherCode ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.totalRedeemed,
-    id: 'totalRedeemed',
-    isSortable: true,
-    header: 'Total redeemed',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.total_redeemable,
-    id: 'total_redeemable',
-    isSortable: true,
+    accessorFn: (row: any) => row?.redeemable,
+    id: 'totalRedeemable',
     header: 'Total redeemable (quantity)',
+    isSortable: true,
+    cell: (info: any) => info?.getValue() ?? '---',
+  },
+  {
+    accessorFn: (row: any) => row?.redeem,
+    id: 'totalRedeemed',
+    header: 'Total redeemed',
+    isSortable: true,
     cell: (info: any) => (
       <Typography
         variant="body4"
         sx={{ cursor: 'pointer' }}
-        onClick={() =>
-          push({
-            pathname: AIR_LOYALTY_PROGRAM?.DIGITAL_REWARDS_DETAIL,
-            query: `id=${info?.row?.original?.id}`,
-          })
-        }
+        onClick={() => {
+          if (
+            !overallPermissions?.includes(
+              AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.VIEW_REWARDS_DETAILS,
+            )
+          )
+            return;
+          setIsRewardDetailsOpen?.({
+            isOpen: true,
+            rewardType: LOYALTY_REWARDS_TYPE?.DIGITAL_REWARD,
+          });
+        }}
       >
-        {info?.getValue()}
+        {info?.getValue() ?? 0}
       </Typography>
     ),
   },

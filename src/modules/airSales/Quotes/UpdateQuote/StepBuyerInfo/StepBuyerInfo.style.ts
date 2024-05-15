@@ -39,6 +39,8 @@ export const styles = {
     p: '16px',
     maxWidth: '352px',
     display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
     mt: '16px',
   }),
   itemIcon: () => ({

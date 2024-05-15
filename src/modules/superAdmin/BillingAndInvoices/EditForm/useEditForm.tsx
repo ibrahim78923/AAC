@@ -179,11 +179,12 @@ const useEditForm = (
   useEffect(() => {
     if (planData?.data?.plans?.additionalPerUserPrice > 0) {
       setIsUserPrice(false);
+    } else {
+      setIsUserPrice(true);
     }
     if (planData?.data?.plans?.additionalStoragePrice > 0) {
       setIsStoragePrice(false);
     } else {
-      setIsUserPrice(true);
       setIsStoragePrice(true);
     }
   }, [planData?.data?.plans]);

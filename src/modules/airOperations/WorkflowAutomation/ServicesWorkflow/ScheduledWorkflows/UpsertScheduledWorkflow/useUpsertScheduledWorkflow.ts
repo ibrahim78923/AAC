@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  scheduledSaveWorkflowSchema,
   scheduledWorkflowSchema,
   scheduledWorkflowValues,
 } from './UpsertScheduledWorkflow.data';
@@ -13,13 +14,14 @@ import {
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
-import { AIR_OPERATIONS, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { optionsConstants } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
 
 export const useUpsertScheduledWorkflow = () => {
-  const [validation, setValidation] = useState(false);
+  const [validation, setValidation] = useState('');
   const [testWorkflow, setTestWorkflow] = useState(false);
   const [testWorkflowResponse, setTestWorkflowResponse] = useState<any>(null);
   const [isWorkflowDrawer, setIsWorkflowDrawer] = useState(false);
@@ -33,26 +35,37 @@ export const useUpsertScheduledWorkflow = () => {
   };
 
   const collectionNameData = {
-    agent: 'agent',
+    agent: 'Agent',
     assignToAgent: 'Assign to Agent',
     selectDepartment: 'Select Department',
     department: 'departments',
     setDepartmentAs: 'Set Department as',
-    location: 'location',
+    location: 'Location',
+    locations: 'locations',
     addRequester: 'Add Requester',
     requester: 'users',
     setCategoryAs: 'Set Category as',
-    category: 'category',
+    category: 'servicecategories',
     users: 'users',
+    usedBy: 'Used By',
+    createdBy: 'Created By',
+    assetType: 'Asset Type',
+    assignTo: 'Assign To',
+    type: 'assettypes',
+    notifyBefore: 'notifyBefore',
+  };
+
+  const buttonData = {
+    save: 'save',
+    test: 'test',
+    upsert: 'upsert',
   };
 
   const router = useRouter();
   const pageActionType = router?.query?.action;
   const singleId = router?.query?.id;
   const movePage = () => {
-    router.push({
-      pathname: AIR_OPERATIONS?.SERVICES_WORKFLOW,
-    });
+    router?.back();
   };
 
   const EDIT_WORKFLOW = 'edit';
@@ -67,12 +80,15 @@ export const useUpsertScheduledWorkflow = () => {
 
   const scheduledWorkflowMethod = useForm({
     defaultValues: scheduledWorkflowValues(singleWorkflowData),
-    resolver: validation ? yupResolver(scheduledWorkflowSchema) : undefined,
+    resolver:
+      validation === buttonData?.upsert || validation === buttonData?.test
+        ? yupResolver(scheduledWorkflowSchema)
+        : yupResolver(scheduledSaveWorkflowSchema),
   });
   const { reset, watch, register, handleSubmit, setValue, control } =
     scheduledWorkflowMethod;
 
-  const mapField = (field: any, typeData: any) => {
+  const mapField = (field: any) => {
     const fieldValue = field?.fieldValue;
     if (fieldValue instanceof Date) {
       return typeData?.date;
@@ -83,10 +99,10 @@ export const useUpsertScheduledWorkflow = () => {
       return typeData?.number;
     } else if (typeof fieldValue === typeData?.string) {
       return typeData?.string;
-    } else if (typeof fieldValue === typeData?.object) {
+    } else if (fieldValue?._id) {
       return typeData?.objectId;
     } else {
-      return null;
+      return typeData?.string;
     }
   };
 
@@ -94,63 +110,59 @@ export const useUpsertScheduledWorkflow = () => {
     const fieldLabel = fieldName?.label || fieldName;
     switch (fieldLabel) {
       case collectionNameData?.agent:
-        return collectionNameData?.agent;
+        return collectionNameData?.users;
       case collectionNameData?.assignToAgent:
-        return collectionNameData?.agent;
+        return collectionNameData?.users;
       case collectionNameData?.selectDepartment:
         return collectionNameData?.department;
       case collectionNameData?.setDepartmentAs:
         return collectionNameData?.department;
       case collectionNameData?.location:
-        return collectionNameData?.location;
+        return collectionNameData?.locations;
       case collectionNameData?.addRequester:
         return collectionNameData?.requester;
       case collectionNameData?.setCategoryAs:
         return collectionNameData?.category;
+      case collectionNameData?.assetType:
+        return collectionNameData?.type;
+      case collectionNameData?.usedBy:
+        return collectionNameData?.users;
+      case collectionNameData?.createdBy:
+        return collectionNameData?.users;
+      case collectionNameData?.assignTo:
+        return collectionNameData?.users;
       default:
         return '';
     }
   }
 
-  const mapGroup = (group: any, typeData: any) => ({
+  const mapGroup = (group: any) => ({
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
       condition: condition?.condition,
       fieldName: condition?.fieldName?.value,
-      fieldValue:
-        condition?.fieldName &&
-        [
-          collectionNameData?.agent,
-          collectionNameData?.selectDepartment,
-          collectionNameData?.setDepartmentAs,
-          collectionNameData?.location,
-          collectionNameData?.addRequester,
-          collectionNameData?.setCategoryAs,
-        ].includes(condition?.fieldName?.label)
-          ? condition?.fieldValue?._id
+      fieldValue: condition?.fieldValue?._id
+        ? condition?.fieldValue?._id
+        : condition?.fieldName?.value === collectionNameData?.notifyBefore
+          ? condition?.fieldValue?.value
           : condition?.fieldValue,
-      fieldType: mapField(condition, typeData),
-      collectionName: getCollectionName(condition?.fieldName),
+      fieldType: mapField(condition),
+      collectionName:
+        condition?.condition === optionsConstants?.isEmpty ||
+        condition?.condition === optionsConstants?.isNotEmpty
+          ? ''
+          : getCollectionName(condition?.fieldName),
     })),
     conditionType: group?.conditionType?.value,
   });
 
-  const mapAction = (action: any, typeData: any) => ({
+  const mapAction = (action: any) => ({
     ...action,
     fieldName: action?.fieldName?.value,
-    fieldValue:
-      action?.fieldName &&
-      [
-        collectionNameData?.agent,
-        collectionNameData?.selectDepartment,
-        collectionNameData?.setDepartmentAs,
-        collectionNameData?.location,
-        collectionNameData?.addRequester,
-        collectionNameData?.setCategoryAs,
-      ].includes(action?.fieldName)
-        ? action?.fieldValue?._id
-        : action?.fieldValue,
-    fieldType: mapField(action, typeData),
+    fieldValue: action?.fieldValue?._id
+      ? action?.fieldValue?._id
+      : action?.fieldValue,
+    fieldType: mapField(action),
     collectionName: getCollectionName(action?.fieldName),
   });
 
@@ -168,26 +180,29 @@ export const useUpsertScheduledWorkflow = () => {
   const handleApiCall = async (body: any) => {
     try {
       let successMessage = '';
-      if (testWorkflow && validation) {
+      if (testWorkflow && validation === buttonData?.test) {
         const response = await postTestTrigger(body).unwrap();
         setIsWorkflowDrawer(true);
         setTestWorkflowResponse(response);
         successMessage = 'Test Workflow Executed Successfully';
       } else {
-        if (pageActionType === EDIT_WORKFLOW) {
+        if (
+          pageActionType === EDIT_WORKFLOW &&
+          validation === buttonData?.upsert
+        ) {
           await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
           successMessage = 'Workflow Update Successfully';
-        } else if (!validation) {
+        } else if (validation === buttonData?.save) {
           await saveWorkflowTrigger(body).unwrap();
           successMessage = 'Workflow Save Successfully';
-        } else {
+        } else if (validation === buttonData?.upsert) {
           await postWorkflowTrigger(body).unwrap();
           successMessage = 'Workflow Create Successfully';
         }
       }
 
       successSnackbar(successMessage);
-      if (!testWorkflow) {
+      if (validation !== buttonData?.test) {
         reset();
         movePage();
       }
@@ -237,8 +252,8 @@ export const useUpsertScheduledWorkflow = () => {
         },
       },
       runType: data?.runType?.value,
-      groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-      actions: data?.actions?.map((action: any) => mapAction(action, typeData)),
+      groups: data?.groups?.map((group: any) => mapGroup(group)),
+      actions: data?.actions?.map((action: any) => mapAction(action)),
     };
     await handleApiCall(body);
     return {
@@ -280,5 +295,6 @@ export const useUpsertScheduledWorkflow = () => {
     testWorkflowProgress,
     updatedWorkflowProcess,
     testWorkflowResponse,
+    movePage,
   };
 };

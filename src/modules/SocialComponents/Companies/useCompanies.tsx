@@ -7,7 +7,7 @@ import { getSession } from '@/utils';
 import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 
 const useCompanies = () => {
-  const { user } = getSession();
+  const { user }: any = getSession();
   const theme = useTheme<Theme>();
   const [isToggled, setIstoggle] = useToggle(false);
   const [checkedRows, setCheckedRows] = useState<string[]>([]);
@@ -15,6 +15,7 @@ const useCompanies = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [selectedValue, setSelectedValue] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [value, setValue] = useState(0);
 
   const [isOpen, setIsOpen] = useState({
@@ -22,7 +23,7 @@ const useCompanies = () => {
     createViewDrawer: false,
     filtersDrawer: false,
     customizeDrawer: false,
-    importDrawer: false,
+    // importDrawer: false,
     previewDrawer: false,
     reassignModal: false,
     exportModal: false,
@@ -112,7 +113,7 @@ const useCompanies = () => {
     data: getAllCompanies,
     isLoading,
     isSuccess,
-  } = useGetAllCompaniesQuery(filterValues);
+  } = useGetAllCompaniesQuery({ ...filterValues, ...defaultFilterValues });
 
   // tabs view code starts here
 
@@ -182,6 +183,8 @@ const useCompanies = () => {
     handleSearch,
     handleApplyFilter,
     activeColumns,
+    isDrawerOpen,
+    setIsDrawerOpen,
   };
 };
 

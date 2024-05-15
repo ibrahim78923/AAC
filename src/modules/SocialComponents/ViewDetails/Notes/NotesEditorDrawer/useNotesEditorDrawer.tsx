@@ -17,6 +17,7 @@ const useNotesEditorDrawer = (
   setOpenDrawer: any,
   companyId: any,
   rowData: any,
+  setSelectedCheckboxes: any,
 ) => {
   const [postDealNote] = usePostDealNoteMutation();
   const [updateDealNote] = useUpdateDealNoteMutation();
@@ -47,10 +48,19 @@ const useNotesEditorDrawer = (
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
-    formData.append('file', values?.file);
-    formData.append('recordId', companyId);
-    formData.append('description', values?.description);
-    formData.append('title', values?.title);
+    const desc = 'description';
+    const file = 'file';
+
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        if (key === desc || key === file) {
+          formData.append(key, value);
+        } else {
+          formData.append(key, value);
+          formData.append('recordId', companyId);
+        }
+      }
+    });
 
     try {
       openDrawer === 'Edit'
@@ -64,6 +74,7 @@ const useNotesEditorDrawer = (
         { variant: 'success' },
       );
       setOpenDrawer('');
+      setSelectedCheckboxes([]);
       reset();
     } catch (error) {
       const errMsg = error?.data?.message;

@@ -13,7 +13,7 @@ import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
-const Contacts = () => {
+const Contacts = ({ companyId }: any) => {
   const {
     theme,
     isOpenAlert,
@@ -30,7 +30,9 @@ const Contacts = () => {
     contactRecord,
     setContactRecord,
     deleteContactHandler,
-  } = useContacts();
+    existingContactData,
+    newArray,
+  } = useContacts(companyId);
 
   return (
     <Box
@@ -79,6 +81,7 @@ const Contacts = () => {
               setOpenDrawer,
               setIsOpenAlert,
               setContactRecord,
+              theme,
             })}
             data={data?.data?.contacts}
             isLoading={isLoading}
@@ -93,6 +96,9 @@ const Contacts = () => {
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
           contactRecord={contactRecord}
+          companyId={companyId}
+          existingContactData={existingContactData}
+          newArray={newArray}
         />
       )}
       <AlertModals

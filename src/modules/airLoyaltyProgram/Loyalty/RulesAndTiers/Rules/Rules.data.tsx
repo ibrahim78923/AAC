@@ -1,40 +1,41 @@
 import { AntSwitch } from '@/components/AntSwitch';
+import { LOYALTY_RULES_ATTRIBUTES_MAPPED } from '@/constants/api-mapped';
+import { LOYALTY_RULE_STATUS } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
 
-export const rulesList = [
+export const rulesColumnsDynamic = (
+  changeStatus: any,
+  changeSingleRuleStatusStatus: any,
+) => [
   {
-    _id: 1,
-    rulesTitle: 'Purchase amount',
-    tiers: 'Base tier',
-    status: true,
-  },
-  {
-    _id: 2,
-    rulesTitle: 'Amount creation',
-    tiers: 'gold',
-    status: false,
-  },
-];
-
-export const rulesColumns = [
-  {
-    accessorFn: (info: any) => info?.rulesTitle,
+    accessorFn: (info: any) => info?.attribute,
     id: 'rulesTitle',
     header: 'Rules Title',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => LOYALTY_RULES_ATTRIBUTES_MAPPED?.[info?.getValue()],
   },
   {
-    accessorFn: (info: any) => info?.tiers,
+    accessorFn: (info: any) => info?.tierDetails,
     id: 'tiers',
     header: 'Tiers',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()?.name),
   },
-
   {
     accessorFn: (info: any) => info?.status,
     id: 'status',
     header: 'Status',
-    cell: (info: any) => <AntSwitch values={info?.getValue()} />,
+    cell: (info: any) => (
+      <AntSwitch
+        checked={info?.getValue() === LOYALTY_RULE_STATUS?.ACTIVE}
+        onChange={(e: any) => changeStatus?.(e, info?.row?.original?._id)}
+        isLoading={
+          changeSingleRuleStatusStatus?.isLoading &&
+          changeSingleRuleStatusStatus?.originalArgs?.pathParams?.id ===
+            info?.row?.original?._id
+        }
+        disabled={changeSingleRuleStatusStatus?.isLoading}
+      />
+    ),
   },
 ];

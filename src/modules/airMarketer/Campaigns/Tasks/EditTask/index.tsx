@@ -1,14 +1,9 @@
 import { Grid, Box, Typography } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-
-import { dataArray, defaultValues, validationSchema } from './EditTask.data';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
-import { v4 as uuidv4 } from 'uuid';
+import { dataArray, defaultValues } from './EditTask.data';
+import useEditTask from './useEditTask';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 export default function EditTask({
   onClose,
@@ -16,25 +11,14 @@ export default function EditTask({
   isType,
   initialValueProps = defaultValues,
 }: any) {
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
-  });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('Task Updated Successfully', {
-      variant: 'success',
-    });
-  };
+  const { handleSubmit, onSubmit, methods } = useEditTask(initialValueProps);
 
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={isType === 'create' ? 'Create Task' : 'Edit Task'}
-      okText={isType === 'create' ? 'Create' : 'Update'}
+      title={isType === DRAWER_TYPES?.ADD ? 'Create Task' : 'Edit Task'}
+      okText={isType === DRAWER_TYPES?.ADD ? 'Create' : 'Update'}
       isOk
       cancelText={'Cancel'}
       footer
@@ -44,7 +28,7 @@ export default function EditTask({
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
             {dataArray()?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
                 {item?.componentProps?.heading && (
                   <Typography variant={item?.variant}>
                     {item?.componentProps?.heading}
@@ -53,7 +37,7 @@ export default function EditTask({
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
+                      <option key={option?.value} value={option?.value}>
                         {option?.label}
                       </option>
                     ))}

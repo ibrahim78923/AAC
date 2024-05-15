@@ -122,7 +122,6 @@ const Services = () => {
               <Box
                 maxHeight={'300px'}
                 minHeight={'300px'}
-                mt={2}
                 borderRadius={2}
                 border={`1px solid ${theme?.palette?.primary?.main}`}
                 alignItems={'center'}
@@ -154,12 +153,48 @@ const Services = () => {
               </Box>
               <AddServiceCatalog open={open} setOpen={setOpen} />
             </Grid>
+
+            <Grid item xs={12} md={6} lg={3}>
+              <Box
+                maxHeight={'300px'}
+                minHeight={'300px'}
+                onClick={() => {
+                  router.push({
+                    pathname: AIR_SERVICES?.SERVICE_CATALOG_SETTINGS,
+                  });
+                }}
+                borderRadius={2}
+                textAlign="center"
+                sx={{ cursor: 'pointer' }}
+                bgcolor={
+                  !router?.query?.categoryId
+                    ? `${theme?.palette?.primary?.light}`
+                    : ''
+                }
+                border={
+                  !router?.query?.categoryId
+                    ? `1px solid ${theme?.palette?.primary?.main}`
+                    : `1px solid ${theme?.palette?.primary?.light}`
+                }
+                display={'flex'}
+                flexDirection={'column'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                p={1}
+              >
+                <FolderIcon color="primary" fontSize="large" />
+                <Typography variant="h5" mt={1}>
+                  All Services
+                </Typography>
+              </Box>
+            </Grid>
+
             {categories?.map((service: any) => (
               <Grid item xs={12} md={6} lg={3} key={service?._id}>
                 <Box
                   maxHeight={'300px'}
                   minHeight={'300px'}
-                  overflow={'scroll'}
+                  overflow={'auto'}
                   onClick={() => {
                     router.push({
                       pathname: AIR_SERVICES?.SERVICE_CATALOG_SETTINGS,
@@ -171,7 +206,6 @@ const Services = () => {
                   }}
                   borderRadius={2}
                   textAlign="center"
-                  mt={2}
                   sx={{ cursor: 'pointer' }}
                   bgcolor={
                     router?.query?.categoryId === service?._id
@@ -183,45 +217,17 @@ const Services = () => {
                       ? `1px solid ${theme?.palette?.primary?.main}`
                       : `1px solid ${theme?.palette?.primary?.light}`
                   }
+                  display={'flex'}
+                  flexDirection={'column'}
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                  p={1}
                 >
-                  <Box
-                    alignItems={'center'}
-                    display={'flex'}
-                    justifyContent={'center'}
-                    flexDirection={'column'}
-                    mt={6}
-                    mb={8}
-                  >
-                    <Box
-                      alignItems={'center'}
-                      display={'flex'}
-                      justifyContent={'center'}
-                      flexDirection={'row'}
-                      mt={2}
-                    >
-                      <FolderIcon color="primary" fontSize="large" />
-                    </Box>
-                    <Typography variant="h5" mt={1}>
-                      {service?.categoryName}
-                    </Typography>
-                    <Box
-                      alignItems={'center'}
-                      display={'flex'}
-                      justifyContent={'center'}
-                    >
-                      <Typography
-                        variant="body2"
-                        align="center"
-                        gutterBottom
-                        mt={1}
-                        mb={2}
-                        ml={2}
-                        mr={2}
-                      >
-                        {service?.description}
-                      </Typography>
-                    </Box>
-                  </Box>
+                  <FolderIcon color="primary" fontSize="large" />
+                  <Typography variant="h5">{service?.categoryName}</Typography>
+                  <Typography variant="body2">
+                    {service?.description}
+                  </Typography>
                 </Box>
               </Grid>
             ))}
@@ -347,7 +353,7 @@ const Services = () => {
                         variant="h5"
                         align="center"
                         gutterBottom
-                        ml={6.5}
+                        ml={4}
                         mr={1}
                         mt={2}
                       >
@@ -355,13 +361,7 @@ const Services = () => {
                       </Typography>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
-                      <Typography
-                        variant="body2"
-                        align="center"
-                        gutterBottom
-                        ml={6.5}
-                        mr={1}
-                      >
+                      <Typography variant="body2" align="left" gutterBottom>
                         Cost:
                         {result?.cost ?? '-'}
                       </Typography>
@@ -372,19 +372,23 @@ const Services = () => {
                         align="center"
                         gutterBottom
                         mr={1}
-                        ml={6.5}
+                        ml={4}
                       >
                         Estimated Delivery:
                         {result?.estimatedDelivery ?? '-'}
                       </Typography>
                     </Box>
-                    <Box alignItems={'center'} display={'flex'}>
+                    <Box
+                      alignItems={'center'}
+                      display={'flex'}
+                      sx={{ wordBreak: 'break-all' }}
+                    >
                       <Typography
                         variant="body3"
                         align="center"
                         gutterBottom
                         mr={1}
-                        ml={6.5}
+                        ml={4}
                       >
                         Description:
                         {result?.description ?? '-'}
@@ -397,7 +401,7 @@ const Services = () => {
                           align="center"
                           gutterBottom
                           mr={1}
-                          ml={6.5}
+                          ml={4}
                         >
                           Status:
                           {result?.status}

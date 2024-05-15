@@ -13,6 +13,8 @@ export const WorkflowActionExecuted = (props: any) => {
     agentApiQuery,
     departmentApiQuery,
     apiQueryCategories,
+    apiQueryLocations,
+    apiUsersListDropdown,
   } = useWorkflowActionExecuted(props);
   return (
     <Box
@@ -44,6 +46,8 @@ export const WorkflowActionExecuted = (props: any) => {
               agentApiQuery,
               departmentApiQuery,
               apiQueryCategories,
+              apiQueryLocations,
+              apiUsersListDropdown,
             })?.map((actionItem: any) => (
               <Grid
                 item
@@ -64,7 +68,7 @@ export const WorkflowActionExecuted = (props: any) => {
       <Box px={1}>
         <Button
           color="secondary"
-          onClick={() => append({ key: null, value: null })}
+          onClick={() => append({ fieldName: null, fieldValue: null })}
           startIcon={<AddCircle color="action" />}
         >
           Add Condition

@@ -22,7 +22,6 @@ import { fullName } from '@/utils/avatarUtils';
 
 export const useUser = () => {
   const router = useRouter();
-  const { _id } = router?.query;
   const [selectedUserList, setSelectedUserList] = useState<any[]>([]);
   const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -40,12 +39,11 @@ export const useUser = () => {
   const param = {
     page: page,
     limit: pageLimit,
-    search,
+    search: search,
   };
 
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetProductUserListQuery({ param });
-
   const usersData = data?.data?.usercompanyaccounts;
   const metaData = data?.data?.meta;
 
@@ -116,16 +114,13 @@ export const useUser = () => {
         team: data?.team?._id,
         language: data?._id,
       };
-      if (!!_id) {
-        editProductUsersDetails?.(body);
-        return;
-      }
       await addListUsers({ body }).unwrap();
       successSnackbar('Users List added successfully.');
-      handleClose();
+      handleClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
+    handleClose?.();
   };
 
   const handleClose = () => {
@@ -135,24 +130,31 @@ export const useUser = () => {
 
   const editProductUsersDetails = async (data: any) => {
     const formData = {
-      id: _id,
-      ...data,
+      id: tabData?._id,
+      body: {
+        firstName: data?.firstName,
+        lastName: data?.lastName,
+        role: data?.role?._id,
+        team: data?.team?._id,
+        phoneNumber: data?.phoneNumber,
+        address: data?.address?.composite,
+        jobTitle: data?.jobTitle,
+        timezone: data?.timezone,
+        language: data?.language,
+        facebookUrl: data?.facebookUrl,
+        linkedInUrl: data?.linkedInUrl,
+        twitterUrl: data?.twitterUrl,
+        status: data?.status,
+      },
     };
     try {
       await patchProductUsersTrigger(formData)?.unwrap();
       successSnackbar('Products Users Edit  Successfully');
-      setIsDrawerOpen(false);
+      handleClose?.();
     } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+      errorSnackbar('error');
     }
     handleClose?.();
-  };
-
-  const onClose = () => {
-    setIsDrawerOpen(false);
-    router?.push({
-      pathname: router?.pathname,
-    });
   };
 
   return {
@@ -187,7 +189,6 @@ export const useUser = () => {
     switchLoading,
     handleChangeStatus,
     editProductUsersDetails,
-    onClose,
     data,
     router,
     tabData,

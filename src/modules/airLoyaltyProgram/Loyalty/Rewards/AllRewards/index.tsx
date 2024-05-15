@@ -1,26 +1,48 @@
 import { Box } from '@mui/material';
-import { UserList, allTableData } from './All.rewards.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { useState } from 'react';
+import { useAllRewards } from './useAllRewards';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS } from '@/constants/permission-keys';
+import { SingleRewardDetails } from '../SingleRewardsDetails';
 
 export const AllRewards = () => {
-  const [searchValue, setSearchValue] = useState<string>('');
+  const {
+    lazyGetLoyaltyAllRewardsListStatus,
+    setSearch,
+    loyaltyAllRewardColumn,
+    isRewardDetailsOpen,
+    setIsRewardDetailsOpen,
+  } = useAllRewards();
+
   return (
-    <Box>
-      <Search
-        label="Search Here"
-        width={'16.25rem'}
-        setSearchBy={setSearchValue}
-        searchBy={searchValue}
-      />
-      <Box mt={'0.75rem'}>
-        <TanstackTable
-          data={allTableData}
-          columns={UserList()}
-          isPagination={true}
+    <>
+      {!isRewardDetailsOpen?.isOpen ? (
+        <Box>
+          <PermissionsGuard
+            permissions={[
+              AIR_LOYALTY_PROGRAM_LOYALTY_REWARDS_PERMISSIONS?.SEARCH,
+            ]}
+          >
+            <Search label="Search Here" setSearchBy={setSearch} />
+          </PermissionsGuard>
+          <Box mt={'0.75rem'}>
+            <TanstackTable
+              columns={loyaltyAllRewardColumn}
+              data={lazyGetLoyaltyAllRewardsListStatus?.data?.data?.rewards}
+              isLoading={lazyGetLoyaltyAllRewardsListStatus?.isLoading}
+              isFetching={lazyGetLoyaltyAllRewardsListStatus?.isFetching}
+              isError={lazyGetLoyaltyAllRewardsListStatus?.isError}
+              isSuccess={lazyGetLoyaltyAllRewardsListStatus?.isSuccess}
+            />
+          </Box>
+        </Box>
+      ) : (
+        <SingleRewardDetails
+          isRewardDetailsOpen={isRewardDetailsOpen}
+          setIsRewardDetailsOpen={setIsRewardDetailsOpen}
         />
-      </Box>
-    </Box>
+      )}
+    </>
   );
 };

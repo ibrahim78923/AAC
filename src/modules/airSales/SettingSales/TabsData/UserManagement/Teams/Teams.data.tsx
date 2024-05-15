@@ -4,6 +4,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { EditPenIcon } from '@/assets/icons';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { UserAvatarImage } from '@/assets/images';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 export const columnsTeams = (props: any) => {
   const { setIsTeamDrawer, setIsOpenDelete, theme, setTeamId, setIsAddTeam } =
@@ -50,7 +51,7 @@ export const columnsTeams = (props: any) => {
             onClick={() => {
               setIsAddTeam({
                 isToggle: true,
-                type: 'edit',
+                type: DRAWER_TYPES?.EDIT,
               });
               setTeamId(info?.row?.original?._id);
             }}

@@ -86,6 +86,10 @@ export const AIR_SALES = {
   VIEW_DETAILS: '/air-sales/deals/view-details',
   DEAL_LIST_VIEW: '/deals/get-deals-list-view',
   DEALS_VIEWDEATAILS: '/air-sales/deals/view-details',
+  REPORTS: path(AIR_SALES_PAGE, '/reports'),
+  DEALS_REPORTS: path(AIR_SALES_PAGE, '/reports/deals-reports'),
+  CATEOGRORY_REPORTS: path(AIR_SALES_PAGE, '/reports/categoryForecast-reports'),
+  PIPELINE_REPORTS: path(AIR_SALES_PAGE, '/reports/pipelineForecast-reports'),
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -226,6 +230,25 @@ export const SOCIAL_FEATURES_CHAT = {
   UPLOAD_ATTACHMENT_CHAT: 'chat/message',
   CREATE_GROUP: 'chat/create-group',
 };
+
+export const SOCIAL_FEATURES_EMAIL = {
+  CREATE_CONFIG: '/other-mail/create-config',
+  UPDATE_CONFIG: '/other-mail/update-config',
+  GET_MAIL_FOLDERS: '/other-mail/get-folders',
+  GET_OTHER_MAIL_CONFIG: '/other-mail/get-config',
+  GET_MAILS_BY_FOLDER_ID: '/other-mail/get-emails-by-folderId',
+  GET_MAIL_DETAILS: '/other-mail/get-message-details',
+  GET_OTHERS_DRAFTS: '/other-mail/get-draft-emails',
+
+  SEND_EMAIL_OTHER: '/other-mail/send-email',
+  DRAFT_EMAIL_OTHER: '/other-mail/draft-email',
+  REPLY_EMAIL_OTHER: '/other-mail/reply-email',
+
+  MOVE_FOLDER_EMAIL_OTHER: '/other-mail/move-email',
+  UPDATE_EMAIL_SETTINGS: '/other-mail/update-emails-settings',
+  GET_EMAIL_SETTINGS: '/other-mail/get-emails-settings',
+};
+
 export const CHAT_SOCKETS = {
   ON_STATUS_CHANGE: 'on-status-change',
   ON_GROUP_CREATE: 'on-group-create',
@@ -269,4 +292,9 @@ export const AIR_CALL_CENTER = {
     USER_MANAGEMENT: '/air-call-center/settings/user-management',
     PHONE_CREDITS: '/air-call-center/settings/phone-credits',
   },
+};
+
+export const quoteStatus = {
+  draft: 'DRAFT',
+  published: 'PUBLISHED',
 };

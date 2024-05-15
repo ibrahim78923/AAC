@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import PermissionDenied from '@/components/PermisisonDenied';
-import { Box } from '@mui/material';
 import useAuth from '@/hooks/useAuth';
 import { ROLES } from '@/constants/strings';
 import {
@@ -13,7 +12,6 @@ function checkPermissions(permissions: any, modulePermissions: any) {
   modulePermissions?.forEach((value: any) => {
     componentPermissionsDictionary[value] = true;
   });
-  // return true;
   if (permissions?.length > 0) {
     for (const permission of permissions) {
       if (componentPermissionsDictionary[permission]) {
@@ -56,6 +54,6 @@ export default function PermissionsGuard({
   } else if (isPage) {
     <PermissionDenied />;
   } else {
-    return <Box></Box>;
+    return <></>;
   }
 }

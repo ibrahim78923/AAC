@@ -36,6 +36,7 @@ export const ServicesAction = (props: any) => {
     setAnchorEl,
     isDisabled,
     setSelectedCheckboxes,
+    deleteServiceCatalogStatus,
   } = useServicesAction(props);
 
   return (
@@ -135,6 +136,8 @@ export const ServicesAction = (props: any) => {
           handleClose={() => setDeleteModalOpen(false)}
           handleSubmitBtn={handleDeleteBtn}
           message="Are you sure you want to delete this field ?"
+          loading={deleteServiceCatalogStatus?.isLoading}
+          disableCancelBtn={deleteServiceCatalogStatus?.isLoading}
         />
       )}
       {open && (

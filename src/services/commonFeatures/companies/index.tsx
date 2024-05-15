@@ -135,6 +135,20 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['COMPANY'],
     }),
+    getCompanyAssociations: builder.query({
+      query: ({ id, params }: any) => ({
+        url: `${END_POINTS?.GET_COMPANY_ASSOICATION}/${id}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: [
+        'COMPANY',
+        'CONTACTS',
+        'ATTACHMENT',
+        'DEALS',
+        'DEALS_ASSOCIATION',
+      ],
+    }),
   }),
 });
 
@@ -154,4 +168,5 @@ export const {
   useGetCompaniesViewsQuery,
   usePutCustomizedColumnsMutation,
   useGetCompanyDealsQuery,
+  useGetCompanyAssociationsQuery,
 } = companiesAPI;

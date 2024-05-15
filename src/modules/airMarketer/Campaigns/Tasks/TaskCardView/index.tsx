@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-
 import { Box, Checkbox, Theme, Typography, useTheme } from '@mui/material';
-
 import { taskCardViewData } from './TaskCardView.data';
-
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 
-const TaskViewCard = () => {
+const TaskViewCard = ({ data }: any) => {
   const theme: any = useTheme<Theme>();
   const [taskCardData, setTaskCardData] = useState<any[]>([]);
   const statusConstants = {
@@ -17,9 +14,9 @@ const TaskViewCard = () => {
   };
   useEffect(() => {
     setTaskCardData([
-      ...taskCardViewData.map((column: any) => ({
-        mainTitle: column.mainTitle,
-        cardData: [...column.cardData],
+      ...taskCardViewData(data)?.map((column: any) => ({
+        mainTitle: column?.mainTitle,
+        cardData: [...column?.cardData],
       })),
     ]);
   }, []);
@@ -38,9 +35,6 @@ const TaskViewCard = () => {
 
   return (
     <>
-      {/* <Box mb={1} sx={{ cursor: 'pointer' }} onClick={() => router.back()}>
-        <BackArrIcon />
-      </Box> */}
       <Box
         sx={{
           display: 'flex',
@@ -218,12 +212,12 @@ const TaskViewCard = () => {
                                       statusConstants?.Inprogress
                                         ? `${theme?.palette?.warning?.main}`
                                         : items?.status ===
-                                            statusConstants?.Pending
-                                          ? `${theme?.palette?.error?.main}`
-                                          : items?.status ===
-                                              statusConstants?.Complete
-                                            ? `${theme?.palette?.success?.main}`
-                                            : '',
+                                          statusConstants?.Pending
+                                        ? `${theme?.palette?.error?.main}`
+                                        : items?.status ===
+                                          statusConstants?.Complete
+                                        ? `${theme?.palette?.success?.main}`
+                                        : '',
                                     fontWeight: 600,
                                   }}
                                 >

@@ -1,12 +1,19 @@
 import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { Typography, useTheme } from '@mui/material';
 
 import * as Yup from 'yup';
+import {
+  useLazyGetAllCampaignsListQuery,
+  useLazyGetDealOwnersListQuery,
+} from '@/services/common-APIs';
+import { ROLES } from '@/constants/strings';
+import { getSession } from '@/utils';
 
 export const validationSchema = Yup?.object().shape({
   taskName: Yup?.string()?.required('Field is Required'),
@@ -22,7 +29,11 @@ export const defaultValues = {
 };
 
 export const dataArray = () => {
+  const { user }: any = getSession();
+  const orgId = user?.organization?._id;
   const theme = useTheme();
+  const campaignsList = useLazyGetAllCampaignsListQuery();
+  const userListData = useLazyGetDealOwnersListQuery();
   return [
     {
       componentProps: {
@@ -37,44 +48,40 @@ export const dataArray = () => {
     },
     {
       componentProps: {
+        placeholder: 'Select type',
         name: 'taskType',
         label: 'Task Type',
         fullWidth: true,
-        select: true,
+        options: ['Email', 'Call', 'Other'],
       },
-      options: [
-        { value: 'email', label: 'Email' },
-        { value: 'other', label: 'Other' },
-      ],
-      component: RHFSelect,
+
+      component: RHFAutocomplete,
       md: 12,
     },
     {
       componentProps: {
+        placeholder: 'Select campaign',
         name: 'selectCompaign',
         label: 'Select Campaign',
+        apiQuery: campaignsList,
         fullWidth: true,
-        select: true,
+        getOptionLabel: (option: any) => option?.title,
       },
-      options: [
-        { value: 'fabrizioRomano', label: 'fabrizioRomano' },
-        { value: 'fabrizioRomano', label: 'fabrizioRomano' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
       componentProps: {
+        placeholder: 'Select assignee',
         name: 'assignedTo',
         label: 'Assigned To',
-        fullWidth: true,
-        select: true,
+        apiQuery: userListData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { role: ROLES?.ORG_EMPLOYEE, organization: orgId },
+        queryKey: 'role',
       },
-      options: [
-        { value: 'fabrizioRomano', label: 'fabrizioRomano' },
-        { value: 'fabrizioRomano', label: 'fabrizioRomano' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {

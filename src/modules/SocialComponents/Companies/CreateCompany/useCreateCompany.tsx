@@ -5,7 +5,7 @@ import {
   defaultCreateCompanyValues,
 } from './CreateCompany.data';
 import { useGetCompanyContactsQuery } from '@/services/common-APIs';
-import { getSession } from '@/utils';
+import { getSession, isNullOrEmpty } from '@/utils';
 import { companiesAPI } from '@/services/commonFeatures/companies';
 
 import { enqueueSnackbar } from 'notistack';
@@ -41,15 +41,21 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
     formData.append('name', values?.name);
     formData.append('ownerId', values?.ownerId);
     formData.append('industry', values?.industry);
-    formData.append('type', values?.type);
+    if (!isNullOrEmpty(values?.type)) {
+      formData.append('type', values?.type);
+    }
     formData.append('city', values?.city);
     formData.append('postalCode', values?.postalCode);
     formData.append('address', values?.address);
-    formData.append('description', values?.description);
-    formData.append('linkedInUrl', values?.linkedInUrl);
+    if (!isNullOrEmpty(values?.description)) {
+      formData.append('description', values?.description);
+    }
+    if (!isNullOrEmpty(values?.linkedInUrl)) {
+      formData.append('linkedInUrl', values?.linkedInUrl);
+    }
 
     try {
-      postCompanies({ body: formData });
+      await postCompanies({ body: formData }).unwrap();
       enqueueSnackbar(`Company Created Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });

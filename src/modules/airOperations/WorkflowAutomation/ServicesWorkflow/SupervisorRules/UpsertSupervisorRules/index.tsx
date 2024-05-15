@@ -1,4 +1,4 @@
-import { Box, Grid, Skeleton } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useRulesWorkflow } from './useRulesWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -6,6 +6,7 @@ import { WorkflowHeader } from './WorkflowHeader';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 import { rulesWorkflowDataArray } from './UpsertRulesWorkflow.data';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertSupervisorRules = () => {
   const {
@@ -29,8 +30,9 @@ export const UpsertSupervisorRules = () => {
     updatedWorkflowProcess,
     handleTestWorkflow,
     testWorkflowResponse,
+    movePage,
   } = useRulesWorkflow();
-  if (isLoading || isFetching) return <Skeleton />;
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <Box>
       <FormProvider
@@ -48,6 +50,7 @@ export const UpsertSupervisorRules = () => {
           updatedWorkflowProcess={updatedWorkflowProcess}
           testWorkflowResponse={testWorkflowResponse}
           watch={watch}
+          movePage={movePage}
         />
         <Grid container spacing={2}>
           {rulesWorkflowDataArray?.map((item: any) => (

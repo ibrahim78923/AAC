@@ -4,6 +4,13 @@ import { FormProvider } from '@/components/ReactHookForm';
 import useCreateTask from './useCreateTask';
 
 import CommonDrawer from '@/components/CommonDrawer';
+import { TASK_TYPE } from '@/constants';
+import { useAppDispatch } from '@/redux/store';
+import {
+  setCompaniesSelectedIds,
+  setContactsSelectedIds,
+  setDealsSelectedIds,
+} from '@/redux/slices/taskManagement/taskManagementSlice';
 
 const CreateTask = ({
   isCreateTaskDrawerOpen,
@@ -15,14 +22,28 @@ const CreateTask = ({
     getCreateTaskData,
     methodsFilter,
     onSubmitHandler,
+    reset,
   } = useCreateTask({ creationMode, setIsCreateTaskDrawerOpen });
+
+  const dispatch: any = useAppDispatch();
+
+  const handelClose = () => {
+    setIsCreateTaskDrawerOpen(false);
+    reset();
+    dispatch(setContactsSelectedIds([]));
+    dispatch(setCompaniesSelectedIds([]));
+    dispatch(setDealsSelectedIds([]));
+    dispatch(setDealsSelectedIds([]));
+  };
 
   return (
     <CommonDrawer
       isDrawerOpen={isCreateTaskDrawerOpen}
-      onClose={() => setIsCreateTaskDrawerOpen(false)}
-      title={creationMode === 'create' ? 'Create Task' : 'Edit Task'}
-      okText={'Create'}
+      onClose={handelClose}
+      title={
+        creationMode === TASK_TYPE?.CREATE_TASK ? 'Create Task' : 'Edit Task'
+      }
+      okText={creationMode === TASK_TYPE?.CREATE_TASK ? 'Create' : 'Update'}
       isOk
       cancelText={'Cancel'}
       footer={true}

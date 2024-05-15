@@ -4,6 +4,8 @@ import {
   Box,
   Checkbox,
   Switch,
+  Tooltip,
+  Typography,
   useTheme,
 } from '@mui/material';
 
@@ -88,32 +90,45 @@ export const columns = (
       header: 'Products',
       cell: (info: any) => (
         <>
-          <Box sx={{ alignItems: 'center', display: 'flex' }}>
-            {info?.row?.original?.products?.length ? (
-              <AvatarGroup
-                max={4}
-                sx={{
-                  '& .MuiAvatar-root': {
-                    background: theme?.palette?.primary?.main,
-                    height: '32px',
-                    width: '32px',
-                    fontSize: '12px',
-                    borderRadius: '12px',
-                  },
-                }}
-              >
+          <Tooltip
+            title={
+              <Box>
                 {info?.row?.original?.products?.map((item: any) => (
-                  <Avatar
-                    key={uuidv4()}
-                    alt="product-image"
-                    src={`${process?.env?.NEXT_PUBLIC_IMG_URL}${item?.logo?.url}`}
-                  />
+                  <Typography variant="body2" key={uuidv4()}>
+                    {item?.name}
+                  </Typography>
                 ))}
-              </AvatarGroup>
-            ) : (
-              '-'
-            )}
-          </Box>
+              </Box>
+            }
+            placement="bottom-start"
+          >
+            <Box sx={{ alignItems: 'center', display: 'flex' }}>
+              {info?.row?.original?.products?.length ? (
+                <AvatarGroup
+                  max={4}
+                  sx={{
+                    '& .MuiAvatar-root': {
+                      background: theme?.palette?.primary?.main,
+                      height: '32px',
+                      width: '32px',
+                      fontSize: '12px',
+                      borderRadius: '12px',
+                    },
+                  }}
+                >
+                  {info?.row?.original?.products?.map((item: any) => (
+                    <Avatar
+                      key={uuidv4()}
+                      alt="product-image"
+                      src={`${process?.env?.NEXT_PUBLIC_IMG_URL}${item?.logo?.url}`}
+                    />
+                  ))}
+                </AvatarGroup>
+              ) : (
+                '-'
+              )}
+            </Box>
+          </Tooltip>
         </>
       ),
     },

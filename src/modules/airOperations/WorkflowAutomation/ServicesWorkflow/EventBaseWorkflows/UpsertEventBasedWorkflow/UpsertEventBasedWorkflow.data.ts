@@ -1,8 +1,10 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
+import { LOGICS, MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 import {
   assetsFieldsOption,
+  notifyBeforeOptions,
+  optionsConstants,
   taskFieldsOption,
   ticketsFields,
 } from './WorkflowConditions/SubWorkflowConditions/SubWorkflowConditions.data';
@@ -28,21 +30,40 @@ export const conditionTypeOptions = [
   { value: 'OR', label: 'Match ANY condition in this group' },
 ];
 
-export const actionsOptions = [
-  { value: 'status', label: 'Set Priority as' },
+export const actionsTicketOptions = [
+  { value: 'pirority', label: 'Set Priority as' },
   { value: 'impact', label: 'Set Impact as' },
   { value: 'ticketType', label: 'Set Type as' },
   { value: 'status', label: 'Set Status as' },
+  { value: 'plannedStartDate', label: 'Set planned Start dates as' },
+  { value: 'plannedEndDate', label: 'Set planned end dates as' },
+  { value: 'plannedEffort', label: 'Set planned Efforts as' },
   { value: 'dueDate', label: 'Set Due Date as' },
   { value: 'category', label: 'Set Category as' },
   { value: 'source', label: 'Set Source as' },
   { value: 'department', label: 'Set Department as' },
-  { value: 'addTask', label: 'Add Task' },
-  { value: 'addTag', label: 'Add Tag' },
-  { value: 'sendEmailAgent', label: 'Send Email to Agent' },
-  { value: 'sendEmailRequester', label: 'Send Email to Requester' },
-  { value: 'assignAgent', label: 'Assign to Agent' },
+  { value: 'agent', label: 'Assign to Agent' },
 ];
+export const actionsTaskOptions = [
+  { value: 'status', label: 'Set Status as' },
+  { value: 'startDate', label: 'Set planned Start dates as' },
+  { value: 'endDate', label: 'Set planned end dates as' },
+  { value: 'plannedEffort', label: 'Set planned Efforts as' },
+  { value: 'assignTo', label: 'Assign to Agent' },
+];
+export const actionsAssetOptions = [
+  { value: 'status', label: 'Set Status as' },
+  { value: 'impact', label: 'Set Impact as' },
+  { value: 'locationId', label: 'Set location as' },
+  { value: 'assetLifeExpiry', label: 'Set end of life as' },
+  { value: 'assetType', label: 'Set Category as' },
+  { value: 'departmentId', label: 'Set Department as' },
+  { value: 'usedBy', label: 'Set used by as' },
+];
+
+export const eventBasedSaveWorkflowSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
+});
 
 export const eventBasedWorkflowSchema = Yup.object().shape({
   title: Yup?.string()?.required('Required'),
@@ -57,29 +78,16 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
       conditionType: Yup?.mixed()?.nullable()?.required('Required'),
       groupCondition: Yup?.string(),
       conditions: Yup?.array()?.of(
-        Yup?.lazy((value: any) => {
-          if (value?.key === 'email') {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.string()
-                ?.email('Invalid email')
-                ?.nullable()
-                ?.required('Required'),
-            });
-          } else if (value?.key === 'number') {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.number()?.nullable()?.required('Required'),
-            });
-          } else {
-            return Yup?.object()?.shape({
-              fieldName: Yup?.mixed()?.nullable()?.required('Required'),
-              condition: Yup?.string()?.required('Required'),
-              fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
-            });
-          }
+        Yup?.object()?.shape({
+          fieldName: Yup?.mixed()?.nullable()?.required('Required'),
+          condition: Yup?.string()?.required('Required'),
+          fieldValue: Yup?.mixed()?.when('condition', {
+            is: (condition: string) =>
+              condition === optionsConstants?.isEmpty ||
+              condition === optionsConstants?.isNotEmpty,
+            then: (schema: any) => schema?.notRequired(),
+            otherwise: (schema: any) => schema?.required('Required'),
+          }),
         }),
       ),
     }),
@@ -115,16 +123,39 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
   ),
 });
 
-export const eventBasedWorkflowValues: any = (
-  singleWorkflowData: any,
-  optionsData: any,
-) => {
+export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
+  const ticketData: any = {
+    ticketFields: 'Ticket Fields',
+    assetsFields: 'Assets Fields',
+    taskFields: 'Task Fields',
+  };
+
+  let optionsData: any = ticketData?.ticketFields;
+
+  if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS) {
+    optionsData = ticketData?.ticketFields;
+  } else if (singleWorkflowData?.module === SCHEMA_KEYS?.ASSETS) {
+    optionsData = ticketData?.assetsFields;
+  } else if (singleWorkflowData?.module === SCHEMA_KEYS?.TICKETS_TASKS) {
+    optionsData = ticketData?.taskFields;
+  }
+
   const allFields = [
     ...ticketsFields,
     ...taskFieldsOption,
     ...assetsFieldsOption,
   ];
+  const allActionFields = [
+    ...actionsTicketOptions,
+    ...actionsTaskOptions,
+    ...actionsAssetOptions,
+  ];
 
+  const constantsData = {
+    date: 'date',
+    object: 'objectId',
+    notifyBefore: 'notifyBefore',
+  };
   return {
     title: singleWorkflowData?.title ?? '',
     type: MODULES?.EVENT_BASE,
@@ -140,41 +171,39 @@ export const eventBasedWorkflowValues: any = (
         )
       : null,
     module: singleWorkflowData?.module ?? SCHEMA_KEYS?.TICKETS,
-    groupCondition: singleWorkflowData?.groupCondition ?? 'AND',
-    groups: singleWorkflowData?.groups?.map((group: any, gIndex: number) => {
-      return {
-        name: group?.name ?? '',
-        conditionType: group?.conditionType
-          ? conditionTypeOptions?.find(
-              (item: any) => item?.value === group?.conditionType,
-            )
+    groupCondition: singleWorkflowData?.groupCondition ?? LOGICS?.AND,
+    groups: singleWorkflowData?.groups?.map((group: any, gIndex: number) => ({
+      name: group?.name ?? '',
+      conditionType:
+        conditionTypeOptions?.find(
+          (type: any) => type?.value === group?.conditionType,
+        ) ?? null,
+      conditions: group?.conditions?.map((condition: any, cIndex: number) => ({
+        options: optionsData,
+        fieldName: condition?.fieldName
+          ? allFields?.find((item: any) => item?.value === condition?.fieldName)
           : null,
-        conditions: group?.conditions?.map((condition: any, cIndex: number) => {
-          return {
-            options: optionsData,
-            fieldName: condition?.fieldName
-              ? allFields?.find(
-                  (item: any) => item?.value === condition?.fieldName,
-                )
-              : null,
-            condition: condition?.condition ?? '',
-            fieldValue:
-              condition?.fieldType === 'objectId'
-                ? singleWorkflowData[
-                    `${condition?.fieldName}${gIndex}${cIndex}`
-                  ]
-                : condition?.fieldType === 'date'
-                  ? new Date(condition?.fieldValue)
-                  : condition?.fieldValue,
-          };
-        }),
-      };
-    }) ?? [
+        condition: condition?.condition ?? '',
+        fieldValue:
+          condition?.fieldType === constantsData?.object
+            ? singleWorkflowData[
+                `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
+              ]
+            : condition?.fieldType === constantsData?.date
+              ? new Date(condition?.fieldValue)
+              : condition?.fieldName === constantsData?.notifyBefore
+                ? notifyBeforeOptions?.find(
+                    (item: any) => item?.value === condition?.fieldValue,
+                  )
+                : condition?.fieldValue,
+      })),
+    })) ?? [
       {
         name: '',
         conditionType: null,
         conditions: [
           {
+            options: '',
             fieldName: null,
             condition: '',
             fieldValue: null,
@@ -185,14 +214,14 @@ export const eventBasedWorkflowValues: any = (
     actions: singleWorkflowData?.actions?.map(
       (action: any, aIndex: number) => ({
         fieldName: action?.fieldName
-          ? actionsOptions?.find(
+          ? allActionFields?.find(
               (item: any) => item?.value === action?.fieldName,
             )
           : null,
         fieldValue:
-          action?.fieldType === 'objectId'
-            ? singleWorkflowData[`${action?.fieldName}${aIndex}`]
-            : action?.fieldType === 'date'
+          action?.fieldType === constantsData?.object
+            ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
+            : action?.fieldType === constantsData?.date
               ? new Date(action?.fieldValue)
               : action?.fieldValue,
       }),

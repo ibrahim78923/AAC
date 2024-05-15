@@ -33,6 +33,7 @@ export { default as ContactImage } from './modules/HeaderAndSidebar/contact.png'
 export { default as MeetingTopImage } from './modules/HeaderAndSidebar/meeting-icon.png';
 export { default as DocumentImage } from './modules/HeaderAndSidebar/document.png';
 export { default as MailImage } from './modules/HeaderAndSidebar/mail.png';
+export { default as ForecaseCardImg } from './shared/forecastImg.png';
 export { default as MessageImage } from './modules/HeaderAndSidebar/message-top.png';
 export { default as IcLinkImage } from './modules/HeaderAndSidebar/ic-link.png';
 export { default as CrossImage } from './modules/HeaderAndSidebar/cross.png';
@@ -273,3 +274,10 @@ export { default as SmsMockImage } from './modules/airMarketer/SmsMarketing/sms-
 export { default as TwillioImage } from './modules/airMarketer/SmsMarketing/twillio.png';
 export { default as PageNotFoundImage } from './shared/page-Not-found.png';
 export { default as ComingSoonImage } from './shared/coming-soon.png';
+export { default as PhysicalCardBackImage } from './shared/physical-card-back-image.png';
+export { default as PhysicalCardFrontImage } from './shared/physical-card-front-image.png';
+export { default as XlFileImg } from './shared/xl-file-img.png';
+export { default as OthersMail } from './shared/others-mail.png';
+export { default as VoucherCardIcon } from './modules/loyaltyProgram/Vouchers/vouchers-icon.png';
+export { default as VoucherCardIconBg } from './modules/loyaltyProgram/Vouchers/Ellipse.png';
+export { default as VoucherCardBg } from './modules/loyaltyProgram/Vouchers/Decore.png';

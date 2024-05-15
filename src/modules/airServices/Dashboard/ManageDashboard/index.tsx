@@ -1,7 +1,6 @@
-import { FilterSharedIcon, ViewDetailBackArrowIcon } from '@/assets/icons';
+import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
-import { Box, Button, Grid, Typography } from '@mui/material';
-import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import { Box, Button, Grid } from '@mui/material';
 import {
   dashboardsData,
   manageDashboardsDataColumns,
@@ -12,8 +11,9 @@ import { filterFieldsManageDashboard } from './ManageDashboardFilter/ManageDashb
 import { useManageDashboard } from './useManageDashboard';
 import { styles } from './ManageDashboard.styles';
 import TanstackTable from '@/components/Table/TanstackTable';
-import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const ManageDashboard = () => {
   const {
@@ -25,43 +25,28 @@ export const ManageDashboard = () => {
     resetManageDashboardFilterForm,
     submitManageDashboardFilterForm,
     methodsManageDashboardFilterForm,
+    router,
   } = useManageDashboard();
   return (
     <>
       <Grid container>
         <Grid item xs={12}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            flexWrap="wrap"
-            gap={1.5}
-          >
-            <Box display="flex" alignItems="center" flexWrap="wrap" gap={2}>
-              <ViewDetailBackArrowIcon />
-              <Typography variant="h3" color="grey.800">
-                Manage Dashboards
-              </Typography>
-            </Box>
-            <Button
-              LinkComponent={Link}
-              href={AIR_SERVICES?.CREATE_DASHBOARD}
-              startIcon={
-                <AddCircleRoundedIcon sx={{ color: 'common.white' }} />
-              }
-              variant="contained"
-              disableElevation
-              sx={styles(matches)?.createDashboardButton}
-            >
-              Create Dashboard
-            </Button>
-          </Box>
+          <PageTitledHeader
+            title={'Manage Dashboards'}
+            canMovedBack
+            moveBack={() => router?.push(AIR_SERVICES?.DASHBOARD)}
+            addTitle={'Create Dashboard'}
+            createPermissionKey={[
+              AIR_SERVICES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD,
+            ]}
+            handleAction={() => router?.push(AIR_SERVICES?.CREATE_DASHBOARD)}
+          />
         </Grid>
         <Grid item xs={12}>
           <Box sx={styles(matches)?.tableBox}>
             <Box sx={styles(matches)?.tableHeaderBox}>
               <Search
-                label="search"
+                label="Search Here"
                 width="100%"
                 searchBy={searchValue}
                 setSearchBy={SetSearchValue}
