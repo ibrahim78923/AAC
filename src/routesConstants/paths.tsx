@@ -262,7 +262,7 @@ export const CHAT_SOCKETS_EMIT = {
 };
 
 export const AIR_CALL_CENTER = {
-  DASHBOARD: '/air-call-center/dashboard',
+  DASHBOARD: '/air-call-center',
   CALL_METRICS: '/air-call-center/call-metrics',
   POWER_DAILER: '/air-call-center/power-dailer',
   SETTINGS: {
