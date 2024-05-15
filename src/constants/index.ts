@@ -18,6 +18,7 @@ export const TIME_FORMAT = {
 export const CALENDAR_FORMAT = {
   UI: 'D MMMM YYYY',
   API: 'YYYY MMMM D',
+  YMD: 'YYYY-MM-DD',
 };
 
 export const DATE_TIME_FORMAT = {
@@ -27,7 +28,7 @@ export const DATE_TIME_FORMAT = {
   MMMDDYYYY: 'MMM DD, YYYY',
   DDMYHMA: 'ddd, D MMM, YYYY h:mm A',
   DMY: 'DDMMMYYYY',
-  YMDHM: 'YYYY-MM-DD hh:mm A',
+  YMDHM: 'YYYY-MM-DD, hh:mm A',
   DMYHMSA: 'ddd MM, YYYY hh:mm:ss A',
   D: 'D',
   DDDDDD: 'ddd - DD',
@@ -278,4 +279,13 @@ export const associationCompanies = {
   newDeal: 'New Deal',
   invalidDate: 'Invalid Date',
   zero: 0,
+};
+
+export const TASK_TYPE = {
+  CREATE_TASK: 'create',
+  EDIT_TASK: 'edit',
+  UPDATE_TASK: 'update',
+};
+export const goalsStatus = {
+  inProgress: 'In-Progress',
 };

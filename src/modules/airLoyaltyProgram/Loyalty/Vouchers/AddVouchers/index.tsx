@@ -17,6 +17,7 @@ export const AddVouchers = (props: any) => {
     apiQueryOrganizations,
     watch,
     postVouchersStatus,
+    randomString,
   } = useAddVouchers(props);
   return (
     <>
@@ -54,6 +55,7 @@ export const AddVouchers = (props: any) => {
                 color="primary"
                 fullWidth
                 disableElevation
+                onClick={randomString}
               >
                 Generate Code
               </Button>

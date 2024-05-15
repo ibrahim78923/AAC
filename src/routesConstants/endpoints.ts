@@ -363,6 +363,7 @@ export const END_POINTS = {
   GET_RULES_AND_TIERS_LIST: `/rules-and-tiers`,
   ADD_RULES: `/rules-and-tiers/rule`,
   ADD_TIERS: `/rules-and-tiers/tier`,
+  UPDATE_TIERS: `/rules-and-tiers/tier`,
   CREATE_DIGITAL_REWARD: `/rewards/create-digital-reward`,
   CREATE_PHYSICAL_REWARD: `/rewards/create-physical-reward`,
   GET_REWARDS_LIST: `/rewards/rewards-list`,
@@ -378,9 +379,12 @@ export const END_POINTS = {
   GET_TIERS_BY_ID: `/rules-and-tiers/tier`,
   ADD_VOUCHERS: '/vouchers/create-voucher',
   DELETE_SHOP: `/shops/delete-shops`,
+  GET_VOUCHERS: '/vouchers/list-voucher',
+  GET_SINGLE_VOUCHERS: '/vouchers/get-voucher-details',
+  UPDATE_VOUCHERS_STATUS: '/vouchers/update-voucher-status',
   ADD_LOYALTY_TRANSACTION: `/Transactions/add-transaction`,
   GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
-  CHANGE_RULES_STATUS: `/rules-and-tiers/rules/change-status`,
+  CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
 };
 
 export const LEAD_CAPTURE_FORM = {

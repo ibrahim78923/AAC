@@ -8,12 +8,22 @@ import ImportTaskDrawer from '../ImportTaskDrawer';
 import { RecycleIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
+import useCreateTask from '../CreateTask/useCreateTask';
+import { useAppDispatch } from '@/redux/store';
+import {
+  setCompaniesSelectedIds,
+  setContactsSelectedIds,
+  setDealsSelectedIds,
+  setSelectedTaskIds,
+} from '@/redux/slices/taskManagement/taskManagementSlice';
 const TaskHeader = () => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
   const [isOpenCollapsAndExpand, setIsOpenCollapsAndExpand] =
     useState<any>(false);
+  const dispatch: any = useAppDispatch();
+  const { reset } = useCreateTask({});
 
   return (
     <Box
@@ -76,7 +86,15 @@ const TaskHeader = () => {
           permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.CRAETE_TASK]}
         >
           <Button
-            onClick={() => setIsCreateTaskDrawerOpen(true)}
+            onClick={() => {
+              reset({});
+              dispatch(setContactsSelectedIds([]));
+              dispatch(setCompaniesSelectedIds([]));
+              dispatch(setSelectedTaskIds([]));
+              dispatch(setDealsSelectedIds([]));
+              dispatch(setDealsSelectedIds([]));
+              setIsCreateTaskDrawerOpen(true);
+            }}
             className="small"
             variant="contained"
             startIcon={<PlusIcon />}

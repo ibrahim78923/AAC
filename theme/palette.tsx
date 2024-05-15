@@ -148,6 +148,7 @@ const CUSTOM_COLORS = {
   translucent_white: 'rgba(255, 255, 255, 0.5)',
   periwinkle_blue: '#CDE1FF',
   dodger_blue: '#4B8DF0',
+  light_gray_shadow: '#9b979726',
 };
 const GRAPH = {
   cyan: 'blue',

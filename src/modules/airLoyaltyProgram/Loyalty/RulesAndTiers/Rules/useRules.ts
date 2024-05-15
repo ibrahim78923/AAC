@@ -56,7 +56,10 @@ export const useRules = () => {
     }
   };
 
-  const rulesColumns = rulesColumnsDynamic?.(changeStatus);
+  const rulesColumns = rulesColumnsDynamic?.(
+    changeStatus,
+    changeSingleRuleStatusStatus,
+  );
 
   return {
     setSearch,
