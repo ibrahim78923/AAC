@@ -119,6 +119,7 @@ export const ASSET_IMPACT = {
 export const TICKET_TYPE = {
   INC: 'INC',
   SR: 'SR',
+  EQ: 'EQ',
 };
 export const ASSET_TYPE = {
   SERVICES: 'services',

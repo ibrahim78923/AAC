@@ -213,6 +213,13 @@ export const ServicesRoutes: any = [
     role: 'SERVICE',
     permissions: Permissions?.AIR_CUSTOMER_PORTAL,
   },
+  {
+    key: '/air-services/enquiries',
+    icon: ReportsImage,
+    label: 'Enquiries',
+    role: 'SERVICE',
+    permissions: Permissions?.AIR_SERVICES_ENQUIRIES,
+  },
 ];
 
 export const LoyaltyProgramsRoutes: any = [

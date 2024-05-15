@@ -658,6 +658,16 @@ export const AIR_SERVICES_WORKLOAD_CALENDER_VIEW_PERMISSIONS = {
   FILTERS: 'service-workload-filters',
 };
 
+export const AIR_SERVICES_ENQUIRIES_PERMISSION = {
+  ENQUIRIES_LIST: 'enquiries-list',
+  SEARCH_AND_FILTER: 'enquiries-search-and-filter',
+  UPDATE_STATUS: 'enquiries-update-status',
+  REPLY_ENQUIRY: 'reply-enquiry',
+  VIEW_ENQUIRY: 'view-enquiry',
+  DELETE_ENQUIRY: 'delete-enquiry',
+  ENQUIRY_REFRESH: 'enquiry-refresh',
+};
+
 export const AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS = {
   REPORT_AN_ISSUES: 'service-customer-portal-report-an-issues',
   SENT_SERVICES_REQUEST: 'service-customer-sent-services-request',

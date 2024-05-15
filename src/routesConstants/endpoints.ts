@@ -63,7 +63,7 @@ export const END_POINTS = {
   TASK_MANAGEMENT_FEED: '/activity-log',
   TASK_MANAGEMENT_INSIGHTS_NEW: '/task/task-management-insights-new',
   DEALS_ASSOCIATION: '/deals/get-associations',
-  ENQUIRIES: '/enquiries/',
+  ENQUIRIES: '/enquiries',
   CREATE_ASSOCIATION: '/deals/create-association',
   DELETE_ASSOCIATION: '/deals/delete-association',
   ASSETS_INVENTORY: '/assets/inventory',
