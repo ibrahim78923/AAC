@@ -113,7 +113,7 @@ const useCompanies = () => {
     data: getAllCompanies,
     isLoading,
     isSuccess,
-  } = useGetAllCompaniesQuery(filterValues);
+  } = useGetAllCompaniesQuery({ ...filterValues, ...defaultFilterValues });
 
   // tabs view code starts here
 

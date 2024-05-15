@@ -1,15 +1,20 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { columns } from './AllForms.data';
 import Search from '@/components/Search';
-import { useState } from 'react';
 import { Box, useTheme } from '@mui/material';
-import { AllFormsTableData } from '@/mock/modules/airMarketer/LeadCapture/Forms';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS } from '@/constants/permission-keys';
+import useAllForms from './useAllForms';
+import { columns } from '../Forms.data';
 
 const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
-  const [searchByClientName, setSearchByClientName] = useState('');
   const theme = useTheme();
+  const {
+    setSearchValue,
+    loadingGetForms,
+    dataGetForms,
+    setPageLimit,
+    setPage,
+  } = useAllForms();
   const getColums = columns(setShowSignUpForm, setFindStatus, theme);
 
   return (
@@ -25,16 +30,24 @@ const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
           permissions={[AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS?.SEARCH]}
         >
           <Search
-            searchBy={searchByClientName}
-            setSearchBy={setSearchByClientName}
+            setSearchBy={setSearchValue}
             label="Search Here"
             size="small"
           />
         </PermissionsGuard>
       </Box>
+
       <TanstackTable
         columns={getColums}
-        data={AllFormsTableData}
+        data={dataGetForms?.data?.leadcaptureforms}
+        isLoading={loadingGetForms}
+        currentPage={dataGetForms?.data?.meta?.page}
+        count={dataGetForms?.data?.meta?.pages}
+        pageLimit={dataGetForms?.data?.meta?.limit}
+        totalRecords={dataGetForms?.data?.meta?.total}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        onPageChange={(page: any) => setPage(page)}
         isPagination
       />
     </Box>

@@ -116,10 +116,11 @@ export const useUser = () => {
       };
       await addListUsers({ body }).unwrap();
       successSnackbar('Users List added successfully.');
-      handleClose();
+      handleClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
+    handleClose?.();
   };
 
   const handleClose = () => {
@@ -149,8 +150,7 @@ export const useUser = () => {
     try {
       await patchProductUsersTrigger(formData)?.unwrap();
       successSnackbar('Products Users Edit  Successfully');
-      setIsDrawerOpen(false);
-      reset();
+      handleClose?.();
     } catch (error: any) {
       errorSnackbar('error');
     }

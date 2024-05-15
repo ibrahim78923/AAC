@@ -241,6 +241,8 @@ export const SOCIAL_FEATURES_EMAIL = {
   REPLY_EMAIL_OTHER: '/other-mail/reply-email',
 
   MOVE_FOLDER_EMAIL_OTHER: '/other-mail/move-email',
+  UPDATE_EMAIL_SETTINGS: '/other-mail/update-emails-settings',
+  GET_EMAIL_SETTINGS: '/other-mail/get-emails-settings',
 };
 
 export const CHAT_SOCKETS = {

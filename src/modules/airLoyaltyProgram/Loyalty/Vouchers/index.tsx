@@ -1,15 +1,22 @@
-import { Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { vouchersColumns, vouchersData } from './Vouchers.data';
-import Image from 'next/image';
-import { VoucherImage } from '@/assets/images';
+import { vouchersColumns } from './Vouchers.data';
+import {
+  VoucherCardBg,
+  VoucherCardIcon,
+  VoucherCardIconBg,
+} from '@/assets/images';
 import { useVouchers } from './useVouchers';
 import { AddVouchers } from './AddVouchers';
 import { Filters } from './Filters';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
+import { truncateLargeText, truncateText } from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+import { CALENDAR_FORMAT } from '@/constants';
+import Image from 'next/image';
 
 export const Vouchers = () => {
   const {
@@ -23,7 +30,20 @@ export const Vouchers = () => {
     theme,
     setFiltersOpen,
     vouchersMetaData,
-    lazyGetVouchersStatus,
+    isFetching,
+    isSuccess,
+    isError,
+    isLoading,
+    vouchers,
+    onSwitchChange,
+    switchLoading,
+    setFilterValues,
+    filterValues,
+    handlePrintVoucher,
+    singleVouchers,
+    router,
+    ScreenPosition,
+    ImgPosition,
   } = useVouchers();
   return (
     <>
@@ -37,6 +57,7 @@ export const Vouchers = () => {
               top: '-1px',
               left: '-1px',
               zIndex: 1402,
+              overflow: 'visible',
             },
             '& .no-print': {
               display: 'none',
@@ -52,6 +73,7 @@ export const Vouchers = () => {
             Vouchers
           </Typography>
         </Grid>
+
         <Grid
           item
           xs={6}
@@ -92,12 +114,17 @@ export const Vouchers = () => {
         </Grid>
         <Grid item xs={12} mt={3} className="no-print">
           <TanstackTable
-            columns={vouchersColumns}
-            data={vouchersData}
-            isLoading={lazyGetVouchersStatus?.isLoading}
-            isFetching={lazyGetVouchersStatus?.isFetching}
-            isError={lazyGetVouchersStatus?.isError}
-            isSuccess={lazyGetVouchersStatus?.isSuccess || true}
+            columns={vouchersColumns(
+              onSwitchChange,
+              switchLoading,
+              handlePrintVoucher,
+              router,
+            )}
+            data={vouchers}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            isError={isError}
+            isSuccess={isSuccess || true}
             currentPage={page}
             count={vouchersMetaData?.pages}
             pageLimit={pageLimit}
@@ -109,14 +136,105 @@ export const Vouchers = () => {
           />
         </Grid>
         <Grid item xs={12} display="none" className="printable-voucher">
-          <Image src={VoucherImage} alt="voucher" />
+          <Grid
+            container
+            width={'738px'}
+            display={'flex'}
+            bgcolor={'primary.main'}
+            borderRadius={'20px'}
+          >
+            <Grid item xs={6} position="relative">
+              <Box
+                height={'308px'}
+                borderRadius={'20px 0px 0px 20px'}
+                overflow={'hidden'}
+              >
+                <Image src={VoucherCardBg} alt="CardBg" />
+              </Box>
+              <Box
+                position={'absolute'}
+                {...ScreenPosition}
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'flex-start'}
+                padding={3}
+              >
+                <Typography color={'white'} variant="h1" mb={2}>
+                  {truncateText(singleVouchers?.name)}
+                </Typography>
+                <Typography color={'white'} variant="body1">
+                  {truncateLargeText(singleVouchers?.description)}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              bgcolor={'primary.main'}
+              borderRadius={'0px 20px 20px 0px'}
+              position={'relative'}
+            >
+              <Image
+                src={VoucherCardIconBg}
+                alt={'IconBg'}
+                style={{
+                  position: 'absolute',
+                  ...ImgPosition,
+                }}
+              />
+              <Image
+                src={VoucherCardIcon}
+                alt={'IconBg'}
+                style={{
+                  position: 'absolute',
+                  ...ImgPosition,
+                }}
+              />
+              <Box
+                position={'absolute'}
+                {...ScreenPosition}
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                gap={1}
+                zIndex={100}
+              >
+                <Typography color={'white'} variant="h5">
+                  {singleVouchers?.voucherCode}
+                </Typography>
+                <Typography color={'white'} variant="h3">
+                  Expiry Date
+                </Typography>
+                <Typography color={'white'} variant="h6">
+                  {dayjs(singleVouchers?.voucherTimeLimit)?.format(
+                    CALENDAR_FORMAT?.YMD,
+                  )}
+                </Typography>
+                <Typography color={'white'} variant="h3">
+                  No. of Redemptions
+                </Typography>
+                <Typography color={'white'} variant="h6">
+                  04
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <AddVouchers
         addVouchersOpen={addVouchersOpen}
         setAddVouchersOpen={setAddVouchersOpen}
       />
-      <Filters filtersOpen={filtersOpen} setFiltersOpen={setFiltersOpen} />
+      {filtersOpen && (
+        <Filters
+          filtersOpen={filtersOpen}
+          setFiltersOpen={setFiltersOpen}
+          setFilterValues={setFilterValues}
+          filterValues={filterValues}
+          setPage={setPage}
+        />
+      )}
     </>
   );
 };

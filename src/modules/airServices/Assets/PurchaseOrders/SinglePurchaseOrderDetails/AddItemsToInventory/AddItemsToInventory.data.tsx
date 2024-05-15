@@ -50,7 +50,7 @@ export const addItemsToInventoryFormValidationSchema = (
           ?.max(
             purchaseOrderDetails?.totalReceived -
               purchaseOrderDetails?.totalItemAdded,
-            `less than ${
+            `Max value ${
               purchaseOrderDetails?.totalReceived -
               purchaseOrderDetails?.totalItemAdded
             }`,
@@ -133,7 +133,7 @@ export const addItemsToInventoryCountFormFieldsDynamic = (
           sx={{ cursor: 'pointer' }}
           gap={0.5}
         >
-          <Typography>Items To inventory</Typography>
+          <Typography>Items To Inventory</Typography>
           <Error color="secondary" />
         </Box>
       ),

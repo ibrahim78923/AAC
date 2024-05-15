@@ -90,6 +90,7 @@ export const useAddPlan = () => {
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
     router?.back();
+    window.location.href = SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID;
   };
 
   const methods: any = useForm({
@@ -584,15 +585,13 @@ export const useAddPlan = () => {
       setValue('additionalStoragePrice', 0);
     } else if (
       AdditionalStorageValue[0] === 'Yes' &&
-      checkValueAdditionalStoragePrice[0] < 0 &&
-      isNullOrEmpty(parsedRowData)
+      checkValueAdditionalStoragePrice[0] === 0
     ) {
       setValue('additionalStoragePrice', 1);
     }
     if (
       AdditionalUsereValue[0] === 'Yes' &&
-      checkValueAdditionalPerUserPrice[0] < 0 &&
-      isNullOrEmpty(parsedRowData)
+      checkValueAdditionalPerUserPrice[0] === 0
     ) {
       setValue('additionalPerUserPrice', 1);
     } else if (AdditionalUsereValue[0] === 'No') {

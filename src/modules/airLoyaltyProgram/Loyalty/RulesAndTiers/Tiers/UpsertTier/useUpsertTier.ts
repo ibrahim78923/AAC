@@ -4,18 +4,86 @@ import {
   upsertTierDefaultValues,
   upsertTierValidationSchema,
 } from './UpsertTier.data';
+import { useEffect, useState } from 'react';
+import {
+  useAddTiersMutation,
+  useEditSingleTiersMutation,
+  useGetSingleTiersDetailsQuery,
+  useLazyGetContactListForTierQuery,
+} from '@/services/airLoyaltyProgram/loyalty/rulesAndTiers/tiers';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertTier = (props: any) => {
-  const { setIsDrawerOpen } = props;
+  const { setIsDrawerOpen, tierId } = props;
+  const [termData, setTermData] = useState(false);
+
+  const storedId = tierId?._id;
+  const { data, isLoading, isFetching, isError }: any =
+    useGetSingleTiersDetailsQuery(storedId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!storedId,
+    });
+
+  const formData = data?.data;
+
   const upsertTierMethod = useForm({
     resolver: yupResolver(upsertTierValidationSchema),
-    defaultValues: upsertTierDefaultValues,
+    defaultValues: upsertTierDefaultValues(formData),
   });
 
-  const { handleSubmit, reset } = upsertTierMethod;
+  const { handleSubmit, reset, watch, setValue } = upsertTierMethod;
 
-  const submitTierForm = () => {
-    closeUpsertTier?.();
+  const apiContactQuery = useLazyGetContactListForTierQuery();
+  const [postTierTrigger, postTierProgress] = useAddTiersMutation();
+  const [updateTierTrigger, updateTierProgress] = useEditSingleTiersMutation();
+
+  const submitTierForm = async (tierData: any) => {
+    const tierFormData = new FormData();
+    tierFormData?.append('name', tierData?.name);
+    tierFormData?.append('description', tierData?.description);
+    tierFormData?.append('logo', tierData?.logo);
+    tierFormData?.append('points', tierData?.points);
+    tierFormData?.append('amount', tierData?.amount);
+    tierFormData?.append('type', tierData?.type);
+    tierFormData?.append('attribute', tierData?.attribute?.value);
+    tierFormData?.append('operator', tierData?.operator?.value);
+    tierFormData?.append('fieldValue', tierData?.fieldValue);
+    tierFormData?.append(
+      'contacts',
+      tierData?.contacts?.map((item: any) => item?._id),
+    );
+
+    const postApiDataParameter = {
+      body: tierFormData,
+    };
+
+    if (!!storedId) {
+      return submitUpdateTierForm(tierFormData);
+    }
+
+    try {
+      await postTierTrigger(postApiDataParameter)?.unwrap();
+      successSnackbar('Tier added successfully');
+      closeUpsertTier?.();
+      reset?.();
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
+
+  const submitUpdateTierForm = async (tierData: any) => {
+    const putApiDataParameter = {
+      id: storedId,
+      body: tierData,
+    };
+    try {
+      await updateTierTrigger(putApiDataParameter)?.unwrap();
+      successSnackbar('Tier update successfully');
+      closeUpsertTier?.();
+      reset?.();
+    } catch (error) {
+      errorSnackbar();
+    }
   };
 
   const closeUpsertTier = () => {
@@ -23,10 +91,29 @@ export const useUpsertTier = (props: any) => {
     setIsDrawerOpen?.({});
   };
 
+  const attributesValues = watch('attribute');
+  useEffect(() => {
+    if (storedId === undefined) {
+      setValue('operator', null);
+      setValue('contacts', []);
+      setValue('fieldValue', '');
+    }
+  }, [attributesValues]);
+
   return {
     closeUpsertTier,
     upsertTierMethod,
     handleSubmit,
     submitTierForm,
+    termData,
+    setTermData,
+    watch,
+    apiContactQuery,
+    postTierProgress,
+    tierId,
+    isLoading,
+    isError,
+    isFetching,
+    updateTierProgress,
   };
 };

@@ -1,17 +1,28 @@
-import { Avatar, Box, Chip, Typography } from '@mui/material';
-import Image from 'next/image';
+import {
+  Box,
+  Chip,
+  CircularProgress,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { AntSwitch } from '@/components/AntSwitch';
 import Link from 'next/link';
-import { AIR_LOYALTY_PROGRAM } from '@/constants';
+import { AIR_LOYALTY_PROGRAM, DATE_TIME_FORMAT } from '@/constants';
 import { EyeIcon } from '@/assets/icons';
-import { UserAvatarImage } from '@/assets/images';
 import LocalPrintshopRoundedIcon from '@mui/icons-material/LocalPrintshopRounded';
-import { REQUESTORS_STATUS } from '@/constants/strings';
+import { VOUCHERS_STATUS } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
+import dayjs from 'dayjs';
+import { truncateText } from '@/utils/avatarUtils';
 
-export const vouchersColumns = [
+export const vouchersColumns = (
+  onSwitchChange: any,
+  switchLoading: any,
+  handlePrintVoucher: any,
+  router: any,
+) => [
   {
     accessorFn: (row: any) => row?.information,
     id: 'information',
@@ -23,30 +34,33 @@ export const vouchersColumns = [
         component={Link}
         href={`${AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST}`}
       >
-        <Avatar alt={info?.getValue()?.name}>
-          <Image
-            src={info?.getValue()?.src || info?.getValue()?.name}
-            alt={info?.getValue()?.name}
-            layout="fill"
-          />
-        </Avatar>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography variant="body4" color="blue.dull_blue">
-            {info?.getValue()?.name}
+            {truncateText(info?.row?.original?.name) ?? '---'}
           </Typography>
           <Typography variant="body3" color="custom.light">
-            {info?.getValue()?.rewardLabel}
+            {truncateText(info?.row?.original?.description) ?? '---'}
           </Typography>
         </Box>
       </Box>
     ),
   },
   {
-    accessorFn: (row: any) => row?.vouchersUsage,
-    id: 'vouchersUsage',
-    cell: (info: any) => info?.getValue(),
+    accessorFn: (row: any) => row?.voucherUsage,
+    id: 'voucherUsage',
     header: 'Vouchers usage',
     isSortable: true,
+    cell: (info: any) => (
+      <Box display={'flex'}>
+        <Typography fontSize={'0.9rem'}>
+          {info?.row?.original?.voucherValue ?? '---'}
+        </Typography>
+        {'/'}
+        <Typography fontSize={'0.9rem'}>
+          {info?.row?.original?.voucherLimitValue ?? '---'}
+        </Typography>
+      </Box>
+    ),
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -57,27 +71,33 @@ export const vouchersColumns = [
       <Chip
         sx={{
           backgroundColor:
-            info?.getValue() === REQUESTORS_STATUS?.ACTIVE
-              ? 'success.lighter'
-              : 'custom.error_lighter',
+            info?.getValue() === VOUCHERS_STATUS?.EXPIRED
+              ? 'custom.color.lighter'
+              : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
+                ? 'success.lighter'
+                : 'custom.error_lighter',
+
           color:
-            info?.getValue() === REQUESTORS_STATUS?.ACTIVE
-              ? 'success.main'
-              : 'error.main',
-          fontWeight: 500,
-          fontSize: '0.7rem',
+            info?.getValue() === VOUCHERS_STATUS?.EXPIRED
+              ? 'custom.main'
+              : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
+                ? 'success.main'
+                : 'error.main',
+          fontSize: '0.8rem',
         }}
         icon={
           <FiberManualRecordIcon
             color={
-              info?.getValue() === REQUESTORS_STATUS?.ACTIVE
-                ? 'success'
-                : 'error'
+              info?.getValue() === VOUCHERS_STATUS?.EXPIRED
+                ? 'secondary'
+                : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
+                  ? 'success'
+                  : 'error'
             }
             sx={{ fontSize: '0.7rem' }}
           />
         }
-        label={info?.getValue()}
+        label={info?.getValue() ?? '---'}
       />
     ),
   },
@@ -86,63 +106,60 @@ export const vouchersColumns = [
     id: 'createdAt',
     isSortable: true,
     header: 'Created at',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.YMDHM) ?? '---',
   },
   {
     accessorFn: (row: any) => row?.actions,
     id: 'actions',
     isSortable: true,
     header: 'Actions',
-    cell: () => (
+    cell: (info: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <PermissionsGuard
           permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.PRINT]}
         >
-          <LocalPrintshopRoundedIcon
-            sx={{ cursor: 'pointer' }}
-            onClick={() => window?.print()}
-          />
+          <IconButton
+            onClick={() => handlePrintVoucher(info?.row?.original?._id)}
+          >
+            <LocalPrintshopRoundedIcon />
+          </IconButton>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.VIEW_DETAILS]}
         >
-          <Link href={`${AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST}`}>
+          <IconButton
+            onClick={() =>
+              router?.push(AIR_LOYALTY_PROGRAM?.VOUCHER_REDEMPTION_LIST)
+            }
+          >
             <EyeIcon />
-          </Link>
+          </IconButton>
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[
             AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS?.ACTIVE_DEACTIVATE_VOUCHERS,
           ]}
         >
-          <AntSwitch />
+          {switchLoading[info?.row?.original?._id] ? (
+            <CircularProgress size={20} sx={{ ml: 0.5 }} />
+          ) : (
+            <AntSwitch
+              disabled={
+                info?.row?.original?.status === VOUCHERS_STATUS?.EXPIRED
+                  ? true
+                  : false
+              }
+              onChange={() => onSwitchChange(info?.row?.original)}
+              checked={
+                info?.row?.original?.status === VOUCHERS_STATUS?.ACTIVE
+                  ? true
+                  : false
+              }
+            />
+          )}
         </PermissionsGuard>
       </Box>
     ),
-  },
-];
-
-export const vouchersData: any = [
-  {
-    actions: 1,
-    vouchersUsage: '119 / 250',
-    information: {
-      name: 'Maryam',
-      rewardLabel: '50 Dollars reward',
-      src: UserAvatarImage,
-    },
-    status: 'Expired',
-    createdAt: '2023-02-28, 03:44',
-  },
-  {
-    actions: 2,
-    vouchersUsage: '2 / 250',
-    information: {
-      name: 'Loyal bro',
-      rewardLabel: 'Loyal',
-      src: UserAvatarImage,
-    },
-    status: 'Active',
-    createdAt: '2023-02-28, 03:44',
   },
 ];
