@@ -215,14 +215,6 @@ const Dashboard = () => {
                       }}
                     >
                       {getProductIcon(item?.name)}
-                      {/* {item?.logo && (
-                                <Image
-                                  src={generateImage(item?.logo?.url)}
-                                  width={25}
-                                  height={25}
-                                  alt="product"
-                                />
-                              )} */}
                     </Box>
                     <Typography
                       variant="body2"
@@ -242,25 +234,6 @@ const Dashboard = () => {
           </>
         )}
       </Box>
-      {/* <Grid container>
-        {exploreProduct?.map((item: any) => (
-          <Grid item lg={2} md={3} sm={6} xs={12} key={uuidv4()}>
-            <Box mt={3} sx={styles?.explore_icons}>
-              <Typography sx={{ textAlign: 'center' }}>{item?.icon}</Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: theme?.palette?.grey[600],
-                  fontWeight: 600,
-                  textAlign: 'center',
-                }}
-              >
-                {item?.heading}
-              </Typography>
-            </Box>
-          </Grid>
-        ))}
-      </Grid> */}
     </>
   );
 };
