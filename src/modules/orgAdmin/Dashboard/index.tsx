@@ -221,7 +221,7 @@ const Dashboard = () => {
                       sx={{
                         color: `${item?.color}`,
                         fontWeight: 600,
-                        lineHeight: '20PX',
+                        lineHeight: '20px',
                         paddingTop: '10px',
                       }}
                     >
