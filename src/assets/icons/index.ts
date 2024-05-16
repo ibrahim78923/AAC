@@ -460,3 +460,11 @@ export { default as MSTeamsIcon } from './shared/ms-teams-icon';
 export { default as WarningIcon } from './shared/warning';
 export { default as EditPenCustomIcon } from './modules/SocialComponents/CalenderView/edit-pen-custom-icon';
 export { default as HeaderInfoIcon } from './shared/header-info';
+
+export { default as FeedbackDropoutIcon } from './modules/airServices/FeedbackSurvey/dropout-icon';
+export { default as FeedbackStartIcon } from './modules/airServices/FeedbackSurvey/start-icon';
+export { default as FeedbackTimeOffIcon } from './modules/airServices/FeedbackSurvey/time-off-icon';
+export { default as FeedbackViewIcon } from './modules/airServices/FeedbackSurvey/view-icon';
+export { default as FeedbackCompletionIcon } from './modules/airServices/FeedbackSurvey/completion-icon';
+export { default as FeedbackDownIcon } from './modules/airServices/FeedbackSurvey/feedback-down-icon';
+export { default as FeedbackUpIcon } from './modules/airServices/FeedbackSurvey/feedback-up-icon';
