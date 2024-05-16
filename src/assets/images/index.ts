@@ -216,8 +216,8 @@ export { default as ServiceCatalogSoftwareAdobePhotoshopImage } from './modules/
 export { default as HandShakeImage } from './modules/airMarketer/reports/hand-shake.png';
 export { default as MockUpImage } from './modules/paidAds/mockUpImage.png';
 export { default as MockEngagementTabsImage } from './modules/paidAds/engagementTabs-img.png';
-
 // settings -> performance management leader board
+export { default as PowerDailerImage } from './modules/airCallCenter/powerDailer/power-dailer.png';
 
 export { default as MostValuableBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/most-valuable-badge-image.png';
 export { default as ChampionBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/champion-badge-image.png';

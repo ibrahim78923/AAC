@@ -28,6 +28,7 @@ import {
   MessageImage,
   PaidAdsImage,
   PlanManagementImage,
+  PowerDailerImage,
   // PrepaidImage,
   ProfileUserImage,
   ProfileUserManagementImage,
@@ -54,6 +55,7 @@ import {
   AIR_OPERATION,
   LOYALTY_PROGRAM,
   AIR_SOCIAL,
+  AIR_CALL_CENTER,
 } from '@/routesConstants/paths';
 
 type MenuItemI = {
@@ -679,6 +681,16 @@ export const LowerServicesRoutes = [
   },
 ];
 
+export const LowerAirCallCenterRoutes = [
+  {
+    label: 'Settings',
+    icon: SettingImage,
+    role: 'Air-Call-Center',
+    key: AIR_CALL_CENTER.SETTINGS.PHONE_NUMBER,
+    permissions: [],
+  },
+];
+
 export const QuickLinksData = [
   {
     logo: SettingQuickImage,
@@ -785,6 +797,30 @@ export const QuickLinkData = [
   },
 ];
 
+export const AirCallCenterRoutes: any = [
+  {
+    key: AIR_CALL_CENTER?.DASHBOARD,
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'Air-Call-Center',
+    permissions: [],
+  },
+  {
+    key: AIR_CALL_CENTER?.CALL_METRICS,
+    icon: CallImage,
+    label: 'Call Metrics',
+    role: 'Air-Call-Center',
+    permissions: [],
+  },
+  {
+    key: AIR_CALL_CENTER?.POWER_DAILER,
+    icon: PowerDailerImage,
+    label: 'Power Dialer',
+    role: 'Air-Call-Center',
+    permissions: [],
+  },
+];
+
 const PRODUCT__ROUTES: any = {
   'Super Admin': SuperAdminRoutes,
   'Air Sales': SalesRoutes,
@@ -794,6 +830,7 @@ const PRODUCT__ROUTES: any = {
   'Air Operations': AirOperationsRoutes,
   'Air Marketer': AirMarketingRoutes,
   'Loyalty Program': LoyaltyProgramsRoutes,
+  'Air Call Center': AirCallCenterRoutes,
 };
 
 export const getRoutes = (product: any) => {
@@ -808,6 +845,7 @@ const LOWER_PRODUCT_ROUTES: any = {
   'Air Operations': LowerAirOperationRoutes,
   'Air Marketer': LowerAirMarketingRoutes,
   'Loyalty Program': LowerLoyaltyProgramRoutes,
+  'Air Call Center': LowerAirCallCenterRoutes,
 };
 
 export const getLowerRoutes = (product: any) => {
