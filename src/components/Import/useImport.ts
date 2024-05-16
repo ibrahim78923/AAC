@@ -15,7 +15,9 @@ export const useImport = (props: any) => {
     objectUrl,
     submitImport,
     mandatoryColumnsList = [],
+    hasNewImportApi = true,
   } = props;
+
   const [showItemsList, setShowItemsList] = useState(false);
 
   const importFormMethod = useForm<any>({
@@ -23,7 +25,7 @@ export const useImport = (props: any) => {
     resolver: yupResolver(importValidationSchema),
   });
 
-  const { handleSubmit, reset, control } = importFormMethod;
+  const { handleSubmit, reset, control, setValue } = importFormMethod;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -43,6 +45,11 @@ export const useImport = (props: any) => {
     await uploadImportData?.(data);
   };
 
+  const cancelBtnHandler = () => {
+    if (!showItemsList) return onClose?.();
+    setShowItemsList(false);
+  };
+
   const getSignedUrl = async (data: any) => {
     const signedUrlApiDataParameter = {
       queryParams: {
@@ -57,6 +64,9 @@ export const useImport = (props: any) => {
         file: data?.file,
         signedUrl: response?.data,
       };
+      const url = new URL(`${response?.data}`);
+      const filePath = `${url?.origin}${url?.pathname}`;
+      setValue?.('fileUrl', filePath);
       await uploadToS3CsvFile?.(s3Data);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -64,17 +74,27 @@ export const useImport = (props: any) => {
   };
 
   const uploadImportData = async (data: any) => {
-    const dataColumn = data?.csvColumns?.reduce(
-      (acc: any, item: any) => ({
-        ...acc,
-        [item?.crmColumn?._id]: item?.csvColumn,
-      }),
-      {},
-    );
+    const dataColumn = hasNewImportApi
+      ? data?.csvColumns?.reduce(
+          (acc: any, item: any) => ({
+            ...acc,
+            [item?.csvColumn]: item?.crmColumn?._id,
+          }),
+          {},
+        )
+      : data?.csvColumns?.reduce(
+          (acc: any, item: any) => ({
+            ...acc,
+            [item?.crmColumn?._id]: item?.csvColumn,
+          }),
+          {},
+        );
 
-    const allCrmColumnsKeys = Object?.keys(dataColumn ?? {});
+    const allCrmColumnsKeys = hasNewImportApi
+      ? Object?.values(dataColumn ?? {})
+      : Object?.keys(dataColumn ?? {});
 
-    const isRequiredFieldMap = allCrmColumnsKeys?.reduce(
+    const isRequiredFieldMap: any = allCrmColumnsKeys?.reduce(
       (acc: any, curr: any) => ((acc[curr] = true), acc),
       {},
     );
@@ -90,12 +110,12 @@ export const useImport = (props: any) => {
 
     const apiData = {
       dataColumn,
-      filePath: `${objectUrl}/${data?.file?.name}`,
+      ...data,
+      setShowItemsList,
+      onClose,
     };
 
     await submitImport?.(apiData);
-    onClose?.();
-    setShowItemsList(false);
   };
 
   const uploadToS3CsvFile = async (data: any) => {
@@ -149,5 +169,6 @@ export const useImport = (props: any) => {
     remove,
     uploadFileTos3UsingSignedUrlStatus,
     lazyGetSignedUrlForImportStatus,
+    cancelBtnHandler,
   };
 };

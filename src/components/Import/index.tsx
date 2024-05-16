@@ -25,6 +25,7 @@ export const Import = (props: any) => {
     remove,
     uploadFileTos3UsingSignedUrlStatus,
     lazyGetSignedUrlForImportStatus,
+    cancelBtnHandler,
   } = useImport(props);
 
   return (
@@ -51,6 +52,7 @@ export const Import = (props: any) => {
         lazyGetSignedUrlForImportStatus?.isLoading ||
         uploadFileTos3UsingSignedUrlStatus?.isLoading
       }
+      cancelBtnHandler={() => cancelBtnHandler?.()}
     >
       <Box marginY={2} />
       <FormProvider
