@@ -153,6 +153,11 @@ const CUSTOM_COLORS = {
   periwinkle_blue: '#CDE1FF',
   dodger_blue: '#4B8DF0',
   light_gray_shadow: '#9b979726',
+  light_gray_bg: '#F3F4F6',
+  light_blue_bg: '#E8FCFF',
+  light_green_bg: '#E6FAEB',
+  light_red_bg: '#FFEEEE',
+  light_yellow_bg: '#FFFCF1',
 };
 const GRAPH = {
   cyan: 'blue',

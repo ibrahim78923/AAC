@@ -462,6 +462,9 @@ export { default as EditPenCustomIcon } from './modules/SocialComponents/Calende
 export { default as CustomerSupportIcon } from './modules/airServices/FeedBack/customer-support';
 export { default as CustomerSatisfactionIcon } from './modules/airServices/FeedBack/customer-satisfaction';
 export { default as HeaderInfoIcon } from './shared/header-info';
+export { default as ArrowCircleLeftIcon } from './shared/arrow-left-circle';
+export { default as ArrowCircleRightIcon } from './shared/arrow-right-circle';
+
 export { default as FeedbackDropoutIcon } from './modules/airServices/FeedbackSurvey/dropout-icon';
 export { default as FeedbackStartIcon } from './modules/airServices/FeedbackSurvey/start-icon';
 export { default as FeedbackTimeOffIcon } from './modules/airServices/FeedbackSurvey/time-off-icon';

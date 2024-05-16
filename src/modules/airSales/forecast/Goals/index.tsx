@@ -1,15 +1,16 @@
 import { Box, Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
 import { manageTableColumns, manageTableData } from './Goals.data';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import useForecast from '../useforecast';
-import ForecastFilterDrawer from '../FilterDrwaer';
 import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import { styles } from './Goals.style';
 import useGoals from './useGoals';
-import ViewDealsDrawer from '../ViewDealsDrwaer';
+import GoalsFilterDrawer from '../GoalsDrwaer';
+import ViewDetailsDrwaer from '../ViewDetailsDrwaer';
+import EditGoalsDrwaer from '../EditGoalsDrwaer';
+import { AlertModals } from '@/components/AlertModals';
 
 const Goals = () => {
   const {
@@ -29,6 +30,10 @@ const Goals = () => {
     handleClose,
     handleClick,
     setAnchorEl,
+    isEditDrawer,
+    setIsEditDrawer,
+    isDelete,
+    setIsDelete,
   } = useGoals();
 
   return (
@@ -81,6 +86,15 @@ const Goals = () => {
               >
                 View Deal
               </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setIsEditDrawer(true);
+                  setAnchorEl(null);
+                }}
+              >
+                Edit Goals
+              </MenuItem>
+              <MenuItem onClick={() => setIsDelete(true)}>Delete</MenuItem>
             </Menu>
           </Stack>
           <Tooltip title={'Refresh Filter'}>
@@ -110,25 +124,39 @@ const Goals = () => {
             setTableRowValues,
           )}
           data={manageTableData}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          isPagination
         />
       </Box>
       {isFilterDrawer && (
-        <ForecastFilterDrawer
+        <GoalsFilterDrawer
           isOpenDrawer={isFilterDrawer}
           onClose={() => setIsFilterDrawer(false)}
         />
       )}
       {isViewDealDrawer && (
-        <ViewDealsDrawer
+        <ViewDetailsDrwaer
           isOpenDrawer={isViewDealDrawer}
           onClose={() => setIsViewDealDrawer(false)}
         />
       )}
+      {isEditDrawer && (
+        <EditGoalsDrwaer
+          isOpenDrawer={isEditDrawer}
+          onClose={() => setIsEditDrawer(false)}
+        />
+      )}
+
+      <AlertModals
+        message={'Are you sure you want to delete this Goal?'}
+        type={'delete'}
+        open={isDelete}
+        submitBtnText="Delete"
+        cancelBtnText="Cancel"
+        handleClose={() => setIsDelete(false)}
+        handleSubmitBtn={() => {
+          setIsDelete(false);
+        }}
+      />
     </Box>
   );
 };
