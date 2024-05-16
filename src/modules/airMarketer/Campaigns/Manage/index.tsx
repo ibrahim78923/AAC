@@ -17,15 +17,24 @@ import {
   RefreshTasksIcon,
 } from '@/assets/icons';
 import useCampaigns from '../useCampaigns';
-import Filters from '../Filters';
 import SaveNewViewDrawer from '../SaveNewViewDrawer';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import EditColumns from '../EditColumns';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
+import CampaingFilters from '../Filters';
 
-const Manage = () => {
+const Manage = ({
+  campaignsData,
+  handeApplyFilter,
+  handleResetFilters,
+  filterLoading,
+  handleSelectSingleCheckBox,
+  handleSelectAllCheckbox,
+  selectedRows,
+  allCamopaignsData,
+}: any) => {
   const theme = useTheme();
   const {
     handleOpenFilter,
@@ -34,9 +43,12 @@ const Manage = () => {
     handleSaveView,
     actionsModalDetails,
     setActionsModalDetails,
-    campaignsData,
+    // campaignsData,
+    setSearchCampaigns,
+    searchCampaigns,
   } = useCampaigns();
   const router = useRouter();
+
   return (
     <>
       <Box
@@ -49,7 +61,12 @@ const Manage = () => {
         <PermissionsGuard
           permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SEARCH_FILTER]}
         >
-          <Search label="Search Here" size="small" />
+          <Search
+            label="Search Here"
+            size="small"
+            setSearchBy={setSearchCampaigns}
+            searchBy={searchCampaigns}
+          />
         </PermissionsGuard>
 
         <Stack
@@ -58,7 +75,7 @@ const Manage = () => {
           flexWrap="wrap"
           gap={1}
         >
-          <ActionButton />
+          <ActionButton selectedRows={selectedRows} />
           <PermissionsGuard
             permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SAVE_ALL_VIEWS]}
           >
@@ -119,6 +136,7 @@ const Manage = () => {
               variant="outlined"
               color="inherit"
               className="small"
+              onClick={handleResetFilters}
               sx={{ width: { sm: '54px', xs: '100%' } }}
             >
               <RefreshTasksIcon />
@@ -168,17 +186,15 @@ const Manage = () => {
       </ButtonGroup>
 
       <TanstackTable
-        columns={columns()}
+        columns={columns(
+          handleSelectSingleCheckBox,
+          handleSelectAllCheckbox,
+          selectedRows,
+          allCamopaignsData,
+        )}
         data={campaignsData?.data?.campaigns}
         isPagination
       />
-
-      {isOpenFilter && (
-        <Filters
-          isOpenDrawer={isOpenFilter}
-          onClose={() => setIsOpenFilter(false)}
-        />
-      )}
 
       {actionsModalDetails?.isSaveView && (
         <SaveNewViewDrawer
@@ -189,6 +205,14 @@ const Manage = () => {
               isSaveView: false,
             })
           }
+        />
+      )}
+      {isOpenFilter && (
+        <CampaingFilters
+          isOpenDrawer={isOpenFilter}
+          setIsOpenFilter={setIsOpenFilter}
+          handeApplyFilter={handeApplyFilter}
+          filterLoading={filterLoading}
         />
       )}
 

@@ -49,14 +49,12 @@ const FormCreateProduct = ({ open, onClose }: any) => {
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
-    formData.append('name', values?.name);
-    formData.append('sku', values?.sku);
-    formData.append('purchasePrice', values?.purchasePrice);
-    formData.append('category', values?.category);
-    formData.append('description', values?.description);
-    formData.append('unitPrice', values?.unitPrice);
-    formData.append('isActive', values?.isActive);
-    formData.append('image', values?.file);
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        formData?.append(key, value);
+      }
+    });
+
     if (actionType === 'edit') {
       try {
         await updateProductById({ id: productId, body: formData })
@@ -75,8 +73,8 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             });
           });
       } catch (err: any) {
-        enqueueSnackbar(err?.message, {
-          variant: NOTISTACK_VARIANTS?.ERROR,
+        enqueueSnackbar('Error while edit product', {
+          variant: 'error',
         });
       }
     } else if (actionType === 'create') {
@@ -98,8 +96,8 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             reset();
           });
       } catch (err: any) {
-        enqueueSnackbar(err?.message, {
-          variant: NOTISTACK_VARIANTS?.ERROR,
+        enqueueSnackbar('Error while creating product', {
+          variant: 'error',
         });
       }
     }
@@ -122,7 +120,6 @@ const FormCreateProduct = ({ open, onClose }: any) => {
         }
       });
     } else {
-      // Reset form fields if actionType or productId changes
       reset({
         name: '',
         sku: '',

@@ -13,7 +13,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: TAG,
+      providesTags: ['DEALS'],
     }),
 
     getQuotes: builder.query({
@@ -31,7 +31,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: { productSearchKeyword },
       }),
-      providesTags: TAG,
+      providesTags: ['AIR_SALES_QUOTES', 'CONTACTS'],
     }),
 
     postQuote: builder.mutation({
@@ -193,12 +193,12 @@ export const quotesAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
     deleteContacts: builder.mutation({
-      query: (body: any) => ({
-        url: `${END_POINTS?.CONTACTS}`,
+      query: ({ contactId }: any) => ({
+        url: `${END_POINTS?.CONTACTS}/${contactId}`,
         method: 'DELETE',
-        body,
+        // body,
       }),
-      invalidatesTags: TAG,
+      invalidatesTags: ['AIR_SALES_QUOTES', 'CONTACTS'],
     }),
     putSubmitQuote: builder.mutation({
       query: ({ body }: any) => ({

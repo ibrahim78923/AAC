@@ -26,7 +26,7 @@ export const defaultValues = {
   closeDate: null,
 };
 export const createDealData = ({ dealPipelineId }: any) => {
-  const { user } = getSession();
+  const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
 
   const { pipelineData, salesProduct } = useDealTab();

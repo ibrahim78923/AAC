@@ -11,6 +11,9 @@ import { ExpandMore } from '@mui/icons-material';
 import { SwitchBtn } from '@/components/SwitchButton';
 
 import * as Yup from 'yup';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { useRouter } from 'next/router';
 
 export const data: any = [
   {
@@ -65,18 +68,43 @@ export const data: any = [
   },
 ];
 
-export const columns: any = () => {
+export const columns: any = (
+  handleSelectSingleCheckBox: any,
+  handleSelectAllCheckbox: any,
+  selectedRows: any,
+  allCamopaignsData: any,
+) => {
+  const router = useRouter();
+
   return [
     {
       accessorFn: (row: any) => row?.id,
       id: 'Id',
-      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-      header: <Checkbox color="primary" name="id" />,
+      cell: ({ row: { original } }: any) => (
+        <Checkbox
+          checked={selectedRows?.includes(original?._id)}
+          onChange={(val: any) => {
+            handleSelectSingleCheckBox(val, original?._id);
+            router.push(`?campaignOwner=${original?.userDetails?._id}`);
+          }}
+        />
+      ),
+      header: (
+        <Checkbox
+          checked={
+            allCamopaignsData?.length &&
+            selectedRows?.length === allCamopaignsData?.length
+          }
+          onChange={(val: any) => {
+            handleSelectAllCheckbox(val?.target?.checked);
+          }}
+        />
+      ),
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.campaignName,
-      id: 'campaignName',
+      accessorFn: (row: any) => row?.title,
+      id: 'title',
       cell: (info: any) => info?.getValue(),
       header: 'Campaign Name',
       isSortable: false,
@@ -86,7 +114,10 @@ export const columns: any = () => {
       id: 'campaignOwner',
       isSortable: true,
       header: 'Campaign Owner',
-      cell: (info: any) => info?.row?.original?.campaignOwner,
+      cell: (info: any) =>
+        `${info?.row?.original?.userDetails?.firstName ?? 'N/A'} ${
+          info?.row?.original?.userDetails?.lastName ?? 'N/A'
+        }`,
     },
     {
       accessorFn: (row: any) => row?.campaignBudget,
@@ -107,14 +138,14 @@ export const columns: any = () => {
       id: 'startDate',
       isSortable: true,
       header: 'Start Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.API),
     },
     {
       accessorFn: (row: any) => row?.endDate,
       id: 'endDate',
       isSortable: true,
       header: 'End Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.API),
     },
     {
       accessorFn: (row: any) => row?.campaignStatus,

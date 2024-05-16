@@ -7,111 +7,124 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup?.object()?.shape({});
+export const validationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Field is Required'),
+});
 
-export const defaultValuesCompaign = {};
-
-export const campaignArray = [
-  {
-    componentProps: {
-      name: 'title',
-      label: 'Title',
-      placeholder: 'John Allen',
-      fullWidth: true,
-      required: true,
+export const initvalues = {
+  title: '',
+  campaignOwner: '',
+  startDate: undefined,
+  endDate: undefined,
+  campaignGoal: '',
+  campaignStatus: '',
+  description: '',
+  campaignAudience: '',
+  campaignBudget: null,
+};
+export const campaignArray = (UserListData: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'title',
+        label: 'Title',
+        placeholder: 'John Allen',
+        fullWidth: true,
+        required: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      label: 'Campaign Owner',
-      name: 'campaignOwner',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        label: 'Campaign Owner',
+        name: 'campaignOwner',
+        fullWidth: true,
+        select: true,
+      },
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })) ?? [{ label: '', value: '' }],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'leslie', label: 'Leslie Alexander' },
-      { value: 'jerome', label: 'Jerome Bell' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'startDate',
-      label: 'Start Date',
-      placeholder: 'Select',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'startDate',
+        label: 'Start Date',
+        placeholder: 'Select',
+        fullWidth: true,
+      },
+      component: RHFSwitchableDatepicker,
+      md: 12,
     },
-    component: RHFSwitchableDatepicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'endDate',
-      label: 'End Date',
-      placeholder: 'Select',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'endDate',
+        label: 'End Date',
+        placeholder: 'Select',
+        fullWidth: true,
+      },
+      component: RHFSwitchableDatepicker,
+      md: 12,
     },
-    component: RHFSwitchableDatepicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'compaignGoal',
-      label: 'Compaign Goal',
-      placeholder: 'Enter goal',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'campaignGoal',
+        label: 'Compaign Goal',
+        placeholder: 'Enter goal',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'compaignAudience',
-      label: 'Compaign Audience',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'campaignAudience',
+        label: 'Compaign Audience',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'compaignBudget',
-      label: 'Compaign Budget',
-      placeholder: '₤',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'campaignBudget',
+        label: 'Compaign Budget',
+        placeholder: 'Enter Amount',
+        type: 'number',
+        InputProps: { inputProps: { min: 0 } },
+      },
+      component: RHFTextField,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      label: 'Campaign Status',
-      name: 'campaignStatus',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        label: 'Campaign Status',
+        name: 'campaignStatus',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'scheduled', label: 'Scheduled' },
+        { value: 'inprogress', label: 'In Progress' },
+        { value: 'active', label: 'Active' },
+        { value: 'paused', label: 'Paused' },
+        { value: 'completed', label: 'Completed' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'schedule', label: 'Scheduled' },
-      { value: 'inProgress', label: 'In Progress' },
-      { value: 'active', label: 'Active' },
-      { value: 'paused', label: 'Paused' },
-      { value: 'completed', label: 'Completed' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'editor',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'description',
+        fullWidth: true,
+      },
+      component: RHFEditor,
+      md: 12,
     },
-    component: RHFEditor,
-    md: 12,
-  },
-];
+  ];
+};
 
 export const compareCampaignArray = [
   {
@@ -146,7 +159,7 @@ export const compareCampaignArray = [
   },
   {
     componentProps: {
-      name: 'selectCampaign2',
+      name: 'Select Campaign 2',
       label: 'Select Campaign 2',
       fullWidth: true,
       select: true,

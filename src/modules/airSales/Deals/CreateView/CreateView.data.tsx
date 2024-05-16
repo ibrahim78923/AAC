@@ -22,7 +22,7 @@ export const defaultValues = {
 
 export const CreateViewData = (dealPipelineId: string | null) => {
   const { pipelineData } = useDealTab();
-  const { user } = getSession();
+  const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
   const { data: UserListData } = useGetUsersListQuery({
     role: ROLES?.ORG_EMPLOYEE,

@@ -13,6 +13,7 @@ const CreateQuote = () => {
     handleCloseFormCreateDeal,
     handleAddQuoteSubmit,
     loadingAddQuote,
+    refetchDealsDropdown,
   } = useCreateQuote();
 
   return (
@@ -62,6 +63,7 @@ const CreateQuote = () => {
       <FormCreateDeal
         open={isOpenFormCreateDeal}
         onClose={handleCloseFormCreateDeal}
+        refetchDealsDropdown={refetchDealsDropdown}
       />
     </>
   );

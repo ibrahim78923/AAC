@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
+import { DATE_FORMAT } from '@/constants';
 
 const CreateDeal = ({ open, onClose }: any) => {
   const [postDeals, { isLoading: isCreateDealLodaing }] =
@@ -29,7 +30,7 @@ const CreateDeal = ({ open, onClose }: any) => {
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = async (values: any) => {
-    const closeDate = dayjs(values?.closeDate)?.toISOString();
+    const closeDate = dayjs(values?.closeDate)?.format(DATE_FORMAT?.API);
     const products = values?.products?.map((id: string) => ({
       productId: id,
       quantity: 1,
@@ -41,6 +42,17 @@ const CreateDeal = ({ open, onClose }: any) => {
       products,
       ...values,
     };
+
+    const formData = new FormData();
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        if (key === closeDate) {
+          formData?.append(key, dayjs(value)?.format(DATE_FORMAT?.API));
+        } else {
+          formData?.append(key, value);
+        }
+      }
+    });
 
     try {
       await postDeals({ body: obj })?.unwrap();

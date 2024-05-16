@@ -72,7 +72,7 @@ const UpdateQuote = () => {
         stepsArray={steps}
         stepperButtons={
           <Box sx={styles?.stepperButtons}>
-            {activeStep > 0 && (
+            {activeStep > 1 && (
               <Button
                 onClick={handleStepBack}
                 variant="outlined"

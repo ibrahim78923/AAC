@@ -293,7 +293,7 @@ const Calendar = () => {
         submitBtnText="Delete"
         cancelBtnText="Cancel"
         handleClose={() => setIsDelete(false)}
-        handleSubmitBtn={() => {}}
+        handleSubmitBtn={() => alert('helo')}
       />
     </>
   );
