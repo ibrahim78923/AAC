@@ -39,7 +39,7 @@ export const ListView = () => {
       </Grid>
       <Box
         p={2}
-        border={`.1rem solid ${theme?.palette?.grey[0]}`}
+        border={`.1rem solid ${theme?.palette?.custom?.dark}`}
         borderRadius={3}
       >
         <Box
