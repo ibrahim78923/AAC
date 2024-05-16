@@ -220,6 +220,7 @@ export const LOYALTY_PROGRAM = {
 
 export const ORG_ADMIN = {
   DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
+  EDIT_PROFILE: '/edit-profile',
   ORGANIZATION: '/org-admin/organization-admin',
 };
 
