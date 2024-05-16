@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
 import { EmailSettingDrawerI } from './EmailSettingDrawer.interface';
 import CommonTabs from '@/components/Tabs';
@@ -16,9 +16,12 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { defaultValues, validationSchema } from './EmailSetting.data';
+import { validationSchema } from './EmailSetting.data';
 import { PlusIcon } from '@/assets/icons';
-import { usePatchEmailSettingsMutation } from '@/services/commonFeatures/email';
+import {
+  useGetEmailSettingsQuery,
+  usePatchEmailSettingsMutation,
+} from '@/services/commonFeatures/email';
 import { enqueueSnackbar } from 'notistack';
 
 export const SettingsTabs = ['Email Settings', 'Calendar'];
@@ -31,13 +34,23 @@ const EmailSettingDrawer = ({
 
   const [isAddTeamSignature, setIsAddTeamSignature] = useState(false);
 
+  const { data: data } = useGetEmailSettingsQuery({});
+
   const methodsMailSettings: any = useForm<any>({
     resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
+    defaultValues: {
+      fromName: data?.data?.emailSettings?.name,
+      fontName: data?.data?.emailSettings?.fontName,
+      fontSize: data?.data?.emailSettings?.fontSize,
+      fontColor: data?.data?.emailSettings?.fromName,
+      teamSignature: data?.data?.emailSettings?.signature,
+      fromAddress: data?.data?.emailSettings?.address,
+      defaultAddress: data?.data?.emailSettings?.customAddress,
+    },
   });
-  const { handleSubmit, watch } = methodsMailSettings;
+  const { handleSubmit, watch, reset } = methodsMailSettings;
 
-  const [patchEmailSettings] = usePatchEmailSettingsMutation();
+  const [patchEmailSettings, { isLoading }] = usePatchEmailSettingsMutation();
 
   const onSubmit = async (values: any) => {
     const payload = {
@@ -61,6 +74,7 @@ const EmailSettingDrawer = ({
       enqueueSnackbar('Settings updated successfully', {
         variant: 'success',
       });
+      setIsOpenDrawer(false);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -69,16 +83,41 @@ const EmailSettingDrawer = ({
   const formAddress = watch('fromAddress');
   const isCustomizedAddress = formAddress === 'Customize from address';
 
+  useEffect(() => {
+    if (data?.data) {
+      reset({
+        fromName: data?.data?.emailSettings?.name,
+        fontName: data?.data?.emailSettings?.fontName,
+        fontSize: data?.data?.emailSettings?.fontSize,
+        fontColor: data?.data?.emailSettings?.fromName,
+        teamSignature: data?.data?.emailSettings?.signature,
+        fromAddress: data?.data?.emailSettings?.address,
+        defaultAddress: data?.data?.emailSettings?.customAddress,
+      });
+    }
+  }, [data?.data]);
+
+  useEffect(() => {
+    if (data?.data?.emailSettings?.signature) {
+      setIsAddTeamSignature(true);
+    }
+  }, [data?.data?.emailSettings?.signature]);
+
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => setIsOpenDrawer(false)}
       title={'Email Settings'}
-      okText={'Send'}
+      okText={
+        Object.keys(data?.data?.emailSettings?.customAddress)?.length
+          ? 'Update'
+          : 'Send'
+      }
       isOk
       cancelText={'Cancel'}
       submitHandler={handleSubmit(onSubmit)}
       footer
+      isLoading={isLoading}
     >
       <CommonTabs tabsArray={SettingsTabs}>
         <Box>
@@ -112,7 +151,7 @@ const EmailSettingDrawer = ({
                   name="fromAddress"
                   options={[
                     {
-                      value: 'Use default',
+                      value: 'DEFAULT',
                       label: 'Use default',
                     },
                     {
@@ -128,7 +167,6 @@ const EmailSettingDrawer = ({
                   name="defaultAddress"
                   size="small"
                   disabled={!isCustomizedAddress}
-                  value="jhon@dummy.com"
                 />
               </Grid>
 
@@ -138,7 +176,7 @@ const EmailSettingDrawer = ({
                   {isAddTeamSignature && (
                     <Grid container>
                       <Grid item xs={12} mt={2}>
-                        <RHFEditor name="teamSignature" required={true} />
+                        <RHFEditor name="teamSignature" />
                       </Grid>
                     </Grid>
                   )}
@@ -184,9 +222,9 @@ const EmailSettingDrawer = ({
                   md={12}
                 >
                   <option value="sans-serif">Sans-serif</option>
-                  <option value="Arial">Arial</option>
-                  <option value="Verdana">Verdana</option>
-                  <option value="Times New Roman">Times New Roman</option>
+                  <option value="arial">Arial</option>
+                  <option value="verdana">Verdana</option>
+                  <option value="times New Roman">Times New Roman</option>
                 </RHFSelect>
               </Grid>
               <Grid item xs={6}>
@@ -198,10 +236,11 @@ const EmailSettingDrawer = ({
                   md={12}
                 >
                   <option value={'10'}>10</option>
-                  <option value={'10'}>12</option>
-                  <option value={'10'}>15</option>
+                  <option value={'11'}>11</option>
+                  <option value={'12'}>12</option>
+                  <option value={'15'}>15</option>
                   <option value={'20'}>20</option>
-                  <option value={'20'}>25</option>
+                  <option value={'25'}>25</option>
                   <option value={'30'}>30</option>
                   <option value={'40'}>40</option>
                   <option value={'50'}>50</option>

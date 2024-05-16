@@ -4,11 +4,6 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({});
 
-export const defaultValues = {
-  fromName: '',
-  fromAddress: '',
-};
-
 export const dataArray = [
   {
     label: 'From Name',
