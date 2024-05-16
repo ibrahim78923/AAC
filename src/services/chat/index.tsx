@@ -88,6 +88,13 @@ export const chatApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    deleteChatIds: builder.mutation({
+      query: ({ ids }: any) => ({
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${ids}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -99,4 +106,5 @@ export const {
   useChatAttachmentUploadMutation,
   useGetUserChatsInfoQuery,
   useGetChatUsersQuery,
+  useDeleteChatIdsMutation,
 } = chatApi;

@@ -248,7 +248,7 @@ const Chat = () => {
                 gap: '10px',
               }}
             >
-              <CircularProgress size={20} /> Creating user
+              <CircularProgress size={20} />
             </Box>
           ) : (
             <>
