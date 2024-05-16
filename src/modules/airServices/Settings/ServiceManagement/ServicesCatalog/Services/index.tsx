@@ -5,6 +5,7 @@ import {
   Checkbox,
   Divider,
   Grid,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -24,7 +25,7 @@ import NoData from '@/components/NoData';
 import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { generateImage } from '@/utils/avatarUtils';
+import { generateImage, truncateLargeText } from '@/utils/avatarUtils';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const Services = () => {
@@ -225,9 +226,19 @@ const Services = () => {
                 >
                   <FolderIcon color="primary" fontSize="large" />
                   <Typography variant="h5">{service?.categoryName}</Typography>
-                  <Typography variant="body2">
-                    {service?.description}
-                  </Typography>
+
+                  <Tooltip title={service?.description ?? '-'} arrow>
+                    <Typography
+                      variant="body2"
+                      align="center"
+                      gutterBottom
+                      ml={4}
+                      mr={1}
+                      noWrap
+                    >
+                      {truncateLargeText(service?.description ?? '-', 160)}
+                    </Typography>
+                  </Tooltip>
                 </Box>
               </Grid>
             ))}
@@ -320,9 +331,10 @@ const Services = () => {
                       alignItems={'center'}
                       display={'flex'}
                       flexWrap={'wrap'}
+                      gap={1}
                       mt={2}
                     >
-                      <Box display={'flex'} alignItems={'center'} mr={2}>
+                      <Box>
                         <Checkbox
                           checked={
                             !!selectedCheckboxes?.find(
@@ -343,10 +355,18 @@ const Services = () => {
                           }}
                         />
                       </Box>
-                      <Avatar
-                        sx={{ height: '4rem', width: '4rem' }}
-                        src={generateImage(result?.attachmentDetails?.fileUrl)}
-                      />
+                      <Box
+                        alignItems={'center'}
+                        display={'flex'}
+                        justifyContent={'center'}
+                      >
+                        <Avatar
+                          sx={{ height: '4rem', width: '4rem' }}
+                          src={generateImage(
+                            result?.attachmentDetails?.fileUrl,
+                          )}
+                        />
+                      </Box>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
                       <Typography
@@ -361,7 +381,13 @@ const Services = () => {
                       </Typography>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
-                      <Typography variant="body2" align="left" gutterBottom>
+                      <Typography
+                        variant="body2"
+                        align="left"
+                        gutterBottom
+                        ml={4}
+                        mr={1}
+                      >
                         Cost:
                         {result?.cost ?? '-'}
                       </Typography>
@@ -371,8 +397,8 @@ const Services = () => {
                         variant="body2"
                         align="center"
                         gutterBottom
-                        mr={1}
                         ml={4}
+                        mr={1}
                       >
                         Estimated Delivery:
                         {result?.estimatedDelivery ?? '-'}
@@ -381,18 +407,25 @@ const Services = () => {
                     <Box
                       alignItems={'center'}
                       display={'flex'}
-                      sx={{ wordBreak: 'break-all' }}
+                      sx={{
+                        textOverflow: 'break-all',
+                        wordBreak: 'break-all',
+                        whiteSpace: 'nowrap',
+                      }}
                     >
-                      <Typography
-                        variant="body3"
-                        align="center"
-                        gutterBottom
-                        mr={1}
-                        ml={4}
-                      >
-                        Description:
-                        {result?.description ?? '-'}
-                      </Typography>
+                      <Tooltip title={result?.description ?? '-'} arrow>
+                        <Typography
+                          variant="body3"
+                          align="center"
+                          gutterBottom
+                          ml={4}
+                          mr={1}
+                          noWrap
+                        >
+                          Description:{' '}
+                          {truncateLargeText(result?.description ?? '-', 160)}
+                        </Typography>
+                      </Tooltip>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
                       {result?.status && (
@@ -400,8 +433,8 @@ const Services = () => {
                           variant="body3"
                           align="center"
                           gutterBottom
-                          mr={1}
                           ml={4}
+                          mr={1}
                         >
                           Status:
                           {result?.status}

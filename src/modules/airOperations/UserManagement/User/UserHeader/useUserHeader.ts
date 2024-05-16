@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { useDeleteProductUsersMutation } from '@/services/airOperations/user-management/user';
+import {
+  useDeleteProductUsersMutation,
+  usePostProductUserListMutation,
+} from '@/services/airOperations/user-management/user';
 import { userDropdown } from '../User.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useForm } from 'react-hook-form';
@@ -11,7 +14,6 @@ import {
 
 export const useUserHeader = (props: any) => {
   const { selectedUserList, setSelectedUserList } = props;
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
@@ -36,14 +38,35 @@ export const useUserHeader = (props: any) => {
     defaultValues: upsertUserDefaultValues(null),
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
+  const [addListUsers, addUsersListStatus] = usePostProductUserListMutation();
+
+  const submit = async (data: any) => {
+    try {
+      const body = {
+        ...data,
+        role: data?.role?._id,
+        team: data?.team?._id,
+        language: data?._id,
+      };
+      await addListUsers({ body }).unwrap();
+      successSnackbar('Users List added successfully.');
+      handleClose?.();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+    handleClose?.();
+  };
+
+  const handleClose = () => {
+    setIsAddDrawerOpen(false);
+    reset?.();
+  };
   return {
     search,
     setSearch,
     setSelectedUserList,
-    isDrawerOpen,
-    setIsDrawerOpen,
     deleteModal,
     setDeleteModal,
     userDropdownOptions,
@@ -53,5 +76,7 @@ export const useUserHeader = (props: any) => {
     methods,
     handleSubmit,
     deleteStatus,
+    submit,
+    addUsersListStatus,
   };
 };

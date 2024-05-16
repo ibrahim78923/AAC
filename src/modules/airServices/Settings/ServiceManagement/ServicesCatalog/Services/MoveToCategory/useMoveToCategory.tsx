@@ -21,10 +21,10 @@ const useMoveToCategory = (prop: any) => {
   });
   const { handleSubmit } = methodAdd;
   const onSubmit = async (data: any) => {
-    const moveToCategoryData = new FormData();
-
-    moveToCategoryData.append('serviceCategory', data?.category?._id);
-    moveToCategoryData.append('id', id?.selectedCheckboxes?.[0]);
+    const moveToCategoryData = {
+      serviceCategory: data?.category?._id,
+      ids: id?.selectedCheckboxes,
+    };
     const body = moveToCategoryData;
 
     const patchServiceCatalogParameter = { body };

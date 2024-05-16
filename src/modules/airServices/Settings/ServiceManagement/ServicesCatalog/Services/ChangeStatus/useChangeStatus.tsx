@@ -19,10 +19,10 @@ const useChangeStatus = (prop: any) => {
   });
   const { handleSubmit } = methodChangeStatus;
   const onSubmit = async (data: any) => {
-    const moveToCategoryData = new FormData();
-
-    moveToCategoryData.append('id', id?.selectedCheckboxes?.[0]);
-    moveToCategoryData.append('status', data?.status);
+    const moveToCategoryData = {
+      status: data?.status,
+      ids: id?.selectedCheckboxes,
+    };
 
     const body = moveToCategoryData;
 
