@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Typography,
+  useTheme,
+} from '@mui/material';
 
 import { groupMembers } from '@/mock/modules/SocialComponents/Chat';
 
@@ -14,45 +20,56 @@ import { useAppSelector } from '@/redux/store';
 import { UserDefault } from '@/assets/images';
 import { useUpdateChatMutation } from '@/services/chat';
 import { enqueueSnackbar } from 'notistack';
+import { useDispatch } from 'react-redux';
+import { setActiveConversation } from '@/redux/slices/chat/slice';
+import { LoadingButton } from '@mui/lab';
 
 const Members = () => {
+  const dispatch = useDispatch();
+
   const theme = useTheme();
   const [isAddMembers, setIsAddMembers] = useState(false);
+  const [activeUserId, setActiveUserId] = useState('');
+  const [isLoadingAddParticipant, setIsLoadingAddParticipant] = useState(false);
 
+  const [response, setResponse] = useState<any>();
   const activeConversation = useAppSelector(
     (state) => state?.chat?.activeConversation,
   );
 
-  const [updateChat] = useUpdateChatMutation();
-  const updateChatHandler = async (id: any) => {
-    const updatedParticipants = activeConversation?.participants?.filter(
-      (participant: any) => participant?._id !== id,
+  useEffect(() => {
+    const result = activeConversation.participants.filter(
+      (participant: any) =>
+        response?.data?.participants?.includes(participant?._id),
     );
+    if (Object.keys(result)?.length) {
+      dispatch(
+        setActiveConversation({
+          ...activeConversation,
+          participants: result,
+        }),
+      );
+    }
+  }, [response]);
 
+  const [updateChat, { isLoading }] = useUpdateChatMutation();
+  const updateChatHandler = async (id: any) => {
     const payload = {
-      conversationId: activeConversation?.conversationId,
-      participants: updatedParticipants?.map((item: any) => item?._id),
+      participants: [id],
+      isRemove: true,
+      isDeleted: true,
     };
-
     try {
-      await updateChat({
+      const apiResponse = await updateChat({
         body: payload,
-        id: activeConversation?.conversationId,
+        id: activeConversation?._id,
       })?.unwrap();
-      enqueueSnackbar('successfully', {
+      setResponse(apiResponse);
+      enqueueSnackbar('User removed successfully', {
         variant: 'success',
       });
-      // dispatch(
-      //   setActiveConversation({
-      //     ...activeConversation,
-      //     isDeleted: response?.data?.isDeleted,
-      //     isArchived: response?.data?.isArchived,
-      //     isMuted: response?.data?.isMuted,
-      //     unRead: response?.data?.unRead,
-      //   }),
-      // )
     } catch (error: any) {
-      enqueueSnackbar('An error occurred', {
+      enqueueSnackbar('An error occurred while removing participants', {
         variant: 'error',
       });
     }
@@ -71,7 +88,10 @@ const Members = () => {
         </Box>
         {isAddMembers && (
           <Box sx={styles?.addMembersWrapper}>
-            <AddMembers setIsAddMembers={setIsAddMembers} />
+            <AddMembers
+              setIsAddMembers={setIsAddMembers}
+              setIsLoadingAddParticipant={setIsLoadingAddParticipant}
+            />
           </Box>
         )}
         <Box sx={{ height: '262px', overflow: 'scroll' }}>
@@ -92,13 +112,27 @@ const Members = () => {
                     Admin
                   </Typography>
                 ) : (
-                  <Typography
-                    variant="body3"
-                    sx={{ color: theme?.palette?.error?.main }}
-                    onClick={() => updateChatHandler(item?._id)}
-                  >
-                    Remove
-                  </Typography>
+                  <>
+                    {isLoading && activeUserId === item?._id ? (
+                      <>
+                        <CircularProgress size={20} />
+                      </>
+                    ) : (
+                      <Typography
+                        variant="body3"
+                        sx={{
+                          color: theme?.palette?.error?.main,
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => {
+                          updateChatHandler(item?._id);
+                          setActiveUserId(item?._id);
+                        }}
+                      >
+                        Remove
+                      </Typography>
+                    )}
+                  </>
                 )}
               </Box>
             </Box>
@@ -106,13 +140,14 @@ const Members = () => {
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <Button sx={{ width: '100%' }}>View Less</Button>
-          <Button
+          <LoadingButton
             variant="contained"
             sx={{ width: '100%' }}
             onClick={() => setIsAddMembers(true)}
+            loading={isLoadingAddParticipant}
           >
             Add Participation
-          </Button>
+          </LoadingButton>
         </Box>
       </Box>
     </>
