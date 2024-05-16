@@ -43,6 +43,7 @@ import {
   WhatsappMarketingImage,
   WorkFlowAutomationImage,
   WorkLoadImage,
+  FeedbackSurveyImage,
 } from '@/assets/images';
 import { Quick_Links_Routes } from '@/constants';
 import {
@@ -193,7 +194,6 @@ export const ServicesRoutes: any = [
       },
     ],
   },
-
   {
     key: '/air-services/knowledge-base',
     icon: KnowledgeBaseImage,
@@ -209,18 +209,32 @@ export const ServicesRoutes: any = [
     permissions: Permissions?.AIR_SERVICES_WORKLOAD_CALENDER_VIEW,
   },
   {
+    key: '/air-services/feedback-survey',
+    icon: FeedbackSurveyImage,
+    label: 'Feedback Survey',
+    role: 'SERVICE',
+    permissions: [],
+  },
+  {
+    key: '/air-services/reports',
+    icon: ReportsImage,
+    label: 'Reports',
+    role: 'SERVICE',
+    permissions: [],
+  },
+  {
+    key: '/air-services/enquiries',
+    icon: BillingInvoiceImage,
+    label: 'Enquiries',
+    role: 'SERVICE',
+    permissions: Permissions?.AIR_SERVICES_ENQUIRIES,
+  },
+  {
     key: '/air-customer-portal',
     icon: CustomerPortalImage,
     label: 'Customer Portal',
     role: 'SERVICE',
     permissions: Permissions?.AIR_CUSTOMER_PORTAL,
-  },
-  {
-    key: '/air-services/enquiries',
-    icon: ReportsImage,
-    label: 'Enquiries',
-    role: 'SERVICE',
-    permissions: Permissions?.AIR_SERVICES_ENQUIRIES,
   },
 ];
 

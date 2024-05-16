@@ -6,6 +6,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 export const Reports = () => {
   const theme = useTheme();
   const router = useRouter();
+
   return (
     <>
       <PageTitledHeader title="Reports and Analytics" />
@@ -15,9 +16,9 @@ export const Reports = () => {
           <Grid
             key={item?.id}
             item
+            xs={12}
             md={6}
             lg={4}
-            xs={12}
             onClick={() => {
               router?.push({
                 pathname: item?.link,
@@ -38,21 +39,20 @@ export const Reports = () => {
                   backgroundColor: theme?.palette?.primary?.light,
                   width: 56,
                   height: 56,
-                  margin: 'auto',
                 }}
-                variant="rounded"
+                variant={'rounded'}
               >
                 <item.avatar />
               </Avatar>
               <Box>
                 <Typography
-                  variant="h6"
-                  color="slateBlue.main"
+                  variant={'h6'}
+                  color={'slateBlue.main'}
                   whiteSpace={'nowrap'}
                 >
                   {item?.type}
                 </Typography>
-                <Typography variant="body2" color="slateBlue.main">
+                <Typography variant={'body2'} color={'slateBlue.main'}>
                   {item?.purpose}
                 </Typography>
               </Box>
