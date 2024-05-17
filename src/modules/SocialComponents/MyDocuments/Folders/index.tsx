@@ -87,6 +87,7 @@ const Folders = () => {
     setAnchorElSide,
     documentSubData,
     parentFolderName,
+    parentFolderId,
     modalHeading,
     setModalHeading,
     onSubmit,
@@ -116,6 +117,7 @@ const Folders = () => {
         imageData?.find((img: any) => img?._id === isGetRowValues.at(0)),
       );
     }
+    setCardBox([parentFolderId]);
   }, [isGetRowValues]);
 
   return (
@@ -448,9 +450,19 @@ const Folders = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '1rem',
-                background: `${theme?.palette?.grey[400]}`,
+                cursor: 'pointer',
+                background: cardBox?.includes(parentFolderId)
+                  ? `${theme?.palette?.grey[400]}`
+                  : `${theme?.palette?.common?.white}`,
                 borderRadius: '8px',
                 padding: '8px',
+              }}
+              onClick={() => {
+                setCardBox([parentFolderId]);
+                setSelectedFolder({
+                  _id: parentFolderId,
+                  name: parentFolderName,
+                });
               }}
             >
               <FolderBlackIcon />

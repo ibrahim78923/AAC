@@ -25,7 +25,7 @@ import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 
 const useFolder: any = () => {
   const theme = useTheme<Theme>();
-  const [searchValue, setSearchValue] = useState('search here');
+  const [searchValue, setSearchValue] = useState('');
   const [modalHeading, setModalHeading] = useState('');
   const [cardBox, setCardBox] = useState<string[]>([]);
   const [selectedFolder, setSelectedFolder] = useState(null);
@@ -54,14 +54,15 @@ const useFolder: any = () => {
   const openSide = Boolean(anchorElSide);
 
   const searchParams = useSearchParams();
-
   const parentFolderId: any = searchParams?.get('folder');
   const parentFolderName: any = searchParams?.get('name');
 
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetDocumentFolderQuery({ parentFolderId });
-
-  const { data: image } = useGetDocumentFileQuery({ folderId: parentFolderId });
+  const { data: image } = useGetDocumentFileQuery({
+    ...(searchValue && { search: searchValue }),
+    folderId: selectedFolder ? selectedFolder._id : parentFolderId,
+  });
   const handlePdfOpen = () => setIsPdfOpen(true);
   const handlePdfClose = () => setIsPdfOpen(false);
 
@@ -75,8 +76,7 @@ const useFolder: any = () => {
   const onSubmitImage = async () => {
     const file = watchFile('file');
     const body = {
-      name: parentFolderName,
-      folderId: parentFolderId,
+      folderId: selectedFolder ? selectedFolder?._id : parentFolderId,
       file: file,
     };
     try {
