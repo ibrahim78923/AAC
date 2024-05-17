@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
-import dayjs from 'dayjs';
-import { Box, Theme, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { CALENDAR_FORMAT, DATE_FORMAT } from '@/constants';
+import { Box, Theme, Typography, useTheme } from '@mui/material';
+import { CALENDAR_FORMAT } from '@/constants';
+import {
+  useGetCampaignsQuery,
+  useGetCampaignsTasksQuery,
+} from '@/services/airMarketer/campaigns';
+import dayjs from 'dayjs';
+import { AddPlusIcon } from '@/assets/icons';
 
 const useCalendar = () => {
+  const theme = useTheme<Theme>();
+  const router = useRouter();
+
   const [selectedEventData, setSelectedEventData] = useState<any>({});
   const [modalEvents, setModalEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const currentDate = dayjs().format('MMMM YYYY');
-  const todayDate = dayjs().format(DATE_FORMAT?.API);
+  // const todayDate = dayjs().format(DATE_FORMAT?.API);
   const [calendarDate, setCalendarDate] = useState(currentDate);
   const [isDelete, setIsDelete] = useState(false);
+  const [clickedDate, setClickedDate] = useState(null);
+  const [createTask, setCreateTask] = useState({ isToggle: false, type: '' });
 
-  const theme = useTheme<Theme>();
+  const { data: getCampaignsTasks, isLoading } = useGetCampaignsTasksQuery({});
+  const compaignsTasksData = getCampaignsTasks?.data?.campaigntasks;
 
-  const router = useRouter();
+  const { data: campaignsData } = useGetCampaignsQuery({});
+  const allCampaignsData = campaignsData?.data?.campaigns;
 
   const eventContentHandler = (eventInfo: any) => {
     const event = eventInfo?.event?._def;
@@ -31,7 +43,8 @@ const useCalendar = () => {
               : '',
             padding: '4px 10px 4px 10px',
             borderRadius: '16px',
-            margin: '0 10px',
+            margin: '3px 10px',
+            width: 'fit-content',
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
@@ -79,7 +92,7 @@ const useCalendar = () => {
 
   const handleMoreLinkClick = (info: any) => {
     setModalEvents(info?.allSegs);
-    setIsDrawerOpen(true);
+    // setIsDrawerOpen(true);
   };
 
   const currentYear = new Date().getFullYear();
@@ -90,28 +103,59 @@ const useCalendar = () => {
     (index + 1).toString(),
   );
 
+  const handleDateClick = (arg: any) => {
+    setClickedDate(arg.date.getDate()); // Store only the day of the month
+  };
+
+  const handlePlusButtonClick = () => {
+    setCreateTask({ isToggle: true, type: 'add' });
+  };
+
+  const renderDayCell = (arg: any) => {
+    const isClickedDate = clickedDate === arg.date.getDate(); // Compare only day of the month
+    return (
+      <Box className="day-cell">
+        <span>{arg.dayNumberText}</span>
+        <Box className="plus-button-container">
+          {isClickedDate && (
+            <Box sx={{ cursor: 'pointer' }} onClick={handlePlusButtonClick}>
+              <AddPlusIcon />
+            </Box>
+          )}
+        </Box>
+      </Box>
+    );
+  };
+
   return {
+    handlePlusButtonClick,
     eventContentHandler,
-    currentDate,
-    calendarDate,
-    handlePrevClick,
-    handleNextClick,
-    router,
-    handleEventClick,
-    isModalOpen,
-    setIsModalOpen,
-    selectedEventData,
     handleMoreLinkClick,
-    modalEvents,
-    setModalEvents,
-    theme,
-    isDrawerOpen,
+    compaignsTasksData,
+    selectedEventData,
+    handleEventClick,
+    allCampaignsData,
+    handleNextClick,
+    handlePrevClick,
     setIsDrawerOpen,
-    yearsArray,
+    handleDateClick,
+    setIsModalOpen,
+    setModalEvents,
+    renderDayCell,
+    setCreateTask,
+    isDrawerOpen,
+    calendarDate,
+    currentDate,
+    isModalOpen,
     monthsArray,
-    isDelete,
+    modalEvents,
     setIsDelete,
-    todayDate,
+    yearsArray,
+    createTask,
+    isLoading,
+    isDelete,
+    router,
+    theme,
   };
 };
 

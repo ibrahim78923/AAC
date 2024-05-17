@@ -5,6 +5,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import {
   FormProvider,
   RHFCheckbox,
+  RHFDateTimePicker,
   RHFDropZone,
   RHFEditor,
   RHFSelect,
@@ -29,6 +30,7 @@ import { styles } from '../Email.styles';
 
 const SendEmailDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, drawerType } = props;
+
   const {
     handleSubmit,
     onSubmit,
@@ -36,8 +38,11 @@ const SendEmailDrawer = (props: any) => {
     watchEmailsForm,
     theme,
     loadingOtherSend,
+    loadingOtherScheduleSend,
     isLoadingProcessDraft,
     handleOnClose,
+    isSendLater,
+    handelSendLaterAction,
   } = useSendEmailDrawer({ setOpenDrawer, drawerType });
 
   const isCrmConnected = false;
@@ -71,14 +76,14 @@ const SendEmailDrawer = (props: any) => {
               return '';
           }
         })()}
-        // isLoading={loadingOtherSend}
-        isLoading={loadingOtherSend}
-        okText={'Send'}
+        isLoading={isSendLater ? loadingOtherScheduleSend : loadingOtherSend}
+        okText={isSendLater ? 'Send Later' : 'Send'}
         isOk={true}
         footer={true}
-        footerActionText="Send Later"
+        footerActionText={isSendLater ? 'Send Now' : 'Send Later'}
         footerActionTextIcon={<TimeClockIcon />}
         submitHandler={handleSubmit(onSubmit)}
+        onFooterActionSubmit={handelSendLaterAction}
       >
         {isLoadingProcessDraft && (
           <Box sx={styles?.overlayWrapper(theme)}>
@@ -86,7 +91,6 @@ const SendEmailDrawer = (props: any) => {
             <Typography variant="body1">Saving Draft</Typography>
           </Box>
         )}
-
         <Box sx={{ pt: 2 }}>
           <FormProvider
             methods={methodsDealsTasks}
@@ -252,6 +256,17 @@ const SendEmailDrawer = (props: any) => {
                 <RHFDropZone name="attachFile" label="Attachments" />
               </Grid>
             </Grid>
+
+            {isSendLater && (
+              <Box sx={{ mt: 2 }}>
+                <RHFDateTimePicker
+                  name="sentDate"
+                  fullWidth
+                  label="Select Data and Time"
+                  size="small"
+                />
+              </Box>
+            )}
           </FormProvider>
           <Box mt={2}>
             <Box

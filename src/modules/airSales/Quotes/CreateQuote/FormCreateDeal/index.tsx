@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 
-const CreateDeal = ({ open, onClose }: any) => {
+const CreateDeal = ({ open, onClose, refetchDealsDropdown }: any) => {
   const [postDeals, { isLoading: isCreateDealLodaing }] =
     usePostDealsMutation();
   const methods = useForm<any>({
@@ -48,6 +48,7 @@ const CreateDeal = ({ open, onClose }: any) => {
         variant: 'success',
       });
       reset();
+      refetchDealsDropdown();
     } catch (error) {
       enqueueSnackbar('Error while creating deal', {
         variant: 'error',

@@ -76,7 +76,7 @@ const AddGroupModal = ({
     image: UserDefault,
   }));
 
-  const [createNewGroup] = useCreateNewGroupMutation();
+  const [createNewGroup, { isLoading }] = useCreateNewGroupMutation();
 
   const handleRemoveParticipant = (id: any) => {
     const updatedParticipantsIds = participantsIdsValues?.filter(
@@ -161,6 +161,7 @@ const AddGroupModal = ({
       okText="Create Group"
       footer={true}
       footerFill
+      isLoading={isLoading}
     >
       <>
         <Box
@@ -245,7 +246,14 @@ const AddGroupModal = ({
         </FormProvider>
         <br />
         {!isNullOrEmpty(filteredParticipants) && (
-          <TanstackTable columns={getColumns} data={filteredParticipants} />
+          <Box
+            sx={{
+              maxHeight: '315px',
+              overflow: 'scroll',
+            }}
+          >
+            <TanstackTable columns={getColumns} data={filteredParticipants} />
+          </Box>
         )}
       </>
     </CommonModal>

@@ -53,9 +53,12 @@ const ProductSuite = () => {
     usePostAuthAccountSelectMutation();
   const [selectedProduct, setSelectedProduct] = useState<any>([]);
 
+  const [loading, setLoading] = useState(false);
+
   const findModulePermissionKey = async (product: any, id: string) => {
     const payload = { account: id };
     try {
+      setLoading(true);
       const response = await PostAuthAccountSelect(payload)?.unwrap();
 
       const routes = getRoutes(product);
@@ -74,6 +77,7 @@ const ProductSuite = () => {
       enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
+      setLoading(false);
     }
     return false;
   };
@@ -154,7 +158,10 @@ const ProductSuite = () => {
           },
         }}
       >
-        {authMeLoadingState || isLoading || postAuthAccountSelectFetching ? (
+        {authMeLoadingState ||
+        isLoading ||
+        postAuthAccountSelectFetching ||
+        loading ? (
           <Box
             sx={{ marginTop: '200px', width: '100%' }}
             display={'flex'}

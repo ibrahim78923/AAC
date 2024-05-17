@@ -34,7 +34,6 @@ export const AllDealColumns = ({
       return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <>
-            {/* {info?.row?.original?.dealOwner?.avatar?.url && ( */}
             <Avatar
               alt="user"
               src={generateImage(info?.row?.original?.dealOwner?.avatar?.url)}
@@ -87,9 +86,12 @@ export const AllDealColumns = ({
         </Box>
       );
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_CLOSEDATE) {
-      return (
-        dayjs(info?.row?.original?.closeDate)?.format(DATE_FORMAT?.UI) ?? 'N/A'
-      );
+      const closeDate = info?.row?.original?.closeDate;
+      const formattedDate =
+        closeDate !== null && closeDate !== undefined
+          ? dayjs(closeDate).format(DATE_FORMAT?.UI)
+          : 'N/A';
+      return formattedDate;
     } else if (attribute === DEAL_ATTRIBUTES?.DEAL_CREATEDAT) {
       return (
         dayjs(info?.row?.original?.createdAt)?.format(DATE_FORMAT?.UI) ?? 'N/A'

@@ -20,7 +20,10 @@ import { DeleteIcon, FilterSharedIcon, PlusIcon } from '@/assets/icons';
 import { styles } from './ContactsList.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { useGetChatsContactsQuery } from '@/services/chat';
+import {
+  useDeleteChatIdsMutation,
+  useGetChatsContactsQuery,
+} from '@/services/chat';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   setChatContacts,
@@ -30,6 +33,7 @@ import { isNullOrEmpty } from '@/utils';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
 import { PAGINATION } from '@/config';
+import { enqueueSnackbar } from 'notistack';
 
 const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   const theme = useTheme();
@@ -42,6 +46,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   const [searchContacts, setSearchContacts] = useState('');
   const [isAddGroupModal, setIsAddGroupModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [isDeleteAllModal, setIsDeleteAllModal] = useState(false);
   const [selectedValues, setSelectedValues] = useState<any>([]);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -158,6 +163,25 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
     },
   ];
 
+  const [deleteChatIds, { isLoading: loadingDeleteAll }] =
+    useDeleteChatIdsMutation();
+
+  const handelDeleteAllIds = async () => {
+    try {
+      await deleteChatIds({
+        ids: chatsTypeToShow
+          ? chatsTypeToShow?.map((item: any) => item?.conversationId)
+          : [],
+      }).unwrap();
+      enqueueSnackbar('Records deleted successfully', {
+        variant: 'success',
+      });
+      setIsDeleteAllModal(false);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     value: number,
@@ -213,7 +237,10 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
                   : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_CHAT]
               }
             >
-              <Box sx={{ marginLeft: '10px' }}>
+              <Box
+                sx={{ marginLeft: '10px' }}
+                onClick={() => setIsDeleteAllModal(true)}
+              >
                 <DeleteIcon color={theme?.palette?.error?.main} />
               </Box>
             </PermissionsGuard>
@@ -292,7 +319,15 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
         type="delete"
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}
-        handleSubmit={() => setIsDeleteModal(false)}
+        handleSubmitBtn={() => setIsDeleteModal(false)}
+      />
+      <AlertModals
+        message={'Are you sure you want to delete all entries ?'}
+        type="delete"
+        open={isDeleteAllModal}
+        handleClose={() => setIsDeleteAllModal(false)}
+        handleSubmitBtn={handelDeleteAllIds}
+        loading={loadingDeleteAll}
       />
     </>
   );

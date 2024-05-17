@@ -8,7 +8,7 @@ export const ImportProductCatalog = (props: any) => {
   const {
     setDrawerDefaultState,
     submitImport,
-    importFileStatus,
+    newImportFileForServicesStatus,
     filterMandatoryFields,
   } = useImportProductCatalog?.(props);
 
@@ -21,7 +21,7 @@ export const ImportProductCatalog = (props: any) => {
       crmColumnsOptions={CRM_COLUMNS}
       objectUrl={OBJECT_URL_IMPORT?.USERS_ATTACHMENT}
       submitImport={(apiData: any) => submitImport?.(apiData)}
-      importFileStatus={importFileStatus}
+      importFileStatus={newImportFileForServicesStatus}
       mandatoryColumnsList={filterMandatoryFields?.()}
     />
   );

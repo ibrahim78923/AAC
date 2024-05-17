@@ -13,7 +13,7 @@ const useRestoreAssign = (
   onClose: any,
   setSelectedRows: any,
 ) => {
-  const { user } = getSession();
+  const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
   const userRole = 'ORG_EMPLOYEE';
   const { data: UserListData } = useGetUsersListQuery({

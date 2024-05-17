@@ -1,12 +1,19 @@
-import { FIELD_TYPES, IMPORT_ACTION_TYPE } from '@/constants/strings';
-import { useImportFileMutation } from '@/services/airServices/global/import';
+import {
+  FIELD_TYPES,
+  IMPORT_FILE_TYPE,
+  IMPORT_OBJECT_TYPE,
+  IMPORT_PRODUCTS_NAME,
+  IMPORT_TABLE_NAMES,
+} from '@/constants/strings';
+import { useNewImportFileForServicesMutation } from '@/services/airServices/global/import';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { CRM_COLUMNS_VENDOR } from './ImportVendor.data';
 
 export const useImportVendor = (props: any) => {
   const { setIsDrawerOpen } = props;
 
-  const [importFileTrigger, importFileStatus] = useImportFileMutation?.();
+  const [newImportFileForServicesTrigger, newImportFileForServicesStatus] =
+    useNewImportFileForServicesMutation?.();
 
   const setDrawerDefaultState = () => {
     setIsDrawerOpen?.(false);
@@ -21,16 +28,21 @@ export const useImportVendor = (props: any) => {
   const submitImport = async (apiData: any) => {
     const apiImportData = {
       body: {
-        filePath: apiData?.filePath,
-        actionType: IMPORT_ACTION_TYPE?.PRODUCT_CATALOG,
+        filePath: apiData?.fileUrl,
+        tableName: IMPORT_TABLE_NAMES?.VENDORS,
+        object: IMPORT_OBJECT_TYPE?.SETTINGS,
+        product: IMPORT_PRODUCTS_NAME?.AIR_SERVICES,
+        fileType: IMPORT_FILE_TYPE?.CSV,
         dataColumn: apiData?.dataColumn,
       },
     };
-    //TODO: will handle here once import is given by BE just test here the global import
-    return;
+
     try {
-      const response: any = await importFileTrigger?.(apiImportData)?.unwrap();
+      const response: any =
+        await newImportFileForServicesTrigger?.(apiImportData)?.unwrap();
       successSnackbar(response?.message);
+      apiData?.onClose?.();
+      apiData?.setShowItemsList(false);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -39,7 +51,7 @@ export const useImportVendor = (props: any) => {
   return {
     setDrawerDefaultState,
     submitImport,
-    importFileStatus,
+    newImportFileForServicesStatus,
     filterMandatoryFields,
   };
 };

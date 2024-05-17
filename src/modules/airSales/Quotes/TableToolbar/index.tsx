@@ -33,7 +33,7 @@ const TableToolbar: FC<TableToolbarI> = ({
     handleActionsDropdownClose,
   } = useQuotes();
   const router = useRouter();
-  const { status } = router.query;
+  const { status }: any = router.query;
   return (
     <Box sx={styles?.tableToolbar}>
       <Box>
@@ -106,7 +106,7 @@ const TableToolbar: FC<TableToolbarI> = ({
               ]}
             >
               <MenuItem
-                // disabled={status == quoteStatus?.published || !rowId}
+                disabled={status === quoteStatus || !rowId}
                 onClick={handleViewQuote}
               >
                 View
@@ -118,6 +118,7 @@ const TableToolbar: FC<TableToolbarI> = ({
               ]}
             >
               <MenuItem
+                disabled={status == quoteStatus?.published}
                 onClick={() => {
                   handleOpenDeleteQuote(), handleActionsDropdownClose();
                 }}

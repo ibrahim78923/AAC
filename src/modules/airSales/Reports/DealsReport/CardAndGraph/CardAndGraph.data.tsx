@@ -54,20 +54,25 @@ export const options: any = (theme: any) => {
   };
 };
 
-export const seriesBar = [
-  {
-    name: 'All Deals',
-    data: [600, 400, 200, 350, 450, 650, 777, 850, 450, 700, 550, 320],
-  },
-  {
-    name: 'Open Deals',
-    data: [900, 750, 250, 320, 570, 700, 750, 650, 880, 780, 351, 890],
-  },
-  {
-    name: 'CloseDeals',
-    data: [350, 415, 366, 269, 459, 480, 528, 530, 412, 860, 610, 725],
-  },
-];
+export const seriesBar = (dealsGraphData: any) => {
+  const totalDeals = dealsGraphData?.map((item: any) => item?.totalDeals);
+  const openDeals = dealsGraphData?.map((item: any) => item?.totalOpenDeals);
+  const closeDeals = dealsGraphData?.map((item: any) => item?.totalCloseDeals);
+  return [
+    {
+      name: 'All Deals',
+      data: totalDeals,
+    },
+    {
+      name: 'Open Deals',
+      data: openDeals,
+    },
+    {
+      name: 'CloseDeals',
+      data: closeDeals,
+    },
+  ];
+};
 
 export const optionsBar: any = (theme: any) => {
   const colorsBar = [

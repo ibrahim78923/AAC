@@ -28,6 +28,17 @@ export const airMarketerRolesAndRightsAPI = baseAPI.injectEndpoints({
       providesTags: ['PERMISSIONS'],
     }),
 
+    getProductsPermissionsList: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${params?.productId}`,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['PERMISSIONS'],
+    }),
+
     getProductsPermissions: builder.query({
       query: ({ productId }: any) => ({
         url: `${END_POINTS?.GET_PRODUCTS_PERMISSIONS}/${productId}`,
@@ -63,6 +74,7 @@ export const airMarketerRolesAndRightsAPI = baseAPI.injectEndpoints({
 export const {
   useGetPermissionsRolesQuery,
   useGetProductsPermissionsQuery,
+  useLazyGetProductsPermissionsListQuery,
   useUpdateRoleRightsMutation,
   useLazyGetPermissionsRolesByIdQuery,
   usePostPermissionRoleMutation,

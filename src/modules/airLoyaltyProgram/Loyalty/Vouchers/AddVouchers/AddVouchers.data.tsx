@@ -175,7 +175,7 @@ export const addVouchersRadioButtonsFormFields = [
     conditionalComponentOne: (
       <RHFTextField
         name="limitAmount"
-        label="Add amount"
+        label="Add Percentage Off"
         size="small"
         type="number"
       />
@@ -183,7 +183,7 @@ export const addVouchersRadioButtonsFormFields = [
     conditionalComponentTwo: (
       <RHFTextField
         name="limitPercentage"
-        label="Add percentage"
+        label="Add Flat Off"
         size="small"
         type="number"
       />

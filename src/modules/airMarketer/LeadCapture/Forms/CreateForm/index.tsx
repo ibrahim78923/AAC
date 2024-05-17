@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { styles } from './CreateForm.style';
 import {
   BlackDeleteIcon,
@@ -30,17 +31,17 @@ import {
 } from './CreateForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateForm from './useCreateForm';
-import Export from './Export';
-import { AIR_MARKETER } from '@/routesConstants/paths';
+import DialogFormCreated from './DialogFormCreated';
 
 const CreateForm = () => {
   const {
-    setIsDraweropen,
-    isDraweropen,
-    handleCloseDrawer,
-    handleSubmit,
-    onSubmit,
+    isStylingDrawerOpen,
+    handleOpenStylingDrawer,
+    handleCloseStylingDrawer,
     styleFormMethods,
+    handleStylingSubmit,
+    // resetStylingForm,
+    // createFormStyling,
     value,
     handleChange,
     editFormName,
@@ -49,16 +50,19 @@ const CreateForm = () => {
     setShowView,
     inputValue,
     setInputValue,
-    openAlert,
-    setOpenAlert,
+    openAlertCreatedForm,
+    handleCloseAlertCreatedForm,
+    loadingAddForm,
+    handleSubmitAddForm,
     showExportText,
     setShowExportText,
-    router,
     addField,
     dynamicFields,
     deleteField,
     setDynamicFields,
     theme,
+    createdFormResponse,
+    handleBackToAllForms,
   } = useCreateForm();
 
   return (
@@ -67,9 +71,9 @@ const CreateForm = () => {
         <Grid item xs={12} md={4} lg={3}>
           <Button
             className="small"
-            sx={{ color: '#374151', marginRight: '20px', fontWeight: '500' }}
+            sx={styles?.backBtn}
             startIcon={<BlackDeleteIcon />}
-            onClick={() => router?.push(AIR_MARKETER.ALL_TABLE)}
+            onClick={handleBackToAllForms}
           >
             {' '}
             Back to all forms
@@ -127,18 +131,20 @@ const CreateForm = () => {
               border: '1px solid #D1D5DB',
               fontWeight: '500',
             }}
-            onClick={() => setIsDraweropen(true)}
+            onClick={handleOpenStylingDrawer}
           >
             Styling
           </Button>
-          <Button
+          <LoadingButton
             variant="contained"
             className="small"
             sx={{ marginLeft: '10px', fontWeight: '500' }}
-            onClick={() => setOpenAlert(true)}
+            onClick={handleSubmitAddForm}
+            disabled={dynamicFields?.length === 0}
+            loading={loadingAddForm}
           >
             Create Form
-          </Button>
+          </LoadingButton>
         </Grid>
       </Grid>
 
@@ -274,7 +280,7 @@ const CreateForm = () => {
               <TabPanel value="2">
                 <Box
                   sx={{
-                    backgroundColor: showView ? 'white' : 'tranparent',
+                    backgroundColor: showView ? 'white' : 'transparent',
                     height: '75vh',
                     padding: '30px',
                     marginTop: '30px',
@@ -409,13 +415,13 @@ const CreateForm = () => {
       </Grid>
 
       <CommonDrawer
-        isDrawerOpen={isDraweropen}
-        onClose={handleCloseDrawer}
+        isDrawerOpen={isStylingDrawerOpen}
+        onClose={handleCloseStylingDrawer}
         title={'Styling'}
         okText={'Done'}
         footer={true}
         isOk={true}
-        submitHandler={handleSubmit(onSubmit)}
+        submitHandler={handleStylingSubmit}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={styleFormMethods}>
@@ -459,11 +465,12 @@ const CreateForm = () => {
         </Box>
       </CommonDrawer>
 
-      <Export
-        openAlert={openAlert}
-        setOpenAlert={setOpenAlert}
+      <DialogFormCreated
+        open={openAlertCreatedForm}
+        onClose={handleCloseAlertCreatedForm}
         showExportText={showExportText}
         setShowExportText={setShowExportText}
+        createdFormResponse={createdFormResponse}
       />
     </Grid>
   );

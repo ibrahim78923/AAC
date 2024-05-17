@@ -28,6 +28,7 @@ const Tasks = () => {
     handleUpdateStatus,
     isOpenDeleteDrawer,
     compaignsTasksData,
+    getCampaignsTasks,
     handleChangeStatus,
     isOpenChangeStatus,
     deleteTaskLoading,
@@ -37,6 +38,7 @@ const Tasks = () => {
     setSearchValue,
     setSelectedRec,
     setPageLimit,
+    setAnchorEl,
     searchValue,
     selectedRec,
     isListView,
@@ -52,7 +54,6 @@ const Tasks = () => {
     setSelectedRec: setSelectedRec,
     compaignsTasksData: compaignsTasksData,
   };
-
   return (
     <>
       <Box
@@ -113,9 +114,10 @@ const Tasks = () => {
               >
                 <MenuItem
                   disabled={selectedRec?.length > 1 ? true : false}
-                  onClick={() =>
-                    setIsOpenEditTaskDrawer({ isToggle: true, type: 'edit' })
-                  }
+                  onClick={() => {
+                    setAnchorEl(null);
+                    setIsOpenEditTaskDrawer({ isToggle: true, type: 'edit' });
+                  }}
                 >
                   Edit
                 </MenuItem>
@@ -192,11 +194,11 @@ const Tasks = () => {
         <TanstackTable
           columns={columns(columnsProps)}
           data={compaignsTasksData}
-          totalRecords={compaignsTasksData?.data?.meta?.total}
+          totalRecords={getCampaignsTasks?.data?.meta?.total}
           onPageChange={(page: any) => setPage(page)}
-          count={compaignsTasksData?.data?.meta?.pages}
-          pageLimit={compaignsTasksData?.data?.meta?.limit}
-          currentPage={compaignsTasksData?.data?.meta?.page}
+          count={getCampaignsTasks?.data?.meta?.pages}
+          pageLimit={getCampaignsTasks?.data?.meta?.limit}
+          currentPage={getCampaignsTasks?.data?.meta?.page}
           setPageLimit={setPageLimit}
           isLoading={isLoading}
           isSuccess={isSuccess}
@@ -213,7 +215,10 @@ const Tasks = () => {
           isType={isOpenEditTaskDrawer?.type}
           setIsOpenEditTaskDrawer={setIsOpenEditTaskDrawer}
           onClose={() => {
-            setIsOpenEditTaskDrawer({ isToggle: false, type: '' });
+            {
+              setSelectedRec([]);
+              setIsOpenEditTaskDrawer({ isToggle: false, type: '' });
+            }
           }}
         />
       )}

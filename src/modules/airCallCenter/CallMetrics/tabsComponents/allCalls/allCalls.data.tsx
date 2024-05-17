@@ -13,6 +13,7 @@ import {
 import { UserDefault, UserProfileVectorImage } from '@/assets/images';
 import { Box, Tooltip, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
+import AudioVisualizer from './audioVisualizer/audioVisualizer';
 
 export const columns = ({ setIsCallDetailsDrawerOpen }: any) => {
   const theme = useTheme();
@@ -53,7 +54,7 @@ export const columns = ({ setIsCallDetailsDrawerOpen }: any) => {
         </Box>
       ),
       header: 'Customer Name',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.title,
@@ -81,42 +82,50 @@ export const columns = ({ setIsCallDetailsDrawerOpen }: any) => {
         </Box>
       ),
       header: 'Assigned To',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.title,
       id: 'recording',
-      cell: () => <Box>-{/* <AudioVisualizer /> */}</Box>,
+      cell: (info: any) => (
+        <Box>
+          {info?.row?.original?.recording !== '-' ? (
+            <AudioVisualizer audioSrc={info?.row?.original?.recording} />
+          ) : (
+            '-'
+          )}
+        </Box>
+      ),
       header: 'Recording',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.virtualNumber,
       id: 'virtualNumber',
       cell: (info: any) => info?.getValue(),
       header: ' Virtual Number',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.callTags,
       id: 'callTags',
       cell: (info: any) => info?.getValue(),
       header: 'Call Tags',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.callDuration,
       id: 'callDuration',
       cell: (info: any) => info?.getValue(),
       header: 'Call Duration',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.dateAndTime,
       id: 'dateAndTime',
       cell: (info: any) => info?.getValue(),
       header: 'Date and Time',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.title,
@@ -154,7 +163,7 @@ export const columns = ({ setIsCallDetailsDrawerOpen }: any) => {
         </Box>
       ),
       header: 'Actions',
-      isSortable: false,
+      isSortable: true,
     },
   ];
 };
@@ -171,6 +180,7 @@ export const allCallsData = [
       profileAvatar: UserDefault,
       name: 'Global Queue',
     },
+    recording: 'https://webaudioapi.com/samples/audio-tag/chrono.mp3',
     virtualNumber: '+12314 1414 1312 4',
     callTags: '-',
     callDuration: '00:42',
@@ -187,6 +197,7 @@ export const allCallsData = [
       profileAvatar: UserDefault,
       name: 'Global Queue',
     },
+    recording: '-',
     virtualNumber: '+12314 1414 1312 4',
     callTags: '-',
     callDuration: '00:42',
@@ -204,6 +215,7 @@ export const allCallsData = [
       name: 'Global Queue',
       category: 'Medical Helpline',
     },
+    recording: 'https://webaudioapi.com/samples/audio-tag/chrono.mp3',
     virtualNumber: '+12314 1414 1312 4',
     callTags: '-',
     callDuration: '00:42',
@@ -221,6 +233,7 @@ export const allCallsData = [
       name: 'Global Queue',
       category: 'Medical Helpline',
     },
+    recording: '-',
     virtualNumber: '+12314 1414 1312 4',
     callTags: '-',
     callDuration: '00:42',
@@ -238,6 +251,7 @@ export const allCallsData = [
       name: 'Global Queue',
       category: 'Medical Helpline',
     },
+    recording: '-',
     virtualNumber: '+12314 1414 1312 4',
     callTags: '-',
     callDuration: '00:42',

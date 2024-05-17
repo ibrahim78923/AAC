@@ -41,7 +41,7 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
       try {
         await patchTeamsUsersTrigger(formData)?.unwrap();
         successSnackbar('Products Users Edit  Successfully');
-        setIsDrawerOpen(false);
+        handleClose?.();
       } catch (error: any) {
         errorSnackbar('error');
       }
@@ -54,7 +54,8 @@ export const useUpsertTeams = (setIsDrawerOpen: any, teamData: any) => {
         };
         await addTeamUsers({ body }).unwrap();
         successSnackbar('Team added successfully.');
-        handleClose?.();
+        setIsDrawerOpen(false);
+        reset?.();
       } catch (error: any) {
         errorSnackbar(error?.data?.message);
       }

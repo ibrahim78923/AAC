@@ -11,7 +11,7 @@ import ExportCompaignDrawer from '../ExportCampaignDrawer';
 import EditCompaign from '../EditCampaign';
 
 import { AlertModals } from '@/components/AlertModals';
-import { AlertModalDeleteIcon } from '@/assets/icons';
+import { AlertModalDeleteIcon, DeleteIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import CompaignDetails from '../CampaignDetails';
@@ -19,30 +19,43 @@ import EditTask from '../Tasks/EditTask';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 
-const ActionButton = () => {
+const ActionButton = ({ selectedRows }: any) => {
   const {
     selectedValue,
     handleClick,
     handleSelectedOptionValue,
     actionsModalDetails,
     setActionsModalDetails,
+    handleDeleteCampaigns,
   } = useCampaigns();
-
   return (
     <Box>
-      <Button
-        onClick={handleClick}
-        className="small"
-        variant="outlined"
-        color="inherit"
-        sx={{
-          width: { sm: '112px', xs: '100%' },
-          height: '36px',
-        }}
-      >
-        Actions
-        <ArrowDropDown />
-      </Button>
+      {selectedRows?.length >= 2 ? (
+        <Button
+          className="small"
+          variant="outlined"
+          color="inherit"
+          startIcon={<DeleteIcon />}
+          onClick={() => handleDeleteCampaigns(selectedRows)}
+        >
+          Delete
+        </Button>
+      ) : (
+        <Button
+          onClick={handleClick}
+          className="small"
+          variant="outlined"
+          color="inherit"
+          disabled={selectedRows?.length < 1 ? true : false}
+          sx={{
+            width: { sm: '112px', xs: '100%' },
+            height: '36px',
+          }}
+        >
+          Actions
+          <ArrowDropDown />
+        </Button>
+      )}
       <Menu
         id="simple-menu"
         anchorEl={selectedValue}
@@ -78,12 +91,7 @@ const ActionButton = () => {
                 isDelete: false,
               })
             }
-            handleSubmit={() =>
-              setActionsModalDetails({
-                ...actionsModalDetails,
-                isDelete: false,
-              })
-            }
+            handleSubmitBtn={() => handleDeleteCampaigns(selectedRows)}
           />
         </PermissionsGuard>
       )}

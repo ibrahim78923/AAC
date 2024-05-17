@@ -28,6 +28,7 @@ import {
   MessageImage,
   PaidAdsImage,
   PlanManagementImage,
+  PowerDailerImage,
   // PrepaidImage,
   ProfileUserImage,
   ProfileUserManagementImage,
@@ -42,6 +43,7 @@ import {
   WhatsappMarketingImage,
   WorkFlowAutomationImage,
   WorkLoadImage,
+  FeedbackSurveyImage,
 } from '@/assets/images';
 import { Quick_Links_Routes } from '@/constants';
 import {
@@ -54,6 +56,7 @@ import {
   AIR_OPERATION,
   LOYALTY_PROGRAM,
   AIR_SOCIAL,
+  AIR_CALL_CENTER,
 } from '@/routesConstants/paths';
 
 type MenuItemI = {
@@ -191,7 +194,6 @@ export const ServicesRoutes: any = [
       },
     ],
   },
-
   {
     key: '/air-services/knowledge-base',
     icon: KnowledgeBaseImage,
@@ -207,18 +209,32 @@ export const ServicesRoutes: any = [
     permissions: Permissions?.AIR_SERVICES_WORKLOAD_CALENDER_VIEW,
   },
   {
+    key: '/air-services/feedback-survey',
+    icon: FeedbackSurveyImage,
+    label: 'Feedback Survey',
+    role: 'SERVICE',
+    permissions: [],
+  },
+  {
+    key: '/air-services/reports',
+    icon: ReportsImage,
+    label: 'Reports',
+    role: 'SERVICE',
+    permissions: [],
+  },
+  {
+    key: '/air-services/enquiries',
+    icon: BillingInvoiceImage,
+    label: 'Enquiries',
+    role: 'SERVICE',
+    permissions: Permissions?.AIR_SERVICES_ENQUIRIES,
+  },
+  {
     key: '/air-customer-portal',
     icon: CustomerPortalImage,
     label: 'Customer Portal',
     role: 'SERVICE',
     permissions: Permissions?.AIR_CUSTOMER_PORTAL,
-  },
-  {
-    key: '/air-services/enquiries',
-    icon: ReportsImage,
-    label: 'Enquiries',
-    role: 'SERVICE',
-    permissions: Permissions?.AIR_SERVICES_ENQUIRIES,
   },
 ];
 
@@ -679,6 +695,16 @@ export const LowerServicesRoutes = [
   },
 ];
 
+export const LowerAirCallCenterRoutes = [
+  {
+    label: 'Settings',
+    icon: SettingImage,
+    role: 'Air-Call-Center',
+    key: AIR_CALL_CENTER.SETTINGS.PHONE_NUMBER,
+    permissions: [],
+  },
+];
+
 export const QuickLinksData = [
   {
     logo: SettingQuickImage,
@@ -785,6 +811,30 @@ export const QuickLinkData = [
   },
 ];
 
+export const AirCallCenterRoutes: any = [
+  {
+    key: AIR_CALL_CENTER?.DASHBOARD,
+    icon: DashboardImage,
+    label: 'Dashboard',
+    role: 'Air-Call-Center',
+    permissions: [],
+  },
+  {
+    key: AIR_CALL_CENTER?.CALL_METRICS,
+    icon: CallImage,
+    label: 'Call Metrics',
+    role: 'Air-Call-Center',
+    permissions: [],
+  },
+  {
+    key: AIR_CALL_CENTER?.POWER_DAILER,
+    icon: PowerDailerImage,
+    label: 'Power Dialer',
+    role: 'Air-Call-Center',
+    permissions: [],
+  },
+];
+
 const PRODUCT__ROUTES: any = {
   'Super Admin': SuperAdminRoutes,
   'Air Sales': SalesRoutes,
@@ -794,6 +844,7 @@ const PRODUCT__ROUTES: any = {
   'Air Operations': AirOperationsRoutes,
   'Air Marketer': AirMarketingRoutes,
   'Loyalty Program': LoyaltyProgramsRoutes,
+  'Air Call Center': AirCallCenterRoutes,
 };
 
 export const getRoutes = (product: any) => {
@@ -808,6 +859,7 @@ const LOWER_PRODUCT_ROUTES: any = {
   'Air Operations': LowerAirOperationRoutes,
   'Air Marketer': LowerAirMarketingRoutes,
   'Loyalty Program': LowerLoyaltyProgramRoutes,
+  'Air Call Center': LowerAirCallCenterRoutes,
 };
 
 export const getLowerRoutes = (product: any) => {

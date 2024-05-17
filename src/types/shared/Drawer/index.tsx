@@ -22,4 +22,5 @@ export interface CommonDrawerPropsI {
   cancelBtnHandler?: any;
   variant?: any;
   disabledCancelBtn?: boolean;
+  isFooterFeatureDisabled?: any;
 }

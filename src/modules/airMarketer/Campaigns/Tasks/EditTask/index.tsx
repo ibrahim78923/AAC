@@ -10,8 +10,12 @@ export default function EditTask({
   isOpenDrawer,
   isType,
   initialValueProps = defaultValues,
+  setIsOpenEditTaskDrawer,
 }: any) {
-  const { handleSubmit, onSubmit, methods } = useEditTask(initialValueProps);
+  const { handleSubmit, onSubmit, methods, postTaskLoading } = useEditTask({
+    initialValueProps,
+    setIsOpenEditTaskDrawer,
+  });
 
   return (
     <CommonDrawer
@@ -23,6 +27,7 @@ export default function EditTask({
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={postTaskLoading}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>

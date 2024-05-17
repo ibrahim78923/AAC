@@ -220,6 +220,7 @@ export const LOYALTY_PROGRAM = {
 
 export const ORG_ADMIN = {
   DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
+  EDIT_PROFILE: '/edit-profile',
   ORGANIZATION: '/org-admin/organization-admin',
 };
 
@@ -241,6 +242,7 @@ export const SOCIAL_FEATURES_EMAIL = {
   GET_OTHERS_DRAFTS: '/other-mail/get-draft-emails',
 
   SEND_EMAIL_OTHER: '/other-mail/send-email',
+  SEND_SCHEDULE_EMAIL_OTHER: '/other-mail/schedule-email',
   DRAFT_EMAIL_OTHER: '/other-mail/draft-email',
   REPLY_EMAIL_OTHER: '/other-mail/reply-email',
 
@@ -266,7 +268,7 @@ export const CHAT_SOCKETS_EMIT = {
 };
 
 export const AIR_CALL_CENTER = {
-  DASHBOARD: '/air-call-center/dashboard',
+  DASHBOARD: '/air-call-center',
   CALL_METRICS: '/air-call-center/call-metrics',
   POWER_DAILER: '/air-call-center/power-dailer',
   SETTINGS: {

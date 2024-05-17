@@ -173,7 +173,7 @@ const DealsReport = () => {
               horizontal: 'left',
             }}
           >
-            {pipeLineData?.map((item) => (
+            {pipeLineData?.map((item: any) => (
               <Box sx={{ ml: 1 }} key={uuidv4()}>
                 <FormControlLabel control={<Checkbox />} label={item?.label} />
               </Box>

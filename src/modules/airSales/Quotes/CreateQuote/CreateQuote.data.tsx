@@ -69,15 +69,16 @@ export const dealFormData = (dealsData: any, openCreateDeal: any) => {
       },
     },
     {
-      id: 'expiryDate',
-      component: RHFDatePicker,
       componentProps: {
         name: 'expiryDate',
         label: 'Quote Expiration Date',
+        placeholder: 'MM/DD/YYYY',
+        minDate: new Date(),
         fullWidth: true,
-        placeholder: 'Select',
-        required: true,
+        require: false,
       },
+      md: 12,
+      component: RHFDatePicker,
     },
     {
       id: 'notes',

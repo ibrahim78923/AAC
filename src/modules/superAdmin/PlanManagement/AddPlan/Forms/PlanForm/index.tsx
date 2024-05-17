@@ -22,6 +22,7 @@ import {
   RHFSelect,
 } from '@/components/ReactHookForm';
 import { selectProductSuites } from './PlanForm.data';
+import { useAppSelector } from '@/redux/store';
 
 const AddPlanForm = ({
   handleSubmit,
@@ -50,6 +51,9 @@ const AddPlanForm = ({
   );
 
   const filter = createFilterOptions<any>();
+  const planForm: any = useAppSelector(
+    (state) => state?.planManagementForms?.planManagement?.addPlanForm,
+  );
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit}>
@@ -101,6 +105,7 @@ const AddPlanForm = ({
                 label={planNameRender}
                 options={productsOptions}
                 required={true}
+                defaultValues={planForm?.suite}
               />
             )}
 

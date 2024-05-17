@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Grid } from '@mui/material';
 
@@ -17,20 +17,27 @@ import {
 import { AddMembersPropsI } from './AddMembers.interface';
 
 import { useForm } from 'react-hook-form';
-import { useGetChatUsersQuery } from '@/services/chat';
+import { useGetChatUsersQuery, useUpdateChatMutation } from '@/services/chat';
 import { PAGINATION } from '@/config';
 import { getSession } from '@/utils';
 import { UserDefault } from '@/assets/images';
+import { enqueueSnackbar } from 'notistack';
+import { useAppSelector } from '@/redux/store';
 
-const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
-  const methodsAddGroup = useForm({
+const AddMembers = ({
+  setIsAddMembers,
+  setIsLoadingAddParticipant,
+}: AddMembersPropsI) => {
+  const methodsAddGroup: any = useForm({
     resolver: yupResolver(addMembersValidationSchema),
     defaultValues: addMembersDefaultValues,
   });
 
   const onSubmit = () => {};
 
-  const { handleSubmit } = methodsAddGroup;
+  const { handleSubmit, watch } = methodsAddGroup;
+
+  const participantsToAdd = watch('participant');
 
   const { user }: { user: any } = getSession();
 
@@ -53,10 +60,45 @@ const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
     value: item?._id,
     image: UserDefault,
   }));
-
   const exceptCurrentUser =
     transformedData &&
     transformedData?.filter((item: any) => item?.id !== user?._id);
+
+  const activeConversation: any = useAppSelector(
+    (state) => state?.chat?.activeConversation,
+  );
+
+  const filteredParticipants = exceptCurrentUser?.filter(
+    (item: any) =>
+      !activeConversation?.participants?.find(
+        (participant: any) => participant?._id === item?.id,
+      ),
+  );
+
+  const [updateChat, { isLoading }] = useUpdateChatMutation();
+  const updateChatHandler = async () => {
+    const payload = {
+      participants: participantsToAdd ? participantsToAdd : [],
+    };
+    try {
+      setIsAddMembers(false);
+      await updateChat({
+        body: payload,
+        id: activeConversation?._id,
+      })?.unwrap();
+      enqueueSnackbar('User added successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occurred while adding participants', {
+        variant: 'error',
+      });
+    }
+  };
+
+  useEffect(() => {
+    setIsLoadingAddParticipant(isLoading);
+  }, [isLoading]);
 
   return (
     <FormProvider methods={methodsAddGroup} onSubmit={handleSubmit(onSubmit)}>
@@ -68,7 +110,7 @@ const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
             label="Add Participant"
             size="small"
             // setValues={setValues}
-            options={exceptCurrentUser ?? []}
+            options={filteredParticipants ?? []}
             isPagination={true}
             defaultOpen={true}
             currentPage={currentPage}
@@ -80,7 +122,7 @@ const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
             isLoading={status === 'pending' ? true : false}
             isFooter={true}
             footerText="Add"
-            footerActionHandler={() => alert('Add')}
+            footerActionHandler={updateChatHandler}
             setIsDropdownClose={setIsAddMembers}
           />
         </Grid>

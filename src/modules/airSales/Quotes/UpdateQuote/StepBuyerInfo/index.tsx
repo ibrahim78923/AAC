@@ -86,7 +86,7 @@ const StepBuyerInfo = ({
                   {contactData &&
                     contactData[0]?.contacts?.map((item: any) => (
                       <Box component="li" sx={styles?.listItem} key={item?.id}>
-                        <Avatar
+                        {/* <Avatar
                           src={generateImage(item?.owner?.profilePicture?.url)}
                           sx={{
                             color: theme?.palette?.grey[600],
@@ -96,6 +96,25 @@ const StepBuyerInfo = ({
                           {`${item?.firstName?.charAt(
                             0,
                           )}${item?.lastName?.charAt(0)}`}
+                        </Avatar> */}
+                        <Avatar
+                          alt="user"
+                          src={generateImage(item?.owner?.profilePicture?.url)}
+                          sx={{
+                            width: 35,
+                            height: 35,
+                            background: theme?.palette?.grey[400],
+                          }}
+                        >
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              color: theme?.palette?.custom?.dim_grey,
+                            }}
+                          >
+                            {item?.name?.charAt(1)}
+                            {item?.name?.charAt(item?.name?.length - 1)}
+                          </Typography>
                         </Avatar>
                         <Box flex={1}>
                           <Typography sx={styles?.itemText}>

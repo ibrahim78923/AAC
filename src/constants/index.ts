@@ -131,6 +131,14 @@ export const AIR_SERVICES = {
   UPSERT_WORKFLOW_MANAGEMENT:
     '/air-services/settings/agent-performance-management/workload-management/upsert-workflow-management',
   SINGLE_AGENT_DETAILS: `/air-services/settings/user-management/agents/details`,
+  REPORTS: `/air-services/reports`,
+  INVENTORY_REPORTS: `/air-services/reports/inventory`,
+  TICKETS_REPORTS: `/air-services/reports/tickets`,
+  CONTRACTS_REPORTS: `/air-services/reports/contracts`,
+  PURCHASE_ORDER_REPORTS: `/air-services/reports/purchase-order`,
+  SOFTWARE_REPORTS: `/air-services/reports/software`,
+  FEEDBACK_SURVEY: `/air-services/feedback-survey`,
+  UPSERT_FEEDBACK_SURVEY: `/air-services/feedback-survey/upsert`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
@@ -220,6 +228,11 @@ export const productSuiteName = {
   crm: 'CRM',
 };
 
+export const dealStatus = {
+  WON: 'Won',
+  LOSS: 'Loss',
+};
+
 export const DATE_RANGE = {
   START_DATE: 0,
   END_DATE: 1,
@@ -260,6 +273,7 @@ export const EMAIL_TABS_TYPES = {
   DRAFTS: 'drafts',
   INBOX: 'inbox',
   TRASH: 'trash',
+  SCHEDULE: 'schedule',
 };
 
 export const CHAT_MESSAGE_TYPE = {

@@ -11,7 +11,33 @@ export const socialMarketerAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['CAMPAIGNS'],
     }),
-
+    getCampaignsById: builder.query({
+      query: ({ id, productSearchKeyword }: any) => ({
+        url: `${AIR_MARKETER?.CAMPAIGNS}/{id}?id=${id}`,
+        method: 'GET',
+        params: { productSearchKeyword },
+      }),
+      providesTags: ['AIR_SALES_QUOTES', 'CONTACTS'],
+    }),
+    postCampaigns: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: AIR_MARKETER?.CAMPAIGNS,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['CAMPAIGNS'],
+    }),
+    deleteCampaigns: builder.mutation({
+      query: ({ ids }: any) => {
+        return {
+          url: `${AIR_MARKETER?.CAMPAIGNS}/${ids}`,
+          method: 'DELETE',
+        };
+      },
+      invalidatesTags: ['CAMPAIGNS'],
+    }),
     getCampaignsTasks: builder.query({
       query: (params) => ({
         url: `${AIR_MARKETER?.CAMPAIGNS_TASKS}`,
@@ -55,6 +81,9 @@ export const socialMarketerAPI = baseAPI.injectEndpoints({
 
 export const {
   useGetCampaignsQuery,
+  usePostCampaignsMutation,
+  useDeleteCampaignsMutation,
+  useGetCampaignsByIdQuery,
   useGetCampaignsTasksQuery,
   usePostCampaignTaskMutation,
   useDeleteCampaignTasksMutation,

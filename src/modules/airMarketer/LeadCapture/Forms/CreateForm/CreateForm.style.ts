@@ -1,4 +1,9 @@
 export const styles = {
+  backBtn: (theme: any) => ({
+    color: theme?.palette?.slateBlue?.main,
+    marginRight: '20px',
+    fontWeight: '500',
+  }),
   subDiv: (showView: any) => {
     return {
       backgroundColor: 'white',

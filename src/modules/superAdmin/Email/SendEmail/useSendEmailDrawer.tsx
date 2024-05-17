@@ -13,6 +13,7 @@ import {
 import {
   usePostDraftOtherEmailMutation,
   usePostReplyOtherEmailMutation,
+  usePostScheduleOtherEmailMutation,
   usePostSendOtherEmailMutation,
 } from '@/services/commonFeatures/email';
 import { enqueueSnackbar } from 'notistack';
@@ -31,10 +32,12 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const [isProcessDraft, setIsProcessDraft] = useState(false);
 
   const { handleSubmit, watch, reset } = methodsDealsTasks;
-  const watchEmailsForm = watch(['ccChecked', 'bccChecked', 'to']);
+  const watchEmailsForm = watch(['ccChecked', 'bccChecked', 'to', 'sentDate']);
 
   const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
     usePostSendOtherEmailMutation();
+  const [postScheduleOtherEmail, { isLoading: loadingOtherScheduleSend }] =
+    usePostScheduleOtherEmailMutation();
   const [postReplyOtherEmail, { isLoading: loadingOtherReply }] =
     usePostReplyOtherEmailMutation();
   const [postDraftOtherEmail] = usePostDraftOtherEmailMutation();
@@ -59,7 +62,33 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [isProcessDraft]);
 
+  const [isSendLater, setIsSendLater] = useState(false);
+
+  const [sendLaterDate, setSendLaterDate] = useState<any>();
+
   const isToExists = watchEmailsForm[2];
+
+  const dateObject = watchEmailsForm[3] && new Date(watchEmailsForm[3]);
+  const isoString = dateObject?.toISOString();
+
+  const handelSendLaterAction = () => {
+    if (isSendLater) {
+      setIsSendLater(false);
+      reset({
+        sentDate: null,
+      });
+    } else {
+      setIsSendLater(true);
+    }
+  };
+
+  useEffect(() => {
+    if (isoString) {
+      setSendLaterDate(isoString);
+    }
+  }, [isoString]);
+
+  const postEmail = isSendLater ? postScheduleOtherEmail : postSendOtherEmail;
 
   const onSubmit = async (values: any) => {
     if (isProcessDraft) {
@@ -113,8 +142,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         if (values?.bcc && values?.bcc?.trim() !== '') {
           formDataSend.append('bcc', values?.bcc);
         }
+        if (sendLaterDate) {
+          formDataSend.append('sendAt', sendLaterDate);
+        }
         try {
-          await postSendOtherEmail({
+          await postEmail({
             body: formDataSend,
           })?.unwrap();
           enqueueSnackbar('Email send successfully', {
@@ -122,6 +154,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           });
           setOpenDrawer(false);
           reset();
+          reset({
+            sentDate: null,
+          });
+          setIsSendLater(false);
+          setSendLaterDate(null);
         } catch (error: any) {
           enqueueSnackbar('Something went wrong !', { variant: 'error' });
         }
@@ -181,9 +218,14 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     onSubmitEmail,
     reset,
     loadingOtherSend,
+    loadingOtherScheduleSend,
     loadingOtherReply,
     isLoadingProcessDraft,
     handleOnClose,
+    sendLaterDate,
+    setIsSendLater,
+    isSendLater,
+    handelSendLaterAction,
   };
 };
 export default useSendEmailDrawer;

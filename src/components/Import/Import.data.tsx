@@ -7,6 +7,7 @@ export const importDefaultValues = {
 
 export const importValidationSchema = Yup?.object()?.shape({
   file: Yup?.mixed()?.nullable()?.required('File is required'),
+  fileUrl: Yup?.string(),
   csvColumns: Yup?.array()?.of(
     Yup?.object()?.shape({
       csvColumn: Yup?.string(),

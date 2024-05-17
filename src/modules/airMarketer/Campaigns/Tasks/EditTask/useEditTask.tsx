@@ -6,27 +6,38 @@ import { validationSchema } from './EditTask.data';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { usePostCampaignTaskMutation } from '@/services/airMarketer/campaigns';
 
-const useEditTask = ({ initialValueProps }: any) => {
+const useEditTask = ({ initialValueProps, setIsOpenEditTaskDrawer }: any) => {
   const theme = useTheme();
 
-  const [postCampaignTask] = usePostCampaignTaskMutation();
+  const [postCampaignTask, { isLoading: postTaskLoading }] =
+    usePostCampaignTaskMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: initialValueProps,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
-    await postCampaignTask({ body: values })?.unwrap();
-
-    enqueueSnackbar('Task Updated Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    values.assignedTo = values.assignedTo?._id;
+    values.campaignId = values.campaignId?._id;
+    try {
+      await postCampaignTask({ body: values })?.unwrap();
+      enqueueSnackbar('Task Updated Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+    reset();
+    setIsOpenEditTaskDrawer(false);
   };
 
   return {
+    postTaskLoading,
     handleSubmit,
     onSubmit,
     methods,

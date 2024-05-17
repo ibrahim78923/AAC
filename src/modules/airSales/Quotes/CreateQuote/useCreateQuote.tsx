@@ -13,7 +13,8 @@ import { AIR_SALES } from '@/routesConstants/paths';
 const useCreateQuote = () => {
   const router = useRouter();
 
-  const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 20 });
+  const { data: dataGetDeals, refetch: refetchDealsDropdown } =
+    useGetDealsQuery({});
   const methodsAddQuote = useForm<any>({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
@@ -132,6 +133,7 @@ const useCreateQuote = () => {
     handleOpenFormCreateDeal,
     handleCloseFormCreateDeal,
     loadingAddQuote,
+    refetchDealsDropdown,
   };
 };
 

@@ -15,7 +15,6 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       query: (body) => {
         const formData = new FormData();
         formData.append('file', body?.file);
-        formData.append('name', body?.name);
         formData.append('folderId', body?.folderId);
         return {
           url: `${COMMON_DOCUMENTS.POST_DOCUMENTS_FILE}`,
@@ -63,7 +62,7 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
     }),
     deleteFiles: builder.mutation({
       query: ({ ids }) => ({
-        url: `${COMMON_DOCUMENTS.DELETE_DOCUMENT_FILE_ID}?ids=${ids}`,
+        url: `${COMMON_DOCUMENTS.DELETE_DOCUMENT_FILE_ID}/${ids}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['MyDocuments'],

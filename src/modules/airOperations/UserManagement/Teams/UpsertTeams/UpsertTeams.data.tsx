@@ -38,7 +38,7 @@ export const upsertTeamArray = (usersTeamDropdown: any) => [
       apiQuery: usersTeamDropdown,
       externalParams: { limit: 100 },
       isOptionEqualToValue: (option: any, newValue: any) =>
-        option?.user?._id === newValue?._id,
+        option?._id === newValue?._id,
       getOptionLabel: (option: any) =>
         option?.user?.firstName
           ? fullName(option?.user?.firstName, option?.user?.lastName)

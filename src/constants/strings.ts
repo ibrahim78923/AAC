@@ -15,6 +15,11 @@ export const TIME_PERIODS = {
   PREVIOUS_MONTH: 'PREVIOUS_MONTH',
   NEXT_WEEK: 'NEXT_WEEK',
   NEXT_MONTH: 'NEXT_MONTH',
+  TODAYS: 'Today',
+  YESTERDAYS: 'Yesterday',
+  SEVEN_DAYS: 'Last 7 Days',
+  THIRTY_DAYS: 'Last 30 Days',
+  CUSTOM_RANGE: 'Custom Range',
 };
 
 export const EXPORT_TYPE = {
@@ -491,7 +496,7 @@ export const IMPORT_ACTION_TYPE = {
 };
 
 export const OBJECT_URL_IMPORT = {
-  USERS_ATTACHMENT: '/users/attachment',
+  USERS_ATTACHMENT: 'users/attachment',
 };
 
 export const AUTH_TOKEN_BYPASS_API = {
@@ -609,6 +614,45 @@ export const LOYALTY_TIERS_REWARD_TYPE = {
   POINTS: 'POINTS',
 };
 
+export const CALL_TYPES = {
+  MISSED: 'Missed',
+  COMPLETED: 'Completed',
+  ABANDONED: 'Abandoned',
+  SUCCESSFUL_CALLBACK: 'Successful Callback',
+  UNSUCCESSFUL_CALLBACK: 'Unsuccessful Callback',
+  ANSWERED: 'Answered',
+  VOICEMAIL: 'Voicemail',
+};
+export const CALL_TAGS = {
+  SALES: 'Sales',
+  SERVICE: 'Service',
+  CUSTOMER_SUPPORT: 'Customer Support',
+  MARKETING: 'Marketing',
+  BILLING: 'Billing',
+  GENERAL: 'General',
+  CALL_BACK: 'Call Back',
+  FIRST_CALL: 'First Call',
+};
+export const CALL_DIRECTION = {
+  INCOMING: 'Incoming',
+  OUTGOING: 'Outgoing',
+};
+export const CONTRACT = {
+  SAVANNAH_NGUYEN: 'Savannah Nguyen',
+  JAMES_SMITH: 'James Smith',
+  KRISTIN_WATSON: 'Kristin Watson',
+  ANNETTE_BLACK: 'Annette Black',
+  LESLIE_ALEXANDER: 'Leslie Alexander',
+  JENNY_WILSON: 'Jenny Wilson',
+};
+export const AGENTS_LIST = {
+  SAVANNAH_NGUYEN: 'Savannah Nguyen',
+  JAMES_SMITH: 'James Smith',
+  KRISTIN_WATSON: 'Kristin Watson',
+  ANNETTE_BLACK: 'Annette Black',
+  LESLIE_ALEXANDER: 'Leslie Alexander',
+  JENNY_WILSON: 'Jenny Wilson',
+};
 export const PRODUCTS_LISTS = {
   AIR_SALES: 'Air Sales',
   AIR_SERVICES: 'Air Services',
@@ -641,4 +685,45 @@ export const LOYALTY_RULE_STATUS = {
 
 export const RULES_AUDIENCE_TYPE = {
   CUSTOMER: 'CUSTOMER',
+};
+
+export const IMPORT_TABLE_NAMES = {
+  INVENTORY: 'Inventory',
+  VENDORS: 'vendors',
+  PRODUCT_CATALOG: 'productCatalog',
+};
+
+export const IMPORT_OBJECT_TYPE = {
+  TICKET: 'TICKET',
+  MANAGE_PORTAL: 'MANAGE_PORTAL',
+  ARTICLES: 'ARTICLES',
+  CONTRACTS: 'CONTRACTS',
+  SETTINGS: 'SETTINGS',
+  ASSETS: 'ASSETS',
+  CONTACTS: 'CONTACT',
+  DEPARTMENTS: 'DEPARTMENTS',
+  QUOTE: 'QUOTE',
+  EMAILS: 'EMAILS',
+  PHYSICAL_REWARDS: 'PHYSICAL_REWARDS',
+  DIGITAL_REWARDS: 'DIGITAL_REWARDS',
+  RULES_AND_TIERS: 'RULES_AND_TIERS',
+  COMPANIES: 'COMPANIES',
+  LOYALTY_SHOPS: 'LOYALTY_SHOPS',
+};
+
+export const IMPORT_PRODUCTS_NAME = {
+  LOYALTY_PROGRAM: 'LOYALTY_PROGRAM_SERVICE',
+  MARKETING: 'MARKETING_SERVICE',
+  OPERATIONS: 'OPERATIONS_SERVICE',
+  ORG_ADMIN: 'ORG_ADMIN_SERVICE',
+  SALES: 'SALES_SERVICE',
+  AIR_SERVICES: 'AIR_SERVICES_SERVICE',
+  CRON: 'CRON_SERVICE',
+  SUPER_ADMIN: 'SUPER_ADMIN_SERVICE',
+  COMMON_FEATURE: 'COMMON_FEATURE_SERVICE',
+  USER: 'USER_SERVICE',
+};
+
+export const IMPORT_FILE_TYPE = {
+  CSV: 'CSV',
 };

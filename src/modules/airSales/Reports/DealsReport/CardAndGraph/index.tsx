@@ -7,13 +7,24 @@ import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
 import { options, optionsBar, series, seriesBar } from './CardAndGraph.data';
 
 import { styles } from './CardAndGraph.style';
+import { dealsDataByResponse } from '@/modules/airSales/Reports/Reports.data';
 
 const CardAndGraphs = () => {
+  const theme = useTheme<Theme>();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
+  const totalDeals = dealsDataByResponse?.data?.res?.map(
+    (item: any) => item?.totalDeals,
+  );
+  const openDeals = dealsDataByResponse?.data?.res?.map(
+    (item: any) => item?.totalOpenDeals,
+  );
+  const closeDeals = dealsDataByResponse?.data?.res?.map(
+    (item: any) => item?.totalCloseDeals,
+  );
 
-  const theme = useTheme<Theme>();
+  const dealsGraphData = dealsDataByResponse?.data?.resByMonth;
 
   return (
     <>
@@ -30,7 +41,7 @@ const CardAndGraphs = () => {
               variant="h3"
               sx={{ color: `${theme?.palette?.common.black}`, fontWeight: 500 }}
             >
-              6
+              {totalDeals}
             </Typography>
           </Box>
         </Grid>
@@ -46,7 +57,7 @@ const CardAndGraphs = () => {
               variant="h3"
               sx={{ color: `${theme?.palette?.common.black}`, fontWeight: 500 }}
             >
-              3
+              {openDeals}
             </Typography>
           </Box>
         </Grid>
@@ -62,7 +73,7 @@ const CardAndGraphs = () => {
               variant="h3"
               sx={{ color: `${theme?.palette?.common.black}`, fontWeight: 500 }}
             >
-              3
+              {closeDeals}
             </Typography>
           </Box>
         </Grid>
@@ -86,7 +97,7 @@ const CardAndGraphs = () => {
             </Box>
             <ReactApexChart
               options={optionsBar(theme)}
-              series={seriesBar}
+              series={seriesBar(dealsGraphData)}
               type="bar"
               height={290}
             />

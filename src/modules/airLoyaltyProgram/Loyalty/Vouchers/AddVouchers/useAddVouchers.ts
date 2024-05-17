@@ -65,8 +65,8 @@ export const useAddVouchers = (props: any) => {
       discountValue: limitPercentage
         ? +limitPercentage
         : limitAmount
-          ? +limitAmount
-          : '',
+        ? +limitAmount
+        : '',
     };
     const postVouchersParameter = {
       body: apiData,

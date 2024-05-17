@@ -17,15 +17,20 @@ const useVisibilityAction = (props: any) => {
   const [patchServiceCatalogTrigger, patchServiceCatalogTriggerStatus] =
     usePatchServiceCatalogMutation();
   const handleSubmit = async () => {
-    const moveToCategoryData = new FormData();
-    moveToCategoryData.append('id', id?.selectedCheckboxes?.[0]);
-    !!selectedAgentCheckboxes?.length &&
-      moveToCategoryData.append('agentVisibilty', selectedAgentCheckboxes);
-    !!selectedRequestorCheckboxes?.length &&
-      moveToCategoryData.append(
-        'requesterVisibilty',
-        selectedRequestorCheckboxes,
-      );
+    const moveToCategoryData: any = {};
+
+    if (selectedAgentCheckboxes && selectedAgentCheckboxes.length > 0) {
+      moveToCategoryData.agentVisibilty = selectedAgentCheckboxes;
+    }
+
+    if (selectedRequestorCheckboxes && selectedRequestorCheckboxes.length > 0) {
+      moveToCategoryData.requesterVisibilty = selectedRequestorCheckboxes;
+    }
+
+    if (id && id.selectedCheckboxes) {
+      moveToCategoryData.ids = id.selectedCheckboxes;
+    }
+
     const body = moveToCategoryData;
 
     const patchServiceCatalogParameter = { body };

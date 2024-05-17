@@ -9,15 +9,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UserHeader = (props: any) => {
-  const {
-    selectedUserList,
-    addUsersListStatus,
-    submit,
-    handleSubmit,
-    methods,
-    search,
-    setSearch,
-  } = props;
+  const { selectedUserList, search, setSearch } = props;
   const {
     isAddDrawerOpen,
     setIsAddDrawerOpen,
@@ -26,6 +18,10 @@ export const UserHeader = (props: any) => {
     userDropdownOptions,
     submitDeleteModal,
     deleteStatus,
+    submit,
+    handleSubmit,
+    methods,
+    addUsersListStatus,
   } = useUserHeader(props);
 
   return (

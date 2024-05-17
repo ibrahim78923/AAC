@@ -4,6 +4,7 @@ import { PAGINATION } from '@/config';
 import { formStatus } from '../Forms.data';
 
 const useDraft = () => {
+  const [selectedRow, setSelectedRow]: any = useState([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
@@ -26,6 +27,8 @@ const useDraft = () => {
     });
 
   return {
+    selectedRow,
+    setSelectedRow,
     setSearchValue,
     loadingGetForms,
     dataGetForms,

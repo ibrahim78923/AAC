@@ -166,7 +166,7 @@ const useUpdateQuote = () => {
 
   const handleDeleteContacts = async () => {
     try {
-      await deleteContacts({ contactIds: [deleteContactModalId] })?.unwrap();
+      await deleteContacts({ contactId: deleteContactModalId })?.unwrap();
       enqueueSnackbar('Record has been deleted.', {
         variant: 'success',
       });

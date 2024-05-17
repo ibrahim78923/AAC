@@ -385,6 +385,7 @@ export const END_POINTS = {
   ADD_LOYALTY_TRANSACTION: `/Transactions/add-transaction`,
   GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
   CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
+  NEW_IMPORT_FILE: `/new-import-file/new-import-file`,
 };
 
 export const LEAD_CAPTURE_FORM = {

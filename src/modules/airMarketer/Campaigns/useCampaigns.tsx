@@ -4,13 +4,18 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { campaignsOptions } from './Campaigns.data';
-import { useGetCampaignsQuery } from '@/services/airMarketer/campaigns';
+import {
+  useDeleteCampaignsMutation,
+  useGetCampaignsQuery,
+  usePostCampaignsMutation,
+} from '@/services/airMarketer/campaigns';
 import { PAGINATION } from '@/config';
+import { enqueueSnackbar } from 'notistack';
 
 const useCampaigns = () => {
   const theme = useTheme();
   const [tabVal, setTabVal] = useState<number>(0);
-  const [checkedRows, setCheckedRows] = useState<any>();
+  // const [checkedRows, setCheckedRows] = useState<any>();
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
   const [isOpenFilter, setIsOpenFilter] = useState(false);
@@ -31,16 +36,56 @@ const useCampaigns = () => {
   const [isCompare, setIsCompare] = useState(false);
   const [searchVal, setSearchVal] = useState('');
   const [isResetTaskFilter, setIsResetTaskFilter] = useState(false);
+  const [searchCampaigns, setSearchCampaigns] = useState('');
+  const [selectedRows, setSelectedRows] = useState<any>([]);
 
-  const { data: campaignsData } = useGetCampaignsQuery({
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
+  const [filters, setFilters] = useState({
+    campaignOwner: '',
+    startDate: null,
+    endDate: null,
+    campaignStatus: '',
   });
+  const { data: campaignsData, isLoading: filterLoading } =
+    useGetCampaignsQuery({
+      page: PAGINATION?.CURRENT_PAGE,
+      limit: PAGINATION?.PAGE_LIMIT,
+      search: searchCampaigns ? searchCampaigns : undefined,
+      campaignOwner: filters?.campaignOwner
+        ? filters?.campaignOwner
+        : undefined,
+      startDate: filters?.startDate ? filters?.startDate : undefined,
+      endDate: filters?.endDate ? filters?.endDate : undefined,
+      campaignStatus: filters?.campaignStatus
+        ? filters?.campaignStatus
+        : undefined,
+    });
+
+  const [postCampaigns, { isLoading: createCampaignsLoading }] =
+    usePostCampaignsMutation();
+
+  const [deleteCampaigns, { isLoading: deleteCampaignsLoading }] =
+    useDeleteCampaignsMutation();
 
   const CampaignTask: any = useForm({});
   const router = useRouter();
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
+  };
+  const handleResetFilters = () => {
+    setFilters({
+      campaignOwner: '',
+      startDate: null,
+      endDate: null,
+      campaignStatus: '',
+    });
+  };
+  const handeApplyFilter = (values: any) => {
+    const filteredObj = Object?.fromEntries(
+      Object?.entries(values)?.filter(
+        (value: any) => value[1] !== '' && value[1] !== null,
+      ),
+    );
+    setFilters({ ...filters, ...filteredObj });
   };
 
   const handleCloseAddAssetsModal = () => {
@@ -106,13 +151,37 @@ const useCampaigns = () => {
     setSelectedOptionsValue(option);
     setSelectedValue(null);
   };
+  const allCamopaignsData = campaignsData?.data?.campaigns;
+  const handleSelectAllCheckbox = (checked: any) => {
+    setSelectedRows(
+      checked ? allCamopaignsData?.map((obj: { _id: string }) => obj?._id) : [],
+    );
+  };
+  const handleSelectSingleCheckBox = (value: any, id: string) => {
+    if (value?.target?.checked) setSelectedRows([...selectedRows, id]);
+    else setSelectedRows(selectedRows?.filter((row: any) => row !== id));
+  };
+
+  const handleDeleteCampaigns = async (id: any) => {
+    try {
+      await deleteCampaigns({ ids: id })?.unwrap();
+      enqueueSnackbar('Campaigns deleted successfully', {
+        variant: 'success',
+      });
+      setSelectedRows([]);
+    } catch (error) {
+      enqueueSnackbar('Error while deleting campaigns', {
+        variant: 'error',
+      });
+    }
+  };
 
   return {
     theme,
     tabVal,
     setTabVal,
-    checkedRows,
-    setCheckedRows,
+    // checkedRows,
+    // setCheckedRows,
     selectedValue,
     handleClick,
     handleSelectedOptionValue,
@@ -138,6 +207,19 @@ const useCampaigns = () => {
     isResetTaskFilter,
     setIsResetTaskFilter,
     campaignsData,
+    postCampaigns,
+    createCampaignsLoading,
+    handeApplyFilter,
+    setSearchCampaigns,
+    searchCampaigns,
+    handleResetFilters,
+    filterLoading,
+    handleSelectSingleCheckBox,
+    handleSelectAllCheckbox,
+    selectedRows,
+    allCamopaignsData,
+    deleteCampaignsLoading,
+    handleDeleteCampaigns,
   };
 };
 export default useCampaigns;

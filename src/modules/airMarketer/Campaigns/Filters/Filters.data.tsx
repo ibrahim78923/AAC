@@ -2,13 +2,7 @@ import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  campaignOwner: Yup?.string()?.required('Field is Required'),
-  campaignStatus: Yup?.string()?.trim()?.required('Field is Required'),
-  startDate: Yup?.string()?.trim()?.required('Field is Required'),
-
-  endDate: Yup?.string()?.trim()?.required('Field is Required'),
-});
+export const validationSchema = Yup.object().shape({});
 
 export const defaultValues = {
   campaignOwner: '',
@@ -17,67 +11,66 @@ export const defaultValues = {
   endDate: null,
 };
 
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'campaignStatus',
-      label: 'Campaign Status',
-      fullWidth: true,
-      select: true,
+export const dataArray = (UserListData: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'campaignStatus',
+        label: 'Campaign Status',
+        fullWidth: true,
+        select: true,
+      },
+
+      options: [
+        { value: 'scheduled', label: 'Scheduled' },
+        { value: 'inprogress', label: 'In Progress' },
+        { value: 'active', label: 'Active' },
+        { value: 'paused', label: 'Paused' },
+        { value: 'completed', label: 'Completed' },
+      ],
+
+      component: RHFSelect,
+
+      md: 12,
     },
+    {
+      componentProps: {
+        name: 'campaignOwner',
+        label: 'Campaign Owner',
+        fullWidth: true,
+        select: true,
+      },
 
-    options: [
-      { value: 'scheduled', label: 'Scheduled' },
-      { value: 'inprogress', label: 'In Progress' },
-      { value: 'active', label: 'Active' },
-      { value: 'paused', label: 'Paused' },
-      { value: 'completed', label: 'Completed' },
-    ],
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })) ?? [{ label: '', value: '' }],
 
-    component: RHFSelect,
+      component: RHFSelect,
 
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'campaignOwner',
-      label: 'Campaign Owner',
-      fullWidth: true,
-      select: true,
+      md: 12,
     },
+    {
+      componentProps: {
+        name: 'startDate',
+        label: 'Start Date',
+        fullWidth: true,
+      },
 
-    options: [
-      { value: 'scheduled', label: 'Scheduled' },
-      { value: 'inprogress', label: 'In Progress' },
-      { value: 'active', label: 'Active' },
-      { value: 'paused', label: 'Paused' },
-      { value: 'completed', label: 'Completed' },
-    ],
+      component: RHFDatePicker,
 
-    component: RHFSelect,
-
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'startDate',
-      label: 'Start Date',
-      fullWidth: true,
+      md: 12,
     },
+    {
+      componentProps: {
+        name: 'endDate',
+        label: 'End Date',
+        fullWidth: true,
+      },
 
-    component: RHFDatePicker,
+      component: RHFDatePicker,
 
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'endDate',
-      label: 'End Date',
-      fullWidth: true,
+      md: 12,
     },
-
-    component: RHFDatePicker,
-
-    md: 12,
-  },
-];
+  ];
+};

@@ -4,13 +4,17 @@ import useCampaigns from './useCampaigns';
 import { PlusIcon, ResetFilterIcon } from '@/assets/icons';
 import Tasks from './Tasks';
 import ImportIcon from '@/assets/icons/shared/import-icon';
-import Filters from './Filters';
 import { campaignsTabs } from './Campaigns.data';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { useState } from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { campaignArray, compareCampaignArray } from './Compaigns.data';
+import {
+  campaignArray,
+  compareCampaignArray,
+  initvalues,
+  validationSchema,
+} from './Compaigns.data';
 import { AddCircle } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 
@@ -19,18 +23,75 @@ import Calendar from './Calendar';
 import ResetTasksFilter from './ResetTasksFilter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { enqueueSnackbar } from 'notistack';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { useGetUsersListQuery } from '@/services/airSales/deals';
+import { getSession } from '@/utils';
+import { ROLES } from '@/constants/strings';
 
 const Campaigns = () => {
   const {
-    isOpenFilter,
     setIsOpenFilter,
     theme,
     isResetTaskFilter,
     setIsResetTaskFilter,
+    postCampaigns,
+    createCampaignsLoading,
+    campaignsData,
+    handeApplyFilter,
+    handleResetFilters,
+    filterLoading,
+    handleSelectAllCheckbox,
+    handleSelectSingleCheckBox,
+    selectedRows,
+    allCamopaignsData,
   } = useCampaigns();
   const [isCreateTask, setIsCreateTask] = useState(false);
   const [isCompare, setIsCompare] = useState(false);
-  const CampaignTask: any = useForm({});
+  const { user }: any = getSession();
+  const organizationId: any = user?.organization?._id;
+
+  const { data: UserListData } = useGetUsersListQuery({
+    role: ROLES?.ORG_EMPLOYEE,
+    organization: organizationId,
+  });
+  const methods = useForm<any>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: initvalues,
+  });
+  const { handleSubmit, reset } = methods;
+
+  const onSubmit = async (values: any) => {
+    const campaignBudget = values.campaignBudget
+      ? parseFloat(values.campaignBudget)
+      : null;
+
+    const obj = {
+      ...values,
+      startDate: values?.startDate
+        ? dayjs(values?.startDate[0])?.format(DATE_FORMAT?.API)
+        : undefined,
+      endDate: values?.endDate
+        ? dayjs(values?.endDate[0])?.format(DATE_FORMAT?.API)
+        : undefined,
+      campaignBudget,
+    };
+    try {
+      await postCampaigns({ body: obj })?.unwrap();
+      enqueueSnackbar('Campaigns created successfully', {
+        variant: 'success',
+      });
+    } catch (error) {
+      enqueueSnackbar('Error while creating campaigns', {
+        variant: 'error',
+      });
+    }
+    reset();
+    setIsCreateTask(false);
+  };
+
   return (
     <Box>
       <Box
@@ -46,7 +107,7 @@ const Campaigns = () => {
           justifyContent="space-between"
           sx={{ padding: '0px 24px' }}
         >
-          <Typography variant="h4" mb={1}>
+          <Typography variant="h4" mb={1} onClick={() => setIsOpenFilter(true)}>
             Campaigns
           </Typography>
 
@@ -97,18 +158,21 @@ const Campaigns = () => {
 
         <Box sx={{ padding: '0px 24px' }} mt={1.6}>
           <HorizontalTabs tabsDataArray={campaignsTabs}>
-            <Manage />
+            <Manage
+              campaignsData={campaignsData}
+              handeApplyFilter={handeApplyFilter}
+              handleResetFilters={handleResetFilters}
+              filterLoading={filterLoading}
+              handleSelectSingleCheckBox={handleSelectSingleCheckBox}
+              handleSelectAllCheckbox={handleSelectAllCheckbox}
+              selectedRows={selectedRows}
+              allCamopaignsData={allCamopaignsData}
+            />
             <Calendar />
             <Tasks />
           </HorizontalTabs>
         </Box>
       </Box>
-      {isOpenFilter && (
-        <Filters
-          isOpenDrawer={isOpenFilter}
-          onClose={() => setIsOpenFilter(false)}
-        />
-      )}
 
       {isCreateTask && (
         <CommonDrawer
@@ -120,13 +184,15 @@ const Campaigns = () => {
           okText="Create"
           isOk
           footer={true}
+          submitHandler={handleSubmit(onSubmit)}
+          isLoading={createCampaignsLoading}
         >
           <Box sx={{ paddingTop: '1rem' }}>
-            <FormProvider methods={CampaignTask}>
+            <FormProvider methods={methods}>
               <Grid container spacing={2}>
-                {campaignArray?.map((item: any) => (
+                {campaignArray(UserListData)?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component {...item.componentProps} size={'small'}>
+                    <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (
                           <option key={uuidv4()} value={option?.value}>
@@ -134,10 +200,6 @@ const Campaigns = () => {
                           </option>
                         ))}
                     </item.component>
-                    {/* <item.component
-                    {...item.componentProps}
-                    size={'small'}
-                  ></item.component> */}
                   </Grid>
                 ))}
               </Grid>
@@ -158,7 +220,7 @@ const Campaigns = () => {
           footer={true}
         >
           <Box sx={{ paddingTop: '1rem' }}>
-            <FormProvider methods={CampaignTask}>
+            <FormProvider methods={''}>
               <Grid container spacing={2}>
                 {compareCampaignArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>

@@ -43,6 +43,7 @@ export { default as UserProfileImage } from './shared/user-profile.png';
 export { default as AssetsImage } from './modules/HeaderAndSidebar/assets.png';
 export { default as TicketDiscountImage } from './modules/HeaderAndSidebar/ticket-discount.png';
 export { default as WorkLoadImage } from './modules/HeaderAndSidebar/workload.png';
+export { default as FeedbackSurveyImage } from './modules/HeaderAndSidebar/feedback-survey-img.png';
 export { default as ReleasesImage } from './modules/HeaderAndSidebar/releases.png';
 export { default as ReportingImage } from './modules/HeaderAndSidebar/reporting.png';
 export { default as ProjectImage } from './modules/HeaderAndSidebar/projects.png';
@@ -216,8 +217,8 @@ export { default as ServiceCatalogSoftwareAdobePhotoshopImage } from './modules/
 export { default as HandShakeImage } from './modules/airMarketer/reports/hand-shake.png';
 export { default as MockUpImage } from './modules/paidAds/mockUpImage.png';
 export { default as MockEngagementTabsImage } from './modules/paidAds/engagementTabs-img.png';
-
 // settings -> performance management leader board
+export { default as PowerDailerImage } from './modules/airCallCenter/powerDailer/power-dailer.png';
 
 export { default as MostValuableBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/most-valuable-badge-image.png';
 export { default as ChampionBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/champion-badge-image.png';

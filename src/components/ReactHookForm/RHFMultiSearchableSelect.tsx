@@ -40,6 +40,7 @@ export default function RHFMultiSearchableSelect({
   customSearch = false,
   isLoading,
   isPagination = false,
+  defaultValues = [],
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -48,7 +49,7 @@ export default function RHFMultiSearchableSelect({
 
   const [isSelectAll, setIsSelectAll] = useState<any>();
 
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [selectedValues, setSelectedValues] = useState<string[]>(defaultValues);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -233,8 +234,8 @@ export default function RHFMultiSearchableSelect({
                             backgroundColor: isCheckBox
                               ? 'transparent'
                               : selectedValues?.includes(option?.value)
-                                ? theme?.palette?.custom?.hex_grey
-                                : 'transparent',
+                              ? theme?.palette?.custom?.hex_grey
+                              : 'transparent',
                             '&:hover': {
                               backgroundColor: theme?.palette?.custom?.hex_grey,
                             },

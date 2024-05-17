@@ -2,15 +2,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 
-const pieChartData: any = {
-  data: [44, 55],
-};
-
 const pieChartDataOptions = (theme: any) => ({
   colors: [theme?.palette?.success?.main, theme?.palette?.warning?.main],
 });
 
-export { pieChartData, pieChartDataOptions };
+export { pieChartDataOptions };
 export const pieChartHeader = (theme: any, pieCharts: any) => [
   {
     title: 'Total Agents',

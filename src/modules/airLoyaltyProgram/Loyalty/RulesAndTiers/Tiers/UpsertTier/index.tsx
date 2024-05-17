@@ -1,10 +1,12 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { upsertTierDataArray } from './UpsertTier.data';
 import { useUpsertTier } from './useUpsertTier';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { Attachments } from '@/components/Attachments';
+import { AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UpsertTier = (props: any) => {
   const { isDrawerOpen, tierId } = props;
@@ -22,6 +24,7 @@ export const UpsertTier = (props: any) => {
     isError,
     isFetching,
     updateTierProgress,
+    isFormFilled,
   } = useUpsertTier(props);
 
   return (
@@ -29,19 +32,18 @@ export const UpsertTier = (props: any) => {
       isOk
       variant={'contained'}
       isDrawerOpen={isDrawerOpen}
-      onClose={() => closeUpsertTier?.()}
+      onClose={
+        !termData ? () => closeUpsertTier?.() : () => setTermData?.(false)
+      }
       okText={!termData ? (!!tierId?._id ? 'Update' : 'Create') : 'Done'}
       title={!!tierId?._id ? 'Edit Tier' : 'Create Tier'}
-      submitHandler={
-        !termData
-          ? () => handleSubmit?.(submitTierForm)?.()
-          : () => setTermData?.(false)
-      }
+      submitHandler={() => handleSubmit?.(submitTierForm)?.()}
       isFooterFeatureText="Define Term"
       isFooterFeatureHandler={() => setTermData?.(true)}
       cancelText={'Cancel'}
       footer
       isFooterFeature={!termData}
+      isFooterFeatureDisabled={isFormFilled ? false : true}
       isLoading={postTierProgress?.isLoading || updateTierProgress?.isLoading}
       isDisabled={postTierProgress?.isLoading || updateTierProgress?.isLoading}
       disabledCancelBtn={
@@ -72,6 +74,29 @@ export const UpsertTier = (props: any) => {
                 ),
               )}
             </Grid>
+            <br />
+
+            {!!tierId?._id && (
+              <>
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                  color="slateBlue.main"
+                  mb={2}
+                >
+                  Attachments
+                </Typography>
+                <Box maxHeight={'20vh'}>
+                  <Attachments
+                    recordId={tierId?._id}
+                    permissionKey={[
+                      AIR_LOYALTY_PROGRAM_LOYALTY_RULES_AND_TIERS_PERMISSIONS?.EDIT_TIERS,
+                    ]}
+                    colSpan={{ sm: 12, lg: 12 }}
+                  />
+                </Box>
+              </>
+            )}
           </FormProvider>
         </Box>
       )}

@@ -36,6 +36,7 @@ const CommonDrawer = ({
   isDisabled,
   variant,
   disabledCancelBtn,
+  isFooterFeatureDisabled,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
 
@@ -108,7 +109,7 @@ const CommonDrawer = ({
             {footer && (
               <>
                 {footerActionText && (
-                  <Box
+                  <Button
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
@@ -126,7 +127,7 @@ const CommonDrawer = ({
                     >
                       {footerActionText}
                     </Typography>
-                  </Box>
+                  </Button>
                 )}
                 <Box sx={{ display: 'flex', gap: '10px' }}>
                   {cancelHandlerCheck && (
@@ -149,6 +150,7 @@ const CommonDrawer = ({
                     <Button
                       onClick={isFooterFeatureHandler}
                       variant={variant ?? 'outlined'}
+                      disabled={isFooterFeatureDisabled}
                     >
                       {isFooterFeatureText}
                     </Button>

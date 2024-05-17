@@ -24,14 +24,15 @@ export const contactsDefaultValues = {
   lifeCycleStageId: '',
   contactOwnerId: '',
   statusId: '',
-  dateOfJoinig: null,
   dateOfBirth: null,
+  dateOfJoining: null,
 };
 export const contactsDataArray = (
   contactStatusData: any,
   lifeCycleStagesData: any,
   userList: any,
 ) => {
+  const maxDate = new Date();
   return [
     {
       componentProps: {
@@ -88,6 +89,7 @@ export const contactsDataArray = (
         name: 'dateOfBirth',
         label: 'Date Of Birth',
         fullWidth: true,
+        maxDate: maxDate,
       },
       md: 12,
       component: RHFDatePicker,
@@ -157,9 +159,8 @@ export const contactsDataArray = (
       component: RHFSelect,
     },
     {
-      title: 'Date of Joining',
       componentProps: {
-        name: 'dateOfJoinig',
+        name: 'dateOfJoining',
         label: 'Date of Joining',
         fullWidth: true,
       },

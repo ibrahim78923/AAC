@@ -5,7 +5,6 @@ import {
   useGetProductUserListQuery,
   useLazyGetTeamUserListQuery,
   usePatchProductUsersMutation,
-  usePostProductUserListMutation,
 } from '@/services/airOperations/user-management/user';
 import { PAGINATION } from '@/config';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -104,25 +103,6 @@ export const useUser = () => {
   const [patchProductUsersTrigger, patchProductUsersStatus] =
     usePatchProductUsersMutation();
 
-  const [addListUsers, addUsersListStatus] = usePostProductUserListMutation();
-
-  const submit = async (data: any) => {
-    try {
-      const body = {
-        ...data,
-        role: data?.role?._id,
-        team: data?.team?._id,
-        language: data?._id,
-      };
-      await addListUsers({ body }).unwrap();
-      successSnackbar('Users List added successfully.');
-      handleClose?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-    handleClose?.();
-  };
-
   const handleClose = () => {
     setIsDrawerOpen(false);
     reset?.();
@@ -176,7 +156,6 @@ export const useUser = () => {
     setPageLimit,
     methods,
     handleSubmit,
-    submit,
     setUserData,
     disabled,
     setDisabled,
@@ -185,7 +164,6 @@ export const useUser = () => {
     metaData,
     rolesDropdown,
     patchProductUsersStatus,
-    addUsersListStatus,
     switchLoading,
     handleChangeStatus,
     editProductUsersDetails,
