@@ -27,6 +27,7 @@ export { default as EditIcon } from './shared/edit-shared';
 export { default as EditYellowBgIcon } from './shared/edit-yellow-bg';
 export { default as EditColoredIcon } from './shared/edit-colored-shared';
 export { default as EditBlackIcon } from './shared/edit-black-icon';
+export { default as ProductsIcon } from './shared/product-icon';
 export { default as ExampleKababCase } from './modules/Login/example-kabab-case';
 export { default as ViewEyeIcon } from './modules/airSales/SettingsUserManagement/view-eye';
 export { default as DeleteCrossIcon } from './modules/airSales/SettingsUserManagement/delete-cross';

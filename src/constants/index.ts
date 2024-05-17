@@ -228,6 +228,11 @@ export const productSuiteName = {
   crm: 'CRM',
 };
 
+export const dealStatus = {
+  WON: 'Won',
+  LOSS: 'Loss',
+};
+
 export const DATE_RANGE = {
   START_DATE: 0,
   END_DATE: 1,

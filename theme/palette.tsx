@@ -22,6 +22,7 @@ const SUCCESS = {
   main: '#47B263',
   dark: '#229A16',
   darker: '#08660D',
+  bgLighter: '#ECFFF1',
 };
 const WARNING = {
   lighter: '#ffda6e',
@@ -81,6 +82,7 @@ const CUSTOM_COLORS = {
   dark: '#D1D5DB',
   bluish_gray: '#BCC1CE',
   bright: '#0AADC7',
+  bgLighter: '#ECFCFF',
   transparent_dark_blue: 'rgba(16, 24, 40, 0.1)',
   transparent_bluish_gray: 'rgba(98, 110, 142, 0.12',
   off_white: 'rgba(234, 236, 240, 1)',
