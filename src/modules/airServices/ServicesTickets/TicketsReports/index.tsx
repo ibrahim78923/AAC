@@ -1,45 +1,80 @@
-import { Box, Divider, Grid } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Divider,
+  Grid,
+  IconButton,
+} from '@mui/material';
 import { TicketsReportCard } from './TicketsReportCard';
-import { TicketsReportHeader } from './TicketsReportHeader';
-import { cardOptions } from './TicketsReport.data';
+import { agentsOptions, cardOptions } from './TicketsReport.data';
 import { useTicketsReport } from './useTicketsReport';
 import { TicketsReportChart } from './TicketsReportChart';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { AIR_SERVICES } from '@/constants';
+import { DownloadLargeIcon } from '@/assets/icons';
+import ReportCalendarFilter from '@/components/ReportCalendarFilter';
+import { FormProvider } from 'react-hook-form';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 
 export const TicketsReports = () => {
-  const { theme, agentFilterMethod, setCalendarFilter, handlePrint, router } =
+  const { agentFilterMethod, setCalendarFilter, handlePrint, router, loading } =
     useTicketsReport();
 
   return (
     <>
-      <TicketsReportHeader
-        theme={theme}
-        router={router}
-        agentFilterMethod={agentFilterMethod}
-        setCalendarFilter={setCalendarFilter}
-        handlePrint={handlePrint}
-      />
-      <Divider
-        orientation="horizontal"
-        flexItem
-        sx={{
-          margin: '1rem 1rem',
-          borderColor: theme?.palette?.grey[700],
+      <PageTitledHeader
+        title={'Tickets'}
+        canMovedBack
+        moveBack={() => {
+          router?.push(AIR_SERVICES?.REPORTS);
         }}
-      />
-      <Box id="main-content" p={1.5}>
-        <Grid container spacing={2} mb={3}>
-          {cardOptions?.map((item: any) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={item?.id}>
-              <TicketsReportCard
-                label={item.label}
-                chipValue={item.chipValue}
-                theme={theme}
-              />
-            </Grid>
-          ))}
-        </Grid>
-        <TicketsReportChart />
-      </Box>
+      >
+        <ReportCalendarFilter setCalendarFilter={setCalendarFilter} />
+        <FormProvider {...agentFilterMethod}>
+          <Box width={'7rem'} mt={1}>
+            <RHFAutocomplete
+              name="agent"
+              size="small"
+              options={agentsOptions}
+              placeholder="Agent"
+              getOptionLabel={(option: any) => option?.label}
+            />
+          </Box>
+        </FormProvider>
+        <IconButton
+          aria-label={'download'}
+          size={'small'}
+          sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
+          onClick={handlePrint}
+        >
+          <DownloadLargeIcon />
+        </IconButton>
+      </PageTitledHeader>
+      <Divider />
+      {loading ? (
+        <Box
+          height={'70vh'}
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'center'}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Box id="main-content">
+          <Grid container spacing={2} my={2}>
+            {cardOptions?.map((item: any) => (
+              <Grid item xs={12} md={6} lg={3} key={item?.id}>
+                <TicketsReportCard
+                  label={item.label}
+                  chipValue={item.chipValue}
+                />
+              </Grid>
+            ))}
+          </Grid>
+          <TicketsReportChart />
+        </Box>
+      )}
     </>
   );
 };

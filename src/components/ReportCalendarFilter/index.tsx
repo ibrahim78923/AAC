@@ -52,7 +52,7 @@ export default function ReportCalendarFilter(props: any) {
           rangeColors={[theme?.palette?.primary?.main]}
           color={theme?.palette?.primary?.main}
           ranges={[selectionRange]}
-          onChange={(ranges) => handleSelect(ranges)}
+          onChange={(ranges: any) => handleSelect(ranges)}
           inputRanges={[]}
         />
         <Divider flexItem />

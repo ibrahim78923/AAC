@@ -1,26 +1,32 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const TicketsReportCard = (props: any) => {
-  const { label, chipValue, theme } = props;
+  const { label, chipValue } = props;
 
   return (
     <Box
-      display={'flex'}
-      alignItems={'center'}
-      justifyContent={'space-between'}
-      p={2.5}
-      border={`.1rem solid ${theme?.palette?.grey[700]}`}
+      boxShadow={1}
+      border={'1px solid'}
+      borderColor={'custom.off_white_one'}
       borderRadius={2}
+      px={2}
+      py={3}
+      display={'flex'}
+      justifyContent={'space-between'}
+      alignItems={'center'}
     >
-      <Typography variant="body1">{label}</Typography>
-      <Box
-        padding="0.3rem 0.8rem"
-        borderRadius={'45%'}
-        bgcolor={'primary.main'}
-        color={'white'}
-      >
-        <Typography variant="body1">{chipValue}</Typography>
-      </Box>
+      <Typography variant={'h6'} color={'slateBlue.main'}>
+        {label}
+      </Typography>
+      <Chip
+        color="primary"
+        label={chipValue}
+        sx={{
+          fontSize: pxToRem(16),
+          fontWeight: 500,
+        }}
+      />
     </Box>
   );
 };

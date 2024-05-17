@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material';
-import { chartData } from './TicketsReportChart.data';
+import { chartData } from '../TicketsReport.data';
 
 export const useTicketsReportChart = () => {
   const theme = useTheme();
@@ -45,13 +45,13 @@ export const useTicketsReportChart = () => {
     'Unassigned Tickets',
   ]?.map((status) => ({
     name: status,
-    data: months?.map((month) => groupedData[month]?.[status] || 0),
+    data: months?.map((month: any) => groupedData[month]?.[status] || 0),
   }));
 
   const options = {
     xaxis: {
       categories: months?.map(
-        (month) => monthAbbreviations[parseInt(month) - 1],
+        (month: any) => monthAbbreviations[parseInt(month) - 1],
       ),
     },
     colors: [
@@ -72,5 +72,5 @@ export const useTicketsReportChart = () => {
     },
   };
 
-  return { options, seriesData, theme };
+  return { options, seriesData };
 };
