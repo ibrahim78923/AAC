@@ -3,19 +3,21 @@ import React from 'react';
 import { Box, Button } from '@mui/material';
 
 import Search from '@/components/Search';
-import { FilterSharedIcon } from '@/assets/icons';
+import { ExportBlackIcon, FilterSharedIcon } from '@/assets/icons';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 import { allCallsData } from './allCalls.data';
 import CallsDetailsDrawer from './callsDetailsDrawer';
-import { ExportButton } from '@/components/ExportButton';
+
 import FilterAllCalls from './filterAllCalls';
 import { useAllCalls } from './useAllCalls';
+
+import ExportAllCalls from './exportAllCalls';
 
 const AllCalls = () => {
   const {
     theme,
-    searchTerm,
+
     isCallDetailsDrawerOpen,
     setIsCallDetailsDrawerOpen,
     page,
@@ -23,10 +25,12 @@ const AllCalls = () => {
     pageLimit,
     setPageLimit,
     getColumns,
-    handleExcelExport,
+    setSearchTerm,
     isDrawerOpen,
     setIsDrawerOpen,
-    handleCsvExport,
+
+    isExportDrawerOpen,
+    setIsExportDrawerOpen,
   } = useAllCalls();
   return (
     <Box
@@ -43,18 +47,17 @@ const AllCalls = () => {
           flexWrap={'wrap'}
           gap={2}
         >
-          <Search label="Search Here" setSearchBy={searchTerm} />
+          <Search label="Search Here" setSearchBy={setSearchTerm} />
 
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            <ExportButton
-              handleExcelExport={() => {
-                handleExcelExport?.();
-              }}
-              handleCsvExport={() => {
-                handleCsvExport?.();
-              }}
-            />
-
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<ExportBlackIcon />}
+              onClick={() => setIsExportDrawerOpen(true)}
+            >
+              Export
+            </Button>
             <Button
               variant="outlined"
               color="secondary"
@@ -90,6 +93,12 @@ const AllCalls = () => {
         <FilterAllCalls
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
+        />
+      )}
+      {isExportDrawerOpen && (
+        <ExportAllCalls
+          isExportDrawerOpen={isExportDrawerOpen}
+          setIsExportDrawerOpen={setIsExportDrawerOpen}
         />
       )}
     </Box>

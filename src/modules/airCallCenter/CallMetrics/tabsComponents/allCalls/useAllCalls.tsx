@@ -11,6 +11,7 @@ export const useAllCalls = () => {
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(5);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isExportDrawerOpen, setIsExportDrawerOpen] = useState(false);
   const getColumns = columns({ setIsCallDetailsDrawerOpen });
   const handleExcelExport = () => {
     successSnackbar('Excel Exported Successfully');
@@ -33,5 +34,7 @@ export const useAllCalls = () => {
     isDrawerOpen,
     setIsDrawerOpen,
     handleCsvExport,
+    isExportDrawerOpen,
+    setIsExportDrawerOpen,
   };
 };

@@ -7,10 +7,10 @@ import {
 import { successSnackbar } from '@/utils/api';
 
 export const useFilterAllCalls = (props: any) => {
-  const { setIsDrawerOpen, contractFilterLists } = props;
+  const { setIsDrawerOpen } = props;
 
   const methods = useForm({
-    defaultValues: allcallsFilterFormDefaultValues(contractFilterLists),
+    defaultValues: allcallsFilterFormDefaultValues(),
   });
 
   const { handleSubmit, reset } = methods;
