@@ -1,5 +1,5 @@
 import { DATE_TIME_FORMAT } from '@/constants';
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 export const columns: any = (columnsProps: any) => {
   const { selectedRec, setSelectedRec, compaignsTasksData } = columnsProps;
@@ -92,7 +92,9 @@ export const columns: any = (columnsProps: any) => {
       id: 'taskNotes',
       isSortable: true,
       header: 'Task Notes',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Box dangerouslySetInnerHTML={{ __html: info?.getValue() ?? 'N/A' }} />
+      ),
     },
   ];
 };

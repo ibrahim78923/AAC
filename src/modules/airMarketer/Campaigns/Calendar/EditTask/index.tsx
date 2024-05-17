@@ -7,19 +7,19 @@ import { DRAWER_TYPES } from '@/constants/strings';
 
 export default function EditTask({
   onClose,
-  isOpenDrawer,
+  createTask,
   isType,
   initialValueProps = defaultValues,
-  setIsOpenEditTaskDrawer,
+  setCreateTask,
 }: any) {
   const { handleSubmit, onSubmit, methods, postTaskLoading } = useEditTask({
     initialValueProps,
-    setIsOpenEditTaskDrawer,
+    setCreateTask,
   });
 
   return (
     <CommonDrawer
-      isDrawerOpen={isOpenDrawer}
+      isDrawerOpen={createTask}
       onClose={() => onClose(false)}
       title={isType === DRAWER_TYPES?.ADD ? 'Create Task' : 'Edit Task'}
       okText={isType === DRAWER_TYPES?.ADD ? 'Create' : 'Update'}

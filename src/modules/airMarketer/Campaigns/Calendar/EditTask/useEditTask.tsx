@@ -6,7 +6,7 @@ import { validationSchema } from './EditTask.data';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { usePostCampaignTaskMutation } from '@/services/airMarketer/campaigns';
 
-const useEditTask = ({ initialValueProps, setIsOpenEditTaskDrawer }: any) => {
+const useEditTask = ({ initialValueProps, setCreateTask }: any) => {
   const theme = useTheme();
 
   const [postCampaignTask, { isLoading: postTaskLoading }] =
@@ -33,7 +33,7 @@ const useEditTask = ({ initialValueProps, setIsOpenEditTaskDrawer }: any) => {
       });
     }
     reset();
-    setIsOpenEditTaskDrawer(false);
+    setCreateTask(false);
   };
 
   return {

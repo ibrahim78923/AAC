@@ -24,6 +24,7 @@ const useTasks = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [searchValue, setSearchValue] = useState('');
   const actionMenuOpen = Boolean(anchorEl);
+
   const statusConstants = {
     INPROGRESS: 'inprogress',
     PENDING: 'pending',
@@ -117,6 +118,7 @@ const useTasks = () => {
     handleChangeStatus,
     isOpenChangeStatus,
     compaignsTasksData,
+    getCampaignsTasks,
     handleDeleteModal,
     deleteTaskLoading,
     updateTaskLoading,

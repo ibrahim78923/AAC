@@ -1,44 +1,33 @@
-import {
-  TaskAvatarImage,
-  CampaignAvatarImage,
-  YouTubeAvatarImage,
-} from '@/assets/images';
+import { TaskAvatarImage, CampaignAvatarImage } from '@/assets/images';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
-// const theme:any = useTheme();
+export const taskEvents: any = (
+  theme: any,
+  compaignsTasksData: any,
+  allCampaignsData: any,
+) => {
+  const compaignsTasksArray = Array.isArray(compaignsTasksData)
+    ? compaignsTasksData
+    : [];
+  const campaignsArray = Array.isArray(allCampaignsData)
+    ? allCampaignsData
+    : [];
+  const combinedArray = [...compaignsTasksArray, ...campaignsArray];
 
-export const taskEvents: any = (todayDate: any, theme: any) => {
-  return [
-    {
-      title: 'Tasks',
-      SocailMedia: TaskAvatarImage,
-      bgColor: `${theme?.palette?.primary?.main}`,
-      textColor: `${theme?.palette?.common?.white}`,
-      start: '2024-01-08T10:00:00',
-      end: '2024-01-08T12:00:00',
-    },
-    {
-      title: 'Campaigns.',
-      SocailMedia: CampaignAvatarImage,
-      bgColor: `${theme?.palette?.error?.lighter}`,
-      textColor: `${theme?.palette?.error?.main}`,
-      start: '2024-01-08T10:00:00',
-      end: '2024-01-08T10:00:00',
-    },
-    {
-      title: 'Campaign',
-      SocailMedia: CampaignAvatarImage,
-      bgColor: `${theme?.palette?.error?.lighter}`,
-      textColor: `${theme?.palette?.error?.main}`,
-      start: `${todayDate}T10:00:00`,
-      end: `${todayDate}T12:00:00`,
-    },
-    {
-      title: 'Tasks',
-      SocailMedia: YouTubeAvatarImage,
-      bgColor: `${theme?.palette?.primary?.main}`,
-      textColor: `${theme?.palette?.common?.white}`,
-      start: `${todayDate}T10:00:00`,
-      end: `${todayDate}T12:00:00`,
-    },
-  ];
+  return combinedArray.map((data: any) => {
+    const isTask = compaignsTasksData?.includes(data);
+    return {
+      title: isTask ? data?.taskName : data?.title,
+      SocailMedia: isTask ? TaskAvatarImage : CampaignAvatarImage,
+      bgColor: isTask
+        ? `${theme?.palette?.primary?.main}`
+        : `${theme?.palette?.error?.lighter}`,
+      textColor: isTask
+        ? `${theme?.palette?.common?.white}`
+        : `${theme?.palette?.error?.main}`,
+      start: `${dayjs(data?.createdAt)?.format(DATE_FORMAT?.API)}`,
+      type: isTask ? 'task' : 'campaign',
+    };
+  });
 };
