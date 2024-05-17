@@ -3,9 +3,7 @@ import { Button, useTheme } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
-const AudioVisualizer = ({
-  audioSrc = 'https://webaudioapi.com/samples/audio-tag/chrono.mp3',
-}: any) => {
+const AudioVisualizer = ({ audioSrc }: any) => {
   const uniqueClassName = 'waveform';
   const containerRef = useRef<HTMLDivElement | null>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);

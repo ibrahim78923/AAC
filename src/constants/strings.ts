@@ -15,6 +15,11 @@ export const TIME_PERIODS = {
   PREVIOUS_MONTH: 'PREVIOUS_MONTH',
   NEXT_WEEK: 'NEXT_WEEK',
   NEXT_MONTH: 'NEXT_MONTH',
+  TODAYS: 'Today',
+  YESTERDAYS: 'Yesterday',
+  SEVEN_DAYS: 'Last 7 Days',
+  THIRTY_DAYS: 'Last 30 Days',
+  CUSTOM_RANGE: 'Custom Range',
 };
 
 export const EXPORT_TYPE = {
@@ -609,6 +614,45 @@ export const LOYALTY_TIERS_REWARD_TYPE = {
   POINTS: 'POINTS',
 };
 
+export const CALL_TYPES = {
+  MISSED: 'Missed',
+  COMPLETED: 'Completed',
+  ABANDONED: 'Abandoned',
+  SUCCESSFUL_CALLBACK: 'Successful Callback',
+  UNSUCCESSFUL_CALLBACK: 'Unsuccessful Callback',
+  ANSWERED: 'Answered',
+  VOICEMAIL: 'Voicemail',
+};
+export const CALL_TAGS = {
+  SALES: 'Sales',
+  SERVICE: 'Service',
+  CUSTOMER_SUPPORT: 'Customer Support',
+  MARKETING: 'Marketing',
+  BILLING: 'Billing',
+  GENERAL: 'General',
+  CALL_BACK: 'Call Back',
+  FIRST_CALL: 'First Call',
+};
+export const CALL_DIRECTION = {
+  INCOMING: 'Incoming',
+  OUTGOING: 'Outgoing',
+};
+export const CONTRACT = {
+  SAVANNAH_NGUYEN: 'Savannah Nguyen',
+  JAMES_SMITH: 'James Smith',
+  KRISTIN_WATSON: 'Kristin Watson',
+  ANNETTE_BLACK: 'Annette Black',
+  LESLIE_ALEXANDER: 'Leslie Alexander',
+  JENNY_WILSON: 'Jenny Wilson',
+};
+export const AGENTS_LIST = {
+  SAVANNAH_NGUYEN: 'Savannah Nguyen',
+  JAMES_SMITH: 'James Smith',
+  KRISTIN_WATSON: 'Kristin Watson',
+  ANNETTE_BLACK: 'Annette Black',
+  LESLIE_ALEXANDER: 'Leslie Alexander',
+  JENNY_WILSON: 'Jenny Wilson',
+};
 export const PRODUCTS_LISTS = {
   AIR_SALES: 'Air Sales',
   AIR_SERVICES: 'Air Services',
