@@ -23,6 +23,7 @@ const CardAndGraphs = () => {
   const closeDeals = dealsDataByResponse?.data?.res?.map(
     (item: any) => item?.totalCloseDeals,
   );
+  const dealsInPercentage = dealsDataByResponse?.data?.res;
 
   const dealsGraphData = dealsDataByResponse?.data?.resByMonth;
 
@@ -115,7 +116,7 @@ const CardAndGraphs = () => {
             </Box>
             <ReactApexChart
               options={options(theme)}
-              series={series}
+              series={series(dealsInPercentage)}
               type="pie"
               width={450}
             />

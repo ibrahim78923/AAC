@@ -231,6 +231,8 @@ export const productSuiteName = {
 export const dealStatus = {
   WON: 'Won',
   LOSS: 'Loss',
+  INITIAL_NUMBER: 0,
+
 };
 
 export const DATE_RANGE = {
