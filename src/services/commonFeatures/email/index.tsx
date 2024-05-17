@@ -30,6 +30,20 @@ export const emailApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+    postScheduleOtherEmail: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.SEND_SCHEDULE_EMAIL_OTHER}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
     postDraftOtherEmail: builder.mutation({
       query: ({ body }: any) => {
         return {
@@ -172,4 +186,5 @@ export const {
   useGetDraftsQuery,
   usePatchEmailSettingsMutation,
   useGetEmailSettingsQuery,
+  usePostScheduleOtherEmailMutation,
 } = emailApi;

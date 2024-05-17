@@ -109,7 +109,7 @@ const CommonDrawer = ({
             {footer && (
               <>
                 {footerActionText && (
-                  <Box
+                  <Button
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
@@ -127,7 +127,7 @@ const CommonDrawer = ({
                     >
                       {footerActionText}
                     </Typography>
-                  </Box>
+                  </Button>
                 )}
                 <Box sx={{ display: 'flex', gap: '10px' }}>
                   {cancelHandlerCheck && (

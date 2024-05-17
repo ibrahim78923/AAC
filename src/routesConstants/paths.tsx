@@ -242,6 +242,7 @@ export const SOCIAL_FEATURES_EMAIL = {
   GET_OTHERS_DRAFTS: '/other-mail/get-draft-emails',
 
   SEND_EMAIL_OTHER: '/other-mail/send-email',
+  SEND_SCHEDULE_EMAIL_OTHER: '/other-mail/schedule-email',
   DRAFT_EMAIL_OTHER: '/other-mail/draft-email',
   REPLY_EMAIL_OTHER: '/other-mail/reply-email',
 

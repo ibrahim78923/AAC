@@ -273,6 +273,7 @@ export const EMAIL_TABS_TYPES = {
   DRAFTS: 'drafts',
   INBOX: 'inbox',
   TRASH: 'trash',
+  SCHEDULE: 'schedule',
 };
 
 export const CHAT_MESSAGE_TYPE = {
