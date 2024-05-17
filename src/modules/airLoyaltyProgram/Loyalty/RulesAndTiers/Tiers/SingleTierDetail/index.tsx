@@ -100,6 +100,7 @@ export const SingleTierDetail = (props: any) => {
           isDrawerOpen={isUpdateDrawer}
           setIsDrawerOpen={setIsUpdateDrawer}
           tierId={isDrawerOpen?.isDetail}
+          closeDetailTier={closeUpsertTier}
         />
       )}
     </>

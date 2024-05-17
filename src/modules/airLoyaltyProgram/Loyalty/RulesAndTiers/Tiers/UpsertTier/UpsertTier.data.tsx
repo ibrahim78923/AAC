@@ -11,7 +11,7 @@ export const attributesData = [
   {
     id: 1,
     value: 'SELECT_CONTACT',
-    label: 'Contact',
+    label: 'Contacts',
     description: 'Select one or multiple contacts',
   },
   {
@@ -95,16 +95,60 @@ export const lastTransactionOperator = [
   { value: 'is unknown', label: 'Unknown' },
 ];
 
+export const constantsValues = {
+  SELECT_CONTACT: 'Contacts',
+  firstName: 'First Name',
+  lastName: 'Last Name',
+  address: 'Address',
+  phoneNumber: 'Telephone number',
+  AGE: 'Age',
+  LAST_TRANSACTION_DATE: 'Last transaction date',
+  NO_OF_TRANSACTIONS: 'Number of transactions',
+  TOTAL_RECEIVED_CREDITS: 'Total credits received',
+  type: 'CONTACTS',
+};
+
 export const upsertTierValidationSchema: any = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Required'),
-  description: Yup?.string()?.required('Required'),
+  name: Yup?.string()
+    ?.required('Required')
+    ?.matches(/^[a-zA-Z\s]+$/, 'Must contain only letters')
+    ?.min(1, 'Must be at least 1 word')
+    ?.max(30, 'Must be at most 30 words'),
+  description: Yup?.string()
+    ?.required('Required')
+    ?.min(1, 'Must be at least 1 word')
+    ?.max(50, 'Must be at most 50 words'),
   logo: Yup?.mixed()?.nullable(),
-  amount: Yup?.string()?.nullable()?.required('Required'),
-  points: Yup?.number()?.nullable()?.required('Required'),
+  amount: Yup?.string()
+    ?.required('Required')
+    ?.matches(/^[0-9]+$/, 'Must be only digits')
+    ?.min(1, 'Must be exactly 1 digits')
+    ?.max(10, 'Must be exactly 10 digits'),
+  points: Yup?.string()
+    ?.required('Required')
+    ?.matches(/^[0-9]+$/, 'Must be only digits')
+    ?.min(1, 'Must be exactly 1 digits')
+    ?.max(10, 'Must be exactly 10 digits'),
   type: Yup?.string(),
-  contacts: Yup?.mixed()?.nullable(),
-  attribute: Yup?.mixed()?.nullable(),
-  operator: Yup?.mixed()?.nullable(),
+  attribute: Yup?.mixed()?.when('type', {
+    is: constantsValues?.type,
+    then: (schema: any) => schema?.required('Required'),
+    otherwise: (schema: any) => schema?.nullable(),
+  }),
+  operator: Yup?.mixed()?.when(['type', 'attribute'], {
+    is: (type: string, attribute: any) =>
+      type === constantsValues?.type &&
+      attribute?.label !== constantsValues?.SELECT_CONTACT,
+    then: (schema: any) => schema?.required('Required'),
+    otherwise: (schema: any) => schema?.nullable(),
+  }),
+  contacts: Yup?.array()?.when(['type', 'attribute'], {
+    is: (type: string, attribute: any) =>
+      type === constantsValues?.type &&
+      attribute?.label === constantsValues?.SELECT_CONTACT,
+    then: (schema: any) => schema?.min(1, 'Required'),
+    otherwise: (schema: any) => schema?.nullable(),
+  }),
   fieldValue: Yup?.string(),
 });
 
@@ -119,9 +163,9 @@ export const upsertTierDefaultValues = (formData: any) => {
   return {
     name: formData?.name ?? '',
     description: formData?.description ?? '',
-    logo: formData?.logo ?? null,
+    logo: null,
     amount: formData?.amount ?? '',
-    points: formData?.points ?? null,
+    points: formData?.points ?? '',
     type: 'CONTACTS',
     attribute:
       attributesData?.find(
@@ -132,20 +176,8 @@ export const upsertTierDefaultValues = (formData: any) => {
         (operator: any) => operator?.value === formData?.operator,
       ) ?? null,
     fieldValue: formData?.fieldValue ?? '',
-    contacts: [],
+    contacts: formData?.contacts ?? [],
   };
-};
-
-export const constantsValues = {
-  SELECT_CONTACT: 'Contact',
-  firstName: 'First Name',
-  lastName: 'Last Name',
-  address: 'Address',
-  phoneNumber: 'Telephone number',
-  AGE: 'Age',
-  LAST_TRANSACTION_DATE: 'Last transaction date',
-  NO_OF_TRANSACTIONS: 'Number of transactions',
-  TOTAL_RECEIVED_CREDITS: 'Total credits received',
 };
 
 export const operatorsConstantsValues = {
@@ -178,7 +210,6 @@ export const upsertTierDataArray = ({
     componentContact = RHFAutocompleteAsync;
     componentPropsContact = {
       placeholder: 'select',
-      multiple: true,
       apiQuery: apiContactQuery,
       externalParams: { limit: 50 },
       getOptionLabel: (option: any) =>
@@ -233,6 +264,16 @@ export const upsertTierDataArray = ({
   let componentTwo: any = Box;
   if (
     [
+      constantsValues?.AGE,
+      constantsValues?.NO_OF_TRANSACTIONS,
+      constantsValues?.TOTAL_RECEIVED_CREDITS,
+      constantsValues?.LAST_TRANSACTION_DATE,
+      constantsValues?.phoneNumber,
+      constantsValues?.firstName,
+      constantsValues?.lastName,
+      constantsValues?.address,
+    ]?.includes(selectedAttributesValues) &&
+    [
       operatorsConstantsValues?.after,
       operatorsConstantsValues?.before,
       operatorsConstantsValues?.contains,
@@ -246,6 +287,14 @@ export const upsertTierDataArray = ({
     componentPropsTwo = {
       label: selectedAttributesValues,
       placeholder: `Enter ${selectedAttributesValues}`,
+      type:
+        selectedAttributesValues === constantsValues?.phoneNumber ||
+        selectedAttributesValues === constantsValues?.AGE ||
+        selectedAttributesValues === constantsValues?.NO_OF_TRANSACTIONS ||
+        selectedAttributesValues === constantsValues?.TOTAL_RECEIVED_CREDITS ||
+        selectedAttributesValues === constantsValues?.LAST_TRANSACTION_DATE
+          ? 'number'
+          : 'text',
     };
   } else if (
     [
@@ -390,6 +439,8 @@ export const upsertTierDataArray = ({
         componentProps: {
           name: 'contacts',
           label: 'Contacts',
+          multiple: true,
+          required: true,
           fullWidth: true,
           ...componentPropsContact,
         },
@@ -401,6 +452,7 @@ export const upsertTierDataArray = ({
           name: 'operator',
           label: 'Operator',
           fullWidth: true,
+          required: true,
           placeholder: 'select',
           getOptionLabel: (option: any) => option?.label,
           ...componentProps,

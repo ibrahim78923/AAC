@@ -14,8 +14,9 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertTier = (props: any) => {
-  const { setIsDrawerOpen, tierId } = props;
+  const { setIsDrawerOpen, tierId, closeDetailTier } = props;
   const [termData, setTermData] = useState(false);
+  const [isFormFilled, setIsFormFilled] = useState(false);
 
   const storedId = tierId?._id;
   const { data, isLoading, isFetching, isError }: any =
@@ -25,13 +26,20 @@ export const useUpsertTier = (props: any) => {
     });
 
   const formData = data?.data;
-
   const upsertTierMethod = useForm({
     resolver: yupResolver(upsertTierValidationSchema),
     defaultValues: upsertTierDefaultValues(formData),
   });
 
   const { handleSubmit, reset, watch, setValue } = upsertTierMethod;
+  const watchedValues = watch(['name', 'description', 'amount', 'points']);
+
+  useEffect(() => {
+    const allFieldsFilled = watchedValues?.every(
+      (value) => value !== undefined && value !== '',
+    );
+    setIsFormFilled(allFieldsFilled);
+  }, [watchedValues]);
 
   const apiContactQuery = useLazyGetContactListForTierQuery();
   const [postTierTrigger, postTierProgress] = useAddTiersMutation();
@@ -44,10 +52,10 @@ export const useUpsertTier = (props: any) => {
     tierFormData?.append('logo', tierData?.logo);
     tierFormData?.append('points', tierData?.points);
     tierFormData?.append('amount', tierData?.amount);
-    tierFormData?.append('type', tierData?.type);
-    tierFormData?.append('attribute', tierData?.attribute?.value);
-    tierFormData?.append('operator', tierData?.operator?.value);
-    tierFormData?.append('fieldValue', tierData?.fieldValue);
+    termData && tierFormData?.append('type', tierData?.type);
+    termData && tierFormData?.append('attribute', tierData?.attribute?.value);
+    termData && tierFormData?.append('operator', tierData?.operator?.value);
+    termData && tierFormData?.append('fieldValue', tierData?.fieldValue);
     tierFormData?.append(
       'contacts',
       tierData?.contacts?.map((item: any) => item?._id),
@@ -80,18 +88,27 @@ export const useUpsertTier = (props: any) => {
       await updateTierTrigger(putApiDataParameter)?.unwrap();
       successSnackbar('Tier update successfully');
       closeUpsertTier?.();
+      closeDetailTier?.();
       reset?.();
     } catch (error) {
       errorSnackbar();
     }
   };
+  useEffect(() => {
+    reset(upsertTierDefaultValues(formData));
+  }, [reset, formData]);
 
   const closeUpsertTier = () => {
     reset?.();
     setIsDrawerOpen?.({});
   };
-
   const attributesValues = watch('attribute');
+  useEffect(() => {
+    if (!termData) {
+      setValue('type', termData || attributesValues?.label ? 'CONTACTS' : '');
+    }
+  }, [termData, attributesValues]);
+
   useEffect(() => {
     if (storedId === undefined) {
       setValue('operator', null);
@@ -115,5 +132,6 @@ export const useUpsertTier = (props: any) => {
     isError,
     isFetching,
     updateTierProgress,
+    isFormFilled,
   };
 };

@@ -36,6 +36,7 @@ const CommonDrawer = ({
   isDisabled,
   variant,
   disabledCancelBtn,
+  isFooterFeatureDisabled,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
 
@@ -149,6 +150,7 @@ const CommonDrawer = ({
                     <Button
                       onClick={isFooterFeatureHandler}
                       variant={variant ?? 'outlined'}
+                      disabled={isFooterFeatureDisabled}
                     >
                       {isFooterFeatureText}
                     </Button>
