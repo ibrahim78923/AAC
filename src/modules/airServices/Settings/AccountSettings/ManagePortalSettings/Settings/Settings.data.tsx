@@ -12,17 +12,25 @@ export const settingsValidationSchema = Yup?.object()?.shape({
   primaryLanguage: Yup?.string(),
 });
 
-export const settingsDefaultValues = ({ domain, encryptedValue }: any) => {
+export const settingsDefaultValues = ({
+  domain,
+  encryptedValue,
+  apiKeyData,
+}: any) => {
   return {
     portalName: 'Air Customer Portal',
     portalURL: `${domain}/air-customer-portal/sign-up?companyId=${encryptedValue}`,
     dateFormat: DATE_FORMAT?.UI,
     timeFormat: TIME_FORMAT?.UI,
     primaryLanguage: 'English',
+    apiKey: apiKeyData ?? '',
   };
 };
 
-export const getSettingsDataArray = (handleTextFieldClick: any) => [
+export const getSettingsDataArray = (
+  handleTextFieldClick: any,
+  handleApiKeyClick: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -73,6 +81,24 @@ export const getSettingsDataArray = (handleTextFieldClick: any) => [
     componentProps: {
       name: 'primaryLanguage',
       label: 'Primary Language',
+    },
+    md: 6,
+    component: RHFTextField,
+  },
+  {
+    id: 7,
+    componentProps: {
+      name: 'apiKey',
+      label: 'Api Key',
+      InputProps: {
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton onClick={handleApiKeyClick}>
+              <ContentCopyIcon />
+            </IconButton>
+          </InputAdornment>
+        ),
+      },
     },
     md: 6,
     component: RHFTextField,
