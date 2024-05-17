@@ -20,29 +20,29 @@ export const dynamicallyFormDefaultValues = {
 export const dynamicallyFormArray = [];
 
 export const styleFormvalidationSchema = Yup?.object()?.shape({
-  Width: Yup?.string(),
-  BackgroundColor: Yup?.string(),
-  TextColor: Yup?.string(),
-  CardColor: Yup?.string(),
-  ButtonColor: Yup?.string(),
-  ButtonTextColor: Yup?.string(),
-  Font: Yup?.string(),
+  width: Yup?.string(),
+  backgroundColor: Yup?.string(),
+  textColor: Yup?.string(),
+  cardColor: Yup?.string(),
+  buttonColor: Yup?.string(),
+  buttonTextColor: Yup?.string(),
+  font: Yup?.string(),
 });
 
 export const styleFormDefaultValues = {
-  Width: '',
-  BackgroundColor: '',
-  TextColor: '',
-  CardColor: '',
-  ButtonColor: '',
-  ButtonTextColor: '',
-  Font: '',
+  width: '',
+  backgroundColor: '',
+  textColor: '',
+  cardColor: '',
+  buttonColor: '',
+  buttonTextColor: '',
+  font: '',
 };
 
 export const styleFormArray = [
   {
     componentProps: {
-      name: 'Width',
+      name: 'width',
       label: 'Width',
       fullWidth: true,
       placeholder: 'Enter Width',
@@ -60,7 +60,7 @@ export const styleFormArray = [
   },
   {
     componentProps: {
-      name: 'BackgroundColor',
+      name: 'backgroundColor',
       label: 'Background Color',
       fullWidth: true,
     },
@@ -69,7 +69,7 @@ export const styleFormArray = [
   },
   {
     componentProps: {
-      name: 'TextColor',
+      name: 'textColor',
       label: 'Text Color',
       fullWidth: true,
     },
@@ -78,7 +78,7 @@ export const styleFormArray = [
   },
   {
     componentProps: {
-      name: 'CardColor',
+      name: 'cardColor',
       label: 'Card Color',
       fullWidth: true,
     },
@@ -87,7 +87,7 @@ export const styleFormArray = [
   },
   {
     componentProps: {
-      name: 'ButtonColor',
+      name: 'buttonColor',
       label: 'Button Color',
       fullWidth: true,
     },
@@ -96,7 +96,7 @@ export const styleFormArray = [
   },
   {
     componentProps: {
-      name: 'ButtonTextColor',
+      name: 'buttonTextColor',
       label: 'Button Text Color',
       fullWidth: true,
     },
@@ -105,7 +105,7 @@ export const styleFormArray = [
   },
   {
     componentProps: {
-      name: 'Font',
+      name: 'font',
       label: 'Font',
       fullWidth: true,
       select: true,
@@ -118,7 +118,6 @@ export const styleFormArray = [
       { value: '18', label: '18' },
     ],
     component: RHFSelect,
-
     md: 12,
   },
   {
@@ -167,37 +166,56 @@ export const sideBarMenuArray = [
 export const customersAttributesArray = [
   {
     name: 'First Name',
-    type: 'Input',
+    type: 'firstName',
     icon: <InputIcon />,
   },
   {
     name: 'Last Name',
-    type: 'Input',
+    type: 'lastName',
     icon: <InputIcon />,
   },
   {
     name: ' Email',
-    type: 'Input',
+    type: 'email',
     icon: <InputIcon />,
   },
   {
     name: 'Date of Birth',
-    type: 'DatePicker',
+    type: 'dateOfBirth',
     icon: <InputIcon />,
   },
   {
     name: 'Phone Number',
-    type: 'Input',
+    type: 'phoneNumber',
     icon: <InputIcon />,
   },
   {
     name: 'Address',
-    type: 'Input',
+    type: 'address',
     icon: <InputIcon />,
   },
   {
     name: 'Preferred Language',
-    type: 'Select',
+    type: 'preferredLanguage',
     icon: <InputIcon />,
   },
 ];
+
+export const fieldsType = {
+  TEXT: 'paragraph',
+  INPUT: 'input',
+  TEXTAREA: 'textarea',
+  IMAGE: 'file',
+  DATEPICKER: 'datepicker',
+  SPACING: 'space',
+  DIVIDER: 'divider',
+  BUTTON: 'button',
+  SELECT: 'select',
+  FIRSTNAME: 'firstName',
+  LASTNAME: 'lastName',
+  EMAIL: 'email',
+  DATEOFBIRTH: 'dateOfBirth',
+  PHONENUMBER: 'phoneNumber',
+  ADDRESS: 'address',
+  PREFERREDLANGUAGE: 'preferredLanguage',
+};

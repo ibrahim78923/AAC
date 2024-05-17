@@ -127,15 +127,9 @@ const InnerTab = ({
                     onClick={() => handleEditorClick(index)}
                     sx={{ position: 'relative' }}
                   >
-                    <Typography
-                      variant="body2"
-                      sx={{ textAlign: 'center' }}
-                      dangerouslySetInnerHTML={{
-                        __html:
-                          item?.componentProps?.paragraphTypography ||
-                          item?.componentProps?.Text,
-                      }}
-                    />
+                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                      {item?.componentProps?.Text}
+                    </Typography>
                     {item?.componentProps.editorOpen && (
                       <Box
                         sx={{

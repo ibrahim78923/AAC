@@ -1,40 +1,62 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import Search from '@/components/Search';
 import { Box, useTheme } from '@mui/material';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS } from '@/constants/permission-keys';
 import usePublished from './usePublished';
 import { columns } from '../Forms.data';
+import TableToolbar from '../TableToolbar';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
 
 const Published = ({ setShowSignUpForm, setFindStatus }: any) => {
+  const router = useRouter();
   const theme = useTheme();
   const {
+    selectedRow,
+    setSelectedRow,
     setSearchValue,
     loadingGetForms,
     dataGetForms,
     setPageLimit,
     setPage,
   } = usePublished();
-  const getColums = columns(setShowSignUpForm, setFindStatus, theme);
+  const getColums = columns(
+    selectedRow,
+    setSelectedRow,
+    setShowSignUpForm,
+    setFindStatus,
+    theme,
+  );
   return (
     <Box
       sx={{
-        border: '1px solid #EAECF0',
+        border: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
         borderRadius: '8px',
         padding: '16px 12px',
       }}
     >
-      <Box mb="12px">
-        <PermissionsGuard
-          permissions={[AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS?.SEARCH]}
-        >
-          <Search
-            setSearchBy={setSearchValue}
-            label="Search Here"
-            size="small"
-          />
-        </PermissionsGuard>
-      </Box>
+      <TableToolbar
+        setSearchBy={setSearchValue}
+        disabledActions={selectedRow?.length === 0}
+        disabledMenuItem={selectedRow?.length > 1}
+        onClickViewDetails={() => {
+          router.push(`${AIR_MARKETER.ALL_TABLE}/${selectedRow[0]}`);
+        }}
+        onClickEdit={() => {
+          alert('Edit');
+        }}
+        onClickDelete={() => {
+          alert('Delete');
+        }}
+        onClickExport={() => {
+          alert('Export');
+        }}
+        onClickSendEmail={() => {
+          alert('Send Email');
+        }}
+        onClickRestore={() => {
+          alert('Restore');
+        }}
+      />
+
       <TanstackTable
         columns={getColums}
         data={dataGetForms?.data?.leadcaptureforms}

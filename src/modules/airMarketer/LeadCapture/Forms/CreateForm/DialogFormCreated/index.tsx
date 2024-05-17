@@ -23,12 +23,14 @@ import {
 } from './Export.data';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
+import { styles } from './DialogFormCreated.style';
 
-const Export = ({
-  openAlert,
+const DialogFormCreated = ({
+  open,
+  onClose,
   setShowExportText,
-  setOpenAlert,
   showExportText,
+  createdFormResponse,
 }: any) => {
   const router = useRouter();
   const ExportFormMethods = useForm({
@@ -43,13 +45,8 @@ const Export = ({
   };
 
   return (
-    <Dialog
-      open={openAlert}
-      onClose={() => setOpenAlert(false)}
-      fullWidth
-      maxWidth={'sm'}
-    >
-      <DialogTitle sx={{ padding: '20px 20px 0px' }}>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth={'sm'}>
+      <DialogTitle sx={styles?.title}>
         <Box
           display={'flex'}
           alignItems={'center'}
@@ -63,7 +60,7 @@ const Export = ({
             </Typography>
           </Box>
 
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenAlert(false)}>
+          <Box sx={{ cursor: 'pointer' }} onClick={onClose}>
             <AlertModalCloseIcon />
           </Box>
         </Box>
@@ -132,18 +129,8 @@ const Export = ({
             <Typography variant="body1" sx={{ marginTop: '15px' }}>
               Link
             </Typography>
-            <Box
-              sx={{
-                border: '1px solid #D1D5DB',
-                padding: '15px',
-                borderRadius: '8px',
-                position: 'relative',
-              }}
-            >
-              <Typography
-                variant="body2"
-                sx={{ color: '#9CA3AF', width: '80%' }}
-              >
+            <Box sx={styles?.createdLink}>
+              <Typography variant="body2">
                 http.//activitytok.com/jnm/bjkashbdjkn////askldhahmn cajslk/
               </Typography>
 
@@ -154,6 +141,11 @@ const Export = ({
                   top: '13px',
                   cursor: 'pointer',
                 }}
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    'http.//activitytok.com/jnm/bjkashbdjkn////askldhahmn cajslk/',
+                  )
+                }
               >
                 <CopyIcon />
               </Box>
@@ -162,22 +154,14 @@ const Export = ({
             <Typography variant="body1" sx={{ marginTop: '15px' }}>
               Embed Code
             </Typography>
-            <Box
-              sx={{
-                border: '1px solid #D1D5DB',
-                padding: '15px',
-                borderRadius: '8px',
-                position: 'relative',
-              }}
-            >
-              <Typography
-                variant="body2"
-                sx={{ color: '#9CA3AF', width: '80%' }}
-              >
-                Script Embed Code Script text Embed Code Script text Embed Code
-                Script text Embed Code Script text Embed Code Script text Embed
-                Code Script text Script
-              </Typography>
+            <Box sx={styles?.createdCode}>
+              <Box>
+                <pre>
+                  <code style={{ whiteSpace: 'pre-wrap' }}>
+                    {createdFormResponse?.htmlTemplate}
+                  </code>
+                </pre>
+              </Box>
 
               <Box
                 sx={{
@@ -186,6 +170,11 @@ const Export = ({
                   top: '13px',
                   cursor: 'pointer',
                 }}
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    createdFormResponse?.htmlTemplate,
+                  )
+                }
               >
                 <CopyIcon />
               </Box>
@@ -197,4 +186,4 @@ const Export = ({
   );
 };
 
-export default Export;
+export default DialogFormCreated;

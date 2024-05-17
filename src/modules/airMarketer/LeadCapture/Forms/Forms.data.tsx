@@ -1,62 +1,73 @@
-import { RHFTextField } from '@/components/ReactHookForm';
 import { Box, Typography } from '@mui/material';
-import * as Yup from 'yup';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { FileIcon } from '@/assets/icons';
-
-export const FormsvalidationSchema = Yup?.object()?.shape({
-  Name: Yup?.string()?.required('Required Field'),
-});
-
-export const FormsDefaultValues = {
-  Name: '',
-};
-
-export const formsArray = [
-  {
-    componentProps: {
-      name: 'Name',
-      label: 'Name',
-      fullWidth: true,
-      placeholder: 'Enter form name',
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-];
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+import RowSelection from '@/components/RowSelection';
+import RowSelectionAll from '@/components/RowSelectionAll';
 
 export const columns: any = (
+  selectedRow: any,
+  setSelectedRow: any,
   setShowSignUpForm: any,
   setFindStatus: any,
   theme: any,
 ) => {
+  const router = useRouter();
   return [
+    {
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
+      isSortable: false,
+      header: (info: any) => {
+        const rows = info?.table?.options?.data;
+        return (
+          <RowSelectionAll
+            rows={rows}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
+            disabled={rows?.length === 0}
+          />
+        );
+      },
+      cell: (info: any) => {
+        const id = info?.cell?.row?.original?._id;
+        return (
+          <RowSelection
+            id={id}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
+          />
+        );
+      },
+    },
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
       header: 'Form Name',
       isSortable: true,
-      cell: (info: any) => (
-        <Box
-          sx={{
-            display: 'Flex',
-            alignItems: 'center',
-            gap: '10px',
-            cursor: 'pointer',
-          }}
-          onClick={() => {
-            setShowSignUpForm(true), setFindStatus(info);
-          }}
-        >
-          <FileIcon />{' '}
-          <Typography
-            variant="body4"
-            sx={{ color: theme?.palette?.blue?.dull_blue }}
+      cell: (info: any) => {
+        const formId = info?.row?.original?._id;
+        return (
+          <Box
+            sx={{
+              display: 'Flex',
+              alignItems: 'center',
+              gap: '10px',
+              cursor: 'pointer',
+            }}
+            onClick={() => router.push(`${AIR_MARKETER.ALL_TABLE}/${formId}`)}
           >
-            {info?.getValue()}{' '}
-          </Typography>
-        </Box>
-      ),
+            <FileIcon />{' '}
+            <Typography
+              variant="body4"
+              sx={{ color: theme?.palette?.blue?.dull_blue }}
+            >
+              {info?.getValue()}{' '}
+            </Typography>
+          </Box>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.pageViews,
