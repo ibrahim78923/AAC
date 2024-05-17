@@ -143,7 +143,7 @@ const DealsReport = () => {
             <Typography variant="h5" sx={{ p: 1, fontSize: '16px' }}>
               Owner
             </Typography>
-            {customizeData?.map((data) => (
+            {customizeData?.map((data: any) => (
               <Box sx={{ ml: 1 }} key={uuidv4()}>
                 <FormControlLabel control={<Checkbox />} label={data?.label} />
               </Box>

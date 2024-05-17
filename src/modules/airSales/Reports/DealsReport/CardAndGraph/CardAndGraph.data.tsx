@@ -1,4 +1,22 @@
-export const series = [28, 18, 54];
+import { dealStatus } from '@/constants';
+
+export const series = (dealsInPercentage: any) => {
+  const openDealsPercentage = dealsInPercentage?.map(
+    (item: any) => item?.openDealsPercentage,
+  );
+  const wonDealsPercentage = dealsInPercentage?.map(
+    (item: any) => item?.wonDealsPercentage,
+  );
+  const lostDealsPercentage = dealsInPercentage?.map(
+    (item: any) => item?.lostDealsPercentage,
+  );
+
+  return [
+    lostDealsPercentage[dealStatus?.INITIAL_NUMBER],
+    wonDealsPercentage[dealStatus?.INITIAL_NUMBER],
+    openDealsPercentage[dealStatus?.INITIAL_NUMBER],
+  ];
+};
 
 export const options: any = (theme: any) => {
   const colors = [
