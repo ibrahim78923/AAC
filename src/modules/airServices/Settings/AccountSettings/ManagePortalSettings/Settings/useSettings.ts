@@ -6,6 +6,7 @@ import {
   settingsDefaultValues,
   settingsValidationSchema,
 } from './Settings.data';
+import { useGetCompanyAccountsByIdQuery } from '@/services/airServices/settings/account-settings/account-details';
 
 export const useSettings = () => {
   const domain = window.location.hostname;
@@ -16,9 +17,16 @@ export const useSettings = () => {
 
   const encryptedValue = btoa(companyId);
 
+  const { data } = useGetCompanyAccountsByIdQuery(companyId);
+  const apiKeyData = data?.data?.apiKey;
+
   const settingsMethods = useForm({
     resolver: yupResolver(settingsValidationSchema),
-    defaultValues: settingsDefaultValues({ domain, encryptedValue }),
+    defaultValues: settingsDefaultValues({
+      domain,
+      encryptedValue,
+      apiKeyData,
+    }),
   });
 
   const { getValues }: any = settingsMethods;
@@ -26,8 +34,14 @@ export const useSettings = () => {
   const handleTextFieldClick = () => {
     navigator.clipboard.writeText(getValues('portalURL'));
   };
+  const handleApiKeyClick = () => {
+    navigator.clipboard.writeText(getValues('apiKey'));
+  };
 
-  const settingsDataArray = getSettingsDataArray(handleTextFieldClick);
+  const settingsDataArray = getSettingsDataArray(
+    handleTextFieldClick,
+    handleApiKeyClick,
+  );
 
   return {
     settingsMethods,

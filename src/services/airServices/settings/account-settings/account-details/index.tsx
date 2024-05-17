@@ -35,6 +35,13 @@ export const AccountDetailAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getCompanyAccountsById: builder.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.POST_COMPANY_ACCOUNT}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['USERS'],
+    }),
   }),
 });
 
@@ -43,4 +50,5 @@ export const {
   useGetProfileDetailQuery,
   usePatchProfileDetailMutation,
   usePatchProfileAvatarMutation,
+  useGetCompanyAccountsByIdQuery,
 } = AccountDetailAPI;
