@@ -90,6 +90,7 @@ export const AIR_SALES = {
   DEALS_REPORTS: path(AIR_SALES_PAGE, '/reports/deals-reports'),
   CATEOGRORY_REPORTS: path(AIR_SALES_PAGE, '/reports/categoryForecast-reports'),
   PIPELINE_REPORTS: path(AIR_SALES_PAGE, '/reports/pipelineForecast-reports'),
+  CREATE_GOALS: path(AIR_SALES_PAGE, '/forecast/create-goal'),
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {

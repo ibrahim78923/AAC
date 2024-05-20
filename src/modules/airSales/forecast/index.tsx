@@ -5,7 +5,7 @@ import { PlusIcon } from '@/assets/icons';
 import CommonTabs from '@/components/Tabs';
 
 import { useRouter } from 'next/router';
-import { AIR_MARKETER } from '@/routesConstants/paths';
+import { AIR_SALES } from '@/routesConstants/paths';
 import DealStage from './DealStage';
 import ForecastCategory from './ForecastCategory';
 import Goals from './Goals';
@@ -34,7 +34,7 @@ const Forecast = () => {
             className="small"
             variant="contained"
             startIcon={<PlusIcon />}
-            onClick={() => router.push(AIR_MARKETER?.CREATE_AD)}
+            onClick={() => router.push(AIR_SALES?.CREATE_GOALS)}
             sx={{ width: { xs: '100%', sm: 'auto' } }}
           >
             Create Goal

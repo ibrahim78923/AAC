@@ -478,3 +478,5 @@ export { default as FeedbackViewIcon } from './modules/airServices/FeedbackSurve
 export { default as FeedbackCompletionIcon } from './modules/airServices/FeedbackSurvey/completion-icon';
 export { default as FeedbackDownIcon } from './modules/airServices/FeedbackSurvey/feedback-down-icon';
 export { default as FeedbackUpIcon } from './modules/airServices/FeedbackSurvey/feedback-up-icon';
+export { default as AddPlusPrimaryshadow } from './shared/add-plus-primary-shadow';
+export { default as QuestionIcon } from './shared/question-icon';

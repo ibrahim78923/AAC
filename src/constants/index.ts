@@ -313,3 +313,9 @@ export const ORGANIZATION_DRAWER_TYPES = {
 export const goalsStatus = {
   inProgress: 'In-Progress',
 };
+
+export const createGoal = {
+  setting: 'setting',
+  userTeam: 'userTeam',
+  team: 'TEAM',
+};
