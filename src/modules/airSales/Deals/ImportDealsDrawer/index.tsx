@@ -1,72 +1,27 @@
-import { Typography, Box } from '@mui/material';
-
-import CommonDrawer from '@/components/CommonDrawer';
-
-import ImportMapColumnsDeal from './ImportColumns';
-
 import useImportDeal from './useImportDeal';
+import { Import } from '@/components/Import';
+import { CRM_COLUMNS } from './ImportDealsDrawer.data';
+import { OBJECT_URL_IMPORT } from '@/constants/strings';
 
-import { styles } from './ImportDealsDrawer.style';
-import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
-
-const ImportDealsDrawer = ({ open, onClose }: any) => {
+const ImportDealsDrawer = ({ open, setIsImportDeal }: any) => {
   const {
-    handleSubmit,
-    isColumnsSelect,
-    theme,
-    okTitle,
-    stepOneSubmit,
-    StepOneHandleSubmit,
-    stepOneMethods,
-  } = useImportDeal();
+    setDrawerDefaultState,
+    submitImport,
+    filterMandatoryFields,
+    importFileStatus,
+  } = useImportDeal(setIsImportDeal);
   return (
-    <CommonDrawer
+    <Import
       isDrawerOpen={open}
-      onClose={onClose}
-      submitHandler={handleSubmit}
-      footer
-      isOk
-      okText={okTitle}
+      setIsDrawerOpen={setIsImportDeal}
+      setDrawerDefaultState={setDrawerDefaultState}
       title="Import Deals"
-      cancelText="Back"
-    >
-      <Typography variant="h6" sx={styles?.Typograpghy(theme)}>
-        Step {isColumnsSelect ? '2' : '1'} of 2
-      </Typography>
-      <Typography sx={styles?.selectColTypography(theme)}>
-        {isColumnsSelect
-          ? 'Map Columns from your file to the right CRM fields. Your 5 unmapped columns won’t be imported'
-          : 'Uploaded file must have these columns'}
-      </Typography>
-
-      {!isColumnsSelect ? (
-        <Box sx={{ mt: '10px' }}>
-          <ul
-            style={{
-              paddingLeft: '30px',
-              color: theme?.palette?.grey[900],
-            }}
-          >
-            <li>Name</li>
-            <li>Deal Value</li>
-          </ul>
-          <Typography
-            variant="h6"
-            sx={{ color: theme?.palette?.grey[600], my: '10px' }}
-          >
-            Import Deals
-          </Typography>
-          <FormProvider
-            methods={stepOneMethods}
-            onSubmit={StepOneHandleSubmit(stepOneSubmit)}
-          >
-            <RHFDropZone name={'multipleFileDropZone'} />
-          </FormProvider>
-        </Box>
-      ) : (
-        <ImportMapColumnsDeal />
-      )}
-    </CommonDrawer>
+      crmColumnsOptions={CRM_COLUMNS}
+      objectUrl={OBJECT_URL_IMPORT?.USERS_ATTACHMENT}
+      submitImport={(apiData: any) => submitImport?.(apiData)}
+      importFileStatus={importFileStatus}
+      mandatoryColumnsList={filterMandatoryFields?.()}
+    />
   );
 };
 

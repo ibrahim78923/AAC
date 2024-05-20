@@ -24,7 +24,6 @@ const CardAndGraphs = () => {
     (item: any) => item?.totalCloseDeals,
   );
   const dealsInPercentage = dealsDataByResponse?.data?.res;
-
   const dealsGraphData = dealsDataByResponse?.data?.resByMonth;
 
   return (

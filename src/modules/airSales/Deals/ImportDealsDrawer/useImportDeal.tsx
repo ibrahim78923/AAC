@@ -1,34 +1,47 @@
-import { useState } from 'react';
-
 import { useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useImportFileMutation } from '@/services/airServices/global/import';
+import { CRM_COLUMNS } from './ImportDealsDrawer.data';
+import { FIELD_TYPES } from '@/constants/strings';
 
-const useImportDeal = () => {
+const useImportDeal = (setIsImportDeal: any) => {
   const theme: any = useTheme();
+  const [importFileTrigger, importFileStatus] = useImportFileMutation?.();
 
-  const [isColumnsSelect, setIsColumnsSelect] = useState(false);
+  const setDrawerDefaultState = () => {
+    setIsImportDeal?.(false);
+  };
 
-  const okTitle = isColumnsSelect ? 'Import' : 'Next';
+  const submitImport = async (apiData: any) => {
+    const apiImportData = {
+      body: {
+        filePath: apiData?.filePath,
+        actionType: 'COMPANIES',
+        dataColumn: apiData?.dataColumn,
+      },
+    };
 
-  const handleSubmit = () => {
-    if (!isColumnsSelect) {
-      setIsColumnsSelect(true);
+    // return;
+    try {
+      const response: any = await importFileTrigger?.(apiImportData)?.unwrap();
+      successSnackbar(response?.message);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
-  const stepOneMethods = useForm({
-    defaultValues: {},
-  });
-  const { handleSubmit: StepOneHandleSubmit } = stepOneMethods;
-  const stepOneSubmit = () => {};
+
+  const filterMandatoryFields = () => {
+    return CRM_COLUMNS?.filter(
+      (column: any) => column?.groupBy === FIELD_TYPES?.MANDATORY_FIELD,
+    );
+  };
+
   return {
-    handleSubmit,
-    isColumnsSelect,
-    setIsColumnsSelect,
     theme,
-    okTitle,
-    stepOneSubmit,
-    StepOneHandleSubmit,
-    stepOneMethods,
+    setDrawerDefaultState,
+    submitImport,
+    filterMandatoryFields,
+    importFileStatus,
   };
 };
 
