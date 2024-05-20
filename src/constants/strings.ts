@@ -687,6 +687,8 @@ export const RULES_AUDIENCE_TYPE = {
   CUSTOMER: 'CUSTOMER',
 };
 
+export const DONE = 'done';
+
 export const IMPORT_TABLE_NAMES = {
   INVENTORY: 'Inventory',
   VENDORS: 'vendors',

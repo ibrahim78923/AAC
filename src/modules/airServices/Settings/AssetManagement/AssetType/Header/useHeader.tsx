@@ -25,12 +25,12 @@ export const useHeader = (props: any) => {
   const isLoading = postAssetTypeProgress?.isLoading;
   const submitAddForm = async (formData: any) => {
     try {
-      await postAssetTypeTrigger(formData);
-      successSnackbar('Asset Types Added Successfully');
+      await postAssetTypeTrigger(formData)?.unwrap();
+      successSnackbar('Asset Type Added Successfully!');
       reset();
       setOpenAddNewAssetTypesModal?.(false);
     } catch (err: any) {
-      errorSnackbar();
+      errorSnackbar(err?.data?.message);
     }
   };
 
