@@ -236,7 +236,9 @@ export const upsertRulesFormFieldsDynamic = (
       label:
         watchForAttribute?._id === LOYALTY_RULES_ATTRIBUTES?.NO_OF_VISITS
           ? 'No of Visits'
-          : 'Add Amount',
+          : watchForAttribute?._id === LOYALTY_RULES_ATTRIBUTES?.PRODUCT_QTY
+            ? 'Product Qty'
+            : 'Add Amount',
       placeholder: 'operator',
       required: true,
       options: amountOperatorOption,
@@ -305,10 +307,10 @@ export const upsertRulesFormFieldsDynamic = (
       name: 'loyaltyType',
       row: false,
       options: [
-        { value: RULES_BENEFIT_TYPE?.DISCOUNT, label: 'Give Discount' },
+        { value: RULES_BENEFIT_TYPE?.DISCOUNT, label: 'Give discount' },
         {
           value: RULES_BENEFIT_TYPE?.AWARD,
-          label: 'Award Points',
+          label: 'Award points',
         },
       ],
     },
