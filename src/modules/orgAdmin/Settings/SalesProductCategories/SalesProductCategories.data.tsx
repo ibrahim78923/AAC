@@ -5,11 +5,11 @@ import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import StatusBadge from '@/components/StatusBadge';
 import { enqueueSnackbar } from 'notistack';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const ProductCategoryvalidationSchema: any = Yup.object().shape({
-  name: Yup.string()
-    .required('Field is Required')
-    .matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
+  name: Yup.string().required('Field is Required'),
   description: Yup.string(),
 });
 
@@ -121,18 +121,16 @@ export const columns = (
       id: 'description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => (
-        <Box
-          dangerouslySetInnerHTML={{ __html: info?.row?.original?.description }}
-        />
-      ),
+      cell: (info: any) => {
+        return <Box dangerouslySetInnerHTML={{ __html: info?.getValue() }} />;
+      },
     },
     {
       accessorFn: (row: any) => row?.createdAt,
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.status,

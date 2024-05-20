@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,7 +10,6 @@ import {
 } from './ProductFeatures.data';
 import {
   useGetProductFeatureQuery,
-  useGetProductsQuery,
   usePostProductFeatureMutation,
   useUpdateProductFeatureMutation,
 } from '@/services/superAdmin/settings/product-feature';
@@ -32,33 +31,28 @@ const useProductFeature = () => {
     setAnchorEl(null);
   };
 
-  // Get Products Data
-  const { data: dataProducts, isLoading: loagingProducts } =
-    useGetProductsQuery({});
+  useEffect(() => {
+    if (rowId) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [rowId]);
 
   // Get Product Features Data
   const [searchValue, setSearchValue] = useState(null);
-  const defaultParams = { page: page, limit: pageLimit };
-  const [filterParams, setFilterParams] = useState(defaultParams);
+  const paginationParams = {
+    page: page,
+    limit: pageLimit,
+  };
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
   const { data: dataProductFeatures, isLoading: loagingProductFeatures } =
     useGetProductFeatureQuery({
-      params: { ...filterParams, ...searchPayLoad },
+      params: { ...searchPayLoad, ...paginationParams },
     });
-
-  // Handle Page Change
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
-  };
 
   // Add New Feature
   const [postAddFeature, { isLoading: loadingAddFeature }] =
@@ -81,8 +75,14 @@ const useProductFeature = () => {
   };
 
   const onSubmitAddFeature = async (values: any) => {
+    const payload = {
+      productIds: values?.productIds.map((item: any) => item?._id),
+      name: values?.name,
+      description: values?.description,
+    };
+
     try {
-      await postAddFeature({ body: values })?.unwrap();
+      await postAddFeature({ body: payload })?.unwrap();
       handleCloseDrawerAddFeature();
       enqueueSnackbar('Feature added successfully', {
         variant: 'success',
@@ -111,7 +111,11 @@ const useProductFeature = () => {
       (item: any) => item?._id === rowId,
     );
     if (selectedItem) {
-      methodsEditFeature.setValue('productId', selectedItem?.productId);
+      const productObj: any = {
+        _id: selectedItem?.productId,
+        name: selectedItem?.productName,
+      };
+      methodsEditFeature.setValue('productId', productObj);
       methodsEditFeature.setValue('name', selectedItem?.name);
       methodsEditFeature.setValue('description', selectedItem?.description);
     }
@@ -122,12 +126,18 @@ const useProductFeature = () => {
   };
 
   const onSubmitEditFeature = async (values: any) => {
+    const payload = {
+      productId: values?.productId?._id,
+      name: values?.name,
+      description: values?.description,
+    };
     try {
-      await postUpdateFeature({ id: rowId, body: values })?.unwrap();
+      await postUpdateFeature({ id: rowId, body: payload })?.unwrap();
       handleCloseDrawerEditFeature();
       enqueueSnackbar('Feature updated successfully', {
         variant: 'success',
       });
+      setRowId(null);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -159,16 +169,12 @@ const useProductFeature = () => {
     handleActionsMenuClick,
     handleActionMenuClose,
     isDisabled,
-    setIsDisabled,
     rowId,
     setRowId,
-    dataProducts,
-    loagingProducts,
     dataProductFeatures,
     loagingProductFeatures,
     setPageLimit,
     setPage,
-    handlePageChange,
     setSearchValue,
     openDrawerAddFeature,
     handleOpenDrawerAddFeature,

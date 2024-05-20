@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
@@ -19,23 +19,20 @@ import {
 } from './ProductFeatures.data';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon } from '@/assets/icons';
-import { v4 as uuidv4 } from 'uuid';
 import useProductFeature from './useProductFeature';
-// import MultiSearchableSelect from './multiSearchableSelect';
 import { styles } from './ProductFeature.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS } from '@/constants/permission-keys';
+import { CommonAPIS } from '@/services/common-APIs';
 
 const ProductFeature = () => {
   const theme = useTheme();
-  const [value, setValue] = useState<any>(); // eslint-disable-line
   const {
     anchorEl,
     actionMenuOpen,
     handleActionsMenuClick,
     handleActionMenuClose,
     isDisabled,
-    setIsDisabled,
     rowId,
     setRowId,
     dataProductFeatures,
@@ -43,7 +40,6 @@ const ProductFeature = () => {
     setSearchValue,
     setPageLimit,
     setPage,
-    handlePageChange,
     openDrawerAddFeature,
     handleOpenDrawerAddFeature,
     handleCloseDrawerAddFeature,
@@ -58,12 +54,10 @@ const ProductFeature = () => {
     methodsEditFeature,
   } = useProductFeature();
 
-  const ProductFeatureTableColumns = columns(
-    setIsDisabled,
-    setRowId,
-    rowId,
-    theme,
-  );
+  const ProductFeatureTableColumns = columns(setRowId, rowId, theme);
+
+  const { useLazyGetDropdownProductsQuery }: any = CommonAPIS;
+  const products = useLazyGetDropdownProductsQuery();
 
   return (
     <Box
@@ -77,16 +71,6 @@ const ProductFeature = () => {
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Product Features Setup
           </Typography>
-          {/* <Box>
-            <MultiSearchableSelect
-              options={[
-                { value: 'JohnDoe', label: 'John Doe' },
-                { value: 'SaraAndrew', label: 'Sara Andrew' },
-              ]}
-              setValue={setValue}
-              isCheckBox={true}
-            />
-          </Box> */}
         </Box>
         <Box sx={styles?.filterBar}>
           <PermissionsGuard
@@ -178,12 +162,14 @@ const ProductFeature = () => {
             columns={ProductFeatureTableColumns}
             data={dataProductFeatures?.data?.productfeatures}
             isLoading={loagingProductFeatures}
-            isPagination
+            currentPage={dataProductFeatures?.data?.meta?.page}
             count={dataProductFeatures?.data?.meta?.pages}
+            pageLimit={dataProductFeatures?.data?.meta?.limit}
             totalRecords={dataProductFeatures?.data?.meta?.total}
-            onPageChange={handlePageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
           />
         </Box>
       </PermissionsGuard>
@@ -201,8 +187,13 @@ const ProductFeature = () => {
         <>
           <FormProvider methods={methodsAddFeature}>
             <Grid container spacing={4}>
-              {addProductFeatureFormData()?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {addProductFeatureFormData(products)?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
@@ -232,8 +223,13 @@ const ProductFeature = () => {
         <>
           <FormProvider methods={methodsEditFeature}>
             <Grid container spacing={4}>
-              {editProductFeatureFormData()?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {editProductFeatureFormData(products)?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
