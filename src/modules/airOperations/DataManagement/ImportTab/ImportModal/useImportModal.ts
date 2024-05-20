@@ -9,9 +9,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useImportFileMutation,
   useLazyGetSignedUrlForImportQuery,
+  useNewImportFileForServicesMutation,
   useUploadFileTos3UsingSignedUrlMutation,
 } from '@/services/airServices/global/import';
-import { OBJECT_URL_IMPORT } from '@/constants/strings';
+import {
+  IMPORT_ACTION_TYPE,
+  IMPORT_FILE_TYPE,
+  IMPORT_OBJECT_TYPE,
+  IMPORT_PRODUCTS_NAME,
+  OBJECT_URL_IMPORT,
+} from '@/constants/strings';
 
 export const useImportModal = () => {
   const [csvFileData, setCsvFileData] = useState<any[]>([]);
@@ -19,6 +26,7 @@ export const useImportModal = () => {
   const [isNewImport, setIsNewImport] = useState(true);
   const [modalStep, setModalStep] = useState(1);
   const [importLog, setImportLog] = useState('');
+  const [filePath, setFilePath] = useState<any>(null);
 
   const methodsImportModalForm = useForm<any>({
     resolver: yupResolver(importValidationSchema(modalStep)),
@@ -34,6 +42,9 @@ export const useImportModal = () => {
     name: 'importedFields',
   });
 
+  const [newImportFileForServicesTrigger, newImportFileForServicesStatus] =
+    useNewImportFileForServicesMutation?.();
+
   const [
     uploadFileTos3UsingSignedUrlTrigger,
     uploadFileTos3UsingSignedUrlStatus,
@@ -48,7 +59,7 @@ export const useImportModal = () => {
     try {
       if (data?.product === 'Sales') {
         if (modalStep === 1) {
-          setModalStep((prev) => ++prev);
+          setModalStep((prev: any) => ++prev);
         } else if (modalStep === 2) {
           const signedUrlApiDataParameter = {
             queryParams: {
@@ -76,31 +87,93 @@ export const useImportModal = () => {
             }),
             {},
           );
-          const apiData = {
-            body: {
-              filePath: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.name}`,
-              dataColumn: dataColumn,
-              actionType: importLog,
-            },
-          };
-          try {
-            const response: any = await importFileTrigger?.(apiData)?.unwrap();
-            successSnackbar(response?.message);
-            handleClose();
-            reset();
-          } catch (error: any) {
-            errorSnackbar(error?.data?.message);
+          const values = Object?.values(dataColumn);
+          const hasDuplicate = values?.some(
+            (value, index) => values?.indexOf(value) !== index,
+          );
+
+          if (hasDuplicate) {
+            errorSnackbar('Duplicate crmFields are not allowed');
+          } else {
+            const apiData = {
+              body: {
+                filePath: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.name}`,
+                dataColumn: dataColumn,
+                actionType: importLog,
+              },
+            };
+            try {
+              const response: any =
+                await importFileTrigger?.(apiData)?.unwrap();
+              successSnackbar(response?.message);
+              handleClose();
+              reset();
+            } catch (error: any) {
+              errorSnackbar(error?.data?.message);
+            }
           }
         }
       } else {
         if (modalStep === 1) {
-          setModalStep((prev) => ++prev);
+          setModalStep((prev: any) => ++prev);
         } else if (modalStep === 2) {
-          setModalStep((prev) => ++prev);
+          const signedUrlApiDataParameter = {
+            queryParams: {
+              objectUrl: `${OBJECT_URL_IMPORT?.USERS_ATTACHMENT}/${data?.importDeals?.path}`,
+            },
+          };
+          try {
+            const response: any = await lazyGetSignedUrlForImportTrigger?.(
+              signedUrlApiDataParameter,
+            )?.unwrap();
+            successSnackbar('File Uploaded');
+            const url = new URL(`${response?.data}`);
+            const filePath = `${url?.origin}${url?.pathname}`;
+            setFilePath(filePath);
+          } catch (error: any) {
+            errorSnackbar(error?.data?.message);
+          }
+          setModalStep((prev: any) => ++prev);
         } else {
-          successSnackbar('Service Imported');
-          handleClose();
-          reset();
+          const dataColumn = data?.importedFields?.reduce(
+            (acc: any, item: any) => ({
+              ...acc,
+              [item?.fileColumn]: item?.crmFields,
+            }),
+            {},
+          );
+          const values = Object?.values(dataColumn);
+          const hasDuplicate = values?.some(
+            (value, index) => values?.indexOf(value) !== index,
+          );
+
+          if (hasDuplicate) {
+            errorSnackbar('Duplicate crmFields are not allowed');
+          } else {
+            const apiData = {
+              body: {
+                filePath: filePath,
+                tableName: importLog,
+                product: IMPORT_PRODUCTS_NAME?.OPERATIONS,
+                object:
+                  importLog === IMPORT_ACTION_TYPE?.INVENTORIES
+                    ? IMPORT_OBJECT_TYPE?.ASSETS
+                    : IMPORT_OBJECT_TYPE?.SETTINGS,
+                fileType: IMPORT_FILE_TYPE?.CSV,
+                dataColumn: dataColumn,
+              },
+            };
+            try {
+              const response: any =
+                await newImportFileForServicesTrigger?.(apiData)?.unwrap();
+              successSnackbar(response?.message);
+              handleClose();
+              reset();
+              setFilePath(null);
+            } catch (error: any) {
+              errorSnackbar(error?.data?.message);
+            }
+          }
         }
       }
     } catch (error: any) {
@@ -207,5 +280,6 @@ export const useImportModal = () => {
     lazyGetSignedUrlForImportStatus,
     uploadFileTos3UsingSignedUrlStatus,
     importFileStatus,
+    newImportFileForServicesStatus,
   };
 };

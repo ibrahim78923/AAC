@@ -6,7 +6,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
-import { requiredColumns } from './ImportModal.data';
+import { stepsData } from './ImportModal.data';
 import { LoadingButton } from '@mui/lab';
 const ImportModal = () => {
   const {
@@ -28,6 +28,7 @@ const ImportModal = () => {
     lazyGetSignedUrlForImportStatus,
     uploadFileTos3UsingSignedUrlStatus,
     importFileStatus,
+    newImportFileForServicesStatus,
   } = useImportModal();
 
   const steps: any = {
@@ -40,7 +41,7 @@ const ImportModal = () => {
     ),
     2: (
       <SecondStep
-        requiredColumns={requiredColumns}
+        requiredColumns={stepsData[importLog]}
         handlePreview={handlePreview}
       />
     ),
@@ -97,7 +98,8 @@ const ImportModal = () => {
               disabled={
                 lazyGetSignedUrlForImportStatus?.isLoading ||
                 uploadFileTos3UsingSignedUrlStatus?.isLoading ||
-                importFileStatus?.isLoading
+                importFileStatus?.isLoading ||
+                newImportFileForServicesStatus?.isLoading
               }
             >
               {modalStep === 1 ? 'Cancel' : 'Back'}
@@ -114,7 +116,8 @@ const ImportModal = () => {
               loading={
                 uploadFileTos3UsingSignedUrlStatus?.isLoading ||
                 lazyGetSignedUrlForImportStatus?.isLoading ||
-                importFileStatus?.isLoading
+                importFileStatus?.isLoading ||
+                newImportFileForServicesStatus?.isLoading
               }
             >
               {modalStep === 3 ? 'Import' : 'Next'}
