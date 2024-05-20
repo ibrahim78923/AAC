@@ -1,4 +1,4 @@
-import { RHFSelect } from '@/components/ReactHookForm';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 import { dashboardsData } from '../ManageDashboard.data';
 
 // filter options data
@@ -32,22 +32,23 @@ const accessRightsOptions = [
 ];
 
 export const defaultValuesManageDashboard = {
-  dashboardName: '',
-  owner: '',
-  accessRights: '',
+  dashboardName: null,
+  owner: null,
+  accessRights: null,
 };
 
 export const filterFieldsManageDashboard = [
   {
     id: 2,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     gridLength: 12,
     componentProps: {
       fullWidth: true,
       name: 'dashboardName',
       label: 'Dashboard Name',
-      select: true,
+      placeholder: 'Select Dashboard Name',
       options: dashboardNameOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
   },
   {
@@ -56,11 +57,12 @@ export const filterFieldsManageDashboard = [
       fullWidth: true,
       name: 'owner',
       label: 'Owner',
-      select: true,
+      placeholder: 'Select Owner',
       options: ownerOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 150,
@@ -68,10 +70,11 @@ export const filterFieldsManageDashboard = [
       fullWidth: true,
       name: 'accessRights',
       label: 'Access Rights',
-      select: true,
+      placeholder: 'Select Access Rights',
       options: accessRightsOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
 ];

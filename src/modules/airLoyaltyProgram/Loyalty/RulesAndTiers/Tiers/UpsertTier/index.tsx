@@ -33,16 +33,16 @@ export const UpsertTier = (props: any) => {
       variant={'contained'}
       isDrawerOpen={isDrawerOpen}
       onClose={
-        !termData ? () => closeUpsertTier?.() : () => setTermData?.(false)
+        !!!termData ? () => closeUpsertTier?.() : () => setTermData?.(false)
       }
-      okText={!termData ? (!!tierId?._id ? 'Update' : 'Create') : 'Done'}
+      okText={!!!termData ? (!!tierId?._id ? 'Update' : 'Create') : 'Done'}
       title={!!tierId?._id ? 'Edit Tier' : 'Create Tier'}
       submitHandler={() => handleSubmit?.(submitTierForm)?.()}
       isFooterFeatureText="Define Term"
       isFooterFeatureHandler={() => setTermData?.(true)}
       cancelText={'Cancel'}
       footer
-      isFooterFeature={!termData}
+      isFooterFeature={!!!termData}
       isFooterFeatureDisabled={isFormFilled ? false : true}
       isLoading={postTierProgress?.isLoading || updateTierProgress?.isLoading}
       isDisabled={postTierProgress?.isLoading || updateTierProgress?.isLoading}

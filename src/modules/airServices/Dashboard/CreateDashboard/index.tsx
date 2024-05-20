@@ -17,7 +17,6 @@ import {
 import Image from 'next/image';
 import { previewDashboard, userData } from './CreateDashboard.data';
 import { SearchableMultiSelect } from './SearchableMultiSelect';
-import { v4 as uuidv4 } from 'uuid';
 import { useCreateDashboard } from './useCreateDashboard';
 import { styles } from './CreateDashboard.styles';
 import { PreviewDashboardModal } from '../PreviewDashboardItems/PreviewDashboardModal';
@@ -57,11 +56,15 @@ export const CreateDashboard = () => {
     dashboardCheckboxItems,
     action,
     router,
+    handleSubmit,
   } = useCreateDashboard();
 
   return (
     <>
-      <FormProvider methods={methodsCreateDashboardFilterForm}>
+      <FormProvider
+        methods={methodsCreateDashboardFilterForm}
+        onSubmit={handleSubmit(submitCreateDashboardFilterForm)}
+      >
         <Box display="flex" alignItems="center" position="relative">
           <PageTitledHeader
             title={`${
@@ -156,7 +159,7 @@ export const CreateDashboard = () => {
             </Box>
             <Box ml="2rem" mb="2rem">
               {usersPermissions?.map((user: any) => (
-                <Box key={uuidv4()}>
+                <Box key={user?.id}>
                   <Box sx={styles()?.userCardOuter}>
                     <Box sx={styles()?.userCardInner}>
                       <Box display="flex" alignItems="center" gap="10px">
@@ -245,7 +248,7 @@ export const CreateDashboard = () => {
               ) : (
                 <Grid container spacing={3} height={680} overflow="scroll">
                   {dashboardItems?.map((item: any) => (
-                    <Grid item xs={12} key={uuidv4()}>
+                    <Grid item xs={12} key={item?.id}>
                       {previewDashboard?.[item as string]}
                     </Grid>
                   ))}
@@ -254,25 +257,24 @@ export const CreateDashboard = () => {
             </Box>
           </Grid>
         </Grid>
+        <Box display="flex" gap="0.6rem" justifyContent="flex-end">
+          <LoadingButton
+            sx={styles()?.buttonStyles}
+            variant="outlined"
+            color="secondary"
+            onClick={resetCreateDashboardFilterForm}
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            sx={styles()?.buttonStyles}
+            type="submit"
+          >
+            {action === DASHBOARD?.EDIT ? 'Update' : 'Create'}
+          </LoadingButton>
+        </Box>
       </FormProvider>
-      <Box display="flex" gap="0.6rem" justifyContent="flex-end">
-        <LoadingButton
-          sx={styles()?.buttonStyles}
-          variant="outlined"
-          color="secondary"
-          onClick={resetCreateDashboardFilterForm}
-        >
-          Cancel
-        </LoadingButton>
-        <LoadingButton
-          variant="contained"
-          sx={styles()?.buttonStyles}
-          onSubmit={submitCreateDashboardFilterForm}
-          type="submit"
-        >
-          {action === DASHBOARD?.EDIT ? 'Update' : 'Create'}
-        </LoadingButton>
-      </Box>
     </>
   );
 };
