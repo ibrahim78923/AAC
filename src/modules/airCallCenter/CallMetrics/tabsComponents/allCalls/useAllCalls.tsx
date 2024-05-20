@@ -8,16 +8,29 @@ export const useAllCalls = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isCallDetailsDrawerOpen, setIsCallDetailsDrawerOpen] = useState(false);
+  const [isViewDrawerOpen, setIsViewDrawerOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(5);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isExportDrawerOpen, setIsExportDrawerOpen] = useState(false);
-  const getColumns = columns({ setIsCallDetailsDrawerOpen });
+  const [openAlertModal, setOpenAlertModal] = useState(false);
+  const getColumns = columns({
+    setIsCallDetailsDrawerOpen,
+    setIsViewDrawerOpen,
+    setOpenAlertModal,
+  });
   const handleExcelExport = () => {
     successSnackbar('Excel Exported Successfully');
   };
   const handleCsvExport = () => {
     successSnackbar('CSV Exported Successfully');
+  };
+  const handleCloseAlertModal = () => {
+    setOpenAlertModal(false);
+  };
+  const handleCallsDelete = () => {
+    setOpenAlertModal(false);
+    successSnackbar('Calls Deleted Successfully');
   };
   return {
     theme,
@@ -36,5 +49,11 @@ export const useAllCalls = () => {
     handleCsvExport,
     isExportDrawerOpen,
     setIsExportDrawerOpen,
+    isViewDrawerOpen,
+    setIsViewDrawerOpen,
+    openAlertModal,
+    setOpenAlertModal,
+    handleCloseAlertModal,
+    handleCallsDelete,
   };
 };

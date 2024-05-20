@@ -15,7 +15,11 @@ import { Box, Tooltip, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import AudioVisualizer from './audioVisualizer/audioVisualizer';
 
-export const columns = ({ setIsCallDetailsDrawerOpen }: any) => {
+export const columns = ({
+  setIsCallDetailsDrawerOpen,
+  setIsViewDrawerOpen,
+  setOpenAlertModal,
+}: any) => {
   const theme = useTheme();
   return [
     {
@@ -109,7 +113,48 @@ export const columns = ({ setIsCallDetailsDrawerOpen }: any) => {
     {
       accessorFn: (row: any) => row?.callTags,
       id: 'callTags',
-      cell: (info: any) => info?.getValue(),
+
+      cell: (info: any) => (
+        <Box>
+          {info?.row?.original?.callTags?.length > 3 ? (
+            <Box display={'flex'} flexWrap={'wrap'} gap={1}>
+              <Typography variant="body3">
+                {info?.row?.original?.callTags?.slice(0, 3).join(', ')}
+              </Typography>
+              <Tooltip
+                title={
+                  <>
+                    <Box>
+                      {info?.row?.original?.callTags.map((tag: any) => (
+                        <Typography key={tag}>{tag}</Typography>
+                      ))}
+                    </Box>
+                  </>
+                }
+                placement="top-start"
+              >
+                <Box
+                  sx={{
+                    background: theme?.palette?.primary?.main,
+                    color: 'white',
+                    width: '24px',
+                    height: '24px',
+                    padding: '2px 4px 2px 4px',
+                    borderRadius: '5px',
+                    gap: '10px',
+                  }}
+                >
+                  <Typography variant="body3">
+                    +{info?.row?.original?.callTags?.length - 3}
+                  </Typography>
+                </Box>
+              </Tooltip>
+            </Box>
+          ) : (
+            info?.getValue()
+          )}
+        </Box>
+      ),
       header: 'Call Tags',
       isSortable: true,
     },
@@ -141,22 +186,34 @@ export const columns = ({ setIsCallDetailsDrawerOpen }: any) => {
             </Box>
           </Tooltip>
           <Tooltip title="Call Notes" placement="top-start">
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setIsViewDrawerOpen(true)}
+            >
               <NotesIcon />
             </Box>
           </Tooltip>
           <Tooltip title="Voicemail" placement="top-start">
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setIsCallDetailsDrawerOpen(true)}
+            >
               <RecordingIcon />
             </Box>
           </Tooltip>
           <Tooltip title="Call Transcription " placement="top">
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setIsCallDetailsDrawerOpen(true)}
+            >
               <CallSquareIcon />
             </Box>
           </Tooltip>
           <Tooltip title="Delete" placement="top-start">
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setOpenAlertModal?.(true)}
+            >
               <DeleteCrossIcon />
             </Box>
           </Tooltip>
@@ -199,7 +256,20 @@ export const allCallsData = [
     },
     recording: '-',
     virtualNumber: '+12314 1414 1312 4',
-    callTags: '-',
+    callTags: [
+      'complaint',
+      'missed call',
+      'company',
+      'support',
+      'Product Support',
+      'Product sales',
+      'calls',
+      'contract',
+      'sales',
+      'management',
+      'Product ',
+      'Product management',
+    ],
     callDuration: '00:42',
     dateAndTime: '11 Dec, 2023,  7:48 PM',
   },
@@ -235,7 +305,7 @@ export const allCallsData = [
     },
     recording: '-',
     virtualNumber: '+12314 1414 1312 4',
-    callTags: '-',
+    callTags: ['Product sales'],
     callDuration: '00:42',
     dateAndTime: '11 Dec, 2023,  7:48 PM',
   },

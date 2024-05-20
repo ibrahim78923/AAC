@@ -52,7 +52,7 @@ const CustomAudioPlayer = () => {
   useEffect(() => {
     if (audioRef?.current) {
       const handleDurationChange = () => {
-        setDuration(audioRef.current.duration);
+        setDuration(audioRef.current?.duration);
         setIsDurationAvailable(true);
       };
 
