@@ -23,8 +23,7 @@ const Dashboard = () => {
 
   const { data: productsData, isLoading } = useGetAllProductsQuery({});
 
-  const accountsData =
-    JSON.parse(localStorage.getItem('accountsData') || '') || {};
+  const accountsData = JSON.parse(localStorage.getItem('accountsData') || '{}');
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
 
