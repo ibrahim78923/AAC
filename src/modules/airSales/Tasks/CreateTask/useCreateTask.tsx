@@ -29,8 +29,10 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
   const theme = useTheme();
   const dispatch: any = useAppDispatch();
 
-  const [postCreateTask] = usePostCreateTaskMutation();
-  const [patchCreateTask] = usePatchCreateTaskMutation();
+  const [postCreateTask, { isLoading: postTaskLoading }] =
+    usePostCreateTaskMutation();
+  const [patchCreateTask, { isLoading: patchTaskLoading }] =
+    usePatchCreateTaskMutation();
 
   const selectedTaskIds = useAppSelector(
     (state: any) => state?.task?.selectedTaskIds,
@@ -164,6 +166,8 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     onSubmitHandler,
     taskData,
     reset,
+    postTaskLoading,
+    patchTaskLoading,
   };
 };
 

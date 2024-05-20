@@ -303,6 +303,10 @@ export const TASK_TYPE = {
   EDIT_TASK: 'edit',
   UPDATE_TASK: 'update',
 };
+export const ORGANIZATION_DRAWER_TYPES = {
+  EDIT: 'Edit Company',
+  UPDATE: 'Update Company',
+};
 export const goalsStatus = {
   inProgress: 'In-Progress',
 };
