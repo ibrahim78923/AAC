@@ -47,7 +47,6 @@ export const ManageDashboard = () => {
             <Box sx={styles(matches)?.tableHeaderBox}>
               <Search
                 label="Search Here"
-                width="100%"
                 searchBy={searchValue}
                 setSearchBy={SetSearchValue}
               />

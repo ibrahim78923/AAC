@@ -29,6 +29,7 @@ export const useCreateDashboard = () => {
   const [usersPermissions, setUsersPermissions] = useState<any[]>([]);
   const dashboardItems: any[] =
     methodsCreateDashboardFilterForm?.watch('dashboardItems');
+  const { handleSubmit } = methodsCreateDashboardFilterForm;
   //optional chaining does not work on interfaces
   const handleOpenUsersList = (event: React.MouseEvent<HTMLElement>) => {
     setPendingValue(specificUsers);
@@ -124,5 +125,6 @@ export const useCreateDashboard = () => {
     dashboardCheckboxItems,
     action,
     router,
+    handleSubmit,
   };
 };

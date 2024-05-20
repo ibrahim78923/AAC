@@ -52,14 +52,15 @@ export const useUpsertTier = (props: any) => {
     tierFormData?.append('logo', tierData?.logo);
     tierFormData?.append('points', tierData?.points);
     tierFormData?.append('amount', tierData?.amount);
-    termData && tierFormData?.append('type', tierData?.type);
-    termData && tierFormData?.append('attribute', tierData?.attribute?.value);
-    termData && tierFormData?.append('operator', tierData?.operator?.value);
-    termData && tierFormData?.append('fieldValue', tierData?.fieldValue);
-    tierFormData?.append(
-      'contacts',
-      tierData?.contacts?.map((item: any) => item?._id),
-    );
+    !!termData && tierFormData?.append('type', tierData?.type);
+    !!termData && tierFormData?.append('attribute', tierData?.attribute?.value);
+    !!termData && tierFormData?.append('operator', tierData?.operator?.value);
+    !!termData && tierFormData?.append('fieldValue', tierData?.fieldValue);
+    !!termData &&
+      tierFormData?.append(
+        'contacts',
+        tierData?.contacts?.map((item: any) => item?._id),
+      );
 
     const postApiDataParameter = {
       body: tierFormData,
@@ -94,9 +95,6 @@ export const useUpsertTier = (props: any) => {
       errorSnackbar();
     }
   };
-  useEffect(() => {
-    reset(upsertTierDefaultValues(formData));
-  }, [reset, formData]);
 
   const closeUpsertTier = () => {
     reset?.();
@@ -104,9 +102,7 @@ export const useUpsertTier = (props: any) => {
   };
   const attributesValues = watch('attribute');
   useEffect(() => {
-    if (!termData) {
-      setValue('type', termData || attributesValues?.label ? 'CONTACTS' : '');
-    }
+    setValue('type', !!termData && attributesValues?.label ? 'CONTACTS' : '');
   }, [termData, attributesValues]);
 
   useEffect(() => {

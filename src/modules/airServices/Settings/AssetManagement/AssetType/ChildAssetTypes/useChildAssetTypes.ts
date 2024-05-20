@@ -28,12 +28,12 @@ export const useChildAssetTypes = (props: any) => {
       description: formData?.description,
     };
     try {
-      await patchAssetTypeTrigger(assetChildData);
-      successSnackbar('Asset Types Added Successfully');
+      await patchAssetTypeTrigger(assetChildData)?.unwrap();
+      successSnackbar('Asset Type Added Successfully');
       reset();
       setOpenAddNewChildModal?.(false);
     } catch (err: any) {
-      errorSnackbar();
+      errorSnackbar(err?.data?.message);
     }
   };
 

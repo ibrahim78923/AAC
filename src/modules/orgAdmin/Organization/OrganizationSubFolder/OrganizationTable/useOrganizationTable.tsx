@@ -37,7 +37,10 @@ const useOrganizationTable = () => {
   const theme = useTheme<Theme>();
   const [postOrganization, { isLoading: loadingAddCompanyAccount }] =
     usePostOrganizationMutation();
-  const [updateOrganizationCompany] = useUpdateOrganizationMutation();
+  const [
+    updateOrganizationCompany,
+    { isLoading: loadingUpdateCompanyAccount },
+  ] = useUpdateOrganizationMutation();
   const [deleteOrganization] = useDeleteOrganizationMutation();
   const [updateOrganizationStatus] = useUpdateOrganizationStatusMutation();
   const [imageHandler, setImageHandler] = useState(false);
@@ -200,6 +203,7 @@ const useOrganizationTable = () => {
         enqueueSnackbar('Company Updated Successfully', {
           variant: 'success',
         });
+        setIsGetRowValues([]);
         setIsOpenDrawer(false);
       } else {
         await postOrganization({ body: formData }).unwrap();
@@ -208,6 +212,7 @@ const useOrganizationTable = () => {
         });
         reset(validationSchema);
         setIsOpenDrawer(false);
+        setIsGetRowValues([]);
       }
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
@@ -271,6 +276,7 @@ const useOrganizationTable = () => {
     drawerHeading,
     setDrawerHeading,
     loadingAddCompanyAccount,
+    loadingUpdateCompanyAccount,
     setPageLimit,
     setPage,
     handlePageChange,

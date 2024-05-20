@@ -30,9 +30,15 @@ import {
   TimelineSeparator,
   timelineItemClasses,
 } from '@mui/lab';
-import { networkLogs, timeLineData } from './callsDetailsDrawer.data';
+import {
+  callLifeCycle,
+  callTransaction,
+  networkLogs,
+  timeLineData,
+} from './callsDetailsDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import { successSnackbar } from '@/utils/api';
 
 const CallsDetailsDrawer = ({
   isCallDetailsDrawerOpen,
@@ -54,12 +60,18 @@ const CallsDetailsDrawer = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const result =
+    value === 0
+      ? 'Call Details for John'
+      : value === 1 || value === 2
+        ? 'Call details for Andrew Loon'
+        : 'Call details +18506128791';
 
   return (
     <CommonDrawer
       isDrawerOpen={isCallDetailsDrawerOpen}
       onClose={() => setIsCallDetailsDrawerOpen(false)}
-      title={'Call Details for john'}
+      title={result}
       okText={'Create'}
       isOk
       cancelText={'Cancel'}
@@ -188,6 +200,10 @@ const CallsDetailsDrawer = ({
               variant="body2"
               fontWeight={500}
               color={theme?.palette?.grey?.[600]}
+              onClick={() => {
+                setIsCallDetailsDrawerOpen(false);
+                successSnackbar('CSV Exported Successfully');
+              }}
             >
               CSV
             </Typography>
@@ -204,6 +220,10 @@ const CallsDetailsDrawer = ({
               variant="body2"
               fontWeight={500}
               color={theme?.palette.grey?.[600]}
+              onClick={() => {
+                setIsCallDetailsDrawerOpen(false);
+                successSnackbar('Excel Exported Successfully');
+              }}
             >
               Excel
             </Typography>
@@ -232,28 +252,89 @@ const CallsDetailsDrawer = ({
                 },
               }}
             >
-              {timeLineData?.map((item: any) => (
-                <TimelineItem key={uuidv4()}>
-                  <TimelineSeparator>
-                    <TimelineDot
-                      sx={{ background: theme?.palette?.primary?.main }}
-                    />
-                    <TimelineConnector
-                      sx={{ background: theme?.palette?.primary?.main }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Box>
-                      <Typography variant="body4" sx={{ fontWeight: '500' }}>
-                        {item?.label}
-                      </Typography>
-                    </Box>
-                    <Typography variant="body4" sx={{ fontWeight: '400' }}>
-                      {item?.content}
-                    </Typography>
-                  </TimelineContent>
-                </TimelineItem>
-              ))}
+              {value === 0
+                ? timeLineData?.map((item: any) => (
+                    <TimelineItem key={uuidv4()}>
+                      <TimelineSeparator>
+                        <TimelineDot
+                          sx={{ background: theme?.palette?.primary?.main }}
+                        />
+                        <TimelineConnector
+                          sx={{ background: theme?.palette?.primary?.main }}
+                        />
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        <Box>
+                          <Typography
+                            variant="body4"
+                            sx={{ fontWeight: '500' }}
+                          >
+                            {item?.label}
+                          </Typography>
+                        </Box>
+                        <Typography variant="body4" sx={{ fontWeight: '400' }}>
+                          {item?.content}
+                        </Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                  ))
+                : value === 1
+                  ? callLifeCycle?.map((item: any) => (
+                      <TimelineItem key={uuidv4()}>
+                        <TimelineSeparator>
+                          <TimelineDot
+                            sx={{ background: theme?.palette?.primary?.main }}
+                          />
+                          <TimelineConnector
+                            sx={{ background: theme?.palette?.primary?.main }}
+                          />
+                        </TimelineSeparator>
+                        <TimelineContent>
+                          <Box>
+                            <Typography
+                              variant="body4"
+                              sx={{ fontWeight: '500' }}
+                            >
+                              {item?.label}
+                            </Typography>
+                          </Box>
+                          <Typography
+                            variant="body4"
+                            sx={{ fontWeight: '400' }}
+                          >
+                            {item?.content}
+                          </Typography>
+                        </TimelineContent>
+                      </TimelineItem>
+                    ))
+                  : callTransaction?.map((item: any) => (
+                      <TimelineItem key={uuidv4()}>
+                        <TimelineSeparator>
+                          <TimelineDot
+                            sx={{ background: theme?.palette?.primary?.main }}
+                          />
+                          <TimelineConnector
+                            sx={{ background: theme?.palette?.primary?.main }}
+                          />
+                        </TimelineSeparator>
+                        <TimelineContent>
+                          <Box>
+                            <Typography
+                              variant="body4"
+                              sx={{ fontWeight: '500' }}
+                            >
+                              {item?.label}
+                            </Typography>
+                          </Box>
+                          <Typography
+                            variant="body4"
+                            sx={{ fontWeight: '400' }}
+                          >
+                            {item?.content}
+                          </Typography>
+                        </TimelineContent>
+                      </TimelineItem>
+                    ))}
             </Timeline>
           </Box>
         )}

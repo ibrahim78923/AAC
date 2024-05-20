@@ -167,6 +167,7 @@ export const NOTISTACK_VARIANTS: {
 export const ALERT_MODALS_TYPE = {
   DELETE: 'delete',
   WARNING: 'warning',
+  INFO: 'Information',
 };
 
 export const CATALOG_SERVICE_TYPES = {
@@ -487,10 +488,9 @@ export const LOYALTY_TRANSACTIONS_CHANNEL = {
 };
 
 export const IMPORT_ACTION_TYPE = {
-  INVENTORIES: 'INVENTORIES',
-  PRODUCT_CATALOG: 'PRODUCT_CATALOG',
-  LOCATIONS: 'LOCATIONS',
-  VENDORS: 'VENDORS',
+  INVENTORIES: 'inventories',
+  PRODUCT_CATALOG: 'productCatalog',
+  VENDORS: 'vendors',
   DEALS: 'DEALS',
   TASKS: 'TASKS',
 };
@@ -687,6 +687,8 @@ export const RULES_AUDIENCE_TYPE = {
   CUSTOMER: 'CUSTOMER',
 };
 
+export const DONE = 'done';
+
 export const IMPORT_TABLE_NAMES = {
   INVENTORY: 'Inventory',
   VENDORS: 'vendors',
@@ -726,4 +728,23 @@ export const IMPORT_PRODUCTS_NAME = {
 
 export const IMPORT_FILE_TYPE = {
   CSV: 'CSV',
+};
+
+export const FEEDBACK_SURVEY_QUESTION_TYPE = {
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  CHECK_BOXES: 'CHECK_BOXES',
+  SHORT_ANSWERS: 'SHORT_ANSWERS',
+  LINEAR_SCALE: 'LINEAR_SCALE',
+};
+
+export const FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE = {
+  EXCELLENT: 'EXCELLENT',
+  VERY_GOOD: 'VERY_GOOD',
+  GOOD: 'GOOD',
+  SATISFIED: 'SATISFIED',
+  UN_SATISFIED: 'UN_SATISFIED',
+};
+
+export const ARRAY_INDEX = {
+  ZERO: 0,
 };

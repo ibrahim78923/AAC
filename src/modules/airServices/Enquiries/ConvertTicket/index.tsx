@@ -2,10 +2,11 @@ import { AlertModals } from '@/components/AlertModals';
 import useConvertTicket from './useConvertTicket';
 
 export default function ConvertTicket({ isModalOpen, onClose }: any) {
-  const { handleCreateRequester, postTicketStatus } = useConvertTicket({
-    isModalOpen,
-    onClose,
-  });
+  const { handleCreateRequester, postTicketStatus, patchEnquiriesStatus } =
+    useConvertTicket({
+      isModalOpen,
+      onClose,
+    });
 
   return (
     <AlertModals
@@ -14,8 +15,10 @@ export default function ConvertTicket({ isModalOpen, onClose }: any) {
       open={isModalOpen?.convertToTicket}
       handleClose={() => onClose?.()}
       handleSubmitBtn={handleCreateRequester}
-      loading={postTicketStatus?.isLoading}
-      disableCancelBtn={postTicketStatus?.isLoading}
+      loading={postTicketStatus?.isLoading || patchEnquiriesStatus?.isLoading}
+      disableCancelBtn={
+        postTicketStatus?.isLoading || patchEnquiriesStatus?.isLoading
+      }
     />
   );
 }

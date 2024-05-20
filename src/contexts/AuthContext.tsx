@@ -125,7 +125,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const { data: permissionsData, refetch } = useGetAuthMyAccountQuery({});
+  const { data: permissionsData, refetch } = useGetAuthMyAccountQuery(
+    {},
+    { skip: !state?.isAuthenticated },
+  );
 
   // const [logoutTrigger] = useLogoutMutation();
   const permissionsFromApi = permissionsData?.data?.account?.role?.permissions;

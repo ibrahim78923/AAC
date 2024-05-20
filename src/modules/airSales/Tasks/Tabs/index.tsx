@@ -87,6 +87,7 @@ const Tabs = ({ tabValue, assignTo }: any) => {
             onPageChange={handlePageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            currentPage={taskDataArray?.data?.meta?.page}
           />
         )}
       </Box>

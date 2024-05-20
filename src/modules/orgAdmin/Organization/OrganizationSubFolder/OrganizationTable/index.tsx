@@ -36,6 +36,7 @@ import { styles } from './OrganizationTable.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
 import useAuth from '@/hooks/useAuth';
+import { ORGANIZATION_DRAWER_TYPES } from '@/constants';
 
 const OrganizationTable = () => {
   const {
@@ -62,6 +63,7 @@ const OrganizationTable = () => {
     drawerHeading,
     setDrawerHeading,
     loadingAddCompanyAccount,
+    loadingUpdateCompanyAccount,
     editData,
     setEditData,
     setIsGetRowValues,
@@ -88,18 +90,24 @@ const OrganizationTable = () => {
         isDrawerOpen={isOpenDrawer}
         onClose={() => {
           setIsOpenDrawer(false);
-          if (drawerHeading === 'Edit Company') {
+          if (drawerHeading === ORGANIZATION_DRAWER_TYPES?.EDIT) {
             null;
           } else {
             reset();
           }
         }}
         title={`${drawerHeading}`}
-        okText={drawerHeading === 'Edit Company' ? 'Update' : 'Add'}
+        okText={
+          drawerHeading === ORGANIZATION_DRAWER_TYPES?.EDIT ? 'Update' : 'Add'
+        }
         isOk
         footer={isViewMode ? false : true}
         submitHandler={handleSubmit(onSubmit)}
-        isLoading={loadingAddCompanyAccount}
+        isLoading={
+          drawerHeading === ORGANIZATION_DRAWER_TYPES?.EDIT
+            ? loadingUpdateCompanyAccount
+            : loadingAddCompanyAccount
+        }
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>

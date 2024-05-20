@@ -25,13 +25,6 @@ export const productData = [
   {
     icon: {},
     import: 'Services',
-    title: 'Locations',
-    checkedValue: IMPORT_ACTION_TYPE?.LOCATIONS,
-    desc: 'The businesses you work with, which are commonly called accounts or organization',
-  },
-  {
-    icon: {},
-    import: 'Services',
     title: 'Vendors',
     checkedValue: IMPORT_ACTION_TYPE?.VENDORS,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
@@ -52,50 +45,38 @@ export const productData = [
   },
 ];
 export const stepsData: any = {
-  INVENTORIES: [
-    'Display name',
-    'Asset Type',
-    'Impact',
-    'Description',
-    'Expiry date',
-    'Location',
-    'Department',
-    'Assigned on',
-    'Used By',
-    'Attachment',
+  inventories: [
+    'displayName',
+    'assetType',
+    'impact',
+    'description',
+    'expiryDate',
+    'location',
+    'department',
+    'assignedOn',
+    'usedBy',
+    'attachment',
   ],
-  LOCATIONS: [
-    'Location Name',
-    'Contact Name',
-    'Email',
-    'Phone',
-    'Address Line 1',
-    'Address Line 2',
-    'City',
-    'Country',
-    'State',
-    'Zip Code',
-  ],
-  PRODUCT_CATALOG: [
-    'Name',
-    'Asset Type',
-    'Manufacturer',
+  productCatalog: [
+    'name',
+    'assetType',
+    'manufacturer',
     'status',
-    'Mode of Procurement',
-    'Description',
+    'mode of Procurement',
+    'description',
   ],
-  VENDORS: [
-    'Name',
-    'Contact Name',
-    'Phone',
-    'Mobile',
-    'Email',
-    'Description',
-    'Address',
-    'Country',
-    'State',
-    'City',
-    'Zip Code',
+  vendors: [
+    'name',
+    'contactName',
+    'phone',
+    'mobile',
+    'email',
+    'description',
+    'address',
+    'country',
+    'state',
+    'city',
+    'zipCode',
   ],
   DEALS: [
     'Deal Owner',
@@ -117,7 +98,6 @@ export const stepsData: any = {
 };
 
 export const importTableHeader = ['File Column', 'Crm Fields', ''];
-export const requiredColumns = ['Name', 'Deal Value'];
 export const productOptions = ['Sales', 'Services'];
 
 export const importValidationSchema = (modalStep: any) => {
@@ -198,7 +178,7 @@ export const importTableFields = (
           options={stepsData[importLog]}
           fullWidth
           required={true}
-          sx={{ minWidth: '8rem' }}
+          sx={{ minWidth: '10rem' }}
           placeholder={'Select'}
         />
       ),

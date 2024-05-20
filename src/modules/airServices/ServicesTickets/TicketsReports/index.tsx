@@ -1,12 +1,14 @@
 import {
+  Avatar,
   Box,
   CircularProgress,
   Divider,
   Grid,
   IconButton,
+  Typography,
 } from '@mui/material';
 import { TicketsReportCard } from './TicketsReportCard';
-import { agentsOptions, cardOptions } from './TicketsReport.data';
+import { cardOptions } from './TicketsReport.data';
 import { useTicketsReport } from './useTicketsReport';
 import { TicketsReportChart } from './TicketsReportChart';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
@@ -14,11 +16,17 @@ import { AIR_SERVICES } from '@/constants';
 import { DownloadLargeIcon } from '@/assets/icons';
 import ReportCalendarFilter from '@/components/ReportCalendarFilter';
 import { FormProvider } from 'react-hook-form';
-import { RHFAutocomplete } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 
 export const TicketsReports = () => {
-  const { agentFilterMethod, setCalendarFilter, handlePrint, router, loading } =
-    useTicketsReport();
+  const {
+    agentFilterMethod,
+    setCalendarFilter,
+    handlePrint,
+    router,
+    loading,
+    apiQueryOrganizations,
+  } = useTicketsReport();
 
   return (
     <>
@@ -31,13 +39,25 @@ export const TicketsReports = () => {
       >
         <ReportCalendarFilter setCalendarFilter={setCalendarFilter} />
         <FormProvider {...agentFilterMethod}>
-          <Box width={'7rem'} mt={1}>
-            <RHFAutocomplete
+          <Box width={'10rem'} mt={1}>
+            <RHFAutocompleteAsync
               name="agent"
               size="small"
-              options={agentsOptions}
               placeholder="Agent"
-              getOptionLabel={(option: any) => option?.label}
+              apiQuery={apiQueryOrganizations}
+              getOptionLabel={(option: any) => option?.firstName}
+              renderOption={(option: any) => (
+                <Box display={'flex'} alignItems={'center'} gap={1}>
+                  <Avatar />
+                  <Typography
+                    variant={'body2'}
+                    color={'grey.600'}
+                    fontWeight={500}
+                  >
+                    {option?.firstName} {option?.lastName}
+                  </Typography>
+                </Box>
+              )}
             />
           </Box>
         </FormProvider>

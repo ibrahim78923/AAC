@@ -1,11 +1,27 @@
 import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
-import { usePostTicketMutation } from '@/services/airServices/enquiries';
+import {
+  usePatchEnquiriesMutation,
+  usePostTicketMutation,
+} from '@/services/airServices/enquiries';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export default function useConvertTicket({ isModalOpen, onClose }: any) {
   const [postTicketTrigger, postTicketStatus] = usePostTicketMutation();
+  const [patchEnquiriesTrigger, patchEnquiriesStatus] =
+    usePatchEnquiriesMutation();
 
   const data = isModalOpen?.data?.[0];
+
+  const handlePatch = async () => {
+    const patchEnquiriesParameter = {
+      queryParams: data?._id,
+      body: { ticketCreated: true },
+    };
+
+    try {
+      await patchEnquiriesTrigger(patchEnquiriesParameter)?.unwrap();
+    } catch (e: any) {}
+  };
 
   const handleCreateRequester = async () => {
     const formData: any = new FormData();
@@ -18,6 +34,7 @@ export default function useConvertTicket({ isModalOpen, onClose }: any) {
     try {
       await postTicketTrigger(formData)?.unwrap();
       successSnackbar('Ticket Created Successfully!');
+      await handlePatch?.();
       onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -25,5 +42,5 @@ export default function useConvertTicket({ isModalOpen, onClose }: any) {
     }
   };
 
-  return { handleCreateRequester, postTicketStatus };
+  return { handleCreateRequester, postTicketStatus, patchEnquiriesStatus };
 }

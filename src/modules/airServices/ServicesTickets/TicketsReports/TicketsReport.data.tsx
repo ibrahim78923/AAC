@@ -1,10 +1,3 @@
-export const agentsOptions = [
-  { label: 'ronald', value: 'Ronald' },
-  { label: 'kristin', value: 'kristin' },
-  { label: 'leslie', value: 'Leslie' },
-  { label: 'tom', value: 'Tom' },
-];
-
 export const cardOptions = [
   { id: 2353, label: 'One Tickets', chipValue: '0' },
   { id: 5466, label: 'Close Tickets', chipValue: '12' },

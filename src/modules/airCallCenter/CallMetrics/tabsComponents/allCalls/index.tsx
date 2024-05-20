@@ -13,6 +13,8 @@ import FilterAllCalls from './filterAllCalls';
 import { useAllCalls } from './useAllCalls';
 
 import ExportAllCalls from './exportAllCalls';
+import CallsNotesDrawer from './callNotesDrawer';
+import { AlertModals } from '@/components/AlertModals';
 
 const AllCalls = () => {
   const {
@@ -28,9 +30,13 @@ const AllCalls = () => {
     setSearchTerm,
     isDrawerOpen,
     setIsDrawerOpen,
-
     isExportDrawerOpen,
     setIsExportDrawerOpen,
+    isViewDrawerOpen,
+    setIsViewDrawerOpen,
+    openAlertModal,
+    handleCloseAlertModal,
+    handleCallsDelete,
   } = useAllCalls();
   return (
     <Box
@@ -52,7 +58,7 @@ const AllCalls = () => {
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
             <Button
               variant="outlined"
-              color="secondary"
+              color="inherit"
               startIcon={<ExportBlackIcon />}
               onClick={() => setIsExportDrawerOpen(true)}
             >
@@ -60,7 +66,7 @@ const AllCalls = () => {
             </Button>
             <Button
               variant="outlined"
-              color="secondary"
+              color="inherit"
               startIcon={<FilterSharedIcon />}
               onClick={() => setIsDrawerOpen(true)}
             >
@@ -101,6 +107,19 @@ const AllCalls = () => {
           setIsExportDrawerOpen={setIsExportDrawerOpen}
         />
       )}
+      {isViewDrawerOpen && (
+        <CallsNotesDrawer
+          isViewDrawerOpen={isViewDrawerOpen}
+          setIsViewDrawerOpen={setIsViewDrawerOpen}
+        />
+      )}
+      <AlertModals
+        type="delete"
+        open={openAlertModal}
+        handleClose={handleCloseAlertModal}
+        handleSubmitBtn={handleCallsDelete}
+        message="Are you sure you want to disable it?"
+      />
     </Box>
   );
 };

@@ -16,6 +16,8 @@ const CreateTask = ({
   isCreateTaskDrawerOpen,
   setIsCreateTaskDrawerOpen,
   creationMode, // taskData,
+  postTaskLoading,
+  patchTaskLoading,
 }: any) => {
   const {
     handleFiltersSubmit,
@@ -46,6 +48,11 @@ const CreateTask = ({
       okText={creationMode === TASK_TYPE?.CREATE_TASK ? 'Create' : 'Update'}
       isOk
       cancelText={'Cancel'}
+      isLoading={
+        creationMode === TASK_TYPE?.CREATE_TASK
+          ? postTaskLoading
+          : patchTaskLoading
+      }
       footer={true}
       submitHandler={() => handleFiltersSubmit(onSubmitHandler)}
     >

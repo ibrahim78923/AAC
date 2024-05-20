@@ -3,6 +3,7 @@ import { SurveyWidgets } from '../SurveyWidgets';
 import { SurveyCompleted } from '../SurveyCompleted';
 import { TotalSurveyScore } from '../TotalSurveyScore';
 import { Respondents } from '../Respondents';
+import { UserResponsesAnalysis } from '../UserResponsesAnalysis';
 
 export const AllResponses = () => {
   return (
@@ -22,6 +23,8 @@ export const AllResponses = () => {
           <Respondents />
         </Grid>
       </Grid>
+      <br />
+      <UserResponsesAnalysis />
     </>
   );
 };

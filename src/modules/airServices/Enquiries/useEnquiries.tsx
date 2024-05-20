@@ -53,6 +53,7 @@ export default function useEnquiries() {
 
     try {
       await patchEnquiriesTrigger(patchEnquiriesParameter)?.unwrap();
+      setEnquiriesSelected([]);
       successSnackbar('Status Updated successfully!');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

@@ -3,6 +3,7 @@ import { truncateText } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { Checkbox, CircularProgress, MenuItem, Select } from '@mui/material';
 import { errorSnackbar } from '@/utils/api';
+import { DONE } from '@/constants/strings';
 
 export const statusOptions = ['Done', 'Pending'];
 
@@ -13,10 +14,10 @@ export const getEnquiriesActionDropdown = ({
   {
     id: 1,
     permissionKey: [AIR_SERVICES_ENQUIRIES_PERMISSION?.VIEW_ENQUIRY],
-    title: 'View',
+    title: 'View & Reply',
     handleClick: (closeMenu: any) => {
       if (enquiriesSelected?.length > 1) {
-        errorSnackbar('Please Select Only One Enquiry');
+        errorSnackbar('Please Select Only One Enquiry!');
         closeMenu?.();
         return;
       }
@@ -54,6 +55,16 @@ export const getEnquiriesActionDropdown = ({
     handleClick: (closeMenu: any) => {
       if (enquiriesSelected?.length > 1) {
         errorSnackbar('Please Select Only One Enquiry');
+        closeMenu?.();
+        return;
+      }
+      if (enquiriesSelected?.[0]?.ticketCreated) {
+        errorSnackbar('Ticket Already Created!');
+        closeMenu?.();
+        return;
+      }
+      if (enquiriesSelected?.[0]?.status === DONE) {
+        errorSnackbar('Enquiry Already Resolved!');
         closeMenu?.();
         return;
       }
@@ -168,6 +179,12 @@ export const getEnquiriesColumns = ({
     isSortable: true,
     header: 'Comments',
     cell: (info: any) => truncateText(info?.getValue()),
+  },
+  {
+    accessorFn: (row: any) => row?.ticketCreated,
+    id: 'ticketCreated',
+    header: 'Ticket Created',
+    cell: (info: any) => (info?.getValue() ? 'Created' : 'Not Created'),
   },
   {
     accessorFn: (row: any) => row?.status,
