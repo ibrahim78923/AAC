@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import {
+  useGetOrganizationDetailsByIdQuery,
   useLazyGetOrganizationDetailsByIdQuery,
   useUpdateOrganizationByIdMutation,
 } from '@/services/orgAdmin/organization';
@@ -16,6 +17,7 @@ import { getSession } from '@/utils';
 const useOrganizationCard = () => {
   const { user }: any = getSession();
   const theme = useTheme<Theme>();
+  const [currOrg, setCurrOrg] = useState<any>();
 
   const [isOpenDrawer, setIsOpenDrawer] = useState({
     isToggled: false,
@@ -29,6 +31,10 @@ const useOrganizationCard = () => {
     organiztionDetails,
     { isLoading: loadingDetails, isError, isFetching, isSuccess },
   ] = useLazyGetOrganizationDetailsByIdQuery();
+
+  const { data: getOrganizationById, isLoading: currentOrganizationLoading } =
+    useGetOrganizationDetailsByIdQuery({ id: user?.organization?._id });
+  const currentOrganization = getOrganizationById?.data[0];
 
   const [updateOrganizationById, { isLoading: loadingUpdateOrganization }] =
     useUpdateOrganizationByIdMutation();
@@ -89,6 +95,10 @@ const useOrganizationCard = () => {
     setValue('compositeAddress', addressValues);
   }, [addressValues]);
 
+  useEffect(() => {
+    setCurrOrg(currentOrganization);
+  }, [getOrganizationById]);
+
   const handleChangeImg = async (e: any) => {
     if (e?.target?.files?.length) {
       const formData = new FormData();
@@ -110,16 +120,9 @@ const useOrganizationCard = () => {
   };
 
   const onSubmit: any = async (values: any) => {
-    const bodyVals: any = {
-      crn: values?.registrationNumber,
-      name: values?.name,
-      email: values?.email,
-      phoneNo: values?.phoneNo,
-      postCode: values?.postCode,
-    };
     if (isToggled) {
       // If isToggled is true, construct the address object with individual fields
-      bodyVals.address = {
+      values.address = {
         flatNumber: values?.flat,
         buildingName: values?.buildingName,
         buildingNumber: values?.buildingNumber,
@@ -129,17 +132,26 @@ const useOrganizationCard = () => {
       };
     } else {
       // If isToggled is false, use a composite address value
-      bodyVals.address = {
+      values.address = {
         composite: values?.compositeAddress,
       };
     }
+
+    const formData = new FormData();
+    formData?.append('crn', values?.registrationNumber);
+    formData?.append('name', values?.name);
+    formData?.append('email', values?.email);
+    formData?.append('phoneNo', values?.phoneNo);
+    formData?.append('postCode', values?.postCode);
+    formData?.append('avatar', currOrg?.avatar);
+    formData?.append('address', JSON.stringify(values?.address));
     try {
       await updateOrganizationById({
         id: currentOrganizationId,
-        body: bodyVals,
+        body: formData,
       })
-        .unwrap()
-        .then((res) => {
+        ?.unwrap()
+        ?.then((res) => {
           if (res) {
             organiztionDetails({ id: currentOrganizationId });
             reset();
@@ -179,6 +191,8 @@ const useOrganizationCard = () => {
     setIsToggled,
     handleChangeImg,
     loadingUpdateOrganization,
+    currentOrganizationLoading,
+    currOrg,
   };
 };
 

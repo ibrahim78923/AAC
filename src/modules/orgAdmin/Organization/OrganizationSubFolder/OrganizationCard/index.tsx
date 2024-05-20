@@ -41,6 +41,8 @@ import { generateImage } from '@/utils/avatarUtils';
 const OrganizationCard = () => {
   const {
     loadingUpdateOrganization,
+    currentOrganizationLoading,
+    currOrg,
     handleCloseDrawer,
     setIsOpenDrawer,
     handleChangeImg,
@@ -54,6 +56,7 @@ const OrganizationCard = () => {
     methods,
     theme,
   } = useOrganizationCard();
+
   const { data: productsData, isLoading } = useGetAllProductsQuery({});
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
@@ -68,178 +71,183 @@ const OrganizationCard = () => {
     <>
       <Grid container spacing={2}>
         <Grid item xl={6} xs={12}>
-          <Box
-            sx={{
-              border: `1px solid ${theme?.palette?.grey[700]}`,
-              borderRadius: '8px',
-              padding: '1.5rem',
-              '@media (max-width:900px)': {
-                height: 'auto',
-              },
-            }}
-          >
-            <Stack
-              direction={{ sm: 'row' }}
-              justifyContent="space-between"
-              alignItems={{ xs: 'center', sm: 'flex-start' }}
+          {currentOrganizationLoading ? (
+            <Skeleton variant="rectangular" height={195} />
+          ) : (
+            <Box
+              sx={{
+                border: `1px solid ${theme?.palette?.grey[700]}`,
+                borderRadius: '8px',
+                padding: '1.5rem',
+                '@media (max-width:900px)': {
+                  height: 'auto',
+                },
+              }}
             >
               <Stack
                 direction={{ sm: 'row' }}
                 justifyContent="space-between"
-                alignItems={'center'}
-                gap={3}
+                alignItems={{ xs: 'center', sm: 'flex-start' }}
               >
-                <Box sx={{ position: 'relative' }}>
+                <Stack
+                  direction={{ sm: 'row' }}
+                  justifyContent="space-between"
+                  alignItems={'center'}
+                  gap={3}
+                >
+                  <Box sx={{ position: 'relative' }}>
+                    <Box
+                      sx={{
+                        border: `1px solid ${theme?.palette?.grey[700]}`,
+                        borderRadius: '100px',
+                        width: '120px',
+                        height: '120px',
+                        boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green}, 
+                         5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
+                      }}
+                    >
+                      <Avatar
+                        src={`${
+                          currOrg?.avatar
+                            ? generateImage(currOrg?.avatar?.url)
+                            : ''
+                        }`}
+                        sx={{ height: 120, width: 120 }}
+                      />
+                      <input
+                        hidden={true}
+                        id="upload-group-image"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e: any) => handleChangeImg(e)}
+                      />
+                      <label htmlFor="upload-group-image">
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            bottom: 2,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <AddPenIcon />
+                        </Box>
+                      </label>
+                    </Box>
+                  </Box>
                   <Box
                     sx={{
-                      border: `1px solid ${theme?.palette?.grey[700]}`,
-                      borderRadius: '100px',
-                      width: '120px',
-                      height: '120px',
-                      boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green}, 
-                          5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
+                      display: 'grid',
+                      justifyItems: 'start',
                     }}
                   >
-                    <Avatar
-                      src={`${
-                        user?.organization?.avatar
-                          ? generateImage(user?.organization?.avatar?.url)
-                          : ''
-                      }`}
-                      sx={{ height: 120, width: 120 }}
-                    />
-                    <input
-                      hidden={true}
-                      id="upload-group-image"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e: any) => handleChangeImg(e)}
-                    />
-                    <label htmlFor="upload-group-image">
-                      <Box
+                    <Box
+                      sx={{
+                        maxWidth: '21vw',
+                        '@media (max-width: 600px)': {
+                          maxWidth: '60vw',
+                        },
+                      }}
+                    >
+                      <Typography
+                        variant="h3"
                         sx={{
-                          position: 'absolute',
-                          bottom: 2,
-                          cursor: 'pointer',
+                          fontWeight: 500,
+                          color: `${theme?.palette?.custom?.main}`,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          maxWidth: '100%',
                         }}
                       >
-                        <AddPenIcon />
-                      </Box>
-                    </label>
+                        {currOrg?.name}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        columnGap: '3px',
+                        alignItems: 'center',
+                        paddingTop: '1rem',
+                      }}
+                    >
+                      <Image src={UserImage} alt="user" />
+                      <Typography
+                        variant="body3"
+                        sx={{
+                          fontWeight: 500,
+                          lineHeight: '18px',
+                          color: `${theme?.palette?.custom?.main}`,
+                        }}
+                      >
+                        {currOrg?.owner?.firstName ?? '-'}
+                        {currOrg?.owner?.lastName ?? '-'}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        columnGap: '3px',
+                        alignItems: 'center',
+                        paddingTop: '8px',
+                      }}
+                    >
+                      <Image src={MessageGreyImage} alt="sms" />
+                      <Typography
+                        variant="body3"
+                        sx={{
+                          fontWeight: 500,
+                          lineHeight: '18px',
+                          color: `${theme?.palette?.custom?.main}`,
+                        }}
+                      >
+                        {currOrg?.owner?.email ?? '-'}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        columnGap: '3px',
+                        alignItems: 'center',
+                        paddingTop: '8px',
+                      }}
+                    >
+                      <Image src={PhoneImage} alt="phone" />
+                      <Typography
+                        variant="body3"
+                        sx={{
+                          fontWeight: 500,
+                          lineHeight: '18px',
+                          color: `${theme?.palette?.custom?.main}`,
+                        }}
+                      >
+                        {currOrg?.owner?.phoneNumber ?? '-'}
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-                <Box
-                  sx={{
-                    display: 'grid',
-                    justifyItems: 'start',
-                  }}
+                </Stack>
+                <PermissionsGuard
+                  permissions={[ORG_ADMIN_ORGANIZATION_PERMISSIONS?.EDIT_INFO]}
                 >
-                  <Box
-                    sx={{
-                      maxWidth: '21vw',
-                      '@media (max-width: 600px)': {
-                        maxWidth: '60vw',
-                      },
-                    }}
-                  >
-                    <Typography
-                      variant="h3"
-                      sx={{
-                        fontWeight: 500,
-                        color: `${theme?.palette?.custom?.main}`,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        maxWidth: '100%',
+                  <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Box
+                      onClick={() => {
+                        setIsOpenDrawer({
+                          isToggled: true,
+                          id: user?.organization?._id,
+                        });
                       }}
+                      sx={styles?.editSection}
                     >
-                      {user?.organization?.name}
-                    </Typography>
+                      <Button className="small" sx={{ gap: 1 }}>
+                        <Image src={EditImage} alt="edit" />
+                        Edit Info
+                      </Button>
+                    </Box>
                   </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      columnGap: '3px',
-                      alignItems: 'center',
-                      paddingTop: '1rem',
-                    }}
-                  >
-                    <Image src={UserImage} alt="user" />
-                    <Typography
-                      variant="body3"
-                      sx={{
-                        fontWeight: 500,
-                        lineHeight: '18px',
-                        color: `${theme?.palette?.custom?.main}`,
-                      }}
-                    >
-                      {user?.firstName ?? '-'} {user?.lastName ?? '-'}
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      columnGap: '3px',
-                      alignItems: 'center',
-                      paddingTop: '8px',
-                    }}
-                  >
-                    <Image src={MessageGreyImage} alt="sms" />
-                    <Typography
-                      variant="body3"
-                      sx={{
-                        fontWeight: 500,
-                        lineHeight: '18px',
-                        color: `${theme?.palette?.custom?.main}`,
-                      }}
-                    >
-                      {user?.email ?? '-'}
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      columnGap: '3px',
-                      alignItems: 'center',
-                      paddingTop: '8px',
-                    }}
-                  >
-                    <Image src={PhoneImage} alt="phone" />
-                    <Typography
-                      variant="body3"
-                      sx={{
-                        fontWeight: 500,
-                        lineHeight: '18px',
-                        color: `${theme?.palette?.custom?.main}`,
-                      }}
-                    >
-                      {user?.phoneNumber ?? '-'}
-                    </Typography>
-                  </Box>
-                </Box>
+                </PermissionsGuard>
               </Stack>
-              <PermissionsGuard
-                permissions={[ORG_ADMIN_ORGANIZATION_PERMISSIONS?.EDIT_INFO]}
-              >
-                <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Box
-                    onClick={() => {
-                      setIsOpenDrawer({
-                        isToggled: true,
-                        id: user?.organization?._id,
-                      });
-                    }}
-                    sx={styles?.editSection}
-                  >
-                    <Button className="small" sx={{ gap: 1 }}>
-                      <Image src={EditImage} alt="edit" />
-                      Edit Info
-                    </Button>
-                  </Box>
-                </Box>
-              </PermissionsGuard>
-            </Stack>
-          </Box>
+            </Box>
+          )}
         </Grid>
         <Grid item xl={6} xs={12}>
           <Box
@@ -263,9 +271,7 @@ const OrganizationCard = () => {
                       lineHeight: '24px',
                       color: `${theme?.palette?.custom?.main}`,
                     }}
-                  >
-                    {/* (4) */}
-                  </span>
+                  ></span>
                 </Typography>
               </Grid>
               <Grid item lg={6} md={6} sm={12} xs={12}>
@@ -366,14 +372,6 @@ const OrganizationCard = () => {
                               }}
                             >
                               {getProductIcon(item?.name)}
-                              {/* {item?.logo && (
-                                <Image
-                                  src={generateImage(item?.logo?.url)}
-                                  width={25}
-                                  height={25}
-                                  alt="product"
-                                />
-                              )} */}
                             </Box>
                             <Typography
                               variant="body2"

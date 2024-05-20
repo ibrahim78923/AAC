@@ -9,42 +9,42 @@ export const organizationAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['Organization'],
+      invalidatesTags: TAGS,
     }),
     getOrganization: builder.query({
       query: ({ organizationId, pages, limit, search = '' }: any) => ({
         url: `${organization?.GET_ORGANIZATION_ACCOUNT_ALL}/${organizationId}?page=${pages}&limit=${limit}&search=${search}`,
         method: 'GET',
       }),
-      providesTags: ['Organization'],
+      providesTags: TAGS,
     }),
     getAllProducts: builder.query({
       query: () => ({
         url: `${organization?.GET_PRODUCTS_ALL}?status=active`,
         method: 'GET',
       }),
-      providesTags: ['Organization'],
+      providesTags: TAGS,
     }),
     getOrganizationById: builder.query({
       query: ({ id }: any) => ({
         url: `${organization.GET_ORGANIZATION_ACCOUNT_ID}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['Organization'],
+      providesTags: TAGS,
     }),
     getOrganizationDetailsById: builder.query({
       query: ({ id }: any) => ({
         url: `${END_POINTS?.ORGANIZATION}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['Organization'],
+      providesTags: TAGS,
     }),
     getOrganizationMainId: builder.query({
       query: ({ id }: any) => ({
         url: `${organization.GET_MAIN_ORGANIZATION}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['Organization'],
+      providesTags: TAGS,
     }),
     updateOrganization: builder.mutation({
       query: ({ id, body }: any) => ({
@@ -52,14 +52,14 @@ export const organizationAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: ['Organization'],
+      invalidatesTags: TAGS,
     }),
     updateOrganizationStatus: builder.mutation({
       query: ({ id, isActive }: any) => ({
         url: `${organization.UPDATE_ORGANIZATION_ACCOUNT_STATUS}?id=${id}&isActive=${isActive}`,
         method: 'PATCH',
       }),
-      invalidatesTags: ['Organization'],
+      invalidatesTags: TAGS,
     }),
     deleteOrganization: builder.mutation({
       query: ({ body }) => ({
@@ -91,4 +91,5 @@ export const {
   useLazyGetOrganizationDetailsByIdQuery,
   useUpdateOrganizationStatusMutation,
   useGetAllProductsQuery,
+  useGetOrganizationDetailsByIdQuery,
 } = organizationAPI;
