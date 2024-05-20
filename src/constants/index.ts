@@ -178,6 +178,10 @@ export const AIR_OPERATIONS = {
   UPSERT_SCHEDULE_WORKFLOW: `/air-operations/workflow-automation/services-workflow/upsert-schedule-workflow`,
   UPSERT_EVENT_BASED_WORKFLOW: `/air-operations/workflow-automation/services-workflow/upsert-event-based-workflow`,
   UPSERT_SUPERVISOR_RULES: `/air-operations/workflow-automation/services-workflow/upsert-supervisor-rules`,
+  REPORTS: `/air-operations/reports`,
+  SALES_REPORTS: `/air-operations/reports/sales-reports`,
+  SERVICES_REPORTS: `/air-operations/reports/services-reports`,
+  MARKETING_REPORTS: `/air-operations/reports/marketing-reports`,
 };
 
 export const AIR_LOYALTY_PROGRAM = {
@@ -232,7 +236,6 @@ export const dealStatus = {
   WON: 'Won',
   LOSS: 'Loss',
   INITIAL_NUMBER: 0,
-
 };
 
 export const DATE_RANGE = {

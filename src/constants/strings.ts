@@ -167,6 +167,7 @@ export const NOTISTACK_VARIANTS: {
 export const ALERT_MODALS_TYPE = {
   DELETE: 'delete',
   WARNING: 'warning',
+  INFO: 'Information',
 };
 
 export const CATALOG_SERVICE_TYPES = {
