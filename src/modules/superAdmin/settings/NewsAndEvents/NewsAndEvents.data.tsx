@@ -4,13 +4,13 @@ import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 export const newsAndEventsDateValidationSchema = Yup.object().shape({
-  createdDate: Yup?.string(),
+  createdDate: Yup?.date()?.required('Field is Required'),
   status: Yup?.string(),
   type: Yup?.string(),
 });
 
 export const newsAndEventsDateDefaultValues = {
-  createdDate: '',
+  createdDate: null,
   status: '',
   type: '',
 };
