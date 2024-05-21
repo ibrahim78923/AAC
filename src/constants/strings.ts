@@ -116,9 +116,9 @@ export const PURCHASE_ORDER_STATUS = {
 };
 
 export const ASSET_IMPACT = {
-  LOW: 'low',
-  MEDIUM: 'medium',
-  HIGH: 'high',
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
 };
 
 export const TICKET_TYPE = {

@@ -21,7 +21,7 @@ export const useCreateDashboard = () => {
   const [anchorElUserList, setAnchorElUserList] = useState<null | HTMLElement>(
     null,
   );
-  const [dashboardCheckboxItems, setDashboardCheckboxItems] = useState(
+  const [dashboardCheckboxItems, setDashboardCheckboxItems] = useState<any>(
     dashboardCheckboxData,
   );
   const [pendingValue, setPendingValue] = useState<AutoCompleteLabelI[]>([]);

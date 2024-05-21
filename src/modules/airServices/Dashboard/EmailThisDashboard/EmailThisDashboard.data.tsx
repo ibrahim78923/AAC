@@ -103,7 +103,7 @@ export const createEmailThisDashboardDataArray = [
     id: 6,
     componentProps: {
       name: 'filetype',
-      label: 'Team Members',
+      label: 'File Type',
       placeholder: 'Select',
       fullWidth: true,
       options: filetype,

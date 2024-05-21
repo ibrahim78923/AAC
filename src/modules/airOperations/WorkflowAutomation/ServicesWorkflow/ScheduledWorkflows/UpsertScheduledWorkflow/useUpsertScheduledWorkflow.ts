@@ -30,7 +30,7 @@ export const useUpsertScheduledWorkflow = () => {
     string: 'string',
     number: 'number',
     object: 'object',
-    date: 'Date',
+    date: 'date',
     objectId: 'objectId',
   };
 
