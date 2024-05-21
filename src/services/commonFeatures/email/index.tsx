@@ -1,6 +1,7 @@
 import { SOCIAL_FEATURES_EMAIL } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 const TAG = ['EMAIL'];
+const TAG_UPDATE_EMAIL = ['TAG_UPDATE_EMAIL'];
 export const emailApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     postEmailConfig: builder.mutation({
@@ -61,6 +62,19 @@ export const emailApi = baseAPI.injectEndpoints({
       query: ({ body }: any) => {
         return {
           url: `${SOCIAL_FEATURES_EMAIL?.REPLY_EMAIL_OTHER}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+    postForwardOtherEmail: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.FORWARD_EMAIL_OTHER}`,
           method: 'POST',
           body: body,
           headers: {
@@ -158,6 +172,16 @@ export const emailApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+    patchEmailMessage: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_EMAIL?.UPDATE_EMAIL_OTHER}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG_UPDATE_EMAIL,
+    }),
 
     getEmailSettings: builder.query({
       query: () => {
@@ -187,4 +211,6 @@ export const {
   usePatchEmailSettingsMutation,
   useGetEmailSettingsQuery,
   usePostScheduleOtherEmailMutation,
+  usePatchEmailMessageMutation,
+  usePostForwardOtherEmailMutation,
 } = emailApi;

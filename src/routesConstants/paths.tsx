@@ -246,6 +246,8 @@ export const SOCIAL_FEATURES_EMAIL = {
   SEND_SCHEDULE_EMAIL_OTHER: '/other-mail/schedule-email',
   DRAFT_EMAIL_OTHER: '/other-mail/draft-email',
   REPLY_EMAIL_OTHER: '/other-mail/reply-email',
+  FORWARD_EMAIL_OTHER: '/other-mail/forward-email',
+  UPDATE_EMAIL_OTHER: '/other-mail/update-message',
 
   MOVE_FOLDER_EMAIL_OTHER: '/other-mail/move-email',
   UPDATE_EMAIL_SETTINGS: '/other-mail/update-emails-settings',

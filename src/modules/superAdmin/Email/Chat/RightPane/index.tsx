@@ -189,6 +189,26 @@ const RightPane = () => {
                                 onClick={() => {
                                   setIsOpenSendEmailDrawer(true);
                                   setMailType(CREATE_EMAIL_TYPES?.REPLY_ALL);
+                                  dispatch(
+                                    setCurrentEmailAssets({
+                                      threadId: obj?.thread_id,
+                                      id: obj?.id,
+                                      from:
+                                        obj?.from[0]?.email === loggedInState
+                                          ? obj?.to[0]?.email
+                                          : obj?.from[0]?.email,
+                                      others: {
+                                        from: `${obj?.from[0]?.name} ${'<'}
+                                    ${obj?.from[0]?.email}
+                                    ${'>'}`,
+                                        sent: obj?.date,
+                                        to: `${obj?.from[0]?.name} ${'<'}
+                                    ${obj?.from[0]?.email}
+                                    ${'>'}`,
+                                        subject: obj?.subject,
+                                      },
+                                    }),
+                                  );
                                 }}
                               >
                                 <ReplyAllIcon />
@@ -253,10 +273,13 @@ const RightPane = () => {
                             >
                               <Box>
                                 <Typography variant="body3">
-                                  <strong>From :</strong> {obj?.from[0]?.name}{' '}
-                                  {'<'}
-                                  {obj?.from[0]?.email}
-                                  {'>'}
+                                  <strong>From :</strong>
+                                  {obj?.from
+                                    ?.map(
+                                      (item: any) =>
+                                        `${item?.name} <${item?.email}>`,
+                                    )
+                                    ?.join(', ')}
                                 </Typography>
                               </Box>
                               <Box>
@@ -270,15 +293,18 @@ const RightPane = () => {
                               </Box>
                               <Box>
                                 <Typography variant="body3">
-                                  <strong>To :</strong>
-                                  {obj?.to[0]?.name} {'<'}
-                                  {obj?.to[0]?.email}
-                                  {'>'}
+                                  <strong>To : </strong>
+                                  {obj?.to
+                                    ?.map(
+                                      (item: any) =>
+                                        `${item?.name} <${item?.email}>`,
+                                    )
+                                    ?.join(', ')}
                                 </Typography>
                               </Box>
                               <Box>
                                 <Typography variant="body3">
-                                  <strong>Subject:</strong> {obj?.subject}
+                                  <strong>Subject : </strong> {obj?.subject}
                                 </Typography>
                               </Box>
                             </Box>

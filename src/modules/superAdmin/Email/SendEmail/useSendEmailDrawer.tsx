@@ -28,11 +28,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     defaultValues: emailDefaultValues,
   });
 
+  const [autocompleteValues, setAutocompleteValues] = useState<string[]>([]);
+
   const [isLoadingProcessDraft, setIsLoadingProcessDraft] = useState(false);
   const [isProcessDraft, setIsProcessDraft] = useState(false);
 
-  const { handleSubmit, watch, reset } = methodsDealsTasks;
+  const { handleSubmit, watch, reset, setValue } = methodsDealsTasks;
   const watchEmailsForm = watch(['ccChecked', 'bccChecked', 'to', 'sentDate']);
+
+  useEffect(() => {
+    setValue('to', autocompleteValues);
+  }, [autocompleteValues]);
 
   const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
     usePostSendOtherEmailMutation();
@@ -52,6 +58,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     } else {
       reset();
       setOpenDrawer(false);
+      setAutocompleteValues([]);
     }
   };
 
@@ -92,7 +99,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
 
   const onSubmit = async (values: any) => {
     if (isProcessDraft) {
-      if (isToExists?.length > 1) {
+      if (isToExists?.length > 0) {
         setIsLoadingProcessDraft(true);
         //draft process
         const formDataSend = new FormData();
@@ -116,6 +123,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           setIsLoadingProcessDraft(false);
           reset();
           setOpenDrawer(false);
+          setAutocompleteValues([]);
         } catch (error: any) {
           enqueueSnackbar('Something went wrong while saving draft !', {
             variant: 'error',
@@ -159,6 +167,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           });
           setIsSendLater(false);
           setSendLaterDate(null);
+          setAutocompleteValues([]);
         } catch (error: any) {
           enqueueSnackbar('Something went wrong !', { variant: 'error' });
         }
@@ -192,6 +201,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           );
           setOpenDrawer(false);
           reset();
+          setAutocompleteValues([]);
         } catch (error: any) {
           enqueueSnackbar('Something went wrong !', { variant: 'error' });
         }
@@ -217,6 +227,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     methodsScheduleEmail,
     onSubmitEmail,
     reset,
+    setValue,
     loadingOtherSend,
     loadingOtherScheduleSend,
     loadingOtherReply,
@@ -226,6 +237,8 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     setIsSendLater,
     isSendLater,
     handelSendLaterAction,
+    setAutocompleteValues,
+    autocompleteValues,
   };
 };
 export default useSendEmailDrawer;

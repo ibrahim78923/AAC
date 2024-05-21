@@ -109,6 +109,7 @@ const EmailSettingDrawer = ({
       onClose={() => setIsOpenDrawer(false)}
       title={'Email Settings'}
       okText={
+        data?.data?.emailSettings &&
         Object.keys(data?.data?.emailSettings?.customAddress)?.length
           ? 'Update'
           : 'Send'
