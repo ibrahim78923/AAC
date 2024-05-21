@@ -21,10 +21,7 @@ const useUserManagement = () => {
   });
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [userType, setUserType] = useState();
-  const [selectedRow, setSelectedRow] = useState<any>({
-    page: PAGINATION?.CURRENT_PAGE,
-    selectedValue: null,
-  });
+  const [selectedRow, setSelectedRow] = useState<any>(null);
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [searchVal, setSearchVal] = useState('');
@@ -35,6 +32,7 @@ const useUserManagement = () => {
     organization: {},
     createdDate: '',
   });
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const initialTab = 0;
   const tabOne = 1;
@@ -132,6 +130,8 @@ const useUserManagement = () => {
     datePickerVal,
     setDatePickerVal,
     productsList,
+    page,
+    setPage,
   };
 };
 

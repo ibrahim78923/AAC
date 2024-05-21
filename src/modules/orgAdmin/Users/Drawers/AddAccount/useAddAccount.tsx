@@ -8,20 +8,18 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
-import { useEffect, useState } from 'react';
 
 const useAddAccount = (
   employeeDataById?: any,
   setIsOpenAddAccountDrawer?: any,
 ) => {
   const { user } = useUsers();
-  const [companyVal, setCompanyVal] = useState('');
   const [postUsersAccount] = usePostUsersAccountMutation();
-  const { useGetCompanyAccountsQuery, useGetCompanyAccountsRolesQuery } =
-    CommonAPIS;
-  const { data: companyAccounts } = useGetCompanyAccountsQuery({
-    orgId: user?.organization?._id,
-  });
+  const {
+    useLazyGetCompanyAccountsListsQuery,
+    useLazyGetCompanyAccountsRolesListQuery,
+  } = CommonAPIS;
+  const companyAccounts = useLazyGetCompanyAccountsListsQuery();
 
   const methods: any = useForm({
     resolver: yupResolver(AddAccountValidationSchema),
@@ -30,26 +28,31 @@ const useAddAccount = (
 
   const { handleSubmit, reset, watch } = methods;
   const companyAccountValue = watch('company');
+  const productValue = watch('product');
 
-  useEffect(() => {
-    setCompanyVal(companyAccountValue);
-  }, [companyAccountValue]);
+  let companyRoleParams = {};
 
-  if (companyVal !== companyAccountValue) {
-    methods.setValue('role', '');
+  if (companyAccountValue && productValue) {
+    companyRoleParams = {
+      organizationCompanyAccountId: companyAccountValue._id,
+      productId: productValue._id,
+    };
   }
-
-  const roleParams = {
-    organizationCompanyAccountId: companyAccountValue,
-  };
-  const { data: companyRoles } = useGetCompanyAccountsRolesQuery(roleParams);
+  const companyRoles = useLazyGetCompanyAccountsRolesListQuery();
 
   const onSubmit = async (values: any) => {
-    values.user = employeeDataById;
+    const postAccountBody = {
+      ...values,
+      user: employeeDataById,
+      product: values?.product?._id,
+      company: values?.company?._id,
+      role: values?.role?._id,
+    };
+
     try {
       await postUsersAccount({
         id: user?.organization?._id,
-        body: values,
+        body: postAccountBody,
       })?.unwrap();
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
@@ -64,11 +67,13 @@ const useAddAccount = (
   };
 
   return {
+    user,
     companyAccounts,
     companyRoles,
     handleSubmit,
     onSubmit,
     methods,
+    companyRoleParams,
   };
 };
 

@@ -331,7 +331,9 @@ export const USER_MANAGEMENT = {
 export const ACTIONS_TYPES = {
   DELETE: 'delete',
   EDIT: 'edit',
+  ADD: 'add',
   CLONE: 'clone',
+  VIEW: 'view',
 };
 export const AGENTS = {
   INVITE_AGENT: 'Invite Agent',
