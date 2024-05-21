@@ -24,12 +24,12 @@ import { Close } from '@mui/icons-material';
 import { generatePDF } from './PreviewPdf.data';
 import { enqueueSnackbar } from 'notistack';
 
-import { DummyDesktopImage, LogoImage } from '@/assets/images';
+import { LogoImage } from '@/assets/images';
 
 import usePreiewPdf from './usePreiewPdf';
-import { IMG_URL } from '@/config';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { generateImage } from '@/utils/avatarUtils';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -40,7 +40,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const PreviewPdf = ({ handlePdfClose, isPdfOpen, sendData }: any) => {
+const PreviewPdf = ({ handlePdfClose, isPdfOpen, selectedFile }: any) => {
   const { theme, isShow, setIsShow, handleSetHide } = usePreiewPdf();
 
   const pdfViewer = () => {
@@ -101,7 +101,7 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen, sendData }: any) => {
             >
               <Table>
                 <TableBody>
-                  {sendData && (
+                  {selectedFile && (
                     <>
                       <TableRow>
                         <TableCell
@@ -125,7 +125,7 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen, sendData }: any) => {
                             textTransform: 'capitalize',
                           }}
                         >
-                          {sendData?.name}
+                          {selectedFile?.name}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -150,7 +150,9 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen, sendData }: any) => {
                             fontWeight: 600,
                           }}
                         >
-                          {dayjs(sendData?.createdAt).format(DATE_FORMAT.API)}
+                          {dayjs(selectedFile?.createdAt).format(
+                            DATE_FORMAT.API,
+                          )}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -175,8 +177,8 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen, sendData }: any) => {
                             fontWeight: 600,
                           }}
                         >
-                          {sendData?.createdBy?.firstName}{' '}
-                          {sendData?.createdBy?.lastName}
+                          {selectedFile?.createdBy?.firstName}{' '}
+                          {selectedFile?.createdBy?.lastName}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -201,7 +203,7 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen, sendData }: any) => {
                             fontWeight: 600,
                           }}
                         >
-                          {sendData?.sharedLinks}
+                          {selectedFile?.sharedLinks}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -226,7 +228,7 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen, sendData }: any) => {
                             fontWeight: 600,
                           }}
                         >
-                          {sendData?.readsCount}
+                          {selectedFile?.readsCount}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -251,7 +253,7 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen, sendData }: any) => {
                             textTransform: 'capitalize',
                           }}
                         >
-                          {sendData?.media?.mimetype}
+                          {selectedFile?.media?.mimetype}
                         </TableCell>
                       </TableRow>
                     </>
@@ -261,11 +263,7 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen, sendData }: any) => {
             </TableContainer>
             <Box sx={{ marginTop: '0.5rem' }}>
               <Image
-                src={
-                  IMG_URL && sendData?.media?.url
-                    ? `${IMG_URL} ${sendData.media.url}`
-                    : DummyDesktopImage
-                }
+                src={generateImage(selectedFile?.media?.url)}
                 width={250}
                 height={250}
                 alt="Image Missing"

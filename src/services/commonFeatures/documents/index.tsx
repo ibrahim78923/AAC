@@ -45,6 +45,14 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['MyDocuments'],
     }),
+    updateFile: builder.mutation({
+      query: ({ id = '', body }: any) => ({
+        url: `${COMMON_DOCUMENTS.PATCH_DOCUMENT_FILE_ID}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['MyDocuments'],
+    }),
     updateFolder: builder.mutation({
       query: ({ id = '', body }: any) => ({
         url: `${COMMON_DOCUMENTS.PATCH_DOCUMENT_FOLDER_ID}/${id}`,
@@ -78,4 +86,5 @@ export const {
   usePostDocumentFilesMutation,
   useGetDocumentFileQuery,
   useDeleteFilesMutation,
+  useUpdateFileMutation,
 } = commonDocumentsAPI;
