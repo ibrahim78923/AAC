@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Box,
   Button,
@@ -9,23 +8,19 @@ import {
   MenuItem,
   Tooltip,
 } from '@mui/material';
-
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import NewsAndEventsModal from './NewsAndEventsModal';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import {
+  MODAL_TITLE,
   columns,
   newsAndEventsDateFiltersDataArray,
 } from './NewsAndEvents.data';
-
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
-
 import { styles } from './NewsAndEvents.style';
 import { v4 as uuidv4 } from 'uuid';
 import useNewsAndEvents from './useNewsAndEvents';
@@ -38,13 +33,16 @@ const NewsAndEvents = () => {
     actionMenuOpen,
     handleClick,
     handleClose,
-    isDisabled,
-    setIsDisabled,
-    tableRowValues,
-    setTableRowValues,
-    isOpenEditDrawer,
-    handleOpenEditDrawer,
-    handleCloseEditDrawer,
+    selectedRow,
+    setSelectedRow,
+    methodsAddNewsEvents,
+    titleAddModal,
+    isNewsAndEventAddModal,
+    handleOpenAddModal,
+    handleCloseAddModal,
+    handleAddNewsEventsSubmit,
+    loadingUpdate,
+    loadingAdd,
     NewsEventsData,
     isLoading,
     setPageLimit,
@@ -58,13 +56,10 @@ const NewsAndEvents = () => {
     onSubmit,
     handleRefresh,
     theme,
-    isNewsAndEventAddModal,
-    setIsNewsAndEventAddModal,
-    isNewsAndEventAdd,
     handleDelete,
+    loadingDelete,
     isNewsAndEventsDeleteModal,
     setisNewsAndEventsDeleteModal,
-    setAnchorEl,
     handleUpdateStatus,
   } = useNewsAndEvents();
 
@@ -111,7 +106,7 @@ const NewsAndEvents = () => {
               aria-haspopup="true"
               aria-expanded={actionMenuOpen ? 'true' : undefined}
               onClick={handleClick}
-              disabled={!isDisabled}
+              disabled={selectedRow?.length === 0}
               sx={styles?.actionBtn}
               className="small"
             >
@@ -136,22 +131,32 @@ const NewsAndEvents = () => {
                   SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS?.Edit,
                 ]}
               >
-                <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleOpenAddModal(MODAL_TITLE?.UPDATE);
+                    handleClose();
+                  }}
+                  disabled={selectedRow?.length > 1}
+                >
+                  Edit
+                </MenuItem>
               </PermissionsGuard>
 
               <MenuItem
                 onClick={() => {
                   handleUpdateStatus('active');
-                  setAnchorEl(null);
+                  handleClose();
                 }}
+                disabled={selectedRow?.length > 1}
               >
                 Active
               </MenuItem>
               <MenuItem
                 onClick={() => {
                   handleUpdateStatus('inactive');
-                  setAnchorEl(null);
+                  handleClose();
                 }}
+                disabled={selectedRow?.length > 1}
               >
                 Inactive
               </MenuItem>
@@ -163,7 +168,7 @@ const NewsAndEvents = () => {
                 <MenuItem
                   onClick={() => {
                     setisNewsAndEventsDeleteModal(true);
-                    setAnchorEl(null);
+                    handleClose();
                   }}
                 >
                   Delete
@@ -214,7 +219,7 @@ const NewsAndEvents = () => {
                   },
                 }}
                 className="small"
-                onClick={() => setIsNewsAndEventAddModal(true)}
+                onClick={() => handleOpenAddModal(MODAL_TITLE?.ADD)}
               >
                 <PlusShared /> &nbsp; Add
               </Button>
@@ -229,13 +234,7 @@ const NewsAndEvents = () => {
       >
         <Box>
           <TanstackTable
-            columns={columns(
-              isDisabled,
-              setIsDisabled,
-              tableRowValues,
-              setTableRowValues,
-              theme,
-            )}
+            columns={columns(selectedRow, setSelectedRow, theme)}
             data={NewsEventsData?.data?.newsandevents}
             isLoading={isLoading}
             currentPage={NewsEventsData?.data?.meta?.page}
@@ -251,10 +250,9 @@ const NewsAndEvents = () => {
       </PermissionsGuard>
 
       <CommonDrawer
-        isDrawerOpen={isNewsAndEventsFilterDrawerOpen || isOpenEditDrawer}
+        isDrawerOpen={isNewsAndEventsFilterDrawerOpen}
         onClose={() => {
           setIsNewsAndEventsFilterDrawerOpen(false);
-          handleCloseEditDrawer();
         }}
         title="Filters"
         okText="Apply"
@@ -286,16 +284,14 @@ const NewsAndEvents = () => {
         </>
       </CommonDrawer>
 
-      {isNewsAndEventAddModal && (
-        <NewsAndEventsModal
-          isNewsAndEventAddModal={isNewsAndEventAddModal}
-          setIsNewsAndEventAddModal={setIsNewsAndEventAddModal}
-          isNewsAndEventAdd={isNewsAndEventAdd}
-          tableRowValues={tableRowValues}
-          setTableRowValues={setTableRowValues}
-          setIsDisabled={setIsDisabled}
-        />
-      )}
+      <NewsAndEventsModal
+        title={titleAddModal}
+        isNewsAndEventAddModal={isNewsAndEventAddModal}
+        handleOnClode={handleCloseAddModal}
+        methods={methodsAddNewsEvents}
+        handleOnSubmit={handleAddNewsEventsSubmit}
+        isLoading={loadingAdd || loadingUpdate}
+      />
 
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
@@ -304,6 +300,7 @@ const NewsAndEvents = () => {
         handleClose={() => setisNewsAndEventsDeleteModal(false)}
         handleSubmit={handleDelete}
         handleSubmitBtn={handleDelete}
+        loading={loadingDelete}
       />
     </Box>
   );
