@@ -1,10 +1,11 @@
 import {
+  RHFAutocompleteAsync,
   RHFDropZone,
   RHFEditor,
-  RHFSelect,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { useLazyGetProductCategoriesQuery } from '@/services/common-APIs';
 
 import * as Yup from 'yup';
 
@@ -21,7 +22,7 @@ export const salesProductDefaultValues: any = {
   name: '',
   sku: '',
   purchasePrice: null,
-  category: '',
+  category: null,
   associate: '',
   description: '',
   isActive: false,
@@ -29,96 +30,92 @@ export const salesProductDefaultValues: any = {
   image: '',
 };
 
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'name',
-      label: 'Product Name',
-      fullWidth: true,
-      placeholder: 'Enter here',
-      required: true,
+export const dataArray = () => {
+  const productCategories = useLazyGetProductCategoriesQuery();
+  return [
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Product Name',
+        fullWidth: true,
+        placeholder: 'Enter here',
+        required: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'sku',
-      label: 'SKU',
-      fullWidth: true,
-      select: false,
-      placeholder: 'Enter here',
+    {
+      componentProps: {
+        name: 'sku',
+        label: 'SKU',
+        fullWidth: true,
+        select: false,
+        placeholder: 'Enter here',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'purchasePrice',
-      label: 'Purchase Price',
-      fullWidth: true,
-      placeholder: 'Enter here',
-      required: true,
-      type: 'number',
+    {
+      componentProps: {
+        name: 'purchasePrice',
+        label: 'Purchase Price',
+        fullWidth: true,
+        placeholder: 'Enter here',
+        required: true,
+        type: 'number',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'category',
-      label: 'Category',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        placeholder: 'Select category',
+        name: 'category',
+        label: 'Category',
+        apiQuery: productCategories,
+        getOptionLabel: (option: any) => `${option?.name}`,
+      },
+      component: RHFAutocompleteAsync,
+      md: 12,
     },
-    options: [
-      { value: 'all', label: 'All' },
-      { value: 'home-appliances', label: 'Home Appliances' },
-      { value: 'clothing', label: 'Clothing' },
-      { value: 'furniture', label: 'Furniture' },
-      { value: 'gaming', label: 'Gaming' },
-      { value: 'electronics', label: 'Electronics' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'description',
-      label: 'Description',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'description',
+        label: 'Description',
+        fullWidth: true,
+      },
+      component: RHFEditor,
+      md: 12,
     },
-    component: RHFEditor,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'unitPrice',
-      label: 'Unit Price (£)',
-      fullWidth: true,
-      placeholder: 'Enter here',
-      required: true,
-      type: 'number',
+    {
+      componentProps: {
+        name: 'unitPrice',
+        label: 'Unit Price (£)',
+        fullWidth: true,
+        placeholder: 'Enter here',
+        required: true,
+        type: 'number',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 13,
-    componentProps: {
-      name: 'isActive',
-      label: 'Active Product',
+    {
+      id: 13,
+      componentProps: {
+        name: 'isActive',
+        label: 'Active Product',
+      },
+      component: RHFSwitch,
+      md: 12,
     },
-    component: RHFSwitch,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'image',
-      label: 'Upload',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'image',
+        label: 'Upload',
+        fullWidth: true,
+      },
+      component: RHFDropZone,
+      md: 12,
     },
-    component: RHFDropZone,
-    md: 12,
-  },
-];
+  ];
+};

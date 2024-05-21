@@ -27,7 +27,6 @@ export const dataArray = [
       heading:
         'Please provide a target number for each metric. These goals will be shown alongside the corresponding , metrics in your campaign',
     },
-
     gridLength: 12,
     component: Typography,
   },
@@ -36,10 +35,9 @@ export const dataArray = [
       name: 'sessions',
       label: 'Sessions',
       fullWidth: true,
+      placeholder: 'Enter sessions',
     },
-
     component: RHFTextField,
-
     md: 12,
   },
   {
@@ -47,10 +45,9 @@ export const dataArray = [
       name: 'newContacts',
       label: 'New Contacts',
       fullWidth: true,
+      placeholder: 'Enter new contacts',
     },
-
     component: RHFTextField,
-
     md: 12,
   },
   {
@@ -58,10 +55,9 @@ export const dataArray = [
       name: 'influencedContacts',
       label: 'Influenced Contacts',
       fullWidth: true,
+      placeholder: 'Enter Influenced contacts',
     },
-
     component: RHFTextField,
-
     md: 12,
   },
   {
@@ -69,10 +65,9 @@ export const dataArray = [
       name: 'closedDeals',
       label: 'Closed Deals',
       fullWidth: true,
+      placeholder: 'Enter closed deals',
     },
-
     component: RHFTextField,
-
     md: 12,
   },
   {
@@ -80,10 +75,9 @@ export const dataArray = [
       name: 'influencedRevenue',
       label: 'Influenced Revenue',
       fullWidth: true,
+      placeholder: 'Enter influenced revenue',
     },
-
     component: RHFTextField,
-
     md: 12,
   },
 ];

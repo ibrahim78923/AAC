@@ -237,8 +237,8 @@ export const upsertRulesFormFieldsDynamic = (
         watchForAttribute?._id === LOYALTY_RULES_ATTRIBUTES?.NO_OF_VISITS
           ? 'No of Visits'
           : watchForAttribute?._id === LOYALTY_RULES_ATTRIBUTES?.PRODUCT_QTY
-          ? 'Product Qty'
-          : 'Add Amount',
+            ? 'Product Qty'
+            : 'Add Amount',
       placeholder: 'operator',
       required: true,
       options: amountOperatorOption,
@@ -356,9 +356,9 @@ export const upsertRulesFormFieldsDynamic = (
               LOYALTY_TIERS_REWARD_TYPE?.FIXED_DISCOUNT
                 ? 'Fixed'
                 : watchForDiscountType?._id ===
-                  LOYALTY_TIERS_REWARD_TYPE?.FLAT_DISCOUNT
-                ? 'Percentage'
-                : '\u00a0\u00a0',
+                    LOYALTY_TIERS_REWARD_TYPE?.FLAT_DISCOUNT
+                  ? 'Percentage'
+                  : '\u00a0\u00a0',
             required: !!watchForDiscountType?._id && true,
             placeholder: 'Enter discount',
           },

@@ -3,6 +3,7 @@ import {
   AIR_MARKETER,
   END_POINTS,
   OPERATION,
+  settingSalesProductCategory,
 } from '@/routesConstants/endpoints';
 
 export const CommonAPIS = baseAPI.injectEndpoints({
@@ -63,6 +64,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['USERS', 'PERMISSIONS'],
     }),
+
     getCompanyAccountsList: builder.query({
       query: ({ orgId }: any) => ({
         url: `${END_POINTS?.GET_COMPANY_ORGANIZATION_DROPDOWN}/${orgId}${END_POINTS?.GET_COMPANY_ACCOUNTS}`,
@@ -149,6 +151,17 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['DEALOWNERS_LISTS'],
     }),
+
+    getProductCategories: builder.query({
+      query: () => ({
+        url: settingSalesProductCategory?.GET_SALES_PRODUCT_CATEGORY,
+        method: 'GET',
+      }),
+      providesTags: ['PRODUCTS_CATEGORIES'],
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.productcategories;
+      },
+    }),
   }),
 });
 
@@ -168,4 +181,5 @@ export const {
   useLazyGetCompanyAccountsListsQuery,
   useLazyGetAllCampaignsListQuery,
   useLazyGetDealOwnersListQuery,
+  useLazyGetProductCategoriesQuery,
 } = CommonAPIS;

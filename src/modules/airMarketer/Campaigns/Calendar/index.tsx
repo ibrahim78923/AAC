@@ -9,6 +9,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -45,11 +46,34 @@ const Calendar = () => {
     monthsArray,
     setIsDelete,
     currentDate,
+    clickedDate,
     yearsArray,
     createTask,
     isDelete,
     theme,
+    calendarRef,
+    taskLoading,
+    campaignsLoading,
   } = useCalendar();
+
+  const renderLoader = () => {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  };
+
+  if (taskLoading || campaignsLoading) {
+    return renderLoader();
+  }
 
   return (
     <>
@@ -85,6 +109,7 @@ const Calendar = () => {
           </FormControl>
         </Box>
         <FullCalendar
+          ref={calendarRef}
           dateClick={handleDateClick}
           dayCellContent={renderDayCell}
           schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
@@ -105,11 +130,13 @@ const Calendar = () => {
               click: function () {},
             },
             Prev: {
-              text: '<',
+              icon: 'chevron-left',
+              text: '',
               click: handlePrevClick,
             },
             Next: {
-              text: '>',
+              icon: 'chevron-right',
+              text: '',
               click: handleNextClick,
             },
           }}
@@ -292,6 +319,7 @@ const Calendar = () => {
           createTask={createTask?.isToggle}
           isType={createTask?.type}
           setCreateTask={setCreateTask}
+          clickedDate={clickedDate}
           onClose={() => {
             setCreateTask({ ...createTask, isToggle: false });
           }}

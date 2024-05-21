@@ -11,10 +11,12 @@ export default function EditTask({
   isType,
   initialValueProps = defaultValues,
   setCreateTask,
+  clickedDate,
 }: any) {
   const { handleSubmit, onSubmit, methods, postTaskLoading } = useEditTask({
     initialValueProps,
     setCreateTask,
+    clickedDate,
   });
 
   return (
