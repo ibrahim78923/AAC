@@ -35,9 +35,9 @@ const CreateGoal = () => {
               mt={2}
               sx={{
                 display: { sm: 'flex' },
-                position: 'absolute',
+                position: { sm: 'relative', md: 'absolute' },
                 bottom: '25px',
-                width: '96%',
+                width: { xs: '90%', sm: '90%', md: '96%' },
               }}
             >
               <Button
@@ -47,7 +47,7 @@ const CreateGoal = () => {
               >
                 Back
               </Button>
-              <Stack direction={{ sm: 'row' }} gap={2}>
+              <Stack direction={{ sm: 'row' }}>
                 <Button
                   onClick={hanldeGoBack}
                   variant="outlined"
@@ -60,9 +60,10 @@ const CreateGoal = () => {
                   onClick={handleNextStep}
                   sx={{
                     marginLeft: { xs: '3px !important', sm: '12px !important' },
+                    marginTop: { xs: '20px', sm: '0' },
                   }}
                 >
-                  Save & Continue
+                  {activeStep === 4 ? 'finsih' : 'Next'}
                 </Button>
               </Stack>
             </Stack>

@@ -51,7 +51,7 @@ const Performance = () => {
           justifyContent={'space-between'}
           mb={2}
         >
-          <Grid item xs={7}>
+          <Grid item xs={12} sm={7}>
             <Typography variant="h6"> Team Goal </Typography>
             <Typography variant="body2">
               Set Goals and pipelines for each team selected, use the dropdown
@@ -59,7 +59,7 @@ const Performance = () => {
             </Typography>
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={3}>
             <FormControl sx={{ mt: 1, width: '100%' }}>
               <Select
                 labelId="demo-multiple-checkbox-label"
@@ -69,6 +69,7 @@ const Performance = () => {
                 input={<OutlinedInput label="Tag" />}
                 renderValue={(selected: any) => selected?.join(', ')}
                 placeholder="all"
+                sx={{ height: '44px' }}
               >
                 {names?.map((name: any) => (
                   <MenuItem key={name} value={name}>
@@ -78,9 +79,8 @@ const Performance = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={7}>
-            <Typography
-              variant="h6"
+          <Grid item xs={12} sm={7}>
+            <Box
               sx={{
                 backgroundColor: theme?.palette?.grey[700],
                 color: theme?.palette?.custom?.main,
@@ -89,18 +89,23 @@ const Performance = () => {
                 width: 'fit-content',
                 alignItems: 'center',
                 display: 'flex',
+                flexWrap: 'wrap',
               }}
             >
-              {' '}
-              <QuestionIcon /> &nbsp; To bulk apply targets and pipelines,
-              choose multiple contributors.{' '}
-            </Typography>
+              <QuestionIcon /> &nbsp;
+              <Typography variant="h6">
+                {' '}
+                To bulk apply targets and pipelines, choose multiple
+                contributors.{' '}
+              </Typography>
+            </Box>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={3} textAlign={'end'}>
             <Button
               variant="contained"
               className="small"
               onClick={() => setIsAddTargetModal(true)}
+              sx={{ width: { xs: '100%', sm: 'fit-content' } }}
             >
               {' '}
               Apply Target
@@ -110,9 +115,11 @@ const Performance = () => {
               variant="outlined"
               className="small"
               sx={{
-                marginLeft: '10px',
+                marginLeft: { sm: '0', md: '10px' },
                 border: `1px solid ${theme?.palette?.grey[0]}`,
                 color: theme?.palette?.custom?.main,
+                marginTop: { xs: '10px', md: '0' },
+                width: { xs: '100%', sm: 'fit-content' },
               }}
             >
               <ArrowCircleLeftIcon /> &nbsp; 2023 &nbsp;{' '}

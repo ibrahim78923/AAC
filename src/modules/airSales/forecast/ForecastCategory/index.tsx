@@ -74,11 +74,7 @@ const ForecastCategory = () => {
                     >
                       {item?.title}
                     </Typography>
-                    <Typography
-                      variant="h3"
-                      textAlign="center"
-                      fontWeight={700}
-                    >
+                    <Typography variant="h3" fontWeight={700}>
                       £{item?.count}
                     </Typography>
                   </Box>
@@ -119,9 +115,7 @@ const ForecastCategory = () => {
                     >
                       {item?.title}
                     </Typography>
-                    <Typography variant="h3" textAlign="center">
-                      £{item?.count}
-                    </Typography>
+                    <Typography variant="h3">£{item?.count}</Typography>
                   </Box>
                   {item?.divider && (
                     <Divider
@@ -146,7 +140,7 @@ const ForecastCategory = () => {
         gap={1}
       >
         <Search placeholder="Search" size="small" />
-        <Box display="flex" gap={1}>
+        <Box display="flex" gap={1} flexWrap="wrap">
           <Stack
             direction={{ xs: 'row' }}
             spacing={1}

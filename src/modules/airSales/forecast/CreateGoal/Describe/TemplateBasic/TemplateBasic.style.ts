@@ -16,7 +16,7 @@ export const styles = {
     bgcolor: theme?.palette?.grey[100],
   }),
   vRow: () => ({
-    display: 'flex',
+    display: { sm: 'block', md: 'flex' },
     justifyContent: 'space-between',
     alignItems: 'center',
     mt: '15px',

@@ -4,6 +4,7 @@ import Choose from './Choose';
 import Describe from './Describe';
 import TeamDuration from './TeamDuration';
 import Performance from './Performance';
+import GoalsSettings from './GoalsSettings';
 
 export const useCreateGoal = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -15,7 +16,11 @@ export const useCreateGoal = () => {
   };
 
   const handleNextStep = () => {
-    setActiveStep((prev: any) => prev + 1);
+    if (activeStep === 4) {
+      router?.back();
+    } else {
+      setActiveStep((prev: any) => prev + 1);
+    }
   };
 
   const handleStepBack = () => {
@@ -55,7 +60,7 @@ export const useCreateGoal = () => {
     {
       key: 'settings',
       label: 'Settings',
-      component: <>Settings</>,
+      component: <GoalsSettings />,
     },
   ];
 

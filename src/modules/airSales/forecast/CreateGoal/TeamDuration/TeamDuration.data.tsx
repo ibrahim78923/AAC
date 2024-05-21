@@ -9,12 +9,14 @@ export const teamDurationValidationSchema = Yup.object().shape({
   Collaborators: Yup.string(),
   selectTeams: Yup.string(),
   duration: Yup.string(),
+  userTeam: Yup.string(),
 });
 
 export const teamDurationDefaultValues = {
   Collaborators: '',
   selectTeams: '',
   duration: '',
+  userTeam: 'USER',
 };
 
 export const teamDurationArray = (userTeamValue: any) => {
