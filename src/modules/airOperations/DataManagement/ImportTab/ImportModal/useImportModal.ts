@@ -78,7 +78,7 @@ export const useImportModal = () => {
           } catch (error: any) {
             errorSnackbar(error?.data?.message);
           }
-          setModalStep((prev) => ++prev);
+          setModalStep((prev: any) => ++prev);
         } else {
           const dataColumn = data?.importedFields?.reduce(
             (acc: any, item: any) => ({
@@ -205,7 +205,7 @@ export const useImportModal = () => {
 
   const resetImportModalForm = async () => {
     if (modalStep > 1) {
-      setModalStep((prev) => --prev);
+      setModalStep((prev: any) => --prev);
     } else handleClose();
   };
 
@@ -216,13 +216,13 @@ export const useImportModal = () => {
   const handleFileChange = (event: any) => {
     if (event) {
       const reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload = (event: any) => {
         if (event?.target?.result) {
           const result: string = event?.target?.result?.toString();
           const lines = result?.split('\n');
           const headers = lines[0]?.split(',');
           const uniqueColumns = Array?.from(new Set(headers));
-          const data = uniqueColumns?.map((column) => ({ column }));
+          const data = uniqueColumns?.map((column: any) => ({ column }));
           setCsvFileData(data);
         }
       };

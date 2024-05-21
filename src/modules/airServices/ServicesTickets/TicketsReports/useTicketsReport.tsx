@@ -5,12 +5,12 @@ import jsPDF from 'jspdf';
 import { useRouter } from 'next/router';
 import { pxToRem } from '@/utils/getFontValue';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useLazyGetContactsListQuery } from '@/services/airLoyaltyProgram/loyalty/vouchers';
+import { useLazyGetAgentsDropdownQuery } from '@/services/airServices/assets/contracts';
 
 export const useTicketsReport = () => {
   const [calendarFilter, setCalendarFilter] = useState();
   const [loading, setLoading] = useState<boolean>(false);
-  const apiQueryOrganizations = useLazyGetContactsListQuery();
+  const apiQueryAgents = useLazyGetAgentsDropdownQuery();
   const router = useRouter();
   const agentFilterMethod = useForm();
   const { control } = agentFilterMethod;
@@ -73,6 +73,6 @@ export const useTicketsReport = () => {
     watchForAgentFilter,
     handlePrint,
     loading,
-    apiQueryOrganizations,
+    apiQueryAgents,
   };
 };

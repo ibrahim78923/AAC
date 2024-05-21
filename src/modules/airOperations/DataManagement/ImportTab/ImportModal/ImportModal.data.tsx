@@ -50,7 +50,7 @@ export const stepsData: any = {
     'assetType',
     'impact',
     'description',
-    'expiryDate',
+    'assetLifeExpiry',
     'location',
     'department',
     'assignedOn',
@@ -62,7 +62,7 @@ export const stepsData: any = {
     'assetType',
     'manufacturer',
     'status',
-    'mode of Procurement',
+    'modeOfProcurement',
     'description',
   ],
   vendors: [
@@ -97,7 +97,7 @@ export const stepsData: any = {
   ],
 };
 
-export const importTableHeader = ['File Column', 'Crm Fields', ''];
+export const importTableHeader = ['File Column', 'Crm Fields', 'Action'];
 export const productOptions = ['Sales', 'Services'];
 
 export const importValidationSchema = (modalStep: any) => {
@@ -178,7 +178,7 @@ export const importTableFields = (
           options={stepsData[importLog]}
           fullWidth
           required={true}
-          sx={{ minWidth: '10rem' }}
+          sx={{ minWidth: '14rem' }}
           placeholder={'Select'}
         />
       ),

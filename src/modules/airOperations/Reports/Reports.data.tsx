@@ -21,6 +21,6 @@ export const reportsTypes = [
     avatar: <ServiceWorkflowIcon />,
     type: 'Marketing Reports',
     purpose: 'Overview Marketing Reports',
-    link: AIR_OPERATIONS?.SERVICES_REPORTS,
+    link: AIR_OPERATIONS?.MARKETING_REPORTS,
   },
 ];

@@ -25,7 +25,7 @@ export const TicketsReports = () => {
     handlePrint,
     router,
     loading,
-    apiQueryOrganizations,
+    apiQueryAgents,
   } = useTicketsReport();
 
   return (
@@ -44,8 +44,8 @@ export const TicketsReports = () => {
               name="agent"
               size="small"
               placeholder="Agent"
-              apiQuery={apiQueryOrganizations}
-              getOptionLabel={(option: any) => option?.firstName}
+              apiQuery={apiQueryAgents}
+              getOptionLabel={(option: any) => option?.name}
               renderOption={(option: any) => (
                 <Box display={'flex'} alignItems={'center'} gap={1}>
                   <Avatar />
@@ -54,7 +54,7 @@ export const TicketsReports = () => {
                     color={'grey.600'}
                     fontWeight={500}
                   >
-                    {option?.firstName} {option?.lastName}
+                    {option?.name}
                   </Typography>
                 </Box>
               )}
