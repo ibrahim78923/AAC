@@ -23,6 +23,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { isNullOrEmpty } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 import { DOCUMENTS_ACTION_TYPES } from '@/constants';
+import { PAGINATION } from '@/config';
 
 const useFolder: any = () => {
   const theme = useTheme<Theme>();
@@ -48,6 +49,8 @@ const useFolder: any = () => {
   const [slectedFolderForMovingData, setSlectedFolderForMovingData] =
     useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [page, setPage] = useState(PAGINATION.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const open = Boolean(anchorEl);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
@@ -61,13 +64,16 @@ const useFolder: any = () => {
   const searchParams = useSearchParams();
   const parentFolderId: any = searchParams?.get('folder');
   const parentFolderName: any = searchParams?.get('name');
+  const permissionParams = {
+    page: page,
+    limit: pageLimit,
+    ...(searchValue && !slectedFolderForMovingData && { search: searchValue }),
+    folderId: selectedFolder ? selectedFolder._id : parentFolderId,
+  };
 
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetDocumentFolderQuery({ parentFolderId });
-  const { data: image } = useGetDocumentFileQuery({
-    ...(searchValue && !slectedFolderForMovingData && { search: searchValue }),
-    folderId: selectedFolder ? selectedFolder._id : parentFolderId,
-  });
+  const { data: filesData } = useGetDocumentFileQuery(permissionParams);
   const handlePdfOpen = () => setIsPdfOpen(true);
   const handlePdfClose = () => setIsPdfOpen(false);
 
@@ -216,7 +222,7 @@ const useFolder: any = () => {
 
   return {
     documentSubData: data?.data,
-    imageData: image?.data?.files || [],
+    filesData: filesData || [],
     getRowValues,
     setSelectedTableRows,
     setIsChecked,
@@ -282,6 +288,10 @@ const useFolder: any = () => {
     selectedFile,
     setSelectedFile,
     onSubmitFile,
+    setPageLimit,
+    pageLimit,
+    setPage,
+    page,
   };
 };
 

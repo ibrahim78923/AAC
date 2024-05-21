@@ -100,7 +100,6 @@ const Folders = () => {
     isImage,
     onSubmitImage,
     addFile,
-    imageData,
     getRowValues,
     selectedTableRows,
     deleteUserFiles,
@@ -113,12 +112,17 @@ const Folders = () => {
     setSelectedFile,
     onSubmitFile,
     setSelectedTableRows,
+    filesData,
+    setPageLimit,
+    setPage,
   } = useFolder();
 
   useEffect(() => {
     if (selectedTableRows?.length === 1) {
       setSelectedFile(
-        imageData?.find((img: any) => img?._id === selectedTableRows.at(0)),
+        filesData?.data?.files?.find(
+          (img: any) => img?._id === selectedTableRows.at(0),
+        ),
       );
     }
   }, [selectedTableRows]);
@@ -128,7 +132,6 @@ const Folders = () => {
         return item?.name?.toLowerCase().includes(searchValue.toLowerCase());
       })
     : documentSubData;
-
   return (
     <>
       <CommonDrawer
@@ -658,7 +661,14 @@ const Folders = () => {
               <Grid item lg={12} md={12} sm={12} xs={12}>
                 <TanstackTable
                   columns={getRowValues}
-                  data={imageData}
+                  data={filesData?.data?.files}
+                  currentPage={filesData?.data?.meta?.page}
+                  count={filesData?.data?.meta?.pages}
+                  pageLimit={filesData?.data?.meta?.limit}
+                  totalRecords={filesData?.data?.meta?.total}
+                  setPage={setPage}
+                  setPageLimit={setPageLimit}
+                  onPageChange={(page: any) => setPage(page)}
                   isPagination
                 />
               </Grid>

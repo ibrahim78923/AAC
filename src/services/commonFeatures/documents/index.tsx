@@ -29,18 +29,18 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       query: ({
         organizationId = '',
         parentFolderId = '',
-        pages = 1,
+        page = 1,
         limit = 10,
         search = '',
       }: any) => ({
-        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FOLDER}?page=${pages}&limit=${limit}&organizationId=${organizationId}&parentFolderId=${parentFolderId}&search=${search}`,
+        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FOLDER}?page=${page}&limit=${limit}&organizationId=${organizationId}&parentFolderId=${parentFolderId}&search=${search}`,
         method: 'GET',
       }),
       providesTags: ['MyDocuments'],
     }),
     getDocumentFile: builder.query({
-      query: ({ folderId = '', pages = 1, limit = 10, search = '' }: any) => ({
-        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FILE}?page=${pages}&limit=${limit}&folderId=${folderId}&search=${search}`,
+      query: ({ folderId = '', page = 1, limit = 10, search = '' }: any) => ({
+        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FILE}?page=${page}&limit=${limit}&folderId=${folderId}&search=${search}`,
         method: 'GET',
       }),
       providesTags: ['MyDocuments'],
