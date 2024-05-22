@@ -121,7 +121,7 @@ const LeftPane = () => {
           >
             Filter
           </Button>
-          <ActionBtn />
+          <ActionBtn filteredData={filteredData} />
         </Box>
       </Box>
 

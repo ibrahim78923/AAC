@@ -78,9 +78,10 @@ const ChoosePlan = () => {
       additionalUsers: maxAdditionalUsers,
       additionalStorage: maxAdditionalStorage,
       planDiscount: 0.2,
-      billingDate: dayjs(Date.now()).format(DATE_FORMAT?.API),
+      billingDate: dayjs(Date.now())?.format(DATE_FORMAT?.API),
       status: 'ACTIVE',
       billingCycle: 'MONTHLY',
+      ...(isCRM && { isCRM: true }),
     };
 
     if (parsedManageData?.orgPlanId) {
