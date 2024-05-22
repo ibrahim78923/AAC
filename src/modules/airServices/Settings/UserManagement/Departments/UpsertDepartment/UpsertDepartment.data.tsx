@@ -17,7 +17,7 @@ export const departmentFormValidation: any = Yup?.object()?.shape({
     ?.max(30, 'First Name up to 30 characters'),
   departmentHeadDetails: Yup?.mixed()?.nullable(),
   description: Yup?.string()?.trim(),
-  membersListDetails: Yup?.array()?.nullable(),
+  membersListDetails: Yup?.array(),
 });
 
 export const departmentFormValues: any = (data: any) => {
@@ -30,11 +30,11 @@ export const departmentFormValues: any = (data: any) => {
   };
 };
 
-export const departmentFormFieldsDynamic: any = (
-  headAPiQuery: any,
-  memberApiQuery: any,
-  auth: any,
-) => [
+export const departmentFormFieldsDynamic: any = ({
+  headAPiQuery,
+  memberApiQuery,
+  auth,
+}: any) => [
   {
     id: 2,
     componentProps: {
@@ -89,6 +89,7 @@ export const departmentFormFieldsDynamic: any = (
       name: 'membersListDetails',
       fullWidth: true,
       multiple: true,
+      placeholder: 'Select',
       apiQuery: memberApiQuery,
       getOptionLabel: (option: any) =>
         option?.firstName + ' ' + option?.lastName,

@@ -39,7 +39,7 @@ export const defaultValues = (selectedAgentList: any) => {
     firstName: updateData?.firstName ?? '',
     lastName: updateData?.lastName ?? '',
     email: updateData?.email ?? '',
-    phoneNumber: updateData?.phoneNumber ?? '',
+    phoneNumber: updateData?.phoneNumber ?? undefined,
     departmentId: updateData?.departmentData ?? null,
     permissionsRole: updateData?.accountsPermissions ?? null,
     timezone: updateData?.timezone ?? null,

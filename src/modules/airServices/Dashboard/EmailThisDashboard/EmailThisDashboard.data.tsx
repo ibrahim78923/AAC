@@ -8,32 +8,30 @@ import * as Yup from 'yup';
 
 export const createEmailThisDashboardValidationSchema: any =
   Yup?.object()?.shape({
-    title: Yup?.string()?.required('Required'),
-    description: Yup?.string()?.trim(),
-    scheduleMeeting: Yup?.string(),
-    startDate: Yup?.date(),
-    endDate: Yup?.date(),
-    managedBy: Yup?.string()?.required('Required'),
-    visibility: Yup?.string(),
-    notifyMember: Yup?.string(),
-    emailRecipients: Yup?.string(),
-    addMember: Yup?.string(),
+    emailCondition: Yup?.string()?.required('Required'),
+    internalRecipients: Yup?.string()?.trim(),
+    emailSubject: Yup?.string(),
+    message: Yup?.string(),
+    fileType: Yup?.string(),
+    schedule: Yup?.string(),
+    time: Yup?.string(),
+    scheduleDate: Yup?.string(),
+    scheduleDay: Yup?.string(),
   });
 
 export const createEmailThisDashboardDefaultValues: any = {
-  title: '',
-  description: '',
-  scheduleMeeting: '',
-  startDate: new Date(),
-  endDate: new Date(),
-  managedBy: '',
-  visibility: '',
-  notifyMember: '',
-  emailRecipients: '',
-  addMember: '',
+  emailCondition: '',
+  internalRecipients: '',
+  emailSubject: '',
+  message: '',
+  fileType: '',
+  schedule: '',
+  time: new Date(),
+  scheduleDate: '',
+  scheduleDay: '',
 };
 
-const filetype = ['Select', 'All agent', 'Everyone'];
+const filetype = ['PDF', 'PNG', 'JPEG'];
 export const createEmailThisDashboardDataArray = [
   {
     id: 1,
@@ -43,21 +41,20 @@ export const createEmailThisDashboardDataArray = [
     gridLength: 12,
     component: Typography,
   },
-
   {
     id: 2,
     componentProps: {
-      name: 'recurringEmail',
+      name: 'emailCondition',
       fullWidth: true,
       row: false,
       options: [
         {
-          value: ' No, this email will only be sent once',
+          value: 'once',
           label: ' No, this email will only be sent once',
         },
         {
-          value: 'Yes, this is recurring email',
-          label: ' Yes, this is recurring email',
+          value: 'recurring',
+          label: 'Yes, this is recurring email',
         },
       ],
     },
@@ -67,7 +64,7 @@ export const createEmailThisDashboardDataArray = [
   {
     id: 3,
     componentProps: {
-      name: 'recipient email',
+      name: 'internalRecipients',
       label: 'Internal recipients',
       fullWidth: true,
       required: true,
@@ -79,7 +76,7 @@ export const createEmailThisDashboardDataArray = [
   {
     id: 4,
     componentProps: {
-      name: 'email subject',
+      name: 'emailSubject',
       label: 'Email subject',
       fullWidth: true,
       placeholder: 'Email Subject',

@@ -13,11 +13,13 @@ export function useEmailThisDashboard() {
     defaultValues: createEmailThisDashboardDefaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch, setValue } = methods;
 
   const submit = () => {};
   const theme = useTheme();
   const router = useRouter();
+
+  const watchRecurringEmail = watch('emailCondition');
 
   return {
     theme,
@@ -25,5 +27,8 @@ export function useEmailThisDashboard() {
     handleSubmit,
     methods,
     submit,
+    watchRecurringEmail,
+    watch,
+    setValue,
   };
 }

@@ -1,5 +1,6 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
 const TAG = 'DEPARTMENT';
 const TAG_TWO = 'USERS_DROPDOWN';
@@ -43,9 +44,7 @@ export const departmentAPI = baseAPI?.injectEndpoints({
         method: 'GET',
         params,
       }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
-      },
+      transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG_TWO],
     }),
     getUsersDropdownList: builder?.query({
