@@ -182,6 +182,7 @@ export const AIR_OPERATIONS = {
   SALES_REPORTS: `/air-operations/reports/sales-reports`,
   SERVICES_REPORTS: `/air-operations/reports/services-reports`,
   MARKETING_REPORTS: `/air-operations/reports/marketing-reports`,
+  CREATE_SERVICES_REPORTS: `/air-operations/reports/services-reports/create-services-reports`,
 };
 
 export const AIR_LOYALTY_PROGRAM = {

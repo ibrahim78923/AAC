@@ -25,7 +25,7 @@ export const departmentAPI = baseAPI?.injectEndpoints({
     }),
     updateDepartment: builder?.mutation({
       query: ({ body }: any) => ({
-        url: `${END_POINTS?.DEPARTMENT_UPDATE}/{id}`,
+        url: `${END_POINTS?.DEPARTMENT_UPDATE}`,
         method: 'PATCH',
         body,
       }),

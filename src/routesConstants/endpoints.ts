@@ -262,7 +262,7 @@ export const END_POINTS = {
   DROPDOWN_ASSETS: '/dropdown/all-assets',
   ASSETS_INVENTORY_PURCHASE_ORDER: '/assets/inventory-purchase-order-list',
   ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
-  DEPARTMENT_UPDATE: '/Department/update',
+  DEPARTMENT_UPDATE: '/Department/update-department',
   DEPARTMENT_DELETE: '/Department/delete-department',
   ASSETS_PURCHASEORDER_DETAIL: '/assets/purchaseorder',
   ASSETS_PURCHASEORDER: '/assets/purchase_order_inventory',

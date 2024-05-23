@@ -15,7 +15,13 @@ export const ServicesReports = () => {
           router?.push(AIR_OPERATIONS?.REPORTS);
         }}
       >
-        <Button variant="contained" startIcon={<AddWhiteBgIcon />}>
+        <Button
+          variant="contained"
+          startIcon={<AddWhiteBgIcon />}
+          onClick={() => {
+            router?.push(AIR_OPERATIONS?.CREATE_SERVICES_REPORTS);
+          }}
+        >
           Create report
         </Button>
       </PageTitledHeader>
