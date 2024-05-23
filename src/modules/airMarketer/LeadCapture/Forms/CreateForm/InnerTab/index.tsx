@@ -18,7 +18,7 @@ import {
   dynamicallyFormValidationSchema,
 } from '../CreateForm.data';
 import { useState } from 'react';
-import { DeleteIcon, DragSharedIcon } from '@/assets/icons';
+import { DeleteIcon, DragSharedIcon, EditGreyIcon } from '@/assets/icons';
 import { isNullOrEmpty } from '@/utils';
 
 import dynamic from 'next/dynamic';
@@ -111,13 +111,19 @@ const InnerTab = ({
                 {hoveredIndex === index && (
                   <Box sx={styles?.hoverEffect}>
                     <DragSharedIcon />
-                    <Box
-                      onClick={() => {
-                        deleteField(index);
-                      }}
-                    >
-                      {' '}
-                      <DeleteIcon />
+                    <Box sx={{ display: 'flex', gap: '6px' }}>
+                      <Box>
+                        {' '}
+                        <EditGreyIcon />
+                      </Box>
+                      <Box
+                        onClick={() => {
+                          deleteField(index);
+                        }}
+                      >
+                        {' '}
+                        <DeleteIcon />
+                      </Box>
                     </Box>
                   </Box>
                 )}

@@ -153,6 +153,7 @@ export const AIR_MARKETER = {
   VERIFY_EMAIL: path(AIR_MARKETING_PAGE, '/lead-capture/verify-email'),
   CREATE_FORM: path(AIR_MARKETING_PAGE, '/lead-capture/create-form'),
   ALL_TABLE: path(AIR_MARKETING_PAGE, '/lead-capture/forms'),
+  FORM_RESTORE: path(AIR_MARKETING_PAGE, '/lead-capture/forms/restore'),
   CREATE_NEW_EMAIL: path(
     AIR_MARKETING_PAGE,
     '/email-marketing/create-new-email',
