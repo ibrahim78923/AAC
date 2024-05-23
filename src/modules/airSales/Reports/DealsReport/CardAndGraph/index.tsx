@@ -1,30 +1,24 @@
-import React from 'react';
-
 import dynamic from 'next/dynamic';
-
 import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
-
 import { options, optionsBar, series, seriesBar } from './CardAndGraph.data';
-
 import { styles } from './CardAndGraph.style';
-import { dealsDataByResponse } from '@/modules/airSales/Reports/Reports.data';
 
-const CardAndGraphs = () => {
+const CardAndGraphs = (props: any) => {
+  const { dealsReportsCardsData, dealsReportsGraphData } = props;
   const theme = useTheme<Theme>();
+
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
-  const totalDeals = dealsDataByResponse?.data?.res?.map(
+  const totalDeals = dealsReportsCardsData?.map(
     (item: any) => item?.totalDeals,
   );
-  const openDeals = dealsDataByResponse?.data?.res?.map(
+  const openDeals = dealsReportsCardsData?.map(
     (item: any) => item?.totalOpenDeals,
   );
-  const closeDeals = dealsDataByResponse?.data?.res?.map(
+  const closeDeals = dealsReportsCardsData?.map(
     (item: any) => item?.totalCloseDeals,
   );
-  const dealsInPercentage = dealsDataByResponse?.data?.res;
-  const dealsGraphData = dealsDataByResponse?.data?.resByMonth;
 
   return (
     <>
@@ -97,7 +91,7 @@ const CardAndGraphs = () => {
             </Box>
             <ReactApexChart
               options={optionsBar(theme)}
-              series={seriesBar(dealsGraphData)}
+              series={seriesBar(dealsReportsGraphData)}
               type="bar"
               height={290}
             />
@@ -115,7 +109,7 @@ const CardAndGraphs = () => {
             </Box>
             <ReactApexChart
               options={options(theme)}
-              series={series(dealsInPercentage)}
+              series={series(dealsReportsCardsData)}
               type="pie"
               width={450}
             />

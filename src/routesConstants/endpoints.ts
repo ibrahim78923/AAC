@@ -30,6 +30,7 @@ export const END_POINTS = {
   auth_search_company: 'auth/search-company',
   DEALS_LIST_VIEW: '/deals/get-deals-list-view',
   POST_DEALS: '/deals',
+  DEALS_REPORTS: '/deals/deal-report',
   DEALS_PIPELINE: '/deal-pipeline',
   DEALS_LIFECYCLE_STAGES: '/lifecycle-stages',
   DEALS_USER_LIST: '/super-admin/user-list',
