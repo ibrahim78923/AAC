@@ -4,11 +4,17 @@ import Image from 'next/image';
 import { Box, Theme, Typography, useTheme } from '@mui/material';
 
 import {
+  useDeleteCampaignTasksMutation,
+  useGetCampaignsByIdQuery,
   useGetCampaignsQuery,
+  useGetCampaignsTaskByIdQuery,
   useGetCampaignsTasksQuery,
 } from '@/services/airMarketer/campaigns';
 import dayjs from 'dayjs';
 import { AddPlusIcon } from '@/assets/icons';
+import { DATE_FORMAT } from '@/constants';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useCalendar = () => {
   const calendarRef = useRef<any>(null);
@@ -18,12 +24,30 @@ const useCalendar = () => {
   const [selectedEventData, setSelectedEventData] = useState<any>({});
   const [modalEvents, setModalEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState({
+    isToggled: false,
+    type: '',
+    data: {},
+  });
   const currentDate = dayjs().format('MMMM YYYY');
   const [calendarDate, setCalendarDate] = useState(currentDate);
   const [isDelete, setIsDelete] = useState(false);
   const [clickedDate, setClickedDate] = useState(null);
-  const [createTask, setCreateTask] = useState({ isToggle: false, type: '' });
+  const [createTask, setCreateTask] = useState({
+    isToggle: false,
+    type: '',
+    id: '',
+  });
+
+  const calanderDrawerType = {
+    TASKS: 'Tasks',
+    CAMPAIGNS: 'Campaigns',
+  };
+
+  const campaignsTaskConstants = {
+    ASSIGNED_TO: 'Assigned to',
+    CREATED_BY: 'Created by',
+  };
 
   const { data: getCampaignsTasks, isLoading: taskLoading } =
     useGetCampaignsTasksQuery({});
@@ -72,6 +96,73 @@ const useCalendar = () => {
     );
   };
 
+  const { data: getCampaignsById, isLoading: campaignDetailsLoading } =
+    useGetCampaignsByIdQuery({ id: selectedEventData?.id });
+  const campaignDetails = getCampaignsById?.data;
+
+  const campaignDetailsData = [
+    { 'Campaign Owner': campaignDetails?.owner ?? 'N/A' },
+    { 'Campaign Goal': campaignDetails?.campaignGoal ?? 'N/A' },
+    {
+      'Campaign start date':
+        dayjs(campaignDetails?.startDate)?.format(DATE_FORMAT?.UI) ?? 'N/A',
+    },
+    {
+      'Campaign end date':
+        dayjs(campaignDetails?.endDate)?.format(DATE_FORMAT?.UI) ?? 'N/A',
+    },
+    { 'Campaign Notes': campaignDetails?.description ?? 'N/A' },
+  ];
+
+  const { data: getCampaignsTaskById, isLoading: campaignsTaskLoading } =
+    useGetCampaignsTaskByIdQuery(selectedEventData?.id);
+  const campaignsTaskDetails = getCampaignsTaskById?.data[0];
+  const campaignTasksData = [
+    { Type: campaignsTaskDetails?.taskType ?? 'N/A' },
+    { Campaign: campaignsTaskDetails?.campaignDetails[0]?.title ?? 'N/A' },
+    {
+      'Created by': {
+        name: campaignsTaskDetails?.createdBy ?? 'N/A',
+        email: '',
+        avatar: '',
+      },
+    },
+    {
+      'Assigned to': {
+        name:
+          `${campaignsTaskDetails?.assignedTo[0]?.firstName} ${campaignsTaskDetails?.assignedTo[0]?.lastName}` ??
+          'N/A',
+        email: campaignsTaskDetails?.assignedTo[0]?.email ?? 'N/A',
+        avatar: '',
+      },
+    },
+    {
+      'Due Date':
+        dayjs(campaignsTaskDetails?.dueDate)?.format(DATE_FORMAT?.UI) ?? 'N/A',
+    },
+    { Notes: campaignsTaskDetails?.note ?? 'N/A' },
+  ];
+
+  const [deleteTasks, { isLoading: deleteTaskLoading }] =
+    useDeleteCampaignTasksMutation();
+
+  const handleDeleteModal = async (id: any) => {
+    try {
+      await deleteTasks({ ids: id });
+      enqueueSnackbar('Task Deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+    setIsDelete(false);
+    setIsDrawerOpen({ ...isDrawerOpen, isToggled: false });
+  };
+
   const handlePrevClick = () => {
     const calendarApi = calendarRef?.current?.getApi();
     calendarApi?.prev();
@@ -86,9 +177,18 @@ const useCalendar = () => {
     setCalendarDate(newDate);
   };
 
-  const handleEventClick = (info: any) => {
-    setSelectedEventData(info?.event);
-    setIsDrawerOpen(true);
+  const handleEventClick = (
+    info: any,
+    compaignsTasksData: any,
+    allCampaignsData: any,
+  ) => {
+    const eventType = info?.event?.extendedProps?.type;
+    setSelectedEventData(info.event);
+    setIsDrawerOpen({
+      isToggled: true,
+      type: eventType === 'task' ? 'Tasks' : 'Campaigns',
+      data: eventType === 'task' ? compaignsTasksData : allCampaignsData,
+    });
   };
 
   const handleMoreLinkClick = (info: any) => {
@@ -109,7 +209,7 @@ const useCalendar = () => {
   };
 
   const handlePlusButtonClick = (date: any) => {
-    setCreateTask({ isToggle: true, type: 'add' });
+    setCreateTask({ ...createTask, isToggle: true, type: 'add' });
     setClickedDate(date);
   };
 
@@ -132,14 +232,29 @@ const useCalendar = () => {
     );
   };
 
+  const handleEditClick = (id: any) => {
+    setIsDrawerOpen({ ...isDrawerOpen, isToggled: false });
+    setCreateTask({ isToggle: true, type: 'edit', id: id });
+  };
+
   return {
+    campaignDetailsLoading,
     handlePlusButtonClick,
+    campaignsTaskConstants,
+    campaignsTaskLoading,
     eventContentHandler,
-    handleMoreLinkClick,
+    campaignDetailsData,
+    calanderDrawerType,
     compaignsTasksData,
+    handleMoreLinkClick,
+    handleDeleteModal,
+    campaignTasksData,
+    deleteTaskLoading,
     selectedEventData,
+    campaignsLoading,
     handleEventClick,
     allCampaignsData,
+    handleEditClick,
     handleNextClick,
     handlePrevClick,
     setIsDrawerOpen,
@@ -155,15 +270,14 @@ const useCalendar = () => {
     monthsArray,
     modalEvents,
     setIsDelete,
+    taskLoading,
     clickedDate,
+    calendarRef,
     yearsArray,
     createTask,
-    taskLoading,
-    campaignsLoading,
     isDelete,
     router,
     theme,
-    calendarRef,
   };
 };
 

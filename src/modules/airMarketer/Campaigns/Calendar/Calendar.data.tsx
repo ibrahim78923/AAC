@@ -28,6 +28,7 @@ export const taskEvents: any = (
         : `${theme?.palette?.error?.main}`,
       start: `${dayjs(data?.createdAt)?.format(DATE_FORMAT?.API)}`,
       type: isTask ? 'task' : 'campaign',
+      id: data?._id,
     };
   });
 };

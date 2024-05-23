@@ -14,10 +14,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
+  Stack,
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
@@ -27,10 +24,13 @@ import { AlertModals } from '@/components/AlertModals';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './Calendar.style';
 import EditTask from './EditTask';
+import { TrashIcon } from '@/assets/icons';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const Calendar = () => {
   const {
     eventContentHandler,
+    campaignsTaskConstants,
     handleMoreLinkClick,
     compaignsTasksData,
     handleEventClick,
@@ -54,6 +54,15 @@ const Calendar = () => {
     calendarRef,
     taskLoading,
     campaignsLoading,
+    campaignDetailsData,
+    campaignDetailsLoading,
+    handleDeleteModal,
+    deleteTaskLoading,
+    selectedEventData,
+    campaignTasksData,
+    campaignsTaskLoading,
+    calanderDrawerType,
+    handleEditClick,
   } = useCalendar();
 
   const renderLoader = () => {
@@ -163,160 +172,164 @@ const Calendar = () => {
           slotLabelFormat={[
             { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' },
           ]}
-          eventClick={handleEventClick}
+          // eventClick={handleEventClick}
+          eventClick={(info) =>
+            handleEventClick(info, compaignsTasksData, allCampaignsData)
+          }
         />
       </Box>
 
-      {isDrawerOpen && (
+      {isDrawerOpen?.isToggled && (
         <CommonDrawer
-          isDrawerOpen={isDrawerOpen}
+          isDrawerOpen={isDrawerOpen?.isToggled}
           onClose={() => {
-            setIsDrawerOpen(false);
+            setIsDrawerOpen({ ...isDrawerOpen, isToggled: false });
           }}
-          title={'Calendar task detail'}
+          title={`Calendar ${isDrawerOpen?.type} detail`}
           okText=""
           isOk
           footer={false}
         >
-          <Table>
-            <TableBody>
-              <TableRow
-                sx={{
-                  borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-                }}
-              >
-                <TableCell>Type</TableCell>
-                <TableCell>Email</TableCell>
-              </TableRow>
-              <TableRow
-                sx={{
-                  borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-                }}
-              >
-                <TableCell>Campaign</TableCell>
-                <TableCell>Promoted an online event</TableCell>
-              </TableRow>
-              <TableRow
-                sx={{
-                  borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-                }}
-              >
-                <TableCell>Created by</TableCell>
-                <TableCell>
-                  <Box
-                    sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+          {isDrawerOpen?.type === calanderDrawerType?.TASKS ? (
+            campaignsTaskLoading ? (
+              <SkeletonTable />
+            ) : (
+              campaignTasksData?.map((item: any) => {
+                const key = Object?.keys(item)[0];
+                const value = item[key];
+                return (
+                  <Stack
+                    direction={{ md: 'row', sm: 'column' }}
+                    justifyContent="space-between"
+                    py={2}
+                    key={uuidv4()}
+                    sx={{
+                      borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+                    }}
                   >
-                    <Image
-                      src={AvatarImage?.src}
-                      alt="avatar"
-                      width={40}
-                      height={40}
-                    />
-                    <Box>
-                      <Typography
-                        variant="body2"
+                    <Typography sx={{ color: theme?.palette?.custom?.main }}>
+                      {key}
+                    </Typography>
+                    {key === campaignsTaskConstants?.ASSIGNED_TO ||
+                    key === campaignsTaskConstants?.CREATED_BY ? (
+                      <Box
                         sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                        }}
+                      >
+                        <Image
+                          src={AvatarImage?.src}
+                          alt="avatar"
+                          width={40}
+                          height={40}
+                        />
+                        <Box>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontWeight: 500,
+                              color: `${theme?.palette?.blue?.dull_blue}`,
+                            }}
+                          >
+                            {value?.name}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontWeight: 400,
+                              color: `${theme?.palette?.custom?.light}`,
+                            }}
+                          >
+                            {value?.email}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    ) : (
+                      <Typography
+                        sx={{
+                          color: theme?.palette?.slateBlue?.main,
                           fontWeight: 500,
-                          color: `${theme?.palette?.blue?.dull_blue}`,
                         }}
                       >
-                        Sophie Anderson
+                        {value}
                       </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontWeight: 400,
-                          color: `${theme?.palette?.custom?.light}`,
-                        }}
-                      >
-                        Sophie@airapplecart.co.uk
-                      </Typography>
-                    </Box>
-                  </Box>
-                </TableCell>
-              </TableRow>
-              <TableRow
-                sx={{
-                  borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-                }}
-              >
-                <TableCell>Assigned to</TableCell>
-                <TableCell>
-                  <Box
-                    sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+                    )}
+                  </Stack>
+                );
+              })
+            )
+          ) : campaignDetailsLoading ? (
+            <SkeletonTable />
+          ) : (
+            campaignDetailsData?.map((item: any) => {
+              const key = Object?.keys(item)[0];
+              const value = item[key];
+              return (
+                <Stack
+                  direction={{ md: 'row', sm: 'column' }}
+                  justifyContent="space-between"
+                  py={2}
+                  key={uuidv4()}
+                  sx={{
+                    borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+                  }}
+                >
+                  <Typography sx={{ color: theme?.palette?.custom?.main }}>
+                    {key}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: theme?.palette?.slateBlue?.main,
+                      fontWeight: 500,
+                    }}
                   >
-                    <Image
-                      src={AvatarImage.src}
-                      alt="dd"
-                      width={40}
-                      height={40}
-                    />
-                    <Box>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontWeight: 500,
-                          color: `${theme?.palette?.blue?.dull_blue}`,
-                        }}
-                      >
-                        Lilly Drew
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontWeight: 400,
-                          color: `${theme?.palette?.custom?.light}`,
-                        }}
-                      >
-                        L_drew@airapplecart.co.uk
-                      </Typography>
-                    </Box>
-                  </Box>
-                </TableCell>
-              </TableRow>
-              <TableRow
-                sx={{
-                  borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-                }}
-              >
-                <TableCell>Due Date</TableCell>
-                <TableCell>May 31st. 2023</TableCell>
-              </TableRow>
-              <TableRow
-                sx={{
-                  borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-                }}
-              >
-                <TableCell>Notes</TableCell>
-                <TableCell>Testing</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+                    {value}
+                  </Typography>
+                </Stack>
+              );
+            })
+          )}
           <Box sx={{ display: 'flex', gap: '10px', paddingTop: '1rem' }}>
-            <Button
-              variant="outlined"
-              startIcon={<AddCircle />}
-              color="inherit"
-              className="small"
-            >
-              Edit
-            </Button>
-            <Button
-              onClick={() => setIsDelete(true)}
-              variant="outlined"
-              startIcon={<AddCircle />}
-              color="inherit"
-              className="small"
-            >
-              Delete
-            </Button>
+            {isDrawerOpen?.type === calanderDrawerType?.TASKS ? (
+              <>
+                <Button
+                  variant="outlined"
+                  startIcon={<AddCircle />}
+                  color="inherit"
+                  className="small"
+                  onClick={() => handleEditClick(selectedEventData?.id)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  onClick={() => setIsDelete(true)}
+                  variant="outlined"
+                  startIcon={<TrashIcon />}
+                  color="inherit"
+                  className="small"
+                >
+                  Delete
+                </Button>
+              </>
+            ) : (
+              <Button
+                onClick={() => {}}
+                variant="outlined"
+                color="inherit"
+                className="small"
+              >
+                Details
+              </Button>
+            )}
           </Box>
         </CommonDrawer>
       )}
 
       {createTask?.isToggle && (
         <EditTask
-          createTask={createTask?.isToggle}
+          createTask={createTask}
           isType={createTask?.type}
           setCreateTask={setCreateTask}
           clickedDate={clickedDate}
@@ -334,7 +347,8 @@ const Calendar = () => {
           submitBtnText="Delete"
           cancelBtnText="Cancel"
           handleClose={() => setIsDelete(false)}
-          handleSubmitBtn={() => {}}
+          handleSubmitBtn={() => handleDeleteModal(selectedEventData?.id)}
+          loading={deleteTaskLoading}
         />
       )}
     </>

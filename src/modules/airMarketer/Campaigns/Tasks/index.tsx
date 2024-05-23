@@ -213,6 +213,7 @@ const Tasks = () => {
         <EditTask
           isOpenDrawer={isOpenEditTaskDrawer?.isToggle}
           isType={isOpenEditTaskDrawer?.type}
+          selectedRec={selectedRec}
           setIsOpenEditTaskDrawer={setIsOpenEditTaskDrawer}
           onClose={() => {
             {

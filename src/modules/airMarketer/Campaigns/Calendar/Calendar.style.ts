@@ -14,7 +14,6 @@ export const styles = {
     backgroundColor: 'transparent',
     border: 'none',
   },
-
   '.plus-button-container': {
     margin: 'auto',
     position: 'absolute',
