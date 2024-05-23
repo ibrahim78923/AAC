@@ -39,7 +39,7 @@ export const ticketsBulkUpdateAddReplyFormFieldsData = [
     componentProps: {
       name: 'to',
       label: 'To',
-      placeholder: 'Enter Recipients',
+      placeholder: 'Enter Email And Press Enter',
       required: true,
       freeSolo: true,
       options: [],

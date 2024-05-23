@@ -228,14 +228,7 @@ const Services = () => {
                   <Typography variant="h5">{service?.categoryName}</Typography>
 
                   <Tooltip title={service?.description ?? '-'} arrow>
-                    <Typography
-                      variant="body2"
-                      align="center"
-                      gutterBottom
-                      ml={4}
-                      mr={1}
-                      noWrap
-                    >
+                    <Typography variant="body2" align="center" gutterBottom>
                       {truncateLargeText(service?.description ?? '-', 160)}
                     </Typography>
                   </Tooltip>
