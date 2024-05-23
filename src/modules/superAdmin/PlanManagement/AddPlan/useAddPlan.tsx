@@ -19,6 +19,7 @@ import {
   planFeaturesFormData,
   modulesFormData,
   setFeatureDetails,
+  clearState,
 } from '@/redux/slices/planManagement/planManagementSlice';
 import { useDispatch } from 'react-redux';
 import { persistStore } from 'redux-persist';
@@ -91,7 +92,7 @@ export const useAddPlan = () => {
   const hanldeGoBack = () => {
     router?.back();
     window.location.href = SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID;
-    dispatch(addPlanFormData(''));
+    dispatch(clearState());
   };
 
   const methods: any = useForm({
@@ -232,6 +233,9 @@ export const useAddPlan = () => {
         variant: 'error',
       });
     } else {
+      if (!isNullOrEmpty(singlePlan) && values?.productId?.length > 1) {
+        values.suite = values?.productId;
+      }
       dispatch(addPlanFormData(values));
       setActiveStep((previous) => previous + 1);
 
@@ -379,10 +383,9 @@ export const useAddPlan = () => {
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
       const planFormData = {
-        //Todo: getting product id at index 0
-        productId: planForm?.productId,
-
-        ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
+        ...(selectProductSuite === 'product'
+          ? { productId: planForm?.productId }
+          : { suite: planForm?.suite }),
         ...(isNullOrEmpty(planForm?.productId) && {
           name: crmValue?.label,
         }),
@@ -438,7 +441,6 @@ export const useAddPlan = () => {
                 ...transformedModulesFormData,
               },
             })?.unwrap());
-        router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
         if (res) {
           setCheckQuery('');
           enqueueSnackbar(
@@ -452,6 +454,8 @@ export const useAddPlan = () => {
           dispatch(setFeatureDetails(''));
           // persistor?.purge();
           reset();
+          window.location.href =
+            SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID;
         }
       } catch (error: any) {
         enqueueSnackbar('An error occured', {

@@ -23,6 +23,7 @@ const planManagementSlice = createSlice({
     setFeatureDetails: (state, action) => {
       state.featureDetails = action?.payload;
     },
+    clearState: () => initialState, // Reset the state to initial state
   },
 });
 
@@ -31,6 +32,7 @@ export const {
   planFeaturesFormData,
   modulesFormData,
   setFeatureDetails,
+  clearState,
 } = planManagementSlice?.actions;
 export const getAddPlanForms = (state: any) =>
   state.planManagementSlice?.addPlanForm;
