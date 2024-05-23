@@ -1,9 +1,6 @@
 import Link from 'next/link';
-
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
-
+import { Box, Grid, Typography } from '@mui/material';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-
 import Details from './Details';
 import ActivityLog from './ActivityLog';
 import Tasks from './Tasks';
@@ -12,16 +9,15 @@ import Calls from './Calls';
 import Emails from './Emails';
 import Meetings from './Meetings';
 import Associations from './Associations';
-
 import { singleUserDealTabsData } from './ViewDetails.data';
 import { useRouter } from 'next/router';
-import { ArrowBackIcon, RestoreIcon } from '@/assets/icons';
+import { ArrowBackIcon } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
 import useDetails from './Details/useDetails';
+
 const ContactViewDetails = () => {
   const router = useRouter();
   const contactId = router?.query?.contactId;
-  const theme = useTheme();
   const { contactName } = useDetails();
   return (
     <Box>
@@ -40,18 +36,6 @@ const ContactViewDetails = () => {
               }}
             >
               <Typography variant="h4">{contactName()}</Typography>
-
-              <Link
-                href={`${AIR_SOCIAL?.CONTACTS}/${contactId}/${AIR_SOCIAL?.RESTORE_ACTIVITIES}`}
-              >
-                <Button
-                  variant="outlined"
-                  sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
-                  startIcon={<RestoreIcon />}
-                >
-                  Restore Activities
-                </Button>
-              </Link>
             </Box>
           </Box>
         </Grid>

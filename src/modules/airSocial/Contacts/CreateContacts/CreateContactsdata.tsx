@@ -1,13 +1,24 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFDropZone,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 // Define your Yup validation schema
 export const contactsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
+  // validation for phone number minimum 10 digit
+  phoneNumber: Yup.string().test(
+    'phone-number',
+    'Phone number is not valid',
+    (value) => /^[0-9]{10,}$/.test(value?.toString() || ''),
+  ),
+  whatsAppNumber: Yup.string().test(
+    'whatsapp-number',
+    'Whatsapp number is not valid',
+    (value) => /^[0-9]{10,}$/.test(value?.toString() || ''),
+  ),
 });
 
 // Define your default values
@@ -18,15 +29,16 @@ export const contactsDefaultValues = {
   lastName: '',
   address: '',
   jobTitle: '',
-  phoneNumber: null,
-  whatsAppNumber: null,
-  lifeCycleStageId: '',
-  contactOwnerId: '',
-  statusId: '',
+  phoneNumber: '',
+  whatsAppNumber: '',
+  lifeCycleStageId: null,
+  contactOwnerId: null,
+  statusId: null,
   dateOfJoining: null,
   dateOfBirth: null,
 };
 export const contactsDataArray = (
+  orgId: any,
   contactOwnerData: any,
   lifeCycleStagesData: any,
   contactStatusData: any,
@@ -103,16 +115,6 @@ export const contactsDataArray = (
         name: 'phoneNumber',
         label: 'Phone Number',
         placeholder: 'Enter Phone ',
-        type: 'number',
-        InputProps: {
-          sx: {
-            '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
-              {
-                '-webkit-appearance': 'none',
-                margin: 0,
-              },
-          },
-        },
       },
       md: 12,
       component: RHFTextField,
@@ -123,31 +125,23 @@ export const contactsDataArray = (
         name: 'whatsAppNumber',
         label: 'WhatsApp Number',
         placeholder: 'Enter WhatsApp Number',
-        type: 'number',
-        InputProps: {
-          sx: {
-            '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
-              {
-                '-webkit-appearance': 'none',
-                margin: 0,
-              },
-          },
-        },
       },
       md: 12,
       component: RHFTextField,
     },
     {
       id: 'contactOwnerId',
-      title: 'Contact Owner',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'contactOwnerId',
         label: 'Contact Owner',
-        select: true,
+        placeholder: 'Select Owner',
+        apiQuery: contactOwnerData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { id: orgId, meta: false },
       },
-      options: contactOwnerData,
-      md: 12,
-      component: RHFSelect,
     },
     {
       id: 'jobTitle',
@@ -161,26 +155,29 @@ export const contactsDataArray = (
     },
     {
       id: 'lifeCycleStageId',
-      title: 'Lifecycle Stage',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'lifeCycleStageId',
         label: 'Lifecycle Stage',
-        select: true,
+        placeholder: 'Select Lifecycle Stage',
+        apiQuery: lifeCycleStagesData,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: {},
       },
-      options: lifeCycleStagesData,
-      md: 12,
-      component: RHFSelect,
     },
     {
       id: 'statusId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'statusId',
         label: 'Status',
-        select: true,
+        placeholder: 'Select Status',
+        apiQuery: contactStatusData,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: {},
       },
-      options: contactStatusData,
-      md: 12,
-      component: RHFSelect,
     },
     {
       id: 'dateOfJoining',

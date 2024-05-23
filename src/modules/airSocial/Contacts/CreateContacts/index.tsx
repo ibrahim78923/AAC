@@ -6,6 +6,7 @@ import useCreateContacts from './useCreateContacts';
 
 const CreateContacts = ({ open, onClose }: any) => {
   const {
+    orgId,
     loadingCreateContact,
     submitCreateContact,
     methodscontacts,
@@ -35,6 +36,7 @@ const CreateContacts = ({ open, onClose }: any) => {
         <FormProvider methods={methodscontacts}>
           <Grid container spacing={2}>
             {contactsDataArray(
+              orgId,
               contactOwnerData,
               lifeCycleStagesData,
               contactStatusData,

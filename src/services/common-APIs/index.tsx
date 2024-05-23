@@ -162,6 +162,30 @@ export const CommonAPIS = baseAPI.injectEndpoints({
         if (response) return response?.data?.productcategories;
       },
     }),
+
+    getLifeCycleStages: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.LIFECYCLE_STAGES}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.lifecycleStages;
+      },
+      providesTags: ['lifeCycle'],
+    }),
+
+    getContactsStatus: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.CONTACT_STATUS}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.conatactStatus;
+      },
+      providesTags: ['ContactsStatus'],
+    }),
   }),
 });
 
@@ -182,4 +206,6 @@ export const {
   useLazyGetAllCampaignsListQuery,
   useLazyGetDealOwnersListQuery,
   useLazyGetProductCategoriesQuery,
+  useLazyGetLifeCycleStagesQuery,
+  useLazyGetContactsStatusQuery,
 } = CommonAPIS;

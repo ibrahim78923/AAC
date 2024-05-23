@@ -230,14 +230,19 @@ const Contacts = () => {
           setPageLimit={setPageLimit}
         />
       </CommonTabs>
+
       <CreateView open={isOpen} onClose={handleChange} />
+
       <ContactsCustomize open={isDealCustomize} onClose={handleDealCustomize} />
+
       <ContactsFilterDrawer
         open={openFilters}
         onClose={handleCloseFilters}
         methods={methodsFilter}
         onSubmit={handleFiltersSubmit}
+        isLoading={loadingGetContacts}
       />
+
       <DeleteModal
         open={openModalDelete}
         onClose={handleCloseModalDelete}

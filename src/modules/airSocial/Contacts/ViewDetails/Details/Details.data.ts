@@ -1,6 +1,6 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
@@ -12,7 +12,7 @@ export const detailsValidationSchema = Yup?.object()?.shape({
   lastName: Yup.string().nullable(),
   address: Yup.string().nullable(),
   dateOfBirth: Yup.date().nullable(),
-  contactOwnerId: Yup.string().nullable(),
+  contactOwnerId: Yup.mixed().nullable(),
   phoneNumber: Yup.string()
     .nullable()
     .test(
@@ -57,9 +57,9 @@ export const detailsValidationSchema = Yup?.object()?.shape({
         return value.length >= 6;
       },
     ),
-  lifeCycleStageId: Yup.string().nullable(),
+  lifeCycleStageId: Yup.mixed().nullable(),
   jobTitle: Yup.string().nullable(),
-  statusId: Yup.string().nullable(),
+  statusId: Yup.mixed().nullable(),
   dateOfJoining: Yup.date().nullable(),
   profilePicture: Yup.string().nullable(),
 });
@@ -67,9 +67,11 @@ export const detailsValidationSchema = Yup?.object()?.shape({
 export const detailsDefaultValues = {
   dateOfBirth: null,
   dateOfJoining: null,
+  contactOwnerId: {},
 };
 
 export const detailsDataArray = (
+  orgId: any,
   contactOwnerData: any,
   lifeCycleStagesData: any,
   contactStatusData: any,
@@ -131,15 +133,17 @@ export const detailsDataArray = (
     },
     {
       id: 'contactOwnerId',
-      label: 'Contact Owner',
+      component: RHFAutocompleteAsync,
+      md: 4,
       componentProps: {
         name: 'contactOwnerId',
-        placeholder: 'Ahmed',
-        select: true,
+        label: 'Contact Owner',
+        placeholder: 'Select Owner',
+        apiQuery: contactOwnerData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { id: orgId, meta: false },
       },
-      options: contactOwnerData,
-      component: RHFSelect,
-      md: 4,
     },
     {
       id: 'phoneNumber',
@@ -164,15 +168,16 @@ export const detailsDataArray = (
     },
     {
       id: 'lifeCycleStageId',
-      label: 'Lifecycle Stage ',
+      component: RHFAutocompleteAsync,
+      md: 4,
       componentProps: {
         name: 'lifeCycleStageId',
-        placeholder: 'Lead',
-        select: true,
+        label: 'Lifecycle Stage',
+        placeholder: 'Select Lifecycle Stage',
+        apiQuery: lifeCycleStagesData,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: {},
       },
-      options: lifeCycleStagesData,
-      component: RHFSelect,
-      md: 4,
     },
     {
       id: 'jobTitle',
@@ -186,16 +191,16 @@ export const detailsDataArray = (
     },
     {
       id: 'statusId',
-      label: 'Status',
+      component: RHFAutocompleteAsync,
+      md: 4,
       componentProps: {
         name: 'statusId',
-        placeholder: 'New',
-        fullWidth: true,
-        select: true,
+        label: 'Status',
+        placeholder: 'Select Status',
+        apiQuery: contactStatusData,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: {},
       },
-      component: RHFSelect,
-      md: 4,
-      options: contactStatusData,
     },
     {
       id: 'dateOfJoining',

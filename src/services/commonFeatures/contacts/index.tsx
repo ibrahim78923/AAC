@@ -47,22 +47,6 @@ export const contactsAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
 
-    getLifeCycle: builder.query({
-      query: () => ({
-        url: `${END_POINTS?.LIFECYCLE_STAGES}?page=1&limit=10`,
-        method: 'GET',
-      }),
-      providesTags: ['lifeCycle'],
-    }),
-
-    getContactsStatus: builder.query({
-      query: () => ({
-        url: `${END_POINTS?.CONTACT_STATUS}?page=1&limit=10&status=inactive`,
-        method: 'GET',
-      }),
-      providesTags: ['ContactsStatus'],
-    }),
-
     deleteContact: builder.mutation({
       query: ({ contactIds }: any) => ({
         url: `${END_POINTS?.CONTACTS}`,
@@ -130,10 +114,8 @@ export const contactsAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useGetContactsStatusQuery,
   useGetContactsQuery,
   useGetContactByIdQuery,
-  useGetLifeCycleQuery,
   usePostContactsMutation,
   useUpdateContactMutation,
   useUpdateContactOwnerMutation,
