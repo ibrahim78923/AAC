@@ -161,7 +161,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
         <Checkbox
           color="primary"
           name={info?.getValue()}
-          defaultChecked={checkedRows === info?.row?.original?._id}
+          checked={checkedRows === info?.row?.original?._id}
           onChange={(e: any) =>
             handleCheckboxChange(e, info?.row?.original?._id)
           }

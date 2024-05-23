@@ -5,15 +5,17 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT, EQuickLinksType } from '@/constants';
 
 const Users = (props: any) => {
-  const { checkedRows, setCheckedRows, filterValues, searchVal } = props;
   const {
-    useGetUsersQuery,
-    handleUserSwitchChange,
-    pageLimit,
-    setPageLimit,
+    checkedRows,
+    setCheckedRows,
+    filterValues,
+    searchVal,
     page,
     setPage,
-  } = useUserManagement();
+    pageLimit,
+    setPageLimit,
+  } = props;
+  const { useGetUsersQuery, handleUserSwitchChange } = useUserManagement();
 
   const params = {
     page: page,

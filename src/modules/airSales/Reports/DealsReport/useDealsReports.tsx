@@ -14,8 +14,8 @@ const useDealsReports = () => {
   const [searchBy, setSearchBy] = useState('');
   const [datePickerVal, setDatePickerVal] = useState(false);
   const [filter, setFilter] = useState<any>({
-    owner: '',
-    pipeline: '',
+    owners: [],
+    pipelines: [],
     date: null,
   });
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -42,8 +42,8 @@ const useDealsReports = () => {
     page: page,
     limit: limit,
     search: searchBy ? searchBy : undefined,
-    ownerId: filter.owner ? filter.owner : undefined,
-    dealPipelineId: filter.pipeline ? filter.pipeline : undefined,
+    ownerIds: filter.owners ? filter.owners : undefined,
+    dealPipelineIds: filter.pipelines ? filter.pipelines : undefined,
     dateStart: filter?.date
       ? dayjs(filter?.date[DATE_RANGE?.START_DATE]).format(DATE_FORMAT?.API)
       : undefined,
@@ -70,8 +70,8 @@ const useDealsReports = () => {
 
   const resetFilters = () => {
     setFilter({
-      owner: '',
-      pipeline: '',
+      owner: [],
+      pipelines: [],
       date: null,
     });
   };

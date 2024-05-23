@@ -21,6 +21,7 @@ const ImportDealsDrawer = ({ open, setIsImportDeal }: any) => {
       submitImport={(apiData: any) => submitImport?.(apiData)}
       importFileStatus={importFileStatus}
       mandatoryColumnsList={filterMandatoryFields?.()}
+      hasNewImportApi={false}
     />
   );
 };

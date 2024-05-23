@@ -18,6 +18,8 @@ import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import ArrowDown from '@/assets/icons/modules/airSales/deals/arrow-down';
 import { AIR_SALES } from '@/routesConstants/paths';
 import useDealsReports from './useDealsReports';
+import NoData from '@/components/NoData';
+import { dealStatus } from '@/constants';
 
 const DealsReport = () => {
   const theme = useTheme<Theme>();
@@ -126,13 +128,25 @@ const DealsReport = () => {
                   control={
                     <Checkbox
                       value={data?.value}
-                      checked={data?.value === filter?.owner}
-                      onChange={(val: any) =>
-                        setFilter({
-                          ...filter,
-                          owner: val?.target?.defaultValue,
-                        })
-                      }
+                      checked={filter?.owners?.includes(data?.value)}
+                      onChange={(event: any) => {
+                        if (event.target.checked) {
+                          setFilter({
+                            ...filter,
+                            owners: [
+                              ...(filter?.owners || []),
+                              event?.target?.value,
+                            ],
+                          });
+                        } else {
+                          setFilter({
+                            ...filter,
+                            owners: filter?.owners?.filter(
+                              (value: any) => value !== event?.target?.value,
+                            ),
+                          });
+                        }
+                      }}
                     />
                   }
                   label={data?.label}
@@ -170,13 +184,25 @@ const DealsReport = () => {
                   control={
                     <Checkbox
                       value={item?.value}
-                      checked={item?.value === filter?.pipeline}
-                      onChange={(val: any) =>
-                        setFilter({
-                          ...filter,
-                          pipeline: val?.target?.defaultValue,
-                        })
-                      }
+                      checked={filter?.pipelines?.includes(item?.value)}
+                      onChange={(event: any) => {
+                        if (event.target.checked) {
+                          setFilter({
+                            ...filter,
+                            pipelines: [
+                              ...(filter?.pipelines || []),
+                              event?.target?.value,
+                            ],
+                          });
+                        } else {
+                          setFilter({
+                            ...filter,
+                            pipelines: filter?.pipelines?.filter(
+                              (value: any) => value !== event?.target?.value,
+                            ),
+                          });
+                        }
+                      }}
                     />
                   }
                   label={item?.label}
@@ -195,21 +221,28 @@ const DealsReport = () => {
           </Button>
         </Box>
       </Box>
-      <Box sx={{ marginTop: '1rem' }}>
-        <CardAndGraphs
-          dealsReportsCardsData={dealsReportsCardsData}
-          dealsReportsGraphData={dealsReportsGraphData}
-        />
-      </Box>
-      <Box sx={{ marginTop: '1rem' }}>
-        <DealsOverview
-          setPage={setPage}
-          setLimit={setLimit}
-          searchBy={searchBy}
-          setSearchBy={setSearchBy}
-          dealsReportsTable={dealsReportsTable}
-        />
-      </Box>
+      {dealsReportsGraphData?.length === dealStatus?.INITIAL_NUMBER &&
+      dealsReportsTable?.deals?.length === dealStatus?.INITIAL_NUMBER ? (
+        <NoData />
+      ) : (
+        <Box>
+          <Box sx={{ marginTop: '1rem' }}>
+            <CardAndGraphs
+              dealsReportsCardsData={dealsReportsCardsData}
+              dealsReportsGraphData={dealsReportsGraphData}
+            />
+          </Box>
+          <Box sx={{ marginTop: '1rem' }}>
+            <DealsOverview
+              setPage={setPage}
+              setLimit={setLimit}
+              searchBy={searchBy}
+              setSearchBy={setSearchBy}
+              dealsReportsTable={dealsReportsTable}
+            />
+          </Box>
+        </Box>
+      )}
     </>
   );
 };
