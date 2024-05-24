@@ -19,6 +19,7 @@ const useTasks = () => {
   const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState(false);
   const [isOpenChangeStatus, setIsOpenChangeStatus] = useState(false);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
+  const [statusVariant, setStatusVariant] = useState('');
   const [isListView, setIsListView] = useState('listView');
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -118,15 +119,17 @@ const useTasks = () => {
     handleChangeStatus,
     isOpenChangeStatus,
     compaignsTasksData,
+    handleUpdateStatus,
     getCampaignsTasks,
     handleDeleteModal,
     deleteTaskLoading,
     updateTaskLoading,
-    handleUpdateStatus,
     statusConstants,
     actionMenuOpen,
     setSearchValue,
     setSelectedRec,
+    statusVariant,
+    setStatusVariant,
     setPageLimit,
     setAnchorEl,
     deleteTasks,

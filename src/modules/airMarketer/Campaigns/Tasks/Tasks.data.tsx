@@ -2,11 +2,17 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 export const columns: any = (columnsProps: any) => {
-  const { selectedRec, setSelectedRec, compaignsTasksData } = columnsProps;
+  const { selectedRec, setSelectedRec, compaignsTasksData, setStatusVariant } =
+    columnsProps;
 
-  const handleSelectTaskById = (checked: boolean, id: string): void => {
+  const handleSelectTaskById = (
+    checked: boolean,
+    id: string,
+    status: any,
+  ): void => {
     if (checked) {
       setSelectedRec([...selectedRec, id]);
+      setStatusVariant(status);
     } else {
       setSelectedRec(selectedRec?.filter((_id: any) => _id !== id));
     }
@@ -26,7 +32,11 @@ export const columns: any = (columnsProps: any) => {
         <Checkbox
           checked={selectedRec?.includes(original?._id)}
           onChange={({ target }) => {
-            handleSelectTaskById(target.checked, original?._id);
+            handleSelectTaskById(
+              target.checked,
+              original?._id,
+              original?.status,
+            );
           }}
         />
       ),

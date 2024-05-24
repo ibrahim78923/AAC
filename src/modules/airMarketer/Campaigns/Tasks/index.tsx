@@ -37,6 +37,8 @@ const Tasks = () => {
     actionMenuOpen,
     setSearchValue,
     setSelectedRec,
+    setStatusVariant,
+    statusVariant,
     setPageLimit,
     setAnchorEl,
     searchValue,
@@ -53,6 +55,7 @@ const Tasks = () => {
     selectedRec: selectedRec,
     setSelectedRec: setSelectedRec,
     compaignsTasksData: compaignsTasksData,
+    setStatusVariant: setStatusVariant,
   };
   return (
     <>
@@ -206,7 +209,12 @@ const Tasks = () => {
           isPagination
         />
       ) : (
-        <TaskViewCard data={compaignsTasksData} />
+        <TaskViewCard
+          data={compaignsTasksData}
+          loading={isLoading}
+          selectedRec={selectedRec}
+          setSelectedRec={setSelectedRec}
+        />
       )}
 
       {isOpenEditTaskDrawer?.isToggle && (
@@ -223,6 +231,7 @@ const Tasks = () => {
           }}
         />
       )}
+
       {isOpenDeleteDrawer && (
         <AlertModals
           message="You're about to delete a record. Are you sure?"
@@ -252,15 +261,30 @@ const Tasks = () => {
                       statusConstants?.INPROGRESS,
                     );
                   }}
-                  variant="contained"
+                  disabled={
+                    statusConstants?.INPROGRESS === statusVariant ? true : false
+                  }
+                  variant={
+                    statusConstants?.INPROGRESS === statusVariant
+                      ? 'contained'
+                      : 'outlined'
+                  }
+                  color="inherit"
                 >
-                  Inprogress
+                  In progress
                 </Button>
                 <Button
                   onClick={() => {
                     handleUpdateStatus(selectedRec, statusConstants?.PENDING);
                   }}
-                  variant="outlined"
+                  disabled={
+                    statusConstants?.PENDING === statusVariant ? true : false
+                  }
+                  variant={
+                    statusConstants?.PENDING === statusVariant
+                      ? 'contained'
+                      : 'outlined'
+                  }
                   color="inherit"
                 >
                   Pending
@@ -269,7 +293,14 @@ const Tasks = () => {
                   onClick={() => {
                     handleUpdateStatus(selectedRec, statusConstants?.COMPLETED);
                   }}
-                  variant="outlined"
+                  disabled={
+                    statusConstants?.COMPLETED === statusVariant ? true : false
+                  }
+                  variant={
+                    statusConstants?.COMPLETED === statusVariant
+                      ? 'contained'
+                      : 'outlined'
+                  }
                   color="inherit"
                 >
                   Completed
