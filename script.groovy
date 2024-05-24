@@ -1,11 +1,11 @@
 #!/usr/bin/env groovy
 def deployImg(){
-          lock('deploy_AAC_FE_lock'){
-            sshagent(['aac']) {
+          lock('aac_fe_stg'){
+            sshagent(['aac-stg']) {
               sh """
-                ssh -o StrictHostKeyChecking=no -tt ubuntu@192.168.100.131 '
+                ssh -o StrictHostKeyChecking=no -tt ubuntu@18.169.81.198 '
                   cd aac/AAC-FE
-                  git pull origin dev
+                  git pull origin staging
                   docker system prune -a -f
                   docker compose up -d --build
                   
