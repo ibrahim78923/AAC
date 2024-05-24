@@ -1,0 +1,34 @@
+import { PAGINATION } from '@/config';
+import { useState } from 'react';
+import { getSignUpLeadsColumns } from './SignUpLeads.data';
+import { useGetSignUpLeadsQuery } from '@/services/airServices/signup-leads';
+
+export default function useSignUpLeads() {
+  const [searchBy, setSearchBy] = useState('');
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const params = {
+    page: page,
+    limit: pageLimit,
+    search: searchBy,
+  };
+
+  const { data, isLoading, isError, isFetching, isSuccess } =
+    useGetSignUpLeadsQuery({ params }, { refetchOnMountOrArgChange: true });
+
+  const signUpLeadsColumns = getSignUpLeadsColumns();
+
+  return {
+    setSearchBy,
+    data,
+    signUpLeadsColumns,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+    setPageLimit,
+    setPage,
+  };
+}

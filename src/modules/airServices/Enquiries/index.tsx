@@ -35,7 +35,7 @@ export default function Enquiries() {
   return (
     <>
       <PageTitledHeader title={'Enquiries'} />
-      <Grid container justifyContent={'space-between'}>
+      <Grid container justifyContent={'space-between'} spacing={4}>
         <Grid item xs={12} md={6}>
           <PermissionsGuard
             permissions={[AIR_SERVICES_ENQUIRIES_PERMISSION?.SEARCH_AND_FILTER]}
@@ -74,23 +74,27 @@ export default function Enquiries() {
           </PermissionsGuard>
         </Grid>
 
-        <Grid item xs={12} mt={4}>
-          <TanstackTable
-            data={data?.data?.enquiries}
-            columns={enquiriesColumns}
-            isPagination
-            isLoading={isLoading}
-            isError={isError}
-            isFetching={isFetching}
-            isSuccess={isSuccess}
-            setPageLimit={setPageLimit}
-            setPage={setPage}
-            currentPage={data?.data?.meta?.page}
-            count={data?.data?.meta?.pages}
-            pageLimit={data?.data?.meta?.limit}
-            totalRecords={data?.data?.meta?.total}
-            onPageChange={(page: any) => setPage(page)}
-          />
+        <Grid item xs={12}>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_ENQUIRIES_PERMISSION?.ENQUIRIES_LIST]}
+          >
+            <TanstackTable
+              data={data?.data?.enquiries}
+              columns={enquiriesColumns}
+              isPagination
+              isLoading={isLoading}
+              isError={isError}
+              isFetching={isFetching}
+              isSuccess={isSuccess}
+              setPageLimit={setPageLimit}
+              setPage={setPage}
+              currentPage={data?.data?.meta?.page}
+              count={data?.data?.meta?.pages}
+              pageLimit={data?.data?.meta?.limit}
+              totalRecords={data?.data?.meta?.total}
+              onPageChange={(page: any) => setPage(page)}
+            />
+          </PermissionsGuard>
         </Grid>
       </Grid>
 

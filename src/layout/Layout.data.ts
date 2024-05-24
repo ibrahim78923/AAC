@@ -44,6 +44,8 @@ import {
   WorkFlowAutomationImage,
   WorkLoadImage,
   FeedbackSurveyImage,
+  EnquiriesImage,
+  SignupLeadsImage,
 } from '@/assets/images';
 import { Quick_Links_Routes } from '@/constants';
 import {
@@ -224,10 +226,17 @@ export const ServicesRoutes: any = [
   },
   {
     key: '/air-services/enquiries',
-    icon: BillingInvoiceImage,
+    icon: EnquiriesImage,
     label: 'Enquiries',
     role: 'SERVICE',
     permissions: Permissions?.AIR_SERVICES_ENQUIRIES,
+  },
+  {
+    key: '/air-services/signup-leads',
+    icon: SignupLeadsImage,
+    label: 'Signup Leads',
+    role: 'SERVICE',
+    permissions: Permissions?.AIR_SERVICES_SIGNUP_LEADS_PERMISSION,
   },
   {
     key: '/air-customer-portal',

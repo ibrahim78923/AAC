@@ -668,6 +668,11 @@ export const AIR_SERVICES_ENQUIRIES_PERMISSION = {
   ENQUIRY_REFRESH: 'enquiry-refresh',
 };
 
+export const AIR_SERVICES_SIGNUP_LEADS_PERMISSION = {
+  SIGNUP_LEADS_SEARCH: 'signup-leads-list-search',
+  SIGNUP_LEADS_LIST: 'signup-leads-list',
+};
+
 export const AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS = {
   REPORT_AN_ISSUES: 'service-customer-portal-report-an-issues',
   SENT_SERVICES_REQUEST: 'service-customer-sent-services-request',

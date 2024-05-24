@@ -132,6 +132,7 @@ export const TAGS = [
   'TIERS',
   'LEAD_CAPTURE_FORM',
   'RULES',
+  'AIR_SERVICES_SIGN_UP_LEADS',
   'DASHBOARD_EMAIL',
 ];
 

@@ -164,10 +164,10 @@ const TaskViewCard = ({ data, loading, selectedRec, setSelectedRec }: any) => {
                               items?.status === statusConstants?.Inprogress
                                 ? `${theme?.palette?.warning?.main}`
                                 : items?.status === statusConstants?.Pending
-                                ? `${theme?.palette?.error?.main}`
-                                : items?.status === statusConstants?.Complete
-                                ? `${theme?.palette?.success?.main}`
-                                : '',
+                                  ? `${theme?.palette?.error?.main}`
+                                  : items?.status === statusConstants?.Complete
+                                    ? `${theme?.palette?.success?.main}`
+                                    : '',
                             fontWeight: 600,
                           }}
                         >

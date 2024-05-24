@@ -388,6 +388,7 @@ export const END_POINTS = {
   GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
   CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
   NEW_IMPORT_FILE: `/new-import-file/new-import-file`,
+  SIGN_UP_LEADS: '/contact/signup-leads',
 };
 
 export const LEAD_CAPTURE_FORM = {
