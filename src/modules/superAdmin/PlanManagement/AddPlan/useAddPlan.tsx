@@ -91,7 +91,6 @@ export const useAddPlan = () => {
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
     router?.back();
-    window.location.href = SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID;
     dispatch(clearState());
   };
 
@@ -159,8 +158,8 @@ export const useAddPlan = () => {
     watch: watchPermissionSlugs,
     setValue: setPermissionSlugs,
   } = methodsPlanModules;
-  const AdditionalStorageValue = watch(['allowAdditionalStorage']);
-  const AdditionalUsereValue = watch(['allowAdditionalUsers']);
+  const AdditionalStorage = watch(['allowAdditionalStorage']);
+  const AdditionalUser = watch(['allowAdditionalUsers']);
   const checkValueAdditionalStoragePrice = watch(['additionalStoragePrice']);
   const checkValueAdditionalPerUserPrice = watch(['additionalPerUserPrice']);
 
@@ -487,7 +486,6 @@ export const useAddPlan = () => {
       return;
     }
   };
-
   const AddPlanStepperData = [
     {
       key: uuidv4(),
@@ -496,8 +494,8 @@ export const useAddPlan = () => {
         <AddPlanForm
           methods={methodsPlan}
           handleSubmit={handlePlanForm}
-          AdditionalStorageValue={AdditionalStorageValue}
-          AdditionalUsereValue={AdditionalUsereValue}
+          AdditionalStorageValue={AdditionalStorage}
+          AdditionalUsereValue={AdditionalUser}
           crmValue={crmValue}
           setCrmValue={setCrmValue}
           selectProductSuite={selectProductSuite}
@@ -585,24 +583,27 @@ export const useAddPlan = () => {
     }
   }, [crmData, planExist]);
 
+  const AdditionalStorageValue = AdditionalStorage[0];
+  const AdditionalUserValue = AdditionalUser[0];
+
   useEffect(() => {
-    if (AdditionalStorageValue[0] === 'No') {
+    if (AdditionalStorageValue === 'No') {
       setValue('additionalStoragePrice', 0);
     } else if (
-      AdditionalStorageValue[0] === 'Yes' &&
+      AdditionalStorageValue === 'Yes' &&
       checkValueAdditionalStoragePrice[0] === 0
     ) {
       setValue('additionalStoragePrice', 1);
     }
     if (
-      AdditionalUsereValue[0] === 'Yes' &&
+      AdditionalUserValue === 'Yes' &&
       checkValueAdditionalPerUserPrice[0] === 0
     ) {
       setValue('additionalPerUserPrice', 1);
-    } else if (AdditionalUsereValue[0] === 'No') {
+    } else if (AdditionalUserValue === 'No') {
       setValue('additionalPerUserPrice', 0);
     }
-  }, [AdditionalStorageValue, AdditionalUsereValue]);
+  }, [AdditionalStorageValue, AdditionalUserValue]);
 
   return {
     methods,

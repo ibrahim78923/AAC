@@ -185,16 +185,19 @@ const Modules = ({
                   </Box>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <SubModulesAccordion
-                    subModules={item?.subModules}
-                    methods={methods}
-                    handleSubmit={handleSubmit}
-                    editPlan={
-                      editPlan?.planProductPermissions[0]?.permissionSlugs
-                    }
-                    handleChangeSubModule={handleChangeSubModule}
-                    selectedSubModule={selectedSubModule}
-                  />
+                  {selectedModule ===
+                    `${item?.subModules[0]?.permissions[0]?.productId}:${item?.name}` && (
+                    <SubModulesAccordion
+                      subModules={item?.subModules}
+                      methods={methods}
+                      handleSubmit={handleSubmit}
+                      editPlan={
+                        editPlan?.planProductPermissions[0]?.permissionSlugs
+                      }
+                      handleChangeSubModule={handleChangeSubModule}
+                      selectedSubModule={selectedSubModule}
+                    />
+                  )}
                 </AccordionDetails>
               </Accordion>
             ))}
@@ -276,7 +279,10 @@ const Modules = ({
                               event: React.MouseEvent<HTMLButtonElement>,
                             ) => {
                               event.stopPropagation();
-                              selectAllPermissions(item?.subModules);
+                              selectAllPermissions(
+                                item?.subModules,
+                                `${item?.subModules[0]?.permissions[0]?.productId}:${item?.name}`,
+                              );
                             }}
                           />
                         }
@@ -288,13 +294,16 @@ const Modules = ({
                     </Box>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <SubModulesAccordion
-                      subModules={item?.subModules}
-                      methods={methods}
-                      handleSubmit={handleSubmit}
-                      handleChangeSubModule={handleChangeSubModule}
-                      selectedSubModule={selectedSubModule}
-                    />
+                    {selectedModule ===
+                      `${item?.subModules[0]?.permissions[0]?.productId}:${item?.name}` && (
+                      <SubModulesAccordion
+                        subModules={item?.subModules}
+                        methods={methods}
+                        handleSubmit={handleSubmit}
+                        handleChangeSubModule={handleChangeSubModule}
+                        selectedSubModule={selectedSubModule}
+                      />
+                    )}
                   </AccordionDetails>
                 </Accordion>
               ))}
