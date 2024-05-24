@@ -11,23 +11,23 @@ const QuoteInfo = () => {
     <>
       <Box sx={styles?.quoteInfo}>
         <Grid container spacing={'16px'}>
-          <Grid item xs={4}>
+          <Grid item lg={4} sm={6} xs={12}>
             <Box sx={styles?.quoteInfoTitle}>
-              Quote No:{' '}
+              Quote No:
               <Box component="span">{dataGetQuoteById?.data?._id ?? 'N/A'}</Box>
             </Box>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item lg={4} sm={6} xs={12}>
             <Box sx={styles?.quoteInfoTitle}>
-              Prepared By:{' '}
+              Prepared By:
               <Box component="span">{`${
                 dataGetQuoteById?.data?.createdBy?.firstName ?? 'N/A'
               } ${dataGetQuoteById?.data?.createdBy?.lastName ?? 'N/A'}`}</Box>
             </Box>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item lg={4} sm={6} xs={12}>
             <Box sx={styles?.quoteInfoTitle}>
-              Valid Till:{' '}
+              Valid Till:
               <Box component="span">
                 {dayjs(dataGetQuoteById?.data?.expiryDate)?.format(
                   DATE_FORMAT?.API,

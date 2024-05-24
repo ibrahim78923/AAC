@@ -5,6 +5,8 @@ export const styles = {
     pt: '24px',
     mt: '24px',
     borderTop: `1px solid ${theme?.palette?.grey[700]}`,
+    flexWrap: 'wrap',
+    gap: 1,
   }),
   btnBack: (theme: any) => ({
     borderColor: theme?.palette?.custom?.dark,

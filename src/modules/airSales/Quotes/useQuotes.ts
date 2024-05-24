@@ -10,10 +10,10 @@ import {
   // useUpdateQuoteMutation,
 } from '@/services/airSales/quotes';
 import { enqueueSnackbar } from 'notistack';
+import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
 
 const useQuotes = () => {
   const router = useRouter();
-  // Actions Dopdown
   const [actionsEl, setActionsEl] = useState<null | HTMLElement>(null);
   const openActionsDropdown = Boolean(actionsEl);
   const handleActionsDropdown = (event: React.MouseEvent<HTMLElement>) => {
@@ -70,7 +70,10 @@ const useQuotes = () => {
   const handleCloseFilters = () => {
     setOpenFilters(false);
   };
+
   const onSubmitFilters = async (values: any) => {
+    values.status =
+      values.status === MEETINGS_DETAILS_TYPE?.ALL ? undefined : values?.status;
     setFilterParams((prev) => {
       return {
         ...prev,
@@ -81,7 +84,6 @@ const useQuotes = () => {
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
-  // Refresh
   const handleRefresh = () => {
     setPageLimit(PAGINATION?.PAGE_LIMIT);
     setPage(PAGINATION?.CURRENT_PAGE);
@@ -89,7 +91,6 @@ const useQuotes = () => {
     resetFilters();
   };
 
-  // Customize Columns Drawer
   const [checkedColumns, setcheckedColumns] = useState<any>(null);
   const [customizedColumns, setCustomizedColumns] = useState(checkedColumns);
   const [openCustomizeColumns, setOpenCustomizeColumns] = useState(false);

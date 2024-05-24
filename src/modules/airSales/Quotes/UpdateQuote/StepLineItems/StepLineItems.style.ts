@@ -9,6 +9,7 @@ export const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     p: '16px 24px',
+    flexWrap: 'wrap',
   }),
   pageHeaderTitle: () => ({
     color: '#1F2937',

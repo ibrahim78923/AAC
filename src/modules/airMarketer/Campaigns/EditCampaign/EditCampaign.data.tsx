@@ -30,112 +30,116 @@ export const defaultValues = {
   compaignStatus: '',
 };
 
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'title',
-      label: 'Title',
-      placeholder: 'John Allen',
-      required: true,
-      fullWidth: true,
+export const dataArray = (UserListData: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'title',
+        label: 'Title',
+        placeholder: 'John Allen',
+        required: true,
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'compaignOwner',
-      label: 'Compaign Owner',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'campaignOwner',
+        label: 'Compaign Owner',
+        fullWidth: true,
+        select: true,
+      },
+
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })) ?? [{ label: '', value: '' }],
+
+      component: RHFSelect,
+
+      md: 12,
     },
+    {
+      componentProps: {
+        name: 'startDate',
+        label: 'Start Date',
+        fullWidth: true,
+      },
 
-    options: [
-      { value: 'fabrizioRomano', label: 'fabrizioRomano' },
-      { value: 'fabrizioRomano', label: 'fabrizioRomano' },
-    ],
+      component: RHFDatePicker,
 
-    component: RHFSelect,
-
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'startDate',
-      label: 'Start Date',
-      fullWidth: true,
+      md: 12,
     },
+    {
+      componentProps: {
+        name: 'endDate',
+        label: 'End Date',
+        fullWidth: true,
+      },
 
-    component: RHFDatePicker,
+      component: RHFDatePicker,
 
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'endDate',
-      label: 'End Date',
-      fullWidth: true,
+      md: 12,
     },
-
-    component: RHFDatePicker,
-
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'compaignGoal',
-      label: 'Compaign Goal',
-      placeholder: 'Get 5k likes on instagram',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'campaignGoal',
+        label: 'Compaign Goal',
+        placeholder: 'Get 5k likes on instagram',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'compaignAudience',
-      label: 'Compaign Audience',
-      placeholder: 'Instagram influencers',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'campaignAudience',
+        label: 'Compaign Audience',
+        placeholder: 'Instagram influencers',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'compaignBudget',
-      label: 'Compaign Budget',
-      placeholder: '£20.105.00',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'campaignBudget',
+        label: 'Compaign Budget',
+        placeholder: '£20.105.00',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'compaignStatus',
-      label: 'compaign Status',
-      fullWidth: true,
-      select: true,
-    },
+    {
+      componentProps: {
+        name: 'campaignStatus',
+        label: 'compaign Status',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'scheduled', label: 'Scheduled' },
+        { value: 'inprogress', label: 'In Progress' },
+        { value: 'active', label: 'Active' },
+        { value: 'paused', label: 'Paused' },
+        { value: 'completed', label: 'Completed' },
+      ],
 
-    options: [
-      { value: 'active', label: 'Active' },
-      { value: 'inactive', label: 'Inactive' },
-    ],
+      component: RHFSelect,
 
-    component: RHFSelect,
-
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'editor',
-      label: '',
-      fullWidth: true,
-      placeholder: 'This campaign is created to market our instagram page',
+      md: 12,
     },
-    component: RHFEditor,
-    md: 12,
-  },
-];
+    {
+      componentProps: {
+        name: 'description',
+        label: '',
+        fullWidth: true,
+        placeholder: 'This campaign is created to market our instagram page',
+      },
+      component: RHFEditor,
+      md: 12,
+    },
+  ];
+};

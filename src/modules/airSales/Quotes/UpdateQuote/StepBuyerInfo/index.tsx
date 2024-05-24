@@ -44,7 +44,7 @@ const StepBuyerInfo = ({
   return (
     <>
       <Grid container spacing={'40px'}>
-        <Grid item xs={5}>
+        <Grid item xs={12} sm={12} md={12} lg={5}>
           <Box>
             <>
               {!selectedBuyerContactIds && !selectedCompanyIds && (
@@ -86,17 +86,6 @@ const StepBuyerInfo = ({
                   {contactData &&
                     contactData[0]?.contacts?.map((item: any) => (
                       <Box component="li" sx={styles?.listItem} key={item?.id}>
-                        {/* <Avatar
-                          src={generateImage(item?.owner?.profilePicture?.url)}
-                          sx={{
-                            color: theme?.palette?.grey[600],
-                            fontWeight: 500,
-                          }}
-                        >
-                          {`${item?.firstName?.charAt(
-                            0,
-                          )}${item?.lastName?.charAt(0)}`}
-                        </Avatar> */}
                         <Avatar
                           alt="user"
                           src={generateImage(item?.owner?.profilePicture?.url)}
@@ -120,6 +109,7 @@ const StepBuyerInfo = ({
                           <Typography sx={styles?.itemText}>
                             {item?.name}
                           </Typography>
+
                           <Tooltip title={item?.email}>
                             <Typography
                               sx={{
@@ -175,7 +165,7 @@ const StepBuyerInfo = ({
                   contactData[0]?.companies?.map((item: any) => (
                     <Box component="li" sx={styles?.listItem} key={item?.id}>
                       <Box>
-                        <Avatar
+                        {/* <Avatar
                           src={generateImage(item?.owner?.profilePicture?.url)}
                           sx={{
                             color: theme?.palette?.grey[600],
@@ -185,6 +175,25 @@ const StepBuyerInfo = ({
                           {`${item?.firstName?.charAt(
                             0,
                           )}${item?.lastName?.charAt(0)}`}
+                        </Avatar> */}
+                        <Avatar
+                          alt="user"
+                          src={generateImage(item?.owner?.profilePicture?.url)}
+                          sx={{
+                            width: 35,
+                            height: 35,
+                            background: theme?.palette?.grey[400],
+                          }}
+                        >
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              color: theme?.palette?.custom?.dim_grey,
+                            }}
+                          >
+                            {item?.name?.charAt(1)}
+                            {item?.name?.charAt(item?.name?.length - 1)}
+                          </Typography>
                         </Avatar>
                       </Box>
                       <Box flex={1}>
@@ -213,10 +222,9 @@ const StepBuyerInfo = ({
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={12} md={12} lg={7}>
           <TemplateFrame>
             <TemplateBasic />
-            {/* <TemplatePlaceholder /> */}
           </TemplateFrame>
         </Grid>
       </Grid>

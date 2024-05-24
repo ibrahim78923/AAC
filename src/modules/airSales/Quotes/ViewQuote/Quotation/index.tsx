@@ -1,9 +1,12 @@
-import { Box } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { styles } from './Quotation.style';
 import useViewQuotes from '../useViewQuote';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const Quotation = () => {
   const { viewQuotesData, taxCalculation } = useViewQuotes();
+  const theme = useTheme();
 
   const sum = viewQuotesData?.data?.products?.reduce(
     (accumulator: any, currentValue: any) =>
@@ -70,7 +73,17 @@ const Quotation = () => {
           <Box sx={styles?.boxLabel}>Signature</Box>
         </Box>
         <Box sx={styles?.dateBox}>
-          <Box sx={styles?.dateSpace}>{}</Box>
+          {/* <Box sx={styles?.dateSpace}></Box> */}
+          <Typography
+            sx={{
+              ml: 1,
+              fontSize: '13px',
+              fontWeight: '400',
+              color: theme?.palette?.custom?.main,
+            }}
+          >
+            {dayjs(viewQuotesData?.data?.createdAt)?.format(DATE_FORMAT?.API)}
+          </Typography>
           <Box sx={styles?.boxLabel}>Date</Box>
         </Box>
       </Box>

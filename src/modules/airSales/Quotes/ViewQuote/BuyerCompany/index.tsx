@@ -15,7 +15,7 @@ const BuyerCompany = () => {
             {viewQuotesData?.data?.buyerCompany?.map((item: any) => {
               return (
                 <>
-                  <Avatar
+                  {/* <Avatar
                     src={generateImage(item?.owner?.profilePicture?.url)}
                     sx={{
                       color: theme?.palette?.grey[600],
@@ -25,6 +25,25 @@ const BuyerCompany = () => {
                     {`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(
                       0,
                     )}`}
+                  </Avatar> */}
+                  <Avatar
+                    alt="user"
+                    src={generateImage(item?.owner?.profilePicture?.url)}
+                    sx={{
+                      width: 35,
+                      height: 35,
+                      background: theme?.palette?.grey[400],
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: theme?.palette?.custom?.dim_grey,
+                      }}
+                    >
+                      {item?.name?.charAt(1)}
+                      {item?.name?.charAt(item?.name?.length - 1)}
+                    </Typography>
                   </Avatar>
                   <Typography variant="h6" sx={styles?.title}>
                     {item?.name ?? 'N/A'}

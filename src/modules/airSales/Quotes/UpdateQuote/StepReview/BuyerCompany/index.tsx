@@ -15,15 +15,23 @@ const BuyerCompany = () => {
               return (
                 <>
                   <Avatar
+                    alt="user"
                     src={generateImage(item?.owner?.profilePicture?.url)}
                     sx={{
-                      color: theme?.palette?.grey[600],
-                      fontWeight: 500,
+                      width: 35,
+                      height: 35,
+                      background: theme?.palette?.grey[400],
                     }}
                   >
-                    {`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(
-                      0,
-                    )}`}
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: theme?.palette?.custom?.dim_grey,
+                      }}
+                    >
+                      {item?.name?.charAt(0)}
+                      {item?.name?.charAt(item?.name?.length - 1)}
+                    </Typography>
                   </Avatar>
                   <Typography variant="h6" sx={styles?.title}>
                     {item?.name ?? 'N/A'}

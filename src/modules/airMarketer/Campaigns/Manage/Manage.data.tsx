@@ -85,7 +85,7 @@ export const columns: any = (
           checked={selectedRows?.includes(original?._id)}
           onChange={(val: any) => {
             handleSelectSingleCheckBox(val, original?._id);
-            router.push(`?campaignOwner=${original?.userDetails?._id}`);
+            router.push(`?id=${original?._id}`);
           }}
         />
       ),

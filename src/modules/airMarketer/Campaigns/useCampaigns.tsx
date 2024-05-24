@@ -8,14 +8,17 @@ import {
   useDeleteCampaignsMutation,
   useGetCampaignsQuery,
   usePostCampaignsMutation,
+  useUpdateCampaignsMutation,
 } from '@/services/airMarketer/campaigns';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
+import { useGetUsersListQuery } from '@/services/airSales/deals';
+import { ROLES } from '@/constants/strings';
+import { getSession } from '@/utils';
 
 const useCampaigns = () => {
   const theme = useTheme();
   const [tabVal, setTabVal] = useState<number>(0);
-  // const [checkedRows, setCheckedRows] = useState<any>();
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
   const [isOpenFilter, setIsOpenFilter] = useState(false);
@@ -31,6 +34,7 @@ const useCampaigns = () => {
     isDelete: false,
     isCreateTask: false,
   });
+  const [campaignDataById, setCampaignDataById] = useState<any>({});
   const [isDelete, setIsDelete] = useState(false);
   const [isCreateTask, setIsCreateTask] = useState(false);
   const [isCompare, setIsCompare] = useState(false);
@@ -59,12 +63,19 @@ const useCampaigns = () => {
         ? filters?.campaignStatus
         : undefined,
     });
-
+  const { user }: any = getSession();
+  const organizationId: any = user?.organization?._id;
+  const { data: UserListData } = useGetUsersListQuery({
+    role: ROLES?.ORG_EMPLOYEE,
+    organization: organizationId,
+  });
   const [postCampaigns, { isLoading: createCampaignsLoading }] =
     usePostCampaignsMutation();
 
   const [deleteCampaigns, { isLoading: deleteCampaignsLoading }] =
     useDeleteCampaignsMutation();
+
+  const [updateCampaigns] = useUpdateCampaignsMutation();
 
   const CampaignTask: any = useForm({});
   const router = useRouter();
@@ -180,8 +191,6 @@ const useCampaigns = () => {
     theme,
     tabVal,
     setTabVal,
-    // checkedRows,
-    // setCheckedRows,
     selectedValue,
     handleClick,
     handleSelectedOptionValue,
@@ -220,6 +229,10 @@ const useCampaigns = () => {
     allCamopaignsData,
     deleteCampaignsLoading,
     handleDeleteCampaigns,
+    campaignDataById,
+    setCampaignDataById,
+    UserListData,
+    updateCampaigns,
   };
 };
 export default useCampaigns;
