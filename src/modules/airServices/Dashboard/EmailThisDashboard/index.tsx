@@ -6,14 +6,8 @@ import { createEmailThisDashboardDataArray } from './EmailThisDashboard.data';
 import { RecurringEmail } from './RecurringEmail';
 
 function EmailThisDashboard({ isDrawerOpen, setIsDrawerOpen }: any) {
-  const {
-    handleSubmit,
-    submit,
-    methods,
-    watchRecurringEmail,
-    watch,
-    setValue,
-  } = useEmailThisDashboard();
+  const { methods, watchRecurringEmail, watch, setValue, postEmailProgress } =
+    useEmailThisDashboard();
   const recurringEmail = 'recurring';
   return (
     <>
@@ -23,10 +17,13 @@ function EmailThisDashboard({ isDrawerOpen, setIsDrawerOpen }: any) {
           setIsDrawerOpen(false);
         }}
         title="Email this dashboard"
-        submitHandler={() => handleSubmit(submit)()}
+        submitHandler={() => {}}
         footer={true}
         isOk={true}
         okText="Send"
+        isDisabled={postEmailProgress?.isLoading}
+        isLoading={postEmailProgress?.isLoading}
+        disabledCancelBtn={postEmailProgress?.isLoading}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>

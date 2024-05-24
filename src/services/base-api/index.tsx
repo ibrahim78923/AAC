@@ -132,6 +132,7 @@ export const TAGS = [
   'TIERS',
   'LEAD_CAPTURE_FORM',
   'RULES',
+  'DASHBOARD_EMAIL',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [

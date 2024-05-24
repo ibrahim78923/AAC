@@ -348,6 +348,7 @@ export const END_POINTS = {
   SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
   SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
   GET_TOP_PERFORMER: `/air-services-dashboard/get-top-performer`,
+  DASHBOARD_EMAIL: `/air-services-dashboard/emailed-dashboards`,
   GET_SETTING_NOTIFICATIONS: '/notifications/get-notification-settings',
   UPDATE_SETTING_NOTIFICATIONS: '/notifications/settings',
   GET_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/get-discussion`,

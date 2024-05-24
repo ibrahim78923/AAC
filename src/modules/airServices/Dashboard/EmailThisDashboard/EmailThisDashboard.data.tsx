@@ -6,17 +6,59 @@ import {
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
+export const constantData = {
+  condition: 'emailCondition',
+  schedule: 'schedule',
+  recurring: 'recurring',
+  monthly: 'monthly',
+  weekly: 'weekly',
+};
+
+export const conditionOptions = [
+  {
+    value: 'once',
+    label: ' No, this email will only be sent once',
+  },
+  {
+    value: 'recurring',
+    label: 'Yes, this is recurring email',
+  },
+];
+
 export const createEmailThisDashboardValidationSchema: any =
   Yup?.object()?.shape({
     emailCondition: Yup?.string()?.required('Required'),
-    internalRecipients: Yup?.string()?.trim(),
+    internalRecipients: Yup?.string()?.trim()?.required('Required'),
     emailSubject: Yup?.string(),
     message: Yup?.string(),
     fileType: Yup?.string(),
     schedule: Yup?.string(),
-    time: Yup?.string(),
-    scheduleDate: Yup?.string(),
-    scheduleDay: Yup?.string(),
+    time: Yup?.string()?.when(constantData?.condition, {
+      is: (emailCondition: string) =>
+        emailCondition === constantData?.recurring,
+      then: (schema: any) => schema?.required('Required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
+    scheduleDate: Yup?.string()?.when(
+      constantData?.condition || constantData?.schedule,
+      {
+        is: (emailCondition: string, schedule: string) =>
+          emailCondition === constantData?.recurring &&
+          schedule === constantData?.monthly,
+        then: (schema: any) => schema?.required('Required'),
+        otherwise: (schema: any) => schema?.notRequired(),
+      },
+    ),
+    scheduleDay: Yup?.string()?.when(
+      constantData?.condition || constantData?.schedule,
+      {
+        is: (emailCondition: string, schedule: string) =>
+          emailCondition === constantData?.recurring &&
+          schedule === constantData?.weekly,
+        then: (schema: any) => schema?.required('Required'),
+        otherwise: (schema: any) => schema?.notRequired(),
+      },
+    ),
   });
 
 export const createEmailThisDashboardDefaultValues: any = {
@@ -47,16 +89,7 @@ export const createEmailThisDashboardDataArray = [
       name: 'emailCondition',
       fullWidth: true,
       row: false,
-      options: [
-        {
-          value: 'once',
-          label: ' No, this email will only be sent once',
-        },
-        {
-          value: 'recurring',
-          label: 'Yes, this is recurring email',
-        },
-      ],
+      options: conditionOptions,
     },
     component: RHFRadioGroup,
     md: 12,
