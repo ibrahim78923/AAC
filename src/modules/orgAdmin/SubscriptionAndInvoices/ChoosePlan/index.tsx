@@ -77,10 +77,10 @@ const ChoosePlan = () => {
       planId: activePlanToBuy?._id,
       additionalUsers: maxAdditionalUsers,
       additionalStorage: maxAdditionalStorage,
-      planDiscount: 0.2,
       billingDate: dayjs(Date.now())?.format(DATE_FORMAT?.API),
       status: 'ACTIVE',
       billingCycle: 'MONTHLY',
+      planDiscount: 0,
       ...(isCRM && { isCRM: true }),
     };
 
@@ -278,7 +278,6 @@ const ChoosePlan = () => {
               </TableRow>
               <TableRow>
                 <TableCell sx={styles?.sideHeader}>Users</TableCell>
-
                 {getData?.length
                   ? getData?.map((choosePlan: any) => {
                       return (
@@ -290,8 +289,23 @@ const ChoosePlan = () => {
                             £ {choosePlan?.additionalPerUserPrice}/ Month per
                             additional user
                           </Typography>
-                          <Typography variant="body2">
+                        </TableCell>
+                      );
+                    })
+                  : null}
+              </TableRow>
+              <TableRow>
+                <TableCell sx={styles?.sideHeader}>Storage</TableCell>
+                {getData?.length
+                  ? getData?.map((choosePlan: any) => {
+                      return (
+                        <TableCell key={uuidv4()} sx={styles?.userIncludes}>
+                          <Typography variant="h6">
                             Allow {choosePlan?.defaultStorage} GB storage
+                          </Typography>
+                          <Typography variant="body2">
+                            £ {choosePlan?.additionalStoragePrice}/ Month per
+                            additional storage
                           </Typography>
                         </TableCell>
                       );
@@ -323,12 +337,15 @@ const ChoosePlan = () => {
                                 ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
                               ]}
                             >
-                              {item?.additionalPerUserPrice === null ||
-                              item?.additionalPerUserPrice === null ? (
-                                <Counter inputValue={0} disabled value={0} />
+                              {item?.additionalPerUserPrice === 0 ? (
+                                <Counter disabled={true} />
                               ) : (
                                 <CounterMaxUser
-                                  defaultUsers={item?.defaultUsers}
+                                  defaultUsers={
+                                    parsedManageData?.planId === item?._id
+                                      ? parsedManageData?.additionalUsers
+                                      : 0
+                                  }
                                   setMaxAdditionalUsers={setMaxAdditionalUsers}
                                   mainId={activePlanToBuy?._id}
                                   mapId={item?._id}
@@ -366,12 +383,15 @@ const ChoosePlan = () => {
                                 ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
                               ]}
                             >
-                              {item?.additionalStoragePrice === null ||
-                              item?.additionalStoragePrice === 0 ? (
-                                <Counter inputValue={0} disabled value={0} />
+                              {item?.additionalStoragePrice === 0 ? (
+                                <Counter disabled={true} />
                               ) : (
                                 <CounterAdditionalStorage
-                                  defaultUsers={item?.defaultStorage}
+                                  defaultUsers={
+                                    parsedManageData?.planId === item?._id
+                                      ? parsedManageData?.additionalStorage
+                                      : 0
+                                  }
                                   setMaxAdditionalStorage={
                                     setMaxAdditionalStorage
                                   }
@@ -536,12 +556,7 @@ const CounterMaxUser = ({
   }, [mainId, value]);
   return (
     <>
-      <Counter
-        value={value}
-        setValue={setValue}
-        inputValue={0}
-        maxValue={defaultUsers}
-      />
+      <Counter value={value} setValue={setValue} inputValue={0} />
     </>
   );
 };
@@ -564,7 +579,6 @@ const CounterAdditionalStorage = ({
         setValue={setValue}
         inputValue={0}
         fixedText="GB"
-        maxValue={defaultUsers}
       />
     </>
   );

@@ -163,6 +163,14 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
     }),
 
+    getActiveProducts: builder.query({
+      query: () => ({
+        url: END_POINTS?.PRODUCTS,
+        method: 'GET',
+      }),
+      providesTags: ['PRODUCTS'],
+    }),
+
     getLifeCycleStages: builder.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.LIFECYCLE_STAGES}`,
@@ -206,6 +214,7 @@ export const {
   useLazyGetAllCampaignsListQuery,
   useLazyGetDealOwnersListQuery,
   useLazyGetProductCategoriesQuery,
+  useGetActiveProductsQuery,
   useLazyGetLifeCycleStagesQuery,
   useLazyGetContactsStatusQuery,
 } = CommonAPIS;

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import useAuth from '../hooks/useAuth';
 import LoadingScreen from '@/components/LoadingScreen';
 import { ROLES } from '@/constants/strings';
-import { SUPER_ADMIN, ORG_ADMIN, AUTH, AIR_CUSTOMER_PORTAL } from '@/constants';
+import { SUPER_ADMIN, AUTH, AIR_CUSTOMER_PORTAL } from '@/constants';
 import { setActivePermissionsSession, setActiveProductSession } from '@/utils';
 import {
   orgAdminAllPermissions,
@@ -53,7 +53,7 @@ export default function GuestGuard({ children }: any) {
       pathVariable = '/';
       break;
     case ROLES.ORG_ADMIN:
-      pathVariable = ORG_ADMIN.DASHBOARD;
+      pathVariable = '/';
       //these two line are for testing purpose need to remove after org amdin and super admin permissions are cattered
       setActiveProductSession({ name: 'Org Admin' });
       setActivePermissionsSession(orgAdminAllPermissions);

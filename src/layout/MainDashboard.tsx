@@ -114,7 +114,6 @@ const DashboardLayout = ({ children, window }: any) => {
   // const findEmail: any = findRoleByEmail({ user, array });
 
   const routes = getRoutes(productName);
-
   const lowerRoutes = getLowerRoutes(productName);
   const pathname = usePathname();
 
@@ -189,54 +188,52 @@ const DashboardLayout = ({ children, window }: any) => {
                       <div key={uuidv4()}>
                         {link?.textNames ? (
                           <>
-                            <PermissionsGuard permissions={link?.permissions}>
-                              <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                                <Link
-                                  href={`${link?.key}`}
-                                  style={{
-                                    width: '100%',
-                                    padding: '0px',
-                                  }}
+                            <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                              <Link
+                                href={`${link?.key}`}
+                                style={{
+                                  width: '100%',
+                                  padding: '0px',
+                                }}
+                              >
+                                <ListItemButton
+                                  sx={styles?.mainNavLink(
+                                    pathNameKey,
+                                    routerPathName,
+                                    theme,
+                                  )}
+                                  onClick={() => toggleDropDown(link?.key)}
                                 >
-                                  <ListItemButton
-                                    sx={styles?.mainNavLink(
-                                      pathNameKey,
-                                      routerPathName,
-                                      theme,
-                                    )}
-                                    onClick={() => toggleDropDown(link?.key)}
+                                  <ListItemIcon
+                                    sx={{ minWidth: 20, marginRight: '10px' }}
                                   >
-                                    <ListItemIcon
-                                      sx={{ minWidth: 20, marginRight: '10px' }}
-                                    >
-                                      <Image
-                                        src={link?.icon}
-                                        alt="icons"
-                                        style={{
-                                          opacity:
-                                            routerPathName === pathNameKey
-                                              ? '1'
-                                              : '0.4',
-                                        }}
-                                      />
-                                    </ListItemIcon>
-
-                                    {link?.label}
-
-                                    <Box sx={{ paddingLeft: '15px' }}>
-                                      <Image
-                                        src={
+                                    <Image
+                                      src={link?.icon}
+                                      alt="icons"
+                                      style={{
+                                        opacity:
                                           routerPathName === pathNameKey
-                                            ? ArrowUpImage
-                                            : ArrowDownImage
-                                        }
-                                        alt="Avatar"
-                                      />
-                                    </Box>
-                                  </ListItemButton>
-                                </Link>
-                              </ListItem>
-                            </PermissionsGuard>
+                                            ? '1'
+                                            : '0.4',
+                                      }}
+                                    />
+                                  </ListItemIcon>
+
+                                  {link?.label}
+
+                                  <Box sx={{ paddingLeft: '15px' }}>
+                                    <Image
+                                      src={
+                                        routerPathName === pathNameKey
+                                          ? ArrowUpImage
+                                          : ArrowDownImage
+                                      }
+                                      alt="Avatar"
+                                    />
+                                  </Box>
+                                </ListItemButton>
+                              </Link>
+                            </ListItem>
                             <Collapse
                               in={routerPathName === pathNameKey}
                               timeout="auto"

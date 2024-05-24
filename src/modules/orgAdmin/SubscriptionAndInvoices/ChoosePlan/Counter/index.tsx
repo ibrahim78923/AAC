@@ -1,25 +1,23 @@
 import React, { ChangeEvent, FC } from 'react';
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { AddCircleIcon, MinusCircleIcon } from '@/assets/icons';
 import { styles } from './Counter.style';
 
 const Counter: FC<any> = ({
   fixedText,
   inputWidth = '58px',
-  disabled,
   value,
   setValue,
-  maxValue,
+  disabled,
 }) => {
+  const theme = useTheme();
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event?.target?.value);
     setValue(isNaN(newValue) ? 0 : newValue);
   };
   // setValue((prev: any) => prev + 1);
   const increment = () => {
-    if (maxValue > value) {
-      setValue((prev: any) => prev + 1);
-    }
+    setValue((prev: any) => prev + 1);
   };
 
   const decrement = () => {
@@ -32,20 +30,21 @@ const Counter: FC<any> = ({
     <>
       {disabled ? (
         <Box sx={styles?.counterHolder}>
-          <Box sx={styles?.decrementBtn(value)}>
+          <Box sx={styles?.decrementBtn(false)}>
             <MinusCircleIcon />
           </Box>
 
           <Box sx={styles?.textField}>
             <input
+              disabled
               type="text"
-              value={fixedText ? `${value} ${fixedText}` : value}
+              value={0}
               style={{ width: inputWidth }}
             />
           </Box>
 
-          <Box sx={styles?.incrementBtn} style={{ cursor: 'not-allowed' }}>
-            <AddCircleIcon color="#D1D5DB" />
+          <Box sx={styles?.decrementBtn(false)}>
+            <AddCircleIcon color={theme?.palette?.custom?.dark} />
           </Box>
         </Box>
       ) : (

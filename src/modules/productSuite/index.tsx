@@ -8,6 +8,7 @@ import {
   Box,
   Typography,
   CircularProgress,
+  Button,
 } from '@mui/material';
 
 import { useTheme } from '@mui/material';
@@ -22,7 +23,7 @@ import {
   useGetAuthAccountsQuery,
   usePostAuthAccountSelectMutation,
 } from '@/services/auth';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import {
@@ -33,6 +34,8 @@ import {
 // import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
 import { generateImage } from '@/utils/avatarUtils';
+import { ORG_ADMIN } from '@/constants';
+import { useGetActiveProductsQuery } from '@/services/common-APIs';
 // import { generateImage } from '@/utils/avatarUtils';
 
 const ProductSuite = () => {
@@ -42,6 +45,7 @@ const ProductSuite = () => {
     setPermissions,
     isPermissions,
     authMeLoadingState,
+    user,
   } = useAuth();
   const router = useRouter();
   const {
@@ -71,7 +75,7 @@ const ProductSuite = () => {
           variant: NOTISTACK_VARIANTS?.ERROR,
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {
@@ -111,6 +115,31 @@ const ProductSuite = () => {
   if (accountsData?.data) {
     setAccountsData(accountsData);
   }
+
+  useEffect(() => {
+    if (user?.role === ROLES?.ORG_ADMIN) {
+      if (accountsData?.data?.length === 0) {
+        router.push(ORG_ADMIN?.DASHBOARD);
+      }
+    }
+  }, [accountsData?.data]);
+
+  // show all products
+  const { data: productList } = useGetActiveProductsQuery({});
+  const accountsDataMap = new Map(
+    accountsData?.data?.map((account: any) => [account?._id, account]),
+  );
+  let updatedProductList = productList?.data?.map((product: any) =>
+    accountsDataMap?.has(product?._id)
+      ? accountsDataMap?.get(product?._id)
+      : product,
+  );
+  updatedProductList = updatedProductList?.sort((a: any, b: any) => {
+    if (a?.accounts && !b?.accounts) return -1;
+    if (!a?.accounts && b?.accounts) return 1;
+    return 0;
+  });
+
   return (
     <Box
       sx={{
@@ -133,7 +162,23 @@ const ProductSuite = () => {
         <Box>
           <CompanyLogoIcon />
         </Box>
+
+        {user?.role === ROLES?.ORG_ADMIN && (
+          <>
+            {accountsData?.data?.length && (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  router.push(ORG_ADMIN?.DASHBOARD);
+                }}
+              >
+                Organization Admin portal
+              </Button>
+            )}
+          </>
+        )}
       </Box>
+
       <Box sx={{ padding: '40px 0' }}>
         <Typography variant="h1" sx={{ textAlign: 'center' }}>
           Select Company Accounts
@@ -144,7 +189,7 @@ const ProductSuite = () => {
       </Box>
       <Grid
         container
-        spacing={2}
+        spacing={3}
         sx={{
           paddingX: '150px',
           paddingTop: '50px',
@@ -171,170 +216,111 @@ const ProductSuite = () => {
             <CircularProgress />
           </Box>
         ) : (
-          accountsData?.data?.map((product: any) => (
-            <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
-              <Card
-                className="card-hover-color cursor-pointer"
-                sx={{
-                  boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
-                  borderRadius: '6px',
-                  '&:hover': {
-                    transition: '0.3s',
-                    outline: `1.5px solid ${theme?.palette?.primary?.main}`,
-                    boxShadow: '0px 1px 1px -1px',
-                  },
-                  height: '270px',
-                }}
-              >
-                <CardActionArea
-                  disableRipple
+          <>
+            {updatedProductList?.map((product: any) => (
+              <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
+                <Card
                   sx={{
-                    display: 'flex',
-                    color: theme?.palette?.custom?.charcoal_gray,
-                    pt: 4,
-                    justifyContent: 'center',
-                    flexDirection: 'column',
+                    boxShadow: 'rgb(147 147 147 / 20%) 0px 6px 19px',
+                    borderRadius: '12px',
+
                     '&:hover': {
-                      '.MuiCardActionArea-focusHighlight': {
-                        opacity: '0',
+                      transition: '0.3s',
+                      outline: `1.5px solid ${theme?.palette?.primary?.main}`,
+                      boxShadow: 'none',
+                    },
+                    height: '270px',
+                  }}
+                >
+                  <CardActionArea
+                    disableRipple
+                    sx={{
+                      display: 'flex',
+                      color: theme?.palette?.custom?.charcoal_gray,
+                      p: 3,
+                      pt: 4,
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      width: '100%',
+                      cursor: 'unset',
+                      '&:hover': {
+                        '.MuiCardActionArea-focusHighlight': {
+                          opacity: '0',
+                        },
                       },
-                    },
-                  }}
-                >
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {product?.logo && (
-                      <Image
-                        src={generateImage(product?.logo?.url)}
-                        width={25}
-                        height={25}
-                        alt="product"
-                      />
-                    )}
-                    <Typography variant="h5" sx={{ marginLeft: '20px' }}>
-                      {product?.name}
-                    </Typography>
-                  </Box>
-
-                  <CardContent
-                    sx={{
-                      display: 'block',
-                      padding: '0px',
-                      color: theme?.palette?.custom?.main,
                     }}
                   >
-                    {product?.accounts?.map((account: any) => (
-                      <Box
-                        sx={{
-                          marginTop: '15px',
-                        }}
-                        key={uuidv4()}
-                      >
-                        <Typography
-                          variant="body2"
-                          color="inherit"
-                          onClick={() => {
-                            findModulePermissionKey(
-                              product?.name,
-                              account?._id,
-                            );
-                            setActiveProduct(product);
-                            setActiveAccountSession(account);
-                          }}
-                        >
-                          {account?.company?.accountName}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))
-        )}
-        {/* 
-        {products?.map((product: any) => (
-          <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
-            <Card
-              className="card-hover-color cursor-pointer"
-              sx={{
-                boxShadow: 'none',
-                borderRadius: '6px',
-                '&:hover': {
-                  transition: '0.3s',
-                  outline: `1.5px solid ${theme?.palette?.primary?.main}`,
-                  boxShadow: '0px 1px 1px -1px',
-                },
-                height: '270px',
-              }}
-            >
-              <CardActionArea
-                disableRipple
-                sx={{
-                  display: 'flex',
-                  color: '#212121',
-                  pt: 4,
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                  '&:hover': {
-                    '.MuiCardActionArea-focusHighlight': {
-                      opacity: '0',
-                    },
-                  },
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {product?.logo && (
-                    <Image
-                      src={`/${product?.logo?.url}`}
-                      width={25}
-                      height={25}
-                      alt="product"
-                    />
-                  )}
-                 
-                  <Typography variant="h5" sx={{ marginLeft: '20px' }}>
-                    {product?.name}
-                  </Typography>
-                </Box>
-
-                <CardContent
-                  sx={{
-                    display: 'block',
-                    padding: '0px',
-                    color: theme?.palette?.custom?.main,
-                  }}
-                >
-
-
-                  <Box
-                    sx={{
-                      marginTop: '15px'
-                    }}
-                    key={uuidv4()}
-                  >
-                    <Typography variant='body2' color='inherit' onClick={() => { findModulePermissionKey(permissions, modulePermissions); setActiveProduct(product) }} >
-
-                      Orcalo Holding
-                    </Typography>
-                  </Box>
-
-                  {product?.companyList?.map((company: any) => (
-                    <Box
-                      sx={{
-                        marginTop: '15px',
-                        fontSize: '15px',
-                        color: '#6B7280',
-                      }}
-                      key={uuidv4()}
-                    >
-                      <Link href={company?.path}>{company?.name}</Link>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      {product?.logo && (
+                        <Image
+                          src={generateImage(product?.logo?.url)}
+                          width={25}
+                          height={25}
+                          alt="product"
+                        />
+                      )}
+                      <Typography variant="h5" sx={{ marginLeft: '20px' }}>
+                        {product?.name}
+                      </Typography>
                     </Box>
-                  ))}
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ))} */}
+
+                    <CardContent
+                      sx={{
+                        display: 'block',
+                        padding: '0px',
+                        color: theme?.palette?.custom?.main,
+                      }}
+                    >
+                      {product?.accounts?.map((account: any) => (
+                        <Box
+                          sx={{
+                            marginTop: '15px',
+                          }}
+                          key={uuidv4()}
+                        >
+                          <Typography
+                            variant="body2"
+                            color="inherit"
+                            sx={{
+                              cursor: 'pointer',
+                              marginLeft: '20px',
+                              position: 'relative',
+                              textTransform: 'capitalize',
+                              '&::before': {
+                                content: '""',
+                                position: 'absolute',
+                                background: theme?.palette?.grey[500],
+                                width: '8px',
+                                height: '8px',
+                                left: '-15px',
+                                top: '8px',
+                                borderRadius: '50%',
+                              },
+                              '&:hover': {
+                                color: theme?.palette?.primary?.main,
+                              },
+                            }}
+                            onClick={() => {
+                              findModulePermissionKey(
+                                product?.name,
+                                account?._id,
+                              );
+                              setActiveProduct(product);
+                              setActiveAccountSession(account);
+                            }}
+                          >
+                            {account?.company?.accountName}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
+          </>
+        )}
       </Grid>
     </Box>
   );

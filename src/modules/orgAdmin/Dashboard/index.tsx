@@ -102,39 +102,41 @@ const Dashboard = () => {
         </Typography>
       </Box>
       <Grid container spacing={2}>
-        {accountsData?.data
-          ? accountsData?.data?.map((item: any) => (
-              <Grid item lg={3} md={6} sm={12} xs={12} key={uuidv4()}>
-                <Card sx={{ p: '24px', mt: 3 }}>
-                  <Image
-                    src={generateImage(item?.logo?.url)}
-                    width={35}
-                    height={35}
-                    alt="product"
-                    style={{ marginBottom: '10px' }}
-                  />
+        {accountsData?.data ? (
+          accountsData?.data?.map((item: any) => (
+            <Grid item lg={3} md={6} sm={12} xs={12} key={uuidv4()}>
+              <Card sx={{ p: '24px', mt: 3 }}>
+                <Image
+                  src={generateImage(item?.logo?.url)}
+                  width={35}
+                  height={35}
+                  alt="product"
+                  style={{ marginBottom: '10px' }}
+                />
+                <Typography
+                  variant="h6"
+                  sx={{ color: theme?.palette?.grey[600], fontSize: '18px' }}
+                >
+                  {item?.name}
+                </Typography>
+                {item?.accounts?.map((account: any) => (
                   <Typography
-                    variant="h6"
-                    sx={{ color: theme?.palette?.grey[600], fontSize: '18px' }}
+                    variant="body2"
+                    key={uuidv4()}
+                    sx={{
+                      color: theme?.palette?.grey[600],
+                      fontSize: '14px',
+                    }}
                   >
-                    {item?.name}
+                    {account?.company?.accountName}
                   </Typography>
-                  {item?.accounts?.map((account: any) => (
-                    <Typography
-                      variant="body2"
-                      key={uuidv4()}
-                      sx={{
-                        color: theme?.palette?.grey[600],
-                        fontSize: '14px',
-                      }}
-                    >
-                      {account?.company?.accountName}
-                    </Typography>
-                  ))}
-                </Card>
-              </Grid>
-            ))
-          : 'no accounts found'}
+                ))}
+              </Card>
+            </Grid>
+          ))
+        ) : (
+          <Box sx={{ mt: 3, ml: 2 }}>Accounts not found</Box>
+        )}
       </Grid>
 
       <Box sx={{ mt: 2 }}>
