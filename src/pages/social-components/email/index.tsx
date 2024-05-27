@@ -1,6 +1,6 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import Email from '@/modules/superAdmin/Email';
+import Email from '@/modules/SocialComponents/emails';
 function EmailPage() {
   return <Email />;
 }

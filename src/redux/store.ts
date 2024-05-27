@@ -2,7 +2,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import { baseAPI } from '../services/base-api';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import chatSlice from './slices/chat/slice';
-import emailSlice from './slices/email/slice';
+import emailSlice from './slices/email/others/slice';
+import gmailSlice from './slices/email/gmail/slice';
+import outlookSlice from './slices/email/outlook/slice';
 import authSlice from './slices/auth/slice';
 import SocialInboxSlice from './slices/socialInbox/index';
 import planManagementSlice from './slices/planManagement/planManagementSlice';
@@ -15,6 +17,8 @@ const store = configureStore({
     [baseAPI.reducerPath]: baseAPI.reducer,
     chat: chatSlice,
     email: emailSlice,
+    gmail: gmailSlice,
+    outlook: outlookSlice,
     task: taskManagementSlice,
     task_deals: dealsTaskSlice,
     subscriptionAndInvoices: subscriptionAndInvoicesSlice,
