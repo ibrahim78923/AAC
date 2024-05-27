@@ -6,8 +6,9 @@ const Choose = (props: any) => {
   const { setCreateScratch, handleNextStep } = props;
   const theme = useTheme();
   return (
-    <Grid container xs={12} spacing={2} justifyContent="center" mt={9}>
-      <Grid item xs={3}>
+    <Grid container xs={12} spacing={1} justifyContent="center" mt={9}>
+      <Grid item xs={12} md={6} lg={3}>
+
         <Box
           onClick={() => {
             setCreateScratch(true);
@@ -19,7 +20,8 @@ const Choose = (props: any) => {
             padding: '25px',
             textAlign: 'center',
             cursor: 'pointer',
-            height: '252px',
+            height: 'fit-content',
+
             '&:hover': {
               boxShadow: `0px 0px 20px 1px ${theme?.palette?.primary?.light}`,
             },
@@ -35,7 +37,8 @@ const Choose = (props: any) => {
           </Typography>
         </Box>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={12} md={6} lg={3}>
+
         <Box
           onClick={() => {
             setCreateScratch(false);
@@ -47,7 +50,8 @@ const Choose = (props: any) => {
             padding: '25px',
             textAlign: 'center',
             cursor: 'pointer',
-            height: '252px',
+            height: 'fit-content',
+
             '&:hover': {
               boxShadow: `0px 0px 20px 1px ${theme?.palette?.primary?.light}`,
             },

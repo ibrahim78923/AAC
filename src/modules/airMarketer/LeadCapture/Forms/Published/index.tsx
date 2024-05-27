@@ -5,6 +5,7 @@ import { columns } from '../Forms.data';
 import TableToolbar from '../TableToolbar';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
+import DeleteModal from '../DeleteModal';
 
 const Published = ({ setShowSignUpForm, setFindStatus }: any) => {
   const router = useRouter();
@@ -17,6 +18,11 @@ const Published = ({ setShowSignUpForm, setFindStatus }: any) => {
     dataGetForms,
     setPageLimit,
     setPage,
+    openModalDelete,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteForm,
+    loadingDelete,
   } = usePublished();
   const getColums = columns(
     selectedRow,
@@ -44,7 +50,7 @@ const Published = ({ setShowSignUpForm, setFindStatus }: any) => {
           alert('Edit');
         }}
         onClickDelete={() => {
-          alert('Delete');
+          handleOpenModalDelete();
         }}
         onClickExport={() => {
           alert('Export');
@@ -69,6 +75,13 @@ const Published = ({ setShowSignUpForm, setFindStatus }: any) => {
         setPageLimit={setPageLimit}
         onPageChange={(page: any) => setPage(page)}
         isPagination
+      />
+
+      <DeleteModal
+        open={openModalDelete}
+        onClose={handleCloseModalDelete}
+        handleSubmit={handleDeleteForm}
+        loading={loadingDelete}
       />
     </Box>
   );

@@ -9,12 +9,14 @@ const {
   DASHBOARD_RECENT_ACTIVITIES,
   DASHBOARD_AGENT_AVAILABILITY,
   GET_TOP_PERFORMER,
+  DASHBOARD_EMAIL,
 } = END_POINTS;
 const TAG = 'DASHBOARD_TICKETS';
 const TAG_ONE = 'DASHBOARD_CARDS_TICKETS';
 const TAG_TWO = 'ANNOUNCEMENTS';
 const TAG_THREE = 'DASHBOARD_RECENT_ACTIVITIES';
 const TAG_FOUR = 'DASHBOARD_AGENT_AVAILABILITY';
+const TAG_FIVE = 'DASHBOARD_EMAIL';
 
 export const dashboardAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -40,6 +42,14 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         body: postAnnouncementParameter?.body,
       }),
       invalidatesTags: [TAG_TWO],
+    }),
+    postEmailDashboard: builder?.mutation({
+      query: (postEmailParameter: any) => ({
+        url: `${DASHBOARD_EMAIL}`,
+        method: 'POST',
+        body: postEmailParameter?.body,
+      }),
+      invalidatesTags: [TAG_FIVE],
     }),
     getCustomerAnnouncement: builder?.query({
       query: (getCustomerAnnouncementApiParameter: any) => ({
@@ -88,4 +98,5 @@ export const {
   useGetDashboardAgentQuery,
   useLazyGetDashboardAgentQuery,
   useGetDashboardTopPerformerQuery,
+  usePostEmailDashboardMutation,
 } = dashboardAPI;

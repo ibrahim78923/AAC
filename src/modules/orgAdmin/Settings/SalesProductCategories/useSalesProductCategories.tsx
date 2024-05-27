@@ -26,7 +26,8 @@ const useSalesProductCategories = () => {
   const [productSearch, setproductSearch] = useState<string>('');
   const [isChecked, setIsChecked] = useState(false);
   const [isGetRowValues, setIsGetRowValues] = useState('');
-  const [postSalesProductCategories] = usePostSalesProductCategoriesMutation();
+  const [postSalesProductCategories, { isLoading: loadingAdd }] =
+    usePostSalesProductCategoriesMutation();
   const [editData, setEditData] = useState<any>({});
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -39,7 +40,7 @@ const useSalesProductCategories = () => {
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetSalesProductCategoriesQuery({ params });
 
-  const [updateSalesProductCategories] =
+  const [updateSalesProductCategories, { isLoading: loadingUpdate }] =
     useUpdateSalesProductCategoriesMutation();
   const [userStatus, setUserStatus] = useState('active');
   const theme = useTheme<Theme>();
@@ -85,7 +86,8 @@ const useSalesProductCategories = () => {
   const { handleSubmit, reset } = ProductCategory;
   const onSubmit = async (data: any) => {
     const salesProductCartegoryData = {
-      ...data,
+      name: data?.name,
+      description: data?.description,
     };
     if (isNullOrEmpty(data?.description)) {
       delete salesProductCartegoryData.description;
@@ -156,6 +158,8 @@ const useSalesProductCategories = () => {
     getRowValues,
     setPage,
     setPageLimit,
+    loadingAdd,
+    loadingUpdate,
   };
 };
 

@@ -10,19 +10,8 @@ import {
   useUpdateContactOwnerMutation,
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
-import useAuth from '@/hooks/useAuth';
-import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
 
 const useContactsSaleSite = () => {
-  const { user }: any = useAuth();
-  const { data: ContactOwners } = useGetOrganizationUsersQuery(
-    user?.organization?._id,
-  );
-  const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
-    value: user?._id,
-    label: `${user?.firstName} ${user?.lastName}`,
-  }));
-
   const [selectedRow, setSelectedRow]: any = useState([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
@@ -57,25 +46,28 @@ const useContactsSaleSite = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { createdAt, lastActivityDate, ...others } = values;
+    const filterPayload: any = {};
 
-    setFilterParams((prev) => {
-      const updatedParams = {
-        ...prev,
-        ...others,
-      };
-
-      if (createdAt) {
-        updatedParams.createdAt = dayjs(createdAt).format(DATE_FORMAT.API);
+    Object.entries(values).forEach(([key, value]: any) => {
+      if (value) {
+        switch (key) {
+          case 'createdAt':
+          case 'lastActivityDate':
+            filterPayload[key] = dayjs(value).format(DATE_FORMAT.API);
+            break;
+          case 'contactOwnerId':
+          case 'lifeCycleStageId':
+          case 'statusId':
+          case 'createdBy':
+            filterPayload[key] = value?._id;
+            break;
+          default:
+            filterPayload[key] = value;
+            break;
+        }
       }
-      if (lastActivityDate) {
-        updatedParams.lastActivityDate = dayjs(lastActivityDate).format(
-          DATE_FORMAT.API,
-        );
-      }
-
-      return updatedParams;
     });
+    setFilterParams(filterPayload);
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
@@ -183,7 +175,7 @@ const useContactsSaleSite = () => {
   const handleDealCustomize = () => setIsDealCustomize(!isDealCustomize);
 
   return {
-    contactOwnerData,
+    // contactOwnerData,
     anchorEl,
     actionMenuOpen,
     handleActionsMenuClick,

@@ -79,7 +79,7 @@ const NewPurchaseOrder = () => {
             </Grid>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
               <LoadingButton
-                onClick={() => methods?.reset()}
+                onClick={handlePageBack}
                 variant="outlined"
                 color="secondary"
               >

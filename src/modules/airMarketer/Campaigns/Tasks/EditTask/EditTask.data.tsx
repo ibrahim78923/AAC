@@ -20,7 +20,7 @@ today.setHours(0, 0, 0, 0);
 
 export const validationSchema = Yup?.object().shape({
   taskName: Yup?.string()?.required('Field is Required'),
-  dueDate: Yup.date()
+  dueDate: Yup?.date()
     ?.min(today, 'You cannot select a past date')
     ?.required('Date is required'),
 });
@@ -30,8 +30,8 @@ export const defaultValues = {
   taskType: '',
   campaignId: null,
   assignedTo: null,
-  dueDate: null,
-  time: null,
+  dueDate: '',
+  time: '',
   note: '',
 };
 

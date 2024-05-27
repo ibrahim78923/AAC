@@ -14,7 +14,7 @@ const TemplateBasic = ({ values }: any) => {
       <Box sx={styles?.quoteInfoHolder}>
         <Box sx={{ pb: '16px' }}>
           <Grid container spacing={'16px'}>
-            <Grid item xs={7}>
+            <Grid item lg={7} md={12} xs={12}>
               <Typography sx={styles?.buyerInfoTitle} variant="body1">
                 One Care Media
               </Typography>

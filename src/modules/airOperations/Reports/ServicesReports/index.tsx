@@ -1,3 +1,31 @@
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { useServicesReports } from './useServicesReports';
+import { AIR_OPERATIONS } from '@/constants';
+import { Button } from '@mui/material';
+import { AddWhiteBgIcon } from '@/assets/icons';
+
 export const ServicesReports = () => {
-  return <>ServicesReports</>;
+  const { router } = useServicesReports();
+  return (
+    <>
+      <PageTitledHeader
+        title={'Reports'}
+        canMovedBack
+        moveBack={() => {
+          router?.push(AIR_OPERATIONS?.REPORTS);
+        }}
+      >
+        <Button
+          variant="contained"
+          startIcon={<AddWhiteBgIcon />}
+          onClick={() => {
+            router?.push(AIR_OPERATIONS?.CREATE_SERVICES_REPORTS);
+          }}
+        >
+          Create report
+        </Button>
+      </PageTitledHeader>
+    </>
+  );
+
 };

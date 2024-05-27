@@ -42,11 +42,10 @@ const useBillingAndInvoices = () => {
     defaultValues: {},
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = async (values: any) => {
     setFilterValues(values);
-    reset();
     setIsOpenFilter(false);
   };
 

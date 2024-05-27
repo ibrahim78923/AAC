@@ -1,32 +1,62 @@
-import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { CommonAPIS } from '@/services/common-APIs';
+import { enqueueSnackbar } from 'notistack';
 import {
   AddAccountDefaultValues,
   AddAccountValidationSchema,
 } from './AddAccountDrawer.data';
-import { enqueueSnackbar } from 'notistack';
-import { CommonAPIS } from '@/services/common-APIs';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
 
-const useAddAccountDrawer = (props?: any) => {
-  const { userId, organizationId, setIsOpen } = props;
+const useAddAccountDrawer = (
+  userId?: any,
+  setIsopen?: any,
+  organizationId?: any,
+) => {
   const [postUsersAccount] = usePostUsersAccountMutation();
+  const {
+    useLazyGetCompanyAccountsListsQuery,
+    useLazyGetCompanyAccountsRolesListQuery,
+  } = CommonAPIS;
+  const companyAccounts = useLazyGetCompanyAccountsListsQuery();
+
   const methods: any = useForm({
     resolver: yupResolver(AddAccountValidationSchema),
     defaultValues: AddAccountDefaultValues,
   });
 
   const { handleSubmit, reset, watch } = methods;
-  const organizationValue = watch('company');
+  const companyAccountValue = watch('company');
+  const productValue = watch('product');
+
+  let companyRoleParams = {};
+
+  if (companyAccountValue && productValue) {
+    companyRoleParams = {
+      organizationCompanyAccountId: companyAccountValue._id,
+      productId: productValue._id,
+    };
+  }
+  const companyRoles = useLazyGetCompanyAccountsRolesListQuery();
 
   const onSubmit = async (values: any) => {
-    values.user = userId;
+    const postAccountBody = {
+      ...values,
+      user: userId,
+      product: values?.product?._id,
+      company: values?.company?._id,
+      role: values?.role?._id,
+    };
+
     try {
-      await postUsersAccount({ id: organizationId, body: values })?.unwrap();
-      setIsOpen(false);
+      await postUsersAccount({
+        id: organizationId,
+        body: postAccountBody,
+      })?.unwrap();
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
+      setIsopen(false);
       reset();
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
@@ -35,20 +65,13 @@ const useAddAccountDrawer = (props?: any) => {
     }
   };
 
-  const { useGetCompanyAccountsQuery, useGetCompanyAccountsRolesQuery }: any =
-    CommonAPIS;
-  const { data: companyAccounts } = useGetCompanyAccountsQuery({
-    orgId: organizationId,
-  });
-  const params = { organizationCompanyAccountId: organizationValue };
-  const { data: companyRoles } = useGetCompanyAccountsRolesQuery(params);
-
   return {
+    companyAccounts,
+    companyRoles,
     handleSubmit,
     onSubmit,
     methods,
-    companyAccounts,
-    companyRoles,
+    companyRoleParams,
   };
 };
 

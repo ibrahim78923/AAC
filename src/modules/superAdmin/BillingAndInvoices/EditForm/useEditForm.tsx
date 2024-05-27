@@ -25,7 +25,7 @@ const useEditForm = (
   const [isUserPrice, setIsUserPrice] = useState(true);
   const [isStoragePrice, setIsStoragePrice] = useState(true);
 
-  const [addAssignPlan] = usePostBilingInvoicesMutation();
+  const [addAssignPlan, { isLoading }] = usePostBilingInvoicesMutation();
   const [updateAssignPlan] = usePatchBilingInvoicesMutation();
 
   const rowApiValues = {
@@ -177,17 +177,23 @@ const useEditForm = (
   }
 
   useEffect(() => {
-    if (planData?.data?.plans?.additionalPerUserPrice > 0) {
+    if (
+      planData?.data?.plans?.additionalPerUserPrice > 0 ||
+      ExistingplanData?.data?.plans?.additionalPerUserPrice > 0
+    ) {
       setIsUserPrice(false);
     } else {
       setIsUserPrice(true);
     }
-    if (planData?.data?.plans?.additionalStoragePrice > 0) {
+    if (
+      planData?.data?.plans?.additionalStoragePrice > 0 ||
+      ExistingplanData?.data?.plans?.additionalStoragePrice > 0
+    ) {
       setIsStoragePrice(false);
     } else {
       setIsStoragePrice(true);
     }
-  }, [planData?.data?.plans]);
+  }, [planData?.data?.plans, ExistingplanData?.data?.plans]);
 
   useEffect(() => {
     if (
@@ -322,6 +328,7 @@ const useEditForm = (
     isExistingPlan,
     isStoragePrice,
     isUserPrice,
+    isLoading,
   };
 };
 

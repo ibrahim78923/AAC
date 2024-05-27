@@ -282,3 +282,5 @@ export { default as OthersMail } from './shared/others-mail.png';
 export { default as VoucherCardIcon } from './modules/loyaltyProgram/Vouchers/vouchers-icon.png';
 export { default as VoucherCardIconBg } from './modules/loyaltyProgram/Vouchers/Ellipse.png';
 export { default as VoucherCardBg } from './modules/loyaltyProgram/Vouchers/Decore.png';
+export { default as EnquiriesImage } from './modules/HeaderAndSidebar/enquiries-image.png';
+export { default as SignupLeadsImage } from './modules/HeaderAndSidebar/signup-leads-image.png';

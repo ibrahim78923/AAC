@@ -1,6 +1,10 @@
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFAutocompleteAsync,
+  RHFDatePicker,
+} from '@/components/ReactHookForm';
 
 export const FilterData = (
+  orgId: any,
   contactOwners: any,
   lifeCycleStages: any,
   contactStatuses: any,
@@ -8,35 +12,43 @@ export const FilterData = (
   return [
     {
       id: 'contactOwnerId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'contactOwnerId',
         label: 'Contact Owner',
-        select: true,
         placeholder: 'Select Owner',
+        apiQuery: contactOwners,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { id: orgId, meta: false },
       },
-
-      options: contactOwners,
-      component: RHFSelect,
     },
     {
       id: 'lifeCycleStageId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'lifeCycleStageId',
         label: 'Lifecycle Stage',
-        select: true,
+        placeholder: 'Select Lifecycle Stage',
+        apiQuery: lifeCycleStages,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: {},
       },
-      options: lifeCycleStages,
-      component: RHFSelect,
     },
     {
       id: 'statusId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'statusId',
         label: 'Status',
-        select: true,
+        placeholder: 'Select Status',
+        apiQuery: contactStatuses,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: {},
       },
-      options: contactStatuses,
-      component: RHFSelect,
     },
     {
       id: 'createdAt',
@@ -46,16 +58,20 @@ export const FilterData = (
       },
       component: RHFDatePicker,
     },
+
     {
       id: 'createdBy',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'createdBy',
         label: 'Created By',
         placeholder: 'Select create by',
-        select: true,
+        apiQuery: contactOwners,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { id: orgId, meta: false },
       },
-      options: contactOwners,
-      component: RHFSelect,
     },
     {
       id: 'lastActivityDate',
@@ -65,15 +81,5 @@ export const FilterData = (
       },
       component: RHFDatePicker,
     },
-
-    // In future use
-    // {
-    //   id: 'nextActivityDate',
-    //   componentProps: {
-    //     name: 'nextActivityDate',
-    //     label: 'Next Activity Date',
-    //   },
-    //   component: RHFSwitchableDatepicker,
-    // },
   ];
 };

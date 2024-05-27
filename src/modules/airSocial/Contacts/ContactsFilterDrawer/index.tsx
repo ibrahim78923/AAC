@@ -1,16 +1,21 @@
 import { Grid, MenuItem } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { FilterData } from './ContactsFilterDrawer.data';
-import { v4 as uuidv4 } from 'uuid';
 import useFilterDrawer from './useFilterDrawer';
 
-const ContactsFilterDrawer = ({ open, onClose, onSubmit, methods }: any) => {
-  const { contactOwnerData, lifeCycleStagesData, contactStatusData } =
+const ContactsFilterDrawer = ({
+  open,
+  onClose,
+  onSubmit,
+  methods,
+  isLoading,
+}: any) => {
+  const { orgId, contactOwnerData, lifeCycleStagesData, contactStatusData } =
     useFilterDrawer();
 
   const formFields = FilterData(
+    orgId,
     contactOwnerData,
     lifeCycleStagesData,
     contactStatusData,
@@ -25,11 +30,12 @@ const ContactsFilterDrawer = ({ open, onClose, onSubmit, methods }: any) => {
       okText="Apply"
       title="Filter"
       submitHandler={onSubmit}
+      isLoading={isLoading}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
           {formFields?.map((obj) => (
-            <Grid item xs={12} key={uuidv4()}>
+            <Grid item xs={12} key={obj?.componentProps?.name}>
               <obj.component
                 fullWidth
                 size={'small'}
@@ -38,7 +44,7 @@ const ContactsFilterDrawer = ({ open, onClose, onSubmit, methods }: any) => {
               >
                 {obj?.componentProps?.select
                   ? obj.options?.map((option: any) => (
-                      <MenuItem key={uuidv4()} value={option?.value}>
+                      <MenuItem key={option?.value} value={option?.value}>
                         {option?.label}
                       </MenuItem>
                     ))

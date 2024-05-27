@@ -1,8 +1,11 @@
 import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import { DATE_FORMAT } from '@/constants';
-import { Checkbox, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import RowSelection from '@/components/RowSelection';
+import RowSelectionAll from '@/components/RowSelectionAll';
+
 export const newsAndEventsDateValidationSchema = Yup.object().shape({
   createdDate: Yup?.date()?.required('Field is Required'),
   status: Yup?.string(),
@@ -23,8 +26,8 @@ export const newsAndEventsDateFiltersDataArray = [
       select: true,
     },
     options: [
-      { value: 'active', label: 'active' },
-      { value: 'inactive', label: 'inactive' },
+      { value: 'active', label: 'Active' },
+      { value: 'inactive', label: 'Inactive' },
     ],
     component: RHFSelect,
     md: 12,
@@ -45,43 +48,44 @@ export const newsAndEventsDateFiltersDataArray = [
       select: true,
     },
     options: [
-      { value: 'events', label: 'event' },
-      { value: 'news', label: 'news' },
+      { value: 'event', label: 'Event' },
+      { value: 'news', label: 'News' },
     ],
     component: RHFSelect,
     md: 12,
   },
 ];
 
-export const columns = (
-  isDisabled: boolean,
-  setIsDisabled: (value: boolean) => void,
-  tableRowValues: any,
-  setTableRowValues: any,
-  theme: any,
-) => {
+export const columns = (selectedRow: any, setSelectedRow: any, theme: any) => {
   return [
     {
-      accessorFn: (row: any) => row.id,
-      id: 'id',
-      cell: (info: any) => (
-        <Checkbox
-          color="primary"
-          checked={
-            info?.cell?.row?.original?._id ===
-              tableRowValues?.cell?.row?.original?._id && isDisabled
-          }
-          name={info?.getValue()}
-          onClick={() => {
-            setTableRowValues(info), setIsDisabled(!isDisabled);
-          }}
-        />
-      ),
-      header: <Checkbox color="primary" name="Id" />,
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       isSortable: false,
+      header: (info: any) => {
+        const rows = info?.table?.options?.data;
+        return (
+          <RowSelectionAll
+            rows={rows}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
+            disabled={rows?.length === 0}
+          />
+        );
+      },
+      cell: (info: any) => {
+        const id = info?.cell?.row?.original?._id;
+        return (
+          <RowSelection
+            id={id}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
+          />
+        );
+      },
     },
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'name',
       cell: (info: any) => info?.getValue(),
       header: 'Name',
@@ -92,14 +96,21 @@ export const columns = (
       id: 'description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        return <Box dangerouslySetInnerHTML={{ __html: info?.getValue() }} />;
+      },
     },
     {
       accessorFn: (row: any) => row?.type,
       id: 'type',
       isSortable: true,
       header: 'Type',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        return (
+          info?.getValue()?.charAt(0)?.toUpperCase() +
+          info?.getValue()?.slice(1)
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.createdAt,
@@ -134,4 +145,9 @@ export const columns = (
       ),
     },
   ];
+};
+
+export const MODAL_TITLE = {
+  ADD: 'Add',
+  UPDATE: 'Update',
 };

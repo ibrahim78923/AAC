@@ -11,7 +11,6 @@ import {
   useTheme,
 } from '@mui/material';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import { v4 as uuidv4 } from 'uuid';
 import { previewDashboard } from '../../CreateDashboard/CreateDashboard.data';
 import { styles } from './PreviewDashboardModal.styles';
 
@@ -72,7 +71,7 @@ export const PreviewDashboardModal = ({
         <DialogContent>
           <Grid container spacing={3} mt={1}>
             {dashboardItems?.map((item: any) => (
-              <Grid item xs={12} key={uuidv4()}>
+              <Grid item xs={12} key={item?.id}>
                 {previewDashboard?.[item as string]}
               </Grid>
             ))}

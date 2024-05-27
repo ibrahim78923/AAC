@@ -44,7 +44,7 @@ export const SoftwareReports = () => {
       >
         <ReportCalendarFilter setCalendarFilter={{}} />
         <FormProvider methods={methods} onSubmit={handleSubmit(onFilterSubmit)}>
-          <Box mt={1}>
+          <Box mt={1} width={'10rem'}>
             <RHFAutocomplete
               name={'All'}
               placeholder={'All'}

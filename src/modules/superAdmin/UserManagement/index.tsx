@@ -23,6 +23,7 @@ import {
 } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
+import { ACTIONS_TYPES } from '@/constants/strings';
 
 const UserManagement = () => {
   const {
@@ -46,7 +47,12 @@ const UserManagement = () => {
     tabOne,
     datePickerVal,
     setDatePickerVal,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
   } = useUserManagement();
+
   return (
     <Box
       sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
@@ -62,8 +68,8 @@ const UserManagement = () => {
             tabVal === initialTab
               ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
               : tabVal === tabOne
-                ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
-                : [SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ADD_ROLE]
+              ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
+              : [SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ADD_ROLE]
           }
         >
           <Button
@@ -74,7 +80,7 @@ const UserManagement = () => {
                 ? handleAddRole()
                 : setIsOpenAddUserDrawer({
                     drawer: true,
-                    type: 'add',
+                    type: ACTIONS_TYPES?.ADD,
                     data: {},
                   })
             }
@@ -84,8 +90,8 @@ const UserManagement = () => {
             {tabVal === initialTab
               ? 'Add Company Owner'
               : tabVal === tabOne
-                ? 'Add Super Admin '
-                : 'Add Role'}
+              ? 'Add Super Admin '
+              : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
@@ -109,7 +115,7 @@ const UserManagement = () => {
             headerChildren={
               <>
                 <ActionButton
-                  checkedRows={selectedRow?.selectedValue}
+                  checkedRows={selectedRow}
                   tabVal={tabVal}
                   setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
                 />
@@ -173,12 +179,20 @@ const UserManagement = () => {
               setCheckedRows={setSelectedRow}
               filterValues={filterValues}
               searchVal={searchVal}
+              page={page}
+              setPage={setPage}
+              pageLimit={pageLimit}
+              setPageLimit={setPageLimit}
             />
             <SuperAdminUsers
               checkedRows={selectedRow}
               setCheckedRows={setSelectedRow}
               date={filterValues?.date}
               searchVal={searchVal}
+              page={page}
+              setPage={setPage}
+              pageLimit={pageLimit}
+              setPageLimit={setPageLimit}
             />
             <RolesAndRights />
           </CommonTabs>

@@ -57,12 +57,19 @@ export const styles = {
       fontWeight: 600,
     };
   },
-  folderRow: () => {
+  folderRow: (theme: any, cardBox: any, id: string) => {
     return {
       display: 'flex',
       alignItems: 'center',
       gap: '1rem',
-      paddingTop: '2rem',
+      fontWeight: 400,
+      color: `${theme?.palette?.slateBlue?.main}`,
+      cursor: 'pointer',
+      background: cardBox?.includes(id + 'drawer')
+        ? `${theme?.palette?.grey[400]}`
+        : `${theme?.palette?.common?.white}`,
+      height: '50px',
+      marginTop: '10px',
     };
   },
   folderBackground: (theme: any) => {

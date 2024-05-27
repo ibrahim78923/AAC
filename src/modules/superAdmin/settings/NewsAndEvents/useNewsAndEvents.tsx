@@ -3,32 +3,34 @@ import {
   useDeleteNewsEventsMutation,
   useGetNewsEventsQuery,
   useUpdateNewsEventsMutation,
+  usePostNewsEventsMutation,
 } from '@/services/superAdmin/settings/news-events';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
-import {
-  newsAndEventsDateDefaultValues,
-  newsAndEventsDateValidationSchema,
-} from './NewsAndEvents.data';
+import { useEffect, useState } from 'react';
+import { MODAL_TITLE } from './NewsAndEvents.data';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
+import {
+  newsAndEventsFormDefaultValues,
+  newsAndEventsFormValidationSchema,
+} from './NewsAndEventsModal/NewsAndEventsModal.data';
 
 const useNewsAndEvents = () => {
   const theme = useTheme();
-  const [isOpenEditDrawer, setIsOpenEditDrawer] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [tableRowValues, setTableRowValues] = useState();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isNewsAndEventAddModal, setIsNewsAndEventAddModal] = useState(false);
-  const [isNewsAndEventAdd, setIsNewsAndEventAdd] = useState(false);
-  const [isNewsAndEventsDeleteModal, setisNewsAndEventsDeleteModal] =
-    useState(false);
-
   const actionMenuOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
+  const [selectedRow, setSelectedRow] = useState([]);
+  const [tableRowValues, setTableRowValues] = useState<any>(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [isNewsAndEventsFilterDrawerOpen, setIsNewsAndEventsFilterDrawerOpen] =
@@ -46,28 +48,12 @@ const useNewsAndEvents = () => {
   const { data: NewsEventsData, isLoading } = useGetNewsEventsQuery({
     params: { ...paginationParams, ...searchPayLoad, ...filterParams },
   });
-  const [updateNewsEvents] = useUpdateNewsEventsMutation();
+  const [postNewsEvents, { isLoading: loadingAdd }] =
+    usePostNewsEventsMutation();
+  const [updateNewsEvents, { isLoading: loadingUpdate }] =
+    useUpdateNewsEventsMutation();
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleOpenEditDrawer = () => {
-    setAnchorEl(null);
-    setIsNewsAndEventAddModal(true);
-    setIsNewsAndEventAdd(true);
-  };
-  const handleCloseEditDrawer = () => {
-    setIsOpenEditDrawer(false);
-  };
-
-  const methodsNewsAndEventsFilters = useForm({
-    resolver: yupResolver(newsAndEventsDateValidationSchema),
-    defaultValues: newsAndEventsDateDefaultValues,
-  });
+  const methodsNewsAndEventsFilters = useForm();
   const onSubmit = (value: any) => {
     const filterNewsAndEventsValues = {
       ...(value?.status && { status: value?.status }),
@@ -86,53 +72,122 @@ const useNewsAndEvents = () => {
   const { handleSubmit, reset } = methodsNewsAndEventsFilters;
 
   const handleRefresh = () => {
-    setFilterParams('');
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
     reset();
   };
 
-  const [deleteNewsEvents] = useDeleteNewsEventsMutation();
+  // Add/Edit News & Events
+  const methodsAddNewsEvents = useForm({
+    resolver: yupResolver(newsAndEventsFormValidationSchema),
+    defaultValues: newsAndEventsFormDefaultValues,
+  });
+  const { handleSubmit: handleMethodAddNewsEvent, reset: resetAddNewsEvents } =
+    methodsAddNewsEvents;
+  const [titleAddModal, setTitleAddModal] = useState('Add');
+  const [isNewsAndEventAddModal, setIsNewsAndEventAddModal] = useState(false);
 
-  const handleDelete = async () => {
+  const handleOpenAddModal = (title: string) => {
+    if (title === MODAL_TITLE?.UPDATE) {
+      const selectedRowData = NewsEventsData?.data?.newsandevents?.find(
+        (item: any) => {
+          return item?._id === selectedRow[0];
+        },
+      );
+      methodsAddNewsEvents.setValue('name', selectedRowData?.name);
+      methodsAddNewsEvents.setValue('type', selectedRowData?.type);
+      methodsAddNewsEvents.setValue(
+        'description',
+        selectedRowData?.description,
+      );
+    }
+    setTitleAddModal(title);
+    setIsNewsAndEventAddModal(true);
+  };
+
+  const handleCloseAddModal = () => {
+    setIsNewsAndEventAddModal(false);
+  };
+
+  const onSubmitAddNewsEvents = async (values: any) => {
     try {
-      await deleteNewsEvents(tableRowValues?.row?.original?._id)?.unwrap();
-      enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
-      });
-      setisNewsAndEventsDeleteModal(false);
-      setTableRowValues('');
+      titleAddModal === MODAL_TITLE.UPDATE
+        ? await updateNewsEvents({
+            id: tableRowValues?._id,
+            body: values,
+          })?.unwrap()
+        : await postNewsEvents({ body: values })?.unwrap();
+      enqueueSnackbar(
+        `News Events ${
+          titleAddModal === MODAL_TITLE.UPDATE ? 'updated' : 'added'
+        } Successfully`,
+        {
+          variant: 'success',
+        },
+      );
+      handleCloseAddModal();
+      resetAddNewsEvents();
+      setSelectedRow([]);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
       });
     }
   };
+  const handleAddNewsEventsSubmit = handleMethodAddNewsEvent(
+    onSubmitAddNewsEvents,
+  );
 
-  const handleUpdateStatus = async (status: string) => {
-    if (tableRowValues?.row?.original?.status === status) {
-      enqueueSnackbar(
-        `${tableRowValues?.row?.original?.name} is already ${status}`,
-        {
-          variant: 'error',
+  // Delete News & Events
+  const [isNewsAndEventsDeleteModal, setisNewsAndEventsDeleteModal] =
+    useState(false);
+  const [deleteNewsEvents, { isLoading: loadingDelete }] =
+    useDeleteNewsEventsMutation();
+
+  const handleDelete = async () => {
+    const selectedRowIds = selectedRow?.join(',');
+    try {
+      await deleteNewsEvents(selectedRowIds)?.unwrap();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setisNewsAndEventsDeleteModal(false);
+      setSelectedRow([]);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+  useEffect(() => {
+    if (selectedRow?.length > 0) {
+      const selectedRowData = NewsEventsData?.data?.newsandevents?.find(
+        (item: any) => {
+          return item?._id === selectedRow[0];
         },
       );
-      setTableRowValues('');
-      setIsDisabled(false);
+      setTableRowValues(selectedRowData);
+    }
+  }, [selectedRow]);
+
+  const handleUpdateStatus = async (status: string) => {
+    if (tableRowValues?.status === status) {
+      enqueueSnackbar(`${tableRowValues?.name} is already ${status}`, {
+        variant: 'error',
+      });
     } else {
       try {
         await updateNewsEvents({
-          id: tableRowValues?.row?.original?._id,
+          id: selectedRow[0],
           body: { status: status },
         })?.unwrap();
-        enqueueSnackbar(
-          `${tableRowValues?.row?.original?.name} is ${status} now`,
-          {
-            variant: status === 'active' ? 'success' : 'error',
-          },
-        );
+        enqueueSnackbar(`${tableRowValues?.name} is ${status} now`, {
+          variant: status === 'active' ? 'success' : 'error',
+        });
         setAnchorEl(null);
         setIsNewsAndEventAddModal(false);
-        setTableRowValues('');
-        setIsDisabled(false);
+        setSelectedRow([]);
         reset();
       } catch (error: any) {
         enqueueSnackbar('An error occured', {
@@ -147,13 +202,18 @@ const useNewsAndEvents = () => {
     actionMenuOpen,
     handleClick,
     handleClose,
-    isDisabled,
-    setIsDisabled,
+    selectedRow,
+    setSelectedRow,
+    methodsAddNewsEvents,
+    titleAddModal,
+    isNewsAndEventAddModal,
+    handleOpenAddModal,
+    handleCloseAddModal,
+    handleAddNewsEventsSubmit,
+    loadingUpdate,
+    loadingAdd,
     tableRowValues,
     setTableRowValues,
-    isOpenEditDrawer,
-    handleOpenEditDrawer,
-    handleCloseEditDrawer,
     NewsEventsData,
     isLoading,
     setPageLimit,
@@ -167,13 +227,10 @@ const useNewsAndEvents = () => {
     onSubmit,
     handleRefresh,
     theme,
-    isNewsAndEventAddModal,
-    setIsNewsAndEventAddModal,
-    isNewsAndEventAdd,
     handleDelete,
+    loadingDelete,
     isNewsAndEventsDeleteModal,
     setisNewsAndEventsDeleteModal,
-    setAnchorEl,
     handleUpdateStatus,
   };
 };

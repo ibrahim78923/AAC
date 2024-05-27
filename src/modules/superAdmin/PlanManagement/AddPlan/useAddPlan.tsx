@@ -19,6 +19,7 @@ import {
   planFeaturesFormData,
   modulesFormData,
   setFeatureDetails,
+  clearState,
 } from '@/redux/slices/planManagement/planManagementSlice';
 import { useDispatch } from 'react-redux';
 import { persistStore } from 'redux-persist';
@@ -90,8 +91,7 @@ export const useAddPlan = () => {
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
     router?.back();
-    window.location.href = SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID;
-    dispatch(addPlanFormData(''));
+    dispatch(clearState());
   };
 
   const methods: any = useForm({
@@ -158,8 +158,8 @@ export const useAddPlan = () => {
     watch: watchPermissionSlugs,
     setValue: setPermissionSlugs,
   } = methodsPlanModules;
-  const AdditionalStorageValue = watch(['allowAdditionalStorage']);
-  const AdditionalUsereValue = watch(['allowAdditionalUsers']);
+  const AdditionalStorage = watch(['allowAdditionalStorage']);
+  const AdditionalUser = watch(['allowAdditionalUsers']);
   const checkValueAdditionalStoragePrice = watch(['additionalStoragePrice']);
   const checkValueAdditionalPerUserPrice = watch(['additionalPerUserPrice']);
 
@@ -232,6 +232,9 @@ export const useAddPlan = () => {
         variant: 'error',
       });
     } else {
+      if (!isNullOrEmpty(singlePlan) && values?.productId?.length > 1) {
+        values.suite = values?.productId;
+      }
       dispatch(addPlanFormData(values));
       setActiveStep((previous) => previous + 1);
 
@@ -379,10 +382,9 @@ export const useAddPlan = () => {
     dispatch(modulesFormData(values));
     if (activeStep == AddPlanStepperData?.length - 1) {
       const planFormData = {
-        //Todo: getting product id at index 0
-        productId: planForm?.productId,
-
-        ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
+        ...(selectProductSuite === 'product'
+          ? { productId: planForm?.productId }
+          : { suite: planForm?.suite }),
         ...(isNullOrEmpty(planForm?.productId) && {
           name: crmValue?.label,
         }),
@@ -438,7 +440,6 @@ export const useAddPlan = () => {
                 ...transformedModulesFormData,
               },
             })?.unwrap());
-        router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
         if (res) {
           setCheckQuery('');
           enqueueSnackbar(
@@ -452,6 +453,8 @@ export const useAddPlan = () => {
           dispatch(setFeatureDetails(''));
           // persistor?.purge();
           reset();
+          window.location.href =
+            SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID;
         }
       } catch (error: any) {
         enqueueSnackbar('An error occured', {
@@ -483,7 +486,6 @@ export const useAddPlan = () => {
       return;
     }
   };
-
   const AddPlanStepperData = [
     {
       key: uuidv4(),
@@ -492,8 +494,8 @@ export const useAddPlan = () => {
         <AddPlanForm
           methods={methodsPlan}
           handleSubmit={handlePlanForm}
-          AdditionalStorageValue={AdditionalStorageValue}
-          AdditionalUsereValue={AdditionalUsereValue}
+          AdditionalStorageValue={AdditionalStorage}
+          AdditionalUsereValue={AdditionalUser}
           crmValue={crmValue}
           setCrmValue={setCrmValue}
           selectProductSuite={selectProductSuite}
@@ -581,24 +583,27 @@ export const useAddPlan = () => {
     }
   }, [crmData, planExist]);
 
+  const AdditionalStorageValue = AdditionalStorage[0];
+  const AdditionalUserValue = AdditionalUser[0];
+
   useEffect(() => {
-    if (AdditionalStorageValue[0] === 'No') {
+    if (AdditionalStorageValue === 'No') {
       setValue('additionalStoragePrice', 0);
     } else if (
-      AdditionalStorageValue[0] === 'Yes' &&
+      AdditionalStorageValue === 'Yes' &&
       checkValueAdditionalStoragePrice[0] === 0
     ) {
       setValue('additionalStoragePrice', 1);
     }
     if (
-      AdditionalUsereValue[0] === 'Yes' &&
+      AdditionalUserValue === 'Yes' &&
       checkValueAdditionalPerUserPrice[0] === 0
     ) {
       setValue('additionalPerUserPrice', 1);
-    } else if (AdditionalUsereValue[0] === 'No') {
+    } else if (AdditionalUserValue === 'No') {
       setValue('additionalPerUserPrice', 0);
     }
-  }, [AdditionalStorageValue, AdditionalUsereValue]);
+  }, [AdditionalStorageValue, AdditionalUserValue]);
 
   return {
     methods,

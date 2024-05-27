@@ -116,9 +116,9 @@ export const PURCHASE_ORDER_STATUS = {
 };
 
 export const ASSET_IMPACT = {
-  LOW: 'low',
-  MEDIUM: 'medium',
-  HIGH: 'high',
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
 };
 
 export const TICKET_TYPE = {
@@ -331,7 +331,9 @@ export const USER_MANAGEMENT = {
 export const ACTIONS_TYPES = {
   DELETE: 'delete',
   EDIT: 'edit',
+  ADD: 'add',
   CLONE: 'clone',
+  VIEW: 'view',
 };
 export const AGENTS = {
   INVITE_AGENT: 'Invite Agent',

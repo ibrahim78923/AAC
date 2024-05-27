@@ -11,10 +11,11 @@ import {
 import { useEffect, useState } from 'react';
 import { debouncedSearch } from '@/utils';
 import { useGetAuthCompaniesQuery } from '@/services/auth';
-import { SUPER_ADMIN } from '@/constants';
+import { EQuickLinksType, SUPER_ADMIN } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
 import useToggle from '@/hooks/useToggle';
+import { ACTIONS_TYPES } from '@/constants/strings';
 
 const useAddUser = (useActionParams?: any) => {
   const [isToggled, setIsToggled] = useToggle(false);
@@ -36,7 +37,10 @@ const useAddUser = (useActionParams?: any) => {
   const updateUserId = isOpenAddUserDrawer?.data?.data?._id;
   const userDetail = isOpenAddUserDrawer?.data?.data;
   const initialTab = 0;
-  const tabTitle = tabVal === initialTab ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
+  const tabTitle =
+    tabVal === initialTab
+      ? EQuickLinksType?.COMPANY_OWNER
+      : EQuickLinksType?.SUPER_ADMIN;
   // for super admin form methods
   const superAdminValues: any = {
     firstName: '',
@@ -79,9 +83,9 @@ const useAddUser = (useActionParams?: any) => {
   const methods =
     pathName === SUPER_ADMIN?.USERS_LIST
       ? orgEmployeeMethods
-      : tabTitle === 'SUPER_ADMIN'
-        ? superAdminMethods
-        : companyOwnerMethods;
+      : tabTitle === EQuickLinksType?.SUPER_ADMIN
+      ? superAdminMethods
+      : companyOwnerMethods;
 
   const { watch, setValue, handleSubmit, reset } = methods;
 
@@ -114,7 +118,6 @@ const useAddUser = (useActionParams?: any) => {
   }, [addressValues]);
 
   useEffect(() => {
-    // if (drawerType === 'edit') {
     const fieldsToSet: any = {
       firstName: userDetail?.firstName,
       lastName: userDetail?.lastName,
@@ -163,17 +166,17 @@ const useAddUser = (useActionParams?: any) => {
   const onSubmit = async (values: any) => {
     if (
       pathName === SUPER_ADMIN?.USERMANAGMENT &&
-      tabTitle === 'COMPANY_OWNER'
+      tabTitle === EQuickLinksType?.COMPANY_OWNER
     ) {
-      values.role = 'ORG_ADMIN';
+      values.role = EQuickLinksType?.ORG_ADMIN;
       delete values['address'];
     } else if (
       pathName === SUPER_ADMIN?.USERMANAGMENT &&
-      tabTitle === 'SUPER_ADMIN'
+      tabTitle === EQuickLinksType?.SUPER_ADMIN
     ) {
-      values.role = 'SUPER_ADMIN';
+      values.role = EQuickLinksType?.SUPER_ADMIN;
     } else if (pathName === SUPER_ADMIN?.USERS_LIST) {
-      values.role = 'ORG_EMPLOYEE';
+      values.role = EQuickLinksType?.ORG_EMPLOYEE;
     }
 
     if (isToggled) {
@@ -199,7 +202,7 @@ const useAddUser = (useActionParams?: any) => {
       'streetName',
       'compositeAddress',
     ];
-    if (isOpenAddUserDrawer?.type === 'edit') {
+    if (isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT) {
       keysToDelete = keysToDelete.concat(
         '_id',
         'crn',
@@ -215,20 +218,22 @@ const useAddUser = (useActionParams?: any) => {
     }
 
     try {
-      isOpenAddUserDrawer?.type === 'add'
+      isOpenAddUserDrawer?.type === ACTIONS_TYPES?.ADD
         ? (await postUsers({ body: values })?.unwrap(),
           reset(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-          ? (await postUserEmployee({
-              id: organizationId,
-              body: values,
-            })?.unwrap(),
-            setIsOpenAdduserDrawer(false))
-          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+        ? (await postUserEmployee({
+            id: organizationId,
+            body: values,
+          })?.unwrap(),
+          setIsOpenAdduserDrawer(false))
+        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
       enqueueSnackbar(
         `User ${
-          isOpenAddUserDrawer?.type === 'edit' ? 'updated' : 'added'
+          isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT
+            ? 'updated'
+            : 'added'
         } Successfully`,
         {
           variant: 'success',

@@ -8,11 +8,11 @@ import { styles } from './StepYourInfo.style';
 import { getSession } from '@/utils';
 
 const StepYourInfo = () => {
-  const { user } = getSession();
+  const { user }: any = getSession();
 
   return (
     <Grid container spacing={'40px'}>
-      <Grid item xs={5}>
+      <Grid item lg={5} md={12} xs={12}>
         <Typography variant="h5" sx={styles?.heading}>
           Your Information
         </Typography>
@@ -39,7 +39,7 @@ const StepYourInfo = () => {
           </Box>
         </Box>
       </Grid>
-      <Grid item xs={7}>
+      <Grid item lg={7} md={12} xs={12}>
         <TemplateFrame>
           <TemplateBasic />
           {/* <TemplatePlaceholder /> */}

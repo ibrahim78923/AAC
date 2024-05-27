@@ -1,17 +1,13 @@
 import { ReactNode } from 'react';
 import PermissionDenied from '@/components/PermisisonDenied';
 import useAuth from '@/hooks/useAuth';
-import { ROLES } from '@/constants/strings';
-import {
-  orgAdminAllPermissions,
-  superAdminAllPermissions,
-} from '@/constants/permissions';
 
 function checkPermissions(permissions: any, modulePermissions: any) {
   const componentPermissionsDictionary: any = {};
   modulePermissions?.forEach((value: any) => {
     componentPermissionsDictionary[value] = true;
   });
+
   if (permissions?.length > 0) {
     for (const permission of permissions) {
       if (componentPermissionsDictionary[permission]) {
@@ -31,22 +27,22 @@ export default function PermissionsGuard({
   permissions: any;
   isPage?: boolean;
 }) {
-  const { currentPermissions, user } = useAuth();
+  const { currentPermissions } = useAuth();
 
-  let permissionsAvailable = [];
+  const permissionsAvailable = currentPermissions;
 
   //this switch is for testing purpose need to remove after org amdin and super admin permissions are cattered at backend
-  switch (user?.role) {
-    case ROLES.ORG_ADMIN:
-      permissionsAvailable = orgAdminAllPermissions;
-      break;
-    case ROLES.SUPER_ADMIN:
-      permissionsAvailable = superAdminAllPermissions;
-      break;
-    default:
-      permissionsAvailable = currentPermissions;
-      break;
-  }
+  // switch (user?.role) {
+  //   // case ROLES.ORG_ADMIN:
+  //   //   permissionsAvailable = orgAdminAllPermissions;
+  //   //   break;
+  //   case ROLES.SUPER_ADMIN:
+  //     permissionsAvailable = superAdminAllPermissions;
+  //     break;
+  //   default:
+  //     permissionsAvailable = currentPermissions;
+  //     break;
+  // }
 
   const permissionsCheck = checkPermissions(permissionsAvailable, permissions);
   if (permissionsCheck) {

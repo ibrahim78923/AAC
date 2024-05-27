@@ -2,11 +2,12 @@ import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { addUsersArray } from './AddUser.data';
-import { SUPER_ADMIN } from '@/constants/index';
+import { EQuickLinksType, SUPER_ADMIN } from '@/constants/index';
 import useAddUser from './useAddUser';
 import { v4 as uuidv4 } from 'uuid';
 import { style } from '../Users.style';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { ACTIONS_TYPES } from '@/constants/strings';
 
 const AddUser = ({
   isOpenDrawer,
@@ -37,19 +38,24 @@ const AddUser = ({
     addressVal,
     postUserLoading,
   } = useAddUser(useActionParams);
+
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={onClose}
       title={
-        isOpenAddUserDrawer?.type === 'view'
+        isOpenAddUserDrawer?.type === ACTIONS_TYPES?.VIEW
           ? userDetail?.firstName
-          : isOpenAddUserDrawer?.type === 'edit'
-            ? 'Edit User'
-            : 'Add User'
+          : isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT
+          ? 'Edit User'
+          : 'Add User'
       }
-      okText={isOpenAddUserDrawer?.type === 'edit' ? 'Update User' : 'Add'}
-      isOk={isOpenAddUserDrawer?.type === 'view' ? false : true}
+      okText={
+        isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT
+          ? 'Update User'
+          : 'Add'
+      }
+      isOk={isOpenAddUserDrawer?.type === ACTIONS_TYPES?.VIEW ? false : true}
       submitHandler={handleSubmit(onSubmit)}
       isLoading={postUserLoading}
       footer
@@ -61,7 +67,7 @@ const AddUser = ({
               item?.toShow?.includes(
                 pathName === SUPER_ADMIN?.USERMANAGMENT
                   ? tabTitle
-                  : 'ORG_EMPLOYEE',
+                  : EQuickLinksType?.ORG_EMPLOYEE,
               ) && (
                 <Grid item xs={12} md={item?.md} key={item?.name}>
                   {item?.componentProps?.heading && (
@@ -104,9 +110,9 @@ const AddUser = ({
                     {...item.componentProps}
                     size={'small'}
                     disabled={
-                      isOpenAddUserDrawer?.type === 'view' ||
+                      isOpenAddUserDrawer?.type === ACTIONS_TYPES?.VIEW ||
                       item.componentProps.name === 'companyName' ||
-                      (isOpenAddUserDrawer?.type === 'edit' &&
+                      (isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT &&
                         (item.componentProps.name === 'crn' ||
                           item.componentProps.name === 'email'))
                         ? true

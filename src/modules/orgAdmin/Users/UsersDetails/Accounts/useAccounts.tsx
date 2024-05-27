@@ -10,18 +10,18 @@ const useAccounts = () => {
   const { useUpdateAccountStatusMutation } = userListApi;
   const [updateAccountStatus] = useUpdateAccountStatusMutation();
 
-  const handleStatusUpdate = (id: any, value: any) => {
+  const handleStatusUpdate = async (id: any, value: any) => {
     const status = value === true ? 'ACTIVE' : 'INACTIVE';
     const params = {
       status: status,
     };
     try {
-      updateAccountStatus({ id: id, body: params });
+      await updateAccountStatus({ id: id, body: params })?.unwrap();
       enqueueSnackbar('Account updated successfully', {
         variant: 'success',
       });
     } catch (error: any) {
-      enqueueSnackbar(error, {
+      enqueueSnackbar(error?.data?.message, {
         variant: 'error',
       });
     }

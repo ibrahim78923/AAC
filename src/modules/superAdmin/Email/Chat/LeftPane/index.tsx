@@ -41,11 +41,6 @@ const LeftPane = () => {
     (state: any) => state?.email?.mailDraftList,
   );
 
-  const handelToggleTab = (value: any) => {
-    dispatch(setMailTabType(value));
-    dispatch(setActiveRecord({}));
-  };
-
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const { data: foldersData, isLoading } = useGetMailFoldersQuery({});
   const dataToShow = ['Inbox', 'Drafts', 'Sent', 'Schedule', 'Trash'];
@@ -104,6 +99,14 @@ const LeftPane = () => {
     }
   }, [draftsData]);
 
+  const handelToggleTab = (value: any) => {
+    if (value?.display_name !== mailTabType?.display_name) {
+      dispatch(setMailTabType(value));
+      dispatch(setActiveRecord({}));
+      refetch();
+    }
+  };
+
   return (
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>
@@ -118,7 +121,7 @@ const LeftPane = () => {
           >
             Filter
           </Button>
-          <ActionBtn />
+          <ActionBtn filteredData={filteredData} />
         </Box>
       </Box>
 

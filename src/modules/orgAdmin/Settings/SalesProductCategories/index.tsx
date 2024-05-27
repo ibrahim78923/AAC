@@ -1,20 +1,14 @@
 import React from 'react';
-
 import { Box, Typography, Button, MenuItem, Menu, Grid } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-
 import useSalesProduct from './useSalesProductCategories';
-
 import { dataArray } from './SalesProductCategories.data';
-
 import { styles } from './SalesProductCategories.style';
-
 import { v4 as uuidv4 } from 'uuid';
 import { ORG_ADMIN_SETTINGS_PRODUCT_CATEGORIES_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -43,6 +37,8 @@ const SalesProductCategories = () => {
     setPageLimit,
     isLoading,
     isSuccess,
+    loadingAdd,
+    loadingUpdate,
   } = useSalesProduct();
   return (
     <>
@@ -54,6 +50,7 @@ const SalesProductCategories = () => {
         footer={true}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={loadingAdd || loadingUpdate}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={ProductCategory}>

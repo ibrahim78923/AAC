@@ -22,7 +22,6 @@ export const styles = {
   }),
   textField: (theme: any) => ({
     m: '0 10px',
-
     '& > input': {
       fontSize: '14px',
       border: `1.5px solid ${theme?.palette?.grey[700]}`,

@@ -28,6 +28,7 @@ export const dataArray = () => {
         label: 'Campaign Status',
         fullWidth: true,
         select: true,
+        required: true,
       },
 
       options: [
@@ -48,6 +49,7 @@ export const dataArray = () => {
         name: 'startDate',
         label: 'Start Date',
         fullWidth: true,
+        required: true,
       },
 
       component: RHFDatePicker,
@@ -59,6 +61,7 @@ export const dataArray = () => {
         name: 'endDate',
         label: 'End Date',
         fullWidth: true,
+        required: true,
       },
 
       component: RHFDatePicker,

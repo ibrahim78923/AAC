@@ -29,8 +29,8 @@ export const newsAndEventsFormFiltersDataArray = [
       select: true,
     },
     options: [
-      { value: 'Event', label: 'Event' },
-      { value: 'News', label: 'News' },
+      { value: 'event', label: 'Event' },
+      { value: 'news', label: 'News' },
     ],
     component: RHFSelect,
     md: 12,

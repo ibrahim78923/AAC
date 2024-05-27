@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import Image from 'next/image';
 
@@ -100,26 +100,38 @@ const Folders = () => {
     isImage,
     onSubmitImage,
     addFile,
-    imageData,
     getRowValues,
-    isGetRowValues,
+    selectedTableRows,
     deleteUserFiles,
     isOpenFile,
     setIsOpenFile,
     selectedFolder,
     setActionType,
+    setSlectedFolderForMovingData,
+    selectedFile,
+    setSelectedFile,
+    onSubmitFile,
+    setSelectedTableRows,
+    filesData,
+    setPageLimit,
+    setPage,
   } = useFolder();
-  const [sendData, setSendData] = useState(null);
 
   useEffect(() => {
-    if (isGetRowValues?.length === 1) {
-      setSendData(
-        imageData?.find((img: any) => img?._id === isGetRowValues.at(0)),
+    if (selectedTableRows?.length === 1) {
+      setSelectedFile(
+        filesData?.data?.files?.find(
+          (img: any) => img?._id === selectedTableRows.at(0),
+        ),
       );
     }
-    setCardBox([parentFolderId]);
-  }, [isGetRowValues]);
+  }, [selectedTableRows]);
 
+  const filteredData = searchValue
+    ? documentSubData?.filter((item: any) => {
+        return item?.name?.toLowerCase().includes(searchValue.toLowerCase());
+      })
+    : documentSubData;
   return (
     <>
       <CommonDrawer
@@ -251,7 +263,10 @@ const Folders = () => {
         isDrawerOpen={isOpenFolderDrawer}
         onClose={() => {
           setIsOpenFolderDrawer(false);
+          setSearchValue('');
+          setSlectedFolderForMovingData(null);
         }}
+        submitHandler={() => onSubmitFile()}
         title="Move to folder"
         okText="ok"
         isOk={true}
@@ -266,66 +281,21 @@ const Folders = () => {
               setSearchValue(e);
             }}
           />
-          <Box sx={styles?.folderRow}>
-            <FolderIcon />
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 400,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              My PDF
-            </Typography>
-          </Box>
-          <Box sx={styles?.folderRow}>
-            <FolderIcon />
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 400,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              Employee CV’s
-            </Typography>
-          </Box>
-          <Box sx={styles?.folderRow}>
-            <FolderIcon />
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 400,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              AirApple Cart
-            </Typography>
-          </Box>
-          <Box sx={styles?.folderRow}>
-            <FolderIcon />
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 400,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              AirApple Cart document testing
-            </Typography>
-          </Box>
-          <Box sx={styles?.folderRow}>
-            <FolderIcon />
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 400,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              Test
-            </Typography>
-          </Box>
+          {filteredData?.map((item: any) => {
+            return (
+              <Box
+                sx={styles?.folderRow(theme, cardBox, item?._id)}
+                onClick={() => {
+                  setCardBox([item?._id + 'drawer']);
+                  setSlectedFolderForMovingData(item);
+                }}
+                key={uuidv4()}
+              >
+                <FolderIcon />
+                <Typography variant="body2">{item?.name}</Typography>
+              </Box>
+            );
+          })}
         </Box>
       </CommonDrawer>
       <Grid container spacing={2}>
@@ -463,6 +433,8 @@ const Folders = () => {
                   _id: parentFolderId,
                   name: parentFolderName,
                 });
+                setSelectedFile(null);
+                setSelectedTableRows([]);
               }}
             >
               <FolderBlackIcon />
@@ -488,6 +460,8 @@ const Folders = () => {
                       onClick={() => {
                         setCardBox([item?._id]);
                         setSelectedFolder(item);
+                        setSelectedFile(null);
+                        setSelectedTableRows([]);
                       }}
                       sx={{
                         display: 'flex',
@@ -601,7 +575,7 @@ const Folders = () => {
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                     className="small"
-                    disabled={isGetRowValues?.length === 0}
+                    disabled={selectedTableRows?.length === 0}
                   >
                     Action
                     <ArrowDropDownIcon
@@ -645,6 +619,8 @@ const Folders = () => {
                       onClick={() => {
                         setAnchorEl(null);
                         setIsOpenFolderDrawer(true);
+                        setSearchValue('');
+                        setSlectedFolderForMovingData(null);
                       }}
                     >
                       Move to Folder
@@ -685,7 +661,14 @@ const Folders = () => {
               <Grid item lg={12} md={12} sm={12} xs={12}>
                 <TanstackTable
                   columns={getRowValues}
-                  data={imageData}
+                  data={filesData?.data?.files}
+                  currentPage={filesData?.data?.meta?.page}
+                  count={filesData?.data?.meta?.pages}
+                  pageLimit={filesData?.data?.meta?.limit}
+                  totalRecords={filesData?.data?.meta?.total}
+                  setPage={setPage}
+                  setPageLimit={setPageLimit}
+                  onPageChange={(page: any) => setPage(page)}
                   isPagination
                 />
               </Grid>
@@ -878,7 +861,7 @@ const Folders = () => {
         setIsPdfOpen={setIsPdfOpen}
         handlePdfOpen={handlePdfOpen}
         handlePdfClose={handlePdfClose}
-        sendData={sendData}
+        selectedFile={selectedFile}
       />
       <CommonModal
         open={isImage}

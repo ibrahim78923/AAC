@@ -1,50 +1,30 @@
 import { useForm } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-
-import {
-  useGetContactsStatusQuery,
-  useGetLifeCycleQuery,
-  usePostContactsMutation,
-} from '@/services/commonFeatures/contacts';
-import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import useAuth from '@/hooks/useAuth';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
+import {
+  useLazyGetLifeCycleStagesQuery,
+  useLazyGetContactsStatusQuery,
+} from '@/services/common-APIs';
+import { usePostContactsMutation } from '@/services/commonFeatures/contacts';
 import {
   contactsDefaultValues,
   contactsValidationSchema,
 } from './CreateContactsdata';
-import useAuth from '@/hooks/useAuth';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useCreateContacts = () => {
   const { user }: any = useAuth();
-
-  const { data: ContactOwners } = useGetOrganizationUsersQuery(
-    user?.organization?._id,
-  );
-
-  const { data: lifeCycleStages } = useGetLifeCycleQuery({});
-
-  const { data: ContactsStatus } = useGetContactsStatusQuery({});
+  const orgId = user?.organization?._id;
+  const contactOwnerData = useLazyGetOrganizationUsersQuery();
+  const contactStatusData = useLazyGetContactsStatusQuery();
+  const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
 
   const [postContacts, { isLoading: loadingCreateContact }] =
     usePostContactsMutation();
-
-  const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
-    value: user?._id,
-    label: `${user?.firstName} ${user?.lastName}`,
-  }));
-
-  const contactStatusData = ContactsStatus?.data?.conatactStatus?.map(
-    (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
-  );
-
-  const lifeCycleStagesData = lifeCycleStages?.data?.lifecycleStages?.map(
-    (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
-  );
-
   const methodscontacts = useForm({
     resolver: yupResolver(contactsValidationSchema),
     defaultValues: async () => {
@@ -55,16 +35,22 @@ const useCreateContacts = () => {
   const { handleSubmit, reset } = methodscontacts;
 
   const onSubmit = async (values: any, closeDrawer: any) => {
-    const dateOfBirth = 'dateOfBirth';
-    const dateOfJoining = 'dateOfJoining';
     const formData = new FormData();
     Object.entries(values)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {
-        // For date values, format them before appending
-        if (key === dateOfBirth || key === dateOfJoining) {
-          formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
-        } else {
-          formData.append(key, value);
+        switch (key) {
+          case 'dateOfBirth':
+          case 'dateOfJoining':
+            formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
+            break;
+          case 'contactOwnerId':
+          case 'lifeCycleStageId':
+          case 'statusId':
+            formData.append(key, value?._id);
+            break;
+          default:
+            formData.append(key, value);
+            break;
         }
       }
     });
@@ -91,6 +77,7 @@ const useCreateContacts = () => {
     handleSubmit((values) => onSubmit(values, closeDrawer));
 
   return {
+    orgId,
     loadingCreateContact,
     submitCreateContact,
     methodscontacts,

@@ -1,4 +1,13 @@
-import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Chip,
+  CircularProgress,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -27,6 +36,8 @@ import { CREATE_EMAIL_TYPES } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import { UnixDateFormatter } from '@/utils/dateTime';
 import { styles } from '../Email.styles';
+import CustomLabel from '@/components/CustomLabel';
+import * as yup from 'yup';
 
 const SendEmailDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, drawerType } = props;
@@ -43,6 +54,8 @@ const SendEmailDrawer = (props: any) => {
     handleOnClose,
     isSendLater,
     handelSendLaterAction,
+    setAutocompleteValues,
+    autocompleteValues,
   } = useSendEmailDrawer({ setOpenDrawer, drawerType });
 
   const isCrmConnected = false;
@@ -53,6 +66,21 @@ const SendEmailDrawer = (props: any) => {
   const removeRePrefix = (title: any) => {
     return title?.startsWith('Re: ') ? title?.replace(/^Re: /, '') : title;
   };
+
+  const handleAutocompleteChange = (_: any, newValue: string[]) => {
+    setAutocompleteValues(newValue);
+  };
+
+  const emailSchema = yup?.string()?.email()?.required();
+  const checkEmails = (emails: string[]) => {
+    try {
+      yup?.array()?.of(emailSchema)?.required()?.validateSync(emails);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+  const isValidEmails = checkEmails(autocompleteValues);
 
   return (
     <div>
@@ -111,13 +139,47 @@ const SendEmailDrawer = (props: any) => {
                 </Grid>
               ) : (
                 <Grid item xs={12}>
-                  <RHFTextField
-                    name="to"
-                    label="to"
-                    size="small"
-                    required={
-                      drawerType === CREATE_EMAIL_TYPES?.REPLY ? false : true
+                  <Autocomplete
+                    multiple
+                    freeSolo
+                    id="tags-filled"
+                    options={[]}
+                    value={autocompleteValues}
+                    onChange={handleAutocompleteChange}
+                    renderTags={(value: readonly string[], getTagProps) =>
+                      value?.map((option: string, index: number) => (
+                        <Chip
+                          variant="outlined"
+                          label={option}
+                          {...getTagProps({ index })}
+                          key={uuidv4()}
+                        />
+                      ))
                     }
+                    renderInput={(params: any) => (
+                      <>
+                        <CustomLabel label={'To'} required={true} />
+                        <TextField
+                          {...params}
+                          variant="outlined"
+                          placeholder="Enter email"
+                          size="small"
+                          helperText={
+                            isValidEmails ? (
+                              params.inputProps?.value?.length > 1 ? (
+                                <Typography fontSize={12}>
+                                  Press enter to add email
+                                </Typography>
+                              ) : null
+                            ) : (
+                              <Typography color={theme?.palette?.error?.main}>
+                                Email you entered is not valid
+                              </Typography>
+                            )
+                          }
+                        />
+                      </>
+                    )}
                   />
                 </Grid>
               )}

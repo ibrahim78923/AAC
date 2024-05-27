@@ -46,7 +46,7 @@ const Goals = () => {
         gap={1}
       >
         <Search placeholder="Search" size="small" />
-        <Box display="flex" gap={1}>
+        <Box display="flex" gap={1} flexWrap="wrap">
           <Stack
             direction={{ xs: 'row' }}
             spacing={1}

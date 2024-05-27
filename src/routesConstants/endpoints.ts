@@ -30,6 +30,7 @@ export const END_POINTS = {
   auth_search_company: 'auth/search-company',
   DEALS_LIST_VIEW: '/deals/get-deals-list-view',
   POST_DEALS: '/deals',
+  DEALS_REPORTS: '/deals/deal-report',
   DEALS_PIPELINE: '/deal-pipeline',
   DEALS_LIFECYCLE_STAGES: '/lifecycle-stages',
   DEALS_USER_LIST: '/super-admin/user-list',
@@ -261,7 +262,7 @@ export const END_POINTS = {
   DROPDOWN_ASSETS: '/dropdown/all-assets',
   ASSETS_INVENTORY_PURCHASE_ORDER: '/assets/inventory-purchase-order-list',
   ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
-  DEPARTMENT_UPDATE: '/Department/update',
+  DEPARTMENT_UPDATE: '/Department/update-department',
   DEPARTMENT_DELETE: '/Department/delete-department',
   ASSETS_PURCHASEORDER_DETAIL: '/assets/purchaseorder',
   ASSETS_PURCHASEORDER: '/assets/purchase_order_inventory',
@@ -347,6 +348,7 @@ export const END_POINTS = {
   SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
   SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
   GET_TOP_PERFORMER: `/air-services-dashboard/get-top-performer`,
+  DASHBOARD_EMAIL: `/air-services-dashboard/emailed-dashboards`,
   GET_SETTING_NOTIFICATIONS: '/notifications/get-notification-settings',
   UPDATE_SETTING_NOTIFICATIONS: '/notifications/settings',
   GET_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/get-discussion`,
@@ -386,6 +388,7 @@ export const END_POINTS = {
   GET_LOYALTY_TRANSACTION: `/Transactions/get-transaction-details`,
   CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
   NEW_IMPORT_FILE: `/new-import-file/new-import-file`,
+  SIGN_UP_LEADS: '/contact/signup-leads',
 };
 
 export const LEAD_CAPTURE_FORM = {

@@ -11,11 +11,18 @@ export function useHeaderDashboard() {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
+  const emailToCopy = 'air.applecart@yop.com';
+
+  const copyEmail = () => {
+    navigator?.clipboard?.writeText(emailToCopy);
+  };
+
   return {
     theme,
     router,
     isDrawerOpen,
     setIsDrawerOpen,
     user,
+    copyEmail,
   };
 }

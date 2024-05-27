@@ -19,7 +19,7 @@ const ThirdStep = (props: any) => {
       </Typography>
       <Grid display={'flex'} flexDirection={'row'} justifyContent={'center'}>
         <TableContainer>
-          <Table sx={{ minWidth: '31rem' }}>
+          <Table>
             <TableHead>
               <TableRow>
                 {importTableHeader?.map((column: any) => (

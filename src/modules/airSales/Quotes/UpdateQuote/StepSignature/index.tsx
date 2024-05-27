@@ -10,7 +10,7 @@ const StepSignature = ({ values, methods }: any) => {
   return (
     <FormProvider methods={methods}>
       <Grid container spacing={'40px'}>
-        <Grid item xs={5}>
+        <Grid item lg={5} md={12} xs={12}>
           <Typography variant="h5" sx={styles?.heading}>
             Signature
           </Typography>
@@ -37,7 +37,7 @@ const StepSignature = ({ values, methods }: any) => {
             </Grid>
           </Box>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item lg={7} md={12} sm={12}>
           <TemplateFrame>
             <TemplateBasic values={values} />
           </TemplateFrame>

@@ -34,7 +34,7 @@ export const useUpsertDepartment = (props: any) => {
     departmentFormData?.append('description', formData?.description);
     departmentFormData?.append(
       'departmentHeadId',
-      formData?.departmentHeadDetails?._id,
+      formData?.departmentHeadDetails?._id ?? '',
     );
     formData?.fileUrl !== null &&
       departmentFormData?.append('fileUrl', formData?.fileUrl);
@@ -82,12 +82,13 @@ export const useUpsertDepartment = (props: any) => {
   };
 
   const memberApiQuery = useLazyGetUsersDropdownListForDepartmentMembersQuery();
+
   const headAPiQuery = useLazyGetUsersDropdownListForDepartmentHeadQuery?.();
-  const departmentFormFields = departmentFormFieldsDynamic(
+  const departmentFormFields = departmentFormFieldsDynamic({
     headAPiQuery,
     memberApiQuery,
     auth,
-  );
+  });
 
   return {
     handleClose,

@@ -480,3 +480,7 @@ export { default as FeedbackDownIcon } from './modules/airServices/FeedbackSurve
 export { default as FeedbackUpIcon } from './modules/airServices/FeedbackSurvey/feedback-up-icon';
 export { default as AddPlusPrimaryshadow } from './shared/add-plus-primary-shadow';
 export { default as QuestionIcon } from './shared/question-icon';
+export { default as RestoreContactIcon } from './modules/SocialComponents/Contacts/restore-contact-icon';
+export { default as ReportsIcon } from './shared/reports-icon';
+export { default as DragAndDropIcon } from './shared/drag-drop-icon';
+

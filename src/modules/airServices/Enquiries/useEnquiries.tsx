@@ -9,6 +9,7 @@ import {
   getEnquiriesColumns,
 } from './Enquiries.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import useAuth from '@/hooks/useAuth';
 
 export default function useEnquiries() {
   const [enquiriesSelected, setEnquiriesSelected] = useState([]);
@@ -32,11 +33,15 @@ export default function useEnquiries() {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
+  const auth: any = useAuth();
+  const { _id: companyAccountId } = auth?.product?.accounts?.[0]?.company;
+
   const params = {
     page: page,
     limit: pageLimit,
     search: searchBy?.length ? searchBy : undefined,
     status: filter?.length ? filter : undefined,
+    companyAccountId,
   };
 
   const { data, isLoading, isError, isFetching, isSuccess } =

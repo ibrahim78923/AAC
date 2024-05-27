@@ -3,6 +3,8 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 1,
   }),
   buyerInfoTitle: (theme: any) => ({
     color: theme?.palette?.slateBlue?.main,
@@ -42,6 +44,7 @@ export const styles = {
     alignItems: 'center',
     gap: '10px',
     mt: '16px',
+    flexWrap: 'wrap',
   }),
   itemIcon: () => ({
     height: '32px',

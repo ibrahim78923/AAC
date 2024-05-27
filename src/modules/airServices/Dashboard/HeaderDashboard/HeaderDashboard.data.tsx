@@ -2,11 +2,12 @@ import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button, Chip } from '@mui/material';
 
-export const dropDownMenus = (setIsDrawerOpen: any) => [
+export const dropDownMenus = (setIsDrawerOpen: any, copyEmail: any) => [
   {
     id: 1,
     title: 'Copy URL',
     handleClick: (closeMenu: any) => {
+      copyEmail();
       closeMenu?.();
     },
     permissionKey: [AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD],

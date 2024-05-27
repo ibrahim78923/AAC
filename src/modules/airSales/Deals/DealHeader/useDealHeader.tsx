@@ -15,6 +15,7 @@ const useDealHeader = () => {
     IsViewAll,
     isImportDeal,
     isCreateDeal,
+    setIsImportDeal,
     handleCreateDealOpen,
     handleImportDealOpen,
     handleViewAll,

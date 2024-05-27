@@ -32,9 +32,11 @@ const Details = () => {
     loadingContactById,
     fetchingContactById,
     contactData,
+    orgId,
   } = useDetails();
 
   const detailsFormFields = detailsDataArray(
+    orgId,
     contactOwnerData,
     lifeCycleStagesData,
     contactStatusData,

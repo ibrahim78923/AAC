@@ -8,13 +8,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { detailsValidationSchema } from './Details.data';
 import {
   useGetContactByIdQuery,
-  useGetContactsStatusQuery,
-  useGetLifeCycleQuery,
   useUpdateContactMutation,
 } from '@/services/commonFeatures/contacts';
+import {
+  useLazyGetLifeCycleStagesQuery,
+  useLazyGetContactsStatusQuery,
+} from '@/services/common-APIs';
+import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 
 import { useRouter } from 'next/router';
-import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
 import useAuth from '@/hooks/useAuth';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
@@ -22,29 +24,17 @@ import { DATE_FORMAT } from '@/constants';
 
 const useDetails = () => {
   const router = useRouter();
+  const { user }: any = useAuth();
+  const orgId = user?.organization?._id;
+  const contactOwnerData = useLazyGetOrganizationUsersQuery();
+  const contactStatusData = useLazyGetContactsStatusQuery();
+  const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
   const {
     data: dataGetContactById,
     isLoading: loadingContactById,
     isFetching: fetchingContactById,
   } = useGetContactByIdQuery(router?.query?.contactId);
-  const { user }: any = useAuth();
 
-  const { data: ContactOwners } = useGetOrganizationUsersQuery(
-    user?.organization?._id,
-  );
-  const { data: lifeCycleStages } = useGetLifeCycleQuery({});
-  const { data: ContactsStatus } = useGetContactsStatusQuery({});
-
-  const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
-    value: user?._id,
-    label: `${user?.firstName} ${user?.lastName}`,
-  }));
-  const contactStatusData = ContactsStatus?.data?.conatactStatus?.map(
-    (status: any) => ({ value: status?._id, label: status?.name }),
-  );
-  const lifeCycleStagesData = lifeCycleStages?.data?.lifecycleStages?.map(
-    (stage: any) => ({ value: stage?._id, label: stage?.name }),
-  );
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -83,6 +73,10 @@ const useDetails = () => {
 
   useEffect(() => {
     if (contactData) {
+      const contactOwner: any = {
+        _id: contactData?.contactOwnerId,
+        name: '',
+      };
       // setValue('profilePicture', contactData?.profilePicture?.url);
       setValue('firstName', contactData?.firstName || '');
       setValue('lastName', contactData?.lastName || '');
@@ -92,12 +86,12 @@ const useDetails = () => {
         'dateOfBirth',
         contactData?.dateOfBirth ? new Date(contactData?.dateOfBirth) : null,
       );
-      setValue('contactOwnerId', contactData?.contactOwnerId || '');
+      setValue('contactOwnerId', contactOwner);
       setValue('phoneNumber', contactData?.phoneNumber || null);
       setValue('whatsAppNumber', contactData?.whatsAppNumber || null);
-      setValue('lifeCycleStageId', contactData?.lifeCycleStageId || '');
+      setValue('lifeCycleStageId', { _id: contactData?.lifeCycleStageId });
       setValue('jobTitle', contactData?.jobTitle || '');
-      setValue('statusId', contactData?.statusId || '');
+      setValue('statusId', { _id: contactData?.statusId });
       setValue(
         'dateOfJoining',
         contactData?.dateOfJoining
@@ -108,15 +102,22 @@ const useDetails = () => {
   }, [contactData]);
 
   const onSubmitUpdateContactDetail = async (values: any) => {
-    const dateOfBirth = 'dateOfBirth';
-    const dateOfJoining = 'dateOfJoining';
     const formData = new FormData();
     Object.entries(values)?.forEach(([key, value]: any) => {
-      if (value !== undefined && value !== null) {
-        if (key === dateOfBirth || key === dateOfJoining) {
-          formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
-        } else {
-          formData.append(key, value);
+      if (value !== undefined && value !== null && value !== '') {
+        switch (key) {
+          case 'dateOfBirth':
+          case 'dateOfJoining':
+            formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
+            break;
+          case 'contactOwnerId':
+          case 'lifeCycleStageId':
+          case 'statusId':
+            formData.append(key, value?._id);
+            break;
+          default:
+            formData.append(key, value);
+            break;
         }
       }
     });
@@ -156,6 +157,7 @@ const useDetails = () => {
     loadingContactById,
     fetchingContactById,
     contactData,
+    orgId,
   };
 };
 

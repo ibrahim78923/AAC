@@ -30,7 +30,7 @@ export const useUpsertScheduledWorkflow = () => {
     string: 'string',
     number: 'number',
     object: 'object',
-    date: 'Date',
+    date: 'date',
     objectId: 'objectId',
   };
 
@@ -41,6 +41,7 @@ export const useUpsertScheduledWorkflow = () => {
     department: 'departments',
     setDepartmentAs: 'Set Department as',
     location: 'Location',
+    selectLocation: 'Set location as',
     locations: 'locations',
     addRequester: 'Add Requester',
     requester: 'users',
@@ -119,6 +120,8 @@ export const useUpsertScheduledWorkflow = () => {
         return collectionNameData?.department;
       case collectionNameData?.location:
         return collectionNameData?.locations;
+      case collectionNameData?.selectLocation:
+        return collectionNameData?.locations;
       case collectionNameData?.addRequester:
         return collectionNameData?.requester;
       case collectionNameData?.setCategoryAs:
@@ -144,8 +147,8 @@ export const useUpsertScheduledWorkflow = () => {
       fieldValue: condition?.fieldValue?._id
         ? condition?.fieldValue?._id
         : condition?.fieldName?.value === collectionNameData?.notifyBefore
-          ? condition?.fieldValue?.value
-          : condition?.fieldValue,
+        ? condition?.fieldValue?.value
+        : condition?.fieldValue,
       fieldType: mapField(condition),
       collectionName:
         condition?.condition === optionsConstants?.isEmpty ||

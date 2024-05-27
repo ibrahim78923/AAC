@@ -1,7 +1,7 @@
 import { AIR_MARKETER } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-export const socialMarketerAPI = baseAPI.injectEndpoints({
+export const socialMarketerAPI: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getCampaigns: builder.query({
       query: ({ ...params }) => ({
@@ -12,12 +12,13 @@ export const socialMarketerAPI = baseAPI.injectEndpoints({
       providesTags: ['CAMPAIGNS'],
     }),
     getCampaignsById: builder.query({
-      query: ({ id, productSearchKeyword }: any) => ({
-        url: `${AIR_MARKETER?.CAMPAIGNS}/{id}?id=${id}`,
-        method: 'GET',
-        params: { productSearchKeyword },
-      }),
-      providesTags: ['AIR_SALES_QUOTES', 'CONTACTS'],
+      query: (id: any) => {
+        return {
+          url: `${AIR_MARKETER?.CAMPAIGNS}/{id}?id=${id}`,
+          method: 'GET',
+        };
+      },
+      providesTags: ['CAMPAIGNS'],
     }),
     postCampaigns: builder.mutation({
       query: ({ body }: any) => {
@@ -34,6 +35,16 @@ export const socialMarketerAPI = baseAPI.injectEndpoints({
         return {
           url: `${AIR_MARKETER?.CAMPAIGNS}/${ids}`,
           method: 'DELETE',
+        };
+      },
+      invalidatesTags: ['CAMPAIGNS'],
+    }),
+    updateCampaigns: builder.mutation({
+      query: ({ body, id }: any) => {
+        return {
+          url: `${AIR_MARKETER?.CAMPAIGNS}/${id}`,
+          method: 'PATCH',
+          body: body,
         };
       },
       invalidatesTags: ['CAMPAIGNS'],
@@ -56,6 +67,14 @@ export const socialMarketerAPI = baseAPI.injectEndpoints({
         };
       },
       invalidatesTags: ['CAMPAIGNS_TASKS'],
+    }),
+
+    getCampaignsTaskById: builder.query({
+      query: (id: any) => ({
+        url: `${AIR_MARKETER?.CAMPAIGNS_TASKS}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['CAMPAIGNS_TASKS'],
     }),
 
     deleteCampaignTasks: builder.mutation({
@@ -88,4 +107,6 @@ export const {
   usePostCampaignTaskMutation,
   useDeleteCampaignTasksMutation,
   useUpdateCampaignTasksMutation,
+  useUpdateCampaignsMutation,
+  useGetCampaignsTaskByIdQuery,
 } = socialMarketerAPI;

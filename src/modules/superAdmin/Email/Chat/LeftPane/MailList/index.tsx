@@ -17,6 +17,9 @@ import {
 import { API_STATUS, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
 import { UnixDateFormatter } from '@/utils/dateTime';
+import { usePatchEmailMessageMutation } from '@/services/commonFeatures/email';
+import { enqueueSnackbar } from 'notistack';
+import { useEffect, useState } from 'react';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -25,6 +28,8 @@ const MailList = ({
   mailTabType,
 }: any) => {
   const theme = useTheme();
+
+  const [dataArray, setDataArray] = useState<any>([]);
 
   const dispatch = useDispatch();
 
@@ -65,6 +70,43 @@ const MailList = ({
     }
   };
 
+  const [patchEmailMessage] = usePatchEmailMessageMutation();
+
+  const handelMailClick = async (item: any) => {
+    if (item) {
+      dispatch(setActiveRecord(item));
+
+      if (item?.unread) {
+        const payload = {
+          id: item?.id,
+          threadId: item?.thread_id,
+          unread: false,
+          starred: false,
+        };
+        try {
+          const response = await patchEmailMessage({
+            body: payload,
+          })?.unwrap();
+          const updatedData = dataArray?.data?.map((item: any) =>
+            item?.id === response?.data?.id ? response?.data : item,
+          );
+          setDataArray((prevState: any) => ({
+            ...prevState,
+            data: updatedData,
+          }));
+        } catch (error: any) {
+          enqueueSnackbar('Something went wrong while updating message!', {
+            variant: 'error',
+          });
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    setDataArray(emailsByFolderIdData);
+  }, [emailsByFolderIdData]);
+
   return (
     <Box minHeight={'calc(100vh - 350px)'} sx={{ overflowY: 'auto' }}>
       <Box sx={styles?.notificationWrap}>
@@ -97,7 +139,7 @@ const MailList = ({
         </Button>
       </Box>
 
-      {mailTabType?.display_name === EMAIL_TABS_TYPES?.TRASH && (
+      {mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.TRASH && (
         <Box
           sx={{
             background: theme?.palette?.grey[100],
@@ -119,7 +161,9 @@ const MailList = ({
       <Box sx={{ maxHeight: '62vh', overflow: 'auto' }}>
         {isLoadingEmailsByFolderIdData === API_STATUS?.REJECTED ? (
           <Box>
-            <Typography variant="body2">Something went wrong</Typography>
+            <Typography variant="body2" color={theme?.palette?.error?.main}>
+              Something went wrong
+            </Typography>
           </Box>
         ) : (
           <>
@@ -129,10 +173,10 @@ const MailList = ({
               </>
             ) : (
               <>
-                {emailsByFolderIdData?.data && (
+                {dataArray?.data && (
                   <>
-                    {emailsByFolderIdData?.data?.length > 0 ? (
-                      emailsByFolderIdData?.data?.map((item: any) => (
+                    {dataArray?.data?.length > 0 ? (
+                      dataArray?.data?.map((item: any) => (
                         <Box
                           key={uuidv4()}
                           sx={styles?.card}
@@ -142,7 +186,7 @@ const MailList = ({
                                 ? theme?.palette?.grey[100]
                                 : theme?.palette?.common?.white,
                           }}
-                          onClick={() => dispatch(setActiveRecord(item))}
+                          onClick={() => handelMailClick(item)}
                         >
                           <Checkbox
                             checked={selectedRecords?.some(

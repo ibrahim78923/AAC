@@ -76,19 +76,26 @@ const UpdateQuote = () => {
               <Button
                 onClick={handleStepBack}
                 variant="outlined"
-                sx={styles?.btnBack}
+                sx={{ ...styles?.btnBack, width: { xs: '100%', sm: 'auto' } }}
               >
                 Back
               </Button>
             )}
             <Box sx={{ flex: '1' }}></Box>
-            <Stack direction={'row'} spacing={'12px'}>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={'12px'}
+              width={{ xs: '100%', sm: 'auto' }}
+            >
               {activeStep !== steps?.length - 1 && (
                 <>
                   <Button
                     onClick={handleStepperCancel}
                     variant="outlined"
-                    sx={styles?.btnBack}
+                    sx={{
+                      ...styles?.btnBack,
+                      width: { xs: '100%', sm: 'auto' },
+                    }}
                   >
                     Cancel
                   </Button>
@@ -98,6 +105,7 @@ const UpdateQuote = () => {
                       variant="contained"
                       onClick={handleUpdateDetails}
                       disabled={!disabledSaveAndContinueBtn}
+                      sx={{ width: { xs: '100%', sm: 'auto' } }}
                     >
                       Save & Continue
                     </Button>
@@ -135,7 +143,6 @@ const UpdateQuote = () => {
           </Box>
         }
       />
-
       {isOpenDialog && (
         <DialogSendToCustomer open={isOpenDialog} onClose={handleCloseDialog} />
       )}

@@ -5,6 +5,7 @@ import { columns } from '../Forms.data';
 import { useRouter } from 'next/router';
 import TableToolbar from '../TableToolbar';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import DeleteModal from '../DeleteModal';
 
 const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
   const router = useRouter();
@@ -17,6 +18,11 @@ const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
     dataGetForms,
     setPageLimit,
     setPage,
+    openModalDelete,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteForm,
+    loadingDelete,
   } = useAllForms();
   const getColums = columns(
     selectedRow,
@@ -45,7 +51,7 @@ const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
           alert('Edit');
         }}
         onClickDelete={() => {
-          alert('Delete');
+          handleOpenModalDelete();
         }}
         onClickExport={() => {
           alert('Export');
@@ -54,7 +60,7 @@ const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
           alert('Send Email');
         }}
         onClickRestore={() => {
-          alert('Restore');
+          router?.push(AIR_MARKETER?.FORM_RESTORE);
         }}
       />
 
@@ -70,6 +76,13 @@ const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
         setPageLimit={setPageLimit}
         onPageChange={(page: any) => setPage(page)}
         isPagination
+      />
+
+      <DeleteModal
+        open={openModalDelete}
+        onClose={handleCloseModalDelete}
+        handleSubmit={handleDeleteForm}
+        loading={loadingDelete}
       />
     </Box>
   );

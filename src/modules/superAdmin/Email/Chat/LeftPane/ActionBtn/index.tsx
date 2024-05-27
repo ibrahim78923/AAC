@@ -16,7 +16,7 @@ import { WarningIcon } from '@/assets/icons';
 import { useMoveFolderOtherEmailMutation } from '@/services/commonFeatures/email';
 import { enqueueSnackbar } from 'notistack';
 
-const ActionBtn = () => {
+const ActionBtn = ({ filteredData }: any) => {
   const mailTabType: any = useAppSelector(
     (state: any) => state?.email?.mailTabType,
   );
@@ -31,6 +31,7 @@ const ActionBtn = () => {
 
   const [isLinkToDealModal, setIsLinkToDealModal] = useState(false);
   const [isRestoreEmail, setIsRestoreEmail] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
@@ -48,6 +49,29 @@ const ActionBtn = () => {
     const payload = {
       messageId: ids,
       folderId: EMAIL_TABS_TYPES?.DRAFTS,
+    };
+    try {
+      await moveFolderOtherEmail({
+        body: payload,
+      })?.unwrap();
+      enqueueSnackbar('Email restore successfully', {
+        variant: 'success',
+      });
+      setIsRestoreEmail(false);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+  const handelDelete = async () => {
+    const ids =
+      selectedRecords && selectedRecords?.map((message: any) => message?.id);
+
+    const result = filteredData?.find(
+      (filterData: any) => filterData?.display_name?.toLowerCase() === 'trash',
+    );
+    const payload = {
+      messageId: ids,
+      folderId: result?.id,
     };
     try {
       await moveFolderOtherEmail({
@@ -108,7 +132,7 @@ const ActionBtn = () => {
             </MenuItem>
           </>
         )}
-        <MenuItem> Delete </MenuItem>
+        <MenuItem onClick={() => setIsDeleteModalOpen(true)}> Delete </MenuItem>
         {tabName === CREATE_EMAIL_TYPES?.TRASH && (
           <MenuItem onClick={() => setIsRestoreEmail(true)}> Restore </MenuItem>
         )}
@@ -135,6 +159,19 @@ const ActionBtn = () => {
         handleClose={() => setIsRestoreEmail(false)}
         loading={loadingRestore}
         handleSubmitBtn={handelRestore}
+      />
+
+      <AlertModals
+        type={'Delete'}
+        typeImage={<WarningIcon />}
+        message={`Are you sure you want to delete ${
+          selectedRecords.length > 1 ? 'these' : 'this'
+        } record ?.`}
+        open={isDeleteModalOpen}
+        disabled={false}
+        handleClose={() => setIsDeleteModalOpen(false)}
+        loading={loadingRestore}
+        handleSubmitBtn={handelDelete}
       />
     </>
   );

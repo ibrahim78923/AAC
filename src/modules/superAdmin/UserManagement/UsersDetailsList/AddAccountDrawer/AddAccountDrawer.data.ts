@@ -1,86 +1,82 @@
-import { RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
+import useAddAccountDrawer from './useAddAccountDrawer';
 import * as Yup from 'yup';
 
-export const AddAccountArray = (
-  organizationBasesProducts: any,
-  companyAccounts: any,
-  companyRoles: any,
-) => {
+export const AddAccountArray = (props: any) => {
+  const { companyRoleParams, organizationBasesProducts, organizationId } =
+    props;
+  const { companyAccounts, companyRoles } = useAddAccountDrawer();
+
   return [
     {
       componentProps: {
         label: 'Products',
         name: 'product',
-        required: true,
+        placeholder: 'Select Product',
         fullWidth: true,
-        select: true,
+        required: true,
+        options: organizationBasesProducts?.map((item: any) => item),
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: organizationBasesProducts?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
     {
       componentProps: {
         label: 'Company',
         name: 'company',
+        placeholder: 'Select Company',
         fullWidth: true,
         required: true,
-        select: true,
+        apiQuery: companyAccounts,
+        getOptionLabel: (option: any) => option?.accountName,
+        externalParams: { orgId: organizationId },
+        queryKey: 'ordId',
       },
-      options: companyAccounts?.data?.organizationcompanyaccounts?.map(
-        (item: any) => ({
-          value: item?._id,
-          label: item?.accountName,
-        }),
-      ),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
       componentProps: {
         label: 'Manage Role',
         name: 'role',
-        required: true,
+        placeholder: 'Select Role',
         fullWidth: true,
-        select: true,
+        required: true,
+        apiQuery: companyRoles,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: companyRoleParams,
       },
-      options: companyRoles?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 6,
     },
     {
       componentProps: {
         label: 'Status',
-        required: true,
         name: 'status',
+        placeholder: 'Select Status',
         fullWidth: true,
-        select: true,
+        required: true,
+        options: ['ACTIVE', 'INACTIVE'],
       },
-      options: [
-        { value: 'ACTIVE', label: 'Active' },
-        { value: 'INACTIVE', label: 'Inactive' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 6,
     },
   ];
 };
-export const AddAccountValidationSchema = Yup.object().shape({
-  product: Yup.string().required('Field is Required'),
-  company: Yup.string().required('Field is Required'),
-  role: Yup.string().required('Field is Required'),
+export const AddAccountValidationSchema: any = Yup.object().shape({
+  product: Yup.object().required('Field is Required'),
+  company: Yup.object().required('Field is Required'),
+  role: Yup.object().required('Field is Required'),
   status: Yup.string().required('Field is Required'),
 });
 
 export const AddAccountDefaultValues = {
-  product: '',
-  company: '',
-  role: '',
+  product: null,
+  company: null,
+  role: null,
   status: '',
 };

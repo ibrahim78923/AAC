@@ -1,9 +1,5 @@
 import { Checkbox } from '@mui/material';
-import {
-  RHFMultiSearchableSelect,
-  RHFTextField,
-  RHFSelect,
-} from '@/components/ReactHookForm';
+import { RHFTextField, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
@@ -19,6 +15,7 @@ export const productFeaturesValidationSchema = Yup.object().shape({
     .max(10, 'Field is Required')
     .required('Field is Required'),
   name: Yup.string().trim().required('Field is Required'),
+  description: Yup.string().trim().required('Field is Required'),
 });
 export const addProductFeatureFormDefaultValues = {
   productIds: [],
@@ -26,22 +23,19 @@ export const addProductFeatureFormDefaultValues = {
   description: '',
 };
 
-export const addProductFeatureFormData = () => {
-  const { dataProducts } = useProductFeature();
-  const productOptions = dataProducts?.data?.map((item: any) => {
-    return { value: item?._id, label: item?.name };
-  });
+export const addProductFeatureFormData = (products: any) => {
   return [
     {
+      component: RHFAutocompleteAsync,
       md: 12,
-      component: RHFMultiSearchableSelect,
       componentProps: {
         name: 'productIds',
-        fullWidth: true,
         label: 'Product',
-        isCheckBox: true,
-        options: productOptions,
+        placeholder: 'Select product',
+        apiQuery: products,
+        getOptionLabel: (option: any) => option?.name,
         required: true,
+        multiple: true,
       },
     },
     {
@@ -64,23 +58,17 @@ export const addProductFeatureFormData = () => {
         placeholder: 'Description',
         multiline: true,
         rows: 3,
+        required: true,
       },
     },
   ];
 };
 
-export const columns = (
-  setIsDisabled: (value: boolean) => void,
-  setRowId: any,
-  rowId: any,
-  theme: any,
-) => {
+export const columns = (setRowId: any, rowId: any, theme: any) => {
   const { handleUpdateStatus } = useProductFeature();
   const handleRowSelect = (id: any) => {
     const isSelected = rowId === id;
     const newSelected = isSelected ? null : id;
-    const disabled = newSelected === null;
-    setIsDisabled(disabled);
     setRowId(newSelected);
   };
   return [
@@ -174,33 +162,29 @@ export const columns = (
 };
 
 export const editFeatureValidationSchema = Yup.object().shape({
-  productId: Yup.string().trim().required('Field is Required'),
+  productId: Yup.mixed().nullable().required('Field is Required'),
   name: Yup.string().trim().required('Field is Required'),
   description: Yup.string().trim().required('Field is Required'),
 });
+
 export const editFeatureFormDefaultValues = {
-  productId: '',
+  productId: {},
   name: '',
   description: '',
 };
 
-export const editProductFeatureFormData = () => {
-  const { dataProducts } = useProductFeature();
-
-  const productOptions = dataProducts?.data?.map((item: any) => {
-    return { value: item?._id, label: item?.name };
-  });
-
+export const editProductFeatureFormData = (products: any) => {
   return [
     {
       md: 12,
-      component: RHFSelect,
-      options: productOptions,
+      component: RHFAutocompleteAsync,
       componentProps: {
-        label: 'Product',
         name: 'productId',
-        fullWidth: true,
-        select: true,
+        label: 'Product',
+        placeholder: 'Select product',
+        apiQuery: products,
+        getOptionLabel: (option: any) => option?.name,
+        required: true,
       },
     },
     {
@@ -208,6 +192,7 @@ export const editProductFeatureFormData = () => {
         name: 'name',
         label: 'Product Feature Name',
         fullWidth: true,
+        required: true,
       },
       component: RHFTextField,
       md: 12,
@@ -217,10 +202,12 @@ export const editProductFeatureFormData = () => {
       component: RHFTextField,
       componentProps: {
         name: 'description',
+        label: 'Description',
         fullWidth: true,
         placeholder: 'Description',
         multiline: true,
         rows: 3,
+        required: true,
       },
     },
   ];

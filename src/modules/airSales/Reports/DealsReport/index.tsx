@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Box,
   Button,
@@ -6,86 +5,52 @@ import {
   FormControlLabel,
   Popover,
   Theme,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { DownloadLargeIcon } from '@/assets/icons';
+import { DownloadLargeIcon, RefreshTasksIcon } from '@/assets/icons';
 import CardAndGraphs from './CardAndGraph';
 import DealsOverview from './DealsOverview';
 import { v4 as uuidv4 } from 'uuid';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import ArrowDown from '@/assets/icons/modules/airSales/deals/arrow-down';
 import { AIR_SALES } from '@/routesConstants/paths';
-import { useRouter } from 'next/router';
-
-const customizeData = [
-  {
-    label: 'Select All',
-    value: 'selectall',
-  },
-  {
-    label: 'Scheduled',
-    value: 'scheduled',
-  },
-  {
-    label: 'Drafts',
-    value: 'drafts',
-  },
-  {
-    label: 'Pending Approval',
-    value: 'PendingApproval',
-  },
-  {
-    label: 'Rejected',
-    value: 'rejected',
-  },
-  {
-    label: 'Failed',
-    value: 'failed',
-  },
-];
-const pipeLineData = [
-  {
-    label: ' All',
-    value: 'all',
-  },
-  {
-    label: 'Sales',
-    value: 'sales',
-  },
-  {
-    label: 'Pipeline',
-    value: 'pipeline',
-  },
-  {
-    label: 'Recruitment',
-    value: 'recruitment',
-  },
-];
+import useDealsReports from './useDealsReports';
+import NoData from '@/components/NoData';
+import { dealStatus } from '@/constants';
 
 const DealsReport = () => {
   const theme = useTheme<Theme>();
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [anchorElNew, setAnchorElnew] = useState<HTMLButtonElement | null>(
-    null,
-  );
-  const open = Boolean(anchorEl);
-  const openPipeline = Boolean(anchorElNew);
+  const {
+    dealsOwner,
+    router,
+    filter,
+    setFilter,
+    dealsReportsTable,
+    dealsReportsCardsData,
+    dealsReportsGraphData,
+    searchBy,
+    setSearchBy,
+    resetFilters,
+    pipelineData,
+    setPage,
+    setLimit,
+    datePickerVal,
+    setDatePickerVal,
+    open,
+    anchorEl,
+    handleClick,
+    handleClose,
+    openPipeline,
+    anchorElNew,
+    handleClickPipeline,
+    handleClosePipleine,
+    customizeData,
+    pipelineDropdown,
+  } = useDealsReports();
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleClickPipeline = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-  const handleClosePipleine = () => {
-    setAnchorElnew(null);
-  };
-  const router = useRouter();
   return (
     <>
       <Box
@@ -111,10 +76,24 @@ const DealsReport = () => {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
+          <Tooltip title="Refresh Filter">
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={resetFilters}
+            >
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
           <SwitchableDatepicker
             renderInput="button"
-            variant="contained"
-            placement="left"
+            placement="right"
+            dateValue={datePickerVal}
+            setDateValue={setDatePickerVal}
+            handleDateSubmit={() => {
+              setFilter({ ...filter, date: datePickerVal });
+            }}
           />
           <Button
             sx={{ gap: 1, height: '30px' }}
@@ -143,9 +122,35 @@ const DealsReport = () => {
             <Typography variant="h5" sx={{ p: 1, fontSize: '16px' }}>
               Owner
             </Typography>
-            {customizeData?.map((data: any) => (
+            {customizeData(dealsOwner)?.map((data: any) => (
               <Box sx={{ ml: 1 }} key={uuidv4()}>
-                <FormControlLabel control={<Checkbox />} label={data?.label} />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={data?.value}
+                      checked={filter?.owners?.includes(data?.value)}
+                      onChange={(event: any) => {
+                        if (event.target.checked) {
+                          setFilter({
+                            ...filter,
+                            owners: [
+                              ...(filter?.owners || []),
+                              event?.target?.value,
+                            ],
+                          });
+                        } else {
+                          setFilter({
+                            ...filter,
+                            owners: filter?.owners?.filter(
+                              (value: any) => value !== event?.target?.value,
+                            ),
+                          });
+                        }
+                      }}
+                    />
+                  }
+                  label={data?.label}
+                />
               </Box>
             ))}
           </Popover>
@@ -173,9 +178,35 @@ const DealsReport = () => {
               horizontal: 'left',
             }}
           >
-            {pipeLineData?.map((item: any) => (
+            {pipelineDropdown(pipelineData)?.map((item: any) => (
               <Box sx={{ ml: 1 }} key={uuidv4()}>
-                <FormControlLabel control={<Checkbox />} label={item?.label} />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={item?.value}
+                      checked={filter?.pipelines?.includes(item?.value)}
+                      onChange={(event: any) => {
+                        if (event.target.checked) {
+                          setFilter({
+                            ...filter,
+                            pipelines: [
+                              ...(filter?.pipelines || []),
+                              event?.target?.value,
+                            ],
+                          });
+                        } else {
+                          setFilter({
+                            ...filter,
+                            pipelines: filter?.pipelines?.filter(
+                              (value: any) => value !== event?.target?.value,
+                            ),
+                          });
+                        }
+                      }}
+                    />
+                  }
+                  label={item?.label}
+                />
               </Box>
             ))}
           </Popover>
@@ -190,12 +221,28 @@ const DealsReport = () => {
           </Button>
         </Box>
       </Box>
-      <Box sx={{ marginTop: '1rem' }}>
-        <CardAndGraphs />
-      </Box>
-      <Box sx={{ marginTop: '1rem' }}>
-        <DealsOverview />
-      </Box>
+      {dealsReportsGraphData?.length === dealStatus?.INITIAL_NUMBER &&
+      dealsReportsTable?.deals?.length === dealStatus?.INITIAL_NUMBER ? (
+        <NoData />
+      ) : (
+        <Box>
+          <Box sx={{ marginTop: '1rem' }}>
+            <CardAndGraphs
+              dealsReportsCardsData={dealsReportsCardsData}
+              dealsReportsGraphData={dealsReportsGraphData}
+            />
+          </Box>
+          <Box sx={{ marginTop: '1rem' }}>
+            <DealsOverview
+              setPage={setPage}
+              setLimit={setLimit}
+              searchBy={searchBy}
+              setSearchBy={setSearchBy}
+              dealsReportsTable={dealsReportsTable}
+            />
+          </Box>
+        </Box>
+      )}
     </>
   );
 };

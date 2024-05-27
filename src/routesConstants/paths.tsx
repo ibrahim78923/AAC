@@ -153,6 +153,7 @@ export const AIR_MARKETER = {
   VERIFY_EMAIL: path(AIR_MARKETING_PAGE, '/lead-capture/verify-email'),
   CREATE_FORM: path(AIR_MARKETING_PAGE, '/lead-capture/create-form'),
   ALL_TABLE: path(AIR_MARKETING_PAGE, '/lead-capture/forms'),
+  FORM_RESTORE: path(AIR_MARKETING_PAGE, '/lead-capture/forms/restore'),
   CREATE_NEW_EMAIL: path(
     AIR_MARKETING_PAGE,
     '/email-marketing/create-new-email',
@@ -246,6 +247,8 @@ export const SOCIAL_FEATURES_EMAIL = {
   SEND_SCHEDULE_EMAIL_OTHER: '/other-mail/schedule-email',
   DRAFT_EMAIL_OTHER: '/other-mail/draft-email',
   REPLY_EMAIL_OTHER: '/other-mail/reply-email',
+  FORWARD_EMAIL_OTHER: '/other-mail/forward-email',
+  UPDATE_EMAIL_OTHER: '/other-mail/update-message',
 
   MOVE_FOLDER_EMAIL_OTHER: '/other-mail/move-email',
   UPDATE_EMAIL_SETTINGS: '/other-mail/update-emails-settings',

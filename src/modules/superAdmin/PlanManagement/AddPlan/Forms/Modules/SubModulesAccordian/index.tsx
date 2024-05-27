@@ -39,20 +39,22 @@ const SubModulesAccordion = ({
               {item?.name}
             </Typography>
           </AccordionSummary>
-          <AccordionDetails sx={{ p: 0 }}>
-            <Grid container>
-              <FormProvider methods={methods} handleSubmit={handleSubmit}>
-                <RHFMultiCheckbox
-                  name="permissionSlugs"
-                  options={item?.permissions?.map((item: any) => ({
-                    label: item?.name,
-                    value: `${item?.productId}:${item?.slug}`,
-                  }))}
-                  GridView={3}
-                />
-              </FormProvider>
-            </Grid>
-          </AccordionDetails>
+          {selectedSubModule === item?.name?.toLowerCase() && (
+            <AccordionDetails sx={{ p: 0 }}>
+              <Grid container>
+                <FormProvider methods={methods} handleSubmit={handleSubmit}>
+                  <RHFMultiCheckbox
+                    name="permissionSlugs"
+                    options={item?.permissions?.map((item: any) => ({
+                      label: item?.name,
+                      value: `${item?.productId}:${item?.slug}`,
+                    }))}
+                    GridView={3}
+                  />
+                </FormProvider>
+              </Grid>
+            </AccordionDetails>
+          )}
         </Accordion>
       ))}
     </>

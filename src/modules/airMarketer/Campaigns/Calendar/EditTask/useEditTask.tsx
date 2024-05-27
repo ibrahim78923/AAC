@@ -3,40 +3,84 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { validationSchema } from './EditTask.data';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { usePostCampaignTaskMutation } from '@/services/airMarketer/campaigns';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  useGetCampaignsTaskByIdQuery,
+  usePostCampaignTaskMutation,
+  useUpdateCampaignTasksMutation,
+} from '@/services/airMarketer/campaigns';
+import { useEffect } from 'react';
 
-const useEditTask = ({ initialValueProps, setCreateTask }: any) => {
+const useEditTask = ({
+  initialValueProps,
+  setIsOpenEditTaskDrawer,
+  isType,
+  createTask,
+}: any) => {
   const theme = useTheme();
-
   const [postCampaignTask, { isLoading: postTaskLoading }] =
     usePostCampaignTaskMutation();
+
+  const [updateCampaignTasks, { isLoading: updateTaskLoading }] =
+    useUpdateCampaignTasksMutation();
+
+  const { data: getCampaignsTaskById } = useGetCampaignsTaskByIdQuery(
+    createTask?.id,
+  );
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: initialValueProps,
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, setValue } = methods;
+
+  useEffect(() => {
+    const data = getCampaignsTaskById?.data[0];
+    const fieldsToSet: any = {
+      taskName: data?.taskName,
+      taskType: data?.taskType,
+      campaignId: data?.campaignDetails[0],
+      assignedTo: data?.assignedTo[0],
+      dueDate: data?.dueDate ? new Date(data?.dueDate) : null,
+      time: data?.time ? new Date(data?.time) : null,
+      note: data?.note,
+    };
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
+  }, [getCampaignsTaskById]);
 
   const onSubmit = async (values: any) => {
     values.assignedTo = values.assignedTo?._id;
     values.campaignId = values.campaignId?._id;
     try {
-      await postCampaignTask({ body: values })?.unwrap();
-      enqueueSnackbar('Task Updated Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      if (isType === DRAWER_TYPES?.EDIT) {
+        delete values?.campaignId;
+        await updateCampaignTasks({
+          id: createTask?.id,
+          body: values,
+        })?.unwrap();
+        enqueueSnackbar('Task Updated Successfully', {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        });
+      } else {
+        await postCampaignTask({ body: values })?.unwrap();
+        enqueueSnackbar('Task Added Successfully', {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        });
+      }
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
     reset();
-    setCreateTask(false);
+    setIsOpenEditTaskDrawer(false);
   };
 
   return {
+    updateTaskLoading,
     postTaskLoading,
     handleSubmit,
     onSubmit,

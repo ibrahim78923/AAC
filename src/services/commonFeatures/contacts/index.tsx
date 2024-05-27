@@ -130,10 +130,8 @@ export const contactsAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useGetContactsStatusQuery,
   useGetContactsQuery,
   useGetContactByIdQuery,
-  useGetLifeCycleQuery,
   usePostContactsMutation,
   useUpdateContactMutation,
   useUpdateContactOwnerMutation,
@@ -144,4 +142,6 @@ export const {
   useGetContactTasksQuery,
   useUpdateContactTaskMutation,
   useDeleteTasksMutation,
+  useGetLifeCycleQuery,
+  useGetContactsStatusQuery,
 } = contactsAPI;

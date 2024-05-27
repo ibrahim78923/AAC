@@ -115,7 +115,7 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
     }),
     getAgentDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
+        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
         method: 'GET',
         params,
       }),

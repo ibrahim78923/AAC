@@ -1,15 +1,9 @@
 import React from 'react';
 import { Box, Grid } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { dataArray } from './SalesEditorDrawer.data';
-
 import useSalesEditorDrawer from './useSalesEditorDrawer';
-
-import { v4 as uuidv4 } from 'uuid';
-
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const SalesEditorDrawer = ({
@@ -50,8 +44,8 @@ const SalesEditorDrawer = ({
           <Box sx={{ paddingTop: '1rem' }}>
             <FormProvider methods={salesProduct}>
               <Grid container spacing={1}>
-                {dataArray?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                {dataArray()?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={item?.component?.name}>
                     <item.component {...item.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (

@@ -27,6 +27,7 @@ export default function EditForm({
     isExistingPlan,
     isStoragePrice,
     isUserPrice,
+    isLoading,
   } = useEditForm(
     isEditModal,
     isGetRowValues,
@@ -47,7 +48,7 @@ export default function EditForm({
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
-      isDisabled={isExistingPlan}
+      isDisabled={isExistingPlan || isLoading}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>

@@ -25,7 +25,8 @@ export const styles = {
     borderRadius: '4px',
   }),
   body: () => ({
-    height: '640px',
+    height: '570px',
+
     overflowY: 'auto',
   }),
   dots: (theme: any) => ({

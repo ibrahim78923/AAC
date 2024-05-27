@@ -5,7 +5,7 @@ import EmailThisDashboard from '../EmailThisDashboard';
 import { useHeaderDashboard } from './useHeaderDashboard';
 
 export const HeaderDashboard = () => {
-  const { theme, router, isDrawerOpen, setIsDrawerOpen, user } =
+  const { theme, router, isDrawerOpen, setIsDrawerOpen, user, copyEmail } =
     useHeaderDashboard();
 
   return (
@@ -29,7 +29,7 @@ export const HeaderDashboard = () => {
         </Typography>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
           <SingleDropdownButton
-            dropdownOptions={dropDownMenus(setIsDrawerOpen)}
+            dropdownOptions={dropDownMenus(setIsDrawerOpen, copyEmail)}
             dropdownName="Actions"
           />
           <SingleDropdownButton

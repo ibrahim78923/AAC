@@ -1,20 +1,20 @@
-import { dealStatus } from '@/constants';
-
 export const series = (dealsInPercentage: any) => {
-  const openDealsPercentage = dealsInPercentage?.map(
-    (item: any) => item?.openDealsPercentage,
-  );
-  const wonDealsPercentage = dealsInPercentage?.map(
-    (item: any) => item?.wonDealsPercentage,
-  );
-  const lostDealsPercentage = dealsInPercentage?.map(
-    (item: any) => item?.lostDealsPercentage,
-  );
+  const openDealsPercentage = dealsInPercentage
+    ?.map((item: any) => item?.openDealsPercentage)
+    ?.join(', ');
+
+  const wonDealsPercentage = dealsInPercentage
+    ?.map((item: any) => item?.wonDealsPercentage)
+    ?.join(', ');
+
+  const lostDealsPercentage = dealsInPercentage
+    ?.map((item: any) => item?.lostDealsPercentage)
+    ?.join(', ');
 
   return [
-    lostDealsPercentage[dealStatus?.INITIAL_NUMBER],
-    wonDealsPercentage[dealStatus?.INITIAL_NUMBER],
-    openDealsPercentage[dealStatus?.INITIAL_NUMBER],
+    Number(lostDealsPercentage),
+    Number(wonDealsPercentage),
+    Number(openDealsPercentage),
   ];
 };
 
@@ -73,9 +73,45 @@ export const options: any = (theme: any) => {
 };
 
 export const seriesBar = (dealsGraphData: any) => {
-  const totalDeals = dealsGraphData?.map((item: any) => item?.totalDeals);
-  const openDeals = dealsGraphData?.map((item: any) => item?.totalOpenDeals);
-  const closeDeals = dealsGraphData?.map((item: any) => item?.totalCloseDeals);
+  const allMonths = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'July',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  const totalDeals = allMonths?.map((month) => {
+    const deal = dealsGraphData?.find(
+      (item: any) =>
+        item?.month?.trim()?.toLowerCase() === month?.toLowerCase(),
+    );
+    return deal ? deal?.totalDeals : 0;
+  });
+
+  const openDeals = allMonths?.map((month) => {
+    const deal = dealsGraphData?.find(
+      (item: any) =>
+        item?.month?.trim()?.toLowerCase() === month?.toLowerCase(),
+    );
+    return deal ? deal?.totalOpenDeals : 0;
+  });
+
+  const closeDeals = allMonths?.map((month) => {
+    const deal = dealsGraphData?.find(
+      (item: any) =>
+        item?.month?.trim()?.toLowerCase() === month?.toLowerCase(),
+    );
+    return deal ? deal?.totalCloseDeals : 0;
+  });
+
   return [
     {
       name: 'All Deals',
@@ -91,7 +127,6 @@ export const seriesBar = (dealsGraphData: any) => {
     },
   ];
 };
-
 export const optionsBar: any = (theme: any) => {
   const colorsBar = [
     `${theme?.palette?.error?.main}`,

@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import { useGetLeadCaptureFormQuery } from '@/services/airMarketer/lead-capture/forms';
+import {
+  useGetLeadCaptureFormQuery,
+  useDeleteLeadCaptureFormMutation,
+} from '@/services/airMarketer/lead-capture/forms';
 import { PAGINATION } from '@/config';
+import { enqueueSnackbar } from 'notistack';
 
 const useAllForms = () => {
   const [selectedRow, setSelectedRow]: any = useState([]);
@@ -21,6 +25,33 @@ const useAllForms = () => {
       params: { ...searchPayLoad, ...paginationParams },
     });
 
+  // Delete Forms
+  const [deleteForm, { isLoading: loadingDelete }] =
+    useDeleteLeadCaptureFormMutation();
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const handleOpenModalDelete = () => {
+    setOpenModalDelete(true);
+  };
+  const handleCloseModalDelete = () => {
+    setOpenModalDelete(false);
+  };
+
+  const handleDeleteForm = async () => {
+    const formIds = await selectedRow[0];
+    try {
+      await deleteForm(formIds)?.unwrap();
+      handleCloseModalDelete();
+      enqueueSnackbar('Form has been deleted.', {
+        variant: 'success',
+      });
+      setSelectedRow([]);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
   return {
     selectedRow,
     setSelectedRow,
@@ -30,6 +61,11 @@ const useAllForms = () => {
     searchValue,
     setPageLimit,
     setPage,
+    openModalDelete,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteForm,
+    loadingDelete,
   };
 };
 

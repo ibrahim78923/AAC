@@ -18,6 +18,7 @@ import CompaignDetails from '../CampaignDetails';
 import EditTask from '../Tasks/EditTask';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
+import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
 
 const ActionButton = ({ selectedRows }: any) => {
   const {
@@ -28,6 +29,8 @@ const ActionButton = ({ selectedRows }: any) => {
     setActionsModalDetails,
     handleDeleteCampaigns,
   } = useCampaigns();
+
+  const { data: compaignsDataById } = useGetCampaignsByIdQuery(selectedRows);
   return (
     <Box>
       {selectedRows?.length >= 2 ? (
@@ -142,6 +145,8 @@ const ActionButton = ({ selectedRows }: any) => {
         >
           <EditCompaign
             isOpenDrawer={actionsModalDetails?.isEditCompaign}
+            compaignsDataById={compaignsDataById}
+            selectedRows={selectedRows}
             onClose={() =>
               setActionsModalDetails({
                 ...actionsModalDetails,

@@ -182,6 +182,8 @@ export const AIR_OPERATIONS = {
   SALES_REPORTS: `/air-operations/reports/sales-reports`,
   SERVICES_REPORTS: `/air-operations/reports/services-reports`,
   MARKETING_REPORTS: `/air-operations/reports/marketing-reports`,
+  CREATE_SERVICES_REPORTS: `/air-operations/reports/services-reports/create-services-reports`,
+
 };
 
 export const AIR_LOYALTY_PROGRAM = {
@@ -251,6 +253,8 @@ export const EQuickLinksType = {
   PRODUCT: 'PRODUCT',
   SUPER_ADMIN: 'SUPER_ADMIN',
   ORG_ADMIN: 'ORG_ADMIN',
+  COMPANY_OWNER: 'COMPANY_OWNER',
+  ORG_EMPLOYEE: 'ORG_EMPLOYEE',
 };
 
 export const QUICKLINKSROLES = {

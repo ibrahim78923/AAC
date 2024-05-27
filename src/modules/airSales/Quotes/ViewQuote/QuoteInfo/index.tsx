@@ -10,13 +10,13 @@ const QuoteInfo = () => {
     <>
       <Box sx={styles?.quoteInfo}>
         <Grid container spacing={'16px'}>
-          <Grid item xs={4}>
+          <Grid item lg={4} md={6} sm={6} xs={12}>
             <Box sx={styles?.quoteInfoTitle}>
               Quote No:{' '}
               <Box component="span">{`DOC-${viewQuotesData?.data?._id}`}</Box>
             </Box>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item lg={4} md={6} sm={6} xs={12}>
             <Box sx={styles?.quoteInfoTitle}>
               Prepared By:{' '}
               <Box component="span">{`${
@@ -24,7 +24,7 @@ const QuoteInfo = () => {
               } ${viewQuotesData?.data?.createdBy?.lastName ?? 'N/A'}`}</Box>
             </Box>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item lg={4} md={6} sm={6} xs={12}>
             <Box sx={styles?.quoteInfoTitle}>
               Valid Till:
               <Box component="span">

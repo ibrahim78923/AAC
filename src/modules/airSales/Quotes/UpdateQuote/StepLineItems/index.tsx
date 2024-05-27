@@ -188,7 +188,12 @@ const StepLineItems = ({ openCreateProduct }: any) => {
           <Typography variant="h4" sx={styles?.pageHeaderTitle}>
             Products
           </Typography>
-          <Stack direction="row" spacing={'12px'}>
+          <Stack
+            direction="row"
+            sx={{ flexWrap: 'wrap' }}
+            spacing={{ xs: 0, sm: '12px' }}
+            gap={{ xs: 1, sm: 0 }}
+          >
             <Search
               placeholder="Search Here"
               setSearchBy={(value: string) => setSearch(value)}
@@ -200,6 +205,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
               onClick={() => {
                 handleAction('', 'create');
               }}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
               Add Products
             </Button>

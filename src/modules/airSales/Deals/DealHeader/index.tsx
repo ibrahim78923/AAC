@@ -21,6 +21,7 @@ const DealHeader = () => {
     handleCreateDealOpen,
     handleImportDealOpen,
     handleViewAll,
+    setIsImportDeal,
   } = useDealHeader();
 
   return (
@@ -63,7 +64,10 @@ const DealHeader = () => {
           </Button>
         </PermissionsGuard>
       </Box>
-      <ImportDealsDrawer open={isImportDeal} onClose={handleImportDealOpen} />
+      <ImportDealsDrawer
+        open={isImportDeal}
+        setIsImportDeal={setIsImportDeal}
+      />
       <CreateDeal open={isCreateDeal} onClose={handleCreateDealOpen} />
       <ViewAllDeals open={IsViewAll} onClose={handleViewAll} />
     </Box>

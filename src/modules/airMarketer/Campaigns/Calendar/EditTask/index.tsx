@@ -11,15 +11,24 @@ export default function EditTask({
   isType,
   initialValueProps = defaultValues,
   setCreateTask,
+  clickedDate,
 }: any) {
-  const { handleSubmit, onSubmit, methods, postTaskLoading } = useEditTask({
+  const {
+    handleSubmit,
+    onSubmit,
+    methods,
+    postTaskLoading,
+    updateTaskLoading,
+  } = useEditTask({
     initialValueProps,
     setCreateTask,
+    createTask,
+    clickedDate,
   });
 
   return (
     <CommonDrawer
-      isDrawerOpen={createTask}
+      isDrawerOpen={createTask?.isToggle}
       onClose={() => onClose(false)}
       title={isType === DRAWER_TYPES?.ADD ? 'Create Task' : 'Edit Task'}
       okText={isType === DRAWER_TYPES?.ADD ? 'Create' : 'Update'}
@@ -27,7 +36,9 @@ export default function EditTask({
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={postTaskLoading}
+      isLoading={
+        isType === DRAWER_TYPES?.ADD ? postTaskLoading : updateTaskLoading
+      }
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
@@ -39,7 +50,14 @@ export default function EditTask({
                     {item?.componentProps?.heading}
                   </Typography>
                 )}
-                <item.component {...item?.componentProps} size={'small'}>
+                <item.component
+                  disabled={
+                    item?.componentProps?.name === 'campaignId' &&
+                    isType === DRAWER_TYPES?.EDIT
+                  }
+                  {...item?.componentProps}
+                  size={'small'}
+                >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={option?.value} value={option?.value}>

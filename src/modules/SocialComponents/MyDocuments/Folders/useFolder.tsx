@@ -8,6 +8,7 @@ import {
   useGetDocumentFolderQuery,
   usePostDocumentFilesMutation,
   usePostDocumentFolderMutation,
+  useUpdateFileMutation,
   useUpdateFolderMutation,
 } from '@/services/commonFeatures/documents';
 import { useSearchParams } from 'next/navigation';
@@ -22,6 +23,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { isNullOrEmpty } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 import { DOCUMENTS_ACTION_TYPES } from '@/constants';
+import { PAGINATION } from '@/config';
 
 const useFolder: any = () => {
   const theme = useTheme<Theme>();
@@ -40,15 +42,21 @@ const useFolder: any = () => {
   const [isLinkOpen, setIsLinkOpen] = useState(false);
   const [isCreateLinkOpen, setIsCreateLinkOpen] = useState(false);
   const [isImage, setIsImage] = useState(false);
-  const [isGetRowValues, setIsGetRowValues] = useState<any>([]);
+  const [selectedTableRows, setSelectedTableRows] = useState<any>([]);
   const [isChecked, setIsChecked] = useState(false);
   const [isOpenFile, setIsOpenFile] = useState(false);
   const [actionType, setActionType] = useState('');
+  const [slectedFolderForMovingData, setSlectedFolderForMovingData] =
+    useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [page, setPage] = useState(PAGINATION.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const open = Boolean(anchorEl);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
   const [postDocumentFiles] = usePostDocumentFilesMutation();
   const [updateFolder] = useUpdateFolderMutation();
+  const [updateFile] = useUpdateFileMutation();
   const [deleteFolders] = useDeleteFoldersMutation();
   const [deleteFiles] = useDeleteFilesMutation();
   const openSide = Boolean(anchorElSide);
@@ -56,13 +64,16 @@ const useFolder: any = () => {
   const searchParams = useSearchParams();
   const parentFolderId: any = searchParams?.get('folder');
   const parentFolderName: any = searchParams?.get('name');
+  const permissionParams = {
+    page: page,
+    limit: pageLimit,
+    ...(searchValue && !slectedFolderForMovingData && { search: searchValue }),
+    folderId: selectedFolder ? selectedFolder._id : parentFolderId,
+  };
 
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetDocumentFolderQuery({ parentFolderId });
-  const { data: image } = useGetDocumentFileQuery({
-    ...(searchValue && { search: searchValue }),
-    folderId: selectedFolder ? selectedFolder._id : parentFolderId,
-  });
+  const { data: filesData } = useGetDocumentFileQuery(permissionParams);
   const handlePdfOpen = () => setIsPdfOpen(true);
   const handlePdfClose = () => setIsPdfOpen(false);
 
@@ -108,7 +119,7 @@ const useFolder: any = () => {
   const deleteUserFiles = async () => {
     try {
       await deleteFiles({
-        ids: isGetRowValues.join(','),
+        ids: selectedTableRows.join(','),
       }).unwrap();
       enqueueSnackbar('File Deleted Successfully', {
         variant: 'success',
@@ -169,6 +180,24 @@ const useFolder: any = () => {
     }
   };
 
+  const onSubmitFile = async () => {
+    const fileData = {
+      folderId: slectedFolderForMovingData._id,
+    };
+    try {
+      await updateFile({
+        id: selectedFile?._id,
+        body: fileData,
+      }).unwrap();
+      enqueueSnackbar('File Update Successfully', {
+        variant: 'success',
+      });
+      setIsOpenFolderDrawer(false);
+    } catch (error: any) {
+      enqueueSnackbar(error?.message, { variant: 'error' });
+    }
+  };
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
@@ -185,20 +214,20 @@ const useFolder: any = () => {
   };
 
   const getRowValues = columns(
-    setIsGetRowValues,
+    setSelectedTableRows,
     setIsChecked,
     isChecked,
-    isGetRowValues,
+    selectedTableRows,
   );
 
   return {
     documentSubData: data?.data,
-    imageData: image?.data?.files || [],
+    filesData: filesData || [],
     getRowValues,
-    setIsGetRowValues,
+    setSelectedTableRows,
     setIsChecked,
     isChecked,
-    isGetRowValues,
+    selectedTableRows,
     isLoading,
     isError,
     isFetching,
@@ -254,6 +283,15 @@ const useFolder: any = () => {
     isOpenFile,
     setIsOpenFile,
     setActionType,
+    slectedFolderForMovingData,
+    setSlectedFolderForMovingData,
+    selectedFile,
+    setSelectedFile,
+    onSubmitFile,
+    setPageLimit,
+    pageLimit,
+    setPage,
+    page,
   };
 };
 

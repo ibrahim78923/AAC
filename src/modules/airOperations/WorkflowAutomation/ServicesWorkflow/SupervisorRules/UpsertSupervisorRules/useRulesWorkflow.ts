@@ -27,7 +27,7 @@ export const useRulesWorkflow = () => {
     string: 'string',
     number: 'number',
     object: 'object',
-    date: 'Date',
+    date: 'date',
     objectId: 'objectId',
   };
 

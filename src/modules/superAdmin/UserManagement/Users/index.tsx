@@ -2,17 +2,25 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './Users.data';
 import useUserManagement from '../useUserManagement';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, EQuickLinksType } from '@/constants';
 
 const Users = (props: any) => {
-  const { checkedRows, setCheckedRows, filterValues, searchVal } = props;
-  const { useGetUsersQuery, handleUserSwitchChange, pageLimit, setPageLimit } =
-    useUserManagement();
+  const {
+    checkedRows,
+    setCheckedRows,
+    filterValues,
+    searchVal,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+  } = props;
+  const { useGetUsersQuery, handleUserSwitchChange } = useUserManagement();
 
   const params = {
-    page: checkedRows?.page,
+    page: page,
     limit: pageLimit,
-    role: 'ORG_ADMIN',
+    role: EQuickLinksType?.ORG_ADMIN,
     search: searchVal ?? '',
     products: filterValues?.products?._id ?? '',
     organization: filterValues?.organization?._id ?? '',
@@ -20,16 +28,17 @@ const Users = (props: any) => {
       ? dayjs(filterValues?.createdDate).format(DATE_FORMAT?.API)
       : undefined,
   };
-  const { data, isLoading, isSuccess } = useGetUsersQuery(params);
+  const { data, isLoading, isSuccess, isError, isFetching } =
+    useGetUsersQuery(params);
 
   const handleCheckboxChange = (val: any, rowId: string) => {
     const recordId = val?.target?.checked ? rowId : null;
-    setCheckedRows({ ...checkedRows, selectedValue: recordId });
+    setCheckedRows(recordId);
   };
 
   const columnsProps = {
     handleUserSwitchChange: handleUserSwitchChange,
-    checkedRows: checkedRows?.selectedValue,
+    checkedRows: checkedRows,
     handleCheckboxChange: handleCheckboxChange,
   };
   const columnParams = columns(columnsProps);
@@ -40,17 +49,16 @@ const Users = (props: any) => {
         columns={columnParams}
         data={data?.data?.users}
         isPagination
-        onPageChange={(page: any) => {
-          setPageLimit(data?.data?.meta?.limit);
-          setCheckedRows({ ...checkedRows, page: page });
-        }}
-        setPage={setCheckedRows?.page}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
         setPageLimit={setPageLimit}
         count={data?.data?.meta?.pages}
         pageLimit={data?.data?.meta?.limit}
         totalRecords={data?.data?.meta?.total}
         isLoading={isLoading}
         isSuccess={isSuccess}
+        isFetching={isFetching}
+        isError={isError}
         currentPage={data?.data?.meta?.page}
       />
     </>
