@@ -22,8 +22,7 @@ import {
   clearState,
 } from '@/redux/slices/planManagement/planManagementSlice';
 import { useDispatch } from 'react-redux';
-import { persistStore } from 'redux-persist';
-import store, { useAppSelector } from '@/redux/store';
+import { useAppSelector } from '@/redux/store';
 
 import {
   useGetPermissionsByProductsQuery,
@@ -99,7 +98,6 @@ export const useAddPlan = () => {
     defaultValues: defaultValues,
   });
 
-  const persistor = persistStore(store);
   const methodsPlan: any = useForm({
     resolver: yupResolver(gpDetailsInfoFormSchema),
     defaultValues: async () => {
@@ -195,13 +193,13 @@ export const useAddPlan = () => {
   }
 
   const planForm: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement?.addPlanForm,
+    (state) => state?.planManagementForms?.addPlanForm,
   );
   const featureDetails: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement?.featureDetails,
+    (state) => state?.planManagementForms?.featureDetails,
   );
   const featuresFormData: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement?.planFeature,
+    (state) => state?.planManagementForms?.planFeature,
   );
   const { data: modulesData } = useGetPermissionsByProductsQuery({
     id: productIdModules,
@@ -451,7 +449,6 @@ export const useAddPlan = () => {
             },
           );
           dispatch(setFeatureDetails(''));
-          // persistor?.purge();
           reset();
           window.location.href =
             SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID;
@@ -482,7 +479,6 @@ export const useAddPlan = () => {
     if (activeStep === 2) {
       handlePlanModules();
       reset();
-      persistor?.purge();
       return;
     }
   };

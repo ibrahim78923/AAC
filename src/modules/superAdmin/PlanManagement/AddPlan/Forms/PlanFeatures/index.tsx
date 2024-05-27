@@ -37,7 +37,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
     featureId,
     setFeatureId,
   } = usePlanFeatures();
-  const { planManagement }: any = useAppSelector(
+  const planManagement: any = useAppSelector(
     (state) => state?.planManagementForms,
   );
 

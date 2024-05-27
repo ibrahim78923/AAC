@@ -36,4 +36,4 @@ export const {
 } = planManagementSlice?.actions;
 export const getAddPlanForms = (state: any) =>
   state.planManagementSlice?.addPlanForm;
-export default planManagementSlice;
+export default planManagementSlice.reducer;

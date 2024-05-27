@@ -1,29 +1,15 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { baseAPI } from '../services/base-api';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import storage from 'redux-persist/lib/storage';
 import chatSlice from './slices/chat/slice';
 import emailSlice from './slices/email/slice';
 import authSlice from './slices/auth/slice';
 import SocialInboxSlice from './slices/socialInbox/index';
-import { persistReducer } from 'redux-persist';
 import planManagementSlice from './slices/planManagement/planManagementSlice';
 import taskManagementSlice from './slices/taskManagement/taskManagementSlice';
 import dealsTaskSlice from './slices/airSales/Deals/ViewDetails/Tasks/taskSlice';
 import subscriptionAndInvoicesSlice from './slices/orgAdmin/SubscriptionAndInvoices';
 
-const persistConfig = {
-  key: 'role',
-  timeout: 1000,
-  storage,
-  whitelist: ['planManagement'],
-};
-
-const reducer = combineReducers({
-  planManagement: planManagementSlice?.reducer,
-});
-
-const persistedReducer = persistReducer(persistConfig, reducer);
 const store = configureStore({
   reducer: {
     [baseAPI.reducerPath]: baseAPI.reducer,
@@ -34,7 +20,7 @@ const store = configureStore({
     subscriptionAndInvoices: subscriptionAndInvoicesSlice,
     auth: authSlice,
     socialInbox: SocialInboxSlice,
-    planManagementForms: persistedReducer,
+    planManagementForms: planManagementSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

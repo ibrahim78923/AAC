@@ -44,7 +44,7 @@ const Modules = ({
   const { theme } = useModules();
   let prevProductId: any = null;
 
-  const { planManagement }: any = useAppSelector(
+  const planManagement: any = useAppSelector(
     (state: any) => state?.planManagementForms,
   );
   const {
