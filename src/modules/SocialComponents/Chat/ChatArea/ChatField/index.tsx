@@ -13,7 +13,7 @@ import { getSession } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 
-import { setChatMetaInfo } from '@/redux/slices/chat/slice';
+import { setChatMetaInfo, setNewChatData } from '@/redux/slices/chat/slice';
 
 const ChatField = ({ isError }: any) => {
   const {
@@ -23,6 +23,7 @@ const ChatField = ({ isError }: any) => {
     isDeleteModal,
     setIsDeleteModal,
     chatDataToShow,
+    chatMessages,
   } = useChatField();
 
   const theme = useTheme();
@@ -32,6 +33,7 @@ const ChatField = ({ isError }: any) => {
   const [changeScroll, setChangeScroll] = useState<any>();
 
   const chatMetaInfo = useAppSelector((state) => state?.chat?.chatMetaInfo);
+  const newChatData = useAppSelector((state) => state?.chat?.newChatData);
   const changeChat = useAppSelector((state) => state?.chat?.changeChat);
   const isChatMessagesLoading = useAppSelector(
     (state) => state?.chat?.isChatMessagesLoading,
@@ -41,18 +43,21 @@ const ChatField = ({ isError }: any) => {
     getSession();
 
   const boxRef = useRef<any>(null);
+
   useEffect(() => {
     if (boxRef?.current) {
       boxRef.current.scrollTop = boxRef?.current?.scrollHeight;
     }
   }, [chatDataToShow?.length > 1, changeChat]);
-
   useEffect(() => {
     const handleScroll = () => {
       const box = boxRef?.current;
       if (box?.scrollTop === 0) {
-        const newLimit = Math.min(chatMetaInfo?.limit + 5, chatMetaInfo?.total);
-        dispatch(setChatMetaInfo({ ...chatMetaInfo, limit: newLimit }));
+        if (chatMetaInfo?.pages > chatMetaInfo?.page) {
+          dispatch(
+            setChatMetaInfo({ ...chatMetaInfo, page: chatMetaInfo?.page + 1 }),
+          );
+        }
       }
     };
     const box = boxRef?.current;
@@ -61,6 +66,10 @@ const ChatField = ({ isError }: any) => {
       box?.removeEventListener('scroll', handleScroll);
     };
   }, [chatMetaInfo]);
+
+  useEffect(() => {
+    dispatch(setNewChatData(chatDataToShow?.map((item: any) => item)));
+  }, [chatMessages]);
 
   return (
     <>
@@ -91,8 +100,8 @@ const ChatField = ({ isError }: any) => {
               </Box>
             )}
             <Box sx={{ paddingTop: '30px' }}>
-              {chatDataToShow?.length ? (
-                chatDataToShow
+              {newChatData?.length ? (
+                newChatData
                   ?.slice()
                   ?.reverse()
                   ?.map((item: any) => {

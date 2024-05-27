@@ -23,6 +23,8 @@ import { getSession } from '@/utils';
 import { UserDefault } from '@/assets/images';
 import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
+import { setActiveConversation } from '@/redux/slices/chat/slice';
+import { useDispatch } from 'react-redux';
 
 const AddMembers = ({
   setIsAddMembers,
@@ -34,6 +36,8 @@ const AddMembers = ({
   });
 
   const onSubmit = () => {};
+
+  const dispatch = useDispatch();
 
   const { handleSubmit, watch } = methodsAddGroup;
 
@@ -75,20 +79,34 @@ const AddMembers = ({
       ),
   );
 
+  const [response, setResponse] = useState<any>({});
+
+  useEffect(() => {
+    if (Object.keys(response)?.length) {
+      dispatch(
+        setActiveConversation({
+          ...activeConversation,
+          participants: response?.data?.participants,
+        }),
+      );
+    }
+  }, [response]);
+
   const [updateChat, { isLoading }] = useUpdateChatMutation();
   const updateChatHandler = async () => {
     const payload = {
       participants: participantsToAdd ? participantsToAdd : [],
     };
     try {
-      setIsAddMembers(false);
-      await updateChat({
+      // setIsAddMembers(false);
+      const apiResponse = await updateChat({
         body: payload,
         id: activeConversation?._id,
       })?.unwrap();
       enqueueSnackbar('User added successfully', {
         variant: 'success',
       });
+      setResponse(apiResponse);
     } catch (error: any) {
       enqueueSnackbar('An error occurred while adding participants', {
         variant: 'error',

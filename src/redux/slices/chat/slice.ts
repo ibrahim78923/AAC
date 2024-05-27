@@ -1,3 +1,4 @@
+import { PAGINATION } from '@/config';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface ChatStateI {
@@ -19,6 +20,7 @@ interface ChatStateI {
   chatMetaInfo: any;
   isChatMessagesLoading: any;
   isChatContactsLoading: any;
+  newChatData: any;
 }
 
 const initialState: ChatStateI = {
@@ -37,9 +39,13 @@ const initialState: ChatStateI = {
   activeParticipant: {},
   typingUserData: {},
   activeReply: {},
-  chatMetaInfo: {},
+  chatMetaInfo: {
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
+  },
   isChatMessagesLoading: false,
   isChatContactsLoading: false,
+  newChatData: [],
 };
 
 const chatSlice = createSlice({
@@ -99,6 +105,13 @@ const chatSlice = createSlice({
       };
     },
 
+    setNewChatData(state, action) {
+      if (action?.payload?.empty) {
+        state.newChatData = [];
+      } else {
+        state.newChatData = [...state.newChatData, ...action?.payload];
+      }
+    },
     setActiveChatId(state, action) {
       state.activeChatId = action?.payload;
     },
@@ -166,5 +179,6 @@ export const {
   setChatMessagesLoading,
   setChatContactsLoading,
   setChangeChat,
+  setNewChatData,
 } = chatSlice.actions;
 export default chatSlice.reducer;

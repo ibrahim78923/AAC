@@ -18,6 +18,8 @@ import {
   setActiveReceiverId,
   setChatContacts,
   setChatMessages,
+  setChatMetaInfo,
+  setNewChatData,
 } from '@/redux/slices/chat/slice';
 import { getSession } from '@/utils';
 import dayjs from 'dayjs';
@@ -26,6 +28,7 @@ import { enqueueSnackbar } from 'notistack';
 import { useUpdateChatMutation } from '@/services/chat';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
+import { PAGINATION } from '@/config';
 
 const ContactsCard = ({
   cardData,
@@ -103,7 +106,14 @@ const ContactsCard = ({
             ?.map((participant: any) => participant?._id),
         ),
       ),
-      dispatch(setActiveConversation(cardData?.item)),
+      dispatch(
+        setChatMetaInfo({
+          page: PAGINATION?.CURRENT_PAGE,
+          limit: PAGINATION?.PAGE_LIMIT,
+        }),
+      );
+    dispatch(setNewChatData({ empty: true }));
+    dispatch(setActiveConversation(cardData?.item)),
       dispatch(
         setActiveParticipant({
           firstName: constIsModeGroup
@@ -112,6 +122,9 @@ const ContactsCard = ({
           lastName: constIsModeGroup ? '' : filteredParticipants[0]?.lastName,
           email: constIsModeGroup ? '' : filteredParticipants[0]?.email,
           phone: constIsModeGroup ? '' : filteredParticipants[0]?.phoneNumber,
+          liveStatus: constIsModeGroup
+            ? ''
+            : filteredParticipants[0]?.liveStatus,
         }),
       );
   };

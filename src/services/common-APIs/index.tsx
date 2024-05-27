@@ -165,7 +165,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
 
     getActiveProducts: builder.query({
       query: () => ({
-        url: END_POINTS?.PRODUCTS,
+        url: `${END_POINTS?.PRODUCTS}?status=active`,
         method: 'GET',
       }),
       providesTags: ['PRODUCTS'],
