@@ -188,7 +188,7 @@ export const createTaskData = ({ data, usersData }: any) => {
       component: RHFTextField,
     },
     {
-      md: 8,
+      md: 7,
       componentProps: {
         label: 'Task Type',
         name: 'type',
@@ -203,7 +203,7 @@ export const createTaskData = ({ data, usersData }: any) => {
       component: RHFSelect,
     },
     {
-      md: 4,
+      md: 5,
       componentProps: {
         label: 'Priority',
         name: 'priority',
@@ -263,6 +263,7 @@ export const createTaskData = ({ data, usersData }: any) => {
         label: 'Due date',
         name: 'dueDate',
         select: true,
+        disablePast: true,
       },
       component: RHFDatePicker,
     },
@@ -271,6 +272,7 @@ export const createTaskData = ({ data, usersData }: any) => {
       componentProps: {
         label: 'Time',
         name: 'time',
+        format: 'hh:mm',
       },
       component: RHFTimePicker,
     },
@@ -408,7 +410,11 @@ export const TasksData = ({ data }: any) => {
         color="primary"
         name="Id"
         onClick={handleSelectAll}
-        checked={selectedTaskIds?.length === data?.length}
+        checked={
+          selectedTaskIds?.length > 0
+            ? selectedTaskIds?.length === data?.length
+            : false
+        }
       />
     ),
     isSortable: false,
