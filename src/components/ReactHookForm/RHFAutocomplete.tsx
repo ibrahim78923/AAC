@@ -55,7 +55,7 @@ export default function RHFAutocomplete({
             onClose={() => {
               setOpen(false);
             }}
-            options={options}
+            options={options ?? []}
             onChange={(e: any, newValue: any) => {
               onChanged(e, newValue, onChange);
             }}

@@ -25,10 +25,16 @@ export default function RHFMultiCheckbox({
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => {
-        const onSelected = (option: any) =>
-          field?.value?.some((item: any) => item === option?.value)
-            ? field?.value?.filter((value: any) => value !== option?.value)
-            : [...field?.value, option?.value];
+        const onSelected = (option: any) => {
+          const selectedValues = field?.value || [];
+          if (selectedValues?.some((item: any) => item === option?.value)) {
+            return selectedValues.filter(
+              (value: any) => value !== option?.value,
+            );
+          } else {
+            return [...selectedValues, option?.value];
+          }
+        };
 
         return (
           <>

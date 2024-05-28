@@ -1,7 +1,12 @@
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { AIR_SERVICES } from '@/constants';
 
-import { AssetTypeIcon, ProductCatalogIcon, VendorIcon } from '@/assets/icons';
+import {
+  AssetTypeIcon,
+  ProductCatalogIcon,
+  VendorIcon,
+  VendorFieldsIcon,
+} from '@/assets/icons';
 
 export const assetManagement = [
   {
@@ -24,6 +29,12 @@ export const assetManagement = [
   },
   {
     id: 4,
+    avatar: VendorFieldsIcon,
+    type: 'Vendor Fields',
+    link: AIR_SERVICES?.VENDOR_FIELDS_SETTINGS,
+  },
+  {
+    id: 5,
     avatar: LocationOnIcon,
     type: 'Location',
     link: AIR_SERVICES?.LOCATION_SETTINGS,

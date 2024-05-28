@@ -105,6 +105,7 @@ export const AIR_SERVICES = {
   ASSET_TYPE_SETTINGS: `/air-services/settings/asset-management/asset-type`,
   PRODUCT_CATALOG_SETTINGS: `/air-services/settings/asset-management/product-catalog`,
   VENDOR_SETTINGS: `/air-services/settings/asset-management/vendor`,
+  VENDOR_FIELDS_SETTINGS: `/air-services/settings/asset-management/vendor-fields`,
   LOCATION_SETTINGS: `/air-services/settings/asset-management/location`,
   SERVICE_MANAGEMENT: `/air-services/settings/service-management`,
   SERVICE_CATALOG_SETTINGS: `/air-services/settings/service-management/services-catalog`,

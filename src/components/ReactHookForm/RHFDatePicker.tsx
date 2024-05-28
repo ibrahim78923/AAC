@@ -13,6 +13,7 @@ export default function RHFDatePicker({
   label,
   required,
   openPickerIcon = DateRangePickerIcon,
+  format = 'MM/dd/yyyy',
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -26,6 +27,7 @@ export default function RHFDatePicker({
           <DatePicker
             {...field}
             {...other}
+            format={format}
             slots={{
               openPickerIcon: openPickerIcon,
             }}

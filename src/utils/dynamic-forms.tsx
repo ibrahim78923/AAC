@@ -1,7 +1,10 @@
 import {
-  RHFMultiCheckbox,
-  RHFRadioGroup,
   RHFTextField,
+  RHFRadioGroup,
+  RHFMultiCheckbox,
+  RHFDatePicker,
+  RHFDropZone,
+  RHFAutocomplete,
 } from '@/components/ReactHookForm';
 
 export const generateUniqueId = () => {
@@ -11,7 +14,10 @@ export const generateUniqueId = () => {
 };
 
 export const componentMap: any = {
-  RHFTextField: RHFTextField,
-  RHFRadioGroup: RHFRadioGroup,
-  RHFMultiCheckbox: RHFMultiCheckbox,
+  RHFTextField,
+  RHFRadioGroup,
+  RHFMultiCheckbox,
+  RHFDatePicker,
+  RHFDropZone,
+  RHFAutocomplete,
 };
