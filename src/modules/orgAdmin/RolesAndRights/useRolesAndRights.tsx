@@ -17,10 +17,10 @@ const useRolesAndRights = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [selectedValue, setSelectedValue] = useState(null);
   const [checkedRows, setCheckedRows] = useState();
-  const [filterValues, setFilterValues] = useState({
+  const [filterValues, setFilterValues] = useState<any>({
     search: '',
     status: '',
-    productId: '',
+    product: {},
     dateStart: null,
     dateEnd: null,
   });
@@ -29,12 +29,11 @@ const useRolesAndRights = () => {
     rolesAndRightsAPI;
 
   const [updateRoleRights] = useUpdateRoleRightsMutation();
-
   const permissionParams = {
     page: page,
     limit: pageLimit,
     organizationId: user?.organization?._id,
-    productId: filterValues?.productId,
+    productId: filterValues?.product?._id,
     status: filterValues?.status,
     search: filterValues?.search ?? undefined,
     dateStart: filterValues?.dateStart ?? undefined,

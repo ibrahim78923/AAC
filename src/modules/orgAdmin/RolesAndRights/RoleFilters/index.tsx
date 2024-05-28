@@ -1,19 +1,24 @@
 import { Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
-import { rolesFiltersArray } from './RoleFilters.data';
+import {
+  rolesFilterDefaultValues,
+  rolesFiltersArray,
+} from './RoleFilters.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 
-import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { filteredEmptyValues } from '@/utils/api';
 
 const RoleFilters = (props: any) => {
-  const { isOpen, setIsOpen, filterVal, setFilterVal } = props;
+  const { isOpen, setIsOpen, filterVal, setFilterValues } = props;
 
-  const methods: any = useForm();
+  const methods: any = useForm({
+    defaultValues: rolesFilterDefaultValues(filterVal),
+  });
 
   const { handleSubmit } = methods;
 
@@ -21,8 +26,8 @@ const RoleFilters = (props: any) => {
   const endedDate = 1;
 
   const onSubmit = async (values: any) => {
+    // Extract and format the date values separately
     const { date } = values;
-
     const dateStart = date?.[startedDate]
       ? dayjs(date[startedDate])?.format(DATE_FORMAT?.API)
       : null;
@@ -30,13 +35,15 @@ const RoleFilters = (props: any) => {
       ? dayjs(date[endedDate])?.format(DATE_FORMAT?.API)
       : null;
 
-    setFilterVal({
-      ...filterVal,
-      status: values?.status,
-      productId: values?.product,
-      dateStart: dateStart,
-      dateEnd: dateEnd,
-    });
+    const filteredValues = filteredEmptyValues?.(values);
+
+    const finalValues = {
+      ...filteredValues,
+      dateStart,
+      dateEnd,
+    };
+
+    setFilterValues(finalValues);
     setIsOpen(false);
   };
 
@@ -55,11 +62,11 @@ const RoleFilters = (props: any) => {
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
           {rolesFiltersArray()?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
               <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
+                    <option key={option?.value} value={option?.value}>
                       {option?.label}
                     </option>
                   ))}

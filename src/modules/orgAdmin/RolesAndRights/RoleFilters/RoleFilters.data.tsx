@@ -1,54 +1,49 @@
-import { RHFSwitchableDatepicker } from '@/components/ReactHookForm';
-import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-import { CommonAPIS } from '@/services/common-APIs';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFSwitchableDatepicker,
+} from '@/components/ReactHookForm';
+import { useLazyGetProductsListQuery } from '@/services/common-APIs';
 
-export const rolesDefaultValues = {
-  product: '',
-  status: '',
-  date: null,
+export const rolesFilterDefaultValues = (data: any) => {
+  return {
+    product: data?.product?.name ? data?.product : null,
+    status: data?.status ?? null,
+  };
 };
 
 export const rolesFiltersArray = () => {
-  const { useGetProductsQuery } = CommonAPIS;
-  const { data: products } = useGetProductsQuery({});
-
+  const getProductsList = useLazyGetProductsListQuery({});
   return [
     {
       componentProps: {
-        label: 'Product',
+        placeholder: 'Select product',
         name: 'product',
-        fullWidth: true,
-        select: true,
+        label: 'Product',
+        apiQuery: getProductsList,
+        getOptionLabel: (option: any) => `${option?.name}`,
+        externalParams: { status: 'ACTIVE' },
+        queryKey: 'status',
       },
-      options: products?.data?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
-
     {
       componentProps: {
-        label: 'Status',
+        placeholder: 'Select status',
         name: 'status',
-        fullWidth: true,
-        select: true,
+        label: 'Status',
+        options: ['ACTIVE', 'INACTIVE'],
       },
-      options: [
-        { value: 'ACTIVE', label: 'Active' },
-        { value: 'INACTIVE', label: 'Inactive' },
-      ],
-      component: RHFSelect,
+
+      component: RHFAutocomplete,
       md: 12,
     },
-
     {
       componentProps: {
         label: 'Created Date',
         name: 'date',
-        placeholder: 'Select',
+        placeholder: 'Select date',
         fullWidth: true,
       },
       component: RHFSwitchableDatepicker,

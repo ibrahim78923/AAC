@@ -126,7 +126,7 @@ const RolesAndRights = () => {
       {isOpenFilterDrawer && (
         <RoleFilters
           filterVal={filterValues}
-          setFilterVal={setFilterValues}
+          setFilterValues={setFilterValues}
           isOpen={isOpenFilterDrawer}
           setIsOpen={() => {
             setIsOpenFilterDrawer(false);

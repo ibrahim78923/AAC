@@ -6,7 +6,9 @@ import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import useCalendar from './useCalendar';
 import { taskEvents } from './Calendar.data';
 import CommonDrawer from '@/components/CommonDrawer';
+import { generateImage } from '@/utils/avatarUtils';
 import {
+  Avatar,
   Box,
   Button,
   CircularProgress,
@@ -17,8 +19,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import Image from 'next/image';
-import { AvatarImage } from '@/assets/images';
 import { AddCircle } from '@mui/icons-material';
 import { AlertModals } from '@/components/AlertModals';
 import { v4 as uuidv4 } from 'uuid';
@@ -172,7 +172,6 @@ const Calendar = () => {
           slotLabelFormat={[
             { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' },
           ]}
-          // eventClick={handleEventClick}
           eventClick={(info) =>
             handleEventClick(info, compaignsTasksData, allCampaignsData)
           }
@@ -219,12 +218,21 @@ const Calendar = () => {
                           gap: '5px',
                         }}
                       >
-                        <Image
-                          src={AvatarImage?.src}
-                          alt="avatar"
-                          width={40}
-                          height={40}
-                        />
+                        <Avatar
+                          alt="user_avatar"
+                          src={generateImage(value?.avatar)}
+                        >
+                          <Typography
+                            variant="body1"
+                            fontWeight={500}
+                            sx={{
+                              color: theme?.palette?.custom?.dim_grey,
+                              textTransform: 'upperCase',
+                            }}
+                          >
+                            {value?.name?.charAt(0)}
+                          </Typography>
+                        </Avatar>
                         <Box>
                           <Typography
                             variant="body2"
@@ -233,7 +241,7 @@ const Calendar = () => {
                               color: `${theme?.palette?.blue?.dull_blue}`,
                             }}
                           >
-                            {value?.name}
+                            {value?.name ?? 'N/A'}
                           </Typography>
                           <Typography
                             variant="body2"
@@ -242,7 +250,7 @@ const Calendar = () => {
                               color: `${theme?.palette?.custom?.light}`,
                             }}
                           >
-                            {value?.email}
+                            {value?.email ?? 'N/A'}
                           </Typography>
                         </Box>
                       </Box>

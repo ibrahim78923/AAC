@@ -82,12 +82,14 @@ const TaskViewCard = ({ data, loading, selectedRec, setSelectedRec }: any) => {
                           </Typography>
                         </Box>
                         {/* <Checkbox /> */}
-                        <Checkbox
-                          checked={selectedRec?.includes(items?.id)}
-                          onChange={({ target }) => {
-                            handleSelectTaskById(target.checked, items?.id);
-                          }}
-                        />
+                        {column?.mainTitle !== 'All' && (
+                          <Checkbox
+                            checked={selectedRec?.includes(items?.id)}
+                            onChange={({ target }) => {
+                              handleSelectTaskById(target.checked, items?.id);
+                            }}
+                          />
+                        )}
                       </Box>
                       <Box
                         sx={{

@@ -19,7 +19,7 @@ const useTasks = () => {
   const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState(false);
   const [isOpenChangeStatus, setIsOpenChangeStatus] = useState(false);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
-  const [statusVariant, setStatusVariant] = useState('');
+  const [statusVariant, setStatusVariant] = useState<any>('');
   const [isListView, setIsListView] = useState('listView');
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);

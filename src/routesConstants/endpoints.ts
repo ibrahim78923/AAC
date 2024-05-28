@@ -500,3 +500,10 @@ export const AIR_MARKETER = {
   CAMPAIGNS: '/campaigns',
   CAMPAIGNS_TASKS: '/campaigns/task',
 };
+
+export const SUPER_ADMIN_DASHBOARD = {
+  USER_STATS: '/super-admin/user-stats',
+  PLAN_STATS: '/super-admin/plan-stats',
+  BILLING_INVOICES: '/super-admin/dashboard',
+  PLANS_LIST: '/plan',
+};

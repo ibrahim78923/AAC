@@ -1,26 +1,37 @@
 import { Theme, useTheme } from '@mui/material';
 
-const useStatisticsCard = () => {
+const useStatisticsCard = (data: any) => {
   const theme = useTheme<Theme>();
-  const series = [
-    {
-      name: 'Growth Plan',
-      data: [44, 55, 57, 56, 61],
-    },
-    {
-      name: 'Premium Plan',
 
-      data: [76, 85, 95, 98, 87],
-    },
-    {
-      name: 'Enterprise Plan',
-      data: [35, 41, 36, 26, 45],
-    },
-    {
-      name: 'Free Plan',
-      data: [30, 25, 30, 20, 35],
-    },
-  ];
+  const transformData = (data: any) => {
+    const result: any = [];
+    data?.forEach((item: any) => {
+      item?.data?.forEach((product: any) => {
+        result?.push({
+          count: product?.count,
+          product: product?.product,
+          productType: item?.productType, // assuming the index is the month
+        });
+      });
+    });
+    return result;
+  };
+  const transformedData = transformData(data);
+
+  const groupedData = transformedData?.reduce((acc: any, item: any) => {
+    if (!acc[item?.productType]) {
+      acc[item?.productType] = [];
+    }
+    acc[item?.productType]?.push(item?.count);
+    return acc;
+  }, {});
+
+  const series: any = Object?.entries(groupedData ?? [])?.map(
+    ([key, value]) => ({
+      name: `${key?.charAt(0)?.toUpperCase()}${key?.slice(1)} Plan`,
+      data: value,
+    }),
+  );
 
   const options: any = {
     chart: {
@@ -49,10 +60,10 @@ const useStatisticsCard = () => {
 
     xaxis: {
       categories: [
+        'Air Operations',
         'Air Sales',
         'Air Marketer ',
         'Air Services',
-        'Air Operations',
         'Loyalty Program',
       ],
     },

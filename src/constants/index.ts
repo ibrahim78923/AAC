@@ -7,6 +7,10 @@ export const DATE_MONTH_FORMAT = {
   API: 'MMM DD',
 };
 
+export const CALANDER_DATE_FORMAT = {
+  UI: 'MMMM YYYY',
+};
+
 export const TIME_FORMAT = {
   UI: 'h:mm A',
   API: 'h:mm A',

@@ -1,11 +1,36 @@
 import { Theme, useTheme } from '@mui/material';
 
-const useInvoicingCard = () => {
+const useInvoicingCard = (details: any) => {
   const theme = useTheme<Theme>();
-  const series = [50.3, 54.1, 41.8];
-  const sumOfThreeValues = series.slice(0, 3).reduce((a, b) => a + b, 0);
+  const series = details?.invoicing?.inDividual?.map(
+    (item: any) => item?.totalNetAmount,
+  );
+
+  const sumOfThreeValues = series
+    ?.slice(0, 3)
+    ?.reduce((a: any, b: any) => a + b, 0);
+
+  const invoiceHeadings = (heading: any) => {
+    switch (heading) {
+      case 'PENDING':
+        return 'Follow up soon';
+      case 'OVERDUE':
+        return 'Follow up now';
+      case 'PAID':
+        return 'Invoice paid';
+    }
+  };
+  const invoiceAmount = (invoice: { status: string; amount: number }) => {
+    switch (invoice?.status) {
+      case 'PENDING':
+      case 'OVERDUE':
+      case 'PAID':
+        return `£ ${invoice?.amount.toFixed(2)}K`;
+    }
+  };
+
   const options: any = {
-    series: [50.3, 54.1, 41.8],
+    series: series,
     chart: {
       type: 'donut',
     },
@@ -25,8 +50,9 @@ const useInvoicingCard = () => {
             total: {
               showAlways: true,
               show: true,
+              label: 'Total Revenue',
               formatter: function () {
-                return '€' + sumOfThreeValues.toFixed(1) + 'k';
+                return '€' + sumOfThreeValues?.toFixed(1) + 'K';
               },
             },
           },
@@ -36,6 +62,7 @@ const useInvoicingCard = () => {
         },
       },
     },
+
     dataLabels: {
       enabled: false,
     },
@@ -50,7 +77,7 @@ const useInvoicingCard = () => {
     },
     responsive: [
       {
-        breakpoint: 480,
+        breakpoint: 375,
         options: {
           chart: {
             width: 200,
@@ -61,9 +88,11 @@ const useInvoicingCard = () => {
         },
       },
     ],
-    label: ['Total'],
+    label: ['u4gru43b4u3b4ub4b4uubufbruubru'],
   };
   return {
+    invoiceHeadings,
+    invoiceAmount,
     options,
     theme,
   };
