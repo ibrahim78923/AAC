@@ -60,10 +60,10 @@ export default function useCreateServicesReports() {
   const formattedText = upperCase
     ? text.toUpperCase()
     : lowerCase
-      ? text.toLowerCase()
-      : capitalCase
-        ? capitalizeText(text)
-        : text;
+    ? text.toLowerCase()
+    : capitalCase
+    ? capitalizeText(text)
+    : text;
 
   const getModalState = (draggedItem: any) => {
     const newModal: any = {

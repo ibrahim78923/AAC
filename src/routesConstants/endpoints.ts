@@ -31,6 +31,7 @@ export const END_POINTS = {
   DEALS_LIST_VIEW: '/deals/get-deals-list-view',
   POST_DEALS: '/deals',
   DEALS_REPORTS: '/deals/deal-report',
+  SUPER_ADMIN_USERS_REPORTS: '/super-admin/user-product-wise-stats',
   DEALS_PIPELINE: '/deal-pipeline',
   DEALS_LIFECYCLE_STAGES: '/lifecycle-stages',
   DEALS_USER_LIST: '/super-admin/user-list',

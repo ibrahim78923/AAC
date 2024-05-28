@@ -3,13 +3,24 @@ import { ArrowBack } from '@mui/icons-material';
 import Search from '@/components/Search';
 import useUserReports from './useUserReports';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
-import { usersData, usersColumns } from './UserReports.data';
+import { usersColumns } from './UserReports.data';
 import Link from 'next/link';
 import ProductWiseGrpah from './ProductWiseGraph';
+import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
 
 const UsersReports = () => {
-  const { searchBy, setSearchBy }: any = useUserReports;
+  const {
+    searchBy,
+    setSearchBy,
+    usersReportsGraphData,
+    companyOwnerUsersData,
+    setPage,
+    setPageLimit,
+    isFetching,
+    isSuccess,
+    usersLoading,
+  }: any = useUserReports();
+  const { handleUserSwitchChange } = useUserManagement();
 
   return (
     <Box>
@@ -22,7 +33,7 @@ const UsersReports = () => {
         <Typography variant="h3">User Report</Typography>
       </Box>
       <Card sx={{ mb: '30px' }}>
-        <ProductWiseGrpah />
+        <ProductWiseGrpah usersReportsGraphData={usersReportsGraphData} />
       </Card>
       <Card>
         <Box
@@ -42,14 +53,21 @@ const UsersReports = () => {
           />
         </Box>
         <Box>
-          <TanstackTable columns={usersColumns} data={usersData} />
-          <Box sx={{ padding: '0px 20px' }}>
-            <CustomPagination
-              count={1}
-              rowsPerPageOptions={[1, 2]}
-              entriePages={1}
-            />
-          </Box>
+          <TanstackTable
+            columns={usersColumns(handleUserSwitchChange)}
+            data={companyOwnerUsersData?.data?.users}
+            isPagination
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            count={companyOwnerUsersData?.data?.meta?.pages}
+            pageLimit={companyOwnerUsersData?.data?.meta?.limit}
+            totalRecords={companyOwnerUsersData?.data?.meta?.total}
+            isLoading={usersLoading}
+            isSuccess={isSuccess}
+            isFetching={isFetching}
+            currentPage={companyOwnerUsersData?.data?.meta?.page}
+          />
         </Box>
       </Card>
     </Box>

@@ -9,6 +9,7 @@ import {
 import PropertyActionButton from './PropertyActionButton';
 import { AddWhiteBgIcon, FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 import PropertyFilter from './PropertyFilter';
+import CreatePropertyDrawer from '../CreatePropertyDrawer';
 
 const PropertiesTable = () => {
   const {
@@ -17,6 +18,8 @@ const PropertiesTable = () => {
     setSearchBy,
     isFilterDrawerOpen,
     setIsFilterDrawerOpen,
+    createPropertyModal,
+    setCreatePropertyModal,
   } = usePropertiesTable();
 
   return (
@@ -67,6 +70,7 @@ const PropertiesTable = () => {
             className="small"
             variant="contained"
             startIcon={<AddWhiteBgIcon />}
+            onClick={() => setCreatePropertyModal(true)}
           >
             Create Property
           </Button>
@@ -82,6 +86,13 @@ const PropertiesTable = () => {
         <PropertyFilter
           isFilterDrawerOpen={isFilterDrawerOpen}
           setIsFilterDrawerOpen={setIsFilterDrawerOpen}
+        />
+      )}
+
+      {createPropertyModal && (
+        <CreatePropertyDrawer
+          open={createPropertyModal}
+          onClose={() => setCreatePropertyModal(false)}
         />
       )}
     </Box>

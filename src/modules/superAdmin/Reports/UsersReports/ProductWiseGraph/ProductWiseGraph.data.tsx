@@ -1,25 +1,26 @@
-export const series = [
-  {
-    name: 'Air Sales',
-    data: [94, 85, 27, 86, 32],
-  },
-  {
-    name: 'Air Marketer',
-    data: [74, 55, 27, 56, 61],
-  },
-  {
-    name: 'Air Services',
-    data: [64, 45, 97, 16, 32],
-  },
-  {
-    name: 'Air Operations',
-    data: [22, 53, 51, 26, 56],
-  },
-  {
-    name: 'Loyalty Program',
-    data: [19, 22, 42, 56, 98],
-  },
-];
+import { dealStatus } from '@/constants';
+
+export const series = (graphData: any) => {
+  const transformData = (data: any[]) => {
+    const groupedData = data?.reduce((acc: any, item: any) => {
+      if (!acc[item?.product]) {
+        acc[item?.product] = Array(5)?.fill(dealStatus?.INITIAL_NUMBER);
+      }
+      acc[item?.product][item.month - 1] = item?.count;
+      return acc;
+    }, {});
+    const transformedData = Object?.entries(groupedData ?? [])?.map(
+      ([name, data]) => ({ name, data }),
+    );
+
+    return transformedData;
+  };
+
+  return transformData(graphData)?.map((item: any) => ({
+    name: item?.name,
+    data: item?.data,
+  }));
+};
 
 export const options: any = {
   chart: {
