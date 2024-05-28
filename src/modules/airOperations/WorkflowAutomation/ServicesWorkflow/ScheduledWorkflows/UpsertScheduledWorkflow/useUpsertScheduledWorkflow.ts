@@ -49,6 +49,7 @@ export const useUpsertScheduledWorkflow = () => {
     category: 'servicecategories',
     users: 'users',
     usedBy: 'Used By',
+    usedByAction: 'Set used by as',
     createdBy: 'Created By',
     assetType: 'Asset Type',
     assignTo: 'Assign To',
@@ -129,6 +130,8 @@ export const useUpsertScheduledWorkflow = () => {
       case collectionNameData?.assetType:
         return collectionNameData?.type;
       case collectionNameData?.usedBy:
+        return collectionNameData?.users;
+      case collectionNameData?.usedByAction:
         return collectionNameData?.users;
       case collectionNameData?.createdBy:
         return collectionNameData?.users;
