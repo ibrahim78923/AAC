@@ -194,6 +194,30 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['ContactsStatus'],
     }),
+
+    getDealPipeLine: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DEALS_PIPELINE}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['DEALS_PIPELINE'],
+    }),
+
+    getDeals: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.DEALS_LIST_VIEW}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.deals;
+      },
+      providesTags: ['DEALS'],
+    }),
   }),
 });
 
@@ -217,4 +241,6 @@ export const {
   useGetActiveProductsQuery,
   useLazyGetLifeCycleStagesQuery,
   useLazyGetContactsStatusQuery,
+  useLazyGetDealPipeLineQuery,
+  useLazyGetDealsQuery,
 } = CommonAPIS;

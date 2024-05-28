@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
@@ -65,13 +65,7 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
             </Box>
             <Box
               sx={{ cursor: 'pointer' }}
-              onClick={() => handleOpenDrawer('Edit', rowData)}
-            >
-              <EditPenIcon />
-            </Box>
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => handleOpenAlert(true)}
+              onClick={() => handleOpenAlert(rowData?._id)}
             >
               <DeleteCrossIcon />
             </Box>
@@ -80,4 +74,9 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
       },
     },
   ];
+};
+
+export const DEAL_TYPE = {
+  NEW_DEAL: 'newDeal',
+  EXISTING: 'existing',
 };

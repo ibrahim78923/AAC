@@ -1,19 +1,17 @@
-import { Box, Grid, Typography } from '@mui/material';
-
+import { Box, Button, Grid, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
-
 import CompaniesEditorDrawer from './CompaniesEditorDrawer';
-
 import useCompanies from './useCompanies';
-
 import { columns } from './Companies.data';
-
 import { styles } from '../Associations.style';
+import { PlusIcon } from '@/assets/icons';
 
 const Companies = ({ contactId }: any) => {
   const {
+    disabledField,
+    drawerTitle,
     theme,
     searchValue,
     setSearchValue,
@@ -26,7 +24,8 @@ const Companies = ({ contactId }: any) => {
     handleCloseAlert,
     dataGetCompanies,
     companyOwners,
-  } = useCompanies(contactId);
+    handleAddCompanySubmit,
+  } = useCompanies(contactId, {});
 
   const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
 
@@ -41,7 +40,9 @@ const Companies = ({ contactId }: any) => {
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
+            {dataGetCompanies?.data?.companies?.length < 10
+              ? `0${dataGetCompanies?.data?.companies?.length}`
+              : dataGetCompanies?.data?.companies?.length}
           </Typography>
 
           <Typography variant="subtitle2">Companies</Typography>
@@ -61,6 +62,14 @@ const Companies = ({ contactId }: any) => {
               label="Search By Name"
               size="small"
             />
+            <Button
+              variant="contained"
+              className="small"
+              sx={{ minWidth: '0px', gap: 0.5 }}
+              onClick={() => handleOpenDrawer({}, 'Add')}
+            >
+              <PlusIcon /> Add Companies
+            </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
@@ -70,12 +79,17 @@ const Companies = ({ contactId }: any) => {
           />
         </Grid>
       </Grid>
+
       <CompaniesEditorDrawer
+        title={drawerTitle}
         isOpen={openDrawer}
         onClose={handleCloseDrawer}
         methods={methodsView}
         companyOwners={companyOwners || []}
+        disabledField={disabledField}
+        handleOnSubmit={handleAddCompanySubmit}
       />
+
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}

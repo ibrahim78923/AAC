@@ -1,19 +1,29 @@
-import {
-  RHFDatePicker,
-  RHFEditor,
-  RHFSelect,
-  RHFTextField,
-  RHFTimePicker,
-} from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import * as Yup from 'yup';
 
-export const companiesDataArray = (companyOwners: any) => [
+export const companiesValidationSchema = Yup?.object()?.shape({
+  domain: Yup?.string()?.required('Field is required'),
+  ownerId: Yup?.string()?.required('Field is required'),
+});
+
+export const companiesDefaultValues = {
+  domain: '',
+  noOfEmloyee: '',
+  totalRevenue: '',
+};
+
+export const companiesDataArray = (
+  companyOwners: any,
+  disabledField: boolean,
+) => [
   {
     id: 'domain',
     componentProps: {
       name: 'domain',
-      label: 'Company Domain Name',
+      label: 'Company Domain Name (URL)',
       fullWidth: true,
-      disabled: true,
+      disabled: disabledField,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -24,7 +34,7 @@ export const companiesDataArray = (companyOwners: any) => [
       name: 'name',
       label: 'Company Name',
       fullWidth: true,
-      disabled: true,
+      disabled: disabledField,
     },
     component: RHFTextField,
     md: 12,
@@ -35,21 +45,11 @@ export const companiesDataArray = (companyOwners: any) => [
       name: 'ownerId',
       label: 'Company Owner',
       select: true,
-      disabled: true,
+      disabled: disabledField,
+      required: true,
     },
     options: companyOwners,
     component: RHFSelect,
-    md: 12,
-  },
-  {
-    id: 'description',
-    componentProps: {
-      name: 'description',
-      label: 'Description',
-      fullWidth: true,
-      disabled: true,
-    },
-    component: RHFEditor,
     md: 12,
   },
 
@@ -59,7 +59,7 @@ export const companiesDataArray = (companyOwners: any) => [
       name: 'industry',
       label: 'Industry',
       select: true,
-      disabled: true,
+      disabled: disabledField,
     },
     options: [
       { value: 'computerSoftware', label: 'Computer software' },
@@ -71,25 +71,20 @@ export const companiesDataArray = (companyOwners: any) => [
     md: 12,
   },
   {
-    id: 'city',
+    id: 'type',
     componentProps: {
-      name: 'city',
-      label: 'City',
+      name: 'type',
+      label: 'Company Type',
       fullWidth: true,
-      disabled: true,
+      select: true,
+      disabled: disabledField,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 'postalCode',
-    componentProps: {
-      name: 'postalCode',
-      label: 'Postal Code',
-      fullWidth: true,
-      disabled: true,
-    },
-    component: RHFTextField,
+    options: [
+      { value: 'Partner', label: 'Partner' },
+      { value: 'Vendor', label: 'Vendor' },
+      { value: 'None', label: 'None' },
+    ],
+    component: RHFSelect,
     md: 12,
   },
   {
@@ -98,7 +93,7 @@ export const companiesDataArray = (companyOwners: any) => [
       name: 'noOfEmloyee',
       label: 'Number of employee',
       fullWidth: true,
-      disabled: true,
+      disabled: disabledField,
     },
     component: RHFTextField,
     md: 12,
@@ -109,52 +104,71 @@ export const companiesDataArray = (companyOwners: any) => [
       name: 'totalRevenue',
       label: 'Annual Revenue',
       fullWidth: true,
-      disabled: true,
+      disabled: disabledField,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: 'city',
     componentProps: {
-      name: 'timeZone',
-      label: 'Time Zone',
+      name: 'city',
+      label: 'City',
       fullWidth: true,
-      disabled: true,
+      disabled: disabledField,
     },
     component: RHFTextField,
     md: 12,
   },
   {
-    id: 'companyPage',
+    id: 'postalCode',
     componentProps: {
-      name: 'companyPage',
-      label: 'Company Page',
+      name: 'postalCode',
+      label: 'Postal Code',
       fullWidth: true,
-      disabled: true,
+      disabled: disabledField,
     },
     component: RHFTextField,
     md: 12,
   },
   {
-    id: 'joiningDate',
+    id: 'address',
+    md: 12,
+    component: RHFTextField,
     componentProps: {
-      name: 'joiningDate',
-      label: 'Joining Date',
+      name: 'address',
+      label: 'Company Address',
+      placeholder: 'Enter here',
       fullWidth: true,
-      disabled: true,
+      multiline: true,
+      rows: 4,
+      disabled: disabledField,
     },
-    component: RHFDatePicker,
-    md: 6,
   },
   {
-    id: 'joiningTime',
+    id: 'description',
+    md: 12,
+    component: RHFTextField,
     componentProps: {
-      name: 'joiningTime',
-      label: 'Joining Time ',
+      name: 'description',
+      label: 'Description',
+      placeholder: 'Enter here',
       fullWidth: true,
-      disabled: true,
+      multiline: true,
+      rows: 3,
+      disabled: disabledField,
     },
-    component: RHFTimePicker,
-    md: 6,
+  },
+  {
+    id: 'linkedInUrl',
+    md: 12,
+    component: RHFTextField,
+    componentProps: {
+      name: 'linkedInUrl',
+      label: 'LinkdIn Company Page',
+      placeholder: 'Enter here',
+      fullWidth: true,
+      disabled: disabledField,
+    },
   },
 ];

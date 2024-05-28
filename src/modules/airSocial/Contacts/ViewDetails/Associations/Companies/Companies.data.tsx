@@ -59,7 +59,7 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
           <Box sx={{ display: 'flex', gap: 0.5 }}>
             <Box
               sx={{ cursor: 'pointer' }}
-              onClick={() => handleOpenDrawer(rowData)}
+              onClick={() => handleOpenDrawer(rowData, 'View')}
             >
               <ViewEyeIcon />
             </Box>
