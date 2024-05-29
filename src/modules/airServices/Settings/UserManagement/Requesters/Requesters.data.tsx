@@ -102,8 +102,8 @@ export const requestersList: any = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.fullName,
-    id: 'fullName',
+    accessorFn: (row: any) => row?.firstName,
+    id: 'firstName',
     header: 'Name',
     isSortable: true,
     cell: (info: any) => (

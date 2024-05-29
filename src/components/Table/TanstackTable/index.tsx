@@ -8,7 +8,6 @@ import {
   Box,
   Grid,
 } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 
 import useTanstackTable from './useTanstackTable';
 import { DownIcon, UpIcon } from '@/assets/icons';
@@ -50,8 +49,6 @@ const TanstackTable = (props: any) => {
 
   const { table } = useTanstackTable(data, columns, showSerialNo);
 
-  const memoizedTable = React.useMemo(() => table, []);
-
   if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
@@ -61,10 +58,10 @@ const TanstackTable = (props: any) => {
           <TableContainer>
             <Table>
               <TableHead>
-                {memoizedTable?.getHeaderGroups()?.map((headerGroup: any) => (
-                  <TableRow key={uuidv4()}>
+                {table?.getHeaderGroups()?.map((headerGroup: any) => (
+                  <TableRow key={headerGroup?.id}>
                     {headerGroup?.headers?.map((header: any) => (
-                      <StyledTableCell key={uuidv4()}>
+                      <StyledTableCell key={header?.id}>
                         <Box
                           sx={styles?.cell(header?.column?.columnDef?.align)}
                         >
@@ -113,14 +110,14 @@ const TanstackTable = (props: any) => {
               <TableBody>
                 {isSuccess &&
                   !isError &&
-                  memoizedTable
-                    ?.getCoreRowModel()
+                  table
+                    ?.getRowModel()
                     ?.rows?.map((row) => (
-                      <StyledTableRow key={uuidv4()}>
+                      <StyledTableRow key={row?.id}>
                         {row
                           ?.getVisibleCells()
                           ?.map((cell) => (
-                            <StyledTableCell key={uuidv4()}>
+                            <StyledTableCell key={cell?.id}>
                               {flexRender(
                                 cell?.column?.columnDef?.cell,
                                 cell?.getContext(),
@@ -134,7 +131,7 @@ const TanstackTable = (props: any) => {
             {isError ? (
               <ApiErrorState />
             ) : (
-              !!!memoizedTable?.getCoreRowModel()?.rows?.length &&
+              !table?.getCoreRowModel()?.rows?.length &&
               isSuccess && (
                 <NoData
                   image={noDataTableImage}
