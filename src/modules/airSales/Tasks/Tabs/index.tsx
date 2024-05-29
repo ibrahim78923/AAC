@@ -6,9 +6,13 @@ import Search from '@/components/Search';
 import { Box } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import GridView from '../GridView';
-import { useAppSelector } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  setFiltersData,
+  setSelectedTaskIds,
+} from '@/redux/slices/taskManagement/taskManagementSlice';
 
 const Tabs = ({ tabValue, assignTo }: any) => {
   const {
@@ -24,6 +28,7 @@ const Tabs = ({ tabValue, assignTo }: any) => {
   const taskDataArray = useAppSelector(
     (state: any) => state?.task?.taskDataArray,
   );
+  const dispatch: any = useAppDispatch();
   const getTaskData = TasksData({ data: taskDataArray?.data?.taskmanagements });
 
   const handlePageChange = (newPage: number) => {
@@ -41,6 +46,11 @@ const Tabs = ({ tabValue, assignTo }: any) => {
   const toggleTableView = useAppSelector(
     (state: any) => state?.task?.toggleTableView,
   );
+
+  useEffect(() => {
+    dispatch(setSelectedTaskIds([]));
+    dispatch(setFiltersData('clear'));
+  }, [tabValue, assignTo]);
 
   return (
     <>

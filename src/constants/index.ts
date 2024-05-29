@@ -327,3 +327,11 @@ export const createGoal = {
   userTeam: 'userTeam',
   team: 'TEAM',
 };
+
+export const TASK_TABS_TYPES = {
+  CONTACTS: 'contacts',
+  COMPANIES: 'companies',
+  DEALS: 'deals',
+  ASSOCIATIONS: 'associations',
+  TICKETS: 'tickets',
+};

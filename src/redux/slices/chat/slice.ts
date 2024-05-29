@@ -21,6 +21,7 @@ interface ChatStateI {
   isChatMessagesLoading: any;
   isChatContactsLoading: any;
   newChatData: any;
+  isNewMessages: any;
 }
 
 const initialState: ChatStateI = {
@@ -46,6 +47,7 @@ const initialState: ChatStateI = {
   isChatMessagesLoading: false,
   isChatContactsLoading: false,
   newChatData: [],
+  isNewMessages: false,
 };
 
 const chatSlice = createSlice({
@@ -61,7 +63,6 @@ const chatSlice = createSlice({
     setChatMessages(state, action) {
       if (Array.isArray(action?.payload)) {
         state.chatMessages = action?.payload;
-        // state.chatMessages = [...state.chatMessages,...action?.payload];
       } else {
         const existingMessageIndex = state?.chatMessages?.findIndex(
           (message: any) => message?._id === action?.payload?._id,
@@ -105,15 +106,20 @@ const chatSlice = createSlice({
       };
     },
 
-    setNewChatData(state, action) {
-      if (action?.payload?.empty) {
-        state.newChatData = [];
-      } else {
-        state.newChatData = [...state.newChatData, ...action?.payload];
+    setSingleMessageRecord(state, action) {
+      const existingChatIndex = state.newChatData.findIndex(
+        (chat: any) => chat?._id === action?.payload?._id,
+      );
+      if (existingChatIndex === -1) {
+        state.newChatData = [action?.payload, ...state?.newChatData];
       }
     },
+
     setActiveChatId(state, action) {
       state.activeChatId = action?.payload;
+    },
+    setIsNewMessages(state, action) {
+      state.isNewMessages = action?.payload;
     },
     setActiveChat(state, action) {
       state.activeChat = action?.payload;
@@ -179,6 +185,7 @@ export const {
   setChatMessagesLoading,
   setChatContactsLoading,
   setChangeChat,
-  setNewChatData,
+  setIsNewMessages,
+  setSingleMessageRecord,
 } = chatSlice.actions;
 export default chatSlice.reducer;

@@ -3,6 +3,8 @@ import { PAGINATION } from '@/config';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setTaskDataArray } from '@/redux/slices/taskManagement/taskManagementSlice';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 export const useTask = () => {
   const dispatch: any = useAppDispatch();
@@ -44,12 +46,13 @@ export const useTask = () => {
     params: {
       page: page,
       limit: pageLimit,
-      // status: tabsValue || filtersData?.status,
       ...(tabsValue && { status: tabsValue || filtersData?.status }),
       assignTo: assignTo || filtersData?.assignTo?._id,
       priority: filtersData?.priority,
       ...(filtersData?.dueDate && {
-        dueDate: filtersData?.dueDate && filtersData?.dueDate?.toISOString(),
+        dueDate:
+          filtersData?.dueDate &&
+          dayjs(filtersData?.dueDate)?.format(DATE_FORMAT?.API),
       }),
       search: searchTask,
     },

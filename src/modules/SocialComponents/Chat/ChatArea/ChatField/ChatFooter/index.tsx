@@ -36,7 +36,7 @@ import { useChatAttachmentUploadMutation } from '@/services/chat';
 import { generateImage } from '@/utils/avatarUtils';
 import { v4 as uuidv4 } from 'uuid';
 
-const ChatFooter = ({ setChangeScroll }: any) => {
+const ChatFooter = ({ handleScrollToBottom }: any) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -121,12 +121,12 @@ const ChatFooter = ({ setChangeScroll }: any) => {
           ? addMessagePayloadFrGroup
           : addMessageReplyPayload
         : addMessagePayload,
-      (response: any) => {
+      () => {
         setMessageText('');
         setImageToUpload([]);
         dispatch(setActiveReply({}));
-        setChangeScroll(response?.data);
         setIsMessageLoading(false);
+        handleScrollToBottom();
       },
     );
   };

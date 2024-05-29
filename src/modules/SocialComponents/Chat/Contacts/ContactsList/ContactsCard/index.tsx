@@ -19,7 +19,6 @@ import {
   setChatContacts,
   setChatMessages,
   setChatMetaInfo,
-  setNewChatData,
 } from '@/redux/slices/chat/slice';
 import { getSession } from '@/utils';
 import dayjs from 'dayjs';
@@ -112,7 +111,7 @@ const ContactsCard = ({
           limit: PAGINATION?.PAGE_LIMIT,
         }),
       );
-    dispatch(setNewChatData({ empty: true }));
+
     dispatch(setActiveConversation(cardData?.item)),
       dispatch(
         setActiveParticipant({

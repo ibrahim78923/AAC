@@ -10,10 +10,10 @@ import { useChatField } from './useChatField.hook';
 
 import { getSession } from '@/utils';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 
-import { setChatMetaInfo, setNewChatData } from '@/redux/slices/chat/slice';
+import { setChatMetaInfo } from '@/redux/slices/chat/slice';
 
 const ChatField = ({ isError }: any) => {
   const {
@@ -23,17 +23,13 @@ const ChatField = ({ isError }: any) => {
     isDeleteModal,
     setIsDeleteModal,
     chatDataToShow,
-    chatMessages,
   } = useChatField();
 
   const theme = useTheme();
 
   const dispatch = useAppDispatch();
 
-  const [changeScroll, setChangeScroll] = useState<any>();
-
   const chatMetaInfo = useAppSelector((state) => state?.chat?.chatMetaInfo);
-  const newChatData = useAppSelector((state) => state?.chat?.newChatData);
   const changeChat = useAppSelector((state) => state?.chat?.changeChat);
   const isChatMessagesLoading = useAppSelector(
     (state) => state?.chat?.isChatMessagesLoading,
@@ -49,13 +45,19 @@ const ChatField = ({ isError }: any) => {
       boxRef.current.scrollTop = boxRef?.current?.scrollHeight;
     }
   }, [chatDataToShow?.length > 1, changeChat]);
+
   useEffect(() => {
     const handleScroll = () => {
       const box = boxRef?.current;
       if (box?.scrollTop === 0) {
-        if (chatMetaInfo?.pages > chatMetaInfo?.page) {
+        if (isChatMessagesLoading) {
+          null;
+        } else {
           dispatch(
-            setChatMetaInfo({ ...chatMetaInfo, page: chatMetaInfo?.page + 1 }),
+            setChatMetaInfo({
+              ...chatMetaInfo,
+              limit: chatMetaInfo?.limit + 10,
+            }),
           );
         }
       }
@@ -65,11 +67,19 @@ const ChatField = ({ isError }: any) => {
     return () => {
       box?.removeEventListener('scroll', handleScroll);
     };
-  }, [chatMetaInfo]);
+  }, [chatMetaInfo, isChatMessagesLoading]);
+
+  const handleScrollToBottom = () => {
+    if (boxRef.current) {
+      boxRef.current.scrollTop = boxRef.current.scrollHeight;
+    }
+  };
 
   useEffect(() => {
-    dispatch(setNewChatData(chatDataToShow?.map((item: any) => item)));
-  }, [chatMessages]);
+    if (chatDataToShow?.length < 11) {
+      handleScrollToBottom();
+    }
+  }, [chatDataToShow]);
 
   return (
     <>
@@ -100,8 +110,8 @@ const ChatField = ({ isError }: any) => {
               </Box>
             )}
             <Box sx={{ paddingTop: '30px' }}>
-              {newChatData?.length ? (
-                newChatData
+              {chatDataToShow?.length ? (
+                chatDataToShow
                   ?.slice()
                   ?.reverse()
                   ?.map((item: any) => {
@@ -142,10 +152,7 @@ const ChatField = ({ isError }: any) => {
           </>
         )}
       </Box>
-      <ChatFooter
-        setChangeScroll={setChangeScroll}
-        changeScroll={changeScroll}
-      />
+      <ChatFooter handleScrollToBottom={handleScrollToBottom} />
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
