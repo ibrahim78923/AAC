@@ -669,8 +669,8 @@ export const AIR_SERVICES_ENQUIRIES_PERMISSION = {
 };
 
 export const AIR_SERVICES_SIGNUP_LEADS_PERMISSION = {
-  SIGNUP_LEADS_SEARCH: 'signup-leads-list-search',
-  SIGNUP_LEADS_LIST: 'signup-leads-list',
+  SIGNUP_LEADS_SEARCH: 'services-signup-leads-list-search',
+  SIGNUP_LEADS_LIST: 'services-signup-leads-list',
 };
 
 export const AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS = {
