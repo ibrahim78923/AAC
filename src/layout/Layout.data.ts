@@ -236,7 +236,7 @@ export const ServicesRoutes: any = [
     icon: SignupLeadsImage,
     label: 'Signup Leads',
     role: 'SERVICE',
-    permissions: Permissions?.AIR_SERVICES_SIGNUP_LEADS_PERMISSION,
+    permissions: Permissions?.AIR_SERVICES_SIGNUP_LEADS,
   },
   {
     key: '/air-customer-portal',
