@@ -1,4 +1,4 @@
-export const chartData = [
+export const barChartData = [
   { count: '20', year: '2024', month: '1', status: 'New Tickets' },
   { count: '10', year: '2024', month: '2', status: 'New Tickets' },
   { count: '30', year: '2024', month: '3', status: 'New Tickets' },

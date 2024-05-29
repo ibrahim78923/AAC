@@ -1,36 +1,29 @@
-import { TextareaAutosize } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useText } from './useText';
+import { Editor } from 'draft-js';
 
 export const Text = (props: any) => {
-  const {
-    setText,
-    bold,
-    italic,
-    underline,
-    color,
-    fontSize,
-    textAlign,
-    formattedText,
-  } = props;
-  const { paddingTop, paddingBottom } = useText(props);
+  const { editorState, setEditorState } = props;
+  const { handleKeyCommand, styleMap } = useText(props);
 
   return (
     <>
-      <TextareaAutosize
-        minRows={20}
-        style={{
-          fontWeight: bold ? 'bold' : 'normal',
-          fontStyle: italic ? 'italic' : 'normal',
-          textDecoration: underline ? 'underline' : 'none',
-          color: color,
-          fontSize: fontSize,
-          textAlign: textAlign as any,
-          paddingTop: paddingTop,
-          paddingBottom: paddingBottom,
-        }}
-        value={formattedText}
-        onChange={(e: any) => setText(e.target.value)}
-      />
+      <Typography variant={'h6'}>Description</Typography>
+      <Box
+        height={'50vh'}
+        overflow={'scroll'}
+        border={1}
+        borderBottom={'grey.900'}
+        p={'0.5rem 2rem'}
+        borderRadius={'0.5rem'}
+      >
+        <Editor
+          editorState={editorState}
+          handleKeyCommand={handleKeyCommand}
+          onChange={setEditorState}
+          customStyleMap={styleMap}
+        />
+      </Box>
     </>
   );
 };

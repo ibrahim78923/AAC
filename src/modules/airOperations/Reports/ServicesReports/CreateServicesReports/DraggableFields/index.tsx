@@ -1,4 +1,4 @@
-import { Box, Divider, Typography, useTheme } from '@mui/material';
+import { Box, Button, Divider, Typography, useTheme } from '@mui/material';
 import { DroppableModule as Droppable } from '../../DroppableModule';
 import { Draggable } from 'react-beautiful-dnd';
 import { DragAndDropIcon } from '@/assets/icons';
@@ -9,16 +9,23 @@ import { InteractiveFilterEditor } from '../../DraggableFormFields/InteractiveFi
 
 export default function DraggableFields({
   fieldsList,
-  form,
-  setForm,
   fieldData,
   modal,
   handleCancel,
-  setColor,
-  setFontSize,
-  applyFormat,
+  setEditorState,
+  editorState,
   fontSize,
+  setFontSize,
   color,
+  setColor,
+  setHtmlContent,
+  setModal,
+  setFieldData,
+  handleTextCancel,
+  textTitle,
+  chartComponent,
+  setFinalChartComponent,
+  handleChartCancel,
 }: any) {
   const theme: any = useTheme();
 
@@ -30,7 +37,7 @@ export default function DraggableFields({
           ref={provided?.innerRef}
           {...provided?.droppableProps}
         >
-          {fieldData === false ? (
+          {!!!fieldData ? (
             <>
               <Typography variant={'h5'} mb={2}>
                 Form Scratch
@@ -79,43 +86,55 @@ export default function DraggableFields({
                   )}
                 </Draggable>
               ))}
+              <Box
+                sx={{
+                  mt: 26,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  gap: 1,
+                }}
+              >
+                <Button variant="outlined" onClick={() => ''} color="secondary">
+                  Cancel
+                </Button>
+                <Button variant="contained" onClick={() => ''}>
+                  Save
+                </Button>
+              </Box>
             </>
           ) : (
             <>
               {modal?.chart && (
                 <ChartEditor
-                  form={form}
-                  setForm={setForm}
+                  setFinalChartComponent={setFinalChartComponent}
+                  chartComponent={chartComponent}
                   handleCancel={handleCancel}
+                  setModal={setModal}
+                  setFieldData={setFieldData}
+                  handleChartCancel={handleChartCancel}
                 />
               )}
 
               {modal?.interactiveFilter && (
-                <InteractiveFilterEditor
-                  form={form}
-                  setForm={setForm}
-                  handleCancel={handleCancel}
-                />
+                <InteractiveFilterEditor handleCancel={handleCancel} />
               )}
               {modal?.text && (
                 <TextEditor
-                  form={form}
-                  setForm={setForm}
                   handleCancel={handleCancel}
-                  applyFormat={applyFormat}
-                  setColor={setColor}
-                  setFontSize={setFontSize}
+                  setEditorState={setEditorState}
+                  editorState={editorState}
                   fontSize={fontSize}
                   color={color}
+                  setFontSize={setFontSize}
+                  setColor={setColor}
+                  setHtmlContent={setHtmlContent}
+                  setModal={setModal}
+                  setFieldData={setFieldData}
+                  handleTextCancel={handleTextCancel}
+                  textTitle={textTitle}
                 />
               )}
-              {modal?.table && (
-                <TableEditor
-                  form={form}
-                  setForm={setForm}
-                  handleCancel={handleCancel}
-                />
-              )}
+              {modal?.table && <TableEditor handleCancel={handleCancel} />}
             </>
           )}
         </Box>

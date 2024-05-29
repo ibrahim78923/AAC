@@ -3,67 +3,28 @@ import { fieldsList, modalInitialState } from './CreateServicesReports.data';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import { EditorState } from 'draft-js';
 
 export default function useCreateServicesReports() {
   const theme: any = useTheme();
   const router: any = useRouter();
   const methods: any = useForm();
+  const { watch } = methods;
+  const textTitle = watch('textTitle');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
   const [fieldData, setFieldData] = useState<any>(false);
 
-  const [text, setText] = useState('');
-  const [bold, setBold] = useState(false);
-  const [italic, setItalic] = useState(false);
-  const [underline, setUnderline] = useState(false);
-  const [color, setColor] = useState('black');
+  const [editorState, setEditorState] = useState(EditorState?.createEmpty());
   const [fontSize, setFontSize] = useState('16px');
-  const [textAlign, setTextAlign] = useState('left');
-  const [upperCase, setUpperCase] = useState(false);
-  const [lowerCase, setLowerCase] = useState(false);
-  const [capitalCase, setCapitalCase] = useState(false);
-  const [alignItem, setAlignItem] = useState('left');
+  const [color, setColor] = useState('black');
+  const [htmlContent, setHtmlContent] = useState('');
 
-  const applyFormat = (format: string) => {
-    if (format === 'bold') {
-      setBold(!bold);
-    } else if (format === 'italic') {
-      setItalic(!italic);
-    } else if (format === 'underline') {
-      setUnderline(!underline);
-    } else if (['left', 'center', 'right'].includes(format)) {
-      setTextAlign(format);
-    } else if (format === 'upper') {
-      setUpperCase(true);
-      setLowerCase(false);
-      setCapitalCase(false);
-    } else if (format === 'lower') {
-      setLowerCase(true);
-      setUpperCase(false);
-      setCapitalCase(false);
-    } else if (format === 'capital') {
-      setCapitalCase(true);
-      setUpperCase(false);
-      setLowerCase(false);
-    } else if (format === 'top') {
-      setAlignItem('top');
-    } else if (format === 'middle') {
-      setAlignItem('middle');
-    } else if (format === 'bottom') {
-      setAlignItem('bottom');
-    }
-  };
-
-  const capitalizeText = (text: string) => {
-    return text.replace(/(?:^|\.\s*)\w/g, (match: any) => match.toUpperCase());
-  };
-  const formattedText = upperCase
-    ? text.toUpperCase()
-    : lowerCase
-      ? text.toLowerCase()
-      : capitalCase
-        ? capitalizeText(text)
-        : text;
+  const [chartComponent, setChartComponent] = useState<JSX.Element | null>(
+    null,
+  );
+  const [finalChartComponent, setFinalChartComponent] =
+    useState<JSX.Element | null>(null);
 
   const getModalState = (draggedItem: any) => {
     const newModal: any = {
@@ -103,6 +64,20 @@ export default function useCreateServicesReports() {
     setModal(modalInitialState);
   };
 
+  const handleTextCancel = () => {
+    setFieldData(false);
+    setModal(modalInitialState);
+    setHtmlContent('');
+    setEditorState(EditorState.createEmpty());
+  };
+
+  const handleChartCancel = () => {
+    setFieldData(false);
+    setModal(modalInitialState);
+    setChartComponent(null);
+    setFinalChartComponent(null);
+  };
+
   return {
     handleDragEnd,
     router,
@@ -114,18 +89,21 @@ export default function useCreateServicesReports() {
     setFieldData,
     fieldData,
     handleCancel,
-    formattedText,
-    applyFormat,
-    setText,
-    bold,
-    italic,
-    underline,
-    color,
-    fontSize,
-    textAlign,
-    alignItem,
-    setFontSize,
-    setColor,
     methods,
+    setEditorState,
+    editorState,
+    setColor,
+    color,
+    setFontSize,
+    fontSize,
+    setHtmlContent,
+    htmlContent,
+    textTitle,
+    handleTextCancel,
+    setChartComponent,
+    chartComponent,
+    setFinalChartComponent,
+    finalChartComponent,
+    handleChartCancel,
   };
 }

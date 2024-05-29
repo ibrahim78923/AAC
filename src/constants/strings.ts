@@ -750,3 +750,22 @@ export const FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE = {
 export const ARRAY_INDEX = {
   ZERO: 0,
 };
+export const TEXT_FORMATE: any = {
+  BOLD: 'BOLD',
+  ITALIC: 'ITALIC',
+  UNDERLINE: 'UNDERLINE',
+  UPPER_CASE: 'UPPER_CASE',
+  LOWER_CASE: 'LOWER_CASE',
+  CAPITAL_CASE: 'CAPITAL_CASE',
+  UNORDERED_LIST: 'UNORDERED_LIST',
+  ORDERED_LIST: 'ORDERED_LIST',
+  UNORDERED_LIST_ITEM: 'unordered-list-item',
+  ORDERED_LIST_ITEM: 'ordered-list-item',
+  CHANGE_INLINE_STYLE: 'change-inline-style',
+};
+
+export const CHARTS: any = {
+  BAR_CHART: 'Bar Chart',
+  DONUT_CHART: 'Donut Chart',
+  PIE_CHART: 'Pie Chart',
+};

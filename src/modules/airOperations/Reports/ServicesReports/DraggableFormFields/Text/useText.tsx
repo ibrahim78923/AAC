@@ -1,17 +1,30 @@
-export const useText = (props: any) => {
-  const { alignItem } = props;
-  let paddingTop = '0px';
-  let paddingBottom = '0px';
+import { EditorState, RichUtils } from 'draft-js';
+import { useMemo } from 'react';
 
-  if (alignItem === 'middle') {
-    paddingTop = '50%';
-    paddingBottom = '50%';
-  } else if (alignItem === 'bottom') {
-    paddingTop = '100%';
-    paddingBottom = '0px';
-  }
+export const useText = (props: any) => {
+  const { setEditorState, fontSize, color } = props;
+  const handleKeyCommand = (command: string, editorState: EditorState) => {
+    const newState = RichUtils?.handleKeyCommand(editorState, command);
+    if (newState) {
+      setEditorState(newState);
+      return 'handled';
+    }
+    return 'not-handled';
+  };
+  const styleMap = useMemo(
+    () => ({
+      [`FONT_SIZE_${fontSize}`]: {
+        fontSize,
+      },
+      [`COLOR_${color}`]: {
+        color,
+      },
+    }),
+    [fontSize, color],
+  );
+
   return {
-    paddingTop,
-    paddingBottom,
+    handleKeyCommand,
+    styleMap,
   };
 };
