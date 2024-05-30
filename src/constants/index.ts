@@ -329,6 +329,11 @@ export const createGoal = {
 };
 
 export const TASK_TABS_TYPES = {
+  PENDING: 'Pending',
+  INPROGRESS: 'Inprogress',
+  COMPLETE: 'Complete',
+};
+export const TASK_STATUS = {
   CONTACTS: 'contacts',
   COMPANIES: 'companies',
   DEALS: 'deals',

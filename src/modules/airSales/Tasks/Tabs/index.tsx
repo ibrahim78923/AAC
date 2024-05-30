@@ -83,6 +83,8 @@ const Tabs = ({ tabValue, assignTo }: any) => {
           <GridView
             title={'Complete'}
             data={taskDataArray?.data?.taskmanagements}
+            tabValue={tabValue}
+            assignTo={assignTo}
           />
         ) : (
           <TanstackTable
