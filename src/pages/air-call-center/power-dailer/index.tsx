@@ -1,12 +1,13 @@
 import React from 'react';
 import Layout from '@/layout';
+import PowerDialer from '@/modules/airCallCenter/PowerDialer';
 
-const AirCallCenterCallMetricsPage = () => {
-  return <h1>power dialer page</h1>;
+const AirPowerDialerPage = () => {
+  return <PowerDialer />;
 };
 
-export default AirCallCenterCallMetricsPage;
+export default AirPowerDialerPage;
 
-AirCallCenterCallMetricsPage.getLayout = function getLayout(page: any) {
+AirPowerDialerPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };
