@@ -2,20 +2,20 @@ import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
 import LeftPane from './LeftPane';
 import RightPane from './RightPane';
-import { useGetMailFoldersQuery } from '@/services/commonFeatures/email/others';
 import { useDispatch } from 'react-redux';
-import { setMailTabType } from '@/redux/slices/email/others/slice';
+import { useGetGmailFoldersQuery } from '@/services/commonFeatures/email/gmail';
+import { setGmailTabType } from '@/redux/slices/email/gmail/slice';
 
-const EmailChat = () => {
+const GmailChat = () => {
   const dispatch = useDispatch();
-  const { data: foldersData } = useGetMailFoldersQuery({});
-  const result = foldersData?.data?.find((item: any) => {
-    return item?.display_name?.toLowerCase() === 'inbox';
+  const { data: foldersData } = useGetGmailFoldersQuery({});
+  const result = foldersData?.data?.labels?.find((item: any) => {
+    return item?.name?.toLowerCase() === 'inbox';
   });
 
   useEffect(() => {
     if (result) {
-      dispatch(setMailTabType(result));
+      dispatch(setGmailTabType(result));
     }
   }, [result]);
 
@@ -33,4 +33,4 @@ const EmailChat = () => {
   );
 };
 
-export default EmailChat;
+export default GmailChat;

@@ -1,4 +1,4 @@
-import { Box, Checkbox, Typography } from '@mui/material';
+import { Box, Checkbox, Tooltip, Typography } from '@mui/material';
 
 import { avatarGroupMockData } from '../PlanManagement.data';
 import { DATE_FORMAT } from '@/constants';
@@ -74,7 +74,7 @@ export const PlanDetailsDataColumnFunction: any = (
           }}
         />
       ),
-      header: <Checkbox color="primary" name="id" />,
+      header: <Checkbox color="primary" name="id" disabled />,
       isSortable: false,
     },
     {
@@ -82,28 +82,38 @@ export const PlanDetailsDataColumnFunction: any = (
       id: 'productsSuite',
       isSortable: true,
       header: 'Products/Suite',
-      cell: (info: any) => (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          {info?.row?.original?.planProducts?.length > 1 ? (
-            <>
-              <Typography variant="body2" sx={{ fontWeight: '700' }}>
-                {info?.row?.original?.name}
+      cell: (info: any) => {
+        const planProducts = info?.row?.original?.planProducts;
+        const tooltipTitle = (
+          <Box>
+            {planProducts?.map((data: any) => (
+              <Typography key={uuidv4()} variant="h6">
+                {data?.name}
               </Typography>
-              {info?.row?.original?.planProducts?.map((data: any) => (
+            ))}
+          </Box>
+        );
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {info?.row?.original?.planProducts?.length > 1 ? (
+              <>
+                <Tooltip title={tooltipTitle}>
+                  <Typography variant="body2" sx={{ cursor: 'pointer' }}>
+                    {' '}
+                    {info?.row?.original?.name}
+                  </Typography>
+                </Tooltip>
+              </>
+            ) : (
+              info?.row?.original?.planProducts?.map((data: any) => (
                 <Typography variant="body3" key={uuidv4()}>
-                  {data?.name}
+                  {data?.name}{' '}
                 </Typography>
-              ))}
-            </>
-          ) : (
-            info?.row?.original?.planProducts?.map((data: any) => (
-              <Typography variant="body3" key={uuidv4()}>
-                {data?.name}{' '}
-              </Typography>
-            ))
-          )}
-        </Box>
-      ),
+              ))
+            )}
+          </Box>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.planType?.name,

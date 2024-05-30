@@ -89,6 +89,7 @@ const RightPane = () => {
           setSearchBy={setSearchValue}
           size="medium"
           placeholder="Search Here"
+          style={{ background: 'white' }}
         />
         <Box
           sx={{
@@ -99,7 +100,7 @@ const RightPane = () => {
         >
           <Button
             variant="outlined"
-            sx={{ height: '33px' }}
+            sx={{ height: '33px', background: 'white' }}
             color="inherit"
             startIcon={<SettingsIcon />}
             onClick={() => setIsEmailSettingsDrawerOpen(true)}
@@ -332,7 +333,7 @@ const RightPane = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '70vh',
+                  height: '80vh',
                 }}
               >
                 <Box

@@ -10,16 +10,16 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
-import {
-  setActiveRecord,
-  setSelectedRecords,
-} from '@/redux/slices/email/others/slice';
-import { API_STATUS, EMAIL_TABS_TYPES } from '@/constants';
+import { API_STATUS, DATE_TIME_FORMAT, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
-import { UnixDateFormatter } from '@/utils/dateTime';
 import { usePatchEmailMessageMutation } from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import {
+  setActiveGmailRecord,
+  setSelectedGmailRecords,
+} from '@/redux/slices/email/gmail/slice';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -33,17 +33,17 @@ const MailList = ({
 
   const dispatch = useDispatch();
 
-  const selectedRecords: any = useAppSelector(
-    (state: any) => state?.email?.selectedRecords,
+  const selectedGmailRecords: any = useAppSelector(
+    (state: any) => state?.gmail?.selectedGmailRecords,
   );
 
-  const activeRecord = useAppSelector(
-    (state: any) => state?.email?.activeRecord,
+  const activeGmailRecord = useAppSelector(
+    (state: any) => state?.gmail?.activeGmailRecord,
   );
 
   const handleCheckboxClick = (email: any) => {
-    const safeSelectedRecords = Array.isArray(selectedRecords)
-      ? selectedRecords
+    const safeSelectedRecords = Array.isArray(selectedGmailRecords)
+      ? selectedGmailRecords
       : [];
     const isAlreadySelected = safeSelectedRecords?.some(
       (item: any) => item?.id === email?.id,
@@ -53,20 +53,20 @@ const MailList = ({
       const updatedSelection = safeSelectedRecords?.filter(
         (item: any) => item?.id !== email?.id,
       );
-      dispatch(setSelectedRecords(updatedSelection));
+      dispatch(setSelectedGmailRecords(updatedSelection));
     } else {
-      dispatch(setSelectedRecords([...safeSelectedRecords, email]));
+      dispatch(setSelectedGmailRecords([...safeSelectedRecords, email]));
     }
   };
 
   const handleSelectAll = () => {
-    const totalEmails = emailsByFolderIdData?.data?.length || 0;
-    const selectedCount = selectedRecords?.length;
+    const totalEmails = emailsByFolderIdData?.length || 0;
+    const selectedCount = selectedGmailRecords?.length;
 
     if (selectedCount === totalEmails) {
-      dispatch(setSelectedRecords([]));
+      dispatch(setSelectedGmailRecords([]));
     } else {
-      dispatch(setSelectedRecords(emailsByFolderIdData?.data));
+      dispatch(setSelectedGmailRecords(emailsByFolderIdData));
     }
   };
 
@@ -74,7 +74,7 @@ const MailList = ({
 
   const handelMailClick = async (item: any) => {
     if (item) {
-      dispatch(setActiveRecord(item));
+      dispatch(setActiveGmailRecord(item));
 
       if (item?.unread) {
         const payload = {
@@ -118,9 +118,9 @@ const MailList = ({
               name="Id"
               onClick={handleSelectAll}
               checked={
-                emailsByFolderIdData?.data?.length > 0
-                  ? selectedRecords?.length ===
-                    emailsByFolderIdData?.data?.length
+                emailsByFolderIdData?.length > 0
+                  ? selectedGmailRecords?.length ===
+                    emailsByFolderIdData?.length
                   : false
               }
             />
@@ -173,87 +173,85 @@ const MailList = ({
               </>
             ) : (
               <>
-                {dataArray?.data && (
+                {emailsByFolderIdData && (
                   <>
-                    {dataArray?.data?.length > 0 ? (
-                      dataArray?.data?.map((item: any) => (
-                        <Box
-                          key={uuidv4()}
-                          sx={styles?.card(theme)}
-                          style={{
-                            background:
-                              activeRecord?.id === item?.id
-                                ? theme?.palette?.grey[100]
-                                : theme?.palette?.common?.white,
-                          }}
-                          onClick={() => handelMailClick(item)}
-                        >
-                          <Checkbox
-                            checked={selectedRecords?.some(
-                              (email: any) => email?.id === item?.id,
-                            )}
-                            onChange={() => handleCheckboxClick(item)}
-                          />
-                          <Box>
-                            {mailTabType?.display_name ===
-                            EMAIL_TABS_TYPES?.SCHEDULE ? (
+                    {emailsByFolderIdData?.length > 0 ? (
+                      emailsByFolderIdData?.map((item: any) => (
+                        <>
+                          <Box
+                            key={uuidv4()}
+                            sx={styles?.card(theme)}
+                            style={{
+                              background:
+                                activeGmailRecord?.id === item?.id
+                                  ? theme?.palette?.grey[100]
+                                  : theme?.palette?.common?.white,
+                            }}
+                            onClick={() => handelMailClick(item)}
+                          >
+                            <Checkbox
+                              checked={selectedGmailRecords?.some(
+                                (email: any) => email?.id === item?.id,
+                              )}
+                              onChange={() => handleCheckboxClick(item)}
+                            />
+                            <Box>
+                              {mailTabType?.display_name ===
+                              EMAIL_TABS_TYPES?.SCHEDULE ? (
+                                <Typography
+                                  variant="h6"
+                                  sx={{
+                                    fontWeight: item?.unread ? 700 : '',
+                                    color: theme?.palette?.success?.main,
+                                  }}
+                                >
+                                  {'['} Scheduled {']'}
+                                </Typography>
+                              ) : (
+                                <Typography
+                                  variant="h6"
+                                  sx={{ fontWeight: item?.unread ? 700 : '' }}
+                                >
+                                  {' '}
+                                  {item?.name}{' '}
+                                </Typography>
+                              )}
+
                               <Typography
-                                variant="h6"
+                                variant="body3"
+                                sx={{ fontWeight: item?.unread ? 700 : 600 }}
+                                color={'primary'}
+                                margin={'8px 0px'}
+                              >
+                                {item?.subject}
+                              </Typography>
+                              <Typography
+                                variant="body3"
+                                margin={'3px 0px'}
                                 sx={{
-                                  fontWeight: item?.unread ? 700 : '',
-                                  color: theme?.palette?.success?.main,
+                                  display: '-webkit-box',
+                                  WebkitBoxOrient: 'vertical',
+                                  WebkitLineClamp: 3,
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
                                 }}
                               >
-                                {'['} Scheduled {']'}
+                                {item?.snippet}
                               </Typography>
-                            ) : (
                               <Typography
-                                variant="h6"
-                                sx={{ fontWeight: item?.unread ? 700 : '' }}
+                                variant="body2"
+                                sx={{
+                                  color: theme?.palette?.grey[900],
+                                  fontSize: '12px',
+                                }}
                               >
-                                <>
-                                  {item?.from[0]?.name} {item?.lastName}{' '}
-                                  {item?.reff}
-                                </>
+                                {dayjs(item?.date).format(
+                                  DATE_TIME_FORMAT?.MMMDDYYYY,
+                                )}
                               </Typography>
-                            )}
-
-                            <Typography
-                              variant="body3"
-                              sx={{ fontWeight: item?.unread ? 700 : 600 }}
-                              color={'primary'}
-                              margin={'8px 0px'}
-                            >
-                              {item?.subject}
-                            </Typography>
-                            <Typography
-                              variant="body3"
-                              margin={'3px 0px'}
-                              sx={{
-                                display: '-webkit-box',
-                                WebkitBoxOrient: 'vertical',
-                                WebkitLineClamp: 3,
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                              }}
-                            >
-                              {item?.snippet}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                color: theme?.palette?.grey[900],
-                                fontSize: '12px',
-                              }}
-                            >
-                              <UnixDateFormatter
-                                timestamp={item?.date}
-                                timeZone="Asia/Karachi"
-                                isTime
-                              ></UnixDateFormatter>
-                            </Typography>
+                            </Box>
                           </Box>
-                        </Box>
+                        </>
                       ))
                     ) : (
                       <>No record found</>

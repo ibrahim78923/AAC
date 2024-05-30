@@ -4,18 +4,17 @@ export const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    mb: '24px',
   },
   card: (theme: any) => {
     return {
       background: theme?.palette?.common?.white,
       padding: '14px',
-      my: '24px',
+      m: '24px 10px',
       '&:hover': {
         background: theme?.palette?.custom?.light_white_bg,
         cursor: 'pointer',
       },
-      boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
+      boxShadow: '0px 0px 4px 0px #0000001A',
       display: 'flex',
       alignItems: 'center',
       gap: '14px',

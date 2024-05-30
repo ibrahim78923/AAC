@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
   createFilterOptions,
+  useTheme,
 } from '@mui/material';
 
 import { useAddPlanForm } from './useAddPlanForm';
@@ -23,6 +24,8 @@ import {
 } from '@/components/ReactHookForm';
 import { selectProductSuites } from './PlanForm.data';
 import { useAppSelector } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { setFeatureDetails } from '@/redux/slices/planManagement/planManagementSlice';
 
 const AddPlanForm = ({
   handleSubmit,
@@ -52,8 +55,10 @@ const AddPlanForm = ({
 
   const filter = createFilterOptions<any>();
   const planForm: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement?.addPlanForm,
+    (state) => state?.planManagementForms?.addPlanForm,
   );
+  const theme = useTheme();
+  const dispatch = useDispatch();
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit}>
@@ -66,7 +71,10 @@ const AddPlanForm = ({
         }}
       >
         <Button
-          onClick={() => setSelectProductSuite('product')}
+          onClick={() => {
+            setSelectProductSuite('product');
+            dispatch(setFeatureDetails(''));
+          }}
           variant={`${selectProductSuite === 'product' ? 'contained' : 'text'}`}
           sx={{ height: '25px', borderRadius: '10px' }}
           disabled={isSuccess}
@@ -74,7 +82,10 @@ const AddPlanForm = ({
           <Typography>Product</Typography>{' '}
         </Button>
         <Button
-          onClick={() => setSelectProductSuite('CRM')}
+          onClick={() => {
+            setSelectProductSuite('CRM');
+            dispatch(setFeatureDetails(''));
+          }}
           variant={`${selectProductSuite === 'CRM' ? 'contained' : 'text'}`}
           sx={{ height: '25px', borderRadius: '10px' }}
           disabled={isSuccess}
@@ -200,11 +211,24 @@ const AddPlanForm = ({
                       }
                       return option?.label;
                     }}
-                    renderOption={(props, option) => (
-                      <li style={{ border: '1px solid lightgray' }} {...props}>
-                        {option?.label}
-                      </li>
-                    )}
+                    renderOption={(props, option) => {
+                      const isAddOption = option.label.startsWith('Add');
+
+                      return (
+                        <li
+                          style={{
+                            border: '1px solid lightgray',
+                            backgroundColor: isAddOption
+                              ? theme?.palette?.primary?.main
+                              : 'white',
+                            color: isAddOption ? 'white' : 'black',
+                          }}
+                          {...props}
+                        >
+                          {option?.label}
+                        </li>
+                      );
+                    }}
                     sx={{ height: 70, marginTop: '5px' }}
                     freeSolo
                     renderInput={(params) => (

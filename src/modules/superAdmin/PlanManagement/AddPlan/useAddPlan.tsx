@@ -83,7 +83,11 @@ export const useAddPlan = () => {
   if (router?.query?.data) {
     parsedRowData = JSON.parse(router?.query?.data);
   }
-  const { data: singlePlan, isSuccess } = useGetPlanMangementByIdQuery({
+  const {
+    data: singlePlan,
+    isSuccess,
+    isLoading: GetsinglePlanLoading,
+  } = useGetPlanMangementByIdQuery({
     id: parsedRowData?._id,
   });
 
@@ -229,6 +233,10 @@ export const useAddPlan = () => {
       enqueueSnackbar('Please enter additional Storage Price', {
         variant: 'error',
       });
+    } else if (isNullOrEmpty(crmValue) && !isNullOrEmpty(values?.suite)) {
+      enqueueSnackbar('Please enter CRM Name', {
+        variant: 'error',
+      });
     } else {
       if (!isNullOrEmpty(singlePlan) && values?.productId?.length > 1) {
         values.suite = values?.productId;
@@ -311,7 +319,7 @@ export const useAddPlan = () => {
   const onSubmitPlanFeaturesHandler = async (values: any) => {
     let addExtraFeatures: any;
     let featuresData;
-    if (isNullOrEmpty(planForm?.productId)) {
+    if (selectProductSuite != 'product') {
       featuresData = planForm?.suite?.map((productIdItem: any) => {
         return {
           features: values?.features
@@ -450,8 +458,7 @@ export const useAddPlan = () => {
           );
           dispatch(setFeatureDetails(''));
           reset();
-          window.location.href =
-            SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID;
+          router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
         }
       } catch (error: any) {
         enqueueSnackbar('An error occured', {
@@ -616,5 +623,6 @@ export const useAddPlan = () => {
     isLoading: isLoading?.isLoading,
     ifCrmExist,
     updatePlanLoading,
+    GetsinglePlanLoading,
   };
 };

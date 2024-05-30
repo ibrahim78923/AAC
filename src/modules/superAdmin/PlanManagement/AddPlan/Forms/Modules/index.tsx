@@ -63,12 +63,13 @@ const Modules = ({
   }
 
   const modulesPermissionsArray: any = [];
-
+  let isLoadingMultiple;
   for (const productId of productIdArray) {
-    const { data: modulesPermissions } = useGetPermissionsByProductsQuery({
-      id: productId,
-    });
-
+    const { data: modulesPermissions, isLoading } =
+      useGetPermissionsByProductsQuery({
+        id: productId,
+      });
+    isLoadingMultiple = isLoading;
     modulesPermissionsArray.push(modulesPermissions);
   }
 
@@ -110,6 +111,7 @@ const Modules = ({
     <div>
       {isLoading?.isLoading ||
       updatePlanLoading ||
+      isLoadingMultiple ||
       GetSinglePermissionsLoading ? (
         <Box
           sx={{

@@ -1,8 +1,8 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import EmailChat from '@/modules/SocialComponents/emails/GoogleMail/Chat';
+import GmailChat from '@/modules/SocialComponents/emails/GoogleMail/Chat';
 function EmailConversations() {
-  return <EmailChat />;
+  return <GmailChat />;
 }
 export default EmailConversations;
 EmailConversations.getLayout = function getLayout(page: any) {

@@ -5,6 +5,7 @@ export const styles = {
     backgroundColor: theme?.palette?.common?.white,
     position: 'sticky',
     top: '70px',
+    height: '87vh',
   }),
   emailWrap: {
     display: 'flex',

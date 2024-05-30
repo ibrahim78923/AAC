@@ -17,13 +17,14 @@ import { useMoveFolderOtherEmailMutation } from '@/services/commonFeatures/email
 import { enqueueSnackbar } from 'notistack';
 
 const ActionBtn = ({ filteredData }: any) => {
-  const mailTabType: any = useAppSelector(
-    (state: any) => state?.email?.mailTabType,
+  const gmailTabType: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailTabType,
   );
-  const selectedRecords: any = useAppSelector(
-    (state: any) => state?.email?.selectedRecords,
+  const selectedGmailRecords: any = useAppSelector(
+    (state: any) => state?.gmail?.selectedGmailRecords,
   );
-  const tabName = mailTabType?.display_name?.toLowerCase();
+
+  const tabName = gmailTabType?.name?.toLowerCase();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
@@ -45,7 +46,8 @@ const ActionBtn = ({ filteredData }: any) => {
 
   const handelRestore = async () => {
     const ids =
-      selectedRecords && selectedRecords?.map((message: any) => message?.id);
+      selectedGmailRecords &&
+      selectedGmailRecords?.map((message: any) => message?.id);
     const payload = {
       messageId: ids,
       folderId: EMAIL_TABS_TYPES?.DRAFTS,
@@ -64,10 +66,11 @@ const ActionBtn = ({ filteredData }: any) => {
   };
   const handelDelete = async () => {
     const ids =
-      selectedRecords && selectedRecords?.map((message: any) => message?.id);
+      selectedGmailRecords &&
+      selectedGmailRecords?.map((message: any) => message?.id);
 
     const result = filteredData?.find(
-      (filterData: any) => filterData?.display_name?.toLowerCase() === 'trash',
+      (filterData: any) => filterData?.name?.toLowerCase() === 'trash',
     );
     const payload = {
       messageId: ids,
@@ -92,9 +95,9 @@ const ActionBtn = ({ filteredData }: any) => {
         variant="outlined"
         endIcon={<ArrowDropDownIcon />}
         onClick={handleClick}
-        disabled={selectedRecords?.length === 0 ? true : false}
+        disabled={selectedGmailRecords?.length === 0 ? true : false}
         classes={{ outlined: 'outlined_btn' }}
-        // sx={styles(theme, selectedRecords?.length > 1)}
+        // sx={styles(theme, selectedGmailRecords?.length > 1)}
         style={{ height: '36px' }}
         color="inherit"
       >
@@ -121,12 +124,15 @@ const ActionBtn = ({ filteredData }: any) => {
               onClick={() => {
                 setIsLinkToDealModal(true), handleClose();
               }}
-              disabled={selectedRecords?.length > 1}
+              disabled={selectedGmailRecords?.length > 1}
             >
               Link to deal
             </MenuItem>
-            <MenuItem disabled={selectedRecords?.length > 1}> Reply </MenuItem>
-            <MenuItem disabled={selectedRecords?.length > 1}>
+            <MenuItem disabled={selectedGmailRecords?.length > 1}>
+              {' '}
+              Reply{' '}
+            </MenuItem>
+            <MenuItem disabled={selectedGmailRecords?.length > 1}>
               {' '}
               Forward{' '}
             </MenuItem>
@@ -165,7 +171,7 @@ const ActionBtn = ({ filteredData }: any) => {
         type={'Delete'}
         typeImage={<WarningIcon />}
         message={`Are you sure you want to delete ${
-          selectedRecords?.length > 1 ? 'these' : 'this'
+          selectedGmailRecords?.length > 1 ? 'these' : 'this'
         } record ?.`}
         open={isDeleteModalOpen}
         disabled={false}

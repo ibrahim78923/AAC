@@ -1,24 +1,24 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface EmailStateI {
-  mailTabType: any;
-  selectedRecords: any;
-  activeRecord: any;
+  gmailTabType: any;
+  selectedGmailRecords: any;
+  activeGmailRecord: any;
   currentEmailAssets: any;
   loggedInState: any;
-  mailList: any;
+  gmailList: any;
   mailDraftList: any;
 }
 
 const initialState: EmailStateI = {
-  mailTabType: {
-    display_name: 'INBOX',
+  gmailTabType: {
+    name: 'INBOX',
   },
-  selectedRecords: [],
-  activeRecord: {},
+  selectedGmailRecords: [],
+  activeGmailRecord: {},
   currentEmailAssets: {},
   loggedInState: 'umarkhattab555@zohomail.com',
-  mailList: {},
+  gmailList: {},
   mailDraftList: {},
 };
 
@@ -26,20 +26,20 @@ const gmailSlice = createSlice({
   name: 'gmail',
   initialState: initialState,
   reducers: {
-    setMailTabType: (state, action: PayloadAction<any>) => {
-      state.mailTabType = action?.payload;
+    setGmailTabType: (state, action: PayloadAction<any>) => {
+      state.gmailTabType = action?.payload;
     },
-    setSelectedRecords: (state, action: PayloadAction<any>) => {
-      state.selectedRecords = action?.payload;
+    setSelectedGmailRecords: (state, action: PayloadAction<any>) => {
+      state.selectedGmailRecords = action?.payload;
     },
-    setMailList: (state, action: PayloadAction<any>) => {
-      state.mailList = action?.payload;
+    setGmailList: (state, action: PayloadAction<any>) => {
+      state.gmailList = action?.payload;
     },
-    setMailDraftList: (state, action: PayloadAction<any>) => {
+    setGmailDraftList: (state, action: PayloadAction<any>) => {
       state.mailDraftList = action?.payload;
     },
-    setActiveRecord: (state, action: PayloadAction<any>) => {
-      state.activeRecord = action?.payload;
+    setActiveGmailRecord: (state, action: PayloadAction<any>) => {
+      state.activeGmailRecord = action?.payload;
     },
     setCurrentEmailAssets: (state, action: PayloadAction<any>) => {
       state.currentEmailAssets = action?.payload;
@@ -50,12 +50,12 @@ const gmailSlice = createSlice({
   },
 });
 export const {
-  setMailTabType,
+  setGmailTabType,
   setLoggedInState,
-  setSelectedRecords,
-  setActiveRecord,
+  setSelectedGmailRecords,
+  setActiveGmailRecord,
   setCurrentEmailAssets,
-  setMailList,
-  setMailDraftList,
+  setGmailList,
+  setGmailDraftList,
 } = gmailSlice.actions;
 export default gmailSlice.reducer;

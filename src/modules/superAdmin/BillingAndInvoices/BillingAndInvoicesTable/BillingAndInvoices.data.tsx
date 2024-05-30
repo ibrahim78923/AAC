@@ -1,5 +1,4 @@
-import { AvatarImage } from '@/assets/images';
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import { Avatar, Box, Checkbox, Tooltip, Typography } from '@mui/material';
 import { RHFSelect } from '@/components/ReactHookForm';
 import {
   useGetOrganizationsQuery,
@@ -8,6 +7,7 @@ import {
 } from '@/services/superAdmin/billing-invoices';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
+import { IMG_URL } from '@/config';
 
 export const Columns = (
   setIsGetRowValues: any,
@@ -34,7 +34,7 @@ export const Columns = (
           }}
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: <Checkbox color="primary" name="Id" disabled />,
       isSortable: false,
     },
     {
@@ -42,19 +42,29 @@ export const Columns = (
         `${row?.usersOrg?.firstName}  ${row?.usersOrg?.lastName}`;
       },
       id: 'clientName',
-      cell: (info: any) => (
-        <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="subtitle2">
-              {`${info?.row?.original?.usersOrg?.firstName}  ${info?.row?.original?.usersOrg?.lastName}`}
-            </Typography>
-            <Typography variant="body3">
-              {info?.row?.original?.organizations?.name}
-            </Typography>
+      cell: (info: any) => {
+        const avatarUrl = info?.row?.original?.organizations?.avatar?.url;
+        const firstName = info?.row?.original?.usersOrg?.firstName;
+        const lastName = info?.row?.original?.usersOrg?.lastName;
+
+        return (
+          <Box sx={{ display: 'flex', gap: '5px' }}>
+            <Avatar
+              alt={`${firstName?.charAt(0)}`}
+              src={`${IMG_URL}${avatarUrl}`}
+              sx={{ color: 'black' }}
+            />
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography variant="subtitle2">
+                {`${firstName}  ${lastName}`}
+              </Typography>
+              <Typography variant="body3">
+                {info?.row?.original?.organizations?.name}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-      ),
+        );
+      },
       header: 'Client Name',
       isSortable: true,
     },
@@ -63,26 +73,37 @@ export const Columns = (
       id: 'productsSuite',
       isSortable: true,
       header: 'Products/Suite',
-      cell: (info: any) => (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          {info?.row?.original?.planProducts?.length > 1 ? (
-            <>
-              <Typography variant="body3">CRM</Typography>
-              {info?.row?.original?.planProducts?.map((data: any) => (
-                <Typography variant="body3" key={uuidv4()}>
-                  {data?.name}
-                </Typography>
-              ))}
-            </>
-          ) : (
-            info?.row?.original?.planProducts?.map((data: any) => (
-              <Typography variant="body3" key={uuidv4()}>
-                {data?.name}{' '}
+      cell: (info: any) => {
+        const planProducts = info?.row?.original?.planProducts;
+        const tooltipTitle = (
+          <Box>
+            {planProducts?.map((data: any) => (
+              <Typography key={uuidv4()} variant="h6">
+                {data?.name}
               </Typography>
-            ))
-          )}
-        </Box>
-      ),
+            ))}
+          </Box>
+        );
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {info?.row?.original?.planProducts?.length > 1 ? (
+              <>
+                <Tooltip title={tooltipTitle}>
+                  <Typography variant="body3" sx={{ cursor: 'pointer' }}>
+                    CRM
+                  </Typography>
+                </Tooltip>
+              </>
+            ) : (
+              info?.row?.original?.planProducts?.map((data: any) => (
+                <Typography variant="body3" key={uuidv4()}>
+                  {data?.name}{' '}
+                </Typography>
+              ))
+            )}
+          </Box>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.plantypes?.name,

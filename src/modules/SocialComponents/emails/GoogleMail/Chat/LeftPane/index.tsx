@@ -13,41 +13,37 @@ import ActionBtn from './ActionBtn';
 import { styles } from './LeftPane.styles';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
-import {
-  setActiveRecord,
-  setMailDraftList,
-  setMailList,
-  setMailTabType,
-} from '@/redux/slices/email/others/slice';
 import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
-import {
-  useGetDraftsQuery,
-  useGetEmailsByFolderIdQuery,
-  useGetMailFoldersQuery,
-} from '@/services/commonFeatures/email/others';
 import { PAGINATION } from '@/config';
-import { EMAIL_TABS_TYPES } from '@/constants';
+import {
+  useGetGmailFoldersQuery,
+  useGetGmailsByFolderIdQuery,
+} from '@/services/commonFeatures/email/gmail';
+import {
+  setActiveGmailRecord,
+  setGmailList,
+  setGmailTabType,
+} from '@/redux/slices/email/gmail/slice';
 
 const LeftPane = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const mailTabType: any = useAppSelector(
-    (state: any) => state?.email?.mailTabType,
+  const gmailTabType: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailTabType,
   );
 
-  const mailList: any = useAppSelector((state: any) => state?.email?.mailList);
-  const mailDraftList: any = useAppSelector(
-    (state: any) => state?.email?.mailDraftList,
+  const gmailList: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailList,
   );
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const { data: foldersData, isLoading } = useGetMailFoldersQuery({});
-  const dataToShow = ['Inbox', 'Drafts', 'Sent', 'Schedule', 'Trash'];
-  const filteredData = foldersData?.data?.filter((item: any) => {
+  const { data: foldersData, isLoading } = useGetGmailFoldersQuery({});
+  const dataToShow = ['Inbox', 'Draft', 'Sent', 'Schedule', 'Trash'];
+  const filteredData = foldersData?.data?.labels?.filter((item: any) => {
     return dataToShow
       ?.map((name) => name?.toLowerCase())
-      ?.includes(item?.display_name?.toLowerCase());
+      ?.includes(item?.name?.toLowerCase());
   });
 
   const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
@@ -56,56 +52,66 @@ const LeftPane = () => {
     data: emailsByFolderIdData,
     status: isLoadingEmailsByFolderIdData,
     refetch,
-  } = useGetEmailsByFolderIdQuery(
+  } = useGetGmailsByFolderIdQuery(
     {
       params: {
         page: PAGINATION?.CURRENT_PAGE,
         limit: PAGINATION?.PAGE_LIMIT,
-        folderId: mailTabType?.id,
+        folderId: gmailTabType?.name,
       },
     },
     { skip: isGetEmailsRequest },
   );
 
   useEffect(() => {
-    if (mailTabType) {
+    if (gmailTabType) {
       setIsGetEmailsRequest(false);
     }
-  }, [mailTabType]);
-
-  const {
-    data: draftsData,
-    status: isLoadingDraftsData,
-    refetch: draftsDataRefetch,
-  } = useGetDraftsQuery(
-    {
-      params: {
-        page: PAGINATION?.CURRENT_PAGE,
-        limit: PAGINATION?.PAGE_LIMIT,
-      },
-    },
-    { skip: isGetEmailsRequest },
-  );
+  }, [gmailTabType]);
 
   useEffect(() => {
     if (emailsByFolderIdData) {
-      dispatch(setMailList(emailsByFolderIdData));
+      dispatch(setGmailList(emailsByFolderIdData));
     }
   }, [emailsByFolderIdData]);
 
-  useEffect(() => {
-    if (draftsData) {
-      dispatch(setMailDraftList(draftsData));
-    }
-  }, [draftsData]);
-
   const handelToggleTab = (value: any) => {
-    if (value?.display_name !== mailTabType?.display_name) {
-      dispatch(setMailTabType(value));
-      dispatch(setActiveRecord({}));
+    if (value?.name !== gmailTabType?.name) {
+      dispatch(setGmailTabType(value));
+      dispatch(setActiveGmailRecord({}));
       refetch();
     }
   };
+
+  let listOfEmail;
+  if (Array?.isArray(gmailList?.data)) {
+    listOfEmail = gmailList?.data
+      ?.map((thread: any) => {
+        const id = thread?.id || '';
+
+        const messages = thread?.messages || [];
+        const lastMessage = messages[messages?.length - 1];
+
+        if (!lastMessage) {
+          return null;
+        }
+        const threadId = lastMessage?.threadId || '';
+        const headers = lastMessage?.payload?.headers || [];
+
+        const name =
+          headers?.find((header: any) => header?.name === 'From')?.value || '';
+        const subject =
+          headers?.find((header: any) => header?.name === 'Subject')?.value ||
+          '<no-subject>';
+        const snippet = lastMessage?.snippet || '';
+        const date =
+          headers?.find((header: any) => header?.name === 'Date')?.value || '';
+        const readMessage = lastMessage?.labelIds?.includes('UNREAD');
+
+        return { id, name, subject, snippet, date, threadId, readMessage };
+      })
+      .flat();
+  }
 
   return (
     <Box sx={styles?.card(theme)}>
@@ -154,42 +160,30 @@ const LeftPane = () => {
                 color: theme?.palette?.secondary?.main,
                 textTransform: 'capitalize',
                 backgroundColor:
-                  mailTabType?.display_name?.toLowerCase() ===
-                  item?.display_name?.toLowerCase()
+                  gmailTabType?.name?.toLowerCase() ===
+                  item?.name?.toLowerCase()
                     ? theme?.palette?.grey[400]
                     : '',
                 '&:hover': {
                   backgroundColor:
-                    mailTabType?.display_name?.toLowerCase() ===
-                    item?.display_name?.toLowerCase()
+                    gmailTabType?.name?.toLowerCase() ===
+                    item?.name?.toLowerCase()
                       ? theme?.palette?.grey[400]
                       : '',
                   border: `1px solid ${theme?.palette?.grey[700]}`,
                 },
               }}
             >
-              {item?.display_name?.toLowerCase()}
+              {item?.name?.toLowerCase()}
             </Button>
           ))}
         </ButtonGroup>
       )}
       <MailList
-        emailsByFolderIdData={
-          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
-            ? mailDraftList
-            : mailList
-        }
-        isLoadingEmailsByFolderIdData={
-          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
-            ? isLoadingDraftsData
-            : isLoadingEmailsByFolderIdData
-        }
-        refetch={
-          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
-            ? draftsDataRefetch
-            : refetch
-        }
-        mailTabType={mailTabType}
+        emailsByFolderIdData={listOfEmail}
+        isLoadingEmailsByFolderIdData={isLoadingEmailsByFolderIdData}
+        refetch={refetch}
+        gmailTabType={gmailTabType}
       />
 
       <CommonDrawer
