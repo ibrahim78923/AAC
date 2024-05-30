@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Skeleton, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
@@ -16,9 +16,8 @@ import { styles } from '../Associations.style';
 
 const Tickets = ({ contactId }: any) => {
   const {
-    // loadingTickets,
+    loadingTickets,
     dataGetTickets,
-
     theme,
     isOpenAlert,
     setIsOpenAlert,
@@ -38,37 +37,48 @@ const Tickets = ({ contactId }: any) => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
-          </Typography>
+        {loadingTickets && (
+          <Grid item xs={12} sx={styles?.countBox}>
+            <Skeleton animation="wave" width="100%" height={60} />
+          </Grid>
+        )}
+        {!loadingTickets && (
+          <>
+            <Grid item md={4} sx={styles?.countBox}>
+              <Typography sx={styles?.associationCount(theme)} variant="body3">
+                02
+              </Typography>
 
-          <Typography variant="subtitle2">Tickets</Typography>
-        </Grid>
-        <Grid item md={8}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'end',
-              gap: 2,
-              flexDirection: { xs: 'column', sm: 'row' },
-            }}
-          >
-            <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
-              label="Search By Name"
-              size="small"
-            />
-          </Box>
-        </Grid>
+              <Typography variant="subtitle2">Tickets</Typography>
+            </Grid>
+            <Grid item md={8}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'end',
+                  gap: 2,
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Search
+                  searchBy={searchName}
+                  setSearchBy={setSearchName}
+                  label="Search By Name"
+                  size="small"
+                />
+              </Box>
+            </Grid>
+          </>
+        )}
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
             data={dataGetTickets?.data?.tickets}
+            isLoading={loadingTickets}
           />
         </Grid>
       </Grid>
+
       <TicketsEditorDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}

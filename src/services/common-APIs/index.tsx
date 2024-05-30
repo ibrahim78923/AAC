@@ -218,6 +218,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['DEALS'],
     }),
+
+    getAllCompanies: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.COMPANY}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['COMPANY'],
+    }),
   }),
 });
 
@@ -243,4 +255,5 @@ export const {
   useLazyGetContactsStatusQuery,
   useLazyGetDealPipeLineQuery,
   useLazyGetDealsQuery,
+  useLazyGetAllCompaniesQuery,
 } = CommonAPIS;

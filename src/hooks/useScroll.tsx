@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 
 const useScroll = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isRightButtonDisabled, setIsRightButtonDisabled] = useState(false);
+  const [isLeftButtonDisabled, setIsLeftButtonDisabled] = useState(true);
+  const [isScrollAvailable, setIsScrollAvailable] = useState(false);
+
   const containerRef = useRef<any>(null);
+
   const handleScroll = (scrollAmount: any) => {
     const newScrollPosition = scrollPosition + scrollAmount;
     setScrollPosition(newScrollPosition);
@@ -11,10 +16,17 @@ const useScroll = () => {
       behavior: 'smooth',
     });
   };
-  const [isRightButtonDisabled, setIsRightButtonDisabled] = useState(false);
-  const [isLeftButtonDisabled, setIsLeftButtonDisabled] = useState(true);
+
   useEffect(() => {
     const container = containerRef?.current;
+
+    const checkScrollAvailability = () => {
+      if (container) {
+        setIsScrollAvailable(container.scrollWidth > container.clientWidth);
+      }
+    };
+    checkScrollAvailability();
+
     if (container) {
       container.addEventListener('scroll', handleScrollEvent);
     }
@@ -49,6 +61,7 @@ const useScroll = () => {
     handleScroll,
     isRightButtonDisabled,
     isLeftButtonDisabled,
+    isScrollAvailable,
   };
 };
 

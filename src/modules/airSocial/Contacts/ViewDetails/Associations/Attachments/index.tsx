@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -39,39 +39,48 @@ const Attachments = ({ contactId }: any) => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            {dataGetAttachment?.data?.attachments?.length < 10
-              ? `0${dataGetAttachment?.data?.attachments?.length}`
-              : dataGetAttachment?.data?.attachments?.length}
-          </Typography>
+        {loadingGetAttachment && (
+          <Grid item xs={12} sx={styles?.countBox}>
+            <Skeleton animation="wave" width="100%" height={60} />
+          </Grid>
+        )}
+        {!loadingGetAttachment && (
+          <>
+            <Grid item md={4} sx={styles?.countBox}>
+              <Typography sx={styles?.associationCount(theme)} variant="body3">
+                {dataGetAttachment?.data?.attachments?.length < 10
+                  ? `0${dataGetAttachment?.data?.attachments?.length}`
+                  : dataGetAttachment?.data?.attachments?.length}
+              </Typography>
 
-          <Typography variant="subtitle2">Attachments</Typography>
-        </Grid>
-        <Grid item md={8}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'end',
-              gap: 2,
-              flexDirection: { xs: 'column', sm: 'row' },
-            }}
-          >
-            <Search
-              setSearchBy={setSearchValue}
-              label="Search By Name"
-              size="small"
-            />
-            <Button
-              variant="contained"
-              className="small"
-              sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => handleOpenDrawer('Add', {})}
-            >
-              <PlusIcon /> Add Attachments
-            </Button>
-          </Box>
-        </Grid>
+              <Typography variant="subtitle2">Attachments</Typography>
+            </Grid>
+            <Grid item md={8}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'end',
+                  gap: 2,
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Search
+                  setSearchBy={setSearchValue}
+                  label="Search By Name"
+                  size="small"
+                />
+                <Button
+                  variant="contained"
+                  className="small"
+                  sx={{ minWidth: '0px', gap: 0.5 }}
+                  onClick={() => handleOpenDrawer('Add', {})}
+                >
+                  <PlusIcon /> Add Attachments
+                </Button>
+              </Box>
+            </Grid>
+          </>
+        )}
         <Grid item xs={12}>
           <TanstackTable
             columns={tableColumns}

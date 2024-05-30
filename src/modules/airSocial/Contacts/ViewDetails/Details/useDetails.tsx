@@ -73,10 +73,6 @@ const useDetails = () => {
 
   useEffect(() => {
     if (contactData) {
-      const contactOwner: any = {
-        _id: contactData?.contactOwnerId,
-        name: '',
-      };
       // setValue('profilePicture', contactData?.profilePicture?.url);
       setValue('firstName', contactData?.firstName || '');
       setValue('lastName', contactData?.lastName || '');
@@ -86,12 +82,12 @@ const useDetails = () => {
         'dateOfBirth',
         contactData?.dateOfBirth ? new Date(contactData?.dateOfBirth) : null,
       );
-      setValue('contactOwnerId', contactOwner);
+      setValue('contactOwnerId', contactData?.ownerData[0]);
       setValue('phoneNumber', contactData?.phoneNumber || null);
       setValue('whatsAppNumber', contactData?.whatsAppNumber || null);
-      setValue('lifeCycleStageId', { _id: contactData?.lifeCycleStageId });
+      setValue('lifeCycleStageId', contactData?.lifeCycleStageData[0]);
       setValue('jobTitle', contactData?.jobTitle || '');
-      setValue('statusId', { _id: contactData?.statusId });
+      setValue('statusId', contactData?.statusData[0]);
       setValue(
         'dateOfJoining',
         contactData?.dateOfJoining

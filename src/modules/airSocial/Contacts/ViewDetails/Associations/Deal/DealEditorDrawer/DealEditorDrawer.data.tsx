@@ -153,7 +153,7 @@ export const existingDealValidationSchema = Yup?.object()?.shape({
 });
 
 export const existingDealDefaultValues = {
-  dealId: {} || null,
+  dealId: null,
 };
 
 export const existingDealDataArray = (dealsList: any) => [

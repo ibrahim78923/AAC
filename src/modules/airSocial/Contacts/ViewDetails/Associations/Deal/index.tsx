@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
@@ -14,7 +14,7 @@ const Deal = ({ contactId }: any) => {
   const {
     searchValue,
     setSearchValue,
-    // loadingDeals,
+    loadingDeals,
     dataGetDeals,
     drawerTitle,
     openDrawer,
@@ -53,44 +53,54 @@ const Deal = ({ contactId }: any) => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={4} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            {dataGetDeals?.data?.deals?.length < 10
-              ? `0${dataGetDeals?.data?.deals?.length}`
-              : dataGetDeals?.data?.deals?.length}
-          </Typography>
+        {loadingDeals && (
+          <Grid item xs={12} sx={styles?.countBox}>
+            <Skeleton animation="wave" width="100%" height={60} />
+          </Grid>
+        )}
+        {!loadingDeals && (
+          <>
+            <Grid item md={4} sx={styles?.countBox}>
+              <Typography sx={styles?.associationCount(theme)} variant="body3">
+                {dataGetDeals?.data?.deals?.length < 10
+                  ? `0${dataGetDeals?.data?.deals?.length}`
+                  : dataGetDeals?.data?.deals?.length}
+              </Typography>
 
-          <Typography variant="subtitle2">Deals</Typography>
-        </Grid>
-        <Grid item md={8}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'end',
-              gap: 2,
-              flexDirection: { xs: 'column', sm: 'row' },
-            }}
-          >
-            <Search
-              searchBy={searchValue}
-              setSearchBy={setSearchValue}
-              label="Search By Name"
-              size="small"
-            />
-            <Button
-              variant="contained"
-              className="small"
-              sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => handleOpenDrawer('Add', {})}
-            >
-              <PlusIcon /> Add Deal
-            </Button>
-          </Box>
-        </Grid>
+              <Typography variant="subtitle2">Deals</Typography>
+            </Grid>
+            <Grid item md={8}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'end',
+                  gap: 2,
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
+                <Search
+                  searchBy={searchValue}
+                  setSearchBy={setSearchValue}
+                  label="Search By Name"
+                  size="small"
+                />
+                <Button
+                  variant="contained"
+                  className="small"
+                  sx={{ minWidth: '0px', gap: 0.5 }}
+                  onClick={() => handleOpenDrawer('Add', {})}
+                >
+                  <PlusIcon /> Add Deal
+                </Button>
+              </Box>
+            </Grid>
+          </>
+        )}
         <Grid item xs={12}>
           <TanstackTable
             columns={tableColumns}
             data={dataGetDeals?.data?.deals}
+            isLoading={loadingDeals}
           />
         </Grid>
       </Grid>

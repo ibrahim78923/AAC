@@ -1,17 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
 import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts/associations';
 import { useForm } from 'react-hook-form';
-// import { yupResolver } from '@hookform/resolvers/yup';
-// import { companiesDefaultValues, companiesValidationSchema } from './CompaniesEditorDrawer/CompaniesEditorDrawer.data';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  companiesDefaultValues,
+  companiesValidationSchema,
+  existingCompanyDefaultValues,
+  existingCompanyValidationSchema,
+} from './CompaniesEditorDrawer/CompaniesEditorDrawer.data';
 // import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import {
   // useGetAllCompaniesQuery,
   usePostCompaniesMutation,
 } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
-// import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { FORM_TYPE } from './CompaniesEditorDrawer/CompaniesEditorDrawer.data';
 
 const useCompanies = (contactId: any) => {
   const { data: dataCompaniesList } = useGetContactsQuery({});
@@ -35,6 +40,12 @@ const useCompanies = (contactId: any) => {
       params: { ...filterParams, ...searchPayLoad },
     });
 
+  // Handle Change Form type
+  const [formType, setFormType] = useState(FORM_TYPE?.NEW_COMPANY);
+  const handleChangeFormType = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormType((event.target as HTMLInputElement).value);
+  };
+
   // Drawer Edit
   const [postCompanies, { isLoading: postCompanyLoading }] =
     usePostCompaniesMutation();
@@ -43,8 +54,23 @@ const useCompanies = (contactId: any) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState('Add');
   const [disabledField, setDisabledField] = useState(false);
-  const methodsView = useForm<any>();
+  const methodsView = useForm<any>({
+    resolver: yupResolver(companiesValidationSchema),
+    defaultValues: companiesDefaultValues,
+  });
   const { handleSubmit, reset }: any = methodsView;
+  const methodsExistingCompany = useForm<any>({
+    resolver: yupResolver(existingCompanyValidationSchema),
+    defaultValues: existingCompanyDefaultValues,
+  });
+  const {
+    handleSubmit: handleSubmitExistingCompany,
+    reset: resetExistingForm,
+  }: any = methodsExistingCompany;
+  useEffect(() => {
+    reset();
+    resetExistingForm();
+  }, [formType]);
 
   const handleOpenDrawer = (data: any, title: string) => {
     setDrawerTitle(title);
@@ -120,6 +146,7 @@ const useCompanies = (contactId: any) => {
     handleOpenDrawer,
     handleCloseDrawer,
     methodsView,
+    methodsExistingCompany,
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
@@ -127,6 +154,9 @@ const useCompanies = (contactId: any) => {
     companyOwners,
     handleAddCompanySubmit,
     postCompanyLoading,
+    handleChangeFormType,
+    formType,
+    handleSubmitExistingCompany,
   };
 };
 

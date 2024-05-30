@@ -13,16 +13,16 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
     },
 
     {
-      accessorFn: (row: any) => row?.dealStageId,
-      id: 'dealStageId',
+      accessorFn: (row: any) => row?.dealStage,
+      id: 'dealStage',
       isSortable: true,
       header: 'Stage',
       cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row?.dealPipelineId,
-      id: 'dealPipelineId',
+      accessorFn: (row: any) => row?.dealPipeline,
+      id: 'dealPipeline',
       isSortable: true,
       header: 'Pipeline',
       cell: (info: any) => info?.getValue(),
@@ -35,11 +35,11 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
       cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
-      accessorFn: (row: any) => row?.ownerId,
-      id: 'ownerId',
+      accessorFn: (row: any) => row?.dealOwner,
+      id: 'dealOwner',
       isSortable: true,
       header: 'Deal Owner',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.name,
     },
     {
       accessorFn: (row: any) => row?.amount,

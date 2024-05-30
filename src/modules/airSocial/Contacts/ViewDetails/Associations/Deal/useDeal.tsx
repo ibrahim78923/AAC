@@ -64,12 +64,12 @@ const useDeal = (contactId: any) => {
   };
 
   // Drawer Edit New Deal
-  const methodsEditDeal = useForm({
+  const methodsEditDeal = useForm<any>({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealDefaultValues,
   });
   const { handleSubmit, watch, reset: resetEditDeal }: any = methodsEditDeal;
-  const methodsExistingDeal = useForm({
+  const methodsExistingDeal = useForm<any>({
     resolver: yupResolver(existingDealValidationSchema),
     defaultValues: existingDealDefaultValues,
   });
