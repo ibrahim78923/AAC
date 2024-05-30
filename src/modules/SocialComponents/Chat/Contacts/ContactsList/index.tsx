@@ -70,7 +70,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   paramsObj['isArchived'] = isArchivedFilter;
   paramsObj['search'] = searchContacts;
   paramsObj['page'] = currentPage;
-  paramsObj['limit'] = PAGINATION?.PAGE_LIMIT;
+  paramsObj['limit'] = PAGINATION?.ROWS_PER_PAGE[0];
 
   const queryParams = Object?.entries(paramsObj)
     ?.map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
@@ -281,7 +281,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
             &nbsp;&nbsp;Create New Group
           </Button>
         )}
-        <Box mt={2} sx={{ overflow: 'scroll', maxHeight: '52vh' }}>
+        <Box mt={2} sx={{ overflow: 'scroll', maxHeight: '56vh' }}>
           {isChatContactsLoading ? (
             <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
           ) : (

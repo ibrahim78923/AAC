@@ -10,7 +10,7 @@ import { useChatField } from './useChatField.hook';
 
 import { getSession } from '@/utils';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 
 import { setChatMetaInfo } from '@/redux/slices/chat/slice';
@@ -29,8 +29,6 @@ const ChatField = ({ isError }: any) => {
 
   const dispatch = useAppDispatch();
 
-  const [changeScroll, setChangeScroll] = useState<any>();
-
   const chatMetaInfo = useAppSelector((state) => state?.chat?.chatMetaInfo);
   const changeChat = useAppSelector((state) => state?.chat?.changeChat);
   const isChatMessagesLoading = useAppSelector(
@@ -41,6 +39,7 @@ const ChatField = ({ isError }: any) => {
     getSession();
 
   const boxRef = useRef<any>(null);
+
   useEffect(() => {
     if (boxRef?.current) {
       boxRef.current.scrollTop = boxRef?.current?.scrollHeight;
@@ -51,8 +50,16 @@ const ChatField = ({ isError }: any) => {
     const handleScroll = () => {
       const box = boxRef?.current;
       if (box?.scrollTop === 0) {
-        const newLimit = Math.min(chatMetaInfo?.limit + 5, chatMetaInfo?.total);
-        dispatch(setChatMetaInfo({ ...chatMetaInfo, limit: newLimit }));
+        if (isChatMessagesLoading) {
+          null;
+        } else {
+          dispatch(
+            setChatMetaInfo({
+              ...chatMetaInfo,
+              limit: chatMetaInfo?.limit + 10,
+            }),
+          );
+        }
       }
     };
     const box = boxRef?.current;
@@ -60,7 +67,19 @@ const ChatField = ({ isError }: any) => {
     return () => {
       box?.removeEventListener('scroll', handleScroll);
     };
-  }, [chatMetaInfo]);
+  }, [chatMetaInfo, isChatMessagesLoading]);
+
+  const handleScrollToBottom = () => {
+    if (boxRef.current) {
+      boxRef.current.scrollTop = boxRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    if (chatDataToShow?.length < 11) {
+      handleScrollToBottom();
+    }
+  }, [chatDataToShow]);
 
   return (
     <>
@@ -133,10 +152,7 @@ const ChatField = ({ isError }: any) => {
           </>
         )}
       </Box>
-      <ChatFooter
-        setChangeScroll={setChangeScroll}
-        changeScroll={changeScroll}
-      />
+      <ChatFooter handleScrollToBottom={handleScrollToBottom} />
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"

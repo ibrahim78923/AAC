@@ -1,24 +1,3 @@
-import { TICKET_GRAPH_TYPES } from '@/constants/strings';
-
-export const dropDownMenus = (setGraphType: any) => [
-  {
-    id: 1,
-    title: 'Priority',
-    handleClick: (closeMenu: any) => {
-      setGraphType(TICKET_GRAPH_TYPES?.PRIORITY);
-      closeMenu?.();
-    },
-  },
-  {
-    id: 2,
-    title: 'Status',
-    handleClick: (closeMenu: any) => {
-      setGraphType(TICKET_GRAPH_TYPES?.STATUS);
-      closeMenu?.();
-    },
-  },
-];
-
 export const chartData = [
   { count: '20', year: '2024', month: '1', status: 'New Tickets' },
   { count: '10', year: '2024', month: '2', status: 'New Tickets' },

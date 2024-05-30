@@ -63,7 +63,7 @@ const useTaskCardView = ({ data, selectedRec, setSelectedRec }: any) => {
         cardData: [...column?.cardData],
       })),
     ]);
-  }, []);
+  }, [data]);
 
   const handleSelectTaskById = (checked: boolean, id: string): void => {
     if (checked) {

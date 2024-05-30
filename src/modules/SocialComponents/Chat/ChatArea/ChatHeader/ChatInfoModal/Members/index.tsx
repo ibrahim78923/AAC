@@ -10,8 +10,6 @@ import {
   useTheme,
 } from '@mui/material';
 
-import { groupMembers } from '@/mock/modules/SocialComponents/Chat';
-
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './Members.style';
@@ -32,21 +30,19 @@ const Members = () => {
   const [activeUserId, setActiveUserId] = useState('');
   const [isLoadingAddParticipant, setIsLoadingAddParticipant] = useState(false);
 
-  const [response, setResponse] = useState<any>();
+  const [isShowAllParticipants, setIsShowAllParticipants] = useState(true);
+
+  const [response, setResponse] = useState<any>({});
   const activeConversation = useAppSelector(
     (state) => state?.chat?.activeConversation,
   );
 
   useEffect(() => {
-    const result = activeConversation.participants.filter(
-      (participant: any) =>
-        response?.data?.participants?.includes(participant?._id),
-    );
-    if (Object.keys(result)?.length) {
+    if (Object?.keys(response)?.length) {
       dispatch(
         setActiveConversation({
           ...activeConversation,
-          participants: result,
+          participants: response?.data?.participants,
         }),
       );
     }
@@ -75,6 +71,10 @@ const Members = () => {
     }
   };
 
+  const dataToShow = isShowAllParticipants
+    ? activeConversation?.participants
+    : activeConversation?.participants?.slice(0, 3);
+
   return (
     <>
       <Box sx={{ position: 'relative' }}>
@@ -83,7 +83,7 @@ const Members = () => {
             variant="h6"
             sx={{ color: theme?.palette?.custom?.grayish_blue }}
           >
-            {groupMembers?.length} Members
+            {activeConversation?.participants?.length} Members
           </Typography>
         </Box>
         {isAddMembers && (
@@ -95,7 +95,7 @@ const Members = () => {
           </Box>
         )}
         <Box sx={{ height: '262px', overflow: 'scroll' }}>
-          {activeConversation?.participants?.slice(0, 5)?.map((item: any) => (
+          {dataToShow?.map((item: any) => (
             <Box sx={styles?.boxMemberCard} key={uuidv4()}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Image src={UserDefault} alt="user" width={24} height={24} />
@@ -139,7 +139,14 @@ const Members = () => {
           ))}
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <Button sx={{ width: '100%' }}>View Less</Button>
+          <Button
+            sx={{ width: '100%' }}
+            onClick={() => setIsShowAllParticipants(!isShowAllParticipants)}
+          >
+            {isShowAllParticipants
+              ? 'View Less'
+              : `Show ${activeConversation?.participants?.length - 3} more`}
+          </Button>
           <LoadingButton
             variant="contained"
             sx={{ width: '100%' }}

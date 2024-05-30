@@ -44,7 +44,7 @@ const Modules = ({
   const { theme } = useModules();
   let prevProductId: any = null;
 
-  const { planManagement }: any = useAppSelector(
+  const planManagement: any = useAppSelector(
     (state: any) => state?.planManagementForms,
   );
   const {
@@ -63,12 +63,13 @@ const Modules = ({
   }
 
   const modulesPermissionsArray: any = [];
-
+  let isLoadingMultiple;
   for (const productId of productIdArray) {
-    const { data: modulesPermissions } = useGetPermissionsByProductsQuery({
-      id: productId,
-    });
-
+    const { data: modulesPermissions, isLoading } =
+      useGetPermissionsByProductsQuery({
+        id: productId,
+      });
+    isLoadingMultiple = isLoading;
     modulesPermissionsArray.push(modulesPermissions);
   }
 
@@ -110,6 +111,7 @@ const Modules = ({
     <div>
       {isLoading?.isLoading ||
       updatePlanLoading ||
+      isLoadingMultiple ||
       GetSinglePermissionsLoading ? (
         <Box
           sx={{

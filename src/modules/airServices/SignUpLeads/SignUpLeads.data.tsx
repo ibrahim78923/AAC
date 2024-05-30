@@ -46,7 +46,7 @@ export const getSignUpLeadsColumns = () => [
     id: 'dateOfBirth',
     isSortable: true,
     header: 'Address',
-    cell: (info: any) => dayjs(info?.getValue()).format('MM/DD/YYYY'),
+    cell: (info: any) => dayjs(info?.getValue())?.format('MM/DD/YYYY'),
   },
   {
     accessorFn: (row: any) => row?.phoneNumber,

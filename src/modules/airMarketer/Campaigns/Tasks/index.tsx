@@ -52,10 +52,10 @@ const Tasks = () => {
   } = useTasks();
 
   const columnsProps = {
-    selectedRec: selectedRec,
-    setSelectedRec: setSelectedRec,
-    compaignsTasksData: compaignsTasksData,
-    setStatusVariant: setStatusVariant,
+    selectedRec,
+    setSelectedRec,
+    compaignsTasksData,
+    setStatusVariant,
   };
   return (
     <>

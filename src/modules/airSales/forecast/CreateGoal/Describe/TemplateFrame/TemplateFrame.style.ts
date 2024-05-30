@@ -26,7 +26,6 @@ export const styles = {
   }),
   body: () => ({
     height: '570px',
-
     overflowY: 'auto',
   }),
   dots: (theme: any) => ({

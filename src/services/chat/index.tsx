@@ -1,3 +1,4 @@
+import { PAGINATION } from '@/config';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { SOCIAL_FEATURES_CHAT } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
@@ -5,10 +6,10 @@ const TAG = ['CHAT'];
 export const chatApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUserChats: builder.query({
-      query: ({ activeChatId, params, limit, isGroup }: any) => ({
-        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=1&limit=${
-          limit ?? 1000
-        }&isGroup=${isGroup}`,
+      query: ({ activeChatId, params, limit, page, isGroup }: any) => ({
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=${
+          page ?? PAGINATION?.CURRENT_PAGE
+        }&limit=${limit ?? 10}&isGroup=${isGroup}`,
         method: 'GET',
         params: params,
         headers: {
@@ -65,7 +66,7 @@ export const chatApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: TAG,
+      invalidatesTags: ['attachments'],
     }),
     createNewGroup: builder.mutation({
       query: ({ body }: any) => {

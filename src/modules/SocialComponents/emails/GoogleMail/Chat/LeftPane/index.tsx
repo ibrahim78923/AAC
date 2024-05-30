@@ -1,0 +1,202 @@
+import { FilterIcon } from '@/assets/icons';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Skeleton,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import MailList from './MailList';
+import ActionBtn from './ActionBtn';
+import { styles } from './LeftPane.styles';
+import { v4 as uuidv4 } from 'uuid';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '@/redux/store';
+import CommonDrawer from '@/components/CommonDrawer';
+import { PAGINATION } from '@/config';
+import {
+  useGetGmailFoldersQuery,
+  useGetGmailsByFolderIdQuery,
+} from '@/services/commonFeatures/email/gmail';
+import {
+  setActiveGmailRecord,
+  setGmailList,
+  setGmailTabType,
+} from '@/redux/slices/email/gmail/slice';
+
+const LeftPane = () => {
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const gmailTabType: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailTabType,
+  );
+
+  const gmailList: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailList,
+  );
+
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const { data: foldersData, isLoading } = useGetGmailFoldersQuery({});
+  const dataToShow = ['Inbox', 'Draft', 'Sent', 'Schedule', 'Trash'];
+  const filteredData = foldersData?.data?.labels?.filter((item: any) => {
+    return dataToShow
+      ?.map((name) => name?.toLowerCase())
+      ?.includes(item?.name?.toLowerCase());
+  });
+
+  const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
+
+  const {
+    data: emailsByFolderIdData,
+    status: isLoadingEmailsByFolderIdData,
+    refetch,
+  } = useGetGmailsByFolderIdQuery(
+    {
+      params: {
+        page: PAGINATION?.CURRENT_PAGE,
+        limit: PAGINATION?.PAGE_LIMIT,
+        folderId: gmailTabType?.name,
+      },
+    },
+    { skip: isGetEmailsRequest },
+  );
+
+  useEffect(() => {
+    if (gmailTabType) {
+      setIsGetEmailsRequest(false);
+    }
+  }, [gmailTabType]);
+
+  useEffect(() => {
+    if (emailsByFolderIdData) {
+      dispatch(setGmailList(emailsByFolderIdData));
+    }
+  }, [emailsByFolderIdData]);
+
+  const handelToggleTab = (value: any) => {
+    if (value?.name !== gmailTabType?.name) {
+      dispatch(setGmailTabType(value));
+      dispatch(setActiveGmailRecord({}));
+      refetch();
+    }
+  };
+
+  let listOfEmail;
+  if (Array?.isArray(gmailList?.data)) {
+    listOfEmail = gmailList?.data
+      ?.map((thread: any) => {
+        const id = thread?.id || '';
+
+        const messages = thread?.messages || [];
+        const lastMessage = messages[messages?.length - 1];
+
+        if (!lastMessage) {
+          return null;
+        }
+        const threadId = lastMessage?.threadId || '';
+        const headers = lastMessage?.payload?.headers || [];
+
+        const name =
+          headers?.find((header: any) => header?.name === 'From')?.value || '';
+        const subject =
+          headers?.find((header: any) => header?.name === 'Subject')?.value ||
+          '<no-subject>';
+        const snippet = lastMessage?.snippet || '';
+        const date =
+          headers?.find((header: any) => header?.name === 'Date')?.value || '';
+        const readMessage = lastMessage?.labelIds?.includes('UNREAD');
+
+        return { id, name, subject, snippet, date, threadId, readMessage };
+      })
+      .flat();
+  }
+
+  return (
+    <Box sx={styles?.card(theme)}>
+      <Box sx={styles?.emailWrap}>
+        <Typography variant="h3">Email</Typography>
+        <Box>
+          <Button
+            startIcon={<FilterIcon />}
+            variant="outlined"
+            sx={{ marginRight: '14px', height: '36px' }}
+            color="inherit"
+            onClick={() => setIsFiltersOpen(true)}
+          >
+            Filter
+          </Button>
+          <ActionBtn filteredData={filteredData} />
+        </Box>
+      </Box>
+
+      {isLoading ? (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          {[1, 2, 3, 4, 5]?.map(() => (
+            <Skeleton
+              animation="wave"
+              variant="rounded"
+              width={100}
+              height={40}
+              key={uuidv4()}
+            />
+          ))}
+        </Box>
+      ) : (
+        <ButtonGroup
+          fullWidth
+          variant="outlined"
+          aria-label="Basic button group"
+          sx={{ mb: 1 }}
+        >
+          {filteredData?.map((item: any) => (
+            <Button
+              key={uuidv4()}
+              onClick={() => handelToggleTab(item)}
+              sx={{
+                border: `1px solid ${theme?.palette?.grey[700]}`,
+                borderRadius: '8px',
+                color: theme?.palette?.secondary?.main,
+                textTransform: 'capitalize',
+                backgroundColor:
+                  gmailTabType?.name?.toLowerCase() ===
+                  item?.name?.toLowerCase()
+                    ? theme?.palette?.grey[400]
+                    : '',
+                '&:hover': {
+                  backgroundColor:
+                    gmailTabType?.name?.toLowerCase() ===
+                    item?.name?.toLowerCase()
+                      ? theme?.palette?.grey[400]
+                      : '',
+                  border: `1px solid ${theme?.palette?.grey[700]}`,
+                },
+              }}
+            >
+              {item?.name?.toLowerCase()}
+            </Button>
+          ))}
+        </ButtonGroup>
+      )}
+      <MailList
+        emailsByFolderIdData={listOfEmail}
+        isLoadingEmailsByFolderIdData={isLoadingEmailsByFolderIdData}
+        refetch={refetch}
+        gmailTabType={gmailTabType}
+      />
+
+      <CommonDrawer
+        isDrawerOpen={isFiltersOpen}
+        onClose={() => setIsFiltersOpen(false)}
+        title={'filter'}
+        okText={'submit'}
+        isOk={true}
+      >
+        <>Filter Cont.</>
+      </CommonDrawer>
+    </Box>
+  );
+};
+
+export default LeftPane;

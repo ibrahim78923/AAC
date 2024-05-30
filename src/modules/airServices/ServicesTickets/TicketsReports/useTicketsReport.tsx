@@ -7,12 +7,10 @@ import { pxToRem } from '@/utils/getFontValue';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useLazyGetAgentsDropdownQuery } from '@/services/airServices/assets/contracts';
 
-
 export const useTicketsReport = () => {
   const [calendarFilter, setCalendarFilter] = useState();
   const [loading, setLoading] = useState<boolean>(false);
   const apiQueryAgents = useLazyGetAgentsDropdownQuery();
-
   const router = useRouter();
   const agentFilterMethod = useForm();
   const { control } = agentFilterMethod;
@@ -76,6 +74,5 @@ export const useTicketsReport = () => {
     handlePrint,
     loading,
     apiQueryAgents,
-
   };
 };

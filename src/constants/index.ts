@@ -7,6 +7,10 @@ export const DATE_MONTH_FORMAT = {
   API: 'MMM DD',
 };
 
+export const CALANDER_DATE_FORMAT = {
+  UI: 'MMMM YYYY',
+};
+
 export const TIME_FORMAT = {
   UI: 'h:mm A',
   API: 'h:mm A',
@@ -101,6 +105,7 @@ export const AIR_SERVICES = {
   ASSET_TYPE_SETTINGS: `/air-services/settings/asset-management/asset-type`,
   PRODUCT_CATALOG_SETTINGS: `/air-services/settings/asset-management/product-catalog`,
   VENDOR_SETTINGS: `/air-services/settings/asset-management/vendor`,
+  VENDOR_FIELDS_SETTINGS: `/air-services/settings/asset-management/vendor-fields`,
   LOCATION_SETTINGS: `/air-services/settings/asset-management/location`,
   SERVICE_MANAGEMENT: `/air-services/settings/service-management`,
   SERVICE_CATALOG_SETTINGS: `/air-services/settings/service-management/services-catalog`,
@@ -183,7 +188,6 @@ export const AIR_OPERATIONS = {
   SERVICES_REPORTS: `/air-operations/reports/services-reports`,
   MARKETING_REPORTS: `/air-operations/reports/marketing-reports`,
   CREATE_SERVICES_REPORTS: `/air-operations/reports/services-reports/create-services-reports`,
-
 };
 
 export const AIR_LOYALTY_PROGRAM = {
@@ -322,4 +326,17 @@ export const createGoal = {
   setting: 'setting',
   userTeam: 'userTeam',
   team: 'TEAM',
+};
+
+export const TASK_TABS_TYPES = {
+  PENDING: 'Pending',
+  INPROGRESS: 'Inprogress',
+  COMPLETE: 'Complete',
+};
+export const TASK_STATUS = {
+  CONTACTS: 'contacts',
+  COMPANIES: 'companies',
+  DEALS: 'deals',
+  ASSOCIATIONS: 'associations',
+  TICKETS: 'tickets',
 };

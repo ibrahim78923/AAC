@@ -1,12 +1,8 @@
 import { useState } from 'react';
 
-import Image from 'next/image';
-
 import { Box, Button, Typography, useTheme } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
-
-import { UserAvatarImage } from '@/assets/images';
 
 import {
   InfoIcon,
@@ -22,6 +18,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useUpdateChatMutation } from '@/services/chat';
 import { enqueueSnackbar } from 'notistack';
 import { setActiveConversation } from '@/redux/slices/chat/slice';
+import ProfileNameIcon from '@/components/ProfileNameIcon';
 
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
@@ -105,7 +102,10 @@ const ChatHeader = ({ chatMode }: any) => {
     <>
       <Box sx={styles?.headerChat(theme)}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Image width={55} height={55} src={UserAvatarImage} alt="avatar" />
+          <ProfileNameIcon
+            lastName={activeParticipant?.lastName}
+            firstName={activeParticipant?.firstName}
+          />
           <Box>
             <Typography
               variant="h4"
@@ -114,13 +114,33 @@ const ChatHeader = ({ chatMode }: any) => {
               {activeParticipant?.firstName}&nbsp;{activeParticipant?.lastName}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Box sx={styles?.userStatus}></Box>
-              <Typography
-                variant="body3"
-                sx={{ fontWeight: '600', color: theme?.palette?.common?.white }}
-              >
-                Active Now
-              </Typography>
+              {activeParticipant?.liveStatus === 'AVAILABLE' ? (
+                <>
+                  <Box sx={styles?.userStatus(true)}></Box>
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      fontWeight: '600',
+                      color: theme?.palette?.common?.white,
+                    }}
+                  >
+                    Active Now
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <Box sx={styles?.userStatus(false)}></Box>
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      fontWeight: '600',
+                      color: theme?.palette?.common?.white,
+                    }}
+                  >
+                    Offline
+                  </Typography>
+                </>
+              )}
             </Box>
           </Box>
         </Box>

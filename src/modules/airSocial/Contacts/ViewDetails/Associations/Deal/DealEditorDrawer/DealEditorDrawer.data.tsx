@@ -2,29 +2,35 @@ import {
   RHFDatePicker,
   RHFSelect,
   RHFTextField,
+  RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const productsValidationSchema = Yup?.object()?.shape({
+export const dealValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Field is Required'),
-  dealPipelineId: Yup?.string()?.trim()?.required('Field is Required'),
-  dealStageId: Yup?.string()?.trim()?.required('Field is Required'),
-  amount: Yup?.string()?.trim()?.required('Field is Required'),
+  dealPipelineId: Yup?.mixed()?.required('Field is Required'),
+  dealStageId: Yup?.mixed()?.required('Field is Required'),
+  amount: Yup?.string()?.trim()?.nullable(),
+  closeDate: Yup?.mixed()?.nullable(),
+  ownerId: Yup?.mixed()?.nullable(),
+  priority: Yup?.string()?.trim()?.nullable(),
+  addLineItemId: Yup?.string()?.trim()?.nullable(),
 });
 
-export const productsDefaultValues = {
+export const dealDefaultValues = {
   name: '',
-  dealPipelineId: '',
-  dealStageId: '',
-  amount: '',
+  dealPipelineId: null,
+  dealStageId: null,
+  amount: null,
   closeDate: null,
-  ownerId: '',
+  ownerId: null,
   priority: '',
   addLineItemId: '',
 };
 
 export const dealDataArray = (
+  orgId: string,
   dealPipelineData: any,
   dealStagesData: any,
   dealOwnersData: any,
@@ -39,23 +45,25 @@ export const dealDataArray = (
         label: 'Deal Name',
         fullWidth: true,
         disabled: disabled,
+        required: true,
       },
       component: RHFTextField,
       md: 12,
     },
-
     {
       id: 'dealPipelineId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'dealPipelineId',
         label: 'Deal PipeLine',
-        fullWidth: true,
-        select: true,
+        placeholder: 'Select Deal PipeLine',
+        apiQuery: dealPipelineData,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: { meta: false },
+        required: true,
         disabled: disabled,
       },
-      options: dealPipelineData,
-      component: RHFSelect,
-      md: 12,
     },
     {
       id: 'dealStageId',
@@ -63,13 +71,13 @@ export const dealDataArray = (
         name: 'dealStageId',
         label: 'Deal Stage',
         select: true,
-        disabled: disabled,
+        disabled: dealStagesData?.length === 0 || disabled,
+        required: true,
       },
       options: dealStagesData,
       component: RHFSelect,
       md: 12,
     },
-
     {
       id: 'amount',
       componentProps: {
@@ -94,18 +102,19 @@ export const dealDataArray = (
     },
     {
       id: 'ownerId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'ownerId',
         label: 'Deal Owner',
-        fullWidth: true,
-        select: true,
+        placeholder: 'Select Deal Owner',
+        apiQuery: dealOwnersData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { id: orgId, meta: false },
         disabled: disabled,
       },
-      options: dealOwnersData,
-      component: RHFSelect,
-      md: 12,
     },
-
     {
       id: 'priority',
       componentProps: {
@@ -138,3 +147,28 @@ export const dealDataArray = (
     },
   ];
 };
+
+export const existingDealValidationSchema = Yup?.object()?.shape({
+  dealId: Yup?.mixed()?.nullable()?.required('Field is Required'),
+});
+
+export const existingDealDefaultValues = {
+  dealId: {} || null,
+};
+
+export const existingDealDataArray = (dealsList: any) => [
+  {
+    id: 'dealId',
+    component: RHFAutocompleteAsync,
+    md: 12,
+    componentProps: {
+      name: 'dealId',
+      label: 'Select Deal',
+      placeholder: 'Select Deal',
+      apiQuery: dealsList,
+      getOptionLabel: (option: any) => option?.name,
+      externalParams: {},
+      required: true,
+    },
+  },
+];

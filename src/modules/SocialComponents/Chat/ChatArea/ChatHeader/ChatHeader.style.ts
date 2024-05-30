@@ -1,3 +1,5 @@
+import { useTheme } from '@mui/material';
+
 export const styles = {
   headerChat: (theme: any) => {
     return {
@@ -7,12 +9,15 @@ export const styles = {
       borderRadius: '16px 16px 0px 0px',
       display: 'flex',
       justifyContent: 'space-between',
-      borderBottom: `1px solid ${theme.palette.common.white}`,
+      borderBottom: `1px solid ${theme?.palette?.common?.white}`,
     };
   },
-  userStatus: () => {
+  userStatus: (state: any) => {
+    const theme = useTheme();
     return {
-      background: '#7BFE14',
+      background: state
+        ? theme?.palette?.custom?.light_green_bg_two
+        : theme?.palette?.grey[100],
       borderRadius: '50%',
       width: '7px',
       height: '7px',

@@ -1,15 +1,14 @@
 import React from 'react';
-
+import { useRouter } from 'next/router';
 import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
-
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import { columns } from './PlanList.data';
+import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 
-import { planListData } from '@/mock/modules/superAdmin/SuperAdminDashboard';
-
-const PlanList = () => {
+const PlanList = (data: any) => {
   const theme = useTheme<Theme>();
+  const router = useRouter();
+
   return (
     <Box
       sx={{
@@ -35,17 +34,21 @@ const PlanList = () => {
           Plan list
         </Typography>
         <Typography
+          onClick={() => {
+            router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
+          }}
           variant="body2"
           sx={{
             color: `${theme?.palette?.primary?.main}`,
             fontWeight: 600,
+            cursor: 'pointer',
           }}
         >
           View All
         </Typography>
       </Box>
       <Grid sx={{ paddingTop: '1rem' }}>
-        <TanstackTable columns={columns} data={planListData} />
+        <TanstackTable columns={columns} data={data?.data?.plansList} />
       </Grid>
     </Box>
   );

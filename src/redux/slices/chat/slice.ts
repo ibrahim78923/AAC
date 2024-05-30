@@ -1,3 +1,4 @@
+import { PAGINATION } from '@/config';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface ChatStateI {
@@ -19,6 +20,8 @@ interface ChatStateI {
   chatMetaInfo: any;
   isChatMessagesLoading: any;
   isChatContactsLoading: any;
+  newChatData: any;
+  isNewMessages: any;
 }
 
 const initialState: ChatStateI = {
@@ -37,9 +40,14 @@ const initialState: ChatStateI = {
   activeParticipant: {},
   typingUserData: {},
   activeReply: {},
-  chatMetaInfo: {},
+  chatMetaInfo: {
+    page: PAGINATION?.CURRENT_PAGE,
+    limit: PAGINATION?.PAGE_LIMIT,
+  },
   isChatMessagesLoading: false,
   isChatContactsLoading: false,
+  newChatData: [],
+  isNewMessages: false,
 };
 
 const chatSlice = createSlice({
@@ -55,7 +63,6 @@ const chatSlice = createSlice({
     setChatMessages(state, action) {
       if (Array.isArray(action?.payload)) {
         state.chatMessages = action?.payload;
-        // state.chatMessages = [...state.chatMessages,...action?.payload];
       } else {
         const existingMessageIndex = state?.chatMessages?.findIndex(
           (message: any) => message?._id === action?.payload?._id,
@@ -99,8 +106,20 @@ const chatSlice = createSlice({
       };
     },
 
+    setSingleMessageRecord(state, action) {
+      const existingChatIndex = state.newChatData.findIndex(
+        (chat: any) => chat?._id === action?.payload?._id,
+      );
+      if (existingChatIndex === -1) {
+        state.newChatData = [action?.payload, ...state?.newChatData];
+      }
+    },
+
     setActiveChatId(state, action) {
       state.activeChatId = action?.payload;
+    },
+    setIsNewMessages(state, action) {
+      state.isNewMessages = action?.payload;
     },
     setActiveChat(state, action) {
       state.activeChat = action?.payload;
@@ -166,5 +185,7 @@ export const {
   setChatMessagesLoading,
   setChatContactsLoading,
   setChangeChat,
+  setIsNewMessages,
+  setSingleMessageRecord,
 } = chatSlice.actions;
 export default chatSlice.reducer;

@@ -22,8 +22,7 @@ import {
   clearState,
 } from '@/redux/slices/planManagement/planManagementSlice';
 import { useDispatch } from 'react-redux';
-import { persistStore } from 'redux-persist';
-import store, { useAppSelector } from '@/redux/store';
+import { useAppSelector } from '@/redux/store';
 
 import {
   useGetPermissionsByProductsQuery,
@@ -84,7 +83,11 @@ export const useAddPlan = () => {
   if (router?.query?.data) {
     parsedRowData = JSON.parse(router?.query?.data);
   }
-  const { data: singlePlan, isSuccess } = useGetPlanMangementByIdQuery({
+  const {
+    data: singlePlan,
+    isSuccess,
+    isLoading: GetsinglePlanLoading,
+  } = useGetPlanMangementByIdQuery({
     id: parsedRowData?._id,
   });
 
@@ -99,7 +102,6 @@ export const useAddPlan = () => {
     defaultValues: defaultValues,
   });
 
-  const persistor = persistStore(store);
   const methodsPlan: any = useForm({
     resolver: yupResolver(gpDetailsInfoFormSchema),
     defaultValues: async () => {
@@ -195,13 +197,13 @@ export const useAddPlan = () => {
   }
 
   const planForm: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement?.addPlanForm,
+    (state) => state?.planManagementForms?.addPlanForm,
   );
   const featureDetails: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement?.featureDetails,
+    (state) => state?.planManagementForms?.featureDetails,
   );
   const featuresFormData: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement?.planFeature,
+    (state) => state?.planManagementForms?.planFeature,
   );
   const { data: modulesData } = useGetPermissionsByProductsQuery({
     id: productIdModules,
@@ -229,6 +231,10 @@ export const useAddPlan = () => {
       isNullOrEmpty(values?.additionalStoragePrice)
     ) {
       enqueueSnackbar('Please enter additional Storage Price', {
+        variant: 'error',
+      });
+    } else if (isNullOrEmpty(crmValue) && !isNullOrEmpty(values?.suite)) {
+      enqueueSnackbar('Please enter CRM Name', {
         variant: 'error',
       });
     } else {
@@ -313,7 +319,7 @@ export const useAddPlan = () => {
   const onSubmitPlanFeaturesHandler = async (values: any) => {
     let addExtraFeatures: any;
     let featuresData;
-    if (isNullOrEmpty(planForm?.productId)) {
+    if (selectProductSuite != 'product') {
       featuresData = planForm?.suite?.map((productIdItem: any) => {
         return {
           features: values?.features
@@ -451,10 +457,8 @@ export const useAddPlan = () => {
             },
           );
           dispatch(setFeatureDetails(''));
-          // persistor?.purge();
           reset();
-          window.location.href =
-            SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID;
+          router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
         }
       } catch (error: any) {
         enqueueSnackbar('An error occured', {
@@ -482,7 +486,6 @@ export const useAddPlan = () => {
     if (activeStep === 2) {
       handlePlanModules();
       reset();
-      persistor?.purge();
       return;
     }
   };
@@ -620,5 +623,6 @@ export const useAddPlan = () => {
     isLoading: isLoading?.isLoading,
     ifCrmExist,
     updatePlanLoading,
+    GetsinglePlanLoading,
   };
 };

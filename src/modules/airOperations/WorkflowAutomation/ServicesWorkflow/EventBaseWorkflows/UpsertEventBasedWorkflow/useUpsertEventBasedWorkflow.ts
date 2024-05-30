@@ -46,6 +46,7 @@ export const useUpsertEventBasedWorkflow = () => {
     category: 'servicecategories',
     users: 'users',
     usedBy: 'Used By',
+    usedByAction: 'Set used by as',
     createdBy: 'Created By',
     assignTo: 'Assign To',
     assetType: 'Asset Type',
@@ -127,6 +128,8 @@ export const useUpsertEventBasedWorkflow = () => {
       case collectionNameData?.assetType:
         return collectionNameData?.type;
       case collectionNameData?.usedBy:
+        return collectionNameData?.users;
+      case collectionNameData?.usedByAction:
         return collectionNameData?.users;
       case collectionNameData?.createdBy:
         return collectionNameData?.users;

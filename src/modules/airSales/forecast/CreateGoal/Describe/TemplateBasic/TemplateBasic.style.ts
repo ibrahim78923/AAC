@@ -17,7 +17,6 @@ export const styles = {
   }),
   vRow: () => ({
     display: { sm: 'block', md: 'flex' },
-
     justifyContent: 'space-between',
     alignItems: 'center',
     mt: '15px',

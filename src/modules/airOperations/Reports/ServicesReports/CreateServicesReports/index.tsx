@@ -12,25 +12,30 @@ export const CreateServicesReports = () => {
   const {
     handleDragEnd,
     router,
-    form,
-    setForm,
     modal,
     theme,
     fieldData,
     handleCancel,
-    formattedText,
-    applyFormat,
-    setText,
-    bold,
-    italic,
-    underline,
-    color,
-    fontSize,
-    textAlign,
-    alignItem,
-    setFontSize,
-    setColor,
     methods,
+    setEditorState,
+    editorState,
+    setColor,
+    color,
+    setFontSize,
+    fontSize,
+    setHtmlContent,
+    htmlContent,
+    textTitle,
+    setFieldData,
+    setModal,
+    handleTextCancel,
+    setChartComponent,
+    chartComponent,
+    setFinalChartComponent,
+    finalChartComponent,
+    handleChartCancel,
+    tableTitle,
+    setValue,
   } = useCreateServicesReports();
 
   return (
@@ -62,19 +67,17 @@ export const CreateServicesReports = () => {
               p={2}
             >
               <DroppableArea
-                form={form}
-                setForm={setForm}
                 fieldData={fieldData}
                 modal={modal}
+                editorState={editorState}
+                setEditorState={setEditorState}
                 fontSize={fontSize}
                 color={color}
-                setText={setText}
-                bold={bold}
-                italic={italic}
-                underline={underline}
-                textAlign={textAlign}
-                alignItem={alignItem}
-                formattedText={formattedText}
+                htmlContent={htmlContent}
+                textTitle={textTitle}
+                setChartComponent={setChartComponent}
+                finalChartComponent={finalChartComponent}
+                tableTitle={tableTitle}
               />
             </Box>
           </Grid>
@@ -89,16 +92,25 @@ export const CreateServicesReports = () => {
             <Box borderRadius={2} bgcolor={'common.white'} p={2}>
               <DraggableFields
                 fieldsList={fieldsList}
-                form={form}
-                setForm={setForm}
                 fieldData={fieldData}
                 modal={modal}
                 handleCancel={handleCancel}
-                applyFormat={applyFormat}
-                setColor={setColor}
-                setFontSize={setFontSize}
+                setEditorState={setEditorState}
+                editorState={editorState}
                 fontSize={fontSize}
                 color={color}
+                setFontSize={setFontSize}
+                setColor={setColor}
+                setHtmlContent={setHtmlContent}
+                setModal={setModal}
+                setFieldData={setFieldData}
+                handleTextCancel={handleTextCancel}
+                textTitle={textTitle}
+                setFinalChartComponent={setFinalChartComponent}
+                chartComponent={chartComponent}
+                handleChartCancel={handleChartCancel}
+                tableTitle={tableTitle}
+                setValue={setValue}
               />
             </Box>
           </Grid>

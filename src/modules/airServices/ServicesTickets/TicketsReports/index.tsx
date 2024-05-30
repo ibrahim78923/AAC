@@ -26,7 +26,6 @@ export const TicketsReports = () => {
     router,
     loading,
     apiQueryAgents,
-
   } = useTicketsReport();
 
   return (
@@ -47,7 +46,6 @@ export const TicketsReports = () => {
               placeholder="Agent"
               apiQuery={apiQueryAgents}
               getOptionLabel={(option: any) => option?.name}
-
               renderOption={(option: any) => (
                 <Box display={'flex'} alignItems={'center'} gap={1}>
                   <Avatar />
@@ -57,7 +55,6 @@ export const TicketsReports = () => {
                     fontWeight={500}
                   >
                     {option?.name}
-
                   </Typography>
                 </Box>
               )}

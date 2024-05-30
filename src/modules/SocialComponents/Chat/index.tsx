@@ -75,6 +75,7 @@ const Chat = () => {
   } = useGetUserChatsQuery({
     activeChatId: activeChatId,
     limit: chatMetaInfo?.limit,
+    page: chatMetaInfo?.page,
     isGroup: chatMode === 'groupChat' ? true : false,
   });
 
@@ -95,7 +96,9 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    dispatch(setChatMetaInfo(chatsData?.data?.meta));
+    if (chatsData?.data?.meta?.page === 1) {
+      dispatch(setChatMetaInfo(chatsData?.data?.meta));
+    }
   }, [chatsData]);
 
   useEffect(() => {

@@ -31,6 +31,7 @@ export const END_POINTS = {
   DEALS_LIST_VIEW: '/deals/get-deals-list-view',
   POST_DEALS: '/deals',
   DEALS_REPORTS: '/deals/deal-report',
+  SUPER_ADMIN_USERS_REPORTS: '/super-admin/user-product-wise-stats',
   DEALS_PIPELINE: '/deal-pipeline',
   DEALS_LIFECYCLE_STAGES: '/lifecycle-stages',
   DEALS_USER_LIST: '/super-admin/user-list',
@@ -121,7 +122,9 @@ export const END_POINTS = {
   TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
   CONVERSATION_EMAIL: `/email`,
-  CONVERSATION_EMAIL_VIEW: `/social-components/email/conversations`,
+  CONVERSATION_OTHERS_EMAIL_VIEW: `/social-components/email/others/conversations`,
+  CONVERSATION_GOOGLE_EMAIL_VIEW: `/social-components/email/gmail/conversations`,
+  CONVERSATION_OUTLOOK_EMAIL_VIEW: `/social-components/email/outlook/conversations`,
   DROPDOWN_TASK: '/task',
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
@@ -496,4 +499,11 @@ export const AIR_MARKETER = {
   CAMPAIGNS_VIEW: '/campaigns/view',
   CAMPAIGNS: '/campaigns',
   CAMPAIGNS_TASKS: '/campaigns/task',
+};
+
+export const SUPER_ADMIN_DASHBOARD = {
+  USER_STATS: '/super-admin/user-stats',
+  PLAN_STATS: '/super-admin/plan-stats',
+  BILLING_INVOICES: '/super-admin/dashboard',
+  PLANS_LIST: '/plan',
 };

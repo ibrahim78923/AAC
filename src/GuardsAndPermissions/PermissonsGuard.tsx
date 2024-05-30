@@ -31,19 +31,6 @@ export default function PermissionsGuard({
 
   const permissionsAvailable = currentPermissions;
 
-  //this switch is for testing purpose need to remove after org amdin and super admin permissions are cattered at backend
-  // switch (user?.role) {
-  //   // case ROLES.ORG_ADMIN:
-  //   //   permissionsAvailable = orgAdminAllPermissions;
-  //   //   break;
-  //   case ROLES.SUPER_ADMIN:
-  //     permissionsAvailable = superAdminAllPermissions;
-  //     break;
-  //   default:
-  //     permissionsAvailable = currentPermissions;
-  //     break;
-  // }
-
   const permissionsCheck = checkPermissions(permissionsAvailable, permissions);
   if (permissionsCheck) {
     return <>{children}</>;

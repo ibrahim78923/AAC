@@ -39,7 +39,6 @@ const TeamDuration = () => {
                 key={uuidv4()}
                 sx={{ position: 'relative' }}
               >
-
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
@@ -65,7 +64,6 @@ const TeamDuration = () => {
                     <Box
                       sx={{ position: 'absolute', top: '22px', left: '182px' }}
                     >
-
                       <Tooltip
                         title={
                           <Typography variant="body4">
@@ -83,7 +81,6 @@ const TeamDuration = () => {
                         </Box>
                       </Tooltip>
                     </Box>
-
                   )}
               </Grid>
             ))}

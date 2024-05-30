@@ -254,6 +254,14 @@ export const SOCIAL_FEATURES_EMAIL = {
   UPDATE_EMAIL_SETTINGS: '/other-mail/update-emails-settings',
   GET_EMAIL_SETTINGS: '/other-mail/get-emails-settings',
 };
+export const SOCIAL_FEATURES_OUTLOOK = {
+  AUTH_URL: '/email-marketing/auth-url',
+};
+export const SOCIAL_FEATURES_GMAIL = {
+  AUTH_URL: '/gmail/auth-url',
+  GMAIL_FOLDER: '/gmail/get-gmail-folders',
+  GMAIL_BY_FOLDERID: '/gmail/get-gmail-email',
+};
 
 export const CHAT_SOCKETS = {
   ON_STATUS_CHANGE: 'on-status-change',

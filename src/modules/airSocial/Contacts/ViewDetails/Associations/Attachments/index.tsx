@@ -6,7 +6,7 @@ import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
 import useAttachments from './useAttachments';
 import { columns } from './Attachments.data';
 import { styles } from '../Associations.style';
-import { PlusSharedIcon } from '@/assets/icons';
+import { PlusIcon } from '@/assets/icons';
 
 const Attachments = ({ contactId }: any) => {
   const {
@@ -41,8 +41,9 @@ const Attachments = ({ contactId }: any) => {
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            {dataGetAttachment?.data?.attachments?.length < 10 && '0'}
-            {dataGetAttachment?.data?.attachments?.length}
+            {dataGetAttachment?.data?.attachments?.length < 10
+              ? `0${dataGetAttachment?.data?.attachments?.length}`
+              : dataGetAttachment?.data?.attachments?.length}
           </Typography>
 
           <Typography variant="subtitle2">Attachments</Typography>
@@ -67,7 +68,7 @@ const Attachments = ({ contactId }: any) => {
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => handleOpenDrawer('Add', {})}
             >
-              <PlusSharedIcon /> Add Attachments
+              <PlusIcon /> Add Attachments
             </Button>
           </Box>
         </Grid>

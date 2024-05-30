@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
@@ -6,13 +6,12 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import DealEditorDrawer from './DealEditorDrawer';
 import useDeal from './useDeal';
-import { columns } from './Deal.data';
+import { DEAL_TYPE, columns } from './Deal.data';
 import { styles } from '../Associations.style';
+import { PlusIcon } from '@/assets/icons';
 
 const Deal = ({ contactId }: any) => {
   const {
-    // setPage,
-    // setPageLimit,
     searchValue,
     setSearchValue,
     // loadingDeals,
@@ -26,8 +25,21 @@ const Deal = ({ contactId }: any) => {
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
-
     theme,
+    dealOwnersData,
+    dealPipelineData,
+    dealStagesData,
+    addLineItemsData,
+    handleAddDealSubmit,
+    isLoadingAddDeal,
+    orgId,
+    loadingDeleteDeal,
+    deleteDealAssociationHandler,
+    dealType,
+    handleChangeDealType,
+    methodsExistingDeal,
+    handleExsistingDealSubmit,
+    loadingCreateAssociation,
   } = useDeal(contactId);
 
   const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
@@ -43,7 +55,9 @@ const Deal = ({ contactId }: any) => {
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
+            {dataGetDeals?.data?.deals?.length < 10
+              ? `0${dataGetDeals?.data?.deals?.length}`
+              : dataGetDeals?.data?.deals?.length}
           </Typography>
 
           <Typography variant="subtitle2">Deals</Typography>
@@ -63,6 +77,14 @@ const Deal = ({ contactId }: any) => {
               label="Search By Name"
               size="small"
             />
+            <Button
+              variant="contained"
+              className="small"
+              sx={{ minWidth: '0px', gap: 0.5 }}
+              onClick={() => handleOpenDrawer('Add', {})}
+            >
+              <PlusIcon /> Add Deal
+            </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
@@ -72,19 +94,36 @@ const Deal = ({ contactId }: any) => {
           />
         </Grid>
       </Grid>
+
       <DealEditorDrawer
         title={drawerTitle}
         isOpen={openDrawer}
         onClose={handleCloseDrawer}
-        methods={methodsEditDeal}
+        methodsNewDeal={methodsEditDeal}
+        methodsExistingDeal={methodsExistingDeal}
         isDisabledFields={isDisabledFields}
+        isLoading={isLoadingAddDeal || loadingCreateAssociation}
+        orgId={orgId}
+        dealOwners={dealOwnersData}
+        dealPipeline={dealPipelineData}
+        dealStages={dealStagesData || []}
+        addLineItems={addLineItemsData}
+        dealType={dealType}
+        handleChangeDealType={handleChangeDealType}
+        handleOnSubmit={
+          dealType === DEAL_TYPE?.NEW_DEAL
+            ? handleAddDealSubmit
+            : handleExsistingDealSubmit
+        }
       />
+
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
+        handleSubmitBtn={deleteDealAssociationHandler}
+        loading={loadingDeleteDeal}
       />
     </Box>
   );

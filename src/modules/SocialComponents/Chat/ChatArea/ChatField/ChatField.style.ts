@@ -29,7 +29,7 @@ export const styles = {
           ? theme?.palette?.common?.white
           : theme?.palette?.custom?.grayish_blue,
       padding: '10px 14px',
-      minWidth: '15vw',
+      minWidth: '10vw',
       maxWidth: '46vw',
       borderRadius: `${
         role === 'sender' ? '12px 12px 0px 12px' : '12px 12px 12px 0px'
@@ -95,7 +95,7 @@ export const styles = {
     return {
       background: theme?.palette?.common?.white,
       boxShadow: '01px 4px 4px 0px rgb(194 194 194 / 16%)',
-      width: '100%',
+      width: '230px',
       height: '50px',
       position: 'absolute',
       bottom: '-50px',

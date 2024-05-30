@@ -6,7 +6,6 @@ import TeamDuration from './TeamDuration';
 import Performance from './Performance';
 import GoalsSettings from './GoalsSettings';
 
-
 export const useCreateGoal = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [createScratch, setCreateScratch] = useState(false);
@@ -22,7 +21,6 @@ export const useCreateGoal = () => {
     } else {
       setActiveStep((prev: any) => prev + 1);
     }
-
   };
 
   const handleStepBack = () => {
@@ -63,7 +61,6 @@ export const useCreateGoal = () => {
       key: 'settings',
       label: 'Settings',
       component: <GoalsSettings />,
-
     },
   ];
 

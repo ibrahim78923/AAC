@@ -8,19 +8,28 @@ import { companiesDataArray } from './CompaniesEditorDrawer.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const CompaniesEditorDrawer = (props: any) => {
-  const { isOpen, onClose, methods, companyOwners } = props;
+  const {
+    title,
+    isOpen,
+    onClose,
+    methods,
+    companyOwners,
+    disabledField,
+    handleOnSubmit,
+  } = props;
 
-  const formFields = companiesDataArray(companyOwners);
+  const formFields = companiesDataArray(companyOwners, disabledField);
 
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={isOpen}
         onClose={onClose}
-        title={'View Company'}
-        okText={''}
+        title={`${title} Company`}
+        okText={'Add'}
         isOk={true}
-        footer={false}
+        footer={title === 'View' ? false : true}
+        submitHandler={handleOnSubmit}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider methods={methods}>

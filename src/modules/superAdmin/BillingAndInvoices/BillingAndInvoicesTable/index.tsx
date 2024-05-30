@@ -99,7 +99,7 @@ const BillingAndInvoicesTable = () => {
                 <Search
                   searchBy={searchByClientName}
                   setSearchBy={setSearchByClientName}
-                  label="Search Here"
+                  label="Search by company"
                   size="small"
                 />
               </PermissionsGuard>

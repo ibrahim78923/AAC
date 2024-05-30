@@ -1,18 +1,16 @@
-import useAuth from '@/hooks/useAuth';
 import { useGetPermissionsByProductQuery } from '@/services/airServices/settings/user-management/roles';
+import { getActiveAccountSession } from '@/utils';
 import { useTheme } from '@mui/material';
 
 export default function usePermissionsAccordion() {
   const theme: any = useTheme();
 
-  const auth: any = useAuth();
-
-  const { _id: productId } = auth?.product;
+  const { role }: any = getActiveAccountSession();
 
   const { data, isLoading, isFetching, isError } =
     useGetPermissionsByProductQuery(
       {
-        productId,
+        role,
       },
       { refetchOnMountOrArgChange: true },
     );

@@ -1,10 +1,11 @@
+import { convertIdToShortNumber } from '@/utils';
 import { Box } from '@mui/material';
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row?.planId,
+    accessorFn: (row: any) => row?._id,
     id: 'planId',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => convertIdToShortNumber(info?.getValue()),
     header: 'Plan ID',
     isSortable: true,
   },
@@ -13,14 +14,14 @@ export const columns: any = [
     id: 'description',
     isSortable: true,
     header: 'Description',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row?.planName,
+    accessorFn: (row: any) => row?.name,
     id: 'planName',
     isSortable: true,
     header: 'Plan Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
     accessorFn: (row: any) => row?.defaultUsers,
@@ -29,7 +30,7 @@ export const columns: any = [
     align: 'center',
     header: 'Default Users',
     cell: (info: any) => (
-      <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>
+      <Box sx={{ textAlign: 'center' }}>{info.getValue() ?? 'N/A'}</Box>
     ),
   },
   {
@@ -39,7 +40,7 @@ export const columns: any = [
     header: 'Plan Price',
     align: 'center',
     cell: (info: any) => (
-      <Box sx={{ textAlign: 'center' }}>{info?.getValue()}</Box>
+      <Box sx={{ textAlign: 'center' }}>£{info?.getValue() ?? 'N/A'}</Box>
     ),
   },
 ];

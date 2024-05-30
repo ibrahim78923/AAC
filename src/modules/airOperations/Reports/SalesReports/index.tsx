@@ -21,5 +21,4 @@ export const SalesReports = () => {
       </PageTitledHeader>
     </>
   );
-
 };

@@ -41,5 +41,6 @@ export const useChatField = () => {
     handleClick,
     handleClose,
     anchorEl,
+    chatMessages,
   };
 };

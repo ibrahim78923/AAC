@@ -22,6 +22,5 @@ export const reportsTypes = [
     type: 'Marketing Reports',
     purpose: 'Overview Marketing Reports',
     link: AIR_OPERATIONS?.MARKETING_REPORTS,
-
   },
 ];

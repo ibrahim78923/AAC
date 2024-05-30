@@ -7,6 +7,7 @@ import {
 
 const useProperties = () => {
   const [activeProduct, setActiveProduct] = useState(null);
+
   const { data: productList, isLoading } = useGetProductsQuery({});
   const companyAccounts = useLazyGetCompanyAccountsListsQuery();
   const modulesList = useLazyGetProductsPermissionsListQuery();

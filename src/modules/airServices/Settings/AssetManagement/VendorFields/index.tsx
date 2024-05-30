@@ -1,0 +1,159 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { Box, Grid } from '@mui/material';
+import DraggableFields from './DraggableFields';
+import { fieldsList } from './VendorFields.data';
+import { DragDropContext } from 'react-beautiful-dnd';
+import {
+  Date,
+  Dropdown,
+  MultipleSelection,
+  ParagraphText,
+  SingleSelection,
+  Text,
+  Upload,
+} from '@/components/DynamicFormModals';
+import DroppableArea from './DroppableArea';
+import useVendorFields from './useVendorFields';
+
+export default function VendorFields() {
+  const {
+    handleDragEnd,
+    router,
+    form,
+    setForm,
+    modal,
+    setModal,
+    handleEdit,
+    editId,
+  } = useVendorFields();
+
+  return (
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={8}>
+          <Box
+            borderRadius={2}
+            bgcolor={'common.white'}
+            display={'flex'}
+            alignItems={'center'}
+            p={2}
+            mb={2}
+          >
+            <PageTitledHeader
+              title={'Vendor Fields'}
+              canMovedBack
+              moveBack={() => {
+                router?.push({
+                  pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
+                });
+              }}
+            />
+          </Box>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_NEW_VENDORS_FIELDS,
+            ]}
+          >
+            <Box
+              borderRadius={2}
+              bgcolor={'common.white'}
+              display={'flex'}
+              alignItems={'center'}
+              p={2}
+            >
+              <DroppableArea
+                form={form}
+                setForm={setForm}
+                handleEdit={handleEdit}
+              />
+            </Box>
+          </PermissionsGuard>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_NEW_VENDORS_FIELDS,
+            ]}
+          >
+            <Box borderRadius={2} bgcolor={'common.white'} p={2}>
+              <DraggableFields fieldsList={fieldsList} />
+            </Box>
+          </PermissionsGuard>
+        </Grid>
+      </Grid>
+
+      {modal?.text && (
+        <Text
+          open={modal?.text}
+          setOpen={setModal}
+          form={form}
+          setForm={setForm}
+          editId={editId}
+        />
+      )}
+
+      {modal?.paragraphText && (
+        <ParagraphText
+          open={modal?.paragraphText}
+          setOpen={setModal}
+          form={form}
+          setForm={setForm}
+          editId={editId}
+        />
+      )}
+
+      {modal?.singleSelection && (
+        <SingleSelection
+          open={modal?.singleSelection}
+          setOpen={setModal}
+          form={form}
+          setForm={setForm}
+          editId={editId}
+        />
+      )}
+
+      {modal?.multipleSelection && (
+        <MultipleSelection
+          open={modal?.multipleSelection}
+          setOpen={setModal}
+          form={form}
+          setForm={setForm}
+          editId={editId}
+        />
+      )}
+
+      {modal?.date && (
+        <Date
+          open={modal?.date}
+          setOpen={setModal}
+          form={form}
+          setForm={setForm}
+          editId={editId}
+        />
+      )}
+
+      {modal?.upload && (
+        <Upload
+          open={modal?.upload}
+          setOpen={setModal}
+          form={form}
+          setForm={setForm}
+          editId={editId}
+        />
+      )}
+
+      {modal?.dropdown && (
+        <Dropdown
+          open={modal?.dropdown}
+          setOpen={setModal}
+          form={form}
+          setForm={setForm}
+          editId={editId}
+        />
+      )}
+    </DragDropContext>
+  );
+}

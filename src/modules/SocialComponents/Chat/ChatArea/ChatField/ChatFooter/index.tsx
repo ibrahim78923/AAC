@@ -33,8 +33,10 @@ import { TypingGif, UserDefault } from '@/assets/images';
 
 import { getSession } from '@/utils';
 import { useChatAttachmentUploadMutation } from '@/services/chat';
+import { generateImage } from '@/utils/avatarUtils';
+import { v4 as uuidv4 } from 'uuid';
 
-const ChatFooter = ({ setChangeScroll }: any) => {
+const ChatFooter = ({ handleScrollToBottom }: any) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -119,12 +121,12 @@ const ChatFooter = ({ setChangeScroll }: any) => {
           ? addMessagePayloadFrGroup
           : addMessageReplyPayload
         : addMessagePayload,
-      (response: any) => {
+      () => {
         setMessageText('');
         setImageToUpload([]);
         dispatch(setActiveReply({}));
-        setChangeScroll(response?.data);
         setIsMessageLoading(false);
+        handleScrollToBottom();
       },
     );
   };
@@ -222,6 +224,50 @@ const ChatFooter = ({ setChangeScroll }: any) => {
           </Box>
         )}
 
+        {imageToUpload?.length > 0 && (
+          <Box sx={styles?.chatReply(theme)}>
+            <Box
+              sx={{
+                position: 'absolute',
+                right: '10px',
+                top: '10px',
+                cursor: 'pointer',
+              }}
+              onClick={() => setImageToUpload([])}
+            >
+              <CloseModalIcon />
+            </Box>
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+              {imageToUpload?.map((item: any) => (
+                <Box key={uuidv4()}>
+                  {attachmentType === 'docs' ? (
+                    <Box
+                      sx={{
+                        backgroundColor: theme?.palette?.primary?.light,
+                        p: 1,
+                        pl: 2,
+                        pr: 3,
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {item?.orignalName}
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Image
+                      src={generateImage(item?.url)}
+                      width={100}
+                      height={100}
+                      alt="attachments"
+                      style={{ borderRadius: '8px' }}
+                    />
+                  )}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        )}
+
         <Box sx={styles?.chatFooter}>
           {isLoading ? (
             <CircularProgress color="success" size={20} />
@@ -260,8 +306,11 @@ const ChatFooter = ({ setChangeScroll }: any) => {
                     type="file"
                     id="upload-button"
                     multiple
-                    accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                            text/plain, application/pdf, image/*"
+                    accept={
+                      attachmentType === 'docs'
+                        ? 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf'
+                        : 'image/*'
+                    }
                     onChange={(e: any) => handleImage(e)}
                   />
                 </form>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
 
 import AppHorizontalStepper from '@/components/Stepper';
 
@@ -21,6 +21,7 @@ const AddPlan = () => {
     isLoading,
     ifCrmExist,
     updatePlanLoading,
+    GetsinglePlanLoading,
   } = useAddPlan();
 
   return (
@@ -37,55 +38,68 @@ const AddPlan = () => {
         <Typography variant="h4">Add Plan</Typography>
       </Box>
 
-      <AppHorizontalStepper
-        activeStep={activeStep}
-        stepsArray={AddPlanStepperData}
-        stepperButtons={
-          <>
-            <div
-              style={{
-                border: '1px solid rgba(229, 231, 235, 1)',
-                marginTop: '6.25rem',
-                marginBottom: '1.5rem',
-              }}
-            ></div>
+      {GetsinglePlanLoading ? (
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '50vh',
+          }}
+        >
+          <CircularProgress />{' '}
+        </Box>
+      ) : (
+        <AppHorizontalStepper
+          activeStep={activeStep}
+          stepsArray={AddPlanStepperData}
+          stepperButtons={
+            <>
+              <div
+                style={{
+                  border: '1px solid rgba(229, 231, 235, 1)',
+                  marginTop: '6.25rem',
+                  marginBottom: '1.5rem',
+                }}
+              ></div>
 
-            <Box
-              display={'flex'}
-              width={200}
-              gap={'0.8rem'}
-              marginLeft={'auto'}
-            >
-              <Button
-                variant="outlined"
-                fullWidth
-                onClick={hanldeGoPreviousBack}
+              <Box
+                display={'flex'}
+                width={200}
+                gap={'0.8rem'}
+                marginLeft={'auto'}
               >
-                Back
-              </Button>
-              <LoadingButton
-                type="button"
-                variant="contained"
-                fullWidth
-                onClick={handleCompleteStep}
-                disabled={
-                  activeStep === AddPlanStepperData?.length ||
-                  isLoading ||
-                  updatePlanLoading ||
-                  ifCrmExist
-                }
-                loading={isLoading}
-              >
-                {activeStep === AddPlanStepperData?.length - 1
-                  ? 'Finish'
-                  : 'Next'}
-              </LoadingButton>
-            </Box>
-          </>
-        }
-        addPlanFormValues={addPlanFormValues}
-        setAddPlanFormValues={setAddPlanFormValues}
-      />
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  onClick={hanldeGoPreviousBack}
+                >
+                  Back
+                </Button>
+                <LoadingButton
+                  type="button"
+                  variant="contained"
+                  fullWidth
+                  onClick={handleCompleteStep}
+                  disabled={
+                    activeStep === AddPlanStepperData?.length ||
+                    isLoading ||
+                    updatePlanLoading ||
+                    ifCrmExist
+                  }
+                  loading={isLoading}
+                >
+                  {activeStep === AddPlanStepperData?.length - 1
+                    ? 'Finish'
+                    : 'Next'}
+                </LoadingButton>
+              </Box>
+            </>
+          }
+          addPlanFormValues={addPlanFormValues}
+          setAddPlanFormValues={setAddPlanFormValues}
+        />
+      )}
     </div>
   );
 };

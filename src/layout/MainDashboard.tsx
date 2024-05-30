@@ -28,6 +28,7 @@ import {
   setChangeChat,
   setChatContacts,
   setChatMessages,
+  setIsNewMessages,
   setSocketConnection,
   setTypingUserData,
 } from '@/redux/slices/chat/slice';
@@ -533,7 +534,6 @@ const DashboardLayout = ({ children, window }: any) => {
     socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, () => {});
 
     socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, (payload: any) => {
-      // Show notification badge on new message
       if (!activeChatId === payload?.data?.chatId) {
         if (payload?.data) {
           const currentData = chatContacts.find(
@@ -551,6 +551,7 @@ const DashboardLayout = ({ children, window }: any) => {
         if (payload?.data) {
           dispatch(setChatMessages(payload?.data));
           dispatch(setChangeChat(payload?.data));
+          dispatch(setIsNewMessages(false));
         }
       }
     });

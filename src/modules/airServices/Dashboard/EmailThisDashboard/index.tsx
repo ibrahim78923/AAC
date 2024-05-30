@@ -32,7 +32,6 @@ function EmailThisDashboard({ isDrawerOpen, setIsDrawerOpen }: any) {
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   {item?.component === Typography && (
                     <Typography>{item?.componentProps?.value}</Typography>
-
                   )}
                   {item?.component !== Typography && (
                     <item.component {...item?.componentProps} size="small" />

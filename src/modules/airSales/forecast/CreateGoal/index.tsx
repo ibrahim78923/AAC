@@ -38,7 +38,6 @@ const CreateGoal = () => {
                 position: { sm: 'relative', md: 'absolute' },
                 bottom: '25px',
                 width: { xs: '90%', sm: '90%', md: '96%' },
-
               }}
             >
               <Button
@@ -49,7 +48,6 @@ const CreateGoal = () => {
                 Back
               </Button>
               <Stack direction={{ sm: 'row' }}>
-
                 <Button
                   onClick={hanldeGoBack}
                   variant="outlined"
@@ -66,7 +64,6 @@ const CreateGoal = () => {
                   }}
                 >
                   {activeStep === 4 ? 'finsih' : 'Next'}
-
                 </Button>
               </Stack>
             </Stack>

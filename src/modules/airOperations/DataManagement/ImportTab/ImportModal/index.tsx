@@ -94,7 +94,6 @@ const ImportModal = () => {
                 boxShadow: 'none',
               }}
               position="static"
-
             >
               <Toolbar
                 sx={{
