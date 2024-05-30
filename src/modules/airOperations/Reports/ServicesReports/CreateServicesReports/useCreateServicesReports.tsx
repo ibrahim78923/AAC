@@ -8,9 +8,10 @@ import { EditorState } from 'draft-js';
 export default function useCreateServicesReports() {
   const theme: any = useTheme();
   const router: any = useRouter();
-  const methods: any = useForm();
-  const { watch } = methods;
+  const methods: any = useForm({ defaultValues: { tableTitle: 'My Title' } });
+  const { watch, setValue } = methods;
   const textTitle = watch('textTitle');
+  const tableTitle = watch('tableTitle');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
   const [fieldData, setFieldData] = useState<any>(false);
@@ -105,5 +106,7 @@ export default function useCreateServicesReports() {
     setFinalChartComponent,
     finalChartComponent,
     handleChartCancel,
+    tableTitle,
+    setValue,
   };
 }

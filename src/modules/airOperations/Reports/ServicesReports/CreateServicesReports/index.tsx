@@ -34,6 +34,8 @@ export const CreateServicesReports = () => {
     setFinalChartComponent,
     finalChartComponent,
     handleChartCancel,
+    tableTitle,
+    setValue,
   } = useCreateServicesReports();
 
   return (
@@ -75,6 +77,7 @@ export const CreateServicesReports = () => {
                 textTitle={textTitle}
                 setChartComponent={setChartComponent}
                 finalChartComponent={finalChartComponent}
+                tableTitle={tableTitle}
               />
             </Box>
           </Grid>
@@ -106,6 +109,8 @@ export const CreateServicesReports = () => {
                 setFinalChartComponent={setFinalChartComponent}
                 chartComponent={chartComponent}
                 handleChartCancel={handleChartCancel}
+                tableTitle={tableTitle}
+                setValue={setValue}
               />
             </Box>
           </Grid>

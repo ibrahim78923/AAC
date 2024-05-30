@@ -1,10 +1,10 @@
 import { Box, Button, Divider, Typography, useTheme } from '@mui/material';
-import { DroppableModule as Droppable } from '../../DroppableModule';
+import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { ReportsIcon } from '@/assets/icons';
-import { Chart } from '../../DraggableFormFields/Chart';
-import { InteractiveFilter } from '../../DraggableFormFields/InteractiveFilter';
-import { Text } from '../../DraggableFormFields/Text';
-import { Table } from '../../DraggableFormFields/Table';
+import { Chart } from '../DraggableFormFields/Chart';
+import { InteractiveFilter } from '../DraggableFormFields/InteractiveFilter';
+import { Text } from '../DraggableFormFields/Text';
+import { Table } from '../DraggableFormFields/Table';
 
 export default function DroppableArea(props: any) {
   const {
@@ -18,6 +18,7 @@ export default function DroppableArea(props: any) {
     textTitle,
     setChartComponent,
     finalChartComponent,
+    tableTitle,
   } = props;
   const theme: any = useTheme();
 
@@ -121,7 +122,7 @@ export default function DroppableArea(props: any) {
                   color={color}
                 />
               )}
-              {modal?.table && <Table />}
+              {modal?.table && <Table tableTitle={tableTitle} />}
             </>
           )}
         </Box>

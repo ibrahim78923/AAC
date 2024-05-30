@@ -1,11 +1,11 @@
 import { Box, Button, Divider, Typography, useTheme } from '@mui/material';
-import { DroppableModule as Droppable } from '../../DroppableModule';
+import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { Draggable } from 'react-beautiful-dnd';
 import { DragAndDropIcon } from '@/assets/icons';
-import { ChartEditor } from '../../DraggableFormFields/ChartEditor';
-import { TableEditor } from '../../DraggableFormFields/TableEditor';
-import { TextEditor } from '../../DraggableFormFields/TextEditor';
-import { InteractiveFilterEditor } from '../../DraggableFormFields/InteractiveFilterEditor';
+import { ChartEditor } from '../DraggableFormFields/ChartEditor';
+import { TableEditor } from '../DraggableFormFields/TableEditor';
+import { TextEditor } from '../DraggableFormFields/TextEditor';
+import { InteractiveFilterEditor } from '../DraggableFormFields/InteractiveFilterEditor';
 
 export default function DraggableFields({
   fieldsList,
@@ -26,6 +26,8 @@ export default function DraggableFields({
   chartComponent,
   setFinalChartComponent,
   handleChartCancel,
+  tableTitle,
+  setValue,
 }: any) {
   const theme: any = useTheme();
 
@@ -134,7 +136,13 @@ export default function DraggableFields({
                   textTitle={textTitle}
                 />
               )}
-              {modal?.table && <TableEditor handleCancel={handleCancel} />}
+              {modal?.table && (
+                <TableEditor
+                  handleCancel={handleCancel}
+                  setValue={setValue}
+                  tableTitle={tableTitle}
+                />
+              )}
             </>
           )}
         </Box>
