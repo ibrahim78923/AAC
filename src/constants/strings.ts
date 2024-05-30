@@ -750,6 +750,22 @@ export const FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE = {
 export const ARRAY_INDEX = {
   ZERO: 0,
 };
+
+export const PRODUCT_USER_STATUS = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+};
+
+export const GENERIC_UPSERT_FORM_CONSTANT = {
+  EDIT: 'Edit',
+  SUBMIT: 'Submit',
+  SAVE: 'Save',
+  CANCEL: 'Cancel',
+  BACK: 'Back',
+  VIEW: 'View',
+  ADD: 'Add',
+};
+
 export const TEXT_FORMATE: any = {
   BOLD: 'BOLD',
   ITALIC: 'ITALIC',
