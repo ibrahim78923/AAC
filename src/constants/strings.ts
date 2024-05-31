@@ -785,3 +785,7 @@ export const CHARTS: any = {
   DONUT_CHART: 'Donut Chart',
   PIE_CHART: 'Pie Chart',
 };
+
+export const SELECTED_ARRAY_LENGTH = {
+  ONE: 1,
+};

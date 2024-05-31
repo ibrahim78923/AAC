@@ -1,8 +1,73 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
-import { PRODUCT_USER_STATUS } from '@/constants/strings';
+import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  PRODUCT_USER_STATUS,
+  SELECTED_ARRAY_LENGTH,
+} from '@/constants/strings';
+import { errorSnackbar } from '@/utils/api';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+
+export const actionsForLoyaltyUserDynamic = (
+  setIsPortalOpen: any,
+  selectedUserList: any,
+) => [
+  {
+    id: 1,
+    title: 'Edit',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen?.({
+        isEdit: true,
+        isUpsert: true,
+        isOpen: true,
+      });
+      closeMenu();
+    },
+  },
+  {
+    id: 2,
+    title: 'View',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen?.({
+        isOpen: true,
+        isUpsert: true,
+        isView: true,
+      });
+      closeMenu();
+    },
+  },
+  {
+    id: 3,
+    title: 'Delete',
+    permissionKey: [],
+    handleClick: (closeMenu: any) => {
+      if (selectedUserList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen({ isOpen: true, isDelete: true });
+      closeMenu();
+    },
+  },
+];
 
 export const loyaltyUsersColumnsDynamic = (
   selectedUserList?: any,
@@ -20,14 +85,16 @@ export const loyaltyUsersColumnsDynamic = (
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!selectedUserList?.find((item: any) => item === info?.getValue())
+          !!selectedUserList?.find(
+            (item: any) => item?._id === info?.getValue(),
+          )
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList([...selectedUserList, info?.getValue()])
+            ? setSelectedUserList([...selectedUserList, info?.row?.original])
             : setSelectedUserList(
                 selectedUserList?.filter(
-                  (item: any) => item !== info?.getValue(),
+                  (item: any) => item?._id !== info?.getValue(),
                 ),
               );
         }}
@@ -46,9 +113,7 @@ export const loyaltyUsersColumnsDynamic = (
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList(
-                totalUsers?.map((article: any) => article?._id),
-              )
+            ? setSelectedUserList(totalUsers?.map((item: any) => item?._id))
             : setSelectedUserList([]);
         }}
         color="primary"

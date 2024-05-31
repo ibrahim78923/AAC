@@ -202,6 +202,8 @@ export const AIR_LOYALTY_PROGRAM = {
   PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design`,
   EDIT_PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design/edit`,
   TOP_USER: '/',
+  UPSERT_ROLES: '/air-loyalty-program/roles-and-right/upsert-roles-and-right',
+  ROLES_AND_RIGHTS: '/air-loyalty-program/roles-and-right',
 };
 
 export const SOCIAL_COMPONENTS = {

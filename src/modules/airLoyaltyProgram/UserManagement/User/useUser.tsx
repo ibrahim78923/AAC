@@ -1,6 +1,9 @@
 import { PAGINATION } from '@/config';
 import { useEffect, useState } from 'react';
-import { loyaltyUsersColumnsDynamic } from './User.data';
+import {
+  actionsForLoyaltyUserDynamic,
+  loyaltyUsersColumnsDynamic,
+} from './User.data';
 import {
   useLazyGetProductUserListForLoyaltyQuery,
   useUpdateProductUserForLoyaltyMutation,
@@ -92,6 +95,10 @@ export const useUser = () => {
     }
     return <></>;
   };
+  const actionButtonDropdown = actionsForLoyaltyUserDynamic?.(
+    setIsPortalOpen,
+    selectedUserList,
+  );
 
   return {
     userListColumns,
@@ -105,5 +112,7 @@ export const useUser = () => {
     changeSingleUserStatusStatus,
     renderPortalComponent,
     setSelectedUserList,
+    actionButtonDropdown,
+    selectedUserList,
   };
 };
