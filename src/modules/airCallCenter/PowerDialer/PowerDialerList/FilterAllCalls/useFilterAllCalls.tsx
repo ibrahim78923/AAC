@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import {
   allcallsFilterFormDefaultValues,
   allcallsFilterFormFieldsDynamic,
-} from './filterAllcalls.data';
+} from './FilterAllcalls.data';
 import { successSnackbar } from '@/utils/api';
 
 export const useFilterAllCalls = (props: any) => {
