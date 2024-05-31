@@ -15,7 +15,7 @@ export default function useCreateServicesReports() {
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
   const [fieldData, setFieldData] = useState<any>(false);
-
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [editorState, setEditorState] = useState(EditorState?.createEmpty());
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
@@ -108,5 +108,7 @@ export default function useCreateServicesReports() {
     handleChartCancel,
     tableTitle,
     setValue,
+    setOpenDrawer,
+    openDrawer,
   };
 }

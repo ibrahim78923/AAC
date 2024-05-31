@@ -6,6 +6,7 @@ import { ChartEditor } from '../DraggableFormFields/ChartEditor';
 import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
 import { InteractiveFilterEditor } from '../DraggableFormFields/InteractiveFilterEditor';
+import { ServicesReportsDrawer } from '../ServicesReportsDrawer';
 
 export default function DraggableFields({
   fieldsList,
@@ -28,6 +29,8 @@ export default function DraggableFields({
   handleChartCancel,
   tableTitle,
   setValue,
+  setOpenDrawer,
+  openDrawer,
 }: any) {
   const theme: any = useTheme();
 
@@ -96,13 +99,16 @@ export default function DraggableFields({
                   gap: 1,
                 }}
               >
-                <Button variant="outlined" onClick={() => ''} color="secondary">
-                  Cancel
-                </Button>
-                <Button variant="contained" onClick={() => ''}>
+                <Button variant="contained" onClick={() => setOpenDrawer(true)}>
                   Save
                 </Button>
               </Box>
+              {openDrawer && (
+                <ServicesReportsDrawer
+                  open={openDrawer}
+                  setOpen={setOpenDrawer}
+                />
+              )}
             </>
           ) : (
             <>
