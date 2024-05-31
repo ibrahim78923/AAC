@@ -1,0 +1,19 @@
+import { useTheme } from '@mui/material';
+import { useGetDashboardCardsTicketsQuery } from '@/services/airServices/dashboard';
+
+export const useTicketCards = () => {
+  const theme = useTheme();
+  const {
+    data: cardsData,
+    isLoading,
+    isFetching,
+  } = useGetDashboardCardsTicketsQuery(null);
+  const cardData = cardsData?.data;
+
+  return {
+    theme,
+    cardData,
+    isLoading,
+    isFetching,
+  };
+};

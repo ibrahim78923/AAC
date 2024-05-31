@@ -1,7 +1,8 @@
 import { useFormContext, Controller } from 'react-hook-form';
 import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon, DragIcon } from '@/assets/icons';
-import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { Draggable } from 'react-beautiful-dnd';
+import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { v4 as uuidv4 } from 'uuid';
 export default function RHFMultiCheckboxDraggable({
   name,

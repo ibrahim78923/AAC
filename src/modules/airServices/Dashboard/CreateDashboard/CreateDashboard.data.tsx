@@ -1,20 +1,12 @@
 import { UserAvatarImage } from '@/assets/images';
-import { TicketDashboardCards } from '../PreviewDashboardItems/TicketDashboardCards';
-import { TopPerformer } from '../PreviewDashboardItems/TopPerformer';
-import { Announcements } from '../PreviewDashboardItems/Announcements';
-import { TicketsByStatusBarChart } from '../PreviewDashboardItems/TicketsByStatusBarChart';
-import { TicketsByPriorityRadialChart } from '../PreviewDashboardItems/TicketsByPriorityRadialChart';
-import { RecentActivities } from '../PreviewDashboardItems/RecentActivities';
-import { AgentAvailability } from '../PreviewDashboardItems/AgentAvailability';
+import { TicketCards } from '../PreviewDashboardItems/TicketCards';
+import TicketsStatusAndActivities from '../PreviewDashboardItems/TicketsStatusAndActivities';
+import DashboardCards from '../PreviewDashboardItems/DashboardCards';
 
 export const dashboardCheckboxData = [
-  'Graphical Representation of Tickets by Statuses',
-  'Recent Activities',
-  'Announcements',
   'Tickets Overview by Status',
-  'Tickets by Priority',
-  'Achievements',
-  'Agent Availability',
+  'Tickets by Statuses and Recent Activities',
+  'Announcements, Achievements and Agent Availability',
 ];
 export const userData = [
   { name: 'Alee Javed', src: UserAvatarImage, id: '1' },
@@ -23,15 +15,9 @@ export const userData = [
   { name: 'Aleesha Kong', src: UserAvatarImage, id: '4' },
 ];
 export const previewDashboard: { [index: string]: any } = {
-  'Graphical Representation of Tickets by Statuses': (
-    <TicketsByStatusBarChart />
-  ),
-  'Recent Activities': <RecentActivities />,
-  Achievements: <TopPerformer />,
-  'Tickets Overview by Status': <TicketDashboardCards />,
-  'Tickets by Priority': <TicketsByPriorityRadialChart />,
-  Announcements: <Announcements />,
-  'Agent Availability': <AgentAvailability />,
+  'Tickets Overview by Status': <TicketCards />,
+  'Tickets by Statuses and Recent Activities': <TicketsStatusAndActivities />,
+  'Announcements, Achievements and Agent Availability': <DashboardCards />,
 };
 
 export const createDashboardDefaultValue = {
