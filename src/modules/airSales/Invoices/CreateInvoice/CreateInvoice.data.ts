@@ -7,8 +7,11 @@ export const getDataArray = (QuoteData: any) => {
       componentProps: {
         name: 'Quote',
         label: 'Select Quote (Please select Quote)',
+        placeholder: 'Select Quote',
         fullWidth: true,
         apiQuery: QuoteData,
+        getOptionLabel: (option: any) => option?.name,
+        // externalParams: {},
         required: true,
       },
       component: RHFAutocompleteAsync,

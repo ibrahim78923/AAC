@@ -197,7 +197,7 @@ const ListView = () => {
       </Box>
 
       <AlertModals
-        message="You're about to delete all record. Deleted records can't be restored after 90 days."
+        message="Are you sure you want to Delete?. Deleted records can't be restored after 90 days."
         type="delete"
         open={isDeleteModal}
         handleClose={handleCloseModalDelete}

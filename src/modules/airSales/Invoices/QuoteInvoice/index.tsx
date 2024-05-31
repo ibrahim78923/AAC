@@ -26,9 +26,9 @@ import {
 } from './QuoteInvoice.data';
 import useQuoteInvoice from './useQuoteInvoice';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { ScheduleModals } from '@/components/ScheduleModals';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AIR_SALES } from '@/routesConstants/paths';
+import CommonModal from '@/components/CommonModal';
 
 const QuoteInvoice = ({ quoteId }: any) => {
   const theme = useTheme();
@@ -245,28 +245,30 @@ const QuoteInvoice = ({ quoteId }: any) => {
               Cancel
             </Button>
             <Button
+              sx={{ textTransform: 'none' }}
               variant="contained"
               className="medium"
               onClick={openModalEmail}
               disabled={accountNo === ''}
             >
-              Send to Customer
+              Send to customer
             </Button>
           </Stack>
         </Grid>
       </Grid>
 
-      <ScheduleModals
-        type="assign"
+      <CommonModal
+        title="Send to a customer"
         open={isEmailModal}
         handleClose={closeModalEmail}
         handleSubmit={handleAddInvoiceSubmit}
-        submitButonText="Send"
-        isFooter
-        loading={loadingPostInvoice}
+        okText="Send"
+        cancelText="Cancel"
+        footer={true}
+        isLoading={loadingPostInvoice}
       >
         <FormProvider methods={methodsSendEmail}>
-          <Grid container spacing={4}>
+          <Grid container>
             {sendEmailFormField?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
@@ -282,7 +284,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
             ))}
           </Grid>
         </FormProvider>
-      </ScheduleModals>
+      </CommonModal>
     </Box>
   );
 };

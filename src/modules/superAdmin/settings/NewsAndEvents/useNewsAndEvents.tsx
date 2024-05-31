@@ -79,7 +79,7 @@ const useNewsAndEvents = () => {
   };
 
   // Add/Edit News & Events
-  const methodsAddNewsEvents = useForm({
+  const methodsAddNewsEvents = useForm<any>({
     resolver: yupResolver(newsAndEventsFormValidationSchema),
     defaultValues: newsAndEventsFormDefaultValues,
   });
@@ -108,16 +108,23 @@ const useNewsAndEvents = () => {
 
   const handleCloseAddModal = () => {
     setIsNewsAndEventAddModal(false);
+    resetAddNewsEvents();
   };
 
   const onSubmitAddNewsEvents = async (values: any) => {
+    const payload: any = {};
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        payload[key] = value;
+      }
+    });
     try {
       titleAddModal === MODAL_TITLE.UPDATE
         ? await updateNewsEvents({
             id: tableRowValues?._id,
-            body: values,
+            body: payload,
           })?.unwrap()
-        : await postNewsEvents({ body: values })?.unwrap();
+        : await postNewsEvents({ body: payload })?.unwrap();
       enqueueSnackbar(
         `News Events ${
           titleAddModal === MODAL_TITLE.UPDATE ? 'updated' : 'added'

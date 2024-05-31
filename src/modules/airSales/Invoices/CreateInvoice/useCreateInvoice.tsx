@@ -8,6 +8,7 @@ const useCreateInvoice = () => {
   const methods: any = useForm();
   const { watch } = methods;
   const watchField = watch('Quote');
+
   useEffect(() => {
     if (watchField) {
       setQuoteId(watchField?._id);
