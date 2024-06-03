@@ -1,10 +1,6 @@
 import { AIR_SALES, INVOICE } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const transformResponse = (response: any) => {
-  if (response) return response?.data?.quotes;
-};
-
 export const invoiceAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     postInvoice: builder.mutation({
@@ -35,8 +31,10 @@ export const invoiceAPI = baseAPI.injectEndpoints({
         url: `${INVOICE.GET_INVOICE_QUOTE_LIST}`,
         method: 'GET',
       }),
-      transformResponse: (response: any) => transformResponse(response),
-      providesTags: ['INVOICE'],
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.quotes;
+      },
+      providesTags: ['INVOICE', 'AIR_SALES_QUOTES'],
     }),
 
     deleteInvoice: builder.mutation({

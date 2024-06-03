@@ -140,6 +140,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['CAMPAIGNS_LISTS'],
     }),
 
+    getCompanyContactsList: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contacts;
+      },
+      providesTags: ['CONTACTS_LISTS'],
+    }),
+
     getDealOwnersList: builder.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.USERS_LIST_ADMIN,
@@ -218,6 +230,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['DEALS'],
     }),
+
+    getAllCompanies: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.COMPANY}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['COMPANY'],
+    }),
   }),
 });
 
@@ -243,4 +267,6 @@ export const {
   useLazyGetContactsStatusQuery,
   useLazyGetDealPipeLineQuery,
   useLazyGetDealsQuery,
+  useLazyGetCompanyContactsListQuery,
+  useLazyGetAllCompaniesQuery,
 } = CommonAPIS;

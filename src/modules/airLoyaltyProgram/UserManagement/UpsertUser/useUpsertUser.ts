@@ -15,11 +15,14 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
 import { PAGINATION } from '@/config';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useUpsertUser = (props: any) => {
   const { setIsPortalOpen, isPortalOpen, userId, setSelectedUserList } = props;
   const auth: any = useAuth();
   const { _id: productId } = auth?.product;
+  const { _id: organizationCompanyAccountId } =
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
   const { _id: organizationId } = auth?.user?.organization;
 
   const [
@@ -44,6 +47,7 @@ export const useUpsertUser = (props: any) => {
   const roleApiQueryParams = {
     productId,
     organizationId,
+    organizationCompanyAccountId,
     limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
   };
 

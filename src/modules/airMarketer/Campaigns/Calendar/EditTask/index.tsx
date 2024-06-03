@@ -20,6 +20,7 @@ export default function EditTask({
     postTaskLoading,
     updateTaskLoading,
   } = useEditTask({
+    onClose,
     initialValueProps,
     setCreateTask,
     createTask,

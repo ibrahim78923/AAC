@@ -15,7 +15,7 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['SETTINGS_DEAL_PIPELINE'],
+      providesTags: ['SETTINGS_SALE_PRODUCT'],
     }),
     postSalesProduct: builder.mutation({
       query: ({ body }: any) => ({

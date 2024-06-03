@@ -5,7 +5,7 @@ import EventCards from './EventsCard';
 
 const NotificationCard = (plansList: any) => {
   return (
-    <Box sx={{ paddingTop: '1rem' }}>
+    <Box sx={{ marginTop: '1rem' }}>
       <Grid container spacing={2}>
         <Grid item xs={12} lg={7}>
           <PlanList data={plansList} />

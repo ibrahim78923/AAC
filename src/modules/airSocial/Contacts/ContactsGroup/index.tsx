@@ -39,6 +39,7 @@ const ContactsGroup = () => {
     handleScroll,
     isRightButtonDisabled,
     isLeftButtonDisabled,
+    isScrollAvailable,
   } = useScroll();
 
   return (
@@ -83,14 +84,15 @@ const ContactsGroup = () => {
             ))}
           </>
         </Box>
-
-        <Button
-          sx={styles?.btnRight}
-          onClick={() => handleScroll(100)}
-          disabled={isRightButtonDisabled}
-        >
-          <ArrowCircleRightIcon />
-        </Button>
+        {isScrollAvailable && (
+          <Button
+            sx={styles?.btnRight}
+            onClick={() => handleScroll(100)}
+            disabled={isRightButtonDisabled}
+          >
+            <ArrowCircleRightIcon />
+          </Button>
+        )}
       </Box>
 
       <CreateGroupModal

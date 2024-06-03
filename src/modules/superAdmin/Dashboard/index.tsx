@@ -8,8 +8,10 @@ import useDashboard from './useDashboard';
 const Dashboard = () => {
   const {
     billingDetailsLoading,
+    enquiriesDataLoading,
     plansStatsLoading,
     userStatsLoading,
+    enquiriesDetails,
     planStatistics,
     billingDetails,
     allUsersStats,
@@ -40,6 +42,8 @@ const Dashboard = () => {
         planStatLoading={plansStatsLoading}
         billingData={billingDetails}
         billingDataLoading={billingDetailsLoading}
+        enquiriesData={enquiriesDetails}
+        enquiriesDataLoading={enquiriesDataLoading}
       />
       <Grid container>
         <Grid item xs={12}>

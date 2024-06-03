@@ -1,21 +1,17 @@
-import { useRouter } from 'next/router';
-
 import { Typography, Box, Button } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
-
 import useContactsHeader from './useContactsHeader';
 import CreateContacts from '../CreateContacts';
-
 import { styles } from './ContractsHeader.style';
-
 import { ImportIcon } from '@/assets/icons';
-import { AIR_SOCIAL } from '@/routesConstants/paths';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
+import useContactsSaleSite from '../useContactsSaleSite';
+import ImportContactDrawer from '../ImportContactDrawer';
 
 const ContactsHeader = () => {
-  const route = useRouter();
   const { isCreateDeal, handleCreateDealOpen } = useContactsHeader();
+  const { isImportDrawer, setIsImportDrawer } = useContactsSaleSite();
 
   return (
     <Box sx={styles?.HeaderStyle}>
@@ -31,7 +27,7 @@ const ContactsHeader = () => {
           <Button
             variant="outlined"
             color="inherit"
-            onClick={() => route?.push(AIR_SOCIAL?.CONTACTS_IMPORT)}
+            onClick={() => setIsImportDrawer(true)}
             startIcon={<ImportIcon />}
             sx={{ height: '35px' }}
           >
@@ -57,6 +53,12 @@ const ContactsHeader = () => {
         </Box>
       </Box>
       <CreateContacts open={isCreateDeal} onClose={handleCreateDealOpen} />
+      {isImportDrawer && (
+        <ImportContactDrawer
+          open={isImportDrawer}
+          setIsImportDrawer={setIsImportDrawer}
+        />
+      )}
     </Box>
   );
 };

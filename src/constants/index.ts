@@ -202,6 +202,8 @@ export const AIR_LOYALTY_PROGRAM = {
   PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design`,
   EDIT_PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design/edit`,
   TOP_USER: '/',
+  UPSERT_ROLES: '/air-loyalty-program/roles-and-right/upsert-roles-and-right',
+  ROLES_AND_RIGHTS: '/air-loyalty-program/roles-and-right',
 };
 
 export const SOCIAL_COMPONENTS = {
@@ -328,6 +330,11 @@ export const createGoal = {
   team: 'TEAM',
 };
 
+export const indexNumbers = {
+  ZERO: 0,
+  ONE: 1,
+  TWO: 2,
+};
 export const TASK_TABS_TYPES = {
   PENDING: 'Pending',
   INPROGRESS: 'Inprogress',
@@ -339,4 +346,9 @@ export const TASK_STATUS = {
   DEALS: 'deals',
   ASSOCIATIONS: 'associations',
   TICKETS: 'tickets',
+};
+
+export const COMPANITES_TYPE = {
+  NEW_COMPANY: 'new-Company',
+  COMPANY: 'company',
 };

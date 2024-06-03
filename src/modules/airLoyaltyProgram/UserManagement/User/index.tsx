@@ -16,6 +16,8 @@ export const User = () => {
     isPortalOpen,
     renderPortalComponent,
     setSelectedUserList,
+    actionButtonDropdown,
+    selectedUserList,
   } = useUser();
   return (
     <>
@@ -40,7 +42,10 @@ export const User = () => {
           >
             Add
           </Button>
-          <SingleDropdownButton dropdownOptions={[]} />
+          <SingleDropdownButton
+            dropdownOptions={actionButtonDropdown}
+            disabled={!!!selectedUserList?.length}
+          />
         </Box>
       </Box>
       <br />

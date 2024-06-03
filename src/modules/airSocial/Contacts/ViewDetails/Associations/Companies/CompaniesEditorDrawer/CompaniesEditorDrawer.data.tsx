@@ -1,9 +1,14 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import {
+  RHFSelect,
+  RHFTextField,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
 
 export const companiesValidationSchema = Yup?.object()?.shape({
   domain: Yup?.string()?.required('Field is required'),
   ownerId: Yup?.string()?.required('Field is required'),
+  name: Yup?.string()?.required('Field is required'),
 });
 
 export const companiesDefaultValues = {
@@ -35,6 +40,7 @@ export const companiesDataArray = (
       label: 'Company Name',
       fullWidth: true,
       disabled: disabledField,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -172,3 +178,38 @@ export const companiesDataArray = (
     },
   },
 ];
+
+export const FORM_TYPE = {
+  NEW_COMPANY: 'newCompany',
+  EXISTING: 'existing',
+};
+
+export const existingCompanyValidationSchema = Yup?.object()?.shape({
+  companyId: Yup?.mixed()?.nullable()?.required('Field is Required'),
+});
+
+export const existingCompanyDefaultValues = {
+  companyId: null,
+};
+
+export const existingCompanyDataArray = (companiesList: any) => [
+  {
+    id: 'companyId',
+    component: RHFAutocompleteAsync,
+    md: 12,
+    componentProps: {
+      name: 'companyId',
+      label: 'Select Company',
+      placeholder: 'Select Company',
+      apiQuery: companiesList,
+      getOptionLabel: (option: any) => option?.name,
+      externalParams: { meta: false },
+      required: true,
+    },
+  },
+];
+
+export const DRAWER_TITLE = {
+  VIEW: 'View',
+  ADD: 'Add',
+};

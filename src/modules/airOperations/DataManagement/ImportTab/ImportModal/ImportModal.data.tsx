@@ -11,7 +11,7 @@ export const productData = [
   {
     icon: {},
     import: 'Services',
-    title: 'Inventors',
+    title: 'Inventories',
     checkedValue: IMPORT_ACTION_TYPE?.INVENTORIES,
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },

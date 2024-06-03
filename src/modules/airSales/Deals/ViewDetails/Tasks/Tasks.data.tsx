@@ -1,6 +1,7 @@
 import { DATE_FORMAT } from '@/constants';
 import { setSelectedDealsTaskIds } from '@/redux/slices/airSales/Deals/ViewDetails/Tasks/taskSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { convertIdToShortNumber } from '@/utils';
 import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -55,7 +56,7 @@ export const columns = ({ data }: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: 'taskno',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => convertIdToShortNumber(info?.getValue()) ?? 'N/A',
       header: 'Task No',
       isSortable: true,
     },
@@ -65,7 +66,7 @@ export const columns = ({ data }: any) => {
       id: 'name',
       isSortable: true,
       header: 'Task Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
 
     {
@@ -83,7 +84,9 @@ export const columns = ({ data }: any) => {
       header: 'Assigned To',
       cell: (info: any) => (
         <Box>
-          {`${info?.row?.original?.assignTo?.firstName} ${info?.row?.original?.assignTo?.lastName}`}{' '}
+          {`${info?.row?.original?.assignTo?.firstName ?? 'N'} ${
+            info?.row?.original?.assignTo?.lastName ?? '/A'
+          }`}
         </Box>
       ),
     },

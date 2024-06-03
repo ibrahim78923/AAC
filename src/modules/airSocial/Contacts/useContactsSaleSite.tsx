@@ -19,6 +19,7 @@ const useContactsSaleSite = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
   const [filterParams, setFilterParams] = useState({});
+  const [isImportDrawer, setIsImportDrawer] = useState(false);
   const paginationParams = {
     page: page,
     limit: pageLimit,
@@ -213,12 +214,13 @@ const useContactsSaleSite = () => {
     handleOpenModalExport,
     handleCloseModalExport,
     setOpenModalExport,
-
     theme,
     isOpen,
     isDealCustomize,
     handleChange,
     handleDealCustomize,
+    isImportDrawer,
+    setIsImportDrawer,
   };
 };
 

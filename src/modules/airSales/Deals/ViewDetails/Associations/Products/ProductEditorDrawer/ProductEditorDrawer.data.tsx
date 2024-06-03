@@ -1,7 +1,7 @@
 import {
+  RHFAutocomplete,
   RHFDropZone,
   RHFEditor,
-  RHFSelect,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -61,19 +61,18 @@ export const productsDataArray = [
   },
   {
     componentProps: {
+      placeholder: 'Select category',
       name: 'category',
       label: 'Category',
-      fullWidth: true,
-      select: true,
+      options: [
+        'All',
+        'Copy URL',
+        'Create Dashboard',
+        'Update Dashboard',
+        'View Dashboard',
+      ],
     },
-    options: [
-      { value: 'all', label: 'All' },
-      { value: 'copyUrl', label: 'Copy URL' },
-      { value: 'createDashboard', label: 'Create Dashboard' },
-      { value: 'updateDashboard', label: 'Update Dashboard' },
-      { value: 'view-dashboard', label: 'View Dashboard' },
-    ],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {

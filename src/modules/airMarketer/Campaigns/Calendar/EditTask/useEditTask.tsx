@@ -10,10 +10,12 @@ import {
   useUpdateCampaignTasksMutation,
 } from '@/services/airMarketer/campaigns';
 import { useEffect } from 'react';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const useEditTask = ({
   initialValueProps,
-  setIsOpenEditTaskDrawer,
+  onClose,
   isType,
   createTask,
 }: any) => {
@@ -54,6 +56,7 @@ const useEditTask = ({
   const onSubmit = async (values: any) => {
     values.assignedTo = values.assignedTo?._id;
     values.campaignId = values.campaignId?._id;
+    values.startDate = dayjs(createTask?.startDate)?.format(DATE_FORMAT?.API);
     try {
       if (isType === DRAWER_TYPES?.EDIT) {
         delete values?.campaignId;
@@ -76,7 +79,7 @@ const useEditTask = ({
       });
     }
     reset();
-    setIsOpenEditTaskDrawer(false);
+    onClose();
   };
 
   return {

@@ -79,12 +79,15 @@ export const columns = ({
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) =>
-        `${row?.createdBy?.firstName} ${row?.createdBy?.lastName}`,
+      accessorFn: (row: any) => row?.createdBy,
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => {
+        const firstName = info?.getValue()?.firstName;
+        const lastName = info?.getValue()?.lastName;
+        return firstName && lastName ? ` ${firstName} ${lastName}` : 'N/A';
+      },
     },
     {
       accessorFn: (row: any) => row?.createdAt,

@@ -36,6 +36,8 @@ export const CreateServicesReports = () => {
     handleChartCancel,
     tableTitle,
     setValue,
+    setOpenDrawer,
+    openDrawer,
   } = useCreateServicesReports();
 
   return (
@@ -111,6 +113,8 @@ export const CreateServicesReports = () => {
                 handleChartCancel={handleChartCancel}
                 tableTitle={tableTitle}
                 setValue={setValue}
+                setOpenDrawer={setOpenDrawer}
+                openDrawer={openDrawer}
               />
             </Box>
           </Grid>

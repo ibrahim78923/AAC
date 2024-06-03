@@ -87,9 +87,11 @@ export const columns: any = (columnsProps: any) => {
       id: 'assignedUser',
       isSortable: true,
       header: 'Assigned User',
-      cell: (info: any) =>
-        ` ${info?.getValue()?.firstName} ${info?.getValue()?.lastName}` ??
-        'N/A',
+      cell: (info: any) => {
+        const firstName = info?.getValue()?.firstName;
+        const lastName = info?.getValue()?.lastName;
+        return firstName && lastName ? ` ${firstName} ${lastName}` : 'N/A';
+      },
     },
     {
       accessorFn: (row: any) => row?.dueDate,

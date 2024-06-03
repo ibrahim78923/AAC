@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 export const newsAndEventsFormValidationSchema = Yup.object().shape({
   type: Yup?.string()?.trim()?.required('Field is Required'),
   name: Yup?.string()?.trim().required('Field is Required'),
-  description: Yup?.string()?.trim().required('Field is Required'),
 });
 
 export const newsAndEventsFormDefaultValues = {
@@ -18,6 +17,7 @@ export const newsAndEventsFormFiltersDataArray = [
     componentProps: {
       name: 'name',
       label: 'Name',
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -27,6 +27,7 @@ export const newsAndEventsFormFiltersDataArray = [
       name: 'type',
       label: 'Type',
       select: true,
+      required: true,
     },
     options: [
       { value: 'event', label: 'Event' },

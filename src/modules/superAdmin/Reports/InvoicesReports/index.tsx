@@ -1,14 +1,28 @@
 import Search from '@/components/Search';
 import { Box, Card, Typography } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
-import useUserReports from './useInvoicesReports';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { usersData, usersColumns } from './useInvoicesReports.data';
+import { usersColumns } from './useInvoicesReports.data';
 import Link from 'next/link';
 import InvoicesAnalystGraph from './InvoicesAnalystGraph';
+import useInvoicesReports from './useInvoicesReports';
 
 const InvoicesReports = () => {
-  const { searchBy, setSearchBy }: any = useUserReports;
+  const {
+    searchBy,
+    setSearchBy,
+    setPage,
+    setLimit,
+    invoicesReportsData,
+    invoicesReportsList,
+    invoicesReportsGraph,
+    isLoading,
+    isSuccess,
+    isFetching,
+    resetFilters,
+    filter,
+    setFilter,
+  }: any = useInvoicesReports();
 
   return (
     <Box>
@@ -21,7 +35,12 @@ const InvoicesReports = () => {
         <Typography variant="h3">Invoices Report</Typography>
       </Box>
       <Card sx={{ mb: '30px' }}>
-        <InvoicesAnalystGraph />
+        <InvoicesAnalystGraph
+          invoicesReportsGraph={invoicesReportsGraph}
+          filter={filter}
+          setFilter={setFilter}
+          resetFilters={resetFilters}
+        />
       </Card>
       <Card>
         <Box
@@ -43,9 +62,18 @@ const InvoicesReports = () => {
         <Box>
           <TanstackTable
             columns={usersColumns}
-            data={usersData}
+            data={invoicesReportsList}
             isPagination
-            totalRecords={4}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setLimit}
+            count={invoicesReportsData?.data?.meta?.pages}
+            pageLimit={invoicesReportsData?.data?.meta?.limit}
+            totalRecords={invoicesReportsData?.data?.meta?.total}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
+            isFetching={isFetching}
+            currentPage={invoicesReportsData?.data?.meta?.page}
           />
         </Box>
       </Card>

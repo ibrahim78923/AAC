@@ -38,10 +38,20 @@ export const superadminDashboardAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['SUPER_ADMIN_DASHBOARD'],
     }),
+
+    getEnquiriesDetails: builder.query({
+      query: ({ params }: any) => ({
+        url: `${SUPER_ADMIN_DASHBOARD?.ENQUIRIES}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['SUPER_ADMIN_DASHBOARD'],
+    }),
   }),
 });
 
 export const {
+  useGetEnquiriesDetailsQuery,
   useGetPlanListDetailsQuery,
   useGetBillingDetailsQuery,
   useGetUsersStatsQuery,

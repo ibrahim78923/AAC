@@ -32,6 +32,7 @@ export const END_POINTS = {
   POST_DEALS: '/deals',
   DEALS_REPORTS: '/deals/deal-report',
   SUPER_ADMIN_USERS_REPORTS: '/super-admin/user-product-wise-stats',
+  SUPER_ADMIN_INVOICES_REPORTS: '/super-admin/get-invoice-report',
   DEALS_PIPELINE: '/deal-pipeline',
   DEALS_LIFECYCLE_STAGES: '/lifecycle-stages',
   DEALS_USER_LIST: '/super-admin/user-list',
@@ -485,6 +486,7 @@ export const OPERATION = {
   SAVE_WORKFLOW: '/workflows/save',
   CLONE_WORKFLOW: '/workflows/clone',
   TEST_WORKFLOW: '/workflows/test',
+  GET_DATA_MANAGEMENT: '/data-management/get-data-management',
 };
 
 export const AIR_SALES = {
@@ -506,4 +508,5 @@ export const SUPER_ADMIN_DASHBOARD = {
   PLAN_STATS: '/super-admin/plan-stats',
   BILLING_INVOICES: '/super-admin/dashboard',
   PLANS_LIST: '/plan',
+  ENQUIRIES: '/super-admin/user-enquiry-wise-stats',
 };

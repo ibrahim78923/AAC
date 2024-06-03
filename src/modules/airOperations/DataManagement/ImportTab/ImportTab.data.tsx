@@ -8,26 +8,26 @@ export const importTabColumnsFunction: any = (
   setSelectedExportList: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedExportList?.find(
-            (item: any) => item?.id === info?.getValue(),
+            (item: any) => item?._id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target.checked
             ? setSelectedExportList([
                 ...selectedExportList,
-                exportList?.find((item: any) => item?.id === info?.getValue()),
+                exportList?.find((item: any) => item?._id === info?.getValue()),
               ])
             : setSelectedExportList(
                 selectedExportList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -52,8 +52,8 @@ export const importTabColumnsFunction: any = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.user,
-    id: 'user',
+    accessorFn: (row: any) => row?.name,
+    id: 'name',
     isSortable: true,
     header: 'User',
     cell: (info: any) => (
@@ -70,7 +70,7 @@ export const importTabColumnsFunction: any = (
             fontWeight={500}
             color="blue.dull_blue"
           >
-            {info?.getValue()}
+            {info?.row?.original?.requester?.name}
           </Typography>
           <Typography variant="subtitle2" fontWeight={400} color="custom.light">
             {info?.getValue()}
@@ -110,32 +110,11 @@ export const importTabColumnsFunction: any = (
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.createdDate,
-    id: 'createdDate',
+    accessorFn: (row: any) => row?.createdAt,
+    id: 'createdAt',
     isSortable: true,
     header: 'Created Date',
     cell: (info: any) =>
       info?.getValue() ? dayjs(info?.getValue())?.format('DD/MM/YYYY') : '---',
-  },
-];
-
-export const importListData: any = [
-  {
-    id: 1,
-    user: 'purchase cost',
-    fileName: 'Doc.pdf',
-    product: 'Service',
-    object: 'Deals',
-    status: 'error',
-    createdDate: `2023-12-14T11:59:08.238Z`,
-  },
-  {
-    id: 2,
-    user: 'purchase cost',
-    fileName: 'Doc.pdf',
-    product: 'Service',
-    object: 'Deals',
-    status: 'error',
-    createdDate: `2023-12-14T11:59:08.238Z`,
   },
 ];
