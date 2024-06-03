@@ -1,98 +1,91 @@
 import {
   RHFAutocomplete,
-  // RHFAutocompleteAsync,
   RHFDatePicker,
+  RHFTextField,
 } from '@/components/ReactHookForm';
 
 export const productOptions = [
-  {
-    label: 'sales',
-    value: 'sales',
-  },
-  {
-    label: 'services',
-    value: 'services',
-  },
-  {
-    label: 'marketing',
-    value: 'marketing',
-  },
+  'SALES',
+  'MARKETING',
+  'SERVICES',
+  'OPERATIONS',
+  'LOYALTY_PROGRAM',
 ];
 
 export const objectOptions = [
-  {
-    label: 'deals',
-    value: 'deals',
-  },
-  {
-    label: 'task',
-    value: 'task',
-  },
-  {
-    label: 'quotes',
-    value: 'quotes',
-  },
+  'TICKETS',
+  'MANAGE_PORTAL',
+  'ARTICLES',
+  'CONTRACTS',
+  'SETTINGS',
+  'ASSETS',
+  'CONTACTS',
+  'DEPARTMENTS',
+  'QUOTE',
+  'EMAILS',
+  'PHYSICAL_REWARDS',
+  'DIGITAL_REWARDS',
+  'ROLES_AND_TIERS',
+  'COMPANIES',
+  'LOYALTY_SHOPS',
 ];
 
-export const defaultValues = {
-  product: null,
-  user: null,
-  object: null,
-  createdDate: new Date(),
+export const defaultValues = (filterValues: any) => {
+  return {
+    product: filterValues?.product ?? null,
+    user: filterValues?.user ?? null,
+    object: filterValues?.object ?? null,
+    createdDate: filterValues?.createdDate ?? new Date(),
+  };
 };
 
-export const filterFieldsFunction = () =>
-  // apiQuerySearch?: any
-  [
-    {
-      id: 2,
-      component: RHFAutocomplete,
-      gridLength: 12,
-      componentProps: {
-        fullWidth: true,
-        name: 'product',
-        label: 'Product',
-        select: true,
-        placeholder: 'Product',
-        options: productOptions,
-      },
+export const filterFields = [
+  {
+    id: 2,
+    component: RHFAutocomplete,
+    gridLength: 12,
+    componentProps: {
+      fullWidth: true,
+      name: 'product',
+      label: 'Product',
+      select: true,
+      placeholder: 'Product',
+      options: productOptions,
     },
-    //TODO: Below commented code will be used with integration
-    {
-      id: 920,
-      componentProps: {
-        name: 'user',
-        label: 'User',
-        fullWidth: true,
-        placeholder: 'User',
-        // apiQuery: apiQuerySearch,
-        options: [],
-      },
-      gridLength: 12,
-      component: RHFAutocomplete,
-      // component: RHFAutocompleteAsync,
+  },
+
+  {
+    id: 920,
+    componentProps: {
+      name: 'user',
+      label: 'User',
+      fullWidth: true,
+      placeholder: 'User',
     },
-    {
-      id: 920,
-      componentProps: {
-        fullWidth: true,
-        name: 'object',
-        label: 'Object',
-        select: true,
-        options: objectOptions,
-        placeholder: 'Object',
-      },
-      gridLength: 12,
-      component: RHFAutocomplete,
+    gridLength: 12,
+    component: RHFTextField,
+  },
+  {
+    id: 4575,
+    componentProps: {
+      fullWidth: true,
+      name: 'object',
+      label: 'Object',
+      select: true,
+      options: objectOptions,
+      placeholder: 'Object',
     },
-    {
-      id: 150,
-      componentProps: {
-        fullWidth: true,
-        name: 'createdDate',
-        label: 'Created Date',
-      },
-      gridLength: 12,
-      component: RHFDatePicker,
+    gridLength: 12,
+    component: RHFAutocomplete,
+  },
+  {
+    id: 150,
+    componentProps: {
+      fullWidth: true,
+      name: 'createdDate',
+      label: 'Created Date',
     },
-  ];
+    gridLength: 12,
+    component: RHFDatePicker,
+  },
+];

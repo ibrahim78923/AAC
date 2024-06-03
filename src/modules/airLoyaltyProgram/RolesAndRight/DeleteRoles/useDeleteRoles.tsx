@@ -18,8 +18,8 @@ export const useDeleteRoles = (props: any) => {
   const deleteRoles = async () => {
     const deleteParams = new URLSearchParams();
 
-    selectedRolesList?.forEach((RolesId: any) =>
-      deleteParams?.append('ids', RolesId),
+    selectedRolesList?.forEach(
+      (RolesId: any) => deleteParams?.append('ids', RolesId),
     );
 
     const deleteRolesParameter = {

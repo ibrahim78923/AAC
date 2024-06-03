@@ -45,10 +45,12 @@ export const useUpsertRolesAndRight = () => {
   });
 
   useEffect(() => {
-    const slugs = getRolesData?.data?.permissions?.flatMap((parent: any) =>
-      parent?.subModules?.flatMap((subModule: any) =>
-        subModule?.permissions?.map((item: any) => item?.slug),
-      ),
+    const slugs = getRolesData?.data?.permissions?.flatMap(
+      (parent: any) =>
+        parent?.subModules?.flatMap(
+          (subModule: any) =>
+            subModule?.permissions?.map((item: any) => item?.slug),
+        ),
     );
 
     const slugsObject = slugs?.reduce((acc: any, slug: any) => {
