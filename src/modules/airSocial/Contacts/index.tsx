@@ -72,7 +72,6 @@ const Contacts = () => {
     openModalExport,
     handleOpenModalExport,
     setOpenModalExport,
-
     theme,
     isOpen,
     isDealCustomize,
