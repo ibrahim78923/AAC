@@ -10,16 +10,16 @@ import {
   scheduleEmailDefaultValues,
   scheduleEmailValidationSchema,
 } from './SendEmailDrawer.data';
-import {
-  usePostDraftOtherEmailMutation,
-  usePostReplyOtherEmailMutation,
-  usePostScheduleOtherEmailMutation,
-  usePostSendOtherEmailMutation,
-} from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
 import { CREATE_EMAIL_TYPES } from '@/constants';
 import { useEffect, useState } from 'react';
+import {
+  usePostDraftGmailMutation,
+  usePostReplyOtherGmailMutation,
+  usePostScheduleGmailMutation,
+  usePostSendGmailMutation,
+} from '@/services/commonFeatures/email/gmail';
 
 const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const theme = useTheme();
@@ -40,16 +40,16 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     setValue('to', autocompleteValues);
   }, [autocompleteValues]);
 
-  const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
-    usePostSendOtherEmailMutation();
-  const [postScheduleOtherEmail, { isLoading: loadingOtherScheduleSend }] =
-    usePostScheduleOtherEmailMutation();
-  const [postReplyOtherEmail, { isLoading: loadingOtherReply }] =
-    usePostReplyOtherEmailMutation();
-  const [postDraftOtherEmail] = usePostDraftOtherEmailMutation();
+  const [postSendGmail, { isLoading: loadingOtherSend }] =
+    usePostSendGmailMutation();
+  const [postScheduleGmail, { isLoading: loadingOtherScheduleSend }] =
+    usePostScheduleGmailMutation();
+  const [postReplyGmail, { isLoading: loadingOtherReply }] =
+    usePostReplyOtherGmailMutation();
+  const [postDraftGmail] = usePostDraftGmailMutation();
 
-  const currentEmailAssets = useAppSelector(
-    (state: any) => state?.email?.currentEmailAssets,
+  const currentGmailAssets = useAppSelector(
+    (state: any) => state?.gmail?.currentGmailAssets,
   );
 
   const handleOnClose = () => {
@@ -95,8 +95,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [isoString]);
 
-  const postEmail = isSendLater ? postScheduleOtherEmail : postSendOtherEmail;
-
+  const postEmail = isSendLater ? postScheduleGmail : postSendGmail;
   const onSubmit = async (values: any) => {
     if (isProcessDraft) {
       if (isToExists?.length > 0) {
@@ -112,8 +111,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         if (values?.bcc && values?.bcc?.trim() !== '') {
           formDataSend.append('bcc', values?.bcc);
         }
+        if (values?.attachFile) {
+          formDataSend.append('attachments', values?.attachFile);
+        }
         try {
-          await postDraftOtherEmail({
+          await postDraftGmail({
             body: formDataSend,
           })?.unwrap();
           enqueueSnackbar('Draft saved successfully', {
@@ -151,8 +153,9 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           formDataSend.append('bcc', values?.bcc);
         }
         if (sendLaterDate) {
-          formDataSend.append('sendAt', sendLaterDate);
+          formDataSend.append('sentOn', sendLaterDate);
         }
+        formDataSend.append('attachments', values?.attachFile);
         try {
           await postEmail({
             body: formDataSend,
@@ -177,18 +180,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
       ) {
         const formDataReply = new FormData();
-        formDataReply.append('id', currentEmailAssets?.id);
-        formDataReply.append('threadId', currentEmailAssets?.threadId);
+        formDataReply.append('id', currentGmailAssets?.id);
+        formDataReply.append('threadId', currentGmailAssets?.threadId);
         formDataReply.append('content', values?.description);
-        formDataReply.append('templateId', '6538bb480b3f9e9d83d4a2ce');
         formDataReply.append(
           'type',
           drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ? 'reply-all' : 'reply',
         );
-        formDataReply.append('attachments', '');
+        formDataReply.append('attachments', values?.attachFile);
 
         try {
-          await postReplyOtherEmail({
+          await postReplyGmail({
             body: formDataReply,
           })?.unwrap();
           enqueueSnackbar(

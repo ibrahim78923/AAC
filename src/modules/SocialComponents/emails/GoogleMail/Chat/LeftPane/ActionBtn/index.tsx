@@ -15,8 +15,17 @@ import { AlertModals } from '@/components/AlertModals';
 import { WarningIcon } from '@/assets/icons';
 import { useMoveFolderOtherEmailMutation } from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
+import { useDeleteGmailMutation } from '@/services/commonFeatures/email/gmail';
+import { useDispatch } from 'react-redux';
+import {
+  setActiveGmailRecord,
+  setSelectedGmailRecords,
+} from '@/redux/slices/email/gmail/slice';
+// const ActionBtn = ({ filteredData }: any) => {
 
-const ActionBtn = ({ filteredData }: any) => {
+const ActionBtn = () => {
+  const dispatch = useDispatch();
+
   const gmailTabType: any = useAppSelector(
     (state: any) => state?.gmail?.gmailTabType,
   );
@@ -44,6 +53,8 @@ const ActionBtn = ({ filteredData }: any) => {
   const [moveFolderOtherEmail, { isLoading: loadingRestore }] =
     useMoveFolderOtherEmailMutation();
 
+  const [deleteGmail] = useDeleteGmailMutation();
+
   const handelRestore = async () => {
     const ids =
       selectedGmailRecords &&
@@ -68,22 +79,15 @@ const ActionBtn = ({ filteredData }: any) => {
     const ids =
       selectedGmailRecords &&
       selectedGmailRecords?.map((message: any) => message?.id);
-
-    const result = filteredData?.find(
-      (filterData: any) => filterData?.name?.toLowerCase() === 'trash',
-    );
-    const payload = {
-      messageId: ids,
-      folderId: result?.id,
-    };
     try {
-      await moveFolderOtherEmail({
-        body: payload,
-      })?.unwrap();
+      await deleteGmail({ ids })?.unwrap();
       enqueueSnackbar('Email restore successfully', {
         variant: 'success',
       });
-      setIsRestoreEmail(false);
+      handleClose();
+      setIsDeleteModalOpen(false);
+      dispatch(setSelectedGmailRecords([]));
+      dispatch(setActiveGmailRecord({}));
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }

@@ -261,6 +261,12 @@ export const SOCIAL_FEATURES_GMAIL = {
   AUTH_URL: '/gmail/auth-url',
   GMAIL_FOLDER: '/gmail/get-gmail-folders',
   GMAIL_BY_FOLDERID: '/gmail/get-gmail-email',
+  GMAIL_MESSAGE_DETAIL: '/gmail/get-gmail-message-details',
+  GMAIL_SEND: '/gmail/send-gmail-email',
+  SCHEDULE_GMAIL_SEND: '/gmail/schedule-gmail-mail',
+  REPLY_GMAIL_SEND: '/gmail/reply-gmail-email',
+  DRAFT_GMAIL_SEND: '/gmail/create-gmail-draft-mail',
+  DELETE_GMAIL: '/gmail/move-gmail-mail-to-trash',
 };
 
 export const CHAT_SOCKETS = {

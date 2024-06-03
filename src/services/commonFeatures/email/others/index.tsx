@@ -192,16 +192,6 @@ export const emailApi = baseAPI.injectEndpoints({
       },
       providesTags: TAG,
     }),
-
-    getEmailAuthUrl: builder.query({
-      query: () => {
-        return {
-          url: `${SOCIAL_FEATURES_EMAIL?.AUTH_URL}`,
-          method: 'GET',
-        };
-      },
-      providesTags: TAG,
-    }),
   }),
 });
 
@@ -223,5 +213,4 @@ export const {
   usePostScheduleOtherEmailMutation,
   usePatchEmailMessageMutation,
   usePostForwardOtherEmailMutation,
-  useGetEmailAuthUrlQuery,
 } = emailApi;

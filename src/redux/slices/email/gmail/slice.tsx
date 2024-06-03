@@ -4,10 +4,11 @@ interface EmailStateI {
   gmailTabType: any;
   selectedGmailRecords: any;
   activeGmailRecord: any;
-  currentEmailAssets: any;
+  currentGmailAssets: any;
   loggedInState: any;
   gmailList: any;
   mailDraftList: any;
+  gmailSearch: any;
 }
 
 const initialState: EmailStateI = {
@@ -16,10 +17,11 @@ const initialState: EmailStateI = {
   },
   selectedGmailRecords: [],
   activeGmailRecord: {},
-  currentEmailAssets: {},
+  currentGmailAssets: {},
   loggedInState: 'umarkhattab555@zohomail.com',
   gmailList: {},
   mailDraftList: {},
+  gmailSearch: '',
 };
 
 const gmailSlice = createSlice({
@@ -41,11 +43,14 @@ const gmailSlice = createSlice({
     setActiveGmailRecord: (state, action: PayloadAction<any>) => {
       state.activeGmailRecord = action?.payload;
     },
-    setCurrentEmailAssets: (state, action: PayloadAction<any>) => {
-      state.currentEmailAssets = action?.payload;
+    setCurrentGmailAssets: (state, action: PayloadAction<any>) => {
+      state.currentGmailAssets = action?.payload;
     },
     setLoggedInState: (state, action: PayloadAction<any>) => {
-      state.currentEmailAssets = action?.payload;
+      state.currentGmailAssets = action?.payload;
+    },
+    setGmailSearch: (state, action: PayloadAction<any>) => {
+      state.gmailSearch = action?.payload;
     },
   },
 });
@@ -54,8 +59,9 @@ export const {
   setLoggedInState,
   setSelectedGmailRecords,
   setActiveGmailRecord,
-  setCurrentEmailAssets,
+  setCurrentGmailAssets,
   setGmailList,
   setGmailDraftList,
+  setGmailSearch,
 } = gmailSlice.actions;
 export default gmailSlice.reducer;

@@ -352,3 +352,10 @@ export const COMPANITES_TYPE = {
   NEW_COMPANY: 'new-Company',
   COMPANY: 'company',
 };
+
+export const Gmail_CONST = {
+  DATE: 'Date',
+  FROM: 'From',
+  TO: 'To',
+  SUBJECT: 'Subject',
+};

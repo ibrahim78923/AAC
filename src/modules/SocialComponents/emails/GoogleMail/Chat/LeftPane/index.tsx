@@ -36,6 +36,9 @@ const LeftPane = () => {
   const gmailList: any = useAppSelector(
     (state: any) => state?.gmail?.gmailList,
   );
+  const gmailSearch: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailSearch,
+  );
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const { data: foldersData, isLoading } = useGetGmailFoldersQuery({});
@@ -58,6 +61,7 @@ const LeftPane = () => {
         page: PAGINATION?.CURRENT_PAGE,
         limit: PAGINATION?.PAGE_LIMIT,
         folderId: gmailTabType?.name,
+        ...(gmailSearch && { search: gmailSearch }),
       },
     },
     { skip: isGetEmailsRequest },
