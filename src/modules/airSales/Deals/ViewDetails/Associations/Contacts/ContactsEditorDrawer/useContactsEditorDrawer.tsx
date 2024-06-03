@@ -6,18 +6,18 @@ import {
   contactsDefaultValues,
   contactsValidationSchema,
 } from './ContactsEditorDrawer.data';
-import {
-  useGetContactsStatusQuery,
-  useGetLifeCycleQuery,
-  usePostContactsMutation,
-} from '@/services/commonFeatures/contacts';
+import { usePostContactsMutation } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { DATE_FORMAT } from '@/constants';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
-import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
+import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
+import {
+  useLazyGetContactsStatusQuery,
+  useLazyGetLifeCycleStagesQuery,
+} from '@/services/common-APIs';
 
 const useContactsEditorDrawer = ({
   openDrawer,
@@ -25,30 +25,15 @@ const useContactsEditorDrawer = ({
   setOpenDrawer,
   dealId,
 }: any) => {
-  const { data: lifeCycleStages } = useGetLifeCycleQuery({});
-  const { data: ContactsStatus } = useGetContactsStatusQuery({});
   const { user }: any = useAuth();
-
-  const { data: ContactOwners } = useGetOrganizationUsersQuery(
-    user?.organization?._id,
-  );
+  const orgId = user?.organization?._id;
+  const contactOwnerData = useLazyGetOrganizationUsersQuery();
+  const contactStatusData = useLazyGetContactsStatusQuery();
+  const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
 
   const [postContacts, { isLoading: postContactLoading }] =
     usePostContactsMutation();
   const [createAssociation] = useCreateAssociationMutation();
-
-  const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
-    value: user?._id,
-    label: `${user?.firstName} ${user?.lastName}`,
-  }));
-
-  const contactStatusData = ContactsStatus?.data?.conatactStatus?.map(
-    (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
-  );
-
-  const lifeCycleStagesData = lifeCycleStages?.data?.lifecycleStages?.map(
-    (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
-  );
 
   const methodscontacts = useForm({
     resolver: yupResolver(contactsValidationSchema),
@@ -152,6 +137,7 @@ const useContactsEditorDrawer = ({
     onCloseHandler,
     contactOwnerData,
     postContactLoading,
+    orgId,
   };
 };
 

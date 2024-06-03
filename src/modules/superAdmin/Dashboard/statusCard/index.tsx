@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { Box, Divider, Grid, Typography, Skeleton } from '@mui/material';
-
 import {
   BlueDotIcon,
   EarningIcon,
@@ -9,7 +7,6 @@ import {
   TwoUserIcon,
   UserGroupFilledIcon,
 } from '@/assets/icons';
-
 import { style } from './StatusCard.style';
 
 const StatusCards = ({
@@ -23,7 +20,7 @@ const StatusCards = ({
 }: any) => {
   return (
     <>
-      <Grid container spacing={2} sx={{ paddingBottom: '1rem' }}>
+      <Grid container spacing={2} sx={{ marginBottom: '1rem' }}>
         {isLoading ? (
           <Grid item xl={3} md={6} xs={12}>
             <Skeleton height="200px" />

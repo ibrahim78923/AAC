@@ -5,17 +5,14 @@ import {
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { useLazyGetProductCategoriesQuery } from '@/services/common-APIs';
 
 import * as Yup from 'yup';
 
 export const salesProductvalidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
-  sku: Yup?.string(),
   purchasePrice: Yup?.number()?.positive()?.required('Field is Required'),
-  category: Yup?.string(),
-  description: Yup?.string(),
   unitPrice: Yup?.number()?.positive()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
+  description: Yup?.string(),
 });
 
 export const salesProductDefaultValues: any = {
@@ -23,15 +20,13 @@ export const salesProductDefaultValues: any = {
   sku: '',
   purchasePrice: null,
   category: null,
-  associate: '',
   description: '',
   isActive: false,
   unitPrice: null,
   image: '',
 };
 
-export const dataArray = () => {
-  const productCategories = useLazyGetProductCategoriesQuery();
+export const dataArray = (productCategories: any) => {
   return [
     {
       componentProps: {

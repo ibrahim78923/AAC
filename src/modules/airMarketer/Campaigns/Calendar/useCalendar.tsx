@@ -37,6 +37,7 @@ const useCalendar = () => {
     isToggle: false,
     type: '',
     id: '',
+    startDate: null,
   });
 
   const calanderDrawerType = {
@@ -215,7 +216,12 @@ const useCalendar = () => {
   };
 
   const handlePlusButtonClick = (date: any) => {
-    setCreateTask({ ...createTask, isToggle: true, type: 'add' });
+    setCreateTask({
+      ...createTask,
+      isToggle: true,
+      type: 'add',
+      startDate: date,
+    });
     setClickedDate(date);
   };
 
@@ -240,7 +246,7 @@ const useCalendar = () => {
 
   const handleEditClick = (id: any) => {
     setIsDrawerOpen({ ...isDrawerOpen, isToggled: false });
-    setCreateTask({ isToggle: true, type: 'edit', id: id });
+    setCreateTask({ ...createTask, isToggle: true, type: 'edit', id: id });
   };
 
   return {

@@ -6,6 +6,7 @@ import { isNullOrEmpty } from '@/utils';
 
 export const createComapnySchema = Yup?.object()?.shape({
   domain: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
   totalRevenue: Yup?.number(),
   noOfEmloyee: Yup?.number(),
   ownerId: Yup?.string()?.required('Field is Required'),
@@ -48,6 +49,7 @@ export const dataArray = () => {
         placeholder: 'Company name',
         fullWidth: true,
         select: false,
+        required: true,
       },
       component: RHFTextField,
       md: 12,

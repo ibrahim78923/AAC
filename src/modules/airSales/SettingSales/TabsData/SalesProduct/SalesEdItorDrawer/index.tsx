@@ -20,6 +20,7 @@ const SalesEditorDrawer = ({
     salesProduct,
     productLoading,
     productsDataLoading,
+    productCategories,
   } = useSalesEditorDrawer({
     selectedCheckboxes,
     isEditMode,
@@ -44,8 +45,13 @@ const SalesEditorDrawer = ({
           <Box sx={{ paddingTop: '1rem' }}>
             <FormProvider methods={salesProduct}>
               <Grid container spacing={1}>
-                {dataArray()?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={item?.component?.name}>
+                {dataArray(productCategories)?.map((item: any) => (
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={item?.componentProps?.name}
+                  >
                     <item.component {...item.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (

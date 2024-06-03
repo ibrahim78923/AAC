@@ -1,28 +1,39 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+import { COMPANITES_TYPE } from '@/constants';
+import { getSession } from '@/utils';
 import * as Yup from 'yup';
 
 export const companiesValidationSchema = Yup?.object()?.shape({
   domain: Yup?.string()?.when('company', ([company]: any, field: any) =>
-    company === 'new-Company'
+    company === COMPANITES_TYPE?.NEW_COMPANY
+      ? field?.required('Field is required')
+      : field?.optional(),
+  ),
+  name: Yup?.string()?.when('company', ([company]: any, field: any) =>
+    company === COMPANITES_TYPE?.NEW_COMPANY
       ? field?.required('Field is required')
       : field?.optional(),
   ),
   ownerId: Yup?.string()?.when('company', ([company]: any, field: any) =>
-    company === 'new-Company'
+    company === COMPANITES_TYPE?.NEW_COMPANY
       ? field?.required('Field is required')
       : field?.optional(),
   ),
 });
 
 export const companiesDefaultValues = {
-  company: 'new-Company',
+  company: COMPANITES_TYPE?.NEW_COMPANY,
   domain: '',
   noOfEmloyee: '',
   totalRevenue: '',
 };
 
-export const companiesDataArray = (getCompanyContacts: any) => {
+export const companiesDataArray = (getCompanyContactsList: any) => {
+  const { user }: any = getSession();
   return [
     {
       componentProps: {
@@ -43,54 +54,49 @@ export const companiesDataArray = (getCompanyContacts: any) => {
         placeholder: 'Company name',
         fullWidth: true,
         select: false,
+        required: true,
       },
       component: RHFTextField,
       md: 12,
     },
     {
       componentProps: {
+        placeholder: 'Select company owner',
         name: 'ownerId',
         label: 'Company Owner',
-        fullWidth: true,
-        select: true,
         required: true,
+        apiQuery: getCompanyContactsList,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { contactOwnerId: user?._id },
+        queryKey: 'contactOwnerId',
       },
-      options: getCompanyContacts?.data?.contacts?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
       componentProps: {
+        placeholder: 'Select industry',
         name: 'industry',
         label: 'Industry',
-        fullWidth: true,
-        select: true,
+        options: [
+          'Computer software',
+          'Computer Services',
+          'Construction',
+          'None',
+        ],
       },
-      options: [
-        { value: 'computerSoftware', label: 'Computer software' },
-        { value: 'computerServices', label: 'Computer Services' },
-        { value: 'construction', label: 'Construction' },
-        { value: 'none', label: 'None' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
     {
       componentProps: {
+        placeholder: 'Select type',
         name: 'type',
         label: 'Company Type',
-        fullWidth: true,
-        select: true,
+        options: ['Partner', 'Vendor', 'None'],
       },
-      options: [
-        { value: 'Partner', label: 'Partner' },
-        { value: 'Vendor', label: 'Vendor' },
-        { value: 'None', label: 'None' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
     {

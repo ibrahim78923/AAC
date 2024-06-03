@@ -1,8 +1,8 @@
 import * as Yup from 'yup';
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFDropZone,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
@@ -17,6 +17,7 @@ export const contactsDefaultValues = {
 };
 
 export const contactsDataArray = ({
+  orgId,
   lifeCycleStagesData,
   contactStatusData,
   contactOwnerData,
@@ -106,16 +107,18 @@ export const contactsDataArray = ({
       component: RHFTextField,
     },
     {
-      id: 'Contact Owner',
-      title: 'Contact Owner',
+      id: 'contactOwnerId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'contactOwnerId',
         label: 'Contact Owner',
-        select: true,
+        placeholder: 'Select Owner',
+        apiQuery: contactOwnerData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { id: orgId, meta: false },
       },
-      options: contactOwnerData,
-      md: 12,
-      component: RHFSelect,
     },
     {
       componentProps: {
@@ -127,25 +130,30 @@ export const contactsDataArray = ({
       component: RHFTextField,
     },
     {
-      title: 'Lifecycle Stage',
+      id: 'lifeCycleStageId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'lifeCycleStageId',
         label: 'Lifecycle Stage',
-        select: true,
+        placeholder: 'Select Lifecycle Stage',
+        apiQuery: lifeCycleStagesData,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: {},
       },
-      options: lifeCycleStagesData,
-      md: 12,
-      component: RHFSelect,
     },
     {
+      id: 'statusId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'statusId',
         label: 'Status',
-        select: true,
+        placeholder: 'Select Status',
+        apiQuery: contactStatusData,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: {},
       },
-      options: contactStatusData,
-      md: 12,
-      component: RHFSelect,
     },
     {
       title: 'Date of Joining',

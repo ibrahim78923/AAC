@@ -9,6 +9,8 @@ const GraphCard = ({
   planStatLoading,
   billingData,
   billingDataLoading,
+  enquiriesData,
+  enquiriesDataLoading,
 }: any) => {
   return (
     <>
@@ -19,7 +21,10 @@ const GraphCard = ({
         <Grid item lg={6} md={6} sm={12} xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <EnquiriesCard />
+              <EnquiriesCard
+                details={enquiriesData}
+                isLoading={enquiriesDataLoading}
+              />
             </Grid>
             <Grid item xs={12}>
               <InvoicingCard

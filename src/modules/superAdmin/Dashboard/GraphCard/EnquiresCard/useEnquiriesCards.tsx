@@ -1,11 +1,20 @@
-import { useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
 
-const useEnquiriesCards = () => {
+const useEnquiriesCards = (details: any) => {
   const theme = useTheme<Theme>();
-  const [series] = useState<any>([65, 35]);
 
-  const [options] = useState<any>({
+  const totalCompletePercentage = details
+    ?.map((item: any) => item?.totalCompletedPercentage)
+    ?.join(', ');
+  const totalPendingPercentage = details
+    ?.map((item: any) => item?.totalPendingPercentage)
+    ?.join(', ');
+
+  const series = [
+    Number(totalCompletePercentage),
+    Number(totalPendingPercentage),
+  ];
+  const options: any = {
     chart: {
       width: 450,
       type: 'donut',
@@ -13,7 +22,7 @@ const useEnquiriesCards = () => {
     labels: ['Complete', 'Pending'],
     responsive: [
       {
-        breakpoint: 769,
+        breakpoint: 375,
         options: {
           chart: {
             width: 200,
@@ -39,18 +48,20 @@ const useEnquiriesCards = () => {
         radius: 5,
       },
       formatter: function (seriesName: any, opts: any) {
-        return seriesName + ' ' + opts.w.globals.series[opts.seriesIndex] + '%';
+        return (
+          seriesName + ' ' + opts?.w?.globals?.series[opts?.seriesIndex] + '%'
+        );
       },
     },
     colors: [
       `${theme?.palette?.primary?.main}`,
       `${theme?.palette?.error?.main}`,
     ],
-  });
+  };
 
   return {
-    series,
     options,
+    series,
     theme,
   };
 };

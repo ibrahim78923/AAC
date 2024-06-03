@@ -14,6 +14,7 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 import { useEffect } from 'react';
+import { useLazyGetProductCategoriesQuery } from '@/services/common-APIs';
 
 const useSalesEditorDrawer = ({
   selectedCheckboxes,
@@ -25,20 +26,22 @@ const useSalesEditorDrawer = ({
     usePostSalesProductMutation();
 
   const [updateSalesProduct] = useUpdateSalesProductMutation();
+
   const [getSalesProductById, { isLoading: productsDataLoading }] =
     useLazyGetSalesProductByIdQuery();
+
+  const productCategories = useLazyGetProductCategoriesQuery();
 
   const salesProduct = useForm({
     resolver: yupResolver(salesProductvalidationSchema),
     defaultValues: salesProductDefaultValues,
   });
   const { handleSubmit, reset } = salesProduct;
-
   useEffect(() => {
     if (selectedCheckboxes?.length > 0 && isEditMode) {
       getSalesProductById(selectedCheckboxes)
         .unwrap()
-        .then((res) => {
+        .then((res: any) => {
           if (res) {
             const fieldsData = res?.data;
             reset({
@@ -58,8 +61,7 @@ const useSalesEditorDrawer = ({
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
-
-    formData.append('category', values?.category);
+    formData.append('category', values?.category?._id);
     formData.append('description', values?.description);
     formData.append('isActive', values?.isActive);
     formData.append('name', values?.name);
@@ -81,9 +83,7 @@ const useSalesEditorDrawer = ({
         setIsDraweropen(false),
         enqueueSnackbar(
           `Product ${isEditMode ? 'Updated ' : 'Added'} Successfully`,
-          {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          },
+          { variant: NOTISTACK_VARIANTS?.SUCCESS },
         );
     } catch (error: any) {
       const errMsg = error?.data?.message;
@@ -95,8 +95,8 @@ const useSalesEditorDrawer = ({
   };
 
   const handleUserSwitchChange = async (e: any, id: any) => {
-    const status =
-      e?.target?.checked || e?.target?.value === true ? true : false;
+    const status = e?.target?.checked;
+
     try {
       await updateSalesProduct({
         body: { isActive: status },
@@ -118,6 +118,7 @@ const useSalesEditorDrawer = ({
     salesProduct,
     productLoading,
     productsDataLoading,
+    productCategories,
     handleUserSwitchChange,
   };
 };

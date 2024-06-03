@@ -11,8 +11,6 @@ import {
   drawerTitle,
 } from './ContactsEditorDrawer.data';
 
-import { v4 as uuidv4 } from 'uuid';
-
 const ContactsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, contactRecord, dealId } = props;
 
@@ -24,6 +22,7 @@ const ContactsEditorDrawer = (props: any) => {
     contactStatusData,
     contactOwnerData,
     postContactLoading,
+    orgId,
     onCloseHandler,
   } = useContactsEditorDrawer({
     openDrawer,
@@ -54,8 +53,14 @@ const ContactsEditorDrawer = (props: any) => {
                 lifeCycleStagesData,
                 contactStatusData,
                 contactOwnerData,
+                orgId,
               })?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
                   <item.component
                     disabled={openDrawer === 'View' ? true : false}
                     {...item?.componentProps}

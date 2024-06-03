@@ -508,4 +508,5 @@ export const SUPER_ADMIN_DASHBOARD = {
   PLAN_STATS: '/super-admin/plan-stats',
   BILLING_INVOICES: '/super-admin/dashboard',
   PLANS_LIST: '/plan',
+  ENQUIRIES: '/super-admin/user-enquiry-wise-stats',
 };

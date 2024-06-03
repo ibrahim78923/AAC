@@ -8,8 +8,6 @@ import {
   RHFSearchableSelect,
 } from '@/components/ReactHookForm';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import {
   companiesDataArray,
   companiesOptions,
@@ -24,9 +22,9 @@ const CompaniesEditorDrawer = (props: any) => {
     handleSubmit,
     onSubmit,
     methodsCompanies,
-    getCompanyContacts,
     watchCompany,
     postCompanyLoading,
+    getCompanyContactsList,
     companyOptions,
   } = useCompaniesEditorDrawer({
     openDrawer,
@@ -59,8 +57,13 @@ const CompaniesEditorDrawer = (props: any) => {
                 />
               </Grid>
               {watchCompany === 'new-Company' ? (
-                companiesDataArray(getCompanyContacts)?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                companiesDataArray(getCompanyContactsList)?.map((item: any) => (
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={item?.componentProps?.name}
+                  >
                     <item.component
                       disabled={openDrawer === 'View' ? true : false}
                       {...item?.componentProps}

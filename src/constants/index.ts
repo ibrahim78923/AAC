@@ -330,6 +330,11 @@ export const createGoal = {
   team: 'TEAM',
 };
 
+export const indexNumbers = {
+  ZERO: 0,
+  ONE: 1,
+  TWO: 2,
+};
 export const TASK_TABS_TYPES = {
   PENDING: 'Pending',
   INPROGRESS: 'Inprogress',
@@ -341,4 +346,9 @@ export const TASK_STATUS = {
   DEALS: 'deals',
   ASSOCIATIONS: 'associations',
   TICKETS: 'tickets',
+};
+
+export const COMPANITES_TYPE = {
+  NEW_COMPANY: 'new-Company',
+  COMPANY: 'company',
 };

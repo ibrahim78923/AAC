@@ -14,7 +14,6 @@ export const taskEvents: any = (
     ? allCampaignsData
     : [];
   const combinedArray = [...compaignsTasksArray, ...campaignsArray];
-
   return combinedArray.map((data: any) => {
     const isTask = compaignsTasksData?.includes(data);
     return {
@@ -26,7 +25,7 @@ export const taskEvents: any = (
       textColor: isTask
         ? `${theme?.palette?.common?.white}`
         : `${theme?.palette?.error?.main}`,
-      start: `${dayjs(data?.createdAt)?.format(DATE_FORMAT?.API)}`,
+      start: `${dayjs(data?.startDate)?.format(DATE_FORMAT?.API)}`,
       type: isTask ? 'task' : 'campaign',
       id: data?._id,
     };

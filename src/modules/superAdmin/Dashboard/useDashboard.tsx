@@ -1,16 +1,17 @@
+import { useState } from 'react';
+import { Theme, useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import {
   useGetBillingDetailsQuery,
+  useGetEnquiriesDetailsQuery,
   useGetPlanListDetailsQuery,
   useGetPlanStatsQuery,
   useGetUsersStatsQuery,
 } from '@/services/superAdmin/dashboard';
-import { Theme, useTheme } from '@mui/material';
-import { useState } from 'react';
 
 const useDashboard = () => {
-  const theme = useTheme<Theme>();
   const PAGE_LIMIT = 5;
+  const theme = useTheme<Theme>();
   const [pageLimit, setPageLimit] = useState(PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
@@ -30,19 +31,25 @@ const useDashboard = () => {
     useGetBillingDetailsQuery({});
   const billingDetails = getBillingDetails?.data;
 
+  const { data: getEnquiriesDetails } = useGetEnquiriesDetailsQuery({});
+  const enquiriesDetails = getEnquiriesDetails?.data;
+
   const planParams = {
     page: page,
     limit: pageLimit,
   };
-  const { data: getPlanListDetails } = useGetPlanListDetailsQuery({
-    params: planParams,
-  });
+  const { data: getPlanListDetails, isLoading: enquiriesDataLoading } =
+    useGetPlanListDetailsQuery({
+      params: planParams,
+    });
   const plansList = getPlanListDetails?.data?.plans;
 
   return {
     billingDetailsLoading,
+    enquiriesDataLoading,
     plansStatsLoading,
     userStatsLoading,
+    enquiriesDetails,
     planStatistics,
     billingDetails,
     allUsersStats,

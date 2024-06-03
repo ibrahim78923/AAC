@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Box,
   Theme,
@@ -9,10 +8,8 @@ import {
   Step,
   StepLabel,
 } from '@mui/material';
-
 import { style } from './EventCard.style';
 import { steps } from './EventCard.data';
-
 import { v4 as uuidv4 } from 'uuid';
 
 const CustomStepperIcon = ({
@@ -38,6 +35,7 @@ const EventCards = () => {
         border: `1px solid ${theme?.palette?.grey[700]}`,
         borderRadius: '8px',
         padding: '1rem',
+        height: '100%',
       }}
     >
       <Typography

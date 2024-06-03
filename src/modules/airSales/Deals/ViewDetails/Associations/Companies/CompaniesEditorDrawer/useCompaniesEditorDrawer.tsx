@@ -3,8 +3,8 @@ import {
   companiesDefaultValues,
   companiesValidationSchema,
 } from './CompaniesEditorDrawer.data';
-import { useGetCompanyContactsQuery } from '@/services/common-APIs';
-import { getSession } from '@/utils';
+import { useLazyGetCompanyContactsListQuery } from '@/services/common-APIs';
+
 import {
   useGetAllCompaniesQuery,
   usePostCompaniesMutation,
@@ -21,16 +21,9 @@ const useCompaniesEditorDrawer = ({
   dealId,
   companyRecord,
 }: any) => {
-  const { user }: any = getSession();
   const defaultCompany = 'new-Company';
 
-  const params = {
-    page: PAGINATION?.PAGE_COUNT,
-    limit: PAGINATION?.PAGE_LIMIT,
-    contactOwnerId: user?._id,
-  };
-
-  const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
+  const getCompanyContactsList = useLazyGetCompanyContactsListQuery();
 
   const companyParams = {
     page: PAGINATION?.PAGE_COUNT,
@@ -162,13 +155,13 @@ const useCompaniesEditorDrawer = ({
   };
 
   return {
-    handleSubmit,
-    onSubmit,
-    methodsCompanies,
-    getCompanyContacts,
-    watchCompany,
+    getCompanyContactsList,
     postCompanyLoading,
+    methodsCompanies,
     companyOptions,
+    handleSubmit,
+    watchCompany,
+    onSubmit,
   };
 };
 
