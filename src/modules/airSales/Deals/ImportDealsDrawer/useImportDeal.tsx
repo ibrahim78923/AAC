@@ -15,14 +15,16 @@ const useImportDeal = (setIsImportDeal: any) => {
   const submitImport = async (apiData: any) => {
     const apiImportData = {
       body: {
-        filePath: apiData?.filePath,
-        actionType: 'COMPANIES',
+        filePath: apiData?.fileUrl,
+        actionType: 'DEALS',
         dataColumn: apiData?.dataColumn,
       },
     };
     try {
       const response: any = await importFileTrigger?.(apiImportData)?.unwrap();
       successSnackbar(response?.message);
+      apiData?.onClose();
+      apiData?.setShowItemsList(false);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

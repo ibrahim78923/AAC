@@ -10,7 +10,17 @@ export const superAdminReports = baseAPI.injectEndpoints({
       }),
       providesTags: ['REPORTS'],
     }),
+
+    getInvoicesReports: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.SUPER_ADMIN_INVOICES_REPORTS}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['REPORTS'],
+    }),
   }),
 });
 
-export const { useGetReportsGraphQuery } = superAdminReports;
+export const { useGetReportsGraphQuery, useGetInvoicesReportsQuery } =
+  superAdminReports;
