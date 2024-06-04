@@ -3,7 +3,7 @@ import AudioVisualizer from './AudioVisualizer';
 import { EditYellowBGPenIcon } from '@/assets/icons';
 import { DeleteMessage } from './DeleteMessage';
 
-export const meetingAndGreetingListTableData = [
+export const voiceMailTableData = [
   {
     id: 1,
     messageName: `Agent Busy Message`,
@@ -20,7 +20,7 @@ export const meetingAndGreetingListTableData = [
     recording: 'https://webaudioapi.com/samples/audio-tag/chrono.mp3',
   },
 ];
-export const meetingAndGreetingListColumns = [
+export const voiceMailColumns = [
   {
     accessorFn: (row: any) => row?.messageName,
     id: 'messageName',
@@ -41,13 +41,12 @@ export const meetingAndGreetingListColumns = [
       </Box>
     ),
     header: 'Recording',
-    isSortable: true,
   },
   {
     accessorFn: (row: any) => row?.action,
     id: 'action',
     isSortable: true,
-    header: 'Action',
+    header: 'Call Actions',
     cell: (info: any) => (
       <Box>
         <EditYellowBGPenIcon />
