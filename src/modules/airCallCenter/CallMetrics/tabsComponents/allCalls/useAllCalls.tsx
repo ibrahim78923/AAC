@@ -2,6 +2,7 @@ import { successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { columns } from './allCalls.data';
+import { useRouter } from 'next/router';
 
 export const useAllCalls = () => {
   const theme = useTheme();
@@ -14,10 +15,12 @@ export const useAllCalls = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isExportDrawerOpen, setIsExportDrawerOpen] = useState(false);
   const [openAlertModal, setOpenAlertModal] = useState(false);
+  const router = useRouter();
   const getColumns = columns({
     setIsCallDetailsDrawerOpen,
     setIsViewDrawerOpen,
     setOpenAlertModal,
+    router,
   });
   const handleExcelExport = () => {
     successSnackbar('Excel Exported Successfully');

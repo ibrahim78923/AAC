@@ -6,7 +6,9 @@ import { Button, Menu, MenuItem } from '@mui/material';
 
 import { DownIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { allCallsData } from './callInQueue.data';
+
+import PowerDialerDialog from '../PowerDialerDialog';
+import { allCallsData } from './CallsInQueue.data';
 
 const CallsInQueue = () => {
   const styles = {
@@ -33,6 +35,8 @@ const CallsInQueue = () => {
     setPage,
     pageLimit,
     setPageLimit,
+    startPowerDialerModal,
+    setStartPowerDialerModal,
   } = useCallINQueue();
 
   return (
@@ -89,6 +93,10 @@ const CallsInQueue = () => {
         // totalRecords={Calls?.meta?.total}
         // isSuccess={true}
         // onPageChange={(page: any) => setPage(page)}
+      />
+      <PowerDialerDialog
+        powerDialerModal={startPowerDialerModal}
+        setPowerDialerModal={setStartPowerDialerModal}
       />
     </>
   );

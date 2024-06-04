@@ -14,11 +14,13 @@ import { UserDefault, UserProfileVectorImage } from '@/assets/images';
 import { Box, Tooltip, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import AudioVisualizer from './audioVisualizer/audioVisualizer';
+import { AIR_CALL_CENTER } from '@/constants';
 
 export const columns = ({
   setIsCallDetailsDrawerOpen,
   setIsViewDrawerOpen,
   setOpenAlertModal,
+  router,
 }: any) => {
   const theme = useTheme();
   return [
@@ -27,16 +29,27 @@ export const columns = ({
       id: 'customerName',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Image
-            src={info?.row?.original?.customerDetails?.profileAvatar}
-            alt="user-image"
-          />
-          <Box sx={{ width: '90px' }}>
-            <Typography variant="body3">
-              {info?.row?.original?.customerDetails?.name}
-            </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              router.push(AIR_CALL_CENTER?.CALL_DETAILS);
+            }}
+          >
+            <Image
+              src={info?.row?.original?.customerDetails?.profileAvatar}
+              alt="user-image"
+            />
+            <Box sx={{ width: '90px' }}>
+              <Typography variant="body3">
+                {info?.row?.original?.customerDetails?.name}
+              </Typography>
+            </Box>
           </Box>
-
           <Box sx={{ ml: 2 }}>
             {(() => {
               switch (info?.row?.original?.customerDetails?.callType) {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { columns } from './callInQueue.data';
+import { columnsCallInQueue } from './CallsInQueue.data';
 
 export const useCallINQueue = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -8,6 +8,7 @@ export const useCallINQueue = () => {
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(5);
   const actionMenuOpen = Boolean(anchorEl);
+  const [startPowerDialerModal, setStartPowerDialerModal] = useState(false);
   const handleActionsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
@@ -19,7 +20,7 @@ export const useCallINQueue = () => {
     setMultiSelect(null);
   };
 
-  const getColumns = columns({});
+  const getColumns = columnsCallInQueue({ setStartPowerDialerModal });
   return {
     searchTerm,
     setSearchTerm,
@@ -35,5 +36,7 @@ export const useCallINQueue = () => {
     pageLimit,
     setPageLimit,
     multiSelect,
+    startPowerDialerModal,
+    setStartPowerDialerModal,
   };
 };

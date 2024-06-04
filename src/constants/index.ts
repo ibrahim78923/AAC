@@ -193,6 +193,11 @@ export const AIR_OPERATIONS = {
   MARKETING_REPORTS_RESTORE: `/air-operations/reports/marketing-reports/restore`,
 };
 
+export const AIR_CALL_CENTER = {
+  CALL_DETAILS: '/air-call-center/call-metrics/call-details',
+  CALL_METRICS: '/air-call-center/call-metrics',
+};
+
 export const AIR_LOYALTY_PROGRAM = {
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
   ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,

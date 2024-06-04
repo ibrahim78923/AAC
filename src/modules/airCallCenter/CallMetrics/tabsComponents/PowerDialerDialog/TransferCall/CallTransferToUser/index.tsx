@@ -1,12 +1,13 @@
 import React from 'react';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 import { AvatarImage } from '@/assets/images';
 import { transferTypeDropDown } from './CallTransferToUser.data';
 
 const CallTransferToUser = () => {
+  const theme = useTheme();
   return (
     <Box
       display="flex"
@@ -26,7 +27,14 @@ const CallTransferToUser = () => {
       </Box>
       <SingleDropdownButton
         dropdownOptions={transferTypeDropDown()}
-        dropdownName={<MoreVert sx={{ color: '#79839E', fontSize: 20 }} />}
+        dropdownName={
+          <MoreVert
+            sx={{
+              color: theme?.palette?.custom?.steel_blue_alpha,
+              fontSize: 20,
+            }}
+          />
+        }
         hasEndIcon={false}
         btnVariant="text"
       />

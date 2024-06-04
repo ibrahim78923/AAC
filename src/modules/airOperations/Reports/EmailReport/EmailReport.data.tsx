@@ -13,8 +13,8 @@ export const emailReportValidationSchema = Yup?.object()?.shape({
       if (!value || value?.length === 0) {
         return false;
       }
-      return value?.every((email) =>
-        Yup?.string()?.email()?.isValidSync(email),
+      return value?.every(
+        (email) => Yup?.string()?.email()?.isValidSync(email),
       );
     }),
   subject: Yup?.string()?.trim()?.required('Subject is Required'),

@@ -496,6 +496,7 @@ export { default as CallPauseIcon } from './shared/call-pause-icon';
 export { default as KeypadCircleIcon } from './shared/keypad-circle-icon';
 export { default as MicOffIcon } from './shared/mic-off-icon';
 export { default as CallResumeIcon } from './shared/call-resume-icon';
+export { default as CallNotesIcon } from './modules/airCallCenter/CallMetrices/call-note-icon';
 export { default as CheckedFavoriteIcon } from './modules/airOperations/reports/checked-favorite-icon';
 export { default as UnCheckedFavoriteIcon } from './modules/airOperations/reports/unchecked-favorite-icons';
 export { default as CloneReportIcon } from './modules/airOperations/reports/clone-report-icon';

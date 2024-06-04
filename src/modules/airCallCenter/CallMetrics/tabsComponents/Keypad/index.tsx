@@ -19,6 +19,7 @@ const Keypad = ({ children, setStartPowerDialerModal }: any) => {
     handleClose,
     onSubmit,
     setValue,
+    theme,
   } = useKeypad();
   return (
     <>
@@ -69,11 +70,11 @@ const Keypad = ({ children, setStartPowerDialerModal }: any) => {
               InputProps={{
                 endAdornment: (
                   <IconButton
-                    onClick={() => method.setValue('phoneNo', '')}
+                    onClick={() => method?.setValue('phoneNo', '')}
                     size="small"
                     sx={{
                       '& path': {
-                        fill: '#6B7280',
+                        fill: theme?.palette?.custom?.grayish_blue,
                       },
                     }}
                   >
@@ -83,7 +84,7 @@ const Keypad = ({ children, setStartPowerDialerModal }: any) => {
               }}
             />
             <Box display="flex" flexDirection="column" gap={2}>
-              {keypadData.map((row) => (
+              {keypadData?.map((row) => (
                 <Box
                   key={row?.toString()}
                   display="flex"
