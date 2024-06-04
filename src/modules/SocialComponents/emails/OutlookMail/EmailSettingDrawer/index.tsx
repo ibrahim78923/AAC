@@ -110,7 +110,10 @@ const EmailSettingDrawer = ({
       title={'Email Settings'}
       okText={
         data?.data?.emailSettings &&
-        Object.keys(data?.data?.emailSettings?.customAddress)?.length
+        Object.keys(
+          data?.data?.emailSettings?.customAddress ??
+            data?.data?.emailSettings?.address,
+        )?.length
           ? 'Update'
           : 'Send'
       }

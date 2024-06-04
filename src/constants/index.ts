@@ -297,6 +297,14 @@ export const EMAIL_TABS_TYPES = {
   TRASH: 'trash',
   SCHEDULE: 'schedule',
 };
+export const OUTLOOK_EMAIL_TABS_TYPES = {
+  SENT: 'Sent Items',
+  DRAFT: 'draft',
+  DRAFTS: 'Drafts',
+  INBOX: 'Inbox',
+  TRASH: 'Deleted Items',
+  SCHEDULE: 'Schedule',
+};
 
 export const CHAT_MESSAGE_TYPE = {
   IMAGE: 'image',

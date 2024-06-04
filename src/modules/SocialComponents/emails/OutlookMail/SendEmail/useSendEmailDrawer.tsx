@@ -10,19 +10,25 @@ import {
   scheduleEmailDefaultValues,
   scheduleEmailValidationSchema,
 } from './SendEmailDrawer.data';
-import {
-  usePostDraftOtherEmailMutation,
-  usePostReplyOtherEmailMutation,
-  usePostScheduleOtherEmailMutation,
-  usePostSendOtherEmailMutation,
-} from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
 import { CREATE_EMAIL_TYPES } from '@/constants';
 import { useEffect, useState } from 'react';
+import {
+  useForwardEmailOutlookMutation,
+  usePostDraftEmailOutlookMutation,
+  usePostReplyEmailOutlookMutation,
+  usePostScheduleEmailOutlookMutation,
+  usePostSendEmailOutlookMutation,
+} from '@/services/commonFeatures/email/outlook';
 
 const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const theme = useTheme();
+
+  const currentEmailAssets = useAppSelector(
+    (state: any) => state?.outlook?.currentEmailAssets,
+  );
+
   const methodsDealsTasks: any = useForm({
     resolver: yupResolver(emailValidationsSchema),
     defaultValues: emailDefaultValues,
@@ -40,17 +46,23 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     setValue('to', autocompleteValues);
   }, [autocompleteValues]);
 
-  const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
-    usePostSendOtherEmailMutation();
-  const [postScheduleOtherEmail, { isLoading: loadingOtherScheduleSend }] =
-    usePostScheduleOtherEmailMutation();
-  const [postReplyOtherEmail, { isLoading: loadingOtherReply }] =
-    usePostReplyOtherEmailMutation();
-  const [postDraftOtherEmail] = usePostDraftOtherEmailMutation();
+  useEffect(() => {
+    if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
+      setValue('description', currentEmailAssets?.others?.body);
+    } else {
+      setValue('description', '');
+    }
+  }, [currentEmailAssets]);
 
-  const currentEmailAssets = useAppSelector(
-    (state: any) => state?.email?.currentEmailAssets,
-  );
+  const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
+    usePostSendEmailOutlookMutation();
+  const [postScheduleOtherEmail, { isLoading: loadingOtherScheduleSend }] =
+    usePostScheduleEmailOutlookMutation();
+  const [postReplyOtherEmail, { isLoading: loadingOtherReply }] =
+    usePostReplyEmailOutlookMutation();
+  const [postDraftOtherEmail] = usePostDraftEmailOutlookMutation();
+
+  const [postforwardOutlookEmail] = useForwardEmailOutlookMutation();
 
   const handleOnClose = () => {
     if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
@@ -62,7 +74,6 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   };
 
-  // trigger if process draft: true
   useEffect(() => {
     if (isProcessDraft) {
       handleSubmit(onSubmit)();
@@ -106,11 +117,15 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         formDataSend.append('to', values?.to);
         formDataSend.append('subject', values?.subject);
         formDataSend.append('content', values?.description);
+
         if (values?.cc && values?.cc?.trim() !== '') {
           formDataSend.append('cc', values?.cc);
         }
         if (values?.bcc && values?.bcc?.trim() !== '') {
           formDataSend.append('bcc', values?.bcc);
+        }
+        if (values?.attachments) {
+          formDataSend.append('attachment', values?.attachments);
         }
         try {
           await postDraftOtherEmail({
@@ -144,6 +159,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         formDataSend.append('to', values?.to);
         formDataSend.append('subject', values?.subject);
         formDataSend.append('content', values?.description);
+        formDataSend.append('attachments', values?.attachments);
         if (values?.cc && values?.cc?.trim() !== '') {
           formDataSend.append('cc', values?.cc);
         }
@@ -151,15 +167,20 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           formDataSend.append('bcc', values?.bcc);
         }
         if (sendLaterDate) {
-          formDataSend.append('sendAt', sendLaterDate);
+          formDataSend.append('sentOn', sendLaterDate);
         }
         try {
           await postEmail({
             body: formDataSend,
           })?.unwrap();
-          enqueueSnackbar('Email send successfully', {
-            variant: 'success',
-          });
+          enqueueSnackbar(
+            sendLaterDate
+              ? 'Email scheduled successfully'
+              : 'Email send successfully',
+            {
+              variant: 'success',
+            },
+          );
           setOpenDrawer(false);
           reset();
           reset({
@@ -177,19 +198,40 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
       ) {
         const formDataReply = new FormData();
-        formDataReply.append('id', currentEmailAssets?.id);
-        formDataReply.append('threadId', currentEmailAssets?.threadId);
-        formDataReply.append('content', values?.description);
-        formDataReply.append('templateId', '6538bb480b3f9e9d83d4a2ce');
-        formDataReply.append(
-          'type',
-          drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ? 'reply-all' : 'reply',
-        );
-        formDataReply.append('attachments', '');
-
+        formDataReply.append('messageId', currentEmailAssets?.messageId);
+        formDataReply.append('replyText', values?.description);
+        formDataReply.append('type', 'reply');
+        formDataReply.append('attachments', values?.attachments);
         try {
           await postReplyOtherEmail({
-            body: formDataReply,
+            messageId: currentEmailAssets?.messageId,
+            type: 'reply',
+            replyText:
+              drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
+                ? 'reply-all'
+                : 'reply',
+          })?.unwrap();
+          enqueueSnackbar(
+            drawerType === CREATE_EMAIL_TYPES?.REPLY
+              ? 'Email reply send successfully'
+              : 'Reply all send successfully',
+            {
+              variant: 'success',
+            },
+          );
+          setOpenDrawer(false);
+          reset();
+          setAutocompleteValues([]);
+        } catch (error: any) {
+          enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        }
+      }
+      if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
+        try {
+          await postforwardOutlookEmail({
+            messageId: currentEmailAssets?.messageId,
+            to: values?.to,
+            comment: 'Forwarded email',
           })?.unwrap();
           enqueueSnackbar(
             drawerType === CREATE_EMAIL_TYPES?.REPLY

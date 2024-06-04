@@ -13,13 +13,11 @@ import { useAppSelector } from '@/redux/store';
 import {
   setActiveRecord,
   setSelectedRecords,
-} from '@/redux/slices/email/others/slice';
-import { API_STATUS, EMAIL_TABS_TYPES } from '@/constants';
+} from '@/redux/slices/email/outlook/slice';
+import { API_STATUS, EMAIL_TABS_TYPES, TIME_FORMAT } from '@/constants';
 import { useDispatch } from 'react-redux';
-import { UnixDateFormatter } from '@/utils/dateTime';
-import { usePatchEmailMessageMutation } from '@/services/commonFeatures/email/others';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -34,11 +32,11 @@ const MailList = ({
   const dispatch = useDispatch();
 
   const selectedRecords: any = useAppSelector(
-    (state: any) => state?.email?.selectedRecords,
+    (state: any) => state?.outlook?.selectedRecords,
   );
 
   const activeRecord = useAppSelector(
-    (state: any) => state?.email?.activeRecord,
+    (state: any) => state?.outlook?.activeRecord,
   );
 
   const handleCheckboxClick = (email: any) => {
@@ -70,36 +68,9 @@ const MailList = ({
     }
   };
 
-  const [patchEmailMessage] = usePatchEmailMessageMutation();
-
   const handelMailClick = async (item: any) => {
     if (item) {
       dispatch(setActiveRecord(item));
-
-      if (item?.unread) {
-        const payload = {
-          id: item?.id,
-          threadId: item?.thread_id,
-          unread: false,
-          starred: false,
-        };
-        try {
-          const response = await patchEmailMessage({
-            body: payload,
-          })?.unwrap();
-          const updatedData = dataArray?.data?.map((item: any) =>
-            item?.id === response?.data?.id ? response?.data : item,
-          );
-          setDataArray((prevState: any) => ({
-            ...prevState,
-            data: updatedData,
-          }));
-        } catch (error: any) {
-          enqueueSnackbar('Something went wrong while updating message!', {
-            variant: 'error',
-          });
-        }
-      }
     }
   };
 
@@ -200,7 +171,7 @@ const MailList = ({
                               <Typography
                                 variant="h6"
                                 sx={{
-                                  fontWeight: item?.unread ? 700 : '',
+                                  fontWeight: item?.isRead ? '' : 700,
                                   color: theme?.palette?.success?.main,
                                 }}
                               >
@@ -209,18 +180,41 @@ const MailList = ({
                             ) : (
                               <Typography
                                 variant="h6"
-                                sx={{ fontWeight: item?.unread ? 700 : '' }}
+                                sx={{
+                                  width: '21vw',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                  fontWeight: item?.isRead ? '' : 700,
+                                }}
                               >
                                 <>
-                                  {item?.from[0]?.name} {item?.lastName}{' '}
-                                  {item?.reff}
+                                  {mailTabType?.displayName?.toLowerCase() ===
+                                  EMAIL_TABS_TYPES?.DRAFTS ? (
+                                    <>
+                                      <span
+                                        style={{
+                                          color: theme?.palette?.error?.main,
+                                        }}
+                                      >
+                                        [DRAFT]
+                                      </span>{' '}
+                                      {item?.toRecipients?.map((item: any) => (
+                                        <>{item?.emailAddress?.address}; </>
+                                      ))}
+                                    </>
+                                  ) : (
+                                    <>
+                                      {item?.from?.emailAddress?.name ?? '--'}{' '}
+                                    </>
+                                  )}
                                 </>
                               </Typography>
                             )}
 
                             <Typography
                               variant="body3"
-                              sx={{ fontWeight: item?.unread ? 700 : 600 }}
+                              sx={{ fontWeight: item?.isRead ? 600 : 700 }}
                               color={'primary'}
                               margin={'8px 0px'}
                             >
@@ -237,7 +231,7 @@ const MailList = ({
                                 textOverflow: 'ellipsis',
                               }}
                             >
-                              {item?.snippet}
+                              {item?.bodyPreview}
                             </Typography>
                             <Typography
                               variant="body2"
@@ -246,11 +240,9 @@ const MailList = ({
                                 fontSize: '12px',
                               }}
                             >
-                              <UnixDateFormatter
-                                timestamp={item?.date}
-                                timeZone="Asia/Karachi"
-                                isTime
-                              ></UnixDateFormatter>
+                              {dayjs(item?.lastModifiedDateTime)?.format(
+                                TIME_FORMAT?.UI,
+                              )}
                             </Typography>
                           </Box>
                         </Box>

@@ -61,8 +61,9 @@ const SendEmailDrawer = (props: any) => {
   const isCrmConnected = false;
 
   const currentEmailAssets = useAppSelector(
-    (state: any) => state?.email?.currentEmailAssets,
+    (state: any) => state?.outlook?.currentEmailAssets,
   );
+
   const removeRePrefix = (title: any) => {
     return title?.startsWith('Re: ') ? title?.replace(/^Re: /, '') : title;
   };
@@ -315,7 +316,7 @@ const SendEmailDrawer = (props: any) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <RHFDropZone name="attachFile" label="Attachments" />
+                <RHFDropZone name="attachments" label="Attachments" />
               </Grid>
             </Grid>
 

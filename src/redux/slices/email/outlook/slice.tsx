@@ -17,13 +17,13 @@ const initialState: EmailStateI = {
   selectedRecords: [],
   activeRecord: {},
   currentEmailAssets: {},
-  loggedInState: 'umarkhattab555@zohomail.com',
+  loggedInState: 'nabeel.ahmed@consultancyoutfit.co.uk',
   mailList: {},
   mailDraftList: {},
 };
 
-const gmailSlice = createSlice({
-  name: 'gmail',
+const outlookSlice = createSlice({
+  name: 'outlook',
   initialState: initialState,
   reducers: {
     setMailTabType: (state, action: PayloadAction<any>) => {
@@ -57,5 +57,5 @@ export const {
   setCurrentEmailAssets,
   setMailList,
   setMailDraftList,
-} = gmailSlice.actions;
-export default gmailSlice.reducer;
+} = outlookSlice.actions;
+export default outlookSlice.reducer;

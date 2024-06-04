@@ -10,20 +10,23 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CommonModal from '@/components/CommonModal';
 import { useAppSelector } from '@/redux/store';
-import { CREATE_EMAIL_TYPES, EMAIL_TABS_TYPES } from '@/constants';
+import { OUTLOOK_EMAIL_TABS_TYPES } from '@/constants';
 import { AlertModals } from '@/components/AlertModals';
 import { WarningIcon } from '@/assets/icons';
-import { useMoveFolderOtherEmailMutation } from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
+import { useDeleteEmailOutlookMutation } from '@/services/commonFeatures/email/outlook';
+import { useDispatch } from 'react-redux';
+import { setSelectedRecords } from '@/redux/slices/email/outlook/slice';
 
-const ActionBtn = ({ filteredData }: any) => {
+const ActionBtn = ({}: any) => {
+  const dispatch = useDispatch();
   const mailTabType: any = useAppSelector(
-    (state: any) => state?.email?.mailTabType,
+    (state: any) => state?.outlook?.mailTabType,
   );
   const selectedRecords: any = useAppSelector(
-    (state: any) => state?.email?.selectedRecords,
+    (state: any) => state?.outlook?.selectedRecords,
   );
-  const tabName = mailTabType?.display_name?.toLowerCase();
+  const tabName = mailTabType?.displayName?.toLowerCase();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
@@ -40,47 +43,23 @@ const ActionBtn = ({ filteredData }: any) => {
     setAnchorEl(null);
   };
 
-  const [moveFolderOtherEmail, { isLoading: loadingRestore }] =
-    useMoveFolderOtherEmailMutation();
+  const [deleteEmailOutlook, { isLoading: loadingRestore }] =
+    useDeleteEmailOutlookMutation();
 
-  const handelRestore = async () => {
-    const ids =
-      selectedRecords && selectedRecords?.map((message: any) => message?.id);
-    const payload = {
-      messageId: ids,
-      folderId: EMAIL_TABS_TYPES?.DRAFTS,
-    };
-    try {
-      await moveFolderOtherEmail({
-        body: payload,
-      })?.unwrap();
-      enqueueSnackbar('Email restore successfully', {
-        variant: 'success',
-      });
-      setIsRestoreEmail(false);
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
-    }
-  };
+  const handelRestore = async () => {};
+
   const handelDelete = async () => {
     const ids =
       selectedRecords && selectedRecords?.map((message: any) => message?.id);
-
-    const result = filteredData?.find(
-      (filterData: any) => filterData?.display_name?.toLowerCase() === 'trash',
-    );
-    const payload = {
-      messageId: ids,
-      folderId: result?.id,
-    };
     try {
-      await moveFolderOtherEmail({
-        body: payload,
+      await deleteEmailOutlook({
+        id: ids[0], // todo: need to change as per changes in api for multiple records
       })?.unwrap();
-      enqueueSnackbar('Email restore successfully', {
+      enqueueSnackbar('Mail successfully move to trash ', {
         variant: 'success',
       });
-      setIsRestoreEmail(false);
+      dispatch(setSelectedRecords([]));
+      setIsDeleteModalOpen(false);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -114,7 +93,7 @@ const ActionBtn = ({ filteredData }: any) => {
           horizontal: 'right',
         }}
       >
-        {tabName === CREATE_EMAIL_TYPES?.TRASH ? null : (
+        {tabName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH?.toLowerCase() ? null : (
           <>
             <MenuItem> Mark as Read </MenuItem>
             <MenuItem
@@ -132,8 +111,16 @@ const ActionBtn = ({ filteredData }: any) => {
             </MenuItem>
           </>
         )}
-        <MenuItem onClick={() => setIsDeleteModalOpen(true)}> Delete </MenuItem>
-        {tabName === CREATE_EMAIL_TYPES?.TRASH && (
+        <MenuItem
+          onClick={() => {
+            setIsDeleteModalOpen(true);
+            handleClose();
+          }}
+        >
+          {' '}
+          Delete{' '}
+        </MenuItem>
+        {tabName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH?.toLowerCase() && (
           <MenuItem onClick={() => setIsRestoreEmail(true)}> Restore </MenuItem>
         )}
       </Popover>

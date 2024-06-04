@@ -877,7 +877,8 @@ export const getLowerRoutes = (product: any) => {
 
 export const zeroPaddingRoutes = [
   '/social-components/chat',
-  '/social-components/email/conversations',
+  '/social-components/email/outlook/conversations',
+  '/social-components/email/gmail/conversations',
   '/social-components/calling/call',
   '/org-admin/users',
   '/super-admin/user-management/users-list',

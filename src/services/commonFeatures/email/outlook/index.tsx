@@ -13,7 +13,130 @@ export const outlookApi = baseAPI.injectEndpoints({
       },
       providesTags: TAG,
     }),
+    getMailFoldersOutlook: builder.query({
+      query: () => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.EMAIL_FOLDERS}`,
+          method: 'GET',
+        };
+      },
+      providesTags: TAG,
+    }),
+
+    getEmailsByFolderIdOutlook: builder.query({
+      query: ({ params, id }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.EMAIL_FOLDERS_BY_ID}/${id}`,
+          method: 'GET',
+          params: params,
+        };
+      },
+      providesTags: TAG,
+    }),
+
+    getMailDetailsOutlook: builder.query({
+      query: ({ params }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.EMAIL_DETAILS}`,
+          method: 'GET',
+          params: params,
+        };
+      },
+      providesTags: TAG,
+    }),
+
+    postSendEmailOutlook: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.SEND_EMAIL}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
+    forwardEmailOutlook: builder.mutation({
+      query: ({ messageId, to, comment }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.FORWARD_EMAIL}?messageId=${messageId}&to=${to}&comment=${comment}`,
+          method: 'POST',
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
+    postReplyEmailOutlook: builder.mutation({
+      query: ({ messageId, type, replyText }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.REPLY_EMAIL}?messageId=${messageId}&type=${type}&replyText=${replyText}`,
+          method: 'POST',
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
+    postScheduleEmailOutlook: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.SCHEDULE_EMAIL}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
+    postDraftEmailOutlook: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.DRAFT_EMAIL}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
+    deleteEmailOutlook: builder.mutation({
+      query: ({ id }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.DELETE_EMAIL}/${id}`,
+          method: 'DELETE',
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
-export const { useGetAuthURLOutlookQuery } = outlookApi;
+export const {
+  useGetAuthURLOutlookQuery,
+  useGetMailFoldersOutlookQuery,
+  useGetEmailsByFolderIdOutlookQuery,
+  useGetMailDetailsOutlookQuery,
+  usePostSendEmailOutlookMutation,
+  usePostScheduleEmailOutlookMutation,
+  useDeleteEmailOutlookMutation,
+  usePostDraftEmailOutlookMutation,
+  usePostReplyEmailOutlookMutation,
+  useForwardEmailOutlookMutation,
+} = outlookApi;

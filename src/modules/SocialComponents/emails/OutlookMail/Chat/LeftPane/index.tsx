@@ -15,40 +15,65 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import {
   setActiveRecord,
-  setMailDraftList,
   setMailList,
   setMailTabType,
-} from '@/redux/slices/email/others/slice';
+  setSelectedRecords,
+} from '@/redux/slices/email/outlook/slice';
 import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
-import {
-  useGetDraftsQuery,
-  useGetEmailsByFolderIdQuery,
-  useGetMailFoldersQuery,
-} from '@/services/commonFeatures/email/others';
 import { PAGINATION } from '@/config';
-import { EMAIL_TABS_TYPES } from '@/constants';
+import {
+  useGetEmailsByFolderIdOutlookQuery,
+  useGetMailFoldersOutlookQuery,
+} from '@/services/commonFeatures/email/outlook';
 
 const LeftPane = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const mailTabType: any = useAppSelector(
-    (state: any) => state?.email?.mailTabType,
+    (state: any) => state?.outlook?.mailTabType,
   );
 
-  const mailList: any = useAppSelector((state: any) => state?.email?.mailList);
-  const mailDraftList: any = useAppSelector(
-    (state: any) => state?.email?.mailDraftList,
+  const mailList: any = useAppSelector(
+    (state: any) => state?.outlook?.mailList,
   );
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const { data: foldersData, isLoading } = useGetMailFoldersQuery({});
-  const dataToShow = ['Inbox', 'Drafts', 'Sent', 'Schedule', 'Trash'];
+  const { data: foldersData, isLoading } = useGetMailFoldersOutlookQuery({});
+
+  const dataToShow = [
+    'Inbox',
+    'Sent Items',
+    'Drafts',
+    'Schedule',
+    'Deleted Items',
+  ];
   const filteredData = foldersData?.data?.filter((item: any) => {
     return dataToShow
       ?.map((name) => name?.toLowerCase())
-      ?.includes(item?.display_name?.toLowerCase());
+      ?.includes(item?.displayName?.toLowerCase());
   });
+
+  const sortedData = dataToShow?.map((item) => {
+    return filteredData?.find((data: any) => {
+      return data?.displayName?.toLowerCase() === item?.toLowerCase();
+    });
+  });
+
+  const getButtonLabel = (value: any) => {
+    switch (value) {
+      case 'inbox':
+        return 'inbox';
+      case 'drafts':
+        return 'Drafts';
+      case 'sent items':
+        return 'Sent';
+      case 'deleted items':
+        return 'Deleted';
+      default:
+        return '';
+    }
+  };
 
   const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
 
@@ -56,13 +81,13 @@ const LeftPane = () => {
     data: emailsByFolderIdData,
     status: isLoadingEmailsByFolderIdData,
     refetch,
-  } = useGetEmailsByFolderIdQuery(
+  } = useGetEmailsByFolderIdOutlookQuery(
     {
       params: {
         page: PAGINATION?.CURRENT_PAGE,
         limit: PAGINATION?.PAGE_LIMIT,
-        folderId: mailTabType?.id,
       },
+      id: mailTabType?.id,
     },
     { skip: isGetEmailsRequest },
   );
@@ -73,36 +98,17 @@ const LeftPane = () => {
     }
   }, [mailTabType]);
 
-  const {
-    data: draftsData,
-    status: isLoadingDraftsData,
-    refetch: draftsDataRefetch,
-  } = useGetDraftsQuery(
-    {
-      params: {
-        page: PAGINATION?.CURRENT_PAGE,
-        limit: PAGINATION?.PAGE_LIMIT,
-      },
-    },
-    { skip: isGetEmailsRequest },
-  );
-
   useEffect(() => {
     if (emailsByFolderIdData) {
       dispatch(setMailList(emailsByFolderIdData));
     }
   }, [emailsByFolderIdData]);
 
-  useEffect(() => {
-    if (draftsData) {
-      dispatch(setMailDraftList(draftsData));
-    }
-  }, [draftsData]);
-
   const handelToggleTab = (value: any) => {
-    if (value?.display_name !== mailTabType?.display_name) {
+    if (value?.displayName !== mailTabType?.displayName) {
       dispatch(setMailTabType(value));
       dispatch(setActiveRecord({}));
+      dispatch(setSelectedRecords([]));
       refetch();
     }
   };
@@ -124,7 +130,6 @@ const LeftPane = () => {
           <ActionBtn filteredData={filteredData} />
         </Box>
       </Box>
-
       {isLoading ? (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
           {[1, 2, 3, 4, 5]?.map(() => (
@@ -144,51 +149,45 @@ const LeftPane = () => {
           aria-label="Basic button group"
           sx={{ mb: 1 }}
         >
-          {filteredData?.map((item: any) => (
-            <Button
-              key={uuidv4()}
-              onClick={() => handelToggleTab(item)}
-              sx={{
-                border: `1px solid ${theme?.palette?.grey[700]}`,
-                borderRadius: '8px',
-                color: theme?.palette?.secondary?.main,
-                textTransform: 'capitalize',
-                backgroundColor:
-                  mailTabType?.display_name?.toLowerCase() ===
-                  item?.display_name?.toLowerCase()
-                    ? theme?.palette?.grey[400]
-                    : '',
-                '&:hover': {
-                  backgroundColor:
-                    mailTabType?.display_name?.toLowerCase() ===
-                    item?.display_name?.toLowerCase()
-                      ? theme?.palette?.grey[400]
-                      : '',
-                  border: `1px solid ${theme?.palette?.grey[700]}`,
-                },
-              }}
-            >
-              {item?.display_name?.toLowerCase()}
-            </Button>
+          {sortedData?.map((item: any) => (
+            <>
+              {item && (
+                <>
+                  <Button
+                    key={uuidv4()}
+                    onClick={() => handelToggleTab(item)}
+                    sx={{
+                      border: `1px solid ${theme?.palette?.grey[700]}`,
+                      borderRadius: '8px',
+                      color: theme?.palette?.secondary?.main,
+                      textTransform: 'capitalize',
+                      backgroundColor:
+                        mailTabType?.displayName?.toLowerCase() ===
+                        item?.displayName?.toLowerCase()
+                          ? theme?.palette?.grey[400]
+                          : '',
+                      '&:hover': {
+                        backgroundColor:
+                          mailTabType?.displayName?.toLowerCase() ===
+                          item?.displayName?.toLowerCase()
+                            ? theme?.palette?.grey[400]
+                            : '',
+                        border: `1px solid ${theme?.palette?.grey[700]}`,
+                      },
+                    }}
+                  >
+                    {getButtonLabel(item?.displayName?.toLowerCase())}
+                  </Button>
+                </>
+              )}
+            </>
           ))}
         </ButtonGroup>
       )}
       <MailList
-        emailsByFolderIdData={
-          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
-            ? mailDraftList
-            : mailList
-        }
-        isLoadingEmailsByFolderIdData={
-          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
-            ? isLoadingDraftsData
-            : isLoadingEmailsByFolderIdData
-        }
-        refetch={
-          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
-            ? draftsDataRefetch
-            : refetch
-        }
+        emailsByFolderIdData={mailList}
+        isLoadingEmailsByFolderIdData={isLoadingEmailsByFolderIdData}
+        refetch={refetch}
         mailTabType={mailTabType}
       />
 

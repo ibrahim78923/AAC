@@ -256,6 +256,19 @@ export const SOCIAL_FEATURES_EMAIL = {
 };
 export const SOCIAL_FEATURES_OUTLOOK = {
   AUTH_URL: '/email-marketing/auth-url',
+  EMAIL_FOLDERS: '/emails/get-outlook-mail-folders',
+  EMAIL_FOLDERS_BY_ID: '/emails/get-outlook-mail-folders',
+  EMAIL_DETAILS: '/emails/get-message-details',
+  SEND_EMAIL: '/emails/send-outlook-email',
+  REPLY_EMAIL: '/emails/reply-outlook-email',
+  FORWARD_EMAIL: '/emails/forward-outlook-email',
+  DRAFT_EMAIL: '/emails/create-draft-email',
+  SCHEDULE_EMAIL: '/emails/schedule-email',
+  DELETE_EMAIL: '/emails/delete-outlook-email',
+  OUTLOOK_REDIRECT_URL: '/email-marketing/redirect-url',
+  OUTLOOK_CONVERSATIONS: '/social-components/email/outlook/conversations',
+  GMAIL_REDIRECT_URL: '/gmail/redirect-url',
+  GMAIL_CONVERSATIONS: '/social-components/email/gmail/conversations',
 };
 export const SOCIAL_FEATURES_GMAIL = {
   AUTH_URL: '/gmail/auth-url',

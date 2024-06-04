@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
 import LeftPane from './LeftPane';
 import RightPane from './RightPane';
-import { useGetMailFoldersQuery } from '@/services/commonFeatures/email/others';
 import { useDispatch } from 'react-redux';
-import { setMailTabType } from '@/redux/slices/email/others/slice';
+import { setMailTabType } from '@/redux/slices/email/outlook/slice';
+import { useGetMailFoldersOutlookQuery } from '@/services/commonFeatures/email/outlook';
 
 const EmailChat = () => {
   const dispatch = useDispatch();
-  const { data: foldersData } = useGetMailFoldersQuery({});
+  const { data: foldersData } = useGetMailFoldersOutlookQuery({});
   const result = foldersData?.data?.find((item: any) => {
-    return item?.display_name?.toLowerCase() === 'inbox';
+    return item?.displayName?.toLowerCase() === 'inbox';
   });
 
   useEffect(() => {

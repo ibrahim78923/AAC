@@ -56,31 +56,13 @@ const Email = () => {
   const { data: authURLOutlook } = useGetAuthURLOutlookQuery({});
   const handleOutLookClick = () => {
     const oauthUrl = `${authURLOutlook?.data}`;
-    const width = 700;
-    const height = 600;
-    const left = window.screen.width / 2 - width / 2;
-    const top = window.screen.height / 2 - height / 2;
-
-    window.open(
-      oauthUrl,
-      'OutlookOAuth',
-      `width=${width},height=${height},top=${top},left=${left},resizable,scrollbars=yes,status=1`,
-    );
+    window.open(oauthUrl);
   };
   // gmail
   const { data: authUrlData } = useGetAuthURLGmailQuery({});
   const handleGmailClick = () => {
     const oauthUrl = `${authUrlData?.data}`;
-    const width = 700;
-    const height = 600;
-    const left = window.screen.width / 2 - width / 2;
-    const top = window.screen.height / 2 - height / 2;
-
-    window.open(
-      oauthUrl,
-      'gmailOAuth',
-      `width=${width},height=${height},top=${top},left=${left},resizable,scrollbars=yes,status=1`,
-    );
+    window.open(oauthUrl);
   };
   return (
     <>

@@ -22,8 +22,8 @@ const initialState: EmailStateI = {
   mailDraftList: {},
 };
 
-const outlookSlice = createSlice({
-  name: 'outlook',
+const emailSlice = createSlice({
+  name: 'email',
   initialState: initialState,
   reducers: {
     setMailTabType: (state, action: PayloadAction<any>) => {
@@ -57,5 +57,5 @@ export const {
   setCurrentEmailAssets,
   setMailList,
   setMailDraftList,
-} = outlookSlice.actions;
-export default outlookSlice.reducer;
+} = emailSlice.actions;
+export default emailSlice.reducer;

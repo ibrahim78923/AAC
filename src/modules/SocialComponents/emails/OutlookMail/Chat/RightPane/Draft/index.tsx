@@ -23,7 +23,7 @@ import {
 } from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
-import { setMailTabType } from '@/redux/slices/email/others/slice';
+import { setMailTabType } from '@/redux/slices/email/outlook/slice';
 import { LoadingButton } from '@mui/lab';
 import { EMAIL_TABS_TYPES } from '@/constants';
 
@@ -33,7 +33,7 @@ const Draft = () => {
   const dispatch = useDispatch();
 
   const activeRecord: any = useAppSelector(
-    (state: any) => state?.email?.activeRecord,
+    (state: any) => state?.outlook?.activeRecord,
   );
   const methods: any = useForm({
     resolver: yupResolver(emailDraftValidationsSchema),
@@ -81,7 +81,11 @@ const Draft = () => {
 
   useEffect(() => {
     reset({
-      to: activeRecordLengthCheck ? activeRecord?.to[0]?.email : '',
+      to: activeRecordLengthCheck
+        ? activeRecord?.toRecipients?.map(
+            (item: any) => item?.emailAddress?.address,
+          )
+        : '',
       subject: activeRecordLengthCheck
         ? activeRecord?.subject === 'undefined'
           ? ''
@@ -89,12 +93,10 @@ const Draft = () => {
         : '',
       template: '',
       description: activeRecordLengthCheck
-        ? activeRecord?.body === 'undefined'
+        ? activeRecord?.body?.content === 'undefined'
           ? ''
-          : activeRecord?.body
+          : activeRecord?.body?.content
         : '',
-      cc: activeRecordLengthCheck ? activeRecord?.cc[0]?.email : '',
-      bcc: activeRecordLengthCheck ? activeRecord?.bcc[0]?.email : '',
     });
   }, [activeRecord]);
 
