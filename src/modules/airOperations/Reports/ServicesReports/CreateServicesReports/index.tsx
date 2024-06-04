@@ -36,6 +36,10 @@ export const CreateServicesReports = () => {
     handleChartCancel,
     tableTitle,
     setValue,
+    AddProperties,
+    setAddProperties,
+    columnsData,
+    setCloumnsData,
     setOpenDrawer,
     openDrawer,
   } = useCreateServicesReports();
@@ -80,6 +84,8 @@ export const CreateServicesReports = () => {
                 setChartComponent={setChartComponent}
                 finalChartComponent={finalChartComponent}
                 tableTitle={tableTitle}
+                setAddProperties={setAddProperties}
+                columnsData={columnsData}
               />
             </Box>
           </Grid>
@@ -113,6 +119,8 @@ export const CreateServicesReports = () => {
                 handleChartCancel={handleChartCancel}
                 tableTitle={tableTitle}
                 setValue={setValue}
+                AddProperties={AddProperties}
+                setCloumnsData={setCloumnsData}
                 setOpenDrawer={setOpenDrawer}
                 openDrawer={openDrawer}
               />

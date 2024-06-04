@@ -14,40 +14,12 @@ export const tableData = [
     channel: 'Heo',
   },
 ];
-export const tabelColumn: any = [
-  {
+export const tabelColumn: any = (columnsData: any) => [
+  ...columnsData?.map((item: any) => ({
     accessorFn: (row: any) => row?.name,
     id: 'name',
     cell: (info: any) => info?.getValue(),
-    header: 'Name',
+    header: item,
     isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row?.email,
-    id: 'email',
-    isSortable: true,
-    header: 'Email',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.status,
-    id: 'status',
-    isSortable: true,
-    header: 'Status',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.channel,
-    id: 'channel',
-    isSortable: true,
-    header: 'Channel',
-    cell: (info: any) => info?.getValue(),
-  },
+  })),
 ];
-
-export const tabelEditorDefaultValue = () => {
-  return {
-    id: '1',
-    name: 'Test',
-  };
-};

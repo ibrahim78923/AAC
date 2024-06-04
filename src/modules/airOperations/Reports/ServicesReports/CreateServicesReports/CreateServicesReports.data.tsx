@@ -31,3 +31,50 @@ export const modalInitialState: any = {
   text: false,
   table: false,
 };
+
+export const ActionDropDownData = () => [
+  {
+    id: 1,
+    title: 'Customize',
+  },
+  {
+    id: 2,
+    title: 'Rename',
+  },
+  {
+    id: 3,
+    title: 'Clone',
+  },
+  {
+    id: 4,
+    title: '  Export',
+  },
+  {
+    id: 5,
+    title: 'Email this Report',
+  },
+  {
+    id: 6,
+    title: 'Change Owner',
+  },
+  {
+    id: 7,
+    title: 'Add to Dashboard',
+  },
+  {
+    id: 8,
+    title: 'Clone',
+  },
+  {
+    id: 9,
+    title: 'Delete',
+  },
+  {
+    id: 10,
+    title: 'Add to favorite',
+  },
+  {
+    id: 11,
+    title: 'Manage Access',
+  },
+];

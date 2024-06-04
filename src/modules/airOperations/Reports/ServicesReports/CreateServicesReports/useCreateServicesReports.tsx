@@ -20,6 +20,8 @@ export default function useCreateServicesReports() {
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
   const [htmlContent, setHtmlContent] = useState('');
+  const [AddProperties, setAddProperties] = useState();
+  const [columnsData, setCloumnsData] = useState([]);
 
   const [chartComponent, setChartComponent] = useState<JSX.Element | null>(
     null,
@@ -108,6 +110,10 @@ export default function useCreateServicesReports() {
     handleChartCancel,
     tableTitle,
     setValue,
+    AddProperties,
+    setAddProperties,
+    columnsData,
+    setCloumnsData,
     setOpenDrawer,
     openDrawer,
   };

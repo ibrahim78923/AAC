@@ -19,6 +19,8 @@ export default function DroppableArea(props: any) {
     setChartComponent,
     finalChartComponent,
     tableTitle,
+    setAddProperties,
+    columnsData,
   } = props;
   const theme: any = useTheme();
 
@@ -122,7 +124,13 @@ export default function DroppableArea(props: any) {
                   color={color}
                 />
               )}
-              {modal?.table && <Table tableTitle={tableTitle} />}
+              {modal?.table && (
+                <Table
+                  tableTitle={tableTitle}
+                  setAddProperties={setAddProperties}
+                  columnsData={columnsData}
+                />
+              )}
             </>
           )}
         </Box>

@@ -29,6 +29,8 @@ export default function DraggableFields({
   handleChartCancel,
   tableTitle,
   setValue,
+  AddProperties,
+  setCloumnsData,
   setOpenDrawer,
   openDrawer,
 }: any) {
@@ -147,6 +149,8 @@ export default function DraggableFields({
                   handleCancel={handleCancel}
                   setValue={setValue}
                   tableTitle={tableTitle}
+                  AddProperties={AddProperties}
+                  setCloumnsData={setCloumnsData}
                 />
               )}
             </>
