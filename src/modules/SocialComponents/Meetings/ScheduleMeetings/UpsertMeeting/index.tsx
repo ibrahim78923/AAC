@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { useUpsertMeeting } from './useUpsertMeeting';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { MeetingForm } from './MeetingForm';
+import EmailTemplate from './EmailTemplate';
 
 export const UpsertMeeting = () => {
   const {
@@ -12,16 +13,29 @@ export const UpsertMeeting = () => {
     handleMoveBack,
     meetingProps,
     meetingType,
+    handleTemplatePage,
+    meetingTemplate,
   } = useUpsertMeeting();
   return (
     <Box>
-      <PageTitledHeader
-        title={`${meetingType} Meeting`}
-        canMovedBack
-        moveBack={handleMoveBack}
-      />
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <MeetingForm {...meetingProps} />
+      {!meetingTemplate ? (
+        <PageTitledHeader
+          title={`${meetingType} Meeting`}
+          canMovedBack
+          moveBack={handleMoveBack}
+        />
+      ) : null}
+      <FormProvider
+        methods={methods}
+        onSubmit={handleSubmit(meetingTemplate ? onSubmit : handleTemplatePage)}
+      >
+        {!meetingTemplate ? (
+          <MeetingForm {...meetingProps} />
+        ) : (
+          <>
+            <EmailTemplate />
+          </>
+        )}
       </FormProvider>
     </Box>
   );

@@ -789,3 +789,8 @@ export const CHARTS: any = {
 export const SELECTED_ARRAY_LENGTH = {
   ONE: 1,
 };
+
+export const SCREENS: any = {
+  MOBILE: 'mobile',
+  LAPTOP: 'laptop',
+};

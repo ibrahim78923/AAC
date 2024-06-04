@@ -215,6 +215,10 @@ export const SOCIAL_COMPONENTS = {
   UPSERT_MEETING:
     '/social-components/meetings/schedule-meetings/upsert-meeting',
   CALENDER_VIEW: '/social-components/meetings/calendar-view',
+  CREATE_MEETING_TEMPLATE:
+    '/social-components/meetings/schedule-meetings/upsert-meeting/email-template/create-email-template',
+  EMAIL_TEMPLATE:
+    '/social-components/meetings/schedule-meetings/upsert-meeting/email-template',
 };
 
 export const AUTH = {

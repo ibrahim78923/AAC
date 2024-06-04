@@ -285,3 +285,4 @@ export { default as VoucherCardBg } from './modules/loyaltyProgram/Vouchers/Deco
 export { default as EnquiriesImage } from './modules/HeaderAndSidebar/enquiries-image.png';
 export { default as SignupLeadsImage } from './modules/HeaderAndSidebar/signup-leads-image.png';
 export { default as UKFlagImage } from './shared/uk-flag-image.png';
+export { default as mobilePhoneImg } from './modules/socialComponents/meetings/mobile.png';
