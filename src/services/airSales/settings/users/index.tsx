@@ -9,7 +9,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['PRODUCT_USER'],
+      providesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
 
     getproductUsersById: builder.query({
@@ -19,7 +19,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
           method: 'GET',
         };
       },
-      providesTags: ['PRODUCT_USER'],
+      providesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
 
     postPoductUser: builder.mutation({
@@ -30,7 +30,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['PRODUCT_USER'],
+      invalidatesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
 
     updateProductsUsers: builder.mutation({
@@ -41,7 +41,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['PRODUCT_USER'],
+      invalidatesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
 
     deleteProductUser: builder.mutation({
@@ -50,7 +50,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
         method: 'DELETE',
         body: body,
       }),
-      invalidatesTags: ['PRODUCT_USER'],
+      invalidatesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
   }),
 });

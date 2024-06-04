@@ -14,7 +14,7 @@ export const teamsDefaultValues: any = {
   userAccounts: [],
 };
 
-export const teamsDataArray: any = (productsUsers: any) => [
+export const teamsDataArray: any = (filterdTeamMembers: any) => [
   {
     componentProps: {
       name: 'name',
@@ -33,7 +33,7 @@ export const teamsDataArray: any = (productsUsers: any) => [
       isCheckBox: true,
       label: 'Team Members',
       required: true,
-      options: productsUsers?.data?.usercompanyaccounts?.map((item: any) => ({
+      options: filterdTeamMembers?.map((item: any) => ({
         value: item?._id,
         label: `${item?.user?.firstName} ${item?.user?.lastName}`,
       })),

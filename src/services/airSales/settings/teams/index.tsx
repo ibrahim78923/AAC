@@ -9,7 +9,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['TEAMS'],
+      providesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
 
     getTeamsList: builder.query({
@@ -20,7 +20,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.userTeams;
       },
-      providesTags: ['TEAMS'],
+      providesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
 
     getTeamsById: builder.query({
@@ -30,7 +30,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           method: 'GET',
         };
       },
-      providesTags: ['TEAMS'],
+      providesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
 
     postTeams: builder.mutation({
@@ -41,7 +41,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['TEAMS'],
+      invalidatesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
 
     updateTeams: builder.mutation({
@@ -52,7 +52,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['TEAMS'],
+      invalidatesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
 
     deleteTeams: builder.mutation({
@@ -60,7 +60,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
         url: `${END_POINTS?.SALES_TEAM}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['TEAMS'],
+      invalidatesTags: ['SETTINGS_USERS_MANAGEMENT'],
     }),
   }),
 });

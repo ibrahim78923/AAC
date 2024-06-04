@@ -18,6 +18,8 @@ const CreateTeams = (props?: any) => {
     updateTeamLoading,
   } = useCreateTeams(teamDataById, setIsAddTeam, isAddTeam?.type);
   const { skeletonLines } = useUserManagement();
+  const filteredUsers = productsUsers?.data?.usercompanyaccounts;
+  const filterdTeamMembers = filteredUsers?.filter((item: any) => !item?.team);
 
   return (
     <CommonDrawer
@@ -42,7 +44,11 @@ const CreateTeams = (props?: any) => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {teamsDataArray(productsUsers)?.map((item: any) => (
+              {teamsDataArray(
+                isAddTeam?.type === DRAWER_TYPES?.ADD
+                  ? filterdTeamMembers
+                  : filteredUsers,
+              )?.map((item: any) => (
                 <Grid
                   item
                   xs={12}
