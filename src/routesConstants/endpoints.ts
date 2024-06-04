@@ -124,7 +124,7 @@ export const END_POINTS = {
   REQUESTER_LIST: `/requester/requester-list`,
   CONVERSATION_EMAIL: `/email`,
   CONVERSATION_OTHERS_EMAIL_VIEW: `/social-components/email/others/conversations`,
-  CONVERSATION_GOOGLE_EMAIL_VIEW: `/social-components/email/gmail/conversations`,
+  CONVERSATION_GMAIL_EMAIL_VIEW: `/social-components/email/gmail/conversations`,
   CONVERSATION_OUTLOOK_EMAIL_VIEW: `/social-components/email/outlook/conversations`,
   DROPDOWN_TASK: '/task',
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,

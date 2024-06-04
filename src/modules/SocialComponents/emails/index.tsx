@@ -23,8 +23,14 @@ import { enqueueSnackbar } from 'notistack';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { useRouter } from 'next/router';
 import { DRAWER_TYPES } from '@/constants/strings';
-import { useGetAuthURLOutlookQuery } from '@/services/commonFeatures/email/outlook';
-import { useGetAuthURLGmailQuery } from '@/services/commonFeatures/email/gmail';
+import {
+  useGetAuthURLOutlookQuery,
+  useGetMailFoldersOutlookQuery,
+} from '@/services/commonFeatures/email/outlook';
+import {
+  useGetAuthURLGmailQuery,
+  useGetGmailFoldersQuery,
+} from '@/services/commonFeatures/email/gmail';
 
 const Email = () => {
   const theme = useTheme();
@@ -52,18 +58,36 @@ const Email = () => {
     }
   };
 
+  const { data: outlookFoldersData, isLoading: outlookFoldersLoading } =
+    useGetMailFoldersOutlookQuery({});
+  const { data: gmailFoldersData, isLoading: gmailFoldersLoading } =
+    useGetGmailFoldersQuery({});
+
   // outlook
   const { data: authURLOutlook } = useGetAuthURLOutlookQuery({});
   const handleOutLookClick = () => {
-    const oauthUrl = `${authURLOutlook?.data}`;
-    window.open(oauthUrl);
+    if (!outlookFoldersLoading) {
+      if (outlookFoldersData?.data?.length > 0) {
+        router.push(END_POINTS?.CONVERSATION_OUTLOOK_EMAIL_VIEW);
+      } else {
+        const oauthUrl = `${authURLOutlook?.data}`;
+        window.open(oauthUrl);
+      }
+    }
   };
   // gmail
   const { data: authUrlData } = useGetAuthURLGmailQuery({});
   const handleGmailClick = () => {
-    const oauthUrl = `${authUrlData?.data}`;
-    window.open(oauthUrl);
+    if (!gmailFoldersLoading) {
+      if (gmailFoldersData?.data?.labels?.length > 0) {
+        router.push(END_POINTS?.CONVERSATION_GMAIL_EMAIL_VIEW);
+      } else {
+        const oauthUrl = `${authUrlData?.data}`;
+        window.open(oauthUrl);
+      }
+    }
   };
+
   return (
     <>
       <>
@@ -99,7 +123,19 @@ const Email = () => {
           provider
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} gap={'15px'}>
-          <Box sx={styles?.emailArray(theme)} onClick={handleGmailClick}>
+          <Box
+            sx={{
+              cursor: gmailFoldersLoading ? 'not-allowed' : 'pointer',
+              ...styles?.emailArray(theme),
+            }}
+            onClick={handleGmailClick}
+          >
+            <Box sx={{ position: 'absolute', top: '10px', right: '10px' }}>
+              {gmailFoldersLoading && (
+                <CircularProgress size={20} thickness={4} />
+              )}
+            </Box>
+
             <Box
               sx={{
                 display: 'flex',
@@ -114,7 +150,19 @@ const Email = () => {
             </Box>
           </Box>
 
-          <Box sx={styles?.emailArray(theme)} onClick={handleOutLookClick}>
+          <Box
+            sx={{
+              cursor: outlookFoldersLoading ? 'not-allowed' : 'pointer',
+              ...styles?.emailArray(theme),
+            }}
+            onClick={handleOutLookClick}
+          >
+            <Box sx={{ position: 'absolute', top: '10px', right: '10px' }}>
+              {outlookFoldersLoading && (
+                <CircularProgress size={20} thickness={4} />
+              )}
+            </Box>
+
             <Box
               sx={{
                 display: 'flex',
