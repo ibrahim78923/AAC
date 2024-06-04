@@ -18,8 +18,6 @@ import { AlertModals } from '@/components/AlertModals';
 
 const AllCalls = () => {
   const {
-    theme,
-
     isCallDetailsDrawerOpen,
     setIsCallDetailsDrawerOpen,
     page,
@@ -39,42 +37,36 @@ const AllCalls = () => {
     handleCallsDelete,
   } = useAllCalls();
   return (
-    <Box
-      py={2}
-      borderRadius={2}
-      boxShadow={1}
-      border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
-    >
-      <Box px={2}>
-        <Box
-          display={'flex'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          flexWrap={'wrap'}
-          gap={2}
-        >
-          <Search label="Search Here" setSearchBy={setSearchTerm} />
+    <>
+      <Box
+        display={'flex'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        flexWrap={'wrap'}
+        gap={2}
+      >
+        <Search label="Search Here" setSearchBy={setSearchTerm} />
 
-          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            <Button
-              variant="outlined"
-              color="inherit"
-              startIcon={<ExportBlackIcon />}
-              onClick={() => setIsExportDrawerOpen(true)}
-            >
-              Export
-            </Button>
-            <Button
-              variant="outlined"
-              color="inherit"
-              startIcon={<FilterSharedIcon />}
-              onClick={() => setIsDrawerOpen(true)}
-            >
-              Filter
-            </Button>
-          </Box>
+        <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            startIcon={<ExportBlackIcon />}
+            onClick={() => setIsExportDrawerOpen(true)}
+          >
+            Export
+          </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            startIcon={<FilterSharedIcon />}
+            onClick={() => setIsDrawerOpen(true)}
+          >
+            Filter
+          </Button>
         </Box>
       </Box>
+
       <br />
 
       <TanstackTable
@@ -120,7 +112,7 @@ const AllCalls = () => {
         handleSubmitBtn={handleCallsDelete}
         message="Are you sure you want to disable it?"
       />
-    </Box>
+    </>
   );
 };
 
