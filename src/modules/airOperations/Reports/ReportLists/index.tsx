@@ -4,16 +4,15 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { FilterIcon, RestoreIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useReportLists } from './useReportLists';
-import { data } from './ReportLists.data';
 
 export const ReportLists = (props: any) => {
   const { onRestoreClick } = props;
   const {
-    userListColumns,
+    reportListsColumns,
     setSearch,
     setPageLimit,
     setPage,
-    lazyGetProductUserListForLoyaltyStatus,
+    lazyGetRestoreReportsListStatus,
     setIsPortalOpen,
     isPortalOpen,
     renderPortalComponent,
@@ -64,25 +63,19 @@ export const ReportLists = (props: any) => {
       </Box>
       <br />
       <TanstackTable
-        columns={userListColumns}
-        // data={lazyGetProductUserListForLoyaltyStatus?.data?.list}
-        data={data}
-        isLoading={lazyGetProductUserListForLoyaltyStatus?.isLoading}
-        currentPage={
-          lazyGetProductUserListForLoyaltyStatus?.data?.data?.meta?.page
-        }
-        count={lazyGetProductUserListForLoyaltyStatus?.data?.data?.meta?.pages}
-        pageLimit={
-          lazyGetProductUserListForLoyaltyStatus?.data?.data?.meta?.limit
-        }
-        totalRecords={
-          lazyGetProductUserListForLoyaltyStatus?.data?.data?.meta?.total
-        }
+        columns={reportListsColumns}
+        data={lazyGetRestoreReportsListStatus?.data?.list}
+        // data={data}
+        isLoading={lazyGetRestoreReportsListStatus?.isLoading}
+        currentPage={lazyGetRestoreReportsListStatus?.data?.data?.meta?.page}
+        count={lazyGetRestoreReportsListStatus?.data?.data?.meta?.pages}
+        pageLimit={lazyGetRestoreReportsListStatus?.data?.data?.meta?.limit}
+        totalRecords={lazyGetRestoreReportsListStatus?.data?.data?.meta?.total}
         setPage={setPage}
         setPageLimit={setPageLimit}
-        isFetching={lazyGetProductUserListForLoyaltyStatus?.isFetching}
-        isError={lazyGetProductUserListForLoyaltyStatus?.isError}
-        // isSuccess={lazyGetProductUserListForLoyaltyStatus?.isSuccess}
+        isFetching={lazyGetRestoreReportsListStatus?.isFetching}
+        isError={lazyGetRestoreReportsListStatus?.isError}
+        // isSuccess={lazyGetRestoreReportsListStatus?.isSuccess}
         isSuccess
         onPageChange={(page: any) => setPage(page)}
         isPagination

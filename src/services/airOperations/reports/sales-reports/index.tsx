@@ -22,7 +22,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         }
       },
     }),
-    getAllFavouritesSalesReportsList: builder?.query({
+    getAllFavoritesSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.ASSETS_INVENTORY}`,
         method: 'GET',
@@ -79,6 +79,25 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         }
       },
     }),
+    restoreSalesReportsList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      transformResponse: (response: any) => {
+        if (response && response?.data) {
+          return {
+            ...response,
+            list: response?.data?.inventories,
+            data: {
+              contracts: response?.data?.inventories,
+              meta: response?.data?.meta,
+            },
+          };
+        }
+      },
+    }),
   }),
 });
 
@@ -86,5 +105,6 @@ export const {
   useLazyGetAllSalesReportsListQuery,
   useLazyGetAllCustomSalesReportsListQuery,
   useLazyGetAllDashboardsSalesReportsListQuery,
-  useLazyGetAllFavouritesSalesReportsListQuery,
+  useLazyGetAllFavoritesSalesReportsListQuery,
+  useLazyRestoreSalesReportsListQuery,
 } = salesReportsApi;

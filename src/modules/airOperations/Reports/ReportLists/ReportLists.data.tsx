@@ -20,12 +20,13 @@ import {
   CircularProgress,
   Typography,
 } from '@mui/material';
-import { DATE_FORMAT } from '@/constants';
+import { AIR_OPERATIONS, DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
 export const actionsForReportListsDynamic = (
   setIsPortalOpen: any,
   selectedReportList: any,
+  router: any,
 ) => [
   {
     id: 1,
@@ -39,10 +40,11 @@ export const actionsForReportListsDynamic = (
         closeMenu?.();
         return;
       }
-      setIsPortalOpen?.({
-        isOpen: true,
-        isUpsert: true,
-        isView: true,
+      router?.push({
+        pathname: AIR_OPERATIONS?.SALES_REPORTS_RESTORE,
+        query: {
+          _id: selectedReportList[0]?._id,
+        },
       });
       closeMenu();
     },
@@ -60,7 +62,6 @@ export const actionsForReportListsDynamic = (
         return;
       }
       setIsPortalOpen?.({
-        isEdit: true,
         isRename: true,
         isOpen: true,
       });
@@ -80,7 +81,6 @@ export const actionsForReportListsDynamic = (
         return;
       }
       setIsPortalOpen?.({
-        isEdit: true,
         isClone: true,
         isOpen: true,
       });
@@ -100,8 +100,7 @@ export const actionsForReportListsDynamic = (
         return;
       }
       setIsPortalOpen?.({
-        isEdit: true,
-        isClone: true,
+        isExport: true,
         isOpen: true,
       });
       closeMenu();
@@ -138,7 +137,6 @@ export const actionsForReportListsDynamic = (
       setIsPortalOpen?.({
         isOpen: true,
         isChangeOwner: true,
-        isView: true,
       });
       closeMenu();
     },
@@ -157,8 +155,7 @@ export const actionsForReportListsDynamic = (
       }
       setIsPortalOpen?.({
         isOpen: true,
-        isChangeOwner: true,
-        isView: true,
+        isAddedToDashboard: true,
       });
       closeMenu();
     },
@@ -191,7 +188,7 @@ export const actionsForReportListsDynamic = (
         closeMenu?.();
         return;
       }
-      setIsPortalOpen({ isOpen: true, isDelete: true });
+      setIsPortalOpen({ isOpen: true, isAccessManage: true });
       closeMenu();
     },
   },
@@ -220,8 +217,8 @@ export const reportListsColumnsDynamic = (
   selectedReportList?: any,
   setSelectedReportList?: any,
   totalReports: any = [],
-  addToFavorite?: any,
-  addToFavoriteStatus?: any,
+  addReportToFavorite?: any,
+  addReportToFavoriteListStatus?: any,
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -262,7 +259,7 @@ export const reportListsColumnsDynamic = (
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedReportList(totalReports?.map((item: any) => item?._id))
+            ? setSelectedReportList(totalReports?.map((item: any) => item))
             : setSelectedReportList([]);
         }}
         color="primary"
@@ -283,8 +280,8 @@ export const reportListsColumnsDynamic = (
         gap={1}
         sx={{ cursor: 'pointer' }}
       >
-        {addToFavoriteStatus?.isLoading &&
-        addToFavoriteStatus?.originalArgs?.pathParams?.id ===
+        {addReportToFavoriteListStatus?.isLoading &&
+        addReportToFavoriteListStatus?.originalArgs?.pathParams?.id ===
           info?.row?.original?._id ? (
           <CircularProgress size={20} />
         ) : (
@@ -292,8 +289,10 @@ export const reportListsColumnsDynamic = (
             icon={<UnCheckedFavoriteIcon />}
             checkedIcon={<CheckedFavoriteIcon />}
             checked={info?.row?.original?.isFavorite}
-            onChange={(e: any) => addToFavorite(e, info?.row?.original?._id)}
-            disabled={addToFavoriteStatus?.isLoading}
+            onChange={(e: any) =>
+              addReportToFavorite(e, info?.row?.original?._id)
+            }
+            disabled={addReportToFavoriteListStatus?.isLoading}
             color="primary"
             name={info?.getValue()}
           />

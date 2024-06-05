@@ -1,8 +1,7 @@
 import { PAGINATION } from '@/config';
 import { useEffect, useState } from 'react';
-import { useUpdateProductUserForLoyaltyMutation } from '@/services/airLoyaltyProgram/user-management/user';
-import { PRODUCT_USER_STATUS } from '@/constants/strings';
-import { buildQueryParams, errorSnackbar } from '@/utils/api';
+import { EXPORT_FILE_TYPE, PRODUCT_USER_STATUS } from '@/constants/strings';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   actionsForReportListsDynamic,
   reportListsColumnsDynamic,
@@ -13,8 +12,16 @@ import { RenameReport } from '../RenameReport';
 import { ChangeReportOwner } from '../ChangeReportOwner';
 import { EmailReport } from '../EmailReport';
 import { FilterReport } from '../FilterReport';
+import { ExportModal } from '@/components/ExportModal';
+import { downloadFile } from '@/utils/file';
+import {
+  useAddReportToFavoriteListMutation,
+  useLazyExportReportsListQuery,
+} from '@/services/airOperations/reports';
+import { useRouter } from 'next/router';
 
 export const useReportLists = (props: any) => {
+  const router = useRouter();
   const { filter, apiQuery } = props;
   const [search, setSearch] = useState('');
   const [selectedReportLists, setSelectedReportLists] = useState<any>([]);
@@ -24,14 +31,15 @@ export const useReportLists = (props: any) => {
   const [reportFilters, setReportFilter] = useState<any>({});
 
   const [
-    lazyGetProductUserListForLoyaltyTrigger,
-    lazyGetProductUserListForLoyaltyStatus,
+    lazyGetRestoreReportsListTrigger,
+    lazyGetRestoreReportsListStatus,
   ]: any = apiQuery;
+  const [lazyExportReportsListTrigger]: any = useLazyExportReportsListQuery();
 
-  const [changeSingleUserStatusTrigger, changeSingleUserStatusStatus]: any =
-    useUpdateProductUserForLoyaltyMutation?.();
+  const [addReportToFavoriteListTrigger, addReportToFavoriteListStatus]: any =
+    useAddReportToFavoriteListMutation?.();
 
-  const getLoyaltyUsersList = async (
+  const getReportsList = async (
     currentPage = page,
     filterReports = reportFilters,
   ) => {
@@ -51,17 +59,15 @@ export const useReportLists = (props: any) => {
     };
 
     try {
-      await lazyGetProductUserListForLoyaltyTrigger?.(
-        apiDataParameter,
-      )?.unwrap();
+      await lazyGetRestoreReportsListTrigger?.(apiDataParameter)?.unwrap();
     } catch (error: any) {}
   };
 
   useEffect(() => {
-    getLoyaltyUsersList?.();
+    getReportsList?.();
   }, [page, pageLimit, search, reportFilters]);
 
-  const changeLoyaltyUserStatus = async (e: any, id: any) => {
+  const addReportToFavorite = async (e: any, id: any) => {
     const body = {
       status: e?.target?.checked
         ? PRODUCT_USER_STATUS?.ACTIVE
@@ -76,100 +82,105 @@ export const useReportLists = (props: any) => {
     };
 
     try {
-      await changeSingleUserStatusTrigger(apiDataParameter)?.unwrap();
+      await addReportToFavoriteListTrigger(apiDataParameter)?.unwrap();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
     }
   };
 
-  const userListColumns = reportListsColumnsDynamic?.(
+  const handleFileExportSubmit = async (type: any) => {
+    const additionalParams = [
+      ['page', page + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+      ...(filter ? [['filter', filter]] : []),
+    ];
+    const getInventoryParam: any = buildQueryParams(
+      additionalParams,
+      reportFilters,
+    );
+
+    const apiDataParameter = {
+      queryParams: getInventoryParam,
+    };
+    try {
+      const response: any =
+        await lazyExportReportsListTrigger(apiDataParameter)?.unwrap();
+      downloadFile(response, 'ReportsLists', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar(`File Exported successfully`);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  const reportListsColumns = reportListsColumnsDynamic?.(
     selectedReportLists,
     setSelectedReportLists,
-    lazyGetProductUserListForLoyaltyStatus?.data?.data?.usercompanyaccounts,
-    changeLoyaltyUserStatus,
-    changeSingleUserStatusStatus,
+    lazyGetRestoreReportsListStatus?.data?.list,
+    addReportToFavorite,
+    addReportToFavoriteListStatus,
   );
+
+  const portalComponentProps = {
+    isPortalOpen: isPortalOpen,
+    setIsPortalOpen: setIsPortalOpen,
+    setSelectedReportLists: setSelectedReportLists,
+    selectedReportLists: selectedReportLists,
+    reportFilters: reportFilters,
+    setReportFilter: setReportFilter,
+  };
 
   const renderPortalComponent = () => {
     if (isPortalOpen?.isClone) {
-      return (
-        <CloneReport
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-          setSelectedReportLists={setSelectedReportLists}
-          selectedReportLists={selectedReportLists}
-        />
-      );
+      return <CloneReport {...portalComponentProps} />;
     }
     if (isPortalOpen?.isEmail) {
-      return (
-        <EmailReport
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-          setSelectedReportLists={setSelectedReportLists}
-          selectedReportLists={selectedReportLists}
-        />
-      );
+      return <EmailReport {...portalComponentProps} />;
     }
     if (isPortalOpen?.isChangeOwner) {
-      return (
-        <ChangeReportOwner
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-          setSelectedReportLists={setSelectedReportLists}
-          selectedReportLists={selectedReportLists}
-        />
-      );
+      return <ChangeReportOwner {...portalComponentProps} />;
     }
     if (isPortalOpen?.isRename) {
-      return (
-        <RenameReport
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-          setSelectedReportLists={setSelectedReportLists}
-          selectedReportLists={selectedReportLists}
-        />
-      );
+      return <RenameReport {...portalComponentProps} />;
     }
     if (isPortalOpen?.isDelete) {
-      return (
-        <DeleteReport
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-          setSelectedReportLists={setSelectedReportLists}
-          selectedReportLists={selectedReportLists}
-        />
-      );
+      return <DeleteReport {...portalComponentProps} />;
     }
     if (isPortalOpen?.isFilter) {
+      return <FilterReport {...portalComponentProps} />;
+    }
+    if (isPortalOpen?.isAddedToDashboard) {
+      return <DeleteReport {...portalComponentProps} />;
+    }
+    if (isPortalOpen?.isAccessManage) {
+      return <FilterReport {...portalComponentProps} />;
+    }
+    if (isPortalOpen?.isExport) {
       return (
-        <FilterReport
-          isPortalOpen={isPortalOpen}
-          setIsPortalOpen={setIsPortalOpen}
-          setSelectedReportLists={setSelectedReportLists}
-          selectedReportLists={selectedReportLists}
-          reportFilters={reportFilters}
-          setReportFilter={setReportFilter}
+        <ExportModal
+          open={isPortalOpen?.isExport}
+          onSubmit={(exportType: any) => handleFileExportSubmit?.(exportType)}
+          handleClose={() => setIsPortalOpen({})}
         />
       );
     }
     return <></>;
   };
+
   const actionButtonDropdown = actionsForReportListsDynamic?.(
     setIsPortalOpen,
     selectedReportLists,
+    router,
   );
 
   return {
-    userListColumns,
+    reportListsColumns,
     setSearch,
     setPageLimit,
     setPage,
-    lazyGetProductUserListForLoyaltyStatus,
+    lazyGetRestoreReportsListStatus,
     setIsPortalOpen,
     isPortalOpen,
-    changeLoyaltyUserStatus,
-    changeSingleUserStatusStatus,
     renderPortalComponent,
     actionButtonDropdown,
     setSelectedReportLists,

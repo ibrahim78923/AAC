@@ -168,6 +168,7 @@ export const ALERT_MODALS_TYPE = {
   DELETE: 'delete',
   WARNING: 'warning',
   INFO: 'Information',
+  RESTORE: 'Restore',
 };
 
 export const CATALOG_SERVICE_TYPES = {
@@ -793,6 +794,10 @@ export const SELECTED_ARRAY_LENGTH = {
 export const SCREENS: any = {
   MOBILE: 'mobile',
   LAPTOP: 'laptop',
+};
+
+export const TIME_TO_RESTORE_DELETED_RECORD = {
+  REPORT_RESTORE_IN_DAYS: 90,
 };
 
 export const REPORT_TYPE = {

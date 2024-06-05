@@ -62,34 +62,23 @@ const HorizontalTabs = (props: any) => {
         )}
       </Tabs>
       <Box sx={{ py: { md: 2, xs: 0.5 } }}>
-        {arrayChildren?.map((child: any, index: any) => (
-          <Box key={uuidv4()}>
-            {value === index &&
-              cloneElement(
-                <>
-                  <br />
-                  {child}
-                </>,
-                { setValue },
-              )}
-          </Box>
-        ))}
+        {arrayChildren?.map((child: any, index: any) => {
+          return (
+            <Box key={child}>
+              {value === index &&
+                cloneElement(
+                  <>
+                    <br />
+                    {child}
+                  </>,
+                  { setValue },
+                )}
+            </Box>
+          );
+        })}
       </Box>
     </Card>
   );
 };
 
 export default HorizontalTabs;
-
-// ----------------------------------------------------------------------
-// Styles
-// const styles = {
-//   tabRoot: (theme: any) => ({
-//     borderBottom: 1,
-//     borderColor: theme.palette.primary.lighter,
-//   }),
-
-//   tabIndicator: (theme: any) => ({
-//     sx: { background: theme.palette.primary.main },
-//   }),
-// };
