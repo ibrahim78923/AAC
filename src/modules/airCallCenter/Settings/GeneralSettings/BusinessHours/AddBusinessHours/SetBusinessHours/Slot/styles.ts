@@ -1,6 +1,7 @@
 export const styles = {
   slot: () => ({
     display: 'flex',
+    padding: '16px 20px',
   }),
   content: () => ({
     flex: '1',
@@ -11,6 +12,7 @@ export const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    textTransform: 'none',
   }),
   addMore: () => ({
     width: '125px',

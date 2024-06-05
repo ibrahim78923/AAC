@@ -12,8 +12,7 @@ import { AIR_CALL_CENTER } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
 
 const AddBusinessHours = () => {
-  const { methodsAddBusinessHours, days, handleSelectDays } =
-    useAddBusinessHours();
+  const { methodsAddBusinessHours } = useAddBusinessHours();
   const navigate = useRouter();
   return (
     <>
@@ -48,7 +47,7 @@ const AddBusinessHours = () => {
         </Box>
         <Box sx={{ mt: '14px' }}>
           <HorizontalTabs tabsDataArray={['Set Business Hours', 'Holidays']}>
-            <SetBusinessHours value={days} handleChange={handleSelectDays} />
+            <SetBusinessHours />
             <Holidays />
           </HorizontalTabs>
         </Box>
