@@ -1,4 +1,10 @@
-import { Box, Button, Typography, ButtonGroup } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  ButtonGroup,
+  InputAdornment,
+} from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useTextEditor } from './useTextEditor';
 import { RHFTextField } from '@/components/ReactHookForm';
@@ -10,29 +16,70 @@ import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { TEXT_FORMATE } from '@/constants/strings';
+import { DeleteBlackIcon } from '@/assets/icons';
+import { CheckBox } from '@mui/icons-material';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 export const TextEditor = (props: any) => {
-  const { handleCancel, fontSize, color, handleTextCancel } = props;
+  const { fontSize, color, textTitle, setValue } = props;
   const {
     handleSave,
     applyTextStyle,
     onColorChange,
     onFontSizeChange,
     saveDisable,
+    setEditValue,
+    editValue,
+    setEdit,
+    edit,
+    handleTextCancel,
   } = useTextEditor(props);
   return (
     <>
-      <PageTitledHeader title={'Text'} canMovedBack moveBack={handleCancel} />
+      <PageTitledHeader
+        title={'Text'}
+        canMovedBack
+        moveBack={handleTextCancel}
+      />
       <Typography variant={'h6'}>Title</Typography>
-      <Box p={1}>
-        <RHFTextField
-          name="textTitle"
-          variant="outlined"
-          placeholder="Untitled"
-          size="small"
-          required
-        />
-      </Box>
+      <RHFTextField
+        name={'textTitle'}
+        size="small"
+        disabled={edit}
+        InputProps={{
+          onClick: () => {},
+          endAdornment: (
+            <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
+              {edit ? (
+                <Box
+                  onClick={() => {
+                    setEdit(false), setValue === editValue;
+                  }}
+                >
+                  <BorderColorIcon />
+                </Box>
+              ) : (
+                <Box display={'flex'} alignItems={'center'}>
+                  <Box
+                    onClick={() => {
+                      setEdit(true), setEditValue(textTitle);
+                    }}
+                  >
+                    <CheckBox />
+                  </Box>
+                  <Box
+                    onClick={() => {
+                      setEdit(true), setValue('textTitle', editValue);
+                    }}
+                  >
+                    <DeleteBlackIcon />
+                  </Box>
+                </Box>
+              )}
+            </InputAdornment>
+          ),
+        }}
+      />
       <Typography variant={'h6'} mt={2}>
         Text
       </Typography>
@@ -136,7 +183,7 @@ export const TextEditor = (props: any) => {
           onClick={() => handleTextCancel()}
           color="secondary"
         >
-          Reset
+          Cancel
         </Button>
         <Button
           variant="contained"

@@ -7,6 +7,8 @@ import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
 import { InteractiveFilterEditor } from '../DraggableFormFields/InteractiveFilterEditor';
 import { ServicesReportsDrawer } from '../ServicesReportsDrawer';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { servicesMetrics } from '../CreateServicesReports.data';
 
 export default function DraggableFields({
   fieldsList,
@@ -19,20 +21,25 @@ export default function DraggableFields({
   setFontSize,
   color,
   setColor,
-  setHtmlContent,
   setModal,
   setFieldData,
-  handleTextCancel,
   textTitle,
   chartComponent,
-  setFinalChartComponent,
-  handleChartCancel,
   tableTitle,
   setValue,
   AddProperties,
   setCloumnsData,
   setOpenDrawer,
   openDrawer,
+  chartType,
+  setMetricType,
+  metricType,
+  chartTitle,
+  form,
+  setForm,
+  setChartMetricType,
+  chartMetricType,
+  filterTitle,
 }: any) {
   const theme: any = useTheme();
 
@@ -46,10 +53,20 @@ export default function DraggableFields({
         >
           {!!!fieldData ? (
             <>
-              <Typography variant={'h5'} mb={2}>
-                Form Scratch
-              </Typography>
-
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'space-between'}
+                mb={2}
+              >
+                <Typography variant={'h5'} mb={2}>
+                  Form Scratch
+                </Typography>
+                <SingleDropdownButton
+                  dropdownOptions={servicesMetrics(setMetricType)}
+                  dropdownName={metricType}
+                />
+              </Box>
               {fieldsList?.map((item: any, index: number) => (
                 <Draggable key={item?.id} draggableId={item?.id} index={index}>
                   {(provided) => (
@@ -116,32 +133,43 @@ export default function DraggableFields({
             <>
               {modal?.chart && (
                 <ChartEditor
-                  setFinalChartComponent={setFinalChartComponent}
                   chartComponent={chartComponent}
-                  handleCancel={handleCancel}
                   setModal={setModal}
                   setFieldData={setFieldData}
-                  handleChartCancel={handleChartCancel}
+                  chartType={chartType}
+                  metricType={metricType}
+                  setValue={setValue}
+                  chartTitle={chartTitle}
+                  form={form}
+                  setForm={setForm}
+                  setChartMetricType={setChartMetricType}
+                  chartMetricType={chartMetricType}
                 />
               )}
 
               {modal?.interactiveFilter && (
-                <InteractiveFilterEditor handleCancel={handleCancel} />
+                <InteractiveFilterEditor
+                  handleCancel={handleCancel}
+                  form={form}
+                  setForm={setForm}
+                  filterTitle={filterTitle}
+                  setValue={setValue}
+                />
               )}
               {modal?.text && (
                 <TextEditor
-                  handleCancel={handleCancel}
                   setEditorState={setEditorState}
                   editorState={editorState}
                   fontSize={fontSize}
                   color={color}
                   setFontSize={setFontSize}
                   setColor={setColor}
-                  setHtmlContent={setHtmlContent}
                   setModal={setModal}
                   setFieldData={setFieldData}
-                  handleTextCancel={handleTextCancel}
                   textTitle={textTitle}
+                  form={form}
+                  setForm={setForm}
+                  setValue={setValue}
                 />
               )}
               {modal?.table && (

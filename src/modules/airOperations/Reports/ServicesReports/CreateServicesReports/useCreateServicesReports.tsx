@@ -8,10 +8,23 @@ import { EditorState } from 'draft-js';
 export default function useCreateServicesReports() {
   const theme: any = useTheme();
   const router: any = useRouter();
-  const methods: any = useForm({ defaultValues: { tableTitle: 'My Title' } });
+  const methods: any = useForm({
+    defaultValues: {
+      chartTitle: 'Report Chart',
+      tableTitle: 'Table',
+      textTitle: 'Report Text',
+      filterTitle: 'Report Filter',
+    },
+  });
   const { watch, setValue } = methods;
   const textTitle = watch('textTitle');
   const tableTitle = watch('tableTitle');
+  const chartTitle = watch('chartTitle');
+  const chartType = watch('chartType');
+  const xAxesData = watch('xAxes');
+  const yAxesData = watch('yAxes');
+  const filterTitle = watch('filterTitle');
+  const filterType = watch('filterType');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
   const [fieldData, setFieldData] = useState<any>(false);
@@ -19,15 +32,14 @@ export default function useCreateServicesReports() {
   const [editorState, setEditorState] = useState(EditorState?.createEmpty());
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
-  const [htmlContent, setHtmlContent] = useState('');
+  const [metricType, setMetricType] = useState('Metrics');
+  const [chartMetricType, setChartMetricType] = useState('Add Metrics');
   const [AddProperties, setAddProperties] = useState();
   const [columnsData, setCloumnsData] = useState([]);
 
   const [chartComponent, setChartComponent] = useState<JSX.Element | null>(
     null,
   );
-  const [finalChartComponent, setFinalChartComponent] =
-    useState<JSX.Element | null>(null);
 
   const getModalState = (draggedItem: any) => {
     const newModal: any = {
@@ -67,20 +79,6 @@ export default function useCreateServicesReports() {
     setModal(modalInitialState);
   };
 
-  const handleTextCancel = () => {
-    setFieldData(false);
-    setModal(modalInitialState);
-    setHtmlContent('');
-    setEditorState(EditorState.createEmpty());
-  };
-
-  const handleChartCancel = () => {
-    setFieldData(false);
-    setModal(modalInitialState);
-    setChartComponent(null);
-    setFinalChartComponent(null);
-  };
-
   return {
     handleDragEnd,
     router,
@@ -99,15 +97,9 @@ export default function useCreateServicesReports() {
     color,
     setFontSize,
     fontSize,
-    setHtmlContent,
-    htmlContent,
     textTitle,
-    handleTextCancel,
     setChartComponent,
     chartComponent,
-    setFinalChartComponent,
-    finalChartComponent,
-    handleChartCancel,
     tableTitle,
     setValue,
     AddProperties,
@@ -116,5 +108,15 @@ export default function useCreateServicesReports() {
     setCloumnsData,
     setOpenDrawer,
     openDrawer,
+    chartType,
+    setMetricType,
+    metricType,
+    chartTitle,
+    yAxesData,
+    xAxesData,
+    setChartMetricType,
+    chartMetricType,
+    filterTitle,
+    filterType,
   };
 }

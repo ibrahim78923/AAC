@@ -36,14 +36,7 @@ export const useBarChart = () => {
   const months = Object?.keys(groupedData || {})?.sort(
     (a: any, b: any) => a - b,
   );
-  const seriesData = [
-    'New Tickets',
-    'Resolved Tickets',
-    'OverDue Tickets',
-    'Pending Tickets',
-    'Close Tickets',
-    'Unassigned Tickets',
-  ]?.map((status) => ({
+  const seriesData = ['Resolved Tickets', 'Close Tickets']?.map((status) => ({
     name: status,
     data: months?.map((month: any) => groupedData[month]?.[status] || 0),
   }));
@@ -54,17 +47,10 @@ export const useBarChart = () => {
         (month: any) => monthAbbreviations[parseInt(month) - 1],
       ),
     },
-    colors: [
-      theme?.palette?.primary?.main,
-      theme?.palette?.blue?.link_blue,
-      theme?.palette?.error?.main,
-      theme?.palette?.warning?.main,
-      theme?.palette?.custom?.lime_green,
-      theme?.palette?.info?.dark,
-    ],
+    colors: [theme?.palette?.primary?.main, theme?.palette?.blue?.link_blue],
     plotOptions: {
       bar: {
-        columnWidth: '60%',
+        columnWidth: '50%',
       },
     },
     legend: {

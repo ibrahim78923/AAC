@@ -32,6 +32,36 @@ export const modalInitialState: any = {
   table: false,
 };
 
+export const servicesMetrics = (setMetricType: any) => [
+  {
+    title: 'Inventories',
+    handleClick: (closeMenu: any) => {
+      setMetricType('Inventories');
+      closeMenu?.();
+    },
+  },
+  {
+    title: 'Tickets',
+    handleClick: (closeMenu: any) => {
+      setMetricType('Tickets');
+      closeMenu?.();
+    },
+  },
+  {
+    title: 'Tasks',
+    handleClick: (closeMenu: any) => {
+      setMetricType('Tasks');
+      closeMenu?.();
+    },
+  },
+  {
+    title: 'Users',
+    handleClick: (closeMenu: any) => {
+      setMetricType('Users');
+      closeMenu?.();
+    },
+  },
+];
 export const ActionDropDownData = () => [
   {
     id: 1,

@@ -2,7 +2,8 @@ import { successSnackbar } from '@/utils/api';
 import { EditorState, RichUtils, Modifier, convertToRaw } from 'draft-js';
 import { useEffect, useState } from 'react';
 import { stateToHTML } from 'draft-js-export-html';
-import { TEXT_FORMATE } from '@/constants/strings';
+import { REPORT_TYPE, TEXT_FORMATE } from '@/constants/strings';
+import { generateUniqueId } from '@/utils/dynamic-forms';
 
 export const useTextEditor = (props: any) => {
   const {
@@ -12,9 +13,14 @@ export const useTextEditor = (props: any) => {
     setColor,
     editorState,
     setEditorState,
-    setHtmlContent,
+    form,
+    setForm,
+    textTitle,
+    setValue,
   } = props;
   const [saveDisable, setSaveDisable] = useState(true);
+  const [edit, setEdit] = useState(true);
+  const [editValue, setEditValue] = useState();
   useEffect(() => {
     const rawContentState = convertToRaw(editorState?.getCurrentContent());
     const blocks = rawContentState?.blocks;
@@ -180,7 +186,16 @@ export const useTextEditor = (props: any) => {
       },
     };
     const htmlContent = stateToHTML(contentState, options);
-    setHtmlContent(htmlContent);
+    const uniqueId = generateUniqueId();
+    setForm([
+      ...form,
+      {
+        id: uniqueId,
+        component: htmlContent,
+        title: textTitle,
+        type: REPORT_TYPE?.TEXT,
+      },
+    ]);
   };
 
   const handleSave = () => {
@@ -193,6 +208,20 @@ export const useTextEditor = (props: any) => {
       text: false,
       table: false,
     });
+    setValue('textTitle', 'Report Text');
+    setEditorState(EditorState.createEmpty());
+  };
+
+  const handleTextCancel = () => {
+    setFieldData(false);
+    setModal({
+      chart: false,
+      interactiveFilter: false,
+      text: false,
+      table: false,
+    });
+    setEditorState(EditorState.createEmpty());
+    setValue('textTitle', 'Report Text');
   };
   return {
     handleSave,
@@ -200,5 +229,10 @@ export const useTextEditor = (props: any) => {
     onColorChange,
     onFontSizeChange,
     saveDisable,
+    setEditValue,
+    editValue,
+    setEdit,
+    edit,
+    handleTextCancel,
   };
 };

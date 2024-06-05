@@ -1,6 +1,6 @@
 import { CustomChart } from '@/components/Chart';
 
-export const PaiChart = () => {
+export const PieChart = () => {
   return (
     <>
       <CustomChart

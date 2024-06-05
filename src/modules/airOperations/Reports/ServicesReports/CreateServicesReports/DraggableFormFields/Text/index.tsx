@@ -8,21 +8,23 @@ export const Text = (props: any) => {
 
   return (
     <>
-      <Typography variant={'h6'}>Description</Typography>
-      <Box
-        height={'50vh'}
-        overflow={'scroll'}
-        border={1}
-        borderBottom={'grey.900'}
-        p={'0.5rem 2rem'}
-        borderRadius={'0.5rem'}
-      >
-        <Editor
-          editorState={editorState}
-          handleKeyCommand={handleKeyCommand}
-          onChange={setEditorState}
-          customStyleMap={styleMap}
-        />
+      <Typography variant={'h6'} mb={2}>
+        Description
+      </Typography>
+      <Box height={'50vh'} overflow={'scroll'}>
+        <Box
+          border={1}
+          borderBottom={'grey.900'}
+          p={'0.5rem 2rem'}
+          borderRadius={'0.5rem'}
+        >
+          <Editor
+            editorState={editorState}
+            handleKeyCommand={handleKeyCommand}
+            onChange={setEditorState}
+            customStyleMap={styleMap}
+          />
+        </Box>
       </Box>
     </>
   );

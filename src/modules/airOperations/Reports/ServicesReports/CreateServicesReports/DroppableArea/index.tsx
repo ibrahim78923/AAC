@@ -1,10 +1,21 @@
-import { Box, Button, Divider, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { ReportsIcon } from '@/assets/icons';
 import { Chart } from '../DraggableFormFields/Chart';
 import { InteractiveFilter } from '../DraggableFormFields/InteractiveFilter';
 import { Text } from '../DraggableFormFields/Text';
 import { Table } from '../DraggableFormFields/Table';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useDroppableArea } from './useDroppableArea';
+import { REPORT_TYPE } from '@/constants/strings';
 
 export default function DroppableArea(props: any) {
   const {
@@ -14,23 +25,27 @@ export default function DroppableArea(props: any) {
     setEditorState,
     fontSize,
     color,
-    htmlContent,
-    textTitle,
     setChartComponent,
-    finalChartComponent,
+    form,
     tableTitle,
+    chartType,
+    chartComponent,
+    yAxesData,
+    xAxesData,
+    chartMetricType,
+    filterType,
     setAddProperties,
     columnsData,
   } = props;
-  const theme: any = useTheme();
 
+  const { handleDelete, handleCopy, theme } = useDroppableArea(props);
   return (
     <Droppable droppableId={'droppable'}>
       {(provided: any) => (
         <Box
           bgcolor={'secondary.50'}
           borderRadius={2}
-          p={2}
+          p={1}
           width={'100%'}
           height={'70vh'}
           overflow={'scroll'}
@@ -39,7 +54,7 @@ export default function DroppableArea(props: any) {
         >
           {!!!fieldData ? (
             <>
-              {!!!htmlContent && !!!finalChartComponent ? (
+              {!!!form?.length ? (
                 <>
                   <Box
                     display={'flex'}
@@ -80,42 +95,119 @@ export default function DroppableArea(props: any) {
                 </>
               ) : (
                 <>
-                  {finalChartComponent && (
-                    <Box
-                      borderRadius={2}
-                      border={`1px solid ${theme?.palette?.grey[700]}`}
-                      mb={2}
-                    >
-                      <Typography variant={'h5'} mb={1} p={1}>
-                        {finalChartComponent?.chartName}
-                      </Typography>
-                      {finalChartComponent?.component}
-                    </Box>
-                  )}
-                  {htmlContent && (
-                    <Box
-                      borderRadius={2}
-                      border={`1px solid ${theme?.palette?.grey[700]}`}
-                      p={1}
-                      pl={3}
-                      width={'100%'}
-                      height={'40vh'}
-                      overflow={'scroll'}
-                      mb={2}
-                    >
-                      <Typography variant={'h3'} mb={1}>
-                        {textTitle}
-                      </Typography>
-                      <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-                    </Box>
+                  {form?.length > 0 && (
+                    <>
+                      <Grid container spacing={1}>
+                        {form?.map((item: any) => (
+                          <>
+                            {item?.type === REPORT_TYPE?.CHART && (
+                              <Grid item xs={12} sm={6} key={item?.id}>
+                                <Box
+                                  borderRadius={2}
+                                  border={`1px solid ${theme?.palette?.grey[700]}`}
+                                  mb={2}
+                                >
+                                  <Box
+                                    display={'flex'}
+                                    justifyContent={'space-between'}
+                                    alignItems={'center'}
+                                    p={1}
+                                  >
+                                    <Typography color="secondary" variant="h5">
+                                      {item?.title}
+                                    </Typography>
+                                    <Box
+                                      display={'flex'}
+                                      justifyContent={'center'}
+                                      alignItems={'center'}
+                                    >
+                                      <IconButton
+                                        onClick={() => handleDelete(item?.id)}
+                                      >
+                                        <DeleteIcon />
+                                      </IconButton>
+                                      <IconButton
+                                        onClick={() => handleCopy(item?.id)}
+                                      >
+                                        <ContentCopyIcon />
+                                      </IconButton>
+                                    </Box>
+                                  </Box>
+                                  {item?.component}
+                                </Box>
+                              </Grid>
+                            )}
+                          </>
+                        ))}
+                      </Grid>
+                      <Grid container spacing={1}>
+                        {form?.map((item: any) => (
+                          <>
+                            {item?.type === REPORT_TYPE?.TEXT && (
+                              <Grid item xs={12} sm={6} key={item?.id}>
+                                <Box
+                                  borderRadius={2}
+                                  border={`1px solid ${theme?.palette?.grey[700]}`}
+                                  mb={2}
+                                  p={1}
+                                  pl={2.5}
+                                >
+                                  <Box
+                                    display={'flex'}
+                                    justifyContent={'space-between'}
+                                    alignItems={'center'}
+                                  >
+                                    <Typography color="secondary" variant="h5">
+                                      {item?.title}
+                                    </Typography>
+                                    <Box
+                                      display={'flex'}
+                                      justifyContent={'center'}
+                                      alignItems={'center'}
+                                    >
+                                      <IconButton
+                                        onClick={() => handleDelete(item?.id)}
+                                      >
+                                        <DeleteIcon />
+                                      </IconButton>
+                                      <IconButton
+                                        onClick={() => handleCopy(item?.id)}
+                                      >
+                                        <ContentCopyIcon />
+                                      </IconButton>
+                                    </Box>
+                                  </Box>
+                                  <div
+                                    dangerouslySetInnerHTML={{
+                                      __html: item?.component,
+                                    }}
+                                  />
+                                </Box>
+                              </Grid>
+                            )}
+                          </>
+                        ))}
+                      </Grid>
+                    </>
                   )}
                 </>
               )}
             </>
           ) : (
             <>
-              {modal?.chart && <Chart setChartComponent={setChartComponent} />}
-              {modal?.interactiveFilter && <InteractiveFilter />}
+              {modal?.chart && (
+                <Chart
+                  setChartComponent={setChartComponent}
+                  chartType={chartType}
+                  chartComponent={chartComponent}
+                  yAxesData={yAxesData}
+                  xAxesData={xAxesData}
+                  chartMetricType={chartMetricType}
+                />
+              )}
+              {modal?.interactiveFilter && (
+                <InteractiveFilter filterType={filterType} />
+              )}
               {modal?.text && (
                 <Text
                   editorState={editorState}

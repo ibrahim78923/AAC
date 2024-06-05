@@ -794,3 +794,10 @@ export const SCREENS: any = {
   MOBILE: 'mobile',
   LAPTOP: 'laptop',
 };
+
+export const REPORT_TYPE = {
+  CHART: 'chart',
+  TABLE: 'table',
+  TEXT: 'text',
+  FILTER: 'filter',
+};

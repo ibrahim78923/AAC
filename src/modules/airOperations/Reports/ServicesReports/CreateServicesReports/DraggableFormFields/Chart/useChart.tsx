@@ -1,31 +1,33 @@
 import { CHARTS } from '@/constants/strings';
 import { useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { BarChart } from './BarChart';
+import { DonutChart } from './DonutChart';
+import { PieChart } from './PieChart';
 
 export const useChart = (props: any) => {
-  const { setChartComponent } = props;
+  const {
+    setChartComponent,
+    chartType,
+    yAxesData,
+    xAxesData,
+    chartMetricType,
+  } = props;
   const theme = useTheme();
-  const [chartType, setChartType] = useState(CHARTS?.BAR_CHART);
-  const [isIconBoxVisible, setIsIconBoxVisible] = useState(false);
 
-  const toggleIconBox = () => {
-    setIsIconBoxVisible(!isIconBoxVisible);
-  };
+  useEffect(() => {
+    if (chartType === CHARTS?.BAR_CHART) {
+      setChartComponent(<BarChart />);
+    } else if (chartType === CHARTS?.DONUT_CHART) {
+      setChartComponent(<DonutChart />);
+    } else if (chartType === CHARTS?.PIE_CHART) {
+      setChartComponent(<PieChart />);
+    } else {
+      setChartComponent(null);
+    }
+  }, [chartType, setChartComponent, yAxesData, xAxesData, chartMetricType]);
 
-  const handleChartSelection = (
-    component: JSX.Element,
-    type: any,
-    chartName: any,
-  ) => {
-    setChartComponent({ component, chartName });
-    setChartType(type);
-  };
   return {
     theme,
-    setChartType,
-    chartType,
-    toggleIconBox,
-    isIconBoxVisible,
-    handleChartSelection,
   };
 };

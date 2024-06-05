@@ -23,17 +23,11 @@ export const CreateServicesReports = () => {
     color,
     setFontSize,
     fontSize,
-    setHtmlContent,
-    htmlContent,
     textTitle,
     setFieldData,
     setModal,
-    handleTextCancel,
     setChartComponent,
     chartComponent,
-    setFinalChartComponent,
-    finalChartComponent,
-    handleChartCancel,
     tableTitle,
     setValue,
     AddProperties,
@@ -42,6 +36,18 @@ export const CreateServicesReports = () => {
     setCloumnsData,
     setOpenDrawer,
     openDrawer,
+    chartType,
+    setMetricType,
+    metricType,
+    chartTitle,
+    form,
+    setForm,
+    yAxesData,
+    xAxesData,
+    setChartMetricType,
+    chartMetricType,
+    filterTitle,
+    filterType,
   } = useCreateServicesReports();
 
   return (
@@ -70,7 +76,6 @@ export const CreateServicesReports = () => {
               bgcolor={'common.white'}
               display={'flex'}
               alignItems={'center'}
-              p={2}
             >
               <DroppableArea
                 fieldData={fieldData}
@@ -79,11 +84,16 @@ export const CreateServicesReports = () => {
                 setEditorState={setEditorState}
                 fontSize={fontSize}
                 color={color}
-                htmlContent={htmlContent}
-                textTitle={textTitle}
                 setChartComponent={setChartComponent}
-                finalChartComponent={finalChartComponent}
                 tableTitle={tableTitle}
+                chartType={chartType}
+                chartComponent={chartComponent}
+                form={form}
+                setForm={setForm}
+                xAxesData={xAxesData}
+                yAxesData={yAxesData}
+                chartMetricType={chartMetricType}
+                filterType={filterType}
                 setAddProperties={setAddProperties}
                 columnsData={columnsData}
               />
@@ -97,7 +107,7 @@ export const CreateServicesReports = () => {
             borderRadius={3}
             boxShadow={`0px 0px 10px 10px ${theme?.palette?.grey[100]}`}
           >
-            <Box borderRadius={2} bgcolor={'common.white'} p={2}>
+            <Box borderRadius={2} bgcolor={'common.white'}>
               <DraggableFields
                 fieldsList={fieldsList}
                 fieldData={fieldData}
@@ -109,20 +119,25 @@ export const CreateServicesReports = () => {
                 color={color}
                 setFontSize={setFontSize}
                 setColor={setColor}
-                setHtmlContent={setHtmlContent}
                 setModal={setModal}
                 setFieldData={setFieldData}
-                handleTextCancel={handleTextCancel}
                 textTitle={textTitle}
-                setFinalChartComponent={setFinalChartComponent}
                 chartComponent={chartComponent}
-                handleChartCancel={handleChartCancel}
                 tableTitle={tableTitle}
                 setValue={setValue}
                 AddProperties={AddProperties}
                 setCloumnsData={setCloumnsData}
                 setOpenDrawer={setOpenDrawer}
                 openDrawer={openDrawer}
+                chartType={chartType}
+                setMetricType={setMetricType}
+                metricType={metricType}
+                chartTitle={chartTitle}
+                form={form}
+                setForm={setForm}
+                chartMetricType={chartMetricType}
+                setChartMetricType={setChartMetricType}
+                filterTitle={filterTitle}
               />
             </Box>
           </Grid>

@@ -10,8 +10,9 @@ export const useServicesReportsDrawer = () => {
     resolver: yupResolver(reportsValidationSchema),
     defaultValues: reportsDefaultValues,
   });
-
+  const { watch } = saveReportsMethods;
   return {
     saveReportsMethods,
+    watch,
   };
 };

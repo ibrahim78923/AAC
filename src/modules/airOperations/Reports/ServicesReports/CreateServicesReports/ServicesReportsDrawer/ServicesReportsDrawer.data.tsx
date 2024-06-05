@@ -1,19 +1,21 @@
-import { RHFRadioGroup, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFRadioGroup,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const reportsValidationSchema: any = Yup?.object()?.shape({
   reportName: Yup?.string()?.required('Report Name is Required'),
-  description: Yup?.string()?.required('Description is Required'),
 });
 export const reportsDefaultValues = {
   reportName: '',
-  description: '',
 };
 
 export const reportsDataArray = () => {
   return [
     {
-      md: 12,
+      id: 7578,
       componentProps: {
         name: 'reportName',
         label: 'Report Name',
@@ -24,22 +26,11 @@ export const reportsDataArray = () => {
       component: RHFTextField,
     },
     {
-      md: 12,
-      componentProps: {
-        name: 'description',
-        label: 'Description',
-        fullWidth: true,
-        multiline: true,
-        rows: 4,
-      },
-      component: RHFTextField,
-    },
-    {
+      id: 3466,
       componentProps: {
         name: 'sharedWith',
         label: 'Shared with',
         required: true,
-        row: false,
         options: [
           { value: 'private', label: 'Private' },
           { value: 'everyone', label: 'Everyone' },
@@ -47,21 +38,54 @@ export const reportsDataArray = () => {
         ],
       },
       component: RHFRadioGroup,
-      md: 12,
+      conditionalComponentOne: (
+        <RHFRadioGroup
+          name="everyoneCondition"
+          size="small"
+          row={false}
+          options={[
+            { value: 'viewEdit', label: 'View and Edit' },
+            { value: 'viewOnly', label: 'View Only' },
+          ]}
+        />
+      ),
+      conditionalComponentTwo: (
+        <RHFAutocomplete
+          name="specificUsersCondition"
+          label="Select user"
+          size="small"
+          type="text"
+          options={[
+            'njones@outlook.com',
+            'htaylor@gmail.com',
+            'emitchell@outlook.com',
+            'jwilson@yahoo.com',
+          ]}
+        />
+      ),
     },
     {
+      id: 7657,
       componentProps: {
         name: 'addToDashboard',
         label: 'Add this report to a dashboard',
         row: false,
         options: [
           { value: 'doNotAdd', label: 'Do not add to a dashboard' },
-          { value: 'addTo', label: 'Add to existing dashboard' },
           { value: 'addToNew', label: 'Add to new dashboard' },
+          { value: 'addTo', label: 'Add to existing dashboard' },
         ],
       },
       component: RHFRadioGroup,
-      md: 12,
+      conditionalComponentTree: (
+        <RHFAutocomplete
+          name="addToCondition"
+          label="Select Dashboard"
+          size="small"
+          type="text"
+          options={['Test1', 'Test2', 'Test3']}
+        />
+      ),
     },
   ];
 };

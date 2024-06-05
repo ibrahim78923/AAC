@@ -1,9 +1,31 @@
+import { REPORT_TYPE } from '@/constants/strings';
+import { generateUniqueId } from '@/utils/dynamic-forms';
+import { useState } from 'react';
+
 export const useChartEditor = (props: any) => {
-  const { chartComponent, setFinalChartComponent, setFieldData, setModal } =
-    props;
+  const {
+    chartComponent,
+    setFieldData,
+    setModal,
+    setValue,
+    chartTitle,
+    form,
+    setForm,
+  } = props;
+  const [edit, setEdit] = useState(true);
+  const [editValue, setEditValue] = useState();
 
   const handleSave = () => {
-    setFinalChartComponent(chartComponent);
+    const uniqueId = generateUniqueId();
+    setForm([
+      ...form,
+      {
+        id: uniqueId,
+        component: chartComponent,
+        title: chartTitle,
+        type: REPORT_TYPE?.CHART,
+      },
+    ]);
     setFieldData(false);
     setModal({
       chart: false,
@@ -11,9 +33,28 @@ export const useChartEditor = (props: any) => {
       text: false,
       table: false,
     });
+    setValue('chartType', '');
+    setValue('chartTitle', 'Report Chart');
+  };
+
+  const handleCancel = () => {
+    setFieldData(false);
+    setModal({
+      chart: false,
+      interactiveFilter: false,
+      text: false,
+      table: false,
+    });
+    setValue('chartType', '');
+    setValue('chartTitle', 'Report Chart');
   };
 
   return {
     handleSave,
+    edit,
+    setEdit,
+    editValue,
+    setEditValue,
+    handleCancel,
   };
 };
