@@ -25,6 +25,7 @@ import {
   setGmailList,
   setGmailTabType,
 } from '@/redux/slices/email/gmail/slice';
+import { Gmail_CONST } from '@/constants';
 
 const LeftPane = () => {
   const theme = useTheme();
@@ -100,19 +101,42 @@ const LeftPane = () => {
           return null;
         }
         const threadId = lastMessage?.threadId || '';
+        const messageId = lastMessage?.id || '';
         const headers = lastMessage?.payload?.headers || [];
-
+        const to =
+          headers?.find((header: any) => header?.name === Gmail_CONST?.TO)
+            ?.value || '';
+        const cc =
+          headers?.find((header: any) => header?.name === Gmail_CONST?.CC)
+            ?.value || '';
+        const Bcc =
+          headers?.find((header: any) => header?.name === Gmail_CONST?.BCC)
+            ?.value || '';
         const name =
-          headers?.find((header: any) => header?.name === 'From')?.value || '';
+          headers?.find((header: any) => header?.name === Gmail_CONST?.FROM)
+            ?.value || '';
         const subject =
-          headers?.find((header: any) => header?.name === 'Subject')?.value ||
-          '<no-subject>';
+          headers?.find((header: any) => header?.name === Gmail_CONST?.SUBJECT)
+            ?.value || '<no-subject>';
         const snippet = lastMessage?.snippet || '';
         const date =
-          headers?.find((header: any) => header?.name === 'Date')?.value || '';
+          headers?.find((header: any) => header?.name === Gmail_CONST?.DATE)
+            ?.value || '';
         const readMessage = lastMessage?.labelIds?.includes('UNREAD');
 
-        return { id, name, subject, snippet, date, threadId, readMessage };
+        return {
+          id,
+          to,
+          cc,
+          Bcc,
+          name,
+          subject,
+          snippet,
+          date,
+          threadId,
+          readMessage,
+          messageId,
+        };
       })
       .flat();
   }
@@ -131,7 +155,7 @@ const LeftPane = () => {
           >
             Filter
           </Button>
-          <ActionBtn filteredData={filteredData} />
+          <ActionBtn />
         </Box>
       </Box>
 

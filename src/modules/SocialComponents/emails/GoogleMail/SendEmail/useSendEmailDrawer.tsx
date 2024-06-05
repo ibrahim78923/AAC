@@ -15,6 +15,7 @@ import { useAppSelector } from '@/redux/store';
 import { CREATE_EMAIL_TYPES } from '@/constants';
 import { useEffect, useState } from 'react';
 import {
+  useForwardSendGmailMutation,
   usePostDraftGmailMutation,
   usePostReplyOtherGmailMutation,
   usePostScheduleGmailMutation,
@@ -47,6 +48,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const [postReplyGmail, { isLoading: loadingOtherReply }] =
     usePostReplyOtherGmailMutation();
   const [postDraftGmail] = usePostDraftGmailMutation();
+  const [forwardSendGmail] = useForwardSendGmailMutation();
 
   const currentGmailAssets = useAppSelector(
     (state: any) => state?.gmail?.currentGmailAssets,
@@ -203,6 +205,38 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           );
           setOpenDrawer(false);
           reset();
+          setAutocompleteValues([]);
+        } catch (error: any) {
+          enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        }
+      }
+      if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
+        const formDataSend = new FormData();
+        formDataSend.append('id', currentGmailAssets?.id);
+        formDataSend.append('threadId', currentGmailAssets?.threadId);
+        formDataSend.append('to', values?.to);
+        formDataSend.append('content', values?.description);
+        if (values?.cc && values?.cc?.trim() !== '') {
+          formDataSend.append('cc', values?.cc);
+        }
+        if (values?.bcc && values?.bcc?.trim() !== '') {
+          formDataSend.append('bcc', values?.bcc);
+        }
+        formDataSend.append('attachments', values?.attachFile);
+        try {
+          await forwardSendGmail({
+            body: formDataSend,
+          })?.unwrap();
+          enqueueSnackbar('Email Forward successfully', {
+            variant: 'success',
+          });
+          setOpenDrawer(false);
+          reset();
+          reset({
+            sentDate: null,
+          });
+          setIsSendLater(false);
+          setSendLaterDate(null);
           setAutocompleteValues([]);
         } catch (error: any) {
           enqueueSnackbar('Something went wrong !', { variant: 'error' });

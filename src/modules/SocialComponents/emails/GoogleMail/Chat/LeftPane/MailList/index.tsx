@@ -12,7 +12,6 @@ import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
 import { API_STATUS, DATE_TIME_FORMAT, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
-import { usePatchEmailMessageMutation } from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
@@ -20,6 +19,7 @@ import {
   setActiveGmailRecord,
   setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
+import { usePatchGmailMessageMutation } from '@/services/commonFeatures/email/gmail';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -70,21 +70,20 @@ const MailList = ({
     }
   };
 
-  const [patchEmailMessage] = usePatchEmailMessageMutation();
+  const [patchGmailMessage] = usePatchGmailMessageMutation();
 
   const handelMailClick = async (item: any) => {
     if (item) {
       dispatch(setActiveGmailRecord(item));
 
-      if (item?.unread) {
+      if (item?.readMessage) {
         const payload = {
-          id: item?.id,
-          threadId: item?.thread_id,
-          unread: false,
+          messageId: item?.messageId,
+          unread: true,
           starred: false,
         };
         try {
-          const response = await patchEmailMessage({
+          const response = await patchGmailMessage({
             body: payload,
           })?.unwrap();
           const updatedData = dataArray?.data?.map((item: any) =>
@@ -201,7 +200,7 @@ const MailList = ({
                                 <Typography
                                   variant="h6"
                                   sx={{
-                                    fontWeight: item?.unread ? 700 : '',
+                                    fontWeight: item?.readMessage ? 700 : '',
                                     color: theme?.palette?.success?.main,
                                   }}
                                 >
@@ -210,7 +209,9 @@ const MailList = ({
                               ) : (
                                 <Typography
                                   variant="h6"
-                                  sx={{ fontWeight: item?.unread ? 700 : '' }}
+                                  sx={{
+                                    fontWeight: item?.readMessage ? 700 : '',
+                                  }}
                                 >
                                   {' '}
                                   {item?.name}{' '}
@@ -219,7 +220,9 @@ const MailList = ({
 
                               <Typography
                                 variant="body3"
-                                sx={{ fontWeight: item?.unread ? 700 : 600 }}
+                                sx={{
+                                  fontWeight: item?.readMessage ? 700 : 600,
+                                }}
                                 color={'primary'}
                                 margin={'8px 0px'}
                               >

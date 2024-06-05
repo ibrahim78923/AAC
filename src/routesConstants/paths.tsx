@@ -280,6 +280,8 @@ export const SOCIAL_FEATURES_GMAIL = {
   REPLY_GMAIL_SEND: '/gmail/reply-gmail-email',
   DRAFT_GMAIL_SEND: '/gmail/create-gmail-draft-mail',
   DELETE_GMAIL: '/gmail/move-gmail-mail-to-trash',
+  FORWARD_GMAIL: '/gmail/forward-gmail-email',
+  UPDATE_GMAIL: '/gmail/update-gmail-message',
 };
 
 export const CHAT_SOCKETS = {

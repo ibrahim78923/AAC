@@ -21,9 +21,12 @@ import {
   setActiveGmailRecord,
   setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
+import SendEmailDrawer from '../../../SendEmail';
 // const ActionBtn = ({ filteredData }: any) => {
 
 const ActionBtn = () => {
+  const [isOpenSendEmailDrawer, setIsOpenSendEmailDrawer] = useState(false);
+  const [mailType, setMailType] = useState('');
   const dispatch = useDispatch();
 
   const gmailTabType: any = useAppSelector(
@@ -132,11 +135,25 @@ const ActionBtn = () => {
             >
               Link to deal
             </MenuItem>
-            <MenuItem disabled={selectedGmailRecords?.length > 1}>
+            <MenuItem
+              disabled={selectedGmailRecords?.length > 1}
+              onClick={() => {
+                handleClose();
+                setIsOpenSendEmailDrawer(true);
+                setMailType(CREATE_EMAIL_TYPES?.REPLY);
+              }}
+            >
               {' '}
               Reply{' '}
             </MenuItem>
-            <MenuItem disabled={selectedGmailRecords?.length > 1}>
+            <MenuItem
+              disabled={selectedGmailRecords?.length > 1}
+              onClick={() => {
+                handleClose();
+                setIsOpenSendEmailDrawer(true);
+                setMailType(CREATE_EMAIL_TYPES?.FORWARD);
+              }}
+            >
               {' '}
               Forward{' '}
             </MenuItem>
@@ -182,6 +199,13 @@ const ActionBtn = () => {
         handleClose={() => setIsDeleteModalOpen(false)}
         loading={loadingRestore}
         handleSubmitBtn={handelDelete}
+      />
+
+      <SendEmailDrawer
+        openDrawer={isOpenSendEmailDrawer}
+        setOpenDrawer={setIsOpenSendEmailDrawer}
+        drawerType={mailType}
+        setMailType={setMailType}
       />
     </>
   );

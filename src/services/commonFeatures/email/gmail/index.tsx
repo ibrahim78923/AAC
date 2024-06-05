@@ -104,6 +104,30 @@ export const gmailApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    forwardSendGmail: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_GMAIL?.FORWARD_GMAIL}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+    patchGmailMessage: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_GMAIL?.UPDATE_GMAIL}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -117,4 +141,6 @@ export const {
   usePostDraftGmailMutation,
   usePostReplyOtherGmailMutation,
   useDeleteGmailMutation,
+  useForwardSendGmailMutation,
+  usePatchGmailMessageMutation,
 } = gmailApi;

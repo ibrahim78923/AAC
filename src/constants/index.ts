@@ -378,4 +378,6 @@ export const Gmail_CONST = {
   FROM: 'From',
   TO: 'To',
   SUBJECT: 'Subject',
+  CC: 'cc',
+  BCC: 'Bcc',
 };
