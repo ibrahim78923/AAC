@@ -1,12 +1,12 @@
 import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { truncateText } from '@/utils/avatarUtils';
+import { fullName, truncateText } from '@/utils/avatarUtils';
 
-export const getAddAssetsColumns = ({
+export const useAddDealsColumns = ({
   theme,
   setSelected,
   selected,
-  associatesAssetList,
+  associatesDealsList,
 }: any) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -32,16 +32,16 @@ export const getAddAssetsColumns = ({
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          associatesAssetList?.length
-            ? selected?.length === associatesAssetList?.length
+          associatesDealsList?.length
+            ? selected?.length === associatesDealsList?.length
             : false
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelected(associatesAssetList?.map((asset: any) => asset?._id))
+            ? setSelected(associatesDealsList?.map((asset: any) => asset?._id))
             : setSelected([]);
         }}
-        disabled={!associatesAssetList?.length}
+        disabled={!associatesDealsList?.length}
         color="primary"
         name="id"
       />
@@ -49,23 +49,29 @@ export const getAddAssetsColumns = ({
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.displayName,
-    id: 'displayName',
+    accessorFn: (row: any) => row?.dealName,
+    id: 'dealName',
     cell: (info: any) => (
       <Typography variant="body4" color={theme?.palette?.custom?.bright}>
         {truncateText(info?.getValue())}
       </Typography>
     ),
-    header: 'Name',
+    header: 'Deal Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.assetTypeDetails?.name,
-    id: 'assetTypeDetails.name',
+    accessorFn: (row: any) => row?.dealOwner,
+    id: 'dealOwner',
+    header: 'Deal Owner',
     isSortable: true,
-    header: 'Asset Type',
-    cell: (info: any) => (
-      <Typography variant="body4">{truncateText(info?.getValue())}</Typography>
-    ),
+    cell: (info: any) =>
+      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+  },
+  {
+    accessorFn: (row: any) => row?.dealPipeline,
+    id: 'dealPipeline',
+    isSortable: true,
+    header: 'Deal Pipeline',
+    cell: (info: any) => info?.getValue() ?? '-',
   },
 ];

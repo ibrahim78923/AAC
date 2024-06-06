@@ -123,14 +123,14 @@ export const columns: any = (
               info?.getValue() === 'PUBLISHED'
                 ? theme?.palette?.graph?.published
                 : info?.getValue() === 'DRAFT'
-                ? theme?.palette?.graph?.published_not_bg
-                : theme?.palette?.graph?.Trash_bg,
+                  ? theme?.palette?.graph?.published_not_bg
+                  : theme?.palette?.graph?.Trash_bg,
             color:
               info?.getValue() === 'PUBLISHED'
                 ? theme?.palette?.success?.main
                 : info?.getValue() === 'DRAFT'
-                ? theme?.palette?.graph?.published_not_color
-                : theme?.palette?.blue?.main,
+                  ? theme?.palette?.graph?.published_not_color
+                  : theme?.palette?.blue?.main,
             width: 'fit-content',
             padding: '5px 12px',
             borderRadius: '25px',

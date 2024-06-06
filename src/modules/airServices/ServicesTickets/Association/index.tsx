@@ -27,7 +27,8 @@ export default function Association({ ticketType }: any) {
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />
-      {isDrawerOpen?.deal && <Deals />}
+
+      <Deals isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
       {isDrawerOpen?.contact && <Contacts />}
       {isDrawerOpen?.company && <Companies />}
     </Stack>

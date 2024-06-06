@@ -190,12 +190,12 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
                 `group_${condition?.fieldName}${gIndex}${cIndex}_lookup`
               ]
             : condition?.fieldType === constantsData?.date
-            ? new Date(condition?.fieldValue)
-            : condition?.fieldName === constantsData?.notifyBefore
-            ? notifyBeforeOptions?.find(
-                (item: any) => item?.value === condition?.fieldValue,
-              )
-            : condition?.fieldValue,
+              ? new Date(condition?.fieldValue)
+              : condition?.fieldName === constantsData?.notifyBefore
+                ? notifyBeforeOptions?.find(
+                    (item: any) => item?.value === condition?.fieldValue,
+                  )
+                : condition?.fieldValue,
       })),
     })) ?? [
       {
@@ -222,8 +222,8 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           action?.fieldType === constantsData?.object
             ? singleWorkflowData[`action_${action?.fieldName}${aIndex}_lookup`]
             : action?.fieldType === constantsData?.date
-            ? new Date(action?.fieldValue)
-            : action?.fieldValue,
+              ? new Date(action?.fieldValue)
+              : action?.fieldValue,
       }),
     ) ?? [{ fieldName: null, fieldValue: null }],
   };

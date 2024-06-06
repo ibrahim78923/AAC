@@ -2,11 +2,11 @@ import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { truncateText } from '@/utils/avatarUtils';
 
-export const getAddAssetsColumns = ({
+export const getAddPurchaseOrderColumns = ({
   theme,
   setSelected,
   selected,
-  associatesAssetList,
+  associatesOrderList,
 }: any) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -32,16 +32,16 @@ export const getAddAssetsColumns = ({
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          associatesAssetList?.length
-            ? selected?.length === associatesAssetList?.length
+          associatesOrderList?.length
+            ? selected?.length === associatesOrderList?.length
             : false
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelected(associatesAssetList?.map((asset: any) => asset?._id))
+            ? setSelected(associatesOrderList?.map((asset: any) => asset?._id))
             : setSelected([]);
         }}
-        disabled={!associatesAssetList?.length}
+        disabled={!associatesOrderList?.length}
         color="primary"
         name="id"
       />
@@ -49,23 +49,28 @@ export const getAddAssetsColumns = ({
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.displayName,
-    id: 'displayName',
+    accessorFn: (row: any) => row?.orderNumber,
+    id: 'orderNumber',
     cell: (info: any) => (
       <Typography variant="body4" color={theme?.palette?.custom?.bright}>
         {truncateText(info?.getValue())}
       </Typography>
     ),
-    header: 'Name',
+    header: 'Order Number',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.assetTypeDetails?.name,
-    id: 'assetTypeDetails.name',
+    accessorFn: (row: any) => row?.orderName,
+    id: 'orderName',
     isSortable: true,
-    header: 'Asset Type',
-    cell: (info: any) => (
-      <Typography variant="body4">{truncateText(info?.getValue())}</Typography>
-    ),
+    header: 'Order Name',
+    cell: (info: any) => truncateText(info?.getValue()),
+  },
+  {
+    accessorFn: (row: any) => row?.subTotal,
+    id: 'subTotal',
+    isSortable: true,
+    header: 'Total Cost (£)',
+    cell: (info: any) => info?.getValue(),
   },
 ];
