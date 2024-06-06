@@ -16,7 +16,10 @@ import { WarningIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import { useDeleteEmailOutlookMutation } from '@/services/commonFeatures/email/outlook';
 import { useDispatch } from 'react-redux';
-import { setSelectedRecords } from '@/redux/slices/email/outlook/slice';
+import {
+  setActiveRecord,
+  setSelectedRecords,
+} from '@/redux/slices/email/outlook/slice';
 
 const ActionBtn = ({}: any) => {
   const dispatch = useDispatch();
@@ -53,12 +56,15 @@ const ActionBtn = ({}: any) => {
       selectedRecords && selectedRecords?.map((message: any) => message?.id);
     try {
       await deleteEmailOutlook({
-        id: ids[0], // todo: need to change as per changes in api for multiple records
+        body: {
+          messageIds: ids,
+        },
       })?.unwrap();
       enqueueSnackbar('Mail successfully move to trash ', {
         variant: 'success',
       });
       dispatch(setSelectedRecords([]));
+      dispatch(setActiveRecord({}));
       setIsDeleteModalOpen(false);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });

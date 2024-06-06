@@ -23,13 +23,21 @@ import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
 import { PAGINATION } from '@/config';
 import {
+  useGetAuthURLOutlookQuery,
   useGetEmailsByFolderIdOutlookQuery,
   useGetMailFoldersOutlookQuery,
 } from '@/services/commonFeatures/email/outlook';
+import CommonModal from '@/components/CommonModal';
+import { END_POINTS } from '@/routesConstants/endpoints';
+import { useRouter } from 'next/router';
 
 const LeftPane = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const router = useRouter();
+
+  const [isReloginModalOpen, setIsReloginModalOpen] = useState(false);
+
   const mailTabType: any = useAppSelector(
     (state: any) => state?.outlook?.mailTabType,
   );
@@ -39,7 +47,12 @@ const LeftPane = () => {
   );
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const { data: foldersData, isLoading } = useGetMailFoldersOutlookQuery({});
+
+  const {
+    data: foldersData,
+    isLoading,
+    isError,
+  } = useGetMailFoldersOutlookQuery({});
 
   const dataToShow = [
     'Inbox',
@@ -104,11 +117,21 @@ const LeftPane = () => {
     }
   }, [emailsByFolderIdData]);
 
+  const { data: authURLOutlook } = useGetAuthURLOutlookQuery({});
+  useEffect(() => {
+    if (isError) {
+      setIsReloginModalOpen(true);
+    }
+  }, [isError]);
+
+  const oauthUrl = `${authURLOutlook?.data}`;
+
   const handelToggleTab = (value: any) => {
     if (value?.displayName !== mailTabType?.displayName) {
       dispatch(setMailTabType(value));
       dispatch(setActiveRecord({}));
       dispatch(setSelectedRecords([]));
+
       refetch();
     }
   };
@@ -200,6 +223,24 @@ const LeftPane = () => {
       >
         <>Filter Cont.</>
       </CommonDrawer>
+
+      <CommonModal
+        open={isReloginModalOpen}
+        title={'Token Expired'}
+        cancelIcon={false}
+      >
+        <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+          <Button
+            variant="outlined"
+            onClick={() => router.push(END_POINTS?.EMAIL_VIEW)}
+          >
+            Back to emails
+          </Button>
+          <Button variant="contained" onClick={() => window.open(oauthUrl)}>
+            Login Again
+          </Button>
+        </Box>
+      </CommonModal>
     </Box>
   );
 };

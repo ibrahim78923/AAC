@@ -18,6 +18,8 @@ import { API_STATUS, EMAIL_TABS_TYPES, TIME_FORMAT } from '@/constants';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { usePatchOutlookEmailMessageMutation } from '@/services/commonFeatures/email/outlook';
+import { enqueueSnackbar } from 'notistack';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -68,15 +70,44 @@ const MailList = ({
     }
   };
 
+  const [patchOutlookEmailMessage] = usePatchOutlookEmailMessageMutation();
+
   const handelMailClick = async (item: any) => {
+    // if (item) {
+    //   dispatch(setActiveRecord(item));
+    // }
+
     if (item) {
       dispatch(setActiveRecord(item));
+      if (!item?.isRead) {
+        try {
+          const response = await patchOutlookEmailMessage({
+            messageId: item?.id,
+          })?.unwrap();
+          const updatedData = dataArray?.data?.map((item: any) =>
+            item?.id === response?.data?.id ? response?.data : item,
+          );
+          setDataArray((prevState: any) => ({
+            ...prevState,
+            data: updatedData,
+          }));
+        } catch (error: any) {
+          enqueueSnackbar('Something went wrong while updating message!', {
+            variant: 'error',
+          });
+        }
+      }
     }
   };
 
   useEffect(() => {
     setDataArray(emailsByFolderIdData);
   }, [emailsByFolderIdData]);
+
+  const loadingCheck =
+    dataArray?.data?.length < 0
+      ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
+      : false;
 
   return (
     <Box minHeight={'calc(100vh - 350px)'} sx={{ overflowY: 'auto' }}>
@@ -138,7 +169,7 @@ const MailList = ({
           </Box>
         ) : (
           <>
-            {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
+            {loadingCheck ? (
               <>
                 <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
               </>
@@ -215,7 +246,7 @@ const MailList = ({
                             <Typography
                               variant="body3"
                               sx={{ fontWeight: item?.isRead ? 600 : 700 }}
-                              color={'primary'}
+                              color={theme?.palette?.custom?.bright}
                               margin={'8px 0px'}
                             >
                               {item?.subject}

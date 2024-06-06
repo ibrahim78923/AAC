@@ -1,6 +1,7 @@
 import { SOCIAL_FEATURES_OUTLOOK } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 const TAG = ['OUTLOOK'];
+const TAG_UPDATE_EMAIL = ['OUTLOOK_UPDATE'];
 export const outlookApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getAuthURLOutlook: builder.query({
@@ -114,16 +115,27 @@ export const outlookApi = baseAPI.injectEndpoints({
     }),
 
     deleteEmailOutlook: builder.mutation({
-      query: ({ id }: any) => {
+      query: ({ body }: any) => {
         return {
-          url: `${SOCIAL_FEATURES_OUTLOOK?.DELETE_EMAIL}/${id}`,
-          method: 'DELETE',
+          url: `${SOCIAL_FEATURES_OUTLOOK?.DELETE_EMAIL}`,
+          method: 'PATCH',
+          body: body,
           headers: {
             'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
           },
         };
       },
       invalidatesTags: TAG,
+    }),
+
+    patchOutlookEmailMessage: builder.mutation({
+      query: ({ messageId }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.UPDATE_EMAIL}?messageId=${messageId}`,
+          method: 'PATCH',
+        };
+      },
+      invalidatesTags: TAG_UPDATE_EMAIL,
     }),
   }),
 });
@@ -139,4 +151,5 @@ export const {
   usePostDraftEmailOutlookMutation,
   usePostReplyEmailOutlookMutation,
   useForwardEmailOutlookMutation,
+  usePatchOutlookEmailMessageMutation,
 } = outlookApi;

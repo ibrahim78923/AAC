@@ -116,7 +116,10 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         const formDataSend = new FormData();
         formDataSend.append('to', values?.to);
         formDataSend.append('subject', values?.subject);
-        formDataSend.append('content', values?.description);
+        formDataSend.append(
+          'content',
+          values?.description?.length ? values?.description : '',
+        );
 
         if (values?.cc && values?.cc?.trim() !== '') {
           formDataSend.append('cc', values?.cc);
@@ -159,7 +162,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         formDataSend.append('to', values?.to);
         formDataSend.append('subject', values?.subject);
         formDataSend.append('content', values?.description);
-        formDataSend.append('attachments', values?.attachments);
+
+        if (!isSendLater) {
+          formDataSend.append('attachments', values?.attachments);
+        }
+
         if (values?.cc && values?.cc?.trim() !== '') {
           formDataSend.append('cc', values?.cc);
         }
@@ -205,11 +212,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         try {
           await postReplyOtherEmail({
             messageId: currentEmailAssets?.messageId,
-            type: 'reply',
-            replyText:
+            type:
               drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
                 ? 'reply-all'
                 : 'reply',
+            replyText: values?.description,
           })?.unwrap();
           enqueueSnackbar(
             drawerType === CREATE_EMAIL_TYPES?.REPLY

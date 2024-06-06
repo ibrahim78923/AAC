@@ -14,4 +14,5 @@ export interface ModelPropsI {
   isSubmitDisabled?: any;
   headerIcon?: any;
   width?: any;
+  cancelIcon?: boolean;
 }

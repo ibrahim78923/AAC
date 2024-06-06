@@ -269,6 +269,7 @@ export const SOCIAL_FEATURES_OUTLOOK = {
   OUTLOOK_CONVERSATIONS: '/social-components/email/outlook/conversations',
   GMAIL_REDIRECT_URL: '/gmail/redirect-url',
   GMAIL_CONVERSATIONS: '/social-components/email/gmail/conversations',
+  UPDATE_EMAIL: '/emails/update-outlook-email',
 };
 export const SOCIAL_FEATURES_GMAIL = {
   AUTH_URL: '/gmail/auth-url',
