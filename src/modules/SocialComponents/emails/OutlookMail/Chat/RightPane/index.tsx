@@ -262,8 +262,10 @@ const RightPane = () => {
                                           from: obj?.from?.emailAddress
                                             ?.address,
                                           others: {
-                                            from: `${obj?.from?.emailAddress?.name} ${'<'}
-                                                 ${obj?.from?.emailAddress?.address}
+                                            from: `${obj?.from?.emailAddress
+                                              ?.name} ${'<'}
+                                                 ${obj?.from?.emailAddress
+                                                   ?.address}
                                                  ${'>'}`,
                                             sent: obj?.createdDateTime,
                                             to: `<>`,
@@ -288,8 +290,10 @@ const RightPane = () => {
                                           from: obj?.from?.emailAddress
                                             ?.address,
                                           others: {
-                                            from: `${obj?.from?.emailAddress?.name} ${'<'}
-                                                 ${obj?.from?.emailAddress?.address}
+                                            from: `${obj?.from?.emailAddress
+                                              ?.name} ${'<'}
+                                                 ${obj?.from?.emailAddress
+                                                   ?.address}
                                                  ${'>'}`,
                                             sent: obj?.createdDateTime,
                                             to: `<>`,

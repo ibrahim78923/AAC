@@ -14,6 +14,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import AllContacts from './AllContacts';
 import GroupContacts from './GroupContacts';
+import { ROLES_ACCORDION_DETAILS } from '@/constants/strings';
+// import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const AddContactDrawer = (props: any) => {
   const { isDrawerOpen, onClose } = props;
@@ -56,7 +58,11 @@ const AddContactDrawer = (props: any) => {
               </Grid>
             ))}
           </Grid>
-          {radioVal === 'all' ? <AllContacts /> : <GroupContacts />}
+          {radioVal === ROLES_ACCORDION_DETAILS?.ALL ? (
+            <AllContacts />
+          ) : (
+            <GroupContacts />
+          )}
         </FormProvider>
       </Box>
     </CommonDrawer>

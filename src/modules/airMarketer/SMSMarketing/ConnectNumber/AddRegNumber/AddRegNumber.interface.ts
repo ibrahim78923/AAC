@@ -5,4 +5,5 @@ export interface AddRegNumberI {
   onPhoneChange: any;
   phoneValue: string;
   isPhoneValid: boolean;
+  isLoading: boolean;
 }

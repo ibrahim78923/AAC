@@ -44,7 +44,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
       header: (
         <Checkbox
           onChange={({ target }) => {
-            handleSelectAllCompanies(target.checked);
+            handleSelectAllCompanies(target?.checked);
           }}
           checked={data?.length && checkedRows?.length === data?.length}
         />
@@ -77,120 +77,112 @@ export const broadcastColumns: any = (columnsProps: any) => {
       cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
-      accessorFn: (row: any) => row?.Successful,
+      accessorFn: (row: any) => row?.successfullPercentage,
       id: 'successful',
       isSortable: false,
       header: 'Successful',
-      cell: (
-        <Stack gap={1}>
-          <Typography variant="body3" textAlign={'center'}>
-            100%
-          </Typography>
-          <LinearProgress variant="determinate" value={100} />
-        </Stack>
-      ),
+      cell: (info: any) => {
+        const value = info?.getValue() || 0;
+        return (
+          <Stack gap={1}>
+            <Typography variant="body3" textAlign={'center'}>
+              {`${value} %`}
+            </Typography>
+            <LinearProgress variant="determinate" value={value} />
+          </Stack>
+        );
+      },
     },
     {
-      accessorFn: (row: any) => row?.Replied,
+      accessorFn: (row: any) => row?.repliedPercentage,
       id: 'replied',
       isSortable: false,
       header: 'Replied',
-      cell: (
-        <Stack gap={1}>
-          <Typography variant="body3" textAlign={'center'}>
-            60%
-          </Typography>
-          <LinearProgress variant="determinate" value={50} />
-        </Stack>
-      ),
+      cell: (info: any) => {
+        const value = info?.getValue() || 0;
+        return (
+          <Stack gap={1}>
+            <Typography variant="body3" textAlign={'center'}>
+              {`${value} %`}
+            </Typography>
+            <LinearProgress variant="determinate" value={value} />
+          </Stack>
+        );
+      },
     },
     {
-      accessorFn: (row: any) => row?.Recipients,
+      accessorFn: (row: any) => row?.recipients,
       id: 'Recipients',
       isSortable: false,
       header: 'Recipients',
-      cell: (
-        <Box sx={{ alignItems: 'center', display: 'flex' }}>
-          <AvatarGroup
-            max={4}
-            sx={{
-              '& .MuiAvatar-root': {
-                background: theme?.palette?.primary?.main,
-                height: '30px',
-                width: '30px',
-                fontSize: '12px',
-              },
-            }}
-          >
-            <Avatar
-              alt="recipient_avatar"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-            <Avatar
-              alt="recipient_avatar"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-            <Avatar
-              alt="recipient_avatar"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-            <Avatar
-              alt="recipient_avatar"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-            <Avatar
-              alt="recipient_avatar"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-            <Avatar
-              alt="recipient_avatar"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-          </AvatarGroup>
-        </Box>
-      ),
+      cell: (info: any) => {
+        const recipients = info?.row?.original?.recipients;
+        if (!recipients || recipients.length === 0) {
+          return 'N/A';
+        }
+        return (
+          <Box sx={{ alignItems: 'center', display: 'flex' }}>
+            <AvatarGroup
+              max={4}
+              sx={{
+                '& .MuiAvatar-root': {
+                  background: theme?.palette?.primary?.main,
+                  height: '30px',
+                  width: '30px',
+                  fontSize: '12px',
+                },
+              }}
+            >
+              {info?.getValue()?.map((recipient: any) => {
+                return (
+                  <Avatar
+                    key={recipient?._id}
+                    alt="recipient_avatar"
+                    src={recipient?.profilePicture}
+                  />
+                );
+              })}
+            </AvatarGroup>
+          </Box>
+        );
+      },
     },
     {
-      accessorFn: (row: any) => row?.Failed,
+      accessorFn: (row: any) => row?.failedRecipients,
       id: 'failed',
       isSortable: false,
       header: 'Failed',
-      cell: (
-        <Box sx={{ alignItems: 'center', display: 'flex' }}>
-          <AvatarGroup
-            max={4}
-            sx={{
-              '& .MuiAvatar-root': {
-                background: theme?.palette?.primary?.main,
-                height: '30px',
-                width: '30px',
-                fontSize: '12px',
-              },
-            }}
-          >
-            <Avatar
-              alt="recipient_avatar"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-            <Avatar
-              alt="recipient_avatar"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-            <Avatar
-              alt="recipient_avatar"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-            <Avatar
-              alt="recipient_avatarr"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-            <Avatar
-              alt="recipient_avatar"
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-            />
-          </AvatarGroup>
-        </Box>
-      ),
+      cell: (info: any) => {
+        const failedRecipients = info?.row?.original?.failedRecipients;
+        if (!failedRecipients || failedRecipients.length === 0) {
+          return 'N/A';
+        }
+        return (
+          <Box sx={{ alignItems: 'center', display: 'flex' }}>
+            <AvatarGroup
+              max={4}
+              sx={{
+                '& .MuiAvatar-root': {
+                  background: theme?.palette?.primary?.main,
+                  height: '30px',
+                  width: '30px',
+                  fontSize: '12px',
+                },
+              }}
+            >
+              {info?.getValue()?.map((failed: any) => {
+                return (
+                  <Avatar
+                    key={failed?._id}
+                    alt="recipient_avatar"
+                    src={failed?.profilePicture}
+                  />
+                );
+              })}
+            </AvatarGroup>
+          </Box>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.status,

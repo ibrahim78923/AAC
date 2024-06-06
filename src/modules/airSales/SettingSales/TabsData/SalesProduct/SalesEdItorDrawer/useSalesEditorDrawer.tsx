@@ -25,7 +25,8 @@ const useSalesEditorDrawer = ({
   const [postSalesProduct, { isLoading: productLoading }] =
     usePostSalesProductMutation();
 
-  const [updateSalesProduct] = useUpdateSalesProductMutation();
+  const [updateSalesProduct, { isLoading: updateProductLoading }] =
+    useUpdateSalesProductMutation();
 
   const [getSalesProductById, { isLoading: productsDataLoading }] =
     useLazyGetSalesProductByIdQuery();
@@ -48,7 +49,7 @@ const useSalesEditorDrawer = ({
               name: fieldsData?.name,
               sku: fieldsData?.sku,
               purchasePrice: fieldsData?.purchasePrice,
-              category: fieldsData?.category,
+              category: fieldsData?.category?._id,
               associate: fieldsData?.associate,
               description: fieldsData?.description,
               isActive: fieldsData?.isActive,
@@ -61,6 +62,7 @@ const useSalesEditorDrawer = ({
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
+    values.removeImage = false;
     formData.append('category', values?.category?._id);
     formData.append('description', values?.description);
     formData.append('isActive', values?.isActive);
@@ -69,6 +71,7 @@ const useSalesEditorDrawer = ({
     formData.append('sku', values?.sku);
     formData.append('unitPrice', values?.unitPrice);
     formData.append('image', values?.image);
+    formData.append('removeImage', values.removeImage);
 
     try {
       if (isEditMode) {
@@ -96,10 +99,14 @@ const useSalesEditorDrawer = ({
 
   const handleUserSwitchChange = async (e: any, id: any) => {
     const status = e?.target?.checked;
-
     try {
+      const formData: any = new FormData();
+      formData.removeImage = false;
+      formData.isActive = status;
+      formData.append('isActive', formData.isActive);
+      formData.append('removeImage', formData.removeImage);
       await updateSalesProduct({
-        body: { isActive: status },
+        body: formData,
         id: id,
       })?.unwrap();
       enqueueSnackbar('Product updated successfully', {
@@ -113,13 +120,14 @@ const useSalesEditorDrawer = ({
   };
 
   return {
-    handleSubmit,
-    onSubmit,
-    salesProduct,
-    productLoading,
+    handleUserSwitchChange,
+    updateProductLoading,
     productsDataLoading,
     productCategories,
-    handleUserSwitchChange,
+    productLoading,
+    handleSubmit,
+    salesProduct,
+    onSubmit,
   };
 };
 

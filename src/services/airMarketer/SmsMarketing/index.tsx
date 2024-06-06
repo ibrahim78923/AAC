@@ -12,31 +12,14 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
       providesTags: ['BROADCAST'],
     }),
 
-    // getReceiverBankAccountsById: builder.query({
-    //   query: (id: any) => ({
-    //     url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${id}`,
-    //     method: 'GET',
-    //   }),
-    //   providesTags: ['RECEIVER_BANK_ACCOUNT'],
-    // }),
-
-    // postReceiverBankAccount: builder.mutation({
-    //   query: ({ body }: any) => ({
-    //     url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}`,
-    //     method: 'POST',
-    //     body: body,
-    //   }),
-    //   invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
-    // }),
-
-    // updateReceiverBankAccount: builder.mutation({
-    //   query: ({ id, body }: any) => ({
-    //     url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${id}`,
-    //     method: 'PATCH',
-    //     body: body,
-    //   }),
-    //   invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
-    // }),
+    connectPhoneNumber: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.CONNECT_PHONE_NUMBER}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['CONNECT_PHONE_NUMBER'],
+    }),
 
     deleteSmsBroadcast: builder.mutation({
       query: ({ ids }: any) => ({
@@ -45,8 +28,20 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['BROADCAST'],
     }),
+
+    getIsPhoneConnected: builder.query({
+      query: () => ({
+        url: END_POINTS?.GET_IS_PHONE_CONNECTED,
+        method: 'GET',
+      }),
+      providesTags: ['BROADCAST'],
+    }),
   }),
 });
 
-export const { useGetSmsBroadcatsQuery, useDeleteSmsBroadcastMutation } =
-  SmsMarketingAPI;
+export const {
+  useGetSmsBroadcatsQuery,
+  useDeleteSmsBroadcastMutation,
+  useConnectPhoneNumberMutation,
+  useGetIsPhoneConnectedQuery,
+} = SmsMarketingAPI;

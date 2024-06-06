@@ -8,38 +8,34 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-
 import CommonTabs from '@/components/Tabs';
-
 import SMSDashboard from './SMSDashboard';
-
 import SMSBroadcast from './SMSBroadcast';
-
 import useSMSMarketing from './useSMSMarketing';
-
 import { PlusIcon } from '@/assets/icons';
 import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sms-icon';
 import ContactsSMSMarketing from './Contacts';
-
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import Templates from './Templates';
 import ConnectNumber from './ConnectNumber';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const SMSMarketing = () => {
   const {
-    tabVal,
-    setTabVal,
-    navigate,
     theme,
-    isNumberConnected,
-    setIsNumberConnected,
+    tabVal,
+    navigate,
+    setTabVal,
+    isLoading,
+    isConnected,
+    setIsConnected,
   } = useSMSMarketing();
 
   return (
     <>
-      {isNumberConnected ? (
+      {isConnected ? (
         <Box
           sx={{
             border: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
@@ -70,8 +66,6 @@ const SMSMarketing = () => {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     defaultValue={'monica'}
-                    // value={}
-                    // onChange={handleChange}
                   >
                     <MenuItem value={'monica'}>
                       <Stack direction="row" gap={1} alignItems="center">
@@ -151,8 +145,10 @@ const SMSMarketing = () => {
             <Templates />
           </CommonTabs>
         </Box>
+      ) : isLoading ? (
+        <SkeletonTable />
       ) : (
-        <ConnectNumber setIsNumberConnected={setIsNumberConnected} />
+        <ConnectNumber setIsConnected={setIsConnected} />
       )}
     </>
   );

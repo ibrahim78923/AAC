@@ -19,6 +19,7 @@ const SalesEditorDrawer = ({
     onSubmit,
     salesProduct,
     productLoading,
+    updateProductLoading,
     productsDataLoading,
     productCategories,
   } = useSalesEditorDrawer({
@@ -37,7 +38,7 @@ const SalesEditorDrawer = ({
         footer={true}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
-        isLoading={productLoading}
+        isLoading={isEditMode ? updateProductLoading : productLoading}
       >
         {productsDataLoading ? (
           <SkeletonTable />

@@ -16,7 +16,6 @@ import {
   contactsColumns,
   createBroadcast,
 } from './CreateSMSBroadcast.data';
-import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -24,19 +23,20 @@ import { BookMarkIcon, PlusSharedColorIcon } from '@/assets/icons';
 import useCreateSMSBroadcast from './useCreateSMSBroadcast';
 import AddContactDrawer from './AddContactDrawer';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const CreateSMSBroadcast = () => {
   const {
-    theme,
-    isAddContactDrawerOpen,
     setIsAddContactDrawerOpen,
-    type,
-    onSubmit,
-    handleSubmit,
-    methods,
-    navigate,
-    textAreaVal,
+    isAddContactDrawerOpen,
     setTextAreaVal,
+    handleSubmit,
+    textAreaVal,
+    onSubmit,
+    navigate,
+    methods,
+    theme,
+    type,
   } = useCreateSMSBroadcast();
 
   return (
@@ -50,15 +50,15 @@ const CreateSMSBroadcast = () => {
           <ArrowBackIcon
             sx={{ cursor: 'pointer' }}
             onClick={() => {
-              navigate.push(AIR_MARKETER?.SMS_MARKETING);
+              navigate?.push(AIR_MARKETER?.SMS_MARKETING);
             }}
           />
           <Typography variant="h3">
-            {type === 'add' ? 'Create ' : 'Edit '}SMS Broadcast
+            {type === DRAWER_TYPES?.ADD ? 'Create ' : 'Edit '}SMS Broadcast
           </Typography>
         </Box>
         <Box>
-          {type !== 'add' && (
+          {type !== DRAWER_TYPES?.ADD && (
             <Button variant="outlined" color="inherit" className="small">
               Save as Draft
             </Button>
@@ -70,17 +70,22 @@ const CreateSMSBroadcast = () => {
         <Grid container spacing={3}>
           <Grid item md={6}>
             <Grid container spacing={2} mt={1}>
-              {createBroadcast?.map((item: any) => {
+              {createBroadcast()?.map((item: any) => {
                 return (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={item?.componentProps?.name}
+                  >
                     {item?.componentProps?.name === 'recipients' && (
                       <Box position="relative">
                         <InputAdornment
                           sx={{
                             position: 'absolute',
-                            top: 48,
-                            right: 15,
-                            zIndex: 9999,
+                            top: 53,
+                            right: 10,
+                            zIndex: 1,
                           }}
                           position="end"
                         >
@@ -107,7 +112,10 @@ const CreateSMSBroadcast = () => {
                     <item.component {...item.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
+                          <option
+                            key={item?.componentProps?.name}
+                            value={option?.value}
+                          >
                             <Typography variant="body2">
                               {option?.label}
                             </Typography>
@@ -231,7 +239,7 @@ const CreateSMSBroadcast = () => {
               width: '100%',
             }}
           >
-            {type !== 'add' && (
+            {type !== DRAWER_TYPES?.ADD && (
               <Button
                 className="small"
                 variant="outlined"

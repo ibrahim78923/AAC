@@ -11,6 +11,7 @@ import {
 } from '@/services/airMarketer/SmsMarketing';
 
 const useSMSBroadcast = () => {
+  const theme = useTheme<Theme>();
   const [checkedRows, setCheckedRows] = useState<string[]>([]);
   const [selectedValue, setSelectedValue] = useState(null);
   const [isDelete, setIsDelete] = useState(false);
@@ -25,7 +26,6 @@ const useSMSBroadcast = () => {
     toDate: '',
     fromDate: '',
   });
-  const theme = useTheme<Theme>();
   const navigate = useRouter();
 
   const startedDate = 0;

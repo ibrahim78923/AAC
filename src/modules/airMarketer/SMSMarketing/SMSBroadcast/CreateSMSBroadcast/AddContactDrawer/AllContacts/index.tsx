@@ -1,11 +1,26 @@
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import { allContactsColumns, allContactsData } from './AllContacts.data';
+import { allContactsColumns } from './AllContacts.data';
+import useAddContactDrawer from '../useAddContactDrawer';
 
 const AllContacts = () => {
-  const theme = useTheme();
+  const {
+    selectedRec,
+    setSelectedRec,
+    allContactsData,
+    setPageLimit,
+    setPage,
+    theme,
+    getContactsData,
+  } = useAddContactDrawer();
+  const columnsProps = {
+    selectedRec,
+    setSelectedRec,
+    allContactsData,
+  };
+
   return (
     <Box
       sx={{
@@ -14,7 +29,18 @@ const AllContacts = () => {
         p: 1,
       }}
     >
-      <TanstackTable columns={allContactsColumns} data={allContactsData} />
+      <TanstackTable
+        columns={allContactsColumns(columnsProps)}
+        data={allContactsData}
+        totalRecords={getContactsData?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        count={getContactsData?.data?.meta?.pages}
+        pageLimit={getContactsData?.data?.meta?.limit}
+        currentPage={getContactsData?.data?.meta?.page}
+        setPageLimit={setPageLimit}
+        setPage={setPage}
+        isPagination
+      />
     </Box>
   );
 };

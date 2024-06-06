@@ -8,10 +8,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 const useCreateSMSBroadcast = () => {
   const navigate = useRouter();
   const theme = useTheme<Theme>();
+  const { type } = navigate?.query;
   const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
   const [textAreaVal, setTextAreaVal] = useState('');
-
-  const { type } = navigate.query;
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -25,16 +24,16 @@ const useCreateSMSBroadcast = () => {
   };
 
   return {
-    theme,
-    navigate,
-    isAddContactDrawerOpen,
     setIsAddContactDrawerOpen,
-    type,
-    onSubmit,
-    handleSubmit,
-    methods,
-    textAreaVal,
+    isAddContactDrawerOpen,
     setTextAreaVal,
+    handleSubmit,
+    textAreaVal,
+    navigate,
+    onSubmit,
+    methods,
+    theme,
+    type,
   };
 };
 
