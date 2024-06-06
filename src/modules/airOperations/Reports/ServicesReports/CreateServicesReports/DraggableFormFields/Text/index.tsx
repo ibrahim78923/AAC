@@ -3,18 +3,24 @@ import { useText } from './useText';
 import { Editor } from 'draft-js';
 
 export const Text = (props: any) => {
-  const { editorState, setEditorState } = props;
+  const { editorState, setEditorState, textTitle } = props;
   const { handleKeyCommand, styleMap } = useText(props);
 
   return (
     <>
-      <Typography variant={'h6'} mb={2}>
-        Description
+      <Typography
+        variant={'body1'}
+        mb={2}
+        p={'0.5rem'}
+        width={'25%'}
+        boxShadow={1}
+      >
+        {textTitle}
       </Typography>
       <Box height={'50vh'} overflow={'scroll'}>
         <Box
           border={1}
-          borderBottom={'grey.900'}
+          borderColor={'grey.900'}
           p={'0.5rem 2rem'}
           borderRadius={'0.5rem'}
         >

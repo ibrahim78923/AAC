@@ -1,18 +1,31 @@
+import ReportCalendarFilter from '@/components/ReportCalendarFilter';
 import { Box, Typography } from '@mui/material';
-import { useChart } from './useChart';
 
 export const Chart = (props: any) => {
-  const { chartType, chartComponent } = props;
-  const { theme } = useChart(props);
+  const {
+    chartType,
+    allChartComponents,
+    chartTitle,
+    subFilter,
+    setCalendarFilter,
+  } = props;
 
   return (
-    <Box
-      border={`1px solid ${theme?.palette?.grey[700]}`}
-      p={1}
-      borderRadius={2}
-    >
+    <Box border={1} borderColor={'grey.700'} p={1} borderRadius={2}>
       {chartType ? (
-        <>{chartComponent}</>
+        <Box p={1}>
+          <Box
+            display={'flex'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+          >
+            <Typography variant="h6">{chartTitle}</Typography>
+            {subFilter && (
+              <ReportCalendarFilter setCalendarFilter={setCalendarFilter} />
+            )}
+          </Box>
+          {allChartComponents[chartType]}
+        </Box>
       ) : (
         <>
           <Box p={10}>

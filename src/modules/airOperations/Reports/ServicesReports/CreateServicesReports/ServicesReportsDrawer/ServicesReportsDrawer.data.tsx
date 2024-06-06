@@ -1,5 +1,6 @@
 import {
   RHFAutocomplete,
+  RHFCheckbox,
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -10,6 +11,7 @@ export const reportsValidationSchema: any = Yup?.object()?.shape({
 });
 export const reportsDefaultValues = {
   reportName: '',
+  addFilter: false,
 };
 
 export const reportsDataArray = () => {
@@ -86,6 +88,14 @@ export const reportsDataArray = () => {
           options={['Test1', 'Test2', 'Test3']}
         />
       ),
+    },
+    {
+      id: 4785,
+      componentProps: {
+        name: 'addFilter',
+        label: 'Add Report Filter',
+      },
+      component: RHFCheckbox,
     },
   ];
 };

@@ -5,7 +5,6 @@ import { DragAndDropIcon } from '@/assets/icons';
 import { ChartEditor } from '../DraggableFormFields/ChartEditor';
 import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
-import { InteractiveFilterEditor } from '../DraggableFormFields/InteractiveFilterEditor';
 import { ServicesReportsDrawer } from '../ServicesReportsDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { servicesMetrics } from '../CreateServicesReports.data';
@@ -24,7 +23,6 @@ export default function DraggableFields({
   setModal,
   setFieldData,
   textTitle,
-  chartComponent,
   tableTitle,
   setValue,
   AddProperties,
@@ -39,7 +37,10 @@ export default function DraggableFields({
   setForm,
   setChartMetricType,
   chartMetricType,
-  filterTitle,
+  allChartComponents,
+  xAxesData,
+  yAxesData,
+  subFilter,
 }: any) {
   const theme: any = useTheme();
 
@@ -110,30 +111,16 @@ export default function DraggableFields({
                   )}
                 </Draggable>
               ))}
-              <Box
-                sx={{
-                  mt: 26,
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  gap: 1,
-                }}
-              >
+              <Box position={'fixed'} bottom={75} right={90}>
                 <Button variant="contained" onClick={() => setOpenDrawer(true)}>
                   Save
                 </Button>
               </Box>
-              {openDrawer && (
-                <ServicesReportsDrawer
-                  open={openDrawer}
-                  setOpen={setOpenDrawer}
-                />
-              )}
             </>
           ) : (
             <>
               {modal?.chart && (
                 <ChartEditor
-                  chartComponent={chartComponent}
                   setModal={setModal}
                   setFieldData={setFieldData}
                   chartType={chartType}
@@ -144,18 +131,13 @@ export default function DraggableFields({
                   setForm={setForm}
                   setChartMetricType={setChartMetricType}
                   chartMetricType={chartMetricType}
+                  allChartComponents={allChartComponents}
+                  xAxesData={xAxesData}
+                  yAxesData={yAxesData}
+                  subFilter={subFilter}
                 />
               )}
 
-              {modal?.interactiveFilter && (
-                <InteractiveFilterEditor
-                  handleCancel={handleCancel}
-                  form={form}
-                  setForm={setForm}
-                  filterTitle={filterTitle}
-                  setValue={setValue}
-                />
-              )}
               {modal?.text && (
                 <TextEditor
                   setEditorState={setEditorState}
@@ -182,6 +164,9 @@ export default function DraggableFields({
                 />
               )}
             </>
+          )}
+          {openDrawer && (
+            <ServicesReportsDrawer open={openDrawer} setOpen={setOpenDrawer} />
           )}
         </Box>
       )}

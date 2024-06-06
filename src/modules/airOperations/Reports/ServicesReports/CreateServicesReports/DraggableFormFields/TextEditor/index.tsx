@@ -16,7 +16,6 @@ import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { TEXT_FORMATE } from '@/constants/strings';
-import { DeleteBlackIcon } from '@/assets/icons';
 import { CheckBox } from '@mui/icons-material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
@@ -59,21 +58,12 @@ export const TextEditor = (props: any) => {
                   <BorderColorIcon />
                 </Box>
               ) : (
-                <Box display={'flex'} alignItems={'center'}>
-                  <Box
-                    onClick={() => {
-                      setEdit(true), setEditValue(textTitle);
-                    }}
-                  >
-                    <CheckBox />
-                  </Box>
-                  <Box
-                    onClick={() => {
-                      setEdit(true), setValue('textTitle', editValue);
-                    }}
-                  >
-                    <DeleteBlackIcon />
-                  </Box>
+                <Box
+                  onClick={() => {
+                    setEdit(true), setEditValue(textTitle);
+                  }}
+                >
+                  <CheckBox />
                 </Box>
               )}
             </InputAdornment>
@@ -170,14 +160,7 @@ export const TextEditor = (props: any) => {
           <input type="color" value={color} onChange={onColorChange} />
         </Box>
       </Box>
-      <Box
-        sx={{
-          mt: 35,
-          display: 'flex',
-          justifyContent: 'flex-end',
-          gap: 1,
-        }}
-      >
+      <Box position={'fixed'} bottom={75} right={90} gap={1} display={'flex'}>
         <Button
           variant="outlined"
           onClick={() => handleTextCancel()}

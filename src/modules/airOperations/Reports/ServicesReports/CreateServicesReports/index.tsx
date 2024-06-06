@@ -26,8 +26,6 @@ export const CreateServicesReports = () => {
     textTitle,
     setFieldData,
     setModal,
-    setChartComponent,
-    chartComponent,
     tableTitle,
     setValue,
     AddProperties,
@@ -46,8 +44,8 @@ export const CreateServicesReports = () => {
     xAxesData,
     setChartMetricType,
     chartMetricType,
-    filterTitle,
-    filterType,
+    subFilter,
+    allChartComponents,
   } = useCreateServicesReports();
 
   return (
@@ -84,18 +82,16 @@ export const CreateServicesReports = () => {
                 setEditorState={setEditorState}
                 fontSize={fontSize}
                 color={color}
-                setChartComponent={setChartComponent}
                 tableTitle={tableTitle}
                 chartType={chartType}
-                chartComponent={chartComponent}
                 form={form}
                 setForm={setForm}
-                xAxesData={xAxesData}
-                yAxesData={yAxesData}
-                chartMetricType={chartMetricType}
-                filterType={filterType}
                 setAddProperties={setAddProperties}
                 columnsData={columnsData}
+                allChartComponents={allChartComponents}
+                chartTitle={chartTitle}
+                textTitle={textTitle}
+                subFilter={subFilter}
               />
             </Box>
           </Grid>
@@ -122,7 +118,6 @@ export const CreateServicesReports = () => {
                 setModal={setModal}
                 setFieldData={setFieldData}
                 textTitle={textTitle}
-                chartComponent={chartComponent}
                 tableTitle={tableTitle}
                 setValue={setValue}
                 AddProperties={AddProperties}
@@ -137,7 +132,10 @@ export const CreateServicesReports = () => {
                 setForm={setForm}
                 chartMetricType={chartMetricType}
                 setChartMetricType={setChartMetricType}
-                filterTitle={filterTitle}
+                allChartComponents={allChartComponents}
+                xAxesData={xAxesData}
+                yAxesData={yAxesData}
+                subFilter={subFilter}
               />
             </Box>
           </Grid>

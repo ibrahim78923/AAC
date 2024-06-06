@@ -1,11 +1,13 @@
 import { REPORT_TYPE } from '@/constants/strings';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useTheme } from '@mui/material';
+import { useState } from 'react';
 
 export const useDroppableArea = (props: any) => {
   const { setForm, form } = props;
   const theme: any = useTheme();
 
+  const [calendarFilter, setCalendarFilter] = useState();
   const handleDelete = (id: string) => {
     setForm(form?.filter((item: any) => item?.id !== id));
   };
@@ -22,6 +24,9 @@ export const useDroppableArea = (props: any) => {
           component: chartToCopy?.component,
           title: chartToCopy?.title,
           type: REPORT_TYPE?.CHART,
+          xAxes: chartToCopy?.xAxes,
+          yAxes: chartToCopy?.yAxes,
+          subFilter: chartToCopy?.subFilter,
         },
       ]);
     } else {
@@ -40,5 +45,7 @@ export const useDroppableArea = (props: any) => {
     handleDelete,
     handleCopy,
     theme,
+    setCalendarFilter,
+    calendarFilter,
   };
 };

@@ -4,6 +4,10 @@ import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { EditorState } from 'draft-js';
+import { CHARTS } from '@/constants/strings';
+import { DonutChart } from './DraggableFormFields/Chart/DonutChart';
+import { PieChart } from './DraggableFormFields/Chart/PieChart';
+import { BarChart } from './DraggableFormFields/Chart/BarChart';
 
 export default function useCreateServicesReports() {
   const theme: any = useTheme();
@@ -13,7 +17,6 @@ export default function useCreateServicesReports() {
       chartTitle: 'Report Chart',
       tableTitle: 'Table',
       textTitle: 'Report Text',
-      filterTitle: 'Report Filter',
     },
   });
   const { watch, setValue } = methods;
@@ -23,8 +26,7 @@ export default function useCreateServicesReports() {
   const chartType = watch('chartType');
   const xAxesData = watch('xAxes');
   const yAxesData = watch('yAxes');
-  const filterTitle = watch('filterTitle');
-  const filterType = watch('filterType');
+  const subFilter = watch('subFilter');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
   const [fieldData, setFieldData] = useState<any>(false);
@@ -36,15 +38,9 @@ export default function useCreateServicesReports() {
   const [chartMetricType, setChartMetricType] = useState('Add Metrics');
   const [AddProperties, setAddProperties] = useState();
   const [columnsData, setCloumnsData] = useState([]);
-
-  const [chartComponent, setChartComponent] = useState<JSX.Element | null>(
-    null,
-  );
-
   const getModalState = (draggedItem: any) => {
     const newModal: any = {
       chart: false,
-      interactiveFilter: false,
       text: false,
       table: false,
     };
@@ -70,13 +66,18 @@ export default function useCreateServicesReports() {
   };
 
   useEffect(() => {
-    (modal?.chart || modal?.table || modal?.text || modal?.interactiveFilter) &&
-      setFieldData(true);
-  }, [modal?.text, modal?.chart, modal?.table, modal?.interactiveFilter]);
+    (modal?.chart || modal?.table || modal?.text) && setFieldData(true);
+  }, [modal?.text, modal?.chart, modal?.table]);
 
   const handleCancel = () => {
     setFieldData(false);
     setModal(modalInitialState);
+  };
+
+  const allChartComponents = {
+    [CHARTS.BAR_CHART]: <BarChart />,
+    [CHARTS.DONUT_CHART]: <DonutChart />,
+    [CHARTS.PIE_CHART]: <PieChart />,
   };
 
   return {
@@ -98,8 +99,6 @@ export default function useCreateServicesReports() {
     setFontSize,
     fontSize,
     textTitle,
-    setChartComponent,
-    chartComponent,
     tableTitle,
     setValue,
     AddProperties,
@@ -116,7 +115,7 @@ export default function useCreateServicesReports() {
     xAxesData,
     setChartMetricType,
     chartMetricType,
-    filterTitle,
-    filterType,
+    subFilter,
+    allChartComponents,
   };
 }

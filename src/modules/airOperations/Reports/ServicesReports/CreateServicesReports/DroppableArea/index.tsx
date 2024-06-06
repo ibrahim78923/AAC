@@ -9,13 +9,13 @@ import {
 import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { ReportsIcon } from '@/assets/icons';
 import { Chart } from '../DraggableFormFields/Chart';
-import { InteractiveFilter } from '../DraggableFormFields/InteractiveFilter';
 import { Text } from '../DraggableFormFields/Text';
 import { Table } from '../DraggableFormFields/Table';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDroppableArea } from './useDroppableArea';
 import { REPORT_TYPE } from '@/constants/strings';
+import ReportCalendarFilter from '@/components/ReportCalendarFilter';
 
 export default function DroppableArea(props: any) {
   const {
@@ -25,20 +25,19 @@ export default function DroppableArea(props: any) {
     setEditorState,
     fontSize,
     color,
-    setChartComponent,
     form,
     tableTitle,
     chartType,
-    chartComponent,
-    yAxesData,
-    xAxesData,
-    chartMetricType,
-    filterType,
     setAddProperties,
     columnsData,
+    allChartComponents,
+    chartTitle,
+    textTitle,
+    subFilter,
   } = props;
 
-  const { handleDelete, handleCopy, theme } = useDroppableArea(props);
+  const { handleDelete, handleCopy, theme, setCalendarFilter } =
+    useDroppableArea(props);
   return (
     <Droppable droppableId={'droppable'}>
       {(provided: any) => (
@@ -47,7 +46,7 @@ export default function DroppableArea(props: any) {
           borderRadius={2}
           p={1}
           width={'100%'}
-          height={'70vh'}
+          height={'74vh'}
           overflow={'scroll'}
           ref={provided?.innerRef}
           {...provided?.droppableProps}
@@ -131,9 +130,18 @@ export default function DroppableArea(props: any) {
                                       >
                                         <ContentCopyIcon />
                                       </IconButton>
+                                      <Box ml={1}>
+                                        {item?.subFilter && (
+                                          <ReportCalendarFilter
+                                            setCalendarFilter={
+                                              setCalendarFilter
+                                            }
+                                          />
+                                        )}
+                                      </Box>
                                     </Box>
                                   </Box>
-                                  {item?.component}
+                                  {allChartComponents[item?.component]}
                                 </Box>
                               </Grid>
                             )}
@@ -197,16 +205,12 @@ export default function DroppableArea(props: any) {
             <>
               {modal?.chart && (
                 <Chart
-                  setChartComponent={setChartComponent}
                   chartType={chartType}
-                  chartComponent={chartComponent}
-                  yAxesData={yAxesData}
-                  xAxesData={xAxesData}
-                  chartMetricType={chartMetricType}
+                  allChartComponents={allChartComponents}
+                  chartTitle={chartTitle}
+                  subFilter={subFilter}
+                  setCalendarFilter={setCalendarFilter}
                 />
-              )}
-              {modal?.interactiveFilter && (
-                <InteractiveFilter filterType={filterType} />
               )}
               {modal?.text && (
                 <Text
@@ -214,6 +218,7 @@ export default function DroppableArea(props: any) {
                   setEditorState={setEditorState}
                   fontSize={fontSize}
                   color={color}
+                  textTitle={textTitle}
                 />
               )}
               {modal?.table && (

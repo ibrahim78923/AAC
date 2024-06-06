@@ -1,14 +1,13 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import {
   RHFAutocomplete,
-  RHFMultiSearchableSelect,
+  RHFCheckbox,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { Box, Button, InputAdornment, Typography } from '@mui/material';
 import { useChartEditor } from './useChartEditor';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { CheckBox } from '@mui/icons-material';
-import { DeleteBlackIcon } from '@/assets/icons';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { servicesChartMetrics } from './ChartEditor.data';
 import { CHARTS } from '@/constants/strings';
@@ -46,21 +45,12 @@ export const ChartEditor = (props: any) => {
                   <BorderColorIcon />
                 </Box>
               ) : (
-                <Box display={'flex'} alignItems={'center'}>
-                  <Box
-                    onClick={() => {
-                      setEdit(true), setEditValue(chartTitle);
-                    }}
-                  >
-                    <CheckBox />
-                  </Box>
-                  <Box
-                    onClick={() => {
-                      setEdit(true), setValue('chartTitle', editValue);
-                    }}
-                  >
-                    <DeleteBlackIcon />
-                  </Box>
+                <Box
+                  onClick={() => {
+                    setEdit(true), setEditValue(chartTitle);
+                  }}
+                >
+                  <CheckBox />
                 </Box>
               )}
             </InputAdornment>
@@ -74,81 +64,47 @@ export const ChartEditor = (props: any) => {
         options={['Bar Chart', 'Donut Chart', 'Pie Chart']}
         required
       />
+      {chartType === CHARTS?.BAR_CHART && (
+        <Box border={1} borderColor={'grey.700'} borderRadius={2} pb={1} mt={2}>
+          <Box borderRadius={2} p={1} bgcolor={'primary.light'}>
+            <Typography variant="h6">{metricType}</Typography>
+          </Box>
 
-      <Box border={1} borderColor={'grey.700'} borderRadius={2} pb={1} mt={2}>
-        <Box borderRadius={2} p={1} bgcolor={'primary.light'}>
-          <Typography variant="h6">{metricType}</Typography>
+          <Box p={1}>
+            <RHFAutocomplete
+              size="small"
+              label="X Axes"
+              name="xAxes"
+              options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
+            />
+          </Box>
+          <Box p={1}>
+            <RHFAutocomplete
+              size="small"
+              label="Y Axes"
+              name="yAxes"
+              options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
+            />
+          </Box>
         </Box>
-
-        {chartType === CHARTS?.BAR_CHART && (
-          <>
-            <Box p={1}>
-              <RHFMultiSearchableSelect
-                size="small"
-                label="X Axes"
-                name="xAxes"
-                options={[
-                  {
-                    value: 'Task Owner',
-                    label: 'Task Owner',
-                  },
-                  {
-                    value: 'Created Date',
-                    label: 'Created Date',
-                  },
-                  {
-                    value: 'Status',
-                    label: 'Status',
-                  },
-                  {
-                    value: 'Task Count',
-                    label: 'Task Count',
-                  },
-                ]}
-              />
-            </Box>
-            <Box p={1}>
-              <RHFMultiSearchableSelect
-                size="small"
-                label="Y Axes"
-                name="yAxes"
-                options={[
-                  {
-                    value: 'Task Owner',
-                    label: 'Task Owner',
-                  },
-                  {
-                    value: 'Created Date',
-                    label: 'Created Date',
-                  },
-                  {
-                    value: 'Status',
-                    label: 'Status',
-                  },
-                  {
-                    value: 'Task Count',
-                    label: 'Task Count',
-                  },
-                ]}
-              />
-            </Box>
-          </>
-        )}
-        <Box p={1}>
-          <SingleDropdownButton
-            dropdownOptions={servicesChartMetrics(setChartMetricType)}
-            dropdownName={chartMetricType}
-          />
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          mt: chartType === CHARTS?.BAR_CHART ? 14 : 34,
-          display: 'flex',
-          justifyContent: 'flex-end',
-          gap: 1,
-        }}
-      >
+      )}
+      {(chartType === CHARTS?.PIE_CHART ||
+        chartType === CHARTS?.DONUT_CHART) && (
+        <>
+          <Box p={1}>
+            <SingleDropdownButton
+              dropdownOptions={servicesChartMetrics(setChartMetricType)}
+              dropdownName={chartMetricType}
+            />
+          </Box>
+        </>
+      )}
+      <RHFCheckbox
+        name="subFilter"
+        label="Add Date Range Filter"
+        size="large"
+      />
+      <Box position={'fixed'} bottom={75} right={90} gap={1} display={'flex'}>
         <Button variant="outlined" onClick={handleCancel} color="secondary">
           Cancel
         </Button>

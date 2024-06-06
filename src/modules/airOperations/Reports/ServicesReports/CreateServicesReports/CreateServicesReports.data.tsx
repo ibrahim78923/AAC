@@ -7,18 +7,12 @@ export const fieldsList = [
   },
   {
     id: '1',
-    title: 'Interactive filter',
-    match: 'interactiveFilter',
-    description: 'Slice and dice your data on the fly',
-  },
-  {
-    id: '2',
     title: 'Text',
     match: 'text',
     description: 'Add context to your report',
   },
   {
-    id: '3',
+    id: '2',
     title: 'Table',
     match: 'table',
     description: 'General Table',
@@ -27,7 +21,6 @@ export const fieldsList = [
 
 export const modalInitialState: any = {
   chart: false,
-  interactiveFilter: false,
   text: false,
   table: false,
 };
