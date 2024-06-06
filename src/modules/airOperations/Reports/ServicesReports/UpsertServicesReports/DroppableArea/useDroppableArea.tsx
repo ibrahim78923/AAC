@@ -29,7 +29,7 @@ export const useDroppableArea = (props: any) => {
           subFilter: chartToCopy?.subFilter,
         },
       ]);
-    } else {
+    } else if (chartToCopy?.type === REPORT_TYPE?.TEXT) {
       setForm([
         ...form,
         {
@@ -37,6 +37,16 @@ export const useDroppableArea = (props: any) => {
           component: chartToCopy?.component,
           title: chartToCopy?.title,
           type: REPORT_TYPE?.TEXT,
+        },
+      ]);
+    } else {
+      setForm([
+        ...form,
+        {
+          id: uniqueId,
+          component: chartToCopy?.component,
+          title: chartToCopy?.title,
+          type: REPORT_TYPE?.TABLE,
         },
       ]);
     }

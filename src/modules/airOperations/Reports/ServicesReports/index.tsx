@@ -4,7 +4,7 @@ import { AIR_OPERATIONS } from '@/constants';
 import { Button } from '@mui/material';
 import { AddWhiteBgIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { ActionDropDownData } from './CreateServicesReports/CreateServicesReports.data';
+import { ActionDropDownData } from './UpsertServicesReports/UpsertServicesReports.data';
 
 export const ServicesReports = () => {
   const { router } = useServicesReports();
@@ -21,7 +21,7 @@ export const ServicesReports = () => {
           variant="contained"
           startIcon={<AddWhiteBgIcon />}
           onClick={() => {
-            router?.push(AIR_OPERATIONS?.CREATE_SERVICES_REPORTS);
+            router?.push(AIR_OPERATIONS?.UPSERT_SERVICES_REPORTS);
           }}
         >
           Create report

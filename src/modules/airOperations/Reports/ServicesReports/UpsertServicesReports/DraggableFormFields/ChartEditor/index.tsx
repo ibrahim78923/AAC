@@ -65,7 +65,7 @@ export const ChartEditor = (props: any) => {
         required
       />
       {chartType === CHARTS?.BAR_CHART && (
-        <Box border={1} borderColor={'grey.700'} borderRadius={2} pb={1} mt={2}>
+        <Box border={1} borderColor={'grey.700'} borderRadius={2} m={1}>
           <Box borderRadius={2} p={1} bgcolor={'primary.light'}>
             <Typography variant="h6">{metricType}</Typography>
           </Box>
@@ -73,16 +73,16 @@ export const ChartEditor = (props: any) => {
           <Box p={1}>
             <RHFAutocomplete
               size="small"
-              label="X Axes"
-              name="xAxes"
+              label="X Axis"
+              name="xAxis"
               options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
             />
           </Box>
           <Box p={1}>
             <RHFAutocomplete
               size="small"
-              label="Y Axes"
-              name="yAxes"
+              label="Y Axis"
+              name="yAxis"
               options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
             />
           </Box>
@@ -91,7 +91,7 @@ export const ChartEditor = (props: any) => {
       {(chartType === CHARTS?.PIE_CHART ||
         chartType === CHARTS?.DONUT_CHART) && (
         <>
-          <Box p={1}>
+          <Box m={1}>
             <SingleDropdownButton
               dropdownOptions={servicesChartMetrics(setChartMetricType)}
               dropdownName={chartMetricType}

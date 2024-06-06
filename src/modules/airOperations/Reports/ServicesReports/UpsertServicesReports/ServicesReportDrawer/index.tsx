@@ -1,12 +1,12 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { useServicesReportsDrawer } from './useServicesReportsDrawer';
+import { useServicesReportDrawer } from './useServicesReportDrawer';
 import { FormProvider } from 'react-hook-form';
 import { Grid } from '@mui/material';
-import { reportsDataArray } from './ServicesReportsDrawer.data';
+import { reportsDataArray } from './ServicesReportDrawer.data';
 
-export const ServicesReportsDrawer = (props: any) => {
+export const ServicesReportDrawer = (props: any) => {
   const { setOpen, open } = props;
-  const { saveReportsMethods, watch } = useServicesReportsDrawer();
+  const { saveReportsMethods, watch } = useServicesReportDrawer();
   return (
     <CommonDrawer
       isDrawerOpen={open}
@@ -22,7 +22,7 @@ export const ServicesReportsDrawer = (props: any) => {
             return (
               <>
                 <Grid item key={item?.componentProps?.name} xs={12}>
-                  <item.component {...item.componentProps} size={'small'} />
+                  <item.component {...item?.componentProps} />
                 </Grid>
                 {watch(item?.componentProps?.name) ===
                   item?.componentProps?.options?.[1]?.value && (

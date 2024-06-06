@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fieldsList, modalInitialState } from './CreateServicesReports.data';
+import { fieldsList, modalInitialState } from './UpsertServicesReports.data';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
@@ -15,7 +15,7 @@ export default function useCreateServicesReports() {
   const methods: any = useForm({
     defaultValues: {
       chartTitle: 'Report Chart',
-      tableTitle: 'Table',
+      tableTitle: 'Report Table',
       textTitle: 'Report Text',
     },
   });
@@ -24,8 +24,8 @@ export default function useCreateServicesReports() {
   const tableTitle = watch('tableTitle');
   const chartTitle = watch('chartTitle');
   const chartType = watch('chartType');
-  const xAxesData = watch('xAxes');
-  const yAxesData = watch('yAxes');
+  const xAxisData = watch('xAxis');
+  const yAxisData = watch('yAxis');
   const subFilter = watch('subFilter');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
@@ -34,10 +34,10 @@ export default function useCreateServicesReports() {
   const [editorState, setEditorState] = useState(EditorState?.createEmpty());
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
-  const [metricType, setMetricType] = useState('Metrics');
-  const [chartMetricType, setChartMetricType] = useState('Add Metrics');
+  const [metricType, setMetricType] = useState('Inventories');
+  const [chartMetricType, setChartMetricType] = useState('Tickets');
   const [AddProperties, setAddProperties] = useState();
-  const [columnsData, setCloumnsData] = useState([]);
+  const [columnsData, setColumnsData] = useState([]);
   const getModalState = (draggedItem: any) => {
     const newModal: any = {
       chart: false,
@@ -75,9 +75,9 @@ export default function useCreateServicesReports() {
   };
 
   const allChartComponents = {
-    [CHARTS.BAR_CHART]: <BarChart />,
-    [CHARTS.DONUT_CHART]: <DonutChart />,
-    [CHARTS.PIE_CHART]: <PieChart />,
+    [CHARTS?.BAR_CHART]: <BarChart />,
+    [CHARTS?.DONUT_CHART]: <DonutChart />,
+    [CHARTS?.PIE_CHART]: <PieChart />,
   };
 
   return {
@@ -104,15 +104,15 @@ export default function useCreateServicesReports() {
     AddProperties,
     setAddProperties,
     columnsData,
-    setCloumnsData,
+    setColumnsData,
     setOpenDrawer,
     openDrawer,
     chartType,
     setMetricType,
     metricType,
     chartTitle,
-    yAxesData,
-    xAxesData,
+    yAxisData,
+    xAxisData,
     setChartMetricType,
     chartMetricType,
     subFilter,

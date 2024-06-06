@@ -24,6 +24,7 @@ export const reportsDataArray = () => {
         placeholder: 'Enter Name',
         fullWidth: true,
         required: true,
+        size: 'small',
       },
       component: RHFTextField,
     },
@@ -93,7 +94,8 @@ export const reportsDataArray = () => {
       id: 4785,
       componentProps: {
         name: 'addFilter',
-        label: 'Add Report Filter',
+        label: 'Add Date Range Filter in Complete Report',
+        size: 'large',
       },
       component: RHFCheckbox,
     },

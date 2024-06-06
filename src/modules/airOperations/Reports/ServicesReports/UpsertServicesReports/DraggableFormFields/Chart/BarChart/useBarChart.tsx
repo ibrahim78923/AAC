@@ -7,12 +7,8 @@ export const useBarChart = () => {
   const groupedData = barChartData?.reduce((acc: any, curr: any) => {
     const { month, status, count } = curr;
     acc[month] = acc[month] || {
-      New_Tickets: 0,
-      Resolved_Tickets: 0,
-      OverDue_Tickets: 0,
-      Pending_Tickets: 0,
-      Close_Tickets: 0,
-      unassigned_Tickets: 0,
+      Series_1: 0,
+      Series_2: 0,
     };
     acc[month][status] = count;
     return acc;
@@ -36,7 +32,7 @@ export const useBarChart = () => {
   const months = Object?.keys(groupedData || {})?.sort(
     (a: any, b: any) => a - b,
   );
-  const seriesData = ['Resolved Tickets', 'Close Tickets']?.map((status) => ({
+  const seriesData = ['Series-1', 'Series-2']?.map((status) => ({
     name: status,
     data: months?.map((month: any) => groupedData[month]?.[status] || 0),
   }));

@@ -4,17 +4,17 @@ export const tableData = [
     name: 'Name',
     email: 'email',
     status: 'true',
-    channel: 'helo',
+    channel: 'hello',
   },
   {
     id: '3',
-    name: 'helo',
+    name: 'hello',
     email: '@gmail.com',
     status: 'true',
     channel: 'Heo',
   },
 ];
-export const tabelColumn: any = (columnsData: any) => [
+export const tableColumn: any = (columnsData: any) => [
   ...columnsData?.map((item: any) => ({
     accessorFn: (row: any) => row?.name,
     id: 'name',

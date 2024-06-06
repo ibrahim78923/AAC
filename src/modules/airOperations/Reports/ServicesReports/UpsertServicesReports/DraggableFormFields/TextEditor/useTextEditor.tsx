@@ -43,11 +43,13 @@ export const useTextEditor = (props: any) => {
     } else if (formate === TEXT_FORMATE?.UNDERLINE) {
       applyStyle(TEXT_FORMATE?.UNDERLINE);
     } else if (formate === TEXT_FORMATE?.UPPER_CASE) {
-      applyTransform((text) => text?.toUpperCase());
+      applyTransform((text: any) => text?.toUpperCase());
     } else if (formate === TEXT_FORMATE?.LOWER_CASE) {
-      applyTransform((text) => text?.toLowerCase());
+      applyTransform((text: any) => text?.toLowerCase());
     } else if (formate === TEXT_FORMATE?.CAPITAL_CASE) {
-      applyTransform((text) => text?.replace(/\b\w/g, (l) => l?.toUpperCase()));
+      applyTransform(
+        (text: any) => text?.replace(/\b\w/g, (l: any) => l?.toUpperCase()),
+      );
     } else if (formate === TEXT_FORMATE?.UNORDERED_LIST) {
       setEditorState(
         RichUtils?.toggleBlockType(
@@ -91,7 +93,7 @@ export const useTextEditor = (props: any) => {
     const selection = editorState?.getSelection();
     const contentState = editorState?.getCurrentContent();
     let newContentState = contentState;
-    styles?.forEach((style) => {
+    styles?.forEach((style: any) => {
       newContentState = Modifier?.removeInlineStyle(
         newContentState,
         selection,
@@ -154,8 +156,8 @@ export const useTextEditor = (props: any) => {
     const contentState = editorState?.getCurrentContent();
     const contentRaw = convertToRaw(contentState);
     const allColors = new Set();
-    contentRaw?.blocks?.forEach((block) => {
-      block?.inlineStyleRanges?.forEach((range) => {
+    contentRaw?.blocks?.forEach((block: any) => {
+      block?.inlineStyleRanges?.forEach((range: any) => {
         if (range?.style?.startsWith('COLOR_')) {
           allColors?.add(range?.style);
         }
@@ -166,8 +168,11 @@ export const useTextEditor = (props: any) => {
         BOLD: { element: 'strong' },
         ITALIC: { element: 'em' },
         UNDERLINE: { element: 'u' },
-        ...Array?.from({ length: 15 }, (_, i) => 10 + i * 2)?.reduce(
-          (acc: { [key: string]: { style: { fontSize: string } } }, size) => {
+        ...Array?.from({ length: 15 }, (_: any, i: any) => 10 + i * 2)?.reduce(
+          (
+            acc: { [key: string]: { style: { fontSize: string } } },
+            size: any,
+          ) => {
             acc[`FONT_SIZE_${size as any}px`] = {
               style: { fontSize: `${size}px` },
             };
@@ -176,7 +181,7 @@ export const useTextEditor = (props: any) => {
           {},
         ),
         ...Array?.from(allColors)?.reduce(
-          (acc: { [key: string]: { style: { color: any } } }, color) => {
+          (acc: { [key: string]: { style: { color: any } } }, color: any) => {
             const colorValue = (color as any)?.split('_')[1] as any;
             acc[color as any] = { style: { color: colorValue } } as any;
             return acc;

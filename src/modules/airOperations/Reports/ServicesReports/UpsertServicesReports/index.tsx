@@ -2,13 +2,13 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_OPERATIONS } from '@/constants';
 import { Box, Grid } from '@mui/material';
 import DraggableFields from './DraggableFields';
-import { fieldsList } from './CreateServicesReports.data';
+import { fieldsList } from './UpsertServicesReports.data';
 import { DragDropContext } from 'react-beautiful-dnd';
 import DroppableArea from './DroppableArea';
-import useCreateServicesReports from './useCreateServicesReports';
+import useCreateServicesReports from './useUpsertServicesReports';
 import { FormProvider } from 'react-hook-form';
 
-export const CreateServicesReports = () => {
+export const UpsertServicesReports = () => {
   const {
     handleDragEnd,
     router,
@@ -31,7 +31,7 @@ export const CreateServicesReports = () => {
     AddProperties,
     setAddProperties,
     columnsData,
-    setCloumnsData,
+    setColumnsData,
     setOpenDrawer,
     openDrawer,
     chartType,
@@ -40,8 +40,8 @@ export const CreateServicesReports = () => {
     chartTitle,
     form,
     setForm,
-    yAxesData,
-    xAxesData,
+    yAxisData,
+    xAxisData,
     setChartMetricType,
     chartMetricType,
     subFilter,
@@ -121,7 +121,7 @@ export const CreateServicesReports = () => {
                 tableTitle={tableTitle}
                 setValue={setValue}
                 AddProperties={AddProperties}
-                setCloumnsData={setCloumnsData}
+                setColumnsData={setColumnsData}
                 setOpenDrawer={setOpenDrawer}
                 openDrawer={openDrawer}
                 chartType={chartType}
@@ -133,8 +133,8 @@ export const CreateServicesReports = () => {
                 chartMetricType={chartMetricType}
                 setChartMetricType={setChartMetricType}
                 allChartComponents={allChartComponents}
-                xAxesData={xAxesData}
-                yAxesData={yAxesData}
+                xAxisData={xAxisData}
+                yAxisData={yAxisData}
                 subFilter={subFilter}
               />
             </Box>

@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import {
   reportsDefaultValues,
   reportsValidationSchema,
-} from './ServicesReportsDrawer.data';
+} from './ServicesReportDrawer.data';
 
-export const useServicesReportsDrawer = () => {
+export const useServicesReportDrawer = () => {
   const saveReportsMethods = useForm({
     resolver: yupResolver(reportsValidationSchema),
     defaultValues: reportsDefaultValues,

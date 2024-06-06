@@ -5,9 +5,9 @@ import { DragAndDropIcon } from '@/assets/icons';
 import { ChartEditor } from '../DraggableFormFields/ChartEditor';
 import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
-import { ServicesReportsDrawer } from '../ServicesReportsDrawer';
+import { ServicesReportDrawer } from '../ServicesReportDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { servicesMetrics } from '../CreateServicesReports.data';
+import { servicesMetrics } from '../UpsertServicesReports.data';
 
 export default function DraggableFields({
   fieldsList,
@@ -26,7 +26,8 @@ export default function DraggableFields({
   tableTitle,
   setValue,
   AddProperties,
-  setCloumnsData,
+  setAddProperties,
+  setColumnsData,
   setOpenDrawer,
   openDrawer,
   chartType,
@@ -38,8 +39,8 @@ export default function DraggableFields({
   setChartMetricType,
   chartMetricType,
   allChartComponents,
-  xAxesData,
-  yAxesData,
+  xAxisData,
+  yAxisData,
   subFilter,
 }: any) {
   const theme: any = useTheme();
@@ -70,7 +71,7 @@ export default function DraggableFields({
               </Box>
               {fieldsList?.map((item: any, index: number) => (
                 <Draggable key={item?.id} draggableId={item?.id} index={index}>
-                  {(provided) => (
+                  {(provided: any) => (
                     <Box
                       boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
                       bgcolor={'common.white'}
@@ -132,8 +133,8 @@ export default function DraggableFields({
                   setChartMetricType={setChartMetricType}
                   chartMetricType={chartMetricType}
                   allChartComponents={allChartComponents}
-                  xAxesData={xAxesData}
-                  yAxesData={yAxesData}
+                  xAxisData={xAxisData}
+                  yAxisData={yAxisData}
                   subFilter={subFilter}
                 />
               )}
@@ -160,13 +161,18 @@ export default function DraggableFields({
                   setValue={setValue}
                   tableTitle={tableTitle}
                   AddProperties={AddProperties}
-                  setCloumnsData={setCloumnsData}
+                  setColumnsData={setColumnsData}
+                  setAddProperties={setAddProperties}
+                  setModal={setModal}
+                  form={form}
+                  setForm={setForm}
+                  setFieldData={setFieldData}
                 />
               )}
             </>
           )}
           {openDrawer && (
-            <ServicesReportsDrawer open={openDrawer} setOpen={setOpenDrawer} />
+            <ServicesReportDrawer open={openDrawer} setOpen={setOpenDrawer} />
           )}
         </Box>
       )}

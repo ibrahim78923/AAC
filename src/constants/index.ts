@@ -187,7 +187,7 @@ export const AIR_OPERATIONS = {
   SALES_REPORTS: `/air-operations/reports/sales-reports`,
   SERVICES_REPORTS: `/air-operations/reports/services-reports`,
   MARKETING_REPORTS: `/air-operations/reports/marketing-reports`,
-  CREATE_SERVICES_REPORTS: `/air-operations/reports/services-reports/create-services-reports`,
+  UPSERT_SERVICES_REPORTS: `/air-operations/reports/services-reports/upsert-services-reports`,
   SALES_REPORTS_RESTORE: `/air-operations/reports/sales-reports/restore`,
   SERVICES_REPORTS_RESTORE: `/air-operations/reports/services-reports/restore`,
   MARKETING_REPORTS_RESTORE: `/air-operations/reports/marketing-reports/restore`,
