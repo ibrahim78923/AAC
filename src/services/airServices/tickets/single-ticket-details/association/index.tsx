@@ -1,9 +1,9 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'TICKET_ASSOCIATES_ASSETS';
+const TAG = 'TICKET_ASSOCIATION';
 
-export const ticketsAssociatesAssetsAPI = baseAPI?.injectEndpoints({
+export const ticketsAssociationAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getTicketsAssociatesAssets: builder?.query({
       query: (getTicketsAssociatesAssetsParameter: any) => ({
@@ -45,4 +45,4 @@ export const {
   useDeleteTicketsAssociatesAssetsMutation,
   useLazyGetAssociatesAssetsQuery,
   useLazyGetTicketsAssociatesAssetsQuery,
-} = ticketsAssociatesAssetsAPI;
+} = ticketsAssociationAPI;

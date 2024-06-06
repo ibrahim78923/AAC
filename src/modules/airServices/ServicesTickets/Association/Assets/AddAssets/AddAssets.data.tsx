@@ -2,12 +2,12 @@ import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { truncateText } from '@/utils/avatarUtils';
 
-export const drawerTableColumns = (
-  selectedAssetToAssociateList: any,
-  setSelectedAssetToAssociateList: any,
-  associatesAssetList: any,
-  theme: any,
-): any => [
+export const getAddAssetsColumns = ({
+  theme,
+  setSelected,
+  selected,
+  associatesAssetList,
+}: any) => [
   {
     accessorFn: (row: any) => row?._id,
     id: 'id',
@@ -15,21 +15,12 @@ export const drawerTableColumns = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={
-          !!selectedAssetToAssociateList?.find(
-            (item: any) => item === info?.getValue(),
-          )
-        }
+        checked={!!selected?.find((item: any) => item === info?.getValue())}
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedAssetToAssociateList([
-                ...selectedAssetToAssociateList,
-                info?.getValue(),
-              ])
-            : setSelectedAssetToAssociateList(
-                selectedAssetToAssociateList?.filter(
-                  (item: any) => item !== info?.getValue(),
-                ),
+            ? setSelected([...selected, info?.getValue()])
+            : setSelected(
+                selected?.filter((item: any) => item !== info?.getValue()),
               );
         }}
         color="primary"
@@ -42,17 +33,15 @@ export const drawerTableColumns = (
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
           associatesAssetList?.length
-            ? selectedAssetToAssociateList?.length ===
-              associatesAssetList?.length
+            ? selected?.length === associatesAssetList?.length
             : false
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedAssetToAssociateList(
-                associatesAssetList?.map((asset: any) => asset?._id),
-              )
-            : setSelectedAssetToAssociateList([]);
+            ? setSelected(associatesAssetList?.map((asset: any) => asset?._id))
+            : setSelected([]);
         }}
+        disabled={!associatesAssetList?.length}
         color="primary"
         name="id"
       />

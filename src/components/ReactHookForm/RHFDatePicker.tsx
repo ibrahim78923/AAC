@@ -27,6 +27,7 @@ export default function RHFDatePicker({
           <DatePicker
             {...field}
             {...other}
+            fullWidth
             format={format}
             slots={{
               openPickerIcon: openPickerIcon,
