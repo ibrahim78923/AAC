@@ -7,15 +7,28 @@ import DateOverrides from './DateOverrides';
 import BufferTime from './BufferTime';
 
 export const TimeSlotPreferences = () => {
-  const { disabled, setDisabled, theme, methods, onSubmit, handleSubmit } =
-    useTimeSlotPreferences();
+  const {
+    disabled,
+    setDisabled,
+    theme,
+    methods,
+    onSubmit,
+    handleSubmit,
+    watch,
+    setValue,
+  } = useTimeSlotPreferences();
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <TimeSlotsHeader disabled={disabled} setDisabled={setDisabled} />
         <Grid container gap={1}>
           <Grid item lg={6} xs={12} mr={2}>
-            <TimeSlotsWeekly disabled={disabled} theme={theme} />
+            <TimeSlotsWeekly
+              disabled={disabled}
+              theme={theme}
+              watch={watch}
+              setValue={setValue}
+            />
           </Grid>
           <Grid item lg={5} xs={12}>
             <DateOverrides

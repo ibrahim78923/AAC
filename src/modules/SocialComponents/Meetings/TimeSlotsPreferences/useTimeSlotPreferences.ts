@@ -12,7 +12,7 @@ export const useTimeSlotPreferences = () => {
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch, setValue } = methods;
 
   const onSubmit = async () => {
     try {
@@ -30,5 +30,7 @@ export const useTimeSlotPreferences = () => {
     theme,
     onSubmit,
     handleSubmit,
+    watch,
+    setValue,
   };
 };

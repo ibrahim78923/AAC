@@ -16,14 +16,22 @@ import {
 import { RHFTimePicker } from '@/components/ReactHookForm';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useTimeSlotsWeekly } from './useTimeSlotsWeekly';
-import { timeSlotsWeeklyData } from './TimeSlotWeekly.data';
+import {
+  timeSlotsWeeklyData,
+  timeSlotsWeeklyDropdown,
+} from './TimeSlotWeekly.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 
-const TimeSlotsWeekly = ({ disabled, theme }: any) => {
-  const { timeSlotsData, fields, remove, addNewField, fieldsAdded } =
-    useTimeSlotsWeekly();
-
+const TimeSlotsWeekly = ({ disabled, theme, setValue, watch }: any) => {
+  const {
+    fields,
+    remove,
+    fieldsAdded,
+    timeSlotsState,
+    setTimeSlotsState,
+    handleAddTimeSlot,
+  } = useTimeSlotsWeekly();
   return (
     <>
       <Typography variant="h3">Weekly Hours</Typography>
@@ -53,28 +61,58 @@ const TimeSlotsWeekly = ({ disabled, theme }: any) => {
                 <Grid item xs={12} lg={7.5}>
                   {fields
                     ?.filter((item: any) => item?.dayIndex === index)
-                    ?.map((item: any, dayIndex: any) => (
-                      <Grid
-                        key={item?._id}
-                        display="flex"
-                        alignItems="center"
-                        gap={1}
-                      >
-                        <Box display="flex" gap={1} pt={1}>
-                          <RHFTimePicker
-                            name={`${slot?.day}start${dayIndex}`}
-                            size={'small'}
-                          />
-                          <RHFTimePicker
-                            name={`${slot?.day}end${dayIndex}`}
-                            size={'small'}
-                          />
-                        </Box>
-                        <IconButton onClick={() => remove(index)}>
-                          <Delete />
-                        </IconButton>
-                      </Grid>
-                    ))}
+                    ?.map((item: any, dayIndex: number) => {
+                      const watchStart = watch(
+                        `timeSlot[${index}].slots[${dayIndex}].start`,
+                      );
+                      const watchEnd = watch(
+                        `timeSlot[${index}].slots[${dayIndex}].end`,
+                      );
+                      const actualIndex = fields?.findIndex(
+                        (item: any) =>
+                          item?.dayIndex === index && item?.slots[dayIndex],
+                      );
+                      return (
+                        <Grid
+                          key={item?._id}
+                          display="flex"
+                          alignItems="center"
+                          gap={1}
+                        >
+                          <Box display="flex" gap={1} pt={1}>
+                            <RHFTimePicker
+                              name={`timeSlot[${index}].slots[${dayIndex}].start`}
+                              size={'small'}
+                            />
+                            <RHFTimePicker
+                              name={`timeSlot[${index}].slots[${dayIndex}].end`}
+                              size={'small'}
+                            />
+                          </Box>
+                          <IconButton onClick={() => remove(actualIndex)}>
+                            <Delete />
+                          </IconButton>
+                          <PermissionsGuard
+                            permissions={Permissions?.SOCIAL_COMPONENTS_EMAIL}
+                          >
+                            <SingleDropdownButton
+                              dropdownOptions={timeSlotsWeeklyDropdown(
+                                watchStart,
+                                watchEnd,
+                                setValue,
+                                timeSlotsState,
+                                setTimeSlotsState,
+                                dayIndex,
+                                handleAddTimeSlot,
+                              )}
+                              dropdownName={<CopyIconButton />}
+                              hasEndIcon={false}
+                              btnVariant="text"
+                            />
+                          </PermissionsGuard>
+                        </Grid>
+                      );
+                    })}
                 </Grid>
               ) : (
                 <Grid item lg={6} xs={5} textAlign={'center'}>
@@ -82,19 +120,9 @@ const TimeSlotsWeekly = ({ disabled, theme }: any) => {
                 </Grid>
               )}
               <Grid item xs={12} md={2}>
-                <IconButton onClick={() => addNewField(index)}>
+                <IconButton onClick={() => handleAddTimeSlot(index)}>
                   <AddCircleIcon />
                 </IconButton>
-                <PermissionsGuard
-                  permissions={Permissions?.SOCIAL_COMPONENTS_EMAIL}
-                >
-                  <SingleDropdownButton
-                    dropdownOptions={timeSlotsData}
-                    dropdownName={<CopyIconButton />}
-                    hasEndIcon={false}
-                    btnVariant="text"
-                  />
-                </PermissionsGuard>
               </Grid>
               <Grid item xs={12}>
                 <Divider />

@@ -1,33 +1,25 @@
-import { timeSlotsWeeklyDropdown } from './TimeSlotWeekly.data';
+import { useState } from 'react';
 import { useFieldArray } from 'react-hook-form';
 
 export const useTimeSlotsWeekly = () => {
-  const timeSlotsData = timeSlotsWeeklyDropdown();
+  const [timeSlotsState, setTimeSlotsState] = useState([]);
   const { fields, append, remove } = useFieldArray({
     name: 'timeSlot',
   });
 
   const handleAddTimeSlot = (dayIndex: any) => {
-    append({
-      dayIndex: dayIndex,
-      timeSlotStart: '',
-      timeSlotEnd: '',
-    });
-  };
-
-  const addNewField = (dayIndex: number) => {
-    handleAddTimeSlot(dayIndex);
+    append({ dayIndex, slots: [{ start: new Date(), end: new Date() }] });
   };
 
   const fieldsAdded = new Set(fields?.map((field: any) => field?.dayIndex));
 
   return {
-    timeSlotsData,
     fields,
     append,
     remove,
     handleAddTimeSlot,
-    addNewField,
     fieldsAdded,
+    timeSlotsState,
+    setTimeSlotsState,
   };
 };
