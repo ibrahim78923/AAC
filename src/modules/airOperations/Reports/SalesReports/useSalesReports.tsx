@@ -15,6 +15,13 @@ export const useSalesReports = () => {
   const apiQueryDashboardReports =
     useLazyGetAllDashboardsSalesReportsListQuery?.();
   const apiQueryCustomReports = useLazyGetAllCustomSalesReportsListQuery?.();
+  const exportApiQueryCustomReports =
+    useLazyGetAllCustomSalesReportsListQuery?.();
+  const exportApiQueryAllReports = useLazyGetAllSalesReportsListQuery?.();
+  const exportApiQueryFavoriteReports =
+    useLazyGetAllFavoritesSalesReportsListQuery?.();
+  const exportApiQueryDashboardReports =
+    useLazyGetAllDashboardsSalesReportsListQuery?.();
 
   const restoreReportsPath = () => {
     router?.push({
@@ -28,6 +35,10 @@ export const useSalesReports = () => {
     apiQueryFavoriteReports,
     apiQueryDashboardReports,
     apiQueryCustomReports,
+    exportApiQueryCustomReports,
+    exportApiQueryAllReports,
+    exportApiQueryFavoriteReports,
+    exportApiQueryDashboardReports,
     restoreReportsPath,
   };
 };

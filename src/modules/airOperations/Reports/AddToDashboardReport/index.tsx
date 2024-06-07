@@ -1,4 +1,3 @@
-import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -11,6 +10,7 @@ import {
 } from '@mui/material';
 import { PAGINATION } from '@/config';
 import { useAddToDashboardReport } from './useAddToDashboardReport';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const AddToDashboardReport = (props: any) => {
   const { isPortalOpen } = props;
@@ -20,14 +20,15 @@ export const AddToDashboardReport = (props: any) => {
     submitAddToDashboardForm,
     closeModal,
     apiQueryDashboard,
+    addReportsToDashboardStatus,
   }: any = useAddToDashboardReport(props);
 
   return (
     <Dialog
-      open={isPortalOpen?.AddedToDashboard}
+      open={isPortalOpen?.isAddedToDashboard}
       onClose={() => closeModal?.()}
       fullWidth
-      maxWidth={'sm'}
+      maxWidth={'xs'}
     >
       <FormProvider
         methods={methods}
@@ -40,49 +41,49 @@ export const AddToDashboardReport = (props: any) => {
             justifyContent={'space-between'}
             gap={1}
             flexWrap={'wrap'}
+            mb={1.5}
           >
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              gap={1}
-              flexWrap={'wrap'}
-            >
-              <Typography variant="h3" textTransform={'capitalize'}>
-                Select Dashboard
-              </Typography>
-            </Box>
-            <Box sx={{ cursor: 'pointer' }} onClick={() => closeModal?.()}>
-              <AlertModalCloseIcon />
-            </Box>
+            <Typography variant="h4" color="slateBlue.main">
+              Select Dashboard
+            </Typography>
+            <CloseIcon
+              sx={{ color: 'custom.darker', cursor: 'pointer' }}
+              onClick={() => closeModal?.()}
+            />
           </Box>
         </DialogTitle>
         <DialogContent>
           <br />
           <RHFAutocompleteAsync
-            label="Select Dashboard"
+            label=""
             name="dashboard"
             fullWidth
             required
             apiQuery={apiQueryDashboard}
             multiple
             size="small"
-            placeholder="Select Dashboard"
+            placeholder="Search Here"
             externalParams={{
               limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
             }}
             getOptionLabel={(option: any) => `${option?.name}`}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
             variant="outlined"
             color="secondary"
             onClick={() => closeModal?.()}
-            disabled
+            disabled={addReportsToDashboardStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
-          <LoadingButton variant="contained" type="submit" loading={false}>
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={addReportsToDashboardStatus?.isLoading}
+            disabled={addReportsToDashboardStatus?.isLoading}
+          >
             Apply
           </LoadingButton>
         </DialogActions>

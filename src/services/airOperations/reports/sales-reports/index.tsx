@@ -79,6 +79,86 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         }
       },
     }),
+    exportAllSalesReportsList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.GET_ASSETS_CONTRACT}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
+      transformResponse: (response: any) => {
+        if (response && response?.data) {
+          return {
+            ...response,
+            list: response?.data?.contracts,
+            data: {
+              contracts: response?.data?.contracts,
+              meta: response?.data?.meta,
+            },
+          };
+        }
+      },
+    }),
+    exportAllFavoritesSalesReportsList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
+      transformResponse: (response: any) => {
+        if (response && response?.data) {
+          return {
+            ...response,
+            list: response?.data?.inventories,
+            data: {
+              contracts: response?.data?.inventories,
+              meta: response?.data?.meta,
+            },
+          };
+        }
+      },
+    }),
+    exportAllDashboardsSalesReportsList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.PURCHASE_ORDER_LIST}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
+      transformResponse: (response: any) => {
+        if (response && response?.data) {
+          return {
+            ...response,
+            list: response?.data?.purchases,
+            data: {
+              contracts: response?.data?.purchases,
+              meta: response?.data?.meta,
+            },
+          };
+        }
+      },
+    }),
+    exportAllCustomSalesReportsList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_SOFTWARE}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
+      transformResponse: (response: any) => {
+        if (response && response?.data) {
+          return {
+            ...response,
+            list: response?.data?.assetssoftwares,
+            data: {
+              contracts: response?.data?.assetssoftwares,
+              meta: response?.data?.meta,
+            },
+          };
+        }
+      },
+    }),
     restoreSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.ASSETS_INVENTORY}`,
@@ -107,4 +187,8 @@ export const {
   useLazyGetAllDashboardsSalesReportsListQuery,
   useLazyGetAllFavoritesSalesReportsListQuery,
   useLazyRestoreSalesReportsListQuery,
+  useLazyExportAllSalesReportsListQuery,
+  useLazyExportAllCustomSalesReportsListQuery,
+  useLazyExportAllDashboardsSalesReportsListQuery,
+  useLazyExportAllFavoritesSalesReportsListQuery,
 } = salesReportsApi;

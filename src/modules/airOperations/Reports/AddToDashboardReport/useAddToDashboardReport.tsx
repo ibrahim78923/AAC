@@ -1,4 +1,5 @@
 import { PAGINATION } from '@/config';
+import { useAddReportsToDashboardMutation } from '@/services/airOperations/reports';
 import { useLazyGetAgentDropdownQuery } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,7 +13,11 @@ export const useAddToDashboardReport = (props: any) => {
     setPage,
     getReportListData,
     setReportFilter,
+    selectedReportLists,
   } = props;
+
+  const [addReportsToDashboardTrigger, addReportsToDashboardStatus] =
+    useAddReportsToDashboardMutation();
 
   const methods = useForm<any>({
     defaultValues: {
@@ -20,15 +25,24 @@ export const useAddToDashboardReport = (props: any) => {
     },
     resolver: yupResolver(
       Yup?.object()?.shape({
-        dashboard: Yup?.mixed()?.nullable()?.required('Dashboard is Required'),
+        dashboard: Yup?.array()?.min(1, 'Dashboard is Required'),
       }),
     ),
   });
 
   const { handleSubmit, reset } = methods;
-  const submitAddToDashboardForm = async () => {
+
+  const submitAddToDashboardForm = async (formData: any) => {
+    const apiDataParameter = {
+      body: {
+        reportIds: selectedReportLists,
+        dashboard: formData?.dashboard,
+      },
+    };
+
     try {
-      successSnackbar('Ticket assigned Successfully');
+      await addReportsToDashboardTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Report added to dashboard successfully');
       reset();
       await getReportListData?.(PAGINATION?.CURRENT_PAGE, {});
       setReportFilter?.({});
@@ -53,5 +67,6 @@ export const useAddToDashboardReport = (props: any) => {
     submitAddToDashboardForm,
     closeModal,
     apiQueryDashboard,
+    addReportsToDashboardStatus,
   };
 };

@@ -38,6 +38,40 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         method: 'PATCH',
       }),
     }),
+    renameReports: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.EDIT_SOFTWARE_CATEGORY}`,
+        method: 'PUT',
+        body: apiDataParameter?.body,
+      }),
+    }),
+    addReportsToDashboard: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.EDIT_SOFTWARE_CATEGORY}`,
+        method: 'PUT',
+        body: apiDataParameter?.body,
+      }),
+    }),
+    cloneReports: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.EDIT_SOFTWARE_CATEGORY}/${apiDataParameter?.pathParams?.id}`,
+        method: 'POST',
+      }),
+    }),
+    changeReportOwner: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        method: 'PUT',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    manageReportAccess: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        method: 'PUT',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -47,4 +81,9 @@ export const {
   useDeleteReportTemporaryMutation,
   useLazyExportReportsListQuery,
   useAddReportToFavoriteListMutation,
+  useRenameReportsMutation,
+  useAddReportsToDashboardMutation,
+  useCloneReportsMutation,
+  useManageReportAccessMutation,
+  useChangeReportOwnerMutation,
 } = salesReportsApi;

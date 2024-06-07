@@ -1,4 +1,5 @@
 import { PAGINATION } from '@/config';
+import { useDeleteReportTemporaryMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteReport = (props: any) => {
@@ -12,9 +13,23 @@ export const useDeleteReport = (props: any) => {
     getReportListData,
   } = props;
 
+  const [deleteReportTemporaryTrigger, deleteReportTemporaryStatus] =
+    useDeleteReportTemporaryMutation();
+
   const deleteReport = async () => {
+    const deleteParams = new URLSearchParams();
+
+    selectedReportLists?.forEach(
+      (reportId: any) => deleteParams?.append('ids', reportId),
+    );
+
+    const apiDataParameter = {
+      queryParams: deleteParams,
+    };
+
     try {
-      successSnackbar('Record delete successfully');
+      await deleteReportTemporaryTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Record deleted successfully');
       setSelectedReportLists?.([]);
       closeModal?.();
       const newPage =
@@ -25,9 +40,9 @@ export const useDeleteReport = (props: any) => {
       await getReportListData?.(newPage);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      closeModal?.();
     }
   };
+
   const closeModal = () => {
     setSelectedReportLists?.([]);
     setIsPortalOpen?.({});
@@ -36,5 +51,6 @@ export const useDeleteReport = (props: any) => {
   return {
     deleteReport,
     closeModal,
+    deleteReportTemporaryStatus,
   };
 };

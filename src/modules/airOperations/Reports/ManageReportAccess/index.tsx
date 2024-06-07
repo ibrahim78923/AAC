@@ -1,4 +1,4 @@
-import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
   Box,
@@ -6,34 +6,33 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   Typography,
 } from '@mui/material';
-import { ROLES } from '@/constants/strings';
-import { useChangeReportOwner } from './useChangeReportOwner';
-import { PAGINATION } from '@/config';
+import { useManageReportAccess } from './useManageReportAccess';
 import CloseIcon from '@mui/icons-material/Close';
 
-export const ChangeReportOwner = (props: any) => {
+export const ManageReportAccess = (props: any) => {
   const { isPortalOpen } = props;
   const {
     methods,
     handleSubmit,
-    submitChangeOwner,
+    submitAssignedTicketsForm,
     closeModal,
-    apiQueryAgent,
-    changeReportOwnerStatus,
-  }: any = useChangeReportOwner(props);
+    manageReportAccessFromFields,
+    manageReportAccessStatus,
+  }: any = useManageReportAccess(props);
 
   return (
     <Dialog
-      open={isPortalOpen?.isChangeOwner}
+      open={isPortalOpen?.isAccessManage}
       onClose={() => closeModal?.()}
       fullWidth
-      maxWidth={'xs'}
+      maxWidth={'sm'}
     >
       <FormProvider
         methods={methods}
-        onSubmit={handleSubmit(submitChangeOwner)}
+        onSubmit={handleSubmit(submitAssignedTicketsForm)}
       >
         <DialogTitle>
           <Box
@@ -45,7 +44,7 @@ export const ChangeReportOwner = (props: any) => {
             mb={1.5}
           >
             <Typography variant="h4" color="slateBlue.main">
-              Change Owner
+              Manage Access
             </Typography>
             <CloseIcon
               sx={{ color: 'custom.darker', cursor: 'pointer' }}
@@ -54,37 +53,29 @@ export const ChangeReportOwner = (props: any) => {
           </Box>
         </DialogTitle>
         <DialogContent>
-          <RHFAutocompleteAsync
-            label="Owner Name"
-            name="user"
-            fullWidth
-            required
-            apiQuery={apiQueryAgent}
-            size="small"
-            placeholder="Choose Owner"
-            externalParams={{
-              limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-              role: ROLES?.ORG_EMPLOYEE,
-            }}
-            getOptionLabel={(option: any) =>
-              `${option?.firstName} ${option?.lastName}`
-            }
-          />
+          <br />
+          <Grid container spacing={2}>
+            {manageReportAccessFromFields?.map((item: any) => (
+              <Grid item xs={12} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Grid>
+            ))}
+          </Grid>
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
             variant="outlined"
             color="secondary"
             onClick={() => closeModal?.()}
-            disabled={changeReportOwnerStatus?.isLoading}
+            disabled={manageReportAccessStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
           <LoadingButton
             variant="contained"
             type="submit"
-            loading={changeReportOwnerStatus?.isLoading}
-            disabled={changeReportOwnerStatus?.isLoading}
+            loading={manageReportAccessStatus?.isLoading}
+            disabled={manageReportAccessStatus?.isLoading}
           >
             Apply
           </LoadingButton>

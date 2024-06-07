@@ -14,15 +14,14 @@ import { EmailReport } from '../EmailReport';
 import { FilterReport } from '../FilterReport';
 import { ExportModal } from '@/components/ExportModal';
 import { downloadFile } from '@/utils/file';
-import {
-  useAddReportToFavoriteListMutation,
-  useLazyExportReportsListQuery,
-} from '@/services/airOperations/reports';
+import { useAddReportToFavoriteListMutation } from '@/services/airOperations/reports';
 import { useRouter } from 'next/router';
+import { ManageReportAccess } from '../ManageReportAccess';
+import { AddToDashboardReport } from '../AddToDashboardReport';
 
 export const useReportLists = (props: any) => {
   const router = useRouter();
-  const { filter, apiQuery } = props;
+  const { filter, apiQuery, exportApiQuery } = props;
   const [search, setSearch] = useState('');
   const [selectedReportLists, setSelectedReportLists] = useState<any>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -34,7 +33,7 @@ export const useReportLists = (props: any) => {
     lazyGetRestoreReportsListTrigger,
     lazyGetRestoreReportsListStatus,
   ]: any = apiQuery;
-  const [lazyExportReportsListTrigger]: any = useLazyExportReportsListQuery();
+  const [lazyExportReportsListTrigger]: any = exportApiQuery;
 
   const [addReportToFavoriteListTrigger, addReportToFavoriteListStatus]: any =
     useAddReportToFavoriteListMutation?.();
@@ -49,13 +48,13 @@ export const useReportLists = (props: any) => {
       ['search', search],
       ...(filter ? [['filter', filter]] : []),
     ];
-    const getInventoryParam: any = buildQueryParams(
+    const getReportParam: any = buildQueryParams(
       additionalParams,
       filterReports,
     );
 
     const apiDataParameter = {
-      queryParams: getInventoryParam,
+      queryParams: getReportParam,
     };
 
     try {
@@ -95,14 +94,16 @@ export const useReportLists = (props: any) => {
       ['search', search],
       ...(filter ? [['filter', filter]] : []),
     ];
-    const getInventoryParam: any = buildQueryParams(
+
+    const getReportParam: any = buildQueryParams(
       additionalParams,
       reportFilters,
     );
 
     const apiDataParameter = {
-      queryParams: getInventoryParam,
+      queryParams: getReportParam,
     };
+
     try {
       const response: any =
         await lazyExportReportsListTrigger(apiDataParameter)?.unwrap();
@@ -150,10 +151,10 @@ export const useReportLists = (props: any) => {
       return <FilterReport {...portalComponentProps} />;
     }
     if (isPortalOpen?.isAddedToDashboard) {
-      return <DeleteReport {...portalComponentProps} />;
+      return <AddToDashboardReport {...portalComponentProps} />;
     }
     if (isPortalOpen?.isAccessManage) {
-      return <FilterReport {...portalComponentProps} />;
+      return <ManageReportAccess {...portalComponentProps} />;
     }
     if (isPortalOpen?.isExport) {
       return (

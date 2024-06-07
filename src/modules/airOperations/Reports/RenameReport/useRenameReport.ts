@@ -2,14 +2,18 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import * as Yup from 'yup';
+import { useRenameReportsMutation } from '@/services/airOperations/reports';
 
 export const useRenameReport = (props: any) => {
-  const { setIsPortalOpen, setSelectedReportList } = props;
+  const { setIsPortalOpen, setSelectedReportList, selectedReportLists } = props;
+
+  const [renameReportsTrigger, renameReportsStatus] =
+    useRenameReportsMutation();
 
   const methods: any = useForm<any>({
     resolver: yupResolver(
       Yup?.object()?.shape({
-        category: Yup?.mixed()?.required('Report name is required'),
+        name: Yup?.string()?.trim()?.required('Report name is required'),
       }),
     ),
     defaultValues: { name: '' },
@@ -17,8 +21,16 @@ export const useRenameReport = (props: any) => {
 
   const { handleSubmit, reset } = methods;
 
-  const onSubmit = async () => {
+  const onSubmit = async (formData: any) => {
+    const apiDataParameter = {
+      body: {
+        reportIds: selectedReportLists,
+        name: formData?.name,
+      },
+    };
+
     try {
+      await renameReportsTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Report renamed Successfully');
       handleClose?.();
     } catch (error: any) {
@@ -37,5 +49,6 @@ export const useRenameReport = (props: any) => {
     handleSubmit,
     methods,
     handleClose,
+    renameReportsStatus,
   };
 };

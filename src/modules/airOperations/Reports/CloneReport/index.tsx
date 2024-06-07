@@ -5,7 +5,7 @@ import { CloneReportIcon } from '@/assets/icons';
 
 export const CloneReport = (props: any) => {
   const { isPortalOpen } = props;
-  const { cloneReport, closeModal } = useCloneReport(props);
+  const { cloneReport, closeModal, cloneReportsStatus } = useCloneReport(props);
 
   return (
     <AlertModals
@@ -15,8 +15,8 @@ export const CloneReport = (props: any) => {
       open={isPortalOpen?.isClone}
       handleClose={() => closeModal?.()}
       handleSubmitBtn={() => cloneReport?.()}
-      loading={false}
-      disableCancelBtn
+      loading={cloneReportsStatus?.isLoading}
+      disableCancelBtn={cloneReportsStatus?.isLoading}
     />
   );
 };

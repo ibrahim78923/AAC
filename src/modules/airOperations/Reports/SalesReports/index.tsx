@@ -14,7 +14,12 @@ export const SalesReports = () => {
     apiQueryDashboardReports,
     apiQueryCustomReports,
     restoreReportsPath,
+    exportApiQueryCustomReports,
+    exportApiQueryAllReports,
+    exportApiQueryFavoriteReports,
+    exportApiQueryDashboardReports,
   } = useSalesReports();
+
   return (
     <>
       <PageTitledHeader
@@ -39,18 +44,22 @@ export const SalesReports = () => {
         <ReportLists
           apiQuery={apiQueryAllReports}
           onRestoreClick={() => restoreReportsPath?.()}
+          exportApiQuery={exportApiQueryAllReports}
         />
         <ReportLists
           apiQuery={apiQueryFavoriteReports}
-          onRestoreClick={restoreReportsPath}
+          onRestoreClick={() => restoreReportsPath?.()}
+          exportApiQuery={exportApiQueryFavoriteReports}
         />
         <ReportLists
           apiQuery={apiQueryDashboardReports}
-          onRestoreClick={restoreReportsPath}
+          onRestoreClick={() => restoreReportsPath?.()}
+          exportApiQuery={exportApiQueryDashboardReports}
         />
         <ReportLists
           apiQuery={apiQueryCustomReports}
-          onRestoreClick={restoreReportsPath}
+          onRestoreClick={() => restoreReportsPath?.()}
+          exportApiQuery={exportApiQueryCustomReports}
         />
       </HorizontalTabs>
     </>

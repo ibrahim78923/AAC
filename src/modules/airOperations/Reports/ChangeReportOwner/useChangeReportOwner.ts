@@ -1,4 +1,5 @@
 import { PAGINATION } from '@/config';
+import { useChangeReportOwnerMutation } from '@/services/airOperations/reports';
 import { useLazyGetAgentDropdownQuery } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,23 +13,42 @@ export const useChangeReportOwner = (props: any) => {
     setPage,
     getReportListData,
     setReportFilter,
+    selectedReportLists,
   } = props;
 
-  const assignedTicketsMethod = useForm<any>({
+  const [changeReportOwnerTrigger, changeReportOwnerStatus] =
+    useChangeReportOwnerMutation();
+
+  const methods = useForm<any>({
     defaultValues: {
       user: null,
     },
     resolver: yupResolver(
       Yup?.object()?.shape({
-        user: Yup?.mixed()?.nullable()?.required('Owner is Required'),
+        user: Yup?.mixed()?.nullable()?.required('Owner name is Required'),
       }),
     ),
   });
 
-  const { handleSubmit, reset } = assignedTicketsMethod;
-  const submitAssignedTicketsForm = async () => {
+  const { handleSubmit, reset } = methods;
+
+  const submitChangeOwner = async (formData: any) => {
+    const apiSearchParams = new URLSearchParams();
+
+    selectedReportLists?.forEach(
+      (reportId: any) => apiSearchParams?.append('ids', reportId),
+    );
+
+    const apiDataParameter = {
+      queryParams: apiSearchParams,
+      body: {
+        name: formData?.user,
+      },
+    };
+
     try {
-      successSnackbar('Ticket assigned Successfully');
+      await changeReportOwnerTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Report Owner changed Successfully');
       reset();
       await getReportListData?.(PAGINATION?.CURRENT_PAGE, {});
       setReportFilter?.({});
@@ -48,10 +68,11 @@ export const useChangeReportOwner = (props: any) => {
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
 
   return {
-    assignedTicketsMethod,
+    methods,
     handleSubmit,
-    submitAssignedTicketsForm,
+    submitChangeOwner,
     closeModal,
     apiQueryAgent,
+    changeReportOwnerStatus,
   };
 };
