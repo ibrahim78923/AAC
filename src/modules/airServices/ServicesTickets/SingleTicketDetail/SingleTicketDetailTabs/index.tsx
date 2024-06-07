@@ -12,7 +12,7 @@ import { Permissions } from '@/constants/permissions';
 import { Meeting } from '../Meeting';
 import { Skeleton } from '@mui/lab';
 import { TICKET_TYPE } from '@/constants/strings';
-import Association from '../../Association';
+import Association from '../Association';
 
 export const SingleTicketDetailTabs = (props: any) => {
   const { apiStatus, data } = props;
