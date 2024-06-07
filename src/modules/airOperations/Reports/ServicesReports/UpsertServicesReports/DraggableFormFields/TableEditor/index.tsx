@@ -18,9 +18,9 @@ export const TableEditor = (props: any) => {
     setValue,
     setColumnsData,
     setAddProperties,
-    handleCancel,
+    columnsData,
   } = props;
-  const { editValue, setEditValue, setEdit, edit, handleSave } =
+  const { editValue, setEditValue, setEdit, edit, handleSave, handleCancel } =
     useTableEditor(props);
   return (
     <>
@@ -106,7 +106,11 @@ export const TableEditor = (props: any) => {
         <Button variant="outlined" onClick={handleCancel}>
           Cancel
         </Button>
-        <Button variant="contained" onClick={handleSave}>
+        <Button
+          variant="contained"
+          onClick={handleSave}
+          disabled={!columnsData?.length}
+        >
           Save
         </Button>
       </Box>

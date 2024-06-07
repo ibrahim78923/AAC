@@ -4,8 +4,6 @@ export const tableEditorData = [
   },
   {
     title: 'Type',
-
-    status: 'true',
   },
   {
     title: 'Channel',
@@ -21,32 +19,5 @@ export const tableEditorData = [
   },
   {
     title: 'Quantity',
-  },
-];
-
-export const array = () => [
-  {
-    slug: 'table',
-    attribute: 'name',
-    active: false,
-    order: 1,
-  },
-  {
-    slug: 'Type',
-    attribute: 'Type',
-    active: true,
-    order: 2,
-  },
-  {
-    slug: 'Channel',
-    attribute: 'Channel',
-    active: true,
-    order: 3,
-  },
-  {
-    slug: 'Project Owner',
-    attribute: 'ProjectOwner',
-    active: false,
-    order: 4,
   },
 ];

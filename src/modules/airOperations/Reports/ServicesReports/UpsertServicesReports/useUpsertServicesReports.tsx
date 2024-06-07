@@ -9,7 +9,7 @@ import { DonutChart } from './DraggableFormFields/Chart/DonutChart';
 import { PieChart } from './DraggableFormFields/Chart/PieChart';
 import { BarChart } from './DraggableFormFields/Chart/BarChart';
 
-export default function useCreateServicesReports() {
+export default function useUpsertServicesReports() {
   const theme: any = useTheme();
   const router: any = useRouter();
   const methods: any = useForm({
@@ -35,9 +35,16 @@ export default function useCreateServicesReports() {
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
   const [metricType, setMetricType] = useState('Inventories');
-  const [chartMetricType, setChartMetricType] = useState('Tickets');
+  const [chartMetricType, setChartMetricType] = useState('Add Metric');
   const [AddProperties, setAddProperties] = useState();
   const [columnsData, setColumnsData] = useState([]);
+
+  useEffect(() => {
+    setValue('xAxis', '');
+    setValue('yAxis', '');
+    setChartMetricType('Add Metric');
+  }, [chartType]);
+
   const getModalState = (draggedItem: any) => {
     const newModal: any = {
       chart: false,
@@ -69,11 +76,6 @@ export default function useCreateServicesReports() {
     (modal?.chart || modal?.table || modal?.text) && setFieldData(true);
   }, [modal?.text, modal?.chart, modal?.table]);
 
-  const handleCancel = () => {
-    setFieldData(false);
-    setModal(modalInitialState);
-  };
-
   const allChartComponents = {
     [CHARTS?.BAR_CHART]: <BarChart />,
     [CHARTS?.DONUT_CHART]: <DonutChart />,
@@ -90,7 +92,6 @@ export default function useCreateServicesReports() {
     theme,
     setFieldData,
     fieldData,
-    handleCancel,
     methods,
     setEditorState,
     editorState,

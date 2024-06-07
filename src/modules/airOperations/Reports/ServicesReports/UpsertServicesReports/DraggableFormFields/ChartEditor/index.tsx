@@ -20,6 +20,8 @@ export const ChartEditor = (props: any) => {
     chartTitle,
     setChartMetricType,
     chartMetricType,
+    xAxisData,
+    yAxisData,
   } = props;
 
   const { handleSave, edit, setEdit, editValue, setEditValue, handleCancel } =
@@ -110,7 +112,9 @@ export const ChartEditor = (props: any) => {
         </Button>
         <Button
           variant="contained"
-          disabled={!chartType}
+          disabled={
+            (!xAxisData || !yAxisData) && chartMetricType === 'Add Metric'
+          }
           onClick={() => handleSave()}
         >
           Save

@@ -29,7 +29,13 @@ export const SalesReports = () => {
           router?.push(AIR_OPERATIONS?.REPORTS);
         }}
       >
-        <Button variant="contained" startIcon={<AddWhiteBgIcon />}>
+        <Button
+          variant="contained"
+          startIcon={<AddWhiteBgIcon />}
+          onClick={() => {
+            router?.push(AIR_OPERATIONS?.UPSERT_SALES_REPORTS);
+          }}
+        >
           Create report
         </Button>
       </PageTitledHeader>

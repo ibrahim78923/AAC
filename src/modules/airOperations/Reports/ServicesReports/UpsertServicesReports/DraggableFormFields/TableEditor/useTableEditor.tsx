@@ -3,7 +3,16 @@ import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useState } from 'react';
 
 export const useTableEditor = (props: any) => {
-  const { setForm, setModal, setFieldData, form, tableTitle, setValue } = props;
+  const {
+    setForm,
+    setModal,
+    setFieldData,
+    form,
+    tableTitle,
+    setValue,
+    setColumnsData,
+    columnsData,
+  } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState(tableTitle);
   const handleSave = () => {
@@ -14,6 +23,7 @@ export const useTableEditor = (props: any) => {
         id: uniqueId,
         type: REPORT_TYPE?.TABLE,
         title: tableTitle,
+        component: columnsData,
       },
     ]);
     setFieldData(false);
@@ -22,6 +32,17 @@ export const useTableEditor = (props: any) => {
       text: false,
       table: false,
     });
+    setColumnsData([]);
+    setValue('tableTitle', 'Report Table');
+  };
+  const handleCancel = () => {
+    setFieldData(false);
+    setModal({
+      chart: false,
+      text: false,
+      table: false,
+    });
+    setColumnsData([]);
     setValue('tableTitle', 'Report Table');
   };
   return {
@@ -30,5 +51,6 @@ export const useTableEditor = (props: any) => {
     setEdit,
     edit,
     handleSave,
+    handleCancel,
   };
 };

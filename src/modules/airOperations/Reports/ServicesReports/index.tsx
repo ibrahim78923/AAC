@@ -3,8 +3,6 @@ import { useServicesReports } from './useServicesReports';
 import { AIR_OPERATIONS } from '@/constants';
 import { Button } from '@mui/material';
 import { AddWhiteBgIcon } from '@/assets/icons';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { ActionDropDownData } from './UpsertServicesReports/UpsertServicesReports.data';
 
 export const ServicesReports = () => {
   const { router } = useServicesReports();
@@ -27,7 +25,6 @@ export const ServicesReports = () => {
           Create report
         </Button>
       </PageTitledHeader>
-      <SingleDropdownButton dropdownOptions={ActionDropDownData()} />
     </>
   );
 };

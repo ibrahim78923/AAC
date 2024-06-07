@@ -13,7 +13,6 @@ export default function DraggableFields({
   fieldsList,
   fieldData,
   modal,
-  handleCancel,
   setEditorState,
   editorState,
   fontSize,
@@ -42,6 +41,7 @@ export default function DraggableFields({
   xAxisData,
   yAxisData,
   subFilter,
+  columnsData,
 }: any) {
   const theme: any = useTheme();
 
@@ -157,7 +157,6 @@ export default function DraggableFields({
               )}
               {modal?.table && (
                 <TableEditor
-                  handleCancel={handleCancel}
                   setValue={setValue}
                   tableTitle={tableTitle}
                   AddProperties={AddProperties}
@@ -167,6 +166,7 @@ export default function DraggableFields({
                   form={form}
                   setForm={setForm}
                   setFieldData={setFieldData}
+                  columnsData={columnsData}
                 />
               )}
             </>

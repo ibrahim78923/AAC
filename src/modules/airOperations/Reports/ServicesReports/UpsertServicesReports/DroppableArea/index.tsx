@@ -17,6 +17,7 @@ import { useDroppableArea } from './useDroppableArea';
 import { REPORT_TYPE } from '@/constants/strings';
 import ReportCalendarFilter from '@/components/ReportCalendarFilter';
 import TanstackTable from '@/components/Table/TanstackTable';
+import { tableColumn } from '../DraggableFormFields/Table/Table.data';
 
 export default function DroppableArea(props: any) {
   const {
@@ -235,7 +236,7 @@ export default function DroppableArea(props: any) {
                                     </Box>
                                   </Box>
                                   <TanstackTable
-                                    columns={item?.component}
+                                    columns={tableColumn(item?.component)}
                                     data={[]}
                                   />
                                 </Box>

@@ -5,7 +5,7 @@ import DraggableFields from './DraggableFields';
 import { fieldsList } from './UpsertServicesReports.data';
 import { DragDropContext } from 'react-beautiful-dnd';
 import DroppableArea from './DroppableArea';
-import useCreateServicesReports from './useUpsertServicesReports';
+import useUpsertServicesReports from './useUpsertServicesReports';
 import { FormProvider } from 'react-hook-form';
 
 export const UpsertServicesReports = () => {
@@ -15,7 +15,6 @@ export const UpsertServicesReports = () => {
     modal,
     theme,
     fieldData,
-    handleCancel,
     methods,
     setEditorState,
     editorState,
@@ -46,7 +45,7 @@ export const UpsertServicesReports = () => {
     chartMetricType,
     subFilter,
     allChartComponents,
-  } = useCreateServicesReports();
+  } = useUpsertServicesReports();
 
   return (
     <FormProvider {...methods}>
@@ -61,7 +60,7 @@ export const UpsertServicesReports = () => {
             boxShadow={`0px 0px 10px 10px ${theme?.palette?.grey[100]}`}
           >
             <PageTitledHeader
-              title={'Create Report'}
+              title={'Create Service Report'}
               canMovedBack
               moveBack={() => {
                 router?.push({
@@ -108,7 +107,6 @@ export const UpsertServicesReports = () => {
                 fieldsList={fieldsList}
                 fieldData={fieldData}
                 modal={modal}
-                handleCancel={handleCancel}
                 setEditorState={setEditorState}
                 editorState={editorState}
                 fontSize={fontSize}
@@ -136,6 +134,7 @@ export const UpsertServicesReports = () => {
                 xAxisData={xAxisData}
                 yAxisData={yAxisData}
                 subFilter={subFilter}
+                columnsData={columnsData}
               />
             </Box>
           </Grid>
