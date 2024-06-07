@@ -12,8 +12,9 @@ import {
   SelectChangeEvent,
   Chip,
   Stack,
+  useTheme,
 } from '@mui/material';
-import { PlaneIcon } from '@/assets/icons';
+import { PlaneIcon, WarningIcon } from '@/assets/icons';
 import { styles } from './ManagePlan.style';
 import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
 import { useUpdateSubscriptionMutation } from '@/services/orgAdmin/subscription-and-invoices';
@@ -26,9 +27,13 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useAppSelector } from '@/redux/store';
 import usePlanCalculations from '../usePlanCalculations';
 import CustomLabel from '@/components/CustomLabel';
+import { AlertModals } from '@/components/AlertModals';
 
 const ManagePlan = () => {
+  const theme = useTheme();
   const router = useRouter();
+
+  const [isUnassignPlanAlertOpen, setIsUnassignPlanAlertOpen] = useState(false);
 
   const parsedManageData = useAppSelector(
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
@@ -302,8 +307,31 @@ const ManagePlan = () => {
           >
             Update Subscription
           </Button>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: theme?.palette?.error?.dark,
+              '&:hover': {
+                backgroundColor: theme?.palette?.error?.dark,
+              },
+            }}
+            onClick={() => setIsUnassignPlanAlertOpen(true)}
+          >
+            Unassign Plan
+          </Button>
         </Stack>
       </PermissionsGuard>
+
+      <AlertModals
+        type={'Unassign Plan'}
+        typeImage={<WarningIcon />}
+        message={`Are you sure you want to unassign plan`}
+        open={isUnassignPlanAlertOpen}
+        disabled={false}
+        handleClose={() => setIsUnassignPlanAlertOpen(false)}
+        loading={false}
+        handleSubmitBtn={() => setIsUnassignPlanAlertOpen(false)}
+      />
     </>
   );
 };

@@ -40,7 +40,7 @@ export const AlertModals = ({
           flexWrap={'wrap'}
         >
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            {checkModalTypeForImage(type) ?? typeImage}
+            {typeImage ?? checkModalTypeForImage(type)}
             <Typography variant="h3" textTransform={'capitalize'}>
               {type}
             </Typography>
