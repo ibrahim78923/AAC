@@ -5,7 +5,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { AIR_SERVICES } from '@/constants';
-import { ROLES } from '@/constants/strings';
+import { ASSET_TYPE, ROLES } from '@/constants/strings';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
@@ -27,49 +27,49 @@ export const upsertServiceValidationSchema = Yup?.object()?.shape({
   selectAssetsCategories: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
-      is: (value: any) => value === 'HardWare/Consumable',
+      is: (value: any) => value === ASSET_TYPE?.HARDWARE_CONSUMABLE,
       then: (schema: any) => schema?.required('Asset Category is Required'),
       otherwise: (schema) => schema,
     }),
   software: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
-      is: (value: any) => value === 'software',
+      is: (value: any) => value === ASSET_TYPE?.SOFTWARE,
       then: (schema: any) => schema?.required('Software is Required'),
       otherwise: (schema) => schema,
     }),
   agentVisibilty: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
-      is: (value: any) => value === 'software',
+      is: (value: any) => value === ASSET_TYPE?.SOFTWARE,
       then: (schema: any) => schema?.required('Agent Visibility is Required'),
       otherwise: (schema) => schema,
     }),
   requestedFor: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
-      is: (value: any) => value === 'software',
+      is: (value: any) => value === ASSET_TYPE?.SOFTWARE,
       then: (schema: any) => schema?.required('Requested For is Required'),
       otherwise: (schema) => schema,
     }),
   selectAgentVisibility: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
-      is: (value: any) => value === 'HardWare/Consumable',
+      is: (value: any) => value === ASSET_TYPE?.HARDWARE_CONSUMABLE,
       then: (schema: any) => schema?.required('Agent Visibility is Required'),
       otherwise: (schema) => schema,
     }),
   product: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
-      is: (value: any) => value === 'HardWare/Consumable',
+      is: (value: any) => value === ASSET_TYPE?.HARDWARE_CONSUMABLE,
       then: (schema: any) => schema?.required('Product is Required'),
       otherwise: (schema) => schema,
     }),
   requesterVisibilty: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
-      is: (value: any) => value === 'HardWare/Consumable',
+      is: (value: any) => value === ASSET_TYPE?.HARDWARE_CONSUMABLE,
       then: (schema: any) =>
         schema?.required('Requester Visibility is Required'),
       otherwise: (schema) => schema,
@@ -83,7 +83,7 @@ export const upsertServiceDefaultValues = {
   serviceCategory: null,
   estimatedDelivery: '',
   description: '',
-  assetType: 'HardWare/Consumable',
+  assetType: ASSET_TYPE?.HARDWARE_CONSUMABLE,
   selectAssetsCategories: null,
   software: null,
   agentVisibilty: null,
@@ -206,7 +206,7 @@ export const upsertServiceData = (apiServiceCategoryQuery: any) => [
               <Typography>For teams to plan and track their tasks </Typography>{' '}
             </>
           ),
-          value: 'HardWare/Consumable',
+          value: ASSET_TYPE?.HARDWARE_CONSUMABLE,
         },
         {
           label: (
@@ -218,7 +218,7 @@ export const upsertServiceData = (apiServiceCategoryQuery: any) => [
               </Typography>{' '}
             </>
           ),
-          value: 'software',
+          value: ASSET_TYPE?.SOFTWARE,
         },
       ],
       row: true,
@@ -246,10 +246,11 @@ export const categoriesOfServices = (
       label: 'Select Assets Categories',
       placeholder: 'All Assets',
       apiQuery: apiQueryAssetType,
+      required: true,
       externalParams: { limit: 50, meta: true },
       getOptionLabel: (option: any) => option?.name,
     },
-    text: 'HardWare/Consumable',
+    text: ASSET_TYPE?.HARDWARE_CONSUMABLE,
     md: 6,
   },
   {
@@ -258,7 +259,7 @@ export const categoriesOfServices = (
     md: 6,
     componentProps: {
       fullWidth: true,
-      name: 'software',
+      name: ASSET_TYPE?.SOFTWARE,
       label: 'Choose Software',
       placeholder: 'Choose',
       required: true,
@@ -266,7 +267,7 @@ export const categoriesOfServices = (
       externalParams: { limit: 50 },
       getOptionLabel: (option: any) => option?.name,
     },
-    text: 'software',
+    text: ASSET_TYPE?.SOFTWARE,
   },
 
   {
@@ -283,7 +284,7 @@ export const categoriesOfServices = (
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
-    text: 'software',
+    text: ASSET_TYPE?.SOFTWARE,
     md: 6,
   },
   {
@@ -304,7 +305,7 @@ export const categoriesOfServices = (
       placeholder: 'Add Requester',
     },
     component: RHFAutocompleteAsync,
-    text: 'software',
+    text: ASSET_TYPE?.SOFTWARE,
     md: 6,
   },
 
@@ -322,7 +323,7 @@ export const categoriesOfServices = (
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
-    text: 'HardWare/Consumable',
+    text: ASSET_TYPE?.HARDWARE_CONSUMABLE,
 
     md: 6,
   },
@@ -341,7 +342,7 @@ export const categoriesOfServices = (
       getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
-    text: 'HardWare/Consumable',
+    text: ASSET_TYPE?.HARDWARE_CONSUMABLE,
     md: 6,
   },
 
@@ -363,7 +364,7 @@ export const categoriesOfServices = (
       placeholder: 'Add Requester',
     },
     component: RHFAutocompleteAsync,
-    text: 'HardWare/Consumable',
+    text: ASSET_TYPE?.HARDWARE_CONSUMABLE,
     md: 6,
   },
 ];

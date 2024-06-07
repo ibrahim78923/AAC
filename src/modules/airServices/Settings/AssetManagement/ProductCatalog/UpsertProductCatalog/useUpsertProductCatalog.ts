@@ -15,7 +15,11 @@ import {
   usePostProductCatalogMutation,
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useEffect } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 
 export const useUpsertProductCatalog = () => {
   const router = useRouter();
@@ -50,14 +54,15 @@ export const useUpsertProductCatalog = () => {
     reset(() => upsertProductCatalogDefaultValuesFunction(data?.data?.[0]));
   }, [data, reset]);
 
-  const submitUpsertProductCatalog = async (data: any) => {
+  const submitUpsertProductCatalog = async (formData: any) => {
+    const newFormData = filteredEmptyValues(formData);
     const body = {
-      ...data,
-      assetType: data?.assetType?._id,
+      ...newFormData,
+      assetType: newFormData?.assetType?._id,
     };
 
     if (!!productCatalogId) {
-      submitUpdateProductCatalog(body);
+      submitUpdateProductCatalog(newFormData);
       return;
     }
     const postProductCatalogParameter = {
@@ -74,11 +79,11 @@ export const useUpsertProductCatalog = () => {
     }
   };
 
-  const submitUpdateProductCatalog = async (data: any) => {
+  const submitUpdateProductCatalog = async (formData: any) => {
     const patchProductCatalogParameter = {
       body: {
         id: productCatalogId,
-        ...data,
+        ...formData,
       },
     };
     try {

@@ -5,7 +5,8 @@ import { useRestoreReport } from './useRestoreReport';
 
 export const RestoreReport = (props: any) => {
   const { isPortalOpen } = props;
-  const { restoreReport, closeModal } = useRestoreReport(props);
+  const { restoreReport, closeModal, restoreDeletedReportStatus } =
+    useRestoreReport(props);
 
   return (
     <AlertModals
@@ -15,8 +16,8 @@ export const RestoreReport = (props: any) => {
       open={isPortalOpen?.isRestore}
       handleClose={() => closeModal?.()}
       handleSubmitBtn={() => restoreReport?.()}
-      loading={false}
-      disableCancelBtn
+      loading={restoreDeletedReportStatus?.isLoading}
+      disableCancelBtn={restoreDeletedReportStatus?.isLoading}
       submitBtnText={'Restore'}
       cancelBtnText={'Cancel'}
     />

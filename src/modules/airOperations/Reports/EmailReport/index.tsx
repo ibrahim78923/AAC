@@ -7,21 +7,22 @@ import { emailReportFormFields } from './EmailReport.data';
 
 export const EmailReport = (props: any) => {
   const { isPortalOpen } = props;
-  const { methods, handleSubmit, onSubmit, onClose, status } =
+
+  const { methods, handleSubmit, onSubmit, onClose, emailReportsStatus } =
     useNewEmailDrawer(props);
 
   return (
     <CommonDrawer
       isDrawerOpen={isPortalOpen?.isEmail}
-      onClose={onClose}
+      onClose={() => onClose?.()}
       title={'New Email'}
       isOk
       okText={'Send'}
       footer
       submitHandler={handleSubmit(onSubmit)}
-      disabledCancelBtn={status?.isLoading}
-      isDisabled={status?.isLoading}
-      isLoading={status?.isLoading}
+      disabledCancelBtn={emailReportsStatus?.isLoading}
+      isDisabled={emailReportsStatus?.isLoading}
+      isLoading={emailReportsStatus?.isLoading}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>

@@ -72,6 +72,13 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
+    emailReports: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.TICKET_NEW_EMAIL}`,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+    }),
   }),
 });
 
@@ -86,4 +93,5 @@ export const {
   useCloneReportsMutation,
   useManageReportAccessMutation,
   useChangeReportOwnerMutation,
+  useEmailReportsMutation,
 } = salesReportsApi;

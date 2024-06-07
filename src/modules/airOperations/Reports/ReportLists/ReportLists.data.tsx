@@ -273,13 +273,7 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Report Owner',
     cell: (info: any) => (
-      <Box
-        display={'flex'}
-        flexWrap={'wrap'}
-        alignItems={'center'}
-        gap={1}
-        sx={{ cursor: 'pointer' }}
-      >
+      <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
         {addReportToFavoriteListStatus?.isLoading &&
         addReportToFavoriteListStatus?.originalArgs?.pathParams?.id ===
           info?.row?.original?._id ? (

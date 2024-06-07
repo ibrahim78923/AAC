@@ -1,13 +1,13 @@
 import { PAGINATION } from '@/config';
 import { useEffect, useState } from 'react';
 import { buildQueryParams } from '@/utils/api';
-import { DeleteReport } from '../DeleteReport';
 import {
   actionsForRestoreReportListsDynamic,
   restoreReportColumnsDynamic,
 } from './RestoreReportsLists.data';
 import { RestoreReport } from '../RestoreReport';
 import { RestoreReportsFilter } from '../RestoreReportsFilter';
+import { DeleteReportPermanently } from '../DeleteReportPermanently';
 
 export const useRestoreReportsLists = (props: any) => {
   const { filter, apiQuery } = props;
@@ -72,7 +72,7 @@ export const useRestoreReportsLists = (props: any) => {
     }
 
     if (isPortalOpen?.isDelete) {
-      return <DeleteReport {...portalComponentProps} />;
+      return <DeleteReportPermanently {...portalComponentProps} />;
     }
 
     if (isPortalOpen?.isFilter) {

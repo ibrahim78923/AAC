@@ -1,20 +1,26 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
 import {
   emailReportDefaultValues,
   emailReportValidationSchema,
 } from './EmailReport.data';
+import { useEmailReportsMutation } from '@/services/airOperations/reports';
+import useAuth from '@/hooks/useAuth';
 
 export const useNewEmailDrawer = (props: any) => {
+  const { user }: any = useAuth();
   const { setIsPortalOpen, setSelectedReportLists } = props;
 
-  const [trigger, status] = usePostNewEmailMutation();
+  const [emailReportsTrigger, emailReportsStatus] = useEmailReportsMutation();
 
-  const methods: any = useForm({
+  const data = {
+    sender: user?.email,
+  };
+
+  const methods: any = useForm<any>({
     resolver: yupResolver(emailReportValidationSchema),
-    defaultValues: emailReportDefaultValues,
+    defaultValues: emailReportDefaultValues?.(data),
   });
 
   const { handleSubmit, reset } = methods;
@@ -25,14 +31,19 @@ export const useNewEmailDrawer = (props: any) => {
     emailFormData?.append('subject', data?.subject);
     emailFormData?.append('html', data?.html);
 
+    const apiDataParameter = {
+      body: emailFormData,
+    };
+
     try {
-      await trigger(emailFormData)?.unwrap();
+      await emailReportsTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Email Sent Successfully!');
       onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
+
   const onClose = () => {
     reset();
     setIsPortalOpen?.({});
@@ -44,6 +55,6 @@ export const useNewEmailDrawer = (props: any) => {
     handleSubmit,
     onSubmit,
     onClose,
-    status,
+    emailReportsStatus,
   };
 };

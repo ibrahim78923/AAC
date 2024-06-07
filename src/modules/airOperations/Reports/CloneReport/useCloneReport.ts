@@ -27,7 +27,6 @@ export const useCloneReport = (props: any) => {
       await getReportListData?.(page);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      closeModal?.();
     }
   };
   const closeModal = () => {

@@ -57,7 +57,7 @@ export const AlertModals = ({
       </DialogContent>
       {footer && (
         <DialogActions
-          sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
+          sx={{ '&.MuiDialogActions-root': { paddingTop: '0rem !important' } }}
         >
           <LoadingButton
             variant="outlined"

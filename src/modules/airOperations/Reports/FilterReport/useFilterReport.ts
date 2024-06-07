@@ -7,7 +7,7 @@ import {
 } from './FilterReport.data';
 
 export const useFilterReport = (props: any) => {
-  const { setIsDrawerOpen, reportFilters, setReportFilter } = props;
+  const { setIsPortalOpen, reportFilters, setReportFilter } = props;
   const methods: any = useForm({
     defaultValues: reportFiltersDefaultValues?.(reportFilters),
   });
@@ -26,10 +26,16 @@ export const useFilterReport = (props: any) => {
 
   const closeFilterForm = () => {
     reset?.();
-    setIsDrawerOpen?.({});
+    setIsPortalOpen?.({});
   };
-  const shopApiQuery = useLazyGetShopDropdownForLoyaltyTransactionQuery?.();
-  const reportFilterFormFields = reportFilterFormFieldsDynamic?.(shopApiQuery);
+
+  const reportOwnerApiQuery =
+    useLazyGetShopDropdownForLoyaltyTransactionQuery?.();
+  const assigneeApiQuery = useLazyGetShopDropdownForLoyaltyTransactionQuery?.();
+  const reportFilterFormFields = reportFilterFormFieldsDynamic?.(
+    reportOwnerApiQuery,
+    assigneeApiQuery,
+  );
 
   return {
     methods,

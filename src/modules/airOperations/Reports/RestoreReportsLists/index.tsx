@@ -92,7 +92,6 @@ export const RestoreReportsLists = (props: any) => {
         <TanstackTable
           columns={restoreReportColumns}
           data={lazyGetRestoreReportsListStatus?.data?.list}
-          // data={data}
           isLoading={lazyGetRestoreReportsListStatus?.isLoading}
           currentPage={lazyGetRestoreReportsListStatus?.data?.data?.meta?.page}
           count={lazyGetRestoreReportsListStatus?.data?.data?.meta?.pages}
@@ -105,7 +104,6 @@ export const RestoreReportsLists = (props: any) => {
           isFetching={lazyGetRestoreReportsListStatus?.isFetching}
           isError={lazyGetRestoreReportsListStatus?.isError}
           isSuccess={lazyGetRestoreReportsListStatus?.isSuccess}
-          // isSuccess
           onPageChange={(page: any) => setPage(page)}
           isPagination
         />
