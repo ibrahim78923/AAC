@@ -12,35 +12,27 @@ export const SmsMarketingTemplateAPI = baseAPI.injectEndpoints({
       providesTags: ['TEMPLATE'],
     }),
 
-    // getReceiverBankAccountsById: builder.query({
-    //   query: (id: any) => ({
-    //     url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${id}`,
-    //     method: 'GET',
-    //   }),
-    //   providesTags: ['RECEIVER_BANK_ACCOUNT'],
-    // }),
+    postTemplate: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.GET_SMS_TEMPLATES,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['TEMPLATE'],
+    }),
 
-    // postReceiverBankAccount: builder.mutation({
-    //   query: ({ body }: any) => ({
-    //     url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}`,
-    //     method: 'POST',
-    //     body: body,
-    //   }),
-    //   invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
-    // }),
-
-    // updateReceiverBankAccount: builder.mutation({
-    //   query: ({ id, body }: any) => ({
-    //     url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${id}`,
-    //     method: 'PATCH',
-    //     body: body,
-    //   }),
-    //   invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
-    // }),
+    updateTemplate: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.GET_SMS_TEMPLATES}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['TEMPLATE'],
+    }),
 
     deleteSmsTemplate: builder.mutation({
-      query: ({ ids }: any) => ({
-        url: `${END_POINTS?.GET_SMS_TEMPLATES}/${ids}`,
+      query: (id: any) => ({
+        url: `${END_POINTS?.GET_SMS_TEMPLATES}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['TEMPLATE'],
@@ -48,5 +40,9 @@ export const SmsMarketingTemplateAPI = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useGetSmsTemplatesQuery, useDeleteSmsTemplateMutation } =
-  SmsMarketingTemplateAPI;
+export const {
+  useGetSmsTemplatesQuery,
+  usePostTemplateMutation,
+  useUpdateTemplateMutation,
+  useDeleteSmsTemplateMutation,
+} = SmsMarketingTemplateAPI;

@@ -21,7 +21,7 @@ const Templates = () => {
     filterValues,
     getRowValues,
     setPageLimit,
-    isOpenAlert,
+    isOpenDeleteModal,
     isLoading,
     isSuccess,
     navigate,
@@ -76,10 +76,7 @@ const Templates = () => {
               sx={styles?.createBtn}
               className="small"
               onClick={() => {
-                navigate.push({
-                  pathname: AIR_MARKETER?.CREATE_TEMPLATE,
-                  query: { type: 'Create' },
-                });
+                navigate.push(AIR_MARKETER?.CREATE_TEMPLATE);
               }}
             >
               <AddCircleIcon
@@ -87,7 +84,7 @@ const Templates = () => {
                   color: `${theme?.palette?.common?.white}`,
                   fontSize: '16px',
                 }}
-              />{' '}
+              />
               Create Template
             </Button>
           </PermissionsGuard>
@@ -115,13 +112,13 @@ const Templates = () => {
           </PermissionsGuard>
         </Grid>
 
-        {isOpenAlert && (
+        {isOpenDeleteModal?.isToggle && (
           <AlertModals
             message={'Are you sure you want to delete this Template?'}
             type={'delete'}
-            open={isOpenAlert}
+            open={isOpenDeleteModal?.isToggle}
             handleClose={handleCloseAlert}
-            handleSubmitBtn={() => deleteTemplete()}
+            handleSubmitBtn={() => deleteTemplete(isOpenDeleteModal?.deleteId)}
           />
         )}
       </Box>
