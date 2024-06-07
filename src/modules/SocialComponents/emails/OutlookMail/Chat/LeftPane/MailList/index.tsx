@@ -73,10 +73,6 @@ const MailList = ({
   const [patchOutlookEmailMessage] = usePatchOutlookEmailMessageMutation();
 
   const handelMailClick = async (item: any) => {
-    // if (item) {
-    //   dispatch(setActiveRecord(item));
-    // }
-
     if (item) {
       dispatch(setActiveRecord(item));
       if (!item?.isRead) {
@@ -103,11 +99,6 @@ const MailList = ({
   useEffect(() => {
     setDataArray(emailsByFolderIdData);
   }, [emailsByFolderIdData]);
-
-  const loadingCheck =
-    dataArray?.data?.length < 0
-      ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
-      : false;
 
   return (
     <Box minHeight={'calc(100vh - 350px)'} sx={{ overflowY: 'auto' }}>
@@ -169,7 +160,7 @@ const MailList = ({
           </Box>
         ) : (
           <>
-            {loadingCheck ? (
+            {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
               <>
                 <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
               </>
@@ -260,6 +251,7 @@ const MailList = ({
                                 WebkitLineClamp: 3,
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
+                                wordBreak: 'break-all',
                               }}
                             >
                               {item?.bodyPreview}

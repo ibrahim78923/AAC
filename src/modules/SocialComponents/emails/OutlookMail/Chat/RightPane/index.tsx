@@ -26,7 +26,10 @@ import { API_STATUS, CREATE_EMAIL_TYPES, EMAIL_TABS_TYPES } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 // import { UnixDateFormatter } from '@/utils/dateTime';
 import { useDispatch } from 'react-redux';
-import { setCurrentEmailAssets } from '@/redux/slices/email/outlook/slice';
+import {
+  setCurrentEmailAssets,
+  setSearchTerm,
+} from '@/redux/slices/email/outlook/slice';
 import Draft from './Draft';
 import { useGetMailDetailsOutlookQuery } from '@/services/commonFeatures/email/outlook';
 
@@ -85,6 +88,10 @@ const RightPane = () => {
       setSelectedRecordId(id);
     }
   };
+
+  useEffect(() => {
+    dispatch(setSearchTerm(searchValue));
+  }, [searchValue]);
 
   return (
     <Box>

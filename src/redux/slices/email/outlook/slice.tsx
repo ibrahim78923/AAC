@@ -8,6 +8,7 @@ interface EmailStateI {
   loggedInState: any;
   mailList: any;
   mailDraftList: any;
+  searchTerm: string;
 }
 
 const initialState: EmailStateI = {
@@ -20,6 +21,7 @@ const initialState: EmailStateI = {
   loggedInState: 'nabeel.ahmed@consultancyoutfit.co.uk',
   mailList: {},
   mailDraftList: {},
+  searchTerm: '',
 };
 
 const outlookSlice = createSlice({
@@ -28,6 +30,9 @@ const outlookSlice = createSlice({
   reducers: {
     setMailTabType: (state, action: PayloadAction<any>) => {
       state.mailTabType = action?.payload;
+    },
+    setSearchTerm: (state, action: PayloadAction<any>) => {
+      state.searchTerm = action?.payload;
     },
     setSelectedRecords: (state, action: PayloadAction<any>) => {
       state.selectedRecords = action?.payload;
@@ -57,5 +62,6 @@ export const {
   setCurrentEmailAssets,
   setMailList,
   setMailDraftList,
+  setSearchTerm,
 } = outlookSlice.actions;
 export default outlookSlice.reducer;

@@ -29,6 +29,7 @@ const emailSlice = createSlice({
     setMailTabType: (state, action: PayloadAction<any>) => {
       state.mailTabType = action?.payload;
     },
+
     setSelectedRecords: (state, action: PayloadAction<any>) => {
       state.selectedRecords = action?.payload;
     },

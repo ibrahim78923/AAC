@@ -41,6 +41,9 @@ const LeftPane = () => {
   const mailTabType: any = useAppSelector(
     (state: any) => state?.outlook?.mailTabType,
   );
+  const searchTerm: any = useAppSelector(
+    (state: any) => state?.outlook?.searchTerm,
+  );
 
   const mailList: any = useAppSelector(
     (state: any) => state?.outlook?.mailList,
@@ -99,6 +102,7 @@ const LeftPane = () => {
       params: {
         page: PAGINATION?.CURRENT_PAGE,
         limit: PAGINATION?.PAGE_LIMIT,
+        ...(searchTerm && { search: searchTerm }),
       },
       id: mailTabType?.id,
     },
