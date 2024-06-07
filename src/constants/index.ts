@@ -198,6 +198,8 @@ export const AIR_OPERATIONS = {
 export const AIR_CALL_CENTER = {
   CALL_DETAILS: '/air-call-center/call-metrics/call-details',
   CALL_METRICS: '/air-call-center/call-metrics',
+  SETTINGS_BUSINESS_HOURS:
+    '/air-call-center/settings/general-settings/business-hours',
 };
 
 export const AIR_LOYALTY_PROGRAM = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import { styles } from './AddBusinessHours.styles';
 import useAddBusinessHours from './useAddBusinessHours';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -9,11 +9,16 @@ import SetBusinessHours from './SetBusinessHours';
 import Holidays from './Holidays';
 import { BackArrIcon } from '@/assets/icons';
 import { AIR_CALL_CENTER } from '@/routesConstants/paths';
-import { useRouter } from 'next/router';
 
 const AddBusinessHours = () => {
-  const { methodsAddBusinessHours } = useAddBusinessHours();
-  const navigate = useRouter();
+  const {
+    methodsAddBusinessHours,
+    onSubmit,
+    handleSubmit,
+    navigate,
+    formValues,
+  } = useAddBusinessHours();
+
   return (
     <>
       <Box sx={styles?.pageHeader}>
@@ -25,9 +30,12 @@ const AddBusinessHours = () => {
         >
           <BackArrIcon />
         </Box>
-        <Typography variant="h3">Add Business Hours</Typography>
+        <Typography variant="h3">{formValues} Business Hours</Typography>
       </Box>
-      <FormProvider methods={methodsAddBusinessHours}>
+      <FormProvider
+        methods={methodsAddBusinessHours}
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Box sx={{ maxWidth: '528px' }}>
           <Grid container spacing={'22px'}>
             {AddBusinessHoursFields?.map((item: any) => (
@@ -45,11 +53,37 @@ const AddBusinessHours = () => {
             ))}
           </Grid>
         </Box>
-        <Box sx={{ mt: '14px' }}>
+        <Box sx={{ mt: '14px', mb: '2rem' }}>
           <HorizontalTabs tabsDataArray={['Set Business Hours', 'Holidays']}>
             <SetBusinessHours />
             <Holidays />
           </HorizontalTabs>
+        </Box>
+        <Box sx={{ mt: '1rem', mb: '1rem' }}>
+          <Divider />
+        </Box>
+        <Box
+          sx={{
+            position: 'relative',
+            bottom: '1rem',
+            right: '2rem',
+            mt: '4rem',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: '10px',
+            }}
+          >
+            <Button type={'button'} variant={'outlined'} color={'inherit'}>
+              cancel
+            </Button>
+            <Button variant="contained" type="submit">
+              save
+            </Button>
+          </Box>
         </Box>
       </FormProvider>
     </>

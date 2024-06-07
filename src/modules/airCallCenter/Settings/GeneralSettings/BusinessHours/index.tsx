@@ -35,7 +35,12 @@ const BusinessHours = () => {
             sx={{ height: '36px', fontWeight: '500' }}
             startIcon={<PlusShared />}
             onClick={() =>
-              navigate.push(AIR_CALL_CENTER?.SETTINGS?.ADD_BUSINESS_HOURS)
+              navigate.push(
+                `${AIR_CALL_CENTER?.SETTINGS
+                  ?.ADD_BUSINESS_HOURS}?formValues=${encodeURIComponent(
+                  'Add',
+                )}`,
+              )
             }
           >
             Add Business Hours
