@@ -1,8 +1,8 @@
 import { baseAPI } from '@/services/base-api';
 
-const salesReportsApi = baseAPI?.injectEndpoints({
+const marketingReportsApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getAllSalesReportsList: builder?.query({
+    getAllMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: ``,
         method: 'GET',
@@ -21,7 +21,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         }
       },
     }),
-    getAllFavoritesSalesReportsList: builder?.query({
+    getAllFavoritesMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: ``,
         method: 'GET',
@@ -40,7 +40,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         }
       },
     }),
-    getAllDashboardsSalesReportsList: builder?.query({
+    getAllDashboardsMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: ``,
         method: 'GET',
@@ -59,7 +59,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         }
       },
     }),
-    getAllCustomSalesReportsList: builder?.query({
+    getAllCustomMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: ``,
         method: 'GET',
@@ -78,27 +78,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         }
       },
     }),
-    exportAllSalesReportsList: builder?.query({
-      query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'GET',
-        params: apiDataParameter?.queryParams,
-        responseHandler: (response: any) => response?.blob(),
-      }),
-      transformResponse: (response: any) => {
-        if (response && response?.data) {
-          return {
-            ...response,
-            list: response?.data,
-            data: {
-              contracts: response?.data,
-              meta: response?.data?.meta,
-            },
-          };
-        }
-      },
-    }),
-    exportAllFavoritesSalesReportsList: builder?.query({
+    exportAllMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: ``,
         method: 'GET',
@@ -118,7 +98,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         }
       },
     }),
-    exportAllDashboardsSalesReportsList: builder?.query({
+    exportAllFavoritesMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: ``,
         method: 'GET',
@@ -138,7 +118,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         }
       },
     }),
-    exportAllCustomSalesReportsList: builder?.query({
+    exportAllDashboardsMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: ``,
         method: 'GET',
@@ -158,7 +138,27 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         }
       },
     }),
-    restoreSalesReportsList: builder?.query({
+    exportAllCustomMarketingReportsList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: ``,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
+      transformResponse: (response: any) => {
+        if (response && response?.data) {
+          return {
+            ...response,
+            list: response?.data,
+            data: {
+              contracts: response?.data,
+              meta: response?.data?.meta,
+            },
+          };
+        }
+      },
+    }),
+    restoreMarketingReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: ``,
         method: 'GET',
@@ -181,13 +181,13 @@ const salesReportsApi = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useLazyGetAllSalesReportsListQuery,
-  useLazyGetAllCustomSalesReportsListQuery,
-  useLazyGetAllDashboardsSalesReportsListQuery,
-  useLazyGetAllFavoritesSalesReportsListQuery,
-  useLazyRestoreSalesReportsListQuery,
-  useLazyExportAllSalesReportsListQuery,
-  useLazyExportAllCustomSalesReportsListQuery,
-  useLazyExportAllDashboardsSalesReportsListQuery,
-  useLazyExportAllFavoritesSalesReportsListQuery,
-} = salesReportsApi;
+  useLazyGetAllMarketingReportsListQuery,
+  useLazyGetAllCustomMarketingReportsListQuery,
+  useLazyGetAllDashboardsMarketingReportsListQuery,
+  useLazyGetAllFavoritesMarketingReportsListQuery,
+  useLazyRestoreMarketingReportsListQuery,
+  useLazyExportAllMarketingReportsListQuery,
+  useLazyExportAllCustomMarketingReportsListQuery,
+  useLazyExportAllDashboardsMarketingReportsListQuery,
+  useLazyExportAllFavoritesMarketingReportsListQuery,
+} = marketingReportsApi;

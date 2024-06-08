@@ -11,7 +11,11 @@ import {
   defaultValues,
   validationSchemaAgentFields,
 } from './UpsertAgent.data';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 import { ROLES } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
@@ -50,15 +54,16 @@ export const useUpsertAgent = (props: any) => {
   const [postAgentTrigger, postAgentStatus] = usePostAddAgentMutation();
 
   const handleUpsertAgentSubmit = async (formData: any) => {
+    const newFormData = filteredEmptyValues(formData);
     const body = {
-      firstName: formData?.firstName,
-      lastName: formData?.lastName,
-      phoneNumber: formData?.phoneNumber,
-      email: formData?.email,
-      departmentId: formData?.departmentId?._id,
-      permissionsRole: formData?.permissionsRole?._id,
+      firstName: newFormData?.firstName,
+      lastName: newFormData?.lastName,
+      phoneNumber: newFormData?.phoneNumber,
+      email: newFormData?.email,
+      departmentId: newFormData?.departmentId?._id,
+      permissionsRole: newFormData?.permissionsRole?._id,
       role: ROLES?.ORG_EMPLOYEE,
-      timezone: formData?.timezone,
+      timezone: newFormData?.timezone,
     };
 
     const apiDataParameter = {

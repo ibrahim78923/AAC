@@ -1,7 +1,5 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_OPERATIONS } from '@/constants';
-import { Button } from '@mui/material';
-import { AddWhiteBgIcon } from '@/assets/icons';
 import { useSalesReports } from './useSalesReports';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { ReportLists } from '../ReportLists';
@@ -28,17 +26,11 @@ export const SalesReports = () => {
         moveBack={() => {
           router?.push(AIR_OPERATIONS?.REPORTS);
         }}
-      >
-        <Button
-          variant="contained"
-          startIcon={<AddWhiteBgIcon />}
-          onClick={() => {
-            router?.push(AIR_OPERATIONS?.UPSERT_SALES_REPORTS);
-          }}
-        >
-          Create report
-        </Button>
-      </PageTitledHeader>
+        addTitle="Create report"
+        handleAction={() => {
+          router?.push(AIR_OPERATIONS?.UPSERT_SALES_REPORTS);
+        }}
+      />
       <HorizontalTabs
         tabsDataArray={[
           'All Reports',

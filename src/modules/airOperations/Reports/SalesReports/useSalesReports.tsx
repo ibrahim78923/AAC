@@ -4,6 +4,10 @@ import {
   useLazyGetAllDashboardsSalesReportsListQuery,
   useLazyGetAllFavoritesSalesReportsListQuery,
   useLazyGetAllSalesReportsListQuery,
+  useLazyExportAllSalesReportsListQuery,
+  useLazyExportAllCustomSalesReportsListQuery,
+  useLazyExportAllDashboardsSalesReportsListQuery,
+  useLazyExportAllFavoritesSalesReportsListQuery,
 } from '@/services/airOperations/reports/sales-reports';
 import { useRouter } from 'next/router';
 
@@ -16,12 +20,12 @@ export const useSalesReports = () => {
     useLazyGetAllDashboardsSalesReportsListQuery?.();
   const apiQueryCustomReports = useLazyGetAllCustomSalesReportsListQuery?.();
   const exportApiQueryCustomReports =
-    useLazyGetAllCustomSalesReportsListQuery?.();
-  const exportApiQueryAllReports = useLazyGetAllSalesReportsListQuery?.();
+    useLazyExportAllCustomSalesReportsListQuery?.();
+  const exportApiQueryAllReports = useLazyExportAllSalesReportsListQuery?.();
   const exportApiQueryFavoriteReports =
-    useLazyGetAllFavoritesSalesReportsListQuery?.();
+    useLazyExportAllFavoritesSalesReportsListQuery?.();
   const exportApiQueryDashboardReports =
-    useLazyGetAllDashboardsSalesReportsListQuery?.();
+    useLazyExportAllDashboardsSalesReportsListQuery?.();
 
   const restoreReportsPath = () => {
     router?.push({

@@ -71,7 +71,7 @@ export const useUpsertProductCatalog = () => {
 
     try {
       await postProductCatalogTrigger(postProductCatalogParameter)?.unwrap();
-      successSnackbar('ProductCatalog Added Successfully');
+      successSnackbar('Product catalog added successfully');
       moveBack?.();
       reset();
     } catch (error: any) {
@@ -88,7 +88,7 @@ export const useUpsertProductCatalog = () => {
     };
     try {
       await patchProductCatalogTrigger(patchProductCatalogParameter)?.unwrap();
-      successSnackbar('ProductCatalog Created Successfully!');
+      successSnackbar('Product catalog updated successfully!');
       moveBack?.();
       reset();
     } catch (error: any) {
