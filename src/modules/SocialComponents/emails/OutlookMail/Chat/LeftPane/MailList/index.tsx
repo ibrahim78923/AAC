@@ -12,11 +12,12 @@ import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
 import {
   setActiveRecord,
+  setMailCurrentPage,
   setSelectedRecords,
 } from '@/redux/slices/email/outlook/slice';
 import { API_STATUS, EMAIL_TABS_TYPES, TIME_FORMAT } from '@/constants';
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { usePatchOutlookEmailMessageMutation } from '@/services/commonFeatures/email/outlook';
 import { enqueueSnackbar } from 'notistack';
@@ -28,19 +29,17 @@ const MailList = ({
   mailTabType,
 }: any) => {
   const theme = useTheme();
-
   const [dataArray, setDataArray] = useState<any>([]);
-
   const dispatch = useDispatch();
-
   const selectedRecords: any = useAppSelector(
     (state: any) => state?.outlook?.selectedRecords,
   );
-
+  const mailCurrentPage: any = useAppSelector(
+    (state: any) => state?.outlook?.mailCurrentPage,
+  );
   const activeRecord = useAppSelector(
     (state: any) => state?.outlook?.activeRecord,
   );
-
   const handleCheckboxClick = (email: any) => {
     const safeSelectedRecords = Array.isArray(selectedRecords)
       ? selectedRecords
@@ -100,8 +99,37 @@ const MailList = ({
     setDataArray(emailsByFolderIdData);
   }, [emailsByFolderIdData]);
 
+  const boxRef = useRef(null);
+  const handleScroll = (e: any) => {
+    const bottom =
+      e?.target?.scrollHeight -
+        e?.target?.scrollTop -
+        e?.target?.clientHeight <=
+      50;
+    if (bottom) {
+      if (isLoadingEmailsByFolderIdData === API_STATUS?.PENDING) {
+        null;
+      } else {
+        dispatch(setMailCurrentPage(mailCurrentPage + 1));
+      }
+    }
+  };
+  useEffect(() => {
+    const boxElement: any = boxRef?.current;
+    boxElement.addEventListener('scroll', handleScroll);
+    return () => {
+      boxElement.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <Box minHeight={'calc(100vh - 350px)'} sx={{ overflowY: 'auto' }}>
+    <Box
+      minHeight={'calc(100vh - 350px)'}
+      sx={{
+        overflowY: 'auto',
+        scrollbarColor: `${theme.palette?.grey[700]} ${theme.palette?.grey[400]}`,
+      }}
+    >
       <Box sx={styles?.notificationWrap}>
         <FormControlLabel
           label="Select All"
@@ -151,7 +179,7 @@ const MailList = ({
         </Box>
       )}
 
-      <Box sx={{ maxHeight: '62vh', overflow: 'auto' }}>
+      <Box sx={{ maxHeight: '62vh', overflow: 'auto' }} ref={boxRef}>
         {isLoadingEmailsByFolderIdData === API_STATUS?.REJECTED ? (
           <Box>
             <Typography variant="body2" color={theme?.palette?.error?.main}>

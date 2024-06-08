@@ -1,7 +1,9 @@
 import { LogoImage, PageNotFoundImage } from '@/assets/images';
+import { AUTH } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { Grid, Typography, Box, useTheme } from '@mui/material';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const PageNotAccess = ({
   image = PageNotFoundImage,
@@ -9,9 +11,16 @@ const PageNotAccess = ({
 
   height = '70vh',
 }: any) => {
+  const router = useRouter();
   const theme = useTheme();
 
   const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push(AUTH?.LOGIN);
+  };
+
   return (
     <Grid
       container
@@ -44,7 +53,7 @@ const PageNotAccess = ({
               fontSize: '1.4rem',
               cursor: 'pointer',
             }}
-            onClick={logout}
+            onClick={handleLogout}
           >
             Logout
           </span>

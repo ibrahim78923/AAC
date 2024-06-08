@@ -21,7 +21,6 @@ import {
 } from '@/redux/slices/email/outlook/slice';
 import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
-import { PAGINATION } from '@/config';
 import {
   useGetAuthURLOutlookQuery,
   useGetEmailsByFolderIdOutlookQuery,
@@ -43,6 +42,9 @@ const LeftPane = () => {
   );
   const searchTerm: any = useAppSelector(
     (state: any) => state?.outlook?.searchTerm,
+  );
+  const mailCurrentPage: any = useAppSelector(
+    (state: any) => state?.outlook?.mailCurrentPage,
   );
 
   const mailList: any = useAppSelector(
@@ -100,8 +102,9 @@ const LeftPane = () => {
   } = useGetEmailsByFolderIdOutlookQuery(
     {
       params: {
-        page: PAGINATION?.CURRENT_PAGE,
-        limit: PAGINATION?.PAGE_LIMIT,
+        page: mailCurrentPage,
+        limit: 20,
+        // limit: PAGINATION?.PAGE_LIMIT,
         ...(searchTerm && { search: searchTerm }),
       },
       id: mailTabType?.id,

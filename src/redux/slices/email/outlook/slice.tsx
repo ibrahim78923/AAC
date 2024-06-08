@@ -9,6 +9,7 @@ interface EmailStateI {
   mailList: any;
   mailDraftList: any;
   searchTerm: string;
+  mailCurrentPage: any;
 }
 
 const initialState: EmailStateI = {
@@ -22,6 +23,7 @@ const initialState: EmailStateI = {
   mailList: {},
   mailDraftList: {},
   searchTerm: '',
+  mailCurrentPage: 1,
 };
 
 const outlookSlice = createSlice({
@@ -30,6 +32,9 @@ const outlookSlice = createSlice({
   reducers: {
     setMailTabType: (state, action: PayloadAction<any>) => {
       state.mailTabType = action?.payload;
+    },
+    setMailCurrentPage: (state, action: PayloadAction<any>) => {
+      state.mailCurrentPage = action?.payload;
     },
     setSearchTerm: (state, action: PayloadAction<any>) => {
       state.searchTerm = action?.payload;
@@ -63,5 +68,6 @@ export const {
   setMailList,
   setMailDraftList,
   setSearchTerm,
+  setMailCurrentPage,
 } = outlookSlice.actions;
 export default outlookSlice.reducer;

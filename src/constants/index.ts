@@ -52,6 +52,11 @@ export const VALIDATION_CONSTANT = {
   },
 };
 
+export const ERROR_PAGES = {
+  NOT_FOUND: '/404',
+  NOT_ACCESS: '/403',
+};
+
 export const SUPER_ADMIN: any = {
   DASHBOARD: '/super-admin',
   USERMANAGMENT: '/super-admin/user-management',

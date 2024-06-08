@@ -34,7 +34,7 @@ import {
 // import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
 import { generateImage } from '@/utils/avatarUtils';
-import { ORG_ADMIN } from '@/constants';
+import { ERROR_PAGES, ORG_ADMIN } from '@/constants';
 import { useGetActiveProductsQuery } from '@/services/common-APIs';
 // import { generateImage } from '@/utils/avatarUtils';
 
@@ -120,6 +120,11 @@ const ProductSuite = () => {
     if (user?.role === ROLES?.ORG_ADMIN) {
       if (accountsData?.data?.length === 0) {
         router.push(ORG_ADMIN?.DASHBOARD);
+      }
+    }
+    if (user?.role !== ROLES?.ORG_ADMIN) {
+      if (accountsData?.data?.length === 0) {
+        router.push(ERROR_PAGES?.NOT_ACCESS);
       }
     }
   }, [accountsData?.data]);
