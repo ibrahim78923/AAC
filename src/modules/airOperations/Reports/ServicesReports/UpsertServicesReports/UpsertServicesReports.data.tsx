@@ -19,6 +19,63 @@ export const fieldsList = [
   },
 ];
 
+export const templateList = [
+  {
+    id: '0',
+    title: 'Chart 1',
+    match: 'chart',
+    description: 'Visualize your data',
+  },
+  {
+    id: '1',
+    title: 'Chart 2',
+    match: 'chart',
+    description: 'Visualize your data',
+  },
+  {
+    id: '2',
+    title: 'Chart 3',
+    match: 'chart',
+    description: 'Visualize your data',
+  },
+  {
+    id: '3',
+    title: 'Text 1',
+    match: 'text',
+    description: 'Add context to your report',
+  },
+  {
+    id: '4',
+    title: 'Text 2',
+    match: 'text',
+    description: 'Add context to your report',
+  },
+  {
+    id: '5',
+    title: 'Text 3',
+    match: 'text',
+    description: 'Add context to your report',
+  },
+  {
+    id: '6',
+    title: 'Table 1',
+    match: 'table',
+    description: 'General Table',
+  },
+  {
+    id: '7',
+    title: 'Table 2',
+    match: 'table',
+    description: 'General Table',
+  },
+  {
+    id: '8',
+    title: 'Table 3',
+    match: 'table',
+    description: 'General Table',
+  },
+];
+
 export const modalInitialState: any = {
   chart: false,
   text: false,

@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import { fieldsList, modalInitialState } from './UpsertServicesReports.data';
-import { useRouter } from 'next/router';
+import {
+  fieldsList,
+  modalInitialState,
+  templateList,
+} from './UpsertServicesReports.data';
 import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { EditorState } from 'draft-js';
@@ -8,6 +11,7 @@ import { CHARTS } from '@/constants/strings';
 import { DonutChart } from './DraggableFormFields/Chart/DonutChart';
 import { PieChart } from './DraggableFormFields/Chart/PieChart';
 import { BarChart } from './DraggableFormFields/Chart/BarChart';
+import { useRouter } from 'next/router';
 
 export default function useUpsertServicesReports() {
   const theme: any = useTheme();
@@ -38,6 +42,7 @@ export default function useUpsertServicesReports() {
   const [chartMetricType, setChartMetricType] = useState('Add Metric');
   const [AddProperties, setAddProperties] = useState();
   const [columnsData, setColumnsData] = useState([]);
+  const [showTemplate, setShowTemplate] = useState(false);
 
   useEffect(() => {
     setValue('xAxis', '');
@@ -72,6 +77,33 @@ export default function useUpsertServicesReports() {
     }
   };
 
+  const getTemplateModalState = (draggedItem: any) => {
+    const newModal: any = {
+      chart: false,
+      text: false,
+      table: false,
+    };
+
+    if (draggedItem?.id !== undefined) {
+      if (templateList[draggedItem?.id]) {
+        const itemType = templateList[draggedItem?.id]?.match;
+        if (newModal?.hasOwnProperty(itemType)) {
+          newModal[itemType] = true;
+        }
+      }
+    }
+    return newModal;
+  };
+
+  const handleTemplateDragEnd = (result: any) => {
+    if (result?.destination?.droppableId === 'droppable') {
+      const draggedItem = templateList?.find(
+        (item: any) => item?.id === result?.draggableId,
+      );
+      setModal(getTemplateModalState(draggedItem));
+    }
+  };
+
   useEffect(() => {
     (modal?.chart || modal?.table || modal?.text) && setFieldData(true);
   }, [modal?.text, modal?.chart, modal?.table]);
@@ -84,7 +116,6 @@ export default function useUpsertServicesReports() {
 
   return {
     handleDragEnd,
-    router,
     form,
     setForm,
     modal,
@@ -118,5 +149,9 @@ export default function useUpsertServicesReports() {
     chartMetricType,
     subFilter,
     allChartComponents,
+    showTemplate,
+    setShowTemplate,
+    handleTemplateDragEnd,
+    router,
   };
 }

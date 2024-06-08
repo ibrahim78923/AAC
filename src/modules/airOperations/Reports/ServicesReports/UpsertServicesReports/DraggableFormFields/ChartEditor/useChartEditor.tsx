@@ -47,11 +47,10 @@ export const useChartEditor = (props: any) => {
     setValue('subFilter', false);
   };
 
-  const handleCancel = () => {
+  const handleChartCancel = () => {
     setFieldData(false);
     setModal({
       chart: false,
-      interactiveFilter: false,
       text: false,
       table: false,
     });
@@ -59,13 +58,12 @@ export const useChartEditor = (props: any) => {
     setValue('chartTitle', 'Report Chart');
     setValue('subFilter', false);
   };
-
   return {
     handleSave,
     edit,
     setEdit,
     editValue,
     setEditValue,
-    handleCancel,
+    handleChartCancel,
   };
 };

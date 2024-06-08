@@ -11,35 +11,37 @@ export const Chart = (props: any) => {
   } = props;
 
   return (
-    <Box border={1} borderColor={'grey.700'} p={1} borderRadius={2}>
-      {chartType ? (
-        <Box p={1}>
-          <Box
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-          >
-            <Typography variant="h6">{chartTitle}</Typography>
-            {subFilter && (
-              <ReportCalendarFilter setCalendarFilter={setCalendarFilter} />
-            )}
-          </Box>
-          {allChartComponents[chartType]}
-        </Box>
-      ) : (
-        <>
-          <Box p={10}>
-            <Typography
+    <>
+      <Box border={1} borderColor={'grey.700'} p={1} borderRadius={2}>
+        {chartType ? (
+          <Box p={1}>
+            <Box
               display={'flex'}
-              justifyContent={'center'}
+              justifyContent={'space-between'}
               alignItems={'center'}
-              variant="h5"
             >
-              Chart
-            </Typography>
+              <Typography variant="h6">{chartTitle}</Typography>
+              {subFilter && (
+                <ReportCalendarFilter setCalendarFilter={setCalendarFilter} />
+              )}
+            </Box>
+            {allChartComponents[chartType]}
           </Box>
-        </>
-      )}
-    </Box>
+        ) : (
+          <>
+            <Box p={10}>
+              <Typography
+                display={'flex'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                variant="h5"
+              >
+                Chart
+              </Typography>
+            </Box>
+          </>
+        )}
+      </Box>
+    </>
   );
 };

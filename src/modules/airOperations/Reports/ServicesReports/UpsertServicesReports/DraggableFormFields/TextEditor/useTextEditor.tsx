@@ -220,13 +220,13 @@ export const useTextEditor = (props: any) => {
     setFieldData(false);
     setModal({
       chart: false,
-      interactiveFilter: false,
       text: false,
       table: false,
     });
     setEditorState(EditorState.createEmpty());
     setValue('textTitle', 'Report Text');
   };
+
   return {
     handleSave,
     applyTextStyle,

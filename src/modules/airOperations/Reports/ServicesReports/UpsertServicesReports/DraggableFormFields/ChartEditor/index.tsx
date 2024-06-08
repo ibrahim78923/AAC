@@ -4,7 +4,13 @@ import {
   RHFCheckbox,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Box, Button, InputAdornment, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  InputAdornment,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import { useChartEditor } from './useChartEditor';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { CheckBox } from '@mui/icons-material';
@@ -24,11 +30,21 @@ export const ChartEditor = (props: any) => {
     yAxisData,
   } = props;
 
-  const { handleSave, edit, setEdit, editValue, setEditValue, handleCancel } =
-    useChartEditor(props);
+  const {
+    handleSave,
+    edit,
+    setEdit,
+    editValue,
+    setEditValue,
+    handleChartCancel,
+  } = useChartEditor(props);
   return (
     <>
-      <PageTitledHeader title={'Chart'} canMovedBack moveBack={handleCancel} />
+      <PageTitledHeader
+        title={'Chart Configuration'}
+        canMovedBack
+        moveBack={handleChartCancel}
+      />
       <RHFTextField
         name={'chartTitle'}
         size="small"
@@ -106,8 +122,18 @@ export const ChartEditor = (props: any) => {
         label="Add Date Range Filter"
         size="large"
       />
-      <Box position={'fixed'} bottom={75} right={90} gap={1} display={'flex'}>
-        <Button variant="outlined" onClick={handleCancel} color="secondary">
+      <Box
+        position={'absolute'}
+        bottom={50}
+        right={50}
+        gap={1}
+        display={'flex'}
+      >
+        <Button
+          variant="outlined"
+          onClick={handleChartCancel}
+          color="secondary"
+        >
           Cancel
         </Button>
         <Button
@@ -120,6 +146,7 @@ export const ChartEditor = (props: any) => {
           Save
         </Button>
       </Box>
+      <Toolbar sx={{ mt: 2 }} />
     </>
   );
 };

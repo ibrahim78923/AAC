@@ -36,6 +36,8 @@ export default function DroppableArea(props: any) {
     chartTitle,
     textTitle,
     subFilter,
+    setShowTemplate,
+    showTemplate,
   } = props;
 
   const { handleDelete, handleCopy, theme, setCalendarFilter } =
@@ -44,12 +46,7 @@ export default function DroppableArea(props: any) {
     <Droppable droppableId={'droppable'}>
       {(provided: any) => (
         <Box
-          bgcolor={'secondary.50'}
-          borderRadius={2}
-          p={1}
-          width={'100%'}
           height={'74vh'}
-          overflow={'scroll'}
           ref={provided?.innerRef}
           {...provided?.droppableProps}
         >
@@ -89,9 +86,16 @@ export default function DroppableArea(props: any) {
                         }}
                       />
                     </Box>
-                    <Box>
-                      <Button variant="contained">Chose Template</Button>
-                    </Box>
+                    <Button
+                      variant="contained"
+                      onClick={
+                        showTemplate
+                          ? () => setShowTemplate(false)
+                          : () => setShowTemplate(true)
+                      }
+                    >
+                      {showTemplate ? 'Create Report' : 'Chose Template'}
+                    </Button>
                   </Box>
                 </>
               ) : (
@@ -114,7 +118,12 @@ export default function DroppableArea(props: any) {
                                     alignItems={'center'}
                                     p={1}
                                   >
-                                    <Typography color="secondary" variant="h5">
+                                    <Typography
+                                      color="secondary"
+                                      variant="h5"
+                                      overflow={'scroll'}
+                                      width={'55%'}
+                                    >
                                       {item?.title}
                                     </Typography>
                                     <Box
@@ -167,7 +176,12 @@ export default function DroppableArea(props: any) {
                                     justifyContent={'space-between'}
                                     alignItems={'center'}
                                   >
-                                    <Typography color="secondary" variant="h5">
+                                    <Typography
+                                      color="secondary"
+                                      variant="h5"
+                                      overflow={'scroll'}
+                                      width={'70%'}
+                                    >
                                       {item?.title}
                                     </Typography>
                                     <Box
@@ -215,7 +229,12 @@ export default function DroppableArea(props: any) {
                                     justifyContent={'space-between'}
                                     alignItems={'center'}
                                   >
-                                    <Typography color="secondary" variant="h5">
+                                    <Typography
+                                      color="secondary"
+                                      variant="h5"
+                                      overflow={'scroll'}
+                                      width={'80%'}
+                                    >
                                       {item?.title}
                                     </Typography>
                                     <Box

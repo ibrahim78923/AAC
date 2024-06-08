@@ -1,17 +1,16 @@
-import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_OPERATIONS } from '@/constants';
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import DraggableFields from './DraggableFields';
 import { fieldsList } from './UpsertServicesReports.data';
 import { DragDropContext } from 'react-beautiful-dnd';
 import DroppableArea from './DroppableArea';
 import useUpsertServicesReports from './useUpsertServicesReports';
 import { FormProvider } from 'react-hook-form';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { AIR_OPERATIONS } from '@/constants';
 
 export const UpsertServicesReports = () => {
   const {
     handleDragEnd,
-    router,
     modal,
     theme,
     fieldData,
@@ -45,19 +44,25 @@ export const UpsertServicesReports = () => {
     chartMetricType,
     subFilter,
     allChartComponents,
+    showTemplate,
+    setShowTemplate,
+    handleTemplateDragEnd,
+    router,
   } = useUpsertServicesReports();
 
   return (
     <FormProvider {...methods}>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Grid container gap={2}>
+      <DragDropContext
+        onDragEnd={showTemplate ? handleTemplateDragEnd : handleDragEnd}
+      >
+        <Grid container>
           <Grid
             item
             sm={12}
-            lg={7.9}
+            lg={8}
             p={2}
             borderRadius={3}
-            boxShadow={`0px 0px 10px 10px ${theme?.palette?.grey[100]}`}
+            boxShadow={`0rem 0rem .1rem .1rem ${theme?.palette?.grey[400]}`}
           >
             <PageTitledHeader
               title={'Create Service Report'}
@@ -68,75 +73,69 @@ export const UpsertServicesReports = () => {
                 });
               }}
             />
-            <Box
-              borderRadius={2}
-              bgcolor={'common.white'}
-              display={'flex'}
-              alignItems={'center'}
-            >
-              <DroppableArea
-                fieldData={fieldData}
-                modal={modal}
-                editorState={editorState}
-                setEditorState={setEditorState}
-                fontSize={fontSize}
-                color={color}
-                tableTitle={tableTitle}
-                chartType={chartType}
-                form={form}
-                setForm={setForm}
-                setAddProperties={setAddProperties}
-                columnsData={columnsData}
-                allChartComponents={allChartComponents}
-                chartTitle={chartTitle}
-                textTitle={textTitle}
-                subFilter={subFilter}
-              />
-            </Box>
+            <DroppableArea
+              fieldData={fieldData}
+              modal={modal}
+              editorState={editorState}
+              setEditorState={setEditorState}
+              fontSize={fontSize}
+              color={color}
+              tableTitle={tableTitle}
+              chartType={chartType}
+              form={form}
+              setForm={setForm}
+              setAddProperties={setAddProperties}
+              columnsData={columnsData}
+              allChartComponents={allChartComponents}
+              chartTitle={chartTitle}
+              textTitle={textTitle}
+              subFilter={subFilter}
+              setShowTemplate={setShowTemplate}
+              showTemplate={showTemplate}
+            />
           </Grid>
           <Grid
             item
             sm={12}
-            lg={3.8}
+            lg={4}
             p={2}
             borderRadius={3}
-            boxShadow={`0px 0px 10px 10px ${theme?.palette?.grey[100]}`}
+            boxShadow={`0rem 0rem .1rem .1rem ${theme?.palette?.grey[400]}`}
           >
-            <Box borderRadius={2} bgcolor={'common.white'}>
-              <DraggableFields
-                fieldsList={fieldsList}
-                fieldData={fieldData}
-                modal={modal}
-                setEditorState={setEditorState}
-                editorState={editorState}
-                fontSize={fontSize}
-                color={color}
-                setFontSize={setFontSize}
-                setColor={setColor}
-                setModal={setModal}
-                setFieldData={setFieldData}
-                textTitle={textTitle}
-                tableTitle={tableTitle}
-                setValue={setValue}
-                AddProperties={AddProperties}
-                setColumnsData={setColumnsData}
-                setOpenDrawer={setOpenDrawer}
-                openDrawer={openDrawer}
-                chartType={chartType}
-                setMetricType={setMetricType}
-                metricType={metricType}
-                chartTitle={chartTitle}
-                form={form}
-                setForm={setForm}
-                chartMetricType={chartMetricType}
-                setChartMetricType={setChartMetricType}
-                allChartComponents={allChartComponents}
-                xAxisData={xAxisData}
-                yAxisData={yAxisData}
-                subFilter={subFilter}
-                columnsData={columnsData}
-              />
-            </Box>
+            <DraggableFields
+              fieldsList={fieldsList}
+              fieldData={fieldData}
+              modal={modal}
+              setEditorState={setEditorState}
+              editorState={editorState}
+              fontSize={fontSize}
+              color={color}
+              setFontSize={setFontSize}
+              setColor={setColor}
+              setModal={setModal}
+              setFieldData={setFieldData}
+              textTitle={textTitle}
+              tableTitle={tableTitle}
+              setValue={setValue}
+              AddProperties={AddProperties}
+              setColumnsData={setColumnsData}
+              setOpenDrawer={setOpenDrawer}
+              openDrawer={openDrawer}
+              chartType={chartType}
+              setMetricType={setMetricType}
+              metricType={metricType}
+              chartTitle={chartTitle}
+              form={form}
+              setForm={setForm}
+              chartMetricType={chartMetricType}
+              setChartMetricType={setChartMetricType}
+              allChartComponents={allChartComponents}
+              xAxisData={xAxisData}
+              yAxisData={yAxisData}
+              subFilter={subFilter}
+              columnsData={columnsData}
+              showTemplate={showTemplate}
+            />
           </Grid>
         </Grid>
       </DragDropContext>

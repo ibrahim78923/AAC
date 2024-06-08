@@ -14,6 +14,7 @@ export const Text = (props: any) => {
         p={'0.5rem'}
         width={'25%'}
         boxShadow={1}
+        overflow={'scroll'}
       >
         {textTitle}
       </Typography>

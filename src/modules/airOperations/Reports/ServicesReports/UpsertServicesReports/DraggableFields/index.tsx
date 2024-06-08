@@ -1,37 +1,27 @@
-import { Box, Button, Divider, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  Toolbar,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { Draggable } from 'react-beautiful-dnd';
-import { DragAndDropIcon } from '@/assets/icons';
 import { ChartEditor } from '../DraggableFormFields/ChartEditor';
 import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
 import { ServicesReportDrawer } from '../ServicesReportDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { servicesMetrics } from '../UpsertServicesReports.data';
+import { servicesMetrics, templateList } from '../UpsertServicesReports.data';
+import AppsIcon from '@mui/icons-material/Apps';
 
 export default function DraggableFields({
-  fieldsList,
-  fieldData,
-  modal,
-  setEditorState,
-  editorState,
-  fontSize,
-  setFontSize,
-  color,
-  setColor,
   setModal,
   setFieldData,
-  textTitle,
-  tableTitle,
-  setValue,
-  AddProperties,
-  setAddProperties,
-  setColumnsData,
-  setOpenDrawer,
-  openDrawer,
   chartType,
-  setMetricType,
   metricType,
+  setValue,
   chartTitle,
   form,
   setForm,
@@ -41,7 +31,25 @@ export default function DraggableFields({
   xAxisData,
   yAxisData,
   subFilter,
+  setEditorState,
+  fieldsList,
+  fieldData,
+  modal,
+  editorState,
+  fontSize,
+  setFontSize,
+  color,
+  setColor,
+  textTitle,
+  tableTitle,
+  AddProperties,
+  setAddProperties,
+  setColumnsData,
+  setOpenDrawer,
+  openDrawer,
+  setMetricType,
   columnsData,
+  showTemplate,
 }: any) {
   const theme: any = useTheme();
 
@@ -62,61 +70,137 @@ export default function DraggableFields({
                 mb={2}
               >
                 <Typography variant={'h5'} mb={2}>
-                  Form Scratch
+                  {showTemplate ? 'Form Template' : ' Form Scratch'}
                 </Typography>
                 <SingleDropdownButton
                   dropdownOptions={servicesMetrics(setMetricType)}
                   dropdownName={metricType}
                 />
               </Box>
-              {fieldsList?.map((item: any, index: number) => (
-                <Draggable key={item?.id} draggableId={item?.id} index={index}>
-                  {(provided: any) => (
-                    <Box
-                      boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
-                      bgcolor={'common.white'}
-                      borderRadius={2}
-                      mb={index === fieldsList?.length - 1 ? 0 : 2}
-                      p={2}
-                      display={'flex'}
-                      alignItems={'center'}
-                      ref={provided?.innerRef}
-                      {...provided?.draggableProps}
-                      {...provided?.dragHandleProps}
-                      sx={{
-                        '&:hover': {
-                          boxShadow: 5,
-                        },
-                        cursor: 'pointer',
-                      }}
+              {showTemplate ? (
+                <Box height={'64vh'} overflow={'scroll'} p={1}>
+                  {templateList?.map((item: any, index: number) => (
+                    <Draggable
+                      key={item?.id}
+                      draggableId={item?.id}
+                      index={index}
                     >
-                      <DragAndDropIcon />
-                      <Divider
-                        orientation="vertical"
-                        flexItem
-                        sx={{
-                          margin: '0 1rem',
-                          border: `.1rem solid ${theme?.palette?.grey[700]}`,
-                          backgroundColor: 'transparent',
-                        }}
-                      />
-                      <Box>
-                        <Typography variant={'body1'} color={'custom.main'}>
-                          {item?.title}
-                        </Typography>
-                        <Typography variant={'body2'} color={'grey.0'}>
-                          {item?.description}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  )}
-                </Draggable>
-              ))}
-              <Box position={'fixed'} bottom={75} right={90}>
+                      {(provided: any) => (
+                        <Box
+                          boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
+                          bgcolor={'common.white'}
+                          borderRadius={2}
+                          mb={index === templateList?.length - 1 ? 0 : 2}
+                          p={2}
+                          display={'flex'}
+                          alignItems={'center'}
+                          ref={provided?.innerRef}
+                          {...provided?.draggableProps}
+                          {...provided?.dragHandleProps}
+                          sx={{
+                            '&:hover': {
+                              boxShadow: 5,
+                            },
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <AppsIcon
+                            sx={{
+                              fontSize: '2.7rem',
+                              color: 'custom.main',
+                              '&:hover': {
+                                color: 'primary.main',
+                              },
+                            }}
+                          />
+                          <Divider
+                            orientation="vertical"
+                            flexItem
+                            sx={{
+                              margin: '0 1rem',
+                              border: `.1rem solid ${theme?.palette?.grey[700]}`,
+                              backgroundColor: 'transparent',
+                            }}
+                          />
+                          <Box>
+                            <Typography variant={'body1'} color={'custom.main'}>
+                              {item?.title}
+                            </Typography>
+                            <Typography variant={'body2'} color={'grey.0'}>
+                              {item?.description}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      )}
+                    </Draggable>
+                  ))}
+                </Box>
+              ) : (
+                <>
+                  {fieldsList?.map((item: any, index: number) => (
+                    <Draggable
+                      key={item?.id}
+                      draggableId={item?.id}
+                      index={index}
+                    >
+                      {(provided: any) => (
+                        <Box
+                          boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
+                          bgcolor={'common.white'}
+                          borderRadius={2}
+                          mb={index === fieldsList?.length - 1 ? 0 : 2}
+                          p={2}
+                          display={'flex'}
+                          alignItems={'center'}
+                          ref={provided?.innerRef}
+                          {...provided?.draggableProps}
+                          {...provided?.dragHandleProps}
+                          sx={{
+                            '&:hover': {
+                              boxShadow: 5,
+                            },
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <AppsIcon
+                            sx={{
+                              fontSize: '2.7rem',
+                              color: 'custom.main',
+                              '&:hover': {
+                                color: 'primary.main',
+                              },
+                            }}
+                          />
+                          <Divider
+                            orientation="vertical"
+                            flexItem
+                            sx={{
+                              margin: '0 1rem',
+                              border: `.1rem solid ${theme?.palette?.grey[700]}`,
+                              backgroundColor: 'transparent',
+                            }}
+                          />
+                          <Box>
+                            <Typography variant={'body1'} color={'custom.main'}>
+                              {item?.title}
+                            </Typography>
+                            <Typography variant={'body2'} color={'grey.0'}>
+                              {item?.description}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      )}
+                    </Draggable>
+                  ))}
+                </>
+              )}
+
+              <Box position={'absolute'} bottom={50} right={50}>
                 <Button variant="contained" onClick={() => setOpenDrawer(true)}>
                   Save
                 </Button>
               </Box>
+              <Toolbar sx={{ mt: 2 }} />
             </>
           ) : (
             <>

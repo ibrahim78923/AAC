@@ -5,6 +5,7 @@ import {
   Button,
   Checkbox,
   InputAdornment,
+  Toolbar,
   Typography,
 } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
@@ -20,48 +21,51 @@ export const TableEditor = (props: any) => {
     setAddProperties,
     columnsData,
   } = props;
-  const { editValue, setEditValue, setEdit, edit, handleSave, handleCancel } =
-    useTableEditor(props);
+  const {
+    editValue,
+    setEditValue,
+    setEdit,
+    edit,
+    handleSave,
+    handleTableCancel,
+  } = useTableEditor(props);
   return (
     <>
-      <Box>
-        <PageTitledHeader
-          title={'Table Configuration'}
-          canMovedBack
-          moveBack={handleCancel}
-        />
-
-        <RHFTextField
-          name={'tableTitle'}
-          size="small"
-          label="Title"
-          disabled={edit}
-          InputProps={{
-            onClick: () => {},
-            endAdornment: (
-              <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
-                {edit ? (
-                  <Box
-                    onClick={() => {
-                      setEdit(false), setValue === editValue;
-                    }}
-                  >
-                    <BorderColorIcon />
-                  </Box>
-                ) : (
-                  <Box
-                    onClick={() => {
-                      setEdit(true), setEditValue(tableTitle);
-                    }}
-                  >
-                    <CheckBox />
-                  </Box>
-                )}
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
+      <PageTitledHeader
+        title={'Table Configuration'}
+        canMovedBack
+        moveBack={handleTableCancel}
+      />
+      <RHFTextField
+        name={'tableTitle'}
+        size="small"
+        label="Title"
+        disabled={edit}
+        InputProps={{
+          onClick: () => {},
+          endAdornment: (
+            <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
+              {edit ? (
+                <Box
+                  onClick={() => {
+                    setEdit(false), setValue === editValue;
+                  }}
+                >
+                  <BorderColorIcon />
+                </Box>
+              ) : (
+                <Box
+                  onClick={() => {
+                    setEdit(true), setEditValue(tableTitle);
+                  }}
+                >
+                  <CheckBox />
+                </Box>
+              )}
+            </InputAdornment>
+          ),
+        }}
+      />
       <Box
         display={'flex'}
         alignItems={'center'}
@@ -72,38 +76,40 @@ export const TableEditor = (props: any) => {
       >
         <Typography variant="h4">Edit Properties</Typography>
       </Box>
+      {tableEditorData?.map((item: any) => (
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          boxShadow={2}
+          borderRadius={2}
+          m={1}
+          p={1}
+          key={item?.title}
+        >
+          <Typography variant="body2">{item?.title}</Typography>
 
-      <Box>
-        {tableEditorData?.map((item: any) => (
-          <Box
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            boxShadow={2}
-            borderRadius={2}
-            m={1}
-            p={1}
-            key={item?.title}
-          >
-            <Typography variant="body2">{item?.title}</Typography>
-
-            <Checkbox
-              onClick={() => {
-                setColumnsData((prev: any) =>
-                  !prev?.includes(item?.title)
-                    ? [...prev, item?.title]
-                    : prev?.filter((i: any) => i !== item?.title),
-                );
-              }}
-              icon={<CheckboxIcon />}
-              checkedIcon={<CheckboxCheckedIcon />}
-            />
-          </Box>
-        ))}
-      </Box>
-
-      <Box position={'fixed'} bottom={75} right={90} gap={1} display={'flex'}>
-        <Button variant="outlined" onClick={handleCancel}>
+          <Checkbox
+            onClick={() => {
+              setColumnsData((prev: any) =>
+                !prev?.includes(item?.title)
+                  ? [...prev, item?.title]
+                  : prev?.filter((i: any) => i !== item?.title),
+              );
+            }}
+            icon={<CheckboxIcon />}
+            checkedIcon={<CheckboxCheckedIcon />}
+          />
+        </Box>
+      ))}
+      <Box
+        position={'absolute'}
+        bottom={50}
+        right={50}
+        gap={1}
+        display={'flex'}
+      >
+        <Button variant="outlined" onClick={handleTableCancel}>
           Cancel
         </Button>
         <Button
@@ -114,6 +120,7 @@ export const TableEditor = (props: any) => {
           Save
         </Button>
       </Box>
+      <Toolbar sx={{ mt: 2 }} />
     </>
   );
 };

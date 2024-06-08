@@ -4,6 +4,7 @@ import {
   Typography,
   ButtonGroup,
   InputAdornment,
+  Toolbar,
 } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useTextEditor } from './useTextEditor';
@@ -36,7 +37,7 @@ export const TextEditor = (props: any) => {
   return (
     <>
       <PageTitledHeader
-        title={'Text'}
+        title={'Text Configuration'}
         canMovedBack
         moveBack={handleTextCancel}
       />
@@ -160,7 +161,13 @@ export const TextEditor = (props: any) => {
           <input type="color" value={color} onChange={onColorChange} />
         </Box>
       </Box>
-      <Box position={'fixed'} bottom={75} right={90} gap={1} display={'flex'}>
+      <Box
+        position={'absolute'}
+        bottom={50}
+        right={50}
+        gap={1}
+        display={'flex'}
+      >
         <Button
           variant="outlined"
           onClick={() => handleTextCancel()}
@@ -176,6 +183,7 @@ export const TextEditor = (props: any) => {
           Save
         </Button>
       </Box>
+      <Toolbar sx={{ mt: 2 }} />
     </>
   );
 };
