@@ -25,7 +25,7 @@ export const getDropdownOptions = ({ setIsDrawerOpen }: any) => [
   {
     id: 2,
     title: 'Deals',
-    permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_ASSOCIATE_ASSETS],
+    permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_ASSOCIATE_DEALS],
     handleClick: (close: any) => {
       setIsDrawerOpen({
         asset: false,
@@ -39,7 +39,9 @@ export const getDropdownOptions = ({ setIsDrawerOpen }: any) => [
   {
     id: 3,
     title: 'Contacts',
-    permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_ASSOCIATE_ASSETS],
+    permissionKey: [
+      AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_ASSOCIATE_CONTACT,
+    ],
     handleClick: (close: any) => {
       setIsDrawerOpen({
         asset: false,
@@ -53,7 +55,9 @@ export const getDropdownOptions = ({ setIsDrawerOpen }: any) => [
   {
     id: 4,
     title: 'Companies',
-    permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_ASSOCIATE_ASSETS],
+    permissionKey: [
+      AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_ASSOCIATE_COMPANIES,
+    ],
     handleClick: (close: any) => {
       setIsDrawerOpen({
         asset: false,

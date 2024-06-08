@@ -4,45 +4,40 @@ import { fullName, truncateText } from '@/utils/avatarUtils';
 import { Box } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from '@/constants';
 
-export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
+export const TYPE_VALUES = {
+  NEW_CONTACT: 'newContact',
+  EXISTING_CONTACT: 'existingContact',
+};
+
+export const getAssociateContactsColumns: any = ({ setModalId }: any) => {
   return [
     {
-      accessorFn: (row: any) => row?.name,
-      id: 'name',
-      header: 'Deal Name',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
+      header: 'Contact ID',
       cell: (info: any) => truncateText(info?.getValue()),
     },
     {
-      accessorFn: (row: any) => row?.dealOwner,
-      id: 'dealOwner',
-      header: 'Deal Owner',
+      accessorFn: (row: any) => row?.name,
+      id: 'name',
+      header: 'Name',
       isSortable: true,
       cell: (info: any) =>
         fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
-      accessorFn: (row: any) => row?.closeDate,
-      id: 'closeDate',
-      header: 'Close Date',
+      accessorFn: (row: any) => row?.phoneNumber,
+      id: 'phoneNumber',
       isSortable: true,
-      cell: (info: any) =>
-        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DDMMYYY),
-    },
-    {
-      accessorFn: (row: any) => row?.dealStage,
-      id: 'dealStage',
-      isSortable: true,
-      header: 'Deal Stage',
+      header: 'Phone Number',
       cell: (info: any) => info?.getValue() ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.dealPipeline,
-      id: 'dealPipeline',
+      accessorFn: (row: any) => row?.jobTitle,
+      id: 'jobTitle',
       isSortable: true,
-      header: 'Deal Pipeline',
+      header: 'Job Title',
       cell: (info: any) => info?.getValue() ?? '---',
     },
     {
@@ -53,7 +48,7 @@ export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
           <Box display={'flex'} gap={1}>
             <PermissionsGuard
               permissions={[
-                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.VIEW_DEALS_DETAILS,
+                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.VIEW_CONTACT_DETAILS,
               ]}
             >
               <VisibilityRoundedIcon
@@ -69,7 +64,9 @@ export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
               />
             </PermissionsGuard>
             <PermissionsGuard
-              permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DELETE_DEALS]}
+              permissions={[
+                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DELETE_CONTACT,
+              ]}
             >
               <CancelIcon
                 color={'error'}

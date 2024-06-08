@@ -1,8 +1,8 @@
-import { Checkbox, Typography } from '@mui/material';
+import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { truncateText } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
-export const useAddDealsColumns = ({
+export const useAddContactsColumns = ({
   theme,
   setSelected,
   selected,
@@ -10,7 +10,7 @@ export const useAddDealsColumns = ({
 }: any) => [
   {
     accessorFn: (row: any) => row?._id,
-    id: 'id',
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
         icon={<CheckboxIcon />}
@@ -49,28 +49,42 @@ export const useAddDealsColumns = ({
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.name,
+    accessorFn: (row: any) => row?._id,
+    id: 'contactID',
+    cell: (info: any) => `#PBR - ${info?.getValue()?.slice(-3)}`,
+    header: 'Contact ID',
+    isSortable: true,
+  },
+  {
+    accessorFn: (row: any) => row,
     id: 'name',
+    header: 'Owner',
+    isSortable: true,
     cell: (info: any) => (
-      <Typography variant="body4" color={theme?.palette?.custom?.bright}>
-        {truncateText(info?.getValue())}
-      </Typography>
+      <Box display={'flex'} alignItems={'center'} gap={1}>
+        <Avatar
+          sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
+          src={generateImage(info?.getValue()?.profilePicture?.url)}
+        >
+          <Typography variant="body2" textTransform={'uppercase'}>
+            {fullNameInitial(
+              info?.getValue()?.firstName,
+              info?.getValue()?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        <Box display={'flex'} flexDirection={'column'}>
+          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+          {info?.getValue()?.email}
+        </Box>
+      </Box>
     ),
-    header: 'Deal Name',
-    isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.dealOwner?.name,
-    id: 'dealOwner.name',
-    header: 'Deal Owner',
+    accessorFn: (row: any) => row?.jobTitle,
+    id: 'jobTitle',
     isSortable: true,
-    cell: (info: any) => truncateText(info?.getValue()),
-  },
-  {
-    accessorFn: (row: any) => row?.dealPipeline,
-    id: 'dealPipeline',
-    isSortable: true,
-    header: 'Deal Pipeline',
+    header: 'Job Title',
     cell: (info: any) => info?.getValue() ?? '---',
   },
 ];

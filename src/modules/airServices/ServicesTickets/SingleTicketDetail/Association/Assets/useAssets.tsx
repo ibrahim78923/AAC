@@ -73,7 +73,7 @@ export default function useAssets({ setIsDrawerOpen }: any) {
   const methods = useForm({
     defaultValues: { type: TYPE_VALUES?.ASSETS },
   });
-  const { control } = methods;
+  const { control, reset } = methods;
 
   const type = useWatch({
     control,
@@ -88,6 +88,7 @@ export default function useAssets({ setIsDrawerOpen }: any) {
   const onClose = () => {
     setIsDrawerOpen(drawerInitialState);
     setSelected([]);
+    reset();
   };
 
   const [
@@ -125,7 +126,8 @@ export default function useAssets({ setIsDrawerOpen }: any) {
   const submitHandler = async () => {
     if (type === TYPE_VALUES?.PURCHASE_ORDER) {
       return;
-    } else {
+    }
+    if (type === TYPE_VALUES?.ASSETS) {
       const body = {
         id: ticketId,
         assetIds: selected,

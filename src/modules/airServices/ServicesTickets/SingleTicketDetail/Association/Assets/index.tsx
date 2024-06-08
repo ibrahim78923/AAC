@@ -1,5 +1,5 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -90,9 +90,17 @@ export default function Assets({
             color={'common.white'}
             mr={0.5}
           >
-            {data?.data?.tickets?.length < 10
-              ? `0${data?.data?.tickets?.length}`
-              : data?.data?.tickets?.length}
+            {isLoading || isFetching ? (
+              <CircularProgress size={18} />
+            ) : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id ? (
+              data?.data?.tickets?.length < 10 ? (
+                `0${data?.data?.tickets?.length}`
+              ) : (
+                data?.data?.tickets?.length
+              )
+            ) : (
+              '00'
+            )}
           </Typography>
           Assets
         </Typography>

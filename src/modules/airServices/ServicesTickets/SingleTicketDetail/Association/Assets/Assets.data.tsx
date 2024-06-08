@@ -38,7 +38,7 @@ export const getAssociateAssetsColumns: any = ({
       accessorFn: (row: any) => row?.associateAssetsDetails?._id,
       id: 'associateAssetsDetails._id',
       header: 'Assets Id',
-      cell: (info: any) => `#PO - ${info?.getValue()?.slice(-3)}` ?? '-',
+      cell: (info: any) => `#PO - ${info?.getValue()?.slice(-3)}` ?? '---',
     },
     {
       accessorFn: (row: any) => row?.associateAssetsDetails?.displayName,

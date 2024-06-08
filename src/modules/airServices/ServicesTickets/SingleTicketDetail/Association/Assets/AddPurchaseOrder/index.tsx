@@ -5,6 +5,8 @@ import useAddPurchaseOrder from './useAddPurchaseOrder';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
 
 export default function AddPurchaseOrder({ setSelected, selected }: any) {
   const {
@@ -22,13 +24,20 @@ export default function AddPurchaseOrder({ setSelected, selected }: any) {
   return (
     <Stack direction={'column'} spacing={2}>
       <Search label="Search Here" width="100%" setSearchBy={setSearch} />
-      <Link
-        href={AIR_SERVICES?.NEW_PURCHASE_ORDER}
-        style={{ display: 'flex', gap: 1 }}
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.NEW_PURCAHSE_ORDER,
+        ]}
       >
-        <AddCircleIcon color={'primary'} />
-        <Typography variant={'body2'}>Add Purchase Order</Typography>
-      </Link>
+        <Link
+          href={AIR_SERVICES?.NEW_PURCHASE_ORDER}
+          style={{ display: 'flex', gap: 1 }}
+        >
+          <AddCircleIcon color={'primary'} />
+          <Typography variant={'body2'}>Add Purchase Order</Typography>
+        </Link>
+      </PermissionsGuard>
+
       <TanstackTable
         columns={addOrderColumns}
         data={data?.data?.purchases}

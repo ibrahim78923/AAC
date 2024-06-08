@@ -55,6 +55,30 @@ export const ticketsAssociationAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getAssociatesDeals: builder?.query({
+      query: (postTicketsAssociatesDealsParameter: any) => ({
+        url: END_POINTS?.DEALS_LIST_VIEW,
+        method: 'GET',
+        params: postTicketsAssociatesDealsParameter?.queryParams,
+      }),
+    }),
+
+    // Associate Contacts
+    getTicketsAssociatesContacts: builder?.query({
+      query: (getTicketsAssociatesContactsParameter: any) => ({
+        url: END_POINTS?.TICKET,
+        method: 'GET',
+        params: getTicketsAssociatesContactsParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    getAssociatesContacts: builder?.query({
+      query: (postTicketsAssociatesContactsParameter: any) => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+        params: postTicketsAssociatesContactsParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -66,4 +90,7 @@ export const {
   useLazyGetTicketsAssociatesAssetsQuery,
   useGetAssociatesOrderQuery,
   useLazyGetTicketsAssociatesDealsQuery,
+  useGetAssociatesDealsQuery,
+  useLazyGetTicketsAssociatesContactsQuery,
+  useGetAssociatesContactsQuery,
 } = ticketsAssociationAPI;

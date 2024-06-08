@@ -2,18 +2,18 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { PAGINATION } from '@/config';
 import { Stack, useTheme } from '@mui/material';
-import React, { useState } from 'react';
-import { useAddDealsColumns } from './AddDeals.data';
-import { useGetAssociatesDealsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { useState } from 'react';
+import { useAddContactsColumns } from './ExistingContact.data';
+import { useGetAssociatesContactsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 
-export default function AddDeals({ setSelected, selected }: any) {
+export default function ExistingContact({ setSelected, selected }: any) {
   const theme: any = useTheme();
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
 
-  const getAssociatesDealsParameter = {
+  const getAssociatesContactsParameter = {
     queryParams: {
       page,
       limit: pageLimit,
@@ -22,23 +22,23 @@ export default function AddDeals({ setSelected, selected }: any) {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociatesDealsQuery(getAssociatesDealsParameter, {
+    useGetAssociatesContactsQuery(getAssociatesContactsParameter, {
       refetchOnMountOrArgChange: true,
     });
 
-  const addDealsColumns = useAddDealsColumns({
+  const addContactsColumns = useAddContactsColumns({
     theme,
     setSelected,
     selected,
-    associatesDealsList: data?.data?.deals,
+    associatesContactsList: data?.data?.contacts,
   });
 
   return (
     <Stack direction={'column'} spacing={2}>
       <Search label="Search Here" width="100%" setSearchBy={setSearch} />
       <TanstackTable
-        columns={addDealsColumns}
-        data={data?.data?.deals}
+        columns={addContactsColumns}
+        data={data?.data?.contacts}
         isPagination
         isSuccess={isSuccess}
         isError={isError}
