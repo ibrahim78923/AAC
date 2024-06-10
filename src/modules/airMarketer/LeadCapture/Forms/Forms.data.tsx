@@ -155,3 +155,9 @@ export const formStatus = {
   PUBLISHED: 'PUBLISHED',
   TRASH: 'TRASH',
 };
+
+export const tabsArray = [
+  { value: 'ALL', label: 'All' },
+  { value: 'DRAFT', label: 'Draft' },
+  { value: 'PUBLISHED', label: 'Published' },
+];
