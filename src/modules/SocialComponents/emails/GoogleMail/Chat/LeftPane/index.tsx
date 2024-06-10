@@ -51,6 +51,7 @@ const LeftPane = () => {
   });
 
   const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
+  const [currentPage, setCurrentPage] = useState(PAGINATION.CURRENT_PAGE);
 
   const {
     data: emailsByFolderIdData,
@@ -59,7 +60,7 @@ const LeftPane = () => {
   } = useGetGmailsByFolderIdQuery(
     {
       params: {
-        page: PAGINATION?.CURRENT_PAGE,
+        pageToken: currentPage,
         limit: PAGINATION?.PAGE_LIMIT,
         folderId: gmailTabType?.name,
         ...(gmailSearch && { search: gmailSearch }),
@@ -67,6 +68,10 @@ const LeftPane = () => {
     },
     { skip: isGetEmailsRequest },
   );
+
+  const handlePageChange = (event: any, value: any) => {
+    setCurrentPage(value);
+  };
 
   useEffect(() => {
     if (gmailTabType) {
@@ -212,6 +217,8 @@ const LeftPane = () => {
         isLoadingEmailsByFolderIdData={isLoadingEmailsByFolderIdData}
         refetch={refetch}
         gmailTabType={gmailTabType}
+        handlePageChange={handlePageChange}
+        currentPage={currentPage}
       />
 
       <CommonDrawer

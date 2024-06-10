@@ -98,9 +98,10 @@ export const gmailApi = baseAPI.injectEndpoints({
     }),
 
     deleteGmail: builder.mutation({
-      query: ({ ids }: any) => ({
-        url: `${SOCIAL_FEATURES_GMAIL?.DELETE_GMAIL}/${ids}`,
-        method: 'DELETE',
+      query: ({ body }: any) => ({
+        url: `${SOCIAL_FEATURES_GMAIL?.DELETE_GMAIL}`,
+        method: 'PATCH',
+        body: body,
       }),
       invalidatesTags: TAG,
     }),

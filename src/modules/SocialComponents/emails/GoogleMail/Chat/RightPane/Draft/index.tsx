@@ -1,5 +1,14 @@
-import React, { useEffect } from 'react';
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  Grid,
+  Typography,
+  useTheme,
+  Autocomplete,
+  TextField,
+  Chip,
+} from '@mui/material';
 import {
   FormProvider,
   RHFCheckbox,
@@ -23,11 +32,15 @@ import { LoadingButton } from '@mui/lab';
 import { EMAIL_TABS_TYPES } from '@/constants';
 import {
   useGetGmailFoldersQuery,
+  usePatchGmailMessageMutation,
   usePostSendGmailMutation,
 } from '@/services/commonFeatures/email/gmail';
 import { setGmailTabType } from '@/redux/slices/email/gmail/slice';
+import * as yup from 'yup';
+import CustomLabel from '@/components/CustomLabel';
 
 const Draft = () => {
+  const [autocompleteValues, setAutocompleteValues] = useState<string[]>([]);
   const theme = useTheme();
 
   const dispatch = useDispatch();
@@ -39,7 +52,7 @@ const Draft = () => {
     resolver: yupResolver(emailDraftValidationsSchema),
     defaultValues: {},
   });
-  const { handleSubmit, watch, reset } = methods;
+  const { handleSubmit, watch, reset, setValue } = methods;
 
   const watchEmailsForm = watch(['ccChecked', 'bccChecked', 'to']);
 
@@ -50,11 +63,24 @@ const Draft = () => {
   );
   const [postSendGmail, { isLoading: loadingOtherSend }] =
     usePostSendGmailMutation();
+  const [patchGmailMessage] = usePatchGmailMessageMutation();
 
   const onSubmit = async (values: any) => {
+    if (!values?.to || values?.to?.length === 0) {
+      enqueueSnackbar('Please Enter Email', { variant: 'error' });
+      return false;
+    }
+
+    if (!values?.description || values?.description?.trim() === '') {
+      enqueueSnackbar('Please Enter Description', { variant: 'error' });
+
+      return false;
+    }
     const formDataSend = new FormData();
     formDataSend.append('to', values?.to);
-    formDataSend.append('subject', values?.subject);
+    if (values?.subject) {
+      formDataSend.append('subject', values?.subject);
+    }
     formDataSend.append('content', values?.description);
     if (values?.cc && values?.cc?.trim() !== '') {
       formDataSend.append('cc', values?.cc);
@@ -71,6 +97,21 @@ const Draft = () => {
         variant: 'success',
       });
       dispatch(setGmailTabType(fetchedSentFolder));
+
+      const payload = {
+        messageId: activeRecord?.messageId,
+        folderId: 'TRASH',
+      };
+      try {
+        await patchGmailMessage({
+          body: payload,
+        })?.unwrap();
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong while updating message!', {
+          variant: 'error',
+        });
+      }
+
       reset();
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
@@ -80,6 +121,7 @@ const Draft = () => {
   const activeRecordLengthCheck = Object.keys(activeRecord)?.length;
 
   useEffect(() => {
+    setAutocompleteValues([activeRecord?.to]);
     reset({
       to: activeRecordLengthCheck ? activeRecord?.to : '',
       subject: activeRecordLengthCheck
@@ -98,6 +140,25 @@ const Draft = () => {
     });
   }, [activeRecord]);
 
+  const handleAutocompleteChange = (_: any, newValue: string[]) => {
+    setAutocompleteValues(newValue);
+  };
+
+  const emailSchema = yup?.string()?.email()?.required();
+  const checkEmails = (emails: string[]) => {
+    try {
+      yup?.array()?.of(emailSchema)?.required()?.validateSync(emails);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+  const isValidEmails = checkEmails(autocompleteValues);
+
+  useEffect(() => {
+    setValue('to', autocompleteValues);
+  }, [autocompleteValues]);
+
   return (
     <Box>
       {Object.keys(activeRecord)?.length ? (
@@ -106,11 +167,53 @@ const Draft = () => {
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <RHFTextField
+                  {/* <RHFTextField
                     name="to"
                     label="to"
                     size="small"
                     required={true}
+                  /> */}
+                  <Autocomplete
+                    multiple
+                    freeSolo
+                    id="tags-filled"
+                    options={[]}
+                    value={autocompleteValues}
+                    onChange={handleAutocompleteChange}
+                    renderTags={(value: readonly string[], getTagProps) =>
+                      value?.map((option: string, index: number) => (
+                        <Chip
+                          variant="outlined"
+                          label={option}
+                          {...getTagProps({ index })}
+                          key={uuidv4()}
+                        />
+                      ))
+                    }
+                    renderInput={(params: any) => (
+                      <>
+                        <CustomLabel label={'To'} required={true} />
+                        <TextField
+                          {...params}
+                          variant="outlined"
+                          placeholder="Enter email"
+                          size="small"
+                          helperText={
+                            isValidEmails ? (
+                              params.inputProps?.value?.length > 1 ? (
+                                <Typography fontSize={12}>
+                                  Press enter to add email
+                                </Typography>
+                              ) : null
+                            ) : (
+                              <Typography color={theme?.palette?.error?.main}>
+                                Email you entered is not valid
+                              </Typography>
+                            )
+                          }
+                        />
+                      </>
+                    )}
                   />
                 </Grid>
                 <Grid item xs={2} sx={{ mt: 3 }}>

@@ -15,13 +15,11 @@ import {
   MailColoredIcon,
   ProfileCircleIcon,
   ReplyAllIcon,
-  SettingsIcon,
 } from '@/assets/icons';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './RightPane.styles';
 import SendEmailDrawer from '../../SendEmail';
-import EmailSettingDrawer from '../../EmailSettingDrawer';
 import {
   API_STATUS,
   CREATE_EMAIL_TYPES,
@@ -38,9 +36,14 @@ import {
   setGmailSearch,
 } from '@/redux/slices/email/gmail/slice';
 import dayjs from 'dayjs';
+import HomeIcon from '@mui/icons-material/Home';
+import UserDetailsDrawer from '../../UserDetailsDrawer';
+import { useRouter } from 'next/router';
+import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
 
 const RightPane = () => {
   const theme = useTheme();
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -49,8 +52,8 @@ const RightPane = () => {
   );
 
   const [isOpenSendEmailDrawer, setIsOpenSendEmailDrawer] = useState(false);
-  const [isEmailSettingsDrawerOpen, setIsEmailSettingsDrawerOpen] =
-    useState(false);
+  const [isUserDetailDrawerOpen, setIsUserDetailDrawerOpen] = useState(false);
+  const [isUserDetail, setIsUserDetail] = useState();
   const [mailType, setMailType] = useState('');
   const [searchValue, setSearchValue] = useState<any>('');
   const [isMessageDetailsRequest, setIsMessageDetailsRequest] = useState(true);
@@ -116,10 +119,12 @@ const RightPane = () => {
             variant="outlined"
             sx={{ height: '33px', background: 'white' }}
             color="inherit"
-            startIcon={<SettingsIcon />}
-            onClick={() => setIsEmailSettingsDrawerOpen(true)}
+            startIcon={<HomeIcon />}
+            onClick={() =>
+              router?.push(`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}`)
+            }
           >
-            Email Settings
+            Emails
           </Button>
           <Button
             variant="contained"
@@ -172,7 +177,16 @@ const RightPane = () => {
                   {sortedMessagesDataArray?.length > 0 ? (
                     sortedMessagesDataArray?.map((obj: any) => (
                       <Box key={uuidv4()} sx={styles?.rightSideCard}>
-                        {obj?.userImg || <ProfileCircleIcon />}
+                        <Box
+                          sx={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            setIsUserDetailDrawerOpen(true);
+                            setIsUserDetail(obj);
+                          }}
+                        >
+                          {obj?.userImg || <ProfileCircleIcon />}
+                        </Box>
+
                         <Box flex={1}>
                           <Box sx={styles?.emailWrap}>
                             <Box flex={1} sx={{ cursor: 'pointer' }}>
@@ -501,9 +515,10 @@ const RightPane = () => {
         drawerType={mailType}
         setMailType={setMailType}
       />
-      <EmailSettingDrawer
-        isOpenDrawer={isEmailSettingsDrawerOpen}
-        setIsOpenDrawer={setIsEmailSettingsDrawerOpen}
+      <UserDetailsDrawer
+        isOpenDrawer={isUserDetailDrawerOpen}
+        setIsOpenDrawer={setIsUserDetailDrawerOpen}
+        isUserDetail={isUserDetail}
       />
     </Box>
   );

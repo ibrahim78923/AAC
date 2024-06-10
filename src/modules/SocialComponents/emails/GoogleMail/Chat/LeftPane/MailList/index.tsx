@@ -25,7 +25,9 @@ const MailList = ({
   emailsByFolderIdData,
   isLoadingEmailsByFolderIdData,
   refetch,
-  mailTabType,
+  gmailTabType,
+  // handlePageChange,
+  // currentPage,
 }: any) => {
   const theme = useTheme();
 
@@ -138,7 +140,7 @@ const MailList = ({
         </Button>
       </Box>
 
-      {mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.TRASH && (
+      {gmailTabType?.name?.toLowerCase() === EMAIL_TABS_TYPES?.TRASH && (
         <Box
           sx={{
             background: theme?.palette?.grey[100],
@@ -195,7 +197,7 @@ const MailList = ({
                               onChange={() => handleCheckboxClick(item)}
                             />
                             <Box>
-                              {mailTabType?.display_name ===
+                              {gmailTabType?.name ===
                               EMAIL_TABS_TYPES?.SCHEDULE ? (
                                 <Typography
                                   variant="h6"
@@ -211,6 +213,7 @@ const MailList = ({
                                   variant="h6"
                                   sx={{
                                     fontWeight: item?.readMessage ? 700 : '',
+                                    wordBreak: 'break-all',
                                   }}
                                 >
                                   {' '}
@@ -222,6 +225,7 @@ const MailList = ({
                                 variant="body3"
                                 sx={{
                                   fontWeight: item?.readMessage ? 700 : 600,
+                                  wordBreak: 'break-all',
                                 }}
                                 color={'primary'}
                                 margin={'8px 0px'}
@@ -236,6 +240,7 @@ const MailList = ({
                                   WebkitBoxOrient: 'vertical',
                                   WebkitLineClamp: 3,
                                   overflow: 'hidden',
+                                  wordBreak: 'break-all',
                                   textOverflow: 'ellipsis',
                                 }}
                               >
@@ -266,6 +271,25 @@ const MailList = ({
           </>
         )}
       </Box>
+
+      {/* {
+        isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
+
+          <>{[1]?.map((index) => <SkeletonBox key={index} />)}</>
+
+        ) : (
+
+          <Stack spacing={2} mt={2}>
+            <Pagination
+              count={10}
+              variant="outlined"
+              shape="rounded"
+              page={currentPage}
+              onChange={handlePageChange}
+            />
+          </Stack>
+        )
+      } */}
     </Box>
   );
 };

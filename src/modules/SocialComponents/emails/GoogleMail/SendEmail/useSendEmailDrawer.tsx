@@ -143,6 +143,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         reset();
       }
     } else {
+      if (!values?.to || values?.to?.length === 0) {
+        enqueueSnackbar('Please Enter Email', { variant: 'error' });
+        return false;
+      }
+
+      if (!values?.description || values?.description?.trim() === '') {
+        enqueueSnackbar('Please Enter Description', { variant: 'error' });
+
+        return false;
+      }
+
       if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
         const formDataSend = new FormData();
         formDataSend.append('to', values?.to);

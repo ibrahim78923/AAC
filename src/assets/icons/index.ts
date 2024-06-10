@@ -499,5 +499,7 @@ export { default as CallNotesIcon } from './modules/airCallCenter/CallMetrices/c
 export { default as CheckedFavoriteIcon } from './modules/airOperations/reports/checked-favorite-icon';
 export { default as UnCheckedFavoriteIcon } from './modules/airOperations/reports/unchecked-favorite-icons';
 export { default as CloneReportIcon } from './modules/airOperations/reports/clone-report-icon';
+export { default as BluePhoneIcon } from './shared/blue-phone';
+export { default as BlueArrowIcon } from './shared/blue-arrow';
 export { default as NoHolidayFoundIcon } from './shared/no-holiday-found-icon';
 export { default as RestoreReportIcon } from './modules/airOperations/reports/restore-report-icon';

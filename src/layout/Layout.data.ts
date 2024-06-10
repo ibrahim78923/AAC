@@ -518,7 +518,7 @@ export const SalesRoutes: any = [
     icon: ForecastImage,
     label: 'Forecast',
     role: 'AIR_SALES',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_FORECAST,
   },
   {
     key: '/air-sales/quotes',
