@@ -1,8 +1,8 @@
-export interface AddUserPropsI {
+export interface AddTeamsPropsI {
   isDrawerOpen: boolean;
   onClose: () => void;
   handleSubmit: any;
   formMethods: any;
   isLoading?: boolean;
-  isViewed: boolean;
+  addTeamDrawer: boolean;
 }

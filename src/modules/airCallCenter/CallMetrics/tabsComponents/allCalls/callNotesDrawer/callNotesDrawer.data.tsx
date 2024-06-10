@@ -20,7 +20,7 @@ export const selectTagsOptions = [
 
 export const viewCallNotesFormDefaultValues = () => {
   return {
-    callNotes: null,
+    callNotes: '',
     selectTags: null,
   };
 };

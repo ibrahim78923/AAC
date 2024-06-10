@@ -7,6 +7,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import useUserManagement from './useUserManagement';
 import { styles } from './UserManagement.style';
 import AddUser from './AddUser';
+import AddTeams from './AddTeams';
 
 const UserManagement = () => {
   const {
@@ -17,6 +18,17 @@ const UserManagement = () => {
     handleOpenDrawerAddUser,
     handleCloseDrawerAddUser,
     handleAddUserSubmit,
+    handleAddTeamsSubmits,
+    handleOpenDrawerAddTeams,
+    methodsAddTeams,
+    openDrawerAddTeams,
+    handleCloseDrawerAddTeams,
+    addTeamDrawer,
+    setAddTeamDrawer,
+    setOpenDrawerAddTeams,
+    isViewed,
+    setIsViewed,
+    setOpenDrawerAddUser,
   } = useUserManagement();
   return (
     <>
@@ -41,8 +53,9 @@ const UserManagement = () => {
                 variant="contained"
                 className="small"
                 startIcon={<PlusShared />}
+                onClick={handleOpenDrawerAddTeams}
               >
-                Add Team
+                Create Team
               </Button>
             )}
           </Box>
@@ -57,10 +70,21 @@ const UserManagement = () => {
               </TabList>
             </Box>
             <TabPanel value="users">
-              <Users />
+              <Users
+                setOpenDrawerAddUser={setOpenDrawerAddUser}
+                setIsViewed={setIsViewed}
+              />
             </TabPanel>
             <TabPanel value="teams">
-              <Teams />
+              <Teams
+                isDrawerOpen={openDrawerAddTeams}
+                onClose={handleCloseDrawerAddTeams}
+                formMethods={methodsAddTeams}
+                handleSubmit={handleAddTeamsSubmits}
+                setOpenDrawerAddTeams={setOpenDrawerAddTeams}
+                addTeamDrawer={addTeamDrawer}
+                setAddTeamDrawer={setAddTeamDrawer}
+              />
             </TabPanel>
           </TabContext>
         </Box>
@@ -71,7 +95,15 @@ const UserManagement = () => {
         onClose={handleCloseDrawerAddUser}
         formMethods={methodsAddUser}
         handleSubmit={handleAddUserSubmit}
+        isViewed={isViewed}
         // isLoading={loadingAddFaq}
+      />
+      <AddTeams
+        isDrawerOpen={openDrawerAddTeams}
+        onClose={handleCloseDrawerAddTeams}
+        formMethods={methodsAddTeams}
+        handleSubmit={handleAddTeamsSubmits}
+        addTeamDrawer={addTeamDrawer}
       />
     </>
   );

@@ -813,3 +813,12 @@ export const REPORT_TYPE = {
   TEXT: 'text',
   FILTER: 'filter',
 };
+
+export const USER_MANAGEMENT_DRAWER_ACTION = {
+  CREATE_TEAM: 'Create Team',
+  EDIT_TEAM: 'Edit Team',
+  VIEW_USER: 'View User',
+  ADD_USER: 'Add User',
+  ADD: 'Add',
+  EDIT: 'Edit',
+};

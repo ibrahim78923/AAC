@@ -1,41 +1,42 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { AddUserPropsI } from './AddUser.interface';
-import { addUserFields } from './AddUser.data';
+
 import CommonDrawer from '@/components/CommonDrawer';
+import { addTeamsFields } from './AddTeams.data';
+import { AddTeamsPropsI } from './AddTeams.interface';
 import { USER_MANAGEMENT_DRAWER_ACTION } from '@/constants/strings';
 
-const AddUser = ({
+const AddTeams = ({
   isDrawerOpen,
   onClose,
   handleSubmit,
   formMethods, // isLoading,
-  isViewed,
-}: AddUserPropsI) => {
+  addTeamDrawer,
+}: AddTeamsPropsI) => {
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
       onClose={onClose}
       title={
-        isViewed
-          ? USER_MANAGEMENT_DRAWER_ACTION?.VIEW_USER
-          : USER_MANAGEMENT_DRAWER_ACTION?.ADD_USER
+        addTeamDrawer
+          ? USER_MANAGEMENT_DRAWER_ACTION?.CREATE_TEAM
+          : USER_MANAGEMENT_DRAWER_ACTION?.EDIT_TEAM
       }
-      okText={'Add'}
+      okText={
+        addTeamDrawer
+          ? USER_MANAGEMENT_DRAWER_ACTION?.ADD
+          : USER_MANAGEMENT_DRAWER_ACTION?.EDIT
+      }
       isOk={true}
-      footer={isViewed ? false : true}
+      footer={true}
       submitHandler={handleSubmit}
     >
       <FormProvider methods={formMethods}>
         <Grid container spacing={'22px'}>
-          {addUserFields?.map((item: any) => (
+          {addTeamsFields?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>
-              <item.component
-                {...item.componentProps}
-                size={'small'}
-                disabled={isViewed ? true : false}
-              >
+              <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select
                   ? item?.options?.map((option: any) => (
                       <option key={option?.value} value={option?.value}>
@@ -52,4 +53,4 @@ const AddUser = ({
   );
 };
 
-export default AddUser;
+export default AddTeams;
