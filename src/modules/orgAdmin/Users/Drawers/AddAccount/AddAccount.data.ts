@@ -4,9 +4,11 @@ import {
 } from '@/components/ReactHookForm';
 import useAddAccount from './useAddAccount';
 import * as Yup from 'yup';
+import { indexNumbers } from '@/constants';
 
 export const AddAccountArray = (companyRoleParams: any) => {
   const { companyAccounts, companyRoles, user } = useAddAccount();
+
   return [
     {
       componentProps: {
@@ -43,6 +45,7 @@ export const AddAccountArray = (companyRoleParams: any) => {
         placeholder: 'Select Role',
         fullWidth: true,
         required: true,
+        disabled: Object.keys(companyRoleParams)?.length === indexNumbers?.ZERO,
         apiQuery: companyRoles,
         getOptionLabel: (option: any) => option?.name,
         externalParams: companyRoleParams,

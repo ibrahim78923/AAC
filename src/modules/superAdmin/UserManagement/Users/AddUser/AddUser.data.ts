@@ -3,6 +3,7 @@ import { RHFMultiCheckbox, RHFSelect } from '@/components/ReactHookForm';
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 import useUserManagement from '../../useUserManagement';
 import * as Yup from 'yup';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 // commented this code for future use
 // import { useGetSuperAdminRolesQuery } from '@/services/superAdmin/user-management/users';
@@ -109,20 +110,18 @@ export const superAdminValidationSchema = Yup.object().shape({
       }
       return value;
     }),
-  postCode: Yup.string()
-    .required('Field is Required')
-    .matches(/^[0-9]+$/, 'Must be a number'),
+  postCode: Yup.string().required('Field is Required'),
   address: Yup.string()?.required('Field is Required'),
   jobTitle: Yup.string()
-    .nullable() // Allow null or undefined values
-    .matches(/^[A-Za-z]*$/, 'Only alphabetic characters are allowed') // Validate alphabetic characters if provided
+    .nullable()
+    .matches(/^[A-Za-z]*$/, 'Only alphabetic characters are allowed')
     .transform((value, originalValue) => {
       if (
         originalValue === '' ||
         originalValue === null ||
         originalValue === undefined
       ) {
-        return null; // Convert empty string or null/undefined to null
+        return null;
       }
       return value;
     }),
@@ -136,6 +135,10 @@ export const companyOwnerDefaultValues = {
 
 export const addUsersArray = () => {
   const { productsList } = useUserManagement();
+  const filteredProducts = productsList?.data?.filter(
+    (item: any) => item?.status === PRODUCT_USER_STATUS?.active,
+  );
+  //for future use
   // const { data: superAdminRoles } = useGetSuperAdminRolesQuery();
 
   return [
@@ -175,6 +178,7 @@ export const addUsersArray = () => {
       component: RHFTextField,
       md: 12,
     },
+    //for future use
     // commented this code for future use
     // {
     //   componentProps: {
@@ -243,7 +247,7 @@ export const addUsersArray = () => {
         name: 'products',
         GridView: 6,
         isCheckBox: true,
-        options: productsList?.data?.map((item: any) => ({
+        options: filteredProducts?.map((item: any) => ({
           value: item?._id,
           label: item?.name,
         })),

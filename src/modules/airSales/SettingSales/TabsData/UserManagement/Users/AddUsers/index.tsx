@@ -8,7 +8,7 @@ import { DRAWER_TYPES } from '@/constants/strings';
 const AddUsers = (props: any) => {
   const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
   const theme = useTheme();
-  const { methods, handleSubmit, onSubmit } = useAddUser(
+  const { methods, handleSubmit, onSubmit, productUsersById } = useAddUser(
     checkedUser,
     isAddUserDrawer,
     setIsAddUserDrawer,
@@ -21,10 +21,14 @@ const AddUsers = (props: any) => {
         setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false })
       }
       title={
-        isAddUserDrawer?.type === DRAWER_TYPES?.EDIT ? 'Edit User' : 'Add User'
+        isAddUserDrawer?.type === DRAWER_TYPES?.VIEW
+          ? `${productUsersById?.data?.user?.firstName} ${productUsersById?.data?.user?.lastName}`
+          : isAddUserDrawer?.type === DRAWER_TYPES?.EDIT
+          ? 'Edit User'
+          : 'Add User'
       }
       okText={isAddUserDrawer?.type === DRAWER_TYPES?.EDIT ? 'Edit' : 'Add'}
-      footer={true}
+      footer={isAddUserDrawer?.type === DRAWER_TYPES?.VIEW ? false : true}
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
     >

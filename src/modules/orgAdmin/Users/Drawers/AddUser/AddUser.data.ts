@@ -44,9 +44,7 @@ export const superAdminValidationSchema = Yup.object().shape({
       }
       return value;
     }),
-  postCode: Yup.string()
-    .required('Field is Required')
-    .matches(/^[0-9]+$/, 'Must be a number'),
+  postCode: Yup.string().required('Field is Required'),
   compositeAddress: Yup.string()?.required('Field is Required'),
   linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
   twitterUrl: Yup.string().url('Please enter a valid URL').optional(),

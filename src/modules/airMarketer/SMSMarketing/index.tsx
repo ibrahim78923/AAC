@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  FormControl,
-  MenuItem,
-  Select,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Avatar, Box, Button, Stack, Typography } from '@mui/material';
 import CommonTabs from '@/components/Tabs';
 import SMSDashboard from './SMSDashboard';
 import SMSBroadcast from './SMSBroadcast';
@@ -21,6 +12,9 @@ import ConnectNumber from './ConnectNumber';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { getSession } from '@/utils';
+import { generateImage } from '@/utils/avatarUtils';
+import { indexNumbers } from '@/constants';
 
 const SMSMarketing = () => {
   const {
@@ -32,6 +26,8 @@ const SMSMarketing = () => {
     isConnected,
     setIsConnected,
   } = useSMSMarketing();
+
+  const { user }: any = getSession();
 
   return (
     <>
@@ -52,47 +48,41 @@ const SMSMarketing = () => {
               SMS Marketing
             </Typography>
 
-            {tabVal === 0 && (
+            {tabVal === indexNumbers?.ZERO && (
               <Stack direction={{ sm: 'row', xs: 'column' }} gap={1.5}>
-                <FormControl fullWidth>
-                  <Select
-                    sx={{
-                      height: '52px',
-                      width: '181px',
-                      padding: '7px 0px',
-                      alignItems: 'center',
-                      display: 'flex',
-                    }}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    defaultValue={'monica'}
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={1}
+                  sx={{
+                    border: `1px solid ${theme?.palette?.grey[700]}`,
+                    padding: '7px 12px',
+                    borderRadius: '4px',
+                  }}
+                >
+                  <Avatar
+                    src={generateImage(user?.avatar?.url)}
+                    sx={{ color: theme?.palette?.grey[600] }}
                   >
-                    <MenuItem value={'monica'}>
-                      <Stack direction="row" gap={1} alignItems="center">
-                        <Avatar
-                          alt="avatar"
-                          src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-                        />
-                        <Box>
-                          <Typography>Monica</Typography>
-                          <Typography>8023456789</Typography>
-                        </Box>
-                      </Stack>
-                    </MenuItem>
-                    <MenuItem value={'Nakita'}>
-                      <Stack direction="row" gap={1} alignItems="center">
-                        <Avatar
-                          alt="avatar"
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
-                        />
-                        <Box>
-                          <Typography>Nakita</Typography>
-                          <Typography>0987654321</Typography>
-                        </Box>
-                      </Stack>
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                    {user?.firstName?.[0]}
+                    {user?.lastName?.[0]}
+                  </Avatar>
+                  <Box display="flex" flexDirection="column">
+                    <Typography
+                      color={theme?.palette?.grey[900]}
+                      variant="body3"
+                    >
+                      {user?.firstName} {user?.lastName}
+                    </Typography>
+                    <Typography
+                      variant="body3"
+                      fontWeight={500}
+                      color={theme?.palette?.custom?.main}
+                    >
+                      {user?.phoneNumber}
+                    </Typography>
+                  </Box>
+                </Box>
                 <PermissionsGuard
                   permissions={[
                     AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.EDIT_SMS_BROADCAST,
@@ -112,7 +102,7 @@ const SMSMarketing = () => {
                 </PermissionsGuard>
               </Stack>
             )}
-            {tabVal === 1 && (
+            {tabVal === indexNumbers?.ONE && (
               <PermissionsGuard
                 permissions={[
                   AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.CREATE_SMS_BROADCAST,

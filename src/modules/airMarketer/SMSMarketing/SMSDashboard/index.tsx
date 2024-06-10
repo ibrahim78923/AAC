@@ -1,15 +1,12 @@
 import { Box, Grid } from '@mui/material';
-
 import StatisticsCard from './StatisticsCard';
-
 import ScheduledSMS from './ScheduledSMS';
-
 import SMSContacts from './SMSContacts';
-
 import StatusCards from './StatusCards';
 
 const SMSDashboard = (props: any) => {
   const { setTabVal } = props;
+
   return (
     <Box>
       <Grid container spacing={2}>

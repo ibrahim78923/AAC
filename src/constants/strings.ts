@@ -753,6 +753,7 @@ export const ARRAY_INDEX = {
 };
 
 export const PRODUCT_USER_STATUS = {
+  active: 'active',
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
 };

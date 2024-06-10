@@ -3,13 +3,22 @@ import { baseAPI } from '@/services/base-api';
 
 export const SmsMarketingAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
+    getSmsDashboardInsights: builder.query({
+      query: (params: any) => ({
+        url: END_POINTS?.GET_SMS_DASHBOARD_INSIGHTS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['DASHBOARD_INSIGHTS'],
+    }),
+
     getSmsBroadcats: builder.query({
       query: (params: any) => ({
         url: END_POINTS?.GET_SMS_MARKETING_BROADCAST,
         method: 'GET',
         params: params,
       }),
-      providesTags: ['BROADCAST'],
+      providesTags: ['BROADCAST', 'DASHBOARD_INSIGHTS'],
     }),
 
     connectPhoneNumber: builder.mutation({
@@ -44,4 +53,5 @@ export const {
   useDeleteSmsBroadcastMutation,
   useConnectPhoneNumberMutation,
   useGetIsPhoneConnectedQuery,
+  useGetSmsDashboardInsightsQuery,
 } = SmsMarketingAPI;

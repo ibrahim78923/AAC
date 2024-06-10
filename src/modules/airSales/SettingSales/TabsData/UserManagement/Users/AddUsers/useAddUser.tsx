@@ -101,6 +101,7 @@ const useAddUser = (
     methods,
     handleSubmit,
     onSubmit,
+    productUsersById,
   };
 };
 

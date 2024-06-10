@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 export const validationSchema = Yup.object().shape({
   accountName: Yup.string().required('Field is Required'),
   phoneNumber: Yup.string().trim().required('Field is Required'),
-  postCode: Yup.string().trim().required('Field is Required'),
+  postCode: Yup.string().required('Field is Required'),
   address: Yup.string(),
   buildingName: Yup.string().required('Field is Required'),
   unit: Yup.string().required('Field is Required'),

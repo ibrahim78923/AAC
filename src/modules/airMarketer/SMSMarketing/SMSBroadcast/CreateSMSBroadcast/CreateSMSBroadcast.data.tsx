@@ -1,4 +1,7 @@
-import { RHFAutocompleteAsync, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
 
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 import {
@@ -35,17 +38,17 @@ export const createBroadcast = () => {
       componentProps: {
         label: 'Sender',
         name: 'sender',
-        // fullWidth: true,
-        select: true,
+        placeholder: 'Select sender',
+        fullWidth: true,
         required: true,
+        options: [
+          '(217)555-0113',
+          '(217)555-0114',
+          '(217)555-0109',
+          '(217)555-0115',
+        ],
       },
-      options: [
-        { value: '13', label: '(217)555-0113' },
-        { value: '14', label: '(217)555-0114' },
-        { value: '09', label: '(217)555-0109' },
-        { value: '15', label: '(217)555-0115' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
     {
