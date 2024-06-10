@@ -376,6 +376,13 @@ export const TASK_STATUS = {
   ASSOCIATIONS: 'associations',
   TICKETS: 'tickets',
 };
+export const TASK_TABS = {
+  CONTACTS: 'contacts',
+  COMPANIES: 'companies',
+  DEALS: 'deals',
+  ASSOCIATIONS: 'associations',
+  TICKETS: 'tickets',
+};
 
 export const COMPANITES_TYPE = {
   NEW_COMPANY: 'new-Company',

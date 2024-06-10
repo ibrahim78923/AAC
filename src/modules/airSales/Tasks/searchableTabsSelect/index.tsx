@@ -33,7 +33,7 @@ import {
 } from '@/redux/slices/taskManagement/taskManagementSlice';
 import { tabsData } from './searchableTabSelect.data';
 import { PAGINATION } from '@/config';
-import { TASK_TABS_TYPES } from '@/constants';
+import { TASK_TABS } from '@/constants';
 
 const SearchableTabsSelect = ({ required, ...other }: any) => {
   const dispatch: any = useAppDispatch();
@@ -253,11 +253,11 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                 size="small"
               />
               <Box>
-                {(activeSidebarItem === TASK_TABS_TYPES?.CONTACTS &&
+                {(activeSidebarItem === TASK_TABS?.CONTACTS &&
                   contactsStatus === 'pending') ||
-                (activeSidebarItem === TASK_TABS_TYPES?.COMPANIES &&
+                (activeSidebarItem === TASK_TABS?.COMPANIES &&
                   companiesStatus === 'pending') ||
-                (activeSidebarItem === TASK_TABS_TYPES?.DEALS &&
+                (activeSidebarItem === TASK_TABS?.DEALS &&
                   dealsStatus === 'pending') ? (
                   <Box sx={{ mt: 2 }}>
                     {[1, 2, 3, 4, 5]?.map(() => (
@@ -275,8 +275,8 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                     sx={{ maxHeight: '300px', overflow: 'scroll' }}
                     ref={containerRef}
                   >
-                    {(activeSidebarItem === TASK_TABS_TYPES?.CONTACTS ||
-                      activeSidebarItem === TASK_TABS_TYPES?.ASSOCIATIONS) && (
+                    {(activeSidebarItem === TASK_TABS?.CONTACTS ||
+                      activeSidebarItem === TASK_TABS?.ASSOCIATIONS) && (
                       <TabsContentSection
                         title="Contacts"
                         dataArray={contactsDataArray}
@@ -285,8 +285,8 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                         activeSidebarItem={activeSidebarItem}
                       />
                     )}
-                    {(activeSidebarItem === TASK_TABS_TYPES?.COMPANIES ||
-                      activeSidebarItem === TASK_TABS_TYPES?.ASSOCIATIONS) && (
+                    {(activeSidebarItem === TASK_TABS?.COMPANIES ||
+                      activeSidebarItem === TASK_TABS?.ASSOCIATIONS) && (
                       <TabsContentSection
                         title="Companies"
                         dataArray={companiesDataArray}
@@ -295,8 +295,8 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                         activeSidebarItem={activeSidebarItem}
                       />
                     )}
-                    {(activeSidebarItem === TASK_TABS_TYPES?.DEALS ||
-                      activeSidebarItem === TASK_TABS_TYPES?.ASSOCIATIONS) && (
+                    {(activeSidebarItem === TASK_TABS?.DEALS ||
+                      activeSidebarItem === TASK_TABS?.ASSOCIATIONS) && (
                       <TabsContentSection
                         title="Deals"
                         dataArray={dealsDataArray}
@@ -305,8 +305,8 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                         activeSidebarItem={activeSidebarItem}
                       />
                     )}
-                    {(activeSidebarItem === TASK_TABS_TYPES?.TICKETS ||
-                      activeSidebarItem === TASK_TABS_TYPES?.ASSOCIATIONS) && (
+                    {(activeSidebarItem === TASK_TABS?.TICKETS ||
+                      activeSidebarItem === TASK_TABS?.ASSOCIATIONS) && (
                       <TabsContentSection
                         title="Tickets"
                         dataArray={ticketsDataArray}
@@ -322,20 +322,20 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
               <Box>
                 <Pagination
                   count={
-                    activeSidebarItem === TASK_TABS_TYPES?.CONTACTS
+                    activeSidebarItem === TASK_TABS?.CONTACTS
                       ? contactsData?.data?.meta?.pages
-                      : activeSidebarItem === TASK_TABS_TYPES?.COMPANIES
+                      : activeSidebarItem === TASK_TABS?.COMPANIES
                         ? companiesData?.data?.meta?.pages
-                        : activeSidebarItem === TASK_TABS_TYPES?.DEALS
+                        : activeSidebarItem === TASK_TABS?.DEALS
                           ? dealsData?.data?.meta?.pages
                           : 0
                   }
                   page={
-                    activeSidebarItem === TASK_TABS_TYPES?.CONTACTS
+                    activeSidebarItem === TASK_TABS?.CONTACTS
                       ? contactsData?.data?.meta?.page
-                      : activeSidebarItem === TASK_TABS_TYPES?.COMPANIES
+                      : activeSidebarItem === TASK_TABS?.COMPANIES
                         ? companiesData?.data?.meta?.page
-                        : activeSidebarItem === TASK_TABS_TYPES?.DEALS
+                        : activeSidebarItem === TASK_TABS?.DEALS
                           ? dealsData?.data?.meta?.page
                           : 0
                   }
