@@ -7,7 +7,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { LoadingButton } from '@mui/lab';
 
 const Details = (props: any) => {
-  const { selected } = props;
+  const { selecetdDealId } = props;
   const {
     theme,
     methodsDetails,
@@ -16,7 +16,7 @@ const Details = (props: any) => {
     isLoading,
     dealPipelineId,
     updateLoading,
-  } = useDetails({ selected });
+  } = useDetails(selecetdDealId);
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -28,7 +28,12 @@ const Details = (props: any) => {
           <FormProvider methods={methodsDetails}>
             <Grid container spacing={4}>
               {detailsDataArray(dealPipelineId)?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.component?.name}>
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (

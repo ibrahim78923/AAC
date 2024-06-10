@@ -16,22 +16,21 @@ import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const useDetails = ({ selected }: any) => {
+const useDetails = (selecetdDealId: any) => {
   const theme = useTheme();
   const { user }: any = getSession();
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-
-  const { data, isLoading } = useGetDealsActionPreviewQuery({ id: selected });
 
   const contactParams = {
     page: page,
     limit: pageLimit,
     contactOwnerId: user?._id,
   };
+
   const { data: getDealOwnerContacts } =
     useGetCompanyContactsQuery(contactParams);
-
+  const { data } = useGetDealsActionPreviewQuery({ id: selecetdDealId });
   const [patchDeals, { isLoading: updateLoading }] = usePatchDealsMutation();
 
   const methodsDetails = useForm({
@@ -70,7 +69,7 @@ const useDetails = ({ selected }: any) => {
     delete values?.updatedAt;
     delete values?.lastActivity;
     try {
-      await patchDeals({ id: selected, body: values });
+      await patchDeals({ id: selecetdDealId, body: values });
       enqueueSnackbar('Deal updated successfully.', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
@@ -88,7 +87,7 @@ const useDetails = ({ selected }: any) => {
     methodsDetails,
     onSubmit,
     handleSubmit,
-    isLoading,
+    isLoading: false,
     dealPipelineId,
     getDealOwnerContacts,
     updateLoading,

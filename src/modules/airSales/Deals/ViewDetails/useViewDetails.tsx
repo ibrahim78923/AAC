@@ -1,14 +1,13 @@
 import { useGetDealsActionPreviewQuery } from '@/services/airSales/deals';
 import { useTheme } from '@mui/material';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 const useViewDetails = () => {
   const theme = useTheme();
-  const router = useRouter();
-  const { id } = router.query;
+  const selecetdDealId = useSearchParams()?.get('id');
 
   const { data: dealsDetailsData, isLoading } = useGetDealsActionPreviewQuery({
-    id,
+    selecetdDealId,
   });
   const viewDeal = dealsDetailsData?.data;
 
@@ -16,7 +15,7 @@ const useViewDetails = () => {
     theme,
     viewDeal,
     isLoading,
-    id,
+    selecetdDealId,
   };
 };
 
