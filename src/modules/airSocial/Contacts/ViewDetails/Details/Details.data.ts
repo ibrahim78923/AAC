@@ -3,8 +3,9 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-
 import * as Yup from 'yup';
+
+const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
 
 export const detailsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
@@ -15,48 +16,10 @@ export const detailsValidationSchema = Yup?.object()?.shape({
   contactOwnerId: Yup.mixed().nullable(),
   phoneNumber: Yup.string()
     .nullable()
-    .test(
-      'is-valid-phone-number',
-      'Phone number must contain only numbers',
-      function (value) {
-        if (!value) {
-          return true;
-        }
-        return /^\d+$/.test(value);
-      },
-    )
-    .test(
-      'is-minimum-digits',
-      'Phone number must contain at least 6 digits',
-      function (value) {
-        if (!value) {
-          return true;
-        }
-        return value.length >= 6;
-      },
-    ),
+    .matches(phoneRegex, 'Phone number is not valid'),
   whatsAppNumber: Yup.string()
     .nullable()
-    .test(
-      'is-valid-whatsapp-number',
-      'WhatsApp number must contain only numbers',
-      function (value) {
-        if (!value) {
-          return true;
-        }
-        return /^\d+$/.test(value);
-      },
-    )
-    .test(
-      'is-minimum-digits',
-      'WhatsApp number must contain at least 6 digits',
-      function (value) {
-        if (!value) {
-          return true;
-        }
-        return value.length >= 6;
-      },
-    ),
+    .matches(phoneRegex, 'WhatsApp number is not valid'),
   lifeCycleStageId: Yup.mixed().nullable(),
   jobTitle: Yup.string().nullable(),
   statusId: Yup.mixed().nullable(),
@@ -65,9 +28,19 @@ export const detailsValidationSchema = Yup?.object()?.shape({
 });
 
 export const detailsDefaultValues = {
-  dateOfBirth: null,
-  dateOfJoining: null,
+  email: '',
+  profilePicture: '',
+  firstName: '',
+  lastName: '',
+  address: '',
+  jobTitle: '',
+  phoneNumber: null,
+  whatsAppNumber: null,
+  lifeCycleStageId: {},
   contactOwnerId: {},
+  statusId: {},
+  dateOfJoining: null,
+  dateOfBirth: null,
 };
 
 export const detailsDataArray = (
@@ -79,10 +52,10 @@ export const detailsDataArray = (
   return [
     {
       id: 'firstName',
-      label: 'first Name',
+      label: 'First Name',
       componentProps: {
         name: 'firstName',
-        placeholder: 'Ahmed',
+        placeholder: 'First Name',
         fullWidth: true,
       },
       component: RHFTextField,
@@ -93,7 +66,7 @@ export const detailsDataArray = (
       label: 'Last Name',
       componentProps: {
         name: 'lastName',
-        placeholder: 'Khan',
+        placeholder: 'Last Name',
         fullWidth: true,
       },
       component: RHFTextField,
@@ -115,7 +88,7 @@ export const detailsDataArray = (
       label: 'Address',
       componentProps: {
         name: 'address',
-        placeholder: '7 Park Lane, Birmingham',
+        placeholder: 'Address',
       },
       component: RHFTextField,
       md: 4,

@@ -5,20 +5,18 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+
+const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
+
 // Define your Yup validation schema
 export const contactsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
-  // validation for phone number minimum 10 digit
-  phoneNumber: Yup.string().test(
-    'phone-number',
-    'Phone number is not valid',
-    (value) => /^[0-9]{10,}$/.test(value?.toString() || ''),
-  ),
-  whatsAppNumber: Yup.string().test(
-    'whatsapp-number',
-    'Whatsapp number is not valid',
-    (value) => /^[0-9]{10,}$/.test(value?.toString() || ''),
-  ),
+  phoneNumber: Yup.string()
+    .nullable()
+    .matches(phoneRegex, 'Phone number is not valid'),
+  whatsAppNumber: Yup.string()
+    .nullable()
+    .matches(phoneRegex, 'WhatsApp number is not valid'),
 });
 
 // Define your default values
@@ -29,8 +27,8 @@ export const contactsDefaultValues = {
   lastName: '',
   address: '',
   jobTitle: '',
-  phoneNumber: '',
-  whatsAppNumber: '',
+  phoneNumber: null,
+  whatsAppNumber: null,
   lifeCycleStageId: null,
   contactOwnerId: null,
   statusId: null,

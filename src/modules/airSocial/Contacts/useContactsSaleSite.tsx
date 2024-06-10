@@ -4,14 +4,37 @@ import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
 import { DATE_FORMAT } from '@/constants';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useGetContactsQuery,
+  useGetContactsViewQuery,
   useDeleteContactMutation,
   useUpdateContactOwnerMutation,
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
+import {
+  customValidationSchema,
+  defaultValues,
+} from './ContactsModalBox/AssignModalBox/AssignModal.data';
 
 const useContactsSaleSite = () => {
+  const { data: dataContactViews } = useGetContactsViewQuery({});
+
+  const getTabsArray = (data: any) => {
+    const tabsArray = [{ _id: 'all', name: 'All Contacts' }];
+    if (!data || !Array.isArray(data)) {
+      return tabsArray;
+    }
+    const dataArray = data.map((view: any) => ({
+      _id: view._id,
+      name: view.name,
+    }));
+
+    return [...tabsArray, ...dataArray];
+  };
+  const tabsArray = getTabsArray(dataContactViews?.data);
+
+  const [tabValue, setTabValue] = useState('all');
   const [selectedRow, setSelectedRow]: any = useState([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
@@ -32,10 +55,13 @@ const useContactsSaleSite = () => {
   const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
-  const { data: dataGetContacts, isLoading: loadingGetContacts } =
-    useGetContactsQuery({
-      params: { ...filterParams, ...searchPayLoad, ...paginationParams },
-    });
+  const {
+    data: dataGetContacts,
+    isLoading: loadingGetContacts,
+    isFetching: fetchingGetContacts,
+  } = useGetContactsQuery({
+    params: { ...filterParams, ...searchPayLoad, ...paginationParams },
+  });
 
   // Filters
   const [openFilters, setOpenFilters] = useState(false);
@@ -79,6 +105,45 @@ const useContactsSaleSite = () => {
     setPage(PAGINATION?.CURRENT_PAGE);
     setFilterParams({});
     resetFilters();
+  };
+
+  const handleChangeTabs = (event: React.SyntheticEvent, newValue: string) => {
+    setTabValue(newValue);
+    const selectedView: any = dataContactViews?.data.find(
+      (tab: any) => tab._id === newValue,
+    );
+
+    const filterPayload: any = {};
+    const keys = [
+      'contactOwnerId',
+      'lifeCycleStageId',
+      'statusId',
+      'createdAtFilter',
+      'createdByFilter',
+    ];
+    keys.forEach((key) => {
+      if (selectedView && selectedView[key] !== undefined) {
+        if (key === 'createdAtFilter') {
+          filterPayload.createdAt = dayjs(selectedView[key]).format(
+            DATE_FORMAT.API,
+          );
+        } else if (key === 'createdByFilter') {
+          filterPayload.createdBy = selectedView[key];
+        } else {
+          filterPayload[key] = selectedView[key];
+        }
+      }
+    });
+    setFilterParams(filterPayload);
+  };
+
+  // Contact View
+  const [isCreateViewOpen, setIsCreateViewOpen] = useState(false);
+  const handleOpenCreateView = () => {
+    setIsCreateViewOpen(true);
+  };
+  const handleCloseCreateView = () => {
+    setIsCreateViewOpen(false);
   };
 
   // Dropdown Menu
@@ -125,7 +190,10 @@ const useContactsSaleSite = () => {
   // Re-Asign
   const [reAssignContactOwner, { isLoading: loadingReassign }] =
     useUpdateContactOwnerMutation();
-  const methodsReAssign = useForm({});
+  const methodsReAssign = useForm<any>({
+    resolver: yupResolver(customValidationSchema),
+    defaultValues: defaultValues,
+  });
   const { handleSubmit: handleMethodReAssign } = methodsReAssign;
   const [isReAssign, setIsReAssign] = useState(false);
   const handleOpenModalReAssign = () => {
@@ -145,8 +213,11 @@ const useContactsSaleSite = () => {
   };
 
   const onSubmitReAssign = async (values: any) => {
+    const payload = {
+      contactOwnerId: values?.contactOwnerId?._id,
+    };
     try {
-      await reAssignContactOwner({ id: rowId, body: values })?.unwrap();
+      await reAssignContactOwner({ id: rowId, body: payload })?.unwrap();
       handleCloseModalReAssign();
       setSelectedRow([]);
       enqueueSnackbar('Contact updated successfully', {
@@ -170,12 +241,13 @@ const useContactsSaleSite = () => {
   };
 
   const theme = useTheme();
-  const [isOpen, setIsOpen] = useState(false);
   const [isDealCustomize, setIsDealCustomize] = useState(false);
-  const handleChange = () => setIsOpen(!isOpen);
   const handleDealCustomize = () => setIsDealCustomize(!isDealCustomize);
 
   return {
+    tabValue,
+    handleChangeTabs,
+    tabsArray,
     // contactOwnerData,
     anchorEl,
     actionMenuOpen,
@@ -183,6 +255,7 @@ const useContactsSaleSite = () => {
     handleActionsMenuClose,
     dataGetContacts,
     loadingGetContacts,
+    fetchingGetContacts,
     setPage,
     setPageLimit,
     handleRefresh,
@@ -215,10 +288,11 @@ const useContactsSaleSite = () => {
     handleCloseModalExport,
     setOpenModalExport,
     theme,
-    isOpen,
     isDealCustomize,
-    handleChange,
     handleDealCustomize,
+    isCreateViewOpen,
+    handleOpenCreateView,
+    handleCloseCreateView,
     isImportDrawer,
     setIsImportDrawer,
   };

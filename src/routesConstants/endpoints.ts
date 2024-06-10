@@ -56,6 +56,8 @@ export const END_POINTS = {
   ORGANIZATIONS: '/organization/get-organizations',
   VIEW_DEALS_NOTES: '/note',
   CONTACTS: '/contact',
+  CONTACTS_VIEW: '/contact/contact-view',
+  CONTACTS_VIEWS: '/contact/contact-views',
   LIFECYCLE_STAGES: '/lifecycle-stages',
   CONTACT_STATUS: '/contact-status',
   GET_PERMISSIONS_ROLES: '/permissions/role',

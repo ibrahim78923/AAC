@@ -154,12 +154,16 @@ export const ContactsColumns = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) =>
-        dayjs(row?.dateOfBirth)?.format(DATE_FORMAT?.UI),
+      accessorFn: (row: any) => row?.dateOfBirth,
       id: 'dateOfBirth',
       isSortable: true,
       header: 'Date of Birth',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        const dateOfBirth = info?.getValue()
+          ? dayjs(info?.getValue()).format(DATE_FORMAT?.UI)
+          : '';
+        return <>{dateOfBirth}</>;
+      },
     },
     {
       accessorFn: (row: any) => row?.phoneNumber,

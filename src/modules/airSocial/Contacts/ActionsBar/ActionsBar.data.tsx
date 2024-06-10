@@ -1,6 +1,7 @@
 import {
   RHFAutocompleteAsync,
   RHFDatePicker,
+  RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
@@ -16,7 +17,6 @@ export const createViewDefaultValues = {
   lifeCycleStageId: null,
   statusId: null,
   createdAtFilter: null,
-  createdByFilter: null,
   sharedWith: 'EVERYONE',
 };
 
@@ -89,18 +89,19 @@ export const createViewData = (
       component: RHFDatePicker,
     },
     {
-      id: 'createdByFilter',
-      component: RHFAutocompleteAsync,
-      md: 12,
+      id: 'sharedWith',
       componentProps: {
-        name: 'createdByFilter',
-        label: 'Created By',
-        placeholder: 'Select create by',
-        apiQuery: contactOwnerData,
-        getOptionLabel: (option: any) =>
-          `${option?.firstName} ${option?.lastName}`,
-        externalParams: { id: orgId, meta: false },
+        name: 'sharedWith',
+        label: 'Shared With',
+        defaultValue: 'EVERYONE',
+        row: false,
+        options: [
+          { label: 'Private', value: 'PRIVATE' },
+          { label: 'My Teams (worked)', value: 'MY_TEAMS' },
+          { label: 'Everyone', value: 'EVERYONE' },
+        ],
       },
+      component: RHFRadioGroup,
     },
   ];
 };

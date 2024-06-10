@@ -1,25 +1,44 @@
-import { useForm } from 'react-hook-form';
-
 import {
+  FormControl,
   FormControlLabel,
+  FormLabel,
   Grid,
-  MenuItem,
   Radio,
   RadioGroup,
-  Typography,
   useTheme,
 } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-
-import { CreateViewData } from './CreateView.data';
-
-import { v4 as uuidv4 } from 'uuid';
+import { createViewData } from './CreateView.data';
+import useCreateView from './useCreateView';
 
 const CreateView = ({ open, onClose }: any) => {
-  const methods = useForm({});
   const theme = useTheme();
+  const {
+    orgId,
+    loadingCreateView,
+    submitCreateView,
+    methodsCreateView,
+    contactOwnerData,
+    lifeCycleStagesData,
+    contactStatusData,
+    reset,
+    sharedWithvalue,
+    handleChange,
+    teamId,
+  } = useCreateView();
+
+  const formFields = createViewData(
+    orgId,
+    contactOwnerData,
+    lifeCycleStagesData,
+    contactStatusData,
+  );
+
+  const handelClose = () => {
+    onClose();
+    reset();
+  };
 
   return (
     <>
@@ -29,68 +48,65 @@ const CreateView = ({ open, onClose }: any) => {
         isOk
         okText="Save"
         cancelText={'Cancel'}
-        submitHandler={onClose}
+        submitHandler={submitCreateView(handelClose)}
         title="Create View"
         footer
+        isLoading={loadingCreateView}
       >
-        <FormProvider methods={methods}>
+        <FormProvider methods={methodsCreateView}>
           <Grid container spacing={2}>
-            {CreateViewData?.map((obj) => (
-              <Grid item xs={12} key={uuidv4()}>
-                <Typography
-                  sx={{
-                    colors: theme?.palette?.grey[600],
-                    fontWeight: '500',
-                    fontSize: '14px',
-                  }}
-                >
-                  {obj?.title}
-                </Typography>
-                <obj.component
-                  fullWidth
-                  size={'small'}
-                  SelectProps={{ sx: { borderRadius: '8px' } }}
-                  {...obj?.componentProps}
-                >
-                  {obj.componentProps?.select
-                    ? obj?.options?.map((option) => (
-                        <MenuItem key={uuidv4()} value={option?.value}>
+            {formFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
                           {option?.label}
-                        </MenuItem>
+                        </option>
                       ))
                     : null}
-                </obj.component>
+                </item.component>
               </Grid>
             ))}
+            <Grid item xs={12} md={12}>
+              <FormControl>
+                <FormLabel
+                  id="sharedWith"
+                  sx={{
+                    fontSize: '14px',
+                    color: theme?.palette?.grey[600],
+                    fontWeight: 500,
+                  }}
+                >
+                  Shared With
+                </FormLabel>
+                <RadioGroup
+                  aria-labelledby="sharedWith"
+                  name="sharedWith"
+                  value={sharedWithvalue}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value="PRIVATE"
+                    control={<Radio />}
+                    label="Private"
+                  />
+                  <FormControlLabel
+                    value="MY_TEAM"
+                    control={<Radio />}
+                    label="My Teams (worked)"
+                    disabled={!teamId}
+                  />
+                  <FormControlLabel
+                    value="EVERYONE"
+                    control={<Radio />}
+                    label="Everyone"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
           </Grid>
         </FormProvider>
-        <Typography
-          sx={{
-            mt: '35px',
-            color: theme?.palette?.slateBlue['main'],
-            fontSize: '18px',
-            fontWeight: 600,
-          }}
-        >
-          Shared with
-        </Typography>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="female"
-          name="radio-buttons-group"
-        >
-          <FormControlLabel
-            value="female"
-            control={<Radio />}
-            label="Private"
-          />
-          <FormControlLabel value="male" control={<Radio />} label="My Teams" />
-          <FormControlLabel
-            value="other"
-            control={<Radio />}
-            label="Everyone"
-          />
-        </RadioGroup>
       </CommonDrawer>
     </>
   );

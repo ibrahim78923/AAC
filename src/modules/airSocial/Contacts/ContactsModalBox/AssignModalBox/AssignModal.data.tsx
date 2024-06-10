@@ -1,28 +1,29 @@
-import { RHFSelect } from '@/components/ReactHookForm';
-
+import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const customValidationSchema = Yup?.object()?.shape({
-  contact: Yup?.string()?.required('Field is Required'),
+  contactOwnerId: Yup?.mixed()?.required('Field is Required'),
 });
 
 export const defaultValues = {
-  contact: '',
+  contactOwnerId: null,
 };
 
-export const AssignModalData = (contactOwnerData: any) => {
+export const AssignModalData = (contactOwnerData: any, orgId: any) => {
   return [
     {
       id: 'contactOwnerId',
+      component: RHFAutocompleteAsync,
+      md: 12,
       componentProps: {
         name: 'contactOwnerId',
         label: 'Contact Owner',
-        placeholder: 'Select',
-        select: true,
+        placeholder: 'Select Owner',
+        apiQuery: contactOwnerData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { id: orgId, meta: false },
       },
-      options: contactOwnerData,
-      component: RHFSelect,
-      md: 4,
     },
   ];
 };

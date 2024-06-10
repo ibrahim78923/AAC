@@ -26,6 +26,24 @@ export const contactsAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
+      invalidatesTags: ['CONTACTS', 'CONTACTS_VIEW'],
+    }),
+
+    getContactsView: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACTS_VIEWS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['CONTACTS', 'CONTACTS_VIEW'],
+    }),
+
+    postContactsView: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.CONTACTS_VIEW,
+        method: 'POST',
+        body: body,
+      }),
       invalidatesTags: TAG,
     }),
 
@@ -133,6 +151,8 @@ export const {
   useGetContactsQuery,
   useGetContactByIdQuery,
   usePostContactsMutation,
+  useGetContactsViewQuery,
+  usePostContactsViewMutation,
   useUpdateContactMutation,
   useUpdateContactOwnerMutation,
   useDeleteContactMutation,

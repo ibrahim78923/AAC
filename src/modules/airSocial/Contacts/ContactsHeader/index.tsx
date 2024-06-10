@@ -52,6 +52,7 @@ const ContactsHeader = () => {
           </PermissionsGuard>
         </Box>
       </Box>
+
       <CreateContacts open={isCreateDeal} onClose={handleCreateDealOpen} />
       {isImportDrawer && (
         <ImportContactDrawer
