@@ -286,6 +286,11 @@ export const REQUESTORS_ASSIGNED_STATUS = {
   RESOLVED: 'Resolved',
 };
 
+export const CALENDAR_STATUS = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+};
+
 export const CANNED_RESPONSES = {
   AVAILABLE_FOR: 'availableFor',
   DELETE: 'delete',

@@ -399,6 +399,9 @@ export const END_POINTS = {
   CHANGE_RULES_STATUS: `/rules-and-tiers/rule`,
   NEW_IMPORT_FILE: `/new-import-file/new-import-file`,
   SIGN_UP_LEADS: '/contact/signup-leads',
+  GET_GOOGLE_CALENDAR: '/auth/google-calendar/authorize',
+  GET_CALENDARS: '/meeting-settings/calendars',
+  CALENDARS_STATUS: '/meeting-settings',
 };
 
 export const LEAD_CAPTURE_FORM = {
