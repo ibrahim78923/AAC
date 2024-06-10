@@ -297,6 +297,7 @@ export const CHAT_SOCKETS = {
   ON_MESSAGE_UPDATE: 'on-message-update',
   ON_TYPING_START: 'on-typing-start',
   ON_TYPING_STOP: 'on-typing-stop',
+  PING: 'ping',
 };
 export const CHAT_SOCKETS_EMIT = {
   UPDATE_MESSAGE: 'update-message',
