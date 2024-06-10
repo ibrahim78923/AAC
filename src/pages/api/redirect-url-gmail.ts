@@ -15,7 +15,6 @@ export default async function handler(
 ) {
   try {
     const { code, state } = req.query;
-
     const url = new URL(
       `${process?.env?.NEXT_PUBLIC_BASE_URL}${SOCIAL_FEATURES_OUTLOOK?.GMAIL_REDIRECT_URL}`,
     );
