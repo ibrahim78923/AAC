@@ -20,21 +20,16 @@ export const TableEditor = (props: any) => {
     setColumnsData,
     setAddProperties,
     columnsData,
+    handleCancel,
   } = props;
-  const {
-    editValue,
-    setEditValue,
-    setEdit,
-    edit,
-    handleSave,
-    handleTableCancel,
-  } = useTableEditor(props);
+  const { editValue, setEditValue, setEdit, edit, handleSave } =
+    useTableEditor(props);
   return (
     <>
       <PageTitledHeader
         title={'Table Configuration'}
         canMovedBack
-        moveBack={handleTableCancel}
+        moveBack={handleCancel}
       />
       <RHFTextField
         name={'tableTitle'}
@@ -99,17 +94,14 @@ export const TableEditor = (props: any) => {
             }}
             icon={<CheckboxIcon />}
             checkedIcon={<CheckboxCheckedIcon />}
+            checked={columnsData?.includes?.(item?.title)}
           />
         </Box>
       ))}
-      <Box
-        position={'absolute'}
-        bottom={50}
-        right={50}
-        gap={1}
-        display={'flex'}
+      <Toolbar
+        sx={{ mt: 5.5, display: 'flex', justifyContent: 'flex-end', gap: 1 }}
       >
-        <Button variant="outlined" onClick={handleTableCancel}>
+        <Button variant="outlined" onClick={handleCancel}>
           Cancel
         </Button>
         <Button
@@ -119,8 +111,7 @@ export const TableEditor = (props: any) => {
         >
           Save
         </Button>
-      </Box>
-      <Toolbar sx={{ mt: 2 }} />
+      </Toolbar>
     </>
   );
 };

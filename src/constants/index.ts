@@ -393,3 +393,10 @@ export const Gmail_CONST = {
   PHONE: 'phone',
   SENT: 'SENT',
 };
+
+export const REPORTS_HEADER_TITLE = {
+  CREATE_REPORT: 'Create Report',
+  CREATE_TABLE: 'Create Table',
+  CREATE_CHART: 'Create Chart',
+  CREATE_TEXT: 'Create Text',
+};

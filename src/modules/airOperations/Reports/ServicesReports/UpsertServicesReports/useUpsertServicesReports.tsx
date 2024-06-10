@@ -6,7 +6,7 @@ import {
 } from './UpsertServicesReports.data';
 import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { EditorState } from 'draft-js';
+import { ContentState, EditorState } from 'draft-js';
 import { CHARTS } from '@/constants/strings';
 import { DonutChart } from './DraggableFormFields/Chart/DonutChart';
 import { PieChart } from './DraggableFormFields/Chart/PieChart';
@@ -14,6 +14,7 @@ import { BarChart } from './DraggableFormFields/Chart/BarChart';
 import { useRouter } from 'next/router';
 
 export default function useUpsertServicesReports() {
+  const [draggedItemData, setDraggedItemData] = useState<any>(null);
   const theme: any = useTheme();
   const router: any = useRouter();
   const methods: any = useForm({
@@ -43,11 +44,32 @@ export default function useUpsertServicesReports() {
   const [AddProperties, setAddProperties] = useState();
   const [columnsData, setColumnsData] = useState([]);
   const [showTemplate, setShowTemplate] = useState(false);
+  useEffect(() => {
+    setValue('chartType', draggedItemData?.type ?? '');
+    setValue('xAxis', draggedItemData?.xAxis ?? '');
+    setValue('yAxis', draggedItemData?.yAxis ?? '');
+    setValue('subFilter', draggedItemData?.subFilter ?? false);
+    setChartMetricType(draggedItemData?.subMetric ?? 'Add Metric');
+    setValue('chartTitle', draggedItemData?.title ?? 'Report Chart');
+    setValue('textTitle', draggedItemData?.title ?? 'Report Text');
+    setValue('tableTitle', draggedItemData?.title ?? 'Report Table');
+    setColumnsData(draggedItemData?.tableColumns ?? []);
+    if (draggedItemData?.content) {
+      const contentState = ContentState?.createFromText(
+        draggedItemData?.content,
+      );
+      setEditorState(EditorState?.createWithContent(contentState));
+    } else {
+      setEditorState(EditorState?.createEmpty());
+    }
+  }, [draggedItemData]);
 
   useEffect(() => {
-    setValue('xAxis', '');
-    setValue('yAxis', '');
-    setChartMetricType('Add Metric');
+    if (!draggedItemData) {
+      setValue('xAxis', '');
+      setValue('yAxis', '');
+      setChartMetricType('Add Metric');
+    }
   }, [chartType]);
 
   const getModalState = (draggedItem: any) => {
@@ -78,6 +100,7 @@ export default function useUpsertServicesReports() {
   };
 
   const getTemplateModalState = (draggedItem: any) => {
+    setDraggedItemData(draggedItem);
     const newModal: any = {
       chart: false,
       text: false,
@@ -112,6 +135,18 @@ export default function useUpsertServicesReports() {
     [CHARTS?.BAR_CHART]: <BarChart />,
     [CHARTS?.DONUT_CHART]: <DonutChart />,
     [CHARTS?.PIE_CHART]: <PieChart />,
+  };
+
+  const handleCancel = () => {
+    setFieldData(false);
+    setModal(modalInitialState);
+    setColumnsData([]);
+    setValue('tableTitle', 'Report Table');
+    setEditorState(EditorState.createEmpty());
+    setValue('textTitle', 'Report Text');
+    setValue('chartType', '');
+    setValue('chartTitle', 'Report Chart');
+    setValue('subFilter', false);
   };
 
   return {
@@ -153,5 +188,6 @@ export default function useUpsertServicesReports() {
     setShowTemplate,
     handleTemplateDragEnd,
     router,
+    handleCancel,
   };
 }

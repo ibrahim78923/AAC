@@ -216,17 +216,6 @@ export const useTextEditor = (props: any) => {
     setEditorState(EditorState.createEmpty());
   };
 
-  const handleTextCancel = () => {
-    setFieldData(false);
-    setModal({
-      chart: false,
-      text: false,
-      table: false,
-    });
-    setEditorState(EditorState.createEmpty());
-    setValue('textTitle', 'Report Text');
-  };
-
   return {
     handleSave,
     applyTextStyle,
@@ -237,6 +226,5 @@ export const useTextEditor = (props: any) => {
     editValue,
     setEdit,
     edit,
-    handleTextCancel,
   };
 };

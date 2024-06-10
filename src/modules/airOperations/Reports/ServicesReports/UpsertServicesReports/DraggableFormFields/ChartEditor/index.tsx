@@ -28,22 +28,18 @@ export const ChartEditor = (props: any) => {
     chartMetricType,
     xAxisData,
     yAxisData,
+    handleCancel,
   } = props;
 
-  const {
-    handleSave,
-    edit,
-    setEdit,
-    editValue,
-    setEditValue,
-    handleChartCancel,
-  } = useChartEditor(props);
+  const { handleSave, edit, setEdit, editValue, setEditValue } =
+    useChartEditor(props);
+
   return (
     <>
       <PageTitledHeader
         title={'Chart Configuration'}
         canMovedBack
-        moveBack={handleChartCancel}
+        moveBack={handleCancel}
       />
       <RHFTextField
         name={'chartTitle'}
@@ -75,65 +71,62 @@ export const ChartEditor = (props: any) => {
           ),
         }}
       />
-      <RHFAutocomplete
-        name="chartType"
-        label="Type"
-        size="small"
-        options={['Bar Chart', 'Donut Chart', 'Pie Chart']}
-        required
-      />
-      {chartType === CHARTS?.BAR_CHART && (
-        <Box border={1} borderColor={'grey.700'} borderRadius={2} m={1}>
-          <Box borderRadius={2} p={1} bgcolor={'primary.light'}>
-            <Typography variant="h6">{metricType}</Typography>
-          </Box>
+      <Box height={'40vh'}>
+        <RHFAutocomplete
+          name="chartType"
+          label="Type"
+          size="small"
+          options={['Bar Chart', 'Donut Chart', 'Pie Chart']}
+          getOptionLabel={(option: any) => option}
+          required
+        />
+        {chartType === CHARTS?.BAR_CHART && (
+          <Box border={1} borderColor={'grey.700'} borderRadius={2} m={1}>
+            <Box borderRadius={2} p={1} bgcolor={'primary.light'}>
+              <Typography variant="h6">{metricType}</Typography>
+            </Box>
 
-          <Box p={1}>
-            <RHFAutocomplete
-              size="small"
-              label="X Axis"
-              name="xAxis"
-              options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
-            />
+            <Box p={1}>
+              <RHFAutocomplete
+                size="small"
+                label="X Axis"
+                name="xAxis"
+                options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
+                getOptionLabel={(option: string) => option}
+              />
+            </Box>
+            <Box p={1}>
+              <RHFAutocomplete
+                size="small"
+                label="Y Axis"
+                name="yAxis"
+                options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
+                getOptionLabel={(option: string) => option}
+              />
+            </Box>
           </Box>
-          <Box p={1}>
-            <RHFAutocomplete
-              size="small"
-              label="Y Axis"
-              name="yAxis"
-              options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
-            />
-          </Box>
-        </Box>
-      )}
-      {(chartType === CHARTS?.PIE_CHART ||
-        chartType === CHARTS?.DONUT_CHART) && (
-        <>
-          <Box m={1}>
-            <SingleDropdownButton
-              dropdownOptions={servicesChartMetrics(setChartMetricType)}
-              dropdownName={chartMetricType}
-            />
-          </Box>
-        </>
-      )}
-      <RHFCheckbox
-        name="subFilter"
-        label="Add Date Range Filter"
-        size="large"
-      />
-      <Box
-        position={'absolute'}
-        bottom={50}
-        right={50}
-        gap={1}
-        display={'flex'}
+        )}
+        {(chartType === CHARTS?.PIE_CHART ||
+          chartType === CHARTS?.DONUT_CHART) && (
+          <>
+            <Box m={1}>
+              <SingleDropdownButton
+                dropdownOptions={servicesChartMetrics(setChartMetricType)}
+                dropdownName={chartMetricType}
+              />
+            </Box>
+          </>
+        )}
+        <RHFCheckbox
+          name="subFilter"
+          label="Add Date Range Filter"
+          size="large"
+        />
+      </Box>
+      <Toolbar
+        sx={{ mt: 19, display: 'flex', justifyContent: 'flex-end', gap: 1 }}
       >
-        <Button
-          variant="outlined"
-          onClick={handleChartCancel}
-          color="secondary"
-        >
+        <Button variant="outlined" onClick={handleCancel} color="secondary">
           Cancel
         </Button>
         <Button
@@ -145,8 +138,7 @@ export const ChartEditor = (props: any) => {
         >
           Save
         </Button>
-      </Box>
-      <Toolbar sx={{ mt: 2 }} />
+      </Toolbar>
     </>
   );
 };

@@ -47,6 +47,7 @@ export default function DroppableArea(props: any) {
       {(provided: any) => (
         <Box
           height={'74vh'}
+          overflow={'scroll'}
           ref={provided?.innerRef}
           {...provided?.droppableProps}
         >

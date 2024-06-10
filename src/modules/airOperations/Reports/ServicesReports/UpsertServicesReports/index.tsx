@@ -6,7 +6,7 @@ import DroppableArea from './DroppableArea';
 import useUpsertServicesReports from './useUpsertServicesReports';
 import { FormProvider } from 'react-hook-form';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_OPERATIONS } from '@/constants';
+import { AIR_OPERATIONS, REPORTS_HEADER_TITLE } from '@/constants';
 
 export const UpsertServicesReports = () => {
   const {
@@ -48,30 +48,43 @@ export const UpsertServicesReports = () => {
     setShowTemplate,
     handleTemplateDragEnd,
     router,
+    handleCancel,
   } = useUpsertServicesReports();
-
+  const { text, table, chart } = modal || {};
   return (
     <FormProvider {...methods}>
       <DragDropContext
         onDragEnd={showTemplate ? handleTemplateDragEnd : handleDragEnd}
       >
-        <Grid container>
+        <Grid container display={'flex'} justifyContent={'space-between'}>
           <Grid
             item
             sm={12}
-            lg={8}
+            lg={7.9}
             p={2}
             borderRadius={3}
-            boxShadow={`0rem 0rem .1rem .1rem ${theme?.palette?.grey[400]}`}
+            boxShadow={`0rem 0rem .2rem .2rem ${theme?.palette?.grey[400]}`}
           >
             <PageTitledHeader
-              title={'Create Service Report'}
+              title={
+                text
+                  ? REPORTS_HEADER_TITLE?.CREATE_TEXT
+                  : table
+                    ? REPORTS_HEADER_TITLE?.CREATE_TABLE
+                    : chart
+                      ? REPORTS_HEADER_TITLE?.CREATE_CHART
+                      : REPORTS_HEADER_TITLE?.CREATE_REPORT
+              }
               canMovedBack
-              moveBack={() => {
-                router?.push({
-                  pathname: AIR_OPERATIONS?.SERVICES_REPORTS,
-                });
-              }}
+              moveBack={
+                text || table || chart
+                  ? handleCancel
+                  : () => {
+                      router?.push({
+                        pathname: AIR_OPERATIONS?.SERVICES_REPORTS,
+                      });
+                    }
+              }
             />
             <DroppableArea
               fieldData={fieldData}
@@ -98,9 +111,10 @@ export const UpsertServicesReports = () => {
             item
             sm={12}
             lg={4}
+            mt={{ sm: 1, lg: 0 }}
             p={2}
             borderRadius={3}
-            boxShadow={`0rem 0rem .1rem .1rem ${theme?.palette?.grey[400]}`}
+            boxShadow={`0rem 0rem .2rem .2rem ${theme?.palette?.grey[400]}`}
           >
             <DraggableFields
               fieldsList={fieldsList}
@@ -135,6 +149,7 @@ export const UpsertServicesReports = () => {
               subFilter={subFilter}
               columnsData={columnsData}
               showTemplate={showTemplate}
+              handleCancel={handleCancel}
             />
           </Grid>
         </Grid>

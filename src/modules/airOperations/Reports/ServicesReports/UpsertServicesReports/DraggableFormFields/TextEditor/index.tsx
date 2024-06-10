@@ -21,7 +21,7 @@ import { CheckBox } from '@mui/icons-material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 export const TextEditor = (props: any) => {
-  const { fontSize, color, textTitle, setValue } = props;
+  const { fontSize, color, textTitle, setValue, handleCancel } = props;
   const {
     handleSave,
     applyTextStyle,
@@ -32,14 +32,13 @@ export const TextEditor = (props: any) => {
     editValue,
     setEdit,
     edit,
-    handleTextCancel,
   } = useTextEditor(props);
   return (
     <>
       <PageTitledHeader
         title={'Text Configuration'}
         canMovedBack
-        moveBack={handleTextCancel}
+        moveBack={handleCancel}
       />
       <Typography variant={'h6'}>Title</Typography>
       <RHFTextField
@@ -161,29 +160,17 @@ export const TextEditor = (props: any) => {
           <input type="color" value={color} onChange={onColorChange} />
         </Box>
       </Box>
-      <Box
-        position={'absolute'}
-        bottom={50}
-        right={50}
-        gap={1}
-        display={'flex'}
+
+      <Toolbar
+        sx={{ mt: 35, display: 'flex', justifyContent: 'flex-end', gap: 1 }}
       >
-        <Button
-          variant="outlined"
-          onClick={() => handleTextCancel()}
-          color="secondary"
-        >
+        <Button variant="outlined" onClick={handleCancel} color="secondary">
           Cancel
         </Button>
-        <Button
-          variant="contained"
-          disabled={saveDisable}
-          onClick={() => handleSave()}
-        >
+        <Button variant="contained" disabled={saveDisable} onClick={handleSave}>
           Save
         </Button>
-      </Box>
-      <Toolbar sx={{ mt: 2 }} />
+      </Toolbar>
     </>
   );
 };

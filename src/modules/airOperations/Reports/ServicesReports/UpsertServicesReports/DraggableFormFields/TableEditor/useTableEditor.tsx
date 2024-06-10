@@ -36,23 +36,11 @@ export const useTableEditor = (props: any) => {
     setValue('tableTitle', 'Report Table');
   };
 
-  const handleTableCancel = () => {
-    setFieldData(false);
-    setModal({
-      chart: false,
-      text: false,
-      table: false,
-    });
-    setColumnsData([]);
-    setValue('tableTitle', 'Report Table');
-  };
-
   return {
     editValue,
     setEditValue,
     setEdit,
     edit,
     handleSave,
-    handleTableCancel,
   };
 };

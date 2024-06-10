@@ -1,9 +1,13 @@
 import Image from 'next/image';
 import { Typography, Box } from '@mui/material';
-import { ViewDetailCallIcon } from '@/assets/icons';
+import { ViewDetailCallIcon, ViewDetailMeetingIcon } from '@/assets/icons';
 import { styles } from './Header.style';
 import { SmsImage } from '@/assets/images';
-import { AIR_SERVICES, Quick_Links_Routes } from '@/constants';
+import {
+  AIR_SERVICES,
+  Quick_Links_Routes,
+  SOCIAL_COMPONENTS,
+} from '@/constants';
 import { NewEmailDrawer } from './NewEmailDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
@@ -60,6 +64,23 @@ const Header = (props: any) => {
           }
         />
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING]}
+          >
+            <Box
+              sx={styles?.iconBoxStyling}
+              onClick={() =>
+                router?.push({
+                  pathname: SOCIAL_COMPONENTS?.SCHEDULE_MEETING,
+                  query: {
+                    ticketId: ticketId,
+                  },
+                })
+              }
+            >
+              <ViewDetailMeetingIcon />
+            </Box>
+          </PermissionsGuard>
           <PermissionsGuard
             permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CALLS]}
           >

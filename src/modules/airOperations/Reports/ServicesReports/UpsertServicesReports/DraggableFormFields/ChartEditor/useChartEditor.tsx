@@ -47,23 +47,11 @@ export const useChartEditor = (props: any) => {
     setValue('subFilter', false);
   };
 
-  const handleChartCancel = () => {
-    setFieldData(false);
-    setModal({
-      chart: false,
-      text: false,
-      table: false,
-    });
-    setValue('chartType', '');
-    setValue('chartTitle', 'Report Chart');
-    setValue('subFilter', false);
-  };
   return {
     handleSave,
     edit,
     setEdit,
     editValue,
     setEditValue,
-    handleChartCancel,
   };
 };

@@ -50,17 +50,14 @@ export default function DraggableFields({
   setMetricType,
   columnsData,
   showTemplate,
+  handleCancel,
 }: any) {
   const theme: any = useTheme();
 
   return (
     <Droppable droppableId={'draggable'}>
       {(provided: any) => (
-        <Box
-          borderRadius={2}
-          ref={provided?.innerRef}
-          {...provided?.droppableProps}
-        >
+        <Box ref={provided?.innerRef} {...provided?.droppableProps}>
           {!!!fieldData ? (
             <>
               <Box
@@ -77,130 +74,138 @@ export default function DraggableFields({
                   dropdownName={metricType}
                 />
               </Box>
-              {showTemplate ? (
-                <Box height={'64vh'} overflow={'scroll'} p={1}>
-                  {templateList?.map((item: any, index: number) => (
-                    <Draggable
-                      key={item?.id}
-                      draggableId={item?.id}
-                      index={index}
-                    >
-                      {(provided: any) => (
-                        <Box
-                          boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
-                          bgcolor={'common.white'}
-                          borderRadius={2}
-                          mb={index === templateList?.length - 1 ? 0 : 2}
-                          p={2}
-                          display={'flex'}
-                          alignItems={'center'}
-                          ref={provided?.innerRef}
-                          {...provided?.draggableProps}
-                          {...provided?.dragHandleProps}
-                          sx={{
-                            '&:hover': {
-                              boxShadow: 5,
-                            },
-                            cursor: 'pointer',
-                          }}
-                        >
-                          <AppsIcon
+              <Box height={'60vh'} overflow={'scroll'} p={1}>
+                {showTemplate ? (
+                  <>
+                    {templateList?.map((item: any, index: number) => (
+                      <Draggable
+                        key={item?.id}
+                        draggableId={item?.id}
+                        index={index}
+                      >
+                        {(provided: any) => (
+                          <Box
+                            boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
+                            bgcolor={'common.white'}
+                            borderRadius={2}
+                            mb={index === templateList?.length - 1 ? 0 : 2}
+                            p={2}
+                            display={'flex'}
+                            alignItems={'center'}
+                            ref={provided?.innerRef}
+                            {...provided?.draggableProps}
+                            {...provided?.dragHandleProps}
                             sx={{
-                              fontSize: '2.7rem',
-                              color: 'custom.main',
                               '&:hover': {
-                                color: 'primary.main',
+                                boxShadow: 5,
                               },
+                              cursor: 'pointer',
                             }}
-                          />
-                          <Divider
-                            orientation="vertical"
-                            flexItem
-                            sx={{
-                              margin: '0 1rem',
-                              border: `.1rem solid ${theme?.palette?.grey[700]}`,
-                              backgroundColor: 'transparent',
-                            }}
-                          />
-                          <Box>
-                            <Typography variant={'body1'} color={'custom.main'}>
-                              {item?.title}
-                            </Typography>
-                            <Typography variant={'body2'} color={'grey.0'}>
-                              {item?.description}
-                            </Typography>
+                          >
+                            <AppsIcon
+                              sx={{
+                                fontSize: '2.7rem',
+                                color: 'custom.main',
+                                '&:hover': {
+                                  color: 'primary.main',
+                                },
+                              }}
+                            />
+                            <Divider
+                              orientation="vertical"
+                              flexItem
+                              sx={{
+                                margin: '0 1rem',
+                                border: `.1rem solid ${theme?.palette?.grey[700]}`,
+                                backgroundColor: 'transparent',
+                              }}
+                            />
+                            <Box>
+                              <Typography
+                                variant={'body1'}
+                                color={'custom.main'}
+                              >
+                                {item?.title}
+                              </Typography>
+                              <Typography variant={'body2'} color={'grey.0'}>
+                                {item?.description}
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                      )}
-                    </Draggable>
-                  ))}
-                </Box>
-              ) : (
-                <>
-                  {fieldsList?.map((item: any, index: number) => (
-                    <Draggable
-                      key={item?.id}
-                      draggableId={item?.id}
-                      index={index}
-                    >
-                      {(provided: any) => (
-                        <Box
-                          boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
-                          bgcolor={'common.white'}
-                          borderRadius={2}
-                          mb={index === fieldsList?.length - 1 ? 0 : 2}
-                          p={2}
-                          display={'flex'}
-                          alignItems={'center'}
-                          ref={provided?.innerRef}
-                          {...provided?.draggableProps}
-                          {...provided?.dragHandleProps}
-                          sx={{
-                            '&:hover': {
-                              boxShadow: 5,
-                            },
-                            cursor: 'pointer',
-                          }}
-                        >
-                          <AppsIcon
+                        )}
+                      </Draggable>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {fieldsList?.map((item: any, index: number) => (
+                      <Draggable
+                        key={item?.id}
+                        draggableId={item?.id}
+                        index={index}
+                      >
+                        {(provided: any) => (
+                          <Box
+                            boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
+                            bgcolor={'common.white'}
+                            borderRadius={2}
+                            mb={index === fieldsList?.length - 1 ? 0 : 2}
+                            p={2}
+                            display={'flex'}
+                            alignItems={'center'}
+                            ref={provided?.innerRef}
+                            {...provided?.draggableProps}
+                            {...provided?.dragHandleProps}
                             sx={{
-                              fontSize: '2.7rem',
-                              color: 'custom.main',
                               '&:hover': {
-                                color: 'primary.main',
+                                boxShadow: 5,
                               },
+                              cursor: 'pointer',
                             }}
-                          />
-                          <Divider
-                            orientation="vertical"
-                            flexItem
-                            sx={{
-                              margin: '0 1rem',
-                              border: `.1rem solid ${theme?.palette?.grey[700]}`,
-                              backgroundColor: 'transparent',
-                            }}
-                          />
-                          <Box>
-                            <Typography variant={'body1'} color={'custom.main'}>
-                              {item?.title}
-                            </Typography>
-                            <Typography variant={'body2'} color={'grey.0'}>
-                              {item?.description}
-                            </Typography>
+                          >
+                            <AppsIcon
+                              sx={{
+                                fontSize: '2.7rem',
+                                color: 'custom.main',
+                                '&:hover': {
+                                  color: 'primary.main',
+                                },
+                              }}
+                            />
+                            <Divider
+                              orientation="vertical"
+                              flexItem
+                              sx={{
+                                margin: '0 1rem',
+                                border: `.1rem solid ${theme?.palette?.grey[700]}`,
+                                backgroundColor: 'transparent',
+                              }}
+                            />
+                            <Box>
+                              <Typography
+                                variant={'body1'}
+                                color={'custom.main'}
+                              >
+                                {item?.title}
+                              </Typography>
+                              <Typography variant={'body2'} color={'grey.0'}>
+                                {item?.description}
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                      )}
-                    </Draggable>
-                  ))}
-                </>
-              )}
-
-              <Box position={'absolute'} bottom={50} right={50}>
+                        )}
+                      </Draggable>
+                    ))}
+                  </>
+                )}
+              </Box>
+              <Toolbar
+                sx={{ mt: 6, display: 'flex', justifyContent: 'flex-end' }}
+              >
                 <Button variant="contained" onClick={() => setOpenDrawer(true)}>
                   Save
                 </Button>
-              </Box>
-              <Toolbar sx={{ mt: 2 }} />
+              </Toolbar>
             </>
           ) : (
             <>
@@ -220,6 +225,7 @@ export default function DraggableFields({
                   xAxisData={xAxisData}
                   yAxisData={yAxisData}
                   subFilter={subFilter}
+                  handleCancel={handleCancel}
                 />
               )}
 
@@ -237,6 +243,7 @@ export default function DraggableFields({
                   form={form}
                   setForm={setForm}
                   setValue={setValue}
+                  handleCancel={handleCancel}
                 />
               )}
               {modal?.table && (
@@ -251,6 +258,7 @@ export default function DraggableFields({
                   setForm={setForm}
                   setFieldData={setFieldData}
                   columnsData={columnsData}
+                  handleCancel={handleCancel}
                 />
               )}
             </>
