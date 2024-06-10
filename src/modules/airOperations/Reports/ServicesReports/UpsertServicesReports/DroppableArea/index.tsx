@@ -95,7 +95,7 @@ export default function DroppableArea(props: any) {
                           : () => setShowTemplate(true)
                       }
                     >
-                      {showTemplate ? 'Create Report' : 'Chose Template'}
+                      {showTemplate ? 'Create Report' : 'Choose Template'}
                     </Button>
                   </Box>
                 </>

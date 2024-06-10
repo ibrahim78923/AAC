@@ -49,6 +49,7 @@ export const UpsertServicesReports = () => {
     handleTemplateDragEnd,
     router,
     handleCancel,
+    reportId,
   } = useUpsertServicesReports();
   const { text, table, chart } = modal || {};
   return (
@@ -150,6 +151,7 @@ export const UpsertServicesReports = () => {
               columnsData={columnsData}
               showTemplate={showTemplate}
               handleCancel={handleCancel}
+              reportId={reportId}
             />
           </Grid>
         </Grid>

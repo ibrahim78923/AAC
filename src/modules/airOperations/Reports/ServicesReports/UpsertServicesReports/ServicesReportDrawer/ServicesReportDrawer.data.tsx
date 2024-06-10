@@ -8,6 +8,8 @@ import * as Yup from 'yup';
 
 export const reportsValidationSchema: any = Yup?.object()?.shape({
   reportName: Yup?.string()?.required('Report Name is Required'),
+  sharedWith: Yup?.string()?.required('shared with is Required'),
+  addToDashboard: Yup?.string()?.required('Add to dashboard is Required'),
 });
 export const reportsDefaultValues = {
   reportName: '',
@@ -73,16 +75,17 @@ export const reportsDataArray = () => {
         name: 'addToDashboard',
         label: 'Add this report to a dashboard',
         row: false,
+        required: true,
         options: [
           { value: 'doNotAdd', label: 'Do not add to a dashboard' },
           { value: 'addToNew', label: 'Add to new dashboard' },
-          { value: 'addTo', label: 'Add to existing dashboard' },
+          { value: 'addToExisting', label: 'Add to existing dashboard' },
         ],
       },
       component: RHFRadioGroup,
       conditionalComponentTree: (
         <RHFAutocomplete
-          name="addToCondition"
+          name="addToExistingCondition"
           label="Select Dashboard"
           size="small"
           type="text"

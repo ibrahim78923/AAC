@@ -89,7 +89,7 @@ export const useImportModal = () => {
           );
           const values = Object?.values(dataColumn);
           const hasDuplicate = values?.some(
-            (value, index) => values?.indexOf(value) !== index,
+            (value: any, index: any) => values?.indexOf(value) !== index,
           );
 
           if (hasDuplicate) {
@@ -128,7 +128,7 @@ export const useImportModal = () => {
             )?.unwrap();
             successSnackbar('File Uploaded');
             const url = new URL(`${response?.data}`);
-            const filePath = `${url?.origin}${url?.pathname}`;
+            const filePath = `${url?.origin}/${url?.pathname}`;
             setFilePath(filePath);
           } catch (error: any) {
             errorSnackbar(error?.data?.message);
@@ -144,7 +144,7 @@ export const useImportModal = () => {
           );
           const values = Object?.values(dataColumn);
           const hasDuplicate = values?.some(
-            (value, index) => values?.indexOf(value) !== index,
+            (value: any, index: any) => values?.indexOf(value) !== index,
           );
 
           if (hasDuplicate) {

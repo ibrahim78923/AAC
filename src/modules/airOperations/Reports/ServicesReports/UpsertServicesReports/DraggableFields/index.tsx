@@ -51,6 +51,7 @@ export default function DraggableFields({
   columnsData,
   showTemplate,
   handleCancel,
+  reportId,
 }: any) {
   const theme: any = useTheme();
 
@@ -264,7 +265,12 @@ export default function DraggableFields({
             </>
           )}
           {openDrawer && (
-            <ServicesReportDrawer open={openDrawer} setOpen={setOpenDrawer} />
+            <ServicesReportDrawer
+              open={openDrawer}
+              setOpen={setOpenDrawer}
+              form={form}
+              reportId={reportId}
+            />
           )}
         </Box>
       )}

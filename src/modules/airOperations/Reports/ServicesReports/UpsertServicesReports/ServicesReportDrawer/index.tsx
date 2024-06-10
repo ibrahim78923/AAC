@@ -5,12 +5,15 @@ import { Grid } from '@mui/material';
 import { reportsDataArray } from './ServicesReportDrawer.data';
 
 export const ServicesReportDrawer = (props: any) => {
-  const { setOpen, open } = props;
-  const { saveReportsMethods, watch } = useServicesReportDrawer();
+  const { open } = props;
+  const { saveReportsMethods, watch, handleSubmit, onSubmit, handleCancel } =
+    useServicesReportDrawer(props);
   return (
     <CommonDrawer
       isDrawerOpen={open}
-      onClose={() => setOpen(false)}
+      onClose={handleCancel}
+      submitHandler={() => handleSubmit(onSubmit)()}
+      cancelBtnHandler={handleCancel}
       title="Save Reports"
       okText="Apply"
       isOk={true}

@@ -17,6 +17,7 @@ export default function useUpsertServicesReports() {
   const [draggedItemData, setDraggedItemData] = useState<any>(null);
   const theme: any = useTheme();
   const router: any = useRouter();
+  const reportId = router?.query?.reportId;
   const methods: any = useForm({
     defaultValues: {
       chartTitle: 'Report Chart',
@@ -189,5 +190,6 @@ export default function useUpsertServicesReports() {
     handleTemplateDragEnd,
     router,
     handleCancel,
+    reportId,
   };
 }
