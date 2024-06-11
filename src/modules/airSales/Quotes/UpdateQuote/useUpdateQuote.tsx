@@ -43,7 +43,8 @@ const useUpdateQuote = () => {
     page: page,
     limit: pageLimit,
   });
-  const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
+  const { data: dataGetQuoteById, isLoading: BuyerInfoLoading } =
+    useGetQuoteByIdQuery({ id: quoteId });
   const [deleteCompaniesMutation, { isLoading: isCompanyDeleteLoading }] =
     useDeleteCompaniesMutation();
   const [deleteContacts, { isLoading: isContactDeleteLoading }] =
@@ -62,15 +63,12 @@ const useUpdateQuote = () => {
     '',
   );
 
-  const activeCompanyId = dataGetQuoteById?.data?.buyerCompany?.map(
-    (item: any) => item?._id,
-  );
-  const activeContactId = dataGetQuoteById?.data?.buyerContact?.map(
-    (item: any) => item?._id,
-  );
+  const activeCompanyId = dataGetQuoteById?.data?.buyerCompanyId;
+  const activeContactId = dataGetQuoteById?.data?.buyerContactbuyerContactId;
+
   useEffect(() => {
-    setSelectedCompanyIds(activeCompanyId && activeCompanyId[0]);
-    setSelectedBuyerContactIds(activeContactId && activeContactId[0]);
+    setSelectedCompanyIds(activeCompanyId && activeCompanyId);
+    setSelectedBuyerContactIds(activeContactId && activeContactId);
   }, [dataGetQuoteById]);
 
   const [deleteModalId, setDeleteModal] = useState<string | null>(null);
@@ -347,6 +345,7 @@ const useUpdateQuote = () => {
     taxCalculation,
     loadingSubmit,
     setSelectedCompanyIds,
+    BuyerInfoLoading,
   };
 };
 
