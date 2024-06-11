@@ -1,41 +1,103 @@
-import { useTheme } from '@mui/material';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
+import { PAGINATION } from '@/config';
+import { useEffect, useState } from 'react';
+import { buildQueryParams } from '@/utils/api';
+import useAuth from '@/hooks/useAuth';
+import { DeleteRoles } from './DeleteRoles';
+import { useRouter } from 'next/router';
+import { ARRAY_INDEX } from '@/constants/strings';
 import {
-  rolesFormDefaultValues,
-  rolesFormValidationSchema,
-} from './UpsertRoleAndRightForm/UpsertRoleAndRightForm.data';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useState } from 'react';
-const useRolesAndRight = () => {
-  const [expandedRoleAccordion, setExpandedRoleAccordion] = useState(false);
-  const theme = useTheme();
-  const rolesMethods: any = useForm({
-    resolver: yupResolver(rolesFormValidationSchema),
-    defaultValues: rolesFormDefaultValues,
-  });
-  const handleChangeExpandAccordion = () => {
-    setExpandedRoleAccordion(!expandedRoleAccordion);
+  actionButtonDropdownDynamic,
+  operationsRolesAndRightColumnsDynamic,
+} from './RolesAndRight.data';
+import { useLazyGetPermissionsRoleForOperationsQuery } from '@/services/airOperations/roles-and-right';
+
+export const useRolesAndRight = () => {
+  const [search, setSearch] = useState('');
+  const [selectedRolesList, setSelectedRolesList] = useState<any>([]);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
+  const router = useRouter();
+  const auth: any = useAuth();
+
+  const { _id: productId } = auth?.product;
+  const { _id: organizationCompanyAccountId } =
+    auth?.product?.accounts?.[ARRAY_INDEX?.ZERO]?.company;
+  const { _id: organizationId } = auth?.user?.organization;
+
+  const [
+    lazyGetPermissionsRoleForOperationsTrigger,
+    lazyGetPermissionsRoleForOperationsStatus,
+  ]: any = useLazyGetPermissionsRoleForOperationsQuery?.();
+
+  const getOperationsRolesList = async (currentPage = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', search + ''],
+      ['organizationCompanyAccountId', organizationCompanyAccountId + ''],
+      ['organizationId', organizationId + ''],
+      ['productId', productId],
+    ];
+    const rolesListParam: any = buildQueryParams(additionalParams);
+    const apiDataParameter = {
+      queryParams: rolesListParam,
+    };
+    try {
+      await lazyGetPermissionsRoleForOperationsTrigger?.(
+        apiDataParameter,
+      )?.unwrap();
+    } catch (error: any) {}
   };
 
-  const { handleSubmit, reset, setIsRolesModalOpen } = rolesMethods;
+  useEffect(() => {
+    getOperationsRolesList?.();
+  }, [page, search, pageLimit]);
 
-  const onSubmit = async () => {
-    enqueueSnackbar('Role Add Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    reset(rolesFormDefaultValues);
-    setIsRolesModalOpen(false);
+  const operationsRolesAndRightColumns =
+    operationsRolesAndRightColumnsDynamic?.(
+      selectedRolesList,
+      setSelectedRolesList,
+      lazyGetPermissionsRoleForOperationsStatus?.data?.data
+        ?.usercompanyaccounts,
+    );
+
+  const renderPortalComponent = () => {
+    if (isPortalOpen?.isDelete) {
+      return (
+        <DeleteRoles
+          isPortalOpen={isPortalOpen}
+          setIsPortalOpen={setIsPortalOpen}
+          selectedRolesList={selectedRolesList}
+          setSelectedRolesList={setSelectedRolesList}
+          getRolesListData={getOperationsRolesList}
+          setPage={setPage}
+          page={page}
+          totalRecords={
+            lazyGetPermissionsRoleForOperationsStatus?.data?.data
+              ?.companyaccountroles?.length
+          }
+        />
+      );
+    }
+    return <></>;
   };
+
+  const actionButtonDropdown = actionButtonDropdownDynamic?.(
+    setIsPortalOpen,
+    selectedRolesList,
+    router,
+  );
   return {
-    theme,
-    onSubmit,
-    rolesMethods,
-    handleSubmit,
-    handleChangeExpandAccordion,
-    expandedRoleAccordion,
+    operationsRolesAndRightColumns,
+    setSearch,
+    setPageLimit,
+    setPage,
+    lazyGetPermissionsRoleForOperationsStatus,
+    renderPortalComponent,
+    isPortalOpen,
+    actionButtonDropdown,
+    selectedRolesList,
+    router,
   };
 };
-
-export default useRolesAndRight;

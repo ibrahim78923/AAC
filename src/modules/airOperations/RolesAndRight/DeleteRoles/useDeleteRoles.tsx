@@ -1,5 +1,5 @@
 import { ARRAY_INDEX } from '@/constants/strings';
-import { useDeleteRoleForLoyaltyMutation } from '@/services/airLoyaltyProgram/roles-and-right';
+import { useDeleteRoleForOperationsMutation } from '@/services/airOperations/roles-and-right';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteRoles = (props: any) => {
@@ -12,8 +12,8 @@ export const useDeleteRoles = (props: any) => {
     page,
     getRolesListData,
   } = props;
-  const [deleteRoleForLoyaltyTrigger, deleteRoleForLoyaltyStatus] =
-    useDeleteRoleForLoyaltyMutation();
+  const [deleteRoleForOperationsTrigger, deleteRoleForOperationsStatus] =
+    useDeleteRoleForOperationsMutation();
 
   const deleteRoles = async () => {
     const deleteParams = new URLSearchParams();
@@ -27,7 +27,7 @@ export const useDeleteRoles = (props: any) => {
     };
 
     try {
-      await deleteRoleForLoyaltyTrigger(deleteRolesParameter)?.unwrap();
+      await deleteRoleForOperationsTrigger(deleteRolesParameter)?.unwrap();
       successSnackbar('Record deleted successfully');
       closeDeleteModal?.();
       const newPage = selectedRolesList?.length === totalRecords ? 1 : page;
@@ -45,7 +45,7 @@ export const useDeleteRoles = (props: any) => {
 
   return {
     deleteRoles,
-    deleteRoleForLoyaltyStatus,
+    deleteRoleForOperationsStatus,
     closeDeleteModal,
   };
 };
