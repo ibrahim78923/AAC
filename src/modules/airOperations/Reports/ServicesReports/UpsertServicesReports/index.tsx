@@ -50,8 +50,10 @@ export const UpsertServicesReports = () => {
     router,
     handleCancel,
     reportId,
+    setDraggedItemData,
+    draggedItemData,
   } = useUpsertServicesReports();
-  const { text, table, chart } = modal || {};
+  const { text, table, chart, counter } = modal || {};
   return (
     <FormProvider {...methods}>
       <DragDropContext
@@ -71,14 +73,16 @@ export const UpsertServicesReports = () => {
                 text
                   ? REPORTS_HEADER_TITLE?.CREATE_TEXT
                   : table
-                  ? REPORTS_HEADER_TITLE?.CREATE_TABLE
-                  : chart
-                  ? REPORTS_HEADER_TITLE?.CREATE_CHART
-                  : REPORTS_HEADER_TITLE?.CREATE_REPORT
+                    ? REPORTS_HEADER_TITLE?.CREATE_TABLE
+                    : chart
+                      ? REPORTS_HEADER_TITLE?.CREATE_CHART
+                      : counter
+                        ? REPORTS_HEADER_TITLE?.CREATE_COUNTER
+                        : REPORTS_HEADER_TITLE?.CREATE_REPORT
               }
               canMovedBack
               moveBack={
-                text || table || chart
+                text || table || chart || counter
                   ? handleCancel
                   : () => {
                       router?.push({
@@ -106,6 +110,11 @@ export const UpsertServicesReports = () => {
               subFilter={subFilter}
               setShowTemplate={setShowTemplate}
               showTemplate={showTemplate}
+              draggedItemData={draggedItemData}
+              setModal={setModal}
+              setFieldData={setFieldData}
+              setDraggedItemData={setDraggedItemData}
+              handleCancel={handleCancel}
             />
           </Grid>
           <Grid
@@ -152,6 +161,7 @@ export const UpsertServicesReports = () => {
               showTemplate={showTemplate}
               handleCancel={handleCancel}
               reportId={reportId}
+              setDraggedItemData={setDraggedItemData}
             />
           </Grid>
         </Grid>

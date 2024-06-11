@@ -17,6 +17,7 @@ export const useTextEditor = (props: any) => {
     setForm,
     textTitle,
     setValue,
+    setDraggedItemData,
   } = props;
   const [saveDisable, setSaveDisable] = useState(true);
   const [edit, setEdit] = useState(true);
@@ -211,9 +212,11 @@ export const useTextEditor = (props: any) => {
       chart: false,
       text: false,
       table: false,
+      counter: false,
     });
     setValue('textTitle', 'Report Text');
     setEditorState(EditorState.createEmpty());
+    setDraggedItemData(null);
   };
 
   return {

@@ -3,24 +3,44 @@ import { useForm } from 'react-hook-form';
 import {
   reportsDefaultValues,
   reportsValidationSchema,
-} from './ServicesReportDrawer.data';
+} from './SaveReportDrawer.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useEffect, useState } from 'react';
 
-export const useServicesReportDrawer = (props: any) => {
-  const { form, setOpen, reportId } = props;
+export const useSaveReportDrawer = (props: any) => {
+  const { form, setOpen, reportId, setForm } = props;
+  const [reportValidation, setReportValidation] = useState<any>({
+    selectSharedWith: '',
+    selectAddToDashboard: '',
+  });
+
   const saveReportsMethods = useForm({
-    resolver: yupResolver(reportsValidationSchema),
+    resolver: yupResolver(reportsValidationSchema(reportValidation)),
     defaultValues: reportsDefaultValues,
   });
 
   const { watch, handleSubmit, reset } = saveReportsMethods;
 
-  const onSubmit = () => {
+  const selectSharedWith = watch('sharedWith');
+  const selectAddToDashboard = watch('addToDashboard');
+
+  useEffect(() => {
+    setReportValidation({
+      selectSharedWith,
+      selectAddToDashboard,
+    });
+  }, [selectSharedWith, selectAddToDashboard]);
+
+  const onSubmit: any = () => {
     try {
       if (reportId) {
         successSnackbar('Report Edit Successfully');
+        setForm([]);
+        handleCancel();
       } else {
         successSnackbar('Report Created Successfully');
+        setForm([]);
+        handleCancel();
       }
     } catch (err: any) {
       errorSnackbar(err?.message ?? 'Error in saving report');

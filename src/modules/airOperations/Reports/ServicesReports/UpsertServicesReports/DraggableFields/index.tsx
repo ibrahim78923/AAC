@@ -11,20 +11,21 @@ import { Draggable } from 'react-beautiful-dnd';
 import { ChartEditor } from '../DraggableFormFields/ChartEditor';
 import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
-import { ServicesReportDrawer } from '../ServicesReportDrawer';
+import { SaveReportDrawer } from '../SaveReportDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { servicesMetrics, templateList } from '../UpsertServicesReports.data';
 import AppsIcon from '@mui/icons-material/Apps';
+import { REPORT_TYPE } from '@/constants/strings';
 
 export default function DraggableFields({
   setModal,
   setFieldData,
+  form,
+  setForm,
   chartType,
   metricType,
   setValue,
   chartTitle,
-  form,
-  setForm,
   setChartMetricType,
   chartMetricType,
   allChartComponents,
@@ -52,6 +53,7 @@ export default function DraggableFields({
   showTemplate,
   handleCancel,
   reportId,
+  setDraggedItemData,
 }: any) {
   const theme: any = useTheme();
 
@@ -59,7 +61,7 @@ export default function DraggableFields({
     <Droppable droppableId={'draggable'}>
       {(provided: any) => (
         <Box ref={provided?.innerRef} {...provided?.droppableProps}>
-          {!!!fieldData ? (
+          {!!!fieldData || modal?.counter ? (
             <>
               <Box
                 display={'flex'}
@@ -78,64 +80,71 @@ export default function DraggableFields({
               <Box height={'60vh'} overflow={'scroll'} p={1}>
                 {showTemplate ? (
                   <>
-                    {templateList?.map((item: any, index: number) => (
-                      <Draggable
-                        key={item?.id}
-                        draggableId={item?.id}
-                        index={index}
-                      >
-                        {(provided: any) => (
-                          <Box
-                            boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
-                            bgcolor={'common.white'}
-                            borderRadius={2}
-                            mb={index === templateList?.length - 1 ? 0 : 2}
-                            p={2}
-                            display={'flex'}
-                            alignItems={'center'}
-                            ref={provided?.innerRef}
-                            {...provided?.draggableProps}
-                            {...provided?.dragHandleProps}
-                            sx={{
-                              '&:hover': {
-                                boxShadow: 5,
-                              },
-                              cursor: 'pointer',
-                            }}
+                    {templateList?.map(
+                      (item: any, index: number) =>
+                        (item?.templateType === metricType ||
+                          item?.templateType === REPORT_TYPE?.ALL) && (
+                          <Draggable
+                            key={item?.id}
+                            draggableId={item?.id}
+                            index={index}
                           >
-                            <AppsIcon
-                              sx={{
-                                fontSize: '2.7rem',
-                                color: 'custom.main',
-                                '&:hover': {
-                                  color: 'primary.main',
-                                },
-                              }}
-                            />
-                            <Divider
-                              orientation="vertical"
-                              flexItem
-                              sx={{
-                                margin: '0 1rem',
-                                border: `.1rem solid ${theme?.palette?.grey[700]}`,
-                                backgroundColor: 'transparent',
-                              }}
-                            />
-                            <Box>
-                              <Typography
-                                variant={'body1'}
-                                color={'custom.main'}
+                            {(provided: any) => (
+                              <Box
+                                boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
+                                bgcolor={'common.white'}
+                                borderRadius={2}
+                                mb={index === templateList?.length - 1 ? 0 : 2}
+                                p={2}
+                                display={'flex'}
+                                alignItems={'center'}
+                                ref={provided?.innerRef}
+                                {...provided?.draggableProps}
+                                {...provided?.dragHandleProps}
+                                sx={{
+                                  '&:hover': {
+                                    boxShadow: 5,
+                                  },
+                                  cursor: 'pointer',
+                                }}
                               >
-                                {item?.title}
-                              </Typography>
-                              <Typography variant={'body2'} color={'grey.0'}>
-                                {item?.description}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        )}
-                      </Draggable>
-                    ))}
+                                <AppsIcon
+                                  sx={{
+                                    fontSize: '2.7rem',
+                                    color: 'custom.main',
+                                    '&:hover': {
+                                      color: 'primary.main',
+                                    },
+                                  }}
+                                />
+                                <Divider
+                                  orientation="vertical"
+                                  flexItem
+                                  sx={{
+                                    margin: '0 1rem',
+                                    border: `.1rem solid ${theme?.palette?.grey[700]}`,
+                                    backgroundColor: 'transparent',
+                                  }}
+                                />
+                                <Box>
+                                  <Typography
+                                    variant={'body1'}
+                                    color={'custom.main'}
+                                  >
+                                    {item?.title}
+                                  </Typography>
+                                  <Typography
+                                    variant={'body2'}
+                                    color={'grey.0'}
+                                  >
+                                    {item?.description}
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            )}
+                          </Draggable>
+                        ),
+                    )}
                   </>
                 ) : (
                   <>
@@ -200,13 +209,18 @@ export default function DraggableFields({
                   </>
                 )}
               </Box>
-              <Toolbar
-                sx={{ mt: 6, display: 'flex', justifyContent: 'flex-end' }}
-              >
-                <Button variant="contained" onClick={() => setOpenDrawer(true)}>
-                  Save
-                </Button>
-              </Toolbar>
+              {!modal?.counter && form?.length > 0 && (
+                <Toolbar
+                  sx={{ mt: 6, display: 'flex', justifyContent: 'flex-end' }}
+                >
+                  <Button
+                    variant="contained"
+                    onClick={() => setOpenDrawer(true)}
+                  >
+                    Save
+                  </Button>
+                </Toolbar>
+              )}
             </>
           ) : (
             <>
@@ -227,6 +241,7 @@ export default function DraggableFields({
                   yAxisData={yAxisData}
                   subFilter={subFilter}
                   handleCancel={handleCancel}
+                  setDraggedItemData={setDraggedItemData}
                 />
               )}
 
@@ -245,6 +260,7 @@ export default function DraggableFields({
                   setForm={setForm}
                   setValue={setValue}
                   handleCancel={handleCancel}
+                  setDraggedItemData={setDraggedItemData}
                 />
               )}
               {modal?.table && (
@@ -260,16 +276,18 @@ export default function DraggableFields({
                   setFieldData={setFieldData}
                   columnsData={columnsData}
                   handleCancel={handleCancel}
+                  setDraggedItemData={setDraggedItemData}
                 />
               )}
             </>
           )}
           {openDrawer && (
-            <ServicesReportDrawer
+            <SaveReportDrawer
               open={openDrawer}
               setOpen={setOpenDrawer}
               form={form}
               reportId={reportId}
+              setForm={setForm}
             />
           )}
         </Box>

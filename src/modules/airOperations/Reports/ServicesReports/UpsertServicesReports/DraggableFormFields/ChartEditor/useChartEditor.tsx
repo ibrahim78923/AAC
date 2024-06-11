@@ -16,6 +16,7 @@ export const useChartEditor = (props: any) => {
     chartMetricType,
     chartType,
     subFilter,
+    setDraggedItemData,
   } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
@@ -41,10 +42,12 @@ export const useChartEditor = (props: any) => {
       chart: false,
       text: false,
       table: false,
+      counter: false,
     });
     setValue('chartType', '');
     setValue('chartTitle', 'Report Chart');
     setValue('subFilter', false);
+    setDraggedItemData(null);
   };
 
   return {

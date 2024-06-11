@@ -40,7 +40,7 @@ export default function useUpsertServicesReports() {
   const [editorState, setEditorState] = useState(EditorState?.createEmpty());
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
-  const [metricType, setMetricType] = useState('Inventories');
+  const [metricType, setMetricType] = useState('Inventory');
   const [chartMetricType, setChartMetricType] = useState('Add Metric');
   const [AddProperties, setAddProperties] = useState();
   const [columnsData, setColumnsData] = useState([]);
@@ -64,7 +64,6 @@ export default function useUpsertServicesReports() {
       setEditorState(EditorState?.createEmpty());
     }
   }, [draggedItemData]);
-
   useEffect(() => {
     if (!draggedItemData) {
       setValue('xAxis', '');
@@ -74,10 +73,12 @@ export default function useUpsertServicesReports() {
   }, [chartType]);
 
   const getModalState = (draggedItem: any) => {
+    setDraggedItemData(draggedItem);
     const newModal: any = {
       chart: false,
       text: false,
       table: false,
+      counter: false,
     };
 
     if (draggedItem?.id !== undefined) {
@@ -106,6 +107,7 @@ export default function useUpsertServicesReports() {
       chart: false,
       text: false,
       table: false,
+      counter: false,
     };
 
     if (draggedItem?.id !== undefined) {
@@ -129,8 +131,9 @@ export default function useUpsertServicesReports() {
   };
 
   useEffect(() => {
-    (modal?.chart || modal?.table || modal?.text) && setFieldData(true);
-  }, [modal?.text, modal?.chart, modal?.table]);
+    (modal?.chart || modal?.table || modal?.text || modal?.counter) &&
+      setFieldData(true);
+  }, [modal?.text, modal?.chart, modal?.table, modal?.counter]);
 
   const allChartComponents = {
     [CHARTS?.BAR_CHART]: <BarChart />,
@@ -148,6 +151,7 @@ export default function useUpsertServicesReports() {
     setValue('chartType', '');
     setValue('chartTitle', 'Report Chart');
     setValue('subFilter', false);
+    setDraggedItemData(null);
   };
 
   return {
@@ -191,5 +195,7 @@ export default function useUpsertServicesReports() {
     router,
     handleCancel,
     reportId,
+    setDraggedItemData,
+    draggedItemData,
   };
 }

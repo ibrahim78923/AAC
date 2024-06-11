@@ -39,6 +39,17 @@ export const useDroppableArea = (props: any) => {
           type: REPORT_TYPE?.TEXT,
         },
       ]);
+    } else if (chartToCopy?.type === REPORT_TYPE?.COUNTER) {
+      setForm([
+        ...form,
+        {
+          id: uniqueId,
+          title: chartToCopy?.title,
+          ticketCount: chartToCopy?.ticketCount,
+          templateType: chartToCopy?.templateType,
+          type: REPORT_TYPE?.COUNTER,
+        },
+      ]);
     } else {
       setForm([
         ...form,

@@ -17,6 +17,7 @@ import { CheckBox } from '@mui/icons-material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { servicesChartMetrics } from './ChartEditor.data';
 import { CHARTS } from '@/constants/strings';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const ChartEditor = (props: any) => {
   const {
@@ -120,7 +121,8 @@ export const ChartEditor = (props: any) => {
         <RHFCheckbox
           name="subFilter"
           label="Add Date Range Filter"
-          size="large"
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
         />
       </Box>
       <Toolbar

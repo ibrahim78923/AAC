@@ -407,6 +407,7 @@ export const REPORTS_HEADER_TITLE = {
   CREATE_TABLE: 'Create Table',
   CREATE_CHART: 'Create Chart',
   CREATE_TEXT: 'Create Text',
+  CREATE_COUNTER: 'Create Counter',
 };
 
 export const ASSOCIATIONS_API_PARAMS_FOR = {

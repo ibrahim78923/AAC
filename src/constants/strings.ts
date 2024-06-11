@@ -820,7 +820,11 @@ export const REPORT_TYPE = {
   CHART: 'chart',
   TABLE: 'table',
   TEXT: 'text',
-  FILTER: 'filter',
+  COUNTER: 'counter',
+  EVERYONE: 'everyone',
+  SPECIFIC_USERS: 'specificUsers',
+  ADD_TO_EXISTING: 'addToExisting',
+  ALL: 'All',
 };
 
 export const USER_MANAGEMENT_DRAWER_ACTION = {

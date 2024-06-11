@@ -18,6 +18,7 @@ import { REPORT_TYPE } from '@/constants/strings';
 import ReportCalendarFilter from '@/components/ReportCalendarFilter';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { tableColumn } from '../DraggableFormFields/Table/Table.data';
+import { Counter } from '../DraggableFormFields/Counter';
 
 export default function DroppableArea(props: any) {
   const {
@@ -38,6 +39,12 @@ export default function DroppableArea(props: any) {
     subFilter,
     setShowTemplate,
     showTemplate,
+    draggedItemData,
+    setModal,
+    setFieldData,
+    setForm,
+    setDraggedItemData,
+    handleCancel,
   } = props;
 
   const { handleDelete, handleCopy, theme, setCalendarFilter } =
@@ -103,7 +110,7 @@ export default function DroppableArea(props: any) {
                 <>
                   {form?.length > 0 && (
                     <>
-                      <Grid container spacing={1}>
+                      <Grid container spacing={1} mb={1}>
                         {form?.map((item: any) => (
                           <>
                             {item?.type === REPORT_TYPE?.CHART && (
@@ -111,7 +118,6 @@ export default function DroppableArea(props: any) {
                                 <Box
                                   borderRadius={2}
                                   border={`1px solid ${theme?.palette?.grey[700]}`}
-                                  mb={2}
                                 >
                                   <Box
                                     display={'flex'}
@@ -160,7 +166,7 @@ export default function DroppableArea(props: any) {
                           </>
                         ))}
                       </Grid>
-                      <Grid container spacing={1}>
+                      <Grid container spacing={1} mb={1}>
                         {form?.map((item: any) => (
                           <>
                             {item?.type === REPORT_TYPE?.TEXT && (
@@ -168,7 +174,6 @@ export default function DroppableArea(props: any) {
                                 <Box
                                   borderRadius={2}
                                   border={`1px solid ${theme?.palette?.grey[700]}`}
-                                  mb={2}
                                   p={1}
                                   pl={2.5}
                                 >
@@ -213,7 +218,7 @@ export default function DroppableArea(props: any) {
                           </>
                         ))}
                       </Grid>
-                      <Grid container spacing={1}>
+                      <Grid container spacing={1} mb={1}>
                         {form?.map((item: any) => (
                           <>
                             {item?.type === REPORT_TYPE?.TABLE && (
@@ -221,9 +226,7 @@ export default function DroppableArea(props: any) {
                                 <Box
                                   borderRadius={2}
                                   border={`1px solid ${theme?.palette?.grey[700]}`}
-                                  mb={2}
                                   p={1}
-                                  pl={2.5}
                                 >
                                   <Box
                                     display={'flex'}
@@ -265,6 +268,63 @@ export default function DroppableArea(props: any) {
                           </>
                         ))}
                       </Grid>
+
+                      <Grid container spacing={1} mb={1}>
+                        {form?.map((item: any) => (
+                          <>
+                            {item?.type === REPORT_TYPE?.COUNTER && (
+                              <Grid item xs={12} sm={6} key={item?.id}>
+                                <Box
+                                  borderRadius={2}
+                                  border={`1px solid ${theme?.palette?.grey[700]}`}
+                                  p={1}
+                                >
+                                  <Box
+                                    display={'flex'}
+                                    justifyContent={'space-between'}
+                                    alignItems={'center'}
+                                  >
+                                    <Typography
+                                      color="secondary"
+                                      variant="h5"
+                                      overflow={'scroll'}
+                                      width={'80%'}
+                                    >
+                                      {item?.title} {item?.templateType}
+                                    </Typography>
+                                    <Box
+                                      display={'flex'}
+                                      justifyContent={'center'}
+                                      alignItems={'center'}
+                                    >
+                                      <IconButton
+                                        onClick={() => handleDelete(item?.id)}
+                                      >
+                                        <DeleteIcon />
+                                      </IconButton>
+                                      <IconButton
+                                        onClick={() => handleCopy(item?.id)}
+                                      >
+                                        <ContentCopyIcon />
+                                      </IconButton>
+                                    </Box>
+                                  </Box>
+                                  <Typography
+                                    display={'flex'}
+                                    justifyContent={'center'}
+                                    alignItems={'center'}
+                                    variant="h1"
+                                    color={'primary'}
+                                    p={10}
+                                  >
+                                    {item?.ticketCount}
+                                  </Typography>
+                                </Box>
+                              </Grid>
+                            )}
+                          </>
+                        ))}
+                      </Grid>
                     </>
                   )}
                 </>
@@ -295,6 +355,17 @@ export default function DroppableArea(props: any) {
                   tableTitle={tableTitle}
                   setAddProperties={setAddProperties}
                   columnsData={columnsData}
+                />
+              )}
+              {modal?.counter && (
+                <Counter
+                  draggedItemData={draggedItemData}
+                  setModal={setModal}
+                  setFieldData={setFieldData}
+                  setForm={setForm}
+                  setDraggedItemData={setDraggedItemData}
+                  form={form}
+                  handleCancel={handleCancel}
                 />
               )}
             </>
