@@ -74,7 +74,7 @@ export const ReportLists = (props: any) => {
         setPageLimit={setPageLimit}
         isFetching={lazyGetRestoreReportsListStatus?.isFetching}
         isError={lazyGetRestoreReportsListStatus?.isError}
-        isSuccess
+        isSuccess={lazyGetRestoreReportsListStatus?.isSuccess}
         onPageChange={(page: any) => setPage(page)}
         isPagination
       />

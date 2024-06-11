@@ -15,13 +15,11 @@ import { FilterReport } from '../FilterReport';
 import { ExportModal } from '@/components/ExportModal';
 import { downloadFile } from '@/utils/file';
 import { useAddReportToFavoriteListMutation } from '@/services/airOperations/reports';
-import { useRouter } from 'next/router';
 import { ManageReportAccess } from '../ManageReportAccess';
 import { AddToDashboardReport } from '../AddToDashboardReport';
 
 export const useReportLists = (props: any) => {
-  const router = useRouter();
-  const { filter, apiQuery, exportApiQuery } = props;
+  const { filter, apiQuery, exportApiQuery, editReportPath } = props;
   const [search, setSearch] = useState('');
   const [selectedReportLists, setSelectedReportLists] = useState<any>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -171,7 +169,7 @@ export const useReportLists = (props: any) => {
   const actionButtonDropdown = actionsForReportListsDynamic?.(
     setIsPortalOpen,
     selectedReportLists,
-    router,
+    editReportPath,
   );
 
   return {

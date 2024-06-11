@@ -7,19 +7,16 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import {
   Box,
-  Divider,
   FormControlLabel,
-  Grid,
   Radio,
   RadioGroup,
   Typography,
 } from '@mui/material';
 
 import { LoadingButton } from '@mui/lab';
-import { ExportModalImage } from '@/assets/images';
-import Image from 'next/image';
 import { EXPORT_TYPE } from '@/constants/strings';
 import { useState } from 'react';
+import { ExportReportIcon } from '@/assets/icons';
 
 export const ExportModal = (props: any) => {
   const { open, onSubmit, handleClose } = props;
@@ -31,72 +28,62 @@ export const ExportModal = (props: any) => {
           handleClose?.();
           setExportType?.('');
         }}
-        aria-labelledby="customized-dialog-title"
         open={open}
         fullWidth
+        maxWidth={'sm'}
       >
-        <DialogTitle
-          display={'flex'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-        >
+        <DialogTitle>
           <Box
-            justifyContent={'center'}
             display={'flex'}
-            flexDirection={'row'}
-            gap={2}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            gap={1}
+            flexWrap={'wrap'}
           >
-            <Image
-              src={ExportModalImage}
-              alt={'export-image'}
-              height={24}
-              width={24}
-              style={{ marginTop: '0.4rem' }}
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              gap={1}
+              flexWrap={'wrap'}
+            >
+              <ExportReportIcon />
+              <Typography variant="h4" color="slateBlue.main">
+                Export Record
+              </Typography>
+            </Box>
+            <CloseIcon
+              sx={{ color: 'custom.darker', cursor: 'pointer' }}
+              onClick={() => handleClose?.()}
             />
-            <Typography variant="h3">Export Record</Typography>
           </Box>
-          <CloseIcon
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              handleClose?.();
-              setExportType?.('');
-            }}
-          />
         </DialogTitle>
 
-        <DialogContent dividers>
-          <Typography>File Format</Typography>
-          <Grid
-            container
-            mt={2}
-            justifyContent={'space-between'}
-            display={'flex'}
-            flexDirection={'row'}
-            alignContent={'center'}
+        <DialogContent>
+          <Typography variant="body1" color="slateBlue.main" my={2}>
+            File Format
+          </Typography>
+          <RadioGroup
+            row
+            sx={{ justifyContent: 'space-between' }}
+            name="exportType"
+            value={exportType}
+            onChange={(e: any) => setExportType(e?.target?.value)}
           >
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={exportType}
-              onChange={(e: any) => setExportType(e?.target?.value)}
-            >
-              <FormControlLabel
-                sx={{ mr: '12rem' }}
-                value={EXPORT_TYPE?.CSV}
-                control={<Radio />}
-                label="CSV"
-              />
-              <FormControlLabel
-                value={EXPORT_TYPE?.XLS}
-                control={<Radio />}
-                label="XLS"
-              />
-            </RadioGroup>
-          </Grid>
+            <FormControlLabel
+              sx={{ flex: 0.5 }}
+              value={EXPORT_TYPE?.CSV}
+              control={<Radio />}
+              label="CSV"
+            />
+            <FormControlLabel
+              sx={{ flex: 0.5 }}
+              value={EXPORT_TYPE?.XLS}
+              control={<Radio />}
+              label="XLS"
+            />
+          </RadioGroup>
         </DialogContent>
-        <Divider />
-        <DialogActions>
+        <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
             onClick={() => {
               handleClose?.();

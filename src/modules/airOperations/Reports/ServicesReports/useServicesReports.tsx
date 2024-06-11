@@ -33,6 +33,13 @@ export const useServicesReports = () => {
     });
   };
 
+  const editReportPath = (id: any) => {
+    router?.push({
+      pathname: AIR_OPERATIONS?.UPSERT_SERVICES_REPORTS,
+      query: { reportId: id },
+    });
+  };
+
   return {
     router,
     apiQueryAllReports,
@@ -44,5 +51,6 @@ export const useServicesReports = () => {
     exportApiQueryFavoriteReports,
     exportApiQueryDashboardReports,
     restoreReportsPath,
+    editReportPath,
   };
 };

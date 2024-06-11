@@ -503,5 +503,6 @@ export { default as BluePhoneIcon } from './shared/blue-phone';
 export { default as BlueArrowIcon } from './shared/blue-arrow';
 export { default as NoHolidayFoundIcon } from './shared/no-holiday-found-icon';
 export { default as RestoreReportIcon } from './modules/airOperations/reports/restore-report-icon';
+export { default as ExportReportIcon } from './modules/airOperations/reports/export-report-icon';
 export { default as ReloadIcon } from './modules/airCallCenter/Settings/GeneralSettings/reload-icon';
 export { default as EditNumberIcon } from './modules/airCallCenter/Settings/GeneralSettings/edit-number-icon';

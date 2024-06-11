@@ -20,13 +20,13 @@ import {
   CircularProgress,
   Typography,
 } from '@mui/material';
-import { AIR_OPERATIONS, DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
 export const actionsForReportListsDynamic = (
   setIsPortalOpen: any,
   selectedReportList: any,
-  router: any,
+  editReportPath: any,
 ) => [
   {
     id: 1,
@@ -40,12 +40,7 @@ export const actionsForReportListsDynamic = (
         closeMenu?.();
         return;
       }
-      router?.push({
-        pathname: AIR_OPERATIONS?.SALES_REPORTS_RESTORE,
-        query: {
-          _id: selectedReportList[0]?._id,
-        },
-      });
+      editReportPath?.(selectedReportList[0]?._id);
       closeMenu();
     },
   },

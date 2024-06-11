@@ -495,6 +495,13 @@ export const AirOperationsRoutes: any = [
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATIONS_USER_MANAGEMENT,
   },
+  {
+    key: AIR_OPERATION?.REPORTS,
+    icon: ReportsImage,
+    label: 'Reports',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
 ];
 
 export const SalesRoutes: any = [

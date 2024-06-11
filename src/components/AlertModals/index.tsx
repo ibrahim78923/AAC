@@ -7,8 +7,8 @@ import {
   Typography,
 } from '@mui/material';
 import { checkModalTypeForImage } from './AlertModals.data';
-import { AlertModalCloseIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const AlertModals = ({
   message,
@@ -41,13 +41,14 @@ export const AlertModals = ({
         >
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
             {typeImage ?? checkModalTypeForImage(type)}
-            <Typography variant="h3" textTransform={'capitalize'}>
+            <Typography variant="h3" color="slateBlue.main">
               {type}
             </Typography>
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => handleClose?.()}>
-            <AlertModalCloseIcon />
-          </Box>
+          <CloseIcon
+            sx={{ color: 'custom.darker', cursor: 'pointer' }}
+            onClick={() => handleClose?.()}
+          />
         </Box>
       </DialogTitle>
       <DialogContent>
