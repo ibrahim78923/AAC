@@ -5,7 +5,6 @@ import {
   Grid,
   IconButton,
   InputAdornment,
-  Tab,
   TextField,
   Typography,
 } from '@mui/material';
@@ -16,11 +15,9 @@ import {
   EditFormIcon,
   MobileFormIcon,
   MonitorIcon,
-  PageIcon,
   StyleFormIcon,
 } from '@/assets/icons';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
 import InnerTab from './InnerTab';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -42,8 +39,6 @@ const CreateForm = () => {
     handleStylingSubmit,
     // resetStylingForm,
     // createFormStyling,
-    value,
-    handleChange,
     editFormName,
     setEditFormName,
     showView,
@@ -91,19 +86,7 @@ const CreateForm = () => {
           <TextField
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            sx={{
-              backgroundColor: '#E9EAEF',
-              borderRadius: '5px',
-              '& input': {
-                width: '80px',
-                height: '6px',
-                color: '#1F305D',
-                fontWeight: '500',
-              },
-              '@media (max-width:900px)': {
-                marginY: '20px',
-              },
-            }}
+            sx={styles?.formTitle}
             disabled={editFormName}
             InputProps={{
               endAdornment: (
@@ -126,11 +109,7 @@ const CreateForm = () => {
             className="small"
             color="inherit"
             startIcon={<StyleFormIcon />}
-            sx={{
-              borderRadius: '5px',
-              border: '1px solid #D1D5DB',
-              fontWeight: '500',
-            }}
+            sx={styles?.btnStyling}
             onClick={handleOpenStylingDrawer}
           >
             Styling
@@ -150,204 +129,62 @@ const CreateForm = () => {
 
       <Grid container>
         <Grid item xs={12} md={6} lg={8}>
-          <Box sx={{ width: '94%', margin: 'auto' }}>
-            <TabContext value={value}>
-              <Box
-                sx={{
-                  borderBottom: 1,
-                  borderColor: 'divider',
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexWrap: 'wrap',
-                }}
-              >
+          <Box sx={styles?.formWrapper}>
+            <Box sx={styles?.formContainer}>
+              <Box sx={styles?.viewSwitcher}>
                 <Button
-                  variant="contained"
-                  className="small"
+                  startIcon={<MobileFormIcon />}
                   sx={{
+                    borderRadius: '5px',
                     marginRight: '10px',
-                    fontWeight: '500',
-                    marginTop: '25px',
+                    height: '26px',
+                    padding: '6px 10px',
+                    ...(showView
+                      ? {
+                          backgroundColor: theme?.palette?.primary?.light,
+                          color: theme?.palette?.primary?.main,
+                        }
+                      : {
+                          backgroundColor: 'transparent',
+                          color: theme?.palette?.grey[900],
+                        }),
                   }}
-                  startIcon={<PageIcon />}
+                  onClick={() => setShowView(true)}
                 >
-                  All Pages
+                  {' '}
+                  Mobile
                 </Button>
-
-                <TabList
-                  onChange={handleChange}
-                  aria-label="lab API tabs example"
+                <Button
+                  startIcon={<MonitorIcon />}
                   sx={{
-                    marginTop: '25px',
-                    marginLeft: '30px',
-                    '& .MuiTabs-indicator': {
-                      display: 'none', // Hides the indicator line
-                    },
+                    height: '26px',
+                    padding: '6px 10px',
+                    ...(showView
+                      ? {
+                          backgroundColor: 'transparent',
+                          color: theme?.palette?.grey[900],
+                        }
+                      : {
+                          backgroundColor: theme?.palette?.primary?.light,
+                          color: theme?.palette?.primary?.main,
+                        }),
                   }}
+                  onClick={() => setShowView(false)}
                 >
-                  <Tab
-                    label="Profile"
-                    value="1"
-                    sx={{
-                      backgroundColor: '#F9FAFB',
-                      '&.Mui-selected': {
-                        backgroundColor: '#e0f7f4',
-                        padding: '10px',
-                      },
-                    }}
-                  />
-                  <Tab
-                    label="Success"
-                    value="2"
-                    sx={{
-                      backgroundColor: '#F9FAFB',
-                      '&.Mui-selected': {
-                        backgroundColor: '#e0f7f4',
-                        padding: '10px',
-                      },
-                    }}
-                  />
-                </TabList>
+                  {' '}
+                  Desktop
+                </Button>
               </Box>
-              <TabPanel value="1">
-                <Box
-                  sx={{
-                    backgroundColor: showView ? 'white' : 'tranparent',
-                    height: '75vh',
-                    padding: '30px',
-                    marginTop: '30px',
-                    '@media (max-width:700px)': {
-                      height: 'fit-content',
-                      marginBottom: '30px',
-                    },
-                  }}
-                >
-                  <Box
-                    sx={{
-                      backgroundColor: '#F9FAFB',
-                      borderRadius: '5px',
-                      width: 'fit-content',
-                      margin: 'auto',
-                      padding: '10px',
-                      marginBottom: '35px',
-                      '@media (max-width:700px)': {
-                        marginTop: '45px',
-                      },
-                    }}
-                  >
-                    <Button
-                      startIcon={<MobileFormIcon />}
-                      sx={{
-                        borderRadius: '5px',
-                        marginRight: '10px',
-                        height: '26px',
-                        padding: '6px 10px',
-                        ...(showView
-                          ? { backgroundColor: '#D7F4F0', color: '#38CAB5' }
-                          : {
-                              backgroundColor: 'transparent',
-                              color: '#9CA3AF',
-                            }),
-                      }}
-                      onClick={() => setShowView(true)}
-                    >
-                      {' '}
-                      Mobile
-                    </Button>
-                    <Button
-                      startIcon={<MonitorIcon />}
-                      sx={{
-                        height: '26px',
-                        padding: '6px 10px',
-                        ...(showView
-                          ? { backgroundColor: 'transparent', color: '#9CA3AF' }
-                          : { backgroundColor: '#D7F4F0', color: '#38CAB5' }),
-                      }}
-                      onClick={() => setShowView(false)}
-                    >
-                      {' '}
-                      Desktop
-                    </Button>
-                  </Box>
-                  <InnerTab
-                    showView={showView}
-                    dynamicFields={dynamicFields}
-                    deleteField={deleteField}
-                    setDynamicFields={setDynamicFields}
-                  />
-                </Box>
-              </TabPanel>
-              <TabPanel value="2">
-                <Box
-                  sx={{
-                    backgroundColor: showView ? 'white' : 'transparent',
-                    height: '75vh',
-                    padding: '30px',
-                    marginTop: '30px',
-                    '@media (max-width:700px)': {
-                      height: 'fit-content',
-                      marginBottom: '30px',
-                    },
-                  }}
-                >
-                  <Box
-                    sx={{
-                      backgroundColor: '#F9FAFB',
-                      borderRadius: '5px',
-                      width: 'fit-content',
-                      margin: 'auto',
-                      padding: '10px',
-                      marginBottom: '35px',
-                      '@media (max-width:700px)': {
-                        marginTop: '45px',
-                      },
-                    }}
-                  >
-                    <Button
-                      startIcon={<MobileFormIcon />}
-                      sx={{
-                        borderRadius: '5px',
-                        marginRight: '10px',
-                        height: '26px',
-                        padding: '6px 10px',
-                        ...(showView
-                          ? { backgroundColor: '#D7F4F0', color: '#38CAB5' }
-                          : {
-                              backgroundColor: 'transparent',
-                              color: '#9CA3AF',
-                            }),
-                      }}
-                      onClick={() => setShowView(true)}
-                    >
-                      {' '}
-                      Mobile
-                    </Button>
-                    <Button
-                      startIcon={<MonitorIcon />}
-                      sx={{
-                        height: '26px',
-                        padding: '6px 10px',
-                        ...(showView
-                          ? { backgroundColor: 'transparent', color: '#9CA3AF' }
-                          : { backgroundColor: '#D7F4F0', color: '#38CAB5' }),
-                      }}
-                      onClick={() => setShowView(false)}
-                    >
-                      {' '}
-                      Desktop
-                    </Button>
-                  </Box>
-                  <InnerTab
-                    showView={showView}
-                    dynamicFields={dynamicFields}
-                    deleteField={deleteField}
-                    setDynamicFields={setDynamicFields}
-                  />
-                </Box>
-              </TabPanel>
-            </TabContext>
+              <InnerTab
+                showView={showView}
+                dynamicFields={dynamicFields}
+                deleteField={deleteField}
+                setDynamicFields={setDynamicFields}
+              />
+            </Box>
           </Box>
         </Grid>
+
         <Grid item xs={12} md={6} lg={4}>
           <Box sx={styles.formSideBar}>
             <Typography variant="h4">Form Block</Typography>
