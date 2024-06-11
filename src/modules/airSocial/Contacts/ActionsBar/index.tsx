@@ -29,7 +29,7 @@ const ActionsBar = (props: any) => {
     rowId,
     handleOpenModalReAssign,
     handleOpenModalDelete,
-    handleCustomizeColumns,
+    handleOpenCustomize,
     handleOpenFilters,
     handleRefresh,
     handleOpenModalExport,
@@ -108,7 +108,7 @@ const ActionsBar = (props: any) => {
             ]}
           >
             <Button
-              onClick={handleCustomizeColumns}
+              onClick={handleOpenCustomize}
               variant="outlined"
               className="small"
               color="inherit"

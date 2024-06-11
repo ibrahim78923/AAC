@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
@@ -10,14 +10,19 @@ import {
   useGetContactsViewQuery,
   useDeleteContactMutation,
   useUpdateContactOwnerMutation,
+  useGetCustomizeColumnsQuery,
+  usePutCustomizedColumnsMutation,
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
+import { getSession } from '@/utils';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   customValidationSchema,
   defaultValues,
 } from './ContactsModalBox/AssignModalBox/AssignModal.data';
 
 const useContactsSaleSite = () => {
+  const { user }: any = getSession();
   const { data: dataContactViews } = useGetContactsViewQuery({});
 
   const getTabsArray = (data: any) => {
@@ -36,8 +41,6 @@ const useContactsSaleSite = () => {
 
   const [tabValue, setTabValue] = useState('all');
   const [selectedRow, setSelectedRow]: any = useState([]);
-  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
@@ -179,7 +182,6 @@ const useContactsSaleSite = () => {
         variant: 'success',
       });
       setSelectedRow([]);
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -200,7 +202,7 @@ const useContactsSaleSite = () => {
     handleActionsMenuClose();
     const selectedItem =
       dataGetContacts?.data?.contacts?.find(
-        (item: any) => item?._id === rowId,
+        (item: any) => item?._id === selectedRow[0],
       ) || {};
 
     if (selectedItem) {
@@ -217,7 +219,10 @@ const useContactsSaleSite = () => {
       contactOwnerId: values?.contactOwnerId?._id,
     };
     try {
-      await reAssignContactOwner({ id: rowId, body: payload })?.unwrap();
+      await reAssignContactOwner({
+        id: selectedRow[0],
+        body: payload,
+      })?.unwrap();
       handleCloseModalReAssign();
       setSelectedRow([]);
       enqueueSnackbar('Contact updated successfully', {
@@ -241,14 +246,84 @@ const useContactsSaleSite = () => {
   };
 
   const theme = useTheme();
-  const [isDealCustomize, setIsDealCustomize] = useState(false);
-  const handleDealCustomize = () => setIsDealCustomize(!isDealCustomize);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleChange = () => setIsOpen(!isOpen);
+
+  // Customize Columns
+  const [isCustomize, setIsCustomize] = useState(false);
+  const { data: getCustomizeColumns, isLoading: loadingGetColumns } =
+    useGetCustomizeColumnsQuery({ type: 'contacts' });
+  const columnsData = getCustomizeColumns?.data?.columns;
+  const [selecttedColumns, setSelectedColumns] = useState([]);
+  useEffect(() => {
+    if (columnsData) {
+      setSelectedColumns(columnsData);
+    }
+  }, [columnsData]);
+
+  const handleCheckboxChange = (event: any, attribute: any) => {
+    setSelectedColumns(
+      (prevColumns: any) =>
+        prevColumns?.map((col: any) =>
+          col?.attributes === attribute
+            ? { ...col, active: event?.target?.checked }
+            : col,
+        ),
+    );
+  };
+
+  const handleOnDragEnd = (result: any) => {
+    const items = Array.from(selecttedColumns);
+    const [reOrderItem] = items?.splice(result?.source?.index, 1);
+
+    items?.splice(result?.destination?.index, 0, reOrderItem);
+
+    const newColumns: any = items?.map((col: any, index: any) => {
+      return {
+        ...col,
+        order: index,
+      };
+    });
+
+    setSelectedColumns(newColumns);
+  };
+
+  const [putCustomizedColumns, { isLoading: loadingPostColumns }] =
+    usePutCustomizedColumnsMutation();
+
+  const handleUpdateColumns = async () => {
+    if (selecttedColumns?.length > 0) {
+      try {
+        await putCustomizedColumns({
+          body: {
+            userId: user?._id,
+            type: 'contacts',
+            columns: selecttedColumns,
+          },
+        })
+          .unwrap()
+          .then((data: any) => {
+            if (data?.data) {
+              setIsCustomize(false);
+              enqueueSnackbar(`Columns customized successfully`, {
+                variant: NOTISTACK_VARIANTS?.SUCCESS,
+              });
+            }
+          });
+      } catch (error) {
+        enqueueSnackbar(`${error}`, { variant: NOTISTACK_VARIANTS?.ERROR });
+      }
+    } else {
+      enqueueSnackbar(`Please select atleast one column`, {
+        variant: NOTISTACK_VARIANTS?.WARNING,
+      });
+    }
+  };
 
   return {
     tabValue,
     handleChangeTabs,
     tabsArray,
-    // contactOwnerData,
     anchorEl,
     actionMenuOpen,
     handleActionsMenuClick,
@@ -268,10 +343,6 @@ const useContactsSaleSite = () => {
     handleCloseFilters,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    rowId,
     openModalDelete,
     handleOpenModalDelete,
     handleCloseModalDelete,
@@ -288,13 +359,24 @@ const useContactsSaleSite = () => {
     handleCloseModalExport,
     setOpenModalExport,
     theme,
-    isDealCustomize,
-    handleDealCustomize,
+    isOpen,
+    handleChange,
     isCreateViewOpen,
     handleOpenCreateView,
     handleCloseCreateView,
     isImportDrawer,
     setIsImportDrawer,
+    isCustomize,
+    setIsCustomize,
+
+    // Customize Columns
+    columnsData,
+    loadingGetColumns,
+    selecttedColumns,
+    handleCheckboxChange,
+    handleUpdateColumns,
+    loadingPostColumns,
+    handleOnDragEnd,
   };
 };
 

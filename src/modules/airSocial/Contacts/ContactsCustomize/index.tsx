@@ -1,56 +1,104 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-
+import { Box, Checkbox, FormControlLabel, useTheme } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-
-import ColumnsWrapper from './ColumnsWrapper';
-
-import { columnsData } from './ContactsCustomize.data';
-
 import { v4 as uuidv4 } from 'uuid';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { styles } from './ContactsCustomize.style';
+import { DragIcon } from '@/assets/icons';
 
-const ContactsCustomize = ({ open, onClose }: any) => {
+const ContactsCustomize = ({
+  columns,
+  setIsCustomize,
+  isCustomize,
+  handleOnChange,
+  handleUpdateColumns,
+  handleOnDragEnd,
+  isLoading,
+}: any) => {
   const theme = useTheme();
   return (
     <CommonDrawer
-      isDrawerOpen={open}
-      onClose={onClose}
+      title="Customize Columns"
       footer
       isOk
-      submitHandler={onClose}
-      isFooterFeature={true}
-      isFooterFeatureText="Reset to default"
-      variant={'outlined'}
       okText="Save"
-      title="Customize"
+      submitHandler={handleUpdateColumns}
+      isDrawerOpen={isCustomize}
+      onClose={() => {
+        setIsCustomize(false);
+      }}
+      isLoading={isLoading}
     >
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography
-          sx={{
-            color: theme?.palette?.slateBlue['main'],
-            fontSize: '14px',
-            fontWeight: 600,
-          }}
-        >
-          Selected(20)
-        </Typography>
-        <Button
-          sx={{ height: '30px' }}
-          variant="outlined"
-          startIcon={<AddCircleIcon />}
-        >
-          Add Columns
-        </Button>
-      </Box>
-      {columnsData?.map((column) => (
-        <ColumnsWrapper
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable
           key={uuidv4()}
-          title={column?.title}
-          checkboxProps={{
-            onChange: () => {},
-          }}
-        />
-      ))}
+          droppableId={`columnWrapper`}
+          direction="vertical"
+        >
+          {(provided) => (
+            <Box
+              sx={{ userSelect: 'none', width: '100%' }}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              <Box sx={{ paddingTop: '1rem', width: '100%' }}>
+                {columns?.map((col: any, i: number) => {
+                  return (
+                    <Draggable
+                      key={col?.slug}
+                      draggableId={col?.slug}
+                      index={i}
+                    >
+                      {(provided) => (
+                        <Box
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          sx={{
+                            cursor: 'grabbing',
+                            width: '100%',
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              ...styles.column(theme.palette, col.active),
+                              width: '100%',
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 2,
+                                flex: 1,
+                              }}
+                            >
+                              <DragIcon />
+                              <FormControlLabel
+                                checked={col.active}
+                                classes={{
+                                  root: '_root',
+                                  label: '_label',
+                                }}
+                                name={col.attributes}
+                                onChange={(event) =>
+                                  handleOnChange(event, col?.attributes)
+                                }
+                                control={<Checkbox />}
+                                label={col.slug}
+                              />
+                            </Box>
+                          </Box>
+                        </Box>
+                      )}
+                    </Draggable>
+                  );
+                })}
+              </Box>
+              {provided.placeholder}
+            </Box>
+          )}
+        </Droppable>
+      </DragDropContext>
     </CommonDrawer>
   );
 };

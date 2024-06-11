@@ -36,10 +36,6 @@ const Contacts = () => {
     handleCloseFilters,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    rowId,
     openModalDelete,
     handleOpenModalDelete,
     handleCloseModalDelete,
@@ -54,18 +50,24 @@ const Contacts = () => {
     openModalExport,
     handleOpenModalExport,
     setOpenModalExport,
-    isDealCustomize,
-    handleDealCustomize,
     isCreateViewOpen,
     handleOpenCreateView,
     handleCloseCreateView,
+
+    isCustomize,
+    setIsCustomize,
+    columnsData,
+    selecttedColumns,
+    handleCheckboxChange,
+    handleUpdateColumns,
+    loadingPostColumns,
+    handleOnDragEnd,
   } = useContactsSaleSite();
 
   const contactsColumns = ContactsColumns(
+    columnsData,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    setRowId,
   );
 
   return (
@@ -84,15 +86,16 @@ const Contacts = () => {
 
         <ActionsBar
           setSearchValue={setSearchValue}
-          isActionsDisabled={isActionsDisabled}
+          isActionsDisabled={selectedRow?.length === 0}
+          disabledMenuItem={selectedRow?.length !== 1}
           anchorEl={anchorEl}
           handleActionsMenuClick={handleActionsMenuClick}
           actionMenuOpen={actionMenuOpen}
           handleActionsMenuClose={handleActionsMenuClose}
-          rowId={rowId}
+          rowId={selectedRow[0]}
           handleOpenModalReAssign={handleOpenModalReAssign}
           handleOpenModalDelete={handleOpenModalDelete}
-          handleDealCustomize={handleDealCustomize}
+          handleOpenCustomize={() => setIsCustomize(true)}
           handleOpenFilters={handleOpenFilters}
           handleRefresh={handleRefresh}
           handleOpenModalExport={handleOpenModalExport}
@@ -109,7 +112,15 @@ const Contacts = () => {
 
       <CreateView open={isCreateViewOpen} onClose={handleCloseCreateView} />
 
-      <ContactsCustomize open={isDealCustomize} onClose={handleDealCustomize} />
+      <ContactsCustomize
+        columns={selecttedColumns}
+        isCustomize={isCustomize}
+        setIsCustomize={setIsCustomize}
+        handleOnChange={handleCheckboxChange}
+        handleUpdateColumns={handleUpdateColumns}
+        handleOnDragEnd={handleOnDragEnd}
+        isLoading={loadingPostColumns}
+      />
 
       <ContactsFilterDrawer
         open={openFilters}

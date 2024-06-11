@@ -144,6 +144,24 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getCustomizeColumns: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    putCustomizedColumns: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['CONTACTS', 'CUSTOMIZE'],
+    }),
   }),
 });
 
@@ -164,4 +182,6 @@ export const {
   useDeleteTasksMutation,
   useGetLifeCycleQuery,
   useGetContactsStatusQuery,
+  useGetCustomizeColumnsQuery,
+  usePutCustomizedColumnsMutation,
 } = contactsAPI;
