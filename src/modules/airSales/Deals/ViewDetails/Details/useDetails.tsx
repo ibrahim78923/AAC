@@ -53,9 +53,9 @@ const useDetails = (selecetdDealId: any) => {
       contactMode: fieldsData?.contactMode,
       contactedPersonId: fieldsData?.contactedPersonId,
       dealPipelineId: fieldsData?.dealPipelineId,
-      updatedAt: new Date(fieldsData?.updatedAt),
-      createdAt: new Date(fieldsData?.createdAt),
-      closeDate: new Date(fieldsData?.closeDate),
+      updatedAt: fieldsData?.updatedAt ? new Date(fieldsData?.updatedAt) : null,
+      createdAt: fieldsData?.createdAt ? new Date(fieldsData?.createdAt) : null,
+      closeDate: fieldsData?.closeDate ? new Date(fieldsData?.closeDate) : null,
     };
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);

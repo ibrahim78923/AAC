@@ -71,10 +71,10 @@ export const UpsertServicesReports = () => {
                 text
                   ? REPORTS_HEADER_TITLE?.CREATE_TEXT
                   : table
-                    ? REPORTS_HEADER_TITLE?.CREATE_TABLE
-                    : chart
-                      ? REPORTS_HEADER_TITLE?.CREATE_CHART
-                      : REPORTS_HEADER_TITLE?.CREATE_REPORT
+                  ? REPORTS_HEADER_TITLE?.CREATE_TABLE
+                  : chart
+                  ? REPORTS_HEADER_TITLE?.CREATE_CHART
+                  : REPORTS_HEADER_TITLE?.CREATE_REPORT
               }
               canMovedBack
               moveBack={

@@ -28,7 +28,7 @@ export const detailsDefaultValues = {
   contactMode: '',
   lastActivity: '',
   createdDate: null,
-  closeDate: null,
+  closeDate: new Date(),
   updatedAt: null,
 };
 

@@ -7,8 +7,9 @@ const useViewDetails = () => {
   const selecetdDealId = useSearchParams()?.get('id');
 
   const { data: dealsDetailsData, isLoading } = useGetDealsActionPreviewQuery({
-    selecetdDealId,
+    id: selecetdDealId,
   });
+
   const viewDeal = dealsDetailsData?.data;
 
   return {

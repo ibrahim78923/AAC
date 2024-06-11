@@ -5,6 +5,7 @@ import {
   RHFSearchableSelect,
   RHFRadioGroup,
 } from '@/components/ReactHookForm';
+import { dealStatus } from '@/constants';
 import * as Yup from 'yup';
 
 export const dealValidationSchema = Yup?.object()?.shape({
@@ -24,6 +25,10 @@ export const dealInitValues = {
 };
 
 export const dealFormData = (dealsData: any, openCreateDeal: any) => {
+  const wonDeals = dealsData?.filter(
+    (deal: any) => deal?.dealStage === dealStatus?.WON,
+  );
+
   return [
     {
       md: 12,
@@ -32,8 +37,7 @@ export const dealFormData = (dealsData: any, openCreateDeal: any) => {
         name: 'dealId',
         label: 'Select Deal',
         required: true,
-        fullWidth: true,
-        options: dealsData?.map((deal: any) => {
+        options: wonDeals?.map((deal: any) => {
           return { value: deal?._id, label: deal?.name };
         }),
         isFooter: true,

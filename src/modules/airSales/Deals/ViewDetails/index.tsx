@@ -221,9 +221,11 @@ const ViewDetails = () => {
                   Closed Date
                 </Typography>
                 <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                  {dayjs(viewDeal?.closeDate)?.format(
-                    DATE_TIME_FORMAT?.DMDMHA,
-                  ) ?? 'N/A'}
+                  {viewDeal?.closeDate
+                    ? dayjs(viewDeal?.closeDate)?.format(
+                        DATE_TIME_FORMAT?.DMDMHA,
+                      )
+                    : 'N/A'}
                 </Typography>
               </Box>
             </Box>
