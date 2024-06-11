@@ -10,6 +10,7 @@ interface EmailStateI {
   mailDraftList: any;
   searchTerm: string;
   mailCurrentPage: any;
+  breakScrollOperation: boolean;
 }
 
 const initialState: EmailStateI = {
@@ -20,10 +21,11 @@ const initialState: EmailStateI = {
   activeRecord: {},
   currentEmailAssets: {},
   loggedInState: 'nabeel.ahmed@consultancyoutfit.co.uk',
-  mailList: {},
+  mailList: [] || '',
   mailDraftList: {},
   searchTerm: '',
   mailCurrentPage: 1,
+  breakScrollOperation: false,
 };
 
 const outlookSlice = createSlice({
@@ -32,6 +34,9 @@ const outlookSlice = createSlice({
   reducers: {
     setMailTabType: (state, action: PayloadAction<any>) => {
       state.mailTabType = action?.payload;
+    },
+    setBreakScrollOperation: (state, action: PayloadAction<any>) => {
+      state.breakScrollOperation = action?.payload;
     },
     setMailCurrentPage: (state, action: PayloadAction<any>) => {
       state.mailCurrentPage = action?.payload;
@@ -43,7 +48,11 @@ const outlookSlice = createSlice({
       state.selectedRecords = action?.payload;
     },
     setMailList: (state, action: PayloadAction<any>) => {
-      state.mailList = action?.payload;
+      if (action.payload === 'clear') {
+        state.mailList = [];
+      } else {
+        state.mailList = [...state.mailList, ...Object.values(action?.payload)];
+      }
     },
     setMailDraftList: (state, action: PayloadAction<any>) => {
       state.mailDraftList = action?.payload;
@@ -69,5 +78,6 @@ export const {
   setMailDraftList,
   setSearchTerm,
   setMailCurrentPage,
+  setBreakScrollOperation,
 } = outlookSlice.actions;
 export default outlookSlice.reducer;

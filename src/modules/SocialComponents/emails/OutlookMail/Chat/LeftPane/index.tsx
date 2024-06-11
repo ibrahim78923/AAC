@@ -15,6 +15,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import {
   setActiveRecord,
+  setBreakScrollOperation,
+  setMailCurrentPage,
   setMailList,
   setMailTabType,
   setSelectedRecords,
@@ -29,6 +31,7 @@ import {
 import CommonModal from '@/components/CommonModal';
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { useRouter } from 'next/router';
+import { PAGINATION } from '@/config';
 
 const LeftPane = () => {
   const theme = useTheme();
@@ -45,10 +48,6 @@ const LeftPane = () => {
   );
   const mailCurrentPage: any = useAppSelector(
     (state: any) => state?.outlook?.mailCurrentPage,
-  );
-
-  const mailList: any = useAppSelector(
-    (state: any) => state?.outlook?.mailList,
   );
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -103,8 +102,7 @@ const LeftPane = () => {
     {
       params: {
         page: mailCurrentPage,
-        limit: 20,
-        // limit: PAGINATION?.PAGE_LIMIT,
+        limit: PAGINATION?.PAGE_LIMIT,
         ...(searchTerm && { search: searchTerm }),
       },
       id: mailTabType?.id,
@@ -118,12 +116,6 @@ const LeftPane = () => {
     }
   }, [mailTabType]);
 
-  useEffect(() => {
-    if (emailsByFolderIdData) {
-      dispatch(setMailList(emailsByFolderIdData));
-    }
-  }, [emailsByFolderIdData]);
-
   const { data: authURLOutlook } = useGetAuthURLOutlookQuery({});
   useEffect(() => {
     if (isError) {
@@ -133,12 +125,26 @@ const LeftPane = () => {
 
   const oauthUrl = `${authURLOutlook?.data}`;
 
+  const [trackRenders, setTrackRenders] = useState<any>(1);
+  useEffect(() => {
+    if (trackRenders === 1) {
+      setTrackRenders(2);
+    } else {
+      if (emailsByFolderIdData?.data?.length < 0) {
+        dispatch(setBreakScrollOperation(true));
+      }
+    }
+  }, [emailsByFolderIdData?.data]);
+
   const handelToggleTab = (value: any) => {
     if (value?.displayName !== mailTabType?.displayName) {
       dispatch(setMailTabType(value));
       dispatch(setActiveRecord({}));
       dispatch(setSelectedRecords([]));
-
+      dispatch(setMailList('clear'));
+      dispatch(setMailCurrentPage(1));
+      dispatch(setBreakScrollOperation(false));
+      setTrackRenders(1);
       refetch();
     }
   };
@@ -215,10 +221,11 @@ const LeftPane = () => {
         </ButtonGroup>
       )}
       <MailList
-        emailsByFolderIdData={mailList}
+        emailsByFolderIdData={emailsByFolderIdData}
         isLoadingEmailsByFolderIdData={isLoadingEmailsByFolderIdData}
         refetch={refetch}
         mailTabType={mailTabType}
+        trackRenders={trackRenders}
       />
 
       <CommonDrawer

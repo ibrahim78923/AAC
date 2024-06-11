@@ -99,7 +99,6 @@ const ProductSuite = () => {
           for (const permission of permissions) {
             if (componentPermissionsDictionary[permission]) {
               return router?.push(modulePermission?.key);
-              // Return the module permission path
             }
           }
         }

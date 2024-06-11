@@ -567,6 +567,15 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const DRAWER_TITLES = {
+  EDIT: 'Edit User',
+  ADD: 'Add User',
+};
+export const DRAWER_ACTIONS_TITLES = {
+  EDIT: 'Edit',
+  ADD: 'ADD',
+};
+
 export const LOYALTY_SHOP_TYPE = {
   ON_SITE: 'ONSITE',
   DEPARTMENT: 'DEPARTMENT',

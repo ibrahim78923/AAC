@@ -3,7 +3,11 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { dataArray } from '../Users.data';
 import useAddUser from './useAddUser';
-import { DRAWER_TYPES } from '@/constants/strings';
+import {
+  DRAWER_ACTIONS_TITLES,
+  DRAWER_TITLES,
+  DRAWER_TYPES,
+} from '@/constants/strings';
 
 const AddUsers = (props: any) => {
   const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
@@ -24,10 +28,14 @@ const AddUsers = (props: any) => {
         isAddUserDrawer?.type === DRAWER_TYPES?.VIEW
           ? `${productUsersById?.data?.user?.firstName} ${productUsersById?.data?.user?.lastName}`
           : isAddUserDrawer?.type === DRAWER_TYPES?.EDIT
-          ? 'Edit User'
-          : 'Add User'
+            ? DRAWER_TITLES?.EDIT
+            : DRAWER_TITLES?.ADD
       }
-      okText={isAddUserDrawer?.type === DRAWER_TYPES?.EDIT ? 'Edit' : 'Add'}
+      okText={
+        isAddUserDrawer?.type === DRAWER_TYPES?.EDIT
+          ? DRAWER_ACTIONS_TITLES?.EDIT
+          : DRAWER_ACTIONS_TITLES?.ADD
+      }
       footer={isAddUserDrawer?.type === DRAWER_TYPES?.VIEW ? false : true}
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}

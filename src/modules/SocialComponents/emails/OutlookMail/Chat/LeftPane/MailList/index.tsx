@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   Skeleton,
   Typography,
@@ -13,6 +14,7 @@ import { useAppSelector } from '@/redux/store';
 import {
   setActiveRecord,
   setMailCurrentPage,
+  setMailList,
   setSelectedRecords,
 } from '@/redux/slices/email/outlook/slice';
 import { API_STATUS, EMAIL_TABS_TYPES, TIME_FORMAT } from '@/constants';
@@ -31,6 +33,10 @@ const MailList = ({
   const theme = useTheme();
   const [dataArray, setDataArray] = useState<any>([]);
   const dispatch = useDispatch();
+  const breakScrollOperation: any = useAppSelector(
+    (state: any) => state?.outlook?.breakScrollOperation,
+  );
+
   const selectedRecords: any = useAppSelector(
     (state: any) => state?.outlook?.selectedRecords,
   );
@@ -107,6 +113,9 @@ const MailList = ({
         e?.target?.clientHeight <=
       50;
     if (bottom) {
+      if (breakScrollOperation) {
+        return;
+      }
       if (isLoadingEmailsByFolderIdData === API_STATUS?.PENDING) {
         null;
       } else {
@@ -120,7 +129,24 @@ const MailList = ({
     return () => {
       boxElement.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [isLoadingEmailsByFolderIdData, mailCurrentPage]);
+
+  const mailList: any = useAppSelector(
+    (state: any) => state?.outlook?.mailList,
+  );
+
+  useEffect(() => {
+    if (emailsByFolderIdData?.data) {
+      dispatch(
+        setMailList(emailsByFolderIdData?.data?.map((item: any) => item)),
+      );
+    }
+  }, [emailsByFolderIdData?.data]);
+
+  const loadingCheck =
+    mailList?.length === 0
+      ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
+      : false;
 
   return (
     <Box
@@ -188,16 +214,16 @@ const MailList = ({
           </Box>
         ) : (
           <>
-            {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
+            {loadingCheck ? (
               <>
                 <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
               </>
             ) : (
               <>
-                {dataArray?.data && (
+                {mailList && (
                   <>
-                    {dataArray?.data?.length > 0 ? (
-                      dataArray?.data?.map((item: any) => (
+                    {mailList?.length > 0 ? (
+                      mailList?.map((item: any) => (
                         <Box
                           key={uuidv4()}
                           sx={styles?.card(theme)}
@@ -303,6 +329,14 @@ const MailList = ({
                     )}
                   </>
                 )}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CircularProgress size={30} />
+                </Box>
               </>
             )}
           </>
