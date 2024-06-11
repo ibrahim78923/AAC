@@ -32,10 +32,11 @@ const CallTags = () => {
           >
             <Box>
               <Typography variant="h5" color="slateBlue.main">
-                Target
+                Mandatory call tags
               </Typography>
               <Typography variant="body4" color="custom.main">
-                Service level target
+                Make tags mandatory to ensure your team is always tagging a call
+                before ending it.
               </Typography>
             </Box>
             <Box>

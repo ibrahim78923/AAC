@@ -288,3 +288,4 @@ export { default as UKFlagImage } from './shared/uk-flag-image.png';
 export { default as mobilePhoneImg } from './modules/socialComponents/meetings/mobile.png';
 export { default as CallerAvatarImage } from './modules/airCallCenter/CallMetrices/caller-avatar.png';
 export { default as calendarImage } from './shared/calendar.png';
+export { default as MasterCardLogoImage } from './shared/master-card-logo-image.png';

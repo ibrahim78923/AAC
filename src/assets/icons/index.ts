@@ -494,6 +494,7 @@ export { default as MicOnIcon } from './shared/mic-on-icon';
 export { default as CallPauseIcon } from './shared/call-pause-icon';
 export { default as KeypadCircleIcon } from './shared/keypad-circle-icon';
 export { default as MicOffIcon } from './shared/mic-off-icon';
+export { default as VisaCardIcon } from './shared/visa-card-icon';
 export { default as CallResumeIcon } from './shared/call-resume-icon';
 export { default as CallNotesIcon } from './modules/airCallCenter/CallMetrices/call-note-icon';
 export { default as CheckedFavoriteIcon } from './modules/airOperations/reports/checked-favorite-icon';
