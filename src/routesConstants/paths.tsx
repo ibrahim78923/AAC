@@ -284,6 +284,7 @@ export const SOCIAL_FEATURES_GMAIL = {
   FORWARD_GMAIL: '/gmail/forward-gmail-email',
   UPDATE_GMAIL: '/gmail/update-gmail-message',
   MAIN_EMAIL_PAGE: '/social-components/email',
+  DRAFT_GMAIL_POST: '/gmail/send-gmail-draft-mail',
 };
 
 export const CHAT_SOCKETS = {

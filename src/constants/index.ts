@@ -400,6 +400,7 @@ export const Gmail_CONST = {
   INBOX: 'INBOX',
   PHONE: 'phone',
   SENT: 'SENT',
+  TRASH: 'TRASH',
 };
 
 export const REPORTS_HEADER_TITLE = {

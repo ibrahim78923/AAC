@@ -129,6 +129,19 @@ export const gmailApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+    postDraftSendGmail: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_GMAIL?.DRAFT_GMAIL_POST}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -144,4 +157,5 @@ export const {
   useDeleteGmailMutation,
   useForwardSendGmailMutation,
   usePatchGmailMessageMutation,
+  usePostDraftSendGmailMutation,
 } = gmailApi;

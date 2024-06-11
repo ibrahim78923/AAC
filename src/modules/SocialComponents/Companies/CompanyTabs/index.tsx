@@ -298,17 +298,17 @@ const CompanyTabs = () => {
 
             <TanstackTable
               columns={columnParams}
-              data={getAllCompanies?.data?.companies}
-              totalRecords={getAllCompanies?.data?.meta?.total}
-              pageLimit={getAllCompanies?.data?.meta?.limit}
+              data={getAllCompanies?.companies ?? []}
+              totalRecords={getAllCompanies?.meta?.total}
+              pageLimit={getAllCompanies?.meta?.limit}
               onPageChange={(page: any) => setPage(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
-              count={getAllCompanies?.data?.meta?.pages}
+              count={getAllCompanies?.meta?.pages}
               isPagination
               isLoading={isLoading}
               isSuccess={isSuccess}
-              currentPage={getAllCompanies?.data?.meta?.page}
+              currentPage={getAllCompanies?.meta?.page}
             />
           </Box>
 

@@ -185,9 +185,6 @@ const SendEmailDrawer = (props: any) => {
               )}
 
               <Grid item xs={4}>
-                <RHFCheckbox name="fromChecked" label="From" />
-              </Grid>
-              <Grid item xs={4}>
                 <RHFCheckbox name="ccChecked" label="CC" />
               </Grid>
               <Grid item xs={4}>
@@ -209,7 +206,11 @@ const SendEmailDrawer = (props: any) => {
                 ) : (
                   <RHFTextField
                     name="re"
-                    label="Re:"
+                    label={
+                      drawerType === CREATE_EMAIL_TYPES?.FORWARD
+                        ? 'Fwd:'
+                        : 'Re:'
+                    }
                     size="small"
                     value={removeRePrefix(currentGmailAssets?.others?.subject)}
                     disabled

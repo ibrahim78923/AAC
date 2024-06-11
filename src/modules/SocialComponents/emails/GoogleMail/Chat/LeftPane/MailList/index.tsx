@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   Skeleton,
   Typography,
@@ -13,24 +14,26 @@ import { useAppSelector } from '@/redux/store';
 import { API_STATUS, DATE_TIME_FORMAT, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import {
   setActiveGmailRecord,
+  setGmailCurrentPage,
+  setGmailList,
   setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
 import { usePatchGmailMessageMutation } from '@/services/commonFeatures/email/gmail';
+import { isNullOrEmpty } from '@/utils';
 
 const MailList = ({
   emailsByFolderIdData,
   isLoadingEmailsByFolderIdData,
   refetch,
   gmailTabType,
-  // handlePageChange,
-  // currentPage,
+  pageToken,
 }: any) => {
   const theme = useTheme();
-
+  const [isDataEnd, setIsDataEnd] = useState<any>(true);
   const [dataArray, setDataArray] = useState<any>([]);
 
   const dispatch = useDispatch();
@@ -41,6 +44,14 @@ const MailList = ({
 
   const activeGmailRecord = useAppSelector(
     (state: any) => state?.gmail?.activeGmailRecord,
+  );
+
+  const gmailCurrentPage: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailCurrentPage,
+  );
+
+  const gmailList: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailList,
   );
 
   const handleCheckboxClick = (email: any) => {
@@ -108,6 +119,55 @@ const MailList = ({
     setDataArray(emailsByFolderIdData);
   }, [emailsByFolderIdData]);
 
+  const boxRef = useRef(null);
+  const handleScroll = (e: any) => {
+    const bottom =
+      e?.target?.scrollHeight -
+        e?.target?.scrollTop -
+        e?.target?.clientHeight <=
+      50;
+    if (bottom) {
+      if (isNullOrEmpty(pageToken?.data?.nextPageToken)) {
+        setIsDataEnd(false);
+        return;
+      }
+      if (isLoadingEmailsByFolderIdData === API_STATUS?.PENDING) {
+        null;
+      } else {
+        dispatch(setGmailCurrentPage(pageToken?.data?.nextPageToken));
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isNullOrEmpty(pageToken?.data?.nextPageToken)) {
+      setIsDataEnd(false);
+    } else {
+      setIsDataEnd(true);
+    }
+  }, [emailsByFolderIdData]);
+
+  useEffect(() => {
+    const boxElement: any = boxRef?.current;
+    boxElement.addEventListener('scroll', handleScroll);
+    return () => {
+      boxElement.removeEventListener('scroll', handleScroll);
+    };
+  }, [isLoadingEmailsByFolderIdData, gmailCurrentPage]);
+
+  useEffect(() => {
+    if (emailsByFolderIdData?.data) {
+      dispatch(
+        setGmailList(emailsByFolderIdData?.data?.map((item: any) => item)),
+      );
+    }
+  }, [emailsByFolderIdData?.data]);
+
+  const loadingCheck =
+    gmailList?.length === 0
+      ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
+      : false;
+
   return (
     <Box minHeight={'calc(100vh - 350px)'} sx={{ overflowY: 'auto' }}>
       <Box sx={styles?.notificationWrap}>
@@ -159,7 +219,7 @@ const MailList = ({
         </Box>
       )}
 
-      <Box sx={{ maxHeight: '62vh', overflow: 'auto' }}>
+      <Box sx={{ maxHeight: '62vh', overflow: 'auto' }} ref={boxRef}>
         {isLoadingEmailsByFolderIdData === API_STATUS?.REJECTED ? (
           <Box>
             <Typography variant="body2" color={theme?.palette?.error?.main}>
@@ -168,7 +228,7 @@ const MailList = ({
           </Box>
         ) : (
           <>
-            {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
+            {loadingCheck ? (
               <>
                 <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
               </>
@@ -266,30 +326,21 @@ const MailList = ({
                     )}
                   </>
                 )}
+                {isDataEnd && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <CircularProgress size={25} />
+                  </Box>
+                )}
               </>
             )}
           </>
         )}
       </Box>
-
-      {/* {
-        isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
-
-          <>{[1]?.map((index) => <SkeletonBox key={index} />)}</>
-
-        ) : (
-
-          <Stack spacing={2} mt={2}>
-            <Pagination
-              count={10}
-              variant="outlined"
-              shape="rounded"
-              page={currentPage}
-              onChange={handlePageChange}
-            />
-          </Stack>
-        )
-      } */}
     </Box>
   );
 };

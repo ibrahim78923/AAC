@@ -46,7 +46,6 @@ const ActionBtn = () => {
   const [isLinkToDealModal, setIsLinkToDealModal] = useState(false);
   const [isRestoreEmail, setIsRestoreEmail] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isMoveFolder, setIsMoveFolder] = useState('');
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -72,10 +71,8 @@ const ActionBtn = () => {
       selectedGmailRecords &&
       selectedGmailRecords?.map((message: any) => message?.id);
     const payload: any = {
-      folderId:
-        isMoveFolder === Gmail_CONST?.INBOX
-          ? Gmail_CONST?.INBOX
-          : Gmail_CONST?.SENT,
+      fromFolderId: Gmail_CONST?.TRASH,
+      toFolderId: Gmail_CONST?.INBOX,
     };
     if (ids.length < 2) {
       payload.messageId = ids[0];
@@ -167,7 +164,7 @@ const ActionBtn = () => {
               {' '}
               Reply{' '}
             </MenuItem> */}
-            <MenuItem
+            {/* <MenuItem
               disabled={selectedGmailRecords?.length > 1}
               onClick={() => {
                 handleClose();
@@ -177,7 +174,7 @@ const ActionBtn = () => {
             >
               {' '}
               Forward{' '}
-            </MenuItem>
+            </MenuItem> */}
           </>
         )}
         <MenuItem onClick={() => setIsDeleteModalOpen(true)}> Delete </MenuItem>
@@ -201,7 +198,6 @@ const ActionBtn = () => {
         <MenuItem
           onClick={() => {
             setIsRestoreEmail(true);
-            setIsMoveFolder(Gmail_CONST?.INBOX);
           }}
         >
           Indox

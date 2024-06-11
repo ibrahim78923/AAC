@@ -349,6 +349,7 @@ const RightPane = () => {
                                       setCurrentGmailAssets({
                                         threadId: obj?.threadId,
                                         id: obj?.id,
+                                        messageBody: obj?.snippet,
                                         from:
                                           obj?.payload?.headers?.find(
                                             (header: any) =>

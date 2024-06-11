@@ -53,6 +53,24 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const currentGmailAssets = useAppSelector(
     (state: any) => state?.gmail?.currentGmailAssets,
   );
+  useEffect(() => {
+    if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
+      setValue(
+        'description',
+        ` <br> <br><br>
+        ---------- Forwarded message --------- 
+        <br> <b> from </b>: ${currentGmailAssets?.others?.from}<br>
+        <b> sent </b> : ${currentGmailAssets?.others?.sent}<br>
+         <b> subject </b> : ${currentGmailAssets?.others?.subject}<br>
+         <b> to </b> : ${currentGmailAssets?.others?.to}  <br>
+         ${currentGmailAssets?.messageBody}
+           <br>
+        `,
+      );
+    } else {
+      setValue('description', '');
+    }
+  }, [currentGmailAssets]);
 
   const handleOnClose = () => {
     if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {

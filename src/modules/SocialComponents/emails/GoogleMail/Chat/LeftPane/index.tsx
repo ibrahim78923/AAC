@@ -22,8 +22,10 @@ import {
 } from '@/services/commonFeatures/email/gmail';
 import {
   setActiveGmailRecord,
+  setGmailCurrentPage,
   setGmailList,
   setGmailTabType,
+  setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
 import { Gmail_CONST } from '@/constants';
 
@@ -40,6 +42,9 @@ const LeftPane = () => {
   const gmailSearch: any = useAppSelector(
     (state: any) => state?.gmail?.gmailSearch,
   );
+  const gmailCurrentPage: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailCurrentPage,
+  );
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const { data: foldersData, isLoading } = useGetGmailFoldersQuery({});
@@ -51,7 +56,6 @@ const LeftPane = () => {
   });
 
   const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
-  const [currentPage, setCurrentPage] = useState(PAGINATION.CURRENT_PAGE);
 
   const {
     data: emailsByFolderIdData,
@@ -60,7 +64,7 @@ const LeftPane = () => {
   } = useGetGmailsByFolderIdQuery(
     {
       params: {
-        pageToken: currentPage,
+        ...(gmailCurrentPage && { pageToken: gmailCurrentPage }),
         limit: PAGINATION?.PAGE_LIMIT,
         folderId: gmailTabType?.name,
         ...(gmailSearch && { search: gmailSearch }),
@@ -68,10 +72,6 @@ const LeftPane = () => {
     },
     { skip: isGetEmailsRequest },
   );
-
-  const handlePageChange = (event: any, value: any) => {
-    setCurrentPage(value);
-  };
 
   useEffect(() => {
     if (gmailTabType) {
@@ -81,21 +81,24 @@ const LeftPane = () => {
 
   useEffect(() => {
     if (emailsByFolderIdData) {
-      dispatch(setGmailList(emailsByFolderIdData));
+      dispatch(setGmailList(emailsByFolderIdData?.data?.emails));
     }
   }, [emailsByFolderIdData]);
 
   const handelToggleTab = (value: any) => {
     if (value?.name !== gmailTabType?.name) {
       dispatch(setGmailTabType(value));
+      dispatch(setGmailList('clear'));
+      dispatch(setGmailCurrentPage(''));
       dispatch(setActiveGmailRecord({}));
+      dispatch(setSelectedGmailRecords([]));
       refetch();
     }
   };
 
   let listOfEmail;
-  if (Array?.isArray(gmailList?.data)) {
-    listOfEmail = gmailList?.data
+  if (Array?.isArray(gmailList)) {
+    listOfEmail = gmailList
       ?.map((thread: any) => {
         const id = thread?.id || '';
 
@@ -217,8 +220,7 @@ const LeftPane = () => {
         isLoadingEmailsByFolderIdData={isLoadingEmailsByFolderIdData}
         refetch={refetch}
         gmailTabType={gmailTabType}
-        handlePageChange={handlePageChange}
-        currentPage={currentPage}
+        pageToken={emailsByFolderIdData}
       />
 
       <CommonDrawer
