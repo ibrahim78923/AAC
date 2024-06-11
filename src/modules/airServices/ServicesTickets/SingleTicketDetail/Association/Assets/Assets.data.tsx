@@ -35,37 +35,37 @@ export const getAssociateAssetsColumns: any = ({
   };
   return [
     {
-      accessorFn: (row: any) => row?.associateAssetsDetails?._id,
-      id: 'associateAssetsDetails._id',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       header: 'Assets Id',
-      cell: (info: any) => `#PO - ${info?.getValue()?.slice(-3)}` ?? '---',
+      cell: (info: any) => `#IN - ${info?.getValue()?.slice(-3)}` ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.associateAssetsDetails?.displayName,
-      id: 'associateAssetsDetails.displayName',
+      accessorFn: (row: any) => row?.displayName,
+      id: 'displayName',
       header: 'Asset',
       isSortable: true,
       cell: (info: any) => truncateText(info?.getValue()),
     },
     {
-      accessorFn: (row: any) => row?.associateAssetsDetails?.assetLifeExpiry,
-      id: 'associateAssetsDetails.assetLifeExpiry',
+      accessorFn: (row: any) => row?.assetLifeExpiry,
+      id: 'assetLifeExpiry',
       header: 'Due Date',
       isSortable: true,
       cell: (info: any) =>
         dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.MMMDDYYYY),
     },
     {
-      accessorFn: (row: any) => row?.associateAssetsDetails?.userDetails,
-      id: 'associateAssetsDetails.userDetails',
+      accessorFn: (row: any) => row?.usedBy,
+      id: 'usedBy',
       isSortable: true,
       header: 'Used By',
       cell: (info: any) =>
         fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
-      accessorFn: (row: any) => row?.associateAssetsDetails?.impact,
-      id: 'associateAssetsDetails.impact',
+      accessorFn: (row: any) => row?.impact,
+      id: 'impact',
       isSortable: true,
       header: 'Impact',
       cell: (info: any) => {
@@ -90,7 +90,7 @@ export const getAssociateAssetsColumns: any = ({
       },
     },
     {
-      accessorFn: (row: any) => row?.associateAssetsDetails._id,
+      accessorFn: (row: any) => row?._id,
       id: 'Action',
       cell: (info: any) => {
         return (
@@ -122,6 +122,85 @@ export const getAssociateAssetsColumns: any = ({
                 color={'error'}
                 sx={{ cursor: 'pointer' }}
                 onClick={() => setAssetId(info?.getValue())}
+              />
+            </PermissionsGuard>
+          </Box>
+        );
+      },
+    },
+  ];
+};
+
+export const getAssociateOrderColumns: any = ({ router, setOrderId }: any) => {
+  return [
+    {
+      accessorFn: (row: any) => row?.orderNumber,
+      id: 'orderNumber',
+      header: 'Order Number',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.orderName,
+      id: 'orderName',
+      header: 'Order Name',
+      isSortable: true,
+      cell: (info: any) => truncateText(info?.getValue()),
+    },
+    {
+      accessorFn: (row: any) => row?.vendor?.name,
+      id: 'vendor.name',
+      isSortable: true,
+      header: 'Vendor',
+      cell: (info: any) => truncateText(info?.getValue()),
+    },
+    {
+      accessorFn: (row: any) => row?.expectedDeliveryDate,
+      id: 'expectedDeliveryDate',
+      header: 'Expected Delivery Date',
+      isSortable: true,
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.MMMDDYYYY),
+    },
+    {
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      header: 'Status',
+      isSortable: true,
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?._id,
+      id: 'Action',
+      cell: (info: any) => {
+        return (
+          <Box display={'flex'} gap={1}>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.VIEW_ASSETS_DETAILS,
+              ]}
+            >
+              <VisibilityRoundedIcon
+                color={'secondary'}
+                sx={{ cursor: 'pointer' }}
+                onClick={() =>
+                  router?.push({
+                    pathname: AIR_SERVICES?.ASSETS_PURCHASE_ORDER_DETAIL,
+                    query: {
+                      purchaseOrderId: info?.getValue(),
+                    },
+                  })
+                }
+              />
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DELETE_ASSETS,
+              ]}
+            >
+              <CancelIcon
+                color={'error'}
+                sx={{ cursor: 'pointer' }}
+                onClick={() => setOrderId(info?.getValue())}
               />
             </PermissionsGuard>
           </Box>

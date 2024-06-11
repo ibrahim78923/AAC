@@ -3,37 +3,32 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'TICKET_ASSOCIATION';
 
-export const ticketsAssociationAPI = baseAPI?.injectEndpoints({
+export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    // Associate Assets
-    getTicketsAssociatesAssets: builder?.query({
-      query: (getTicketsAssociatesAssetsParameter: any) => ({
-        url: END_POINTS?.TICKETS_ASSOCIATES_ASSETS,
-        method: 'GET',
-        params: getTicketsAssociatesAssetsParameter?.queryParams,
-      }),
-      providesTags: [TAG],
-    }),
-    postTicketsAssociatesAssets: builder?.mutation({
-      query: (postTicketsAssociatesAssetsParameter: any) => ({
-        url: END_POINTS?.TICKETS_ASSOCIATES_ASSETS,
+    // Generic Post, Detach and GET
+    postRemoveAssociateTickets: builder?.mutation({
+      query: (postRemoveAssociateTicketsParameter: any) => ({
+        url: END_POINTS?.TICKETS_ASSOCIATES,
         method: 'POST',
-        body: postTicketsAssociatesAssetsParameter?.body,
+        body: postRemoveAssociateTicketsParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
+    getAssociateTickets: builder?.query({
+      query: (associateTicketsParameter: any) => ({
+        url: END_POINTS?.TICKETS_ASSOCIATES_GET,
+        method: 'GET',
+        params: associateTicketsParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+
+    // Associate Assets
     getAssociatesAssets: builder?.query({
       query: (postTicketsAssociatesAssetsParameter: any) => ({
         url: END_POINTS?.INVENTORY_ACTIVITY,
         method: 'GET',
         params: postTicketsAssociatesAssetsParameter?.queryParams,
-      }),
-    }),
-    deleteTicketsAssociatesAssets: builder?.mutation({
-      query: (deleteTicketsAssociatesAssetsParameter: any) => ({
-        url: END_POINTS?.TICKETS_DETACH_ASSOCIATES_ASSETS,
-        method: 'DELETE',
-        params: deleteTicketsAssociatesAssetsParameter?.queryParams,
       }),
     }),
 
@@ -47,14 +42,6 @@ export const ticketsAssociationAPI = baseAPI?.injectEndpoints({
     }),
 
     // Associate Deals
-    getTicketsAssociatesDeals: builder?.query({
-      query: (getTicketsAssociatesDealsParameter: any) => ({
-        url: END_POINTS?.TICKET,
-        method: 'GET',
-        params: getTicketsAssociatesDealsParameter?.queryParams,
-      }),
-      providesTags: [TAG],
-    }),
     getAssociatesDeals: builder?.query({
       query: (postTicketsAssociatesDealsParameter: any) => ({
         url: END_POINTS?.DEALS_LIST_VIEW,
@@ -64,14 +51,6 @@ export const ticketsAssociationAPI = baseAPI?.injectEndpoints({
     }),
 
     // Associate Contacts
-    getTicketsAssociatesContacts: builder?.query({
-      query: (getTicketsAssociatesContactsParameter: any) => ({
-        url: END_POINTS?.TICKET,
-        method: 'GET',
-        params: getTicketsAssociatesContactsParameter?.queryParams,
-      }),
-      providesTags: [TAG],
-    }),
     getAssociatesContacts: builder?.query({
       query: (postTicketsAssociatesContactsParameter: any) => ({
         url: END_POINTS?.CONTACTS,
@@ -83,14 +62,10 @@ export const ticketsAssociationAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useGetTicketsAssociatesAssetsQuery,
+  usePostRemoveAssociateTicketsMutation,
+  useGetAssociateTicketsQuery,
   useGetAssociatesAssetsQuery,
-  usePostTicketsAssociatesAssetsMutation,
-  useDeleteTicketsAssociatesAssetsMutation,
-  useLazyGetTicketsAssociatesAssetsQuery,
   useGetAssociatesOrderQuery,
-  useLazyGetTicketsAssociatesDealsQuery,
   useGetAssociatesDealsQuery,
-  useLazyGetTicketsAssociatesContactsQuery,
   useGetAssociatesContactsQuery,
 } = ticketsAssociationAPI;

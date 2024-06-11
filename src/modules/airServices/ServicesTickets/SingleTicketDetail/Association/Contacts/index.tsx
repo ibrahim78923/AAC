@@ -1,88 +1,38 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { drawerInitialState } from '../Association.data';
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
-import { useForm, useWatch } from 'react-hook-form';
-import { TYPE_VALUES, getAssociateContactsColumns } from './Contacts.data';
-import { useEffect, useState } from 'react';
+import { TYPE_VALUES } from './Contacts.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { CircularProgress, Typography } from '@mui/material';
-import { useLazyGetTicketsAssociatesContactsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { PAGINATION } from '@/config';
-import { useRouter } from 'next/router';
-import { buildQueryParams } from '@/utils/api';
 import ExistingContact from './ExistingContact';
 import NewContact from './NewContact';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import useContacts from './useContacts';
 
 export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
-  const router = useRouter();
-
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-
-  const [selected, setSelected] = useState([]);
-
-  const { ticketId } = router?.query;
-
-  const methods = useForm({
-    defaultValues: { type: TYPE_VALUES?.EXISTING_CONTACT },
-  });
-  const { control, reset } = methods;
-
-  const type = useWatch({
-    control,
-    name: 'type',
-    defaultValue: TYPE_VALUES?.EXISTING_CONTACT,
-  });
-
-  const [
-    lazyGetTicketsAssociatesContactsTrigger,
-    { data, isLoading, isFetching, isError, isSuccess },
-  ] = useLazyGetTicketsAssociatesContactsQuery<any>();
-
-  const getTicketsAssociatesContactsListData = async (
-    currentPage: any = page,
-  ) => {
-    const additionalParams = [
-      ['page', currentPage + ''],
-      ['limit', pageLimit + ''],
-      ['ticketId', ticketId],
-    ];
-
-    const getTicketsAssociatesContactsParam: any =
-      buildQueryParams(additionalParams);
-
-    const getTicketsAssociatesContactsParameter = {
-      queryParams: getTicketsAssociatesContactsParam,
-    };
-
-    try {
-      await lazyGetTicketsAssociatesContactsTrigger(
-        getTicketsAssociatesContactsParameter,
-      )?.unwrap();
-    } catch (error: any) {}
-  };
-
-  useEffect(() => {
-    getTicketsAssociatesContactsListData();
-  }, [page, pageLimit]);
-
-  const associateContactsColumns = getAssociateContactsColumns({});
-
-  const onClose = () => {
-    setIsDrawerOpen(drawerInitialState);
-    reset();
-  };
-
-  const submitHandler = () => {
-    if (type === TYPE_VALUES?.NEW_CONTACT) {
-      return;
-    }
-    if (type === TYPE_VALUES?.EXISTING_CONTACT) {
-      return;
-    }
-  };
+  const {
+    onClose,
+    type,
+    submitHandler,
+    selected,
+    postRemoveAssociateTicketsStatus,
+    methods,
+    setSelected,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    data,
+    associateContactsColumns,
+    modalId,
+    onModalClose,
+    removeTicketsAssociatesContacts,
+    methodsNewContact,
+    handleSubmit,
+    onSubmit,
+  } = useContacts({ setIsDrawerOpen });
 
   return (
     <>
@@ -98,7 +48,17 @@ export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
           footer
           isOk
           okText={type === TYPE_VALUES?.NEW_CONTACT ? 'Submit' : 'Associate'}
-          submitHandler={submitHandler}
+          submitHandler={() => {
+            type === TYPE_VALUES?.NEW_CONTACT
+              ? handleSubmit(onSubmit)?.()
+              : submitHandler?.();
+          }}
+          isDisabled={
+            type === TYPE_VALUES?.NEW_CONTACT
+              ? postRemoveAssociateTicketsStatus?.isLoading
+              : !selected?.length || postRemoveAssociateTicketsStatus?.isLoading
+          }
+          isLoading={postRemoveAssociateTicketsStatus?.isLoading}
         >
           <FormProvider methods={methods}>
             <RHFRadioGroup
@@ -114,7 +74,9 @@ export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
           </FormProvider>
 
           {type === TYPE_VALUES?.NEW_CONTACT ? (
-            <NewContact />
+            <FormProvider methods={methodsNewContact}>
+              <NewContact />
+            </FormProvider>
           ) : (
             <ExistingContact setSelected={setSelected} selected={selected} />
           )}
@@ -136,12 +98,10 @@ export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
           >
             {isLoading || isFetching ? (
               <CircularProgress size={18} />
-            ) : data?.data?.tickets?.length > 1 ? (
-              data?.data?.tickets?.length
-            ) : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id ? (
-              data?.data?.tickets?.length
+            ) : data?.length < 10 ? (
+              `0${data?.length}`
             ) : (
-              0
+              data?.length
             )}
           </Typography>
           Contacts
@@ -149,45 +109,27 @@ export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
 
         <TanstackTable
           columns={associateContactsColumns}
-          data={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.tickets
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.tickets
-                : []
-          }
-          isPagination
+          data={data}
           isSuccess={isSuccess}
           isError={isError}
           isFetching={isFetching}
           isLoading={isLoading}
-          currentPage={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.meta?.page
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.page
-                : 0
-          }
-          count={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.meta?.pages
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.pages
-                : 0
-          }
-          totalRecords={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.meta?.total
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.total
-                : 0
-          }
-          pageLimit={data?.data?.meta?.limit}
-          onPageChange={(page: any) => setPage(page)}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
         />
       </PermissionsGuard>
+
+      {modalId?.delete && (
+        <AlertModals
+          open={modalId?.delete}
+          message="Are you sure you want to detach this contact?"
+          handleClose={() => onModalClose?.()}
+          handleSubmitBtn={() => removeTicketsAssociatesContacts?.()}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          cancelBtnText="Cancel"
+          submitBtnText="Detach"
+          loading={postRemoveAssociateTicketsStatus?.isLoading}
+          disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
+        />
+      )}
     </>
   );
 }

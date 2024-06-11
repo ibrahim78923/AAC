@@ -32,21 +32,21 @@ export const getAssociateDealsColumns: any = ({ setModalId }: any) => {
         dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DDMMYYY),
     },
     {
-      accessorFn: (row: any) => row?.dealStage,
-      id: 'dealStage',
+      accessorFn: (row: any) => row?.dealStage?.name,
+      id: 'dealStage.name',
       isSortable: true,
       header: 'Deal Stage',
       cell: (info: any) => info?.getValue() ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.dealPipeline,
-      id: 'dealPipeline',
+      accessorFn: (row: any) => row?.dealPipeline?.name,
+      id: 'dealPipeline.name',
       isSortable: true,
       header: 'Deal Pipeline',
       cell: (info: any) => info?.getValue() ?? '---',
     },
     {
-      accessorFn: (row: any) => row?.associateAssetsDetails._id,
+      accessorFn: (row: any) => row?._id,
       id: 'Action',
       cell: (info: any) => {
         return (

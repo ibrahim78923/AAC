@@ -5,6 +5,8 @@ import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-key
 import { CircularProgress, Typography } from '@mui/material';
 import useDeals from './useDeals';
 import AddDeals from './AddDeals';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
   const {
@@ -13,13 +15,15 @@ export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
     selected,
     setSelected,
     associateDealsColumns,
+    modalId,
+    onModalClose,
     data,
     isLoading,
     isFetching,
     isError,
     isSuccess,
-    setPage,
-    setPageLimit,
+    postRemoveAssociateTicketsStatus,
+    removeTicketsAssociatesDeals,
   } = useDeals({
     setIsDrawerOpen,
   });
@@ -35,7 +39,10 @@ export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
           isOk
           okText={'Associate'}
           submitHandler={submitHandler}
-          isDisabled={!selected?.length}
+          isDisabled={
+            !selected?.length || postRemoveAssociateTicketsStatus?.isLoading
+          }
+          isLoading={postRemoveAssociateTicketsStatus?.isLoading}
         >
           <AddDeals setSelected={setSelected} selected={selected} />
         </CommonDrawer>
@@ -56,12 +63,10 @@ export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
           >
             {isLoading || isFetching ? (
               <CircularProgress size={18} />
-            ) : data?.data?.tickets?.length > 1 ? (
-              data?.data?.tickets?.length
-            ) : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id ? (
-              data?.data?.tickets?.length
+            ) : data?.length < 10 ? (
+              `0${data?.length}`
             ) : (
-              0
+              data?.length
             )}
           </Typography>
           Deals
@@ -69,45 +74,27 @@ export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
 
         <TanstackTable
           columns={associateDealsColumns}
-          data={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.tickets
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.tickets
-                : []
-          }
-          isPagination
+          data={data}
           isSuccess={isSuccess}
           isError={isError}
           isFetching={isFetching}
           isLoading={isLoading}
-          currentPage={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.meta?.page
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.page
-                : 0
-          }
-          count={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.meta?.pages
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.pages
-                : 0
-          }
-          totalRecords={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.meta?.total
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.total
-                : 0
-          }
-          pageLimit={data?.data?.meta?.limit}
-          onPageChange={(page: any) => setPage(page)}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
         />
       </PermissionsGuard>
+
+      {modalId?.delete && (
+        <AlertModals
+          open={modalId?.delete}
+          message="Are you sure you want to detach this deal?"
+          handleClose={() => onModalClose?.()}
+          handleSubmitBtn={() => removeTicketsAssociatesDeals?.()}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          cancelBtnText="Cancel"
+          submitBtnText="Detach"
+          loading={postRemoveAssociateTicketsStatus?.isLoading}
+          disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
+        />
+      )}
     </>
   );
 }

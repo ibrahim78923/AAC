@@ -1,9 +1,8 @@
-import { Checkbox, Typography } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { truncateText } from '@/utils/avatarUtils';
 
 export const getAddPurchaseOrderColumns = ({
-  theme,
   setSelected,
   selected,
   associatesOrderList,
@@ -51,11 +50,7 @@ export const getAddPurchaseOrderColumns = ({
   {
     accessorFn: (row: any) => row?.orderNumber,
     id: 'orderNumber',
-    cell: (info: any) => (
-      <Typography variant="body4" color={theme?.palette?.custom?.bright}>
-        {truncateText(info?.getValue())}
-      </Typography>
-    ),
+    cell: (info: any) => truncateText(info?.getValue()),
     header: 'Order Number',
     isSortable: true,
   },

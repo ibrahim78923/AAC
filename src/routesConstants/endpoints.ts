@@ -135,6 +135,8 @@ export const END_POINTS = {
   DEPARTMENT: '/Department/add-department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
+  TICKETS_ASSOCIATES: `/association/manage-association`,
+  TICKETS_ASSOCIATES_GET: `/association`,
   DROPDOWN_VENDORS_LIST: `/vendors/get-vendors`,
   EDIT_NEW_VENDOR: '/vendors/update-vendor',
   DELETE_NEW_VENDOR: '/vendors/delete-vendor',

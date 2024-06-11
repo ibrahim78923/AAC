@@ -3,13 +3,11 @@ import { Box, Stack } from '@mui/material';
 import Assets from './Assets';
 import Deals from './Deals';
 import Contacts from './Contacts';
-import Companies from './Companies';
 import { drawerInitialState, getDropdownOptions } from './Association.data';
 import { useState } from 'react';
 
 export default function Association({ ticketType }: any) {
   const [isDrawerOpen, setIsDrawerOpen] = useState({ ...drawerInitialState });
-
   const dropdownOptions = getDropdownOptions({ setIsDrawerOpen });
 
   return (
@@ -29,8 +27,9 @@ export default function Association({ ticketType }: any) {
       />
 
       <Deals isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
+
       <Contacts isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
-      {isDrawerOpen?.company && <Companies />}
+      {/* {isDrawerOpen?.company && <Companies />} */}
     </Stack>
   );
 }

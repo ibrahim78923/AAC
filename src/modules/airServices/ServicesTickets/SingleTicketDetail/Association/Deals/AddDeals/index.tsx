@@ -1,36 +1,22 @@
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { PAGINATION } from '@/config';
-import { Stack, useTheme } from '@mui/material';
-import React, { useState } from 'react';
-import { useAddDealsColumns } from './AddDeals.data';
-import { useGetAssociatesDealsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
+import { Stack } from '@mui/material';
+import useAddDeals from './useAddDeals';
 
 export default function AddDeals({ setSelected, selected }: any) {
-  const theme: any = useTheme();
-
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [search, setSearch] = useState<any>('');
-
-  const getAssociatesDealsParameter = {
-    queryParams: {
-      page,
-      limit: pageLimit,
-      search: search?.length ? search : undefined,
-    },
-  };
-
-  const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetAssociatesDealsQuery(getAssociatesDealsParameter, {
-      refetchOnMountOrArgChange: true,
-    });
-
-  const addDealsColumns = useAddDealsColumns({
-    theme,
+  const {
+    setSearch,
+    addDealsColumns,
+    data,
+    isSuccess,
+    isError,
+    isFetching,
+    isLoading,
+    setPage,
+    setPageLimit,
+  } = useAddDeals({
     setSelected,
     selected,
-    associatesDealsList: data?.data?.deals,
   });
 
   return (

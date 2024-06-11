@@ -3,7 +3,6 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { truncateText } from '@/utils/avatarUtils';
 
 export const getAddAssetsColumns = ({
-  theme,
   setSelected,
   selected,
   associatesAssetList,
@@ -51,11 +50,7 @@ export const getAddAssetsColumns = ({
   {
     accessorFn: (row: any) => row?.displayName,
     id: 'displayName',
-    cell: (info: any) => (
-      <Typography variant="body4" color={theme?.palette?.custom?.bright}>
-        {truncateText(info?.getValue())}
-      </Typography>
-    ),
+    cell: (info: any) => truncateText(info?.getValue()),
     header: 'Name',
     isSortable: true,
   },

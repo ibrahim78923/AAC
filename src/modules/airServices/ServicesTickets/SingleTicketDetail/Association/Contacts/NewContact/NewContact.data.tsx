@@ -1,33 +1,11 @@
-import { RHFDropZone, RHFTextField } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
+import {
+  RHFAutocompleteAsync,
+  RHFDatePicker,
+  RHFDropZone,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
-export const validationSchema = Yup?.object()?.shape({
-  email: Yup?.string()?.email('Invalid Email')?.required('Email is Required'),
-  profilePicture: Yup?.mixed()?.nullable(),
-  firstName: Yup?.string()?.required('First Name is Required'),
-  lastName: Yup?.string()?.required('Last Name is Required'),
-  contactOwnerId: Yup?.string()?.nullable(),
-  phoneNumber: Yup?.string()?.trim(),
-  jobTitle: Yup?.string()?.trim()?.required('Job Title is Required'),
-  lifeCycleStageId: Yup?.string()?.nullable(),
-  statusId: Yup?.string()?.nullable(),
-  dateOfJoining: Yup?.string()?.nullable(),
-});
-
-export const defaultValues = {
-  email: '',
-  profilePicture: null,
-  firstName: '',
-  lastName: '',
-  contactOwnerId: null,
-  phoneNumber: '',
-  jobTitle: '',
-  lifeCycleStageId: null,
-  statusId: null,
-  dateOfJoining: null,
-};
-
-export const getFormFields = () => [
+export const getFormFields = ({ orgId, contactOwner }: any) => [
   {
     id: 1,
     componentProps: {
@@ -57,7 +35,6 @@ export const getFormFields = () => [
       name: 'firstName',
       label: 'First Name',
       placeholder: 'John',
-      required: true,
     },
     component: RHFTextField,
   },
@@ -67,18 +44,74 @@ export const getFormFields = () => [
       name: 'lastName',
       label: 'Last Name',
       placeholder: 'Doe',
-      required: true,
     },
     component: RHFTextField,
   },
   {
     id: 5,
     componentProps: {
+      name: 'address',
+      label: 'Address',
+      placeholder: 'Address',
+    },
+    component: RHFTextField,
+  },
+  {
+    id: 6,
+    componentProps: {
+      name: 'dateOfBirth',
+      label: 'Date Of Birth',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+  },
+  {
+    id: 7,
+    componentProps: {
+      name: 'phoneNumber',
+      label: 'Phone Number',
+      placeholder: 'Phone Number',
+    },
+    component: RHFTextField,
+  },
+  {
+    id: 8,
+    componentProps: {
+      name: 'whatsAppNumber',
+      label: 'WhatsApp Number',
+      placeholder: 'WhatsApp Number',
+    },
+    component: RHFTextField,
+  },
+  {
+    id: 9,
+    componentProps: {
+      name: 'jobTitle',
+      label: 'Job Title',
+      placeholder: 'Job Title',
+    },
+    component: RHFTextField,
+  },
+  {
+    id: 10,
+    componentProps: {
+      name: 'dateOfJoining',
+      label: 'Date Of Joining',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+  },
+  {
+    id: 11,
+    componentProps: {
       name: 'contactOwnerId',
       label: 'Contact Owner',
       placeholder: 'Select Owner',
-      required: true,
+      apiQuery: contactOwner,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
+      externalParams: { id: orgId, meta: false },
     },
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
   },
 ];

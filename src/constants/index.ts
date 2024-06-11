@@ -408,3 +408,15 @@ export const REPORTS_HEADER_TITLE = {
   CREATE_CHART: 'Create Chart',
   CREATE_TEXT: 'Create Text',
 };
+
+export const ASSOCIATIONS_API_PARAMS_FOR = {
+  ADD: 'ADD',
+  REMOVE: 'REMOVE',
+  DEALS: 'deals',
+  COMPANIES: 'companies',
+  CONTACTS: 'contacts',
+  TICKETS: 'tickets',
+  QUOTES: 'quotes',
+  ASSETS: 'assets',
+  PURCHASE_ORDER: 'purchase_orders',
+};

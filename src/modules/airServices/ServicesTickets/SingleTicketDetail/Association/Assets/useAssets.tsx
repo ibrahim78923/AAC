@@ -1,78 +1,37 @@
 import { drawerInitialState } from '../Association.data';
 import { useTheme } from '@mui/material';
-import { TYPE_VALUES, getAssociateAssetsColumns } from './Assets.data';
+import {
+  TYPE_VALUES,
+  getAssociateAssetsColumns,
+  getAssociateOrderColumns,
+} from './Assets.data';
 import { useRouter } from 'next/router';
 import {
-  useDeleteTicketsAssociatesAssetsMutation,
-  useLazyGetTicketsAssociatesAssetsQuery,
-  usePostTicketsAssociatesAssetsMutation,
+  useGetAssociateTicketsQuery,
+  usePostRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
-import { PAGINATION } from '@/config';
 import { useEffect, useState } from 'react';
-import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useForm, useWatch } from 'react-hook-form';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 
 export default function useAssets({ setIsDrawerOpen }: any) {
   const theme: any = useTheme();
   const router = useRouter();
 
   const [selected, setSelected] = useState([]);
-
-  const [deleteModal, setDeleteModal] = useState(false);
-
+  const [deleteModal, setDeleteModal] = useState({
+    asset: false,
+    order: false,
+  });
   const [selectedAsset, setSelectedAsset] = useState('');
 
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-
   const { ticketId } = router?.query;
-
-  const setAssetId = (id: any) => {
-    setSelectedAsset(id);
-    setDeleteModal(true);
-  };
-
-  const associateAssetsColumns = getAssociateAssetsColumns({
-    theme,
-    router,
-    setAssetId,
-  });
-
-  const [
-    lazyGetTicketsAssociatesAssetsTrigger,
-    { data, isLoading, isFetching, isError, isSuccess },
-  ] = useLazyGetTicketsAssociatesAssetsQuery<any>();
-
-  const getTicketsAssociatesAssetsListData = async (
-    currentPage: any = page,
-  ) => {
-    const additionalParams = [
-      ['page', currentPage + ''],
-      ['limit', pageLimit + ''],
-      ['ticketId', ticketId],
-    ];
-
-    const getTicketsAssociatesAssetsParam: any =
-      buildQueryParams(additionalParams);
-
-    const getTicketsAssociatesAssetsParameter = {
-      queryParams: getTicketsAssociatesAssetsParam,
-    };
-
-    try {
-      await lazyGetTicketsAssociatesAssetsTrigger(
-        getTicketsAssociatesAssetsParameter,
-      )?.unwrap();
-    } catch (error: any) {}
-  };
-
-  useEffect(() => {
-    getTicketsAssociatesAssetsListData();
-  }, [page, pageLimit]);
 
   const methods = useForm({
     defaultValues: { type: TYPE_VALUES?.ASSETS },
   });
+
   const { control, reset } = methods;
 
   const type = useWatch({
@@ -91,53 +50,163 @@ export default function useAssets({ setIsDrawerOpen }: any) {
     reset();
   };
 
-  const [
-    postTicketsAssociatesAssetsTrigger,
-    postTicketsAssociatesAssetsStatus,
-  ] = usePostTicketsAssociatesAssetsMutation();
+  const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
+    usePostRemoveAssociateTicketsMutation();
 
-  const [
-    deleteTicketsAssociatesAssetsTrigger,
-    deleteTicketsAssociatesAssetsStatus,
-  ] = useDeleteTicketsAssociatesAssetsMutation();
+  // Asset
+  const setAssetId = (id: any) => {
+    setSelectedAsset(id);
+    setDeleteModal({
+      asset: true,
+      order: false,
+    });
+  };
 
-  const deleteTicketsAssociatesAssets = async () => {
-    const deleteTicketsAssociatesAssetsParameter = {
-      queryParams: {
-        id: ticketId,
-        assetId: selectedAsset,
+  const associateAssetsColumns = getAssociateAssetsColumns({
+    theme,
+    router,
+    setAssetId,
+  });
+
+  const associateTicketsAssetsParameter = {
+    queryParams: {
+      recordId: ticketId,
+      recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
+      associationType: ASSOCIATIONS_API_PARAMS_FOR?.ASSETS,
+    },
+  };
+
+  const {
+    data: dataAssets,
+    isLoading: isLoadingAssets,
+    isFetching: isFetchingAssets,
+    isError: isErrorAssets,
+    isSuccess: isSuccessAssets,
+  } = useGetAssociateTicketsQuery(associateTicketsAssetsParameter, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const removeTicketsAssociatesAssets = async () => {
+    const postRemoveAssociateTicketsParameter = {
+      body: {
+        recordId: ticketId,
+        recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
+        operation: ASSOCIATIONS_API_PARAMS_FOR?.REMOVE,
+        associateAssets: [selectedAsset],
       },
     };
     try {
-      await deleteTicketsAssociatesAssetsTrigger(
-        deleteTicketsAssociatesAssetsParameter,
+      await postRemoveAssociateTicketsTrigger(
+        postRemoveAssociateTicketsParameter,
       )?.unwrap();
       successSnackbar('Asset Detached Successfully!');
-      setDeleteModal?.(false);
-      const newPage = data?.data?.tickets?.length === 1 ? 1 : page;
-      setPage?.(newPage);
-      await getTicketsAssociatesAssetsListData?.(newPage);
+      setDeleteModal?.({
+        asset: false,
+        order: false,
+      });
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      setDeleteModal?.(false);
+      setDeleteModal?.({
+        asset: false,
+        order: false,
+      });
     }
   };
 
+  // Order
+  const setOrderId = (id: any) => {
+    setSelectedAsset(id);
+    setDeleteModal({
+      asset: false,
+      order: true,
+    });
+  };
+
+  const associateOrderColumns = getAssociateOrderColumns({
+    router,
+    setOrderId,
+  });
+
+  const associateTicketsOrderParameter = {
+    queryParams: {
+      recordId: ticketId,
+      recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
+      associationType: ASSOCIATIONS_API_PARAMS_FOR?.PURCHASE_ORDER,
+    },
+  };
+
+  const {
+    data: dataOrder,
+    isLoading: isLoadingOrder,
+    isFetching: isFetchingOrder,
+    isError: isErrorOrder,
+    isSuccess: isSuccessOrder,
+  } = useGetAssociateTicketsQuery(associateTicketsOrderParameter, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const removeTicketsAssociatesOrder = async () => {
+    const postRemoveAssociateTicketsParameter = {
+      body: {
+        recordId: ticketId,
+        recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
+        operation: ASSOCIATIONS_API_PARAMS_FOR?.REMOVE,
+        associatePurchaseOrders: [selectedAsset],
+      },
+    };
+    try {
+      await postRemoveAssociateTicketsTrigger(
+        postRemoveAssociateTicketsParameter,
+      )?.unwrap();
+      successSnackbar('Asset Detached Successfully!');
+      setDeleteModal?.({
+        asset: false,
+        order: false,
+      });
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+      setDeleteModal?.({
+        asset: false,
+        order: false,
+      });
+    }
+  };
+
+  // Submission
   const submitHandler = async () => {
     if (type === TYPE_VALUES?.PURCHASE_ORDER) {
-      return;
-    }
-    if (type === TYPE_VALUES?.ASSETS) {
       const body = {
-        id: ticketId,
-        assetIds: selected,
+        recordId: ticketId,
+        recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
+        operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+        associatePurchaseOrders: selected,
       };
-      const postTicketsAssociatesAssetsParameter = {
+      const postRemoveAssociateTicketsParameter = {
         body,
       };
       try {
-        await postTicketsAssociatesAssetsTrigger(
-          postTicketsAssociatesAssetsParameter,
+        await postRemoveAssociateTicketsTrigger(
+          postRemoveAssociateTicketsParameter,
+        )?.unwrap();
+        successSnackbar('Asset(s) Associated Successfully!');
+        onClose?.();
+      } catch (error: any) {
+        errorSnackbar(error?.data?.message);
+      }
+    }
+    if (type === TYPE_VALUES?.ASSETS) {
+      const body = {
+        recordId: ticketId,
+        recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
+        operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+        associateAssets: selected,
+      };
+      const postRemoveAssociateTicketsParameter = {
+        body,
+      };
+      try {
+        await postRemoveAssociateTicketsTrigger(
+          postRemoveAssociateTicketsParameter,
         )?.unwrap();
         successSnackbar('Asset(s) Associated Successfully!');
         onClose?.();
@@ -151,21 +220,25 @@ export default function useAssets({ setIsDrawerOpen }: any) {
     onClose,
     submitHandler,
     selected,
-    postTicketsAssociatesAssetsStatus,
     methods,
     type,
     setSelected,
-    data,
     associateAssetsColumns,
-    isSuccess,
-    isLoading,
-    isError,
-    isFetching,
-    setPage,
-    setPageLimit,
+    associateOrderColumns,
+    dataAssets,
+    isLoadingAssets,
+    isFetchingAssets,
+    isErrorAssets,
+    isSuccessAssets,
+    dataOrder,
+    isLoadingOrder,
+    isFetchingOrder,
+    isErrorOrder,
+    isSuccessOrder,
     deleteModal,
     setDeleteModal,
-    deleteTicketsAssociatesAssets,
-    deleteTicketsAssociatesAssetsStatus,
+    removeTicketsAssociatesAssets,
+    removeTicketsAssociatesOrder,
+    postRemoveAssociateTicketsStatus,
   };
 }

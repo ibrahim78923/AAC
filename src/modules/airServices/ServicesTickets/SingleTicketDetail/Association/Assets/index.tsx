@@ -20,22 +20,26 @@ export default function Assets({
     onClose,
     submitHandler,
     selected,
-    postTicketsAssociatesAssetsStatus,
     methods,
     type,
     setSelected,
-    data,
     associateAssetsColumns,
-    isSuccess,
-    isLoading,
-    isError,
-    isFetching,
-    setPage,
-    setPageLimit,
+    associateOrderColumns,
+    dataAssets,
+    isLoadingAssets,
+    isFetchingAssets,
+    isErrorAssets,
+    isSuccessAssets,
+    dataOrder,
+    isLoadingOrder,
+    isFetchingOrder,
+    isErrorOrder,
+    isSuccessOrder,
     deleteModal,
     setDeleteModal,
-    deleteTicketsAssociatesAssets,
-    deleteTicketsAssociatesAssetsStatus,
+    removeTicketsAssociatesAssets,
+    removeTicketsAssociatesOrder,
+    postRemoveAssociateTicketsStatus,
   } = useAssets({ setIsDrawerOpen });
 
   return (
@@ -50,9 +54,9 @@ export default function Assets({
           okText={'Associate'}
           submitHandler={submitHandler}
           isDisabled={
-            !selected?.length || postTicketsAssociatesAssetsStatus?.isLoading
+            !selected?.length || postRemoveAssociateTicketsStatus?.isLoading
           }
-          isLoading={postTicketsAssociatesAssetsStatus?.isLoading}
+          isLoading={postRemoveAssociateTicketsStatus?.isLoading}
         >
           {ticketType === TICKET_TYPE?.SR && (
             <FormProvider methods={methods}>
@@ -69,10 +73,10 @@ export default function Assets({
             </FormProvider>
           )}
 
-          {type === TYPE_VALUES?.PURCHASE_ORDER ? (
-            <AddPurchaseOrder setSelected={setSelected} selected={selected} />
-          ) : (
+          {type === TYPE_VALUES?.ASSETS ? (
             <AddAssets setSelected={setSelected} selected={selected} />
+          ) : (
+            <AddPurchaseOrder setSelected={setSelected} selected={selected} />
           )}
         </CommonDrawer>
       )}
@@ -90,74 +94,92 @@ export default function Assets({
             color={'common.white'}
             mr={0.5}
           >
-            {isLoading || isFetching ? (
+            {isLoadingAssets || isFetchingAssets ? (
               <CircularProgress size={18} />
-            ) : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id ? (
-              data?.data?.tickets?.length < 10 ? (
-                `0${data?.data?.tickets?.length}`
-              ) : (
-                data?.data?.tickets?.length
-              )
+            ) : dataAssets?.length < 10 ? (
+              `0${dataAssets?.length}`
             ) : (
-              '00'
+              dataAssets?.length
             )}
           </Typography>
-          Assets
+          Assets Inventory
         </Typography>
 
         <TanstackTable
           columns={associateAssetsColumns}
-          data={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.tickets
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.tickets
-                : []
-          }
-          isPagination
-          isSuccess={isSuccess}
-          isError={isError}
-          isFetching={isFetching}
-          isLoading={isLoading}
-          currentPage={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.meta?.page
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.page
-                : 0
-          }
-          count={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.meta?.pages
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.pages
-                : 0
-          }
-          totalRecords={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.meta?.total
-              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.total
-                : 0
-          }
-          pageLimit={data?.data?.meta?.limit}
-          onPageChange={(page: any) => setPage(page)}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
+          data={dataAssets}
+          isSuccess={isSuccessAssets}
+          isError={isErrorAssets}
+          isFetching={isFetchingAssets}
+          isLoading={isLoadingAssets}
+        />
+
+        <Typography variant={'h5'}>
+          <Typography
+            variant={'body1'}
+            component={'span'}
+            bgcolor={'secondary.main'}
+            borderRadius={1}
+            p={0.4}
+            color={'common.white'}
+            mr={0.5}
+          >
+            {isLoadingOrder || isFetchingOrder ? (
+              <CircularProgress size={18} />
+            ) : dataOrder?.length < 10 ? (
+              `0${dataOrder?.length}`
+            ) : (
+              dataOrder?.length
+            )}
+          </Typography>
+          Assets Purchase Order
+        </Typography>
+
+        <TanstackTable
+          columns={associateOrderColumns}
+          data={dataOrder}
+          isSuccess={isSuccessOrder}
+          isError={isErrorOrder}
+          isFetching={isFetchingOrder}
+          isLoading={isLoadingOrder}
         />
       </PermissionsGuard>
 
-      {deleteModal && (
+      {deleteModal?.asset && (
         <AlertModals
-          open={deleteModal}
+          open={deleteModal?.asset}
           message="Are you sure you want to detach this asset?"
-          handleClose={() => setDeleteModal(false)}
-          handleSubmitBtn={() => deleteTicketsAssociatesAssets?.()}
+          handleClose={() =>
+            setDeleteModal({
+              asset: false,
+              order: false,
+            })
+          }
+          handleSubmitBtn={() => removeTicketsAssociatesAssets?.()}
           type={ALERT_MODALS_TYPE?.DELETE}
           cancelBtnText="Cancel"
           submitBtnText="Detach"
-          loading={deleteTicketsAssociatesAssetsStatus?.isLoading}
-          disableCancelBtn={deleteTicketsAssociatesAssetsStatus?.isLoading}
+          loading={postRemoveAssociateTicketsStatus?.isLoading}
+          disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
+        />
+      )}
+
+      {deleteModal?.order && (
+        <AlertModals
+          open={deleteModal?.order}
+          message="Are you sure you want to detach this asset?"
+          handleClose={() =>
+            setDeleteModal({
+              asset: false,
+              order: false,
+            })
+          }
+          handleSubmitBtn={() => removeTicketsAssociatesOrder?.()}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          cancelBtnText="Cancel"
+          submitBtnText="Detach"
+          loading={postRemoveAssociateTicketsStatus?.isLoading}
+          disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
         />
       )}
     </>
