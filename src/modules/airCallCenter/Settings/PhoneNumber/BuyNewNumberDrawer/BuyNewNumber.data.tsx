@@ -1,4 +1,6 @@
+import { EditNumberIcon, ReloadIcon } from '@/assets/icons';
 import { RHFSelect, RHFSwitch, RHFTextField } from '@/components/ReactHookForm';
+import { Box, IconButton, InputAdornment } from '@mui/material';
 import * as Yup from 'yup';
 
 export const newNumberValidationSchema = Yup.object().shape({
@@ -13,7 +15,7 @@ export const newNumberDefaultValues = {
   digit: '',
 };
 
-export const newNumberArray = [
+export const newNumberArray = (isEditNumber: any, serIsEditNumber: any) => [
   {
     componentProps: {
       name: 'formType',
@@ -91,9 +93,105 @@ export const newNumberArray = [
       required: true,
       fullWidth: true,
       placeholder: 'Enter Address',
+      multiline: true,
+      minRows: 3,
+      InputProps: {
+        endAdornment: (
+          <Box sx={{ position: 'fixed', top: '320px', right: '30px' }}>
+            <InputAdornment position="end" sx={{ top: '0px' }}>
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={() => serIsEditNumber?.(false)}
+                // onMouseDown={handleMouseDownPassword}
+              >
+                <ReloadIcon />
+              </IconButton>
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={() => serIsEditNumber?.(true)}
+                // onMouseDown={handleMouseDownPassword}
+              >
+                <EditNumberIcon />
+              </IconButton>
+            </InputAdornment>
+          </Box>
+        ),
+      },
     },
     component: RHFTextField,
-    isNumberDatils: [true],
+    isNumberDatils: [!isEditNumber ? true : null],
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'flatUnit',
+      label: 'Flat/Unit',
+      fullWidth: true,
+      required: true,
+      placeholder: '2154',
+    },
+    component: RHFTextField,
+    isNumberDatils: [isEditNumber ? true : null],
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'buildingName',
+      label: 'Building Name',
+      fullWidth: true,
+      required: true,
+      placeholder: '2154',
+    },
+    component: RHFTextField,
+    isNumberDatils: [isEditNumber ? true : null],
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'buildingNumber',
+      label: 'Building Number',
+      fullWidth: true,
+      required: true,
+      placeholder: '2154',
+    },
+    component: RHFTextField,
+    isNumberDatils: [isEditNumber ? true : null],
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'streetName',
+      label: 'Street Name',
+      fullWidth: true,
+      required: true,
+      placeholder: '2154',
+    },
+    component: RHFTextField,
+    isNumberDatils: [isEditNumber ? true : null],
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'townCity',
+      label: 'Town/City',
+      fullWidth: true,
+      required: true,
+      placeholder: '2154',
+    },
+    component: RHFTextField,
+    isNumberDatils: [isEditNumber ? true : null],
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'country',
+      label: 'Country',
+      fullWidth: true,
+      required: true,
+      placeholder: '2154',
+    },
+    component: RHFTextField,
+    isNumberDatils: [isEditNumber ? true : null],
     md: 12,
   },
 ];

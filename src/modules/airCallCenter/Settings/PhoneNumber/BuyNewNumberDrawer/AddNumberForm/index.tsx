@@ -6,13 +6,19 @@ import { newNumberArray, numberDetails } from '../BuyNewNumber.data';
 import usePhoneNumber from '../../usePhoneNumber';
 import { style } from '../BuyNewNumber.style';
 
-const AddNumberForm = ({ isNumberDetail, handleNextDetail }: any) => {
+const AddNumberForm = ({
+  isNumberDetail,
+  handleNextDetail,
+  isEditNumber,
+  serIsEditNumber,
+}: any) => {
   const { theme } = usePhoneNumber();
+  const buyNewNumberArray = newNumberArray(isEditNumber, serIsEditNumber);
   const { methods } = useBuyNewNumber();
   return (
     <FormProvider methods={methods}>
       <Grid container spacing={2}>
-        {newNumberArray?.map((item: any) => (
+        {buyNewNumberArray?.map((item: any) => (
           <>
             {item?.isNumberDatils?.includes(isNumberDetail) && (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>

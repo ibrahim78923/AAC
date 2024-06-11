@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 const useBuyNewNumber = () => {
   const [isNumberDetail, setIsNumberDetail] = useState(false);
-
+  const [isEditNumber, serIsEditNumber] = useState(false);
   const methods: any = useForm({
     resolver: yupResolver(newNumberValidationSchema),
     defaultValues: newNumberDefaultValues,
@@ -23,6 +23,9 @@ const useBuyNewNumber = () => {
     methods,
     isNumberDetail,
     handleNextDetail,
+    setIsNumberDetail,
+    isEditNumber,
+    serIsEditNumber,
   };
 };
 
