@@ -404,6 +404,10 @@ export const END_POINTS = {
   GET_GOOGLE_CALENDAR: '/auth/google-calendar/authorize',
   GET_CALENDARS: '/meeting-settings/calendars',
   CALENDARS_STATUS: '/meeting-settings',
+  GET_MEETINGS_LOCATIONS: '/meeting-time-slots/get-meeting-loation',
+  ADD_MEETINGS_LOCATIONS: '/meeting-time-slots/add-meeting-loation',
+  UPDATE_MEETINGS_LOCATIONS: '/meeting-time-slots/edit-meeting-loation',
+  DELETE_MEETINGS_LOCATIONS: '/meeting-time-slots/delete-meeting-loation',
   TIME_SLOTS: '/meeting-time-slots/add-time-slots',
 };
 

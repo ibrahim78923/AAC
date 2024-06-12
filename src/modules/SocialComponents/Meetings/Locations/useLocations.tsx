@@ -1,50 +1,75 @@
-import {
-  locationDeletehandler,
-  locationsList,
-  locationsListData,
-} from './Locations.data';
-import { useState } from 'react';
+import { PAGINATION } from '@/config';
+import { locationsListColumnsDynamic } from './Locations.data';
+import { useEffect, useState } from 'react';
+import { buildQueryParams } from '@/utils/api';
+import { useLazyGetCommonMeetingsLocationsListQuery } from '@/services/commonFeatures/meetings/settings/locations';
+import { DeleteLocations } from './DeleteLocations';
+import { UpsertLocations } from './UpsertLocations';
 
 export const useLocations = () => {
-  const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
-  const [searchValue, SetSearchValue] = useState<string>('');
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
 
-  const submitDeleteModal = () => {
-    setDeleteModal(false);
-  };
-  const teamDropdownOptions = locationDeletehandler(setDeleteModal);
+  const [
+    lazyGetCommonMeetingsLocationsListTrigger,
+    lazyGetCommonMeetingsLocationsListStatus,
+  ]: any = useLazyGetCommonMeetingsLocationsListQuery?.();
 
-  const LocationsListColumn = locationsList(
-    setIsAddDrawerOpen,
-    setDeleteModal,
-    setIsUpdate,
-  );
-  const openAddDrawer = () => {
-    setIsUpdate(false);
-    setIsAddDrawerOpen(true);
+  const getMeetingsLocationListData = async (currentPage = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', search + ''],
+    ];
+
+    const rolesListParam: any = buildQueryParams(additionalParams);
+    const apiDataParameter = {
+      queryParams: rolesListParam,
+    };
+    try {
+      await lazyGetCommonMeetingsLocationsListTrigger?.(
+        apiDataParameter,
+      )?.unwrap();
+    } catch (error: any) {}
   };
-  const onClose = () => {
-    setIsEditDrawerOpen(false);
+
+  useEffect(() => {
+    getMeetingsLocationListData?.();
+  }, [page, search, pageLimit]);
+
+  const locationsListColumns = locationsListColumnsDynamic(setIsPortalOpen);
+
+  const portalComponentProps = {
+    isPortalOpen,
+    setIsPortalOpen,
+    getMeetingsLocationListData: getMeetingsLocationListData,
+    setPage: setPage,
+    page: page,
+    totalRecords:
+      lazyGetCommonMeetingsLocationsListStatus?.data?.data?.meetinglocations
+        ?.length,
+  };
+
+  const renderPortalComponent = () => {
+    if (isPortalOpen?.isDelete) {
+      return <DeleteLocations {...portalComponentProps} />;
+    }
+    if (isPortalOpen?.isUpsert) {
+      return <UpsertLocations {...portalComponentProps} />;
+    }
+    return <></>;
   };
 
   return {
-    isAddDrawerOpen,
-    setIsAddDrawerOpen,
-    searchValue,
-    SetSearchValue,
-    deleteModal,
-    setDeleteModal,
-    submitDeleteModal,
-    teamDropdownOptions,
-    LocationsListColumn,
-    locationsListData,
-    onClose,
-    isEditDrawerOpen,
-    isUpdate,
-    setIsUpdate,
-    openAddDrawer,
+    locationsListColumns,
+    lazyGetCommonMeetingsLocationsListStatus,
+    setSearch,
+    setPageLimit,
+    setPage,
+    renderPortalComponent,
+    isPortalOpen,
+    setIsPortalOpen,
   };
 };
