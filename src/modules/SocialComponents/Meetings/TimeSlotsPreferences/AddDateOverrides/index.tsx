@@ -58,8 +58,8 @@ const AddDateOverrides = (props: any) => {
             >
               {fields?.map((field: any, index: number) => (
                 <Grid item xs={10} key={field?.id} display={'flex'} gap={0.5}>
-                  <RHFTimePicker name={`overrides.${index}.start`} />
-                  <RHFTimePicker name={`overrides.${index}.end`} />
+                  <RHFTimePicker name={`timeRanges.${index}.startHour`} />
+                  <RHFTimePicker name={`timeRanges.${index}.endHour`} />
                   {fields?.length > 1 && (
                     <IconButton onClick={() => remove(index)}>
                       <Delete />

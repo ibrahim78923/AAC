@@ -404,6 +404,7 @@ export const END_POINTS = {
   GET_GOOGLE_CALENDAR: '/auth/google-calendar/authorize',
   GET_CALENDARS: '/meeting-settings/calendars',
   CALENDARS_STATUS: '/meeting-settings',
+  TIME_SLOTS: '/meeting-time-slots/add-time-slots',
 };
 
 export const LEAD_CAPTURE_FORM = {

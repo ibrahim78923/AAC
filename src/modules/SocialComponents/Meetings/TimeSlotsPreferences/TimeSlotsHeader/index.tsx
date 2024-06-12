@@ -7,7 +7,7 @@ import { Permissions } from '@/constants/permissions';
 
 const TimeSlotsHeader = (props: any) => {
   const { disabled, setDisabled } = props;
-  const { timeSlotsData } = useTimeSlots();
+  const { timeSlotsData } = useTimeSlots(props);
   return (
     <Box display={'flex'} gap={1} justifyContent={'right'}>
       <PermissionsGuard permissions={Permissions?.SOCIAL_COMPONENTS_EMAIL}>

@@ -26,9 +26,9 @@ export const timeSlotsWeeklyDropdown = (
   watchStart: any,
   watchEnd: any,
   setValue: any,
-  timeSlotsState: any,
-  setTimeSlotsState: any,
-  dayIndex: any,
+  daySlotsState: any,
+  setDaySlotsState: any,
+  timeIndex: any,
   handleAddTimeSlot: any,
 ) => {
   return [
@@ -40,9 +40,9 @@ export const timeSlotsWeeklyDropdown = (
           <Checkbox
             icon={<CheckboxIcon />}
             checkedIcon={<CheckboxCheckedIcon />}
-            checked={timeSlotsState?.includes(days)}
+            checked={daySlotsState?.includes(days)}
             onChange={() => {
-              setTimeSlotsState((prev: any) =>
+              setDaySlotsState((prev: any) =>
                 !prev?.includes(days)
                   ? [...prev, days]
                   : prev?.filter((item: any) => item !== days),
@@ -58,27 +58,25 @@ export const timeSlotsWeeklyDropdown = (
       permissionKey: [SOCIAL_COMPONENTS_EMAIL_PERMISSIONS?.APPLY_FILTER],
       title: (
         <Box ml={3}>
-          <Button
-            variant="contained"
-            onClick={() => {
-              timeSlotsState?.forEach((day: any) => {
-                const selectedDayIndex = timeSlotsWeeklyDataArray?.indexOf(day);
-                setValue(
-                  `timeSlot[${selectedDayIndex}].slots[${dayIndex}].start`,
-                  watchStart,
-                );
-                setValue(
-                  `timeSlot[${selectedDayIndex}].slots[${dayIndex}].end`,
-                  watchEnd,
-                );
-                handleAddTimeSlot(selectedDayIndex);
-              });
-            }}
-          >
-            Apply
-          </Button>
+          <Button variant="contained">Apply</Button>
         </Box>
       ),
+      handleClick: (close: any) => {
+        daySlotsState?.forEach((day: any) => {
+          const selectedDayIndex = timeSlotsWeeklyDataArray?.indexOf(day);
+          const abbreviatedDay = day?.substring(0, 3);
+          setValue(
+            `daysTimeRanges[${selectedDayIndex}].timeRanges[${timeIndex}].startHour`,
+            watchStart,
+          );
+          setValue(
+            `daysTimeRanges[${selectedDayIndex}].timeRanges[${timeIndex}].endHour`,
+            watchEnd,
+          );
+          handleAddTimeSlot(selectedDayIndex, abbreviatedDay);
+        });
+        close();
+      },
     },
   ];
 };

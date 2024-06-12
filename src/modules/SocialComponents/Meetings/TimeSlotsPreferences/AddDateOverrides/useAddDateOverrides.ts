@@ -2,11 +2,11 @@ import { useFieldArray } from 'react-hook-form';
 
 export const useAddDateOverrides = () => {
   const { fields, remove, append } = useFieldArray({
-    name: 'overrides',
+    name: 'dateOverrides',
   });
 
   const addDateOverride = () => {
-    append({ start: null, end: null });
+    append({ startHour: new Date(), endHour: new Date() });
   };
 
   return {

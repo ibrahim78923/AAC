@@ -4,7 +4,7 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 const TAGS = 'MEETINGS_CALENDARS';
 const GOOGLE_TAG = 'GOOGLE_CALENDAR_AUTH';
 export const meetingSettingsApi = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     getGoogleCalendarAuth: builder?.query({
       query: () => ({
         url: `${END_POINTS?.GET_GOOGLE_CALENDAR}`,

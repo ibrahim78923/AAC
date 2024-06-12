@@ -16,11 +16,24 @@ export const TimeSlotPreferences = () => {
     handleSubmit,
     watch,
     setValue,
+    selectedMonths,
+    setSelectedMonths,
+    timeSlotsState,
+    setTimeSlotsState,
+    daySlotsState,
+    setDaySlotsState,
+    submittedOverrideData,
+    setSubmittedOverrideData,
   } = useTimeSlotPreferences();
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <TimeSlotsHeader disabled={disabled} setDisabled={setDisabled} />
+        <TimeSlotsHeader
+          disabled={disabled}
+          setDisabled={setDisabled}
+          selectedMonths={selectedMonths}
+          setSelectedMonths={setSelectedMonths}
+        />
         <Grid container gap={1}>
           <Grid item lg={6} xs={12} mr={2}>
             <TimeSlotsWeekly
@@ -28,6 +41,10 @@ export const TimeSlotPreferences = () => {
               theme={theme}
               watch={watch}
               setValue={setValue}
+              timeSlotsState={timeSlotsState}
+              setTimeSlotsState={setTimeSlotsState}
+              daySlotsState={daySlotsState}
+              setDaySlotsState={setDaySlotsState}
             />
           </Grid>
           <Grid item lg={5} xs={12}>
@@ -37,6 +54,8 @@ export const TimeSlotPreferences = () => {
               methods={methods}
               handleSubmit={handleSubmit}
               onSubmit={onSubmit}
+              submittedData={submittedOverrideData}
+              setSubmittedData={setSubmittedOverrideData}
             />
           </Grid>
           <Grid item xs={12}>

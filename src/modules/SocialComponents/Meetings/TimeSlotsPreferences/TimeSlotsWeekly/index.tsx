@@ -23,15 +23,24 @@ import {
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 
-const TimeSlotsWeekly = ({ disabled, theme, setValue, watch }: any) => {
+const TimeSlotsWeekly = (props: any) => {
+  const {
+    disabled,
+    theme,
+    setValue,
+    watch,
+    timeSlotsState,
+    daySlotsState,
+    setDaySlotsState,
+  }: any = props;
   const {
     fields,
-    remove,
+    handleRemoveTimeSlot,
     fieldsAdded,
-    timeSlotsState,
-    setTimeSlotsState,
     handleAddTimeSlot,
-  } = useTimeSlotsWeekly();
+    handleCheckboxChange,
+  } = useTimeSlotsWeekly(props);
+
   return (
     <>
       <Typography variant="h3">Weekly Hours</Typography>
@@ -44,7 +53,7 @@ const TimeSlotsWeekly = ({ disabled, theme, setValue, watch }: any) => {
           {timeSlotsWeeklyData?.map((slot: any, index: number) => (
             <Grid
               container
-              key={slot?._id}
+              key={slot?.id}
               py={1.5}
               gap={1}
               alignItems={'center'}
@@ -54,6 +63,10 @@ const TimeSlotsWeekly = ({ disabled, theme, setValue, watch }: any) => {
                 <Checkbox
                   icon={<CheckboxIcon />}
                   checkedIcon={<CheckboxCheckedIcon />}
+                  checked={timeSlotsState?.some(
+                    (d: any) => d?.dayName === slot?.day,
+                  )}
+                  onChange={() => handleCheckboxChange(slot?.day, index)}
                 />
                 <Typography>{slot?.day}</Typography>
               </Grid>
@@ -61,35 +74,38 @@ const TimeSlotsWeekly = ({ disabled, theme, setValue, watch }: any) => {
                 <Grid item xs={12} lg={7.5}>
                   {fields
                     ?.filter((item: any) => item?.dayIndex === index)
-                    ?.map((item: any, dayIndex: number) => {
+                    ?.map((item: any, timeIndex: number) => {
                       const watchStart = watch(
-                        `timeSlot[${index}].slots[${dayIndex}].start`,
+                        `daysTimeRanges[${index}].timeRanges[${timeIndex}].startHour`,
                       );
                       const watchEnd = watch(
-                        `timeSlot[${index}].slots[${dayIndex}].end`,
+                        `daysTimeRanges[${index}].timeRanges[${timeIndex}].endHour`,
                       );
                       const actualIndex = fields?.findIndex(
                         (item: any) =>
-                          item?.dayIndex === index && item?.slots[dayIndex],
+                          item?.dayIndex === index &&
+                          item?.timeRanges[timeIndex],
                       );
                       return (
                         <Grid
-                          key={item?._id}
+                          key={item.id}
                           display="flex"
                           alignItems="center"
                           gap={1}
                         >
                           <Box display="flex" gap={1} pt={1}>
                             <RHFTimePicker
-                              name={`timeSlot[${index}].slots[${dayIndex}].start`}
-                              size={'small'}
+                              name={`daysTimeRanges[${index}].timeRanges[${timeIndex}].startHour`}
+                              size="small"
                             />
                             <RHFTimePicker
-                              name={`timeSlot[${index}].slots[${dayIndex}].end`}
-                              size={'small'}
+                              name={`daysTimeRanges[${index}].timeRanges[${timeIndex}].endHour`}
+                              size="small"
                             />
                           </Box>
-                          <IconButton onClick={() => remove(actualIndex)}>
+                          <IconButton
+                            onClick={() => handleRemoveTimeSlot(actualIndex)}
+                          >
                             <Delete />
                           </IconButton>
                           <PermissionsGuard
@@ -100,9 +116,9 @@ const TimeSlotsWeekly = ({ disabled, theme, setValue, watch }: any) => {
                                 watchStart,
                                 watchEnd,
                                 setValue,
-                                timeSlotsState,
-                                setTimeSlotsState,
-                                dayIndex,
+                                daySlotsState,
+                                setDaySlotsState,
+                                timeIndex,
                                 handleAddTimeSlot,
                               )}
                               dropdownName={<CopyIconButton />}
@@ -120,7 +136,7 @@ const TimeSlotsWeekly = ({ disabled, theme, setValue, watch }: any) => {
                 </Grid>
               )}
               <Grid item xs={12} md={2}>
-                <IconButton onClick={() => handleAddTimeSlot(index)}>
+                <IconButton onClick={() => handleAddTimeSlot(index, slot?.day)}>
                   <AddCircleIcon />
                 </IconButton>
               </Grid>
@@ -139,7 +155,7 @@ const TimeSlotsWeekly = ({ disabled, theme, setValue, watch }: any) => {
           {timeSlotsWeeklyData?.map((slot: any) => (
             <Grid
               container
-              key={slot?._id}
+              key={slot?.id}
               py={1.5}
               gap={1}
               alignItems={'center'}

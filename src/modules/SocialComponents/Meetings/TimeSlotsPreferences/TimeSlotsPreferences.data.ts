@@ -1,21 +1,42 @@
 import * as Yup from 'yup';
 
 export const weeklyDaysSchemaFields: any = Yup?.object()?.shape({
-  months: Yup?.string(),
-  weekly: Yup?.string(),
-  timeSlot: Yup?.array()?.of(
-    Yup?.object()?.shape({
-      day: Yup?.string()?.required(),
-      slots: Yup?.array()
-        ?.of(
-          Yup?.object()?.shape({
-            start: Yup?.date()?.nullable(),
-            end: Yup?.date()?.nullable(),
-          }),
-        )
-        ?.default([]),
-    }),
-  ),
+  months: Yup?.array()
+    ?.of(Yup?.string())
+    ?.default([]),
+  weekly: Yup?.array()
+    ?.of(Yup?.string())
+    ?.default([]),
+  daysTimeRanges: Yup?.array()
+    ?.of(
+      Yup?.object()?.shape({
+        days: Yup?.string()?.required(),
+        timeRanges: Yup?.array()
+          ?.of(
+            Yup?.object()?.shape({
+              startHour: Yup?.date()?.nullable(),
+              endHour: Yup?.date()?.nullable(),
+            }),
+          )
+          ?.default([]),
+      }),
+    )
+    ?.default([]),
+  dateOverrides: Yup?.array()
+    ?.of(
+      Yup?.object()?.shape({
+        date: Yup?.date()?.required(),
+        timeRanges: Yup?.array()
+          ?.of(
+            Yup?.object()?.shape({
+              startHour: Yup?.date()?.nullable(),
+              endHour: Yup?.date()?.nullable(),
+            }),
+          )
+          ?.default([]),
+      }),
+    )
+    ?.default([]),
   beforeEvent: Yup?.mixed()?.nullable(),
   afterEvent: Yup?.mixed()?.nullable(),
 });
@@ -23,17 +44,15 @@ export const weeklyDaysSchemaFields: any = Yup?.object()?.shape({
 export const defaultValues = {
   months: [],
   weekly: [],
-  timeSlot: [
-    { day: 'Sun', slots: [{ start: new Date(), end: new Date() }] },
-    { day: 'Mon', slots: [{ start: new Date(), end: new Date() }] },
-    { day: 'Tue', slots: [{ start: new Date(), end: new Date() }] },
-    { day: 'Wed', slots: [{ start: new Date(), end: new Date() }] },
-    { day: 'Thu', slots: [{ start: new Date(), end: new Date() }] },
-    { day: 'Fri', slots: [{ start: new Date(), end: new Date() }] },
-    { day: 'Sat', slots: [{ start: new Date(), end: new Date() }] },
+  daysTimeRanges: [
+    { days: '', timeRanges: [{ startHour: new Date(), endHour: new Date() }] },
   ],
-  overrideDate: new Date(),
-  overrides: [{ start: null, end: null }],
+  dateOverrides: [
+    {
+      date: new Date(),
+      timeRanges: [{ startHour: new Date(), endHour: new Date() }],
+    },
+  ],
   beforeEvent: null,
   afterEvent: null,
 };

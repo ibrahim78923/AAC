@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 
 const DateOverrides = (props: any) => {
-  const { theme, disabled } = props;
+  const { theme, disabled, submittedData } = props;
   const {
     openModule,
     setOpenModule,
@@ -15,8 +15,7 @@ const DateOverrides = (props: any) => {
     methods,
     handleSubmit,
     onSubmit,
-    submittedData,
-  } = useDateOverrides();
+  } = useDateOverrides(props);
   return (
     <>
       <Typography variant="h3">Date Overrides</Typography>
@@ -51,11 +50,13 @@ const DateOverrides = (props: any) => {
                         : ''}
                     </Typography>
                     <Box>
-                      {data?.overrides?.map((time: any) => (
+                      {data?.timeRanges?.map((time: any) => (
                         <Typography key={time?._id}>
-                          {`${dayjs(time?.start)?.format(
+                          {`${dayjs(time?.startHour)?.format(
                             TIME_FORMAT?.UI,
-                          )} - ${dayjs(time?.end)?.format(TIME_FORMAT?.UI)}`}
+                          )} - ${dayjs(time?.endHour)?.format(
+                            TIME_FORMAT?.UI,
+                          )}`}
                         </Typography>
                       ))}
                     </Box>
