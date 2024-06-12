@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 
@@ -8,10 +8,10 @@ import CallsActionDropdown from './CallsActionDropDown';
 
 import useCalls from './useCalls';
 
-import { PlusSharedIcon, ViewCallIcon } from '@/assets/icons';
+import { PlusIcon, ViewCallIcon } from '@/assets/icons';
 
 import { styles } from './Calls.style';
-
+import { v4 as uuidv4 } from 'uuid';
 import { isNullOrEmpty } from '@/utils';
 import AddCall from './AddCalls';
 import CallsEditorDrawer from './CallsEditorDrawer';
@@ -30,15 +30,11 @@ const Calls = ({ contactId }: any) => {
     handleActionsMenuClose,
     dataGetCalls,
     loadingGetCalls,
+    fetchingGetCalls,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    rowId,
 
     openDrawerAddCall,
     methodsAddCall,
@@ -76,12 +72,7 @@ const Calls = ({ contactId }: any) => {
     loadingOutcome,
   } = useCalls(contactId);
 
-  const callsTableColumns = columns(
-    selectedRow,
-    setSelectedRow,
-    setIsActionsDisabled,
-    setRowId,
-  );
+  const callsTableColumns = columns(selectedRow, setSelectedRow);
 
   return (
     <PermissionsGuard
@@ -105,78 +96,96 @@ const Calls = ({ contactId }: any) => {
               </Grid>
             ))}
           </Grid>
-          <Grid container sx={styles?.callsGrid}>
-            <Grid item xs={12}>
-              <Box sx={styles?.callsSpacingBetween}>
-                <Typography variant="h4"> Calls</Typography>
-                {!isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
-                  <Box
-                    sx={{
-                      gap: 1,
-                      display: 'flex',
-                      flexDirection: { xs: 'column', sm: 'row' },
-                      alignItems: 'center',
-                    }}
-                  >
-                    <CallsActionDropdown
-                      isActionsDisabled={isActionsDisabled}
-                      anchorEl={anchorEl}
-                      actionMenuOpen={actionMenuOpen}
-                      handleActionsMenuClick={handleActionsMenuClick}
-                      handleActionsMenuClose={handleActionsMenuClose}
-                      handleOpenDrawerEditCall={handleOpenDrawerEditCall}
-                      disabledMenuItem={rowId}
-                      handleOpenModalDelete={handleOpenModalDelete}
-                      handleOpenReschedule={handleOpenModalReschedule}
-                      handleOpenOutcome={handleOpenModalOutcome}
-                    />
+
+          {loadingGetCalls &&
+            Array.from(new Array(3)).map(() => (
+              <Skeleton
+                sx={{ mb: '10px' }}
+                key={uuidv4()}
+                variant="rounded"
+                animation="wave"
+                width="100%"
+                height={136}
+              />
+            ))}
+          {!loadingGetCalls && (
+            <Grid container sx={styles?.callsGrid}>
+              {isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
+                <Grid item xs={12}>
+                  <Box sx={styles?.noCallsBox}>
+                    <ViewCallIcon />
+                    <Typography
+                      variant="body3"
+                      sx={{ color: theme?.palette?.grey[900] }}
+                    >
+                      Schedule a call right now from the CRM
+                    </Typography>
                     <Button
                       variant="contained"
-                      sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                      sx={{ height: '35px' }}
                       onClick={handleOpenDrawerAddCall}
+                      startIcon={<PlusIcon />}
                     >
-                      <PlusSharedIcon /> Add Calls
+                      Add Calls
                     </Button>
                   </Box>
-                )}
-              </Box>
+                </Grid>
+              )}
+              {!isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
+                <>
+                  <Grid item xs={12}>
+                    <Box sx={styles?.callsSpacingBetween}>
+                      <Typography variant="h4"> Calls</Typography>
+                      <Box
+                        sx={{
+                          gap: 1,
+                          display: 'flex',
+                          flexDirection: { xs: 'column', sm: 'row' },
+                          alignItems: 'center',
+                        }}
+                      >
+                        <CallsActionDropdown
+                          isActionsDisabled={selectedRow?.length === 0}
+                          anchorEl={anchorEl}
+                          actionMenuOpen={actionMenuOpen}
+                          handleActionsMenuClick={handleActionsMenuClick}
+                          handleActionsMenuClose={handleActionsMenuClose}
+                          handleOpenDrawerEditCall={handleOpenDrawerEditCall}
+                          disabledMenuItem={selectedRow?.length > 1}
+                          handleOpenModalDelete={handleOpenModalDelete}
+                          handleOpenReschedule={handleOpenModalReschedule}
+                          handleOpenOutcome={handleOpenModalOutcome}
+                        />
+                        <Button
+                          variant="contained"
+                          sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                          onClick={handleOpenDrawerAddCall}
+                          startIcon={<PlusIcon />}
+                        >
+                          Add Calls
+                        </Button>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
+                    <TanstackTable
+                      columns={callsTableColumns}
+                      data={dataGetCalls?.data?.contactcalls}
+                      isLoading={fetchingGetCalls}
+                      currentPage={dataGetCalls?.data?.meta?.page}
+                      count={dataGetCalls?.data?.meta?.pages}
+                      pageLimit={dataGetCalls?.data?.meta?.limit}
+                      totalRecords={dataGetCalls?.data?.meta?.total}
+                      setPage={setPage}
+                      setPageLimit={setPageLimit}
+                      onPageChange={(page: any) => setPage(page)}
+                      isPagination={true}
+                    />
+                  </Grid>
+                </>
+              )}
             </Grid>
-            {isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
-              <Grid item xs={12}>
-                <Box sx={styles?.noCallsBox}>
-                  <ViewCallIcon />
-                  <Typography
-                    variant="body3"
-                    sx={{ color: theme?.palette?.grey[900] }}
-                  >
-                    Schedule a call right now from the CRM
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    sx={{ height: '35px' }}
-                    onClick={handleOpenDrawerAddCall}
-                  >
-                    <PlusSharedIcon /> Add Calls
-                  </Button>
-                </Box>
-              </Grid>
-            )}
-            {!isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
-              <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
-                <TanstackTable
-                  columns={callsTableColumns}
-                  data={dataGetCalls?.data?.contactcalls}
-                  isLoading={loadingGetCalls}
-                  isPagination={true}
-                  count={dataGetCalls?.data?.meta?.pages}
-                  totalRecords={dataGetCalls?.data?.meta?.total}
-                  onPageChange={handlePageChange}
-                  setPage={setPage}
-                  setPageLimit={setPageLimit}
-                />
-              </Grid>
-            )}
-          </Grid>
+          )}
         </Box>
 
         <AddCall

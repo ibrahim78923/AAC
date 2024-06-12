@@ -46,11 +46,11 @@ const useForms = () => {
     searchPayLoad = { search: searchValue };
   }
 
-  const defaultTabValue: any = tabsArray[0];
+  const defaultTabValue: any = tabsArray[0].value;
   const [tabValue, setTabValue] = useState(defaultTabValue);
+
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
-
     const filterPayload: any = {};
     if (newValue === defaultTabValue) {
       filterPayload.status = undefined;

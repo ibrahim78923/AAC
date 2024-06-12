@@ -1,6 +1,13 @@
 import Image from 'next/image';
 
-import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Grid,
+  Skeleton,
+  Typography,
+} from '@mui/material';
 
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
@@ -12,7 +19,7 @@ import { isNullOrEmpty } from '@/utils';
 
 import { styles } from '../ViewDetails.style';
 
-import { MessageIcon, PlusSharedIcon } from '@/assets/icons';
+import { MessageIcon, PlusIcon } from '@/assets/icons';
 
 import AddNote from './AddNote';
 import { IMG_URL } from '@/config';
@@ -21,9 +28,9 @@ import ViewNote from './ViewNote';
 import EditNote from './EditNote';
 import { AlertModals } from '@/components/AlertModals';
 import { DATE_TIME_FORMAT } from '@/constants';
-import Loader from '@/components/Loader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
+import { v4 as uuidv4 } from 'uuid';
 
 const Notes = ({ contactId }: any) => {
   const {
@@ -58,7 +65,7 @@ const Notes = ({ contactId }: any) => {
     handleDeleteSubmit,
     loadingDelete,
   } = useNotes();
-
+  const loading = loadingGetNotes || fetchingGetNotes;
   const { theme } = useNameWithStyledWords();
 
   return (
@@ -99,14 +106,51 @@ const Notes = ({ contactId }: any) => {
                         variant="contained"
                         className="small"
                         onClick={handleOpenDrawerAddNote}
+                        startIcon={<PlusIcon />}
                       >
-                        <PlusSharedIcon /> Add Notes
+                        Add Notes
                       </Button>
                     </PermissionsGuard>
                   </Box>
                 )}
               </Box>
-              {dataGetNotes?.data?.contactnotes?.length !== 0 ? (
+              {loading &&
+                Array.from(new Array(3)).map(() => (
+                  <Skeleton
+                    sx={{ mb: '10px' }}
+                    key={uuidv4()}
+                    variant="rounded"
+                    animation="wave"
+                    width="100%"
+                    height={136}
+                  />
+                ))}
+              {!loading && dataGetNotes?.data?.contactnotes?.length === 0 && (
+                <Box
+                  sx={{
+                    height: '35vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 1.5,
+                  }}
+                >
+                  <MessageIcon />
+                  <Typography variant="body3">
+                    There are no notes available{' '}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{ height: '35px' }}
+                    startIcon={<PlusIcon />}
+                  >
+                    Add Notes
+                  </Button>
+                </Box>
+              )}
+              {!loading &&
+                dataGetNotes?.data?.contactnotes?.length !== 0 &&
                 dataGetNotes?.data?.contactnotes?.map((note: any) => (
                   <Grid
                     container
@@ -196,30 +240,9 @@ const Notes = ({ contactId }: any) => {
                       </Typography>
                     </Grid>
                   </Grid>
-                ))
-              ) : (
-                <Box
-                  sx={{
-                    height: '35vh',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 1.5,
-                  }}
-                >
-                  <MessageIcon />
-                  <Typography variant="body3">
-                    There are no notes available{' '}
-                  </Typography>
-                  <Button variant="contained" sx={{ height: '35px' }}>
-                    <PlusSharedIcon /> Add Notes
-                  </Button>
-                </Box>
-              )}
+                ))}
             </Grid>
           </Grid>
-          <Loader isLoading={loadingGetNotes || fetchingGetNotes} />
         </Box>
 
         <AddNote
