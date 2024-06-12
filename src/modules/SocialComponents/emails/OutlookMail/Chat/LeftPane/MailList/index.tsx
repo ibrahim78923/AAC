@@ -67,7 +67,6 @@ const MailList = ({
   const handleSelectAll = () => {
     const totalEmails = emailsByFolderIdData?.data?.length || 0;
     const selectedCount = selectedRecords?.length;
-
     if (selectedCount === totalEmails) {
       dispatch(setSelectedRecords([]));
     } else {
@@ -180,7 +179,9 @@ const MailList = ({
             fontWeight: '400',
             textDecoration: 'underline',
           }}
-          onClick={() => refetch()}
+          onClick={() => {
+            refetch();
+          }}
         >
           Refresh
         </Button>
@@ -329,14 +330,20 @@ const MailList = ({
                     )}
                   </>
                 )}
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <CircularProgress size={30} />
-                </Box>
+                {breakScrollOperation === false && (
+                  <>
+                    {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING && (
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <CircularProgress size={30} />
+                      </Box>
+                    )}
+                  </>
+                )}
               </>
             )}
           </>

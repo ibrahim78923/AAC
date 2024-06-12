@@ -4,6 +4,7 @@ import {
   Button,
   CircularProgress,
   IconButton,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -14,17 +15,13 @@ import {
   MailColoredIcon,
   ProfileCircleIcon,
   ReplyAllIcon,
-  SettingsIcon,
 } from '@/assets/icons';
 import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './RightPane.styles';
 import SendEmailDrawer from '../../SendEmail';
-import EmailSettingDrawer from '../../EmailSettingDrawer';
 import { API_STATUS, CREATE_EMAIL_TYPES, EMAIL_TABS_TYPES } from '@/constants';
-// import { useGetMessageDetailsQuery } from '@/services/commonFeatures/email/others';
 import { useAppSelector } from '@/redux/store';
-// import { UnixDateFormatter } from '@/utils/dateTime';
 import { useDispatch } from 'react-redux';
 import {
   setCurrentEmailAssets,
@@ -32,9 +29,19 @@ import {
 } from '@/redux/slices/email/outlook/slice';
 import Draft from './Draft';
 import { useGetMailDetailsOutlookQuery } from '@/services/commonFeatures/email/outlook';
+import UserDetailsDrawer from '../../UserDetailsDrawer';
+import { END_POINTS } from '@/routesConstants/endpoints';
+import { useRouter } from 'next/router';
+import { HomeRounded } from '@mui/icons-material';
 
-const RightPane = () => {
+const RightPane = ({
+  isOpenSendEmailDrawer,
+  setIsOpenSendEmailDrawer,
+  mailType,
+  setMailType,
+}: any) => {
   const theme = useTheme();
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -42,10 +49,8 @@ const RightPane = () => {
     (state: any) => state?.outlook?.mailTabType,
   );
 
-  const [isOpenSendEmailDrawer, setIsOpenSendEmailDrawer] = useState(false);
-  const [isEmailSettingsDrawerOpen, setIsEmailSettingsDrawerOpen] =
-    useState(false);
-  const [mailType, setMailType] = useState('');
+  const [isUserDetailDrawerOpen, setIsUserDetailDrawerOpen] = useState(false);
+
   const [searchValue, setSearchValue] = useState<any>('');
   const [isMessageDetailsRequest, setIsMessageDetailsRequest] = useState(true);
 
@@ -113,10 +118,10 @@ const RightPane = () => {
             variant="outlined"
             sx={{ height: '33px' }}
             color="inherit"
-            startIcon={<SettingsIcon />}
-            onClick={() => setIsEmailSettingsDrawerOpen(true)}
+            startIcon={<HomeRounded />}
+            onClick={() => router.push(END_POINTS?.EMAIL_VIEW)}
           >
-            Email Settings
+            Back to Emails
           </Button>
           <Button
             variant="contained"
@@ -194,7 +199,11 @@ const RightPane = () => {
                       {sortedMessagesDataArray?.length > 0 ? (
                         sortedMessagesDataArray?.map((obj: any) => (
                           <Box key={uuidv4()} sx={styles?.rightSideCard}>
-                            {obj?.userImg || <ProfileCircleIcon />}
+                            <Box
+                              onClick={() => setIsUserDetailDrawerOpen(true)}
+                            >
+                              {obj?.userImg || <ProfileCircleIcon />}
+                            </Box>
                             <Box flex={1}>
                               <Box sx={styles?.emailWrap}>
                                 <Box flex={1} sx={{ cursor: 'pointer' }}>
@@ -222,93 +231,116 @@ const RightPane = () => {
                                   >
                                     {obj?.createdDateTime}
                                   </Typography>
-                                  <IconButton
-                                    size="small"
-                                    onClick={() => {
-                                      setIsOpenSendEmailDrawer(true);
-                                      setMailType(
-                                        CREATE_EMAIL_TYPES?.REPLY_ALL,
-                                      );
-                                      dispatch(
-                                        setCurrentEmailAssets({
-                                          messageId: obj?.messageId,
-                                          id: obj?.id,
-                                          from:
-                                            obj?.from?.emailAddress?.address ===
-                                            loggedInState
-                                              ? obj?.toRecipients.map(
-                                                  (item: any) =>
-                                                    item?.emailAddress?.address,
-                                                )
-                                              : obj?.from?.emailAddress
-                                                  ?.address,
-                                          others: {
-                                            from: `${obj?.from[0]?.name} ${'<'}
+                                  <Tooltip
+                                    placement="top"
+                                    arrow
+                                    title={'Reply All'}
+                                  >
+                                    <IconButton
+                                      size="small"
+                                      onClick={() => {
+                                        setIsOpenSendEmailDrawer(true);
+                                        setMailType(
+                                          CREATE_EMAIL_TYPES?.REPLY_ALL,
+                                        );
+                                        dispatch(
+                                          setCurrentEmailAssets({
+                                            messageId: obj?.messageId,
+                                            id: obj?.id,
+                                            from:
+                                              obj?.from?.emailAddress
+                                                ?.address === loggedInState
+                                                ? obj?.toRecipients.map(
+                                                    (item: any) =>
+                                                      item?.emailAddress
+                                                        ?.address,
+                                                  )
+                                                : obj?.from?.emailAddress
+                                                    ?.address,
+                                            others: {
+                                              from: `${obj?.from[0]?.name} ${'<'}
                                                 ${obj?.from[0]?.email}
                                                 ${'>'}`,
-                                            sent: obj?.date,
-                                            to: `<>`,
-                                            subject: obj?.subject,
-                                            body: '',
-                                          },
-                                        }),
-                                      );
-                                    }}
+                                              sent: obj?.date,
+                                              to: `<>`,
+                                              subject: obj?.subject,
+                                              body: '',
+                                            },
+                                          }),
+                                        );
+                                      }}
+                                    >
+                                      <ReplyAllIcon />
+                                    </IconButton>
+                                  </Tooltip>
+
+                                  <Tooltip
+                                    placement="top"
+                                    arrow
+                                    title={'Reply'}
                                   >
-                                    <ReplyAllIcon />
-                                  </IconButton>
-                                  <IconButton
-                                    size="small"
-                                    onClick={() => {
-                                      setIsOpenSendEmailDrawer(true);
-                                      setMailType(CREATE_EMAIL_TYPES?.REPLY);
-                                      dispatch(
-                                        setCurrentEmailAssets({
-                                          messageId: obj?.id,
-                                          id: obj?.id,
-                                          from: obj?.from?.emailAddress
-                                            ?.address,
-                                          others: {
-                                            from: `${obj?.from?.emailAddress?.name} ${'<'}
+                                    <IconButton
+                                      size="small"
+                                      onClick={() => {
+                                        setIsOpenSendEmailDrawer(true);
+                                        setMailType(CREATE_EMAIL_TYPES?.REPLY);
+                                        dispatch(
+                                          setCurrentEmailAssets({
+                                            messageId: obj?.id,
+                                            id: obj?.id,
+                                            from: obj?.from?.emailAddress
+                                              ?.address,
+                                            others: {
+                                              from: `${obj?.from?.emailAddress?.name} ${'<'}
                                                  ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
-                                            sent: obj?.createdDateTime,
-                                            to: `<>`,
-                                            subject: obj?.subject,
-                                            body: '',
-                                          },
-                                        }),
-                                      );
-                                    }}
+                                              sent: obj?.createdDateTime,
+                                              to: `<>`,
+                                              subject: obj?.subject,
+                                              body: '',
+                                            },
+                                          }),
+                                        );
+                                      }}
+                                    >
+                                      <EmailReplyIcon />
+                                    </IconButton>
+                                  </Tooltip>
+
+                                  <Tooltip
+                                    placement="top"
+                                    arrow
+                                    title={'Forward'}
                                   >
-                                    <EmailReplyIcon />
-                                  </IconButton>
-                                  <IconButton
-                                    size="small"
-                                    onClick={() => {
-                                      setIsOpenSendEmailDrawer(true);
-                                      setMailType(CREATE_EMAIL_TYPES?.FORWARD);
-                                      dispatch(
-                                        setCurrentEmailAssets({
-                                          messageId: obj?.id,
-                                          id: obj?.id,
-                                          from: obj?.from?.emailAddress
-                                            ?.address,
-                                          others: {
-                                            from: `${obj?.from?.emailAddress?.name} ${'<'}
+                                    <IconButton
+                                      size="small"
+                                      onClick={() => {
+                                        setIsOpenSendEmailDrawer(true);
+                                        setMailType(
+                                          CREATE_EMAIL_TYPES?.FORWARD,
+                                        );
+                                        dispatch(
+                                          setCurrentEmailAssets({
+                                            messageId: obj?.id,
+                                            id: obj?.id,
+                                            from: obj?.from?.emailAddress
+                                              ?.address,
+                                            others: {
+                                              from: `${obj?.from?.emailAddress?.name} ${'<'}
                                                  ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
-                                            sent: obj?.createdDateTime,
-                                            to: `<>`,
-                                            subject: obj?.subject,
-                                            body: obj?.body?.content,
-                                          },
-                                        }),
-                                      );
-                                    }}
-                                  >
-                                    <ForwardIcon />
-                                  </IconButton>
+                                              sent: obj?.createdDateTime,
+                                              to: `<>`,
+                                              subject: obj?.subject,
+                                              body: obj?.body?.content,
+                                            },
+                                          }),
+                                        );
+                                      }}
+                                    >
+                                      <ForwardIcon />
+                                    </IconButton>
+                                  </Tooltip>
                                 </Box>
                               </Box>
                               <Box
@@ -423,9 +455,11 @@ const RightPane = () => {
         drawerType={mailType}
         setMailType={setMailType}
       />
-      <EmailSettingDrawer
-        isOpenDrawer={isEmailSettingsDrawerOpen}
-        setIsOpenDrawer={setIsEmailSettingsDrawerOpen}
+
+      <UserDetailsDrawer
+        isOpenDrawer={isUserDetailDrawerOpen}
+        setIsOpenDrawer={setIsUserDetailDrawerOpen}
+        isUserDetail={{}}
       />
     </Box>
   );

@@ -33,7 +33,12 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 
-const LeftPane = () => {
+const LeftPane = ({
+  isOpenSendEmailDrawer,
+  setIsOpenSendEmailDrawer,
+  mailType,
+  setMailType,
+}: any) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -163,7 +168,13 @@ const LeftPane = () => {
           >
             Filter
           </Button>
-          <ActionBtn filteredData={filteredData} />
+          <ActionBtn
+            sortedData={sortedData}
+            mailType={mailType}
+            setMailType={setMailType}
+            setIsOpenSendEmailDrawer={setIsOpenSendEmailDrawer}
+            isOpenSendEmailDrawer={isOpenSendEmailDrawer}
+          />
         </Box>
       </Box>
       {isLoading ? (
@@ -226,6 +237,7 @@ const LeftPane = () => {
         refetch={refetch}
         mailTabType={mailTabType}
         trackRenders={trackRenders}
+        setTrackRenders={setTrackRenders}
       />
 
       <CommonDrawer

@@ -6,22 +6,32 @@ import {
   MenuItem,
   Typography,
   TextField,
+  Menu,
+  CircularProgress,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CommonModal from '@/components/CommonModal';
 import { useAppSelector } from '@/redux/store';
-import { OUTLOOK_EMAIL_TABS_TYPES } from '@/constants';
+import { CREATE_EMAIL_TYPES, OUTLOOK_EMAIL_TABS_TYPES } from '@/constants';
 import { AlertModals } from '@/components/AlertModals';
 import { WarningIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
-import { useDeleteEmailOutlookMutation } from '@/services/commonFeatures/email/outlook';
+import {
+  useDeleteEmailOutlookMutation,
+  usePatchOutlookMoveToFolderMutation,
+} from '@/services/commonFeatures/email/outlook';
 import { useDispatch } from 'react-redux';
 import {
   setActiveRecord,
+  setCurrentEmailAssets,
   setSelectedRecords,
 } from '@/redux/slices/email/outlook/slice';
 
-const ActionBtn = ({}: any) => {
+const ActionBtn = ({
+  sortedData,
+  setIsOpenSendEmailDrawer,
+  setMailType,
+}: any) => {
   const dispatch = useDispatch();
   const mailTabType: any = useAppSelector(
     (state: any) => state?.outlook?.mailTabType,
@@ -29,6 +39,10 @@ const ActionBtn = ({}: any) => {
   const selectedRecords: any = useAppSelector(
     (state: any) => state?.outlook?.selectedRecords,
   );
+  const activeRecord: any = useAppSelector(
+    (state: any) => state?.outlook?.activeRecord,
+  );
+
   const tabName = mailTabType?.displayName?.toLowerCase();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -39,6 +53,8 @@ const ActionBtn = ({}: any) => {
   const [isRestoreEmail, setIsRestoreEmail] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  const [mailFolderActiveId, setMailFolderActiveId] = useState<any>();
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
@@ -48,6 +64,8 @@ const ActionBtn = ({}: any) => {
 
   const [deleteEmailOutlook, { isLoading: loadingRestore }] =
     useDeleteEmailOutlookMutation();
+  const [outlookMoveToFolderMutation, { isLoading: loadingMove }] =
+    usePatchOutlookMoveToFolderMutation();
 
   const handelRestore = async () => {};
 
@@ -71,6 +89,62 @@ const ActionBtn = ({}: any) => {
     }
   };
 
+  const handelActionReply = () => {
+    handleClose();
+    setIsOpenSendEmailDrawer(true);
+    setMailType(CREATE_EMAIL_TYPES?.REPLY);
+    dispatch(
+      setCurrentEmailAssets({
+        messageId: activeRecord?.id,
+        id: activeRecord?.id,
+        from: activeRecord?.from?.emailAddress?.address,
+        others: {
+          // from: `${obj?.from?.emailAddress?.name} ${'<'}
+          //                                        ${obj?.from?.emailAddress?.address}
+          //                                        ${'>'}`,
+          // sent: obj?.createdDateTime,
+          // to: `<>`,
+          subject: activeRecord?.subject,
+          body: '',
+        },
+      }),
+    );
+  };
+
+  const [anchorElSubMenu, setAnchorElSubMenu] = useState<null | HTMLElement>(
+    null,
+  );
+  const openSubMenu = Boolean(anchorElSubMenu);
+  const handleClickSubMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorElSubMenu(event.currentTarget);
+  };
+  const handleCloseSubMenu = () => {
+    setAnchorElSubMenu(null);
+  };
+
+  const handelMoveToFolder = async () => {
+    try {
+      await outlookMoveToFolderMutation({
+        body: {
+          mailIds:
+            selectedRecords &&
+            selectedRecords?.map((message: any) => message?.id),
+          folderId: mailFolderActiveId,
+        },
+      })?.unwrap();
+      enqueueSnackbar('Mail successfully move ', {
+        variant: 'success',
+      });
+      dispatch(setSelectedRecords([]));
+      dispatch(setActiveRecord({}));
+      handleCloseSubMenu();
+      handleClose();
+      setMailFolderActiveId('');
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
   return (
     <>
       <Button
@@ -79,7 +153,6 @@ const ActionBtn = ({}: any) => {
         onClick={handleClick}
         disabled={selectedRecords?.length === 0 ? true : false}
         classes={{ outlined: 'outlined_btn' }}
-        // sx={styles(theme, selectedRecords?.length > 1)}
         style={{ height: '36px' }}
         color="inherit"
       >
@@ -110,7 +183,13 @@ const ActionBtn = ({}: any) => {
             >
               Link to deal
             </MenuItem>
-            <MenuItem disabled={selectedRecords?.length > 1}> Reply </MenuItem>
+            <MenuItem
+              disabled={selectedRecords?.length > 1}
+              onClick={handelActionReply}
+            >
+              {' '}
+              Reply{' '}
+            </MenuItem>
             <MenuItem disabled={selectedRecords?.length > 1}>
               {' '}
               Forward{' '}
@@ -127,7 +206,17 @@ const ActionBtn = ({}: any) => {
           Delete{' '}
         </MenuItem>
         {tabName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH?.toLowerCase() && (
-          <MenuItem onClick={() => setIsRestoreEmail(true)}> Restore </MenuItem>
+          <MenuItem
+            id="basic-button"
+            aria-controls={openSubMenu ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={openSubMenu ? 'true' : undefined}
+            onClick={handleClickSubMenu}
+            component="button"
+          >
+            {' '}
+            Move to{' '}
+          </MenuItem>
         )}
       </Popover>
 
@@ -142,6 +231,45 @@ const ActionBtn = ({}: any) => {
         <Typography>Deal</Typography>
         <TextField placeholder="Search Deal" fullWidth size="small" />
       </CommonModal>
+
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorElSubMenu}
+        open={openSubMenu}
+        onClose={handleCloseSubMenu}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        {sortedData?.map((item: any) => (
+          <>
+            {item && item?.displayName !== OUTLOOK_EMAIL_TABS_TYPES?.TRASH && (
+              <>
+                <MenuItem
+                  sx={{ display: 'flex', gap: '10px' }}
+                  key={item?.id}
+                  onClick={() => {
+                    handelMoveToFolder(), setMailFolderActiveId(item?.id);
+                  }}
+                >
+                  {mailFolderActiveId === item?.id && (
+                    <>{loadingMove && <CircularProgress size={15} />}</>
+                  )}
+                  {item?.displayName}
+                </MenuItem>
+              </>
+            )}
+          </>
+        ))}
+      </Menu>
+
+      {/* <MenuItem onClick={handelMoveToFolder}>Inbox</MenuItem>
+        <MenuItem onClick={handelMoveToFolder}>Sent</MenuItem>
+        <MenuItem onClick={handelMoveToFolder}>Drafts</MenuItem> */}
 
       <AlertModals
         type={'Restore'}

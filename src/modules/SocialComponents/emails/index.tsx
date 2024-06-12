@@ -16,7 +16,6 @@ import {
 } from '@/assets/icons';
 import { OthersMail } from '@/assets/images';
 import Image from 'next/image';
-import EmailSettingDrawer from './OthersMail/EmailSettingDrawer';
 import OtherMailDrawer from './OthersMail/OtherMailDrawer';
 import { useGetMailFoldersQuery } from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
@@ -31,6 +30,7 @@ import {
   useGetAuthURLGmailQuery,
   useGetGmailFoldersQuery,
 } from '@/services/commonFeatures/email/gmail';
+import EmailSettingDrawer from './EmailSettingDrawer';
 
 const Email = () => {
   const theme = useTheme();

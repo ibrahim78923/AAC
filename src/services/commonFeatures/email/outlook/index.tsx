@@ -137,6 +137,16 @@ export const outlookApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG_UPDATE_EMAIL,
     }),
+    patchOutlookMoveToFolder: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.MOVE_TO_FOLDER_EMAIL}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG_UPDATE_EMAIL,
+    }),
   }),
 });
 
@@ -152,4 +162,5 @@ export const {
   usePostReplyEmailOutlookMutation,
   useForwardEmailOutlookMutation,
   usePatchOutlookEmailMessageMutation,
+  usePatchOutlookMoveToFolderMutation,
 } = outlookApi;

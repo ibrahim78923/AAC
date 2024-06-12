@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import LeftPane from './LeftPane';
 import RightPane from './RightPane';
@@ -8,6 +8,10 @@ import { useGetMailFoldersOutlookQuery } from '@/services/commonFeatures/email/o
 
 const EmailChat = () => {
   const dispatch = useDispatch();
+
+  const [isOpenSendEmailDrawer, setIsOpenSendEmailDrawer] = useState(false);
+  const [mailType, setMailType] = useState('');
+
   const { data: foldersData } = useGetMailFoldersOutlookQuery({});
   const result = foldersData?.data?.find((item: any) => {
     return item?.displayName?.toLowerCase() === 'inbox';
@@ -23,10 +27,20 @@ const EmailChat = () => {
     <>
       <Grid container spacing={2}>
         <Grid item md={4} xs={12}>
-          <LeftPane />
+          <LeftPane
+            setIsOpenSendEmailDrawer={setIsOpenSendEmailDrawer}
+            isOpenSendEmailDrawer={isOpenSendEmailDrawer}
+            mailType={mailType}
+            setMailType={setMailType}
+          />
         </Grid>
         <Grid item md={8} xs={12}>
-          <RightPane />
+          <RightPane
+            setIsOpenSendEmailDrawer={setIsOpenSendEmailDrawer}
+            isOpenSendEmailDrawer={isOpenSendEmailDrawer}
+            mailType={mailType}
+            setMailType={setMailType}
+          />
         </Grid>
       </Grid>
     </>
