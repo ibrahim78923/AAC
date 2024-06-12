@@ -9,7 +9,7 @@ import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-k
 import useContactsSaleSite from '../useContactsSaleSite';
 import ImportContactDrawer from '../ImportContactDrawer';
 
-const ContactsHeader = () => {
+const ContactsHeader = ({ handleRefresh }: any) => {
   const { isCreateDeal, handleCreateDealOpen } = useContactsHeader();
   const { isImportDrawer, setIsImportDrawer } = useContactsSaleSite();
 
@@ -53,7 +53,12 @@ const ContactsHeader = () => {
         </Box>
       </Box>
 
-      <CreateContacts open={isCreateDeal} onClose={handleCreateDealOpen} />
+      <CreateContacts
+        open={isCreateDeal}
+        onClose={handleCreateDealOpen}
+        handleRefresh={handleRefresh}
+      />
+
       {isImportDrawer && (
         <ImportContactDrawer
           open={isImportDrawer}

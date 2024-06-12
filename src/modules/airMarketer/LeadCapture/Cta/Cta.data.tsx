@@ -142,7 +142,7 @@ export const exportData = [
 export const DRAWER_TITLE = {
   create: 'Create',
   edit: 'Edit',
-  view: 'view',
+  view: 'View',
 };
 
 export const BUTTON_TYPE = {

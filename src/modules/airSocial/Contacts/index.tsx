@@ -28,6 +28,7 @@ const Contacts = () => {
     setPage,
     setPageLimit,
     handleRefresh,
+    handleSetTabAllContacts,
     handleFiltersSubmit,
     setSearchValue,
     methodsFilter,
@@ -75,7 +76,7 @@ const Contacts = () => {
       <Box>
         <ContactsGroup />
 
-        <ContactsHeader />
+        <ContactsHeader handleRefresh={handleSetTabAllContacts} />
 
         <ContactTabs
           tabsArray={tabsArray}

@@ -117,7 +117,7 @@ const getMarPad = (value: string) => {
       }
     });
   } else {
-    str = '0';
+    str = '';
   }
   return str;
 };
@@ -143,7 +143,7 @@ const useCta = () => {
     useUpdateLeadCaptureCTAMutation();
 
   const methodsEditCTA = useForm({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver<any>(validationSchema),
     defaultValues: ctaDefaultValues,
   });
 
@@ -179,6 +179,10 @@ const useCta = () => {
         const [property, value] = style.split(':');
         stylesObject[property] = value;
       });
+      const paddingValue =
+        stylesObject.padding === '0' ? null : stylesObject?.padding;
+      const marginValue =
+        stylesObject.margin === '0' ? null : stylesObject?.margin;
 
       let imgWidth;
       let imgHeight;
@@ -189,6 +193,7 @@ const useCta = () => {
         imgHeight = imgElem.height;
         imgAlt = imgElem.alt;
       }
+
       if (isImage) {
         methodsEditCTA.setValue('imageWidth', imgWidth || null);
         methodsEditCTA.setValue('imageHeight', imgHeight || null);
@@ -201,8 +206,8 @@ const useCta = () => {
       methodsEditCTA.setValue('buttonStyle', data?.buttonStyle);
       methodsEditCTA.setValue('buttonColor', data?.buttonColor);
       methodsEditCTA.setValue('buttonSize', data?.buttonSize);
-      methodsEditCTA.setValue('buttonPadding', stylesObject?.padding || null);
-      methodsEditCTA.setValue('buttonMargin', stylesObject?.margin || null);
+      methodsEditCTA.setValue('buttonPadding', paddingValue || null);
+      methodsEditCTA.setValue('buttonMargin', marginValue || null);
     }
     setOpenDrawer(true);
   };
@@ -324,23 +329,6 @@ const useCta = () => {
           });
         }
       } else {
-        const formData = new FormData();
-        if (drawerFormValues?.buttonContent instanceof File) {
-          formData.append('buttonImage', drawerFormValues.buttonContent);
-        }
-        if (
-          drawerFormValues?.ctaInternalName !== ctaButtonData?.ctaInternalName
-        ) {
-          formData.append('ctaInternalName', drawerFormValues?.ctaInternalName);
-        }
-        if (
-          drawerFormValues?.urlRedirectType !== ctaButtonData?.urlRedirectType
-        ) {
-          formData.append('urlRedirectType', drawerFormValues?.urlRedirectType);
-        }
-        if (drawerFormValues?.url !== ctaButtonData?.url) {
-          formData.append('url', drawerFormValues?.url);
-        }
         try {
           await updateCTA({ id: ctaButtonData?._id, body: formData })?.unwrap();
           await handleDrawerClose();
@@ -395,10 +383,8 @@ const useCta = () => {
   };
 
   const handleDeleteCTA = async () => {
-    // const items = await selectedRow?.join(',');
-    const id = await selectedRow[0];
     try {
-      await deleteCTA(id)?.unwrap();
+      await deleteCTA(selectedRow)?.unwrap();
       handleCloseModalDelete();
       setSelectedRow([]);
       enqueueSnackbar('Record has been deleted.', {

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import StepCustomizedButton from './StepCustomizedButton';
@@ -8,6 +8,7 @@ import StepImageButton from './StepImageButton';
 import { BUTTON_TYPE, DRAWER_TITLE } from '../Cta.data';
 
 const CtaEditorDrawer = (props: any) => {
+  const theme = useTheme();
   const {
     handleSwitchButtonType,
     toggleButtonType,
@@ -51,75 +52,88 @@ const CtaEditorDrawer = (props: any) => {
         isLoading={isLoading}
       >
         <Box sx={{ pt: 2 }}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              paddingBottom: '20px',
-            }}
-          >
-            <Box
-              sx={{
-                padding: '8px 11px',
-                borderRadius: '6px',
-                border: '1px solid  #F3F4F6',
-                background: '#F9FAFB',
-                boxShadow: '0px 9px 16px 0px rgba(245, 250, 255, 0.04)',
-              }}
-            >
-              {title === DRAWER_TITLE?.create && (
-                <>
-                  <Button
-                    onClick={handleSwitchButtonType}
-                    variant={toggleButtonType ? 'outlined' : 'text'}
-                    color={toggleButtonType ? 'primary' : 'inherit'}
-                    sx={{
-                      height: '25px',
-                      borderRadius: '10px',
-                      boxShadow: 'none',
-                    }}
-                  >
-                    <Typography variant="body3">Customized Button </Typography>
-                  </Button>
-                  <Button
-                    onClick={handleSwitchButtonType}
-                    variant={!toggleButtonType ? 'outlined' : 'text'}
-                    color={!toggleButtonType ? 'primary' : 'inherit'}
-                    sx={{
-                      height: '25px',
-                      borderRadius: '10px',
-                      boxShadow: 'none',
-                    }}
-                  >
-                    <Typography variant="body3"> Image Button</Typography>
-                  </Button>
-                </>
-              )}
-              {title === 'Edit' && (
-                <Button
-                  variant={'outlined'}
-                  color={'primary'}
+          {title === DRAWER_TITLE?.view ? (
+            <Button variant="outlined" fullWidth>
+              {' '}
+              New Call-To-Action
+            </Button>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  paddingBottom: '20px',
+                }}
+              >
+                <Box
                   sx={{
-                    height: '25px',
-                    borderRadius: '10px',
-                    boxShadow: 'none',
+                    padding: '8px 11px',
+                    borderRadius: '6px',
+                    border: `1px solid  ${theme?.palette?.grey[400]}`,
+                    backgroundColor: theme?.palette?.grey[100],
+                    boxShadow: '0px 9px 16px 0px rgba(245, 250, 255, 0.04)',
                   }}
                 >
-                  <Typography variant="body3">
-                    {ctaButtonData?.buttonType === BUTTON_TYPE?.image
-                      ? 'Image Button'
-                      : 'Customized Button'}
-                  </Typography>
-                </Button>
-              )}
-            </Box>
-          </Box>
+                  {title === DRAWER_TITLE?.create && (
+                    <>
+                      <Button
+                        onClick={handleSwitchButtonType}
+                        variant={toggleButtonType ? 'outlined' : 'text'}
+                        color={toggleButtonType ? 'primary' : 'inherit'}
+                        sx={{
+                          height: '25px',
+                          borderRadius: '10px',
+                          boxShadow: 'none',
+                        }}
+                        disabled={activeStep > 0}
+                      >
+                        <Typography variant="body3">
+                          Customized Button{' '}
+                        </Typography>
+                      </Button>
+                      <Button
+                        onClick={handleSwitchButtonType}
+                        variant={!toggleButtonType ? 'outlined' : 'text'}
+                        color={!toggleButtonType ? 'primary' : 'inherit'}
+                        sx={{
+                          height: '25px',
+                          borderRadius: '10px',
+                          boxShadow: 'none',
+                        }}
+                        disabled={activeStep > 0}
+                      >
+                        <Typography variant="body3"> Image Button</Typography>
+                      </Button>
+                    </>
+                  )}
+                  {title === DRAWER_TITLE?.edit && (
+                    <Button
+                      variant={'outlined'}
+                      color={'primary'}
+                      sx={{
+                        height: '25px',
+                        borderRadius: '10px',
+                        boxShadow: 'none',
+                      }}
+                    >
+                      <Typography variant="body3">
+                        {ctaButtonData?.buttonType === BUTTON_TYPE?.image
+                          ? 'Image Button'
+                          : 'Customized Button'}
+                      </Typography>
+                    </Button>
+                  )}
+                </Box>
+              </Box>
 
-          <FormProvider methods={methods}>
-            <Grid container spacing={'22px'}>
-              {steps[activeStep].component}
-            </Grid>
-          </FormProvider>
+              <FormProvider methods={methods}>
+                <Grid container spacing={'22px'}>
+                  {steps[activeStep].component}
+                </Grid>
+              </FormProvider>
+            </>
+          )}
         </Box>
       </CommonDrawer>
     </div>

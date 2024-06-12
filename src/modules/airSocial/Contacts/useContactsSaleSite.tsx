@@ -140,6 +140,11 @@ const useContactsSaleSite = () => {
     setFilterParams(filterPayload);
   };
 
+  const handleSetTabAllContacts = () => {
+    handleRefresh();
+    setTabValue('all');
+  };
+
   // Contact View
   const [isCreateViewOpen, setIsCreateViewOpen] = useState(false);
   const handleOpenCreateView = () => {
@@ -334,6 +339,7 @@ const useContactsSaleSite = () => {
     setPage,
     setPageLimit,
     handleRefresh,
+    handleSetTabAllContacts,
     handleFiltersSubmit,
     searchValue,
     setSearchValue,
