@@ -11,13 +11,16 @@ import { useRouter } from 'next/router';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
   useGetAssociateTicketsQuery,
+  usePostContactMutation,
   usePostRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useTheme } from '@mui/material';
 
 export default function useContacts({ setIsDrawerOpen }: any) {
   const router = useRouter();
+  const theme: any = useTheme();
 
   const [selected, setSelected] = useState([]);
   const [modalId, setModalId] = useState({
@@ -58,7 +61,10 @@ export default function useContacts({ setIsDrawerOpen }: any) {
       refetchOnMountOrArgChange: true,
     });
 
-  const associateContactsColumns = getAssociateContactsColumns({ setModalId });
+  const associateContactsColumns = getAssociateContactsColumns({
+    theme,
+    setModalId,
+  });
 
   const onClose = () => {
     setIsDrawerOpen(drawerInitialState);
@@ -68,8 +74,55 @@ export default function useContacts({ setIsDrawerOpen }: any) {
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
     usePostRemoveAssociateTicketsMutation();
 
-  const onSubmit = () => {
-    resetNewContact();
+  const [postContactTrigger, postContactStatus] = usePostContactMutation();
+
+  const onSubmit = async (data: any) => {
+    const body = new FormData();
+    Object.entries(data)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        switch (key) {
+          case 'dateOfBirth':
+          case 'dateOfJoining':
+            body.append(key, new Date(value).toISOString());
+            break;
+          case 'contactOwnerId':
+          case 'lifeCycleStageId':
+          case 'statusId':
+            body.append(key, value?._id);
+            break;
+          default:
+            body.append(key, value);
+            break;
+        }
+      }
+    });
+
+    try {
+      const res: any = await postContactTrigger(body)?.unwrap();
+      if (res) {
+        const body = {
+          recordId: ticketId,
+          recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
+          operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+          contactsIds: [res?.data?._id],
+        };
+        const postRemoveAssociateTicketsParameter = {
+          body,
+        };
+        try {
+          await postRemoveAssociateTicketsTrigger(
+            postRemoveAssociateTicketsParameter,
+          )?.unwrap();
+          successSnackbar('Contact(s) Associated Successfully!');
+          resetNewContact();
+          onClose?.();
+        } catch (error: any) {
+          errorSnackbar(error?.data?.message);
+        }
+      }
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   const submitHandler = async () => {
@@ -137,10 +190,12 @@ export default function useContacts({ setIsDrawerOpen }: any) {
     data,
     associateContactsColumns,
     modalId,
+    setModalId,
     onModalClose,
     removeTicketsAssociatesContacts,
     methodsNewContact,
     handleSubmit,
     onSubmit,
+    postContactStatus,
   };
 }

@@ -1,15 +1,8 @@
-import { getFormFields } from './NewContact.data';
 import { Grid } from '@mui/material';
-import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
-import useAuth from '@/hooks/useAuth';
+import useNewContact from './useNewContact';
 
 export default function NewContact() {
-  const { user }: any = useAuth();
-  const orgId = user?.organization?._id;
-
-  const contactOwner = useLazyGetOrganizationUsersQuery();
-
-  const formFields = getFormFields({ orgId, contactOwner });
+  const { formFields } = useNewContact();
 
   return (
     <Grid container spacing={2}>

@@ -10,6 +10,7 @@ import NewContact from './NewContact';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import useContacts from './useContacts';
+import ViewContact from './ViewContact';
 
 export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
   const {
@@ -27,11 +28,13 @@ export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
     data,
     associateContactsColumns,
     modalId,
+    setModalId,
     onModalClose,
     removeTicketsAssociatesContacts,
     methodsNewContact,
     handleSubmit,
     onSubmit,
+    postContactStatus,
   } = useContacts({ setIsDrawerOpen });
 
   return (
@@ -55,10 +58,14 @@ export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
           }}
           isDisabled={
             type === TYPE_VALUES?.NEW_CONTACT
-              ? postRemoveAssociateTicketsStatus?.isLoading
+              ? postRemoveAssociateTicketsStatus?.isLoading ||
+                postContactStatus?.isLoading
               : !selected?.length || postRemoveAssociateTicketsStatus?.isLoading
           }
-          isLoading={postRemoveAssociateTicketsStatus?.isLoading}
+          isLoading={
+            postRemoveAssociateTicketsStatus?.isLoading ||
+            postContactStatus?.isLoading
+          }
         >
           <FormProvider methods={methods}>
             <RHFRadioGroup
@@ -129,6 +136,10 @@ export default function Contacts({ isDrawerOpen, setIsDrawerOpen }: any) {
           loading={postRemoveAssociateTicketsStatus?.isLoading}
           disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
         />
+      )}
+
+      {modalId?.view && (
+        <ViewContact modalId={modalId} setModalId={setModalId} />
       )}
     </>
   );

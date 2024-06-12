@@ -74,7 +74,9 @@ export const useAddContactsColumns = ({
           </Typography>
         </Avatar>
         <Box display={'flex'} flexDirection={'column'}>
-          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+          <Typography variant="body2">
+            {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+          </Typography>
           {info?.getValue()?.email}
         </Box>
       </Box>

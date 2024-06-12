@@ -9,6 +9,7 @@ import {
   FormControlLabel,
 } from '@mui/material';
 import CustomLabel from '../CustomLabel';
+import { Fragment } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -36,9 +37,8 @@ export default function RHFRadioGroup({
               )}
               <RadioGroup {...field} row {...other}>
                 {options?.map((option: any) => (
-                  <>
+                  <Fragment key={option?.value}>
                     <FormControlLabel
-                      key={option?.value}
                       value={option?.value}
                       control={<Radio />}
                       label={option?.label}
@@ -46,7 +46,7 @@ export default function RHFRadioGroup({
                       sx={other?.optionSx}
                     />
                     {option?.value === field?.value ? option?.filter : ''}
-                  </>
+                  </Fragment>
                 ))}
               </RadioGroup>
             </Box>

@@ -1,10 +1,11 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
-import { fullName, truncateText } from '@/utils/avatarUtils';
-import { Box, Typography } from '@mui/material';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { Avatar, Box, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import * as Yup from 'yup';
+import { VALIDATION_CONSTANT } from '@/constants';
 
 export const validationSchema = Yup?.object()?.shape({
   email: Yup?.string()
@@ -16,13 +17,35 @@ export const validationSchema = Yup?.object()?.shape({
   lastName: Yup?.string()?.trim(),
   address: Yup?.string()?.trim(),
   dateOfBirth: Yup?.date()?.nullable(),
-  phoneNumber: Yup?.string()?.trim(),
-  whatsAppNumber: Yup?.string()?.trim(),
+  phoneNumber: Yup?.string()
+    ?.trim()
+    ?.test(
+      'is-valid-phone',
+      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+      function (value) {
+        if (value) {
+          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+        }
+        return true;
+      },
+    ),
+  whatsAppNumber: Yup?.string()
+    ?.trim()
+    ?.test(
+      'is-valid-phone',
+      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+      function (value) {
+        if (value) {
+          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+        }
+        return true;
+      },
+    ),
   jobTitle: Yup?.string()?.trim(),
   dateOfJoining: Yup?.date()?.nullable(),
   contactOwnerId: Yup?.mixed()?.nullable(),
-  lifeCycleStageId: Yup?.string()?.nullable(),
-  statusId: Yup?.string()?.nullable(),
+  lifeCycleStageId: Yup?.mixed()?.nullable(),
+  statusId: Yup?.mixed()?.nullable(),
 });
 
 export const defaultValues = {
@@ -46,7 +69,10 @@ export const TYPE_VALUES = {
   EXISTING_CONTACT: 'existingContact',
 };
 
-export const getAssociateContactsColumns: any = ({ setModalId }: any) => {
+export const getAssociateContactsColumns: any = ({
+  theme,
+  setModalId,
+}: any) => {
   return [
     {
       accessorFn: (row: any) => row?._id,
@@ -60,11 +86,27 @@ export const getAssociateContactsColumns: any = ({ setModalId }: any) => {
       header: 'Name',
       isSortable: true,
       cell: (info: any) => (
-        <Box display={'flex'} flexDirection={'column'}>
-          <Typography variant={'h6'} color={'secondary.main'}>
-            {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
-          </Typography>
-          {truncateText(info?.getValue()?.email)}
+        <Box display={'flex'} alignItems={'center'} gap={1}>
+          <Avatar
+            sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
+            src={generateImage(info?.getValue()?.createdBy?.avatar?.url)}
+          >
+            <Typography variant="body2" textTransform={'uppercase'}>
+              {fullNameInitial(
+                info?.getValue()?.firstName,
+                info?.getValue()?.lastName,
+              )}
+            </Typography>
+          </Avatar>
+          <Box display={'flex'} flexDirection={'column'}>
+            <Typography variant="body2">
+              {fullName(
+                info?.getValue()?.firstName,
+                info?.getValue()?.lastName,
+              )}
+            </Typography>
+            {info?.getValue()?.email}
+          </Box>
         </Box>
       ),
     },

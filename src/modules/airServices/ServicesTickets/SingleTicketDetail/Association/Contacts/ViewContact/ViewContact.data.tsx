@@ -1,9 +1,25 @@
 import {
   RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFDropZone,
   RHFTextField,
 } from '@/components/ReactHookForm';
+
+export const getDefaultValues = (data: any) => {
+  return {
+    email: data?.email ?? '',
+    firstName: data?.firstName ?? '',
+    lastName: data?.lastName ?? '',
+    address: data?.address ?? '',
+    dateOfBirth: new Date(data?.dateOfBirth) ?? null,
+    phoneNumber: data?.phoneNumber ?? '',
+    whatsAppNumber: data?.whatsAppNumber ?? '',
+    jobTitle: data?.jobTitle ?? '',
+    dateOfJoining: new Date(data?.dateOfJoining) ?? null,
+    contactOwnerId: data?.ownerData?.[0] ?? null,
+    lifeCycleStageId: data?.lifeCycleStageData?.[0] ?? null,
+    statusId: data?.statusData?.[0] ?? null,
+  };
+};
 
 export const getFormFields = ({
   orgId,
@@ -21,19 +37,7 @@ export const getFormFields = ({
     },
     component: RHFTextField,
   },
-  {
-    id: 2,
-    componentProps: {
-      name: 'profilePicture',
-      fullWidth: true,
-      fileType: 'PNG or JPG  (max 2.44 MB)',
-      maxSize: 1024 * 1024 * 2.44,
-      accept: {
-        'image/*': ['.png', '.jpg'],
-      },
-    },
-    component: RHFDropZone,
-  },
+  { id: 2 },
   {
     id: 3,
     componentProps: {

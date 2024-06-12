@@ -30,6 +30,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
         method: 'GET',
         params: postTicketsAssociatesAssetsParameter?.queryParams,
       }),
+      providesTags: [TAG],
     }),
 
     // Associate Purchase Order
@@ -39,6 +40,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
         method: 'GET',
         params: postTicketsAssociatesOrderParameter?.queryParams,
       }),
+      providesTags: [TAG],
     }),
 
     // Associate Deals
@@ -48,6 +50,7 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
         method: 'GET',
         params: postTicketsAssociatesDealsParameter?.queryParams,
       }),
+      providesTags: [TAG],
     }),
 
     // Associate Contacts
@@ -57,6 +60,54 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
         method: 'GET',
         params: postTicketsAssociatesContactsParameter?.queryParams,
       }),
+      providesTags: [TAG],
+    }),
+    getContactOwner: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${params?.id}/users`,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG],
+    }),
+    getLifeCycleStage: builder.query({
+      query: ({ params }) => ({
+        url: END_POINTS?.LIFECYCLE_STAGES,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.lifecycleStages;
+      },
+      providesTags: [TAG],
+    }),
+    getStatus: builder.query({
+      query: ({ params }) => ({
+        url: END_POINTS?.CONTACT_STATUS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.conatactStatus;
+      },
+      providesTags: [TAG],
+    }),
+    postContact: builder?.mutation({
+      query: (body: any) => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getContactById: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.CONTACTS}/${params?.id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
     }),
   }),
 });
@@ -68,4 +119,9 @@ export const {
   useGetAssociatesOrderQuery,
   useGetAssociatesDealsQuery,
   useGetAssociatesContactsQuery,
+  useLazyGetContactOwnerQuery,
+  useLazyGetLifeCycleStageQuery,
+  useLazyGetStatusQuery,
+  usePostContactMutation,
+  useGetContactByIdQuery,
 } = ticketsAssociationAPI;

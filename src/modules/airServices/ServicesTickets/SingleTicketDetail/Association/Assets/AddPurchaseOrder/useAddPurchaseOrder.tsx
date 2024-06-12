@@ -23,7 +23,7 @@ export default function useAddPurchaseOrder({ setSelected, selected }: any) {
   const addOrderColumns = getAddPurchaseOrderColumns({
     setSelected,
     selected,
-    associatesOrderList: data?.data?.inventories,
+    associatesOrderList: data?.data?.purchases,
   });
 
   return {
