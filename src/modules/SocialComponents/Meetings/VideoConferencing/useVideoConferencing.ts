@@ -2,50 +2,50 @@ import { CALENDAR_STATUS } from '@/constants/strings';
 import {
   useChangeStatusCalendarMutation,
   useDeleteCalendarMutation,
-  useGetGoogleCalendarAuthQuery,
+  useGetGoogleMeetAuthQuery,
   useGetMeetingsCalendarsListQuery,
-  useGetOfficeCalendarAuthQuery,
+  useGetMsTeamsAuthQuery,
 } from '@/services/commonFeatures/meetings/settings';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export const useCalendarIntegration = () => {
+export const useVideoConferencing = () => {
   const [switchLoading, setSwitchLoading] = useState<{
     [key: string]: boolean;
   }>({});
-  const [calendarListData, setCalendarListData] = useState<any[]>([]);
+  const [meetingsListData, setMeetingsListData] = useState<any[]>([]);
 
-  const { data: googleData }: any = useGetGoogleCalendarAuthQuery(null);
-  const googleAuth = googleData?.data;
+  const { data: googleMeet }: any = useGetGoogleMeetAuthQuery(null);
+  const googleMeetAuth = googleMeet?.data;
+  const handleGoogleMeetClick = () => {
+    if (googleMeetAuth) {
+      window?.open(googleMeetAuth, '_self');
+    }
+  };
 
-  const { data: officeData }: any = useGetOfficeCalendarAuthQuery(null);
-  const officeAuth = officeData?.data;
+  const { data: msTeams }: any = useGetMsTeamsAuthQuery(null);
+  const msTeamsAuth = msTeams?.data;
+  const handleMsTeamsClick = () => {
+    if (msTeamsAuth) {
+      window?.open(msTeamsAuth, '_self');
+    }
+  };
+  const params = {
+    settingType: 'CONFERENCING_TOOL',
+  };
 
-  const { data: calendarData }: any = useGetMeetingsCalendarsListQuery(null);
-
+  const { data: meetingsList }: any = useGetMeetingsCalendarsListQuery(params);
   useEffect(() => {
-    if (calendarData?.data) {
-      setCalendarListData(calendarData?.data);
+    if (meetingsList?.data) {
+      setMeetingsListData(meetingsList?.data);
     }
-  }, [calendarData]);
-
-  const handleGoogleClick = () => {
-    if (googleAuth) {
-      window?.open(googleAuth, '_self');
-    }
-  };
-
-  const handleOfficeClick = () => {
-    if (officeAuth) {
-      window?.open(officeAuth, '_self');
-    }
-  };
+  }, [meetingsList]);
 
   const [deleteTrigger] = useDeleteCalendarMutation();
   const handleDelete = async (calendarId: string) => {
     try {
       const response: any = await deleteTrigger({ id: calendarId })?.unwrap();
-      setCalendarListData(
+      setMeetingsListData(
         (prevData) =>
           prevData?.filter((calendar) => calendar?._id !== calendarId),
       );
@@ -60,8 +60,8 @@ export const useCalendarIntegration = () => {
   const [changeStatusTrigger] = useChangeStatusCalendarMutation();
 
   const handleChangeStatus = async (calendarId: string) => {
-    const calendarToChange = calendarListData?.find(
-      (calendar) => calendar?._id === calendarId,
+    const calendarToChange = meetingsListData?.find(
+      (calendar: any) => calendar?._id === calendarId,
     );
     const newStatus = calendarToChange?.isDefault
       ? CALENDAR_STATUS?.INACTIVE
@@ -73,7 +73,7 @@ export const useCalendarIntegration = () => {
     }));
 
     try {
-      for (const calendar of calendarListData) {
+      for (const calendar of meetingsListData) {
         if (calendar?._id !== calendarId && calendar?.isDefault) {
           await changeStatusTrigger({
             id: calendar?._id,
@@ -87,7 +87,7 @@ export const useCalendarIntegration = () => {
         body: { status: newStatus },
       })?.unwrap();
 
-      setCalendarListData(
+      setMeetingsListData(
         (prevState) =>
           prevState?.map((calendar) =>
             calendar?._id === calendarId
@@ -112,13 +112,11 @@ export const useCalendarIntegration = () => {
   };
 
   return {
-    handleGoogleClick,
-    handleOfficeClick,
-    calendarListData,
-    handleDelete,
+    handleGoogleMeetClick,
+    handleMsTeamsClick,
+    meetingsListData,
     switchLoading,
     handleChangeStatus,
-    googleAuth,
-    officeAuth,
+    handleDelete,
   };
 };

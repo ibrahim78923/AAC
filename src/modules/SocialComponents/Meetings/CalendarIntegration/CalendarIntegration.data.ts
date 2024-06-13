@@ -1,7 +1,7 @@
 import { GoogleCalenderIcon, OfficeCalenderIcon } from '@/assets/icons';
 
-export const GOOGLEACCOUNTS = 'google-accounts';
-export const MICROSOFTACCOUNTS = 'microsoft-accounts';
+export const GOOGLE_ACCOUNTS = 'google_calendar';
+export const MICROSOFT_ACCOUNTS = 'office_365_calendar';
 
 export const calendarServices = [
   {
@@ -20,17 +20,17 @@ export const calendarServices = [
   },
 ];
 
-export const calendarAccounts = [
+export const calendarAccounts = (account: any) => [
   {
     id: 11,
-    icon: GoogleCalenderIcon,
-    name: 'Google Calendar',
+    icon: account?.platform === GOOGLE_ACCOUNTS && GoogleCalenderIcon,
+    name: account?.platform === GOOGLE_ACCOUNTS && 'Google Calendar',
     email: 'Rabilibra275@gmail.com',
   },
   {
     id: 22,
-    icon: OfficeCalenderIcon,
-    name: 'Office 365 Calendar',
+    icon: account?.platform === MICROSOFT_ACCOUNTS && OfficeCalenderIcon,
+    name: account?.platform === MICROSOFT_ACCOUNTS && 'Office 365 Calendar',
     email: 'Rabilibra275@gmail.com',
   },
 ];

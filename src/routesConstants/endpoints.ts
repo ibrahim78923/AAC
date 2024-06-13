@@ -402,13 +402,16 @@ export const END_POINTS = {
   NEW_IMPORT_FILE: `/new-import-file/new-import-file`,
   SIGN_UP_LEADS: '/contact/signup-leads',
   GET_GOOGLE_CALENDAR: '/auth/google-calendar/authorize',
-  GET_CALENDARS: '/meeting-settings/calendars',
+  GET_CALENDARS: '/meeting-settings/list',
   CALENDARS_STATUS: '/meeting-settings',
   GET_MEETINGS_LOCATIONS: '/meeting-time-slots/get-meeting-loation',
   ADD_MEETINGS_LOCATIONS: '/meeting-time-slots/add-meeting-loation',
   UPDATE_MEETINGS_LOCATIONS: '/meeting-time-slots/edit-meeting-loation',
   DELETE_MEETINGS_LOCATIONS: '/meeting-time-slots/delete-meeting-loation',
   TIME_SLOTS: '/meeting-time-slots/add-time-slots',
+  GET_OFFICE_365_CALENDAR: '/auth/office365-calendar/authorize',
+  GET_MS_TEAMS: '/auth/msteams/authorize',
+  GET_GOOGLE_MEET: '/auth/google-meet/authorize',
 };
 
 export const LEAD_CAPTURE_FORM = {

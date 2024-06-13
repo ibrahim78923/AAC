@@ -33,7 +33,7 @@ export const Settings = () => {
         </Box>
         <Divider orientation="vertical" variant="fullWidth" flexItem />
         <Box flex={1} paddingX={2}>
-          {renderSettingsModule?.[activeModule]}
+          {renderSettingsModule?.[activeModule as any]}
         </Box>
       </Box>
     </>

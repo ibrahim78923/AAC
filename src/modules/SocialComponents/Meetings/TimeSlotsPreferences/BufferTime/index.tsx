@@ -2,9 +2,12 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { RHFAutocomplete } from '@/components/ReactHookForm';
 import { Box, Checkbox, Grid, Typography } from '@mui/material';
 import { bufferTime } from '../DateOverrides/DateOverrides.data';
+import { useBufferTime } from './useBufferTime';
 
 const BufferTime = (props: any) => {
   const { disabled, theme } = props;
+  const { beforeChecked, setBeforeChecked, afterChecked, setAfterChecked } =
+    useBufferTime(props);
   return (
     <>
       <Typography variant="h4">Set buffer time</Typography>
@@ -18,6 +21,8 @@ const BufferTime = (props: any) => {
               icon={<CheckboxIcon />}
               checkedIcon={<CheckboxCheckedIcon />}
               disabled={disabled}
+              checked={beforeChecked}
+              onChange={(e) => setBeforeChecked(e?.target?.checked)}
             />
             <Typography
               color={disabled === true ? theme?.palette?.grey?.[900] : ''}
@@ -27,11 +32,12 @@ const BufferTime = (props: any) => {
           </Box>
           <Box ml={1}>
             <RHFAutocomplete
-              name="beforeEvent"
+              name="bufferTime.bufferBefore"
               placeholder="Select"
               options={bufferTime}
               size="small"
-              disabled={disabled}
+              disabled={disabled || !beforeChecked}
+              getOptionLabel={(option: any) => option?.toString()}
             />
           </Box>
         </Grid>
@@ -41,6 +47,8 @@ const BufferTime = (props: any) => {
               icon={<CheckboxIcon />}
               checkedIcon={<CheckboxCheckedIcon />}
               disabled={disabled}
+              checked={afterChecked}
+              onChange={(e) => setAfterChecked(e?.target?.checked)}
             />
             <Typography
               color={disabled === true ? theme?.palette?.grey?.[900] : ''}
@@ -50,11 +58,11 @@ const BufferTime = (props: any) => {
           </Box>
           <Box ml={1}>
             <RHFAutocomplete
-              name="afterEvent"
+              name="bufferTime.bufferAfter"
               placeholder="Select"
               options={bufferTime}
               size="small"
-              disabled={disabled}
+              disabled={disabled || !afterChecked}
               getOptionLabel={(option: any) => option?.toString()}
             />
           </Box>

@@ -37,8 +37,10 @@ export const weeklyDaysSchemaFields: any = Yup?.object()?.shape({
       }),
     )
     ?.default([]),
-  beforeEvent: Yup?.mixed()?.nullable(),
-  afterEvent: Yup?.mixed()?.nullable(),
+  bufferTime: Yup?.object()?.shape({
+    bufferBefore: Yup?.mixed()?.nullable(),
+    bufferAfter: Yup?.mixed()?.nullable(),
+  }),
 });
 
 export const defaultValues = {
@@ -53,6 +55,5 @@ export const defaultValues = {
       timeRanges: [{ startHour: new Date(), endHour: new Date() }],
     },
   ],
-  beforeEvent: null,
-  afterEvent: null,
+  bufferTime: { bufferBefore: null, bufferAfter: null },
 };

@@ -63,7 +63,7 @@ export const TimeSlotPreferences = () => {
           </Grid>
         </Grid>
         <Box pt={2} mb={2}>
-          <BufferTime disabled={disabled} theme={theme} />
+          <BufferTime disabled={disabled} theme={theme} setValue={setValue} />
         </Box>
         <Grid item xs={12}>
           <Divider />

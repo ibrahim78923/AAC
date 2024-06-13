@@ -35,7 +35,7 @@ export const meetingSettingsDataDynamic = (
     component: Typography,
   },
   {
-    id: 4,
+    id: 3,
     componentProps: {
       variant: 'body2',
       padding: 0.5,

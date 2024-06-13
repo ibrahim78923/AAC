@@ -5,8 +5,8 @@ import {
 } from './Settings.data';
 import { useRouter } from 'next/router';
 import { CalendarIntegration } from '../CalendarIntegration';
-import { VideoConferencing } from '../VideoConferencing';
 import { OtherSettings } from '../OtherSettings';
+import { VideoConferencing } from '../VideoConferencing';
 
 export const useSettings = () => {
   const router = useRouter();

@@ -7,6 +7,7 @@ import { ListView } from './ListView';
 
 export const Meetings = () => {
   const { router } = useMeetings();
+  const calenderIntegration = 'Calendar Integration';
   return (
     <>
       <PageTitledHeader
@@ -19,7 +20,12 @@ export const Meetings = () => {
       >
         <Settings
           sx={{ cursor: 'pointer' }}
-          onClick={() => router?.push(SOCIAL_COMPONENTS?.MEETINGS_SETTINGS)}
+          onClick={() =>
+            router?.push({
+              pathname: SOCIAL_COMPONENTS?.MEETINGS_SETTINGS,
+              query: { module: calenderIntegration },
+            })
+          }
         />
       </PageTitledHeader>
       <ListView />

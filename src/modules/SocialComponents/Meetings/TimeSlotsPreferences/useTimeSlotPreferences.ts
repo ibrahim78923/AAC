@@ -64,12 +64,16 @@ export const useTimeSlotPreferences = () => {
     };
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: any) => {
     const aggregatedTimeRanges = aggregateTimeRangesByDay(timeSlotsState);
     const body = {
       months: selectedMonths,
       daysTimeRanges: aggregatedTimeRanges,
       dateOverrides: formattedOverrides,
+      bufferTime: {
+        bufferBefore: data?.bufferTime?.bufferBefore,
+        bufferAfter: data?.bufferTime?.bufferAfter,
+      },
     };
     try {
       await postTimeSlotsTrigger({ body })?.unwrap();
