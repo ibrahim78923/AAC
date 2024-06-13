@@ -32,16 +32,16 @@ export const meetingsAccounts = (account: any) => [
   {
     id: 11,
     icon: account?.platform === MS_TEAMS && MSTeamsIcon,
-    name: account?.platform === MS_TEAMS && 'Google Calendar',
+    name: account?.platform === MS_TEAMS && 'MS Teams',
   },
   {
     id: 22,
     icon: account?.platform === ZOOM && ZoomIcon,
-    name: account?.platform === ZOOM && 'Office 365 Calendar',
+    name: account?.platform === ZOOM && 'Zoom',
   },
   {
     id: 23,
     icon: account?.platform === GOOGLE_MEET && GoogleMeetIcon,
-    name: account?.platform === GOOGLE_MEET && 'Office 365 Calendar',
+    name: account?.platform === GOOGLE_MEET && 'Google Meet',
   },
 ];
