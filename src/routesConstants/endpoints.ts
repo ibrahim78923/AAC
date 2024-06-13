@@ -128,6 +128,7 @@ export const END_POINTS = {
   EMAIL_VIEW: `/social-components/email`,
   CONVERSATION_OTHERS_EMAIL_VIEW: `/social-components/email/others/conversations`,
   CONVERSATION_GMAIL_EMAIL_VIEW: `/social-components/email/gmail/conversations`,
+  CONVERSATION_OTHERS_EMAIL_VIEW: `/social-components/email/others/conversations`,
   CONVERSATION_OUTLOOK_EMAIL_VIEW: `/social-components/email/outlook/conversations`,
   DROPDOWN_TASK: '/task',
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,

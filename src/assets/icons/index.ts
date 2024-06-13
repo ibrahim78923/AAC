@@ -486,6 +486,7 @@ export { default as ReportsIcon } from './shared/reports-icon';
 export { default as CallTakeIcon } from './modules/airCallCenter/CallMetrices/call-take';
 export { default as CallListenToDiscretelyIcon } from './modules/airCallCenter/CallMetrices/call-listen-to-call-discretley';
 export { default as CallOutGoingIcon } from './modules/airCallCenter/CallMetrices/calls-outgoging';
+export { default as DragAndDropIcon } from './shared/drag-drop-icon';
 export { default as KeypadIcon } from './shared/keypad-icon';
 export { default as StartRecordingIcon } from './shared/start-recording-icon';
 export { default as CloseRecordingIcon } from './shared/close-recording-icon';

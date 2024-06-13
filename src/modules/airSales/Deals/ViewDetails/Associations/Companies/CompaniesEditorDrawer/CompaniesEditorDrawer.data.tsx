@@ -35,7 +35,6 @@ export const companiesDefaultValues = {
 
 export const companiesDataArray = (getCompanyContactsList: any) => {
   const { user }: any = getSession();
-
   return [
     {
       componentProps: {

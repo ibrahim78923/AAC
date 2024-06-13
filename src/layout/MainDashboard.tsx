@@ -115,7 +115,6 @@ const DashboardLayout = ({ children, window }: any) => {
   // const findEmail: any = findRoleByEmail({ user, array });
 
   const routes = getRoutes(productName);
-
   const lowerRoutes = getLowerRoutes(productName);
   const pathname = usePathname();
 

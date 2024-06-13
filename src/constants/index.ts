@@ -208,6 +208,7 @@ export const AIR_CALL_CENTER = {
   CALL_METRICS: '/air-call-center/call-metrics',
   SETTINGS_BUSINESS_HOURS:
     '/air-call-center/settings/general-settings/business-hours',
+  CREATE_SERVICES_REPORTS: `/air-operations/reports/services-reports/create-services-reports`,
 };
 
 export const AIR_LOYALTY_PROGRAM = {

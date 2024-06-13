@@ -22,14 +22,13 @@ const initialState: EmailStateI = {
   mailDraftList: {},
 };
 
-const emailSlice = createSlice({
-  name: 'email',
+const gmailSlice = createSlice({
+  name: 'gmail',
   initialState: initialState,
   reducers: {
     setMailTabType: (state, action: PayloadAction<any>) => {
       state.mailTabType = action?.payload;
     },
-
     setSelectedRecords: (state, action: PayloadAction<any>) => {
       state.selectedRecords = action?.payload;
     },
@@ -58,5 +57,5 @@ export const {
   setCurrentEmailAssets,
   setMailList,
   setMailDraftList,
-} = emailSlice.actions;
-export default emailSlice.reducer;
+} = gmailSlice.actions;
+export default gmailSlice.reducer;

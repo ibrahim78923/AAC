@@ -8,7 +8,6 @@ import { indexNumbers } from '@/constants';
 
 export const AddAccountArray = (companyRoleParams: any) => {
   const { companyAccounts, companyRoles, user } = useAddAccount();
-
   return [
     {
       componentProps: {
