@@ -2,13 +2,10 @@
 import React from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
 import { UserDetailsDrawerI } from './EmailSettingDrawer.interface';
-import { Box, Typography, useTheme } from '@mui/material';
-import {
-  BlueArrowIcon,
-  BluePhoneIcon,
-  ProfileCircleIcon,
-} from '@/assets/icons';
-import { Gmail_CONST } from '@/constants';
+import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import { BlueArrowIcon, BluePhoneIcon } from '@/assets/icons';
+import ProfileNameIcon from '@/components/ProfileNameIcon';
+import { v4 as uuidv4 } from 'uuid';
 
 const UserDetailsDrawer = ({
   isOpenDrawer,
@@ -16,7 +13,8 @@ const UserDetailsDrawer = ({
   isUserDetail,
 }: UserDetailsDrawerI) => {
   const theme = useTheme();
-
+  const nameParts =
+    isUserDetail && isUserDetail?.from?.emailAddress?.name?.trim()?.split('-');
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
@@ -31,32 +29,52 @@ const UserDetailsDrawer = ({
           alignItems={'center'}
           justifyContent={'space-between'}
         >
-          {isUserDetail?.userImg || <ProfileCircleIcon />}
-
-          <Box>
-            <Box flex={1} sx={{ cursor: 'pointer' }}>
-              <Typography
-                variant="body1"
-                fontWeight={'600'}
-                color={theme?.palette?.grey[800]}
-              >
-                {isUserDetail?.payload?.headers?.find(
-                  (header: any) => header?.name === Gmail_CONST?.FROM,
-                )?.value ?? '--'}
-              </Typography>
-              <Typography variant="body3" color={theme?.palette?.grey[600]}>
-                To:{' '}
-                {isUserDetail?.payload?.headers?.find(
-                  (header: any) => header?.name === Gmail_CONST?.TO,
-                )?.value ?? '--'}
-              </Typography>
+          <Box sx={{ display: 'flex', gap: '10px' }}>
+            <Box>
+              {isUserDetail?.userImg || (
+                <ProfileNameIcon
+                  firstName={
+                    isUserDetail?.from?.emailAddress?.name
+                      ?.trim()
+                      ?.split(' ')[0]
+                  }
+                  lastName={
+                    (nameParts && nameParts[1]) ??
+                    isUserDetail?.from?.emailAddress?.name
+                      ?.trim()
+                      ?.split(' ')[1]
+                  }
+                />
+              )}
+            </Box>
+            <Box>
+              <Box flex={1} sx={{ cursor: 'pointer' }}>
+                <Typography
+                  variant="body1"
+                  fontWeight={'600'}
+                  color={theme?.palette?.grey[800]}
+                >
+                  {isUserDetail?.from?.emailAddress?.name ?? '--'}
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                  <Typography variant="body3">To: </Typography>
+                  {isUserDetail?.toRecipients?.map((item: any) => (
+                    <Typography variant="body3" key={uuidv4()}>
+                      {item?.emailAddress?.name}
+                    </Typography>
+                  ))}
+                </Box>
+              </Box>
             </Box>
           </Box>
-          <Box>
-            <BlueArrowIcon />
-          </Box>
-          <Box>
-            <BluePhoneIcon />
+
+          <Box sx={{ display: 'flex', gap: '10px' }}>
+            <IconButton>
+              <BlueArrowIcon />
+            </IconButton>
+            <IconButton>
+              <BluePhoneIcon />
+            </IconButton>
           </Box>
         </Box>
 
@@ -83,9 +101,7 @@ const UserDetailsDrawer = ({
             Email
           </Typography>
           <Typography variant="body3" color={theme?.palette?.custom?.light}>
-            {isUserDetail?.payload?.headers?.find(
-              (header: any) => header?.name === Gmail_CONST?.TO,
-            )?.value ?? '--'}
+            {isUserDetail?.from?.emailAddress?.address}
           </Typography>
         </Box>
         <Box
@@ -102,9 +118,7 @@ const UserDetailsDrawer = ({
             Phone
           </Typography>
           <Typography variant="body3" color={theme?.palette?.custom?.light}>
-            {isUserDetail?.payload?.headers?.find(
-              (header: any) => header?.name === Gmail_CONST?.PHONE,
-            )?.value ?? '--'}
+            {isUserDetail?.from?.emailAddress?.phone ?? '--'}
           </Typography>
         </Box>
 
@@ -115,7 +129,7 @@ const UserDetailsDrawer = ({
           mb={2}
           color={theme?.palette?.slateBlue?.main}
         >
-          Details
+          Email
         </Typography>
       </>
     </CommonDrawer>

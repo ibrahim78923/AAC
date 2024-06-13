@@ -11,7 +11,10 @@ const ProfileNameIcon = ({
   const theme = useTheme();
 
   firstName = firstName && firstName?.charAt(0)?.toUpperCase();
-  lastName = lastName && lastName?.charAt(0)?.toUpperCase();
+  lastName =
+    lastName && lastName?.charAt(0) === '-'
+      ? lastName?.charAt(1)?.toUpperCase()
+      : lastName?.charAt(0)?.toUpperCase();
   return (
     <Box
       sx={{
@@ -29,7 +32,7 @@ const ProfileNameIcon = ({
         {firstName ?? '-'}
       </Typography>
       <Typography sx={{ fontSize: fontSize ?? '15px', fontWeight: '700' }}>
-        {lastName ?? '-'}
+        {lastName ?? ''}
       </Typography>
     </Box>
   );

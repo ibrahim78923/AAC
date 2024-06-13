@@ -271,6 +271,7 @@ export const SOCIAL_FEATURES_OUTLOOK = {
   GMAIL_CONVERSATIONS: '/social-components/email/gmail/conversations',
   UPDATE_EMAIL: '/emails/update-outlook-email',
   MOVE_TO_FOLDER_EMAIL: '/emails/move-outlook-mails',
+  LOGOUT_OUTLOOK: '/email-marketing/save-email-marketing-setting',
 };
 export const SOCIAL_FEATURES_GMAIL = {
   AUTH_URL: '/gmail/auth-url',

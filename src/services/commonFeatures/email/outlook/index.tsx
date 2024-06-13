@@ -147,6 +147,16 @@ export const outlookApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG_UPDATE_EMAIL,
     }),
+    LogoutOutlook: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_OUTLOOK?.LOGOUT_OUTLOOK}`,
+          method: 'PUT',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -163,4 +173,5 @@ export const {
   useForwardEmailOutlookMutation,
   usePatchOutlookEmailMessageMutation,
   usePatchOutlookMoveToFolderMutation,
+  useLogoutOutlookMutation,
 } = outlookApi;

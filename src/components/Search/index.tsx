@@ -15,6 +15,7 @@ const Search = ({
   width,
   setSearchBy,
   size,
+  backgroundColor,
   ...rest
 }: CombinedProps) => {
   const theme = useTheme();
@@ -29,6 +30,7 @@ const Search = ({
       onChange={handleChangeSearch}
       sx={{
         width: { width },
+        backgroundColor: backgroundColor ?? 'transparent',
         '@media (max-width: 600px)': {
           width: '100%',
         },

@@ -13,7 +13,6 @@ import {
   EmailReplyIcon,
   ForwardIcon,
   MailColoredIcon,
-  ProfileCircleIcon,
   ReplyAllIcon,
 } from '@/assets/icons';
 import Search from '@/components/Search';
@@ -28,11 +27,16 @@ import {
   setSearchTerm,
 } from '@/redux/slices/email/outlook/slice';
 import Draft from './Draft';
-import { useGetMailDetailsOutlookQuery } from '@/services/commonFeatures/email/outlook';
+import {
+  useGetMailDetailsOutlookQuery,
+  useLogoutOutlookMutation,
+} from '@/services/commonFeatures/email/outlook';
 import UserDetailsDrawer from '../../UserDetailsDrawer';
 import { END_POINTS } from '@/routesConstants/endpoints';
-import { useRouter } from 'next/router';
-import { HomeRounded } from '@mui/icons-material';
+import { HomeRounded, LogoutRounded } from '@mui/icons-material';
+import ProfileNameIcon from '@/components/ProfileNameIcon';
+import { enqueueSnackbar } from 'notistack';
+import Link from 'next/link';
 
 const RightPane = ({
   isOpenSendEmailDrawer,
@@ -41,8 +45,6 @@ const RightPane = ({
   setMailType,
 }: any) => {
   const theme = useTheme();
-  const router = useRouter();
-
   const dispatch = useDispatch();
 
   const mailTabType: any = useAppSelector(
@@ -55,6 +57,7 @@ const RightPane = ({
   const [isMessageDetailsRequest, setIsMessageDetailsRequest] = useState(true);
 
   const [selectedRecordId, setSelectedRecordId] = useState('');
+  const [activeThread, setActiveThread] = useState();
 
   const activeRecord = useAppSelector(
     (state: any) => state?.outlook?.activeRecord,
@@ -98,6 +101,31 @@ const RightPane = ({
     dispatch(setSearchTerm(searchValue));
   }, [searchValue]);
 
+  // logoutOutlook
+  const [postDraftOtherEmail, { isLoading: isLogoutLoading }] =
+    useLogoutOutlookMutation();
+  const handleLogout = async () => {
+    const payload = {
+      platform: 'outlook',
+      email: 'dummy@mail.com',
+      token: '123ABC',
+      refreshToken: 'ABC123',
+      expiresOn: '2024-06-11T12:03:58.257Z',
+    };
+    try {
+      await postDraftOtherEmail({
+        body: payload,
+      })?.unwrap();
+      enqueueSnackbar('Logout Success', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', {
+        variant: 'error',
+      });
+    }
+  };
+
   return (
     <Box>
       <Box sx={styles?.rightSide}>
@@ -106,6 +134,7 @@ const RightPane = ({
           setSearchBy={setSearchValue}
           size="medium"
           placeholder="Search Here"
+          backgroundColor={theme?.palette?.common?.white}
         />
         <Box
           sx={{
@@ -116,13 +145,31 @@ const RightPane = ({
         >
           <Button
             variant="outlined"
-            sx={{ height: '33px' }}
+            sx={{ height: '33px', background: theme?.palette?.common?.white }}
             color="inherit"
-            startIcon={<HomeRounded />}
-            onClick={() => router.push(END_POINTS?.EMAIL_VIEW)}
+            startIcon={
+              isLogoutLoading ? (
+                <CircularProgress size={15} />
+              ) : (
+                <LogoutRounded />
+              )
+            }
+            onClick={handleLogout}
           >
-            Back to Emails
+            Logout
           </Button>
+
+          <Link href={`${END_POINTS?.EMAIL_VIEW}?redirect=${true}`}>
+            <Button
+              variant="outlined"
+              sx={{ height: '33px', background: theme?.palette?.common?.white }}
+              color="inherit"
+              startIcon={<HomeRounded />}
+            >
+              Back to Emails
+            </Button>
+          </Link>
+
           <Button
             variant="contained"
             onClick={() => {
@@ -197,214 +244,237 @@ const RightPane = ({
                         {activeRecord?.subject}
                       </Typography>
                       {sortedMessagesDataArray?.length > 0 ? (
-                        sortedMessagesDataArray?.map((obj: any) => (
-                          <Box key={uuidv4()} sx={styles?.rightSideCard}>
-                            <Box
-                              onClick={() => setIsUserDetailDrawerOpen(true)}
-                            >
-                              {obj?.userImg || <ProfileCircleIcon />}
-                            </Box>
-                            <Box flex={1}>
-                              <Box sx={styles?.emailWrap}>
-                                <Box flex={1} sx={{ cursor: 'pointer' }}>
-                                  <Typography variant="h5">
-                                    {obj?.from?.emailAddress?.name}
-                                  </Typography>
-                                  {obj?.toRecipients.map((item: any) => (
-                                    <Typography variant="body2" key={uuidv4()}>
-                                      To: {item?.emailAddress?.name}
-                                    </Typography>
-                                  ))}
-                                </Box>
-                                <Box
-                                  display={'flex'}
-                                  alignItems={'center'}
-                                  gap={'14px'}
-                                >
-                                  <Typography
-                                    variant="subtitle2"
-                                    fontWeight={400}
-                                    sx={{
-                                      borderRight: `1px solid ${theme?.palette?.custom?.light_grayish_blue}`,
-                                      paddingRight: '15px',
-                                    }}
-                                  >
-                                    {obj?.createdDateTime}
-                                  </Typography>
-                                  <Tooltip
-                                    placement="top"
-                                    arrow
-                                    title={'Reply All'}
-                                  >
-                                    <IconButton
-                                      size="small"
-                                      onClick={() => {
-                                        setIsOpenSendEmailDrawer(true);
-                                        setMailType(
-                                          CREATE_EMAIL_TYPES?.REPLY_ALL,
-                                        );
-                                        dispatch(
-                                          setCurrentEmailAssets({
-                                            messageId: obj?.messageId,
-                                            id: obj?.id,
-                                            from:
-                                              obj?.from?.emailAddress
-                                                ?.address === loggedInState
-                                                ? obj?.toRecipients.map(
-                                                    (item: any) =>
-                                                      item?.emailAddress
-                                                        ?.address,
-                                                  )
-                                                : obj?.from?.emailAddress
-                                                    ?.address,
-                                            others: {
-                                              from: `${obj?.from[0]
-                                                ?.name} ${'<'}
-                                                ${obj?.from[0]?.email}
-                                                ${'>'}`,
-                                              sent: obj?.date,
-                                              to: `<>`,
-                                              subject: obj?.subject,
-                                              body: '',
-                                            },
-                                          }),
-                                        );
-                                      }}
-                                    >
-                                      <ReplyAllIcon />
-                                    </IconButton>
-                                  </Tooltip>
-
-                                  <Tooltip
-                                    placement="top"
-                                    arrow
-                                    title={'Reply'}
-                                  >
-                                    <IconButton
-                                      size="small"
-                                      onClick={() => {
-                                        setIsOpenSendEmailDrawer(true);
-                                        setMailType(CREATE_EMAIL_TYPES?.REPLY);
-                                        dispatch(
-                                          setCurrentEmailAssets({
-                                            messageId: obj?.id,
-                                            id: obj?.id,
-                                            from: obj?.from?.emailAddress
-                                              ?.address,
-                                            others: {
-                                              from: `${obj?.from?.emailAddress
-                                                ?.name} ${'<'}
-                                                 ${obj?.from?.emailAddress
-                                                   ?.address}
-                                                 ${'>'}`,
-                                              sent: obj?.createdDateTime,
-                                              to: `<>`,
-                                              subject: obj?.subject,
-                                              body: '',
-                                            },
-                                          }),
-                                        );
-                                      }}
-                                    >
-                                      <EmailReplyIcon />
-                                    </IconButton>
-                                  </Tooltip>
-
-                                  <Tooltip
-                                    placement="top"
-                                    arrow
-                                    title={'Forward'}
-                                  >
-                                    <IconButton
-                                      size="small"
-                                      onClick={() => {
-                                        setIsOpenSendEmailDrawer(true);
-                                        setMailType(
-                                          CREATE_EMAIL_TYPES?.FORWARD,
-                                        );
-                                        dispatch(
-                                          setCurrentEmailAssets({
-                                            messageId: obj?.id,
-                                            id: obj?.id,
-                                            from: obj?.from?.emailAddress
-                                              ?.address,
-                                            others: {
-                                              from: `${obj?.from?.emailAddress
-                                                ?.name} ${'<'}
-                                                 ${obj?.from?.emailAddress
-                                                   ?.address}
-                                                 ${'>'}`,
-                                              sent: obj?.createdDateTime,
-                                              to: `<>`,
-                                              subject: obj?.subject,
-                                              body: obj?.body?.content,
-                                            },
-                                          }),
-                                        );
-                                      }}
-                                    >
-                                      <ForwardIcon />
-                                    </IconButton>
-                                  </Tooltip>
-                                </Box>
-                              </Box>
+                        sortedMessagesDataArray?.map((obj: any) => {
+                          const nameParts = obj?.from?.emailAddress?.name
+                            .trim()
+                            .split('-');
+                          return (
+                            <Box key={uuidv4()} sx={styles?.rightSideCard}>
                               <Box
-                                mt={0.5}
-                                sx={{ fontSize: '14px', fontWeight: '400' }}
-                                dangerouslySetInnerHTML={{
-                                  __html: obj?.body?.content,
+                                onClick={() => {
+                                  setIsUserDetailDrawerOpen(true);
+                                  setActiveThread(obj);
                                 }}
-                              />
-                              <IconButton
-                                sx={{ transform: 'rotate(90deg)' }}
-                                onClick={() => handelMoreinfo(obj?.id)}
                               >
-                                <DotsBoldIcon />
-                              </IconButton>
-                              {selectedRecordId === obj?.id && (
-                                <Box
-                                  sx={{
-                                    borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
-                                    padding: '5px 0px 5px 20px',
-                                  }}
-                                >
-                                  <Box>
-                                    <Typography variant="body3">
-                                      <strong>From :</strong>
+                                {obj?.userImg || (
+                                  <ProfileNameIcon
+                                    firstName={
+                                      obj?.from?.emailAddress?.name
+                                        ?.trim()
+                                        ?.split(' ')[0]
+                                    }
+                                    lastName={
+                                      nameParts[1] ??
+                                      obj?.from?.emailAddress?.name
+                                        ?.trim()
+                                        ?.split(' ')[1]
+                                    }
+                                  />
+                                )}
+                              </Box>
+                              <Box flex={1}>
+                                <Box sx={styles?.emailWrap}>
+                                  <Box flex={1} sx={{ cursor: 'pointer' }}>
+                                    <Typography variant="h5">
                                       {obj?.from?.emailAddress?.name}
                                     </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="body3">
-                                      <strong>Sent :</strong>{' '}
-                                      {obj?.createdDateTime}
-                                    </Typography>
-                                  </Box>
-
-                                  <Box>
-                                    <Typography variant="body3">
-                                      <strong>To : </strong>
-                                    </Typography>
-                                    {obj?.toRecipients?.map((item: any) => (
+                                    {obj?.toRecipients.map((item: any) => (
                                       <Typography
-                                        variant="body3"
+                                        variant="body2"
                                         key={uuidv4()}
                                       >
-                                        {item?.emailAddress?.name}
+                                        To: {item?.emailAddress?.name}
                                       </Typography>
                                     ))}
                                   </Box>
-
-                                  <Box>
-                                    <Typography variant="body3">
-                                      <strong>Subject : </strong> {obj?.subject}
+                                  <Box
+                                    display={'flex'}
+                                    alignItems={'center'}
+                                    gap={'14px'}
+                                  >
+                                    <Typography
+                                      variant="subtitle2"
+                                      fontWeight={400}
+                                      sx={{
+                                        borderRight: `1px solid ${theme?.palette?.custom?.light_grayish_blue}`,
+                                        paddingRight: '15px',
+                                      }}
+                                    >
+                                      {obj?.createdDateTime}
                                     </Typography>
+                                    <Tooltip
+                                      placement="top"
+                                      arrow
+                                      title={'Reply All'}
+                                    >
+                                      <IconButton
+                                        size="small"
+                                        onClick={() => {
+                                          setIsOpenSendEmailDrawer(true);
+                                          setMailType(
+                                            CREATE_EMAIL_TYPES?.REPLY_ALL,
+                                          );
+                                          dispatch(
+                                            setCurrentEmailAssets({
+                                              messageId: obj?.messageId,
+                                              id: obj?.id,
+                                              from:
+                                                obj?.from?.emailAddress
+                                                  ?.address === loggedInState
+                                                  ? obj?.toRecipients.map(
+                                                      (item: any) =>
+                                                        item?.emailAddress
+                                                          ?.address,
+                                                    )
+                                                  : obj?.from?.emailAddress
+                                                      ?.address,
+                                              others: {
+                                                from: `${obj?.from[0]?.name} ${'<'}
+                                                ${obj?.from[0]?.email}
+                                                ${'>'}`,
+                                                sent: obj?.date,
+                                                to: `<>`,
+                                                subject: obj?.subject,
+                                                body: '',
+                                              },
+                                            }),
+                                          );
+                                        }}
+                                      >
+                                        <ReplyAllIcon />
+                                      </IconButton>
+                                    </Tooltip>
+
+                                    <Tooltip
+                                      placement="top"
+                                      arrow
+                                      title={'Reply'}
+                                    >
+                                      <IconButton
+                                        size="small"
+                                        onClick={() => {
+                                          setIsOpenSendEmailDrawer(true);
+                                          setMailType(
+                                            CREATE_EMAIL_TYPES?.REPLY,
+                                          );
+                                          dispatch(
+                                            setCurrentEmailAssets({
+                                              messageId: obj?.id,
+                                              id: obj?.id,
+                                              from: obj?.from?.emailAddress
+                                                ?.address,
+                                              others: {
+                                                from: `${obj?.from?.emailAddress?.name} ${'<'}
+                                                 ${obj?.from?.emailAddress?.address}
+                                                 ${'>'}`,
+                                                sent: obj?.createdDateTime,
+                                                to: `<>`,
+                                                subject: obj?.subject,
+                                                body: '',
+                                              },
+                                            }),
+                                          );
+                                        }}
+                                      >
+                                        <EmailReplyIcon />
+                                      </IconButton>
+                                    </Tooltip>
+
+                                    <Tooltip
+                                      placement="top"
+                                      arrow
+                                      title={'Forward'}
+                                    >
+                                      <IconButton
+                                        size="small"
+                                        onClick={() => {
+                                          setIsOpenSendEmailDrawer(true);
+                                          setMailType(
+                                            CREATE_EMAIL_TYPES?.FORWARD,
+                                          );
+                                          dispatch(
+                                            setCurrentEmailAssets({
+                                              messageId: obj?.id,
+                                              id: obj?.id,
+                                              from: obj?.from?.emailAddress
+                                                ?.address,
+                                              others: {
+                                                from: `${obj?.from?.emailAddress?.name} ${'<'}
+                                                 ${obj?.from?.emailAddress?.address}
+                                                 ${'>'}`,
+                                                sent: obj?.createdDateTime,
+                                                to: `<>`,
+                                                subject: obj?.subject,
+                                                body: obj?.body?.content,
+                                              },
+                                            }),
+                                          );
+                                        }}
+                                      >
+                                        <ForwardIcon />
+                                      </IconButton>
+                                    </Tooltip>
                                   </Box>
                                 </Box>
-                              )}
+                                <Box
+                                  mt={0.5}
+                                  sx={{ fontSize: '14px', fontWeight: '400' }}
+                                  dangerouslySetInnerHTML={{
+                                    __html: obj?.body?.content,
+                                  }}
+                                />
+                                <IconButton
+                                  sx={{ transform: 'rotate(90deg)' }}
+                                  onClick={() => handelMoreinfo(obj?.id)}
+                                >
+                                  <DotsBoldIcon />
+                                </IconButton>
+                                {selectedRecordId === obj?.id && (
+                                  <Box
+                                    sx={{
+                                      borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
+                                      padding: '5px 0px 5px 20px',
+                                    }}
+                                  >
+                                    <Box>
+                                      <Typography variant="body3">
+                                        <strong>From :</strong>
+                                        {obj?.from?.emailAddress?.name}
+                                      </Typography>
+                                    </Box>
+                                    <Box>
+                                      <Typography variant="body3">
+                                        <strong>Sent :</strong>{' '}
+                                        {obj?.createdDateTime}
+                                      </Typography>
+                                    </Box>
+
+                                    <Box>
+                                      <Typography variant="body3">
+                                        <strong>To : </strong>
+                                      </Typography>
+                                      {obj?.toRecipients?.map((item: any) => (
+                                        <Typography
+                                          variant="body3"
+                                          key={uuidv4()}
+                                        >
+                                          {item?.emailAddress?.name}
+                                        </Typography>
+                                      ))}
+                                    </Box>
+
+                                    <Box>
+                                      <Typography variant="body3">
+                                        <strong>Subject : </strong>{' '}
+                                        {obj?.subject}
+                                      </Typography>
+                                    </Box>
+                                  </Box>
+                                )}
+                              </Box>
                             </Box>
-                          </Box>
-                        ))
+                          );
+                        })
                       ) : (
                         <Box sx={styles?.content}>
                           <Typography variant="subtitle1">
@@ -464,7 +534,7 @@ const RightPane = ({
       <UserDetailsDrawer
         isOpenDrawer={isUserDetailDrawerOpen}
         setIsOpenDrawer={setIsUserDetailDrawerOpen}
-        isUserDetail={{}}
+        isUserDetail={activeThread}
       />
     </Box>
   );

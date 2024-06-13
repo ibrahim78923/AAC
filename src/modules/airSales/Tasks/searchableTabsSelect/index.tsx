@@ -325,19 +325,19 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                     activeSidebarItem === TASK_TABS?.CONTACTS
                       ? contactsData?.data?.meta?.pages
                       : activeSidebarItem === TASK_TABS?.COMPANIES
-                      ? companiesData?.data?.meta?.pages
-                      : activeSidebarItem === TASK_TABS?.DEALS
-                      ? dealsData?.data?.meta?.pages
-                      : 0
+                        ? companiesData?.data?.meta?.pages
+                        : activeSidebarItem === TASK_TABS?.DEALS
+                          ? dealsData?.data?.meta?.pages
+                          : 0
                   }
                   page={
                     activeSidebarItem === TASK_TABS?.CONTACTS
                       ? contactsData?.data?.meta?.page
                       : activeSidebarItem === TASK_TABS?.COMPANIES
-                      ? companiesData?.data?.meta?.page
-                      : activeSidebarItem === TASK_TABS?.DEALS
-                      ? dealsData?.data?.meta?.page
-                      : 0
+                        ? companiesData?.data?.meta?.page
+                        : activeSidebarItem === TASK_TABS?.DEALS
+                          ? dealsData?.data?.meta?.page
+                          : 0
                   }
                   onChange={handlePageChange}
                 />

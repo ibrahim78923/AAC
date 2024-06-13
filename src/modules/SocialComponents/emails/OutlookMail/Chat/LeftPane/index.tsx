@@ -154,6 +154,18 @@ const LeftPane = ({
     }
   };
 
+  useEffect(() => {
+    if (searchTerm.length > 0) {
+      dispatch(setActiveRecord({}));
+      dispatch(setSelectedRecords([]));
+      dispatch(setMailList('clear'));
+      dispatch(setMailCurrentPage(1));
+      dispatch(setBreakScrollOperation(false));
+      setTrackRenders(1);
+      refetch();
+    }
+  }, [searchTerm]);
+
   return (
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>
@@ -231,6 +243,7 @@ const LeftPane = ({
           ))}
         </ButtonGroup>
       )}
+
       <MailList
         emailsByFolderIdData={emailsByFolderIdData}
         isLoadingEmailsByFolderIdData={isLoadingEmailsByFolderIdData}

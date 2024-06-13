@@ -99,11 +99,6 @@ const ActionBtn = ({
         id: activeRecord?.id,
         from: activeRecord?.from?.emailAddress?.address,
         others: {
-          // from: `${obj?.from?.emailAddress?.name} ${'<'}
-          //                                        ${obj?.from?.emailAddress?.address}
-          //                                        ${'>'}`,
-          // sent: obj?.createdDateTime,
-          // to: `<>`,
           subject: activeRecord?.subject,
           body: '',
         },
@@ -266,10 +261,6 @@ const ActionBtn = ({
           </>
         ))}
       </Menu>
-
-      {/* <MenuItem onClick={handelMoveToFolder}>Inbox</MenuItem>
-        <MenuItem onClick={handelMoveToFolder}>Sent</MenuItem>
-        <MenuItem onClick={handelMoveToFolder}>Drafts</MenuItem> */}
 
       <AlertModals
         type={'Restore'}

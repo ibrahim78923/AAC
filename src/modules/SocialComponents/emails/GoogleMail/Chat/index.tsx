@@ -5,6 +5,7 @@ import RightPane from './RightPane';
 import { useDispatch } from 'react-redux';
 import { useGetGmailFoldersQuery } from '@/services/commonFeatures/email/gmail';
 import { setGmailTabType } from '@/redux/slices/email/gmail/slice';
+import { MAIL_TYPES } from '@/constants';
 
 const GmailChat = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,10 @@ const GmailChat = () => {
       dispatch(setGmailTabType(result));
     }
   }, [result]);
+
+  useEffect(() => {
+    localStorage.setItem('currentMailState', `${MAIL_TYPES?.GMAIL}`);
+  }, []);
 
   return (
     <>

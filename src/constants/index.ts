@@ -424,3 +424,8 @@ export const ASSOCIATIONS_API_PARAMS_FOR = {
   ASSETS: 'assets',
   PURCHASE_ORDER: 'purchase_orders',
 };
+
+export const MAIL_TYPES = {
+  OUTLOOK: 'outlook',
+  GMAIL: 'gmail',
+};

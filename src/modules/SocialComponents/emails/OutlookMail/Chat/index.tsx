@@ -5,6 +5,7 @@ import RightPane from './RightPane';
 import { useDispatch } from 'react-redux';
 import { setMailTabType } from '@/redux/slices/email/outlook/slice';
 import { useGetMailFoldersOutlookQuery } from '@/services/commonFeatures/email/outlook';
+import { MAIL_TYPES } from '@/constants';
 
 const EmailChat = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,10 @@ const EmailChat = () => {
       dispatch(setMailTabType(result));
     }
   }, [result]);
+
+  useEffect(() => {
+    localStorage.setItem('currentMailState', `${MAIL_TYPES?.OUTLOOK}`);
+  }, []);
 
   return (
     <>

@@ -386,7 +386,7 @@ export const TasksData = ({ data }: any) => {
               isSortable: true,
               header: 'Last Date',
               cell: (info?: any) =>
-                dayjs(info?.row?.original?.updatedAt).format(
+                dayjs(info?.row?.original?.dueDate).format(
                   DATE_TIME_FORMAT?.YMDHM,
                 ),
             };

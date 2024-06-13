@@ -148,8 +148,8 @@ export const useUpsertEventBasedWorkflow = () => {
       fieldValue: condition?.fieldValue?._id
         ? condition?.fieldValue?._id
         : condition?.fieldName?.value === collectionNameData?.notifyBefore
-        ? condition?.fieldValue?.value
-        : condition?.fieldValue,
+          ? condition?.fieldValue?.value
+          : condition?.fieldValue,
       fieldType: mapField(condition),
       collectionName:
         condition?.condition === optionsConstants?.isEmpty ||
