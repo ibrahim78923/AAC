@@ -3,7 +3,6 @@ import ReactDOMServer from 'react-dom/server';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import * as Yup from 'yup';
-import Image from 'next/image';
 import {
   useGetLeadCaptureCTAQuery,
   usePostLeadCaptureCTAMutation,
@@ -15,6 +14,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { BUTTON_TYPE, DRAWER_TITLE } from './Cta.data';
+import Image from 'next/image';
 
 const step1ValidationSchema = Yup?.object()?.shape({
   buttonContent: Yup?.string()
@@ -274,21 +274,23 @@ const useCta = () => {
       const altText = drawerFormValues?.altText || '';
       const imgWidth = drawerFormValues?.imageWidth
         ? drawerFormValues?.imageWidth
-        : 'auto';
+        : undefined;
       const imgHeight = drawerFormValues?.imageHeight
         ? drawerFormValues?.imageHeight
-        : 'auto';
+        : undefined;
       const padding = getMarPad(drawerFormValues?.buttonPadding);
       const margin = getMarPad(drawerFormValues?.buttonMargin);
 
-      const styles = {
-        display: 'inline-block',
+      const styles: any = {
+        display: 'block',
+        textAlign: 'center',
+        border: `1px solid ${theme?.palette?.primary?.main}`,
         padding: padding,
         margin: margin,
       };
 
       const ButtonHtmlComponent = () => (
-        <a href={buttonUrl} style={styles}>
+        <a target="_blank" href={buttonUrl} style={styles} rel="noreferrer">
           {drawerFormValues?.buttonContent instanceof File ? (
             <Image
               src="buttonImageUrl"

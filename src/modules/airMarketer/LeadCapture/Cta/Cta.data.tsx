@@ -94,7 +94,7 @@ export const columns = (
             >
               <Box
                 sx={{ cursor: 'pointer' }}
-                onClick={() => handleDrawerOpen('View')}
+                onClick={() => handleDrawerOpen('View', data)}
               >
                 <ViewEyeIcon />
               </Box>

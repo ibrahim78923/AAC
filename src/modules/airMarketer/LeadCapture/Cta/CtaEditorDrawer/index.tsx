@@ -53,10 +53,9 @@ const CtaEditorDrawer = (props: any) => {
       >
         <Box sx={{ pt: 2 }}>
           {title === DRAWER_TITLE?.view ? (
-            <Button variant="outlined" fullWidth>
-              {' '}
-              New Call-To-Action
-            </Button>
+            <Box
+              dangerouslySetInnerHTML={{ __html: ctaButtonData?.buttonHtml }}
+            />
           ) : (
             <>
               <Box
