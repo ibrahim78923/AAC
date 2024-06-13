@@ -1,24 +1,24 @@
-import { drawerInitialState } from '../Association.data';
+import { useTheme } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import {
   TYPE_VALUES,
-  getAssociateContactsColumns,
+  getAssociateCompanyColumns,
   validationSchema,
   defaultValues,
-} from './Contacts.data';
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+} from './Companies.data';
+import { drawerInitialState } from '../Association.data';
 import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 import {
   useGetAssociateTicketsQuery,
-  usePostContactMutation,
+  usePostCompanyMutation,
   usePostRemoveAssociateTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/association';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useTheme } from '@mui/material';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export default function useContacts({ setIsDrawerOpen }: any) {
+export default function useCompanies({ setIsDrawerOpen }: any) {
   const router = useRouter();
   const theme: any = useTheme();
 
@@ -31,28 +31,28 @@ export default function useContacts({ setIsDrawerOpen }: any) {
 
   const { ticketId } = router?.query;
 
-  const methodsNewContact = useForm({
+  const methodsNewCompany = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
-  const { handleSubmit, reset: resetNewContact } = methodsNewContact;
+  const { handleSubmit, reset: resetNewCompany } = methodsNewCompany;
 
   const methods = useForm({
-    defaultValues: { type: TYPE_VALUES?.EXISTING_CONTACT },
+    defaultValues: { type: TYPE_VALUES?.EXISTING_COMPANY },
   });
   const { control, reset } = methods;
 
   const type = useWatch({
     control,
     name: 'type',
-    defaultValue: TYPE_VALUES?.EXISTING_CONTACT,
+    defaultValue: TYPE_VALUES?.EXISTING_COMPANY,
   });
 
   const associateTicketsAssetsParameter = {
     queryParams: {
       recordId: ticketId,
       recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
-      associationType: ASSOCIATIONS_API_PARAMS_FOR?.CONTACTS,
+      associationType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
     },
   };
 
@@ -61,7 +61,7 @@ export default function useContacts({ setIsDrawerOpen }: any) {
       refetchOnMountOrArgChange: true,
     });
 
-  const associateContactsColumns = getAssociateContactsColumns({
+  const associateCompanyColumns = getAssociateCompanyColumns({
     theme,
     setModalId,
   });
@@ -69,26 +69,20 @@ export default function useContacts({ setIsDrawerOpen }: any) {
   const onClose = () => {
     setIsDrawerOpen(drawerInitialState);
     reset();
-    resetNewContact();
+    resetNewCompany();
   };
 
   const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
     usePostRemoveAssociateTicketsMutation();
 
-  const [postContactTrigger, postContactStatus] = usePostContactMutation();
+  const [postCompanyTrigger, postCompanyStatus] = usePostCompanyMutation();
 
   const onSubmit = async (data: any) => {
     const body = new FormData();
     Object.entries(data)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {
         switch (key) {
-          case 'dateOfBirth':
-          case 'dateOfJoining':
-            body?.append(key, new Date(value)?.toISOString());
-            break;
-          case 'contactOwnerId':
-          case 'lifeCycleStageId':
-          case 'statusId':
+          case 'ownerId':
             body?.append(key, value?._id);
             break;
           default:
@@ -99,13 +93,13 @@ export default function useContacts({ setIsDrawerOpen }: any) {
     });
 
     try {
-      const res: any = await postContactTrigger(body)?.unwrap();
+      const res: any = await postCompanyTrigger(body)?.unwrap();
       if (res) {
         const body = {
           recordId: ticketId,
           recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
           operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
-          contactsIds: [res?.data?._id],
+          companiesIds: [res?.data?._id],
         };
         const postRemoveAssociateTicketsParameter = {
           body,
@@ -114,8 +108,8 @@ export default function useContacts({ setIsDrawerOpen }: any) {
           await postRemoveAssociateTicketsTrigger(
             postRemoveAssociateTicketsParameter,
           )?.unwrap();
-          successSnackbar('Contact(s) Associated Successfully!');
-          resetNewContact();
+          successSnackbar('Company Associated Successfully!');
+          resetNewCompany();
           onClose?.();
         } catch (error: any) {
           errorSnackbar(error?.data?.message);
@@ -131,7 +125,7 @@ export default function useContacts({ setIsDrawerOpen }: any) {
       recordId: ticketId,
       recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
       operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
-      contactsIds: selected,
+      companiesIds: selected,
     };
     const postRemoveAssociateTicketsParameter = {
       body,
@@ -140,7 +134,7 @@ export default function useContacts({ setIsDrawerOpen }: any) {
       await postRemoveAssociateTicketsTrigger(
         postRemoveAssociateTicketsParameter,
       )?.unwrap();
-      successSnackbar('Contact(s) Associated Successfully!');
+      successSnackbar('Company Associated Successfully!');
       onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -155,20 +149,20 @@ export default function useContacts({ setIsDrawerOpen }: any) {
     });
   };
 
-  const removeTicketsAssociatesContacts = async () => {
+  const removeTicketsAssociatesCompany = async () => {
     const postRemoveAssociateTicketsParameter = {
       body: {
         recordId: ticketId,
         recordType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
         operation: ASSOCIATIONS_API_PARAMS_FOR?.REMOVE,
-        contactsIds: [modalId?.id],
+        companiesIds: [modalId?.id],
       },
     };
     try {
       await postRemoveAssociateTicketsTrigger(
         postRemoveAssociateTicketsParameter,
       )?.unwrap();
-      successSnackbar('Contact Detached Successfully!');
+      successSnackbar('Company Detached Successfully!');
       onModalClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -189,14 +183,14 @@ export default function useContacts({ setIsDrawerOpen }: any) {
     isError,
     isSuccess,
     data,
-    associateContactsColumns,
+    associateCompanyColumns,
     modalId,
     setModalId,
     onModalClose,
-    removeTicketsAssociatesContacts,
-    methodsNewContact,
+    removeTicketsAssociatesCompany,
+    methodsNewCompany,
     handleSubmit,
     onSubmit,
-    postContactStatus,
+    postCompanyStatus,
   };
 }

@@ -1,12 +1,17 @@
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 
-export const useAddContactsColumns = ({
+export const useAddCompanyColumns = ({
   theme,
   setSelected,
   selected,
-  associatesContactsList,
+  associatesCompanyList,
 }: any) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -32,18 +37,18 @@ export const useAddContactsColumns = ({
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          associatesContactsList?.length
-            ? selected?.length === associatesContactsList?.length
+          associatesCompanyList?.length
+            ? selected?.length === associatesCompanyList?.length
             : false
         }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelected(
-                associatesContactsList?.map((asset: any) => asset?._id),
+                associatesCompanyList?.map((asset: any) => asset?._id),
               )
             : setSelected([]);
         }}
-        disabled={!associatesContactsList?.length}
+        disabled={!associatesCompanyList?.length}
         color="primary"
         name="id"
       />
@@ -51,16 +56,9 @@ export const useAddContactsColumns = ({
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?._id,
-    id: 'contactID',
-    cell: (info: any) => `#PBR - ${info?.getValue()?.slice(-3)}`,
-    header: 'Contact ID',
-    isSortable: true,
-  },
-  {
     accessorFn: (row: any) => row,
     id: 'name',
-    header: 'Owner',
+    header: 'Companies Name',
     isSortable: true,
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
@@ -69,26 +67,30 @@ export const useAddContactsColumns = ({
           src={generateImage(info?.getValue()?.profilePicture?.url)}
         >
           <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(
-              info?.getValue()?.firstName,
-              info?.getValue()?.lastName,
-            )}
+            {fullNameInitial(info?.getValue()?.name)}
           </Typography>
         </Avatar>
         <Box display={'flex'} flexDirection={'column'}>
           <Typography variant="body2">
-            {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+            {fullName(info?.getValue()?.name)}
           </Typography>
-          {info?.getValue()?.email}
+          {truncateText(info?.getValue()?.domain)}
         </Box>
       </Box>
     ),
   },
   {
-    accessorFn: (row: any) => row?.jobTitle,
-    id: 'jobTitle',
+    accessorFn: (row: any) => row?.owner?.phoneNumber,
+    id: 'owner.phoneNumber',
     isSortable: true,
-    header: 'Job Title',
+    header: 'Phone Number',
+    cell: (info: any) => info?.getValue() ?? '---',
+  },
+  {
+    accessorFn: (row: any) => row?.owner?.name,
+    id: 'owner.name',
+    isSortable: true,
+    header: 'Company Owner',
     cell: (info: any) => info?.getValue() ?? '---',
   },
 ];

@@ -5,6 +5,7 @@ import Deals from './Deals';
 import Contacts from './Contacts';
 import { drawerInitialState, getDropdownOptions } from './Association.data';
 import { useState } from 'react';
+import Companies from './Companies';
 
 export default function Association({ ticketType }: any) {
   const [isDrawerOpen, setIsDrawerOpen] = useState({ ...drawerInitialState });
@@ -29,7 +30,11 @@ export default function Association({ ticketType }: any) {
       <Deals isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
 
       <Contacts isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
-      {/* {isDrawerOpen?.company && <Companies />} */}
+
+      <Companies
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
     </Stack>
   );
 }

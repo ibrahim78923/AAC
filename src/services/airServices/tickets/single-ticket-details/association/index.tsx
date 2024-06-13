@@ -63,12 +63,12 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getContactOwner: builder.query({
-      query: ({ params }) => ({
-        url: `${END_POINTS?.DROPDOWN_ORGANIZATIONS}/${params?.id}/users`,
+      query: () => ({
+        url: END_POINTS?.CONTACTS,
         method: 'GET',
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
+        if (response) return response?.data?.contacts;
       },
       providesTags: [TAG],
     }),
@@ -109,6 +109,31 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+
+    // Associate Companies
+    postCompany: builder?.mutation({
+      query: (body: any) => ({
+        url: END_POINTS?.COMPANY,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getAssociatesCompany: builder?.query({
+      query: (postTicketsAssociatesCompanyParameter: any) => ({
+        url: END_POINTS?.COMPANY,
+        method: 'GET',
+        params: postTicketsAssociatesCompanyParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    getCompanyById: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.COMPANY_PREVIEW}/${params?.id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -124,4 +149,7 @@ export const {
   useLazyGetStatusQuery,
   usePostContactMutation,
   useGetContactByIdQuery,
+  usePostCompanyMutation,
+  useGetAssociatesCompanyQuery,
+  useGetCompanyByIdQuery,
 } = ticketsAssociationAPI;
