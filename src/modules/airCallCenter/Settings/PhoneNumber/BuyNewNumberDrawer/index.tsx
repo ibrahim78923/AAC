@@ -1,18 +1,31 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import AddNumberForm from './AddNumberForm';
+
 import useBuyNewNumber from './useBuyNewNumber';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+import { FormProvider } from '@/components/ReactHookForm';
+import { Box, Button, Grid, Tab, Tabs, Typography } from '@mui/material';
+import { newNumberArray, numberDetails } from './BuyNewNumber.data';
+import { style } from './BuyNewNumber.style';
+
 const BuyNewNumberDrawer = (props: any) => {
-  const { isBuyNewNumber, setIsBuyNewNumber } = props;
   const {
     isNumberDetail,
     handleNextDetail,
     setIsNumberDetail,
     isEditNumber,
     serIsEditNumber,
-  } = useBuyNewNumber();
+    handleSubmit,
+    onSubmit,
+    isBuyNewNumber,
+    setIsBuyNewNumber,
+    methods,
+    theme,
+    value,
 
+    handleChange,
+  } = useBuyNewNumber(props);
+  const buyNewNumberArray = newNumberArray(isEditNumber, serIsEditNumber);
   return (
     <CommonDrawer
       isDrawerOpen={isBuyNewNumber}
@@ -20,7 +33,7 @@ const BuyNewNumberDrawer = (props: any) => {
       title="Buy New Number"
       okText="Buy"
       isOk={isNumberDetail ? true : false}
-      // submitHandler={() => { }}
+      submitHandler={handleSubmit(onSubmit)}
       headerIcon={
         isNumberDetail ? (
           <ArrowBackIcon
@@ -33,12 +46,82 @@ const BuyNewNumberDrawer = (props: any) => {
       }
       footer
     >
-      <AddNumberForm
-        isNumberDetail={isNumberDetail}
-        handleNextDetail={handleNextDetail}
-        isEditNumber={isEditNumber}
-        serIsEditNumber={serIsEditNumber}
-      />
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
+          <Tab label="Local" value={'Local'} />
+          <Tab label="Tool-Free" value={'Tool-Free'} />
+        </Tabs>
+      </Box>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={2}>
+          {buyNewNumberArray?.map((item: any) => (
+            <>
+              {item?.isNumberDatils?.includes(isNumberDetail) && (
+                <Grid item xs={12} md={item?.md} key={item?.id}>
+                  {item?.componentProps?.name === 'formType' && (
+                    <Typography variant="body2" component="span">
+                      Toll-Free
+                    </Typography>
+                  )}
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              )}
+            </>
+          ))}
+        </Grid>
+        {!isNumberDetail && (
+          <Box>
+            {numberDetails?.map((item: any) => (
+              <Box sx={style?.detailBoxWrapper(theme?.palette)} key={item?.id}>
+                <Box display="flex" gap={2} alignItems="center">
+                  <Box>
+                    <Typography
+                      variant="body3"
+                      color={theme?.palette?.blue?.dull_blue}
+                      fontWeight={500}
+                    >
+                      {item?.no}
+                    </Typography>
+                    <Typography
+                      variant="body3"
+                      color={theme?.palette?.custom?.light}
+                      fontWeight={500}
+                      component="p"
+                    >
+                      {item?.state}
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="body3"
+                    color={theme?.palette?.blue?.dull_blue}
+                    fontWeight={500}
+                  >
+                    {item?.ammount}
+                  </Typography>
+                </Box>
+                <Button
+                  variant="contained"
+                  className="small nextBtn"
+                  onClick={handleNextDetail}
+                >
+                  Next
+                </Button>
+              </Box>
+            ))}
+          </Box>
+        )}
+      </FormProvider>
     </CommonDrawer>
   );
 };

@@ -1,17 +1,19 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import { callActionsArray } from './CallActions.data';
-import useEditPhoneNumber from '../useEditPhoneNumber';
+import { useEffect } from 'react';
+const CallActions = (props: any) => {
+  const { methods, setIsValidation } = props;
 
-const CallActions = () => {
-  const { methods } = useEditPhoneNumber();
+  useEffect(() => {
+    setIsValidation(false);
+  }, []);
 
   return (
     <FormProvider methods={methods}>
       <Grid container spacing={1}>
         {callActionsArray?.map((item: any) => (
-          <Grid item xs={12} md={item?.md} key={uuidv4()}>
+          <Grid item xs={12} md={item?.md} key={item?.id}>
             <item.component {...item.componentProps} size={'small'}>
               {item?.componentProps?.select &&
                 item?.options?.map((option: any) => (

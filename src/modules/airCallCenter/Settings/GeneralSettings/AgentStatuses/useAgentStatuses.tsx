@@ -11,6 +11,7 @@ import {
   editAgentStatusDefaultValues,
   editAgentStatusValidationSchema,
 } from './EditAgentStatus/EditAgentStatus.data';
+import { successSnackbar } from '@/utils/api';
 
 const useBusinessHours = () => {
   // const [postAddFaq, { isLoading: loadingAddFaq }] = usePostFaqsMutation();
@@ -34,17 +35,8 @@ const useBusinessHours = () => {
   };
 
   const onSubmitNewAgentStatus = async () => {
-    // try {
-    //   await postAddFaq({ body: values })?.unwrap();
-    //   handleCloseModalFaq();
-    //   enqueueSnackbar('FAQ added successfully', {
-    //     variant: 'success',
-    //   });
-    // } catch (error: any) {
-    //   enqueueSnackbar('An error occured', {
-    //     variant: 'error',
-    //   });
-    // }
+    successSnackbar('Agent Status added successfully');
+    handleCloseNewAgentStatus();
   };
   const handleNewAgentStatusSubmit = handleMethodAddStatus(
     onSubmitNewAgentStatus,
@@ -68,17 +60,8 @@ const useBusinessHours = () => {
   };
 
   const onSubmitEditAgentStatus = async () => {
-    // try {
-    //   await postAddFaq({ body: values })?.unwrap();
-    //   handleCloseModalFaq();
-    //   enqueueSnackbar('FAQ added successfully', {
-    //     variant: 'success',
-    //   });
-    // } catch (error: any) {
-    //   enqueueSnackbar('An error occured', {
-    //     variant: 'error',
-    //   });
-    // }
+    successSnackbar('Agent Status updated successfully');
+    handleCloseEditAgentStatus();
   };
   const handleEditAgentStatusSubmit = handleMethodAddFaq(
     onSubmitEditAgentStatus,

@@ -1,17 +1,35 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Button, Grid, MenuItem, Select } from '@mui/material';
 import { propertiesArray } from './Properties.data';
-import { v4 as uuidv4 } from 'uuid';
-import useEditPhoneNumber from '../useEditPhoneNumber';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { useEffect } from 'react';
 
-const Properties = () => {
-  const { methods, maskValue, callerIds } = useEditPhoneNumber();
+import AddNewCallerId from './AddNewCallerId';
+import VerifyCode from './VerifyCode';
+import CallerIdCreated from './CallerIdCreated';
+
+const Properties = (props: any) => {
+  const {
+    methods,
+    maskValue,
+    callerIds,
+    setIsValidation,
+    isNewNumber,
+    setISNewNumber,
+    callerIDCreated,
+    setCallerIDCreated,
+    isVerification,
+    setIsVerification,
+  } = props;
+  useEffect(() => {
+    setIsValidation(true);
+  }, []);
+
   return (
     <FormProvider methods={methods}>
       <Grid container spacing={0.5}>
         {propertiesArray?.map((item: any) => (
-          <Grid item xs={12} md={item?.md} key={uuidv4()}>
+          <Grid item xs={12} md={item?.md} key={item?.id}>
             <item.component {...item.componentProps} size={'small'}>
               {item?.componentProps?.select &&
                 item?.options?.map((option: any) => (
@@ -29,7 +47,7 @@ const Properties = () => {
                   value="jjciodeo"
                 >
                   {callerIds?.map((item: any) => (
-                    <MenuItem value={item?.value} key={uuidv4()}>
+                    <MenuItem value={item?.value} key={item?.id}>
                       {item?.label}
                     </MenuItem>
                   ))}
@@ -39,6 +57,7 @@ const Properties = () => {
                       color="primary"
                       startIcon={<AddCircleIcon sx={{ width: '20px' }} />}
                       className="small"
+                      onClick={() => setISNewNumber(true)}
                     >
                       Custom Button
                     </Button>
@@ -49,6 +68,26 @@ const Properties = () => {
           </Grid>
         ))}
       </Grid>
+      {isNewNumber && (
+        <AddNewCallerId
+          isNewNumber={isNewNumber}
+          setISNewNumber={setISNewNumber}
+          setIsVerification={setIsVerification}
+        />
+      )}
+      {isVerification && (
+        <VerifyCode
+          isVerification={isVerification}
+          setIsVerification={setIsVerification}
+          setCallerIDCreated={setCallerIDCreated}
+        />
+      )}
+      {callerIDCreated && (
+        <CallerIdCreated
+          callerIDCreated={callerIDCreated}
+          setCallerIDCreated={setCallerIDCreated}
+        />
+      )}
     </FormProvider>
   );
 };

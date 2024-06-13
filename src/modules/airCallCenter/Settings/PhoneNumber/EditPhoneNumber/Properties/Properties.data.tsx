@@ -1,9 +1,23 @@
 import { RHFSelect, RHFSwitch, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
+export const addNewNumberValidationSchema = Yup.object().shape({
+  phoneNumber: Yup.string()?.required('Field Required'),
+});
+export const addNewNumberDefaultValues = {
+  phoneNumber: '',
+};
+
+export const sixDigitValidationSchema = Yup.object().shape({
+  code: Yup.string()?.required('Field Required'),
+});
+export const sixDigitDefaultValues = {
+  code: '',
+};
+
 export const propertiesValidationSchema = Yup.object().shape({
   companyName: Yup.string()?.required('Field Required'),
-  name: Yup.string()?.required('Field Required'),
+  userName: Yup.string()?.required('Field Required'),
   recordType: Yup.string()?.required('Field Required'),
   customHoldMessage: Yup.string()?.required('Field Required'),
   customRingtone: Yup.string()?.required('Field Required'),
@@ -11,8 +25,8 @@ export const propertiesValidationSchema = Yup.object().shape({
 });
 
 export const propertiesDefaultValues = {
-  companyName: 'UK',
-  name: '',
+  companyName: '',
+  userName: '',
   recordType: '',
   customHoldMessage: '',
   customRingtone: '',
@@ -21,6 +35,7 @@ export const propertiesDefaultValues = {
 
 export const propertiesArray = [
   {
+    id: '01',
     componentProps: {
       name: 'companyName',
       label: 'Company Name',
@@ -32,7 +47,7 @@ export const propertiesArray = [
   },
   {
     componentProps: {
-      name: 'name',
+      name: 'userName',
       label: 'Name',
       required: true,
       fullWidth: true,
