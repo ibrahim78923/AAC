@@ -29,6 +29,7 @@ const useSMSMarketing = () => {
     isConnected,
     setIsConnected,
     isNumberConnected,
+    getIsPhoneConnected,
     setIsNumberConnected,
   };
 };

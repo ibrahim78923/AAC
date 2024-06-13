@@ -3,7 +3,6 @@ import {
   AvatarGroup,
   Box,
   Button,
-  FormLabel,
   Grid,
   InputAdornment,
   Stack,
@@ -11,11 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {
-  contactDetails,
-  contactsColumns,
-  createBroadcast,
-} from './CreateSMSBroadcast.data';
+import { contactsColumns, createBroadcast } from './CreateSMSBroadcast.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -23,15 +18,21 @@ import { BookMarkIcon, PlusSharedColorIcon } from '@/assets/icons';
 import useCreateSMSBroadcast from './useCreateSMSBroadcast';
 import AddContactDrawer from './AddContactDrawer';
 import { AIR_MARKETER } from '@/routesConstants/paths';
-import { DRAWER_TYPES } from '@/constants/strings';
+import { DRAWER_TYPES, SMS_BROADCAST_CONSTANTS } from '@/constants/strings';
+import { v4 as uuidv4 } from 'uuid';
 
 const CreateSMSBroadcast = () => {
   const {
     setIsAddContactDrawerOpen,
+    setSelectedContactsData,
+    selectedContactsData,
     isAddContactDrawerOpen,
-    setTextAreaVal,
+    flattenContactsData,
+    selectedCampaingn,
     handleSubmit,
-    textAreaVal,
+    selectedRec,
+    setSelectedRec,
+    detailsText,
     onSubmit,
     navigate,
     methods,
@@ -79,7 +80,10 @@ const CreateSMSBroadcast = () => {
                     key={item?.componentProps?.name}
                   >
                     {item?.componentProps?.name === 'recipients' && (
-                      <Box position="relative">
+                      <Box
+                        position="relative"
+                        onClick={() => setIsAddContactDrawerOpen(true)}
+                      >
                         <InputAdornment
                           sx={{
                             position: 'absolute',
@@ -96,10 +100,7 @@ const CreateSMSBroadcast = () => {
                               alignItems: 'center',
                             }}
                           >
-                            <Box
-                              sx={{ cursor: 'pointer' }}
-                              onClick={() => setIsAddContactDrawerOpen(true)}
-                            >
+                            <Box sx={{ cursor: 'pointer' }}>
                               <PlusSharedColorIcon
                                 color={theme?.palette?.primary?.main}
                               />
@@ -109,7 +110,16 @@ const CreateSMSBroadcast = () => {
                       </Box>
                     )}
 
-                    <item.component {...item.componentProps} size={'small'}>
+                    <item.component
+                      disabled={
+                        item.componentProps?.name ===
+                        SMS_BROADCAST_CONSTANTS?.RECIPIENTS
+                          ? true
+                          : false
+                      }
+                      {...item.componentProps}
+                      size={'small'}
+                    >
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (
                           <option
@@ -123,7 +133,8 @@ const CreateSMSBroadcast = () => {
                         ))}
                     </item.component>
 
-                    {item?.componentProps?.name === 'recipients' && (
+                    {item?.componentProps?.name ===
+                      SMS_BROADCAST_CONSTANTS?.RECIPIENTS && (
                       <Box sx={{ display: 'flex' }}>
                         <AvatarGroup
                           max={4}
@@ -136,32 +147,27 @@ const CreateSMSBroadcast = () => {
                             },
                           }}
                         >
-                          <Avatar alt="recipient_avatar" src="" />
+                          {selectedContactsData?.map((item: any) => {
+                            const contacts = item?.contacts || [item];
+                            return contacts?.map((contact: any) => (
+                              <Avatar
+                                key={uuidv4()}
+                                alt="recipient_avatar"
+                                src=""
+                              >
+                                <Typography variant="body3" fontWeight={500}>
+                                  {contact?.firstName?.charAt(0)?.toUpperCase()}
+                                  {contact?.lastName?.charAt(0)?.toUpperCase()}
+                                </Typography>
+                              </Avatar>
+                            ));
+                          })}
                         </AvatarGroup>
                       </Box>
                     )}
                   </Grid>
                 );
               })}
-              <Grid item xs={12}>
-                <FormLabel sx={{ color: theme?.palette?.common?.black }}>
-                  Details
-                </FormLabel>
-                <TextareaAutosize
-                  required
-                  name="details"
-                  onChange={(e: any) => {
-                    setTextAreaVal(e?.target?.value);
-                  }}
-                  placeholder="Type"
-                  minRows={10}
-                  style={{
-                    width: '100%',
-                    padding: '16px',
-                    borderRadius: '8px',
-                  }}
-                />
-              </Grid>
             </Grid>
           </Grid>
 
@@ -170,7 +176,16 @@ const CreateSMSBroadcast = () => {
             <Grid container sx={{ p: 1 }}>
               <Grid item xs={12} my={1}>
                 <Stack direction="row" alignItems="center" gap={1}>
-                  <Avatar />
+                  <Avatar>
+                    <Typography
+                      sx={{ color: theme?.palette?.common?.black }}
+                      variant="body1"
+                      fontWeight={700}
+                    >
+                      {selectedCampaingn?.title?.charAt(0)?.toUpperCase()}
+                      {selectedCampaingn?.title?.slice(-1)?.toUpperCase()}
+                    </Typography>
+                  </Avatar>
                   <Box>
                     <Typography
                       variant="body1"
@@ -180,7 +195,9 @@ const CreateSMSBroadcast = () => {
                         fontSize: '15px',
                       }}
                     >
-                      Campaign Name
+                      {selectedCampaingn
+                        ? selectedCampaingn?.title
+                        : 'Campaign Name'}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -198,7 +215,7 @@ const CreateSMSBroadcast = () => {
                 </Typography>
                 <TextareaAutosize
                   disabled
-                  value={textAreaVal}
+                  value={detailsText}
                   minRows={10}
                   style={{
                     width: '100%',
@@ -221,7 +238,7 @@ const CreateSMSBroadcast = () => {
                 >
                   <TanstackTable
                     columns={contactsColumns}
-                    data={contactDetails}
+                    data={flattenContactsData(selectedContactsData)}
                   />
                 </Box>
               </Grid>
@@ -244,6 +261,9 @@ const CreateSMSBroadcast = () => {
                 className="small"
                 variant="outlined"
                 sx={{ background: theme?.palette?.primary?.light }}
+                onClick={() => {
+                  navigate?.push(AIR_MARKETER?.CREATE_TEMPLATE);
+                }}
                 startIcon={<BookMarkIcon />}
               >
                 Save as Template
@@ -253,6 +273,7 @@ const CreateSMSBroadcast = () => {
               variant="outlined"
               color="inherit"
               className="small"
+              onClick={() => {}}
               startIcon={<DateRangeIcon />}
             >
               Schedule
@@ -272,6 +293,9 @@ const CreateSMSBroadcast = () => {
         <AddContactDrawer
           isDrawerOpen={isAddContactDrawerOpen}
           onClose={() => setIsAddContactDrawerOpen(false)}
+          selectedRec={selectedRec}
+          setSelectedRec={setSelectedRec}
+          setSelectedContactsData={setSelectedContactsData}
         />
       )}
     </>

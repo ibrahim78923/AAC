@@ -21,7 +21,8 @@ const useTemplatese = () => {
   const [filterValues, setFilterValues] = useState({
     search: '',
   });
-  const [deleteSmsTemplate] = useDeleteSmsTemplateMutation();
+  const [deleteSmsTemplate, { isLoading: deleteTempLoading }] =
+    useDeleteSmsTemplateMutation();
   const templateParams = {
     page: page,
     limit: pageLimit,
@@ -60,6 +61,7 @@ const useTemplatese = () => {
     filterValues,
     setFilterValues,
     smsTemplateData,
+    deleteTempLoading,
   };
 };
 

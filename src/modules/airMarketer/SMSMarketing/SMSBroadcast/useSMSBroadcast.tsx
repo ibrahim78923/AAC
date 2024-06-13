@@ -4,7 +4,6 @@ import { Theme, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { PAGINATION } from '@/config';
 import { DATE_FORMAT } from '@/constants';
-import { AIR_MARKETER } from '@/routesConstants/paths';
 import {
   useDeleteSmsBroadcastMutation,
   useGetSmsBroadcatsQuery,
@@ -17,9 +16,8 @@ const useSMSBroadcast = () => {
   const [isDelete, setIsDelete] = useState(false);
   const [selectedId, setSelectedId] = useState();
   const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.OPTIONAL_PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-
   const [filterValues, setFilterValues] = useState<any>({
     search: '',
     status: '',
@@ -61,14 +59,6 @@ const useSMSBroadcast = () => {
     setIsDelete(true);
   };
 
-  const handleEdit = () => {
-    setSelectedValue(null);
-    navigate.push({
-      pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
-      query: { type: 'edit' },
-    });
-  };
-
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
@@ -102,7 +92,6 @@ const useSMSBroadcast = () => {
     handleDelete,
     handleClose,
     handleClick,
-    handleEdit,
     setIsDelete,
     statusTag,
     navigate,

@@ -9,26 +9,21 @@ import {
   Stack,
   Tooltip,
 } from '@mui/material';
-
 import Search from '@/components/Search';
-
 import { AlertModals } from '@/components/AlertModals';
-
 import useSMSBroadcast from '../useSMSBroadcast';
-
 import { ArrowDropDown } from '@mui/icons-material';
-
 import {
   AlertModalDeleteIcon,
   DeleteIcon,
   RefreshTasksIcon,
 } from '@/assets/icons';
-
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const SMSBroadcastHeader = (props: any) => {
   const {
@@ -50,7 +45,7 @@ const SMSBroadcastHeader = (props: any) => {
     isDelete,
     setIsDelete,
     handleDelete,
-    handleEdit,
+    navigate,
   } = useSMSBroadcast();
 
   return (
@@ -187,7 +182,16 @@ const SMSBroadcastHeader = (props: any) => {
                   AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.EDIT_SMS_BROADCAST,
                 ]}
               >
-                <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    navigate?.push({
+                      pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
+                      query: { type: 'edit', id: checkedRows },
+                    });
+                  }}
+                >
+                  Edit
+                </MenuItem>
               </PermissionsGuard>
               <PermissionsGuard
                 permissions={[

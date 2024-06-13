@@ -364,6 +364,10 @@ export const CONTRACT_ACTION = {
   EXTEND: 'extend',
 };
 
+export const SMS_BROADCAST_CONSTANTS = {
+  RECIPIENTS: 'recipients',
+};
+
 export enum ROLES {
   ORG_REQUESTER = 'ORG_REQUESTER',
   ORG_AGENT = 'ORG_AGENT',

@@ -3,31 +3,59 @@ import { Theme, useTheme } from '@mui/material';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
 import { useGetGroupsQuery } from '@/services/commonFeatures/contact-groups';
 import { PAGINATION } from '@/config';
+import {
+  contactsDefaultValues,
+  contactsValidationSchema,
+} from './AllContactDrawer.data';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 
-const useAddContactDrawer = () => {
+const useAddContactDrawer = (
+  onClose?: any,
+  setSelectedContactsData?: any,
+  selectedRec?: any,
+) => {
   const theme = useTheme<Theme>();
-  const [selectedRec, setSelectedRec] = useState<string[]>([]);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
-  const { data: getContactsData, isLoading: loadingGetContacts } =
+  const { data: getContactsData, isLoading: loadingAllContacts } =
     useGetContactsQuery({ params: { limit: pageLimit, page: page } });
 
   const allContactsData = getContactsData?.data?.contacts;
+  const { data: getGroupsData, isLoading: contactGroupsLoading } =
+    useGetGroupsQuery({
+      params: { limit: pageLimit, page: page },
+    });
 
-  const { data: getGroupsData } = useGetGroupsQuery({
-    params: { limit: 10, page: 1 },
+  const contactsGroupData = getGroupsData?.data?.contactgroups;
+
+  const methods: any = useForm({
+    resolver: yupResolver(contactsValidationSchema),
+    defaultValues: contactsDefaultValues,
   });
 
+  const { handleSubmit, watch } = methods;
+  const radioVal = watch('contacts');
+
+  const onSubmit = () => {
+    setSelectedContactsData(selectedRec);
+    onClose();
+  };
+
   return {
-    loadingGetContacts,
+    contactGroupsLoading,
+    loadingAllContacts,
+    contactsGroupData,
     getContactsData,
     allContactsData,
-    setSelectedRec,
     getGroupsData,
-    selectedRec,
     setPageLimit,
+    handleSubmit,
+    onSubmit,
+    radioVal,
     setPage,
+    methods,
     theme,
   };
 };

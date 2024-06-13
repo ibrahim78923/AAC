@@ -22,6 +22,7 @@ const Templates = () => {
     getRowValues,
     setPageLimit,
     isOpenDeleteModal,
+    deleteTempLoading,
     isLoading,
     isSuccess,
     navigate,
@@ -119,6 +120,7 @@ const Templates = () => {
             open={isOpenDeleteModal?.isToggle}
             handleClose={handleCloseAlert}
             handleSubmitBtn={() => deleteTemplete(isOpenDeleteModal?.deleteId)}
+            loading={deleteTempLoading}
           />
         )}
       </Box>

@@ -28,8 +28,8 @@ const AddUsers = (props: any) => {
         isAddUserDrawer?.type === DRAWER_TYPES?.VIEW
           ? `${productUsersById?.data?.user?.firstName} ${productUsersById?.data?.user?.lastName}`
           : isAddUserDrawer?.type === DRAWER_TYPES?.EDIT
-            ? DRAWER_TITLES?.EDIT
-            : DRAWER_TITLES?.ADD
+          ? DRAWER_TITLES?.EDIT
+          : DRAWER_TITLES?.ADD
       }
       okText={
         isAddUserDrawer?.type === DRAWER_TYPES?.EDIT

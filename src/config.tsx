@@ -6,6 +6,7 @@ export const FE_BASE_URL = process?.env?.NEXT_PUBLIC_FE_BASE_URL;
 //PAGINATION
 export const PAGINATION = {
   PAGE_LIMIT: 10,
+  OPTIONAL_PAGE_LIMIT: 5,
   ROWS_PER_PAGE: [5, 10, 15, 20],
   CURRENT_PAGE: 1,
   PAGE_COUNT: 1,

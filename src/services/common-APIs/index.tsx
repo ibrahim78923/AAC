@@ -253,6 +253,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['COMPANY'],
     }),
+
+    getAllUsers: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.USER_LIST}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: ['USERS_LIST'],
+    }),
   }),
 });
 
@@ -281,4 +293,5 @@ export const {
   useLazyGetCompanyContactsListQuery,
   useLazyGetAllCompaniesQuery,
   useLazyGetAllTemplateListQuery,
+  useLazyGetAllUsersQuery,
 } = CommonAPIS;

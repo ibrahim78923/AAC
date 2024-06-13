@@ -9,6 +9,7 @@ import {
 } from '@/services/airMarketer/SmsMarketing/Templates';
 import { enqueueSnackbar } from 'notistack';
 import { TASK_TYPE } from '@/constants';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const useCreateTemplate = () => {
   const router = useRouter();
@@ -20,8 +21,10 @@ const useCreateTemplate = () => {
   }
 
   const theme = useTheme();
-  const [postTemplate] = usePostTemplateMutation();
-  const [updateTemplate] = useUpdateTemplateMutation();
+  const [postTemplate, { isLoading: postTempLoading }] =
+    usePostTemplateMutation();
+  const [updateTemplate, { isLoading: updateTempLoading }] =
+    useUpdateTemplateMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(templateValidationSchema),
@@ -46,6 +49,7 @@ const useCreateTemplate = () => {
         await updateTemplate({ body: formData, id: editData?._id })?.unwrap();
       } else {
         await postTemplate({ body: formData })?.unwrap();
+        navigate?.push(AIR_MARKETER?.CREATE_SMS_BROADCAST);
       }
       enqueueSnackbar(
         `Template ${
@@ -65,6 +69,8 @@ const useCreateTemplate = () => {
     handleSubmit,
     onSubmit,
     TemplateName,
+    updateTempLoading,
+    postTempLoading,
     Category,
     Details,
     type,

@@ -58,14 +58,14 @@ export const broadcastColumns: any = (columnsProps: any) => {
       header: 'Name',
       cell: (info: any) => (
         <Link
-          href={`/${AIR_MARKETER?.SMS_MARKETING_DETAILS}`}
+          href={`${AIR_MARKETER?.SMS_MARKETING_DETAILS}`}
           style={{
             color: theme?.palette?.custom?.bright,
             fontWeight: 500,
             fontSize: '12px',
           }}
         >
-          {info?.getValue()}
+          {info?.getValue() ?? 'N/A'}
         </Link>
       ),
     },

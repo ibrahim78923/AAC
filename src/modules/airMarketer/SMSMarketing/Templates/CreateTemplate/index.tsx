@@ -12,6 +12,7 @@ import { createTemplateDataArray } from './CreateTemplate.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import useCreateTemplate from './useCreateTemplate';
 import { TASK_TYPE } from '@/constants';
+import { LoadingButton } from '@mui/lab';
 
 const CreateTemplate = () => {
   const {
@@ -20,6 +21,8 @@ const CreateTemplate = () => {
     handleSubmit,
     onSubmit,
     TemplateName,
+    postTempLoading,
+    updateTempLoading,
     Category,
     Details,
     type,
@@ -181,14 +184,15 @@ const CreateTemplate = () => {
           >
             Cancel
           </Button>
-          <Button
-            className="small"
+          <LoadingButton
             variant="contained"
+            className="small"
             sx={{ marginLeft: '10px' }}
             type="submit"
+            loading={postTempLoading || updateTempLoading}
           >
             Save Template
-          </Button>
+          </LoadingButton>
         </Box>
       </FormProvider>
     </>

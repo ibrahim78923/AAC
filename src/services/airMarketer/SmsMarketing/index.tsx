@@ -45,6 +45,36 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['BROADCAST'],
     }),
+
+    postSmsBroadcast: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.GET_SMS_MARKETING_BROADCAST,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['PERMISSIONS'],
+    }),
+
+    getSmsBroadcatsById: builder.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.GET_SMS_MARKETING_BROADCAST}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['BROADCAST'],
+    }),
+
+    updateSmsBroadcats: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${END_POINTS?.GET_SMS_MARKETING_BROADCAST}/${id}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: ['BROADCAST'],
+    }),
   }),
 });
 
@@ -54,4 +84,7 @@ export const {
   useConnectPhoneNumberMutation,
   useGetIsPhoneConnectedQuery,
   useGetSmsDashboardInsightsQuery,
+  usePostSmsBroadcastMutation,
+  useGetSmsBroadcatsByIdQuery,
+  useUpdateSmsBroadcatsMutation,
 } = SmsMarketingAPI;
