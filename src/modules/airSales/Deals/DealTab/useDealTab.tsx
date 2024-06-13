@@ -3,8 +3,8 @@ import {
   useGetCustomizeColumnQuery,
   useGetDealsLifecycleStageQuery,
   useGetDealsListQuery,
-  useGetDealPipeLineQuery,
   useGetDealsViewsQuery,
+  useLazyGetDealPipeLineListQuery,
 } from '@/services/airSales/deals';
 import { useState } from 'react';
 import { AllDealColumns } from './TableColumns/AllDealColumns';
@@ -71,9 +71,6 @@ const useDealTab = () => {
     isSuccess,
   } = useGetDealsListQuery(dealListparams);
 
-  const params = {
-    meta: true,
-  };
   const { data: dealCustomzieCol, isLoading: customizeLoading } =
     useGetCustomizeColumnQuery({
       type: 'deals',
@@ -84,7 +81,8 @@ const useDealTab = () => {
   );
 
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
-  const { data: pipelineData } = useGetDealPipeLineQuery(params);
+
+  const pipelineListDropdown = useLazyGetDealPipeLineListQuery();
 
   const dealListApiUrl = dealViewsData?.data?.map((obj: any) => {
     const dateStart = obj?.apiUrl?.match(/dateStart=([^&]*)/);
@@ -282,6 +280,7 @@ const useDealTab = () => {
     isShareDine,
     handleActions,
     isAssign,
+    pipelineListDropdown,
     handleAssignModal,
     isDelete,
     handleDeleteModal,
@@ -292,7 +291,6 @@ const useDealTab = () => {
     setViewColumns,
     viewColumns,
     DealsLifecycleStageData,
-    pipelineData,
     dealCustomzieCol,
     activeColumns,
     salesProduct,

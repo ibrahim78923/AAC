@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
-
 import { Grid } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { usePostDealsMutation } from '@/services/airSales/deals';
@@ -11,7 +9,6 @@ import {
   defaultValues,
   validationSchema,
 } from './CreateDeal.data';
-import { v4 as uuidv4 } from 'uuid';
 
 import dayjs from 'dayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -37,6 +34,8 @@ const CreateDeal = ({ open, onClose }: any) => {
       unitDiscount: 0,
     }));
     delete values.products;
+    values.dealPipelineId = values.dealPipelineId?._id;
+    values.ownerId = values.ownerId?._id;
     const obj = {
       closeDate,
       products,
@@ -84,14 +83,13 @@ const CreateDeal = ({ open, onClose }: any) => {
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
           {dealDataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
               <item.component {...item?.componentProps} size={'small'}>
-                {item?.componentProps?.select &&
-                  item?.options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
+                {item?.options?.map((option: any) => (
+                  <option key={option?.value} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
               </item.component>
             </Grid>
           ))}

@@ -50,6 +50,18 @@ export const dealsApi = baseAPI.injectEndpoints({
       providesTags: ['DEALS'],
     }),
 
+    getDealPipeLineList: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DEALS_PIPELINE}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['DEALS'],
+    }),
+
     getDealsLifecycleStage: builder.query({
       query: ({}) => ({
         url: `${END_POINTS?.DEALS_LIFECYCLE_STAGES}`,
@@ -161,6 +173,17 @@ export const dealsApi = baseAPI.injectEndpoints({
       }),
       providesTags: ['DEALS'],
     }),
+    getUsersListDropdown: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.USERS_LIST_ADMIN}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: ['DEALS'],
+    }),
     patchDeals: builder.mutation({
       query: ({ id, body }: any) => {
         return {
@@ -204,6 +227,7 @@ export const {
   useGetDealsListQuery,
   // useGetDealsByIdQuery,
   useGetDealPipeLineQuery,
+  useLazyGetDealPipeLineListQuery,
   useGetDealsLifecycleStageQuery,
   useGetAddLineItemsQuery,
   // useGetDealsUserListQuery,
@@ -225,4 +249,5 @@ export const {
   useGetCustomizeColumnQuery,
   useUpdatedGridDealsMutation,
   usePutCustomizedColumnsMutation,
+  useLazyGetUsersListDropdownQuery,
 } = dealsApi;

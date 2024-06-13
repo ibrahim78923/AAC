@@ -76,6 +76,7 @@ export const UpsertServicesReports = () => {
                   ? REPORTS_HEADER_TITLE?.CREATE_TABLE
                   : chart
                   ? REPORTS_HEADER_TITLE?.CREATE_CHART
+
                   : counter
                   ? REPORTS_HEADER_TITLE?.CREATE_COUNTER
                   : REPORTS_HEADER_TITLE?.CREATE_REPORT
