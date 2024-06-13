@@ -13,13 +13,13 @@ export const productOptions = [
 ];
 
 export const objectOptions = [
-  'TICKETS',
+  'TICKET',
   'MANAGE_PORTAL',
   'ARTICLES',
   'CONTRACTS',
   'SETTINGS',
   'ASSETS',
-  'CONTACTS',
+  'CONTACT',
   'DEPARTMENTS',
   'QUOTE',
   'EMAILS',
@@ -35,7 +35,7 @@ export const defaultValues = (filterValues: any) => {
     product: filterValues?.product ?? null,
     user: filterValues?.user ?? null,
     object: filterValues?.object ?? null,
-    createdDate: filterValues?.createdDate ?? new Date(),
+    createdDate: filterValues?.createdDate ?? null,
   };
 };
 

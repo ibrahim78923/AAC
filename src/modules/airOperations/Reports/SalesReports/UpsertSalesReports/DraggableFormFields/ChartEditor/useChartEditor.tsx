@@ -1,4 +1,5 @@
 import { CHARTS, REPORT_TYPE } from '@/constants/strings';
+import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useState } from 'react';
 
@@ -48,6 +49,7 @@ export const useChartEditor = (props: any) => {
     setValue('chartTitle', 'Report Chart');
     setValue('subFilter', false);
     setDraggedItemData(null);
+    successSnackbar('Chart Added');
   };
 
   return {

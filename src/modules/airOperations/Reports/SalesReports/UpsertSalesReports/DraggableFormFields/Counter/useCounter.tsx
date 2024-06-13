@@ -1,4 +1,5 @@
 import { REPORT_TYPE } from '@/constants/strings';
+import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 
 export const useCounter = (props: any) => {
@@ -30,6 +31,7 @@ export const useCounter = (props: any) => {
       counter: false,
     });
     setDraggedItemData(null);
+    successSnackbar('Count Added');
   };
   return {
     handleSave,

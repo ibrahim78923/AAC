@@ -53,7 +53,7 @@ export default function DroppableArea(props: any) {
     <Droppable droppableId={'droppable'}>
       {(provided: any) => (
         <Box
-          height={'74vh'}
+          height={'72vh'}
           overflow={'scroll'}
           ref={provided?.innerRef}
           {...provided?.droppableProps}
@@ -66,10 +66,21 @@ export default function DroppableArea(props: any) {
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'center'}
+                    justifyContent={'center'}
+                    height={'100%'}
                   >
                     <ReportsIcon />
                     <Typography variant={'h6'} mt={1} component={'span'}>
-                      Drag or Drop Widgets here to create your report!
+                      <span style={{ color: theme.palette.primary.main }}>
+                        {' '}
+                        Drag{' '}
+                      </span>
+                      or
+                      <span style={{ color: theme.palette.primary.main }}>
+                        {' '}
+                        Drop{' '}
+                      </span>
+                      Widgets here to create your report!
                     </Typography>
                     <Box
                       display="flex"
@@ -108,13 +119,13 @@ export default function DroppableArea(props: any) {
                 </>
               ) : (
                 <>
-                  {form?.length > 0 && (
+                  {!!form?.length && (
                     <>
                       <Grid container spacing={1} mb={1}>
                         {form?.map((item: any) => (
                           <>
                             {item?.type === REPORT_TYPE?.CHART && (
-                              <Grid item xs={12} sm={6} key={item?.id}>
+                              <Grid item sm={12} lg={6} key={item?.id}>
                                 <Box
                                   borderRadius={2}
                                   border={`1px solid ${theme?.palette?.grey[700]}`}

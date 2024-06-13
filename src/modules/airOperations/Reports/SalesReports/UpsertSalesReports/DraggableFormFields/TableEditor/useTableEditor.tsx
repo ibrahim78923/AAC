@@ -1,4 +1,5 @@
 import { REPORT_TYPE } from '@/constants/strings';
+import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useState } from 'react';
 
@@ -37,6 +38,7 @@ export const useTableEditor = (props: any) => {
     setColumnsData([]);
     setValue('tableTitle', 'Report Table');
     setDraggedItemData(null);
+    successSnackbar('Table Added');
   };
 
   return {

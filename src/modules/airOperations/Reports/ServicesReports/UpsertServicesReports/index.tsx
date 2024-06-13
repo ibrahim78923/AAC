@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import DraggableFields from './DraggableFields';
 import { fieldsList } from './UpsertServicesReports.data';
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -90,7 +90,20 @@ export const UpsertServicesReports = () => {
                       });
                     }
               }
-            />
+            >
+              {!!form?.length && !text && !table && !chart && (
+                <Button
+                  variant="contained"
+                  onClick={
+                    showTemplate
+                      ? () => setShowTemplate(false)
+                      : () => setShowTemplate(true)
+                  }
+                >
+                  {showTemplate ? 'Create Report' : 'Choose Template'}
+                </Button>
+              )}
+            </PageTitledHeader>
             <DroppableArea
               fieldData={fieldData}
               modal={modal}

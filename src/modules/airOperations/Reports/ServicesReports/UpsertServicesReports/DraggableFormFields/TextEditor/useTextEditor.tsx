@@ -205,7 +205,6 @@ export const useTextEditor = (props: any) => {
   };
 
   const handleSave = () => {
-    successSnackbar('Save Text Data');
     getTextFromEditorHTML();
     setFieldData(false);
     setModal({
@@ -217,6 +216,7 @@ export const useTextEditor = (props: any) => {
     setValue('textTitle', 'Report Text');
     setEditorState(EditorState.createEmpty());
     setDraggedItemData(null);
+    successSnackbar('Text Added');
   };
 
   return {

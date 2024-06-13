@@ -1,5 +1,6 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const importTabColumnsFunction: any = (
@@ -56,28 +57,7 @@ export const importTabColumnsFunction: any = (
     id: 'name',
     isSortable: true,
     header: 'User',
-    cell: (info: any) => (
-      <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
-        <Avatar
-          sx={{ bgcolor: 'error.lighter' }}
-          style={{ width: 24, height: 24 }}
-          src={info?.row?.original?.requester?.profileImg?.src}
-          alt={info?.row?.original?.requester?.name}
-        />
-        <Box>
-          <Typography
-            variant="subtitle2"
-            fontWeight={500}
-            color="blue.dull_blue"
-          >
-            {info?.row?.original?.requester?.name}
-          </Typography>
-          <Typography variant="subtitle2" fontWeight={400} color="custom.light">
-            {info?.getValue()}
-          </Typography>
-        </Box>
-      </Box>
-    ),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.fileName,
@@ -85,7 +65,7 @@ export const importTabColumnsFunction: any = (
     isSortable: true,
     header: 'File Name',
     cell: (info: any) => (
-      <Typography color="primary.main">{info?.getValue()}</Typography>
+      <Typography color="primary.main">{info?.getValue() ?? '---'}</Typography>
     ),
   },
   {
@@ -93,21 +73,21 @@ export const importTabColumnsFunction: any = (
     id: 'product',
     isSortable: true,
     header: 'Product',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.object,
     id: 'object',
     isSortable: true,
     header: 'Object',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.status,
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.createdAt,
@@ -115,6 +95,6 @@ export const importTabColumnsFunction: any = (
     isSortable: true,
     header: 'Created Date',
     cell: (info: any) =>
-      info?.getValue() ? dayjs(info?.getValue())?.format('DD/MM/YYYY') : '---',
+      dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DDMMYYY) ?? '---',
   },
 ];

@@ -91,6 +91,7 @@ export default function DraggableFields({
                           >
                             {(provided: any) => (
                               <Box
+                                key={item?.id}
                                 boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
                                 bgcolor={'common.white'}
                                 borderRadius={2}
@@ -156,6 +157,7 @@ export default function DraggableFields({
                       >
                         {(provided: any) => (
                           <Box
+                            key={item?.id}
                             boxShadow={`0px 0px 1.5px 1.5px ${theme?.palette?.grey?.[700]}`}
                             bgcolor={'common.white'}
                             borderRadius={2}

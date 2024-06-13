@@ -128,7 +128,7 @@ export const useImportModal = () => {
             )?.unwrap();
             successSnackbar('File Uploaded');
             const url = new URL(`${response?.data}`);
-            const filePath = `${url?.origin}/${url?.pathname}`;
+            const filePath = `${url?.origin}${url?.pathname}`;
             setFilePath(filePath);
           } catch (error: any) {
             errorSnackbar(error?.data?.message);
