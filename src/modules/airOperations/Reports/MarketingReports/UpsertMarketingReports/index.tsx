@@ -91,7 +91,7 @@ export const UpsertMarketingReports = () => {
                     }
               }
             >
-              {!!form?.length && (
+              {!!form?.length && !text && !table && !chart && (
                 <Button
                   variant="contained"
                   onClick={

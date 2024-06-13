@@ -80,7 +80,7 @@ export default function DroppableArea(props: any) {
                         {' '}
                         Drop{' '}
                       </span>
-                      Widgets here to create your report!
+                      widgets here to create your report!
                     </Typography>
                     <Box
                       display="flex"

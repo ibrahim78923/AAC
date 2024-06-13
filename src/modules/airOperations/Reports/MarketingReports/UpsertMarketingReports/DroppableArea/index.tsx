@@ -71,7 +71,16 @@ export default function DroppableArea(props: any) {
                   >
                     <ReportsIcon />
                     <Typography variant={'h6'} mt={1} component={'span'}>
-                      Drag or Drop Widgets here to create your report!
+                      <span style={{ color: theme.palette.primary.main }}>
+                        {' '}
+                        Drag{' '}
+                      </span>
+                      or
+                      <span style={{ color: theme.palette.primary.main }}>
+                        {' '}
+                        Drop{' '}
+                      </span>
+                      widgets here to create your report!
                     </Typography>
                     <Box
                       display="flex"
