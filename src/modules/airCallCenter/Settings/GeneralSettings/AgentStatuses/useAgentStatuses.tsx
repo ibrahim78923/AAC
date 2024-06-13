@@ -16,11 +16,13 @@ import { successSnackbar } from '@/utils/api';
 const useBusinessHours = () => {
   // const [postAddFaq, { isLoading: loadingAddFaq }] = usePostFaqsMutation();
   const [openNewAgentStatus, setOpenNewAgentStatus] = useState(false);
+  const [text, setText] = useState('');
   const methodsNewAgentStatus = useForm({
     resolver: yupResolver(newAgentStatusValidationSchema),
     defaultValues: newAgentStatusDefaultValues,
   });
-
+  const [newAgentAdded, setNewAgentAdded] = useState(false);
+  const [openAlertModal, setOpenAlertModal] = useState(false);
   const {
     handleSubmit: handleMethodAddStatus,
     reset: resetNewAgentStatusForm,
@@ -36,6 +38,8 @@ const useBusinessHours = () => {
 
   const onSubmitNewAgentStatus = async () => {
     successSnackbar('Agent Status added successfully');
+    setNewAgentAdded(true);
+    setText('');
     handleCloseNewAgentStatus();
   };
   const handleNewAgentStatusSubmit = handleMethodAddStatus(
@@ -50,9 +54,15 @@ const useBusinessHours = () => {
 
   const { handleSubmit: handleMethodAddFaq, reset: reseteditAgentStatusForm } =
     methodsEditAgentStatus;
+  const [newStatusAdded, setNewStatusAdded] = useState(false);
 
+  const handleOpenEditNewAgentStatus = () => {
+    setOpenEditAgentStatus(true);
+    setNewStatusAdded(true);
+  };
   const handleOpenEditAgentStatus = () => {
     setOpenEditAgentStatus(true);
+    setNewStatusAdded(false);
   };
   const handleCloseEditAgentStatus = () => {
     setOpenEditAgentStatus(false);
@@ -61,11 +71,20 @@ const useBusinessHours = () => {
 
   const onSubmitEditAgentStatus = async () => {
     successSnackbar('Agent Status updated successfully');
+    setText('');
     handleCloseEditAgentStatus();
   };
   const handleEditAgentStatusSubmit = handleMethodAddFaq(
     onSubmitEditAgentStatus,
   );
+  const handleCloseAlertModal = () => {
+    setOpenAlertModal(false);
+  };
+  const handleDeleteAgentStatus = () => {
+    successSnackbar('Agent Status deleted successfully');
+    setOpenAlertModal(false);
+    setNewAgentAdded(false);
+  };
 
   return {
     openNewAgentStatus,
@@ -79,6 +98,15 @@ const useBusinessHours = () => {
     handleOpenEditAgentStatus,
     handleCloseEditAgentStatus,
     handleEditAgentStatusSubmit,
+    newAgentAdded,
+    openAlertModal,
+    handleCloseAlertModal,
+    handleDeleteAgentStatus,
+    setOpenAlertModal,
+    handleOpenEditNewAgentStatus,
+    newStatusAdded,
+    text,
+    setText,
   };
 };
 

@@ -2,7 +2,10 @@ import { DeleteCrossIcon, EditYellowBGPenIcon } from '@/assets/icons';
 
 import { Box, Stack } from '@mui/material';
 
-export const columnsHolidays = (setIsHolidayDrawerOpen: any) => {
+export const columnsHolidays = (
+  setIsHolidayDrawerOpen: any,
+  setOpenAlertModal: any,
+) => {
   return [
     {
       accessorFn: (row: any) => row?.dates,
@@ -32,7 +35,12 @@ export const columnsHolidays = (setIsHolidayDrawerOpen: any) => {
           >
             <EditYellowBGPenIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setOpenAlertModal?.(true);
+            }}
+          >
             <DeleteCrossIcon />
           </Box>
         </Stack>

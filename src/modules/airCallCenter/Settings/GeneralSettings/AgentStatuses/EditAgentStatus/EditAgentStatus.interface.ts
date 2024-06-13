@@ -4,4 +4,7 @@ export interface EditAgentStatusPropsI {
   handleSubmit: any;
   formMethods: any;
   isLoading?: boolean;
+  newStatusAdded: boolean;
+  text: any;
+  setText: any;
 }
