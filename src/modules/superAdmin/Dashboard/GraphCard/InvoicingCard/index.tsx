@@ -62,10 +62,10 @@ const InvoicingCard = ({ details, isLoading }: any) => {
                                 item?._id === 'PAID'
                                   ? theme?.palette?.success?.main
                                   : item?._id === 'PENDING'
-                                    ? theme?.palette?.custom?.bright
-                                    : item?._id === 'OVERDUE'
-                                      ? theme.palette.error?.main
-                                      : theme?.palette?.text?.primary,
+                                  ? theme?.palette?.custom?.bright
+                                  : item?._id === 'OVERDUE'
+                                  ? theme.palette.error?.main
+                                  : theme?.palette?.text?.primary,
                             }}
                           >
                             {invoiceAmount({

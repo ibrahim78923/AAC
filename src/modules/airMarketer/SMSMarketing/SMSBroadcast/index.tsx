@@ -63,6 +63,7 @@ const SMSBroadcast = () => {
           count={smsBroadcastData?.data?.meta?.pages}
           isPagination
           pageLimit={smsBroadcastData?.data?.meta?.limit}
+          currentPage={smsBroadcastData?.data?.meta?.page}
           isLoading={isLoading}
           isSuccess={isSuccess}
         />

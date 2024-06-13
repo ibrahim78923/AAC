@@ -19,11 +19,10 @@ import {
   RefreshTasksIcon,
 } from '@/assets/icons';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { LoadingButton } from '@mui/lab';
 
 const SMSBroadcastHeader = (props: any) => {
   const {
@@ -31,14 +30,14 @@ const SMSBroadcastHeader = (props: any) => {
     setFilterValues,
     checkedRows,
     resetFilters,
-    setCheckedRows,
     datePickerVal,
     setDatePickerVal,
     startedDate,
     endedDate,
   } = props;
   const {
-    deleteSmsBroadcast,
+    deleteBroadcastLoading,
+    handleSMSBroadcastDelete,
     handleClick,
     handleClose,
     selectedValue,
@@ -139,21 +138,18 @@ const SMSBroadcastHeader = (props: any) => {
         </PermissionsGuard>
 
         {checkedRows?.length > 1 ? (
-          <Button
-            className="small"
+          <LoadingButton
             variant="outlined"
+            onClick={() => {
+              handleSMSBroadcastDelete(checkedRows);
+            }}
+            className="small"
             color="inherit"
             startIcon={<DeleteIcon />}
-            onClick={() => {
-              deleteSmsBroadcast({ ids: checkedRows });
-              setCheckedRows([]);
-              enqueueSnackbar(`Broadcast Deleted Successfully`, {
-                variant: NOTISTACK_VARIANTS?.SUCCESS,
-              });
-            }}
+            loading={deleteBroadcastLoading}
           >
             Delete
-          </Button>
+          </LoadingButton>
         ) : (
           <Box>
             <Button
@@ -213,17 +209,9 @@ const SMSBroadcastHeader = (props: any) => {
           open={isDelete}
           handleClose={() => setIsDelete(false)}
           handleSubmitBtn={() => {
-            setIsDelete(false);
-            deleteSmsBroadcast({ ids: checkedRows });
-            setCheckedRows([]);
-            enqueueSnackbar(`Broadcast Deleted Successfully`, {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            });
+            handleSMSBroadcastDelete(checkedRows);
           }}
-          handleSubmit={() => {
-            deleteSmsBroadcast({ ids: checkedRows });
-            setIsDelete(false);
-          }}
+          loading={deleteBroadcastLoading}
         />
       )}
     </Grid>

@@ -6,7 +6,6 @@ import {
   Grid,
   InputAdornment,
   Stack,
-  TextareaAutosize,
   Typography,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -20,12 +19,18 @@ import AddContactDrawer from './AddContactDrawer';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { DRAWER_TYPES, SMS_BROADCAST_CONSTANTS } from '@/constants/strings';
 import { v4 as uuidv4 } from 'uuid';
+import { LoadingButton } from '@mui/lab';
+import { styles } from './CreateSMSBroadcast.style';
 
 const CreateSMSBroadcast = () => {
   const {
     setIsAddContactDrawerOpen,
     setSelectedContactsData,
+    updateBroadcastLoading,
+    postBroadcastLoading,
     selectedContactsData,
+    setCreateStatus,
+    handleSaveAsDraft,
     isAddContactDrawerOpen,
     flattenContactsData,
     selectedCampaingn,
@@ -42,32 +47,40 @@ const CreateSMSBroadcast = () => {
 
   return (
     <>
-      <Stack direction={{ sm: 'row' }} justifyContent="space-between">
-        <Box
-          alignItems="center"
-          gap={1}
-          sx={{ display: { md: 'flex' }, zIndex: 99, position: 'relative' }}
-        >
-          <ArrowBackIcon
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              navigate?.push(AIR_MARKETER?.SMS_MARKETING);
-            }}
-          />
-          <Typography variant="h3">
-            {type === DRAWER_TYPES?.ADD ? 'Create ' : 'Edit '}SMS Broadcast
-          </Typography>
-        </Box>
-        <Box>
-          {type !== DRAWER_TYPES?.ADD && (
-            <Button variant="outlined" color="inherit" className="small">
-              Save as Draft
-            </Button>
-          )}
-        </Box>
-      </Stack>
-
       <FormProvider methods={methods}>
+        <Stack direction={{ sm: 'row' }} justifyContent="space-between">
+          <Box
+            alignItems="center"
+            gap={1}
+            sx={{ display: { md: 'flex' }, zIndex: 99, position: 'relative' }}
+          >
+            <ArrowBackIcon
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                navigate?.push(AIR_MARKETER?.SMS_MARKETING);
+              }}
+            />
+            <Typography variant="h3">
+              {type === DRAWER_TYPES?.ADD ? 'Create ' : 'Edit '}SMS Broadcast
+            </Typography>
+          </Box>
+          <Box
+            onMouseOver={() => {
+              setCreateStatus('Draft');
+            }}
+          >
+            {type === DRAWER_TYPES?.ADD && (
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="small"
+                onClick={handleSaveAsDraft}
+              >
+                Save as Draft
+              </Button>
+            )}
+          </Box>
+        </Stack>
         <Grid container spacing={3}>
           <Grid item md={6}>
             <Grid container spacing={2} mt={1}>
@@ -173,7 +186,7 @@ const CreateSMSBroadcast = () => {
 
           <Grid item md={6} xs={12}>
             <Typography variant="h4">Preview</Typography>
-            <Grid container sx={{ p: 1 }}>
+            <Grid container spacing={2}>
               <Grid item xs={12} my={1}>
                 <Stack direction="row" alignItems="center" gap={1}>
                   <Avatar>
@@ -210,23 +223,15 @@ const CreateSMSBroadcast = () => {
                 </Stack>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="body2" fontWeight={600}>
+                <Typography variant="body2" fontWeight={600} sx={{ pb: 1 }}>
                   Details
                 </Typography>
-                <TextareaAutosize
-                  disabled
-                  value={detailsText}
-                  minRows={10}
-                  style={{
-                    width: '100%',
-                    padding: '16px',
-                    border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-                    borderRadius: '8px',
-                  }}
-                />
+                <Box sx={styles?.previewDetails}>
+                  <Box dangerouslySetInnerHTML={{ __html: detailsText }} />
+                </Box>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="body2" fontWeight={600}>
+                <Typography variant="body2" fontWeight={600} sx={{ pb: 1 }}>
                   Added Contacts
                 </Typography>
                 <Box
@@ -278,13 +283,14 @@ const CreateSMSBroadcast = () => {
             >
               Schedule
             </Button>
-            <Button
+            <LoadingButton
               variant="contained"
               className="small"
               onClick={handleSubmit(onSubmit)}
+              loading={postBroadcastLoading || updateBroadcastLoading}
             >
               Send Now
-            </Button>
+            </LoadingButton>
           </Grid>
         </Grid>
       </FormProvider>

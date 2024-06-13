@@ -21,44 +21,57 @@ const useCreateSMSBroadcast = () => {
   const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
   const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
+  const [createStatus, setCreateStatus] = useState('Completed');
   const { getIsPhoneConnected } = useSMSMarketing();
+
   const { data: getSmsBroadcatsById } =
     useGetSmsBroadcatsByIdQuery(selectedBroadCast);
 
-  const [postSmsBroadcast] = usePostSmsBroadcastMutation();
-  const [updateSmsBroadcats] = useUpdateSmsBroadcatsMutation();
+  const [postSmsBroadcast, { isLoading: postBroadcastLoading }] =
+    usePostSmsBroadcastMutation();
+  const [updateSmsBroadcats, { isLoading: updateBroadcastLoading }] =
+    useUpdateSmsBroadcatsMutation();
 
   const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver<any>(validationSchema),
     defaultValues: defaultValues(getIsPhoneConnected),
   });
 
   const { handleSubmit, reset, watch, setValue } = methods;
 
-  const selectedCampaingn = watch('compaign');
+  const selectedCampaingn = watch('campaignId');
   const detailsText = watch('detail');
 
   useEffect(() => {
     if (type === DRAWER_TYPES?.EDIT) {
       const data = getSmsBroadcatsById?.data;
       const fieldsToSet: any = {
-        campaignId: data?.campaignId,
-        templateId: data?.templateId,
+        name: data?.name,
+        campaignId: data?.campaign,
+        templateId: data?.template,
         detail: data?.detail,
-        recipients: data?.recipients?.map((item: any) => item?.name) ?? [],
+        recipients:
+          data?.recipients?.map(
+            (item: any) => `${item?.firstName} ${item?.lastName}`,
+          ) ?? [],
       };
       for (const key in fieldsToSet) {
         setValue(key, fieldsToSet[key]);
       }
-      setSelectedContactsData(fieldsToSet?.recipients);
+      setSelectedContactsData(data?.recipients ?? []);
+      setSelectedRec(data?.recipients);
     }
   }, [getSmsBroadcatsById?.data]);
 
   const onSubmit = async (values: any) => {
+    const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
+    const cleanedDetailsText = removeHtmlTags(detailsText);
     values.senderId = getIsPhoneConnected?.data?._id;
     values.campaignId = values?.campaignId?._id;
     values.templateId = values?.templateId?._id;
     values.recipients = selectedContactsData?.map((item: any) => item?._id);
+    values.detail = cleanedDetailsText;
+    values.status = createStatus;
     try {
       if (type === DRAWER_TYPES?.EDIT) {
         await updateSmsBroadcats({
@@ -68,7 +81,6 @@ const useCreateSMSBroadcast = () => {
         enqueueSnackbar(`Sms Broadcast updated Successfully`, {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
-        navigate?.push(AIR_MARKETER?.CREATE_SMS_BROADCAST);
         return;
       }
       await postSmsBroadcast({ body: values })?.unwrap();
@@ -82,6 +94,7 @@ const useCreateSMSBroadcast = () => {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
+    navigate?.push(AIR_MARKETER?.SMS_MARKETING);
     reset();
   };
 
@@ -95,14 +108,23 @@ const useCreateSMSBroadcast = () => {
     }, []);
   };
 
+  const handleSaveAsDraft = () => {
+    methods?.handleSubmit(onSubmit)();
+  };
+
   return {
     setIsAddContactDrawerOpen,
     setSelectedContactsData,
     isAddContactDrawerOpen,
+    createStatus,
+    updateBroadcastLoading,
+    postBroadcastLoading,
     selectedContactsData,
     flattenContactsData,
     selectedCampaingn,
+    handleSaveAsDraft,
     setSelectedRec,
+    setCreateStatus,
     handleSubmit,
     selectedRec,
     detailsText,

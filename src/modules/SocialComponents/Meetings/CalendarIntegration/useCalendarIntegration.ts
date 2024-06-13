@@ -93,8 +93,8 @@ export const useCalendarIntegration = () => {
             calendar?._id === calendarId
               ? { ...calendar, isDefault: !calendar?.isDefault }
               : calendar?._id !== calendarId && calendar?.isDefault
-                ? { ...calendar, isDefault: false }
-                : calendar,
+              ? { ...calendar, isDefault: false }
+              : calendar,
           ),
       );
 
