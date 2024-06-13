@@ -53,7 +53,7 @@ export const ticketsDetailsDefaultValuesFunction = (data?: any) => {
 };
 export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
   {
-    id: 5,
+    id: 1,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -67,7 +67,7 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
     md: 4,
   },
   {
-    id: 6,
+    id: 2,
     componentProps: {
       name: 'priority',
       label: 'Priority',
@@ -82,7 +82,7 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
   },
 
   {
-    id: 8,
+    id: 3,
     componentProps: {
       name: 'source',
       label: 'Source',
@@ -95,6 +95,7 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
     md: 4,
   },
   {
+    id: 4,
     componentProps: {
       name: 'ticketType',
       label: 'Type',
@@ -107,7 +108,7 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
     md: 4,
   },
   {
-    id: 9,
+    id: 5,
     componentProps: {
       name: 'impact',
       label: 'Impact',
@@ -120,7 +121,7 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
     md: 4,
   },
   {
-    id: 10,
+    id: 6,
     componentProps: {
       name: 'agent',
       label: 'Agent',
@@ -135,7 +136,7 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
     md: 4,
   },
   {
-    id: 4,
+    id: 7,
     componentProps: {
       name: 'category',
       label: 'Category',
@@ -149,11 +150,12 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
   },
 
   {
+    id: 8,
     componentProps: {
       name: 'plannedStartDate',
       label: 'Planned Start Date',
       fullWidth: true,
-      select: true,
+      disabled: true,
     },
 
     component: RHFDatePicker,
@@ -161,11 +163,13 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
   },
 
   {
+    id: 9,
     componentProps: {
       name: 'plannedEndDate',
       label: 'Planned End Date',
       fullWidth: true,
-      select: true,
+      disablePast: true,
+      textFieldProps: { readOnly: true },
     },
 
     component: RHFDatePicker,
@@ -173,6 +177,7 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
   },
 
   {
+    id: 10,
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',

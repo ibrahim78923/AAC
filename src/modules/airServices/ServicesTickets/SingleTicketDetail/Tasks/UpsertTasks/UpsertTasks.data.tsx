@@ -193,6 +193,8 @@ export const upsertTicketTaskFormFormFieldsDynamic = (
       name: 'endDateTime',
       label: '\u00a0',
       fullWidth: true,
+      disablePast: true,
+      ampm: false,
       textFieldProps: { readOnly: true },
     },
     component: RHFTimePicker,

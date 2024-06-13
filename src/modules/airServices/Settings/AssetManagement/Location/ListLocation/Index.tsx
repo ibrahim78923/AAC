@@ -7,6 +7,7 @@ import { AIR_SERVICES } from '@/constants';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { LocationCard } from '../LocationCard';
+import { LOCATION_TYPE } from '../UpsertLocation/UpsertLocation.data';
 
 export const ListLocation = () => {
   const {
@@ -43,7 +44,7 @@ export const ListLocation = () => {
                     router?.push({
                       pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                       query: {
-                        type: 'parent',
+                        type: LOCATION_TYPE?.PARENT,
                       },
                     })
                   }
@@ -51,7 +52,7 @@ export const ListLocation = () => {
                     router?.push({
                       pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                       query: {
-                        type: 'parent',
+                        type: LOCATION_TYPE?.PARENT,
                         parentId: item?._id,
                       },
                     })
@@ -81,7 +82,7 @@ export const ListLocation = () => {
                             router?.push({
                               pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                               query: {
-                                type: 'child',
+                                type: LOCATION_TYPE?.CHILD,
                                 parentId: item?._id,
                               },
                             })
@@ -90,7 +91,7 @@ export const ListLocation = () => {
                             router?.push({
                               pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                               query: {
-                                type: 'child',
+                                type: LOCATION_TYPE?.CHILD,
                                 parentId: item?._id,
                                 childId: subItem?._id,
                               },

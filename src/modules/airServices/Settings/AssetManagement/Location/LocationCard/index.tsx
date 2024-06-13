@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import { DropdownMenuIcon } from '@/assets/icons';
-import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useState } from 'react';
@@ -16,7 +15,6 @@ export const LocationCard = (props: any) => {
     isChild = false,
     childId,
     onEditClick,
-    onAddClick,
   } = props;
 
   const [showIcon, setShowIcon] = useState(false);
@@ -65,11 +63,6 @@ export const LocationCard = (props: any) => {
         >
           {showIcon && (
             <Box gap={1} display={'flex'} flexWrap={'wrap'}>
-              <AddCircleRoundedIcon
-                color="primary"
-                fontSize="small"
-                onClick={() => onAddClick?.()}
-              />
               <BorderColorIcon
                 fontSize="small"
                 color="primary"
