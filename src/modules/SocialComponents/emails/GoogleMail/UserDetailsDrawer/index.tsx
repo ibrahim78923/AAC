@@ -8,7 +8,8 @@ import {
   BluePhoneIcon,
   ProfileCircleIcon,
 } from '@/assets/icons';
-import { Gmail_CONST } from '@/constants';
+import { DATE_TIME_FORMAT, Gmail_CONST } from '@/constants';
+import dayjs from 'dayjs';
 
 const UserDetailsDrawer = ({
   isOpenDrawer,
@@ -73,7 +74,11 @@ const UserDetailsDrawer = ({
           display={'flex'}
           alignItems={'center'}
           justifyContent={'space-between'}
-          sx={{ background: theme?.palette?.grey[100], padding: '10px' }}
+          sx={{
+            background: theme?.palette?.grey[100],
+            padding: '10px',
+            borderRadius: '10px',
+          }}
         >
           <Typography
             variant="body3"
@@ -92,7 +97,11 @@ const UserDetailsDrawer = ({
           display={'flex'}
           alignItems={'center'}
           justifyContent={'space-between'}
-          sx={{ background: theme?.palette?.grey[100], padding: '10px' }}
+          sx={{
+            background: theme?.palette?.grey[100],
+            padding: '10px',
+            borderRadius: '10px',
+          }}
         >
           <Typography
             variant="body3"
@@ -117,6 +126,37 @@ const UserDetailsDrawer = ({
         >
           Details
         </Typography>
+
+        <Box
+          sx={{
+            backgroundColor: theme?.palette?.grey[100],
+            padding: '10px',
+            borderRadius: '10px',
+          }}
+        >
+          <Typography
+            variant="body2"
+            fontWeight={'600'}
+            color={theme?.palette?.slateBlue?.main}
+          >
+            {isUserDetail?.payload?.headers?.find(
+              (header: any) => header?.name === Gmail_CONST?.SUBJECT,
+            )?.value ?? '--'}
+          </Typography>
+
+          <Typography variant="body3" color={theme?.palette?.custom?.light}>
+            {isUserDetail?.snippet ?? '--'}
+          </Typography>
+          <br />
+
+          <Typography variant="body3" color={theme?.palette?.primary?.main}>
+            {dayjs(
+              isUserDetail?.payload?.headers?.find(
+                (header: any) => header?.name === Gmail_CONST?.DATE,
+              )?.value ?? '--',
+            ).format(DATE_TIME_FORMAT?.MMMDDYYYY)}
+          </Typography>
+        </Box>
       </>
     </CommonDrawer>
   );

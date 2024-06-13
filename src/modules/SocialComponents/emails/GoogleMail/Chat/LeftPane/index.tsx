@@ -17,6 +17,7 @@ import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
 import { PAGINATION } from '@/config';
 import {
+  useGetAuthURLGmailQuery,
   useGetGmailFoldersQuery,
   useGetGmailsByFolderIdQuery,
 } from '@/services/commonFeatures/email/gmail';
@@ -28,10 +29,15 @@ import {
   setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
 import { Gmail_CONST } from '@/constants';
+import CommonModal from '@/components/CommonModal';
+import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
 
 const LeftPane = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const router = useRouter();
+
   const gmailTabType: any = useAppSelector(
     (state: any) => state?.gmail?.gmailTabType,
   );
@@ -47,7 +53,7 @@ const LeftPane = () => {
   );
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const { data: foldersData, isLoading } = useGetGmailFoldersQuery({});
+  const { data: foldersData, isLoading, isError } = useGetGmailFoldersQuery({});
   const dataToShow = ['Inbox', 'Draft', 'Sent', 'Schedule', 'Trash'];
   const filteredData = foldersData?.data?.labels?.filter((item: any) => {
     return dataToShow
@@ -149,6 +155,17 @@ const LeftPane = () => {
       .flat();
   }
 
+  const [isReloginModalOpen, setIsReloginModalOpen] = useState(false);
+
+  const { data: authURLGmail } = useGetAuthURLGmailQuery({});
+  useEffect(() => {
+    if (isError) {
+      setIsReloginModalOpen(true);
+    }
+  }, [isError]);
+
+  const oauthUrl = `${authURLGmail?.data}`;
+
   return (
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>
@@ -232,6 +249,26 @@ const LeftPane = () => {
       >
         <>Filter Cont.</>
       </CommonDrawer>
+
+      <CommonModal
+        open={isReloginModalOpen}
+        title={'Token Expired'}
+        cancelIcon={false}
+      >
+        <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+          <Button
+            variant="outlined"
+            onClick={() =>
+              router?.push(`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}`)
+            }
+          >
+            Back to emails
+          </Button>
+          <Button variant="contained" onClick={() => window.open(oauthUrl)}>
+            Login Again
+          </Button>
+        </Box>
+      </CommonModal>
     </Box>
   );
 };

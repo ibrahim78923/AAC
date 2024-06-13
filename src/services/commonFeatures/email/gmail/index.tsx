@@ -142,6 +142,14 @@ export const gmailApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+    logoutToken: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${SOCIAL_FEATURES_GMAIL?.LOGOUT_MAIL}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -158,4 +166,5 @@ export const {
   useForwardSendGmailMutation,
   usePatchGmailMessageMutation,
   usePostDraftSendGmailMutation,
+  useLogoutTokenMutation,
 } = gmailApi;

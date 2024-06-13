@@ -30,7 +30,10 @@ import {
 import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import Draft from './Draft';
-import { useGetGmailMessageDetailsQuery } from '@/services/commonFeatures/email/gmail';
+import {
+  useGetGmailMessageDetailsQuery,
+  useLogoutTokenMutation,
+} from '@/services/commonFeatures/email/gmail';
 import {
   setCurrentGmailAssets,
   setGmailSearch,
@@ -40,6 +43,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import UserDetailsDrawer from '../../UserDetailsDrawer';
 import { useRouter } from 'next/router';
 import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
+import { enqueueSnackbar } from 'notistack';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const RightPane = () => {
   const theme = useTheme();
@@ -59,6 +64,7 @@ const RightPane = () => {
   const [isMessageDetailsRequest, setIsMessageDetailsRequest] = useState(true);
 
   const [selectedRecordId, setSelectedRecordId] = useState('');
+  const [logoutMail] = useLogoutTokenMutation();
 
   const activeGmailRecord = useAppSelector(
     (state: any) => state?.gmail?.activeGmailRecord,
@@ -94,6 +100,25 @@ const RightPane = () => {
     }
   };
 
+  const EmailLogout = async () => {
+    const payload = {
+      platform: 'gmail',
+      email: 'ren78057@jzport.com',
+      token: 'wewr32412',
+      refreshToken: 'dgdfg34',
+      expiresOn: '2024-06-12T12:03:58.257Z',
+    };
+    try {
+      await logoutMail({ body: payload })?.unwrap();
+      enqueueSnackbar('logout to gmail successfully', {
+        variant: 'success',
+      });
+      router?.push(`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}`);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
   useEffect(() => {
     dispatch(setGmailSearch(searchValue));
   }, [searchValue]);
@@ -115,6 +140,16 @@ const RightPane = () => {
             gap: '13px',
           }}
         >
+          <Button
+            variant="outlined"
+            sx={{ height: '33px', background: 'white' }}
+            color="inherit"
+            startIcon={<LogoutIcon />}
+            onClick={() => EmailLogout()}
+          >
+            logout
+          </Button>
+
           <Button
             variant="outlined"
             sx={{ height: '33px', background: 'white' }}

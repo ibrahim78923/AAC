@@ -286,6 +286,7 @@ export const SOCIAL_FEATURES_GMAIL = {
   UPDATE_GMAIL: '/gmail/update-gmail-message',
   MAIN_EMAIL_PAGE: '/social-components/email',
   DRAFT_GMAIL_POST: '/gmail/send-gmail-draft-mail',
+  LOGOUT_MAIL: 'email-marketing/save-email-marketing-setting',
 };
 
 export const CHAT_SOCKETS = {
