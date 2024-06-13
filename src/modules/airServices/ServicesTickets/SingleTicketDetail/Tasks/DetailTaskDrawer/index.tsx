@@ -14,15 +14,21 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 export const DetailTaskDrawer = (props: any) => {
-  const { isDrawerOpen, onClose, taskDetail } = props;
-  const { theme, method, handleSubmit, onSubmitDrawer, isLoading } =
-    useDetailTaskDrawer(props);
+  const { isPortalOpen } = props;
+  const {
+    theme,
+    method,
+    handleSubmit,
+    onSubmitDrawer,
+    isLoading,
+    handleCloseDrawer,
+  } = useDetailTaskDrawer(props);
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
-        onClose={() => onClose(false)}
-        title={`#TSK-${taskDetail?._id?.slice(-3)?.toUpperCase()}`}
+        isDrawerOpen={isPortalOpen?.isView}
+        onClose={() => handleCloseDrawer()}
+        title={`#TSK-${isPortalOpen?.data?._id?.slice(-3)?.toUpperCase()}`}
         submitHandler={handleSubmit(onSubmitDrawer)}
         footer
         isOk
@@ -40,7 +46,7 @@ export const DetailTaskDrawer = (props: any) => {
             methods={method}
           >
             <Typography variant="body2" mb={-2}>
-              {taskDetail?.assignedUser?.email ?? 'Email not found'}
+              {isPortalOpen?.data?.assignedUser?.email ?? 'Email not found'}
             </Typography>
             <Grid xs={10}>
               <RHFAutocomplete
@@ -55,7 +61,7 @@ export const DetailTaskDrawer = (props: any) => {
               spacing={2.5}
               sx={{ mt: 2, flexDirection: 'column' }}
             >
-              {drawerDetail(taskDetail, theme)?.map((item: any) => (
+              {drawerDetail(isPortalOpen?.data, theme)?.map((item: any) => (
                 <Grid
                   key={uuidv4()}
                   item
@@ -88,7 +94,7 @@ export const DetailTaskDrawer = (props: any) => {
                         }}
                         variant="rounded"
                       >
-                        {item?.workspace?.slice(0, 2)?.toUpperCase()}
+                        {item?.workspace?.slice?.(0, 2)?.toUpperCase()}
                       </Avatar>
                     )}
                     <Typography

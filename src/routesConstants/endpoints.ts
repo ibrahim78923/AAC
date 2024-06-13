@@ -409,6 +409,7 @@ export const END_POINTS = {
   UPDATE_MEETINGS_LOCATIONS: '/meeting-time-slots/edit-meeting-loation',
   DELETE_MEETINGS_LOCATIONS: '/meeting-time-slots/delete-meeting-loation',
   TIME_SLOTS: '/meeting-time-slots/add-time-slots',
+  DELETE_TASKS: `/task/ids`,
   GET_OFFICE_365_CALENDAR: '/auth/office365-calendar/authorize',
   GET_MS_TEAMS: '/auth/msteams/authorize',
   GET_GOOGLE_MEET: '/auth/google-meet/authorize',

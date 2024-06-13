@@ -7,19 +7,37 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
+import { ARRAY_INDEX, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { TASK_STATUS } from '@/constants/strings';
+
+const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
+const statusOptions = [TO_DO, IN_PROGRESS, DONE];
+
+export const TITLE_FORM_USER: any = {
+  [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Add New Task',
+  [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Edit Tasks',
+};
+
+export const BUTTON_TITLE_FORM_USER: any = {
+  [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Add Task',
+  [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Update',
+};
 
 const notifyBeforeOption = [
-  { value: 5, title: '5 Minutes' },
-  { value: 10, title: '10 Minutes' },
-  { value: 15, title: '15 Minutes' },
-  { value: 30, title: '30 Minutes' },
+  { _id: 5, label: '5 Minutes' },
+  { _id: 10, label: '10 Minutes' },
+  { _id: 15, label: '15 Minutes' },
+  { _id: 30, label: '30 Minutes' },
 ];
-const statusOptions = ['Todo', 'In-Progress', 'Done'];
-export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
+
+export const upsertTicketTaskFormValidationSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Title is Required'),
   description: Yup?.string()?.trim()?.required('Description is Required'),
   departmentId: Yup?.mixed()?.required('Department is Required'),
-  status: Yup?.string()?.required('Status is Required'),
+  assignTo: Yup?.mixed()?.nullable(),
+  notifyBefore: Yup?.mixed()?.nullable(),
+  status: Yup?.mixed()?.required('Status is Required'),
   startDate: Yup?.date(),
   startDateTime: Yup?.date(),
   endDate: Yup?.date()?.nullable()?.required('End Date is Required'),
@@ -27,17 +45,19 @@ export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
   plannedEffort: Yup?.string()?.trim(),
 });
 
-export const taskTicketFormDefaultValues = (data: any) => {
-  const taskData = data?.[0];
+export const upsertTicketTaskFormDefaultValues = (data?: any) => {
+  const taskData = data?.[ARRAY_INDEX?.ZERO];
   return {
     title: taskData?.title ?? '',
     description: taskData?.description ?? '',
     departmentId: taskData?.departmentData ?? null,
-    assignTo: !!Object?.keys(taskData?.assignedUser ?? {})?.length
-      ? taskData?.assignedUser
-      : '',
-    status: taskData?.status ?? '',
-    notifyBefore: taskData?.notifyBefore ?? '',
+    assignTo: taskData?.assignedUser ?? null,
+    status: taskData?.status ?? null,
+    notifyBefore: !!taskData?.notifyBefore
+      ? notifyBeforeOption?.find(
+          (item: any) => item?._id === +taskData?.notifyBefore,
+        )
+      : null,
     startDate: taskData?.startDate ? new Date(taskData?.startDate) : new Date(),
     startDateTime: taskData?.startDateTime
       ? new Date(taskData?.startDateTime)
@@ -47,9 +67,10 @@ export const taskTicketFormDefaultValues = (data: any) => {
     plannedEffort: taskData?.plannedEffort ?? '',
   };
 };
-export const taskTicketFormFields = (
-  departmentDropdown: any,
-  userDropdown: any,
+
+export const upsertTicketTaskFormFormFieldsDynamic = (
+  apiQueryDepartment: any,
+  apiQueryUser: any,
 ) => [
   {
     id: 1,
@@ -71,7 +92,7 @@ export const taskTicketFormFields = (
       fullWidth: true,
       required: true,
       style: {
-        minHeight: 200,
+        height: 200,
       },
     },
     component: RHFEditor,
@@ -85,8 +106,8 @@ export const taskTicketFormFields = (
       fullWidth: true,
       required: true,
       placeholder: 'Chose department',
-      externalParams: { limit: 50 },
-      apiQuery: departmentDropdown,
+      externalParams: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT },
+      apiQuery: apiQueryDepartment,
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -98,11 +119,9 @@ export const taskTicketFormFields = (
       label: 'Assign To',
       fullWidth: true,
       placeholder: 'Select',
-      apiQuery: userDropdown,
+      apiQuery: apiQueryUser,
       getOptionLabel: (option: any) =>
-        option?.firstName || option?.lastName
-          ? option?.firstName + ' ' + option?.lastName
-          : '',
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -128,8 +147,7 @@ export const taskTicketFormFields = (
       placeholder: 'Select',
       fullWidth: true,
       options: notifyBeforeOption,
-      getOptionLabel: (option: any) =>
-        option?.title ? option?.title : option ? option + ' ' + 'Minutes' : '',
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
     md: 12,

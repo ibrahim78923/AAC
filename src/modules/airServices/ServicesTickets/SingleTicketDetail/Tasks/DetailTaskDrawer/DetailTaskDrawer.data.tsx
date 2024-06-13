@@ -2,6 +2,12 @@ import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
 import { styles } from './DetailTaskDrawer.styles';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { TASK_STATUS } from '@/constants/strings';
+
+const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
+
+export const statusOptions = [TO_DO, IN_PROGRESS, DONE];
 
 export const drawerDetail: any = (taskDetail: any, theme: any) => [
   {
@@ -44,18 +50,22 @@ export const drawerDetail: any = (taskDetail: any, theme: any) => [
     id: 5,
     title: 'Due Date',
     details: `${dayjs(taskDetail?.endDate)?.format(
-      'dddd, DD MMM YYYY hh:mm A',
+      DATE_TIME_FORMAT?.ddddDDMMMYYYYhhmmA,
     )}`,
   },
   {
     id: 6,
     title: 'Planned Start Date',
-    details: `${dayjs(taskDetail?.startDate)?.format('dddd, DD MMM YYYY')}`,
+    details: `${dayjs(taskDetail?.startDate)?.format(
+      DATE_TIME_FORMAT?.ddddDDMMMYYYY,
+    )}`,
   },
   {
     id: 7,
     title: 'Planned End Date',
-    details: `${dayjs(taskDetail?.endDate)?.format('dddd, DD MMM YYYY')}`,
+    details: `${dayjs(taskDetail?.endDate)?.format(
+      DATE_TIME_FORMAT?.ddddDDMMMYYYY,
+    )}`,
   },
   {
     id: 8,
@@ -63,11 +73,12 @@ export const drawerDetail: any = (taskDetail: any, theme: any) => [
     details: taskDetail?.plannedEffort,
   },
 ];
-export const statusOptions = ['Todo', 'In-Progress', 'Done'];
+
 export const validationSchema: any = Yup?.object()?.shape({
-  status: Yup?.string(),
-  comments: Yup?.string(),
+  status: Yup?.string()?.trim(),
+  comments: Yup?.string()?.trim(),
 });
+
 export const defaultValues = (data: any) => {
   return {
     status: data?.status ?? '',

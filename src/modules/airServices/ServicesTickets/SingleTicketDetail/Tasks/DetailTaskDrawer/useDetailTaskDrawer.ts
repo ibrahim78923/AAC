@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,34 +6,50 @@ import { usePatchTaskByIdMutation } from '@/services/airServices/tickets/single-
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDetailTaskDrawer = (props: any) => {
-  const { isDrawerOpen, taskDetail, onClose } = props;
+  const { setIsPortalOpen, setSelectedTasksLists, isPortalOpen } = props;
+
   const method = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues(taskDetail),
+    defaultValues: defaultValues(isPortalOpen?.data),
   });
+
   const { handleSubmit, reset } = method;
+
   const [patchMutation, { isLoading }] = usePatchTaskByIdMutation();
-  const onSubmitDrawer = async (data: any) => {
+
+  const onSubmitDrawer = async (formData: any) => {
+    delete formData?.ticketId;
+    const queryParams = {
+      ...formData,
+      id: isPortalOpen?.data?._id,
+    };
+    const apiDataParameter = {
+      queryParams,
+    };
+
     try {
-      await patchMutation({
-        data,
-        id: taskDetail?._id,
-      })?.unwrap();
+      await patchMutation(apiDataParameter)?.unwrap();
       successSnackbar('Task updated successfully');
-      onClose(false);
+      handleCloseDrawer?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
-  useEffect(() => {
-    reset(defaultValues(taskDetail));
-  }, [isDrawerOpen]);
+
+  const handleCloseDrawer = () => {
+    setIsPortalOpen({});
+    setSelectedTasksLists?.([]);
+    reset();
+  };
+
   const theme = useTheme();
+
   return {
     method,
     handleSubmit,
     onSubmitDrawer,
     theme,
     isLoading,
+    handleCloseDrawer,
   };
 };
