@@ -1,20 +1,46 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
 import { DATE_FORMAT } from '@/constants';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useGetContactsQuery,
+  useGetContactsViewQuery,
   useDeleteContactMutation,
   useUpdateContactOwnerMutation,
+  useGetCustomizeColumnsQuery,
+  usePutCustomizedColumnsMutation,
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
+import { getSession } from '@/utils';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  customValidationSchema,
+  defaultValues,
+} from './ContactsModalBox/AssignModalBox/AssignModal.data';
 
 const useContactsSaleSite = () => {
+  const { user }: any = getSession();
+  const { data: dataContactViews } = useGetContactsViewQuery({});
+
+  const getTabsArray = (data: any) => {
+    const tabsArray = [{ _id: 'all', name: 'All Contacts' }];
+    if (!data || !Array.isArray(data)) {
+      return tabsArray;
+    }
+    const dataArray = data.map((view: any) => ({
+      _id: view._id,
+      name: view.name,
+    }));
+
+    return [...tabsArray, ...dataArray];
+  };
+  const tabsArray = getTabsArray(dataContactViews?.data);
+
+  const [tabValue, setTabValue] = useState('all');
   const [selectedRow, setSelectedRow]: any = useState([]);
-  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
@@ -32,10 +58,13 @@ const useContactsSaleSite = () => {
   const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
-  const { data: dataGetContacts, isLoading: loadingGetContacts } =
-    useGetContactsQuery({
-      params: { ...filterParams, ...searchPayLoad, ...paginationParams },
-    });
+  const {
+    data: dataGetContacts,
+    isLoading: loadingGetContacts,
+    isFetching: fetchingGetContacts,
+  } = useGetContactsQuery({
+    params: { ...filterParams, ...searchPayLoad, ...paginationParams },
+  });
 
   // Filters
   const [openFilters, setOpenFilters] = useState(false);
@@ -81,6 +110,50 @@ const useContactsSaleSite = () => {
     resetFilters();
   };
 
+  const handleChangeTabs = (event: React.SyntheticEvent, newValue: string) => {
+    setTabValue(newValue);
+    const selectedView: any = dataContactViews?.data.find(
+      (tab: any) => tab._id === newValue,
+    );
+
+    const filterPayload: any = {};
+    const keys = [
+      'contactOwnerId',
+      'lifeCycleStageId',
+      'statusId',
+      'createdAtFilter',
+      'createdByFilter',
+    ];
+    keys.forEach((key) => {
+      if (selectedView && selectedView[key] !== undefined) {
+        if (key === 'createdAtFilter') {
+          filterPayload.createdAt = dayjs(selectedView[key]).format(
+            DATE_FORMAT.API,
+          );
+        } else if (key === 'createdByFilter') {
+          filterPayload.createdBy = selectedView[key];
+        } else {
+          filterPayload[key] = selectedView[key];
+        }
+      }
+    });
+    setFilterParams(filterPayload);
+  };
+
+  const handleSetTabAllContacts = () => {
+    handleRefresh();
+    setTabValue('all');
+  };
+
+  // Contact View
+  const [isCreateViewOpen, setIsCreateViewOpen] = useState(false);
+  const handleOpenCreateView = () => {
+    setIsCreateViewOpen(true);
+  };
+  const handleCloseCreateView = () => {
+    setIsCreateViewOpen(false);
+  };
+
   // Dropdown Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -114,7 +187,6 @@ const useContactsSaleSite = () => {
         variant: 'success',
       });
       setSelectedRow([]);
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -125,14 +197,17 @@ const useContactsSaleSite = () => {
   // Re-Asign
   const [reAssignContactOwner, { isLoading: loadingReassign }] =
     useUpdateContactOwnerMutation();
-  const methodsReAssign = useForm({});
+  const methodsReAssign = useForm<any>({
+    resolver: yupResolver(customValidationSchema),
+    defaultValues: defaultValues,
+  });
   const { handleSubmit: handleMethodReAssign } = methodsReAssign;
   const [isReAssign, setIsReAssign] = useState(false);
   const handleOpenModalReAssign = () => {
     handleActionsMenuClose();
     const selectedItem =
       dataGetContacts?.data?.contacts?.find(
-        (item: any) => item?._id === rowId,
+        (item: any) => item?._id === selectedRow[0],
       ) || {};
 
     if (selectedItem) {
@@ -145,8 +220,14 @@ const useContactsSaleSite = () => {
   };
 
   const onSubmitReAssign = async (values: any) => {
+    const payload = {
+      contactOwnerId: values?.contactOwnerId?._id,
+    };
     try {
-      await reAssignContactOwner({ id: rowId, body: values })?.unwrap();
+      await reAssignContactOwner({
+        id: selectedRow[0],
+        body: payload,
+      })?.unwrap();
       handleCloseModalReAssign();
       setSelectedRow([]);
       enqueueSnackbar('Contact updated successfully', {
@@ -171,21 +252,94 @@ const useContactsSaleSite = () => {
 
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-  const [isDealCustomize, setIsDealCustomize] = useState(false);
   const handleChange = () => setIsOpen(!isOpen);
-  const handleDealCustomize = () => setIsDealCustomize(!isDealCustomize);
+
+  // Customize Columns
+  const [isCustomize, setIsCustomize] = useState(false);
+  const { data: getCustomizeColumns, isLoading: loadingGetColumns } =
+    useGetCustomizeColumnsQuery({ type: 'contacts' });
+  const columnsData = getCustomizeColumns?.data?.columns;
+  const [selecttedColumns, setSelectedColumns] = useState([]);
+  useEffect(() => {
+    if (columnsData) {
+      setSelectedColumns(columnsData);
+    }
+  }, [columnsData]);
+
+  const handleCheckboxChange = (event: any, attribute: any) => {
+    setSelectedColumns(
+      (prevColumns: any) =>
+        prevColumns?.map((col: any) =>
+          col?.attributes === attribute
+            ? { ...col, active: event?.target?.checked }
+            : col,
+        ),
+    );
+  };
+
+  const handleOnDragEnd = (result: any) => {
+    const items = Array.from(selecttedColumns);
+    const [reOrderItem] = items?.splice(result?.source?.index, 1);
+
+    items?.splice(result?.destination?.index, 0, reOrderItem);
+
+    const newColumns: any = items?.map((col: any, index: any) => {
+      return {
+        ...col,
+        order: index,
+      };
+    });
+
+    setSelectedColumns(newColumns);
+  };
+
+  const [putCustomizedColumns, { isLoading: loadingPostColumns }] =
+    usePutCustomizedColumnsMutation();
+
+  const handleUpdateColumns = async () => {
+    if (selecttedColumns?.length > 0) {
+      try {
+        await putCustomizedColumns({
+          body: {
+            userId: user?._id,
+            type: 'contacts',
+            columns: selecttedColumns,
+          },
+        })
+          .unwrap()
+          .then((data: any) => {
+            if (data?.data) {
+              setIsCustomize(false);
+              enqueueSnackbar(`Columns customized successfully`, {
+                variant: NOTISTACK_VARIANTS?.SUCCESS,
+              });
+            }
+          });
+      } catch (error) {
+        enqueueSnackbar(`${error}`, { variant: NOTISTACK_VARIANTS?.ERROR });
+      }
+    } else {
+      enqueueSnackbar(`Please select atleast one column`, {
+        variant: NOTISTACK_VARIANTS?.WARNING,
+      });
+    }
+  };
 
   return {
-    // contactOwnerData,
+    tabValue,
+    handleChangeTabs,
+    tabsArray,
     anchorEl,
     actionMenuOpen,
     handleActionsMenuClick,
     handleActionsMenuClose,
     dataGetContacts,
     loadingGetContacts,
+    fetchingGetContacts,
     setPage,
     setPageLimit,
     handleRefresh,
+    handleSetTabAllContacts,
     handleFiltersSubmit,
     searchValue,
     setSearchValue,
@@ -195,10 +349,6 @@ const useContactsSaleSite = () => {
     handleCloseFilters,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    rowId,
     openModalDelete,
     handleOpenModalDelete,
     handleCloseModalDelete,
@@ -216,11 +366,23 @@ const useContactsSaleSite = () => {
     setOpenModalExport,
     theme,
     isOpen,
-    isDealCustomize,
     handleChange,
-    handleDealCustomize,
+    isCreateViewOpen,
+    handleOpenCreateView,
+    handleCloseCreateView,
     isImportDrawer,
     setIsImportDrawer,
+    isCustomize,
+    setIsCustomize,
+
+    // Customize Columns
+    columnsData,
+    loadingGetColumns,
+    selecttedColumns,
+    handleCheckboxChange,
+    handleUpdateColumns,
+    loadingPostColumns,
+    handleOnDragEnd,
   };
 };
 

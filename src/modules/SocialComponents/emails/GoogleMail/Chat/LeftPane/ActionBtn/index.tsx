@@ -10,13 +10,26 @@ import {
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CommonModal from '@/components/CommonModal';
 import { useAppSelector } from '@/redux/store';
-import { CREATE_EMAIL_TYPES, EMAIL_TABS_TYPES } from '@/constants';
+import { CREATE_EMAIL_TYPES, Gmail_CONST } from '@/constants';
 import { AlertModals } from '@/components/AlertModals';
 import { WarningIcon } from '@/assets/icons';
-import { useMoveFolderOtherEmailMutation } from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
+import {
+  useDeleteGmailMutation,
+  usePatchGmailMessageMutation,
+} from '@/services/commonFeatures/email/gmail';
+import { useDispatch } from 'react-redux';
+import {
+  setActiveGmailRecord,
+  setSelectedGmailRecords,
+} from '@/redux/slices/email/gmail/slice';
+import SendEmailDrawer from '../../../SendEmail';
 
-const ActionBtn = ({ filteredData }: any) => {
+const ActionBtn = () => {
+  const [isOpenSendEmailDrawer, setIsOpenSendEmailDrawer] = useState(false);
+  const [mailType, setMailType] = useState('');
+  const dispatch = useDispatch();
+
   const gmailTabType: any = useAppSelector(
     (state: any) => state?.gmail?.gmailTabType,
   );
@@ -33,6 +46,7 @@ const ActionBtn = ({ filteredData }: any) => {
   const [isLinkToDealModal, setIsLinkToDealModal] = useState(false);
   const [isRestoreEmail, setIsRestoreEmail] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
@@ -40,50 +54,60 @@ const ActionBtn = ({ filteredData }: any) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleSubMenuClick = (event: any) => {
+    setSubMenuAnchorEl(event.currentTarget);
+  };
 
-  const [moveFolderOtherEmail, { isLoading: loadingRestore }] =
-    useMoveFolderOtherEmailMutation();
+  const handleCloseSubMenu = () => {
+    setSubMenuAnchorEl(null);
+  };
+  const [patchGmailMessage, { isLoading: loadingRestore }] =
+    usePatchGmailMessageMutation();
+
+  const [deleteGmail, { isLoading: loadingDelete }] = useDeleteGmailMutation();
 
   const handelRestore = async () => {
     const ids =
       selectedGmailRecords &&
       selectedGmailRecords?.map((message: any) => message?.id);
-    const payload = {
-      messageId: ids,
-      folderId: EMAIL_TABS_TYPES?.DRAFTS,
+    const payload: any = {
+      fromFolderId: Gmail_CONST?.TRASH,
+      toFolderId: Gmail_CONST?.INBOX,
     };
+    if (ids.length < 2) {
+      payload.messageId = ids[0];
+    } else {
+      payload.messageId = ids;
+    }
     try {
-      await moveFolderOtherEmail({
+      await patchGmailMessage({
         body: payload,
       })?.unwrap();
       enqueueSnackbar('Email restore successfully', {
         variant: 'success',
       });
       setIsRestoreEmail(false);
+      handleClose();
+      handleCloseSubMenu();
+      dispatch(setSelectedGmailRecords([]));
+      dispatch(setActiveGmailRecord({}));
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
   };
   const handelDelete = async () => {
-    const ids =
-      selectedGmailRecords &&
-      selectedGmailRecords?.map((message: any) => message?.id);
-
-    const result = filteredData?.find(
-      (filterData: any) => filterData?.name?.toLowerCase() === 'trash',
-    );
     const payload = {
-      messageId: ids,
-      folderId: result?.id,
+      threadIds: [selectedGmailRecords?.map((message: any) => message?.id)],
     };
     try {
-      await moveFolderOtherEmail({
-        body: payload,
-      })?.unwrap();
-      enqueueSnackbar('Email restore successfully', {
+      await deleteGmail({ body: payload })?.unwrap();
+      enqueueSnackbar('Email Delete successfully', {
         variant: 'success',
       });
-      setIsRestoreEmail(false);
+      handleClose();
+      setIsDeleteModalOpen(false);
+      dispatch(setSelectedGmailRecords([]));
+      dispatch(setActiveGmailRecord({}));
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -117,7 +141,8 @@ const ActionBtn = ({ filteredData }: any) => {
           horizontal: 'right',
         }}
       >
-        {tabName === CREATE_EMAIL_TYPES?.TRASH ? null : (
+        {tabName === CREATE_EMAIL_TYPES?.TRASH ||
+        tabName === CREATE_EMAIL_TYPES?.DRAFT ? null : (
           <>
             <MenuItem> Mark as Read </MenuItem>
             <MenuItem
@@ -128,20 +153,55 @@ const ActionBtn = ({ filteredData }: any) => {
             >
               Link to deal
             </MenuItem>
-            <MenuItem disabled={selectedGmailRecords?.length > 1}>
+            {/* <MenuItem
+              disabled={selectedGmailRecords?.length > 1}
+              onClick={() => {
+                handleClose();
+                setIsOpenSendEmailDrawer(true);
+                setMailType(CREATE_EMAIL_TYPES?.REPLY);
+              }}
+            >
               {' '}
               Reply{' '}
-            </MenuItem>
-            <MenuItem disabled={selectedGmailRecords?.length > 1}>
+            </MenuItem> */}
+            {/* <MenuItem
+              disabled={selectedGmailRecords?.length > 1}
+              onClick={() => {
+                handleClose();
+                setIsOpenSendEmailDrawer(true);
+                setMailType(CREATE_EMAIL_TYPES?.FORWARD);
+              }}
+            >
               {' '}
               Forward{' '}
-            </MenuItem>
+            </MenuItem> */}
           </>
         )}
         <MenuItem onClick={() => setIsDeleteModalOpen(true)}> Delete </MenuItem>
         {tabName === CREATE_EMAIL_TYPES?.TRASH && (
-          <MenuItem onClick={() => setIsRestoreEmail(true)}> Restore </MenuItem>
+          <MenuItem onClick={handleSubMenuClick}> Move to </MenuItem>
         )}
+      </Popover>
+      <Popover
+        open={Boolean(subMenuAnchorEl)}
+        anchorEl={subMenuAnchorEl}
+        onClose={handleCloseSubMenu}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            setIsRestoreEmail(true);
+          }}
+        >
+          Indox
+        </MenuItem>
       </Popover>
 
       <CommonModal
@@ -176,8 +236,15 @@ const ActionBtn = ({ filteredData }: any) => {
         open={isDeleteModalOpen}
         disabled={false}
         handleClose={() => setIsDeleteModalOpen(false)}
-        loading={loadingRestore}
+        loading={loadingDelete}
         handleSubmitBtn={handelDelete}
+      />
+
+      <SendEmailDrawer
+        openDrawer={isOpenSendEmailDrawer}
+        setOpenDrawer={setIsOpenSendEmailDrawer}
+        drawerType={mailType}
+        setMailType={setMailType}
       />
     </>
   );

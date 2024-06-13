@@ -3,7 +3,6 @@ import ReactDOMServer from 'react-dom/server';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import * as Yup from 'yup';
-import Image from 'next/image';
 import {
   useGetLeadCaptureCTAQuery,
   usePostLeadCaptureCTAMutation,
@@ -15,6 +14,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { BUTTON_TYPE, DRAWER_TITLE } from './Cta.data';
+import Image from 'next/image';
 
 const step1ValidationSchema = Yup?.object()?.shape({
   buttonContent: Yup?.string()
@@ -117,7 +117,7 @@ const getMarPad = (value: string) => {
       }
     });
   } else {
-    str = '0';
+    str = '';
   }
   return str;
 };
@@ -143,7 +143,7 @@ const useCta = () => {
     useUpdateLeadCaptureCTAMutation();
 
   const methodsEditCTA = useForm({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver<any>(validationSchema),
     defaultValues: ctaDefaultValues,
   });
 
@@ -179,6 +179,10 @@ const useCta = () => {
         const [property, value] = style.split(':');
         stylesObject[property] = value;
       });
+      const paddingValue =
+        stylesObject.padding === '0' ? null : stylesObject?.padding;
+      const marginValue =
+        stylesObject.margin === '0' ? null : stylesObject?.margin;
 
       let imgWidth;
       let imgHeight;
@@ -189,6 +193,7 @@ const useCta = () => {
         imgHeight = imgElem.height;
         imgAlt = imgElem.alt;
       }
+
       if (isImage) {
         methodsEditCTA.setValue('imageWidth', imgWidth || null);
         methodsEditCTA.setValue('imageHeight', imgHeight || null);
@@ -201,8 +206,8 @@ const useCta = () => {
       methodsEditCTA.setValue('buttonStyle', data?.buttonStyle);
       methodsEditCTA.setValue('buttonColor', data?.buttonColor);
       methodsEditCTA.setValue('buttonSize', data?.buttonSize);
-      methodsEditCTA.setValue('buttonPadding', stylesObject?.padding || null);
-      methodsEditCTA.setValue('buttonMargin', stylesObject?.margin || null);
+      methodsEditCTA.setValue('buttonPadding', paddingValue || null);
+      methodsEditCTA.setValue('buttonMargin', marginValue || null);
     }
     setOpenDrawer(true);
   };
@@ -269,21 +274,23 @@ const useCta = () => {
       const altText = drawerFormValues?.altText || '';
       const imgWidth = drawerFormValues?.imageWidth
         ? drawerFormValues?.imageWidth
-        : 'auto';
+        : undefined;
       const imgHeight = drawerFormValues?.imageHeight
         ? drawerFormValues?.imageHeight
-        : 'auto';
+        : undefined;
       const padding = getMarPad(drawerFormValues?.buttonPadding);
       const margin = getMarPad(drawerFormValues?.buttonMargin);
 
-      const styles = {
-        display: 'inline-block',
+      const styles: any = {
+        display: 'block',
+        textAlign: 'center',
+        border: `1px solid ${theme?.palette?.primary?.main}`,
         padding: padding,
         margin: margin,
       };
 
       const ButtonHtmlComponent = () => (
-        <a href={buttonUrl} style={styles}>
+        <a target="_blank" href={buttonUrl} style={styles} rel="noreferrer">
           {drawerFormValues?.buttonContent instanceof File ? (
             <Image
               src="buttonImageUrl"
@@ -324,23 +331,6 @@ const useCta = () => {
           });
         }
       } else {
-        const formData = new FormData();
-        if (drawerFormValues?.buttonContent instanceof File) {
-          formData.append('buttonImage', drawerFormValues.buttonContent);
-        }
-        if (
-          drawerFormValues?.ctaInternalName !== ctaButtonData?.ctaInternalName
-        ) {
-          formData.append('ctaInternalName', drawerFormValues?.ctaInternalName);
-        }
-        if (
-          drawerFormValues?.urlRedirectType !== ctaButtonData?.urlRedirectType
-        ) {
-          formData.append('urlRedirectType', drawerFormValues?.urlRedirectType);
-        }
-        if (drawerFormValues?.url !== ctaButtonData?.url) {
-          formData.append('url', drawerFormValues?.url);
-        }
         try {
           await updateCTA({ id: ctaButtonData?._id, body: formData })?.unwrap();
           await handleDrawerClose();
@@ -395,10 +385,8 @@ const useCta = () => {
   };
 
   const handleDeleteCTA = async () => {
-    // const items = await selectedRow?.join(',');
-    const id = await selectedRow[0];
     try {
-      await deleteCTA(id)?.unwrap();
+      await deleteCTA(selectedRow)?.unwrap();
       handleCloseModalDelete();
       setSelectedRow([]);
       enqueueSnackbar('Record has been deleted.', {

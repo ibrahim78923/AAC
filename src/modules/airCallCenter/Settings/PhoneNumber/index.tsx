@@ -21,6 +21,7 @@ const PhoneNumber = () => {
     isTestConnectionModal,
     setIsTestConnectionModal,
   } = usePhoneNumber();
+
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" mb={5}>
@@ -90,10 +91,13 @@ const PhoneNumber = () => {
         handleClose={() => setIsDeleteModal(false)}
         handleSubmitBtn={() => setIsDeleteModal(false)}
       />
-      <EditPhoneNumber
-        isEditNumberDrawer={isEditNumberDrawer}
-        setIsEditNumberDrawer={setIsEditNumberDrawer}
-      />
+      {isEditNumberDrawer && (
+        <EditPhoneNumber
+          isEditNumberDrawer={isEditNumberDrawer}
+          setIsEditNumberDrawer={setIsEditNumberDrawer}
+        />
+      )}
+
       <TestConnectionModal
         isTestConnectionModal={isTestConnectionModal}
         setIsTestConnectionModal={setIsTestConnectionModal}

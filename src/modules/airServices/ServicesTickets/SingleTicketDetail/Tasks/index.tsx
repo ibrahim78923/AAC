@@ -1,88 +1,75 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { useTasks } from './useTasks';
-import { TasksHeader } from './TasksHeader';
-import { AddTaskDrawer } from './TasksDrawers/AddTaskDrawer';
-import { EditTaskDrawer } from './TasksDrawers/EditTaskDrawer';
-import { DetailTaskDrawer } from './TasksDrawers/DetailTaskDrawer';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { useTasks } from './useTasks';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export const Tasks = () => {
   const {
-    isAddDrawerOpen,
-    setIsAddDrawerOpen,
-    isDetailDrawerOpen,
-    setIsDetailDrawerOpen,
-    activeCheck,
-    setActiveCheck,
-    isEditDrawerOpen,
-    setIsEditDrawerOpen,
-    tableColumn,
-    tableData,
-    isFetching,
-    isLoading,
-    isError,
-    isSuccess,
-    meta,
+    ticketsTasksListsColumns,
+    lazyGetTicketsTasksStatus,
     setPage,
     setPageLimit,
-    page,
-    pageLimit,
+    isPortalOpen,
+    setIsPortalOpen,
+    selectedTasksList,
+    renderPortalComponent,
+    actionsForTicketTasksLists,
   } = useTasks();
   return (
     <>
-      <TasksHeader
-        setIsAddDrawerOpen={setIsAddDrawerOpen}
-        activeCheck={activeCheck}
-        setActiveCheck={setActiveCheck}
-        setIsEditDrawerOpen={setIsEditDrawerOpen}
-      />
+      <PageTitledHeader
+        title={'Task'}
+        addTitle="Add New Task"
+        createPermissionKey={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_TASK]}
+        handleAction={() =>
+          setIsPortalOpen({
+            isOpen: true,
+            isUpsert: true,
+            type: GENERIC_UPSERT_FORM_CONSTANT?.ADD,
+          })
+        }
+        hasExport
+        exportPermissionKey={[
+          AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EXPORT_TASK,
+        ]}
+      >
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EDIT_TASK,
+            AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DELETE_TASK,
+          ]}
+        >
+          <SingleDropdownButton
+            dropdownOptions={actionsForTicketTasksLists}
+            disabled={!!!selectedTasksList?.length}
+          />
+        </PermissionsGuard>
+      </PageTitledHeader>
       <br />
       <PermissionsGuard
         permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TASK_LIST_VIEW]}
       >
         <TanstackTable
-          columns={tableColumn}
-          data={tableData}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          isError={isError}
-          isSuccess={isSuccess}
-          isPagination
-          count={meta?.pages}
-          pageLimit={pageLimit}
-          currentPage={page}
-          totalRecords={meta?.total}
-          onPageChange={(page: any) => setPage(page)}
+          columns={ticketsTasksListsColumns}
+          data={lazyGetTicketsTasksStatus?.data?.data?.tasks}
+          isLoading={lazyGetTicketsTasksStatus?.isLoading}
+          currentPage={lazyGetTicketsTasksStatus?.data?.data?.meta?.page}
+          count={lazyGetTicketsTasksStatus?.data?.data?.meta?.pages}
+          pageLimit={lazyGetTicketsTasksStatus?.data?.data?.meta?.limit}
+          totalRecords={lazyGetTicketsTasksStatus?.data?.data?.meta?.total}
           setPage={setPage}
           setPageLimit={setPageLimit}
+          isFetching={lazyGetTicketsTasksStatus?.isFetching}
+          isError={lazyGetTicketsTasksStatus?.isError}
+          isSuccess={lazyGetTicketsTasksStatus?.isSuccess}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
         />
       </PermissionsGuard>
-      {isAddDrawerOpen && (
-        <AddTaskDrawer
-          isDrawerOpen={isAddDrawerOpen}
-          onClose={setIsAddDrawerOpen}
-        />
-      )}
-      {isEditDrawerOpen && (
-        <EditTaskDrawer
-          isDrawerOpen={isEditDrawerOpen}
-          onClose={setIsEditDrawerOpen}
-          activeCheck={activeCheck}
-          setActiveCheck={setActiveCheck}
-        />
-      )}
-      {isDetailDrawerOpen && (
-        <DetailTaskDrawer
-          isDrawerOpen={isDetailDrawerOpen}
-          onClose={setIsDetailDrawerOpen}
-          taskDetail={
-            tableData?.[
-              tableData?.findIndex((e: any) => e?._id === isDetailDrawerOpen)
-            ]
-          }
-        />
-      )}
+      {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>
   );
 };

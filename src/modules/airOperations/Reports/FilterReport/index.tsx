@@ -4,7 +4,7 @@ import { Box, Grid } from '@mui/material';
 import { useFilterReport } from './useFilterReport';
 
 export const FilterReport = (props: any) => {
-  const { isDrawerOpen } = props;
+  const { isPortalOpen } = props;
   const {
     methods,
     handleSubmit,
@@ -17,7 +17,7 @@ export const FilterReport = (props: any) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen?.isFilter}
+        isDrawerOpen={isPortalOpen?.isFilter}
         onClose={() => {
           closeFilterForm?.();
         }}

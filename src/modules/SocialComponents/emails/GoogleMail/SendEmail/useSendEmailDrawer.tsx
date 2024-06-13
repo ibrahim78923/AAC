@@ -10,16 +10,17 @@ import {
   scheduleEmailDefaultValues,
   scheduleEmailValidationSchema,
 } from './SendEmailDrawer.data';
-import {
-  usePostDraftOtherEmailMutation,
-  usePostReplyOtherEmailMutation,
-  usePostScheduleOtherEmailMutation,
-  usePostSendOtherEmailMutation,
-} from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
 import { CREATE_EMAIL_TYPES } from '@/constants';
 import { useEffect, useState } from 'react';
+import {
+  useForwardSendGmailMutation,
+  usePostDraftGmailMutation,
+  usePostReplyOtherGmailMutation,
+  usePostScheduleGmailMutation,
+  usePostSendGmailMutation,
+} from '@/services/commonFeatures/email/gmail';
 
 const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const theme = useTheme();
@@ -40,17 +41,36 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     setValue('to', autocompleteValues);
   }, [autocompleteValues]);
 
-  const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
-    usePostSendOtherEmailMutation();
-  const [postScheduleOtherEmail, { isLoading: loadingOtherScheduleSend }] =
-    usePostScheduleOtherEmailMutation();
-  const [postReplyOtherEmail, { isLoading: loadingOtherReply }] =
-    usePostReplyOtherEmailMutation();
-  const [postDraftOtherEmail] = usePostDraftOtherEmailMutation();
+  const [postSendGmail, { isLoading: loadingOtherSend }] =
+    usePostSendGmailMutation();
+  const [postScheduleGmail, { isLoading: loadingOtherScheduleSend }] =
+    usePostScheduleGmailMutation();
+  const [postReplyGmail, { isLoading: loadingOtherReply }] =
+    usePostReplyOtherGmailMutation();
+  const [postDraftGmail] = usePostDraftGmailMutation();
+  const [forwardSendGmail] = useForwardSendGmailMutation();
 
-  const currentEmailAssets = useAppSelector(
-    (state: any) => state?.email?.currentEmailAssets,
+  const currentGmailAssets = useAppSelector(
+    (state: any) => state?.gmail?.currentGmailAssets,
   );
+  useEffect(() => {
+    if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
+      setValue(
+        'description',
+        ` <br> <br><br>
+        ---------- Forwarded message --------- 
+        <br> <b> from </b>: ${currentGmailAssets?.others?.from}<br>
+        <b> sent </b> : ${currentGmailAssets?.others?.sent}<br>
+         <b> subject </b> : ${currentGmailAssets?.others?.subject}<br>
+         <b> to </b> : ${currentGmailAssets?.others?.to}  <br>
+         ${currentGmailAssets?.messageBody}
+           <br>
+        `,
+      );
+    } else {
+      setValue('description', '');
+    }
+  }, [currentGmailAssets]);
 
   const handleOnClose = () => {
     if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
@@ -95,8 +115,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [isoString]);
 
-  const postEmail = isSendLater ? postScheduleOtherEmail : postSendOtherEmail;
-
+  const postEmail = isSendLater ? postScheduleGmail : postSendGmail;
   const onSubmit = async (values: any) => {
     if (isProcessDraft) {
       if (isToExists?.length > 0) {
@@ -112,8 +131,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         if (values?.bcc && values?.bcc?.trim() !== '') {
           formDataSend.append('bcc', values?.bcc);
         }
+        if (values?.attachFile) {
+          formDataSend.append('attachments', values?.attachFile);
+        }
         try {
-          await postDraftOtherEmail({
+          await postDraftGmail({
             body: formDataSend,
           })?.unwrap();
           enqueueSnackbar('Draft saved successfully', {
@@ -139,6 +161,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         reset();
       }
     } else {
+      if (!values?.to || values?.to?.length === 0) {
+        enqueueSnackbar('Please Enter Email', { variant: 'error' });
+        return false;
+      }
+
+      if (!values?.description || values?.description?.trim() === '') {
+        enqueueSnackbar('Please Enter Description', { variant: 'error' });
+
+        return false;
+      }
+
       if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
         const formDataSend = new FormData();
         formDataSend.append('to', values?.to);
@@ -151,8 +184,9 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           formDataSend.append('bcc', values?.bcc);
         }
         if (sendLaterDate) {
-          formDataSend.append('sendAt', sendLaterDate);
+          formDataSend.append('sentOn', sendLaterDate);
         }
+        formDataSend.append('attachments', values?.attachFile);
         try {
           await postEmail({
             body: formDataSend,
@@ -177,18 +211,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
       ) {
         const formDataReply = new FormData();
-        formDataReply.append('id', currentEmailAssets?.id);
-        formDataReply.append('threadId', currentEmailAssets?.threadId);
+        formDataReply.append('id', currentGmailAssets?.id);
+        formDataReply.append('threadId', currentGmailAssets?.threadId);
         formDataReply.append('content', values?.description);
-        formDataReply.append('templateId', '6538bb480b3f9e9d83d4a2ce');
         formDataReply.append(
           'type',
           drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ? 'reply-all' : 'reply',
         );
-        formDataReply.append('attachments', '');
+        formDataReply.append('attachments', values?.attachFile);
 
         try {
-          await postReplyOtherEmail({
+          await postReplyGmail({
             body: formDataReply,
           })?.unwrap();
           enqueueSnackbar(
@@ -201,6 +234,38 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           );
           setOpenDrawer(false);
           reset();
+          setAutocompleteValues([]);
+        } catch (error: any) {
+          enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        }
+      }
+      if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
+        const formDataSend = new FormData();
+        formDataSend.append('id', currentGmailAssets?.id);
+        formDataSend.append('threadId', currentGmailAssets?.threadId);
+        formDataSend.append('to', values?.to);
+        formDataSend.append('content', values?.description);
+        if (values?.cc && values?.cc?.trim() !== '') {
+          formDataSend.append('cc', values?.cc);
+        }
+        if (values?.bcc && values?.bcc?.trim() !== '') {
+          formDataSend.append('bcc', values?.bcc);
+        }
+        formDataSend.append('attachments', values?.attachFile);
+        try {
+          await forwardSendGmail({
+            body: formDataSend,
+          })?.unwrap();
+          enqueueSnackbar('Email Forward successfully', {
+            variant: 'success',
+          });
+          setOpenDrawer(false);
+          reset();
+          reset({
+            sentDate: null,
+          });
+          setIsSendLater(false);
+          setSendLaterDate(null);
           setAutocompleteValues([]);
         } catch (error: any) {
           enqueueSnackbar('Something went wrong !', { variant: 'error' });

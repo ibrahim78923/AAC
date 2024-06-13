@@ -140,6 +140,17 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['CAMPAIGNS_LISTS'],
     }),
 
+    getAllTemplateList: builder.query({
+      query: () => ({
+        url: END_POINTS?.GET_SMS_TEMPLATES,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.smstemplates;
+      },
+      providesTags: ['CAMPAIGNS_LISTS'],
+    }),
+
     getCompanyContactsList: builder.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.CONTACTS,
@@ -242,6 +253,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['COMPANY'],
     }),
+
+    getAllUsers: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.USER_LIST}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: ['USERS_LIST'],
+    }),
   }),
 });
 
@@ -269,4 +292,6 @@ export const {
   useLazyGetDealsQuery,
   useLazyGetCompanyContactsListQuery,
   useLazyGetAllCompaniesQuery,
+  useLazyGetAllTemplateListQuery,
+  useLazyGetAllUsersQuery,
 } = CommonAPIS;

@@ -43,6 +43,8 @@ export const DATE_TIME_FORMAT = {
   MMMM: 'MMMM',
   DDMMYYY: 'DD/MM/YYYY',
   DDMMYYYYT: 'DD-MM-YYYY hh:MM A',
+  ddddDDMMMYYYYhhmmA: 'dddd, DD MMM YYYY hh:mm A',
+  ddddDDMMMYYYY: 'dddd, DD MMM YYYY',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -50,6 +52,11 @@ export const VALIDATION_CONSTANT = {
     regex: /^\+447[0-9]{9}$/,
     message: 'Only UK phone number',
   },
+};
+
+export const ERROR_PAGES = {
+  NOT_FOUND: '/404',
+  NOT_ACCESS: '/403',
 };
 
 export const SUPER_ADMIN: any = {
@@ -187,6 +194,20 @@ export const AIR_OPERATIONS = {
   SALES_REPORTS: `/air-operations/reports/sales-reports`,
   SERVICES_REPORTS: `/air-operations/reports/services-reports`,
   MARKETING_REPORTS: `/air-operations/reports/marketing-reports`,
+  UPSERT_SERVICES_REPORTS: `/air-operations/reports/services-reports/upsert-services-reports`,
+  SALES_REPORTS_RESTORE: `/air-operations/reports/sales-reports/restore`,
+  SERVICES_REPORTS_RESTORE: `/air-operations/reports/services-reports/restore`,
+  MARKETING_REPORTS_RESTORE: `/air-operations/reports/marketing-reports/restore`,
+  UPSERT_MARKETING_REPORTS: `/air-operations/reports/marketing-reports/upsert-marketing-reports`,
+  UPSERT_SALES_REPORTS: `/air-operations/reports/sales-reports/upsert-sales-reports`,
+  UPSERT_ROLES: '/air-operations/roles-and-right/upsert-roles-and-right',
+};
+
+export const AIR_CALL_CENTER = {
+  CALL_DETAILS: '/air-call-center/call-metrics/call-details',
+  CALL_METRICS: '/air-call-center/call-metrics',
+  SETTINGS_BUSINESS_HOURS:
+    '/air-call-center/settings/general-settings/business-hours',
   CREATE_SERVICES_REPORTS: `/air-operations/reports/services-reports/create-services-reports`,
 };
 
@@ -215,6 +236,10 @@ export const SOCIAL_COMPONENTS = {
   UPSERT_MEETING:
     '/social-components/meetings/schedule-meetings/upsert-meeting',
   CALENDER_VIEW: '/social-components/meetings/calendar-view',
+  CREATE_MEETING_TEMPLATE:
+    '/social-components/meetings/schedule-meetings/upsert-meeting/email-template/create-email-template',
+  EMAIL_TEMPLATE:
+    '/social-components/meetings/schedule-meetings/upsert-meeting/email-template',
 };
 
 export const AUTH = {
@@ -290,6 +315,14 @@ export const EMAIL_TABS_TYPES = {
   TRASH: 'trash',
   SCHEDULE: 'schedule',
 };
+export const OUTLOOK_EMAIL_TABS_TYPES = {
+  SENT: 'Sent Items',
+  DRAFT: 'draft',
+  DRAFTS: 'Drafts',
+  INBOX: 'Inbox',
+  TRASH: 'Deleted Items',
+  SCHEDULE: 'Schedule',
+};
 
 export const CHAT_MESSAGE_TYPE = {
   IMAGE: 'image',
@@ -347,8 +380,53 @@ export const TASK_STATUS = {
   ASSOCIATIONS: 'associations',
   TICKETS: 'tickets',
 };
+export const TASK_TABS = {
+  CONTACTS: 'contacts',
+  COMPANIES: 'companies',
+  DEALS: 'deals',
+  ASSOCIATIONS: 'associations',
+  TICKETS: 'tickets',
+};
 
 export const COMPANITES_TYPE = {
   NEW_COMPANY: 'new-Company',
   COMPANY: 'company',
+};
+
+export const Gmail_CONST = {
+  DATE: 'Date',
+  FROM: 'From',
+  TO: 'To',
+  SUBJECT: 'Subject',
+  CC: 'cc',
+  BCC: 'Bcc',
+  INBOX: 'INBOX',
+  PHONE: 'phone',
+  SENT: 'SENT',
+  TRASH: 'TRASH',
+};
+
+export const REPORTS_HEADER_TITLE = {
+  CREATE_REPORT: 'Create Report',
+  CREATE_TABLE: 'Create Table',
+  CREATE_CHART: 'Create Chart',
+  CREATE_TEXT: 'Create Text',
+  CREATE_COUNTER: 'Create Counter',
+};
+
+export const ASSOCIATIONS_API_PARAMS_FOR = {
+  ADD: 'ADD',
+  REMOVE: 'REMOVE',
+  DEALS: 'deals',
+  COMPANIES: 'companies',
+  CONTACTS: 'contacts',
+  TICKETS: 'tickets',
+  QUOTES: 'quotes',
+  ASSETS: 'assets',
+  PURCHASE_ORDER: 'purchase_orders',
+};
+
+export const MAIL_TYPES = {
+  OUTLOOK: 'outlook',
+  GMAIL: 'gmail',
 };

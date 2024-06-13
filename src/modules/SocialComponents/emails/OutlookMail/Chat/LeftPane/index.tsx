@@ -15,40 +15,87 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import {
   setActiveRecord,
-  setMailDraftList,
+  setBreakScrollOperation,
+  setMailCurrentPage,
   setMailList,
   setMailTabType,
-} from '@/redux/slices/email/others/slice';
+  setSelectedRecords,
+} from '@/redux/slices/email/outlook/slice';
 import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
-  useGetDraftsQuery,
-  useGetEmailsByFolderIdQuery,
-  useGetMailFoldersQuery,
-} from '@/services/commonFeatures/email/others';
+  useGetAuthURLOutlookQuery,
+  useGetEmailsByFolderIdOutlookQuery,
+  useGetMailFoldersOutlookQuery,
+} from '@/services/commonFeatures/email/outlook';
+import CommonModal from '@/components/CommonModal';
+import { END_POINTS } from '@/routesConstants/endpoints';
+import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
-import { EMAIL_TABS_TYPES } from '@/constants';
 
-const LeftPane = () => {
+const LeftPane = ({
+  isOpenSendEmailDrawer,
+  setIsOpenSendEmailDrawer,
+  mailType,
+  setMailType,
+}: any) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const mailTabType: any = useAppSelector(
-    (state: any) => state?.email?.mailTabType,
-  );
+  const router = useRouter();
 
-  const mailList: any = useAppSelector((state: any) => state?.email?.mailList);
-  const mailDraftList: any = useAppSelector(
-    (state: any) => state?.email?.mailDraftList,
+  const [isReloginModalOpen, setIsReloginModalOpen] = useState(false);
+
+  const mailTabType: any = useAppSelector(
+    (state: any) => state?.outlook?.mailTabType,
+  );
+  const searchTerm: any = useAppSelector(
+    (state: any) => state?.outlook?.searchTerm,
+  );
+  const mailCurrentPage: any = useAppSelector(
+    (state: any) => state?.outlook?.mailCurrentPage,
   );
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const { data: foldersData, isLoading } = useGetMailFoldersQuery({});
-  const dataToShow = ['Inbox', 'Drafts', 'Sent', 'Schedule', 'Trash'];
+
+  const {
+    data: foldersData,
+    isLoading,
+    isError,
+  } = useGetMailFoldersOutlookQuery({});
+
+  const dataToShow = [
+    'Inbox',
+    'Sent Items',
+    'Drafts',
+    'Schedule',
+    'Deleted Items',
+  ];
   const filteredData = foldersData?.data?.filter((item: any) => {
     return dataToShow
       ?.map((name) => name?.toLowerCase())
-      ?.includes(item?.display_name?.toLowerCase());
+      ?.includes(item?.displayName?.toLowerCase());
   });
+
+  const sortedData = dataToShow?.map((item) => {
+    return filteredData?.find((data: any) => {
+      return data?.displayName?.toLowerCase() === item?.toLowerCase();
+    });
+  });
+
+  const getButtonLabel = (value: any) => {
+    switch (value) {
+      case 'inbox':
+        return 'inbox';
+      case 'drafts':
+        return 'Drafts';
+      case 'sent items':
+        return 'Sent';
+      case 'deleted items':
+        return 'Deleted';
+      default:
+        return '';
+    }
+  };
 
   const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
 
@@ -56,13 +103,14 @@ const LeftPane = () => {
     data: emailsByFolderIdData,
     status: isLoadingEmailsByFolderIdData,
     refetch,
-  } = useGetEmailsByFolderIdQuery(
+  } = useGetEmailsByFolderIdOutlookQuery(
     {
       params: {
-        page: PAGINATION?.CURRENT_PAGE,
+        page: mailCurrentPage,
         limit: PAGINATION?.PAGE_LIMIT,
-        folderId: mailTabType?.id,
+        ...(searchTerm && { search: searchTerm }),
       },
+      id: mailTabType?.id,
     },
     { skip: isGetEmailsRequest },
   );
@@ -73,39 +121,50 @@ const LeftPane = () => {
     }
   }, [mailTabType]);
 
-  const {
-    data: draftsData,
-    status: isLoadingDraftsData,
-    refetch: draftsDataRefetch,
-  } = useGetDraftsQuery(
-    {
-      params: {
-        page: PAGINATION?.CURRENT_PAGE,
-        limit: PAGINATION?.PAGE_LIMIT,
-      },
-    },
-    { skip: isGetEmailsRequest },
-  );
-
+  const { data: authURLOutlook } = useGetAuthURLOutlookQuery({});
   useEffect(() => {
-    if (emailsByFolderIdData) {
-      dispatch(setMailList(emailsByFolderIdData));
+    if (isError) {
+      setIsReloginModalOpen(true);
     }
-  }, [emailsByFolderIdData]);
+  }, [isError]);
 
+  const oauthUrl = `${authURLOutlook?.data}`;
+
+  const [trackRenders, setTrackRenders] = useState<any>(1);
   useEffect(() => {
-    if (draftsData) {
-      dispatch(setMailDraftList(draftsData));
+    if (trackRenders === 1) {
+      setTrackRenders(2);
+    } else {
+      if (emailsByFolderIdData?.data?.length < 0) {
+        dispatch(setBreakScrollOperation(true));
+      }
     }
-  }, [draftsData]);
+  }, [emailsByFolderIdData?.data]);
 
   const handelToggleTab = (value: any) => {
-    if (value?.display_name !== mailTabType?.display_name) {
+    if (value?.displayName !== mailTabType?.displayName) {
       dispatch(setMailTabType(value));
       dispatch(setActiveRecord({}));
+      dispatch(setSelectedRecords([]));
+      dispatch(setMailList('clear'));
+      dispatch(setMailCurrentPage(1));
+      dispatch(setBreakScrollOperation(false));
+      setTrackRenders(1);
       refetch();
     }
   };
+
+  useEffect(() => {
+    if (searchTerm.length > 0) {
+      dispatch(setActiveRecord({}));
+      dispatch(setSelectedRecords([]));
+      dispatch(setMailList('clear'));
+      dispatch(setMailCurrentPage(1));
+      dispatch(setBreakScrollOperation(false));
+      setTrackRenders(1);
+      refetch();
+    }
+  }, [searchTerm]);
 
   return (
     <Box sx={styles?.card(theme)}>
@@ -121,10 +180,15 @@ const LeftPane = () => {
           >
             Filter
           </Button>
-          <ActionBtn filteredData={filteredData} />
+          <ActionBtn
+            sortedData={sortedData}
+            mailType={mailType}
+            setMailType={setMailType}
+            setIsOpenSendEmailDrawer={setIsOpenSendEmailDrawer}
+            isOpenSendEmailDrawer={isOpenSendEmailDrawer}
+          />
         </Box>
       </Box>
-
       {isLoading ? (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
           {[1, 2, 3, 4, 5]?.map(() => (
@@ -144,52 +208,49 @@ const LeftPane = () => {
           aria-label="Basic button group"
           sx={{ mb: 1 }}
         >
-          {filteredData?.map((item: any) => (
-            <Button
-              key={uuidv4()}
-              onClick={() => handelToggleTab(item)}
-              sx={{
-                border: `1px solid ${theme?.palette?.grey[700]}`,
-                borderRadius: '8px',
-                color: theme?.palette?.secondary?.main,
-                textTransform: 'capitalize',
-                backgroundColor:
-                  mailTabType?.display_name?.toLowerCase() ===
-                  item?.display_name?.toLowerCase()
-                    ? theme?.palette?.grey[400]
-                    : '',
-                '&:hover': {
-                  backgroundColor:
-                    mailTabType?.display_name?.toLowerCase() ===
-                    item?.display_name?.toLowerCase()
-                      ? theme?.palette?.grey[400]
-                      : '',
-                  border: `1px solid ${theme?.palette?.grey[700]}`,
-                },
-              }}
-            >
-              {item?.display_name?.toLowerCase()}
-            </Button>
+          {sortedData?.map((item: any) => (
+            <>
+              {item && (
+                <>
+                  <Button
+                    key={uuidv4()}
+                    onClick={() => handelToggleTab(item)}
+                    sx={{
+                      border: `1px solid ${theme?.palette?.grey[700]}`,
+                      borderRadius: '8px',
+                      color: theme?.palette?.secondary?.main,
+                      textTransform: 'capitalize',
+                      backgroundColor:
+                        mailTabType?.displayName?.toLowerCase() ===
+                        item?.displayName?.toLowerCase()
+                          ? theme?.palette?.grey[400]
+                          : '',
+                      '&:hover': {
+                        backgroundColor:
+                          mailTabType?.displayName?.toLowerCase() ===
+                          item?.displayName?.toLowerCase()
+                            ? theme?.palette?.grey[400]
+                            : '',
+                        border: `1px solid ${theme?.palette?.grey[700]}`,
+                      },
+                    }}
+                  >
+                    {getButtonLabel(item?.displayName?.toLowerCase())}
+                  </Button>
+                </>
+              )}
+            </>
           ))}
         </ButtonGroup>
       )}
+
       <MailList
-        emailsByFolderIdData={
-          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
-            ? mailDraftList
-            : mailList
-        }
-        isLoadingEmailsByFolderIdData={
-          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
-            ? isLoadingDraftsData
-            : isLoadingEmailsByFolderIdData
-        }
-        refetch={
-          mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.DRAFTS
-            ? draftsDataRefetch
-            : refetch
-        }
+        emailsByFolderIdData={emailsByFolderIdData}
+        isLoadingEmailsByFolderIdData={isLoadingEmailsByFolderIdData}
+        refetch={refetch}
         mailTabType={mailTabType}
+        trackRenders={trackRenders}
+        setTrackRenders={setTrackRenders}
       />
 
       <CommonDrawer
@@ -201,6 +262,24 @@ const LeftPane = () => {
       >
         <>Filter Cont.</>
       </CommonDrawer>
+
+      <CommonModal
+        open={isReloginModalOpen}
+        title={'Token Expired'}
+        cancelIcon={false}
+      >
+        <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+          <Button
+            variant="outlined"
+            onClick={() => router.push(END_POINTS?.EMAIL_VIEW)}
+          >
+            Back to emails
+          </Button>
+          <Button variant="contained" onClick={() => window.open(oauthUrl)}>
+            Login Again
+          </Button>
+        </Box>
+      </CommonModal>
     </Box>
   );
 };

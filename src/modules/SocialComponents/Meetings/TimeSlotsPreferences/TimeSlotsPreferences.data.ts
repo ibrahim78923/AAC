@@ -1,29 +1,59 @@
 import * as Yup from 'yup';
 
 export const weeklyDaysSchemaFields: any = Yup?.object()?.shape({
-  months: Yup?.string(),
-  weekly: Yup?.string(),
-  timeSlot: Yup?.array()?.of(
-    Yup?.object()?.shape({
-      timeSlotStart: Yup?.mixed()?.nullable(),
-      timeSlotEnd: Yup?.mixed()?.nullable(),
-    }),
-  ),
-  beforeEvent: Yup?.mixed()?.nullable(),
-  afterEvent: Yup?.mixed()?.nullable(),
+  months: Yup?.array()
+    ?.of(Yup?.string())
+    ?.default([]),
+  weekly: Yup?.array()
+    ?.of(Yup?.string())
+    ?.default([]),
+  daysTimeRanges: Yup?.array()
+    ?.of(
+      Yup?.object()?.shape({
+        days: Yup?.string()?.required(),
+        timeRanges: Yup?.array()
+          ?.of(
+            Yup?.object()?.shape({
+              startHour: Yup?.date()?.nullable(),
+              endHour: Yup?.date()?.nullable(),
+            }),
+          )
+          ?.default([]),
+      }),
+    )
+    ?.default([]),
+  dateOverrides: Yup?.array()
+    ?.of(
+      Yup?.object()?.shape({
+        date: Yup?.date()?.required(),
+        timeRanges: Yup?.array()
+          ?.of(
+            Yup?.object()?.shape({
+              startHour: Yup?.date()?.nullable(),
+              endHour: Yup?.date()?.nullable(),
+            }),
+          )
+          ?.default([]),
+      }),
+    )
+    ?.default([]),
+  bufferTime: Yup?.object()?.shape({
+    bufferBefore: Yup?.mixed()?.nullable(),
+    bufferAfter: Yup?.mixed()?.nullable(),
+  }),
 });
 
 export const defaultValues = {
   months: [],
   weekly: [],
-  timeSlot: [
+  daysTimeRanges: [
+    { days: '', timeRanges: [{ startHour: new Date(), endHour: new Date() }] },
+  ],
+  dateOverrides: [
     {
-      timeSlotStart: null,
-      timeSlotEnd: null,
+      date: new Date(),
+      timeRanges: [{ startHour: new Date(), endHour: new Date() }],
     },
   ],
-  overrideDate: new Date(),
-  overrides: [{ start: null, end: null }],
-  beforeEvent: null,
-  afterEvent: null,
+  bufferTime: { bufferBefore: null, bufferAfter: null },
 };

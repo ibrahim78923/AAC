@@ -495,6 +495,13 @@ export const AirOperationsRoutes: any = [
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATIONS_USER_MANAGEMENT,
   },
+  {
+    key: AIR_OPERATION?.REPORTS,
+    icon: ReportsImage,
+    label: 'Reports',
+    role: 'AIR_OPERATIONS',
+    permissions: [],
+  },
 ];
 
 export const SalesRoutes: any = [
@@ -518,7 +525,7 @@ export const SalesRoutes: any = [
     icon: ForecastImage,
     label: 'Forecast',
     role: 'AIR_SALES',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_FORECAST,
   },
   {
     key: '/air-sales/quotes',
@@ -877,7 +884,8 @@ export const getLowerRoutes = (product: any) => {
 
 export const zeroPaddingRoutes = [
   '/social-components/chat',
-  '/social-components/email/conversations',
+  '/social-components/email/outlook/conversations',
+  '/social-components/email/gmail/conversations',
   '/social-components/calling/call',
   '/org-admin/users',
   '/super-admin/user-management/users-list',

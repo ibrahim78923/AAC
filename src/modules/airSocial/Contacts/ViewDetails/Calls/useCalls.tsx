@@ -18,7 +18,9 @@ import { addCallValidationSchema } from './AddCalls/AddCalls.data';
 import { parseISO } from 'date-fns';
 
 const useCalls = (contactId: any = '') => {
+  const theme = useTheme();
   const { user } = getSession();
+
   // Actions Dropdown Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -47,36 +49,22 @@ const useCalls = (contactId: any = '') => {
     label: `${item?.firstName} ${item?.lastName}`,
   }));
 
+  // Get Calls Data
   const [selectedRow, setSelectedRow]: any = useState([]);
-  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  // const defaultParams = {
-  //   page: PAGINATION?.CURRENT_PAGE,
-  //   limit: PAGINATION?.PAGE_LIMIT,
-  // };
-  const [filterParams, setFilterParams] = useState({
+  const paginationParams = {
     page: page,
     limit: pageLimit,
-  });
-
-  const { data: dataGetCalls, isLoading: loadingGetCalls } = useGetCallsQuery({
-    params: filterParams,
-  });
-
-  // Hadle PAGE CHANGE
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
   };
 
-  const theme = useTheme();
+  const {
+    data: dataGetCalls,
+    isLoading: loadingGetCalls,
+    isFetching: fetchingGetCalls,
+  } = useGetCallsQuery({
+    params: paginationParams,
+  });
 
   // Add Call
   const [postAddCall, { isLoading: loadingAddCall }] = usePostCallMutation();
@@ -130,7 +118,7 @@ const useCalls = (contactId: any = '') => {
     handleActionsMenuClose();
     const selectedItem =
       dataGetCalls?.data?.contactcalls?.find(
-        (item: any) => item?._id === rowId,
+        (item: any) => item?._id === selectedRow[0],
       ) || {};
 
     if (selectedItem) {
@@ -154,7 +142,7 @@ const useCalls = (contactId: any = '') => {
     useUpdateCallMutation();
   const onSubmitEditCall = async (values: any) => {
     try {
-      await updateCall({ id: rowId, body: values })?.unwrap();
+      await updateCall({ id: selectedRow[0], body: values })?.unwrap();
       handleCloseDrawerEditCall();
       setSelectedRow([]);
       enqueueSnackbar('Call has been updated successfully', {
@@ -188,7 +176,6 @@ const useCalls = (contactId: any = '') => {
       enqueueSnackbar('Record has been deleted.', {
         variant: 'success',
       });
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -211,7 +198,7 @@ const useCalls = (contactId: any = '') => {
     useUpdateCallMutation();
   const onSubmitReschedule = async (values: any) => {
     try {
-      await reScheduleCall({ id: rowId, body: values })?.unwrap();
+      await reScheduleCall({ id: selectedRow[0], body: values })?.unwrap();
       handleCloseDrawerEditCall();
       setSelectedRow([]);
       enqueueSnackbar('Call has been updated successfully', {
@@ -239,7 +226,7 @@ const useCalls = (contactId: any = '') => {
   const [outcomeCall, { isLoading: loadingOutcome }] = useUpdateCallMutation();
   const onSubmitOutcome = async (values: any) => {
     try {
-      await outcomeCall({ id: rowId, body: values })?.unwrap();
+      await outcomeCall({ id: selectedRow[0], body: values })?.unwrap();
       handleCloseModalOutcome();
       setSelectedRow([]);
       enqueueSnackbar('Call has been updated successfully', {
@@ -259,16 +246,12 @@ const useCalls = (contactId: any = '') => {
     handleActionsMenuClick,
     handleActionsMenuClose,
     loadingGetCalls,
+    fetchingGetCalls,
     dataGetCalls,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    rowId,
 
     theme,
     loadingAddCall,

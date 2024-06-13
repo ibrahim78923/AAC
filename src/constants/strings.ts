@@ -121,11 +121,18 @@ export const ASSET_IMPACT = {
   HIGH: 'HIGH',
 };
 
+export const ASSET_IMPACT_FILTER = {
+  LOW: 'low',
+  MEDIUM: 'medium',
+  HIGH: 'high',
+};
+
 export const TICKET_TYPE = {
   INC: 'INC',
   SR: 'SR',
   EQ: 'EQ',
 };
+
 export const ASSET_TYPE = {
   SERVICES: 'services',
   HARDWARE: 'hardware',
@@ -168,6 +175,7 @@ export const ALERT_MODALS_TYPE = {
   DELETE: 'delete',
   WARNING: 'warning',
   INFO: 'Information',
+  RESTORE: 'Restore',
 };
 
 export const CATALOG_SERVICE_TYPES = {
@@ -285,6 +293,11 @@ export const REQUESTORS_ASSIGNED_STATUS = {
   RESOLVED: 'Resolved',
 };
 
+export const CALENDAR_STATUS = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+};
+
 export const CANNED_RESPONSES = {
   AVAILABLE_FOR: 'availableFor',
   DELETE: 'delete',
@@ -356,6 +369,10 @@ export const TASK_STATUS = {
 export const CONTRACT_ACTION = {
   RENEW: 'renew',
   EXTEND: 'extend',
+};
+
+export const SMS_BROADCAST_CONSTANTS = {
+  RECIPIENTS: 'recipients',
 };
 
 export enum ROLES {
@@ -561,6 +578,15 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const DRAWER_TITLES = {
+  EDIT: 'Edit User',
+  ADD: 'Add User',
+};
+export const DRAWER_ACTIONS_TITLES = {
+  EDIT: 'Edit',
+  ADD: 'ADD',
+};
+
 export const LOYALTY_SHOP_TYPE = {
   ON_SITE: 'ONSITE',
   DEPARTMENT: 'DEPARTMENT',
@@ -752,6 +778,7 @@ export const ARRAY_INDEX = {
 };
 
 export const PRODUCT_USER_STATUS = {
+  active: 'active',
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
 };
@@ -787,5 +814,35 @@ export const CHARTS: any = {
 };
 
 export const SELECTED_ARRAY_LENGTH = {
+  ZERO: 0,
   ONE: 1,
+};
+
+export const SCREENS: any = {
+  MOBILE: 'mobile',
+  LAPTOP: 'laptop',
+};
+
+export const TIME_TO_RESTORE_DELETED_RECORD = {
+  REPORT_RESTORE_IN_DAYS: 90,
+};
+
+export const REPORT_TYPE = {
+  CHART: 'chart',
+  TABLE: 'table',
+  TEXT: 'text',
+  COUNTER: 'counter',
+  EVERYONE: 'everyone',
+  SPECIFIC_USERS: 'specificUsers',
+  ADD_TO_EXISTING: 'addToExisting',
+  ALL: 'All',
+};
+
+export const USER_MANAGEMENT_DRAWER_ACTION = {
+  CREATE_TEAM: 'Create Team',
+  EDIT_TEAM: 'Edit Team',
+  VIEW_USER: 'View User',
+  ADD_USER: 'Add User',
+  ADD: 'Add',
+  EDIT: 'Edit',
 };

@@ -4,7 +4,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { contactsDataArray } from './CreateContactsdata';
 import useCreateContacts from './useCreateContacts';
 
-const CreateContacts = ({ open, onClose }: any) => {
+const CreateContacts = ({ open, onClose, handleRefresh }: any) => {
   const {
     orgId,
     loadingCreateContact,
@@ -14,7 +14,7 @@ const CreateContacts = ({ open, onClose }: any) => {
     lifeCycleStagesData,
     contactStatusData,
     reset,
-  } = useCreateContacts();
+  } = useCreateContacts(handleRefresh);
 
   const handelClose = () => {
     onClose();

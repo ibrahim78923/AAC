@@ -94,7 +94,7 @@ export const columns = (
             >
               <Box
                 sx={{ cursor: 'pointer' }}
-                onClick={() => handleDrawerOpen('View')}
+                onClick={() => handleDrawerOpen('View', data)}
               >
                 <ViewEyeIcon />
               </Box>
@@ -142,7 +142,7 @@ export const exportData = [
 export const DRAWER_TITLE = {
   create: 'Create',
   edit: 'Edit',
-  view: 'view',
+  view: 'View',
 };
 
 export const BUTTON_TYPE = {

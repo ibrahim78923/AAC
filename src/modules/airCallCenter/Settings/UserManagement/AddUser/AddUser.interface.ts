@@ -4,4 +4,5 @@ export interface AddUserPropsI {
   handleSubmit: any;
   formMethods: any;
   isLoading?: boolean;
+  isViewed: boolean;
 }

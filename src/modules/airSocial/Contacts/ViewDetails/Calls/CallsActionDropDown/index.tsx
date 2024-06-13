@@ -45,21 +45,21 @@ const CallsActionDropdown = (props: any) => {
           }}
         >
           <MenuItem
-            disabled={!disabledMenuItem}
+            disabled={disabledMenuItem}
             onClick={() => handleOpenDrawerEditCall('View')}
           >
             View
           </MenuItem>
           <MenuItem
-            disabled={!disabledMenuItem}
+            disabled={disabledMenuItem}
             onClick={() => handleOpenDrawerEditCall('Edit')}
           >
             Edit
           </MenuItem>
-          <MenuItem disabled={!disabledMenuItem} onClick={handleOpenReschedule}>
+          <MenuItem disabled={disabledMenuItem} onClick={handleOpenReschedule}>
             Reschedule
           </MenuItem>
-          <MenuItem disabled={!disabledMenuItem} onClick={handleOpenOutcome}>
+          <MenuItem disabled={disabledMenuItem} onClick={handleOpenOutcome}>
             Add outcomes
           </MenuItem>
           <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>

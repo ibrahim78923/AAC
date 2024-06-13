@@ -1,27 +1,24 @@
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { styles } from './ConnectNumber.style';
 import { SmsMainIcon } from '@/assets/icons';
-
 import useConnectNumber from './useConnectNumber';
 import AddRegNumber from './AddRegNumber';
-import OTPVerification from './OTPVerification';
 import Image from 'next/image';
 import { SmsMockImage, TwillioImage } from '@/assets/images';
 
-const ConnectNumber = ({ setIsNumberConnected }: any) => {
+const ConnectNumber = ({ setIsConnected }: any) => {
   const {
-    openDialogRegNumber,
-    handleOpenDialogRegNumber,
     handleCloseDialogRegNumber,
+    handleOpenDialogRegNumber,
     handleAddRegNumSubmit,
-    openDialogVerification,
-    handleCloseDialogVerification,
-    handleVerificationSubmit,
+    connectNumberLoading,
+    openDialogRegNumber,
+    handlePhoneChange,
     isPhoneValid,
     phoneNumber,
-    handlePhoneChange,
     theme,
-  } = useConnectNumber();
+  } = useConnectNumber(setIsConnected);
+
   return (
     <>
       <Stack
@@ -77,17 +74,7 @@ const ConnectNumber = ({ setIsNumberConnected }: any) => {
           onPhoneChange={handlePhoneChange}
           phoneValue={phoneNumber}
           isPhoneValid={isPhoneValid}
-        />
-      )}
-
-      {openDialogVerification && (
-        <OTPVerification
-          open={openDialogVerification}
-          onClose={handleCloseDialogVerification}
-          onSubmit={() => {
-            handleVerificationSubmit();
-            setIsNumberConnected(true);
-          }}
+          isLoading={connectNumberLoading}
         />
       )}
     </>

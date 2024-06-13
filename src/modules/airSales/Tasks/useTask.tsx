@@ -54,7 +54,7 @@ export const useTask = () => {
           filtersData?.dueDate &&
           dayjs(filtersData?.dueDate)?.format(DATE_FORMAT?.API),
       }),
-      search: searchTask,
+      ...(searchTask && { search: searchTask }),
     },
   });
 

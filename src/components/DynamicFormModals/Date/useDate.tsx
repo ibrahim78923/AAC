@@ -52,7 +52,6 @@ export default function useDate({ setOpen, form, setForm, editId }: any) {
                     label: data?.name,
                     required: data?.required,
                     format: data?.dateFormat?.value,
-                    fullWidth: true,
                     textFieldProps: { readOnly: true },
                   },
                 }

@@ -17,6 +17,3 @@ def deployImg(){
 
 }
 return this
-
-
-  

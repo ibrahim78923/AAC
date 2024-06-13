@@ -1,8 +1,9 @@
 import Layout from '@/layout';
 import SettingsLayout from '@/layout/SettingsLayout/Layout';
+import VoiceMails from '@/modules/airCallCenter/Settings/PhoneSettings/VoiceMails';
 
 const VoiceMailsPage = () => {
-  return <h1>VoiceMailsPage Page</h1>;
+  return <VoiceMails />;
 };
 export default VoiceMailsPage;
 

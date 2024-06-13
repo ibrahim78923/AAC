@@ -2,31 +2,90 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
   upsertLocationsDefaultValues,
+  upsertLocationsFormFieldsDynamic,
   upsertLocationsFormValidationSchema,
 } from './UpsertLocations.data';
-import { enqueueSnackbar } from 'notistack';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
+import {
+  usePatchCommonMeetingsLocationsMutation,
+  usePostCommonMeetingsLocationsMutation,
+} from '@/services/commonFeatures/meetings/settings/locations';
 
 export const useUpsertLocations = (props: any) => {
-  const { onClose, isUpdate } = props;
-  const methods = useForm({
+  const { setIsPortalOpen, isPortalOpen } = props;
+
+  const [
+    postCommonMeetingsLocationsTrigger,
+    postCommonMeetingsLocationsStatus,
+  ] = usePostCommonMeetingsLocationsMutation();
+
+  const [
+    patchCommonMeetingsLocationsTrigger,
+    patchCommonMeetingsLocationsStatus,
+  ] = usePatchCommonMeetingsLocationsMutation();
+
+  const methods = useForm<any>({
+    defaultValues: upsertLocationsDefaultValues?.(isPortalOpen?.data),
     resolver: yupResolver(upsertLocationsFormValidationSchema),
-    defaultValues: upsertLocationsDefaultValues,
   });
-  const { handleSubmit } = methods;
-  const submitUpsertLocationForm = async () => {
-    onClose();
-    enqueueSnackbar(
-      isUpdate
-        ? 'Location Updated Successfully'
-        : 'Location Added Successfully',
-      {
-        variant: 'success',
-      },
-    );
+
+  const { handleSubmit, reset } = methods;
+
+  const submitUpsertLocationForm = async (formData: any) => {
+    const newFormData = filteredEmptyValues(formData);
+
+    if (isPortalOpen?.isEdit) {
+      submitEditLocationForm?.(newFormData);
+      return;
+    }
+    const apiDataParameter = {
+      body: newFormData,
+    };
+
+    try {
+      await postCommonMeetingsLocationsTrigger?.(apiDataParameter)?.unwrap();
+      successSnackbar('Meeting location added successfully');
+      closeDrawer?.();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
+
+  const submitEditLocationForm = async (formData: any) => {
+    const apiDataParameter = {
+      body: {
+        id: isPortalOpen?.data?._id,
+        ...formData,
+      },
+    };
+
+    try {
+      await patchCommonMeetingsLocationsTrigger?.(apiDataParameter)?.unwrap();
+      successSnackbar('Meeting location updated successfully');
+      closeDrawer?.();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  const closeDrawer = () => {
+    reset();
+    setIsPortalOpen?.({});
+  };
+
+  const upsertLocationsFormFields = upsertLocationsFormFieldsDynamic();
+
   return {
     methods,
     handleSubmit,
+    upsertLocationsFormFields,
+    closeDrawer,
     submitUpsertLocationForm,
+    patchCommonMeetingsLocationsStatus,
+    postCommonMeetingsLocationsStatus,
   };
 };

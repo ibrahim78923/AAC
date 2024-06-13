@@ -19,6 +19,7 @@ export const callActionsDefaultValues = {
 
 export const callActionsArray = [
   {
+    id: '01',
     componentProps: {
       name: 'businessHours',
       label: 'Business Hours',

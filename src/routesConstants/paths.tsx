@@ -256,11 +256,38 @@ export const SOCIAL_FEATURES_EMAIL = {
 };
 export const SOCIAL_FEATURES_OUTLOOK = {
   AUTH_URL: '/email-marketing/auth-url',
+  EMAIL_FOLDERS: '/emails/get-outlook-mail-folders',
+  EMAIL_FOLDERS_BY_ID: '/emails/get-outlook-mail-folders',
+  EMAIL_DETAILS: '/emails/get-message-details',
+  SEND_EMAIL: '/emails/send-outlook-email',
+  REPLY_EMAIL: '/emails/reply-outlook-email',
+  FORWARD_EMAIL: '/emails/forward-outlook-email',
+  DRAFT_EMAIL: '/emails/create-draft-email',
+  SCHEDULE_EMAIL: '/emails/schedule-email',
+  DELETE_EMAIL: '/emails/delete-outlook-email',
+  OUTLOOK_REDIRECT_URL: '/email-marketing/redirect-url',
+  OUTLOOK_CONVERSATIONS: '/social-components/email/outlook/conversations',
+  GMAIL_REDIRECT_URL: '/gmail/redirect-url',
+  GMAIL_CONVERSATIONS: '/social-components/email/gmail/conversations',
+  UPDATE_EMAIL: '/emails/update-outlook-email',
+  MOVE_TO_FOLDER_EMAIL: '/emails/move-outlook-mails',
+  LOGOUT_OUTLOOK: '/email-marketing/save-email-marketing-setting',
 };
 export const SOCIAL_FEATURES_GMAIL = {
   AUTH_URL: '/gmail/auth-url',
   GMAIL_FOLDER: '/gmail/get-gmail-folders',
   GMAIL_BY_FOLDERID: '/gmail/get-gmail-email',
+  GMAIL_MESSAGE_DETAIL: '/gmail/get-gmail-message-details',
+  GMAIL_SEND: '/gmail/send-gmail-email',
+  SCHEDULE_GMAIL_SEND: '/gmail/schedule-gmail-mail',
+  REPLY_GMAIL_SEND: '/gmail/reply-gmail-email',
+  DRAFT_GMAIL_SEND: '/gmail/create-gmail-draft-mail',
+  DELETE_GMAIL: 'gmail/move-gmail-thread-to-trash',
+  FORWARD_GMAIL: '/gmail/forward-gmail-email',
+  UPDATE_GMAIL: '/gmail/update-gmail-message',
+  MAIN_EMAIL_PAGE: '/social-components/email',
+  DRAFT_GMAIL_POST: '/gmail/send-gmail-draft-mail',
+  LOGOUT_MAIL: 'email-marketing/save-email-marketing-setting',
 };
 
 export const CHAT_SOCKETS = {
@@ -274,6 +301,7 @@ export const CHAT_SOCKETS = {
   ON_MESSAGE_UPDATE: 'on-message-update',
   ON_TYPING_START: 'on-typing-start',
   ON_TYPING_STOP: 'on-typing-stop',
+  PING: 'ping',
 };
 export const CHAT_SOCKETS_EMIT = {
   UPDATE_MESSAGE: 'update-message',

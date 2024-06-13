@@ -13,26 +13,29 @@ import { useRenameReport } from './useRenameReport';
 
 export const RenameReport = (props: any) => {
   const { isPortalOpen } = props;
-  const { onSubmit, handleSubmit, methods, handleClose } =
+  const { onSubmit, handleSubmit, methods, handleClose, renameReportsStatus } =
     useRenameReport(props);
 
   return (
     <Dialog
       open={isPortalOpen?.isRename}
       onClose={() => handleClose()}
-      maxWidth={'sm'}
+      maxWidth={'xs'}
       fullWidth
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <DialogTitle>
           <Box
             display={'flex'}
+            alignItems={'center'}
             justifyContent={'space-between'}
+            gap={1}
             flexWrap={'wrap'}
-            gap={2}
             mb={1.5}
           >
-            <Typography variant="h4">Rename Report</Typography>
+            <Typography variant="h4" color="slateBlue.main">
+              Rename Report
+            </Typography>
             <CloseIcon
               sx={{ color: 'custom.darker', cursor: 'pointer' }}
               onClick={() => handleClose?.()}
@@ -46,22 +49,23 @@ export const RenameReport = (props: any) => {
             required
             fullWidth
             label="Report Name"
+            placeholder="Enter Report Name"
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
             variant="outlined"
             color="inherit"
             onClick={() => handleClose?.()}
-            disabled
+            disabled={renameReportsStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
           <LoadingButton
             variant="contained"
             type="submit"
-            disabled
-            loading={false}
+            disabled={renameReportsStatus?.isLoading}
+            loading={renameReportsStatus?.isLoading}
           >
             Apply
           </LoadingButton>

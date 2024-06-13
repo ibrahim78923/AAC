@@ -518,6 +518,17 @@ const DashboardLayout = ({ children, window }: any) => {
         variant: 'error',
       });
     }
+
+    const pingInterval = setInterval(() => {
+      socket.emit(CHAT_SOCKETS?.PING);
+    }, 5000);
+
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+      clearInterval(pingInterval);
+    };
   }, [socket]);
 
   if (socket) {

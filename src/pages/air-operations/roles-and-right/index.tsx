@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { RolesAndRight } from '@/modules/airOperations/RolesAndRight';
 
@@ -8,5 +9,11 @@ const RolesAndRightPage = () => {
 export default RolesAndRightPage;
 
 RolesAndRightPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      permissions={Permissions?.AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST}
+    >
+      {page}
+    </Layout>
+  );
 };

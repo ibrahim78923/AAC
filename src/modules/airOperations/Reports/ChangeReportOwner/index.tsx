@@ -1,4 +1,3 @@
-import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -12,15 +11,17 @@ import {
 import { ROLES } from '@/constants/strings';
 import { useChangeReportOwner } from './useChangeReportOwner';
 import { PAGINATION } from '@/config';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const ChangeReportOwner = (props: any) => {
   const { isPortalOpen } = props;
   const {
-    assignedTicketsMethod,
+    methods,
     handleSubmit,
-    submitAssignedTicketsForm,
+    submitChangeOwner,
     closeModal,
     apiQueryAgent,
+    changeReportOwnerStatus,
   }: any = useChangeReportOwner(props);
 
   return (
@@ -28,11 +29,11 @@ export const ChangeReportOwner = (props: any) => {
       open={isPortalOpen?.isChangeOwner}
       onClose={() => closeModal?.()}
       fullWidth
-      maxWidth={'sm'}
+      maxWidth={'xs'}
     >
       <FormProvider
-        methods={assignedTicketsMethod}
-        onSubmit={handleSubmit(submitAssignedTicketsForm)}
+        methods={methods}
+        onSubmit={handleSubmit(submitChangeOwner)}
       >
         <DialogTitle>
           <Box
@@ -41,26 +42,20 @@ export const ChangeReportOwner = (props: any) => {
             justifyContent={'space-between'}
             gap={1}
             flexWrap={'wrap'}
+            mb={1.5}
           >
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              gap={1}
-              flexWrap={'wrap'}
-            >
-              <Typography variant="h3" textTransform={'capitalize'}>
-                Assign To
-              </Typography>
-            </Box>
-            <Box sx={{ cursor: 'pointer' }} onClick={() => closeModal?.()}>
-              <AlertModalCloseIcon />
-            </Box>
+            <Typography variant="h4" color="slateBlue.main">
+              Change Owner
+            </Typography>
+            <CloseIcon
+              sx={{ color: 'custom.darker', cursor: 'pointer' }}
+              onClick={() => closeModal?.()}
+            />
           </Box>
         </DialogTitle>
         <DialogContent>
-          <br />
           <RHFAutocompleteAsync
-            label="Select Owner"
+            label="Owner Name"
             name="user"
             fullWidth
             required
@@ -76,17 +71,22 @@ export const ChangeReportOwner = (props: any) => {
             }
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ paddingTop: `0rem !important` }}>
           <LoadingButton
             variant="outlined"
             color="secondary"
             onClick={() => closeModal?.()}
-            disabled
+            disabled={changeReportOwnerStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
-          <LoadingButton variant="contained" type="submit" loading={false}>
-            Assign
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={changeReportOwnerStatus?.isLoading}
+            disabled={changeReportOwnerStatus?.isLoading}
+          >
+            Apply
           </LoadingButton>
         </DialogActions>
       </FormProvider>

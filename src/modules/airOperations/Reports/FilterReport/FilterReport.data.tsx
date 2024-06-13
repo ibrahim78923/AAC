@@ -2,6 +2,34 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
+import { TIME_PERIODS } from '@/constants/strings';
+
+export const dateOptions = [
+  {
+    _id: TIME_PERIODS?.NONE,
+    label: TIME_PERIODS?.NONE,
+  },
+  {
+    _id: TIME_PERIODS?.ALL_TIME,
+    label: TIME_PERIODS?.ALL_TIME,
+  },
+  {
+    _id: TIME_PERIODS?.TODAY,
+    label: TIME_PERIODS?.TODAY,
+  },
+  {
+    _id: TIME_PERIODS?.YESTERDAY,
+    label: TIME_PERIODS?.YESTERDAY,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_WEEK,
+    label: TIME_PERIODS?.PREVIOUS_WEEK,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_MONTH,
+    label: TIME_PERIODS?.PREVIOUS_MONTH,
+  },
+];
 
 export const reportFiltersDefaultValues: any = (filterValue: any) => {
   return {
@@ -11,7 +39,10 @@ export const reportFiltersDefaultValues: any = (filterValue: any) => {
   };
 };
 
-export const reportFilterFormFieldsDynamic = (shopApiQuery?: any) => [
+export const reportFilterFormFieldsDynamic = (
+  reportOwnerApiQuery?: any,
+  assigneeApiQuery?: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -19,7 +50,7 @@ export const reportFilterFormFieldsDynamic = (shopApiQuery?: any) => [
       label: 'Report Owner',
       placeholder: 'Select report owner',
       fullWidth: true,
-      apiQuery: shopApiQuery,
+      apiQuery: reportOwnerApiQuery,
       getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
@@ -31,7 +62,7 @@ export const reportFilterFormFieldsDynamic = (shopApiQuery?: any) => [
       label: 'Assigned',
       placeholder: 'Select Assignee',
       fullWidth: true,
-      apiQuery: shopApiQuery,
+      apiQuery: assigneeApiQuery,
       getOptionLabel: (option: any) => option?.name,
     },
     component: RHFAutocompleteAsync,
@@ -43,7 +74,7 @@ export const reportFilterFormFieldsDynamic = (shopApiQuery?: any) => [
       label: 'Created Date',
       placeholder: 'Select created date',
       fullWidth: true,
-      options: [],
+      options: dateOptions,
       getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,

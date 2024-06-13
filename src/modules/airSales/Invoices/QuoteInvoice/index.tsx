@@ -261,6 +261,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
         title="Send to a customer"
         open={isEmailModal}
         handleClose={closeModalEmail}
+        handleCancel={closeModalEmail}
         handleSubmit={handleAddInvoiceSubmit}
         okText="Send"
         cancelText="Cancel"

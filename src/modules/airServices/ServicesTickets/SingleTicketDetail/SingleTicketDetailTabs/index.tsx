@@ -3,7 +3,6 @@ import { singleTicketDetailTabsData } from './SingleTicketDetailTabs.data';
 import { Tasks } from '../Tasks';
 import { Approvals } from '../Approvals';
 import RelatedTickets from '../RelatedTickets';
-import { AssociateAssets } from '../AssociateAssets';
 import { Details } from '../Details';
 import { Activities } from '../Activities';
 import { Conversations } from '../Conversations';
@@ -13,6 +12,7 @@ import { Permissions } from '@/constants/permissions';
 import { Meeting } from '../Meeting';
 import { Skeleton } from '@mui/lab';
 import { TICKET_TYPE } from '@/constants/strings';
+import Association from '../Association';
 
 export const SingleTicketDetailTabs = (props: any) => {
   const { apiStatus, data } = props;
@@ -41,7 +41,7 @@ export const SingleTicketDetailTabs = (props: any) => {
           Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_ASSETS_ASSOCIATE
         }
       >
-        <AssociateAssets />
+        <Association ticketType={data?.data?.[0]?.ticketType} />
       </PermissionsGuard>
       {data?.data?.[0]?.ticketType === TICKET_TYPE?.SR && <Approvals />}
       <PermissionsGuard

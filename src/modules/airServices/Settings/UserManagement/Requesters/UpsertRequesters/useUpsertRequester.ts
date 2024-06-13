@@ -1,5 +1,9 @@
 import { ROLES } from '@/constants/strings';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
@@ -28,14 +32,15 @@ export const useUpsertRequester = (props: any) => {
   const [addRequesterTrigger, addRequesterStatus] =
     usePostAddRequesterMutation();
 
-  const submitUpsertRequester = async (data: any) => {
+  const submitUpsertRequester = async (formData: any) => {
+    const newFormData = filteredEmptyValues(formData);
     const payload = {
-      firstName: data?.firstName,
-      lastName: data?.lastName,
-      email: data?.email,
-      jobTitle: data?.jobTitle,
-      phoneNumber: data?.phoneNumber,
-      timezone: data?.timezone,
+      firstName: newFormData?.firstName,
+      lastName: newFormData?.lastName,
+      email: newFormData?.email,
+      jobTitle: newFormData?.jobTitle,
+      phoneNumber: newFormData?.phoneNumber,
+      timezone: newFormData?.timezone,
       role: ROLES?.ORG_REQUESTER,
     };
     if (!!_id) {
@@ -54,6 +59,7 @@ export const useUpsertRequester = (props: any) => {
   const editRequesterDetails = async (data: any) => {
     delete data?.email;
     delete data?.role;
+    delete data?.createdAt;
     const formData = {
       id: _id,
       ...data,

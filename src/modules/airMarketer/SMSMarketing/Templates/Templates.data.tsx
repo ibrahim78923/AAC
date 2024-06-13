@@ -2,41 +2,13 @@ import { Box } from '@mui/material';
 import { DeleteIcon, EditBlackIcon } from '@/assets/icons';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, TASK_TYPE } from '@/constants';
 
-// table
-// export const TemplatesTableData: any = [
-//   {
-//     Id: 1,
-//     name: `Fund Raising`,
-//     Description:
-//       'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con',
-//     Category: ' Account update',
-//     createdDate: ' 31-Dec-2023 ',
-//     action: 'action',
-//   },
-//   {
-//     Id: 2,
-//     name: `Summer Sale`,
-//     Description:
-//       'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed qu',
-//     Category: ' Ticket Update',
-//     createdDate: ' 14-Dec-2022',
-//     action: 'action',
-//   },
-
-//   {
-//     Id: 3,
-//     name: `New Launch`,
-//     Description:
-//       'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut al',
-//     Category: ' Alert Update',
-//     createdDate: '11-Dec-2022',
-//     action: 'action',
-//   },
-// ];
-
-export const columns = (setIsOpenAlert: any, navigate: any, theme: any) => {
+export const columns = (
+  setIsOpenDeleteModal: any,
+  navigate: any,
+  theme: any,
+) => {
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -64,15 +36,15 @@ export const columns = (setIsOpenAlert: any, navigate: any, theme: any) => {
       id: 'createdDate',
       isSortable: false,
       header: 'createdDate',
-      cell: (info: any) => dayjs(info.getValue())?.format(DATE_FORMAT?.API),
+      cell: (info: any) => dayjs(info.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.action,
       id: 'action',
       isSortable: false,
       header: 'Action',
-      cell: () => (
-        <Box sx={{ display: 'flex', gap: 0.5 }}>
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', gap: 2 }}>
           <Box
             sx={{
               cursor: 'pointer',
@@ -83,7 +55,10 @@ export const columns = (setIsOpenAlert: any, navigate: any, theme: any) => {
             onClick={() => {
               navigate.push({
                 pathname: AIR_MARKETER?.CREATE_TEMPLATE,
-                query: { type: 'Edit' },
+                query: {
+                  data: JSON.stringify(info?.row?.original),
+                  type: TASK_TYPE?.EDIT_TASK,
+                },
               });
             }}
           >
@@ -97,7 +72,10 @@ export const columns = (setIsOpenAlert: any, navigate: any, theme: any) => {
               borderRadius: '50%',
             }}
             onClick={() => {
-              setIsOpenAlert(true);
+              setIsOpenDeleteModal({
+                isToggle: true,
+                deleteId: info?.row?.original?._id,
+              });
             }}
           >
             <DeleteIcon />

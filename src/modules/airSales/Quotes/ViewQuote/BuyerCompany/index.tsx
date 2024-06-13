@@ -12,59 +12,45 @@ const BuyerCompany = () => {
       <Box sx={styles?.card}>
         <Box sx={styles?.company}>
           <Box>
-            {viewQuotesData?.data?.buyerCompany?.map((item: any) => {
-              return (
-                <>
-                  {/* <Avatar
-                    src={generateImage(item?.owner?.profilePicture?.url)}
-                    sx={{
-                      color: theme?.palette?.grey[600],
-                      fontWeight: 500,
-                    }}
-                  >
-                    {`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(
-                      0,
-                    )}`}
-                  </Avatar> */}
-                  <Avatar
-                    alt="user"
-                    src={generateImage(item?.owner?.profilePicture?.url)}
-                    sx={{
-                      width: 35,
-                      height: 35,
-                      background: theme?.palette?.grey[400],
-                    }}
-                  >
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: theme?.palette?.custom?.dim_grey,
-                      }}
-                    >
-                      {item?.name?.charAt(1)}
-                      {item?.name?.charAt(item?.name?.length - 1)}
-                    </Typography>
-                  </Avatar>
-                  <Typography variant="h6" sx={styles?.title}>
-                    {item?.name ?? 'N/A'}
-                  </Typography>
-                  <Typography variant="body3" sx={styles?.infoSubtitle}>
-                    {/* {item?.owner?.address?.split(',').join(' | ') ?? 'N/A'} */}
-                    {item?.address}
-                  </Typography>
-
-                  <Typography variant="body3" sx={styles?.infoSubtitle}>
-                    {` ${item?.city ?? 'N/A'} | ${item?.postalCode ?? 'N/A'}`}
-                  </Typography>
-                  <Typography variant="body3" sx={styles?.infoSubtitle}>
-                    {item?.phone ?? 'N/A'}
-                  </Typography>
-                  <Typography variant="body3" sx={styles?.infoSubtitle}>
-                    {item?.owner?.email ?? 'N/A'}
-                  </Typography>
-                </>
-              );
-            })}
+            <Avatar
+              alt="user"
+              src={generateImage(
+                viewQuotesData?.data?.buyerCompany?.owner?.profilePicture?.url,
+              )}
+              sx={{
+                width: 35,
+                height: 35,
+                background: theme?.palette?.grey[400],
+              }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  color: theme?.palette?.custom?.dim_grey,
+                }}
+              >
+                {viewQuotesData?.data?.buyerCompany?.owner?.firstName?.charAt(
+                  1,
+                )}
+                {viewQuotesData?.data?.buyerCompany?.owner?.lastName?.charAt(
+                  viewQuotesData?.data?.buyerCompany?.name?.length - 1,
+                )}
+              </Typography>
+            </Avatar>
+            <Typography variant="h6" sx={styles?.title}>
+              {viewQuotesData?.data?.buyerCompany?.owner?.firstName
+                ? `${viewQuotesData?.data?.buyerCompany?.owner?.firstName} ${viewQuotesData?.data?.buyerCompany?.owner?.lastName}`
+                : 'N/A'}
+            </Typography>
+            <Typography variant="body3" sx={styles?.infoSubtitle}>
+              {viewQuotesData?.data?.buyerCompany?.owner?.address ?? 'N/A'}
+            </Typography>
+            <Typography variant="body3" sx={styles?.infoSubtitle}>
+              {viewQuotesData?.data?.buyerCompany?.owner?.phoneNumber ?? 'N/A'}
+            </Typography>
+            <Typography variant="body3" sx={styles?.infoSubtitle}>
+              {viewQuotesData?.data?.buyerCompany?.owner?.email ?? 'N/A'}
+            </Typography>
           </Box>
         </Box>
       </Box>

@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   Skeleton,
   Typography,
@@ -12,23 +13,27 @@ import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
 import { API_STATUS, DATE_TIME_FORMAT, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
-import { usePatchEmailMessageMutation } from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import {
   setActiveGmailRecord,
+  setGmailCurrentPage,
+  setGmailList,
   setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
+import { usePatchGmailMessageMutation } from '@/services/commonFeatures/email/gmail';
+import { isNullOrEmpty } from '@/utils';
 
 const MailList = ({
   emailsByFolderIdData,
   isLoadingEmailsByFolderIdData,
   refetch,
-  mailTabType,
+  gmailTabType,
+  pageToken,
 }: any) => {
   const theme = useTheme();
-
+  const [isDataEnd, setIsDataEnd] = useState<any>(true);
   const [dataArray, setDataArray] = useState<any>([]);
 
   const dispatch = useDispatch();
@@ -39,6 +44,14 @@ const MailList = ({
 
   const activeGmailRecord = useAppSelector(
     (state: any) => state?.gmail?.activeGmailRecord,
+  );
+
+  const gmailCurrentPage: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailCurrentPage,
+  );
+
+  const gmailList: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailList,
   );
 
   const handleCheckboxClick = (email: any) => {
@@ -70,21 +83,20 @@ const MailList = ({
     }
   };
 
-  const [patchEmailMessage] = usePatchEmailMessageMutation();
+  const [patchGmailMessage] = usePatchGmailMessageMutation();
 
   const handelMailClick = async (item: any) => {
     if (item) {
       dispatch(setActiveGmailRecord(item));
 
-      if (item?.unread) {
+      if (item?.readMessage) {
         const payload = {
-          id: item?.id,
-          threadId: item?.thread_id,
-          unread: false,
+          messageId: item?.messageId,
+          unread: true,
           starred: false,
         };
         try {
-          const response = await patchEmailMessage({
+          const response = await patchGmailMessage({
             body: payload,
           })?.unwrap();
           const updatedData = dataArray?.data?.map((item: any) =>
@@ -106,6 +118,55 @@ const MailList = ({
   useEffect(() => {
     setDataArray(emailsByFolderIdData);
   }, [emailsByFolderIdData]);
+
+  const boxRef = useRef(null);
+  const handleScroll = (e: any) => {
+    const bottom =
+      e?.target?.scrollHeight -
+        e?.target?.scrollTop -
+        e?.target?.clientHeight <=
+      50;
+    if (bottom) {
+      if (isNullOrEmpty(pageToken?.data?.nextPageToken)) {
+        setIsDataEnd(false);
+        return;
+      }
+      if (isLoadingEmailsByFolderIdData === API_STATUS?.PENDING) {
+        null;
+      } else {
+        dispatch(setGmailCurrentPage(pageToken?.data?.nextPageToken));
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isNullOrEmpty(pageToken?.data?.nextPageToken)) {
+      setIsDataEnd(false);
+    } else {
+      setIsDataEnd(true);
+    }
+  }, [emailsByFolderIdData]);
+
+  useEffect(() => {
+    const boxElement: any = boxRef?.current;
+    boxElement.addEventListener('scroll', handleScroll);
+    return () => {
+      boxElement.removeEventListener('scroll', handleScroll);
+    };
+  }, [isLoadingEmailsByFolderIdData, gmailCurrentPage]);
+
+  useEffect(() => {
+    if (emailsByFolderIdData?.data) {
+      dispatch(
+        setGmailList(emailsByFolderIdData?.data?.map((item: any) => item)),
+      );
+    }
+  }, [emailsByFolderIdData?.data]);
+
+  const loadingCheck =
+    gmailList?.length === 0
+      ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
+      : false;
 
   return (
     <Box minHeight={'calc(100vh - 350px)'} sx={{ overflowY: 'auto' }}>
@@ -139,7 +200,7 @@ const MailList = ({
         </Button>
       </Box>
 
-      {mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.TRASH && (
+      {gmailTabType?.name?.toLowerCase() === EMAIL_TABS_TYPES?.TRASH && (
         <Box
           sx={{
             background: theme?.palette?.grey[100],
@@ -158,7 +219,7 @@ const MailList = ({
         </Box>
       )}
 
-      <Box sx={{ maxHeight: '62vh', overflow: 'auto' }}>
+      <Box sx={{ maxHeight: '62vh', overflow: 'auto' }} ref={boxRef}>
         {isLoadingEmailsByFolderIdData === API_STATUS?.REJECTED ? (
           <Box>
             <Typography variant="body2" color={theme?.palette?.error?.main}>
@@ -167,7 +228,7 @@ const MailList = ({
           </Box>
         ) : (
           <>
-            {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
+            {loadingCheck ? (
               <>
                 <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
               </>
@@ -196,12 +257,12 @@ const MailList = ({
                               onChange={() => handleCheckboxClick(item)}
                             />
                             <Box>
-                              {mailTabType?.display_name ===
+                              {gmailTabType?.name ===
                               EMAIL_TABS_TYPES?.SCHEDULE ? (
                                 <Typography
                                   variant="h6"
                                   sx={{
-                                    fontWeight: item?.unread ? 700 : '',
+                                    fontWeight: item?.readMessage ? 700 : '',
                                     color: theme?.palette?.success?.main,
                                   }}
                                 >
@@ -210,7 +271,10 @@ const MailList = ({
                               ) : (
                                 <Typography
                                   variant="h6"
-                                  sx={{ fontWeight: item?.unread ? 700 : '' }}
+                                  sx={{
+                                    fontWeight: item?.readMessage ? 700 : '',
+                                    wordBreak: 'break-all',
+                                  }}
                                 >
                                   {' '}
                                   {item?.name}{' '}
@@ -219,7 +283,10 @@ const MailList = ({
 
                               <Typography
                                 variant="body3"
-                                sx={{ fontWeight: item?.unread ? 700 : 600 }}
+                                sx={{
+                                  fontWeight: item?.readMessage ? 700 : 600,
+                                  wordBreak: 'break-all',
+                                }}
                                 color={'primary'}
                                 margin={'8px 0px'}
                               >
@@ -233,6 +300,7 @@ const MailList = ({
                                   WebkitBoxOrient: 'vertical',
                                   WebkitLineClamp: 3,
                                   overflow: 'hidden',
+                                  wordBreak: 'break-all',
                                   textOverflow: 'ellipsis',
                                 }}
                               >
@@ -257,6 +325,16 @@ const MailList = ({
                       <>No record found</>
                     )}
                   </>
+                )}
+                {isDataEnd && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <CircularProgress size={25} />
+                  </Box>
                 )}
               </>
             )}

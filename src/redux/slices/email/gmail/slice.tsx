@@ -4,10 +4,12 @@ interface EmailStateI {
   gmailTabType: any;
   selectedGmailRecords: any;
   activeGmailRecord: any;
-  currentEmailAssets: any;
+  currentGmailAssets: any;
   loggedInState: any;
   gmailList: any;
   mailDraftList: any;
+  gmailSearch: any;
+  gmailCurrentPage: any;
 }
 
 const initialState: EmailStateI = {
@@ -16,10 +18,12 @@ const initialState: EmailStateI = {
   },
   selectedGmailRecords: [],
   activeGmailRecord: {},
-  currentEmailAssets: {},
+  currentGmailAssets: {},
   loggedInState: 'umarkhattab555@zohomail.com',
-  gmailList: {},
+  gmailList: [] || '',
   mailDraftList: {},
+  gmailSearch: '',
+  gmailCurrentPage: '',
 };
 
 const gmailSlice = createSlice({
@@ -33,19 +37,33 @@ const gmailSlice = createSlice({
       state.selectedGmailRecords = action?.payload;
     },
     setGmailList: (state, action: PayloadAction<any>) => {
-      state.gmailList = action?.payload;
+      if (action.payload === 'clear') {
+        state.gmailList = [];
+      } else {
+        state.gmailList = [
+          ...state.gmailList,
+          ...Object.values(action?.payload),
+        ];
+      }
     },
+
     setGmailDraftList: (state, action: PayloadAction<any>) => {
       state.mailDraftList = action?.payload;
     },
     setActiveGmailRecord: (state, action: PayloadAction<any>) => {
       state.activeGmailRecord = action?.payload;
     },
-    setCurrentEmailAssets: (state, action: PayloadAction<any>) => {
-      state.currentEmailAssets = action?.payload;
+    setCurrentGmailAssets: (state, action: PayloadAction<any>) => {
+      state.currentGmailAssets = action?.payload;
     },
     setLoggedInState: (state, action: PayloadAction<any>) => {
-      state.currentEmailAssets = action?.payload;
+      state.currentGmailAssets = action?.payload;
+    },
+    setGmailSearch: (state, action: PayloadAction<any>) => {
+      state.gmailSearch = action?.payload;
+    },
+    setGmailCurrentPage: (state, action: PayloadAction<any>) => {
+      state.gmailCurrentPage = action?.payload;
     },
   },
 });
@@ -54,8 +72,10 @@ export const {
   setLoggedInState,
   setSelectedGmailRecords,
   setActiveGmailRecord,
-  setCurrentEmailAssets,
+  setCurrentGmailAssets,
   setGmailList,
   setGmailDraftList,
+  setGmailSearch,
+  setGmailCurrentPage,
 } = gmailSlice.actions;
 export default gmailSlice.reducer;

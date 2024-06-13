@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
@@ -32,6 +32,8 @@ export default function RHFDropZone({
     formState: { errors },
   }: any = useFormContext();
   const theme = useTheme();
+  const inputRef: any = useRef(null);
+
   const { acceptedFiles, getRootProps, getInputProps, fileRejections } =
     useDropzone({
       multiple: false,
@@ -53,11 +55,18 @@ export default function RHFDropZone({
     return sizeInMB.toFixed(2) + ' MB';
   };
 
+  const handleClick = () => {
+    if (inputRef?.current) {
+      inputRef.current.value = '';
+      setValue(name, null);
+    }
+  };
+
   return (
     <>
       {other?.label && <CustomLabel label={other?.label} required={required} />}
       <Box
-        {...getRootProps()}
+        {...getRootProps({ onClick: handleClick })}
         sx={{
           border: '1px solid #e0e0e0',
           borderRadius: '8px',
@@ -66,7 +75,7 @@ export default function RHFDropZone({
           cursor: 'pointer',
         }}
       >
-        <input {...getInputProps()} />
+        <input {...getInputProps()} ref={inputRef} />
 
         {!!getValues(name)?.name ? (
           <Typography variant="body2">

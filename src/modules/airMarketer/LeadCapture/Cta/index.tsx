@@ -31,6 +31,7 @@ const CTA = () => {
     handleBack,
     okText,
     loadingCreateCTA,
+    loadingUpdateCTA,
     methodsEditCTA,
     handleDrawerSubmit,
     dataGetCTAs,
@@ -179,7 +180,7 @@ const CTA = () => {
         handleBack={handleBack}
         methods={methodsEditCTA}
         onSubmit={handleDrawerSubmit}
-        isLoading={loadingCreateCTA}
+        isLoading={loadingCreateCTA || loadingUpdateCTA}
         activeStep={activeStep}
         ctaButtonData={ctaButtonData}
       />

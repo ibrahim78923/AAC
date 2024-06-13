@@ -5,3 +5,6 @@ export interface NewAgentStatusPropsI {
   formMethods: any;
   isLoading?: boolean;
 }
+export interface EmojiPickerPropsInterface {
+  onEmojiSelect: (emoji: string) => void;
+}

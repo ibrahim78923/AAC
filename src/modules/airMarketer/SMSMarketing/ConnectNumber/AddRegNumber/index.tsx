@@ -12,6 +12,7 @@ import { CloseModalIcon } from '@/assets/icons';
 import { AddRegNumberI } from './AddRegNumber.interface';
 import { styles } from './AddRegNumber.style';
 import PhoneNumberInput from '@/components/PhoneNumberInput';
+import { LoadingButton } from '@mui/lab';
 
 const AddRegNumber: FC<AddRegNumberI> = ({
   open,
@@ -20,6 +21,7 @@ const AddRegNumber: FC<AddRegNumberI> = ({
   onPhoneChange,
   phoneValue,
   isPhoneValid,
+  isLoading,
 }) => {
   return (
     <Dialog
@@ -56,9 +58,17 @@ const AddRegNumber: FC<AddRegNumberI> = ({
         >
           Cancel
         </Button>
-        <Button className="small" variant="contained" onClick={onSubmit}>
+        {/* <Button className="small" variant="contained" onClick={onSubmit}>
           Continue
-        </Button>
+        </Button> */}
+        <LoadingButton
+          className="small"
+          variant="contained"
+          onClick={onSubmit}
+          loading={isLoading}
+        >
+          Continue
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );

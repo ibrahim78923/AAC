@@ -1,87 +1,78 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup?.object()?.shape({
-  SocialAccount: Yup?.string(),
-  Campaign: Yup?.string(),
-  PostDetails: Yup?.string(),
-  Media: Yup?.string(),
+export const templateValidationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is required'),
+  category: Yup?.string()?.required('Field is required'),
+  language: Yup?.string()?.required('Field is required'),
+  detail: Yup?.string()?.required('Field is required'),
 });
 
-export const defaultValues = {
-  SocialAccount: '',
-  Campaign: '',
-  PostDetails: '',
-  Media: '',
-};
-
-export const CreateTemplateDataArray = [
+export const createTemplateDataArray = [
   {
     componentProps: {
-      name: 'TemplateName',
+      name: 'name',
       label: 'Template Name',
       fullWidth: true,
+      required: true,
       placeholder: 'Enter Name',
     },
     component: RHFTextField,
-
     md: 12,
   },
   {
     componentProps: {
-      name: 'Category',
+      name: 'category',
       label: 'Category',
+      placeholder: 'Select Category',
       fullWidth: true,
-      select: true,
+      required: true,
+      options: [
+        'Account Update',
+        'Ticket Update',
+        'Alert Update',
+        'Appointment Update',
+        'Personal finance Update',
+        'Shopping Update',
+        'Payment Update',
+        'Other',
+      ],
     },
-    options: [
-      { value: 'AccountUpdate', label: 'Account update' },
-      { value: 'TicketUpdate', label: 'Ticket Update' },
-      { value: 'AlertUpdate', label: 'Alert Update' },
-      { value: 'AppointmentUpdate', label: 'Appointment update' },
-      { value: 'PersonalFinanceUpdate', label: 'Personal finance update' },
-      { value: 'ShoppingUpdate', label: 'Shopping Update' },
-      { value: 'PaymentUpdate', label: 'Payment update' },
-      { value: 'Others', label: 'Others' },
-    ],
-
-    component: RHFSelect,
-
+    component: RHFAutocomplete,
     md: 12,
   },
   {
     componentProps: {
-      name: 'Language',
+      name: 'language',
       label: 'Language',
       fullWidth: true,
-      select: true,
+      required: true,
+      placeholder: 'Select Language',
+      options: [
+        'English',
+        'Armenian',
+        'Dinka',
+        'Kirundi',
+        'Azerbaijani',
+        'Turkmen',
+        'Uzbek',
+        'Kurdish',
+      ],
     },
-    options: [
-      { value: 'English', label: 'English' },
-      { value: 'Armenian', label: 'Armenian' },
-      { value: 'Dinka', label: 'Dinka' },
-      { value: 'Kirundi', label: 'Kirundi' },
-      { value: 'Azerbaijani', label: 'Azerbaijani' },
-      { value: 'Turkmen', label: 'Turkmen' },
-      { value: 'Uzbek', label: 'Uzbek' },
-      { value: 'Kurdish', label: 'Kurdish' },
-    ],
-    component: RHFSelect,
-
+    component: RHFAutocomplete,
     md: 12,
   },
   {
     componentProps: {
-      name: 'Details',
+      name: 'detail',
       label: 'Details',
       fullWidth: true,
+      required: true,
       placeholder: 'Type',
       multiline: true,
       rows: 4,
     },
     component: RHFTextField,
-
     md: 12,
   },
 ];

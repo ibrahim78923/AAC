@@ -16,7 +16,7 @@ import {
   contactsValidationSchema,
 } from './CreateContactsdata';
 
-const useCreateContacts = () => {
+const useCreateContacts = (handleRefresh: any) => {
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
   const contactOwnerData = useLazyGetOrganizationUsersQuery();
@@ -59,6 +59,7 @@ const useCreateContacts = () => {
       const contactResponse = await postContacts({ body: formData })?.unwrap();
 
       if (contactResponse?.data) {
+        handleRefresh();
         closeDrawer();
         reset();
         enqueueSnackbar('Contact has been Added Successfully', {

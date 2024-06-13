@@ -1,14 +1,16 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 export const editAgentStatusValidationSchema = Yup.object().shape({
   name: Yup.string().trim().required('Field is Required'),
-  emoji: Yup.string().trim().required('Field is Required'),
+  afterCallWorkTime: Yup.number()
+    .min(0, 'After call time must be at least 0')
+    .max(3600, 'After call time must be at most 3600'),
 });
 
 export const editAgentStatusDefaultValues = {
   name: '',
-  emoji: '',
+  afterCallWorkTime: 0,
 };
 
 export const editAgentStatusFields = [
@@ -21,22 +23,5 @@ export const editAgentStatusFields = [
       label: 'Status Name',
       placeholder: 'Presenting',
     },
-  },
-  {
-    id: 'emoji',
-    md: 12,
-    component: RHFSelect,
-    componentProps: {
-      name: 'emoji',
-      label: 'Emoji',
-      select: true,
-    },
-    options: [
-      { value: 'SALES', label: 'Sales' },
-      { value: 'MARKETING', label: 'Marketing' },
-      { value: 'SERVICES', label: 'Services' },
-      { value: 'OPERATIONS', label: 'Operations' },
-      { value: 'LOYALTY_PROGRAM', label: 'Loyalty Program' },
-    ],
   },
 ];

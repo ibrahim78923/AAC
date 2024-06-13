@@ -32,12 +32,12 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 import useSendEmailDrawer from './useSendEmailDrawer';
-import { CREATE_EMAIL_TYPES } from '@/constants';
+import { CREATE_EMAIL_TYPES, DATE_TIME_FORMAT } from '@/constants';
 import { useAppSelector } from '@/redux/store';
-import { UnixDateFormatter } from '@/utils/dateTime';
 import { styles } from '../../Email.styles';
 import CustomLabel from '@/components/CustomLabel';
 import * as yup from 'yup';
+import dayjs from 'dayjs';
 
 const SendEmailDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, drawerType } = props;
@@ -60,8 +60,8 @@ const SendEmailDrawer = (props: any) => {
 
   const isCrmConnected = false;
 
-  const currentEmailAssets = useAppSelector(
-    (state: any) => state?.email?.currentEmailAssets,
+  const currentGmailAssets = useAppSelector(
+    (state: any) => state?.gmail?.currentGmailAssets,
   );
   const removeRePrefix = (title: any) => {
     return title?.startsWith('Re: ') ? title?.replace(/^Re: /, '') : title;
@@ -134,7 +134,7 @@ const SendEmailDrawer = (props: any) => {
                     size="small"
                     required={false}
                     disabled
-                    value={currentEmailAssets?.from || ''}
+                    value={currentGmailAssets?.from || ''}
                   />
                 </Grid>
               ) : (
@@ -185,9 +185,6 @@ const SendEmailDrawer = (props: any) => {
               )}
 
               <Grid item xs={4}>
-                <RHFCheckbox name="fromChecked" label="From" />
-              </Grid>
-              <Grid item xs={4}>
                 <RHFCheckbox name="ccChecked" label="CC" />
               </Grid>
               <Grid item xs={4}>
@@ -209,9 +206,13 @@ const SendEmailDrawer = (props: any) => {
                 ) : (
                   <RHFTextField
                     name="re"
-                    label="Re:"
+                    label={
+                      drawerType === CREATE_EMAIL_TYPES?.FORWARD
+                        ? 'Fwd:'
+                        : 'Re:'
+                    }
                     size="small"
-                    value={removeRePrefix(currentEmailAssets?.others?.subject)}
+                    value={removeRePrefix(currentGmailAssets?.others?.subject)}
                     disabled
                   />
                 )}
@@ -339,28 +340,27 @@ const SendEmailDrawer = (props: any) => {
             >
               <Box>
                 <Typography variant="body3">
-                  <strong>From :</strong> {currentEmailAssets?.others?.from}
+                  <strong>From :</strong> {currentGmailAssets?.others?.from}
                 </Typography>
               </Box>
               <Box>
                 <Typography variant="body3">
                   <strong>Sent :</strong>{' '}
-                  <UnixDateFormatter
-                    timestamp={currentEmailAssets?.others?.sent}
-                    timeZone="Asia/Karachi"
-                  ></UnixDateFormatter>
+                  {dayjs(currentGmailAssets?.others?.sent).format(
+                    DATE_TIME_FORMAT?.MMMDDYYYY,
+                  )}
                 </Typography>
               </Box>
               <Box>
                 <Typography variant="body3">
                   <strong>To :</strong>
-                  {currentEmailAssets?.others?.to}
+                  {currentGmailAssets?.others?.to}
                 </Typography>
               </Box>
               <Box>
                 <Typography variant="body3">
                   <strong>Subject:</strong>{' '}
-                  {currentEmailAssets?.others?.subject}
+                  {currentGmailAssets?.others?.subject}
                 </Typography>
               </Box>
             </Box>

@@ -31,6 +31,42 @@ export const styles = {
       },
     },
   }),
+  slot: () => ({
+    display: 'flex',
+    padding: '16px 20px',
+  }),
+  content: () => ({
+    flex: '1',
+    display: 'flex',
+  }),
+  slotLabel: () => ({
+    width: '104px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textTransform: 'none',
+  }),
+  addMore: () => ({
+    width: '125px',
+    ml: '16px',
+  }),
+  timeField: () => ({
+    width: '100px',
+    '& .MuiFormControl-root.MuiTextField-root': {
+      '& .MuiFormHelperText-root': {
+        display: 'none',
+      },
+      '& .MuiInputAdornment-root': {
+        display: 'none',
+      },
+    },
+  }),
+  toString: () => ({
+    width: '56px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }),
 };
 // MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root Mui-selected MuiToggleButton-sizeMedium MuiToggleButton-primary MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-12px3zp-MuiButtonBase-root-MuiToggleButton-root
 // MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-primary MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-firstButton css-12px3zp-MuiButtonBase-root-MuiToggleButton-root

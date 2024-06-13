@@ -12,7 +12,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { styles } from '../CreateForm.style';
+import { styles } from './InnerTab.style';
 import {
   dynamicallyFormDefaultValues,
   dynamicallyFormValidationSchema,

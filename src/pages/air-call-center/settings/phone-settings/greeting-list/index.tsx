@@ -1,8 +1,9 @@
 import Layout from '@/layout';
 import SettingsLayout from '@/layout/SettingsLayout/Layout';
+import { MeetingAndGreetingList } from '@/modules/airCallCenter/Settings/PhoneSettings/MeetingAndGreetingList';
 
 const GreetingListPage = () => {
-  return <h1>Greeting List Page</h1>;
+  return <MeetingAndGreetingList />;
 };
 export default GreetingListPage;
 

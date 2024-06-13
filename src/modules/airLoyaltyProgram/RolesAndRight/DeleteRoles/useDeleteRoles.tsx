@@ -19,7 +19,7 @@ export const useDeleteRoles = (props: any) => {
     const deleteParams = new URLSearchParams();
 
     selectedRolesList?.forEach(
-      (RolesId: any) => deleteParams?.append('ids', RolesId),
+      (rolesId: any) => deleteParams?.append('ids', rolesId),
     );
 
     const deleteRolesParameter = {
@@ -30,7 +30,6 @@ export const useDeleteRoles = (props: any) => {
       await deleteRoleForLoyaltyTrigger(deleteRolesParameter)?.unwrap();
       successSnackbar('Record deleted successfully');
       closeDeleteModal?.();
-      setIsPortalOpen?.(false);
       const newPage = selectedRolesList?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
       await getRolesListData?.(newPage);

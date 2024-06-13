@@ -7,8 +7,8 @@ import {
   Typography,
 } from '@mui/material';
 import { checkModalTypeForImage } from './AlertModals.data';
-import { AlertModalCloseIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const AlertModals = ({
   message,
@@ -40,14 +40,19 @@ export const AlertModals = ({
           flexWrap={'wrap'}
         >
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            {checkModalTypeForImage(type) ?? typeImage}
-            <Typography variant="h3" textTransform={'capitalize'}>
+            {typeImage ?? checkModalTypeForImage(type)}
+            <Typography
+              variant="h3"
+              color="slateBlue.main"
+              textTransform={'capitalize'}
+            >
               {type}
             </Typography>
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => handleClose?.()}>
-            <AlertModalCloseIcon />
-          </Box>
+          <CloseIcon
+            sx={{ color: 'custom.darker', cursor: 'pointer' }}
+            onClick={() => handleClose?.()}
+          />
         </Box>
       </DialogTitle>
       <DialogContent>
@@ -57,7 +62,7 @@ export const AlertModals = ({
       </DialogContent>
       {footer && (
         <DialogActions
-          sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
+          sx={{ '&.MuiDialogActions-root': { paddingTop: '0rem !important' } }}
         >
           <LoadingButton
             variant="outlined"

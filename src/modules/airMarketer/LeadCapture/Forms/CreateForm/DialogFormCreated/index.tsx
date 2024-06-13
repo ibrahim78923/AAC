@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
@@ -24,6 +25,7 @@ import {
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
 import { styles } from './DialogFormCreated.style';
+import useDialogForm from './useDialogFormCreated';
 
 const DialogFormCreated = ({
   open,
@@ -37,12 +39,13 @@ const DialogFormCreated = ({
     resolver: yupResolver(ExportFormValidationSchema),
     defaultValues: ExportFormDefaultValues,
   });
-
   const { handleSubmit, reset } = ExportFormMethods;
-
   const onSubmit = () => {
     reset();
   };
+
+  const { isCopiedURL, isCopiedCode, handleCopyLink, handleCopyEmbededCode } =
+    useDialogForm();
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth={'sm'}>
@@ -66,7 +69,8 @@ const DialogFormCreated = ({
         </Box>
       </DialogTitle>
       <DialogContent sx={{ padding: '20px' }}>
-        {!showExportText && (
+        {/* will be use in futute */}
+        {/* {!showExportText && (
           <Typography
             variant="body1"
             sx={{ marginTop: '20px', cursor: 'pointer' }}
@@ -76,7 +80,7 @@ const DialogFormCreated = ({
           >
             Your form is created
           </Typography>
-        )}
+        )} */}
         {showExportText ? (
           <>
             <FormProvider
@@ -133,22 +137,29 @@ const DialogFormCreated = ({
               <Typography variant="body2">
                 http.//activitytok.com/jnm/bjkashbdjkn////askldhahmn cajslk/
               </Typography>
-
-              <Box
-                sx={{
-                  position: 'absolute',
-                  right: '13px',
-                  top: '13px',
-                  cursor: 'pointer',
-                }}
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    'http.//activitytok.com/jnm/bjkashbdjkn////askldhahmn cajslk/',
-                  )
-                }
+              <Tooltip
+                open={isCopiedURL}
+                title="Copied"
+                placement="top"
+                arrow
+                key="copy-url"
               >
-                <CopyIcon />
-              </Box>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    right: '13px',
+                    top: '13px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() =>
+                    handleCopyLink(
+                      'http.//activitytok.com/jnm/bjkashbdjkn////askldhahmn cajslk/',
+                    )
+                  }
+                >
+                  <CopyIcon />
+                </Box>
+              </Tooltip>
             </Box>
 
             <Typography variant="body1" sx={{ marginTop: '15px' }}>
@@ -162,22 +173,27 @@ const DialogFormCreated = ({
                   </code>
                 </pre>
               </Box>
-
-              <Box
-                sx={{
-                  position: 'absolute',
-                  right: '13px',
-                  top: '13px',
-                  cursor: 'pointer',
-                }}
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    createdFormResponse?.htmlTemplate,
-                  )
-                }
+              <Tooltip
+                open={isCopiedCode}
+                title="Copied"
+                placement="top"
+                arrow
+                key="copy-code"
               >
-                <CopyIcon />
-              </Box>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    right: '13px',
+                    top: '13px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() =>
+                    handleCopyEmbededCode(createdFormResponse?.htmlTemplate)
+                  }
+                >
+                  <CopyIcon />
+                </Box>
+              </Tooltip>
             </Box>
           </>
         )}

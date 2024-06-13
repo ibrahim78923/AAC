@@ -1,93 +1,95 @@
 export const styles = {
-  backBtn: (theme: any) => ({
-    color: theme?.palette?.slateBlue?.main,
-    marginRight: '20px',
-    fontWeight: '500',
+  mainDiv: (theme: any) => ({
+    backgroundColor: theme?.palette?.custom?.pale_grayish_blue,
+    height: '100vh',
+    '@media (max-width:700px)': {
+      height: 'fit-content',
+    },
   }),
-  subDiv: (showView: any) => {
-    return {
-      backgroundColor: 'white',
-      height: '60vh',
-      width: showView ? '40%' : '67%',
-      boxShadow: '0px 0px 10px -2px rgba(0, 0, 0, 0.19);',
-      borderRadius: '8px',
-      margin: 'auto',
-      padding: '15px',
-      '@media (max-width:500px)': {
-        width: '100%',
-        boxShadow: 'none',
-      },
-    };
-  },
-  headerBar: {
-    backgroundColor: 'white',
+
+  headerBar: (theme: any) => ({
+    backgroundColor: theme?.palette?.common?.white,
     height: '80px',
     alignItems: 'center',
-    borderBottom: '1px solid #E5E7EB',
+    borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
     justifyContent: 'space-between',
     textAlign: 'center',
     '@media (max-width:900px)': {
       height: 'fit-content',
       paddingY: '20px',
     },
-  },
-  saveChangesBtn: {
-    color: '#47B263',
-    background: '#ECFDF3',
+  }),
+
+  backBtn: (theme: any) => ({
+    color: theme?.palette?.slateBlue?.main,
+    marginRight: '20px',
+    fontWeight: '500',
+  }),
+
+  saveChangesBtn: (theme: any) => ({
+    color: theme?.palette?.success?.main,
+    backgroundColor: theme?.palette?.graph?.published,
     width: 'fit-content',
     fontWeight: '500',
     padding: '7px 10px',
     borderRadius: '20px',
     cursor: 'pointer',
-  },
-  mainDiv: {
-    background: '#F7F9FB',
-    height: '100vh',
-    '@media (max-width:700px)': {
-      height: 'fit-content',
-    },
-  },
+  }),
 
-  innerBox: {
-    backgroundColor: 'white',
-    height: '56vh',
-    width: '99%',
-    boxShadow:
-      '0px 2px 4px -2px rgba(16, 24, 40, 0.06), 0px 4px 8px -2px rgba(16, 24, 40, 0.10);',
-    borderRadius: '4px',
-    marginTop: '25px',
-    margin: 'auto',
-    padding: '20px',
-    position: 'relative',
-    overflow: 'scroll',
-    '@media (max-width:500px)': {
-      width: '100%',
-      boxShadow: 'none',
+  formTitle: (theme: any) => ({
+    backgroundColor: theme?.palette?.custom?.light_grayish_blue,
+    borderRadius: '5px',
+    '& input': {
+      width: '80px',
+      height: '6px',
+      color: theme?.palette?.blue?.main,
+      fontWeight: '500',
     },
-  },
-  formSideBar: {
-    backgroundColor: 'white',
+    '@media (max-width:900px)': {
+      marginY: '20px',
+    },
+  }),
+
+  btnStyling: (theme: any) => ({
+    borderRadius: '5px',
+    border: `1px solid ${theme?.palette?.grey[0]}`,
+    fontWeight: '500',
+  }),
+
+  formWrapper: () => ({
+    padding: '30px',
+  }),
+
+  formContainer: (theme: any) => ({
+    backgroundColor: theme?.palette?.common?.white,
+    padding: '30px',
+  }),
+
+  viewSwitcher: (theme: any) => ({
+    backgroundColor: theme?.palette?.grey[100],
+    borderRadius: '5px',
+    width: 'fit-content',
+    margin: 'auto',
+    padding: '10px',
+    marginBottom: '35px',
+    '@media (max-width:700px)': {
+      marginTop: '45px',
+    },
+  }),
+
+  formSideBar: (theme: any) => ({
+    backgroundColor: theme?.palette?.common?.white,
     padding: '20px',
     borderTopLeftRadius: '20px',
     borderBottomLeftRadius: '20px',
     height: '90vh',
     overflow: 'scroll',
-  },
-  customField: {
+  }),
+
+  customField: (theme: any) => ({
     borderRadius: ' 8px',
-    border: '1px solid #E5E7EB',
+    border: `1px solid ${theme?.palette?.grey[700]}`,
     marginTop: '25px',
     cursor: 'pointer',
-  },
-  hoverEffect: {
-    position: 'absolute',
-    top: '0px',
-    right: '10px',
-    zIndex: 1,
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    padding: '10px',
-  },
+  }),
 };

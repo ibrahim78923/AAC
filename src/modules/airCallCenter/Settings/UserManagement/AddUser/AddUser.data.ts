@@ -8,8 +8,21 @@ export const addUserValidationSchema = Yup.object().shape({
   email: Yup.string().trim().required('Field is Required'),
   role: Yup.string().trim().required('Field is Required'),
   team: Yup.string().trim().required('Field is Required'),
+  facebookUrl: Yup.string().trim(),
+  linkedInUrl: Yup.string().trim(),
+  twitterUrl: Yup.string().trim(),
 });
-
+export const viewUserValidationSchema = Yup.object().shape({
+  firstName: Yup.string().trim(),
+  lastName: Yup.string().trim(),
+  address: Yup.string().trim(),
+  email: Yup.string().trim(),
+  role: Yup.string().trim(),
+  team: Yup.string().trim(),
+  facebookUrl: Yup.string().trim(),
+  linkedInUrl: Yup.string().trim(),
+  twitterUrl: Yup.string().trim(),
+});
 export const addUserDefaultValues = {
   firstName: '',
   middleName: '',
@@ -20,6 +33,9 @@ export const addUserDefaultValues = {
   jobTitle: '',
   role: '',
   team: '',
+  facebookUrl: '',
+  linkedInUrl: '',
+  twitterUrl: '',
 };
 
 export const addUserFields = [
@@ -129,5 +145,41 @@ export const addUserFields = [
       { value: 'Test1', label: 'Test1' },
       { value: 'Orcalo', label: 'Orcalo' },
     ],
+  },
+  {
+    componentProps: {
+      name: 'facebookUrl',
+      label: 'Facebook URL',
+      placeholder: 'Enter Facebook URL',
+      fullWidth: true,
+      select: false,
+    },
+    options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'linkedInUrl',
+      label: 'Linkdin URL',
+      placeholder: 'Enter LinkedIn URL',
+      fullWidth: true,
+      select: false,
+    },
+    options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'twitterUrl',
+      label: 'Twitter URL',
+      placeholder: 'Enter Twitter URL',
+      fullWidth: true,
+      select: false,
+    },
+    options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
+    component: RHFTextField,
+    md: 12,
   },
 ];

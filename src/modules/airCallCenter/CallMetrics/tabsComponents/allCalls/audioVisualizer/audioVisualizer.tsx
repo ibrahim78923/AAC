@@ -25,27 +25,31 @@ const AudioVisualizer = ({ audioSrc }: any) => {
 
   useEffect(() => {
     if (containerRef?.current) {
-      wavesurferRef.current = WaveSurfer.create({
-        container: containerRef?.current,
-        waveColor: `${theme?.palette?.primary?.light}`,
-        progressColor: `${theme?.palette?.primary?.main}`,
-        barWidth: 2.8,
-        cursorWidth: 1,
-        height: 40,
-      });
+      // Adding a timeout to delay the loading of the audio
+      const timeoutId = setTimeout(() => {
+        wavesurferRef.current = WaveSurfer.create({
+          container: containerRef?.current,
+          waveColor: `${theme?.palette?.primary?.light}`,
+          progressColor: `${theme?.palette?.primary?.main}`,
+          barWidth: 2.8,
+          cursorWidth: 1,
+          height: 40,
+        });
 
-      wavesurferRef?.current
-        .load(audioSrc)
-        .then(() => {})
-        .catch(() => {});
+        wavesurferRef?.current
+          .load(audioSrc)
+          .then(() => {})
+          .catch(() => {});
+      }, 500); // 500ms delay
+
+      return () => {
+        clearTimeout(timeoutId);
+        if (wavesurferRef?.current) {
+          wavesurferRef?.current?.destroy();
+        }
+      };
     }
-
-    return () => {
-      if (wavesurferRef?.current) {
-        wavesurferRef?.current?.destroy();
-      }
-    };
-  }, [audioSrc]);
+  }, [audioSrc, theme]);
 
   return (
     <div style={{ display: 'flex', gap: '5px', whiteSpace: 'nowrap' }}>

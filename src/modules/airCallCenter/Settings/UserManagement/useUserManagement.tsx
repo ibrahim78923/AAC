@@ -6,24 +6,53 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   addUserDefaultValues,
   addUserValidationSchema,
+  viewUserValidationSchema,
 } from './AddUser/AddUser.data';
+import {
+  addTeamsDefaultValues,
+  addTeamsValidationSchema,
+} from './AddTeams/AddTeams.data';
+import { successSnackbar } from '@/utils/api';
 
 const useUserManagement = () => {
   const [tabValue, setTabValue] = useState('users');
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
   };
-
+  const [addTeamDrawer, setAddTeamDrawer] = useState(true);
   const [openDrawerAddUser, setOpenDrawerAddUser] = useState(false);
+  const [openDrawerAddTeams, setOpenDrawerAddTeams] = useState(false);
+  const [isViewed, setIsViewed] = useState(true);
+
   const methodsAddUser = useForm({
-    resolver: yupResolver(addUserValidationSchema),
+    resolver: yupResolver(
+      !isViewed ? addUserValidationSchema : viewUserValidationSchema,
+    ),
     defaultValues: addUserDefaultValues,
   });
 
   const { handleSubmit: handleMethodAddUser, reset: resetAddUserForm } =
     methodsAddUser;
 
+  const methodsAddTeams = useForm({
+    resolver: yupResolver(addTeamsValidationSchema),
+    defaultValues: addTeamsDefaultValues,
+  });
+
+  const { handleSubmit: handleMethodsAddTeams, reset: resetAddTeamsForm } =
+    methodsAddTeams;
+
+  const handleOpenDrawerAddTeams = () => {
+    setAddTeamDrawer(true);
+    setOpenDrawerAddTeams(true);
+  };
+  const handleCloseDrawerAddTeams = () => {
+    setOpenDrawerAddTeams(false);
+    resetAddTeamsForm();
+  };
+
   const handleOpenDrawerAddUser = () => {
+    setIsViewed?.(false);
     setOpenDrawerAddUser(true);
   };
   const handleCloseDrawerAddUser = () => {
@@ -32,19 +61,15 @@ const useUserManagement = () => {
   };
 
   const onSubmitAddUser = async () => {
-    // try {
-    //   await postAddFaq({ body: values })?.unwrap();
-    //   handleCloseModalFaq();
-    //   enqueueSnackbar('FAQ added successfully', {
-    //     variant: 'success',
-    //   });
-    // } catch (error: any) {
-    //   enqueueSnackbar('An error occured', {
-    //     variant: 'error',
-    //   });
-    // }
+    successSnackbar('User added successfully');
+    handleCloseDrawerAddUser();
+  };
+  const onSubmitAddTeams = async () => {
+    successSnackbar('Team added successfully');
+    handleCloseDrawerAddTeams();
   };
   const handleAddUserSubmit = handleMethodAddUser(onSubmitAddUser);
+  const handleAddTeamsSubmits = handleMethodsAddTeams(onSubmitAddTeams);
 
   return {
     tabValue,
@@ -54,6 +79,17 @@ const useUserManagement = () => {
     handleOpenDrawerAddUser,
     handleCloseDrawerAddUser,
     handleAddUserSubmit,
+    handleAddTeamsSubmits,
+    handleOpenDrawerAddTeams,
+    handleCloseDrawerAddTeams,
+    methodsAddTeams,
+    openDrawerAddTeams,
+    addTeamDrawer,
+    setAddTeamDrawer,
+    setOpenDrawerAddTeams,
+    isViewed,
+    setIsViewed,
+    setOpenDrawerAddUser,
   };
 };
 

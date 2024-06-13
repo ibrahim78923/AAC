@@ -8,6 +8,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
+import { useEffect } from 'react';
 
 const useAddAccount = (
   employeeDataById?: any,
@@ -26,9 +27,13 @@ const useAddAccount = (
     defaultValues: AddAccountDefaultValues,
   });
 
-  const { handleSubmit, reset, watch } = methods;
+  const { handleSubmit, reset, watch, setValue } = methods;
   const companyAccountValue = watch('company');
   const productValue = watch('product');
+
+  useEffect(() => {
+    setValue('role', null);
+  }, [productValue, companyAccountValue]);
 
   let companyRoleParams = {};
 

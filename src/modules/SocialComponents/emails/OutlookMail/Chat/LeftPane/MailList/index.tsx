@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   Skeleton,
   Typography,
@@ -12,14 +13,16 @@ import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
 import {
   setActiveRecord,
+  setMailCurrentPage,
+  setMailList,
   setSelectedRecords,
-} from '@/redux/slices/email/others/slice';
-import { API_STATUS, EMAIL_TABS_TYPES } from '@/constants';
+} from '@/redux/slices/email/outlook/slice';
+import { API_STATUS, EMAIL_TABS_TYPES, TIME_FORMAT } from '@/constants';
 import { useDispatch } from 'react-redux';
-import { UnixDateFormatter } from '@/utils/dateTime';
-import { usePatchEmailMessageMutation } from '@/services/commonFeatures/email/others';
+import { useEffect, useRef, useState } from 'react';
+import dayjs from 'dayjs';
+import { usePatchOutlookEmailMessageMutation } from '@/services/commonFeatures/email/outlook';
 import { enqueueSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -28,19 +31,21 @@ const MailList = ({
   mailTabType,
 }: any) => {
   const theme = useTheme();
-
   const [dataArray, setDataArray] = useState<any>([]);
-
   const dispatch = useDispatch();
+  const breakScrollOperation: any = useAppSelector(
+    (state: any) => state?.outlook?.breakScrollOperation,
+  );
 
   const selectedRecords: any = useAppSelector(
-    (state: any) => state?.email?.selectedRecords,
+    (state: any) => state?.outlook?.selectedRecords,
   );
-
+  const mailCurrentPage: any = useAppSelector(
+    (state: any) => state?.outlook?.mailCurrentPage,
+  );
   const activeRecord = useAppSelector(
-    (state: any) => state?.email?.activeRecord,
+    (state: any) => state?.outlook?.activeRecord,
   );
-
   const handleCheckboxClick = (email: any) => {
     const safeSelectedRecords = Array.isArray(selectedRecords)
       ? selectedRecords
@@ -62,7 +67,6 @@ const MailList = ({
   const handleSelectAll = () => {
     const totalEmails = emailsByFolderIdData?.data?.length || 0;
     const selectedCount = selectedRecords?.length;
-
     if (selectedCount === totalEmails) {
       dispatch(setSelectedRecords([]));
     } else {
@@ -70,22 +74,15 @@ const MailList = ({
     }
   };
 
-  const [patchEmailMessage] = usePatchEmailMessageMutation();
+  const [patchOutlookEmailMessage] = usePatchOutlookEmailMessageMutation();
 
   const handelMailClick = async (item: any) => {
     if (item) {
       dispatch(setActiveRecord(item));
-
-      if (item?.unread) {
-        const payload = {
-          id: item?.id,
-          threadId: item?.thread_id,
-          unread: false,
-          starred: false,
-        };
+      if (!item?.isRead) {
         try {
-          const response = await patchEmailMessage({
-            body: payload,
+          const response = await patchOutlookEmailMessage({
+            messageId: item?.id,
           })?.unwrap();
           const updatedData = dataArray?.data?.map((item: any) =>
             item?.id === response?.data?.id ? response?.data : item,
@@ -107,8 +104,57 @@ const MailList = ({
     setDataArray(emailsByFolderIdData);
   }, [emailsByFolderIdData]);
 
+  const boxRef = useRef(null);
+  const handleScroll = (e: any) => {
+    const bottom =
+      e?.target?.scrollHeight -
+        e?.target?.scrollTop -
+        e?.target?.clientHeight <=
+      50;
+    if (bottom) {
+      if (breakScrollOperation) {
+        return;
+      }
+      if (isLoadingEmailsByFolderIdData === API_STATUS?.PENDING) {
+        null;
+      } else {
+        dispatch(setMailCurrentPage(mailCurrentPage + 1));
+      }
+    }
+  };
+  useEffect(() => {
+    const boxElement: any = boxRef?.current;
+    boxElement.addEventListener('scroll', handleScroll);
+    return () => {
+      boxElement.removeEventListener('scroll', handleScroll);
+    };
+  }, [isLoadingEmailsByFolderIdData, mailCurrentPage]);
+
+  const mailList: any = useAppSelector(
+    (state: any) => state?.outlook?.mailList,
+  );
+
+  useEffect(() => {
+    if (emailsByFolderIdData?.data) {
+      dispatch(
+        setMailList(emailsByFolderIdData?.data?.map((item: any) => item)),
+      );
+    }
+  }, [emailsByFolderIdData?.data]);
+
+  const loadingCheck =
+    mailList?.length === 0
+      ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
+      : false;
+
   return (
-    <Box minHeight={'calc(100vh - 350px)'} sx={{ overflowY: 'auto' }}>
+    <Box
+      minHeight={'calc(100vh - 350px)'}
+      sx={{
+        overflowY: 'auto',
+        scrollbarColor: `${theme.palette?.grey[700]} ${theme.palette?.grey[400]}`,
+      }}
+    >
       <Box sx={styles?.notificationWrap}>
         <FormControlLabel
           label="Select All"
@@ -133,7 +179,9 @@ const MailList = ({
             fontWeight: '400',
             textDecoration: 'underline',
           }}
-          onClick={() => refetch()}
+          onClick={() => {
+            refetch();
+          }}
         >
           Refresh
         </Button>
@@ -158,7 +206,7 @@ const MailList = ({
         </Box>
       )}
 
-      <Box sx={{ maxHeight: '62vh', overflow: 'auto' }}>
+      <Box sx={{ maxHeight: '62vh', overflow: 'auto' }} ref={boxRef}>
         {isLoadingEmailsByFolderIdData === API_STATUS?.REJECTED ? (
           <Box>
             <Typography variant="body2" color={theme?.palette?.error?.main}>
@@ -167,16 +215,16 @@ const MailList = ({
           </Box>
         ) : (
           <>
-            {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING ? (
+            {loadingCheck ? (
               <>
                 <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
               </>
             ) : (
               <>
-                {dataArray?.data && (
+                {mailList && (
                   <>
-                    {dataArray?.data?.length > 0 ? (
-                      dataArray?.data?.map((item: any) => (
+                    {mailList?.length > 0 ? (
+                      mailList?.map((item: any) => (
                         <Box
                           key={uuidv4()}
                           sx={styles?.card(theme)}
@@ -200,7 +248,7 @@ const MailList = ({
                               <Typography
                                 variant="h6"
                                 sx={{
-                                  fontWeight: item?.unread ? 700 : '',
+                                  fontWeight: item?.isRead ? '' : 700,
                                   color: theme?.palette?.success?.main,
                                 }}
                               >
@@ -209,19 +257,42 @@ const MailList = ({
                             ) : (
                               <Typography
                                 variant="h6"
-                                sx={{ fontWeight: item?.unread ? 700 : '' }}
+                                sx={{
+                                  width: '21vw',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                  fontWeight: item?.isRead ? '' : 700,
+                                }}
                               >
                                 <>
-                                  {item?.from[0]?.name} {item?.lastName}{' '}
-                                  {item?.reff}
+                                  {mailTabType?.displayName?.toLowerCase() ===
+                                  EMAIL_TABS_TYPES?.DRAFTS ? (
+                                    <>
+                                      <span
+                                        style={{
+                                          color: theme?.palette?.error?.main,
+                                        }}
+                                      >
+                                        [DRAFT]
+                                      </span>{' '}
+                                      {item?.toRecipients?.map((item: any) => (
+                                        <>{item?.emailAddress?.address}; </>
+                                      ))}
+                                    </>
+                                  ) : (
+                                    <>
+                                      {item?.from?.emailAddress?.name ?? '--'}{' '}
+                                    </>
+                                  )}
                                 </>
                               </Typography>
                             )}
 
                             <Typography
                               variant="body3"
-                              sx={{ fontWeight: item?.unread ? 700 : 600 }}
-                              color={'primary'}
+                              sx={{ fontWeight: item?.isRead ? 600 : 700 }}
+                              color={theme?.palette?.custom?.bright}
                               margin={'8px 0px'}
                             >
                               {item?.subject}
@@ -235,9 +306,10 @@ const MailList = ({
                                 WebkitLineClamp: 3,
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
+                                wordBreak: 'break-all',
                               }}
                             >
-                              {item?.snippet}
+                              {item?.bodyPreview}
                             </Typography>
                             <Typography
                               variant="body2"
@@ -246,17 +318,29 @@ const MailList = ({
                                 fontSize: '12px',
                               }}
                             >
-                              <UnixDateFormatter
-                                timestamp={item?.date}
-                                timeZone="Asia/Karachi"
-                                isTime
-                              ></UnixDateFormatter>
+                              {dayjs(item?.lastModifiedDateTime)?.format(
+                                TIME_FORMAT?.UI,
+                              )}
                             </Typography>
                           </Box>
                         </Box>
                       ))
                     ) : (
                       <>No record found</>
+                    )}
+                  </>
+                )}
+                {breakScrollOperation === false && (
+                  <>
+                    {isLoadingEmailsByFolderIdData === API_STATUS?.PENDING && (
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <CircularProgress size={30} />
+                      </Box>
                     )}
                   </>
                 )}

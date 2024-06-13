@@ -1,8 +1,9 @@
 import Layout from '@/layout';
 import SettingsLayout from '@/layout/SettingsLayout/Layout';
+import PhoneCredits from '@/modules/airCallCenter/Settings/PhoneCredits';
 
 const PhoneCreditsPage = () => {
-  return <h1>Phone Credits</h1>;
+  return <PhoneCredits />;
 };
 export default PhoneCreditsPage;
 

@@ -17,15 +17,15 @@ import { emailDraftValidationsSchema } from './draft.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector } from '@/redux/store';
 import { MailColoredIcon } from '@/assets/icons';
-import {
-  useGetMailFoldersQuery,
-  usePostSendOtherEmailMutation,
-} from '@/services/commonFeatures/email/others';
 import { enqueueSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
-import { setMailTabType } from '@/redux/slices/email/others/slice';
 import { LoadingButton } from '@mui/lab';
 import { EMAIL_TABS_TYPES } from '@/constants';
+import {
+  useGetGmailFoldersQuery,
+  usePostDraftSendGmailMutation,
+} from '@/services/commonFeatures/email/gmail';
+import { setGmailTabType } from '@/redux/slices/email/gmail/slice';
 
 const Draft = () => {
   const theme = useTheme();
@@ -33,7 +33,7 @@ const Draft = () => {
   const dispatch = useDispatch();
 
   const activeRecord: any = useAppSelector(
-    (state: any) => state?.email?.activeRecord,
+    (state: any) => state?.gmail?.activeGmailRecord,
   );
   const methods: any = useForm({
     resolver: yupResolver(emailDraftValidationsSchema),
@@ -43,19 +43,40 @@ const Draft = () => {
 
   const watchEmailsForm = watch(['ccChecked', 'bccChecked', 'to']);
 
-  const { data: foldersData } = useGetMailFoldersQuery({});
+  const { data: foldersData } = useGetGmailFoldersQuery({});
 
-  const fetchedSentFolder = foldersData?.data?.find(
-    (folder: any) =>
-      folder?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.SENT,
+  const fetchedSentFolder = foldersData?.data?.labels?.find(
+    (folder: any) => folder?.name?.toLowerCase() === EMAIL_TABS_TYPES?.SENT,
   );
-  const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
-    usePostSendOtherEmailMutation();
+  const [postSendGmail, { isLoading: loadingOtherSend }] =
+    usePostDraftSendGmailMutation();
+  let email: any;
+
+  const emailPattern = /<([^>]+)>/;
+  const match = activeRecord?.to?.match(emailPattern);
+  if (match) {
+    email = match[1];
+  } else {
+    email = activeRecord?.to;
+  }
 
   const onSubmit = async (values: any) => {
+    if (!values?.to || values?.to?.length === 0) {
+      enqueueSnackbar('Please Enter Email', { variant: 'error' });
+      return false;
+    }
+
+    if (!values?.description || values?.description?.trim() === '') {
+      enqueueSnackbar('Please Enter Description', { variant: 'error' });
+
+      return false;
+    }
     const formDataSend = new FormData();
-    formDataSend.append('to', values?.to);
-    formDataSend.append('subject', values?.subject);
+    formDataSend.append('draftId', activeRecord?.id);
+    formDataSend.append('to', email);
+    if (values?.subject) {
+      formDataSend.append('subject', values?.subject);
+    }
     formDataSend.append('content', values?.description);
     if (values?.cc && values?.cc?.trim() !== '') {
       formDataSend.append('cc', values?.cc);
@@ -63,14 +84,18 @@ const Draft = () => {
     if (values?.bcc && values?.bcc?.trim() !== '') {
       formDataSend.append('bcc', values?.bcc);
     }
+    if (values?.attachFile) {
+      formDataSend.append('attachments', values?.attachFile);
+    }
     try {
-      await postSendOtherEmail({
+      await postSendGmail({
         body: formDataSend,
       })?.unwrap();
       enqueueSnackbar('Email send successfully', {
         variant: 'success',
       });
-      dispatch(setMailTabType(fetchedSentFolder));
+      dispatch(setGmailTabType(fetchedSentFolder));
+
       reset();
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
@@ -81,7 +106,7 @@ const Draft = () => {
 
   useEffect(() => {
     reset({
-      to: activeRecordLengthCheck ? activeRecord?.to[0]?.email : '',
+      to: activeRecordLengthCheck ? email : '',
       subject: activeRecordLengthCheck
         ? activeRecord?.subject === 'undefined'
           ? ''
@@ -89,12 +114,12 @@ const Draft = () => {
         : '',
       template: '',
       description: activeRecordLengthCheck
-        ? activeRecord?.body === 'undefined'
+        ? activeRecord?.snippet === 'undefined'
           ? ''
-          : activeRecord?.body
+          : activeRecord?.snippet
         : '',
-      cc: activeRecordLengthCheck ? activeRecord?.cc[0]?.email : '',
-      bcc: activeRecordLengthCheck ? activeRecord?.bcc[0]?.email : '',
+      cc: activeRecordLengthCheck ? activeRecord?.cc : '',
+      bcc: activeRecordLengthCheck ? activeRecord?.bcc : '',
     });
   }, [activeRecord]);
 

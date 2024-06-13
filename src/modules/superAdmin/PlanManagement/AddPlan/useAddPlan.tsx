@@ -227,10 +227,24 @@ export const useAddPlan = () => {
         variant: 'error',
       });
     } else if (
+      values?.allowAdditionalUsers === 'Yes' &&
+      values?.additionalPerUserPrice <= 0
+    ) {
+      enqueueSnackbar('Please enter positive number', {
+        variant: 'error',
+      });
+    } else if (
       values?.allowAdditionalStorage === 'Yes' &&
       isNullOrEmpty(values?.additionalStoragePrice)
     ) {
       enqueueSnackbar('Please enter additional Storage Price', {
+        variant: 'error',
+      });
+    } else if (
+      values?.allowAdditionalStorage === 'Yes' &&
+      values?.additionalStoragePrice <= 0
+    ) {
+      enqueueSnackbar('Please enter positive number', {
         variant: 'error',
       });
     } else if (isNullOrEmpty(crmValue) && !isNullOrEmpty(values?.suite)) {
@@ -429,13 +443,16 @@ export const useAddPlan = () => {
               id: parsedRowData?._id,
               body: {
                 ...planFormData,
+                ...(selectProductSuite === productSuiteName?.crm && {
+                  name: crmValue,
+                }),
                 planFeature:
                   selectProductSuite === productSuiteName?.crm
                     ? featuresFormData
                     : [featuresFormData],
                 ...transformedModulesFormData,
               },
-            }))
+            })?.unwrap())
           : (res = await postPlanMangement({
               body: {
                 ...planFormData,

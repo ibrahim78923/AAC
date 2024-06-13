@@ -89,7 +89,7 @@ export const useImportModal = () => {
           );
           const values = Object?.values(dataColumn);
           const hasDuplicate = values?.some(
-            (value, index) => values?.indexOf(value) !== index,
+            (value: any, index: any) => values?.indexOf(value) !== index,
           );
 
           if (hasDuplicate) {
@@ -144,7 +144,7 @@ export const useImportModal = () => {
           );
           const values = Object?.values(dataColumn);
           const hasDuplicate = values?.some(
-            (value, index) => values?.indexOf(value) !== index,
+            (value: any, index: any) => values?.indexOf(value) !== index,
           );
 
           if (hasDuplicate) {

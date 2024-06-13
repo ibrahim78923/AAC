@@ -1,15 +1,15 @@
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { overridesDefaultValues } from '../AddDateOverrides/AddDateOverrides.data';
+import { defaultValues } from '../TimeSlotsPreferences.data';
 
-export const useDateOverrides = () => {
+export const useDateOverrides = (props: any) => {
+  const { submittedData, setSubmittedData } = props;
   const [openModule, setOpenModule] = useState(false);
   const [showData, setShowData] = useState(false);
-  const [submittedData, setSubmittedData] = useState<any>([]);
 
   const methods = useForm({
-    defaultValues: overridesDefaultValues,
+    defaultValues: defaultValues,
   });
 
   const { handleSubmit } = methods;
@@ -40,7 +40,6 @@ export const useDateOverrides = () => {
     methods,
     handleSubmit,
     onSubmit,
-    submittedData,
     storeFirstObjectById,
   };
 };

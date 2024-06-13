@@ -2,41 +2,40 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'TASK';
-const TAG_ONE = 'DROPDOWN_DEPARTMENT';
-const TAG_TWO = 'DROPDOWN_AGENT_LIST';
 
 export const taskAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getTaskById: builder?.query({
-      query: (item: any) => ({
-        url: `${END_POINTS?.TASK}?ticketId=${item?.id}`,
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.TASK}`,
         method: 'GET',
-        params: item?.queryParams,
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
     patchTaskById: builder?.mutation({
-      query: (item: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.UPDATE_TASK}`,
         method: 'PATCH',
-        params: item?.data,
+        params: apiDataParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),
+
     postTaskById: builder?.mutation({
-      query: (params: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.TASK}`,
         method: 'POST',
-        params: params,
+        params: apiDataParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),
-    deleteTask: builder.mutation({
-      query: (ids: any) => ({
-        url: `${END_POINTS?.TASK}/${ids}`,
+    deleteTask: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.DELETE_TASKS}`,
         method: 'DELETE',
+        params: apiDataParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
     getDepartmentDropdownList: builder?.query({
       query: ({ params }: any) => ({
@@ -47,7 +46,6 @@ export const taskAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.departments;
       },
-      providesTags: [TAG_ONE],
     }),
     getUsersDropdownList: builder?.query({
       query: ({ params }) => ({
@@ -58,7 +56,26 @@ export const taskAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_TWO],
+    }),
+    getDepartmentDropdownListForTicketTasks: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+    }),
+    getUsersDropdownListForTicketTasks: builder?.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.DROPDOWN_ALL_AGENTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
     }),
   }),
 });
@@ -70,4 +87,6 @@ export const {
   useDeleteTaskMutation,
   useLazyGetDepartmentDropdownListQuery,
   useLazyGetUsersDropdownListQuery,
+  useLazyGetDepartmentDropdownListForTicketTasksQuery,
+  useLazyGetUsersDropdownListForTicketTasksQuery,
 } = taskAPI;

@@ -8,6 +8,9 @@ interface EmailStateI {
   loggedInState: any;
   mailList: any;
   mailDraftList: any;
+  searchTerm: string;
+  mailCurrentPage: any;
+  breakScrollOperation: boolean;
 }
 
 const initialState: EmailStateI = {
@@ -17,23 +20,39 @@ const initialState: EmailStateI = {
   selectedRecords: [],
   activeRecord: {},
   currentEmailAssets: {},
-  loggedInState: 'umarkhattab555@zohomail.com',
-  mailList: {},
+  loggedInState: 'nabeel.ahmed@consultancyoutfit.co.uk',
+  mailList: [] || '',
   mailDraftList: {},
+  searchTerm: '',
+  mailCurrentPage: 1,
+  breakScrollOperation: false,
 };
 
-const gmailSlice = createSlice({
-  name: 'gmail',
+const outlookSlice = createSlice({
+  name: 'outlook',
   initialState: initialState,
   reducers: {
     setMailTabType: (state, action: PayloadAction<any>) => {
       state.mailTabType = action?.payload;
     },
+    setBreakScrollOperation: (state, action: PayloadAction<any>) => {
+      state.breakScrollOperation = action?.payload;
+    },
+    setMailCurrentPage: (state, action: PayloadAction<any>) => {
+      state.mailCurrentPage = action?.payload;
+    },
+    setSearchTerm: (state, action: PayloadAction<any>) => {
+      state.searchTerm = action?.payload;
+    },
     setSelectedRecords: (state, action: PayloadAction<any>) => {
       state.selectedRecords = action?.payload;
     },
     setMailList: (state, action: PayloadAction<any>) => {
-      state.mailList = action?.payload;
+      if (action.payload === 'clear') {
+        state.mailList = [];
+      } else {
+        state.mailList = [...state.mailList, ...Object.values(action?.payload)];
+      }
     },
     setMailDraftList: (state, action: PayloadAction<any>) => {
       state.mailDraftList = action?.payload;
@@ -57,5 +76,8 @@ export const {
   setCurrentEmailAssets,
   setMailList,
   setMailDraftList,
-} = gmailSlice.actions;
-export default gmailSlice.reducer;
+  setSearchTerm,
+  setMailCurrentPage,
+  setBreakScrollOperation,
+} = outlookSlice.actions;
+export default outlookSlice.reducer;

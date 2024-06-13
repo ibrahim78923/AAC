@@ -23,7 +23,7 @@ import { IMG_URL } from '@/config';
 import { v4 as uuidv4 } from 'uuid';
 
 const ViewDetails = () => {
-  const { theme, viewDeal, isLoading, id } = useViewDetails();
+  const { theme, viewDeal, isLoading, selecetdDealId } = useViewDetails();
   const searchParams = useSearchParams().get('tab-value');
 
   return (
@@ -221,9 +221,11 @@ const ViewDetails = () => {
                   Closed Date
                 </Typography>
                 <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                  {dayjs(viewDeal?.closeDate)?.format(
-                    DATE_TIME_FORMAT?.DMDMHA,
-                  ) ?? 'N/A'}
+                  {viewDeal?.closeDate
+                    ? dayjs(viewDeal?.closeDate)?.format(
+                        DATE_TIME_FORMAT?.DMDMHA,
+                      )
+                    : 'N/A'}
                 </Typography>
               </Box>
             </Box>
@@ -236,18 +238,18 @@ const ViewDetails = () => {
               tabsDataArray={singleUserDealTabsData}
               defaultValue={Number(searchParams) ?? 0}
             >
-              <Details selected={id} />
+              <Details selecetdDealId={selecetdDealId} />
               <PermissionsGuard
                 permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ACTIVITY_LOG]}
               >
                 <ActivityLog />
               </PermissionsGuard>
 
-              <Associations selected={id} viewDeal={viewDeal} />
+              <Associations selected={selecetdDealId} viewDeal={viewDeal} />
 
-              <Tasks selectedRecId={id} />
+              <Tasks selectedRecId={selecetdDealId} />
 
-              <Notes selected={id} />
+              <Notes selected={selecetdDealId} />
               <Calls />
               <Meetings />
               <Emails />

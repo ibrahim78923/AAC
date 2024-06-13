@@ -5,7 +5,7 @@ import {
 
 import {
   assetLifeExpiryOptions,
-  assetsImpactOptions,
+  assetsImpactFilterOptions,
   dateOptions,
 } from '../Inventory.data';
 
@@ -112,10 +112,9 @@ export const inventoryFilterFormFieldsDataFunction = (
       name: 'impact',
       label: 'Impact',
       select: true,
-      options: assetsImpactOptions,
+      options: assetsImpactFilterOptions,
       placeholder: 'Select impact',
-
-      getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
+      getOptionLabel: (option: any) => option?.label,
     },
   },
   {

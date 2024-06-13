@@ -27,9 +27,10 @@ export const invoiceAPI = baseAPI.injectEndpoints({
       providesTags: ['INVOICE'],
     }),
     getInvoiceQoutesList: builder.query({
-      query: () => ({
+      query: ({ params }) => ({
         url: `${INVOICE.GET_INVOICE_QUOTE_LIST}`,
         method: 'GET',
+        params: params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data?.quotes;

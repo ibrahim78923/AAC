@@ -7,15 +7,14 @@ import { DownIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns, usersMockData } from './Users.data';
 import EditUser from './EditUser';
+import { AlertModals } from '@/components/AlertModals';
 
-const Users = () => {
+const Users = (props: any) => {
   const {
     anchorEl,
     actionMenuOpen,
     handleActionsClick,
     handleClose,
-    searchValue,
-    setSearchValue,
     setPageLimit,
     setPage,
     handlePageChange,
@@ -29,7 +28,14 @@ const Users = () => {
     handleOpenDrawerEditUser,
     handleCloseDrawerEditUser,
     handleEditUserSubmit,
-  } = useUsers();
+    handleViewUserDrawer,
+    search,
+    setSearch,
+    handleDeleteUser,
+    openDeleteModal,
+    setOpenDeleteModal,
+    handleDelete,
+  } = useUsers(props);
 
   const getColumns = columns(
     selectedRow,
@@ -44,9 +50,10 @@ const Users = () => {
         <Box sx={styles?.filterBar}>
           <Box sx={styles?.search}>
             <Search
-              setSearchBy={setSearchValue}
-              value={searchValue}
-              label="Search Here"
+              label="search"
+              searchBy={search}
+              setSearchBy={setSearch}
+              placeholder="Search Here"
               size="small"
               width={'100%'}
             />
@@ -74,6 +81,8 @@ const Users = () => {
               }}
             >
               <MenuItem onClick={handleOpenDrawerEditUser}>Edit</MenuItem>
+              <MenuItem onClick={handleViewUserDrawer}>View</MenuItem>
+              <MenuItem onClick={handleDeleteUser}>Delete</MenuItem>
             </Menu>
           </Box>
         </Box>
@@ -97,6 +106,13 @@ const Users = () => {
         formMethods={methodsEditUser}
         handleSubmit={handleEditUserSubmit}
         // isLoading={loadingAddFaq}
+      />
+      <AlertModals
+        type="delete"
+        open={openDeleteModal}
+        message="Are you sure you want to delete this record?"
+        handleClose={() => setOpenDeleteModal(false)}
+        handleSubmitBtn={handleDelete}
       />
     </>
   );

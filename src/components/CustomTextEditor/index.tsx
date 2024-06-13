@@ -19,21 +19,10 @@ const CustomTextEditor = ({
   const modules = {
     toolbar: toolbar || {
       container: [
-        [
-          { size: ['small', false, 'large', 'huge'] },
-          { align: [] },
-          'color',
-          'bold',
-          'italic',
-          'underline',
-          'strike',
-          'background',
-          { list: 'bullet' },
-          { list: 'ordered' },
-          'link',
-          'code-block',
-          'blockquote',
-        ],
+        [{ size: ['small', false, 'large', 'huge'] }, { align: [] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ color: [] }, { background: [] }],
+        [{ list: 'ordered' }, { list: 'bullet' }],
       ],
     },
   };

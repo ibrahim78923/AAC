@@ -8,12 +8,18 @@ import {
   addFormDefaultValues,
   addFormvalidationSchema,
 } from './AddDrawer/AddDrawer.data';
+import { PAGINATION } from '@/config';
+import {
+  useGetLeadCaptureFormQuery,
+  useDeleteLeadCaptureFormMutation,
+} from '@/services/airMarketer/lead-capture/forms';
+import { enqueueSnackbar } from 'notistack';
+import { tabsArray } from './Forms.data';
 
 const useForms = () => {
   const [showSignUpForm, setShowSignUpForm] = useState(false);
   const [findStatus, setFindStatus] = useState(false);
 
-  const [tabValue, setTabVal] = useState<number>(0);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
@@ -24,6 +30,46 @@ const useForms = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [searchValue, setSearchValue] = useState(null);
+  const [filterParams, setFilterParams] = useState({});
+  const paginationParams = {
+    page: page,
+    limit: pageLimit,
+  };
+
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+
+  const defaultTabValue: any = tabsArray[0].value;
+  const [tabValue, setTabValue] = useState(defaultTabValue);
+
+  const handleChangeTabs = (event: React.SyntheticEvent, newValue: string) => {
+    setTabValue(newValue);
+    const filterPayload: any = {};
+    if (newValue === defaultTabValue) {
+      filterPayload.status = undefined;
+    } else {
+      filterPayload.status = newValue;
+    }
+    setFilterParams(filterPayload);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setSearchValue(null);
+  };
+
+  const {
+    data: dataGetForms,
+    isLoading: loadingGetForms,
+    isFetching: fetchingGetForms,
+  } = useGetLeadCaptureFormQuery({
+    params: { ...searchPayLoad, ...paginationParams, ...filterParams },
+  });
 
   // Add Form Drawer
   const [isAddDraweropen, setIsAddDraweropen] = useState(false);
@@ -51,25 +97,82 @@ const useForms = () => {
   };
   const handleAddFormSubmit = handleMethodAddForm(onSubmitAddForm);
 
+  // Delete Forms
+  const [deleteForm, { isLoading: loadingDelete }] =
+    useDeleteLeadCaptureFormMutation();
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const handleOpenModalDelete = () => {
+    setOpenModalDelete(true);
+  };
+  const handleCloseModalDelete = () => {
+    setOpenModalDelete(false);
+  };
+
+  const handleDeleteForm = async () => {
+    const formIds = await selectedRow[0];
+    try {
+      await deleteForm(formIds)?.unwrap();
+      handleCloseModalDelete();
+      enqueueSnackbar('Form has been deleted.', {
+        variant: 'success',
+      });
+      setSelectedRow([]);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
+  // Modal export
+  const [openModalExport, setOpenModalExport] = useState(false);
+  const handleOpenModalExport = () => {
+    setOpenModalExport(true);
+  };
+  const handleCloseModalExport = () => {
+    setOpenModalExport(false);
+  };
+
   return {
-    showSignUpForm,
-    setShowSignUpForm,
+    selectedRow,
+    setSelectedRow,
+    setSearchValue,
+    loadingGetForms,
+    fetchingGetForms,
+    dataGetForms,
+    searchValue,
+    setPageLimit,
+    setPage,
     tabValue,
-    router,
-    handleActionsClick,
-    open,
-    handleClose,
-    anchorEl,
-    setTabVal,
-    findStatus,
-    setFindStatus,
-    theme,
+    handleChangeTabs,
 
     isAddDraweropen,
     handleOpenAddDrawer,
     handleCloseAddDrawer,
     handleAddFormSubmit,
     methodsAddForm,
+
+    openModalDelete,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteForm,
+    loadingDelete,
+
+    openModalExport,
+    handleOpenModalExport,
+    handleCloseModalExport,
+
+    showSignUpForm,
+    setShowSignUpForm,
+    router,
+    handleActionsClick,
+    open,
+    handleClose,
+    anchorEl,
+
+    findStatus,
+    setFindStatus,
+    theme,
   };
 };
 

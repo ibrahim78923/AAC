@@ -1,12 +1,5 @@
-import Link from 'next/link';
-
-import { Box, Button, Menu, MenuItem, Tooltip } from '@mui/material';
-
-import CommonTabs from '@/components/Tabs';
-
+import { Box } from '@mui/material';
 import CreateView from './CreateView';
-
-import { ContactsSaleSite } from './ContactsSaleSite.data';
 import ContactsCustomize from './ContactsCustomize';
 import ContactsFilterDrawer from './ContactsFilterDrawer';
 import ContactsTable from './ContactsTable';
@@ -16,37 +9,27 @@ import DeleteModal from './ContactsModalBox/DeleteModal';
 import AssignModalBox from './ContactsModalBox/AssignModalBox';
 import ExportModal from './ContactsModalBox/ExportModal';
 import { ContactsColumns } from './ContactsTable/ContactsTable.data';
-
-import {
-  FilterIcon,
-  RestoreIcon,
-  CutomizeIcon,
-  RefreshTasksIcon,
-  DownIcon,
-  ExportCloudIcon,
-} from '@/assets/icons';
-import { AIR_SOCIAL } from '@/routesConstants/paths';
-import { useRouter } from 'next/router';
-// import ContactsGroup from '@/modules/airMarketer/WhatsAppMarketing/WhatsAppMarketingComponent/Contacts/contactsGroup';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 import ContactsGroup from './ContactsGroup';
+import ActionsBar from './ActionsBar';
+import ContactTabs from './ContactTabs';
 
 const Contacts = () => {
-  const router = useRouter();
   const {
-    contactOwnerData,
+    tabValue,
+    handleChangeTabs,
+    tabsArray,
     anchorEl,
     actionMenuOpen,
     handleActionsMenuClick,
     handleActionsMenuClose,
     dataGetContacts,
     loadingGetContacts,
+    fetchingGetContacts,
     setPage,
     setPageLimit,
     handleRefresh,
+    handleSetTabAllContacts,
     handleFiltersSubmit,
-    searchValue,
     setSearchValue,
     methodsFilter,
     openFilters,
@@ -54,10 +37,6 @@ const Contacts = () => {
     handleCloseFilters,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    rowId,
     openModalDelete,
     handleOpenModalDelete,
     handleCloseModalDelete,
@@ -72,167 +51,77 @@ const Contacts = () => {
     openModalExport,
     handleOpenModalExport,
     setOpenModalExport,
-    theme,
-    isOpen,
-    isDealCustomize,
-    handleChange,
-    handleDealCustomize,
+    isCreateViewOpen,
+    handleOpenCreateView,
+    handleCloseCreateView,
+
+    isCustomize,
+    setIsCustomize,
+    columnsData,
+    selecttedColumns,
+    handleCheckboxChange,
+    handleUpdateColumns,
+    loadingPostColumns,
+    handleOnDragEnd,
   } = useContactsSaleSite();
 
   const contactsColumns = ContactsColumns(
+    columnsData,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    setRowId,
   );
 
   return (
     <>
-      <ContactsGroup />
-      <ContactsHeader />
-      <CommonTabs
-        tabsArray={ContactsSaleSite}
-        addIcon
-        onAddClick={handleChange}
-        isHeader={true}
-        searchBarProps={{
-          label: 'Search Here',
-          setSearchBy: setSearchValue,
-          searchBy: searchValue,
-          width: '260px',
-        }}
-        headerChildren={
-          <>
-            <Box>
-              <Button
-                variant="outlined"
-                className="small"
-                color="inherit"
-                onClick={handleActionsMenuClick}
-                disabled={isActionsDisabled}
-                classes={{ outlined: 'outlined_btn' }}
-              >
-                Actions &nbsp; <DownIcon />
-              </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={actionMenuOpen}
-                onClose={handleActionsMenuClose}
-                MenuListProps={{
-                  'aria-labelledby': 'basic-button',
-                }}
-                PaperProps={{
-                  style: {
-                    width: '112px',
-                  },
-                }}
-              >
-                <MenuItem
-                  disabled={!rowId}
-                  onClick={() =>
-                    router.push(`${AIR_SOCIAL?.CONTACTS}/${rowId}`)
-                  }
-                >
-                  View Details
-                </MenuItem>
-                <MenuItem disabled={!rowId} onClick={handleOpenModalReAssign}>
-                  Re-assign
-                </MenuItem>
-                <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>
-              </Menu>
-            </Box>
-            <Link href={AIR_SOCIAL?.CONTACTS_RESTORE}>
-              <PermissionsGuard
-                permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.RESTORE]}
-              >
-                <Button
-                  variant="outlined"
-                  className="small"
-                  color="inherit"
-                  sx={{ color: theme?.palette?.custom['main'] }}
-                  startIcon={<RestoreIcon />}
-                >
-                  Restore
-                </Button>
-              </PermissionsGuard>
-            </Link>
-            <>
-              <PermissionsGuard
-                permissions={[
-                  SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.CUSTOMIZE_COLUMNS,
-                ]}
-              >
-                <Button
-                  onClick={handleDealCustomize}
-                  variant="outlined"
-                  className="small"
-                  color="inherit"
-                  sx={{ color: theme?.palette?.custom['main'] }}
-                >
-                  <CutomizeIcon /> &nbsp; Customize
-                </Button>
-              </PermissionsGuard>
-            </>
-            <PermissionsGuard
-              permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.FILTER]}
-            >
-              <Button
-                variant="outlined"
-                className="small"
-                color="inherit"
-                sx={{ color: theme?.palette?.custom['main'] }}
-                onClick={handleOpenFilters}
-              >
-                <FilterIcon />
-                &nbsp; Filter
-              </Button>
-            </PermissionsGuard>
+      <Box>
+        <ContactsGroup />
 
-            <PermissionsGuard
-              permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.FILTER]}
-            >
-              <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-                <Button
-                  variant="outlined"
-                  color="inherit"
-                  className="small"
-                  onClick={handleRefresh}
-                >
-                  <RefreshTasksIcon />
-                </Button>
-              </Tooltip>
-            </PermissionsGuard>
-            <PermissionsGuard
-              permissions={[
-                SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.EXPORT_CONTACTS,
-              ]}
-            >
-              <Button
-                variant="outlined"
-                className="small"
-                color="inherit"
-                sx={{ color: theme?.palette?.custom['main'] }}
-                onClick={handleOpenModalExport}
-              >
-                <ExportCloudIcon />
-                &nbsp; Export
-              </Button>
-            </PermissionsGuard>
-          </>
-        }
-      >
+        <ContactsHeader handleRefresh={handleSetTabAllContacts} />
+
+        <ContactTabs
+          tabsArray={tabsArray}
+          tabValue={tabValue}
+          handleTabChange={handleChangeTabs}
+          handleCreateView={handleOpenCreateView}
+        />
+
+        <ActionsBar
+          setSearchValue={setSearchValue}
+          isActionsDisabled={selectedRow?.length === 0}
+          disabledMenuItem={selectedRow?.length !== 1}
+          anchorEl={anchorEl}
+          handleActionsMenuClick={handleActionsMenuClick}
+          actionMenuOpen={actionMenuOpen}
+          handleActionsMenuClose={handleActionsMenuClose}
+          rowId={selectedRow[0]}
+          handleOpenModalReAssign={handleOpenModalReAssign}
+          handleOpenModalDelete={handleOpenModalDelete}
+          handleOpenCustomize={() => setIsCustomize(true)}
+          handleOpenFilters={handleOpenFilters}
+          handleRefresh={handleRefresh}
+          handleOpenModalExport={handleOpenModalExport}
+        />
+
         <ContactsTable
           columns={contactsColumns}
-          isLoading={loadingGetContacts}
+          isLoading={loadingGetContacts || fetchingGetContacts}
           data={dataGetContacts}
           setPage={setPage}
           setPageLimit={setPageLimit}
         />
-      </CommonTabs>
+      </Box>
 
-      <CreateView open={isOpen} onClose={handleChange} />
+      <CreateView open={isCreateViewOpen} onClose={handleCloseCreateView} />
 
-      <ContactsCustomize open={isDealCustomize} onClose={handleDealCustomize} />
+      <ContactsCustomize
+        columns={selecttedColumns}
+        isCustomize={isCustomize}
+        setIsCustomize={setIsCustomize}
+        handleOnChange={handleCheckboxChange}
+        handleUpdateColumns={handleUpdateColumns}
+        handleOnDragEnd={handleOnDragEnd}
+        isLoading={loadingPostColumns}
+      />
 
       <ContactsFilterDrawer
         open={openFilters}
@@ -248,14 +137,15 @@ const Contacts = () => {
         handleSubmit={handleDeleteContact}
         loading={loadingDelete}
       />
+
       <AssignModalBox
         open={isReAssign}
         onClose={handleCloseModalReAssign}
-        contactOwnerData={contactOwnerData}
         methods={methodsReAssign}
         handleSubmit={handleSubmitReAssign}
         loading={loadingReassign}
       />
+
       <ExportModal open={openModalExport} onClose={setOpenModalExport} />
     </>
   );

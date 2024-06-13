@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { detailsValidationSchema } from './Details.data';
+import { detailsValidationSchema, detailsDefaultValues } from './Details.data';
 import {
   useGetContactByIdQuery,
   useUpdateContactMutation,
@@ -50,6 +50,7 @@ const useDetails = () => {
     useUpdateContactMutation();
   const methodsDetails = useForm({
     resolver: yupResolver(detailsValidationSchema),
+    defaultValues: detailsDefaultValues,
   });
 
   const { handleSubmit, setValue } = methodsDetails;
@@ -78,10 +79,10 @@ const useDetails = () => {
         name: '',
       };
       // setValue('profilePicture', contactData?.profilePicture?.url);
-      setValue('firstName', contactData?.firstName || '');
-      setValue('lastName', contactData?.lastName || '');
+      setValue('firstName', contactData?.firstName);
+      setValue('lastName', contactData?.lastName);
       setValue('email', contactData?.email);
-      setValue('address', contactData?.address || '');
+      setValue('address', contactData?.address);
       setValue(
         'dateOfBirth',
         contactData?.dateOfBirth ? new Date(contactData?.dateOfBirth) : null,

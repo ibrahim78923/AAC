@@ -17,18 +17,27 @@ import { useAppSelector } from '@/redux/store';
 import CommonDrawer from '@/components/CommonDrawer';
 import { PAGINATION } from '@/config';
 import {
+  useGetAuthURLGmailQuery,
   useGetGmailFoldersQuery,
   useGetGmailsByFolderIdQuery,
 } from '@/services/commonFeatures/email/gmail';
 import {
   setActiveGmailRecord,
+  setGmailCurrentPage,
   setGmailList,
   setGmailTabType,
+  setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
+import { Gmail_CONST } from '@/constants';
+import CommonModal from '@/components/CommonModal';
+import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
 
 const LeftPane = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const router = useRouter();
+
   const gmailTabType: any = useAppSelector(
     (state: any) => state?.gmail?.gmailTabType,
   );
@@ -36,9 +45,15 @@ const LeftPane = () => {
   const gmailList: any = useAppSelector(
     (state: any) => state?.gmail?.gmailList,
   );
+  const gmailSearch: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailSearch,
+  );
+  const gmailCurrentPage: any = useAppSelector(
+    (state: any) => state?.gmail?.gmailCurrentPage,
+  );
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const { data: foldersData, isLoading } = useGetGmailFoldersQuery({});
+  const { data: foldersData, isLoading, isError } = useGetGmailFoldersQuery({});
   const dataToShow = ['Inbox', 'Draft', 'Sent', 'Schedule', 'Trash'];
   const filteredData = foldersData?.data?.labels?.filter((item: any) => {
     return dataToShow
@@ -55,9 +70,10 @@ const LeftPane = () => {
   } = useGetGmailsByFolderIdQuery(
     {
       params: {
-        page: PAGINATION?.CURRENT_PAGE,
+        ...(gmailCurrentPage && { pageToken: gmailCurrentPage }),
         limit: PAGINATION?.PAGE_LIMIT,
         folderId: gmailTabType?.name,
+        ...(gmailSearch && { search: gmailSearch }),
       },
     },
     { skip: isGetEmailsRequest },
@@ -71,21 +87,24 @@ const LeftPane = () => {
 
   useEffect(() => {
     if (emailsByFolderIdData) {
-      dispatch(setGmailList(emailsByFolderIdData));
+      dispatch(setGmailList(emailsByFolderIdData?.data?.emails));
     }
   }, [emailsByFolderIdData]);
 
   const handelToggleTab = (value: any) => {
     if (value?.name !== gmailTabType?.name) {
       dispatch(setGmailTabType(value));
+      dispatch(setGmailList('clear'));
+      dispatch(setGmailCurrentPage(''));
       dispatch(setActiveGmailRecord({}));
+      dispatch(setSelectedGmailRecords([]));
       refetch();
     }
   };
 
   let listOfEmail;
-  if (Array?.isArray(gmailList?.data)) {
-    listOfEmail = gmailList?.data
+  if (Array?.isArray(gmailList)) {
+    listOfEmail = gmailList
       ?.map((thread: any) => {
         const id = thread?.id || '';
 
@@ -96,22 +115,56 @@ const LeftPane = () => {
           return null;
         }
         const threadId = lastMessage?.threadId || '';
+        const messageId = lastMessage?.id || '';
         const headers = lastMessage?.payload?.headers || [];
-
+        const to =
+          headers?.find((header: any) => header?.name === Gmail_CONST?.TO)
+            ?.value || '';
+        const cc =
+          headers?.find((header: any) => header?.name === Gmail_CONST?.CC)
+            ?.value || '';
+        const Bcc =
+          headers?.find((header: any) => header?.name === Gmail_CONST?.BCC)
+            ?.value || '';
         const name =
-          headers?.find((header: any) => header?.name === 'From')?.value || '';
+          headers?.find((header: any) => header?.name === Gmail_CONST?.FROM)
+            ?.value || '';
         const subject =
-          headers?.find((header: any) => header?.name === 'Subject')?.value ||
-          '<no-subject>';
+          headers?.find((header: any) => header?.name === Gmail_CONST?.SUBJECT)
+            ?.value || '<no-subject>';
         const snippet = lastMessage?.snippet || '';
         const date =
-          headers?.find((header: any) => header?.name === 'Date')?.value || '';
+          headers?.find((header: any) => header?.name === Gmail_CONST?.DATE)
+            ?.value || '';
         const readMessage = lastMessage?.labelIds?.includes('UNREAD');
 
-        return { id, name, subject, snippet, date, threadId, readMessage };
+        return {
+          id,
+          to,
+          cc,
+          Bcc,
+          name,
+          subject,
+          snippet,
+          date,
+          threadId,
+          readMessage,
+          messageId,
+        };
       })
       .flat();
   }
+
+  const [isReloginModalOpen, setIsReloginModalOpen] = useState(false);
+
+  const { data: authURLGmail } = useGetAuthURLGmailQuery({});
+  useEffect(() => {
+    if (isError) {
+      setIsReloginModalOpen(true);
+    }
+  }, [isError]);
+
+  const oauthUrl = `${authURLGmail?.data}`;
 
   return (
     <Box sx={styles?.card(theme)}>
@@ -127,7 +180,7 @@ const LeftPane = () => {
           >
             Filter
           </Button>
-          <ActionBtn filteredData={filteredData} />
+          <ActionBtn />
         </Box>
       </Box>
 
@@ -184,6 +237,7 @@ const LeftPane = () => {
         isLoadingEmailsByFolderIdData={isLoadingEmailsByFolderIdData}
         refetch={refetch}
         gmailTabType={gmailTabType}
+        pageToken={emailsByFolderIdData}
       />
 
       <CommonDrawer
@@ -195,6 +249,26 @@ const LeftPane = () => {
       >
         <>Filter Cont.</>
       </CommonDrawer>
+
+      <CommonModal
+        open={isReloginModalOpen}
+        title={'Token Expired'}
+        cancelIcon={false}
+      >
+        <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+          <Button
+            variant="outlined"
+            onClick={() =>
+              router?.push(`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}`)
+            }
+          >
+            Back to emails
+          </Button>
+          <Button variant="contained" onClick={() => window.open(oauthUrl)}>
+            Login Again
+          </Button>
+        </Box>
+      </CommonModal>
     </Box>
   );
 };

@@ -1,13 +1,16 @@
-import { Grid, MenuItem } from '@mui/material';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { ScheduleModals } from '@/components/ScheduleModals';
 import { AssignModalData } from './AssignModal.data';
-import { v4 as uuidv4 } from 'uuid';
+import useAuth from '@/hooks/useAuth';
+import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 
 const AssignModalBox = (props: any) => {
-  const { open, onClose, contactOwnerData, methods, handleSubmit, loading } =
-    props;
-  const formField = AssignModalData(contactOwnerData);
+  const { open, onClose, methods, handleSubmit, loading } = props;
+  const { user }: any = useAuth();
+  const orgId = user?.organization?._id;
+  const contactOwnerData = useLazyGetOrganizationUsersQuery();
+  const formField = AssignModalData(contactOwnerData, orgId);
 
   return (
     <ScheduleModals
@@ -21,22 +24,17 @@ const AssignModalBox = (props: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {formField?.map((obj: any) => (
-            <Grid item xs={12} key={uuidv4()}>
-              <obj.component
-                fullWidth
-                size={'small'}
-                SelectProps={{ sx: { borderRadius: '8px' } }}
-                {...obj?.componentProps}
-              >
-                {obj?.componentProps?.select
-                  ? obj?.options?.map((option: any) => (
-                      <MenuItem key={uuidv4()} value={option?.value}>
+          {formField?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={item?.id}>
+              <item.component {...item?.componentProps} size={'small'}>
+                {item?.componentProps?.select
+                  ? item?.options?.map((option: any) => (
+                      <option key={option?.value} value={option?.value}>
                         {option?.label}
-                      </MenuItem>
+                      </option>
                     ))
                   : null}
-              </obj.component>
+              </item.component>
             </Grid>
           ))}
         </Grid>

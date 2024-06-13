@@ -1,0 +1,352 @@
+import {
+  CheckboxCheckedIcon,
+  CheckboxIcon,
+  CheckedFavoriteIcon,
+  UnCheckedFavoriteIcon,
+} from '@/assets/icons';
+import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { errorSnackbar } from '@/utils/api';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  CircularProgress,
+  Typography,
+} from '@mui/material';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+
+export const actionsForReportListsDynamic = (
+  setIsPortalOpen: any,
+  selectedReportList: any,
+  editReportPath: any,
+) => [
+  {
+    id: 1,
+    title: 'Customize',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      editReportPath?.(selectedReportList[0]?._id);
+      closeMenu();
+    },
+  },
+  {
+    id: 2,
+    title: 'Rename',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen?.({
+        isRename: true,
+        isOpen: true,
+      });
+      closeMenu();
+    },
+  },
+  {
+    id: 3,
+    title: 'Clone',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen?.({
+        isClone: true,
+        isOpen: true,
+      });
+      closeMenu();
+    },
+  },
+  {
+    id: 4,
+    title: 'Export',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen?.({
+        isExport: true,
+        isOpen: true,
+      });
+      closeMenu();
+    },
+  },
+  {
+    id: 5,
+    title: 'Email This Report',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen({ isOpen: true, isEmail: true });
+      closeMenu();
+    },
+  },
+  {
+    id: 6,
+    title: 'Change Owner',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen?.({
+        isOpen: true,
+        isChangeOwner: true,
+      });
+      closeMenu();
+    },
+  },
+  {
+    id: 7,
+    title: 'Add to Dashboard',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen?.({
+        isOpen: true,
+        isAddedToDashboard: true,
+      });
+      closeMenu();
+    },
+  },
+  {
+    id: 8,
+    title: 'Delete',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen({ isOpen: true, isDelete: true });
+      closeMenu();
+    },
+  },
+  {
+    id: 9,
+    title: 'Manage Access',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+    ],
+    handleClick: (closeMenu: any) => {
+      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
+      setIsPortalOpen({ isOpen: true, isAccessManage: true });
+      closeMenu();
+    },
+  },
+];
+
+export const data = [
+  {
+    _id: '1222',
+    isFavorite: false,
+    user: {
+      name: 'ali',
+      avatar: {
+        url: 'qwe',
+      },
+    },
+    name: 'Deal',
+    dashboard: 'Deal',
+    type: 'Systematic Report',
+    createdAt: '10/4/2023',
+    assigned: 'Everyone',
+    updatedAt: '10/5/2023',
+  },
+];
+
+export const reportListsColumnsDynamic = (
+  selectedReportList?: any,
+  setSelectedReportList?: any,
+  totalReports: any = [],
+  addReportToFavorite?: any,
+  addReportToFavoriteListStatus?: any,
+) => [
+  {
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
+    cell: (info: any) => (
+      <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={
+          !!selectedReportList?.find(
+            (item: any) => item?._id === info?.getValue(),
+          )
+        }
+        onChange={(e: any) => {
+          e?.target?.checked
+            ? setSelectedReportList([
+                ...selectedReportList,
+                info?.row?.original,
+              ])
+            : setSelectedReportList(
+                selectedReportList?.filter(
+                  (item: any) => item?._id !== info?.getValue(),
+                ),
+              );
+        }}
+        color="primary"
+        name={info?.getValue()}
+      />
+    ),
+    header: (
+      <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={
+          totalReports?.length
+            ? selectedReportList?.length === totalReports?.length
+            : false
+        }
+        onChange={(e: any) => {
+          e?.target?.checked
+            ? setSelectedReportList(totalReports?.map((item: any) => item))
+            : setSelectedReportList([]);
+        }}
+        color="primary"
+        name="id"
+      />
+    ),
+  },
+  {
+    accessorFn: (row: any) => row?.user,
+    id: 'user',
+    isSortable: true,
+    header: 'Report Owner',
+    cell: (info: any) => (
+      <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
+        {addReportToFavoriteListStatus?.isLoading &&
+        addReportToFavoriteListStatus?.originalArgs?.pathParams?.id ===
+          info?.row?.original?._id ? (
+          <CircularProgress size={20} />
+        ) : (
+          <Checkbox
+            icon={<UnCheckedFavoriteIcon />}
+            checkedIcon={<CheckedFavoriteIcon />}
+            checked={info?.row?.original?.isFavorite}
+            onChange={(e: any) =>
+              addReportToFavorite(e, info?.row?.original?._id)
+            }
+            disabled={addReportToFavoriteListStatus?.isLoading}
+            color="primary"
+            name={info?.getValue()}
+          />
+        )}
+        <Avatar
+          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+          src={generateImage(info?.getValue()?.avatar?.url)}
+        >
+          <Typography variant="body2" textTransform={'uppercase'}>
+            {fullNameInitial(
+              info?.getValue()?.firstName,
+              info?.getValue()?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+      </Box>
+    ),
+  },
+  {
+    accessorFn: (row: any) => row?.name,
+    id: 'name',
+    isSortable: true,
+    header: 'Report Name',
+    cell: (info: any) => (
+      <Typography component="span" variant="body2" color="custom.bright">
+        {truncateText(info?.getValue())}
+      </Typography>
+    ),
+  },
+  {
+    accessorFn: (row: any) => row?.dashboard,
+    id: 'dashboard',
+    isSortable: true,
+    header: 'Dashboard Name',
+    cell: (info: any) => truncateText(info?.getValue()),
+  },
+  {
+    accessorFn: (row: any) => row?.type,
+    id: 'type',
+    isSortable: true,
+    header: 'Type',
+    cell: (info: any) => info?.getValue() ?? '--',
+  },
+  {
+    accessorFn: (row: any) => row?.createdAt,
+    id: 'createdAt',
+    isSortable: true,
+    header: 'Created Date',
+    cell: (info: any) =>
+      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '--',
+  },
+  {
+    accessorFn: (row: any) => row?.assigned,
+    id: 'assigned',
+    isSortable: true,
+    header: 'Assigned',
+    cell: (info: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row?.updatedAt,
+    id: 'updatedAt',
+    isSortable: true,
+    header: 'Last Updated Date',
+    cell: (info: any) =>
+      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '--',
+  },
+];

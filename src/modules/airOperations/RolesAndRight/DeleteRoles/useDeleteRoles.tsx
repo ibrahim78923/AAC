@@ -1,0 +1,51 @@
+import { ARRAY_INDEX } from '@/constants/strings';
+import { useDeleteRoleForOperationsMutation } from '@/services/airOperations/roles-and-right';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+
+export const useDeleteRoles = (props: any) => {
+  const {
+    setIsPortalOpen,
+    selectedRolesList,
+    setSelectedRolesList,
+    setPage,
+    totalRecords,
+    page,
+    getRolesListData,
+  } = props;
+  const [deleteRoleForOperationsTrigger, deleteRoleForOperationsStatus] =
+    useDeleteRoleForOperationsMutation();
+
+  const deleteRoles = async () => {
+    const deleteParams = new URLSearchParams();
+
+    selectedRolesList?.forEach(
+      (rolesId: any) => deleteParams?.append('ids', rolesId),
+    );
+
+    const deleteRolesParameter = {
+      pathParams: { roleId: selectedRolesList?.[ARRAY_INDEX?.ZERO]?._id },
+    };
+
+    try {
+      await deleteRoleForOperationsTrigger(deleteRolesParameter)?.unwrap();
+      successSnackbar('Record deleted successfully');
+      closeDeleteModal?.();
+      const newPage = selectedRolesList?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
+      await getRolesListData?.(newPage);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  const closeDeleteModal = () => {
+    setSelectedRolesList?.([]);
+    setIsPortalOpen?.(false);
+  };
+
+  return {
+    deleteRoles,
+    deleteRoleForOperationsStatus,
+    closeDeleteModal,
+  };
+};

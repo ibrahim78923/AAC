@@ -27,8 +27,9 @@ export const detailsDefaultValues = {
   contactedPersonId: '',
   contactMode: '',
   lastActivity: '',
-  createdDate: '',
-  closeDate: '',
+  createdDate: null,
+  closeDate: new Date(),
+  updatedAt: null,
 };
 
 export const detailsDataArray = (dealPipelineId: string) => {
@@ -47,7 +48,6 @@ export const detailsDataArray = (dealPipelineId: string) => {
         name: 'name',
         label: 'Deal Name',
         placeholder: 'Name',
-        fullWidth: true,
       },
       component: RHFTextField,
       md: 4,
@@ -58,7 +58,6 @@ export const detailsDataArray = (dealPipelineId: string) => {
         label: 'Amount',
         placeholder: '£',
         type: 'number',
-        fullWidth: true,
       },
       component: RHFTextField,
       md: 4,
@@ -105,6 +104,7 @@ export const detailsDataArray = (dealPipelineId: string) => {
         select: true,
       },
       options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
+        Key: item?._id,
         value: item?._id,
         label: item?.name,
       })) ?? [{ label: '', value: '' }],
@@ -131,6 +131,7 @@ export const detailsDataArray = (dealPipelineId: string) => {
         select: true,
       },
       options: getDealOwnerContacts?.data?.contacts?.map((item: any) => ({
+        key: item?._id,
         value: item?._id,
         label: `${item?.firstName} ${item?.lastName}`,
       })) ?? [{ label: '', value: '' }],
@@ -151,10 +152,7 @@ export const detailsDataArray = (dealPipelineId: string) => {
       componentProps: {
         name: 'lastActivity',
         label: 'Last Activity',
-
         placeholder: 'Last Activity',
-
-        fullWidth: true,
       },
       component: RHFTextField,
       md: 4,

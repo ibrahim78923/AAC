@@ -6,16 +6,20 @@ import { newNumberArray, numberDetails } from '../BuyNewNumber.data';
 import usePhoneNumber from '../../usePhoneNumber';
 import { style } from '../BuyNewNumber.style';
 
-const AddNumberForm = ({ isNumberDetail, handleNextDetail }: any) => {
+const AddNumberForm = (props: any) => {
   const { theme } = usePhoneNumber();
-  const { methods } = useBuyNewNumber();
+  const { isNumberDetail, handleNextDetail, isEditNumber, serIsEditNumber } =
+    props;
+  const buyNewNumberArray = newNumberArray(isEditNumber, serIsEditNumber);
+  const { methods, handleSubmit, onSubmit } = useBuyNewNumber(props);
+
   return (
-    <FormProvider methods={methods}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2}>
-        {newNumberArray?.map((item: any) => (
+        {buyNewNumberArray?.map((item: any) => (
           <>
             {item?.isNumberDatils?.includes(isNumberDetail) && (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md} key={item?.id}>
                 {item?.componentProps?.name === 'formType' && (
                   <Typography variant="body2" component="span">
                     Toll-Free

@@ -19,7 +19,7 @@ const CreateInvoice = () => {
           <Grid container spacing={2}>
             {dataArray?.map((item: any) => (
               <Grid item xs={12} key={item?.id}>
-                <item.component {...item?.componentProps} />
+                <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
           </Grid>

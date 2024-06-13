@@ -9,13 +9,16 @@ import {
   editUserDefaultValues,
   editUserValidationSchema,
 } from './EditUser/EditUser.data';
+import { successSnackbar } from '@/utils/api';
 // import { DATE_FORMAT } from '@/constants/index';
 
-const useUsers = () => {
+const useUsers = (props: any) => {
+  const { setOpenDrawerAddUser, setIsViewed } = props;
   const [selectedRow, setSelectedRow]: any = useState([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
-
+  const [search, setSearch] = useState('');
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   // OPEN/CLOSE ACTIONS MENU
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);
@@ -33,7 +36,7 @@ const useUsers = () => {
   //   page: PAGINATION?.CURRENT_PAGE,
   //   limit: PAGINATION?.PAGE_LIMIT,
   // };
-  const [searchValue, setSearchValue] = useState(null);
+  const [searchValue, setSearchValue] = useState('');
   const [filterParams, setFilterParams] = useState({
     page: page,
     limit: pageLimit,
@@ -50,7 +53,7 @@ const useUsers = () => {
   // Hadle PAGE CHANGE
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    setFilterParams((prev) => {
+    setFilterParams((prev: any) => {
       return {
         ...prev,
         page: newPage,
@@ -78,19 +81,22 @@ const useUsers = () => {
   };
 
   const onSubmitEditUser = async () => {
-    // try {
-    //   await postAddFaq({ body: values })?.unwrap();
-    //   handleCloseModalFaq();
-    //   enqueueSnackbar('FAQ added successfully', {
-    //     variant: 'success',
-    //   });
-    // } catch (error: any) {
-    //   enqueueSnackbar('An error occured', {
-    //     variant: 'error',
-    //   });
-    // }
+    successSnackbar('User updated successfully');
+    handleCloseDrawerEditUser();
   };
   const handleEditUserSubmit = handleMethodEditUser(onSubmitEditUser);
+  const handleViewUserDrawer = () => {
+    handleClose();
+    setIsViewed?.(true);
+    setOpenDrawerAddUser(true);
+  };
+  const handleDeleteUser = () => {
+    setOpenDeleteModal?.(true);
+  };
+  const handleDelete = () => {
+    successSnackbar('Record deleted successfully');
+    setOpenDeleteModal(false);
+  };
 
   return {
     anchorEl,
@@ -114,6 +120,13 @@ const useUsers = () => {
     handleOpenDrawerEditUser,
     handleCloseDrawerEditUser,
     handleEditUserSubmit,
+    handleViewUserDrawer,
+    search,
+    setSearch,
+    handleDeleteUser,
+    openDeleteModal,
+    setOpenDeleteModal,
+    handleDelete,
   };
 };
 export default useUsers;

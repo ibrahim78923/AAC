@@ -3,20 +3,26 @@ import { Theme, useTheme } from '@mui/material';
 const useStatisticsCard = () => {
   const theme = useTheme<Theme>();
 
-  const series = [
-    {
-      name: 'Sent',
-      data: [76, 85, 88, 98, 87, 76, 85, 88, 98, 87, 60, 50],
-    },
-    {
-      name: 'Delivered',
-      data: [35, 41, 36, 26, 45, 35, 41, 36, 26, 45, 55, 70],
-    },
-    {
-      name: 'Failed',
-      data: [30, 25, 30, 20, 35, 30, 25, 30, 20, 35, 40, 90],
-    },
-  ];
+  const series = (graphData: any) => {
+    const sentData = graphData?.map((item: any) => item?.sent);
+    const deliveredData = graphData?.map((item: any) => item?.delivered);
+    const failedData = graphData?.map((item: any) => item?.failed);
+
+    return [
+      {
+        name: 'Sent',
+        data: sentData,
+      },
+      {
+        name: 'Delivered',
+        data: deliveredData,
+      },
+      {
+        name: 'Failed',
+        data: failedData,
+      },
+    ];
+  };
 
   const options: any = {
     chart: {

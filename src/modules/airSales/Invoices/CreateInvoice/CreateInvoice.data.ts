@@ -11,7 +11,7 @@ export const getDataArray = (QuoteData: any) => {
         fullWidth: true,
         apiQuery: QuoteData,
         getOptionLabel: (option: any) => option?.name,
-        // externalParams: {},
+        externalParams: { status: 'PUBLISHED' },
         required: true,
       },
       component: RHFAutocompleteAsync,

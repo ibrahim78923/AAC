@@ -51,7 +51,6 @@ const useCompaniesEditorDrawer = ({
         const {
           domain,
           name,
-          ownerId,
           industry,
           type,
           noOfEmloyee,
@@ -66,7 +65,7 @@ const useCompaniesEditorDrawer = ({
           company: defaultCompany,
           domain,
           name,
-          ownerId,
+          ownerId: companyRecord?.owner,
           industry,
           type,
           noOfEmloyee,
@@ -95,6 +94,8 @@ const useCompaniesEditorDrawer = ({
       if (value !== undefined && value !== null && value !== '') {
         if (key === ExistingCompany) {
           return;
+        } else if (key === 'ownerId') {
+          formData.append(key, value?._id);
         } else {
           formData.append(key, value);
         }
@@ -112,7 +113,7 @@ const useCompaniesEditorDrawer = ({
             .then((res) => {
               if (res) {
                 setOpenDrawer(false);
-                reset();
+                // reset();
                 enqueueSnackbar(` Companies updated Successfully`, {
                   variant: NOTISTACK_VARIANTS?.SUCCESS,
                 });

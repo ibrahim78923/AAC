@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import { useTheme } from '@mui/material';
+import { useConnectPhoneNumberMutation } from '@/services/airMarketer/SmsMarketing';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 const isValid = (phone: string) => {
   try {
-    return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
+    return phoneUtil?.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
   } catch (error) {
     return false;
   }
 };
 
-const useConnectNumber = () => {
+const useConnectNumber = (setIsConnected: any) => {
   const theme = useTheme();
   const [phoneNumber, setPhoneNumber] = useState('');
   const isPhoneValid = isValid(phoneNumber);
@@ -20,44 +23,49 @@ const useConnectNumber = () => {
   };
 
   const [openDialogRegNumber, setOpenDialogRegNumber] = useState(false);
-  const [openDialogVerification, setOpenDialogVerification] = useState(false);
+  const [connectPhoneNumber, { isLoading: connectNumberLoading }] =
+    useConnectPhoneNumberMutation();
+
   const handleOpenDialogRegNumber = () => {
     setOpenDialogRegNumber(true);
   };
+
   const handleCloseDialogRegNumber = () => {
     setOpenDialogRegNumber(false);
   };
-  const handleAddRegNumSubmit = () => {
-    if (!isPhoneValid) {
-      return true;
-    }
-    setOpenDialogRegNumber(false);
-    setOpenDialogVerification(true);
-  };
 
-  const handleOpenDialogVerification = () => {
-    setOpenDialogVerification(true);
-  };
-  const handleCloseDialogVerification = () => {
-    setOpenDialogVerification(false);
-  };
-  const handleVerificationSubmit = () => {
-    setOpenDialogVerification(false);
+  const handleAddRegNumSubmit = async () => {
+    if (isPhoneValid) {
+      try {
+        await connectPhoneNumber({
+          body: { phoneNumber: phoneNumber },
+        })?.unwrap();
+        setIsConnected(true);
+        setPhoneNumber('');
+        setOpenDialogRegNumber(false);
+        enqueueSnackbar('Phone number Connected Successfully', {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        });
+      } catch (error: any) {
+        const errMsg = error?.data?.message;
+        const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+        enqueueSnackbar(errMessage ?? 'Error occurred', {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
+      }
+    }
   };
 
   return {
     theme,
-    isPhoneValid,
     phoneNumber,
+    isPhoneValid,
     handlePhoneChange,
     openDialogRegNumber,
+    connectNumberLoading,
+    handleAddRegNumSubmit,
     handleOpenDialogRegNumber,
     handleCloseDialogRegNumber,
-    handleAddRegNumSubmit,
-    openDialogVerification,
-    handleOpenDialogVerification,
-    handleCloseDialogVerification,
-    handleVerificationSubmit,
   };
 };
 

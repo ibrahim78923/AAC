@@ -1,31 +1,45 @@
 import { RHFTextField } from '@/components/ReactHookForm';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import * as Yup from 'yup';
 
-export const upsertLocationsFormValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
-  destination: Yup?.string(),
-  description: Yup?.string(),
-});
-
-export const upsertLocationsDefaultValues = {
-  namer: '',
-  destination: '',
-  description: '',
+export const TITLE_FORM_USER: any = {
+  [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Add Location',
+  [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Edit Location',
 };
 
-export const upsertFormFields = [
+export const BUTTON_TITLE_FORM_USER: any = {
+  [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Submit',
+  [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Update',
+};
+
+export const upsertLocationsFormValidationSchema = Yup?.object()?.shape({
+  locationName: Yup?.string()?.trim()?.required('Location name is Required'),
+  destination: Yup?.string()?.trim(),
+  description: Yup?.string()?.trim(),
+});
+
+export const upsertLocationsDefaultValues = (data?: any) => {
+  return {
+    locationName: data?.locationName ?? '',
+    destination: data?.destination ?? '',
+    description: data?.description ?? '',
+  };
+};
+
+export const upsertLocationsFormFieldsDynamic = () => [
   {
+    id: 1,
     componentProps: {
-      name: 'name',
+      name: 'locationName',
       label: 'Location Name',
       fullWidth: true,
       required: true,
       placeholder: 'Add Location Name',
     },
     component: RHFTextField,
-    md: 12,
   },
   {
+    id: 2,
     componentProps: {
       name: 'destination',
       label: 'Destination',
@@ -33,18 +47,17 @@ export const upsertFormFields = [
       placeholder: 'Enter Destination',
     },
     component: RHFTextField,
-    md: 12,
   },
   {
+    id: 3,
     componentProps: {
       name: 'description',
       label: 'Description',
-      placeholder: 'Type',
+      placeholder: 'Type Description Here',
       fullWidth: true,
       multiline: true,
       minRows: 3,
     },
     component: RHFTextField,
-    md: 12,
   },
 ];

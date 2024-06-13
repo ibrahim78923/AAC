@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
-
 import { Grid } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { usePostDealsMutation } from '@/services/airSales/deals';
@@ -12,10 +10,10 @@ import {
   validationSchema,
 } from './FormCreateDeal.data';
 import { v4 as uuidv4 } from 'uuid';
-
 import dayjs from 'dayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
+import { DATE_FORMAT } from '@/constants';
 
 const CreateDeal = ({ open, onClose, refetchDealsDropdown }: any) => {
   const [postDeals, { isLoading: isCreateDealLodaing }] =
@@ -29,7 +27,7 @@ const CreateDeal = ({ open, onClose, refetchDealsDropdown }: any) => {
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = async (values: any) => {
-    const closeDate = dayjs(values?.closeDate)?.toISOString();
+    const closeDate = dayjs(values?.closeDate)?.format(DATE_FORMAT?.API);
     const products = values?.products?.map((id: string) => ({
       productId: id,
       quantity: 1,

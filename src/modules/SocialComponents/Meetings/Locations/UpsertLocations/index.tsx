@@ -1,34 +1,51 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { upsertFormFields } from './UpsertLocations.data';
 import { useUpsertLocations } from './useUpsertLocations';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
+import {
+  BUTTON_TITLE_FORM_USER,
+  TITLE_FORM_USER,
+} from './UpsertLocations.data';
 
-const UpsertLocations = (props: any) => {
-  const { isDrawerOpen, onClose, isUpdate } = props;
-  const { methods, handleSubmit, submitUpsertLocationForm } =
-    useUpsertLocations(props);
+export const UpsertLocations = (props: any) => {
+  const { isPortalOpen } = props;
+  const {
+    methods,
+    handleSubmit,
+    upsertLocationsFormFields,
+    closeDrawer,
+    submitUpsertLocationForm,
+    patchCommonMeetingsLocationsStatus,
+    postCommonMeetingsLocationsStatus,
+  } = useUpsertLocations(props);
 
   return (
     <CommonDrawer
-      isDrawerOpen={isDrawerOpen}
-      onClose={() => onClose(false)}
+      isDrawerOpen={isPortalOpen?.isUpsert}
+      onClose={() => closeDrawer()}
       isOk
-      okText={isUpdate ? 'Update' : 'Add'}
+      okText={BUTTON_TITLE_FORM_USER?.[isPortalOpen?.type]}
       footer
-      title={isUpdate ? 'Update Location' : 'Add Location'}
-      submitHandler={() => {
-        methods.handleSubmit(submitUpsertLocationForm)();
-      }}
+      title={TITLE_FORM_USER?.[isPortalOpen?.type]}
+      submitHandler={() => handleSubmit(submitUpsertLocationForm)()}
+      isLoading={
+        patchCommonMeetingsLocationsStatus?.isLoading ||
+        postCommonMeetingsLocationsStatus?.isLoading
+      }
+      isDisabled={
+        postCommonMeetingsLocationsStatus?.isLoading ||
+        patchCommonMeetingsLocationsStatus?.isLoading
+      }
+      disabledCancelBtn={
+        postCommonMeetingsLocationsStatus?.isLoading ||
+        patchCommonMeetingsLocationsStatus?.isLoading
+      }
     >
       <Box mt={1}>
-        <FormProvider
-          methods={methods}
-          onSubmit={handleSubmit(submitUpsertLocationForm)}
-        >
+        <FormProvider methods={methods}>
           <Grid container spacing={1}>
-            {upsertFormFields?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
+            {upsertLocationsFormFields?.map((item: any) => (
+              <Grid item xs={12} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
@@ -38,5 +55,3 @@ const UpsertLocations = (props: any) => {
     </CommonDrawer>
   );
 };
-
-export default UpsertLocations;

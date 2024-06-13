@@ -4,6 +4,7 @@ import React from 'react';
 import AllCalls from './tabsComponents/allCalls';
 import CallsInQueue from './tabsComponents/callsInQueue';
 import CallsInConversation from './tabsComponents/callsInConversation';
+import CallTrigger from './tabsComponents/CallTrigger';
 
 const CallMetrics = () => {
   const theme = useTheme();
@@ -29,6 +30,9 @@ const CallMetrics = () => {
           <CallsInQueue />
           <CallsInConversation />
         </HorizontalTabs>
+      </Box>
+      <Box>
+        <CallTrigger />
       </Box>
     </Box>
   );
