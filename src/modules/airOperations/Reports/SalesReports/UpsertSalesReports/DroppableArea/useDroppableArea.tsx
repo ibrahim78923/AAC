@@ -1,4 +1,5 @@
 import { REPORT_TYPE } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
@@ -10,6 +11,12 @@ export const useDroppableArea = (props: any) => {
   const [calendarFilter, setCalendarFilter] = useState();
   const handleDelete = (id: string) => {
     setForm(form?.filter((item: any) => item?.id !== id));
+    const deletedRecord = form?.find((item: any) => item?.id === id);
+    errorSnackbar(
+      `Delete ${deletedRecord?.title} ${
+        deletedRecord?.templateType ?? ''
+      } Successfully`,
+    );
   };
 
   const handleCopy = (id: string) => {
@@ -61,6 +68,11 @@ export const useDroppableArea = (props: any) => {
         },
       ]);
     }
+    successSnackbar(
+      `Duplicate ${chartToCopy?.title} ${
+        chartToCopy?.templateType ?? ''
+      } Added`,
+    );
   };
   return {
     handleDelete,
