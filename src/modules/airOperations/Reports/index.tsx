@@ -1,13 +1,14 @@
-import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Grid, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { reportsTypes } from './Reports.data';
 
 export const Reports = () => {
-  const theme = useTheme();
   const router = useRouter();
   return (
     <>
-      <Typography variant="h3">Reports and Analytics</Typography>
+      <Typography variant="h3" color="slateBlue.main">
+        Reports and Analytics
+      </Typography>
       <br />
       <Grid container spacing={3}>
         {reportsTypes?.map((report: any) => (
@@ -28,23 +29,33 @@ export const Reports = () => {
               display={'flex'}
               alignItems={'center'}
               flexWrap={'wrap'}
-              border={`1px solid ${theme?.palette?.grey?.[700]}`}
+              border={`1px solid`}
+              borderColor={'primary.light'}
               borderRadius={2}
               gap={2}
-              padding={1}
+              px={1.5}
+              py={2}
               height={'100%'}
             >
               <Avatar
                 variant="rounded"
-                sx={{ backgroundColor: theme?.palette?.primary?.light }}
+                sx={{ backgroundColor: 'primary.light' }}
               >
                 {report?.avatar}
               </Avatar>
               <Box flex={1}>
-                <Typography variant="h5" whiteSpace={'nowrap'}>
+                <Typography
+                  variant="body1"
+                  color="secondary.main"
+                  fontWeight={600}
+                >
                   {report?.type}
                 </Typography>
-                <Typography variant="body3" color={theme?.palette?.grey?.[900]}>
+                <Typography
+                  variant="body3"
+                  fontWeight={500}
+                  color={'custom.dark_grey'}
+                >
                   {report?.purpose}
                 </Typography>
               </Box>

@@ -508,3 +508,6 @@ export { default as RestoreReportIcon } from './modules/airOperations/reports/re
 export { default as ExportReportIcon } from './modules/airOperations/reports/export-report-icon';
 export { default as ReloadIcon } from './modules/airCallCenter/Settings/GeneralSettings/reload-icon';
 export { default as EditNumberIcon } from './modules/airCallCenter/Settings/GeneralSettings/edit-number-icon';
+export { default as SalesReportIcon } from './modules/airOperations/reports/sales-report-icon';
+export { default as ServiceReportIcon } from './modules/airOperations/reports/service-report-icon';
+export { default as MarketingReportIcon } from './modules/airOperations/reports/marketing-report-icon';
