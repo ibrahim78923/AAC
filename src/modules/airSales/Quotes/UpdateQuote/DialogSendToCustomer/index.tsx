@@ -30,6 +30,7 @@ import {
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import jsPDF from 'jspdf';
+import { LoadingButton } from '@mui/lab';
 
 const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
   const router = useRouter();
@@ -40,7 +41,8 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
   const { handleSubmit } = methods;
   const { quoteId, dataGetQuoteById } = useUpdateQuote();
   const [updateQuoteSubmision] = useUpdateQuoteSubmisionMutation();
-  const [postAttachmentQuote] = usePostAttachmentQuoteMutation(); //used in future
+  const [postAttachmentQuote, { isLoading: postAttachmentLoading }] =
+    usePostAttachmentQuoteMutation(); //used in future
 
   const onSubmit = async (values: { email: string }) => {
     const invoice: any = new jsPDF('portrait', 'px', 'a1');
@@ -89,10 +91,10 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
                     enqueueSnackbar('Quote sent successfully', {
                       variant: 'success',
                     });
-                    onClose();
-                    router?.push(AIR_SALES?.QUOTES);
                   }
                 });
+              onClose();
+              router?.push(AIR_SALES?.QUOTES);
             }
           });
       } catch (error) {
@@ -131,9 +133,13 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
           <Button variant="outlined" onClick={onClose} sx={styles?.btnOutlined}>
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+          <LoadingButton
+            loading={postAttachmentLoading}
+            variant="contained"
+            onClick={handleSubmit(onSubmit)}
+          >
             Send
-          </Button>
+          </LoadingButton>
         </DialogActions>
       </FormProvider>
     </Dialog>

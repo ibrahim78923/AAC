@@ -90,7 +90,8 @@ const useUpdateQuote = () => {
     setSelectedCompanyIds(selectedCompanyIds === id ? null : id);
   };
 
-  const [postAddbuyerInfo] = usePostAddbuyerInfoMutation();
+  const [postAddbuyerInfo, { isLoading: updateBuyerInfoLoading }] =
+    usePostAddbuyerInfoMutation();
   const methodsUpdateQuote = useForm<any>({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
@@ -346,6 +347,7 @@ const useUpdateQuote = () => {
     loadingSubmit,
     setSelectedCompanyIds,
     BuyerInfoLoading,
+    updateBuyerInfoLoading,
   };
 };
 
