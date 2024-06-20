@@ -11,6 +11,7 @@ import {
   RHFSelect,
 } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
+import { AIR_MARKETER_PAID_ADS_CREATE_ADS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const createAdTabsData = [
   {
@@ -19,6 +20,8 @@ export const createAdTabsData = [
       "Drive traffic, build trust, and increase sales by showing a series of three ads, optimized for every stage of the buyer's journey.",
     fbIcon: <FacebookSquareIcon />,
     component: 'engagement-Ad',
+    permissions:
+      AIR_MARKETER_PAID_ADS_CREATE_ADS_PERMISSIONS?.CREATE_ENGAGEMENT_AD,
   },
   {
     title: 'Website visit ad',
@@ -27,6 +30,8 @@ export const createAdTabsData = [
     linkedInIcon: <LinkedInSquareIcon />,
     fbIcon: <FacebookSquareIcon />,
     component: 'website-Ad',
+    permissions:
+      AIR_MARKETER_PAID_ADS_CREATE_ADS_PERMISSIONS?.CREATE_WEBSITE_VISIT_AD,
   },
   {
     title: 'Lead Generation ad',
@@ -35,12 +40,15 @@ export const createAdTabsData = [
     linkedInIcon: <LinkedInSquareIcon />,
     fbIcon: <FacebookSquareIcon />,
     component: 'generation-Ad',
+    permissions:
+      AIR_MARKETER_PAID_ADS_CREATE_ADS_PERMISSIONS?.CREATE_LEAD_GENERATION_AD,
   },
   {
     description:
       "Drive traffic, build trust, and increase sales by showing a series of three ads, optimized for every stage of the buyer's journey.",
     fbIcon: <SearchAdIcon />,
     component: 'search-Ad',
+    permissions: AIR_MARKETER_PAID_ADS_CREATE_ADS_PERMISSIONS?.CREATE_SEARCH_AD,
   },
 ];
 

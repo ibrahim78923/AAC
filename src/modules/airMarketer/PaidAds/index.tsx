@@ -11,6 +11,11 @@ import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import usePaidAds from './usePaidAds';
 import CreateEvent from './CreateEvent';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import {
+  AIR_MARKETER_PAID_ADS_CREATE_ADS_PERMISSIONS,
+  AIR_MARKETER_PAID_ADS_PERMISSIONS,
+} from '@/constants/permission-keys';
 
 const PaidAds = () => {
   const theme = useTheme();
@@ -36,35 +41,61 @@ const PaidAds = () => {
           flexWrap="wrap"
         >
           <CreateAudience />
-          <Button
-            className="eventBtn small"
-            variant="outlined"
-            color="inherit"
-            startIcon={<PlusIcon />}
-            onClick={() => {
-              setIsOpenEventDrawer(true);
-            }}
-            sx={{ width: { xs: '100%', sm: 'auto' } }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_PAID_ADS_PERMISSIONS?.CREATE_EVENT]}
           >
-            Create Event
-          </Button>
-          <Button
-            className="small"
-            variant="contained"
-            startIcon={<PlusIcon />}
-            onClick={() => router.push(AIR_MARKETER?.CREATE_AD)}
-            sx={{ width: { xs: '100%', sm: 'auto' } }}
+            <Button
+              className="eventBtn small"
+              variant="outlined"
+              color="inherit"
+              startIcon={<PlusIcon />}
+              onClick={() => {
+                setIsOpenEventDrawer(true);
+              }}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+            >
+              Create Event
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_PAID_ADS_CREATE_ADS_PERMISSIONS?.CREATE_AD_CAMPAIGN,
+            ]}
           >
-            Create Ad
-          </Button>
+            <Button
+              className="small"
+              variant="contained"
+              startIcon={<PlusIcon />}
+              onClick={() => router.push(AIR_MARKETER?.CREATE_AD)}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+            >
+              Create Ad
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Stack>
       <Box>
         <CommonTabs tabsArray={['Manage', 'Audiences', 'Events', 'Analyze']}>
-          <Manage />
-          <Audience />
-          <Events />
-          <Analyze />
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_PAID_ADS_PERMISSIONS?.MANAGE_ADS]}
+          >
+            <Manage />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_PAID_ADS_PERMISSIONS?.AUDIENCE_LIST]}
+          >
+            <Audience />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_PAID_ADS_PERMISSIONS?.EVENTS_LIST]}
+          >
+            <Events />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_PAID_ADS_PERMISSIONS?.ANALYZE_ADS]}
+          >
+            <Analyze />
+          </PermissionsGuard>
         </CommonTabs>
       </Box>
       {isOpenEventDrawer && (

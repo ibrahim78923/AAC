@@ -3,6 +3,7 @@ import { createAdTabsData } from './CreateAd.data';
 import useCreateAd from './useCreateAd';
 import { v4 as uuidv4 } from 'uuid';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const CreateAd = () => {
   const { isActiveAd, setIsActiveAd, activeAdComponent, router, theme } =
@@ -20,42 +21,43 @@ const CreateAd = () => {
             Choose your Ad type
           </Typography>
           {createAdTabsData?.map((item: any) => (
-            <Box
-              key={uuidv4()}
-              my={2}
-              sx={{ cursor: 'pointer' }}
-              onClick={() => setIsActiveAd(item?.component)}
-            >
-              <Card
-                sx={{
-                  p: 2,
-                  boxShadow:
-                    isActiveAd === item?.component
-                      ? '0px 0px 0px 3px rgb(160, 229, 219,0.5)'
-                      : 'white',
-                }}
+            <PermissionsGuard permissions={[item?.permissions]} key={uuidv4()}>
+              <Box
+                my={2}
+                sx={{ cursor: 'pointer' }}
+                onClick={() => setIsActiveAd(item?.component)}
               >
-                <Box>
-                  <Typography
-                    variant="body1"
-                    fontWeight={500}
-                    color={theme?.palette?.slateBlue?.main}
-                  >
-                    {item?.title}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color={theme?.palette?.custom?.main}
-                  >
-                    {item?.description}
-                  </Typography>
-                  <Box display="flex" gap={1} mt={1}>
-                    {item?.linkedInIcon}
-                    {item?.fbIcon}
+                <Card
+                  sx={{
+                    p: 2,
+                    boxShadow:
+                      isActiveAd === item?.component
+                        ? '0px 0px 0px 3px rgb(160, 229, 219,0.5)'
+                        : 'white',
+                  }}
+                >
+                  <Box>
+                    <Typography
+                      variant="body1"
+                      fontWeight={500}
+                      color={theme?.palette?.slateBlue?.main}
+                    >
+                      {item?.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color={theme?.palette?.custom?.main}
+                    >
+                      {item?.description}
+                    </Typography>
+                    <Box display="flex" gap={1} mt={1}>
+                      {item?.linkedInIcon}
+                      {item?.fbIcon}
+                    </Box>
                   </Box>
-                </Box>
-              </Card>
-            </Box>
+                </Card>
+              </Box>
+            </PermissionsGuard>
           ))}
         </Grid>
         <Grid item xs={12} md={6} lg={8}>

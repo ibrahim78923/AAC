@@ -15,6 +15,8 @@ import ContactList from './ContactList';
 import CompnayList from './CompanyList';
 import Lookalike from './Lookalike';
 import Segments from './Segments';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_PAID_ADS_PERMISSIONS } from '@/constants/permission-keys';
 
 const CreateAudience = () => {
   const {
@@ -28,14 +30,18 @@ const CreateAudience = () => {
 
   return (
     <>
-      <Button
-        startIcon={<PlusIcon />}
-        className="audienceBtn small"
-        onClick={() => setIsCreateAudience(true)}
-        sx={{ width: { xs: '100%', sm: 'auto' } }}
+      <PermissionsGuard
+        permissions={[AIR_MARKETER_PAID_ADS_PERMISSIONS?.CREATE_AUDIENCE]}
       >
-        Create Audience
-      </Button>
+        <Button
+          startIcon={<PlusIcon />}
+          className="audienceBtn small"
+          onClick={() => setIsCreateAudience(true)}
+          sx={{ width: { xs: '100%', sm: 'auto' } }}
+        >
+          Create Audience
+        </Button>
+      </PermissionsGuard>
       <CommonDrawer
         isDrawerOpen={isCreateAudience}
         onClose={() => setIsCreateAudience(false)}
@@ -45,23 +51,24 @@ const CreateAudience = () => {
         footer
       >
         {createAudience?.map((item: any) => (
-          <Box
-            sx={styles?.createDrawer}
-            key={uuidv4()}
-            onClick={() => handleDrawerActions(item?.title)}
-          >
-            <Typography variant="h6">{item?.title}</Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: theme?.palette?.custom?.main }}
+          <PermissionsGuard permissions={[item?.permissions]} key={uuidv4()}>
+            <Box
+              sx={styles?.createDrawer}
+              onClick={() => handleDrawerActions(item?.title)}
             >
-              {item?.desc}
-            </Typography>
-            <Box display="flex" gap={1} mt={1}>
-              <LinkedInSquareIcon />
-              <FacebookSquareIcon />
+              <Typography variant="h6">{item?.title}</Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: theme?.palette?.custom?.main }}
+              >
+                {item?.desc}
+              </Typography>
+              <Box display="flex" gap={1} mt={1}>
+                <LinkedInSquareIcon />
+                <FacebookSquareIcon />
+              </Box>
             </Box>
-          </Box>
+          </PermissionsGuard>
         ))}
       </CommonDrawer>
       {isDrawerOpen === 'Websites Visitors' && (
