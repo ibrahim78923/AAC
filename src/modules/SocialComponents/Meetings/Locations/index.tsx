@@ -30,7 +30,7 @@ export const Locations = () => {
         <Box px={2}>
           <PageTitledHeader
             title={'Meeting Locations'}
-            addTitle={'Add Locations'}
+            addTitle={'Add Location'}
             createPermissionKey={[
               SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS?.CREATE_MEETING,
             ]}
@@ -42,9 +42,10 @@ export const Locations = () => {
                 type: GENERIC_UPSERT_FORM_CONSTANT?.ADD,
               })
             }
+            hasStartIcon={false}
           />
           <Box>
-            <Search label="search" setSearchBy={setSearch} />
+            <Search label="Search Here" setSearchBy={setSearch} />
           </Box>
         </Box>
         <br />

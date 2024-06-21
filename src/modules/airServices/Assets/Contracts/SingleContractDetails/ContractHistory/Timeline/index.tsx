@@ -1,21 +1,15 @@
 import { CALENDAR_FORMAT, DATE_TIME_FORMAT } from '@/constants';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const Timeline = ({ data, timelineIndex }: any) => {
   const theme = useTheme();
+
   return (
     <>
       {timelineIndex !== 0 && (
-        <Box
-          display={'flex'}
-          flexWrap={'wrap'}
-          alignItems={'center'}
-          gap={1.3}
-          marginBottom={1.5}
-        >
+        <Box display={'flex'} flexWrap={'wrap'} gap={1.3} marginBottom={1.5}>
           <Box flex={0.15}></Box>
           <Box></Box>
           <Divider
@@ -34,14 +28,12 @@ export const Timeline = ({ data, timelineIndex }: any) => {
         <Typography variant="body4" sx={{ flex: 0.15 }} pt={1}>
           {dayjs(data?.startDate)?.format(DATE_TIME_FORMAT?.DDMYHMA)}
         </Typography>
-        <Box>
+        <Box sx={{ flex: 0.02 }}>
           <IconButton
             disabled
             color="primary"
             sx={{ border: `1px solid ${theme?.palette?.primary?.main}` }}
-          >
-            <BorderColorIcon color="primary" />
-          </IconButton>
+          ></IconButton>
         </Box>
         <Box sx={{ flex: 0.8 }}>
           {' '}

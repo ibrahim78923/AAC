@@ -4,11 +4,11 @@ import * as Yup from 'yup';
 
 export const TITLE_FORM_USER: any = {
   [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Add Location',
-  [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Edit Location',
+  [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Update Location',
 };
 
 export const BUTTON_TITLE_FORM_USER: any = {
-  [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Submit',
+  [GENERIC_UPSERT_FORM_CONSTANT?.ADD]: 'Add',
   [GENERIC_UPSERT_FORM_CONSTANT?.EDIT]: 'Update',
 };
 

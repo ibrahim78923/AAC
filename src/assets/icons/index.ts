@@ -511,3 +511,7 @@ export { default as EditNumberIcon } from './modules/airCallCenter/Settings/Gene
 export { default as SalesReportIcon } from './modules/airOperations/reports/sales-report-icon';
 export { default as ServiceReportIcon } from './modules/airOperations/reports/service-report-icon';
 export { default as MarketingReportIcon } from './modules/airOperations/reports/marketing-report-icon';
+export { default as MessageNotificationIcon } from './shared/message-notification-icon';
+export { default as BlockQuoteIcon } from './shared/block-quote-icon';
+export { default as NotificationBellIcon } from './shared/notification-bell-icon';
+export { default as SoftwareFieldsIcon } from './modules/airServices/Settings/software-fields-icon';
