@@ -17,27 +17,40 @@ import { BookMarkIcon, PlusSharedColorIcon } from '@/assets/icons';
 import useCreateSMSBroadcast from './useCreateSMSBroadcast';
 import AddContactDrawer from './AddContactDrawer';
 import { AIR_MARKETER } from '@/routesConstants/paths';
-import { DRAWER_TYPES, SMS_BROADCAST_CONSTANTS } from '@/constants/strings';
+import {
+  DRAWER_TYPES,
+  SMS_BROADCAST_CONSTANTS,
+  STATUS_CONTANTS,
+} from '@/constants/strings';
 import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 import { styles } from './CreateSMSBroadcast.style';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 const CreateSMSBroadcast = () => {
   const {
     setIsAddContactDrawerOpen,
     setSelectedContactsData,
     updateBroadcastLoading,
+    isAddContactDrawerOpen,
     postBroadcastLoading,
     selectedContactsData,
-    setCreateStatus,
-    handleSaveAsDraft,
-    isAddContactDrawerOpen,
     flattenContactsData,
+    setSelectedDateVal,
+    handleSaveAsDraft,
     selectedCampaingn,
-    handleSubmit,
-    selectedRec,
+    setCreateStatus,
     setSelectedRec,
+    setIsSchedule,
+    handleSubmit,
+    createStatus,
+    selectedRec,
     detailsText,
+    isSchedule,
     onSubmit,
     navigate,
     methods,
@@ -70,14 +83,18 @@ const CreateSMSBroadcast = () => {
             }}
           >
             {type === DRAWER_TYPES?.ADD && (
-              <Button
+              <LoadingButton
                 variant="outlined"
                 color="inherit"
                 className="small"
                 onClick={handleSaveAsDraft}
+                loading={
+                  createStatus === STATUS_CONTANTS?.DRAFT &&
+                  postBroadcastLoading
+                }
               >
                 Save as Draft
-              </Button>
+              </LoadingButton>
             )}
           </Box>
         </Stack>
@@ -274,20 +291,45 @@ const CreateSMSBroadcast = () => {
                 Save as Template
               </Button>
             )}
-            <Button
-              variant="outlined"
-              color="inherit"
-              className="small"
-              onClick={() => {}}
-              startIcon={<DateRangeIcon />}
-            >
-              Schedule
-            </Button>
+            <Box sx={styles?.buttonPicker}>
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="small"
+                onClick={() => {
+                  setIsSchedule(!isSchedule);
+                }}
+                startIcon={<DateRangeIcon />}
+              >
+                Schedule
+              </Button>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {isSchedule && (
+                  <Box sx={styles?.datePickerWrapper}>
+                    <StaticDateTimePicker
+                      defaultValue={dayjs()}
+                      onAccept={(date: any) => {
+                        setIsSchedule(false);
+                        setSelectedDateVal(
+                          dayjs(date)?.format(DATE_TIME_FORMAT?.YYMMDD),
+                        );
+                      }}
+                      onClose={() => {
+                        setIsSchedule(false);
+                      }}
+                    />
+                  </Box>
+                )}
+              </LocalizationProvider>
+            </Box>
             <LoadingButton
               variant="contained"
               className="small"
               onClick={handleSubmit(onSubmit)}
-              loading={postBroadcastLoading || updateBroadcastLoading}
+              loading={
+                createStatus === STATUS_CONTANTS?.COMPLETED &&
+                (postBroadcastLoading || updateBroadcastLoading)
+              }
             >
               Send Now
             </LoadingButton>

@@ -10,4 +10,15 @@ export const styles = {
       color: theme?.palette?.custom?.bright,
     },
   }),
+  buttonPicker: {
+    position: 'relative',
+    display: 'inline-block',
+  },
+  datePickerWrapper: {
+    position: 'absolute',
+    bottom: '100%',
+    right: '0',
+    zIndex: '100',
+    boxShadow: ' rgba(0, 0, 0, 0.35) 0px 5px 15px',
+  },
 };

@@ -846,3 +846,9 @@ export const USER_MANAGEMENT_DRAWER_ACTION = {
   ADD: 'Add',
   EDIT: 'Edit',
 };
+
+export const STATUS_CONTANTS = {
+  COMPLETED: 'Completed',
+  DRAFT: 'Draft',
+  SCHEDULED: 'Scheduled',
+};

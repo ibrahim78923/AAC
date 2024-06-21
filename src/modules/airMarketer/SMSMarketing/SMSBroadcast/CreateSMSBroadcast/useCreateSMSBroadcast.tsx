@@ -10,7 +10,11 @@ import {
   useUpdateSmsBroadcatsMutation,
 } from '@/services/airMarketer/SmsMarketing';
 import { enqueueSnackbar } from 'notistack';
-import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  DRAWER_TYPES,
+  NOTISTACK_VARIANTS,
+  STATUS_CONTANTS,
+} from '@/constants/strings';
 import useSMSMarketing from '../../useSMSMarketing';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 
@@ -21,7 +25,9 @@ const useCreateSMSBroadcast = () => {
   const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
   const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
-  const [createStatus, setCreateStatus] = useState('Completed');
+  const [selectedDateVal, setSelectedDateVal] = useState<any>(null);
+  const [createStatus, setCreateStatus] = useState(STATUS_CONTANTS?.COMPLETED);
+  const [isSchedule, setIsSchedule] = useState(false);
   const { getIsPhoneConnected } = useSMSMarketing();
 
   const { data: getSmsBroadcatsById } =
@@ -72,6 +78,8 @@ const useCreateSMSBroadcast = () => {
     values.recipients = selectedContactsData?.map((item: any) => item?._id);
     values.detail = cleanedDetailsText;
     values.status = createStatus;
+    values.schedualDate = selectedDateVal ?? undefined;
+
     try {
       if (type === DRAWER_TYPES?.EDIT) {
         await updateSmsBroadcats({
@@ -116,18 +124,21 @@ const useCreateSMSBroadcast = () => {
     setIsAddContactDrawerOpen,
     setSelectedContactsData,
     isAddContactDrawerOpen,
-    createStatus,
     updateBroadcastLoading,
     postBroadcastLoading,
     selectedContactsData,
     flattenContactsData,
+    setSelectedDateVal,
     selectedCampaingn,
     handleSaveAsDraft,
-    setSelectedRec,
     setCreateStatus,
+    setSelectedRec,
+    setIsSchedule,
     handleSubmit,
+    createStatus,
     selectedRec,
     detailsText,
+    isSchedule,
     navigate,
     onSubmit,
     methods,
