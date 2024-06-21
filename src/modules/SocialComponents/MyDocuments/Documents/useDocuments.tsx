@@ -17,6 +17,7 @@ import { enqueueSnackbar } from 'notistack';
 import { validationSchema } from './Documents.data';
 import { isNullOrEmpty } from '@/utils';
 import { DOCUMENTS_ACTION_TYPES } from '@/constants';
+import { successSnackbar } from '@/utils/api';
 
 const useDocuments: any = () => {
   const theme = useTheme<Theme>();
@@ -50,9 +51,7 @@ const useDocuments: any = () => {
       await deleteFolders({
         ids: allSelectedFoldersIds?.map((id) => `ids=${id}`)?.join('&'),
       }).unwrap();
-      enqueueSnackbar('Company Deleted Successfully', {
-        variant: 'success',
-      });
+      successSnackbar('Folder Deleted Successfully');
       setIsOpenDelete(false);
       setAllSelectedFoldersIds([]);
     } catch (error: any) {
