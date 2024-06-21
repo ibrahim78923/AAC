@@ -137,7 +137,9 @@ const useCompanies = () => {
     limit: pageLimit,
     contactOwnerId: user?._id,
   };
-  const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
+  const { data: getCompanyContacts } = useGetCompanyContactsQuery(params, {
+    skip: !isOpen?.filtersDrawer,
+  });
 
   const handleClose = () => {
     setSelectedValue(null);

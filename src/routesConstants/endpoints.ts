@@ -437,6 +437,7 @@ export const superAdminBillingInvoices = {
   UPDATE_INVOICE: '/super-admin/update-invoice',
   GET_CRM: '/super-admin/get-all-crm-plans',
   FIND_CRM: '/super-admin/find-crm',
+  UNASSIGN_PLAN: '/super-admin/unassign-plan',
 };
 
 export const organization = {

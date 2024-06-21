@@ -31,12 +31,11 @@ import {
 import { Gmail_CONST } from '@/constants';
 import CommonModal from '@/components/CommonModal';
 import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const LeftPane = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const gmailTabType: any = useAppSelector(
     (state: any) => state?.gmail?.gmailTabType,
@@ -256,14 +255,12 @@ const LeftPane = () => {
         cancelIcon={false}
       >
         <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-          <Button
-            variant="outlined"
-            onClick={() =>
-              router?.push(`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}`)
-            }
+          <Link
+            href={`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}?redirect=${true}`}
           >
-            Back to emails
-          </Button>
+            <Button variant="outlined">Back to emails</Button>
+          </Link>
+
           <Button variant="contained" onClick={() => window.open(oauthUrl)}>
             Login Again
           </Button>

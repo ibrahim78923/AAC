@@ -55,7 +55,7 @@ export const columns = (EditInvoice: any) => {
       header: 'Additional Users',
       cell: (info: any) => (
         <>
-          {info?.getValue()} *(£
+          {info?.getValue() ?? 0} *(£
           {info?.row?.original?.plans?.additionalPerUserPrice}) = £{' '}
           {totalAdditionalUserPrice}
         </>
@@ -68,7 +68,7 @@ export const columns = (EditInvoice: any) => {
       header: 'Additional Storage',
       cell: (info: any) => (
         <>
-          {info?.getValue()} *(£
+          {info?.getValue() ?? 0} *(£
           {info?.row?.original?.plans?.additionalStoragePrice}) = £
           {totalAdditionalStoragePrice}
         </>

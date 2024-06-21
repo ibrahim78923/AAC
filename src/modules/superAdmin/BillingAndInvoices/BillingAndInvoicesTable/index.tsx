@@ -16,6 +16,9 @@ import { dataArray } from './BillingAndInvoices.data';
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS } from '@/constants/permission-keys';
+import { AlertModals } from '@/components/AlertModals';
+import { enqueueSnackbar } from 'notistack';
+import { usePatchUnassignPlanMutation } from '@/services/superAdmin/billing-invoices';
 
 const BillingAndInvoicesTable = () => {
   const {
@@ -47,7 +50,33 @@ const BillingAndInvoicesTable = () => {
     handleRefresh,
     setPage,
     setPageLimit,
+    isUnassignPlan,
+    setIsUnassignPlan,
   } = useBillingAndInvoices();
+
+  const [updateAssignPlan, { isLoading: loadingUpdateAssignPlan }] =
+    usePatchUnassignPlanMutation();
+
+  const handleCloseModalDelete = () => {
+    setIsUnassignPlan(false);
+  };
+
+  const handleDeleteSubmit = async () => {
+    try {
+      await updateAssignPlan({
+        organizationPlanId: isGetRowValues?.row?.original?._id,
+      })?.unwrap();
+      handleCloseModalDelete();
+      setIsGetRowValues('');
+      enqueueSnackbar('plan unassign successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
 
   return (
     <Grid sx={styles?.invoicesTableWrapper}>
@@ -114,6 +143,8 @@ const BillingAndInvoicesTable = () => {
                   setisShowGenerateInvoice={setisShowGenerateInvoice}
                   isChecked={isChecked}
                   setIsEditModal={setIsEditModal}
+                  setIsUnassignPlan={setIsUnassignPlan}
+                  planStatus={isGetRowValues?.row?.original?.status}
                 />
 
                 <Tooltip title={'Refresh Filter'}>
@@ -228,6 +259,15 @@ const BillingAndInvoicesTable = () => {
           </FormProvider>
         </Box>
       </CommonDrawer>
+
+      <AlertModals
+        message={'Are you sure you want to Unassign the plan?'}
+        type={'Unassigned plan'}
+        open={isUnassignPlan}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteSubmit}
+        isLoading={loadingUpdateAssignPlan}
+      />
     </Grid>
   );
 };

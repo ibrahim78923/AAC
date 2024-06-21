@@ -113,7 +113,9 @@ const RightPane = () => {
       enqueueSnackbar('logout to gmail successfully', {
         variant: 'success',
       });
-      router?.push(`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}`);
+      router?.push(
+        `${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}?redirect=${true}`,
+      );
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -122,6 +124,20 @@ const RightPane = () => {
   useEffect(() => {
     dispatch(setGmailSearch(searchValue));
   }, [searchValue]);
+
+  function decodeHtmlEntities(str: any) {
+    const entityMap = {
+      '&amp;': '&',
+      '&lt;': '<',
+      '&gt;': '>',
+      '&quot;': '"',
+      '&#39;': "'",
+    };
+
+    return str.replace(/&amp;|&lt;|&gt;|&quot;|&#39;/g, function (match: any) {
+      return entityMap[match];
+    });
+  }
 
   return (
     <Box>
@@ -435,7 +451,7 @@ const RightPane = () => {
                             </Box>
                           </Box>
                           <Typography variant="body2">
-                            {obj?.snippet ?? '---'}{' '}
+                            {decodeHtmlEntities(obj?.snippet ?? '---')}
                           </Typography>
                           <Box
                             mt={0.5}
