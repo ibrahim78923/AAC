@@ -415,6 +415,7 @@ export const END_POINTS = {
   GET_OFFICE_365_CALENDAR: '/auth/office365-calendar/authorize',
   GET_MS_TEAMS: '/auth/msteams/authorize',
   GET_GOOGLE_MEET: '/auth/google-meet/authorize',
+  GET_ZOOM_AUTH: '/auth/zoom/authorize',
 };
 
 export const LEAD_CAPTURE_FORM = {
