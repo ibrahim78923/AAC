@@ -271,7 +271,9 @@ const LeftPane = ({
         <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
           <Button
             variant="outlined"
-            onClick={() => router.push(END_POINTS?.EMAIL_VIEW)}
+            onClick={() =>
+              router.push(`${END_POINTS?.EMAIL_VIEW}?redirect=${true}`)
+            }
           >
             Back to emails
           </Button>

@@ -61,10 +61,11 @@ export const outlookApi = baseAPI.injectEndpoints({
     }),
 
     forwardEmailOutlook: builder.mutation({
-      query: ({ messageId, to, comment }: any) => {
+      query: ({ body }: any) => {
         return {
-          url: `${SOCIAL_FEATURES_OUTLOOK?.FORWARD_EMAIL}?messageId=${messageId}&to=${to}&comment=${comment}`,
+          url: `${SOCIAL_FEATURES_OUTLOOK?.FORWARD_EMAIL}`,
           method: 'POST',
+          body: body,
           headers: {
             'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
           },

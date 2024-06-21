@@ -37,6 +37,8 @@ import { HomeRounded, LogoutRounded } from '@mui/icons-material';
 import ProfileNameIcon from '@/components/ProfileNameIcon';
 import { enqueueSnackbar } from 'notistack';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const RightPane = ({
   isOpenSendEmailDrawer,
@@ -46,6 +48,7 @@ const RightPane = ({
 }: any) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const mailTabType: any = useAppSelector(
     (state: any) => state?.outlook?.mailTabType,
@@ -119,6 +122,7 @@ const RightPane = ({
       enqueueSnackbar('Logout Success', {
         variant: 'success',
       });
+      router.push(`${END_POINTS?.EMAIL_VIEW}?redirect=${true}`);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', {
         variant: 'error',
@@ -417,6 +421,31 @@ const RightPane = ({
                                   </Box>
                                 </Box>
                                 <Box
+                                  sx={{ display: 'flex', gap: '10px', mb: 2 }}
+                                >
+                                  {obj?.attachments?.map((item: any) => {
+                                    return (
+                                      <>
+                                        <Box
+                                          sx={{
+                                            background:
+                                              theme?.palette?.grey[300],
+                                            width: '120px',
+                                            height: '100px',
+                                            borderRadius: '8px',
+                                            overflow: 'hidden',
+                                          }}
+                                        >
+                                          <ImageComponent
+                                            base64={item?.contentBytes}
+                                            contentType={item?.contentType}
+                                          />
+                                        </Box>
+                                      </>
+                                    );
+                                  })}
+                                </Box>
+                                <Box
                                   mt={0.5}
                                   sx={{ fontSize: '14px', fontWeight: '400' }}
                                   dangerouslySetInnerHTML={{
@@ -539,5 +568,13 @@ const RightPane = ({
     </Box>
   );
 };
+function ImageComponent({ base64, contentType }: any) {
+  const src = `data:${contentType};base64,${base64}`;
+  return (
+    <Link href={src} target="_blank" rel="noopener noreferrer">
+      <Image src={src} alt="attachment" width={120} height={100} />
+    </Link>
+  );
+}
 
 export default RightPane;

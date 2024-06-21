@@ -3,12 +3,20 @@ import {
   RHFSelect,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import { CREATE_EMAIL_TYPES } from '@/constants';
 
 import * as Yup from 'yup';
 
-export const emailValidationsSchema: any = Yup?.object()?.shape({
-  // to: Yup?.string()?.required('Field is Required')?.trim(),
-});
+export const emailValidationsSchema: any = (drawerType: any) => {
+  return Yup?.object()?.shape({
+    to: Yup?.array()
+      ?.of(Yup.string()?.required('Field is Required')?.trim())
+      ?.required('At least one recipient is required'),
+    ...(drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && {
+      subject: Yup?.string()?.trim()?.required('Field is Required'),
+    }),
+  });
+};
 export const emailDefaultValues = {};
 
 export const options = [
