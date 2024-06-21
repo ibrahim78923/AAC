@@ -7,16 +7,13 @@ import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
 
 import useTicketsEditorDrawer from './useTicketsEditorDrawer';
 
-import {
-  ticketsDataArray,
-  drawerButtonTitle,
-  drawerTitle,
-} from './TicketsEditorDrawer.data';
+import { ticketsDataArray } from './TicketsEditorDrawer.data';
+import { DRAWER_TITLE } from '../Tickets.data';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const TicketsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
+  const { open, onClose, drawerTitle } = props;
   const {
     handleSubmit,
     onSubmit,
@@ -29,12 +26,12 @@ const TicketsEditorDrawer = (props: any) => {
   return (
     <div>
       <CommonDrawer
-        isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
-        title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
+        isDrawerOpen={open}
+        onClose={onClose}
+        title={drawerTitle}
+        okText={drawerTitle === DRAWER_TITLE?.ADD ? 'Add' : 'Update'}
         isOk={true}
-        footer={openDrawer === 'View' ? false : true}
+        footer={drawerTitle === DRAWER_TITLE?.VIEW ? false : true}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider

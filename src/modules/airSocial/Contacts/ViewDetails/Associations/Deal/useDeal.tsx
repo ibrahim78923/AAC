@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { PAGINATION } from '@/config';
 import useAuth from '@/hooks/useAuth';
 import { yupResolver } from '@hookform/resolvers/yup';
 import dayjs from 'dayjs';
@@ -15,17 +14,20 @@ import {
 } from './DealEditorDrawer/DealEditorDrawer.data';
 import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
 import { useLazyGetDealPipeLineQuery } from '@/services/common-APIs';
-import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
+import {
+  useGetAssociationQuery,
+  usePostAssociationMutation,
+} from '@/services/commonFeatures/contacts/associations';
 import {
   usePostDealsMutation,
   useGetAddLineItemsQuery,
 } from '@/services/airSales/deals';
-import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts/associations';
-import { useDeleteAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { DEAL_TYPE } from './Deal.data';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 
 const useDeal = (contactId: any) => {
+  const theme = useTheme();
   const { user }: any = useAuth();
   const orgId = user?.organization?._id;
   const dealOwnersData = useLazyGetOrganizationUsersQuery();
@@ -39,22 +41,19 @@ const useDeal = (contactId: any) => {
   );
 
   // Get Association Deals
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
-  const [filterParams] = useState({
-    page: page,
-    limit: pageLimit,
-    contactId: contactId,
-    association_type: 'deals',
-  });
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
+  const filterParams = {
+    recordId: contactId,
+    recordType: 'contacts',
+    associationType: 'deals',
+  };
   const { data: dataGetDeals, isLoading: loadingDeals } =
-    useGetContactAssociationsQuery({
-      params: { ...filterParams, ...searchPayLoad },
+    useGetAssociationQuery({
+      params: { ...searchPayLoad, ...filterParams },
     });
 
   // Handle Change Deal type
@@ -95,12 +94,13 @@ const useDeal = (contactId: any) => {
     setDrawerTitle(title);
     setIsDisabledFields(flag);
     if (flag && data) {
+      setDealType(DEAL_TYPE?.NEW_DEAL);
       methodsEditDeal.setValue('name', data?.name);
-      methodsEditDeal.setValue('dealPipelineId', data?.dealPipelineId);
-      methodsEditDeal.setValue('dealStageId', data?.dealStageId);
+      methodsEditDeal.setValue('dealPipelineId', data?.dealPipeline);
+      methodsEditDeal.setValue('dealStageId', data?.dealStage);
       methodsEditDeal.setValue('amount', data?.amount);
       methodsEditDeal.setValue('closeDate', new Date(data?.closeDate));
-      methodsEditDeal.setValue('ownerId', data?.ownerId);
+      methodsEditDeal.setValue('ownerId', data?.dealOwner);
       methodsEditDeal.setValue('priority', data?.priority);
       methodsEditDeal.setValue('addLineItemId', data?.addLineItemId);
     }
@@ -108,12 +108,12 @@ const useDeal = (contactId: any) => {
   };
   const handleCloseDrawer = () => {
     setOpenDrawer(false);
-    resetEditDeal();
+    setDealType(DEAL_TYPE?.NEW_DEAL);
   };
 
+  const [postAssociation, { isLoading: loadingCreateAssociation }] =
+    usePostAssociationMutation();
   const [postDeals] = usePostDealsMutation();
-  const [createAssociation, { isLoading: loadingCreateAssociation }] =
-    useCreateAssociationMutation();
   const [isLoadingAddDeal, setLoadingAddDeal] = useState(false);
 
   const onSubmit = async (values: any) => {
@@ -138,12 +138,15 @@ const useDeal = (contactId: any) => {
       }
       if (response?.data) {
         try {
-          await createAssociation({
+          await postAssociation({
             body: {
-              dealId: response?.data?._id,
-              contactId: contactId,
+              recordId: contactId,
+              recordType: ASSOCIATIONS_API_PARAMS_FOR?.CONTACTS,
+              operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+              dealIds: [response?.data?._id],
             },
-          }).unwrap();
+          })?.unwrap();
+          handleCloseDrawer();
           enqueueSnackbar('Deal created successfully', {
             variant: 'success',
           });
@@ -165,13 +168,16 @@ const useDeal = (contactId: any) => {
 
   const onExistingDealSubmit = async (values: any) => {
     const payload: any = {
-      dealId: values?.dealId?._id,
-      contactId: contactId,
+      recordId: contactId,
+      recordType: ASSOCIATIONS_API_PARAMS_FOR?.CONTACTS,
+      operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+      dealIds: [values?.dealId?._id],
     };
     try {
-      await createAssociation({
+      await postAssociation({
         body: payload,
       }).unwrap();
+      handleCloseDrawer();
       enqueueSnackbar('Deal added successfully', {
         variant: 'success',
       });
@@ -193,15 +199,15 @@ const useDeal = (contactId: any) => {
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
-  const [deleteAssociation, { isLoading: loadingDeleteDeal }] =
-    useDeleteAssociationMutation();
 
-  const deleteDealAssociationHandler = async () => {
+  const handleRemoveAssociation = async () => {
     try {
-      await deleteAssociation({
+      await postAssociation({
         body: {
-          dealId: dealRecordId,
-          contactId: contactId,
+          recordId: contactId,
+          recordType: ASSOCIATIONS_API_PARAMS_FOR?.CONTACTS,
+          dealIds: [dealRecordId],
+          operation: ASSOCIATIONS_API_PARAMS_FOR?.REMOVE,
         },
       })?.unwrap();
       enqueueSnackbar('Record Deleted Successfully', {
@@ -216,17 +222,9 @@ const useDeal = (contactId: any) => {
     }
   };
 
-  const theme = useTheme();
-  const [searchName, setSearchName] = useState('');
-
-  const [selectStage, setSelectStage] = useState('');
-  const [selectPipline, setSelectPipline] = useState('');
-
   return {
+    theme,
     orgId,
-    setPage,
-    setPageLimit,
-    searchValue,
     setSearchValue,
     loadingDeals,
     dataGetDeals,
@@ -239,24 +237,15 @@ const useDeal = (contactId: any) => {
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
-
-    theme,
     setIsOpenAlert,
-    searchName,
-    setSearchName,
     setOpenDrawer,
-    selectPipline,
-    setSelectPipline,
-    setSelectStage,
-    selectStage,
     isLoadingAddDeal,
     handleAddDealSubmit,
     dealOwnersData,
     dealPipelineData,
     dealStagesData,
     addLineItemsData,
-    loadingDeleteDeal,
-    deleteDealAssociationHandler,
+    handleRemoveAssociation,
     dealType,
     handleChangeDealType,
     methodsExistingDeal,

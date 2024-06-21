@@ -430,3 +430,9 @@ export const MAIL_TYPES = {
   OUTLOOK: 'outlook',
   GMAIL: 'gmail',
 };
+
+export const DRAWER_TITLE = {
+  VIEW: 'View',
+  EDIT: 'Edit',
+  ADD: 'Add',
+};

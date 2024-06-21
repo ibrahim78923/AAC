@@ -74,15 +74,15 @@ export const vouchersColumns = (
             info?.getValue() === VOUCHERS_STATUS?.EXPIRED
               ? 'custom.color.lighter'
               : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
-              ? 'success.lighter'
-              : 'custom.error_lighter',
+                ? 'success.lighter'
+                : 'custom.error_lighter',
 
           color:
             info?.getValue() === VOUCHERS_STATUS?.EXPIRED
               ? 'custom.main'
               : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
-              ? 'success.main'
-              : 'error.main',
+                ? 'success.main'
+                : 'error.main',
           fontSize: '0.8rem',
         }}
         icon={
@@ -91,8 +91,8 @@ export const vouchersColumns = (
               info?.getValue() === VOUCHERS_STATUS?.EXPIRED
                 ? 'secondary'
                 : info?.getValue() === VOUCHERS_STATUS?.ACTIVE
-                ? 'success'
-                : 'error'
+                  ? 'success'
+                  : 'error'
             }
             sx={{ fontSize: '0.7rem' }}
           />

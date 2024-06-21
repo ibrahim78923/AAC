@@ -33,7 +33,7 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
       id: 'Phone Number',
       isSortable: true,
       header: ' Phone Number',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
 
     {
@@ -42,15 +42,19 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
       isSortable: true,
       header: 'Company Owner',
       cell: (info: any) => {
-        const fullName = `${info?.getValue()?.firstName} ${info?.getValue()
-          ?.lastName}`;
+        const firstName = info?.getValue()?.firstName ?? '';
+        const lastName = info?.getValue()?.lastName ?? '';
+        const fullName =
+          firstName === '' && lastName === ''
+            ? 'N/A'
+            : `${firstName} ${lastName}`;
         return <>{fullName}</>;
       },
     },
 
     {
-      accessorFn: (row: any) => row?.assignedTo,
-      id: 'assignedTo',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       isSortable: false,
       header: 'Actions',
       cell: (info: any) => {
@@ -64,7 +68,10 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
               <ViewEyeIcon />
             </Box>
 
-            <Box sx={{ cursor: 'pointer' }} onClick={handleOpenAlert}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => handleOpenAlert(rowData?._id)}
+            >
               <DeleteCrossIcon />
             </Box>
           </Box>

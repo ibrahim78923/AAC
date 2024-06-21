@@ -28,8 +28,8 @@ export const UpsertUser = (props: any) => {
           isPortalOpen?.isView
             ? TITLE_FORM_USER?.VIEW
             : isPortalOpen?.isEdit
-            ? TITLE_FORM_USER?.EDIT
-            : TITLE_FORM_USER?.ADD
+              ? TITLE_FORM_USER?.EDIT
+              : TITLE_FORM_USER?.ADD
         }
         submitHandler={() => submitButtonHandler?.()}
         footer
@@ -38,8 +38,8 @@ export const UpsertUser = (props: any) => {
           isPortalOpen?.isView
             ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
             : isPortalOpen?.isAdd
-            ? GENERIC_UPSERT_FORM_CONSTANT?.ADD
-            : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
+              ? GENERIC_UPSERT_FORM_CONSTANT?.ADD
+              : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
         }
         cancelText={
           isPortalOpen?.isView
