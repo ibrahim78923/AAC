@@ -306,12 +306,18 @@ const ProductSuite = () => {
                               },
                             }}
                             onClick={() => {
-                              findModulePermissionKey(
-                                product?.name,
-                                account?._id,
-                              );
-                              setActiveProduct(product);
-                              setActiveAccountSession(account);
+                              if (account?.isActive) {
+                                findModulePermissionKey(
+                                  product?.name,
+                                  account?._id,
+                                );
+                                setActiveProduct(product);
+                                setActiveAccountSession(account);
+                              } else {
+                                enqueueSnackbar('Account is disabled', {
+                                  variant: NOTISTACK_VARIANTS?.ERROR,
+                                });
+                              }
                             }}
                           >
                             {account?.company?.accountName}

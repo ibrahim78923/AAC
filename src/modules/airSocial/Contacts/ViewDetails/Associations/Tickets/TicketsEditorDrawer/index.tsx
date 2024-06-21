@@ -8,9 +8,9 @@ import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
 import useTicketsEditorDrawer from './useTicketsEditorDrawer';
 
 import { ticketsDataArray } from './TicketsEditorDrawer.data';
-import { DRAWER_TITLE } from '../Tickets.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import { DRAWER_TITLE } from '@/constants';
 
 const TicketsEditorDrawer = (props: any) => {
   const { open, onClose, drawerTitle } = props;
