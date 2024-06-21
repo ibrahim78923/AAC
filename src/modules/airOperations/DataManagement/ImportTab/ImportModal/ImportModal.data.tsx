@@ -178,7 +178,7 @@ export const importTableFields = (
           options={stepsData[importLog]}
           fullWidth
           required={true}
-          sx={{ minWidth: '14rem' }}
+          sx={{ minWidth: { sm: '14rem', xs: '7rem' } }}
           placeholder={'Select'}
         />
       ),

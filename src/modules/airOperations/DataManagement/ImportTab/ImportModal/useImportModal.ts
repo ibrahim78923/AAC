@@ -234,6 +234,8 @@ export const useImportModal = () => {
     if (importDeals) {
       const fileURL = URL?.createObjectURL(importDeals);
       window?.open(fileURL);
+    } else {
+      errorSnackbar('Please select a file to preview');
     }
   };
 
