@@ -87,6 +87,13 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    patchUnAssignPlan: builder.mutation({
+      query: ({ organizationPlanId }: any) => ({
+        url: `${ORG_ADMIN?.SUBSCRIPTION_AND_INVOICES_UN_ASSIGN_PLAN}?organizationPlanId=${organizationPlanId}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: TAG,
+    }),
     getTaxCalculations: builder.query({
       query: () => ({
         url: `${ORG_ADMIN?.SUBSCRIPTION_AND_INVOICES_TAX_CALCULATIONS}`,
@@ -110,4 +117,5 @@ export const {
   usePostSubscriptionPlanMutation,
   usePatchSubscriptionPlanMutation,
   useGetTaxCalculationsQuery,
+  usePatchUnAssignPlanMutation,
 } = subscriptionAndInvoicesAPI;
