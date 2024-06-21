@@ -8,7 +8,7 @@ export const UserManagement = () => {
     <Box>
       <Typography variant="h3">User Management</Typography>
       <br />
-      <HorizontalTabs tabsDataArray={['User', 'Teams']}>
+      <HorizontalTabs tabsDataArray={['User', 'Teams']} spacing={0.3}>
         <User />
         <Teams />
       </HorizontalTabs>

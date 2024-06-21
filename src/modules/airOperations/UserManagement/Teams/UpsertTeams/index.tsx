@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { upsertTeamArray } from './UpsertTeams.data';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -24,65 +24,58 @@ function UpsertTeams({
   } = useUpsertTeams(setIsDrawerOpen, teamData);
 
   return (
-    <>
-      <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-        }}
-        title={title}
-        submitHandler={() => {
-          title === USER_MANAGEMENT?.EDIT_TEAM && disabled
-            ? setDisabled(false)
-            : handleSubmit(submit)();
-        }}
-        footer={true}
-        isOk={true}
-        okText={
-          title === USER_MANAGEMENT?.EDIT_TEAM && disabled
-            ? USER_MANAGEMENT?.EDIT
-            : okText
-        }
-        isLoading={
-          addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
-        }
-        isDisabled={
-          addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
-        }
-        disabledCancelBtn={
-          addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
-        }
-      >
-        <Box mt={1}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={4}>
-              {upsertTeamArray(usersTeamDropdown)?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  {item?.subheading && title !== USER_MANAGEMENT?.EDIT_TEAM && (
-                    <Typography variant="body2" sx={{ mb: 2 }}>
-                      {item?.subheading}
-                    </Typography>
-                  )}
-                  <item.component
-                    {...item?.componentProps}
-                    size={'small'}
-                    disabled={title === USER_MANAGEMENT?.EDIT_TEAM && disabled}
-                    placeholder={
-                      title === USER_MANAGEMENT?.EDIT_TEAM &&
-                      teamData?.length > 0
-                        ? (teamData?.[0]?.[
-                            item?.componentProps?.name
-                          ] as string)
-                        : item?.componentProps?.placeholder
-                    }
-                  />
-                </Grid>
-              ))}
+    <CommonDrawer
+      isDrawerOpen={isDrawerOpen}
+      onClose={() => {
+        setIsDrawerOpen(false);
+      }}
+      title={title}
+      submitHandler={() => {
+        title === USER_MANAGEMENT?.EDIT_TEAM && disabled
+          ? setDisabled(false)
+          : handleSubmit(submit)();
+      }}
+      footer={true}
+      isOk={true}
+      okText={
+        title === USER_MANAGEMENT?.EDIT_TEAM && disabled
+          ? USER_MANAGEMENT?.EDIT
+          : okText
+      }
+      isLoading={
+        addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
+      }
+      isDisabled={
+        addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
+      }
+      disabledCancelBtn={
+        addUsersTeamListStatus?.isLoading || patchProductTeamStatus?.isLoading
+      }
+    >
+      <FormProvider methods={methods}>
+        <Grid container spacing={1}>
+          {upsertTeamArray(usersTeamDropdown)?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={item?.id}>
+              {item?.subheading && title !== USER_MANAGEMENT?.EDIT_TEAM && (
+                <Typography variant="body2" sx={{ mb: 2 }}>
+                  {item?.subheading}
+                </Typography>
+              )}
+              <item.component
+                {...item?.componentProps}
+                size={'small'}
+                disabled={title === USER_MANAGEMENT?.EDIT_TEAM && disabled}
+                placeholder={
+                  title === USER_MANAGEMENT?.EDIT_TEAM && teamData?.length > 0
+                    ? (teamData?.[0]?.[item?.componentProps?.name] as string)
+                    : item?.componentProps?.placeholder
+                }
+              />
             </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-    </>
+          ))}
+        </Grid>
+      </FormProvider>
+    </CommonDrawer>
   );
 }
 

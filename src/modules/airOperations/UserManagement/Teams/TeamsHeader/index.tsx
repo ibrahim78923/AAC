@@ -14,14 +14,9 @@ export const TeamsHeader = ({
       justifyContent={'space-between'}
       flexWrap={'wrap'}
       alignItems={'center'}
+      mb={2}
     >
-      <Box>
-        <Search
-          label="Search Here"
-          width={'16.25rem'}
-          setSearchBy={setSearch}
-        />
-      </Box>
+      <Search label="Search Here" width={'16.25rem'} setSearchBy={setSearch} />
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
         <Button
           startIcon={<CirclePlusIcon />}

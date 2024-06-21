@@ -11,7 +11,7 @@ export const DataManagement = () => {
       <Typography variant="h3" pb={2.4} textTransform="capitalize">
         data management
       </Typography>
-      <HorizontalTabs tabsDataArray={dataManagementTabs} spacing={0}>
+      <HorizontalTabs tabsDataArray={dataManagementTabs} spacing={0.3}>
         <ImportTab />
         <ExportTab />
       </HorizontalTabs>
