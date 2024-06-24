@@ -19,18 +19,34 @@ import EditTask from '../Tasks/EditTask';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
+import { enqueueSnackbar } from 'notistack';
 
-const ActionButton = ({ selectedRows }: any) => {
+const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
   const {
     selectedValue,
     handleClick,
     handleSelectedOptionValue,
     actionsModalDetails,
     setActionsModalDetails,
-    handleDeleteCampaigns,
+    deleteCampaigns,
   } = useCampaigns();
 
   const { data: compaignsDataById } = useGetCampaignsByIdQuery(selectedRows);
+
+  const handleDeleteCampaigns = async (id: any) => {
+    try {
+      await deleteCampaigns({ ids: id })?.unwrap();
+      enqueueSnackbar('Campaigns deleted successfully', {
+        variant: 'success',
+      });
+      setSelectedRows([]);
+      setActionsModalDetails({ ...actionsModalDetails, isDelete: false });
+    } catch (error) {
+      enqueueSnackbar('Error while deleting campaigns', {
+        variant: 'error',
+      });
+    }
+  };
   return (
     <Box>
       {selectedRows?.length >= 2 ? (
@@ -49,7 +65,7 @@ const ActionButton = ({ selectedRows }: any) => {
           className="small"
           variant="outlined"
           color="inherit"
-          disabled={selectedRows?.length < 1 ? true : false}
+          disabled={selectedRows?.length === 0 ? true : false}
           sx={{
             width: { sm: '112px', xs: '100%' },
             height: '36px',
@@ -107,6 +123,9 @@ const ActionButton = ({ selectedRows }: any) => {
               isClone: false,
             })
           }
+          compaignsDataById={compaignsDataById}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
         />
       )}
       {actionsModalDetails?.isOpenFilterDrawer && (

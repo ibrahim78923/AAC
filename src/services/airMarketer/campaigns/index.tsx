@@ -95,6 +95,32 @@ export const socialMarketerAPI: any = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['CAMPAIGNS_TASKS'],
     }),
+    postCampaignsClone: builder.mutation({
+      query: (values: any) => {
+        return {
+          url: `${AIR_MARKETER?.CAMPAIGNS_CLONE}/${values?.name}`,
+          method: 'POST',
+        };
+      },
+      invalidatesTags: ['CAMPAIGNS'],
+    }),
+    postCampaignsSaveView: builder.mutation({
+      query: (body) => {
+        return {
+          url: `${AIR_MARKETER?.CAMPAIGNS_SAVE_VIEW}`,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['CAMPAIGNS'],
+    }),
+    getCampaignsSaveView: builder.query({
+      query: () => ({
+        url: `${AIR_MARKETER?.CAMPAIGNS_SAVE_VIEW}`,
+        method: 'GET',
+      }),
+      providesTags: ['CAMPAIGNS'],
+    }),
   }),
 });
 
@@ -109,4 +135,7 @@ export const {
   useUpdateCampaignTasksMutation,
   useUpdateCampaignsMutation,
   useGetCampaignsTaskByIdQuery,
+  usePostCampaignsCloneMutation,
+  usePostCampaignsSaveViewMutation,
+  useGetCampaignsSaveViewQuery,
 } = socialMarketerAPI;

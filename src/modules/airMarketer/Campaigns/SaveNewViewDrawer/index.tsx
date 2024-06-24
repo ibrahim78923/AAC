@@ -13,12 +13,18 @@ import {
   defaultValues,
   validationSchema,
 } from './SaveNewViewDrawer.data';
+import useCampaigns from '../useCampaigns';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export default function SaveNewViewDrawer({
   isOpenDrawer,
   onClose,
   initialValueProps = defaultValues,
+  setSelectedRows,
 }: any) {
+  const { postCampaignsSaveView, postCampaignsSaveViewLoading } =
+    useCampaigns();
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: initialValueProps,
@@ -26,10 +32,32 @@ export default function SaveNewViewDrawer({
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    enqueueSnackbar('Export Campaign Exported Successfully', {
-      variant: 'success',
-    });
+  const onSubmit = async (values: any) => {
+    const obj = {
+      ...values,
+      startDate: values?.startDate
+        ? dayjs(values?.startDate)?.format(DATE_FORMAT?.API)
+        : undefined,
+      endDate: values?.endDate
+        ? dayjs(values?.endDate)?.format(DATE_FORMAT?.API)
+        : undefined,
+    };
+
+    try {
+      await postCampaignsSaveView(obj)?.unwrap();
+      enqueueSnackbar('View Save Successfully', {
+        variant: 'success',
+      });
+      onClose();
+      setSelectedRows([]);
+    } catch (error) {
+      enqueueSnackbar('Error while Save View', {
+        variant: 'error',
+      });
+    }
+    // enqueueSnackbar('Export Campaign Exported Successfully', {
+    //   variant: 'success',
+    // });
   };
   const theme = useTheme();
   // const { accessValue, handleChangeAccessValue } = useSaveAndNewViewDrawer();
@@ -43,6 +71,7 @@ export default function SaveNewViewDrawer({
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={postCampaignsSaveViewLoading}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>

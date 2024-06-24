@@ -1,7 +1,8 @@
 import {
+  RHFAutocomplete,
   RHFDatePicker,
   RHFRadioGroup,
-  RHFSelect,
+  RHFTextField,
 } from '@/components/ReactHookForm';
 import { Typography, useTheme } from '@mui/material';
 
@@ -24,23 +25,26 @@ export const dataArray = () => {
   return [
     {
       componentProps: {
+        name: 'name',
+        label: 'name',
+        placeholder: 'John Allen',
+        fullWidth: true,
+        required: true,
+      },
+      component: RHFTextField,
+      md: 12,
+    },
+    {
+      componentProps: {
         name: 'campaignStatus',
         label: 'Campaign Status',
         fullWidth: true,
-        select: true,
         required: true,
+        placeholder: 'Select Campaign Status',
+        options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
       },
 
-      options: [
-        { value: 'scheduled', label: 'Scheduled' },
-        { value: 'inProgress', label: 'InProgress' },
-        { value: 'active', label: 'Active' },
-        { value: 'active', label: 'Active' },
-        { value: 'paused', label: 'Paused' },
-        { value: 'completed', label: 'Completed' },
-      ],
-
-      component: RHFSelect,
+      component: RHFAutocomplete,
 
       md: 12,
     },
@@ -84,9 +88,9 @@ export const dataArray = () => {
         defaultValue: 'all',
         row: false,
         options: [
-          { value: 'PRIVATE', label: 'Private' },
-          { value: 'TEAM', label: 'My Team (test)' },
-          { value: 'EVERYONE', label: 'Everyone' },
+          { value: 'private', label: 'Private' },
+          { value: 'team', label: 'My Team (test)' },
+          { value: 'everyone', label: 'Everyone' },
         ],
       },
       component: RHFRadioGroup,

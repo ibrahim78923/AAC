@@ -527,6 +527,8 @@ export const AIR_MARKETER = {
   CAMPAIGNS_VIEW: '/campaigns/view',
   CAMPAIGNS: '/campaigns',
   CAMPAIGNS_TASKS: '/campaigns/task',
+  CAMPAIGNS_CLONE: '/campaigns/view/clone',
+  CAMPAIGNS_SAVE_VIEW: '/campaigns/view',
 };
 
 export const SUPER_ADMIN_DASHBOARD = {

@@ -13,6 +13,7 @@ import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import useCampaigns from '../useCampaigns';
+import { indexNumbers } from '@/constants';
 
 export default function EditCampaign({
   isOpenDrawer,
@@ -48,7 +49,8 @@ export default function EditCampaign({
     }
   };
   useEffect(() => {
-    const data = compaignsDataById?.data;
+    const data = compaignsDataById?.data[indexNumbers?.ZERO];
+
     const fieldsToSet: any = {
       title: data?.title,
       campaignOwner: data?.campaignOwner,

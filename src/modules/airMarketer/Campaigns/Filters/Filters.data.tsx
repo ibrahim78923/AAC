@@ -1,4 +1,9 @@
-import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFDatePicker,
+} from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
 
 import * as Yup from 'yup';
 
@@ -11,26 +16,17 @@ export const defaultValues = {
   endDate: null,
 };
 
-export const dataArray = (UserListData: any) => {
+export const dataArray = (userListData: any, organizationId: any) => {
   return [
     {
       componentProps: {
         name: 'campaignStatus',
         label: 'Campaign Status',
         fullWidth: true,
-        select: true,
+        placeholder: 'select status',
+        options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
       },
-
-      options: [
-        { value: 'scheduled', label: 'Scheduled' },
-        { value: 'inprogress', label: 'In Progress' },
-        { value: 'active', label: 'Active' },
-        { value: 'paused', label: 'Paused' },
-        { value: 'completed', label: 'Completed' },
-      ],
-
-      component: RHFSelect,
-
+      component: RHFAutocomplete,
       md: 12,
     },
     {
@@ -38,16 +34,16 @@ export const dataArray = (UserListData: any) => {
         name: 'campaignOwner',
         label: 'Campaign Owner',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select Campaign Owner',
+        apiQuery: userListData,
+        getOptionLabel: (item: any) => `${item?.firstName} ${item?.lastName}`,
+        externalParams: {
+          role: ROLES?.ORG_EMPLOYEE,
+          organization: organizationId,
+        },
+        queryKey: 'role',
       },
-
-      options: UserListData?.data?.users?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
-      })) ?? [{ label: '', value: '' }],
-
-      component: RHFSelect,
-
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {

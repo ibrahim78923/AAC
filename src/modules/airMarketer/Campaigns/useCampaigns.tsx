@@ -6,15 +6,19 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import { campaignsOptions } from './Campaigns.data';
 import {
   useDeleteCampaignsMutation,
+  useGetCampaignsByIdQuery,
   useGetCampaignsQuery,
+  useGetCampaignsSaveViewQuery,
+  usePostCampaignsCloneMutation,
   usePostCampaignsMutation,
+  usePostCampaignsSaveViewMutation,
   useUpdateCampaignsMutation,
 } from '@/services/airMarketer/campaigns';
 import { PAGINATION } from '@/config';
-import { enqueueSnackbar } from 'notistack';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 import { ROLES } from '@/constants/strings';
 import { getSession } from '@/utils';
+import { useSearchParams } from 'next/navigation';
 
 const useCampaigns = () => {
   const theme = useTheme();
@@ -42,6 +46,9 @@ const useCampaigns = () => {
   const [isResetTaskFilter, setIsResetTaskFilter] = useState(false);
   const [searchCampaigns, setSearchCampaigns] = useState('');
   const [selectedRows, setSelectedRows] = useState<any>([]);
+  const campaignId = useSearchParams()?.get('id');
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const [filters, setFilters] = useState({
     campaignOwner: '',
@@ -51,8 +58,8 @@ const useCampaigns = () => {
   });
   const { data: campaignsData, isLoading: filterLoading } =
     useGetCampaignsQuery({
-      page: PAGINATION?.CURRENT_PAGE,
-      limit: PAGINATION?.PAGE_LIMIT,
+      page: page,
+      limit: pageLimit,
       search: searchCampaigns ? searchCampaigns : undefined,
       campaignOwner: filters?.campaignOwner
         ? filters?.campaignOwner
@@ -63,6 +70,9 @@ const useCampaigns = () => {
         ? filters?.campaignStatus
         : undefined,
     });
+
+  const campaignsById = useGetCampaignsByIdQuery(campaignId);
+
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
   const { data: UserListData } = useGetUsersListQuery({
@@ -75,7 +85,14 @@ const useCampaigns = () => {
   const [deleteCampaigns, { isLoading: deleteCampaignsLoading }] =
     useDeleteCampaignsMutation();
 
+  const [postCampaignsClone, { isLoading: postCampaignsCloneLoading }] =
+    usePostCampaignsCloneMutation();
+
   const [updateCampaigns] = useUpdateCampaignsMutation();
+  const [postCampaignsSaveView, { isLoading: postCampaignsSaveViewLoading }] =
+    usePostCampaignsSaveViewMutation();
+
+  const { data: saveViewCampaignsData } = useGetCampaignsSaveViewQuery();
 
   const CampaignTask: any = useForm({});
   const router = useRouter();
@@ -173,20 +190,6 @@ const useCampaigns = () => {
     else setSelectedRows(selectedRows?.filter((row: any) => row !== id));
   };
 
-  const handleDeleteCampaigns = async (id: any) => {
-    try {
-      await deleteCampaigns({ ids: id })?.unwrap();
-      enqueueSnackbar('Campaigns deleted successfully', {
-        variant: 'success',
-      });
-      setSelectedRows([]);
-    } catch (error) {
-      enqueueSnackbar('Error while deleting campaigns', {
-        variant: 'error',
-      });
-    }
-  };
-
   return {
     theme,
     tabVal,
@@ -228,11 +231,23 @@ const useCampaigns = () => {
     selectedRows,
     allCamopaignsData,
     deleteCampaignsLoading,
-    handleDeleteCampaigns,
+    // handleDeleteCampaigns,
     campaignDataById,
     setCampaignDataById,
     UserListData,
     updateCampaigns,
+    campaignsById,
+    postCampaignsCloneLoading,
+    postCampaignsClone,
+    deleteCampaigns,
+    setSelectedRows,
+    postCampaignsSaveView,
+    postCampaignsSaveViewLoading,
+    saveViewCampaignsData,
+    filters,
+    setFilters,
+    setPageLimit,
+    setPage,
   };
 };
 export default useCampaigns;

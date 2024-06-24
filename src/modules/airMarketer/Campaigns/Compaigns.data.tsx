@@ -1,10 +1,13 @@
 import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
   RHFSelect,
   RHFSwitchableDatepicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
@@ -22,7 +25,7 @@ export const initvalues = {
   campaignAudience: '',
   campaignBudget: null,
 };
-export const campaignArray = (UserListData: any) => {
+export const campaignArray = (userListData: any, organizationId: any) => {
   return [
     {
       componentProps: {
@@ -37,16 +40,20 @@ export const campaignArray = (UserListData: any) => {
     },
     {
       componentProps: {
-        label: 'Campaign Owner',
         name: 'campaignOwner',
+        label: 'Campaign Owner',
         fullWidth: true,
-        select: true,
+        placeholder: 'Select Campaign Owner',
+        apiQuery: userListData,
+        getOptionLabel: (item: any) =>
+          item ? `${item?.firstName} ${item?.lastName}` : '',
+        externalParams: {
+          role: ROLES?.ORG_EMPLOYEE,
+          organization: organizationId,
+        },
+        queryKey: 'role',
       },
-      options: UserListData?.data?.users?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
-      })) ?? [{ label: '', value: '' }],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
@@ -103,16 +110,11 @@ export const campaignArray = (UserListData: any) => {
         label: 'Campaign Status',
         name: 'campaignStatus',
         fullWidth: true,
-        select: true,
+        placeholder: 'select status',
+        options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
       },
-      options: [
-        { value: 'scheduled', label: 'Scheduled' },
-        { value: 'inprogress', label: 'In Progress' },
-        { value: 'active', label: 'Active' },
-        { value: 'paused', label: 'Paused' },
-        { value: 'completed', label: 'Completed' },
-      ],
-      component: RHFSelect,
+
+      component: RHFAutocomplete,
       md: 12,
     },
     {
