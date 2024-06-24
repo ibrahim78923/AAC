@@ -1,12 +1,12 @@
 import { Avatar, Box, Button, Typography } from '@mui/material';
-import PhoneCallbackIcon from '@mui/icons-material/PhoneCallback';
 import { ActionDropDown } from './ActionDropDown';
+import CallBackModal from './CallBackModal';
 
 export const columns: any = [
   {
     accessorFn: (row: any) => row?.customer,
     id: 'customer',
-    header: 'customer',
+    header: 'customer ',
     cell: (info: any) => (
       <Box display={'flex'}>
         <Avatar
@@ -38,7 +38,7 @@ export const columns: any = [
     cell: (info: any) => (
       <Box display={'flex'}>
         {info?.row?.original?.waitTime == 0 ? (
-          <PhoneCallbackIcon sx={{ cursor: 'pointer' }} />
+          <CallBackModal />
         ) : (
           info?.row?.original?.waitTime
         )}

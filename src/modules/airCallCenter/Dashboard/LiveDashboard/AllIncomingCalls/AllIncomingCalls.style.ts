@@ -9,9 +9,15 @@ export const styles = {
   innerBox: {
     padding: '10px',
     margin: '10px',
-    boxShadow: 'inset 0px 1px 8px 0px #1018280d',
-    borderRadius: '4px',
+    height: 210,
+    boxShadow: '0px 0px 10px 0px #0000001A',
+    borderRadius: 2,
     textAlign: 'center',
     position: 'relative',
+    transition: 'all 0.1s linear',
+    '&:hover': {
+      borderBottom: '8px solid',
+      borderColor: 'primary.main',
+    },
   },
 };
