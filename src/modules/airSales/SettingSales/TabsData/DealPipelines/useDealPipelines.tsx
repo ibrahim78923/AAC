@@ -7,7 +7,7 @@ import {
   useUpdateDealsPipelineMutation,
 } from '@/services/airSales/deals/settings/deals-pipeline';
 import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useDealPipelines = () => {
   const theme = useTheme<Theme>();
@@ -24,9 +24,12 @@ const useDealPipelines = () => {
 
   const [postDealsPipeline, { isLoading: postDealLoading }] =
     usePostDealsPipelineMutation();
+
   const [deleteDealsPipeline, { isLoading: deleteDealLoading }] =
     useDeleteDealsPipelineMutation();
-  const [updateDealsPipeline] = useUpdateDealsPipelineMutation();
+
+  const [updateDealsPipeline, { isLoading: updateDealPipelineLoading }] =
+    useUpdateDealsPipelineMutation();
 
   const paramsObj: any = {};
   if (productSearch) paramsObj['search'] = productSearch;
@@ -36,6 +39,10 @@ const useDealPipelines = () => {
     query,
     meta: false,
   });
+
+  const defaultPipeline = data?.data?.find(
+    (pipeline: any) => pipeline?.isDefault,
+  );
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -59,20 +66,35 @@ const useDealPipelines = () => {
     };
 
     try {
-      if (isDraweropen?.type === 'add') {
-        await postDealsPipeline({ body: payload })?.unwrap();
+      if (isDraweropen?.type === DRAWER_TYPES?.ADD) {
+        const res = await postDealsPipeline({ body: payload })?.unwrap();
+        if (res?.data?.isDefault) {
+          enqueueSnackbar(
+            `${res?.data?.name} has been Successfully created and set as Default.`,
+            { variant: NOTISTACK_VARIANTS?.SUCCESS },
+          );
+        } else {
+          enqueueSnackbar(`Pipeline has been Created Successfully `, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
+        }
       } else {
-        await updateDealsPipeline({ id: checkedDeal, body: payload });
+        const resp: any = await updateDealsPipeline({
+          id: checkedDeal,
+          body: payload,
+        });
+        if (resp?.data?.data?.isDefault) {
+          enqueueSnackbar(
+            `${resp?.data?.data?.name} has been Successfully updated and set as Default.`,
+            { variant: NOTISTACK_VARIANTS?.SUCCESS },
+          );
+        } else {
+          enqueueSnackbar(`Pipeline has been Updated Successfully`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
+        }
       }
       setIsDraweropen({ isToggle: false, type: '' });
-      enqueueSnackbar(
-        `Pipeline has been ${
-          isDraweropen?.type === 'edit' ? 'Updated' : 'Created'
-        } Successfully`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
@@ -80,6 +102,13 @@ const useDealPipelines = () => {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
+  };
+
+  const handleIsDefaultPipeline = async (id: any, val: any) => {
+    const payload = {
+      isDefault: val,
+    };
+    await updateDealsPipeline({ id: id, body: payload });
   };
 
   const handleCloseDeleteModal = () => {
@@ -102,7 +131,7 @@ const useDealPipelines = () => {
       setCheckedDeal([]);
       setDeleteModalOpen(false);
       enqueueSnackbar('Deal Pipeline has been Deleted Successfully', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
       const errMsg = error?.data?.message;
@@ -121,6 +150,9 @@ const useDealPipelines = () => {
 
   return {
     dealPipelinesData: data?.data,
+    updateDealPipelineLoading,
+    handleIsDefaultPipeline,
+    defaultPipeline,
     handleCloseDeleteModal,
     handleSelectDealsById,
     setDeleteModalOpen,

@@ -12,16 +12,12 @@ import {
   Divider,
   CircularProgress,
 } from '@mui/material';
-
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
-
 import useDealPipelines from './useDealPipelines';
-
 import { styles } from './DealPipelines.style';
-
 import { v4 as uuidv4 } from 'uuid';
 import { BlueInfoIcon, DeleteIcon } from '@/assets/icons';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -49,6 +45,7 @@ const DealPipelines = () => {
     handleCloseDrawer,
     onSubmit,
     handleCloseDeleteModal,
+    handleIsDefaultPipeline,
     handleDelete,
     setAnchorEl,
     isdefaultValue,
@@ -57,6 +54,7 @@ const DealPipelines = () => {
     postDealLoading,
     deleteDealLoading,
     checkedDeal,
+    updateDealPipelineLoading,
   } = useDealPipelines();
 
   return (
@@ -224,16 +222,9 @@ const DealPipelines = () => {
               >
                 <Checkbox
                   checked={checkedDeal?.includes(dealPipeline?._id)}
-                  // checked={selectedPipelines?.some(
-                  //   (p: any) => p?._id === dealPipeline?._id,
-                  // )}
                   onChange={({ target }) => {
                     handleSelectDealsById(target.checked, dealPipeline?._id);
                   }}
-                  // onChange={() => {
-                  //   togglePipeline(dealPipeline);
-                  //   setCheckedDeal(dealPipeline?._id);
-                  // }}
                 />
                 <Typography
                   variant="h5"
@@ -253,7 +244,15 @@ const DealPipelines = () => {
                   }}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Checkbox checked={dealPipeline?.isDefault} />
+                    <Checkbox
+                      defaultChecked={dealPipeline?.isDefault}
+                      onClick={(e: any) => {
+                        handleIsDefaultPipeline(
+                          dealPipeline?._id,
+                          e?.target?.checked,
+                        );
+                      }}
+                    />
                     <Typography variant="body1">
                       Marked as default pipeline
                     </Typography>
@@ -285,10 +284,9 @@ const DealPipelines = () => {
           open={isDraweropen?.isToggle}
           onClose={handleCloseDrawer}
           isEditMode={isEditMode}
-          loading={postDealLoading}
+          loading={postDealLoading || updateDealPipelineLoading}
           onSubmit={onSubmit}
           id={checkedDeal}
-          // isDraweropen={isDraweropen}
         />
       )}
 

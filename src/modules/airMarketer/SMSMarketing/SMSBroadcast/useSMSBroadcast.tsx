@@ -63,8 +63,11 @@ const useSMSBroadcast = () => {
   };
 
   const handleSMSBroadcastDelete = async (id: any) => {
+    const values = {
+      ids: id,
+    };
     try {
-      await deleteSmsBroadcast({ ids: id })?.unwrap();
+      await deleteSmsBroadcast({ body: values })?.unwrap();
       setIsDelete(false);
       setCheckedRows([]);
       enqueueSnackbar(`Broadcast Deleted Successfully`, {

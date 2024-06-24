@@ -316,6 +316,7 @@ export const END_POINTS = {
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
   GET_SMS_DASHBOARD_INSIGHTS: '/sms-marketing/dashboard-insights',
   GET_SMS_MARKETING_BROADCAST: '/sms-marketing/broadcast',
+  DELETE_SMS_MARKETING_BROADCAST: '/sms-marketing/broadcast/{smsBroadcastId}',
   GET_IS_PHONE_CONNECTED: '/sms-marketing/connected-number',
   GET_SMS_TEMPLATES: '/sms-marketing/template',
   CONNECT_PHONE_NUMBER: '/sms-marketing/connect-number',

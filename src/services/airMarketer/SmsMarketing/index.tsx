@@ -31,9 +31,10 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
     }),
 
     deleteSmsBroadcast: builder.mutation({
-      query: ({ ids }: any) => ({
-        url: `${END_POINTS?.GET_SMS_MARKETING_BROADCAST}/${ids}`,
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.DELETE_SMS_MARKETING_BROADCAST}`,
         method: 'DELETE',
+        body: body,
       }),
       invalidatesTags: ['BROADCAST'],
     }),
