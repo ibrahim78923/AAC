@@ -52,6 +52,14 @@ export const ticketsAssociationAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getDealById: builder.query({
+      query: (getDealByIdParameter: any) => ({
+        url: END_POINTS?.DEALS_ACTION_PREVIEW,
+        method: 'GET',
+        params: getDealByIdParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
 
     // Associate Contacts
     getAssociatesContacts: builder?.query({
@@ -143,6 +151,7 @@ export const {
   useGetAssociatesAssetsQuery,
   useGetAssociatesOrderQuery,
   useGetAssociatesDealsQuery,
+  useGetDealByIdQuery,
   useGetAssociatesContactsQuery,
   useLazyGetContactOwnerQuery,
   useLazyGetLifeCycleStageQuery,

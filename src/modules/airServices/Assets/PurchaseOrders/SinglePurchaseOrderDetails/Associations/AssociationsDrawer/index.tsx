@@ -25,7 +25,7 @@ export const AssociationsDrawer = (props: any) => {
     setDrawerOpen,
     setSelectedTicketList,
     onSubmit,
-    postAssociationStatus,
+    postRemoveAssociateTicketsStatus,
   } = useAssociationsDrawer(props);
   return (
     <div>
@@ -39,7 +39,7 @@ export const AssociationsDrawer = (props: any) => {
         isOk={true}
         footer={true}
         submitHandler={onSubmit}
-        isLoading={postAssociationStatus?.isLoading}
+        isLoading={postRemoveAssociateTicketsStatus?.isLoading}
         okText="Associate"
         isDisabled={!selectedTicketList?.length}
       >

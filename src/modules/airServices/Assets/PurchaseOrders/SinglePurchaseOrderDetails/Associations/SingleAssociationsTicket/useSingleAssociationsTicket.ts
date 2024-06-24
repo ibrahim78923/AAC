@@ -1,38 +1,44 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useDeleteAssociationsMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/associations';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 export const useSingleAssociationsTicket = (props: any) => {
   const { associationsItem } = props;
+
+  const theme: any = useTheme();
+
   const searchParams = useSearchParams();
   const purchaseOrderId = searchParams.get('purchaseOrderId');
   const [showDisassociate, setShowDisassociate] = useState(false);
   const [disassociateModal, setDisassociateModal] = useState(false);
-  const [deleteAssociationTrigger, deleteAssociationStatus] =
-    useDeleteAssociationsMutation();
+
+  const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
+    usePostRemoveAssociateTicketsMutation();
+
   const handleSubmitDissociate = async () => {
-    const deleteAssociationParameter = {
-      ticketId: associationsItem?._id,
+    const postRemoveAssociateTicketsParameter = {
       body: {
-        associateOrderId: purchaseOrderId,
+        recordId: purchaseOrderId,
+        recordType: ASSOCIATIONS_API_PARAMS_FOR?.PURCHASE_ORDER,
+        operation: ASSOCIATIONS_API_PARAMS_FOR?.REMOVE,
+        ticketsIds: [associationsItem?._id],
       },
     };
     try {
-      await deleteAssociationTrigger(deleteAssociationParameter)?.unwrap();
-      enqueueSnackbar('Service request disassociate successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postRemoveAssociateTicketsTrigger(
+        postRemoveAssociateTicketsParameter,
+      )?.unwrap();
+      successSnackbar('Ticket Detached Successfully!');
       setDisassociateModal(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
+      setDisassociateModal(false);
     }
   };
-  const theme: any = useTheme();
+
   return {
     setShowDisassociate,
     theme,
@@ -41,6 +47,6 @@ export const useSingleAssociationsTicket = (props: any) => {
     disassociateModal,
     handleSubmitDissociate,
     associationsItem,
-    deleteAssociationStatus,
+    postRemoveAssociateTicketsStatus,
   };
 };

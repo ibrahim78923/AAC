@@ -9,14 +9,9 @@ import ApiErrorState from '@/components/ApiErrorState';
 
 export const Associations = () => {
   const theme: any = useTheme();
-  const {
-    associationsList,
-    openDrawer,
-    setOpenDrawer,
-    isLoading,
-    isError,
-    isFetching,
-  } = useAssociations();
+  const { data, openDrawer, setOpenDrawer, isLoading, isError, isFetching } =
+    useAssociations();
+
   return (
     <>
       <Box>
@@ -24,7 +19,7 @@ export const Associations = () => {
           <SkeletonTable />
         ) : isError ? (
           <ApiErrorState />
-        ) : !!!associationsList?.length ? (
+        ) : !!!data?.length ? (
           <>
             <NoData
               message={
@@ -63,7 +58,7 @@ export const Associations = () => {
                 Associate
               </Button>
             </Box>
-            {associationsList?.map((item: any) => (
+            {data?.map((item: any) => (
               <SingleAssociationsTicket
                 key={item?._id}
                 associationsItem={item}

@@ -17,9 +17,10 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const Associations = () => {
   const {
-    getInventoryListData,
+    dataAssets,
     theme,
-    lazyGetIncidentStatus,
+    isLoadingAssets,
+    isFetchingAssets,
     handleMouseOver,
     hoveredItemId,
     setHoveredItemId,
@@ -28,7 +29,7 @@ export const Associations = () => {
     isDeleteModalOpen,
     handleCloseDeleteModal,
     handleConfirmDelete,
-    isLoading,
+    postRemoveAssociateTicketsStatus,
     setNewIncident,
     setExistingIncident,
     openNewIncident,
@@ -38,7 +39,7 @@ export const Associations = () => {
 
   return (
     <Fragment>
-      {getInventoryListData?.length <= 0 ? (
+      {dataAssets?.length <= 0 ? (
         <NoData
           image={NoAssociationFoundImage}
           message={'There are no associations'}
@@ -83,14 +84,13 @@ export const Associations = () => {
             ]}
           >
             <>
-              {lazyGetIncidentStatus?.isLoading ||
-              lazyGetIncidentStatus?.isFetching ? (
+              {isLoadingAssets || isFetchingAssets ? (
                 <Box mt={2}>
                   <SkeletonTable />
                 </Box>
               ) : (
                 <>
-                  {getInventoryListData?.map((item: any) => (
+                  {dataAssets?.map((item: any) => (
                     <Box
                       key={item?._id}
                       border={`1px solid ${theme?.palette?.grey?.[400]}`}
@@ -104,13 +104,11 @@ export const Associations = () => {
                       display={'flex'}
                       justifyContent={'space-between'}
                       alignItems={'center'}
+                      sx={{ cursor: 'pointer' }}
+                      onMouseOver={() => handleMouseOver(item?._id)}
+                      onMouseLeave={handleMouseLeave}
                     >
-                      <Box
-                        display={'flex'}
-                        flexWrap={'wrap'}
-                        onMouseOver={() => handleMouseOver(item?._id)}
-                        onMouseLeave={handleMouseLeave}
-                      >
+                      <Box display={'flex'} flexWrap={'wrap'}>
                         {hoveredItemId === item?._id && (
                           <RemoveCircleOutlineIcon
                             style={{ marginRight: '8px', cursor: 'pointer' }}
@@ -148,7 +146,7 @@ export const Associations = () => {
           open={isDeleteModalOpen}
           handleClose={handleCloseDeleteModal}
           handleSubmitBtn={handleConfirmDelete}
-          loading={isLoading}
+          loading={postRemoveAssociateTicketsStatus?.isLoading}
         />
       )}
       {openNewIncident && (
