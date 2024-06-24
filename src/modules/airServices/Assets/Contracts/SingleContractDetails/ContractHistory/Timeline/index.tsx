@@ -43,7 +43,7 @@ export const Timeline = ({ data, timelineIndex }: any) => {
             color="primary"
             marginRight={0.3}
           >
-            {data?.status}
+            {data?.activity}
           </Typography>
           <Typography variant="body2" fontWeight={600}>
             {dayjs(data?.startDate, DATE_TIME_FORMAT?.DMY)

@@ -1,5 +1,4 @@
 import Typography from '@mui/material/Typography';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Divider, IconButton } from '@mui/material';
 import { useActivity } from '../useActivity';
 import { DATE_FORMAT } from '@/constants';
@@ -24,9 +23,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
           disabled
           color="primary"
           sx={{ border: `1px solid ${theme?.palette?.primary?.main}` }}
-        >
-          <BorderColorIcon color="primary" />
-        </IconButton>
+        ></IconButton>
         <Typography variant="body2" sx={{ flex: 0.8 }}>
           <Typography variant="body2" color="primary" marginRight={0.3}>
             {activityData?.performedBy?.firstName +

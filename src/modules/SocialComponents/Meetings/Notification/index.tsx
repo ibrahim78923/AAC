@@ -2,9 +2,24 @@ import { AntSwitch } from '@/components/AntSwitch';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { Avatar, Box, Typography } from '@mui/material';
 import { useNotification } from './useNotification';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const Notification = () => {
-  const { meetingsNotificationData } = useNotification();
+  const {
+    meetingsNotificationData,
+    toggleMeetingsNotification,
+    patchMeetingsSettingsNotificationStatus,
+    isLoading,
+    isFetching,
+    isError,
+    data,
+  } = useNotification();
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+
+  if (isError) return <ApiErrorState />;
+
   return (
     <Box>
       <PageTitledHeader title={'Notification'} />
@@ -33,7 +48,16 @@ export const Notification = () => {
               </Typography>
             </Box>
           </Box>
-          <AntSwitch />
+          <AntSwitch
+            onChange={(e: any) => toggleMeetingsNotification?.(e, item)}
+            checked={data?.data?.notificationsOff?.[item?.enum]}
+            isLoading={
+              patchMeetingsSettingsNotificationStatus?.isLoading &&
+              patchMeetingsSettingsNotificationStatus?.originalArgs?.pathParams
+                ?.enum === item?.enum
+            }
+            disabled={patchMeetingsSettingsNotificationStatus?.isLoading}
+          />
         </Box>
       ))}
     </Box>

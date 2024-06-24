@@ -20,7 +20,7 @@ import { AIR_SERVICES } from '@/constants';
 export const useDetailsViewPropertiesSection = () => {
   const router = useRouter();
   const { ticketId } = router?.query;
-  const [putTicketTrigger] = usePutTicketsMutation();
+  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
   const getSingleTicketParameter = {
     pathParam: {
       ticketId,
@@ -96,5 +96,6 @@ export const useDetailsViewPropertiesSection = () => {
     isLoading,
     isFetching,
     isError,
+    putTicketStatus,
   };
 };

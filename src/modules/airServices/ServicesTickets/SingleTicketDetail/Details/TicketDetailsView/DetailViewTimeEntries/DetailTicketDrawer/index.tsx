@@ -1,9 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
-
-import React from 'react';
-
 import { useDetailTicketDrawer } from './useDetailTicketDrawer';
 
 export const DetailTicketDrawer = (props: any) => {
@@ -37,15 +34,7 @@ export const DetailTicketDrawer = (props: any) => {
         <Grid container spacing={1}>
           {ticketDetailsFormFields?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>
-              <item.component {...item?.componentProps} size={'small'}>
-                {item?.componentProps?.select
-                  ? item?.options?.map((option: any) => (
-                      <option key={item?.id} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))
-                  : null}
-              </item.component>
+              <item.component {...item?.componentProps} size={'small'} />
             </Grid>
           ))}
         </Grid>

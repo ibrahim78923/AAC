@@ -852,3 +852,9 @@ export const STATUS_CONTANTS = {
   DRAFT: 'Draft',
   SCHEDULED: 'Scheduled',
 };
+
+export const NOTIFICATIONS_TYPES = {
+  MEETING_EMAIL_REMINDER: 'meetingEmailReminder',
+  MEETING_SMS_REMINDER: 'meetingSMSReminder',
+  MEETING_EMAIL: 'meetingEmail',
+};

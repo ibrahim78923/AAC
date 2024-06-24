@@ -17,6 +17,7 @@ export const UpdateContract = () => {
     handleCancelBtn,
     updateContractFormFields,
     contractId,
+    patchAddToContractStatus,
   } = useUpdateContract();
 
   return (
@@ -131,10 +132,16 @@ export const UpdateContract = () => {
                   type="button"
                   color="secondary"
                   onClick={() => handleCancelBtn?.()}
+                  disabled={patchAddToContractStatus?.isLoading}
                 >
                   Cancel
                 </LoadingButton>
-                <LoadingButton variant="contained" type="submit">
+
+                <LoadingButton
+                  variant="contained"
+                  type="submit"
+                  loading={patchAddToContractStatus?.isLoading}
+                >
                   {`${router?.query?.action}`}
                 </LoadingButton>
               </Box>

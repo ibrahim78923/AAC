@@ -5,16 +5,17 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
 import { ROLES } from '@/constants/strings';
 import { ticketStatusOptions } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
-  task: Yup?.mixed()?.nullable()?.required('Field is Required'),
-  agent: Yup?.mixed()?.nullable()?.required('Field is Required'),
+  task: Yup?.mixed()?.nullable()?.required('Task is Required'),
+  agent: Yup?.mixed()?.nullable()?.required('Agent is Required'),
   hours: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable(),
-  on: Yup?.date()?.required('Field is Required'),
+  on: Yup?.date()?.required('On is Required'),
   note: Yup?.mixed()?.nullable(),
 });
 
@@ -43,7 +44,7 @@ export const detailDrawerArray = (
       apiQuery: apiQueryTask,
       placeholder: 'Choose Task',
       externalParams: {
-        limit: 50,
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
         meta: 'false',
         ticketId: ticketId,
       },
@@ -61,7 +62,10 @@ export const detailDrawerArray = (
       required: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_EMPLOYEE,
+      },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },
@@ -98,10 +102,8 @@ export const detailDrawerArray = (
       name: 'on',
       label: 'On',
       fullWidth: true,
-      select: true,
       required: true,
     },
-
     component: RHFDatePicker,
     md: 12,
   },

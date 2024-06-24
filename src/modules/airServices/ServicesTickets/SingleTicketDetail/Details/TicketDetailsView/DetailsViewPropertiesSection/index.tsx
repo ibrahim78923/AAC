@@ -1,5 +1,5 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import { useDetailsViewPropertiesSection } from './useDetailsViewPropertiesSection';
 import DetailViewTimeEntries from '../DetailViewTimeEntries';
@@ -7,6 +7,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
+import { LoadingButton } from '@mui/lab';
 
 const DetailsViewPropertiesSection = () => {
   const {
@@ -17,6 +18,7 @@ const DetailsViewPropertiesSection = () => {
     isLoading,
     isFetching,
     data,
+    putTicketStatus,
   } = useDetailsViewPropertiesSection();
   return (
     <>
@@ -65,12 +67,22 @@ const DetailsViewPropertiesSection = () => {
                 ]}
               >
                 <Box textAlign={'end'} p={2}>
-                  <Button variant={'outlined'} onClick={() => methods?.reset()}>
+                  <LoadingButton
+                    variant={'outlined'}
+                    color="inherit"
+                    onClick={() => methods?.reset()}
+                    disabled={putTicketStatus?.isLoading}
+                  >
                     Cancel
-                  </Button>
-                  <Button variant={'contained'} type={'submit'} sx={{ ml: 2 }}>
+                  </LoadingButton>
+                  <LoadingButton
+                    variant={'contained'}
+                    type={'submit'}
+                    sx={{ ml: 2 }}
+                    loading={putTicketStatus?.isLoading}
+                  >
                     Submit
-                  </Button>
+                  </LoadingButton>
                 </Box>
               </PermissionsGuard>
             </FormProvider>

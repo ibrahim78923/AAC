@@ -16,26 +16,35 @@ export const useNotification = () => {
       accountId,
     },
   };
-  const { data } = useGetMeetingsSettingsNotificationQuery(apiDataParameter, {
-    skip: !accountId,
-    refetchOnMountOrArgChange: true,
-  });
+  const { data, isLoading, isFetching, isError } =
+    useGetMeetingsSettingsNotificationQuery(apiDataParameter, {
+      skip: !accountId,
+      refetchOnMountOrArgChange: true,
+    });
 
   const [
     patchMeetingsSettingsNotificationTrigger,
     patchMeetingsSettingsNotificationStatus,
   ] = usePatchMeetingsSettingsNotificationMutation();
 
-  const toggleMeetingsNotification = async () => {
+  const toggleMeetingsNotification = async (e: any, formData: any) => {
     const apiDataParameter = {
       pathParams: {
-        accountId: data?.data?.accountId,
+        accountId: accountId,
+        enum: formData?.enum,
       },
-      body: {},
+      body: {
+        notificationsOff: {
+          ...data?.data?.notificationsOff,
+          [formData?.enum]: e?.target?.checked,
+        },
+      },
     };
     try {
-      await patchMeetingsSettingsNotificationTrigger(apiDataParameter).unwrap();
-      successSnackbar('Notification Updated Successfully');
+      await patchMeetingsSettingsNotificationTrigger(
+        apiDataParameter,
+      )?.unwrap();
+      successSnackbar('Notification updated successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -45,5 +54,9 @@ export const useNotification = () => {
     meetingsNotificationData,
     toggleMeetingsNotification,
     patchMeetingsSettingsNotificationStatus,
+    isLoading,
+    isFetching,
+    isError,
+    data,
   };
 };
