@@ -64,7 +64,7 @@ const useUpdateQuote = () => {
   );
 
   const activeCompanyId = dataGetQuoteById?.data?.buyerCompanyId;
-  const activeContactId = dataGetQuoteById?.data?.buyerContactbuyerContactId;
+  const activeContactId = dataGetQuoteById?.data?.buyerContactId;
 
   useEffect(() => {
     setSelectedCompanyIds(activeCompanyId && activeCompanyId);

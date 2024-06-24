@@ -59,6 +59,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
         getOptionLabel: (option: any) => option?.name,
         externalParams: { meta: false },
         required: true,
+        clearIcon: false,
       },
       component: RHFAutocompleteAsync,
     },
