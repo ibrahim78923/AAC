@@ -24,30 +24,69 @@ export default function useTicketInfoCard({
 
   const router = useRouter();
 
-  const OPEN = 'OPEN';
-  const openTimeDiff = dayjs(details?.plannedEndDate)?.diff(dayjs(), 'hour');
-  const openMessage =
-    openTimeDiff >= 0
-      ? `Due in ${openTimeDiff}h`
-      : `Due by ${dayjs(details?.plannedEndDate)?.format(DATE_FORMAT?.UI)}`;
-  const RESOLVED = 'RESOLVED';
-  const resolvedTimeDiff = dayjs(details?.resolvedAt)?.diff(dayjs(), 'hour');
-  const resolvedMessage =
-    resolvedTimeDiff >= 0
-      ? `Resolved: ${resolvedTimeDiff}h ago`
-      : `Resolved: ${dayjs(details?.resolvedAt)?.format(DATE_FORMAT?.UI)}`;
-  const PENDING = 'PENDING';
-  const pendingTimeDiff = dayjs(details?.plannedEndDate)?.diff(dayjs(), 'hour');
-  const pendingMessage =
-    pendingTimeDiff >= 0
-      ? `Due in ${pendingTimeDiff}h ago`
-      : `Due by ${dayjs(details?.plannedEndDate)?.format(DATE_FORMAT?.UI)}`;
-  const CLOSED = 'CLOSED';
-  const closedTimeDiff = dayjs(details?.closedAt)?.diff(dayjs(), 'hour');
-  const closedMessage =
-    closedTimeDiff >= 0
-      ? `Closed: ${closedTimeDiff}h ago`
-      : `Closed: ${dayjs(details?.closedAt)?.format(DATE_FORMAT?.UI)}`;
+  const timeFormatMessage = (
+    timeDiff: any,
+    date: any,
+    messagePassed: string,
+    messageDue: string,
+  ) => {
+    let message;
+
+    if (timeDiff < 0) {
+      message = `${messagePassed} ${date?.format(DATE_FORMAT?.UI)}`;
+    } else if (timeDiff < 24) {
+      message = `${messageDue} ${timeDiff}h`;
+    } else {
+      const timeDiffDays = date?.diff(now, 'day');
+      if (timeDiffDays <= 30) {
+        message = `${messageDue} ${timeDiffDays} day(s)`;
+      } else {
+        message = `${messageDue} ${date?.format(DATE_FORMAT?.UI)}`;
+      }
+    }
+    return message;
+  };
+
+  const plannedEndDate = dayjs(details?.plannedEndDate);
+  const now = dayjs();
+  const resolvedAt = dayjs(details?.resolvedAt);
+  const closedAt = dayjs(details?.closedAt);
+
+  // Open Status
+  const openTimeDiff = plannedEndDate?.diff(now, 'hour');
+  const openMessage = timeFormatMessage(
+    openTimeDiff,
+    plannedEndDate,
+    'Was Due Till',
+    'Due in',
+  );
+
+  // Resolved Status
+  const resolvedTimeDiff = resolvedAt?.diff(now, 'hour');
+  const resolvedMessage = timeFormatMessage(
+    resolvedTimeDiff,
+    plannedEndDate,
+    'Resolved:',
+    'Resolved:',
+  );
+
+  // Pending Status
+  const pendingTimeDiff = plannedEndDate?.diff(now, 'hour');
+  const pendingMessage = timeFormatMessage(
+    pendingTimeDiff,
+    plannedEndDate,
+    'Was Due Till',
+    'Due in',
+  );
+
+  // Closed Status
+  const closedTimeDiff = closedAt?.diff(now, 'hour');
+  const closedMessage = timeFormatMessage(
+    closedTimeDiff,
+    plannedEndDate,
+    'Closed:',
+    'Closed:',
+  );
 
   const [deleteTicketsTrigger, deleteTicketsStatus] =
     useDeleteTicketsMutation();
@@ -78,13 +117,9 @@ export default function useTicketInfoCard({
     id,
     theme,
     router,
-    OPEN,
     openMessage,
-    RESOLVED,
     resolvedMessage,
-    PENDING,
     pendingMessage,
-    CLOSED,
     closedMessage,
     setDeleteId,
     handleSubmitDelete,

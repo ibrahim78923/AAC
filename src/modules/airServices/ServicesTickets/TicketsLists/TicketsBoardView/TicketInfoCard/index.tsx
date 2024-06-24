@@ -4,6 +4,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import { AlertModals } from '@/components/AlertModals';
 import {
+  STATUSES,
   ticketInfoCardAppearanceColor,
   ticketInfoCardPriorityColor,
 } from './TicketInfoCard.data';
@@ -41,13 +42,9 @@ export const TicketInfoCard = ({
     id,
     theme,
     router,
-    OPEN,
     openMessage,
-    RESOLVED,
     resolvedMessage,
-    PENDING,
     pendingMessage,
-    CLOSED,
     closedMessage,
     setDeleteId,
     handleSubmitDelete,
@@ -162,7 +159,7 @@ export const TicketInfoCard = ({
               }
             />
             <Box display={'flex'} alignItems={'center'} gap={0.2}>
-              {details?.status === OPEN ? (
+              {details?.status === STATUSES?.OPEN ? (
                 <>
                   <AccessTimeFilledIcon
                     sx={{ fill: theme?.palette?.warning?.main }}
@@ -175,7 +172,7 @@ export const TicketInfoCard = ({
                     {openMessage}
                   </Typography>
                 </>
-              ) : details?.status === RESOLVED ? (
+              ) : details?.status === STATUSES?.RESOLVED ? (
                 <>
                   <CheckCircleIcon
                     sx={{ fill: theme?.palette?.custom?.dark }}
@@ -188,7 +185,7 @@ export const TicketInfoCard = ({
                     {resolvedMessage}
                   </Typography>
                 </>
-              ) : details?.status === PENDING ? (
+              ) : details?.status === STATUSES?.PENDING ? (
                 <>
                   <AccessTimeFilledIcon
                     sx={{ fill: theme?.palette?.primary?.main }}
@@ -201,7 +198,7 @@ export const TicketInfoCard = ({
                     {pendingMessage}
                   </Typography>
                 </>
-              ) : details?.status === CLOSED ? (
+              ) : details?.status === STATUSES?.CLOSED ? (
                 <>
                   <CheckCircleIcon
                     sx={{ fill: theme?.palette?.custom?.dark }}
