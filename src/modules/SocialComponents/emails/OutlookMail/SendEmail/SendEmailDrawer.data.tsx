@@ -9,9 +9,12 @@ import * as Yup from 'yup';
 
 export const emailValidationsSchema: any = (drawerType: any) => {
   return Yup?.object()?.shape({
-    to: Yup?.array()
-      ?.of(Yup.string()?.required('Field is Required')?.trim())
-      ?.required('At least one recipient is required'),
+    ...(drawerType !== CREATE_EMAIL_TYPES?.REPLY &&
+      drawerType !== CREATE_EMAIL_TYPES?.REPLY_ALL && {
+        to: Yup?.array()
+          ?.of(Yup.string()?.required('Field is Required')?.trim())
+          ?.required('At least one recipient is required'),
+      }),
     ...(drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && {
       subject: Yup?.string()?.trim()?.required('Field is Required'),
     }),

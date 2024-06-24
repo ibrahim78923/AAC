@@ -39,6 +39,7 @@ import { enqueueSnackbar } from 'notistack';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { PdfImage } from '@/assets/images';
 
 const RightPane = ({
   isOpenSendEmailDrawer,
@@ -421,24 +422,29 @@ const RightPane = ({
                                   </Box>
                                 </Box>
                                 <Box
-                                  sx={{ display: 'flex', gap: '10px', mb: 2 }}
+                                  sx={{
+                                    display: 'flex',
+                                    gap: '10px',
+                                    flexWrap: 'wrap',
+                                    mb: 2,
+                                  }}
                                 >
                                   {obj?.attachments?.map((item: any) => {
                                     return (
                                       <>
                                         <Box
                                           sx={{
-                                            background:
-                                              theme?.palette?.grey[300],
-                                            width: '120px',
-                                            height: '100px',
                                             borderRadius: '8px',
                                             overflow: 'hidden',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
                                           }}
                                         >
                                           <ImageComponent
                                             base64={item?.contentBytes}
                                             contentType={item?.contentType}
+                                            fileName={item?.name}
                                           />
                                         </Box>
                                       </>
@@ -447,7 +453,13 @@ const RightPane = ({
                                 </Box>
                                 <Box
                                   mt={0.5}
-                                  sx={{ fontSize: '14px', fontWeight: '400' }}
+                                  sx={{
+                                    fontSize: '14px',
+                                    fontWeight: '400',
+                                    '& a': {
+                                      color: theme?.palette?.primary?.main,
+                                    },
+                                  }}
                                   dangerouslySetInnerHTML={{
                                     __html: obj?.body?.content,
                                   }}
@@ -568,13 +580,50 @@ const RightPane = ({
     </Box>
   );
 };
-function ImageComponent({ base64, contentType }: any) {
+
+function ImageComponent({ base64, contentType, fileName }: any) {
   const src = `data:${contentType};base64,${base64}`;
-  return (
-    <Link href={src} target="_blank" rel="noopener noreferrer">
-      <Image src={src} alt="attachment" width={120} height={100} />
-    </Link>
-  );
+
+  const theme = useTheme();
+
+  if (contentType?.startsWith('image/')) {
+    return (
+      <Box
+        sx={{
+          background: theme?.palette?.grey[300],
+        }}
+      >
+        <a href={src} target="_blank" rel="noopener noreferrer">
+          <Image
+            src={src}
+            alt="attachment"
+            width={0}
+            height={0}
+            style={{ width: 'auto', maxWidth: '130px', height: 'auto' }}
+          />
+        </a>
+      </Box>
+    );
+  } else if (contentType === 'application/pdf') {
+    return (
+      <a href={src} download={fileName}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '10px',
+            backgroundColor: theme.palette.grey[400],
+            padding: '5px 10px',
+            textTransform: 'capitalize',
+          }}
+        >
+          <Image src={PdfImage} alt="pdf" width={20} height={20} />
+          <Typography sx={{ fontSize: '14px' }}>{fileName}</Typography>
+        </Box>
+      </a>
+    );
+  } else {
+    return null;
+  }
 }
 
 export default RightPane;

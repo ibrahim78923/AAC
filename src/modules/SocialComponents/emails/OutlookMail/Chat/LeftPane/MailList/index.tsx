@@ -23,7 +23,7 @@ import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { usePatchOutlookEmailMessageMutation } from '@/services/commonFeatures/email/outlook';
 import { enqueueSnackbar } from 'notistack';
-import { AttachmentIcon } from '@/assets/icons';
+import { PaperClipIcon } from '@/assets/icons';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -297,7 +297,11 @@ const MailList = ({
                                     )}
                                   </>
                                 </Typography>
-                                {item?.hasAttachments && <AttachmentIcon />}
+                                {item?.hasAttachments && (
+                                  <PaperClipIcon
+                                    color={theme?.palette?.primary?.main}
+                                  />
+                                )}
                               </Box>
                             )}
 

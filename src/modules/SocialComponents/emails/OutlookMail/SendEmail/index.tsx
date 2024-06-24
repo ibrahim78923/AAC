@@ -236,18 +236,16 @@ const SendEmailDrawer = (props: any) => {
                   />
                 )}
 
-                {drawerType === CREATE_EMAIL_TYPES?.REPLY ||
-                  (drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL && (
-                    <RHFTextField
-                      name="re"
-                      label="Re:"
-                      size="small"
-                      value={removeRePrefix(
-                        currentEmailAssets?.others?.subject,
-                      )}
-                      disabled
-                    />
-                  ))}
+                {(drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+                  drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL) && (
+                  <RHFTextField
+                    name="re"
+                    label="Re:"
+                    size="small"
+                    value={removeRePrefix(currentEmailAssets?.others?.subject)}
+                    disabled
+                  />
+                )}
                 {drawerType === CREATE_EMAIL_TYPES?.FORWARD && (
                   <RHFTextField
                     name="re"
