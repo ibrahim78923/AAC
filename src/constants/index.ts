@@ -151,7 +151,7 @@ export const AIR_SERVICES = {
   PURCHASE_ORDER_REPORTS: `/air-services/reports/purchase-order`,
   SOFTWARE_REPORTS: `/air-services/reports/software`,
   FEEDBACK_SURVEY: `/air-services/feedback-survey`,
-  UPSERT_FEEDBACK_SURVEY: `/air-services/feedback-survey/upsert`,
+  UPSERT_FEEDBACK_SURVEY: `/air-services/feedback-survey/upsert-feedback-survey`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {

@@ -1,6 +1,7 @@
 import { Box, Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
+import { errorSnackbar } from '@/utils/api';
 
 const statusColor = (status: string) => {
   switch (status) {
@@ -106,7 +107,7 @@ export const customerSupportListColumn = (
     },
   ];
 };
-export const feedbackDropdown = [
+export const feedbackDropdown = (activeCheck: any) => [
   {
     id: 1,
     title: 'Clone',
@@ -118,6 +119,11 @@ export const feedbackDropdown = [
     id: 2,
     title: 'Edit Survey',
     handleClick: (closeMenu: any) => {
+      if (activeCheck?.length > 1) {
+        errorSnackbar('Please select only one survey to edit');
+        closeMenu?.();
+        return;
+      }
       closeMenu?.();
     },
   },

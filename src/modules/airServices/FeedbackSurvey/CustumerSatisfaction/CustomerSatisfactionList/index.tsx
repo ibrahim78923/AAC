@@ -7,6 +7,8 @@ import {
   customerSupportListColumn,
   feedbackDropdown,
 } from './CustomerSatisfactionList.data';
+import { AIR_SERVICES } from '@/constants';
+import { useRouter } from 'next/router';
 
 export const CustomerSatisfactionList = ({
   search,
@@ -24,16 +26,26 @@ export const CustomerSatisfactionList = ({
   setLimit,
   meta = {},
 }: any) => {
+  const router = useRouter();
   return (
     <>
       <Box display="flex" justifyContent="space-between">
         <Search label="Search here" searchBy={search} setSearchBy={setSearch} />
         <Box display="flex" gap={1}>
           <SingleDropdownButton
-            dropdownOptions={feedbackDropdown}
+            dropdownOptions={feedbackDropdown(activeCheck)}
             disabled={!!!activeCheck?.length}
           />
-          <Button startIcon={<PlusIcon />} variant="contained">
+          <Button
+            startIcon={<PlusIcon />}
+            variant="contained"
+            onClick={() =>
+              router?.push({
+                pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
+                query: { type: 'customer-satisfaction' },
+              })
+            }
+          >
             Create Survey
           </Button>
         </Box>

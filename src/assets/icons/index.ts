@@ -487,6 +487,11 @@ export { default as CallTakeIcon } from './modules/airCallCenter/CallMetrices/ca
 export { default as CallListenToDiscretelyIcon } from './modules/airCallCenter/CallMetrices/call-listen-to-call-discretley';
 export { default as CallOutGoingIcon } from './modules/airCallCenter/CallMetrices/calls-outgoging';
 export { default as DragAndDropIcon } from './shared/drag-drop-icon';
+export { default as AddTitleIcon } from './modules/airServices/FeedBack/add-title';
+export { default as ImportQuestionIcon } from './modules/airServices/FeedBack/import-question';
+export { default as AddSectionIcon } from './modules/airServices/FeedBack/add-section';
+export { default as CopyQuestionIcon } from './modules/airServices/FeedBack/copy-question';
+export { default as DeleteQuestionIcon } from './modules/airServices/FeedBack/delete-question';
 export { default as KeypadIcon } from './shared/keypad-icon';
 export { default as StartRecordingIcon } from './shared/start-recording-icon';
 export { default as CloseRecordingIcon } from './shared/close-recording-icon';

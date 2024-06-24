@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router';
+import { Box, Button } from '@mui/material';
 import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { Box, Button } from '@mui/material';
+import { AIR_SERVICES } from '@/constants';
 import {
   customerSupportListColumn,
   feedbackDropdown,
@@ -24,6 +26,7 @@ export const CustomerSupportList = ({
   setLimit,
   meta = {},
 }: any) => {
+  const router = useRouter();
   return (
     <>
       <Box display="flex" justifyContent="space-between">
@@ -33,7 +36,16 @@ export const CustomerSupportList = ({
             dropdownOptions={feedbackDropdown(activeCheck)}
             disabled={!!!activeCheck?.length}
           />
-          <Button startIcon={<PlusIcon />} variant="contained">
+          <Button
+            startIcon={<PlusIcon />}
+            variant="contained"
+            onClick={() =>
+              router?.push({
+                pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
+                query: { type: 'customer-support' },
+              })
+            }
+          >
             Create Survey
           </Button>
         </Box>
