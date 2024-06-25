@@ -12,8 +12,6 @@ import PermissionsAccordion from './PermissionsAccordion';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { ORG_ADMIN } from '@/constants';
 
 import { addUsersArrayData } from '../RoleAndRights.data';
@@ -22,6 +20,7 @@ import useAddRole from './useAddRole';
 
 import { ArrowBack } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
+import { useLazyGetDropdownProductsQuery } from '@/services/common-APIs';
 
 const AddRole = () => {
   const {
@@ -40,6 +39,8 @@ const AddRole = () => {
     loadingAddRole,
     loadingUpdateRole,
   } = useAddRole();
+
+  const productsData = useLazyGetDropdownProductsQuery();
 
   const { watch } = methods;
   const { query } = navigate;
@@ -64,20 +65,13 @@ const AddRole = () => {
       <Box sx={{ my: 3 }}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {addUsersArrayData()?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            {addUsersArrayData(productsData)?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item.componentProps.name}>
                 <item.component
                   {...item.componentProps}
                   size={'small'}
                   disabled={query?.type === 'view' ? true : false}
-                >
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
+                />
               </Grid>
             ))}
           </Grid>

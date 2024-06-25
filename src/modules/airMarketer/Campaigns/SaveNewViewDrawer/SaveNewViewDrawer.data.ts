@@ -89,7 +89,7 @@ export const dataArray = () => {
         row: false,
         options: [
           { value: 'private', label: 'Private' },
-          { value: 'team', label: 'My Team (test)' },
+          { value: 'specific user or team', label: 'My Team (test)' },
           { value: 'everyone', label: 'Everyone' },
         ],
       },

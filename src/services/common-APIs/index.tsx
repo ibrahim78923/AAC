@@ -88,9 +88,6 @@ export const CommonAPIS = baseAPI.injectEndpoints({
         method: 'GET',
         params: { productId: params?.productId },
       }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.organizationcompanyaccounts;
-      },
       providesTags: ['USERS', 'PERMISSIONS'],
     }),
 

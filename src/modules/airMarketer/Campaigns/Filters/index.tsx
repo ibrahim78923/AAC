@@ -6,47 +6,29 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
-import { dataArray, validationSchema } from './Filters.data';
-import { DATE_FORMAT } from '@/constants';
-import dayjs from 'dayjs';
+import { dataArray, defaultValues, validationSchema } from './Filters.data';
 import { getSession } from '@/utils';
 import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
+import { filteredEmptyValues } from '@/utils/api';
 
 const CampaingFilters = (props: any) => {
-  const { isOpenDrawer, setIsOpenFilter, handeApplyFilter, filterLoading } =
+  const { isOpenDrawer, setIsOpenFilter, setFilters, filterLoading, filters } =
     props;
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues(filters),
   });
 
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
 
   const userListData = useLazyGetUsersListDropdownQuery();
-
   const { handleSubmit } = methods;
 
-  const onSubmit = (values: any) => {
-    try {
-      const obj = {
-        ...values,
-        startDate: values?.startDate
-          ? dayjs(values?.startDate)?.format(DATE_FORMAT?.API)
-          : undefined,
-        campaignOwner: values.campaignOwner?._id,
-        endDate: values?.endDate
-          ? dayjs(values?.endDate)?.format(DATE_FORMAT?.API)
-          : undefined,
-      };
-      delete obj?.date;
-      handeApplyFilter(obj);
-      setIsOpenFilter(false);
-    } catch (error: any) {
-      enqueueSnackbar(error.message, {
-        variant: 'error',
-      });
-    }
+  const onSubmit = async (data: any) => {
+    const filterValues = filteredEmptyValues?.(data);
+    setFilters(filterValues);
+    setIsOpenFilter(false);
   };
 
   return (

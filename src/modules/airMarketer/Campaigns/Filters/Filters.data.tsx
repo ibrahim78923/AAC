@@ -4,16 +4,18 @@ import {
   RHFDatePicker,
 } from '@/components/ReactHookForm';
 import { ROLES } from '@/constants/strings';
-
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({});
 
-export const defaultValues = {
-  campaignOwner: '',
-  campaignStatus: '',
-  startDate: null,
-  endDate: null,
+export const defaultValues = (data: any) => {
+  return {
+    campaignStatus: data?.campaignStatus,
+    campaignOwner: data?.campaignOwner ? data?.campaignOwner : null,
+    startDate:
+      typeof data?.startDate === 'object' ? new Date(data?.startDate) : null,
+    endDate: typeof data?.endDate === 'object' ? new Date(data?.endDate) : null,
+  };
 };
 
 export const dataArray = (userListData: any, organizationId: any) => {

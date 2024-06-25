@@ -36,8 +36,8 @@ const useAddRole = () => {
   const [isSwitchVal, setIsSwitchVal] = useState(false);
 
   const roleDefaultValues: any = {
-    productId: '',
-    organizationCompanyAccountId: '',
+    productId: {},
+    organizationCompanyAccountId: {},
     name: '',
     description: '',
     status: '',
@@ -74,13 +74,27 @@ const useAddRole = () => {
     }
     setValue('permissions', permissionsArray);
   };
-
   const setPayload = (permissionsArray: any) => {
     const data = viewPerdetails?.data;
     const fieldsToSet: any = {
-      productId: query?.type !== 'add' ? data?.productDetails?.id : '',
+      productId:
+        query?.type !== 'add'
+          ? data
+            ? {
+                _id: data?.productDetails?.id,
+                name: data?.productDetails?.name,
+              }
+            : null
+          : null,
       organizationCompanyAccountId:
-        query?.type !== 'add' ? data?.companyAccountDetails?.id : '',
+        query?.type !== 'add'
+          ? data
+            ? {
+                _id: data?.companyAccountDetails?.id,
+                accountName: data?.companyAccountDetails?.name,
+              }
+            : null
+          : null,
       name: query?.type !== 'add' ? data?.name : '',
       description: query?.type !== 'add' ? data?.description : '',
       status: query?.type !== 'add' ? data?.status : '',
@@ -122,7 +136,7 @@ const useAddRole = () => {
     isLoading: loadingProduct,
     refetch,
   } = useGetProductsPermissionsQuery({
-    productId: productVal,
+    productId: productVal?._id,
   });
 
   useEffect(() => {
@@ -134,6 +148,9 @@ const useAddRole = () => {
 
   const onSubmit = async (values: any) => {
     values.status = values.status ? 'ACTIVE' : 'INACTIVE';
+    values.productId = values?.productId?._id;
+    values.organizationCompanyAccountId =
+      values?.organizationCompanyAccountId?._id;
     try {
       if (query?.type === 'add') {
         values.organizationId = user?.organization?._id;

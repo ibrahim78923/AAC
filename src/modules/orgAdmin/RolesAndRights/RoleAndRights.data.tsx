@@ -1,14 +1,15 @@
 import { Checkbox } from '@mui/material';
-
-import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-
-import { RHFSwitch, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocompleteAsync,
+  RHFSwitch,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
 import { SwitchBtn } from '@/components/SwitchButton';
 
 import * as Yup from 'yup';
 
-import { CommonAPIS } from '@/services/common-APIs';
+import { useLazyGetCompanyAccountsListsQuery } from '@/services/common-APIs';
 import { convertIdToShortNumber, getSession } from '@/utils';
 
 export const columns: any = (columnsProps: any) => {
@@ -83,50 +84,41 @@ export const columns: any = (columnsProps: any) => {
 };
 
 export const addUserSchema = Yup.object().shape({
-  productId: Yup?.string()?.required('Field is Required'),
-  organizationCompanyAccountId: Yup?.string()?.required('Field is Required'),
+  productId: Yup?.object()?.required('Field is Required'),
+  organizationCompanyAccountId: Yup?.object()?.required('Field is Required'),
   name: Yup?.string()?.required('Field is Required'),
 });
 
-export const addUsersArrayData = () => {
-  const { user } = getSession();
-  const { useGetCompanyAccountsQuery } = CommonAPIS;
+export const addUsersArrayData = (productsData: any) => {
+  const { user }: any = getSession();
 
-  const { data: companyAccounts } = useGetCompanyAccountsQuery({
-    orgId: user?.organization?._id,
-  });
+  const companyAccounts = useLazyGetCompanyAccountsListsQuery();
 
   return [
     {
       componentProps: {
-        label: 'Select Product',
         name: 'productId',
+        label: 'Select Product',
         fullWidth: true,
-        required: true,
-        select: true,
+        placeholder: 'Select Product',
+        apiQuery: productsData,
+        getOptionLabel: (item: any) => item?.name,
       },
-      options: user?.products?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 5,
     },
     {
       componentProps: {
         label: 'Select Company Account',
         name: 'organizationCompanyAccountId',
-        fullWidth: true,
+        placeholder: 'Select Company Account',
         required: true,
-        select: true,
+        apiQuery: companyAccounts,
+        getOptionLabel: (option: any) => option?.accountName,
+        externalParams: { orgId: user?.organization?._id },
+        queryKey: 'ordId',
       },
-      options: companyAccounts?.data?.organizationcompanyaccounts?.map(
-        (item: any) => ({
-          value: item?._id,
-          label: item?.accountName,
-        }),
-      ),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 5,
     },
     {

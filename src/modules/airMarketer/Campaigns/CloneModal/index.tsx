@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { Grid, Box } from '@mui/material';
 
@@ -27,7 +27,6 @@ const CloneModal = ({
 }: any) => {
   const { createCampaignsLoading, UserListData, postCampaigns }: any =
     useCampaigns();
-  const [setIsCreateTask] = useState(false);
 
   useEffect(() => {
     const data = compaignsDataById?.data[indexNumbers?.ZERO];
@@ -84,7 +83,6 @@ const CloneModal = ({
       });
     }
     reset();
-    setIsCreateTask(false);
     setSelectedRows([]);
   };
   return (

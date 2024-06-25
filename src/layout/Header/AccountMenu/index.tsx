@@ -203,6 +203,7 @@ const AccountMenu = () => {
                                   );
                                   setActiveProduct(item);
                                 }}
+                                sx={{ cursor: 'pointer' }}
                               >
                                 {subitem?.company?.accountName}
                               </Typography>

@@ -400,7 +400,6 @@ export const CREATE_DASHBOARD_KEYS = {
     'Total Deals, Open Deals, Team Goals, Closed/Won, Published Quotes',
 };
 
-
 export const COMPANITES_TYPE = {
   NEW_COMPANY: 'new-Company',
   COMPANY: 'company',
