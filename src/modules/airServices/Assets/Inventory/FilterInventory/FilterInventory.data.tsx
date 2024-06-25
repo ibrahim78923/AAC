@@ -5,7 +5,7 @@ import {
 
 import {
   assetLifeExpiryOptions,
-  assetsImpactOptions,
+  assetsImpactFilterOptions,
   dateOptions,
 } from '../Inventory.data';
 import { PAGINATION } from '@/config';
@@ -116,7 +116,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       name: 'impact',
       label: 'Impact',
       select: true,
-      options: assetsImpactOptions,
+      options: assetsImpactFilterOptions,
       placeholder: 'Select impact',
       getOptionLabel: (option: any) => option?.label,
     },

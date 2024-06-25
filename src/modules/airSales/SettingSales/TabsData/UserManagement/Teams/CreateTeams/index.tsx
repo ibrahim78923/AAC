@@ -32,7 +32,6 @@ const CreateTeams = (props?: any) => {
       },
     },
   ];
-
   const allTeamMembers = [...loggedUserData, ...filteredUsers];
   const filterdTeamMembers = allTeamMembers?.filter((item: any) => !item?.team);
 

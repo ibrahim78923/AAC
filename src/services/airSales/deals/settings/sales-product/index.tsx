@@ -38,6 +38,9 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.SALE_PRODUCTS}`,
         method: 'DELETE',
         body: ids,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       }),
       invalidatesTags: ['SETTINGS_SALE_PRODUCT'],
     }),

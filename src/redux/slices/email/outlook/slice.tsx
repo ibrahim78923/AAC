@@ -47,7 +47,6 @@ const outlookSlice = createSlice({
     setSelectedRecords: (state, action: PayloadAction<any>) => {
       state.selectedRecords = action?.payload;
     },
-
     setMailList: (state, action: PayloadAction<any>) => {
       if (action.payload === 'clear') {
         state.mailList = [];

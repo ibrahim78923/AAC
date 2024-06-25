@@ -13,3 +13,6 @@ export interface EmojiPickerPropsInterface {
 export interface EmojiPickerPropsInterface {
   onEmojiSelect: (emoji: string) => void;
 }
+export interface EmojiPickerPropsInterface {
+  onEmojiSelect: (emoji: string) => void;
+}
