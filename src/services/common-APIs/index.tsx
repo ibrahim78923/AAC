@@ -5,12 +5,13 @@ import {
   OPERATION,
   settingSalesProductCategory,
 } from '@/routesConstants/endpoints';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 export const CommonAPIS = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => ({
-        url: END_POINTS?.PRODUCTS,
+        url: `${END_POINTS?.PRODUCTS}?status=${PRODUCT_USER_STATUS?.active}`,
         method: 'GET',
       }),
       providesTags: ['PRODUCTS'],

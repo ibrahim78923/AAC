@@ -11,9 +11,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { generateImage } from '@/utils/avatarUtils';
 import useUsersDetails from '../Users/UsersDetails/useUsersDetails';
-import { useGetAllProductsQuery } from '@/services/orgAdmin/organization';
 import { getProductIcon } from '../SubscriptionAndInvoices/Subscriptions';
 import { getSession } from '@/utils';
+import { useGetProductsQuery } from '@/services/common-APIs';
 
 const Dashboard = () => {
   const { theme } = useDashboard();
@@ -21,7 +21,7 @@ const Dashboard = () => {
   const { handleChangeImg } = useUsersDetails();
   const { getUserData, profileDataLoading } = useDashboard();
 
-  const { data: productsData, isLoading } = useGetAllProductsQuery({});
+  const { data: productsData, isLoading } = useGetProductsQuery({});
 
   const accountsData = JSON.parse(localStorage.getItem('accountsData') || '{}');
   const { user }: { accessToken: string; refreshToken: string; user: any } =
