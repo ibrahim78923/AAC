@@ -18,6 +18,7 @@ const ManageDashboardOptions = ({ toggle }: any) => {
           border: `1px solid ${theme?.palette?.custom?.dark}`,
           color: theme?.palette?.custom?.main,
           padding: '0px 18px 0px 18px',
+          width: '100%',
         }}
         onClick={handleClickActions}
       >
