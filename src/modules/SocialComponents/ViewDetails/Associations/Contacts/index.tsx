@@ -83,7 +83,7 @@ const Contacts = ({ companyId }: any) => {
               setContactRecord,
               theme,
             })}
-            data={data?.data?.contacts}
+            data={data ?? []}
             isLoading={isLoading}
             setPage={setPage}
             setPageLimit={setPageLimit}

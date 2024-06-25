@@ -92,20 +92,14 @@ const MailList = ({
       if (item?.readMessage) {
         const payload = {
           messageId: item?.messageId,
-          unread: true,
+          read: true,
           starred: false,
         };
         try {
-          const response = await patchGmailMessage({
+          await patchGmailMessage({
             body: payload,
           })?.unwrap();
-          const updatedData = dataArray?.data?.map((item: any) =>
-            item?.id === response?.data?.id ? response?.data : item,
-          );
-          setDataArray((prevState: any) => ({
-            ...prevState,
-            data: updatedData,
-          }));
+          // dispatch(setGmailList('clear'));
         } catch (error: any) {
           enqueueSnackbar('Something went wrong while updating message!', {
             variant: 'error',
@@ -168,6 +162,20 @@ const MailList = ({
       ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
       : false;
 
+  function decodeHtmlEntities(str: any) {
+    const entityMap = {
+      '&amp;': '&',
+      '&lt;': '<',
+      '&gt;': '>',
+      '&quot;': '"',
+      '&#39;': "'",
+    };
+
+    return str.replace(/&amp;|&lt;|&gt;|&quot;|&#39;/g, function (match: any) {
+      return entityMap[match];
+    });
+  }
+
   return (
     <Box minHeight={'calc(100vh - 350px)'} sx={{ overflowY: 'auto' }}>
       <Box sx={styles?.notificationWrap}>
@@ -194,7 +202,10 @@ const MailList = ({
             fontWeight: '400',
             textDecoration: 'underline',
           }}
-          onClick={() => refetch()}
+          onClick={() => {
+            refetch();
+            dispatch(setGmailList('clear'));
+          }}
         >
           Refresh
         </Button>
@@ -213,7 +224,9 @@ const MailList = ({
             Messages that have been in Trash more than 30 days will be
             automatically deleted.{' '}
             <strong>
-              <u>Empty Trash now</u>
+              <u style={{ cursor: 'pointer' }} onClick={handleSelectAll}>
+                Empty Trash now
+              </u>
             </strong>
           </Typography>
         </Box>
@@ -234,10 +247,10 @@ const MailList = ({
               </>
             ) : (
               <>
-                {emailsByFolderIdData && (
+                {dataArray && (
                   <>
-                    {emailsByFolderIdData?.length > 0 ? (
-                      emailsByFolderIdData?.map((item: any) => (
+                    {dataArray?.length > 0 ? (
+                      dataArray?.map((item: any) => (
                         <>
                           <Box
                             key={uuidv4()}
@@ -248,7 +261,6 @@ const MailList = ({
                                   ? theme?.palette?.grey[100]
                                   : theme?.palette?.common?.white,
                             }}
-                            onClick={() => handelMailClick(item)}
                           >
                             <Checkbox
                               checked={selectedGmailRecords?.some(
@@ -256,7 +268,7 @@ const MailList = ({
                               )}
                               onChange={() => handleCheckboxClick(item)}
                             />
-                            <Box>
+                            <Box onClick={() => handelMailClick(item)}>
                               {gmailTabType?.name ===
                               EMAIL_TABS_TYPES?.SCHEDULE ? (
                                 <Typography
@@ -290,7 +302,9 @@ const MailList = ({
                                 color={'primary'}
                                 margin={'8px 0px'}
                               >
-                                {item?.subject}
+                                {item?.subject === 'undefined'
+                                  ? '(No subject)'
+                                  : item?.subject}
                               </Typography>
                               <Typography
                                 variant="body3"
@@ -304,7 +318,7 @@ const MailList = ({
                                   textOverflow: 'ellipsis',
                                 }}
                               >
-                                {item?.snippet}
+                                {decodeHtmlEntities(item?.snippet ?? '---')}
                               </Typography>
                               <Typography
                                 variant="body2"

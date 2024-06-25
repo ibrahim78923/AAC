@@ -9,6 +9,7 @@ import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/companies';
 import { isNullOrEmpty } from '@/utils';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 
 const useContacts = (companyId: any) => {
   const theme = useTheme();
@@ -21,10 +22,11 @@ const useContacts = (companyId: any) => {
 
   const paramObj = {
     search: searchName,
-    association_type: 'contacts',
+    recordId: companyId,
+    recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
+    associationType: ASSOCIATIONS_API_PARAMS_FOR?.CONTACTS,
   };
   const { data, isLoading } = useGetCompanyAssociationsQuery({
-    id: companyId,
     page,
     pageLimit,
     params: paramObj,

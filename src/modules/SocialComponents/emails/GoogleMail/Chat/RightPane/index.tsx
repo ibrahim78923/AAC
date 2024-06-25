@@ -45,6 +45,7 @@ import { useRouter } from 'next/router';
 import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
 import { enqueueSnackbar } from 'notistack';
 import LogoutIcon from '@mui/icons-material/Logout';
+import Link from 'next/link';
 
 const RightPane = () => {
   const theme = useTheme();
@@ -165,18 +166,18 @@ const RightPane = () => {
           >
             logout
           </Button>
-
-          <Button
-            variant="outlined"
-            sx={{ height: '33px', background: 'white' }}
-            color="inherit"
-            startIcon={<HomeIcon />}
-            onClick={() =>
-              router?.push(`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}`)
-            }
+          <Link
+            href={`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}?redirect=${true}`}
           >
-            Emails
-          </Button>
+            <Button
+              variant="outlined"
+              sx={{ height: '33px', background: 'white' }}
+              color="inherit"
+              startIcon={<HomeIcon />}
+            >
+              Emails
+            </Button>
+          </Link>
           <Button
             variant="contained"
             onClick={() => {
@@ -223,7 +224,9 @@ const RightPane = () => {
                   }}
                 >
                   <Typography variant="h4">
-                    {activeGmailRecord?.subject}
+                    {activeGmailRecord?.subject === 'undefined'
+                      ? '(No subject)'
+                      : activeGmailRecord?.subject}
                   </Typography>
                   {sortedMessagesDataArray?.length > 0 ? (
                     sortedMessagesDataArray?.map((obj: any) => (
@@ -267,10 +270,12 @@ const RightPane = () => {
                                   paddingRight: '15px',
                                 }}
                               >
-                                {obj?.payload?.headers?.find(
-                                  (header: any) =>
-                                    header?.name === Gmail_CONST?.DATE,
-                                )?.value ?? '--'}
+                                {obj?.payload?.headers
+                                  ?.find(
+                                    (header: any) =>
+                                      header?.name === Gmail_CONST?.DATE,
+                                  )
+                                  ?.value.replace(/ [+-]\d{4}$/, '') ?? '--'}
                               </Typography>
                               <Tooltip
                                 placement="top"

@@ -56,6 +56,9 @@ const SendEmailDrawer = (props: any) => {
     handelSendLaterAction,
     setAutocompleteValues,
     autocompleteValues,
+    loadingReplyGmail,
+    loadingForwardGmail,
+    loadingDraftGmail,
   } = useSendEmailDrawer({ setOpenDrawer, drawerType });
 
   const isCrmConnected = false;
@@ -82,6 +85,21 @@ const SendEmailDrawer = (props: any) => {
   };
   const isValidEmails = checkEmails(autocompleteValues);
 
+  const getLoadingDrawerType = () => {
+    switch (drawerType) {
+      case CREATE_EMAIL_TYPES.NEW_EMAIL:
+        return isSendLater ? loadingOtherScheduleSend : loadingOtherSend;
+      case CREATE_EMAIL_TYPES.FORWARD:
+        return loadingForwardGmail;
+      case CREATE_EMAIL_TYPES.REPLY:
+        return loadingReplyGmail;
+      case CREATE_EMAIL_TYPES.DRAFT:
+        return loadingDraftGmail;
+      default:
+        return '';
+    }
+  };
+
   return (
     <div>
       <CommonDrawer
@@ -104,7 +122,7 @@ const SendEmailDrawer = (props: any) => {
               return '';
           }
         })()}
-        isLoading={isSendLater ? loadingOtherScheduleSend : loadingOtherSend}
+        isLoading={getLoadingDrawerType()}
         okText={isSendLater ? 'Send Later' : 'Send'}
         isOk={true}
         footer={true}

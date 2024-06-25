@@ -136,8 +136,8 @@ export const companiesAPI = baseAPI.injectEndpoints({
       providesTags: ['COMPANY'],
     }),
     getCompanyAssociations: builder.query({
-      query: ({ id, params }: any) => ({
-        url: `${END_POINTS?.GET_COMPANY_ASSOICATION}/${id}`,
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TICKETS_ASSOCIATES_GET}`,
         method: 'GET',
         params: params,
       }),
@@ -148,6 +148,16 @@ export const companiesAPI = baseAPI.injectEndpoints({
         'DEALS',
         'DEALS_ASSOCIATION',
       ],
+    }),
+    postAssociationCompanies: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.TICKETS_ASSOCIATES,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['COMPANY'],
     }),
   }),
 });
@@ -169,4 +179,5 @@ export const {
   usePutCustomizedColumnsMutation,
   useGetCompanyDealsQuery,
   useGetCompanyAssociationsQuery,
+  usePostAssociationCompaniesMutation,
 } = companiesAPI;

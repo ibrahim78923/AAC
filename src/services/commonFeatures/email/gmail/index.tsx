@@ -105,6 +105,14 @@ export const gmailApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    permanentlyDeleteGmail: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${SOCIAL_FEATURES_GMAIL?.PERMANENTLY_DELETE_GMAIL}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
 
     forwardSendGmail: builder.mutation({
       query: ({ body }: any) => {
@@ -163,6 +171,7 @@ export const {
   usePostDraftGmailMutation,
   usePostReplyOtherGmailMutation,
   useDeleteGmailMutation,
+  usePermanentlyDeleteGmailMutation,
   useForwardSendGmailMutation,
   usePatchGmailMessageMutation,
   usePostDraftSendGmailMutation,

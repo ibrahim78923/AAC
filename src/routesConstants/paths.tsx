@@ -283,6 +283,7 @@ export const SOCIAL_FEATURES_GMAIL = {
   REPLY_GMAIL_SEND: '/gmail/reply-gmail-email',
   DRAFT_GMAIL_SEND: '/gmail/create-gmail-draft-mail',
   DELETE_GMAIL: 'gmail/move-gmail-thread-to-trash',
+  PERMANENTLY_DELETE_GMAIL: 'gmail/delete-permanently-gmail-mail',
   FORWARD_GMAIL: '/gmail/forward-gmail-email',
   UPDATE_GMAIL: '/gmail/update-gmail-message',
   MAIN_EMAIL_PAGE: '/social-components/email',
