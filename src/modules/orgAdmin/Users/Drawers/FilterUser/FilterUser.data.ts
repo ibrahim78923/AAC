@@ -13,9 +13,11 @@ export const usersFilterDefaultValues = (data: any) => {
 };
 
 export const usersFilterArray = () => {
-  const { useLazyGetOrganizationsListQuery, useLazyGetProductsListQuery }: any =
-    CommonAPIS;
-  const products = useLazyGetProductsListQuery();
+  const {
+    useLazyGetOrganizationsListQuery,
+    useLazyGetDropdownProductsQuery,
+  }: any = CommonAPIS;
+  const products = useLazyGetDropdownProductsQuery();
   const organizations = useLazyGetOrganizationsListQuery();
 
   return [

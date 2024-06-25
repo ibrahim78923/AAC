@@ -5,21 +5,24 @@ import {
 import useAddAccount from './useAddAccount';
 import * as Yup from 'yup';
 import { indexNumbers } from '@/constants';
+import { CommonAPIS } from '@/services/common-APIs';
 
 export const AddAccountArray = (companyRoleParams: any) => {
   const { companyAccounts, companyRoles, user } = useAddAccount();
+  const { useLazyGetDropdownProductsQuery }: any = CommonAPIS;
+  const products = useLazyGetDropdownProductsQuery();
+
   return [
     {
       componentProps: {
-        label: 'Products',
+        label: 'Product',
         name: 'product',
-        placeholder: 'Select Product',
         fullWidth: true,
-        required: true,
-        options: user?.products?.map((item: any) => item),
+        placeholder: 'Select product',
+        apiQuery: products,
         getOptionLabel: (option: any) => option?.name,
       },
-      component: RHFAutocomplete,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {

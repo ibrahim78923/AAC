@@ -20,6 +20,7 @@ import useAuth from '@/hooks/useAuth';
 import { isNullOrEmpty } from '@/utils';
 import { PAGINATION } from '@/config';
 import { generateImage } from '@/utils/avatarUtils';
+import { useGetDropdownProductsListQuery } from '@/services/common-APIs';
 const useOrganizationTable = () => {
   const [imageToUpload, setImageToUpload] = useState<any>();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -45,7 +46,7 @@ const useOrganizationTable = () => {
   const [updateOrganizationStatus] = useUpdateOrganizationStatusMutation();
   const [imageHandler, setImageHandler] = useState(false);
   const { user }: any = useAuth();
-
+  const { data: productsList } = useGetDropdownProductsListQuery({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
@@ -173,7 +174,7 @@ const useOrganizationTable = () => {
 
   const onSubmit = async (data: any) => {
     const products: any = [];
-    user?.products?.forEach((product: any) => {
+    productsList?.data?.forEach((product: any) => {
       if (data[product?._id]) products?.push(product?._id);
     });
     const address = {
@@ -284,6 +285,7 @@ const useOrganizationTable = () => {
     unitField,
     buildingNameField,
     buildingNumberField,
+    productsList,
     streetNameField,
     cityField,
     countryField,

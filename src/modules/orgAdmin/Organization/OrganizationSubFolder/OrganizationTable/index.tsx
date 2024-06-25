@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 import {
   Grid,
   Box,
@@ -9,7 +8,6 @@ import {
   Typography,
   InputAdornment,
 } from '@mui/material';
-
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {
@@ -22,20 +20,14 @@ import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
-
 import { dataArray } from './OrganizationTable.data';
-
 import useOrganizationTable from './useOrganizationTable';
-
 import { FeaturedImage, AddCircleImage } from '@/assets/images';
 import { AddPenIcon } from '@/assets/icons';
-
 import { v4 as uuidv4 } from 'uuid';
-
 import { styles } from './OrganizationTable.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
-import useAuth from '@/hooks/useAuth';
 import { ORGANIZATION_DRAWER_TYPES } from '@/constants';
 
 const OrganizationTable = () => {
@@ -77,8 +69,8 @@ const OrganizationTable = () => {
     imagePreview,
     reset,
     setImagePreview,
+    productsList,
   } = useOrganizationTable();
-  const { user }: any = useAuth();
 
   const getDateArray = dataArray({ drawerHeading, isToggled });
 
@@ -165,7 +157,7 @@ const OrganizationTable = () => {
                 marginBottom: '1rem',
               }}
             >
-              {user?.products?.map((product: any) => (
+              {productsList?.data?.map((product: any) => (
                 <Box sx={styles?.productCard} key={product?._id}>
                   <RHFCheckbox
                     name={product?._id}

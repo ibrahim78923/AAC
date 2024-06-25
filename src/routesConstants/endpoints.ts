@@ -320,6 +320,7 @@ export const END_POINTS = {
   GET_IS_PHONE_CONNECTED: '/sms-marketing/connected-number',
   GET_SMS_TEMPLATES: '/sms-marketing/template',
   CONNECT_PHONE_NUMBER: '/sms-marketing/connect-number',
+  WHATSAPP_TEMPLATE: '/whatsapp-marketing/template',
   SALES_TEAM: '/teams',
   SERVICE_CATALOG_CATEGORIES_DETAILS: '/service-catalog/get-detail-service',
   UPDATE_CONTRACT_SUBMIT_APPROVAL: '/contract/approval-request',

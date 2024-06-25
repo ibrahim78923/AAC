@@ -1,34 +1,26 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { DeleteIcon, EditPenBorderedIcon } from '@/assets/icons';
+import { DATE_FORMAT } from '@/constants';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button } from '@mui/material';
-
-export const templateWhatsAppMarketing = [
-  {
-    templateName: 'Fund Raising',
-    description:
-      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con',
-    category: ' Account update',
-    createdAt: ' 31-Dec-2023',
-  },
-];
+import dayjs from 'dayjs';
 
 export const columns = ({
   handelSwitch,
   setIsCreateTemplate,
   setTemplateType,
-  setIsDeleteTemplate,
+  setDeleteTemplateModal,
 }: any) => {
   return [
     {
-      accessorFn: (row: any) => row?.templateName,
+      accessorFn: (row: any) => row?.name,
       id: 'templateName',
       cell: (info: any) => info?.getValue(),
       header: 'Template Name',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.description,
+      accessorFn: (row: any) => row?.detail,
       id: 'description',
       isSortable: false,
       header: 'Description',
@@ -46,12 +38,12 @@ export const columns = ({
       id: 'createdAt',
       isSortable: false,
       header: 'Created Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row._id,
       id: '_id',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '10px' }}>
           <PermissionsGuard
             permissions={[AIR_MARKETER_SMS_MARKETING_PERMISSIONS.EDIT_TEMPLATE]}
@@ -87,7 +79,12 @@ export const columns = ({
                 height: '30px',
                 borderRadius: '50%',
               }}
-              onClick={() => setIsDeleteTemplate(true)}
+              onClick={() =>
+                setDeleteTemplateModal({
+                  isOpen: true,
+                  id: info?.row?.original?._id,
+                })
+              }
             >
               <DeleteIcon />
             </Button>

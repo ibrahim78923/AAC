@@ -28,6 +28,14 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       providesTags: ['DROPDOWNS'],
     }),
 
+    getDropdownProductsList: builder.query({
+      query: () => ({
+        url: END_POINTS?.DROPDOWN_PRODUCTS,
+        method: 'GET',
+      }),
+      providesTags: ['DROPDOWNS'],
+    }),
+
     getProductsList: builder.query({
       query: () => ({
         url: END_POINTS?.PRODUCTS,
@@ -307,5 +315,6 @@ export const {
   useLazyGetAllCompaniesQuery,
   useLazyGetAllTemplateListQuery,
   useLazyGetAllUsersQuery,
+  useGetDropdownProductsListQuery,
   useLazyGetAllTicketsQuery,
 } = CommonAPIS;

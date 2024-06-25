@@ -87,9 +87,8 @@ const ScheduledSMS = (props: any) => {
                   <Typography
                     variant="body2"
                     color={theme?.palette?.custom?.dim_blue}
-                  >
-                    {item?.detail}
-                  </Typography>
+                    dangerouslySetInnerHTML={{ __html: item?.detail }}
+                  />
                   <Stack
                     direction={{ sx: 'column', sm: 'row' }}
                     justifyContent="space-between"
