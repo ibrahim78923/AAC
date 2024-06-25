@@ -11,7 +11,7 @@ import { Box, Button, IconButton, Typography } from '@mui/material';
 export const surveyConditions = {
   email: 'viaEmail',
   link: 'viaMagicLink',
-  surveyDuration: 'surveyDuration',
+  surveyDuration: 'subject',
   sendSurveyPeople: 'sendSurveyPeople',
   displayName: 'displayName',
 };
@@ -135,7 +135,7 @@ export const createSurveyFields = [
             <Typography
               variant="body2"
               color="blue.link_blue"
-              mt={1}
+              mt={0.5}
               ref={linkRef}
             >
               {window?.location?.href}

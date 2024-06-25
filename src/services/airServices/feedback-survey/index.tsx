@@ -21,8 +21,28 @@ export const feedbackSurvey = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getFeedbackList: builder?.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_FEEDBACK_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
+    deleteFeedbackSurvey: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.DELETE_FEEDBACK_SURVEY}`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
-export const { usePostFeedbackSurveyMutation, usePatchFeedbackSurveyMutation } =
-  feedbackSurvey;
+export const {
+  usePostFeedbackSurveyMutation,
+  usePatchFeedbackSurveyMutation,
+  useLazyGetFeedbackListQuery,
+  useDeleteFeedbackSurveyMutation,
+} = feedbackSurvey;

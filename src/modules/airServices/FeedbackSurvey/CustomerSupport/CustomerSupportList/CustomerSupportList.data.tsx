@@ -1,16 +1,20 @@
 import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { errorSnackbar } from '@/utils/api';
+import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
 
 const statusColor = (status: string) => {
   switch (status) {
-    case 'Published':
+    case 'published':
       return 'secondary';
-    case 'Draft':
+    case 'draft':
       return 'default';
-    case 'Inactive':
+    case 'inactive':
       return 'warning';
   }
+};
+const surveyType: any = {
+  customerSupport: 'Customer Support',
+  customerSatisfaction: 'Customer Satisfaction',
 };
 export const customerSupportListColumn = (
   activeCheck: any,
@@ -66,12 +70,12 @@ export const customerSupportListColumn = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.survey,
-      id: 'survey',
+      accessorFn: (row: any) => row?.surveyTitle,
+      id: 'surveyTitle',
       isSortable: true,
       header: 'Survey',
       cell: (info: any) => (
-        <Typography variant="body4" color="primary" sx={{ cursor: 'pointer' }}>
+        <Typography variant="body2" color="primary" sx={{ cursor: 'pointer' }}>
           {info?.getValue()}
         </Typography>
       ),
@@ -82,7 +86,10 @@ export const customerSupportListColumn = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <Chip color={statusColor(info?.getValue())} label={info?.getValue()} />
+        <Chip
+          color={statusColor(info?.getValue())}
+          label={capitalizeFirstLetter(info?.getValue())}
+        />
       ),
     },
     {
@@ -90,7 +97,7 @@ export const customerSupportListColumn = (
       id: 'surveyType',
       isSortable: true,
       header: 'Survey Type',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => surveyType[info?.getValue()],
     },
     {
       accessorFn: (row: any) => row?.createdAt,
@@ -101,7 +108,7 @@ export const customerSupportListColumn = (
     },
   ];
 };
-export const feedbackDropdown = (activeCheck: any) => [
+export const feedbackDropdown = (activeCheck: any, setOpenModal: any) => [
   {
     id: 1,
     title: 'Inactive',
@@ -132,6 +139,7 @@ export const feedbackDropdown = (activeCheck: any) => [
     id: 4,
     title: 'Delete',
     handleClick: (closeMenu: any) => {
+      setOpenModal(true);
       closeMenu?.();
     },
   },

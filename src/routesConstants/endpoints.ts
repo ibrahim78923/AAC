@@ -419,6 +419,8 @@ export const END_POINTS = {
   GET_GOOGLE_MEET: '/auth/google-meet/authorize',
   CREATE_FEEDBACK_SURVEY: '/feedback-survey/create-feedback-survey',
   UPDATE_FEEDBACK_SURVEY: '/feedback-survey/update-feedback-survey',
+  GET_FEEDBACK_LIST: '/feedback-survey/list-feedback-survey',
+  DELETE_FEEDBACK_SURVEY: '/feedback-survey/delete-feedback-survey',
   GET_ZOOM_AUTH: '/auth/zoom/authorize',
 };
 

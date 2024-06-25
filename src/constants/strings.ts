@@ -858,3 +858,8 @@ export const NOTIFICATIONS_TYPES = {
   MEETING_SMS_REMINDER: 'meetingSMSReminder',
   MEETING_EMAIL: 'meetingEmail',
 };
+
+export const FEEDBACK_SURVEY_TYPES = {
+  CUSTOMER_SATISFACTION: 'customerSatisfaction',
+  CUSTOMER_SUPPORT: 'customerSupport',
+};

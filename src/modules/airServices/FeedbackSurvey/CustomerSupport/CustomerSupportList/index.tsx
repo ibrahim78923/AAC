@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { Box, Button } from '@mui/material';
 import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
@@ -9,31 +8,39 @@ import {
   customerSupportListColumn,
   feedbackDropdown,
 } from './CustomerSupportList.data';
+import { useCustomerSupportList } from './useCustomerSupportList';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
-export const CustomerSupportList = ({
-  search,
-  setSearch,
-  activeCheck,
-  setActiveCheck,
-  feedbackTableData = [],
-  isLoading,
-  isFetching,
-  isError,
-  isSuccess,
-  page,
-  setPage,
-  limit,
-  setLimit,
-  meta = {},
-}: any) => {
-  const router = useRouter();
+export const CustomerSupportList = (props: any) => {
+  const {
+    search,
+    setSearch,
+    activeCheck,
+    setActiveCheck,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    router,
+    feedbackTableData,
+    meta,
+    deleteLoading,
+    handleDeleteSurvey,
+    openModal,
+    setOpenModal,
+  } = useCustomerSupportList(props);
   return (
     <>
       <Box display="flex" justifyContent="space-between">
         <Search label="Search here" searchBy={search} setSearchBy={setSearch} />
         <Box display="flex" gap={1}>
           <SingleDropdownButton
-            dropdownOptions={feedbackDropdown(activeCheck)}
+            dropdownOptions={feedbackDropdown(activeCheck, setOpenModal)}
             disabled={!!!activeCheck?.length}
           />
           <Button
@@ -71,6 +78,17 @@ export const CustomerSupportList = ({
         setPage={setPage}
         setPageLimit={setLimit}
       />
+      {openModal && (
+        <AlertModals
+          open={openModal}
+          handleClose={() => setOpenModal(false)}
+          handleSubmitBtn={handleDeleteSurvey}
+          loading={deleteLoading}
+          disableCancelBtn={deleteLoading}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          message="Are you sure you want to delete this survey?"
+        />
+      )}
     </>
   );
 };
