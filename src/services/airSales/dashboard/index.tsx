@@ -37,3 +37,4 @@ export const {
   useGetSalesDashboardsQuery,
   usePostSalesDashboardMutation,
 } = salesDashboardApi;
+
