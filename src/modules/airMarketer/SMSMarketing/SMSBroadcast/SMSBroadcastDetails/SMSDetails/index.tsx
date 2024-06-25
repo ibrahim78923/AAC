@@ -7,23 +7,18 @@ import {
   MenuItem,
   Select,
   Stack,
-  TextareaAutosize,
-  Tooltip,
   Typography,
 } from '@mui/material';
 
 import Search from '@/components/Search';
-
 import SMSDetailsTable from './SMSDetailsTable';
-
 import useSMSBroadcast from '../../useSMSBroadcast';
 import ImportIcon from '@/assets/icons/shared/import-icon';
-import { RefreshTasksIcon } from '@/assets/icons';
 
-const SMSDetails = () => {
+const SMSDetails = ({ detailsData }: any) => {
   const { theme } = useSMSBroadcast();
   return (
-    <Grid container sx={{ p: 1 }}>
+    <Grid container spacing={2}>
       <Grid item xs={12}>
         <Stack direction="row" alignItems="center" gap={1}>
           <Avatar />
@@ -36,7 +31,7 @@ const SMSDetails = () => {
                 fontSize: '15px',
               }}
             >
-              Compaign Name
+              {detailsData?.campaign?.title ?? 'N/A'}
             </Typography>
             <Typography variant="body2" sx={{ fontSize: '13px' }}>
               Just Now
@@ -44,19 +39,24 @@ const SMSDetails = () => {
           </Box>
         </Stack>
       </Grid>
-      <Grid item xs={12} lg={6}>
-        <Typography variant="h6">Details</Typography>
-        <TextareaAutosize
-          style={{
+      <Grid item xs={12} lg={5}>
+        <Box
+          sx={{
             width: '100%',
             height: '203px',
             padding: '16px',
             border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
             borderRadius: '8px',
           }}
-        />
+        >
+          <Typography
+            dangerouslySetInnerHTML={{
+              __html: detailsData?.campaign?.description,
+            }}
+          />
+        </Box>
       </Grid>
-      <Grid xs={12}>
+      <Grid item xs={12}>
         <Stack direction="row" justifyContent="space-between" my={2}>
           <Search placeholder="Search Here" size="small" />
           <Box sx={{ gap: 1, display: 'flex' }}>
@@ -67,9 +67,7 @@ const SMSDetails = () => {
                 // value={age}
                 // onChange={handleChange}
               >
-                <MenuItem value={'status'} disabled>
-                  All
-                </MenuItem>
+                <MenuItem value={'status'}>All</MenuItem>
                 <MenuItem value={'sent'}>Sent</MenuItem>
                 <MenuItem value={'delivered'}>Delivered</MenuItem>
                 <MenuItem value={'read'}>Read</MenuItem>
@@ -77,11 +75,6 @@ const SMSDetails = () => {
                 <MenuItem value={'failed'}>Failed</MenuItem>
               </Select>
             </FormControl>
-            <Tooltip title={'Refresh Filter'}>
-              <Button variant="outlined" color="inherit" className="small">
-                <RefreshTasksIcon />
-              </Button>
-            </Tooltip>
             <Button
               className="small"
               variant="outlined"

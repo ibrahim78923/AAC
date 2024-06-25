@@ -6,12 +6,15 @@ import { ArrowDropDown } from '@mui/icons-material';
 import useMenuOptions from './useMenuOptions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS } from '@/constants/permission-keys';
+import { REQUESTORS_STATUS } from '@/constants/strings';
 
 const MenuItems = ({
   setIsOpenDrawer,
   setIsShowViewBillingDetails,
   isChecked,
   setIsEditModal,
+  setIsUnassignPlan,
+  planStatus,
 }: any) => {
   const {
     handleClickActions,
@@ -55,15 +58,17 @@ const MenuItems = ({
             SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS?.BILLING_EDIT_PLAN,
           ]}
         >
-          <MenuItem
-            onClick={() => {
-              setIsOpenDrawer(true);
-              setIsEditModal(true);
-              setAnchorEl(null);
-            }}
-          >
-            Edit Assign Plan
-          </MenuItem>
+          {planStatus === REQUESTORS_STATUS?.ACTIVE && (
+            <MenuItem
+              onClick={() => {
+                setIsOpenDrawer(true);
+                setIsEditModal(true);
+                setAnchorEl(null);
+              }}
+            >
+              Edit Assign Plan
+            </MenuItem>
+          )}
         </PermissionsGuard>
 
         <PermissionsGuard
@@ -74,11 +79,22 @@ const MenuItems = ({
           <MenuItem
             onClick={() => {
               setIsShowViewBillingDetails(true);
+              setAnchorEl(null);
             }}
           >
             View Billing History
           </MenuItem>
         </PermissionsGuard>
+        {planStatus === REQUESTORS_STATUS?.ACTIVE && (
+          <MenuItem
+            onClick={() => {
+              setIsUnassignPlan(true);
+              setAnchorEl(null);
+            }}
+          >
+            Unassign plan
+          </MenuItem>
+        )}
       </Menu>
     </>
   );

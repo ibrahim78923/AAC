@@ -2,8 +2,9 @@ import { PAGINATION } from '@/config';
 import { useLazyGetTicketsQuery } from '@/services/airServices/tickets';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { usePostAssociationsMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/associations';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 
 export const useAssociationsDrawer = (props: any) => {
   const { open, setDrawerOpen } = props;
@@ -17,8 +18,9 @@ export const useAssociationsDrawer = (props: any) => {
 
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
     useLazyGetTicketsQuery();
-  const [postAssociationTrigger, postAssociationStatus] =
-    usePostAssociationsMutation();
+
+  const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
+    usePostRemoveAssociateTicketsMutation();
 
   const tickets = lazyGetTicketsStatus?.data?.data;
   const metaData = lazyGetTicketsStatus?.data?.data?.meta;
@@ -42,15 +44,21 @@ export const useAssociationsDrawer = (props: any) => {
   };
 
   const onSubmit = async () => {
-    const postAssociationParameter = {
-      purchaseOrderId,
-      body: {
-        ticketsIds: selectedTicketList?.map((ticket: any) => ticket?._id),
-      },
+    const body = {
+      recordId: purchaseOrderId,
+      recordType: ASSOCIATIONS_API_PARAMS_FOR?.PURCHASE_ORDER,
+      operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+      ticketsIds: selectedTicketList?.map((ticket: any) => ticket?._id),
     };
+    const postRemoveAssociateTicketsParameter = {
+      body,
+    };
+
     try {
-      await postAssociationTrigger(postAssociationParameter)?.unwrap();
-      successSnackbar('Tickets Associated Successfully!');
+      await postRemoveAssociateTicketsTrigger(
+        postRemoveAssociateTicketsParameter,
+      )?.unwrap();
+      successSnackbar('Ticket(s) Associated Successfully!');
       setSelectedTicketList([]);
       setDrawerOpen(false);
     } catch (error: any) {
@@ -77,6 +85,6 @@ export const useAssociationsDrawer = (props: any) => {
     tickets,
     metaData,
     onSubmit,
-    postAssociationStatus,
+    postRemoveAssociateTicketsStatus,
   };
 };

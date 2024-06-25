@@ -34,3 +34,8 @@ export const calendarAccounts = (account: any) => [
     email: 'Rabilibra275@gmail.com',
   },
 ];
+
+export const calenderType = {
+  google: 'Google Calendar',
+  office: 'Office 365 Calendar',
+};

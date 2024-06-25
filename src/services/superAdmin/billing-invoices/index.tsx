@@ -87,6 +87,13 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['bilingInvoices'],
     }),
+    patchUnassignPlan: builder.mutation({
+      query: ({ organizationPlanId }: any) => ({
+        url: `${superAdminBillingInvoices.UNASSIGN_PLAN}?organizationPlanId=${organizationPlanId}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['bilingInvoices'],
+    }),
   }),
 });
 
@@ -100,5 +107,6 @@ export const {
   usePatchBilingInvoicesMutation,
   useGetBillingHistoryQuery,
   usePatchUpdateInvoicesMutation,
+  usePatchUnassignPlanMutation,
   useGetExistingCrmQuery,
 } = bilingInvoicesAPI;

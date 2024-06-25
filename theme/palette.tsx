@@ -162,6 +162,8 @@ const CUSTOM_COLORS = {
   light_yellow_bg: '#FFFCF1',
   light_white_bg: '#F9FAFB',
   light_green_bg_two: '#7BFE14',
+  // name this color 74D4C
+  light_green_bg_three: '#74D4CB',
 };
 const GRAPH = {
   cyan: 'blue',

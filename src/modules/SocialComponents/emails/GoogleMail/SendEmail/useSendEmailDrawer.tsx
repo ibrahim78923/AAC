@@ -45,10 +45,12 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     usePostSendGmailMutation();
   const [postScheduleGmail, { isLoading: loadingOtherScheduleSend }] =
     usePostScheduleGmailMutation();
-  const [postReplyGmail, { isLoading: loadingOtherReply }] =
+  const [postReplyGmail, { isLoading: loadingReplyGmail }] =
     usePostReplyOtherGmailMutation();
-  const [postDraftGmail] = usePostDraftGmailMutation();
-  const [forwardSendGmail] = useForwardSendGmailMutation();
+  const [postDraftGmail, { isLoading: loadingDraftGmail }] =
+    usePostDraftGmailMutation();
+  const [forwardSendGmail, { isLoading: loadingForwardGmail }] =
+    useForwardSendGmailMutation();
 
   const currentGmailAssets = useAppSelector(
     (state: any) => state?.gmail?.currentGmailAssets,
@@ -161,21 +163,22 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         reset();
       }
     } else {
-      if (!values?.to || values?.to?.length === 0) {
-        enqueueSnackbar('Please Enter Email', { variant: 'error' });
-        return false;
-      }
-
-      if (!values?.description || values?.description?.trim() === '') {
-        enqueueSnackbar('Please Enter Description', { variant: 'error' });
-
-        return false;
-      }
-
       if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
+        if (!values?.to || values?.to?.length === 0) {
+          enqueueSnackbar('Please Enter Email', { variant: 'error' });
+          return false;
+        }
+
+        if (!values?.description || values?.description?.trim() === '') {
+          enqueueSnackbar('Please Enter Description', { variant: 'error' });
+
+          return false;
+        }
         const formDataSend = new FormData();
         formDataSend.append('to', values?.to);
-        formDataSend.append('subject', values?.subject);
+        if (values?.subject) {
+          formDataSend.append('subject', values?.subject);
+        }
         formDataSend.append('content', values?.description);
         if (values?.cc && values?.cc?.trim() !== '') {
           formDataSend.append('cc', values?.cc);
@@ -210,6 +213,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         drawerType === CREATE_EMAIL_TYPES?.REPLY ||
         drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
       ) {
+        if (!values?.description || values?.description?.trim() === '') {
+          enqueueSnackbar('Please Enter Description', { variant: 'error' });
+
+          return false;
+        }
         const formDataReply = new FormData();
         formDataReply.append('id', currentGmailAssets?.id);
         formDataReply.append('threadId', currentGmailAssets?.threadId);
@@ -240,6 +248,10 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         }
       }
       if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
+        if (!values?.to || values?.to?.length === 0) {
+          enqueueSnackbar('Please Enter Email', { variant: 'error' });
+          return false;
+        }
         const formDataSend = new FormData();
         formDataSend.append('id', currentGmailAssets?.id);
         formDataSend.append('threadId', currentGmailAssets?.threadId);
@@ -295,7 +307,9 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     setValue,
     loadingOtherSend,
     loadingOtherScheduleSend,
-    loadingOtherReply,
+    loadingReplyGmail,
+    loadingForwardGmail,
+    loadingDraftGmail,
     isLoadingProcessDraft,
     handleOnClose,
     sendLaterDate,

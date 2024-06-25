@@ -74,7 +74,7 @@ export const templateList = [
   },
   {
     id: '5',
-    title: 'Open Tickets',
+    title: 'Open',
     ticketCount: '0',
     match: 'counter',
     templateType: 'Tickets',
@@ -82,7 +82,7 @@ export const templateList = [
   },
   {
     id: '6',
-    title: 'Close Tickets',
+    title: 'Close',
     ticketCount: '12',
     match: 'counter',
     templateType: 'Tickets',
@@ -90,7 +90,7 @@ export const templateList = [
   },
   {
     id: '7',
-    title: 'Over Due Tickets',
+    title: 'Over Due',
     ticketCount: '1',
     match: 'counter',
     templateType: 'Tickets',
@@ -98,7 +98,7 @@ export const templateList = [
   },
   {
     id: '8',
-    title: 'Unassigned Tickets',
+    title: 'Unassigned',
     ticketCount: '0',
     match: 'counter',
     templateType: 'Tickets',
@@ -106,7 +106,7 @@ export const templateList = [
   },
   {
     id: '9',
-    title: 'Resolved Tickets',
+    title: 'Resolved',
     ticketCount: '15',
     match: 'counter',
     templateType: 'Tickets',
@@ -114,7 +114,7 @@ export const templateList = [
   },
   {
     id: '10',
-    title: 'pending Tickets',
+    title: 'pending',
     ticketCount: '0',
     match: 'counter',
     templateType: 'Tickets',

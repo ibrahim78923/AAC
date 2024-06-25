@@ -70,7 +70,11 @@ export const Indicators = () => {
               </Typography>
               <Typography
                 variant="h4"
-                sx={{ marginLeft: '10px', textAlign: 'end' }}
+                sx={{
+                  marginLeft: '10px',
+                  textAlign: 'end',
+                  color: item?.color,
+                }}
               >
                 {item?.count}{' '}
               </Typography>

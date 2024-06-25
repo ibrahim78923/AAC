@@ -1,6 +1,5 @@
 import Typography from '@mui/material/Typography';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { Box, Divider, IconButton } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
@@ -36,17 +35,15 @@ export const Activities = () => {
           data?.data?.activitylogs?.map((activity: any) => (
             <Box key={activity?._id}>
               <Box display={'flex'}>
-                <IconButton
-                  disabled
-                  color="primary"
-                  sx={{
-                    border: `0.063rem solid ${theme?.palette?.primary?.main}`,
-                    height: '1.75rem',
-                    width: '1.75rem',
-                  }}
-                >
-                  <BorderColorIcon color="primary" sx={{ p: 0.35 }} />
-                </IconButton>
+                <Box>
+                  <IconButton
+                    disabled
+                    color="primary"
+                    sx={{
+                      border: `1px solid ${theme?.palette?.primary?.main}`,
+                    }}
+                  ></IconButton>
+                </Box>
                 <Box sx={{ marginLeft: 2 }}>
                   <Typography
                     variant="body2"
@@ -91,25 +88,6 @@ export const Activities = () => {
                     </Typography>
                   </Box>
                 </Box>
-              </Box>
-              <Box
-                display={'flex'}
-                flexWrap={'wrap'}
-                alignItems={'center'}
-                gap={1.3}
-                marginBottom={1.5}
-              >
-                <Box flex={'0 0 0.4%'}></Box>
-                <Divider
-                  orientation="vertical"
-                  sx={{
-                    borderRadius: '1.25rem',
-                    background: theme?.palette?.primary?.light,
-                    width: '0.25rem',
-                    height: '3.063rem',
-                  }}
-                />
-                <Box flex={0}></Box>
               </Box>
             </Box>
           ))

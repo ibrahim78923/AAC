@@ -2,9 +2,10 @@ import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useLazyGetExitingTicketsQuery } from '@/services/airServices/inventory/SingleInventoryDetail/Associations';
 import { PAGINATION } from '@/config';
-import { usePatchExistingIncidentMutation } from '@/services/airServices/assets/inventory/single-inventory-details/associations';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import { usePostRemoveAssociateTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/association';
 
 export const useExistingIncident = (props: any) => {
   const { setIsOpenDrawer } = props;
@@ -15,9 +16,6 @@ export const useExistingIncident = (props: any) => {
   const [checkboxValues, setCheckboxValues] = useState<any>({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-
-  const [existingIncidentTrigger, { isLoading }] =
-    usePatchExistingIncidentMutation();
 
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
     useLazyGetExitingTicketsQuery();
@@ -58,22 +56,30 @@ export const useExistingIncident = (props: any) => {
     getValueTicketsListData();
   }, [searchBy, page, pageLimit]);
 
+  const [postRemoveAssociateTicketsTrigger, { isLoading }] =
+    usePostRemoveAssociateTicketsMutation();
+
   const handleSubmit = async () => {
     const checkedIds = Object?.keys(checkboxValues ?? {})?.filter(
       (id) => checkboxValues?.[id],
     );
 
-    const associationExistingParams = {
-      id: associationsInventoryId,
-      ticketIds: checkedIds,
+    const body = {
+      recordId: associationsInventoryId,
+      recordType: ASSOCIATIONS_API_PARAMS_FOR?.ASSETS,
+      operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+      ticketsIds: checkedIds,
+    };
+    const postRemoveAssociateTicketsParameter = {
+      body,
     };
 
     try {
-      const response = await existingIncidentTrigger(
-        associationExistingParams,
+      await postRemoveAssociateTicketsTrigger(
+        postRemoveAssociateTicketsParameter,
       )?.unwrap();
-      successSnackbar(response?.message);
-      onClose();
+      successSnackbar('Ticket(s) Associated Successfully!');
+      onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

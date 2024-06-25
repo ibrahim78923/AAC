@@ -370,11 +370,11 @@ const TabsContentSection = ({
           mt: 1,
         }}
       >
-        {dataArray &&
+        {dataArray?.length ? (
           dataArray?.map((item: any) => {
             return (
               <Box key={uuidv4()}>
-                {activeSidebarItem === 'associations' ? (
+                {activeSidebarItem === TASK_TABS?.ASSOCIATIONS ? (
                   <>
                     {selectedIds?.some(
                       (selectedItem: any) => selectedItem?.id === item?.id,
@@ -408,7 +408,16 @@ const TabsContentSection = ({
                 )}
               </Box>
             );
-          })}
+          })
+        ) : (
+          <>
+            {activeSidebarItem === TASK_TABS?.ASSOCIATIONS ? (
+              <></>
+            ) : (
+              <Box sx={{ marginLeft: '10px' }}>No records found</Box>
+            )}
+          </>
+        )}
       </Box>
     </Box>
   );

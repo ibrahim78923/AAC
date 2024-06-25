@@ -1,29 +1,37 @@
 import React from 'react';
-
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
-
 import { BackArrIcon } from '@/assets/icons';
-
 import {
   createTemplateDefaultValues,
   createTemplateFiltersDataArray,
   createTemplateValidationSchema,
 } from './TemplateForm.data';
-
 import { useForm } from 'react-hook-form';
-
 import { v4 as uuidv4 } from 'uuid';
+import { usePostWhatsappTemplateMutation } from '@/services/airMarketer/whatsappMarketing/templates';
+import { enqueueSnackbar } from 'notistack';
 
 const TemplateForm = ({ handelSwitch, templateType }: any) => {
   const methodsNewsAndEventsFilters = useForm({
     resolver: yupResolver(createTemplateValidationSchema),
     defaultValues: createTemplateDefaultValues,
   });
-  const onSubmit = (values: any) => {
+
+  const [postWhatsappTemplate] = usePostWhatsappTemplateMutation();
+
+  const onSubmit = async (values: any) => {
     const formData = new FormData();
-    formData?.append('file', values?.attachment);
+    Object.keys(values).forEach((key) => {
+      formData.append(key, values[key]);
+    });
+    try {
+      await postWhatsappTemplate({ body: formData }).unwrap();
+      enqueueSnackbar('Template added successfully', { variant: 'success' });
+    } catch (err: any) {
+      enqueueSnackbar(err?.data?.message, { variant: 'success' });
+    }
   };
   const { handleSubmit } = methodsNewsAndEventsFilters;
 

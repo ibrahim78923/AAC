@@ -19,8 +19,8 @@ const SMSDetailsTable = () => {
 
       {isDelete && (
         <AlertModals
-          message="Are you sure you want to delete this broadcast?"
-          type="Delete SMS Broadcast"
+          message="Are you sure you want to delete this broadcast contact?"
+          type="Delete SMS Broadcast Contact"
           typeImage={<AlertModalDeleteIcon />}
           open={isDelete}
           handleClose={() => setIsDelete(false)}

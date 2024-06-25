@@ -17,14 +17,16 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
-import { CONTRACT_ACTION, MODULE_TYPE } from '@/constants/strings';
+import { MODULE_TYPE } from '@/constants/strings';
 import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
 
 export const useUpdateContract = () => {
   const theme = useTheme();
   const router = useRouter();
-  const [patchAddToContractTrigger] = usePatchContractRenewExtendMutation();
-  const [postAttachmentsTrigger] = usePostAttachmentsMutation();
+  const [patchAddToContractTrigger, patchAddToContractStatus] =
+    usePatchContractRenewExtendMutation();
+  const [postAttachmentsTrigger, postAttachmentsStatus] =
+    usePostAttachmentsMutation();
   const { contractId } = router?.query;
   const getSingleContractParameter = {
     pathParam: {
@@ -32,7 +34,8 @@ export const useUpdateContract = () => {
     },
   };
 
-  const actionRenewExtend = useSearchParams().get('action');
+  const actionRenewExtend = useSearchParams()?.get('action');
+
   const { data }: any = useGetSingleContractByIdQuery(
     getSingleContractParameter,
     {
@@ -90,11 +93,8 @@ export const useUpdateContract = () => {
 
     try {
       await patchAddToContractTrigger(postContractParameter)?.unwrap();
-      if (actionRenewExtend === CONTRACT_ACTION?.RENEW)
-        successSnackbar?.('Contract Renew Successfully');
-      else if (actionRenewExtend === CONTRACT_ACTION?.EXTEND)
-        successSnackbar?.('Contract Extend Successfully');
       router?.push(AIR_SERVICES?.ASSETS_CONTRACTS);
+      successSnackbar?.(`Contract ${actionRenewExtend} successfully`);
       reset?.();
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
@@ -103,6 +103,7 @@ export const useUpdateContract = () => {
   useEffect(() => {
     reset(() => updateContractFormDefaultValuesFunction(data));
   }, [data, reset]);
+
   const apiQueryApprover = useLazyGetAgentsDropdownQuery();
   const updateContractFormFields = updateContractFormFieldsFunction(
     apiQueryApprover,
@@ -118,5 +119,7 @@ export const useUpdateContract = () => {
     handleCancelBtn,
     updateContractFormFields,
     contractId,
+    postAttachmentsStatus,
+    patchAddToContractStatus,
   };
 };

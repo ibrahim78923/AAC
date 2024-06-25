@@ -9,14 +9,13 @@ import { ArrowLeft, FilterSharedIcon, PlusIcon } from '@/assets/icons';
 import Filters from './Filters';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import { useState } from 'react';
 
 const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
-  const {
-    setIsOpenFilterDrawer,
-    searchByName,
-    setSearchByName,
-    isOpenFilterDrawer,
-  } = useManage();
+  const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
+
+  const [searchByName, setSearchByName] = useState('');
+
   const theme: any = useTheme();
 
   return (
@@ -74,7 +73,7 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12}>
-        <Table />
+        <Table searchByName={searchByName} />
       </Grid>
       {isOpenFilterDrawer && (
         <Filters

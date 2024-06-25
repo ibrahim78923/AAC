@@ -1,27 +1,39 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import React, { useState } from 'react';
-import { columns, templateWhatsAppMarketing } from './Template.data';
+import { columns } from './Template.data';
 import { Box, Button } from '@mui/material';
 import Search from '@/components/Search';
 import { PlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
+import useTemplates from './useTemplates';
 
 const Templates = ({
   handelSwitch,
   setIsCreateTemplate,
   setTemplateType,
 }: any) => {
-  const [isDeleteTemplate, setIsDeleteTemplate] = useState(false);
+  const {
+    getTempLoading,
+    getTemplatesData,
+    setPage,
+    setLimit,
+    searchBy,
+    setSearchBy,
+    getTempFetching,
+    getTempSuccess,
+    deleteTemplateModal,
+    deleteTemplateHandler,
+    setDeleteTemplateModal,
+    deleteTempLoading,
+  } = useTemplates();
 
   const getColumns = columns({
     handelSwitch,
     setIsCreateTemplate,
     setTemplateType,
-    setIsDeleteTemplate,
+    setDeleteTemplateModal,
   });
-  const [setSearchBy] = useState('');
 
   return (
     <>
@@ -45,6 +57,7 @@ const Templates = ({
               size="small"
               label="Search here"
               setSearchBy={setSearchBy}
+              searchBy={searchBy}
             />
           </PermissionsGuard>
 
@@ -75,19 +88,37 @@ const Templates = ({
             ]}
           >
             <TanstackTable
-              data={templateWhatsAppMarketing}
+              data={getTemplatesData?.data?.smstemplates}
               columns={getColumns}
               isPagination
+              isLoading={getTempLoading}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setLimit}
+              count={getTemplatesData?.data?.meta?.pages}
+              pageLimit={getTemplatesData?.data?.meta?.limit}
+              totalRecords={getTemplatesData?.data?.meta?.total}
+              isSuccess={getTempSuccess}
+              isFetching={getTempFetching}
+              currentPage={getTemplatesData?.data?.meta?.page}
             />
           </PermissionsGuard>
 
-          {isDeleteTemplate && (
+          {deleteTemplateModal?.isOpen && (
             <AlertModals
-              message={'Are you sure you want to delete this template ?'}
               type="delete"
-              open={isDeleteTemplate}
-              handleClose={() => setIsDeleteTemplate(false)}
-              handleSubmitBtn={() => setIsDeleteTemplate(false)}
+              loading={deleteTempLoading}
+              open={deleteTemplateModal?.isOpen}
+              message="Are you sure you want to delete this template ?"
+              handleSubmitBtn={() =>
+                deleteTemplateHandler(deleteTemplateModal?.id)
+              }
+              handleClose={() =>
+                setDeleteTemplateModal({
+                  ...deleteTemplateModal,
+                  isOpen: false,
+                })
+              }
             />
           )}
         </Box>

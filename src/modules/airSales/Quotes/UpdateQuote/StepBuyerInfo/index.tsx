@@ -43,6 +43,7 @@ const StepBuyerInfo = ({
   } = useUpdateQuote();
   const contactData: any = dataGetQuoteById?.data?.deal;
   const theme = useTheme();
+
   return (
     <>
       <Grid container spacing={'40px'}>

@@ -13,9 +13,11 @@ import { styles } from './SMSBroadcastDetails.style';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import useSMSBroadcastDetails from './useSMSBroadcastDetails';
 
 const SMSBroadcastDetails = () => {
   const { navigate, statusTag } = useSMSBroadcast();
+  const { smsBroadcastDetails } = useSMSBroadcastDetails();
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
@@ -26,7 +28,9 @@ const SMSBroadcastDetails = () => {
             }}
             sx={{ cursor: 'pointer' }}
           />
-          <Typography variant="h3">Test Broad</Typography>
+          <Typography variant="h3">
+            {smsBroadcastDetails?.name ?? 'N/A'}
+          </Typography>
         </Box>
         <Box sx={styles?.cardHeader}>
           <Box
@@ -37,11 +41,13 @@ const SMSBroadcastDetails = () => {
               borderRadius: '50%',
             }}
           />
-          <Typography variant="body2">Completed</Typography>
+          <Typography variant="body2">
+            {smsBroadcastDetails?.status ?? 'N/A'}
+          </Typography>
         </Box>
       </Stack>
       <CommonTabs tabsArray={['SMS Details', 'Analytics']}>
-        <SMSDetails />
+        <SMSDetails detailsData={smsBroadcastDetails} />
         <Analytics />
       </CommonTabs>
     </>

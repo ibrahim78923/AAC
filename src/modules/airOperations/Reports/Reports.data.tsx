@@ -1,24 +1,28 @@
-import { SalesWorkflowIcon, ServiceWorkflowIcon } from '@/assets/icons';
+import {
+  MarketingReportIcon,
+  SalesReportIcon,
+  ServiceReportIcon,
+} from '@/assets/icons';
 import { AIR_OPERATIONS } from '@/constants';
 
 export const reportsTypes = [
   {
     id: 1,
-    avatar: <SalesWorkflowIcon />,
+    avatar: <SalesReportIcon />,
     type: 'Sales Reports',
     purpose: 'Overview Sales Reports',
     link: AIR_OPERATIONS?.SALES_REPORTS,
   },
   {
     id: 2,
-    avatar: <ServiceWorkflowIcon />,
+    avatar: <ServiceReportIcon />,
     type: 'Service Reports',
     purpose: 'Overview Service Reports',
     link: AIR_OPERATIONS?.SERVICES_REPORTS,
   },
   {
     id: 3,
-    avatar: <ServiceWorkflowIcon />,
+    avatar: <MarketingReportIcon />,
     type: 'Marketing Reports',
     purpose: 'Overview Marketing Reports',
     link: AIR_OPERATIONS?.MARKETING_REPORTS,

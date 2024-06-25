@@ -7,6 +7,7 @@ import { eventDataArray } from './CreateEvent.data';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateEvent from './useCreateEvent';
 import { Info } from '@mui/icons-material';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const CreateEvent = (props: any) => {
   const { isDrawerOpen, onClose } = props;
@@ -39,9 +40,13 @@ const CreateEvent = (props: any) => {
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     {item?.componentProps?.heading && (
                       <Stack direction="row" gap={1}>
-                        <Typography variant={item?.componentProps?.varient}>
-                          {item?.componentProps?.heading}
-                        </Typography>
+                        <PermissionsGuard
+                          permissions={[item?.componentProps?.permissions]}
+                        >
+                          <Typography variant={item?.componentProps?.varient}>
+                            {item?.componentProps?.heading}
+                          </Typography>
+                        </PermissionsGuard>
                         {(item?.componentProps?.heading === 'Event Trigger' ||
                           item?.componentProps?.heading ===
                             'Custom contact property') && (
@@ -55,14 +60,16 @@ const CreateEvent = (props: any) => {
                         )}
                       </Stack>
                     )}
-                    <item.component {...item.componentProps} size={'small'}>
-                      {item?.componentProps?.select &&
-                        item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))}
-                    </item.component>
+                    <PermissionsGuard permissions={[item?.permissions]}>
+                      <item.component {...item.componentProps} size={'small'}>
+                        {item?.componentProps?.select &&
+                          item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))}
+                      </item.component>
+                    </PermissionsGuard>
                     {item?.componentProps?.name === 'triggerRadio' &&
                       marketingRadio === 'marketingQualifiedLead' && (
                         <RHFSelect

@@ -11,8 +11,8 @@ export const dateData = [
   },
 ];
 export const bufferTime = [
-  '5 minutes',
-  '10 Minutes',
-  '15 Minutes',
-  '20 Minutes',
+  { value: 5, label: '5 minutes' },
+  { value: 10, label: '10 Minutes' },
+  { value: 15, label: '15 Minutes' },
+  { value: 20, label: '20 Minutes' },
 ];

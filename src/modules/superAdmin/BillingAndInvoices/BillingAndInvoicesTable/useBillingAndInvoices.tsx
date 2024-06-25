@@ -14,6 +14,7 @@ const useBillingAndInvoices = () => {
   const [isViewDetailOpen, setIsViewDeailOpen] = useState<boolean>(false);
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
+  const [isUnassignPlan, setIsUnassignPlan] = useState(false);
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [isShowGenerateInvoice, setisShowGenerateInvoice] = useState(false);
   const theme = useTheme();
@@ -58,6 +59,7 @@ const useBillingAndInvoices = () => {
     setIsChecked,
     isChecked,
     isGetRowValues,
+    theme,
   );
 
   return {
@@ -89,6 +91,8 @@ const useBillingAndInvoices = () => {
     handleRefresh,
     setPage,
     setPageLimit,
+    isUnassignPlan,
+    setIsUnassignPlan,
   };
 };
 

@@ -1,7 +1,7 @@
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
-  RHFSwitchableDatepicker,
+  RHFDatePicker,
 } from '@/components/ReactHookForm';
 import { useLazyGetProductsListQuery } from '@/services/common-APIs';
 
@@ -9,6 +9,9 @@ export const rolesFilterDefaultValues = (data: any) => {
   return {
     product: data?.product?.name ? data?.product : null,
     status: data?.status ?? null,
+    startDate:
+      typeof data?.startDate === 'object' ? new Date(data?.startDate) : null,
+    endDate: typeof data?.endDate === 'object' ? new Date(data?.endDate) : null,
   };
 };
 
@@ -39,14 +42,33 @@ export const rolesFiltersArray = () => {
       component: RHFAutocomplete,
       md: 12,
     },
+    // commented for future use if needed
+    // {
+    //   componentProps: {
+    //     label: 'Created Date',
+    //     name: 'date',
+    //     placeholder: 'Select date',
+    //     fullWidth: true,
+    //   },
+    //   component: RHFSwitchableDatepicker,
+    //   md: 12,
+    // },
     {
       componentProps: {
-        label: 'Created Date',
-        name: 'date',
-        placeholder: 'Select date',
+        label: 'Start Date',
+        name: 'startDate',
         fullWidth: true,
       },
-      component: RHFSwitchableDatepicker,
+      component: RHFDatePicker,
+      md: 12,
+    },
+    {
+      componentProps: {
+        label: 'End Date',
+        name: 'endDate',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
       md: 12,
     },
   ];

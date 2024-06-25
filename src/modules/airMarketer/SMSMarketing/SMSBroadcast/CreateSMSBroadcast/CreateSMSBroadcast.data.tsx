@@ -1,4 +1,4 @@
-import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFEditor } from '@/components/ReactHookForm';
 
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 import {
@@ -9,11 +9,14 @@ import {
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  // recipients: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
+  campaignId: Yup?.object()?.required('Field is Required'),
+  detail: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = (getIsPhoneConnected: any) => {
   return {
+    name: '',
     senderId: getIsPhoneConnected?.data?.phoneNumber,
     campaignId: null,
     templateId: null,
@@ -29,6 +32,16 @@ export const createBroadcast = () => {
   return [
     {
       componentProps: {
+        name: 'name',
+        label: 'Name',
+        required: true,
+        placeholder: 'Enter name',
+      },
+      component: RHFTextField,
+      md: 12,
+    },
+    {
+      componentProps: {
         name: 'senderId',
         label: 'Sender',
         disabled: true,
@@ -42,7 +55,8 @@ export const createBroadcast = () => {
       componentProps: {
         placeholder: 'Select campaign',
         name: 'campaignId',
-        label: 'Compaign',
+        label: 'Campaign',
+        required: true,
         apiQuery: campaignsList,
         getOptionLabel: (option: any) => option?.title,
       },
@@ -74,12 +88,11 @@ export const createBroadcast = () => {
     {
       componentProps: {
         name: 'detail',
-        label: 'Details',
-        placeholder: 'Enter details..',
-        multiline: true,
-        rows: 6,
+        label: 'SMS Details',
+        placeholder: 'Enter sms details..',
+        required: true,
       },
-      component: RHFTextField,
+      component: RHFEditor,
       md: 12,
     },
   ];

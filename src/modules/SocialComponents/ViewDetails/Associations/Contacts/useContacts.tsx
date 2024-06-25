@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
-import {
-  useGetContactsQuery,
-  useUpdateContactMutation,
-} from '@/services/commonFeatures/contacts';
+import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
-import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/companies';
+import {
+  useGetCompanyAssociationsQuery,
+  usePostAssociationCompaniesMutation,
+} from '@/services/commonFeatures/companies';
 import { isNullOrEmpty } from '@/utils';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 
 const useContacts = (companyId: any) => {
   const theme = useTheme();
@@ -21,10 +22,11 @@ const useContacts = (companyId: any) => {
 
   const paramObj = {
     search: searchName,
-    association_type: 'contacts',
+    recordId: companyId,
+    recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
+    associationType: ASSOCIATIONS_API_PARAMS_FOR?.CONTACTS,
   };
   const { data, isLoading } = useGetCompanyAssociationsQuery({
-    id: companyId,
     page,
     pageLimit,
     params: paramObj,
@@ -54,15 +56,17 @@ const useContacts = (companyId: any) => {
     setIsOpenAlert(false);
   };
 
-  const [updateContacts] = useUpdateContactMutation();
-
+  const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
   const deleteContactHandler = async () => {
-    const formData = new FormData();
+    const payload = {
+      recordId: companyId,
+      recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
+      operation: ASSOCIATIONS_API_PARAMS_FOR?.REMOVE,
+      contactsIds: [contactRecord?._id],
+    };
 
-    formData.append('recordType', 'contacts');
-    formData.append('recordId', '');
     try {
-      await updateContacts({ body: formData, id: contactRecord?._id }).unwrap();
+      await PostAssociationCompanies({ body: payload }).unwrap();
       enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
       setIsOpenAlert(false);
     } catch (error) {

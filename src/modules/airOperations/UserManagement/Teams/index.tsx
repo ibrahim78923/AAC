@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { TeamsHeader } from './TeamsHeader';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useTeams } from './useTeams';
@@ -23,7 +22,6 @@ export const Teams = () => {
     submitDeleteModal,
     deleteStatus,
     isEditDrawerOpen,
-    router,
     onClose,
     teamIdData,
     setSearch,
@@ -31,57 +29,54 @@ export const Teams = () => {
     setIsDrawerOpen,
   } = useTeams();
   return (
-    <Box>
+    <>
       <TeamsHeader
         setSearch={setSearch}
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />
-      <br />
-      <Box mt={'0.75rem'}>
-        <PermissionsGuard
-          permissions={[
-            AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.USER_LIST,
-          ]}
-        >
-          <TanstackTable
-            data={data?.data?.userTeams}
-            columns={teamListColumn}
-            isPagination={true}
-            isLoading={isLoading}
-            isError={isError}
-            isFetching={isFetching}
-            isSuccess={isSuccess}
-            setPageLimit={setPageLimit}
-            setPage={setPage}
-            count={metaData?.pages}
-            totalRecords={metaData?.total}
-            onPageChange={(page: any) => setPage(page)}
-            currentPage={metaData?.page}
-            pageLimit={metaData?.limit}
-          />
-        </PermissionsGuard>
-        {router?.query?.teamId && (
-          <UpsertTeams
-            isDrawerOpen={isEditDrawerOpen || router?.query?.teamId}
-            setIsDrawerOpen={onClose}
-            teamData={teamIdData}
-            title={'Edit Team'}
-            okText={'Save'}
-          />
-        )}
-        {deleteModal && (
-          <AgentConversionDelete
-            message={'Are you sure you want to delete this Team?'}
-            deleteStatus={deleteStatus}
-            open={deleteModal?.val}
-            handleClose={() => {
-              setDeleteModal(false);
-            }}
-            submitDeleteModal={submitDeleteModal}
-          />
-        )}
-      </Box>
-    </Box>
+      <PermissionsGuard
+        permissions={[
+          AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.USER_LIST,
+        ]}
+      >
+        <TanstackTable
+          data={data?.data?.userTeams}
+          columns={teamListColumn}
+          isPagination={true}
+          isLoading={isLoading}
+          isError={isError}
+          isFetching={isFetching}
+          isSuccess={isSuccess}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+          count={metaData?.pages}
+          totalRecords={metaData?.total}
+          onPageChange={(page: any) => setPage(page)}
+          currentPage={metaData?.page}
+          pageLimit={metaData?.limit}
+        />
+      </PermissionsGuard>
+      {isEditDrawerOpen && (
+        <UpsertTeams
+          isDrawerOpen={isEditDrawerOpen}
+          setIsDrawerOpen={onClose}
+          teamData={teamIdData}
+          title={'Edit Team'}
+          okText={'Save'}
+        />
+      )}
+      {deleteModal && (
+        <AgentConversionDelete
+          message={'Are you sure you want to delete this Team?'}
+          deleteStatus={deleteStatus}
+          open={deleteModal?.val}
+          handleClose={() => {
+            setDeleteModal(false);
+          }}
+          submitDeleteModal={submitDeleteModal}
+        />
+      )}
+    </>
   );
 };

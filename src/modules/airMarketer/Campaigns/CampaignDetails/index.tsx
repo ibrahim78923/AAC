@@ -3,7 +3,11 @@ import { Box, Grid, Typography, useTheme } from '@mui/material';
 
 import { v4 as uuidv4 } from 'uuid';
 import { campaignDetailsData } from './CampaignDetails.data';
+import useCampaigns from '../useCampaigns';
+
 const CampaignDetails = ({ open, onClose }: any) => {
+  const { campaignsById } = useCampaigns();
+
   const theme: any = useTheme();
   return (
     <CommonDrawer
@@ -16,7 +20,7 @@ const CampaignDetails = ({ open, onClose }: any) => {
     >
       <Box mt={1}>
         <Grid container>
-          {campaignDetailsData?.map((campaign) => {
+          {campaignDetailsData(campaignsById)?.map((campaign) => {
             return (
               <Grid
                 key={uuidv4()}

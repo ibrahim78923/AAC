@@ -6,7 +6,13 @@ export const upsertRolesValidationSchema = Yup?.object()?.shape({
     ?.trim()
     ?.required('Name is Required')
     ?.max(30, 'Name up to 30 characters'),
-  description: Yup?.string()?.trim()?.required('Description is Required'),
+  description: Yup?.string()
+    ?.trim()
+    ?.required('Description is Required')
+    ?.test('is-not-empty', 'Description is Required', (value) => {
+      const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+      return strippedContent !== '';
+    }),
 });
 
 export const upsertRolesDefaultValues: any = (slugs: any) => {
@@ -35,7 +41,7 @@ export const upsertRolesFormData = [
       name: 'description',
       placeholder: 'Enter Role Description',
       required: true,
-      style: { minHeight: '20vh' },
+      style: { height: '20vh' },
     },
     component: RHFEditor,
   },

@@ -1,3 +1,4 @@
+import { ARRAY_INDEX } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import {
   useGetTicketsTimeEntriesByIdQuery,
@@ -111,7 +112,11 @@ export const useDetailViewTimeEntries = (data: any) => {
     (obj: { counter: boolean }) => obj?.counter === true,
   );
 
-  if (objectWithTrueCounter?._id && !hasExecuted) {
+  if (
+    objectWithTrueCounter?._id &&
+    !hasExecuted &&
+    data?.data?.data?.[ARRAY_INDEX?.ZERO]?.agentDetails?._id === user?._id
+  ) {
     start();
     setIsIconVisible(false);
     setCheckId(true);
@@ -174,7 +179,6 @@ export const useDetailViewTimeEntries = (data: any) => {
     isIconVisible,
     setIsIconVisible,
     toggleView,
-
     handleSubmit,
     handleSubmitPause,
     isCheckId,

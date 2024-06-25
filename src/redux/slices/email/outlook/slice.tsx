@@ -51,8 +51,21 @@ const outlookSlice = createSlice({
       if (action.payload === 'clear') {
         state.mailList = [];
       } else {
-        state.mailList = [...state.mailList, ...Object.values(action?.payload)];
+        const newMails = Object.values(action?.payload);
+        const existingMailIds = new Set(
+          state.mailList?.map((mail: any) => mail?.id),
+        );
+
+        const uniqueMails = newMails?.filter(
+          (mail: any) => !existingMailIds?.has(mail?.id),
+        );
+
+        state.mailList = [...state.mailList, ...uniqueMails];
       }
+    },
+    setMailListSearch: (state, action: PayloadAction<any>) => {
+      state.mailList = [];
+      state.mailList = action.payload;
     },
     setMailDraftList: (state, action: PayloadAction<any>) => {
       state.mailDraftList = action?.payload;

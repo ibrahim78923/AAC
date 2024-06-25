@@ -8,12 +8,14 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import { IMG_URL } from '@/config';
+import { REQUESTORS_STATUS } from '@/constants/strings';
 
 export const Columns = (
   setIsGetRowValues: any,
   setIsChecked: any,
   isChecked: any,
   isGetRowValues: any,
+  theme: any,
 ) => {
   return [
     {
@@ -112,7 +114,30 @@ export const Columns = (
       header: 'Plan Type',
       cell: (info: any) => info?.getValue(),
     },
-
+    {
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'plan Status',
+      cell: (info: any) => {
+        return (
+          <Typography
+            variant="body3"
+            sx={{
+              borderRadius: '25px',
+              padding: '5px 7px',
+              background: `${
+                info?.getValue() === REQUESTORS_STATUS?.ACTIVE
+                  ? theme?.palette?.custom?.active_bg
+                  : theme?.palette?.custom?.inactive_bg
+              }`,
+            }}
+          >
+            {info?.getValue()}
+          </Typography>
+        );
+      },
+    },
     {
       accessorFn: (row: any) => row?.plans?.planPrice,
       id: 'planPrice',
@@ -234,7 +259,6 @@ export const dataArray = () => {
 
       md: 12,
     },
-
     {
       componentProps: {
         name: 'planTypeId',
@@ -244,6 +268,21 @@ export const dataArray = () => {
       },
 
       options: planType,
+      component: RHFSelect,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'status',
+        label: 'Plan Status',
+        fullWidth: true,
+        select: true,
+      },
+
+      options: [
+        { value: 'ACTIVE', label: 'ACTIVE' },
+        { value: 'INACTIVE', label: 'INACTIVE' },
+      ],
       component: RHFSelect,
       md: 12,
     },

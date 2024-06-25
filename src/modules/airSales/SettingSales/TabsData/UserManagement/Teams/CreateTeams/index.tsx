@@ -20,8 +20,9 @@ const CreateTeams = (props?: any) => {
     updateTeamLoading,
   } = useCreateTeams(teamDataById, setIsAddTeam, isAddTeam?.type);
   const { skeletonLines } = useUserManagement();
-  const filteredUsers =
-    productsUsers && productsUsers?.data?.usercompanyaccounts;
+  const filteredUsers = productsUsers
+    ? productsUsers?.data?.usercompanyaccounts
+    : [];
   const loggedUserData = [
     {
       _id: user?._id,

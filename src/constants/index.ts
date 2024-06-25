@@ -45,6 +45,7 @@ export const DATE_TIME_FORMAT = {
   DDMMYYYYT: 'DD-MM-YYYY hh:MM A',
   ddddDDMMMYYYYhhmmA: 'dddd, DD MMM YYYY hh:mm A',
   ddddDDMMMYYYY: 'dddd, DD MMM YYYY',
+  YYMMDD: 'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -150,7 +151,7 @@ export const AIR_SERVICES = {
   PURCHASE_ORDER_REPORTS: `/air-services/reports/purchase-order`,
   SOFTWARE_REPORTS: `/air-services/reports/software`,
   FEEDBACK_SURVEY: `/air-services/feedback-survey`,
-  UPSERT_FEEDBACK_SURVEY: `/air-services/feedback-survey/upsert`,
+  UPSERT_FEEDBACK_SURVEY: `/air-services/feedback-survey/upsert-feedback-survey`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
@@ -429,4 +430,10 @@ export const ASSOCIATIONS_API_PARAMS_FOR = {
 export const MAIL_TYPES = {
   OUTLOOK: 'outlook',
   GMAIL: 'gmail',
+};
+
+export const DRAWER_TITLE = {
+  VIEW: 'View',
+  EDIT: 'Edit',
+  ADD: 'Add',
 };

@@ -110,5 +110,6 @@ export default function useDeals({ setIsDrawerOpen }: any) {
     isSuccess,
     postRemoveAssociateTicketsStatus,
     removeTicketsAssociatesDeals,
+    setModalId,
   };
 }

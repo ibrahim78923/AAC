@@ -7,6 +7,7 @@ import useDeals from './useDeals';
 import AddDeals from './AddDeals';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import ViewDeal from './ViewDeal';
 
 export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
   const {
@@ -24,6 +25,7 @@ export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
     isSuccess,
     postRemoveAssociateTicketsStatus,
     removeTicketsAssociatesDeals,
+    setModalId,
   } = useDeals({
     setIsDrawerOpen,
   });
@@ -95,6 +97,8 @@ export default function Deals({ isDrawerOpen, setIsDrawerOpen }: any) {
           disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
         />
       )}
+
+      {modalId?.view && <ViewDeal modalId={modalId} setModalId={setModalId} />}
     </>
   );
 }

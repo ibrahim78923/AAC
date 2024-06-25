@@ -71,8 +71,8 @@ export const useTimeSlotPreferences = () => {
       daysTimeRanges: aggregatedTimeRanges,
       dateOverrides: formattedOverrides,
       bufferTime: {
-        bufferBefore: data?.bufferTime?.bufferBefore,
-        bufferAfter: data?.bufferTime?.bufferAfter,
+        bufferBefore: data?.bufferTime?.bufferBefore?.value,
+        bufferAfter: data?.bufferTime?.bufferAfter?.value,
       },
     };
     try {

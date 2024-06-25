@@ -12,8 +12,9 @@ export const SingleAssociationsTicket = (props: any) => {
     disassociateModal,
     handleSubmitDissociate,
     associationsItem,
-    deleteAssociationStatus,
+    postRemoveAssociateTicketsStatus,
   } = useSingleAssociationsTicket(props);
+
   return (
     <>
       <Box
@@ -58,8 +59,8 @@ export const SingleAssociationsTicket = (props: any) => {
         message="You are about to disassociate this service "
         submitBtnText="Disassociate"
         handleSubmitBtn={handleSubmitDissociate}
-        loading={deleteAssociationStatus?.isLoading}
-        disableCancelBtn={deleteAssociationStatus?.isLoading}
+        loading={postRemoveAssociateTicketsStatus?.isLoading}
+        disableCancelBtn={postRemoveAssociateTicketsStatus?.isLoading}
       />
     </>
   );

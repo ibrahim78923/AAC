@@ -115,6 +115,9 @@ const Folders = () => {
     filesData,
     setPageLimit,
     setPage,
+    setMoveChildFolder,
+    moveChildFolder,
+    documentParentsData,
   } = useFolder();
 
   useEffect(() => {
@@ -281,21 +284,33 @@ const Folders = () => {
               setSearchValue(e);
             }}
           />
-          {filteredData?.map((item: any) => {
-            return (
-              <Box
-                sx={styles?.folderRow(theme, cardBox, item?._id)}
-                onClick={() => {
-                  setCardBox([item?._id + 'drawer']);
-                  setSlectedFolderForMovingData(item);
-                }}
-                key={uuidv4()}
-              >
-                <FolderIcon />
-                <Typography variant="body2">{item?.name}</Typography>
-              </Box>
-            );
-          })}
+          {moveChildFolder
+            ? documentParentsData?.data?.folders?.map((item: any) => (
+                <Box
+                  sx={styles?.folderRow(theme, cardBox, item?._id)}
+                  onClick={() => {
+                    setCardBox([item?._id + 'drawer']);
+                    setSlectedFolderForMovingData(item);
+                  }}
+                  key={uuidv4()}
+                >
+                  <FolderIcon />
+                  <Typography variant="body2">{item?.name}</Typography>
+                </Box>
+              ))
+            : filteredData?.map((item: any) => (
+                <Box
+                  sx={styles?.folderRow(theme, cardBox, item?._id)}
+                  onClick={() => {
+                    setCardBox([item?._id + 'drawer']);
+                    setSlectedFolderForMovingData(item);
+                  }}
+                  key={uuidv4()}
+                >
+                  <FolderIcon />
+                  <Typography variant="body2">{item?.name}</Typography>
+                </Box>
+              ))}
         </Box>
       </CommonDrawer>
       <Grid container spacing={2}>
@@ -383,6 +398,7 @@ const Folders = () => {
                     onClick={() => {
                       setAnchorElSide(null);
                       setIsOpenFolderDrawer(true);
+                      setMoveChildFolder(true);
                     }}
                   >
                     Move to Folder
@@ -429,6 +445,7 @@ const Folders = () => {
               }}
               onClick={() => {
                 setCardBox([parentFolderId]);
+
                 setSelectedFolder({
                   _id: parentFolderId,
                   name: parentFolderName,
@@ -621,6 +638,7 @@ const Folders = () => {
                         setIsOpenFolderDrawer(true);
                         setSearchValue('');
                         setSlectedFolderForMovingData(null);
+                        setMoveChildFolder(false);
                       }}
                     >
                       Move to Folder

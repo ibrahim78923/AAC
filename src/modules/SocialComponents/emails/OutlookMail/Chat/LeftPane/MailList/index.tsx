@@ -23,6 +23,7 @@ import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { usePatchOutlookEmailMessageMutation } from '@/services/commonFeatures/email/outlook';
 import { enqueueSnackbar } from 'notistack';
+import { PaperClipIcon } from '@/assets/icons';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -255,38 +256,53 @@ const MailList = ({
                                 {'['} Scheduled {']'}
                               </Typography>
                             ) : (
-                              <Typography
-                                variant="h6"
+                              <Box
                                 sx={{
-                                  width: '21vw',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  whiteSpace: 'nowrap',
-                                  fontWeight: item?.isRead ? '' : 700,
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  paddingRight: '20px',
                                 }}
                               >
-                                <>
-                                  {mailTabType?.displayName?.toLowerCase() ===
-                                  EMAIL_TABS_TYPES?.DRAFTS ? (
-                                    <>
-                                      <span
-                                        style={{
-                                          color: theme?.palette?.error?.main,
-                                        }}
-                                      >
-                                        [DRAFT]
-                                      </span>{' '}
-                                      {item?.toRecipients?.map((item: any) => (
-                                        <>{item?.emailAddress?.address}; </>
-                                      ))}
-                                    </>
-                                  ) : (
-                                    <>
-                                      {item?.from?.emailAddress?.name ?? '--'}{' '}
-                                    </>
-                                  )}
-                                </>
-                              </Typography>
+                                <Typography
+                                  variant="h6"
+                                  sx={{
+                                    width: '19vw',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    fontWeight: item?.isRead ? '' : 700,
+                                  }}
+                                >
+                                  <>
+                                    {mailTabType?.displayName?.toLowerCase() ===
+                                    EMAIL_TABS_TYPES?.DRAFTS ? (
+                                      <>
+                                        <span
+                                          style={{
+                                            color: theme?.palette?.error?.main,
+                                          }}
+                                        >
+                                          [DRAFT]
+                                        </span>{' '}
+                                        {item?.toRecipients?.map(
+                                          (item: any) => (
+                                            <>{item?.emailAddress?.address}; </>
+                                          ),
+                                        )}
+                                      </>
+                                    ) : (
+                                      <>
+                                        {item?.from?.emailAddress?.name ?? '--'}{' '}
+                                      </>
+                                    )}
+                                  </>
+                                </Typography>
+                                {item?.hasAttachments && (
+                                  <PaperClipIcon
+                                    color={theme?.palette?.primary?.main}
+                                  />
+                                )}
+                              </Box>
                             )}
 
                             <Typography

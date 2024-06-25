@@ -7,13 +7,13 @@ import useCompanies from './useCompanies';
 import { columns } from './Companies.data';
 import { styles } from '../Associations.style';
 import { PlusIcon } from '@/assets/icons';
+import { FORM_TYPE } from './CompaniesEditorDrawer/CompaniesEditorDrawer.data';
 
 const Companies = ({ contactId }: any) => {
   const {
     disabledField,
     drawerTitle,
     theme,
-    searchValue,
     setSearchValue,
     openDrawer,
     handleOpenDrawer,
@@ -25,11 +25,15 @@ const Companies = ({ contactId }: any) => {
     handleCloseAlert,
     dataGetCompanies,
     loadingCompanies,
+    fetchingCompanies,
     companyOwners,
     handleAddCompanySubmit,
+    handleExsistingCompanySubmit,
     handleChangeFormType,
     formType,
-    postCompanyLoading,
+    isLoadingAddCompany,
+    loadingCreateAssociation,
+    handleRemoveAssociation,
   } = useCompanies(contactId);
 
   const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
@@ -52,9 +56,9 @@ const Companies = ({ contactId }: any) => {
           <>
             <Grid item md={4} sx={styles?.countBox}>
               <Typography sx={styles?.associationCount(theme)} variant="body3">
-                {dataGetCompanies?.data?.companies?.length < 10
-                  ? `0${dataGetCompanies?.data?.companies?.length}`
-                  : dataGetCompanies?.data?.companies?.length}
+                {dataGetCompanies?.length < 10
+                  ? `0${dataGetCompanies?.length}`
+                  : dataGetCompanies?.length}
               </Typography>
 
               <Typography variant="subtitle2">Companies</Typography>
@@ -69,7 +73,6 @@ const Companies = ({ contactId }: any) => {
                 }}
               >
                 <Search
-                  searchBy={searchValue}
                   setSearchBy={setSearchValue}
                   label="Search By Name"
                   size="small"
@@ -89,8 +92,8 @@ const Companies = ({ contactId }: any) => {
         <Grid item xs={12}>
           <TanstackTable
             columns={tableColumns}
-            data={dataGetCompanies?.data?.companies}
-            isLoading={loadingCompanies}
+            data={dataGetCompanies}
+            isLoading={loadingCompanies || fetchingCompanies}
           />
         </Grid>
       </Grid>
@@ -103,10 +106,14 @@ const Companies = ({ contactId }: any) => {
         disabledField={disabledField}
         methodsNewCompany={methodsView}
         methodsExistingCompany={methodsExistingCompany}
-        handleOnSubmit={handleAddCompanySubmit}
         formType={formType}
         handleChangeFormType={handleChangeFormType}
-        isLoading={postCompanyLoading}
+        isLoading={isLoadingAddCompany || loadingCreateAssociation}
+        handleOnSubmit={
+          formType === FORM_TYPE?.NEW_COMPANY
+            ? handleAddCompanySubmit
+            : handleExsistingCompanySubmit
+        }
       />
 
       <AlertModals
@@ -114,7 +121,8 @@ const Companies = ({ contactId }: any) => {
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
+        handleSubmitBtn={handleRemoveAssociation}
+        loading={loadingCreateAssociation}
       />
     </Box>
   );

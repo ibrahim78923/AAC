@@ -11,6 +11,7 @@ import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import useDetails from './useDetails';
 import { ROLES } from '@/constants/strings';
 import { useLazyGetDealOwnersListQuery } from '@/services/common-APIs';
+import { getSession } from '@/utils';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
   name: Yup?.string(),
@@ -33,14 +34,18 @@ export const detailsDefaultValues = {
 };
 
 export const detailsDataArray = (dealPipelineId: string) => {
+  const { user }: any = getSession();
+  const organizationId: any = user?.organization?._id;
   const { getDealOwnerContacts } = useDetails({});
-  const { pipelineData } = useDealTab();
+
+  const { pipelineListDropdown } = useDealTab();
   const userListData = useLazyGetDealOwnersListQuery();
 
-  const filteredStages =
-    pipelineData?.data?.dealpipelines?.find(
-      (pipeline: any) => pipeline?._id === dealPipelineId,
-    )?.stages || [];
+  const filteredStages: any = pipelineListDropdown
+    ? pipelineListDropdown[1]?.data?.find(
+        (pipeline: any) => pipeline?._id === dealPipelineId,
+      )?.stages
+    : [];
 
   return [
     {
@@ -70,7 +75,10 @@ export const detailsDataArray = (dealPipelineId: string) => {
         apiQuery: userListData,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,
-        externalParams: { role: ROLES?.ORG_EMPLOYEE },
+        externalParams: {
+          role: ROLES?.ORG_EMPLOYEE,
+          organization: organizationId,
+        },
         queryKey: 'role',
       },
       component: RHFAutocompleteAsync,
@@ -100,15 +108,15 @@ export const detailsDataArray = (dealPipelineId: string) => {
     {
       componentProps: {
         name: 'dealPipelineId',
-        label: 'Pipeline',
-        select: true,
+        label: 'Deal Pipeline',
+        placeholder: 'Select Pipeline',
+        apiQuery: pipelineListDropdown,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: { meta: false },
+        required: true,
+        clearIcon: false,
       },
-      options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
-        Key: item?._id,
-        value: item?._id,
-        label: item?.name,
-      })) ?? [{ label: '', value: '' }],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 4,
     },
     {
@@ -171,6 +179,7 @@ export const detailsDataArray = (dealPipelineId: string) => {
         name: 'closeDate',
         label: 'Closed Date',
         fullWidth: true,
+        minDate: new Date(),
       },
       component: RHFDatePicker,
       md: 4,

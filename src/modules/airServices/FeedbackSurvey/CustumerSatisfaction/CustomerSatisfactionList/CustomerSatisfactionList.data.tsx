@@ -1,14 +1,21 @@
 import { Box, Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
+import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 
 const statusColor = (status: string) => {
   switch (status) {
-    case 'Published':
+    case 'published':
       return 'secondary';
-    case 'Draft':
+    case 'draft':
       return 'default';
   }
+};
+const surveyType: any = {
+  customerSupport: 'Customer Support',
+  customerSatisfaction: 'Customer Satisfaction',
 };
 export const customerSupportListColumn = (
   activeCheck: any,
@@ -64,15 +71,15 @@ export const customerSupportListColumn = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.survey,
-      id: 'survey',
+      accessorFn: (row: any) => row?.surveyTitle,
+      id: 'surveyTitle',
       isSortable: true,
       header: 'Survey',
       cell: (info: any) => (
         <Box display="flex" alignItems="center">
-          <AntSwitch />{' '}
+          <AntSwitch checked={info?.row?.original?.isDefault} />{' '}
           <Typography
-            variant="body4"
+            variant="body2"
             color="primary"
             sx={{ cursor: 'pointer' }}
           >
@@ -87,7 +94,10 @@ export const customerSupportListColumn = (
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <Chip color={statusColor(info?.getValue())} label={info?.getValue()} />
+        <Chip
+          color={statusColor(info?.getValue())}
+          label={capitalizeFirstLetter(info?.getValue())}
+        />
       ),
     },
     {
@@ -95,18 +105,21 @@ export const customerSupportListColumn = (
       id: 'surveyType',
       isSortable: true,
       header: 'Survey Type',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => surveyType[info?.getValue()],
     },
     {
       accessorFn: (row: any) => row?.createdAt,
       id: 'createdAt',
       isSortable: true,
       header: 'Creation Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(
+          `${DATE_TIME_FORMAT?.MMMDDYYYY}, ${TIME_FORMAT?.UI}`,
+        ),
     },
   ];
 };
-export const feedbackDropdown = [
+export const feedbackDropdown = (activeCheck: any, setOpenModal: any) => [
   {
     id: 1,
     title: 'Clone',
@@ -118,6 +131,11 @@ export const feedbackDropdown = [
     id: 2,
     title: 'Edit Survey',
     handleClick: (closeMenu: any) => {
+      if (activeCheck?.length > 1) {
+        errorSnackbar('Please select only one survey to edit');
+        closeMenu?.();
+        return;
+      }
       closeMenu?.();
     },
   },
@@ -125,6 +143,7 @@ export const feedbackDropdown = [
     id: 3,
     title: 'Delete',
     handleClick: (closeMenu: any) => {
+      setOpenModal(true);
       closeMenu?.();
     },
   },

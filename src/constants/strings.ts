@@ -846,3 +846,20 @@ export const USER_MANAGEMENT_DRAWER_ACTION = {
   ADD: 'Add',
   EDIT: 'Edit',
 };
+
+export const STATUS_CONTANTS = {
+  COMPLETED: 'Completed',
+  DRAFT: 'Draft',
+  SCHEDULED: 'Scheduled',
+};
+
+export const NOTIFICATIONS_TYPES = {
+  MEETING_EMAIL_REMINDER: 'meetingEmailReminder',
+  MEETING_SMS_REMINDER: 'meetingSMSReminder',
+  MEETING_EMAIL: 'meetingEmail',
+};
+
+export const FEEDBACK_SURVEY_TYPES = {
+  CUSTOMER_SATISFACTION: 'customerSatisfaction',
+  CUSTOMER_SUPPORT: 'customerSupport',
+};

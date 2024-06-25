@@ -1,6 +1,5 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { UserHeader } from './UserHeader';
-import { Box } from '@mui/material';
 import { useUser } from './useUser';
 import UpsertUser from './UpsertUser';
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
@@ -31,7 +30,7 @@ export const User = () => {
     addUsersListStatus,
   } = useUser();
   return (
-    <Box>
+    <>
       <UserHeader
         selectedUserList={selectedUserList}
         setSelectedUserList={setSelectedUserList}
@@ -41,7 +40,29 @@ export const User = () => {
         addUsersListStatus={addUsersListStatus}
         submit={submit}
       />
-      <Box mt={'0.75rem'}>
+      <PermissionsGuard
+        permissions={[
+          AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.USER_LIST,
+        ]}
+      >
+        <TanstackTable
+          data={usersData}
+          columns={userListColumn}
+          isPagination={true}
+          isLoading={isLoading}
+          isError={isError}
+          isFetching={isFetching}
+          isSuccess={isSuccess}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+          count={metaData?.pages}
+          totalRecords={metaData?.total}
+          onPageChange={(page: any) => setPage(page)}
+          currentPage={metaData?.page}
+          pageLimit={metaData?.limit}
+        />
+      </PermissionsGuard>
+      {isDrawerOpen && (
         <UpsertUser
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
@@ -53,29 +74,7 @@ export const User = () => {
           tabData={tabData}
           patchProductUsersStatus={patchProductUsersStatus}
         />
-        <PermissionsGuard
-          permissions={[
-            AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.USER_LIST,
-          ]}
-        >
-          <TanstackTable
-            data={usersData}
-            columns={userListColumn}
-            isPagination={true}
-            isLoading={isLoading}
-            isError={isError}
-            isFetching={isFetching}
-            isSuccess={isSuccess}
-            setPageLimit={setPageLimit}
-            setPage={setPage}
-            count={metaData?.pages}
-            totalRecords={metaData?.total}
-            onPageChange={(page: any) => setPage(page)}
-            currentPage={metaData?.page}
-            pageLimit={metaData?.limit}
-          />
-        </PermissionsGuard>
-      </Box>
-    </Box>
+      )}
+    </>
   );
 };

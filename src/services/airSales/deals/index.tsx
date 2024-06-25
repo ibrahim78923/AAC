@@ -244,6 +244,7 @@ export const {
   useUpdateRestoreDealsMutation,
   useGetDealsListWithOutParamsQuery,
   useGetUsersListQuery,
+  // useLazyGetUsersListsQuery,
   usePatchDealsMutation,
   useGetDealsAssociationsQuery,
   useGetCustomizeColumnQuery,

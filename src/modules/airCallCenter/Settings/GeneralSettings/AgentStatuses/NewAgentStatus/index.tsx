@@ -15,9 +15,10 @@ const NewAgentStatus = ({
   onClose,
   handleSubmit,
   formMethods, // isLoading,
+  text,
+  setText,
 }: NewAgentStatusPropsI) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [text, setText] = useState('');
 
   const handleFieldClick = (event: any) => {
     setAnchorEl(event.currentTarget);

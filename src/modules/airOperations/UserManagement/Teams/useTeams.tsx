@@ -33,7 +33,7 @@ export const useTeams = () => {
     limit: pageLimit,
     search,
   };
-  const { data, isLoading, isError, isFetching, isSuccess } =
+  const { data, isLoading, isError, isFetching, isSuccess }: any =
     useGetTeamListQuery({ param }, { refetchOnMountOrArgChange: true });
 
   const metaData = data?.data?.meta;

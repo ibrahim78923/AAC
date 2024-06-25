@@ -1,6 +1,9 @@
 import { Box } from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const locationsListColumnsDynamic: any = (setIsPortalOpen: any) => [
   {
@@ -8,28 +11,28 @@ export const locationsListColumnsDynamic: any = (setIsPortalOpen: any) => [
     id: 'locationName',
     isSortable: true,
     header: 'Location Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.description,
     id: 'description',
     isSortable: true,
-    header: 'Description`',
-    cell: (info: any) => info?.getValue(),
+    header: 'Description',
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.destination,
     id: 'destination',
     isSortable: true,
-    header: 'Description',
-    cell: (info: any) => info?.getValue(),
+    header: 'Destination',
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.createdAt,
     id: 'createdAt',
     isSortable: true,
     header: 'Created Date',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
   },
   {
     accessorFn: (row: any) => row?.actions,

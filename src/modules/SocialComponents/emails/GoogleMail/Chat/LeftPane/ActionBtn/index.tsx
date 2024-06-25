@@ -17,10 +17,12 @@ import { enqueueSnackbar } from 'notistack';
 import {
   useDeleteGmailMutation,
   usePatchGmailMessageMutation,
+  usePermanentlyDeleteGmailMutation,
 } from '@/services/commonFeatures/email/gmail';
 import { useDispatch } from 'react-redux';
 import {
   setActiveGmailRecord,
+  setGmailList,
   setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
 import SendEmailDrawer from '../../../SendEmail';
@@ -65,6 +67,8 @@ const ActionBtn = () => {
     usePatchGmailMessageMutation();
 
   const [deleteGmail, { isLoading: loadingDelete }] = useDeleteGmailMutation();
+  const [permanentlyDeleteGmail, { isLoading: loadingPermanentlyDelete }] =
+    usePermanentlyDeleteGmailMutation();
 
   const handelRestore = async () => {
     const ids =
@@ -97,19 +101,53 @@ const ActionBtn = () => {
   };
   const handelDelete = async () => {
     const payload = {
-      threadIds: [selectedGmailRecords?.map((message: any) => message?.id)],
+      threadIds: selectedGmailRecords?.map((message: any) => message?.id),
     };
     try {
-      await deleteGmail({ body: payload })?.unwrap();
-      enqueueSnackbar('Email Delete successfully', {
-        variant: 'success',
-      });
+      tabName === 'trash'
+        ? await permanentlyDeleteGmail({ body: payload })?.unwrap()
+        : await deleteGmail({ body: payload })?.unwrap();
+      enqueueSnackbar(
+        `${
+          tabName === 'trash'
+            ? 'Email Permanently Deleted'
+            : 'Email Move to Trash'
+        }`,
+        {
+          variant: 'success',
+        },
+      );
       handleClose();
       setIsDeleteModalOpen(false);
       dispatch(setSelectedGmailRecords([]));
       dispatch(setActiveGmailRecord({}));
+      dispatch(setGmailList('clear'));
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
+  const handelMailClick = async () => {
+    const payload: any = {
+      messageId: selectedGmailRecords[0]?.messageId,
+      starred: false,
+    };
+
+    if (selectedGmailRecords[0]?.readMessage) {
+      payload.read = true;
+    } else {
+      payload.unread = true;
+    }
+    try {
+      await patchGmailMessage({
+        body: payload,
+      })?.unwrap();
+      dispatch(setGmailList('clear'));
+      dispatch(setSelectedGmailRecords([]));
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong while updating message!', {
+        variant: 'error',
+      });
     }
   };
 
@@ -144,7 +182,16 @@ const ActionBtn = () => {
         {tabName === CREATE_EMAIL_TYPES?.TRASH ||
         tabName === CREATE_EMAIL_TYPES?.DRAFT ? null : (
           <>
-            <MenuItem> Mark as Read </MenuItem>
+            <MenuItem
+              onClick={() => {
+                handelMailClick(), handleClose();
+              }}
+            >
+              {' '}
+              Mark as {selectedGmailRecords[0]?.readMessage
+                ? 'Read'
+                : 'unread'}{' '}
+            </MenuItem>
             <MenuItem
               onClick={() => {
                 setIsLinkToDealModal(true), handleClose();
@@ -230,13 +277,13 @@ const ActionBtn = () => {
       <AlertModals
         type={'Delete'}
         typeImage={<WarningIcon />}
-        message={`Are you sure you want to delete ${
-          selectedGmailRecords?.length > 1 ? 'these' : 'this'
-        } record ?.`}
+        message={`Are you sure you want to ${
+          tabName === 'trash' ? 'Permanently delete' : 'delete'
+        }  ${selectedGmailRecords?.length > 1 ? 'these' : 'this'} Email ?.`}
         open={isDeleteModalOpen}
         disabled={false}
         handleClose={() => setIsDeleteModalOpen(false)}
-        loading={loadingDelete}
+        loading={loadingDelete || loadingPermanentlyDelete}
         handleSubmitBtn={handelDelete}
       />
 

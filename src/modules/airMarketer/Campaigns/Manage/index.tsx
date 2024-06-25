@@ -18,12 +18,12 @@ import {
 } from '@/assets/icons';
 import useCampaigns from '../useCampaigns';
 import SaveNewViewDrawer from '../SaveNewViewDrawer';
-import { useRouter } from 'next/router';
-import { AIR_MARKETER } from '@/routesConstants/paths';
 import EditColumns from '../EditColumns';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 import CampaingFilters from '../Filters';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const Manage = ({
   campaignsData,
@@ -34,6 +34,13 @@ const Manage = ({
   handleSelectAllCheckbox,
   selectedRows,
   allCamopaignsData,
+  searchCampaigns,
+  setSearchCampaigns,
+  setSelectedRows,
+  filters,
+  setFilters,
+  setPage,
+  setPageLimit,
 }: any) => {
   const theme = useTheme();
   const {
@@ -43,11 +50,8 @@ const Manage = ({
     handleSaveView,
     actionsModalDetails,
     setActionsModalDetails,
-    // campaignsData,
-    setSearchCampaigns,
-    searchCampaigns,
+    saveViewCampaignsData,
   } = useCampaigns();
-  const router = useRouter();
 
   return (
     <>
@@ -75,8 +79,11 @@ const Manage = ({
           flexWrap="wrap"
           gap={1}
         >
-          <ActionButton selectedRows={selectedRows} />
-          <PermissionsGuard
+          <ActionButton
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
+          />
+          {/* <PermissionsGuard
             permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SAVE_ALL_VIEWS]}
           >
             <Button
@@ -92,7 +99,7 @@ const Manage = ({
             >
               See All Views
             </Button>
-          </PermissionsGuard>
+          </PermissionsGuard> */}
           <PermissionsGuard
             permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_COLUMNS]}
           >
@@ -171,18 +178,39 @@ const Manage = ({
           width: { sm: '100%' },
         }}
       >
-        <Button variant="outlined" color="inherit" className="small">
+        <Button
+          variant="outlined"
+          color="inherit"
+          className="small"
+          onClick={() =>
+            setFilters({
+              ...filters,
+              campaignStatus: '',
+              startDate: null,
+              endDate: null,
+            })
+          }
+        >
           All Campaigns
         </Button>
-        <Button variant="outlined" color="inherit" className="small">
-          Starting this quarter
-        </Button>
-        <Button variant="outlined" color="inherit" className="small">
-          Recently created
-        </Button>
-        <Button variant="outlined" color="inherit" className="small">
-          Matt Anderson first view
-        </Button>
+        {saveViewCampaignsData?.data?.views?.map((item: any) => (
+          <Button
+            variant="outlined"
+            color="inherit"
+            className="small"
+            key={item?.name}
+            onClick={() =>
+              setFilters({
+                ...filters,
+                campaignStatus: item?.campaignStatus,
+                startDate: dayjs(item?.startDate).format(DATE_FORMAT?.API),
+                endDate: dayjs(item?.endDate).format(DATE_FORMAT?.API),
+              })
+            }
+          >
+            {item?.name}
+          </Button>
+        ))}
       </ButtonGroup>
 
       <TanstackTable
@@ -194,6 +222,14 @@ const Manage = ({
         )}
         data={campaignsData?.data?.campaigns}
         isPagination
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        count={campaignsData?.data?.meta?.pages}
+        pageLimit={campaignsData?.data?.meta?.limit}
+        totalRecords={campaignsData?.data?.meta?.total}
+        isLoading={filterLoading}
+        currentPage={campaignsData?.data?.meta?.page}
       />
 
       {actionsModalDetails?.isSaveView && (
@@ -205,6 +241,7 @@ const Manage = ({
               isSaveView: false,
             })
           }
+          setSelectedRows={setSelectedRows}
         />
       )}
       {isOpenFilter && (

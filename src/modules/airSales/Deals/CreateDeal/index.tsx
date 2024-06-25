@@ -2,7 +2,10 @@ import { useForm } from 'react-hook-form';
 import { Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { usePostDealsMutation } from '@/services/airSales/deals';
+import {
+  useGetDealPipeLineQuery,
+  usePostDealsMutation,
+} from '@/services/airSales/deals';
 
 import {
   createDealData,
@@ -14,16 +17,27 @@ import dayjs from 'dayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { DATE_FORMAT } from '@/constants';
+import { useEffect } from 'react';
 
 const CreateDeal = ({ open, onClose }: any) => {
   const [postDeals, { isLoading: isCreateDealLodaing }] =
     usePostDealsMutation();
+  const { data: dealPipelines } = useGetDealPipeLineQuery({ meta: false });
+
+  const defaultPipelineData = dealPipelines?.data?.find(
+    (item: any) => item?.isDefault,
+  );
+
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit, reset, watch } = methods;
+  const { handleSubmit, reset, watch, setValue } = methods;
+
+  useEffect(() => {
+    setValue('dealPipelineId', defaultPipelineData);
+  }, [dealPipelines?.data]);
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = async (values: any) => {

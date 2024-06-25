@@ -17,7 +17,10 @@ import {
 import { PlaneIcon, WarningIcon } from '@/assets/icons';
 import { styles } from './ManagePlan.style';
 import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
-import { useUpdateSubscriptionMutation } from '@/services/orgAdmin/subscription-and-invoices';
+import {
+  usePatchUnAssignPlanMutation,
+  useUpdateSubscriptionMutation,
+} from '@/services/orgAdmin/subscription-and-invoices';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, PLAN_CALCULATIONS } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
@@ -52,6 +55,8 @@ const ManagePlan = () => {
   );
 
   const [updateSubscription] = useUpdateSubscriptionMutation({});
+  const [patchUnAssignPlan, { isLoading: unAssignPlanLoading }] =
+    usePatchUnAssignPlanMutation({});
 
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event?.target?.value as string);
@@ -102,6 +107,23 @@ const ManagePlan = () => {
       router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
     }
   }, [parsedManageData]);
+
+  const handelOnUnassignPlan = async () => {
+    try {
+      await patchUnAssignPlan({
+        organizationPlanId: parsedManageData?.orgPlanId,
+      }).unwrap();
+      enqueueSnackbar('Plan Unassigned Successfully', {
+        variant: 'success',
+      });
+      setIsUnassignPlanAlertOpen(false);
+      router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
+    } catch (error: any) {
+      enqueueSnackbar('SomeThing Went Wrong', {
+        variant: 'success',
+      });
+    }
+  };
 
   return (
     <>
@@ -329,8 +351,8 @@ const ManagePlan = () => {
         open={isUnassignPlanAlertOpen}
         disabled={false}
         handleClose={() => setIsUnassignPlanAlertOpen(false)}
-        loading={false}
-        handleSubmitBtn={() => setIsUnassignPlanAlertOpen(false)}
+        loading={unAssignPlanLoading}
+        handleSubmitBtn={handelOnUnassignPlan}
       />
     </>
   );

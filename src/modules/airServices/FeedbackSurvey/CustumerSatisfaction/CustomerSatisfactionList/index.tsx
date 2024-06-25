@@ -7,33 +7,52 @@ import {
   customerSupportListColumn,
   feedbackDropdown,
 } from './CustomerSatisfactionList.data';
+import { AIR_SERVICES } from '@/constants';
+import { useCustomerSatisfactionList } from './useCustomerSatisfactionList';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
-export const CustomerSatisfactionList = ({
-  search,
-  setSearch,
-  activeCheck,
-  setActiveCheck,
-  feedbackTableData = [],
-  isLoading,
-  isFetching,
-  isError,
-  isSuccess,
-  page,
-  setPage,
-  limit,
-  setLimit,
-  meta = {},
-}: any) => {
+export const CustomerSatisfactionList = (props: any) => {
+  const {
+    search,
+    setSearch,
+    activeCheck,
+    setActiveCheck,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    router,
+    feedbackTableData,
+    meta,
+    handleDeleteSurvey,
+    openModal,
+    setOpenModal,
+    deleteLoading,
+  } = useCustomerSatisfactionList(props);
   return (
     <>
       <Box display="flex" justifyContent="space-between">
         <Search label="Search here" searchBy={search} setSearchBy={setSearch} />
         <Box display="flex" gap={1}>
           <SingleDropdownButton
-            dropdownOptions={feedbackDropdown}
+            dropdownOptions={feedbackDropdown(activeCheck, setOpenModal)}
             disabled={!!!activeCheck?.length}
           />
-          <Button startIcon={<PlusIcon />} variant="contained">
+          <Button
+            startIcon={<PlusIcon />}
+            variant="contained"
+            onClick={() =>
+              router?.push({
+                pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
+                query: { type: 'customer-satisfaction' },
+              })
+            }
+          >
             Create Survey
           </Button>
         </Box>
@@ -59,6 +78,17 @@ export const CustomerSatisfactionList = ({
         setPage={setPage}
         setPageLimit={setLimit}
       />
+      {openModal && (
+        <AlertModals
+          open={openModal}
+          handleClose={() => setOpenModal(false)}
+          handleSubmitBtn={handleDeleteSurvey}
+          loading={deleteLoading}
+          disableCancelBtn={deleteLoading}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          message="Are you sure you want to delete this survey?"
+        />
+      )}
     </>
   );
 };

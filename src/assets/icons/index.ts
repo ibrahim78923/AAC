@@ -487,6 +487,11 @@ export { default as CallTakeIcon } from './modules/airCallCenter/CallMetrices/ca
 export { default as CallListenToDiscretelyIcon } from './modules/airCallCenter/CallMetrices/call-listen-to-call-discretley';
 export { default as CallOutGoingIcon } from './modules/airCallCenter/CallMetrices/calls-outgoging';
 export { default as DragAndDropIcon } from './shared/drag-drop-icon';
+export { default as AddTitleIcon } from './modules/airServices/FeedBack/add-title';
+export { default as ImportQuestionIcon } from './modules/airServices/FeedBack/import-question';
+export { default as AddSectionIcon } from './modules/airServices/FeedBack/add-section';
+export { default as CopyQuestionIcon } from './modules/airServices/FeedBack/copy-question';
+export { default as DeleteQuestionIcon } from './modules/airServices/FeedBack/delete-question';
 export { default as KeypadIcon } from './shared/keypad-icon';
 export { default as StartRecordingIcon } from './shared/start-recording-icon';
 export { default as CloseRecordingIcon } from './shared/close-recording-icon';
@@ -508,3 +513,10 @@ export { default as RestoreReportIcon } from './modules/airOperations/reports/re
 export { default as ExportReportIcon } from './modules/airOperations/reports/export-report-icon';
 export { default as ReloadIcon } from './modules/airCallCenter/Settings/GeneralSettings/reload-icon';
 export { default as EditNumberIcon } from './modules/airCallCenter/Settings/GeneralSettings/edit-number-icon';
+export { default as SalesReportIcon } from './modules/airOperations/reports/sales-report-icon';
+export { default as ServiceReportIcon } from './modules/airOperations/reports/service-report-icon';
+export { default as MarketingReportIcon } from './modules/airOperations/reports/marketing-report-icon';
+export { default as MessageNotificationIcon } from './shared/message-notification-icon';
+export { default as BlockQuoteIcon } from './shared/block-quote-icon';
+export { default as NotificationBellIcon } from './shared/notification-bell-icon';
+export { default as SoftwareFieldsIcon } from './modules/airServices/Settings/software-fields-icon';

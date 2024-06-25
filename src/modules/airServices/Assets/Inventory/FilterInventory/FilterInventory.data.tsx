@@ -8,6 +8,7 @@ import {
   assetsImpactFilterOptions,
   dateOptions,
 } from '../Inventory.data';
+import { PAGINATION } from '@/config';
 
 export const inventoryFilterFormDefaultValues = (data: any) => {
   return {
@@ -39,7 +40,10 @@ export const inventoryFilterFormFieldsDataFunction = (
       label: 'Asset Type',
       placeholder: 'All Assets',
       apiQuery: apiQueryAssetType,
-      externalParams: { meta: false, limit: 50 },
+      externalParams: {
+        meta: false,
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+      },
     },
   },
   {

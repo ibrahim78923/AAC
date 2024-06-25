@@ -167,7 +167,7 @@ const CTA = () => {
         open={isDeleteModal}
         handleClose={handleCloseModalDelete}
         handleSubmitBtn={handleDeleteCTA}
-        loadingDelete={loadingDelete}
+        loading={loadingDelete}
       />
 
       <CtaEditorDrawer

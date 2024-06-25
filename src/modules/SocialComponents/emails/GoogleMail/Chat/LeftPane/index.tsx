@@ -25,18 +25,18 @@ import {
   setActiveGmailRecord,
   setGmailCurrentPage,
   setGmailList,
+  setGmailSearch,
   setGmailTabType,
   setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
 import { Gmail_CONST } from '@/constants';
 import CommonModal from '@/components/CommonModal';
 import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const LeftPane = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const gmailTabType: any = useAppSelector(
     (state: any) => state?.gmail?.gmailTabType,
@@ -91,6 +91,18 @@ const LeftPane = () => {
     }
   }, [emailsByFolderIdData]);
 
+  useEffect(() => {
+    if (gmailSearch?.length > 0) {
+      dispatch(setActiveGmailRecord({}));
+      dispatch(setSelectedGmailRecords([]));
+      dispatch(setGmailList('clear'));
+      dispatch(setGmailCurrentPage(''));
+      refetch();
+    } else {
+      dispatch(setGmailSearch(''));
+    }
+  }, [gmailSearch]);
+
   const handelToggleTab = (value: any) => {
     if (value?.name !== gmailTabType?.name) {
       dispatch(setGmailTabType(value));
@@ -104,57 +116,107 @@ const LeftPane = () => {
 
   let listOfEmail;
   if (Array?.isArray(gmailList)) {
-    listOfEmail = gmailList
-      ?.map((thread: any) => {
-        const id = thread?.id || '';
+    if (gmailTabType?.name === 'DRAFT') {
+      listOfEmail = gmailList
+        ?.map((thread: any) => {
+          const draftId = thread?.id || '';
+          const id = thread?.message?.id || '';
 
-        const messages = thread?.messages || [];
-        const lastMessage = messages[messages?.length - 1];
+          const threadId = thread?.message?.threadId || '';
+          const messageId = thread?.message?.id || '';
+          const headers = thread?.message?.payload?.headers || [];
+          const to =
+            headers?.find((header: any) => header?.name === Gmail_CONST?.TO)
+              ?.value || '';
+          const cc =
+            headers?.find((header: any) => header?.name === Gmail_CONST?.CC)
+              ?.value || '';
+          const Bcc =
+            headers?.find((header: any) => header?.name === Gmail_CONST?.BCC)
+              ?.value || '';
+          const name =
+            headers?.find((header: any) => header?.name === Gmail_CONST?.FROM)
+              ?.value || '';
+          const subject =
+            headers?.find(
+              (header: any) => header?.name === Gmail_CONST?.SUBJECT,
+            )?.value || '(no-subject)';
+          const snippet = thread?.message?.snippet || '';
+          const date =
+            headers?.find((header: any) => header?.name === Gmail_CONST?.DATE)
+              ?.value || '';
+          const readMessage = thread?.message?.labelIds?.includes('UNREAD');
 
-        if (!lastMessage) {
-          return null;
-        }
-        const threadId = lastMessage?.threadId || '';
-        const messageId = lastMessage?.id || '';
-        const headers = lastMessage?.payload?.headers || [];
-        const to =
-          headers?.find((header: any) => header?.name === Gmail_CONST?.TO)
-            ?.value || '';
-        const cc =
-          headers?.find((header: any) => header?.name === Gmail_CONST?.CC)
-            ?.value || '';
-        const Bcc =
-          headers?.find((header: any) => header?.name === Gmail_CONST?.BCC)
-            ?.value || '';
-        const name =
-          headers?.find((header: any) => header?.name === Gmail_CONST?.FROM)
-            ?.value || '';
-        const subject =
-          headers?.find((header: any) => header?.name === Gmail_CONST?.SUBJECT)
-            ?.value || '<no-subject>';
-        const snippet = lastMessage?.snippet || '';
-        const date =
-          headers?.find((header: any) => header?.name === Gmail_CONST?.DATE)
-            ?.value || '';
-        const readMessage = lastMessage?.labelIds?.includes('UNREAD');
+          return {
+            draftId,
+            id,
+            to,
+            cc,
+            Bcc,
+            name,
+            subject,
+            snippet,
+            date,
+            threadId,
+            readMessage,
+            messageId,
+          };
+        })
+        .flat();
+    } else {
+      listOfEmail = gmailList
+        ?.map((thread: any) => {
+          const id = thread?.id || '';
 
-        return {
-          id,
-          to,
-          cc,
-          Bcc,
-          name,
-          subject,
-          snippet,
-          date,
-          threadId,
-          readMessage,
-          messageId,
-        };
-      })
-      .flat();
+          const messages = thread?.messages || [];
+          const lastMessage = messages[messages?.length - 1];
+
+          if (!lastMessage) {
+            return null;
+          }
+          const threadId = lastMessage?.threadId || '';
+          const messageId = lastMessage?.id || '';
+          const headers = lastMessage?.payload?.headers || [];
+          const to =
+            headers?.find((header: any) => header?.name === Gmail_CONST?.TO)
+              ?.value || '';
+          const cc =
+            headers?.find((header: any) => header?.name === Gmail_CONST?.CC)
+              ?.value || '';
+          const Bcc =
+            headers?.find((header: any) => header?.name === Gmail_CONST?.BCC)
+              ?.value || '';
+          const name =
+            headers?.find((header: any) => header?.name === Gmail_CONST?.FROM)
+              ?.value || '';
+          const subject =
+            headers?.find(
+              (header: any) => header?.name === Gmail_CONST?.SUBJECT,
+            )?.value || '(no-subject)';
+          const snippet = lastMessage?.snippet || '';
+          const date =
+            headers
+              ?.find((header: any) => header?.name === Gmail_CONST?.DATE)
+              ?.value.replace(/ -\d{4}$/, '') || '';
+          const readMessage = lastMessage?.labelIds?.includes('UNREAD');
+
+          return {
+            id,
+            to,
+            cc,
+            Bcc,
+            name,
+            subject,
+            snippet,
+            date,
+            threadId,
+            readMessage,
+            messageId,
+          };
+        })
+        .flat();
+    }
   }
-
   const [isReloginModalOpen, setIsReloginModalOpen] = useState(false);
 
   const { data: authURLGmail } = useGetAuthURLGmailQuery({});
@@ -256,14 +318,12 @@ const LeftPane = () => {
         cancelIcon={false}
       >
         <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-          <Button
-            variant="outlined"
-            onClick={() =>
-              router?.push(`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}`)
-            }
+          <Link
+            href={`${SOCIAL_FEATURES_GMAIL?.MAIN_EMAIL_PAGE}?redirect=${true}`}
           >
-            Back to emails
-          </Button>
+            <Button variant="outlined">Back to emails</Button>
+          </Link>
+
           <Button variant="contained" onClick={() => window.open(oauthUrl)}>
             Login Again
           </Button>

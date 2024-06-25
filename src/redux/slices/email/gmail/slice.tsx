@@ -40,10 +40,15 @@ const gmailSlice = createSlice({
       if (action.payload === 'clear') {
         state.gmailList = [];
       } else {
-        state.gmailList = [
-          ...state.gmailList,
-          ...Object.values(action?.payload),
-        ];
+        const newMails = Object.values(action?.payload);
+        const existingMailIds = new Set(
+          state.gmailList?.map((mail: any) => mail?.id),
+        );
+
+        const uniqueMails = newMails?.filter(
+          (mail: any) => !existingMailIds?.has(mail?.id),
+        );
+        state.gmailList = [...state.gmailList, ...uniqueMails];
       }
     },
 

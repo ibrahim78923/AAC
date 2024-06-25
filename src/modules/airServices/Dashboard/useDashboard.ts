@@ -7,7 +7,9 @@ export const useDashboard = () => {
     data: cardsData,
     isLoading,
     isFetching,
-  } = useGetDashboardCardsTicketsQuery(null);
+  } = useGetDashboardCardsTicketsQuery(null, {
+    refetchOnMountOrArgChange: true,
+  });
   const cardData = cardsData?.data;
 
   return {

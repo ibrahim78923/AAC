@@ -5,6 +5,7 @@ import {
   useGetGoogleMeetAuthQuery,
   useGetMeetingsCalendarsListQuery,
   useGetMsTeamsAuthQuery,
+  useGetZoomAuthQuery,
 } from '@/services/commonFeatures/meetings/settings';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
@@ -30,11 +31,23 @@ export const useVideoConferencing = () => {
       window?.open(msTeamsAuth, '_self');
     }
   };
+
+  const { data: zoomData }: any = useGetZoomAuthQuery(null);
+  const zoomAuth = zoomData?.data;
+  const handleZoomClick = () => {
+    if (zoomAuth) {
+      window?.open(zoomAuth, '_self');
+    }
+  };
   const params = {
     settingType: 'CONFERENCING_TOOL',
   };
 
-  const { data: meetingsList }: any = useGetMeetingsCalendarsListQuery(params);
+  const {
+    data: meetingsList,
+    isLoading,
+    isFetching,
+  }: any = useGetMeetingsCalendarsListQuery(params);
   useEffect(() => {
     if (meetingsList?.data) {
       setMeetingsListData(meetingsList?.data);
@@ -42,12 +55,11 @@ export const useVideoConferencing = () => {
   }, [meetingsList]);
 
   const [deleteTrigger] = useDeleteCalendarMutation();
-  const handleDelete = async (calendarId: string) => {
+  const handleDelete = async (meetingId: string) => {
     try {
-      const response: any = await deleteTrigger({ id: calendarId })?.unwrap();
+      const response: any = await deleteTrigger({ id: meetingId })?.unwrap();
       setMeetingsListData(
-        (prevData) =>
-          prevData?.filter((calendar) => calendar?._id !== calendarId),
+        (prevData) => prevData?.filter((meeting) => meeting?._id !== meetingId),
       );
       successSnackbar(
         response?.data?.message || 'Calendar deleted successfully',
@@ -59,42 +71,48 @@ export const useVideoConferencing = () => {
 
   const [changeStatusTrigger] = useChangeStatusCalendarMutation();
 
-  const handleChangeStatus = async (calendarId: string) => {
-    const calendarToChange = meetingsListData?.find(
-      (calendar: any) => calendar?._id === calendarId,
+  const handleChangeStatus = async (meetingId: string) => {
+    const meetingToChange = meetingsListData?.find(
+      (meeting) => meeting?._id === meetingId,
     );
-    const newStatus = calendarToChange?.isDefault
+
+    if (!meetingToChange) {
+      errorSnackbar('Meeting not found.');
+      return;
+    }
+
+    const newStatus = meetingToChange?.isDefault
       ? CALENDAR_STATUS?.INACTIVE
       : CALENDAR_STATUS?.ACTIVE;
 
     setSwitchLoading((prevState) => ({
       ...prevState,
-      [calendarId]: true,
+      [meetingId]: true,
     }));
 
     try {
-      for (const calendar of meetingsListData) {
-        if (calendar?._id !== calendarId && calendar?.isDefault) {
-          await changeStatusTrigger({
-            id: calendar?._id,
-            body: { status: CALENDAR_STATUS?.INACTIVE },
-          });
+      if (newStatus === CALENDAR_STATUS?.ACTIVE) {
+        for (const meeting of meetingsListData) {
+          if (meeting?._id !== meetingId && meeting?.isDefault) {
+            await changeStatusTrigger({
+              id: meeting?._id,
+              body: { status: CALENDAR_STATUS?.INACTIVE },
+            });
+          }
         }
       }
 
       const response: any = await changeStatusTrigger({
-        id: calendarId,
+        id: meetingId,
         body: { status: newStatus },
       })?.unwrap();
 
       setMeetingsListData(
         (prevState) =>
-          prevState?.map((calendar) =>
-            calendar?._id === calendarId
-              ? { ...calendar, isDefault: !calendar?.isDefault }
-              : calendar?._id !== calendarId && calendar?.isDefault
-                ? { ...calendar, isDefault: false }
-                : calendar,
+          prevState?.map((meeting) =>
+            meeting?._id === meetingId
+              ? { ...meeting, isDefault: newStatus === CALENDAR_STATUS?.ACTIVE }
+              : { ...meeting, isDefault: false },
           ),
       );
 
@@ -106,7 +124,7 @@ export const useVideoConferencing = () => {
     } finally {
       setSwitchLoading((prevState) => ({
         ...prevState,
-        [calendarId]: false,
+        [meetingId]: false,
       }));
     }
   };
@@ -118,5 +136,8 @@ export const useVideoConferencing = () => {
     switchLoading,
     handleChangeStatus,
     handleDelete,
+    isLoading,
+    isFetching,
+    handleZoomClick,
   };
 };

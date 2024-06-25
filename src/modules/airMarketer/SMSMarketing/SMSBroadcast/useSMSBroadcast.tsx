@@ -8,6 +8,8 @@ import {
   useDeleteSmsBroadcastMutation,
   useGetSmsBroadcatsQuery,
 } from '@/services/airMarketer/SmsMarketing';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useSMSBroadcast = () => {
   const theme = useTheme<Theme>();
@@ -48,7 +50,8 @@ const useSMSBroadcast = () => {
     isSuccess,
   } = useGetSmsBroadcatsQuery(smsParams);
 
-  const [deleteSmsBroadcast] = useDeleteSmsBroadcastMutation();
+  const [deleteSmsBroadcast, { isLoading: deleteBroadcastLoading }] =
+    useDeleteSmsBroadcastMutation();
 
   const handleClose = () => {
     setSelectedValue(null);
@@ -57,6 +60,26 @@ const useSMSBroadcast = () => {
   const handleDelete = () => {
     setSelectedValue(null);
     setIsDelete(true);
+  };
+
+  const handleSMSBroadcastDelete = async (id: any) => {
+    const values = {
+      ids: id,
+    };
+    try {
+      await deleteSmsBroadcast({ body: values })?.unwrap();
+      setIsDelete(false);
+      setCheckedRows([]);
+      enqueueSnackbar(`Broadcast Deleted Successfully`, {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   const handleClick = (event: any) => {
@@ -88,6 +111,7 @@ const useSMSBroadcast = () => {
   };
 
   return {
+    handleSMSBroadcastDelete,
     selectedValue,
     handleDelete,
     handleClose,
@@ -113,6 +137,7 @@ const useSMSBroadcast = () => {
     setCheckedRows,
     resetFilters,
     deleteSmsBroadcast,
+    deleteBroadcastLoading,
     startedDate,
     endedDate,
   };

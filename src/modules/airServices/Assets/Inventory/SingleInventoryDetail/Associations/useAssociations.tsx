@@ -1,12 +1,13 @@
-import {
-  useDeleteInventoryAssociationListMutation,
-  useLazyGetAssociationListQuery,
-} from '@/services/airServices/assets/inventory/single-inventory-details/associations';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { addAssociationsButtonDynamic } from './Associations.data';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import {
+  useGetAssociateTicketsQuery,
+  usePostRemoveAssociateTicketsMutation,
+} from '@/services/airServices/tickets/single-ticket-details/association';
 
 const useAssociations = () => {
   const theme: any = useTheme();
@@ -21,34 +22,29 @@ const useAssociations = () => {
 
   const associationsInventoryId = router?.query?.inventoryId;
 
-  const [deleteInventoryAssociationListTrigger, { isLoading }] =
-    useDeleteInventoryAssociationListMutation();
+  const [postRemoveAssociateTicketsTrigger, postRemoveAssociateTicketsStatus] =
+    usePostRemoveAssociateTicketsMutation();
 
   const handleMouseOver = (itemId: any) => {
     setHoveredItemId(itemId);
   };
 
-  const [lazyGetIncidentTrigger, lazyGetIncidentStatus] =
-    useLazyGetAssociationListQuery();
-
-  const getIncidentListData = async () => {
-    const getIncidentParams = new URLSearchParams();
-    getIncidentParams?.append('inventoryId', associationsInventoryId + '');
-
-    const getInventoryParameters = {
-      params: getIncidentParams,
-    };
-    try {
-      await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
-    } catch (error) {}
+  const associateTicketsAssetsParameter = {
+    queryParams: {
+      recordId: associationsInventoryId,
+      recordType: ASSOCIATIONS_API_PARAMS_FOR?.ASSETS,
+      associationType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
+    },
   };
 
-  const getInventoryListData =
-    lazyGetIncidentStatus?.data?.data?.associationList;
-
-  useEffect(() => {
-    getIncidentListData();
-  }, []);
+  const {
+    data: dataAssets,
+    isLoading: isLoadingAssets,
+    isFetching: isFetchingAssets,
+  } = useGetAssociateTicketsQuery(associateTicketsAssetsParameter, {
+    refetchOnMountOrArgChange: true,
+    skip: !!!associationsInventoryId,
+  });
 
   const handleMouseLeave = () => {
     setHoveredItemId(null);
@@ -63,17 +59,24 @@ const useAssociations = () => {
   };
 
   const handleConfirmDelete = async () => {
+    const postRemoveAssociateTicketsParameter = {
+      body: {
+        recordId: associationsInventoryId,
+        recordType: ASSOCIATIONS_API_PARAMS_FOR?.ASSETS,
+        operation: ASSOCIATIONS_API_PARAMS_FOR?.REMOVE,
+        ticketsIds: [InventoryIncidentId],
+      },
+    };
     try {
-      await deleteInventoryAssociationListTrigger({
-        id: associationsInventoryId,
-        ticketId: InventoryIncidentId,
-      })?.unwrap();
-      successSnackbar('Association Detached Successfully!');
+      await postRemoveAssociateTicketsTrigger(
+        postRemoveAssociateTicketsParameter,
+      )?.unwrap();
+      successSnackbar('Ticket Detached Successfully!');
+      setIsDeleteModalOpen(false);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
+      setIsDeleteModalOpen(false);
     }
-    setIsDeleteModalOpen(false);
-    setHoveredItemId(null);
   };
   const addAssociationsButton = addAssociationsButtonDynamic?.(
     setNewIncident,
@@ -81,9 +84,10 @@ const useAssociations = () => {
   );
 
   return {
-    getInventoryListData,
+    dataAssets,
     theme,
-    lazyGetIncidentStatus,
+    isLoadingAssets,
+    isFetchingAssets,
     handleMouseOver,
     hoveredItemId,
     setHoveredItemId,
@@ -92,7 +96,7 @@ const useAssociations = () => {
     isDeleteModalOpen,
     handleCloseDeleteModal,
     handleConfirmDelete,
-    isLoading,
+    postRemoveAssociateTicketsStatus,
     setNewIncident,
     setExistingIncident,
     openNewIncident,

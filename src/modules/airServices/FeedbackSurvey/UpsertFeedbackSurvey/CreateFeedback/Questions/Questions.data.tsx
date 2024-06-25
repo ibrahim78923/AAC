@@ -1,0 +1,171 @@
+import {
+  RadioButtonChecked,
+  CheckBox,
+  LinearScale,
+  ShortText,
+  AddCircle,
+} from '@mui/icons-material';
+import { styled, keyframes } from '@mui/system';
+import { Box } from '@mui/material';
+import { RHFRadioGroup, RHFTextField } from '@/components/ReactHookForm';
+import {
+  AddSectionIcon,
+  AddTitleIcon,
+  ImportQuestionIcon,
+} from '@/assets/icons';
+import { DynamicQuestions } from './DynamicQuestions';
+
+export const tooltipData = (
+  appendSection: any,
+  appendQuestion: any,
+  appendText: any,
+) => [
+  {
+    id: 1,
+    title: 'Add question',
+    onClick: () => appendQuestion(),
+    icon: <AddCircle color="primary" fontSize="large" />,
+  },
+  {
+    id: 2,
+    title: 'Add title and description',
+    onClick: () => appendText(),
+    icon: <AddTitleIcon />,
+  },
+  {
+    id: 3,
+    title: 'Import questions',
+    onClick: () => {},
+    icon: <ImportQuestionIcon />,
+  },
+  {
+    id: 4,
+    title: 'Add section',
+    onClick: () => appendSection(),
+    icon: <AddSectionIcon />,
+  },
+];
+
+export const questionTypeOptions = [
+  {
+    id: 1,
+    label: 'Multiple Choice',
+    value: 'multipleChoice',
+    icon: <RadioButtonChecked />,
+  },
+  {
+    id: 2,
+    label: 'Check Boxes',
+    value: 'checkboxes',
+    icon: <CheckBox />,
+  },
+  {
+    id: 3,
+    label: 'Short Answers',
+    value: 'shortAnswers',
+    icon: <ShortText />,
+  },
+  {
+    id: 4,
+    label: 'Linear Scale',
+    value: 'linearScale',
+    icon: <LinearScale />,
+  },
+];
+
+const linearScaleOptions = [
+  {
+    label: 'Strongly Agree 😇',
+    value: 'Strongly Agree 😇',
+  },
+  {
+    label: 'Agree 😊',
+    value: 'Agree 😊',
+  },
+  {
+    label: 'Neutral 😐',
+    value: 'Neutral 😐',
+  },
+  {
+    label: 'Disagree 😑',
+    value: 'Disagree 😑',
+  },
+  {
+    label: 'Strongly Disagree 😠',
+    value: 'Strongly Disagree 😠',
+  },
+];
+
+export const surveyQuestionComponent: any = (
+  sectionIndex: number,
+  index: number,
+  methods: any,
+  watchType: any,
+) => ({
+  checkboxes: (
+    <DynamicQuestions
+      parentMethods={methods}
+      sectionIndex={sectionIndex}
+      questionIndex={index}
+      watchType={watchType}
+    />
+  ),
+  multipleChoice: (
+    <DynamicQuestions
+      parentMethods={methods}
+      sectionIndex={sectionIndex}
+      questionIndex={index}
+      watchType={watchType}
+    />
+  ),
+  shortAnswers: (
+    <RHFTextField
+      name={`section.${sectionIndex}.questions.${index}.singleAnswer`}
+      placeholder="Write answer"
+      multiline
+      minRows={3}
+      size="small"
+      disabled
+    />
+  ),
+  linearScale: (
+    <RHFRadioGroup
+      name={`section.${sectionIndex}.questions.${index}.singleAnswer`}
+      disabled
+      options={linearScaleOptions}
+    />
+  ),
+});
+
+export const questionTypeData = {
+  writeQuestion: 'Write Question',
+  writeTitle: 'Write short title',
+  question: 'Question',
+  title: 'Title',
+};
+
+const slideFromLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const slideFromRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+export const AnimatedBox = styled(Box)(({ fromRight }: any) => ({
+  animation: `${fromRight ? slideFromLeft : slideFromRight} 0.5s ease-in-out`,
+}));

@@ -1,7 +1,5 @@
 import React from 'react';
-
 import Image from 'next/image';
-
 import {
   Grid,
   Box,
@@ -12,12 +10,9 @@ import {
   Avatar,
   Stack,
 } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-
 import { dataArray } from './OrganizationCard.data';
-
 import {
   MessageGreyImage,
   PhoneImage,
@@ -25,9 +20,7 @@ import {
   EditImage,
 } from '@/assets/images';
 import { AddPenIcon, EditPenBorderedIcon } from '@/assets/icons';
-
 import { styles } from './OrganizationCard.style';
-
 import { v4 as uuidv4 } from 'uuid';
 import useOrganizationCard from './useOrganizationCard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

@@ -22,9 +22,11 @@ const EditAgentStatus = ({
   onClose,
   handleSubmit,
   formMethods, // isLoading,
+  newStatusAdded,
+  text,
+  setText,
 }: EditAgentStatusPropsI) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [text, setText] = useState('');
 
   const handleFieldClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -132,41 +134,51 @@ const EditAgentStatus = ({
             </IconButton>
           )}
         </Button>
-        <Box sx={{ mt: '1rem' }}>
-          <Typography variant="body2">
-            After call work is defined as the process of wrapping up the current
-            call before being available for the next call
-          </Typography>
-          <Box
-            display={'flex'}
-            justifyContent={'center'}
-            flexDirection={'row'}
-            padding={'0.8rem'}
-            sx={{ background: `${theme?.palette?.primary?.light}`, mt: '1rem' }}
-            gap={3}
-          >
-            <Typography variant="body2" fontWeight={500} sx={{ mt: '0.5rem' }}>
-              Set After Call Work Time
+
+        {!newStatusAdded && (
+          <Box sx={{ mt: '1rem' }}>
+            <Typography variant="body2">
+              After call work is defined as the process of wrapping up the
+              current call before being available for the next call
             </Typography>
-            <Grid item xs={3} lg={2} md={2} sx={{ width: '80px' }}>
-              <RHFTextField
-                name="afterCallWorkTime"
-                size="small"
-                type="number"
-              />
-            </Grid>
-            <Typography variant="body2" sx={{ mt: '0.5rem' }}>
-              seconds
+            <Box
+              display={'flex'}
+              justifyContent={'center'}
+              flexDirection={'row'}
+              padding={'0.8rem'}
+              sx={{
+                background: `${theme?.palette?.primary?.light}`,
+                mt: '1rem',
+              }}
+              gap={3}
+            >
+              <Typography
+                variant="body2"
+                fontWeight={500}
+                sx={{ mt: '0.5rem' }}
+              >
+                Set After Call Work Time
+              </Typography>
+              <Grid item xs={3} lg={2} md={2} sx={{ width: '80px' }}>
+                <RHFTextField
+                  name="afterCallWorkTime"
+                  size="small"
+                  type="number"
+                />
+              </Grid>
+              <Typography variant="body2" sx={{ mt: '0.5rem' }}>
+                seconds
+              </Typography>
+            </Box>
+            <Typography variant="body2" sx={{ mt: '1rem' }}>
+              <span style={{ color: `${theme?.palette?.primary?.main}` }}>
+                Note:
+              </span>{' '}
+              You can set the after call work time from 0 seconds and a maximum
+              of upto 60 minutes
             </Typography>
           </Box>
-          <Typography variant="body2" sx={{ mt: '1rem' }}>
-            <span style={{ color: `${theme?.palette?.primary?.main}` }}>
-              Note:
-            </span>{' '}
-            You can set the after call work time from 0 seconds and a maximum of
-            upto 60 minutes
-          </Typography>
-        </Box>
+        )}
       </FormProvider>
     </CommonDrawer>
   );

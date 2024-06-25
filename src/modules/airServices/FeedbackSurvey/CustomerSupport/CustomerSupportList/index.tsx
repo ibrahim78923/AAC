@@ -1,39 +1,58 @@
+import { Box, Button } from '@mui/material';
 import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { Box, Button } from '@mui/material';
+import { AIR_SERVICES } from '@/constants';
 import {
   customerSupportListColumn,
   feedbackDropdown,
 } from './CustomerSupportList.data';
+import { useCustomerSupportList } from './useCustomerSupportList';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
-export const CustomerSupportList = ({
-  search,
-  setSearch,
-  activeCheck,
-  setActiveCheck,
-  feedbackTableData = [],
-  isLoading,
-  isFetching,
-  isError,
-  isSuccess,
-  page,
-  setPage,
-  limit,
-  setLimit,
-  meta = {},
-}: any) => {
+export const CustomerSupportList = (props: any) => {
+  const {
+    search,
+    setSearch,
+    activeCheck,
+    setActiveCheck,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    router,
+    feedbackTableData,
+    meta,
+    deleteLoading,
+    handleDeleteSurvey,
+    openModal,
+    setOpenModal,
+  } = useCustomerSupportList(props);
   return (
     <>
       <Box display="flex" justifyContent="space-between">
         <Search label="Search here" searchBy={search} setSearchBy={setSearch} />
         <Box display="flex" gap={1}>
           <SingleDropdownButton
-            dropdownOptions={feedbackDropdown(activeCheck)}
+            dropdownOptions={feedbackDropdown(activeCheck, setOpenModal)}
             disabled={!!!activeCheck?.length}
           />
-          <Button startIcon={<PlusIcon />} variant="contained">
+          <Button
+            startIcon={<PlusIcon />}
+            variant="contained"
+            onClick={() =>
+              router?.push({
+                pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
+                query: { type: 'customer-support' },
+              })
+            }
+          >
             Create Survey
           </Button>
         </Box>
@@ -59,6 +78,17 @@ export const CustomerSupportList = ({
         setPage={setPage}
         setPageLimit={setLimit}
       />
+      {openModal && (
+        <AlertModals
+          open={openModal}
+          handleClose={() => setOpenModal(false)}
+          handleSubmitBtn={handleDeleteSurvey}
+          loading={deleteLoading}
+          disableCancelBtn={deleteLoading}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          message="Are you sure you want to delete this survey?"
+        />
+      )}
     </>
   );
 };

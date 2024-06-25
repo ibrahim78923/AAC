@@ -1,3 +1,10 @@
+export const STATUSES = {
+  OPEN: 'OPEN',
+  RESOLVED: 'RESOLVED',
+  PENDING: 'PENDING',
+  CLOSED: 'CLOSED',
+};
+
 export const ticketInfoCardAppearanceColor = (appearance: string) => {
   const New = 'new';
   const Overdue = 'Overdue';

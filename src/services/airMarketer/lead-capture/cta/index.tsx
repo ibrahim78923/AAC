@@ -43,7 +43,7 @@ export const leadCaptureCtaAPI = baseAPI.injectEndpoints({
 
     deleteLeadCaptureCTA: builder.mutation({
       query: (id: any) => ({
-        url: `${URL}/${id}`,
+        url: `${END_POINTS?.DELETE_LEAD_CAPTURE_CTA}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: [TAG],

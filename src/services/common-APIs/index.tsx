@@ -5,12 +5,13 @@ import {
   OPERATION,
   settingSalesProductCategory,
 } from '@/routesConstants/endpoints';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 export const CommonAPIS = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => ({
-        url: END_POINTS?.PRODUCTS,
+        url: `${END_POINTS?.PRODUCTS}?status=${PRODUCT_USER_STATUS?.active}`,
         method: 'GET',
       }),
       providesTags: ['PRODUCTS'],
@@ -24,6 +25,14 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
+      providesTags: ['DROPDOWNS'],
+    }),
+
+    getDropdownProductsList: builder.query({
+      query: () => ({
+        url: END_POINTS?.DROPDOWN_PRODUCTS,
+        method: 'GET',
+      }),
       providesTags: ['DROPDOWNS'],
     }),
 
@@ -265,6 +274,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['USERS_LIST'],
     }),
+
+    getAllTickets: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.TICKET}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['TICKETS'],
+    }),
   }),
 });
 
@@ -294,4 +315,6 @@ export const {
   useLazyGetAllCompaniesQuery,
   useLazyGetAllTemplateListQuery,
   useLazyGetAllUsersQuery,
+  useGetDropdownProductsListQuery,
+  useLazyGetAllTicketsQuery,
 } = CommonAPIS;

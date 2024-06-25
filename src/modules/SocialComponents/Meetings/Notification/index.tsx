@@ -1,80 +1,65 @@
-import BlockQuoteIcon from '@/assets/icons/shared/block-quote-icon';
-import MessageNotificationIcon from '@/assets/icons/shared/message-notification-icon';
 import { AntSwitch } from '@/components/AntSwitch';
-import { Box, Typography } from '@mui/material';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { Avatar, Box, Typography } from '@mui/material';
+import { useNotification } from './useNotification';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const Notification = () => {
+  const {
+    meetingsNotificationData,
+    toggleMeetingsNotification,
+    patchMeetingsSettingsNotificationStatus,
+    isLoading,
+    isFetching,
+    isError,
+    data,
+  } = useNotification();
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+
+  if (isError) return <ApiErrorState />;
+
   return (
     <Box>
-      <Typography variant="h3">Notifications</Typography>
-      <Box
-        border="1px solid"
-        borderColor="grey.700"
-        borderRadius="5px"
-        marginTop="2rem"
-      >
+      <PageTitledHeader title={'Notification'} />
+      {meetingsNotificationData?.map((item: any) => (
         <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          m="1rem"
+          key={item?.id}
+          border="1px solid"
+          borderColor="grey.700"
+          borderRadius={3}
+          marginTop={2}
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          p={2}
         >
-          <Box display="flex" gap="10px" alignItems="center">
-            <Box
-              bgcolor="primary.light"
-              padding={0.5}
-              borderRadius={2}
-              display="flex"
-              alignItems="center"
-            >
-              <MessageNotificationIcon />
-            </Box>
+          <Box display={'flex'} gap={3} alignItems={'center'}>
+            <Avatar variant="rounded" sx={{ backgroundColor: 'primary.light' }}>
+              {item?.avatar}
+            </Avatar>
             <Box>
-              <Typography variant="h5">Email</Typography>
-              <Typography>
-                Get an email notification whenever an event is scheduled
+              <Typography variant="h6" color="grey.800">
+                {item?.type}
+              </Typography>
+              <Typography variant="body2" fontWeight={500} color="custom.main">
+                {item?.purpose}
               </Typography>
             </Box>
           </Box>
-          <Box>
-            <AntSwitch />
-          </Box>
+          <AntSwitch
+            onChange={(e: any) => toggleMeetingsNotification?.(e, item)}
+            checked={data?.data?.notificationsOff?.[item?.enum]}
+            isLoading={
+              patchMeetingsSettingsNotificationStatus?.isLoading &&
+              patchMeetingsSettingsNotificationStatus?.originalArgs?.pathParams
+                ?.enum === item?.enum
+            }
+            disabled={patchMeetingsSettingsNotificationStatus?.isLoading}
+          />
         </Box>
-      </Box>
-      <Box
-        border="1px solid"
-        borderColor="grey.700"
-        borderRadius="5px"
-        marginTop="2rem"
-      >
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          m="1rem"
-        >
-          <Box display="flex" gap="10px" alignItems="center">
-            <Box
-              bgcolor="primary.light"
-              padding={0.5}
-              borderRadius={2}
-              display="flex"
-              alignItems="center"
-            >
-              <BlockQuoteIcon />
-            </Box>
-            <Box>
-              <Typography variant="h5">Text Reminder</Typography>
-              <Typography>
-                Get a text reminder whenever an event is scheduled
-              </Typography>
-            </Box>
-          </Box>
-          <Box>
-            <AntSwitch />
-          </Box>
-        </Box>
-      </Box>
+      ))}
     </Box>
   );
 };

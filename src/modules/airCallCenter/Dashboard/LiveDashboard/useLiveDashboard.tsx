@@ -9,7 +9,7 @@ const useLiveDashboard = () => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [multiSelect, setMultiSelect] = useState<null | HTMLElement>(null);
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState<any>([]);
   const actionMenuOpen = Boolean(anchorEl);
 
   const handleActionsClick = (event: React.MouseEvent<HTMLButtonElement>) => {

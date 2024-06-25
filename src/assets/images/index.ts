@@ -289,3 +289,7 @@ export { default as mobilePhoneImg } from './modules/socialComponents/meetings/m
 export { default as CallerAvatarImage } from './modules/airCallCenter/CallMetrices/caller-avatar.png';
 export { default as calendarImage } from './shared/calendar.png';
 export { default as MasterCardLogoImage } from './shared/master-card-logo-image.png';
+export { default as TransferredCallsImage } from './modules/airCallCenter/Dashboard/Performance/transferred-calls-bg-image.png';
+export { default as MissedCallsImage } from './modules/airCallCenter/Dashboard/Performance/missed-calls-bg-image.png';
+export { default as AnsweredCallsImage } from './modules/airCallCenter/Dashboard/Performance/answered-calls-bg-image.png';
+export { default as TotalCallsImage } from './modules/airCallCenter/Dashboard/Performance/total-calls-bg-image.png';

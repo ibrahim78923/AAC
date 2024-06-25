@@ -85,7 +85,15 @@ export const columns: any = (
           checked={selectedRows?.includes(original?._id)}
           onChange={(val: any) => {
             handleSelectSingleCheckBox(val, original?._id);
-            router.push(`?id=${original?._id}`);
+            if (val?.target?.checked) {
+              router.push(`?id=${original?._id}`);
+            } else {
+              const { ...query } = router?.query;
+              router.push({
+                pathname: router?.pathname,
+                query,
+              });
+            }
           }}
         />
       ),
@@ -116,7 +124,7 @@ export const columns: any = (
       header: 'Campaign Owner',
       cell: (info: any) =>
         `${info?.row?.original?.userDetails?.firstName ?? 'N/A'} ${
-          info?.row?.original?.userDetails?.lastName ?? 'N/A'
+          info?.row?.original?.userDetails?.lastName ?? ''
         }`,
     },
     {

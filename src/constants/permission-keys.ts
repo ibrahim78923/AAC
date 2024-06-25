@@ -265,14 +265,35 @@ export const AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS = {
   DELETE: 'sale-delete-task',
   TASK_VIEW: 'sale-task-view',
 };
-// export const AIR_SALES_INVOICES_MANAGE_INVOICE_PERMISSIONS = {
-//   CREATE_INVOICES: 'sale-create-invoice',
-//   SEARCH_FILTER: 'sale-invoice-search-and-filter',
-//   EDIT_ACTIONS: 'sale-invoice-edit-action',
-//   VIEW: 'sale-view-invoice',
-//   DOWNLOAD: 'sale-invoice-download',
-//   DELETE: 'sale-delete-invoice',
-// };
+export const AIR_MARKETER_PAID_ADS_PERMISSIONS = {
+  MANAGE_ADS: 'paid-ads-manage-ads',
+  AUDIENCE_LIST: 'paid-ads-audiences-list',
+  EVENTS_LIST: 'paid-ads-events-list',
+  ANALYZE_ADS: 'paid-ads-analyze-ads',
+  CREATE_EVENT: 'paid-ads-create-event',
+  CREATE_AD_NETWORK: 'paid-ads-create-event-ad-network',
+  CREATE_AD_ACCOUNT: 'paid-ads-create-event-ad-account',
+  CREATE_EVENT_TRIGGER: 'paid-ads-create-event-event-triggers',
+  CREATE_EVENT_VALUES: 'paid-ads-create-event-values',
+  CREATE_EVENT_CONTACT_PROPERTY:
+    'paid-ads-create-event-custom-contact-property',
+  CREATE_EVENT_NAME: 'paid-ads-create-event-event-name',
+  CREATE_AUDIENCE: 'paid-ads-create-audience',
+  CREATE_AUDIENCE_SEGMENTATION: 'paid-ads-create-audience-segmentation',
+  CREATE_AUDIENCE_WEBSITE_VISITORS: 'paid-ads-create-audience-website-visitors',
+  CREATE_AUDIENCE_CONTACT_LIST: 'paid-ads-create-audience-contact-list-',
+  CREATE_AUDIENCE_COMPANY_LIST: 'paid-ads-create-audience-company-list-',
+  CREATE_AUDIENCE_LOOALIKE: 'paid-ads-create-audience-looalike',
+};
+
+export const AIR_MARKETER_PAID_ADS_CREATE_ADS_PERMISSIONS = {
+  CREATE_AD_CAMPAIGN: 'paid-ads-create-ad-campaign',
+  CREATE_ENGAGEMENT_AD: 'paid-ads-create-ad-campaign-engagement-ad',
+  CREATE_WEBSITE_VISIT_AD: 'paid-ads-create-ad-campaign-website-visit-ad-',
+  CREATE_LEAD_GENERATION_AD: 'paid-ads-create-ad-campaign-lead-generation-ad',
+  CREATE_SEARCH_AD: 'paid-ads-create-ad-campaign-search-ad',
+};
+
 export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
   VIEW_DASHBOARD: 'marketer-sms-marketing-dashboard-view-dashboard',
   VIEW_SMS_CONVERSATION: 'marketer-sms-marketing-dashboard-view-sms-conversion',

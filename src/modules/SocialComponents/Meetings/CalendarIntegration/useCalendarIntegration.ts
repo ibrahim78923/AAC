@@ -21,7 +21,11 @@ export const useCalendarIntegration = () => {
   const { data: officeData }: any = useGetOfficeCalendarAuthQuery(null);
   const officeAuth = officeData?.data;
 
-  const { data: calendarData }: any = useGetMeetingsCalendarsListQuery(null);
+  const {
+    data: calendarData,
+    isLoading,
+    isFetching,
+  }: any = useGetMeetingsCalendarsListQuery(null);
 
   useEffect(() => {
     if (calendarData?.data) {
@@ -63,6 +67,12 @@ export const useCalendarIntegration = () => {
     const calendarToChange = calendarListData?.find(
       (calendar) => calendar?._id === calendarId,
     );
+
+    if (!calendarToChange) {
+      errorSnackbar('Calendar not found.');
+      return;
+    }
+
     const newStatus = calendarToChange?.isDefault
       ? CALENDAR_STATUS?.INACTIVE
       : CALENDAR_STATUS?.ACTIVE;
@@ -73,12 +83,14 @@ export const useCalendarIntegration = () => {
     }));
 
     try {
-      for (const calendar of calendarListData) {
-        if (calendar?._id !== calendarId && calendar?.isDefault) {
-          await changeStatusTrigger({
-            id: calendar?._id,
-            body: { status: CALENDAR_STATUS?.INACTIVE },
-          });
+      if (newStatus === CALENDAR_STATUS?.ACTIVE) {
+        for (const calendar of calendarListData) {
+          if (calendar?._id !== calendarId && calendar?.isDefault) {
+            await changeStatusTrigger({
+              id: calendar?._id,
+              body: { status: CALENDAR_STATUS?.INACTIVE },
+            });
+          }
         }
       }
 
@@ -91,10 +103,11 @@ export const useCalendarIntegration = () => {
         (prevState) =>
           prevState?.map((calendar) =>
             calendar?._id === calendarId
-              ? { ...calendar, isDefault: !calendar?.isDefault }
-              : calendar?._id !== calendarId && calendar?.isDefault
-                ? { ...calendar, isDefault: false }
-                : calendar,
+              ? {
+                  ...calendar,
+                  isDefault: newStatus === CALENDAR_STATUS?.ACTIVE,
+                }
+              : { ...calendar, isDefault: false },
           ),
       );
 
@@ -120,5 +133,7 @@ export const useCalendarIntegration = () => {
     handleChangeStatus,
     googleAuth,
     officeAuth,
+    isLoading,
+    isFetching,
   };
 };

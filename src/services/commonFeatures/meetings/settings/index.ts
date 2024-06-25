@@ -6,6 +6,7 @@ const GOOGLE_TAG = 'GOOGLE_CALENDAR_AUTH';
 const OFFICE_TAG = 'OFFICE_CALENDAR_AUTH';
 const TEAMS_TAG = 'MS_TEAMS_AUTH';
 const GOOGLE_MEET_TAG = 'GOOGLE_MEET_AUTH';
+const ZOOM_TAG = 'ZOOM_AUTH';
 
 export const meetingSettingsApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
@@ -61,6 +62,13 @@ export const meetingSettingsApi = baseAPI?.injectEndpoints({
       }),
       providesTags: [GOOGLE_MEET_TAG],
     }),
+    getZoomAuth: builder?.query({
+      query: () => ({
+        url: `${END_POINTS?.GET_ZOOM_AUTH}`,
+        method: 'GET',
+      }),
+      providesTags: [ZOOM_TAG],
+    }),
   }),
 });
 
@@ -72,4 +80,5 @@ export const {
   useGetOfficeCalendarAuthQuery,
   useGetMsTeamsAuthQuery,
   useGetGoogleMeetAuthQuery,
+  useGetZoomAuthQuery,
 } = meetingSettingsApi;

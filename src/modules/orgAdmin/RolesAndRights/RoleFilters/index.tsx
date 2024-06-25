@@ -8,9 +8,6 @@ import {
 
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
-
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 import { filteredEmptyValues } from '@/utils/api';
 
 const RoleFilters = (props: any) => {
@@ -21,29 +18,30 @@ const RoleFilters = (props: any) => {
   });
 
   const { handleSubmit } = methods;
-
-  const startedDate = 0;
-  const endedDate = 1;
+  // commented for future use if needed
+  // const startedDate = 0;
+  // const endedDate = 1;
 
   const onSubmit = async (values: any) => {
+    // commented for future use if needed
     // Extract and format the date values separately
-    const { date } = values;
-    const dateStart = date?.[startedDate]
-      ? dayjs(date[startedDate])?.format(DATE_FORMAT?.API)
-      : null;
-    const dateEnd = date?.[endedDate]
-      ? dayjs(date[endedDate])?.format(DATE_FORMAT?.API)
-      : null;
+    // const { date } = values;
+    // const dateStart = date?.[startedDate]
+    //   ? dayjs(date[startedDate])?.format(DATE_FORMAT?.API)
+    //   : null;
+    // const dateEnd = date?.[endedDate]
+    //   ? dayjs(date[endedDate])?.format(DATE_FORMAT?.API)
+    //   : null;
 
     const filteredValues = filteredEmptyValues?.(values);
+    // commented for future use if needed
+    // const finalValues = {
+    //   ...filteredValues,
+    //   dateStart,
+    //   dateEnd,
+    // };
 
-    const finalValues = {
-      ...filteredValues,
-      dateStart,
-      dateEnd,
-    };
-
-    setFilterValues(finalValues);
+    setFilterValues(filteredValues);
     setIsOpen(false);
   };
 

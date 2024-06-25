@@ -72,7 +72,7 @@ const Draft = () => {
       return false;
     }
     const formDataSend = new FormData();
-    formDataSend.append('draftId', activeRecord?.id);
+    formDataSend.append('draftId', activeRecord?.draftId);
     formDataSend.append('to', email);
     if (values?.subject) {
       formDataSend.append('subject', values?.subject);

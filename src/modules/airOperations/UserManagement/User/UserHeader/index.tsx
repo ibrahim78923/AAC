@@ -30,15 +30,14 @@ export const UserHeader = (props: any) => {
       justifyContent={'space-between'}
       flexWrap={'wrap'}
       alignItems={'center'}
+      mb={2}
     >
-      <Box>
-        <Search
-          label="Search Here"
-          width={'16.25rem'}
-          setSearchBy={setSearch}
-          searchBy={search}
-        />
-      </Box>
+      <Search
+        label="Search Here"
+        width={'16.25rem'}
+        setSearchBy={setSearch}
+        searchBy={search}
+      />
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
         <PermissionsGuard
           permissions={[

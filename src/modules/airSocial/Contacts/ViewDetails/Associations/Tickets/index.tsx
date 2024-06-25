@@ -1,4 +1,4 @@
-import { Box, Grid, Skeleton, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
@@ -13,19 +13,34 @@ import useTickets from './useTickets';
 import { columns } from './Tickets.data';
 
 import { styles } from '../Associations.style';
+import { PlusIcon } from '@/assets/icons';
+import { FORM_TYPE } from './TicketsEditorDrawer/TicketsEditorDrawer.data';
 
 const Tickets = ({ contactId }: any) => {
   const {
-    loadingTickets,
-    dataGetTickets,
     theme,
-    isOpenAlert,
-    setIsOpenAlert,
-    searchName,
-    setSearchName,
+    setSearchValue,
+    loadingTickets,
+    fetchingTickets,
+    dataGetTickets,
+    drawerTitle,
     openDrawer,
-    setOpenDrawer,
+    handleOpenDrawer,
+    handleCloseDrawer,
+    formType,
+    handleChangeFormType,
+    disabledField,
+    methodsNewTicket,
+    methodsExistingTicktet,
+    handleAddTicketSubmit,
+    handleExsistingTicketSubmit,
+    loadingAddTicket,
+
+    isOpenAlert,
+    handleOpenAlert,
     handleCloseAlert,
+    handleRemoveAssociation,
+    loadingPostAssociation,
   } = useTickets(contactId);
 
   return (
@@ -46,7 +61,9 @@ const Tickets = ({ contactId }: any) => {
           <>
             <Grid item md={4} sx={styles?.countBox}>
               <Typography sx={styles?.associationCount(theme)} variant="body3">
-                02
+                {dataGetTickets?.length < 10
+                  ? `0${dataGetTickets?.length}`
+                  : dataGetTickets?.length}
               </Typography>
 
               <Typography variant="subtitle2">Tickets</Typography>
@@ -61,34 +78,55 @@ const Tickets = ({ contactId }: any) => {
                 }}
               >
                 <Search
-                  searchBy={searchName}
-                  setSearchBy={setSearchName}
+                  setSearchBy={setSearchValue}
                   label="Search By Name"
                   size="small"
                 />
+                <Button
+                  variant="contained"
+                  className="small"
+                  sx={{ minWidth: '0px', gap: 0.5 }}
+                  onClick={() => handleOpenDrawer('Add', null)}
+                >
+                  <PlusIcon /> Add Ticket
+                </Button>
               </Box>
             </Grid>
           </>
         )}
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={dataGetTickets?.data?.tickets}
-            isLoading={loadingTickets}
+            columns={columns({ handleOpenDrawer, handleOpenAlert })}
+            data={dataGetTickets}
+            isLoading={loadingTickets || fetchingTickets}
           />
         </Grid>
       </Grid>
 
       <TicketsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
+        drawerTitle={drawerTitle}
+        open={openDrawer}
+        onClose={handleCloseDrawer}
+        methodsNewTicket={methodsNewTicket}
+        methodsExistingTicket={methodsExistingTicktet}
+        formType={formType}
+        handleChangeFormType={handleChangeFormType}
+        handleOnSubmit={
+          formType === FORM_TYPE?.NEW
+            ? handleAddTicketSubmit
+            : handleExsistingTicketSubmit
+        }
+        isLoading={loadingPostAssociation || loadingAddTicket}
+        disabledField={disabledField}
       />
+
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
+        handleSubmitBtn={handleRemoveAssociation}
+        loading={loadingPostAssociation}
       />
     </Box>
   );

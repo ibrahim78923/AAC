@@ -174,7 +174,7 @@ const UserInfo = () => {
       </Box>
 
       <Box sx={styles?.invoiceInfo}>
-        <Grid container spacing={'16px'}>
+        <Grid container spacing={'16px'} alignItems={'center'}>
           <Grid item xs={4}>
             <Box sx={styles?.invoiceInfoTitle}>
               Invoice No: <Box component="span">{EditInvoice?.invoiceNo}</Box>

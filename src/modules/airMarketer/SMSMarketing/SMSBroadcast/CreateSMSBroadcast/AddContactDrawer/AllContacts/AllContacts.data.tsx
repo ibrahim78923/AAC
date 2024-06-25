@@ -34,6 +34,7 @@ export const allContactsColumns: any = ({
           checked={selectedRec?.some(
             (contact: any) => contact._id === original._id,
           )}
+          defaultChecked={selectedRec?.map((contact: any) => contact._id)}
         />
       ),
       header: (

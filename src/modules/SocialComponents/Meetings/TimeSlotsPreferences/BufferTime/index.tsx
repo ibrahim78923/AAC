@@ -37,7 +37,7 @@ const BufferTime = (props: any) => {
               options={bufferTime}
               size="small"
               disabled={disabled || !beforeChecked}
-              getOptionLabel={(option: any) => option?.toString()}
+              getOptionLabel={(option: any) => option?.label}
             />
           </Box>
         </Grid>
@@ -63,7 +63,7 @@ const BufferTime = (props: any) => {
               options={bufferTime}
               size="small"
               disabled={disabled || !afterChecked}
-              getOptionLabel={(option: any) => option?.toString()}
+              getOptionLabel={(option: any) => option?.label}
             />
           </Box>
         </Grid>

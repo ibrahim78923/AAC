@@ -73,6 +73,8 @@ export const styles = {
     mt: '16px',
   }),
   invoiceInfoTitle: (theme: any) => ({
+    display: 'flex',
+    alignItems: 'center',
     fontSize: '14px',
     fontWeight: '500',
     color: theme?.palette?.blue?.dull_blue,

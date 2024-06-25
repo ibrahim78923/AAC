@@ -53,8 +53,9 @@ const useSalesProduct = () => {
 
   const handleDelete = async () => {
     try {
+      const idsString = selectedCheckboxes?.join(',');
       const response: any = await deleteSalesProduct({
-        ids: selectedCheckboxes,
+        ids: idsString,
       })?.unwrap();
       enqueueSnackbar(
         response?.message ?? 'Sales Product Deleted Successfully!',

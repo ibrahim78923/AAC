@@ -128,7 +128,6 @@ export const END_POINTS = {
   EMAIL_VIEW: `/social-components/email`,
   CONVERSATION_OTHERS_EMAIL_VIEW: `/social-components/email/others/conversations`,
   CONVERSATION_GMAIL_EMAIL_VIEW: `/social-components/email/gmail/conversations`,
-  CONVERSATION_OTHERS_EMAIL_VIEW: `/social-components/email/others/conversations`,
   CONVERSATION_OUTLOOK_EMAIL_VIEW: `/social-components/email/outlook/conversations`,
   DROPDOWN_TASK: '/task',
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
@@ -317,9 +316,11 @@ export const END_POINTS = {
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
   GET_SMS_DASHBOARD_INSIGHTS: '/sms-marketing/dashboard-insights',
   GET_SMS_MARKETING_BROADCAST: '/sms-marketing/broadcast',
+  DELETE_SMS_MARKETING_BROADCAST: '/sms-marketing/broadcast/{smsBroadcastId}',
   GET_IS_PHONE_CONNECTED: '/sms-marketing/connected-number',
   GET_SMS_TEMPLATES: '/sms-marketing/template',
   CONNECT_PHONE_NUMBER: '/sms-marketing/connect-number',
+  WHATSAPP_TEMPLATE: '/whatsapp-marketing/template',
   SALES_TEAM: '/teams',
   SERVICE_CATALOG_CATEGORIES_DETAILS: '/service-catalog/get-detail-service',
   UPDATE_CONTRACT_SUBMIT_APPROVAL: '/contract/approval-request',
@@ -385,6 +386,7 @@ export const END_POINTS = {
   GET_VOUCHERS_REWARDS_DROPDOWN: `/vouchers/list-voucher`,
   TIERS_DROPDOWN_FOR_REWARDS: `/rules-and-tiers/tiers`,
   LEAD_CAPTURE_CTA: '/lead-capture',
+  DELETE_LEAD_CAPTURE_CTA: '/lead-capture/multiple',
   CREATE_SHOP: `/shops/create-shops`,
   GET_SHOP_LIST: `/shops/shops-list`,
   UPDATE_SHOP: `/shops/update-shops`,
@@ -410,10 +412,17 @@ export const END_POINTS = {
   UPDATE_MEETINGS_LOCATIONS: '/meeting-time-slots/edit-meeting-loation',
   DELETE_MEETINGS_LOCATIONS: '/meeting-time-slots/delete-meeting-loation',
   TIME_SLOTS: '/meeting-time-slots/add-time-slots',
+  GET_ASSOCIATION: `/association`,
+  POST_ASSOCIATION: `/association/manage-association`,
   DELETE_TASKS: `/task/ids`,
   GET_OFFICE_365_CALENDAR: '/auth/office365-calendar/authorize',
   GET_MS_TEAMS: '/auth/msteams/authorize',
   GET_GOOGLE_MEET: '/auth/google-meet/authorize',
+  CREATE_FEEDBACK_SURVEY: '/feedback-survey/create-feedback-survey',
+  UPDATE_FEEDBACK_SURVEY: '/feedback-survey/update-feedback-survey',
+  GET_FEEDBACK_LIST: '/feedback-survey/list-feedback-survey',
+  DELETE_FEEDBACK_SURVEY: '/feedback-survey/delete-feedback-survey',
+  GET_ZOOM_AUTH: '/auth/zoom/authorize',
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -436,6 +445,7 @@ export const superAdminBillingInvoices = {
   UPDATE_INVOICE: '/super-admin/update-invoice',
   GET_CRM: '/super-admin/get-all-crm-plans',
   FIND_CRM: '/super-admin/find-crm',
+  UNASSIGN_PLAN: '/super-admin/unassign-plan',
 };
 
 export const organization = {
@@ -472,6 +482,8 @@ export const settingContactStatus = {
 };
 export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
+  SUBSCRIPTION_AND_INVOICES_UN_ASSIGN_PLAN:
+    '/org-admin/subscriptions/unassign-plan',
   SUBSCRIPTION_AND_INVOICES_TAX_CALCULATIONS: '/tax-calculation/apply-on/',
   SUBSCRIPTION_AND_INVOICES_CRM:
     '/org-admin/subscriptions/get-all-crm-with-subscription',
@@ -522,6 +534,8 @@ export const AIR_MARKETER = {
   CAMPAIGNS_VIEW: '/campaigns/view',
   CAMPAIGNS: '/campaigns',
   CAMPAIGNS_TASKS: '/campaigns/task',
+  CAMPAIGNS_CLONE: '/campaigns/view/clone',
+  CAMPAIGNS_SAVE_VIEW: '/campaigns/view',
 };
 
 export const SUPER_ADMIN_DASHBOARD = {
@@ -530,4 +544,12 @@ export const SUPER_ADMIN_DASHBOARD = {
   BILLING_INVOICES: '/super-admin/dashboard',
   PLANS_LIST: '/plan',
   ENQUIRIES: '/super-admin/user-enquiry-wise-stats',
+};
+
+export const SALES_DASHBOARD = {
+  DEALS_CREATED_VS_CLOSE_DATES:
+    '/sales-dashboard/deals-created-vs-closed-deals',
+  WIDGET:
+    '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
+  SALES_DASHBOARD: '/sales-dashboard',
 };

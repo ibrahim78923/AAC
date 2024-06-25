@@ -62,7 +62,6 @@ const useSalesEditorDrawer = ({
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
-    values.removeImage = false;
     formData.append('category', values?.category?._id);
     formData.append('description', values?.description);
     formData.append('isActive', values?.isActive);
@@ -71,8 +70,6 @@ const useSalesEditorDrawer = ({
     formData.append('sku', values?.sku);
     formData.append('unitPrice', values?.unitPrice);
     formData.append('image', values?.image);
-    formData.append('removeImage', values.removeImage);
-
     try {
       if (isEditMode) {
         await updateSalesProduct({

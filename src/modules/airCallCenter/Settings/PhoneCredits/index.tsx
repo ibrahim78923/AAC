@@ -66,7 +66,10 @@ const PhoneCredits = () => {
                     InputProps={{
                       min: 0,
                       startAdornment: (
-                        <InputAdornment position="start" sx={{ mt: 0.1 }}>
+                        <InputAdornment
+                          position="start"
+                          sx={{ mt: 0.1, color: 'primary.main' }}
+                        >
                           £
                         </InputAdornment>
                       ),

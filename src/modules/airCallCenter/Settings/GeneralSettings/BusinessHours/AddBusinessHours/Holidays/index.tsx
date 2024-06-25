@@ -8,6 +8,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { HolidaysData } from './Holidays.data';
 
 import { calendarImage } from '@/assets/images';
+import { AlertModals } from '@/components/AlertModals';
 
 const Holidays = () => {
   const {
@@ -17,6 +18,9 @@ const Holidays = () => {
     getColumns,
     showHoliday,
     setShowHoliday,
+    openAlertModal,
+    handleCloseAlertModal,
+    handleHolidayDelete,
   } = useHolidays();
   return (
     <>
@@ -51,6 +55,13 @@ const Holidays = () => {
         data={showHoliday ? HolidaysData : []}
         noDataTableText={'No Holiday added yet'}
         noDataTableImage={calendarImage}
+      />
+      <AlertModals
+        type="delete"
+        open={openAlertModal}
+        handleClose={handleCloseAlertModal}
+        handleSubmitBtn={handleHolidayDelete}
+        message="Are you sure you want to disable it?"
       />
     </>
   );

@@ -1,14 +1,6 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 
-import {
-  Grid,
-  Box,
-  Button,
-  Typography,
-  Modal,
-  useTheme,
-  Stack,
-} from '@mui/material';
+import { Grid, Box } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -18,92 +10,120 @@ import {
   defaultValuesFeatures,
   validationSchemaFeatures,
 } from './CloneModal.data';
-import { styles } from './CloneModal.style';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import CloseIcon from '@/assets/icons/shared/close-icon';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
+import CommonDrawer from '@/components/CommonDrawer';
+import useCampaigns from '../useCampaigns';
+import dayjs from 'dayjs';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
 
-const CloneModal = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
-  const theme = useTheme();
-  const methods: any = useForm({
+const CloneModal = ({
+  openCloneModal,
+  handleCloseFeaturesModal,
+  compaignsDataById,
+  setSelectedRows,
+}: any) => {
+  const { createCampaignsLoading, UserListData, postCampaigns }: any =
+    useCampaigns();
+  const [setIsCreateTask] = useState(false);
+
+  useEffect(() => {
+    const data = compaignsDataById?.data[indexNumbers?.ZERO];
+    const fieldsToSet: any = {
+      title: data?.title,
+      campaignOwner: data?.campaignOwner,
+      startDate: dayjs(data?.startDate)?.isValid()
+        ? dayjs(data?.startDate).toDate()
+        : null,
+      endDate: dayjs(data?.endDate)?.isValid()
+        ? dayjs(data?.endDate)?.toDate()
+        : null,
+      campaignGoal: data?.campaignGoal,
+      campaignAudience: data?.campaignAudience,
+      campaignBudget: data?.campaignBudget,
+      campaignStatus: data?.campaignStatus,
+      description: data?.description,
+    };
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
+  }, [compaignsDataById]);
+
+  const methods = useForm<any>({
     resolver: yupResolver(validationSchemaFeatures),
     defaultValues: defaultValuesFeatures,
   });
+  const { handleSubmit, reset, setValue } = methods;
 
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {
-    handleCloseFeaturesModal();
-    enqueueSnackbar('Clone Successfully', {
-      variant: 'success',
-    });
+  const onSubmit = async (values: any) => {
+    const campaignBudget = values.campaignBudget
+      ? parseFloat(values.campaignBudget)
+      : null;
+    values.campaignOwner = values?.campaignOwner?._id;
+    const obj = {
+      ...values,
+      startDate: values?.startDate
+        ? dayjs(values?.startDate[0])?.format(DATE_FORMAT?.API)
+        : undefined,
+      endDate: values?.endDate
+        ? dayjs(values?.endDate[0])?.format(DATE_FORMAT?.API)
+        : undefined,
+      campaignBudget,
+    };
+    try {
+      await postCampaigns({ body: obj })?.unwrap();
+      enqueueSnackbar('Campaigns created successfully', {
+        variant: 'success',
+      });
+      handleCloseFeaturesModal();
+    } catch (error) {
+      enqueueSnackbar('Error while creating campaigns', {
+        variant: 'error',
+      });
+    }
+    reset();
+    setIsCreateTask(false);
+    setSelectedRows([]);
   };
-
   return (
     <div>
-      <Modal
-        open={openCloneModal}
-        onClose={handleCloseFeaturesModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+      <CommonDrawer
+        isDrawerOpen={openCloneModal}
+        onClose={() => handleCloseFeaturesModal()}
+        title={'Clone Campaign'}
+        okText={'Clone'}
+        isOk
+        cancelText={'Cancel'}
+        footer
+        submitHandler={handleSubmit(onSubmit)}
+        isLoading={createCampaignsLoading}
       >
-        <Box sx={styles?.parentBox}>
-          <Box sx={styles?.modalBox(theme?.palette)}>
-            <Box>
-              <Stack
-                display={'flex'}
-                direction={'row'}
-                justifyContent={'space-between'}
-                sx={{ cursor: 'pointer' }}
-                onClick={handleCloseFeaturesModal}
-              >
-                <Box>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h3"
-                    component="h2"
-                  >
-                    Clone a saved view
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'block' }}>
-                  <CloseIcon />
-                </Box>
-              </Stack>
-            </Box>
-            <Box sx={{ margin: '20px 0' }}>
-              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-                <Grid container spacing={4}>
-                  {dataArrayFeatures?.map((item: any) => (
-                    <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                      <item.component {...item?.componentProps} size={'small'}>
-                        {item?.componentProps?.select &&
-                          item?.options?.map((option: any) => (
-                            <option key={uuidv4()} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))}
-                      </item.component>
-                    </Grid>
-                  ))}
+        <Box mt={1}>
+          <FormProvider methods={methods}>
+            <Grid container spacing={2}>
+              {dataArrayFeatures(UserListData)?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
                 </Grid>
-                <Box sx={styles?.buttonBox} mt={2}>
-                  <Button variant="outlined">Cancel</Button>
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    onClick={handleSubmit}
-                  >
-                    Save
-                  </Button>
-                </Box>
-              </FormProvider>
-            </Box>
-          </Box>
+              ))}
+            </Grid>
+          </FormProvider>
         </Box>
-      </Modal>
+      </CommonDrawer>
     </div>
   );
 };

@@ -13,7 +13,7 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
     },
 
     {
-      accessorFn: (row: any) => row?.dealStage,
+      accessorFn: (row: any) => row?.dealStage?.name,
       id: 'dealStage',
       isSortable: true,
       header: 'Stage',
@@ -21,7 +21,7 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
     },
 
     {
-      accessorFn: (row: any) => row?.dealPipeline,
+      accessorFn: (row: any) => row?.dealPipeline?.name,
       id: 'dealPipeline',
       isSortable: true,
       header: 'Pipeline',
@@ -39,7 +39,15 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
       id: 'dealOwner',
       isSortable: true,
       header: 'Deal Owner',
-      cell: (info: any) => info?.getValue()?.name,
+      cell: (info: any) => {
+        const firstName = info?.getValue()?.firstName ?? '';
+        const lastName = info?.getValue()?.lastName ?? '';
+        const fullName =
+          firstName === '' && lastName === ''
+            ? 'N/A'
+            : `${firstName} ${lastName}`;
+        return <>{fullName}</>;
+      },
     },
     {
       accessorFn: (row: any) => row?.amount,

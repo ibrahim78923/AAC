@@ -44,6 +44,7 @@ const UpdateQuote = () => {
     handleCompanyChange,
     selectedCompanyIds,
     loadingSubmit,
+    updateBuyerInfoLoading,
   } = useUpdateQuote();
 
   const stepsArgs: any = {
@@ -101,14 +102,15 @@ const UpdateQuote = () => {
                   </Button>
 
                   {activeStep !== 2 && activeStep !== 3 && (
-                    <Button
+                    <LoadingButton
                       variant="contained"
                       onClick={handleUpdateDetails}
                       disabled={!disabledSaveAndContinueBtn}
                       sx={{ width: { xs: '100%', sm: 'auto' } }}
+                      loading={updateBuyerInfoLoading}
                     >
                       Save & Continue
-                    </Button>
+                    </LoadingButton>
                   )}
 
                   {activeStep !== 2 && activeStep !== 3 && activeStep !== 4 ? (

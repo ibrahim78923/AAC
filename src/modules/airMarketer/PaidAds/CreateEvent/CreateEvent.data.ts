@@ -8,6 +8,7 @@ import {
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
+import { AIR_MARKETER_PAID_ADS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const eventValidationSchema = Yup.object().shape({
   addNetwork: Yup.string().required('Field is Required'),
@@ -95,6 +96,7 @@ export const eventDataArray = [
     lifeCycleStage: [true, false],
     component: RHFSelect,
     md: 12,
+    permissions: AIR_MARKETER_PAID_ADS_PERMISSIONS?.CREATE_AD_NETWORK,
   },
   {
     componentProps: {
@@ -107,6 +109,7 @@ export const eventDataArray = [
     lifeCycleStage: [true, false],
     component: RHFSelect,
     md: 12,
+    permissions: AIR_MARKETER_PAID_ADS_PERMISSIONS?.CREATE_AD_ACCOUNT,
   },
   {
     componentProps: {
@@ -120,6 +123,7 @@ export const eventDataArray = [
     lifeCycleStage: [true, false],
     component: RHFCheckbox,
     md: 12,
+    permissions: AIR_MARKETER_PAID_ADS_PERMISSIONS?.CREATE_EVENT_TRIGGER,
   },
   {
     componentProps: {
@@ -172,6 +176,7 @@ export const eventDataArray = [
   {
     componentProps: {
       varient: 'body2',
+      permissions: AIR_MARKETER_PAID_ADS_PERMISSIONS?.CREATE_EVENT_VALUES,
       heading: `Select a value for this lifecycle stage to send to the ad network. This helps them know what this stage is worth to you to better optimize delivering your ads to high value potential customers.`,
     },
     gridLength: 12,
@@ -210,6 +215,8 @@ export const eventDataArray = [
     lifeCycleStage: [true],
     component: RHFSelect,
     md: 12,
+    permissions:
+      AIR_MARKETER_PAID_ADS_PERMISSIONS?.CREATE_EVENT_CONTACT_PROPERTY,
   },
   {
     componentProps: {
@@ -236,5 +243,6 @@ export const eventDataArray = [
     lifeCycleStage: [true],
     component: RHFTextField,
     md: 12,
+    permissions: AIR_MARKETER_PAID_ADS_PERMISSIONS?.CREATE_EVENT_NAME,
   },
 ];

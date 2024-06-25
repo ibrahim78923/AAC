@@ -13,11 +13,16 @@ import {
   useUpdateContactMutation,
 } from '@/services/commonFeatures/contacts';
 import dayjs from 'dayjs';
-import { DATE_FORMAT, associationCompanies } from '@/constants';
+import {
+  ASSOCIATIONS_API_PARAMS_FOR,
+  DATE_FORMAT,
+  associationCompanies,
+} from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { useState } from 'react';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
 
 const useContactsEditorDrawer = ({
   openDrawer,
@@ -30,6 +35,7 @@ const useContactsEditorDrawer = ({
   const [imageToUpload, setImageToUpload] = useState<any>();
   const [postContacts] = usePostContactsMutation();
   const [updateContacts] = useUpdateContactMutation();
+  const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
 
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
 
@@ -153,27 +159,45 @@ const useContactsEditorDrawer = ({
       formData.append('recordId', companyId);
 
       try {
+        let response;
         openDrawer === DRAWER_TYPES?.EDIT
           ? await updateContacts({
               body: formData,
               id: existingContactId[0],
             }).unwrap()
-          : await postContacts({ body: formData }).unwrap();
+          : (response = await postContacts({ body: formData }).unwrap());
+        const payload = {
+          recordId: companyId,
+          recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
+          operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+          contactsIds: [response?.data?._id],
+        };
+        if (response) {
+          await PostAssociationCompanies({ body: payload }).unwrap();
+          enqueueSnackbar(
+            ` contact ${
+              openDrawer === DRAWER_TYPES?.EDIT
+                ? DRAWER_TYPES?.UPDATE
+                : DRAWER_TYPES?.ADD
+            } Successfully`,
+            {
+              variant: 'success',
+            },
+          );
+        }
+        if (openDrawer === DRAWER_TYPES?.EDIT) {
+          enqueueSnackbar(
+            ` contact ${
+              openDrawer === DRAWER_TYPES?.EDIT && DRAWER_TYPES?.UPDATE
+            } Successfully`,
+            { variant: 'success' },
+          );
+        }
 
-        enqueueSnackbar(
-          ` contact ${
-            openDrawer === DRAWER_TYPES?.EDIT
-              ? DRAWER_TYPES?.UPDATE
-              : DRAWER_TYPES?.ADD
-          } Successfully`,
-          {
-            variant: 'success',
-          },
-        );
         setOpenDrawer('');
         reset();
       } catch (error: any) {
-        const errMsg = error?.data?.message[0];
+        const errMsg = error?.data?.message;
         enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
       }
     }

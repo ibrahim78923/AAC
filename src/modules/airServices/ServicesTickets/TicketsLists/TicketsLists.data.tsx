@@ -293,28 +293,28 @@ export const ticketsListsColumnFunction: any = (
       id: 'state',
       isSortable: true,
       header: 'State',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '---',
     },
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '---',
     },
     {
       accessorFn: (row: any) => row?.pirority,
       id: 'pirority',
       isSortable: true,
       header: 'Priority',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '---',
     },
     {
       accessorFn: (row: any) => row?.departmentsDetails,
       id: 'departmentsDetails',
       isSortable: true,
       header: 'Department',
-      cell: (info: any) => info?.getValue()?.name,
+      cell: (info: any) => info?.getValue()?.name ?? '---',
     },
     {
       accessorFn: (row: any) => row?.createdAt,
@@ -336,7 +336,7 @@ export const ticketsListsColumnFunction: any = (
       id: 'impact',
       isSortable: true,
       header: 'Impact',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '---',
     },
     {
       accessorFn: (row: any) => row?.plannedStartDate,
@@ -357,7 +357,7 @@ export const ticketsListsColumnFunction: any = (
       id: 'plannedEffort',
       isSortable: true,
       header: 'Planned Effort',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '---',
     },
   ];
 };

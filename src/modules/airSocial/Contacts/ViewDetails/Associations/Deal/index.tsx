@@ -12,7 +12,6 @@ import { PlusIcon } from '@/assets/icons';
 
 const Deal = ({ contactId }: any) => {
   const {
-    searchValue,
     setSearchValue,
     loadingDeals,
     dataGetDeals,
@@ -33,8 +32,7 @@ const Deal = ({ contactId }: any) => {
     handleAddDealSubmit,
     isLoadingAddDeal,
     orgId,
-    loadingDeleteDeal,
-    deleteDealAssociationHandler,
+    handleRemoveAssociation,
     dealType,
     handleChangeDealType,
     methodsExistingDeal,
@@ -62,9 +60,9 @@ const Deal = ({ contactId }: any) => {
           <>
             <Grid item md={4} sx={styles?.countBox}>
               <Typography sx={styles?.associationCount(theme)} variant="body3">
-                {dataGetDeals?.data?.deals?.length < 10
-                  ? `0${dataGetDeals?.data?.deals?.length}`
-                  : dataGetDeals?.data?.deals?.length}
+                {dataGetDeals?.length < 10
+                  ? `0${dataGetDeals?.length}`
+                  : dataGetDeals?.length}
               </Typography>
 
               <Typography variant="subtitle2">Deals</Typography>
@@ -79,7 +77,6 @@ const Deal = ({ contactId }: any) => {
                 }}
               >
                 <Search
-                  searchBy={searchValue}
                   setSearchBy={setSearchValue}
                   label="Search By Name"
                   size="small"
@@ -99,7 +96,7 @@ const Deal = ({ contactId }: any) => {
         <Grid item xs={12}>
           <TanstackTable
             columns={tableColumns}
-            data={dataGetDeals?.data?.deals}
+            data={dataGetDeals}
             isLoading={loadingDeals}
           />
         </Grid>
@@ -132,8 +129,8 @@ const Deal = ({ contactId }: any) => {
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmitBtn={deleteDealAssociationHandler}
-        loading={loadingDeleteDeal}
+        handleSubmitBtn={handleRemoveAssociation}
+        loading={loadingCreateAssociation}
       />
     </Box>
   );

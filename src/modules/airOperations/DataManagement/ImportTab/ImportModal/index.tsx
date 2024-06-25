@@ -83,8 +83,8 @@ const ImportModal = () => {
             minHeight="100vh"
             width={
               modalStep === 3
-                ? { lg: '700px', md: '500px', sm: '500px', xs: '100vw' }
-                : { lg: '520px', md: '500px', sm: '500px', xs: '100vw' }
+                ? { sm: '65vh', xs: '100vw' }
+                : { sm: '55vh', xs: '100vw' }
             }
           >
             <AppBar

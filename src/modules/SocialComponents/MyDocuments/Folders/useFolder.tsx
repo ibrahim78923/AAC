@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form';
 import {
   ImageUploadSchema,
   columns,
+  defaultValuesFolder,
   defaultValuesImage,
   validationSchema,
 } from './Folder.data';
@@ -24,8 +25,13 @@ import { isNullOrEmpty } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 import { PAGINATION } from '@/config';
+import { errorSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
+import useAuth from '@/hooks/useAuth';
 
 const useFolder: any = () => {
+  const router = useRouter();
+  const { user }: any = useAuth();
   const theme = useTheme<Theme>();
   const [searchValue, setSearchValue] = useState('');
   const [modalHeading, setModalHeading] = useState('');
@@ -48,10 +54,11 @@ const useFolder: any = () => {
   const [actionType, setActionType] = useState('');
   const [slectedFolderForMovingData, setSlectedFolderForMovingData] =
     useState(null);
+  const [selectedFolderId, setSelectedFolderId] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [page, setPage] = useState(PAGINATION.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-
+  const [moveChildFolder, setMoveChildFolder] = useState(false);
   const open = Boolean(anchorEl);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
   const [postDocumentFiles] = usePostDocumentFilesMutation();
@@ -72,7 +79,15 @@ const useFolder: any = () => {
   };
 
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetDocumentFolderQuery({ parentFolderId });
+    useGetDocumentFolderQuery({
+      parentFolderId,
+    });
+
+  const { data: documentParentsData } = useGetDocumentFolderQuery({
+    ...(searchValue && { search: searchValue }),
+    organizationId: user?.organization?._id,
+  });
+
   const { data: filesData } = useGetDocumentFileQuery(permissionParams);
   const handlePdfOpen = () => setIsPdfOpen(true);
   const handlePdfClose = () => setIsPdfOpen(false);
@@ -82,7 +97,7 @@ const useFolder: any = () => {
     defaultValues: defaultValuesImage,
   });
 
-  const { watch: watchFile } = addFile;
+  const { watch: watchFile, reset: resetImage } = addFile;
 
   const onSubmitImage = async () => {
     const file = watchFile('file');
@@ -92,10 +107,12 @@ const useFolder: any = () => {
     };
     try {
       await postDocumentFiles(body).unwrap();
-      setIsImage(false);
+
       enqueueSnackbar('Document Upload Successfully', {
         variant: 'success',
       });
+      resetImage(defaultValuesImage);
+      setIsImage(false);
     } catch (error) {
       enqueueSnackbar(error?.message, { variant: 'error' });
     }
@@ -171,7 +188,7 @@ const useFolder: any = () => {
           variant: 'success',
         });
       }
-      reset(validationSchema);
+      reset(defaultValuesFolder);
       setIsOpenModal(false);
       setActionType('');
       setModalHeading('');
@@ -181,20 +198,42 @@ const useFolder: any = () => {
   };
 
   const onSubmitFile = async () => {
-    const fileData = {
-      folderId: slectedFolderForMovingData._id,
-    };
-    try {
-      await updateFile({
-        id: selectedFile?._id,
-        body: fileData,
-      }).unwrap();
-      enqueueSnackbar('File Update Successfully', {
-        variant: 'success',
-      });
-      setIsOpenFolderDrawer(false);
-    } catch (error: any) {
-      enqueueSnackbar(error?.message, { variant: 'error' });
+    if (moveChildFolder) {
+      try {
+        const _id = selectedFolder?._id;
+        await updateFolder({
+          id: _id,
+          body: {
+            parentFolderId: slectedFolderForMovingData?._id,
+            name: selectedFolder?.name,
+          },
+        }).unwrap();
+
+        enqueueSnackbar('SubFolder Moved Successfully', {
+          variant: 'success',
+        });
+        setIsOpenFolderDrawer(false);
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      }
+    } else {
+      if (slectedFolderForMovingData) {
+        const fileData = {
+          folderId: slectedFolderForMovingData?._id,
+        };
+        try {
+          await updateFile({
+            id: selectedFile?._id,
+            body: fileData,
+          }).unwrap();
+          enqueueSnackbar('File Update Successfully', {
+            variant: 'success',
+          });
+          setIsOpenFolderDrawer(false);
+        } catch (error: any) {
+          errorSnackbar(error?.message);
+        }
+      }
     }
   };
 
@@ -292,6 +331,12 @@ const useFolder: any = () => {
     pageLimit,
     setPage,
     page,
+    router,
+    moveChildFolder,
+    setMoveChildFolder,
+    documentParentsData,
+    setSelectedFolderId,
+    selectedFolderId,
   };
 };
 

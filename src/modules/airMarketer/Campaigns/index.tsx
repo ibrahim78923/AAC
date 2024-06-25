@@ -27,9 +27,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import { useGetUsersListQuery } from '@/services/airSales/deals';
+import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import { getSession } from '@/utils';
-import { ROLES } from '@/constants/strings';
 
 const Campaigns = () => {
   const {
@@ -47,16 +46,22 @@ const Campaigns = () => {
     handleSelectSingleCheckBox,
     selectedRows,
     allCamopaignsData,
+    setSearchCampaigns,
+    searchCampaigns,
+    setSelectedRows,
+    filters,
+    setFilters,
+    setPage,
+    setPageLimit,
   } = useCampaigns();
   const [isCreateTask, setIsCreateTask] = useState(false);
   const [isCompare, setIsCompare] = useState(false);
+
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
 
-  const { data: UserListData } = useGetUsersListQuery({
-    role: ROLES?.ORG_EMPLOYEE,
-    organization: organizationId,
-  });
+  const userListData = useLazyGetUsersListDropdownQuery();
+
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: initvalues,
@@ -67,7 +72,7 @@ const Campaigns = () => {
     const campaignBudget = values.campaignBudget
       ? parseFloat(values.campaignBudget)
       : null;
-
+    values.campaignOwner = values.campaignOwner?._id;
     const obj = {
       ...values,
       startDate: values?.startDate
@@ -178,6 +183,13 @@ const Campaigns = () => {
               handleSelectAllCheckbox={handleSelectAllCheckbox}
               selectedRows={selectedRows}
               allCamopaignsData={allCamopaignsData}
+              setSearchCampaigns={setSearchCampaigns}
+              searchCampaigns={searchCampaigns}
+              setSelectedRows={setSelectedRows}
+              filters={filters}
+              setFilters={setFilters}
+              setPageLimit={setPageLimit}
+              setPage={setPage}
             />
             <Calendar />
             <Tasks />
@@ -201,18 +213,25 @@ const Campaigns = () => {
           <Box sx={{ paddingTop: '1rem' }}>
             <FormProvider methods={methods}>
               <Grid container spacing={2}>
-                {campaignArray(UserListData)?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component {...item?.componentProps} size={'small'}>
-                      {item?.componentProps?.select &&
-                        item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))}
-                    </item.component>
-                  </Grid>
-                ))}
+                {campaignArray(userListData, organizationId)?.map(
+                  (item: any) => (
+                    <Grid
+                      item
+                      xs={12}
+                      md={item?.md}
+                      key={item?.componentProps?.name}
+                    >
+                      <item.component {...item?.componentProps} size={'small'}>
+                        {item?.componentProps?.select &&
+                          item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))}
+                      </item.component>
+                    </Grid>
+                  ),
+                )}
               </Grid>
             </FormProvider>
           </Box>

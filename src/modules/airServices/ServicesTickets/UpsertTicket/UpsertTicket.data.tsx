@@ -27,7 +27,13 @@ export const upsertTicketValidationSchema = (ticketId?: any) => {
   return Yup?.object()?.shape({
     requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
     subject: Yup?.string()?.trim()?.required('Subject is required'),
-    description: Yup?.string()?.trim()?.required('Description is Required'),
+    description: Yup?.string()
+      ?.trim()
+      ?.required('Description is Required')
+      ?.test('is-not-empty', 'Description is Required', (value) => {
+        const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
+        return strippedContent !== '';
+      }),
     category: Yup?.mixed()?.nullable(),
     ...(!!!ticketId
       ? {

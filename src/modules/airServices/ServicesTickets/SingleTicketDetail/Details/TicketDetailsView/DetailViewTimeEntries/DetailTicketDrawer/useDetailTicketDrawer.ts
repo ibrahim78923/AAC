@@ -44,7 +44,7 @@ export const useDetailTicketDrawer = (props: any) => {
   );
   const results = useWatch({ control, name: 'hours' });
 
-  if (results.length > 0) {
+  if (results?.length > 0) {
     booleanVar = true;
   } else {
     booleanVar = false;
@@ -85,7 +85,6 @@ export const useDetailTicketDrawer = (props: any) => {
       reset();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      setIsDrawerOpen(false);
     }
   };
   return {

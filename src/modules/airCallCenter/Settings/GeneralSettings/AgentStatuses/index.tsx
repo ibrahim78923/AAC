@@ -6,6 +6,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { agentStatusTableColumns, mockData } from './AgentStatuses.data';
 import NewAgentStatus from './NewAgentStatus';
 import EditAgentStatus from './EditAgentStatus';
+import { AlertModals } from '@/components/AlertModals';
 
 const AgentStatuses = () => {
   const {
@@ -20,9 +21,23 @@ const AgentStatuses = () => {
     handleOpenEditAgentStatus,
     handleCloseEditAgentStatus,
     handleEditAgentStatusSubmit,
+    newAgentAdded,
+    openAlertModal,
+    handleCloseAlertModal,
+    handleDeleteAgentStatus,
+    setOpenAlertModal,
+    handleOpenEditNewAgentStatus,
+    newStatusAdded,
+    text,
+    setText,
   } = useAgentStatuses();
 
-  const columns = agentStatusTableColumns(handleOpenEditAgentStatus);
+  const columns = agentStatusTableColumns(
+    handleOpenEditAgentStatus,
+    newAgentAdded,
+    setOpenAlertModal,
+    handleOpenEditNewAgentStatus,
+  );
   return (
     <>
       <Box
@@ -54,7 +69,7 @@ const AgentStatuses = () => {
         <Box sx={styles?.tableCont}>
           <TanstackTable
             columns={columns}
-            data={mockData}
+            data={mockData(newAgentAdded)}
             // isLoading={loagingGetFaqs}
             // isPagination
             // count={dataGetFaqs?.data?.meta?.pages}
@@ -71,6 +86,9 @@ const AgentStatuses = () => {
         onClose={handleCloseNewAgentStatus}
         formMethods={methodsNewAgentStatus}
         handleSubmit={handleNewAgentStatusSubmit}
+        text={text}
+        setText={setText}
+
         // isLoading={loadingAddFaq}
       />
 
@@ -79,7 +97,18 @@ const AgentStatuses = () => {
         onClose={handleCloseEditAgentStatus}
         formMethods={methodsEditAgentStatus}
         handleSubmit={handleEditAgentStatusSubmit}
+        newStatusAdded={newStatusAdded}
+        text={text}
+        setText={setText}
         // isLoading={loadingAddFaq}
+      />
+
+      <AlertModals
+        type="delete"
+        open={openAlertModal}
+        handleClose={handleCloseAlertModal}
+        handleSubmitBtn={handleDeleteAgentStatus}
+        message="Are you sure you want to disable it?"
       />
     </>
   );

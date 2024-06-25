@@ -7,7 +7,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { styles } from './AllIncomingCalls.style';
-import { v4 as uuidv4 } from 'uuid';
+import { CustomChart } from '@/components/Chart';
 
 export const AllIncomingCalls = () => {
   const theme = useTheme();
@@ -17,28 +17,48 @@ export const AllIncomingCalls = () => {
       id: 1,
       count: '70',
       Heading: 'All incoming calls',
-      para: '67% of calls were answered within the threshold of 30s',
+      para: (
+        <>
+          67% of calls were answered
+          <br /> within the threshold of 30s
+        </>
+      ),
       color: theme?.palette?.success?.main,
     },
     {
       id: 2,
       count: '64',
       Heading: 'Global Queue',
-      para: '46% of calls were answered within the threshold of 30s',
+      para: (
+        <>
+          46% of calls were answered
+          <br /> within the threshold of 30s
+        </>
+      ),
       color: theme?.palette?.warning?.main,
     },
     {
       id: 3,
       count: '67',
       Heading: 'New Call Queue ',
-      para: '100% of calls were answered within the threshold of 25s',
+      para: (
+        <>
+          100% of calls were answered
+          <br /> within the threshold of 25s
+        </>
+      ),
       color: theme?.palette?.warning?.main,
     },
     {
       id: 4,
       count: '15',
       Heading: 'Queue 2',
-      para: '15% of calls were answered within the threshold of 30s',
+      para: (
+        <>
+          15% of calls were answered
+          <br /> within the threshold of 30s
+        </>
+      ),
       color: theme?.palette?.error?.main,
     },
   ];
@@ -88,18 +108,6 @@ export const AllIncomingCalls = () => {
     },
   ];
 
-  const incomingCallStyles = {
-    root: {
-      color: theme?.palette?.success?.main,
-      width: '150px',
-      height: '150px',
-      transform: 'rotate(130deg)',
-    },
-    circle: {
-      strokeLinecap: 'round',
-    },
-  };
-
   const CustomCircularProgress = ({ value, color }: any) => {
     const customStyles = {
       root: {
@@ -113,20 +121,92 @@ export const AllIncomingCalls = () => {
     };
 
     return (
-      <CircularProgress
-        variant="determinate"
-        value={value}
-        style={customStyles.root}
-        classes={{ circle: customStyles.circle }}
-      />
+      <Box position="relative" display="inline-flex">
+        <CircularProgress
+          variant="determinate"
+          value={value}
+          style={customStyles.root}
+          classes={{ circle: customStyles?.circle }}
+          size={100}
+          thickness={3}
+          sx={{
+            '& .MuiCircularProgress-circle': {
+              strokeLinecap: 'round',
+            },
+          }}
+        />
+        <Box
+          top={0}
+          left={0}
+          bottom={0}
+          right={0}
+          position="absolute"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            variant="body2"
+            fontWeight={500}
+            component="div"
+            color="common.black"
+          >
+            {`${Math.round(15)}%`}
+          </Typography>
+        </Box>
+      </Box>
     );
   };
-
+  const chartOptions: any = {
+    plotOptions: {
+      radialBar: {
+        startAngle: -135,
+        endAngle: 135,
+        hollow: {
+          margin: 0,
+          size: '80%',
+          background: 'transparent',
+        },
+        dataLabels: {
+          name: {
+            offsetY: 40,
+            color: theme?.palette?.success?.main,
+            fontFamily: theme?.typography?.fontFamily,
+            fontSize: '32px',
+            fontWeight: 700,
+          },
+          value: {
+            offsetY: -20,
+            color: theme?.palette?.blue?.main,
+            fontSize: '48px',
+            fontWeight: 600,
+            fontFamily: theme?.typography?.fontFamily,
+            show: true,
+            formatter: function (val: any) {
+              return `${val}%`;
+            },
+          },
+        },
+      },
+    },
+    colors: [theme?.palette?.success?.main],
+    labels: ['Good'],
+    series: [70],
+    stroke: {
+      lineCap: 'round',
+    },
+    legend: {
+      show: false,
+    },
+  };
   return (
     <Box sx={styles.mainDiv(theme)}>
       <Grid container>
         {callsCardsData?.map((item: any) => (
-          <Grid item xs={12} sm={6} md={4} xl={3} key={uuidv4()}>
+          <Grid item xs={12} sm={6} md={4} xl={3} key={item?.id}>
             <Box sx={styles?.innerBox}>
               <Box
                 sx={{
@@ -165,7 +245,7 @@ export const AllIncomingCalls = () => {
           </Grid>
         ))}
       </Grid>
-      <Divider />
+      <Divider sx={{ my: 2, borderColor: 'grey.700' }} />
       <Typography
         variant="h4"
         sx={{ color: theme?.palette?.grey[800], marginTop: '20px' }}
@@ -177,44 +257,18 @@ export const AllIncomingCalls = () => {
       </Typography>
 
       <Grid container>
-        <Grid item xs={12} sm={6} md={4} sx={{ position: 'relative' }}>
-          <Box sx={{ marginTop: '40px' }}>
-            <Box
-              sx={{
-                position: 'absolute',
-                left: '50%',
-                bottom: '50%',
-                transform: 'translate(-50%, 50%)',
-              }}
-            >
-              <Typography
-                variant="h3"
-                sx={{ color: theme?.palette?.blue?.main }}
-              >
-                {' '}
-                70%{' '}
-              </Typography>
-              <Typography
-                variant="h4"
-                sx={{ color: theme?.palette?.success?.main }}
-              >
-                {' '}
-                Good{' '}
-              </Typography>
-            </Box>
-            <Box display={'flex'} justifyContent={'center'}>
-              <CircularProgress
-                variant="determinate"
-                value={70}
-                style={incomingCallStyles.root}
-              />
-            </Box>
-          </Box>
+        <Grid item xs={12} sm={6} md={4}>
+          <CustomChart
+            options={chartOptions}
+            series={chartOptions.series}
+            type="radialBar"
+            height={350}
+          />
         </Grid>
         <Grid item xs={12} sm={6} md={8}>
           <Grid container spacing={3}>
             {allInComingCardsData?.map((item: any) => (
-              <Grid item xs={12} sm={6} md={4} key={uuidv4()}>
+              <Grid item xs={12} sm={6} md={4} key={item?.id}>
                 <Box
                   sx={{
                     backgroundColor: item?.bgColor,

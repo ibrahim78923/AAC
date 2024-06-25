@@ -34,8 +34,9 @@ import {
 // import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
 import { generateImage } from '@/utils/avatarUtils';
-import { ERROR_PAGES, ORG_ADMIN } from '@/constants';
+import { AUTH, ERROR_PAGES, ORG_ADMIN } from '@/constants';
 import { useGetActiveProductsQuery } from '@/services/common-APIs';
+import { LogoutImage } from '@/assets/images';
 // import { generateImage } from '@/utils/avatarUtils';
 
 const ProductSuite = () => {
@@ -144,6 +145,13 @@ const ProductSuite = () => {
     return 0;
   });
 
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push(AUTH?.LOGIN);
+  };
+
   return (
     <Box
       sx={{
@@ -167,20 +175,45 @@ const ProductSuite = () => {
           <CompanyLogoIcon />
         </Box>
 
-        {user?.role === ROLES?.ORG_ADMIN && (
-          <>
-            {accountsData?.data?.length && (
-              <Button
-                variant="contained"
-                onClick={() => {
-                  router.push(ORG_ADMIN?.DASHBOARD);
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: '18px',
+          }}
+        >
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={handleLogout}
+            startIcon={
+              <Image
+                src={LogoutImage}
+                alt={'LogoutImage'}
+                style={{
+                  opacity: '0.4',
                 }}
-              >
-                Organization Admin portal
-              </Button>
-            )}
-          </>
-        )}
+              />
+            }
+          >
+            Logout
+          </Button>
+
+          {user?.role === ROLES?.ORG_ADMIN && (
+            <>
+              {accountsData?.data?.length && (
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    router.push(ORG_ADMIN?.DASHBOARD);
+                  }}
+                >
+                  Organization Admin portal
+                </Button>
+              )}
+            </>
+          )}
+        </Box>
       </Box>
 
       <Box sx={{ padding: '40px 0' }}>

@@ -56,18 +56,19 @@ const SendEmailDrawer = (props: any) => {
     handelSendLaterAction,
     setAutocompleteValues,
     autocompleteValues,
+    isToValid,
   } = useSendEmailDrawer({ setOpenDrawer, drawerType });
 
   const isCrmConnected = false;
-
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
   );
-
   const removeRePrefix = (title: any) => {
     return title?.startsWith('Re: ') ? title?.replace(/^Re: /, '') : title;
   };
-
+  const removeFwPrefix = (title: any) => {
+    return title?.startsWith('Fw: ') ? title?.replace(/^Fw: /, '') : title;
+  };
   const handleAutocompleteChange = (_: any, newValue: string[]) => {
     setAutocompleteValues(newValue);
   };
@@ -82,6 +83,12 @@ const SendEmailDrawer = (props: any) => {
     }
   };
   const isValidEmails = checkEmails(autocompleteValues);
+
+  const handelOnBlur = (event: any) => {
+    if (event?.length) {
+      setAutocompleteValues([...autocompleteValues, event]);
+    }
+  };
 
   return (
     <div>
@@ -165,18 +172,37 @@ const SendEmailDrawer = (props: any) => {
                           variant="outlined"
                           placeholder="Enter email"
                           size="small"
+                          error={isToValid}
+                          onBlur={(e: any) => handelOnBlur(e?.target?.value)}
                           helperText={
-                            isValidEmails ? (
-                              params.inputProps?.value?.length > 1 ? (
-                                <Typography fontSize={12}>
-                                  Press enter to add email
-                                </Typography>
-                              ) : null
-                            ) : (
-                              <Typography color={theme?.palette?.error?.main}>
-                                Email you entered is not valid
-                              </Typography>
-                            )
+                            <>
+                              {isToValid ? (
+                                <>
+                                  <Typography
+                                    component={'span'}
+                                    sx={{ display: 'block', mt: -1, ml: -1 }}
+                                  >
+                                    Field is Required
+                                  </Typography>
+                                </>
+                              ) : (
+                                <>
+                                  {isValidEmails ? (
+                                    params.inputProps?.value?.length > 1 ? (
+                                      <Typography fontSize={12}>
+                                        Press enter to add email
+                                      </Typography>
+                                    ) : null
+                                  ) : (
+                                    <Typography
+                                      color={theme?.palette?.error?.main}
+                                    >
+                                      Email you entered is not valid
+                                    </Typography>
+                                  )}
+                                </>
+                              )}
+                            </>
                           }
                         />
                       </>
@@ -184,10 +210,6 @@ const SendEmailDrawer = (props: any) => {
                   />
                 </Grid>
               )}
-
-              <Grid item xs={4}>
-                <RHFCheckbox name="fromChecked" label="From" />
-              </Grid>
               <Grid item xs={4}>
                 <RHFCheckbox name="ccChecked" label="CC" />
               </Grid>
@@ -205,14 +227,31 @@ const SendEmailDrawer = (props: any) => {
                 </Grid>
               )}
               <Grid item md={6}>
-                {drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL ? (
-                  <RHFTextField name="subject" label="Subject" size="small" />
-                ) : (
+                {drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && (
+                  <RHFTextField
+                    name="subject"
+                    label="Subject"
+                    size="small"
+                    required={drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL}
+                  />
+                )}
+
+                {(drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+                  drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL) && (
                   <RHFTextField
                     name="re"
                     label="Re:"
                     size="small"
                     value={removeRePrefix(currentEmailAssets?.others?.subject)}
+                    disabled
+                  />
+                )}
+                {drawerType === CREATE_EMAIL_TYPES?.FORWARD && (
+                  <RHFTextField
+                    name="re"
+                    label="FWD:"
+                    size="small"
+                    value={removeFwPrefix(currentEmailAssets?.others?.subject)}
                     disabled
                   />
                 )}
@@ -309,11 +348,7 @@ const SendEmailDrawer = (props: any) => {
                 </Grid>
               )}
               <Grid item xs={12}>
-                <RHFEditor
-                  name="description"
-                  label="Description"
-                  required={true}
-                />
+                <RHFEditor name="description" label="Description" />
               </Grid>
               <Grid item xs={12}>
                 <RHFDropZone name="attachments" label="Attachments" />

@@ -64,7 +64,7 @@ const useUpdateQuote = () => {
   );
 
   const activeCompanyId = dataGetQuoteById?.data?.buyerCompanyId;
-  const activeContactId = dataGetQuoteById?.data?.buyerContactbuyerContactId;
+  const activeContactId = dataGetQuoteById?.data?.buyerContactId;
 
   useEffect(() => {
     setSelectedCompanyIds(activeCompanyId && activeCompanyId);
@@ -90,7 +90,8 @@ const useUpdateQuote = () => {
     setSelectedCompanyIds(selectedCompanyIds === id ? null : id);
   };
 
-  const [postAddbuyerInfo] = usePostAddbuyerInfoMutation();
+  const [postAddbuyerInfo, { isLoading: updateBuyerInfoLoading }] =
+    usePostAddbuyerInfoMutation();
   const methodsUpdateQuote = useForm<any>({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
@@ -346,6 +347,7 @@ const useUpdateQuote = () => {
     loadingSubmit,
     setSelectedCompanyIds,
     BuyerInfoLoading,
+    updateBuyerInfoLoading,
   };
 };
 

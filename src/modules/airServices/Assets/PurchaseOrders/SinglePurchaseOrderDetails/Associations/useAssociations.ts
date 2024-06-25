@@ -1,4 +1,5 @@
-import { useGetAssociationsQuery } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/associations';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import { useGetAssociateTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/association';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
@@ -6,16 +7,25 @@ export const useAssociations = () => {
   const searchParams = useSearchParams();
   const purchaseOrderId = searchParams?.get('purchaseOrderId');
   const [openDrawer, setOpenDrawer] = useState<any>(false);
-  const { data, isLoading, isError, isFetching } = useGetAssociationsQuery(
-    purchaseOrderId,
+
+  const associateTicketsAssetsParameter = {
+    queryParams: {
+      recordId: purchaseOrderId,
+      recordType: ASSOCIATIONS_API_PARAMS_FOR?.PURCHASE_ORDER,
+      associationType: ASSOCIATIONS_API_PARAMS_FOR?.TICKETS,
+    },
+  };
+
+  const { data, isLoading, isError, isFetching } = useGetAssociateTicketsQuery(
+    associateTicketsAssetsParameter,
     {
       refetchOnMountOrArgChange: true,
       skip: !!!purchaseOrderId,
     },
   );
-  const associationsList = data?.data;
+
   return {
-    associationsList,
+    data,
     openDrawer,
     setOpenDrawer,
     isLoading,
