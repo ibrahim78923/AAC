@@ -6,15 +6,15 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-
-import Link from 'next/link';
 import { styles } from '../SMSDashboard/ScheduledSMS/ScheduledSMS.style';
 import LinearProgress from '@mui/material/LinearProgress';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { useRouter } from 'next/router';
 
 export const broadcastColumns: any = (columnsProps: any) => {
+  const navigate = useRouter();
   const { statusTag, theme, data, checkedRows, setCheckedRows } = columnsProps;
 
   const handleSelectCompaniesById = (checked: boolean, id: string): void => {
@@ -57,16 +57,22 @@ export const broadcastColumns: any = (columnsProps: any) => {
       isSortable: false,
       header: 'Name',
       cell: (info: any) => (
-        <Link
-          href={`${AIR_MARKETER?.SMS_MARKETING_DETAILS}`}
-          style={{
+        <Box
+          onClick={() => {
+            navigate?.push({
+              pathname: AIR_MARKETER?.SMS_MARKETING_DETAILS,
+              query: { id: info?.row?.original?._id },
+            });
+          }}
+          sx={{
             color: theme?.palette?.custom?.bright,
             fontWeight: 500,
             fontSize: '12px',
+            cursor: 'pointer',
           }}
         >
           {info?.getValue() ?? 'N/A'}
-        </Link>
+        </Box>
       ),
     },
     {

@@ -6,6 +6,8 @@ import { PAGINATION } from '@/config';
 import { getSession } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const useRolesAndRights = () => {
   const navigate = useRouter();
@@ -21,8 +23,6 @@ const useRolesAndRights = () => {
     search: '',
     status: '',
     product: {},
-    dateStart: null,
-    dateEnd: null,
   });
 
   const { useGetPermissionsRolesQuery, useUpdateRoleRightsMutation } =
@@ -36,8 +36,12 @@ const useRolesAndRights = () => {
     productId: filterValues?.product?._id,
     status: filterValues?.status,
     search: filterValues?.search ?? undefined,
-    dateStart: filterValues?.dateStart ?? undefined,
-    dateEnd: filterValues?.dateEnd ?? undefined,
+    dateStart: filterValues?.startDate
+      ? dayjs(filterValues?.startDate)?.format(DATE_FORMAT?.API)
+      : undefined,
+    dateEnd: filterValues?.endDate
+      ? dayjs(filterValues?.endDate)?.format(DATE_FORMAT?.API)
+      : undefined,
   };
 
   const {
@@ -59,8 +63,6 @@ const useRolesAndRights = () => {
       search: '',
       status: '',
       productId: '',
-      dateStart: null,
-      dateEnd: null,
     });
   };
 

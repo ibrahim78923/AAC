@@ -109,6 +109,9 @@ const useDealPipelines = () => {
       isDefault: val,
     };
     await updateDealsPipeline({ id: id, body: payload });
+    enqueueSnackbar(`Pipeline has been Updated Successfully`, {
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
+    });
   };
 
   const handleCloseDeleteModal = () => {
