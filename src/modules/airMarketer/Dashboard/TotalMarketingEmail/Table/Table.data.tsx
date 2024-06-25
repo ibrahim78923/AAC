@@ -1,3 +1,5 @@
+import { Box } from '@mui/material';
+
 export const columns: any = [
   {
     accessorFn: (row: any) => row?.email,
@@ -19,23 +21,35 @@ export const columns: any = [
     accessorFn: (row: any) => row?.clickThroughRate,
     id: 'clickThroughRate',
     isSortable: false,
-    header: 'Click Through Rate',
-    cell: (info: any) => info?.getValue(),
+    header: (
+      <Box textAlign="center" width="100%">
+        Click Through Rate
+      </Box>
+    ),
+    cell: (info: any) => <Box textAlign="center">{info?.getValue()}</Box>,
   },
 
   {
     accessorFn: (row: any) => row?.deliverRate,
     id: 'deliverRate',
     isSortable: false,
-    header: 'Deliver Rate',
-    cell: (info: any) => info?.getValue(),
+    header: (
+      <Box textAlign="center" width="100%">
+        Deliver Rate
+      </Box>
+    ),
+    cell: (info: any) => <Box textAlign="center">{info?.getValue()}</Box>,
   },
 
   {
     accessorFn: (row: any) => row?.opened,
     id: 'opened',
     isSortable: false,
-    header: 'Opened',
-    cell: (info: any) => info?.getValue(),
+    header: (
+      <Box textAlign="center" width="100%">
+        Opened
+      </Box>
+    ),
+    cell: (info: any) => <Box textAlign="center">{info?.getValue()}</Box>,
   },
 ];

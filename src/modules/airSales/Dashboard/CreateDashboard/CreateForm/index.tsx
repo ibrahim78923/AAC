@@ -30,8 +30,14 @@ import DetailsView from '../DetailsView';
 import { PrimaryPreviewEyeIcon } from '@/assets/icons';
 import DialogCards from '../../Preview/DialogCards';
 import useCreateForm from './useCreateForm';
+import { CREATE_DASHBOARD_KEYS } from '@/constants';
+import { usePostSalesDashboardMutation } from '@/services/airSales/dashboard';
+import { LoadingButton } from '@mui/lab';
 
-const CreateForm = ({ isShowEditDashboard }: any) => {
+const CreateForm = ({
+  isShowEditDashboard,
+  setIsShowCreateDashboardForm,
+}: any) => {
   const {
     isOpenPreview,
     setIsOpenPreview,
@@ -46,11 +52,68 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
   });
   const { handleSubmit, reset } = methods;
 
+  const [postSalesDashboard, { isLoading: postSalesDashboardLoading }] =
+    usePostSalesDashboardMutation();
+
   const onSubmit = async (values: any) => {
-    setSelectedDashboardWidgets(values);
-    enqueueSnackbar('Dashboard Created Successfully', {
-      variant: 'success',
-    });
+    const payload: any = {
+      name: values?.dashboardName,
+      reportType: [],
+      sharedWith: accessValue,
+    };
+
+    const valueKeyMapping = {
+      closedAndCreatedDeals: CREATE_DASHBOARD_KEYS?.DEALS_CREATED_VS_CLOSED,
+      dealReports: CREATE_DASHBOARD_KEYS?.DEAL_REPORTS,
+      mettingDetails: CREATE_DASHBOARD_KEYS?.MEETING_DETAILS,
+      ForecastcategoryReport: CREATE_DASHBOARD_KEYS?.FORECAST_CATEGORY_REPORTS,
+      ForecastpipelineReport: CREATE_DASHBOARD_KEYS?.FORECAST_PIPELINE_REPORT,
+      teamActivities: CREATE_DASHBOARD_KEYS?.TEAM_ACTIVITIES_BY_DATE,
+      totalDeals: CREATE_DASHBOARD_KEYS?.TOTAL_DEALS_OPEN_DEALS,
+    };
+
+    for (const [valueKey, dashboardKey] of Object?.entries(valueKeyMapping)) {
+      if (values[valueKey]) {
+        payload?.reportType?.push(dashboardKey);
+      }
+    }
+    try {
+      const responsesData: any = await postSalesDashboard({
+        body: payload,
+      }).unwrap();
+      enqueueSnackbar('Dashboard Created Successfully', {
+        variant: 'success',
+      });
+
+      if (responsesData) {
+        setSelectedDashboardWidgets({
+          _id: responsesData?._id,
+          closedAndCreatedDeals: responsesData?.reportType?.includes(
+            CREATE_DASHBOARD_KEYS?.DEALS_CREATED_VS_CLOSED,
+          ),
+          dealReports: responsesData?.reportType?.includes(
+            CREATE_DASHBOARD_KEYS?.DEAL_REPORTS,
+          ),
+          mettingDetails: responsesData?.reportType?.includes(
+            CREATE_DASHBOARD_KEYS?.MEETING_DETAILS,
+          ),
+          ForecastcategoryReport: responsesData?.reportType?.includes(
+            CREATE_DASHBOARD_KEYS?.FORECAST_CATEGORY_REPORTS,
+          ),
+          ForecastpipelineReport: responsesData?.reportType?.includes(
+            CREATE_DASHBOARD_KEYS?.FORECAST_PIPELINE_REPORT,
+          ),
+          teamActivities: responsesData?.reportType?.includes(
+            CREATE_DASHBOARD_KEYS?.TEAM_ACTIVITIES_BY_DATE,
+          ),
+          totalDeals: responsesData?.reportType?.includes(
+            CREATE_DASHBOARD_KEYS?.TOTAL_DEALS_OPEN_DEALS,
+          ),
+        });
+      }
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
     reset();
   };
   const theme = useTheme();
@@ -87,25 +150,25 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                             name="access"
                           >
                             <FormControlLabel
-                              value="privateToOwner"
+                              value="privatetoowner"
                               control={<Radio />}
                               label="Private to owner (me)"
                             />
                             <FormControlLabel
-                              value="everyOne"
+                              value="everyone"
                               control={<Radio />}
                               label="Everyone"
                             />
-                            {accessValue === 'everyOne' && (
+                            {accessValue === 'everyone' && (
                               <FormControl sx={{ ml: 2 }} component="fieldset">
                                 <RadioGroup aria-label="child" name="child">
                                   <FormControlLabel
-                                    value="viewAndEdit"
+                                    value="viewandedit"
                                     control={<Radio />}
                                     label="View and edit"
                                   />
                                   <FormControlLabel
-                                    value="viewOnly"
+                                    value="viewonly"
                                     control={<Radio />}
                                     label="View only"
                                   />
@@ -163,17 +226,19 @@ const CreateForm = ({ isShowEditDashboard }: any) => {
                   color: theme?.palette?.custom?.main,
                   width: '112px',
                 }}
+                onClick={() => setIsShowCreateDashboardForm(false)}
               >
                 Cancel
               </Button>
-              <Button
+              <LoadingButton
                 variant="contained"
                 className="small"
                 type="submit"
                 sx={{ marginLeft: '10px' }}
+                loading={postSalesDashboardLoading}
               >
                 Save
-              </Button>
+              </LoadingButton>
             </Grid>
           </Grid>
         </FormProvider>

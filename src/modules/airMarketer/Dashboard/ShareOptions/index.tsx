@@ -24,7 +24,7 @@ const ShareOptions = ({ setIsShowEditDashboard }: any) => {
           sx={{
             border: `1px solid ${theme?.palette?.custom?.dark}`,
             color: theme?.palette?.custom?.main,
-            width: '112px',
+            width: { sm: '112px', xs: '100%' },
             height: '36px',
             marginRight: '10px',
           }}

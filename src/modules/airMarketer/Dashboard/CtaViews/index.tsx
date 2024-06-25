@@ -21,38 +21,46 @@ const CtaViews = () => {
           </Box>
         </Box>
       </Box>
-      <Grid container>
-        {ctaViewsData?.map((widgetData: any) => (
-          <Grid item sm={3.4} key={uuidv4()} pl={3} mt={3}>
-            <Card sx={{ height: '84px', width: '131px' }}>
-              <Typography
-                sx={{
-                  fontSize: 14,
-                  textAlign: 'center',
-                  fontWeight: 600,
-                  color: theme.palette?.slateBlue?.main,
-                }}
-                color="text.secondary"
-                gutterBottom
-                mt={1}
-              >
-                {widgetData?.dealName}
-              </Typography>
+      <Box my={2} mt={3} mx={2} minHeight="280px">
+        <Grid
+          container
+          spacing={2}
+          alignItems="center"
+          justifyContent="center"
+          minHeight="280px"
+        >
+          {ctaViewsData?.map((widgetData: any) => (
+            <Grid item sm={4} xs={12} key={uuidv4()}>
+              <Card sx={{ minHeight: '84px', p: 1 }}>
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    textAlign: 'center',
+                    fontWeight: 600,
+                    color: theme.palette?.slateBlue?.main,
+                  }}
+                  color="text.secondary"
+                  gutterBottom
+                  mt={1}
+                >
+                  {widgetData?.dealName}
+                </Typography>
 
-              <Typography
-                variant="h5"
-                sx={{
-                  mb: 1.5,
-                  color: theme?.palette?.primary?.main,
-                  textAlign: 'center',
-                }}
-              >
-                {widgetData?.totalCtaViews}
-              </Typography>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    mb: 1.5,
+                    color: theme?.palette?.primary?.main,
+                    textAlign: 'center',
+                  }}
+                >
+                  {widgetData?.totalCtaViews}
+                </Typography>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Card>
   );
 };

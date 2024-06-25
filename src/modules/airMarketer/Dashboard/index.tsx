@@ -27,12 +27,21 @@ const Dashboard = () => {
           <>
             <Grid
               item
-              md={12}
-              lg={12}
-              style={{ display: 'flex', justifyContent: 'space-between' }}
+              xs={12}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: { sm: 'row', xs: 'column' },
+              }}
             >
               <Typography variant="h4">Marketing Dashboard</Typography>
-              <Box sx={{ display: { lg: 'flex', md: 'block' } }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: { sm: 'row', xs: 'column', gap: 9 },
+                  mt: { sm: 0, xs: 2 },
+                }}
+              >
                 <ShareOptions setIsShowEditDashboard={setIsShowEditDashboard} />
                 <ManageDashboardOptions toggle={toggle} />
               </Box>
