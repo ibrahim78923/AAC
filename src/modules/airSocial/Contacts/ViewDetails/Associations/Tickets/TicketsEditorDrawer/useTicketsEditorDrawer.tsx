@@ -1,30 +1,29 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
+import { useLazyGetAllTicketsQuery } from '@/services/common-APIs';
 import {
-  ticketsDefaultValues,
-  ticketsValidationSchema,
-} from './TicketsEditorDrawer.data';
+  // useGetTicketsByIdQuery,
+  useLazyGetAgentDropdownQuery,
+  useLazyGetAssociateAssetsDropdownQuery,
+  useLazyGetCategoriesDropdownQuery,
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetRequesterDropdownQuery,
+} from '@/services/airServices/tickets';
 
 const useTicketsEditorDrawer = () => {
-  const [searchTicket, setSearchTicket] = useState('');
-  const methodsTickets = useForm({
-    resolver: yupResolver(ticketsValidationSchema),
-    defaultValues: ticketsDefaultValues,
-  });
+  const ticketsList = useLazyGetAllTicketsQuery();
 
-  const onSubmit = () => {};
-  const { handleSubmit, watch } = methodsTickets;
-  const watchTickets = watch(['ticketStatus']);
+  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
+  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
+  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
+  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
+
   return {
-    handleSubmit,
-    onSubmit,
-    methodsTickets,
-    watchTickets,
-    setSearchTicket,
-    searchTicket,
+    ticketsList,
+    apiQueryDepartment,
+    apiQueryRequester,
+    apiQueryAgent,
+    apiQueryAssociateAsset,
+    apiQueryCategories,
   };
 };
 

@@ -385,8 +385,9 @@ const useCta = () => {
   };
 
   const handleDeleteCTA = async () => {
+    const items = await selectedRow?.join(',');
     try {
-      await deleteCTA(selectedRow)?.unwrap();
+      await deleteCTA(items)?.unwrap();
       handleCloseModalDelete();
       setSelectedRow([]);
       enqueueSnackbar('Record has been deleted.', {

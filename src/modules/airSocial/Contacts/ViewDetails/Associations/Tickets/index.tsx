@@ -14,17 +14,27 @@ import { columns } from './Tickets.data';
 
 import { styles } from '../Associations.style';
 import { PlusIcon } from '@/assets/icons';
+import { FORM_TYPE } from './TicketsEditorDrawer/TicketsEditorDrawer.data';
 
 const Tickets = ({ contactId }: any) => {
   const {
     theme,
     setSearchValue,
     loadingTickets,
+    fetchingTickets,
     dataGetTickets,
     drawerTitle,
     openDrawer,
     handleOpenDrawer,
     handleCloseDrawer,
+    formType,
+    handleChangeFormType,
+    disabledField,
+    methodsNewTicket,
+    methodsExistingTicktet,
+    handleAddTicketSubmit,
+    handleExsistingTicketSubmit,
+    loadingAddTicket,
 
     isOpenAlert,
     handleOpenAlert,
@@ -76,7 +86,7 @@ const Tickets = ({ contactId }: any) => {
                   variant="contained"
                   className="small"
                   sx={{ minWidth: '0px', gap: 0.5 }}
-                  onClick={() => handleOpenDrawer('Add', {})}
+                  onClick={() => handleOpenDrawer('Add', null)}
                 >
                   <PlusIcon /> Add Ticket
                 </Button>
@@ -88,7 +98,7 @@ const Tickets = ({ contactId }: any) => {
           <TanstackTable
             columns={columns({ handleOpenDrawer, handleOpenAlert })}
             data={dataGetTickets}
-            isLoading={loadingTickets}
+            isLoading={loadingTickets || fetchingTickets}
           />
         </Grid>
       </Grid>
@@ -97,6 +107,17 @@ const Tickets = ({ contactId }: any) => {
         drawerTitle={drawerTitle}
         open={openDrawer}
         onClose={handleCloseDrawer}
+        methodsNewTicket={methodsNewTicket}
+        methodsExistingTicket={methodsExistingTicktet}
+        formType={formType}
+        handleChangeFormType={handleChangeFormType}
+        handleOnSubmit={
+          formType === FORM_TYPE?.NEW
+            ? handleAddTicketSubmit
+            : handleExsistingTicketSubmit
+        }
+        isLoading={loadingPostAssociation || loadingAddTicket}
+        disabledField={disabledField}
       />
 
       <AlertModals

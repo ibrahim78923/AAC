@@ -265,6 +265,18 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['USERS_LIST'],
     }),
+
+    getAllTickets: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.TICKET}`,
+        method: 'GET',
+        params: params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: ['TICKETS'],
+    }),
   }),
 });
 
@@ -294,4 +306,5 @@ export const {
   useLazyGetAllCompaniesQuery,
   useLazyGetAllTemplateListQuery,
   useLazyGetAllUsersQuery,
+  useLazyGetAllTicketsQuery,
 } = CommonAPIS;
