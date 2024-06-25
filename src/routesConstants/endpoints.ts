@@ -542,3 +542,10 @@ export const SUPER_ADMIN_DASHBOARD = {
   PLANS_LIST: '/plan',
   ENQUIRIES: '/super-admin/user-enquiry-wise-stats',
 };
+export const SALES_DASHBOARD = {
+  DEALS_CREATED_VS_CLOSE_DATES:
+    '/sales-dashboard/deals-created-vs-closed-deals',
+  WIDGET:
+    '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
+  SALES_DASHBOARD: '/sales-dashboard',
+};

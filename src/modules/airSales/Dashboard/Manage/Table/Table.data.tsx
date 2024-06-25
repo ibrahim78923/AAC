@@ -7,16 +7,16 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 export const columns = (setIsDeleteModalOpen: any) => {
   return [
     {
-      accessorFn: (row: any) => row?.dashboardName,
-      id: 'dashboardName',
+      accessorFn: (row: any) => row?.name,
+      id: 'name',
       isSortable: true,
       header: 'Dashboard Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '--',
     },
 
     {
-      accessorFn: (row: any) => row?.default,
-      id: 'default',
+      accessorFn: (row: any) => row?.isDefault,
+      id: 'isDefault',
       cell: () => <Switch defaultChecked />,
       header: 'Default',
       isSortable: false,
@@ -27,15 +27,15 @@ export const columns = (setIsDeleteModalOpen: any) => {
       id: 'owner',
       isSortable: true,
       header: 'Owner',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '--',
     },
 
     {
-      accessorFn: (row: any) => row?.accessRights,
-      id: 'accessRights',
+      accessorFn: (row: any) => row?.sharedWith,
+      id: 'sharedWith',
       isSortable: true,
       header: 'Access Rights',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '--',
     },
 
     {
@@ -43,12 +43,12 @@ export const columns = (setIsDeleteModalOpen: any) => {
       id: 'lastViewed',
       isSortable: true,
       header: 'Last Viewed',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '--',
     },
 
     {
-      accessorFn: (row: any) => row?.lastUpdated,
-      id: 'lastUpdated',
+      accessorFn: (row: any) => row?.updatedAt,
+      id: 'updatedAt',
       isSortable: true,
       header: 'Last Updated',
       cell: (info: any) => info?.getValue(),
