@@ -389,6 +389,17 @@ export const TASK_TABS = {
   TICKETS: 'tickets',
 };
 
+export const CREATE_DASHBOARD_KEYS = {
+  DEALS_CREATED_VS_CLOSED: 'Deals created vs Closed Deals',
+  DEAL_REPORTS: 'Deal Reports',
+  MEETING_DETAILS: 'Meeting Details',
+  FORECAST_CATEGORY_REPORTS: 'Forecast Category Reports',
+  FORECAST_PIPELINE_REPORT: 'Forecast Pipeline Report',
+  TEAM_ACTIVITIES_BY_DATE: 'Team Activities by Activity Date',
+  TOTAL_DEALS_OPEN_DEALS:
+    'Total Deals, Open Deals, Team Goals, Closed/Won, Published Quotes',
+};
+
 export const COMPANITES_TYPE = {
   NEW_COMPANY: 'new-Company',
   COMPANY: 'company',
