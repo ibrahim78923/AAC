@@ -493,6 +493,7 @@ export const ORG_ADMIN = {
   ACTIVITY_LOG: '/activity-log',
   ACTIVITY_LOG_SUB: '/activity-log/sub-activities',
   SETTINGS_CONTACT_STATUS: '/contact-status',
+  PRODUCT_DROPDOWN: '/dropdown/products',
 };
 
 export const COMMON_DOCUMENTS = {

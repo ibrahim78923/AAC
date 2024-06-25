@@ -27,7 +27,6 @@ import { DATE_FORMAT } from '@/constants';
 
 const Manage = ({
   campaignsData,
-  handeApplyFilter,
   handleResetFilters,
   filterLoading,
   handleSelectSingleCheckBox,
@@ -248,8 +247,10 @@ const Manage = ({
         <CampaingFilters
           isOpenDrawer={isOpenFilter}
           setIsOpenFilter={setIsOpenFilter}
-          handeApplyFilter={handeApplyFilter}
+          // handeApplyFilter={handeApplyFilter}
           filterLoading={filterLoading}
+          filters={filters}
+          setFilters={setFilters}
         />
       )}
 

@@ -39,7 +39,6 @@ const Campaigns = () => {
     postCampaigns,
     createCampaignsLoading,
     campaignsData,
-    handeApplyFilter,
     handleResetFilters,
     filterLoading,
     handleSelectAllCheckbox,
@@ -83,17 +82,6 @@ const Campaigns = () => {
         : undefined,
       campaignBudget,
     };
-    const formData = new FormData();
-
-    Object.entries(values)?.forEach(([key, value]: any) => {
-      if (value !== undefined && value !== null && value !== '') {
-        if (key === obj?.startDate || key === obj?.endDate) {
-          formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
-        } else {
-          formData.append(key, value);
-        }
-      }
-    });
     try {
       await postCampaigns({ body: obj })?.unwrap();
       enqueueSnackbar('Campaigns created successfully', {
@@ -176,7 +164,7 @@ const Campaigns = () => {
           <HorizontalTabs tabsDataArray={campaignsTabs}>
             <Manage
               campaignsData={campaignsData}
-              handeApplyFilter={handeApplyFilter}
+              // handeApplyFilter={handeApplyFilter}
               handleResetFilters={handleResetFilters}
               filterLoading={filterLoading}
               handleSelectSingleCheckBox={handleSelectSingleCheckBox}

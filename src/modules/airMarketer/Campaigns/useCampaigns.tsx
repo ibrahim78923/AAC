@@ -19,6 +19,8 @@ import { useGetUsersListQuery } from '@/services/airSales/deals';
 import { ROLES } from '@/constants/strings';
 import { getSession } from '@/utils';
 import { useSearchParams } from 'next/navigation';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const useCampaigns = () => {
   const theme = useTheme();
@@ -50,22 +52,25 @@ const useCampaigns = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const [filters, setFilters] = useState({
-    campaignOwner: '',
-    startDate: null,
-    endDate: null,
+  const [filters, setFilters] = useState<any>({
+    campaignOwner: null,
     campaignStatus: '',
   });
+
   const { data: campaignsData, isLoading: filterLoading } =
     useGetCampaignsQuery({
       page: page,
       limit: pageLimit,
       search: searchCampaigns ? searchCampaigns : undefined,
       campaignOwner: filters?.campaignOwner
-        ? filters?.campaignOwner
+        ? filters?.campaignOwner?._id
         : undefined,
-      startDate: filters?.startDate ? filters?.startDate : undefined,
-      endDate: filters?.endDate ? filters?.endDate : undefined,
+      startDate: filters?.startDate
+        ? dayjs(filters?.startDate)?.format(DATE_FORMAT?.API)
+        : undefined,
+      endDate: filters?.endDate
+        ? dayjs(filters?.endDate)?.format(DATE_FORMAT?.API)
+        : undefined,
       campaignStatus: filters?.campaignStatus
         ? filters?.campaignStatus
         : undefined,
@@ -102,19 +107,17 @@ const useCampaigns = () => {
   const handleResetFilters = () => {
     setFilters({
       campaignOwner: '',
-      startDate: null,
-      endDate: null,
       campaignStatus: '',
     });
   };
-  const handeApplyFilter = (values: any) => {
-    const filteredObj = Object?.fromEntries(
-      Object?.entries(values)?.filter(
-        (value: any) => value[1] !== '' && value[1] !== null,
-      ),
-    );
-    setFilters({ ...filters, ...filteredObj });
-  };
+  // const handeApplyFilter = (values: any) => {
+  //   const filteredObj = Object?.fromEntries(
+  //     Object?.entries(values)?.filter(
+  //       (value: any) => value[1] !== '' && value[1] !== null,
+  //     ),
+  //   );
+  //   setFilters({ ...filters, ...filteredObj });
+  // };
 
   const handleCloseAddAssetsModal = () => {
     setIsOpenAddAssets(false);
@@ -221,7 +224,7 @@ const useCampaigns = () => {
     campaignsData,
     postCampaigns,
     createCampaignsLoading,
-    handeApplyFilter,
+    // handeApplyFilter,
     setSearchCampaigns,
     searchCampaigns,
     handleResetFilters,
