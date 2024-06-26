@@ -66,7 +66,7 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
       providesTags: ['BROADCAST'],
     }),
 
-    updateSmsBroadcats: builder.mutation({
+    updateSmsBroadcast: builder.mutation({
       query: ({ id, body }: any) => {
         return {
           url: `${END_POINTS?.GET_SMS_MARKETING_BROADCAST}/${id}`,
@@ -87,5 +87,5 @@ export const {
   useGetSmsDashboardInsightsQuery,
   usePostSmsBroadcastMutation,
   useGetSmsBroadcatsByIdQuery,
-  useUpdateSmsBroadcatsMutation,
+  useUpdateSmsBroadcastMutation,
 } = SmsMarketingAPI;

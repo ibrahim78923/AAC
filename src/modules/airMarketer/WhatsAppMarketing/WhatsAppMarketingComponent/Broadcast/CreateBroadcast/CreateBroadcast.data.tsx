@@ -1,18 +1,22 @@
 import {
-  RHFSelect,
   RHFDropZone,
   RHFTextField,
   RHFEditor,
+  RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { InputAdornment, IconButton } from '@mui/material';
 import { AddPlusPrimaryIcon } from '@/assets/icons';
+import {
+  useLazyGetAllCampaignsListQuery,
+  useLazyGetAllTemplateListQuery,
+} from '@/services/common-APIs';
 
-export const validationSchema = Yup.object().shape({
-  name: Yup.string().required('Field is Required'),
-  campaign: Yup.string().required('Field is Required'),
-  contacts: Yup.string().required('Field is Required'),
-  details: Yup.string().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
+  campaign: Yup?.string()?.required('Field is Required'),
+  contacts: Yup?.string()?.required('Field is Required'),
+  details: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -24,100 +28,94 @@ export const defaultValues = {
   attachment: '',
 };
 
-export const createBroadcastFields = (handleOpenContactsDrawer: any) => [
-  {
-    id: '01',
-    componentProps: {
-      label: 'Broadcast Name',
-      name: 'name',
-      fullWidth: true,
-      placeholder: 'Enter Name',
-      required: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: '02',
-    componentProps: {
-      label: 'Campaign',
-      name: 'campaign',
-      fullWidth: true,
-      select: true,
-      required: true,
-    },
-    options: [
-      { value: 'campaign1', label: 'Campaign 1' },
-      { value: 'campaign2', label: 'Campaign 2' },
-      { value: 'campaign3', label: 'Campaign 3' },
-      { value: 'campaign4', label: 'Campaign 4' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    id: '03',
-    componentProps: {
-      label: 'Use Template (Optional)',
-      name: 'template',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'template1', label: 'Template 1' },
-      { value: 'template2', label: 'Template 2' },
-      { value: 'template3', label: 'Template 3' },
-      { value: 'template4', label: 'Template 4' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    id: '04',
-    componentProps: {
-      name: 'contacts',
-      label: 'Add Contacts',
-      fullWidth: true,
-      required: true,
-      InputProps: {
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton onClick={handleOpenContactsDrawer} edge="end">
-              <AddPlusPrimaryIcon />
-            </IconButton>
-          </InputAdornment>
-        ),
+export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
+  const campaignsList = useLazyGetAllCampaignsListQuery();
+  const templateList = useLazyGetAllTemplateListQuery();
+  return [
+    {
+      id: '01',
+      componentProps: {
+        label: 'Broadcast Name',
+        name: 'name',
+        fullWidth: true,
+        placeholder: 'Enter Name',
+        required: true,
       },
-      placeholder: 'Select Contacts',
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: '05',
-    component: RHFEditor,
-    md: 12,
-    componentProps: {
-      name: 'details',
-      label: 'Details',
-      fullWidth: true,
-      required: true,
+    {
+      title: 'Campaign',
+      componentProps: {
+        placeholder: 'Select campaign',
+        name: 'campaignId',
+        label: 'Campaign',
+        required: true,
+        apiQuery: campaignsList,
+        getOptionLabel: (option: any) => option?.title,
+      },
+      component: RHFAutocompleteAsync,
+      md: 12,
     },
-  },
-  {
-    id: '06',
-    component: RHFDropZone,
-    md: 12,
-    title: 'Attachment',
-    componentProps: {
-      name: 'attachment',
-      label: 'Attachment',
-      fullWidth: true,
-      multiline: true,
-      rows: '4',
+    {
+      title: 'useTemplate',
+      componentProps: {
+        placeholder: 'Select template',
+        name: 'templateId',
+        label: 'Use Template (Optional)',
+        apiQuery: templateList,
+        getOptionLabel: (option: any) => option?.name,
+      },
+      component: RHFAutocompleteAsync,
+      md: 12,
     },
-  },
-];
+    {
+      id: '04',
+      componentProps: {
+        name: 'contacts',
+        label: 'Add Contacts',
+        fullWidth: true,
+        required: true,
+        InputProps: {
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleOpenContactsDrawer} edge="end">
+                <AddPlusPrimaryIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        },
+        placeholder: 'Select Contacts',
+      },
+      component: RHFTextField,
+      md: 12,
+    },
+    {
+      id: '05',
+      component: RHFEditor,
+      md: 12,
+      componentProps: {
+        name: 'details',
+        label: 'Details',
+        fullWidth: true,
+        required: true,
+      },
+    },
+    {
+      id: '06',
+      component: RHFDropZone,
+      md: 12,
+      title: 'Attachment',
+      componentProps: {
+        name: 'attachment',
+        label: 'Attachment',
+        fullWidth: true,
+        multiline: true,
+        rows: '4',
+      },
+    },
+  ];
+};
 
 export const contactDetails: any = [
   {

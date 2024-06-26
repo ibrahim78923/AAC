@@ -547,6 +547,11 @@ export const SUPER_ADMIN_DASHBOARD = {
   ENQUIRIES: '/super-admin/user-enquiry-wise-stats',
 };
 
+export const WHATSAPP_MARKETING = {
+  CONNECT_PHONE_NUMBER: '/whatsapp-marketing/connect-number',
+  GET_IS_PHONE_CONNECTED: '/whatsapp-marketing/connected-number',
+  GET_WHATSAPP_MARKETING_BROADCAST: '/whatsapp-marketing/broadcast',
+};
 export const SALES_DASHBOARD = {
   DEALS_CREATED_VS_CLOSE_DATES:
     '/sales-dashboard/deals-created-vs-closed-deals',

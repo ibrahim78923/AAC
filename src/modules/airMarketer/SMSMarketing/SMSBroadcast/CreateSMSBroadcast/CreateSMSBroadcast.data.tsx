@@ -51,7 +51,7 @@ export const createBroadcast = () => {
       md: 12,
     },
     {
-      title: 'Compaign',
+      title: 'Campaign',
       componentProps: {
         placeholder: 'Select campaign',
         name: 'campaignId',

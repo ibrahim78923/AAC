@@ -1,4 +1,5 @@
 import { PAGINATION } from '@/config';
+import { useGetWhatsAppBroadcatsQuery } from '@/services/airMarketer/whatsapp-marketing';
 import { Theme, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -8,6 +9,31 @@ const useBroadcast = () => {
   const navigate = useRouter();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [actionsEl, setActionsEl] = useState(null);
+  const [statusEl, setStatusEl] = useState(null);
+  const statusMenuOpen = Boolean(statusEl);
+  const actionsMenuOpen = Boolean(actionsEl);
+
+  const whatsappParams = {
+    page: page,
+    limit: pageLimit,
+    // commented for future use
+    // search: filterValues?.search,
+    // status: filterValues?.status ? filterValues?.status : undefined,
+    // toDate: filterValues?.toDate
+    //   ? dayjs(filterValues?.toDate)?.format(DATE_FORMAT?.API)
+    //   : undefined,
+    // fromDate: filterValues?.fromDate
+    //   ? dayjs(filterValues?.fromDate)?.format(DATE_FORMAT?.API)
+    //   : undefined,
+  };
+
+  const {
+    data: whatsAppBroadcastData,
+    // isLoading,
+    // isSuccess,
+  } = useGetWhatsAppBroadcatsQuery(whatsappParams);
 
   // Hadle PAGE CHANGE
   const handlePageChange = (newPage: number) => {
@@ -21,27 +47,23 @@ const useBroadcast = () => {
   };
 
   // Status Dropdown
-  const [statusEl, setStatusEl] = useState(null);
   const handleStatusMenuClick = (event: any) => {
     setStatusEl(event?.currentTarget);
   };
   const handleStatusMenuClose = () => {
     setStatusEl(null);
   };
-  const statusMenuOpen = Boolean(statusEl);
 
   // Actions Dropdown
-  const [actionsEl, setActionsEl] = useState(null);
+
   const handleActionsMenuClick = (event: any) => {
     setActionsEl(event?.currentTarget);
   };
   const handleActionsMenuClose = () => {
     setActionsEl(null);
   };
-  const actionsMenuOpen = Boolean(actionsEl);
 
   // Delete Modal
-  const [openModalDelete, setOpenModalDelete] = useState(false);
 
   const handleOpenDelete = () => {
     setOpenModalDelete(true);
@@ -83,6 +105,7 @@ const useBroadcast = () => {
     handlePageChange,
     page,
     pageLimit,
+    whatsAppBroadcastData,
   };
 };
 

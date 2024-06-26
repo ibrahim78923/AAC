@@ -42,7 +42,7 @@ const CreateSMSBroadcast = () => {
     flattenContactsData,
     setSelectedDateVal,
     handleSaveAsDraft,
-    selectedCampaingn,
+    broadcastName,
     setCreateStatus,
     setSelectedRec,
     setIsSchedule,
@@ -212,8 +212,8 @@ const CreateSMSBroadcast = () => {
                       variant="body1"
                       fontWeight={700}
                     >
-                      {selectedCampaingn?.title?.charAt(0)?.toUpperCase()}
-                      {selectedCampaingn?.title?.slice(-1)?.toUpperCase()}
+                      {broadcastName?.title?.charAt(0)?.toUpperCase()}
+                      {broadcastName?.title?.slice(-1)?.toUpperCase()}
                     </Typography>
                   </Avatar>
                   <Box>
@@ -223,11 +223,16 @@ const CreateSMSBroadcast = () => {
                       sx={{
                         color: theme?.palette?.custom?.text_slate_blue,
                         fontSize: '15px',
+                        width: '500px',
+                        wordWrap: 'wrap',
                       }}
                     >
-                      {selectedCampaingn
-                        ? selectedCampaingn?.title
-                        : 'Campaign Name'}
+                      {broadcastName === ''
+                        ? 'Broadcast Name'
+                        : broadcastName?.title
+                        ? broadcastName?.title
+                        : broadcastName}
+                      {/* {broadcastName ? broadcastName?.title : 'Broadcast Name'} */}
                     </Typography>
                     <Typography
                       variant="body2"

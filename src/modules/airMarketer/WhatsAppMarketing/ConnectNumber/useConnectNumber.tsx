@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { PhoneNumberUtil } from 'google-libphonenumber';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useConnectPhoneNumberMutation } from '@/services/airMarketer/whatsapp-marketing';
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 const isValid = (phone: string) => {
@@ -10,37 +13,43 @@ const isValid = (phone: string) => {
   }
 };
 
-const useConnectNumber = () => {
+const useConnectNumber = ({ setIsConnected }: any) => {
+  const [openDialogRegNumber, setOpenDialogRegNumber] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const isPhoneValid = isValid(phoneNumber);
   const handlePhoneChange = (phone: any) => {
     setPhoneNumber(phone);
   };
 
-  const [openDialogRegNumber, setOpenDialogRegNumber] = useState(false);
-  const [openDialogVerification, setOpenDialogVerification] = useState(false);
+  const [connectPhoneNumber, { isLoading: connectNumberLoading }] =
+    useConnectPhoneNumberMutation();
+
   const handleOpenDialogRegNumber = () => {
     setOpenDialogRegNumber(true);
   };
   const handleCloseDialogRegNumber = () => {
     setOpenDialogRegNumber(false);
   };
-  const handleAddRegNumSubmit = () => {
-    if (!isPhoneValid) {
-      return true;
+  const handleAddRegNumSubmit = async () => {
+    if (isPhoneValid) {
+      try {
+        await connectPhoneNumber({
+          body: { phoneNumber: phoneNumber },
+        })?.unwrap();
+        setIsConnected(true);
+        setPhoneNumber('');
+        setOpenDialogRegNumber(false);
+        enqueueSnackbar('Phone number Connected Successfully', {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        });
+      } catch (error: any) {
+        const errMsg = error?.data?.message;
+        const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+        enqueueSnackbar(errMessage ?? 'Error occurred', {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
+      }
     }
-    setOpenDialogRegNumber(false);
-    setOpenDialogVerification(true);
-  };
-
-  const handleOpenDialogVerification = () => {
-    setOpenDialogVerification(true);
-  };
-  const handleCloseDialogVerification = () => {
-    setOpenDialogVerification(false);
-  };
-  const handleVerificationSubmit = () => {
-    setOpenDialogVerification(false);
   };
 
   return {
@@ -51,10 +60,7 @@ const useConnectNumber = () => {
     handleOpenDialogRegNumber,
     handleCloseDialogRegNumber,
     handleAddRegNumSubmit,
-    openDialogVerification,
-    handleOpenDialogVerification,
-    handleCloseDialogVerification,
-    handleVerificationSubmit,
+    connectNumberLoading,
   };
 };
 

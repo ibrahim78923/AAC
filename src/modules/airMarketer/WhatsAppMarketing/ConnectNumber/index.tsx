@@ -13,21 +13,18 @@ import { TickListIcon, WhatsApp55Icon } from '@/assets/icons';
 import { listData } from './ConnectNumber.data';
 import useConnectNumber from './useConnectNumber';
 import AddRegNumber from './AddRegNumber';
-import OTPVerification from './OTPVerification';
 
-const ConnectNumber = ({ setIsNumberConnected }: any) => {
+const ConnectNumber = ({ setIsConnected }: any) => {
   const {
     openDialogRegNumber,
     handleOpenDialogRegNumber,
     handleCloseDialogRegNumber,
     handleAddRegNumSubmit,
-    openDialogVerification,
-    handleCloseDialogVerification,
-    handleVerificationSubmit,
+    connectNumberLoading,
     isPhoneValid,
     phoneNumber,
     handlePhoneChange,
-  } = useConnectNumber();
+  } = useConnectNumber(setIsConnected);
   return (
     <>
       <Box sx={styles?.header}>
@@ -75,15 +72,7 @@ const ConnectNumber = ({ setIsNumberConnected }: any) => {
         onPhoneChange={handlePhoneChange}
         phoneValue={phoneNumber}
         isPhoneValid={isPhoneValid}
-      />
-
-      <OTPVerification
-        open={openDialogVerification}
-        onClose={handleCloseDialogVerification}
-        onSubmit={() => {
-          handleVerificationSubmit();
-          setIsNumberConnected(true);
-        }}
+        isLoading={connectNumberLoading}
       />
     </>
   );
