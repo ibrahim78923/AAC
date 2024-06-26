@@ -299,86 +299,26 @@ export const modalInitialState: any = {
   counter: false,
 };
 
-export const servicesMetrics = (setMetricType: any) => [
+export const salesMetrics = (setMetricType: any) => [
   {
-    title: 'Inventory',
+    title: 'Deals',
     handleClick: (closeMenu: any) => {
-      setMetricType('Inventory');
+      setMetricType('Deals');
       closeMenu?.();
     },
   },
   {
-    title: 'Software',
+    title: 'Pipeline Forecast',
     handleClick: (closeMenu: any) => {
-      setMetricType('Software');
+      setMetricType('Pipeline Forecast');
       closeMenu?.();
     },
   },
   {
-    title: 'Contract',
+    title: 'Forecast Category',
     handleClick: (closeMenu: any) => {
-      setMetricType('Contract');
+      setMetricType('Forecast Category');
       closeMenu?.();
     },
-  },
-  {
-    title: 'Tickets',
-    handleClick: (closeMenu: any) => {
-      setMetricType('Tickets');
-      closeMenu?.();
-    },
-  },
-  {
-    title: 'Purchase Order',
-    handleClick: (closeMenu: any) => {
-      setMetricType('Purchase Order');
-      closeMenu?.();
-    },
-  },
-];
-export const ActionDropDownData = () => [
-  {
-    id: 1,
-    title: 'Customize',
-  },
-  {
-    id: 2,
-    title: 'Rename',
-  },
-  {
-    id: 3,
-    title: 'Clone',
-  },
-  {
-    id: 4,
-    title: '  Export',
-  },
-  {
-    id: 5,
-    title: 'Email this Report',
-  },
-  {
-    id: 6,
-    title: 'Change Owner',
-  },
-  {
-    id: 7,
-    title: 'Add to Dashboard',
-  },
-  {
-    id: 8,
-    title: 'Clone',
-  },
-  {
-    id: 9,
-    title: 'Delete',
-  },
-  {
-    id: 10,
-    title: 'Add to favorite',
-  },
-  {
-    id: 11,
-    title: 'Manage Access',
   },
 ];

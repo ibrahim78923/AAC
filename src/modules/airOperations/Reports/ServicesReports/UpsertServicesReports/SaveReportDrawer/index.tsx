@@ -45,6 +45,12 @@ export const SaveReportDrawer = (props: any) => {
                     {item?.conditionalComponentTree}
                   </Grid>
                 )}
+                {watch(item?.componentProps?.name) ===
+                  item?.componentProps?.options?.[1]?.value && (
+                  <Grid item xs={12}>
+                    {item?.conditionalComponentFour}
+                  </Grid>
+                )}
               </>
             );
           })}

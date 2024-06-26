@@ -1,6 +1,6 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS } from '@/constants/permission-keys';
-import { EditDesign } from '@/modules/airLoyaltyProgram/GiftCards/GiftCards/PhysicalGiftCards/EditDesign';
+import { EditPhysicalCard } from '@/modules/airLoyaltyProgram/GiftCards/GiftCards/PhysicalGiftCards/EditPhysicalCard';
 
 const PhysicalCardDesignEditPage = () => (
   <PermissionsGuard
@@ -8,7 +8,7 @@ const PhysicalCardDesignEditPage = () => (
       AIR_LOYALTY_PROGRAM_GIFT_CARDS_PHYSICAL_GIFT_CARD_PERMISSIONS?.DESIGN_CARD,
     ]}
   >
-    <EditDesign />;
+    <EditPhysicalCard />;
   </PermissionsGuard>
 );
 

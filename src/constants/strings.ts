@@ -835,6 +835,7 @@ export const REPORT_TYPE = {
   EVERYONE: 'everyone',
   SPECIFIC_USERS: 'specificUsers',
   ADD_TO_EXISTING: 'addToExisting',
+  ADD_TO_NEW: 'addToNew',
   ALL: 'All',
 };
 

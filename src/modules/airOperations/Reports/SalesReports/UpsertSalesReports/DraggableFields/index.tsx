@@ -13,7 +13,7 @@ import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
 import { SaveReportDrawer } from '../SaveReportDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { servicesMetrics, templateList } from '../UpsertSalesReports.data';
+import { salesMetrics, templateList } from '../UpsertSalesReports.data';
 import AppsIcon from '@mui/icons-material/Apps';
 import { REPORT_TYPE } from '@/constants/strings';
 
@@ -73,7 +73,7 @@ export default function DraggableFields({
                   {showTemplate ? 'Form Template' : ' Form Scratch'}
                 </Typography>
                 <SingleDropdownButton
-                  dropdownOptions={servicesMetrics(setMetricType)}
+                  dropdownOptions={salesMetrics(setMetricType)}
                   dropdownName={metricType}
                 />
               </Box>

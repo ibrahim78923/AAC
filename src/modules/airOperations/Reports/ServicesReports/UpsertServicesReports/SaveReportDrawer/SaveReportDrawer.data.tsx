@@ -18,14 +18,29 @@ export const reportsValidationSchema = (reportValidation: any) =>
         ? Yup?.string()?.required('Shared with everyone conditions is required')
         : Yup?.string()?.notRequired(),
     ),
-    specificUsersCondition: Yup?.string()?.when(() =>
+    specificUsersConditionOne: Yup?.string()?.when(() =>
       reportValidation?.selectSharedWith === REPORT_TYPE?.SPECIFIC_USERS
         ? Yup?.string()?.required('Specific user is required')
+        : Yup?.string()?.notRequired(),
+    ),
+    specificUsersConditionTwo: Yup?.string()?.when(() =>
+      reportValidation?.selectSharedWith === REPORT_TYPE?.SPECIFIC_USERS
+        ? Yup?.string()?.required('Shared with Specific user is required')
         : Yup?.string()?.notRequired(),
     ),
     addToExistingCondition: Yup?.string()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
         ? Yup?.string()?.required('Add to existing dashboard is required')
+        : Yup?.string()?.notRequired(),
+    ),
+    addToNewConditionOne: Yup?.string()?.when(() =>
+      reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
+        ? Yup?.string()?.required('Add to new dashboard is required')
+        : Yup?.string()?.notRequired(),
+    ),
+    addToNewConditionTwo: Yup?.string()?.when(() =>
+      reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
+        ? Yup?.string()?.required('Add to new dashboard is required')
         : Yup?.string()?.notRequired(),
     ),
   });
@@ -36,7 +51,8 @@ export const reportsDefaultValues = {
   addToDashboard: '',
   addToExistingCondition: '',
   everyoneCondition: '',
-  specificUsersCondition: '',
+  specificUsersConditionOne: '',
+  specificUsersConditionTwo: '',
   addFilter: false,
 };
 
@@ -78,18 +94,29 @@ export const reportsDataArray = [
       />
     ),
     conditionalComponentTwo: (
-      <RHFAutocomplete
-        name="specificUsersCondition"
-        label="Select user"
-        size="small"
-        type="text"
-        options={[
-          'njones@outlook.com',
-          'htaylor@gmail.com',
-          'emitchell@outlook.com',
-          'jwilson@yahoo.com',
-        ]}
-      />
+      <>
+        <RHFAutocomplete
+          name="specificUsersConditionOne"
+          label="Select user"
+          size="small"
+          type="text"
+          options={[
+            'njones@outlook.com',
+            'htaylor@gmail.com',
+            'emitchell@outlook.com',
+            'jwilson@yahoo.com',
+          ]}
+        />
+        <RHFRadioGroup
+          name="specificUsersConditionTwo"
+          size="small"
+          row={false}
+          options={[
+            { value: 'viewEdit', label: 'View and Edit' },
+            { value: 'viewOnly', label: 'View Only' },
+          ]}
+        />
+      </>
     ),
   },
   {
@@ -97,7 +124,6 @@ export const reportsDataArray = [
     componentProps: {
       name: 'addToDashboard',
       label: 'Add this report to a dashboard',
-      row: false,
       required: true,
       options: [
         { value: 'doNotAdd', label: 'Do not add to a dashboard' },
@@ -114,6 +140,28 @@ export const reportsDataArray = [
         type="text"
         options={['Test1', 'Test2', 'Test3']}
       />
+    ),
+    conditionalComponentFour: (
+      <>
+        <RHFTextField
+          name="addToNewConditionOne"
+          label="Dashboard Name"
+          placeholder="Enter Dashboard Name"
+          size="small"
+          type="text"
+          options={['Test1', 'Test2', 'Test3']}
+        />
+        <RHFRadioGroup
+          name="addToNewConditionTwo"
+          size="small"
+          row={false}
+          options={[
+            { value: 'privateToOwner', label: 'Private To Owner' },
+            { value: 'SpecificUser', label: 'Only specific User and teams' },
+            { value: 'everyone', label: 'Everyone' },
+          ]}
+        />
+      </>
     ),
   },
   {

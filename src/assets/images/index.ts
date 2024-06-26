@@ -275,8 +275,6 @@ export { default as SmsMockImage } from './modules/airMarketer/SmsMarketing/sms-
 export { default as TwillioImage } from './modules/airMarketer/SmsMarketing/twillio.png';
 export { default as PageNotFoundImage } from './shared/page-Not-found.png';
 export { default as ComingSoonImage } from './shared/coming-soon.png';
-export { default as PhysicalCardBackImage } from './shared/physical-card-back-image.png';
-export { default as PhysicalCardFrontImage } from './shared/physical-card-front-image.png';
 export { default as XlFileImg } from './shared/xl-file-img.png';
 export { default as OthersMail } from './shared/others-mail.png';
 export { default as VoucherCardIcon } from './modules/loyaltyProgram/Vouchers/vouchers-icon.png';
@@ -289,6 +287,7 @@ export { default as mobilePhoneImg } from './modules/socialComponents/meetings/m
 export { default as CallerAvatarImage } from './modules/airCallCenter/CallMetrices/caller-avatar.png';
 export { default as calendarImage } from './shared/calendar.png';
 export { default as MasterCardLogoImage } from './shared/master-card-logo-image.png';
+export { default as FireWorkBgImage } from './shared/fire-works-bg-img.png';
 export { default as TransferredCallsImage } from './modules/airCallCenter/Dashboard/Performance/transferred-calls-bg-image.png';
 export { default as MissedCallsImage } from './modules/airCallCenter/Dashboard/Performance/missed-calls-bg-image.png';
 export { default as AnsweredCallsImage } from './modules/airCallCenter/Dashboard/Performance/answered-calls-bg-image.png';

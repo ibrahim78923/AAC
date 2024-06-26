@@ -15,7 +15,7 @@ export const useSaveReportDrawer = (props: any) => {
   });
 
   const saveReportsMethods = useForm({
-    resolver: yupResolver(reportsValidationSchema(reportValidation)),
+    resolver: yupResolver<any>(reportsValidationSchema(reportValidation)),
     defaultValues: reportsDefaultValues,
   });
 
