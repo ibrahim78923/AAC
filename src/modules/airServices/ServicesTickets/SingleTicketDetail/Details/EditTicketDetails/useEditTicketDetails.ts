@@ -1,26 +1,29 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+
 import {
-  dataArray,
-  ticketsDetailsDefaultValuesFunction,
-  validationSchema,
-} from './DetailsViewPropertiesSection.data';
-import {
-  useLazyGetAgentDropdownQuery,
-  usePutTicketsMutation,
-  useLazyGetCategoriesDropdownQuery,
   useGetTicketsDetailsByIdQuery,
+  useEditTicketsDetailsMutation,
+  useLazyGetAgentDropdownForEditTicketDetailsQuery,
+  useLazyGetCategoriesDropdownForEditTicketDetailsQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
 import { AIR_SERVICES } from '@/constants';
+import { ARRAY_INDEX } from '@/constants/strings';
+import {
+  editTicketDetailsDefaultValuesDynamic,
+  editTicketDetailsFormFieldsDynamic,
+  editTicketDetailsValidationSchema,
+} from './EditTicketDetails.data';
 
-export const useDetailsViewPropertiesSection = () => {
+export const useEditTicketDetails = () => {
   const router = useRouter();
   const { ticketId } = router?.query;
-  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
+  const [editTicketsDetailsTrigger, editTicketsDetailsStatus] =
+    useEditTicketsDetailsMutation();
   const getSingleTicketParameter = {
     pathParam: {
       ticketId,
@@ -34,14 +37,18 @@ export const useDetailsViewPropertiesSection = () => {
     });
 
   const methods: any = useForm<any>({
-    resolver: yupResolver(validationSchema),
-    defaultValues: ticketsDetailsDefaultValuesFunction(),
+    resolver: yupResolver(editTicketDetailsValidationSchema),
+    defaultValues: editTicketDetailsDefaultValuesDynamic(),
   });
 
   const { handleSubmit, reset } = methods;
+
   const onSubmit = async (formData: any) => {
     const ticketDetailsData = new FormData();
-    ticketDetailsData?.append('requester', data?.data?.[0]?.requester);
+    ticketDetailsData?.append(
+      'requester',
+      data?.data?.[ARRAY_INDEX?.ZERO]?.requester,
+    );
     ticketDetailsData.append('status', formData?.status?._id);
     ticketDetailsData.append('pirority', formData?.priority?._id);
     !!formData?.source &&
@@ -53,7 +60,10 @@ export const useDetailsViewPropertiesSection = () => {
       ticketDetailsData.append('agent', formData?.agent?._id);
     !!formData?.category &&
       ticketDetailsData.append('category', formData?.category?._id);
-    ticketDetailsData?.append('moduleType', data?.data?.[0]?.moduleType);
+    ticketDetailsData?.append(
+      'moduleType',
+      data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType,
+    );
 
     (!!formData?.plannedEndDate || !!formData?.plannedEndTime) &&
       ticketDetailsData?.append(
@@ -64,14 +74,17 @@ export const useDetailsViewPropertiesSection = () => {
         )?.toISOString(),
       );
     ticketDetailsData.append('plannedEffort', formData?.plannedEffort);
-    ticketDetailsData?.append('isChildTicket', data?.data?.[0]?.isChildTicket);
+    ticketDetailsData?.append(
+      'isChildTicket',
+      data?.data?.[ARRAY_INDEX?.ZERO]?.isChildTicket,
+    );
     ticketDetailsData?.append('id', ticketId as string);
 
-    const putTicketParameter = {
+    const editTicketsDetailsParameter = {
       body: ticketDetailsData,
     };
     try {
-      await putTicketTrigger(putTicketParameter)?.unwrap();
+      await editTicketsDetailsTrigger(editTicketsDetailsParameter)?.unwrap();
       router?.push(AIR_SERVICES?.TICKETS);
       successSnackbar(' ticket updated successfully');
       reset();
@@ -81,12 +94,19 @@ export const useDetailsViewPropertiesSection = () => {
   };
 
   useEffect(() => {
-    reset(() => ticketsDetailsDefaultValuesFunction(data?.data?.[0]));
+    reset(() =>
+      editTicketDetailsDefaultValuesDynamic(data?.data?.[ARRAY_INDEX?.ZERO]),
+    );
   }, [data, reset]);
 
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const apiQueryCategory = useLazyGetCategoriesDropdownQuery();
-  const ticketDetailsFormFields = dataArray(apiQueryAgent, apiQueryCategory);
+  const apiQueryAgent = useLazyGetAgentDropdownForEditTicketDetailsQuery();
+  const apiQueryCategory =
+    useLazyGetCategoriesDropdownForEditTicketDetailsQuery();
+
+  const ticketDetailsFormFields = editTicketDetailsFormFieldsDynamic(
+    apiQueryAgent,
+    apiQueryCategory,
+  );
   return {
     methods,
     handleSubmit,
@@ -96,6 +116,6 @@ export const useDetailsViewPropertiesSection = () => {
     isLoading,
     isFetching,
     isError,
-    putTicketStatus,
+    editTicketsDetailsStatus,
   };
 };

@@ -1,10 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  addTimeDefaultValues,
-  detailDrawerArray,
-  validationSchema,
-} from './DetailTicketDrawer.data';
-import { useForm, useWatch } from 'react-hook-form';
+
+import { useForm } from 'react-hook-form';
 import {
   useLazyGetAgentDropdownQuery,
   useLazyGetTaskByIdDropDownQuery,
@@ -13,51 +9,29 @@ import {
 
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import {
+  addTimeFormDefaultValues,
+  addTimeFormFieldsDynamic,
+  addTimeFormValidationSchema,
+} from './AddTime.data';
 
-export const useDetailTicketDrawer = (props: any) => {
+export const useAddTime = (props: any) => {
+  const { isDrawerOpen, setIsDrawerOpen } = props;
+
   const [postTicketsTimeTrigger, postTicketStatus] =
     usePostTicketsTimeMutation();
-  const {
-    isDrawerOpen,
-    setIsDrawerOpen,
-    start,
-    stop,
-    setIsIconVisible,
-    isLoading,
-    isError,
-  } = props;
+
   const router = useRouter();
-  let booleanVar = false;
   const { ticketId } = router?.query;
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+
   const methods: any = useForm<any>({
-    resolver: yupResolver(validationSchema),
-    defaultValues: addTimeDefaultValues(),
+    resolver: yupResolver(addTimeFormValidationSchema),
+    defaultValues: addTimeFormDefaultValues(),
   });
-  const apiQueryTask = useLazyGetTaskByIdDropDownQuery();
 
-  const { handleSubmit, reset, control, getValues } = methods;
-  const ticketDetailsFormFields = detailDrawerArray(
-    apiQueryAgent,
-    apiQueryTask,
-    ticketId,
-  );
-  const results = useWatch({ control, name: 'hours' });
-
-  if (results?.length > 0) {
-    booleanVar = true;
-  } else {
-    booleanVar = false;
-  }
+  const { handleSubmit, reset, getValues } = methods;
 
   const onSubmit = async (data: any) => {
-    if (booleanVar === true) {
-      setIsIconVisible(true);
-      stop();
-    } else {
-      setIsIconVisible(false);
-      start();
-    }
     const { hours } = getValues();
     if (hours?.trim() !== '' && !/^\d+h\d+m$/?.test(hours)) {
       errorSnackbar(
@@ -80,24 +54,35 @@ export const useDetailTicketDrawer = (props: any) => {
     };
     try {
       await postTicketsTimeTrigger(putTicketParameter)?.unwrap();
-      successSnackbar(' ticket Time Added successfully');
-      setIsDrawerOpen(false);
-      reset();
+      successSnackbar('Ticket time added successfully');
+      closeDrawer?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen?.(false);
+    reset();
+  };
+
+  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryTask = useLazyGetTaskByIdDropDownQuery();
+
+  const addTimeFormFields = addTimeFormFieldsDynamic(
+    apiQueryAgent,
+    apiQueryTask,
+    ticketId,
+  );
+
   return {
     methods,
     handleSubmit,
     onSubmit,
-    ticketDetailsFormFields,
+    addTimeFormFields,
     isDrawerOpen,
     setIsDrawerOpen,
-    booleanVar,
-    results,
-    isLoading,
     postTicketStatus,
-    isError,
+    closeDrawer,
   };
 };

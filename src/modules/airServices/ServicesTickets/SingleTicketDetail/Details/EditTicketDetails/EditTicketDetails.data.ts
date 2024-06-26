@@ -15,8 +15,10 @@ import {
 } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
+
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
-export const validationSchema = Yup?.object()?.shape({
+
+export const editTicketDetailsValidationSchema = Yup?.object()?.shape({
   ticketType: Yup?.mixed()?.nullable(),
   category: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable()?.required('Required'),
@@ -28,7 +30,8 @@ export const validationSchema = Yup?.object()?.shape({
   plannedEndDate: Yup?.date()?.nullable(),
   plannedEffort: Yup?.string()?.trim(),
 });
-export const ticketsDetailsDefaultValuesFunction = (data?: any) => {
+
+export const editTicketDetailsDefaultValuesDynamic = (data?: any) => {
   return {
     category: data?.categoryDetails ?? null,
     status: data?.status ? { _id: data?.status, label: data?.status } : null,
@@ -51,7 +54,11 @@ export const ticketsDetailsDefaultValuesFunction = (data?: any) => {
     plannedEffort: data?.plannedEffort ?? '',
   };
 };
-export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
+
+export const editTicketDetailsFormFieldsDynamic = (
+  apiQueryAgent: any,
+  apiQueryCategory: any,
+) => [
   {
     id: 1,
     componentProps: {

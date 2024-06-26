@@ -1,38 +1,35 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
-import { useDetailTicketDrawer } from './useDetailTicketDrawer';
+import { useAddTime } from './useAddTime';
 
-export const DetailTicketDrawer = (props: any) => {
+export const AddTime = (props: any) => {
   const {
     methods,
     handleSubmit,
     onSubmit,
-    ticketDetailsFormFields,
+    addTimeFormFields,
     isDrawerOpen,
-    setIsDrawerOpen,
-    booleanVar,
     postTicketStatus,
-    isError,
-  } = useDetailTicketDrawer(props);
+    closeDrawer,
+  } = useAddTime(props);
+
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
-      onClose={() => {
-        setIsDrawerOpen(false);
-      }}
+      onClose={() => closeDrawer?.()}
       title="Add Time"
       submitHandler={handleSubmit(onSubmit)}
-      footer={true}
-      isOk={true}
-      okText={booleanVar === true ? 'submit' : 'Start timer'}
+      footer
+      isOk
+      okText="Submit"
       isLoading={postTicketStatus?.isLoading}
-      isDisabled={isError || postTicketStatus?.isLoading}
-      disabledCancelBtn={isError || postTicketStatus?.isLoading}
+      isDisabled={postTicketStatus?.isLoading}
+      disabledCancelBtn={postTicketStatus?.isLoading}
     >
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods}>
         <Grid container spacing={1}>
-          {ticketDetailsFormFields?.map((item: any) => (
+          {addTimeFormFields?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'} />
             </Grid>

@@ -1,15 +1,15 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid, Typography } from '@mui/material';
 
-import { useDetailsViewPropertiesSection } from './useDetailsViewPropertiesSection';
-import DetailViewTimeEntries from '../DetailViewTimeEntries';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
 import { LoadingButton } from '@mui/lab';
+import { useEditTicketDetails } from './useEditTicketDetails';
 
-const DetailsViewPropertiesSection = () => {
+import { TimeEntries } from '../TimeEntries';
+export const EditTicketDetails = () => {
   const {
     methods,
     handleSubmit,
@@ -18,8 +18,9 @@ const DetailsViewPropertiesSection = () => {
     isLoading,
     isFetching,
     data,
-    putTicketStatus,
-  } = useDetailsViewPropertiesSection();
+    editTicketsDetailsStatus,
+  } = useEditTicketDetails();
+
   return (
     <>
       <Grid
@@ -59,7 +60,7 @@ const DetailsViewPropertiesSection = () => {
                 }
               >
                 <br />
-                <DetailViewTimeEntries data={data} />
+                <TimeEntries data={data} />
               </PermissionsGuard>
               <PermissionsGuard
                 permissions={[
@@ -71,7 +72,7 @@ const DetailsViewPropertiesSection = () => {
                     variant={'outlined'}
                     color="inherit"
                     onClick={() => methods?.reset()}
-                    disabled={putTicketStatus?.isLoading}
+                    disabled={editTicketsDetailsStatus?.isLoading}
                   >
                     Cancel
                   </LoadingButton>
@@ -79,7 +80,7 @@ const DetailsViewPropertiesSection = () => {
                     variant={'contained'}
                     type={'submit'}
                     sx={{ ml: 2 }}
-                    loading={putTicketStatus?.isLoading}
+                    loading={editTicketsDetailsStatus?.isLoading}
                   >
                     Submit
                   </LoadingButton>
@@ -92,5 +93,3 @@ const DetailsViewPropertiesSection = () => {
     </>
   );
 };
-
-export default DetailsViewPropertiesSection;

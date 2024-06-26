@@ -10,16 +10,16 @@ import { ROLES } from '@/constants/strings';
 import { ticketStatusOptions } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup?.object()?.shape({
+export const addTimeFormValidationSchema = Yup?.object()?.shape({
   task: Yup?.mixed()?.nullable()?.required('Task is Required'),
   agent: Yup?.mixed()?.nullable()?.required('Agent is Required'),
-  hours: Yup?.mixed()?.nullable(),
+  hours: Yup?.string()?.trim()?.required('Hours is Required'),
   status: Yup?.mixed()?.nullable(),
   on: Yup?.date()?.required('On is Required'),
   note: Yup?.mixed()?.nullable(),
 });
 
-export const addTimeDefaultValues = () => {
+export const addTimeFormDefaultValues = () => {
   return {
     task: null,
     agent: null,
@@ -29,7 +29,7 @@ export const addTimeDefaultValues = () => {
     note: '',
   };
 };
-export const detailDrawerArray = (
+export const addTimeFormFieldsDynamic = (
   apiQueryAgent: any,
   apiQueryTask: any,
   ticketId: any,
@@ -78,6 +78,7 @@ export const detailDrawerArray = (
       name: 'hours',
       label: 'Hours',
       fullWidth: true,
+      required: true,
       placeholder: 'Eg: 1h 10m',
     },
     component: RHFTextField,
@@ -119,5 +120,4 @@ export const detailDrawerArray = (
     component: RHFEditor,
     md: 12,
   },
-  ,
 ];

@@ -81,6 +81,36 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG_FOUR],
     }),
+    editTicketsDetails: builder?.mutation({
+      query: (putTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}/{id}`,
+        method: 'PUT',
+        body: putTicketParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getAgentDropdownForEditTicketDetails: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getCategoriesDropdownForEditTicketDetails: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.servicecategories;
+      },
+      providesTags: [TAG_SIX],
+    }),
   }),
 });
 
@@ -94,4 +124,7 @@ export const {
   useLazyGetTaskByIdDropDownQuery,
   useGetTicketsTimeEntriesByIdQuery,
   usePutTicketsTimeMutation,
+  useEditTicketsDetailsMutation,
+  useLazyGetAgentDropdownForEditTicketDetailsQuery,
+  useLazyGetCategoriesDropdownForEditTicketDetailsQuery,
 } = ticketsDetailsAPI;

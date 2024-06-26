@@ -520,3 +520,4 @@ export { default as MessageNotificationIcon } from './shared/message-notificatio
 export { default as BlockQuoteIcon } from './shared/block-quote-icon';
 export { default as NotificationBellIcon } from './shared/notification-bell-icon';
 export { default as SoftwareFieldsIcon } from './modules/airServices/Settings/software-fields-icon';
+export { default as StartTimerIcon } from './modules/airServices/Tickets/start-timer-icon';
