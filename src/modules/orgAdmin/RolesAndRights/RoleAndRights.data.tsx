@@ -91,6 +91,7 @@ export const addUserSchema = Yup.object().shape({
 
 export const addUsersArrayData = (productsData: any) => {
   const { user }: any = getSession();
+
   const companyAccounts = useLazyGetCompanyAccountsListsQuery();
 
   return [
