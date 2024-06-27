@@ -161,6 +161,32 @@ const QuoteInvoice = ({ quoteId }: any) => {
                   0%
                 </Typography>
               </Box>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                my="10px"
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Typography variant="body2" fontWeight={500}>
+                    Total Redeemed Discount
+                  </Typography>
+                </Box>
+                <Typography
+                  variant="body2"
+                  fontWeight={500}
+                  sx={{ color: theme?.palette?.custom?.dark }}
+                >
+                  £ 20
+                </Typography>
+              </Box>
             </CardContent>
             <CardActions
               sx={{

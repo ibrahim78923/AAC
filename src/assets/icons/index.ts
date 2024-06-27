@@ -524,3 +524,4 @@ export { default as UndoIcon } from './shared/undo-icon';
 export { default as RedoIcon } from './shared/redo-icon';
 export { default as DesignCardRefreshIcon } from './shared/design-Card-Refresh-icon';
 export { default as StartTimerIcon } from './modules/airServices/Tickets/start-timer-icon';
+export { default as InfoIconBlueBg } from './modules/airSales/Quotes/info-icon';

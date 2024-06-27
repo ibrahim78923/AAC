@@ -140,13 +140,15 @@ const StepBuyerInfo = ({
                                 {item?.phoneNumber}
                               </Typography>
                             </Box>
-                            <Image
-                              src={CrossCircleImage}
-                              alt="delIcon"
-                              onClick={() =>
-                                handleContactDeleteModal(item?._id)
-                              }
-                            />
+                            <Box sx={{ cursor: 'pointer' }}>
+                              <Image
+                                src={CrossCircleImage}
+                                alt="delIcon"
+                                onClick={() =>
+                                  handleContactDeleteModal(item?._id)
+                                }
+                              />
+                            </Box>
                             <Checkbox
                               defaultChecked
                               checked={selectedBuyerContactIds === item?._id}
@@ -220,11 +222,13 @@ const StepBuyerInfo = ({
                               {item?.owner?.phoneNumber}
                             </Box>
                           </Box>
-                          <Image
-                            src={CrossCircleImage}
-                            alt="delIcon"
-                            onClick={() => handleDeleteModal(item?._id)}
-                          />
+                          <Box sx={{ cursor: 'pointer' }}>
+                            <Image
+                              src={CrossCircleImage}
+                              alt="delIcon"
+                              onClick={() => handleDeleteModal(item?._id)}
+                            />
+                          </Box>
                           <Checkbox
                             defaultChecked={selectedCompanyIds === item?._id}
                             checked={selectedCompanyIds === item?._id}

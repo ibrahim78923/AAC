@@ -34,14 +34,15 @@ export const styles = {
   actionBtn: () => ({
     cursor: 'pointer',
   }),
-  voucherCont: () => ({
+  voucherCont: (theme: any) => ({
     display: 'flex',
     justifyContent: 'flex-end',
-    mt: '24px',
-  }),
-  voucher: (theme: any) => ({
-    width: '325px',
+    width: '100%',
+    borderRadius: '8px',
     border: `1px solid ${theme?.palette?.grey[700]}`,
+  }),
+  voucher: () => ({
+    width: '100%',
     borderRadius: '10px',
   }),
   voucherHeader: () => ({
@@ -80,11 +81,11 @@ export const styles = {
     borderTop: `1px solid ${theme?.palette?.grey[700]}`,
     display: 'flex',
     justifyContent: 'space-between',
+    borderRadius: ' 0 0 8px 8px',
   }),
-  fCell: (theme: any) => ({
+  fCell: () => ({
     fontSize: '18px',
     fontWeight: '500',
     lineHeight: '1.555556',
-    color: theme?.palette?.slateBlue?.main,
   }),
 };

@@ -100,6 +100,14 @@ const TemplateBasic = ({ values }: any) => {
           <Box sx={styles?.vCellLef}>Discount</Box>
           <Box sx={styles?.vCellRight}>£ 0</Box>
         </Box>
+        <Box sx={styles?.vRow}>
+          <Box sx={styles?.vCellLef}>Total Redeemed Discount</Box>
+          <Box sx={styles?.vCellRight}>£ 20</Box>
+        </Box>
+        {/* <Box sx={styles?.vRow}>
+                  <Box sx={styles?.bodyCell}>Total Redeemed Discount</Box>
+                  <Box sx={styles?.bodyCellH}>£ 20</Box>
+                </Box> */}
         <Divider sx={{ my: '16px', borderColor: '#D2D6DF' }} />
         <Box sx={styles?.vRow}>
           <Box sx={styles?.total}>Total</Box>
