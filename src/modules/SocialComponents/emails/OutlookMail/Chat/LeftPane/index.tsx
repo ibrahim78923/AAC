@@ -135,11 +135,11 @@ const LeftPane = ({
     if (trackRenders === 1) {
       setTrackRenders(2);
     } else {
-      if (emailsByFolderIdData?.data?.length < 0) {
+      if (emailsByFolderIdData?.data?.length < 1) {
         dispatch(setBreakScrollOperation(true));
       }
     }
-  }, [emailsByFolderIdData?.data]);
+  }, [isLoadingEmailsByFolderIdData]);
 
   const handelToggleTab = (value: any) => {
     if (value?.displayName !== mailTabType?.displayName) {
@@ -155,7 +155,7 @@ const LeftPane = ({
   };
 
   useEffect(() => {
-    if (searchTerm.length > 0) {
+    if (searchTerm?.length > 0) {
       dispatch(setActiveRecord({}));
       dispatch(setSelectedRecords([]));
       dispatch(setMailList('clear'));

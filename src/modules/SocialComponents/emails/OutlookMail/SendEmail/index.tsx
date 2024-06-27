@@ -25,6 +25,7 @@ import { options } from './SendEmailDrawer.data';
 import {
   ExclimatoryCircleIcon,
   GmailIcon,
+  InfoBlueIcon,
   OutlookIcon,
   SMSIcon,
   TimeClockIcon,
@@ -57,6 +58,8 @@ const SendEmailDrawer = (props: any) => {
     setAutocompleteValues,
     autocompleteValues,
     isToValid,
+    isLoadingForward,
+    loadingOtherReply,
   } = useSendEmailDrawer({ setOpenDrawer, drawerType });
 
   const isCrmConnected = false;
@@ -84,12 +87,6 @@ const SendEmailDrawer = (props: any) => {
   };
   const isValidEmails = checkEmails(autocompleteValues);
 
-  const handelOnBlur = (event: any) => {
-    if (event?.length) {
-      setAutocompleteValues([...autocompleteValues, event]);
-    }
-  };
-
   return (
     <div>
       <CommonDrawer
@@ -112,7 +109,20 @@ const SendEmailDrawer = (props: any) => {
               return '';
           }
         })()}
-        isLoading={isSendLater ? loadingOtherScheduleSend : loadingOtherSend}
+        isLoading={(() => {
+          switch (drawerType) {
+            case CREATE_EMAIL_TYPES?.NEW_EMAIL:
+              return isSendLater ? loadingOtherScheduleSend : loadingOtherSend;
+            case CREATE_EMAIL_TYPES?.FORWARD:
+              return isLoadingForward;
+            case CREATE_EMAIL_TYPES?.REPLY:
+              return loadingOtherReply;
+            case CREATE_EMAIL_TYPES?.REPLY_ALL:
+              return loadingOtherReply;
+            default:
+              return false;
+          }
+        })()}
         okText={isSendLater ? 'Send Later' : 'Send'}
         isOk={true}
         footer={true}
@@ -173,7 +183,6 @@ const SendEmailDrawer = (props: any) => {
                           placeholder="Enter email"
                           size="small"
                           error={isToValid}
-                          onBlur={(e: any) => handelOnBlur(e?.target?.value)}
                           helperText={
                             <>
                               {isToValid ? (
@@ -189,8 +198,19 @@ const SendEmailDrawer = (props: any) => {
                                 <>
                                   {isValidEmails ? (
                                     params.inputProps?.value?.length > 1 ? (
-                                      <Typography fontSize={12}>
-                                        Press enter to add email
+                                      <Typography
+                                        fontSize={13}
+                                        color={
+                                          theme?.palette?.custom?.dodger_blue
+                                        }
+                                        sx={{
+                                          display: 'flex',
+                                          alignItems: 'center',
+                                          gap: '5px',
+                                        }}
+                                      >
+                                        <InfoBlueIcon size={'16'} /> Press enter
+                                        to add email
                                       </Typography>
                                     ) : null
                                   ) : (

@@ -9,6 +9,8 @@ import {
   useTheme,
 } from '@mui/material';
 import {
+  DocumentBlueIcon,
+  DocumentIcon,
   DotsBoldIcon,
   EmailReplyIcon,
   ForwardIcon,
@@ -19,7 +21,12 @@ import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './RightPane.styles';
 import SendEmailDrawer from '../../SendEmail';
-import { API_STATUS, CREATE_EMAIL_TYPES, EMAIL_TABS_TYPES } from '@/constants';
+import {
+  API_STATUS,
+  CREATE_EMAIL_TYPES,
+  EMAIL_TABS_TYPES,
+  FILE_TYPES,
+} from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import {
@@ -260,6 +267,7 @@ const RightPane = ({
                                   setIsUserDetailDrawerOpen(true);
                                   setActiveThread(obj);
                                 }}
+                                sx={{ cursor: 'pointer' }}
                               >
                                 {obj?.userImg || (
                                   <ProfileNameIcon
@@ -280,13 +288,17 @@ const RightPane = ({
                               <Box flex={1}>
                                 <Box sx={styles?.emailWrap}>
                                   <Box flex={1} sx={{ cursor: 'pointer' }}>
-                                    <Typography variant="h5">
+                                    <Typography
+                                      variant="h5"
+                                      sx={{ cursor: 'default' }}
+                                    >
                                       {obj?.from?.emailAddress?.name}
                                     </Typography>
                                     {obj?.toRecipients.map((item: any) => (
                                       <Typography
                                         variant="body2"
                                         key={uuidv4()}
+                                        sx={{ cursor: 'default' }}
                                       >
                                         To: {item?.emailAddress?.name}
                                       </Typography>
@@ -321,7 +333,7 @@ const RightPane = ({
                                           );
                                           dispatch(
                                             setCurrentEmailAssets({
-                                              messageId: obj?.messageId,
+                                              messageId: obj?.id,
                                               id: obj?.id,
                                               from:
                                                 obj?.from?.emailAddress
@@ -588,10 +600,9 @@ const RightPane = ({
 
 function ImageComponent({ base64, contentType, fileName }: any) {
   const src = `data:${contentType};base64,${base64}`;
-
   const theme = useTheme();
 
-  if (contentType?.startsWith('image/')) {
+  if (contentType?.startsWith(FILE_TYPES?.IMAGE)) {
     return (
       <Box
         sx={{
@@ -609,7 +620,7 @@ function ImageComponent({ base64, contentType, fileName }: any) {
         </a>
       </Box>
     );
-  } else if (contentType === 'application/pdf') {
+  } else if (contentType === FILE_TYPES?.PDF) {
     return (
       <a href={src} download={fileName}>
         <Box
@@ -626,9 +637,58 @@ function ImageComponent({ base64, contentType, fileName }: any) {
         </Box>
       </a>
     );
+  } else if (contentType === FILE_TYPES?.DOC) {
+    return (
+      <a href={src} download={fileName}>
+        <DocumentBoxWrapper>
+          <DocumentBlueIcon />
+          <Typography sx={{ fontSize: '14px' }}>{fileName}</Typography>
+        </DocumentBoxWrapper>
+      </a>
+    );
+  } else if (contentType?.startsWith(FILE_TYPES?.TEXT)) {
+    return (
+      <a href={src} download={fileName}>
+        <DocumentBoxWrapper>
+          <DocumentIcon />
+          <Typography sx={{ fontSize: '14px' }}>{fileName}</Typography>
+        </DocumentBoxWrapper>
+      </a>
+    );
   } else {
-    return null;
+    return (
+      <a href={src} download={fileName}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '10px',
+            backgroundColor: theme?.palette?.grey[400],
+            padding: '5px 10px',
+            textTransform: 'capitalize',
+          }}
+        >
+          <Typography sx={{ fontSize: '14px' }}>{fileName}</Typography>
+        </Box>
+      </a>
+    );
   }
 }
+
+export const DocumentBoxWrapper = ({ children }: any) => {
+  const theme = useTheme();
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '10px',
+        backgroundColor: theme?.palette?.grey[400],
+        padding: '5px 10px',
+        textTransform: 'capitalize',
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
 
 export default RightPane;

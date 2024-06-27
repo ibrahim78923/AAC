@@ -56,6 +56,12 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [currentEmailAssets]);
 
+  useEffect(() => {
+    if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
+      setValue('description', '');
+    }
+  }, [drawerType]);
+
   const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
     usePostSendEmailOutlookMutation();
   const [postScheduleOtherEmail, { isLoading: loadingOtherScheduleSend }] =
@@ -64,11 +70,20 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     usePostReplyEmailOutlookMutation();
   const [postDraftOtherEmail] = usePostDraftEmailOutlookMutation();
 
-  const [postforwardOutlookEmail] = useForwardEmailOutlookMutation();
+  const [postforwardOutlookEmail, { isLoading: isLoadingForward }] =
+    useForwardEmailOutlookMutation();
+
+  const isToExists = watchEmailsForm[2];
 
   const handleOnClose = () => {
     if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
-      setIsProcessDraft(true);
+      if (isToExists?.length > 0) {
+        setIsProcessDraft(true);
+      } else {
+        reset();
+        setOpenDrawer(false);
+        setAutocompleteValues([]);
+      }
     } else {
       reset();
       setOpenDrawer(false);
@@ -85,8 +100,6 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const [isSendLater, setIsSendLater] = useState(false);
 
   const [sendLaterDate, setSendLaterDate] = useState<any>();
-
-  const isToExists = watchEmailsForm[2];
 
   useEffect(() => {
     if (isToExists?.length === 0) {
@@ -119,7 +132,10 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const postEmail = isSendLater ? postScheduleOtherEmail : postSendOtherEmail;
 
   const onSubmit = async (values: any) => {
-    if (isToExists?.length === 0) {
+    if (
+      drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL &&
+      isToExists?.length === 0
+    ) {
       setisToValid(true);
     } else {
       setisToValid(false);
@@ -132,7 +148,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           formDataSend.append('subject', values?.subject);
           formDataSend.append(
             'content',
-            values?.description?.length ? values?.description : '',
+            values?.description?.length ? values?.description : ' ',
           );
 
           if (values?.cc && values?.cc?.trim() !== '') {
@@ -313,6 +329,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     setAutocompleteValues,
     autocompleteValues,
     isToValid,
+    isLoadingForward,
   };
 };
 export default useSendEmailDrawer;

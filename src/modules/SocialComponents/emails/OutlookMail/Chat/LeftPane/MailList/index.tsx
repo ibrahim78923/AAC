@@ -13,6 +13,7 @@ import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
 import {
   setActiveRecord,
+  setBreakScrollOperation,
   setMailCurrentPage,
   setMailList,
   setSelectedRecords,
@@ -37,6 +38,8 @@ const MailList = ({
   const breakScrollOperation: any = useAppSelector(
     (state: any) => state?.outlook?.breakScrollOperation,
   );
+
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const selectedRecords: any = useAppSelector(
     (state: any) => state?.outlook?.selectedRecords,
@@ -144,9 +147,15 @@ const MailList = ({
   }, [emailsByFolderIdData?.data]);
 
   const loadingCheck =
-    mailList?.length === 0
+    mailList?.length === 0 || isRefresh
       ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
       : false;
+
+  useEffect(() => {
+    if (isLoadingEmailsByFolderIdData === API_STATUS?.FULFILLED) {
+      setIsRefresh(false);
+    }
+  }, [isLoadingEmailsByFolderIdData]);
 
   return (
     <Box
@@ -181,6 +190,8 @@ const MailList = ({
             textDecoration: 'underline',
           }}
           onClick={() => {
+            dispatch(setBreakScrollOperation(false));
+            setIsRefresh(true);
             refetch();
           }}
         >

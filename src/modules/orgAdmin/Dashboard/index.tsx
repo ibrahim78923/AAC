@@ -14,6 +14,7 @@ import useUsersDetails from '../Users/UsersDetails/useUsersDetails';
 import { getProductIcon } from '../SubscriptionAndInvoices/Subscriptions';
 import { getSession } from '@/utils';
 import { useGetProductsQuery } from '@/services/common-APIs';
+import { useGetOrganizationProductsQuery } from '@/services/orgAdmin/organization';
 
 const Dashboard = () => {
   const { theme } = useDashboard();
@@ -26,6 +27,10 @@ const Dashboard = () => {
   const accountsData = JSON.parse(localStorage.getItem('accountsData') || '{}');
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
+
+  const { data: orgProductsData } = useGetOrganizationProductsQuery({
+    id: user?.organization?._id,
+  });
 
   return (
     <>
@@ -208,7 +213,7 @@ const Dashboard = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        filter: user?.products?.some(
+                        filter: orgProductsData?.data?.some(
                           (userProduct: any) => userProduct?._id === item?._id,
                         )
                           ? 'none'
