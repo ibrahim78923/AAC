@@ -40,7 +40,11 @@ export const importTabColumnsFunction: any = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedExportList?.length === exportList?.length}
+        checked={
+          selectedExportList?.length
+            ? selectedExportList?.length === exportList?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedExportList([...exportList])

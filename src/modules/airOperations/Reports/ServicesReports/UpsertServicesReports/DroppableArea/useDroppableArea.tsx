@@ -74,6 +74,7 @@ export const useDroppableArea = (props: any) => {
       } Added`,
     );
   };
+
   return {
     handleDelete,
     handleCopy,

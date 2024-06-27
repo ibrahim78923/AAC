@@ -45,6 +45,7 @@ export default function DroppableArea(props: any) {
     setForm,
     setDraggedItemData,
     handleCancel,
+    handleChooseTemplate,
   } = props;
 
   const { handleDelete, handleCopy, theme, setCalendarFilter } =
@@ -109,7 +110,7 @@ export default function DroppableArea(props: any) {
                       variant="contained"
                       onClick={
                         showTemplate
-                          ? () => setShowTemplate(false)
+                          ? () => handleChooseTemplate()
                           : () => setShowTemplate(true)
                       }
                     >

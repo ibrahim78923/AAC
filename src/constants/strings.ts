@@ -811,6 +811,7 @@ export const CHARTS: any = {
   BAR_CHART: 'Bar Chart',
   DONUT_CHART: 'Donut Chart',
   PIE_CHART: 'Pie Chart',
+  HORIZONTAL_BAR_CHART: 'Horizontal Bar Chart',
 };
 
 export const SELECTED_ARRAY_LENGTH = {
@@ -837,6 +838,11 @@ export const REPORT_TYPE = {
   ADD_TO_EXISTING: 'addToExisting',
   ADD_TO_NEW: 'addToNew',
   ALL: 'All',
+  INVENTORIES: 'Inventory',
+  TICKETS: 'Tickets',
+  SOFTWARE: 'Software',
+  CONTRACTS: 'Contract',
+  PURCHASE_ORDER: 'Purchase Order',
 };
 
 export const USER_MANAGEMENT_DRAWER_ACTION = {

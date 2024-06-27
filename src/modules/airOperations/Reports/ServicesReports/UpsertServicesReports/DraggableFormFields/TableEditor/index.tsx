@@ -21,6 +21,7 @@ export const TableEditor = (props: any) => {
     setAddProperties,
     columnsData,
     handleCancel,
+    disableTemplate,
   } = props;
   const { editValue, setEditValue, setEdit, edit, handleSave } =
     useTableEditor(props);
@@ -35,7 +36,7 @@ export const TableEditor = (props: any) => {
         name={'tableTitle'}
         size="small"
         label="Title"
-        disabled={edit}
+        disabled={edit || disableTemplate}
         InputProps={{
           onClick: () => {},
           endAdornment: (
@@ -93,6 +94,7 @@ export const TableEditor = (props: any) => {
                     : prev?.filter((i: any) => i !== item?.title),
                 );
               }}
+              disabled={disableTemplate}
               icon={<CheckboxIcon />}
               checkedIcon={<CheckboxCheckedIcon />}
               checked={columnsData?.includes?.(item?.title)}
