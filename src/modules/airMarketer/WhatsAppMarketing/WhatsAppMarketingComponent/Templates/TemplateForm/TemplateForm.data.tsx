@@ -1,23 +1,22 @@
 import {
+  RHFAutocomplete,
   RHFDropZone,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const createTemplateValidationSchema = Yup?.object()?.shape({
-  templateName: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
   category: Yup?.string()?.trim()?.required('Field is Required'),
   language: Yup?.string()?.trim()?.required('Field is Required'),
-  details: Yup?.string()?.trim()?.required('Field is Required'),
-  attachment: Yup?.string()?.trim()?.required('Field is Required'),
+  detail: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const createTemplateDefaultValues = {
-  templateName: '',
+  name: '',
   category: '',
   language: '',
-  details: '',
+  detail: '',
   attachment: '',
 };
 
@@ -25,7 +24,7 @@ export const createTemplateFiltersDataArray = () => {
   return [
     {
       componentProps: {
-        name: 'templateName',
+        name: 'name',
         label: 'Template Name',
         placeholder: 'Enter Name',
         fullWidth: true,
@@ -38,45 +37,45 @@ export const createTemplateFiltersDataArray = () => {
       componentProps: {
         name: 'category',
         label: 'Category',
-        select: true,
+        placeholder: 'Select Category',
         required: true,
+        options: [
+          'Account Update',
+          'Ticket Update',
+          'Alert Update',
+          'Appointment Update',
+          'Personal finance Update',
+          'Shopping Update',
+          'Payment finance Update',
+          'Other',
+        ],
       },
-      options: [
-        { value: 'Account update', label: 'Account update' },
-        { value: 'Ticket Update', label: 'Ticket Update' },
-        { value: 'Alert Update', label: 'Alert Update' },
-        { value: 'Appointment update', label: 'Appointment update' },
-        { value: 'Personal finance update', label: 'Personal finance update' },
-        { value: 'Shopping Update', label: 'Shopping Update' },
-        { value: 'Payment update', label: 'Payment update' },
-        { value: 'Others', label: 'Others' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
     {
       componentProps: {
         name: 'language',
         label: 'Language',
-        select: true,
+        placeholder: 'Select Language',
         required: true,
+        options: [
+          'English',
+          'Armenian',
+          'Dinka',
+          'Kirundi',
+          'Azerbaijani',
+          'Turkmen',
+          'Uzbek',
+          'Kurdish',
+        ],
       },
-      options: [
-        { value: 'English', label: 'English' },
-        { value: 'Armenian', label: 'Armenian' },
-        { value: 'Dinka', label: 'Dinka' },
-        { value: 'Kirundi', label: 'Kirundi' },
-        { value: 'Azerbaijani', label: 'Azerbaijani' },
-        { value: 'Turkmen', label: 'Turkmen' },
-        { value: 'Uzbek', label: 'Uzbek' },
-        { value: 'Kurdish', label: 'Kurdish' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
     {
       componentProps: {
-        name: 'details',
+        name: 'detail',
         label: 'Details',
         fullWidth: true,
         placeholder: 'Type',

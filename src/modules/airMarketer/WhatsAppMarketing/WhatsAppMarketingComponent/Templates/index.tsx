@@ -5,19 +5,20 @@ import Search from '@/components/Search';
 import { PlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  AIR_MARKETER_WHATSAPP_MARKETING_CREATE_TEMPLATE_PERMISSIONS,
+  AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS,
+} from '@/constants/permission-keys';
 import useTemplates from './useTemplates';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
-const Templates = ({
-  handelSwitch,
-  setIsCreateTemplate,
-  setTemplateType,
-}: any) => {
+const Templates = () => {
   const {
     getTempLoading,
     getTemplatesData,
     setPage,
     setLimit,
+    router,
     searchBy,
     setSearchBy,
     getTempFetching,
@@ -29,10 +30,8 @@ const Templates = ({
   } = useTemplates();
 
   const getColumns = columns({
-    handelSwitch,
-    setIsCreateTemplate,
-    setTemplateType,
     setDeleteTemplateModal,
+    router,
   });
 
   return (
@@ -63,18 +62,16 @@ const Templates = ({
 
           <PermissionsGuard
             permissions={[
-              AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS.CREATE_TEMPLATE,
+              AIR_MARKETER_WHATSAPP_MARKETING_CREATE_TEMPLATE_PERMISSIONS?.CREATE_TEMPLATE,
             ]}
           >
             <Button
               variant="contained"
               startIcon={<PlusIcon />}
               className="small"
-              onClick={() => {
-                handelSwitch(false);
-                setIsCreateTemplate(true);
-                setTemplateType('Create');
-              }}
+              onClick={() =>
+                router.push(AIR_MARKETER?.WHATSAPP_MARKETING_CREATE_TEMPLATE)
+              }
             >
               Create Template
             </Button>

@@ -1,16 +1,12 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { DeleteIcon, EditPenBorderedIcon } from '@/assets/icons';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, TASK_TYPE } from '@/constants';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 import { Box, Button } from '@mui/material';
 import dayjs from 'dayjs';
 
-export const columns = ({
-  handelSwitch,
-  setIsCreateTemplate,
-  setTemplateType,
-  setDeleteTemplateModal,
-}: any) => {
+export const columns = ({ setDeleteTemplateModal, router }: any) => {
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -56,13 +52,17 @@ export const columns = ({
                 height: '30px',
                 borderRadius: '50%',
               }}
-              onClick={() => {
-                handelSwitch(false);
-                setIsCreateTemplate(true);
-                setTemplateType('Edit');
-              }}
+              onClick={() =>
+                router?.push({
+                  pathname: AIR_MARKETER?.WHATSAPP_MARKETING_CREATE_TEMPLATE,
+                  query: {
+                    editData: JSON?.stringify(info?.row?.original),
+                    type: TASK_TYPE?.EDIT_TASK,
+                  },
+                })
+              }
             >
-              <EditPenBorderedIcon size={20} />{' '}
+              <EditPenBorderedIcon size={20} />
             </Button>
           </PermissionsGuard>
 

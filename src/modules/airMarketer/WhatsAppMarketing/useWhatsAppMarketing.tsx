@@ -4,7 +4,6 @@ import { useGetIsPhoneConnectedQuery } from '@/services/airMarketer/whatsapp-mar
 const useWhatsAppMarketing = () => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [isMainLayoutSwitch, setIsMainLayoutSwitch] = useState(true);
-  const [isCreateTemplate, setIsCreateTemplate] = useState(false);
   const [templateType, setTemplateType] = useState('');
 
   const handelSwitch = (children: any) => {
@@ -23,9 +22,7 @@ const useWhatsAppMarketing = () => {
 
   return {
     setIsMainLayoutSwitch,
-    setIsCreateTemplate,
     isMainLayoutSwitch,
-    isCreateTemplate,
     setTemplateType,
     setIsConnected,
     templateType,

@@ -139,6 +139,8 @@ export const AIR_MARKETER = {
   CALENDER: path(AIR_MARKETING_PAGE, '/social-marketing/calender'),
   SMS_MARKETING: path(AIR_MARKETING_PAGE, '/sms-marketing'),
   WHATSAPP_MARKETING: path(AIR_MARKETING_PAGE, '/whatsapp-marketing'),
+  WHATSAPP_MARKETING_CREATE_TEMPLATE:
+    '/air-marketer/whatsapp-marketing/create-template',
   LEAD_CAPTURE: path(AIR_MARKETING_PAGE, '/lead-capture'),
   LEAD_CAPTURE_CTA: path(AIR_MARKETING_PAGE, '/lead-capture/cta'),
   LEAD_CAPTURE_FORMS: path(AIR_MARKETING_PAGE, '/lead-capture/forms'),
