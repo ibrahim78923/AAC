@@ -12,12 +12,13 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
+import { getProgressColor, statusTag } from '@/utils';
 
 export const broadcastColumns: any = (columnsProps: any) => {
   const navigate = useRouter();
-  const { statusTag, theme, data, checkedRows, setCheckedRows } = columnsProps;
+  const { theme, data, checkedRows, setCheckedRows } = columnsProps;
 
-  const handleSelectCompaniesById = (checked: boolean, id: string): void => {
+  const handleSelectBroadcastById = (checked: boolean, id: string): void => {
     if (checked) {
       setCheckedRows([...checkedRows, id]);
     } else {
@@ -25,7 +26,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
     }
   };
 
-  const handleSelectAllCompanies = (checked: boolean): void => {
+  const handleSelectAllBroadcasts = (checked: boolean): void => {
     setCheckedRows(checked ? data?.map(({ _id }: any) => _id) : []);
   };
 
@@ -37,14 +38,14 @@ export const broadcastColumns: any = (columnsProps: any) => {
         <Checkbox
           checked={checkedRows?.includes(original?._id)}
           onChange={({ target }) => {
-            handleSelectCompaniesById(target.checked, original?._id);
+            handleSelectBroadcastById(target.checked, original?._id);
           }}
         />
       ),
       header: (
         <Checkbox
           onChange={({ target }) => {
-            handleSelectAllCompanies(target?.checked);
+            handleSelectAllBroadcasts(target?.checked);
           }}
           checked={data?.length && checkedRows?.length === data?.length}
         />
@@ -94,7 +95,15 @@ export const broadcastColumns: any = (columnsProps: any) => {
             <Typography variant="body3" textAlign={'center'}>
               {`${value} %`}
             </Typography>
-            <LinearProgress variant="determinate" value={value} />
+            <LinearProgress
+              variant="determinate"
+              value={value}
+              sx={{
+                '& .MuiLinearProgress-bar': {
+                  backgroundColor: getProgressColor(value, theme),
+                },
+              }}
+            />
           </Stack>
         );
       },
@@ -111,7 +120,15 @@ export const broadcastColumns: any = (columnsProps: any) => {
             <Typography variant="body3" textAlign={'center'}>
               {`${value} %`}
             </Typography>
-            <LinearProgress variant="determinate" value={value} />
+            <LinearProgress
+              variant="determinate"
+              value={value}
+              sx={{
+                '& .MuiLinearProgress-bar': {
+                  backgroundColor: getProgressColor(value, theme),
+                },
+              }}
+            />
           </Stack>
         );
       },
@@ -207,7 +224,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
             sx={{
               width: '10px',
               height: '10px',
-              backgroundColor: `${statusTag(info?.getValue())}`,
+              backgroundColor: `${statusTag(info?.getValue(), theme)}`,
               borderRadius: '50%',
             }}
           />

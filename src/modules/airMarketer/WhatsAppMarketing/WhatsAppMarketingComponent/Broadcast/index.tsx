@@ -1,52 +1,69 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import BroadcastHeader from './BroadcastHeader';
-import { AlertModals } from '@/components/AlertModals';
-import { AlertModalDeleteIcon } from '@/assets/icons';
 import useBroadcast from './useBroadcast';
-import { broadcastColumns, broadcastData } from './Broadcast.data';
+import { broadcastColumns } from './Broadcast.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const Broadcast = () => {
   const {
-    theme,
-    statusTag,
-    openModalDelete,
+    whatsAppBroadcastData,
     handleOpenDelete,
-    handleCloseDelete,
+    setDatePickerVal,
+    setFilterValues,
+    broadcastsData,
+    setCheckedRows,
+    datePickerVal,
+    resetFilters,
+    filterValues,
     setPageLimit,
+    startedDate,
+    checkedRows,
+    endedDate,
+    isLoading,
+    isSuccess,
     setPage,
-    handlePageChange,
+    theme,
   } = useBroadcast();
+  const columnsParams = {
+    setCheckedRows: setCheckedRows,
+    checkedRows: checkedRows,
+    data: broadcastsData,
+    theme,
+  };
   return (
     <>
-      <BroadcastHeader handleOpenDelete={handleOpenDelete} />
+      <BroadcastHeader
+        checkedRows={checkedRows}
+        setCheckedRows={setCheckedRows}
+        handleOpenDelete={handleOpenDelete}
+        filterValues={filterValues}
+        setFilterValues={setFilterValues}
+        datePickerVal={datePickerVal}
+        setDatePickerVal={setDatePickerVal}
+        startedDate={startedDate}
+        endedDate={endedDate}
+        resetFilters={resetFilters}
+      />
 
       <PermissionsGuard
         permissions={[AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.LIST_VIEW]}
       >
         <TanstackTable
-          columns={broadcastColumns(statusTag, theme)}
-          data={broadcastData}
-          isPagination
-          count={2}
-          totalRecords={12}
-          onPageChange={handlePageChange}
-          setPage={setPage}
+          columns={broadcastColumns(columnsParams)}
+          totalRecords={whatsAppBroadcastData?.data?.meta?.total}
+          currentPage={whatsAppBroadcastData?.data?.meta?.page}
+          pageLimit={whatsAppBroadcastData?.data?.meta?.limit}
+          count={whatsAppBroadcastData?.data?.meta?.pages}
+          onPageChange={(page: any) => setPage(page)}
           setPageLimit={setPageLimit}
+          isLoading={isLoading}
+          data={broadcastsData}
+          isSuccess={isSuccess}
+          setPage={setPage}
+          isPagination
         />
       </PermissionsGuard>
-
-      {openModalDelete && (
-        <AlertModals
-          message="Are you sure you want to delete this broadcast?"
-          type="Delete Broadcast"
-          typeImage={<AlertModalDeleteIcon />}
-          open={openModalDelete}
-          handleClose={handleCloseDelete}
-          handleSubmit={handleCloseDelete}
-        />
-      )}
     </>
   );
 };

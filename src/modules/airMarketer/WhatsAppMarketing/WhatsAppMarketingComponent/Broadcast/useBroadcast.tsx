@@ -1,61 +1,82 @@
 import { PAGINATION } from '@/config';
-import { useGetWhatsAppBroadcatsQuery } from '@/services/airMarketer/whatsapp-marketing';
+import { DATE_FORMAT } from '@/constants';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  useDeleteWhatsAppBroadcastMutation,
+  useGetWhatsAppBroadcatsQuery,
+} from '@/services/airMarketer/whatsapp-marketing';
 import { Theme, useTheme } from '@mui/material';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 const useBroadcast = () => {
   const theme = useTheme<Theme>();
   const navigate = useRouter();
+  const [checkedRows, setCheckedRows] = useState<string[]>([]);
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.OPTIONAL_PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
   const [actionsEl, setActionsEl] = useState(null);
-  const [statusEl, setStatusEl] = useState(null);
-  const statusMenuOpen = Boolean(statusEl);
+  const [filterValues, setFilterValues] = useState<any>({
+    search: '',
+    status: 'status',
+    toDate: '',
+    fromDate: '',
+  });
   const actionsMenuOpen = Boolean(actionsEl);
+
+  const startedDate = 0;
+  const endedDate = 1;
 
   const whatsappParams = {
     page: page,
     limit: pageLimit,
-    // commented for future use
-    // search: filterValues?.search,
-    // status: filterValues?.status ? filterValues?.status : undefined,
-    // toDate: filterValues?.toDate
-    //   ? dayjs(filterValues?.toDate)?.format(DATE_FORMAT?.API)
-    //   : undefined,
-    // fromDate: filterValues?.fromDate
-    //   ? dayjs(filterValues?.fromDate)?.format(DATE_FORMAT?.API)
-    //   : undefined,
+    search: filterValues?.search,
+    status:
+      filterValues?.status !== 'status' ? filterValues?.status : undefined,
+    toDate: filterValues?.toDate
+      ? dayjs(filterValues?.toDate)?.format(DATE_FORMAT?.API)
+      : undefined,
+    fromDate: filterValues?.fromDate
+      ? dayjs(filterValues?.fromDate)?.format(DATE_FORMAT?.API)
+      : undefined,
   };
 
   const {
     data: whatsAppBroadcastData,
-    // isLoading,
-    // isSuccess,
+    isLoading,
+    isSuccess,
   } = useGetWhatsAppBroadcatsQuery(whatsappParams);
+  const broadcastsData = whatsAppBroadcastData?.data?.whatsappbroadcasts;
 
-  // Hadle PAGE CHANGE
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    // setFilterParams((prev) => {
-    //   return {
-    //     ...prev,
-    //     page: newPage,
-    //   };
-    // });
-  };
+  const [deleteSmsBroadcast, { isLoading: deleteBroadcastLoading }] =
+    useDeleteWhatsAppBroadcastMutation();
 
-  // Status Dropdown
-  const handleStatusMenuClick = (event: any) => {
-    setStatusEl(event?.currentTarget);
-  };
-  const handleStatusMenuClose = () => {
-    setStatusEl(null);
+  const handleSMSBroadcastDelete = async (id: any) => {
+    const values = {
+      ids: id,
+    };
+    try {
+      await deleteSmsBroadcast({ body: values })?.unwrap();
+      setOpenModalDelete(false);
+      setCheckedRows([]);
+      enqueueSnackbar(`Broadcast Deleted Successfully`, {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   // Actions Dropdown
-
   const handleActionsMenuClick = (event: any) => {
     setActionsEl(event?.currentTarget);
   };
@@ -64,48 +85,55 @@ const useBroadcast = () => {
   };
 
   // Delete Modal
-
-  const handleOpenDelete = () => {
-    setOpenModalDelete(true);
-  };
   const handleCloseDelete = () => {
+    setSelectedValue(null);
     setOpenModalDelete(false);
   };
 
-  const statusTag = (val: any) => {
-    switch (val) {
-      case 'Completed':
-        return theme?.palette?.primary?.main;
-      case 'Scheduled':
-        return theme?.palette?.warning?.main;
-      case 'Draft':
-        return theme?.palette?.grey[900];
-      case 'Processing':
-        return theme?.palette?.success?.main;
-    }
+  const handleOpenDelete = () => {
+    setSelectedValue(null);
+    setOpenModalDelete(true);
+  };
+
+  const resetFilters = () => {
+    setFilterValues({
+      search: '',
+      status: 'status',
+      toDate: '',
+      fromDate: '',
+    });
   };
 
   return {
-    theme,
-    navigate,
-    statusTag,
-    statusEl,
-    statusMenuOpen,
-    handleStatusMenuClick,
-    handleStatusMenuClose,
-    actionsEl,
-    actionsMenuOpen,
+    handleSMSBroadcastDelete,
     handleActionsMenuClick,
     handleActionsMenuClose,
-    openModalDelete,
-    handleOpenDelete,
-    handleCloseDelete,
-    setPageLimit,
-    setPage,
-    handlePageChange,
-    page,
-    pageLimit,
+    deleteBroadcastLoading,
     whatsAppBroadcastData,
+    handleCloseDelete,
+    setDatePickerVal,
+    handleOpenDelete,
+    actionsMenuOpen,
+    openModalDelete,
+    setFilterValues,
+    broadcastsData,
+    setCheckedRows,
+    datePickerVal,
+    filterValues,
+    resetFilters,
+    selectedValue,
+    setPageLimit,
+    checkedRows,
+    startedDate,
+    actionsEl,
+    endedDate,
+    pageLimit,
+    isLoading,
+    isSuccess,
+    navigate,
+    setPage,
+    theme,
+    page,
   };
 };
 

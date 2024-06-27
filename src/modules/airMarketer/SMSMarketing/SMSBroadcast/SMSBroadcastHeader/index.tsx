@@ -120,7 +120,7 @@ const SMSBroadcastHeader = (props: any) => {
           <FormControl size="small">
             <Select
               sx={{ height: '36px' }}
-              defaultValue={'status'}
+              value={filterValues?.status}
               onChange={(e: any) => {
                 setFilterValues({ ...filterValues, status: e?.target?.value });
               }}

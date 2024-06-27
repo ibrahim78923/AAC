@@ -28,6 +28,15 @@ export const WhatsAppMarketingAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['WHATSAPP_BROADCAST'],
     }),
+
+    deleteWhatsAppBroadcast: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${WHATSAPP_MARKETING?.DELETE_SMS_MARKETING_BROADCAST}`,
+        method: 'DELETE',
+        body: body,
+      }),
+      invalidatesTags: ['BROADCAST'],
+    }),
   }),
 });
 
@@ -35,4 +44,5 @@ export const {
   useGetWhatsAppBroadcatsQuery,
   useConnectPhoneNumberMutation,
   useGetIsPhoneConnectedQuery,
+  useDeleteWhatsAppBroadcastMutation,
 } = WhatsAppMarketingAPI;
