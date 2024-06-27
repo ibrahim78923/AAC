@@ -2,8 +2,6 @@ import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { AntSwitch } from '@/components/AntSwitch';
 import {
-  GOOGLE_ACCOUNTS,
-  MICROSOFT_ACCOUNTS,
   calendarAccounts,
   calendarServices,
   calenderType,
@@ -78,17 +76,6 @@ export const CalendarIntegration = () => {
                       <LoadingButton
                         sx={{ mb: 1 }}
                         variant="contained"
-                        disabled={
-                          (calendarListData?.find(
-                            (item: any) => item?.platform === GOOGLE_ACCOUNTS,
-                          ) &&
-                            service?.name === calenderType?.google) ||
-                          (calendarListData?.find(
-                            (item: any) =>
-                              item?.platform === MICROSOFT_ACCOUNTS,
-                          ) &&
-                            service?.name === calenderType?.office)
-                        }
                         onClick={
                           service?.name === calenderType?.google
                             ? handleGoogleClick

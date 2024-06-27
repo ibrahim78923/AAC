@@ -1,0 +1,98 @@
+import { RHFTimePicker } from '@/components/ReactHookForm';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { Delete } from '@mui/icons-material';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
+import { useFieldArray } from 'react-hook-form';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Permissions } from '@/constants/permissions';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { CopyIconButton } from '@/assets/icons';
+import { timeSlotsWeeklyDropdown } from '../TimeSlotWeekly.data';
+
+export const TimeSlot = ({
+  parentIndex,
+  watch,
+  setValue,
+  daySlotsState,
+  setDaySlotsState,
+  control,
+  handleCheckboxChange,
+}: any) => {
+  const { remove, append } = useFieldArray({
+    name: `daysTimeRanges.${parentIndex}.timeRanges`,
+    control,
+  });
+  const watchTimeRange = watch(`daysTimeRanges.${parentIndex}.timeRanges`);
+  const handleAppend = () => {
+    append({ startHour: new Date(), endHour: new Date() });
+    handleCheckboxChange(`daysTimeRanges.${parentIndex}`);
+  };
+
+  return (
+    <Box display="flex" flexDirection="row-reverse" alignItems="end">
+      <IconButton onClick={handleAppend}>
+        <AddCircleIcon />
+      </IconButton>
+      <Grid container spacing={1} pt={1} alignItems={'center'}>
+        {!watchTimeRange?.length ? (
+          <Grid item lg={10} xs={9} textAlign={'center'} pb={0.5}>
+            <Typography>Unavailable</Typography>
+          </Grid>
+        ) : (
+          <>
+            {watchTimeRange?.map((field: any, index: number) => {
+              const startHour = watch(
+                `daysTimeRanges.${parentIndex}.timeRanges.${index}.startHour`,
+              );
+              const endHour = watch(
+                `daysTimeRanges.${parentIndex}.timeRanges.${index}.endHour`,
+              );
+
+              return (
+                <Grid
+                  item
+                  xs={12}
+                  lg={11.5}
+                  key={field?.id}
+                  display={'flex'}
+                  gap={1}
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                >
+                  <RHFTimePicker
+                    name={`daysTimeRanges.${parentIndex}.timeRanges.${index}.startHour`}
+                    size="small"
+                  />
+                  <RHFTimePicker
+                    name={`daysTimeRanges.${parentIndex}.timeRanges.${index}.endHour`}
+                    size="small"
+                  />
+                  <IconButton onClick={() => remove(index)}>
+                    <Delete />
+                  </IconButton>
+                  <PermissionsGuard
+                    permissions={Permissions?.SOCIAL_COMPONENTS_EMAIL}
+                  >
+                    <SingleDropdownButton
+                      dropdownOptions={timeSlotsWeeklyDropdown({
+                        startHour,
+                        endHour,
+                        setValue,
+                        daySlotsState,
+                        setDaySlotsState,
+                        index,
+                      })}
+                      dropdownName={<CopyIconButton />}
+                      hasEndIcon={false}
+                      btnVariant="text"
+                    />
+                  </PermissionsGuard>
+                </Grid>
+              );
+            })}
+          </>
+        )}
+      </Grid>
+    </Box>
+  );
+};

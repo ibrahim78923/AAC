@@ -2,10 +2,10 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { defaultValues } from './TimeSlotsPreferences.data';
 import { usePostTimeSlotsMutation } from '@/services/commonFeatures/meetings';
 import dayjs from 'dayjs';
 import { TIME_FORMAT } from '@/constants';
+import { timeSlotsDefaultValues } from './TimeSlotsPreferences.data';
 
 export const useTimeSlotPreferences = () => {
   const theme = useTheme();
@@ -16,7 +16,7 @@ export const useTimeSlotPreferences = () => {
   const [submittedOverrideData, setSubmittedOverrideData] = useState<any>([]);
 
   const methods = useForm({
-    defaultValues: defaultValues,
+    defaultValues: timeSlotsDefaultValues(),
   });
 
   const { handleSubmit, watch, setValue } = methods;

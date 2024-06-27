@@ -40,6 +40,7 @@ export const TimeSlotPreferences = () => {
               disabled={disabled}
               theme={theme}
               watch={watch}
+              control={methods?.control}
               setValue={setValue}
               timeSlotsState={timeSlotsState}
               setTimeSlotsState={setTimeSlotsState}

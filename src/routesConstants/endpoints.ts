@@ -423,6 +423,7 @@ export const END_POINTS = {
   GET_FEEDBACK_LIST: '/feedback-survey/list-feedback-survey',
   DELETE_FEEDBACK_SURVEY: '/feedback-survey/delete-feedback-survey',
   GET_ZOOM_AUTH: '/auth/zoom/authorize',
+  GET_TIME_SLOTS: '/meeting-time-slots/get-time-slots',
   PUT_DYNAMIC_FIELDS: `/customized-columns/create-or-update-custom-fields`,
   GET_DYNAMIC_FIELDS: `/customized-columns/get-custom-field`,
   DELETE_DYNAMIC_FIELDS: `/customized-columns/delete-field`,
