@@ -11,12 +11,10 @@ import {
 } from '@mui/material';
 import {
   FormProvider,
-  RHFAutocomplete,
   RHFCheckbox,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import useUpload from './useUpload';
-import { fileTypeAcceptOptions } from './Upload.data';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 export default function Upload({ open, setOpen, form, setForm, editId }: any) {
@@ -65,41 +63,14 @@ export default function Upload({ open, setOpen, form, setForm, editId }: any) {
               <RHFTextField
                 name={'placeholder'}
                 label={'Placeholder Text'}
-                placeholder={'SVG, PNG, JPG or GIF (max 2 MB)'}
+                placeholder={'PNG, JPG, PDF, DOC, and CSV (max 2.44 MB)'}
                 size={'small'}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <RHFAutocomplete
-                name={'fileTypeAccept'}
-                label={'Allowed Formats'}
-                placeholder={'Upload'}
-                size={'small'}
-                options={fileTypeAcceptOptions}
-                getOptionLabel={(option: any) => option?.label}
-                required
-                multiple
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <RHFTextField
-                name={'size'}
-                label={'Size (MB)'}
-                placeholder={'2'}
-                size={'small'}
-                type={'number'}
-                required
               />
             </Grid>
           </Grid>
         </DialogContent>
 
         <DialogActions sx={{ px: 2.4, pb: 1.6 }}>
-          <Button type={'submit'} variant={'contained'}>
-            Submit
-          </Button>
           <Button
             type={'button'}
             variant={'outlined'}
@@ -107,6 +78,9 @@ export default function Upload({ open, setOpen, form, setForm, editId }: any) {
             onClick={() => setOpen(false)}
           >
             Cancel
+          </Button>
+          <Button type={'submit'} variant={'contained'}>
+            Save
           </Button>
         </DialogActions>
       </FormProvider>

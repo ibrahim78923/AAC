@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { generateUniqueId } from '@/utils/dynamic-forms';
+import { FIELDS_CONSTANTS, generateUniqueId } from '@/utils/dynamic-forms';
 import { validationSchema, defaultValues } from './Text.data';
 import { useEffect, useState } from 'react';
 
@@ -62,7 +62,7 @@ export default function useText({ setOpen, form, setForm, editId }: any) {
             placeholder: data?.placeholder,
             required: data?.required,
           },
-          component: 'RHFTextField',
+          component: FIELDS_CONSTANTS?.RHFTEXTFIELD,
         },
       ]);
     }

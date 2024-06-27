@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { generateUniqueId } from '@/utils/dynamic-forms';
+import { FIELDS_CONSTANTS, generateUniqueId } from '@/utils/dynamic-forms';
 import { validationSchema, defaultValues } from './ParagraphText.data';
 import { useEffect, useState } from 'react';
 
@@ -71,7 +71,7 @@ export default function useParagraphText({
             multiline: true,
             rows: 4,
           },
-          component: 'RHFTextField',
+          component: FIELDS_CONSTANTS?.RHFTEXTFIELD,
         },
       ]);
     }

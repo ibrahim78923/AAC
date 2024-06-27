@@ -1,16 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   componentToMatchMap,
   fieldsList,
   modalInitialState,
 } from './VendorFields.data';
 import { useRouter } from 'next/router';
+import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
 
 export default function useVendorFields() {
   const router: any = useRouter();
+
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
   const [editId, setEditId] = useState<any>(null);
+
+  const [getDynamicFieldsTrigger, { isLoading, isFetching, isError }] =
+    useLazyGetDynamicFieldsQuery();
+
+  const getBackendData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_SERVICES,
+      moduleType: DYNAMIC_FIELDS?.MT_VENDOR,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getBackendData();
+  }, []);
 
   const getModalState = (item: any) => {
     const newModal: any = {
@@ -64,5 +91,9 @@ export default function useVendorFields() {
     setModal,
     handleEdit,
     editId,
+    isLoading,
+    isFetching,
+    isError,
+    getBackendData,
   };
 }

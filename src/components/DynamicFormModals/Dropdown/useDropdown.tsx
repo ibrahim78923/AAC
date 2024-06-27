@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { generateUniqueId } from '@/utils/dynamic-forms';
+import { FIELDS_CONSTANTS, generateUniqueId } from '@/utils/dynamic-forms';
 import { validationSchema, defaultValues } from './dropdown.data';
 import { useEffect, useState } from 'react';
 
@@ -84,7 +84,7 @@ export default function useDropdown({ setOpen, form, setForm, editId }: any) {
             required: data?.required,
             options: options,
           },
-          component: 'RHFAutocomplete',
+          component: FIELDS_CONSTANTS?.RHFAUTOCOMPLETE,
         },
       ]);
     }
