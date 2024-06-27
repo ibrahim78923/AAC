@@ -41,7 +41,7 @@ export default function useUpsertMarketingReports() {
   const [editorState, setEditorState] = useState(EditorState?.createEmpty());
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
-  const [metricType, setMetricType] = useState('Inventory');
+  const [metricType, setMetricType] = useState('Leads CTAs');
   const [chartMetricType, setChartMetricType] = useState('Add Metric');
   const [AddProperties, setAddProperties] = useState();
   const [columnsData, setColumnsData] = useState([]);

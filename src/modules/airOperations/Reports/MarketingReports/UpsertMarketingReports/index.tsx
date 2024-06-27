@@ -5,8 +5,8 @@ import DroppableArea from './DroppableArea';
 import { FormProvider } from 'react-hook-form';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_OPERATIONS, REPORTS_HEADER_TITLE } from '@/constants';
-import useUpsertServicesReports from '../../ServicesReports/UpsertServicesReports/useUpsertServicesReports';
 import { fieldsList } from './UpsertMArketingReports.data';
+import useUpsertMarketingReports from './useUpsertMarketingReports';
 
 export const UpsertMarketingReports = () => {
   const {
@@ -52,7 +52,7 @@ export const UpsertMarketingReports = () => {
     reportId,
     setDraggedItemData,
     draggedItemData,
-  } = useUpsertServicesReports();
+  } = useUpsertMarketingReports();
   const { text, table, chart, counter } = modal || {};
   return (
     <FormProvider {...methods}>
