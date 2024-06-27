@@ -20,7 +20,7 @@ import Image from 'next/image';
 import { AddPenIcon } from '@/assets/icons';
 import { useEffect } from 'react';
 import { generateImage } from '@/utils/avatarUtils';
-import { associationCompanies } from '@/constants';
+import { DRAWER_TITLE, associationCompanies } from '@/constants';
 
 const ContactsEditorDrawer = (props: any) => {
   const {
@@ -41,6 +41,7 @@ const ContactsEditorDrawer = (props: any) => {
     imagePreview,
     setImagePreview,
     watchContactStatus,
+    isLoadingPostContact,
   } = useContactsEditorDrawer({
     openDrawer,
     contactRecord,
@@ -64,6 +65,7 @@ const ContactsEditorDrawer = (props: any) => {
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={isLoadingPostContact}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
@@ -72,20 +74,20 @@ const ContactsEditorDrawer = (props: any) => {
           >
             <Grid container spacing={4}>
               <Grid item xs={12} sx={{ paddingTop: '20px !important' }}>
-                {watchContactStatus[0] ===
-                  associationCompanies?.newContacts && (
-                  <RHFRadioGroup
-                    options={[
-                      { value: 'New Contact', label: 'New Contact' },
-                      {
-                        value: 'Existing Contacts',
-                        label: 'Existing Contacts',
-                      },
-                    ]}
-                    name={'contactStatus'}
-                    row={true}
-                  />
-                )}
+                {watchContactStatus[0] === associationCompanies?.newContacts &&
+                  openDrawer != DRAWER_TITLE?.VIEW && (
+                    <RHFRadioGroup
+                      options={[
+                        { value: 'New Contact', label: 'New Contact' },
+                        {
+                          value: 'Existing Contacts',
+                          label: 'Existing Contacts',
+                        },
+                      ]}
+                      name={'contactStatus'}
+                      row={true}
+                    />
+                  )}
               </Grid>
 
               {watchContactStatus[0] === associationCompanies?.newContacts && (

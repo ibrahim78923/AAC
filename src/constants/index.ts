@@ -437,6 +437,7 @@ export const ASSOCIATIONS_API_PARAMS_FOR = {
   QUOTES: 'quotes',
   ASSETS: 'assets',
   PURCHASE_ORDER: 'purchase_orders',
+  ATTACHMENTS: 'attachments',
 };
 
 export const MAIL_TYPES = {

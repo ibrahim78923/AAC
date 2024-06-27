@@ -32,6 +32,7 @@ const Contacts = ({ companyId }: any) => {
     deleteContactHandler,
     existingContactData,
     newArray,
+    isLoadingRemoveContact,
   } = useContacts(companyId);
 
   return (
@@ -45,7 +46,7 @@ const Contacts = ({ companyId }: any) => {
       <Grid container spacing={2}>
         <Grid item md={4} xs={12} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            {data?.data?.meta?.total}
+            {data?.length ?? 0}
           </Typography>
 
           <Typography variant="subtitle2">Contacts</Typography>
@@ -87,7 +88,6 @@ const Contacts = ({ companyId }: any) => {
             isLoading={isLoading}
             setPage={setPage}
             setPageLimit={setPageLimit}
-            isPagination
           />
         </Grid>
       </Grid>
@@ -107,6 +107,7 @@ const Contacts = ({ companyId }: any) => {
         open={isOpenAlert}
         handleClose={handleCloseAlert}
         handleSubmitBtn={deleteContactHandler}
+        Loading={isLoadingRemoveContact}
       />
     </Box>
   );

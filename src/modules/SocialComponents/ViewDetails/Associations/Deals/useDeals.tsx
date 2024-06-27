@@ -1,12 +1,14 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
-import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/companies';
+import {
+  useGetCompanyAssociationsQuery,
+  usePostAssociationCompaniesMutation,
+} from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
-import { useDeleteAssociationMutation } from '@/services/commonFeatures/contacts/associations';
 import { useGetDealsListQuery } from '@/services/airSales/deals';
-import { associationCompanies } from '@/constants';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 
 const useDeals = (companyId: any) => {
   const theme = useTheme();
@@ -17,21 +19,17 @@ const useDeals = (companyId: any) => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  // const searchObj = {
-  //    search: searchName,
-  //   id: companyId.companyId,
-  // };
-
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
 
   const paramObj = {
     search: searchName,
-    association_type: associationCompanies?.associationTypeDeals,
+    recordId: companyId?.companyId,
+    recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
+    associationType: ASSOCIATIONS_API_PARAMS_FOR?.DEALS,
   };
   const { data: getCompanyDeals, isLoading } = useGetCompanyAssociationsQuery({
-    id: companyId?.companyId,
     page,
     pageLimit,
     params: paramObj,
@@ -57,25 +55,25 @@ const useDeals = (companyId: any) => {
       return !subArray?.some((subItem: any) => subItem?._id === mainItem?._id);
     });
   }
-  const [DeleteAssociationDeals] = useDeleteAssociationMutation();
+
+  const [PostAssociationCompanies, { isLoading: isLoadingDelete }] =
+    usePostAssociationCompaniesMutation();
 
   const handleDeleteDeals = async () => {
+    const payload = {
+      recordId: companyId?.companyId,
+      recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
+      operation: ASSOCIATIONS_API_PARAMS_FOR?.REMOVE,
+      dealIds: [dealRecord],
+    };
+
     try {
-      await DeleteAssociationDeals({
-        body: {
-          dealId: dealRecord,
-          companyId: companyId?.companyId,
-        },
-      }).unwrap();
-      enqueueSnackbar('Deals deleted successfully', {
-        variant: 'success',
-      });
-      setDealRecord('');
-      handleCloseAlert();
+      await PostAssociationCompanies({ body: payload }).unwrap();
+      enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
+      setIsOpenAlert(false);
     } catch (error) {
-      enqueueSnackbar(error?.data?.message ?? 'Error occurred', {
-        variant: 'error',
-      });
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
   };
 
@@ -96,6 +94,7 @@ const useDeals = (companyId: any) => {
     setPage,
     setPageLimit,
     existingDealsData,
+    isLoadingDelete,
   };
 };
 

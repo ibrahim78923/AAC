@@ -45,7 +45,7 @@ const Attachments = (companyId: any) => {
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
+            {getCompanyAttachment?.length ?? 0}
           </Typography>
 
           <Typography variant="subtitle2">Attachments</Typography>
@@ -83,11 +83,10 @@ const Attachments = (companyId: any) => {
               setRowData,
               handleOpenAlert,
             })}
-            data={getCompanyAttachment?.data?.attachments}
+            data={getCompanyAttachment ?? []}
             isLoading={isLoading}
             setPage={setPage}
             setPageLimit={setPageLimit}
-            isPagination
           />
         </Grid>
       </Grid>

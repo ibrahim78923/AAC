@@ -22,6 +22,7 @@ import { styles } from './RightPane.styles';
 import SendEmailDrawer from '../../SendEmail';
 import {
   API_STATUS,
+  FILE_TYPES,
   CREATE_EMAIL_TYPES,
   DATE_TIME_FORMAT,
   EMAIL_TABS_TYPES,
@@ -46,6 +47,8 @@ import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
 import { enqueueSnackbar } from 'notistack';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link';
+import Image from 'next/image';
+import { PdfImage } from '@/assets/images';
 
 const RightPane = () => {
   const theme = useTheme();
@@ -459,6 +462,36 @@ const RightPane = () => {
                             {decodeHtmlEntities(obj?.snippet ?? '---')}
                           </Typography>
                           <Box
+                            sx={{
+                              display: 'flex',
+                              gap: '10px',
+                              flexWrap: 'wrap',
+                              mb: 2,
+                            }}
+                          >
+                            {obj?.attachments?.map((item: any) => {
+                              return (
+                                <>
+                                  <Box
+                                    sx={{
+                                      marginTop: '10px',
+                                      borderRadius: '8px',
+                                      overflow: 'hidden',
+                                      display: 'flex',
+                                    }}
+                                  >
+                                    <ImageComponent
+                                      base64={item?.data}
+                                      contentType={item?.mimeType}
+                                      fileName={item?.filename}
+                                    />
+                                  </Box>
+                                </>
+                              );
+                            })}
+                          </Box>
+
+                          <Box
                             mt={0.5}
                             sx={{ fontSize: '14px', fontWeight: '400' }}
                             dangerouslySetInnerHTML={{ __html: obj?.body }}
@@ -580,5 +613,49 @@ const RightPane = () => {
     </Box>
   );
 };
+
+function ImageComponent({ base64, contentType, fileName }: any) {
+  const src = `data:${contentType};base64,${base64}`;
+  const theme = useTheme();
+
+  if (contentType?.startsWith(FILE_TYPES?.IMAGE)) {
+    return (
+      <Box
+        sx={{
+          background: theme?.palette?.grey[300],
+        }}
+      >
+        <a href={src} target="_blank" rel="noopener noreferrer">
+          <Image
+            src={src}
+            alt="attachment"
+            width={130}
+            height={130}
+            style={{ width: 'auto', maxWidth: '130px', height: 'auto' }}
+          />
+        </a>
+      </Box>
+    );
+  } else if (contentType === FILE_TYPES?.PDF) {
+    return (
+      <a href={src} download={fileName}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '10px',
+            backgroundColor: theme.palette.grey[400],
+            padding: '5px 10px',
+            textTransform: 'capitalize',
+          }}
+        >
+          <Image src={PdfImage} alt="pdf" width={20} height={20} />
+          <Typography sx={{ fontSize: '14px' }}>{fileName}</Typography>
+        </Box>
+      </a>
+    );
+  } else {
+    return null;
+  }
+}
 
 export default RightPane;

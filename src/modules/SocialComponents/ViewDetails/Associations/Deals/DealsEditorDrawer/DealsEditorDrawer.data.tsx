@@ -4,7 +4,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { ROLES } from '@/constants/strings';
-import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 import { useGetSalesProductQuery } from '@/services/airSales/deals/settings/sales-product';
 import * as Yup from 'yup';
@@ -50,9 +49,9 @@ export const productsDefaultValues = {
 export const productsDataArray = (
   openDrawer: any,
   DealsLifecycleStageData: any,
+  pipelineData: any,
 ) => {
   const userRole = ROLES?.ORG_EMPLOYEE;
-  const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
   const query = '&';
   const { data: addLineItem } = useGetSalesProductQuery({

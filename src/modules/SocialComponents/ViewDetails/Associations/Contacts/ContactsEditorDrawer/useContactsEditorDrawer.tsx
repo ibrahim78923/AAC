@@ -33,7 +33,8 @@ const useContactsEditorDrawer = ({
 }: any) => {
   const [imagePreview, setImagePreview] = useState<any>();
   const [imageToUpload, setImageToUpload] = useState<any>();
-  const [postContacts] = usePostContactsMutation();
+  const [postContacts, { isLoading: isLoadingPostContact }] =
+    usePostContactsMutation();
   const [updateContacts] = useUpdateContactMutation();
   const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
 
@@ -68,6 +69,7 @@ const useContactsEditorDrawer = ({
           dateOfJoining,
         } = contactRecord;
         return {
+          contactStatus: 'New Contact',
           firstName,
           lastName,
           email,
@@ -213,6 +215,7 @@ const useContactsEditorDrawer = ({
     imagePreview,
     setImagePreview,
     watchContactStatus,
+    isLoadingPostContact,
   };
 };
 

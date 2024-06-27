@@ -13,7 +13,7 @@ import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 
-const Tickets = () => {
+const Tickets = ({ companyId }: any) => {
   const {
     theme,
     isOpenAlert,
@@ -27,7 +27,11 @@ const Tickets = () => {
     isLoading,
     setPage,
     setPageLimit,
-  } = useTickets();
+    deleteContactHandler,
+    isLoadingDelete,
+    contactRecord,
+    setContactRecord,
+  } = useTickets(companyId);
 
   return (
     <Box
@@ -40,7 +44,7 @@ const Tickets = () => {
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            {data?.data?.meta?.total}
+            {data?.length ?? 0}
           </Typography>
 
           <Typography variant="subtitle2">Tickets</Typography>
@@ -72,12 +76,15 @@ const Tickets = () => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={data?.data ?? []}
+            columns={columns({
+              setOpenDrawer,
+              setIsOpenAlert,
+              setContactRecord,
+            })}
+            data={data ?? []}
             isLoading={isLoading}
             setPage={setPage}
             setPageLimit={setPageLimit}
-            isPagination
           />
         </Grid>
       </Grid>
@@ -85,6 +92,8 @@ const Tickets = () => {
         <TicketsEditorDrawer
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
+          companyId={companyId}
+          contactRecord={contactRecord}
         />
       )}
       <AlertModals
@@ -93,6 +102,8 @@ const Tickets = () => {
         open={isOpenAlert}
         handleClose={handleCloseAlert}
         handleSubmit={() => {}}
+        handleSubmitBtn={deleteContactHandler}
+        loading={isLoadingDelete}
       />
     </Box>
   );
