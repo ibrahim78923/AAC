@@ -23,6 +23,8 @@ export const styles = {
     bgcolor: theme?.palette?.custom?.light_grayish_blue,
     height: '150px',
     borderRadius: '12px',
+    display: 'grid',
+    placeItems: 'center',
   }),
   previewLabel: (theme: any) => ({
     fontSize: '14px',

@@ -30,6 +30,7 @@ export const salesProductDefaultValues: any = {
 
 export const dataArray = () => {
   const productCategories = useLazyGetProductCategoriesQuery();
+
   return [
     {
       componentProps: {

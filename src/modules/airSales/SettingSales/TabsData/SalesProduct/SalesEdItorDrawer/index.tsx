@@ -4,7 +4,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { dataArray } from './SalesEditorDrawer.data';
 import useSalesEditorDrawer from './useSalesEditorDrawer';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+// import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const SalesEditorDrawer = ({
   isDraweropen,
@@ -20,8 +20,7 @@ const SalesEditorDrawer = ({
     salesProduct,
     productLoading,
     updateProductLoading,
-    productsDataLoading,
-    productCategories,
+    // productsDataLoading,
   } = useSalesEditorDrawer({
     selectedCheckboxes,
     isEditMode,
@@ -40,33 +39,33 @@ const SalesEditorDrawer = ({
         submitHandler={handleSubmit(onSubmit)}
         isLoading={isEditMode ? updateProductLoading : productLoading}
       >
-        {productsDataLoading ? (
+        {/* {productsDataLoading ? (
           <SkeletonTable />
-        ) : (
-          <Box sx={{ paddingTop: '1rem' }}>
-            <FormProvider methods={salesProduct}>
-              <Grid container spacing={1}>
-                {dataArray(productCategories)?.map((item: any) => (
-                  <Grid
-                    item
-                    xs={12}
-                    md={item?.md}
-                    key={item?.componentProps?.name}
-                  >
-                    <item.component {...item.componentProps} size={'small'}>
-                      {item?.componentProps?.select &&
-                        item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))}
-                    </item.component>
-                  </Grid>
-                ))}
-              </Grid>
-            </FormProvider>
-          </Box>
-        )}
+        ) : ( */}
+        <Box sx={{ paddingTop: '1rem' }}>
+          <FormProvider methods={salesProduct}>
+            <Grid container spacing={1}>
+              {dataArray()?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
+        {/* )} */}
       </CommonDrawer>
     </>
   );

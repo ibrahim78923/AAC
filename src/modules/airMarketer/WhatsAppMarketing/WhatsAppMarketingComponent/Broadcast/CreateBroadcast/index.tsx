@@ -29,7 +29,7 @@ const CreateBroadcast = () => {
   const { watch } = methods;
   const previewName = watch('name');
   const previewDetail = watch('details');
-
+  const previewAttachment = watch('attachment');
   const formFields = createBroadcastFields(handleOpenContactsDrawer);
 
   return (
@@ -93,7 +93,9 @@ const CreateBroadcast = () => {
                 </Stack>
               </Grid>
               <Grid item xs={12}>
-                <Box sx={styles?.previewAttachment}></Box>
+                <Box sx={styles?.previewAttachment}>
+                  {previewAttachment?.name}
+                </Box>
               </Grid>
               <Grid item xs={12}>
                 <Box sx={styles?.previewLabel}>Details</Box>

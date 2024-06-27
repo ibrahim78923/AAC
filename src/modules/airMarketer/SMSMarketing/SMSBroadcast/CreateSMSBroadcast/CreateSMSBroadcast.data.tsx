@@ -33,7 +33,7 @@ export const createBroadcast = () => {
     {
       componentProps: {
         name: 'name',
-        label: 'Name',
+        label: 'Broadcast Name',
         required: true,
         placeholder: 'Enter name',
       },

@@ -54,8 +54,9 @@ const useSalesProduct = () => {
   const handleDelete = async () => {
     try {
       const idsString = selectedCheckboxes?.join(',');
+
       const response: any = await deleteSalesProduct({
-        ids: idsString,
+        body: { ids: idsString },
       })?.unwrap();
       enqueueSnackbar(
         response?.message ?? 'Sales Product Deleted Successfully!',
@@ -66,7 +67,7 @@ const useSalesProduct = () => {
       setSelectedCheckboxes([]);
       setDeleteModalOpen(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
+      enqueueSnackbar(error?.message ?? 'Something Went Wrong!', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }

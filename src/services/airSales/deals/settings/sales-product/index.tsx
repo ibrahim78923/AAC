@@ -34,13 +34,10 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['SETTINGS_SALE_PRODUCT'],
     }),
     deleteSalesProduct: builder?.mutation({
-      query: (ids) => ({
+      query: ({ body }: any) => ({
         url: `${END_POINTS?.SALE_PRODUCTS}`,
         method: 'DELETE',
-        body: ids,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        body: body,
       }),
       invalidatesTags: ['SETTINGS_SALE_PRODUCT'],
     }),

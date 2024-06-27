@@ -92,7 +92,6 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.organizationcompanyaccounts;
       },
-
     }),
 
     getCompanyAccountsRoles: builder.query({
