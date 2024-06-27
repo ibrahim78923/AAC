@@ -18,13 +18,16 @@ import { WarningIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import {
   useDeleteEmailOutlookMutation,
+  usePatchOutlookEmailMessageMutation,
   usePatchOutlookMoveToFolderMutation,
 } from '@/services/commonFeatures/email/outlook';
 import { useDispatch } from 'react-redux';
 import {
   setActiveRecord,
   setCurrentEmailAssets,
+  setFilterMailList,
   setSelectedRecords,
+  setUpdateMailList,
 } from '@/redux/slices/email/outlook/slice';
 
 const ActionBtn = ({
@@ -72,20 +75,54 @@ const ActionBtn = ({
   const handelDelete = async () => {
     const ids =
       selectedRecords && selectedRecords?.map((message: any) => message?.id);
-    try {
-      await deleteEmailOutlook({
-        body: {
-          messageIds: ids,
-        },
-      })?.unwrap();
-      enqueueSnackbar('Mail successfully move to trash ', {
-        variant: 'success',
-      });
-      dispatch(setSelectedRecords([]));
-      dispatch(setActiveRecord({}));
-      setIsDeleteModalOpen(false);
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+
+    if (tabName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH?.toLowerCase()) {
+      try {
+        await deleteEmailOutlook({
+          body: {
+            messageIds: ids,
+          },
+        })?.unwrap();
+        enqueueSnackbar('Mail successfully deleted', {
+          variant: 'success',
+        });
+        dispatch(setSelectedRecords([]));
+        dispatch(setActiveRecord({}));
+        setIsDeleteModalOpen(false);
+        dispatch(setFilterMailList(ids ? ids : []));
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
+    } else {
+      const deletedItems = sortedData.find(
+        (folder: any) =>
+          folder &&
+          folder?.displayName?.toLowerCase() ===
+            OUTLOOK_EMAIL_TABS_TYPES?.TRASH?.toLowerCase(),
+      );
+
+      try {
+        await outlookMoveToFolderMutation({
+          body: {
+            mailIds:
+              selectedRecords &&
+              selectedRecords?.map((message: any) => message?.id),
+            folderId: deletedItems?.id,
+          },
+        })?.unwrap();
+        enqueueSnackbar('Mail successfully move to Deleted ', {
+          variant: 'success',
+        });
+        dispatch(setSelectedRecords([]));
+        dispatch(setActiveRecord({}));
+        setIsDeleteModalOpen(false);
+        handleCloseSubMenu();
+        handleClose();
+        setMailFolderActiveId('');
+        dispatch(setFilterMailList(ids ? ids : []));
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
     }
   };
 
@@ -140,6 +177,29 @@ const ActionBtn = ({
     }
   };
 
+  const [patchOutlookEmailMessage, { isLoading: readUnreadLoading }] =
+    usePatchOutlookEmailMessageMutation();
+
+  const handelReadUnread = async () => {
+    try {
+      const response = await patchOutlookEmailMessage({
+        body: {
+          messageId: selectedRecords[0]?.id,
+          ...(selectedRecords[0]?.isRead && { unread: true }),
+          ...(!selectedRecords[0]?.isRead && { read: true }),
+        },
+      })?.unwrap();
+      dispatch(setUpdateMailList(response?.data));
+      dispatch(setSelectedRecords([]));
+      dispatch(setActiveRecord({}));
+      handleClose();
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong while updating message!', {
+        variant: 'error',
+      });
+    }
+  };
+
   return (
     <>
       <Button
@@ -169,7 +229,16 @@ const ActionBtn = ({
       >
         {tabName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH?.toLowerCase() ? null : (
           <>
-            <MenuItem> Mark as Read </MenuItem>
+            <MenuItem
+              onClick={handelReadUnread}
+              sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}
+            >
+              {' '}
+              {selectedRecords[0]?.isRead
+                ? 'Mark as Unread'
+                : 'Mark as Read'}{' '}
+              {readUnreadLoading && <CircularProgress size={16} />}
+            </MenuItem>
             <MenuItem
               onClick={() => {
                 setIsLinkToDealModal(true), handleClose();
@@ -282,7 +351,11 @@ const ActionBtn = ({
         open={isDeleteModalOpen}
         disabled={false}
         handleClose={() => setIsDeleteModalOpen(false)}
-        loading={loadingRestore}
+        loading={
+          tabName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH?.toLowerCase()
+            ? loadingRestore
+            : loadingMove
+        }
         handleSubmitBtn={handelDelete}
       />
     </>

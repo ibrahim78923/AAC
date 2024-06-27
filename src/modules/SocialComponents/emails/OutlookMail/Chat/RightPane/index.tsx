@@ -108,6 +108,10 @@ const RightPane = ({
     }
   };
 
+  const searchTerm: any = useAppSelector(
+    (state: any) => state?.outlook?.searchTerm,
+  );
+
   useEffect(() => {
     dispatch(setSearchTerm(searchValue));
   }, [searchValue]);
@@ -142,7 +146,7 @@ const RightPane = ({
     <Box>
       <Box sx={styles?.rightSide}>
         <Search
-          searchBy={searchValue}
+          searchBy={searchTerm}
           setSearchBy={setSearchValue}
           size="medium"
           placeholder="Search Here"
@@ -303,6 +307,24 @@ const RightPane = ({
                                         To: {item?.emailAddress?.name}
                                       </Typography>
                                     ))}
+                                    {obj?.ccRecipients?.map((item: any) => (
+                                      <Typography
+                                        variant="body2"
+                                        key={uuidv4()}
+                                        sx={{ cursor: 'default' }}
+                                      >
+                                        Cc: {item?.emailAddress?.name}
+                                      </Typography>
+                                    ))}
+                                    {obj?.bccRecipients?.map((item: any) => (
+                                      <Typography
+                                        variant="body2"
+                                        key={uuidv4()}
+                                        sx={{ cursor: 'default' }}
+                                      >
+                                        Bcc: {item?.emailAddress?.name}
+                                      </Typography>
+                                    ))}
                                   </Box>
                                   <Box
                                     display={'flex'}
@@ -353,6 +375,14 @@ const RightPane = ({
                                                 to: `<>`,
                                                 subject: obj?.subject,
                                                 body: '',
+                                                cc: obj?.ccRecipients?.map(
+                                                  (item: any) =>
+                                                    item?.emailAddress?.address,
+                                                ),
+                                                bcc: obj?.bccRecipients?.map(
+                                                  (item: any) =>
+                                                    item?.emailAddress?.address,
+                                                ),
                                               },
                                             }),
                                           );

@@ -66,6 +66,7 @@ const SendEmailDrawer = (props: any) => {
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
   );
+
   const removeRePrefix = (title: any) => {
     return title?.startsWith('Re: ') ? title?.replace(/^Re: /, '') : title;
   };
@@ -126,7 +127,10 @@ const SendEmailDrawer = (props: any) => {
         okText={isSendLater ? 'Send Later' : 'Send'}
         isOk={true}
         footer={true}
-        footerActionText={isSendLater ? 'Send Now' : 'Send Later'}
+        // footerActionText={isSendLater ? 'Send Now' : 'Send Later'}
+        {...(drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && {
+          footerActionText: isSendLater ? 'Send Now' : 'Send Later',
+        })}
         footerActionTextIcon={<TimeClockIcon />}
         submitHandler={handleSubmit(onSubmit)}
         onFooterActionSubmit={handelSendLaterAction}

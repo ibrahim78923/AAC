@@ -130,10 +130,11 @@ export const outlookApi = baseAPI.injectEndpoints({
     }),
 
     patchOutlookEmailMessage: builder.mutation({
-      query: ({ messageId }: any) => {
+      query: ({ body }: any) => {
         return {
-          url: `${SOCIAL_FEATURES_OUTLOOK?.UPDATE_EMAIL}?messageId=${messageId}`,
+          url: `${SOCIAL_FEATURES_OUTLOOK?.UPDATE_EMAIL}`,
           method: 'PATCH',
+          body: body,
         };
       },
       invalidatesTags: TAG_UPDATE_EMAIL,

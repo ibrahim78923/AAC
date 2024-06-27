@@ -19,6 +19,7 @@ import {
   setMailCurrentPage,
   setMailList,
   setMailTabType,
+  setSearchTerm,
   setSelectedRecords,
 } from '@/redux/slices/email/outlook/slice';
 import { useAppSelector } from '@/redux/store';
@@ -43,6 +44,7 @@ const LeftPane = ({
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const [isRefresh, setIsRefresh] = useState(false);
   const [isReloginModalOpen, setIsReloginModalOpen] = useState(false);
 
   const mailTabType: any = useAppSelector(
@@ -151,6 +153,8 @@ const LeftPane = ({
       dispatch(setBreakScrollOperation(false));
       setTrackRenders(1);
       refetch();
+
+      dispatch(setSearchTerm(''));
     }
   };
 
@@ -165,6 +169,16 @@ const LeftPane = ({
       refetch();
     }
   }, [searchTerm]);
+
+  const handelRefresh = () => {
+    dispatch(setMailList('clear'));
+    dispatch(setMailCurrentPage(1));
+    dispatch(setBreakScrollOperation(false));
+    setIsRefresh(true);
+    refetch();
+
+    dispatch(setSearchTerm(''));
+  };
 
   return (
     <Box sx={styles?.card(theme)}>
@@ -186,6 +200,7 @@ const LeftPane = ({
             setMailType={setMailType}
             setIsOpenSendEmailDrawer={setIsOpenSendEmailDrawer}
             isOpenSendEmailDrawer={isOpenSendEmailDrawer}
+            handelRefresh={handelRefresh}
           />
         </Box>
       </Box>
@@ -251,6 +266,9 @@ const LeftPane = ({
         mailTabType={mailTabType}
         trackRenders={trackRenders}
         setTrackRenders={setTrackRenders}
+        setIsRefresh={setIsRefresh}
+        isRefresh={isRefresh}
+        handelRefresh={handelRefresh}
       />
 
       <CommonDrawer

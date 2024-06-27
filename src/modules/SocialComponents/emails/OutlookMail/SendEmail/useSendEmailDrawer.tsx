@@ -28,9 +28,9 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
   );
-
+  const [isSendLater, setIsSendLater] = useState(false);
   const methodsDealsTasks: any = useForm({
-    resolver: yupResolver(emailValidationsSchema(drawerType)),
+    resolver: yupResolver(emailValidationsSchema(drawerType, isSendLater)),
     defaultValues: emailDefaultValues,
   });
 
@@ -76,7 +76,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const isToExists = watchEmailsForm[2];
 
   const handleOnClose = () => {
-    if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
+    setisToValid(false);
+    if (
+      drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL ||
+      drawerType === CREATE_EMAIL_TYPES?.REPLY
+    ) {
       if (isToExists?.length > 0) {
         setIsProcessDraft(true);
       } else {
@@ -97,17 +101,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [isProcessDraft]);
 
-  const [isSendLater, setIsSendLater] = useState(false);
-
   const [sendLaterDate, setSendLaterDate] = useState<any>();
 
+  const [toStateDep, setToStateDep] = useState(1);
+
   useEffect(() => {
-    if (isToExists?.length === 0) {
+    if (isToExists?.length === 0 || isToExists?.length === undefined) {
       null;
     } else {
       setisToValid(false);
     }
-  }, [isToExists]);
+  }, [isToExists, toStateDep]);
 
   const dateObject = watchEmailsForm[3] && new Date(watchEmailsForm[3]);
   const isoString = dateObject?.toISOString();
@@ -130,11 +134,12 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   }, [isoString]);
 
   const postEmail = isSendLater ? postScheduleOtherEmail : postSendOtherEmail;
-
   const onSubmit = async (values: any) => {
+    setToStateDep(toStateDep + 1);
     if (
-      drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL &&
-      isToExists?.length === 0
+      (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL &&
+        isToExists?.length === 0) ||
+      isToExists?.length === undefined
     ) {
       setisToValid(true);
     } else {
@@ -330,6 +335,9 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     autocompleteValues,
     isToValid,
     isLoadingForward,
+
+    setToStateDep,
+    toStateDep,
   };
 };
 export default useSendEmailDrawer;
