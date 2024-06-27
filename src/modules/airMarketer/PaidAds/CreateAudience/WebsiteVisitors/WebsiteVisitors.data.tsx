@@ -1,4 +1,7 @@
+import { CustomTooltip } from '@/components/CustomTooltip';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import { Box } from '@mui/material';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
@@ -45,7 +48,14 @@ export const websiteVIisitorsData = [
   {
     componentProps: {
       name: 'lastVisited',
-      label: 'Visited in the last',
+      label: (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          Visited in the last{' '}
+          <CustomTooltip title="add canned response">
+            <InfoRoundedIcon />
+          </CustomTooltip>
+        </Box>
+      ),
       fullWidth: true,
       disabled: true,
     },

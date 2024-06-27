@@ -41,7 +41,7 @@ const Manage = () => {
                   sm={6}
                   lg={3}
                   key={uuidv4()}
-                  justifyContent={{ xs: 'flex-start', lg: 'space-around' }}
+                  justifyContent={'space-between'}
                 >
                   <Box>
                     <Typography
@@ -51,15 +51,14 @@ const Manage = () => {
                     >
                       {item?.title}
                     </Typography>
-                    <Typography variant="h3" textAlign="center">
-                      {item?.count}
-                    </Typography>
+                    <Typography variant="h3">{item?.count}</Typography>
                   </Box>
                   {item?.divider && (
                     <Divider
                       sx={{
                         borderColor: theme?.palette?.grey[700],
                         display: { xs: 'none', lg: 'block' },
+                        mr: 3,
                       }}
                       orientation="vertical"
                     />
@@ -79,7 +78,7 @@ const Manage = () => {
                   xs={12}
                   lg={6}
                   key={uuidv4()}
-                  justifyContent={{ xs: 'flex-start', lg: 'space-around' }}
+                  justifyContent={'space-between'}
                 >
                   <Box>
                     <Typography
@@ -89,15 +88,14 @@ const Manage = () => {
                     >
                       {item?.title}
                     </Typography>
-                    <Typography variant="h3" textAlign="center">
-                      {item?.count}
-                    </Typography>
+                    <Typography variant="h3">{item?.count}</Typography>
                   </Box>
                   {item?.divider && (
                     <Divider
                       sx={{
                         borderColor: theme?.palette?.grey[700],
                         display: { xs: 'none', lg: 'block' },
+                        mr: 3,
                       }}
                       orientation="vertical"
                     />
