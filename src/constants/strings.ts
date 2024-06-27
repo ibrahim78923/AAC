@@ -843,6 +843,9 @@ export const REPORT_TYPE = {
   SOFTWARE: 'Software',
   CONTRACTS: 'Contract',
   PURCHASE_ORDER: 'Purchase Order',
+  DEALS: 'Deals',
+  PIPELINE_FORECAST: 'Pipeline Forecast',
+  FORECAST_CATEGORY: 'Forecast Category',
 };
 
 export const USER_MANAGEMENT_DRAWER_ACTION = {

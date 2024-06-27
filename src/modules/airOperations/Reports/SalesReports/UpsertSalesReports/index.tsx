@@ -52,6 +52,8 @@ export const UpsertSalesReports = () => {
     reportId,
     setDraggedItemData,
     draggedItemData,
+    disableTemplate,
+    handleChooseTemplate,
   } = useUpsertSalesReports();
   const { text, table, chart, counter } = modal || {};
   return (
@@ -96,7 +98,7 @@ export const UpsertSalesReports = () => {
                   variant="contained"
                   onClick={
                     showTemplate
-                      ? () => setShowTemplate(false)
+                      ? () => handleChooseTemplate()
                       : () => setShowTemplate(true)
                   }
                 >
@@ -128,6 +130,7 @@ export const UpsertSalesReports = () => {
               setFieldData={setFieldData}
               setDraggedItemData={setDraggedItemData}
               handleCancel={handleCancel}
+              handleChooseTemplate={handleChooseTemplate}
             />
           </Grid>
           <Grid
@@ -175,6 +178,7 @@ export const UpsertSalesReports = () => {
               handleCancel={handleCancel}
               reportId={reportId}
               setDraggedItemData={setDraggedItemData}
+              disableTemplate={disableTemplate}
             />
           </Grid>
         </Grid>

@@ -1,47 +1,36 @@
 import { useTheme } from '@mui/material';
 
-export const useBarChart = () => {
+export const useHorizontalBarChart = () => {
   const theme = useTheme();
-
   const chartOptions = {
     chart: {
       type: 'bar',
-      height: 350,
+      height: 450,
       toolbar: {
         show: false,
       },
     },
     plotOptions: {
       bar: {
-        horizontal: false,
-        columnWidth: '50%',
+        horizontal: true,
+        barHeight: '50%',
       },
     },
     dataLabels: {
       enabled: false,
     },
     xaxis: {
-      categories: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ],
+      categories: ['John Doe', 'John Smith', 'Mahesh Reddy'],
       labels: {
         style: {
           fontSize: '12px',
         },
+        formatter: function (value: any) {
+          return `£${value.toLocaleString()}`;
+        },
       },
       title: {
-        text: 'Months',
+        text: 'Revenue',
         style: {
           fontSize: '14px',
           fontWeight: 600,
@@ -50,19 +39,19 @@ export const useBarChart = () => {
     },
     yaxis: {
       labels: {
+        maxWidth: 200,
         style: {
           fontSize: '12px',
         },
       },
       title: {
-        text: 'Number of Deals',
+        text: 'Owner',
         style: {
           fontSize: '14px',
           fontWeight: 600,
         },
       },
     },
-
     legend: {
       offsetY: 5,
     },

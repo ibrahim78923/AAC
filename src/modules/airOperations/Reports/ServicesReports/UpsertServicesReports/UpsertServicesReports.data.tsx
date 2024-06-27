@@ -1,3 +1,5 @@
+import { REPORT_TYPE } from '@/constants/strings';
+
 export const fieldsList = [
   {
     id: '0',
@@ -339,37 +341,37 @@ export const modalInitialState: any = {
 
 export const servicesMetrics = (setMetricType: any) => [
   {
-    title: 'Inventory',
+    title: REPORT_TYPE?.INVENTORIES,
     handleClick: (closeMenu: any) => {
-      setMetricType('Inventory');
+      setMetricType(REPORT_TYPE?.INVENTORIES);
       closeMenu?.();
     },
   },
   {
-    title: 'Software',
+    title: REPORT_TYPE?.SOFTWARE,
     handleClick: (closeMenu: any) => {
-      setMetricType('Software');
+      setMetricType(REPORT_TYPE?.SOFTWARE);
       closeMenu?.();
     },
   },
   {
-    title: 'Contract',
+    title: REPORT_TYPE?.CONTRACTS,
     handleClick: (closeMenu: any) => {
-      setMetricType('Contract');
+      setMetricType(REPORT_TYPE?.CONTRACTS);
       closeMenu?.();
     },
   },
   {
-    title: 'Tickets',
+    title: REPORT_TYPE?.TICKETS,
     handleClick: (closeMenu: any) => {
-      setMetricType('Tickets');
+      setMetricType(REPORT_TYPE?.TICKETS);
       closeMenu?.();
     },
   },
   {
-    title: 'Purchase Order',
+    title: REPORT_TYPE?.PURCHASE_ORDER,
     handleClick: (closeMenu: any) => {
-      setMetricType('Purchase Order');
+      setMetricType(REPORT_TYPE?.PURCHASE_ORDER);
       closeMenu?.();
     },
   },

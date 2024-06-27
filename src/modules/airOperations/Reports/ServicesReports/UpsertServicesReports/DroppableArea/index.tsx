@@ -302,7 +302,7 @@ export default function DroppableArea(props: any) {
                                       overflow={'scroll'}
                                       width={'80%'}
                                     >
-                                      {item?.title} {item?.templateType}
+                                      {item?.title}
                                     </Typography>
                                     <Box
                                       display={'flex'}

@@ -15,7 +15,7 @@ export const useSaveReportDrawer = (props: any) => {
   });
 
   const saveReportsMethods = useForm({
-    resolver: yupResolver(reportsValidationSchema(reportValidation)),
+    resolver: yupResolver<any>(reportsValidationSchema(reportValidation)),
     defaultValues: reportsDefaultValues,
   });
 
@@ -23,13 +23,15 @@ export const useSaveReportDrawer = (props: any) => {
 
   const selectSharedWith = watch('sharedWith');
   const selectAddToDashboard = watch('addToDashboard');
+  const selectAddToNewDashboard = watch('addToNewConditionTwo');
 
   useEffect(() => {
     setReportValidation({
       selectSharedWith,
       selectAddToDashboard,
+      selectAddToNewDashboard,
     });
-  }, [selectSharedWith, selectAddToDashboard]);
+  }, [selectSharedWith, selectAddToDashboard, selectAddToNewDashboard]);
 
   const onSubmit: any = () => {
     try {
@@ -57,5 +59,6 @@ export const useSaveReportDrawer = (props: any) => {
     onSubmit,
     handleCancel,
     form,
+    selectAddToNewDashboard,
   };
 };
