@@ -13,7 +13,6 @@ import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
 import { Box, IconButton } from '@mui/material';
 import { ArticleModalIcon, CannedResponseModalIcon } from '@/assets/icons';
 import { CustomTooltip } from '@/components/CustomTooltip';
-import { FILE_MAX_SIZE } from '@/config';
 
 export const upsertConversationFormDefaultValues = (data?: any) => {
   return {
@@ -166,11 +165,6 @@ export const upsertConversationFormFieldsDynamic = (
       name: 'attachments',
       label: 'Attach file',
       fullWidth: true,
-      fileType: 'PNG or JPG  (max 2.44 MB)',
-      maxSize: FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE,
-      accept: {
-        'image/*': ['.png', '.jpg'],
-      },
     },
     component: RHFDropZone,
   },

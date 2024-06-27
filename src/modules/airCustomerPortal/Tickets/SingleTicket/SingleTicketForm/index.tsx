@@ -25,15 +25,7 @@ export const SingleTicketForm = (props: any) => {
           required
         />
         <br />
-        <RHFDropZone
-          name="attachFile"
-          fullWidth
-          fileType={'PNG or JPG  (max 2.44 MB)'}
-          maxSize={1024 * 1024 * 2.44}
-          accept={{
-            'image/*': ['.png', '.jpg'],
-          }}
-        />
+        <RHFDropZone name="attachFile" fullWidth />
         <br />
         <Box textAlign={'end'}>
           <LoadingButton

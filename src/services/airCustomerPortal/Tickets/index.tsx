@@ -21,10 +21,10 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     editTicketStatus: builder?.mutation({
-      query: ({ id, params }: any) => ({
-        url: `${END_POINTS?.TICKET_STATUS}/${id}`,
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.TICKET_STATUS}`,
         method: 'PUT',
-        params,
+        params: apiDataParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),

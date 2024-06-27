@@ -11,12 +11,17 @@ export const useSingleTicketHeader = (props: any) => {
   const [editTicketStatusTrigger, { isLoading }] =
     useEditTicketStatusMutation();
 
-  const handleStatsChange = async () => {
+  const updateTicketStatus = async () => {
+    const updateTicketStatusTicketsParameter = {
+      queryParams: {
+        status: TICKET_STATUS?.CLOSED,
+        id: id,
+      },
+    };
     try {
-      await editTicketStatusTrigger({
-        id,
-        params: { status: TICKET_STATUS?.CLOSED },
-      });
+      await editTicketStatusTrigger(
+        updateTicketStatusTicketsParameter,
+      )?.unwrap();
       successSnackbar('Your ticket has been closed');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -29,7 +34,7 @@ export const useSingleTicketHeader = (props: any) => {
   };
   return {
     isLoading,
-    handleStatsChange,
+    updateTicketStatus,
     handleBack,
   };
 };

@@ -11,15 +11,16 @@ import { useEffect } from 'react';
 import { AIR_SERVICES } from '@/constants';
 import { CONTRACT_TYPES } from '@/constants/strings';
 import {
-  useLazyGetVendorDropdownQuery,
-  useLazyGetDropdownAssetsQuery,
   usePostContractMutation,
-  useLazyGetSoftwareDropdownQuery,
-  useLazyGetAgentsDropdownQuery,
   useGetSingleContractByIdQuery,
   usePutContractMutation,
+  useLazyGetUsersDropdownListForContractApprovalsQuery,
+  useLazyGetVendorDropdownListForContractApprovalsQuery,
+  useLazyGetAssetsDropdownListForContractApprovalsQuery,
+  useLazyGetSoftwareDropdownListForContractApprovalsQuery,
 } from '@/services/airServices/assets/contracts';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import useAuth from '@/hooks/useAuth';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
@@ -28,6 +29,9 @@ export const useUpsertContract = () => {
   const [postContractTrigger, postContractStatus] = usePostContractMutation();
   const [putContractTrigger, putContractStatus] = usePutContractMutation();
 
+  const auth: any = useAuth();
+
+  const { _id: productId } = auth?.product;
   const upsertContractFormMethods = useForm<any>({
     resolver: yupResolver<any>(upsertContractFormSchemaFunction),
     defaultValues: upsertContractFormDefaultValuesFunction(),
@@ -52,6 +56,7 @@ export const useUpsertContract = () => {
     name: 'notifyExpiry',
     defaultValue: false,
   });
+
   const watchForContractType = useWatch({
     control,
     name: 'type',
@@ -142,10 +147,13 @@ export const useUpsertContract = () => {
     }
   };
 
-  const apiQueryVendor = useLazyGetVendorDropdownQuery();
-  const apiQueryAsset = useLazyGetDropdownAssetsQuery();
-  const apiQueryApprover = useLazyGetAgentsDropdownQuery();
-  const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
+  const apiQueryVendor =
+    useLazyGetVendorDropdownListForContractApprovalsQuery();
+  const apiQueryAsset = useLazyGetAssetsDropdownListForContractApprovalsQuery();
+  const apiQueryApprover =
+    useLazyGetUsersDropdownListForContractApprovalsQuery();
+  const apiQuerySoftware =
+    useLazyGetSoftwareDropdownListForContractApprovalsQuery();
 
   const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
     watchForNotifyExpiry,
@@ -155,7 +163,9 @@ export const useUpsertContract = () => {
     apiQueryApprover,
     apiQuerySoftware,
     contractId,
+    productId,
   );
+
   return {
     upsertContractFormMethods,
     handleSubmit,

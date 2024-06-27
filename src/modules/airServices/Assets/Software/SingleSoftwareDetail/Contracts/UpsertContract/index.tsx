@@ -66,15 +66,7 @@ export const UpsertContract = () => {
           </Grid>
           <Grid item xs={12} md={0.5}></Grid>
           <Grid item xs={12} md={4} mt={{ xs: 1, md: 0 }} mb={1}>
-            <RHFDropZone
-              name="attachFile"
-              fullWidth={true}
-              fileType={'PNG or JPG  (max 2.44 MB)'}
-              maxSize={1024 * 1024 * 2.44}
-              accept={{
-                'image/*': ['.png', '.jpg'],
-              }}
-            />
+            <RHFDropZone name="attachFile" fullWidth={true} />
           </Grid>
         </Grid>
         <br />
