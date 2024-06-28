@@ -423,6 +423,10 @@ export const END_POINTS = {
   GET_FEEDBACK_LIST: '/feedback-survey/list-feedback-survey',
   DELETE_FEEDBACK_SURVEY: '/feedback-survey/delete-feedback-survey',
   GET_ZOOM_AUTH: '/auth/zoom/authorize',
+  GET_TIME_SLOTS: '/meeting-time-slots/get-time-slots',
+  PUT_DYNAMIC_FIELDS: `/customized-columns/create-or-update-custom-fields`,
+  GET_DYNAMIC_FIELDS: `/customized-columns/get-custom-field`,
+  DELETE_DYNAMIC_FIELDS: `/customized-columns/delete-field`,
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -547,6 +551,13 @@ export const SUPER_ADMIN_DASHBOARD = {
   ENQUIRIES: '/super-admin/user-enquiry-wise-stats',
 };
 
+export const WHATSAPP_MARKETING = {
+  CONNECT_PHONE_NUMBER: '/whatsapp-marketing/connect-number',
+  GET_IS_PHONE_CONNECTED: '/whatsapp-marketing/connected-number',
+  GET_WHATSAPP_MARKETING_BROADCAST: '/whatsapp-marketing/broadcast',
+  DELETE_SMS_MARKETING_BROADCAST:
+    '/whatsapp-marketing/broadcast/{whatsappBroadcastId}',
+};
 export const SALES_DASHBOARD = {
   DEALS_CREATED_VS_CLOSE_DATES:
     '/sales-dashboard/deals-created-vs-closed-deals',

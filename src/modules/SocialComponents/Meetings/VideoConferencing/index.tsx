@@ -1,8 +1,5 @@
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import {
-  GOOGLE_MEET,
-  MS_TEAMS,
-  ZOOM,
   meetingsAccounts,
   videoConferencingData,
 } from './VideoConferencing.data';
@@ -92,26 +89,12 @@ export const VideoConferencing = () => {
                     <Box display="flex" flexDirection="column" m={2}>
                       <LoadingButton
                         variant="contained"
-                        disabled={
-                          (meetingsListData?.find(
-                            (ele: any) => ele?.platform === GOOGLE_MEET,
-                          ) &&
-                            item?.name === meetings?.GOOGLE_MEET) ||
-                          (meetingsListData?.find(
-                            (ele: any) => ele?.platform === MS_TEAMS,
-                          ) &&
-                            item?.name === meetings?.MS_TEAM) ||
-                          (meetingsListData?.find(
-                            (ele: any) => ele?.platform === ZOOM,
-                          ) &&
-                            item?.name === meetings?.ZOOM)
-                        }
                         onClick={
                           item?.name === meetings?.MS_TEAM
                             ? handleMsTeamsClick
                             : item?.name === meetings?.GOOGLE_MEET
-                              ? handleGoogleMeetClick
-                              : handleZoomClick
+                            ? handleGoogleMeetClick
+                            : handleZoomClick
                         }
                       >
                         Connect Now

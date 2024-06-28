@@ -12,11 +12,16 @@ import {
   usePatchDealsMutation,
   usePostDealsMutation,
 } from '@/services/airSales/deals';
-import { DATE_FORMAT, associationCompanies } from '@/constants';
+import {
+  ASSOCIATIONS_API_PARAMS_FOR,
+  DATE_FORMAT,
+  associationCompanies,
+} from '@/constants';
 import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
+import { useGetPipelineQuery } from '@/services/common-APIs';
+import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
 
 const useDealsEditorDrawer = ({
   openDrawer,
@@ -24,11 +29,14 @@ const useDealsEditorDrawer = ({
   companyId,
   dealRecord,
 }: any) => {
-  const [postDeals] = usePostDealsMutation();
-  const [createAssociationDeals] = useCreateAssociationMutation();
+  const [postDeals, { isLoading }] = usePostDealsMutation();
   const [updatedAssignDeal] = usePatchDealsMutation();
 
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
+  const { data: pipelineData } = useGetPipelineQuery({});
+
+  const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
+
   const [selectedValue, setSelectedValue] = useState('New Deal');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,28 +111,20 @@ const useDealsEditorDrawer = ({
             }).unwrap()
           : (res = await postDeals({ body: PayloadValue })?.unwrap());
       }
-      if (res?.data || selectedValue === associationCompanies?.existingDeals) {
-        try {
-          await createAssociationDeals({
-            body: {
-              dealId:
-                selectedValue === associationCompanies?.existingDeals
-                  ? values?.existingDeals
-                  : res?.data?._id,
-              companyId: companyId?.companyId,
-            },
-          }).unwrap();
 
-          enqueueSnackbar('Deal Added successfully', {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
-          setOpenDrawer('');
-          reset();
-        } catch (error: any) {
-          const errMsg = error?.data?.message;
-          enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
-        }
+      const payload = {
+        recordId: companyId?.companyId,
+        recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
+        operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+        dealIds: [res?.data?._id],
+      };
+      if (res) {
+        await PostAssociationCompanies({ body: payload }).unwrap();
+        enqueueSnackbar(`Deal Added Successfully`, {
+          variant: 'success',
+        });
       }
+
       setOpenDrawer('');
       reset();
     } catch (error) {
@@ -142,6 +142,8 @@ const useDealsEditorDrawer = ({
     DealsLifecycleStageData,
     selectedValue,
     handleChange,
+    pipelineData,
+    isLoading,
   };
 };
 

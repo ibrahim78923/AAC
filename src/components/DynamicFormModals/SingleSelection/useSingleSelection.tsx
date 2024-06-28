@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { generateUniqueId } from '@/utils/dynamic-forms';
+import { FIELDS_CONSTANTS, generateUniqueId } from '@/utils/dynamic-forms';
 import { validationSchema, defaultValues } from './SingleSelection.data';
 import { useEffect, useState } from 'react';
 
@@ -71,7 +71,6 @@ export default function useSingleSelection({
                   required: data?.required,
                   options: data?.options,
                 },
-                component: 'RHFRadioGroup',
               }
             : item,
         ),
@@ -88,7 +87,7 @@ export default function useSingleSelection({
             required: data?.required,
             options: data?.options,
           },
-          component: 'RHFRadioGroup',
+          component: FIELDS_CONSTANTS?.RHFRADIOGROUP,
         },
       ]);
     }

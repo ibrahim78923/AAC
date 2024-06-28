@@ -56,7 +56,8 @@ const useContacts = (companyId: any) => {
     setIsOpenAlert(false);
   };
 
-  const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
+  const [PostAssociationCompanies, { isLoading: isLoadingRemoveContact }] =
+    usePostAssociationCompaniesMutation();
   const deleteContactHandler = async () => {
     const payload = {
       recordId: companyId,
@@ -93,6 +94,7 @@ const useContacts = (companyId: any) => {
     deleteContactHandler,
     existingContactData,
     newArray,
+    isLoadingRemoveContact,
   };
 };
 

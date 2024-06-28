@@ -7,17 +7,18 @@ import { CREATE_EMAIL_TYPES } from '@/constants';
 
 import * as Yup from 'yup';
 
-export const emailValidationsSchema: any = (drawerType: any) => {
+export const emailValidationsSchema: any = (
+  drawerType: any,
+  isSendLater: any,
+) => {
   return Yup?.object()?.shape({
-    ...(drawerType !== CREATE_EMAIL_TYPES?.REPLY &&
-      drawerType !== CREATE_EMAIL_TYPES?.REPLY_ALL && {
-        to: Yup?.array()
-          ?.of(Yup.string()?.required('Field is Required')?.trim())
-          ?.required('At least one recipient is required'),
-      }),
     ...(drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && {
       subject: Yup?.string()?.trim()?.required('Field is Required'),
     }),
+    ...(drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL &&
+      isSendLater && {
+        sentDate: Yup?.string()?.trim()?.required('Field is Required'),
+      }),
   });
 };
 export const emailDefaultValues = {};

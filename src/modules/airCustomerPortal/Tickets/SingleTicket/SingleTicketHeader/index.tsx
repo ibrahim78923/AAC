@@ -5,7 +5,7 @@ import { LoadingButton } from '@mui/lab';
 
 export const SingleTicketHeader = (props: any) => {
   const { ticketNumber } = props;
-  const { isLoading, handleStatsChange, handleBack } =
+  const { isLoading, updateTicketStatus, handleBack } =
     useSingleTicketHeader(props);
 
   return (
@@ -38,7 +38,7 @@ export const SingleTicketHeader = (props: any) => {
         <LoadingButton
           variant="contained"
           loading={isLoading}
-          onClick={handleStatsChange}
+          onClick={updateTicketStatus}
         >
           Mark ticket as closed
         </LoadingButton>

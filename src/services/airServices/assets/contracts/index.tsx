@@ -168,6 +168,50 @@ export const contractAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getUsersDropdownListForContractApprovals: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getAssetsDropdownListForContractApprovals: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.ASSETS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.inventories;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getVendorDropdownListForContractApprovals: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.VENDOR_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getSoftwareDropdownListForContractApprovals: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_SOFTWARE}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.assetssoftwares;
+      },
+      providesTags: [TAG_FIVE],
+    }),
   }),
 });
 
@@ -190,4 +234,8 @@ export const {
   usePatchContractRejectMutation,
   usePatchContractTerminatedMutation,
   usePatchContractRenewExtendMutation,
+  useLazyGetUsersDropdownListForContractApprovalsQuery,
+  useLazyGetAssetsDropdownListForContractApprovalsQuery,
+  useLazyGetVendorDropdownListForContractApprovalsQuery,
+  useLazyGetSoftwareDropdownListForContractApprovalsQuery,
 } = contractAPI;

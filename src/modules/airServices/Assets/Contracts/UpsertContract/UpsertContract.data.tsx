@@ -297,6 +297,7 @@ export const upsertContractFormFieldsDataFunction = (
   apiQueryApprover: any,
   apiQuerySoftware: any,
   contractId: any,
+  productId: any,
 ) => [
   {
     id: 1,
@@ -381,6 +382,7 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'approver',
       label: 'Approver',
       apiQuery: apiQueryApprover,
+      externalParams: { productId, admin: true },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

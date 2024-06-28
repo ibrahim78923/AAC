@@ -47,6 +47,7 @@ export const editArticleFieldsFunction = (
   needApprovals: any,
   apiQueryFolder: any,
   apiQueryApprover: any,
+  productId: any,
 ) => {
   const conditionalFields = [
     {
@@ -58,6 +59,7 @@ export const editArticleFieldsFunction = (
         required: needApprovals,
         placeholder: 'Select',
         sx: { pb: 1.2 },
+        externalParams: { productId, admin: true },
         apiQuery: apiQueryApprover,
         getOptionLabel: (option: any) =>
           `${option?.firstName} ${option?.lastName}`,

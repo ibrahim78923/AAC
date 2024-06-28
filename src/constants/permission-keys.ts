@@ -345,12 +345,15 @@ export const AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS = {
   CREATE_GROUP: 'marketer-whatsapp-marketing-contacts-create-group',
   CONTACTS_LIST_VIEW: 'marketer-whatsapp-marketing-contacts-list-view',
 
-  CREATE_TEMPLATE: 'marketer-whatsapp-marketing-templates-create-template',
   SEARCH: 'marketer-whatsapp-marketing-templates-search-and-filter',
   SAVE_TEMPLATE: 'marketer-whatsapp-marketing-templates-save-template',
   EDIT_TEMPLATE: 'marketer-whatsapp-marketing-templates-edit-template',
   DELETE_TEMPLATE: 'marketer-whatsapp-marketing-templates-delete-template',
   TEMPLATES_LIST_VIEW: 'marketer-whatsapp-marketing-templates-list-view',
+};
+
+export const AIR_MARKETER_WHATSAPP_MARKETING_CREATE_TEMPLATE_PERMISSIONS = {
+  CREATE_TEMPLATE: 'marketer-whatsapp-marketing-templates-create-template',
 };
 
 export const AIR_MARKETER_SETTINGS_PERMISSIONS = {

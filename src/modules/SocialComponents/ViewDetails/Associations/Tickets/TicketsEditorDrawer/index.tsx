@@ -7,16 +7,13 @@ import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
 
 import useTicketsEditorDrawer from './useTicketsEditorDrawer';
 
-import {
-  ticketsDataArray,
-  drawerButtonTitle,
-  drawerTitle,
-} from './TicketsEditorDrawer.data';
+import { drawerButtonTitle, drawerTitle } from './TicketsEditorDrawer.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import { DRAWER_TITLE } from '@/constants';
 
 const TicketsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
+  const { openDrawer, setOpenDrawer, companyId, contactRecord } = props;
   const {
     handleSubmit,
     onSubmit,
@@ -24,7 +21,14 @@ const TicketsEditorDrawer = (props: any) => {
     watchTickets,
     searchTicket,
     setSearchTicket,
-  } = useTicketsEditorDrawer();
+    upsertTicketFormFields,
+    isLoading,
+  } = useTicketsEditorDrawer(
+    setOpenDrawer,
+    companyId,
+    contactRecord,
+    openDrawer,
+  );
   return (
     <div>
       <CommonDrawer
@@ -35,6 +39,7 @@ const TicketsEditorDrawer = (props: any) => {
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={isLoading}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
@@ -43,24 +48,25 @@ const TicketsEditorDrawer = (props: any) => {
           >
             <Grid container spacing={4}>
               <Grid item xs={12} sx={{ paddingTop: '20px !important' }}>
-                {watchTickets[0] === 'New Ticket' && (
-                  <RHFRadioGroup
-                    options={[
-                      { value: 'New Ticket', label: 'New Ticket' },
-                      { value: 'Existing Ticket', label: 'Existing Ticket' },
-                    ]}
-                    name={'ticketStatus'}
-                    row={true}
-                  />
-                )}
+                {watchTickets[0] === 'New Ticket' &&
+                  openDrawer != DRAWER_TITLE?.VIEW && (
+                    <RHFRadioGroup
+                      options={[
+                        { value: 'New Ticket', label: 'New Ticket' },
+                        { value: 'Existing Ticket', label: 'Existing Ticket' },
+                      ]}
+                      name={'ticketStatus'}
+                      row={true}
+                    />
+                  )}
               </Grid>
-              {ticketsDataArray?.map((item: any, index: any) =>
+              {upsertTicketFormFields?.map((item: any, index: any) =>
                 watchTickets[0] === 'New Ticket' ? (
                   <Grid
                     item
                     xs={12}
                     md={item?.md}
-                    key={uuidv4()}
+                    key={item?.id}
                     sx={{ paddingTop: '20px !important' }}
                   >
                     <item.component {...item?.componentProps} size={'small'}>

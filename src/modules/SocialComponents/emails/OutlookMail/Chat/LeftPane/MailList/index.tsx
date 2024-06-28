@@ -16,10 +16,11 @@ import {
   setMailCurrentPage,
   setMailList,
   setSelectedRecords,
+  setUpdateMailList,
 } from '@/redux/slices/email/outlook/slice';
 import { API_STATUS, EMAIL_TABS_TYPES, TIME_FORMAT } from '@/constants';
 import { useDispatch } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import { usePatchOutlookEmailMessageMutation } from '@/services/commonFeatures/email/outlook';
 import { enqueueSnackbar } from 'notistack';
@@ -28,11 +29,13 @@ import { PaperClipIcon } from '@/assets/icons';
 const MailList = ({
   emailsByFolderIdData,
   isLoadingEmailsByFolderIdData,
-  refetch,
   mailTabType,
+  setIsRefresh,
+  isRefresh,
+  handelRefresh,
 }: any) => {
   const theme = useTheme();
-  const [dataArray, setDataArray] = useState<any>([]);
+
   const dispatch = useDispatch();
   const breakScrollOperation: any = useAppSelector(
     (state: any) => state?.outlook?.breakScrollOperation,
@@ -83,15 +86,12 @@ const MailList = ({
       if (!item?.isRead) {
         try {
           const response = await patchOutlookEmailMessage({
-            messageId: item?.id,
+            body: {
+              messageId: item?.id,
+              read: true,
+            },
           })?.unwrap();
-          const updatedData = dataArray?.data?.map((item: any) =>
-            item?.id === response?.data?.id ? response?.data : item,
-          );
-          setDataArray((prevState: any) => ({
-            ...prevState,
-            data: updatedData,
-          }));
+          dispatch(setUpdateMailList(response?.data));
         } catch (error: any) {
           enqueueSnackbar('Something went wrong while updating message!', {
             variant: 'error',
@@ -100,10 +100,6 @@ const MailList = ({
       }
     }
   };
-
-  useEffect(() => {
-    setDataArray(emailsByFolderIdData);
-  }, [emailsByFolderIdData]);
 
   const boxRef = useRef(null);
   const handleScroll = (e: any) => {
@@ -144,9 +140,15 @@ const MailList = ({
   }, [emailsByFolderIdData?.data]);
 
   const loadingCheck =
-    mailList?.length === 0
+    mailList?.length === 0 || isRefresh
       ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
       : false;
+
+  useEffect(() => {
+    if (isLoadingEmailsByFolderIdData === API_STATUS?.FULFILLED) {
+      setIsRefresh(false);
+    }
+  }, [isLoadingEmailsByFolderIdData]);
 
   return (
     <Box
@@ -180,9 +182,7 @@ const MailList = ({
             fontWeight: '400',
             textDecoration: 'underline',
           }}
-          onClick={() => {
-            refetch();
-          }}
+          onClick={handelRefresh}
         >
           Refresh
         </Button>
@@ -235,7 +235,6 @@ const MailList = ({
                                 ? theme?.palette?.grey[100]
                                 : theme?.palette?.common?.white,
                           }}
-                          onClick={() => handelMailClick(item)}
                         >
                           <Checkbox
                             checked={selectedRecords?.some(
@@ -243,7 +242,7 @@ const MailList = ({
                             )}
                             onChange={() => handleCheckboxClick(item)}
                           />
-                          <Box>
+                          <Box onClick={() => handelMailClick(item)}>
                             {mailTabType?.display_name ===
                             EMAIL_TABS_TYPES?.SCHEDULE ? (
                               <Typography
@@ -356,6 +355,21 @@ const MailList = ({
                         }}
                       >
                         <CircularProgress size={30} />
+                      </Box>
+                    )}
+                  </>
+                )}
+                {mailList?.length > 0 && (
+                  <>
+                    {breakScrollOperation === true && (
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        No more records
                       </Box>
                     )}
                   </>

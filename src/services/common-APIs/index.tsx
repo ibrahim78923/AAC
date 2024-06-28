@@ -89,6 +89,9 @@ export const CommonAPIS = baseAPI.injectEndpoints({
         params: { productId: params?.productId },
       }),
       providesTags: ['USERS', 'PERMISSIONS'],
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.organizationcompanyaccounts;
+      },
     }),
 
     getCompanyAccountsRoles: builder.query({
@@ -283,6 +286,14 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       },
       providesTags: ['TICKETS'],
     }),
+
+    getPipeline: builder.query({
+      query: ({}) => ({
+        url: `${END_POINTS?.DEALS_PIPELINE}?meta=true`,
+        method: 'GET',
+      }),
+      providesTags: ['DEALS'],
+    }),
   }),
 });
 
@@ -314,4 +325,5 @@ export const {
   useLazyGetAllUsersQuery,
   useGetDropdownProductsListQuery,
   useLazyGetAllTicketsQuery,
+  useGetPipelineQuery,
 } = CommonAPIS;

@@ -73,6 +73,11 @@ const typography = {
     fontSize: pxToRem(12),
     fontWeight: 500,
   },
+  body5: {
+    lineHeight: 1.5,
+    fontSize: pxToRem(16),
+    fontWeight: 500,
+  },
   caption: {
     lineHeight: 1.5,
     fontSize: pxToRem(16),

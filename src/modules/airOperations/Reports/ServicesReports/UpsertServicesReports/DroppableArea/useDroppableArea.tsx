@@ -12,11 +12,7 @@ export const useDroppableArea = (props: any) => {
   const handleDelete = (id: string) => {
     setForm(form?.filter((item: any) => item?.id !== id));
     const deletedRecord = form?.find((item: any) => item?.id === id);
-    errorSnackbar(
-      `Delete ${deletedRecord?.title} ${
-        deletedRecord?.templateType ?? ''
-      } Successfully`,
-    );
+    errorSnackbar(`Delete ${deletedRecord?.title} Successfully`);
   };
 
   const handleCopy = (id: string) => {
@@ -68,12 +64,9 @@ export const useDroppableArea = (props: any) => {
         },
       ]);
     }
-    successSnackbar(
-      `Duplicate ${chartToCopy?.title} ${
-        chartToCopy?.templateType ?? ''
-      } Added`,
-    );
+    successSnackbar(`Duplicate ${chartToCopy?.title} Added`);
   };
+
   return {
     handleDelete,
     handleCopy,

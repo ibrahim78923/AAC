@@ -63,6 +63,17 @@ const outlookSlice = createSlice({
         state.mailList = [...state.mailList, ...uniqueMails];
       }
     },
+    setUpdateMailList: (state, action: PayloadAction<any>) => {
+      state.mailList = state.mailList?.map((item: any) =>
+        item.id === action?.payload?.id ? action?.payload : item,
+      );
+    },
+    setFilterMailList: (state, action: PayloadAction<any>) => {
+      state.mailList = state.mailList?.filter(
+        (mail: any) => !action?.payload?.includes(mail?.id),
+      );
+    },
+
     setMailListSearch: (state, action: PayloadAction<any>) => {
       state.mailList = [];
       state.mailList = action.payload;
@@ -92,5 +103,7 @@ export const {
   setSearchTerm,
   setMailCurrentPage,
   setBreakScrollOperation,
+  setUpdateMailList,
+  setFilterMailList,
 } = outlookSlice.actions;
 export default outlookSlice.reducer;

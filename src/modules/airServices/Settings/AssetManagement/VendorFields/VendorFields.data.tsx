@@ -69,10 +69,10 @@ export const modalInitialState: any = {
 };
 
 export const componentToMatchMap: any = {
-  RHFDatePicker: 'date',
-  RHFAutocomplete: 'dropdown',
-  RHFMultiCheckbox: 'multipleSelection',
-  RHFTextField: ['text', 'paragraphText'],
-  RHFRadioGroup: 'singleSelection',
-  RHFDropZone: 'upload',
+  RHFDATEPICKER: 'date',
+  RHFAUTOCOMPLETE: 'dropdown',
+  RHFMULTICHECKBOX: 'multipleSelection',
+  RHFTEXTFIELD: ['text', 'paragraphText'],
+  RHFRADIOGROUP: 'singleSelection',
+  RHFDROPZONE: 'upload',
 };

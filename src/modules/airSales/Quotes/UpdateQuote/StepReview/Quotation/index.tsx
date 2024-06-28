@@ -55,6 +55,11 @@ const Quotation = () => {
         <Box sx={styles?.bCell}>{unitDiscount ?? 'N/A'} GBP</Box>
       </Box>
 
+      <Box sx={styles?.bRow}>
+        <Box sx={styles?.bHead}>Total Redeemed Discount</Box>
+        <Box sx={styles?.bCell}>£ 20</Box>
+      </Box>
+
       <Box sx={styles?.bRowTotal}>
         <Box sx={styles?.bHead}>Total</Box>
         <Box sx={styles?.bHead}>£{FinalTotal}</Box>

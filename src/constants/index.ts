@@ -334,6 +334,7 @@ export const CHAT_MESSAGE_TYPE = {
 export const API_STATUS = {
   PENDING: 'pending',
   REJECTED: 'rejected',
+  FULFILLED: 'fulfilled',
 };
 export const associationCompanies = {
   existingContacts: 'Existing Contacts',
@@ -436,6 +437,7 @@ export const ASSOCIATIONS_API_PARAMS_FOR = {
   QUOTES: 'quotes',
   ASSETS: 'assets',
   PURCHASE_ORDER: 'purchase_orders',
+  ATTACHMENTS: 'attachments',
 };
 
 export const MAIL_TYPES = {
@@ -447,4 +449,11 @@ export const DRAWER_TITLE = {
   VIEW: 'View',
   EDIT: 'Edit',
   ADD: 'Add',
+};
+
+export const FILE_TYPES = {
+  IMAGE: 'image/',
+  TEXT: 'text/',
+  PDF: 'application/pdf',
+  DOC: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 };

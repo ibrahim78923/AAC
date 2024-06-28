@@ -21,6 +21,7 @@ export const PageTitledHeader = ({
   exportPermissionKey,
   importPermissionKey,
   children,
+  disableAddButton,
 }: any) => {
   return (
     <>
@@ -79,6 +80,7 @@ export const PageTitledHeader = ({
                 startIcon={hasStartIcon && <PlusSharedColorIcon />}
                 endIcon={hasEndIcon && <PlusSharedColorIcon />}
                 onClick={handleAction}
+                disabled={disableAddButton}
               >
                 {addTitle}
               </Button>

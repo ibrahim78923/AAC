@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useGetSmsBroadcatsByIdQuery,
   usePostSmsBroadcastMutation,
-  useUpdateSmsBroadcatsMutation,
+  useUpdateSmsBroadcastMutation,
 } from '@/services/airMarketer/SmsMarketing';
 import { enqueueSnackbar } from 'notistack';
 import {
@@ -35,8 +35,8 @@ const useCreateSMSBroadcast = () => {
 
   const [postSmsBroadcast, { isLoading: postBroadcastLoading }] =
     usePostSmsBroadcastMutation();
-  const [updateSmsBroadcats, { isLoading: updateBroadcastLoading }] =
-    useUpdateSmsBroadcatsMutation();
+  const [updateSmsBroadcast, { isLoading: updateBroadcastLoading }] =
+    useUpdateSmsBroadcastMutation();
 
   const methods: any = useForm({
     resolver: yupResolver<any>(validationSchema),
@@ -45,7 +45,7 @@ const useCreateSMSBroadcast = () => {
 
   const { handleSubmit, reset, watch, setValue } = methods;
 
-  const selectedCampaingn = watch('campaignId');
+  const broadcastName = watch('name');
   const detailsText = watch('detail');
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const useCreateSMSBroadcast = () => {
 
     try {
       if (type === DRAWER_TYPES?.EDIT) {
-        await updateSmsBroadcats({
+        await updateSmsBroadcast({
           id: selectedBroadCast,
           body: values,
         })?.unwrap();
@@ -129,7 +129,7 @@ const useCreateSMSBroadcast = () => {
     selectedContactsData,
     flattenContactsData,
     setSelectedDateVal,
-    selectedCampaingn,
+    broadcastName,
     handleSaveAsDraft,
     setCreateStatus,
     setSelectedRec,

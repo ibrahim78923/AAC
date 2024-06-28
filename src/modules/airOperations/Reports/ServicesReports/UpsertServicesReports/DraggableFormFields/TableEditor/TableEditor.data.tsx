@@ -7,7 +7,6 @@ export const tableEditorData = [
   },
   {
     title: 'Channel',
-    description: 'Channel of the project owner of the project     ',
   },
   {
     title: 'Project Owner',
@@ -20,5 +19,29 @@ export const tableEditorData = [
   },
   {
     title: 'Quantity',
+  },
+  {
+    title: 'Vendor',
+  },
+  {
+    title: 'Total Cost',
+  },
+  {
+    title: 'Location',
+  },
+  {
+    title: 'Used By',
+  },
+  {
+    title: 'Asset life expire on',
+  },
+  {
+    title: 'Managed By',
+  },
+  {
+    title: 'Category',
+  },
+  {
+    title: 'Expiry Date',
   },
 ];

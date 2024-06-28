@@ -1,97 +1,156 @@
-import { Box, Button, IconButton, Typography } from '@mui/material';
-import { Draggable } from 'react-beautiful-dnd';
+import { Box, Button, Divider, IconButton } from '@mui/material';
 import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
-import { useForm } from 'react-hook-form';
-import React, { createElement } from 'react';
+import { createElement } from 'react';
 import { componentMap } from '@/utils/dynamic-forms';
 import { FormProvider } from '@/components/ReactHookForm';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { predefinedVendorDataArray } from './DroppableArea.data';
+import { LoadingButton } from '@mui/lab';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import useDroppableArea from './useDroppableArea';
+import { AIR_SERVICES } from '@/constants';
 
-export default function DroppableArea({ form, setForm, handleEdit }: any) {
-  const methods: any = useForm({});
+export default function DroppableArea({
+  form,
+  setForm,
+  handleEdit,
+  isLoading,
+  isFetching,
+  isError,
+  getBackendData,
+}: any) {
+  const {
+    router,
+    methods,
+    isDeleteModalOpen,
+    setIsDeleteModalOpen,
+    handleFormCreation,
+    putDynamicFieldsStatus,
+    handleDelete,
+    deleteDynamicFieldsStatus,
+  } = useDroppableArea({
+    form,
+    setForm,
+    getBackendData,
+  });
 
-  const handleFormCreation = () => {
-    localStorage?.setItem('form', JSON?.stringify(form));
-  };
-
-  const handleDelete = (id: any) => {
-    setForm(
-      (prevForm: any) => prevForm?.filter((item: any) => item?.id !== id),
+  if (isError)
+    return (
+      <Box width={'100%'}>
+        <ApiErrorState />
+      </Box>
     );
-  };
+
+  if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
-    <Droppable droppableId={'droppable'}>
-      {(provided) => (
-        <Box
-          bgcolor={'secondary.50'}
-          borderRadius={2}
-          p={2}
-          width={'100%'}
-          ref={provided?.innerRef}
-          {...provided?.droppableProps}
-        >
-          {!!!form?.length ? (
-            <Typography
-              variant={'h3'}
-              color={'primary.main'}
-              textAlign={'center'}
-            >
-              Start Building Form
-            </Typography>
-          ) : (
-            form?.map((item: any, index: number) => (
-              <Draggable key={item?.id} draggableId={item?.id} index={index}>
-                {(provided) => (
-                  <Box
-                    ref={provided?.innerRef}
-                    {...provided?.draggableProps}
-                    {...provided?.dragHandleProps}
-                    my={1}
-                    display={'flex'}
-                    justifyContent={'space-between'}
-                    alignItems={'center'}
-                  >
-                    <FormProvider methods={methods} style={{ width: '100%' }}>
-                      {componentMap[item?.component] &&
-                        createElement(
-                          componentMap[item?.component],
-                          {
-                            ...item?.componentProps,
-                            size: 'small',
-                          },
-                          item?.heading,
-                        )}
-                    </FormProvider>
-                    <Box display={'flex'} alignItems={'center'} mt={1}>
-                      <IconButton
-                        sx={{ color: 'primary.main' }}
-                        onClick={() => handleEdit(item?.id)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        sx={{ color: 'error.lighter' }}
-                        onClick={() => handleDelete(item?.id)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Box>
-                  </Box>
-                )}
-              </Draggable>
-            ))
-          )}
-          {provided?.placeholder}
+    <>
+      <Droppable droppableId={'droppable'}>
+        {(provided) => (
+          <Box
+            bgcolor={'secondary.50'}
+            borderRadius={2}
+            p={2}
+            width={'100%'}
+            ref={provided?.innerRef}
+            {...provided?.droppableProps}
+          >
+            <FormProvider methods={methods}>
+              {predefinedVendorDataArray?.map((item: any) => (
+                <Box mb={2} key={item?.id}>
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                    disabled={true}
+                  />
+                </Box>
+              ))}
 
-          {!!form?.length && (
-            <Button variant={'contained'} onClick={handleFormCreation}>
-              Create
-            </Button>
-          )}
-        </Box>
+              {form?.map((item: any) => (
+                <Box
+                  my={1}
+                  display={'flex'}
+                  justifyContent={'space-between'}
+                  alignItems={'center'}
+                  key={item?.id}
+                >
+                  <Box width={'100%'} mb={2}>
+                    {componentMap[item?.component] &&
+                      createElement(componentMap[item?.component], {
+                        ...item?.componentProps,
+                        size: 'small',
+                        disabled: true,
+                      })}
+                  </Box>
+                  <Box display={'flex'} alignItems={'center'} mt={1}>
+                    <IconButton
+                      sx={{ color: 'primary.main' }}
+                      onClick={() => handleEdit(item?.id)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      sx={{ color: 'error.lighter' }}
+                      onClick={() =>
+                        setIsDeleteModalOpen({
+                          open: true,
+                          id: item?.id,
+                        })
+                      }
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
+              ))}
+
+              <Divider sx={{ mb: 2 }} />
+
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'flex-end'}
+                gap={2}
+              >
+                <Button
+                  variant={'outlined'}
+                  color={'inherit'}
+                  onClick={() => {
+                    router?.push({
+                      pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
+                    });
+                  }}
+                >
+                  Cancel
+                </Button>
+                <LoadingButton
+                  variant={'contained'}
+                  onClick={handleFormCreation}
+                  disabled={!form?.length}
+                  loading={putDynamicFieldsStatus?.isLoading}
+                >
+                  Submit
+                </LoadingButton>
+              </Box>
+            </FormProvider>
+          </Box>
+        )}
+      </Droppable>
+      {isDeleteModalOpen?.open && (
+        <AlertModals
+          type={ALERT_MODALS_TYPE?.DELETE}
+          open={isDeleteModalOpen?.open}
+          handleClose={() => setIsDeleteModalOpen?.({ open: false, id: '' })}
+          handleSubmitBtn={handleDelete}
+          message="Are you sure want to delete this field?"
+          loading={deleteDynamicFieldsStatus?.isLoading}
+          disableCancelBtn={deleteDynamicFieldsStatus?.isLoading}
+        />
       )}
-    </Droppable>
+    </>
   );
 }

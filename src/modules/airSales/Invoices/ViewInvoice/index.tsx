@@ -135,6 +135,30 @@ export const ViewInvoice = () => {
                   0%
                 </Typography>
               </Box>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                  }}
+                >
+                  <Typography variant="body2" fontWeight={500}>
+                    Total Redeemed Discount
+                  </Typography>
+                </Box>
+                <Typography
+                  variant="body2"
+                  fontWeight={500}
+                  sx={{ color: theme?.palette?.custom?.dark }}
+                >
+                  £ 20
+                </Typography>
+              </Box>
             </CardContent>
             <CardActions
               sx={{

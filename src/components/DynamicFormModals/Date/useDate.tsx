@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { generateUniqueId } from '@/utils/dynamic-forms';
+import { FIELDS_CONSTANTS, generateUniqueId } from '@/utils/dynamic-forms';
 import {
   validationSchema,
   defaultValues,
@@ -52,7 +52,7 @@ export default function useDate({ setOpen, form, setForm, editId }: any) {
                     label: data?.name,
                     required: data?.required,
                     format: data?.dateFormat?.value,
-                    textFieldProps: { readOnly: true },
+                    fullWidth: true,
                   },
                 }
               : item,
@@ -70,9 +70,8 @@ export default function useDate({ setOpen, form, setForm, editId }: any) {
             required: data?.required,
             format: data?.dateFormat?.value,
             fullWidth: true,
-            textFieldProps: { readOnly: true },
           },
-          component: 'RHFDatePicker',
+          component: FIELDS_CONSTANTS?.RHFDATEPICKER,
         },
       ]);
     }

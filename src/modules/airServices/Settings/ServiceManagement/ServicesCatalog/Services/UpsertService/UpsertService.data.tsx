@@ -172,11 +172,6 @@ export const upsertServiceData = (apiServiceCategoryQuery: any) => [
       name: 'fileUrl',
       fullWidth: true,
       label: '\u00a0\u00a0',
-      fileType: 'PNG or JPG  (max 2.44 MB)',
-      maxSize: 1024 * 1024 * 2.44,
-      accept: {
-        'image/*': ['.png', '.jpg'],
-      },
     },
     component: RHFDropZone,
     md: 6,

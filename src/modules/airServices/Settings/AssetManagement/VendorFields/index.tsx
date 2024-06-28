@@ -28,6 +28,10 @@ export default function VendorFields() {
     setModal,
     handleEdit,
     editId,
+    isLoading,
+    isFetching,
+    isError,
+    getBackendData,
   } = useVendorFields();
 
   return (
@@ -60,14 +64,18 @@ export default function VendorFields() {
             <Box
               borderRadius={2}
               bgcolor={'common.white'}
-              display={'flex'}
-              alignItems={'center'}
               p={2}
+              height={'70vh'}
+              overflow={'auto'}
             >
               <DroppableArea
                 form={form}
                 setForm={setForm}
                 handleEdit={handleEdit}
+                isLoading={isLoading}
+                isFetching={isFetching}
+                isError={isError}
+                getBackendData={getBackendData}
               />
             </Box>
           </PermissionsGuard>
@@ -78,7 +86,13 @@ export default function VendorFields() {
               AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_NEW_VENDORS_FIELDS,
             ]}
           >
-            <Box borderRadius={2} bgcolor={'common.white'} p={2}>
+            <Box
+              borderRadius={2}
+              bgcolor={'common.white'}
+              p={2}
+              height={'80vh'}
+              overflow={'auto'}
+            >
               <DraggableFields fieldsList={fieldsList} />
             </Box>
           </PermissionsGuard>

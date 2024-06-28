@@ -28,9 +28,9 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
   );
-
+  const [isSendLater, setIsSendLater] = useState(false);
   const methodsDealsTasks: any = useForm({
-    resolver: yupResolver(emailValidationsSchema(drawerType)),
+    resolver: yupResolver(emailValidationsSchema(drawerType, isSendLater)),
     defaultValues: emailDefaultValues,
   });
 
@@ -56,6 +56,12 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [currentEmailAssets]);
 
+  useEffect(() => {
+    if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
+      setValue('description', '');
+    }
+  }, [drawerType]);
+
   const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
     usePostSendEmailOutlookMutation();
   const [postScheduleOtherEmail, { isLoading: loadingOtherScheduleSend }] =
@@ -64,11 +70,24 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     usePostReplyEmailOutlookMutation();
   const [postDraftOtherEmail] = usePostDraftEmailOutlookMutation();
 
-  const [postforwardOutlookEmail] = useForwardEmailOutlookMutation();
+  const [postforwardOutlookEmail, { isLoading: isLoadingForward }] =
+    useForwardEmailOutlookMutation();
+
+  const isToExists = watchEmailsForm[2];
 
   const handleOnClose = () => {
-    if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
-      setIsProcessDraft(true);
+    setisToValid(false);
+    if (
+      drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL ||
+      drawerType === CREATE_EMAIL_TYPES?.REPLY
+    ) {
+      if (isToExists?.length > 0) {
+        setIsProcessDraft(true);
+      } else {
+        reset();
+        setOpenDrawer(false);
+        setAutocompleteValues([]);
+      }
     } else {
       reset();
       setOpenDrawer(false);
@@ -82,19 +101,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [isProcessDraft]);
 
-  const [isSendLater, setIsSendLater] = useState(false);
-
   const [sendLaterDate, setSendLaterDate] = useState<any>();
 
-  const isToExists = watchEmailsForm[2];
+  const [toStateDep, setToStateDep] = useState(1);
 
   useEffect(() => {
-    if (isToExists?.length === 0) {
+    if (isToExists?.length === 0 || isToExists?.length === undefined) {
       null;
     } else {
       setisToValid(false);
     }
-  }, [isToExists]);
+  }, [isToExists, toStateDep]);
 
   const dateObject = watchEmailsForm[3] && new Date(watchEmailsForm[3]);
   const isoString = dateObject?.toISOString();
@@ -117,9 +134,13 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   }, [isoString]);
 
   const postEmail = isSendLater ? postScheduleOtherEmail : postSendOtherEmail;
-
   const onSubmit = async (values: any) => {
-    if (isToExists?.length === 0) {
+    setToStateDep(toStateDep + 1);
+    if (
+      (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL &&
+        isToExists?.length === 0) ||
+      isToExists?.length === undefined
+    ) {
       setisToValid(true);
     } else {
       setisToValid(false);
@@ -132,7 +153,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           formDataSend.append('subject', values?.subject);
           formDataSend.append(
             'content',
-            values?.description?.length ? values?.description : '',
+            values?.description?.length ? values?.description : ' ',
           );
 
           if (values?.cc && values?.cc?.trim() !== '') {
@@ -313,6 +334,10 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     setAutocompleteValues,
     autocompleteValues,
     isToValid,
+    isLoadingForward,
+
+    setToStateDep,
+    toStateDep,
   };
 };
 export default useSendEmailDrawer;

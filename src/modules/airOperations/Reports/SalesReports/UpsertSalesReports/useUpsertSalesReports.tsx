@@ -12,6 +12,7 @@ import { DonutChart } from './DraggableFormFields/Chart/DonutChart';
 import { PieChart } from './DraggableFormFields/Chart/PieChart';
 import { BarChart } from './DraggableFormFields/Chart/BarChart';
 import { useRouter } from 'next/router';
+import { HorizontalBarChart } from './DraggableFormFields/Chart/HorizontalBarChart';
 
 export default function useUpsertSalesReports() {
   const [draggedItemData, setDraggedItemData] = useState<any>(null);
@@ -40,11 +41,12 @@ export default function useUpsertSalesReports() {
   const [editorState, setEditorState] = useState(EditorState?.createEmpty());
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
-  const [metricType, setMetricType] = useState('Inventory');
+  const [metricType, setMetricType] = useState('Deals');
   const [chartMetricType, setChartMetricType] = useState('Add Metric');
   const [AddProperties, setAddProperties] = useState();
   const [columnsData, setColumnsData] = useState([]);
   const [showTemplate, setShowTemplate] = useState(false);
+  const [disableTemplate, setDisableTemplate] = useState(false);
   useEffect(() => {
     setValue('chartType', draggedItemData?.type ?? '');
     setValue('xAxis', draggedItemData?.xAxis ?? '');
@@ -103,6 +105,7 @@ export default function useUpsertSalesReports() {
 
   const getTemplateModalState = (draggedItem: any) => {
     setDraggedItemData(draggedItem);
+    setDisableTemplate(true);
     const newModal: any = {
       chart: false,
       text: false,
@@ -139,6 +142,7 @@ export default function useUpsertSalesReports() {
     [CHARTS?.BAR_CHART]: <BarChart />,
     [CHARTS?.DONUT_CHART]: <DonutChart />,
     [CHARTS?.PIE_CHART]: <PieChart />,
+    [CHARTS?.HORIZONTAL_BAR_CHART]: <HorizontalBarChart />,
   };
 
   const handleCancel = () => {
@@ -153,7 +157,10 @@ export default function useUpsertSalesReports() {
     setValue('subFilter', false);
     setDraggedItemData(null);
   };
-
+  const handleChooseTemplate = () => {
+    setDisableTemplate(false);
+    setShowTemplate(false);
+  };
   return {
     handleDragEnd,
     form,
@@ -197,5 +204,7 @@ export default function useUpsertSalesReports() {
     reportId,
     setDraggedItemData,
     draggedItemData,
+    disableTemplate,
+    handleChooseTemplate,
   };
 }

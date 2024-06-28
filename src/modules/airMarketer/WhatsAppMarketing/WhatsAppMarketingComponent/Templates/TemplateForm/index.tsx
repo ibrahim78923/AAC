@@ -1,41 +1,30 @@
-import React from 'react';
-import { Box, Button, Grid, Typography } from '@mui/material';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  Box,
+  Button,
+  Grid,
+  Skeleton,
+  TextareaAutosize,
+  Typography,
+} from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { BackArrIcon } from '@/assets/icons';
-import {
-  createTemplateDefaultValues,
-  createTemplateFiltersDataArray,
-  createTemplateValidationSchema,
-} from './TemplateForm.data';
-import { useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
-import { usePostWhatsappTemplateMutation } from '@/services/airMarketer/whatsappMarketing/templates';
-import { enqueueSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
+import useTemplateForm from './useTemplateForm';
+import { createTemplateFiltersDataArray } from './TemplateForm.data';
 
-const TemplateForm = ({ handelSwitch, templateType }: any) => {
-  const methodsNewsAndEventsFilters = useForm({
-    resolver: yupResolver(createTemplateValidationSchema),
-    defaultValues: createTemplateDefaultValues,
-  });
-
-  const [postWhatsappTemplate] = usePostWhatsappTemplateMutation();
-
-  const onSubmit = async (values: any) => {
-    const formData = new FormData();
-    Object.keys(values).forEach((key) => {
-      formData.append(key, values[key]);
-    });
-    try {
-      await postWhatsappTemplate({ body: formData }).unwrap();
-      enqueueSnackbar('Template added successfully', { variant: 'success' });
-    } catch (err: any) {
-      enqueueSnackbar(err?.data?.message, { variant: 'success' });
-    }
-  };
-  const { handleSubmit } = methodsNewsAndEventsFilters;
-
-  const getFormValues = createTemplateFiltersDataArray();
+const TemplateForm = ({ templateType }: any) => {
+  const {
+    router,
+    theme,
+    methodsNewsAndEventsFilters,
+    handleSubmit,
+    onSubmit,
+    TemplateName,
+    postTemplateLoading,
+    updateTemplateLoading,
+    Category,
+    Details,
+  } = useTemplateForm();
 
   return (
     <Box>
@@ -47,116 +36,157 @@ const TemplateForm = ({ handelSwitch, templateType }: any) => {
             borderRadius: '50%',
             padding: '0px ',
           }}
-          onClick={() => handelSwitch(true)}
+          onClick={() => router?.back()}
         >
           <BackArrIcon />
         </Button>
         <Typography variant="h3">{templateType} Template</Typography>
       </Box>
+      <FormProvider
+        methods={methodsNewsAndEventsFilters}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Grid container spacing={2} sx={{ mt: 2 }}>
+          <Grid item xs={6}>
+            <Grid container spacing={1}>
+              {createTemplateFiltersDataArray()?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
+                  <item.component {...item.componentProps} size={'small'} />
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+          <Grid item container xs={5}>
+            <Grid item xs={12} sx={{ position: 'relative' }}>
+              <Box sx={{ marginTop: '40px' }}>
+                <Typography variant="h4">Preview</Typography>
+                {!TemplateName ? (
+                  <Typography
+                    variant="body1"
+                    color={theme?.palette?.custom?.dim_blue}
+                  >
+                    Your preview will appear here{' '}
+                  </Typography>
+                ) : (
+                  <Typography
+                    variant="body1"
+                    fontWeight={700}
+                    color={theme?.palette?.custom?.text_slate_blue}
+                  >
+                    {TemplateName}
+                  </Typography>
+                )}
+                <Typography variant="body2">{Category}</Typography>
 
-      <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid item xs={6}>
-          <>
-            <FormProvider
-              methods={methodsNewsAndEventsFilters}
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <Grid container spacing={1}>
-                {getFormValues?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component {...item.componentProps} size={'small'}>
-                      {item?.componentProps?.select
-                        ? item?.options?.map((option: any) => (
-                            <option key={option?.value} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))
-                        : null}
-                    </item.component>
-                  </Grid>
-                ))}
-              </Grid>
-            </FormProvider>
-          </>
+                <Box
+                  sx={{
+                    backgroundColor: 'white',
+                    marginTop: '20px',
+                  }}
+                >
+                  {!Category && (
+                    <Box sx={{ display: 'Flex', alignItems: 'center' }}>
+                      <Box>
+                        <Skeleton
+                          variant="rounded"
+                          sx={{
+                            marginY: '15px',
+                            bgcolor: theme?.palette?.custom?.off_white_three,
+                          }}
+                          width={94}
+                          height={10}
+                        />
+                      </Box>
+                    </Box>
+                  )}
+
+                  {!Details ? (
+                    <>
+                      <Skeleton
+                        variant="rounded"
+                        sx={{
+                          marginTop: '20px',
+                          bgcolor: theme?.palette?.custom?.off_white_three,
+                        }}
+                        width={443}
+                        height={10}
+                      />
+                      <Skeleton
+                        variant="rounded"
+                        sx={{
+                          marginTop: '10px',
+                          bgcolor: theme?.palette?.custom?.off_white_three,
+                        }}
+                        width={348}
+                        height={10}
+                      />
+                      <Skeleton
+                        variant="rounded"
+                        sx={{
+                          marginTop: '10px',
+                          bgcolor: theme?.palette?.custom?.off_white_three,
+                        }}
+                        width={280}
+                        height={10}
+                      />
+                    </>
+                  ) : (
+                    <TextareaAutosize
+                      value={Details}
+                      minRows={3}
+                      maxRows={10}
+                      style={{
+                        width: '100%',
+                        border: `1px solid ${theme?.palette?.grey?.[700]}`,
+                        padding: '15px',
+                        borderRadius: '8px',
+                      }}
+                    />
+                  )}
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Box>
-            <Typography variant="h3">Preview</Typography>
-            <Typography variant="body1">
-              Your preview will appear here{' '}
-            </Typography>
-
-            <Box sx={{ mt: 2 }}>
-              <Box sx={{ background: '#EBECF1', height: '243px', mb: 2 }}></Box>
-              <Box
-                sx={{
-                  background: '#EBECF1',
-                  width: '109px',
-                  height: '10px',
-                  borderRadius: '30px',
-                  mb: 3,
-                }}
-              ></Box>
-
-              <Box
-                sx={{
-                  background: '#EBECF1',
-                  width: '70%',
-                  height: '10px',
-                  borderRadius: '30px',
-                  mb: 1,
-                }}
-              ></Box>
-              <Box
-                sx={{
-                  background: '#EBECF1',
-                  width: '50%',
-                  height: '10px',
-                  borderRadius: '30px',
-                  mb: 1,
-                }}
-              ></Box>
-              <Box
-                sx={{
-                  background: '#EBECF1',
-                  width: '60%',
-                  height: '10px',
-                  borderRadius: '30px',
-                  mb: 1,
-                }}
-              ></Box>
-            </Box>
-          </Box>
-          <Box
-            sx={{ display: 'flex', gap: '15px', mt: 5, justifyContent: 'end' }}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'end',
+            marginY: '20px',
+            position: 'absolute',
+            bottom: '0',
+            right: '40px',
+          }}
+        >
+          <Button
+            className="small"
+            variant="outlined"
+            sx={{
+              marginLeft: '10px',
+              backgroundColor: 'white',
+              border: `1px solid ${theme?.palette?.custom?.dark}`,
+              color: theme?.palette?.custom?.main,
+            }}
+            onClick={() => router?.back()}
           >
-            <Button
-              onClick={() => handelSwitch(true)}
-              color="inherit"
-              sx={{
-                '@media (max-width:581px)': {
-                  flexDirection: 'column-reverse',
-                },
-              }}
-              variant="outlined"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSubmit(onSubmit)}
-              sx={{
-                width: '140px',
-                '@media (max-width:581px)': {
-                  flexDirection: 'column-reverse',
-                },
-              }}
-              variant="contained"
-            >
-              Save Template
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
+            Cancel
+          </Button>
+          <LoadingButton
+            variant="contained"
+            className="small"
+            sx={{ marginLeft: '10px' }}
+            type="submit"
+            loading={postTemplateLoading || updateTemplateLoading}
+          >
+            Save Template
+          </LoadingButton>
+        </Box>
+      </FormProvider>
     </Box>
   );
 };

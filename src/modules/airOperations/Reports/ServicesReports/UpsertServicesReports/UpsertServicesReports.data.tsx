@@ -1,3 +1,5 @@
+import { REPORT_TYPE } from '@/constants/strings';
+
 export const fieldsList = [
   {
     id: '0',
@@ -22,58 +24,18 @@ export const fieldsList = [
 export const templateList = [
   {
     id: '0',
-    title: 'Bar Chart',
+    title: 'Tickets Analysis Report',
     type: 'Bar Chart',
     xAxis: 'Task Owner',
     yAxis: 'Status',
     subMetric: 'Users',
     subFilter: true,
     match: 'chart',
-    templateType: 'All',
+    templateType: 'Tickets',
     description: 'Visualize your data',
   },
   {
     id: '1',
-    title: 'Pie Chart',
-    type: 'Pie Chart',
-    xAxis: 'Task Owner',
-    yAxis: 'Status',
-    subMetric: 'Tickets',
-    subFilter: true,
-    match: 'chart',
-    templateType: 'All',
-    description: 'Visualize your data',
-  },
-  {
-    id: '2',
-    title: 'Donut Chart',
-    type: 'Donut Chart',
-    xAxis: 'Task Owner',
-    yAxis: 'Status',
-    subMetric: 'Tasks',
-    subFilter: true,
-    match: 'chart',
-    templateType: 'All',
-    description: 'Visualize your data',
-  },
-  {
-    id: '3',
-    title: 'Text',
-    content: 'Default content for the Text 1 goes here.',
-    match: 'text',
-    templateType: 'All',
-    description: 'Add context to your report',
-  },
-  {
-    id: '4',
-    title: 'Table',
-    tableColumns: ['Name', 'Channel', 'Status'],
-    match: 'table',
-    templateType: 'All',
-    description: 'General Table',
-  },
-  {
-    id: '5',
     title: 'Open',
     ticketCount: '0',
     match: 'counter',
@@ -81,7 +43,7 @@ export const templateList = [
     description: 'Tickets',
   },
   {
-    id: '6',
+    id: '2',
     title: 'Close',
     ticketCount: '12',
     match: 'counter',
@@ -89,7 +51,7 @@ export const templateList = [
     description: 'Tickets',
   },
   {
-    id: '7',
+    id: '3',
     title: 'Over Due',
     ticketCount: '1',
     match: 'counter',
@@ -97,7 +59,7 @@ export const templateList = [
     description: 'Tickets',
   },
   {
-    id: '8',
+    id: '4',
     title: 'Unassigned',
     ticketCount: '0',
     match: 'counter',
@@ -105,7 +67,7 @@ export const templateList = [
     description: 'Tickets',
   },
   {
-    id: '9',
+    id: '5',
     title: 'Resolved',
     ticketCount: '15',
     match: 'counter',
@@ -113,7 +75,7 @@ export const templateList = [
     description: 'Tickets',
   },
   {
-    id: '10',
+    id: '6',
     title: 'pending',
     ticketCount: '0',
     match: 'counter',
@@ -121,7 +83,27 @@ export const templateList = [
     description: 'Tickets',
   },
   {
-    id: '11',
+    id: '7',
+    title: 'Assets Distribution',
+    type: 'Pie Chart',
+    xAxis: 'Task Owner',
+    yAxis: 'Status',
+    subMetric: 'Tickets',
+    subFilter: true,
+    match: 'chart',
+    templateType: 'Inventory',
+    description: 'Visualize your data',
+  },
+  {
+    id: '8',
+    title: 'Table',
+    tableColumns: ['Name', 'Location', 'Used By', 'Asset life expire on'],
+    match: 'table',
+    templateType: 'Inventory',
+    description: 'General Table',
+  },
+  {
+    id: '9',
     title: 'Total Assets',
     ticketCount: '10',
     match: 'counter',
@@ -129,7 +111,7 @@ export const templateList = [
     description: 'Inventory Assets',
   },
   {
-    id: '12',
+    id: '10',
     title: 'Hardware',
     ticketCount: '9',
     match: 'counter',
@@ -137,7 +119,7 @@ export const templateList = [
     description: 'Inventory Assets',
   },
   {
-    id: '13',
+    id: '11',
     title: 'IT Services',
     ticketCount: '8',
     match: 'counter',
@@ -145,7 +127,7 @@ export const templateList = [
     description: 'Inventory Assets',
   },
   {
-    id: '14',
+    id: '12',
     title: 'Backup Services',
     ticketCount: '7',
     match: 'counter',
@@ -153,12 +135,32 @@ export const templateList = [
     description: 'Inventory Assets',
   },
   {
-    id: '15',
+    id: '13',
     title: 'Utilizable',
     ticketCount: '6',
     match: 'counter',
     templateType: 'Inventory',
     description: 'Inventory Assets',
+  },
+  {
+    id: '14',
+    title: 'Software Distribution',
+    type: 'Pie Chart',
+    xAxis: 'Task Owner',
+    yAxis: 'Status',
+    subMetric: 'Tickets',
+    subFilter: true,
+    match: 'chart',
+    templateType: 'Software',
+    description: 'Visualize your data',
+  },
+  {
+    id: '15',
+    title: 'Table',
+    tableColumns: ['Name', 'Type', 'Managed By', 'Category'],
+    match: 'table',
+    templateType: 'Software',
+    description: 'General Table',
   },
   {
     id: '16',
@@ -208,26 +210,29 @@ export const templateList = [
     templateType: 'Software',
     description: 'Software Report',
   },
-
   {
     id: '22',
-    title: 'All',
-    ticketCount: '6',
-    match: 'counter',
+    title: 'Contract Distribution',
+    type: 'Pie Chart',
+    xAxis: 'Task Owner',
+    yAxis: 'Status',
+    subMetric: 'Tickets',
+    subFilter: true,
+    match: 'chart',
     templateType: 'Contract',
-    description: 'Contract',
+    description: 'Visualize your data',
   },
   {
     id: '23',
-    title: 'Lease',
-    ticketCount: '6',
-    match: 'counter',
+    title: 'Table',
+    tableColumns: ['Name', 'Status', 'Type', 'Expiry Date'],
+    match: 'table',
     templateType: 'Contract',
-    description: 'Contract',
+    description: 'General Table',
   },
   {
     id: '24',
-    title: 'Maintain',
+    title: 'All',
     ticketCount: '6',
     match: 'counter',
     templateType: 'Contract',
@@ -235,7 +240,7 @@ export const templateList = [
   },
   {
     id: '25',
-    title: 'Software',
+    title: 'Lease',
     ticketCount: '6',
     match: 'counter',
     templateType: 'Contract',
@@ -243,15 +248,50 @@ export const templateList = [
   },
   {
     id: '26',
+    title: 'Maintain',
+    ticketCount: '6',
+    match: 'counter',
+    templateType: 'Contract',
+    description: 'Contract',
+  },
+  {
+    id: '27',
+    title: 'Software',
+    ticketCount: '6',
+    match: 'counter',
+    templateType: 'Contract',
+    description: 'Contract',
+  },
+  {
+    id: '28',
     title: 'Warranty',
     ticketCount: '6',
     match: 'counter',
     templateType: 'Contract',
     description: 'Contract',
   },
-
   {
-    id: '27',
+    id: '29',
+    title: 'Purchase Order Distribution',
+    type: 'Pie Chart',
+    xAxis: 'Task Owner',
+    yAxis: 'Status',
+    subMetric: 'Tickets',
+    subFilter: true,
+    match: 'chart',
+    templateType: 'Purchase Order',
+    description: 'Visualize your data',
+  },
+  {
+    id: '30',
+    title: 'Table',
+    tableColumns: ['Name', 'Vendor', 'Status', 'Total Cost'],
+    match: 'table',
+    templateType: 'Purchase Order',
+    description: 'General Table',
+  },
+  {
+    id: '31',
     title: 'All',
     ticketCount: '6',
     match: 'counter',
@@ -259,7 +299,7 @@ export const templateList = [
     description: 'Purchase Order',
   },
   {
-    id: '28',
+    id: '32',
     title: 'Approved',
     ticketCount: '6',
     match: 'counter',
@@ -267,7 +307,7 @@ export const templateList = [
     description: 'Purchase Order',
   },
   {
-    id: '29',
+    id: '33',
     title: 'rejected',
     ticketCount: '6',
     match: 'counter',
@@ -275,7 +315,7 @@ export const templateList = [
     description: 'Purchase Order',
   },
   {
-    id: '30',
+    id: '34',
     title: 'Pending',
     ticketCount: '6',
     match: 'counter',
@@ -283,7 +323,7 @@ export const templateList = [
     description: 'Purchase Order',
   },
   {
-    id: '31',
+    id: '35',
     title: 'Received',
     ticketCount: '6',
     match: 'counter',
@@ -301,84 +341,38 @@ export const modalInitialState: any = {
 
 export const servicesMetrics = (setMetricType: any) => [
   {
-    title: 'Inventory',
+    title: REPORT_TYPE?.INVENTORIES,
     handleClick: (closeMenu: any) => {
-      setMetricType('Inventory');
+      setMetricType(REPORT_TYPE?.INVENTORIES);
       closeMenu?.();
     },
   },
   {
-    title: 'Software',
+    title: REPORT_TYPE?.SOFTWARE,
     handleClick: (closeMenu: any) => {
-      setMetricType('Software');
+      setMetricType(REPORT_TYPE?.SOFTWARE);
       closeMenu?.();
     },
   },
   {
-    title: 'Contract',
+    title: REPORT_TYPE?.CONTRACTS,
     handleClick: (closeMenu: any) => {
-      setMetricType('Contract');
+      setMetricType(REPORT_TYPE?.CONTRACTS);
       closeMenu?.();
     },
   },
   {
-    title: 'Tickets',
+    title: REPORT_TYPE?.TICKETS,
     handleClick: (closeMenu: any) => {
-      setMetricType('Tickets');
+      setMetricType(REPORT_TYPE?.TICKETS);
       closeMenu?.();
     },
   },
   {
-    title: 'Purchase Order',
+    title: REPORT_TYPE?.PURCHASE_ORDER,
     handleClick: (closeMenu: any) => {
-      setMetricType('Purchase Order');
+      setMetricType(REPORT_TYPE?.PURCHASE_ORDER);
       closeMenu?.();
     },
-  },
-];
-export const ActionDropDownData = () => [
-  {
-    id: 1,
-    title: 'Customize',
-  },
-  {
-    id: 2,
-    title: 'Rename',
-  },
-  {
-    id: 3,
-    title: 'Clone',
-  },
-  {
-    id: 4,
-    title: '  Export',
-  },
-  {
-    id: 5,
-    title: 'Email this Report',
-  },
-  {
-    id: 6,
-    title: 'Change Owner',
-  },
-  {
-    id: 7,
-    title: 'Add to Dashboard',
-  },
-  {
-    id: 8,
-    title: 'Clone',
-  },
-  {
-    id: 9,
-    title: 'Delete',
-  },
-  {
-    id: 10,
-    title: 'Add to favorite',
-  },
-  {
-    id: 11,
-    title: 'Manage Access',
   },
 ];

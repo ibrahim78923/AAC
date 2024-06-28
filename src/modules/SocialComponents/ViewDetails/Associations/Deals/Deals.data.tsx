@@ -25,10 +25,15 @@ export const columns: any = ({
       header: 'Phone Number',
       cell: (info: any) => info?.getValue(),
     },
-
     {
-      accessorFn: (row: any) => row?.ownerId,
-      id: 'ownerId',
+      accessorFn: (row: any) => {
+        if (row?.dealOwner?.firstName && row?.dealOwner?.lastName) {
+          return `${row?.dealOwner?.firstName} ${row?.dealOwner?.lastName}`;
+        } else {
+          return '--';
+        }
+      },
+      id: 'firstName',
       isSortable: true,
       header: 'Deals Owner',
       cell: (info: any) => info?.getValue(),

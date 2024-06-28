@@ -2,9 +2,12 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
-import { useDeleteAttachmentMutation } from '@/services/commonFeatures/contacts/associations/attachments';
 import { enqueueSnackbar } from 'notistack';
-import { useGetCompanyAssociationsQuery } from '@/services/commonFeatures/companies';
+import {
+  useGetCompanyAssociationsQuery,
+  usePostAssociationCompaniesMutation,
+} from '@/services/commonFeatures/companies';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
 
 const useAttachments = (companyId: any) => {
   const theme = useTheme();
@@ -16,24 +19,20 @@ const useAttachments = (companyId: any) => {
   const [RowData, setRowData] = useState('');
   const [attachmentId, setAttachmentId] = useState('');
 
-  // const searchObj = {
-  //   search: searchName,
-  //    id: companyId?.companyId,
-  // };
-
   const paramObj = {
     search: searchName,
-    association_type: 'attachments',
+    recordId: companyId?.companyId,
+    recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
+    associationType: ASSOCIATIONS_API_PARAMS_FOR?.ATTACHMENTS,
   };
   const { data: getCompanyAttachment, isLoading } =
     useGetCompanyAssociationsQuery({
-      id: companyId?.companyId,
       page,
       pageLimit,
       params: paramObj,
     });
-  const [deleteAttachment, { isLoading: loadingDelete }] =
-    useDeleteAttachmentMutation();
+  const [PostAssociationCompanies, { isLoading: loadingDelete }] =
+    usePostAssociationCompaniesMutation();
 
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
@@ -44,17 +43,21 @@ const useAttachments = (companyId: any) => {
   };
 
   const handleDeleteAttachment = async () => {
+    const payload = {
+      recordId: companyId?.companyId,
+      recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
+      operation: ASSOCIATIONS_API_PARAMS_FOR?.REMOVE,
+      attachmentsIds: [attachmentId],
+    };
+
     try {
-      await deleteAttachment(attachmentId)?.unwrap();
-      handleCloseAlert();
-      enqueueSnackbar('Record has been deleted.', {
-        variant: 'success',
-      });
+      await PostAssociationCompanies({ body: payload }).unwrap();
+      enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
+      setIsOpenAlert(false);
       setRowData('');
-    } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
+    } catch (error) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
   };
   return {

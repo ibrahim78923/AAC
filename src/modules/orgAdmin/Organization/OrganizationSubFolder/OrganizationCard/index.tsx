@@ -1,4 +1,3 @@
-import React from 'react';
 import Image from 'next/image';
 import {
   Grid,
@@ -26,7 +25,10 @@ import useOrganizationCard from './useOrganizationCard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
 import { getSession } from '@/utils';
-import { useGetAllProductsQuery } from '@/services/orgAdmin/organization';
+import {
+  useGetAllProductsQuery,
+  useGetOrganizationProductsQuery,
+} from '@/services/orgAdmin/organization';
 import { getProductIcon } from '@/modules/orgAdmin/SubscriptionAndInvoices/Subscriptions';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { generateImage } from '@/utils/avatarUtils';
@@ -49,14 +51,15 @@ const OrganizationCard = () => {
     methods,
     theme,
   } = useOrganizationCard();
-
-  const { data: productsData, isLoading } = useGetAllProductsQuery({});
   const { user }: { accessToken: string; refreshToken: string; user: any } =
     getSession();
 
-  const activeProducts = user?.products?.filter(
-    (product: any) => product?.status === 'active',
-  )?.length;
+  const { data: productsData, isLoading } = useGetAllProductsQuery({});
+  const { data: orgProductsData } = useGetOrganizationProductsQuery({
+    id: user?.organization?._id,
+  });
+
+  const activeProducts = orgProductsData?.data?.length;
   const totalProducts = productsData?.data?.length || 0;
   const inActiveProducts = Math?.max(totalProducts - activeProducts, 0);
 
@@ -356,7 +359,7 @@ const OrganizationCard = () => {
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                filter: user?.products?.some(
+                                filter: orgProductsData?.data?.some(
                                   (userProduct: any) =>
                                     userProduct?._id === item?._id,
                                 )

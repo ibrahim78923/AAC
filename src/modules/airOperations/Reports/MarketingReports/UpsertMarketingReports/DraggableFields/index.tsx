@@ -14,7 +14,6 @@ import { TextEditor } from '../DraggableFormFields/TextEditor';
 import { SaveReportDrawer } from '../SaveReportDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AppsIcon from '@mui/icons-material/Apps';
-import { REPORT_TYPE } from '@/constants/strings';
 import { marketingMetrics, templateList } from '../UpsertMArketingReports.data';
 
 export default function DraggableFields({
@@ -82,8 +81,7 @@ export default function DraggableFields({
                   <>
                     {templateList?.map(
                       (item: any, index: number) =>
-                        (item?.templateType === metricType ||
-                          item?.templateType === REPORT_TYPE?.ALL) && (
+                        item?.templateType === metricType && (
                           <Draggable
                             key={item?.id}
                             draggableId={item?.id}

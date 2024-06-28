@@ -33,7 +33,7 @@ export const createBroadcast = () => {
     {
       componentProps: {
         name: 'name',
-        label: 'Name',
+        label: 'Broadcast Name',
         required: true,
         placeholder: 'Enter name',
       },
@@ -51,7 +51,7 @@ export const createBroadcast = () => {
       md: 12,
     },
     {
-      title: 'Compaign',
+      title: 'Campaign',
       componentProps: {
         placeholder: 'Select campaign',
         name: 'campaignId',

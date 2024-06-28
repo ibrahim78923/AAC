@@ -6,7 +6,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  useLazyGetSalesProductByIdQuery,
+  useGetSalesProductByIdQuery,
   usePostSalesProductMutation,
   useUpdateSalesProductMutation,
 } from '@/services/airSales/deals/settings/sales-product';
@@ -14,7 +14,6 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 import { useEffect } from 'react';
-import { useLazyGetProductCategoriesQuery } from '@/services/common-APIs';
 
 const useSalesEditorDrawer = ({
   selectedCheckboxes,
@@ -28,37 +27,35 @@ const useSalesEditorDrawer = ({
   const [updateSalesProduct, { isLoading: updateProductLoading }] =
     useUpdateSalesProductMutation();
 
-  const [getSalesProductById, { isLoading: productsDataLoading }] =
-    useLazyGetSalesProductByIdQuery();
-
-  const productCategories = useLazyGetProductCategoriesQuery();
+  const { data: productUsersById, isLoading: productsDataLoading } =
+    useGetSalesProductByIdQuery(selectedCheckboxes);
 
   const salesProduct = useForm({
     resolver: yupResolver(salesProductvalidationSchema),
     defaultValues: salesProductDefaultValues,
   });
-  const { handleSubmit, reset } = salesProduct;
+  const { handleSubmit, setValue } = salesProduct;
+
   useEffect(() => {
-    if (selectedCheckboxes?.length > 0 && isEditMode) {
-      getSalesProductById(selectedCheckboxes)
-        .unwrap()
-        .then((res: any) => {
-          if (res) {
-            const fieldsData = res?.data;
-            reset({
-              name: fieldsData?.name,
-              sku: fieldsData?.sku,
-              purchasePrice: fieldsData?.purchasePrice,
-              category: fieldsData?.category?._id,
-              associate: fieldsData?.associate,
-              description: fieldsData?.description,
-              isActive: fieldsData?.isActive,
-              unitPrice: fieldsData?.unitPrice,
-            });
-          }
-        });
+    {
+      if (isEditMode) {
+        const data = productUsersById?.data;
+        const fieldsToSet: any = {
+          name: data?.name,
+          sku: data?.sku,
+          purchasePrice: data?.purchasePrice,
+          category: data?.category?._id,
+          associate: data?.associate,
+          description: data?.description,
+          isActive: data?.isActive,
+          unitPrice: data?.unitPrice,
+        };
+        for (const key in fieldsToSet) {
+          setValue(key, fieldsToSet[key]);
+        }
+      }
     }
-  }, [selectedCheckboxes, reset]);
+  }, [productUsersById]);
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
@@ -120,7 +117,6 @@ const useSalesEditorDrawer = ({
     handleUserSwitchChange,
     updateProductLoading,
     productsDataLoading,
-    productCategories,
     productLoading,
     handleSubmit,
     salesProduct,

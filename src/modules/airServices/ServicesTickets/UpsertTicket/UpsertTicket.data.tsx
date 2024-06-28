@@ -19,7 +19,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { Box, Typography } from '@mui/material';
 import { ROLES } from '@/constants/strings';
-import { FILE_MAX_SIZE, PAGINATION } from '@/config';
+import { PAGINATION } from '@/config';
 
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
@@ -344,11 +344,6 @@ export const upsertTicketFormFieldsDynamic = (
     componentProps: {
       name: 'attachFile',
       fullWidth: true,
-      fileType: 'PNG or JPG  (max 2.44 MB)',
-      maxSize: FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE,
-      accept: {
-        'image/*': ['.png', '.jpg'],
-      },
     },
     component: RHFDropZone,
   },

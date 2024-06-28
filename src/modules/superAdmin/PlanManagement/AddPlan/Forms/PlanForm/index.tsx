@@ -212,7 +212,7 @@ const AddPlanForm = ({
                       return option?.label;
                     }}
                     renderOption={(props, option) => {
-                      const isAddOption = option.label.startsWith('Add');
+                      const isAddOption = option?.label?.startsWith('Add');
 
                       return (
                         <li

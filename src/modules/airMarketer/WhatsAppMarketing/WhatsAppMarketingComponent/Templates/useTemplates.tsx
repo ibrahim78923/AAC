@@ -5,8 +5,10 @@ import {
   useGetWhatsappTemplatesQuery,
 } from '@/services/airMarketer/whatsappMarketing/templates';
 import { enqueueSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
 
 const useTemplates = () => {
+  const router = useRouter();
   const [searchBy, setSearchBy] = useState('');
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -37,6 +39,7 @@ const useTemplates = () => {
   };
 
   return {
+    router,
     setPage,
     setLimit,
     searchBy,

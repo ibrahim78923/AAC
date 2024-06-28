@@ -4,25 +4,24 @@ import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
 import { AttachFileIcon } from '@/assets/icons';
 import CustomLabel from '../CustomLabel';
+import { FILE_MAX_SIZE } from '@/config';
 
 export default function RHFDropZone({
   name,
   required,
   fileName = 'Attach a file',
-  fileType = 'SVG, PNG, JPG or GIF (max 2 MB)',
+  fileType = 'PNG, JPG, PDF, DOC, and CSV (max 2.44 MB)',
   accept = {
     'image/png': ['.png', '.PNG'],
     'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
-    'image/gif': ['.gif', '.GIF'],
     'application/pdf': ['.pdf'],
     'application/msword': ['.doc'],
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [
       '.docx',
     ],
-    'application/vnd.ms-excel': ['.xls', '.xlsx'],
     'text/csv': ['.csv'],
   },
-  maxSize = 1024 * 1024 * 2,
+  maxSize = FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE,
   disabled,
   ...other
 }: any) {

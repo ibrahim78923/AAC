@@ -1,23 +1,47 @@
 export const tableEditorData = [
   {
-    title: 'Name',
+    title: 'Owner',
   },
   {
-    title: 'Type',
+    title: 'New',
   },
   {
-    title: 'Channel',
+    title: 'Follow up',
   },
   {
-    title: 'Project Owner',
+    title: 'Under review',
+  },
+  {
+    title: 'Demo',
+  },
+  {
+    title: 'Negotiation',
+  },
+  {
+    title: 'Won',
+  },
+  {
+    title: 'Total revenue goal',
+  },
+  {
+    title: 'Deal Name',
+  },
+  {
+    title: 'Owner Channel',
+  },
+  {
+    title: 'Deal Pipeline Stage',
+  },
+  {
+    title: 'Deal Close Date',
+  },
+  {
+    title: 'Quote Name',
+  },
+  {
+    title: 'Amount',
   },
   {
     title: 'Status',
-  },
-  {
-    title: 'Priority',
-  },
-  {
-    title: 'Quantity',
   },
 ];

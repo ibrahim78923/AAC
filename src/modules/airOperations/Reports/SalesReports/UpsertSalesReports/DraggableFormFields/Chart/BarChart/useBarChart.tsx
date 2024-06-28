@@ -1,58 +1,73 @@
 import { useTheme } from '@mui/material';
-import { barChartData } from './BarChart.data';
 
 export const useBarChart = () => {
   const theme = useTheme();
 
-  const groupedData = barChartData?.reduce((acc: any, curr: any) => {
-    const { month, status, count } = curr;
-    acc[month] = acc[month] || {
-      Series_1: 0,
-      Series_2: 0,
-    };
-    acc[month][status] = count;
-    return acc;
-  }, {});
-
-  const monthAbbreviations = [
-    'JAN',
-    'FEB',
-    'MAR',
-    'APR',
-    'MAY',
-    'JUN',
-    'JUL',
-    'AUG',
-    'SEP',
-    'OCT',
-    'NOV',
-    'DEC',
-  ];
-
-  const months = Object?.keys(groupedData || {})?.sort(
-    (a: any, b: any) => a - b,
-  );
-  const seriesData = ['Series-1', 'Series-2']?.map((status) => ({
-    name: status,
-    data: months?.map((month: any) => groupedData[month]?.[status] || 0),
-  }));
-
-  const options = {
-    xaxis: {
-      categories: months?.map(
-        (month: any) => monthAbbreviations[parseInt(month) - 1],
-      ),
+  const chartOptions = {
+    chart: {
+      type: 'bar',
+      height: 350,
+      toolbar: {
+        show: false,
+      },
     },
-    colors: [theme?.palette?.primary?.main, theme?.palette?.blue?.link_blue],
     plotOptions: {
       bar: {
+        horizontal: false,
         columnWidth: '50%',
       },
     },
+    dataLabels: {
+      enabled: false,
+    },
+    xaxis: {
+      categories: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ],
+      labels: {
+        style: {
+          fontSize: '12px',
+        },
+      },
+      title: {
+        text: 'Months',
+        style: {
+          fontSize: '14px',
+          fontWeight: 600,
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          fontSize: '12px',
+        },
+      },
+      title: {
+        text: 'Number of Deals',
+        style: {
+          fontSize: '14px',
+          fontWeight: 600,
+        },
+      },
+    },
+
     legend: {
       offsetY: 5,
     },
+    colors: [theme?.palette?.primary?.main, theme?.palette?.blue?.link_blue],
   };
 
-  return { options, seriesData };
+  return { chartOptions };
 };

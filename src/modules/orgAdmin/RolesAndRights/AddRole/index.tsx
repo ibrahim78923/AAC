@@ -21,6 +21,7 @@ import useAddRole from './useAddRole';
 import { ArrowBack } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { useLazyGetDropdownProductsQuery } from '@/services/common-APIs';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const AddRole = () => {
   const {
@@ -55,11 +56,11 @@ const AddRole = () => {
           sx={{ cursor: 'pointer' }}
         />
         <Typography variant="h4">
-          {query?.type === 'add'
+          {query?.type === DRAWER_TYPES?.ADD
             ? 'Add New Role'
-            : query?.type === 'edit'
-              ? 'Edit Role'
-              : 'Role Details'}
+            : query?.type === DRAWER_TYPES?.EDIT
+            ? 'Edit Role'
+            : 'Role Details'}
         </Typography>
       </Box>
       <Box sx={{ my: 3 }}>
@@ -70,7 +71,7 @@ const AddRole = () => {
                 <item.component
                   {...item.componentProps}
                   size={'small'}
-                  disabled={query?.type === 'view' ? true : false}
+                  disabled={query?.type === DRAWER_TYPES?.VIEW ? true : false}
                 />
               </Grid>
             ))}
@@ -96,7 +97,7 @@ const AddRole = () => {
                   <PermissionsAccordion
                     query={query}
                     permissionsData={
-                      query?.type === 'view'
+                      query?.type === DRAWER_TYPES?.VIEW
                         ? viewPerdetails?.data
                         : productPermissionsData
                     }
@@ -110,7 +111,8 @@ const AddRole = () => {
             </Grid>
           )}
           <Divider sx={{ my: 3 }} />
-          {(query?.type === 'add' || query?.type === 'edit') && (
+          {(query?.type === DRAWER_TYPES?.ADD ||
+            query?.type === DRAWER_TYPES?.EDIT) && (
             <Box
               sx={{
                 display: 'flex',
@@ -133,10 +135,12 @@ const AddRole = () => {
                 variant="contained"
                 onClick={handleSubmit(onSubmit)}
                 loading={
-                  query?.type === 'add' ? loadingAddRole : loadingUpdateRole
+                  query?.type === DRAWER_TYPES?.ADD
+                    ? loadingAddRole
+                    : loadingUpdateRole
                 }
               >
-                {query?.type === 'add' ? 'Add' : 'Update'}
+                {query?.type === DRAWER_TYPES?.ADD ? 'Add' : 'Update'}
               </LoadingButton>
             </Box>
           )}

@@ -15,7 +15,6 @@ import { SaveReportDrawer } from '../SaveReportDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { servicesMetrics, templateList } from '../UpsertServicesReports.data';
 import AppsIcon from '@mui/icons-material/Apps';
-import { REPORT_TYPE } from '@/constants/strings';
 
 export default function DraggableFields({
   setModal,
@@ -54,6 +53,7 @@ export default function DraggableFields({
   handleCancel,
   reportId,
   setDraggedItemData,
+  disableTemplate,
 }: any) {
   const theme: any = useTheme();
 
@@ -82,8 +82,7 @@ export default function DraggableFields({
                   <>
                     {templateList?.map(
                       (item: any, index: number) =>
-                        (item?.templateType === metricType ||
-                          item?.templateType === REPORT_TYPE?.ALL) && (
+                        item?.templateType === metricType && (
                           <Draggable
                             key={item?.id}
                             draggableId={item?.id}
@@ -244,6 +243,7 @@ export default function DraggableFields({
                   subFilter={subFilter}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
+                  disableTemplate={disableTemplate}
                 />
               )}
 
@@ -279,6 +279,7 @@ export default function DraggableFields({
                   columnsData={columnsData}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
+                  disableTemplate={disableTemplate}
                 />
               )}
             </>

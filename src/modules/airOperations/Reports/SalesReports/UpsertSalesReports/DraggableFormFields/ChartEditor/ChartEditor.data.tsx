@@ -1,29 +1,73 @@
-export const servicesChartMetrics = (setChartMetricType: any) => [
+const CHART_METRICS = {
+  TOTAL_DEALS: 'Total Deals',
+  OPEN_DEALS: 'Open Deals',
+  CLOSE_DEALS: 'Close Deals',
+};
+export const dealsMetrics = (setChartMetricType: any) => [
   {
-    title: 'Inventories',
+    title: CHART_METRICS?.TOTAL_DEALS,
     handleClick: (closeMenu: any) => {
-      setChartMetricType('Inventories');
+      setChartMetricType(CHART_METRICS?.TOTAL_DEALS);
       closeMenu?.();
     },
   },
   {
-    title: 'Tickets',
+    title: CHART_METRICS?.OPEN_DEALS,
     handleClick: (closeMenu: any) => {
-      setChartMetricType('Tickets');
+      setChartMetricType(CHART_METRICS?.OPEN_DEALS);
       closeMenu?.();
     },
   },
   {
-    title: 'Tasks',
+    title: CHART_METRICS?.CLOSE_DEALS,
     handleClick: (closeMenu: any) => {
-      setChartMetricType('Tasks');
+      setChartMetricType(CHART_METRICS?.CLOSE_DEALS);
+      closeMenu?.();
+    },
+  },
+];
+export const pipelineMetrics = (setChartMetricType: any) => [
+  {
+    title: CHART_METRICS?.TOTAL_DEALS,
+    handleClick: (closeMenu: any) => {
+      setChartMetricType(CHART_METRICS?.TOTAL_DEALS);
       closeMenu?.();
     },
   },
   {
-    title: 'Users',
+    title: CHART_METRICS?.OPEN_DEALS,
     handleClick: (closeMenu: any) => {
-      setChartMetricType('Users');
+      setChartMetricType(CHART_METRICS?.OPEN_DEALS);
+      closeMenu?.();
+    },
+  },
+  {
+    title: CHART_METRICS?.CLOSE_DEALS,
+    handleClick: (closeMenu: any) => {
+      setChartMetricType(CHART_METRICS?.CLOSE_DEALS);
+      closeMenu?.();
+    },
+  },
+];
+export const forecastMetrics = (setChartMetricType: any) => [
+  {
+    title: CHART_METRICS?.TOTAL_DEALS,
+    handleClick: (closeMenu: any) => {
+      setChartMetricType(CHART_METRICS?.TOTAL_DEALS);
+      closeMenu?.();
+    },
+  },
+  {
+    title: CHART_METRICS?.OPEN_DEALS,
+    handleClick: (closeMenu: any) => {
+      setChartMetricType(CHART_METRICS?.OPEN_DEALS);
+      closeMenu?.();
+    },
+  },
+  {
+    title: CHART_METRICS?.CLOSE_DEALS,
+    handleClick: (closeMenu: any) => {
+      setChartMetricType(CHART_METRICS?.CLOSE_DEALS);
       closeMenu?.();
     },
   },

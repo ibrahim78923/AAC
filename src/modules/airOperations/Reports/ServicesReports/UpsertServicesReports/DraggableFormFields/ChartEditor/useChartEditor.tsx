@@ -2,7 +2,13 @@ import { CHARTS, REPORT_TYPE } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useState } from 'react';
-
+import {
+  inventoryMetrics,
+  ticketsMetrics,
+  purchaseOrderMetrics,
+  contractsMetrics,
+  softwareMetrics,
+} from './ChartEditor.data';
 export const useChartEditor = (props: any) => {
   const {
     setFieldData,
@@ -18,9 +24,28 @@ export const useChartEditor = (props: any) => {
     chartType,
     subFilter,
     setDraggedItemData,
+    setChartMetricType,
   } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
+
+  const getDropdownOptions = () => {
+    switch (metricType) {
+      case REPORT_TYPE?.INVENTORIES:
+        return inventoryMetrics(setChartMetricType);
+      case REPORT_TYPE?.TICKETS:
+        return ticketsMetrics(setChartMetricType);
+      case REPORT_TYPE?.SOFTWARE:
+        return softwareMetrics(setChartMetricType);
+      case REPORT_TYPE?.CONTRACTS:
+        return contractsMetrics(setChartMetricType);
+      case REPORT_TYPE?.PURCHASE_ORDER:
+        return purchaseOrderMetrics(setChartMetricType);
+      default:
+        return [];
+    }
+  };
+  const dropdownOptions = getDropdownOptions();
 
   const handleSave = () => {
     const uniqueId = generateUniqueId();
@@ -58,5 +83,6 @@ export const useChartEditor = (props: any) => {
     setEdit,
     editValue,
     setEditValue,
+    dropdownOptions,
   };
 };

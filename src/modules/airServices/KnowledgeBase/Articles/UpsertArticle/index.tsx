@@ -64,14 +64,7 @@ export const UpsertArticle = () => {
                 AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.ATTACHMENT,
               ]}
             >
-              <RHFDropZone
-                name="attachments"
-                fileType="PNG or JPG  (max 2.44 MB)"
-                maxSize={1024 * 1024 * 2.44}
-                accept={{
-                  'image/*': ['.png', '.jpg'],
-                }}
-              />
+              <RHFDropZone name="attachments" fullWidth />
               {!!articleId && (
                 <>
                   <Typography

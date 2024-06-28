@@ -29,6 +29,7 @@ export default function DraggableFields({ fieldsList }: any) {
                   mb={index === fieldsList?.length - 1 ? 0 : 2}
                   p={1}
                   display={'flex'}
+                  overflow={'auto'}
                   alignItems={'center'}
                   ref={provided?.innerRef}
                   {...provided?.draggableProps}

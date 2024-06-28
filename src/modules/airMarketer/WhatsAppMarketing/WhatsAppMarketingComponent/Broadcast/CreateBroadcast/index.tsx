@@ -29,7 +29,7 @@ const CreateBroadcast = () => {
   const { watch } = methods;
   const previewName = watch('name');
   const previewDetail = watch('details');
-
+  const previewAttachment = watch('attachment');
   const formFields = createBroadcastFields(handleOpenContactsDrawer);
 
   return (
@@ -37,7 +37,7 @@ const CreateBroadcast = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
         <Box
           onClick={() =>
-            router.push({ pathname: AIR_MARKETER.WHATSAPP_MARKETING })
+            router?.push({ pathname: AIR_MARKETER?.WHATSAPP_MARKETING })
           }
           sx={{ cursor: 'pointer', lineHeight: '1', mr: '12px' }}
         >
@@ -93,7 +93,9 @@ const CreateBroadcast = () => {
                 </Stack>
               </Grid>
               <Grid item xs={12}>
-                <Box sx={styles?.previewAttachment}></Box>
+                <Box sx={styles?.previewAttachment}>
+                  {previewAttachment?.name}
+                </Box>
               </Grid>
               <Grid item xs={12}>
                 <Box sx={styles?.previewLabel}>Details</Box>
@@ -117,10 +119,19 @@ const CreateBroadcast = () => {
             md={12}
             sx={{ display: 'flex', justifyContent: 'right', gap: '10px' }}
           >
-            <Button variant="outlined" startIcon={<DateRangeIcon />}>
+            <Button
+              className="small"
+              variant="outlined"
+              color="inherit"
+              startIcon={<DateRangeIcon />}
+            >
               Schedule
             </Button>
-            <Button variant="contained" onClick={handleCreateBroadcastSubmit}>
+            <Button
+              className="small"
+              variant="contained"
+              onClick={handleCreateBroadcastSubmit}
+            >
               Send Now
             </Button>
           </Grid>

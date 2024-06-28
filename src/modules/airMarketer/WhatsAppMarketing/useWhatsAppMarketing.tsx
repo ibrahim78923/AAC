@@ -1,11 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useGetIsPhoneConnectedQuery } from '@/services/airMarketer/whatsapp-marketing';
 
 const useWhatsAppMarketing = () => {
-  const [isNumberConnected, setIsNumberConnected] = useState<boolean>(true);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [isMainLayoutSwitch, setIsMainLayoutSwitch] = useState(true);
+  const [templateType, setTemplateType] = useState('');
+
+  const handelSwitch = (children: any) => {
+    setIsMainLayoutSwitch(children);
+  };
+
+  const { data: getIsPhoneConnected, isLoading } = useGetIsPhoneConnectedQuery(
+    {},
+  );
+
+  useEffect(() => {
+    if (getIsPhoneConnected?.data?.phoneNumber) {
+      setIsConnected(true);
+    }
+  }, [getIsPhoneConnected]);
 
   return {
-    isNumberConnected,
-    setIsNumberConnected,
+    setIsMainLayoutSwitch,
+    isMainLayoutSwitch,
+    setTemplateType,
+    setIsConnected,
+    templateType,
+    handelSwitch,
+    isConnected,
+    isLoading,
   };
 };
 

@@ -14,10 +14,26 @@ export const generateUniqueId = () => {
 };
 
 export const componentMap: any = {
-  RHFTextField,
-  RHFRadioGroup,
-  RHFMultiCheckbox,
-  RHFDatePicker,
-  RHFDropZone,
-  RHFAutocomplete,
+  RHFTEXTFIELD: RHFTextField,
+  RHFRADIOGROUP: RHFRadioGroup,
+  RHFMULTICHECKBOX: RHFMultiCheckbox,
+  RHFDATEPICKER: RHFDatePicker,
+  RHFDROPZONE: RHFDropZone,
+  RHFAUTOCOMPLETE: RHFAutocomplete,
+};
+
+export const FIELDS_CONSTANTS: any = {
+  RHFTEXTFIELD: 'RHFTEXTFIELD',
+  RHFRADIOGROUP: 'RHFRADIOGROUP',
+  RHFMULTICHECKBOX: 'RHFMULTICHECKBOX',
+  RHFDATEPICKER: 'RHFDATEPICKER',
+  RHFDROPZONE: 'RHFDROPZONE',
+  RHFAUTOCOMPLETE: 'RHFAUTOCOMPLETE',
+};
+
+export const DYNAMIC_FIELDS = {
+  PT_SERVICES: 'SERVICES',
+  PT_MARKETING: 'MARKETING',
+  PT_SALES: 'SALES',
+  MT_VENDOR: 'VENDOR',
 };

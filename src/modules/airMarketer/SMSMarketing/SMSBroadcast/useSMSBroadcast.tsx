@@ -22,7 +22,7 @@ const useSMSBroadcast = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [filterValues, setFilterValues] = useState<any>({
     search: '',
-    status: '',
+    status: 'status',
     toDate: '',
     fromDate: '',
   });
@@ -35,7 +35,8 @@ const useSMSBroadcast = () => {
     page: page,
     limit: pageLimit,
     search: filterValues?.search,
-    status: filterValues?.status ? filterValues?.status : undefined,
+    status:
+      filterValues?.status !== 'status' ? filterValues?.status : undefined,
     toDate: filterValues?.toDate
       ? dayjs(filterValues?.toDate)?.format(DATE_FORMAT?.API)
       : undefined,
@@ -89,25 +90,10 @@ const useSMSBroadcast = () => {
   const resetFilters = () => {
     setFilterValues({
       search: '',
-      status: '',
+      status: 'status',
       toDate: '',
       fromDate: '',
     });
-  };
-
-  const statusTag = (val: any) => {
-    switch (val) {
-      case 'Completed':
-        return theme?.palette?.primary?.main;
-      case 'Scheduled':
-        return theme?.palette?.warning?.main;
-      case 'Draft':
-        return theme?.palette?.grey[900];
-      case 'Processing':
-        return theme?.palette?.success?.main;
-      case 'Stopped':
-        return theme?.palette?.grey[900];
-    }
   };
 
   return {
@@ -117,7 +103,6 @@ const useSMSBroadcast = () => {
     handleClose,
     handleClick,
     setIsDelete,
-    statusTag,
     navigate,
     isDelete,
     selectedId,

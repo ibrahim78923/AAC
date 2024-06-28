@@ -15,7 +15,6 @@ import { useChartEditor } from './useChartEditor';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { CheckBox } from '@mui/icons-material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { servicesChartMetrics } from './ChartEditor.data';
 import { CHARTS } from '@/constants/strings';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
@@ -25,15 +24,21 @@ export const ChartEditor = (props: any) => {
     metricType,
     setValue,
     chartTitle,
-    setChartMetricType,
     chartMetricType,
     xAxisData,
     yAxisData,
     handleCancel,
+    disableTemplate,
   } = props;
 
-  const { handleSave, edit, setEdit, editValue, setEditValue } =
-    useChartEditor(props);
+  const {
+    handleSave,
+    edit,
+    setEdit,
+    editValue,
+    setEditValue,
+    dropdownOptions,
+  } = useChartEditor(props);
 
   return (
     <>
@@ -46,7 +51,7 @@ export const ChartEditor = (props: any) => {
         name={'chartTitle'}
         size="small"
         label="Title"
-        disabled={edit}
+        disabled={edit || disableTemplate}
         InputProps={{
           onClick: () => {},
           endAdornment: (
@@ -77,11 +82,18 @@ export const ChartEditor = (props: any) => {
           name="chartType"
           label="Type"
           size="small"
-          options={['Bar Chart', 'Donut Chart', 'Pie Chart']}
+          disabled={disableTemplate}
+          options={[
+            'Bar Chart',
+            'Horizontal Bar Chart',
+            'Donut Chart',
+            'Pie Chart',
+          ]}
           getOptionLabel={(option: any) => option}
           required
         />
-        {chartType === CHARTS?.BAR_CHART && (
+        {(chartType === CHARTS?.BAR_CHART ||
+          chartType === CHARTS?.HORIZONTAL_BAR_CHART) && (
           <Box border={1} borderColor={'grey.700'} borderRadius={2} m={1}>
             <Box borderRadius={2} p={1} bgcolor={'primary.light'}>
               <Typography variant="h6">{metricType}</Typography>
@@ -92,6 +104,7 @@ export const ChartEditor = (props: any) => {
                 size="small"
                 label="X Axis"
                 name="xAxis"
+                disabled={disableTemplate}
                 options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
                 getOptionLabel={(option: string) => option}
               />
@@ -101,6 +114,7 @@ export const ChartEditor = (props: any) => {
                 size="small"
                 label="Y Axis"
                 name="yAxis"
+                disabled={disableTemplate}
                 options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
                 getOptionLabel={(option: string) => option}
               />
@@ -112,8 +126,9 @@ export const ChartEditor = (props: any) => {
           <>
             <Box m={1}>
               <SingleDropdownButton
-                dropdownOptions={servicesChartMetrics(setChartMetricType)}
+                dropdownOptions={dropdownOptions}
                 dropdownName={chartMetricType}
+                disabled={disableTemplate}
               />
             </Box>
           </>
@@ -121,6 +136,7 @@ export const ChartEditor = (props: any) => {
         <RHFCheckbox
           name="subFilter"
           label="Add Date Range Filter"
+          disabled={disableTemplate}
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
         />

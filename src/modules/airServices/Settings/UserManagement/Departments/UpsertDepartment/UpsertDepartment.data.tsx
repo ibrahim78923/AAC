@@ -101,11 +101,7 @@ export const departmentFormFieldsDynamic: any = ({
     componentProps: {
       name: 'fileUrl',
       label: 'Image',
-      accept: {
-        'image/*': ['.png', '.jpg', '.svg'],
-      },
       fileName: 'Upload File',
-      fileType: 'SVG, PNG or JPG (max 2 MB)',
     },
     component: RHFDropZone,
   },

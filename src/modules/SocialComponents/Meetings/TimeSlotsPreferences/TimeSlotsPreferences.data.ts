@@ -4,9 +4,6 @@ export const weeklyDaysSchemaFields: any = Yup?.object()?.shape({
   months: Yup?.array()
     ?.of(Yup?.string())
     ?.default([]),
-  weekly: Yup?.array()
-    ?.of(Yup?.string())
-    ?.default([]),
   daysTimeRanges: Yup?.array()
     ?.of(
       Yup?.object()?.shape({
@@ -43,17 +40,48 @@ export const weeklyDaysSchemaFields: any = Yup?.object()?.shape({
   }),
 });
 
-export const defaultValues = {
-  months: [],
-  weekly: [],
-  daysTimeRanges: [
-    { days: '', timeRanges: [{ startHour: new Date(), endHour: new Date() }] },
-  ],
-  dateOverrides: [
-    {
-      date: new Date(),
-      timeRanges: [{ startHour: new Date(), endHour: new Date() }],
+export const timeSlotsDefaultValues = () => {
+  return {
+    months: [],
+    daysTimeRanges: [
+      {
+        days: 'Sunday',
+        timeRanges: [],
+      },
+      {
+        days: 'Monday',
+        timeRanges: [],
+      },
+      {
+        days: 'Tuesday',
+        timeRanges: [],
+      },
+      {
+        days: 'Wednesday',
+        timeRanges: [],
+      },
+      {
+        days: 'Thursday',
+        timeRanges: [],
+      },
+      {
+        days: 'Friday',
+        timeRanges: [],
+      },
+      {
+        days: 'Saturday',
+        timeRanges: [],
+      },
+    ],
+    dateOverrides: [
+      {
+        date: new Date(),
+        timeRanges: [{ startHour: new Date(), endHour: new Date() }],
+      },
+    ],
+    bufferTime: {
+      bufferBefore: null,
+      bufferAfter: null,
     },
-  ],
-  bufferTime: { bufferBefore: null, bufferAfter: null },
+  };
 };

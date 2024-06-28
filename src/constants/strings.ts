@@ -811,6 +811,7 @@ export const CHARTS: any = {
   BAR_CHART: 'Bar Chart',
   DONUT_CHART: 'Donut Chart',
   PIE_CHART: 'Pie Chart',
+  HORIZONTAL_BAR_CHART: 'Horizontal Bar Chart',
 };
 
 export const SELECTED_ARRAY_LENGTH = {
@@ -835,7 +836,16 @@ export const REPORT_TYPE = {
   EVERYONE: 'everyone',
   SPECIFIC_USERS: 'specificUsers',
   ADD_TO_EXISTING: 'addToExisting',
+  ADD_TO_NEW: 'addToNew',
   ALL: 'All',
+  INVENTORIES: 'Inventory',
+  TICKETS: 'Tickets',
+  SOFTWARE: 'Software',
+  CONTRACTS: 'Contract',
+  PURCHASE_ORDER: 'Purchase Order',
+  DEALS: 'Deals',
+  PIPELINE_FORECAST: 'Pipeline Forecast',
+  FORECAST_CATEGORY: 'Forecast Category',
 };
 
 export const USER_MANAGEMENT_DRAWER_ACTION = {
@@ -862,4 +872,12 @@ export const NOTIFICATIONS_TYPES = {
 export const FEEDBACK_SURVEY_TYPES = {
   CUSTOMER_SATISFACTION: 'customerSatisfaction',
   CUSTOMER_SUPPORT: 'customerSupport',
+};
+
+export const TIME_ENTRIES_TICKETS_TIMES = {
+  INITIAL_SECOND: 0,
+  INITIAL_MINUTE: 0,
+  INITIAL_HOUR: 0,
+  PREVIOUS_SECOND: 59,
+  PREVIOUS_MINUTE: 59,
 };

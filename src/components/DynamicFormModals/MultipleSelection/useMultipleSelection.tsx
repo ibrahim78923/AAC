@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { generateUniqueId } from '@/utils/dynamic-forms';
+import { FIELDS_CONSTANTS, generateUniqueId } from '@/utils/dynamic-forms';
 import { validationSchema, defaultValues } from './MultipleSelection.data';
 import { useEffect, useState } from 'react';
 
@@ -71,7 +71,6 @@ export default function useMultipleSelection({
                   required: data?.required,
                   options: data?.options,
                 },
-                component: 'RHFMultiCheckbox',
               }
             : item,
         ),
@@ -88,7 +87,7 @@ export default function useMultipleSelection({
             required: data?.required,
             options: data?.options,
           },
-          component: 'RHFMultiCheckbox',
+          component: FIELDS_CONSTANTS?.RHFMULTICHECKBOX,
         },
       ]);
     }

@@ -46,6 +46,13 @@ export const organizationAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAGS,
     }),
+    getOrganizationProducts: builder.query({
+      query: ({ id }: any) => ({
+        url: `${organization?.GET_MAIN_ORGANIZATION}/${id}${END_POINTS?.PRODUCTS}`,
+        method: 'GET',
+      }),
+      providesTags: TAGS,
+    }),
     updateOrganization: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `${organization.UPDATE_ORGANIZATION_ACCOUNT}/${id}`,
@@ -92,4 +99,5 @@ export const {
   useUpdateOrganizationStatusMutation,
   useGetAllProductsQuery,
   useGetOrganizationDetailsByIdQuery,
+  useGetOrganizationProductsQuery,
 } = organizationAPI;

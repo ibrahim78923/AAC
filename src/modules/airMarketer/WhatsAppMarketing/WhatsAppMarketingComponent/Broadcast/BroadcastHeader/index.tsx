@@ -1,30 +1,55 @@
-import { useState } from 'react';
-import { Box, Button, Menu, MenuItem, Stack } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  Menu,
+  MenuItem,
+  Select,
+  Stack,
+  Tooltip,
+} from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import Search from '@/components/Search';
 import useBroadcast from '../useBroadcast';
-import { BroadcastHeaderI } from './BroadcastHeader.interface';
+// import { BroadcastHeaderI } from './BroadcastHeader.interface';
 import { styles } from './BroadcastHeader.style';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { useRouter } from 'next/navigation';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  AlertModalDeleteIcon,
+  DeleteIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
+import { LoadingButton } from '@mui/lab';
+import { AlertModals } from '@/components/AlertModals';
 
-const BroadcastHeader = (props: BroadcastHeaderI) => {
+const BroadcastHeader = (props: any) => {
   const router = useRouter();
-  const [dateValue, setDateValue] = useState<any>([new Date(), new Date()]);
-  const { handleOpenDelete } = props;
+  const {
+    setDatePickerVal,
+
+    setFilterValues,
+    datePickerVal,
+    resetFilters,
+    filterValues,
+    startedDate,
+    checkedRows,
+    endedDate,
+  } = props;
   const {
     theme,
-    statusEl,
-    statusMenuOpen,
-    handleStatusMenuClick,
-    handleStatusMenuClose,
     actionsEl,
     actionsMenuOpen,
+    openModalDelete,
+    handleOpenDelete,
+    handleCloseDelete,
     handleActionsMenuClick,
+    deleteBroadcastLoading,
     handleActionsMenuClose,
+    handleSMSBroadcastDelete,
   } = useBroadcast();
 
   return (
@@ -36,9 +61,16 @@ const BroadcastHeader = (props: BroadcastHeaderI) => {
           ]}
         >
           <SwitchableDatepicker
-            renderInput="date"
-            dateValue={dateValue}
-            setDateValue={setDateValue}
+            renderInput={'date'}
+            dateValue={datePickerVal}
+            setDateValue={setDatePickerVal}
+            handleDateSubmit={() => {
+              setFilterValues({
+                ...filterValues,
+                toDate: datePickerVal[startedDate],
+                fromDate: datePickerVal[endedDate],
+              });
+            }}
           />
         </PermissionsGuard>
       </Box>
@@ -48,18 +80,68 @@ const BroadcastHeader = (props: BroadcastHeaderI) => {
             AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,
           ]}
         >
-          <Search size="small" placeholder="Search Here" />
+          <Search
+            size="small"
+            placeholder="Search Here"
+            onChange={(e: any) => {
+              setFilterValues({ ...filterValues, search: e?.target?.value });
+            }}
+          />
         </PermissionsGuard>
-
+        <Tooltip title={'Refresh Filter'}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            className="small"
+            onClick={resetFilters}
+          >
+            <RefreshTasksIcon />
+          </Button>
+        </Tooltip>
         <PermissionsGuard
           permissions={[
             AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,
           ]}
         >
+          <FormControl size="small">
+            <Select
+              sx={{ height: '36px' }}
+              value={filterValues?.status}
+              onChange={(e: any) => {
+                setFilterValues({ ...filterValues, status: e?.target?.value });
+              }}
+            >
+              <MenuItem value={'status'} disabled>
+                Status
+              </MenuItem>
+              <MenuItem value={'Completed'}>Completed</MenuItem>
+              <MenuItem value={'Scheduled'}>Scheduled</MenuItem>
+              <MenuItem value={'Draft'}>Draft</MenuItem>
+              <MenuItem value={'Processing'}>Processing</MenuItem>
+              <MenuItem value={'Stopped'}>Stopped</MenuItem>
+            </Select>
+          </FormControl>
+        </PermissionsGuard>
+
+        {checkedRows?.length > 1 ? (
+          <LoadingButton
+            variant="outlined"
+            onClick={() => {
+              handleSMSBroadcastDelete(checkedRows);
+            }}
+            className="small"
+            color="inherit"
+            startIcon={<DeleteIcon />}
+            loading={deleteBroadcastLoading}
+          >
+            Delete
+          </LoadingButton>
+        ) : (
           <Box>
             <Button
               className="small"
-              onClick={handleStatusMenuClick}
+              onClick={handleActionsMenuClick}
+              disabled={checkedRows?.length === 0 ? true : false}
               variant="outlined"
               color="inherit"
               sx={{
@@ -67,13 +149,19 @@ const BroadcastHeader = (props: BroadcastHeaderI) => {
                 color: theme?.palette?.custom?.main,
               }}
             >
-              Status
+              Actions
               <ArrowDropDown />
             </Button>
+
             <Menu
-              anchorEl={statusEl}
-              open={statusMenuOpen}
-              onClose={handleStatusMenuClose}
+              anchorEl={actionsEl}
+              sx={{
+                '.MuiPopover-paper': {
+                  minWidth: '115px',
+                },
+              }}
+              open={actionsMenuOpen}
+              onClose={handleActionsMenuClose}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'right',
@@ -82,87 +170,55 @@ const BroadcastHeader = (props: BroadcastHeaderI) => {
                 vertical: 'top',
                 horizontal: 'right',
               }}
-              sx={{
-                '& .MuiList-root': {
-                  minWidth: '190px',
-                },
-              }}
             >
-              <MenuItem value={'completed'}>Completed</MenuItem>
-              <MenuItem value={'scheduled'}>Scheduled</MenuItem>
-              <MenuItem value={'stopped'}>Stopped</MenuItem>
-              <MenuItem value={'processing'}>Processing</MenuItem>
-              <MenuItem value={'draft'}>Draft</MenuItem>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.EDIT_BROADCAST,
+                ]}
+              >
+                <MenuItem
+                  onClick={() => {
+                    handleActionsMenuClose();
+                    router.push(
+                      AIR_MARKETER?.WHATSAPP_MERKETING_UPDATE_BROADCAST,
+                    );
+                  }}
+                >
+                  Edit
+                </MenuItem>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.DELETE_BROADCAST,
+                ]}
+              >
+                <MenuItem
+                  onClick={() => {
+                    handleOpenDelete();
+                    handleActionsMenuClose();
+                  }}
+                >
+                  Delete
+                </MenuItem>
+              </PermissionsGuard>
             </Menu>
           </Box>
-        </PermissionsGuard>
-
-        <Box>
-          <Button
-            className="small"
-            onClick={handleActionsMenuClick}
-            variant="outlined"
-            color="inherit"
-            sx={{
-              borderColor: theme?.palette?.custom?.dark,
-              color: theme?.palette?.custom?.main,
-            }}
-          >
-            Actions
-            <ArrowDropDown />
-          </Button>
-
-          <Menu
-            anchorEl={actionsEl}
-            open={actionsMenuOpen}
-            onClose={handleActionsMenuClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            sx={{
-              '& .MuiList-root': {
-                minWidth: '190px',
-              },
-            }}
-          >
-            <PermissionsGuard
-              permissions={[
-                AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.EDIT_BROADCAST,
-              ]}
-            >
-              <MenuItem
-                onClick={() => {
-                  handleActionsMenuClose();
-                  router.push(
-                    AIR_MARKETER?.WHATSAPP_MERKETING_UPDATE_BROADCAST,
-                  );
-                }}
-              >
-                Edit
-              </MenuItem>
-            </PermissionsGuard>
-            <PermissionsGuard
-              permissions={[
-                AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.DELETE_BROADCAST,
-              ]}
-            >
-              <MenuItem
-                onClick={() => {
-                  handleOpenDelete();
-                  handleActionsMenuClose();
-                }}
-              >
-                Delete
-              </MenuItem>
-            </PermissionsGuard>
-          </Menu>
-        </Box>
+        )}
       </Stack>
+
+      {openModalDelete && (
+        <AlertModals
+          message="Are you sure you want to delete this broadcast?"
+          type="Delete Broadcast"
+          typeImage={<AlertModalDeleteIcon />}
+          open={openModalDelete}
+          handleClose={handleCloseDelete}
+          handleSubmitBtn={() => {
+            handleSMSBroadcastDelete(checkedRows);
+          }}
+          loading={deleteBroadcastLoading}
+        />
+      )}
     </Box>
   );
 };

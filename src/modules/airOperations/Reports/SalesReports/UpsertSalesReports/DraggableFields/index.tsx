@@ -13,9 +13,8 @@ import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
 import { SaveReportDrawer } from '../SaveReportDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { servicesMetrics, templateList } from '../UpsertSalesReports.data';
+import { salesMetrics, templateList } from '../UpsertSalesReports.data';
 import AppsIcon from '@mui/icons-material/Apps';
-import { REPORT_TYPE } from '@/constants/strings';
 
 export default function DraggableFields({
   setModal,
@@ -54,6 +53,7 @@ export default function DraggableFields({
   handleCancel,
   reportId,
   setDraggedItemData,
+  disableTemplate,
 }: any) {
   const theme: any = useTheme();
 
@@ -73,7 +73,7 @@ export default function DraggableFields({
                   {showTemplate ? 'Form Template' : ' Form Scratch'}
                 </Typography>
                 <SingleDropdownButton
-                  dropdownOptions={servicesMetrics(setMetricType)}
+                  dropdownOptions={salesMetrics(setMetricType)}
                   dropdownName={metricType}
                 />
               </Box>
@@ -82,8 +82,7 @@ export default function DraggableFields({
                   <>
                     {templateList?.map(
                       (item: any, index: number) =>
-                        (item?.templateType === metricType ||
-                          item?.templateType === REPORT_TYPE?.ALL) && (
+                        item?.templateType === metricType && (
                           <Draggable
                             key={item?.id}
                             draggableId={item?.id}
@@ -244,6 +243,7 @@ export default function DraggableFields({
                   subFilter={subFilter}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
+                  disableTemplate={disableTemplate}
                 />
               )}
 
@@ -279,6 +279,7 @@ export default function DraggableFields({
                   columnsData={columnsData}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
+                  disableTemplate={disableTemplate}
                 />
               )}
             </>

@@ -206,7 +206,7 @@ export const eventDataArray = [
   {
     componentProps: {
       name: 'customContact',
-      varient: '',
+      varient: 'body2',
       heading: 'Custom contact property',
       fullWidth: true,
       select: true,

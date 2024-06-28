@@ -180,6 +180,36 @@ export const stringArraysEqual = (arr1: string[], arr2: string[]): boolean => {
   return true;
 };
 
+export const getProgressColor = (value: any, theme: any) => {
+  switch (true) {
+    case value === 100:
+      return theme?.palette?.success?.main;
+    case value > 70:
+      return theme?.palette?.warning?.main;
+    case value > 60:
+      return theme?.palette?.custom?.bright;
+    case value > 50:
+      return theme?.palette?.custom?.primary_blue;
+    case value < 50:
+      return theme?.palette?.error?.main;
+    default:
+      return theme?.palette?.primary?.light;
+  }
+};
+
+export const statusTag = (val: any, theme: any) => {
+  switch (val) {
+    case 'Completed':
+      return theme?.palette?.primary?.main;
+    case 'Scheduled':
+      return theme?.palette?.warning?.main;
+    case 'Draft':
+      return theme?.palette?.grey[900];
+    case 'Processing':
+      return theme?.palette?.success?.main;
+  }
+};
+
 export {
   getSession,
   setSession,

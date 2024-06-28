@@ -8,6 +8,8 @@ import {
 import { usePostAttachmentMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/attachments';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
 
 const useAttachmentsEditorDrawer = (
   setOpenDrawer: any,
@@ -15,6 +17,7 @@ const useAttachmentsEditorDrawer = (
   RowData: any,
 ) => {
   const [postAttachment] = usePostAttachmentMutation();
+  const [PostAssociationCompanies] = usePostAssociationCompaniesMutation();
 
   const methodsAttachments = useForm({
     resolver: yupResolver(attachmentsValidationSchema),
@@ -39,10 +42,20 @@ const useAttachmentsEditorDrawer = (
     formData?.append('recordId', companyId?.companyId);
 
     try {
-      await postAttachment({ body: formData })?.unwrap();
-      enqueueSnackbar('Attachment Added successfully', {
-        variant: 'success',
-      });
+      const res = await postAttachment({ body: formData })?.unwrap();
+
+      const payload = {
+        recordId: companyId?.companyId,
+        recordType: ASSOCIATIONS_API_PARAMS_FOR?.COMPANIES,
+        operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+        attachmentsIds: [res?.data?._id],
+      };
+      if (res) {
+        await PostAssociationCompanies({ body: payload }).unwrap();
+        enqueueSnackbar(`Attachment Added Successfully`, {
+          variant: 'success',
+        });
+      }
       setOpenDrawer('');
       reset();
     } catch (error: any) {

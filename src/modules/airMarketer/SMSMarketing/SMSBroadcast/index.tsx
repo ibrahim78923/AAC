@@ -1,14 +1,13 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import SMSBroadcastHeader from './SMSBroadcastHeader';
-import useScheduledSMS from '../SMSDashboard/ScheduledSMS/useScheduledSMS';
 import { broadcastColumns } from './SMSBroadcast.data';
 import useSMSBroadcast from './useSMSBroadcast';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const SMSBroadcast = () => {
-  const { statusTag, theme } = useScheduledSMS();
   const {
+    theme,
     smsBroadcastData,
     isLoading,
     isSuccess,
@@ -28,11 +27,10 @@ const SMSBroadcast = () => {
   const broadCastData = smsBroadcastData?.data?.smsbroadcasts;
 
   const columnsParams = {
-    checkedRows: checkedRows,
     setCheckedRows: setCheckedRows,
-    statusTag,
-    theme,
+    checkedRows: checkedRows,
     data: broadCastData,
+    theme,
   };
 
   return (
