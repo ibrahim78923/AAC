@@ -5,8 +5,8 @@ import DroppableArea from './DroppableArea';
 import { FormProvider } from 'react-hook-form';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_OPERATIONS, REPORTS_HEADER_TITLE } from '@/constants';
-import { fieldsList } from './UpsertMArketingReports.data';
 import useUpsertMarketingReports from './useUpsertMarketingReports';
+import { fieldsList } from './UpsertMArketingReports.data';
 
 export const UpsertMarketingReports = () => {
   const {
@@ -52,6 +52,8 @@ export const UpsertMarketingReports = () => {
     reportId,
     setDraggedItemData,
     draggedItemData,
+    disableTemplate,
+    handleChooseTemplate,
   } = useUpsertMarketingReports();
   const { text, table, chart, counter } = modal || {};
   return (
@@ -96,7 +98,7 @@ export const UpsertMarketingReports = () => {
                   variant="contained"
                   onClick={
                     showTemplate
-                      ? () => setShowTemplate(false)
+                      ? () => handleChooseTemplate()
                       : () => setShowTemplate(true)
                   }
                 >
@@ -128,6 +130,7 @@ export const UpsertMarketingReports = () => {
               setFieldData={setFieldData}
               setDraggedItemData={setDraggedItemData}
               handleCancel={handleCancel}
+              handleChooseTemplate={handleChooseTemplate}
             />
           </Grid>
           <Grid
@@ -175,6 +178,7 @@ export const UpsertMarketingReports = () => {
               handleCancel={handleCancel}
               reportId={reportId}
               setDraggedItemData={setDraggedItemData}
+              disableTemplate={disableTemplate}
             />
           </Grid>
         </Grid>

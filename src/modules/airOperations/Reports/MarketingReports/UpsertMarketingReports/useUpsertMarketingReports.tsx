@@ -13,6 +13,7 @@ import {
   modalInitialState,
   templateList,
 } from './UpsertMArketingReports.data';
+import { HorizontalBarChart } from './DraggableFormFields/Chart/HorizontalBarChart';
 
 export default function useUpsertMarketingReports() {
   const [draggedItemData, setDraggedItemData] = useState<any>(null);
@@ -46,6 +47,7 @@ export default function useUpsertMarketingReports() {
   const [AddProperties, setAddProperties] = useState();
   const [columnsData, setColumnsData] = useState([]);
   const [showTemplate, setShowTemplate] = useState(false);
+  const [disableTemplate, setDisableTemplate] = useState(false);
   useEffect(() => {
     setValue('chartType', draggedItemData?.type ?? '');
     setValue('xAxis', draggedItemData?.xAxis ?? '');
@@ -104,6 +106,7 @@ export default function useUpsertMarketingReports() {
 
   const getTemplateModalState = (draggedItem: any) => {
     setDraggedItemData(draggedItem);
+    setDisableTemplate(true);
     const newModal: any = {
       chart: false,
       text: false,
@@ -140,6 +143,7 @@ export default function useUpsertMarketingReports() {
     [CHARTS?.BAR_CHART]: <BarChart />,
     [CHARTS?.DONUT_CHART]: <DonutChart />,
     [CHARTS?.PIE_CHART]: <PieChart />,
+    [CHARTS?.HORIZONTAL_BAR_CHART]: <HorizontalBarChart />,
   };
 
   const handleCancel = () => {
@@ -154,7 +158,10 @@ export default function useUpsertMarketingReports() {
     setValue('subFilter', false);
     setDraggedItemData(null);
   };
-
+  const handleChooseTemplate = () => {
+    setDisableTemplate(false);
+    setShowTemplate(false);
+  };
   return {
     handleDragEnd,
     form,
@@ -198,5 +205,7 @@ export default function useUpsertMarketingReports() {
     reportId,
     setDraggedItemData,
     draggedItemData,
+    disableTemplate,
+    handleChooseTemplate,
   };
 }

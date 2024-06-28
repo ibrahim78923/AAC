@@ -1,5 +1,5 @@
 export const MARKETING_REPORT_METRICS = {
-  LEAD_CTAS: 'Lead CTAs',
+  LEAD_CTAS: 'Leads CTAs',
   EMAIL_MARKETING: 'Email Marketing',
   ADS_CAMPAIGNS: "Ad's Campaigns",
 };
@@ -250,21 +250,21 @@ export const modalInitialState: any = {
 
 export const marketingMetrics = (setMetricType: any) => [
   {
-    title: 'Leads CTAs',
+    title: MARKETING_REPORT_METRICS?.LEAD_CTAS,
     handleClick: (closeMenu: any) => {
       setMetricType(MARKETING_REPORT_METRICS?.LEAD_CTAS);
       closeMenu?.();
     },
   },
   {
-    title: 'Email Marketing',
+    title: MARKETING_REPORT_METRICS?.EMAIL_MARKETING,
     handleClick: (closeMenu: any) => {
       setMetricType(MARKETING_REPORT_METRICS?.EMAIL_MARKETING);
       closeMenu?.();
     },
   },
   {
-    title: "Ad's Campaigns",
+    title: MARKETING_REPORT_METRICS?.ADS_CAMPAIGNS,
     handleClick: (closeMenu: any) => {
       setMetricType(MARKETING_REPORT_METRICS?.ADS_CAMPAIGNS);
       closeMenu?.();

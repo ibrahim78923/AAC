@@ -2,7 +2,11 @@ import { CHARTS, REPORT_TYPE } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useState } from 'react';
-
+import {
+  LeadsCTAsMatrics,
+  emailMarketingMatrics,
+  adCampaignsMetrics,
+} from './ChartEditor.data';
 export const useChartEditor = (props: any) => {
   const {
     setFieldData,
@@ -18,9 +22,29 @@ export const useChartEditor = (props: any) => {
     chartType,
     subFilter,
     setDraggedItemData,
+    setChartMetricType,
   } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
+  const MARKETING_REPORT_METRICS = {
+    LEAD_CTAS: 'Leads CTAs',
+    EMAIL_MARKETING: 'Email Marketing',
+    ADS_CAMPAIGNS: "Ad's Campaigns",
+  };
+
+  const getDropdownOptions = () => {
+    switch (metricType) {
+      case MARKETING_REPORT_METRICS?.LEAD_CTAS:
+        return LeadsCTAsMatrics(setChartMetricType);
+      case MARKETING_REPORT_METRICS?.EMAIL_MARKETING:
+        return emailMarketingMatrics(setChartMetricType);
+      case MARKETING_REPORT_METRICS?.ADS_CAMPAIGNS:
+        return adCampaignsMetrics(setChartMetricType);
+      default:
+        return [];
+    }
+  };
+  const dropdownOptions = getDropdownOptions();
 
   const handleSave = () => {
     const uniqueId = generateUniqueId();
@@ -58,5 +82,6 @@ export const useChartEditor = (props: any) => {
     setEdit,
     editValue,
     setEditValue,
+    dropdownOptions,
   };
 };

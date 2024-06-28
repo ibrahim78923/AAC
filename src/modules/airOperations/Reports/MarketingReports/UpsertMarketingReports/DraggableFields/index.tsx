@@ -11,10 +11,10 @@ import { Draggable } from 'react-beautiful-dnd';
 import { ChartEditor } from '../DraggableFormFields/ChartEditor';
 import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
-import { SaveReportDrawer } from '../SaveReportDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import AppsIcon from '@mui/icons-material/Apps';
 import { marketingMetrics, templateList } from '../UpsertMArketingReports.data';
+import { SaveReportDrawer } from '../SaveReportDrawer';
 
 export default function DraggableFields({
   setModal,
@@ -53,6 +53,7 @@ export default function DraggableFields({
   handleCancel,
   reportId,
   setDraggedItemData,
+  disableTemplate,
 }: any) {
   const theme: any = useTheme();
 
@@ -242,6 +243,7 @@ export default function DraggableFields({
                   subFilter={subFilter}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
+                  disableTemplate={disableTemplate}
                 />
               )}
 
@@ -277,6 +279,7 @@ export default function DraggableFields({
                   columnsData={columnsData}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
+                  disableTemplate={disableTemplate}
                 />
               )}
             </>

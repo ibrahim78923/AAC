@@ -15,7 +15,6 @@ import { useChartEditor } from './useChartEditor';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { CheckBox } from '@mui/icons-material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { servicesChartMetrics } from './ChartEditor.data';
 import { CHARTS } from '@/constants/strings';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
@@ -25,15 +24,20 @@ export const ChartEditor = (props: any) => {
     metricType,
     setValue,
     chartTitle,
-    setChartMetricType,
     chartMetricType,
     xAxisData,
     yAxisData,
     handleCancel,
   } = props;
 
-  const { handleSave, edit, setEdit, editValue, setEditValue } =
-    useChartEditor(props);
+  const {
+    handleSave,
+    edit,
+    setEdit,
+    editValue,
+    setEditValue,
+    dropdownOptions,
+  } = useChartEditor(props);
 
   return (
     <>
@@ -77,7 +81,12 @@ export const ChartEditor = (props: any) => {
           name="chartType"
           label="Type"
           size="small"
-          options={['Bar Chart', 'Donut Chart', 'Pie Chart']}
+          options={[
+            'Bar Chart',
+            'Donut Chart',
+            'Pie Chart',
+            'Horizotal Bar Chart',
+          ]}
           getOptionLabel={(option: any) => option}
           required
         />
@@ -112,7 +121,7 @@ export const ChartEditor = (props: any) => {
           <>
             <Box m={1}>
               <SingleDropdownButton
-                dropdownOptions={servicesChartMetrics(setChartMetricType)}
+                dropdownOptions={dropdownOptions}
                 dropdownName={chartMetricType}
               />
             </Box>
