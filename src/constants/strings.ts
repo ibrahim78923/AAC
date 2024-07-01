@@ -67,6 +67,9 @@ export const IMPORT_ACTIONS_STEPS = {
   STEP_THREE: 2,
 };
 
+export const PHONE_NUMBER_TYPE = {
+  MASK_NUMBER: 'maskNumber',
+};
 export const TICKET_APPROVALS = {
   RECEIVED: 'RECIEVED',
   REQUESTED: 'REQUESTED',

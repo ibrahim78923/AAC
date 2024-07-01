@@ -1,4 +1,6 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { DeleteCrossIcon, EditYellowBGPenIcon } from '@/assets/icons';
+import { AIR_CALL_CENTER_SETTING_CHANNELS_PHONE_NUMBER_PERMISSION } from '@/constants/permission-keys';
 import { Box, Stack, Typography } from '@mui/material';
 export const phoneNumberData: any = (
   setIsDeleteModal: any,
@@ -45,9 +47,18 @@ export const phoneNumberData: any = (
         >
           <EditYellowBGPenIcon />
         </Box>
-        <Box sx={{ cursor: 'pointer' }} onClick={() => setIsDeleteModal(true)}>
-          <DeleteCrossIcon />
-        </Box>
+        <PermissionsGuard
+          permissions={[
+            AIR_CALL_CENTER_SETTING_CHANNELS_PHONE_NUMBER_PERMISSION?.CHANNELS_PHONE_NUMBERS_DELETE,
+          ]}
+        >
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => setIsDeleteModal(true)}
+          >
+            <DeleteCrossIcon />
+          </Box>
+        </PermissionsGuard>
       </Stack>
     ),
   },

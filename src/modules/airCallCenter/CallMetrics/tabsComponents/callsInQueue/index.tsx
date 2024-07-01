@@ -9,6 +9,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 
 import PowerDialerDialog from '../PowerDialerDialog';
 import { allCallsData } from './CallsInQueue.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CALL_CENTER_CALL_METRICS_PERMISSION } from '@/constants/permission-keys';
 
 const CallsInQueue = () => {
   const styles = {
@@ -41,63 +43,73 @@ const CallsInQueue = () => {
 
   return (
     <>
-      <Box
-        display={'flex'}
-        flexDirection={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        mb={4}
+      <PermissionsGuard
+        permissions={[AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.CALLS_IN_QUEUE]}
       >
-        <Search label="Search Here" setSearchBy={setSearchTerm} />
-        <Button
-          id="basic-button"
-          aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={actionMenuOpen ? 'true' : undefined}
-          onClick={handleActionsClick}
-          sx={styles?.actionBtn}
-          className="small"
+        <Box
+          display={'flex'}
+          flexDirection={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          mb={4}
         >
-          Select queues &nbsp; <DownIcon />
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={actionMenuOpen}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-          PaperProps={{
-            style: {
-              width: '160px',
-            },
-          }}
-        >
-          <MenuItem onClick={() => setAnchorEl(null)}>Global</MenuItem>
-          <MenuItem onClick={() => setAnchorEl(null)}>Uk Support</MenuItem>
-          <MenuItem onClick={() => setAnchorEl(null)}>Call Back</MenuItem>
-          <MenuItem onClick={() => setAnchorEl(null)}>First call</MenuItem>
-        </Menu>
-      </Box>
-      <TanstackTable
-        columns={getColumns}
-        data={allCallsData}
-        setPage={setPage}
-        setPageLimit={setPageLimit}
-        isPagination
-        // isLoading={isLoading}
-        currentPage={page}
-        // count={Calls?.meta?.total}
-        pageLimit={pageLimit}
-        // totalRecords={Calls?.meta?.total}
-        // isSuccess={true}
-        // onPageChange={(page: any) => setPage(page)}
-      />
-      <PowerDialerDialog
-        powerDialerModal={startPowerDialerModal}
-        setPowerDialerModal={setStartPowerDialerModal}
-      />
+          <PermissionsGuard
+            permissions={[
+              AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.CALLS_IN_QUEUE_SEARCH,
+            ]}
+          >
+            <Search label="Search Here" setSearchBy={setSearchTerm} />
+          </PermissionsGuard>
+          <Button
+            id="basic-button"
+            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={actionMenuOpen ? 'true' : undefined}
+            onClick={handleActionsClick}
+            sx={styles?.actionBtn}
+            className="small"
+          >
+            Select queues &nbsp; <DownIcon />
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={actionMenuOpen}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+            PaperProps={{
+              style: {
+                width: '160px',
+              },
+            }}
+          >
+            <MenuItem onClick={() => setAnchorEl(null)}>Global</MenuItem>
+            <MenuItem onClick={() => setAnchorEl(null)}>Uk Support</MenuItem>
+            <MenuItem onClick={() => setAnchorEl(null)}>Call Back</MenuItem>
+            <MenuItem onClick={() => setAnchorEl(null)}>First call</MenuItem>
+          </Menu>
+        </Box>
+        <TanstackTable
+          columns={getColumns}
+          data={allCallsData}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isPagination
+          // isLoading={isLoading}
+          currentPage={page}
+          // count={Calls?.meta?.total}
+          pageLimit={pageLimit}
+          // totalRecords={Calls?.meta?.total}
+          // isSuccess={true}
+          // onPageChange={(page: any) => setPage(page)}
+        />
+        <PowerDialerDialog
+          powerDialerModal={startPowerDialerModal}
+          setPowerDialerModal={setStartPowerDialerModal}
+        />
+      </PermissionsGuard>
     </>
   );
 };

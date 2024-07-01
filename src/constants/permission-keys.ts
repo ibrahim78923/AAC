@@ -1511,6 +1511,48 @@ export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS = {
   APPLY_FILTERS: 'loyalty-program-gift-card-transaction-apply-filters',
   SEARCH_DETAILS: 'loyalty-program-gift-card-transaction-search',
 };
+
+export const AIR_CALL_CENTER_CALL_METRICS_PERMISSION = {
+  ALL_CALLS_LIST: 'call-center-all-calls-list',
+  ALL_CALLS_SEARCH_AND_FILTER: 'call-center-all-calls-search-&-filter',
+  ALL_CALLS_EXPORT: 'call-center-all-calls-export',
+  EXPORT_CALL_SUMMARY: 'call-center-export-call-summary',
+  EXPORT_CALL_LIVE_CYCLE: 'call-center-export-call-lifecycle',
+  ALL_CALLS_CALL_DETAILS: 'call-center-all-calls-call-details',
+  CALL_DETAILS_ACTIONS_VIEW_CALL_SUMMARY:
+    'call-center-call-details-actions-view-call-summary',
+  CALL_DETAILS_ACTIONS_VIEW_CALL_LIVE_CYCLE:
+    'call-center-call-details-actions-view-call-lifecycle',
+  CALL_DETAILS_ACTIONS_VIEW_CALL_TRANSCRIPTION:
+    'call-center-call-details-actions-view-call-transcription',
+  CALL_DETAILS_ACTIONS_VIEW_CALL_NETWORK_LOG:
+    'call-center-call-details-actions-view-network-log',
+  ALL_CALLS_ACTIONS_ADD_NOTES: 'call-center-all-calls-actions-add-notes',
+  INCOMING_CALL_POP_UP: 'call-center-incoming-call-pop-up',
+  CALLS_IN_QUEUE: 'call-center-calls-in-queue',
+  CALLS_IN_QUEUE_SEARCH: 'call-center-calls-in-queue-search',
+  CALLS_IN_QUEUE_TAKE_THE_CALL: 'call-center-calls-in-queue-take-the-call',
+  CALL_IN_CONVERSATION: 'call-center-calls-in-conversation',
+  CALL_IN_CONVERSATION_SEARCH_AND_FILTER:
+    'call-center-calls-in-conversation-search-&-filter',
+  CALL_IN_CONVERSATION_CALL_TYPE: 'call-center-calls-in-conversation-call-type',
+  CALL_IN_CONVERSATION_LISTEN_CALL_DISCREETLY:
+    'call-center-calls-in-conversation-listen-call-discreetly',
+  INCOMING_CALL_QUEUES: 'call-center-incoming-call-queues',
+};
+
+export const AIR_CALL_CENTER_SETTING_CHANNELS_PHONE_NUMBER_PERMISSION = {
+  CHANNELS_PHONE_NUMBERS: 'call-center-channels-phone-numbers',
+  CHANNELS_PHONE_NUMBERS_BUY_A_NEW_NUMBER:
+    'call-center-channels-phone-numbers-buy-a-new-numbers',
+  CHANNELS_PHONE_NUMBERS_BUY_A_NEW_NUMBER_SELECT_NUMBER:
+    'call-center-channels-phone-numbers-buy-a-new-numbers-select-number',
+  CHANNELS_PHONE_NUMBERS_EDIT_PROPERTIES:
+    'call-center-channels-phone-numbers-edit-properties',
+  CHANNELS_PHONE_NUMBERS_EDIT_CALL_ACTIONS:
+    'call-center-channels-phone-numbers-edit-call-actions',
+  CHANNELS_PHONE_NUMBERS_DELETE: 'call-center-channels-phone-numbers-delete',
+};
 export const AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS = {
   CREATE_REPORT_FROM_SCRATCH: '',
   CREATE_REPORT_FROM_TEMPLATE: '',
