@@ -20,6 +20,8 @@ import {
   customValidationSchema,
   defaultValues,
 } from './ContactsModalBox/AssignModalBox/AssignModal.data';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const useContactsSaleSite = () => {
   const { user }: any = getSession();
@@ -65,6 +67,13 @@ const useContactsSaleSite = () => {
   } = useGetContactsQuery({
     params: { ...filterParams, ...searchPayLoad, ...paginationParams },
   });
+
+  const router = useRouter();
+  useEffect(() => {
+    if (router?.pathname === AIR_MARKETER?.WHATSAPP_MARKETING) {
+      setFilterParams({ onlyWhatsapp: true });
+    }
+  }, [router?.pathname]);
 
   // Filters
   const [openFilters, setOpenFilters] = useState(false);

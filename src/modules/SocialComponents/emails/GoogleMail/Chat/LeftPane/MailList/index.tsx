@@ -24,6 +24,7 @@ import {
 } from '@/redux/slices/email/gmail/slice';
 import { usePatchGmailMessageMutation } from '@/services/commonFeatures/email/gmail';
 import { isNullOrEmpty } from '@/utils';
+import { PaperClipIcon } from '@/assets/icons';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -35,6 +36,7 @@ const MailList = ({
   const theme = useTheme();
   const [isDataEnd, setIsDataEnd] = useState<any>(true);
   const [dataArray, setDataArray] = useState<any>([]);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -134,7 +136,7 @@ const MailList = ({
   };
 
   useEffect(() => {
-    if (isNullOrEmpty(pageToken?.data?.nextPageToken)) {
+    if (isNullOrEmpty(pageToken?.data?.nextPageToken) || isRefresh) {
       setIsDataEnd(false);
     } else {
       setIsDataEnd(true);
@@ -158,9 +160,15 @@ const MailList = ({
   }, [emailsByFolderIdData?.data]);
 
   const loadingCheck =
-    gmailList?.length === 0
+    gmailList?.length === 0 || isRefresh
       ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
       : false;
+
+  useEffect(() => {
+    if (isLoadingEmailsByFolderIdData === API_STATUS?.FULFILLED) {
+      setIsRefresh(false);
+    }
+  }, [isLoadingEmailsByFolderIdData]);
 
   function decodeHtmlEntities(str: any) {
     const entityMap = {
@@ -204,7 +212,7 @@ const MailList = ({
           }}
           onClick={() => {
             refetch();
-            dispatch(setGmailList('clear'));
+            setIsRefresh(true);
           }}
         >
           Refresh
@@ -292,20 +300,63 @@ const MailList = ({
                                   {item?.name}{' '}
                                 </Typography>
                               )}
-
                               <Typography
-                                variant="body3"
+                                variant="body2"
                                 sx={{
-                                  fontWeight: item?.readMessage ? 700 : 600,
-                                  wordBreak: 'break-all',
+                                  width: '19vw',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                  fontWeight: item?.readMessage ? 400 : 700,
                                 }}
-                                color={'primary'}
-                                margin={'8px 0px'}
                               >
-                                {item?.subject === 'undefined'
-                                  ? '(No subject)'
-                                  : item?.subject}
+                                {gmailTabType?.name?.toLowerCase() ===
+                                EMAIL_TABS_TYPES?.DRAFT ? (
+                                  <>
+                                    <span
+                                      style={{
+                                        color: theme?.palette?.error?.main,
+                                      }}
+                                    >
+                                      [DRAFT]
+                                    </span>{' '}
+                                    {item?.toRecipients?.map((item: any) => (
+                                      <>{item?.emailAddress?.address}; </>
+                                    ))}
+                                  </>
+                                ) : (
+                                  <>{item?.from?.emailAddress?.name ?? ''} </>
+                                )}
                               </Typography>
+                              <Box
+                                display={'flex'}
+                                justifyContent={'space-between'}
+                                alignItems={'center'}
+                                pr={2}
+                              >
+                                <Typography
+                                  variant="body3"
+                                  sx={{
+                                    fontWeight: item?.readMessage ? 700 : 600,
+                                    wordBreak: 'break-all',
+                                  }}
+                                  color={'primary'}
+                                  margin={'8px 0px'}
+                                >
+                                  {item?.subject === 'undefined'
+                                    ? '(No subject)'
+                                    : item?.subject}
+                                </Typography>
+
+                                {item?.attchImages?.some(
+                                  (attchImage: any) => attchImage?.filename,
+                                ) && (
+                                  <PaperClipIcon
+                                    color={theme?.palette?.primary?.main}
+                                  />
+                                )}
+                              </Box>
+
                               <Typography
                                 variant="body3"
                                 margin={'3px 0px'}

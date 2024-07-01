@@ -146,7 +146,7 @@ const LeftPane = () => {
             headers?.find((header: any) => header?.name === Gmail_CONST?.DATE)
               ?.value || '';
           const readMessage = thread?.message?.labelIds?.includes('UNREAD');
-
+          const attchImages = thread?.messages?.payload?.parts;
           return {
             draftId,
             id,
@@ -160,6 +160,7 @@ const LeftPane = () => {
             threadId,
             readMessage,
             messageId,
+            attchImages,
           };
         })
         .flat();
@@ -199,6 +200,7 @@ const LeftPane = () => {
               ?.find((header: any) => header?.name === Gmail_CONST?.DATE)
               ?.value.replace(/ -\d{4}$/, '') || '';
           const readMessage = lastMessage?.labelIds?.includes('UNREAD');
+          const attchImages = lastMessage?.payload?.parts;
 
           return {
             id,
@@ -212,6 +214,7 @@ const LeftPane = () => {
             threadId,
             readMessage,
             messageId,
+            attchImages,
           };
         })
         .flat();

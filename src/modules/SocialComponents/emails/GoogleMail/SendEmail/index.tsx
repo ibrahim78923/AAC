@@ -126,7 +126,7 @@ const SendEmailDrawer = (props: any) => {
         okText={isSendLater ? 'Send Later' : 'Send'}
         isOk={true}
         footer={true}
-        footerActionText={isSendLater ? 'Send Now' : 'Send Later'}
+        // footerActionText={isSendLater ? 'Send Now' : 'Send Later'}
         footerActionTextIcon={<TimeClockIcon />}
         submitHandler={handleSubmit(onSubmit)}
         onFooterActionSubmit={handelSendLaterAction}

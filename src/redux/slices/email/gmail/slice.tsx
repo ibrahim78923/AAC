@@ -10,6 +10,7 @@ interface EmailStateI {
   mailDraftList: any;
   gmailSearch: any;
   gmailCurrentPage: any;
+  currentForwardMessage: any;
 }
 
 const initialState: EmailStateI = {
@@ -24,6 +25,7 @@ const initialState: EmailStateI = {
   mailDraftList: {},
   gmailSearch: '',
   gmailCurrentPage: '',
+  currentForwardMessage: '',
 };
 
 const gmailSlice = createSlice({
@@ -48,10 +50,16 @@ const gmailSlice = createSlice({
         const uniqueMails = newMails?.filter(
           (mail: any) => !existingMailIds?.has(mail?.id),
         );
-        state.gmailList = [...state.gmailList, ...uniqueMails];
+        state.gmailList = [...state?.gmailList, ...uniqueMails];
       }
     },
-
+    setUpdateGmailList: (state, action: PayloadAction<any>) => {
+      state.gmailList = state?.gmailList.map((item: any) =>
+        item.id === action?.payload?.id
+          ? { ...item, labelIds: action?.payload?.labelIds }
+          : item,
+      );
+    },
     setGmailDraftList: (state, action: PayloadAction<any>) => {
       state.mailDraftList = action?.payload;
     },
@@ -70,6 +78,9 @@ const gmailSlice = createSlice({
     setGmailCurrentPage: (state, action: PayloadAction<any>) => {
       state.gmailCurrentPage = action?.payload;
     },
+    setCurrentForwardMessage: (state, action: PayloadAction<any>) => {
+      state.currentForwardMessage = action?.payload;
+    },
   },
 });
 export const {
@@ -82,5 +93,7 @@ export const {
   setGmailDraftList,
   setGmailSearch,
   setGmailCurrentPage,
+  setCurrentForwardMessage,
+  setUpdateGmailList,
 } = gmailSlice.actions;
 export default gmailSlice.reducer;

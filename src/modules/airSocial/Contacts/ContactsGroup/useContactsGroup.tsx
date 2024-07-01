@@ -13,16 +13,21 @@ import {
   createGroupValidationSchema,
 } from './CreateGroupModal/CreateGroupModal.data';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
 
 const useContactsGroup = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState(null);
   const [groupId, setGroupId] = useState(null);
-
+  const router = useRouter();
   // Get Contacts
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
+  }
+  if (router?.pathname === AIR_MARKETER?.WHATSAPP_MARKETING) {
+    searchPayLoad = { onlyWhatsapp: true };
   }
   const {
     data: dataGetContacts,

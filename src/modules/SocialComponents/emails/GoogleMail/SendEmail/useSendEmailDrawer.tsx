@@ -55,6 +55,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const currentGmailAssets = useAppSelector(
     (state: any) => state?.gmail?.currentGmailAssets,
   );
+
+  const currentForwardMessage = useAppSelector(
+    (state: any) => state?.gmail?.currentForwardMessage,
+  );
+
   useEffect(() => {
     if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
       setValue(
@@ -64,8 +69,9 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         <br> <b> from </b>: ${currentGmailAssets?.others?.from}<br>
         <b> sent </b> : ${currentGmailAssets?.others?.sent}<br>
          <b> subject </b> : ${currentGmailAssets?.others?.subject}<br>
-         <b> to </b> : ${currentGmailAssets?.others?.to}  <br>
-         ${currentGmailAssets?.messageBody}
+         <b> to </b> : ${currentGmailAssets?.others?.to}  <br>  <br>
+         ${currentForwardMessage}
+        
            <br>
         `,
       );

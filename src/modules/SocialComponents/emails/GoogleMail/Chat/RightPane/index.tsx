@@ -27,6 +27,7 @@ import {
   DATE_TIME_FORMAT,
   EMAIL_TABS_TYPES,
   Gmail_CONST,
+  indexNumbers,
 } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
@@ -36,6 +37,7 @@ import {
   useLogoutTokenMutation,
 } from '@/services/commonFeatures/email/gmail';
 import {
+  setCurrentForwardMessage,
   setCurrentGmailAssets,
   setGmailSearch,
 } from '@/redux/slices/email/gmail/slice';
@@ -49,6 +51,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PdfImage } from '@/assets/images';
+import { Buffer } from 'buffer';
 
 const RightPane = () => {
   const theme = useTheme();
@@ -87,8 +90,9 @@ const RightPane = () => {
       { skip: isMessageDetailsRequest },
     );
 
-  const sortedMessagesDataArray =
-    messageDetailsData?.data && [...messageDetailsData?.data].reverse();
+  const sortedMessagesDataArray = messageDetailsData?.data && [
+    ...messageDetailsData?.data,
+  ];
 
   useEffect(() => {
     if (activeGmailRecord?.threadId) {
@@ -128,20 +132,6 @@ const RightPane = () => {
   useEffect(() => {
     dispatch(setGmailSearch(searchValue));
   }, [searchValue]);
-
-  function decodeHtmlEntities(str: any) {
-    const entityMap = {
-      '&amp;': '&',
-      '&lt;': '<',
-      '&gt;': '>',
-      '&quot;': '"',
-      '&#39;': "'",
-    };
-
-    return str.replace(/&amp;|&lt;|&gt;|&quot;|&#39;/g, function (match: any) {
-      return entityMap[match];
-    });
-  }
 
   return (
     <Box>
@@ -402,13 +392,22 @@ const RightPane = () => {
                                 <IconButton
                                   size="small"
                                   onClick={() => {
+                                    dispatch(
+                                      setCurrentForwardMessage(
+                                        decodeBase64(
+                                          obj?.payload?.parts[
+                                            indexNumbers?.ZERO
+                                          ]?.body?.data,
+                                        ),
+                                      ),
+                                    );
                                     setIsOpenSendEmailDrawer(true);
                                     setMailType(CREATE_EMAIL_TYPES?.FORWARD);
                                     dispatch(
                                       setCurrentGmailAssets({
                                         threadId: obj?.threadId,
                                         id: obj?.id,
-                                        messageBody: obj?.snippet,
+                                        // messageBody: obj?.snippet,
                                         from:
                                           obj?.payload?.headers?.find(
                                             (header: any) =>
@@ -458,9 +457,20 @@ const RightPane = () => {
                               </Tooltip>
                             </Box>
                           </Box>
-                          <Typography variant="body2">
-                            {decodeHtmlEntities(obj?.snippet ?? '---')}
-                          </Typography>
+
+                          {obj?.payload?.parts?.map((item: any) => {
+                            if (item?.mimeType === 'text/html') {
+                              return (
+                                <>
+                                  {' '}
+                                  <DecodeBase64
+                                    base64String={item?.body?.data}
+                                  />{' '}
+                                </>
+                              );
+                            }
+                          })}
+
                           <Box
                             sx={{
                               display: 'flex',
@@ -615,7 +625,9 @@ const RightPane = () => {
 };
 
 function ImageComponent({ base64, contentType, fileName }: any) {
-  const src = `data:${contentType};base64,${base64}`;
+  const buffer = Buffer?.from(base64, 'base64');
+  const decode = buffer?.toString('base64');
+  const src = `data:${contentType};base64,${decode}`;
   const theme = useTheme();
 
   if (contentType?.startsWith(FILE_TYPES?.IMAGE)) {
@@ -657,5 +669,27 @@ function ImageComponent({ base64, contentType, fileName }: any) {
     return null;
   }
 }
+export function decodeBase64(base64: any) {
+  try {
+    const buffer = Buffer?.from(base64, 'base64');
+    return buffer?.toString('utf-8');
+  } catch (e) {
+    return '';
+  }
+}
+
+export const DecodeBase64 = ({ base64String }: any) => {
+  const [decodedText, setDecodedText] = useState('');
+
+  useEffect(() => {
+    setDecodedText(decodeBase64(base64String));
+  }, [base64String]);
+
+  return (
+    <>
+      <Typography dangerouslySetInnerHTML={{ __html: decodedText }} />
+    </>
+  );
+};
 
 export default RightPane;
