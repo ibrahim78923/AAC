@@ -1,10 +1,5 @@
 import { AlertModalCloseIcon } from '@/assets/icons';
-import {
-  FormProvider,
-  RHFDatePicker,
-  RHFTimePicker,
-} from '@/components/ReactHookForm';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { FormProvider, RHFDatePicker } from '@/components/ReactHookForm';
 import {
   Box,
   Button,
@@ -17,12 +12,19 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import { Delete } from '@mui/icons-material';
 import { useAddDateOverrides } from './useAddDateOverrides';
+import { AddDateTimeSlots } from './AddDateTimeSlots';
 
 const AddDateOverrides = (props: any) => {
-  const { openModule, setOpenModule, methods, handleSubmit, onSubmit } = props;
-  const { fields, remove, addDateOverride } = useAddDateOverrides();
+  const {
+    openModule,
+    setOpenModule,
+    methods,
+    handleSubmit,
+    onSubmit,
+    control,
+  } = props;
+  const { fields } = useAddDateOverrides(props);
   return (
     <>
       <Dialog open={openModule} onClose={() => setOpenModule(false)} fullWidth>
@@ -44,37 +46,22 @@ const AddDateOverrides = (props: any) => {
               Select the date(s) you want to assign specific hours
             </Typography>
           </DialogTitle>
-          <DialogContent sx={{ mt: 1 }}>
-            <RHFDatePicker name="overrideDate" label="Select Date" fullWidth />
-            <Grid item xs={12} py={0.5}>
-              <Divider />
-            </Grid>
-            <Typography variant="h6">What hours are you available?</Typography>
-            <Grid
-              container
-              mt={1}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-            >
-              {fields?.map((field: any, index: number) => (
-                <Grid item xs={10} key={field?.id} display={'flex'} gap={0.5}>
-                  <RHFTimePicker name={`timeRanges.${index}.startHour`} />
-                  <RHFTimePicker name={`timeRanges.${index}.endHour`} />
-                  {fields?.length > 1 && (
-                    <IconButton onClick={() => remove(index)}>
-                      <Delete />
-                    </IconButton>
-                  )}
-                </Grid>
-              ))}
-              <IconButton onClick={addDateOverride}>
-                <AddCircleIcon />
-              </IconButton>
+          {fields?.map((date: any, dateIndex: number) => (
+            <DialogContent sx={{ mt: 1 }} key={date?.id}>
+              <RHFDatePicker
+                name={`dateOverrides.${dateIndex}.date`}
+                label="Select Date"
+                fullWidth
+              />
               <Grid item xs={12} py={0.5}>
                 <Divider />
               </Grid>
-            </Grid>
-          </DialogContent>
+              <Typography variant="h6">
+                What hours are you available?
+              </Typography>
+              <AddDateTimeSlots parentIndex={dateIndex} control={control} />
+            </DialogContent>
+          ))}
           <DialogActions>
             <Button
               variant="outlined"

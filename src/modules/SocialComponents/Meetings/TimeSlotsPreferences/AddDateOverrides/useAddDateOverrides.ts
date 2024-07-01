@@ -1,17 +1,14 @@
 import { useFieldArray } from 'react-hook-form';
 
-export const useAddDateOverrides = () => {
-  const { fields, remove, append } = useFieldArray({
-    name: 'dateOverrides',
-  });
+export const useAddDateOverrides = (props: any) => {
+  const { control } = props;
 
-  const addDateOverride = () => {
-    append({ startHour: new Date(), endHour: new Date() });
-  };
+  const { fields } = useFieldArray({
+    name: `dateOverrides`,
+    control,
+  });
 
   return {
     fields,
-    remove,
-    addDateOverride,
   };
 };

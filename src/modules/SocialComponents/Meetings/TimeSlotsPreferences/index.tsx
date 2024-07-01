@@ -5,6 +5,8 @@ import { Box, Button, Divider, Grid } from '@mui/material';
 import { useTimeSlotPreferences } from './useTimeSlotPreferences';
 import DateOverrides from './DateOverrides';
 import BufferTime from './BufferTime';
+import { LoadingButton } from '@mui/lab';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const TimeSlotPreferences = () => {
   const {
@@ -24,7 +26,12 @@ export const TimeSlotPreferences = () => {
     setDaySlotsState,
     submittedOverrideData,
     setSubmittedOverrideData,
+    timeSlotsProcess,
+    timeSlotsData,
+    isLoading,
+    isFetching,
   } = useTimeSlotPreferences();
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -33,6 +40,7 @@ export const TimeSlotPreferences = () => {
           setDisabled={setDisabled}
           selectedMonths={selectedMonths}
           setSelectedMonths={setSelectedMonths}
+          timeSlotsData={timeSlotsData}
         />
         <Grid container gap={1}>
           <Grid item lg={6} xs={12} mr={2}>
@@ -46,6 +54,8 @@ export const TimeSlotPreferences = () => {
               setTimeSlotsState={setTimeSlotsState}
               daySlotsState={daySlotsState}
               setDaySlotsState={setDaySlotsState}
+              timeSlotsProcess={timeSlotsProcess}
+              timeSlotsData={timeSlotsData}
             />
           </Grid>
           <Grid item lg={5} xs={12}>
@@ -57,6 +67,7 @@ export const TimeSlotPreferences = () => {
               onSubmit={onSubmit}
               submittedData={submittedOverrideData}
               setSubmittedData={setSubmittedOverrideData}
+              timeSlotsData={timeSlotsData}
             />
           </Grid>
           <Grid item xs={12}>
@@ -69,14 +80,24 @@ export const TimeSlotPreferences = () => {
         <Grid item xs={12}>
           <Divider />
         </Grid>
-        <Box display={'flex'} justifyContent={'flex-end'} gap={1} pt={1}>
-          <Button variant="outlined" color="secondary">
-            Cancel
-          </Button>
-          <Button variant="contained" type="submit">
-            Apply
-          </Button>
-        </Box>
+        {!disabled && (
+          <Box display={'flex'} justifyContent={'flex-end'} gap={1} pt={1}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => setDisabled(true)}
+            >
+              Cancel
+            </Button>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              disabled={timeSlotsProcess?.isLoading}
+            >
+              Apply
+            </LoadingButton>
+          </Box>
+        )}
       </FormProvider>
     </>
   );

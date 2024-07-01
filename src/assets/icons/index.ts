@@ -72,6 +72,7 @@ export { default as ViewDetailMeetingIcon } from './modules/airServices/Tickets/
 export { default as ViewDetailDocumentTextIcon } from './modules/airServices/Tickets/view-detail-document-text-icon';
 export { default as ViewDetailCallIcon } from './modules/airServices/Tickets/view-details-call-icon';
 export { default as ViewDetailBackArrowIcon } from './shared/view-detail-back-arrow-icon';
+export { default as EditWhiteBGPenIcon } from './shared/edit-pen-white-bg-icon';
 
 // More exports from here
 export { default as SubTabIcon } from './shared/sub-tab-icon';
