@@ -67,7 +67,12 @@ const Login = () => {
   return (
     <Box sx={{ height: '100vh' }}>
       <Box sx={styles?.AuthHeader}>
-        <Box sx={{ cursor: 'pointer' }} onClick={() => push(AUTH?.SALE_SITE)}>
+        <Box
+          sx={{
+            cursor: 'pointer',
+          }}
+          onClick={() => push(AUTH?.SALE_SITE)}
+        >
           <CompanyLogoIcon />
         </Box>
         <Box>
@@ -82,7 +87,28 @@ const Login = () => {
         <Grid item xs={12} md={6} lg={6}>
           <Box
             className="form-styled"
-            sx={{ width: { md: '60%', sm: '70%', xs: '90%' }, margin: 'auto' }}
+            sx={{
+              width: { md: '60%', sm: '70%', xs: '90%' },
+              margin: 'auto',
+
+              '@media (max-height: 617px)': {
+                // Adjust styles for screens with height less than 617px
+
+                zIndex: -100,
+                height: '80vh',
+                overflowX: 'scroll',
+                typography: {
+                  h3: {
+                    // padding: '1rem',
+                    fontSize: '1.5rem',
+                    marginTop: '1rem',
+                  },
+                  h6: {
+                    fontSize: '1rem',
+                  },
+                },
+              },
+            }}
           >
             <Typography
               variant="h3"
@@ -138,6 +164,13 @@ const Login = () => {
           sx={{
             width: 'auto',
             height: 'auto',
+            '@media (max-height: 617px)': {
+              // Adjust styles for screens with height less than 617px
+
+              height: '80vh',
+              mt: '1rem',
+              overflowX: 'scroll',
+            },
             '@media (max-width: 900px)': {
               display: 'none !important', // Hide the element when the screen width is less than 900px
             },
