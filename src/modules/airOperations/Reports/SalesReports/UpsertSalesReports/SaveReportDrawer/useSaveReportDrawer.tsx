@@ -19,11 +19,19 @@ export const useSaveReportDrawer = (props: any) => {
     defaultValues: reportsDefaultValues,
   });
 
-  const { watch, handleSubmit, reset } = saveReportsMethods;
+  const { watch, handleSubmit, reset, setValue } = saveReportsMethods;
 
-  const selectSharedWith = watch('sharedWith');
-  const selectAddToDashboard = watch('addToDashboard');
-  const selectAddToNewDashboard = watch('addToNewConditionTwo');
+  const ADD_TO = {
+    ADD_TO_EXISTING: 'addToExisting',
+    DO_NOT_ADD: 'doNotAdd',
+    ADD_TO_NEW_CONDITION_TWO: 'addToNewConditionTwo',
+    ADD_TO_DASHBOARD: 'addToDashboard',
+    SHARED_WITH: 'sharedWith',
+  };
+
+  const selectSharedWith = watch(ADD_TO?.SHARED_WITH);
+  const selectAddToDashboard = watch(ADD_TO?.ADD_TO_DASHBOARD);
+  const selectAddToNewDashboard = watch(ADD_TO?.ADD_TO_NEW_CONDITION_TWO);
 
   useEffect(() => {
     setReportValidation({
@@ -31,6 +39,12 @@ export const useSaveReportDrawer = (props: any) => {
       selectAddToDashboard,
       selectAddToNewDashboard,
     });
+    if (
+      selectAddToDashboard === ADD_TO?.ADD_TO_EXISTING ||
+      selectAddToDashboard === ADD_TO?.DO_NOT_ADD
+    ) {
+      setValue(ADD_TO?.ADD_TO_NEW_CONDITION_TWO, null);
+    }
   }, [selectSharedWith, selectAddToDashboard, selectAddToNewDashboard]);
 
   const onSubmit: any = () => {

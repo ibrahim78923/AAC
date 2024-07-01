@@ -11,68 +11,68 @@ import * as Yup from 'yup';
 export const reportsValidationSchema = (reportValidation: any) =>
   Yup?.object()?.shape({
     reportName: Yup?.string()?.required('Required'),
-    sharedWith: Yup?.string()?.required('Required'),
-    addToDashboard: Yup?.string()?.required('Required'),
+    sharedWith: Yup?.string()?.nullable()?.required('Required'),
+    addToDashboard: Yup?.string()?.nullable()?.required('Required'),
     everyoneCondition: Yup?.string()?.when(() =>
       reportValidation?.selectSharedWith === REPORT_TYPE?.EVERYONE
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     specificUsersConditionOne: Yup?.string()?.when(() =>
       reportValidation?.selectSharedWith === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     specificUsersConditionTwo: Yup?.string()?.when(() =>
       reportValidation?.selectSharedWith === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     addToExistingCondition: Yup?.string()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     addToNewConditionOne: Yup?.string()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     addToNewConditionTwo: Yup?.string()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     newDashboardEveryoneCondition: Yup?.string()?.when(() =>
       reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.EVERYONE
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     newDashboardSpecificUsersConditionOne: Yup?.string()?.when(() =>
       reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     newDashboardSpecificUsersConditionTwo: Yup?.string()?.when(() =>
       reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
   });
 
 export const reportsDefaultValues = {
   reportName: '',
-  sharedWith: '',
-  addToDashboard: '',
-  addToExistingCondition: '',
-  everyoneCondition: '',
-  specificUsersConditionOne: '',
-  specificUsersConditionTwo: '',
-  addToNewConditionOne: '',
-  addToNewConditionTwo: '',
-  newDashboardEveryoneCondition: '',
-  newDashboardSpecificUsersConditionOne: '',
-  newDashboardSpecificUsersConditionTwo: '',
+  sharedWith: null,
+  addToDashboard: null,
+  addToExistingCondition: null,
+  everyoneCondition: null,
+  specificUsersConditionOne: null,
+  specificUsersConditionTwo: null,
+  addToNewConditionOne: null,
+  addToNewConditionTwo: null,
+  newDashboardEveryoneCondition: null,
+  newDashboardSpecificUsersConditionOne: null,
+  newDashboardSpecificUsersConditionTwo: null,
   addFilter: false,
 };
 
