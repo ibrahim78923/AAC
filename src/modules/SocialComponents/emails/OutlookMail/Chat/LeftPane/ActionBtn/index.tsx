@@ -76,14 +76,17 @@ const ActionBtn = ({
     const ids =
       selectedRecords && selectedRecords?.map((message: any) => message?.id);
 
-    if (tabName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH?.toLowerCase()) {
+    if (
+      tabName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH?.toLowerCase() ||
+      tabName === OUTLOOK_EMAIL_TABS_TYPES?.DRAFTS?.toLowerCase()
+    ) {
       try {
         await deleteEmailOutlook({
           body: {
             messageIds: ids,
           },
         })?.unwrap();
-        enqueueSnackbar('Mail successfully deleted', {
+        enqueueSnackbar('Mail permanently deleted', {
           variant: 'success',
         });
         dispatch(setSelectedRecords([]));
@@ -110,7 +113,7 @@ const ActionBtn = ({
             folderId: deletedItems?.id,
           },
         })?.unwrap();
-        enqueueSnackbar('Mail successfully move to Deleted ', {
+        enqueueSnackbar('Mail successfully deleted ', {
           variant: 'success',
         });
         dispatch(setSelectedRecords([]));
@@ -344,18 +347,13 @@ const ActionBtn = ({
 
       <AlertModals
         type={'Delete'}
-        typeImage={<WarningIcon />}
         message={`Are you sure you want to delete ${
           selectedRecords?.length > 1 ? 'these' : 'this'
         } record ?.`}
         open={isDeleteModalOpen}
         disabled={false}
         handleClose={() => setIsDeleteModalOpen(false)}
-        loading={
-          tabName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH?.toLowerCase()
-            ? loadingRestore
-            : loadingMove
-        }
+        loading={loadingRestore || loadingMove}
         handleSubmitBtn={handelDelete}
       />
     </>

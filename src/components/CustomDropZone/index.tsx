@@ -3,6 +3,7 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
 import { AttachFileIcon } from '@/assets/icons';
+import { indexNumbers } from '@/constants';
 
 export default function CustomDropZone({ name }: any) {
   const {
@@ -39,7 +40,7 @@ export default function CustomDropZone({ name }: any) {
 
         {!!getValues(name)?.name ? (
           <Typography variant="body2">
-            {acceptedFiles?.[0]?.name || getValues(name)?.name}
+            {acceptedFiles?.[indexNumbers?.ZERO]?.name || getValues(name)?.name}
           </Typography>
         ) : (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>

@@ -75,7 +75,7 @@ const Draft = () => {
     const formDataSend = new FormData();
     formDataSend.append('to', autocompleteValues?.join(', '));
     formDataSend.append('subject', values?.subject);
-    formDataSend.append('content', values?.description);
+    formDataSend.append('content', values?.description ?? ' ');
 
     if (values?.attachments) {
       formDataSend.append('attachments', values?.attachments);
@@ -182,9 +182,6 @@ const Draft = () => {
                   />
                 </Grid>
                 <Grid item xs={2} sx={{ mt: 3 }}>
-                  <RHFCheckbox name="fromChecked" label="From" />
-                </Grid>
-                <Grid item xs={2} sx={{ mt: 3 }}>
                   <RHFCheckbox name="ccChecked" label="CC" />
                 </Grid>
                 <Grid item xs={2} sx={{ mt: 3 }}>
@@ -228,7 +225,14 @@ const Draft = () => {
                   <RHFDropZone name="attachFile" label="Attachments" />
                 </Grid>
 
-                <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: '20px',
+                    mt: 2,
+                    marginLeft: '20px',
+                  }}
+                >
                   <Button
                     variant="outlined"
                     color="inherit"

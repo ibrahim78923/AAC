@@ -5,6 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { AttachFileIcon } from '@/assets/icons';
 import CustomLabel from '../CustomLabel';
 import { FILE_MAX_SIZE } from '@/config';
+import { indexNumbers } from '@/constants';
 
 export default function RHFDropZone({
   name,
@@ -22,6 +23,7 @@ export default function RHFDropZone({
     'text/csv': ['.csv'],
   },
   maxSize = FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE,
+  multiple = false,
   disabled,
   ...other
 }: any) {
@@ -35,23 +37,23 @@ export default function RHFDropZone({
 
   const { acceptedFiles, getRootProps, getInputProps, fileRejections } =
     useDropzone({
-      multiple: false,
+      multiple: multiple,
       accept: accept,
       disabled: disabled,
       maxSize: maxSize,
       onDrop: useCallback(
         (files: any) => {
-          if (files && files.length > 0) {
-            setValue(name, files[0]);
+          if (files && files?.length > 0) {
+            setValue(name, multiple ? files : files[indexNumbers?.ZERO]);
           }
         },
-        [setValue, name],
+        [setValue, name, multiple],
       ),
     });
 
   const formatFileSize = (sizeInBytes: any) => {
     const sizeInMB = sizeInBytes / (1024 * 1024);
-    return sizeInMB.toFixed(2) + ' MB';
+    return sizeInMB?.toFixed(2.44) + ' MB';
   };
 
   const handleClick = () => {
@@ -76,10 +78,22 @@ export default function RHFDropZone({
       >
         <input {...getInputProps()} ref={inputRef} />
 
-        {!!getValues(name)?.name ? (
-          <Typography variant="body2">
-            {acceptedFiles?.[0]?.name || getValues(name)?.name}
-          </Typography>
+        {!!getValues(name) &&
+        (multiple ? getValues(name)?.length > 0 : !!getValues(name)?.name) ? (
+          <Box>
+            {multiple ? (
+              acceptedFiles?.map((file: any, index: number) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <Typography variant="body2" key={index}>
+                  {file?.name}
+                </Typography>
+              ))
+            ) : (
+              <Typography variant="body2">
+                {acceptedFiles?.[0]?.name || getValues(name)?.name}
+              </Typography>
+            )}
+          </Box>
         ) : (
           <Box>
             <AttachFileIcon />
@@ -102,7 +116,7 @@ export default function RHFDropZone({
           </Box>
         )}
       </Box>
-      {!!errors[name] && !!!getValues(name)?.name && (
+      {!!errors[name] && (!multiple || !!!getValues(name)?.length) && (
         <Typography color="error">{errors[name]?.message}</Typography>
       )}
       {!!fileRejections?.length &&

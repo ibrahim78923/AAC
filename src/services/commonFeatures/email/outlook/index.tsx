@@ -2,6 +2,7 @@ import { SOCIAL_FEATURES_OUTLOOK } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 const TAG = ['OUTLOOK'];
 const TAG_UPDATE_EMAIL = ['OUTLOOK_UPDATE'];
+const DRAFT_MAIL = ['DRAFT_MAIL'];
 export const outlookApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getAuthURLOutlook: builder.query({
@@ -43,7 +44,6 @@ export const outlookApi = baseAPI.injectEndpoints({
           params: params,
         };
       },
-      providesTags: TAG,
     }),
 
     postSendEmailOutlook: builder.mutation({
@@ -75,9 +75,9 @@ export const outlookApi = baseAPI.injectEndpoints({
     }),
 
     postReplyEmailOutlook: builder.mutation({
-      query: ({ messageId, type, replyText }: any) => {
+      query: ({ to, cc, bcc, messageId, type, replyText }: any) => {
         return {
-          url: `${SOCIAL_FEATURES_OUTLOOK?.REPLY_EMAIL}?messageId=${messageId}&type=${type}&replyText=${replyText}`,
+          url: `${SOCIAL_FEATURES_OUTLOOK?.REPLY_EMAIL}?to=${to}&cc=${cc}&bcc=${bcc}&messageId=${messageId}&type=${type}&replyText=${replyText}`,
           method: 'POST',
           headers: {
             'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
@@ -112,7 +112,7 @@ export const outlookApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: TAG,
+      invalidatesTags: DRAFT_MAIL,
     }),
 
     deleteEmailOutlook: builder.mutation({

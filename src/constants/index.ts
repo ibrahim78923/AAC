@@ -370,6 +370,8 @@ export const indexNumbers = {
   ZERO: 0,
   ONE: 1,
   TWO: 2,
+  THREE: 2,
+  FOUR: 2,
 };
 export const TASK_TABS_TYPES = {
   PENDING: 'Pending',

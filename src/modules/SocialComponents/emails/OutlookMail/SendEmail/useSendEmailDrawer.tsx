@@ -12,7 +12,7 @@ import {
 } from './SendEmailDrawer.data';
 import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
-import { CREATE_EMAIL_TYPES } from '@/constants';
+import { CREATE_EMAIL_TYPES, indexNumbers } from '@/constants';
 import { useEffect, useState } from 'react';
 import {
   useForwardEmailOutlookMutation,
@@ -35,6 +35,12 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   });
 
   const [autocompleteValues, setAutocompleteValues] = useState<string[]>([]);
+  const [autocompleteCCValues, setAutocompleteCCValues] = useState<string[]>(
+    [],
+  );
+  const [autocompleteBCCValues, setAutocompleteBCCValues] = useState<string[]>(
+    [],
+  );
 
   const [isLoadingProcessDraft, setIsLoadingProcessDraft] = useState(false);
   const [isProcessDraft, setIsProcessDraft] = useState(false);
@@ -42,11 +48,23 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const [isToValid, setisToValid] = useState(false);
 
   const { handleSubmit, watch, reset, setValue } = methodsDealsTasks;
-  const watchEmailsForm = watch(['ccChecked', 'bccChecked', 'to', 'sentDate']);
+  const watchEmailsForm = watch([
+    'ccChecked',
+    'bccChecked',
+    'to',
+    'sentDate',
+    'subject',
+  ]);
 
   useEffect(() => {
     setValue('to', autocompleteValues);
   }, [autocompleteValues]);
+  useEffect(() => {
+    setValue('cc', autocompleteCCValues);
+  }, [autocompleteCCValues]);
+  useEffect(() => {
+    setValue('bcc', autocompleteBCCValues);
+  }, [autocompleteBCCValues]);
 
   useEffect(() => {
     if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
@@ -56,9 +74,50 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [currentEmailAssets]);
 
+  const updateEmailValues = (
+    drawerType: any,
+    setAutocompleteValues: any,
+    setAutocompleteCCValues: any,
+    setAutocompleteBCCValues: any,
+    setValue: any,
+    currentEmailAssets: any,
+  ) => {
+    const isReplyOrReplyAll =
+      drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+      drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL;
+
+    if (isReplyOrReplyAll) {
+      setAutocompleteValues([currentEmailAssets?.from]);
+      setAutocompleteCCValues(currentEmailAssets?.others?.cc);
+      setAutocompleteBCCValues(currentEmailAssets?.others?.bcc);
+
+      setValue('ccChecked', !!currentEmailAssets?.others?.cc?.length);
+      setValue('bccChecked', !!currentEmailAssets?.others?.bcc?.length);
+    } else {
+      setValue('to', '');
+      setValue('cc', '');
+      setValue('bcc', '');
+      setValue('ccChecked', false);
+      setValue('bccChecked', false);
+    }
+  };
+
+  useEffect(() => {
+    updateEmailValues(
+      drawerType,
+      setAutocompleteValues,
+      setAutocompleteCCValues,
+      setAutocompleteBCCValues,
+      setValue,
+      currentEmailAssets,
+    );
+  }, [drawerType, currentEmailAssets]);
+
   useEffect(() => {
     if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
       setValue('description', '');
+      setValue('bccChecked', false);
+      setValue('ccChecked', false);
     }
   }, [drawerType]);
 
@@ -73,7 +132,8 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const [postforwardOutlookEmail, { isLoading: isLoadingForward }] =
     useForwardEmailOutlookMutation();
 
-  const isToExists = watchEmailsForm[2];
+  const isToExists = watchEmailsForm[indexNumbers?.TWO];
+  const isSubjectExists = watchEmailsForm[indexNumbers?.FOUR];
 
   const handleOnClose = () => {
     setisToValid(false);
@@ -81,7 +141,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
       drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL ||
       drawerType === CREATE_EMAIL_TYPES?.REPLY
     ) {
-      if (isToExists?.length > 0) {
+      if (isToExists?.length > 0 && isSubjectExists?.length > 0) {
         setIsProcessDraft(true);
       } else {
         reset();
@@ -104,7 +164,6 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const [sendLaterDate, setSendLaterDate] = useState<any>();
 
   const [toStateDep, setToStateDep] = useState(1);
-
   useEffect(() => {
     if (isToExists?.length === 0 || isToExists?.length === undefined) {
       null;
@@ -198,8 +257,14 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           formDataSend.append('subject', values?.subject);
           formDataSend.append('content', values?.description || '<p></p>');
 
-          if (!isSendLater) {
-            formDataSend.append('attachments', values?.attachments);
+          if (!isSendLater && values?.attachments) {
+            if (Array?.isArray(values?.attachments)) {
+              values?.attachments.forEach((file: File) => {
+                formDataSend?.append(`attachments`, file);
+              });
+            } else {
+              formDataSend.append('attachments', values?.attachments);
+            }
           }
 
           if (values?.cc && values?.cc?.trim() !== '') {
@@ -239,13 +304,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           drawerType === CREATE_EMAIL_TYPES?.REPLY ||
           drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
         ) {
-          const formDataReply = new FormData();
-          formDataReply.append('messageId', currentEmailAssets?.messageId);
-          formDataReply.append('replyText', values?.description);
-          formDataReply.append('type', 'reply');
-          formDataReply.append('attachments', values?.attachments);
           try {
             await postReplyOtherEmail({
+              to: values?.to,
+              cc: values?.cc ?? [],
+              bcc: values?.bcc ?? [],
               messageId: currentEmailAssets?.messageId,
               type:
                 drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
@@ -333,6 +396,13 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     handelSendLaterAction,
     setAutocompleteValues,
     autocompleteValues,
+
+    setAutocompleteCCValues,
+    autocompleteCCValues,
+
+    setAutocompleteBCCValues,
+    autocompleteBCCValues,
+
     isToValid,
     isLoadingForward,
 
