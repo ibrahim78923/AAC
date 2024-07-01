@@ -15,8 +15,10 @@ const useAddUser = (
   drawerType: any,
   setIsAddUserDrawer: any,
 ) => {
-  const [postPoductUser] = usePostPoductUserMutation();
-  const [updateProductsUsers] = useUpdateProductsUsersMutation();
+  const [postPoductUser, { isLoading: postUserLoading }] =
+    usePostPoductUserMutation();
+  const [updateProductsUsers, { isLoading: updateUserLoading }] =
+    useUpdateProductsUsersMutation();
 
   const defaultValues = {
     firstName: '',
@@ -101,6 +103,8 @@ const useAddUser = (
     methods,
     handleSubmit,
     onSubmit,
+    postUserLoading,
+    updateUserLoading,
   };
 };
 

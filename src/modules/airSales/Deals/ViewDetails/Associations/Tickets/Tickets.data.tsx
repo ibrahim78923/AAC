@@ -1,29 +1,29 @@
-import { Box } from '@mui/material';
-
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { Box, Typography } from '@mui/material';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
   setTicketRecord,
 }: {
-  setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
-  setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenDrawer: any;
+  setIsOpenAlert: any;
   setTicketRecord: React.Dispatch<React.SetStateAction<any>>;
 }) => {
   return [
     {
-      accessorFn: (row: any) => row?.taskno,
-      id: 'ticket_id',
+      accessorFn: (row: any) => row?.ticketIdNumber,
+      id: 'ticketNumber',
       cell: (info: any) => info?.getValue(),
       header: 'Ticket No',
       isSortable: false,
     },
 
     {
-      accessorFn: (row: any) => row?.taskname,
+      accessorFn: (row: any) => row?.subject,
       id: 'name',
       isSortable: true,
       header: 'Name',
@@ -31,11 +31,22 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.duedate,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Typography
+          sx={{
+            p: '4px 10px',
+            borderRadius: '18px',
+            border: '1px solid',
+            width: 'fit-content',
+          }}
+        >
+          {info?.getValue()}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.assignedTo,
@@ -50,22 +61,11 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setOpenDrawer('View'), setTicketRecord(info?.row?.original);
+                setOpenDrawer({ isToggle: true, type: DRAWER_TYPES?.VIEW });
+                setTicketRecord(info?.row?.original);
               }}
             >
               <ViewEyeIcon />
-            </Box>
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_TICKET]}
-          >
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                setOpenDrawer('Edit'), setTicketRecord(info?.row?.original);
-              }}
-            >
-              <EditPenIcon />
             </Box>
           </PermissionsGuard>
           <PermissionsGuard
@@ -74,7 +74,8 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setIsOpenAlert(true), setTicketRecord(info?.row?.original);
+                setIsOpenAlert({ isToggle: true, data: info?.row?.original });
+                setTicketRecord(info?.row?.original);
               }}
             >
               <DeleteCrossIcon />

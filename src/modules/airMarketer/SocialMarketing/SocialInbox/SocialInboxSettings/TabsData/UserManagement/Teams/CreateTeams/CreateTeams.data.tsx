@@ -33,7 +33,7 @@ export const teamsDataArray: any = (productsUsers: any) => [
       isCheckBox: true,
       label: 'Team Members',
       required: true,
-      options: productsUsers?.data?.usercompanyaccounts?.map((item: any) => ({
+      options: productsUsers?.map((item: any) => ({
         value: item?._id,
         label: `${item?.user?.firstName} ${item?.user?.lastName}`,
       })),

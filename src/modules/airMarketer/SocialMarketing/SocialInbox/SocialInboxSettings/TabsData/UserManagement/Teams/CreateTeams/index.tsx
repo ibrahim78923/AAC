@@ -5,9 +5,12 @@ import useCreateTeams from './useCreateTeams';
 import { v4 as uuidv4 } from 'uuid';
 import { teamsDataArray } from './CreateTeams.data';
 import useUserManagement from '../../useUserManagement';
+import { getActiveAccountSession, getSession } from '@/utils';
 
 const CreateTeams = (props?: any) => {
   const { isAddTeam, setIsAddTeam, teamDataById, teamByIdLoading } = props;
+  const { user }: any = getSession();
+  const activeAccountData = getActiveAccountSession();
   const {
     methods,
     handleSubmit,
@@ -17,6 +20,23 @@ const CreateTeams = (props?: any) => {
     updateTeamLoading,
   } = useCreateTeams(teamDataById, setIsAddTeam, isAddTeam?.type);
   const { skeletonLines, drawyerType } = useUserManagement();
+
+  const filteredUsers = productsUsers
+    ? productsUsers?.data?.usercompanyaccounts
+    : [];
+
+  const loggedUserData = [
+    {
+      _id: activeAccountData?._id,
+      user: {
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+      },
+    },
+  ];
+
+  const allTeamMembers = [...loggedUserData, ...filteredUsers];
+  const filterdTeamMembers = allTeamMembers?.filter((item: any) => !item?.team);
 
   return (
     <CommonDrawer
@@ -39,7 +59,11 @@ const CreateTeams = (props?: any) => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {teamsDataArray(productsUsers)?.map((item: any) => (
+              {teamsDataArray(
+                isAddTeam?.type === drawyerType?.ADD
+                  ? filterdTeamMembers
+                  : allTeamMembers,
+              )?.map((item: any) => (
                 <Grid
                   item
                   xs={12}

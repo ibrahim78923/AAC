@@ -390,7 +390,9 @@ export const TASK_TABS = {
   ASSOCIATIONS: 'associations',
   TICKETS: 'tickets',
 };
-
+export const TICKETS_TYPE = {
+  NEW_TICKETS: 'new-ticket',
+};
 export const CREATE_DASHBOARD_KEYS = {
   DEALS_CREATED_VS_CLOSED: 'Deals created vs Closed Deals',
   DEAL_REPORTS: 'Deal Reports',

@@ -8,11 +8,13 @@ import useUserManagement from '@/modules/airMarketer/SocialMarketing/SocialInbox
 const AddUsers = (props: any) => {
   const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
   const theme = useTheme();
-  const { methods, handleSubmit, onSubmit } = useAddUser(
-    checkedUser,
-    isAddUserDrawer,
-    setIsAddUserDrawer,
-  );
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    postUserLoading,
+    updateUserLoading,
+  } = useAddUser(checkedUser, isAddUserDrawer, setIsAddUserDrawer);
   const { drawyerType } = useUserManagement();
 
   return (
@@ -27,6 +29,7 @@ const AddUsers = (props: any) => {
       okText={isAddUserDrawer?.type === drawyerType?.EDIT ? 'Edit' : 'Add'}
       footer={true}
       isOk={true}
+      isLoading={postUserLoading || updateUserLoading}
       submitHandler={handleSubmit(onSubmit)}
     >
       <Typography

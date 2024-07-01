@@ -3,7 +3,6 @@ import { Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { usePostDealsMutation } from '@/services/airSales/deals';
-
 import {
   createDealData,
   defaultValues,
@@ -33,7 +32,8 @@ const CreateDeal = ({ open, onClose, refetchDealsDropdown }: any) => {
       quantity: 1,
       unitDiscount: 0,
     }));
-    delete values.products;
+    values.dealPipelineId = values?.dealPipelineId?._id;
+    delete values?.products;
     const obj = {
       closeDate,
       products,
@@ -71,7 +71,7 @@ const CreateDeal = ({ open, onClose, refetchDealsDropdown }: any) => {
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
           {dealDataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
               <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (

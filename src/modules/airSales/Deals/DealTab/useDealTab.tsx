@@ -81,7 +81,6 @@ const useDealTab = () => {
   );
 
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
-
   const pipelineListDropdown = useLazyGetDealPipeLineListQuery();
 
   const dealListApiUrl = dealViewsData?.data?.map((obj: any) => {

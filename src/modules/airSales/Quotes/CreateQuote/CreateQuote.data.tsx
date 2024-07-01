@@ -5,7 +5,7 @@ import {
   RHFSearchableSelect,
   RHFRadioGroup,
 } from '@/components/ReactHookForm';
-import { dealStatus } from '@/constants';
+import { DATE_FORMAT, dealStatus } from '@/constants';
 import * as Yup from 'yup';
 
 export const dealValidationSchema = Yup?.object()?.shape({
@@ -76,10 +76,10 @@ export const dealFormData = (dealsData: any, openCreateDeal: any) => {
       componentProps: {
         name: 'expiryDate',
         label: 'Quote Expiration Date',
-        placeholder: 'MM/DD/YYYY',
+        placeholder: DATE_FORMAT?.UI,
         minDate: new Date(),
         fullWidth: true,
-        require: false,
+        required: true,
       },
       md: 12,
       component: RHFDatePicker,

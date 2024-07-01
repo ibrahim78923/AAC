@@ -124,7 +124,7 @@ const useContactsEditorDrawer = ({
   };
 
   const onCloseHandler = () => {
-    setOpenDrawer('');
+    setOpenDrawer(false);
     reset();
   };
   const { handleSubmit, reset } = methodscontacts;

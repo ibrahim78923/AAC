@@ -43,11 +43,7 @@ const Associations = (props: any) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Tickets
-              ticketsData={assocaitionData?.tickets}
-              isLoading={isLoading}
-              dealId={selected}
-            />
+            <Tickets isLoading={isLoading} />
           </Grid>
           <Grid item xs={12} id="companies">
             <Companies

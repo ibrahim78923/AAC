@@ -1,31 +1,56 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
-import { useDeleteAssociationMutation } from '@/services/airSales/deals/view-details/association';
+import { useGetTicketsQuery } from '@/services/airSales/deals/view-details/association';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useRouter } from 'next/router';
+import { ASSOCIATIONS_API_PARAMS_FOR, TASK_STATUS } from '@/constants';
+import { usePostAssociationMutation } from '@/services/commonFeatures/contacts/associations';
 
-const useTickets = (dealId: any) => {
+const useTickets = () => {
   const theme = useTheme();
   const [searchName, setSearchName] = useState('');
-  const [openDrawer, setOpenDrawer] = useState('');
-  const [isOpenAlert, setIsOpenAlert] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState({
+    isToggle: false,
+    type: '',
+  });
+  const [isOpenAlert, setIsOpenAlert] = useState({
+    isToggle: false,
+    data: {},
+  });
   const [ticketRecord, setTicketRecord] = useState<any>({});
 
-  const [deleteAssociation, { isLoading: delTicketLoading }] =
-    useDeleteAssociationMutation();
+  const router = useRouter();
+  const { id: recordId } = router?.query;
 
-  const deleteTicketHandler = async () => {
+  const ticketsParam = {
+    recordId: recordId,
+    search: searchName ? searchName : undefined,
+    recordType: TASK_STATUS?.DEALS,
+    associationType: TASK_STATUS?.TICKETS,
+  };
+
+  const { data: ticketsData, isLoading: getTicketsLoading } =
+    useGetTicketsQuery(ticketsParam);
+
+  const [postAssociation, { isLoading: delTicketLoading }] =
+    usePostAssociationMutation();
+
+  const deleteTicketHandler = async (data: any) => {
     try {
-      await deleteAssociation({
-        body: {
-          dealId: dealId,
-          // quoteId: selectedQuote?._id,
-        },
+      const payload = {
+        recordId: recordId,
+        recordType: ASSOCIATIONS_API_PARAMS_FOR?.DEALS,
+        operation: ASSOCIATIONS_API_PARAMS_FOR?.REMOVE,
+        ticketsIds: [data?._id],
+      };
+      await postAssociation({
+        body: payload,
       })?.unwrap();
       enqueueSnackbar('Record Deleted Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      setIsOpenAlert(false);
+      setIsOpenAlert({ isToggle: false, data: {} });
     } catch (error: any) {
       const errMsg = error?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', {
@@ -35,7 +60,7 @@ const useTickets = (dealId: any) => {
   };
 
   const handleCloseAlert = () => {
-    setIsOpenAlert(false);
+    setIsOpenAlert({ isToggle: false, data: {} });
   };
 
   return {
@@ -51,6 +76,8 @@ const useTickets = (dealId: any) => {
     searchName,
     openDrawer,
     theme,
+    ticketsData,
+    getTicketsLoading,
   };
 };
 
