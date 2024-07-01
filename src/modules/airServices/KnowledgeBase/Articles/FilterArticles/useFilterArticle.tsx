@@ -3,7 +3,8 @@ import {
   filterArticlesDataDefaultValues,
   filterArticlesFormFieldsDynamic,
 } from './FilterArticles.data';
-import { useLazyGetUsersDropdownQuery } from '@/services/airServices/knowledge-base/articles';
+import { useLazyGetUsersDropdownListForAuthorsQuery } from '@/services/airServices/knowledge-base/articles';
+import useAuth from '@/hooks/useAuth';
 
 export const useFilterArticles = (props: any) => {
   const {
@@ -13,6 +14,10 @@ export const useFilterArticles = (props: any) => {
     setFilterValues,
     setPage,
   } = props;
+
+  const auth: any = useAuth();
+
+  const { _id: productId } = auth?.product;
   const methods: any = useForm({
     defaultValues: filterArticlesDataDefaultValues?.(filterValues),
   });
@@ -45,9 +50,13 @@ export const useFilterArticles = (props: any) => {
   const onClose = () => {
     setIsOpenFilterDrawer?.(false);
   };
-  const apiQueryAuthor = useLazyGetUsersDropdownQuery();
-  const filterArticlesFormFields =
-    filterArticlesFormFieldsDynamic(apiQueryAuthor);
+  const apiQueryAuthor = useLazyGetUsersDropdownListForAuthorsQuery();
+
+  const filterArticlesFormFields = filterArticlesFormFieldsDynamic(
+    apiQueryAuthor,
+    productId,
+  );
+
   return {
     submitHandler,
     isOpenFilterDrawer,

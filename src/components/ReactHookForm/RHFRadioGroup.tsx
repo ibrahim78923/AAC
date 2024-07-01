@@ -28,7 +28,7 @@ export default function RHFRadioGroup({
       name={name}
       control={control}
       defaultValue={defaultValue}
-      render={({ field, fieldState: { error } }) => {
+      render={({ field, fieldState: { error } }: any) => {
         return (
           <>
             <Box position="relative" sx={other?.boxSx}>

@@ -427,6 +427,7 @@ export const END_POINTS = {
   PUT_DYNAMIC_FIELDS: `/customized-columns/create-or-update-custom-fields`,
   GET_DYNAMIC_FIELDS: `/customized-columns/get-custom-field`,
   DELETE_DYNAMIC_FIELDS: `/customized-columns/delete-field`,
+  GET_SINGLE_FEEDBACK_FOR_RESPONSE: '/feedback-survey/get-feedback-survey',
 };
 
 export const LEAD_CAPTURE_FORM = {

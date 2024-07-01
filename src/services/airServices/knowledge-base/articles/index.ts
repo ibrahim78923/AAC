@@ -95,6 +95,16 @@ export const articlesAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+    getUsersDropdownListForAuthors: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
@@ -110,4 +120,5 @@ export const {
   useLazyGetUsersDropdownQuery,
   useGetArticlesFoldersForFilterQuery,
   useLazyGetUsersDropdownListForArticlesApprovalsQuery,
+  useLazyGetUsersDropdownListForAuthorsQuery,
 } = articlesAPI;

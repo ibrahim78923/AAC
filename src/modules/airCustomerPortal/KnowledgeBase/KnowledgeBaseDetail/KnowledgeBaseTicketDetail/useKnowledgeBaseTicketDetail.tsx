@@ -98,8 +98,8 @@ export const useKnowledgeBaseTicketDetail = () => {
       setShowFeedbackField(false);
       setShowOkFeedback(true);
       reset(feedbackDefaultValues);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -112,8 +112,8 @@ export const useKnowledgeBaseTicketDetail = () => {
       const res: any = await postArticleFeedbackTrigger(payload)?.unwrap();
       successSnackbar(res?.message ?? 'This answer is helpful');
       setShowOkFeedback(true);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

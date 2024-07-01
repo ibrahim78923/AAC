@@ -16,7 +16,10 @@ export const filterArticlesDataDefaultValues = (data?: any) => {
   };
 };
 
-export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
+export const filterArticlesFormFieldsDynamic = (
+  apiQueryAuthor: any,
+  productId: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -34,9 +37,10 @@ export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
     componentProps: {
       name: 'authorId',
       label: 'Author',
-      placeholder: 'Select',
+      placeholder: 'Select Author',
       fullWidth: true,
       apiQuery: apiQueryAuthor,
+      externalParams: { productId },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

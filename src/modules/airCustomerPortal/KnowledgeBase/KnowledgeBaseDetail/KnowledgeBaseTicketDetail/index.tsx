@@ -194,7 +194,7 @@ export const KnowledgeBaseTicketDetail = () => {
                 >
                   <CheckCircleIcon sx={{ color: 'success.main' }} />
                   <Typography color="secondary" variant="body2">
-                    Thanks for the feedback. We will improve this article.
+                    Glad we could be helpful. Thanks for the feedback.
                   </Typography>
                 </Box>
               )}

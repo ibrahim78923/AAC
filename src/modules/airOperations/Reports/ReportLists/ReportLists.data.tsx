@@ -4,8 +4,7 @@ import {
   CheckedFavoriteIcon,
   UnCheckedFavoriteIcon,
 } from '@/assets/icons';
-import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
-import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
 import {
   fullName,
@@ -27,29 +26,27 @@ export const actionsForReportListsDynamic = (
   setIsPortalOpen: any,
   selectedReportList: any,
   editReportPath: any,
+  permission: any,
 ) => [
   {
     id: 1,
     title: 'Customize',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.CUSTOMIZE],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
         return;
       }
-      editReportPath?.(selectedReportList[0]?._id);
+      editReportPath?.(selectedReportList[ARRAY_INDEX?.ZERO]?._id);
       closeMenu();
     },
   },
   {
     id: 2,
     title: 'Rename',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-    ],
+    permissionKey: [permission?.RENAME],
+
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -66,9 +63,8 @@ export const actionsForReportListsDynamic = (
   {
     id: 3,
     title: 'Clone',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-    ],
+    permissionKey: [permission?.CLONE],
+
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -85,9 +81,8 @@ export const actionsForReportListsDynamic = (
   {
     id: 4,
     title: 'Export',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-    ],
+    permissionKey: [permission?.EXPORT_RECORD],
+
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -104,9 +99,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 5,
     title: 'Email This Report',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.EMAIL_THIS_REPORT],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -120,9 +113,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 6,
     title: 'Change Owner',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.CHANGE_OWNER],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -139,9 +130,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 7,
     title: 'Add to Dashboard',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.ADD_TO_DASHBOARD],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -158,9 +147,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 8,
     title: 'Delete',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.DELETE],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -174,9 +161,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 9,
     title: 'Manage Access',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.MANAGE_ACCESS],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');

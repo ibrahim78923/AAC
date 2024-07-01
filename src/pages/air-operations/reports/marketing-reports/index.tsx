@@ -10,6 +10,8 @@ export default MarketingReportsPage;
 
 MarketingReportsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={Permissions?.AIR_OPERATIONS_WORKFLOWS}>{page}</Layout>
+    <Layout permissions={Permissions?.AIR_OPERATION_REPORTS_MARKETING}>
+      {page}
+    </Layout>
   );
 };

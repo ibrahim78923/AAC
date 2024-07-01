@@ -500,7 +500,7 @@ export const AirOperationsRoutes: any = [
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATION_REPORTS,
   },
 ];
 

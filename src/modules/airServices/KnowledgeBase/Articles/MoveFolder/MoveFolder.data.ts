@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 
 export const moveFolderValidationSchema = Yup?.object()?.shape({
   movingFrom: Yup?.string()?.required('Required'),
-  moveTo: Yup?.mixed()?.nullable()?.required('Required'),
+  moveTo: Yup?.mixed()?.nullable()?.required('Folder Name is Required'),
 });
 
 export const moveFolderDefaultValues = (data?: any) => {
@@ -21,6 +21,7 @@ export const moveFolderFormFieldsDynamic = (apiQueryFolder: any) => [
       label: 'Moving From',
       fullWidth: true,
       placeholder: 'Training',
+      disabled: true,
     },
     component: RHFTextField,
     md: 12,

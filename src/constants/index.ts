@@ -172,6 +172,7 @@ export const AIR_CUSTOMER_PORTAL = {
   CUSTOMER_PORTAL_DASHBOARD: '/air-customer-portal',
   APPROVALS: '/air-customer-portal/catalog/approvals',
   APPROVALS_DETAIL: '/air-customer-portal/catalog/approvals/detail',
+  UPSERT_SURVEY_RESPONSE: '/air-customer-portal/survey',
 };
 
 export const ORG_ADMIN: any = {
