@@ -140,14 +140,12 @@ export const EditPhysicalCard = () => {
                       justifyContent={'space-between'}
                       m={1}
                     >
-                      <Box>
-                        <Image
-                          src={FireWorkBgImage}
-                          alt="designCardImg"
-                          width={150}
-                          height={140}
-                        />
-                      </Box>
+                      <Image
+                        src={FireWorkBgImage}
+                        alt="designCardImg"
+                        width={150}
+                        height={140}
+                      />
                       <Box
                         border={`.1rem solid${theme?.palette?.grey[700]}`}
                         p={0.5}

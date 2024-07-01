@@ -1,5 +1,5 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -9,26 +9,26 @@ export const exportTabColumnsFunction: any = (
   setSelectedExportList: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedExportList?.find(
-            (item: any) => item?.id === info?.getValue(),
+            (item: any) => item?._id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target.checked
             ? setSelectedExportList([
                 ...selectedExportList,
-                exportList?.find((item: any) => item?.id === info?.getValue()),
+                exportList?.find((item: any) => item?._id === info?.getValue()),
               ])
             : setSelectedExportList(
                 selectedExportList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -40,7 +40,11 @@ export const exportTabColumnsFunction: any = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedExportList?.length === exportList?.length}
+        checked={
+          selectedExportList?.length
+            ? selectedExportList?.length === exportList?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedExportList([...exportList])
@@ -65,18 +69,7 @@ export const exportTabColumnsFunction: any = (
           src={info?.row?.original?.user?.profileImg?.src}
           alt={info?.row?.original?.user?.name}
         />
-        <Box>
-          <Typography
-            variant="subtitle2"
-            fontWeight={500}
-            color="blue.dull_blue"
-          >
-            {info?.getValue()}
-          </Typography>
-          <Typography variant="subtitle2" fontWeight={400} color="custom.light">
-            {info?.getValue()}
-          </Typography>
-        </Box>
+        {info?.getValue() ?? '---'}
       </Box>
     ),
   },
@@ -86,7 +79,7 @@ export const exportTabColumnsFunction: any = (
     isSortable: true,
     header: 'File Name',
     cell: (info: any) => (
-      <Typography color="primary.main">{info?.getValue()}</Typography>
+      <Typography color="primary.main">{info?.getValue() ?? '---'}</Typography>
     ),
   },
   {
@@ -94,51 +87,28 @@ export const exportTabColumnsFunction: any = (
     id: 'product',
     isSortable: true,
     header: 'Product',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.object,
     id: 'object',
     isSortable: true,
     header: 'Object',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.noOfRecords,
-    id: 'noOfRecords',
+    accessorFn: (row: any) => row?.records,
+    id: 'records',
     isSortable: true,
-    header: 'No Of Records',
-    cell: (info: any) => info?.getValue(),
+    header: 'No of Records',
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
-    accessorFn: (row: any) => row?.createdDate,
-    id: 'createdDate',
+    accessorFn: (row: any) => row?.createdAt,
+    id: 'createdAt',
     isSortable: true,
     header: 'Created Date',
     cell: (info: any) =>
-      info?.getValue()
-        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
-        : '---',
-  },
-];
-
-export const exportListData: any = [
-  {
-    id: 1,
-    user: 'purchase cost',
-    fileName: 'Doc.pdf',
-    product: 'Service',
-    object: 'Deals',
-    noOfRecords: 1506,
-    createdDate: `2023-12-14T11:59:08.238Z`,
-  },
-  {
-    id: 2,
-    user: 'purchase cost',
-    fileName: 'Doc.pdf',
-    product: 'Service',
-    object: 'Deals',
-    noOfRecords: 1506,
-    createdDate: `2023-12-14T11:59:08.238Z`,
+      dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.DDMMYYY) ?? '---',
   },
 ];

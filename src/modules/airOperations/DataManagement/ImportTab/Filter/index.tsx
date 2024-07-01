@@ -6,7 +6,7 @@ import { filterFields } from './Filter.data';
 
 export const Filter = (props: any) => {
   const { isOpenFilterDrawer } = props;
-  const { methods, handleSubmit, onSubmit, clearFilter, onClose } =
+  const { methods, handleSubmit, onSubmit, clearFilter, onClose, userList } =
     useFilter(props);
 
   return (
@@ -24,16 +24,9 @@ export const Filter = (props: any) => {
       >
         <FormProvider methods={methods}>
           <Grid container rowSpacing={2.6} columnSpacing={2} mt={-1}>
-            {filterFields?.map((form: any) => (
+            {filterFields(userList)?.map((form: any) => (
               <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                <form.component {...form?.componentProps} size="small">
-                  {form?.componentProps?.select &&
-                    form?.componentProps?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </form.component>
+                <form.component {...form?.componentProps} size="small" />
               </Grid>
             ))}
           </Grid>

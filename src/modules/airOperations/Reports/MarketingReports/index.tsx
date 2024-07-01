@@ -32,6 +32,7 @@ export const MarketingReports = () => {
         }}
       />
       <HorizontalTabs
+        spacing={0.3}
         tabsDataArray={[
           'All Reports',
           'Favorite',

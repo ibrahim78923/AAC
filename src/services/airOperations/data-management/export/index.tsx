@@ -1,13 +1,13 @@
 import { END_POINTS, OPERATION } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'DATA_MANAGEMENT_IMPORT';
+const TAG = 'DATA_MANAGEMENT_EXPORT';
 
-export const dataManagementImportAPI = baseAPI?.injectEndpoints({
+export const dataManagementExportAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getImportList: builder?.query({
+    getExportList: builder?.query({
       query: (params) => ({
-        url: `${OPERATION?.GET_IMPORT_DATA_MANAGEMENT}`,
+        url: `${OPERATION?.GET_EXPORT_DATA_MANAGEMENT}`,
         method: 'GET',
         params,
       }),
@@ -27,5 +27,5 @@ export const dataManagementImportAPI = baseAPI?.injectEndpoints({
   }),
 });
 
-export const { useGetImportListQuery, useLazyGetUsersDropdownListQuery } =
-  dataManagementImportAPI;
+export const { useGetExportListQuery, useLazyGetUsersDropdownListQuery } =
+  dataManagementExportAPI;

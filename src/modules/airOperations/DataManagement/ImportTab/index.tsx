@@ -3,7 +3,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { Header } from './Header';
 import { EXPORT_TYPE } from '@/constants/strings';
 
-const ImportTab = () => {
+export const ImportTab = () => {
   const {
     setPage,
     setPageLimit,
@@ -54,5 +54,3 @@ const ImportTab = () => {
     </>
   );
 };
-
-export default ImportTab;

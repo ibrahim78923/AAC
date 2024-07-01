@@ -525,7 +525,8 @@ export const OPERATION = {
   SAVE_WORKFLOW: '/workflows/save',
   CLONE_WORKFLOW: '/workflows/clone',
   TEST_WORKFLOW: '/workflows/test',
-  GET_DATA_MANAGEMENT: '/data-management/get-data-management',
+  GET_IMPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
+  GET_EXPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
 };
 
 export const AIR_SALES = {
