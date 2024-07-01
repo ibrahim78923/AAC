@@ -50,6 +50,7 @@ export default function useDroppableArea({
         isRequired: field?.componentProps?.required,
         multiLine: field?.componentProps?.multiline,
         options: options,
+        format: field?.componentProps?.format,
         ...(isValidMongoId(field?.id) && { Id: field?.id }),
       };
     });

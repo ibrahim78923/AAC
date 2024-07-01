@@ -18,7 +18,8 @@ import {
   usePostInventoryMutation,
 } from '@/services/airServices/assets/inventory';
 import { AIR_SERVICES } from '@/constants';
-import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import useAuth from '@/hooks/useAuth';
 
 export const useUpsertInventory = () => {
   const { query }: any = useRouter();
@@ -62,10 +63,7 @@ export const useUpsertInventory = () => {
       inventoryDetailsData.append('departmentId', data?.department?._id);
     !!data?.usedBy?._id &&
       inventoryDetailsData.append('usedBy', data?.usedBy?._id);
-    inventoryDetailsData.append(
-      'assignedOn',
-      makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
-    );
+    inventoryDetailsData.append('assignedOn', data?.assignedOn?.toISOString());
 
     data?.fileUrl !== null &&
       inventoryDetailsData?.append('attachment', data?.fileUrl);
@@ -109,10 +107,7 @@ export const useUpsertInventory = () => {
       inventoryEditData.append('departmentId', data?.department?._id);
     !!data?.usedBy?._id &&
       inventoryEditData.append('usedBy', data?.usedBy?._id);
-    inventoryEditData.append(
-      'assignedOn',
-      makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
-    );
+    inventoryEditData.append('assignedOn', data?.assignedOn?.toISOString());
     data?.fileUrl !== null &&
       inventoryEditData?.append('fileUrl', data?.fileUrl);
     const body = inventoryEditData;
@@ -131,6 +126,10 @@ export const useUpsertInventory = () => {
     }
   };
 
+  const auth: any = useAuth();
+
+  const { _id: productId } = auth?.product;
+
   const apiQueryAssetType = useLazyGetAssetTypeQuery();
   const apiQueryDepartmentType = useLazyGetDepartmentDropdownQuery();
   const apiQueryLocationType = useLazyGetLocationsDropdownQuery();
@@ -140,6 +139,7 @@ export const useUpsertInventory = () => {
     apiQueryDepartmentType,
     apiQueryLocationType,
     apiQueryUsedByType,
+    productId,
   );
 
   const moveBack = () => {

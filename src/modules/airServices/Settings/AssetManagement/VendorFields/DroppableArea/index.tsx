@@ -90,6 +90,7 @@ export default function DroppableArea({
                     <IconButton
                       sx={{ color: 'primary.main' }}
                       onClick={() => handleEdit(item?.id)}
+                      disabled={putDynamicFieldsStatus?.isLoading}
                     >
                       <EditIcon />
                     </IconButton>
@@ -101,6 +102,7 @@ export default function DroppableArea({
                           id: item?.id,
                         })
                       }
+                      disabled={putDynamicFieldsStatus?.isLoading}
                     >
                       <DeleteIcon />
                     </IconButton>

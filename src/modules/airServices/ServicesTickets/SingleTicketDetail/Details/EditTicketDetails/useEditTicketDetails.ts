@@ -65,13 +65,10 @@ export const useEditTicketDetails = () => {
       data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType,
     );
 
-    (!!formData?.plannedEndDate || !!formData?.plannedEndTime) &&
+    !!formData?.plannedEndDate &&
       ticketDetailsData?.append(
         'plannedEndDate',
-        makeDateTime(
-          formData?.plannedEndDate,
-          formData?.plannedEndTime,
-        )?.toISOString(),
+        makeDateTime(formData?.plannedEndDate, new Date())?.toISOString(),
       );
     ticketDetailsData.append('plannedEffort', formData?.plannedEffort);
     ticketDetailsData?.append(

@@ -25,6 +25,9 @@ const transformResponse = (response: any) => {
         ...(field?.fieldType === FIELDS_CONSTANTS?.RHFDROPZONE && {
           fileType: field?.placeholder,
         }),
+        ...(field?.fieldType === FIELDS_CONSTANTS?.RHFDATEPICKER && {
+          format: field?.format,
+        }),
       },
       component: field?.fieldType,
       id: field?._id,

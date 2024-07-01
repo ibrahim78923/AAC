@@ -252,6 +252,7 @@ export const upsertTicketFormFieldsDynamic = (
             label: '\u00a0\u00a0',
             fullWidth: true,
             disabled: true,
+            ampm: false,
           },
           component: RHFTimePicker,
           md: 4.5,
