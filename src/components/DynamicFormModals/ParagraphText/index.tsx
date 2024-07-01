@@ -41,7 +41,9 @@ export default function ParagraphText({
               fontSize={'large'}
             />
           </Box>
-          <Typography variant={'h5'}>Field Properties - Paragraph</Typography>
+          <Typography variant={'h5'}>
+            Field Properties - Paragraph Text
+          </Typography>
         </Box>
       </DialogTitle>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

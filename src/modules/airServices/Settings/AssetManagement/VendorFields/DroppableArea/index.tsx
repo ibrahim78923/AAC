@@ -45,8 +45,6 @@ export default function DroppableArea({
       </Box>
     );
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-
   return (
     <>
       <Droppable droppableId={'droppable'}>
@@ -59,86 +57,91 @@ export default function DroppableArea({
             ref={provided?.innerRef}
             {...provided?.droppableProps}
           >
-            <FormProvider methods={methods}>
-              {predefinedVendorDataArray?.map((item: any) => (
-                <Box mb={2} key={item?.id}>
-                  <item.component
-                    {...item.componentProps}
-                    size={'small'}
-                    disabled={true}
-                  />
-                </Box>
-              ))}
+            {isLoading || isFetching ? (
+              <SkeletonForm />
+            ) : (
+              <FormProvider methods={methods}>
+                {predefinedVendorDataArray?.map((item: any) => (
+                  <Box mb={2} key={item?.id}>
+                    <item.component
+                      {...item.componentProps}
+                      size={'small'}
+                      disabled={true}
+                    />
+                  </Box>
+                ))}
 
-              {form?.map((item: any) => (
+                {form?.map((item: any) => (
+                  <Box
+                    my={1}
+                    display={'flex'}
+                    justifyContent={'space-between'}
+                    alignItems={'center'}
+                    key={item?.id}
+                  >
+                    <Box width={'100%'} mb={2}>
+                      {componentMap[item?.component] &&
+                        createElement(componentMap[item?.component], {
+                          ...item?.componentProps,
+                          size: 'small',
+                          disabled: true,
+                        })}
+                    </Box>
+                    <Box display={'flex'} alignItems={'center'} mt={1}>
+                      <IconButton
+                        sx={{ color: 'primary.main' }}
+                        onClick={() => handleEdit(item?.id)}
+                        disabled={putDynamicFieldsStatus?.isLoading}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        sx={{ color: 'error.lighter' }}
+                        onClick={() =>
+                          setIsDeleteModalOpen({
+                            open: true,
+                            id: item?.id,
+                          })
+                        }
+                        disabled={putDynamicFieldsStatus?.isLoading}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                ))}
+
+                <Divider sx={{ mb: 2 }} />
+
                 <Box
-                  my={1}
                   display={'flex'}
-                  justifyContent={'space-between'}
                   alignItems={'center'}
-                  key={item?.id}
+                  justifyContent={'flex-end'}
+                  gap={2}
                 >
-                  <Box width={'100%'} mb={2}>
-                    {componentMap[item?.component] &&
-                      createElement(componentMap[item?.component], {
-                        ...item?.componentProps,
-                        size: 'small',
-                        disabled: true,
-                      })}
-                  </Box>
-                  <Box display={'flex'} alignItems={'center'} mt={1}>
-                    <IconButton
-                      sx={{ color: 'primary.main' }}
-                      onClick={() => handleEdit(item?.id)}
-                      disabled={putDynamicFieldsStatus?.isLoading}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      sx={{ color: 'error.lighter' }}
-                      onClick={() =>
-                        setIsDeleteModalOpen({
-                          open: true,
-                          id: item?.id,
-                        })
-                      }
-                      disabled={putDynamicFieldsStatus?.isLoading}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Box>
+                  <Button
+                    variant={'outlined'}
+                    color={'inherit'}
+                    disabled={putDynamicFieldsStatus?.isLoading}
+                    onClick={() => {
+                      router?.push({
+                        pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
+                      });
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <LoadingButton
+                    variant={'contained'}
+                    onClick={handleFormCreation}
+                    disabled={!form?.length}
+                    loading={putDynamicFieldsStatus?.isLoading}
+                  >
+                    Submit
+                  </LoadingButton>
                 </Box>
-              ))}
-
-              <Divider sx={{ mb: 2 }} />
-
-              <Box
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'flex-end'}
-                gap={2}
-              >
-                <Button
-                  variant={'outlined'}
-                  color={'inherit'}
-                  onClick={() => {
-                    router?.push({
-                      pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
-                    });
-                  }}
-                >
-                  Cancel
-                </Button>
-                <LoadingButton
-                  variant={'contained'}
-                  onClick={handleFormCreation}
-                  disabled={!form?.length}
-                  loading={putDynamicFieldsStatus?.isLoading}
-                >
-                  Submit
-                </LoadingButton>
-              </Box>
-            </FormProvider>
+              </FormProvider>
+            )}
           </Box>
         )}
       </Droppable>

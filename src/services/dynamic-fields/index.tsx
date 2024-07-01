@@ -26,7 +26,7 @@ const transformResponse = (response: any) => {
           fileType: field?.placeholder,
         }),
         ...(field?.fieldType === FIELDS_CONSTANTS?.RHFDATEPICKER && {
-          format: field?.format,
+          format: field?.dateformate,
         }),
       },
       component: field?.fieldType,
