@@ -1,45 +1,59 @@
 import { Checkbox } from '@mui/material';
 
-export const groupsData: any = [
-  {
-    Id: 1,
-    GroupName: 'Employees(15)',
-  },
-  {
-    Id: 2,
-    GroupName: 'Onboard(45)',
-  },
-  {
-    Id: 3,
-    GroupName: 'New User(23)',
-  },
-  {
-    Id: 4,
-    GroupName: 'University(61)',
-  },
-  {
-    Id: 5,
-    GroupName: 'Sale(313)',
-  },
-  {
-    Id: 6,
-    GroupName: 'Lead(64)',
-  },
-];
+export const groupsColumns: any = ({
+  selectedRec,
+  setSelectedRec,
+  contactsGroupData,
+}: any) => {
+  const handleSelectContactGroupById = (checked: boolean, id: string): void => {
+    if (checked) {
+      const contact = contactsGroupData?.find(
+        (contact: any) => contact?._id === id,
+      );
+      setSelectedRec([...selectedRec, contact]);
+    } else {
+      setSelectedRec(
+        selectedRec?.filter((contact: any) => contact?._id !== id),
+      );
+    }
+  };
 
-export const groupsColumns: any = [
-  {
-    accessorFn: (row: any) => row?.Id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.GroupName,
-    id: 'groupName',
-    isSortable: false,
-    header: 'Group Name',
-    cell: (info: any) => info?.getValue(),
-  },
-];
+  const handleSelectAllContactGroups = (checked: boolean): void => {
+    setSelectedRec(checked ? contactsGroupData : []);
+  };
+  return [
+    {
+      accessorFn: (row: any) => row?._id,
+      id: 'Id',
+      cell: ({ row: { original } }: any) => (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectContactGroupById(target?.checked, original?._id);
+          }}
+          checked={selectedRec?.some(
+            (contact: any) => contact?._id === original?._id,
+          )}
+        />
+      ),
+      header: (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectAllContactGroups(target?.checked);
+          }}
+          checked={
+            contactsGroupData?.length &&
+            selectedRec?.length === contactsGroupData?.length
+          }
+        />
+      ),
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => `${row?.name} (${row?.contacts?.length})`,
+      id: 'groupName',
+      isSortable: false,
+      header: 'Group Name',
+      cell: (info: any) => info?.getValue(),
+    },
+  ];
+};

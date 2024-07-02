@@ -58,9 +58,6 @@ const AddRegNumber: FC<AddRegNumberI> = ({
         >
           Cancel
         </Button>
-        {/* <Button className="small" variant="contained" onClick={onSubmit}>
-          Continue
-        </Button> */}
         <LoadingButton
           className="small"
           variant="contained"

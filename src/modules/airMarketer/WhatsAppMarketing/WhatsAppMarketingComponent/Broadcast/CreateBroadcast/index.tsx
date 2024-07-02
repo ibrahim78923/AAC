@@ -1,13 +1,17 @@
 import React from 'react';
-import { Typography, Avatar, Box, Button, Grid, Stack } from '@mui/material';
+import {
+  Typography,
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  Stack,
+  AvatarGroup,
+} from '@mui/material';
 import { useRouter } from 'next/router';
 import { ArrowBackIcon } from '@/assets/icons';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import {
-  contactDetails,
-  contactsColumns,
-  createBroadcastFields,
-} from './CreateBroadcast.data';
+import { contactsColumns, createBroadcastFields } from './CreateBroadcast.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateBroadcast from './useCreateBroadcast';
@@ -16,20 +20,44 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import AddContactDrawer from './AddContactDrawer/index';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { AvatarImage } from '@/assets/images';
+import { LoadingButton } from '@mui/lab';
+import {
+  DRAWER_TYPES,
+  SMS_BROADCAST_CONSTANTS,
+  SMS_MARKETING_CONSTANTS,
+} from '@/constants/strings';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
+import { DATE_TIME_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const CreateBroadcast = () => {
   const router = useRouter();
   const {
-    isAddContactDrawerOpen,
-    handleOpenContactsDrawer,
     handleCloseContactsDrawer,
-    handleCreateBroadcastSubmit,
+    handleOpenContactsDrawer,
+    setSelectedContactsData,
+    isAddContactDrawerOpen,
+    updateBroadcastLoading,
+    postBroadcastLoading,
+    selectedContactsData,
+    flattenContactsData,
+    setSelectedDateVal,
+    setSelectedRec,
+    setIsSchedule,
+    handleSubmit,
+    selectedRec,
+    isSchedule,
+    onSubmit,
     methods,
+    theme,
+    type,
   } = useCreateBroadcast();
   const { watch } = methods;
-  const previewName = watch('name');
-  const previewDetail = watch('details');
-  const previewAttachment = watch('attachment');
+  const previewName = watch(SMS_MARKETING_CONSTANTS?.NAME);
+  const previewDetail = watch(SMS_MARKETING_CONSTANTS?.DETAIL);
+  const previewAttachment = watch(SMS_MARKETING_CONSTANTS?.ATTACHMENT);
   const formFields = createBroadcastFields(handleOpenContactsDrawer);
 
   return (
@@ -44,7 +72,9 @@ const CreateBroadcast = () => {
           <ArrowBackIcon />
         </Box>
         <Typography sx={styles?.heading} variant="h3">
-          Create Broadcast
+          {type === DRAWER_TYPES?.EDIT
+            ? ' Update Broadcast'
+            : 'Create Broadcast'}
         </Typography>
       </Box>
 
@@ -55,7 +85,16 @@ const CreateBroadcast = () => {
               {formFields?.map((item: any) => {
                 return (
                   <Grid item xs={12} md={item?.md} key={item?.id}>
-                    <item.component {...item.componentProps} size={'small'}>
+                    <item.component
+                      disabled={
+                        item?.componentProps?.name ===
+                        SMS_BROADCAST_CONSTANTS?.RECIPIENTS
+                          ? true
+                          : false
+                      }
+                      {...item?.componentProps}
+                      size={'small'}
+                    >
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (
                           <option key={uuidv4()} value={option?.value}>
@@ -63,6 +102,38 @@ const CreateBroadcast = () => {
                           </option>
                         ))}
                     </item.component>
+                    {item?.componentProps?.name ===
+                      SMS_BROADCAST_CONSTANTS?.RECIPIENTS && (
+                      <Box sx={{ display: 'flex' }}>
+                        <AvatarGroup
+                          max={4}
+                          sx={{
+                            '& .MuiAvatar-root': {
+                              background: theme?.palette?.primary?.main,
+                              height: '30px',
+                              width: '30px',
+                              fontSize: '12px',
+                            },
+                          }}
+                        >
+                          {selectedContactsData?.map((item: any) => {
+                            const contacts = item?.contacts || [item];
+                            return contacts?.map((contact: any) => (
+                              <Avatar
+                                key={uuidv4()}
+                                alt="recipient_avatar"
+                                src=""
+                              >
+                                <Typography variant="body3" fontWeight={500}>
+                                  {contact?.firstName?.charAt(0)?.toUpperCase()}
+                                  {contact?.lastName?.charAt(0)?.toUpperCase()}
+                                </Typography>
+                              </Avatar>
+                            ));
+                          })}
+                        </AvatarGroup>
+                      </Box>
+                    )}
                   </Grid>
                 );
               })}
@@ -108,7 +179,8 @@ const CreateBroadcast = () => {
                 <Box sx={styles?.previewContacts}>
                   <TanstackTable
                     columns={contactsColumns}
-                    data={contactDetails}
+                    // data={contactDetails}
+                    data={flattenContactsData(selectedContactsData)}
                   />
                 </Box>
               </Grid>
@@ -119,29 +191,61 @@ const CreateBroadcast = () => {
             md={12}
             sx={{ display: 'flex', justifyContent: 'right', gap: '10px' }}
           >
-            <Button
-              className="small"
-              variant="outlined"
-              color="inherit"
-              startIcon={<DateRangeIcon />}
-            >
-              Schedule
-            </Button>
-            <Button
-              className="small"
+            <Box sx={styles?.buttonPicker}>
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="small"
+                onClick={() => {
+                  setIsSchedule(!isSchedule);
+                }}
+                startIcon={<DateRangeIcon />}
+              >
+                Schedule
+              </Button>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {isSchedule && (
+                  <Box sx={styles?.datePickerWrapper}>
+                    <StaticDateTimePicker
+                      defaultValue={dayjs()}
+                      onAccept={(date: any) => {
+                        setIsSchedule(false);
+                        setSelectedDateVal(
+                          dayjs(date)?.format(DATE_TIME_FORMAT?.YYMMDD),
+                        );
+                      }}
+                      onClose={() => {
+                        setIsSchedule(false);
+                      }}
+                    />
+                  </Box>
+                )}
+              </LocalizationProvider>
+            </Box>
+            <LoadingButton
               variant="contained"
-              onClick={handleCreateBroadcastSubmit}
+              className="small"
+              onClick={handleSubmit(onSubmit)}
+              loading={
+                // createStatus === STATUS_CONTANTS?.COMPLETED &&
+                postBroadcastLoading || updateBroadcastLoading
+              }
             >
               Send Now
-            </Button>
+            </LoadingButton>
           </Grid>
         </Grid>
       </FormProvider>
 
-      <AddContactDrawer
-        isDrawerOpen={isAddContactDrawerOpen}
-        onClose={handleCloseContactsDrawer}
-      />
+      {isAddContactDrawerOpen && (
+        <AddContactDrawer
+          isDrawerOpen={isAddContactDrawerOpen}
+          onClose={handleCloseContactsDrawer}
+          selectedRec={selectedRec}
+          setSelectedRec={setSelectedRec}
+          setSelectedContactsData={setSelectedContactsData}
+        />
+      )}
     </>
   );
 };

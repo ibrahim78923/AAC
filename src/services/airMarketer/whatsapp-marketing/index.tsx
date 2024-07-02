@@ -1,6 +1,9 @@
 import { WHATSAPP_MARKETING } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const TAG = ['WHATSAPP_BROADCAST'];
+const DASHBOARD_TAG = ['WHATSAPP_BROADCAST', 'DASHBOARD_INSIGHTS'];
+
 export const WhatsAppMarketingAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getWhatsAppBroadcats: builder.query({
@@ -9,7 +12,7 @@ export const WhatsAppMarketingAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['BROADCAST', 'DASHBOARD_INSIGHTS'],
+      providesTags: DASHBOARD_TAG,
     }),
 
     connectPhoneNumber: builder.mutation({
@@ -18,7 +21,7 @@ export const WhatsAppMarketingAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['WHATSAPP_BROADCAST'],
+      invalidatesTags: TAG,
     }),
 
     getIsPhoneConnected: builder.query({
@@ -26,7 +29,7 @@ export const WhatsAppMarketingAPI = baseAPI.injectEndpoints({
         url: WHATSAPP_MARKETING?.GET_IS_PHONE_CONNECTED,
         method: 'GET',
       }),
-      providesTags: ['WHATSAPP_BROADCAST'],
+      providesTags: TAG,
     }),
 
     deleteWhatsAppBroadcast: builder.mutation({
@@ -35,14 +38,47 @@ export const WhatsAppMarketingAPI = baseAPI.injectEndpoints({
         method: 'DELETE',
         body: body,
       }),
-      invalidatesTags: ['BROADCAST'],
+      invalidatesTags: TAG,
+    }),
+
+    postWhatsappBroadcast: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: WHATSAPP_MARKETING?.GET_WHATSAPP_MARKETING_BROADCAST,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
+    updateWhatsappBroadcast: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${WHATSAPP_MARKETING?.GET_WHATSAPP_MARKETING_BROADCAST}/${id}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+
+    getWhatsappBroadcatsById: builder.query({
+      query: (id: any) => ({
+        url: `${WHATSAPP_MARKETING?.GET_WHATSAPP_MARKETING_BROADCAST}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
     }),
   }),
 });
 
 export const {
-  useGetWhatsAppBroadcatsQuery,
-  useConnectPhoneNumberMutation,
-  useGetIsPhoneConnectedQuery,
   useDeleteWhatsAppBroadcastMutation,
+  useUpdateWhatsappBroadcastMutation,
+  usePostWhatsappBroadcastMutation,
+  useGetWhatsappBroadcatsByIdQuery,
+  useConnectPhoneNumberMutation,
+  useGetWhatsAppBroadcatsQuery,
+  useGetIsPhoneConnectedQuery,
 } = WhatsAppMarketingAPI;

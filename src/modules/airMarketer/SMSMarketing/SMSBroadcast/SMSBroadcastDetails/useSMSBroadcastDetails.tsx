@@ -5,13 +5,14 @@ import { useSearchParams } from 'next/navigation';
 const useSMSBroadcastDetails = () => {
   const theme = useTheme<Theme>();
   const broadcastId = useSearchParams()?.get('id');
-  const { data: getSmsBroadcatsById } =
+  const { data: getSmsBroadcatsById, isLoading: smsDetailsLoading } =
     useGetSmsBroadcatsByIdQuery(broadcastId);
   const smsBroadcastDetails = getSmsBroadcatsById?.data;
 
   return {
-    theme,
     smsBroadcastDetails,
+    smsDetailsLoading,
+    theme,
   };
 };
 

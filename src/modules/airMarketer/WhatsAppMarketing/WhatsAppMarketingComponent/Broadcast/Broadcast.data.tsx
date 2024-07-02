@@ -7,14 +7,16 @@ import {
   Avatar,
   AvatarGroup,
 } from '@mui/material';
-import Link from 'next/link';
+
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { styles } from './Broadcast.style';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { getProgressColor, statusTag } from '@/utils';
+import { useRouter } from 'next/router';
 
 export const broadcastColumns: any = (columnsProps: any) => {
+  const navigate = useRouter();
   const { theme, data, checkedRows, setCheckedRows } = columnsProps;
   const handleSelectBroadcastById = (checked: boolean, id: string): void => {
     if (checked) {
@@ -55,12 +57,22 @@ export const broadcastColumns: any = (columnsProps: any) => {
       isSortable: false,
       header: 'Broadcast Name',
       cell: (info: any) => (
-        <Link
-          href={`${AIR_MARKETER?.WHATSAPP_MERKETING}/details`}
-          style={{ color: theme?.palette?.custom?.bright, fontWeight: 600 }}
+        <Box
+          onClick={() => {
+            navigate?.push({
+              pathname: AIR_MARKETER?.SMS_MARKETING_DETAILS,
+              query: { id: info?.row?.original?._id },
+            });
+          }}
+          sx={{
+            color: theme?.palette?.custom?.bright,
+            fontWeight: 500,
+            fontSize: '12px',
+            cursor: 'pointer',
+          }}
         >
-          {info?.getValue()}
-        </Link>
+          {info?.getValue() ?? 'N/A'}
+        </Box>
       ),
     },
     {
@@ -96,7 +108,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
       },
     },
     {
-      accessorFn: (row: any) => row?.read,
+      accessorFn: (row: any) => row?.readMessagesPercentage,
       id: 'read',
       isSortable: false,
       header: 'Read',

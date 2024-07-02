@@ -581,6 +581,13 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const SMS_MARKETING_CONSTANTS = {
+  ALL: 'all',
+  DETAIL: 'detail',
+  NAME: 'name',
+  ATTACHMENT: 'attachment',
+};
+
 export const DRAWER_TITLES = {
   EDIT: 'Edit User',
   ADD: 'Add User',

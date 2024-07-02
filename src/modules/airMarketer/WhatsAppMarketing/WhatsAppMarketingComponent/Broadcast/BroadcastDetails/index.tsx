@@ -6,9 +6,10 @@ import AnalyticsTab from './AnalyticsTab';
 import { styles } from './BroadcastDetails.style';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { statusTag } from '@/utils';
 
 const BroadcastDetails = () => {
-  const { navigate, statusTag } = useSMSBroadcast();
+  const { navigate, theme } = useSMSBroadcast();
   return (
     <Box sx={styles.wrapper}>
       <Box sx={styles.pageHeader}>
@@ -26,7 +27,7 @@ const BroadcastDetails = () => {
             sx={{
               width: '10px',
               height: '10px',
-              backgroundColor: `${statusTag('Completed')}`,
+              backgroundColor: `${statusTag('Completed', theme)}`,
               borderRadius: '50%',
             }}
           />

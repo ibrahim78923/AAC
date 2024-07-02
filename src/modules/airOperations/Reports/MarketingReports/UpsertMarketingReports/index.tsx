@@ -75,12 +75,12 @@ export const UpsertMarketingReports = () => {
                 text
                   ? REPORTS_HEADER_TITLE?.CREATE_TEXT
                   : table
-                    ? REPORTS_HEADER_TITLE?.CREATE_TABLE
-                    : chart
-                      ? REPORTS_HEADER_TITLE?.CREATE_CHART
-                      : counter
-                        ? REPORTS_HEADER_TITLE?.CREATE_COUNTER
-                        : REPORTS_HEADER_TITLE?.CREATE_REPORT
+                  ? REPORTS_HEADER_TITLE?.CREATE_TABLE
+                  : chart
+                  ? REPORTS_HEADER_TITLE?.CREATE_CHART
+                  : counter
+                  ? REPORTS_HEADER_TITLE?.CREATE_COUNTER
+                  : REPORTS_HEADER_TITLE?.CREATE_REPORT
               }
               canMovedBack
               moveBack={

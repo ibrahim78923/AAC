@@ -6,55 +6,64 @@ import {
   Grid,
   MenuItem,
   Select,
+  Skeleton,
   Stack,
   Typography,
 } from '@mui/material';
-
 import Search from '@/components/Search';
 import SMSDetailsTable from './SMSDetailsTable';
 import useSMSBroadcast from '../../useSMSBroadcast';
 import ImportIcon from '@/assets/icons/shared/import-icon';
+import SkeletonComponent from '@/components/CardSkeletons';
 
-const SMSDetails = ({ detailsData }: any) => {
+const SMSDetails = ({ detailsData, isLoading }: any) => {
   const { theme } = useSMSBroadcast();
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Stack direction="row" alignItems="center" gap={1}>
-          <Avatar />
-          <Box>
-            <Typography
-              variant="body2"
-              fontWeight={700}
-              sx={{
-                color: theme?.palette?.custom?.text_slate_blue,
-                fontSize: '15px',
-              }}
-            >
-              {detailsData?.campaign?.title ?? 'N/A'}
-            </Typography>
-            <Typography variant="body2" sx={{ fontSize: '13px' }}>
-              Just Now
-            </Typography>
-          </Box>
-        </Stack>
+        {isLoading ? (
+          <SkeletonComponent numberOfSkeletons={1} />
+        ) : (
+          <Stack direction="row" alignItems="center" gap={1}>
+            <Avatar />
+            <Box>
+              <Typography
+                variant="body2"
+                fontWeight={700}
+                sx={{
+                  color: theme?.palette?.custom?.text_slate_blue,
+                  fontSize: '15px',
+                }}
+              >
+                {detailsData?.campaign?.title ?? 'N/A'}
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: '13px' }}>
+                Just Now
+              </Typography>
+            </Box>
+          </Stack>
+        )}
       </Grid>
       <Grid item xs={12} lg={5}>
-        <Box
-          sx={{
-            width: '100%',
-            height: '203px',
-            padding: '16px',
-            border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-            borderRadius: '8px',
-          }}
-        >
-          <Typography
-            dangerouslySetInnerHTML={{
-              __html: detailsData?.campaign?.description,
+        {isLoading ? (
+          <Skeleton height={250} />
+        ) : (
+          <Box
+            sx={{
+              width: '100%',
+              height: '203px',
+              padding: '16px',
+              border: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+              borderRadius: '8px',
             }}
-          />
-        </Box>
+          >
+            <Typography
+              dangerouslySetInnerHTML={{
+                __html: detailsData?.detail,
+              }}
+            />
+          </Box>
+        )}
       </Grid>
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="space-between" my={2}>
