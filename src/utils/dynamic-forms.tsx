@@ -37,3 +37,5 @@ export const DYNAMIC_FIELDS = {
   PT_SALES: 'SALES',
   MT_VENDOR: 'VENDOR',
 };
+
+export const isValidMongoId = (id: string) => /^[0-9a-fA-F]{24}$/?.test(id);

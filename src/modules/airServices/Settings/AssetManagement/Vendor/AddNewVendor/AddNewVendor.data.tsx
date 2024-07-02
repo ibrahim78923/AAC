@@ -1,47 +1,87 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import { VALIDATION_CONSTANT } from '@/constants';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { FIELDS_CONSTANTS } from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
-export const newVendorValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()
-    ?.trim()
-    ?.required('Name is required')
-    ?.max(30, 'Name up to 30 characters'),
-  contactName: Yup?.string()
-    ?.trim()
-    ?.max(30, 'Contact Name up to 30 characters'),
-  phone: Yup?.string()
-    ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
-  mobiles: Yup?.string()
-    ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
-  email: Yup?.string()?.trim()?.email('Please provide valid email'),
-  description: Yup?.string()?.trim(),
-  address: Yup?.string()?.trim()?.max(500, 'Address up to 500 characters'),
-  country: Yup?.string()?.trim()?.max(30, 'Country up to 30 characters'),
-  state: Yup?.string()?.trim()?.max(30, 'State up to 30 characters'),
-  city: Yup?.string()?.trim()?.max(30, 'City up to 30 characters'),
-  zipCode: Yup?.string()?.trim()?.max(30, 'Zip Code up to 30 characters'),
-});
+export const newVendorValidationSchema = (form: any) => {
+  const formSchema: any = form
+    ?.map((item: any) => {
+      let schema;
+
+      if (item?.component === FIELDS_CONSTANTS?.RHFMULTICHECKBOX) {
+        schema = Yup?.array()?.min(1, 'At least 1 Required');
+      } else if (item?.component === FIELDS_CONSTANTS?.RHFDATEPICKER) {
+        schema = Yup?.date()?.nullable();
+      } else if (item?.component === FIELDS_CONSTANTS?.RHFDROPZONE) {
+        schema = Yup?.mixed()?.nullable();
+      } else if (
+        item?.component === FIELDS_CONSTANTS?.RHFAUTOCOMPLETE &&
+        item?.componentProps?.multiple
+      ) {
+        schema = Yup?.array()?.min(1, 'At least 1 Required');
+      } else {
+        schema = Yup?.string();
+      }
+
+      return item?.componentProps?.required
+        ? {
+            [item?.id]: schema?.required(
+              `${item?.componentProps?.label} is Required`,
+            ),
+          }
+        : null;
+    })
+    ?.filter((val: any) => val !== null)
+    ?.reduce((acc: any, obj: any) => {
+      const key: any = Object?.keys(obj)[ARRAY_INDEX?.ZERO];
+      const value = obj[key];
+      acc[key] = value;
+      return acc;
+    }, {});
+
+  return Yup?.object()?.shape({
+    name: Yup?.string()
+      ?.trim()
+      ?.required('Name is required')
+      ?.max(30, 'Name up to 30 characters'),
+    contactName: Yup?.string()
+      ?.trim()
+      ?.max(30, 'Contact Name up to 30 characters'),
+    phone: Yup?.string()
+      ?.trim()
+      ?.test(
+        'is-valid-phone',
+        VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+        function (value) {
+          if (value) {
+            return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+          }
+          return true;
+        },
+      ),
+    mobiles: Yup?.string()
+      ?.trim()
+      ?.test(
+        'is-valid-phone',
+        VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+        function (value) {
+          if (value) {
+            return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+          }
+          return true;
+        },
+      ),
+    email: Yup?.string()?.trim()?.email('Please provide valid email'),
+    description: Yup?.string()?.trim(),
+    address: Yup?.string()?.trim()?.max(500, 'Address up to 500 characters'),
+    country: Yup?.string()?.trim()?.max(30, 'Country up to 30 characters'),
+    state: Yup?.string()?.trim()?.max(30, 'State up to 30 characters'),
+    city: Yup?.string()?.trim()?.max(30, 'City up to 30 characters'),
+    zipCode: Yup?.string()?.trim()?.max(30, 'Zip Code up to 30 characters'),
+    ...formSchema,
+  });
+};
 export const newVendorDefaultValuesFunction = (data?: any) => {
   return {
     name: data?.name ?? '',
@@ -52,7 +92,38 @@ export const newVendorDefaultValuesFunction = (data?: any) => {
     description: data?.description ?? '',
   };
 };
-export const newVendorDefaultValues = (data?: any) => {
+
+export const newVendorDefaultValues = (data?: any, form?: any) => {
+  const initialValues: any = form
+    ?.map((item: any) => {
+      let initialValue: string | boolean | string[] | null;
+      if (item?.component === FIELDS_CONSTANTS?.RHFMULTICHECKBOX) {
+        initialValue = [];
+      } else if (
+        item?.component === FIELDS_CONSTANTS?.RHFDATEPICKER ||
+        item?.component === FIELDS_CONSTANTS.RHFDROPZONE
+      ) {
+        initialValue = null;
+      } else if (
+        item?.component === FIELDS_CONSTANTS.RHFAUTOCOMPLETE &&
+        item?.componentProps?.multiple
+      ) {
+        initialValue = [];
+      } else {
+        initialValue = '';
+      }
+      return { [item?.id]: initialValue };
+    })
+    ?.filter(
+      (item: any) => Object.keys(item)[ARRAY_INDEX?.ZERO] !== 'undefined',
+    )
+    ?.reduce((acc: any, obj: any) => {
+      const key: any = Object?.keys(obj)[ARRAY_INDEX?.ZERO];
+      const value = obj[key];
+      acc[key] = value;
+      return acc;
+    }, {});
+
   return {
     name: data?.name ?? '',
     contactName: data?.contactName ?? '',
@@ -65,6 +136,7 @@ export const newVendorDefaultValues = (data?: any) => {
     state: data?.state ?? '',
     city: data?.city ?? '',
     zipCode: data?.zipCode ?? '',
+    ...initialValues,
   };
 };
 
@@ -77,9 +149,7 @@ export const newVendorDataArray = [
       fullWidth: true,
       required: true,
     },
-
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 2,
@@ -88,9 +158,7 @@ export const newVendorDataArray = [
       label: 'Contact Name',
       fullWidth: true,
     },
-
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 3,
@@ -99,9 +167,7 @@ export const newVendorDataArray = [
       label: 'Phone',
       fullWidth: true,
     },
-
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 4,
@@ -110,9 +176,7 @@ export const newVendorDataArray = [
       label: 'Mobile',
       fullWidth: true,
     },
-
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 5,
@@ -121,9 +185,7 @@ export const newVendorDataArray = [
       label: 'Email',
       fullWidth: true,
     },
-
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 6,
@@ -136,7 +198,6 @@ export const newVendorDataArray = [
       minRows: 3,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 7,
@@ -149,7 +210,6 @@ export const newVendorDataArray = [
       minRows: 3,
     },
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 8,
@@ -158,9 +218,7 @@ export const newVendorDataArray = [
       label: 'Country',
       fullWidth: true,
     },
-
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 9,
@@ -169,9 +227,7 @@ export const newVendorDataArray = [
       label: 'State',
       fullWidth: true,
     },
-
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 10,
@@ -180,9 +236,7 @@ export const newVendorDataArray = [
       label: 'City',
       fullWidth: true,
     },
-
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 11,
@@ -191,8 +245,6 @@ export const newVendorDataArray = [
       label: 'ZipCode',
       fullWidth: true,
     },
-
     component: RHFTextField,
-    md: 12,
   },
 ];

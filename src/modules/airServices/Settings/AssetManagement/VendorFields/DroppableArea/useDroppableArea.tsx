@@ -6,7 +6,12 @@ import {
 } from '@/services/dynamic-fields';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { DYNAMIC_FIELDS, FIELDS_CONSTANTS } from '@/utils/dynamic-forms';
+import {
+  DYNAMIC_FIELDS,
+  FIELDS_CONSTANTS,
+  isValidMongoId,
+} from '@/utils/dynamic-forms';
+import { AIR_SERVICES } from '@/constants';
 
 export default function useDroppableArea({
   form,
@@ -28,8 +33,6 @@ export default function useDroppableArea({
     productType: DYNAMIC_FIELDS?.PT_SERVICES,
     moduleType: DYNAMIC_FIELDS?.MT_VENDOR,
   };
-
-  const isValidMongoId = (id: string) => /^[0-9a-fA-F]{24}$/?.test(id);
 
   const mapFormToBackendFormat = (form: any) => {
     return form?.map((field: any) => {
@@ -71,6 +74,9 @@ export default function useDroppableArea({
       successSnackbar('Field(s) Updated Successfully');
       getBackendData();
       setForm([]);
+      router?.push({
+        pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
+      });
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

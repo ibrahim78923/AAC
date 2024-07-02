@@ -8,7 +8,10 @@ export const overviewDataArray = (data: any) => {
     Email: data?.email ?? '-',
 
     Description: data?.description ? (
-      <Box dangerouslySetInnerHTML={{ __html: data?.description }} />
+      <Box
+        component={'span'}
+        dangerouslySetInnerHTML={{ __html: data?.description }}
+      />
     ) : (
       '-'
     ),

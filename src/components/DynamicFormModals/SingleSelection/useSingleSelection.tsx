@@ -3,6 +3,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { FIELDS_CONSTANTS, generateUniqueId } from '@/utils/dynamic-forms';
 import { validationSchema, defaultValues } from './SingleSelection.data';
 import { useEffect, useState } from 'react';
+import { errorSnackbar } from '@/utils/api';
 
 export default function useSingleSelection({
   setOpen,
@@ -57,6 +58,19 @@ export default function useSingleSelection({
       const label = watch(`options[${index}].label`);
       setValue(`options[${index}].value`, label);
     });
+
+    const optionsWatch = watch(`options`);
+    const optionsDuplicationWatch = optionsWatch?.map(
+      (item: any) => item?.label?.trim(),
+    );
+    const duplicates = optionsDuplicationWatch?.filter(
+      (item: any, index: number) =>
+        optionsDuplicationWatch?.indexOf(item) !== index,
+    );
+    if (duplicates?.length > 0) {
+      errorSnackbar('Duplicate Options Found!');
+      return;
+    }
 
     setOpen(false);
     if (editId) {
