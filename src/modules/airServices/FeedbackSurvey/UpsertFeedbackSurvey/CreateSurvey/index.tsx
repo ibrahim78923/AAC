@@ -13,6 +13,7 @@ export const CreateSurvey = (props: any) => {
     router,
     customerSupportLinkType,
     displayWatch,
+    setSubmitType,
   } = useCreateSurvey(props);
   return (
     <>
@@ -85,7 +86,12 @@ export const CreateSurvey = (props: any) => {
           >
             Cancel
           </Button>
-          <LoadingButton variant="contained" type="submit" loading={isLoading}>
+          <LoadingButton
+            variant="contained"
+            onClick={() => setSubmitType(surveyConditions?.createSurvey)}
+            type="submit"
+            loading={isLoading}
+          >
             Next
           </LoadingButton>
         </Grid>

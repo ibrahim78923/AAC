@@ -12,7 +12,7 @@ import {
 } from './DynamicQuestions.data';
 
 export const DynamicQuestions = (props: any) => {
-  const { sectionIndex, questionIndex, watchType } = props;
+  const { sectionIndex, questionIndex, watchType, sectionCondition } = props;
   const {
     isOption,
     fields,
@@ -41,7 +41,7 @@ export const DynamicQuestions = (props: any) => {
             />
           )}
           {isOption && (
-            <IconButton onClick={handleEditOption}>
+            <IconButton onClick={handleEditOption} disabled={sectionCondition}>
               <Edit color="primary" />
             </IconButton>
           )}
@@ -59,7 +59,7 @@ export const DynamicQuestions = (props: any) => {
           >
             <Box>
               <RHFTextField
-                name={`section.${sectionIndex}.questions.${questionIndex}.text.${index}.text`}
+                name={`sections.${sectionIndex}.questions.${questionIndex}.text.${index}.text`}
                 label={`Option ${index + 1}`}
                 placeholder={`${index + 1}`}
                 size="small"

@@ -1,3 +1,9 @@
+import {
+  useDeleteFeedbackSurveySectionMutation,
+  usePatchCloneFeedbackSectionMutation,
+  usePatchMergeFeedbackSectionMutation,
+} from '@/services/airServices/feedback-survey';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useFieldArray } from 'react-hook-form';
 
@@ -5,26 +11,56 @@ export const useCreateFeedback = (props: any) => {
   const { methods } = props;
   const { control, watch, setValue } = methods;
   const [isSection, setIsSection] = useState(0);
+  const router = useRouter();
+  const surveyId = router?.query?.id;
   const { fields, append, remove } = useFieldArray({
-    name: 'section',
+    name: 'sections',
     control,
   });
-  const removeSection = (index: number) => {
-    remove(index);
+  const [deleteSectionTrigger, { isLoading: deleteLoading }] =
+    useDeleteFeedbackSurveySectionMutation();
+  const [mergeSectionTrigger, { isLoading: mergeLoading }] =
+    usePatchMergeFeedbackSectionMutation();
+  const [cloneSectionTrigger, { isLoading: cloneLoading }] =
+    usePatchCloneFeedbackSectionMutation();
+  const removeSection = async (index: number, setClose: any) => {
+    const sectionId = watch(`sections.${index}.id`);
+    const deleteParams = {
+      sectionId,
+      surveyId,
+    };
+    const response: any = await deleteSectionTrigger(deleteParams);
+    if (response?.data?.message) {
+      setClose();
+      remove(index);
+      return;
+    }
   };
-  const cloneSection = (index: number) => {
-    const watchSection = watch(`section.${index}`);
-    append(watchSection);
+  const cloneSection = async (index: number, setClose: any) => {
+    const watchSection = watch(`sections.${index}`);
+    const sectionId = watch(`sections.${index}.id`);
+    const cloneParams = { surveyId, sectionId };
+    const response: any = await cloneSectionTrigger(cloneParams);
+    if (response?.data?.message) {
+      setClose();
+      append(watchSection);
+    }
   };
-  const mergeSection = (index: number) => {
-    const currentSection = watch(`section.${index}`);
-    const aboveSection = watch(`section.${index - 1}`);
+  const mergeSection = async (index: number, setClose: any) => {
+    const currentSection = watch(`sections.${index}`);
+    const aboveSection = watch(`sections.${index - 1}`);
     const mergedQuestions = [
       ...(aboveSection?.questions || []),
       ...(currentSection?.questions || []),
     ];
-    setValue(`section.${index - 1}.questions`, mergedQuestions);
-    removeSection(index);
+    const sectionId = watch(`sections.${index}.id`);
+    const mergeParams = { surveyId, sectionId };
+    const response: any = await mergeSectionTrigger(mergeParams);
+    if (response?.data?.message) {
+      setClose();
+      setValue(`sections.${index - 1}.questions`, mergedQuestions);
+      remove(index);
+    }
   };
   return {
     fields,
@@ -34,5 +70,8 @@ export const useCreateFeedback = (props: any) => {
     removeSection,
     cloneSection,
     mergeSection,
+    deleteLoading,
+    mergeLoading,
+    cloneLoading,
   };
 };

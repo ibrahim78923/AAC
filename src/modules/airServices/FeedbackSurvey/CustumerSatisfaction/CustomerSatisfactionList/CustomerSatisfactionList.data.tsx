@@ -1,9 +1,16 @@
-import { Box, Checkbox, Chip, Typography } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  Chip,
+  CircularProgress,
+  Typography,
+} from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
 import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { AIR_SERVICES, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 const statusColor = (status: string) => {
   switch (status) {
@@ -119,32 +126,55 @@ export const customerSupportListColumn = (
     },
   ];
 };
-export const feedbackDropdown = (activeCheck: any, setOpenModal: any) => [
-  {
-    id: 1,
-    title: 'Clone',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
+export const feedbackDropdown = (
+  activeCheck: any,
+  setOpenModal: any,
+  router: any,
+  handleCloneSurvey: any,
+  cloneLoading: any,
+) => {
+  return [
+    {
+      id: 1,
+      title: cloneLoading ? <CircularProgress size="22px" /> : 'Clone',
+      handleClick: (closeMenu: any) => {
+        if (activeCheck?.length > 1) {
+          errorSnackbar('Please select only one survey to clone');
+          closeMenu?.();
+          return;
+        }
+        handleCloneSurvey(closeMenu);
+      },
+      disabled: cloneLoading,
     },
-  },
-  {
-    id: 2,
-    title: 'Edit Survey',
-    handleClick: (closeMenu: any) => {
-      if (activeCheck?.length > 1) {
-        errorSnackbar('Please select only one survey to edit');
+    {
+      id: 2,
+      title: 'Edit Survey',
+      handleClick: (closeMenu: any) => {
+        if (activeCheck?.length > 1) {
+          errorSnackbar('Please select only one survey to edit');
+          closeMenu?.();
+          return;
+        }
+        router?.push({
+          pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
+          query: {
+            type: 'customer-support',
+            id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
+          },
+        });
         closeMenu?.();
-        return;
-      }
-      closeMenu?.();
+      },
+      disabled: cloneLoading,
     },
-  },
-  {
-    id: 3,
-    title: 'Delete',
-    handleClick: (closeMenu: any) => {
-      setOpenModal(true);
-      closeMenu?.();
+    {
+      id: 3,
+      title: 'Delete',
+      handleClick: (closeMenu: any) => {
+        setOpenModal(true);
+        closeMenu?.();
+      },
+      disabled: cloneLoading,
     },
-  },
-];
+  ];
+};

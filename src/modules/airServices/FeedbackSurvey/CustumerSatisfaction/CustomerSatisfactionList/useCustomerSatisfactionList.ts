@@ -1,17 +1,19 @@
 import { PAGINATION } from '@/config';
-import { FEEDBACK_SURVEY_TYPES } from '@/constants/strings';
+import { ARRAY_INDEX, FEEDBACK_SURVEY_TYPES } from '@/constants/strings';
 import {
   useDeleteFeedbackSurveyMutation,
   useLazyGetFeedbackListQuery,
+  usePostCloneFeedbackSurveyMutation,
 } from '@/services/airServices/feedback-survey';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { feedbackDropdown } from './CustomerSatisfactionList.data';
 
 export const useCustomerSatisfactionList = (props: any) => {
   const { status } = props;
   const router = useRouter();
-  const [activeCheck, setActiveCheck] = useState([]);
+  const [activeCheck, setActiveCheck] = useState<any[]>([]);
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
@@ -20,6 +22,8 @@ export const useCustomerSatisfactionList = (props: any) => {
     useLazyGetFeedbackListQuery();
   const [deleteSurveyTrigger, { isLoading: deleteLoading }] =
     useDeleteFeedbackSurveyMutation();
+  const [cloneSurveyTrigger, { isLoading: cloneLoading }] =
+    usePostCloneFeedbackSurveyMutation();
   const handleDeleteSurvey = async () => {
     const deleteParams = new URLSearchParams();
     activeCheck?.forEach((item: any) => deleteParams?.append('ids', item?._id));
@@ -44,10 +48,28 @@ export const useCustomerSatisfactionList = (props: any) => {
   useEffect(() => {
     handleFeedbackList();
   }, [search, page, limit, status]);
+  const handleCloneSurvey = async (closeMenu: any) => {
+    const cloneParams = {
+      id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
+    };
+    const response: any = await cloneSurveyTrigger(cloneParams);
+    if (response?.data?.message) {
+      closeMenu();
+      successSnackbar(response?.data?.message && 'Survey clone successfully');
+    } else {
+      errorSnackbar(response?.error?.data?.message);
+    }
+  };
+  const feedbackDropdownOption = feedbackDropdown(
+    activeCheck,
+    setOpenModal,
+    router,
+    handleCloneSurvey,
+    cloneLoading,
+  );
   const feedbackTableData = data?.data?.feedbackSurvey;
   const meta = data?.data?.meta;
   return {
-    search,
     setSearch,
     activeCheck,
     setActiveCheck,
@@ -66,5 +88,6 @@ export const useCustomerSatisfactionList = (props: any) => {
     openModal,
     setOpenModal,
     deleteLoading,
+    feedbackDropdownOption,
   };
 };

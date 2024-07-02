@@ -14,6 +14,7 @@ export const surveyConditions = {
   surveyDuration: 'subject',
   sendSurveyPeople: 'sendSurveyPeople',
   displayName: 'displayName',
+  createSurvey: 'createSurvey',
 };
 
 const customerSupportLinkTypeOptions = [

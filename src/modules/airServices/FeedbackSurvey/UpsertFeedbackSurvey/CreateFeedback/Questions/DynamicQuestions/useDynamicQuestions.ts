@@ -7,21 +7,23 @@ export const useDynamicQuestions = (props: any) => {
   const { parentMethods, sectionIndex, questionIndex } = props;
   const [isOption, setIsOption] = useState(true);
   const { fields, append, remove } = useFieldArray({
-    name: `section.${sectionIndex}.questions.${questionIndex}.text`,
+    name: `sections.${sectionIndex}.questions.${questionIndex}.text`,
     control: parentMethods?.control,
   });
   const watchText = parentMethods?.watch(
-    `section.${sectionIndex}.questions.${questionIndex}.text`,
+    `sections.${sectionIndex}.questions.${questionIndex}.text`,
   );
   const watchOptions = parentMethods?.watch(
-    `section.${sectionIndex}.questions.${questionIndex}.options`,
+    `sections.${sectionIndex}.questions.${questionIndex}.options`,
   );
   const handleSaveOption = () => {
-    if (watchText?.some((item: any) => !item?.text)) {
+    if (
+      watchText?.some((item: any) => !item?.text || item?.text?.trim() === '')
+    ) {
       errorSnackbar('Please fill all the fields');
       return;
     }
-    const textValues = watchText?.map((item: any) => item?.text);
+    const textValues = watchText?.map((item: any) => item?.text?.trim());
     const duplicates = textValues?.filter(
       (item: any, index: number) => textValues?.indexOf(item) !== index,
     );
@@ -33,7 +35,7 @@ export const useDynamicQuestions = (props: any) => {
     }
     setIsOption(true);
     parentMethods?.setValue(
-      `section.${sectionIndex}.questions.${questionIndex}.options`,
+      `sections.${sectionIndex}.questions.${questionIndex}.options`,
       watchText?.map((item: any, index: number) => {
         return {
           text: item?.text,

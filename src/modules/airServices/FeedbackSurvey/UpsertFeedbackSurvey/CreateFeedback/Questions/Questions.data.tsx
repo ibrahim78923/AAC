@@ -101,6 +101,7 @@ export const surveyQuestionComponent: any = (
   index: number,
   methods: any,
   watchType: any,
+  sectionCondition: any,
 ) => ({
   checkboxes: (
     <DynamicQuestions
@@ -108,6 +109,7 @@ export const surveyQuestionComponent: any = (
       sectionIndex={sectionIndex}
       questionIndex={index}
       watchType={watchType}
+      sectionCondition={sectionCondition}
     />
   ),
   multipleChoice: (
@@ -116,11 +118,12 @@ export const surveyQuestionComponent: any = (
       sectionIndex={sectionIndex}
       questionIndex={index}
       watchType={watchType}
+      sectionCondition={sectionCondition}
     />
   ),
   shortAnswers: (
     <RHFTextField
-      name={`section.${sectionIndex}.questions.${index}.singleAnswer`}
+      name={`displayName`}
       placeholder="Write answer"
       multiline
       minRows={3}
@@ -129,11 +132,7 @@ export const surveyQuestionComponent: any = (
     />
   ),
   linearScale: (
-    <RHFRadioGroup
-      name={`section.${sectionIndex}.questions.${index}.singleAnswer`}
-      disabled
-      options={linearScaleOptions}
-    />
+    <RHFRadioGroup name={`displayName`} disabled options={linearScaleOptions} />
   ),
 });
 
@@ -142,6 +141,8 @@ export const questionTypeData = {
   writeTitle: 'Write short title',
   question: 'Question',
   title: 'Title',
+  text: 'text',
+  saveQuestion: 'saveQuestion',
 };
 
 const slideFromLeft = keyframes`

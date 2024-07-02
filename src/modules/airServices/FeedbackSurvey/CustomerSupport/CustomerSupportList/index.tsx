@@ -4,17 +4,13 @@ import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AIR_SERVICES } from '@/constants';
-import {
-  customerSupportListColumn,
-  feedbackDropdown,
-} from './CustomerSupportList.data';
+import { customerSupportListColumn } from './CustomerSupportList.data';
 import { useCustomerSupportList } from './useCustomerSupportList';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const CustomerSupportList = (props: any) => {
   const {
-    search,
     setSearch,
     activeCheck,
     setActiveCheck,
@@ -33,14 +29,15 @@ export const CustomerSupportList = (props: any) => {
     handleDeleteSurvey,
     openModal,
     setOpenModal,
+    feedbackDropdownOption,
   } = useCustomerSupportList(props);
   return (
     <>
       <Box display="flex" justifyContent="space-between">
-        <Search label="Search here" searchBy={search} setSearchBy={setSearch} />
+        <Search label="Search here" setSearchBy={setSearch} />
         <Box display="flex" gap={1}>
           <SingleDropdownButton
-            dropdownOptions={feedbackDropdown(activeCheck, setOpenModal)}
+            dropdownOptions={feedbackDropdownOption}
             disabled={!!!activeCheck?.length}
           />
           <Button
