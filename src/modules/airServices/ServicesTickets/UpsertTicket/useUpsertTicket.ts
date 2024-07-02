@@ -23,10 +23,10 @@ import {
 import {
   errorSnackbar,
   filteredEmptyValues,
-  makeDateTime,
   successSnackbar,
 } from '@/utils/api';
-import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
+import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 
 export const useUpsertTicket = (props: any) => {
   const {
@@ -94,13 +94,10 @@ export const useUpsertTicket = (props: any) => {
       upsertTicketFormData?.append('impact', newFormData?.impact?._id);
     !!newFormData?.agent &&
       upsertTicketFormData?.append('agent', newFormData?.agent?._id);
-    (!!newFormData?.plannedEndDate || !!data?.plannedEndTime) &&
+    !!newFormData?.plannedEndDate &&
       upsertTicketFormData?.append(
         'plannedEndDate',
-        makeDateTime(
-          newFormData?.plannedEndDate,
-          newFormData?.plannedEndTime,
-        )?.toISOString(),
+        newFormData?.plannedEndDate?.toISOString(),
       );
     !!newFormData?.plannedEffort &&
       upsertTicketFormData?.append('plannedEffort', newFormData?.plannedEffort);
@@ -113,16 +110,18 @@ export const useUpsertTicket = (props: any) => {
       );
     upsertTicketFormData?.append(
       'moduleType',
-      data?.data?.[0]?.moduleType ?? MODULE_TYPE?.TICKETS,
+      data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType ?? MODULE_TYPE?.TICKETS,
     );
     upsertTicketFormData?.append(
       'ticketType',
-      data?.data?.[0]?.ticketType ?? TICKET_TYPE?.INC,
+      data?.data?.[ARRAY_INDEX?.ZERO]?.ticketType ?? TICKET_TYPE?.INC,
     );
+
     if (!!ticketId) {
       submitUpdateTicket(upsertTicketFormData);
       return;
     }
+
     const postTicketParameter = {
       body: upsertTicketFormData,
     };
@@ -131,9 +130,9 @@ export const useUpsertTicket = (props: any) => {
       await postTicketTrigger(postTicketParameter)?.unwrap();
       successSnackbar('Ticket Added Successfully');
       reset();
-      getTicketsListData(1, {});
+      getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
       setFilterTicketLists?.({});
-      setPage?.(1);
+      setPage?.(PAGINATION?.CURRENT_PAGE);
       setIsDrawerOpen?.(false);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -141,7 +140,10 @@ export const useUpsertTicket = (props: any) => {
   };
 
   const submitUpdateTicket = async (formData: any) => {
-    formData?.append('isChildTicket', data?.data?.[0]?.isChildTicket);
+    formData?.append(
+      'isChildTicket',
+      data?.data?.[ARRAY_INDEX?.ZERO]?.isChildTicket,
+    );
     formData?.append('id', ticketId);
 
     const putTicketParameter = {
@@ -153,14 +155,15 @@ export const useUpsertTicket = (props: any) => {
       successSnackbar('Ticket Updated Successfully');
       setSelectedTicketList([]);
       reset();
-      getTicketsListData(1, {});
+      getTicketsListData(PAGINATION?.CURRENT_PAGE, {});
       setFilterTicketLists?.({});
-      setPage?.(1);
+      setPage?.(PAGINATION?.CURRENT_PAGE);
       setIsDrawerOpen?.(false);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
+
   useEffect(() => {
     reset(() => upsertTicketDefaultValuesFunction(data?.data?.[0]));
   }, [data, reset]);

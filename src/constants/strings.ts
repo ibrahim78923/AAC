@@ -886,3 +886,11 @@ export const TIME_ENTRIES_TICKETS_TIMES = {
   PREVIOUS_SECOND: 59,
   PREVIOUS_MINUTE: 59,
 };
+
+export const ATTACHMENT_FILE_TYPE = {
+  PDF: 'pdf',
+  XLS: 'xls',
+  DOC: 'doc',
+  DOCX: 'docx',
+  CSV: 'csv',
+};

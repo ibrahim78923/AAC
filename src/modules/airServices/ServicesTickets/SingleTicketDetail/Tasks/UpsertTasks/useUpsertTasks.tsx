@@ -97,6 +97,7 @@ export const useUpsertTasks = (props: any) => {
       errorSnackbar(error?.error?.message);
     }
   };
+
   const handleCloseDrawer = () => {
     setIsPortalOpen({});
     setSelectedTasksLists?.([]);

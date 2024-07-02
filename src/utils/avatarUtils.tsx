@@ -1,4 +1,5 @@
 import { IMG_URL } from '@/config';
+import { FILE_TYPE_BASED_IMAGES } from '@/constants/images';
 
 const colorLoop = (str: string = '') => {
   let a = 1;
@@ -73,4 +74,10 @@ export const formatFileSize = (fileSize = 0) => {
   if (fileSize < MEGA_BYTES)
     return (fileSize / KILO_BYTES).toFixed(DECIMAL) + ' MB';
   return (fileSize / MEGA_BYTES).toFixed(DECIMAL) + ' GB';
+};
+
+export const getImageByType = (data: any, imageUrl = data?.fileUrl) => {
+  return (
+    FILE_TYPE_BASED_IMAGES?.[data?.fileType]?.src || generateImage(imageUrl)
+  );
 };

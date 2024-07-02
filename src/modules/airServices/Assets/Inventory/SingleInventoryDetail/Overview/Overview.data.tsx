@@ -22,10 +22,6 @@ export const overviewData = (inventoryData: any) => [
       },
       { name: ' Impact', detail: inventoryData?.impact ?? '---' },
       {
-        name: 'Discovery Enabled',
-        detail: dayjs(inventoryData?.created)?.format(DATE_FORMAT?.UI) ?? '---',
-      },
-      {
         name: 'Location',
         detail: inventoryData?.locationDetails?.locationName ?? '---',
       },

@@ -8,14 +8,18 @@ import {
   formatFileSize,
   fullName,
   generateImage,
+  getImageByType,
   truncateText,
 } from '@/utils/avatarUtils';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const DetailCard = (props: any) => {
   const { apiStatus, detail } = props;
   const { attachFile } = useDetailsCard();
   const theme = useTheme();
+
   if (apiStatus?.isLoading || apiStatus?.isFetching) return <SkeletonForm />;
+
   return (
     <Box
       sx={{
@@ -47,21 +51,27 @@ export const DetailCard = (props: any) => {
               marginBottom={1.5}
             >
               <Avatar
-                sx={{ bgcolor: theme?.palette?.blue?.main }}
+                sx={{ bgcolor: 'blue.main' }}
                 style={{ width: 28, height: 28 }}
                 src={generateImage(
-                  detail?.data[0]?.requesterDetails?.avatar?.url,
+                  detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.avatar
+                    ?.url,
                 )}
               />
-              <div>
-                <Typography variant="body2" fontWeight={600}>
+              <Box>
+                <Typography
+                  variant="body2"
+                  fontWeight={600}
+                  color="slateBlue.main"
+                >
                   {' '}
                   {fullName(
-                    detail?.data[0]?.requesterDetails?.firstName,
-                    detail?.data[0]?.requesterDetails?.lastName,
+                    detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails
+                      ?.firstName,
+                    detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.lastName,
                   )}
                 </Typography>
-              </div>
+              </Box>
             </Box>
             <Box
               display={'flex'}
@@ -69,11 +79,20 @@ export const DetailCard = (props: any) => {
               justifyContent={'space-between'}
               marginBottom={1}
             >
-              <Typography variant="body2" fontWeight={600}>
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                color="slateBlue.main"
+              >
                 Email:
               </Typography>
-              <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-                {detail?.data[0]?.requesterDetails?.email ?? '-'}
+              <Typography
+                variant="body2"
+                sx={{ wordBreak: 'break-all' }}
+                color="slateBlue.main"
+              >
+                {detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.email ??
+                  '---'}
               </Typography>
             </Box>
             <Box
@@ -82,13 +101,20 @@ export const DetailCard = (props: any) => {
               justifyContent={'space-between'}
               marginBottom={1}
             >
-              <Typography variant="body2" fontWeight={600}>
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                color="slateBlue.main"
+              >
                 Created on:
               </Typography>
-              <Typography variant="body2">
-                {dayjs(detail?.data[0]?.requesterDetails?.createdAt)?.format(
-                  DATE_FORMAT?.UI,
-                ) ?? '-'}
+              <Typography variant="body2" color="slateBlue.main">
+                {!!detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails?.createdAt
+                  ? dayjs(
+                      detail?.data[ARRAY_INDEX?.ZERO]?.requesterDetails
+                        ?.createdAt,
+                    )?.format(DATE_FORMAT?.UI)
+                  : '---'}
               </Typography>
             </Box>
           </Box>
@@ -107,19 +133,20 @@ export const DetailCard = (props: any) => {
           }}
         >
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
               Description:
             </Typography>
             <Typography
               variant="body2"
+              color="slateBlue.main"
               sx={{ wordBreak: 'break-all' }}
               dangerouslySetInnerHTML={{
-                __html: detail?.data[0]?.description ?? '---',
+                __html: detail?.data[ARRAY_INDEX?.ZERO]?.description ?? '---',
               }}
             />
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
               Attachments:
             </Typography>
             {attachFile?.data?.length ? (
@@ -130,19 +157,31 @@ export const DetailCard = (props: any) => {
                 gap={1}
                 marginBottom={1}
               >
-                <Avatar src={generateImage(attachFile?.data?.[0]?.fileUrl)} />
-
+                <Avatar
+                  src={getImageByType(
+                    attachFile?.data?.[ARRAY_INDEX?.ZERO],
+                    attachFile?.data?.[ARRAY_INDEX?.ZERO]?.fileUrl,
+                  )}
+                />
                 <Box>
                   <Typography variant="body2" color="slateBlue.main">
-                    {truncateText(attachFile?.data?.[0]?.orignalName)}
+                    {truncateText(
+                      attachFile?.data?.[ARRAY_INDEX?.ZERO]?.orignalName,
+                    )}
                   </Typography>
                   <Typography variant="body3" color="grey.500">
-                    {formatFileSize(attachFile?.data?.[0]?.fileSize)}
+                    {formatFileSize(
+                      attachFile?.data?.[ARRAY_INDEX?.ZERO]?.fileSize,
+                    )}
                   </Typography>
                 </Box>
               </Box>
             ) : (
-              <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+              <Typography
+                variant="body2"
+                color="slateBlue.main"
+                sx={{ wordBreak: 'break-all' }}
+              >
                 No attachment
               </Typography>
             )}
@@ -155,18 +194,18 @@ export const DetailCard = (props: any) => {
             justifyContent={'space-between'}
             marginBottom={1}
           >
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
               Status:
             </Typography>
-            {!!detail?.data[0]?.status ? (
+            {!!detail?.data[ARRAY_INDEX?.ZERO]?.status ? (
               <Chip
-                label={detail?.data[0]?.status ?? '-'}
+                label={detail?.data[ARRAY_INDEX?.ZERO]?.status ?? '---'}
                 variant="outlined"
                 size="small"
                 color="primary"
               />
             ) : (
-              '--'
+              '---'
             )}
           </Box>
           <Box
@@ -175,13 +214,15 @@ export const DetailCard = (props: any) => {
             justifyContent={'space-between'}
             marginBottom={1}
           >
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
               Due by:
             </Typography>
-            <Typography variant="body2">
-              {dayjs(detail?.data[0]?.plannedEndDate)?.format(
-                DATE_FORMAT?.UI,
-              ) ?? '-'}
+            <Typography variant="body2" color="slateBlue.main">
+              {!!detail?.data[ARRAY_INDEX?.ZERO]?.plannedEndDate
+                ? dayjs(
+                    detail?.data[ARRAY_INDEX?.ZERO]?.plannedEndDate,
+                  )?.format(DATE_FORMAT?.UI)
+                : '---'}
             </Typography>
           </Box>
           <Box
@@ -190,14 +231,14 @@ export const DetailCard = (props: any) => {
             justifyContent={'space-between'}
             marginBottom={1}
           >
-            <Typography variant="body2" fontWeight={600}>
+            <Typography variant="body2" fontWeight={600} color="slateBlue.main">
               Associated By:
             </Typography>
             <Typography
               variant="body2"
               sx={{ color: 'primary.main', textDecoration: 'underline' }}
             >
-              {detail?.data?.[0]?.moduleType ?? '-'}
+              {detail?.data?.[ARRAY_INDEX?.ZERO]?.moduleType ?? '---'}
             </Typography>
           </Box>
         </Grid>

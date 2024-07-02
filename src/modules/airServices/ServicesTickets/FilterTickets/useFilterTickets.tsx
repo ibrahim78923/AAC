@@ -13,6 +13,8 @@ import {
   ticketsFilterFormFieldsDataFunction,
   ticketsFilterFormFieldsDefaultValues,
 } from './FilterTickets.data';
+import { PAGINATION } from '@/config';
+import { filteredEmptyValues } from '@/utils/api';
 
 export const useFilterTickets = (props: any) => {
   const { setIsDrawerOpen, setFilterTicketLists, filterTicketLists, setPage } =
@@ -28,17 +30,14 @@ export const useFilterTickets = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitTicketFilterForm = async (data: any) => {
-    const ticketsFiltered: any = Object?.entries(data || {})
-      ?.filter(
-        ([, value]: any) => value !== undefined && value != '' && value != null,
-      )
-      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    const ticketsFiltered: any = filteredEmptyValues?.(data);
+
     if (!Object?.keys(ticketsFiltered || {})?.length) {
       setFilterTicketLists(ticketsFiltered);
       onClose();
       return;
     }
-    setPage(1);
+    setPage(PAGINATION?.CURRENT_PAGE);
     setFilterTicketLists(ticketsFiltered);
     onClose();
   };

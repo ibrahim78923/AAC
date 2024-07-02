@@ -10,7 +10,7 @@ import {
 
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { AIR_SERVICES } from '@/constants';
 import { ARRAY_INDEX } from '@/constants/strings';
 import {
@@ -68,7 +68,7 @@ export const useEditTicketDetails = () => {
     !!formData?.plannedEndDate &&
       ticketDetailsData?.append(
         'plannedEndDate',
-        makeDateTime(formData?.plannedEndDate, new Date())?.toISOString(),
+        formData?.plannedEndDate?.toISOString(),
       );
     ticketDetailsData.append('plannedEffort', formData?.plannedEffort);
     ticketDetailsData?.append(
@@ -83,7 +83,7 @@ export const useEditTicketDetails = () => {
     try {
       await editTicketsDetailsTrigger(editTicketsDetailsParameter)?.unwrap();
       router?.push(AIR_SERVICES?.TICKETS);
-      successSnackbar(' ticket updated successfully');
+      successSnackbar('ticket updated successfully');
       reset();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

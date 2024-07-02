@@ -1,11 +1,10 @@
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
-  RHFDatePicker,
+  RHFDesktopDateTimePicker,
   RHFDropZone,
   RHFEditor,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
@@ -20,8 +19,6 @@ import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { Box, Typography } from '@mui/material';
 import { ROLES } from '@/constants/strings';
 import { PAGINATION } from '@/config';
-
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const upsertTicketValidationSchema = (ticketId?: any) => {
   return Yup?.object()?.shape({
@@ -69,7 +66,9 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     source: data?.source ? { _id: data?.source, label: data?.source } : null,
     impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
     agent: data?.agentDetails ?? null,
-    plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
+    plannedStartDate: data?.plannedStartDate
+      ? new Date(data?.plannedStartDate)
+      : new Date(),
     plannedStartTime:
       typeof data?.plannedStartDate === 'string'
         ? new Date(data?.plannedStartDate)
@@ -241,21 +240,10 @@ export const upsertTicketFormFieldsDynamic = (
             label: 'Planned Start Date',
             fullWidth: true,
             disabled: true,
-          },
-          component: RHFDatePicker,
-          md: 7.5,
-        },
-        {
-          id: 12,
-          componentProps: {
-            name: 'plannedStartTime',
-            label: '\u00a0\u00a0',
-            fullWidth: true,
-            disabled: true,
             ampm: false,
           },
-          component: RHFTimePicker,
-          md: 4.5,
+          component: RHFDesktopDateTimePicker,
+          md: 12,
         },
         {
           id: 13,
@@ -264,23 +252,11 @@ export const upsertTicketFormFieldsDynamic = (
             label: 'Planned End Date',
             fullWidth: true,
             disablePast: true,
-            textFieldProps: { readOnly: true },
-          },
-          component: RHFDatePicker,
-          md: 7.5,
-        },
-        {
-          id: 14,
-          componentProps: {
-            name: 'plannedEndTime',
-            label: '\u00a0\u00a0',
-            fullWidth: true,
-            disablePast: true,
             ampm: false,
             textFieldProps: { readOnly: true },
           },
-          component: RHFTimePicker,
-          md: 4.5,
+          component: RHFDesktopDateTimePicker,
+          md: 12,
         },
         {
           id: 15,

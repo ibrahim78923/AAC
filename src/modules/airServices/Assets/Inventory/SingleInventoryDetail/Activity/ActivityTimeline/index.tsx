@@ -1,5 +1,4 @@
 import Typography from '@mui/material/Typography';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Divider, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import dayjs from 'dayjs';
@@ -34,9 +33,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
           disabled
           color="primary"
           sx={{ border: `1px solid ${theme?.palette?.primary?.main}` }}
-        >
-          <BorderColorIcon color="primary" />
-        </IconButton>
+        ></IconButton>
         <Typography variant="body2" sx={{ flex: 0.8, ml: 1 }}>
           <Typography
             variant="body2"
@@ -78,7 +75,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
         gap={1.3}
         marginBottom={1.5}
       >
-        <Box flex={0.15}></Box>
+        <Box flex={0.145}></Box>
         <Box></Box>
         <Divider
           orientation="vertical"

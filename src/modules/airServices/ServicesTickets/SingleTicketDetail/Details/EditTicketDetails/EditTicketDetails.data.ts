@@ -1,9 +1,10 @@
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
-  RHFDatePicker,
+  RHFDesktopDateTimePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
 import { DATE_FORMAT } from '@/constants';
 import { ROLES } from '@/constants/strings';
 import {
@@ -135,7 +136,10 @@ export const editTicketDetailsFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        role: ROLES?.ORG_EMPLOYEE,
+      },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },
@@ -163,9 +167,10 @@ export const editTicketDetailsFormFieldsDynamic = (
       label: 'Planned Start Date',
       fullWidth: true,
       disabled: true,
+      ampm: false,
+      textFieldProps: { readOnly: true },
     },
-
-    component: RHFDatePicker,
+    component: RHFDesktopDateTimePicker,
     md: 4,
   },
 
@@ -177,9 +182,9 @@ export const editTicketDetailsFormFieldsDynamic = (
       fullWidth: true,
       disablePast: true,
       textFieldProps: { readOnly: true },
+      ampm: false,
     },
-
-    component: RHFDatePicker,
+    component: RHFDesktopDateTimePicker,
     md: 4,
   },
 
