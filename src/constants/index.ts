@@ -60,6 +60,11 @@ export const ERROR_PAGES = {
   NOT_ACCESS: '/403',
 };
 
+export const SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES = {
+  PLAN_ALREADY_ASSIGNED:
+    'Product Plan is Already Active! Please In-Active/Un-Assign Previous Plan First',
+};
+
 export const SUPER_ADMIN: any = {
   DASHBOARD: '/super-admin',
   USERMANAGMENT: '/super-admin/user-management',

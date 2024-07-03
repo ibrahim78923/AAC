@@ -30,7 +30,10 @@ import { useAppSelector } from '@/redux/store';
 import { enqueueSnackbar } from 'notistack';
 import { AlertModals } from '@/components/AlertModals';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import {
+  DATE_FORMAT,
+  SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES,
+} from '@/constants';
 const ChoosePlan = () => {
   const router = useRouter();
   const theme = useTheme();
@@ -111,7 +114,18 @@ const ChoosePlan = () => {
           `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
         );
       } catch (error: any) {
-        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        if (
+          error?.data?.message ===
+          SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES?.PLAN_ALREADY_ASSIGNED
+        ) {
+          enqueueSnackbar(
+            SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES?.PLAN_ALREADY_ASSIGNED,
+            { variant: 'error' },
+          );
+        } else {
+          enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        }
+        setIsBuyPlan(false);
       }
     }
   };
