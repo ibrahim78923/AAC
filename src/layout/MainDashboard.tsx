@@ -51,7 +51,7 @@ import * as io from 'socket.io-client';
 import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
-import { CHAT_SOCKETS } from '@/routesConstants/paths';
+import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 const drawerWidth = 230;
@@ -102,7 +102,10 @@ const DashboardLayout = ({ children, window }: any) => {
   const basePath = pathSegments[0];
 
   let productName = '';
-  if (`/${basePath}` === AIR_CUSTOMER_PORTAL.DASHBOARD) {
+  if (
+    `/${basePath}` === AIR_CUSTOMER_PORTAL?.DASHBOARD ||
+    `/${basePath}` === ORG_ADMIN?.EDIT_PROFILE
+  ) {
     productName = 'Customer Portal';
   } else {
     productName = getActiveProductSession()?.name;
