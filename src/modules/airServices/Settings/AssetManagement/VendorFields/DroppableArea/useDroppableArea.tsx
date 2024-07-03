@@ -6,11 +6,7 @@ import {
 } from '@/services/dynamic-fields';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import {
-  DYNAMIC_FIELDS,
-  FIELDS_CONSTANTS,
-  isValidMongoId,
-} from '@/utils/dynamic-forms';
+import { DYNAMIC_FIELDS, isValidMongoId } from '@/utils/dynamic-forms';
 import { AIR_SERVICES } from '@/constants';
 
 export default function useDroppableArea({
@@ -36,15 +32,6 @@ export default function useDroppableArea({
 
   const mapFormToBackendFormat = (form: any) => {
     return form?.map((field: any) => {
-      let options = field?.componentProps?.options;
-
-      if (field?.component === FIELDS_CONSTANTS?.RHFAUTOCOMPLETE) {
-        options = options?.map((option: any) => ({
-          label: option,
-          value: option,
-        }));
-      }
-
       return {
         label: field?.componentProps?.label,
         fieldType: field?.component,
@@ -52,7 +39,7 @@ export default function useDroppableArea({
           field?.componentProps?.placeholder || field?.componentProps?.fileType,
         isRequired: field?.componentProps?.required,
         multiLine: field?.componentProps?.multiline,
-        options: options,
+        options: field?.componentProps?.options,
         dateformate: field?.componentProps?.format,
         ...(isValidMongoId(field?.id) && { Id: field?.id }),
       };

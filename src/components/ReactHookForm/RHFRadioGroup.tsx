@@ -35,7 +35,13 @@ export default function RHFRadioGroup({
               {other?.label && (
                 <CustomLabel label={other?.label} required={required} />
               )}
-              <RadioGroup {...field} row {...other}>
+              <RadioGroup
+                {...field}
+                row
+                value={field?.value || ''}
+                onChange={(e) => field?.onChange(e?.target?.value)}
+                {...other}
+              >
                 {options?.map((option: any) => (
                   <Fragment key={option?.value}>
                     <FormControlLabel

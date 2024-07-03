@@ -9,24 +9,22 @@ export const newVendorValidationSchema = (form: any) => {
     ?.map((item: any) => {
       let schema;
 
-      if (item?.component === FIELDS_CONSTANTS?.RHFMULTICHECKBOX) {
+      if (
+        item?.component === FIELDS_CONSTANTS?.RHFMULTICHECKBOX ||
+        item?.component === FIELDS_CONSTANTS?.RHFAUTOCOMPLETE
+      ) {
         schema = Yup?.array()?.min(1, 'At least 1 Required');
       } else if (item?.component === FIELDS_CONSTANTS?.RHFDATEPICKER) {
         schema = Yup?.date()?.nullable();
       } else if (item?.component === FIELDS_CONSTANTS?.RHFDROPZONE) {
         schema = Yup?.mixed()?.nullable();
-      } else if (
-        item?.component === FIELDS_CONSTANTS?.RHFAUTOCOMPLETE &&
-        item?.componentProps?.multiple
-      ) {
-        schema = Yup?.array()?.min(1, 'At least 1 Required');
       } else {
         schema = Yup?.string();
       }
 
       return item?.componentProps?.required
         ? {
-            [item?.id]: schema?.required(
+            [item?.componentProps?.label]: schema?.required(
               `${item?.componentProps?.label} is Required`,
             ),
           }
@@ -96,23 +94,22 @@ export const newVendorDefaultValuesFunction = (data?: any) => {
 export const newVendorDefaultValues = (data?: any, form?: any) => {
   const initialValues: any = form
     ?.map((item: any) => {
-      let initialValue: string | boolean | string[] | null;
+      let initialValue: string | boolean | string[] | null | any;
+      const key = item?.componentProps?.label;
+
       if (item?.component === FIELDS_CONSTANTS?.RHFMULTICHECKBOX) {
-        initialValue = [];
+        initialValue = data?.customFields?.[key] ?? [];
       } else if (
-        item?.component === FIELDS_CONSTANTS?.RHFDATEPICKER ||
-        item?.component === FIELDS_CONSTANTS.RHFDROPZONE
+        item?.component === FIELDS_CONSTANTS?.RHFDROPZONE ||
+        item?.component === FIELDS_CONSTANTS?.RHFAUTOCOMPLETE
       ) {
-        initialValue = null;
-      } else if (
-        item?.component === FIELDS_CONSTANTS.RHFAUTOCOMPLETE &&
-        item?.componentProps?.multiple
-      ) {
-        initialValue = [];
+        initialValue = data?.customFields?.[key] ?? null;
+      } else if (item?.component === FIELDS_CONSTANTS?.RHFDATEPICKER) {
+        initialValue = new Date(data?.customFields?.[key]) ?? null;
       } else {
-        initialValue = '';
+        initialValue = data?.customFields?.[key] ?? '';
       }
-      return { [item?.id]: initialValue };
+      return { [key]: initialValue };
     })
     ?.filter(
       (item: any) => Object.keys(item)[ARRAY_INDEX?.ZERO] !== 'undefined',

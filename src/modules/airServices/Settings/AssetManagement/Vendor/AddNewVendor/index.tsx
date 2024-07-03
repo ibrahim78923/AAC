@@ -66,7 +66,7 @@ const AddNewVendor = (props: any) => {
                   {componentMap[item?.component] &&
                     createElement(componentMap[item?.component], {
                       ...item?.componentProps,
-                      name: item?.id,
+                      name: item?.componentProps?.label,
                       size: 'small',
                     })}
                 </Grid>

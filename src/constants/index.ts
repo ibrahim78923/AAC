@@ -152,6 +152,16 @@ export const AIR_SERVICES = {
   SOFTWARE_REPORTS: `/air-services/reports/software`,
   FEEDBACK_SURVEY: `/air-services/feedback-survey`,
   UPSERT_FEEDBACK_SURVEY: `/air-services/feedback-survey/upsert-feedback-survey`,
+  DEPARTMENT_FIELD: `/air-services/settings/user-management/department-field`,
+  AGENT_FIELDS: `/air-services/settings/user-management/agent-fields`,
+  REQUESTER_FIELDS: `/air-services/settings/user-management/requester-fields`,
+  SOFTWARE_FIELDS: `/air-services/settings/asset-management/software-fields`,
+  CONTRACT_TYPES: `/air-services/settings/asset-management/contract-types`,
+  PURCHASE_ORDER_FIELDS: `/air-services/settings/asset-management/purchase-order-fields`,
+  FIELD_MANAGER: `/air-services/settings/service-management/field-manager`,
+  TICKET_FIELDS: `/air-services/settings/service-management/field-manager/ticket-fields`,
+  TASK_FIELDS: `/air-services/settings/service-management/field-manager/task-fields`,
+  TIME_ENTRY_FIELDS: `/air-services/settings/service-management/field-manager/time-entry-fields`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {

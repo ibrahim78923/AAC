@@ -1,6 +1,8 @@
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { AIR_SERVICES } from '@/constants';
 import { ClosureRuleIcon, ServicesCatalogIcon } from '@/assets/icons';
+import BackupTableIcon from '@mui/icons-material/BackupTable';
+
 export const serviceManagement = [
   {
     id: 1,
@@ -22,5 +24,12 @@ export const serviceManagement = [
     type: 'Closure Rule',
     purpose: `Create and manage fields to capture information about projects`,
     link: AIR_SERVICES?.CLOSURE_RULE_SETTINGS,
+  },
+  {
+    id: 4,
+    avatar: BackupTableIcon,
+    type: 'Field Manager',
+    purpose: `Create and manage fields to capture information about projects`,
+    link: AIR_SERVICES?.FIELD_MANAGER,
   },
 ];

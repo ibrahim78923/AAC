@@ -27,6 +27,10 @@ export default function RHFDatePicker({
           <DatePicker
             {...field}
             {...other}
+            value={field?.value || null}
+            onChange={(newValue) => {
+              field?.onChange(newValue);
+            }}
             fullWidth
             format={format}
             slots={{

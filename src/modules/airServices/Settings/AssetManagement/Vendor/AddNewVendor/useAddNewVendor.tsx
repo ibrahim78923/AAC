@@ -58,6 +58,7 @@ export const useAddNewVendor = (props: any) => {
     },
     {
       skip: !!!vendorId,
+      refetchOnMountOrArgChange: true,
     },
   );
 
@@ -70,7 +71,7 @@ export const useAddNewVendor = (props: any) => {
 
   useEffect(() => {
     reset(() => newVendorDefaultValues(vinData?.data, form));
-  }, [vinData, reset]);
+  }, [vinData, reset, form]);
 
   const onSubmit = async (data: any) => {
     const filteredEmptyData: any = Object?.entries(data || {})
@@ -79,7 +80,20 @@ export const useAddNewVendor = (props: any) => {
       )
       ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
 
-    const body = filteredEmptyData;
+    const customFields: any = {};
+    const body: any = {};
+
+    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+      if (form?.some((field: any) => field?.componentProps?.label === key)) {
+        customFields[key] = value;
+      } else {
+        body[key] = value;
+      }
+    });
+
+    if (Object?.keys(customFields)?.length > 0) {
+      body.customFields = customFields;
+    }
 
     if (!!vendorId) {
       submitUpdateNewVendor(body);

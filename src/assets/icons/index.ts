@@ -526,3 +526,5 @@ export { default as RedoIcon } from './shared/redo-icon';
 export { default as DesignCardRefreshIcon } from './shared/design-Card-Refresh-icon';
 export { default as StartTimerIcon } from './modules/airServices/Tickets/start-timer-icon';
 export { default as InfoIconBlueBg } from './modules/airSales/Quotes/info-icon';
+export { default as TicketFieldsIcon } from './modules/airServices/Settings/ticket-fields-icon';
+export { default as TimeEntryFieldsIcon } from './modules/airServices/Settings/time-entry-fields-icon';

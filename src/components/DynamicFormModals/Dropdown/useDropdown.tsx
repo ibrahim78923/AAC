@@ -12,13 +12,10 @@ export default function useDropdown({ setOpen, form, setForm, editId }: any) {
     if (editId) {
       const itemToEdit = form?.find((item: any) => item?.id === editId);
       if (itemToEdit) {
-        const transformedOptions = itemToEdit?.componentProps?.options?.map(
-          (option: any) => ({ label: option }),
-        );
         setInitialValues({
           name: itemToEdit?.componentProps?.label,
           placeholder: itemToEdit?.componentProps?.placeholder,
-          options: transformedOptions,
+          options: itemToEdit?.componentProps?.options,
           required: itemToEdit?.componentProps?.required,
         });
       }
@@ -30,7 +27,7 @@ export default function useDropdown({ setOpen, form, setForm, editId }: any) {
     defaultValues: initialValues,
   });
 
-  const { handleSubmit, control, reset } = methods;
+  const { handleSubmit, watch, control, setValue, reset } = methods;
 
   useEffect(() => {
     reset(initialValues);
@@ -42,7 +39,7 @@ export default function useDropdown({ setOpen, form, setForm, editId }: any) {
   });
 
   const addOption = () => {
-    append({ label: '' });
+    append({ label: '', value: '' });
   };
 
   const removeOption = (index: number) => {
@@ -52,9 +49,15 @@ export default function useDropdown({ setOpen, form, setForm, editId }: any) {
   };
 
   const onSubmit = (data: any) => {
-    const options = data?.options?.map((option: any) => option?.label);
+    fields?.forEach((_, index) => {
+      const label = watch(`options[${index}].label`);
+      setValue(`options[${index}].value`, label);
+    });
 
-    const optionsDuplicationWatch = options?.map((item: any) => item?.trim());
+    const optionsWatch = watch(`options`);
+    const optionsDuplicationWatch = optionsWatch?.map(
+      (item: any) => item?.label?.trim(),
+    );
     const duplicates = optionsDuplicationWatch?.filter(
       (item: any, index: number) =>
         optionsDuplicationWatch?.indexOf(item) !== index,
@@ -65,7 +68,6 @@ export default function useDropdown({ setOpen, form, setForm, editId }: any) {
     }
 
     setOpen(false);
-
     if (editId) {
       setForm(
         (prevForm: any) =>
@@ -78,7 +80,7 @@ export default function useDropdown({ setOpen, form, setForm, editId }: any) {
                     label: data?.name,
                     placeholder: data?.placeholder,
                     required: data?.required,
-                    options: options,
+                    options: data?.options,
                   },
                 }
               : item,
@@ -95,7 +97,7 @@ export default function useDropdown({ setOpen, form, setForm, editId }: any) {
             label: data?.name,
             placeholder: data?.placeholder,
             required: data?.required,
-            options: options,
+            options: data?.options,
           },
           component: FIELDS_CONSTANTS?.RHFAUTOCOMPLETE,
         },

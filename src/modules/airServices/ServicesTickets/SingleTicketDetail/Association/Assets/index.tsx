@@ -114,35 +114,39 @@ export default function Assets({
           isLoading={isLoadingAssets}
         />
 
-        <Typography variant={'h5'}>
-          <Typography
-            variant={'body1'}
-            component={'span'}
-            bgcolor={'secondary.main'}
-            borderRadius={1}
-            p={0.4}
-            color={'common.white'}
-            mr={0.5}
-          >
-            {isLoadingOrder || isFetchingOrder ? (
-              <CircularProgress size={18} />
-            ) : dataOrder?.length < 10 ? (
-              `0${dataOrder?.length}`
-            ) : (
-              dataOrder?.length
-            )}
-          </Typography>
-          Assets Purchase Order
-        </Typography>
+        {ticketType === TICKET_TYPE?.SR && (
+          <>
+            <Typography variant={'h5'}>
+              <Typography
+                variant={'body1'}
+                component={'span'}
+                bgcolor={'secondary.main'}
+                borderRadius={1}
+                p={0.4}
+                color={'common.white'}
+                mr={0.5}
+              >
+                {isLoadingOrder || isFetchingOrder ? (
+                  <CircularProgress size={18} />
+                ) : dataOrder?.length < 10 ? (
+                  `0${dataOrder?.length}`
+                ) : (
+                  dataOrder?.length
+                )}
+              </Typography>
+              Assets Purchase Order
+            </Typography>
 
-        <TanstackTable
-          columns={associateOrderColumns}
-          data={dataOrder}
-          isSuccess={isSuccessOrder}
-          isError={isErrorOrder}
-          isFetching={isFetchingOrder}
-          isLoading={isLoadingOrder}
-        />
+            <TanstackTable
+              columns={associateOrderColumns}
+              data={dataOrder}
+              isSuccess={isSuccessOrder}
+              isError={isErrorOrder}
+              isFetching={isFetchingOrder}
+              isLoading={isLoadingOrder}
+            />
+          </>
+        )}
       </PermissionsGuard>
 
       {deleteModal?.asset && (

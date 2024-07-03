@@ -1,9 +1,7 @@
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GavelIcon from '@mui/icons-material/Gavel';
-
 import PaidIcon from '@mui/icons-material/Paid';
 import { AIR_SERVICES } from '@/constants';
-
 import {
   AssetTypeIcon,
   ProductCatalogIcon,
@@ -41,22 +39,22 @@ export const assetManagement = [
     id: 5,
     avatar: SoftwareFieldsIcon,
     type: 'Software Fields',
-    link: '',
+    link: AIR_SERVICES?.SOFTWARE_FIELDS,
   },
   {
     id: 6,
     avatar: GavelIcon,
     type: 'Contract Type',
-    link: '',
+    link: AIR_SERVICES?.CONTRACT_TYPES,
   },
   {
     id: 7,
     avatar: PaidIcon,
     type: 'Purchase Order Fields',
-    link: '',
+    link: AIR_SERVICES?.PURCHASE_ORDER_FIELDS,
   },
   {
-    id: 5,
+    id: 8,
     avatar: LocationOnIcon,
     type: 'Location',
     link: AIR_SERVICES?.LOCATION_SETTINGS,

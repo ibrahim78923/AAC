@@ -1,6 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useOverview } from './useOverview';
+import { isValidElement } from 'react';
+import { FIELDS_TYPES } from './Overview.data';
 
 export const Overview = () => {
   const { isLoading, overviewData, isFetching } = useOverview();
@@ -9,8 +11,8 @@ export const Overview = () => {
 
   return (
     <Box bgcolor={'primary.lighter'} borderRadius={2}>
-      {Object?.entries(overviewData)?.map(([keys, values]: any) => (
-        <Box key={keys} display={'flex'}>
+      {Object?.entries(overviewData)?.map(([key, value]: any) => (
+        <Box key={key} display={'flex'}>
           <Typography
             variant={'body2'}
             fontWeight={500}
@@ -18,7 +20,7 @@ export const Overview = () => {
             color={'grey.600'}
             minWidth={'25%'}
           >
-            {keys}:
+            {key}:
           </Typography>
           <Typography
             variant={'body2'}
@@ -26,7 +28,17 @@ export const Overview = () => {
             color={'grey.900'}
             fontWeight={500}
           >
-            {values}
+            {isValidElement(value)
+              ? value
+              : typeof value === FIELDS_TYPES?.OBJECT &&
+                  value !== null &&
+                  FIELDS_TYPES?.LABEL in value
+                ? value?.label
+                : typeof value === FIELDS_TYPES?.OBJECT &&
+                    value !== null &&
+                    FIELDS_TYPES?.PATH in value
+                  ? value?.path
+                  : value?.toString()}
           </Typography>
         </Box>
       ))}

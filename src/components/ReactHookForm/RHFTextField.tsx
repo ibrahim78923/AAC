@@ -11,6 +11,7 @@ export default function RHFTextField({ name, required, ...other }: any) {
     <Controller
       name={name}
       control={control}
+      defaultValue={other?.defaultValue || ''}
       render={({ field, fieldState: { error } }) => (
         <>
           {other?.label && (
@@ -18,6 +19,8 @@ export default function RHFTextField({ name, required, ...other }: any) {
           )}
           <TextField
             {...field}
+            value={field?.value || ''}
+            onChange={field?.onChange}
             fullWidth
             error={!!error}
             helperText={
