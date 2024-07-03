@@ -42,6 +42,8 @@ export const columns: any = ({
             borderRadius: '18px',
             border: '1px solid',
             width: 'fit-content',
+            fontSize: '12px',
+            fontWeight: 500,
           }}
         >
           {info?.getValue()}
@@ -61,7 +63,11 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setOpenDrawer({ isToggle: true, type: DRAWER_TYPES?.VIEW });
+                setOpenDrawer({
+                  isToggle: true,
+                  type: DRAWER_TYPES?.VIEW,
+                  data: info?.row?.original,
+                });
                 setTicketRecord(info?.row?.original);
               }}
             >

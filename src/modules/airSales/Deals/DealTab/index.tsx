@@ -32,7 +32,7 @@ import ShareMyDine from '../ShareMyDine';
 import DeleteModal from '../DealsModalBox/DeleteModal';
 import AssignModalBox from '../DealsModalBox/AssignModalBox';
 import ExportRecordModal from '../DealsModalBox/ExportRecordModal';
-import DealFilterDrawer from '../DealFilterDrawer';
+import DealFilterDrawer from './DealFilterDrawer';
 import BoardView from '../BoardView/BoardView';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';

@@ -80,6 +80,7 @@ const Tickets = ({ isLoading }: any) => {
                   setOpenDrawer({
                     isToggle: true,
                     type: DRAWER_TYPES?.ADD,
+                    data: {},
                   })
                 }
                 startIcon={<PlusIcon />}

@@ -13,6 +13,7 @@ const useTickets = () => {
   const [openDrawer, setOpenDrawer] = useState({
     isToggle: false,
     type: '',
+    data: {},
   });
   const [isOpenAlert, setIsOpenAlert] = useState({
     isToggle: false,

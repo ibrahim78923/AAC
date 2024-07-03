@@ -12,6 +12,7 @@ import useDetails from './useDetails';
 import { ROLES } from '@/constants/strings';
 import { useLazyGetDealOwnersListQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
+import { indexNumbers } from '@/constants';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
   name: Yup?.string(),
@@ -33,17 +34,17 @@ export const detailsDefaultValues = {
   updatedAt: null,
 };
 
-export const detailsDataArray = (dealPipelineId: string) => {
+export const detailsDataArray = (dealPipelineId: any) => {
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
   const { getDealOwnerContacts } = useDetails({});
 
-  const { pipelineListDropdown } = useDealTab();
+  const { pipelineListDropdown }: any = useDealTab();
   const userListData = useLazyGetDealOwnersListQuery();
 
   const filteredStages: any = pipelineListDropdown
-    ? pipelineListDropdown[1]?.data?.find(
-        (pipeline: any) => pipeline?._id === dealPipelineId,
+    ? pipelineListDropdown[indexNumbers?.ONE]?.data?.find(
+        (pipeline: any) => pipeline?._id === dealPipelineId?._id,
       )?.stages
     : [];
 

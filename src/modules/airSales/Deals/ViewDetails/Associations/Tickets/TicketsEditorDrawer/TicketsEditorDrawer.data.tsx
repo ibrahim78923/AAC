@@ -33,7 +33,7 @@ export const ticketsValidationSchema: any = Yup?.object()?.shape({
   ),
 });
 
-export const ticketsDefaultValues = {
+export const ticketsDefaultValues: any = {
   ticketStatus: TICKETS_TYPE?.NEW_TICKETS,
   subject: '',
   requester: null,

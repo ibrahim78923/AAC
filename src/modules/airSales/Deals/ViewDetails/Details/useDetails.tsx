@@ -52,7 +52,7 @@ const useDetails = (selecetdDealId: any) => {
       type: fieldsData?.type,
       contactMode: fieldsData?.contactMode,
       contactedPersonId: fieldsData?.contactedPersonId,
-      dealPipelineId: fieldsData?.dealPipelineId,
+      dealPipelineId: fieldsData?.dealPipelineObject,
       updatedAt: fieldsData?.updatedAt ? new Date(fieldsData?.updatedAt) : null,
       createdAt: fieldsData?.createdAt ? new Date(fieldsData?.createdAt) : null,
       closeDate: fieldsData?.closeDate ? new Date(fieldsData?.closeDate) : null,

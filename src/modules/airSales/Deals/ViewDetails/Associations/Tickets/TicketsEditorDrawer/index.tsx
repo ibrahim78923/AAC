@@ -23,7 +23,7 @@ const TicketsEditorDrawer = (props: any) => {
     ticketsList,
     loadingPostAssociation,
     loadingPostTicket,
-  } = useTicketsEditorDrawer(setOpenDrawer);
+  } = useTicketsEditorDrawer(setOpenDrawer, openDrawer?.data);
 
   const addTicketFormParams = {
     apiQueryRequester,
@@ -33,7 +33,7 @@ const TicketsEditorDrawer = (props: any) => {
   return (
     <CommonDrawer
       isDrawerOpen={openDrawer?.isToggle}
-      onClose={() => setOpenDrawer(false)}
+      onClose={() => setOpenDrawer({ ...openDrawer, isToggle: false })}
       title={drawerTitle[openDrawer]}
       okText="Add"
       isOk={true}
@@ -55,7 +55,13 @@ const TicketsEditorDrawer = (props: any) => {
             <Grid item container spacing={'22px'}>
               {ticketsDataArray(addTicketFormParams)?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
+                  <item.component
+                    {...item?.componentProps}
+                    size={'small'}
+                    disabled={
+                      openDrawer?.type === DRAWER_TYPES?.VIEW ? true : false
+                    }
+                  />
                 </Grid>
               ))}
             </Grid>
@@ -73,5 +79,4 @@ const TicketsEditorDrawer = (props: any) => {
     </CommonDrawer>
   );
 };
-
 export default TicketsEditorDrawer;

@@ -15,8 +15,9 @@ import { ASSOCIATIONS_API_PARAMS_FOR, TICKETS_TYPE } from '@/constants';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
+import { useEffect } from 'react';
 
-const useTicketsEditorDrawer = (setOpenDrawer: any) => {
+const useTicketsEditorDrawer = (setOpenDrawer: any, viewData: any) => {
   const router = useRouter();
   const { id: ticketRecordId } = router.query;
 
@@ -25,7 +26,7 @@ const useTicketsEditorDrawer = (setOpenDrawer: any) => {
     defaultValues: ticketsDefaultValues,
   });
 
-  const { handleSubmit, watch } = methodsNewTickets;
+  const { handleSubmit, watch, setValue } = methodsNewTickets;
   const watchTickets = watch('ticketStatus');
 
   const [postTicket, { isLoading: loadingPostTicket }] =
@@ -33,6 +34,22 @@ const useTicketsEditorDrawer = (setOpenDrawer: any) => {
 
   const [postAssociation, { isLoading: loadingPostAssociation }] =
     usePostAssociationMutation();
+
+  useEffect(() => {
+    const fieldsToSet: any = {
+      subject: viewData?.subject,
+      requester: viewData?.requester,
+      description: viewData?.description,
+      category: viewData?.category,
+      status: viewData?.status,
+      priority: viewData?.priority,
+      ticketId: viewData?.subject ? viewData : null,
+    };
+
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
+  }, [viewData]);
 
   const onSubmit = async (values: any) => {
     const payload = {
@@ -48,7 +65,7 @@ const useTicketsEditorDrawer = (setOpenDrawer: any) => {
         await postAssociation({
           body: payload,
         }).unwrap();
-        setOpenDrawer({ isToggle: false, type: '' });
+        setOpenDrawer({ isToggle: false, type: '', data: {} });
         enqueueSnackbar('Ticket created successfully', { variant: 'success' });
       } catch {
         enqueueSnackbar('Error while creating ticket', { variant: 'error' });

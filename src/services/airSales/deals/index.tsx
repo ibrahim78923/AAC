@@ -4,10 +4,10 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 export const dealsApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealsList: builder.query({
-      query: (params?: any) => ({
+      query: (values: any) => ({
         url: `${END_POINTS?.DEALS_LIST_VIEW}`,
         method: 'GET',
-        params,
+        params: values,
       }),
       providesTags: ['DEALS'],
     }),
