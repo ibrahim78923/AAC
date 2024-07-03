@@ -38,6 +38,10 @@ import { styles } from '../../Email.styles';
 import CustomLabel from '@/components/CustomLabel';
 import * as yup from 'yup';
 import dayjs from 'dayjs';
+import ClearIcon from '@mui/icons-material/Clear';
+import { ImageComponent } from '../Chat/RightPane';
+import { setCurrentForwardAttachments } from '@/redux/slices/email/gmail/slice';
+import { useDispatch } from 'react-redux';
 
 const SendEmailDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, drawerType } = props;
@@ -66,6 +70,11 @@ const SendEmailDrawer = (props: any) => {
   const currentGmailAssets = useAppSelector(
     (state: any) => state?.gmail?.currentGmailAssets,
   );
+
+  const CurrentForwardAttachments = useAppSelector(
+    (state: any) => state?.gmail?.CurrentForwardAttachments,
+  );
+
   const removeRePrefix = (title: any) => {
     return title?.startsWith('Re: ') ? title?.replace(/^Re: /, '') : title;
   };
@@ -98,6 +107,24 @@ const SendEmailDrawer = (props: any) => {
       default:
         return '';
     }
+  };
+
+  const dispatch = useDispatch();
+
+  const handleRemove = (item: any, attachments: any) => {
+    const updatedAttachments = attachments?.filter(
+      (attachment: any) => attachment !== item,
+    );
+
+    dispatch(
+      setCurrentForwardAttachments(
+        updatedAttachments?.map((attachment: any) => ({
+          base64: attachment?.base64,
+          contentType: attachment?.contentType,
+          fileName: attachment?.fileName,
+        })),
+      ),
+    );
   };
 
   return (
@@ -334,7 +361,43 @@ const SendEmailDrawer = (props: any) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <RHFDropZone name="attachFile" label="Attachments" />
+                <Box sx={{ marginBottom: '10px' }}>
+                  {CurrentForwardAttachments &&
+                    CurrentForwardAttachments?.map((item: any) => {
+                      return (
+                        <Box
+                          key={uuidv4()}
+                          sx={{
+                            marginTop: '10px',
+                            borderRadius: '8px',
+                            overflow: 'hidden',
+                            display: 'flex',
+                            backgroundColor: theme?.palette?.grey[400],
+                            padding: '10px',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <ImageComponent
+                            base64={item?.base64}
+                            contentType={item?.contentType}
+                            fileName={item?.fileName}
+                          />
+
+                          <Box
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() =>
+                              handleRemove(item, CurrentForwardAttachments)
+                            }
+                          >
+                            <ClearIcon />
+                          </Box>
+                        </Box>
+                      );
+                    })}
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <RHFDropZone name="attachFile" label="Attachments" multiple />
               </Grid>
             </Grid>
 

@@ -11,6 +11,7 @@ interface EmailStateI {
   gmailSearch: any;
   gmailCurrentPage: any;
   currentForwardMessage: any;
+  CurrentForwardAttachments: any;
 }
 
 const initialState: EmailStateI = {
@@ -26,6 +27,7 @@ const initialState: EmailStateI = {
   gmailSearch: '',
   gmailCurrentPage: '',
   currentForwardMessage: '',
+  CurrentForwardAttachments: '',
 };
 
 const gmailSlice = createSlice({
@@ -81,6 +83,9 @@ const gmailSlice = createSlice({
     setCurrentForwardMessage: (state, action: PayloadAction<any>) => {
       state.currentForwardMessage = action?.payload;
     },
+    setCurrentForwardAttachments: (state, action: PayloadAction<any>) => {
+      state.CurrentForwardAttachments = action?.payload;
+    },
   },
 });
 export const {
@@ -95,5 +100,6 @@ export const {
   setGmailCurrentPage,
   setCurrentForwardMessage,
   setUpdateGmailList,
+  setCurrentForwardAttachments,
 } = gmailSlice.actions;
 export default gmailSlice.reducer;

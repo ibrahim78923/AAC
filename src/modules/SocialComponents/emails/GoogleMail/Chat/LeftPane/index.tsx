@@ -182,7 +182,7 @@ const LeftPane = () => {
             headers?.find((header: any) => header?.name === Gmail_CONST?.TO)
               ?.value || '';
           const cc =
-            headers?.find((header: any) => header?.name === Gmail_CONST?.CC)
+            headers?.find((header: any) => header?.name === Gmail_CONST?.Cc)
               ?.value || '';
           const Bcc =
             headers?.find((header: any) => header?.name === Gmail_CONST?.BCC)

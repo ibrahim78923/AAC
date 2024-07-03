@@ -422,6 +422,7 @@ export const Gmail_CONST = {
   PHONE: 'phone',
   SENT: 'SENT',
   TRASH: 'TRASH',
+  Cc: 'Cc',
 };
 
 export const REPORTS_HEADER_TITLE = {

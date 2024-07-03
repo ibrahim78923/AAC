@@ -123,6 +123,10 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [isoString]);
 
+  const CurrentForwardAttachments = useAppSelector(
+    (state: any) => state?.gmail?.CurrentForwardAttachments,
+  );
+
   const postEmail = isSendLater ? postScheduleGmail : postSendGmail;
   const onSubmit = async (values: any) => {
     if (isProcessDraft) {
@@ -195,7 +199,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         if (sendLaterDate) {
           formDataSend.append('sentOn', sendLaterDate);
         }
-        formDataSend.append('attachments', values?.attachFile);
+
+        if (!isSendLater && values?.attachFile) {
+          if (Array?.isArray(values?.attachFile)) {
+            values?.attachFile.forEach((file: File) => {
+              formDataSend?.append(`attachments`, file);
+            });
+          } else {
+            formDataSend.append('attachments', values?.attachFile);
+          }
+        }
+
         try {
           await postEmail({
             body: formDataSend,
@@ -232,7 +246,16 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           'type',
           drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ? 'reply-all' : 'reply',
         );
-        formDataReply.append('attachments', values?.attachFile);
+
+        if (!isSendLater && values?.attachFile) {
+          if (Array?.isArray(values?.attachFile)) {
+            values?.attachFile.forEach((file: File) => {
+              formDataReply?.append(`attachments`, file);
+            });
+          } else {
+            formDataReply.append('attachments', values?.attachFile);
+          }
+        }
 
         try {
           await postReplyGmail({
@@ -269,7 +292,27 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         if (values?.bcc && values?.bcc?.trim() !== '') {
           formDataSend.append('bcc', values?.bcc);
         }
-        formDataSend.append('attachments', values?.attachFile);
+        if (!isSendLater && values?.attachFile) {
+          if (Array?.isArray(values?.attachFile)) {
+            values?.attachFile.forEach((file: File) => {
+              formDataSend?.append(`attachments`, file);
+            });
+          } else {
+            formDataSend.append('attachments', values?.attachFile);
+          }
+        }
+
+        CurrentForwardAttachments?.forEach((data: any) => {
+          const base64 = data?.base64;
+          const contentType = data?.contentType;
+          const fileName = data?.fileName;
+
+          const blob = base64ToBlob(base64, contentType);
+          const file = new File([blob], fileName, { type: contentType });
+
+          formDataSend?.append(`attachments`, file);
+        });
+
         try {
           await forwardSendGmail({
             body: formDataSend,
@@ -326,4 +369,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     autocompleteValues,
   };
 };
+
+function base64ToBlob(base64: any, contentType: any) {
+  const byteCharacters = atob(base64);
+  const byteNumbers = new Array(byteCharacters?.length);
+
+  for (let i = 0; i < byteCharacters?.length; i++) {
+    byteNumbers[i] = byteCharacters?.charCodeAt(i);
+  }
+
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: contentType });
+}
+
 export default useSendEmailDrawer;

@@ -101,7 +101,7 @@ const MailList = ({
           await patchGmailMessage({
             body: payload,
           })?.unwrap();
-          // dispatch(setGmailList('clear'));
+          dispatch(setGmailList('clear'));
         } catch (error: any) {
           enqueueSnackbar('Something went wrong while updating message!', {
             variant: 'error',

@@ -37,6 +37,7 @@ import {
   useLogoutTokenMutation,
 } from '@/services/commonFeatures/email/gmail';
 import {
+  setCurrentForwardAttachments,
   setCurrentForwardMessage,
   setCurrentGmailAssets,
   setGmailSearch,
@@ -244,11 +245,28 @@ const RightPane = () => {
                                 )?.value ?? '--'}
                               </Typography>
                               <Typography variant="body2">
+                                <span style={{ fontWeight: '700' }}> To:</span>{' '}
                                 {obj?.payload?.headers?.find(
                                   (header: any) =>
                                     header?.name === Gmail_CONST?.TO,
                                 )?.value ?? '--'}
                               </Typography>
+
+                              {obj?.payload?.headers?.find(
+                                (header: any) =>
+                                  header?.name === Gmail_CONST?.Cc,
+                              )?.value && (
+                                <Typography variant="body2">
+                                  <span style={{ fontWeight: '700' }}>
+                                    {' '}
+                                    CC:
+                                  </span>{' '}
+                                  {obj?.payload?.headers?.find(
+                                    (header: any) =>
+                                      header?.name === Gmail_CONST?.Cc,
+                                  )?.value ?? '--'}
+                                </Typography>
+                              )}
                             </Box>
                             <Box
                               display={'flex'}
@@ -401,6 +419,17 @@ const RightPane = () => {
                                         ),
                                       ),
                                     );
+                                    dispatch(
+                                      setCurrentForwardAttachments(
+                                        obj?.attachments?.map(
+                                          (attachment: any) => ({
+                                            base64: attachment?.data,
+                                            contentType: attachment?.mimeType,
+                                            fileName: attachment?.filename,
+                                          }),
+                                        ),
+                                      ),
+                                    );
                                     setIsOpenSendEmailDrawer(true);
                                     setMailType(CREATE_EMAIL_TYPES?.FORWARD);
                                     dispatch(
@@ -477,6 +506,7 @@ const RightPane = () => {
                               gap: '10px',
                               flexWrap: 'wrap',
                               mb: 2,
+                              alignItems: 'end',
                             }}
                           >
                             {obj?.attachments?.map((item: any) => {
@@ -624,10 +654,8 @@ const RightPane = () => {
   );
 };
 
-function ImageComponent({ base64, contentType, fileName }: any) {
-  const buffer = Buffer?.from(base64, 'base64');
-  const decode = buffer?.toString('base64');
-  const src = `data:${contentType};base64,${decode}`;
+export function ImageComponent({ base64, contentType, fileName }: any) {
+  const src = `data:${contentType};base64,${base64}`;
   const theme = useTheme();
 
   if (contentType?.startsWith(FILE_TYPES?.IMAGE)) {
