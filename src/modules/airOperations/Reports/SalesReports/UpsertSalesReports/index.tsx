@@ -54,6 +54,7 @@ export const UpsertSalesReports = () => {
     draggedItemData,
     disableTemplate,
     handleChooseTemplate,
+    xAxisType,
   } = useUpsertSalesReports();
   const { text, table, chart, counter } = modal || {};
   return (
@@ -179,6 +180,7 @@ export const UpsertSalesReports = () => {
               reportId={reportId}
               setDraggedItemData={setDraggedItemData}
               disableTemplate={disableTemplate}
+              xAxisType={xAxisType}
             />
           </Grid>
         </Grid>

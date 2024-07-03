@@ -8,8 +8,11 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import {
+  CheckboxCheckedIcon,
+  CheckboxIcon,
+  EditInputIcon,
+} from '@/assets/icons';
 import { CheckBox } from '@mui/icons-material';
 import { tableEditorData } from './TableEditor.data';
 import { useTableEditor } from './useTableEditor';
@@ -47,7 +50,7 @@ export const TableEditor = (props: any) => {
                     setEdit(false), setValue === editValue;
                   }}
                 >
-                  <BorderColorIcon />
+                  <EditInputIcon />
                 </Box>
               ) : (
                 <Box

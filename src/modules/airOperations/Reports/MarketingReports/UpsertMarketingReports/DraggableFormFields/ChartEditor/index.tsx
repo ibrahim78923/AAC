@@ -14,9 +14,12 @@ import {
 import { useChartEditor } from './useChartEditor';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { CheckBox } from '@mui/icons-material';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { CHARTS } from '@/constants/strings';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import {
+  CheckboxCheckedIcon,
+  CheckboxIcon,
+  EditInputIcon,
+} from '@/assets/icons';
 
 export const ChartEditor = (props: any) => {
   const {
@@ -61,7 +64,7 @@ export const ChartEditor = (props: any) => {
                     setEdit(false), setValue === editValue;
                   }}
                 >
-                  <BorderColorIcon />
+                  <EditInputIcon />
                 </Box>
               ) : (
                 <Box

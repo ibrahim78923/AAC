@@ -1,5 +1,14 @@
 import { REPORT_TYPE } from '@/constants/strings';
 
+export const defaultValues = () => {
+  return {
+    chartTitle: 'Report Chart',
+    tableTitle: 'Report Table',
+    textTitle: 'Report Text',
+    xAxis: null,
+  };
+};
+
 export const fieldsList = [
   {
     id: '0',
@@ -31,7 +40,7 @@ export const templateList = [
     subMetric: 'Users',
     subFilter: true,
     match: 'chart',
-    templateType: 'Forecast Category',
+    templateType: 'Forecast_Category',
     description: 'Visualize your data',
   },
   {
@@ -43,7 +52,7 @@ export const templateList = [
     subMetric: 'Users',
     subFilter: true,
     match: 'chart',
-    templateType: 'Forecast Category',
+    templateType: 'Forecast_Category',
     description: 'Visualize your data',
   },
   {
@@ -55,7 +64,7 @@ export const templateList = [
     subMetric: 'Users',
     subFilter: true,
     match: 'chart',
-    templateType: 'Forecast Category',
+    templateType: 'Forecast_Category',
     description: 'Visualize your data',
   },
   {
@@ -72,7 +81,7 @@ export const templateList = [
       'Total revenue goal',
     ],
     match: 'table',
-    templateType: 'Forecast Category',
+    templateType: 'Forecast_Category',
     description: 'General Table',
   },
   {
@@ -87,7 +96,7 @@ export const templateList = [
       '5/5/2023',
     ],
     match: 'table',
-    templateType: 'Forecast Category',
+    templateType: 'Forecast_Category',
     description: 'General Table',
   },
   {
@@ -102,7 +111,7 @@ export const templateList = [
       'May 2023',
     ],
     match: 'table',
-    templateType: 'Forecast Category',
+    templateType: 'Forecast_Category',
     description: 'General Table',
   },
   {
@@ -178,7 +187,7 @@ export const templateList = [
     subMetric: 'Users',
     subFilter: true,
     match: 'chart',
-    templateType: 'Pipeline Forecast',
+    templateType: 'Pipeline_Forecast',
     description: 'Visualize your data',
   },
   {
@@ -190,7 +199,7 @@ export const templateList = [
     subMetric: 'Users',
     subFilter: true,
     match: 'chart',
-    templateType: 'Pipeline Forecast',
+    templateType: 'Pipeline_Forecast',
     description: 'Visualize your data',
   },
   {
@@ -202,7 +211,7 @@ export const templateList = [
     subMetric: 'Users',
     subFilter: true,
     match: 'chart',
-    templateType: 'Pipeline Forecast',
+    templateType: 'Pipeline_Forecast',
     description: 'Visualize your data',
   },
   {
@@ -219,7 +228,7 @@ export const templateList = [
       'Total revenue goal',
     ],
     match: 'table',
-    templateType: 'Pipeline Forecast',
+    templateType: 'Pipeline_Forecast',
     description: 'General Table',
   },
   {
@@ -234,7 +243,7 @@ export const templateList = [
       '5/5/2023',
     ],
     match: 'table',
-    templateType: 'Pipeline Forecast',
+    templateType: 'Pipeline_Forecast',
     description: 'General Table',
   },
   {
@@ -249,7 +258,7 @@ export const templateList = [
       'May 2023',
     ],
     match: 'table',
-    templateType: 'Pipeline Forecast',
+    templateType: 'Pipeline_Forecast',
     description: 'General Table',
   },
 ];

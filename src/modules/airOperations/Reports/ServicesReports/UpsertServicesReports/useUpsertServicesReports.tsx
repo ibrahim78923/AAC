@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  defaultValues,
   fieldsList,
   modalInitialState,
   templateList,
@@ -20,12 +21,9 @@ export default function useUpsertServicesReports() {
   const router: any = useRouter();
   const reportId = router?.query?.reportId;
   const methods: any = useForm({
-    defaultValues: {
-      chartTitle: 'Report Chart',
-      tableTitle: 'Report Table',
-      textTitle: 'Report Text',
-    },
+    defaultValues: defaultValues(),
   });
+
   const { watch, setValue } = methods;
   const textTitle = watch('textTitle');
   const tableTitle = watch('tableTitle');
@@ -34,6 +32,7 @@ export default function useUpsertServicesReports() {
   const xAxisData = watch('xAxis');
   const yAxisData = watch('yAxis');
   const subFilter = watch('subFilter');
+  const xAxisType = watch('xAxisType');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
   const [fieldData, setFieldData] = useState<any>(false);
@@ -206,5 +205,6 @@ export default function useUpsertServicesReports() {
     draggedItemData,
     disableTemplate,
     handleChooseTemplate,
+    xAxisType,
   };
 }

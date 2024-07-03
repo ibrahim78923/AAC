@@ -18,7 +18,7 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { TEXT_FORMATE } from '@/constants/strings';
 import { CheckBox } from '@mui/icons-material';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { EditInputIcon } from '@/assets/icons';
 
 export const TextEditor = (props: any) => {
   const { fontSize, color, textTitle, setValue, handleCancel } = props;
@@ -55,7 +55,7 @@ export const TextEditor = (props: any) => {
                     setEdit(false), setValue === editValue;
                   }}
                 >
-                  <BorderColorIcon />
+                  <EditInputIcon />
                 </Box>
               ) : (
                 <Box

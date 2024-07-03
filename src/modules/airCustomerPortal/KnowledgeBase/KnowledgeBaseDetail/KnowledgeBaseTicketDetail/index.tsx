@@ -124,8 +124,8 @@ export const KnowledgeBaseTicketDetail = () => {
                 </Box>
               </Grid>
               {showFeedbackField ? (
-                <Box display={'flex'} flexDirection={'column'} gap={1} p={1}>
-                  <Typography color="secondary" variant="body2">
+                <Box display={'flex'} flexDirection={'column'} p={1}>
+                  <Typography color="secondary" variant="body2" mb={1}>
                     Sorry we cannot be helpful. Help us improve this article
                     with your feedback.
                   </Typography>
@@ -135,41 +135,39 @@ export const KnowledgeBaseTicketDetail = () => {
                       *
                     </Box>
                   </Typography>
-                  <Box>
-                    <FormProvider
-                      methods={feedbackMethod}
-                      onSubmit={feedbackSubmit}
+                  <FormProvider
+                    methods={feedbackMethod}
+                    onSubmit={feedbackSubmit}
+                  >
+                    <Grid container>
+                      {feedbackDataArray?.map((item: any) => (
+                        <Grid item key={item?.id} xs={12}>
+                          <item.component {...item?.componentProps} />
+                        </Grid>
+                      ))}
+                    </Grid>
+                    <Box
+                      display={'flex'}
+                      justifyContent={'flex-end'}
+                      gap={1}
+                      mt={1}
                     >
-                      <Grid container>
-                        {feedbackDataArray?.map((item: any) => (
-                          <Grid item key={item?.id} xs={12}>
-                            <item.component {...item?.componentProps} />
-                          </Grid>
-                        ))}
-                      </Grid>
-                      <Box
-                        display={'flex'}
-                        justifyContent={'flex-end'}
-                        gap={1}
-                        mt={1}
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => setShowFeedbackField(false)}
                       >
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          onClick={() => setShowFeedbackField(false)}
-                        >
-                          Cancel
-                        </Button>
-                        <LoadingButton
-                          disabled={feedbackIsLoading}
-                          variant="contained"
-                          type="submit"
-                        >
-                          Submit
-                        </LoadingButton>
-                      </Box>
-                    </FormProvider>
-                  </Box>
+                        Cancel
+                      </Button>
+                      <LoadingButton
+                        loading={feedbackIsLoading}
+                        variant="contained"
+                        type="submit"
+                      >
+                        Submit
+                      </LoadingButton>
+                    </Box>
+                  </FormProvider>
                 </Box>
               ) : (
                 <>
@@ -208,9 +206,13 @@ export const KnowledgeBaseTicketDetail = () => {
                   >
                     No
                   </Button>
-                  <Button variant="contained" onClick={helpfulSubmit}>
+                  <LoadingButton
+                    loading={feedbackIsLoading}
+                    variant="contained"
+                    onClick={helpfulSubmit}
+                  >
                     Yes
-                  </Button>
+                  </LoadingButton>
                 </Grid>
               )}
             </Grid>

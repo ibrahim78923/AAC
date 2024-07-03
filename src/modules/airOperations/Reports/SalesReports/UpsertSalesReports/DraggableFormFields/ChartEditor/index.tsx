@@ -14,9 +14,13 @@ import {
 import { useChartEditor } from './useChartEditor';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { CheckBox } from '@mui/icons-material';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { CHARTS } from '@/constants/strings';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import {
+  CheckboxCheckedIcon,
+  CheckboxIcon,
+  EditInputIcon,
+} from '@/assets/icons';
+import { CHART_METRICS, xAxesDataArray } from './ChartEditor.data';
 
 export const ChartEditor = (props: any) => {
   const {
@@ -29,6 +33,7 @@ export const ChartEditor = (props: any) => {
     yAxisData,
     handleCancel,
     disableTemplate,
+    xAxisType,
   } = props;
 
   const {
@@ -62,7 +67,7 @@ export const ChartEditor = (props: any) => {
                     setEdit(false), setValue === editValue;
                   }}
                 >
-                  <BorderColorIcon />
+                  <EditInputIcon />
                 </Box>
               ) : (
                 <Box
@@ -98,25 +103,61 @@ export const ChartEditor = (props: any) => {
             <Box borderRadius={2} p={1} bgcolor={'primary.light'}>
               <Typography variant="h6">{metricType}</Typography>
             </Box>
-
             <Box p={1}>
               <RHFAutocomplete
                 size="small"
                 label="X Axis"
                 name="xAxis"
                 disabled={disableTemplate}
-                options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
-                getOptionLabel={(option: string) => option}
+                options={xAxesDataArray[metricType]}
+                getOptionLabel={(option: any) =>
+                  option?.label || 'Select Option'
+                }
               />
             </Box>
+            {xAxisData?.ref && (
+              <Box mx={2} my={1}>
+                <RHFAutocomplete
+                  size="small"
+                  name="xAxisType"
+                  label="X Axis Field Type"
+                  multiple={true}
+                  disabled={disableTemplate}
+                  options={[
+                    {
+                      _id: '1',
+                      label: 'Ticket Requester',
+                      value: 'ticket_requester',
+                    },
+                    {
+                      _id: '2',
+                      label: 'Ticket Category',
+                      value: 'ticket_category',
+                    },
+                    { _id: '3', label: 'Status', value: 'status' },
+                    {
+                      _id: '4',
+                      label: 'Ticket Department',
+                      value: 'ticket_department',
+                    },
+                    { _id: '5', label: 'Source', value: 'source' },
+                    { _id: '6', label: 'Impact', value: 'impact' },
+                    { _id: '7', label: 'Ticket Agent', value: 'ticket_agent' },
+                  ]}
+                  getOptionLabel={(option: any) => option?.label}
+                  placeholder="Select Option"
+                />
+              </Box>
+            )}
             <Box p={1}>
               <RHFAutocomplete
                 size="small"
                 label="Y Axis"
                 name="yAxis"
+                placeholder="Select Option"
                 disabled={disableTemplate}
-                options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
-                getOptionLabel={(option: string) => option}
+                options={['No of Records']}
+                getOptionLabel={(option: any) => option}
               />
             </Box>
           </Box>
@@ -150,7 +191,8 @@ export const ChartEditor = (props: any) => {
         <Button
           variant="contained"
           disabled={
-            (!xAxisData || !yAxisData) && chartMetricType === 'Add Metric'
+            (!xAxisData || !yAxisData || (xAxisData?.ref && !xAxisType)) &&
+            chartMetricType === CHART_METRICS?.ADD_METRIC
           }
           onClick={() => handleSave()}
         >

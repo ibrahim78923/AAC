@@ -23,6 +23,7 @@ export const useChartEditor = (props: any) => {
     subFilter,
     setDraggedItemData,
     setChartMetricType,
+    xAxisType,
   } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
@@ -51,9 +52,22 @@ export const useChartEditor = (props: any) => {
         title: chartTitle,
         type: REPORT_TYPE?.CHART,
         metric: metricType,
-        xAxis: chartType === CHARTS?.BAR_CHART ? xAxisData : null,
-        yAxis: chartType === CHARTS?.BAR_CHART ? yAxisData : null,
-        chartMetric: chartType != CHARTS?.BAR_CHART ? chartMetricType : null,
+        xAxis:
+          chartType === (CHARTS?.BAR_CHART || CHARTS?.HORIZONTAL_BAR_CHART)
+            ? xAxisData?.name
+            : null,
+        yAxis:
+          chartType === (CHARTS?.BAR_CHART || CHARTS?.HORIZONTAL_BAR_CHART)
+            ? yAxisData
+            : null,
+        xAxisType:
+          chartType === (CHARTS?.BAR_CHART || CHARTS?.HORIZONTAL_BAR_CHART)
+            ? xAxisType
+            : null,
+        chartMetric:
+          chartType != (CHARTS?.BAR_CHART || CHARTS?.HORIZONTAL_BAR_CHART)
+            ? chartMetricType
+            : null,
         subFilter: subFilter,
       },
     ]);

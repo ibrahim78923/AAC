@@ -1,4 +1,4 @@
-const CHART_METRICS = {
+export const CHART_METRICS = {
   TOTAL_ASSETS: 'Total Assets',
   HARDWARE: 'Hardware',
   IT_SERVICES: 'IT Services',
@@ -25,6 +25,7 @@ const CHART_METRICS = {
   MANAGED: 'Managed',
   DISABLED: 'Disabled',
   IN_REVIEW: 'InReview',
+  ADD_METRIC: 'Add Metric',
 };
 export const inventoryMetrics = (setChartMetricType: any) => [
   {
@@ -225,3 +226,54 @@ export const softwareMetrics = (setChartMetricType: any) => [
     },
   },
 ];
+
+export const xAxesDataArray: any = {
+  Inventory: [
+    {
+      label: 'Inventory AssetType',
+      value: 'inventory_assetType',
+      ref: 'assettype',
+    },
+    { label: 'Status', value: 'status', ref: null },
+    {
+      label: 'Inventory LocationId',
+      value: 'inventory_locationId',
+      ref: 'location',
+    },
+    {
+      label: 'Inventory DepartmentId',
+      value: 'inventory_departmentId',
+      ref: 'department',
+    },
+    { label: 'Impact', value: 'impact', ref: null },
+  ],
+  Software: [
+    { label: 'Status', value: 'status', ref: null },
+    { label: 'Type', value: 'type', ref: null },
+  ],
+  Contract: [
+    { label: 'Contract Type', value: 'contractType', ref: null },
+    { label: 'Status', value: 'status', ref: null },
+    { label: 'Contract Vendor', value: 'contract_vendor', ref: 'vendors' },
+    { label: 'Contract Approver', value: 'contract_approver', ref: 'users' },
+  ],
+
+  Tickets: [
+    { label: 'Ticket Requester', value: 'ticket_requester', ref: 'users' },
+    {
+      label: 'Ticket Category',
+      value: 'ticket_category',
+      ref: 'servicecategories',
+    },
+    { label: 'Pirority', value: 'pirority', ref: null },
+    { label: 'Status', value: 'status', ref: null },
+    {
+      label: 'Ticket Department',
+      value: 'ticket_department',
+      ref: 'department',
+    },
+    { label: 'Source', value: 'source', ref: null },
+    { label: 'Impact', value: 'impact', ref: 'impact' },
+    { label: 'Ticket Agent', value: 'ticket_agent', ref: 'users' },
+  ],
+};

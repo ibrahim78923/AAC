@@ -54,6 +54,7 @@ export default function DraggableFields({
   reportId,
   setDraggedItemData,
   disableTemplate,
+  xAxisType,
 }: any) {
   const theme: any = useTheme();
 
@@ -244,6 +245,7 @@ export default function DraggableFields({
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
                   disableTemplate={disableTemplate}
+                  xAxisType={xAxisType}
                 />
               )}
 

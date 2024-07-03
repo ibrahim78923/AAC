@@ -854,10 +854,15 @@ export const REPORT_TYPE = {
   TICKETS: 'Tickets',
   SOFTWARE: 'Software',
   CONTRACTS: 'Contract',
-  PURCHASE_ORDER: 'Purchase Order',
+  PURCHASE_ORDER: 'Purchase_Order',
   DEALS: 'Deals',
-  PIPELINE_FORECAST: 'Pipeline Forecast',
-  FORECAST_CATEGORY: 'Forecast Category',
+  PIPELINE_FORECAST: 'Pipeline_Forecast',
+  FORECAST_CATEGORY: 'Forecast_Category',
+};
+
+export const X_AXIS_FIELD_TYPE = {
+  STATIC: 'STATIC',
+  OBJECT_ID: 'OBJECT_ID',
 };
 
 export const USER_MANAGEMENT_DRAWER_ACTION = {

@@ -6,7 +6,7 @@ export const feedbackValidationSchema = Yup?.object()?.shape({
   understand: Yup?.string(),
   content: Yup?.string(),
   link: Yup?.string(),
-  comment: Yup?.string(),
+  comment: Yup?.string()?.required('Required'),
 });
 export const feedbackDefaultValues = {
   information: '',
@@ -53,7 +53,7 @@ export const feedbackDataArray = [
     id: 6547,
     componentProps: {
       name: 'comment',
-      label: 'Comment here',
+      label: 'Comment Here',
       placeholder: 'Write something',
       fullWidth: true,
       multiline: true,

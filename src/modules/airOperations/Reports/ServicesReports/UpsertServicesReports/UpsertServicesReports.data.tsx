@@ -1,5 +1,13 @@
 import { REPORT_TYPE } from '@/constants/strings';
 
+export const defaultValues = () => {
+  return {
+    chartTitle: 'Report Chart',
+    tableTitle: 'Report Table',
+    textTitle: 'Report Text',
+    xAxis: null,
+  };
+};
 export const fieldsList = [
   {
     id: '0',
@@ -279,7 +287,7 @@ export const templateList = [
     subMetric: 'Tickets',
     subFilter: true,
     match: 'chart',
-    templateType: 'Purchase Order',
+    templateType: 'Purchase_Order',
     description: 'Visualize your data',
   },
   {
@@ -287,7 +295,7 @@ export const templateList = [
     title: 'Table',
     tableColumns: ['Name', 'Vendor', 'Status', 'Total Cost'],
     match: 'table',
-    templateType: 'Purchase Order',
+    templateType: 'Purchase_Order',
     description: 'General Table',
   },
   {
@@ -295,7 +303,7 @@ export const templateList = [
     title: 'All',
     ticketCount: '6',
     match: 'counter',
-    templateType: 'Purchase Order',
+    templateType: 'Purchase_Order',
     description: 'Purchase Order',
   },
   {
@@ -303,7 +311,7 @@ export const templateList = [
     title: 'Approved',
     ticketCount: '6',
     match: 'counter',
-    templateType: 'Purchase Order',
+    templateType: 'Purchase_Order',
     description: 'Purchase Order',
   },
   {
@@ -311,7 +319,7 @@ export const templateList = [
     title: 'rejected',
     ticketCount: '6',
     match: 'counter',
-    templateType: 'Purchase Order',
+    templateType: 'Purchase_Order',
     description: 'Purchase Order',
   },
   {
@@ -319,7 +327,7 @@ export const templateList = [
     title: 'Pending',
     ticketCount: '6',
     match: 'counter',
-    templateType: 'Purchase Order',
+    templateType: 'Purchase_Order',
     description: 'Purchase Order',
   },
   {
@@ -327,7 +335,7 @@ export const templateList = [
     title: 'Received',
     ticketCount: '6',
     match: 'counter',
-    templateType: 'Purchase Order',
+    templateType: 'Purchase_Order',
     description: 'Purchase Order',
   },
 ];
