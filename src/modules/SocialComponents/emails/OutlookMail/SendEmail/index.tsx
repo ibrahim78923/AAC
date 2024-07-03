@@ -24,6 +24,7 @@ import {
 import { options } from './SendEmailDrawer.data';
 
 import {
+  ClearIcon,
   ExclimatoryCircleIcon,
   GmailIcon,
   InfoBlueIcon,
@@ -40,9 +41,12 @@ import { UnixDateFormatter } from '@/utils/dateTime';
 import { styles } from '../../Email.styles';
 import CustomLabel from '@/components/CustomLabel';
 import * as yup from 'yup';
+import { ImageComponent } from '../Chat/RightPane';
+import { useDispatch } from 'react-redux';
+import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
 
 const SendEmailDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, drawerType } = props;
+  const { openDrawer, setOpenDrawer, drawerType, emailSettingsData } = props;
 
   const {
     handleSubmit,
@@ -68,11 +72,15 @@ const SendEmailDrawer = (props: any) => {
     isToValid,
     isLoadingForward,
     loadingOtherReply,
-  } = useSendEmailDrawer({ setOpenDrawer, drawerType });
+  } = useSendEmailDrawer({ setOpenDrawer, drawerType, emailSettingsData });
 
+  const dispatch = useDispatch();
   const isCrmConnected = false;
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
+  );
+  const currentForwardAttachments = useAppSelector(
+    (state: any) => state?.outlook?.currentForwardAttachments,
   );
 
   const removeRePrefix = (title: any) => {
@@ -104,6 +112,21 @@ const SendEmailDrawer = (props: any) => {
   const isValidEmails = checkEmails(autocompleteValues);
   const isValidCCEmails = checkEmails(autocompleteCCValues);
   const isValidBCCEmails = checkEmails(autocompleteBCCValues);
+
+  const handleRemove = (item: any, attachments: any) => {
+    const updatedAttachments = attachments?.filter(
+      (attachment: any) => attachment !== item,
+    );
+    dispatch(
+      setCurrentForwardAttachments(
+        updatedAttachments?.map((attachment: any) => ({
+          contentBytes: attachment?.contentBytes,
+          contentType: attachment?.contentType,
+          name: attachment?.name,
+        })),
+      ),
+    );
+  };
 
   return (
     <div>
@@ -327,10 +350,61 @@ const SendEmailDrawer = (props: any) => {
                 </Grid>
               )}
               <Grid item xs={12}>
-                <RHFEditor name="description" label="Description" />
+                <RHFEditor
+                  name="description"
+                  label={
+                    drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+                    drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
+                      ? 'Comment'
+                      : 'Description'
+                  }
+                />
               </Grid>
+
               <Grid item xs={12}>
-                <RHFDropZone name="attachments" label="Attachments" multiple />
+                <Box sx={{ marginBottom: '10px' }}>
+                  {currentForwardAttachments &&
+                    currentForwardAttachments?.map((item: any) => {
+                      return (
+                        <Box
+                          key={uuidv4()}
+                          sx={{
+                            marginTop: '10px',
+                            borderRadius: '8px',
+                            overflow: 'hidden',
+                            display: 'flex',
+                            backgroundColor: '#f3f4f6',
+                            padding: '10px',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <ImageComponent
+                            base64={item?.contentBytes}
+                            contentType={item?.contentType}
+                            fileName={item?.name}
+                          />
+                          <Box
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() =>
+                              handleRemove(item, currentForwardAttachments)
+                            }
+                          >
+                            <ClearIcon />
+                          </Box>
+                        </Box>
+                      );
+                    })}
+                </Box>
+              </Grid>
+
+              <Grid item xs={12}>
+                <RHFDropZone
+                  name="attachments"
+                  label="Attachments"
+                  multiple
+                  maxSize={25 * 1024 * 1024}
+                  fileType={'PNG, JPG, PDF, DOC, and CSV (max 25.00 MB)'}
+                />
               </Grid>
             </Grid>
 

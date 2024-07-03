@@ -32,6 +32,7 @@ import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import {
   setCurrentEmailAssets,
+  setCurrentForwardAttachments,
   setSearchTerm,
 } from '@/redux/slices/email/outlook/slice';
 import Draft from './Draft';
@@ -48,6 +49,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { PdfImage } from '@/assets/images';
+import { useGetEmailSettingsQuery } from '@/services/commonFeatures/email/others';
 
 const RightPane = ({
   isOpenSendEmailDrawer,
@@ -62,6 +64,8 @@ const RightPane = ({
   const mailTabType: any = useAppSelector(
     (state: any) => state?.outlook?.mailTabType,
   );
+
+  const { data: emailSettingsData } = useGetEmailSettingsQuery({});
 
   const [isUserDetailDrawerOpen, setIsUserDetailDrawerOpen] = useState(false);
 
@@ -299,61 +303,23 @@ const RightPane = ({
                                     >
                                       {obj?.from?.emailAddress?.name}
                                     </Typography>
-                                    <Box>
-                                      <Typography
-                                        variant="body2"
-                                        sx={{ cursor: 'default' }}
-                                      >
-                                        To: &nbsp;
-                                        {obj?.toRecipients?.map(
-                                          (item: any, index: number) => (
-                                            <span key={uuidv4()}>
-                                              {item?.emailAddress?.name}
-                                              {index <
-                                                obj.toRecipients?.length - 1 &&
-                                                ', '}
-                                            </span>
-                                          ),
-                                        )}
-                                      </Typography>
-                                    </Box>
 
-                                    {obj?.ccRecipients?.map((item: any) => (
-                                      <Typography
-                                        variant="body2"
-                                        key={uuidv4()}
-                                        sx={{ cursor: 'default' }}
-                                      >
-                                        Cc: {item?.emailAddress?.name}
-                                      </Typography>
-                                    ))}
-                                    {obj?.bccRecipients?.map((item: any) => (
-                                      <Typography
-                                        variant="body2"
-                                        key={uuidv4()}
-                                        sx={{ cursor: 'default' }}
-                                      >
-                                        Bcc: {item?.emailAddress?.name}
-                                      </Typography>
-                                    ))}
-                                    {obj?.ccRecipients?.map((item: any) => (
-                                      <Typography
-                                        variant="body2"
-                                        key={uuidv4()}
-                                        sx={{ cursor: 'default' }}
-                                      >
-                                        Cc: {item?.emailAddress?.name}
-                                      </Typography>
-                                    ))}
-                                    {obj?.bccRecipients?.map((item: any) => (
-                                      <Typography
-                                        variant="body2"
-                                        key={uuidv4()}
-                                        sx={{ cursor: 'default' }}
-                                      >
-                                        Bcc: {item?.emailAddress?.name}
-                                      </Typography>
-                                    ))}
+                                    <RecipientsBoxWrapper
+                                      data={obj?.toRecipients}
+                                      label={'To'}
+                                    />
+                                    {obj?.ccRecipients?.length > 0 && (
+                                      <RecipientsBoxWrapper
+                                        data={obj?.ccRecipients}
+                                        label={'Cc'}
+                                      />
+                                    )}
+                                    {obj?.bccRecipients?.length > 0 && (
+                                      <RecipientsBoxWrapper
+                                        data={obj?.bccRecipients}
+                                        label={'Bcc'}
+                                      />
+                                    )}
                                   </Box>
                                   <Box
                                     display={'flex'}
@@ -443,10 +409,8 @@ const RightPane = ({
                                               from: obj?.from?.emailAddress
                                                 ?.address,
                                               others: {
-                                                from: `${obj?.from?.emailAddress
-                                                  ?.name} ${'<'}
-                                                 ${obj?.from?.emailAddress
-                                                   ?.address}
+                                                from: `${obj?.from?.emailAddress?.name} ${'<'}
+                                                 ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
                                                 sent: obj?.createdDateTime,
                                                 to: `<>`,
@@ -488,17 +452,24 @@ const RightPane = ({
                                               from: obj?.from?.emailAddress
                                                 ?.address,
                                               others: {
-                                                from: `${obj?.from?.emailAddress
-                                                  ?.name} ${'<'}
-                                                 ${obj?.from?.emailAddress
-                                                   ?.address}
+                                                from: `${obj?.from?.emailAddress?.name} ${'<'}
+                                                 ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
                                                 sent: obj?.createdDateTime,
                                                 to: `<>`,
                                                 subject: obj?.subject,
                                                 body: obj?.body?.content,
+                                                attachments: obj?.attachments,
                                               },
                                             }),
+                                          );
+
+                                          dispatch(
+                                            setCurrentForwardAttachments(
+                                              obj?.attachments?.map(
+                                                (item: any) => item,
+                                              ),
+                                            ),
                                           );
                                         }}
                                       >
@@ -656,6 +627,7 @@ const RightPane = ({
         setOpenDrawer={setIsOpenSendEmailDrawer}
         drawerType={mailType}
         setMailType={setMailType}
+        emailSettingsData={emailSettingsData}
       />
 
       <UserDetailsDrawer
@@ -667,7 +639,7 @@ const RightPane = ({
   );
 };
 
-function ImageComponent({ base64, contentType, fileName }: any) {
+export function ImageComponent({ base64, contentType, fileName }: any) {
   const src = `data:${contentType};base64,${base64}`;
   const theme = useTheme();
 
@@ -756,6 +728,22 @@ export const DocumentBoxWrapper = ({ children }: any) => {
       }}
     >
       {children}
+    </Box>
+  );
+};
+
+const RecipientsBoxWrapper = ({ data = [], label }: any) => {
+  return (
+    <Box>
+      <Typography variant="body2" sx={{ cursor: 'default', fontWeight: '600' }}>
+        {label}: &nbsp;
+        {data?.map((item: any, index: number) => (
+          <span key={uuidv4()} style={{ fontWeight: '500' }}>
+            {item?.emailAddress?.name}
+            {index < data?.length - 1 && ', '}
+          </span>
+        ))}
+      </Typography>
     </Box>
   );
 };

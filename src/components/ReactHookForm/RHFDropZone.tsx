@@ -4,14 +4,14 @@ import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
 import { AttachFileIcon } from '@/assets/icons';
 import CustomLabel from '../CustomLabel';
-import { FILE_MAX_SIZE } from '@/config';
 import { indexNumbers } from '@/constants';
+import { FILE_MAX_SIZE, FILE_SIZE_MESSAGES } from '@/config';
 
 export default function RHFDropZone({
   name,
   required,
   fileName = 'Attach a file',
-  fileType = 'PNG, JPG, PDF, DOC, and CSV (max 2.44 MB)',
+  fileType = 'PNG, JPG, PDF, DOC, and CSV (max 25 MB)',
   accept = {
     'image/png': ['.png', '.PNG'],
     'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
@@ -32,26 +32,68 @@ export default function RHFDropZone({
     getValues,
     formState: { errors },
   }: any = useFormContext();
+
   const theme = useTheme();
   const inputRef: any = useRef(null);
 
+  const onDrop = useCallback(
+    (acceptedFiles: any, fileRejections: any) => {
+      let totalSize = 0;
+      acceptedFiles?.forEach((file: any) => {
+        totalSize += file?.size;
+      });
+
+      if (totalSize > maxSize) {
+        fileRejections?.push({
+          file: null,
+          errors: [
+            {
+              code: FILE_SIZE_MESSAGES?.TOTAL_FILE_SIZE,
+              message: `Total file size should be less than ${formatFileSize(
+                maxSize,
+              )}`,
+            },
+          ],
+        });
+        return;
+      }
+
+      acceptedFiles?.forEach((file: any) => {
+        if (file?.size > maxSize) {
+          fileRejections?.push({
+            file: file,
+            errors: [
+              {
+                code: FILE_SIZE_MESSAGES?.FILE_TOO_LARGE,
+                message: `File size should be less than ${formatFileSize(
+                  maxSize,
+                )}`,
+              },
+            ],
+          });
+        }
+      });
+
+      if (acceptedFiles?.length > 0) {
+        setValue(
+          name,
+          multiple ? acceptedFiles : acceptedFiles[indexNumbers?.ZERO],
+        );
+      }
+    },
+    [setValue, name, multiple, maxSize],
+  );
+
   const { acceptedFiles, getRootProps, getInputProps, fileRejections } =
     useDropzone({
-      multiple: multiple,
-      accept: accept,
-      disabled: disabled,
-      maxSize: maxSize,
-      onDrop: useCallback(
-        (files: any) => {
-          if (files && files?.length > 0) {
-            setValue(name, multiple ? files : files[indexNumbers?.ZERO]);
-          }
-        },
-        [setValue, name, multiple],
-      ),
+      multiple,
+      accept,
+      disabled,
+      maxSize,
+      onDrop,
     });
 
-  const formatFileSize = (sizeInBytes: any) => {
+  const formatFileSize = (sizeInBytes: number) => {
     const sizeInMB = sizeInBytes / (1024 * 1024);
     return sizeInMB?.toFixed(2.44) + ' MB';
   };
@@ -77,20 +119,20 @@ export default function RHFDropZone({
         }}
       >
         <input {...getInputProps()} ref={inputRef} />
-
         {!!getValues(name) &&
         (multiple ? getValues(name)?.length > 0 : !!getValues(name)?.name) ? (
           <Box>
             {multiple ? (
               acceptedFiles?.map((file: any, index: number) => (
-                // eslint-disable-next-line react/no-array-index-key
+                // eslint-disable-next-line
                 <Typography variant="body2" key={index}>
                   {file?.name}
                 </Typography>
               ))
             ) : (
               <Typography variant="body2">
-                {acceptedFiles?.[0]?.name || getValues(name)?.name}
+                {acceptedFiles?.[indexNumbers?.ZERO]?.name ||
+                  getValues(name)?.name}
               </Typography>
             )}
           </Box>
@@ -121,19 +163,17 @@ export default function RHFDropZone({
       )}
       {!!fileRejections?.length &&
         fileRejections?.map((fileError: any, index: any) => (
-          <Typography
-            variant="body2"
-            color="error"
-            key={fileError?.errors?.[index]?.code}
-          >
-            {fileError?.errors?.[0]?.code === 'file-too-large'
+          // eslint-disable-next-line
+          <Typography variant="body2" color="error" key={index}>
+            {fileError?.errors?.some(
+              (err: any) => err?.code === FILE_SIZE_MESSAGES?.FILE_TOO_LARGE,
+            )
               ? `File size should be less than ${formatFileSize(maxSize)}`
-              : `${fileError?.errors?.[0]?.message}`}
-            <br />
-            {fileError?.errors?.[1]?.code === 'file-too-large'
-              ? `File size should be less than ${formatFileSize(maxSize)}`
-              : !!fileError?.errors?.[1]?.message &&
-                `${fileError?.errors?.[1]?.message}`}
+              : `${fileError?.errors[indexNumbers?.ZERO]?.message}`}
+            {fileError?.errors?.some(
+              (err: any) => err.code === FILE_SIZE_MESSAGES?.TOTAL_FILE_SIZE,
+            ) &&
+              `Total file size should be less than ${formatFileSize(maxSize)}`}
           </Typography>
         ))}
     </>

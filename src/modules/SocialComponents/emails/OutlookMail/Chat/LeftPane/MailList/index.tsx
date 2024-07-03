@@ -342,7 +342,9 @@ const MailList = ({
                                     color={theme?.palette?.custom?.bright}
                                     margin={'8px 0px'}
                                   >
-                                    {item?.subject}
+                                    {item?.subject === 'undefined'
+                                      ? '--'
+                                      : item?.subject}
                                   </Typography>
                                   <Typography
                                     variant="body3"
@@ -356,7 +358,9 @@ const MailList = ({
                                       wordBreak: 'break-all',
                                     }}
                                   >
-                                    {item?.bodyPreview}
+                                    {item?.bodyPreview?.length > 0
+                                      ? item?.bodyPreview
+                                      : 'No preview is available'}
                                   </Typography>
                                   <Typography
                                     variant="body2"
