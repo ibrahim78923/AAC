@@ -4,6 +4,7 @@ import {
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { FILE_MAX_SIZE } from '@/config';
 import { AIR_SERVICES } from '@/constants';
 import { ASSET_TYPE, ROLES } from '@/constants/strings';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -172,19 +173,24 @@ export const upsertServiceData = (apiServiceCategoryQuery: any) => [
       name: 'fileUrl',
       fullWidth: true,
       label: '\u00a0\u00a0',
+      fileType: `PNG and JPG only (max ${
+        FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE / (1024 * 1024)
+      } MB)`,
+      accept: {
+        'image/png': ['.png', '.PNG'],
+        'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
+      },
     },
     component: RHFDropZone,
     md: 6,
   },
-
   {
     id: 7,
     componentProps: {
       variant: 'body1',
-      heading:
-        'Select the  assets Type & product or the software to enable agents to seamlessly fulfil hardware,consumable and software services request ',
     },
-
+    heading:
+      'Select the  assets Type & product or the software to enable agents to seamlessly fulfil hardware,consumable and software services request ',
     gridLength: 12,
     component: Typography,
   },

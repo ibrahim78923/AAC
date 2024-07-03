@@ -5,12 +5,15 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
+import { Typography } from '@mui/material';
+import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 
 export const currencyOptions = ['Pound', 'Dollar'];
 
 const purchaseDetailSchema = yup?.object()?.shape({
-  itemName: yup?.object()?.nullable(),
-  description: yup?.string()?.default(''),
+  itemName: yup?.mixed()?.nullable()?.required('Item Name is required'),
+  description: yup?.string()?.trim()?.required('Description is required'),
   quantity: yup
     ?.number()
     ?.positive('Greater than zero')
@@ -23,20 +26,20 @@ const purchaseDetailSchema = yup?.object()?.shape({
     ?.number()
     ?.positive('Greater than zero')
     ?.typeError('Not a number'),
-  total: yup?.number(),
+  total: yup?.number()?.positive('\u00a0')?.typeError('\u00a0'),
 });
-// form validation schema
+
 export const validationSchema: any = yup?.object()?.shape({
   orderName: yup?.string()?.required('Order Name is Required'),
   orderNumber: yup?.string()?.required('Order Number is Required'),
-  vendor: yup?.object()?.required('Vendor is Required'),
-  currency: yup?.string()?.required('Currency is Required'),
-  department: yup?.object()?.nullable(),
+  vendor: yup?.mixed()?.nullable()?.required('Vendor is Required'),
+  currency: yup?.mixed()?.nullable()?.required('Currency is Required'),
+  department: yup?.mixed()?.nullable(),
   expectedDeliveryDate: yup
     ?.date()
     ?.nullable()
     ?.required('Delivery Date is Required'),
-  location: yup?.object()?.nullable(),
+  location: yup?.mixed()?.nullable(),
   termAndCondition: yup?.string(),
   subTotal: yup?.number(),
   taxRatio: yup?.number(),
@@ -50,7 +53,7 @@ export const defaultValues = (data?: any) => ({
   orderName: data?.orderName ?? '',
   orderNumber: data?.orderNumber ?? '',
   vendor: data?.vendorDetails ?? null,
-  currency: data?.currency ?? '',
+  currency: data?.currency ?? null,
   department: data?.departmentDetails ?? null,
   expectedDeliveryDate: data?.expectedDeliveryDate
     ? new Date(data?.expectedDeliveryDate)
@@ -62,12 +65,12 @@ export const defaultValues = (data?: any) => ({
   shipping: data?.shipping ?? 0,
   discount: data?.discount ?? 0,
   total: data?.total ?? 0,
-  status: data?.status ?? 'ORDERED',
+  status: data?.status ?? PURCHASE_ORDER_STATUS?.OPEN,
   purchaseDetails: data?.purchaseDetails?.map((item: any, index: any) => {
     const { ...rest } = item;
     delete rest?.itemName;
     return {
-      itemName: data?.productDetails[index],
+      itemName: data?.productDetails?.[index],
       ...rest,
     };
   }) ?? [
@@ -87,6 +90,16 @@ export const newPurchaseFieldsFunction = (
   locationApiQuery: any,
   vendorApiQuery: any,
 ) => [
+  {
+    id: 10,
+    componentProps: {
+      color: 'slateBlue.main',
+      variant: 'h5',
+    },
+    heading: 'Purchase Details',
+    md: 12,
+    component: Typography,
+  },
   {
     id: 1,
     component: RHFTextField,
@@ -122,9 +135,12 @@ export const newPurchaseFieldsFunction = (
       fullWidth: true,
       name: 'vendor',
       label: 'Vendor',
-      placeholder: 'Select Location',
+      placeholder: 'Select Vendor',
       apiQuery: vendorApiQuery,
-      externalParams: { meta: false, limit: 50 },
+      externalParams: {
+        meta: false,
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+      },
       required: true,
     },
   },
@@ -136,7 +152,6 @@ export const newPurchaseFieldsFunction = (
       fullWidth: true,
       name: 'currency',
       label: 'Currency',
-      select: true,
       options: currencyOptions,
       required: true,
       placeholder: 'Select Currency',
@@ -193,6 +208,7 @@ export const newPurchaseFieldsFunction = (
     component: RHFTextField,
   },
 ];
+
 export const itemsDetailsList = [
   { label: 'item name', value: 'itemName' },
   { label: 'description', value: 'description' },
@@ -201,4 +217,5 @@ export const itemsDetailsList = [
   { label: 'tax rate(%)', value: 'taxRate' },
   { label: 'total()', value: 'total' },
 ];
+
 export const itemsDetailsSubList = ['itemName', 'description', 'total'];

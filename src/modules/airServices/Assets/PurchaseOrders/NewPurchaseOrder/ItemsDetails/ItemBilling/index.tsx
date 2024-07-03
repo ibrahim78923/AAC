@@ -1,9 +1,10 @@
 import { Box, Divider, Grid, Typography } from '@mui/material';
-import { styles } from '../../ItemsDetails.style';
-import { billingData } from '../../ItemsDetails.data';
+import { styles } from '../ItemsDetails.style';
+import { billingData } from '../ItemsDetails.data';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 const ItemBilling = ({ watch }: any) => {
   const { flexBetween, billingWrapper, billingLabel, billingValue } = styles();
@@ -37,7 +38,7 @@ const ItemBilling = ({ watch }: any) => {
     >
       {billingData?.map((item: any) => {
         const totalItem = [
-          billingData?.[0]?.name,
+          billingData?.[ARRAY_INDEX?.ZERO]?.name,
           billingData?.[billingData?.length - 1]?.name,
         ];
         return (

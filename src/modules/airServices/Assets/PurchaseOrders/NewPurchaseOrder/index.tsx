@@ -1,11 +1,11 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { ArrowLeftIcon } from '@/assets/icons';
 import useNewPurchaseOrder from './useNewPurchaseOrder';
 import ItemsDetails from './ItemsDetails';
-import { styles } from './NewPurchaseOrder.style';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 const NewPurchaseOrder = () => {
   const {
@@ -21,21 +21,18 @@ const NewPurchaseOrder = () => {
     singlePurchaseOrder,
   } = useNewPurchaseOrder();
 
-  const { flexBetween, mainWrapper, mainHeading, subHeading } = styles();
   return (
     <Box>
-      <Box sx={{ ...mainWrapper }}>
-        <Box sx={{ ...flexBetween, display: 'inline-flex', pb: 1.4, gap: 1.4 }}>
-          <Box
-            onClick={handlePageBack}
-            sx={{ ...flexBetween, cursor: 'pointer' }}
-          >
-            <ArrowLeftIcon />
-          </Box>
-          <Typography variant="h4" sx={mainHeading}>
-            {purchaseOrderId ? 'Edit' : 'New'} Purchase Order
-          </Typography>
-        </Box>
+      <Box>
+        <PageTitledHeader
+          title={`${
+            purchaseOrderId
+              ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+              : GENERIC_UPSERT_FORM_CONSTANT?.NEW
+          }   Purchase Order`}
+          canMovedBack
+          moveBack={handlePageBack}
+        />
         {singlePurchaseOrder?.isLoading ? (
           <SkeletonForm />
         ) : (
@@ -43,9 +40,6 @@ const NewPurchaseOrder = () => {
             methods={methods}
             onSubmit={methods?.handleSubmit(submit)}
           >
-            <Typography sx={{ ...subHeading, pb: 1 }}>
-              Purchase Details
-            </Typography>
             <Grid container rowSpacing={1.8}>
               <Grid
                 item
@@ -58,20 +52,23 @@ const NewPurchaseOrder = () => {
               >
                 {newPurchaseFields?.map((form: any) => (
                   <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                    <form.component {...form?.componentProps} size="small" />
+                    <form.component {...form?.componentProps} size="small">
+                      {form?.heading ? form?.heading : null}
+                    </form.component>
                   </Grid>
                 ))}
               </Grid>
               {vendorValue && (
                 <Grid item xs={12} rowSpacing={2.6} columnSpacing={2}>
                   <Box>
-                    <Typography sx={{ ...subHeading }}>
+                    <Typography variant="h5" color="slateBlue.main">
                       Items Details
                     </Typography>
                     <ItemsDetails
                       control={methods?.control}
                       vendorId={vendorValue}
                       watch={watch}
+                      name="purchaseDetails"
                     />
                   </Box>
                 </Grid>
@@ -82,6 +79,7 @@ const NewPurchaseOrder = () => {
                 onClick={handlePageBack}
                 variant="outlined"
                 color="secondary"
+                disabled={loadingStatus}
               >
                 Cancel
               </LoadingButton>
@@ -90,7 +88,9 @@ const NewPurchaseOrder = () => {
                 type="submit"
                 variant="contained"
               >
-                {router?.query?.purchaseOrderId ? 'Update' : 'Save'}
+                {router?.query?.purchaseOrderId
+                  ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+                  : GENERIC_UPSERT_FORM_CONSTANT?.SAVE}
               </LoadingButton>
             </Box>
           </FormProvider>

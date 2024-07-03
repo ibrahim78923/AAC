@@ -110,6 +110,50 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG_FIVE],
     }),
+    getVendorProductsDropdownForPurchaseOrder: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.VENDOR_PRODUCT_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.vendorproductcatalogs;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getVendorDropdownForPurchaseOrder: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.VENDOR_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getDepartmentDropdownForPurchaseOrder: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getLocationsDropdownForPurchaseOrder: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_LOCATION}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_TWO],
+    }),
   }),
 });
 
@@ -128,4 +172,8 @@ export const {
   useLazyGetPurchaseOrderListQuery,
   useLazyGetExportPurchaseOrderListQuery,
   useGetPurchaseOrderStatusByIdQuery,
+  useLazyGetVendorProductsDropdownForPurchaseOrderQuery,
+  useLazyGetVendorDropdownForPurchaseOrderQuery,
+  useLazyGetDepartmentDropdownForPurchaseOrderQuery,
+  useLazyGetLocationsDropdownForPurchaseOrderQuery,
 } = purchaseOrderAPI;

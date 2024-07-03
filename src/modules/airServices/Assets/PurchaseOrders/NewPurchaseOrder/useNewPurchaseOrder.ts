@@ -10,13 +10,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
 import {
   useGetPurchaseOrderByIdQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetLocationsDropdownQuery,
-  useLazyGetVendorDropdownQuery,
+  useLazyGetDepartmentDropdownForPurchaseOrderQuery,
+  useLazyGetLocationsDropdownForPurchaseOrderQuery,
+  useLazyGetVendorDropdownForPurchaseOrderQuery,
   usePatchPurchaseOrderMutation,
   usePostPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders';
-import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 
@@ -24,12 +23,14 @@ const { PURCHASE_ORDER } = AIR_SERVICES;
 
 const useNewPurchaseOrders = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const purchaseOrderId = searchParams.get('purchaseOrderId');
+
+  const { purchaseOrderId } = router?.query;
+
   const [postPurchaseOrderTrigger, postPurchaseOrderStatus] =
     usePostPurchaseOrderMutation();
   const [patchPurchaseOrderTrigger, patchPurchaseOrderStatus] =
     usePatchPurchaseOrderMutation();
+
   const singlePurchaseOrder: any = useGetPurchaseOrderByIdQuery(
     purchaseOrderId,
     {
@@ -39,13 +40,17 @@ const useNewPurchaseOrders = () => {
   );
   const loadingStatus =
     patchPurchaseOrderStatus?.isLoading || postPurchaseOrderStatus?.isLoading;
+
   const methods = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues(),
   });
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
-  const apiQueryVendor: any = useLazyGetVendorDropdownQuery();
+
+  const apiQueryDepartment =
+    useLazyGetDepartmentDropdownForPurchaseOrderQuery();
+  const apiQueryLocations = useLazyGetLocationsDropdownForPurchaseOrderQuery();
+  const apiQueryVendor: any = useLazyGetVendorDropdownForPurchaseOrderQuery();
+
   const { watch, reset } = methods;
   const vendorValue = watch('vendor');
 
@@ -75,10 +80,9 @@ const useNewPurchaseOrders = () => {
     try {
       await postPurchaseOrderTrigger(apiParameter)?.unwrap();
       successSnackbar('New Purchase Order Created successfully');
-      reset();
       handlePageBack();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   const submitUpdatePurchaseOrder = async (data: any) => {
@@ -91,26 +95,29 @@ const useNewPurchaseOrders = () => {
     try {
       await patchPurchaseOrderTrigger(patchPurchaseOrderParameter)?.unwrap();
       successSnackbar('Purchase Order Updated Successfully!');
-      reset();
       handlePageBack();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
+
   const handlePageBack = () => {
     router?.push(PURCHASE_ORDER);
     reset();
   };
+
   const newPurchaseFields = newPurchaseFieldsFunction(
     apiQueryDepartment,
     apiQueryLocations,
     apiQueryVendor,
   );
+
   useEffect(() => {
     if (singlePurchaseOrder?.data) {
       reset(() => defaultValues(singlePurchaseOrder?.data?.data));
     }
   }, [singlePurchaseOrder?.data, reset]);
+
   return {
     methods,
     submit,
@@ -124,4 +131,5 @@ const useNewPurchaseOrders = () => {
     singlePurchaseOrder,
   };
 };
+
 export default useNewPurchaseOrders;

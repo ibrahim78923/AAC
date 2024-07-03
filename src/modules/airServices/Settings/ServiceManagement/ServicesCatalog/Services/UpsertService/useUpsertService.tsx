@@ -48,6 +48,7 @@ const useUpsertService = () => {
   const { handleSubmit, watch, reset } = methods;
 
   const handleCancelBtn = () => {
+    reset();
     router?.push({ pathname: AIR_SERVICES?.SERVICE_CATALOG });
   };
 
@@ -116,7 +117,6 @@ const useUpsertService = () => {
         body: upsertServiceFormData,
       })?.unwrap();
       successSnackbar('Service Add Successfully');
-      reset();
       handleCancelBtn?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

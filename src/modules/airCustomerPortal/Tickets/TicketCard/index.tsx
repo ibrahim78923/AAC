@@ -52,7 +52,9 @@ export const TicketsCard = (props: any) => {
             sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
           />
           <Typography variant="body2" color={'blue.main'} fontWeight={500}>{` ${
-            ticket?.ticketType === TICKET_TYPE?.INC ? '' : ticket?.ticketTitle
+            ticket?.ticketType === TICKET_TYPE?.INC
+              ? ''
+              : ticket?.ticketTitle ?? ''
           } ${ticket?.ticketIdNumber}`}</Typography>
         </Box>
         <Typography variant="body2" color={'blue.main'} fontWeight={500}>
@@ -69,13 +71,17 @@ export const TicketsCard = (props: any) => {
           </Typography>
         </Typography>
       </Box>
-      <Chip
-        label={ticket?.status ?? '---'}
-        sx={{
-          backgroundColor: 'grey.400',
-          color: 'slateBlue.main',
-        }}
-      />
+      {!!ticket?.status ? (
+        <Chip
+          label={ticket?.status ?? '---'}
+          sx={{
+            backgroundColor: 'grey.400',
+            color: 'slateBlue.main',
+          }}
+        />
+      ) : (
+        '---'
+      )}
     </Box>
   );
 };

@@ -32,6 +32,12 @@ export const UpsertSoftware = (props: any) => {
       title={!!softwareId ? 'Edit Software' : 'New Software'}
       submitHandler={() => handleSubmit(submitUpsertSoftware)()}
       isLoading={postSoftwareStatus?.isLoading || editSoftwareStatus?.isLoading}
+      isDisabled={
+        postSoftwareStatus?.isLoading || editSoftwareStatus?.isLoading
+      }
+      disabledCancelBtn={
+        postSoftwareStatus?.isLoading || editSoftwareStatus?.isLoading
+      }
     >
       <Box mt={1}>
         <FormProvider methods={methods}>

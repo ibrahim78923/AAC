@@ -802,6 +802,8 @@ export const GENERIC_UPSERT_FORM_CONSTANT = {
   BACK: 'Back',
   VIEW: 'View',
   ADD: 'Add',
+  NEW: 'New',
+  UPDATE: 'Update',
 };
 
 export const TEXT_FORMATE: any = {
