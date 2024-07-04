@@ -8,6 +8,8 @@ import { usersMockData } from './Teams.data';
 import { AlertModals } from '@/components/AlertModals';
 import AddTeams from '../AddTeams';
 import ViewTeams from './ViewTeams';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 const Teams = (props: any) => {
   const {
@@ -44,14 +46,19 @@ const Teams = (props: any) => {
           </Box>
         </Box>
       </Box>
-
-      <TanstackTable
-        columns={getColumns}
-        data={usersMockData}
-        isPagination
-        setPage={setPage}
-        setPageLimit={setPageLimit}
-      />
+      <PermissionsGuard
+        permissions={[
+          AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS?.TEAM_GRID_VIEW,
+        ]}
+      >
+        <TanstackTable
+          columns={getColumns}
+          data={usersMockData}
+          isPagination
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+        />
+      </PermissionsGuard>
       <AlertModals
         type="delete"
         open={isDeleteModal}

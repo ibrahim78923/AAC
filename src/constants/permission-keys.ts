@@ -1746,3 +1746,16 @@ export const AIR_OPERATION_REPORTS_MARKETING_CUSTOM_REPORTS_PERMISSIONS = {
   CLONE: 'operations-report-marketing-custom-clone',
   EMAIL_THIS_REPORT: 'operations-report-marketing-custom-email-this-report',
 };
+export const AIR_CALL_CENTER_SETTING_GENERAL_SETTING_PERMISSIONS = {
+  BUSINESS_HOURS_LIST: 'call-center-general-settings-business-hours-list',
+  ADD_BUSINESS_HOURS: 'call-center-general-settings-add-business-hours',
+  EDIT_BUSINESS_HOURS: 'call-center-general-settings-edit-business-hours',
+  AGENT_STATUSES: 'call-center-agent-statuses',
+};
+export const AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS = {
+  ADD_USER: 'call-center-user-manamegment-users-add-users',
+  USER_GRID_VIEW: 'call-center-user-management-users-grid-view',
+  CREATE_TEAMS: 'call-center-user-management-teams-create-team',
+  TEAM_GRID_VIEW: 'call-center-user-management-teams-grid-view',
+  TEAMS_ACTION: 'call-center-user-management-teams-actions-',
+};

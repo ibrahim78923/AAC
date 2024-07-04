@@ -1,3 +1,4 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { DeleteCrossIcon, EditYellowBGPenIcon, EyeIcon } from '@/assets/icons';
 import { UserAvatarImage } from '@/assets/images';
 import {
@@ -6,6 +7,7 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 import { Box, Stack } from '@mui/material';
 import * as Yup from 'yup';
@@ -152,27 +154,33 @@ export const columns = (
       accessorFn: (row: any) => row?.title,
       id: 'action',
       cell: (
-        <Stack direction="row" gap={1} alignItems="center">
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsTeamDrawerOpen?.(true);
-            }}
-          >
-            <EyeIcon color={theme?.palette?.blue?.main} />
-          </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={handleOpenDrawerEditTeams}>
-            <EditYellowBGPenIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsDeleteModal?.(true);
-            }}
-          >
-            <DeleteCrossIcon />
-          </Box>
-        </Stack>
+        <PermissionsGuard
+          permissions={[
+            AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS?.TEAMS_ACTION,
+          ]}
+        >
+          <Stack direction="row" gap={1} alignItems="center">
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setIsTeamDrawerOpen?.(true);
+              }}
+            >
+              <EyeIcon color={theme?.palette?.blue?.main} />
+            </Box>
+            <Box sx={{ cursor: 'pointer' }} onClick={handleOpenDrawerEditTeams}>
+              <EditYellowBGPenIcon />
+            </Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setIsDeleteModal?.(true);
+              }}
+            >
+              <DeleteCrossIcon />
+            </Box>
+          </Stack>
+        </PermissionsGuard>
       ),
       header: 'Action',
       isSortable: true,
