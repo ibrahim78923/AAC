@@ -39,47 +39,52 @@ const EmailTemplates = () => {
   const router = useRouter();
   return (
     <Box>
-      <Grid container spacing={2} sx={{ marginY: '30px' }}>
-        <Grid item lg={6} xs={12} sx={{ paddingTop: '8px !important' }}>
-          <Typography variant="h5">All Template</Typography>
-        </Grid>
-        <Grid
-          item
-          lg={6}
-          xs={12}
-          sx={{ paddingTop: '0px !important', textAlign: 'end' }}
+      <Stack spacing={2} sx={{ paddingTop: '8px !important', mb: '2rem' }}>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          alignItems="center"
+          justifyContent="space-between"
+          spacing={2}
         >
-          <PermissionsGuard
-            permissions={[
-              AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS.SEARCH_TEMPLATE,
-            ]}
+          <Typography variant="h5">All Template</Typography>
+          <Stack
+            spacing={2}
+            alignItems="center"
+            direction={{ xs: 'column', sm: 'row' }}
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
           >
-            <Search
-              size="small"
-              label="Search Here"
-              searchBy={search}
-              setSearchBy={setSearch}
-            />
-          </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[
-              AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS.CREATE_NEW_TEMPLATE,
-            ]}
-          >
-            <Button
-              variant="contained"
-              className="small"
-              startIcon={<PlusIcon />}
-              sx={{ marginLeft: '15px' }}
-              onClick={() =>
-                router.push(`${AIR_MARKETER?.CREATE_EMAIL_TEMPLATES}`)
-              }
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS.SEARCH_TEMPLATE,
+              ]}
             >
-              Create New Template
-            </Button>
-          </PermissionsGuard>
-        </Grid>
-      </Grid>
+              <Search
+                size="small"
+                label="Search Here"
+                searchBy={search}
+                setSearchBy={setSearch}
+              />
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS.CREATE_NEW_TEMPLATE,
+              ]}
+            >
+              <Button
+                variant="contained"
+                className="small"
+                startIcon={<PlusIcon />}
+                onClick={() =>
+                  router.push(`${AIR_MARKETER?.CREATE_EMAIL_TEMPLATES}`)
+                }
+                sx={{ width: { xs: '100%', sm: 'auto' } }}
+              >
+                Create New Template
+              </Button>
+            </PermissionsGuard>
+          </Stack>
+        </Stack>
+      </Stack>
 
       <Grid
         container

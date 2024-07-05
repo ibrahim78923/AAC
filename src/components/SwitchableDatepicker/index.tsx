@@ -130,7 +130,7 @@ const SwitchableDatepicker = ({
           borderRadius: '4px',
           maxWidth: '410px',
           position: 'absolute',
-          top: '100%',
+          bottom: '100%',
           left: placement === 'left' ? '0' : 'auto',
           right: placement === 'right' ? '0' : 'auto',
           zIndex: '1201',
