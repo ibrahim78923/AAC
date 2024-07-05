@@ -44,6 +44,7 @@ import * as yup from 'yup';
 import { ImageComponent } from '../Chat/RightPane';
 import { useDispatch } from 'react-redux';
 import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
+import dayjs from 'dayjs';
 
 const SendEmailDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer, drawerType, emailSettingsData } = props;
@@ -415,6 +416,9 @@ const SendEmailDrawer = (props: any) => {
                   fullWidth
                   label="Select Data and Time"
                   size="small"
+                  // disablePast
+                  minDateTime={dayjs()}
+                  // defaultValue={dayjs().add(5, 'minute')}
                 />
               </Box>
             )}

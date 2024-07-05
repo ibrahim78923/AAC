@@ -4,6 +4,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { Typography } from '@mui/material';
 import CustomLabel from '../CustomLabel';
+import dayjs from 'dayjs';
 
 // ----------------------------------------------------------------------
 
@@ -14,6 +15,7 @@ export default function RHFDateTimePicker({
   ...other
 }: any) {
   const { control } = useFormContext();
+
   return (
     <Controller
       name={name}
@@ -22,9 +24,15 @@ export default function RHFDateTimePicker({
         <>
           {label && <CustomLabel label={label} required={required} />}
           <MobileDateTimePicker
+            sx={{
+              '&.MuiClockNumber-root .Mui-disabled': {
+                color: 'blue !important',
+              },
+            }}
             {...field}
             {...other}
             disablePast
+            maxDateTime={dayjs().add(5, 'minute')}
             slotProps={{
               textField: {
                 helperText: (

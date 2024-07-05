@@ -542,7 +542,8 @@ const RightPane = ({
                                     <Box>
                                       <Typography variant="body3">
                                         <strong>From :</strong>
-                                        {obj?.from?.emailAddress?.name}
+                                        {obj?.from?.emailAddress?.name}{' '}
+                                        {`<${obj?.from?.emailAddress?.address}>`}
                                       </Typography>
                                     </Box>
                                     <Box>

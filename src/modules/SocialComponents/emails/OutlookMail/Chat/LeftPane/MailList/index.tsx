@@ -13,6 +13,7 @@ import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
 import {
   setActiveRecord,
+  setFilterMailList,
   setMailCurrentPage,
   setMailList,
   setSelectedRecords,
@@ -25,11 +26,15 @@ import {
   TIME_FORMAT,
 } from '@/constants';
 import { useDispatch } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
-import { usePatchOutlookEmailMessageMutation } from '@/services/commonFeatures/email/outlook';
+import {
+  useDeleteEmailOutlookMutation,
+  usePatchOutlookEmailMessageMutation,
+} from '@/services/commonFeatures/email/outlook';
 import { enqueueSnackbar } from 'notistack';
 import { PaperClipIcon } from '@/assets/icons';
+import { AlertModals } from '@/components/AlertModals';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -41,6 +46,8 @@ const MailList = ({
   manualActionsTrack,
 }: any) => {
   const theme = useTheme();
+
+  const [isEmptyTrashModal, setIsEmptyTrashModal] = useState(false);
 
   const dispatch = useDispatch();
   const breakScrollOperation: any = useAppSelector(
@@ -75,12 +82,12 @@ const MailList = ({
   };
 
   const handleSelectAll = () => {
-    const totalEmails = emailsByFolderIdData?.data?.length || 0;
+    const totalEmails = mailList?.length || 0;
     const selectedCount = selectedRecords?.length;
     if (selectedCount === totalEmails) {
       dispatch(setSelectedRecords([]));
     } else {
-      dispatch(setSelectedRecords(emailsByFolderIdData?.data));
+      dispatch(setSelectedRecords(mailList));
     }
   };
 
@@ -156,6 +163,34 @@ const MailList = ({
     }
   }, [isLoadingEmailsByFolderIdData]);
 
+  const [deleteEmailOutlook, { isLoading: loadingDelete }] =
+    useDeleteEmailOutlookMutation();
+
+  const handelDelete = async () => {
+    const ids =
+      selectedRecords &&
+      mailList
+        ?.filter((message: any) => message?.parentFolderId === mailTabType?.id)
+        ?.map((message: any) => message.id);
+
+    try {
+      await deleteEmailOutlook({
+        body: {
+          messageIds: ids,
+        },
+      })?.unwrap();
+      enqueueSnackbar('Trash emptied successfully.', {
+        variant: 'success',
+      });
+      dispatch(setSelectedRecords([]));
+      dispatch(setActiveRecord({}));
+      dispatch(setFilterMailList(ids ? ids : []));
+      setIsEmptyTrashModal(false);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
+
   return (
     <Box
       minHeight={'calc(100vh - 350px)'}
@@ -173,9 +208,8 @@ const MailList = ({
               name="Id"
               onClick={handleSelectAll}
               checked={
-                emailsByFolderIdData?.data?.length > 0
-                  ? selectedRecords?.length ===
-                    emailsByFolderIdData?.data?.length
+                mailList?.length > 0
+                  ? selectedRecords?.length === mailList?.length
                   : false
               }
             />
@@ -194,24 +228,31 @@ const MailList = ({
         </Button>
       </Box>
 
-      {mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.TRASH && (
-        <Box
-          sx={{
-            background: theme?.palette?.grey[100],
-            padding: '20px',
-            borderRadius: '10px',
-            marginTop: '-20px',
-          }}
-        >
-          <Typography variant="body2" sx={{ color: theme?.palette?.grey[800] }}>
-            Messages that have been in Trash more than 30 days will be
-            automatically deleted.{' '}
-            <strong>
-              <u>Empty Trash now</u>
-            </strong>
-          </Typography>
-        </Box>
-      )}
+      {mailList?.length > 0 &&
+        mailTabType?.displayName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH && (
+          <Box
+            sx={{
+              background: theme?.palette?.grey[100],
+              padding: '20px',
+              borderRadius: '10px',
+              marginTop: '-20px',
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{ color: theme?.palette?.grey[800] }}
+            >
+              Messages that have been in Trash more than 30 days will be
+              automatically deleted.{' '}
+              <strong
+                onClick={() => setIsEmptyTrashModal(true)}
+                style={{ cursor: 'pointer' }}
+              >
+                <u>Empty Trash now</u>
+              </strong>
+            </Typography>
+          </Box>
+        )}
 
       <Box sx={{ maxHeight: '62vh', overflow: 'auto' }} ref={boxRef}>
         {isLoadingEmailsByFolderIdData === API_STATUS?.REJECTED ? (
@@ -418,6 +459,16 @@ const MailList = ({
           </>
         )}
       </Box>
+
+      <AlertModals
+        type={'Delete'}
+        message={`Are you sure you want to empty trash`}
+        open={isEmptyTrashModal}
+        disabled={false}
+        handleClose={() => setIsEmptyTrashModal(false)}
+        loading={loadingDelete}
+        handleSubmitBtn={handelDelete}
+      />
     </Box>
   );
 };

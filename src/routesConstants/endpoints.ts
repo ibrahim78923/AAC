@@ -471,6 +471,7 @@ export const organization = {
   UPDATE_ORGANIZATION_ACCOUNT_STATUS: '/org-company-account/update-status',
   DELETE_ORGANIZATION_ACCOUNT: '/org-company-account',
   DELETE_ORGANIZARION_MULTIPLE: '/org-company-account/delete-multiple',
+  USERS_PRODUCTS: '/users/products',
 };
 
 export const settingSalesProductCategory = {

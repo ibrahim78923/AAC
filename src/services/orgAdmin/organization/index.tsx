@@ -47,8 +47,8 @@ export const organizationAPI = baseAPI.injectEndpoints({
       providesTags: TAGS,
     }),
     getOrganizationProducts: builder.query({
-      query: ({ id }: any) => ({
-        url: `${organization?.GET_MAIN_ORGANIZATION}/${id}${END_POINTS?.PRODUCTS}`,
+      query: () => ({
+        url: `${organization?.USERS_PRODUCTS}`,
         method: 'GET',
       }),
       providesTags: TAGS,
