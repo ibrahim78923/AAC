@@ -286,7 +286,8 @@ const RightPane = ({
                                         ?.split(' ')[0]
                                     }
                                     lastName={
-                                      nameParts[1] ??
+                                      (nameParts &&
+                                        nameParts[indexNumbers?.ONE]) ??
                                       obj?.from?.emailAddress?.name
                                         ?.trim()
                                         ?.split(' ')[1]
