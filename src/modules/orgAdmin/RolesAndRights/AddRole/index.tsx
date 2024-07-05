@@ -59,8 +59,8 @@ const AddRole = () => {
           {query?.type === DRAWER_TYPES?.ADD
             ? 'Add New Role'
             : query?.type === DRAWER_TYPES?.EDIT
-              ? 'Edit Role'
-              : 'Role Details'}
+            ? 'Edit Role'
+            : 'Role Details'}
         </Typography>
       </Box>
       <Box sx={{ my: 3 }}>

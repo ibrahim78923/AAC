@@ -71,7 +71,7 @@ const BroadcastHeader = (props: any) => {
           />
         </PermissionsGuard>
       </Box>
-      <Stack direction="row" spacing={'8px'} sx={styles?.headerRight}>
+      <Stack direction={'row'} gap={1} sx={styles?.headerRight}>
         <PermissionsGuard
           permissions={[
             AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,
@@ -85,6 +85,7 @@ const BroadcastHeader = (props: any) => {
             }}
           />
         </PermissionsGuard>
+
         <Tooltip title={'Refresh Filter'}>
           <Button
             variant="outlined"
@@ -95,6 +96,7 @@ const BroadcastHeader = (props: any) => {
             <RefreshTasksIcon />
           </Button>
         </Tooltip>
+
         <PermissionsGuard
           permissions={[
             AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,

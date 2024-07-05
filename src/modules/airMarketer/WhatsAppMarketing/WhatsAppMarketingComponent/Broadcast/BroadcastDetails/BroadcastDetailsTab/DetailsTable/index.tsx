@@ -1,14 +1,12 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { detailsColumns, detailsData } from './DetailsTable.data';
+import { detailsColumns } from './DetailsTable.data';
 
-const DetailsTable = ({ deleteBroadcast }: any) => {
+const DetailsTable = ({ setOpenModalDelete, recepientsData }: any) => {
   return (
-    <>
-      <TanstackTable
-        columns={detailsColumns(deleteBroadcast)}
-        data={detailsData}
-      />
-    </>
+    <TanstackTable
+      columns={detailsColumns(setOpenModalDelete)}
+      data={recepientsData}
+    />
   );
 };
 

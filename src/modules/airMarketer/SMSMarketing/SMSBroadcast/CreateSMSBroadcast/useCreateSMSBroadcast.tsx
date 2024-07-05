@@ -30,7 +30,7 @@ const useCreateSMSBroadcast = () => {
   const [isSchedule, setIsSchedule] = useState(false);
   const { getIsPhoneConnected } = useSMSMarketing();
 
-  const { data: getSmsBroadcatsById } =
+  const { data: getSmsBroadcatsById, isLoading: smsBroadcastLoading } =
     useGetSmsBroadcatsByIdQuery(selectedBroadCast);
 
   const [postSmsBroadcast, { isLoading: postBroadcastLoading }] =
@@ -128,11 +128,12 @@ const useCreateSMSBroadcast = () => {
     postBroadcastLoading,
     selectedContactsData,
     flattenContactsData,
+    smsBroadcastLoading,
     setSelectedDateVal,
-    broadcastName,
     handleSaveAsDraft,
     setCreateStatus,
     setSelectedRec,
+    broadcastName,
     setIsSchedule,
     handleSubmit,
     createStatus,

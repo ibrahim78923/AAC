@@ -6,6 +6,7 @@ import {
   FormControl,
   MenuItem,
   Select,
+  Stack,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import CommonTabs from '@/components/Tabs';
@@ -25,17 +26,15 @@ const WhatsAppMarketingComponent = () => {
 
   return (
     <Box sx={styles?.wrapper}>
-      <Box sx={styles.heading}>
+      <Stack
+        direction={{ sm: 'row' }}
+        gap={2}
+        justifyContent={'space-between'}
+        sx={{ p: '24px' }}
+      >
         <Typography variant="h3">WhatsApp Marketing </Typography>
         {tabVal === 0 && (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '20px',
-            }}
-          >
+          <Stack direction={{ sm: 'row' }} gap={2}>
             <Box>
               <FormControl
                 fullWidth
@@ -60,7 +59,7 @@ const WhatsAppMarketingComponent = () => {
             <Box sx={{ height: '52px' }}>
               <EditSmsIcon />
             </Box>
-          </Box>
+          </Stack>
         )}
         {tabVal === 1 && (
           <Button
@@ -68,13 +67,13 @@ const WhatsAppMarketingComponent = () => {
             className="small"
             variant="contained"
             onClick={() =>
-              router.push(AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST)
+              router?.push(AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST)
             }
           >
             Create Broadcast
           </Button>
         )}
-      </Box>
+      </Stack>
 
       <CommonTabs
         tabsArray={['Dashboard', 'Broadcast', 'Contacts', 'Templates']}

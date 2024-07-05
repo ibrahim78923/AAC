@@ -1,13 +1,13 @@
 import dynamic from 'next/dynamic';
-
 import { Box, Typography } from '@mui/material';
-
 import useStatisticsCard from './useStatisticsCard';
-
 import { styles } from './StatisticsCard.style';
 
-const StatisticsCard = () => {
-  const { series, options, theme } = useStatisticsCard();
+const StatisticsCard = ({ isDashboardData = true, whatsappAnalytics }: any) => {
+  const { series, options, theme, updatedSeries } =
+    useStatisticsCard(whatsappAnalytics);
+  const analyticData = isDashboardData ? series : updatedSeries;
+
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
@@ -26,7 +26,7 @@ const StatisticsCard = () => {
         </Typography>
         <ReactApexChart
           options={options}
-          series={series}
+          series={analyticData}
           type="area"
           height={450}
         />

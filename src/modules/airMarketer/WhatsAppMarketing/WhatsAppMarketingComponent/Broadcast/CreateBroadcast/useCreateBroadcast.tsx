@@ -2,12 +2,17 @@ import { Theme, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { defaultValues, validationSchema } from './CreateBroadcast.data';
+import {
+  createBroadcastFields,
+  defaultValues,
+  validationSchema,
+} from './CreateBroadcast.data';
 import { enqueueSnackbar } from 'notistack';
 import {
   ARRAY_INDEX,
   DRAWER_TYPES,
   NOTISTACK_VARIANTS,
+  SMS_MARKETING_CONSTANTS,
 } from '@/constants/strings';
 import {
   useGetWhatsappBroadcatsByIdQuery,
@@ -19,6 +24,7 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import { getSession } from '@/utils';
 
 const useCreateBroadcast = () => {
+  const router = useRouter();
   const theme = useTheme<Theme>();
   const { user }: any = getSession();
   const navigate = useRouter();
@@ -33,10 +39,23 @@ const useCreateBroadcast = () => {
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit, reset, watch, setValue } = methods;
-  const detailsText = watch('details');
+  // Contacts Drawer
+  const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
+  const handleOpenContactsDrawer = () => {
+    setIsAddContactDrawerOpen(true);
+  };
+  const handleCloseContactsDrawer = () => {
+    setIsAddContactDrawerOpen(false);
+  };
 
-  const { data: getWhatsappBroadcatsById } =
+  const { handleSubmit, reset, watch, setValue } = methods;
+  const detailsText = watch('detail');
+  const previewName = watch(SMS_MARKETING_CONSTANTS?.NAME);
+  const previewDetail = watch(SMS_MARKETING_CONSTANTS?.DETAIL);
+  const previewAttachment = watch(SMS_MARKETING_CONSTANTS?.ATTACHMENT);
+  const formFields = createBroadcastFields(handleOpenContactsDrawer);
+
+  const { data: getWhatsappBroadcatsById, isLoading: broadcastDetailsLoading } =
     useGetWhatsappBroadcatsByIdQuery(selectedBroadCast);
 
   const [postWhatsappBroadcast, { isLoading: postBroadcastLoading }] =
@@ -48,11 +67,13 @@ const useCreateBroadcast = () => {
   useEffect(() => {
     if (type === DRAWER_TYPES?.EDIT) {
       const data = getWhatsappBroadcatsById?.data;
+
       const fieldsToSet: any = {
         name: data?.name,
-        campaignId: data?.campaign,
-        templateId: data?.template,
+        campaignId: data?.campaign[0],
+        templateId: data?.template[0],
         detail: data?.detail,
+        attachment: data?.attachment?.url,
         recipients:
           data?.recipients?.map(
             (item: any) => `${item?.firstName} ${item?.lastName}`,
@@ -67,28 +88,32 @@ const useCreateBroadcast = () => {
   }, [getWhatsappBroadcatsById?.data]);
 
   const onSubmit = async (values: any) => {
+    const broadcastFormData = new FormData();
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
     const cleanedDetailsText = removeHtmlTags(detailsText);
-    values.senderId = user?._id;
-    values.campaignId = values?.campaignId?._id;
-    values.templateId = values?.templateId?._id;
-    values.recipients = selectedContactsData?.map((item: any) => item?._id);
-    values.detail = cleanedDetailsText;
-    values.schedualDate = selectedDateVal ?? undefined;
-
+    broadcastFormData?.append('senderId', user?._id);
+    broadcastFormData?.append('name', values?.name);
+    broadcastFormData?.append('campaignId', values?.campaignId?._id);
+    broadcastFormData?.append('templateId', values?.templateId?._id);
+    broadcastFormData?.append('attachment', values?.attachment);
+    broadcastFormData?.append(
+      'recipients',
+      selectedContactsData?.map((item: any) => item?._id),
+    );
+    broadcastFormData?.append('detail', cleanedDetailsText);
     try {
       if (type === DRAWER_TYPES?.EDIT) {
         await updateWhatsappBroadcast({
           id: selectedBroadCast,
-          body: values,
+          body: broadcastFormData,
         })?.unwrap();
-        enqueueSnackbar(`Sms Broadcast updated Successfully`, {
+        enqueueSnackbar(`Broadcast updated Successfully`, {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
         return;
       }
-      await postWhatsappBroadcast({ body: values })?.unwrap();
-      enqueueSnackbar(`Sms Broadcast created Successfully`, {
+      await postWhatsappBroadcast({ body: broadcastFormData })?.unwrap();
+      enqueueSnackbar(`Broadcast created Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
@@ -114,18 +139,10 @@ const useCreateBroadcast = () => {
     }, []);
   };
 
-  // Contacts Drawer
-  const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
-  const handleOpenContactsDrawer = () => {
-    setIsAddContactDrawerOpen(true);
-  };
-  const handleCloseContactsDrawer = () => {
-    setIsAddContactDrawerOpen(false);
-  };
-
   return {
     handleCloseContactsDrawer,
     handleOpenContactsDrawer,
+    broadcastDetailsLoading,
     setSelectedContactsData,
     isAddContactDrawerOpen,
     updateBroadcastLoading,
@@ -133,14 +150,19 @@ const useCreateBroadcast = () => {
     postBroadcastLoading,
     flattenContactsData,
     setSelectedDateVal,
+    previewAttachment,
     selectedDateVal,
     setSelectedRec,
     setIsSchedule,
+    previewDetail,
     handleSubmit,
+    previewName,
     selectedRec,
+    formFields,
     isSchedule,
     onSubmit,
     methods,
+    router,
     theme,
     type,
   };

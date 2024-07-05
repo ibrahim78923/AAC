@@ -20,12 +20,14 @@ const useAddContactDrawer = (
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
   const { data: getContactsData, isLoading: loadingAllContacts } =
-    useGetContactsQuery({ params: { limit: pageLimit, page: page } });
+    useGetContactsQuery({
+      params: { limit: pageLimit, page: page, onlyWhatsapp: true },
+    });
 
   const allContactsData = getContactsData?.data?.contacts;
   const { data: getGroupsData, isLoading: contactGroupsLoading } =
     useGetGroupsQuery({
-      params: { limit: pageLimit, page: page },
+      params: { limit: pageLimit, page: page, onlyWhatsapp: true },
     });
 
   const contactsGroupData = getGroupsData?.data?.contactgroups;

@@ -1,6 +1,7 @@
+import { STATICTICS_STATUS } from '@/constants/strings';
 import { Theme, useTheme } from '@mui/material';
 
-const useStatisticsCard = () => {
+const useStatisticsCard = (whatsappAnalytics: any) => {
   const theme = useTheme<Theme>();
 
   const series = [
@@ -17,6 +18,27 @@ const useStatisticsCard = () => {
       data: [15, 25, 30, 20, 35, 30, 25, 30, 20, 35, 40, 50],
     },
   ];
+
+  const updatedSeries = series?.map((serie) => {
+    if (serie?.name === STATICTICS_STATUS?.RECIEVED) {
+      return {
+        ...serie,
+        data: whatsappAnalytics?.map((item: any) => item?.delivered),
+      };
+    } else if (serie?.name === STATICTICS_STATUS?.SENT) {
+      return {
+        ...serie,
+        data: whatsappAnalytics?.map((item: any) => item?.sent),
+      };
+    } else if (serie?.name === STATICTICS_STATUS?.FAILED) {
+      return {
+        ...serie,
+        data: whatsappAnalytics?.map((item: any) => item?.failed),
+      };
+    } else {
+      return serie;
+    }
+  });
 
   const options: any = {
     chart: {
@@ -80,6 +102,7 @@ const useStatisticsCard = () => {
   };
   return {
     series,
+    updatedSeries,
     options,
     theme,
   };

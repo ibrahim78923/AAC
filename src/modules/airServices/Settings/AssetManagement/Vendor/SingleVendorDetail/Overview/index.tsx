@@ -31,14 +31,14 @@ export const Overview = () => {
             {isValidElement(value)
               ? value
               : typeof value === FIELDS_TYPES?.OBJECT &&
-                  value !== null &&
-                  FIELDS_TYPES?.LABEL in value
-                ? value?.label
-                : typeof value === FIELDS_TYPES?.OBJECT &&
-                    value !== null &&
-                    FIELDS_TYPES?.PATH in value
-                  ? value?.path
-                  : value?.toString()}
+                value !== null &&
+                FIELDS_TYPES?.LABEL in value
+              ? value?.label
+              : typeof value === FIELDS_TYPES?.OBJECT &&
+                value !== null &&
+                FIELDS_TYPES?.PATH in value
+              ? value?.path
+              : value?.toString()}
           </Typography>
         </Box>
       ))}

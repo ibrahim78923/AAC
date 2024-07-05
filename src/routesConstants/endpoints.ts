@@ -565,8 +565,6 @@ export const WHATSAPP_MARKETING = {
   CONNECT_PHONE_NUMBER: '/whatsapp-marketing/connect-number',
   GET_IS_PHONE_CONNECTED: '/whatsapp-marketing/connected-number',
   GET_WHATSAPP_MARKETING_BROADCAST: '/whatsapp-marketing/broadcast',
-  DELETE_SMS_MARKETING_BROADCAST:
-    '/whatsapp-marketing/broadcast/{whatsappBroadcastId}',
 };
 export const SALES_DASHBOARD = {
   DEALS_CREATED_VS_CLOSE_DATES:

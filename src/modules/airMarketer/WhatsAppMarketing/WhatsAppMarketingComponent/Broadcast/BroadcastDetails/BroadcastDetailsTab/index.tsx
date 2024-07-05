@@ -4,6 +4,7 @@ import {
   FormControl,
   MenuItem,
   Select,
+  Skeleton,
   Stack,
 } from '@mui/material';
 import Search from '@/components/Search';
@@ -13,41 +14,71 @@ import { styles } from './BroadcastDetailsTab.style';
 import { AlertModals } from '@/components/AlertModals';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 import useBroadcastDetails from '../useBroadcastDetails';
+import Image from 'next/image';
+import { generateImage } from '@/utils/avatarUtils';
 
-const BroadcastDetailsTab = () => {
-  const { openModalDelete, handleOpenDelete, handleCloseDelete } =
-    useBroadcastDetails();
+const BroadcastDetailsTab = ({ isLoading, broadcastDetails }: any) => {
+  const {
+    updateBroadcastLoading,
+    handleDeleteRecipient,
+    setOpenModalDelete,
+    handleCloseDelete,
+    openModalDelete,
+    setFilters,
+    filters,
+  } = useBroadcastDetails();
+
+  const updatedRecords = broadcastDetails?.recipients?.filter((item: any) => {
+    if (filters?.search) {
+      return item?.name?.toLowerCase().includes(filters?.search?.toLowerCase());
+    } else if (filters?.status) {
+      return filters?.status ? item?.messageStatus === filters?.status : true;
+    } else {
+      return broadcastDetails?.recipients;
+    }
+  });
 
   return (
     <>
       <Box sx={{ p: '0 24px' }}>
-        <Box sx={styles?.media}>{/* Image here */}</Box>
-
-        <Box sx={styles?.previewDetails}>
-          <p>
-            <b>Hello</b>
-          </p>
-          <p>Welcome to | Lashes Makeup Studio</p>
-          <p>For bridal makeup package details plz click the link below</p>
-          <a href="https://google.com">Link</a>
-        </Box>
+        {isLoading ? (
+          <Skeleton height={250} width={600} />
+        ) : (
+          <>
+            <Box sx={styles?.media}>
+              <Image
+                height={150}
+                width={500}
+                src={generateImage(broadcastDetails?.attachment?.url)}
+                alt="broadcast_image"
+              />
+            </Box>
+            <Box sx={styles?.previewDetails}>{broadcastDetails?.detail}</Box>
+          </>
+        )}
 
         <Stack
           direction="row"
           justifyContent="space-between"
           sx={{ pt: '32px', pb: '16px' }}
         >
-          <Search placeholder="Search Here" size="small" />
+          <Search
+            size="small"
+            placeholder="Search Here"
+            onChange={(e: any) => {
+              setFilters({ ...filters, search: e?.target?.value });
+            }}
+          />
           <Box sx={{ gap: 1, display: 'flex' }}>
             <FormControl size="small">
               <Select
-                defaultValue={'status'}
-                // value={age}
-                // onChange={handleChange}
+                sx={{ height: '36px' }}
+                value={filters?.status}
+                onChange={(e: any) => {
+                  setFilters({ ...filters, status: e?.target?.value });
+                }}
               >
-                <MenuItem value={'status'} disabled>
-                  All
-                </MenuItem>
+                <MenuItem value={'All'}>All</MenuItem>
                 <MenuItem value={'sent'}>Sent</MenuItem>
                 <MenuItem value={'delivered'}>Delivered</MenuItem>
                 <MenuItem value={'read'}>Read</MenuItem>
@@ -56,7 +87,8 @@ const BroadcastDetailsTab = () => {
               </Select>
             </FormControl>
             <Button
-              sx={{ height: '40px' }}
+              className="small"
+              color="inherit"
               variant="outlined"
               endIcon={<GetAppIcon />}
             >
@@ -66,16 +98,24 @@ const BroadcastDetailsTab = () => {
         </Stack>
       </Box>
 
-      <DetailsTable deleteBroadcast={handleOpenDelete} />
-
-      <AlertModals
-        message="Are you sure you want to delete this broadcast?"
-        type="Delete Broadcast"
-        typeImage={<AlertModalDeleteIcon />}
-        open={openModalDelete}
-        handleClose={handleCloseDelete}
-        handleSubmit={handleCloseDelete}
+      <DetailsTable
+        setOpenModalDelete={setOpenModalDelete}
+        recepientsData={updatedRecords}
       />
+
+      {openModalDelete?.isToggle && (
+        <AlertModals
+          message="Are you sure you want to delete this broadcast?"
+          type="Delete Broadcast"
+          typeImage={<AlertModalDeleteIcon />}
+          open={openModalDelete?.isToggle}
+          handleClose={handleCloseDelete}
+          handleSubmitBtn={() => {
+            handleDeleteRecipient(openModalDelete?.recipientId);
+          }}
+          loading={updateBroadcastLoading}
+        />
+      )}
     </>
   );
 };

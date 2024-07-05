@@ -581,6 +581,12 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const STATICTICS_STATUS = {
+  RECIEVED: 'Received',
+  SENT: 'Sent',
+  FAILED: 'Failed',
+};
+
 export const SMS_MARKETING_CONSTANTS = {
   ALL: 'all',
   DETAIL: 'detail',

@@ -60,7 +60,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
         <Box
           onClick={() => {
             navigate?.push({
-              pathname: AIR_MARKETER?.SMS_MARKETING_DETAILS,
+              pathname: `${AIR_MARKETER?.WHATSAPP_MERKETING}/details`,
               query: { id: info?.row?.original?._id },
             });
           }}

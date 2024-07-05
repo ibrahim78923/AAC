@@ -2,14 +2,21 @@ import { Box } from '@mui/material';
 import StatusCards from '../../../Dashboard/StatusCards';
 import StatisticsCard from '../../../Dashboard/StatisticsCard';
 
-const AnalyticsTab = () => {
+const AnalyticsTab = ({ isLoading, statisticsData, isDashboardData }: any) => {
   return (
     <>
       <Box sx={{ p: '24px' }}>
-        <StatusCards />
+        <StatusCards
+          whatsappAnalytics={statisticsData}
+          loading={isLoading}
+          isDashboardData={isDashboardData}
+        />
       </Box>
       <Box sx={{ p: '24px' }}>
-        <StatisticsCard />
+        <StatisticsCard
+          whatsappAnalytics={statisticsData?.statistics}
+          isDashboardData={isDashboardData}
+        />
       </Box>
     </>
   );
