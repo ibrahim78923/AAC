@@ -66,23 +66,25 @@ export const defaultValues = (data?: any) => ({
   discount: data?.discount ?? 0,
   total: data?.total ?? 0,
   status: data?.status ?? PURCHASE_ORDER_STATUS?.OPEN,
-  purchaseDetails: data?.purchaseDetails?.map((item: any, index: any) => {
-    const { ...rest } = item;
-    delete rest?.itemName;
-    return {
-      itemName: data?.productDetails?.[index],
-      ...rest,
-    };
-  }) ?? [
-    {
-      itemName: null,
-      description: '',
-      quantity: 0,
-      costPerItem: 0,
-      taxRate: 0,
-      total: 0,
-    },
-  ],
+  purchaseDetails: !!data?.purchaseDetails?.length
+    ? data?.purchaseDetails?.map((item: any, index: any) => {
+        const { ...rest } = item;
+        delete rest?.itemName;
+        return {
+          itemName: data?.productDetails?.[index],
+          ...rest,
+        };
+      })
+    : [
+        {
+          itemName: null,
+          description: '',
+          quantity: '0',
+          costPerItem: '0',
+          taxRate: '0',
+          total: '0',
+        },
+      ],
 });
 
 export const newPurchaseFieldsFunction = (

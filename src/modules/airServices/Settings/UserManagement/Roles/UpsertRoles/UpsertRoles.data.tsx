@@ -4,12 +4,12 @@ import * as Yup from 'yup';
 export const upsertRolesValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()
     ?.trim()
-    ?.required('Name is Required')
+    ?.required('Name is required')
     ?.max(30, 'Name up to 30 characters'),
   description: Yup?.string()
     ?.trim()
-    ?.required('Description is Required')
-    ?.test('is-not-empty', 'Description is Required', (value) => {
+    ?.required('Description is required')
+    ?.test('is-not-empty', 'Description is required', (value) => {
       const strippedContent = value?.replace(/<[^>]*>/g, '')?.trim();
       return strippedContent !== '';
     }),

@@ -1,6 +1,6 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import { UpsertSurveyResponse } from '@/modules/airServices/FeedbackSurvey/UpsertSurveyReponse';
+import { UpsertSurveyResponse } from '@/modules/airServices/FeedbackSurvey/UpsertSurveyResponse';
 
 const SurveyPage = () => {
   return <UpsertSurveyResponse />;

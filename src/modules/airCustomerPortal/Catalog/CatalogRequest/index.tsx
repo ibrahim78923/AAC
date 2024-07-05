@@ -1,5 +1,4 @@
 import Dialog from '@mui/material/Dialog';
-import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import useCatalogRequest from './useCatalogRequest';
@@ -32,24 +31,23 @@ export const CatalogRequest = ({ open, setOpen, servicesDetails }: any) => {
         <DialogTitle>
           <Box
             display={'flex'}
+            alignItems={'center'}
             justifyContent={'space-between'}
-            gap={2}
+            gap={1}
             flexWrap={'wrap'}
+            mb={1.5}
           >
-            <Typography variant="h4">Item Requested</Typography>
-            <IconButton
-              aria-label="close"
-              onClick={handleClose}
-              sx={{
-                color: (theme) => theme?.palette?.grey?.[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
+            <Typography variant="h4" color="slateBlue.main">
+              Item Requested
+            </Typography>
+            <CloseIcon
+              sx={{ color: 'custom.darker', cursor: 'pointer' }}
+              onClick={() => handleClose?.()}
+            />
           </Box>
         </DialogTitle>
 
-        <DialogContent dividers>
+        <DialogContent>
           <FormProvider
             methods={methodRequest}
             onSubmit={handleSubmit(onSubmitRequest)}

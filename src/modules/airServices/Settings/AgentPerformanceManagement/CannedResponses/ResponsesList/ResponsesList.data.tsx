@@ -42,7 +42,11 @@ export const responsesTableColumns = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={responsesData?.length === responsesMainData?.length}
+        checked={
+          !!responsesMainData?.length
+            ? responsesData?.length === responsesMainData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setResponsesData([...responsesMainData])

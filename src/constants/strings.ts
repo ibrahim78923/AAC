@@ -650,6 +650,7 @@ export const VOUCHERS_STATUS = {
 };
 export const DATA_TYPES = {
   NULL: null,
+  UNDEFINED: undefined,
 };
 
 export const LOYALTY_TIERS_REWARD_TYPE = {
@@ -810,6 +811,8 @@ export const GENERIC_UPSERT_FORM_CONSTANT = {
   ADD: 'Add',
   NEW: 'New',
   UPDATE: 'Update',
+  APPLY: 'Apply',
+  CREATE: 'Create',
 };
 
 export const TEXT_FORMATE: any = {

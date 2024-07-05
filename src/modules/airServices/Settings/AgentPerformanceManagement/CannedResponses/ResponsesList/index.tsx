@@ -38,6 +38,7 @@ export const ResponsesList = () => {
     responsesListMetaData,
     lazyGetResponsesListStatus,
   } = useResponsesList();
+
   return (
     <>
       <Box>
@@ -90,7 +91,6 @@ export const ResponsesList = () => {
                     >
                       <SingleDropdownButton
                         dropdownOptions={actionsOptions(handleActionClick)}
-                        dropdownName="Actions"
                         disabled={!!!selectedData?.length}
                         sx={{
                           width: { sm: 'auto', xs: '100%' },

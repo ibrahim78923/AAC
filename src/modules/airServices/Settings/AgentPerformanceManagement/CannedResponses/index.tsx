@@ -18,7 +18,6 @@ export const CannedResponses = () => {
     convertToHyphenCase,
     setOpenCreateNewFolderModal,
     openCreateNewFolderModal,
-    search,
     setSearch,
     cannedResponses,
     lazyGetCannedResponsesStatus,
@@ -28,6 +27,7 @@ export const CannedResponses = () => {
     page,
     cannedResponsesMetaData,
   } = useCannedResponses();
+
   return (
     <>
       <Box mb={2}>
@@ -45,12 +45,7 @@ export const CannedResponses = () => {
             AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
           ]}
         >
-          <Search
-            size="small"
-            label="Search"
-            searchBy={search}
-            setSearchBy={setSearch}
-          />
+          <Search size="small" label="Search Here" setSearchBy={setSearch} />
         </PermissionsGuard>
       </Box>
       <Grid container spacing={3}>

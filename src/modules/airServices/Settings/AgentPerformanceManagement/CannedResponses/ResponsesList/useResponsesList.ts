@@ -5,7 +5,7 @@ import { responsesTableColumns } from './ResponsesList.data';
 import { CANNED_RESPONSES } from '@/constants/strings';
 import { useLazyGetResponsesListQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { useSearchParams } from 'next/navigation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { errorSnackbar } from '@/utils/api';
 
 export const useResponsesList = () => {
   const router = useRouter();
@@ -18,7 +18,9 @@ export const useResponsesList = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
+
   const getResponsesListParam = new URLSearchParams();
+
   getResponsesListParam?.append('page', page + '');
   getResponsesListParam?.append('limit', pageLimit + '');
   getResponsesListParam?.append('search', search + '');
@@ -31,21 +33,20 @@ export const useResponsesList = () => {
     useLazyGetResponsesListQuery();
   const responsesList = lazyGetResponsesListStatus?.data?.data?.responses;
   const responsesListMetaData = lazyGetResponsesListStatus?.data?.data?.meta;
+
   const getResponsesListListData = async () => {
     try {
       await lazyGetResponsesListTrigger(getResponsesListParameter)?.unwrap();
-      successSnackbar('Canned Responses Retrieved successfully');
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
+    } catch (error: any) {}
   };
+
   useEffect(() => {
     if (cannedResponseId) {
       getResponsesListListData();
     }
   }, [search, page, pageLimit, cannedResponseId]);
+
   const handleActionClick = (ActionType: string) => {
-    // open delete modal on selected action type
     if (ActionType === CANNED_RESPONSES?.DELETE) {
       return setDeleteModal(true);
     }
@@ -60,6 +61,7 @@ export const useResponsesList = () => {
       return setOpenMoveFolderModal(true);
     }
   };
+
   const convertToTitleCase = (str: any): string => {
     return str
       ?.split?.('-')
@@ -68,16 +70,19 @@ export const useResponsesList = () => {
       )
       ?.join?.(' ');
   };
+
   const tableColumns = responsesTableColumns(
     selectedData,
     setSelectedData,
     responsesList,
   );
+
   useEffect(() => {
-    if (router.isReady) {
-      setCannedResponseId(searchParams.get('id'));
+    if (router?.isReady) {
+      setCannedResponseId(searchParams?.get('id'));
     }
-  }, [router.isReady]);
+  }, [router?.isReady]);
+
   return {
     setOpenMoveFolderModal,
     openMoveFolderModal,

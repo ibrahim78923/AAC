@@ -14,19 +14,25 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useCreateNewFolder = (props: any) => {
   const { openCreateNewFolderModal, closeCreateNewFolderModal } = props;
+
   const method = useForm({
     defaultValues: createNewFolderDefaultValues,
     resolver: yupResolver(createNewFolderSchema),
   });
+
   const [postCannedResponseTrigger, postCannedResponseStatus] =
     usePostCannedResponsesMutation();
+
   const [patchCannedResponseTrigger, patchCannedResponseStatus] =
     usePatchCannedResponseMutation();
+
   const { reset } = method;
+
   const onSubmit = async (data: any) => {
     const postCannedResponseParameter = {
       body: data,
     };
+
     if (!!openCreateNewFolderModal?.editData) {
       const responseParameter = {
         body: { ...data, id: openCreateNewFolderModal?.editData?._id },
@@ -34,6 +40,7 @@ export const useCreateNewFolder = (props: any) => {
       submitUpdateCannedResponse(responseParameter);
       return;
     }
+
     try {
       await postCannedResponseTrigger(postCannedResponseParameter)?.unwrap();
       successSnackbar('Folder Created Successfully!');
@@ -43,6 +50,7 @@ export const useCreateNewFolder = (props: any) => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   const submitUpdateCannedResponse = async (data: any) => {
     try {
       await patchCannedResponseTrigger(data)?.unwrap();
@@ -53,11 +61,13 @@ export const useCreateNewFolder = (props: any) => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   useEffect(() => {
     reset(
       upsertFolderDefaultValuesFunction(openCreateNewFolderModal?.editData),
     );
   }, [openCreateNewFolderModal]);
+
   return {
     method,
     onSubmit,
