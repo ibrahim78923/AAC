@@ -10,8 +10,9 @@ import {
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useAppDispatch } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useLazyGetAssignedUsersQuery } from '@/services/airSales/task';
+import { useEffect } from 'react';
 
 const Filter = ({ isFilterDrawerOpen, setIsFilterDrawerOpen }: any) => {
   const dispatch: any = useAppDispatch();
@@ -19,7 +20,7 @@ const Filter = ({ isFilterDrawerOpen, setIsFilterDrawerOpen }: any) => {
     resolver: yupResolver(filterValidationSchema),
     defaultValues: filterDefaultValues,
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
   const onSubmit = (values: any) => {
     dispatch(setFiltersData(values));
     setIsFilterDrawerOpen(false);
@@ -28,6 +29,13 @@ const Filter = ({ isFilterDrawerOpen, setIsFilterDrawerOpen }: any) => {
   const usersData = useLazyGetAssignedUsersQuery();
 
   const getFilterData = filterData({ usersData });
+
+  const filterClearState = useAppSelector(
+    (state: any) => state?.task?.filterClearState,
+  );
+  useEffect(() => {
+    reset();
+  }, [filterClearState]);
 
   return (
     <CommonDrawer

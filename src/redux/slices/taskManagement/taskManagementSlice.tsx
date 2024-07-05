@@ -10,6 +10,7 @@ interface TaskManagementStateI {
   ticketsSelectedIds: any;
   filtersData: any;
   taskDataArray: any;
+  filterClearState: any;
 }
 
 const initialState: TaskManagementStateI = {
@@ -21,6 +22,7 @@ const initialState: TaskManagementStateI = {
   ticketsSelectedIds: [],
   filtersData: {},
   taskDataArray: {},
+  filterClearState: 1,
 };
 
 const taskManagementSlice = createSlice({
@@ -103,6 +105,7 @@ const taskManagementSlice = createSlice({
     setFiltersData: (state: any, action: PayloadAction<any>) => {
       if (action?.payload === 'clear') {
         state.filtersData = {};
+        state.filterClearState = state.filterClearState + 1;
       } else {
         state.filtersData = { ...state.filtersData, ...action?.payload };
       }
