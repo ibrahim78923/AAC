@@ -184,6 +184,12 @@ const MailList = ({
     });
   }
 
+  function hasNonEmptyFilename(emailParts: any) {
+    return emailParts?.some(
+      (partArray: any) => partArray?.some((part: any) => part?.filename !== ''),
+    );
+  }
+
   return (
     <Box minHeight={'calc(100vh - 350px)'} sx={{ overflowY: 'auto' }}>
       <Box sx={styles?.notificationWrap}>
@@ -348,9 +354,7 @@ const MailList = ({
                                     : item?.subject}
                                 </Typography>
 
-                                {item?.attchImages?.some(
-                                  (attchImage: any) => attchImage?.filename,
-                                ) && (
+                                {hasNonEmptyFilename(item?.attchImages) && (
                                   <PaperClipIcon
                                     color={theme?.palette?.primary?.main}
                                   />

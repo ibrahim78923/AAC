@@ -20,29 +20,36 @@ const useContactsGroup = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState(null);
   const [groupId, setGroupId] = useState(null);
+  const [filterParams, setFilterParams] = useState({});
+
   const router = useRouter();
   // Get Contacts
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
-  if (router?.pathname === AIR_MARKETER?.WHATSAPP_MARKETING) {
-    searchPayLoad = { onlyWhatsapp: true };
-  }
   const {
     data: dataGetContacts,
     isLoading: loadingGetContacts,
     refetch: refetchContacts,
-  } = useGetContactsQuery({ params: searchPayLoad });
+  } = useGetContactsQuery({
+    params: { ...filterParams, ...searchPayLoad },
+  });
   useEffect(() => {
     if (isCreateModalOpen) {
       refetchContacts();
     }
   }, [isCreateModalOpen]);
 
+  useEffect(() => {
+    if (router?.pathname === AIR_MARKETER?.WHATSAPP_MARKETING) {
+      setFilterParams({ onlyWhatsapp: true });
+    }
+  }, [router?.pathname]);
+
   // Get Groups
   const { data: dataGetContactGroups, isLoading: loadingGetGroups } =
-    useGetGroupsQuery({});
+    useGetGroupsQuery({ params: filterParams });
 
   // Create Group
   const [selectedUsers, setSelectedUsers] = useState([]);

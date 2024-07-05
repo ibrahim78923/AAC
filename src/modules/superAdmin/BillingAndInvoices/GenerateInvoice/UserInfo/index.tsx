@@ -27,6 +27,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { usePatchUpdateInvoicesMutation } from '@/services/superAdmin/billing-invoices';
 import { enqueueSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
+import Link from 'next/link';
 
 const UserInfo = () => {
   const [openViewInvoice, setOpenViewInvoice] = useState(false);
@@ -275,13 +276,14 @@ const UserInfo = () => {
 
       {!openViewInvoice && (
         <Box sx={{ textAlign: 'right' }}>
-          <Button
-            variant="outlined"
-            sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
-            onClick={() => router?.push(`${SUPER_ADMIN?.BILLING_INVOICES}`)}
-          >
-            cancel
-          </Button>
+          <Link href={`${SUPER_ADMIN?.BILLING_INVOICES}?redirect`}>
+            <Button
+              variant="outlined"
+              sx={{ border: '1px solid #D1D5DB', color: '#6B7280' }}
+            >
+              cancel
+            </Button>
+          </Link>
           <LoadingButton
             variant="contained"
             color="primary"

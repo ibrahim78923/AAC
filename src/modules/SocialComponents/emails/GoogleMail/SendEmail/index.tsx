@@ -44,7 +44,7 @@ import { setCurrentForwardAttachments } from '@/redux/slices/email/gmail/slice';
 import { useDispatch } from 'react-redux';
 
 const SendEmailDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, drawerType } = props;
+  const { openDrawer, setOpenDrawer, drawerType, emailSettingsData } = props;
 
   const {
     handleSubmit,
@@ -63,7 +63,7 @@ const SendEmailDrawer = (props: any) => {
     loadingReplyGmail,
     loadingForwardGmail,
     loadingDraftGmail,
-  } = useSendEmailDrawer({ setOpenDrawer, drawerType });
+  } = useSendEmailDrawer({ setOpenDrawer, drawerType, emailSettingsData });
 
   const isCrmConnected = false;
 
@@ -397,7 +397,13 @@ const SendEmailDrawer = (props: any) => {
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <RHFDropZone name="attachFile" label="Attachments" multiple />
+                <RHFDropZone
+                  name="attachFile"
+                  label="Attachments"
+                  multiple
+                  maxSize={25 * 1024 * 1024}
+                  fileType={'PNG, JPG, PDF, DOC, and CSV (max 25.00 MB)'}
+                />
               </Grid>
             </Grid>
 

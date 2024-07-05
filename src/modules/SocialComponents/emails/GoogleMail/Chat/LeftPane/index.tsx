@@ -168,6 +168,9 @@ const LeftPane = () => {
       listOfEmail = gmailList
         ?.map((thread: any) => {
           const id = thread?.id || '';
+          const attchImages = thread?.messages?.map(
+            (item: any) => item?.payload?.parts,
+          );
 
           const messages = thread?.messages || [];
           const lastMessage = messages[messages?.length - 1];
@@ -200,7 +203,6 @@ const LeftPane = () => {
               ?.find((header: any) => header?.name === Gmail_CONST?.DATE)
               ?.value.replace(/ -\d{4}$/, '') || '';
           const readMessage = lastMessage?.labelIds?.includes('UNREAD');
-          const attchImages = lastMessage?.payload?.parts;
 
           return {
             id,

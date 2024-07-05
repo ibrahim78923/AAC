@@ -22,7 +22,11 @@ import {
   usePostSendGmailMutation,
 } from '@/services/commonFeatures/email/gmail';
 
-const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
+const useSendEmailDrawer = ({
+  setOpenDrawer,
+  drawerType,
+  emailSettingsData,
+}: any) => {
   const theme = useTheme();
   const methodsDealsTasks: any = useForm({
     resolver: yupResolver(emailValidationsSchema),
@@ -189,7 +193,16 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         if (values?.subject) {
           formDataSend.append('subject', values?.subject);
         }
-        formDataSend.append('content', values?.description);
+        formDataSend.append(
+          'content',
+          `<div 
+          style="font-family:${emailSettingsData?.data?.emailSettings?.fontName}; 
+          font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
+          ${values?.description} 
+          <br> 
+          <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+          </div>` || '<p></p>',
+        );
         if (values?.cc && values?.cc?.trim() !== '') {
           formDataSend.append('cc', values?.cc);
         }
@@ -241,7 +254,16 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         const formDataReply = new FormData();
         formDataReply.append('id', currentGmailAssets?.id);
         formDataReply.append('threadId', currentGmailAssets?.threadId);
-        formDataReply.append('content', values?.description);
+        formDataReply.append(
+          'content',
+          `<div 
+          style="font-family:${emailSettingsData?.data?.emailSettings?.fontName}; 
+          font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
+          ${values?.description} 
+          <br> 
+          <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+          </div>` || '<p></p>',
+        );
         formDataReply.append(
           'type',
           drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ? 'reply-all' : 'reply',
@@ -285,7 +307,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
         formDataSend.append('id', currentGmailAssets?.id);
         formDataSend.append('threadId', currentGmailAssets?.threadId);
         formDataSend.append('to', values?.to);
-        formDataSend.append('content', values?.description);
+        formDataSend.append(
+          'content',
+          `<div 
+          style="font-family:${emailSettingsData?.data?.emailSettings?.fontName}; 
+          font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
+          ${values?.description} 
+          <br> 
+          <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+          </div>` || '<p></p>',
+        );
+
         if (values?.cc && values?.cc?.trim() !== '') {
           formDataSend.append('cc', values?.cc);
         }

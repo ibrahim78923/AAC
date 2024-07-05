@@ -53,6 +53,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PdfImage } from '@/assets/images';
 import { Buffer } from 'buffer';
+import { useGetEmailSettingsQuery } from '@/services/commonFeatures/email/others';
 
 const RightPane = () => {
   const theme = useTheme();
@@ -73,6 +74,8 @@ const RightPane = () => {
 
   const [selectedRecordId, setSelectedRecordId] = useState('');
   const [logoutMail] = useLogoutTokenMutation();
+
+  const { data: emailSettingsData } = useGetEmailSettingsQuery({});
 
   const activeGmailRecord = useAppSelector(
     (state: any) => state?.gmail?.activeGmailRecord,
@@ -264,6 +267,22 @@ const RightPane = () => {
                                   {obj?.payload?.headers?.find(
                                     (header: any) =>
                                       header?.name === Gmail_CONST?.Cc,
+                                  )?.value ?? '--'}
+                                </Typography>
+                              )}
+
+                              {obj?.payload?.headers?.find(
+                                (header: any) =>
+                                  header?.name === Gmail_CONST?.BCC,
+                              )?.value && (
+                                <Typography variant="body2">
+                                  <span style={{ fontWeight: '700' }}>
+                                    {' '}
+                                    Bcc:
+                                  </span>{' '}
+                                  {obj?.payload?.headers?.find(
+                                    (header: any) =>
+                                      header?.name === Gmail_CONST?.BCC,
                                   )?.value ?? '--'}
                                 </Typography>
                               )}
@@ -644,6 +663,7 @@ const RightPane = () => {
         setOpenDrawer={setIsOpenSendEmailDrawer}
         drawerType={mailType}
         setMailType={setMailType}
+        emailSettingsData={emailSettingsData}
       />
       <UserDetailsDrawer
         isOpenDrawer={isUserDetailDrawerOpen}
