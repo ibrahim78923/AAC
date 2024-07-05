@@ -1,4 +1,4 @@
-const CHART_METRICS = {
+export const CHART_METRICS = {
   FORM_VIEW: 'Form Views',
   CTA_RATE: 'CTA Rate',
   ENTRANCES: 'entrances',
@@ -15,6 +15,23 @@ const CHART_METRICS = {
   AMOUNT_SPEND: 'Amount Spend',
   CLICKS: 'Click',
   ROI: 'ROI',
+};
+
+export const xAxesDataArray: any = {
+  LeadsCTAs: [{}],
+  EmailMarketing: [{}],
+  AdCampaigns: [
+    {
+      label: 'Ad campaign ',
+      value: 'campaign_campaignOwner',
+      ref: 'users',
+    },
+    {
+      label: 'Status ',
+      value: 'campaignStatus',
+      ref: null,
+    },
+  ],
 };
 export const LeadsCTAsMatrics = (setChartMetricType: any) => [
   {
