@@ -47,7 +47,7 @@ const DealsTab = () => {
     dealTableData,
     selectedRows,
     handleDeleteDeals,
-    handeApplyFilter,
+    setFilters,
     handleResetFilters,
     handleListViewClick,
     listView,
@@ -71,6 +71,7 @@ const DealsTab = () => {
     deleteDealLoading,
     setSelectedRows,
     searchDeal,
+    filters,
     setSearchDeal,
   } = useDealTab();
   const theme = useTheme();
@@ -266,7 +267,8 @@ const DealsTab = () => {
         <DealFilterDrawer
           open={isFilterDrawer}
           onClose={handleFilter}
-          handleApply={handeApplyFilter}
+          setFilters={setFilters}
+          filters={filters}
         />
       )}
       {isDealCustomize && (

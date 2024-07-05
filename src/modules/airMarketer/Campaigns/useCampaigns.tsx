@@ -51,6 +51,9 @@ const useCampaigns = () => {
   const campaignId = useSearchParams()?.get('id');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
+  const [checkedColumns, setcheckedColumns] = useState<any>(null);
+  const [rowId, setRowId] = useState(null);
 
   const [filters, setFilters] = useState<any>({
     campaignOwner: null,
@@ -76,8 +79,8 @@ const useCampaigns = () => {
         : undefined,
     });
 
-  const campaignsById = useGetCampaignsByIdQuery(campaignId);
-
+  const { data: campaignsById, isLoading: campaignsLoadingById } =
+    useGetCampaignsByIdQuery(campaignId);
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
   const { data: UserListData } = useGetUsersListQuery({
@@ -93,7 +96,8 @@ const useCampaigns = () => {
   const [postCampaignsClone, { isLoading: postCampaignsCloneLoading }] =
     usePostCampaignsCloneMutation();
 
-  const [updateCampaigns] = useUpdateCampaignsMutation();
+  const [updateCampaigns, { isLoading: updateCampaignLoading }] =
+    useUpdateCampaignsMutation();
   const [postCampaignsSaveView, { isLoading: postCampaignsSaveViewLoading }] =
     usePostCampaignsSaveViewMutation();
 
@@ -110,15 +114,6 @@ const useCampaigns = () => {
       campaignStatus: '',
     });
   };
-  // const handeApplyFilter = (values: any) => {
-  //   const filteredObj = Object?.fromEntries(
-  //     Object?.entries(values)?.filter(
-  //       (value: any) => value[1] !== '' && value[1] !== null,
-  //     ),
-  //   );
-  //   setFilters({ ...filters, ...filteredObj });
-  // };
-
   const handleCloseAddAssetsModal = () => {
     setIsOpenAddAssets(false);
   };
@@ -224,7 +219,6 @@ const useCampaigns = () => {
     campaignsData,
     postCampaigns,
     createCampaignsLoading,
-    // handeApplyFilter,
     setSearchCampaigns,
     searchCampaigns,
     handleResetFilters,
@@ -234,7 +228,6 @@ const useCampaigns = () => {
     selectedRows,
     allCamopaignsData,
     deleteCampaignsLoading,
-    // handleDeleteCampaigns,
     campaignDataById,
     setCampaignDataById,
     UserListData,
@@ -251,6 +244,14 @@ const useCampaigns = () => {
     setFilters,
     setPageLimit,
     setPage,
+    isActionsDisabled,
+    setIsActionsDisabled,
+    checkedColumns,
+    setcheckedColumns,
+    rowId,
+    setRowId,
+    campaignsLoadingById,
+    updateCampaignLoading,
   };
 };
 export default useCampaigns;

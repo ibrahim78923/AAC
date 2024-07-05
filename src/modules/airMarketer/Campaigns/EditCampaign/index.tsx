@@ -14,6 +14,8 @@ import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import useCampaigns from '../useCampaigns';
 import { indexNumbers } from '@/constants';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export default function EditCampaign({
   isOpenDrawer,
@@ -21,7 +23,8 @@ export default function EditCampaign({
   initialValueProps,
   compaignsDataById,
 }: any) {
-  const { UserListData, updateCampaigns } = useCampaigns();
+  const { UserListData, updateCampaigns, updateCampaignLoading } =
+    useCampaigns();
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -31,26 +34,54 @@ export default function EditCampaign({
   const { handleSubmit, setValue, reset } = methods;
 
   const onSubmit = async (values: any) => {
-    delete values['title'];
+    const campaignBudget = values?.campaignBudget
+      ? parseFloat(values?.campaignBudget)
+      : null;
+
+    const filteredValues: { [key: string]: any } = Object.keys(values).reduce(
+      (acc: { [key: string]: any }, key: string) => {
+        if (
+          values[key] !== undefined &&
+          values[key] !== null &&
+          values[key] !== ''
+        ) {
+          acc[key] = values[key];
+        }
+        return acc;
+      },
+      {},
+    );
+
+    if (campaignBudget !== null) {
+      filteredValues.campaignBudget = campaignBudget;
+    }
+    if (values.campaignStatus && values.campaignStatus !== '') {
+      filteredValues.campaignStatus = values.campaignStatus;
+    }
+
     try {
       const updatedValues = {
-        body: values,
-        id: compaignsDataById?.data?._id,
+        body: filteredValues,
+        id: compaignsDataById?.data[0]?._id,
       };
+
       await updateCampaigns(updatedValues)?.unwrap();
       enqueueSnackbar('Campaign Updated Successfully', {
-        variant: 'success',
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       reset();
+      onClose();
     } catch (error: any) {
-      enqueueSnackbar(error?.message, {
-        variant: 'error',
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
+
   useEffect(() => {
     const data = compaignsDataById?.data[indexNumbers?.ZERO];
-
     const fieldsToSet: any = {
       title: data?.title,
       campaignOwner: data?.campaignOwner,
@@ -81,25 +112,30 @@ export default function EditCampaign({
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={updateCampaignLoading}
     >
-      <Box mt={1}>
-        <FormProvider methods={methods}>
-          <Grid container spacing={2}>
-            {dataArray(UserListData)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
-      </Box>
+      {updateCampaignLoading ? (
+        <SkeletonTable />
+      ) : (
+        <Box mt={1}>
+          <FormProvider methods={methods}>
+            <Grid container spacing={2}>
+              {dataArray(UserListData)?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
+      )}
     </CommonDrawer>
   );
 }

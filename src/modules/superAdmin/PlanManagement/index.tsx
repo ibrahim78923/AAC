@@ -163,6 +163,11 @@ const PlanManagement = () => {
             MenuListProps={{
               'aria-labelledby': 'basic-button',
             }}
+            sx={{
+              '.MuiPopover-paper': {
+                minWidth: '115px',
+              },
+            }}
           >
             <PermissionsGuard
               permissions={[

@@ -917,3 +917,6 @@ export const ATTACHMENT_FILE_TYPE = {
   DOCX: 'docx',
   CSV: 'csv',
 };
+export const DATA_TYPE = {
+  object: 'object',
+};

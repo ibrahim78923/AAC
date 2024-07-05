@@ -21,6 +21,7 @@ const useRestore = () => {
     dateStart: '',
     dateEnd: '',
   });
+
   const restoeApiParam = {
     page: 1,
     limit: 10,
@@ -37,7 +38,7 @@ const useRestore = () => {
     params: restoeApiParam,
   });
 
-  const [updateRestoreMutation, { isLoading: restoreLoading }] =
+  const [updateRestoreMutation, { isLoading: updateRestoreLoading }] =
     useUpdateRestoreDealsMutation();
 
   const handlePermanantDelete = () => {
@@ -113,7 +114,7 @@ const useRestore = () => {
     restoreFilter,
     setIsRestoreFilterDrawer,
     setCheckedAll,
-    restoreLoading,
+    updateRestoreLoading,
   };
 };
 

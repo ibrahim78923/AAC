@@ -16,6 +16,7 @@ import {
 import useCampaigns from '../useCampaigns';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export default function SaveNewViewDrawer({
   isOpenDrawer,
@@ -43,24 +44,31 @@ export default function SaveNewViewDrawer({
         : undefined,
     };
 
+    const filteredObj: { [key: string]: any } = Object.keys(obj).reduce(
+      (acc: { [key: string]: any }, key: string) => {
+        if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') {
+          acc[key] = obj[key];
+        }
+        return acc;
+      },
+      {},
+    );
     try {
-      await postCampaignsSaveView(obj)?.unwrap();
+      await postCampaignsSaveView(filteredObj)?.unwrap();
       enqueueSnackbar('View Save Successfully', {
         variant: 'success',
       });
       onClose();
       setSelectedRows([]);
-    } catch (error) {
-      enqueueSnackbar('Error while Save View', {
-        variant: 'error',
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
-    // enqueueSnackbar('Export Campaign Exported Successfully', {
-    //   variant: 'success',
-    // });
   };
   const theme = useTheme();
-  // const { accessValue, handleChangeAccessValue } = useSaveAndNewViewDrawer();
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}

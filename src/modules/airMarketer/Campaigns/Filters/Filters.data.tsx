@@ -3,7 +3,7 @@ import {
   RHFAutocompleteAsync,
   RHFDatePicker,
 } from '@/components/ReactHookForm';
-import { ROLES } from '@/constants/strings';
+import { DATA_TYPE, ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({});
@@ -13,8 +13,13 @@ export const defaultValues = (data: any) => {
     campaignStatus: data?.campaignStatus,
     campaignOwner: data?.campaignOwner ? data?.campaignOwner : null,
     startDate:
-      typeof data?.startDate === 'object' ? new Date(data?.startDate) : null,
-    endDate: typeof data?.endDate === 'object' ? new Date(data?.endDate) : null,
+      typeof data?.startDate === DATA_TYPE?.object
+        ? new Date(data?.startDate)
+        : null,
+    endDate:
+      typeof data?.endDate === DATA_TYPE?.object
+        ? new Date(data?.endDate)
+        : null,
   };
 };
 

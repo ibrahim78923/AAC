@@ -3,13 +3,12 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
-  useGetContactsStatusQuery,
-  useGetLifeCycleQuery,
+  useLazyGetContactsStatusUpdatedQuery,
+  useLazyGetUpdatedLifeCycleQuery,
   usePostContactsMutation,
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
-// import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { DATE_FORMAT } from '@/constants';
 import {
   contactsDefaultValues,
@@ -17,28 +16,20 @@ import {
 } from './CreateContactsdata';
 import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
 import useUpdateQuote from '../useUpdateQuote';
+import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 
 const useCreateContacts = (dealId: any, onClose: () => void) => {
   const userRole = 'ORG_ADMIN';
   const { dataGetQuoteById, createAssociationQuote } = useUpdateQuote();
-  const { data: lifeCycleStages } = useGetLifeCycleQuery({});
+  const lifeCycleStages = useLazyGetUpdatedLifeCycleQuery();
 
-  const { data: contactsStatus } = useGetContactsStatusQuery({});
+  const contactsStatus = useLazyGetContactsStatusUpdatedQuery();
 
   const [postContacts, { isLoading: laodingContactPost }] =
     usePostContactsMutation();
 
-  // const [createAssociation] = useCreateAssociationMutation();
-
   const { data: userList } = useGetUsersQuery({ role: userRole });
-
-  const contactStatusData = contactsStatus?.data?.conatactStatus?.map(
-    (status: any) => ({ value: status?._id, label: status?.name }),
-  );
-
-  const lifeCycleStagesData = lifeCycleStages?.data?.lifecycleStages?.map(
-    (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
-  );
+  const UserListData = useLazyGetUsersListDropdownQuery();
 
   const methodscontacts = useForm<any>({
     resolver: yupResolver(contactsValidationSchema),
@@ -50,11 +41,14 @@ const useCreateContacts = (dealId: any, onClose: () => void) => {
   const onSubmit = async (values: any) => {
     const dateOfBirth = 'dateOfBirth';
     const dateOfJoinig = 'dateOfJoining';
+    values.contactOwnerId = values?.contactOwnerId?._id;
+    values.lifeCycleStageId = values?.lifeCycleStageId?._id;
+    values.statusId = values?.statusId?._id;
     const formData = new FormData();
     Object.entries(values)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {
         if (key === dateOfBirth || key === dateOfJoinig) {
-          formData.append(key, dayjs(value).format(DATE_FORMAT?.API));
+          formData.append(key, dayjs(value)?.format(DATE_FORMAT?.API));
         } else {
           formData.append(key, value);
         }
@@ -76,7 +70,7 @@ const useCreateContacts = (dealId: any, onClose: () => void) => {
 
       reset();
     } catch (error: any) {
-      const errMsg = error?.data?.message;
+      const errMsg = error.response?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
     onClose();
@@ -90,12 +84,13 @@ const useCreateContacts = (dealId: any, onClose: () => void) => {
     handleSubmit,
     onSubmit,
     methodscontacts,
-    lifeCycleStagesData,
-    contactStatusData,
+    lifeCycleStages,
+    // contactStatusData,
     onCloseHandler,
     userList,
     contactsStatus,
     laodingContactPost,
+    UserListData,
   };
 };
 

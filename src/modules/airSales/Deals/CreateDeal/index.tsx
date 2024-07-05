@@ -41,46 +41,48 @@ const CreateDeal = ({ open, onClose }: any) => {
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = async (values: any) => {
-    const closeDate = dayjs(values?.closeDate)?.format(DATE_FORMAT?.API);
-    const products = values?.products?.map((id: string) => ({
-      productId: id,
-      quantity: 1,
-      unitDiscount: 0,
-    }));
-    delete values.products;
+    const closeDate = values.closeDate
+      ? dayjs(values.closeDate).format(DATE_FORMAT?.API)
+      : undefined;
+
+    const products =
+      values.products?.map((id: string) => ({
+        productId: id,
+        quantity: 1,
+        unitDiscount: 0,
+      })) || [];
+
     values.dealPipelineId = values.dealPipelineId?._id;
     values.ownerId = values.ownerId?._id;
-    const obj = {
+    delete values.products;
+
+    const obj: any = {
       closeDate,
       products,
       ...values,
     };
 
-    const formData = new FormData();
-    Object.entries(values)?.forEach(([key, value]: any) => {
-      if (value !== undefined && value !== null && value !== '') {
-        if (key === closeDate) {
-          formData?.append(key, dayjs(value)?.format(DATE_FORMAT?.API));
-        } else {
-          formData?.append(key, value);
-        }
+    Object.keys(obj).forEach((key) => {
+      if (
+        obj[key] === undefined ||
+        obj[key] === null ||
+        obj[key] === '' ||
+        key === 'products'
+      ) {
+        delete obj[key];
       }
     });
 
     try {
+      // Make the API call with the prepared object
       await postDeals({ body: obj })?.unwrap();
-      enqueueSnackbar('Deal created successfully', {
-        variant: 'success',
-      });
-      reset();
+      enqueueSnackbar('Deal created successfully', { variant: 'success' });
+      reset(); // Reset form fields if needed
     } catch (error) {
-      enqueueSnackbar('Error while creating deal', {
-        variant: 'error',
-      });
+      enqueueSnackbar('Error while creating deal', { variant: 'error' });
     }
-    onClose();
+    onClose(); // Close the form or modal
   };
-
   const dealDataArray = createDealData({ dealPipelineId });
 
   return (

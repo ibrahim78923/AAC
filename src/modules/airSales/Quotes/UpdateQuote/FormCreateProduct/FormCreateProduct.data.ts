@@ -1,24 +1,24 @@
 import {
+  RHFAutocompleteAsync,
   RHFDropZone,
   RHFEditor,
-  RHFSelect,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const ProductValidationSchema = Yup.object().shape({
-  name: Yup.string().required('Field is Required'),
-  purchasePrice: Yup?.string().required('Field is Required'),
-  unitPrice: Yup?.string().required('Field is Required'),
+export const ProductValidationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
+  purchasePrice: Yup?.string()?.required('Field is Required'),
+  unitPrice: Yup?.string()?.required('Field is Required'),
 });
 
-export const initValues = {
+export const productDefaultValues = {
   name: '',
   purchasePrice: '',
   unitPrice: '',
   sku: '',
-  category: '',
+  category: null,
   description: '',
   isActive: false,
   image: '',
@@ -64,16 +64,11 @@ export const addContactFields = (productCatagories: any) => {
       componentProps: {
         name: 'category',
         label: 'Category',
-        fullWidth: true,
-        select: true,
-        required: true,
+        placeholder: 'Select Category',
+        apiQuery: productCatagories,
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: productCatagories?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
-      md: 12,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {

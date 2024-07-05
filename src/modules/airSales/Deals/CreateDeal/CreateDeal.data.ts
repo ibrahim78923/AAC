@@ -30,7 +30,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
 
-  const { salesProduct, pipelineListDropdown } = useDealTab();
+  const { salesProduct, pipelineListDropdown }: any = useDealTab();
 
   const UserListData = useLazyGetUsersListDropdownQuery();
 

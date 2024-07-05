@@ -6,12 +6,11 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-import { useGetUsersListQuery } from '@/services/airSales/deals';
+import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import * as Yup from 'yup';
 import { getSession } from '@/utils';
 import { ROLES } from '@/constants/strings';
-import { indexNumbers } from '@/constants';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -22,7 +21,7 @@ export const validationSchema = Yup?.object()?.shape({
 export const defaultValues = {
   name: '',
   dealPipelineId: null,
-  ownerId: '',
+  ownerId: null,
   dealStageId: '',
   products: [],
   closeDate: null,
@@ -32,13 +31,10 @@ export const createDealData = ({ dealPipelineId }: any) => {
 
   const organizationId: any = user?.organization?._id;
   const { pipelineListDropdown, salesProduct }: any = useDealTab();
-  const { data: UserListData } = useGetUsersListQuery({
-    role: ROLES?.ORG_EMPLOYEE,
-    organization: organizationId,
-  });
+  const UserListData = useLazyGetUsersListDropdownQuery();
 
   const filteredStages: any = pipelineListDropdown
-    ? pipelineListDropdown[indexNumbers?.ONE]?.data?.find(
+    ? pipelineListDropdown[1]?.data?.find(
         (pipeline: any) => pipeline?._id === dealPipelineId?._id,
       )?.stages
     : [];
@@ -108,13 +104,16 @@ export const createDealData = ({ dealPipelineId }: any) => {
       componentProps: {
         name: 'ownerId',
         label: 'Deal Owner',
-        select: true,
+        placeholder: 'Select Owner',
+        apiQuery: UserListData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: {
+          role: ROLES?.ORG_EMPLOYEE,
+          organization: organizationId,
+        },
       },
-      options: UserListData?.data?.users?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
-      })) ?? [{ label: '', value: '' }],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {

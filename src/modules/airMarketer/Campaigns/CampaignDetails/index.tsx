@@ -4,10 +4,10 @@ import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { campaignDetailsData } from './CampaignDetails.data';
 import useCampaigns from '../useCampaigns';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const CampaignDetails = ({ open, onClose }: any) => {
-  const { campaignsById } = useCampaigns();
-
+  const { campaignsById, campaignsLoadingById } = useCampaigns();
   const theme: any = useTheme();
   return (
     <CommonDrawer
@@ -18,37 +18,41 @@ const CampaignDetails = ({ open, onClose }: any) => {
       isOk
       footer
     >
-      <Box mt={1}>
-        <Grid container>
-          {campaignDetailsData(campaignsById)?.map((campaign) => {
-            return (
-              <Grid
-                key={uuidv4()}
-                container
-                style={{
-                  padding: '24px',
-                  paddingBottom: campaign?.paddingBottom,
-                  background: theme?.palette?.primary?.lighter,
-                }}
-              >
-                <Grid item md={5}>
-                  <Typography variant="body1">
-                    {campaign?.deatilsName}
-                  </Typography>
+      {campaignsLoadingById ? (
+        <SkeletonTable />
+      ) : (
+        <Box mt={1}>
+          <Grid container>
+            {campaignDetailsData(campaignsById)?.map((campaign) => {
+              return (
+                <Grid
+                  key={uuidv4()}
+                  container
+                  style={{
+                    padding: '24px',
+                    paddingBottom: campaign?.paddingBottom,
+                    background: theme?.palette?.primary?.lighter,
+                  }}
+                >
+                  <Grid item md={5}>
+                    <Typography variant="body1">
+                      {campaign?.deatilsName}
+                    </Typography>
+                  </Grid>
+                  <Grid item md={2}>
+                    -
+                  </Grid>
+                  <Grid item md={5}>
+                    <Typography variant="body1">
+                      {campaign?.detailsDes}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item md={2}>
-                  -
-                </Grid>
-                <Grid item md={5}>
-                  <Typography variant="body1">
-                    {campaign?.detailsDes}
-                  </Typography>
-                </Grid>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Box>
+              );
+            })}
+          </Grid>
+        </Box>
+      )}
     </CommonDrawer>
   );
 };

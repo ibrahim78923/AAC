@@ -4,34 +4,21 @@ import { Grid } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { DATE_FORMAT } from '@/constants';
-
 import { FilterData, defaultValues } from './DealFilterDrawer.data';
+import useDealTab from '../useDealTab';
+import { filteredEmptyValues } from '@/utils/api';
 
-import { v4 as uuidv4 } from 'uuid';
-import dayjs from 'dayjs';
-
-const DealFilterDrawer = ({ open, onClose, handleApply }: any) => {
-  const firstDate = 0;
-  const lastDate = 1;
+const DealFilterDrawer = ({ open, onClose, setFilters, filters }: any) => {
+  const { isLoading } = useDealTab();
   const methods: any = useForm({
-    defaultValues: defaultValues,
+    defaultValues: defaultValues(filters),
   });
   const { handleSubmit, watch } = methods;
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = (values: any) => {
-    const obj = {
-      ...values,
-      dateStart: values?.date
-        ? dayjs(values?.date[firstDate])?.format(DATE_FORMAT?.API)
-        : null,
-      dateEnd: values?.date
-        ? dayjs(values?.date[lastDate])?.format(DATE_FORMAT?.API)
-        : null,
-    };
-    delete obj?.date;
-    handleApply(obj);
+    const filterValues = filteredEmptyValues?.(values);
+    setFilters(filterValues);
     onClose();
   };
 
@@ -44,15 +31,16 @@ const DealFilterDrawer = ({ open, onClose, handleApply }: any) => {
       okText="Apply"
       title="Filter"
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={isLoading}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
           {FilterData(dealPipelineId)?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
               <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
+                    <option key={item?.value} value={option?.value}>
                       {option?.label}
                     </option>
                   ))}

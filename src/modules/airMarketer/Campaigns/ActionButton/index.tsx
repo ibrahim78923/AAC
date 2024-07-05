@@ -29,6 +29,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
     actionsModalDetails,
     setActionsModalDetails,
     deleteCampaigns,
+    deleteCampaignsLoading,
   } = useCampaigns();
 
   const { data: compaignsDataById } = useGetCampaignsByIdQuery(selectedRows);
@@ -111,6 +112,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
               })
             }
             handleSubmitBtn={() => handleDeleteCampaigns(selectedRows)}
+            loading={deleteCampaignsLoading}
           />
         </PermissionsGuard>
       )}

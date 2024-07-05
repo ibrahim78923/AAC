@@ -10,11 +10,19 @@ const CreateContacts = ({ open, onClose, dealId }: any) => {
     handleSubmit,
     onSubmit,
     methodscontacts,
-    lifeCycleStagesData,
+    // lifeCycleStagesData,
+    lifeCycleStages,
     laodingContactPost,
-    contactStatusData,
-    userList,
+    // contactStatusData,
+    UserListData,
+    contactsStatus,
   }: any = useCreateContacts(dealId, onClose);
+
+  const contactDataArrayParasm = {
+    contactsStatus,
+    lifeCycleStages,
+    UserListData,
+  };
 
   return (
     <CommonDrawer
@@ -31,12 +39,8 @@ const CreateContacts = ({ open, onClose, dealId }: any) => {
       <Box sx={{ pt: 2 }}>
         <FormProvider methods={methodscontacts}>
           <Grid container spacing={2}>
-            {contactsDataArray(
-              contactStatusData,
-              lifeCycleStagesData,
-              userList,
-            )?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.name}>
+            {contactsDataArray(contactDataArrayParasm)?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (

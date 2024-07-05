@@ -1,93 +1,109 @@
-import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFDatePicker,
+  RHFSelect,
+} from '@/components/ReactHookForm';
 import {
   useGetDealsListQuery,
-  useGetUsersListQuery,
+  useLazyGetUsersListDropdownQuery,
 } from '@/services/airSales/deals';
 import useDealTab from '../useDealTab';
 import { getSession } from '@/utils';
 import { ROLES } from '@/constants/strings';
 
-export const defaultValues = {
-  dealPipelineId: '',
-  name: '',
-  dealOwnerId: '',
-  dealStageId: '',
-  date: null,
+export const defaultValues = (data: any) => {
+  return {
+    dealPipelineId: data?.dealPipelineId ? data?.dealPipelineId : null,
+    dealName: data?.name ?? null,
+    dealOwner: data?.ownerId ? data?.ownerId : null,
+    dealStage: data?.dealStageId,
+    dateStart:
+      typeof data?.dateStart === 'object' ? new Date(data?.dateStart) : null,
+    dateEnd: typeof data?.dateEnd === 'object' ? new Date(data?.dateEnd) : null,
+  };
 };
 
 export const FilterData = (dealPipelineId: any) => {
-  const { pipelineData } = useDealTab();
+  const { pipelineListDropdown } = useDealTab();
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
-  const { data: UserListData } = useGetUsersListQuery({
-    role: ROLES?.ORG_EMPLOYEE,
-    organization: organizationId,
-  });
 
-  const filteredStages =
-    pipelineData?.data?.dealpipelines?.find(
-      (pipeline: any) => pipeline?._id === dealPipelineId,
-    )?.stages || [];
+  const UserListData = useLazyGetUsersListDropdownQuery();
+
+  const filteredStages: any = pipelineListDropdown
+    ? pipelineListDropdown[1]?.data?.find(
+        (pipeline: any) => pipeline?._id === dealPipelineId?._id,
+      )?.stages
+    : [];
 
   const { data } = useGetDealsListQuery({});
 
   return [
     {
       componentProps: {
-        label: 'Deal Pipeline',
         name: 'dealPipelineId',
-        fullWidth: true,
-        select: true,
+        label: 'Deal Pipeline',
+        placeholder: 'Select Pipeline',
+        apiQuery: pipelineListDropdown,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: { meta: false },
+        clearIcon: false,
       },
-      options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-
-      component: RHFSelect,
-      md: 12,
+      component: RHFAutocompleteAsync,
     },
 
     {
       componentProps: {
-        name: 'name',
+        name: 'dealName',
         label: 'Deal Name',
+        placeholder: 'Deal Name',
         select: true,
+        options: data?.data?.deals?.map((item: any) => item?.name),
       },
-      options: data?.data?.deals?.map((item: any) => ({
-        value: item?.name,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+
+      component: RHFAutocomplete,
     },
     {
+      title: 'Deal Owner',
       componentProps: {
-        name: 'ownerId',
+        name: 'dealOwner',
         label: 'Deal Owner',
-        select: true,
+        placeholder: 'Select Owner',
+        apiQuery: UserListData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: {
+          role: ROLES?.ORG_EMPLOYEE,
+          organization: organizationId,
+        },
       },
-      options: UserListData?.data?.users?.map((item: any) => {
-        return {
-          value: item?._id,
-          label: `${item?.firstName} ${item?.lastName}`,
-        };
-      }),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {
-        name: 'date',
-        label: 'Close Date',
+        label: 'Start Date',
+        name: 'dateStart',
         fullWidth: true,
       },
-      component: RHFSwitchableDatepicker,
+      component: RHFDatePicker,
       md: 12,
     },
     {
       componentProps: {
-        name: 'dealStageId',
+        label: 'End Date',
+        name: 'dateEnd',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'dealStage',
         label: 'Deal Stage',
         select: true,
+        disabled: !dealPipelineId,
       },
       options: filteredStages?.map((item: any) => ({
         value: item?._id,

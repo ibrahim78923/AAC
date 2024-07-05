@@ -16,6 +16,7 @@ import {
   useGetQuoteByIdQuery,
   useGetTaxCalculationsQuery,
   usePostAddbuyerInfoMutation,
+  usePostManageAssociateMutation,
   usePutSubmitQuoteMutation,
   useUpdateQuoteMutation,
   useUpdateSubmitEmailQuoteMutation,
@@ -78,6 +79,10 @@ const useUpdateQuote = () => {
   const [deleteContactModalId, setDeleteContactModalId] = useState<
     string | null
   >(null);
+  const [isModalOpen, setIsModalOpen] = useState({
+    contactsModal: { isToggle: false, id: '' },
+    companyModal: { isToggle: false, id: '' },
+  });
   const handleContactDeleteModal = (id: string | null) => {
     setDeleteContactModalId(id);
   };
@@ -92,6 +97,8 @@ const useUpdateQuote = () => {
 
   const [postAddbuyerInfo, { isLoading: updateBuyerInfoLoading }] =
     usePostAddbuyerInfoMutation();
+  const [postManageAssociate, { isLoading: postManageLoading }] =
+    usePostManageAssociateMutation();
   const methodsUpdateQuote = useForm<any>({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
@@ -160,6 +167,45 @@ const useUpdateQuote = () => {
       enqueueSnackbar('An error occured', {
         variant: 'error',
       });
+    }
+  };
+
+  const handleManageAssociationCompanies = async (
+    contactId?: any,
+    companyId?: any,
+  ) => {
+    const param = {
+      recordId: dataGetQuoteById?.data?.dealId,
+
+      contactsIds: contactId ? [contactId] : [],
+      companiesIds: companyId ? [companyId] : [],
+      recordType: 'deals',
+      operation: 'REMOVE',
+    };
+    try {
+      await postManageAssociate({ body: param })?.unwrap();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setIsModalOpen({
+        contactsModal: { isToggle: false, id: '' },
+        companyModal: { isToggle: false, id: '' },
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleDeleteSubmitBtn = () => {
+    const contactId = isModalOpen?.contactsModal?.id;
+    const companyId = isModalOpen?.companyModal?.id;
+
+    if (contactId) {
+      handleManageAssociationCompanies(contactId, undefined);
+    } else if (companyId) {
+      handleManageAssociationCompanies(undefined, companyId);
     }
   };
 
@@ -348,7 +394,12 @@ const useUpdateQuote = () => {
     setSelectedCompanyIds,
     BuyerInfoLoading,
     updateBuyerInfoLoading,
+    postManageLoading,
+    postManageAssociate,
+    handleManageAssociationCompanies,
+    isModalOpen,
+    setIsModalOpen,
+    handleDeleteSubmitBtn,
   };
 };
-
 export default useUpdateQuote;

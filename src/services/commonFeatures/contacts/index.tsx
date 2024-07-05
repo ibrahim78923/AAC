@@ -73,11 +73,33 @@ export const contactsAPI = baseAPI.injectEndpoints({
       providesTags: ['lifeCycle'],
     }),
 
+    getUpdatedLifeCycle: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.LIFECYCLE_STAGES}?page=1&limit=10`,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.lifecycleStages;
+      },
+
+      providesTags: ['lifeCycle'],
+    }),
+
     getContactsStatus: builder.query({
       query: () => ({
         url: `${END_POINTS?.CONTACT_STATUS}?page=1&limit=10&status=inactive`,
         method: 'GET',
       }),
+      providesTags: ['ContactsStatus'],
+    }),
+    getContactsStatusUpdated: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.CONTACT_STATUS}?page=1&limit=10&status=inactive`,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.conatactStatus;
+      },
       providesTags: ['ContactsStatus'],
     }),
 
@@ -181,7 +203,10 @@ export const {
   useUpdateContactTaskMutation,
   useDeleteTasksMutation,
   useGetLifeCycleQuery,
+  // useLazyGetLifeCycleQuery,
   useGetContactsStatusQuery,
   useGetCustomizeColumnsQuery,
   usePutCustomizedColumnsMutation,
+  useLazyGetUpdatedLifeCycleQuery,
+  useLazyGetContactsStatusUpdatedQuery,
 } = contactsAPI;

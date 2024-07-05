@@ -16,21 +16,11 @@ const DealCustomize = ({ open, onClose }: any) => {
   const {
     handleChackboxChange,
     handleUpdateColumns,
-    // columnsData,
     selected,
     theme,
     order,
     onDragEnd,
   } = useDealCustomize({ onClose, open });
-
-  // const onDragEnd = (result: any) => {
-  //   if (!result?.destination) return;
-
-  //   const items = Array.from(order);
-  //   const [reOrderItem] = items.splice(result.source.index, 1);
-  //   items.splice(result.destination.index, 0, reOrderItem);
-  //   setOrder(items);
-  // };
 
   return (
     <CommonDrawer

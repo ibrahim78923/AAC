@@ -9,14 +9,6 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
   title: Yup?.string()?.required('Field is Required'),
-  // compaignOwner: Yup?.string()?.trim()?.required('Field is Required'),
-  // startDate: Yup?.string()?.required('Field is Required'),
-  // endDate: Yup?.string()?.required('Field is Required'),
-  // compaignGoal: Yup?.string()?.required('Field is Required'),
-  // compaignAudience: Yup?.string()?.required('Field is Required'),
-  // compaignBudget: Yup?.string()?.required('Field is Required'),
-  // compaignStatus: Yup?.string()?.required('Field is Required'),
-  // editor: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {

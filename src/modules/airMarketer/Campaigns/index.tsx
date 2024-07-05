@@ -52,6 +52,11 @@ const Campaigns = () => {
     setFilters,
     setPage,
     setPageLimit,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    checkedColumns,
+    setcheckedColumns,
+    setRowId,
   } = useCampaigns();
   const [isCreateTask, setIsCreateTask] = useState(false);
   const [isCompare, setIsCompare] = useState(false);
@@ -68,22 +73,37 @@ const Campaigns = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
-    const campaignBudget = values.campaignBudget
-      ? parseFloat(values.campaignBudget)
+    const campaignBudget = values?.campaignBudget
+      ? parseFloat(values?.campaignBudget)
       : null;
-    values.campaignOwner = values.campaignOwner?._id;
+
+    const startDate = values?.startDate
+      ? dayjs(values?.startDate[0])?.format(DATE_FORMAT?.API)
+      : undefined;
+    const endDate = values?.endDate
+      ? dayjs(values?.endDate[0])?.format(DATE_FORMAT?.API)
+      : undefined;
+
     const obj = {
       ...values,
-      startDate: values?.startDate
-        ? dayjs(values?.startDate[0])?.format(DATE_FORMAT?.API)
-        : undefined,
-      endDate: values?.endDate
-        ? dayjs(values?.endDate[0])?.format(DATE_FORMAT?.API)
-        : undefined,
       campaignBudget,
+      startDate,
+      endDate,
+      campaignOwner: values?.campaignOwner?._id,
     };
+
+    const filteredObj: { [key: string]: any } = Object.keys(obj).reduce(
+      (acc: { [key: string]: any }, key: string) => {
+        if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') {
+          acc[key] = obj[key];
+        }
+        return acc;
+      },
+      {},
+    );
+
     try {
-      await postCampaigns({ body: obj })?.unwrap();
+      await postCampaigns({ body: filteredObj })?.unwrap();
       enqueueSnackbar('Campaigns created successfully', {
         variant: 'success',
       });
@@ -92,6 +112,7 @@ const Campaigns = () => {
         variant: 'error',
       });
     }
+
     reset();
     setIsCreateTask(false);
   };
@@ -164,7 +185,6 @@ const Campaigns = () => {
           <HorizontalTabs tabsDataArray={campaignsTabs}>
             <Manage
               campaignsData={campaignsData}
-              // handeApplyFilter={handeApplyFilter}
               handleResetFilters={handleResetFilters}
               filterLoading={filterLoading}
               handleSelectSingleCheckBox={handleSelectSingleCheckBox}
@@ -178,6 +198,11 @@ const Campaigns = () => {
               setFilters={setFilters}
               setPageLimit={setPageLimit}
               setPage={setPage}
+              isActionsDisabled={isActionsDisabled}
+              setIsActionsDisabled={setIsActionsDisabled}
+              checkedColumns={checkedColumns}
+              setcheckedColumns={setcheckedColumns}
+              setRowId={setRowId}
             />
             <Calendar />
             <Tasks />

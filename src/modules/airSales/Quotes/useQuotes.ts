@@ -74,6 +74,7 @@ const useQuotes = () => {
   const onSubmitFilters = async (values: any) => {
     values.status =
       values.status === MEETINGS_DETAILS_TYPE?.ALL ? undefined : values?.status;
+    values.createdBy = values?.createdBy?._id;
     setFilterParams((prev) => {
       return {
         ...prev,
