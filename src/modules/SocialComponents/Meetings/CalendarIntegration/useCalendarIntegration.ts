@@ -61,7 +61,8 @@ export const useCalendarIntegration = () => {
     }
   };
 
-  const [changeStatusTrigger] = useChangeStatusCalendarMutation();
+  const [changeStatusTrigger, changeStatusProgress] =
+    useChangeStatusCalendarMutation();
 
   const handleChangeStatus = async (calendarId: string) => {
     const calendarToChange = calendarListData?.find(
@@ -135,5 +136,6 @@ export const useCalendarIntegration = () => {
     officeAuth,
     isLoading,
     isFetching,
+    changeStatusProgress,
   };
 };

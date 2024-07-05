@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFCheckbox,
   RHFDatePicker,
   RHFSwitch,
@@ -15,16 +16,10 @@ import { AllowAttendee } from './AllowAttendee';
 import { Reminder } from './Reminder';
 
 const meetingTypeOption = [
-  'In person meeting',
-  'Google meet',
-  'Zoom',
-  'MS teams',
-];
-const locationOption = [
-  'Meeting hall 1',
-  'Meeting hall 2',
-  'Meeting hall 3',
-  'Meeting hall 4',
+  { value: 'IN_PERSON_MEETING', label: 'In person meeting' },
+  { value: 'GOOGLE_MEET', label: 'Google meet' },
+  { value: 'ZOOM', label: 'Zoom' },
+  { value: 'MS_TEAMS', label: 'MS teams' },
 ];
 const bufferTimeOption = [
   '5 Minutes',
@@ -39,7 +34,7 @@ const meetingContents = {
   group: 'Group',
 };
 export const meetingFormFields = (props: any) => {
-  const { watch, meetingType } = props;
+  const { watch, meetingType, meetingLocationApi } = props;
   const watchAllDay = watch('allDay');
   const watchRecurring = watch('recurring');
   const watchMeetingType = watch('meetingType');
@@ -153,6 +148,7 @@ export const meetingFormFields = (props: any) => {
         required: true,
         disabled: watchAllDay,
         options: meetingTypeOption,
+        getOptionLabel: (item: any) => item?.label,
         fullWidth: true,
         size: 'small',
       },
@@ -163,7 +159,7 @@ export const meetingFormFields = (props: any) => {
       sm: 6,
       sx: {
         display:
-          watchMeetingType === meetingContents?.inPersonMeeting
+          watchMeetingType?.label === meetingContents?.inPersonMeeting
             ? 'block'
             : 'none',
       },
@@ -172,11 +168,13 @@ export const meetingFormFields = (props: any) => {
         name: 'location',
         placeholder: 'Select Location',
         required: true,
-        options: locationOption,
+        apiQuery: meetingLocationApi,
+        externalParams: { limit: 50 },
+        getOptionLabel: (option: any) => `${option?.locationName}`,
         fullWidth: true,
         size: 'small',
       },
-      component: RHFAutocomplete,
+      component: RHFAutocompleteAsync,
     },
     {
       id: 11,

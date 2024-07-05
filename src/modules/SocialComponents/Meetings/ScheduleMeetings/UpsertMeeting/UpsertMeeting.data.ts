@@ -36,8 +36,8 @@ export const upsertMeetingValues = (router: any) => {
     monthlyWeeks: [],
     monthlyDays: [],
     description: '',
-    meetingType: '',
-    location: '',
+    meetingType: null,
+    location: null,
     bufferBefore: true,
     bufferAfter: true,
     bufferBeforeTime: '',
@@ -152,12 +152,14 @@ export const upsertMeetingSchema: any = (router: any) =>
       },
     ),
     description: Yup?.string(),
-    meetingType: Yup?.string()?.required('Required'),
-    location: Yup?.string()?.when(schemaTypes?.meetingType, {
-      is: (type: string) => type === schemaTypes?.inPersonMeeting,
-      then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema: any) => schema?.notRequired(),
-    }),
+    meetingType: Yup?.mixed()?.nullable()?.required('Required'),
+    location: Yup?.mixed()
+      ?.nullable()
+      ?.when(schemaTypes?.meetingType, {
+        is: (type: any) => type?.label === schemaTypes?.inPersonMeeting,
+        then: (schema: any) => schema?.required('Required'),
+        otherwise: (schema: any) => schema?.notRequired(),
+      }),
     bufferBefore: Yup?.boolean(),
     bufferAfter: Yup?.boolean(),
     bufferBeforeTime: Yup?.string(),
@@ -180,7 +182,7 @@ export const upsertMeetingSchema: any = (router: any) =>
 export const allDayValues = [
   {
     name: 'meetingType',
-    value: 'In person meeting',
+    value: { value: 'IN_PERSON_MEETING', label: 'In person meeting' },
   },
   {
     name: 'location',

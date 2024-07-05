@@ -33,7 +33,7 @@ export const useAllowAttendee = (props: any) => {
     setOpenCalender(true);
   };
   const handleEvents = (info: any) => {
-    if (selectedEvents?.length < 6) {
+    if (selectedEvents?.length < 3) {
       setSelectedEvents([...selectedEvents, info]);
       setValue('selectedSlots', [
         [...selectedEvents]?.map((item: any) => ({

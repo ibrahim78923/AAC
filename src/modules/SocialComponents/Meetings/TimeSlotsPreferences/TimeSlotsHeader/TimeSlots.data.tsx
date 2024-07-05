@@ -1,6 +1,6 @@
-import { RHFMultiCheckbox } from '@/components/ReactHookForm';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { SOCIAL_COMPONENTS_EMAIL_PERMISSIONS } from '@/constants/permission-keys';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Typography } from '@mui/material';
 
 export const timeSlotsDataArray = [
   'January',
@@ -37,8 +37,9 @@ export const timeSlotsActionsDropdown = (
       permissionKey: [SOCIAL_COMPONENTS_EMAIL_PERMISSIONS?.APPLY_FILTER],
       title: (
         <Box display={'flex'} alignItems={'center'} gap={0.5} key={month?._id}>
-          <RHFMultiCheckbox
-            name="months"
+          <Checkbox
+            icon={<CheckboxIcon />}
+            checkedIcon={<CheckboxCheckedIcon />}
             checked={selectedMonths?.includes(month)}
             onChange={() => handleCheckboxChange(month)}
           />

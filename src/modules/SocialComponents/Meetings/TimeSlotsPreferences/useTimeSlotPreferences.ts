@@ -18,9 +18,12 @@ export const useTimeSlotPreferences = () => {
   const [daySlotsState, setDaySlotsState] = useState<any[]>([]);
   const [submittedOverrideData, setSubmittedOverrideData] = useState<any>([]);
 
-  const { data, isLoading, isFetching }: any = useGetTimeSlotsQuery(null, {
-    refetchOnMountOrArgChange: true,
-  });
+  const { data, isLoading, isFetching, isError }: any = useGetTimeSlotsQuery(
+    null,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
 
   const timeSlotsData = data?.data;
 
@@ -96,5 +99,6 @@ export const useTimeSlotPreferences = () => {
     timeSlotsData,
     isLoading,
     isFetching,
+    isError,
   };
 };

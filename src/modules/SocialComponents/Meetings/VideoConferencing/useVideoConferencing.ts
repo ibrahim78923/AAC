@@ -62,14 +62,15 @@ export const useVideoConferencing = () => {
         (prevData) => prevData?.filter((meeting) => meeting?._id !== meetingId),
       );
       successSnackbar(
-        response?.data?.message || 'Calendar deleted successfully',
+        response?.data?.message || 'Meeting deleted successfully',
       );
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
-  const [changeStatusTrigger] = useChangeStatusCalendarMutation();
+  const [changeStatusTrigger, changeStatusProgress] =
+    useChangeStatusCalendarMutation();
 
   const handleChangeStatus = async (meetingId: string) => {
     const meetingToChange = meetingsListData?.find(
@@ -91,17 +92,6 @@ export const useVideoConferencing = () => {
     }));
 
     try {
-      if (newStatus === CALENDAR_STATUS?.ACTIVE) {
-        for (const meeting of meetingsListData) {
-          if (meeting?._id !== meetingId && meeting?.isDefault) {
-            await changeStatusTrigger({
-              id: meeting?._id,
-              body: { status: CALENDAR_STATUS?.INACTIVE },
-            });
-          }
-        }
-      }
-
       const response: any = await changeStatusTrigger({
         id: meetingId,
         body: { status: newStatus },
@@ -112,7 +102,7 @@ export const useVideoConferencing = () => {
           prevState?.map((meeting) =>
             meeting?._id === meetingId
               ? { ...meeting, isDefault: newStatus === CALENDAR_STATUS?.ACTIVE }
-              : { ...meeting, isDefault: false },
+              : meeting,
           ),
       );
 
@@ -139,5 +129,6 @@ export const useVideoConferencing = () => {
     isLoading,
     isFetching,
     handleZoomClick,
+    changeStatusProgress,
   };
 };

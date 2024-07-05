@@ -21,6 +21,7 @@ export const CalendarIntegration = () => {
     calendarListData,
     isLoading,
     isFetching,
+    changeStatusProgress,
   } = useCalendarIntegration();
   return (
     <Grid container>
@@ -151,6 +152,7 @@ export const CalendarIntegration = () => {
                               checked={account?.isDefault}
                               isLoading={switchLoading?.[account?._id]}
                               onClick={() => handleChangeStatus(account?._id)}
+                              disabled={changeStatusProgress?.isLoading}
                             />
                             <Box sx={{ scale: '1.3' }}>
                               <IconButton

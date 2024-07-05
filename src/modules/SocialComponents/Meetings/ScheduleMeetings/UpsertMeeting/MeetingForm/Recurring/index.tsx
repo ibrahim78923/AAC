@@ -15,7 +15,6 @@ import {
   monthWeekOption,
   optionTypes,
   recurringTypeOption,
-  weekDayOption,
 } from './Recurring.data';
 
 export const Recurring = (props: any) => {
@@ -121,7 +120,8 @@ export const Recurring = (props: any) => {
                       name="monthlyDays"
                       label="Days"
                       size="small"
-                      options={weekDayOption}
+                      options={checkOption}
+                      getOptionLabel={(item: any) => item?.label}
                       required
                       multiple
                       placeholder="Select Day"
