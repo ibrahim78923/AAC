@@ -313,12 +313,23 @@ export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
 
   CRAETE_GROUP: 'marketer-sms-marketing-contacts-create-group',
   CONTACTS_LIST_VIEW: 'marketer-sms-marketing-contacts-list-view',
-  CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
   SEARCH_TEMPLATE: 'marketer-sms-marketing-templates-search-and-filter',
   SAVE_TEMPLATE: 'marketer-sms-marketing-templates-save',
   EDIT_TEMPLATE: 'marketer-sms-marketing-templates-edit',
   DELETE_TEMPLATE: 'marketer-sms-marketing-templates-delete',
   TEMPLATES_LIST_VIEW: 'marketer-sms-marketing-templates-list-view',
+};
+
+export const AIR_MARKETER_SMS_MARKETING_CREATE_TEMPLATE_PERMISSIONS = {
+  CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
+};
+
+export const AIR_MARKETER_SMS_BROADCAST_CREATE_BROADCAST = {
+  CREATE_BROADCAST: 'marketer-sms-marketing-sms-broadcast-create',
+};
+
+export const AIR_MARKETER_WHATSAPP_BROADCAST_CREATE_BROADCAST = {
+  CREATE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-create-broadcast',
 };
 
 export const AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS = {

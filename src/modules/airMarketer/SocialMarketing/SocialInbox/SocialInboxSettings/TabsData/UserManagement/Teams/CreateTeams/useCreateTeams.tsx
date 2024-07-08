@@ -8,13 +8,33 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import useUserManagement from '../../useUserManagement';
 import { useEffect } from 'react';
+import { getActiveProductSession } from '@/utils';
+import {
+  useGetAvailedUsersQuery,
+  useGetProductsUsersQuery,
+} from '@/services/airMarketer/settings/users';
 
 const useCreateTeams = (
   teamDataById: any,
   setIsAddTeam: any,
   drawerType: any,
 ) => {
-  const { productsUsers, drawyerType } = useUserManagement();
+  const { drawyerType } = useUserManagement();
+  const ActiveProduct = getActiveProductSession();
+
+  const productUserParams = {
+    product: ActiveProduct?._id,
+    meta: false,
+  };
+  const { data: productsUsers } = useGetProductsUsersQuery(productUserParams);
+  const availableUsersParams = {
+    teamId: teamDataById?.data?._id,
+    product: ActiveProduct?._id,
+  };
+
+  const { data: availableUsersData } =
+    useGetAvailedUsersQuery(availableUsersParams);
+
   const [postTeams, { isLoading: postTeamLoading }] = usePostTeamsMutation();
   const [updateTeams, { isLoading: updateTeamLoading }] =
     useUpdateTeamsMutation();
@@ -72,6 +92,7 @@ const useCreateTeams = (
     productsUsers,
     postTeamLoading,
     updateTeamLoading,
+    availableUsersData,
   };
 };
 

@@ -15,6 +15,7 @@ const useCreateTemplate = () => {
   const router = useRouter();
   const navigate = useRouter();
   const { type, data }: any = navigate.query;
+
   let editData = [];
   if (data) {
     editData = JSON?.parse(data);
@@ -57,10 +58,14 @@ const useCreateTemplate = () => {
         } Successfully`,
         { variant: 'success' },
       );
-      router?.back();
+      router?.push(AIR_MARKETER?.SMS_MARKETING);
     } catch (err: any) {
       enqueueSnackbar(err?.data?.message, { variant: 'error' });
     }
+  };
+
+  const handleCancelBtn = () => {
+    router?.push(AIR_MARKETER?.SMS_MARKETING);
   };
 
   return {
@@ -75,6 +80,7 @@ const useCreateTemplate = () => {
     Details,
     type,
     theme,
+    handleCancelBtn,
   };
 };
 

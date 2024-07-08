@@ -5,8 +5,10 @@ import { useGetProductsUsersQuery } from '@/services/airMarketer/settings/users'
 import { Skeleton } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { getActiveProductSession } from '@/utils';
 
 const useUserManagement = () => {
+  const ActiveProduct = getActiveProductSession();
   const skeletonLines = [];
   const INITIAL_VAL = 0;
   const [teamId, setTeamId] = useState();
@@ -32,6 +34,8 @@ const useUserManagement = () => {
     page: page,
     limit: pageLimit,
     search: searchUser ? searchUser : undefined,
+    product: ActiveProduct?._id,
+    meta: true,
   };
   const {
     data: productsUsers,

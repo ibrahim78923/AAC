@@ -35,7 +35,7 @@ export const columns = (
       accessorFn: (row: any) => row?.createdAt,
       id: 'createdDate',
       isSortable: false,
-      header: 'createdDate',
+      header: 'created Date',
       cell: (info: any) => dayjs(info.getValue())?.format(DATE_FORMAT?.UI),
     },
     {

@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { teamsDefaultValues, teamsValidationSchema } from './CreateTeams.data';
 import {
+  useGetTeamsUsersQuery,
   usePostTeamsMutation,
   useUpdateTeamsMutation,
 } from '@/services/airSales/settings/teams';
@@ -9,13 +10,23 @@ import { enqueueSnackbar } from 'notistack';
 import useUserManagement from '../../useUserManagement';
 import { useEffect } from 'react';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { getActiveProductSession } from '@/utils';
 
 const useCreateTeams = (
   teamDataById: any,
   setIsAddTeam: any,
   drawerType: any,
 ) => {
+  const ActiveProduct = getActiveProductSession();
   const { productsUsers } = useUserManagement();
+
+  const availableUsersParams = {
+    teamId: teamDataById?.data?._id,
+    product: ActiveProduct?._id,
+  };
+
+  const { data: getAvailableUsers } =
+    useGetTeamsUsersQuery(availableUsersParams);
   const [postTeams, { isLoading: postTeamLoading }] = usePostTeamsMutation();
   const [updateTeams, { isLoading: updateTeamLoading }] =
     useUpdateTeamsMutation();
@@ -66,6 +77,11 @@ const useCreateTeams = (
     }
   };
 
+  const splitUsername = (username: any) => {
+    const [firstName, lastName] = username?.split(' ');
+    return { firstName, lastName };
+  };
+
   return {
     methods,
     handleSubmit,
@@ -73,6 +89,8 @@ const useCreateTeams = (
     productsUsers,
     postTeamLoading,
     updateTeamLoading,
+    getAvailableUsers,
+    splitUsername,
   };
 };
 

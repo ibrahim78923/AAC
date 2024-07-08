@@ -8,6 +8,7 @@ import useTemplates from './useTemplates';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {
+  AIR_MARKETER_SMS_MARKETING_CREATE_TEMPLATE_PERMISSIONS,
   AIR_MARKETER_SMS_MARKETING_PERMISSIONS,
   AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS,
 } from '@/constants/permission-keys';
@@ -69,7 +70,7 @@ const Templates = () => {
           </Box>
           <PermissionsGuard
             permissions={[
-              AIR_MARKETER_SMS_MARKETING_PERMISSIONS.CREATE_TEMPLATE,
+              AIR_MARKETER_SMS_MARKETING_CREATE_TEMPLATE_PERMISSIONS?.CREATE_TEMPLATE,
             ]}
           >
             <Button
@@ -77,7 +78,7 @@ const Templates = () => {
               sx={styles?.createBtn}
               className="small"
               onClick={() => {
-                navigate.push(AIR_MARKETER?.CREATE_TEMPLATE);
+                navigate?.push(AIR_MARKETER?.CREATE_TEMPLATE);
               }}
             >
               <AddCircleIcon

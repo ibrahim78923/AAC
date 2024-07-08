@@ -12,11 +12,14 @@ import {
 const AddUsers = (props: any) => {
   const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
   const theme = useTheme();
-  const { methods, handleSubmit, onSubmit, productUsersById } = useAddUser(
-    checkedUser,
-    isAddUserDrawer,
-    setIsAddUserDrawer,
-  );
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    productUsersById,
+    postUserLoading,
+    updateUserLoading,
+  } = useAddUser(checkedUser, isAddUserDrawer, setIsAddUserDrawer);
 
   return (
     <CommonDrawer
@@ -28,8 +31,8 @@ const AddUsers = (props: any) => {
         isAddUserDrawer?.type === DRAWER_TYPES?.VIEW
           ? `${productUsersById?.data?.user?.firstName} ${productUsersById?.data?.user?.lastName}`
           : isAddUserDrawer?.type === DRAWER_TYPES?.EDIT
-            ? DRAWER_TITLES?.EDIT
-            : DRAWER_TITLES?.ADD
+          ? DRAWER_TITLES?.EDIT
+          : DRAWER_TITLES?.ADD
       }
       okText={
         isAddUserDrawer?.type === DRAWER_TYPES?.EDIT
@@ -39,6 +42,7 @@ const AddUsers = (props: any) => {
       footer={isAddUserDrawer?.type === DRAWER_TYPES?.VIEW ? false : true}
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={postUserLoading || updateUserLoading}
     >
       <Typography
         sx={{

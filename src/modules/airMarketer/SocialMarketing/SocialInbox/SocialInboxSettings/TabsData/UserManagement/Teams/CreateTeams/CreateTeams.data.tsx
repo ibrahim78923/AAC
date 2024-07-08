@@ -35,7 +35,7 @@ export const teamsDataArray: any = (productsUsers: any) => [
       required: true,
       options: productsUsers?.map((item: any) => ({
         value: item?._id,
-        label: `${item?.user?.firstName} ${item?.user?.lastName}`,
+        label: item?.username ?? 'N/A',
       })),
       fullWidth: true,
     },

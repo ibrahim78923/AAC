@@ -19,6 +19,8 @@ const CreateTeams = (props?: any) => {
     productsUsers,
     postTeamLoading,
     updateTeamLoading,
+    getAvailableUsers,
+    splitUsername,
   } = useCreateTeams(teamDataById, setIsAddTeam, isAddTeam?.type);
   const { skeletonLines } = useUserManagement();
   const filteredUsers = productsUsers
@@ -35,8 +37,18 @@ const CreateTeams = (props?: any) => {
     },
   ];
 
-  const allTeamMembers = [...loggedUserData, ...filteredUsers];
-  const filterdTeamMembers = allTeamMembers?.filter((item: any) => !item?.team);
+  const mergeUsersData = [...loggedUserData, ...filteredUsers];
+  const allUsersData = mergeUsersData?.filter((item: any) => !item?.team);
+  const availableUpdateUsers = getAvailableUsers?.data?.map((item: any) => {
+    const splitName = splitUsername(item?.username);
+    return {
+      _id: item?._id,
+      user: {
+        firstName: splitName?.firstName,
+        lastName: splitName?.lastName,
+      },
+    };
+  });
 
   return (
     <CommonDrawer
@@ -63,8 +75,8 @@ const CreateTeams = (props?: any) => {
             <Grid container spacing={1}>
               {teamsDataArray(
                 isAddTeam?.type === DRAWER_TYPES?.ADD
-                  ? filterdTeamMembers
-                  : allTeamMembers,
+                  ? allUsersData
+                  : availableUpdateUsers,
               )?.map((item: any) => (
                 <Grid
                   item

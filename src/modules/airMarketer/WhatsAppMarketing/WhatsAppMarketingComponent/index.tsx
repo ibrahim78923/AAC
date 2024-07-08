@@ -19,6 +19,8 @@ import useWhatsAppMarketingComponent from './useWhatsAppMarketingComponent';
 import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sms-icon';
 import { styles } from './WhatsAppMarketing.style';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_WHATSAPP_BROADCAST_CREATE_BROADCAST } from '@/constants/permission-keys';
 
 const WhatsAppMarketingComponent = () => {
   const router = useRouter();
@@ -62,16 +64,22 @@ const WhatsAppMarketingComponent = () => {
           </Stack>
         )}
         {tabVal === 1 && (
-          <Button
-            startIcon={<PlusIcon />}
-            className="small"
-            variant="contained"
-            onClick={() =>
-              router?.push(AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST)
-            }
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_WHATSAPP_BROADCAST_CREATE_BROADCAST?.CREATE_BROADCAST,
+            ]}
           >
-            Create Broadcast
-          </Button>
+            <Button
+              startIcon={<PlusIcon />}
+              className="small"
+              variant="contained"
+              onClick={() =>
+                router.push(AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST)
+              }
+            >
+              Create Broadcast
+            </Button>
+          </PermissionsGuard>
         )}
       </Stack>
 

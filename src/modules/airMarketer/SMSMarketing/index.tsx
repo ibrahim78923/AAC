@@ -10,7 +10,10 @@ import { AIR_MARKETER } from '@/routesConstants/paths';
 import Templates from './Templates';
 import ConnectNumber from './ConnectNumber';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  AIR_MARKETER_SMS_BROADCAST_CREATE_BROADCAST,
+  AIR_MARKETER_SMS_MARKETING_PERMISSIONS,
+} from '@/constants/permission-keys';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { getSession } from '@/utils';
 import { generateImage } from '@/utils/avatarUtils';
@@ -25,6 +28,7 @@ const SMSMarketing = () => {
     isLoading,
     isConnected,
     setIsConnected,
+    getIsPhoneConnected,
   } = useSMSMarketing();
 
   const { user }: any = getSession();
@@ -79,7 +83,8 @@ const SMSMarketing = () => {
                       fontWeight={500}
                       color={theme?.palette?.custom?.main}
                     >
-                      {user?.phoneNumber}
+                      {getIsPhoneConnected &&
+                        getIsPhoneConnected?.data?.phoneNumber}
                     </Typography>
                   </Box>
                 </Box>
@@ -105,7 +110,7 @@ const SMSMarketing = () => {
             {tabVal === indexNumbers?.ONE && (
               <PermissionsGuard
                 permissions={[
-                  AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.CREATE_SMS_BROADCAST,
+                  AIR_MARKETER_SMS_BROADCAST_CREATE_BROADCAST?.CREATE_BROADCAST,
                 ]}
               >
                 <Button
