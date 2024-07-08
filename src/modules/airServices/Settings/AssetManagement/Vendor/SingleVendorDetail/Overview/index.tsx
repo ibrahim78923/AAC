@@ -1,8 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useOverview } from './useOverview';
 import { isValidElement } from 'react';
-import { FIELDS_TYPES } from './Overview.data';
+import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
+import { getImageByType } from '@/utils/avatarUtils';
 
 export const Overview = () => {
   const { isLoading, overviewData, isFetching } = useOverview();
@@ -28,17 +29,24 @@ export const Overview = () => {
             color={'grey.900'}
             fontWeight={500}
           >
-            {isValidElement(value)
-              ? value
-              : typeof value === FIELDS_TYPES?.OBJECT &&
-                value !== null &&
-                FIELDS_TYPES?.LABEL in value
-              ? value?.label
-              : typeof value === FIELDS_TYPES?.OBJECT &&
-                value !== null &&
-                FIELDS_TYPES?.PATH in value
-              ? value?.path
-              : value?.toString()}
+            {isValidElement(value) ? (
+              value
+            ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+              value !== null &&
+              DYNAMIC_FORM_FIELDS_TYPES?.LABEL in value ? (
+              value?.label
+            ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+              value !== null &&
+              DYNAMIC_FORM_FIELDS_TYPES?.FILE_URL in value ? (
+              <Avatar
+                src={getImageByType(value?.fileType, value?.fileUrl)}
+                alt="file-preview"
+                sx={{ width: 45, height: 45 }}
+                variant={'rounded'}
+              />
+            ) : (
+              value?.toString()
+            )}
           </Typography>
         </Box>
       ))}

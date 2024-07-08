@@ -1,5 +1,4 @@
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
 import { useAddNewVendor } from './useAddNewVendor';
@@ -22,6 +21,7 @@ const AddNewVendor = (props: any) => {
     postNewVendorStatus,
     getDynamicFieldsStatus,
     form,
+    postAttachmentStatus,
   } = useAddNewVendor(props);
 
   return (
@@ -34,13 +34,19 @@ const AddNewVendor = (props: any) => {
       isOk
       submitHandler={handleSubmit(onSubmit)}
       isLoading={
-        patchNewVendorStatus?.isLoading || postNewVendorStatus?.isLoading
+        patchNewVendorStatus?.isLoading ||
+        postNewVendorStatus?.isLoading ||
+        postAttachmentStatus?.isLoading
       }
       isDisabled={
-        postNewVendorStatus?.isLoading || patchNewVendorStatus?.isLoading
+        postNewVendorStatus?.isLoading ||
+        patchNewVendorStatus?.isLoading ||
+        postAttachmentStatus?.isLoading
       }
       disabledCancelBtn={
-        postNewVendorStatus?.isLoading || patchNewVendorStatus?.isLoading
+        postNewVendorStatus?.isLoading ||
+        patchNewVendorStatus?.isLoading ||
+        postAttachmentStatus?.isLoading
       }
     >
       <Box>
@@ -51,10 +57,7 @@ const AddNewVendor = (props: any) => {
         ) : getDynamicFieldsStatus?.isError ? (
           <ApiErrorState />
         ) : (
-          <FormProvider
-            methods={methodsNewVendor}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsNewVendor}>
             <Grid container spacing={2}>
               {newVendorDataArray?.map((item: any) => (
                 <Grid item xs={12} key={item?.id}>
@@ -62,7 +65,7 @@ const AddNewVendor = (props: any) => {
                 </Grid>
               ))}
               {form?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
+                <Grid item xs={12} key={item?.id}>
                   {componentMap[item?.component] &&
                     createElement(componentMap[item?.component], {
                       ...item?.componentProps,

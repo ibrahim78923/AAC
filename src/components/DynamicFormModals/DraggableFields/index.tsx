@@ -3,12 +3,15 @@ import BlurOnRoundedIcon from '@mui/icons-material/BlurOnRounded';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { Draggable } from 'react-beautiful-dnd';
+import { DYNAMIC_FORM_IDS, dynamicFormFieldsList } from '@/utils/dynamic-forms';
 
-export default function DraggableFields({ fieldsList }: any) {
+export default function DraggableFields({
+  dynamicFormFields = dynamicFormFieldsList,
+}: any) {
   const theme: any = useTheme();
 
   return (
-    <Droppable droppableId={'draggable'}>
+    <Droppable droppableId={DYNAMIC_FORM_IDS?.DRAGGABLE_ID}>
       {(provided) => (
         <Box
           borderRadius={2}
@@ -19,14 +22,14 @@ export default function DraggableFields({ fieldsList }: any) {
             Drag & Drop Field
           </Typography>
 
-          {fieldsList?.map((item: any, index: number) => (
+          {dynamicFormFields?.map((item: any, index: number) => (
             <Draggable key={item?.id} draggableId={item?.id} index={index}>
               {(provided) => (
                 <Box
                   border={`1px solid ${theme?.palette?.grey?.[0]}`}
                   bgcolor={'common.white'}
                   borderRadius={2}
-                  mb={index === fieldsList?.length - 1 ? 0 : 2}
+                  mb={index === dynamicFormFields?.length - 1 ? 0 : 2}
                   p={1}
                   display={'flex'}
                   overflow={'auto'}

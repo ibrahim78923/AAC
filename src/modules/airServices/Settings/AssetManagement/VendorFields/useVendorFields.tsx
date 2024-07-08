@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react';
-import {
-  componentToMatchMap,
-  fieldsList,
-  modalInitialState,
-} from './VendorFields.data';
 import { useRouter } from 'next/router';
 import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
-import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_IDS,
+  dynamicFormComponentToMatchMap,
+  dynamicFormFieldsList,
+  dynamicFormModalsInitialState,
+} from '@/utils/dynamic-forms';
 
 export default function useVendorFields() {
   const router: any = useRouter();
 
   const [form, setForm] = useState<any>([]);
-  const [modal, setModal] = useState<any>(modalInitialState);
+  const [modal, setModal] = useState<any>(dynamicFormModalsInitialState);
   const [editId, setEditId] = useState<any>(null);
+  const [overlay, setOverlay] = useState(false);
 
   const [getDynamicFieldsTrigger, { isLoading, isFetching, isError }] =
     useLazyGetDynamicFieldsQuery();
@@ -41,11 +43,11 @@ export default function useVendorFields() {
 
   const getModalState = (item: any) => {
     const newModal: any = {
-      ...modalInitialState,
+      ...dynamicFormModalsInitialState,
     };
 
     if (item?.component) {
-      const matchTypes = componentToMatchMap[item?.component];
+      const matchTypes = dynamicFormComponentToMatchMap[item?.component];
       if (Array?.isArray(matchTypes)) {
         if (item?.componentProps?.multiline) {
           newModal['paragraphText'] = true;
@@ -56,7 +58,9 @@ export default function useVendorFields() {
         newModal[matchTypes] = true;
       }
     } else if (item?.id !== undefined) {
-      const fieldType = fieldsList?.find((field) => field?.id === item?.id);
+      const fieldType = dynamicFormFieldsList?.find(
+        (field) => field?.id === item?.id,
+      );
       if (fieldType) {
         newModal[fieldType?.match] = true;
       }
@@ -64,13 +68,18 @@ export default function useVendorFields() {
     return newModal;
   };
 
+  const handleDragStart = () => {
+    setOverlay(true);
+  };
+
   const handleDragEnd = (result: any) => {
-    if (result?.destination?.droppableId === 'droppable') {
-      const draggedItem = fieldsList?.find(
+    if (result?.destination?.droppableId === DYNAMIC_FORM_IDS?.DROPPABLE_ID) {
+      const draggedItem = dynamicFormFieldsList?.find(
         (item: any) => item?.id === result?.draggableId,
       );
       setModal(getModalState(draggedItem));
       setEditId(null);
+      setOverlay(false);
     }
   };
 
@@ -95,5 +104,7 @@ export default function useVendorFields() {
     isFetching,
     isError,
     getBackendData,
+    handleDragStart,
+    overlay,
   };
 }

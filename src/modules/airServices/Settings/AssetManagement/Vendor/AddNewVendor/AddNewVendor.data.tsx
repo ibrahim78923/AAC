@@ -1,42 +1,13 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import { VALIDATION_CONSTANT } from '@/constants';
-import { ARRAY_INDEX } from '@/constants/strings';
-import { FIELDS_CONSTANTS } from '@/utils/dynamic-forms';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
 export const newVendorValidationSchema = (form: any) => {
-  const formSchema: any = form
-    ?.map((item: any) => {
-      let schema;
-
-      if (
-        item?.component === FIELDS_CONSTANTS?.RHFMULTICHECKBOX ||
-        item?.component === FIELDS_CONSTANTS?.RHFAUTOCOMPLETE
-      ) {
-        schema = Yup?.array()?.min(1, 'At least 1 Required');
-      } else if (item?.component === FIELDS_CONSTANTS?.RHFDATEPICKER) {
-        schema = Yup?.date()?.nullable();
-      } else if (item?.component === FIELDS_CONSTANTS?.RHFDROPZONE) {
-        schema = Yup?.mixed()?.nullable();
-      } else {
-        schema = Yup?.string();
-      }
-
-      return item?.componentProps?.required
-        ? {
-            [item?.componentProps?.label]: schema?.required(
-              `${item?.componentProps?.label} is Required`,
-            ),
-          }
-        : null;
-    })
-    ?.filter((val: any) => val !== null)
-    ?.reduce((acc: any, obj: any) => {
-      const key: any = Object?.keys(obj)[ARRAY_INDEX?.ZERO];
-      const value = obj[key];
-      acc[key] = value;
-      return acc;
-    }, {});
+  const formSchema: any = dynamicFormValidationSchema(form);
 
   return Yup?.object()?.shape({
     name: Yup?.string()
@@ -92,34 +63,7 @@ export const newVendorDefaultValuesFunction = (data?: any) => {
 };
 
 export const newVendorDefaultValues = (data?: any, form?: any) => {
-  const initialValues: any = form
-    ?.map((item: any) => {
-      let initialValue: string | boolean | string[] | null | any;
-      const key = item?.componentProps?.label;
-
-      if (item?.component === FIELDS_CONSTANTS?.RHFMULTICHECKBOX) {
-        initialValue = data?.customFields?.[key] ?? [];
-      } else if (
-        item?.component === FIELDS_CONSTANTS?.RHFDROPZONE ||
-        item?.component === FIELDS_CONSTANTS?.RHFAUTOCOMPLETE
-      ) {
-        initialValue = data?.customFields?.[key] ?? null;
-      } else if (item?.component === FIELDS_CONSTANTS?.RHFDATEPICKER) {
-        initialValue = new Date(data?.customFields?.[key]) ?? null;
-      } else {
-        initialValue = data?.customFields?.[key] ?? '';
-      }
-      return { [key]: initialValue };
-    })
-    ?.filter(
-      (item: any) => Object.keys(item)[ARRAY_INDEX?.ZERO] !== 'undefined',
-    )
-    ?.reduce((acc: any, obj: any) => {
-      const key: any = Object?.keys(obj)[ARRAY_INDEX?.ZERO];
-      const value = obj[key];
-      acc[key] = value;
-      return acc;
-    }, {});
+  const initialValues: any = dynamicFormInitialValue(data, form);
 
   return {
     name: data?.name ?? '',

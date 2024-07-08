@@ -8,10 +8,10 @@ const transformResponse = (response: any) => {
       componentProps: {
         name: field?.label,
         label: field?.label,
-        placeholder: field?.placeholder,
+        placeholder: field?.placeholder ?? '',
         required: field?.isRequired,
         ...(field?.multiLine && { rows: 4, multiline: field?.multiLine }),
-        options: field?.options,
+        ...(field?.options?.length && { options: field?.options }),
         ...(field?.fieldType === FIELDS_CONSTANTS?.RHFDATEPICKER && {
           fullWidth: true,
           textFieldProps: { readOnly: true },
@@ -44,7 +44,7 @@ export const DynamicFieldsApi = baseAPI.injectEndpoints({
     }),
 
     getDynamicFields: builder?.query({
-      query: ({ getDynamicFieldsParameters }: any) => ({
+      query: (getDynamicFieldsParameters: any) => ({
         url: END_POINTS?.GET_DYNAMIC_FIELDS,
         method: 'GET',
         params: getDynamicFieldsParameters?.params,
@@ -59,6 +59,14 @@ export const DynamicFieldsApi = baseAPI.injectEndpoints({
         params: deleteDynamicFieldsParameters?.params,
       }),
     }),
+
+    postAttachments: builder?.mutation({
+      query: ({ postAttachmentsParameters }: any) => ({
+        url: END_POINTS?.POST_ATTACHMENT,
+        method: 'POST',
+        body: postAttachmentsParameters?.body,
+      }),
+    }),
   }),
 });
 
@@ -66,4 +74,5 @@ export const {
   usePutDynamicFieldsMutation,
   useLazyGetDynamicFieldsQuery,
   useDeleteDynamicFieldsMutation,
+  usePostAttachmentsMutation,
 } = DynamicFieldsApi;

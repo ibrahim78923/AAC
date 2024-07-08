@@ -12,8 +12,15 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useLazyGetDynamicFieldsQuery } from '@/services/dynamic-fields';
-import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostAttachmentsMutation,
+} from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
 
 export const useAddNewVendor = (props: any) => {
   const router = useRouter();
@@ -29,6 +36,9 @@ export const useAddNewVendor = (props: any) => {
 
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
+  const [postAttachmentTrigger, postAttachmentStatus] =
+    usePostAttachmentsMutation();
+
   const getDynamicFormData = async () => {
     const params = {
       productType: DYNAMIC_FIELDS?.PT_SERVICES,
@@ -82,30 +92,49 @@ export const useAddNewVendor = (props: any) => {
 
     const customFields: any = {};
     const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
 
-    Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
-      if (form?.some((field: any) => field?.componentProps?.label === key)) {
-        customFields[key] = value;
-      } else {
-        body[key] = value;
-      }
+    dynamicAttachmentsPost({
+      form,
+      data,
+      attachmentPromises,
+      customFields,
+      postAttachmentTrigger,
     });
 
-    if (Object?.keys(customFields)?.length > 0) {
-      body.customFields = customFields;
-    }
-
-    if (!!vendorId) {
-      submitUpdateNewVendor(body);
-      return;
-    }
-
     try {
+      await Promise?.all(attachmentPromises);
+
+      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+        if (form?.some((field: any) => field?.componentProps?.label === key)) {
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > 0) {
+        body.customFields = customFields;
+      }
+
+      if (!!vendorId) {
+        submitUpdateNewVendor(body);
+        return;
+      }
+
       await postNewVendorTrigger({ body })?.unwrap();
       successSnackbar('Vendor Added Successfully');
       handleClose?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (e: any) {
+      errorSnackbar(e?.data?.message);
     }
   };
 
@@ -124,6 +153,7 @@ export const useAddNewVendor = (props: any) => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   const handleClose = () => {
     setIsADrawerOpen?.(false);
     reset?.();
@@ -142,5 +172,6 @@ export const useAddNewVendor = (props: any) => {
     postNewVendorStatus,
     getDynamicFieldsStatus,
     form,
+    postAttachmentStatus,
   };
 };

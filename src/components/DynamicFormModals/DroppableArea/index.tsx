@@ -1,11 +1,10 @@
 import { Box, Button, Divider, IconButton } from '@mui/material';
 import { StrictModeDroppable as Droppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { createElement } from 'react';
-import { componentMap } from '@/utils/dynamic-forms';
+import { DYNAMIC_FORM_IDS, componentMap } from '@/utils/dynamic-forms';
 import { FormProvider } from '@/components/ReactHookForm';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { predefinedVendorDataArray } from './DroppableArea.data';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
@@ -22,6 +21,11 @@ export default function DroppableArea({
   isFetching,
   isError,
   getBackendData,
+  overlay,
+  predefinedDataArray,
+  moduleType,
+  productType,
+  successPath,
 }: any) {
   const {
     router,
@@ -36,6 +40,9 @@ export default function DroppableArea({
     form,
     setForm,
     getBackendData,
+    moduleType,
+    productType,
+    successPath,
   });
 
   if (isError)
@@ -47,9 +54,10 @@ export default function DroppableArea({
 
   return (
     <>
-      <Droppable droppableId={'droppable'}>
+      <Droppable droppableId={DYNAMIC_FORM_IDS?.DROPPABLE_ID}>
         {(provided) => (
           <Box
+            position={'relative'}
             bgcolor={'secondary.50'}
             borderRadius={2}
             p={2}
@@ -61,10 +69,10 @@ export default function DroppableArea({
               <SkeletonForm />
             ) : (
               <FormProvider methods={methods}>
-                {predefinedVendorDataArray?.map((item: any) => (
+                {predefinedDataArray?.map((item: any) => (
                   <Box mb={2} key={item?.id}>
                     <item.component
-                      {...item.componentProps}
+                      {...item?.componentProps}
                       size={'small'}
                       disabled={true}
                     />
@@ -140,6 +148,18 @@ export default function DroppableArea({
                     Submit
                   </LoadingButton>
                 </Box>
+
+                {overlay && (
+                  <Box
+                    position={'absolute'}
+                    top={0}
+                    left={0}
+                    width={'100%'}
+                    height={'100%'}
+                    zIndex={10}
+                    bgcolor={'transparent'}
+                  />
+                )}
               </FormProvider>
             )}
           </Box>

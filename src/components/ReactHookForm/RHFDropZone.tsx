@@ -1,8 +1,8 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
-import { AttachFileIcon } from '@/assets/icons';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CustomLabel from '../CustomLabel';
 import { indexNumbers } from '@/constants';
 import { FILE_MAX_SIZE, FILE_SIZE_MESSAGES } from '@/config';
@@ -11,7 +11,7 @@ export default function RHFDropZone({
   name,
   required,
   fileName = 'Attach a file',
-  fileType = 'PNG, JPG, PDF, DOC, and CSV (max 25 MB)',
+  fileType = 'PNG, JPG, PDF, DOC, and CSV (max 2.44 MB)',
   accept = {
     'image/png': ['.png', '.PNG'],
     'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
@@ -35,6 +35,8 @@ export default function RHFDropZone({
 
   const theme = useTheme();
   const inputRef: any = useRef(null);
+
+  const [fileList, setFileList] = useState(getValues(name) || []);
 
   const onDrop = useCallback(
     (acceptedFiles: any, fileRejections: any) => {
@@ -79,31 +81,41 @@ export default function RHFDropZone({
           name,
           multiple ? acceptedFiles : acceptedFiles[indexNumbers?.ZERO],
         );
+        setFileList(
+          multiple ? acceptedFiles : [acceptedFiles[indexNumbers?.ZERO]],
+        );
       }
     },
     [setValue, name, multiple, maxSize],
   );
 
-  const { acceptedFiles, getRootProps, getInputProps, fileRejections } =
-    useDropzone({
-      multiple,
-      accept,
-      disabled,
-      maxSize,
-      onDrop,
-    });
+  const { getRootProps, getInputProps, fileRejections } = useDropzone({
+    multiple,
+    accept,
+    disabled,
+    maxSize,
+    onDrop,
+  });
 
   const formatFileSize = (sizeInBytes: number) => {
     const sizeInMB = sizeInBytes / (1024 * 1024);
-    return sizeInMB?.toFixed(2.44) + ' MB';
+    return sizeInMB?.toFixed(2) + ' MB';
   };
 
   const handleClick = () => {
     if (inputRef?.current) {
       inputRef.current.value = '';
       setValue(name, null);
+      setFileList([]);
     }
   };
+
+  useEffect(() => {
+    const currentFiles = getValues(name);
+    if (currentFiles && (!multiple || currentFiles.length > 0)) {
+      setFileList(multiple ? currentFiles : [currentFiles]);
+    }
+  }, [getValues, name, multiple]);
 
   return (
     <>
@@ -119,20 +131,18 @@ export default function RHFDropZone({
         }}
       >
         <input {...getInputProps()} ref={inputRef} />
-        {!!getValues(name) &&
-        (multiple ? getValues(name)?.length > 0 : !!getValues(name)?.name) ? (
+        {fileList.length > 0 ? (
           <Box>
             {multiple ? (
-              acceptedFiles?.map((file: any, index: number) => (
-                // eslint-disable-next-line
-                <Typography variant="body2" key={index}>
-                  {file?.name}
+              fileList?.map((file: any, index: number) => (
+                <Typography variant="body2" key={index ?? file?.name}>
+                  {file?.orignalName || file?.name}
                 </Typography>
               ))
             ) : (
               <Typography variant="body2">
-                {acceptedFiles?.[indexNumbers?.ZERO]?.name ||
-                  getValues(name)?.name}
+                {fileList?.[indexNumbers?.ZERO]?.orignalName ||
+                  fileList?.[indexNumbers?.ZERO]?.name}
               </Typography>
             )}
           </Box>
@@ -163,8 +173,7 @@ export default function RHFDropZone({
       )}
       {!!fileRejections?.length &&
         fileRejections?.map((fileError: any, index: any) => (
-          // eslint-disable-next-line
-          <Typography variant="body2" color="error" key={index}>
+          <Typography variant="body2" color="error" key={index ?? fileError}>
             {fileError?.errors?.some(
               (err: any) => err?.code === FILE_SIZE_MESSAGES?.FILE_TOO_LARGE,
             )

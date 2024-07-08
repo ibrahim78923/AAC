@@ -5,3 +5,5 @@ export { default as MultipleSelection } from './MultipleSelection';
 export { default as Date } from './Date';
 export { default as Upload } from './Upload';
 export { default as Dropdown } from './Dropdown';
+export { default as DraggableFields } from './DraggableFields';
+export { default as DroppableArea } from './DroppableArea';

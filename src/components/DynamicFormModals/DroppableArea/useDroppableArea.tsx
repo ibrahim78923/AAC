@@ -6,13 +6,18 @@ import {
 } from '@/services/dynamic-fields';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { DYNAMIC_FIELDS, isValidMongoId } from '@/utils/dynamic-forms';
-import { AIR_SERVICES } from '@/constants';
+import {
+  dynamicFormMapFormToBackendFormat,
+  isValidMongoId,
+} from '@/utils/dynamic-forms';
 
 export default function useDroppableArea({
   form,
   setForm,
   getBackendData,
+  moduleType,
+  productType,
+  successPath,
 }: any) {
   const router: any = useRouter();
   const methods: any = useForm({});
@@ -26,28 +31,12 @@ export default function useDroppableArea({
     usePutDynamicFieldsMutation();
 
   const params = {
-    productType: DYNAMIC_FIELDS?.PT_SERVICES,
-    moduleType: DYNAMIC_FIELDS?.MT_VENDOR,
-  };
-
-  const mapFormToBackendFormat = (form: any) => {
-    return form?.map((field: any) => {
-      return {
-        label: field?.componentProps?.label,
-        fieldType: field?.component,
-        placeholder:
-          field?.componentProps?.placeholder || field?.componentProps?.fileType,
-        isRequired: field?.componentProps?.required,
-        multiLine: field?.componentProps?.multiline,
-        options: field?.componentProps?.options,
-        dateformate: field?.componentProps?.format,
-        ...(isValidMongoId(field?.id) && { Id: field?.id }),
-      };
-    });
+    productType,
+    moduleType,
   };
 
   const handleFormCreation = async () => {
-    const fields = mapFormToBackendFormat(form);
+    const fields = dynamicFormMapFormToBackendFormat(form);
 
     const putDynamicFieldsParameters = {
       params,
@@ -62,7 +51,7 @@ export default function useDroppableArea({
       getBackendData();
       setForm([]);
       router?.push({
-        pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
+        pathname: successPath,
       });
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

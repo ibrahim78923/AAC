@@ -1,10 +1,5 @@
+import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
 import { Box } from '@mui/material';
-
-export const FIELDS_TYPES = {
-  OBJECT: 'object',
-  LABEL: 'label',
-  PATH: 'path',
-};
 
 export const overviewDataArray = (data: any) => {
   const predefinedFields = {
@@ -28,7 +23,8 @@ export const overviewDataArray = (data: any) => {
   };
 
   const customFields =
-    data?.customFields && typeof data?.customFields === FIELDS_TYPES?.OBJECT
+    data?.customFields &&
+    typeof data?.customFields === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT
       ? Object?.keys(data?.customFields)?.reduce((acc: any, key: any) => {
           acc[key] = data?.customFields[key] ?? '-';
           return acc;
