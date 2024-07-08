@@ -19,6 +19,8 @@ const Forms = () => {
   const {
     selectedRow,
     setSelectedRow,
+    selectedRowStatus,
+    setSelectedRowStatus,
     setSearchValue,
     loadingGetForms,
     fetchingGetForms,
@@ -45,6 +47,8 @@ const Forms = () => {
     handleCloseAddDrawer,
     handleAddFormSubmit,
     methodsAddForm,
+    loadingAddForm,
+    handleClickEdit,
   } = useForms();
 
   const getColums = columns(
@@ -53,6 +57,7 @@ const Forms = () => {
     setShowSignUpForm,
     setFindStatus,
     theme,
+    setSelectedRowStatus,
   );
 
   return (
@@ -92,15 +97,14 @@ const Forms = () => {
         }}
       >
         <TableToolbar
+          status={selectedRowStatus}
           setSearchBy={setSearchValue}
           disabledActions={selectedRow?.length === 0}
           disabledMenuItem={selectedRow?.length > 1}
           onClickViewDetails={() => {
             router.push(`${AIR_MARKETER.ALL_TABLE}/${selectedRow[0]}`);
           }}
-          onClickEdit={() => {
-            alert('Edit');
-          }}
+          onClickEdit={() => handleClickEdit(selectedRow[0])}
           onClickDelete={() => {
             handleOpenModalDelete();
           }}
@@ -133,6 +137,7 @@ const Forms = () => {
         onClose={handleCloseAddDrawer}
         methods={methodsAddForm}
         onSubmit={handleAddFormSubmit}
+        loading={loadingAddForm}
       />
 
       <DeleteModal

@@ -6,11 +6,16 @@ import {
   submissionsValidationSchema,
 } from './Submissions.data';
 import { useTheme } from '@mui/material';
+import { useGetFormSubmissionsQuery } from '@/services/airMarketer/lead-capture/forms';
 
-const useSubmissions = () => {
+const useSubmissions = (formId: string) => {
+  const theme = useTheme();
+  const { data: dataGetFormSubmissions, isLoading: loadingFormSubmissions } =
+    useGetFormSubmissionsQuery({ id: formId });
+
   const [isFIlterDraweropen, setIsFIlterDraweropen] = useState(false);
   const [searchByClientName, setSearchByClientName] = useState('');
-  const theme = useTheme();
+
   const handleCloseDrawer = () => {
     setIsFIlterDraweropen(false);
   };
@@ -27,6 +32,10 @@ const useSubmissions = () => {
   };
 
   return {
+    theme,
+    dataGetFormSubmissions,
+    loadingFormSubmissions,
+
     setIsFIlterDraweropen,
     isFIlterDraweropen,
     handleCloseDrawer,
@@ -35,7 +44,6 @@ const useSubmissions = () => {
     submissionsMethods,
     searchByClientName,
     setSearchByClientName,
-    theme,
   };
 };
 

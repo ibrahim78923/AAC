@@ -32,7 +32,7 @@ const DialogFormCreated = ({
   onClose,
   setShowExportText,
   showExportText,
-  createdFormResponse,
+  formHtml,
 }: any) => {
   const router = useRouter();
   const ExportFormMethods = useForm({
@@ -168,9 +168,7 @@ const DialogFormCreated = ({
             <Box sx={styles?.createdCode}>
               <Box>
                 <pre>
-                  <code style={{ whiteSpace: 'pre-wrap' }}>
-                    {createdFormResponse?.htmlTemplate}
-                  </code>
+                  <code style={{ whiteSpace: 'pre-wrap' }}>{formHtml}</code>
                 </pre>
               </Box>
               <Tooltip
@@ -187,9 +185,7 @@ const DialogFormCreated = ({
                     top: '13px',
                     cursor: 'pointer',
                   }}
-                  onClick={() =>
-                    handleCopyEmbededCode(createdFormResponse?.htmlTemplate)
-                  }
+                  onClick={() => handleCopyEmbededCode(formHtml)}
                 >
                   <CopyIcon />
                 </Box>

@@ -20,24 +20,26 @@ import {
 
 import Overview from './Overview';
 import Submissions from './Submissions';
-import Responses from './Responses';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import useViewDetails from './useViewDetails';
-import { formStatus } from '../Forms.data';
+import { formMode, formStatus } from '@/utils/form-builder';
 
 const ViewDetails = () => {
   const {
-    tabValue,
     router,
     handleActionsClick,
     open,
     handleClose,
     anchorEl,
-    setTabVal,
     theme,
     dataGetFormById,
     loadingGetForm,
+    handleClickEdit,
+    htmlTemplate,
+    status,
+    formId,
   } = useViewDetails();
+
   return (
     <>
       {loadingGetForm ? (
@@ -57,11 +59,11 @@ const ViewDetails = () => {
           >
             <ArrowBackIcon />
             <Typography variant="h4" sx={{ textTransform: 'capitalize' }}>
-              {dataGetFormById?.data?.name}
+              {dataGetFormById?.data?.form?.name}
             </Typography>
           </Box>
           <Box>
-            {dataGetFormById?.data?.status === formStatus?.PUBLISHED && (
+            {dataGetFormById?.data?.form?.status === formStatus?.published && (
               <Button
                 className="small"
                 variant="outlined"
@@ -71,75 +73,76 @@ const ViewDetails = () => {
                   border: `1px solid ${theme?.palette?.custom?.dark}`,
                   color: theme?.palette?.primary?.main,
                 }}
-                onClick={() => router.push(AIR_MARKETER.VERIFY_EMAIL)}
+                onClick={() =>
+                  router.push({
+                    pathname: AIR_MARKETER.CREATE_FORM,
+                    query: { formId: formId, mode: formMode?.view },
+                  })
+                }
               >
                 View
               </Button>
             )}
-            {dataGetFormById?.data?.status === formStatus?.DRAFT && (
-              <Button
-                className="small"
-                variant="outlined"
-                startIcon={<AddPenIcon />}
-                sx={{
-                  marginRight: '10px',
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.primary?.main,
-                }}
-              >
-                Edit
-              </Button>
-            )}
+            {dataGetFormById?.data?.form?.status === formStatus?.draft && (
+              <>
+                <Button
+                  onClick={handleClickEdit}
+                  className="small"
+                  variant="outlined"
+                  startIcon={<AddPenIcon />}
+                  sx={{
+                    marginRight: '10px',
+                    border: `1px solid ${theme?.palette?.custom?.dark}`,
+                    color: theme?.palette?.primary?.main,
+                  }}
+                >
+                  Edit
+                </Button>
 
-            {(dataGetFormById?.data?.status === formStatus?.DRAFT ||
-              dataGetFormById?.data?.status === formStatus?.PUBLISHED) && (
-              <Button
-                variant="contained"
-                className="small"
-                onClick={handleActionsClick}
-                startIcon={<ActionMenuIcon />}
-              >
-                Actions
-              </Button>
-            )}
+                <Button
+                  variant="contained"
+                  className="small"
+                  onClick={handleActionsClick}
+                  startIcon={<ActionMenuIcon />}
+                >
+                  Actions
+                </Button>
 
-            <Menu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              sx={{
-                '& .MuiList-root': {
-                  minWidth: '112px',
-                },
-              }}
-            >
-              <MenuItem
-                sx={{ color: theme?.palette?.slateBlue?.main, gap: '5px' }}
-              >
-                {' '}
-                <ActivateIcon /> Activate
-              </MenuItem>
-              <MenuItem sx={{ color: theme?.palette?.error?.main, gap: '5px' }}>
-                {' '}
-                <TrashIcon /> Move to Trash
-              </MenuItem>
-            </Menu>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  sx={{
+                    '& .MuiList-root': {
+                      minWidth: '112px',
+                    },
+                  }}
+                >
+                  <MenuItem
+                    sx={{ color: theme?.palette?.slateBlue?.main, gap: '5px' }}
+                  >
+                    {' '}
+                    <ActivateIcon /> Activate
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ color: theme?.palette?.error?.main, gap: '5px' }}
+                  >
+                    {' '}
+                    <TrashIcon /> Move to Trash
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
           </Box>
         </Box>
-      )}
-
-      {tabValue === 2 && (
-        <Typography variant="body3" sx={{ marginLeft: '30px' }}>
-          Number of Responses - 10
-        </Typography>
       )}
 
       {loadingGetForm ? (
@@ -156,15 +159,25 @@ const ViewDetails = () => {
         </Box>
       ) : (
         <Box sx={{ padding: { xs: '0px' } }}>
-          <CommonTabs
-            getTabVal={(val: number) => setTabVal(val)}
-            isHeader={false}
-            tabsArray={['Overview', 'Submissions', 'Form Responses']}
-          >
-            <Overview data={dataGetFormById?.data} />
-            <Submissions />
-            <Responses />
-          </CommonTabs>
+          {status === formStatus?.draft ? (
+            <Box sx={{ pt: '20px' }}>
+              <Overview
+                data={dataGetFormById?.data}
+                htmlTemplate={htmlTemplate}
+              />
+            </Box>
+          ) : (
+            <CommonTabs
+              isHeader={false}
+              tabsArray={['Overview', 'Submissions']}
+            >
+              <Overview
+                data={dataGetFormById?.data}
+                htmlTemplate={htmlTemplate}
+              />
+              <Submissions formId={formId} />
+            </CommonTabs>
+          )}
         </Box>
       )}
     </>

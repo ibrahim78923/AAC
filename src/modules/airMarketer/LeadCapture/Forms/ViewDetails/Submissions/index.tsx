@@ -2,15 +2,15 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns, submissionsArray } from './Submissions.data';
 import Search from '@/components/Search';
 import { Box, Button, Divider, Grid } from '@mui/material';
-import { SubmissionsTableData } from '@/mock/modules/airMarketer/LeadCapture/Forms';
 import { ExportSubmissionIcon, FilterSubmissionsIcon } from '@/assets/icons';
 import useSubmissions from './useSubmissions';
 import CommonDrawer from '@/components/CommonDrawer';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
 
-const Submissions = () => {
+const Submissions = ({ formId }: any) => {
   const {
+    dataGetFormSubmissions,
     setIsFIlterDraweropen,
     isFIlterDraweropen,
     handleCloseDrawer,
@@ -20,7 +20,7 @@ const Submissions = () => {
     searchByClientName,
     setSearchByClientName,
     theme,
-  } = useSubmissions();
+  } = useSubmissions(formId);
 
   return (
     <Box
@@ -65,11 +65,7 @@ const Submissions = () => {
       </Box>
 
       <Divider sx={{ marginBottom: '15px' }} />
-      <TanstackTable
-        columns={columns()}
-        data={SubmissionsTableData}
-        isPagination
-      />
+      <TanstackTable columns={columns()} data={dataGetFormSubmissions?.data} />
 
       <CommonDrawer
         isDrawerOpen={isFIlterDraweropen}

@@ -12,9 +12,14 @@ import { PAGINATION } from '@/config';
 import {
   useGetLeadCaptureFormQuery,
   useDeleteLeadCaptureFormMutation,
+  usePostLeadCaptureFormMutation,
 } from '@/services/airMarketer/lead-capture/forms';
 import { enqueueSnackbar } from 'notistack';
 import { tabsArray } from './Forms.data';
+import { formMode, formStatus } from '@/utils/form-builder';
+interface FormValues {
+  name: string;
+}
 
 const useForms = () => {
   const [showSignUpForm, setShowSignUpForm] = useState(false);
@@ -32,6 +37,7 @@ const useForms = () => {
   };
 
   const [selectedRow, setSelectedRow]: any = useState([]);
+  const [selectedRowStatus, setSelectedRowStatus]: any = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
@@ -51,6 +57,7 @@ const useForms = () => {
 
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
+    setSelectedRow([]);
     const filterPayload: any = {};
     if (newValue === defaultTabValue) {
       filterPayload.status = undefined;
@@ -72,6 +79,8 @@ const useForms = () => {
   });
 
   // Add Form Drawer
+  const [postAddForm, { isLoading: loadingAddForm }] =
+    usePostLeadCaptureFormMutation();
   const [isAddDraweropen, setIsAddDraweropen] = useState(false);
   const methodsAddForm = useForm({
     resolver: yupResolver(addFormvalidationSchema),
@@ -85,15 +94,36 @@ const useForms = () => {
   };
   const handleCloseAddDrawer = () => {
     setIsAddDraweropen(false);
+    resetAddForm();
   };
 
-  const onSubmitAddForm = async (values: any) => {
-    handleCloseAddDrawer();
-    resetAddForm();
+  const handleClickEdit = (id: string) => {
     router.push({
       pathname: AIR_MARKETER.CREATE_FORM,
-      query: { formName: values?.name },
+      query: { formId: id, mode: formMode?.edit },
     });
+  };
+
+  const onSubmitAddForm: any = async (values: FormValues) => {
+    const { name } = values;
+    const payload: any = {
+      status: formStatus?.draft,
+      name,
+    };
+
+    try {
+      const response = await postAddForm({ body: payload })?.unwrap();
+      const formId = response?.data?._id;
+      handleCloseAddDrawer();
+      enqueueSnackbar('Form created successfully as draft', {
+        variant: 'success',
+      });
+      handleClickEdit(formId);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
   };
   const handleAddFormSubmit = handleMethodAddForm(onSubmitAddForm);
 
@@ -136,6 +166,8 @@ const useForms = () => {
   return {
     selectedRow,
     setSelectedRow,
+    selectedRowStatus,
+    setSelectedRowStatus,
     setSearchValue,
     loadingGetForms,
     fetchingGetForms,
@@ -151,6 +183,7 @@ const useForms = () => {
     handleCloseAddDrawer,
     handleAddFormSubmit,
     methodsAddForm,
+    loadingAddForm,
 
     openModalDelete,
     handleOpenModalDelete,
@@ -169,6 +202,7 @@ const useForms = () => {
     open,
     handleClose,
     anchorEl,
+    handleClickEdit,
 
     findStatus,
     setFindStatus,

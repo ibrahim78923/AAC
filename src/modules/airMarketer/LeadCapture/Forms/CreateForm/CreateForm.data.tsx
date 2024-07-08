@@ -17,6 +17,11 @@ export const dynamicallyFormDefaultValues = {
   email: '',
 };
 
+export const formStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+};
+
 export const dynamicallyFormArray = [];
 
 export const styleFormvalidationSchema = Yup?.object()?.shape({

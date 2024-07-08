@@ -7,9 +7,11 @@ import Search from '@/components/Search';
 import { styles } from './TableToolbar.style';
 import useTableToolbar from './useTableToolbar';
 import { ToolbarI } from './TableToolbar.interface';
+import { formStatus } from '@/utils/form-builder';
 
 const TableToolbar: React.FC<ToolbarI> = (props) => {
   const {
+    status,
     setSearchBy,
     disabledActions,
     disabledMenuItem,
@@ -66,7 +68,7 @@ const TableToolbar: React.FC<ToolbarI> = (props) => {
               View Details
             </MenuItem>
             <MenuItem
-              disabled={disabledMenuItem}
+              disabled={disabledMenuItem || status === formStatus?.published}
               onClick={() => {
                 handleActionsMenuClose();
                 onClickEdit();

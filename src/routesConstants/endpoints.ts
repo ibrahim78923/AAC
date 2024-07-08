@@ -445,6 +445,11 @@ export const LEAD_CAPTURE_FORM = {
   GET_FORM_BY_ID: '/lead-capture-form/get-form',
   UPDATE_FORM: '/lead-capture-form/update-form',
   DELETE_FORM: '/lead-capture-form/delete-form',
+  PUT_ADD_VIEW_FORM: '/lead-capture-form/add-view-form',
+  POST_MANAGE_FIELDS: '/lead-capture-form/manage-lead-form-fields',
+  GET_MANAGE_FIELD: '/lead-capture-form/get-form-field',
+  GET_FORM_SUBMISSIONS: '/lead-capture-form/get-lead-capture-submissions',
+  POST_FORM_SUBMISSIONS: '/lead-capture-form/lead-capture-submission',
 };
 
 export const superAdminBillingInvoices = {

@@ -47,6 +47,40 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+
+    getManageFieldById: builder.query({
+      query: ({ id }: any) => ({
+        url: `${LEAD_CAPTURE_FORM?.GET_MANAGE_FIELD}?id=${id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+
+    postManageFields: builder.mutation({
+      query: ({ body }: any) => ({
+        url: LEAD_CAPTURE_FORM?.POST_MANAGE_FIELDS,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+
+    getFormSubmissions: builder.query({
+      query: ({ id }: any) => ({
+        url: `${LEAD_CAPTURE_FORM?.GET_FORM_SUBMISSIONS}?id=${id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+
+    postFormSubmissions: builder.mutation({
+      query: ({ body }: any) => ({
+        url: LEAD_CAPTURE_FORM?.POST_FORM_SUBMISSIONS,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -56,4 +90,8 @@ export const {
   usePostLeadCaptureFormMutation,
   useUpdateLeadCaptureFormMutation,
   useDeleteLeadCaptureFormMutation,
+  useGetManageFieldByIdQuery,
+  usePostManageFieldsMutation,
+  useGetFormSubmissionsQuery,
+  usePostFormSubmissionsMutation,
 } = leadCaptureFormsAPI;

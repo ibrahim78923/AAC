@@ -13,31 +13,31 @@ import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 
 const useRestore = () => {
+  const theme = useTheme();
   const [selectedRow, setSelectedRow]: any = useState([]);
-  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const defaultParams = {
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
-  };
   const [searchValue, setSearchValue] = useState(null);
-  const [filterParams, setFilterParams] = useState({
+  const [filterParams, setFilterParams] = useState({});
+  const paginationParams = {
     page: page,
     limit: pageLimit,
-  });
+  };
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
+
   const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
-  const { data: dataGetDeletedContacts, isLoading: loadingGetContact } =
-    useGetDeletedContactsQuery({
-      params: { ...filterParams, ...searchPayLoad },
-    });
+  const {
+    data: dataGetDeletedContacts,
+    isLoading: loadingGetContact,
+    isFetching: fetchingGetContacts,
+  } = useGetDeletedContactsQuery({
+    params: { ...filterParams, ...searchPayLoad, ...paginationParams },
+  });
 
   // Dropdown Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -87,19 +87,10 @@ const useRestore = () => {
 
   // Refresh
   const handleRefresh = () => {
-    setFilterParams(defaultParams);
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
     resetFilters();
-  };
-
-  // Hadle PAGE CHANGE
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
   };
 
   // Delete Contacts Permanent
@@ -123,7 +114,6 @@ const useRestore = () => {
       enqueueSnackbar('Contact has been permanently deleted.', {
         variant: 'success',
       });
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -154,7 +144,6 @@ const useRestore = () => {
       enqueueSnackbar('Record has been restored.', {
         variant: 'success',
       });
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -162,7 +151,6 @@ const useRestore = () => {
     }
   };
 
-  const theme = useTheme();
   const [isRestoreFilter, setIsRestoreFilter] = useState(false);
   const [search, setSearch] = useState('');
   const [isPermanantlyDel, setIsPermanantlyDel] = useState(false);
@@ -200,6 +188,7 @@ const useRestore = () => {
     handleOpenFilters,
     handleCloseFilters,
     loadingGetContact,
+    fetchingGetContacts,
     dataGetDeletedContacts,
     searchValue,
     methodsFilter,
@@ -207,13 +196,8 @@ const useRestore = () => {
     handleRefresh,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    rowId,
     isDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,

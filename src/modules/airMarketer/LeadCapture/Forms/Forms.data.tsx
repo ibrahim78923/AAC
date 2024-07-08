@@ -12,6 +12,7 @@ export const columns: any = (
   setShowSignUpForm: any,
   setFindStatus: any,
   theme: any,
+  setSelectedRowStatus: any,
 ) => {
   const router = useRouter();
   return [
@@ -31,13 +32,16 @@ export const columns: any = (
         );
       },
       cell: (info: any) => {
-        const id = info?.cell?.row?.original?._id;
+        const rowData = info?.cell?.row?.original;
+        const id = rowData?._id;
         return (
-          <RowSelection
-            id={id}
-            selectedRow={selectedRow}
-            setSelectedRow={setSelectedRow}
-          />
+          <Box onClick={() => setSelectedRowStatus(rowData?.status)}>
+            <RowSelection
+              id={id}
+              selectedRow={selectedRow}
+              setSelectedRow={setSelectedRow}
+            />
+          </Box>
         );
       },
     },
@@ -47,7 +51,8 @@ export const columns: any = (
       header: 'Form Name',
       isSortable: true,
       cell: (info: any) => {
-        const formId = info?.row?.original?._id;
+        const rowData = info?.row?.original;
+        const formId = rowData?._id;
         return (
           <Box
             sx={{
@@ -56,7 +61,12 @@ export const columns: any = (
               gap: '10px',
               cursor: 'pointer',
             }}
-            onClick={() => router.push(`${AIR_MARKETER.ALL_TABLE}/${formId}`)}
+            onClick={() =>
+              router.push({
+                pathname: `${AIR_MARKETER.ALL_TABLE}/${formId}`,
+                query: { status: rowData?.status },
+              })
+            }
           >
             <FileIcon />{' '}
             <Typography
