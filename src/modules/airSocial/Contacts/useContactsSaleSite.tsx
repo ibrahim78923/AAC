@@ -72,6 +72,8 @@ const useContactsSaleSite = () => {
   useEffect(() => {
     if (router?.pathname === AIR_MARKETER?.WHATSAPP_MARKETING) {
       setFilterParams({ numberType: CONTACTS_CONSTANTS?.WHATSAPP_NUMBER });
+    } else if (router?.pathname === AIR_MARKETER?.SMS_MARKETING) {
+      setFilterParams({ numberType: CONTACTS_CONSTANTS?.PHONE_NUMBER });
     }
   }, [router?.pathname]);
 

@@ -9,6 +9,7 @@ import {
 } from './AllContactDrawer.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { CONTACTS_CONSTANTS } from '@/constants/strings';
 
 const useAddContactDrawer = (
   onClose?: any,
@@ -20,12 +21,22 @@ const useAddContactDrawer = (
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
   const { data: getContactsData, isLoading: loadingAllContacts } =
-    useGetContactsQuery({ params: { limit: pageLimit, page: page } });
+    useGetContactsQuery({
+      params: {
+        limit: pageLimit,
+        page: page,
+        numberType: CONTACTS_CONSTANTS?.PHONE_NUMBER,
+      },
+    });
 
   const allContactsData = getContactsData?.data?.contacts;
   const { data: getGroupsData, isLoading: contactGroupsLoading } =
     useGetGroupsQuery({
-      params: { limit: pageLimit, page: page },
+      params: {
+        limit: pageLimit,
+        page: page,
+        numberType: CONTACTS_CONSTANTS?.PHONE_NUMBER,
+      },
     });
 
   const contactsGroupData = getGroupsData?.data?.contactgroups;
