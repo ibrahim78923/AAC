@@ -1,4 +1,5 @@
-import { Box, Checkbox } from '@mui/material';
+import React from 'react';
+import { Box, Checkbox, Tooltip, Typography } from '@mui/material';
 
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 
@@ -83,16 +84,37 @@ export const columns: any = (
   };
 
   const activeColumnsData = (attribute: any, info: any) => {
+    const userDetails = info?.row?.original?.userDetails;
+    const userName = userDetails
+      ? `${userDetails?.firstName} ${userDetails?.lastName}` ?? 'N/A'
+      : 'N/A';
+    const userEmail = userDetails ? userDetails?.email : 'N/A';
     if (attribute === CAMNPAIGNS_ATTRIBUTES?.title) {
       return info?.row?.original?.title ?? 'N/A';
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignOwner) {
       return (
-        <Box>
-          {info?.row?.original?.userDetails
-            ? `${info?.row?.original?.userDetails?.firstName} ${info?.row?.original?.userDetails?.lastName} ` ??
-              'N/A'
-            : 'N/A'}
-        </Box>
+        <Tooltip
+          title={
+            <React.Fragment>
+              <Typography
+                sx={{ textAlign: 'center', fontSize: '12px', fontWeight: 500 }}
+              >
+                {userName}
+              </Typography>
+              <Typography
+                sx={{ textAlign: 'center', fontSize: '12px', fontWeight: 500 }}
+              >
+                {userEmail}
+              </Typography>
+            </React.Fragment>
+          }
+          arrow
+          placement="top-start"
+        >
+          <Box>
+            <Typography sx={{ cursor: 'default' }}>{userName}</Typography>
+          </Box>
+        </Tooltip>
       );
     } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignbudget) {
       return info?.row?.original?.campaignBudget ?? 'N/A';

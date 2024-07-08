@@ -79,7 +79,7 @@ export const campaignArray = (userListData: any, organizationId: any) => {
     {
       componentProps: {
         name: 'campaignGoal',
-        label: 'Compaign Goal',
+        label: 'Campaign Goal',
         placeholder: 'Enter goal',
         fullWidth: true,
       },
@@ -89,7 +89,8 @@ export const campaignArray = (userListData: any, organizationId: any) => {
     {
       componentProps: {
         name: 'campaignAudience',
-        label: 'Compaign Audience',
+        label: 'Campaign Audience',
+        placeholder: 'Enter campaign audience',
         fullWidth: true,
       },
       component: RHFTextField,
@@ -98,7 +99,7 @@ export const campaignArray = (userListData: any, organizationId: any) => {
     {
       componentProps: {
         name: 'campaignBudget',
-        label: 'Compaign Budget',
+        label: 'Campaign Budget',
         placeholder: 'Enter Amount',
         type: 'number',
         InputProps: { inputProps: { min: 0 } },
@@ -110,7 +111,7 @@ export const campaignArray = (userListData: any, organizationId: any) => {
         label: 'Campaign Status',
         name: 'campaignStatus',
         fullWidth: true,
-        placeholder: 'select status',
+        placeholder: 'Select status',
         options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
       },
 

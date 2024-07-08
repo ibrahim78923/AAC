@@ -5,13 +5,14 @@ import { styles } from './StatisticsCard.style';
 import useSMSDashboard from '../useSMSDashboard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
-const StatisticsCard = () => {
+const StatisticsCard = ({ analytics, isDashboard = true }: any) => {
   const { series, options, theme } = useStatisticsCard();
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
 
   const { dashboardGraphData, dashboardLoading } = useSMSDashboard();
+  const analyticsGraphData = isDashboard ? dashboardGraphData : analytics;
 
   return (
     <>
@@ -30,7 +31,7 @@ const StatisticsCard = () => {
           </Typography>
           <ReactApexChart
             options={options}
-            series={series(dashboardGraphData)}
+            series={series(analyticsGraphData)}
             type="bar"
             height={450}
           />

@@ -16,5 +16,6 @@ export const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
+    mb: '10px',
   },
 };

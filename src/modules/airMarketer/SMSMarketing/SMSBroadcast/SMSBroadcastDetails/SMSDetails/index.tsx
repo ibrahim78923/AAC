@@ -12,12 +12,13 @@ import {
 } from '@mui/material';
 import Search from '@/components/Search';
 import SMSDetailsTable from './SMSDetailsTable';
-import useSMSBroadcast from '../../useSMSBroadcast';
 import ImportIcon from '@/assets/icons/shared/import-icon';
 import SkeletonComponent from '@/components/CardSkeletons';
+import useSMSBroadcastDetails from '../useSMSBroadcastDetails';
 
 const SMSDetails = ({ detailsData, isLoading }: any) => {
-  const { theme } = useSMSBroadcast();
+  const { theme, filters, setFilters, updatedRecords } =
+    useSMSBroadcastDetails(detailsData);
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -67,21 +68,31 @@ const SMSDetails = ({ detailsData, isLoading }: any) => {
       </Grid>
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="space-between" my={2}>
-          <Search placeholder="Search Here" size="small" />
+          <Search
+            size="small"
+            placeholder="Search Here"
+            onChange={(e: any) => {
+              setFilters({ ...filters, search: e?.target?.value });
+            }}
+          />
           <Box sx={{ gap: 1, display: 'flex' }}>
             <FormControl size="small">
               <Select
                 sx={{ height: '36px' }}
-                defaultValue={'status'}
-                // value={age}
-                // onChange={handleChange}
+                value={filters?.status}
+                defaultValue="All"
+                onChange={(e: any) => {
+                  setFilters({ ...filters, status: e?.target?.value });
+                }}
               >
-                <MenuItem value={'status'}>All</MenuItem>
+                <MenuItem value={'All'}>All</MenuItem>
                 <MenuItem value={'sent'}>Sent</MenuItem>
                 <MenuItem value={'delivered'}>Delivered</MenuItem>
+                <MenuItem value={'undelivered'}>Undelivered</MenuItem>
                 <MenuItem value={'read'}>Read</MenuItem>
                 <MenuItem value={'replied'}>Replied</MenuItem>
                 <MenuItem value={'failed'}>Failed</MenuItem>
+                <MenuItem value={'Completed'}>Completed</MenuItem>
               </Select>
             </FormControl>
             <Button
@@ -94,7 +105,7 @@ const SMSDetails = ({ detailsData, isLoading }: any) => {
             </Button>
           </Box>
         </Stack>
-        <SMSDetailsTable />
+        <SMSDetailsTable recipientsData={updatedRecords} loading={isLoading} />
       </Grid>
     </Grid>
   );

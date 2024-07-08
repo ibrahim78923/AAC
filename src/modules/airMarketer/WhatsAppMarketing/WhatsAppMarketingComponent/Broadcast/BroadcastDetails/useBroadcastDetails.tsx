@@ -1,4 +1,4 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { MEETINGS_DETAILS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useGetWhatsappBroadcatsByIdQuery,
   useUpdateWhatsappBroadcastMutation,
@@ -9,17 +9,19 @@ import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
-const useBroadcastDetails = () => {
+const useBroadcastDetails = (broadcastDetails: any) => {
   const theme = useTheme();
   const navigate = useRouter();
   const broadcastId = useSearchParams()?.get('id');
+
   const [openModalDelete, setOpenModalDelete] = useState({
     isToggle: false,
     recipientId: '',
   });
+
   const [filters, setFilters] = useState({
     search: '',
-    status: 'All',
+    status: MEETINGS_DETAILS_TYPE?.ALL,
   });
 
   const { data: getSmsBroadcatsById, isLoading: smsDetailsLoading } =
@@ -40,7 +42,7 @@ const useBroadcastDetails = () => {
       });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
@@ -52,6 +54,22 @@ const useBroadcastDetails = () => {
     });
   };
 
+  const updatedRecords = broadcastDetails?.recipients?.filter((item: any) => {
+    if (filters?.search) {
+      return item?.name
+        ?.toLowerCase()
+        ?.includes(filters?.search?.toLowerCase());
+    } else if (filters?.status) {
+      if (filters?.status === MEETINGS_DETAILS_TYPE?.ALL) {
+        return true;
+      } else {
+        return item?.messageStatus === filters?.status;
+      }
+    } else {
+      return true;
+    }
+  });
+
   return {
     updateBroadcastLoading,
     handleDeleteRecipient,
@@ -60,6 +78,7 @@ const useBroadcastDetails = () => {
     smsDetailsLoading,
     handleCloseDelete,
     openModalDelete,
+    updatedRecords,
     setFilters,
     navigate,
     filters,

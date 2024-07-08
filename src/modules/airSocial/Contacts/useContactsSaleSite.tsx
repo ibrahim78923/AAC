@@ -15,7 +15,7 @@ import {
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
 import { getSession } from '@/utils';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { CONTACTS_CONSTANTS, NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   customValidationSchema,
   defaultValues,
@@ -71,7 +71,7 @@ const useContactsSaleSite = () => {
   const router = useRouter();
   useEffect(() => {
     if (router?.pathname === AIR_MARKETER?.WHATSAPP_MARKETING) {
-      setFilterParams({ onlyWhatsapp: true });
+      setFilterParams({ numberType: CONTACTS_CONSTANTS?.WHATSAPP_NUMBER });
     }
   }, [router?.pathname]);
 

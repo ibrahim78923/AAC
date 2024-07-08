@@ -56,7 +56,11 @@ const SMSBroadcastDetails = () => {
           detailsData={smsBroadcastDetails}
           isLoading={smsDetailsLoading}
         />
-        <Analytics />
+        <Analytics
+          analyticsData={smsBroadcastDetails}
+          isLoading={smsDetailsLoading}
+          isDashboard={false}
+        />
       </CommonTabs>
     </>
   );

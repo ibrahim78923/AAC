@@ -2,14 +2,21 @@ import { Grid } from '@mui/material';
 import StatusCards from '../../../SMSDashboard/StatusCards';
 import StatisticsCard from '../../../SMSDashboard/StatisticsCard';
 
-const Analytics = () => {
+const Analytics = ({ analyticsData, isDashboard, isLoading }: any) => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <StatusCards />
+        <StatusCards
+          analytics={analyticsData?.statisticsData}
+          isDashboard={isDashboard}
+          isLoading={isLoading}
+        />
       </Grid>
       <Grid item xs={12}>
-        <StatisticsCard />
+        <StatisticsCard
+          analytics={analyticsData?.statisticsData?.statistics}
+          isDashboard={isDashboard}
+        />
       </Grid>
     </Grid>
   );

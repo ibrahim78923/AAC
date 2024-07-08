@@ -13,7 +13,8 @@ import ContactsGroup from './ContactsGroup';
 import ActionsBar from './ActionsBar';
 import ContactTabs from './ContactTabs';
 
-const Contacts = () => {
+const Contacts = (props?: any) => {
+  const { isSocialContacts } = props;
   const {
     tabValue,
     handleChangeTabs,
@@ -76,31 +77,38 @@ const Contacts = () => {
       <Box>
         <ContactsGroup />
 
-        <ContactsHeader handleRefresh={handleSetTabAllContacts} />
-
-        <ContactTabs
-          tabsArray={tabsArray}
-          tabValue={tabValue}
-          handleTabChange={handleChangeTabs}
-          handleCreateView={handleOpenCreateView}
+        <ContactsHeader
+          isSocialHeader={isSocialContacts}
+          handleRefresh={handleSetTabAllContacts}
         />
 
-        <ActionsBar
-          setSearchValue={setSearchValue}
-          isActionsDisabled={selectedRow?.length === 0}
-          disabledMenuItem={selectedRow?.length !== 1}
-          anchorEl={anchorEl}
-          handleActionsMenuClick={handleActionsMenuClick}
-          actionMenuOpen={actionMenuOpen}
-          handleActionsMenuClose={handleActionsMenuClose}
-          rowId={selectedRow[0]}
-          handleOpenModalReAssign={handleOpenModalReAssign}
-          handleOpenModalDelete={handleOpenModalDelete}
-          handleOpenCustomize={() => setIsCustomize(true)}
-          handleOpenFilters={handleOpenFilters}
-          handleRefresh={handleRefresh}
-          handleOpenModalExport={handleOpenModalExport}
-        />
+        {isSocialContacts && (
+          <ContactTabs
+            tabsArray={tabsArray}
+            tabValue={tabValue}
+            handleTabChange={handleChangeTabs}
+            handleCreateView={handleOpenCreateView}
+          />
+        )}
+
+        {isSocialContacts && (
+          <ActionsBar
+            setSearchValue={setSearchValue}
+            isActionsDisabled={selectedRow?.length === 0}
+            disabledMenuItem={selectedRow?.length !== 1}
+            anchorEl={anchorEl}
+            handleActionsMenuClick={handleActionsMenuClick}
+            actionMenuOpen={actionMenuOpen}
+            handleActionsMenuClose={handleActionsMenuClose}
+            rowId={selectedRow[0]}
+            handleOpenModalReAssign={handleOpenModalReAssign}
+            handleOpenModalDelete={handleOpenModalDelete}
+            handleOpenCustomize={() => setIsCustomize(true)}
+            handleOpenFilters={handleOpenFilters}
+            handleRefresh={handleRefresh}
+            handleOpenModalExport={handleOpenModalExport}
+          />
+        )}
 
         <ContactsTable
           columns={contactsColumns}

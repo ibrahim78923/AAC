@@ -38,7 +38,7 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignOwner',
-        label: 'Compaign Owner',
+        label: 'Campaign Owner',
         fullWidth: true,
         select: true,
       },
@@ -77,7 +77,7 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignGoal',
-        label: 'Compaign Goal',
+        label: 'Campaign Goal',
         placeholder: 'Get 5k likes on instagram',
         fullWidth: true,
       },
@@ -87,7 +87,7 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignAudience',
-        label: 'Compaign Audience',
+        label: 'Campaign Audience',
         placeholder: 'Instagram influencers',
         fullWidth: true,
       },
@@ -97,7 +97,7 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignBudget',
-        label: 'Compaign Budget',
+        label: 'Campaign Budget',
         placeholder: '£20.105.00',
         fullWidth: true,
       },
@@ -107,7 +107,7 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignStatus',
-        label: 'compaign Status',
+        label: 'campaign Status',
         fullWidth: true,
         select: true,
       },

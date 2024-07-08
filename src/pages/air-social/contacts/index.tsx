@@ -3,7 +3,7 @@ import Layout from '@/layout';
 import Contacts from '@/modules/airSocial/Contacts';
 
 const ContactPage = () => {
-  return <Contacts />;
+  return <Contacts isSocialContacts={true} />;
 };
 export default ContactPage;
 ContactPage.getLayout = function getLayout(page: any) {

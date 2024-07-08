@@ -581,6 +581,11 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const CONTACTS_CONSTANTS = {
+  WHATSAPP_NUMBER: 'whatsAppNumber',
+  PHONE_NUMBER: 'phoneNumber',
+};
+
 export const STATICTICS_STATUS = {
   RECIEVED: 'Received',
   SENT: 'Sent',

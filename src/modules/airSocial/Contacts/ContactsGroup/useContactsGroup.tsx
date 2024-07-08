@@ -15,6 +15,7 @@ import {
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
+import { CONTACTS_CONSTANTS } from '@/constants/strings';
 
 const useContactsGroup = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -43,7 +44,7 @@ const useContactsGroup = () => {
 
   useEffect(() => {
     if (router?.pathname === AIR_MARKETER?.WHATSAPP_MARKETING) {
-      setFilterParams({ onlyWhatsapp: true });
+      setFilterParams({ numberType: CONTACTS_CONSTANTS?.WHATSAPP_NUMBER });
     }
   }, [router?.pathname]);
 

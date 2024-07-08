@@ -24,19 +24,10 @@ const BroadcastDetailsTab = ({ isLoading, broadcastDetails }: any) => {
     setOpenModalDelete,
     handleCloseDelete,
     openModalDelete,
+    updatedRecords,
     setFilters,
     filters,
-  } = useBroadcastDetails();
-
-  const updatedRecords = broadcastDetails?.recipients?.filter((item: any) => {
-    if (filters?.search) {
-      return item?.name?.toLowerCase().includes(filters?.search?.toLowerCase());
-    } else if (filters?.status) {
-      return filters?.status ? item?.messageStatus === filters?.status : true;
-    } else {
-      return broadcastDetails?.recipients;
-    }
-  });
+  } = useBroadcastDetails(broadcastDetails);
 
   return (
     <>
@@ -81,6 +72,7 @@ const BroadcastDetailsTab = ({ isLoading, broadcastDetails }: any) => {
                 <MenuItem value={'All'}>All</MenuItem>
                 <MenuItem value={'sent'}>Sent</MenuItem>
                 <MenuItem value={'delivered'}>Delivered</MenuItem>
+                <MenuItem value={'undelivered'}>Undelivered</MenuItem>
                 <MenuItem value={'read'}>Read</MenuItem>
                 <MenuItem value={'replied'}>Replied</MenuItem>
                 <MenuItem value={'failed'}>Failed</MenuItem>
@@ -101,6 +93,7 @@ const BroadcastDetailsTab = ({ isLoading, broadcastDetails }: any) => {
       <DetailsTable
         setOpenModalDelete={setOpenModalDelete}
         recepientsData={updatedRecords}
+        loading={isLoading}
       />
 
       {openModalDelete?.isToggle && (
