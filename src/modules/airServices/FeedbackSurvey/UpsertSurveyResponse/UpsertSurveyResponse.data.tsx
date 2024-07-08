@@ -9,7 +9,6 @@ import * as Yup from 'yup';
 
 export const upsertSurveyResponseValidationSchema = (questionsData: any) => {
   const schema: any = {};
-
   questionsData?.forEach((question: any, questionId: any) => {
     switch (question?.questionType) {
       case FEEDBACK_SURVEY_QUESTION_TYPE?.MULTIPLE_CHOICE:
@@ -40,7 +39,21 @@ export const upsertSurveyResponseValidationSchema = (questionsData: any) => {
         break;
     }
   });
-  return Yup?.object()?.shape(schema);
+  return Yup?.object()?.shape({
+    email: Yup?.string()
+      ?.trim()
+      ?.email('Must be an email')
+      ?.required('Email is required'),
+    ...schema,
+  });
+};
+
+export const FEEDBACK_SURVEY_RESPONSE_QUESTION_ANSWERS: any = {
+  [FEEDBACK_SURVEY_QUESTION_TYPE?.MULTIPLE_CHOICE]: 'singleAnswer',
+  [FEEDBACK_SURVEY_QUESTION_TYPE?.SHORT_ANSWERS]: 'singleAnswer',
+  [FEEDBACK_SURVEY_QUESTION_TYPE?.LINEAR_SCALE]: 'singleAnswer',
+  [FEEDBACK_SURVEY_QUESTION_TYPE?.CHECK_BOXES]: 'multiAnswer',
+  [FEEDBACK_SURVEY_QUESTION_TYPE?.TEXT]: 'singleAnswer',
 };
 
 export const upsertSurveyResponseDefaultValues = (questionsData: any) => {

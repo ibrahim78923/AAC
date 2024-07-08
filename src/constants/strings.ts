@@ -784,11 +784,11 @@ export const FEEDBACK_SURVEY_QUESTION_TYPE = {
 };
 
 export const FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE = {
-  EXCELLENT: 'EXCELLENT',
-  VERY_GOOD: 'VERY_GOOD',
-  GOOD: 'GOOD',
-  SATISFIED: 'SATISFIED',
-  UN_SATISFIED: 'UN_SATISFIED',
+  EXCELLENT: 'Excellent',
+  VERY_GOOD: 'Very Good',
+  GOOD: 'Good',
+  SATISFIED: 'Satisfied',
+  UN_SATISFIED: 'Unsatisfied',
 };
 
 export const ARRAY_INDEX = {
@@ -919,4 +919,20 @@ export const ATTACHMENT_FILE_TYPE = {
 };
 export const DATA_TYPE = {
   object: 'object',
+};
+
+export const FEEDBACK_SURVEY_QUESTION_LINEAR_SCALE = {
+  STRONGLY_AGREE: 'Strongly Agree 😇',
+  AGREE: 'Agree 😊',
+  NEUTRAL: 'Neutral 😐',
+  DISAGREE: 'Disagree 😑',
+  STRONGLY_DISAGREE: 'Strongly Disagree 😠',
+};
+
+export const PERCENTAGES_VALUES = {
+  ZERO: 0,
+  TWENTY: 20,
+  FORTY: 40,
+  SIXTY: 60,
+  EIGHTY: 80,
 };

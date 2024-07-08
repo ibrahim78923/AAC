@@ -438,7 +438,14 @@ export const END_POINTS = {
   PUT_DYNAMIC_FIELDS: `/customized-columns/create-or-update-custom-fields`,
   GET_DYNAMIC_FIELDS: `/customized-columns/get-custom-field`,
   DELETE_DYNAMIC_FIELDS: `/customized-columns/delete-field`,
-  GET_SINGLE_FEEDBACK_FOR_RESPONSE: '/feedback-survey/get-feedback-survey',
+  GET_SINGLE_FEEDBACK_FOR_RESPONSE:
+    '/feedback-survey/get-survey-questions-by-uuid',
+  PATCH_SINGLE_FEEDBACK_ANSWERS_FOR_RESPONSE:
+    '/feedback-survey/add-feedback-survey-questions-answer',
+  PATCH_SINGLE_FEEDBACK_DROPOUT_ANSWERS_FOR_RESPONSE:
+    '/feedback-survey/dropout-by-uuid',
+  GET_SINGLE_SURVEY_ALL_RESPONSES_DETAILS:
+    '/feedback-survey/get-survey-responses-details',
   ADD_MEETING: '/Meetings/add-meeting',
 };
 

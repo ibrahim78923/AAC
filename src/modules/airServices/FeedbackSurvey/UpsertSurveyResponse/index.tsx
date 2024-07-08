@@ -1,13 +1,13 @@
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useUpsertSurveyResponse } from './useUpsertSurveyResponse';
 import NoData from '@/components/NoData';
-import { Box, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { createElement } from 'react';
 import { FEEDBACK_SURVEY_RESPONSE_QUESTION } from './UpsertSurveyResponse.data';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
-import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { ARRAY_INDEX, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export const UpsertSurveyResponse = () => {
   const {
@@ -16,6 +16,9 @@ export const UpsertSurveyResponse = () => {
     methods,
     action,
     lazyGetSingleSurveyForResponseStatus,
+    patchSingleSurveyDropoutAnswerForResponseStatus,
+    patchSingleSurveyQuestionsAnswerForResponseStatus,
+    submitSurveyResponseDropout,
   } = useUpsertSurveyResponse();
 
   if (
@@ -25,67 +28,84 @@ export const UpsertSurveyResponse = () => {
     return <SkeletonForm />;
   if (lazyGetSingleSurveyForResponseStatus?.isError) return <ApiErrorState />;
 
+  if (patchSingleSurveyQuestionsAnswerForResponseStatus?.isSuccess)
+    return <NoData />;
+
+  if (patchSingleSurveyDropoutAnswerForResponseStatus?.isSuccess)
+    return <NoData />;
+
   return (
-    <>
+    <Box px={4} py={6}>
       <FormProvider
         methods={methods}
         onSubmit={handleSubmit(submitSurveyResponse)}
       >
-        {lazyGetSingleSurveyForResponseStatus?.data?.data?.sections?.length ? (
-          lazyGetSingleSurveyForResponseStatus?.data?.data?.sections?.map(
-            (item: any) => (
-              <>
-                <Typography color="primary" variant="h4">
-                  {' '}
-                  {item?.heading}
-                </Typography>
-                {item?.questions?.length ? (
-                  item?.questions?.map((item: any) => (
-                    <Box
-                      key={item?._id}
-                      border="1px solid"
-                      borderColor="custom.off_white_three"
-                      p={2}
-                      my={2}
-                      borderRadius={2}
-                    >
-                      <Typography variant="h6" mb={1}>
-                        {item?.questionTitle}
-                      </Typography>
-                      <>
-                        {FEEDBACK_SURVEY_RESPONSE_QUESTION?.[
-                          item?.questionType
-                        ] &&
-                          createElement(
-                            FEEDBACK_SURVEY_RESPONSE_QUESTION?.[
-                              item?.questionType
-                            ],
-                            {
-                              options: item?.options?.map((option: any) => ({
-                                value: option?.text,
-                                label: option?.text,
-                              })),
-                              name: item?._id,
-                              rows: 3,
-                              multiline: true,
-                              disabled:
-                                action === GENERIC_UPSERT_FORM_CONSTANT?.VIEW,
-                            },
-                            item?.description,
-                          )}
-                      </>
-                    </Box>
-                  ))
-                ) : (
-                  <NoData
-                    image=""
-                    height=""
-                    message="No questions in this section"
-                  />
-                )}
-              </>
-            ),
-          )
+        <Grid container>
+          <Grid item xs={12} md={6}>
+            <RHFTextField
+              name="email"
+              size="small"
+              label="Enter Your Email"
+              required
+            />
+          </Grid>
+        </Grid>
+        {lazyGetSingleSurveyForResponseStatus?.data?.data[ARRAY_INDEX?.ZERO]
+          ?.sections?.length ? (
+          lazyGetSingleSurveyForResponseStatus?.data?.data[
+            ARRAY_INDEX?.ZERO
+          ]?.sections?.map((item: any) => (
+            <>
+              <Typography color="primary" variant="h4">
+                {' '}
+                {item?.heading}
+              </Typography>
+              {item?.questions?.length ? (
+                item?.questions?.map((item: any) => (
+                  <Box
+                    key={item?._id}
+                    border="1px solid"
+                    borderColor="custom.off_white_three"
+                    p={2}
+                    my={2}
+                    borderRadius={2}
+                  >
+                    <Typography variant="h6" mb={1}>
+                      {item?.questionTitle}
+                    </Typography>
+                    <>
+                      {FEEDBACK_SURVEY_RESPONSE_QUESTION?.[
+                        item?.questionType
+                      ] &&
+                        createElement(
+                          FEEDBACK_SURVEY_RESPONSE_QUESTION?.[
+                            item?.questionType
+                          ],
+                          {
+                            options: item?.options?.map((option: any) => ({
+                              value: option?.text,
+                              label: option?.text,
+                            })),
+                            name: item?._id,
+                            rows: 3,
+                            multiline: true,
+                            disabled:
+                              action === GENERIC_UPSERT_FORM_CONSTANT?.VIEW,
+                          },
+                          item?.description,
+                        )}
+                    </>
+                  </Box>
+                ))
+              ) : (
+                <NoData
+                  image=""
+                  height=""
+                  message="No questions in this section"
+                />
+              )}
+            </>
+          ))
         ) : (
           <NoData message="No survey found" />
         )}
@@ -96,15 +116,35 @@ export const UpsertSurveyResponse = () => {
         >
           <Box></Box>
           <Box display={'flex'} gap={2} alignItems={'center'}>
-            <LoadingButton variant="outlined" type="button" color="secondary">
+            <LoadingButton
+              variant="outlined"
+              type="button"
+              color="secondary"
+              loading={
+                patchSingleSurveyDropoutAnswerForResponseStatus?.isLoading
+              }
+              disabled={
+                patchSingleSurveyQuestionsAnswerForResponseStatus?.isLoading
+              }
+              onClick={() => submitSurveyResponseDropout?.()}
+            >
               Cancel
             </LoadingButton>
-            <LoadingButton variant="contained" type="submit">
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              disabled={
+                patchSingleSurveyDropoutAnswerForResponseStatus?.isLoading
+              }
+              loading={
+                patchSingleSurveyQuestionsAnswerForResponseStatus?.isLoading
+              }
+            >
               Save
             </LoadingButton>
           </Box>
         </Box>
       </FormProvider>
-    </>
+    </Box>
   );
 };

@@ -6,7 +6,13 @@ import {
 } from '@mui/material';
 
 export const CustomCircularProgressBar = (props: any) => {
-  const { size = 50, thickness = 3, progressColor, value = 50 } = props;
+  const {
+    size = 50,
+    thickness = 3,
+    progressColor,
+    value = 50,
+    percentage = 50,
+  } = props;
   return (
     <Box>
       <Box sx={{ position: 'relative' }}>
@@ -22,10 +28,10 @@ export const CustomCircularProgressBar = (props: any) => {
         />
         <CircularProgress
           variant="determinate"
-          value={value}
           size={size}
           thickness={thickness}
           {...props}
+          value={percentage}
           sx={{
             color: progressColor,
             position: 'absolute',
@@ -49,7 +55,7 @@ export const CustomCircularProgressBar = (props: any) => {
         >
           <Typography variant="body4" color="slateBlue.main">{`${Math?.round(
             value,
-          )}%`}</Typography>
+          )}`}</Typography>
         </Box>
       </Box>
     </Box>

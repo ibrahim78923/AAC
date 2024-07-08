@@ -27,7 +27,7 @@ export const SurveyCard = (props: any) => {
             <data.rateIcon />
           </Avatar>
           <Typography variant="body1" color="slateBlue.main" fontWeight={600}>
-            {data?.rate}
+            {data?.rate ?? '---'}
           </Typography>
         </Box>
       </Box>
