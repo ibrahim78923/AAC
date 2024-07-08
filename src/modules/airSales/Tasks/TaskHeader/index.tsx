@@ -4,7 +4,6 @@ import { Box, Button, Typography, useTheme } from '@mui/material';
 import ActivityAndPerformance from '../ActivityAndPerformance';
 import CreateTask from '../CreateTask';
 import { PlusIcon, UmbrellaIcon } from '@/assets/icons';
-import ImportTaskDrawer from '../ImportTaskDrawer';
 import { RecycleIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
@@ -16,14 +15,16 @@ import {
   setDealsSelectedIds,
   setSelectedTaskIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
+import ImportTaskDrawer from './ImportTaskDrawer';
 const TaskHeader = () => {
   const theme = useTheme();
-  const [isOpen, setIsOpen] = useState(false);
   const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
   const [isOpenCollapsAndExpand, setIsOpenCollapsAndExpand] =
     useState<any>(false);
   const dispatch: any = useAppDispatch();
   const { reset } = useCreateTask({});
+
+  const [isImportTask, setIsImportTask] = useState(false);
 
   return (
     <Box
@@ -65,7 +66,7 @@ const TaskHeader = () => {
             className="small"
             color="inherit"
             startIcon={<UmbrellaIcon />}
-            onClick={() => setIsOpen(true)}
+            onClick={() => setIsImportTask(true)}
           >
             Import
           </Button>
@@ -110,9 +111,8 @@ const TaskHeader = () => {
           />
         )}
       </Box>
-      {isOpen && (
-        <ImportTaskDrawer onClose={() => setIsOpen(false)} open={isOpen} />
-      )}
+
+      <ImportTaskDrawer open={isImportTask} setIsImportTask={setIsImportTask} />
     </Box>
   );
 };

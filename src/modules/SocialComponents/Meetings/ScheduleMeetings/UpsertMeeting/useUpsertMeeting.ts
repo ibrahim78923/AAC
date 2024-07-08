@@ -61,8 +61,8 @@ export const useUpsertMeeting = () => {
         meetingType === routeConstant?.oneToOne
           ? routeConstant?.oneToOneMeeting
           : meetingType === routeConstant?.group
-          ? routeConstant?.groupMeeting
-          : routeConstant?.collectiveMeeting,
+            ? routeConstant?.groupMeeting
+            : routeConstant?.collectiveMeeting,
       isAllDay: formData?.allDay,
       timeZone: formData?.timeZone,
       startDate: formData?.startDate,
@@ -84,9 +84,9 @@ export const useUpsertMeeting = () => {
           formData?.recurring === true
             ? formData?.dailyType
             : formData?.recurringType === recurringConstant?.monthly &&
-              formData?.recurring === true
-            ? formData?.monthType
-            : '',
+                formData?.recurring === true
+              ? formData?.monthType
+              : '',
         days:
           formData?.recurringType === recurringConstant?.monthly &&
           formData?.monthType === recurringConstant?.onMonthDate &&
@@ -97,10 +97,10 @@ export const useUpsertMeeting = () => {
           formData?.recurringType === recurringConstant?.weekly
             ? formData?.weekDays
             : formData?.recurringType === recurringConstant?.monthly &&
-              formData?.monthType === recurringConstant?.onTheDay &&
-              formData?.recurring === true
-            ? formData?.monthlyDays?.map((day: any) => day?.value)
-            : [],
+                formData?.monthType === recurringConstant?.onTheDay &&
+                formData?.recurring === true
+              ? formData?.monthlyDays?.map((day: any) => day?.value)
+              : [],
         onWeek:
           formData?.recurringType === recurringConstant?.monthly &&
           formData?.recurring === true

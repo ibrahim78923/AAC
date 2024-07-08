@@ -3,6 +3,7 @@ import {
   AIR_MARKETER,
   END_POINTS,
   OPERATION,
+  organization,
   settingSalesProductCategory,
 } from '@/routesConstants/endpoints';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
@@ -19,7 +20,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
 
     getDropdownProducts: builder.query({
       query: () => ({
-        url: END_POINTS?.DROPDOWN_PRODUCTS,
+        url: organization?.USERS_PRODUCTS,
         method: 'GET',
       }),
       transformResponse: (response: any) => {

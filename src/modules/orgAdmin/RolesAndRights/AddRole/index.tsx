@@ -57,7 +57,7 @@ const AddRole = () => {
         />
         <Typography variant="h4">
           {query?.type === DRAWER_TYPES?.ADD
-            ? 'Add New Role'
+            ? 'Add New Role '
             : query?.type === DRAWER_TYPES?.EDIT
               ? 'Edit Role'
               : 'Role Details'}

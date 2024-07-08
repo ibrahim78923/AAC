@@ -416,9 +416,8 @@ const SendEmailDrawer = (props: any) => {
                   fullWidth
                   label="Select Data and Time"
                   size="small"
-                  // disablePast
+                  disablePast
                   minDateTime={dayjs()}
-                  // defaultValue={dayjs().add(5, 'minute')}
                 />
               </Box>
             )}
