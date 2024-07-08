@@ -91,7 +91,7 @@ export const useUpsertSalesWorkflow = () => {
                 (condition?.condition === workflowFields?.isIn ||
                   condition?.condition === workflowFields?.isNotIn)
               ? workflowFields?.lifecycleStages
-              : (condition?.fieldName?.label === workflowFields?.salesOwner ||
+              : (condition?.fieldName?.label === workflowFields?.dealOwner ||
                     condition?.fieldName?.label === workflowFields?.createdBy ||
                     condition?.fieldName?.label ===
                       workflowFields?.updatedBy) &&

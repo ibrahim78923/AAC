@@ -4,6 +4,8 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
+import { getSession } from '@/utils';
 import { fullName } from '@/utils/avatarUtils';
 const setPriorityOption = ['Low', 'Medium', 'High'];
 const setBillOption = [
@@ -29,8 +31,10 @@ export const actionsExecutedFields = (
   dealsDropdown: any,
   userDropdown: any,
   stagesDropdown: any,
+  adminUserDropdown: any,
 ) => {
   const moduleType = watch('module');
+  const sessionUser: any = getSession()?.user;
   const keyOptions = actionKeys[moduleType] || [];
   const watchKey = watch(`actions.${index}.fieldName`)?.label;
   let component = RHFAutocomplete;
@@ -64,8 +68,13 @@ export const actionsExecutedFields = (
     } else if (watchKey === actionName?.setDealOwner) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
-          apiQuery: userDropdown,
+          apiQuery: adminUserDropdown,
           placeholder: 'Select User',
+          externalParams: {
+            role: ROLES?.ORG_EMPLOYEE,
+            organization: sessionUser?.organization?._id,
+            limit: 500,
+          },
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
         });

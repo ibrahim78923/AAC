@@ -127,6 +127,17 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_ONE],
     }),
+    getAdminUserDropdownList: builder?.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.USERS_LIST_ADMIN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_ONE],
+    }),
   }),
 });
 
@@ -145,4 +156,5 @@ export const {
   useLazyGetLifeCycleStagesDropdownListQuery,
   useUpdateSalesWorkflowMutation,
   useGetByIdSalesWorkflowQuery,
+  useLazyGetAdminUserDropdownListQuery,
 } = salesWorkflowAPI;

@@ -6,6 +6,8 @@ import {
 } from '@/components/ReactHookForm';
 import { fullName } from '@/utils/avatarUtils';
 import { Box } from '@mui/material';
+import { getSession } from '@/utils';
+import { ROLES } from '@/constants/strings';
 
 export const conditionTypeOptions = [
   { label: 'Match ALL condition in this group', value: 'AND' },
@@ -51,9 +53,11 @@ export const workflowConditionsDataArray = (
   dealDropdown: any,
   userDropdown: any,
   stagesDropdown: any,
+  adminUserDropdown: any,
 ) => {
   const moduleType = watch('module');
   const keyDropdown = workflowModuleOption[moduleType] || [];
+  const sessionUser: any = getSession()?.user;
   const watchKey = watch(`groups.${index}.conditions.${subIndex}.fieldName`)
     ?.label;
   let conditionOptions: string[] = [];
@@ -89,10 +93,10 @@ export const workflowConditionsDataArray = (
       ) {
         component = Box;
       }
-    } else if (watchKey === conditionNames?.dealValue) {
+    } else if (watchKey === conditionNames?.dealAmount) {
       component = RHFTextField;
       componentProps = {
-        placeholder: 'Enter Value',
+        placeholder: 'Enter Amount',
         type: 'number',
       };
     } else if (watchKey === conditionNames?.dealPipeline) {
@@ -142,7 +146,7 @@ export const workflowConditionsDataArray = (
         component = Box;
       }
     } else if (
-      watchKey === conditionNames?.salesOwner ||
+      watchKey === conditionNames?.dealOwner ||
       watchKey === conditionNames?.createdBy ||
       watchKey === conditionNames?.updatedBy
     ) {
@@ -154,7 +158,12 @@ export const workflowConditionsDataArray = (
         componentProps = {
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
-          apiQuery: userDropdown,
+          externalParams: {
+            role: ROLES?.ORG_EMPLOYEE,
+            organization: sessionUser?.organization?._id,
+            limit: 500,
+          },
+          apiQuery: adminUserDropdown,
           placeholder: 'Select User',
         };
       } else if (
@@ -356,11 +365,11 @@ export const workflowConditionsDataArray = (
 export const workflowModuleOption: any = {
   DEALS: [
     { label: 'Name', value: 'name' },
-    { label: 'Deal Value', value: 'amount' },
+    { label: 'Deal Amount', value: 'amount' },
     { label: 'Deal Pipeline', value: 'dealPipelineId' },
     { label: 'Deal Stage', value: 'dealStageId' },
     { label: 'Close Date', value: 'closeDate' },
-    { label: 'Sales Owner', value: 'ownerId' },
+    { label: 'Deal Owner', value: 'ownerId' },
     { label: 'Last Activity Date', value: 'updatedAt' },
     { label: 'Created By', value: 'createdBy' },
     { label: 'Created At', value: 'createdAt' },
@@ -425,11 +434,11 @@ export const dealConditions = [
 ];
 export const dealConditionIndexMap: any = {
   Name: 0,
-  'Deal Value': 1,
+  'Deal Amount': 1,
   'Deal Pipeline': 2,
   'Deal Stage': 3,
   'Close Date': 4,
-  'Sales Owner': 5,
+  'Deal Owner': 5,
   'Last Activity Date': 6,
   'Created By': 7,
   'Created At': 8,
@@ -495,7 +504,7 @@ export const conditionNames = {
   isNot: 'is not in',
   isEmpty: 'is empty',
   isNotEmpty: 'is not empty',
-  dealValue: 'Deal Value',
+  dealAmount: 'Deal Amount',
   expectedDealValue: 'Expected Deal Value',
   accountName: 'Account Name',
   closeDate: 'Close Date',
@@ -508,7 +517,7 @@ export const conditionNames = {
   afterASpecificDate: 'after a specific date',
   beforeASpecificDate: 'before a specific date',
   isBlank: 'is blank',
-  salesOwner: 'Sales Owner',
+  dealOwner: 'Deal Owner',
   createdBy: 'Created By',
   updatedBy: 'Updated By',
   currency: 'Currency',

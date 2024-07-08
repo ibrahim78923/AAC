@@ -168,7 +168,7 @@ export const workflowFields = {
   lostReason: 'Lost Reason',
   updateQuoteName: 'Update Quote Name',
   title: 'Title',
-  salesOwner: 'Sales Owner',
+  dealOwner: 'Deal Owner',
   createdBy: 'Created By',
   updatedBy: 'Updated By',
   setDealPipeline: 'Set Deal Pipeline',
