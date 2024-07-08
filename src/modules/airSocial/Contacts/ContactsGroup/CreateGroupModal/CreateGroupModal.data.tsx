@@ -1,6 +1,8 @@
 import { RHFTextField } from '@/components/ReactHookForm';
-import { Box, Checkbox } from '@mui/material';
+import { Box } from '@mui/material';
 import * as Yup from 'yup';
+import RowSelection from '@/components/RowSelection';
+import RowSelectionAll from '@/components/RowSelectionAll';
 
 export const createGroupValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Field is Required'),
@@ -27,75 +29,33 @@ export const columns: any = ({
   setSelectedUsers,
   title,
 }: any) => {
-  const handleRowClick = (id: any) => {
-    const selectedIndex = selectedUsers?.indexOf(id);
-    let newSelected: any = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selectedUsers, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selectedUsers.slice(1));
-    } else if (selectedIndex === selectedUsers.length - 1) {
-      newSelected = newSelected.concat(selectedUsers.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selectedUsers.slice(0, selectedIndex),
-        selectedUsers.slice(selectedIndex + 1),
-      );
-    }
-    setSelectedUsers(newSelected);
-  };
-
-  // Select All Row
-  const handleSelectAllClick = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    rows: any,
-  ) => {
-    if (event?.target?.checked) {
-      const newSelected = rows?.map((n: any) => n?._id);
-      setSelectedUsers(newSelected);
-      return;
-    }
-    setSelectedUsers([]);
-  };
-
-  const isSelected = (id: any) => selectedUsers?.indexOf(id) !== -1;
-
   return [
     {
-      accessorFn: (row: any) => row._id,
+      accessorFn: (row: any) => row?._id,
       id: '_id',
-      cell: (info: any) => {
-        return (
-          <Checkbox
-            color="primary"
-            checked={isSelected(info?.cell?.row?.original?._id)}
-            name={info?.cell?.row?.original?._id}
-            onClick={() => {
-              handleRowClick(info?.cell?.row?.original?._id);
-            }}
-            disabled={title === 'View'}
-          />
-        );
-      },
+      isSortable: false,
       header: (info: any) => {
         const rows = info?.table?.options?.data;
         return (
-          <Checkbox
-            color="primary"
-            indeterminate={
-              selectedUsers?.length > 0 && selectedUsers?.length < rows?.length
-            }
-            checked={
-              rows?.length > 0 &&
-              selectedUsers?.length === info?.table?.options?.data?.length
-            }
-            onChange={(event) => handleSelectAllClick(event, rows)}
+          <RowSelectionAll
+            rows={rows}
+            selectedRow={selectedUsers}
+            setSelectedRow={setSelectedUsers}
             disabled={title === 'View' || rows?.length === 0}
           />
         );
       },
-      isSortable: false,
+      cell: (info: any) => {
+        const id = info?.cell?.row?.original?._id;
+        return (
+          <RowSelection
+            id={id}
+            selectedRow={selectedUsers}
+            setSelectedRow={setSelectedUsers}
+            disabled={title === 'View'}
+          />
+        );
+      },
     },
     {
       accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,

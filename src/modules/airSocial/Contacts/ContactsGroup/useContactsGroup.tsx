@@ -79,6 +79,7 @@ const useContactsGroup = () => {
     setIsCreateModalOpen(false);
     resetAddGroupForm();
     setSearchValue(null);
+    setSelectedUsers([]);
   };
 
   const onSubmitCreatGroup = async (values: any) => {
