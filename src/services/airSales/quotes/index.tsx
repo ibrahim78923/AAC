@@ -13,7 +13,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['DEALS'],
+      providesTags: TAG,
     }),
 
     getQuotes: builder.query({

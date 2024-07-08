@@ -64,12 +64,13 @@ const useDetails = (selecetdDealId: any) => {
 
   const onSubmit = async (values: any) => {
     values.ownerId = values?.ownerId?._id;
+    values.dealPipelineId = values?.dealPipelineId?._id;
     delete values?.createdDate;
     delete values?.createdAt;
     delete values?.updatedAt;
     delete values?.lastActivity;
     try {
-      await patchDeals({ id: selecetdDealId, body: values });
+      await patchDeals({ id: selecetdDealId, body: values })?.unwrap();
       enqueueSnackbar('Deal updated successfully.', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
