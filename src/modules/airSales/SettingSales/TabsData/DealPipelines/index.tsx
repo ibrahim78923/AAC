@@ -10,7 +10,6 @@ import {
   AccordionDetails,
   Checkbox,
   Divider,
-  CircularProgress,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -19,7 +18,7 @@ import { AlertModals } from '@/components/AlertModals';
 import useDealPipelines from './useDealPipelines';
 import { styles } from './DealPipelines.style';
 import { v4 as uuidv4 } from 'uuid';
-import { BlueInfoIcon, DeleteIcon } from '@/assets/icons';
+import { BlueInfoIcon } from '@/assets/icons';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
@@ -48,13 +47,13 @@ const DealPipelines = () => {
     handleIsDefaultPipeline,
     handleDelete,
     setAnchorEl,
-    isdefaultValue,
     dealPipelinesData,
     isLoading,
     postDealLoading,
     deleteDealLoading,
     checkedDeal,
     updateDealPipelineLoading,
+    isDefaultPipeline,
   } = useDealPipelines();
 
   return (
@@ -79,77 +78,64 @@ const DealPipelines = () => {
               },
             }}
           >
-            {checkedDeal?.length > 1 ? (
+            <>
               <Button
-                className="small"
-                variant="outlined"
-                color="inherit"
-                startIcon={
-                  deleteDealLoading ? (
-                    <CircularProgress size={18} color="inherit" />
-                  ) : (
-                    <DeleteIcon />
-                  )
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+                sx={styles?.actionBtn(theme)}
+                disabled={
+                  checkedDeal?.length === 0 ||
+                  (isDefaultPipeline === true && checkedDeal?.length > 1)
                 }
-                onClick={handleDelete}
+                endIcon={<ArrowDropDownIcon />}
               >
-                Delete
+                Actions
               </Button>
-            ) : (
-              <>
-                <Button
-                  id="basic-button"
-                  aria-controls={open ? 'basic-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClick}
-                  sx={styles?.actionBtn(theme)}
-                  disabled={checkedDeal?.length !== 1}
-                  endIcon={<ArrowDropDownIcon />}
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+                sx={{
+                  '.MuiPopover-paper': {
+                    minWidth: '110px',
+                  },
+                }}
+              >
+                <PermissionsGuard
+                  permissions={[AIR_SALES_SETTINGS?.EDIT_PIPELINE]}
                 >
-                  Actions
-                </Button>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                  sx={{
-                    '.MuiPopover-paper': {
-                      minWidth: '110px',
-                    },
-                  }}
+                  <MenuItem
+                    onClick={() => (
+                      setIsEditMode(true),
+                      setIsDraweropen({ isToggle: true, type: 'edit' }),
+                      setAnchorEl(null)
+                    )}
+                    disabled={checkedDeal?.length > 1 ? true : false}
+                  >
+                    Edit
+                  </MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[AIR_SALES_SETTINGS?.DELETE_PIPELINE]}
                 >
-                  <PermissionsGuard
-                    permissions={[AIR_SALES_SETTINGS?.EDIT_PIPELINE]}
+                  <MenuItem
+                    onClick={() => {
+                      setDeleteModalOpen(true), setAnchorEl(null);
+                    }}
+                    disabled={isDefaultPipeline && checkedDeal?.length > 1}
                   >
-                    <MenuItem
-                      onClick={() => (
-                        setIsEditMode(true),
-                        setIsDraweropen({ isToggle: true, type: 'edit' }),
-                        setAnchorEl(null)
-                      )}
-                    >
-                      Edit
-                    </MenuItem>
-                  </PermissionsGuard>
-                  <PermissionsGuard
-                    permissions={[AIR_SALES_SETTINGS?.DELETE_PIPELINE]}
-                  >
-                    <MenuItem
-                      onClick={() => {
-                        setDeleteModalOpen(true), setAnchorEl(null);
-                      }}
-                    >
-                      Delete
-                    </MenuItem>
-                  </PermissionsGuard>
-                </Menu>
-              </>
-            )}
+                    Delete
+                  </MenuItem>
+                </PermissionsGuard>
+              </Menu>
+            </>
 
             <PermissionsGuard
               permissions={[AIR_SALES_SETTINGS?.CREATE_PIPELINE]}
@@ -293,14 +279,15 @@ const DealPipelines = () => {
       {isDeleteModalOpen && (
         <AlertModals
           message={
-            isdefaultValue
+            isDefaultPipeline
               ? 'You cannot delete default pipeline'
               : "You're about to delete Pipeline. Are you sure?"
           }
-          type={isdefaultValue ? 'Alert' : 'delete'}
+          type={isDefaultPipeline ? 'Alert' : 'delete'}
           open={isDeleteModalOpen}
           handleClose={handleCloseDeleteModal}
           handleSubmitBtn={handleDelete}
+          isDisableSubmitBtn={isDefaultPipeline}
           typeImage={<BlueInfoIcon />}
           loading={deleteDealLoading}
         />
