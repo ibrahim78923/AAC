@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   defaultValues,
@@ -18,11 +18,21 @@ import {
 } from '@/services/airServices/assets/purchase-orders';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostAttachmentsMutation,
+} from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 
 const useNewPurchaseOrders = () => {
   const router = useRouter();
+  const [form, setForm] = useState<any>([]);
 
   const { purchaseOrderId } = router?.query;
 
@@ -30,6 +40,32 @@ const useNewPurchaseOrders = () => {
     usePostPurchaseOrderMutation();
   const [patchPurchaseOrderTrigger, patchPurchaseOrderStatus] =
     usePatchPurchaseOrderMutation();
+
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const [postAttachmentTrigger, postAttachmentStatus] =
+    usePostAttachmentsMutation();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_SERVICES,
+      moduleType: DYNAMIC_FIELDS?.MT_PURCHASE_ORDER,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
 
   const singlePurchaseOrder: any = useGetPurchaseOrderByIdQuery(
     purchaseOrderId,
@@ -39,11 +75,13 @@ const useNewPurchaseOrders = () => {
     },
   );
   const loadingStatus =
-    patchPurchaseOrderStatus?.isLoading || postPurchaseOrderStatus?.isLoading;
+    patchPurchaseOrderStatus?.isLoading ||
+    postPurchaseOrderStatus?.isLoading ||
+    postAttachmentStatus?.isLoading;
 
   const methods = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues(),
+    resolver: yupResolver(validationSchema?.(form)),
+    defaultValues: defaultValues?.(),
   });
 
   const apiQueryDepartment =
@@ -55,36 +93,79 @@ const useNewPurchaseOrders = () => {
   const vendorValue = watch('vendor');
 
   const submit = async (data: any) => {
-    const { location, vendor, department, purchaseDetails, ...rest } = data;
-    const taxRate = rest?.taxRatio;
-    delete rest?.taxRatio;
-    const apiParameter = {
-      body: {
-        ...rest,
-        taxRate,
-        locationId: location?._id,
-        vendorId: vendor?._id,
-        departmentId: department?._id,
-        status: PURCHASE_ORDER_STATUS?.OPEN,
-        purchaseDetails: purchaseDetails?.map((purchaseDetail: any) => {
-          const name = purchaseDetail?.itemName?._id;
-          delete purchaseDetail?.itemName;
-          return { itemName: name, ...purchaseDetail };
-        }),
-      },
-    };
-    if (!!purchaseOrderId) {
-      submitUpdatePurchaseOrder(apiParameter);
-      return;
-    }
+    const filteredEmptyData: any = Object?.entries(data || {})
+      ?.filter(
+        ([, value]: any) => value !== undefined && value != '' && value != null,
+      )
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+
+    const customFields: any = {};
+    const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
     try {
+      dynamicAttachmentsPost({
+        form,
+        data,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
+      });
+
+      await Promise?.all(attachmentPromises);
+
+      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+        if (form?.some((field: any) => field?.componentProps?.label === key)) {
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > 0) {
+        body.customFields = customFields;
+      }
+
+      const { location, vendor, department, purchaseDetails, ...rest } = body;
+      const taxRate = rest?.taxRatio;
+      delete rest?.taxRatio;
+
+      const apiParameter = {
+        body: {
+          ...rest,
+          taxRate,
+          locationId: location?._id,
+          vendorId: vendor?._id,
+          departmentId: department?._id,
+          status: PURCHASE_ORDER_STATUS?.OPEN,
+          purchaseDetails: purchaseDetails?.map((purchaseDetail: any) => {
+            const name = purchaseDetail?.itemName?._id;
+            delete purchaseDetail?.itemName;
+            return { itemName: name, ...purchaseDetail };
+          }),
+          customFields,
+        },
+      };
+
+      if (!!purchaseOrderId) {
+        submitUpdatePurchaseOrder(apiParameter);
+        return;
+      }
       await postPurchaseOrderTrigger(apiParameter)?.unwrap();
-      successSnackbar('New Purchase Order Created successfully');
+      successSnackbar('New Purchase Order Created Successfully!');
       handlePageBack();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (e: any) {
+      errorSnackbar(e?.data?.message);
     }
   };
+
   const submitUpdatePurchaseOrder = async (data: any) => {
     const patchPurchaseOrderParameter = {
       body: {
@@ -114,9 +195,9 @@ const useNewPurchaseOrders = () => {
 
   useEffect(() => {
     if (singlePurchaseOrder?.data) {
-      reset(() => defaultValues(singlePurchaseOrder?.data?.data));
+      reset(() => defaultValues(singlePurchaseOrder?.data?.data, form));
     }
-  }, [singlePurchaseOrder?.data, reset]);
+  }, [singlePurchaseOrder?.data, reset, form]);
 
   return {
     methods,
@@ -129,6 +210,8 @@ const useNewPurchaseOrders = () => {
     loadingStatus,
     watch,
     singlePurchaseOrder,
+    form,
+    getDynamicFieldsStatus,
   };
 };
 

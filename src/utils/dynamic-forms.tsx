@@ -15,7 +15,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import * as Yup from 'yup';
 import { ARRAY_INDEX } from '@/constants/strings';
-import { errorSnackbar } from './api';
 
 export const generateUniqueId = () => {
   const timestamp = Date?.now()?.toString(36);
@@ -289,8 +288,7 @@ export const dynamicAttachmentsPost = ({
                 }
               })
               ?.catch((error: any) => {
-                errorSnackbar(error?.data?.message);
-                return;
+                throw new Error(error?.data?.message);
               }),
           );
         }

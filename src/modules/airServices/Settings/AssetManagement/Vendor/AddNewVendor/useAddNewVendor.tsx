@@ -94,15 +94,15 @@ export const useAddNewVendor = (props: any) => {
     const body: any = {};
     const attachmentPromises: Promise<any>[] = [];
 
-    dynamicAttachmentsPost({
-      form,
-      data,
-      attachmentPromises,
-      customFields,
-      postAttachmentTrigger,
-    });
-
     try {
+      dynamicAttachmentsPost({
+        form,
+        data,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
+      });
+
       await Promise?.all(attachmentPromises);
 
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {

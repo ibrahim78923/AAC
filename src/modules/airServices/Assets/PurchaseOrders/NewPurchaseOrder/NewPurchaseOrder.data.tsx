@@ -8,6 +8,10 @@ import {
 import { PAGINATION } from '@/config';
 import { Typography } from '@mui/material';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
 export const currencyOptions = ['Pound', 'Dollar'];
 
@@ -29,63 +33,73 @@ const purchaseDetailSchema = yup?.object()?.shape({
   total: yup?.number()?.positive('\u00a0')?.typeError('\u00a0'),
 });
 
-export const validationSchema: any = yup?.object()?.shape({
-  orderName: yup?.string()?.required('Order Name is Required'),
-  orderNumber: yup?.string()?.required('Order Number is Required'),
-  vendor: yup?.mixed()?.nullable()?.required('Vendor is Required'),
-  currency: yup?.mixed()?.nullable()?.required('Currency is Required'),
-  department: yup?.mixed()?.nullable(),
-  expectedDeliveryDate: yup
-    ?.date()
-    ?.nullable()
-    ?.required('Delivery Date is Required'),
-  location: yup?.mixed()?.nullable(),
-  termAndCondition: yup?.string(),
-  subTotal: yup?.number(),
-  taxRatio: yup?.number(),
-  shipping: yup?.number(),
-  discount: yup?.number(),
-  total: yup?.number(),
-  purchaseDetails: yup?.array()?.of(purchaseDetailSchema),
-});
+export const validationSchema: any = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const defaultValues = (data?: any) => ({
-  orderName: data?.orderName ?? '',
-  orderNumber: data?.orderNumber ?? '',
-  vendor: data?.vendorDetails ?? null,
-  currency: data?.currency ?? null,
-  department: data?.departmentDetails ?? null,
-  expectedDeliveryDate: data?.expectedDeliveryDate
-    ? new Date(data?.expectedDeliveryDate)
-    : null,
-  location: data?.locationDetails ?? null,
-  termAndCondition: data?.termAndCondition ?? '',
-  subTotal: data?.subTotal ?? 0,
-  taxRatio: data?.taxRatio ?? 0,
-  shipping: data?.shipping ?? 0,
-  discount: data?.discount ?? 0,
-  total: data?.total ?? 0,
-  status: data?.status ?? PURCHASE_ORDER_STATUS?.OPEN,
-  purchaseDetails: !!data?.purchaseDetails?.length
-    ? data?.purchaseDetails?.map((item: any, index: any) => {
-        const { ...rest } = item;
-        delete rest?.itemName;
-        return {
-          itemName: data?.productDetails?.[index],
-          ...rest,
-        };
-      })
-    : [
-        {
-          itemName: null,
-          description: '',
-          quantity: '0',
-          costPerItem: '0',
-          taxRate: '0',
-          total: '0',
-        },
-      ],
-});
+  return yup?.object()?.shape({
+    orderName: yup?.string()?.required('Order Name is Required'),
+    orderNumber: yup?.string()?.required('Order Number is Required'),
+    vendor: yup?.mixed()?.nullable()?.required('Vendor is Required'),
+    currency: yup?.mixed()?.nullable()?.required('Currency is Required'),
+    department: yup?.mixed()?.nullable(),
+    expectedDeliveryDate: yup
+      ?.date()
+      ?.nullable()
+      ?.required('Delivery Date is Required'),
+    location: yup?.mixed()?.nullable(),
+    termAndCondition: yup?.string(),
+    subTotal: yup?.number(),
+    taxRatio: yup?.number(),
+    shipping: yup?.number(),
+    discount: yup?.number(),
+    total: yup?.number(),
+    purchaseDetails: yup?.array()?.of(purchaseDetailSchema),
+    ...formSchema,
+  });
+};
+
+export const defaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
+  return {
+    orderName: data?.orderName ?? '',
+    orderNumber: data?.orderNumber ?? '',
+    vendor: data?.vendorDetails ?? null,
+    currency: data?.currency ?? null,
+    department: data?.departmentDetails ?? null,
+    expectedDeliveryDate: data?.expectedDeliveryDate
+      ? new Date(data?.expectedDeliveryDate)
+      : null,
+    location: data?.locationDetails ?? null,
+    termAndCondition: data?.termAndCondition ?? '',
+    subTotal: data?.subTotal ?? 0,
+    taxRatio: data?.taxRatio ?? 0,
+    shipping: data?.shipping ?? 0,
+    discount: data?.discount ?? 0,
+    total: data?.total ?? 0,
+    status: data?.status ?? PURCHASE_ORDER_STATUS?.OPEN,
+    purchaseDetails: !!data?.purchaseDetails?.length
+      ? data?.purchaseDetails?.map((item: any, index: any) => {
+          const { ...rest } = item;
+          delete rest?.itemName;
+          return {
+            itemName: data?.productDetails?.[index],
+            ...rest,
+          };
+        })
+      : [
+          {
+            itemName: null,
+            description: '',
+            quantity: '0',
+            costPerItem: '0',
+            taxRate: '0',
+            total: '0',
+          },
+        ],
+    ...initialValues,
+  };
+};
 
 export const newPurchaseFieldsFunction = (
   departmentApiQuery: any,

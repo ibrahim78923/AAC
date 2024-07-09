@@ -1,6 +1,4 @@
-import { Box, Typography } from '@mui/material';
-import { overviewData } from './Overview.data';
-import { styles } from './Overview.style';
+import { Avatar, Box, Typography } from '@mui/material';
 import { overviewTableColumns } from './Overview.data';
 import OverviewModel from './OverviewModal';
 import OverviewBilling from './OverviewBilling';
@@ -8,6 +6,10 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { useOverview } from './useOverview';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import { isValidElement } from 'react';
+import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
+import { getImageByType } from '@/utils/avatarUtils';
+
 export const Overview = () => {
   const {
     openOverviewModal,
@@ -22,6 +24,7 @@ export const Overview = () => {
     isFetching,
     handleRowClick,
     isError,
+    overviewData,
   } = useOverview();
 
   if (isLoading || isFetching) return <SkeletonTable />;
@@ -29,35 +32,51 @@ export const Overview = () => {
   if (isError) return <ApiErrorState />;
 
   return (
-    <Box>
-      {overviewData(purchaseOrderData)?.map((item: any) => (
-        <Box key={item?._id}>
-          <Typography variant="h5" py={'0.625rem'}>
-            {item?.heading}
-          </Typography>
-          <Box sx={styles?.mainContainerBox}>
-            {item?.detailsData?.map((detail: any) => (
-              <Box key={item?._id}>
-                <Box sx={styles?.childContainerBox}>
-                  <Box width={{ sm: '20%', xs: '8.75rem' }}>
-                    <Typography variant="body2" fontWeight={500}>
-                      {detail?.name}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      variant="body2"
-                      color={theme?.palette?.grey?.[900]}
-                    >
-                      {detail?.detail}
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-            ))}
+    <>
+      <Typography variant="h5" py={'0.625rem'}>
+        Inventory Details
+      </Typography>
+      <Box bgcolor={'primary.lighter'} borderRadius={2}>
+        {Object?.entries(overviewData)?.map(([key, value]: any) => (
+          <Box key={key} display={'flex'}>
+            <Typography
+              variant={'body2'}
+              fontWeight={500}
+              p={2}
+              color={'grey.600'}
+              minWidth={'25%'}
+            >
+              {key}:
+            </Typography>
+            <Typography
+              variant={'body2'}
+              p={2}
+              color={'grey.900'}
+              fontWeight={500}
+            >
+              {isValidElement(value) ? (
+                value
+              ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+                value !== null &&
+                DYNAMIC_FORM_FIELDS_TYPES?.LABEL in value ? (
+                value?.label
+              ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+                value !== null &&
+                DYNAMIC_FORM_FIELDS_TYPES?.FILE_URL in value ? (
+                <Avatar
+                  src={getImageByType(value?.fileType, value?.fileUrl)}
+                  alt="file-preview"
+                  sx={{ width: 45, height: 45 }}
+                  variant={'rounded'}
+                />
+              ) : (
+                value?.toString()
+              )}
+            </Typography>
           </Box>
-        </Box>
-      ))}
+        ))}
+      </Box>
+
       <Box mt={'1rem'}>
         <Typography variant="h5" py={'0.625rem'}>
           Items Details
@@ -87,6 +106,6 @@ export const Overview = () => {
           />
         )}
       </Box>
-    </Box>
+    </>
   );
 };

@@ -895,4 +895,5 @@ export const zeroPaddingRoutes = [
   '/air-loyalty-program',
   '/social-components/email/gmail/conversations',
   '/air-services/settings/asset-management/vendor-fields',
+  '/air-services/settings/asset-management/purchase-order-fields',
 ];

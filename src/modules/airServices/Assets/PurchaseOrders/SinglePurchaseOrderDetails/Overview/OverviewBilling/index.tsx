@@ -37,6 +37,7 @@ const OverviewBilling = ({
         return (
           <Grid
             key={item?.label}
+            item
             container
             xs={12}
             sm={6}
