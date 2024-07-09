@@ -16,7 +16,7 @@ import {
 } from '@/services/airMarketer/lead-capture/forms';
 import { enqueueSnackbar } from 'notistack';
 import { tabsArray } from './Forms.data';
-import { formMode, formStatus } from '@/utils/form-builder';
+import { formMode, formStatus } from '@/constants/form-builder';
 interface FormValues {
   name: string;
 }

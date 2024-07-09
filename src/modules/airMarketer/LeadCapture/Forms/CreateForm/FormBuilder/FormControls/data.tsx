@@ -5,7 +5,7 @@ import {
   DividerIcon,
   InputIcon,
 } from '@/assets/icons';
-import { fieldTypes } from '@/utils/form-builder';
+import { fieldTypes } from '@/constants/form-builder';
 
 export const controlsList = [
   {

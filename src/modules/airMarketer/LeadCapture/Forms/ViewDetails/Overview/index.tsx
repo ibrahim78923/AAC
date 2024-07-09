@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { styles } from './Overview.style';
 import useOverview from './useOverview';
-import { formStatus } from '@/utils/form-builder';
+import { formStatus } from '@/constants/form-builder';
 
 const Overview = ({ data, htmlTemplate }: any) => {
   const {

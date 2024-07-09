@@ -13,10 +13,18 @@ export const contactsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
   phoneNumber: Yup.string()
     .nullable()
-    .matches(phoneRegex, 'Phone number is not valid'),
+    .test(
+      'isValidPhoneNumber',
+      'Phone number is not valid',
+      (value) => !value || phoneRegex.test(value),
+    ),
   whatsAppNumber: Yup.string()
     .nullable()
-    .matches(phoneRegex, 'WhatsApp number is not valid'),
+    .test(
+      'isValidWhatsAppNumber',
+      'WhatsApp number is not valid',
+      (value) => !value || phoneRegex.test(value),
+    ),
 });
 
 // Define your default values

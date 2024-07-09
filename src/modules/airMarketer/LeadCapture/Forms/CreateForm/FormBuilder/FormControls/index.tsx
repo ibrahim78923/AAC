@@ -3,9 +3,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import { styles } from './styles';
 import { controlsList } from './data';
-const ItemTypes = {
-  FIELD: 'field',
-};
+import { ItemTypes } from '@/constants/form-builder';
 
 const ControlItem = ({ control, source }: any) => {
   const [{ isDragging }, drag] = useDrag({

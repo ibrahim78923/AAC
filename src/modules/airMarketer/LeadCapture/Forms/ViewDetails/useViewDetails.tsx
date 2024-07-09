@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetManageFieldByIdQuery } from '@/services/airMarketer/lead-capture/forms';
 import { AIR_MARKETER } from '@/routesConstants/paths';
-import { formMode, generateFormHtml } from '@/utils/form-builder';
+import { generateFormHtml } from '@/utils/form-builder';
+import { formMode } from '@/constants/form-builder';
 
 const useViewDetails = () => {
   const router = useRouter();

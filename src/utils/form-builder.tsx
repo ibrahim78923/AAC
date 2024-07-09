@@ -1,22 +1,4 @@
-export const formStatus = {
-  draft: 'DRAFT',
-  published: 'PUBLISHED',
-};
-
-export const formMode = {
-  view: 'view',
-  edit: 'edit',
-};
-
-export const fieldTypes = {
-  text: 'text',
-  textarea: 'textarea',
-  select: 'select',
-  file: 'file',
-  space: 'space',
-  divider: 'divider',
-  button: 'button',
-};
+import { fieldTypes } from '@/constants/form-builder';
 
 export const generateFormHtml = (fields: []) => {
   const html = `

@@ -17,12 +17,11 @@ import {
   TrashIcon,
   ViewDetailIcon,
 } from '@/assets/icons';
-
 import Overview from './Overview';
 import Submissions from './Submissions';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import useViewDetails from './useViewDetails';
-import { formMode, formStatus } from '@/utils/form-builder';
+import { formMode, formStatus } from '@/constants/form-builder';
 
 const ViewDetails = () => {
   const {

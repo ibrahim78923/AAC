@@ -7,12 +7,8 @@ import { Box, Button, Typography, useTheme } from '@mui/material';
 import { styles } from './styles';
 import { isNullOrEmpty } from '@/utils';
 import { MobileFormIcon, MonitorIcon } from '@/assets/icons';
-import { formMode } from '@/utils/form-builder';
 import { Field } from './interface';
-import { fieldTypes } from '@/utils/form-builder';
-const ItemTypes = {
-  FIELD: 'field',
-};
+import { fieldTypes, formMode, ItemTypes } from '@/constants/form-builder';
 
 const FormBuilder = ({ fields, setFields, mode }: any) => {
   const theme = useTheme();

@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  // Divider,
   Grid,
   IconButton,
   InputAdornment,
@@ -10,22 +9,11 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { styles } from './CreateForm.style';
-import {
-  BlackDeleteIcon,
-  EditFormIcon,
-  // MobileFormIcon,
-  // MonitorIcon,
-  StyleFormIcon,
-} from '@/assets/icons';
+import { BlackDeleteIcon, EditFormIcon, StyleFormIcon } from '@/assets/icons';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-// import InnerTab from './InnerTab';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import {
-  // customersAttributesArray,
-  // sideBarMenuArray,
-  styleFormArray,
-} from './CreateForm.data';
+import { styleFormArray } from './CreateForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateForm from './useCreateForm';
 import DialogFormCreated from './DialogFormCreated';
@@ -33,20 +21,17 @@ import Loader from '@/components/Loader';
 import FormBuilder from './FormBuilder';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { formMode } from '@/utils/form-builder';
+import { formMode } from '@/constants/form-builder';
 
 const CreateForm = () => {
   const {
-    // theme,
     fields,
     setFields,
     formName,
     setFormName,
     isEditFormName,
     handleEditForm,
-    // dataGetManageFieldById,
     loadingGetField,
-    // dataGetFormById,
     handlePostManageLeadForm,
     loadingDraft,
     loadingPublished,

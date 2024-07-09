@@ -18,7 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import { inputTypeList } from './data';
-import { fieldTypes } from '@/utils/form-builder';
+import { fieldTypes } from '@/constants/form-builder';
 
 const EditDialog = ({ open, onClose, field, onChange, addOption }: any) => {
   const theme = useTheme();

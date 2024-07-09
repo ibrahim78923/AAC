@@ -4,11 +4,8 @@ import { useDrag, useDrop } from 'react-dnd';
 import { styles } from './styles';
 import { DeleteIcon, DragSharedIcon, EditGreyIcon } from '@/assets/icons';
 import EditDialog from './EditDialog';
-import { fieldTypes } from '@/utils/form-builder';
+import { fieldTypes, ItemTypes } from '@/constants/form-builder';
 import { Field } from '../interface';
-const ItemTypes = {
-  FIELD: 'field',
-};
 
 interface FieldProps {
   id?: string;
