@@ -15,6 +15,13 @@ const EmailFolder = () => {
     handleCloseModalCreateFolder,
     methodsCreateFolder,
     handleCreateFolderSubmit,
+    allFolder,
+    allSelectedFoldersIds,
+    setAllSelectedFoldersIds,
+    searchValue,
+    setSearchValue,
+    isLoading,
+    isLoadingPost,
   } = useEmailFolder();
   return (
     <>
@@ -35,7 +42,15 @@ const EmailFolder = () => {
           </Button>
         </PermissionsGuard>
       </Stack>
-      <Folders />
+
+      <Folders
+        allFolder={allFolder}
+        allSelectedFoldersIds={allSelectedFoldersIds}
+        setAllSelectedFoldersIds={setAllSelectedFoldersIds}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        isLoading={isLoading}
+      />
 
       <CommonModal
         open={openModalCreateFolder}
@@ -46,7 +61,7 @@ const EmailFolder = () => {
         okText="Save"
         cancelText="Cancel"
         footer={true}
-        // isLoading={isLoading}
+        isLoading={isLoadingPost}
       >
         <>
           <FormProvider methods={methodsCreateFolder}>

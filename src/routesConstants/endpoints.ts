@@ -590,3 +590,10 @@ export const SALES_DASHBOARD = {
     '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
   SALES_DASHBOARD: '/sales-dashboard',
 };
+
+export const AIR_MARKETER_EMAIL_FOLDER = {
+  GET_EMAIL_FOLDER: '/emails-marketing/get-all-folders',
+  POST_EMAIL_FOLDER: '/emails-marketing/create-emails-folder',
+  DELETE_EMAIL_FOLDER: '/emails-marketing/delete-folder',
+  DUPLICATE_EMAIL_FOLDER: '/emails-marketing/duplicate-folder',
+};

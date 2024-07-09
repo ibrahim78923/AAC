@@ -73,4 +73,17 @@ export const styles = {
       },
     };
   },
+  actionFilterBox: () => {
+    return {
+      display: 'flex',
+      justifyContent: {
+        lg: 'flex-end',
+        md: 'flex-end',
+        sm: 'flex-end',
+        xs: 'center',
+      },
+      flexWrap: 'wrap',
+      gap: '10px',
+    };
+  },
 };

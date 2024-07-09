@@ -11,7 +11,10 @@ import {
 } from '@/services/superAdmin/billing-invoices';
 import { isNullOrEmpty } from '@/utils';
 import { useGetCrmQuery } from '@/services/superAdmin/plan-mangement';
-import { productSuiteName } from '@/constants';
+import {
+  productSuiteName,
+  SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES,
+} from '@/constants';
 
 const useEditForm = (
   isEditModal: any,
@@ -255,9 +258,17 @@ const useEditForm = (
       setIsGetRowValues([]);
       setIsChecked(false);
     } catch (error) {
-      enqueueSnackbar('Some thing went wrong', {
-        variant: 'error',
-      });
+      if (
+        error?.data?.message ===
+        SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES?.PLAN_ALREADY_ASSIGNED
+      ) {
+        enqueueSnackbar(
+          SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES?.PLAN_ALREADY_ASSIGNED,
+          { variant: 'error' },
+        );
+      } else {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
     }
   };
 
