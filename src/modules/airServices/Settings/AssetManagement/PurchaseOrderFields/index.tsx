@@ -85,6 +85,7 @@ export default function PurchaseOrderFields() {
                 moduleType={DYNAMIC_FIELDS?.MT_PURCHASE_ORDER}
                 productType={DYNAMIC_FIELDS?.PT_SERVICES}
                 successPath={AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS}
+                cancelPath={AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS}
               />
             </Box>
           </Grid>

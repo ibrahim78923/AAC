@@ -85,6 +85,7 @@ export const DepartmentField = () => {
                 moduleType={DYNAMIC_FIELDS?.MT_DEPARTMENT}
                 productType={DYNAMIC_FIELDS?.PT_SERVICES}
                 successPath={AIR_SERVICES?.USER_MANAGEMENT}
+                cancelPath={AIR_SERVICES?.USER_MANAGEMENT}
               />
             </Box>
           </Grid>

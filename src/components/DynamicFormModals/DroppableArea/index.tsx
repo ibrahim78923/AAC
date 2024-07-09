@@ -11,7 +11,6 @@ import ApiErrorState from '@/components/ApiErrorState';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import useDroppableArea from './useDroppableArea';
-import { AIR_SERVICES } from '@/constants';
 
 export default function DroppableArea({
   form,
@@ -26,6 +25,7 @@ export default function DroppableArea({
   moduleType,
   productType,
   successPath,
+  cancelPath,
 }: any) {
   const {
     router,
@@ -133,7 +133,7 @@ export default function DroppableArea({
                     disabled={putDynamicFieldsStatus?.isLoading}
                     onClick={() => {
                       router?.push({
-                        pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
+                        pathname: cancelPath,
                       });
                     }}
                   >

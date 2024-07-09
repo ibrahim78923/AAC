@@ -85,6 +85,7 @@ export default function VendorFields() {
                 moduleType={DYNAMIC_FIELDS?.MT_VENDOR}
                 productType={DYNAMIC_FIELDS?.PT_SERVICES}
                 successPath={AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS}
+                cancelPath={AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS}
               />
             </Box>
           </Grid>
