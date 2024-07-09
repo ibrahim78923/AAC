@@ -13,7 +13,7 @@ import {
   TextField,
   useTheme,
 } from '@mui/material';
-import { MuiColorInput } from 'mui-color-input';
+// import { MuiColorInput } from 'mui-color-input';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
@@ -247,7 +247,7 @@ const EditDialog = ({ open, onClose, field, onChange, addOption }: any) => {
             <>
               <Grid item xs={12}>
                 <Box>Color:</Box>
-                <MuiColorInput
+                {/* <MuiColorInput
                   fullWidth
                   size="small"
                   format="hex"
@@ -255,7 +255,7 @@ const EditDialog = ({ open, onClose, field, onChange, addOption }: any) => {
                   onChange={(newValue) =>
                     onChange(field?._id, { dividerColor: newValue })
                   }
-                />
+                /> */}
               </Grid>
               <Grid item xs={12}>
                 <Box>Width:</Box>
