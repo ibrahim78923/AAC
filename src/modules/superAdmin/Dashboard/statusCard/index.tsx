@@ -8,16 +8,18 @@ import {
   UserGroupFilledIcon,
 } from '@/assets/icons';
 import { style } from './StatusCard.style';
+import { statusCardsI } from '@/modules/superAdmin/Dashboard/Dashboard-interface';
+import useDashboard from '@/modules/superAdmin/Dashboard/useDashboard';
 
 const StatusCards = ({
   isLoading,
   data,
-  theme,
   totalClients,
   totalUsers,
   billingDataLoading,
   billingData,
-}: any) => {
+}: statusCardsI) => {
+  const { theme } = useDashboard();
   return (
     <>
       <Grid container spacing={2} sx={{ marginBottom: '1rem' }}>

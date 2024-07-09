@@ -18,7 +18,6 @@ const Dashboard = () => {
     totalClients,
     totalUsers,
     plansList,
-    theme,
   } = useDashboard();
 
   return (
@@ -29,7 +28,6 @@ const Dashboard = () => {
         </Grid>
       </Grid>
       <StatusCards
-        theme={theme}
         isLoading={userStatsLoading}
         data={allUsersStats}
         totalClients={totalClients}

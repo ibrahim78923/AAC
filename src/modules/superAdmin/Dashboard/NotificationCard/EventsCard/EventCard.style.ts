@@ -1,5 +1,5 @@
 export const style = {
-  stepperIconColor: (borderColor: any) => {
+  stepperIconColor: (borderColor: string) => {
     return {
       border: `1px solid ${borderColor}`,
       borderRadius: '50%',

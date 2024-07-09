@@ -1,6 +1,6 @@
 import { Theme, useTheme } from '@mui/material';
 
-const useEnquiriesCards = (details: any) => {
+const useEnquiriesCards = (details: string[]) => {
   const theme = useTheme<Theme>();
 
   const totalCompletePercentage = details

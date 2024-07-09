@@ -4,8 +4,9 @@ import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './PlanList.data';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
+import { PlanListDataI } from '@/modules/superAdmin/Dashboard/Dashboard-interface';
 
-const PlanList = (data: any) => {
+const PlanList = (data: PlanListDataI) => {
   const theme = useTheme<Theme>();
   const router = useRouter();
 

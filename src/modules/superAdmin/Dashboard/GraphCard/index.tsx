@@ -3,6 +3,7 @@ import { Grid } from '@mui/material';
 import StatisticsCard from './StatisticsCard';
 import EnquiriesCard from './EnquiresCard';
 import InvoicingCard from './InvoicingCard';
+import { GraphCardPropsI } from '@/modules/superAdmin/Dashboard/Dashboard-interface';
 
 const GraphCard = ({
   planStats,
@@ -11,7 +12,7 @@ const GraphCard = ({
   billingDataLoading,
   enquiriesData,
   enquiriesDataLoading,
-}: any) => {
+}: GraphCardPropsI) => {
   return (
     <>
       <Grid container spacing={2}>

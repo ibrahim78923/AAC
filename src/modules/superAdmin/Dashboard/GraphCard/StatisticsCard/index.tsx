@@ -3,8 +3,9 @@ import { Box, Typography } from '@mui/material';
 import { styles } from './StatisticsCard.style';
 import useStatisticsCard from './useStatisticsCard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { StatisticsCardPropsI } from '@/modules/superAdmin/Dashboard/Dashboard-interface';
 
-const StatisticsCard = ({ isLoading, data }: any) => {
+const StatisticsCard = ({ isLoading, data }: StatisticsCardPropsI) => {
   const { series, options, theme } = useStatisticsCard(data);
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
