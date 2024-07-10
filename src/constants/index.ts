@@ -480,3 +480,7 @@ export const FILE_TYPES = {
   PDF: 'application/pdf',
   DOC: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 };
+
+export const EMAIL_DATE_FORMAT = {
+  DATE_FORMAT: 'MMMM D, YYYY [at] h:mm:ss A',
+};

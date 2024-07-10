@@ -1,9 +1,10 @@
-import { FilterIcon } from '@/assets/icons';
+import { RefreshTasksIcon } from '@/assets/icons';
 import {
   Box,
   Button,
   ButtonGroup,
   Skeleton,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -14,7 +15,6 @@ import { styles } from './LeftPane.styles';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '@/redux/store';
-import CommonDrawer from '@/components/CommonDrawer';
 import { PAGINATION } from '@/config';
 import {
   useGetAuthURLGmailQuery,
@@ -29,10 +29,13 @@ import {
   setGmailTabType,
   setSelectedGmailRecords,
 } from '@/redux/slices/email/gmail/slice';
-import { Gmail_CONST } from '@/constants';
+import { DATE_FORMAT, Gmail_CONST } from '@/constants';
 import CommonModal from '@/components/CommonModal';
 import { SOCIAL_FEATURES_GMAIL } from '@/routesConstants/paths';
 import Link from 'next/link';
+import dayjs from 'dayjs';
+import { isNullOrEmpty } from '@/utils';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
 const LeftPane = () => {
   const theme = useTheme();
@@ -51,8 +54,12 @@ const LeftPane = () => {
   const gmailCurrentPage: any = useAppSelector(
     (state: any) => state?.gmail?.gmailCurrentPage,
   );
+  const [isFiltersValues, setIsFiltersValues] = useState({});
+  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
 
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const startedDate = 0;
+  const endedDate = 1;
+
   const { data: foldersData, isLoading, isError } = useGetGmailFoldersQuery({});
   const dataToShow = ['Inbox', 'Draft', 'Sent', 'Schedule', 'Trash'];
   const filteredData = foldersData?.data?.labels?.filter((item: any) => {
@@ -62,20 +69,29 @@ const LeftPane = () => {
   });
 
   const [isGetEmailsRequest, setIsGetEmailsRequest] = useState(true);
+  const params = {
+    ...(gmailCurrentPage && { pageToken: gmailCurrentPage }),
+    limit: PAGINATION?.PAGE_LIMIT,
+    folderId: gmailTabType?.name,
+    ...(gmailSearch && { search: gmailSearch }),
+
+    startDate: isFiltersValues?.toDate
+      ? dayjs(isFiltersValues?.toDate)?.format(DATE_FORMAT?.API)
+      : undefined,
+
+    endDate:
+      isFiltersValues?.fromDate &&
+      !(isFiltersValues?.fromDate === isFiltersValues?.toDate)
+        ? dayjs(isFiltersValues?.fromDate)?.format(DATE_FORMAT?.API)
+        : undefined,
+  };
 
   const {
     data: emailsByFolderIdData,
     status: isLoadingEmailsByFolderIdData,
     refetch,
   } = useGetGmailsByFolderIdQuery(
-    {
-      params: {
-        ...(gmailCurrentPage && { pageToken: gmailCurrentPage }),
-        limit: PAGINATION?.PAGE_LIMIT,
-        folderId: gmailTabType?.name,
-        ...(gmailSearch && { search: gmailSearch }),
-      },
-    },
+    { params: params },
     { skip: isGetEmailsRequest },
   );
 
@@ -92,7 +108,7 @@ const LeftPane = () => {
   }, [emailsByFolderIdData]);
 
   useEffect(() => {
-    if (gmailSearch?.length > 0) {
+    if (gmailSearch?.length > 0 || !isNullOrEmpty(isFiltersValues)) {
       dispatch(setActiveGmailRecord({}));
       dispatch(setSelectedGmailRecords([]));
       dispatch(setGmailList('clear'));
@@ -101,7 +117,7 @@ const LeftPane = () => {
     } else {
       dispatch(setGmailSearch(''));
     }
-  }, [gmailSearch]);
+  }, [gmailSearch, isFiltersValues]);
 
   const handelToggleTab = (value: any) => {
     if (value?.name !== gmailTabType?.name) {
@@ -233,20 +249,48 @@ const LeftPane = () => {
 
   const oauthUrl = `${authURLGmail?.data}`;
 
+  const handleRefresh = () => {
+    setIsFiltersValues({
+      ...isFiltersValues,
+      toDate: '',
+      fromDate: '',
+    });
+    refetch();
+  };
+
   return (
     <Box sx={styles?.card(theme)}>
       <Box sx={styles?.emailWrap}>
         <Typography variant="h3">Email</Typography>
-        <Box>
-          <Button
-            startIcon={<FilterIcon />}
-            variant="outlined"
-            sx={{ marginRight: '14px', height: '36px' }}
-            color="inherit"
-            onClick={() => setIsFiltersOpen(true)}
-          >
-            Filter
-          </Button>
+        <Box display={'flex'}>
+          <Tooltip title={'Refresh Filter'}>
+            <Button
+              sx={{ marginRight: '5px' }}
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={handleRefresh}
+            >
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
+
+          <Box sx={{ marginRight: '5px' }}>
+            <SwitchableDatepicker
+              renderInput="button"
+              placement="left"
+              dateValue={datePickerVal}
+              setDateValue={setDatePickerVal}
+              handleDateSubmit={() => {
+                setIsFiltersValues({
+                  ...isFiltersValues,
+                  toDate: datePickerVal[startedDate],
+                  fromDate: datePickerVal[endedDate],
+                });
+              }}
+            />
+          </Box>
+
           <ActionBtn />
         </Box>
       </Box>
@@ -306,16 +350,6 @@ const LeftPane = () => {
         gmailTabType={gmailTabType}
         pageToken={emailsByFolderIdData}
       />
-
-      <CommonDrawer
-        isDrawerOpen={isFiltersOpen}
-        onClose={() => setIsFiltersOpen(false)}
-        title={'filter'}
-        okText={'submit'}
-        isOk={true}
-      >
-        <>Filter Cont.</>
-      </CommonDrawer>
 
       <CommonModal
         open={isReloginModalOpen}

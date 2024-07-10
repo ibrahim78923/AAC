@@ -11,7 +11,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
-import { API_STATUS, DATE_TIME_FORMAT, EMAIL_TABS_TYPES } from '@/constants';
+import { API_STATUS, EMAIL_DATE_FORMAT, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from 'react';
@@ -383,7 +383,7 @@ const MailList = ({
                                 }}
                               >
                                 {dayjs(item?.date).format(
-                                  DATE_TIME_FORMAT?.MMMDDYYYY,
+                                  EMAIL_DATE_FORMAT?.DATE_FORMAT,
                                 )}
                               </Typography>
                             </Box>

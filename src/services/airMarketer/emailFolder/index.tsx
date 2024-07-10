@@ -35,7 +35,7 @@ export const emailFolderAPI: any = baseAPI.injectEndpoints({
     duplicateEmailFolder: builder.mutation({
       query: ({ id, body }: any) => {
         return {
-          url: `${AIR_MARKETER_EMAIL_FOLDER?.DUPLICATE_EMAIL_FOLDER}/${id}`,
+          url: `${AIR_MARKETER_EMAIL_FOLDER?.DUPLICATE_EMAIL_FOLDER}?${id}`,
           method: 'POST',
           body: body,
         };

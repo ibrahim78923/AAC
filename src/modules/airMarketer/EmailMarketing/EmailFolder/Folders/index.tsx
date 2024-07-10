@@ -18,7 +18,10 @@ import Search from '@/components/Search';
 import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { AlertModals } from '@/components/AlertModals';
-import { useDeleteEmailFolderMutation } from '@/services/airMarketer/emailFolder';
+import {
+  useDeleteEmailFolderMutation,
+  useDuplicateEmailFolderMutation,
+} from '@/services/airMarketer/emailFolder';
 import { successSnackbar } from '@/utils/api';
 import { enqueueSnackbar } from 'notistack';
 const Folders = ({
@@ -31,8 +34,13 @@ const Folders = ({
 }: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [actionType, setActionType] = useState('');
+
   const [deleteFolders, { isLoading: deleteIsLoading }] =
     useDeleteEmailFolderMutation();
+
+  const [duplicateFolders, { isLoading: duplicateIsLoading }] =
+    useDuplicateEmailFolderMutation();
 
   const theme = useTheme();
 
@@ -56,16 +64,29 @@ const Folders = ({
     }
   };
 
-  const deleteUserFolders = async () => {
-    try {
-      await deleteFolders({
-        ids: allSelectedFoldersIds?.map((id: any) => `id=${id}`)?.join('&'),
-      }).unwrap();
-      successSnackbar('Folder Deleted Successfully');
-      setIsOpenDelete(false);
-      setAllSelectedFoldersIds([]);
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+  const handleAction = async () => {
+    if (actionType === 'delete') {
+      try {
+        await deleteFolders({
+          ids: allSelectedFoldersIds?.map((id: any) => `ids=${id}`)?.join('&'),
+        }).unwrap();
+        successSnackbar('Folder Deleted Successfully');
+        setIsOpenDelete(false);
+        setAllSelectedFoldersIds([]);
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      }
+    } else if (actionType === 'duplicate') {
+      try {
+        await duplicateFolders({
+          id: allSelectedFoldersIds?.map((id: any) => `id=${id}`)?.join('&'),
+        }).unwrap();
+        successSnackbar('Folder Duplicate Successfully');
+        setIsOpenDelete(false);
+        setAllSelectedFoldersIds([]);
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong!', { variant: 'error' });
+      }
     }
   };
 
@@ -114,10 +135,21 @@ const Folders = ({
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem>Duplicate</MenuItem>
               <MenuItem
                 onClick={() => {
                   handleClose();
+                  setActionType('duplicate');
+                  setIsOpenDelete(true);
+                }}
+                disabled={allSelectedFoldersIds?.length > 1 ? true : false}
+              >
+                {' '}
+                Duplicate
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  setActionType('delete');
                   setIsOpenDelete(true);
                 }}
               >
@@ -233,12 +265,16 @@ const Folders = ({
       </Grid>
 
       <AlertModals
-        message={'Are you sure you want to delete this folder?'}
-        type={'delete'}
+        message={
+          actionType === 'delete'
+            ? 'Are you sure you want to delete this folder?'
+            : 'Are you sure you want to duplicate this folder?'
+        }
+        type={actionType}
         open={isOpenDelete}
         handleClose={() => setIsOpenDelete(false)}
-        handleSubmitBtn={deleteUserFolders}
-        loading={deleteIsLoading}
+        handleSubmitBtn={handleAction}
+        loading={deleteIsLoading || duplicateIsLoading}
       />
     </>
   );

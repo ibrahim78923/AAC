@@ -137,6 +137,18 @@ const RightPane = () => {
     dispatch(setGmailSearch(searchValue));
   }, [searchValue]);
 
+  const options = {
+    timeZone: 'Asia/Karachi',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true,
+    hourCycle: 'h12',
+  };
+
   return (
     <Box>
       <Box sx={styles?.rightSide}>
@@ -226,391 +238,411 @@ const RightPane = () => {
                       : activeGmailRecord?.subject}
                   </Typography>
                   {sortedMessagesDataArray?.length > 0 ? (
-                    sortedMessagesDataArray?.map((obj: any) => (
-                      <Box key={uuidv4()} sx={styles?.rightSideCard}>
-                        <Box
-                          sx={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            setIsUserDetailDrawerOpen(true);
-                            setIsUserDetail(obj);
-                          }}
-                        >
-                          {obj?.userImg || <ProfileCircleIcon />}
-                        </Box>
+                    sortedMessagesDataArray?.map((obj: any) => {
+                      const date = new Date(
+                        obj?.payload?.headers?.find(
+                          (header: any) => header?.name === Gmail_CONST?.DATE,
+                        )?.value,
+                      );
+                      const formatter = new Intl.DateTimeFormat(
+                        'en-US',
+                        options,
+                      );
+                      const localDateTime = formatter?.format(date);
 
-                        <Box flex={1}>
-                          <Box sx={styles?.emailWrap}>
-                            <Box flex={1} sx={{ cursor: 'pointer' }}>
-                              <Typography variant="h5">
-                                {obj?.payload?.headers?.find(
-                                  (header: any) =>
-                                    header?.name === Gmail_CONST?.FROM,
-                                )?.value ?? '--'}
-                              </Typography>
-                              <Typography variant="body2">
-                                <span style={{ fontWeight: '700' }}> To:</span>{' '}
-                                {obj?.payload?.headers?.find(
-                                  (header: any) =>
-                                    header?.name === Gmail_CONST?.TO,
-                                )?.value ?? '--'}
-                              </Typography>
-
-                              {obj?.payload?.headers?.find(
-                                (header: any) =>
-                                  header?.name === Gmail_CONST?.Cc,
-                              )?.value && (
-                                <Typography variant="body2">
-                                  <span style={{ fontWeight: '700' }}>
-                                    {' '}
-                                    CC:
-                                  </span>{' '}
-                                  {obj?.payload?.headers?.find(
-                                    (header: any) =>
-                                      header?.name === Gmail_CONST?.Cc,
-                                  )?.value ?? '--'}
-                                </Typography>
-                              )}
-
-                              {obj?.payload?.headers?.find(
-                                (header: any) =>
-                                  header?.name === Gmail_CONST?.BCC,
-                              )?.value && (
-                                <Typography variant="body2">
-                                  <span style={{ fontWeight: '700' }}>
-                                    {' '}
-                                    Bcc:
-                                  </span>{' '}
-                                  {obj?.payload?.headers?.find(
-                                    (header: any) =>
-                                      header?.name === Gmail_CONST?.BCC,
-                                  )?.value ?? '--'}
-                                </Typography>
-                              )}
-                            </Box>
-                            <Box
-                              display={'flex'}
-                              alignItems={'center'}
-                              gap={'14px'}
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                fontWeight={400}
-                                sx={{
-                                  borderRight: `1px solid ${theme?.palette?.custom?.light_grayish_blue}`,
-                                  paddingRight: '15px',
-                                }}
-                              >
-                                {obj?.payload?.headers
-                                  ?.find(
-                                    (header: any) =>
-                                      header?.name === Gmail_CONST?.DATE,
-                                  )
-                                  ?.value.replace(/ [+-]\d{4}$/, '') ?? '--'}
-                              </Typography>
-                              <Tooltip
-                                placement="top"
-                                arrow
-                                title={'Reply All'}
-                              >
-                                <IconButton
-                                  size="small"
-                                  onClick={() => {
-                                    setIsOpenSendEmailDrawer(true);
-                                    setMailType(CREATE_EMAIL_TYPES?.REPLY_ALL);
-                                    dispatch(
-                                      setCurrentGmailAssets({
-                                        threadId: obj?.threadId,
-                                        id: obj?.id,
-                                        from:
-                                          obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.FROM,
-                                          )?.value === loggedInState
-                                            ? obj?.payload?.headers?.find(
-                                                (header: any) =>
-                                                  header?.name ===
-                                                  Gmail_CONST?.TO,
-                                              )?.value
-                                            : obj?.payload?.headers?.find(
-                                                (header: any) =>
-                                                  header?.name ===
-                                                  Gmail_CONST?.FROM,
-                                              )?.value,
-                                        others: {
-                                          from: `${obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.FROM,
-                                          )?.value}
-                                    ${'>'}`,
-                                          sent: obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.DATE,
-                                          )?.value,
-                                          to: ` ${obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.FROM,
-                                          )?.value}
-                                    ${'>'}`,
-                                          subject: obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.SUBJECT,
-                                          )?.value,
-                                        },
-                                      }),
-                                    );
-                                  }}
-                                >
-                                  <ReplyAllIcon />
-                                </IconButton>
-                              </Tooltip>
-                              <Tooltip placement="top" arrow title={'Reply'}>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => {
-                                    setIsOpenSendEmailDrawer(true);
-                                    setMailType(CREATE_EMAIL_TYPES?.REPLY);
-                                    dispatch(
-                                      setCurrentGmailAssets({
-                                        threadId: obj?.threadId,
-                                        id: obj?.id,
-                                        from:
-                                          obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.FROM,
-                                          )?.value === loggedInState
-                                            ? obj?.payload?.headers?.find(
-                                                (header: any) =>
-                                                  header?.name ===
-                                                  Gmail_CONST?.TO,
-                                              )?.value
-                                            : obj?.payload?.headers?.find(
-                                                (header: any) =>
-                                                  header?.name ===
-                                                  Gmail_CONST?.FROM,
-                                              )?.value,
-                                        others: {
-                                          from: `${obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.FROM,
-                                          )?.value}
-                                    ${'>'}`,
-                                          sent: obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.DATE,
-                                          )?.value,
-                                          to: ` ${obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.FROM,
-                                          )?.value}
-                                    ${'>'}`,
-                                          subject: obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.SUBJECT,
-                                          )?.value,
-                                        },
-                                      }),
-                                    );
-                                  }}
-                                >
-                                  <EmailReplyIcon />
-                                </IconButton>
-                              </Tooltip>
-                              <Tooltip placement="top" arrow title={'Forward'}>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => {
-                                    dispatch(
-                                      setCurrentForwardMessage(
-                                        decodeBase64(
-                                          obj?.payload?.parts[
-                                            indexNumbers?.ZERO
-                                          ]?.body?.data,
-                                        ),
-                                      ),
-                                    );
-                                    dispatch(
-                                      setCurrentForwardAttachments(
-                                        obj?.attachments?.map(
-                                          (attachment: any) => ({
-                                            base64: attachment?.data,
-                                            contentType: attachment?.mimeType,
-                                            fileName: attachment?.filename,
-                                          }),
-                                        ),
-                                      ),
-                                    );
-                                    setIsOpenSendEmailDrawer(true);
-                                    setMailType(CREATE_EMAIL_TYPES?.FORWARD);
-                                    dispatch(
-                                      setCurrentGmailAssets({
-                                        threadId: obj?.threadId,
-                                        id: obj?.id,
-                                        // messageBody: obj?.snippet,
-                                        from:
-                                          obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.FROM,
-                                          )?.value === loggedInState
-                                            ? obj?.payload?.headers?.find(
-                                                (header: any) =>
-                                                  header?.name ===
-                                                  Gmail_CONST?.TO,
-                                              )?.value
-                                            : obj?.payload?.headers?.find(
-                                                (header: any) =>
-                                                  header?.name ===
-                                                  Gmail_CONST?.FROM,
-                                              )?.value,
-                                        others: {
-                                          from: `${obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.FROM,
-                                          )?.value}
-                                    ${'>'}`,
-                                          sent: obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.DATE,
-                                          )?.value,
-                                          to: ` ${obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.FROM,
-                                          )?.value}
-                                    ${'>'}`,
-                                          subject: obj?.payload?.headers?.find(
-                                            (header: any) =>
-                                              header?.name ===
-                                              Gmail_CONST?.SUBJECT,
-                                          )?.value,
-                                        },
-                                      }),
-                                    );
-                                  }}
-                                >
-                                  <ForwardIcon />
-                                </IconButton>
-                              </Tooltip>
-                            </Box>
-                          </Box>
-
-                          {obj?.payload?.parts?.map((item: any) => {
-                            if (item?.mimeType === 'text/html') {
-                              return (
-                                <>
-                                  {' '}
-                                  <DecodeBase64
-                                    base64String={item?.body?.data}
-                                  />{' '}
-                                </>
-                              );
-                            }
-                          })}
-
+                      return (
+                        <Box key={uuidv4()} sx={styles?.rightSideCard}>
                           <Box
-                            sx={{
-                              display: 'flex',
-                              gap: '10px',
-                              flexWrap: 'wrap',
-                              mb: 2,
-                              alignItems: 'end',
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              setIsUserDetailDrawerOpen(true);
+                              setIsUserDetail(obj);
                             }}
                           >
-                            {obj?.attachments?.map((item: any) => {
-                              return (
-                                <>
-                                  <Box
-                                    sx={{
-                                      marginTop: '10px',
-                                      borderRadius: '8px',
-                                      overflow: 'hidden',
-                                      display: 'flex',
-                                    }}
-                                  >
-                                    <ImageComponent
-                                      base64={item?.data}
-                                      contentType={item?.mimeType}
-                                      fileName={item?.filename}
-                                    />
-                                  </Box>
-                                </>
-                              );
-                            })}
+                            {obj?.userImg || <ProfileCircleIcon />}
                           </Box>
 
-                          <Box
-                            mt={0.5}
-                            sx={{ fontSize: '14px', fontWeight: '400' }}
-                            dangerouslySetInnerHTML={{ __html: obj?.body }}
-                          />
-                          <IconButton
-                            sx={{ transform: 'rotate(90deg)' }}
-                            onClick={() => handelMoreinfo(obj?.id)}
-                          >
-                            <DotsBoldIcon />
-                          </IconButton>
-                          {selectedRecordId === obj?.id && (
-                            <Box
-                              sx={{
-                                borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
-                                padding: '5px 0px 5px 20px',
-                              }}
-                            >
-                              <Box>
-                                <Typography variant="body3">
-                                  <strong>From :</strong>
+                          <Box flex={1}>
+                            <Box sx={styles?.emailWrap}>
+                              <Box flex={1} sx={{ cursor: 'pointer' }}>
+                                <Typography variant="h5">
                                   {obj?.payload?.headers?.find(
                                     (header: any) =>
                                       header?.name === Gmail_CONST?.FROM,
                                   )?.value ?? '--'}
                                 </Typography>
-                              </Box>
-                              <Box>
-                                <Typography variant="body3">
-                                  <strong>Sent :</strong>{' '}
-                                  {dayjs(
-                                    obj?.payload?.headers?.find(
-                                      (header: any) =>
-                                        header?.name === Gmail_CONST?.DATE,
-                                    )?.value ?? '--',
-                                  ).format(DATE_TIME_FORMAT?.MMMDDYYYY)}
-                                </Typography>
-                              </Box>
-                              <Box>
-                                <Typography variant="body3">
-                                  <strong>To : </strong>
+                                <Typography variant="body2">
+                                  <span style={{ fontWeight: '700' }}>
+                                    {' '}
+                                    To:
+                                  </span>{' '}
                                   {obj?.payload?.headers?.find(
                                     (header: any) =>
                                       header?.name === Gmail_CONST?.TO,
                                   )?.value ?? '--'}
                                 </Typography>
+
+                                {obj?.payload?.headers?.find(
+                                  (header: any) =>
+                                    header?.name === Gmail_CONST?.Cc,
+                                )?.value && (
+                                  <Typography variant="body2">
+                                    <span style={{ fontWeight: '700' }}>
+                                      {' '}
+                                      CC:
+                                    </span>{' '}
+                                    {obj?.payload?.headers?.find(
+                                      (header: any) =>
+                                        header?.name === Gmail_CONST?.Cc,
+                                    )?.value ?? '--'}
+                                  </Typography>
+                                )}
+
+                                {obj?.payload?.headers?.find(
+                                  (header: any) =>
+                                    header?.name === Gmail_CONST?.BCC,
+                                )?.value && (
+                                  <Typography variant="body2">
+                                    <span style={{ fontWeight: '700' }}>
+                                      {' '}
+                                      Bcc:
+                                    </span>{' '}
+                                    {obj?.payload?.headers?.find(
+                                      (header: any) =>
+                                        header?.name === Gmail_CONST?.BCC,
+                                    )?.value ?? '--'}
+                                  </Typography>
+                                )}
                               </Box>
-                              <Box>
-                                <Typography variant="body3">
-                                  <strong>Subject : </strong>{' '}
-                                  {obj?.payload?.headers?.find(
-                                    (header: any) =>
-                                      header?.name === Gmail_CONST?.SUBJECT,
-                                  )?.value ?? '--'}
+                              <Box
+                                display={'flex'}
+                                alignItems={'center'}
+                                gap={'14px'}
+                              >
+                                <Typography
+                                  variant="subtitle2"
+                                  fontWeight={400}
+                                  sx={{
+                                    borderRight: `1px solid ${theme?.palette?.custom?.light_grayish_blue}`,
+                                    paddingRight: '15px',
+                                  }}
+                                >
+                                  {localDateTime}
                                 </Typography>
+                                <Tooltip
+                                  placement="top"
+                                  arrow
+                                  title={'Reply All'}
+                                >
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => {
+                                      setIsOpenSendEmailDrawer(true);
+                                      setMailType(
+                                        CREATE_EMAIL_TYPES?.REPLY_ALL,
+                                      );
+                                      dispatch(
+                                        setCurrentGmailAssets({
+                                          threadId: obj?.threadId,
+                                          id: obj?.id,
+                                          from:
+                                            obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.FROM,
+                                            )?.value === loggedInState
+                                              ? obj?.payload?.headers?.find(
+                                                  (header: any) =>
+                                                    header?.name ===
+                                                    Gmail_CONST?.TO,
+                                                )?.value
+                                              : obj?.payload?.headers?.find(
+                                                  (header: any) =>
+                                                    header?.name ===
+                                                    Gmail_CONST?.FROM,
+                                                )?.value,
+                                          others: {
+                                            from: `${obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.FROM,
+                                            )?.value}
+                                    ${'>'}`,
+                                            sent: obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.DATE,
+                                            )?.value,
+                                            to: ` ${obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.FROM,
+                                            )?.value}
+                                    ${'>'}`,
+                                            subject:
+                                              obj?.payload?.headers?.find(
+                                                (header: any) =>
+                                                  header?.name ===
+                                                  Gmail_CONST?.SUBJECT,
+                                              )?.value,
+                                          },
+                                        }),
+                                      );
+                                    }}
+                                  >
+                                    <ReplyAllIcon />
+                                  </IconButton>
+                                </Tooltip>
+                                <Tooltip placement="top" arrow title={'Reply'}>
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => {
+                                      setIsOpenSendEmailDrawer(true);
+                                      setMailType(CREATE_EMAIL_TYPES?.REPLY);
+                                      dispatch(
+                                        setCurrentGmailAssets({
+                                          threadId: obj?.threadId,
+                                          id: obj?.id,
+                                          from:
+                                            obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.FROM,
+                                            )?.value === loggedInState
+                                              ? obj?.payload?.headers?.find(
+                                                  (header: any) =>
+                                                    header?.name ===
+                                                    Gmail_CONST?.TO,
+                                                )?.value
+                                              : obj?.payload?.headers?.find(
+                                                  (header: any) =>
+                                                    header?.name ===
+                                                    Gmail_CONST?.FROM,
+                                                )?.value,
+                                          others: {
+                                            from: `${obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.FROM,
+                                            )?.value}
+                                    ${'>'}`,
+                                            sent: obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.DATE,
+                                            )?.value,
+                                            to: ` ${obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.FROM,
+                                            )?.value}
+                                    ${'>'}`,
+                                            subject:
+                                              obj?.payload?.headers?.find(
+                                                (header: any) =>
+                                                  header?.name ===
+                                                  Gmail_CONST?.SUBJECT,
+                                              )?.value,
+                                          },
+                                        }),
+                                      );
+                                    }}
+                                  >
+                                    <EmailReplyIcon />
+                                  </IconButton>
+                                </Tooltip>
+                                <Tooltip
+                                  placement="top"
+                                  arrow
+                                  title={'Forward'}
+                                >
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => {
+                                      dispatch(
+                                        setCurrentForwardMessage(
+                                          decodeBase64(
+                                            obj?.payload?.parts[
+                                              indexNumbers?.ZERO
+                                            ]?.body?.data,
+                                          ),
+                                        ),
+                                      );
+                                      dispatch(
+                                        setCurrentForwardAttachments(
+                                          obj?.attachments?.map(
+                                            (attachment: any) => ({
+                                              base64: attachment?.data,
+                                              contentType: attachment?.mimeType,
+                                              fileName: attachment?.filename,
+                                            }),
+                                          ),
+                                        ),
+                                      );
+                                      setIsOpenSendEmailDrawer(true);
+                                      setMailType(CREATE_EMAIL_TYPES?.FORWARD);
+                                      dispatch(
+                                        setCurrentGmailAssets({
+                                          threadId: obj?.threadId,
+                                          id: obj?.id,
+                                          // messageBody: obj?.snippet,
+                                          from:
+                                            obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.FROM,
+                                            )?.value === loggedInState
+                                              ? obj?.payload?.headers?.find(
+                                                  (header: any) =>
+                                                    header?.name ===
+                                                    Gmail_CONST?.TO,
+                                                )?.value
+                                              : obj?.payload?.headers?.find(
+                                                  (header: any) =>
+                                                    header?.name ===
+                                                    Gmail_CONST?.FROM,
+                                                )?.value,
+                                          others: {
+                                            from: `${obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.FROM,
+                                            )?.value}
+                                    ${'>'}`,
+                                            sent: obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.DATE,
+                                            )?.value,
+                                            to: ` ${obj?.payload?.headers?.find(
+                                              (header: any) =>
+                                                header?.name ===
+                                                Gmail_CONST?.FROM,
+                                            )?.value}
+                                    ${'>'}`,
+                                            subject:
+                                              obj?.payload?.headers?.find(
+                                                (header: any) =>
+                                                  header?.name ===
+                                                  Gmail_CONST?.SUBJECT,
+                                              )?.value,
+                                          },
+                                        }),
+                                      );
+                                    }}
+                                  >
+                                    <ForwardIcon />
+                                  </IconButton>
+                                </Tooltip>
                               </Box>
                             </Box>
-                          )}
+
+                            {obj?.payload?.parts?.map((item: any) => {
+                              if (item?.mimeType === 'text/html') {
+                                return (
+                                  <>
+                                    {' '}
+                                    <DecodeBase64
+                                      base64String={item?.body?.data}
+                                    />{' '}
+                                  </>
+                                );
+                              }
+                            })}
+
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                gap: '10px',
+                                flexWrap: 'wrap',
+                                mb: 2,
+                                alignItems: 'end',
+                              }}
+                            >
+                              {obj?.attachments?.map((item: any) => {
+                                return (
+                                  <>
+                                    <Box
+                                      sx={{
+                                        marginTop: '10px',
+                                        borderRadius: '8px',
+                                        overflow: 'hidden',
+                                        display: 'flex',
+                                      }}
+                                    >
+                                      <ImageComponent
+                                        base64={item?.data}
+                                        contentType={item?.mimeType}
+                                        fileName={item?.filename}
+                                      />
+                                    </Box>
+                                  </>
+                                );
+                              })}
+                            </Box>
+
+                            <Box
+                              mt={0.5}
+                              sx={{ fontSize: '14px', fontWeight: '400' }}
+                              dangerouslySetInnerHTML={{ __html: obj?.body }}
+                            />
+                            <IconButton
+                              sx={{ transform: 'rotate(90deg)' }}
+                              onClick={() => handelMoreinfo(obj?.id)}
+                            >
+                              <DotsBoldIcon />
+                            </IconButton>
+                            {selectedRecordId === obj?.id && (
+                              <Box
+                                sx={{
+                                  borderLeft: `1px solid ${theme?.palette?.grey[500]}`,
+                                  padding: '5px 0px 5px 20px',
+                                }}
+                              >
+                                <Box>
+                                  <Typography variant="body3">
+                                    <strong>From :</strong>
+                                    {obj?.payload?.headers?.find(
+                                      (header: any) =>
+                                        header?.name === Gmail_CONST?.FROM,
+                                    )?.value ?? '--'}
+                                  </Typography>
+                                </Box>
+                                <Box>
+                                  <Typography variant="body3">
+                                    <strong>Sent :</strong>{' '}
+                                    {dayjs(
+                                      obj?.payload?.headers?.find(
+                                        (header: any) =>
+                                          header?.name === Gmail_CONST?.DATE,
+                                      )?.value ?? '--',
+                                    ).format(DATE_TIME_FORMAT?.MMMDDYYYY)}
+                                  </Typography>
+                                </Box>
+                                <Box>
+                                  <Typography variant="body3">
+                                    <strong>To : </strong>
+                                    {obj?.payload?.headers?.find(
+                                      (header: any) =>
+                                        header?.name === Gmail_CONST?.TO,
+                                    )?.value ?? '--'}
+                                  </Typography>
+                                </Box>
+                                <Box>
+                                  <Typography variant="body3">
+                                    <strong>Subject : </strong>{' '}
+                                    {obj?.payload?.headers?.find(
+                                      (header: any) =>
+                                        header?.name === Gmail_CONST?.SUBJECT,
+                                    )?.value ?? '--'}
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            )}
+                          </Box>
                         </Box>
-                      </Box>
-                    ))
+                      );
+                    })
                   ) : (
                     <Box sx={styles?.content}>
                       <Typography variant="subtitle1">
