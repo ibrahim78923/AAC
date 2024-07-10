@@ -1,10 +1,18 @@
 import * as Yup from 'yup';
+import { v4 as uuidv4 } from 'uuid';
 export const feedbackTypes = {
   createSurvey: 'createSurvey',
   saveQuestion: 'saveQuestion',
   linearScale: 'linearScale',
   text: 'text',
   shortAnswers: 'shortAnswers',
+  feedback: 'feedback',
+  survey: 'survey',
+  preview: 'preview',
+  viaEmail: 'viaEmail',
+  published: 'published',
+  draft: 'draft',
+  customerSatisfaction: 'customer-satisfaction',
 };
 export const questionTypeOptions = [
   {
@@ -31,7 +39,9 @@ export const feedbackSurveyValues = (data: any) => {
   return {
     surveyTitle: data?.surveyTitle ?? '',
     description: data?.description ?? '',
-    subject: data?.subject ?? '',
+    surveyDuration: data?.surveyDuration
+      ? new Date(data?.surveyDuration)
+      : null,
     display: !!data?.displayName ?? false,
     displayName: data?.displayName ?? '',
     customerSupportLinkType: data?.customerSupportLinkType ?? 'viaEmail',
@@ -39,6 +49,7 @@ export const feedbackSurveyValues = (data: any) => {
     magicLink: data?.magicLink ?? '',
     satisfactionSurveyLinkType:
       data?.satisfactionSurveyLinkType ?? 'toAllAgents',
+    UUID: data?.UUID ? data?.UUID : uuidv4(),
     sections: data?.sections?.map((section: any) => ({
       id: section?._id ?? '',
       heading: section?.heading ?? '',
@@ -97,24 +108,35 @@ export const feedbackSurveyValues = (data: any) => {
     ],
   };
 };
-export const feedbackSurveyValidationSchema: any = (createSurvey: boolean) =>
+export const feedbackSurveyValidationSchema: any = (
+  createSurvey: string,
+  router: any,
+) =>
   Yup?.object()?.shape({
     surveyTitle: Yup?.string()?.required('Required'),
     description: Yup?.string()?.required('Required'),
-    surveyDuration: Yup?.string(),
+    surveyDuration: Yup?.date()?.nullable(),
     customerSupportLinkType: Yup?.string(),
-    sendSurveyPeople: Yup?.array(),
+    sendSurveyPeople: Yup?.array()?.when('customerSupportLinkType', {
+      is: (type: string) =>
+        type === feedbackTypes?.viaEmail &&
+        router?.query?.type !== feedbackTypes?.customerSatisfaction,
+      then: (schema) => schema?.min(1, 'Required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
     sections: Yup?.array()?.of(
       Yup?.object()?.shape({
-        heading: createSurvey
-          ? Yup?.string()?.required('Required')
-          : Yup?.string(),
+        heading:
+          createSurvey === feedbackTypes?.feedback
+            ? Yup?.string()?.required('Required')
+            : Yup?.string(),
         description: Yup?.string(),
         questions: Yup?.array()?.of(
           Yup?.object()?.shape({
-            questionTitle: createSurvey
-              ? Yup?.string()?.required('Required')
-              : Yup?.string(),
+            questionTitle:
+              createSurvey === feedbackTypes?.feedback
+                ? Yup?.string()?.required('Required')
+                : Yup?.string(),
           }),
         ),
       }),
@@ -172,3 +194,12 @@ export const apiSectionData = (data: any) => {
     })),
   }));
 };
+export const surveyWatchArray: any[] = [
+  'surveyTitle',
+  'description',
+  'displayName',
+  'satisfactionSurveyLinkType',
+  'customerSupportLinkType',
+  'magicLink',
+  // 'sendSurveyPeople',
+];

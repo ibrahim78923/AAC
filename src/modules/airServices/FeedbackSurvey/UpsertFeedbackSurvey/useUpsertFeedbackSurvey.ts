@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import lodash from 'lodash';
 import {
@@ -7,9 +8,9 @@ import {
   feedbackSurveyValues,
   feedbackTypes,
   linearScaleOption,
+  surveyWatchArray,
 } from './UpsertFeedbackSurvey.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useState } from 'react';
 import {
   useAddFeedbackQuestionsMutation,
   useGetSingleFeedbackQuery,
@@ -20,14 +21,16 @@ import { useRouter } from 'next/router';
 import { errorSnackbar } from '@/utils/api';
 
 export const useUpsertFeedbackSurvey = () => {
-  const [createSurvey, setCreateSurvey] = useState(false);
+  const [createSurvey, setCreateSurvey] = useState<string>(
+    feedbackTypes?.survey,
+  );
   const [submitIndex, setSubmitIndex] = useState<any>({});
   const [submitType, setSubmitType] = useState('');
   const router: any = useRouter();
   const surveyId = router?.query?.id;
   const methods = useForm({
     defaultValues: feedbackSurveyValues(null),
-    resolver: yupResolver(feedbackSurveyValidationSchema(createSurvey)),
+    resolver: yupResolver(feedbackSurveyValidationSchema(createSurvey, router)),
   });
   const { handleSubmit, reset, watch } = methods;
   const getParams = {
@@ -52,36 +55,72 @@ export const useUpsertFeedbackSurvey = () => {
     description: surveyData?.description,
     displayName: surveyData?.display ? surveyData?.displayName : '',
     satisfactionSurveyLinkType: surveyData?.satisfactionSurveyLinkType,
-    subject: surveyData?.subject,
+    surveyDuration: surveyData?.surveyDuration,
     customerSupportLinkType: surveyData?.customerSupportLinkType,
     magicLink: surveyData?.magicLink,
-    sendSurveyPeople: surveyData?.sendSurveyPeople,
+    sendSurveyPeople: surveyData?.sendSurveyPeople?.map((item: any) =>
+      item?.email ? item?.email : item,
+    ),
     surveyType: feedbackSurveyType?.[router?.query?.type],
   });
   const handleCreateSurvey = async (surveyData: any) => {
-    const response: any = await createFeedbackSurveyTrigger(
-      modifiedSurveyData(surveyData),
-    );
+    const response: any = await createFeedbackSurveyTrigger({
+      UUID: surveyData?.UUID,
+      ...modifiedSurveyData(surveyData),
+    });
     if (response?.data?.data?._id) {
       router?.push({
         ...router?.basePath,
         query: { ...router?.query, id: response?.data?.data?._id },
       });
-      setCreateSurvey(true);
+      setCreateSurvey(feedbackTypes?.feedback);
     } else {
       errorSnackbar(response?.error?.data?.message);
     }
   };
+  const surveyValues = watch(surveyWatchArray);
+  const sendSurveyPeople = watch('sendSurveyPeople');
+  const sendSurveyPeopleValue = sendSurveyPeople?.map((item: any) =>
+    item?.email ? item?.email : item,
+  );
+  const surveyDuration: any = watch('surveyDuration');
+  const surveyDurationValue = new Date(surveyDuration);
+  const dateString = (date: any) => {
+    if (isNaN(date)) {
+      return;
+    } else {
+      return date?.toISOString();
+    }
+  };
+  const newSurvey = [
+    ...surveyValues,
+    sendSurveyPeopleValue,
+    !surveyDuration ? surveyDuration : dateString(surveyDurationValue),
+  ];
+  const oldSurvey = {
+    surveyTitle: data?.data?.surveyTitle,
+    description: data?.data?.description,
+    displayName: data?.data?.displayName,
+    satisfactionSurveyLinkType: data?.data?.satisfactionSurveyLinkType,
+    customerSupportLinkType: data?.data?.customerSupportLinkType,
+    magicLink: data?.data?.magicLink,
+    sendSurveyPeople: data?.data?.sendSurveyPeople,
+    surveyDuration: data?.data?.surveyDuration,
+  };
   const handleUpdateSurvey = async (data: any) => {
     const modifiedSurvey = {
       body: modifiedSurveyData(data),
-      params: { id: router?.query?.id },
+      params: { id: surveyId },
     };
-    const response: any = await patchFeedbackSurveyTrigger(modifiedSurvey);
-    if (response?.data?.message) {
-      setCreateSurvey(true);
+    if (!lodash?.isEqual(Object?.values(oldSurvey), newSurvey)) {
+      const response: any = await patchFeedbackSurveyTrigger(modifiedSurvey);
+      if (response?.data?.message) {
+        setCreateSurvey(feedbackTypes?.feedback);
+      } else {
+        errorSnackbar(response?.error?.data?.message);
+      }
     } else {
-      errorSnackbar(response?.error?.data?.message);
+      setCreateSurvey(feedbackTypes?.feedback);
     }
   };
   const watchSectionData = watch('sections');
@@ -183,5 +222,6 @@ export const useUpsertFeedbackSurvey = () => {
     setSubmitType,
     sectionVerification,
     unSaveSection,
+    data,
   };
 };

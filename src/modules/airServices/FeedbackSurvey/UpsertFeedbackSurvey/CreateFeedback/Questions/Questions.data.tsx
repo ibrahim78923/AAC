@@ -19,6 +19,7 @@ export const tooltipData = (
   appendSection: any,
   appendQuestion: any,
   appendText: any,
+  handleImportOpen: any,
 ) => [
   {
     id: 1,
@@ -35,7 +36,7 @@ export const tooltipData = (
   {
     id: 3,
     title: 'Import questions',
-    onClick: () => {},
+    onClick: handleImportOpen,
     icon: <ImportQuestionIcon />,
   },
   {

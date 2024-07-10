@@ -157,6 +157,7 @@ export const AIR_SERVICES = {
   SOFTWARE_REPORTS: `/air-services/reports/software`,
   FEEDBACK_SURVEY: `/air-services/feedback-survey`,
   UPSERT_FEEDBACK_SURVEY: `/air-services/feedback-survey/upsert-feedback-survey`,
+  FEEDBACK_SURVEY_RESPONSES: `/air-services/feedback-survey/detail`,
   DEPARTMENT_FIELD: `/air-services/settings/user-management/department-field`,
   AGENT_FIELDS: `/air-services/settings/user-management/agent-fields`,
   REQUESTER_FIELDS: `/air-services/settings/user-management/requester-fields`,

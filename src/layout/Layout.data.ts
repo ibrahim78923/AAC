@@ -215,7 +215,7 @@ export const ServicesRoutes: any = [
     icon: FeedbackSurveyImage,
     label: 'Feedback Survey',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_FEEDBACK_SURVEY,
   },
   {
     key: '/air-services/reports',

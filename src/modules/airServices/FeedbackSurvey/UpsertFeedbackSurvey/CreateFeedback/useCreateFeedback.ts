@@ -1,16 +1,21 @@
+import { AIR_SERVICES } from '@/constants';
 import {
   useDeleteFeedbackSurveySectionMutation,
   usePatchCloneFeedbackSectionMutation,
+  usePatchFeedbackSurveyMutation,
   usePatchMergeFeedbackSectionMutation,
 } from '@/services/airServices/feedback-survey';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useFieldArray } from 'react-hook-form';
+import { feedbackValuesType } from './CreateFeedback.data';
 
 export const useCreateFeedback = (props: any) => {
   const { methods } = props;
   const { control, watch, setValue } = methods;
   const [isSection, setIsSection] = useState(0);
+  const [isStatus, setIsStatus] = useState(false);
   const router = useRouter();
   const surveyId = router?.query?.id;
   const { fields, append, remove } = useFieldArray({
@@ -23,6 +28,8 @@ export const useCreateFeedback = (props: any) => {
     usePatchMergeFeedbackSectionMutation();
   const [cloneSectionTrigger, { isLoading: cloneLoading }] =
     usePatchCloneFeedbackSectionMutation();
+  const [patchFeedbackSurveyTrigger, { isLoading: updateLoading }] =
+    usePatchFeedbackSurveyMutation();
   const removeSection = async (index: number, setClose: any) => {
     const sectionId = watch(`sections.${index}.id`);
     const deleteParams = {
@@ -62,6 +69,40 @@ export const useCreateFeedback = (props: any) => {
       remove(index);
     }
   };
+  const handlePublish = async (handleClose: any) => {
+    setIsStatus(true);
+    const publishParams = {
+      body: {
+        status: feedbackValuesType?.published,
+      },
+      params: { id: surveyId },
+    };
+    const response: any = await patchFeedbackSurveyTrigger(publishParams);
+    if (response?.data?.message) {
+      handleClose();
+      successSnackbar('Survey published successfully');
+      router?.push(AIR_SERVICES?.FEEDBACK_SURVEY);
+    } else {
+      errorSnackbar(response?.error?.data?.message);
+    }
+    setIsStatus(false);
+  };
+  const handleSaveDraft = async (handleClose: any) => {
+    const draftParams = {
+      body: {
+        status: feedbackValuesType?.draft,
+      },
+      params: { id: surveyId },
+    };
+    const response: any = await patchFeedbackSurveyTrigger(draftParams);
+    if (response?.data?.message) {
+      handleClose();
+      successSnackbar('Survey save as draft successfully');
+      router?.push(AIR_SERVICES?.FEEDBACK_SURVEY);
+    } else {
+      errorSnackbar(response?.error?.data?.message);
+    }
+  };
   return {
     fields,
     append,
@@ -73,5 +114,9 @@ export const useCreateFeedback = (props: any) => {
     deleteLoading,
     mergeLoading,
     cloneLoading,
+    handlePublish,
+    handleSaveDraft,
+    updateLoading,
+    isStatus,
   };
 };

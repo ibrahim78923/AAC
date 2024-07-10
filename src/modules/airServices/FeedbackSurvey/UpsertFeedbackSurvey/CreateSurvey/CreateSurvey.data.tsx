@@ -1,20 +1,22 @@
-import { CopyPrimaryColorIcon } from '@/assets/icons';
 import {
-  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFCheckbox,
+  RHFDatePicker,
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { successSnackbar } from '@/utils/api';
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 export const surveyConditions = {
   email: 'viaEmail',
   link: 'viaMagicLink',
-  surveyDuration: 'subject',
+  surveyDuration: 'surveyDuration',
   sendSurveyPeople: 'sendSurveyPeople',
   displayName: 'displayName',
   createSurvey: 'createSurvey',
+  createSurveyTitle: 'Create Survey',
+  editSurveyTitle: 'Edit Survey',
 };
 
 const customerSupportLinkTypeOptions = [
@@ -26,13 +28,6 @@ const customerSupportLinkTypeOptions = [
     label: 'Generate Magic link',
     value: 'viaMagicLink',
   },
-];
-const sendSurveyPeopleOptions = [
-  'dummy1@gmail.com',
-  'dummy2@gmail.com',
-  'dummy3@gmail.com',
-  'dummy4@gmail.com',
-  'dummy5@gmail.com',
 ];
 const surveyLinkOptions = [
   {
@@ -49,7 +44,11 @@ const surveyLinkOptions = [
   },
 ];
 
-export const createSurveyFields = [
+export const createSurveyFields = (
+  watch: any,
+  setOpenShare: any,
+  userDropdown: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -77,12 +76,13 @@ export const createSurveyFields = [
   {
     id: 3,
     componentProps: {
-      name: 'subject',
-      label: 'Survey Duration(Days)',
-      placeholder: 'Enter subject',
+      name: 'surveyDuration',
+      label: 'Survey Duration',
+      fullWidth: true,
+      disablePast: true,
     },
-    type: ['customer-support'],
-    component: RHFTextField,
+    type: ['customer-support', 'customer-satisfaction'],
+    component: RHFDatePicker,
   },
   {
     id: 4,
@@ -100,11 +100,16 @@ export const createSurveyFields = [
       label: 'Add People',
       placeholder: 'Enter People',
       multiple: true,
-      options: sendSurveyPeopleOptions,
-      isOptionEqualToValue: (option: any, newValue: any) => option === newValue,
+      required: true,
+      apiQuery: userDropdown,
+      getOptionLabel: (option: any) => (option?.email ? option?.email : option),
+      isOptionEqualToValue: (option: any, newValue: any) =>
+        newValue?.email
+          ? option?.email === newValue?.email
+          : option?.email === newValue,
     },
     type: ['customer-support'],
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 6,
@@ -130,23 +135,20 @@ export const createSurveyFields = [
               borderColor: 'grey.700',
               borderRadius: 1.5,
               mt: 0.5,
-              px: 1,
+              p: 1,
             }}
           >
-            <Typography
-              variant="body2"
-              color="blue.link_blue"
-              mt={0.5}
-              ref={linkRef}
-            >
-              {window?.location?.href}
+            <Typography variant="body2" color="blue.link_blue" ref={linkRef}>
+              {window?.location?.origin}/survey/response?surveyId=
+              {watch('UUID')}
             </Typography>
-            <IconButton onClick={handleCopy}>
-              <CopyPrimaryColorIcon />
-            </IconButton>
           </Box>
           <Box display="flex" gap={1} mt={2}>
-            <Button variant="outlined" color="secondary">
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => setOpenShare(true)}
+            >
               Share
             </Button>
             <Button variant="contained" onClick={handleCopy}>

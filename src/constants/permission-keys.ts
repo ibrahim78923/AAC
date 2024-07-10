@@ -1757,6 +1757,31 @@ export const AIR_OPERATION_REPORTS_MARKETING_CUSTOM_REPORTS_PERMISSIONS = {
   CLONE: 'operations-report-marketing-custom-clone',
   EMAIL_THIS_REPORT: 'operations-report-marketing-custom-email-this-report',
 };
+
+export const AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS = {
+  CUSTOMER_SUPPORT_SURVEY_LIST_VIEW:
+    'services-customer-support-survey-list-view',
+  CUSTOMER_SUPPORT_SURVEY_ADD: 'services-customer-support-survey-add',
+  CUSTOMER_SUPPORT_SURVEY_CLONE: 'services-customer-support-survey-clone',
+  CUSTOMER_SUPPORT_SURVEY_VIEW: 'services-customer-support-survey-view',
+  CUSTOMER_SUPPORT_SURVEY_EDIT: 'services-customer-support-survey-edit',
+  CUSTOMER_SUPPORT_SURVEY_DELETE: 'services-customer-support-survey-delete',
+  CUSTOMER_SUPPORT_SURVEY_VIEW_RESPONSE:
+    'services-customer-support-survey-view-response',
+  CUSTOMER_SATISFACTION_SURVEY_LIST_VIEW:
+    'services-customer-satisfaction-survey-list-view',
+  CUSTOMER_SATISFACTION_SURVEY_ADD: 'services-customer-satisfaction-survey-add',
+  CUSTOMER_SATISFACTION_SURVEY_CLONE:
+    'services-customer-satisfaction-survey-clone',
+  CUSTOMER_SATISFACTION_SURVEY_VIEW:
+    'services-customer-satisfaction-survey-view',
+  CUSTOMER_SATISFACTION_SURVEY_EDIT:
+    'services-customer-satisfaction-survey-edit',
+  CUSTOMER_SATISFACTION_SURVEY_DELETE:
+    'services-customer-satisfaction-survey-delete',
+  CUSTOMER_SATISFACTION_SURVEY_VIEW_RESPONSE:
+    'services-customer-satisfaction-survey-view-response',
+};
 export const AIR_CALL_CENTER_SETTING_GENERAL_SETTING_PERMISSIONS = {
   BUSINESS_HOURS_LIST: 'call-center-general-settings-business-hours-list',
   ADD_BUSINESS_HOURS: 'call-center-general-settings-add-business-hours',

@@ -1,9 +1,13 @@
-import { Box, Button, DialogActions, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { useCreateFeedback } from './useCreateFeedback';
-import { sectionDropdownOptions } from './CreateFeedback.data';
+import {
+  feedbackSubmitDropdown,
+  feedbackValuesType,
+  sectionDropdownOptions,
+} from './CreateFeedback.data';
 import { Questions } from './Questions';
 import { LoadingButton } from '@mui/lab';
 import { EyeIcon } from '@/assets/icons';
@@ -22,6 +26,10 @@ export const CreateFeedback = (props: any) => {
     deleteLoading,
     mergeLoading,
     cloneLoading,
+    handlePublish,
+    handleSaveDraft,
+    updateLoading,
+    isStatus,
   } = useCreateFeedback(props);
   return (
     <>
@@ -81,6 +89,7 @@ export const CreateFeedback = (props: any) => {
                 label="Title"
                 size="small"
                 placeholder="Title"
+                required
                 disabled={sectionCondition}
               />
               <RHFTextField
@@ -97,31 +106,48 @@ export const CreateFeedback = (props: any) => {
               sectionIndex={index}
               sectionAppend={append}
               isSection={isSection}
+              sectionCondition={sectionCondition}
               {...props}
             />
             <br />
           </Box>
         );
       })}
-      <DialogActions disableSpacing>
+      <Box
+        display="flex"
+        justifyContent={{ sm: 'flex-end', xs: 'center' }}
+        gap={1}
+        flexWrap="wrap"
+      >
         <LoadingButton
           variant="outlined"
           color="secondary"
           startIcon={<EyeIcon />}
+          onClick={() => setCreateSurvey(feedbackValuesType?.preview)}
+          disabled={!sectionVerification}
         >
           Preview
         </LoadingButton>
         <Button
           variant="outlined"
           color="secondary"
-          onClick={() => setCreateSurvey(false)}
+          onClick={() => setCreateSurvey(feedbackValuesType?.survey)}
         >
           Back
         </Button>
-        <Button variant="contained" type="submit">
-          Submit
-        </Button>
-      </DialogActions>
+        <SingleDropdownButton
+          btnVariant="contained"
+          dropdownName="Submit"
+          color="primary"
+          disabled={!sectionVerification}
+          dropdownOptions={feedbackSubmitDropdown({
+            handlePublish,
+            handleSaveDraft,
+            updateLoading,
+            isStatus,
+          })}
+        />
+      </Box>
     </>
   );
 };

@@ -1,5 +1,12 @@
+import { Permissions } from '@/constants/permissions';
 import { CircularProgress } from '@mui/material';
 
+export const feedbackValuesType = {
+  survey: 'survey',
+  preview: 'preview',
+  draft: 'draft',
+  published: 'published',
+};
 export const sectionDropdownOptions = ({
   fields,
   cloneSection,
@@ -17,6 +24,7 @@ export const sectionDropdownOptions = ({
     handleClick: (setClose: any) => {
       cloneSection(index, setClose);
     },
+    permissionKey: Permissions?.AIR_SERVICES_UPSERT_FEEDBACK_SURVEY,
     disabled: sectionCondition || deleteLoading || mergeLoading,
   },
   {
@@ -25,6 +33,7 @@ export const sectionDropdownOptions = ({
     handleClick: (setClose: any) => {
       removeSection(index, setClose);
     },
+    permissionKey: Permissions?.AIR_SERVICES_UPSERT_FEEDBACK_SURVEY,
     disabled:
       fields?.length <= 1 || sectionCondition || mergeLoading || cloneLoading,
   },
@@ -34,7 +43,38 @@ export const sectionDropdownOptions = ({
     handleClick: (setClose: any) => {
       mergeSection(index, setClose);
     },
-    disabled:
-      fields?.length <= 1 || sectionCondition || deleteLoading || cloneLoading,
+    permissionKey: Permissions?.AIR_SERVICES_UPSERT_FEEDBACK_SURVEY,
+    disabled: index === 0 || sectionCondition || deleteLoading || cloneLoading,
+  },
+];
+export const feedbackSubmitDropdown = ({
+  handlePublish,
+  handleSaveDraft,
+  updateLoading,
+  isStatus,
+}: any) => [
+  {
+    id: 1,
+    title:
+      updateLoading && isStatus ? <CircularProgress size="22px" /> : 'Publish',
+    handleClick: (handleClose: any) => {
+      handlePublish(handleClose);
+    },
+    disabled: updateLoading,
+    permissionKey: Permissions?.AIR_SERVICES_UPSERT_FEEDBACK_SURVEY,
+  },
+  {
+    id: 2,
+    title:
+      updateLoading && !isStatus ? (
+        <CircularProgress size="22px" />
+      ) : (
+        'Save as Draft'
+      ),
+    handleClick: (handleClose: any) => {
+      handleSaveDraft(handleClose);
+    },
+    disabled: updateLoading,
+    permissionKey: Permissions?.AIR_SERVICES_UPSERT_FEEDBACK_SURVEY,
   },
 ];

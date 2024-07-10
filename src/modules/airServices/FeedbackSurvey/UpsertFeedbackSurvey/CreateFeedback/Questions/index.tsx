@@ -24,6 +24,7 @@ import {
 } from './Questions.data';
 import { StrictModeDroppable } from '@/components/DynamicFormModals/StrictModeDroppable';
 import { LoadingButton } from '@mui/lab';
+import { ImportQuestions } from './ImportQuestions';
 
 export const Questions = (props: any) => {
   const {
@@ -34,6 +35,7 @@ export const Questions = (props: any) => {
     secLoading,
     unSaveSection,
     sectionVerification,
+    sectionCondition,
   } = props;
   const {
     deleteQuestion,
@@ -50,7 +52,9 @@ export const Questions = (props: any) => {
     updateLoading,
     deleteLoading,
     deleteIndex,
-    sectionCondition,
+    openImport,
+    setOpenImport,
+    handleImportOpen,
   } = useQuestions(props);
   return (
     <>
@@ -59,7 +63,7 @@ export const Questions = (props: any) => {
         onDragEnd={handleDragEnd}
       >
         <StrictModeDroppable droppableId="droppable">
-          {(provided) => (
+          {(provided: any) => (
             <Grid
               container
               {...provided?.droppableProps}
@@ -78,13 +82,16 @@ export const Questions = (props: any) => {
                       index={index}
                       isDragDisabled={sectionCondition}
                     >
-                      {(provided) => (
+                      {(provided: any) => (
                         <Grid
                           item
                           ref={provided?.innerRef}
                           {...provided?.draggableProps}
                           {...provided?.dragHandleProps}
-                          xs={11.4}
+                          xl={11.2}
+                          lg={11}
+                          md={10.5}
+                          xs={12}
                           p={2}
                           pt={1}
                           borderRadius={2}
@@ -109,12 +116,13 @@ export const Questions = (props: any) => {
                             </Grid>
                             <Grid
                               item
-                              xs={
+                              md={
                                 watchType &&
                                 watchType?.value !== questionTypeData?.text
                                   ? 8
                                   : 12
                               }
+                              xs={12}
                             >
                               <RHFTextField
                                 name={`sections.${sectionIndex}.questions.${index}.questionTitle`}
@@ -134,11 +142,12 @@ export const Questions = (props: any) => {
                                 }
                                 size="small"
                                 disabled={sectionCondition}
+                                required
                               />
                             </Grid>
                             {watchType &&
                               watchType?.value !== questionTypeData?.text && (
-                                <Grid item xs={4}>
+                                <Grid item md={4} xs={12}>
                                   <RHFAutocomplete
                                     name={`sections.${sectionIndex}.questions.${index}.questionType`}
                                     label={'\u00a0'}
@@ -197,8 +206,18 @@ export const Questions = (props: any) => {
                                 </Grid>
                               )}
                           </Grid>
-                          <Box display="flex" justifyContent="flex-end">
-                            <Box display="flex" gap={1} alignItems="center">
+                          <Box
+                            display="flex"
+                            justifyContent="flex-end"
+                            mt={{ sx: '', xs: 1 }}
+                          >
+                            <Box
+                              display="flex"
+                              gap={1}
+                              alignItems="center"
+                              justifyContent="center"
+                              flexWrap="wrap"
+                            >
                               {fields?.length === index + 1 && (
                                 <>
                                   <LoadingButton
@@ -289,9 +308,13 @@ export const Questions = (props: any) => {
                     {sectionIndex === isSection && questionIndex === index && (
                       <Grid
                         item
-                        xs={0.5}
+                        xl={0.7}
+                        lg={0.9}
+                        md={1.4}
+                        xs={12}
                         display="flex"
                         alignItems="center"
+                        justifyContent={{ md: 'unset', xs: 'center' }}
                         mt={2}
                       >
                         <AnimatedBox
@@ -300,14 +323,15 @@ export const Questions = (props: any) => {
                           display="flex"
                           justifyContent="space-evenly"
                           alignItems="center"
-                          flexDirection="column"
-                          p={2}
-                          gap={2}
+                          flexDirection={{ md: 'column', xs: 'row' }}
+                          p={{ sm: 2, xs: 1 }}
+                          gap={{ sm: 2, xs: 1 }}
                         >
                           {tooltipData(
                             appendSection,
                             appendQuestion,
                             appendText,
+                            handleImportOpen,
                           )?.map((item: any) => (
                             <Tooltip
                               key={item?.id}
@@ -330,6 +354,14 @@ export const Questions = (props: any) => {
                           ))}
                         </AnimatedBox>
                       </Grid>
+                    )}
+                    {openImport && (
+                      <ImportQuestions
+                        openImport={openImport}
+                        setOpenImport={setOpenImport}
+                        methods={methods}
+                        sectionIndex={sectionIndex}
+                      />
                     )}
                   </React.Fragment>
                 );

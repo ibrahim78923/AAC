@@ -17,19 +17,18 @@ export const useQuestions = (props: any) => {
     setSubmitIndex,
     sectionVerification,
     unSaveSection,
+    sectionCondition,
   } = props;
   const { watch, control, setValue } = methods;
   const [questionIndex, setQuestionIndex] = useState<number | null>(0);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(0);
+  const [openImport, setOpenImport] = useState(false);
   const router = useRouter();
   const surveyId = router?.query?.id;
   const { fields, append, remove } = useFieldArray({
     name: `sections.${sectionIndex}.questions`,
     control,
   });
-  const sectionCondition =
-    !sectionVerification &&
-    watch(`sections.${sectionIndex}.id`) !== unSaveSection?.section?.id;
   const copyQuestion = (index: number) => {
     if (sectionCondition) {
       errorSnackbar(
@@ -186,6 +185,17 @@ export const useQuestions = (props: any) => {
     });
     setSubmitType(questionTypeData?.saveQuestion);
   };
+  const handleImportOpen = () => {
+    if (sectionCondition) {
+      errorSnackbar(
+        `Please save ( Section ${
+          unSaveSection?.index + 1
+        } ) first then add new section`,
+      );
+      return;
+    }
+    setOpenImport(true);
+  };
   const handleDragEnd = (result: any) => {
     if (!result?.destination) return;
     const reorderedForm = watch(`sections.${sectionIndex}.questions`);
@@ -209,5 +219,8 @@ export const useQuestions = (props: any) => {
     deleteLoading,
     deleteIndex,
     sectionCondition,
+    openImport,
+    setOpenImport,
+    handleImportOpen,
   };
 };

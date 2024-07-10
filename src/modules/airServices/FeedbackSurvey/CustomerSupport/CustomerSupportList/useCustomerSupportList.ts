@@ -1,5 +1,9 @@
 import { PAGINATION } from '@/config';
-import { ARRAY_INDEX, FEEDBACK_SURVEY_TYPES } from '@/constants/strings';
+import {
+  ARRAY_INDEX,
+  FEEDBACK_STATUS,
+  FEEDBACK_SURVEY_TYPES,
+} from '@/constants/strings';
 import {
   useDeleteFeedbackSurveyMutation,
   useLazyGetFeedbackListQuery,
@@ -9,7 +13,10 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { feedbackDropdown } from './CustomerSupportList.data';
+import { feedbackDropdown, surveyDataTypes } from './CustomerSupportList.data';
+import { getActivePermissionsSession } from '@/utils';
+import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_SERVICES } from '@/constants';
 
 export const useCustomerSupportList = (props: any) => {
   const { status } = props;
@@ -39,6 +46,7 @@ export const useCustomerSupportList = (props: any) => {
       errorSnackbar(response?.error?.data?.message);
     }
   };
+  const singleSurvey = activeCheck?.[ARRAY_INDEX?.ZERO];
   const handleFeedbackList = async () => {
     const queryParams = {
       search,
@@ -54,7 +62,7 @@ export const useCustomerSupportList = (props: any) => {
   }, [search, page, limit, status]);
   const handleCloneSurvey = async (closeMenu: any) => {
     const cloneParams = {
-      id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
+      id: singleSurvey?._id,
     };
     const response: any = await cloneSurveyTrigger(cloneParams);
     if (response?.data?.message) {
@@ -71,7 +79,7 @@ export const useCustomerSupportList = (props: any) => {
   const handleStatus = async (closeMenu: any, status: string) => {
     const patchParams = {
       params: {
-        id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
+        id: singleSurvey?._id,
       },
       body: {
         status: status?.toLowerCase(),
@@ -87,6 +95,35 @@ export const useCustomerSupportList = (props: any) => {
     } else {
       errorSnackbar(response?.error?.data?.message);
     }
+  };
+  const handleTitleClick = (surveyData: any) => {
+    if (
+      getActivePermissionsSession()?.includes(
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_EDIT,
+      ) &&
+      surveyData?.status === FEEDBACK_STATUS?.DRAFT
+    ) {
+      return router?.push({
+        pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
+        query: {
+          type: surveyDataTypes?.customerSupport,
+          id: surveyData?._id,
+        },
+      });
+    } else if (
+      getActivePermissionsSession()?.includes(
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_VIEW_RESPONSE,
+      ) &&
+      surveyData?.status !== FEEDBACK_STATUS?.DRAFT
+    ) {
+      return router?.push({
+        pathname: AIR_SERVICES?.FEEDBACK_SURVEY_RESPONSES,
+        query: {
+          surveyId: surveyData?._id,
+        },
+      });
+    }
+    return;
   };
   const feedbackDropdownOption = feedbackDropdown(
     activeCheck,
@@ -119,5 +156,6 @@ export const useCustomerSupportList = (props: any) => {
     handleDeleteSurvey,
     deleteLoading,
     feedbackDropdownOption,
+    handleTitleClick,
   };
 };

@@ -960,3 +960,13 @@ export const PERCENTAGES_VALUES = {
   SIXTY: 60,
   EIGHTY: 80,
 };
+
+export const FEEDBACK_STATUS = {
+  PUBLISHED: 'published',
+  DRAFT: 'draft',
+  INACTIVE: 'inactive',
+};
+export const FEEDBACK_SURVEY_PATH_TYPES = {
+  CUSTOMER_SATISFACTION: 'customer-satisfaction',
+  CUSTOMER_SUPPORT: 'customer-support',
+};

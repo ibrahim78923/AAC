@@ -3,24 +3,27 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
 import { AIR_SERVICES, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
-import { ARRAY_INDEX, STATUS_CONTANTS } from '@/constants/strings';
+import { ARRAY_INDEX, FEEDBACK_STATUS } from '@/constants/strings';
+import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 
+export const surveyDataTypes = {
+  customerSupport: 'customer-support',
+};
 const statusColor = (status: string) => {
   switch (status) {
-    case 'published':
+    case FEEDBACK_STATUS?.PUBLISHED:
       return 'secondary';
-    case 'draft':
+    case FEEDBACK_STATUS?.DRAFT:
       return 'default';
-    case 'inactive':
+    case FEEDBACK_STATUS?.INACTIVE:
       return 'warning';
   }
 };
 const statusSwitch = (status: string) => {
   switch (status) {
-    case 'published':
+    case FEEDBACK_STATUS?.PUBLISHED:
       return 'Inactive';
-    case 'inactive':
-      return 'Published';
   }
 };
 const surveyType: any = {
@@ -31,6 +34,7 @@ export const customerSupportListColumn = (
   activeCheck: any,
   setActiveCheck: any,
   feedbackTableData: any,
+  handleTitleClick: any,
 ) => {
   return [
     {
@@ -86,7 +90,12 @@ export const customerSupportListColumn = (
       isSortable: true,
       header: 'Survey',
       cell: (info: any) => (
-        <Typography variant="body2" color="primary" sx={{ cursor: 'pointer' }}>
+        <Typography
+          variant="body2"
+          color="primary"
+          sx={{ cursor: 'pointer' }}
+          onClick={() => handleTitleClick(info?.row?.original)}
+        >
           {info?.getValue()}
         </Typography>
       ),
@@ -143,9 +152,57 @@ export const feedbackDropdown = (
         }
         handleCloneSurvey(closeMenu);
       },
+      permissionKey: [
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_CLONE,
+      ],
       disabled: cloneLoading || patchLoading,
     },
     {
+      id: 4,
+      title: 'Delete',
+      handleClick: (closeMenu: any) => {
+        setOpenModal(true);
+        closeMenu?.();
+      },
+      disabled: cloneLoading || patchLoading,
+      permissionKey: [
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_DELETE,
+      ],
+    },
+  ];
+  const shouldAddStatusSwitch = activeCheck?.map((item: any) => item?.status);
+  if (
+    !shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.INACTIVE) &&
+    !shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.DRAFT)
+  ) {
+    dropdownData?.unshift({
+      id: 1,
+      title: patchLoading ? (
+        <LinearProgress sx={{ width: '70px' }} />
+      ) : (
+        'Inactive'
+      ),
+      handleClick: (closeMenu: any) => {
+        if (activeCheck?.length > 1) {
+          errorSnackbar('Please select only one to change status');
+          closeMenu?.();
+          return;
+        }
+        handleStatus(
+          closeMenu,
+          statusSwitch(activeCheck?.[ARRAY_INDEX?.ZERO]?.status),
+        );
+      },
+      disabled: cloneLoading || patchLoading,
+      permissionKey:
+        Permissions?.AIR_SERVICES_CUSTOMER_SUPPORT_FEEDBACK_SURVEY_ACTIONS,
+    });
+  }
+  if (
+    !shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.PUBLISHED) &&
+    activeCheck?.length <= 1
+  ) {
+    dropdownData?.splice(1, 0, {
       id: 3,
       title: 'Edit Survey',
       handleClick: (closeMenu: any) => {
@@ -163,40 +220,9 @@ export const feedbackDropdown = (
         });
         closeMenu?.();
       },
-      disabled: cloneLoading || patchLoading,
-    },
-    {
-      id: 4,
-      title: 'Delete',
-      handleClick: (closeMenu: any) => {
-        setOpenModal(true);
-        closeMenu?.();
-      },
-      disabled: cloneLoading || patchLoading,
-    },
-  ];
-  const shouldAddStatusSwitch = activeCheck
-    ?.map((item: any) => item?.status)
-    ?.includes(STATUS_CONTANTS?.DRAFT?.toLocaleLowerCase());
-  if (!shouldAddStatusSwitch) {
-    dropdownData?.unshift({
-      id: 1,
-      title: patchLoading ? (
-        <LinearProgress sx={{ width: '70px' }} />
-      ) : (
-        statusSwitch(activeCheck?.[ARRAY_INDEX?.ZERO]?.status)
-      ),
-      handleClick: (closeMenu: any) => {
-        if (activeCheck?.length > 1) {
-          errorSnackbar('Please select only one to change status');
-          closeMenu?.();
-          return;
-        }
-        handleStatus(
-          closeMenu,
-          statusSwitch(activeCheck?.[ARRAY_INDEX?.ZERO]?.status),
-        );
-      },
+      permissionKey: [
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_EDIT,
+      ],
       disabled: cloneLoading || patchLoading,
     });
   }

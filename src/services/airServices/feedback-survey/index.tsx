@@ -1,5 +1,6 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
 const TAG = 'FEEDBACK_SURVEY';
 export const feedbackSurvey = baseAPI?.injectEndpoints({
@@ -54,6 +55,14 @@ export const feedbackSurvey = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    patchDefaultSurvey: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.SET_SURVEY_DEFAULT}`,
+        method: 'PATCH',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
     getFeedbackList: builder?.query({
       query: (params: any) => ({
         url: `${END_POINTS?.GET_FEEDBACK_LIST}`,
@@ -94,6 +103,15 @@ export const feedbackSurvey = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    allUserDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse,
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -109,4 +127,6 @@ export const {
   usePatchMergeFeedbackSectionMutation,
   usePatchCloneFeedbackSectionMutation,
   usePostCloneFeedbackSurveyMutation,
+  usePatchDefaultSurveyMutation,
+  useLazyAllUserDropdownQuery,
 } = feedbackSurvey;

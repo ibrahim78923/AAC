@@ -10,7 +10,8 @@ import { AntSwitch } from '@/components/AntSwitch';
 import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { AIR_SERVICES, DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
-import { ARRAY_INDEX } from '@/constants/strings';
+import { ARRAY_INDEX, FEEDBACK_STATUS } from '@/constants/strings';
+import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
 
 const statusColor = (status: string) => {
   switch (status) {
@@ -24,10 +25,18 @@ const surveyType: any = {
   customerSupport: 'Customer Support',
   customerSatisfaction: 'Customer Satisfaction',
 };
+export const surveyDataTypes = {
+  draft: 'draft',
+  customerSatisfaction: 'customer-satisfaction',
+};
 export const customerSupportListColumn = (
   activeCheck: any,
   setActiveCheck: any,
   feedbackTableData: any,
+  handleTitleClick: any,
+  handleDefaultSurvey: any,
+  patchLoading: any,
+  defaultLoading: any,
 ) => {
   return [
     {
@@ -84,11 +93,22 @@ export const customerSupportListColumn = (
       header: 'Survey',
       cell: (info: any) => (
         <Box display="flex" alignItems="center">
-          <AntSwitch checked={info?.row?.original?.isDefault} />{' '}
+          <AntSwitch
+            checked={info?.row?.original?.isDefault}
+            onClick={() => handleDefaultSurvey(info?.row?.original)}
+            isLoading={defaultLoading?.[info?.row?.original?._id]}
+            disabled={
+              patchLoading ||
+              info?.row?.original?.status === surveyDataTypes?.draft ||
+              info?.row?.original?.isDefault
+            }
+          />
+          &nbsp;&nbsp;&nbsp;
           <Typography
             variant="body2"
             color="primary"
             sx={{ cursor: 'pointer' }}
+            onClick={() => handleTitleClick(info?.row?.original)}
           >
             {info?.getValue()}
           </Typography>
@@ -133,7 +153,8 @@ export const feedbackDropdown = (
   handleCloneSurvey: any,
   cloneLoading: any,
 ) => {
-  return [
+  const shouldAddStatusSwitch = activeCheck?.map((item: any) => item?.status);
+  const dropdownData = [
     {
       id: 1,
       title: cloneLoading ? <CircularProgress size="22px" /> : 'Clone',
@@ -146,8 +167,25 @@ export const feedbackDropdown = (
         handleCloneSurvey(closeMenu);
       },
       disabled: cloneLoading,
+      permissionKey: [
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_CLONE,
+      ],
     },
     {
+      id: 3,
+      title: 'Delete',
+      handleClick: (closeMenu: any) => {
+        setOpenModal(true);
+        closeMenu?.();
+      },
+      disabled: cloneLoading,
+      permissionKey: [
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_DELETE,
+      ],
+    },
+  ];
+  if (!shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.PUBLISHED)) {
+    dropdownData?.splice(1, 0, {
       id: 2,
       title: 'Edit Survey',
       handleClick: (closeMenu: any) => {
@@ -159,22 +197,17 @@ export const feedbackDropdown = (
         router?.push({
           pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
           query: {
-            type: 'customer-support',
+            type: 'customer-satisfaction',
             id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
           },
         });
         closeMenu?.();
       },
       disabled: cloneLoading,
-    },
-    {
-      id: 3,
-      title: 'Delete',
-      handleClick: (closeMenu: any) => {
-        setOpenModal(true);
-        closeMenu?.();
-      },
-      disabled: cloneLoading,
-    },
-  ];
+      permissionKey: [
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_EDIT,
+      ],
+    });
+  }
+  return dropdownData;
 };

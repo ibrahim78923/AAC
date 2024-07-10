@@ -1,12 +1,15 @@
+import { useLazyAllUserDropdownQuery } from '@/services/airServices/feedback-survey';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export const useCreateSurvey = ({ methods, isLoading, setSubmitType }: any) => {
   const { watch, setValue } = methods;
+  const [openShare, setOpenShare] = useState(false);
   const linkRef: any = useRef(null);
   const router = useRouter();
   const customerSupportLinkType = watch('customerSupportLinkType');
   const displayWatch = watch('display');
+  const userDropdown = useLazyAllUserDropdownQuery();
   return {
     setValue,
     isLoading,
@@ -15,5 +18,8 @@ export const useCreateSurvey = ({ methods, isLoading, setSubmitType }: any) => {
     customerSupportLinkType,
     displayWatch,
     setSubmitType,
+    openShare,
+    setOpenShare,
+    userDropdown,
   };
 };

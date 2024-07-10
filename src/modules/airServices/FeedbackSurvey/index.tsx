@@ -4,7 +4,7 @@ import { feedbackCards, feedbackComponent } from './FeedbackSurvey.data';
 import { useFeedbackSurvey } from './useFeedbackSurvey';
 
 export const FeedbackSurvey = () => {
-  const { activeComponent, setActiveComponent, theme } = useFeedbackSurvey();
+  const { handleClick, theme, router } = useFeedbackSurvey();
   return (
     <>
       <PageTitledHeader title="Feedback Survey" />
@@ -27,15 +27,15 @@ export const FeedbackSurvey = () => {
                 sx={{
                   cursor: 'pointer',
                   bgcolor:
-                    activeComponent === item?.id
+                    router?.query?.type === item?.query
                       ? theme?.palette?.primary?.lighter
                       : 'none',
                   border:
-                    activeComponent === item?.id
+                    router?.query?.type === item?.query
                       ? `1px solid ${theme?.palette?.primary?.main}`
                       : `1px solid ${theme?.palette?.grey[700]}}`,
                 }}
-                onClick={() => setActiveComponent(item?.id)}
+                onClick={() => handleClick(item?.query)}
               >
                 <item.avatar />
                 <Typography variant="body2" fontWeight={600}>
@@ -54,7 +54,7 @@ export const FeedbackSurvey = () => {
         </Grid>
       </Box>
       <br />
-      {feedbackComponent?.[activeComponent]}
+      {feedbackComponent?.[router?.query?.type]}
     </>
   );
 };
