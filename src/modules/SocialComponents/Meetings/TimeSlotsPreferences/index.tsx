@@ -97,6 +97,7 @@ export const TimeSlotPreferences = () => {
               variant="contained"
               type="submit"
               disabled={timeSlotsProcess?.isLoading}
+              loading={timeSlotsProcess?.isLoading}
             >
               Apply
             </LoadingButton>

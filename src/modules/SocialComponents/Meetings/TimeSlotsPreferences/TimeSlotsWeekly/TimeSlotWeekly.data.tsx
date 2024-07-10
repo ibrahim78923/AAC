@@ -1,6 +1,7 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { RHFCheckbox } from '@/components/ReactHookForm';
 import { SOCIAL_COMPONENTS_EMAIL_PERMISSIONS } from '@/constants/permission-keys';
-import { Box, Button, Checkbox, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 export const timeSlotsWeeklyDataArray = [
   'Sunday',
@@ -43,7 +44,7 @@ export const timeSlotsWeeklyDropdown = ({
       permissionKey: [SOCIAL_COMPONENTS_EMAIL_PERMISSIONS?.APPLY_FILTER],
       title: (
         <Box display="flex" alignItems="center" gap={0.5} key={day}>
-          <Checkbox
+          <RHFCheckbox
             icon={<CheckboxIcon />}
             checkedIcon={<CheckboxCheckedIcon />}
             checked={daySlotsState?.includes(day)}

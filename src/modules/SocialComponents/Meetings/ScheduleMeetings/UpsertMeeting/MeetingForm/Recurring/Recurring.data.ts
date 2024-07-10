@@ -1,11 +1,11 @@
 export const checkOption = [
-  { label: 'Sunday', value: 'sunday' },
-  { label: 'Monday', value: 'monday' },
-  { label: 'Tuesday', value: 'tuesday' },
-  { label: 'Wednesday', value: 'wednesday' },
-  { label: 'Thursday', value: 'Thursday' },
-  { label: 'Friday', value: 'Friday' },
-  { label: 'Saturday', value: 'saturday' },
+  { label: 'Sunday', value: 'SUNDAY' },
+  { label: 'Monday', value: 'MONDAY' },
+  { label: 'Tuesday', value: 'TUESDAY' },
+  { label: 'Wednesday', value: 'WEDNESDAY' },
+  { label: 'Thursday', value: 'THURSDAY' },
+  { label: 'Friday', value: 'FRIDAY' },
+  { label: 'Saturday', value: 'SATURDAY' },
 ];
 export const monthTypeOption = [
   { label: 'On Date', value: 'onDate' },
@@ -36,7 +36,7 @@ export const optionTypes = {
   onDate: 'onDate',
   onThe: 'onThe',
 };
-export const dayOption = ['1', '2', '3', '4', '5', '6', '7'];
+export const dayOption = [1, 2, 3, 4, 5, 6, 7];
 export const monthOption = [
   '1',
   '2',

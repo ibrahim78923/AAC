@@ -64,6 +64,7 @@ export const Recurring = (props: any) => {
                     required
                     placeholder="Select Day"
                     options={dayOption}
+                    getOptionLabel={(option: any) => option}
                   />
                 </Grid>
               )}

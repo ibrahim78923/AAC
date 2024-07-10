@@ -46,7 +46,7 @@ export const upsertMeetingValues = (router: any) => {
     allowAttendee: false,
     timeSlotDuration: { label: '30 Minutes', value: 30 },
     selectedSlots: [],
-    reminder: [{ type: '', counter: '', duration: '' }],
+    reminder: [{ type: null, counter: '', duration: null }],
   };
 };
 export const upsertMeetingSchema: any = (router: any) =>
@@ -173,7 +173,7 @@ export const upsertMeetingSchema: any = (router: any) =>
     selectedSlots: Yup?.mixed(),
     reminder: Yup?.array()?.of(
       Yup?.object()?.shape({
-        type: Yup?.string()?.required('Required'),
+        type: Yup?.mixed()?.nullable()?.required('Required'),
         counter: Yup?.string()?.required('Required'),
         duration: Yup?.string()?.required('Required'),
       }),

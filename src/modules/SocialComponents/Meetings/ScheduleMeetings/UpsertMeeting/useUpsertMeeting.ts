@@ -1,4 +1,4 @@
-import { SOCIAL_COMPONENTS } from '@/constants';
+import { SOCIAL_COMPONENTS, TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import {
@@ -14,6 +14,7 @@ import {
   useAddMeetingMutation,
   useLazyGetLocationListQuery,
 } from '@/services/commonFeatures/meetings';
+import dayjs from 'dayjs';
 
 export const useUpsertMeeting = () => {
   const router: any = useRouter();
@@ -28,6 +29,7 @@ export const useUpsertMeeting = () => {
     monthly: 'Monthly',
     onMonthDate: 'onDate',
     onTheDay: 'onThe',
+    onWorkingDay: 'workingDay',
   };
 
   const routeConstant = {
@@ -52,7 +54,7 @@ export const useUpsertMeeting = () => {
     }
   }, [router?.query?.type]);
 
-  const [addMeetingTrigger] = useAddMeetingMutation();
+  const [addMeetingTrigger, addMeetingProgress] = useAddMeetingMutation();
   const onSubmit = async (formData: any) => {
     const body = {
       title: formData?.title,
@@ -64,60 +66,74 @@ export const useUpsertMeeting = () => {
             ? routeConstant?.groupMeeting
             : routeConstant?.collectiveMeeting,
       isAllDay: formData?.allDay,
-      timeZone: formData?.timeZone,
+      timeZone: formData?.timeZone?.label,
       startDate: formData?.startDate,
       endDate: formData?.endDate,
-      startTime: formData?.startTime,
-      endTime: formData?.endTime,
+      startTime: dayjs(formData?.startTime)?.format(TIME_FORMAT?.TH),
+      endTime: dayjs(formData?.endTime)?.format(TIME_FORMAT?.TH),
       type: formData?.meetingType?.value,
       isRecurring: formData?.recurring,
-      recurring: {
-        type: formData?.recurring === true ? formData?.recurringType : '',
-        interval:
-          formData?.recurringType === recurringConstant?.daily &&
-          formData?.dailyType === recurringConstant?.onTheDay &&
-          formData?.recurring === true
-            ? formData?.recurringDay
-            : '',
-        isWeekdays:
-          formData?.recurringType === recurringConstant?.daily &&
-          formData?.recurring === true
-            ? formData?.dailyType
-            : formData?.recurringType === recurringConstant?.monthly &&
+      recurring:
+        formData?.recurring === true
+          ? {
+              type: formData?.recurring === true ? formData?.recurringType : '',
+              interval:
+                formData?.recurringType === recurringConstant?.daily &&
+                formData?.dailyType === recurringConstant?.onTheDay &&
                 formData?.recurring === true
-              ? formData?.monthType
-              : '',
-        days:
-          formData?.recurringType === recurringConstant?.monthly &&
-          formData?.monthType === recurringConstant?.onMonthDate &&
-          formData?.recurring === true
-            ? formData?.monthlyDate
-            : [],
-        onDay:
-          formData?.recurringType === recurringConstant?.weekly
-            ? formData?.weekDays
-            : formData?.recurringType === recurringConstant?.monthly &&
-                formData?.monthType === recurringConstant?.onTheDay &&
+                  ? formData?.recurringDay
+                  : 0,
+              isWeekdays:
+                formData?.recurringType === recurringConstant?.daily &&
+                formData?.monthType === recurringConstant?.onWorkingDay &&
                 formData?.recurring === true
-              ? formData?.monthlyDays?.map((day: any) => day?.value)
-              : [],
-        onWeek:
-          formData?.recurringType === recurringConstant?.monthly &&
-          formData?.recurring === true
-            ? formData?.monthlyWeeks
-            : [],
-      },
+                  ? true
+                  : formData?.recurringType === recurringConstant?.monthly &&
+                      formData?.monthType === recurringConstant?.onTheDay &&
+                      formData?.recurring === true
+                    ? true
+                    : formData?.recurringType === recurringConstant?.weekly &&
+                        formData?.recurring === true
+                      ? true
+                      : false,
+              days:
+                formData?.recurringType === recurringConstant?.monthly &&
+                formData?.monthType === recurringConstant?.onMonthDate &&
+                formData?.recurring === true
+                  ? formData?.monthlyDate
+                  : [],
+              onDay:
+                formData?.recurringType === recurringConstant?.weekly
+                  ? formData?.weekDays?.map((day: string) => day?.toUpperCase())
+                  : formData?.recurringType === recurringConstant?.monthly &&
+                      formData?.monthType === recurringConstant?.onTheDay &&
+                      formData?.recurring === true
+                    ? formData?.monthlyDays?.map((day: any) => day?.value)
+                    : [],
+              onWeek:
+                formData?.recurringType === recurringConstant?.monthly &&
+                formData?.recurring === true
+                  ? formData?.monthlyWeeks?.map(
+                      (week: string) => week?.toUpperCase(),
+                    )
+                  : [],
+            }
+          : {
+              days: [],
+              onDay: [],
+              onWeek: [],
+            },
       locationId: formData?.location?._id,
       bufferTime: {
         before: formData?.bufferBeforeTime,
         after: formData?.bufferAfterTime,
       },
-      reminders: formData?.reminders?.map((reminder: any) => ({
-        type: reminder?.type,
+      reminders: formData?.reminder?.map((reminder: any) => ({
+        type: reminder?.type?.value,
         interval: reminder?.counter,
-        timeUnit: reminder?.duration,
+        timeUnit: reminder?.duration?.value,
       })),
-      peoples: formData?.people?._id,
+      peoples: [formData?.people?._id],
     };
     const meetingParameter = {
       body,
@@ -166,6 +182,7 @@ export const useUpsertMeeting = () => {
     meetingType,
     setMeetingTemplate,
     meetingLocationApi,
+    addMeetingProgress,
   };
   return {
     methods,

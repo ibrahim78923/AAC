@@ -172,6 +172,7 @@ export const VideoConferencing = () => {
                             <Box sx={{ scale: '1.3' }}>
                               <IconButton
                                 onClick={() => handleDelete(account?._id)}
+                                disabled={changeStatusProgress?.isLoading}
                               >
                                 <DeleteIcon />
                               </IconButton>
