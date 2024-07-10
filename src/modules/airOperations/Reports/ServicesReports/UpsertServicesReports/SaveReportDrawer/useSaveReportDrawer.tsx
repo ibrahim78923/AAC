@@ -1,14 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
+  reportsDataArray,
   reportsDefaultValues,
   reportsValidationSchema,
 } from './SaveReportDrawer.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
+import {
+  useLazyUsersDropdownQuery,
+  usePostServiceReportsMutation,
+} from '@/services/airOperations/reports/services-reports/upsert-services-reports';
+import { CHARTS, REPORT_TYPE, FIELD_TYPE } from '@/constants/strings';
+import {
+  SaveReportDrawerPropsI,
+  usersDropdownOptionsI,
+} from './SaveReportDrawer.interface';
 
 export const useSaveReportDrawer = (props: any) => {
-  const { form, setOpen, reportId, setForm } = props;
+  const { form, setOpen, reportId, setForm, metricType } = props;
   const [reportValidation, setReportValidation] = useState<any>({
     selectSharedWith: '',
     selectAddToDashboard: '',
@@ -47,19 +57,100 @@ export const useSaveReportDrawer = (props: any) => {
     }
   }, [selectSharedWith, selectAddToDashboard, selectAddToNewDashboard]);
 
-  const onSubmit: any = () => {
-    try {
-      if (reportId) {
+  const usersDropdown = useLazyUsersDropdownQuery();
+  const reportsArray = reportsDataArray(usersDropdown);
+  const [postServiceReportTrigger, postServiceReportStatus] =
+    usePostServiceReportsMutation();
+
+  const onSubmit = async (data: SaveReportDrawerPropsI) => {
+    const specificUsersIds = data?.specificUsersConditionOne?.map(
+      (item: usersDropdownOptionsI) => item?._id,
+    );
+    const payload = {
+      module: metricType,
+      widgets: form?.map((item: any) => {
+        return {
+          type: item?.templateType ? item?.templateType : item?.type,
+          title: item.title,
+          ...((item?.type === CHARTS?.BAR_CHART ||
+            item?.type === CHARTS?.HORIZONTAL_BAR_CHART) && {
+            barChart: {
+              xAxis: {
+                fieldType: item?.xAxis?.ref
+                  ? FIELD_TYPE?.OBJECT_ID
+                  : FIELD_TYPE?.STATIC,
+                fieldName: item?.xAxis?.value,
+                collectionName: item?.xAxis?.ref ? item?.xAxis?.ref : '',
+                selectedIds: item?.xAxis?.ref ? item?.xAxisType : [],
+              },
+              yAxis: {
+                fieldName: REPORT_TYPE?.NO_OF_RECORDS,
+              },
+            },
+          }),
+          ...((item?.type === CHARTS?.PIE_CHART ||
+            item?.type === CHARTS?.DONUT_CHART) && {
+            genericChart: {
+              fieldType: item?.xAxis?.ref
+                ? FIELD_TYPE?.OBJECT_ID
+                : FIELD_TYPE?.STATIC,
+              fieldName: item?.xAxis?.value,
+              collectionName: item?.xAxis?.ref ? item?.xAxis?.ref : '',
+              selectedIds: item?.xAxis?.ref ? item?.xAxisType : [],
+            },
+          }),
+          ...(item?.type === REPORT_TYPE?.TEXT && {
+            text: {
+              description: item?.component,
+            },
+          }),
+          ...(item?.type === REPORT_TYPE?.TABLE && {
+            table: {
+              fields: item?.columnObject,
+            },
+          }),
+          // TODO: Functionality is missing in BA side
+          // ...(item?.type === 'TEMPLATE_TEXT' && {
+          //   templateText: {
+          //     fieldType: "STATIC",
+          //     fieldName: "totalAsset",
+          //   },
+          // }),
+
+          isDateFilter: item?.subFilter ?? false,
+        };
+      }),
+      name: data?.reportName,
+      accessLevel: {
+        type: data?.sharedWith,
+        access:
+          data?.sharedWith === REPORT_TYPE?.EVERYONE
+            ? data?.everyoneCondition
+            : data?.specificUsersConditionTwo,
+        users:
+          data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS
+            ? specificUsersIds
+            : [],
+      },
+      isDateFilter: data?.addFilter,
+    };
+    if (reportId) {
+      try {
         successSnackbar('Report Edit Successfully');
         setForm([]);
         handleCancel();
-      } else {
+      } catch (err: any) {
+        errorSnackbar(err?.message ?? 'Error in Edit report');
+      }
+    } else {
+      try {
+        await postServiceReportTrigger(payload)?.unwrap();
         successSnackbar('Report Created Successfully');
         setForm([]);
         handleCancel();
+      } catch (err: any) {
+        errorSnackbar(err?.message ?? 'Error in saving report');
       }
-    } catch (err: any) {
-      errorSnackbar(err?.message ?? 'Error in saving report');
     }
   };
   const handleCancel = () => {
@@ -72,7 +163,8 @@ export const useSaveReportDrawer = (props: any) => {
     handleSubmit,
     onSubmit,
     handleCancel,
-    form,
     selectAddToNewDashboard,
+    reportsArray,
+    postServiceReportStatus,
   };
 };

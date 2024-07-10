@@ -1,47 +1,49 @@
-export const tableEditorData = [
-  {
-    title: 'Owner',
-  },
-  {
-    title: 'New',
-  },
-  {
-    title: 'Follow up',
-  },
-  {
-    title: 'Under review',
-  },
-  {
-    title: 'Demo',
-  },
-  {
-    title: 'Negotiation',
-  },
-  {
-    title: 'Won',
-  },
-  {
-    title: 'Total revenue goal',
-  },
-  {
-    title: 'Deal Name',
-  },
-  {
-    title: 'Owner Channel',
-  },
-  {
-    title: 'Deal Pipeline Stage',
-  },
-  {
-    title: 'Deal Close Date',
-  },
-  {
-    title: 'Quote Name',
-  },
-  {
-    title: 'Amount',
-  },
-  {
-    title: 'Status',
-  },
-];
+import { COLLECTION_NAME, FIELD_TYPE } from '@/constants/strings';
+
+export const tableEditorData: any = {
+  DEALS: [
+    {
+      fieldType: FIELD_TYPE?.OBJECT_ID,
+      fieldName: 'dealPipelineId',
+      collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+    },
+    {
+      fieldType: FIELD_TYPE?.STRING,
+      fieldName: 'priority',
+    },
+    {
+      fieldType: FIELD_TYPE?.STRING,
+      fieldName: 'billingFrequency',
+    },
+  ],
+  PIPELINE_FORECAST: [
+    {
+      fieldType: FIELD_TYPE?.STRING,
+      fieldName: 'status',
+    },
+    {
+      fieldType: FIELD_TYPE?.STRING,
+      fieldName: 'type',
+    },
+  ],
+  FORECAST_CATEGORY: [
+    {
+      fieldType: FIELD_TYPE?.STRING,
+      fieldName: 'type',
+    },
+    {
+      fieldType: FIELD_TYPE?.STRING,
+      fieldName: 'status',
+    },
+    {
+      fieldType: FIELD_TYPE?.OBJECT_ID,
+      fieldName: 'vendor',
+      collectionName: COLLECTION_NAME?.VENDORS,
+    },
+    {
+      fieldType: FIELD_TYPE?.OBJECT_ID,
+      fieldName: 'approver',
+      collectionName: COLLECTION_NAME?.USERS,
+    },
+  ],
+};

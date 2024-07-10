@@ -438,6 +438,7 @@ export const END_POINTS = {
   PUT_DYNAMIC_FIELDS: `/customized-columns/create-or-update-custom-fields`,
   GET_DYNAMIC_FIELDS: `/customized-columns/get-custom-field`,
   DELETE_DYNAMIC_FIELDS: `/customized-columns/delete-field`,
+  CATEGORY_DROPDOWN: '/product-categories',
   GET_SINGLE_FEEDBACK_FOR_RESPONSE:
     '/feedback-survey/get-survey-questions-by-uuid',
   PATCH_SINGLE_FEEDBACK_ANSWERS_FOR_RESPONSE:
@@ -552,6 +553,7 @@ export const OPERATION = {
   TEST_WORKFLOW: '/workflows/test',
   GET_IMPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
   GET_EXPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
+  POST_GENERIC_REPORT: '/generic-reports',
 };
 
 export const AIR_SALES = {

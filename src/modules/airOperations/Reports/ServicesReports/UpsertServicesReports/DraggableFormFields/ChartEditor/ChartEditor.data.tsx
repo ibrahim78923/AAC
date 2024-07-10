@@ -1,279 +1,85 @@
-export const CHART_METRICS = {
-  TOTAL_ASSETS: 'Total Assets',
-  HARDWARE: 'Hardware',
-  IT_SERVICES: 'IT Services',
-  BACKUP_SERVICES: 'Backup Services',
-  UTILIZABLE: 'Utilizable',
-  OPEN_TICKETS: 'Open Tickets',
-  CLOSE_TICKETS: 'Close Tickets',
-  OVERDUE_TICKETS: 'Overdue Tickets',
-  UNASSIGNED_TICKETS: 'Unassigned Tickets',
-  RESOLVED_TICKETS: 'Resolved Tickets',
-  PENDING_TICKETS: 'Pending Tickets',
-  ALL: 'All',
-  LEASE: 'Lease',
-  MAINTENANCE: 'Maintenance',
-  SOFTWARE_LICENSE: 'Software license',
-  WARRANTY: 'Warranty',
-  APPROVED: 'Approved',
-  REJECTED: 'Rejected',
-  PENDING: 'Pending',
-  RECEIVED: 'Received',
-  TOTAL_SOFTWARE: 'Total Software',
-  RESTRICTED: 'Restricted',
-  IGNORED: 'Ignored',
-  MANAGED: 'Managed',
-  DISABLED: 'Disabled',
-  IN_REVIEW: 'InReview',
-  ADD_METRIC: 'Add Metric',
-};
-export const inventoryMetrics = (setChartMetricType: any) => [
-  {
-    title: CHART_METRICS?.TOTAL_ASSETS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.TOTAL_ASSETS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.HARDWARE,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.HARDWARE);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.IT_SERVICES,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.IT_SERVICES);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.BACKUP_SERVICES,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.BACKUP_SERVICES);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.UTILIZABLE,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.UTILIZABLE);
-      closeMenu?.();
-    },
-  },
-];
-export const ticketsMetrics = (setChartMetricType: any) => [
-  {
-    title: CHART_METRICS?.OPEN_TICKETS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.OPEN_TICKETS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.CLOSE_TICKETS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.CLOSE_TICKETS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.OVERDUE_TICKETS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.OVERDUE_TICKETS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.UNASSIGNED_TICKETS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.UNASSIGNED_TICKETS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.RESOLVED_TICKETS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.RESOLVED_TICKETS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.PENDING_TICKETS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.PENDING_TICKETS);
-      closeMenu?.();
-    },
-  },
-];
-export const contractsMetrics = (setChartMetricType: any) => [
-  {
-    title: CHART_METRICS?.ALL,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.ALL);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.LEASE,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.LEASE);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.MAINTENANCE,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.MAINTENANCE);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.SOFTWARE_LICENSE,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.SOFTWARE_LICENSE);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.WARRANTY,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.WARRANTY);
-      closeMenu?.();
-    },
-  },
-];
-export const purchaseOrderMetrics = (setChartMetricType: any) => [
-  {
-    title: CHART_METRICS?.ALL,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.ALL);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.APPROVED,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.APPROVED);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.REJECTED,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.REJECTED);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.PENDING,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.PENDING);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.RECEIVED,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.RECEIVED);
-      closeMenu?.();
-    },
-  },
-];
-export const softwareMetrics = (setChartMetricType: any) => [
-  {
-    title: CHART_METRICS?.TOTAL_SOFTWARE,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.TOTAL_SOFTWARE);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.RESTRICTED,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.RESTRICTED);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.IGNORED,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.RESTRICTED);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.MANAGED,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.RESTRICTED);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.DISABLED,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.RESTRICTED);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.IN_REVIEW,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.RESTRICTED);
-      closeMenu?.();
-    },
-  },
-];
+import { COLLECTION_NAME } from '@/constants/strings';
 
 export const xAxesDataArray: any = {
-  Inventory: [
+  INVENTORY: [
     {
-      label: 'Inventory AssetType',
+      label: 'Inventory Asset Type',
       value: 'inventory_assetType',
-      ref: 'assettype',
+      ref: COLLECTION_NAME?.ASSET_TYPES,
     },
     { label: 'Status', value: 'status', ref: null },
     {
-      label: 'Inventory LocationId',
+      label: 'Inventory Location Id',
       value: 'inventory_locationId',
-      ref: 'location',
+      ref: COLLECTION_NAME?.LOCATION,
     },
     {
-      label: 'Inventory DepartmentId',
+      label: 'Inventory Department Id',
       value: 'inventory_departmentId',
-      ref: 'department',
+      ref: COLLECTION_NAME?.DEPARTMENT,
     },
     { label: 'Impact', value: 'impact', ref: null },
   ],
-  Software: [
+  SOFTWARE: [
     { label: 'Status', value: 'status', ref: null },
     { label: 'Type', value: 'type', ref: null },
   ],
-  Contract: [
+  CONTRACT: [
     { label: 'Contract Type', value: 'contractType', ref: null },
     { label: 'Status', value: 'status', ref: null },
-    { label: 'Contract Vendor', value: 'contract_vendor', ref: 'vendors' },
-    { label: 'Contract Approver', value: 'contract_approver', ref: 'users' },
+    {
+      label: 'Contract Vendor',
+      value: 'contract_vendor',
+      ref: COLLECTION_NAME?.VENDORS,
+    },
+    {
+      label: 'Contract Approver',
+      value: 'contract_approver',
+      ref: COLLECTION_NAME?.USERS,
+    },
   ],
-
-  Tickets: [
-    { label: 'Ticket Requester', value: 'ticket_requester', ref: 'users' },
+  PURCHASE_ORDER: [
+    {
+      label: 'Purchase Order Vendor',
+      value: 'purchaseOrder_vendorId',
+      ref: COLLECTION_NAME?.VENDORS,
+    },
+    {
+      label: 'Purchase Order Location',
+      value: 'purchaseOrder_locationId',
+      ref: COLLECTION_NAME?.LOCATION,
+    },
+    {
+      label: 'Purchase Order Department',
+      value: 'purchaseOrder_departmentId',
+      ref: COLLECTION_NAME?.DEPARTMENT,
+    },
+    { label: 'Approval Status', value: 'approvalStatus', ref: null },
+  ],
+  TICKETS: [
+    {
+      label: 'Ticket Requester',
+      value: 'ticket_requester',
+      ref: COLLECTION_NAME?.USERS,
+    },
     {
       label: 'Ticket Category',
       value: 'ticket_category',
-      ref: 'servicecategories',
+      ref: COLLECTION_NAME?.SERVICE_CATEGORIES,
     },
     { label: 'Pirority', value: 'pirority', ref: null },
     { label: 'Status', value: 'status', ref: null },
     {
       label: 'Ticket Department',
       value: 'ticket_department',
-      ref: 'department',
+      ref: COLLECTION_NAME?.DEPARTMENT,
     },
     { label: 'Source', value: 'source', ref: null },
-    { label: 'Impact', value: 'impact', ref: 'impact' },
-    { label: 'Ticket Agent', value: 'ticket_agent', ref: 'users' },
+    { label: 'Impact', value: 'impact', ref: null },
+    {
+      label: 'Ticket Agent',
+      value: 'ticket_agent',
+      ref: COLLECTION_NAME?.USERS,
+    },
   ],
 };

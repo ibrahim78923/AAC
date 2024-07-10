@@ -17,7 +17,8 @@ export const useCounter = (props: any) => {
       ...form,
       {
         id: uniqueId,
-        type: REPORT_TYPE?.COUNTER,
+        type: draggedItemData?.type,
+        reportType: REPORT_TYPE?.COUNTER,
         ticketCount: draggedItemData?.ticketCount,
         title: draggedItemData?.title,
         templateType: draggedItemData?.templateType,

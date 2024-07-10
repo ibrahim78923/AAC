@@ -1,8 +1,10 @@
 import { EditorState, RichUtils } from 'draft-js';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 export const useText = (props: any) => {
   const { setEditorState, fontSize, color } = props;
+  const [edit, setEdit] = useState(true);
+  const [editValue, setEditValue] = useState();
   const handleKeyCommand = (command: string, editorState: EditorState) => {
     const newState = RichUtils?.handleKeyCommand(editorState, command);
     if (newState) {
@@ -26,5 +28,9 @@ export const useText = (props: any) => {
   return {
     handleKeyCommand,
     styleMap,
+    setEditValue,
+    editValue,
+    setEdit,
+    edit,
   };
 };

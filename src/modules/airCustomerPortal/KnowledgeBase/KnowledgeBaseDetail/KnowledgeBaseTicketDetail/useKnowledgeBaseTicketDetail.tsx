@@ -83,15 +83,9 @@ export const useKnowledgeBaseTicketDetail = () => {
     const payload = {
       id: singleArticleId,
       helpful: false,
-      feedback: JSON.stringify({
-        content: data?.content,
-        information: data?.information,
-        link: data?.link,
-        understand: data?.understand,
-      }),
+      feedback: JSON.stringify(data?.feedback),
       comment: data?.comment,
     };
-
     try {
       const res: any = await postArticleFeedbackTrigger(payload)?.unwrap();
       successSnackbar(res?.message ?? 'Feedback Added Successfully');

@@ -1,8 +1,7 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useSaveReportDrawer } from './useSaveReportDrawer';
-import { FormProvider } from 'react-hook-form';
+import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
-import { reportsDataArray } from './SaveReportDrawer.data';
 import { REPORT_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
 export const SaveReportDrawer = (props: any) => {
@@ -14,6 +13,8 @@ export const SaveReportDrawer = (props: any) => {
     onSubmit,
     handleCancel,
     selectAddToNewDashboard,
+    reportsArray,
+    postServiceReportStatus,
   } = useSaveReportDrawer(props);
 
   return (
@@ -26,10 +27,11 @@ export const SaveReportDrawer = (props: any) => {
       okText="Apply"
       isOk={true}
       footer={true}
+      isLoading={postServiceReportStatus?.isLoading}
     >
-      <FormProvider {...saveReportsMethods}>
+      <FormProvider methods={saveReportsMethods}>
         <Grid container spacing={1}>
-          {reportsDataArray?.map((item: any) => {
+          {reportsArray?.map((item: any) => {
             return (
               <>
                 <Grid item key={item?.id} xs={12}>

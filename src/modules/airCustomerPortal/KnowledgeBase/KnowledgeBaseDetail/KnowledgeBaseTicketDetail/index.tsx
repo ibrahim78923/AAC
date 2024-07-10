@@ -78,19 +78,18 @@ export const KnowledgeBaseTicketDetail = () => {
               lg: null,
               xs: `.1rem solid ${theme?.palette?.grey?.[700]}`,
             }}
+            borderBottom={{
+              lg: null,
+              xs: `.1rem solid ${theme?.palette?.grey?.[700]}`,
+            }}
             height={'100%'}
             pl={{ lg: 2, xs: 0 }}
           >
-            <Grid container flexDirection={'column'} spacing={1.5} mt={1}>
-              {!showOkFeedback && !showFeedbackField && (
-                <Typography color="secondary" variant="body2">
-                  Was this answer helpful??
-                </Typography>
-              )}
+            <Grid container flexDirection={'column'} mt={1}>
               <Grid item>
                 <Typography variant="h4">Related Articles</Typography>
                 <Box
-                  height={showFeedbackField ? '14rem' : '33rem'}
+                  height={showFeedbackField ? '14rem' : '37rem'}
                   overflow={'scroll'}
                 >
                   {loadingArticles || fetchingArticles ? (
@@ -128,12 +127,6 @@ export const KnowledgeBaseTicketDetail = () => {
                   <Typography color="secondary" variant="body2" mb={1}>
                     Sorry we cannot be helpful. Help us improve this article
                     with your feedback.
-                  </Typography>
-                  <Typography variant="h6">
-                    Your Feedback{' '}
-                    <Box component="span" color="red">
-                      *
-                    </Box>
                   </Typography>
                   <FormProvider
                     methods={feedbackMethod}
@@ -177,6 +170,7 @@ export const KnowledgeBaseTicketDetail = () => {
                       variant="body2"
                       display={'flex'}
                       justifyContent={'center'}
+                      mt={3}
                     >
                       Was this answer helpful??
                     </Typography>
@@ -189,6 +183,7 @@ export const KnowledgeBaseTicketDetail = () => {
                   alignItems={'center'}
                   justifyContent={'center'}
                   gap={0.5}
+                  mt={6}
                 >
                   <CheckCircleIcon sx={{ color: 'success.main' }} />
                   <Typography color="secondary" variant="body2">
@@ -198,7 +193,13 @@ export const KnowledgeBaseTicketDetail = () => {
               )}
               <Divider sx={{ mt: 2 }} />
               {!showOkFeedback && !showFeedbackField && (
-                <Grid item display={'flex'} justifyContent={'flex-end'} gap={1}>
+                <Grid
+                  item
+                  display={'flex'}
+                  justifyContent={'flex-end'}
+                  gap={1}
+                  mb={2}
+                >
                   <Button
                     variant="outlined"
                     color="secondary"

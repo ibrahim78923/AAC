@@ -835,10 +835,12 @@ export const TEXT_FORMATE: any = {
 };
 
 export const CHARTS: any = {
-  BAR_CHART: 'Bar Chart',
-  DONUT_CHART: 'Donut Chart',
-  PIE_CHART: 'Pie Chart',
-  HORIZONTAL_BAR_CHART: 'Horizontal Bar Chart',
+  BAR_CHART: 'BAR_CHART',
+  HORIZONTAL_BAR_CHART: 'HORIZONTAL_BAR_CHART',
+  DONUT_CHART: 'DONUT_CHART',
+  PIE_CHART: 'PIE_CHART',
+  TEMPLATE_BAR_CHART: 'TEMPLATE_BAR_CHART',
+  TEMPLATE_PIE_OR_DONUT_CHART: 'TEMPLATE_PIE_OR_DONUT_CHART',
 };
 
 export const SELECTED_ARRAY_LENGTH = {
@@ -858,27 +860,44 @@ export const TIME_TO_RESTORE_DELETED_RECORD = {
 
 export const REPORT_TYPE = {
   CHART: 'chart',
-  TABLE: 'table',
-  TEXT: 'text',
+  TABLE: 'TABLE',
+  TEXT: 'TEXT_FIELD',
   COUNTER: 'counter',
-  EVERYONE: 'everyone',
-  SPECIFIC_USERS: 'specificUsers',
+  EVERYONE: 'EVERYONE',
+  PRIVATE: 'PRIVATE',
+  SPECIFIC_USERS: 'SPECIFIC_USERS',
+  VIEW_AND_EDIT: 'VIEW_AND_EDIT',
+  VIEW_ONLY: 'VIEW_ONLY',
   ADD_TO_EXISTING: 'addToExisting',
   ADD_TO_NEW: 'addToNew',
   ALL: 'All',
-  INVENTORIES: 'Inventory',
-  TICKETS: 'Tickets',
-  SOFTWARE: 'Software',
-  CONTRACTS: 'Contract',
-  PURCHASE_ORDER: 'Purchase_Order',
-  DEALS: 'Deals',
-  PIPELINE_FORECAST: 'Pipeline_Forecast',
-  FORECAST_CATEGORY: 'Forecast_Category',
+  INVENTORIES: 'INVENTORY',
+  TICKETS: 'TICKETS',
+  SOFTWARE: 'SOFTWARE',
+  CONTRACTS: 'CONTRACT',
+  PURCHASE_ORDER: 'PURCHASE_ORDER',
+  DEALS: 'DEALS',
+  PIPELINE_FORECAST: 'PIPELINE_FORECAST',
+  FORECAST_CATEGORY: 'FORECAST_CATEGORY',
+  NO_OF_RECORDS: 'NO_OF_RECORDS',
+  TEMPLATE_TABLE: 'TEMPLATE_TABLE',
+  TEMPLATE_TEXT: 'TEMPLATE_TEXT',
 };
 
-export const X_AXIS_FIELD_TYPE = {
+export const FIELD_TYPE = {
   STATIC: 'STATIC',
   OBJECT_ID: 'OBJECT_ID',
+  STRING: 'STRING',
+};
+
+export const COLLECTION_NAME = {
+  ASSET_TYPES: 'assettypes',
+  LOCATION: 'location',
+  DEPARTMENT: 'department',
+  VENDORS: 'vendors',
+  USERS: 'users',
+  SERVICE_CATEGORIES: 'servicecategories',
+  DEAL_PIPELINES: 'dealpipelines',
 };
 
 export const USER_MANAGEMENT_DRAWER_ACTION = {

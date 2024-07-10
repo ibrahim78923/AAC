@@ -20,8 +20,6 @@ export const useTextEditor = (props: any) => {
     setDraggedItemData,
   } = props;
   const [saveDisable, setSaveDisable] = useState(true);
-  const [edit, setEdit] = useState(true);
-  const [editValue, setEditValue] = useState();
   useEffect(() => {
     const rawContentState = convertToRaw(editorState?.getCurrentContent());
     const blocks = rawContentState?.blocks;
@@ -225,9 +223,5 @@ export const useTextEditor = (props: any) => {
     onColorChange,
     onFontSizeChange,
     saveDisable,
-    setEditValue,
-    editValue,
-    setEdit,
-    edit,
   };
 };

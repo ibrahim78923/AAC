@@ -1,107 +1,31 @@
-export const CHART_METRICS = {
-  TOTAL_DEALS: 'Total Deals',
-  OPEN_DEALS: 'Open Deals',
-  CLOSE_DEALS: 'Close Deals',
-  ADD_METRIC: 'Add Metric',
-};
-export const dealsMetrics = (setChartMetricType: any) => [
-  {
-    title: CHART_METRICS?.TOTAL_DEALS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.TOTAL_DEALS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.OPEN_DEALS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.OPEN_DEALS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.CLOSE_DEALS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.CLOSE_DEALS);
-      closeMenu?.();
-    },
-  },
-];
-export const pipelineMetrics = (setChartMetricType: any) => [
-  {
-    title: CHART_METRICS?.TOTAL_DEALS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.TOTAL_DEALS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.OPEN_DEALS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.OPEN_DEALS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.CLOSE_DEALS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.CLOSE_DEALS);
-      closeMenu?.();
-    },
-  },
-];
-export const forecastMetrics = (setChartMetricType: any) => [
-  {
-    title: CHART_METRICS?.TOTAL_DEALS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.TOTAL_DEALS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.OPEN_DEALS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.OPEN_DEALS);
-      closeMenu?.();
-    },
-  },
-  {
-    title: CHART_METRICS?.CLOSE_DEALS,
-    handleClick: (closeMenu: any) => {
-      setChartMetricType(CHART_METRICS?.CLOSE_DEALS);
-      closeMenu?.();
-    },
-  },
-];
+import { COLLECTION_NAME } from '@/constants/strings';
 
 export const xAxesDataArray: any = {
-  Deals: [
+  DEALS: [
     {
-      label: 'Inventory AssetType',
-      value: 'inventory_assetType',
-      ref: 'assettype',
+      label: 'Deals Pipelines',
+      value: 'deals_dealPipelineId',
+      ref: COLLECTION_NAME?.DEAL_PIPELINES,
     },
-    { label: 'Status', value: 'status', ref: null },
-    {
-      label: 'Inventory LocationId',
-      value: 'inventory_locationId',
-      ref: 'location',
-    },
-    {
-      label: 'Inventory DepartmentId',
-      value: 'inventory_departmentId',
-      ref: 'department',
-    },
-    { label: 'Impact', value: 'impact', ref: null },
+    { label: 'Priority', value: 'priority', ref: null },
+    { label: 'Billing Frequency', value: 'billingFrequency', ref: null },
   ],
-  Pipeline_Forecast: [
+  PIPELINE_FORECAST: [
     { label: 'Status', value: 'status', ref: null },
     { label: 'Type', value: 'type', ref: null },
   ],
-  Forecast_Category: [
+  FORECAST_CATEGORY: [
     { label: 'Contract Type', value: 'contractType', ref: null },
     { label: 'Status', value: 'status', ref: null },
-    { label: 'Contract Vendor', value: 'contract_vendor', ref: 'vendors' },
-    { label: 'Contract Approver', value: 'contract_approver', ref: 'users' },
+    {
+      label: 'Contract Vendor',
+      value: 'contract_vendor',
+      ref: COLLECTION_NAME?.VENDORS,
+    },
+    {
+      label: 'Contract Approver',
+      value: 'contract_approver',
+      ref: COLLECTION_NAME?.USERS,
+    },
   ],
 };
