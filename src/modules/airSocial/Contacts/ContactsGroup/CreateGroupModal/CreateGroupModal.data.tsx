@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import * as Yup from 'yup';
 import RowSelection from '@/components/RowSelection';
 import RowSelectionAll from '@/components/RowSelectionAll';
+import { createGroupModalTitle } from '../Contacts.data';
 
 export const createGroupValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Field is Required'),
@@ -41,7 +42,9 @@ export const columns: any = ({
             rows={rows}
             selectedRow={selectedUsers}
             setSelectedRow={setSelectedUsers}
-            disabled={title === 'View' || rows?.length === 0}
+            disabled={
+              title === createGroupModalTitle?.view || rows?.length === 0
+            }
           />
         );
       },
@@ -52,7 +55,7 @@ export const columns: any = ({
             id={id}
             selectedRow={selectedUsers}
             setSelectedRow={setSelectedUsers}
-            disabled={title === 'View'}
+            disabled={title === createGroupModalTitle?.view}
           />
         );
       },
@@ -93,7 +96,7 @@ export const columns: any = ({
       accessorFn: (row: any) => row?.phoneNumber,
       id: 'phoneNumber',
       header: 'Phone Number',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
   ];
 };

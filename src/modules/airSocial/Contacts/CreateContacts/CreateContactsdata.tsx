@@ -110,6 +110,7 @@ export const contactsDataArray = (
         name: 'dateOfBirth',
         label: 'Date Of Birth',
         fullWidth: true,
+        disableFuture: true,
       },
       md: 12,
       component: RHFDatePicker,
