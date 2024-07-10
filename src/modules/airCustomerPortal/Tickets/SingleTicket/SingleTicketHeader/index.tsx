@@ -2,9 +2,11 @@ import { Box, Typography } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { useSingleTicketHeader } from './useSingleTicketHeader';
 import { LoadingButton } from '@mui/lab';
+import { TICKET_STATUS } from '@/constants/strings';
+import { SingleTicketHeaderPropsI } from './SingleTicketHeader.interface';
 
-export const SingleTicketHeader = (props: any) => {
-  const { ticketNumber } = props;
+export const SingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
+  const { ticketNumber, singleTicketData } = props;
   const { isLoading, updateTicketStatus, handleBack } =
     useSingleTicketHeader(props);
 
@@ -35,13 +37,15 @@ export const SingleTicketHeader = (props: any) => {
         gap={1}
         flexWrap={'wrap'}
       >
-        <LoadingButton
-          variant="contained"
-          loading={isLoading}
-          onClick={updateTicketStatus}
-        >
-          Mark ticket as closed
-        </LoadingButton>
+        {singleTicketData?.status !== TICKET_STATUS?.CLOSED && (
+          <LoadingButton
+            variant="contained"
+            loading={isLoading}
+            onClick={updateTicketStatus}
+          >
+            Mark ticket as closed
+          </LoadingButton>
+        )}
       </Box>
     </Box>
   );

@@ -63,8 +63,8 @@ export const useUpsertMeeting = () => {
         meetingType === routeConstant?.oneToOne
           ? routeConstant?.oneToOneMeeting
           : meetingType === routeConstant?.group
-          ? routeConstant?.groupMeeting
-          : routeConstant?.collectiveMeeting,
+            ? routeConstant?.groupMeeting
+            : routeConstant?.collectiveMeeting,
       isAllDay: formData?.allDay,
       timeZone: formData?.timeZone?.label,
       startDate: formData?.startDate,
@@ -89,13 +89,13 @@ export const useUpsertMeeting = () => {
                 formData?.recurring === true
                   ? true
                   : formData?.recurringType === recurringConstant?.monthly &&
-                    formData?.monthType === recurringConstant?.onTheDay &&
-                    formData?.recurring === true
-                  ? true
-                  : formData?.recurringType === recurringConstant?.weekly &&
-                    formData?.recurring === true
-                  ? true
-                  : false,
+                      formData?.monthType === recurringConstant?.onTheDay &&
+                      formData?.recurring === true
+                    ? true
+                    : formData?.recurringType === recurringConstant?.weekly &&
+                        formData?.recurring === true
+                      ? true
+                      : false,
               days:
                 formData?.recurringType === recurringConstant?.monthly &&
                 formData?.monthType === recurringConstant?.onMonthDate &&
@@ -106,10 +106,10 @@ export const useUpsertMeeting = () => {
                 formData?.recurringType === recurringConstant?.weekly
                   ? formData?.weekDays?.map((day: string) => day?.toUpperCase())
                   : formData?.recurringType === recurringConstant?.monthly &&
-                    formData?.monthType === recurringConstant?.onTheDay &&
-                    formData?.recurring === true
-                  ? formData?.monthlyDays?.map((day: any) => day?.value)
-                  : [],
+                      formData?.monthType === recurringConstant?.onTheDay &&
+                      formData?.recurring === true
+                    ? formData?.monthlyDays?.map((day: any) => day?.value)
+                    : [],
               onWeek:
                 formData?.recurringType === recurringConstant?.monthly &&
                 formData?.recurring === true

@@ -3,9 +3,10 @@ import { TICKET_STATUS } from '@/constants/strings';
 import { useEditTicketStatusMutation } from '@/services/airCustomerPortal/Tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { SingleTicketHeaderPropsI } from './SingleTicketHeader.interface';
 
-export const useSingleTicketHeader = (props: any) => {
-  const { id } = props;
+export const useSingleTicketHeader = (props: SingleTicketHeaderPropsI) => {
+  const { id, getSingleDefaultSurveyForCustomerTickets } = props;
   const router = useRouter();
 
   const [editTicketStatusTrigger, { isLoading }] =
@@ -23,6 +24,7 @@ export const useSingleTicketHeader = (props: any) => {
         updateTicketStatusTicketsParameter,
       )?.unwrap();
       successSnackbar('Your ticket has been closed');
+      await getSingleDefaultSurveyForCustomerTickets?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -32,6 +34,7 @@ export const useSingleTicketHeader = (props: any) => {
       pathname: AIR_CUSTOMER_PORTAL?.TICKETS,
     });
   };
+
   return {
     isLoading,
     updateTicketStatus,

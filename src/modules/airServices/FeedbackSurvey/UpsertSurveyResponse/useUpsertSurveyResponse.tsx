@@ -15,7 +15,8 @@ import {
 import { ARRAY_INDEX } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
 
-export const useUpsertSurveyResponse: any = () => {
+export const useUpsertSurveyResponse: any = (props: any) => {
+  const { loggedInUser } = props;
   const router = useRouter();
   const allQuestion: any = useRef({});
   const [questionsData, setQuestionData] = useState<any>([]);
@@ -37,9 +38,12 @@ export const useUpsertSurveyResponse: any = () => {
   ] = usePatchSingleSurveyDropoutAnswerForResponseMutation?.();
 
   const methods: any = useForm({
-    defaultValues: upsertSurveyResponseDefaultValues?.(questionsData),
+    defaultValues: upsertSurveyResponseDefaultValues?.(
+      questionsData,
+      loggedInUser,
+    ),
     resolver: yupResolver(
-      upsertSurveyResponseValidationSchema?.(questionsData),
+      upsertSurveyResponseValidationSchema?.(questionsData, loggedInUser),
     ),
   });
 
@@ -138,7 +142,9 @@ export const useUpsertSurveyResponse: any = () => {
   }, [surveyId]);
 
   useEffect(() => {
-    reset(() => upsertSurveyResponseDefaultValues?.(questionsData));
+    reset(
+      () => upsertSurveyResponseDefaultValues?.(questionsData, loggedInUser),
+    );
   }, [questionsData, reset]);
 
   return {

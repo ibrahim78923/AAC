@@ -1,15 +1,17 @@
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useUpsertSurveyResponse } from './useUpsertSurveyResponse';
 import NoData from '@/components/NoData';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { createElement } from 'react';
 import { FEEDBACK_SURVEY_RESPONSE_QUESTION } from './UpsertSurveyResponse.data';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ARRAY_INDEX, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
-export const UpsertSurveyResponse = () => {
+export const UpsertSurveyResponse = (props: any) => {
+  const { loggedInUser, goBack } = props;
   const {
     handleSubmit,
     submitSurveyResponse,
@@ -19,7 +21,7 @@ export const UpsertSurveyResponse = () => {
     patchSingleSurveyDropoutAnswerForResponseStatus,
     patchSingleSurveyQuestionsAnswerForResponseStatus,
     submitSurveyResponseDropout,
-  } = useUpsertSurveyResponse();
+  } = useUpsertSurveyResponse(props);
 
   if (
     lazyGetSingleSurveyForResponseStatus?.isLoading ||
@@ -29,10 +31,32 @@ export const UpsertSurveyResponse = () => {
   if (lazyGetSingleSurveyForResponseStatus?.isError) return <ApiErrorState />;
 
   if (patchSingleSurveyQuestionsAnswerForResponseStatus?.isSuccess)
-    return <NoData />;
+    return (
+      <NoData
+        image=""
+        message={`Thank you for completing the survey! Your responses have been successfully submitted. We appreciate your time and valuable feedback`}
+      >
+        {!!loggedInUser ? (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => goBack?.()}
+          >
+            {' '}
+            Go To Home
+          </Button>
+        ) : (
+          <></>
+        )}
+      </NoData>
+    );
 
   if (patchSingleSurveyDropoutAnswerForResponseStatus?.isSuccess)
-    return <NoData />;
+    return (
+      <NoData
+        message={`Survey cancellation successful. If you change your mind, you're welcome to complete it later. Thank you!`}
+      />
+    );
 
   return (
     <Box px={4} py={6}>
@@ -40,16 +64,29 @@ export const UpsertSurveyResponse = () => {
         methods={methods}
         onSubmit={handleSubmit(submitSurveyResponse)}
       >
-        <Grid container>
-          <Grid item xs={12} md={6}>
-            <RHFTextField
-              name="email"
-              size="small"
-              label="Enter Your Email"
-              required
-            />
+        <Box>
+          <PageTitledHeader
+            title={
+              lazyGetSingleSurveyForResponseStatus?.data?.data[
+                ARRAY_INDEX?.ZERO
+              ]?.surveyTitle
+            }
+          />
+        </Box>
+        {!!!loggedInUser ? (
+          <Grid container>
+            <Grid item xs={12} md={6}>
+              <RHFTextField
+                name="email"
+                size="small"
+                label="Enter Your Email"
+                required
+              />
+            </Grid>
           </Grid>
-        </Grid>
+        ) : (
+          <></>
+        )}
         {lazyGetSingleSurveyForResponseStatus?.data?.data[ARRAY_INDEX?.ZERO]
           ?.sections?.length ? (
           lazyGetSingleSurveyForResponseStatus?.data?.data[

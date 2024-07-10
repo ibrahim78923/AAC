@@ -7,7 +7,10 @@ import { FEEDBACK_SURVEY_QUESTION_TYPE } from '@/constants/strings';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
-export const upsertSurveyResponseValidationSchema = (questionsData: any) => {
+export const upsertSurveyResponseValidationSchema = (
+  questionsData: any,
+  loggedInUser: any,
+) => {
   const schema: any = {};
   questionsData?.forEach((question: any, questionId: any) => {
     switch (question?.questionType) {
@@ -40,10 +43,14 @@ export const upsertSurveyResponseValidationSchema = (questionsData: any) => {
     }
   });
   return Yup?.object()?.shape({
-    email: Yup?.string()
-      ?.trim()
-      ?.email('Must be an email')
-      ?.required('Email is required'),
+    ...(!!!loggedInUser
+      ? {
+          email: Yup?.string()
+            ?.trim()
+            ?.email('Must be an email')
+            ?.required('Email is required'),
+        }
+      : {}),
     ...schema,
   });
 };
@@ -56,7 +63,10 @@ export const FEEDBACK_SURVEY_RESPONSE_QUESTION_ANSWERS: any = {
   [FEEDBACK_SURVEY_QUESTION_TYPE?.TEXT]: 'singleAnswer',
 };
 
-export const upsertSurveyResponseDefaultValues = (questionsData: any) => {
+export const upsertSurveyResponseDefaultValues = (
+  questionsData: any,
+  loggedInUser: any,
+) => {
   const defaultValue: any = {};
 
   questionsData?.forEach((question: any, questionId: any) => {
@@ -78,7 +88,7 @@ export const upsertSurveyResponseDefaultValues = (questionsData: any) => {
         break;
     }
   });
-  return defaultValue;
+  return { email: loggedInUser, ...defaultValue };
 };
 
 export const FEEDBACK_SURVEY_RESPONSE_QUESTION: any = {

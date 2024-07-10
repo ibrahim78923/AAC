@@ -11,13 +11,9 @@ import {
   useTheme,
 } from '@mui/material';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import { previewDashboard } from '../../CreateDashboard/CreateDashboard.data';
 import { styles } from './PreviewDashboardModal.styles';
 
-export const PreviewDashboardModal = ({
-  dashboardItems,
-  type = 'Create',
-}: any) => {
+export const PreviewDashboardModal = ({ type = 'Create' }: any) => {
   const [open, setOpen] = useState<boolean>(false);
   const theme = useTheme();
   return (
@@ -70,11 +66,11 @@ export const PreviewDashboardModal = ({
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={3} mt={1}>
-            {dashboardItems?.map((item: any) => (
+            {/* {dashboardItems?.map((item: any) => (
               <Grid item xs={12} key={item?.id}>
                 {previewDashboard?.[item as string]}
               </Grid>
-            ))}
+            ))} */}
           </Grid>
         </DialogContent>
       </Dialog>

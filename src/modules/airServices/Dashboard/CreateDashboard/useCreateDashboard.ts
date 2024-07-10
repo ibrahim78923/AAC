@@ -1,130 +1,205 @@
-import { useTheme } from '@mui/material';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { AutoCompleteLabelI } from './CreateDashboard.interface';
+import { useEffect } from 'react';
+import { useFieldArray, useForm, useWatch } from 'react-hook-form';
+import {
+  MultiCheckboxOptionI,
+  ReportsI,
+  UpsertServicesDashboardDefaultValueI,
+} from './CreateDashboard.interface';
 import { DropResult } from 'react-beautiful-dnd';
 import {
   createDashboardDefaultValue,
-  dashboardCheckboxData,
+  createDashboardValidationSchema,
+  dashboardWidgetsData,
+  upsertServiceDashboardFormFieldsDynamic,
 } from './CreateDashboard.data';
-import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
+import {
+  useAddSingleServicesDashboardMutation,
+  useGetSingleServicesDashboardQuery,
+  useLazyGetDashboardUserAccessListDropdownListForDashboardQuery,
+  useUpdateSingleServicesDashboardMutation,
+} from '@/services/airServices/dashboard';
+import useAuth from '@/hooks/useAuth';
+import { filteredEmptyValues } from '@/utils/api';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { REPORT_TYPES } from '@/constants/strings';
+
 export const useCreateDashboard = () => {
-  const router: any = useRouter();
-  const theme = useTheme();
-  const searchParams = useSearchParams();
-  const action = searchParams.get('action');
-  const methodsCreateDashboardFilterForm = useForm({
-    defaultValues: createDashboardDefaultValue,
+  const router = useRouter();
+  const { dashboardId } = router?.query;
+  const auth = useAuth();
+  const { _id: productId } = auth?.product;
+  const { action } = router?.query;
+
+  const methods = useForm({
+    defaultValues: createDashboardDefaultValue?.(),
+    resolver: yupResolver(createDashboardValidationSchema?.()),
   });
-  const [accessValue, setAccessValue] = useState('');
-  const [anchorElUserList, setAnchorElUserList] = useState<null | HTMLElement>(
-    null,
-  );
-  const [dashboardCheckboxItems, setDashboardCheckboxItems] = useState<any>(
-    dashboardCheckboxData,
-  );
-  const [pendingValue, setPendingValue] = useState<AutoCompleteLabelI[]>([]);
-  const [specificUsers, setSpecificUser] = useState<AutoCompleteLabelI[]>([]);
-  const [usersPermissions, setUsersPermissions] = useState<any[]>([]);
-  const dashboardItems: any[] =
-    methodsCreateDashboardFilterForm?.watch('dashboardItems');
-  const { handleSubmit } = methodsCreateDashboardFilterForm;
-  //optional chaining does not work on interfaces
-  const handleOpenUsersList = (event: React.MouseEvent<HTMLElement>) => {
-    setPendingValue(specificUsers);
-    setAnchorElUserList(event?.currentTarget);
+
+  const { handleSubmit, watch, reset, setValue, control } = methods;
+
+  const { fields } = useFieldArray<any>({
+    control,
+    name: 'permissionsUsers',
+  });
+
+  const getSingleTicketParameter = {
+    queryParams: {
+      dashboardId,
+    },
   };
 
-  const handleCloseUsersList = () => {
-    setSpecificUser(pendingValue);
-    if (anchorElUserList) {
-      anchorElUserList?.focus();
-    }
-    const uniqueNewPermissions = pendingValue?.filter(
-      (newItem: any) =>
-        !usersPermissions?.some((item: any) => item?.id === newItem?.id),
-    );
-    const updatedPermissions = usersPermissions?.filter(
-      (item: any) =>
-        pendingValue?.some((newItem: any) => newItem?.id === item?.id),
-    );
-    const combinedPermissions = updatedPermissions?.concat(
-      uniqueNewPermissions?.map((newItem: any) => ({
-        ...newItem,
-        permission: '',
+  const { data, isLoading, isFetching, isError } =
+    useGetSingleServicesDashboardQuery(getSingleTicketParameter, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!dashboardId,
+    });
+
+  const [addSingleServicesDashboardTrigger, addSingleServicesDashboardStatus] =
+    useAddSingleServicesDashboardMutation();
+
+  const [
+    updateSingleServicesDashboardTrigger,
+    updateSingleServicesDashboardStatus,
+  ] = useUpdateSingleServicesDashboardMutation();
+
+  const specificUserWatch = useWatch({
+    control,
+    name: 'specialUsers',
+    defaultValue: [],
+  });
+
+  const dashboardWidgetsWatch = useWatch({
+    control,
+    name: 'dashboardWidgets',
+    defaultValue: dashboardWidgetsData,
+  });
+
+  useEffect(() => {
+    if (!!specificUserWatch?.length)
+      setValue(
+        'permissionsUsers',
+        specificUserWatch?.map((item: any) => ({
+          name: `${item?.firstName} ${item?.lastName}`,
+        })),
+      );
+  }, [specificUserWatch]);
+
+  const submitCreateDashboardFilterForm = async (
+    formData: UpsertServicesDashboardDefaultValueI,
+  ) => {
+    const filterFormData = filteredEmptyValues(formData);
+    const body = {
+      ...filterFormData,
+      reports: reports?.map((item) => ({
+        type: REPORT_TYPES?.STATIC,
+        visibility: true,
+        name: item,
       })),
-    );
-    setUsersPermissions(combinedPermissions);
-    setAnchorElUserList(null);
-  };
-  const handleChangeAccessValue = (event: any) => {
-    setAccessValue(event?.target?.value);
-    setUsersPermissions([]);
-  };
-  const setSpecificUserPermissions = (id: string, event: any) => {
-    const tempUsersList = usersPermissions?.map((user: any) =>
-      user?.id === id ? { ...user, permission: event?.target?.value } : user,
-    );
-    setUsersPermissions([...tempUsersList]);
+    };
+
+    delete body?.everyoneAccess;
+    delete body?.permissionsUsers;
+    delete body?.dashboardWidgets;
+
+    if (!!dashboardId) {
+      submitUpdateDashboardFilterForm(body);
+      return;
+    }
+
+    const apiDataParameter = {
+      body,
+    };
+
+    try {
+      await addSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
+    } catch (error: any) {}
   };
 
-  const submitCreateDashboardFilterForm = async () => {};
-  const resetCreateDashboardFilterForm = async () => {
-    methodsCreateDashboardFilterForm?.reset();
+  const submitUpdateDashboardFilterForm = async (
+    formData: UpsertServicesDashboardDefaultValueI,
+  ) => {
+    const body = {
+      id: dashboardId,
+      ...formData,
+    };
+
+    const apiDataParameter = {
+      body,
+    };
+
+    try {
+      await updateSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
+    } catch (error: any) {}
   };
-  const alignArrays = (firstArray: string[], secondArray: any[]) => {
-    const dragAndDropAlignment = secondArray?.reduce((acc: any, item: any) => {
-      if (firstArray?.includes(item)) {
-        acc?.push(item);
-      }
-      return acc;
-    }, []);
+
+  const reports: ReportsI[] | string[] | undefined | MultiCheckboxOptionI[] =
+    watch('reports');
+
+  const alignArrays = (
+    firstArray: MultiCheckboxOptionI[],
+    secondArray: any[],
+  ) => {
+    const dragAndDropAlignment: string[] | [] | undefined = secondArray?.reduce(
+      (acc: any, item: any) => {
+        if (firstArray?.includes(item?.value)) {
+          acc?.push(item?.value);
+        }
+        return acc;
+      },
+      [],
+    );
     return dragAndDropAlignment;
   };
+
   const reorder = <T>(list: T[], startIndex: number, endIndex: number): T[] => {
     const result = Array?.from(list);
     const [removed] = result?.splice(startIndex, 1);
     result?.splice(endIndex, 0, removed);
     return result;
   };
+
   const onDragEnd = ({ destination, source }: DropResult) => {
-    // dropped outside the list
     if (!destination) return;
 
     const newItems = reorder(
-      dashboardCheckboxItems,
+      dashboardWidgetsData,
       source?.index,
       destination?.index,
     );
-    const dragAndDropAlignment = alignArrays(dashboardItems, newItems);
-    methodsCreateDashboardFilterForm?.setValue(
-      'dashboardItems',
-      dragAndDropAlignment,
+    const dragAndDropAlignment: string[] | [] | undefined = alignArrays(
+      reports,
+      newItems,
     );
-    setDashboardCheckboxItems(newItems);
+
+    setValue('reports', dragAndDropAlignment);
+    setValue('dashboardWidgets', newItems);
   };
 
+  const apiQueryUsers =
+    useLazyGetDashboardUserAccessListDropdownListForDashboardQuery?.();
+
+  const upsertServiceDashboardFormFields =
+    upsertServiceDashboardFormFieldsDynamic?.(apiQueryUsers, productId, fields);
+
+  useEffect(() => {
+    reset(() => createDashboardDefaultValue(data?.data?.dashboard));
+  }, [data, reset]);
+
   return {
-    methodsCreateDashboardFilterForm,
-    accessValue,
-    handleChangeAccessValue,
-    specificUsers,
-    setPendingValue,
-    pendingValue,
-    anchorElUserList,
-    handleOpenUsersList,
-    handleCloseUsersList,
-    usersPermissions,
-    setSpecificUserPermissions,
-    theme,
+    methods,
     submitCreateDashboardFilterForm,
-    resetCreateDashboardFilterForm,
-    dashboardItems,
+    reports,
     onDragEnd,
-    dashboardCheckboxItems,
     action,
     router,
     handleSubmit,
+    upsertServiceDashboardFormFields,
+    addSingleServicesDashboardStatus,
+    updateSingleServicesDashboardStatus,
+    isLoading,
+    isFetching,
+    isError,
+    dashboardWidgetsWatch,
   };
 };

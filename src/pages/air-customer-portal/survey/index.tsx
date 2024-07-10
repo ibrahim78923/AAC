@@ -1,9 +1,9 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import { UpsertSurveyResponse } from '@/modules/airServices/FeedbackSurvey/UpsertSurveyResponse';
+import { CustomerSurvey } from '@/modules/airCustomerPortal/Tickets/CustomerSurvey';
 
 const SurveyPage = () => {
-  return <UpsertSurveyResponse />;
+  return <CustomerSurvey />;
 };
 
 export default SurveyPage;

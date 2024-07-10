@@ -969,6 +969,35 @@ export const PERCENTAGES_VALUES = {
   EIGHTY: 80,
 };
 
+export const CUSTOMER_SURVEY_TICKET_STATUS_BASED = {
+  AFTER_TICKET_CLOSED: 'afterTicketClosed',
+  AFTER_TICKET_RESOLVED: 'afterTicketResolved',
+};
+
+export const MANAGE_ACCESS_TYPES = {
+  EVERYONE: 'everyone',
+  SPECIAL: 'special',
+  PRIVATE: 'private',
+  VIEW: 'view',
+  VIEW_AND_EDIT: 'edit_&_view',
+};
+
+export const REPORT_TYPES = {
+  STATIC: 'static',
+  DYNAMIC: 'dynamic',
+};
+
+export const FEEDBACK_STATUS = {
+  PUBLISHED: 'published',
+  DRAFT: 'draft',
+  INACTIVE: 'inactive',
+};
+
+export const FEEDBACK_SURVEY_PATH_TYPES = {
+  CUSTOMER_SATISFACTION: 'customer-satisfaction',
+  CUSTOMER_SUPPORT: 'customer-support',
+};
+
 export const PLAN_STATUS = {
   YES: 'Yes',
   NO: 'No',

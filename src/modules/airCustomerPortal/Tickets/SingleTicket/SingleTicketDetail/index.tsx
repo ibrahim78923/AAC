@@ -2,15 +2,21 @@ import { InventoryCard } from '@/components/InventoryCard';
 import NoData from '@/components/NoData';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { LoadingButton } from '@mui/lab';
-import { Box, Chip, Divider, Typography } from '@mui/material';
+import { Box, Chip, Divider, Skeleton, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { Fragment } from 'react';
 import { useSingleTicketDetail } from './useSingleTicketDetail';
 import { TICKET_STATUS } from '@/constants/strings';
+import { SingleTicketDetailPropsI } from './SingleTicketDetail.interface';
 
-export const SingleTicketDetail = (props: any) => {
-  const { singleTicketData } = props;
-  const { theme, getCustomerSurvey } = useSingleTicketDetail();
+export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
+  const {
+    singleTicketData,
+    lazyGetSingleDefaultSurveyForCustomerTicketsStatus,
+    isLoader,
+  } = props;
+
+  const { theme, getCustomerSurvey } = useSingleTicketDetail(props);
 
   return (
     <>
@@ -81,33 +87,41 @@ export const SingleTicketDetail = (props: any) => {
               />
             ) : null}
           </Box>
-          {singleTicketData?.status === TICKET_STATUS?.CLOSED && (
-            <Box
-              py={2}
-              pr={4}
-              pl={1.5}
-              mt={1}
-              bgcolor={'common.white'}
-              boxShadow={2}
-              border={'1px solid'}
-              borderColor={'custom.off_white_three'}
-              borderRadius={2}
-            >
-              <Typography
-                variant="body1"
-                fontWeight={700}
-                color="slateBlue.main"
-                mb={1}
+          {isLoader ? (
+            <Skeleton variant="rectangular" width={100} height={40} />
+          ) : (
+            [TICKET_STATUS?.CLOSED, TICKET_STATUS?.RESOLVED]?.includes(
+              singleTicketData?.status,
+            ) &&
+            !!lazyGetSingleDefaultSurveyForCustomerTicketsStatus?.data?.data
+              ?._id && (
+              <Box
+                py={2}
+                pr={4}
+                pl={1.5}
+                mt={1}
+                bgcolor={'common.white'}
+                boxShadow={2}
+                border={'1px solid'}
+                borderColor={'custom.off_white_three'}
+                borderRadius={2}
               >
-                Customer Survey
-              </Typography>
-              <LoadingButton
-                onClick={() => getCustomerSurvey?.()}
-                variant="contained"
-              >
-                Take a Survey
-              </LoadingButton>
-            </Box>
+                <Typography
+                  variant="body1"
+                  fontWeight={700}
+                  color="slateBlue.main"
+                  mb={1}
+                >
+                  Customer Survey
+                </Typography>
+                <LoadingButton
+                  onClick={() => getCustomerSurvey?.()}
+                  variant="contained"
+                >
+                  Take a Survey
+                </LoadingButton>
+              </Box>
+            )
           )}
         </Box>
       </Box>
