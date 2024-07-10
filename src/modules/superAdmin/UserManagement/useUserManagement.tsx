@@ -10,6 +10,7 @@ import { usersApi } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { useGetProductsQuery } from '@/services/common-APIs';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 const useUserManagement = () => {
   const navigate = useRouter();
@@ -68,11 +69,11 @@ const useUserManagement = () => {
     setSelectedValue(null);
   };
 
-  const handleUserSwitchChange = async (e: any, id: any) => {
+  const handleUserSwitchChange = async (e: any, id: string) => {
     const status =
-      e?.target?.checked || e?.target?.value === 'ACTIVE'
-        ? 'ACTIVE'
-        : 'INACTIVE';
+      e?.target?.checked || e?.target?.value === PRODUCT_USER_STATUS?.ACTIVE
+        ? PRODUCT_USER_STATUS?.ACTIVE
+        : PRODUCT_USER_STATUS?.INACTIVE;
     try {
       await updateUsers({ id, body: { status: status } })?.unwrap();
       enqueueSnackbar('User updated successfully', {

@@ -1,3 +1,5 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
   parentBox: {
     minHeight: '100vh',
@@ -5,7 +7,7 @@ export const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  modalBox: (theme: any) => {
+  modalBox: (theme: Theme | any) => {
     return {
       background: theme?.common?.white,
       borderRadius: '20px',

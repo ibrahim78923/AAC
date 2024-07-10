@@ -3,8 +3,9 @@ import { columns } from './Users.data';
 import useUserManagement from '../useUserManagement';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, EQuickLinksType } from '@/constants';
+import { IUsersProps } from './Users-interface';
 
-const Users = (props: any) => {
+const Users = (props: IUsersProps) => {
   const {
     checkedRows,
     setCheckedRows,

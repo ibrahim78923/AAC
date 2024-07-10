@@ -113,6 +113,7 @@ const CUSTOM_COLORS = {
   border_grayish_blue: '#e7e7e9',
   dim_grey: '#555656',
   dim_blue: '#6E7191',
+  dark_grey_bright: '#626E8E',
   text_slate_blue: '#405893',
   cadet_color: '#A5ACBE',
   dark_grey: '#8F98AE ',

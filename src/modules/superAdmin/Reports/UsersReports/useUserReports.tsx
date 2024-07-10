@@ -20,7 +20,7 @@ const useUserReports = () => {
   };
   const {
     data: companyOwnerUsersData,
-    isLoading: usersLoaing,
+    isLoading: usersLoading,
     isFetching,
     isSuccess,
   } = useGetUsersQuery(params);
@@ -35,7 +35,7 @@ const useUserReports = () => {
     setPage,
     pageLimit,
     setPageLimit,
-    usersLoaing,
+    usersLoading,
     isFetching,
     isSuccess,
   };

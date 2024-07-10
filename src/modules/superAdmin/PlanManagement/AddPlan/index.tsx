@@ -47,7 +47,7 @@ const AddPlan = () => {
             height: '50vh',
           }}
         >
-          <CircularProgress />{' '}
+          <CircularProgress />
         </Box>
       ) : (
         <AppHorizontalStepper

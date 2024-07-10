@@ -4,13 +4,10 @@ import TemplatePlaceholder from '../TemplatePlaceholder';
 import { styles } from './StepDeal.style';
 import { dealFormData } from '../CreateQuote.data';
 import TemplateBasic from '../TemplateBasic';
-import useCreateQuotes from '../useCreateQuote';
 import { FormProvider } from '@/components/ReactHookForm';
 
 const StepDeal = ({ openCreateDeal, values, methods }: any) => {
-  const { dataGetDeals } = useCreateQuotes();
-  const formArray = dealFormData(dataGetDeals?.data?.deals, openCreateDeal);
-
+  const formArray = dealFormData(openCreateDeal);
   return (
     <>
       <FormProvider methods={methods}>

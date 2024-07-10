@@ -7,11 +7,12 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
+import { Dispatch, SetStateAction } from 'react';
 
 const useAddAccountDrawer = (
-  userId?: any,
-  setIsopen?: any,
-  organizationId?: any,
+  userId?: string,
+  setIsopen?: Dispatch<SetStateAction<boolean>> | any,
+  organizationId?: string,
 ) => {
   const [postUsersAccount] = usePostUsersAccountMutation();
   const {

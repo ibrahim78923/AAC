@@ -151,6 +151,13 @@ export const SOFTWARE_STATUS = {
   IN_REVIEW: 'InReview',
 };
 
+export const expande_status = {
+  List_View: 'List View',
+  Broad_List: 'Board List',
+  Create_Deal: 'Create Deal',
+  Import_Deals: 'Import Deals',
+};
+
 export const SOFTWARE_TYPE = {
   DESKTOP: 'Desktop',
   SAAS: 'Saas',
@@ -515,6 +522,7 @@ export const IMPORT_ACTION_TYPE = {
   VENDORS: 'vendors',
   DEALS: 'DEALS',
   TASKS: 'TASKS',
+  PRODUCT: 'product',
 };
 
 export const OBJECT_URL_IMPORT = {
@@ -961,12 +969,23 @@ export const PERCENTAGES_VALUES = {
   EIGHTY: 80,
 };
 
-export const FEEDBACK_STATUS = {
-  PUBLISHED: 'published',
-  DRAFT: 'draft',
-  INACTIVE: 'inactive',
+export const PLAN_STATUS = {
+  YES: 'Yes',
+  NO: 'No',
 };
-export const FEEDBACK_SURVEY_PATH_TYPES = {
-  CUSTOMER_SATISFACTION: 'customer-satisfaction',
-  CUSTOMER_SUPPORT: 'customer-support',
-};
+
+export const MONTH_NAMES = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+export const MONTH_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];

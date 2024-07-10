@@ -251,19 +251,18 @@ export const columnsUser = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) =>
-        `${row?.user?.firstName} ${row?.user?.lastName}`,
+      accessorFn: (row: any) => row?.username,
       id: 'name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
       header: 'Name',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.user?.email,
+      accessorFn: (row: any) => row?.userData?.email,
       id: 'email',
       isSortable: true,
       header: 'Email',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.status,

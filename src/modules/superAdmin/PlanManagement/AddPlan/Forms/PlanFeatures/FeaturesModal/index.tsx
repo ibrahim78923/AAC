@@ -20,13 +20,14 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { setFeatureDetails } from '@/redux/slices/planManagement/planManagementSlice';
 import { v4 as uuidv4 } from 'uuid';
+import { FeaturesModalProps } from '@/modules/superAdmin/PlanManagement/AddPlan/Forms/Forms-interface';
 
 const FeaturesModal = ({
   openFeaturesModal,
   handleCloseFeaturesModal,
   featureName,
   featureId,
-}: any) => {
+}: FeaturesModalProps) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const methods: any = useForm({

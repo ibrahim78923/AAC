@@ -227,7 +227,7 @@ export const columnsUser = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.email,
+      accessorFn: (row: any) => row?.userData?.email,
       id: 'email',
       isSortable: true,
       header: 'Email',

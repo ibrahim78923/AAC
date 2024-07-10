@@ -3,10 +3,11 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { styles } from './InVoiceReports.style';
 import { generateImage } from '@/utils/avatarUtils';
+import { RowInterface } from '../Reports.interface';
 
-export const usersColumns: any = [
+export const usersColumns = [
   {
-    accessorFn: (row: any) => row?.owner,
+    accessorFn: (row: RowInterface) => row?.owner,
     id: 'clientName',
     isSortable: true,
     header: 'Client Name',
@@ -29,49 +30,49 @@ export const usersColumns: any = [
     ),
   },
   {
-    accessorFn: (row: any) => row?.products?.name,
+    accessorFn: (row: RowInterface) => row?.products?.name,
     id: 'products',
     isSortable: true,
     header: 'Products',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.planType?.name,
+    accessorFn: (row: RowInterface) => row?.planType?.name,
     id: 'planType',
     isSortable: true,
     header: 'Plan Type',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.details?.plans?.planPrice,
+    accessorFn: (row: RowInterface) => row?.details?.plans?.planPrice,
     id: 'planPrice',
     isSortable: true,
     header: 'Plan Price',
     cell: (info: any) => `£ ${info?.getValue()}`,
   },
   {
-    accessorFn: (row: any) => row?.invoiceNo,
+    accessorFn: (row: RowInterface) => row?.invoiceNo,
     id: 'details',
     isSortable: true,
     header: 'Details',
     cell: (info: any) => `Invoices # ${info?.row?.original?.invoiceNo}`,
   },
   {
-    accessorFn: (row: any) => row?.dueDate,
+    accessorFn: (row: RowInterface) => row?.dueDate,
     id: 'dueDate',
     isSortable: true,
     header: 'Due Date',
     cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.total,
+    accessorFn: (row: RowInterface) => row?.total,
     id: 'total',
     isSortable: true,
     header: 'Invoice Amount',
     cell: (info: any) => `£ ${info?.getValue()}`,
   },
   {
-    accessorFn: (row: any) => row?.status,
+    accessorFn: (row: RowInterface) => row?.status,
     id: 'status',
     isSortable: true,
     header: 'Status',

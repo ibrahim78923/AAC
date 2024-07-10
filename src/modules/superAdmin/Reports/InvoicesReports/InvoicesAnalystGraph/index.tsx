@@ -16,8 +16,9 @@ import ArrowDown from '@/assets/icons/modules/airSales/deals/arrow-down';
 import { v4 as uuidv4 } from 'uuid';
 import { RefreshTasksIcon } from '@/assets/icons';
 import Search from '@/components/Search';
+import { InvoicesAnalystGraphProps } from '@/modules/superAdmin/Reports/Reports.interface';
 
-const InvoicesAnalystGraph = (props: any) => {
+const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
   const { invoicesReportsGraph, filter, setFilter, resetFilters } = props;
   const {
     monthsFilter,

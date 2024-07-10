@@ -18,15 +18,16 @@ import {
   useLazyGetProductsListQuery,
 } from '@/services/common-APIs';
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { ColumnsProps, RowInterface } from './Users-interface';
 
-export const columns: any = (columnsProps: any) => {
+export const columns: any = (columnsProps: ColumnsProps) => {
   const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
     columnsProps;
   const theme = useTheme();
 
   return [
     {
-      accessorFn: (row: any) => row?.Id,
+      accessorFn: (row: RowInterface) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
@@ -42,14 +43,14 @@ export const columns: any = (columnsProps: any) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: RowInterface) => row?._id,
       id: 'userId',
       header: 'User ID',
       isSortable: false,
       cell: (info: any) => info.getValue() ?? 'N/A',
     },
     {
-      accessorFn: (row: any) => row?.Name,
+      accessorFn: (row: RowInterface) => row?.Name,
       id: 'name',
       isSortable: true,
       header: 'Name',
@@ -78,7 +79,7 @@ export const columns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.role,
+      accessorFn: (row: RowInterface) => row?.role,
       id: 'userType',
       isSortable: true,
       header: 'User Type',
@@ -89,14 +90,14 @@ export const columns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.organization,
+      accessorFn: (row: RowInterface) => row?.organization,
       id: 'organizationName',
       isSortable: true,
       header: 'Organization Name',
       cell: (info: any) => info?.getValue()?.name ?? 'N/A',
     },
     {
-      accessorFn: (row: any) => row?.Products,
+      accessorFn: (row: RowInterface) => row?.Products,
       id: 'products',
       isSortable: true,
       header: 'Products',
@@ -122,7 +123,7 @@ export const columns: any = (columnsProps: any) => {
         ),
     },
     {
-      accessorFn: (row: any) => row?.Status,
+      accessorFn: (row: RowInterface) => row?.Status,
       id: 'status',
       isSortable: true,
       header: 'Status',
@@ -138,7 +139,7 @@ export const columns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.createdAt,
+      accessorFn: (row: RowInterface) => row?.createdAt,
       id: 'createdOn',
       isSortable: true,
       header: 'Created On',
@@ -155,7 +156,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
 
   return [
     {
-      accessorFn: (row: any) => row?.Id,
+      accessorFn: (row: RowInterface) => row?.Id,
       id: 'Id',
       cell: (info: any) => (
         <Checkbox
@@ -171,14 +172,14 @@ export const superAdminColumns: any = (columnsProps: any) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: RowInterface) => row?._id,
       id: 'userId',
       header: 'User ID',
       isSortable: false,
       cell: (info: any) => info.getValue() ?? 'N/A',
     },
     {
-      accessorFn: (row: any) => row?.Name,
+      accessorFn: (row: RowInterface) => row?.Name,
       id: 'name',
       isSortable: true,
       header: 'Name',
@@ -207,7 +208,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.role,
+      accessorFn: (row: RowInterface) => row?.role,
       id: 'userType',
       isSortable: true,
       header: 'User Type',
@@ -218,7 +219,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.Status,
+      accessorFn: (row: RowInterface) => row?.Status,
       id: 'status',
       isSortable: true,
       header: 'Status',
@@ -234,7 +235,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.createdOn,
+      accessorFn: (row: RowInterface) => row?.createdOn,
       id: 'createdOn',
       isSortable: true,
       header: 'Created On',

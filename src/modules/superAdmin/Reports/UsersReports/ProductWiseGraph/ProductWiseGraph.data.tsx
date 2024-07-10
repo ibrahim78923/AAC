@@ -1,10 +1,12 @@
 import { dealStatus } from '@/constants';
+import { MONTH_NAMES } from '@/constants/strings';
+import { Theme } from '@mui/material';
 
 export const series = (graphData: any) => {
   const transformData = (data: any[]) => {
     const groupedData = data?.reduce((acc: any, item: any) => {
       if (!acc[item?.product]) {
-        acc[item?.product] = Array(5)?.fill(dealStatus?.INITIAL_NUMBER);
+        acc[item?.product] = Array(12)?.fill(dealStatus?.INITIAL_NUMBER);
       }
       acc[item?.product][item.month - 1] = item?.count;
       return acc;
@@ -12,7 +14,6 @@ export const series = (graphData: any) => {
     const transformedData = Object?.entries(groupedData ?? [])?.map(
       ([name, data]) => ({ name, data }),
     );
-
     return transformedData;
   };
 
@@ -22,12 +23,18 @@ export const series = (graphData: any) => {
   }));
 };
 
-export const options: any = {
+export const options: any = (theme: Theme) => ({
   chart: {
     type: 'bar',
     height: 350,
   },
-  colors: ['#47B263', '#FFC20E', '#FF4A4A', '#0AADC7', '#626E8E'],
+  colors: [
+    theme?.palette?.success?.main,
+    theme?.palette?.warning?.main,
+    theme?.palette?.error?.main,
+    theme?.palette?.custom?.bright,
+    theme?.palette?.custom?.dark_grey_bright,
+  ],
   plotOptions: {
     bar: {
       horizontal: false,
@@ -46,7 +53,7 @@ export const options: any = {
   },
 
   xaxis: {
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+    categories: MONTH_NAMES,
   },
 
   fill: {
@@ -60,4 +67,4 @@ export const options: any = {
       },
     },
   },
-};
+});

@@ -7,8 +7,9 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import useUserDeatilProfile from './useUserDeatilProfile';
 import { v4 as uuidv4 } from 'uuid';
+import { UserProfileParams } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
 
-const UserDetailsProfile = (props: any) => {
+const UserDetailsProfile = (props: UserProfileParams) => {
   const { userDetails, setTabVal } = props;
   const [isToggled, setIsToggled] = useToggle(false);
   const userProfileParams = {

@@ -1,23 +1,23 @@
+import { MONTH_NAMES, MONTH_NUMBERS } from '@/constants/strings';
 import { useTheme } from '@mui/material';
+import { InvoiceReport } from '@/modules/superAdmin/Reports/Reports.interface';
 
-export const series = (invoicesReportsGraph: any) => {
-  const allMonths = [1, 2, 3, 4, 5];
-
-  const paidnvoices = allMonths?.map((month) => {
+export const series = (invoicesReportsGraph: InvoiceReport[]) => {
+  const paidnvoices = MONTH_NUMBERS?.map((month) => {
     const deal = invoicesReportsGraph?.find(
       (item: any) => item?.week === month,
     );
     return deal ? deal?.paid : 0;
   });
 
-  const followNowInvoices = allMonths?.map((month) => {
+  const followNowInvoices = MONTH_NUMBERS?.map((month) => {
     const deal = invoicesReportsGraph?.find(
       (item: any) => item?.week === month,
     );
     return deal ? deal?.followUpNow : 0;
   });
 
-  const followSoonInvoices = allMonths?.map((month) => {
+  const followSoonInvoices = MONTH_NUMBERS?.map((month) => {
     const deal = invoicesReportsGraph?.find(
       (item: any) => item?.week === month,
     );
@@ -73,7 +73,7 @@ export const options: any = () => {
     },
 
     xaxis: {
-      categories: ['1st week', '2nd week', '3rd week', '4th week', '5th week'],
+      categories: MONTH_NAMES,
     },
 
     fill: {

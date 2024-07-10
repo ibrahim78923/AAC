@@ -11,8 +11,9 @@ import {
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
+import { UsersManagementFiltersProps } from '@/modules/superAdmin/UserManagement/useManagement-interface';
 
-const UsersManagementFilters = (props: any) => {
+const UsersManagementFilters = (props: UsersManagementFiltersProps) => {
   const { isOpen, setIsOpen, tabVal, setFilterValues, filterValues } = props;
 
   const tabsFilter: any = {

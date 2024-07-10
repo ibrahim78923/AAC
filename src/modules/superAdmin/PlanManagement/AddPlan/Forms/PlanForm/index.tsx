@@ -26,6 +26,9 @@ import { selectProductSuites } from './PlanForm.data';
 import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { setFeatureDetails } from '@/redux/slices/planManagement/planManagementSlice';
+import { AddPlanFormProps } from '@/modules/superAdmin/PlanManagement/AddPlan/Forms/Forms-interface';
+import { indexNumbers, productSuiteName } from '@/constants';
+import { IMPORT_ACTION_TYPE } from '@/constants/strings';
 
 const AddPlanForm = ({
   handleSubmit,
@@ -38,7 +41,7 @@ const AddPlanForm = ({
   setSelectProductSuite,
   isSuccess,
   editPlan,
-}: any) => {
+}: AddPlanFormProps) => {
   const {
     formDefaultValuesFunction,
     productsOptions,
@@ -99,53 +102,51 @@ const AddPlanForm = ({
         sx={{ position: 'relative', marginTop: '30px' }}
       >
         {formDefaultValuesFunction?.map((item: any, index: any) => (
-          <Grid
-            item
-            xs={12}
-            md={item?.md}
-            // eslint-disable-next-line
-            key={index}
-            sx={{
-              paddingTop: (index === 0 || index === 1) && '0px !important',
-            }}
-          >
-            {selectProductSuite === 'CRM' && index === 0 && !isSuccess && (
-              <RHFMultiSearchableSelect
-                size="small"
-                name={planLabelRender}
-                label={planNameRender}
-                options={productsOptions}
-                required={true}
-                defaultValues={planForm?.suite}
-              />
-            )}
-
-            {selectProductSuite === 'CRM' && index === 0 && isSuccess && (
-              <>
-                <label style={{ marginTop: '20px' }}>Suite</label>
-                <TextField
-                  value={editPlan?.planProducts?.map((item: any) => item?.name)}
-                  disabled={isSuccess}
-                  fullWidth
+          <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            {selectProductSuite === productSuiteName?.crm &&
+              index === indexNumbers?.ZERO &&
+              !isSuccess && (
+                <RHFMultiSearchableSelect
+                  size="small"
+                  name={planLabelRender}
+                  label={planNameRender}
+                  options={productsOptions}
+                  required={true}
+                  defaultValues={planForm?.suite}
                 />
-              </>
-            )}
+              )}
 
-            {selectProductSuite === 'product' && index === 0 && (
-              <RHFSelect
-                name={planLabelRender}
-                label={planNameRender}
-                size="small"
-                disabled={isSuccess}
-                required={true}
-              >
-                {productsOptions?.map((option: any) => (
-                  <option key={uuidv4()} value={option?.value}>
-                    {option?.label}
-                  </option>
-                ))}
-              </RHFSelect>
-            )}
+            {selectProductSuite === productSuiteName?.crm &&
+              index === indexNumbers?.ZERO &&
+              isSuccess && (
+                <>
+                  <label style={{ marginTop: '20px' }}>Suite</label>
+                  <TextField
+                    value={editPlan?.planProducts?.map(
+                      (item: any) => item?.name,
+                    )}
+                    disabled={isSuccess}
+                    fullWidth
+                  />
+                </>
+              )}
+
+            {selectProductSuite === IMPORT_ACTION_TYPE?.PRODUCT &&
+              index === indexNumbers?.ZERO && (
+                <RHFSelect
+                  name={planLabelRender}
+                  label={planNameRender}
+                  size="small"
+                  disabled={isSuccess}
+                  required={true}
+                >
+                  {productsOptions?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  ))}
+                </RHFSelect>
+              )}
 
             {item?.componentProps.name == selectProductSuites?.planTypeId &&
               selectProductSuite === selectProductSuites?.crm && (
@@ -155,7 +156,7 @@ const AddPlanForm = ({
                     value={crmValue}
                     onChange={(event, newValue) => {
                       if (
-                        typeof newValue === 'string' &&
+                        typeof newValue === productSuiteName?.string &&
                         !/^\d+$/.test(newValue)
                       ) {
                         setCrmValue({
@@ -203,7 +204,7 @@ const AddPlanForm = ({
                     id="free-solo-with-text-demo"
                     options={crmOptions}
                     getOptionLabel={(option) => {
-                      if (typeof option === 'string') {
+                      if (typeof option === productSuiteName?.string) {
                         return option;
                       }
                       if (option?.inputValue) {

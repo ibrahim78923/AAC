@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 import { RHFMultiCheckbox } from '@/components/ReactHookForm';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
+import { SubModulesAccordionProps } from '@/modules/superAdmin/PlanManagement/AddPlan/Forms/Forms-interface';
 
 const SubModulesAccordion = ({
   subModules,
@@ -18,7 +19,7 @@ const SubModulesAccordion = ({
   handleSubmit,
   selectedSubModule,
   handleChangeSubModule,
-}: any) => {
+}: SubModulesAccordionProps) => {
   return (
     <>
       {subModules?.map((item: any) => (

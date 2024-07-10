@@ -8,6 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { style } from '../Users.style';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { ACTIONS_TYPES } from '@/constants/strings';
+import {
+  AddUserProps,
+  UseActionParams,
+} from '@/modules/superAdmin/UserManagement/Users/Users-interface';
 
 const AddUser = ({
   isOpenDrawer,
@@ -17,8 +21,8 @@ const AddUser = ({
   setIsOpenAddUserDrawer,
   setIsOpenAdduserDrawer,
   organizationId,
-}: any) => {
-  const useActionParams: any = {
+}: AddUserProps) => {
+  const useActionParams: UseActionParams = {
     tabVal: tabVal,
     isOpenAddUserDrawer: isOpenAddUserDrawer,
     setIsOpenAddUserDrawer: setIsOpenAddUserDrawer,
@@ -47,8 +51,8 @@ const AddUser = ({
         isOpenAddUserDrawer?.type === ACTIONS_TYPES?.VIEW
           ? userDetail?.firstName
           : isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT
-            ? 'Edit User'
-            : 'Add User'
+          ? 'Edit User'
+          : 'Add User'
       }
       okText={
         isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT

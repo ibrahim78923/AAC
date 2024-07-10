@@ -7,8 +7,9 @@ import {
   SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS,
 } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ActionButtonProps } from '@/modules/superAdmin/UserManagement/useManagement-interface';
 
-const ActionButton = (props?: any) => {
+const ActionButton = (props: ActionButtonProps) => {
   const { checkedRows, tabVal, setIsOpenAddUserDrawer } = props;
   const {
     selectedValue,

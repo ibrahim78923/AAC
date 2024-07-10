@@ -281,6 +281,7 @@ export const EMAIL_SUB_ROUTES = {
 
 export const productSuiteName = {
   crm: 'CRM',
+  string: 'string',
 };
 
 export const dealStatus = {

@@ -33,7 +33,6 @@ const Modules = ({
   selectedPermission,
   selectAllPermissions,
   getModulePermissions,
-  editPlan,
   handleExpandAccordionChange,
   handleChangeSubModule,
   selectedModule,
@@ -193,9 +192,6 @@ const Modules = ({
                       subModules={item?.subModules}
                       methods={methods}
                       handleSubmit={handleSubmit}
-                      editPlan={
-                        editPlan?.planProductPermissions[0]?.permissionSlugs
-                      }
                       handleChangeSubModule={handleChangeSubModule}
                       selectedSubModule={selectedSubModule}
                     />

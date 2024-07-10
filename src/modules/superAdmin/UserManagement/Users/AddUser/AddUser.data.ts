@@ -8,7 +8,7 @@ import { PRODUCT_USER_STATUS } from '@/constants/strings';
 // commented this code for future use
 // import { useGetSuperAdminRolesQuery } from '@/services/superAdmin/user-management/users';
 
-export const CompanyOwnerValidationSchema = Yup.object().shape({
+export const CompanyOwnerValidationSchema: any = Yup.object().shape({
   firstName: Yup.string()
     .required('Field is Required')
     .matches(

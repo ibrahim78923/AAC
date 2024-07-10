@@ -7,7 +7,16 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getProductsUsers: builder.query({
       query: (params: any) => ({
-        url: END_POINTS?.PRODUCTS_USERS,
+        url: END_POINTS?.PRODUCT_ALL_USERS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: [USER_MANAGEMENT],
+    }),
+
+    getAvailedUsers: builder.query({
+      query: (params: any) => ({
+        url: END_POINTS?.AVAILABLE_USERS,
         method: 'GET',
         params: params,
       }),
@@ -62,5 +71,6 @@ export const {
   useGetproductUsersByIdQuery,
   usePostPoductUserMutation,
   useUpdateProductsUsersMutation,
+  useGetAvailedUsersQuery,
   useDeleteProductUserMutation,
 } = ProductUsersApi;

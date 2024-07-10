@@ -1,3 +1,5 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
   main: {
     boxShadow: '0px 1px 3px 0px rgba(16, 24, 40, 0.1)',
@@ -13,19 +15,18 @@ export const styles = {
       width: '100%',
     },
   },
-  actionButton: (theme: any) => {
+  actionButton: (theme: Theme) => {
     return {
       border: `1px solid ${theme?.palette?.custom?.dark}`,
       borderRadius: '4px',
       color: `${theme?.palette?.custom.main}`,
       display: 'flex',
       alignItems: 'center',
-      // padding: '18px',
       width: { xs: '100%', sm: '112px' },
       height: '36px',
     };
   },
-  filterButton: (theme: any) => {
+  filterButton: (theme: Theme) => {
     return {
       width: { xs: '100%', sm: '96px' },
       height: '36px',
