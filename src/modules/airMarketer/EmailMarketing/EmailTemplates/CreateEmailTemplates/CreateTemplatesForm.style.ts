@@ -24,9 +24,8 @@ export const styles = {
       paddingY: '20px',
     },
   },
-  mainDiv: (theme: any) => {
+  mainDiv: () => {
     return {
-      background: theme?.palette?.custom?.pale_grayish_blue,
       height: '75vh',
       '@media (max-width:700px)': {
         height: 'fit-content',

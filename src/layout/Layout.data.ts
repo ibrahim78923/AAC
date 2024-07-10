@@ -897,4 +897,5 @@ export const zeroPaddingRoutes = [
   '/air-services/settings/asset-management/vendor-fields',
   '/air-services/settings/asset-management/purchase-order-fields',
   '/air-services/settings/asset-management/software-fields',
+  '/air-marketer/email-marketing/email-templates/create-template',
 ];
