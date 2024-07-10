@@ -2,12 +2,24 @@ import { useDrop } from 'react-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import FormField from './FormField';
 import FormControls from './FormControls';
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { styles } from './styles';
 import { isNullOrEmpty } from '@/utils';
 import { BackArrowIcon } from '@/assets/icons';
 import { Field } from './interface';
 import { fieldTypes, ItemTypes } from '@/constants/form-builder';
+import { useState } from 'react';
+import CommonModal from '@/components/CommonModal';
+import CustomLabel from '@/components/CustomLabel';
+import { usePostEmailTemplatesMutation } from '@/services/airMarketer/emailTemplates';
+import { enqueueSnackbar } from 'notistack';
 
 const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
   const theme = useTheme();
@@ -43,6 +55,9 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
     };
     setFields([...fields, newField]);
   };
+
+  const [isTitleModal, setIsTitleModal] = useState(false);
+  const [titleValue, setTitleValue] = useState('');
 
   const [, drop] = useDrop({
     accept: ItemTypes.FIELD,
@@ -111,6 +126,37 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
     );
   };
 
+  const handelPostTemplateProcess = () => {
+    if (fields.length > 0) {
+      setIsTitleModal(true);
+    } else {
+      enqueueSnackbar('Nothing to post!', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const [postEmailTemplate] = usePostEmailTemplatesMutation();
+
+  const handelPostTemplate: () => void = async () => {
+    const payload = {
+      name: titleValue,
+      data: fields,
+    };
+    try {
+      await postEmailTemplate({
+        body: payload,
+      })?.unwrap();
+      enqueueSnackbar('Template created successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', {
+        variant: 'error',
+      });
+    }
+  };
+
   return (
     <Box sx={styles?.wrapper}>
       <Grid container spacing={2}>
@@ -122,7 +168,13 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
               p: 2,
             }}
           >
-            <Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
               <Typography
                 variant="h5"
                 display={'flex'}
@@ -137,9 +189,20 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
                 Back To Templates
               </Typography>
 
-              <Button variant="outlined" onClick={() => setOpenModal(true)}>
-                Preview
-              </Button>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                }}
+              >
+                <Button variant="outlined" onClick={() => setOpenModal(true)}>
+                  Preview
+                </Button>
+                <Button variant="contained" onClick={handelPostTemplateProcess}>
+                  Save
+                </Button>
+              </Box>
             </Box>
             <Box sx={styles?.contentPaper}>
               <Box ref={drop} sx={styles?.dropZone}>
@@ -184,6 +247,33 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
           </Box>
         </Grid>
       </Grid>
+
+      <CommonModal
+        open={isTitleModal}
+        handleClose={() => setIsTitleModal(false)}
+        handleCancel={() => setIsTitleModal(false)}
+        handleSubmit={handelPostTemplate}
+        title=""
+        okText="Save"
+        isSubmitDisabled={titleValue?.length > 0 ? false : true}
+        footer
+      >
+        <>
+          <CustomLabel label="Template Title" />
+          <TextField
+            fullWidth
+            placeholder="Enter Tile"
+            value={titleValue}
+            onChange={(e) => setTitleValue(e.target.value)}
+            sx={{
+              '& input': {
+                height: '11px',
+                color: theme?.palette?.blue?.main,
+              },
+            }}
+          />
+        </>
+      </CommonModal>
     </Box>
   );
 };

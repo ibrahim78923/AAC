@@ -480,6 +480,16 @@ export const FILE_TYPES = {
   PDF: 'application/pdf',
   DOC: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 };
+export const TEMPLATE_CONTENT_TYPES = {
+  TEXT_AREA: 'textarea',
+  SPACE: 'space',
+  DIVIDER: 'divider',
+  BUTTON: 'button',
+};
+export const TEMPLATE_VIEW_TYPES = {
+  MOBILE: 'mobile',
+  LAPTOP: 'laptop',
+};
 
 export const EMAIL_DATE_FORMAT = {
   DATE_FORMAT: 'MMMM D, YYYY [at] h:mm:ss A',

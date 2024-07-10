@@ -370,7 +370,7 @@ const CreateTemplatesForm = () => {
         }}
       >
         <Box sx={styles?.parentBox(theme)}>
-          <PreviewTemplate />
+          <PreviewTemplate setOpenModal={setOpenModal} fields={fields} />
         </Box>
       </Modal>
     </>

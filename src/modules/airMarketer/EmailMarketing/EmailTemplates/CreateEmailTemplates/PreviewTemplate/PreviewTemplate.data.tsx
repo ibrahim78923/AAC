@@ -8,12 +8,12 @@ import {
 export const deviceTypes = (value: any) => {
   return [
     {
-      type: 'mobile',
-      icon: value === 'mobile' ? <MobileWhiteIcon /> : <MobileTabIcon />,
-    },
-    {
       type: 'laptop',
       icon: value === 'laptop' ? <LaptopWhiteIcon /> : <LaptopIcon />,
+    },
+    {
+      type: 'mobile',
+      icon: value === 'mobile' ? <MobileWhiteIcon /> : <MobileTabIcon />,
     },
   ];
 };

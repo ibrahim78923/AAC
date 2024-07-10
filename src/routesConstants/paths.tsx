@@ -236,6 +236,13 @@ export const SOCIAL_FEATURES_CHAT = {
   CREATE_GROUP: 'chat/create-group',
 };
 
+export const EMAIL_TEMPLATES = {
+  GET_TEMPLATES: '/email-templates/templates',
+  POST_TEMPLATES: '/email-templates/create',
+  UPDATE_TEMPLATES: '/email-templates/update',
+  GET_TEMPLATES_BY_ID: '/email-templates/template',
+};
+
 export const SOCIAL_FEATURES_EMAIL = {
   CREATE_CONFIG: '/other-mail/create-config',
   UPDATE_CONFIG: '/other-mail/update-config',

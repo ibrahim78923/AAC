@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import React, { useState, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { styles } from './styles';
@@ -30,6 +30,7 @@ const FormField: React.FC<FieldProps> = ({
   moveField,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
 
   const [, drop] = useDrop({
     accept: ItemTypes?.FIELD,
@@ -151,7 +152,11 @@ const FormField: React.FC<FieldProps> = ({
         )}
 
         {field?.type === fieldTypes?.space && (
-          <Box sx={{ height: `${field?.space}px` }}></Box>
+          <Box sx={{ height: `${field?.space}px` }}>
+            <em style={{ color: theme?.palette?.custom?.light_greyish_low }}>
+              Spacing
+            </em>
+          </Box>
         )}
 
         {field?.type === fieldTypes?.divider && (
