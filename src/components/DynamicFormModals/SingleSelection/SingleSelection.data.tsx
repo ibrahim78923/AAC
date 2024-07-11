@@ -4,7 +4,7 @@ export const validationSchema: any = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Name is Required'),
   options: Yup?.array()?.of(
     Yup?.object()?.shape({
-      label: Yup?.string()?.required('Required'),
+      label: Yup?.string()?.trim()?.required('Required'),
     }),
   ),
   required: Yup?.boolean()?.nullable(),

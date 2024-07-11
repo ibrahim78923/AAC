@@ -5,17 +5,28 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { softwareStatusOptions, softwareTypeOptions } from '../Software.data';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
-export const upsertSoftwareFormValidationSchema: any = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Name is required'),
-  description: Yup?.string(),
-  type: Yup?.mixed()?.nullable()?.required('Type is required'),
-  status: Yup?.mixed()?.nullable()?.required('Status is required'),
-  publisher: Yup?.string(),
-  category: Yup?.string(),
-});
+export const upsertSoftwareFormValidationSchema: any = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const upsertSoftwareFormDefaultValues = (data?: any) => {
+  return Yup?.object()?.shape({
+    name: Yup?.string()?.trim()?.required('Name is required'),
+    description: Yup?.string(),
+    type: Yup?.mixed()?.nullable()?.required('Type is required'),
+    status: Yup?.mixed()?.nullable()?.required('Status is required'),
+    publisher: Yup?.string(),
+    category: Yup?.string(),
+    ...formSchema,
+  });
+};
+
+export const upsertSoftwareFormDefaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
   return {
     name: data?.name ?? '',
     description: data?.details?.description ?? '',
@@ -24,6 +35,7 @@ export const upsertSoftwareFormDefaultValues = (data?: any) => {
     publisher: data?.details?.publisher ?? '',
     category: data?.details?.category ?? '',
     managedBy: data?.managedByDetails ?? null,
+    ...initialValues,
   };
 };
 

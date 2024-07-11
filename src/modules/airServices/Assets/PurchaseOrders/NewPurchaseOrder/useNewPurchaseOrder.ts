@@ -16,7 +16,11 @@ import {
   usePatchPurchaseOrderMutation,
   usePostPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import {
   useLazyGetDynamicFieldsQuery,
@@ -93,11 +97,7 @@ const useNewPurchaseOrders = () => {
   const vendorValue = watch('vendor');
 
   const submit = async (data: any) => {
-    const filteredEmptyData: any = Object?.entries(data || {})
-      ?.filter(
-        ([, value]: any) => value !== undefined && value != '' && value != null,
-      )
-      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    const filteredEmptyData = filteredEmptyValues(data);
 
     const customFields: any = {};
     const body: any = {};
@@ -115,6 +115,9 @@ const useNewPurchaseOrders = () => {
 
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (form?.some((field: any) => field?.componentProps?.label === key)) {
+          if (value instanceof Date) {
+            value = value?.toISOString();
+          }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
             !Array?.isArray(value) &&

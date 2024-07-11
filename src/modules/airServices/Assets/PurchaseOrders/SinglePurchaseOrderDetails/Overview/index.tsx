@@ -7,8 +7,10 @@ import { useOverview } from './useOverview';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { isValidElement } from 'react';
-import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
+import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
 import { getImageByType } from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const Overview = () => {
   const {
@@ -69,6 +71,8 @@ export const Overview = () => {
                   sx={{ width: 45, height: 45 }}
                   variant={'rounded'}
                 />
+              ) : isValidDate(value) ? (
+                dayjs(value)?.format(DATE_FORMAT?.UI)
               ) : (
                 value?.toString()
               )}

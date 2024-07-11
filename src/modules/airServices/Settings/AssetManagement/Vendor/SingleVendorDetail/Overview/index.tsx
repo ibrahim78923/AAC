@@ -2,8 +2,10 @@ import { Avatar, Box, Typography } from '@mui/material';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useOverview } from './useOverview';
 import { isValidElement } from 'react';
-import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
+import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
 import { getImageByType } from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const Overview = () => {
   const { isLoading, overviewData, isFetching } = useOverview();
@@ -44,6 +46,8 @@ export const Overview = () => {
                 sx={{ width: 45, height: 45 }}
                 variant={'rounded'}
               />
+            ) : isValidDate(value) ? (
+              dayjs(value)?.format(DATE_FORMAT?.UI)
             ) : (
               value?.toString()
             )}

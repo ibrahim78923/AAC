@@ -79,8 +79,8 @@ export default function usePurchaseOrderFields() {
       );
       setModal(getModalState(draggedItem));
       setEditId(null);
-      setOverlay(false);
     }
+    setOverlay(false);
   };
 
   const handleEdit = (id: string) => {

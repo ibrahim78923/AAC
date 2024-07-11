@@ -11,7 +11,11 @@ import {
 } from '@/services/airServices/settings/asset-management/vendor';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 import {
   useLazyGetDynamicFieldsQuery,
   usePostAttachmentsMutation,
@@ -84,11 +88,7 @@ export const useAddNewVendor = (props: any) => {
   }, [vinData, reset, form]);
 
   const onSubmit = async (data: any) => {
-    const filteredEmptyData: any = Object?.entries(data || {})
-      ?.filter(
-        ([, value]: any) => value !== undefined && value != '' && value != null,
-      )
-      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    const filteredEmptyData = filteredEmptyValues(data);
 
     const customFields: any = {};
     const body: any = {};
@@ -107,6 +107,9 @@ export const useAddNewVendor = (props: any) => {
 
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
         if (form?.some((field: any) => field?.componentProps?.label === key)) {
+          if (value instanceof Date) {
+            value = value?.toISOString();
+          }
           if (
             typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
             !Array?.isArray(value) &&

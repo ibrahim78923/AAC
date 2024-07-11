@@ -67,7 +67,6 @@ export const predefinedVendorDataArray = [
     componentProps: {
       name: 'country',
       label: 'Country',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -76,7 +75,6 @@ export const predefinedVendorDataArray = [
     componentProps: {
       name: 'state',
       label: 'State',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -85,7 +83,6 @@ export const predefinedVendorDataArray = [
     componentProps: {
       name: 'city',
       label: 'City',
-      fullWidth: true,
     },
     component: RHFTextField,
   },
@@ -94,7 +91,6 @@ export const predefinedVendorDataArray = [
     componentProps: {
       name: 'zipCode',
       label: 'Zip Code',
-      fullWidth: true,
     },
     component: RHFTextField,
   },

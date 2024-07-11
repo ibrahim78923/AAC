@@ -226,12 +226,12 @@ export const newPurchaseFieldsFunction = (
 ];
 
 export const itemsDetailsList = [
-  { label: 'item name', value: 'itemName' },
-  { label: 'description', value: 'description' },
-  { label: 'cost per item', value: 'costPerItem' },
-  { label: 'quantity', value: 'quantity' },
-  { label: 'tax rate(%)', value: 'taxRate' },
-  { label: 'total()', value: 'total' },
+  { label: 'Item Name', value: 'itemName' },
+  { label: 'Description', value: 'description' },
+  { label: 'Cost Per Item', value: 'costPerItem' },
+  { label: 'Quantity', value: 'quantity' },
+  { label: 'Tax Rate(%)', value: 'taxRate' },
+  { label: 'Total()', value: 'total' },
 ];
 
 export const itemsDetailsSubList = ['itemName', 'description', 'total'];

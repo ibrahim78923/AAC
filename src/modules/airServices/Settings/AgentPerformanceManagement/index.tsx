@@ -12,25 +12,19 @@ export const AgentPerformanceManagement = () => {
       <br />
       <Grid container spacing={3}>
         {agentPerformanceManagement?.map((item: any) => (
-          <Grid
-            key={item?.id}
-            item
-            md={6}
-            lg={4}
-            xs={12}
-            onClick={() => {
-              router?.push({
-                pathname: item?.link,
-              });
-            }}
-            sx={{ cursor: 'pointer' }}
-          >
+          <Grid key={item?.id} item md={6} lg={4} xs={12}>
             <Box
               border={`1px solid ${theme?.palette?.primary?.main}`}
               borderRadius={2}
               padding={2}
               textAlign={'center'}
               height={'100%'}
+              onClick={() => {
+                router?.push({
+                  pathname: item?.link,
+                });
+              }}
+              sx={{ cursor: 'pointer' }}
             >
               <Avatar
                 sx={{

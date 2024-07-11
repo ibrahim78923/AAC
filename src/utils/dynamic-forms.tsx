@@ -296,3 +296,7 @@ export const dynamicAttachmentsPost = ({
     }
   }
 };
+
+export const isValidDate = (dateString: string) => {
+  return !isNaN(Date.parse(dateString));
+};
