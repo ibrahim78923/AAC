@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
-
+import {
+  defaultValues,
+  fieldsList,
+  modalInitialState,
+  templateList,
+} from './UpsertMArketingReports.data';
 import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { ContentState, EditorState } from 'draft-js';
+import { EditorState } from 'draft-js';
 import { CHARTS } from '@/constants/strings';
 import { DonutChart } from './DraggableFormFields/Chart/DonutChart';
 import { PieChart } from './DraggableFormFields/Chart/PieChart';
 import { BarChart } from './DraggableFormFields/Chart/BarChart';
 import { useRouter } from 'next/router';
-import {
-  fieldsList,
-  modalInitialState,
-  templateList,
-} from './UpsertMArketingReports.data';
 import { HorizontalBarChart } from './DraggableFormFields/Chart/HorizontalBarChart';
 
 export default function useUpsertMarketingReports() {
@@ -21,20 +21,17 @@ export default function useUpsertMarketingReports() {
   const router: any = useRouter();
   const reportId = router?.query?.reportId;
   const methods: any = useForm({
-    defaultValues: {
-      chartTitle: 'Report Chart',
-      tableTitle: 'Report Table',
-      textTitle: 'Report Text',
-    },
+    defaultValues: defaultValues(),
   });
+
   const { watch, setValue } = methods;
   const textTitle = watch('textTitle');
   const tableTitle = watch('tableTitle');
   const chartTitle = watch('chartTitle');
   const chartType = watch('chartType');
   const xAxisData = watch('xAxis');
-  const yAxisData = watch('yAxis');
   const subFilter = watch('subFilter');
+  const xAxisType = watch('xAxisType');
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(modalInitialState);
   const [fieldData, setFieldData] = useState<any>(false);
@@ -42,41 +39,28 @@ export default function useUpsertMarketingReports() {
   const [editorState, setEditorState] = useState(EditorState?.createEmpty());
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('black');
-  const [metricType, setMetricType] = useState('Leads CTAs');
-  const [chartMetricType, setChartMetricType] = useState('Add Metric');
+  const [metricType, setMetricType] = useState('CAMPAIGN');
   const [AddProperties, setAddProperties] = useState();
   const [columnsData, setColumnsData] = useState([]);
   const [showTemplate, setShowTemplate] = useState(false);
   const [disableTemplate, setDisableTemplate] = useState(false);
   useEffect(() => {
-    setValue('chartType', draggedItemData?.type ?? '');
-    setValue('xAxis', draggedItemData?.xAxis ?? '');
-    setValue('yAxis', draggedItemData?.yAxis ?? '');
+    setValue('chartType', draggedItemData?.chartType ?? '');
+    setValue('xAxis', draggedItemData?.xAxis ?? null);
     setValue('subFilter', draggedItemData?.subFilter ?? false);
-    setChartMetricType(draggedItemData?.subMetric ?? 'Add Metric');
     setValue('chartTitle', draggedItemData?.title ?? 'Report Chart');
     setValue('textTitle', draggedItemData?.title ?? 'Report Text');
     setValue('tableTitle', draggedItemData?.title ?? 'Report Table');
     setColumnsData(draggedItemData?.tableColumns ?? []);
-    if (draggedItemData?.content) {
-      const contentState = ContentState?.createFromText(
-        draggedItemData?.content,
-      );
-      setEditorState(EditorState?.createWithContent(contentState));
-    } else {
-      setEditorState(EditorState?.createEmpty());
-    }
   }, [draggedItemData]);
   useEffect(() => {
     if (!draggedItemData) {
-      setValue('xAxis', '');
-      setValue('yAxis', '');
-      setChartMetricType('Add Metric');
+      setValue('xAxis', null);
+      setValue('xAxisType', []);
     }
   }, [chartType]);
 
   const getModalState = (draggedItem: any) => {
-    setDraggedItemData(draggedItem);
     const newModal: any = {
       chart: false,
       text: false,
@@ -162,6 +146,7 @@ export default function useUpsertMarketingReports() {
     setDisableTemplate(false);
     setShowTemplate(false);
   };
+
   return {
     handleDragEnd,
     form,
@@ -191,10 +176,7 @@ export default function useUpsertMarketingReports() {
     setMetricType,
     metricType,
     chartTitle,
-    yAxisData,
     xAxisData,
-    setChartMetricType,
-    chartMetricType,
     subFilter,
     allChartComponents,
     showTemplate,
@@ -207,5 +189,6 @@ export default function useUpsertMarketingReports() {
     draggedItemData,
     disableTemplate,
     handleChooseTemplate,
+    xAxisType,
   };
 }

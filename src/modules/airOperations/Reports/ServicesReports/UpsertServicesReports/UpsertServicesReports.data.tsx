@@ -18,7 +18,7 @@ export const fieldsList = [
   {
     id: '0',
     title: 'Chart',
-    match: REPORT_TYPE?.CHART,
+    match: 'chart',
     description: 'Visualize your data',
   },
   {

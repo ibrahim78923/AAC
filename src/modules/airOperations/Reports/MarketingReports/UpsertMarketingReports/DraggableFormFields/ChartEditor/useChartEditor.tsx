@@ -1,12 +1,8 @@
-import { CHARTS, REPORT_TYPE } from '@/constants/strings';
+import { REPORT_TYPE } from '@/constants/strings';
+import { useLazyUsersDropdownQuery } from '@/services/airOperations/reports/marketing-reports/upsert-marketing-reports';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useState } from 'react';
-import {
-  LeadsCTAsMatrics,
-  emailMarketingMatrics,
-  adCampaignsMetrics,
-} from './ChartEditor.data';
 export const useChartEditor = (props: any) => {
   const {
     setFieldData,
@@ -17,34 +13,15 @@ export const useChartEditor = (props: any) => {
     setForm,
     metricType,
     xAxisData,
-    yAxisData,
-    chartMetricType,
     chartType,
     subFilter,
     setDraggedItemData,
-    setChartMetricType,
+    xAxisType,
+    draggedItemData,
   } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
-  const MARKETING_REPORT_METRICS = {
-    LEAD_CTAS: 'Leads CTAs',
-    EMAIL_MARKETING: 'Email Marketing',
-    ADS_CAMPAIGNS: "Ad's Campaigns",
-  };
-
-  const getDropdownOptions = () => {
-    switch (metricType) {
-      case MARKETING_REPORT_METRICS?.LEAD_CTAS:
-        return LeadsCTAsMatrics(setChartMetricType);
-      case MARKETING_REPORT_METRICS?.EMAIL_MARKETING:
-        return emailMarketingMatrics(setChartMetricType);
-      case MARKETING_REPORT_METRICS?.ADS_CAMPAIGNS:
-        return adCampaignsMetrics(setChartMetricType);
-      default:
-        return [];
-    }
-  };
-  const dropdownOptions = getDropdownOptions();
+  const xAxesTypeIds = xAxisType?.map((item: any) => item?._id);
 
   const handleSave = () => {
     const uniqueId = generateUniqueId();
@@ -52,13 +29,13 @@ export const useChartEditor = (props: any) => {
       ...form,
       {
         id: uniqueId,
-        component: chartType,
         title: chartTitle,
-        type: REPORT_TYPE?.CHART,
+        reportType: REPORT_TYPE?.CHART,
+        type: chartType,
+        templateType: draggedItemData ? draggedItemData?.type : false,
         metric: metricType,
-        xAxis: chartType === CHARTS?.BAR_CHART ? xAxisData : null,
-        yAxis: chartType === CHARTS?.BAR_CHART ? yAxisData : null,
-        chartMetric: chartType != CHARTS?.BAR_CHART ? chartMetricType : null,
+        xAxis: xAxisData,
+        xAxisType: xAxisData?.ref ? xAxesTypeIds : null,
         subFilter: subFilter,
       },
     ]);
@@ -76,12 +53,28 @@ export const useChartEditor = (props: any) => {
     successSnackbar('Chart Added');
   };
 
+  const usersDropdown = useLazyUsersDropdownQuery();
+
+  const xAxesFields = {
+    CAMPAIGN_OWNER: 'campaign_campaignOwner',
+  };
+
+  const getSingleFieldDropdown = () => {
+    switch (xAxisData?.value) {
+      case xAxesFields?.CAMPAIGN_OWNER:
+        return usersDropdown;
+      default:
+        return [];
+    }
+  };
+  const singleFieldDropdown = getSingleFieldDropdown();
+
   return {
     handleSave,
     edit,
     setEdit,
     editValue,
     setEditValue,
-    dropdownOptions,
+    singleFieldDropdown,
   };
 };

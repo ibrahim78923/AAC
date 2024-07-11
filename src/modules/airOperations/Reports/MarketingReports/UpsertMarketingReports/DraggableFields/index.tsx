@@ -11,10 +11,10 @@ import { Draggable } from 'react-beautiful-dnd';
 import { ChartEditor } from '../DraggableFormFields/ChartEditor';
 import { TableEditor } from '../DraggableFormFields/TableEditor';
 import { TextEditor } from '../DraggableFormFields/TextEditor';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import AppsIcon from '@mui/icons-material/Apps';
-import { marketingMetrics, templateList } from '../UpsertMArketingReports.data';
 import { SaveReportDrawer } from '../SaveReportDrawer';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { marketingMetrics, templateList } from '../UpsertMArketingReports.data';
+import AppsIcon from '@mui/icons-material/Apps';
 
 export default function DraggableFields({
   setModal,
@@ -25,11 +25,8 @@ export default function DraggableFields({
   metricType,
   setValue,
   chartTitle,
-  setChartMetricType,
-  chartMetricType,
   allChartComponents,
   xAxisData,
-  yAxisData,
   subFilter,
   setEditorState,
   fieldsList,
@@ -54,6 +51,8 @@ export default function DraggableFields({
   reportId,
   setDraggedItemData,
   disableTemplate,
+  xAxisType,
+  draggedItemData,
 }: any) {
   const theme: any = useTheme();
 
@@ -75,6 +74,7 @@ export default function DraggableFields({
                 <SingleDropdownButton
                   dropdownOptions={marketingMetrics(setMetricType)}
                   dropdownName={metricType}
+                  disabled={form?.length}
                 />
               </Box>
               <Box height={'60vh'} overflow={'scroll'} p={1}>
@@ -235,15 +235,14 @@ export default function DraggableFields({
                   chartTitle={chartTitle}
                   form={form}
                   setForm={setForm}
-                  setChartMetricType={setChartMetricType}
-                  chartMetricType={chartMetricType}
                   allChartComponents={allChartComponents}
                   xAxisData={xAxisData}
-                  yAxisData={yAxisData}
                   subFilter={subFilter}
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
                   disableTemplate={disableTemplate}
+                  xAxisType={xAxisType}
+                  draggedItemData={draggedItemData}
                 />
               )}
 
@@ -280,6 +279,8 @@ export default function DraggableFields({
                   handleCancel={handleCancel}
                   setDraggedItemData={setDraggedItemData}
                   disableTemplate={disableTemplate}
+                  metricType={metricType}
+                  draggedItemData={draggedItemData}
                 />
               )}
             </>
@@ -291,6 +292,7 @@ export default function DraggableFields({
               form={form}
               reportId={reportId}
               setForm={setForm}
+              metricType={metricType}
             />
           )}
         </Box>

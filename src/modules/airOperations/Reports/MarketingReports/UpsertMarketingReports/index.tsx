@@ -1,12 +1,12 @@
 import { Button, Grid } from '@mui/material';
 import DraggableFields from './DraggableFields';
+import { fieldsList } from './UpsertMArketingReports.data';
 import { DragDropContext } from 'react-beautiful-dnd';
 import DroppableArea from './DroppableArea';
-import { FormProvider } from 'react-hook-form';
+import useUpsertMarketingReports from './useUpsertMarketingReports';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_OPERATIONS, REPORTS_HEADER_TITLE } from '@/constants';
-import useUpsertMarketingReports from './useUpsertMarketingReports';
-import { fieldsList } from './UpsertMArketingReports.data';
+import { FormProvider } from '@/components/ReactHookForm';
 
 export const UpsertMarketingReports = () => {
   const {
@@ -38,10 +38,7 @@ export const UpsertMarketingReports = () => {
     chartTitle,
     form,
     setForm,
-    yAxisData,
     xAxisData,
-    setChartMetricType,
-    chartMetricType,
     subFilter,
     allChartComponents,
     showTemplate,
@@ -54,10 +51,12 @@ export const UpsertMarketingReports = () => {
     draggedItemData,
     disableTemplate,
     handleChooseTemplate,
+    xAxisType,
   } = useUpsertMarketingReports();
   const { text, table, chart, counter } = modal || {};
+
   return (
-    <FormProvider {...methods}>
+    <FormProvider methods={methods}>
       <DragDropContext
         onDragEnd={showTemplate ? handleTemplateDragEnd : handleDragEnd}
       >
@@ -88,7 +87,7 @@ export const UpsertMarketingReports = () => {
                   ? handleCancel
                   : () => {
                       router?.push({
-                        pathname: AIR_OPERATIONS?.MARKETING_REPORTS,
+                        pathname: AIR_OPERATIONS?.SERVICES_REPORTS,
                       });
                     }
               }
@@ -131,6 +130,7 @@ export const UpsertMarketingReports = () => {
               setDraggedItemData={setDraggedItemData}
               handleCancel={handleCancel}
               handleChooseTemplate={handleChooseTemplate}
+              setValue={setValue}
             />
           </Grid>
           <Grid
@@ -167,18 +167,17 @@ export const UpsertMarketingReports = () => {
               chartTitle={chartTitle}
               form={form}
               setForm={setForm}
-              chartMetricType={chartMetricType}
-              setChartMetricType={setChartMetricType}
               allChartComponents={allChartComponents}
               xAxisData={xAxisData}
-              yAxisData={yAxisData}
               subFilter={subFilter}
               columnsData={columnsData}
               showTemplate={showTemplate}
               handleCancel={handleCancel}
               reportId={reportId}
               setDraggedItemData={setDraggedItemData}
+              draggedItemData={draggedItemData}
               disableTemplate={disableTemplate}
+              xAxisType={xAxisType}
             />
           </Grid>
         </Grid>

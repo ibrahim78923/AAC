@@ -20,9 +20,9 @@ const sharedWithArray = [
   { value: REPORT_TYPE?.SPECIFIC_USERS, label: 'Specific Users' },
 ];
 const addToDashboardArray = [
-  { value: 'doNotAdd', label: 'Do not add to a dashboard' },
-  { value: 'addToNew', label: 'Add to new dashboard' },
-  { value: 'addToExisting', label: 'Add to existing dashboard' },
+  { value: REPORT_TYPE?.DO_NOT_ADD, label: 'Do not add to a dashboard' },
+  { value: REPORT_TYPE?.ADD_TO_NEW, label: 'Add to new dashboard' },
+  { value: REPORT_TYPE?.ADD_TO_EXISTING, label: 'Add to existing dashboard' },
 ];
 const addToDashboardOptionsArray = ['Test1', 'Test2', 'Test3'];
 

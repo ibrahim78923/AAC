@@ -18,7 +18,7 @@ export const fieldsList = [
   {
     id: '0',
     title: 'Chart',
-    match: REPORT_TYPE?.CHART,
+    match: 'chart',
     description: 'Visualize your data',
   },
   {
@@ -39,8 +39,9 @@ export const templateList = [
   {
     id: '0',
     title: 'Forecast Analytics',
-    type: 'Horizontal Bar Chart',
-    xAxis: 'Task Owner',
+    chartType: CHARTS?.HORIZONTAL_BAR_CHART,
+    type: CHARTS?.TEMPLATE_BAR_CHART,
+    xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
     templateType: REPORT_TYPE?.FORECAST_CATEGORY,
@@ -49,8 +50,9 @@ export const templateList = [
   {
     id: '1',
     title: 'Over Time',
-    type: 'Bar Chart',
-    xAxis: 'Task Owner',
+    chartType: CHARTS?.BAR_CHART,
+    type: CHARTS?.TEMPLATE_BAR_CHART,
+    xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
     templateType: REPORT_TYPE?.FORECAST_CATEGORY,
@@ -59,8 +61,9 @@ export const templateList = [
   {
     id: '2',
     title: 'Comparison',
-    type: 'Bar Chart',
-    xAxis: 'Task Owner',
+    chartType: CHARTS?.BAR_CHART,
+    type: CHARTS?.TEMPLATE_BAR_CHART,
+    xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
     templateType: REPORT_TYPE?.FORECAST_CATEGORY,
@@ -69,15 +72,21 @@ export const templateList = [
   {
     id: '3',
     title: 'Overview',
-    tableColumns: [
-      'Owner',
-      'New',
-      'Follow up',
-      'Under review',
-      'Demo',
-      'Negotiation',
-      'Won',
-      'Total revenue goal',
+    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
+    templateColumnsData: [
+      {
+        fieldType: FIELD_TYPE?.OBJECT_ID,
+        fieldName: 'dealPipelineId',
+        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'priority',
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'billingFrequency',
+      },
     ],
     match: 'table',
     templateType: REPORT_TYPE?.FORECAST_CATEGORY,
@@ -86,13 +95,21 @@ export const templateList = [
   {
     id: '4',
     title: 'Month Deal Stage',
-    tableColumns: [
-      'Name',
-      '5/1/2023',
-      '5/2/2023',
-      '5/3/2023',
-      '5/4/2023',
-      '5/5/2023',
+    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
+    templateColumnsData: [
+      {
+        fieldType: FIELD_TYPE?.OBJECT_ID,
+        fieldName: 'dealPipelineId',
+        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'priority',
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'billingFrequency',
+      },
     ],
     match: 'table',
     templateType: REPORT_TYPE?.FORECAST_CATEGORY,
@@ -101,13 +118,21 @@ export const templateList = [
   {
     id: '5',
     title: 'Year Deal Stage',
-    tableColumns: [
-      'Name',
-      'Jan 2023',
-      'Feb 2023',
-      'March 2023',
-      'April 2023',
-      'May 2023',
+    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
+    templateColumnsData: [
+      {
+        fieldType: FIELD_TYPE?.OBJECT_ID,
+        fieldName: 'dealPipelineId',
+        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'priority',
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'billingFrequency',
+      },
     ],
     match: 'table',
     templateType: REPORT_TYPE?.FORECAST_CATEGORY,
@@ -189,8 +214,9 @@ export const templateList = [
   {
     id: '12',
     title: 'Forecast Analytics',
-    type: 'Horizontal Bar Chart',
-    xAxis: 'Task Owner',
+    chartType: CHARTS?.HORIZONTAL_BAR_CHART,
+    type: CHARTS?.TEMPLATE_BAR_CHART,
+    xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
     templateType: REPORT_TYPE?.PIPELINE_FORECAST,
@@ -199,8 +225,9 @@ export const templateList = [
   {
     id: '13',
     title: 'Over Time',
-    type: 'Bar Chart',
-    xAxis: 'Task Owner',
+    chartType: CHARTS?.BAR_CHART,
+    type: CHARTS?.TEMPLATE_BAR_CHART,
+    xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
     templateType: REPORT_TYPE?.PIPELINE_FORECAST,
@@ -209,8 +236,9 @@ export const templateList = [
   {
     id: '14',
     title: 'Comparison',
-    type: 'Bar Chart',
-    xAxis: 'Task Owner',
+    chartType: CHARTS?.BAR_CHART,
+    type: CHARTS?.TEMPLATE_BAR_CHART,
+    xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
     templateType: REPORT_TYPE?.PIPELINE_FORECAST,
@@ -219,15 +247,21 @@ export const templateList = [
   {
     id: '15',
     title: 'Overview',
-    tableColumns: [
-      'Owner',
-      'New',
-      'Follow up',
-      'Under review',
-      'Demo',
-      'Negotiation',
-      'Won',
-      'Total revenue goal',
+    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
+    templateColumnsData: [
+      {
+        fieldType: FIELD_TYPE?.OBJECT_ID,
+        fieldName: 'dealPipelineId',
+        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'priority',
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'billingFrequency',
+      },
     ],
     match: 'table',
     templateType: REPORT_TYPE?.PIPELINE_FORECAST,
@@ -236,13 +270,21 @@ export const templateList = [
   {
     id: '16',
     title: 'Month Deal Stage',
-    tableColumns: [
-      'Name',
-      '5/1/2023',
-      '5/2/2023',
-      '5/3/2023',
-      '5/4/2023',
-      '5/5/2023',
+    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
+    templateColumnsData: [
+      {
+        fieldType: FIELD_TYPE?.OBJECT_ID,
+        fieldName: 'dealPipelineId',
+        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'priority',
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'billingFrequency',
+      },
     ],
     match: 'table',
     templateType: REPORT_TYPE?.PIPELINE_FORECAST,
@@ -251,13 +293,21 @@ export const templateList = [
   {
     id: '17',
     title: 'Year Deal Stage',
-    tableColumns: [
-      'Name',
-      'Jan 2023',
-      'Feb 2023',
-      'March 2023',
-      'April 2023',
-      'May 2023',
+    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
+    templateColumnsData: [
+      {
+        fieldType: FIELD_TYPE?.OBJECT_ID,
+        fieldName: 'dealPipelineId',
+        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'priority',
+      },
+      {
+        fieldType: FIELD_TYPE?.STRING,
+        fieldName: 'billingFrequency',
+      },
     ],
     match: 'table',
     templateType: REPORT_TYPE?.PIPELINE_FORECAST,

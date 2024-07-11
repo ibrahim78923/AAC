@@ -1,82 +1,100 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFCheckbox,
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { REPORT_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
+import { usersDropdownOptionsI } from './SaveReportDrawer.interface';
+
+const sharedWithOptionsArray = [
+  { value: REPORT_TYPE?.VIEW_AND_EDIT, label: 'View and Edit' },
+  { value: REPORT_TYPE?.VIEW_ONLY, label: 'View Only' },
+];
+const sharedWithArray = [
+  { value: REPORT_TYPE?.PRIVATE, label: 'Private' },
+  { value: REPORT_TYPE?.EVERYONE, label: 'Everyone' },
+  { value: REPORT_TYPE?.SPECIFIC_USERS, label: 'Specific Users' },
+];
+const addToDashboardArray = [
+  { value: REPORT_TYPE?.DO_NOT_ADD, label: 'Do not add to a dashboard' },
+  { value: REPORT_TYPE?.ADD_TO_NEW, label: 'Add to new dashboard' },
+  { value: REPORT_TYPE?.ADD_TO_EXISTING, label: 'Add to existing dashboard' },
+];
+const addToDashboardOptionsArray = ['Test1', 'Test2', 'Test3'];
 
 export const reportsValidationSchema = (reportValidation: any) =>
   Yup?.object()?.shape({
     reportName: Yup?.string()?.required('Required'),
-    sharedWith: Yup?.string()?.required('Required'),
-    addToDashboard: Yup?.string()?.required('Required'),
+    sharedWith: Yup?.string()?.nullable()?.required('Required'),
+    addToDashboard: Yup?.string()?.nullable()?.required('Required'),
     everyoneCondition: Yup?.string()?.when(() =>
       reportValidation?.selectSharedWith === REPORT_TYPE?.EVERYONE
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
-    specificUsersConditionOne: Yup?.string()?.when(() =>
+    specificUsersConditionOne: Yup?.array()?.when(() =>
       reportValidation?.selectSharedWith === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.string()?.required('Required')
-        : Yup?.string()?.notRequired(),
+        ? Yup?.array()?.nullable()?.required('Required')
+        : Yup?.array()?.notRequired(),
     ),
     specificUsersConditionTwo: Yup?.string()?.when(() =>
       reportValidation?.selectSharedWith === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     addToExistingCondition: Yup?.string()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     addToNewConditionOne: Yup?.string()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     addToNewConditionTwo: Yup?.string()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
     newDashboardEveryoneCondition: Yup?.string()?.when(() =>
       reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.EVERYONE
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
-    newDashboardSpecificUsersConditionOne: Yup?.string()?.when(() =>
+    newDashboardSpecificUsersConditionOne: Yup?.array()?.when(() =>
       reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.string()?.required('Required')
-        : Yup?.string()?.notRequired(),
+        ? Yup?.array()?.nullable()?.required('Required')
+        : Yup?.array()?.notRequired(),
     ),
     newDashboardSpecificUsersConditionTwo: Yup?.string()?.when(() =>
       reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.string()?.required('Required')
+        ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
   });
 
 export const reportsDefaultValues = {
   reportName: '',
-  sharedWith: '',
-  addToDashboard: '',
-  addToExistingCondition: '',
-  everyoneCondition: '',
-  specificUsersConditionOne: '',
-  specificUsersConditionTwo: '',
-  addToNewConditionOne: '',
-  addToNewConditionTwo: '',
-  newDashboardEveryoneCondition: '',
-  newDashboardSpecificUsersConditionOne: '',
-  newDashboardSpecificUsersConditionTwo: '',
+  sharedWith: null,
+  addToDashboard: null,
+  addToExistingCondition: null,
+  everyoneCondition: null,
+  specificUsersConditionOne: [],
+  specificUsersConditionTwo: null,
+  addToNewConditionOne: null,
+  addToNewConditionTwo: null,
+  newDashboardEveryoneCondition: null,
+  newDashboardSpecificUsersConditionOne: [],
+  newDashboardSpecificUsersConditionTwo: null,
   addFilter: false,
 };
 
-export const reportsDataArray = [
+export const reportsDataArray = (usersDropdown: any) => [
   {
     id: 7578,
     componentProps: {
@@ -95,11 +113,7 @@ export const reportsDataArray = [
       name: 'sharedWith',
       label: 'Shared with',
       required: true,
-      options: [
-        { value: 'private', label: 'Private' },
-        { value: 'everyone', label: 'Everyone' },
-        { value: 'specificUsers', label: 'Specific Users' },
-      ],
+      options: sharedWithArray,
     },
     component: RHFRadioGroup,
     conditionalComponentOne: (
@@ -107,30 +121,31 @@ export const reportsDataArray = [
         name="everyoneCondition"
         size="small"
         row={false}
-        options={[
-          { value: 'viewEdit', label: 'View and Edit' },
-          { value: 'viewOnly', label: 'View Only' },
-        ]}
+        options={sharedWithOptionsArray}
       />
     ),
     conditionalComponentTwo: (
       <>
-        <RHFAutocomplete
+        <RHFAutocompleteAsync
+          size="small"
           name="specificUsersConditionOne"
           label="Select user"
-          size="small"
-          type="text"
+          multiple={true}
           required={true}
-          options={['Ali', 'Fahad', 'Zain', 'Umer']}
+          apiQuery={usersDropdown}
+          getOptionLabel={(option: usersDropdownOptionsI) =>
+            `${option?.firstName} ${option?.lastName}`
+          }
+          placeholder="Select Option"
+          externalParams={{
+            meta: false,
+          }}
         />
         <RHFRadioGroup
           name="specificUsersConditionTwo"
           size="small"
           row={false}
-          options={[
-            { value: 'viewEdit', label: 'View and Edit' },
-            { value: 'viewOnly', label: 'View Only' },
-          ]}
+          options={sharedWithOptionsArray}
         />
       </>
     ),
@@ -141,11 +156,7 @@ export const reportsDataArray = [
       name: 'addToDashboard',
       label: 'Add this report to a dashboard',
       required: true,
-      options: [
-        { value: 'doNotAdd', label: 'Do not add to a dashboard' },
-        { value: 'addToNew', label: 'Add to new dashboard' },
-        { value: 'addToExisting', label: 'Add to existing dashboard' },
-      ],
+      options: addToDashboardArray,
     },
     component: RHFRadioGroup,
     conditionalComponentTree: (
@@ -154,7 +165,7 @@ export const reportsDataArray = [
         label="Select Dashboard"
         size="small"
         type="text"
-        options={['Test1', 'Test2', 'Test3']}
+        options={addToDashboardOptionsArray}
       />
     ),
     conditionalComponentFour: (
@@ -166,16 +177,11 @@ export const reportsDataArray = [
           size="small"
           type="text"
           required={true}
-          options={['Test1', 'Test2', 'Test3']}
         />
         <RHFRadioGroup
           name="addToNewConditionTwo"
           size="small"
-          options={[
-            { value: 'private', label: 'Private' },
-            { value: 'everyone', label: 'Everyone' },
-            { value: 'specificUsers', label: 'Specific Users' },
-          ]}
+          options={sharedWithArray}
         />
       </>
     ),
@@ -184,30 +190,31 @@ export const reportsDataArray = [
         name="newDashboardEveryoneCondition"
         size="small"
         row={false}
-        options={[
-          { value: 'viewEdit', label: 'View and Edit' },
-          { value: 'viewOnly', label: 'View Only' },
-        ]}
+        options={sharedWithOptionsArray}
       />
     ),
     conditionalComponentSix: (
       <>
-        <RHFAutocomplete
+        <RHFAutocompleteAsync
+          size="small"
           name="newDashboardSpecificUsersConditionOne"
           label="Select user"
-          size="small"
-          type="text"
+          multiple={true}
           required={true}
-          options={['Ali', 'Fahad', 'Zain', 'Umer']}
+          apiQuery={usersDropdown}
+          getOptionLabel={(option: usersDropdownOptionsI) =>
+            `${option?.firstName} ${option?.lastName}`
+          }
+          placeholder="Select Option"
+          externalParams={{
+            meta: false,
+          }}
         />
         <RHFRadioGroup
           name="newDashboardSpecificUsersConditionTwo"
           size="small"
           row={false}
-          options={[
-            { value: 'viewEdit', label: 'View and Edit' },
-            { value: 'viewOnly', label: 'View Only' },
-          ]}
+          options={sharedWithOptionsArray}
         />
       </>
     ),

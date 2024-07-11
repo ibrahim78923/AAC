@@ -16,6 +16,7 @@ import {
 import { CheckBox } from '@mui/icons-material';
 import { tableEditorData } from './TableEditor.data';
 import { useTableEditor } from './useTableEditor';
+import { tableFieldsI } from './TableEditor.interface';
 export const TableEditor = (props: any) => {
   const {
     tableTitle,
@@ -25,9 +26,16 @@ export const TableEditor = (props: any) => {
     columnsData,
     handleCancel,
     disableTemplate,
+    metricType,
   } = props;
-  const { editValue, setEditValue, setEdit, edit, handleSave } =
-    useTableEditor(props);
+  const {
+    editValue,
+    setEditValue,
+    setEdit,
+    edit,
+    handleSave,
+    setColumnObject,
+  } = useTableEditor(props);
   return (
     <>
       <PageTitledHeader
@@ -41,7 +49,6 @@ export const TableEditor = (props: any) => {
         label="Title"
         disabled={edit || disableTemplate}
         InputProps={{
-          onClick: () => {},
           endAdornment: (
             <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
               {edit ? (
@@ -76,7 +83,7 @@ export const TableEditor = (props: any) => {
         <Typography variant="h4">Edit Properties</Typography>
       </Box>
       <Box height={'50vh'} overflow={'scroll'}>
-        {tableEditorData?.map((item: any) => (
+        {tableEditorData[metricType]?.map((item: tableFieldsI) => (
           <Box
             display={'flex'}
             justifyContent={'space-between'}
@@ -85,22 +92,26 @@ export const TableEditor = (props: any) => {
             borderRadius={2}
             m={1}
             p={1}
-            key={item?.title}
+            key={item?.fieldName}
           >
-            <Typography variant="body2">{item?.title}</Typography>
-
+            <Typography variant="body2">{item?.fieldName}</Typography>
             <Checkbox
               onClick={() => {
                 setColumnsData((prev: any) =>
-                  !prev?.includes(item?.title)
-                    ? [...prev, item?.title]
-                    : prev?.filter((i: any) => i !== item?.title),
+                  !prev?.includes(item?.fieldName)
+                    ? [...prev, item?.fieldName]
+                    : prev?.filter((i: any) => i !== item?.fieldName),
+                );
+                setColumnObject((prev: any) =>
+                  !prev?.includes(item)
+                    ? [...prev, item]
+                    : prev?.filter((i: any) => i !== item),
                 );
               }}
               disabled={disableTemplate}
               icon={<CheckboxIcon />}
               checkedIcon={<CheckboxCheckedIcon />}
-              checked={columnsData?.includes?.(item?.title)}
+              checked={columnsData?.includes?.(item?.fieldName)}
             />
           </Box>
         ))}
