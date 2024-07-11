@@ -1,4 +1,5 @@
 import {
+  Box,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -11,8 +12,9 @@ import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { createViewData } from './CreateView.data';
 import useCreateView from './useCreateView';
+import { sharedWithOptions } from '../ContactsSaleSite.data';
 
-const CreateView = ({ open, onClose }: any) => {
+const CreateView = ({ open, onClose, changeRadio, sharedWithvalue }: any) => {
   const theme = useTheme();
   const {
     orgId,
@@ -23,10 +25,8 @@ const CreateView = ({ open, onClose }: any) => {
     lifeCycleStagesData,
     contactStatusData,
     reset,
-    sharedWithvalue,
-    handleChange,
     teamId,
-  } = useCreateView();
+  } = useCreateView(sharedWithvalue);
 
   const formFields = createViewData(
     orgId,
@@ -68,45 +68,44 @@ const CreateView = ({ open, onClose }: any) => {
                 </item.component>
               </Grid>
             ))}
-            <Grid item xs={12} md={12}>
-              <FormControl>
-                <FormLabel
-                  id="sharedWith"
-                  sx={{
-                    fontSize: '14px',
-                    color: theme?.palette?.grey[600],
-                    fontWeight: 500,
-                  }}
-                >
-                  Shared With
-                </FormLabel>
-                <RadioGroup
-                  aria-labelledby="sharedWith"
-                  name="sharedWith"
-                  value={sharedWithvalue}
-                  onChange={handleChange}
-                >
-                  <FormControlLabel
-                    value="PRIVATE"
-                    control={<Radio />}
-                    label="Private"
-                  />
-                  <FormControlLabel
-                    value="MY_TEAM"
-                    control={<Radio />}
-                    label="My Teams (worked)"
-                    disabled={!teamId}
-                  />
-                  <FormControlLabel
-                    value="EVERYONE"
-                    control={<Radio />}
-                    label="Everyone"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
           </Grid>
         </FormProvider>
+        <Box sx={{ pt: '20px' }}>
+          <FormControl>
+            <FormLabel
+              id="sharedWith"
+              sx={{
+                fontSize: '14px',
+                color: theme?.palette?.grey[600],
+                fontWeight: 500,
+              }}
+            >
+              Shared With
+            </FormLabel>
+            <RadioGroup
+              name="sharedWith"
+              value={sharedWithvalue}
+              onChange={changeRadio}
+            >
+              <FormControlLabel
+                value={sharedWithOptions?.private}
+                control={<Radio />}
+                label="Private"
+              />
+              <FormControlLabel
+                value={sharedWithOptions?.myTeam}
+                control={<Radio />}
+                label="My Teams (worked)"
+                disabled={!teamId}
+              />
+              <FormControlLabel
+                value={sharedWithOptions?.everyone}
+                control={<Radio />}
+                label="Everyone"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Box>
       </CommonDrawer>
     </>
   );

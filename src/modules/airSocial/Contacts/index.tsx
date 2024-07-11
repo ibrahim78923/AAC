@@ -55,7 +55,8 @@ const Contacts = (props?: any) => {
     isCreateViewOpen,
     handleOpenCreateView,
     handleCloseCreateView,
-
+    handleChangeSharedWith,
+    sharedWithvalue,
     isCustomize,
     setIsCustomize,
     columnsData,
@@ -119,7 +120,12 @@ const Contacts = (props?: any) => {
         />
       </Box>
 
-      <CreateView open={isCreateViewOpen} onClose={handleCloseCreateView} />
+      <CreateView
+        open={isCreateViewOpen}
+        onClose={handleCloseCreateView}
+        sharedWithvalue={sharedWithvalue}
+        changeRadio={handleChangeSharedWith}
+      />
 
       <ContactsCustomize
         columns={selecttedColumns}

@@ -63,6 +63,7 @@ const InvoicingCard = ({ details, isLoading }: InvoicingCardPropsI) => {
                               color:
                                 item?._id === TICKETS_STATE.PAID
                                   ? theme?.palette?.success?.main
+
                                   : item?._id === TICKETS_STATE?.PENDING
                                   ? theme?.palette?.custom?.bright
                                   : item?._id === TICKETS_STATE?.OVERDUES

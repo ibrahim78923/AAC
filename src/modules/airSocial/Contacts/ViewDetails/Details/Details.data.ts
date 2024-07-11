@@ -36,9 +36,9 @@ export const detailsDefaultValues = {
   jobTitle: '',
   phoneNumber: null,
   whatsAppNumber: null,
-  lifeCycleStageId: {},
-  contactOwnerId: {},
-  statusId: {},
+  lifeCycleStageId: null,
+  contactOwnerId: null,
+  statusId: null,
   dateOfJoining: null,
   dateOfBirth: null,
 };

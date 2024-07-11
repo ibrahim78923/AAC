@@ -66,6 +66,10 @@ const step2ValidationSchema = Yup?.object()?.shape({
     ?.trim()
     ?.nullable()
     ?.required('Field is Required'),
+  urlRedirectType: Yup?.string()
+    ?.trim()
+    ?.nullable()
+    ?.required('Field is Required'),
   url: Yup?.string()
     ?.trim()
     ?.nullable()
@@ -256,12 +260,14 @@ const useCta = () => {
         };
       });
     } else if (activeStep === 1) {
-      const [isInternalNameValid, isUrlValid] = await Promise.all([
-        trigger('ctaInternalName'),
-        trigger('url'),
-      ]);
+      const [isInternalNameValid, isUrlValid, urlRedirectType] =
+        await Promise.all([
+          trigger('ctaInternalName'),
+          trigger('url'),
+          trigger('urlRedirectType'),
+        ]);
 
-      isValid = isInternalNameValid && isUrlValid;
+      isValid = isInternalNameValid && isUrlValid && urlRedirectType;
       const newData = values;
       setDrawerFormValues((prevData: any) => {
         return {
@@ -367,10 +373,13 @@ const useCta = () => {
     searchPayLoad = { search: searchValue };
   }
 
-  const { data: dataGetCTAs, isLoading: loadingGetCTAs } =
-    useGetLeadCaptureCTAQuery({
-      params: { ...searchPayLoad, ...paginationParams },
-    });
+  const {
+    data: dataGetCTAs,
+    isLoading: loadingGetCTAs,
+    isFetching: fetchingGetCTAs,
+  } = useGetLeadCaptureCTAQuery({
+    params: { ...searchPayLoad, ...paginationParams },
+  });
 
   // Delete CTA
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -438,6 +447,7 @@ const useCta = () => {
     loadingCreateCTA,
     dataGetCTAs,
     loadingGetCTAs,
+    fetchingGetCTAs,
     setSearchValue,
     setPageLimit,
     setPage,
