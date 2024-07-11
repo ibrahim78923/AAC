@@ -1,34 +1,19 @@
 import { Box } from '@mui/material';
 
-export const data: any = [
-  {
-    taskName: ` @olivia`,
-    campaignName: 'Draftstrtr',
-  },
-  {
-    taskName: ` @olivia`,
-    campaignName: 'Draftstrtr',
-  },
-  {
-    taskName: ` @olivia`,
-    campaignName: 'Draftstrtr',
-  },
-];
-
 export const columns: any = [
   {
     accessorFn: (row: any) => row?.taskName,
     id: 'taskName',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
     header: 'Task Name',
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.campaignName,
+    accessorFn: (row: any) => row?.campaignDetails[0]?.title,
     id: 'campaignName',
     isSortable: true,
     header: 'Campaign Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
     accessorFn: (row: any) => row?.actions,

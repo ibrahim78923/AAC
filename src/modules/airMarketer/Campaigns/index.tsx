@@ -6,116 +6,54 @@ import Tasks from './Tasks';
 import ImportIcon from '@/assets/icons/shared/import-icon';
 import { campaignsTabs } from './Campaigns.data';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { useState } from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import {
-  campaignArray,
-  compareCampaignArray,
-  initvalues,
-  validationSchema,
-} from './Compaigns.data';
+import { campaignArray, compareCampaignArray } from './Compaigns.data';
 import { AddCircle } from '@mui/icons-material';
-import { useForm } from 'react-hook-form';
-
 import { v4 as uuidv4 } from 'uuid';
 import Calendar from './Calendar';
 import ResetTasksFilter from './ResetTasksFilter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
-import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
-import { getSession } from '@/utils';
 
 const Campaigns = () => {
   const {
-    setIsOpenFilter,
-    theme,
-    isResetTaskFilter,
-    setIsResetTaskFilter,
-    postCampaigns,
-    createCampaignsLoading,
-    campaignsData,
-    handleResetFilters,
-    filterLoading,
-    handleSelectAllCheckbox,
     handleSelectSingleCheckBox,
-    selectedRows,
-    allCamopaignsData,
+    handleSelectAllCheckbox,
+    createCampaignsLoading,
+    setIsResetTaskFilter,
+    setIsActionsDisabled,
+    handleResetFilters,
     setSearchCampaigns,
+    isResetTaskFilter,
+    allCamopaignsData,
+    isActionsDisabled,
+    setcheckedColumns,
+    setCurrentTabVal,
+    setIsCreateTask,
+    setIsOpenFilter,
     searchCampaigns,
     setSelectedRows,
-    filters,
-    setFilters,
-    setPage,
-    setPageLimit,
-    setIsActionsDisabled,
-    isActionsDisabled,
     checkedColumns,
-    setcheckedColumns,
+    organizationId,
+    campaignsData,
+    filterLoading,
+    isCreateTask,
+    selectedRows,
+    setPageLimit,
+    setIsCompare,
+    currentTabVal,
+    userListData,
+    handleSubmit,
+    setFilters,
+    isCompare,
     setRowId,
+    onSubmit,
+    filters,
+    setPage,
+    methods,
+    theme,
   } = useCampaigns();
-  const [isCreateTask, setIsCreateTask] = useState(false);
-  const [isCompare, setIsCompare] = useState(false);
-
-  const { user }: any = getSession();
-  const organizationId: any = user?.organization?._id;
-
-  const userListData = useLazyGetUsersListDropdownQuery();
-
-  const methods = useForm<any>({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initvalues,
-  });
-  const { handleSubmit, reset } = methods;
-
-  const onSubmit = async (values: any) => {
-    const campaignBudget = values?.campaignBudget
-      ? parseFloat(values?.campaignBudget)
-      : null;
-
-    const startDate = values?.startDate
-      ? dayjs(values?.startDate[0])?.format(DATE_FORMAT?.API)
-      : undefined;
-    const endDate = values?.endDate
-      ? dayjs(values?.endDate[0])?.format(DATE_FORMAT?.API)
-      : undefined;
-
-    const obj = {
-      ...values,
-      campaignBudget,
-      startDate,
-      endDate,
-      campaignOwner: values?.campaignOwner?._id,
-    };
-
-    const filteredObj: { [key: string]: any } = Object.keys(obj).reduce(
-      (acc: { [key: string]: any }, key: string) => {
-        if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') {
-          acc[key] = obj[key];
-        }
-        return acc;
-      },
-      {},
-    );
-
-    try {
-      await postCampaigns({ body: filteredObj })?.unwrap();
-      enqueueSnackbar('Campaigns created successfully', {
-        variant: 'success',
-      });
-    } catch (error) {
-      enqueueSnackbar('Error while creating campaigns', {
-        variant: 'error',
-      });
-    }
-
-    reset();
-    setIsCreateTask(false);
-  };
 
   return (
     <Box>
@@ -182,7 +120,13 @@ const Campaigns = () => {
         </Stack>
 
         <Box sx={{ padding: '0px 24px' }} mt={1.6}>
-          <HorizontalTabs tabsDataArray={campaignsTabs}>
+          <HorizontalTabs
+            setActiveTab={(val: number) => {
+              setCurrentTabVal(val);
+            }}
+            defaultValue={currentTabVal}
+            tabsDataArray={campaignsTabs}
+          >
             <Manage
               campaignsData={campaignsData}
               handleResetFilters={handleResetFilters}
@@ -288,6 +232,7 @@ const Campaigns = () => {
         <ResetTasksFilter
           isOpen={isResetTaskFilter}
           setIsOpen={setIsResetTaskFilter}
+          setCurrentTabVal={setCurrentTabVal}
         />
       )}
     </Box>

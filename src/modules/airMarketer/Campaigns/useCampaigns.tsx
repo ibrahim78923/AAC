@@ -15,16 +15,23 @@ import {
   useUpdateCampaignsMutation,
 } from '@/services/airMarketer/campaigns';
 import { PAGINATION } from '@/config';
-import { useGetUsersListQuery } from '@/services/airSales/deals';
-import { ROLES } from '@/constants/strings';
+import {
+  useGetUsersListQuery,
+  useLazyGetUsersListDropdownQuery,
+} from '@/services/airSales/deals';
+import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { getSession } from '@/utils';
 import { useSearchParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { initvalues, validationSchema } from './Compaigns.data';
+import { enqueueSnackbar } from 'notistack';
 
 const useCampaigns = () => {
   const theme = useTheme();
   const [tabVal, setTabVal] = useState<number>(0);
+  const [currentTabVal, setCurrentTabVal] = useState(0);
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedActionsValue, setSelectedOptionsValue] = useState('');
   const [isOpenFilter, setIsOpenFilter] = useState(false);
@@ -45,7 +52,7 @@ const useCampaigns = () => {
   const [isCreateTask, setIsCreateTask] = useState(false);
   const [isCompare, setIsCompare] = useState(false);
   const [searchVal, setSearchVal] = useState('');
-  const [isResetTaskFilter, setIsResetTaskFilter] = useState(false);
+  const [isResetTaskFilter, setIsResetTaskFilter] = useState<boolean>(false);
   const [searchCampaigns, setSearchCampaigns] = useState('');
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const campaignId = useSearchParams()?.get('id');
@@ -59,6 +66,59 @@ const useCampaigns = () => {
     campaignOwner: null,
     campaignStatus: '',
   });
+
+  const userListData = useLazyGetUsersListDropdownQuery();
+
+  const methods = useForm<any>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: initvalues,
+  });
+  const { handleSubmit, reset } = methods;
+
+  const onSubmit = async (values: any) => {
+    const campaignBudget = values?.campaignBudget
+      ? parseFloat(values?.campaignBudget)
+      : null;
+
+    const startDate = values?.startDate
+      ? dayjs(values?.startDate[0])?.format(DATE_FORMAT?.API)
+      : undefined;
+    const endDate = values?.endDate
+      ? dayjs(values?.endDate[0])?.format(DATE_FORMAT?.API)
+      : undefined;
+
+    const obj = {
+      ...values,
+      campaignBudget,
+      startDate,
+      endDate,
+      campaignOwner: values?.campaignOwner?._id,
+    };
+
+    const filteredObj: { [key: string]: any } = Object.keys(obj).reduce(
+      (acc: { [key: string]: any }, key: string) => {
+        if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') {
+          acc[key] = obj[key];
+        }
+        return acc;
+      },
+      {},
+    );
+
+    try {
+      await postCampaigns({ body: filteredObj })?.unwrap();
+      enqueueSnackbar('Campaigns created successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error) {
+      enqueueSnackbar('Error while creating campaigns', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+
+    reset();
+    setIsCreateTask(false);
+  };
 
   const { data: campaignsData, isLoading: filterLoading } =
     useGetCampaignsQuery({
@@ -252,6 +312,14 @@ const useCampaigns = () => {
     setRowId,
     campaignsLoadingById,
     updateCampaignLoading,
+    currentTabVal,
+    setCurrentTabVal,
+    userListData,
+    user,
+    organizationId,
+    handleSubmit,
+    methods,
+    onSubmit,
   };
 };
 export default useCampaigns;

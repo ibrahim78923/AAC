@@ -1,5 +1,4 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import Search from '@/components/Search';
 import { v4 as uuidv4 } from 'uuid';
 import UseCustomize from './useCustomize';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -29,7 +28,6 @@ const EditColumns = ({ open, onClose }: any) => {
       title="Edit Columns"
       isLoading={loadingColumns}
     >
-      <Search label="Search Here" size="small" fullWidth />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           key={uuidv4()}

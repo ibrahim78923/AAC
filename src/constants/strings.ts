@@ -597,6 +597,12 @@ export const CONTACTS_CONSTANTS = {
   PHONE_NUMBER: 'phoneNumber',
 };
 
+export const CAMPAIGNS_CONSTANTS = {
+  TASKS: 'tasks',
+  COMMENTS: 'comments',
+  CALENDAR: 'calander',
+};
+
 export const STATICTICS_STATUS = {
   RECIEVED: 'Received',
   SENT: 'Sent',

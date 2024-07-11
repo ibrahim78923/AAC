@@ -3,16 +3,29 @@ import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { Box, Card, Stack, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 
-const Calander = () => {
+interface Props {
+  setCurrentTabVal: (value: number) => void;
+  setIsOpen: (value: boolean) => void;
+}
+
+const Calander = ({ setCurrentTabVal, setIsOpen }: Props) => {
   const theme = useTheme();
   const [datePickerVal, setDatePickerVal] = useState();
   return (
-    <Box>
+    <>
       <Box sx={{ mt: 1, height: '420px' }}>
         <Typography
           variant="body1"
           fontWeight={500}
-          sx={{ color: theme?.palette?.primary?.main }}
+          sx={{
+            color: theme?.palette?.primary?.main,
+            mb: 1,
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            setIsOpen(false);
+            setCurrentTabVal(1);
+          }}
         >
           View full calendar
         </Typography>
@@ -46,7 +59,7 @@ const Calander = () => {
           </Stack>
         </Card>
       </Box>
-    </Box>
+    </>
   );
 };
 
