@@ -1,16 +1,13 @@
 import { Badge, Box, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useTopPerformer } from './useTopPerformer';
 import NoData from '@/components/NoData';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { fullName, generateImage } from '@/utils/avatarUtils';
 import { AGENT_LEVELS_IMAGES } from '@/constants/images';
 import { AGENT_LEVELS } from '@/constants/strings';
 
-export const TopPerformer = () => {
-  const { data, isLoading, isError, isFetching } = useTopPerformer();
+export const TopPerformer = (props: any) => {
+  const { data } = props;
 
   return (
     <Box
@@ -23,11 +20,7 @@ export const TopPerformer = () => {
       <Typography variant="h5" color="slateBlue.main">
         Top Performer
       </Typography>
-      {isLoading || isFetching ? (
-        <SkeletonTable />
-      ) : isError ? (
-        <ApiErrorState height="100%" />
-      ) : !!!data ? (
+      {!!!data?.topPerformer?.data?.length ? (
         <NoData height={'100%'} message="No Top Performer" />
       ) : (
         <>

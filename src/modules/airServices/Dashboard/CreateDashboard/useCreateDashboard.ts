@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import {
   MultiCheckboxOptionI,
-  ReportsI,
   UpsertServicesDashboardDefaultValueI,
 } from './CreateDashboard.interface';
 import { DropResult } from 'react-beautiful-dnd';
@@ -10,6 +9,7 @@ import {
   createDashboardDefaultValue,
   createDashboardValidationSchema,
   dashboardWidgetsData,
+  MANAGE_DASHBOARD_ACCESS_TYPES,
   upsertServiceDashboardFormFieldsDynamic,
 } from './CreateDashboard.data';
 import { useRouter } from 'next/router';
@@ -20,18 +20,24 @@ import {
   useUpdateSingleServicesDashboardMutation,
 } from '@/services/airServices/dashboard';
 import useAuth from '@/hooks/useAuth';
-import { filteredEmptyValues } from '@/utils/api';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { REPORT_TYPES } from '@/constants/strings';
+import { AIR_SERVICES } from '@/constants';
 
 export const useCreateDashboard = () => {
   const router = useRouter();
   const { dashboardId } = router?.query;
-  const auth = useAuth();
+  const auth: any = useAuth();
   const { _id: productId } = auth?.product;
   const { action } = router?.query;
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
 
-  const methods = useForm({
+  const methods = useForm<any>({
     defaultValues: createDashboardDefaultValue?.(),
     resolver: yupResolver(createDashboardValidationSchema?.()),
   });
@@ -91,7 +97,12 @@ export const useCreateDashboard = () => {
     const filterFormData = filteredEmptyValues(formData);
     const body = {
       ...filterFormData,
-      reports: reports?.map((item) => ({
+      permissions:
+        filterFormData?.access ===
+        MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER
+          ? MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_EDIT_AND_VIEW
+          : filterFormData?.permissions,
+      reports: reports?.map((item: any) => ({
         type: REPORT_TYPES?.STATIC,
         visibility: true,
         name: item,
@@ -113,7 +124,11 @@ export const useCreateDashboard = () => {
 
     try {
       await addSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
-    } catch (error: any) {}
+      successSnackbar('Dashboard created successfully!');
+      router?.push(AIR_SERVICES?.MANAGE_DASHBOARD);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   const submitUpdateDashboardFilterForm = async (
@@ -130,25 +145,25 @@ export const useCreateDashboard = () => {
 
     try {
       await updateSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
-    } catch (error: any) {}
+      successSnackbar('Dashboard updated successfully!');
+      router?.push(AIR_SERVICES?.MANAGE_DASHBOARD);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
-  const reports: ReportsI[] | string[] | undefined | MultiCheckboxOptionI[] =
-    watch('reports');
+  const reports = watch('reports');
 
   const alignArrays = (
     firstArray: MultiCheckboxOptionI[],
     secondArray: any[],
   ) => {
-    const dragAndDropAlignment: string[] | [] | undefined = secondArray?.reduce(
-      (acc: any, item: any) => {
-        if (firstArray?.includes(item?.value)) {
-          acc?.push(item?.value);
-        }
-        return acc;
-      },
-      [],
-    );
+    const dragAndDropAlignment = secondArray?.reduce((acc: any, item: any) => {
+      if (firstArray?.includes(item?.value)) {
+        acc?.push(item?.value);
+      }
+      return acc;
+    }, []);
     return dragAndDropAlignment;
   };
 
@@ -163,15 +178,12 @@ export const useCreateDashboard = () => {
     if (!destination) return;
 
     const newItems = reorder(
-      dashboardWidgetsData,
+      dashboardWidgetsWatch,
       source?.index,
       destination?.index,
     );
-    const dragAndDropAlignment: string[] | [] | undefined = alignArrays(
-      reports,
-      newItems,
-    );
 
+    const dragAndDropAlignment = alignArrays(reports, newItems);
     setValue('reports', dragAndDropAlignment);
     setValue('dashboardWidgets', newItems);
   };
@@ -201,5 +213,7 @@ export const useCreateDashboard = () => {
     isFetching,
     isError,
     dashboardWidgetsWatch,
+    isPortalOpen,
+    setIsPortalOpen,
   };
 };

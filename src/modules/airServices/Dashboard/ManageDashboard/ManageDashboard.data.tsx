@@ -42,10 +42,12 @@ export const manageDashboardsDataColumnsDynamic = (
           }
           isLoading={
             changeDefaultServicesDashboardStatus?.isLoading &&
-            changeDefaultServicesDashboardStatus?.originalArgs?.pathParams
-              ?.id === info?.row?.original?._id
+            changeDefaultServicesDashboardStatus?.originalArgs?.body?.id ===
+              info?.row?.original?._id
           }
-          disabled={changeDefaultServicesDashboardStatus?.isLoading}
+          disabled={
+            info?.getValue() || changeDefaultServicesDashboardStatus?.isLoading
+          }
         />
       </PermissionsGuard>
     ),
@@ -92,18 +94,24 @@ export const manageDashboardsDataColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.updatedAt,
-    id: 'updatedAt',
+    accessorFn: (row: any) => row?.lastView,
+    id: 'lastView',
     isSortable: true,
     header: 'Last Viewed',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+    cell: (info: any) =>
+      !!info?.getValue()
+        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+        : '---',
   },
   {
     accessorFn: (row: any) => row?.updatedAt,
     id: 'updatedAt',
     isSortable: true,
     header: 'Last Updated',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+    cell: (info: any) =>
+      !!info?.getValue()
+        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+        : '---',
   },
   {
     accessorFn: (row: any) => row?.actions,
@@ -123,6 +131,7 @@ export const manageDashboardsDataColumnsDynamic = (
               setIsPortalOpen({
                 isOpen: true,
                 isView: true,
+                isDynamicPreview: true,
                 data: info?.row?.original,
               })
             }

@@ -6,7 +6,8 @@ import {
 import { useEffect, useState } from 'react';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
 
-export const useDashboard = () => {
+export const useSingleDashboard = (props: any) => {
+  const { dashboardId } = props;
   const [ticketType, setTicketType] = useState(TICKET_GRAPH_TYPES?.STATUS);
   const [departmentId, setDepartmentId] = useState<any>(null);
 
@@ -31,6 +32,7 @@ export const useDashboard = () => {
       queryParams: {
         filterBy: ticketType,
         departmentId: departmentId?._id,
+        dashboardId: dashboardId,
       },
     };
 

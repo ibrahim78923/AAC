@@ -1,28 +1,26 @@
 import { Box, Typography } from '@mui/material';
 import { CustomChart } from '@/components/Chart';
-import { pieChartDataOptions, pieChartHeader } from './PieChart.data';
+import { pieChartDataOptions, pieChartHeader } from './AgentAvailability.data';
 import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import { usePieChart } from './usePieChart';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { useAgentAvailability } from './useAgentAvailability';
 import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
-import ApiErrorState from '@/components/ApiErrorState';
 
-export const PieChart = () => {
-  const {
-    departmentDropdown,
-    methods,
-    pieChartData,
-    theme,
-    pieChartSeries,
-    isLoading,
-    isFetching,
-    isError,
-  } = usePieChart();
+export const AgentAvailability = (props: any) => {
+  const { data, isPreviewMode } = props;
+  const { departmentDropdown, methods, theme, pieChartSeries } =
+    useAgentAvailability(props);
+
   return (
-    <>
+    <Box
+      borderRadius={3}
+      p={2}
+      border={`1px solid`}
+      borderColor="custom.off_white"
+      height="100%"
+    >
       <>
         <Box
           display={'flex'}
@@ -37,6 +35,7 @@ export const PieChart = () => {
           >
             <FormProvider methods={methods}>
               <RHFAutocompleteAsync
+                disabled={isPreviewMode}
                 name="departmentId"
                 size="small"
                 sx={{
@@ -57,28 +56,28 @@ export const PieChart = () => {
           gap={1}
           flexWrap={'wrap'}
         >
-          {pieChartHeader(theme, pieChartData)?.map((department) => (
-            <Box key={department?.title}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                {department?.icon}
-                <Typography variant="body3">{department?.title}</Typography>
+          {pieChartHeader(theme, data?.agentAvailabilty?.data)?.map(
+            (department) => (
+              <Box key={department?.title}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {department?.icon}
+                  <Typography variant="body3">{department?.title}</Typography>
+                </Box>
+                <Box sx={{ mt: 1 }}>
+                  <Typography variant="h5">
+                    {department?.titleNumber}
+                  </Typography>
+                </Box>
               </Box>
-              <Box sx={{ mt: 1 }}>
-                <Typography variant="h5">{department?.titleNumber}</Typography>
-              </Box>
-            </Box>
-          ))}
+            ),
+          )}
         </Box>
       </>
       <Box sx={{ marginTop: 2 }}>
-        {isLoading || isFetching ? (
-          <SkeletonTable />
-        ) : isError ? (
-          <ApiErrorState height={'100%'} />
-        ) : (
+        {
           <>
-            {pieChartHeader(theme, pieChartData).every(
-              (department) => department.titleNumber === 0,
+            {pieChartHeader(theme, data?.agentAvailabilty?.data).every(
+              (department) => department?.titleNumber === 0,
             ) ? (
               <NoData
                 image={NoAssociationFoundImage}
@@ -86,7 +85,7 @@ export const PieChart = () => {
                 height={'100%'}
               />
             ) : (
-              pieChartSeries.length > 0 && (
+              pieChartSeries?.length > 0 && (
                 <CustomChart
                   options={{
                     ...pieChartDataOptions(theme),
@@ -99,8 +98,8 @@ export const PieChart = () => {
               )
             )}
           </>
-        )}
+        }
       </Box>
-    </>
+    </Box>
   );
 };

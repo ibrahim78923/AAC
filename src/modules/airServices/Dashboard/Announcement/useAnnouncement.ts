@@ -3,7 +3,7 @@ import { useGetCustomerAnnouncementQuery } from '@/services/airServices/dashboar
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
 
-export const useAnnouncementHeader = () => {
+export const useAnnouncement = () => {
   const [openDrawer, setDrawerOpen] = useState(false);
   const [openAddAnnouncementDrawer, setOpenAddAnnouncementDrawer] =
     useState(false);
@@ -18,10 +18,14 @@ export const useAnnouncementHeader = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
-    useGetCustomerAnnouncementQuery(getCustomerAnnouncementApiParameter, {
-      refetchOnMountOrArgChange: true,
-    });
+  const {
+    data: announcementsList,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetCustomerAnnouncementQuery(getCustomerAnnouncementApiParameter, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const onClose = () => {
     setDrawerOpen(false);
@@ -29,7 +33,7 @@ export const useAnnouncementHeader = () => {
   };
 
   return {
-    data,
+    announcementsList,
     isLoading,
     isFetching,
     isError,

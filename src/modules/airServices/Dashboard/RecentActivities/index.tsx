@@ -1,36 +1,29 @@
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { Box, Button, Typography } from '@mui/material';
 import { useRecentActivities } from './useRecentActivities';
-import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import RecentActivitiesList from './RecentActivitiesList';
 import { RecentActivitiesCard } from './RecentActivitiesCard';
 import { Fragment } from 'react';
 
-export const RecentActivities = () => {
-  const {
-    isDrawerOpen,
-    setIsDrawerOpen,
-    data,
-    isLoading,
-    isError,
-    isFetching,
-  } = useRecentActivities();
+export const RecentActivities = (props: any) => {
+  const { data, isPreviewMode } = props;
+  const { isDrawerOpen, setIsDrawerOpen } = useRecentActivities();
 
   return (
-    <>
+    <Box
+      borderRadius={3}
+      border={`1px solid`}
+      borderColor="custom.off_white"
+      height="100%"
+    >
       <Box p={2}>
         <Typography variant="h5" color="slateBlue.main">
           Recent Activities
         </Typography>
       </Box>
-      {isLoading || isFetching ? (
-        <SkeletonTable />
-      ) : isError ? (
-        <ApiErrorState height={'40vh'} />
-      ) : data?.data?.length ? (
+      {data?.recentActivities?.length ? (
         <Box overflow={'auto'} height={'40vh'}>
-          {data?.data?.map((item: any, index: any) => (
+          {data?.recentActivities?.map((item: any, index: any) => (
             <Fragment key={item?._id}>
               <RecentActivitiesCard data={item} index={index} />
             </Fragment>
@@ -40,7 +33,12 @@ export const RecentActivities = () => {
         <NoData message={'No recent activities found'} height={'100%'} />
       )}
       <Box textAlign={'center'}>
-        <Button variant="text" fullWidth onClick={() => setIsDrawerOpen(true)}>
+        <Button
+          variant="text"
+          disabled={isPreviewMode}
+          fullWidth
+          onClick={() => setIsDrawerOpen(true)}
+        >
           View All
         </Button>
       </Box>
@@ -49,11 +47,8 @@ export const RecentActivities = () => {
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
           data={data}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          isError={isError}
         />
       )}
-    </>
+    </Box>
   );
 };

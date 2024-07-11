@@ -8,10 +8,9 @@ import {
 } from '@/services/airServices/dashboard';
 import { buildQueryParams, errorSnackbar } from '@/utils/api';
 import { ManageDashboardFilter } from './ManageDashboardFilter';
-import { PreviewDashboardModal } from '../PreviewDashboardItems/PreviewDashboardModal';
+import { PreviewDashboard } from '../PreviewDashboard';
 import { DeleteDashboard } from './DeleteDashboard';
 import { manageDashboardsDataColumnsDynamic } from './ManageDashboard.data';
-import { IsPortalOpenI } from './ManageDashboard.interface';
 
 export const useManageDashboard = () => {
   const matches = useMediaQuery('(max-width:590px)');
@@ -21,7 +20,7 @@ export const useManageDashboard = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
-  const [isPortalOpen, setIsPortalOpen] = useState<IsPortalOpenI>({});
+  const [isPortalOpen, setIsPortalOpen] = useState<any>({});
 
   const [lazyGetDashboardTrigger, lazyGetDashboardStatus] =
     useLazyGetServicesDashboardListQuery();
@@ -57,8 +56,9 @@ export const useManageDashboard = () => {
 
   const changeDefaultDashboard = async (e: any, id: string) => {
     const apiDataParameter = {
-      pathParams: {
+      body: {
         id,
+        isDefault: true,
       },
     };
 
@@ -82,7 +82,7 @@ export const useManageDashboard = () => {
 
   const renderPortalComponent = () => {
     if (isPortalOpen?.isView) {
-      return <PreviewDashboardModal {...portalComponentProps} />;
+      return <PreviewDashboard {...portalComponentProps} />;
     }
     if (isPortalOpen?.isDelete) {
       return <DeleteDashboard {...portalComponentProps} />;

@@ -1,17 +1,16 @@
 import { ViewDetailSharedIcon } from '@/assets/icons';
 import { Box, Typography, IconButton, Button } from '@mui/material';
-import { useAnnouncementHeader } from './useAnnouncement';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
+import { useAnnouncement } from './useAnnouncement';
 import { Fragment } from 'react';
 import { AnnouncementCard } from './AnnouncementCard';
 import NoData from '@/components/NoData';
 import AddAnnouncement from './AddAnnouncement';
 import { AnnouncementList } from './AnnouncementList';
 
-export const Announcement = () => {
+export const Announcement = (props: any) => {
+  const { data, isPreviewMode } = props;
   const {
-    data,
+    announcementsList,
     isLoading,
     isFetching,
     isError,
@@ -22,10 +21,15 @@ export const Announcement = () => {
     onClose,
     openAddAnnouncementDrawer,
     setOpenAddAnnouncementDrawer,
-  } = useAnnouncementHeader();
+  } = useAnnouncement();
 
   return (
-    <>
+    <Box
+      borderRadius={3}
+      border={`1px solid`}
+      borderColor="custom.off_white"
+      height="100%"
+    >
       <Box
         display={'flex'}
         justifyContent={'space-between'}
@@ -38,31 +42,36 @@ export const Announcement = () => {
         <Typography variant="h5" color="slateBlue.main">
           Announcements
         </Typography>
-        <IconButton onClick={() => setOpenAddAnnouncementDrawer(true)}>
+        <IconButton
+          disabled={isPreviewMode}
+          onClick={() => setOpenAddAnnouncementDrawer(true)}
+        >
           <ViewDetailSharedIcon />
         </IconButton>
       </Box>
       <Box height={'30vh'} overflow={'auto'}>
-        {isLoading || isFetching ? (
-          <SkeletonForm />
-        ) : isError ? (
-          <ApiErrorState height={'100%'} />
-        ) : (
-          <Box my="0.75rem">
-            {!!data?.annoucements?.length ? (
-              data?.annoucements?.map((announcement: any, index: number) => (
+        <Box my="0.75rem">
+          {!!data?.announcements?.annoucements?.length ? (
+            data?.announcements?.annoucements?.map(
+              (announcement: any, index: number) => (
                 <Fragment key={announcement?._id}>
                   <AnnouncementCard data={announcement} index={index} />
                 </Fragment>
-              ))
-            ) : (
-              <NoData height={'100%'} />
-            )}
-          </Box>
-        )}
+              ),
+            )
+          ) : (
+            <NoData height={'100%'} />
+          )}
+        </Box>
+        {/* )} */}
       </Box>
       <Box textAlign={'center'}>
-        <Button variant="text" fullWidth onClick={() => setDrawerOpen(true)}>
+        <Button
+          variant="text"
+          disabled={isPreviewMode}
+          fullWidth
+          onClick={() => setDrawerOpen(true)}
+        >
           View All
         </Button>
       </Box>
@@ -76,7 +85,7 @@ export const Announcement = () => {
         <AnnouncementList
           isDrawerOpen={openDrawer}
           onClose={() => onClose?.()}
-          data={data}
+          data={announcementsList}
           isLoading={isLoading}
           isFetching={isFetching}
           isError={isError}
@@ -84,6 +93,6 @@ export const Announcement = () => {
           setPageLimit={setPageLimit}
         />
       )}
-    </>
+    </Box>
   );
 };

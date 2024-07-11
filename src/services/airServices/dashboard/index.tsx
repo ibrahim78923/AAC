@@ -115,9 +115,8 @@ export const dashboardAPI = baseAPI.injectEndpoints({
     }),
     changeDefaultServicesDashboard: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${GET_DASHBOARD_TICKETS}`,
+        url: `${END_POINTS?.EDIT_AIR_SERVICES_DASHBOARD}`,
         method: 'PATCH',
-        params: apiDataParameter?.queryParams,
         body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],

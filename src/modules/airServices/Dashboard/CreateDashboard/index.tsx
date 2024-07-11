@@ -1,21 +1,26 @@
 import { DashboardMockImage } from '@/assets/images';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid, Typography } from '@mui/material';
-import Image from 'next/image';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from './CreateDashboard.data';
 import { useCreateDashboard } from './useCreateDashboard';
 import { styles } from './CreateDashboard.styles';
-import { PreviewDashboardModal } from '../PreviewDashboardItems/PreviewDashboardModal';
+import { PreviewDashboard } from '../PreviewDashboard';
 import { DragDropContext } from 'react-beautiful-dnd';
 import dynamic from 'next/dynamic';
 import { LoadingButton } from '@mui/lab';
-import { DASHBOARD, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
+import {
+  DASHBOARD,
+  GENERIC_UPSERT_FORM_CONSTANT,
+  TICKET_GRAPH_TYPES,
+} from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import { UpsertServiceDashboardFormFieldsDynamicI } from './CreateDashboard.interface';
 import { createElement } from 'react';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import { Visibility } from '@mui/icons-material';
+import NoData from '@/components/NoData';
 
 const RHFMultiCheckboxDraggable = dynamic(
   () => import('@/components/ReactHookForm/RHFMultiCheckboxDraggable'),
@@ -38,6 +43,8 @@ export const CreateDashboard = () => {
     isFetching,
     isError,
     dashboardWidgetsWatch,
+    isPortalOpen,
+    setIsPortalOpen,
   } = useCreateDashboard();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -84,7 +91,19 @@ export const CreateDashboard = () => {
               </DragDropContext>
             </Box>
             <Box display="flex" justifyContent="flex-end">
-              <PreviewDashboardModal dashboardItems={reports} type="Manage" />
+              <Button
+                variant="text"
+                onClick={() =>
+                  setIsPortalOpen({
+                    isView: true,
+                    isStaticView: true,
+                    data: reports,
+                  })
+                }
+                startIcon={<Visibility />}
+              >
+                Preview Dashboard
+              </Button>
             </Box>
           </Grid>
           <Grid item xl={6} xs={12}>
@@ -92,24 +111,26 @@ export const CreateDashboard = () => {
               <Typography variant="subtitle1" color="slateBlue.main" mb={2}>
                 Details view
               </Typography>
+
               {!!!reports?.length ? (
-                <>
-                  <Box sx={styles()?.bgImageBox}>
-                    <Image
-                      src={DashboardMockImage}
-                      style={{ pointerEvents: 'none', userSelect: 'none' }}
-                      alt={'DashboardPrototypeImage'}
-                    />
-                  </Box>
-                  <Box></Box>
-                </>
+                <NoData image={DashboardMockImage} message="" />
               ) : (
-                <Grid container spacing={3} height={680} overflow="scroll">
-                  {reports?.map((item: string | undefined) => (
+                <Grid
+                  container
+                  spacing={3}
+                  p={2}
+                  maxHeight={'70vh'}
+                  overflow={'auto'}
+                >
+                  {reports?.map((item: any) => (
                     <Grid item xs={12} key={item}>
                       {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item] &&
                         createElement(
                           AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item],
+                          {
+                            ticketType: TICKET_GRAPH_TYPES?.PRIORITY,
+                            isPreviewMode: true,
+                          },
                         )}
                     </Grid>
                   ))}
@@ -144,6 +165,12 @@ export const CreateDashboard = () => {
           </LoadingButton>
         </Box>
       </FormProvider>
+      {isPortalOpen?.isView && (
+        <PreviewDashboard
+          isPortalOpen={isPortalOpen}
+          setIsPortalOpen={setIsPortalOpen}
+        />
+      )}
     </>
   );
 };

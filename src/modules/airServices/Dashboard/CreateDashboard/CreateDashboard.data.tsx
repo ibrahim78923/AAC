@@ -30,8 +30,8 @@ import {
 import { RecentActivities } from '../RecentActivities';
 import { TopPerformer } from '../TopPerformer';
 import { Announcement } from '../Announcement';
-import { PieChart } from '../Chart/PieChart';
-import { TicketBased } from '../Chart/TicketBased';
+import { AgentAvailability } from '../AgentAvailability';
+import { TicketBased } from '../TicketBased';
 
 export const MANAGE_DASHBOARD_ACCESS_TYPES = {
   PRIVATE_TO_OWNER: MANAGE_ACCESS_TYPES?.PRIVATE,
@@ -43,7 +43,7 @@ export const MANAGE_DASHBOARD_ACCESS_TYPES = {
   SPECIFIC_USER_AND_TEAMS: MANAGE_ACCESS_TYPES?.SPECIAL,
 };
 
-export const SERVICES_DASHBOARD_WIDGETS = {
+export const SERVICES_DASHBOARD_WIDGETS: any = {
   TICKETS_OVERVIEW_BY_STATE_AND_STATUS: 'TICKETS_OVERVIEW_BY_STATE_AND_STATUS',
   GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS:
     'GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS',
@@ -114,7 +114,7 @@ export const AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS = {
   [SERVICES_DASHBOARD_WIDGETS?.GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS]:
     TicketBased,
   [SERVICES_DASHBOARD_WIDGETS?.RECENT_ACTIVITIES]: RecentActivities,
-  [SERVICES_DASHBOARD_WIDGETS?.AGENT_AVAILABILITY]: PieChart,
+  [SERVICES_DASHBOARD_WIDGETS?.AGENT_AVAILABILITY]: AgentAvailability,
   [SERVICES_DASHBOARD_WIDGETS?.TOP_PERFORMER]: TopPerformer,
   [SERVICES_DASHBOARD_WIDGETS?.ANNOUNCEMENTS]: Announcement,
 };
@@ -123,10 +123,30 @@ export const createDashboardValidationSchema = () => {
   return Yup?.object()?.shape({
     name: Yup?.string()?.trim()?.required('Name is required'),
     access: Yup?.string()?.required('Access is required'),
-    reports: Yup?.array()
-      ?.of(Yup?.string()?.required('Report is required'))
-      ?.min(1, 'Report is required'),
+    reports: Yup?.array(),
   });
+};
+
+export const filterAndConcatWidgets = (
+  arrayToFilter: any,
+  arrayToConcat: any,
+) => {
+  const widgetValuesSet = new Set(
+    arrayToFilter
+      ?.filter((item: any) => item?.type === REPORT_TYPES?.STATIC)
+      ?.map((obj: any) => obj?.name),
+  );
+  const filteredArrayToConcat = arrayToConcat?.filter(
+    (obj: any) => !widgetValuesSet.has(obj.value),
+  );
+
+  const mapAsOptions = arrayToFilter?.map((item: any) => ({
+    value: item?.name,
+    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[item?.name],
+  }));
+
+  const modifiedArray = [...mapAsOptions, ...filteredArrayToConcat];
+  return modifiedArray;
 };
 
 export const createDashboardDefaultValue = (
@@ -137,8 +157,8 @@ export const createDashboardDefaultValue = (
     isDefault: data?.isDefault ?? false,
     reports: data?.reports?.length
       ? data?.reports
-          ?.filter((item) => item?.type === REPORT_TYPES?.STATIC)
-          ?.map((item) => item?.name)
+          ?.filter((item: any) => item?.type === REPORT_TYPES?.STATIC)
+          ?.map((item: any) => item?.name)
       : [],
     specialUsers: data?.specialUsers?.length ? data?.specialUsers : [],
     permissionsUsers: [],
@@ -148,12 +168,7 @@ export const createDashboardDefaultValue = (
         ? data?.permissions
         : '',
     dashboardWidgets: data?.reports?.length
-      ? data?.reports
-          ?.filter((item) => item?.type === REPORT_TYPES?.STATIC)
-          ?.map((item) => ({
-            label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[item?.name],
-            value: item?.name,
-          }))
+      ? filterAndConcatWidgets(data?.reports, dashboardWidgetsData)
       : dashboardWidgetsData,
   };
 };
@@ -332,7 +347,7 @@ export const specificUsersAccessFormFieldsDynamic = (
       <RHFRadioGroup
         name={`${name}.${index}.viewAndEdit`}
         size="small"
-        fullWidth={true}
+        fullWidth
         options={[
           {
             value: MANAGE_DASHBOARD_ACCESS_TYPES?.EDIT_AND_VIEW,
@@ -348,7 +363,7 @@ export const specificUsersAccessFormFieldsDynamic = (
       <RHFRadioGroup
         name={`${name}.${index}.viewAndEdit`}
         size="small"
-        fullWidth={true}
+        fullWidth
         options={[
           {
             value: MANAGE_DASHBOARD_ACCESS_TYPES?.ONLY_VIEW,
