@@ -8,18 +8,29 @@ import {
 import { PAGINATION } from '@/config';
 import { ROLES } from '@/constants/strings';
 import { ticketStatusOptions } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
-export const addTimeFormValidationSchema = Yup?.object()?.shape({
-  task: Yup?.mixed()?.nullable()?.required('Task is Required'),
-  agent: Yup?.mixed()?.nullable()?.required('Agent is Required'),
-  hours: Yup?.string()?.trim()?.required('Hours is Required'),
-  status: Yup?.mixed()?.nullable(),
-  on: Yup?.date()?.required('On is Required'),
-  note: Yup?.mixed()?.nullable(),
-});
+export const addTimeFormValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const addTimeFormDefaultValues = () => {
+  return Yup?.object()?.shape({
+    task: Yup?.mixed()?.nullable()?.required('Task is Required'),
+    agent: Yup?.mixed()?.nullable()?.required('Agent is Required'),
+    hours: Yup?.string()?.trim()?.required('Hours is Required'),
+    status: Yup?.mixed()?.nullable(),
+    on: Yup?.date()?.required('On is Required'),
+    note: Yup?.mixed()?.nullable(),
+    ...formSchema,
+  });
+};
+
+export const addTimeFormDefaultValues = (form?: any) => {
+  const initialValues: any = dynamicFormInitialValue({}, form);
+
   return {
     task: null,
     agent: null,
@@ -27,6 +38,7 @@ export const addTimeFormDefaultValues = () => {
     status: null,
     on: new Date(),
     note: '',
+    ...initialValues,
   };
 };
 export const addTimeFormFieldsDynamic = (
