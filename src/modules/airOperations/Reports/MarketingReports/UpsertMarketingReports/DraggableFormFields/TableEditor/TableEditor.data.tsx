@@ -22,7 +22,7 @@ export const tableEditorData: any = {
       fieldName: 'type',
     },
   ],
-  LEAD_CTAS: [
+  LEADS: [
     {
       fieldType: FIELD_TYPE?.STRING,
       fieldName: 'type',

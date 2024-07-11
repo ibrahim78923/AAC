@@ -11,9 +11,10 @@ import { CHARTS, REPORT_TYPE, FIELD_TYPE } from '@/constants/strings';
 import {
   useLazyUsersDropdownQuery,
   usePostSalesReportsMutation,
+  useLazyDashboardDropdownQuery,
 } from '@/services/airOperations/reports/sales-reports/upsert-sales-reports';
 import {
-  SaveReportDrawerPropsI,
+  SaveReportI,
   usersDropdownOptionsI,
 } from './SaveReportDrawer.interface';
 
@@ -57,12 +58,13 @@ export const useSaveReportDrawer = (props: any) => {
     }
   }, [selectSharedWith, selectAddToDashboard, selectAddToNewDashboard]);
 
+  const dashboardDropdown = useLazyDashboardDropdownQuery();
   const usersDropdown = useLazyUsersDropdownQuery();
-  const reportsArray = reportsDataArray(usersDropdown);
+  const reportsArray = reportsDataArray(usersDropdown, dashboardDropdown);
   const [postSalesReportTrigger, postSalesReportStatus] =
     usePostSalesReportsMutation();
 
-  const onSubmit = async (data: SaveReportDrawerPropsI) => {
+  const onSubmit = async (data: SaveReportI) => {
     const specificUsersIds = data?.specificUsersConditionOne?.map(
       (item: usersDropdownOptionsI) => item?._id,
     );

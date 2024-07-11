@@ -22,8 +22,22 @@ export const UpsertMarketingReportApi = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    dashboardDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DASHBOARD_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.dynamicdashboards;
+      },
+      providesTags: [TAG],
+    }),
   }),
 });
 
-export const { usePostMarketingReportsMutation, useLazyUsersDropdownQuery } =
-  UpsertMarketingReportApi;
+export const {
+  usePostMarketingReportsMutation,
+  useLazyUsersDropdownQuery,
+  useLazyDashboardDropdownQuery,
+} = UpsertMarketingReportApi;

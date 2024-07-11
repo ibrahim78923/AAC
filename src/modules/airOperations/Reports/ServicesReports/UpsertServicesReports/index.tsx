@@ -63,7 +63,7 @@ export const UpsertServicesReports = () => {
         <Grid container display={'flex'} justifyContent={'space-between'}>
           <Grid
             item
-            sm={12}
+            xs={12}
             lg={7.9}
             p={2}
             borderRadius={3}
@@ -135,9 +135,9 @@ export const UpsertServicesReports = () => {
           </Grid>
           <Grid
             item
-            sm={12}
+            xs={12}
             lg={4}
-            mt={{ sm: 1, lg: 0 }}
+            mt={{ xs: 1, lg: 0 }}
             p={2}
             borderRadius={3}
             boxShadow={`0rem 0rem .2rem .2rem ${theme?.palette?.grey[400]}`}

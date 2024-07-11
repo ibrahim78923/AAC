@@ -43,7 +43,7 @@ export const templateList = [
     xAxis: { label: 'Status', value: 'status', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
-    templateType: REPORT_TYPE?.LEAD_CTAS,
+    templateType: REPORT_TYPE?.LEADS,
     description: 'Visualize your data',
   },
 
@@ -64,7 +64,7 @@ export const templateList = [
       },
     ],
     match: 'table',
-    templateType: REPORT_TYPE?.LEAD_CTAS,
+    templateType: REPORT_TYPE?.LEADS,
     description: 'LeadsCTAs Table',
   },
   {
@@ -73,7 +73,7 @@ export const templateList = [
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '68',
     match: 'counter',
-    templateType: REPORT_TYPE?.LEAD_CTAS,
+    templateType: REPORT_TYPE?.LEADS,
     description: 'LeadsCTAs',
   },
   {
@@ -82,7 +82,7 @@ export const templateList = [
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '62%',
     match: 'counter',
-    templateType: REPORT_TYPE?.LEAD_CTAS,
+    templateType: REPORT_TYPE?.LEADS,
     description: 'LeadsCTAs',
   },
   {
@@ -91,7 +91,7 @@ export const templateList = [
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '68',
     match: 'counter',
-    templateType: REPORT_TYPE?.LEAD_CTAS,
+    templateType: REPORT_TYPE?.LEADS,
     description: 'LeadsCTAs',
   },
   {
@@ -100,7 +100,7 @@ export const templateList = [
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '68',
     match: 'counter',
-    templateType: REPORT_TYPE?.LEAD_CTAS,
+    templateType: REPORT_TYPE?.LEADS,
     description: 'LeadsCTAs',
   },
   {
@@ -109,7 +109,7 @@ export const templateList = [
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '156',
     match: 'counter',
-    templateType: REPORT_TYPE?.LEAD_CTAS,
+    templateType: REPORT_TYPE?.LEADS,
     description: 'LeadsCTAs',
   },
   {
@@ -118,7 +118,7 @@ export const templateList = [
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '06',
     match: 'counter',
-    templateType: REPORT_TYPE?.LEAD_CTAS,
+    templateType: REPORT_TYPE?.LEADS,
     description: 'LeadsCTAs',
   },
   {
@@ -127,7 +127,7 @@ export const templateList = [
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '42',
     match: 'counter',
-    templateType: REPORT_TYPE?.LEAD_CTAS,
+    templateType: REPORT_TYPE?.LEADS,
     description: 'LeadsCTAs',
   },
   {
@@ -136,7 +136,7 @@ export const templateList = [
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '40%',
     match: 'counter',
-    templateType: REPORT_TYPE?.LEAD_CTAS,
+    templateType: REPORT_TYPE?.LEADS,
     description: 'LeadsCTAs',
   },
 
@@ -283,9 +283,9 @@ export const modalInitialState: any = {
 
 export const marketingMetrics = (setMetricType: any) => [
   {
-    title: REPORT_TYPE?.LEAD_CTAS,
+    title: REPORT_TYPE?.LEADS,
     handleClick: (closeMenu: any) => {
-      setMetricType(REPORT_TYPE?.LEAD_CTAS);
+      setMetricType(REPORT_TYPE?.LEADS);
       closeMenu?.();
     },
   },

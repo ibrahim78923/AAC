@@ -9,12 +9,12 @@ export const xAxesDataArray: any = {
     },
     { label: 'Status', value: 'status', ref: null },
     {
-      label: 'Inventory Location Id',
+      label: 'Inventory Location',
       value: 'inventory_locationId',
       ref: COLLECTION_NAME?.LOCATION,
     },
     {
-      label: 'Inventory Department Id',
+      label: 'Inventory Department',
       value: 'inventory_departmentId',
       ref: COLLECTION_NAME?.DEPARTMENT,
     },

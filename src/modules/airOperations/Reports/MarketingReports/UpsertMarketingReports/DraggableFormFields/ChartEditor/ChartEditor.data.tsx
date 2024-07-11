@@ -13,7 +13,7 @@ export const xAxesDataArray: any = {
     { label: 'Status', value: 'status', ref: null },
     { label: 'Type', value: 'type', ref: null },
   ],
-  LEAD_CTAS: [
+  LEADS: [
     { label: 'Contract Type', value: 'contractType', ref: null },
     { label: 'Status', value: 'status', ref: null },
     {

@@ -7,7 +7,7 @@ export interface usersDropdownOptionsI {
   _id: string;
 }
 
-export interface SaveReportDrawerPropsI {
+export interface SaveReportI {
   reportName: string;
   sharedWith: string;
   addToDashboard: string;

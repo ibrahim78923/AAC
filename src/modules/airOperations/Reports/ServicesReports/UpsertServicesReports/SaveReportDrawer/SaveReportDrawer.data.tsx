@@ -1,6 +1,5 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import {
-  RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFCheckbox,
   RHFRadioGroup,
@@ -24,7 +23,6 @@ const addToDashboardArray = [
   { value: REPORT_TYPE?.ADD_TO_NEW, label: 'Add to new dashboard' },
   { value: REPORT_TYPE?.ADD_TO_EXISTING, label: 'Add to existing dashboard' },
 ];
-const addToDashboardOptionsArray = ['Test1', 'Test2', 'Test3'];
 
 export const reportsValidationSchema = (reportValidation: any) =>
   Yup?.object()?.shape({
@@ -94,7 +92,10 @@ export const reportsDefaultValues = {
   addFilter: false,
 };
 
-export const reportsDataArray = (usersDropdown: any) => [
+export const reportsDataArray = (
+  usersDropdown: any,
+  dashboardDropdown: any,
+) => [
   {
     id: 7578,
     componentProps: {
@@ -160,12 +161,14 @@ export const reportsDataArray = (usersDropdown: any) => [
     },
     component: RHFRadioGroup,
     conditionalComponentTree: (
-      <RHFAutocomplete
+      <RHFAutocompleteAsync
+        size="small"
         name="addToExistingCondition"
         label="Select Dashboard"
-        size="small"
-        type="text"
-        options={addToDashboardOptionsArray}
+        required={true}
+        apiQuery={dashboardDropdown}
+        getOptionLabel={(option: any) => option?.name}
+        placeholder="Select Option"
       />
     ),
     conditionalComponentFour: (

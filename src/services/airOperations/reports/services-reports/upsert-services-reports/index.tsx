@@ -71,6 +71,16 @@ export const UpsertServiceReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
     }),
+    dashboardDropdown: builder?.query({
+      query: () => ({
+        url: `${END_POINTS?.DASHBOARD_DROPDOWN}`,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.dynamicdashboards;
+      },
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -82,4 +92,5 @@ export const {
   useLazyUsersDropdownQuery,
   useLazyCategoriesDropdownQuery,
   useLazyVendorsDropdownQuery,
+  useLazyDashboardDropdownQuery,
 } = UpsertServiceReportApi;
