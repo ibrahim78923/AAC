@@ -1,10 +1,11 @@
 import {
-  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDropZone,
   RHFEditor,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { useLazyGetProductCategoriesQuery } from '@/services/common-APIs';
 import * as Yup from 'yup';
 export const productsValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -17,104 +18,104 @@ export const productsDefaultValues = {
   purchasePrice: null,
   unitPrice: null,
   sku: '',
-  category: '',
+  category: null,
   associate: '',
   description: '',
   isActive: false,
   file: '',
 };
 
-export const productsDataArray = [
-  {
-    componentProps: {
-      name: 'name',
-      label: 'Product Name',
-      fullWidth: true,
-      placeholder: 'Enter here',
-      required: true,
+export const productsDataArray = () => {
+  const productCategories = useLazyGetProductCategoriesQuery();
+
+  return [
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Product Name',
+        fullWidth: true,
+        placeholder: 'Enter here',
+        required: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'sku',
-      label: 'SKU',
-      fullWidth: true,
-      select: false,
-      placeholder: 'Enter here',
+    {
+      componentProps: {
+        name: 'sku',
+        label: 'SKU',
+        fullWidth: true,
+        select: false,
+        placeholder: 'Enter here',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'purchasePrice',
-      label: 'Purchase Price',
-      fullWidth: true,
-      placeholder: 'Enter here',
-      required: true,
-      type: 'number',
+    {
+      componentProps: {
+        name: 'purchasePrice',
+        label: 'Purchase Price',
+        fullWidth: true,
+        placeholder: 'Enter here',
+        required: true,
+        type: 'number',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      placeholder: 'Select category',
-      name: 'category',
-      label: 'Category',
-      options: [
-        'All',
-        'Copy URL',
-        'Create Dashboard',
-        'Update Dashboard',
-        'View Dashboard',
-      ],
+    {
+      componentProps: {
+        placeholder: 'Select category',
+        name: 'category',
+        label: 'Category',
+        apiQuery: productCategories,
+        getOptionLabel: (option: any) => `${option?.name}`,
+      },
+      component: RHFAutocompleteAsync,
+      md: 12,
     },
-    component: RHFAutocomplete,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'description',
-      label: 'Description',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'description',
+        label: 'Description',
+        fullWidth: true,
+      },
+      component: RHFEditor,
+      md: 12,
     },
-    component: RHFEditor,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'unitPrice',
-      label: 'Unit Price (£)',
-      fullWidth: true,
-      placeholder: 'Enter here',
-      required: true,
-      type: 'number',
+    {
+      componentProps: {
+        name: 'unitPrice',
+        label: 'Unit Price (£)',
+        fullWidth: true,
+        placeholder: 'Enter here',
+        required: true,
+        type: 'number',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 13,
-    componentProps: {
-      name: 'isActive',
-      label: 'Active Product',
+    {
+      id: 13,
+      componentProps: {
+        name: 'isActive',
+        label: 'Active Product',
+      },
+      component: RHFSwitch,
+      md: 12,
     },
-    component: RHFSwitch,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'file',
-      label: 'Upload',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'file',
+        label: 'Upload',
+        fullWidth: true,
+      },
+      component: RHFDropZone,
+      md: 12,
     },
-    component: RHFDropZone,
-    md: 12,
-  },
-];
+  ];
+};
+
 export const productOptions = [
   {
     label: 'Custom Line Item',

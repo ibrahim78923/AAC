@@ -94,8 +94,8 @@ export const VideoConferencing = () => {
                           item?.name === meetings?.MS_TEAM
                             ? handleMsTeamsClick
                             : item?.name === meetings?.GOOGLE_MEET
-                              ? handleGoogleMeetClick
-                              : handleZoomClick
+                            ? handleGoogleMeetClick
+                            : handleZoomClick
                         }
                       >
                         Connect Now

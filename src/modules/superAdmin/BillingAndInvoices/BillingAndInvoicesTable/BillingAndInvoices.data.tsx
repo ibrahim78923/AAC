@@ -1,4 +1,11 @@
-import { Avatar, Box, Checkbox, Tooltip, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  Theme,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { RHFSelect } from '@/components/ReactHookForm';
 import {
   useGetOrganizationsQuery,
@@ -11,11 +18,11 @@ import { IMG_URL } from '@/config';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 
 export const Columns = (
-  setIsGetRowValues: any,
-  setIsChecked: any,
-  isChecked: any,
-  isGetRowValues: any,
-  theme: any,
+  setIsGetRowValues: (value: any) => void,
+  setIsChecked: (value: boolean) => void,
+  isChecked: boolean,
+  isGetRowValues: { cell: { row: { original: { _id: string } } } },
+  theme: Theme,
 ) => {
   return [
     {

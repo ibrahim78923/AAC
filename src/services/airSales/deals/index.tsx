@@ -1,4 +1,4 @@
-import { baseAPI } from '@/services/base-api';
+import { baseAPI, TAGS } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
 
 export const dealsApi = baseAPI.injectEndpoints({
@@ -9,26 +9,17 @@ export const dealsApi = baseAPI.injectEndpoints({
         method: 'GET',
         params: values,
       }),
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
+
     getDealsAssociations: builder.query({
       query: ({ id, params }) => ({
         url: `${END_POINTS?.DEALS_ASSOCIATION}/${id}`,
         method: 'GET',
         params: params,
       }),
-      providesTags: ['DEALS_ASSOCIATION'],
+      providesTags: ['DEALS_ASSOCIATION', 'DEALS', 'COMPANY'],
     }),
-
-    // getDealsById: builder.query({
-    //   query: () => {
-    //     return {
-    //       url: ``,
-    //       method: 'GET',
-    //     };
-    //   },
-    //   providesTags: ['DEALS'],
-    // }),
 
     postDeals: builder.mutation({
       query: ({ body }: any) => {
@@ -38,7 +29,7 @@ export const dealsApi = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['DEALS', 'DEALS_ASSOCIATION'],
+      invalidatesTags: TAGS,
     }),
 
     getDealPipeLine: builder.query({
@@ -47,7 +38,7 @@ export const dealsApi = baseAPI.injectEndpoints({
         method: 'GET',
         params,
       }),
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
 
     getDealPipeLineList: builder.query({
@@ -59,7 +50,7 @@ export const dealsApi = baseAPI.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
 
     getDealsLifecycleStage: builder.query({
@@ -67,7 +58,7 @@ export const dealsApi = baseAPI.injectEndpoints({
         url: `${END_POINTS?.DEALS_LIFECYCLE_STAGES}`,
         method: 'GET',
       }),
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
 
     getAddLineItems: builder.query({
@@ -76,22 +67,16 @@ export const dealsApi = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
-    // getDealsUserList: builder.query({
-    //   query: ({}) => ({
-    //     url: `${END_POINTS?.DEALS_USER_LIST}`,
-    //     method: 'GET',
-    //   }),
-    //   providesTags: ['DEALS'],
-    // }),
+
     getDealsGridView: builder.query({
       query: (params: any) => ({
         url: `${END_POINTS?.DEALS_GRID_VIEW}`,
         method: 'GET',
         params: params,
       }),
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
     getDealsActionPreview: builder.query({
       query: ({ id }) => {
@@ -100,7 +85,7 @@ export const dealsApi = baseAPI.injectEndpoints({
           method: 'GET',
         };
       },
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
     getDealsViews: builder.query({
       query: () => {
@@ -109,7 +94,7 @@ export const dealsApi = baseAPI.injectEndpoints({
           method: 'GET',
         };
       },
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
     getRestoreDeals: builder.query({
       query: ({ params }: any) => {
@@ -119,7 +104,7 @@ export const dealsApi = baseAPI.injectEndpoints({
           params: params,
         };
       },
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
 
     createViewDeals: builder.mutation({
@@ -130,7 +115,7 @@ export const dealsApi = baseAPI.injectEndpoints({
           body,
         };
       },
-      invalidatesTags: ['DEALS'],
+      invalidatesTags: TAGS,
     }),
 
     updateDeals: builder.mutation({
@@ -141,7 +126,7 @@ export const dealsApi = baseAPI.injectEndpoints({
           params: queryParams,
         };
       },
-      invalidatesTags: ['DEALS'],
+      invalidatesTags: TAGS,
     }),
 
     deleteDeals: builder.mutation({
@@ -149,21 +134,21 @@ export const dealsApi = baseAPI.injectEndpoints({
         url: `${END_POINTS?.DELETE_DEALS}/${ids}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['DEALS', 'COMPANY'],
+      invalidatesTags: TAGS,
     }),
     updateRestoreDeals: builder.mutation({
       query: ({ id, action }: any) => ({
         url: `${END_POINTS?.PATCH_RESTORE_DEAL_ACTION}?id=${id}&action=${action}`,
         method: 'PATCH',
       }),
-      invalidatesTags: ['DEALS'],
+      invalidatesTags: TAGS,
     }),
     getDealsListWithOutParams: builder.query({
       query: ({ url }) => ({
         url,
         method: 'GET',
       }),
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
     getUsersList: builder.query({
       query: (params) => ({
@@ -171,7 +156,7 @@ export const dealsApi = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
     getUsersListDropdown: builder.query({
       query: ({ params }) => ({
@@ -182,7 +167,7 @@ export const dealsApi = baseAPI.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.users;
       },
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
     patchDeals: builder.mutation({
       query: ({ id, body }: any) => {
@@ -192,7 +177,7 @@ export const dealsApi = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['DEALS'],
+      invalidatesTags: TAGS,
     }),
     getCustomizeColumn: builder.query({
       query: (params) => ({
@@ -200,7 +185,7 @@ export const dealsApi = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['DEALS'],
+      providesTags: TAGS,
     }),
     updatedGridDeals: builder.mutation({
       query: ({ body, id }: any) => {
@@ -210,7 +195,7 @@ export const dealsApi = baseAPI.injectEndpoints({
           body,
         };
       },
-      invalidatesTags: ['DEALS'],
+      invalidatesTags: TAGS,
     }),
     putCustomizedColumns: builder.mutation({
       query: ({ body }: any) => ({
@@ -218,19 +203,17 @@ export const dealsApi = baseAPI.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['DEALS', 'CUSTOMIZE'],
+      invalidatesTags: TAGS,
     }),
   }),
 });
 
 export const {
   useGetDealsListQuery,
-  // useGetDealsByIdQuery,
   useGetDealPipeLineQuery,
   useLazyGetDealPipeLineListQuery,
   useGetDealsLifecycleStageQuery,
   useGetAddLineItemsQuery,
-  // useGetDealsUserListQuery,
   useGetDealsGridViewQuery,
   useGetDealsActionPreviewQuery,
   useLazyGetDealsActionPreviewQuery,
@@ -244,7 +227,6 @@ export const {
   useUpdateRestoreDealsMutation,
   useGetDealsListWithOutParamsQuery,
   useGetUsersListQuery,
-  // useLazyGetUsersListsQuery,
   usePatchDealsMutation,
   useGetDealsAssociationsQuery,
   useGetCustomizeColumnQuery,

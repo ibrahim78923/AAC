@@ -21,7 +21,7 @@ const useBillingAndInvoices = () => {
   const { isShowViewBillingDetails, setIsShowViewBillingDetails } =
     useMenuOptions();
   const [isChecked, setIsChecked] = useState(false);
-  const [isGetRowValues, setIsGetRowValues] = useState('');
+  const [isGetRowValues, setIsGetRowValues] = useState<any>('');
   const [filterValues, setFilterValues] = useState({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);

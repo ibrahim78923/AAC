@@ -397,6 +397,9 @@ export const TICKETS_STATE = {
   NEW: 'New',
   RESPONSE_DUE: 'Response due',
   OVERDUE: 'Overdue',
+  PENDING: 'PENDING',
+  OVERDUES: 'OVERDUE',
+  PAID: 'PAID',
 };
 
 export const ROLE = {

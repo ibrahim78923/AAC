@@ -9,6 +9,7 @@ import { PlusIcon } from '@/assets/icons';
 import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const Products = ({ productsData, isLoading, viewDeal, dealId }: any) => {
   const {
@@ -75,7 +76,7 @@ const Products = ({ productsData, isLoading, viewDeal, dealId }: any) => {
                 className="medium"
                 sx={{ minWidth: '0px', gap: 0.5 }}
                 onClick={() => {
-                  setOpenDrawer('Add'), setSelectedProduct({});
+                  setOpenDrawer(DRAWER_TYPES?.ADD), setSelectedProduct({});
                 }}
               >
                 <PlusIcon /> Add Products
