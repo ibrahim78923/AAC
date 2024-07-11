@@ -1,10 +1,11 @@
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const salesReportsApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getAllSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -12,7 +13,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response && response?.data) {
           return {
             ...response,
-            list: response?.data,
+            list: response?.data?.genericReports,
             data: {
               contracts: response?.data,
               meta: response?.data?.meta,
@@ -23,7 +24,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     getAllFavoritesSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -31,7 +32,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response && response?.data) {
           return {
             ...response,
-            list: response?.data,
+            list: response?.data?.genericReports,
             data: {
               contracts: response?.data,
               meta: response?.data?.meta,
@@ -42,7 +43,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     getAllDashboardsSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -50,7 +51,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response && response?.data) {
           return {
             ...response,
-            list: response?.data,
+            list: response?.data?.genericReports,
             data: {
               contracts: response?.data,
               meta: response?.data?.meta,
@@ -61,7 +62,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     getAllCustomSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -69,7 +70,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response && response?.data) {
           return {
             ...response,
-            list: response?.data,
+            list: response?.data?.genericReports,
             data: {
               contracts: response?.data,
               meta: response?.data?.meta,
@@ -80,7 +81,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -89,7 +90,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response && response?.data) {
           return {
             ...response,
-            list: response?.data,
+            list: response?.data?.genericReports,
             data: {
               contracts: response?.data,
               meta: response?.data?.meta,
@@ -100,7 +101,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllFavoritesSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -109,7 +110,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response && response?.data) {
           return {
             ...response,
-            list: response?.data,
+            list: response?.data?.genericReports,
             data: {
               contracts: response?.data,
               meta: response?.data?.meta,
@@ -120,7 +121,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllDashboardsSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -129,7 +130,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response && response?.data) {
           return {
             ...response,
-            list: response?.data,
+            list: response?.data?.genericReports,
             data: {
               contracts: response?.data,
               meta: response?.data?.meta,
@@ -140,7 +141,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllCustomSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -149,7 +150,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response && response?.data) {
           return {
             ...response,
-            list: response?.data,
+            list: response?.data?.genericReports,
             data: {
               contracts: response?.data,
               meta: response?.data?.meta,

@@ -19,8 +19,14 @@ import { ManageReportAccess } from '../ManageReportAccess';
 import { AddToDashboardReport } from '../AddToDashboardReport';
 
 export const useReportLists = (props: any) => {
-  const { filter, apiQuery, exportApiQuery, editReportPath, permission } =
-    props;
+  const {
+    filter,
+    apiQuery,
+    exportApiQuery,
+    editReportPath,
+    permission,
+    baseModule,
+  } = props;
   const [search, setSearch] = useState('');
   const [selectedReportLists, setSelectedReportLists] = useState<any>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -46,6 +52,7 @@ export const useReportLists = (props: any) => {
       ['limit', pageLimit + ''],
       ['search', search],
       ...(filter ? [['filter', filter]] : []),
+      ...(baseModule ? [['baseModule', baseModule]] : []),
     ];
     const getReportParam: any = buildQueryParams(
       additionalParams,

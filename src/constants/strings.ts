@@ -974,6 +974,11 @@ export const PERCENTAGES_VALUES = {
   EIGHTY: 80,
 };
 
+export const GENERIC_REPORT_MODULES = {
+  SERVICES: 'SERVICES',
+  SALES: 'SALES',
+  MARKETING: 'MARKETING',
+};
 export const CUSTOMER_SURVEY_TICKET_STATUS_BASED = {
   AFTER_TICKET_CLOSED: 'afterTicketClosed',
   AFTER_TICKET_RESOLVED: 'afterTicketResolved',
@@ -985,6 +990,9 @@ export const MANAGE_ACCESS_TYPES = {
   PRIVATE: 'private',
   VIEW: 'view',
   VIEW_AND_EDIT: 'edit_&_view',
+  EVERYONE_CAPITAL: 'EVERYONE',
+  PRIVATE_CAPITAL: 'PRIVATE',
+  SPECIFIC_USERS: 'SPECIFIC_USERS',
 };
 
 export const REPORT_TYPES = {

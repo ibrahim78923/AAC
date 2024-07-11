@@ -9,6 +9,7 @@ import {
   AIR_OPERATION_REPORTS_SALES_DASHBOARD_REPORTS_PERMISSIONS,
   AIR_OPERATION_REPORTS_SALES_FAVOURITES_PERMISSIONS,
 } from '@/constants/permission-keys';
+import { GENERIC_REPORT_MODULES } from '@/constants/strings';
 
 export const SalesReports = () => {
   const {
@@ -53,6 +54,7 @@ export const SalesReports = () => {
           editReportPath={(id: any) => editReportPath?.(id)}
           exportApiQuery={exportApiQueryAllReports}
           permission={AIR_OPERATION_REPORTS_SALES_ALL_REPORTS_PERMISSIONS}
+          baseModule={GENERIC_REPORT_MODULES?.SALES}
         />
         <ReportLists
           apiQuery={apiQueryFavoriteReports}
@@ -60,6 +62,7 @@ export const SalesReports = () => {
           editReportPath={(id: any) => editReportPath?.(id)}
           exportApiQuery={exportApiQueryFavoriteReports}
           permission={AIR_OPERATION_REPORTS_SALES_FAVOURITES_PERMISSIONS}
+          baseModule={GENERIC_REPORT_MODULES?.SALES}
         />
         <ReportLists
           apiQuery={apiQueryDashboardReports}
@@ -67,6 +70,7 @@ export const SalesReports = () => {
           editReportPath={(id: any) => editReportPath?.(id)}
           exportApiQuery={exportApiQueryDashboardReports}
           permission={AIR_OPERATION_REPORTS_SALES_DASHBOARD_REPORTS_PERMISSIONS}
+          baseModule={GENERIC_REPORT_MODULES?.SALES}
         />
         <ReportLists
           apiQuery={apiQueryCustomReports}
@@ -74,6 +78,7 @@ export const SalesReports = () => {
           editReportPath={(id: any) => editReportPath?.(id)}
           exportApiQuery={exportApiQueryCustomReports}
           permission={AIR_OPERATION_REPORTS_SALES_CUSTOM_REPORTS_PERMISSIONS}
+          baseModule={GENERIC_REPORT_MODULES?.SALES}
         />
       </HorizontalTabs>
     </>

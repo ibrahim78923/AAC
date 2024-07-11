@@ -449,6 +449,7 @@ export const END_POINTS = {
   GET_SINGLE_SURVEY_ALL_RESPONSES_DETAILS:
     '/feedback-survey/get-survey-responses-details',
   ADD_MEETING: '/Meetings/add-meeting',
+  GET_GENERIC_REPORTS: `/generic-reports`,
   GET_SINGLE_DEFAULT_CUSTOMER_SURVEY:
     '/feedback-survey/get-default-feedback-survey',
   CHECK_SINGLE_DEFAULT_CUSTOMER_SURVEY_SUBMITTED:

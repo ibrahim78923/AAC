@@ -21,6 +21,7 @@ import {
 } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
 
 export const actionsForReportListsDynamic = (
   setIsPortalOpen: any,
@@ -174,25 +175,6 @@ export const actionsForReportListsDynamic = (
   },
 ];
 
-export const data = [
-  {
-    _id: '1222',
-    isFavorite: false,
-    user: {
-      name: 'ali',
-      avatar: {
-        url: 'qwe',
-      },
-    },
-    name: 'Deal',
-    dashboard: 'Deal',
-    type: 'Systematic Report',
-    createdAt: '10/4/2023',
-    assigned: 'Everyone',
-    updatedAt: '10/5/2023',
-  },
-];
-
 export const reportListsColumnsDynamic = (
   selectedReportList?: any,
   setSelectedReportList?: any,
@@ -248,12 +230,12 @@ export const reportListsColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.user,
-    id: 'user',
+    accessorFn: (row: any) => row?.owner,
+    id: 'owner',
     isSortable: true,
     header: 'Report Owner',
     cell: (info: any) => (
-      <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
+      <Box display={'flex'} alignItems={'center'} gap={1}>
         {addReportToFavoriteListStatus?.isLoading &&
         addReportToFavoriteListStatus?.originalArgs?.pathParams?.id ===
           info?.row?.original?._id ? (
@@ -271,18 +253,20 @@ export const reportListsColumnsDynamic = (
             name={info?.getValue()}
           />
         )}
-        <Avatar
-          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.getValue()?.avatar?.url)}
-        >
-          <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(
-              info?.getValue()?.firstName,
-              info?.getValue()?.lastName,
-            )}
-          </Typography>
-        </Avatar>
-        {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        <Box display={'flex'} alignItems={'center'} gap={1}>
+          <Avatar
+            sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+            src={generateImage(info?.getValue()?.avatar?.url)}
+          >
+            <Typography variant="body2" textTransform={'uppercase'}>
+              {fullNameInitial(
+                info?.getValue()?.firstName,
+                info?.getValue()?.lastName,
+              )}
+            </Typography>
+          </Avatar>
+          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        </Box>
       </Box>
     ),
   },
@@ -302,14 +286,17 @@ export const reportListsColumnsDynamic = (
     id: 'dashboard',
     isSortable: true,
     header: 'Dashboard Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) =>
+      !!info?.getValue()?.length
+        ? info?.getValue()?.find((item: any) => item?.name)
+        : '---',
   },
   {
     accessorFn: (row: any) => row?.type,
     id: 'type',
     isSortable: true,
     header: 'Type',
-    cell: (info: any) => info?.getValue() ?? '--',
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.createdAt,
@@ -317,14 +304,17 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Created Date',
     cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '--',
+      !!info?.getValue()
+        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+        : '---',
   },
   {
-    accessorFn: (row: any) => row?.assigned,
-    id: 'assigned',
+    accessorFn: (row: any) => row?.accessLevel,
+    id: 'accessLevel',
     isSortable: true,
     header: 'Assigned',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      MANAGE_REPORTS_ACCESS_TYPES_MAPPED?.[info?.getValue()?.type],
   },
   {
     accessorFn: (row: any) => row?.updatedAt,
@@ -332,6 +322,8 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Last Updated Date',
     cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '--',
+      !!info?.getValue()
+        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+        : '--',
   },
 ];

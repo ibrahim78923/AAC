@@ -79,6 +79,23 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         body: apiDataParameter?.body,
       }),
     }),
+    getAllGenericReportsList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.GET_GENERIC_REPORTS,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    getReportsOwnersDropdownListForReports: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
@@ -94,4 +111,6 @@ export const {
   useManageReportAccessMutation,
   useChangeReportOwnerMutation,
   useEmailReportsMutation,
+  useLazyGetAllGenericReportsListQuery,
+  useLazyGetReportsOwnersDropdownListForReportsQuery,
 } = salesReportsApi;

@@ -1,10 +1,11 @@
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const servicesReportsApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getAllServicesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -12,7 +13,7 @@ const servicesReportsApi = baseAPI?.injectEndpoints({
         if (response && response?.data) {
           return {
             ...response,
-            list: response?.data,
+            list: response?.data?.genericReports,
             data: {
               contracts: response?.data,
               meta: response?.data?.meta,
@@ -23,7 +24,7 @@ const servicesReportsApi = baseAPI?.injectEndpoints({
     }),
     getAllFavoritesServicesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -42,7 +43,7 @@ const servicesReportsApi = baseAPI?.injectEndpoints({
     }),
     getAllDashboardsServicesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -61,7 +62,7 @@ const servicesReportsApi = baseAPI?.injectEndpoints({
     }),
     getAllCustomServicesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -80,7 +81,7 @@ const servicesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllServicesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -100,7 +101,7 @@ const servicesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllFavoritesServicesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -120,7 +121,7 @@ const servicesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllDashboardsServicesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
@@ -140,7 +141,7 @@ const servicesReportsApi = baseAPI?.injectEndpoints({
     }),
     exportAllCustomServicesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_GENERIC_REPORTS,
         method: 'GET',
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),

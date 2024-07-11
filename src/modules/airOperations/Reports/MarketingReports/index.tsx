@@ -3,6 +3,7 @@ import { AIR_OPERATIONS } from '@/constants';
 import { useMarketingReports } from './useMarketingReports';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { ReportLists } from '../ReportLists';
+import { GENERIC_REPORT_MODULES } from '@/constants/strings';
 
 export const MarketingReports = () => {
   const {
@@ -45,24 +46,28 @@ export const MarketingReports = () => {
           onRestoreClick={() => restoreReportsPath?.()}
           editReportPath={(id: any) => editReportPath?.(id)}
           exportApiQuery={exportApiQueryAllReports}
+          baseModule={GENERIC_REPORT_MODULES?.MARKETING}
         />
         <ReportLists
           apiQuery={apiQueryFavoriteReports}
           onRestoreClick={() => restoreReportsPath?.()}
           editReportPath={(id: any) => editReportPath?.(id)}
           exportApiQuery={exportApiQueryFavoriteReports}
+          baseModule={GENERIC_REPORT_MODULES?.MARKETING}
         />
         <ReportLists
           apiQuery={apiQueryDashboardReports}
           onRestoreClick={() => restoreReportsPath?.()}
           editReportPath={(id: any) => editReportPath?.(id)}
           exportApiQuery={exportApiQueryDashboardReports}
+          baseModule={GENERIC_REPORT_MODULES?.MARKETING}
         />
         <ReportLists
           apiQuery={apiQueryCustomReports}
           onRestoreClick={() => restoreReportsPath?.()}
           editReportPath={(id: any) => editReportPath?.(id)}
           exportApiQuery={exportApiQueryCustomReports}
+          baseModule={GENERIC_REPORT_MODULES?.MARKETING}
         />
       </HorizontalTabs>
     </>
