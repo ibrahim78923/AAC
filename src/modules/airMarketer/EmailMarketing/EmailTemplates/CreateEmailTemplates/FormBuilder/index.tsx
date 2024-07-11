@@ -127,7 +127,8 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
   };
 
   const handelPostTemplateProcess = () => {
-    if (fields.length > 0) {
+    if (fields?.length > 0) {
+
       setIsTitleModal(true);
     } else {
       enqueueSnackbar('Nothing to post!', {

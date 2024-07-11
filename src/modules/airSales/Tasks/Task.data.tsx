@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import useTaskCustomize from './EditColumn/useTaskCustomize';
 import { getSession } from '@/utils';
+import { ROLES } from '@/constants/strings';
 
 export const filterDefaultValues = {
   assignTo: null,
@@ -249,8 +250,7 @@ export const createTaskData = ({ data, usersData }: any) => {
         apiQuery: usersData,
         externalParams: {
           organization: user?.organization?._id,
-          limit: 50,
-          role: user?.role,
+          role: ROLES?.ORG_EMPLOYEE,
         },
         getOptionLabel: (option: any) =>
           option?.firstName + ' ' + option?.lastName,

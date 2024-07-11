@@ -33,7 +33,7 @@ import {
 } from '@/redux/slices/taskManagement/taskManagementSlice';
 import { tabsData } from './searchableTabSelect.data';
 import { PAGINATION } from '@/config';
-import { TASK_TABS } from '@/constants';
+import { API_STATUS, TASK_TABS } from '@/constants';
 
 const SearchableTabsSelect = ({ required, ...other }: any) => {
   const dispatch: any = useAppDispatch();
@@ -64,13 +64,14 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
       ...(searchTerm && { search: searchTerm }),
     },
   });
-  const { data: ticketsData } = useGetCreateTaskTicketsQuery({
-    params: {
-      page: PAGINATION?.CURRENT_PAGE,
-      limit: PAGINATION?.PAGE_LIMIT,
-      ...(searchTerm && { search: searchTerm }),
-    },
-  });
+  const { data: ticketsData, status: ticketsStatus } =
+    useGetCreateTaskTicketsQuery({
+      params: {
+        page: PAGINATION?.CURRENT_PAGE,
+        limit: PAGINATION?.PAGE_LIMIT,
+        ...(searchTerm && { search: searchTerm }),
+      },
+    });
 
   const contactsDataArray =
     contactsData?.data?.contacts &&
@@ -131,7 +132,7 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
     companiesSelectedIds &&
     companiesSelectedIds?.map((item: any) => item?.label);
 
-  const [activeSidebarItem, setActiveSidebarItem] = useState('associations');
+  const [activeSidebarItem, setActiveSidebarItem] = useState('companies');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -162,6 +163,28 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
   ) => {
     setCurrentPage(value);
   };
+
+  const dataLengthCheck =
+    activeSidebarItem === TASK_TABS?.CONTACTS
+      ? contactsData?.data?.contacts
+      : activeSidebarItem === TASK_TABS?.COMPANIES
+        ? companiesData?.data?.companies
+        : activeSidebarItem === TASK_TABS?.DEALS
+          ? dealsData?.data?.deals
+          : activeSidebarItem === TASK_TABS?.TICKETS
+            ? ticketsData?.data
+            : [];
+
+  const statusCheck =
+    activeSidebarItem === TASK_TABS?.CONTACTS
+      ? contactsStatus
+      : activeSidebarItem === TASK_TABS?.COMPANIES
+        ? companiesStatus
+        : activeSidebarItem === TASK_TABS?.DEALS
+          ? dealsStatus
+          : activeSidebarItem === TASK_TABS?.TICKETS
+            ? ticketsStatus
+            : [];
 
   return (
     <>
@@ -245,13 +268,15 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
           </Grid>
           <Grid item xs={8}>
             <Box>
-              <Search
-                searchBy={searchTerm}
-                setSearchBy={setSearchTerm}
-                label="Search By Name"
-                fullWidth
-                size="small"
-              />
+              {!(activeSidebarItem === TASK_TABS?.ASSOCIATIONS) && (
+                <Search
+                  searchBy={searchTerm}
+                  setSearchBy={setSearchTerm}
+                  label="Search By Name"
+                  fullWidth
+                  size="small"
+                />
+              )}
               <Box>
                 {(activeSidebarItem === TASK_TABS?.CONTACTS &&
                   contactsStatus === 'pending') ||
@@ -279,6 +304,7 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                       activeSidebarItem === TASK_TABS?.ASSOCIATIONS) && (
                       <TabsContentSection
                         title="Contacts"
+                        statusCheck={statusCheck}
                         dataArray={contactsDataArray}
                         selectedIds={contactsSelectedIds ?? []}
                         handelChange={handleCheckboxContacts}
@@ -289,6 +315,7 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                       activeSidebarItem === TASK_TABS?.ASSOCIATIONS) && (
                       <TabsContentSection
                         title="Companies"
+                        statusCheck={statusCheck}
                         dataArray={companiesDataArray}
                         selectedIds={companiesSelectedIds}
                         handelChange={handleCheckboxCompanies}
@@ -299,6 +326,7 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                       activeSidebarItem === TASK_TABS?.ASSOCIATIONS) && (
                       <TabsContentSection
                         title="Deals"
+                        statusCheck={statusCheck}
                         dataArray={dealsDataArray}
                         selectedIds={dealsSelectedIds}
                         handelChange={handleCheckboxDeals}
@@ -309,6 +337,7 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                       activeSidebarItem === TASK_TABS?.ASSOCIATIONS) && (
                       <TabsContentSection
                         title="Tickets"
+                        statusCheck={statusCheck}
                         dataArray={ticketsDataArray}
                         selectedIds={ticketsSelectedIds}
                         handelChange={handleCheckboxTickets}
@@ -320,27 +349,37 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
               </Box>
 
               <Box>
-                <Pagination
-                  count={
-                    activeSidebarItem === TASK_TABS?.CONTACTS
-                      ? contactsData?.data?.meta?.pages
-                      : activeSidebarItem === TASK_TABS?.COMPANIES
-                        ? companiesData?.data?.meta?.pages
-                        : activeSidebarItem === TASK_TABS?.DEALS
-                          ? dealsData?.data?.meta?.pages
-                          : 0
-                  }
-                  page={
-                    activeSidebarItem === TASK_TABS?.CONTACTS
-                      ? contactsData?.data?.meta?.page
-                      : activeSidebarItem === TASK_TABS?.COMPANIES
-                        ? companiesData?.data?.meta?.page
-                        : activeSidebarItem === TASK_TABS?.DEALS
-                          ? dealsData?.data?.meta?.page
-                          : 0
-                  }
-                  onChange={handlePageChange}
-                />
+                {statusCheck === API_STATUS?.FULFILLED && (
+                  <>
+                    {dataLengthCheck?.length > 0 && (
+                      <Pagination
+                        count={
+                          activeSidebarItem === TASK_TABS?.CONTACTS
+                            ? contactsData?.data?.meta?.pages
+                            : activeSidebarItem === TASK_TABS?.COMPANIES
+                              ? companiesData?.data?.meta?.pages
+                              : activeSidebarItem === TASK_TABS?.DEALS
+                                ? dealsData?.data?.meta?.pages
+                                : activeSidebarItem === TASK_TABS?.TICKETS
+                                  ? ticketsData?.data?.meta?.pages || 1
+                                  : 0
+                        }
+                        page={
+                          activeSidebarItem === TASK_TABS?.CONTACTS
+                            ? contactsData?.data?.meta?.page
+                            : activeSidebarItem === TASK_TABS?.COMPANIES
+                              ? companiesData?.data?.meta?.page
+                              : activeSidebarItem === TASK_TABS?.DEALS
+                                ? dealsData?.data?.meta?.page
+                                : activeSidebarItem === TASK_TABS?.TICKETS
+                                  ? ticketsData?.data?.meta?.page || 1
+                                  : 0
+                        }
+                        onChange={handlePageChange}
+                      />
+                    )}
+                  </>
+                )}
               </Box>
             </Box>
           </Grid>
@@ -356,7 +395,9 @@ const TabsContentSection = ({
   handelChange,
   title,
   activeSidebarItem,
+  statusCheck,
 }: any) => {
+  const theme = useTheme();
   return (
     <Box>
       <Typography fontWeight={500} sx={{ mt: 2 }}>
@@ -370,51 +411,60 @@ const TabsContentSection = ({
           mt: 1,
         }}
       >
-        {dataArray?.length ? (
-          dataArray?.map((item: any) => {
-            return (
-              <Box key={uuidv4()}>
-                {activeSidebarItem === TASK_TABS?.ASSOCIATIONS ? (
-                  <>
-                    {selectedIds?.some(
-                      (selectedItem: any) => selectedItem?.id === item?.id,
-                    ) && (
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Checkbox
-                          checked={selectedIds?.some(
-                            (selectedItem: any) =>
-                              selectedItem?.id === item?.id,
-                          )}
-                          onChange={() => {
-                            handelChange(item);
-                          }}
-                        />
-                        <Typography>{item?.label}</Typography>
-                      </Box>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Checkbox
-                        checked={selectedIds?.some(
-                          (selectedItem: any) => selectedItem?.id === item?.id,
-                        )}
-                        onChange={() => handelChange(item)}
-                      />
-                      <Typography>{item?.label}</Typography>
-                    </Box>
-                  </>
-                )}
-              </Box>
-            );
-          })
+        {statusCheck === API_STATUS.REJECTED ? (
+          <Box sx={{ color: theme?.palette?.error?.main, ml: 1 }}>
+            Something went wrong
+          </Box>
         ) : (
           <>
-            {activeSidebarItem === TASK_TABS?.ASSOCIATIONS ? (
-              <></>
+            {dataArray?.length ? (
+              dataArray?.map((item: any) => {
+                return (
+                  <Box key={uuidv4()}>
+                    {activeSidebarItem === TASK_TABS?.ASSOCIATIONS ? (
+                      <>
+                        {selectedIds?.some(
+                          (selectedItem: any) => selectedItem?.id === item?.id,
+                        ) && (
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Checkbox
+                              checked={selectedIds?.some(
+                                (selectedItem: any) =>
+                                  selectedItem?.id === item?.id,
+                              )}
+                              onChange={() => {
+                                handelChange(item);
+                              }}
+                            />
+                            <Typography>{item?.label}</Typography>
+                          </Box>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Checkbox
+                            checked={selectedIds?.some(
+                              (selectedItem: any) =>
+                                selectedItem?.id === item?.id,
+                            )}
+                            onChange={() => handelChange(item)}
+                          />
+                          <Typography>{item?.label}</Typography>
+                        </Box>
+                      </>
+                    )}
+                  </Box>
+                );
+              })
             ) : (
-              <Box sx={{ marginLeft: '10px' }}>No records found</Box>
+              <>
+                {activeSidebarItem === TASK_TABS?.ASSOCIATIONS ? (
+                  <></>
+                ) : (
+                  <Box sx={{ marginLeft: '10px' }}>No records found</Box>
+                )}
+              </>
             )}
           </>
         )}
