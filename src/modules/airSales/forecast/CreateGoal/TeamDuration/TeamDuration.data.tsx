@@ -1,25 +1,36 @@
 import {
-  RHFCheckbox,
+  RHFAutocompleteAsync,
   RHFRadioGroup,
   RHFSelect,
 } from '@/components/ReactHookForm';
+import { RADIO_VALUE } from '@/constants';
+import { ROLES } from '@/constants/strings';
+import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
+import { useLazyGetTeamsListQuery } from '@/services/airSales/settings/teams';
+import { getSession } from '@/utils';
 import * as Yup from 'yup';
 
 export const teamDurationValidationSchema = Yup.object().shape({
-  Collaborators: Yup.string(),
-  selectTeams: Yup.string(),
-  duration: Yup.string(),
-  userTeam: Yup.string(),
+  // collaborators: Yup?.mixed()?.nullable()?.required('field is required'),
+  selectTeams: Yup?.string(),
+  duration: Yup?.string()?.required('field is required'),
+  userTeam: Yup?.string(),
 });
 
 export const teamDurationDefaultValues = {
-  Collaborators: '',
+  // collaborators: {},
   selectTeams: '',
   duration: '',
   userTeam: 'USER',
 };
 
 export const teamDurationArray = (userTeamValue: any) => {
+  const { user }: any = getSession();
+  const organizationId: any = user?.organization?._id;
+
+  const teamsList = useLazyGetTeamsListQuery();
+  const userListData = useLazyGetUsersListDropdownQuery();
+
   return [
     {
       componentProps: {
@@ -37,34 +48,32 @@ export const teamDurationArray = (userTeamValue: any) => {
     },
     {
       componentProps: {
-        name: 'Collaborators',
+        name: 'collaborators',
         label: 'collaborators',
-        fullWidth: true,
-        select: true,
         required: true,
-      },
-      options: [
-        { value: 'adminServices', label: 'Admin Services' },
-        { value: 'usmanSaeed', label: 'Usman Saeed' },
-        { value: 'salmanIdrees', label: 'Salman Idrees' },
-      ],
-      component: RHFSelect,
-      md: 12,
-    },
-    {
-      componentProps: {
-        name: 'selectTeams',
-        label: 'Select Teams',
         fullWidth: true,
-        select: true,
-        disabled: userTeamValue === 'USER',
+        placeholder:
+          userTeamValue === RADIO_VALUE?.USER ? 'Select user' : 'Select team',
+        multiple: true,
+        apiQuery:
+          userTeamValue === RADIO_VALUE?.USER ? userListData : teamsList,
+        getOptionLabel: (item: any) =>
+          userTeamValue === RADIO_VALUE?.USER
+            ? item
+              ? `${item?.firstName} ${item?.lastName}`
+              : ''
+            : item?.name,
+        externalParams:
+          userTeamValue === RADIO_VALUE?.USER
+            ? {
+                role: ROLES?.ORG_EMPLOYEE,
+                organization: organizationId,
+              }
+            : {},
+
+        queryKey: 'role',
       },
-      options: [
-        { value: 'adminServices', label: 'Admin Services' },
-        { value: 'usmanSaeed', label: 'Usman Saeed' },
-        { value: 'salmanIdrees', label: 'Salman Idrees' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {
@@ -79,19 +88,28 @@ export const teamDurationArray = (userTeamValue: any) => {
         { value: 'monthly', label: 'Monthly' },
         { value: 'quarterly', label: 'Quarterly' },
         { value: 'yearly', label: 'Yearly' },
+        { value: 'custom', label: 'Custom' },
       ],
       component: RHFSelect,
       md: 12,
     },
     {
       componentProps: {
-        name: 'setting',
-        label: 'Align with your fiscal year settings?',
-        placeholder: 'Enter Here',
+        name: 'from',
+        label: 'From',
         fullWidth: true,
       },
-      component: RHFCheckbox,
-      md: 12,
+      component: 'RHFDatePicker',
+      md: 6,
+    },
+    {
+      componentProps: {
+        name: 'to',
+        label: 'To',
+        fullWidth: true,
+      },
+      component: 'RHFDatePicker',
+      md: 6,
     },
   ];
 };

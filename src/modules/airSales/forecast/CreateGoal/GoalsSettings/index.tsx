@@ -100,7 +100,7 @@ const GoalsSettings = () => {
                   color: theme?.palette?.error?.main,
                 }}
               >
-                Exceeded
+                Missed
               </span>
             </Typography>
             <Typography variant="body3" color={theme?.palette?.custom?.main}>

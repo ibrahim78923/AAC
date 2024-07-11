@@ -11,6 +11,7 @@ import planManagementSlice from './slices/planManagement/planManagementSlice';
 import taskManagementSlice from './slices/taskManagement/taskManagementSlice';
 import dealsTaskSlice from './slices/airSales/Deals/ViewDetails/Tasks/taskSlice';
 import subscriptionAndInvoicesSlice from './slices/orgAdmin/SubscriptionAndInvoices';
+import forecastSlice from './slices/forecast/forecastSlice';
 
 const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ const store = configureStore({
     auth: authSlice,
     socialInbox: SocialInboxSlice,
     planManagementForms: planManagementSlice,
+    forecastForm: forecastSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

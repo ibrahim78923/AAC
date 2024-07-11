@@ -85,13 +85,6 @@ export const teamGoalTableColumns: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.unitMeasurement,
-      id: 'unitMeasurement ',
-      header: 'Unit of Measurement ',
-      isSortable: true,
-      cell: (info: any) => info?.getValue(),
-    },
-    {
       accessorFn: (row: any) => row?.Jan2023,
       id: 'Jan2023',
       header: 'Jan 2023',
@@ -300,7 +293,6 @@ export const teamGoalTableData = [
     id: '1',
     name: 'Olivia Rhye',
     Pipeline: '0',
-    unitMeasurement: ' No of Deals',
     Jan2023: '10',
     yearlyTotal: '0',
   },

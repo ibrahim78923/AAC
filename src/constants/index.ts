@@ -494,3 +494,9 @@ export const TEMPLATE_VIEW_TYPES = {
 export const EMAIL_DATE_FORMAT = {
   DATE_FORMAT: 'MMMM D, YYYY [at] h:mm:ss A',
 };
+
+export const RADIO_VALUE = {
+  USER: 'USER',
+  FROM: 'from',
+  TO: 'to',
+};
