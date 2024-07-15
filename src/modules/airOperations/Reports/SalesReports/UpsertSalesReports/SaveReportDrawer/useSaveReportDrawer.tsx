@@ -7,12 +7,12 @@ import {
 } from './SaveReportDrawer.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
-import { CHARTS, REPORT_TYPE, FIELD_TYPE } from '@/constants/strings';
 import {
   useLazyUsersDropdownQuery,
-  usePostSalesReportsMutation,
+  usePostServiceReportsMutation,
   useLazyDashboardDropdownQuery,
-} from '@/services/airOperations/reports/sales-reports/upsert-sales-reports';
+} from '@/services/airOperations/reports/services-reports/upsert-services-reports';
+import { CHARTS, REPORT_TYPE, FIELD_TYPE } from '@/constants/strings';
 import {
   SaveReportI,
   usersDropdownOptionsI,
@@ -61,12 +61,19 @@ export const useSaveReportDrawer = (props: any) => {
   const dashboardDropdown = useLazyDashboardDropdownQuery();
   const usersDropdown = useLazyUsersDropdownQuery();
   const reportsArray = reportsDataArray(usersDropdown, dashboardDropdown);
-  const [postSalesReportTrigger, postSalesReportStatus] =
-    usePostSalesReportsMutation();
+  const [postServiceReportTrigger, postServiceReportStatus] =
+    usePostServiceReportsMutation();
 
   const onSubmit = async (data: SaveReportI) => {
     const specificUsersIds = data?.specificUsersConditionOne?.map(
       (item: usersDropdownOptionsI) => item?._id,
+    );
+    const newDashboardSpecificUsersIds =
+      data?.newDashboardSpecificUsersConditionOne?.map(
+        (item: usersDropdownOptionsI) => item?._id,
+      );
+    const existingDashboardIds = data?.addToExistingCondition?.map(
+      (item: any) => item?._id,
     );
     const payload = {
       module: metricType,
@@ -135,6 +142,35 @@ export const useSaveReportDrawer = (props: any) => {
             : [],
       },
       isDateFilter: data?.addFilter,
+      linkDashboard: {
+        action: data?.addToDashboard,
+        name:
+          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
+            ? data?.addToNewConditionOne
+            : '',
+        access:
+          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
+            ? data?.addToNewConditionTwo
+            : '',
+        specialUsers:
+          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
+            ? data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS
+              ? newDashboardSpecificUsersIds
+              : []
+            : [],
+        permissions:
+          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
+            ? data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE
+              ? data?.newDashboardEveryoneCondition
+              : data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS
+                ? data?.newDashboardSpecificUsersConditionTwo
+                : ''
+            : '',
+        existingDashboards:
+          data?.addToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
+            ? existingDashboardIds
+            : [],
+      },
     };
     if (reportId) {
       try {
@@ -146,7 +182,7 @@ export const useSaveReportDrawer = (props: any) => {
       }
     } else {
       try {
-        await postSalesReportTrigger(payload)?.unwrap();
+        await postServiceReportTrigger(payload)?.unwrap();
         successSnackbar('Report Created Successfully');
         setForm([]);
         handleCancel();
@@ -167,6 +203,6 @@ export const useSaveReportDrawer = (props: any) => {
     handleCancel,
     selectAddToNewDashboard,
     reportsArray,
-    postSalesReportStatus,
+    postServiceReportStatus,
   };
 };

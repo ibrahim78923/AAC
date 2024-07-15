@@ -11,7 +11,7 @@ export interface SaveReportI {
   reportName: string;
   sharedWith: string;
   addToDashboard: string;
-  addToExistingCondition: string;
+  addToExistingCondition: [];
   everyoneCondition: string;
   specificUsersConditionOne: [];
   specificUsersConditionTwo: string;

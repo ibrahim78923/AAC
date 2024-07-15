@@ -44,10 +44,10 @@ export const reportsValidationSchema = (reportValidation: any) =>
         ? Yup?.string()?.nullable()?.required('Required')
         : Yup?.string()?.notRequired(),
     ),
-    addToExistingCondition: Yup?.string()?.when(() =>
+    addToExistingCondition: Yup?.array()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
-        ? Yup?.string()?.nullable()?.required('Required')
-        : Yup?.string()?.notRequired(),
+        ? Yup?.array()?.nullable()?.required('Required')
+        : Yup?.array()?.notRequired(),
     ),
     addToNewConditionOne: Yup?.string()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_NEW
@@ -80,11 +80,11 @@ export const reportsDefaultValues = {
   reportName: '',
   sharedWith: null,
   addToDashboard: null,
-  addToExistingCondition: null,
+  addToExistingCondition: [],
   everyoneCondition: null,
   specificUsersConditionOne: [],
   specificUsersConditionTwo: null,
-  addToNewConditionOne: null,
+  addToNewConditionOne: '',
   addToNewConditionTwo: null,
   newDashboardEveryoneCondition: null,
   newDashboardSpecificUsersConditionOne: [],

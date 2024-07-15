@@ -68,6 +68,13 @@ export const useSaveReportDrawer = (props: any) => {
     const specificUsersIds = data?.specificUsersConditionOne?.map(
       (item: usersDropdownOptionsI) => item?._id,
     );
+    const newDashboardSpecificUsersIds =
+      data?.newDashboardSpecificUsersConditionOne?.map(
+        (item: usersDropdownOptionsI) => item?._id,
+      );
+    const existingDashboardIds = data?.addToExistingCondition?.map(
+      (item: any) => item?._id,
+    );
     const payload = {
       module: metricType,
       widgets: form?.map((item: any) => {
@@ -135,6 +142,35 @@ export const useSaveReportDrawer = (props: any) => {
             : [],
       },
       isDateFilter: data?.addFilter,
+      linkDashboard: {
+        action: data?.addToDashboard,
+        name:
+          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
+            ? data?.addToNewConditionOne
+            : '',
+        access:
+          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
+            ? data?.addToNewConditionTwo
+            : '',
+        specialUsers:
+          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
+            ? data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS
+              ? newDashboardSpecificUsersIds
+              : []
+            : [],
+        permissions:
+          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
+            ? data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE
+              ? data?.newDashboardEveryoneCondition
+              : data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS
+                ? data?.newDashboardSpecificUsersConditionTwo
+                : ''
+            : '',
+        existingDashboards:
+          data?.addToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
+            ? existingDashboardIds
+            : [],
+      },
     };
     if (reportId) {
       try {
