@@ -1,3 +1,4 @@
+import { DeleteCrossIcon, EditPenIcon } from '@/assets/icons';
 import { Box } from '@mui/material';
 
 export const columns: any = [
@@ -20,6 +21,23 @@ export const columns: any = [
     id: 'actions',
     isSortable: true,
     header: 'Actions',
-    cell: <Box>select here</Box>,
+    cell: () => (
+      <Box sx={{ display: 'flex', gap: 0.5 }}>
+        <Box
+          sx={{ cursor: 'pointer' }}
+          // onClick={() => {
+          //   setIsDraweropen('Edit');
+          // }}
+        >
+          <EditPenIcon />
+        </Box>
+        <Box
+          sx={{ cursor: 'pointer' }}
+          // onClick={() => setDeleteModalOpen(true)}
+        >
+          <DeleteCrossIcon />
+        </Box>
+      </Box>
+    ),
   },
 ];

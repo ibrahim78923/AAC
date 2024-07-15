@@ -19,6 +19,7 @@ import {
 } from '@/services/common-APIs';
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { ColumnsProps, RowInterface } from './Users-interface';
+import { convertIdToShortNumber } from '@/utils';
 
 export const columns: any = (columnsProps: ColumnsProps) => {
   const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
@@ -39,7 +40,7 @@ export const columns: any = (columnsProps: ColumnsProps) => {
           }
         />
       ),
-      header: <Checkbox color="primary" name="Id" disabled />,
+      header: '',
       isSortable: false,
     },
     {
@@ -47,7 +48,7 @@ export const columns: any = (columnsProps: ColumnsProps) => {
       id: 'userId',
       header: 'User ID',
       isSortable: false,
-      cell: (info: any) => info.getValue() ?? 'N/A',
+      cell: (info: any) => convertIdToShortNumber(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: RowInterface) => row?.Name,
@@ -168,7 +169,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
           }
         />
       ),
-      header: <Checkbox color="primary" name="Id" disabled />,
+      header: '',
       isSortable: false,
     },
     {
@@ -176,7 +177,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       id: 'userId',
       header: 'User ID',
       isSortable: false,
-      cell: (info: any) => info.getValue() ?? 'N/A',
+      cell: (info: any) => convertIdToShortNumber(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: RowInterface) => row?.Name,

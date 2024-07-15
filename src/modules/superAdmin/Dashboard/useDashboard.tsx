@@ -11,7 +11,7 @@ import {
 
 const useDashboard = () => {
   const theme = useTheme<Theme>();
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.OPTIONAL_PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
   const { data: getUsersStats, isLoading: userStatsLoading } =

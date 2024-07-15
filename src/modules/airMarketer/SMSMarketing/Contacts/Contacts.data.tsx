@@ -33,7 +33,7 @@ export const columns: any = (theme: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.whatsAppNumber,
+      accessorFn: (row: any) => row?.phoneNumber,
       id: 'phoneNo',
       header: 'Phone Number',
       cell: (info: any) => info?.getValue() ?? 'N/A',

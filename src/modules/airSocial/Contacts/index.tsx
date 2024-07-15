@@ -13,8 +13,7 @@ import ContactsGroup from './ContactsGroup';
 import ActionsBar from './ActionsBar';
 import ContactTabs from './ContactTabs';
 
-const Contacts = (props?: any) => {
-  const { isSocialContacts } = props;
+const Contacts = () => {
   const {
     tabValue,
     handleChangeTabs,
@@ -78,38 +77,31 @@ const Contacts = (props?: any) => {
       <Box>
         <ContactsGroup />
 
-        <ContactsHeader
-          isSocialHeader={isSocialContacts}
-          handleRefresh={handleSetTabAllContacts}
+        <ContactsHeader handleRefresh={handleSetTabAllContacts} />
+
+        <ContactTabs
+          tabsArray={tabsArray}
+          tabValue={tabValue}
+          handleTabChange={handleChangeTabs}
+          handleCreateView={handleOpenCreateView}
         />
 
-        {isSocialContacts && (
-          <ContactTabs
-            tabsArray={tabsArray}
-            tabValue={tabValue}
-            handleTabChange={handleChangeTabs}
-            handleCreateView={handleOpenCreateView}
-          />
-        )}
-
-        {isSocialContacts && (
-          <ActionsBar
-            setSearchValue={setSearchValue}
-            isActionsDisabled={selectedRow?.length === 0}
-            disabledMenuItem={selectedRow?.length !== 1}
-            anchorEl={anchorEl}
-            handleActionsMenuClick={handleActionsMenuClick}
-            actionMenuOpen={actionMenuOpen}
-            handleActionsMenuClose={handleActionsMenuClose}
-            rowId={selectedRow[0]}
-            handleOpenModalReAssign={handleOpenModalReAssign}
-            handleOpenModalDelete={handleOpenModalDelete}
-            handleOpenCustomize={() => setIsCustomize(true)}
-            handleOpenFilters={handleOpenFilters}
-            handleRefresh={handleRefresh}
-            handleOpenModalExport={handleOpenModalExport}
-          />
-        )}
+        <ActionsBar
+          setSearchValue={setSearchValue}
+          isActionsDisabled={selectedRow?.length === 0}
+          disabledMenuItem={selectedRow?.length !== 1}
+          anchorEl={anchorEl}
+          handleActionsMenuClick={handleActionsMenuClick}
+          actionMenuOpen={actionMenuOpen}
+          handleActionsMenuClose={handleActionsMenuClose}
+          rowId={selectedRow[0]}
+          handleOpenModalReAssign={handleOpenModalReAssign}
+          handleOpenModalDelete={handleOpenModalDelete}
+          handleOpenCustomize={() => setIsCustomize(true)}
+          handleOpenFilters={handleOpenFilters}
+          handleRefresh={handleRefresh}
+          handleOpenModalExport={handleOpenModalExport}
+        />
 
         <ContactsTable
           columns={contactsColumns}
