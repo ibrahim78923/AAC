@@ -900,4 +900,6 @@ export const zeroPaddingRoutes = [
   '/air-services/settings/service-management/field-manager/task-fields',
   '/air-services/settings/service-management/field-manager/time-entry-fields',
   '/air-marketer/email-marketing/email-templates/create-template',
+  '/air-services/settings/user-management/requester-fields',
+  '/air-services/settings/user-management/agent-fields',
 ];

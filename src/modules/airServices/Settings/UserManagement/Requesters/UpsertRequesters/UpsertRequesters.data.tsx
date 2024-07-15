@@ -1,37 +1,50 @@
 import {
   RHFAutocomplete,
-  RHFDatePicker,
+  RHFDesktopDateTimePicker,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { VALIDATION_CONSTANT } from '@/constants';
 import { timeZone } from '@/constants/time-zone';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 import * as Yup from 'yup';
 
-export const upsertRequestersValidationSchema: any = Yup?.object()?.shape({
-  email: Yup?.string()
-    ?.trim()
-    ?.email('Please provide valid email')
-    ?.required('Email is required'),
-  firstName: Yup?.string()?.trim()?.required('First name is required'),
-  lastName: Yup?.string()?.trim()?.required('Last name is required'),
-  timezone: Yup?.mixed()?.nullable(),
-  jobTitle: Yup?.string()?.trim(),
-  phoneNumber: Yup?.string()
-    ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
-});
+export const upsertRequestersValidationSchema: any = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const upsertRequestersDefaultValues: any = (profileData: any) => {
+  return Yup?.object()?.shape({
+    email: Yup?.string()
+      ?.trim()
+      ?.email('Please provide valid email')
+      ?.required('Email is required'),
+    firstName: Yup?.string()?.trim()?.required('First name is required'),
+    lastName: Yup?.string()?.trim()?.required('Last name is required'),
+    timezone: Yup?.mixed()?.nullable(),
+    jobTitle: Yup?.string()?.trim(),
+    phoneNumber: Yup?.string()
+      ?.trim()
+      ?.test(
+        'is-valid-phone',
+        VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+        function (value) {
+          if (value) {
+            return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+          }
+          return true;
+        },
+      ),
+    ...formSchema,
+  });
+};
+
+export const upsertRequestersDefaultValues: any = (
+  profileData: any,
+  form?: any,
+) => {
+  const initialValues: any = dynamicFormInitialValue(profileData, form);
+
   return {
     email: profileData?.email ?? '',
     firstName: profileData?.firstName ?? '',
@@ -40,6 +53,7 @@ export const upsertRequestersDefaultValues: any = (profileData: any) => {
     phoneNumber: profileData?.phoneNumber ?? '',
     timezone: profileData?.timezone ?? null,
     createdAt: new Date(profileData?.createdAt ?? new Date()),
+    ...initialValues,
   };
 };
 
@@ -111,19 +125,8 @@ export const upsertRequestersArray = (selectedRequester: any) => [
       fullWidth: true,
       disabled: true,
     },
-    component: RHFDatePicker,
-    md: 8,
-  },
-  {
-    id: 7,
-    componentProps: {
-      name: 'createdAt',
-      label: '\u00a0\u00a0',
-      fullWidth: true,
-      disabled: true,
-    },
-    component: RHFTimePicker,
-    md: 4,
+    component: RHFDesktopDateTimePicker,
+    md: 12,
   },
   {
     id: 8,
