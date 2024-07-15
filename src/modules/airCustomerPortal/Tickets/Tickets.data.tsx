@@ -9,6 +9,11 @@ export const ticketStatuses = [
   TICKET_STATUS?.SPAM,
 ];
 
+export const CHECK_SURVEY_SUBMISSION_STATUS = {
+  SUBMITTED: 'Survey submitted.',
+  NOT_SUBMITTED: 'Survey not submitted.',
+};
+
 export const allTicketsDropdownFunction = (setTicketStatus: any) => [
   {
     id: 2342,

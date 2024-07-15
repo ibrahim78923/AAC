@@ -10,6 +10,7 @@ import {
   useLazyExportAllFavoritesServicesReportsListQuery,
 } from '@/services/airOperations/reports/services-reports';
 import { useRouter } from 'next/router';
+import { servicesReportsListTabsDynamic } from './ServicesReports.data';
 
 export const useServicesReports = () => {
   const router = useRouter();
@@ -40,7 +41,24 @@ export const useServicesReports = () => {
     });
   };
 
+  const servicesReportsListTabsParams = {
+    apiQueryAllReports,
+    apiQueryFavoriteReports,
+    apiQueryDashboardReports,
+    exportApiQueryDashboardReports,
+    exportApiQueryFavoriteReports,
+    exportApiQueryAllReports,
+  };
+
+  const servicesReportsListTabs = servicesReportsListTabsDynamic(
+    servicesReportsListTabsParams,
+  );
+
+  const tabsArrayData = servicesReportsListTabs?.map((tabs: any) => tabs?.name);
+
   return {
+    servicesReportsListTabs,
+    tabsArrayData,
     router,
     apiQueryAllReports,
     apiQueryFavoriteReports,

@@ -1,6 +1,7 @@
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
+  RHFDateRangePicker,
 } from '@/components/ReactHookForm';
 import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
 import { MANAGE_ACCESS_TYPES, TIME_PERIODS } from '@/constants/strings';
@@ -58,7 +59,13 @@ export const reportFiltersDefaultValues: any = (filterValue: any) => {
   return {
     owner: filterValue?.owner ?? null,
     accessType: filterValue?.accessType ?? null,
-    createdDate: filterValue?.createdDate ?? null,
+    createdDate: {
+      startDate: !!filterValue?.startDate
+        ? new Date(filterValue?.startDate)
+        : null,
+      endDate: !!filterValue?.startDate ? new Date(filterValue?.endDate) : null,
+      key: 'selection',
+    },
   };
 };
 
@@ -93,15 +100,13 @@ export const reportFilterFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
-    id: 3,
+    id: 70,
     componentProps: {
       name: 'createdDate',
       label: 'Created Date',
       placeholder: 'Select created date',
-      fullWidth: true,
-      options: dateOptions,
-      getOptionLabel: (option: any) => option?.label,
     },
-    component: RHFAutocomplete,
+    component: RHFDateRangePicker,
+    md: 12,
   },
 ];

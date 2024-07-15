@@ -4,21 +4,17 @@ import { useMarketingReports } from './useMarketingReports';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { ReportLists } from '../ReportLists';
 import { GENERIC_REPORT_MODULES } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const MarketingReports = () => {
   const {
     router,
-    apiQueryAllReports,
-    apiQueryFavoriteReports,
-    apiQueryDashboardReports,
-    apiQueryCustomReports,
-    exportApiQueryCustomReports,
-    exportApiQueryAllReports,
-    exportApiQueryFavoriteReports,
-    exportApiQueryDashboardReports,
     restoreReportsPath,
     editReportPath,
+    marketingReportsListTabs,
+    tabsArrayData,
   } = useMarketingReports();
+
   return (
     <>
       <PageTitledHeader
@@ -32,43 +28,22 @@ export const MarketingReports = () => {
           router?.push(AIR_OPERATIONS?.UPSERT_MARKETING_REPORTS);
         }}
       />
-      <HorizontalTabs
-        spacing={0.3}
-        tabsDataArray={[
-          'All Reports',
-          'Favorite',
-          'Dashboard Reports',
-          'Custom Report',
-        ]}
-      >
-        <ReportLists
-          apiQuery={apiQueryAllReports}
-          onRestoreClick={() => restoreReportsPath?.()}
-          editReportPath={(id: any) => editReportPath?.(id)}
-          exportApiQuery={exportApiQueryAllReports}
-          baseModule={GENERIC_REPORT_MODULES?.MARKETING}
-        />
-        <ReportLists
-          apiQuery={apiQueryFavoriteReports}
-          onRestoreClick={() => restoreReportsPath?.()}
-          editReportPath={(id: any) => editReportPath?.(id)}
-          exportApiQuery={exportApiQueryFavoriteReports}
-          baseModule={GENERIC_REPORT_MODULES?.MARKETING}
-        />
-        <ReportLists
-          apiQuery={apiQueryDashboardReports}
-          onRestoreClick={() => restoreReportsPath?.()}
-          editReportPath={(id: any) => editReportPath?.(id)}
-          exportApiQuery={exportApiQueryDashboardReports}
-          baseModule={GENERIC_REPORT_MODULES?.MARKETING}
-        />
-        <ReportLists
-          apiQuery={apiQueryCustomReports}
-          onRestoreClick={() => restoreReportsPath?.()}
-          editReportPath={(id: any) => editReportPath?.(id)}
-          exportApiQuery={exportApiQueryCustomReports}
-          baseModule={GENERIC_REPORT_MODULES?.MARKETING}
-        />
+      <HorizontalTabs spacing={0.3} tabsDataArray={tabsArrayData}>
+        {marketingReportsListTabs?.map((reportsTab: any) => (
+          <PermissionsGuard
+            permissions={Object?.values(reportsTab?.permissions)}
+            key={reportsTab?._id}
+          >
+            <ReportLists
+              apiQuery={reportsTab?.apiQuery}
+              onRestoreClick={() => restoreReportsPath?.()}
+              editReportPath={(id: any) => editReportPath?.(id)}
+              exportApiQuery={reportsTab?.exportApiQuery}
+              baseModule={GENERIC_REPORT_MODULES?.MARKETING}
+              permission={reportsTab?.permissions}
+            />
+          </PermissionsGuard>
+        ))}
       </HorizontalTabs>
     </>
   );

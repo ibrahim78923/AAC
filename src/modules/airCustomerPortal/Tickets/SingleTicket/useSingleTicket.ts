@@ -14,7 +14,7 @@ export const useSingleTicket = () => {
   const [status] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const router = useRouter();
-  const ticketId = router?.query?.id;
+  const ticketId: string | undefined | string[] = router?.query?.id;
 
   const { data, isLoading, isFetching, isError } =
     useGetCustomerPortalTicketsByIdQuery(ticketId, {
@@ -49,9 +49,9 @@ export const useSingleTicket = () => {
         await lazyGetSingleDefaultSurveyForCustomerTicketsTrigger(
           apiDataParameter,
         )?.unwrap();
-      if (!!response?.data?.data?._id) {
+      if (!!response?.data?._id) {
         await checkSingleDefaultSurveySubmittedForRequester?.(
-          response?.data?.data?._id,
+          response?.data?._id,
         );
       }
     } catch (error) {}

@@ -8,12 +8,14 @@ import { Fragment } from 'react';
 import { useSingleTicketDetail } from './useSingleTicketDetail';
 import { TICKET_STATUS } from '@/constants/strings';
 import { SingleTicketDetailPropsI } from './SingleTicketDetail.interface';
+import { CHECK_SURVEY_SUBMISSION_STATUS } from '../../Tickets.data';
 
 export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
   const {
     singleTicketData,
     lazyGetSingleDefaultSurveyForCustomerTicketsStatus,
     isLoader,
+    lazyCheckSingleDefaultSurveySubmittedForRequesterStatus,
   } = props;
 
   const { theme, getCustomerSurvey } = useSingleTicketDetail(props);
@@ -88,7 +90,12 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
             ) : null}
           </Box>
           {isLoader ? (
-            <Skeleton variant="rectangular" width={100} height={40} />
+            <Skeleton
+              variant="rectangular"
+              width={100}
+              height={80}
+              sx={{ my: 2 }}
+            />
           ) : (
             [TICKET_STATUS?.CLOSED, TICKET_STATUS?.RESOLVED]?.includes(
               singleTicketData?.status,
@@ -114,9 +121,25 @@ export const SingleTicketDetail = (props: SingleTicketDetailPropsI) => {
                 >
                   Customer Survey
                 </Typography>
+                <Typography
+                  variant="body2"
+                  fontWeight={400}
+                  component={'div'}
+                  color="primary"
+                  mb={1}
+                >
+                  {lazyCheckSingleDefaultSurveySubmittedForRequesterStatus?.data
+                    ?.message === CHECK_SURVEY_SUBMISSION_STATUS?.SUBMITTED &&
+                    'Submitted'}
+                </Typography>
                 <LoadingButton
                   onClick={() => getCustomerSurvey?.()}
                   variant="contained"
+                  disabled={
+                    lazyCheckSingleDefaultSurveySubmittedForRequesterStatus
+                      ?.data?.message ===
+                    CHECK_SURVEY_SUBMISSION_STATUS?.SUBMITTED
+                  }
                 >
                   Take a Survey
                 </LoadingButton>

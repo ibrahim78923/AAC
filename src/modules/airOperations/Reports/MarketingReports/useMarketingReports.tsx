@@ -10,6 +10,7 @@ import {
   useLazyGetAllMarketingReportsListQuery,
 } from '@/services/airOperations/reports/marketing-reports';
 import { useRouter } from 'next/router';
+import { marketingReportsListTabsDynamic } from './MarketingReports.data';
 
 export const useMarketingReports = () => {
   const router = useRouter();
@@ -42,6 +43,23 @@ export const useMarketingReports = () => {
     });
   };
 
+  const marketingReportsListTabsParams = {
+    apiQueryAllReports,
+    apiQueryFavoriteReports,
+    apiQueryDashboardReports,
+    exportApiQueryDashboardReports,
+    exportApiQueryFavoriteReports,
+    exportApiQueryAllReports,
+  };
+
+  const marketingReportsListTabs = marketingReportsListTabsDynamic(
+    marketingReportsListTabsParams,
+  );
+
+  const tabsArrayData = marketingReportsListTabs?.map(
+    (tabs: any) => tabs?.name,
+  );
+
   return {
     router,
     apiQueryAllReports,
@@ -54,5 +72,7 @@ export const useMarketingReports = () => {
     exportApiQueryDashboardReports,
     restoreReportsPath,
     editReportPath,
+    marketingReportsListTabs,
+    tabsArrayData,
   };
 };
