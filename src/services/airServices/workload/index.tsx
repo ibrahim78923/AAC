@@ -82,10 +82,11 @@ export const workloadAPI = baseAPI.injectEndpoints({
     }),
 
     patchTask: builder?.mutation({
-      query: (body: any) => ({
-        url: `${END_POINTS?.TASK}/${body?.id}`,
+      query: (patchTaskParameter: any) => ({
+        url: END_POINTS?.UPDATE_TASK,
         method: 'PATCH',
-        params: body?.data,
+        params: patchTaskParameter?.data,
+        body: {},
       }),
       invalidatesTags: [TAG],
     }),

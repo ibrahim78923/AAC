@@ -39,8 +39,8 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
         endDate: data?.endDate?.toISOString(),
         assignTo: data?.assignTo?._id,
         departmentId: data?.departmentId?._id,
+        id: dataGet?.extendedProps?.data?._id,
       },
-      id: dataGet?.extendedProps?.data?._id,
     };
 
     try {

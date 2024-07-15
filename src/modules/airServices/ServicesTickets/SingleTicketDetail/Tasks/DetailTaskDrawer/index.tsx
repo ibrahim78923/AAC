@@ -1,5 +1,4 @@
 import { Avatar, Grid, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
 import {
   FormProvider,
@@ -9,9 +8,17 @@ import {
 import { styles } from './DetailTaskDrawer.styles';
 import { useDetailTaskDrawer } from './useDetailTaskDrawer';
 import { drawerDetail, statusOptions } from './DetailTaskDrawer.data';
-import { generateColorFromName, generateImage } from '@/utils/avatarUtils';
+import {
+  generateColorFromName,
+  generateImage,
+  getImageByType,
+} from '@/utils/avatarUtils';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { isValidElement } from 'react';
+import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const DetailTaskDrawer = (props: any) => {
   const { isPortalOpen } = props;
@@ -22,6 +29,7 @@ export const DetailTaskDrawer = (props: any) => {
     onSubmitDrawer,
     isLoading,
     handleCloseDrawer,
+    overviewData,
   } = useDetailTaskDrawer(props);
   return (
     <>
@@ -63,7 +71,7 @@ export const DetailTaskDrawer = (props: any) => {
             >
               {drawerDetail(isPortalOpen?.data, theme)?.map((item: any) => (
                 <Grid
-                  key={uuidv4()}
+                  key={item?.id}
                   item
                   sx={{ display: 'flex', justifyContent: 'space-between' }}
                 >
@@ -103,6 +111,51 @@ export const DetailTaskDrawer = (props: any) => {
                       color={'slateBlue.main'}
                     >
                       {item?.details ? item?.details : '....'}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              ))}
+
+              {Object?.entries(overviewData)?.map(([key, value]: any) => (
+                <Grid
+                  key={key}
+                  item
+                  sx={{ display: 'flex', justifyContent: 'space-between' }}
+                >
+                  <Grid item xs={6} sx={styles?.detailDrawerGridCenter}>
+                    <Typography
+                      variant={'body2'}
+                      sx={styles?.detailDrawerTitle(theme)}
+                    >
+                      {key}:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography
+                      variant={'body2'}
+                      fontWeight={400}
+                      color={'slateBlue.main'}
+                    >
+                      {isValidElement(value) ? (
+                        value
+                      ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+                        value !== null &&
+                        DYNAMIC_FORM_FIELDS_TYPES?.LABEL in value ? (
+                        value?.label
+                      ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+                        value !== null &&
+                        DYNAMIC_FORM_FIELDS_TYPES?.FILE_URL in value ? (
+                        <Avatar
+                          src={getImageByType(value?.fileType, value?.fileUrl)}
+                          alt="file-preview"
+                          sx={{ width: 45, height: 45 }}
+                          variant={'rounded'}
+                        />
+                      ) : isValidDate(value) ? (
+                        dayjs(value)?.format(DATE_FORMAT?.UI)
+                      ) : (
+                        value?.toString()
+                      )}
                     </Typography>
                   </Grid>
                 </Grid>

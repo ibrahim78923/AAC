@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { styles } from './DetailTaskDrawer.styles';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { TASK_STATUS } from '@/constants/strings';
+import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 
@@ -73,6 +74,18 @@ export const drawerDetail: any = (taskDetail: any, theme: any) => [
     details: taskDetail?.plannedEffort,
   },
 ];
+
+export const overviewDataArray = (taskDetail: any) => {
+  const customFields =
+    taskDetail?.customFields &&
+    typeof taskDetail?.customFields === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT
+      ? Object?.keys(taskDetail?.customFields)?.reduce((acc: any, key: any) => {
+          acc[key] = taskDetail?.customFields[key] ?? '---';
+          return acc;
+        }, {})
+      : {};
+  return { ...customFields };
+};
 
 export const validationSchema: any = Yup?.object()?.shape({
   status: Yup?.string()?.trim(),

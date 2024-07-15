@@ -113,8 +113,12 @@ const useNewPurchaseOrders = () => {
 
       await Promise?.all(attachmentPromises);
 
+      const customFieldKeys = new Set(
+        form?.map((field: any) => field?.componentProps?.label),
+      );
+
       Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
-        if (form?.some((field: any) => field?.componentProps?.label === key)) {
+        if (customFieldKeys?.has(key)) {
           if (value instanceof Date) {
             value = value?.toISOString();
           }

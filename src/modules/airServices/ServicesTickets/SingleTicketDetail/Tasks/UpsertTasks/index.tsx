@@ -3,6 +3,10 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
 import { useUpsertTasks } from './useUpsertTasks';
 import { BUTTON_TITLE_FORM_USER, TITLE_FORM_USER } from './UpsertTasks.data';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
 
 export const UpsertTasks = (props: any) => {
   const { isPortalOpen } = props;
@@ -15,6 +19,9 @@ export const UpsertTasks = (props: any) => {
     upsertTicketTaskFormFormFields,
     postTicketTasksStatus,
     patchTicketTasksStatus,
+    getDynamicFieldsStatus,
+    form,
+    postAttachmentStatus,
   } = useUpsertTasks?.(props);
 
   return (
@@ -28,25 +35,48 @@ export const UpsertTasks = (props: any) => {
         isOk
         okText={BUTTON_TITLE_FORM_USER?.[isPortalOpen?.type]}
         isLoading={
-          postTicketTasksStatus?.isLoading || patchTicketTasksStatus?.isLoading
+          postTicketTasksStatus?.isLoading ||
+          patchTicketTasksStatus?.isLoading ||
+          postAttachmentStatus?.isLoading
         }
         isDisabled={
-          patchTicketTasksStatus?.isLoading || postTicketTasksStatus?.isLoading
+          patchTicketTasksStatus?.isLoading ||
+          postTicketTasksStatus?.isLoading ||
+          postAttachmentStatus?.isLoading
         }
         disabledCancelBtn={
-          patchTicketTasksStatus?.isLoading || postTicketTasksStatus?.isLoading
+          patchTicketTasksStatus?.isLoading ||
+          postTicketTasksStatus?.isLoading ||
+          postAttachmentStatus?.isLoading
         }
       >
         <Box mt={1}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {upsertTicketTaskFormFormFields?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
+          {getDynamicFieldsStatus?.isLoading ||
+          getDynamicFieldsStatus?.isFetching ? (
+            <SkeletonForm />
+          ) : getDynamicFieldsStatus?.isError ? (
+            <ApiErrorState />
+          ) : (
+            <FormProvider methods={methods}>
+              <Grid container spacing={1}>
+                {upsertTicketTaskFormFormFields?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                    <item.component {...item?.componentProps} size={'small'} />
+                  </Grid>
+                ))}
+                {form?.map((item: any) => (
+                  <Grid item xs={12} key={item?.id}>
+                    {componentMap[item?.component] &&
+                      createElement(componentMap[item?.component], {
+                        ...item?.componentProps,
+                        name: item?.componentProps?.label,
+                        size: 'small',
+                      })}
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          )}
         </Box>
       </CommonDrawer>
     </>
