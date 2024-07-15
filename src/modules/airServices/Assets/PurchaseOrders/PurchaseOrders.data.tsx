@@ -45,7 +45,11 @@ export const purchaseOrderColumnsFunction = (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={purchaseOrderData?.length === purchaseData?.length}
+          checked={
+            purchaseData?.length
+              ? purchaseOrderData?.length === purchaseData?.length
+              : false
+          }
           onChange={(e: any) => {
             e?.target?.checked
               ? setPurchaseOrderData([...purchaseData])

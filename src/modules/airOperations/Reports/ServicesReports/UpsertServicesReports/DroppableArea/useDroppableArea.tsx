@@ -19,17 +19,20 @@ export const useDroppableArea = (props: any) => {
     const chartToCopy = form?.find((item: any) => item?.id === id);
     const uniqueId = generateUniqueId();
 
-    if (chartToCopy?.type === REPORT_TYPE?.CHART) {
+    if (chartToCopy?.reportType === REPORT_TYPE?.CHART) {
       setForm([
         ...form,
         {
           id: uniqueId,
           component: chartToCopy?.component,
           title: chartToCopy?.title,
-          type: REPORT_TYPE?.CHART,
-          xAxes: chartToCopy?.xAxes,
-          yAxes: chartToCopy?.yAxes,
+          type: chartToCopy?.type,
+          templateType: chartToCopy?.templateType,
+          xAxis: chartToCopy?.xAxis,
           subFilter: chartToCopy?.subFilter,
+          reportType: REPORT_TYPE?.CHART,
+          metric: chartToCopy?.metric,
+          xAxisType: chartToCopy?.xAxisType,
         },
       ]);
     } else if (chartToCopy?.type === REPORT_TYPE?.TEXT) {
@@ -42,7 +45,7 @@ export const useDroppableArea = (props: any) => {
           type: REPORT_TYPE?.TEXT,
         },
       ]);
-    } else if (chartToCopy?.type === REPORT_TYPE?.COUNTER) {
+    } else if (chartToCopy?.reportType === REPORT_TYPE?.COUNTER) {
       setForm([
         ...form,
         {
@@ -50,10 +53,11 @@ export const useDroppableArea = (props: any) => {
           title: chartToCopy?.title,
           ticketCount: chartToCopy?.ticketCount,
           templateType: chartToCopy?.templateType,
-          type: REPORT_TYPE?.COUNTER,
+          reportType: REPORT_TYPE?.COUNTER,
+          type: chartToCopy?.type,
         },
       ]);
-    } else {
+    } else if (chartToCopy?.type === REPORT_TYPE?.TABLE) {
       setForm([
         ...form,
         {
@@ -61,6 +65,8 @@ export const useDroppableArea = (props: any) => {
           component: chartToCopy?.component,
           title: chartToCopy?.title,
           type: REPORT_TYPE?.TABLE,
+          columnObject: chartToCopy?.columnObject,
+          templateType: chartToCopy?.templateType,
         },
       ]);
     }

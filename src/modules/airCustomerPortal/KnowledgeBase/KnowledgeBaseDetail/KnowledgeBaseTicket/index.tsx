@@ -22,6 +22,9 @@ export const KnowledgeBaseTicket = (props: any) => {
       alignItems={'center'}
       flexDirection={{ xs: 'column', lg: 'row' }}
       mb={{ xs: 4, lg: 2 }}
+      borderRadius={2}
+      p={1}
+      bgcolor={'grey.100'}
     >
       <Box
         display={'flex'}
@@ -48,7 +51,11 @@ export const KnowledgeBaseTicket = (props: any) => {
         >
           <Typography variant="h6">Purpose:</Typography>
           <Typography color="secondary">
-            {truncateText(purposeDescription, 40)}
+            <Box
+              dangerouslySetInnerHTML={{
+                __html: truncateText(purposeDescription, 40),
+              }}
+            />
           </Typography>
         </Box>
       </Box>

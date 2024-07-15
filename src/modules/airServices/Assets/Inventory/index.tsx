@@ -56,78 +56,77 @@ const Inventory = () => {
         boxShadow={1}
         border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
       >
-        <Box px={2}>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          flexWrap={'wrap'}
+          gap={1.5}
+          px={2}
+        >
+          <Box>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.SEARCH_AND_FILTER,
+              ]}
+            >
+              <Search label="Search Here" setSearchBy={setSearch} />
+            </PermissionsGuard>
+          </Box>
           <Box
             display={'flex'}
             alignItems={'center'}
-            justifyContent={'space-between'}
             flexWrap={'wrap'}
             gap={1.5}
           >
-            <Box>
-              <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.SEARCH_AND_FILTER,
-                ]}
-              >
-                <Search label="Search Here" setSearchBy={setSearch} />
-              </PermissionsGuard>
-            </Box>
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              flexWrap={'wrap'}
-              gap={1.5}
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_ASSETS,
+              ]}
             >
-              <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_ASSETS,
-                ]}
+              <Button
+                color="secondary"
+                variant="outlined"
+                disabled={!!!selectedInventoryLists?.length}
+                onClick={() => {
+                  setInventoryAction(INVENTORY_LIST_ACTIONS?.DELETE);
+                }}
               >
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  disabled={!!!selectedInventoryLists?.length}
-                  onClick={() => {
-                    setInventoryAction(INVENTORY_LIST_ACTIONS?.DELETE);
-                  }}
-                >
-                  Delete
-                </Button>
-              </PermissionsGuard>
-              <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.CUSTOMIZED_COLUMN,
-                ]}
+                Delete
+              </Button>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.CUSTOMIZED_COLUMN,
+              ]}
+            >
+              <Button
+                color="secondary"
+                variant="outlined"
+                startIcon={<CustomizeSharedIcon />}
+                onClick={() =>
+                  setInventoryAction(INVENTORY_LIST_ACTIONS?.CUSTOMIZE_COLUMN)
+                }
               >
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  startIcon={<CustomizeSharedIcon />}
-                  onClick={() =>
-                    setInventoryAction(INVENTORY_LIST_ACTIONS?.CUSTOMIZE_COLUMN)
-                  }
-                >
-                  Customize
-                </Button>
-              </PermissionsGuard>
-              <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.SEARCH_AND_FILTER,
-                ]}
+                Customize
+              </Button>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.SEARCH_AND_FILTER,
+              ]}
+            >
+              <Button
+                color="secondary"
+                variant="outlined"
+                startIcon={<FilterSharedIcon />}
+                onClick={() =>
+                  setInventoryAction(INVENTORY_LIST_ACTIONS?.FILTER)
+                }
               >
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  startIcon={<FilterSharedIcon />}
-                  onClick={() =>
-                    setInventoryAction(INVENTORY_LIST_ACTIONS?.FILTER)
-                  }
-                >
-                  Filter
-                </Button>
-              </PermissionsGuard>
-            </Box>
+                Filter
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Box>
         <br />

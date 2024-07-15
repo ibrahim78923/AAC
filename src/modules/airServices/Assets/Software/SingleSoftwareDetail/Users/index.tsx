@@ -49,7 +49,11 @@ export const Users = () => {
         gap={2}
       >
         <Box>
-          <Search label="Search" setSearchBy={setSearch} searchBy={search} />
+          <Search
+            label="Search Here"
+            setSearchBy={setSearch}
+            searchBy={search}
+          />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <SingleDropdownButton

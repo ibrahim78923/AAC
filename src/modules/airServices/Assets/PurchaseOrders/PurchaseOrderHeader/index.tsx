@@ -22,6 +22,7 @@ export const PurchaseOrderHeader = (props: any) => {
       justifyContent={'space-between'}
       flexWrap={'wrap'}
       gap={1.5}
+      px={2}
     >
       <PermissionsGuard
         permissions={[

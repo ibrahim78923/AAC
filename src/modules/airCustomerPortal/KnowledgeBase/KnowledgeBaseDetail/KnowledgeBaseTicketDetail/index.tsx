@@ -1,5 +1,11 @@
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Skeleton,
+  Typography,
+} from '@mui/material';
 import { useKnowledgeBaseTicketDetail } from './useKnowledgeBaseTicketDetail';
 import { DocumentTextIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
@@ -8,6 +14,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS } from '@/constants/permission-keys';
+import NoData from '@/components/NoData';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const KnowledgeBaseTicketDetail = () => {
   const {
@@ -30,6 +38,7 @@ export const KnowledgeBaseTicketDetail = () => {
     isFetching,
     fetchingArticles,
   } = useKnowledgeBaseTicketDetail();
+
   return (
     <PermissionsGuard
       permissions={[
@@ -38,31 +47,25 @@ export const KnowledgeBaseTicketDetail = () => {
     >
       <Grid container spacing={1} justifyContent={'space-between'}>
         <Grid item xs={12} lg={8.9}>
-          <Box
-            display="inline-flex"
-            alignItems="center"
-            justifyContent="space-between"
-            mb={2.5}
-            gap={1.4}
-          >
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              sx={{ cursor: 'pointer' }}
-            >
-              <ArrowBackIcon onClick={handlePageBack} />
-            </Box>
-            <Typography variant="h3" color={theme?.palette?.slateBlue?.main}>
-              {singleArticlesData?.title}
-            </Typography>
-          </Box>
+          <PageTitledHeader
+            title={
+              isLoading || isFetching ? (
+                <Skeleton variant="rectangular" width={'10rem'} />
+              ) : (
+                singleArticlesData?.title
+              )
+            }
+            canMovedBack
+            moveBack={handlePageBack}
+          />
           {isLoading || isFetching ? (
             <SkeletonTable />
           ) : (
             <Box
+              height={'45rem'}
+              overflow={'scroll'}
               dangerouslySetInnerHTML={{ __html: singleArticlesData?.details }}
-            ></Box>
+            />
           )}
         </Grid>
         <Grid item xs={12} lg={3}>
@@ -96,27 +99,35 @@ export const KnowledgeBaseTicketDetail = () => {
                     <SkeletonTable />
                   ) : (
                     <>
-                      {relatedArticlesData?.map(
-                        (item: any) =>
-                          item?._id != singleArticleId && (
-                            <Box
-                              display={'flex'}
-                              justifyContent={'flex-start'}
-                              alignItems={'center'}
-                              p={1}
-                              borderRadius={1}
-                              bgcolor={theme?.palette?.grey?.[100]}
-                              mt={0.5}
-                              key={item?.id}
-                              onClick={() => handleRelatedArticles(item?._id)}
-                              sx={{ cursor: 'pointer' }}
-                            >
-                              <DocumentTextIcon />
-                              <Typography color="secondary">
-                                {item?.title}
-                              </Typography>
-                            </Box>
-                          ),
+                      {relatedArticlesData?.length > 1 ? (
+                        <>
+                          {relatedArticlesData?.map(
+                            (item: any) =>
+                              item?._id != singleArticleId && (
+                                <Box
+                                  display={'flex'}
+                                  justifyContent={'flex-start'}
+                                  alignItems={'center'}
+                                  p={1}
+                                  borderRadius={1}
+                                  bgcolor={theme?.palette?.grey?.[100]}
+                                  mt={0.5}
+                                  key={item?.id}
+                                  onClick={() =>
+                                    handleRelatedArticles(item?._id)
+                                  }
+                                  sx={{ cursor: 'pointer' }}
+                                >
+                                  <DocumentTextIcon />
+                                  <Typography color="secondary">
+                                    {item?.title}
+                                  </Typography>
+                                </Box>
+                              ),
+                          )}
+                        </>
+                      ) : (
+                        <NoData message="No related articles found" />
                       )}
                     </>
                   )}

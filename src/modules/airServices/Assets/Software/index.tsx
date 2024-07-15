@@ -33,6 +33,7 @@ const Software = () => {
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
     filterValues,
+    theme,
   } = useSoftware();
 
   return (
@@ -49,13 +50,19 @@ const Software = () => {
         }}
       />
       <Box
-        display={'flex'}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-        flexWrap={'wrap'}
-        gap={1.5}
+        py={2}
+        borderRadius={2}
+        boxShadow={1}
+        border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
       >
-        <Box>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          flexWrap={'wrap'}
+          gap={1.5}
+          px={2}
+        >
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
@@ -63,34 +70,37 @@ const Software = () => {
           >
             <Search label="Search Here" setSearchBy={setSearchValue} />
           </PermissionsGuard>
-        </Box>
-        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
-          <Button
-            color="secondary"
-            variant="outlined"
-            disabled={!!!softwareData?.length}
-            onClick={() => setOpenAssignModal?.(true)}
-          >
-            Assign Category
-          </Button>
-          <PermissionsGuard
-            permissions={[
-              AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
-            ]}
+          <Box
+            display={'flex'}
+            alignItems={'center'}
+            flexWrap={'wrap'}
+            gap={1.5}
           >
             <Button
               color="secondary"
               variant="outlined"
-              startIcon={<FilterSharedIcon />}
-              onClick={() => setIsOpenFilterDrawer(true)}
+              disabled={!!!softwareData?.length}
+              onClick={() => setOpenAssignModal?.(true)}
             >
-              Filter
+              Assign Category
             </Button>
-          </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
+              ]}
+            >
+              <Button
+                color="secondary"
+                variant="outlined"
+                startIcon={<FilterSharedIcon />}
+                onClick={() => setIsOpenFilterDrawer(true)}
+              >
+                Filter
+              </Button>
+            </PermissionsGuard>
+          </Box>
         </Box>
-      </Box>
-      <br />
-      <Box>
+        <br />
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SOFTWARE_LIST_VIEW,
@@ -119,7 +129,6 @@ const Software = () => {
           />
         </PermissionsGuard>
       </Box>
-
       {isOpenFilterDrawer && (
         <SoftwareFilter
           isOpenDrawer={isOpenFilterDrawer}
