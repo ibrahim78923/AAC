@@ -28,7 +28,12 @@ export const weekDayOption = [
   'Saturday',
   'Sunday',
 ];
-export const recurringTypeOption = ['Daily', 'Weekly', 'Monthly'];
+export const recurringTypeOption = [
+  { value: 'DAY_BASED', label: 'Daily' },
+  { value: 'WEEKLY', label: 'Weekly' },
+  { value: 'MONTHLY', label: 'Monthly' },
+];
+
 export const optionTypes = {
   daily: 'Daily',
   weekly: 'Weekly',

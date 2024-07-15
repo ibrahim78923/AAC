@@ -63,8 +63,8 @@ export const useUpsertMeeting = () => {
         meetingType === routeConstant?.oneToOne
           ? routeConstant?.oneToOneMeeting
           : meetingType === routeConstant?.group
-          ? routeConstant?.groupMeeting
-          : routeConstant?.collectiveMeeting,
+            ? routeConstant?.groupMeeting
+            : routeConstant?.collectiveMeeting,
       isAllDay: formData?.allDay,
       timeZone: formData?.timeZone?.label,
       startDate: formData?.startDate,
@@ -76,42 +76,48 @@ export const useUpsertMeeting = () => {
       recurring:
         formData?.recurring === true
           ? {
-              type: formData?.recurring === true ? formData?.recurringType : '',
+              type:
+                formData?.recurring === true
+                  ? formData?.recurringType?.value
+                  : '',
               interval:
-                formData?.recurringType === recurringConstant?.daily &&
+                formData?.recurringType?.label === recurringConstant?.daily &&
                 formData?.dailyType === recurringConstant?.onTheDay &&
                 formData?.recurring === true
                   ? formData?.recurringDay
                   : 0,
               isWeekdays:
-                formData?.recurringType === recurringConstant?.daily &&
+                formData?.recurringType?.label === recurringConstant?.daily &&
                 formData?.monthType === recurringConstant?.onWorkingDay &&
                 formData?.recurring === true
                   ? true
-                  : formData?.recurringType === recurringConstant?.monthly &&
-                    formData?.monthType === recurringConstant?.onTheDay &&
-                    formData?.recurring === true
-                  ? true
-                  : formData?.recurringType === recurringConstant?.weekly &&
-                    formData?.recurring === true
-                  ? true
-                  : false,
+                  : formData?.recurringType?.label ===
+                        recurringConstant?.monthly &&
+                      formData?.monthType === recurringConstant?.onTheDay &&
+                      formData?.recurring === true
+                    ? true
+                    : formData?.recurringType?.label ===
+                          recurringConstant?.weekly &&
+                        formData?.recurring === true
+                      ? true
+                      : false,
               days:
-                formData?.recurringType === recurringConstant?.monthly &&
+                formData?.recurringType?.label === recurringConstant?.monthly &&
                 formData?.monthType === recurringConstant?.onMonthDate &&
                 formData?.recurring === true
                   ? formData?.monthlyDate
                   : [],
               onDay:
-                formData?.recurringType === recurringConstant?.weekly
+                formData?.recurringType?.label === recurringConstant?.weekly
                   ? formData?.weekDays?.map((day: string) => day?.toUpperCase())
-                  : formData?.recurringType === recurringConstant?.monthly &&
-                    formData?.monthType === recurringConstant?.onTheDay &&
-                    formData?.recurring === true
-                  ? formData?.monthlyDays?.map((day: any) => day?.value)
-                  : [],
+                  : formData?.recurringType?.label ===
+                        recurringConstant?.monthly &&
+                      formData?.monthType === recurringConstant?.onTheDay &&
+                      formData?.recurring === true
+                    ? formData?.monthlyDays?.map((day: any) => day?.value)
+                    : [],
               onWeek:
-                formData?.recurringType === recurringConstant?.monthly &&
+                formData?.recurringType?.label === recurringConstant?.monthly &&
                 formData?.recurring === true
                   ? formData?.monthlyWeeks?.map(
                       (week: string) => week?.toUpperCase(),
@@ -125,8 +131,8 @@ export const useUpsertMeeting = () => {
             },
       locationId: formData?.location?._id,
       bufferTime: {
-        before: formData?.bufferBeforeTime,
-        after: formData?.bufferAfterTime,
+        before: formData?.bufferBeforeTime?.value,
+        after: formData?.bufferAfterTime?.value,
       },
       reminders: formData?.reminder?.map((reminder: any) => ({
         type: reminder?.type?.value,

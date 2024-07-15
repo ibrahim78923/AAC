@@ -13,7 +13,6 @@ import { timeSlotsDefaultValues } from './TimeSlotsPreferences.data';
 export const useTimeSlotPreferences = () => {
   const theme = useTheme();
   const [disabled, setDisabled] = useState(true);
-  const [selectedMonths, setSelectedMonths] = useState<any[]>([]);
   const [timeSlotsState, setTimeSlotsState] = useState<any[]>([]);
   const [daySlotsState, setDaySlotsState] = useState<any[]>([]);
   const [submittedOverrideData, setSubmittedOverrideData] = useState<any>([]);
@@ -36,6 +35,8 @@ export const useTimeSlotPreferences = () => {
     reset(timeSlotsDefaultValues(timeSlotsData));
   }, [reset, timeSlotsData]);
 
+  const watchMonths = watch('months');
+  const [selectedMonths, setSelectedMonths] = useState<any[]>(watchMonths);
   const [postTimeSlotsTrigger, timeSlotsProcess] = usePostTimeSlotsMutation();
 
   const formattedOverrides = submittedOverrideData?.dateOverrides?.map(

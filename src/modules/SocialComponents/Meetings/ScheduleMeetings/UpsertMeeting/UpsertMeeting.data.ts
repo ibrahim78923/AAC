@@ -29,7 +29,7 @@ export const upsertMeetingValues = (router: any) => {
     recurring: false,
     recurringType: '',
     dailyType: 'onThe',
-    recurringDay: '',
+    recurringDay: Number(),
     weekDays: [],
     monthType: 'onDate',
     monthlyDate: [],
@@ -46,7 +46,7 @@ export const upsertMeetingValues = (router: any) => {
     allowAttendee: false,
     timeSlotDuration: { label: '30 Minutes', value: 30 },
     selectedSlots: [],
-    reminder: [{ type: null, counter: '', duration: null }],
+    reminder: [{ type: null, counter: Number(), duration: null }],
   };
 };
 export const upsertMeetingSchema: any = (router: any) =>
@@ -79,13 +79,15 @@ export const upsertMeetingSchema: any = (router: any) =>
       },
     ),
     recurring: Yup?.boolean(),
-    recurringType: Yup?.string()?.when(schemaTypes?.recurring, {
-      is: (recurring: string) => recurring,
-      then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema: any) => schema?.notRequired(),
-    }),
+    recurringType: Yup?.mixed()
+      ?.nullable()
+      ?.when(schemaTypes?.recurring, {
+        is: (recurring: any) => recurring?.label,
+        then: (schema: any) => schema?.required('Required'),
+        otherwise: (schema: any) => schema?.notRequired(),
+      }),
     dailyType: Yup?.string()?.required('Required'),
-    recurringDay: Yup?.string()?.when(
+    recurringDay: Yup?.number()?.when(
       [
         schemaTypes?.dailyType,
         schemaTypes?.recurringType,
@@ -151,7 +153,7 @@ export const upsertMeetingSchema: any = (router: any) =>
         otherwise: (schema: any) => schema?.notRequired(),
       },
     ),
-    description: Yup?.string(),
+    description: Yup?.string()?.required('Required'),
     meetingType: Yup?.mixed()?.nullable()?.required('Required'),
     location: Yup?.mixed()
       ?.nullable()
@@ -162,8 +164,8 @@ export const upsertMeetingSchema: any = (router: any) =>
       }),
     bufferBefore: Yup?.boolean(),
     bufferAfter: Yup?.boolean(),
-    bufferBeforeTime: Yup?.string(),
-    bufferAfterTime: Yup?.string(),
+    bufferBeforeTime: Yup?.mixed()?.nullable(),
+    bufferAfterTime: Yup?.mixed()?.nullable(),
     people:
       router?.query?.type === schemaTypes?.group
         ? Yup?.array()?.min(1, 'Required')
@@ -174,8 +176,8 @@ export const upsertMeetingSchema: any = (router: any) =>
     reminder: Yup?.array()?.of(
       Yup?.object()?.shape({
         type: Yup?.mixed()?.nullable()?.required('Required'),
-        counter: Yup?.string()?.required('Required'),
-        duration: Yup?.string()?.required('Required'),
+        counter: Yup?.number()?.required('Required'),
+        duration: Yup?.mixed()?.nullable()?.required('Required'),
       }),
     ),
   });

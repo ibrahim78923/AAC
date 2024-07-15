@@ -8,6 +8,7 @@ export const useRecurring = (props: any) => {
   const watchToDate = watch('endDate');
   const watchRecurring = watch('recurring');
   const watchRecurringType = watch('recurringType');
+  const watchType = watchRecurringType?.label;
   const watchDailyType = watch('dailyType');
   const watchMonthType = watch('monthType');
   const fromDate = new Date(watchFromDate);
@@ -28,5 +29,6 @@ export const useRecurring = (props: any) => {
     watchRecurringType,
     watchDailyType,
     watchMonthType,
+    watchType,
   };
 };

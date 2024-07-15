@@ -33,6 +33,7 @@ export const MeetingForm = (props: any) => {
             name="description"
             label="Meeting Agenda"
             style={{ minHeight: 200 }}
+            required={true}
           />
           <AttendeePeople {...props} />
         </Grid>

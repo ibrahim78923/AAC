@@ -23,7 +23,7 @@ export const Recurring = (props: any) => {
     isSameDate,
     watchRecurring,
     differenceInDays,
-    watchRecurringType,
+    watchType,
     watchDailyType,
     watchMonthType,
   } = useRecurring(props);
@@ -48,9 +48,10 @@ export const Recurring = (props: any) => {
                 (option === optionTypes?.weekly && differenceInDays < 7) ||
                 (option === optionTypes?.monthly && differenceInDays < 30)
               }
+              getOptionLabel={(option: any) => option?.label}
             />
           </Grid>
-          {watchRecurringType === optionTypes?.daily && (
+          {watchType === optionTypes?.daily && (
             <>
               <Grid item xs={12}>
                 <RHFRadioGroup name="dailyType" options={dayTypeOption} />
@@ -70,7 +71,7 @@ export const Recurring = (props: any) => {
               )}
             </>
           )}
-          {watchRecurringType === optionTypes?.weekly && (
+          {watchType === optionTypes?.weekly && (
             <Grid item xs={12}>
               <RHFMultiCheckbox
                 name="weekDays"
@@ -79,7 +80,7 @@ export const Recurring = (props: any) => {
               />
             </Grid>
           )}
-          {watchRecurringType === optionTypes?.monthly && (
+          {watchType === optionTypes?.monthly && (
             <>
               <Grid item xs={12}>
                 <RHFRadioGroup name="monthType" options={monthTypeOption} />

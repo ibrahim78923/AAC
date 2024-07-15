@@ -54,7 +54,7 @@ export const useVideoConferencing = () => {
     }
   }, [meetingsList]);
 
-  const [deleteTrigger] = useDeleteCalendarMutation();
+  const [deleteTrigger, deleteProgress] = useDeleteCalendarMutation();
   const handleDelete = async (meetingId: string) => {
     try {
       const response: any = await deleteTrigger({ id: meetingId })?.unwrap();
@@ -130,5 +130,6 @@ export const useVideoConferencing = () => {
     isFetching,
     handleZoomClick,
     changeStatusProgress,
+    deleteProgress,
   };
 };

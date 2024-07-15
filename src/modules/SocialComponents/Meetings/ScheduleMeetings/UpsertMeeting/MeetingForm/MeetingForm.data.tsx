@@ -22,12 +22,12 @@ const meetingTypeOption = [
   { value: 'MS_TEAMS', label: 'MS teams' },
 ];
 const bufferTimeOption = [
-  '5 Minutes',
-  '10 Minutes',
-  '15 Minutes',
-  '20 Minutes',
-  '25 Minutes',
-  '30 Minutes',
+  { value: 5, label: '5 Minutes' },
+  { value: 10, label: '10 Minutes' },
+  { value: 15, label: '15 Minutes' },
+  { value: 20, label: '20 Minutes' },
+  { value: 25, label: '25 Minutes' },
+  { value: 30, label: '30 Minutes' },
 ];
 const meetingContents = {
   inPersonMeeting: 'In person meeting',
@@ -226,6 +226,7 @@ export const meetingFormFields = (props: any) => {
         placeholder: 'Select Buffer time',
         fullWidth: true,
         size: 'small',
+        getOptionLabel: (option: any) => `${option?.label}`,
       },
       component: RHFAutocomplete,
     },
@@ -258,6 +259,7 @@ export const meetingFormFields = (props: any) => {
         placeholder: 'Select Buffer time',
         fullWidth: true,
         size: 'small',
+        getOptionLabel: (option: any) => `${option?.label}`,
       },
       component: RHFAutocomplete,
     },

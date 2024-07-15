@@ -45,7 +45,7 @@ export const useCalendarIntegration = () => {
     }
   };
 
-  const [deleteTrigger] = useDeleteCalendarMutation();
+  const [deleteTrigger, deleteProgress] = useDeleteCalendarMutation();
   const handleDelete = async (calendarId: string) => {
     try {
       const response: any = await deleteTrigger({ id: calendarId })?.unwrap();
@@ -137,5 +137,6 @@ export const useCalendarIntegration = () => {
     isLoading,
     isFetching,
     changeStatusProgress,
+    deleteProgress,
   };
 };

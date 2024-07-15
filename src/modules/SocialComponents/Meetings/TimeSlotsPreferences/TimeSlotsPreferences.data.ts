@@ -53,7 +53,7 @@ export const weeklyDaysSchemaFields: any = Yup?.object()?.shape({
 
 export const timeSlotsDefaultValues = (timeSlotsData: any) => {
   return {
-    months: timeSlotsData?.months?.map((item: any) => item) ?? [],
+    months: timeSlotsData?.months ?? [],
     daysTimeRanges: timeSlotsWeeklyDataArray?.map((day: any) => ({
       days: day,
       timeRanges:
