@@ -57,15 +57,27 @@ export const useUpsertFeedbackSurvey = () => {
     satisfactionSurveyLinkType: surveyData?.satisfactionSurveyLinkType,
     surveyDuration: surveyData?.surveyDuration,
     customerSupportLinkType: surveyData?.customerSupportLinkType,
-    magicLink: surveyData?.magicLink,
-    sendSurveyPeople: surveyData?.sendSurveyPeople?.map((item: any) =>
-      item?.email ? item?.email : item,
-    ),
+    sendSurveyPeople:
+      surveyData?.customerSupportLinkType === feedbackTypes?.viaEmail &&
+      surveyData?.sendSurveyPeople?.length
+        ? surveyData?.sendSurveyPeople?.map((item: any) =>
+            item?.email ? item?.email : item,
+          )
+        : surveyData?.customerSupportLinkType === feedbackTypes?.viaMagicLink &&
+            surveyData?.shareSurveyPeople?.length
+          ? surveyData?.shareSurveyPeople?.map((item: any) =>
+              item?.email ? item?.email : item,
+            )
+          : [],
     surveyType: feedbackSurveyType?.[router?.query?.type],
   });
   const handleCreateSurvey = async (surveyData: any) => {
     const response: any = await createFeedbackSurveyTrigger({
       UUID: surveyData?.UUID,
+      magicLink:
+        surveyData?.customerSupportLinkType !== feedbackTypes?.viaEmail
+          ? `${window?.location?.origin}/survey/response?surveyId=${surveyData?.UUID}`
+          : '',
       ...modifiedSurveyData(surveyData),
     });
     if (response?.data?.data?._id) {
@@ -80,9 +92,18 @@ export const useUpsertFeedbackSurvey = () => {
   };
   const surveyValues = watch(surveyWatchArray);
   const sendSurveyPeople = watch('sendSurveyPeople');
-  const sendSurveyPeopleValue = sendSurveyPeople?.map((item: any) =>
-    item?.email ? item?.email : item,
-  );
+  const shareSurveyPeople = watch('shareSurveyPeople');
+  const customerSupportLinkType = watch('customerSupportLinkType');
+  const sendSurveyPeopleValue =
+    sendSurveyPeople?.length &&
+    customerSupportLinkType === feedbackTypes?.viaEmail
+      ? sendSurveyPeople?.map((item: any) => (item?.email ? item?.email : item))
+      : shareSurveyPeople?.length &&
+          customerSupportLinkType === feedbackTypes?.viaMagicLink
+        ? shareSurveyPeople?.map((item: any) =>
+            item?.email ? item?.email : item,
+          )
+        : [];
   const surveyDuration: any = watch('surveyDuration');
   const surveyDurationValue = new Date(surveyDuration);
   const dateString = (date: any) => {
@@ -109,7 +130,13 @@ export const useUpsertFeedbackSurvey = () => {
   };
   const handleUpdateSurvey = async (data: any) => {
     const modifiedSurvey = {
-      body: modifiedSurveyData(data),
+      body: {
+        magicLink:
+          data?.customerSupportLinkType !== feedbackTypes?.viaEmail
+            ? `${window?.location?.origin}/survey/response?surveyId=${data?.UUID}`
+            : '',
+        ...modifiedSurveyData(data),
+      },
       params: { id: surveyId },
     };
     if (!lodash?.isEqual(Object?.values(oldSurvey), newSurvey)) {
@@ -131,7 +158,7 @@ export const useUpsertFeedbackSurvey = () => {
   let unSaveSection: any;
   watchSectionData?.forEach((newSec: any, index: number) => {
     const oldSec = apiSectionData(data)?.[index];
-    if (!lodash.isEqual(newSec, oldSec)) {
+    if (!lodash?.isEqual(newSec, oldSec)) {
       unSaveSection = { section: newSec, index };
     }
   });
@@ -143,6 +170,7 @@ export const useUpsertFeedbackSurvey = () => {
   const handleSubmitQuestion = async (data: any) => {
     const selectedSection = data?.sections?.[submitIndex?.index];
     const sectionObj: any = {
+      index: submitIndex?.index,
       heading: selectedSection?.heading,
       description: selectedSection?.description,
     };

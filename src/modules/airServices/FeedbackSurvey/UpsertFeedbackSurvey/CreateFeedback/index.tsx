@@ -29,6 +29,7 @@ export const CreateFeedback = (props: any) => {
     handlePublish,
     handleSaveDraft,
     updateLoading,
+    emailLoading,
     isStatus,
   } = useCreateFeedback(props);
   return (
@@ -97,6 +98,7 @@ export const CreateFeedback = (props: any) => {
                 label="Description"
                 size="small"
                 multiline
+                required
                 minRows={3}
                 placeholder="Description"
                 disabled={sectionCondition}
@@ -144,6 +146,7 @@ export const CreateFeedback = (props: any) => {
             handlePublish,
             handleSaveDraft,
             updateLoading,
+            emailLoading,
             isStatus,
           })}
         />

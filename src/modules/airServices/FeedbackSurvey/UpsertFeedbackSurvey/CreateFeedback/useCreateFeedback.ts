@@ -4,12 +4,15 @@ import {
   usePatchCloneFeedbackSectionMutation,
   usePatchFeedbackSurveyMutation,
   usePatchMergeFeedbackSectionMutation,
+  usePostSurveyEmailMutation,
 } from '@/services/airServices/feedback-survey';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useFieldArray } from 'react-hook-form';
-import { feedbackValuesType } from './CreateFeedback.data';
+import { emailHtml, feedbackValuesType } from './CreateFeedback.data';
+import { getSession } from '@/utils';
+import { useTheme } from '@mui/material';
 
 export const useCreateFeedback = (props: any) => {
   const { methods } = props;
@@ -22,6 +25,8 @@ export const useCreateFeedback = (props: any) => {
     name: 'sections',
     control,
   });
+  const theme = useTheme();
+  const sessionData: any = getSession();
   const [deleteSectionTrigger, { isLoading: deleteLoading }] =
     useDeleteFeedbackSurveySectionMutation();
   const [mergeSectionTrigger, { isLoading: mergeLoading }] =
@@ -30,6 +35,8 @@ export const useCreateFeedback = (props: any) => {
     usePatchCloneFeedbackSectionMutation();
   const [patchFeedbackSurveyTrigger, { isLoading: updateLoading }] =
     usePatchFeedbackSurveyMutation();
+  const [postSurveyEmailTrigger, { isLoading: emailLoading }] =
+    usePostSurveyEmailMutation();
   const removeSection = async (index: number, setClose: any) => {
     const sectionId = watch(`sections.${index}.id`);
     const deleteParams = {
@@ -69,8 +76,24 @@ export const useCreateFeedback = (props: any) => {
       remove(index);
     }
   };
+  const sendSurveyPeople = watch('sendSurveyPeople');
+  const shareSurveyPeople = watch('shareSurveyPeople');
+  const surveyTitle = watch('surveyTitle');
   const handlePublish = async (handleClose: any) => {
     setIsStatus(true);
+    if (!!sendSurveyPeople?.length || !!shareSurveyPeople?.length) {
+      const emailParams = new FormData();
+      emailParams?.append('recipients', sendSurveyPeople);
+      emailParams?.append(
+        'subject',
+        `Invitation to Participate in ${surveyTitle} Survey`,
+      );
+      emailParams?.append('html', emailHtml({ sessionData, theme }));
+      const res: any = await postSurveyEmailTrigger(emailParams);
+      if (res?.error?.data?.message) {
+        errorSnackbar(res?.error?.data?.message);
+      }
+    }
     const publishParams = {
       body: {
         status: feedbackValuesType?.published,
@@ -117,6 +140,7 @@ export const useCreateFeedback = (props: any) => {
     handlePublish,
     handleSaveDraft,
     updateLoading,
+    emailLoading,
     isStatus,
   };
 };

@@ -150,8 +150,9 @@ export const useQuestions = (props: any) => {
       body: {
         sections: [
           {
+            index: sectionIndex + 1,
             heading: '',
-            description: '',
+            description: null,
           },
         ],
       },

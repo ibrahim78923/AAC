@@ -1,5 +1,12 @@
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  RadioButtonChecked,
+  CheckBox,
+  LinearScale,
+  ShortText,
+} from '@mui/icons-material';
+import { NextRouter } from 'next/router';
 export const feedbackTypes = {
   createSurvey: 'createSurvey',
   saveQuestion: 'saveQuestion',
@@ -13,27 +20,34 @@ export const feedbackTypes = {
   published: 'published',
   draft: 'draft',
   customerSatisfaction: 'customer-satisfaction',
+  viaMagicLink: 'viaMagicLink',
 };
 export const questionTypeOptions = [
   {
+    id: 1,
     label: 'Multiple Choice',
     value: 'multipleChoice',
+    icon: <RadioButtonChecked />,
   },
   {
+    id: 2,
     label: 'Check Boxes',
     value: 'checkboxes',
+    icon: <CheckBox />,
   },
   {
+    id: 3,
     label: 'Short Answers',
     value: 'shortAnswers',
+    icon: <ShortText />,
   },
   {
+    id: 4,
     label: 'Linear Scale',
     value: 'linearScale',
+    icon: <LinearScale />,
   },
-  {
-    value: 'text',
-  },
+  { value: 'text' },
 ];
 export const feedbackSurveyValues = (data: any) => {
   return {
@@ -45,7 +59,16 @@ export const feedbackSurveyValues = (data: any) => {
     display: !!data?.displayName ?? false,
     displayName: data?.displayName ?? '',
     customerSupportLinkType: data?.customerSupportLinkType ?? 'viaEmail',
-    sendSurveyPeople: data?.sendSurveyPeople ?? [],
+    sendSurveyPeople:
+      data?.customerSupportLinkType === feedbackTypes?.viaEmail &&
+      data?.sendSurveyPeople
+        ? data?.sendSurveyPeople
+        : [],
+    shareSurveyPeople:
+      data?.customerSupportLinkType === feedbackTypes?.viaMagicLink &&
+      data?.sendSurveyPeople
+        ? data?.sendSurveyPeople
+        : [],
     magicLink: data?.magicLink ?? '',
     satisfactionSurveyLinkType:
       data?.satisfactionSurveyLinkType ?? 'toAllAgents',
@@ -110,7 +133,7 @@ export const feedbackSurveyValues = (data: any) => {
 };
 export const feedbackSurveyValidationSchema: any = (
   createSurvey: string,
-  router: any,
+  router: NextRouter,
 ) =>
   Yup?.object()?.shape({
     surveyTitle: Yup?.string()?.required('Required'),
@@ -122,7 +145,7 @@ export const feedbackSurveyValidationSchema: any = (
         type === feedbackTypes?.viaEmail &&
         router?.query?.type !== feedbackTypes?.customerSatisfaction,
       then: (schema) => schema?.min(1, 'Required'),
-      otherwise: (schema: any) => schema?.notRequired(),
+      otherwise: (schema) => schema?.notRequired(),
     }),
     sections: Yup?.array()?.of(
       Yup?.object()?.shape({
@@ -130,7 +153,10 @@ export const feedbackSurveyValidationSchema: any = (
           createSurvey === feedbackTypes?.feedback
             ? Yup?.string()?.required('Required')
             : Yup?.string(),
-        description: Yup?.string(),
+        description:
+          createSurvey === feedbackTypes?.feedback
+            ? Yup?.string()?.required('Required')
+            : Yup?.string(),
         questions: Yup?.array()?.of(
           Yup?.object()?.shape({
             questionTitle:
@@ -201,5 +227,4 @@ export const surveyWatchArray: any[] = [
   'satisfactionSurveyLinkType',
   'customerSupportLinkType',
   'magicLink',
-  // 'sendSurveyPeople',
 ];

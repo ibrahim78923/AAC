@@ -40,9 +40,14 @@ export const CustomerSupportList = (props: any) => {
   } = useCustomerSupportList(props);
   return (
     <>
-      <Box display="flex" justifyContent="space-between">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        gap={1}
+        flexWrap="wrap"
+      >
         <Search label="Search here" setSearchBy={setSearch} />
-        <Box display="flex" gap={1}>
+        <Box display="flex" gap={1} flexWrap="wrap">
           <PermissionsGuard
             permissions={
               Permissions?.AIR_SERVICES_CUSTOMER_SUPPORT_FEEDBACK_SURVEY_ACTIONS

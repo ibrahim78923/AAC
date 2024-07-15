@@ -21,6 +21,13 @@ export const feedbackSurvey = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    postSurveyEmail: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.CONVERSATION_EMAIL}`,
+        method: 'POST',
+        body,
+      }),
+    }),
     patchFeedbackSurvey: builder?.mutation({
       query: ({ body, params }: any) => ({
         url: `${END_POINTS?.UPDATE_FEEDBACK_SURVEY}`,
@@ -129,4 +136,5 @@ export const {
   usePostCloneFeedbackSurveyMutation,
   usePatchDefaultSurveyMutation,
   useLazyAllUserDropdownQuery,
+  usePostSurveyEmailMutation,
 } = feedbackSurvey;

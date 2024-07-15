@@ -28,7 +28,7 @@ export const ShareModal = ({ openShare, setOpenShare }: any) => {
         </Box>
         <br />
         <RHFAutocompleteAsync
-          name="sendSurveyPeople"
+          name="shareSurveyPeople"
           label="Share With"
           placeholder="Enter People"
           size="small"

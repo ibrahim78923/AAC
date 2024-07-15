@@ -66,8 +66,8 @@ export const createSurveyFields = (
       name: 'description',
       label: 'Description',
       placeholder: 'Enter Description',
-      required: true,
       multiline: true,
+      required: true,
       minRows: 3,
     },
     type: ['customer-support', 'customer-satisfaction'],
@@ -136,6 +136,7 @@ export const createSurveyFields = (
               borderRadius: 1.5,
               mt: 0.5,
               p: 1,
+              overflow: 'hidden',
             }}
           >
             <Typography variant="body2" color="blue.link_blue" ref={linkRef}>
