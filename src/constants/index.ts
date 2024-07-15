@@ -500,3 +500,13 @@ export const RADIO_VALUE = {
   FROM: 'from',
   TO: 'to',
 };
+export const CHAT_MESSAGE_ROLES = {
+  SENDER: 'sender',
+  RECEIVER: 'receiver',
+};
+export const TEMPLATES_CARDS = {
+  GIFT_CARD: 'GiftCard',
+  LOYALTY_TOKEN: 'Loyalty Token',
+  VOUCHER: 'Voucher',
+  CREDITS: 'Credits',
+};

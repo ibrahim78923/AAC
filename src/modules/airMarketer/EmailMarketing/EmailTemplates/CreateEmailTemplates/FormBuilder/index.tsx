@@ -3,8 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import FormField from './FormField';
 import FormControls from './FormControls';
 import {
+  Autocomplete,
   Box,
   Button,
+  Chip,
   Grid,
   TextField,
   Typography,
@@ -18,11 +20,40 @@ import { fieldTypes, ItemTypes } from '@/constants/form-builder';
 import { useState } from 'react';
 import CommonModal from '@/components/CommonModal';
 import CustomLabel from '@/components/CustomLabel';
-import { usePostEmailTemplatesMutation } from '@/services/airMarketer/emailTemplates';
+import {
+  usePostEmailTemplatesMutation,
+  usePostEmailWithTemplatesMutation,
+  useUpdateEmailTemplatesMutation,
+} from '@/services/airMarketer/emailTemplates';
 import { enqueueSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { emailTemplateSendValidationSchema } from './FormFields.data';
+import { RHFCheckbox, RHFTextField } from '@/components/ReactHookForm';
+import * as yup from 'yup';
+import { FormProvider } from '@/components/ReactHookForm';
+import { generateHTML } from '@/utils/emailTemplate';
+import { LoadingButton } from '@mui/lab';
 
-const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
+const FormBuilder = ({
+  fields,
+  setFields,
+  titleValue,
+  setTitleValue,
+  setOpenModal,
+  isEditMode,
+  templateId,
+  isSend,
+  data,
+}: any) => {
   const theme = useTheme();
+
+  const router = useRouter();
+
+  const [autocompleteValues, setAutocompleteValues] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState('');
 
   const handleDrop = (item: any) => {
     if (!item?.type) return;
@@ -57,7 +88,6 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
   };
 
   const [isTitleModal, setIsTitleModal] = useState(false);
-  const [titleValue, setTitleValue] = useState('');
 
   const [, drop] = useDrop({
     accept: ItemTypes.FIELD,
@@ -127,8 +157,12 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
   };
 
   const handelPostTemplateProcess = () => {
-    if (fields?.length > 0) {
-      setIsTitleModal(true);
+    if (fields.length > 0) {
+      if (isSend) {
+        handelSubmitEmail();
+      } else {
+        setIsTitleModal(true);
+      }
     } else {
       enqueueSnackbar('Nothing to post!', {
         variant: 'error',
@@ -136,25 +170,116 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
     }
   };
 
-  const [postEmailTemplate] = usePostEmailTemplatesMutation();
+  const [postEmailTemplate, { isLoading: loadingPostTemplate }] =
+    usePostEmailTemplatesMutation();
+  const [postEmailWithTemplates, { isLoading: loadingPostEmailTemplate }] =
+    usePostEmailWithTemplatesMutation();
+  const [updateEmailTemplate, { isLoading: loadingUpdateTemplate }] =
+    useUpdateEmailTemplatesMutation();
 
-  const handelPostTemplate: () => void = async () => {
+  const generatedHTML = generateHTML(fields, false);
+
+  const handelPostTemplate = async (values: any) => {
     const payload = {
       name: titleValue,
       data: fields,
     };
-    try {
-      await postEmailTemplate({
-        body: payload,
-      })?.unwrap();
-      enqueueSnackbar('Template created successfully', {
-        variant: 'success',
-      });
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong!', {
-        variant: 'error',
-      });
+
+    if (isSend) {
+      const formDataSend = new FormData();
+      formDataSend.append(
+        'to',
+        autocompleteValues ? autocompleteValues.join(',') : '',
+      );
+      formDataSend.append('subject', values?.subject);
+      formDataSend.append('content', generatedHTML?.toString() || ' ');
+
+      if (values?.cc?.length) {
+        formDataSend.append('cc', values?.cc);
+      }
+      if (values?.bcc?.length) {
+        formDataSend.append('bcc', values?.bcc);
+      }
+      try {
+        await postEmailWithTemplates({
+          body: formDataSend,
+        })?.unwrap();
+        enqueueSnackbar('Email send successfully', {
+          variant: 'success',
+        });
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong!', {
+          variant: 'error',
+        });
+      }
     }
+
+    if (isEditMode) {
+      try {
+        await updateEmailTemplate({
+          body: payload,
+          id: templateId,
+        })?.unwrap();
+        enqueueSnackbar('Template updated successfully', {
+          variant: 'success',
+        });
+        router.push(`${AIR_MARKETER?.EMAIL_TEMPLATES}`);
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong!', {
+          variant: 'error',
+        });
+      }
+    }
+
+    if (!isEditMode) {
+      try {
+        await postEmailTemplate({
+          body: payload,
+        })?.unwrap();
+        enqueueSnackbar('Template created successfully', {
+          variant: 'success',
+        });
+        router.push(`${AIR_MARKETER?.EMAIL_TEMPLATES}`);
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong!', {
+          variant: 'error',
+        });
+      }
+    }
+  };
+
+  const handleAutocompleteChange = (_: any, newValue: string[]) => {
+    setAutocompleteValues(newValue);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const emailSchema = yup?.string()?.email()?.required();
+  const checkEmails = (emails: string[]) => {
+    try {
+      yup?.array()?.of(emailSchema)?.required()?.validateSync(emails);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+  const isValidEmails = checkEmails(autocompleteValues);
+  const methods: any = useForm({
+    resolver: yupResolver(emailTemplateSendValidationSchema),
+    defaultValues: {},
+  });
+  const { handleSubmit, watch } = methods;
+
+  const watchEmailsForm = watch(['ccChecked', 'bccChecked', 'to']);
+
+  const onSubmit = (values: any) => {
+    handelPostTemplate(values);
+  };
+
+  const handelSubmitEmail = () => {
+    handleSubmit(onSubmit);
   };
 
   return (
@@ -168,42 +293,186 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
               p: 2,
             }}
           >
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Typography
-                variant="h5"
-                display={'flex'}
-                alignItems={'center'}
-                sx={{ pb: 2 }}
-              >
-                {' '}
-                <Box sx={{ cursor: 'pointer', marginRight: '10px' }}>
-                  {' '}
-                  <BackArrowIcon />
-                </Box>{' '}
-                Back To Templates
-              </Typography>
-
+            {!isSend && (
               <Box
                 sx={{
                   display: 'flex',
+                  justifyContent: 'space-between',
                   alignItems: 'center',
-                  gap: '10px',
+                  mb: 2,
                 }}
               >
-                <Button variant="outlined" onClick={() => setOpenModal(true)}>
-                  Preview
-                </Button>
-                <Button variant="contained" onClick={handelPostTemplateProcess}>
-                  Save
-                </Button>
+                <Typography
+                  variant="h5"
+                  display={'flex'}
+                  alignItems={'center'}
+                  sx={{ pb: 2, cursor: 'pointer' }}
+                  onClick={() =>
+                    router.push({
+                      pathname: `${AIR_MARKETER?.EMAIL_TEMPLATES}`,
+                    })
+                  }
+                >
+                  {' '}
+                  <Box sx={{ cursor: 'pointer', marginRight: '10px' }}>
+                    {' '}
+                    <BackArrowIcon />
+                  </Box>{' '}
+                  {data?.name ?? 'Back To Templates'}
+                </Typography>
+
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                  }}
+                >
+                  <Button variant="outlined" onClick={() => setOpenModal(true)}>
+                    Preview
+                  </Button>
+                  <LoadingButton
+                    variant="contained"
+                    onClick={handelPostTemplateProcess}
+                    loading={loadingPostEmailTemplate}
+                  >
+                    {isSend ? 'Save and Send' : 'Save'}
+                  </LoadingButton>
+                </Box>
               </Box>
-            </Box>
+            )}
+
+            {isSend && (
+              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    display={'flex'}
+                    alignItems={'center'}
+                    sx={{ pb: 2, cursor: 'pointer' }}
+                    onClick={() =>
+                      router.push({
+                        pathname: `${AIR_MARKETER?.EMAIL_TEMPLATES}`,
+                      })
+                    }
+                  >
+                    {' '}
+                    <Box sx={{ cursor: 'pointer', marginRight: '10px' }}>
+                      {' '}
+                      <BackArrowIcon />
+                    </Box>{' '}
+                    {data?.name ?? 'Back To Templates'}
+                  </Typography>
+
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                    }}
+                  >
+                    <Button
+                      variant="outlined"
+                      onClick={() => setOpenModal(true)}
+                    >
+                      Preview
+                    </Button>
+                    <LoadingButton
+                      variant="contained"
+                      type="submit"
+                      onClick={handelPostTemplateProcess}
+                      loading={loadingPostEmailTemplate}
+                    >
+                      {isSend ? 'Save and Send' : 'Save'}
+                    </LoadingButton>
+                  </Box>
+                </Box>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Grid item xs={6}>
+                      <RHFTextField name="from" label="From" size="small" />
+                    </Grid>
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <Autocomplete
+                      multiple
+                      freeSolo
+                      id="tags-filled"
+                      options={[]}
+                      value={autocompleteValues}
+                      onChange={handleAutocompleteChange}
+                      renderTags={(value: readonly string[], getTagProps) =>
+                        value?.map((option: string, index: number) => (
+                          <Chip
+                            variant="outlined"
+                            label={option}
+                            {...getTagProps({ index })}
+                            key={uuidv4()}
+                          />
+                        ))
+                      }
+                      renderInput={(params: any) => (
+                        <>
+                          <CustomLabel label={'To'} required={true} />
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            placeholder="Enter email"
+                            size="small"
+                            value={inputValue}
+                            onChange={handleInputChange}
+                            helperText={
+                              isValidEmails ? (
+                                params.inputProps?.value?.length > 1 ? (
+                                  <Typography fontSize={12}>
+                                    Press enter to add email
+                                  </Typography>
+                                ) : null
+                              ) : (
+                                <Typography color={theme?.palette?.error?.main}>
+                                  Email you entered is not valid
+                                </Typography>
+                              )
+                            }
+                          />
+                        </>
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={2} sx={{ mt: 3 }}>
+                    <RHFCheckbox name="ccChecked" label="CC" />
+                  </Grid>
+                  <Grid item xs={2} sx={{ mt: 3 }}>
+                    <RHFCheckbox name="bccChecked" label="BCC" />
+                  </Grid>
+
+                  {watchEmailsForm[0] && (
+                    <Grid item xs={12}>
+                      <RHFTextField name="cc" label="CC" size="small" />
+                    </Grid>
+                  )}
+                  {watchEmailsForm[1] && (
+                    <Grid item xs={12}>
+                      <RHFTextField name="bcc" label="BCC" size="small" />
+                    </Grid>
+                  )}
+
+                  <Grid item xs={6}>
+                    <RHFTextField name="subject" label="Subject" size="small" />
+                  </Grid>
+                </Grid>
+              </FormProvider>
+            )}
+
             <Box sx={styles?.contentPaper}>
               <Box ref={drop} sx={styles?.dropZone}>
                 {isNullOrEmpty(fields) && (
@@ -252,11 +521,12 @@ const FormBuilder = ({ fields, setFields, setOpenModal }: any) => {
         open={isTitleModal}
         handleClose={() => setIsTitleModal(false)}
         handleCancel={() => setIsTitleModal(false)}
-        handleSubmit={handelPostTemplate}
+        handleSubmit={() => handelPostTemplate({})}
         title=""
         okText="Save"
         isSubmitDisabled={titleValue?.length > 0 ? false : true}
         footer
+        isLoading={loadingUpdateTemplate || loadingPostTemplate}
       >
         <>
           <CustomLabel label="Template Title" />

@@ -15,6 +15,7 @@ export interface PreviewDataItemI {
 }
 
 export interface PreviewTemplatePropsI {
-  setOpenModal: (open: boolean) => void;
+  setOpenModal?: (open: boolean) => void;
   fields: Field[];
+  minifyPreview?: boolean;
 }

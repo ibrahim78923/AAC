@@ -381,14 +381,16 @@ export const TasksData = ({ data }: any) => {
             };
           case 'dueDate':
             return {
-              accessorFn: (row?: any) => row?.updatedAt,
+              accessorFn: (row?: any) => row?.dueDate,
               id: 'updatedAt',
               isSortable: true,
               header: 'Last Date',
               cell: (info?: any) =>
-                dayjs(info?.row?.original?.dueDate).format(
-                  DATE_TIME_FORMAT?.YMDHM,
-                ),
+                info?.row?.original?.dueDate
+                  ? dayjs(info?.row?.original?.dueDate).format(
+                      DATE_TIME_FORMAT?.YMDHM,
+                    )
+                  : '--',
             };
           default:
             return null;

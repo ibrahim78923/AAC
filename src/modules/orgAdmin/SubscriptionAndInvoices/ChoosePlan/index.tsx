@@ -48,18 +48,37 @@ const ChoosePlan = () => {
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
   );
   const isCRM = parsedManageData?.isCRM;
-  const { data, isLoading } = useGetProductPlanListProductIdQuery({
-    id: parsedManageData?.productId,
-  });
+  const { data, isLoading } = useGetProductPlanListProductIdQuery(
+    {
+      id: parsedManageData?.productId,
+    },
+    { skip: parsedManageData?.productId ? false : true },
+  );
+
   const { data: crmPlanData, isLoading: isCRMplanLoading } =
-    useGetCRMPlanListQuery({
-      name: parsedManageData?.planName || parsedManageData?.name,
-    });
-  const { data: featuresData } = useGetProductFeaturesQuery({
-    id: isCRM
-      ? parsedManageData?.plans?.planProducts
-      : parsedManageData?.productId,
-  });
+    useGetCRMPlanListQuery(
+      {
+        name: parsedManageData?.planName || parsedManageData?.name,
+      },
+      {
+        skip:
+          parsedManageData?.planName || parsedManageData?.name ? false : true,
+      },
+    );
+
+  const { data: featuresData } = useGetProductFeaturesQuery(
+    {
+      id: isCRM
+        ? parsedManageData?.plans?.planProducts
+        : parsedManageData?.productId,
+    },
+    {
+      skip:
+        parsedManageData?.productId || parsedManageData?.plans?.planProducts
+          ? false
+          : true,
+    },
+  );
 
   const [getData, setGetData] = useState<any>([]);
 

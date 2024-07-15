@@ -29,7 +29,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from '../ChatField.style';
 import dayjs from 'dayjs';
-import { CHAT_MESSAGE_TYPE, TIME_FORMAT } from '@/constants';
+import {
+  CHAT_MESSAGE_ROLES,
+  CHAT_MESSAGE_TYPE,
+  TIME_FORMAT,
+} from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { IMG_URL } from '@/config';
 import { CHAT_SOCKETS_EMIT } from '@/routesConstants/paths';
@@ -102,7 +106,10 @@ const ChatBox = ({
 
   // Read message functionality from socket
   useEffect(() => {
-    if (role === 'receiver') {
+    if (
+      role === CHAT_MESSAGE_ROLES?.RECEIVER &&
+      activeChatId === item?.chatId
+    ) {
       if (item?.isRead === false) {
         socket.emit(CHAT_SOCKETS_EMIT.UPDATE_MESSAGE, {
           messageId: item?._id,

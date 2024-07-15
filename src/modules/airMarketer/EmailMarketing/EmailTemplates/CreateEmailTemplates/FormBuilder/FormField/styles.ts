@@ -40,10 +40,6 @@ export const styles = {
       padding: '8px 12px',
       borderRadius: '5px',
       border: `1px solid ${theme?.palette?.custom?.hex_grey}`,
-      height: '40px',
-    },
-    '& textarea.field-control': {
-      height: 'auto',
     },
     '& .field-button': {
       border: `1px solid ${theme?.palette?.primary?.main}`,

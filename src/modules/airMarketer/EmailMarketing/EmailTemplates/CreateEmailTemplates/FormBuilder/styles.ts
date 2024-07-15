@@ -53,8 +53,10 @@ export const styles = {
     padding: '20px',
     borderTopLeftRadius: '20px',
     borderBottomLeftRadius: '20px',
-    height: 'calc(100vh - 80px)',
+    minHeight: '70vh',
     overflowY: 'auto',
+    position: 'sticky',
+    top: '60px',
   }),
 
   formContainer: (theme: any) => ({

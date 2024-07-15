@@ -65,9 +65,7 @@ const ProductSuite = () => {
     try {
       setLoading(true);
       const response = await PostAuthAccountSelect(payload)?.unwrap();
-
       const routes = getRoutes(product);
-
       if (response?.data && routes) {
         setPermissions();
         setSelectedProduct(routes);
@@ -96,9 +94,9 @@ const ProductSuite = () => {
           modulePermission?.permissions?.forEach((value: any) => {
             componentPermissionsDictionary[value] = true;
           });
-
           for (const permission of permissions) {
             if (componentPermissionsDictionary[permission]) {
+              setLoading(false);
               return router?.push(modulePermission?.key);
             }
           }
@@ -240,10 +238,10 @@ const ProductSuite = () => {
           },
         }}
       >
-        {authMeLoadingState ||
+        {loading ||
+        authMeLoadingState ||
         isLoading ||
-        postAuthAccountSelectFetching ||
-        loading ? (
+        postAuthAccountSelectFetching ? (
           <Box
             sx={{ marginTop: '200px', width: '100%' }}
             display={'flex'}

@@ -239,8 +239,10 @@ export const SOCIAL_FEATURES_CHAT = {
 export const EMAIL_TEMPLATES = {
   GET_TEMPLATES: '/email-templates/templates',
   POST_TEMPLATES: '/email-templates/create',
+  POST_EMAIL_WITH_TEMPLATES: '/emails-marketing/create-email',
   UPDATE_TEMPLATES: '/email-templates/update',
   GET_TEMPLATES_BY_ID: '/email-templates/template',
+  DELETE_TEMPLATES_BY_ID: '/email-templates/delete',
 };
 
 export const SOCIAL_FEATURES_EMAIL = {
