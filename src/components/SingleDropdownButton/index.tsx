@@ -63,6 +63,7 @@ export const SingleDropdownButton = (props: any) => {
                 variant="body2"
                 color={theme?.palette?.grey?.[600]}
                 fontWeight={500}
+                sx={singleOption?.titleSx}
               >
                 {singleOption?.title}{' '}
               </Typography>

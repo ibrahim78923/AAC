@@ -31,7 +31,7 @@ export const CreateDashboard = () => {
   const {
     methods,
     submitCreateDashboardFilterForm,
-    reports,
+    reportsWatch,
     onDragEnd,
     action,
     router,
@@ -97,7 +97,7 @@ export const CreateDashboard = () => {
                   setIsPortalOpen({
                     isView: true,
                     isStaticView: true,
-                    data: reports,
+                    data: reportsWatch,
                   })
                 }
                 startIcon={<Visibility />}
@@ -107,12 +107,12 @@ export const CreateDashboard = () => {
             </Box>
           </Grid>
           <Grid item xl={6} xs={12}>
-            <Box sx={styles(reports)?.detailsViewBox}>
+            <Box sx={styles(reportsWatch)?.detailsViewBox}>
               <Typography variant="subtitle1" color="slateBlue.main" mb={2}>
                 Details view
               </Typography>
 
-              {!!!reports?.length ? (
+              {!!!reportsWatch?.length ? (
                 <NoData image={DashboardMockImage} message="" />
               ) : (
                 <Grid
@@ -120,9 +120,10 @@ export const CreateDashboard = () => {
                   spacing={3}
                   p={2}
                   maxHeight={'70vh'}
+                  minHeight={'70vh'}
                   overflow={'auto'}
                 >
-                  {reports?.map((item: any) => (
+                  {reportsWatch?.map((item: any) => (
                     <Grid item xs={12} key={item}>
                       {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item] &&
                         createElement(

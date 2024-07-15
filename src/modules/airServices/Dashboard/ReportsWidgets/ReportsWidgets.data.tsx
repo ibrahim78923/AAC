@@ -1,0 +1,32 @@
+import { BarChart } from './BarChart';
+import { DonutChart } from './DonutChart';
+import { HorizontalChart } from './HorizontalChart';
+import { PieChart } from './PieChart';
+import { Table } from './Table';
+import { Text } from './Text';
+
+export const REPORTS_WIDGETS = {
+  BAR_CHART: 'BAR_CHART',
+  HORIZONTAL_BAR_CHART: 'HORIZONTAL_BAR_CHART',
+  DONUT_CHART: 'DONUT_CHART',
+  PIE_CHART: 'PIE_CHART',
+  TEMPLATE_BAR_CHART: 'TEMPLATE_BAR_CHART',
+  TEMPLATE_PIE_OR_DONUT_CHART: 'TEMPLATE_PIE_OR_DONUT_CHART',
+  TABLE: 'TABLE',
+  TEXT_FIELD: 'TEXT_FIELD',
+};
+
+export const REPORTS_WIDGET_COMPONENT = {
+  [REPORTS_WIDGETS?.BAR_CHART]: BarChart,
+  [REPORTS_WIDGETS?.DONUT_CHART]: DonutChart,
+  [REPORTS_WIDGETS?.HORIZONTAL_BAR_CHART]: HorizontalChart,
+  [REPORTS_WIDGETS?.PIE_CHART]: PieChart,
+  [REPORTS_WIDGETS?.TABLE]: Table,
+  [REPORTS_WIDGETS?.TEMPLATE_BAR_CHART]: BarChart,
+  [REPORTS_WIDGETS?.TEMPLATE_PIE_OR_DONUT_CHART]: PieChart,
+  [REPORTS_WIDGETS?.TEXT_FIELD]: Text,
+};
+
+export const ITEMS_DATA_TYPE = {
+  OBJECT_ID: 'OBJECT_ID',
+};

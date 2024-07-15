@@ -10,6 +10,7 @@ import { createElement } from 'react';
 import { useSingleDashboard } from './useSingleDashboard';
 import { ticketDashboardCardsData } from '../TicketDashboardCards/TicketDashboardCards.data';
 import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from '../CreateDashboard/CreateDashboard.data';
+import { ReportsWidgets } from '../ReportsWidgets';
 
 export const SingleDashboard = (props: any) => {
   const { isPreviewMode = false } = props;
@@ -62,30 +63,47 @@ export const SingleDashboard = (props: any) => {
         <br />
         {lazyGetSingleServicesDashboardStatus?.isError ? (
           <ApiErrorState />
-        ) : !!lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard
+        ) : !!!lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard
             ?.reports?.length ? (
-          <Grid container spacing={3}>
-            {lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.reports
-              ?.filter((item: any) => item?.type === REPORT_TYPES?.STATIC)
-              ?.map((item: any) => (
-                <Grid item xs={12} md={6} key={item}>
-                  {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name] &&
-                    createElement(
-                      AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name],
-                      {
-                        data: lazyGetSingleServicesDashboardStatus?.data?.data,
-                        ticketType,
-                        setTicketType,
-                        departmentId,
-                        setDepartmentId,
-                        isPreviewMode: isPreviewMode,
-                      },
-                    )}
-                </Grid>
-              ))}
-          </Grid>
-        ) : (
           <NoData />
+        ) : (
+          <Grid container spacing={3}>
+            {lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.reports?.map(
+              (item: any, index: any) =>
+                item?.type === REPORT_TYPES?.STATIC ? (
+                  <Grid item xs={12} md={6} key={item?._id}>
+                    {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name] &&
+                      createElement(
+                        AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name],
+                        {
+                          data: lazyGetSingleServicesDashboardStatus?.data
+                            ?.data,
+                          ticketType,
+                          setTicketType,
+                          departmentId,
+                          setDepartmentId,
+                          isPreviewMode: isPreviewMode,
+                        },
+                      )}
+                  </Grid>
+                ) : (
+                  <Grid item xs={12} key={item?._id}>
+                    <ReportsWidgets
+                      reportWidgets={
+                        lazyGetSingleServicesDashboardStatus?.data?.data?.[
+                          `genericReports${index}`
+                        ]
+                      }
+                      reportResults={
+                        lazyGetSingleServicesDashboardStatus?.data?.data?.[
+                          `genericReportsResult${index}`
+                        ]
+                      }
+                    />
+                  </Grid>
+                ),
+            )}
+          </Grid>
         )}
       </Box>
     </PermissionsGuard>

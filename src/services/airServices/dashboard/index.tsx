@@ -189,4 +189,5 @@ export const {
   useAddSingleServicesDashboardMutation,
   useUpdateSingleServicesDashboardMutation,
   useGetSingleServicesDashboardQuery,
+  useGetDashboardNameListDropdownListForDashboardQuery,
 } = dashboardAPI;

@@ -5,9 +5,11 @@ import {
 } from '@/services/airServices/dashboard';
 import { useEffect, useState } from 'react';
 import { TICKET_GRAPH_TYPES } from '@/constants/strings';
+import { useRouter } from 'next/router';
 
 export const useSingleDashboard = (props: any) => {
-  const { dashboardId } = props;
+  const { dashboardId, setApiLoader } = props;
+  const router = useRouter();
   const [ticketType, setTicketType] = useState(TICKET_GRAPH_TYPES?.STATUS);
   const [departmentId, setDepartmentId] = useState<any>(null);
 
@@ -32,7 +34,7 @@ export const useSingleDashboard = (props: any) => {
       queryParams: {
         filterBy: ticketType,
         departmentId: departmentId?._id,
-        dashboardId: dashboardId,
+        dashboardId: router?.query?.dashboardId ?? dashboardId,
       },
     };
 
@@ -42,8 +44,12 @@ export const useSingleDashboard = (props: any) => {
   };
 
   useEffect(() => {
+    setApiLoader?.(lazyGetSingleServicesDashboardStatus);
+  }, [lazyGetSingleServicesDashboardStatus]);
+
+  useEffect(() => {
     getSingleDashboardData?.();
-  }, [ticketType, departmentId?._id]);
+  }, [ticketType, departmentId?._id, dashboardId]);
 
   return {
     theme,

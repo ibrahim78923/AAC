@@ -1,4 +1,3 @@
-import { UserAvatarImage } from '@/assets/images';
 import {
   RHFAutocompleteAsync,
   RHFRadioGroup,
@@ -103,13 +102,6 @@ export const dashboardWidgetsData = [
   },
 ];
 
-export const userData = [
-  { name: 'Alee Javed', src: UserAvatarImage, id: '1' },
-  { name: 'Rajvir Hundal', src: UserAvatarImage, id: '2' },
-  { name: 'Ben Stock', src: UserAvatarImage, id: '3' },
-  { name: 'Aleesha Kong', src: UserAvatarImage, id: '4' },
-];
-
 export const AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS = {
   [SERVICES_DASHBOARD_WIDGETS?.GRAPHICAL_REPRESENTATION_OF_TICKETS_BY_STATUS]:
     TicketBased,
@@ -124,6 +116,36 @@ export const createDashboardValidationSchema = () => {
     name: Yup?.string()?.trim()?.required('Name is required'),
     access: Yup?.string()?.required('Access is required'),
     reports: Yup?.array(),
+    specialUsers: Yup?.mixed()
+      ?.nullable()
+      ?.when('access', {
+        is: (value: any) =>
+          value === MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
+        then: () => Yup?.array()?.min(1, 'User is required'),
+        otherwise: (schema: any) => schema?.notRequired(''),
+      }),
+    permissionsUsers: Yup?.array()
+      ?.of(
+        Yup?.object()?.shape({
+          name: Yup?.string(),
+          permission: Yup?.string(),
+          userId: Yup?.string(),
+        }),
+      )
+      ?.when('access', {
+        is: (value: any) =>
+          value === MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
+        then: () => {
+          return Yup?.array()?.of(
+            Yup?.object()?.shape({
+              name: Yup?.string(),
+              permission: Yup?.string()?.required('Permission is required'),
+              userId: Yup?.string(),
+            }),
+          );
+        },
+        otherwise: (schema: any) => schema?.notRequired(),
+      }),
   });
 };
 
@@ -137,7 +159,7 @@ export const filterAndConcatWidgets = (
       ?.map((obj: any) => obj?.name),
   );
   const filteredArrayToConcat = arrayToConcat?.filter(
-    (obj: any) => !widgetValuesSet.has(obj.value),
+    (obj: any) => !widgetValuesSet?.has(obj?.value),
   );
 
   const mapAsOptions = arrayToFilter?.map((item: any) => ({
@@ -160,8 +182,16 @@ export const createDashboardDefaultValue = (
           ?.filter((item: any) => item?.type === REPORT_TYPES?.STATIC)
           ?.map((item: any) => item?.name)
       : [],
-    specialUsers: data?.specialUsers?.length ? data?.specialUsers : [],
-    permissionsUsers: [],
+    specialUsers: data?.specialUsers?.length
+      ? data?.specialUsers?.map((user: any) => ({ ...user?.name }))
+      : [],
+    permissionsUsers: data?.specialUsers?.length
+      ? data?.specialUsers?.map((user: any) => ({
+          name: `${user?.name?.firstName} ${user?.name?.lastName}`,
+          userId: user?.userId,
+          permission: user?.permission,
+        }))
+      : [],
     access: data?.access ?? '',
     permissions:
       data?.access === MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE
@@ -202,6 +232,9 @@ export const upsertServiceDashboardFormFieldsDynamic = (
       <>
         <Typography variant="h6" fontWeight={600} color="slateblue.main">
           Who can access this dashboard?
+          <Typography color={'error.main'} component="span">
+            *
+          </Typography>
         </Typography>
         <PermissionsGuard
           permissions={[
@@ -250,7 +283,7 @@ export const upsertServiceDashboardFormFieldsDynamic = (
         },
         {
           value: MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
-          label: 'Only Specific user and teams',
+          label: 'Only Specific users',
           filter: (
             <>
               <RHFAutocompleteAsync
@@ -345,7 +378,7 @@ export const specificUsersAccessFormFieldsDynamic = (
     align: 'center',
     data: (
       <RHFRadioGroup
-        name={`${name}.${index}.viewAndEdit`}
+        name={`${name}.${index}.permission`}
         size="small"
         fullWidth
         options={[
@@ -361,7 +394,7 @@ export const specificUsersAccessFormFieldsDynamic = (
     align: 'center',
     data: (
       <RHFRadioGroup
-        name={`${name}.${index}.viewAndEdit`}
+        name={`${name}.${index}.permission`}
         size="small"
         fullWidth
         options={[

@@ -1,29 +1,30 @@
 import { Box, Button, Typography } from '@mui/material';
-import { useRecentActivities } from './useRecentActivities';
 import NoData from '@/components/NoData';
 import RecentActivitiesList from './RecentActivitiesList';
 import { RecentActivitiesCard } from './RecentActivitiesCard';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 
 export const RecentActivities = (props: any) => {
   const { data, isPreviewMode } = props;
-  const { isDrawerOpen, setIsDrawerOpen } = useRecentActivities();
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   return (
     <Box
       borderRadius={3}
       border={`1px solid`}
       borderColor="custom.off_white"
-      height="100%"
+      maxHeight="100%"
+      display="flex"
+      flexDirection={'column'}
     >
       <Box p={2}>
         <Typography variant="h5" color="slateBlue.main">
           Recent Activities
         </Typography>
       </Box>
-      {data?.recentActivities?.length ? (
-        <Box overflow={'auto'} height={'40vh'}>
-          {data?.recentActivities?.map((item: any, index: any) => (
+      {data?.announcements?.annoucements?.length ? (
+        <Box height={'45vh'} overflow={'scroll'}>
+          {data?.announcements?.annoucements?.map((item: any, index: any) => (
             <Fragment key={item?._id}>
               <RecentActivitiesCard data={item} index={index} />
             </Fragment>

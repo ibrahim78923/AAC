@@ -42,7 +42,7 @@ export const useCreateDashboard = () => {
     resolver: yupResolver(createDashboardValidationSchema?.()),
   });
 
-  const { handleSubmit, watch, reset, setValue, control } = methods;
+  const { handleSubmit, reset, setValue, control } = methods;
 
   const { fields } = useFieldArray<any>({
     control,
@@ -87,6 +87,7 @@ export const useCreateDashboard = () => {
         'permissionsUsers',
         specificUserWatch?.map((item: any) => ({
           name: `${item?.firstName} ${item?.lastName}`,
+          userId: item?._id,
         })),
       );
   }, [specificUserWatch]);
@@ -102,11 +103,19 @@ export const useCreateDashboard = () => {
         MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER
           ? MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_EDIT_AND_VIEW
           : filterFormData?.permissions,
-      reports: reports?.map((item: any) => ({
+      reports: formData?.reports?.map((item: any) => ({
         type: REPORT_TYPES?.STATIC,
         visibility: true,
         name: item,
       })),
+      specialUsers:
+        filterFormData?.access ===
+        MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS
+          ? formData?.permissionsUsers?.map((user: any) => ({
+              userId: user?.userId,
+              permission: user?.permission,
+            }))
+          : [],
     };
 
     delete body?.everyoneAccess;
@@ -152,7 +161,11 @@ export const useCreateDashboard = () => {
     }
   };
 
-  const reports = watch('reports');
+  const reportsWatch = useWatch({
+    control,
+    name: 'reports',
+    defaultValue: [],
+  });
 
   const alignArrays = (
     firstArray: MultiCheckboxOptionI[],
@@ -183,7 +196,7 @@ export const useCreateDashboard = () => {
       destination?.index,
     );
 
-    const dragAndDropAlignment = alignArrays(reports, newItems);
+    const dragAndDropAlignment = alignArrays(reportsWatch, newItems);
     setValue('reports', dragAndDropAlignment);
     setValue('dashboardWidgets', newItems);
   };
@@ -201,7 +214,7 @@ export const useCreateDashboard = () => {
   return {
     methods,
     submitCreateDashboardFilterForm,
-    reports,
+    reportsWatch,
     onDragEnd,
     action,
     router,

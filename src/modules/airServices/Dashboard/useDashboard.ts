@@ -1,57 +1,61 @@
-import { useTheme } from '@mui/material';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import useAuth from '@/hooks/useAuth';
+import { useGetDashboardNameListDropdownListForDashboardQuery } from '@/services/airServices/dashboard';
+import { PAGINATION } from '@/config';
+import { AIR_SERVICES } from '@/constants';
 import {
-  useGetDashboardCardsTicketsQuery,
-  useLazyGetSingleServicesDashboardQuery,
-} from '@/services/airServices/dashboard';
-import { useEffect, useState } from 'react';
-import { TICKET_GRAPH_TYPES } from '@/constants/strings';
+  dashboardDropdownActionsDynamic,
+  dashboardsListsOptionsDynamic,
+} from './Dashboard.data';
 
 export const useDashboard = () => {
-  const [ticketType, setTicketType] = useState(TICKET_GRAPH_TYPES?.STATUS);
-  const [departmentId, setDepartmentId] = useState<any>(null);
+  const [dashboardId, setDashboardId] = useState('');
+  const [apiLoader, setApiLoader] = useState<any>({});
 
-  const [
-    lazyGetSingleServicesDashboardTrigger,
-    lazyGetSingleServicesDashboardStatus,
-  ] = useLazyGetSingleServicesDashboardQuery();
+  const router = useRouter();
+  const { user }: any = useAuth();
 
-  const theme = useTheme();
-  const {
-    data: cardsData,
-    isLoading,
-    isFetching,
-  } = useGetDashboardCardsTicketsQuery(null, {
-    refetchOnMountOrArgChange: true,
-  });
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  const cardData = cardsData?.data;
+  const emailToCopy = `${window?.location?.origin}${AIR_SERVICES?.DASHBOARD}${
+    !!apiLoader?.data?.data?.dashboard?._id
+      ? `?dashboardId=${apiLoader?.data?.data?.dashboard?._id}`
+      : ''
+  }`;
 
-  const getSingleDashboardData = async () => {
-    const apiDataParameter = {
-      queryParams: {
-        filterBy: ticketType,
-        departmentId: departmentId?._id,
-      },
-    };
-
-    try {
-      await lazyGetSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
-    } catch (error: any) {}
+  const copyEmail = () => {
+    navigator?.clipboard?.writeText(emailToCopy);
   };
 
-  useEffect(() => {
-    getSingleDashboardData?.();
-  }, [ticketType, departmentId?._id]);
+  const dashboardsList = useGetDashboardNameListDropdownListForDashboardQuery(
+    { params: { limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT } },
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
+
+  const dashboardsListsOptions = dashboardsListsOptionsDynamic(
+    dashboardsList,
+    router,
+    setDashboardId,
+  );
+
+  const dashboardDropdownActions = dashboardDropdownActionsDynamic(
+    setIsDrawerOpen,
+    copyEmail,
+  );
 
   return {
-    theme,
-    cardData,
-    isLoading,
-    isFetching,
-    lazyGetSingleServicesDashboardStatus,
-    ticketType,
-    setTicketType,
-    departmentId,
-    setDepartmentId,
+    dashboardId,
+    setDashboardId,
+    apiLoader,
+    setApiLoader,
+    dashboardDropdownActions,
+    router,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    user,
+    dashboardsListsOptions,
   };
 };
