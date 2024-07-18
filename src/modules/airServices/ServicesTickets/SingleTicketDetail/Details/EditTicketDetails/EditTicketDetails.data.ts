@@ -14,31 +14,47 @@ import {
   ticketStatusOptions,
   ticketTypeOptions,
 } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
-export const editTicketDetailsValidationSchema = Yup?.object()?.shape({
-  ticketType: Yup?.mixed()?.nullable(),
-  category: Yup?.mixed()?.nullable(),
-  status: Yup?.mixed()?.nullable()?.required('Required'),
-  priority: Yup?.mixed()?.nullable()?.required('Required'),
-  source: Yup?.mixed()?.nullable(),
-  impact: Yup?.mixed()?.nullable(),
-  agent: Yup?.mixed()?.nullable(),
-  plannedStartDate: Yup?.date()?.nullable(),
-  plannedEndDate: Yup?.date()?.nullable(),
-  plannedEffort: Yup?.string()?.trim(),
-});
+export const editTicketDetailsValidationSchema = (form?: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const editTicketDetailsDefaultValuesDynamic = (data?: any) => {
+  return Yup?.object()?.shape({
+    ticketType: Yup?.mixed()?.nullable(),
+    category: Yup?.mixed()?.nullable(),
+    status: Yup?.mixed()?.nullable()?.required('Status is Required'),
+    priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
+    department: Yup?.mixed()?.nullable(),
+    source: Yup?.mixed()?.nullable(),
+    impact: Yup?.mixed()?.nullable(),
+    agent: Yup?.mixed()?.nullable(),
+    plannedStartDate: Yup?.date()?.nullable(),
+    plannedEndDate: Yup?.date()?.nullable(),
+    plannedEffort: Yup?.string()?.trim(),
+    ...formSchema,
+  });
+};
+
+export const editTicketDetailsDefaultValuesDynamic = (
+  data?: any,
+  form?: any,
+) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
   return {
     category: data?.categoryDetails ?? null,
     status: data?.status ? { _id: data?.status, label: data?.status } : null,
     priority: data?.pirority
       ? { _id: data?.pirority, label: data?.pirority }
       : null,
+    department: data?.departmentDetails ?? null,
     source: data?.source ? { _id: data?.source, label: data?.source } : null,
     impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
     ticketType: data?.ticketType ?? null,
@@ -53,12 +69,14 @@ export const editTicketDetailsDefaultValuesDynamic = (data?: any) => {
         : null,
 
     plannedEffort: data?.plannedEffort ?? '',
+    ...initialValues,
   };
 };
 
 export const editTicketDetailsFormFieldsDynamic = (
   apiQueryAgent: any,
   apiQueryCategory: any,
+  apiQueryDepartment?: any,
 ) => [
   {
     id: 1,
@@ -72,7 +90,6 @@ export const editTicketDetailsFormFieldsDynamic = (
       getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
-    md: 4,
   },
   {
     id: 2,
@@ -86,9 +103,18 @@ export const editTicketDetailsFormFieldsDynamic = (
       getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
-    md: 4,
   },
-
+  {
+    id: 70,
+    componentProps: {
+      name: 'department',
+      label: 'Department',
+      fullWidth: true,
+      apiQuery: apiQueryDepartment,
+      placeholder: 'Choose Department',
+    },
+    component: RHFAutocompleteAsync,
+  },
   {
     id: 3,
     componentProps: {
@@ -100,7 +126,6 @@ export const editTicketDetailsFormFieldsDynamic = (
       getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
-    md: 4,
   },
   {
     id: 4,
@@ -113,7 +138,6 @@ export const editTicketDetailsFormFieldsDynamic = (
     },
 
     component: RHFAutocomplete,
-    md: 4,
   },
   {
     id: 5,
@@ -126,7 +150,6 @@ export const editTicketDetailsFormFieldsDynamic = (
       getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
-    md: 4,
   },
   {
     id: 6,
@@ -144,7 +167,6 @@ export const editTicketDetailsFormFieldsDynamic = (
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
-    md: 4,
   },
   {
     id: 7,
@@ -157,9 +179,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       getOptionLabel: (option: any) => option?.categoryName,
     },
     component: RHFAutocompleteAsync,
-    md: 4,
   },
-
   {
     id: 8,
     componentProps: {
@@ -171,9 +191,7 @@ export const editTicketDetailsFormFieldsDynamic = (
       textFieldProps: { readOnly: true },
     },
     component: RHFDesktopDateTimePicker,
-    md: 4,
   },
-
   {
     id: 9,
     componentProps: {
@@ -185,18 +203,15 @@ export const editTicketDetailsFormFieldsDynamic = (
       ampm: false,
     },
     component: RHFDesktopDateTimePicker,
-    md: 4,
   },
-
   {
     id: 10,
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',
       fullWidth: true,
-      placeholder: 'Eg: 1h 10m',
+      placeholder: 'Eg: 1h10m',
     },
     component: RHFTextField,
-    md: 4,
   },
 ];

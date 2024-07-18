@@ -2,6 +2,10 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpdateWorkloadTask } from './useUpdateWorkloadTask';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
 
 export const UpdateWorkloadTask = ({
   openDrawer,
@@ -15,6 +19,9 @@ export const UpdateWorkloadTask = ({
     methods,
     workloadDataArray,
     patchTaskStatus,
+    getDynamicFieldsStatus,
+    form,
+    postAttachmentStatus,
   } = useUpdateWorkloadTask({
     onClose,
     dataGet: data,
@@ -30,24 +37,44 @@ export const UpdateWorkloadTask = ({
       cancelText={'Cancel'}
       footer={edit}
       submitHandler={handleSubmit(onSubmit)}
-      disabledCancelBtn={patchTaskStatus?.isLoading}
-      isDisabled={patchTaskStatus?.isLoading}
-      isLoading={patchTaskStatus?.isLoading}
+      disabledCancelBtn={
+        patchTaskStatus?.isLoading || postAttachmentStatus?.isLoading
+      }
+      isDisabled={patchTaskStatus?.isLoading || postAttachmentStatus?.isLoading}
+      isLoading={patchTaskStatus?.isLoading || postAttachmentStatus?.isLoading}
     >
       <Box mt={1}>
-        <FormProvider methods={methods}>
-          <Grid container spacing={2}>
-            {workloadDataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
-                <item.component
-                  {...item?.componentProps}
-                  size={'small'}
-                  disabled={item?.componentProps?.disabled || !edit}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
+        {getDynamicFieldsStatus?.isLoading ||
+        getDynamicFieldsStatus?.isFetching ? (
+          <SkeletonForm />
+        ) : getDynamicFieldsStatus?.isError ? (
+          <ApiErrorState />
+        ) : (
+          <FormProvider methods={methods}>
+            <Grid container spacing={2}>
+              {workloadDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={item?.id}>
+                  <item.component
+                    {...item?.componentProps}
+                    size={'small'}
+                    disabled={item?.componentProps?.disabled || !edit}
+                  />
+                </Grid>
+              ))}
+              {form?.map((item: any) => (
+                <Grid item xs={12} key={item?.id}>
+                  {componentMap[item?.component] &&
+                    createElement(componentMap[item?.component], {
+                      ...item?.componentProps,
+                      name: item?.componentProps?.label,
+                      size: 'small',
+                      disabled: item?.componentProps?.disabled || !edit,
+                    })}
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        )}
       </Box>
     </CommonDrawer>
   );

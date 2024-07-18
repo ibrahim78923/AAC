@@ -19,30 +19,41 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { Box, Typography } from '@mui/material';
 import { ROLES } from '@/constants/strings';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
-export const newIncidentValidationSchema = Yup?.object()?.shape({
-  requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
-  subject: Yup?.string()?.trim()?.required('Subject is required'),
-  description: Yup?.string()?.trim()?.required('Description is Required'),
-  category: Yup?.mixed()?.nullable(),
-  status: Yup?.mixed()?.nullable()?.required('Status is required'),
-  priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
-  department: Yup?.mixed()?.nullable(),
-  source: Yup?.mixed()?.nullable(),
-  impact: Yup?.mixed()?.nullable(),
-  agent: Yup?.mixed()?.nullable(),
-  plannedStartDate: Yup?.date(),
-  plannedStartTime: Yup?.date()?.nullable(),
-  plannedEndDate: Yup?.date()?.nullable(),
-  plannedEndTime: Yup?.date()?.nullable(),
-  plannedEffort: Yup?.string()?.trim(),
-  associatesAssets: Yup?.mixed()?.nullable(),
-  attachFile: Yup?.mixed()?.nullable(),
-});
+export const newIncidentValidationSchema = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const newIncidentsDefaultValuesFunction = (data?: any) => {
+  return Yup?.object()?.shape({
+    requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
+    subject: Yup?.string()?.trim()?.required('Subject is required'),
+    description: Yup?.string()?.trim()?.required('Description is Required'),
+    category: Yup?.mixed()?.nullable(),
+    status: Yup?.mixed()?.nullable()?.required('Status is required'),
+    priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
+    department: Yup?.mixed()?.nullable(),
+    source: Yup?.mixed()?.nullable(),
+    impact: Yup?.mixed()?.nullable(),
+    agent: Yup?.mixed()?.nullable(),
+    plannedStartDate: Yup?.date(),
+    plannedStartTime: Yup?.date()?.nullable(),
+    plannedEndDate: Yup?.date()?.nullable(),
+    plannedEndTime: Yup?.date()?.nullable(),
+    plannedEffort: Yup?.string()?.trim(),
+    associatesAssets: Yup?.mixed()?.nullable(),
+    attachFile: Yup?.mixed()?.nullable(),
+    ...formSchema,
+  });
+};
+
+export const newIncidentsDefaultValuesFunction = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
   return {
     requester: !!Object?.keys(data?.requesterDetails ?? {})?.length
       ? data?.requesterDetails
@@ -80,6 +91,7 @@ export const newIncidentsDefaultValuesFunction = (data?: any) => {
       ? data?.associateAssetsDetails
       : null,
     attachFile: null,
+    ...initialValues,
   };
 };
 export const newIncidentFormFieldsDynamic = (
@@ -269,7 +281,7 @@ export const newIncidentFormFieldsDynamic = (
       label: 'Planned Effort',
       fullWidth: true,
       multiple: true,
-      placeholder: 'Eg: 1h 10m',
+      placeholder: 'Eg: 1h10m',
     },
     component: RHFTextField,
   },

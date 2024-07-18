@@ -85,8 +85,8 @@ export const workloadAPI = baseAPI.injectEndpoints({
       query: (patchTaskParameter: any) => ({
         url: END_POINTS?.UPDATE_TASK,
         method: 'PATCH',
-        params: patchTaskParameter?.data,
-        body: {},
+        params: patchTaskParameter?.queryParams,
+        body: patchTaskParameter?.reqBody,
       }),
       invalidatesTags: [TAG],
     }),

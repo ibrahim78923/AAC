@@ -35,7 +35,12 @@ export default function Dropdown({
     });
 
   return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
+    <Dialog
+      open={open}
+      onClose={() => setOpen(false)}
+      maxWidth={'sm'}
+      fullWidth
+    >
       <DialogTitle variant={'h3'}>
         <Box display={'flex'} gap={1} alignItems={'center'}>
           <Box bgcolor={'primary.lighter'} px={1} pt={1} borderRadius={2}>

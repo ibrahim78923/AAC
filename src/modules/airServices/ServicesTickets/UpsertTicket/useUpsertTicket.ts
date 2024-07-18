@@ -8,7 +8,7 @@ import {
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import usePath from '@/hooks/usePath';
 import {
   useGetTicketsByIdQuery,
@@ -27,6 +27,15 @@ import {
 } from '@/utils/api';
 import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 import { PAGINATION } from '@/config';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostAttachmentsMutation,
+} from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
 
 export const useUpsertTicket = (props: any) => {
   const {
@@ -41,8 +50,37 @@ export const useUpsertTicket = (props: any) => {
   const router = useRouter();
   const theme: any = useTheme();
   const { makePath } = usePath();
+
+  const [form, setForm] = useState<any>([]);
+
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
+
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const [postAttachmentTrigger, postAttachmentStatus] =
+    usePostAttachmentsMutation();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_SERVICES,
+      moduleType: DYNAMIC_FIELDS?.MT_TICKETS,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
 
   const getSingleTicketParameter = {
     pathParam: {
@@ -58,11 +96,17 @@ export const useUpsertTicket = (props: any) => {
   );
 
   const methods: any = useForm<any>({
-    resolver: yupResolver(upsertTicketValidationSchema?.(ticketId)),
+    resolver: yupResolver(upsertTicketValidationSchema?.(ticketId, form)),
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
   const { handleSubmit, reset, getValues } = methods;
+
+  useEffect(() => {
+    reset(() =>
+      upsertTicketDefaultValuesFunction(data?.data?.[ARRAY_INDEX?.ZERO], form),
+    );
+  }, [data, reset, form]);
 
   const submitUpsertTicket = async (formData: any) => {
     const newFormData = filteredEmptyValues(formData);
@@ -75,58 +119,109 @@ export const useUpsertTicket = (props: any) => {
       return;
     }
 
-    const upsertTicketFormData = new FormData();
-    upsertTicketFormData?.append('requester', newFormData?.requester?._id);
-    upsertTicketFormData?.append('subject', newFormData?.subject);
-    !!newFormData?.description &&
-      upsertTicketFormData?.append('description', newFormData?.description);
-    !!newFormData?.category?._id &&
-      upsertTicketFormData?.append('category', newFormData?.category?._id);
-    !!newFormData?.status?._id &&
-      upsertTicketFormData?.append('status', newFormData?.status?._id);
-    !!newFormData?.priority?._id &&
-      upsertTicketFormData?.append('pirority', newFormData?.priority?._id);
-    !!newFormData?.department?._id &&
-      upsertTicketFormData?.append('department', newFormData?.department?._id);
-    !!newFormData?.source &&
-      upsertTicketFormData?.append('source', newFormData?.source?._id);
-    !!newFormData?.impact &&
-      upsertTicketFormData?.append('impact', newFormData?.impact?._id);
-    !!newFormData?.agent &&
-      upsertTicketFormData?.append('agent', newFormData?.agent?._id);
-    !!newFormData?.plannedEndDate &&
-      upsertTicketFormData?.append(
-        'plannedEndDate',
-        newFormData?.plannedEndDate?.toISOString(),
-      );
-    !!newFormData?.plannedEffort &&
-      upsertTicketFormData?.append('plannedEffort', newFormData?.plannedEffort);
-    !!newFormData?.attachFile &&
-      upsertTicketFormData?.append('fileUrl', newFormData?.attachFile);
-    !!newFormData?.associatesAssets?.length &&
-      upsertTicketFormData?.append(
-        'associateAssets',
-        newFormData?.associatesAssets?.map((asset: any) => asset?._id),
-      );
-    upsertTicketFormData?.append(
-      'moduleType',
-      data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType ?? MODULE_TYPE?.TICKETS,
-    );
-    upsertTicketFormData?.append(
-      'ticketType',
-      data?.data?.[ARRAY_INDEX?.ZERO]?.ticketType ?? TICKET_TYPE?.INC,
-    );
-
-    if (!!ticketId) {
-      submitUpdateTicket(upsertTicketFormData);
-      return;
-    }
-
-    const postTicketParameter = {
-      body: upsertTicketFormData,
-    };
+    const customFields: any = {};
+    const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
 
     try {
+      dynamicAttachmentsPost({
+        form,
+        data: formData,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
+      });
+
+      await Promise?.all(attachmentPromises);
+
+      const customFieldKeys = new Set(
+        form?.map((field: any) => field?.componentProps?.label),
+      );
+
+      Object?.entries(newFormData)?.forEach(([key, value]) => {
+        if (customFieldKeys?.has(key)) {
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > 0) {
+        body.customFields = customFields;
+      }
+
+      const upsertTicketFormData = new FormData();
+      upsertTicketFormData?.append('requester', newFormData?.requester?._id);
+      upsertTicketFormData?.append('subject', newFormData?.subject);
+      !!newFormData?.description &&
+        upsertTicketFormData?.append('description', newFormData?.description);
+      !!newFormData?.category?._id &&
+        upsertTicketFormData?.append('category', newFormData?.category?._id);
+      !!newFormData?.status?._id &&
+        upsertTicketFormData?.append('status', newFormData?.status?._id);
+      !!newFormData?.priority?._id &&
+        upsertTicketFormData?.append('pirority', newFormData?.priority?._id);
+      !!newFormData?.department?._id &&
+        upsertTicketFormData?.append(
+          'department',
+          newFormData?.department?._id,
+        );
+      !!newFormData?.source &&
+        upsertTicketFormData?.append('source', newFormData?.source?._id);
+      !!newFormData?.impact &&
+        upsertTicketFormData?.append('impact', newFormData?.impact?._id);
+      !!newFormData?.agent &&
+        upsertTicketFormData?.append('agent', newFormData?.agent?._id);
+      !!newFormData?.plannedEndDate &&
+        upsertTicketFormData?.append(
+          'plannedEndDate',
+          newFormData?.plannedEndDate?.toISOString(),
+        );
+      !!newFormData?.plannedEffort &&
+        upsertTicketFormData?.append(
+          'plannedEffort',
+          newFormData?.plannedEffort,
+        );
+      !!newFormData?.attachFile &&
+        upsertTicketFormData?.append('fileUrl', newFormData?.attachFile);
+      !!newFormData?.associatesAssets?.length &&
+        upsertTicketFormData?.append(
+          'associateAssets',
+          newFormData?.associatesAssets?.map((asset: any) => asset?._id),
+        );
+      upsertTicketFormData?.append(
+        'moduleType',
+        data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType ?? MODULE_TYPE?.TICKETS,
+      );
+      upsertTicketFormData?.append(
+        'ticketType',
+        data?.data?.[ARRAY_INDEX?.ZERO]?.ticketType ?? TICKET_TYPE?.INC,
+      );
+
+      if (body?.customFields) {
+        upsertTicketFormData?.append(
+          'customFields',
+          JSON?.stringify(body?.customFields),
+        );
+      }
+
+      if (!!ticketId) {
+        submitUpdateTicket(upsertTicketFormData);
+        return;
+      }
+
+      const postTicketParameter = {
+        body: upsertTicketFormData,
+      };
+
       await postTicketTrigger(postTicketParameter)?.unwrap();
       successSnackbar('Ticket Added Successfully');
       reset();
@@ -134,8 +229,8 @@ export const useUpsertTicket = (props: any) => {
       setFilterTicketLists?.({});
       setPage?.(PAGINATION?.CURRENT_PAGE);
       setIsDrawerOpen?.(false);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (e: any) {
+      errorSnackbar(e?.data?.message);
     }
   };
 
@@ -163,10 +258,6 @@ export const useUpsertTicket = (props: any) => {
       errorSnackbar(error?.data?.message);
     }
   };
-
-  useEffect(() => {
-    reset(() => upsertTicketDefaultValuesFunction(data?.data?.[0]));
-  }, [data, reset]);
 
   const onClose = () => {
     router?.push(
@@ -210,5 +301,8 @@ export const useUpsertTicket = (props: any) => {
     ticketId,
     upsertTicketFormFields,
     isError,
+    form,
+    getDynamicFieldsStatus,
+    postAttachmentStatus,
   };
 };

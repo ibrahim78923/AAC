@@ -8,7 +8,7 @@ export default function FieldManager() {
 
   return (
     <>
-      <Typography variant="h3">Service Management</Typography>
+      <Typography variant="h3">Field Manager</Typography>
       <br />
       <Grid container spacing={3}>
         {fieldManager?.map((item: any) => (
