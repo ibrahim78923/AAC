@@ -80,6 +80,13 @@ export const useSaveReportDrawer = (props: any) => {
         return data?.newDashboardSpecificUsersConditionTwo;
       }
     };
+    const getAccess = () => {
+      if (data?.sharedWith === REPORT_TYPE?.EVERYONE) {
+        return data?.everyoneCondition;
+      } else if (data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS) {
+        return data?.specificUsersConditionTwo;
+      }
+    };
     const payload = {
       module: metricType,
       widgets: form?.map((item: any) => {
@@ -94,8 +101,12 @@ export const useSaveReportDrawer = (props: any) => {
                   ? FIELD_TYPE?.OBJECT_ID
                   : FIELD_TYPE?.STATIC,
                 fieldName: item?.xAxis?.value,
-                collectionName: item?.xAxis?.ref ? item?.xAxis?.ref : '',
-                selectedIds: item?.xAxis?.ref ? item?.xAxisType : [],
+                ...(item?.xAxis?.ref && {
+                  collectionName: item?.xAxis?.ref,
+                }),
+                ...(item?.xAxis?.ref && {
+                  selectedIds: item?.xAxisType,
+                }),
               },
               yAxis: {
                 fieldName: REPORT_TYPE?.NO_OF_RECORDS,
@@ -109,8 +120,12 @@ export const useSaveReportDrawer = (props: any) => {
                 ? FIELD_TYPE?.OBJECT_ID
                 : FIELD_TYPE?.STATIC,
               fieldName: item?.xAxis?.value,
-              collectionName: item?.xAxis?.ref ? item?.xAxis?.ref : '',
-              selectedIds: item?.xAxis?.ref ? item?.xAxisType : [],
+              ...(item?.xAxis?.ref && {
+                collectionName: item?.xAxis?.ref,
+              }),
+              ...(item?.xAxis?.ref && {
+                selectedIds: item?.xAxisType,
+              }),
             },
           }),
           ...(item?.type === REPORT_TYPE?.TEXT && {
@@ -137,42 +152,33 @@ export const useSaveReportDrawer = (props: any) => {
       name: data?.reportName,
       accessLevel: {
         type: data?.sharedWith,
-        access:
-          data?.sharedWith === REPORT_TYPE?.EVERYONE
-            ? data?.everyoneCondition
-            : data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS
-              ? data?.specificUsersConditionTwo
-              : null,
-        users:
-          data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS
-            ? specificUsersIds
-            : [],
+        ...((data?.sharedWith === REPORT_TYPE?.EVERYONE ||
+          data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS) && {
+          access: getAccess(),
+        }),
+        ...(data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS && {
+          users: specificUsersIds,
+        }),
       },
       isDateFilter: data?.addFilter,
       linkDashboard: {
         action: data?.addToDashboard,
-        name:
-          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
-            ? data?.addToNewConditionOne
-            : null,
-        access:
-          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
-            ? data?.addToNewConditionTwo
-            : null,
-        specialUsers:
-          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
-            ? data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS
-              ? newDashboardSpecificUsersIds
-              : []
-            : [],
+        ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
+          name: data?.addToNewConditionOne,
+        }),
+        ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
+          access: data?.addToNewConditionTwo,
+        }),
+        ...(data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS && {
+          specialUsers: newDashboardSpecificUsersIds,
+        }),
         ...((data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE ||
           data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS) && {
           permissions: getPermissions(),
         }),
-        existingDashboards:
-          data?.addToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
-            ? existingDashboardIds
-            : [],
+        ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_EXISTING && {
+          existingDashboards: existingDashboardIds,
+        }),
       },
     };
     if (reportId) {
