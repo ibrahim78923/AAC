@@ -98,7 +98,7 @@ const ChatBox = ({
 
   //Delete message from chat
   const handelDelete = () => {
-    socket.emit(CHAT_SOCKETS_EMIT.UPDATE_MESSAGE, {
+    socket.emit(CHAT_SOCKETS_EMIT?.UPDATE_MESSAGE, {
       messageId: item?._id,
       isDeleted: true,
     });
@@ -111,7 +111,7 @@ const ChatBox = ({
       activeChatId === item?.chatId
     ) {
       if (item?.isRead === false) {
-        socket.emit(CHAT_SOCKETS_EMIT.UPDATE_MESSAGE, {
+        socket.emit(CHAT_SOCKETS_EMIT?.UPDATE_MESSAGE, {
           messageId: item?._id,
           isRead: true,
           groupId: activeChatId,

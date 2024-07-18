@@ -548,9 +548,9 @@ const DashboardLayout = ({ children, window }: any) => {
     socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, () => {});
 
     socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, (payload: any) => {
-      if (!activeChatId === payload?.data?.chatId) {
+      if (activeChatId !== payload?.data?.chatId) {
         if (payload?.data) {
-          const currentData = chatContacts.find(
+          const currentData = chatContacts?.find(
             (ele: any) => ele?._id === payload?.data?.chatId,
           );
           dispatch(
@@ -575,11 +575,13 @@ const DashboardLayout = ({ children, window }: any) => {
     });
 
     socket.on(CHAT_SOCKETS?.ON_TYPING_START, (payload: any) => {
-      dispatch(
-        setTypingUserData({
-          userName: payload?.typingUserName,
-        }),
-      );
+      if (activeChatId === payload?.chatId) {
+        dispatch(
+          setTypingUserData({
+            userName: payload?.typingUserName,
+          }),
+        );
+      }
     });
     socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, () => {
       dispatch(setTypingUserData({}));

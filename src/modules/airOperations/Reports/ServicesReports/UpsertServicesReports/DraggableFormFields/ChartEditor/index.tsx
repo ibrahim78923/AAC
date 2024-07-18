@@ -124,8 +124,8 @@ export const ChartEditor = (props: any) => {
                     xAxisData?.ref === COLLECTION_NAME?.LOCATION
                       ? option?.locationName
                       : xAxisData?.ref === COLLECTION_NAME?.USERS
-                      ? `${option?.firstName} ${option?.lastName}`
-                      : option?.name
+                        ? `${option?.firstName} ${option?.lastName}`
+                        : option?.name
                   }
                   placeholder="Select Option"
                   externalParams={{
@@ -171,8 +171,8 @@ export const ChartEditor = (props: any) => {
                     xAxisData?.ref === COLLECTION_NAME?.LOCATION
                       ? option?.locationName
                       : xAxisData?.ref === COLLECTION_NAME?.USERS
-                      ? `${option?.firstName} ${option?.lastName}`
-                      : option?.name
+                        ? `${option?.firstName} ${option?.lastName}`
+                        : option?.name
                   }
                   placeholder="Select Option"
                   externalParams={{
