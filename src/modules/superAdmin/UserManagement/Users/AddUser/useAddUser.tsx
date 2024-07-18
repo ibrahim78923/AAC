@@ -40,6 +40,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
     useUserDetailsList();
   const updateUserId = isOpenAddUserDrawer?.data?.data?._id;
   const userDetail = isOpenAddUserDrawer?.data?.data;
+
   const initialTab = 0;
   const tabTitle =
     tabVal === initialTab
@@ -72,7 +73,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
     ...userDetail,
     crn: userDetail?.organization?.crn,
     companyName: userDetail?.organization?.name,
-    products: userDetail?.products?.map((item: any) => {
+    products: userDetail?.activeProducts?.map((item: any) => {
       return item?._id;
     }),
   };
@@ -88,8 +89,8 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
     pathName === SUPER_ADMIN?.USERS_LIST
       ? orgEmployeeMethods
       : tabTitle === EQuickLinksType?.SUPER_ADMIN
-        ? superAdminMethods
-        : companyOwnerMethods;
+      ? superAdminMethods
+      : companyOwnerMethods;
 
   const { watch, setValue, handleSubmit, reset } = methods;
 
@@ -227,12 +228,12 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
           reset(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-          ? (await postUserEmployee({
-              id: organizationId,
-              body: values,
-            })?.unwrap(),
-            setIsOpenAdduserDrawer(false))
-          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+        ? (await postUserEmployee({
+            id: organizationId,
+            body: values,
+          })?.unwrap(),
+          setIsOpenAdduserDrawer(false))
+        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
       enqueueSnackbar(
         `User ${
           isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT

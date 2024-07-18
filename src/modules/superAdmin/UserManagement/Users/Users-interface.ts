@@ -38,7 +38,13 @@ export interface ColumnsProps {
 }
 
 export interface AddUserProps {
-  isOpenDrawer?: boolean;
+  isOpenDrawer?:
+    | {
+        drawer: boolean;
+        type: string;
+        data: any;
+      }
+    | any;
   onClose?: () => void;
   tabVal?: number;
   isOpenAddUserDrawer?: { isOpen: boolean; type: string } | any;
@@ -78,7 +84,7 @@ export interface UseActionParams {
           crn: string;
           name: string;
         };
-        products: Array<{ _id: string }>;
+        activeProducts: Array<{ _id: string }>;
       };
     };
   };

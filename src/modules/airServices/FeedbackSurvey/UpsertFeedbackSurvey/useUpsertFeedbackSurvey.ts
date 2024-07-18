@@ -64,11 +64,11 @@ export const useUpsertFeedbackSurvey = () => {
             item?.email ? item?.email : item,
           )
         : surveyData?.customerSupportLinkType === feedbackTypes?.viaMagicLink &&
-            surveyData?.shareSurveyPeople?.length
-          ? surveyData?.shareSurveyPeople?.map((item: any) =>
-              item?.email ? item?.email : item,
-            )
-          : [],
+          surveyData?.shareSurveyPeople?.length
+        ? surveyData?.shareSurveyPeople?.map((item: any) =>
+            item?.email ? item?.email : item,
+          )
+        : [],
     surveyType: feedbackSurveyType?.[router?.query?.type],
   });
   const handleCreateSurvey = async (surveyData: any) => {
@@ -99,11 +99,11 @@ export const useUpsertFeedbackSurvey = () => {
     customerSupportLinkType === feedbackTypes?.viaEmail
       ? sendSurveyPeople?.map((item: any) => (item?.email ? item?.email : item))
       : shareSurveyPeople?.length &&
-          customerSupportLinkType === feedbackTypes?.viaMagicLink
-        ? shareSurveyPeople?.map((item: any) =>
-            item?.email ? item?.email : item,
-          )
-        : [];
+        customerSupportLinkType === feedbackTypes?.viaMagicLink
+      ? shareSurveyPeople?.map((item: any) =>
+          item?.email ? item?.email : item,
+        )
+      : [];
   const surveyDuration: any = watch('surveyDuration');
   const surveyDurationValue = new Date(surveyDuration);
   const dateString = (date: any) => {

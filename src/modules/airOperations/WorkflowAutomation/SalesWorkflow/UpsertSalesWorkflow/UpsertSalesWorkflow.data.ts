@@ -125,8 +125,8 @@ export const salesValues = (data: any) => {
                   `group_${condition?.fieldName}${groupIndex}${conditionIndex}_lookup`
                 ]
               : condition?.fieldType === workflowFields?.date
-                ? new Date(condition?.fieldValue)
-                : condition?.fieldValue ?? null,
+              ? new Date(condition?.fieldValue)
+              : condition?.fieldValue ?? null,
         }),
       ),
     })) ?? [
@@ -145,8 +145,8 @@ export const salesValues = (data: any) => {
         action?.fieldType === workflowFields?.objectId
           ? data?.[`action_${action?.fieldName}${actionIndex}_lookup`]
           : action?.fieldType === workflowFields?.date
-            ? new Date(action?.fieldValue)
-            : action?.fieldValue ?? null,
+          ? new Date(action?.fieldValue)
+          : action?.fieldValue ?? null,
     })) ?? [{ fieldName: null, fieldValue: null }],
   };
 };
