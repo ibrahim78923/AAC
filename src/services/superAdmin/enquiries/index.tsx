@@ -5,7 +5,7 @@ const TAG = ['ENQUIRIES'];
 export const enquiriesApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getEnquiries: builder.query({
-      query: ({ ...params }) => ({
+      query: ({ params }) => ({
         url: END_POINTS?.ENQUIRIES,
         method: 'GET',
         params: params,

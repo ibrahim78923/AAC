@@ -1,4 +1,8 @@
 export interface QueryModalPropsI {
-  isQueryModalOpen: boolean;
-  setIsQueryModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isModalOpen: boolean;
+  onClose: () => void;
+  methods: any;
+  onSubmit: any;
+  data: any;
+  isLoading: boolean;
 }

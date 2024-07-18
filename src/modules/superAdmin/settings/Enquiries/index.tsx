@@ -1,6 +1,5 @@
 'use client';
-import React, { useState } from 'react';
-
+import React from 'react';
 import {
   Box,
   Button,
@@ -10,65 +9,56 @@ import {
   MenuItem,
   Tooltip,
 } from '@mui/material';
-
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
 import QueryModal from './QueryModal';
-
-import {
-  enquiriesFiltersDefaultValues,
-  enquiriesFiltersFiltersDataArray,
-  enquiriesFiltersValidationSchema,
-} from './Enquiries.data';
-
+import { enquiriesFiltersFiltersDataArray } from './Enquiries.data';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
-
 import { styles } from './Enquiries.styles';
-
 import { v4 as uuidv4 } from 'uuid';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEnquiries } from './useEnquiries';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS } from '@/constants/permission-keys';
+import { columns } from './Enquiries.data';
 
 const Enquiries = () => {
-  const [isEnquiriesFilterDrawerOpen, setIsEnquiriesFilterDrawerOpen] =
-    useState(false);
-  const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const isActionMenuOpen = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   const {
-    tableData,
-    tableRowIds,
-    handleDeleteEnquiries,
-    handleDeleteModal,
+    anchorEl,
+    isActionMenuOpen,
+    handleClick,
+    handleClose,
+    setSearchValue,
+    setPageLimit,
+    setPage,
+    selectedRow,
+    setSelectedRow,
+    selectedRowData,
+    setSelectedRowData,
+    enquiriesData,
+    enquiriesIsLoading,
+    enquiriesIsFetching,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
+    isQueryModalOpen,
+    handleOpenModalQuery,
+    handleCloseModalQuery,
+    methodsQueryForm,
+    handleQuerySubmit,
+    status,
     isEnquiriesDeleteModal,
-    search,
-    setSearch,
+    handleCloseModalDelete,
+    handleOpenModalDelete,
+    handleDeleteEnquiries,
   } = useEnquiries();
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const methodsEnquiriesFilters = useForm({
-    resolver: yupResolver(enquiriesFiltersValidationSchema),
-    defaultValues: enquiriesFiltersDefaultValues,
-  });
-
-  const onSubmit = () => {
-    setIsEnquiriesFilterDrawerOpen(false);
-  };
-  const { handleSubmit } = methodsEnquiriesFilters;
+  const tableColumns = columns(selectedRow, setSelectedRow, setSelectedRowData);
 
   return (
     <Box
@@ -97,8 +87,7 @@ const Enquiries = () => {
               <Box sx={styles?.search}>
                 <Search
                   label={'Search here'}
-                  searchBy={search}
-                  setSearchBy={setSearch}
+                  setSearchBy={setSearchValue}
                   width="260px"
                   size="small"
                 />
@@ -107,7 +96,7 @@ const Enquiries = () => {
 
             <Box sx={styles?.filterButtons}>
               <Button
-                disabled={tableRowIds.length > 0 ? false : true}
+                disabled={selectedRow?.length === 0}
                 id="basic-button"
                 aria-controls={isActionMenuOpen ? 'basic-menu' : undefined}
                 aria-haspopup="true"
@@ -138,18 +127,11 @@ const Enquiries = () => {
                   ]}
                 >
                   <MenuItem
-                    onClick={() => setIsQueryModalOpen(true)}
+                    onClick={handleOpenModalQuery}
                     style={{ fontSize: '14px' }}
                   >
-                    Reply
+                    View & Reply
                   </MenuItem>
-                </PermissionsGuard>
-                <PermissionsGuard
-                  permissions={[
-                    SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.View_Enquiry,
-                  ]}
-                >
-                  <MenuItem style={{ fontSize: '14px' }}>View</MenuItem>
                 </PermissionsGuard>
                 <PermissionsGuard
                   permissions={[
@@ -157,7 +139,7 @@ const Enquiries = () => {
                   ]}
                 >
                   <MenuItem
-                    onClick={handleDeleteModal}
+                    onClick={handleOpenModalDelete}
                     style={{ fontSize: '14px' }}
                   >
                     Delete
@@ -170,7 +152,11 @@ const Enquiries = () => {
                 ]}
               >
                 <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-                  <Button sx={styles?.refreshButton} className="small">
+                  <Button
+                    sx={styles?.refreshButton}
+                    className="small"
+                    onClick={handleRefresh}
+                  >
                     <RefreshSharedIcon />
                   </Button>
                 </Tooltip>
@@ -184,7 +170,7 @@ const Enquiries = () => {
                 <Button
                   sx={styles?.filterButton}
                   className="small"
-                  onClick={() => setIsEnquiriesFilterDrawerOpen(true)}
+                  onClick={handleOpenFilters}
                 >
                   <FilterSharedIcon /> &nbsp; Filter
                 </Button>
@@ -192,24 +178,33 @@ const Enquiries = () => {
             </Box>
           </Box>
         </Box>
-        <Box>
-          <TanstackTable {...tableData} isPagination={true} />
-        </Box>
+
+        <TanstackTable
+          columns={tableColumns}
+          data={enquiriesData?.data?.enquiries}
+          isLoading={enquiriesIsLoading || enquiriesIsFetching}
+          currentPage={enquiriesData?.data?.meta?.page}
+          count={enquiriesData?.data?.meta?.pages}
+          pageLimit={enquiriesData?.data?.meta?.limit}
+          totalRecords={enquiriesData?.data?.meta?.total}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
+        />
       </PermissionsGuard>
       <CommonDrawer
-        isDrawerOpen={isEnquiriesFilterDrawerOpen}
-        onClose={() => setIsEnquiriesFilterDrawerOpen(false)}
+        isDrawerOpen={openFilters}
+        onClose={handleCloseFilters}
         title="Filters"
         okText="Apply"
         isOk={true}
         footer={true}
-        submitHandler={() => setIsEnquiriesFilterDrawerOpen(false)}
+        submitHandler={handleFiltersSubmit}
+        isLoading={enquiriesIsLoading}
       >
         <>
-          <FormProvider
-            methods={methodsEnquiriesFilters}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsFilter}>
             <Grid container spacing={4}>
               {enquiriesFiltersFiltersDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
@@ -230,19 +225,21 @@ const Enquiries = () => {
       </CommonDrawer>
 
       <QueryModal
-        isQueryModalOpen={isQueryModalOpen}
-        setIsQueryModalOpen={setIsQueryModalOpen}
+        isModalOpen={isQueryModalOpen}
+        onClose={handleCloseModalQuery}
+        methods={methodsQueryForm}
+        onSubmit={handleQuerySubmit}
+        data={selectedRowData}
+        isLoading={status?.isLoading}
       />
 
-      {isEnquiriesDeleteModal && (
-        <AlertModals
-          message={'Are you sure you want to delete this entry ?'}
-          type="delete"
-          open={isEnquiriesDeleteModal}
-          handleClose={handleDeleteModal}
-          handleSubmitBtn={handleDeleteEnquiries}
-        />
-      )}
+      <AlertModals
+        message={'Are you sure you want to delete this entry ?'}
+        type="delete"
+        open={isEnquiriesDeleteModal}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteEnquiries}
+      />
     </Box>
   );
 };
