@@ -46,7 +46,7 @@ const CreateGroupModal = ({
       handleSubmit={onSubmit}
       isLoading={loadingPost}
     >
-      <Box sx={{ maxHeight: 'calc(100vh - 180px)', overflowY: 'auto' }}>
+      <Box sx={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
             {createGroupFiltersDataArray(title)?.map((item: any) => (

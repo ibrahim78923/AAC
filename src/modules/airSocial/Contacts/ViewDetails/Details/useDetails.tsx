@@ -97,7 +97,7 @@ const useDetails = () => {
   const onSubmitUpdateContactDetail = async (values: any) => {
     const formData = new FormData();
     Object.entries(values)?.forEach(([key, value]: any) => {
-      if (value !== undefined && value !== null && value !== '') {
+      if (value !== undefined && value !== null) {
         switch (key) {
           case 'dateOfBirth':
           case 'dateOfJoining':

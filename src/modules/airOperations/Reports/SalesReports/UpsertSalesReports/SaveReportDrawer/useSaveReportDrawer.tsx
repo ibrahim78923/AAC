@@ -163,8 +163,8 @@ export const useSaveReportDrawer = (props: any) => {
             ? data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE
               ? data?.newDashboardEveryoneCondition
               : data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS
-              ? data?.newDashboardSpecificUsersConditionTwo
-              : ''
+                ? data?.newDashboardSpecificUsersConditionTwo
+                : ''
             : '',
         existingDashboards:
           data?.addToDashboard === REPORT_TYPE?.ADD_TO_EXISTING

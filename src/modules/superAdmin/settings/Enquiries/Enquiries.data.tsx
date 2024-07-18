@@ -2,7 +2,7 @@ import { RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import RowSelection from '@/components/RowSelection';
 import RowSelectionAll from '@/components/RowSelectionAll';
-import { Box } from '@mui/material';
+import { Box, CircularProgress, MenuItem, Select } from '@mui/material';
 
 export const enquiriesFiltersValidationSchema = Yup.object().shape({
   candidates: Yup.string().trim().required('Field is Required'),
@@ -34,6 +34,8 @@ export const columns: any = (
   selectedRow: any,
   setSelectedRow: any,
   setSelectedRowData: any,
+  handleStatusChange: any,
+  patchEnquiriesStatus: any,
 ) => {
   return [
     {
@@ -105,7 +107,34 @@ export const columns: any = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <>
+          {patchEnquiriesStatus?.isLoading &&
+          patchEnquiriesStatus?.originalArgs?.queryParams ===
+            info?.row?.original?._id ? (
+            <CircularProgress size={20} />
+          ) : (
+            <Select
+              value={info?.getValue()}
+              label={''}
+              onChange={(event: any) =>
+                handleStatusChange?.(info?.row?.original, event)
+              }
+              disabled={patchEnquiriesStatus?.isLoading}
+              size={'small'}
+              sx={{
+                color: 'custom.main',
+                '.MuiOutlinedInput-notchedOutline': {
+                  border: 'none',
+                },
+              }}
+            >
+              <MenuItem value={'done'}>Done</MenuItem>
+              <MenuItem value={'pending'}>Pending</MenuItem>
+            </Select>
+          )}
+        </>
+      ),
     },
   ];
 };

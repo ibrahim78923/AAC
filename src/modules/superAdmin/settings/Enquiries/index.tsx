@@ -56,9 +56,17 @@ const Enquiries = () => {
     handleCloseModalDelete,
     handleOpenModalDelete,
     handleDeleteEnquiries,
+    handleStatusChange,
+    patchEnquiriesStatus,
   } = useEnquiries();
 
-  const tableColumns = columns(selectedRow, setSelectedRow, setSelectedRowData);
+  const tableColumns = columns(
+    selectedRow,
+    setSelectedRow,
+    setSelectedRowData,
+    handleStatusChange,
+    patchEnquiriesStatus,
+  );
 
   return (
     <Box

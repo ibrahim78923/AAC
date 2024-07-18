@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   useDeleteEnquiryMutation,
   useGetEnquiriesQuery,
+  usePatchEnquiriesMutation,
 } from '@/services/superAdmin/enquiries';
 import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
@@ -141,6 +142,23 @@ export const useEnquiries = () => {
     }
   };
 
+  const [patchEnquiriesTrigger, patchEnquiriesStatus] =
+    usePatchEnquiriesMutation();
+
+  const handleStatusChange = async (info: any, event: any) => {
+    const patchEnquiriesParameter = {
+      queryParams: info?._id,
+      body: { status: event?.target?.value },
+    };
+
+    try {
+      await patchEnquiriesTrigger(patchEnquiriesParameter)?.unwrap();
+      successSnackbar('Status Updated successfully!');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
   return {
     anchorEl,
     isActionMenuOpen,
@@ -172,5 +190,7 @@ export const useEnquiries = () => {
     handleCloseModalDelete,
     handleOpenModalDelete,
     handleDeleteEnquiries,
+    handleStatusChange,
+    patchEnquiriesStatus,
   };
 };
