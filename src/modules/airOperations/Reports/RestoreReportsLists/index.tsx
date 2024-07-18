@@ -6,9 +6,10 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useRestoreReportsLists } from './useRestoreReportsLists';
 import { TIME_TO_RESTORE_DELETED_RECORD } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const RestoreReportsLists = (props: any) => {
-  const { goBack } = props;
+  const { goBack, permissions } = props;
   const {
     restoreReportColumns,
     setSearch,
@@ -67,10 +68,12 @@ export const RestoreReportsLists = (props: any) => {
               <Search label="Search Here" setSearchBy={setSearch} />
             </Box>
             <Box display={'flex'} gap={2}>
-              <SingleDropdownButton
-                dropdownOptions={actionButtonDropdown}
-                disabled={!!!selectedReportLists?.length}
-              />
+              <PermissionsGuard permissions={permissions}>
+                <SingleDropdownButton
+                  dropdownOptions={actionButtonDropdown}
+                  disabled={!!!selectedReportLists?.length}
+                />
+              </PermissionsGuard>
               <Button
                 variant="outlined"
                 color="inherit"

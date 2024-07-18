@@ -13,7 +13,7 @@ export const ReportLists = (props: any) => {
     setSearch,
     setPageLimit,
     setPage,
-    lazyGetRestoreReportsListStatus,
+    lazyGetReportsListStatus,
     setIsPortalOpen,
     isPortalOpen,
     renderPortalComponent,
@@ -86,17 +86,17 @@ export const ReportLists = (props: any) => {
       <br />
       <TanstackTable
         columns={reportListsColumns}
-        data={lazyGetRestoreReportsListStatus?.data?.list}
-        isLoading={lazyGetRestoreReportsListStatus?.isLoading}
-        currentPage={lazyGetRestoreReportsListStatus?.data?.data?.meta?.page}
-        count={lazyGetRestoreReportsListStatus?.data?.data?.meta?.pages}
-        pageLimit={lazyGetRestoreReportsListStatus?.data?.data?.meta?.limit}
-        totalRecords={lazyGetRestoreReportsListStatus?.data?.data?.meta?.total}
+        data={lazyGetReportsListStatus?.data?.data?.genericReports}
+        isLoading={lazyGetReportsListStatus?.isLoading}
+        currentPage={lazyGetReportsListStatus?.data?.data?.meta?.page}
+        count={lazyGetReportsListStatus?.data?.data?.meta?.pages}
+        pageLimit={lazyGetReportsListStatus?.data?.data?.meta?.limit}
+        totalRecords={lazyGetReportsListStatus?.data?.data?.meta?.total}
         setPage={setPage}
         setPageLimit={setPageLimit}
-        isFetching={lazyGetRestoreReportsListStatus?.isFetching}
-        isError={lazyGetRestoreReportsListStatus?.isError}
-        isSuccess={lazyGetRestoreReportsListStatus?.isSuccess}
+        isFetching={lazyGetReportsListStatus?.isFetching}
+        isError={lazyGetReportsListStatus?.isError}
+        isSuccess={lazyGetReportsListStatus?.isSuccess}
         onPageChange={(page: any) => setPage(page)}
         isPagination
       />

@@ -20,7 +20,7 @@ import { AddToDashboardReport } from '../AddToDashboardReport';
 
 export const useReportLists = (props: any) => {
   const {
-    filter,
+    filter = [],
     apiQuery,
     exportApiQuery,
     editReportPath,
@@ -33,11 +33,7 @@ export const useReportLists = (props: any) => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
   const [reportFilters, setReportFilter] = useState<any>({});
-
-  const [
-    lazyGetRestoreReportsListTrigger,
-    lazyGetRestoreReportsListStatus,
-  ]: any = apiQuery;
+  const [lazyGetReportsListTrigger, lazyGetReportsListStatus]: any = apiQuery;
   const [lazyExportReportsListTrigger]: any = exportApiQuery;
 
   const [addReportToFavoriteListTrigger, addReportToFavoriteListStatus]: any =
@@ -51,7 +47,7 @@ export const useReportLists = (props: any) => {
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
       ['search', search],
-      ...(filter ? [['filter', filter]] : []),
+      ...(!!filter?.length ? [...filter] : []),
       ...(baseModule ? [['baseModule', baseModule]] : []),
     ];
     const getReportParam: any = buildQueryParams(
@@ -64,7 +60,7 @@ export const useReportLists = (props: any) => {
     };
 
     try {
-      await lazyGetRestoreReportsListTrigger?.(apiDataParameter)?.unwrap();
+      await lazyGetReportsListTrigger?.(apiDataParameter)?.unwrap();
     } catch (error: any) {}
   };
 
@@ -123,7 +119,7 @@ export const useReportLists = (props: any) => {
   const reportListsColumns = reportListsColumnsDynamic?.(
     selectedReportLists,
     setSelectedReportLists,
-    lazyGetRestoreReportsListStatus?.data?.list,
+    lazyGetReportsListStatus?.data?.list,
     addReportToFavorite,
     addReportToFavoriteListStatus,
   );
@@ -135,6 +131,9 @@ export const useReportLists = (props: any) => {
     selectedReportLists: selectedReportLists,
     reportFilters: reportFilters,
     setReportFilter: setReportFilter,
+    getReportListData: getReportsList,
+    page,
+    setPage,
   };
 
   const renderPortalComponent = () => {
@@ -186,7 +185,7 @@ export const useReportLists = (props: any) => {
     setSearch,
     setPageLimit,
     setPage,
-    lazyGetRestoreReportsListStatus,
+    lazyGetReportsListStatus,
     setIsPortalOpen,
     isPortalOpen,
     renderPortalComponent,

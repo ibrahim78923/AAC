@@ -47,7 +47,6 @@ export const actionsForReportListsDynamic = (
     id: 2,
     title: 'Rename',
     permissionKey: [permission?.RENAME],
-
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -65,7 +64,6 @@ export const actionsForReportListsDynamic = (
     id: 3,
     title: 'Clone',
     permissionKey: [permission?.CLONE],
-
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -83,7 +81,6 @@ export const actionsForReportListsDynamic = (
     id: 4,
     title: 'Export',
     permissionKey: [permission?.EXPORT_RECORD],
-
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -150,11 +147,6 @@ export const actionsForReportListsDynamic = (
     title: 'Delete',
     permissionKey: [permission?.DELETE],
     handleClick: (closeMenu: any) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setIsPortalOpen({ isOpen: true, isDelete: true });
       closeMenu();
     },

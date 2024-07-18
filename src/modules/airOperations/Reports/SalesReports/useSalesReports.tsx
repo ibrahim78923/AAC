@@ -11,6 +11,7 @@ import {
 } from '@/services/airOperations/reports/sales-reports';
 import { useRouter } from 'next/router';
 import { salesReportsListTabsDynamic } from './SalesReports.data';
+import { useLazyGetAllGenericReportsListQuery } from '@/services/airOperations/reports';
 
 export const useSalesReports = () => {
   const router = useRouter();
@@ -27,6 +28,8 @@ export const useSalesReports = () => {
     useLazyExportAllFavoritesSalesReportsListQuery?.();
   const exportApiQueryDashboardReports =
     useLazyExportAllDashboardsSalesReportsListQuery?.();
+
+  const getReportsApiQuery = useLazyGetAllGenericReportsListQuery?.();
 
   const restoreReportsPath = () => {
     router?.push({
@@ -48,6 +51,9 @@ export const useSalesReports = () => {
     exportApiQueryDashboardReports,
     exportApiQueryFavoriteReports,
     exportApiQueryAllReports,
+    getReportsApiQuery,
+    restoreReportsPath,
+    editReportPath,
   };
 
   const salesReportsListTabs = salesReportsListTabsDynamic(

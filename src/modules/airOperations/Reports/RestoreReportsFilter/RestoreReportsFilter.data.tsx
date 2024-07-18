@@ -2,9 +2,8 @@ import { RHFDatePicker } from '@/components/ReactHookForm';
 
 export const restoreReportFiltersDefaultValues: any = (filterValue: any) => {
   return {
-    owner: filterValue?.owner ?? null,
-    assigned: filterValue?.assigned ?? null,
-    createdDate: filterValue?.createdDate ?? null,
+    startDate: filterValue?.startDate ?? null,
+    endDate: filterValue?.endDate ?? null,
   };
 };
 
@@ -12,9 +11,9 @@ export const restoreReportFilterFormFieldsDynamic = () => [
   {
     id: 1,
     componentProps: {
-      name: 'owner',
-      label: 'Report Owner',
-      placeholder: 'Select report owner',
+      name: 'startDate',
+      label: 'Start Date',
+      placeholder: 'Select Start Date',
       fullWidth: true,
     },
     component: RHFDatePicker,
@@ -22,9 +21,9 @@ export const restoreReportFilterFormFieldsDynamic = () => [
   {
     id: 2,
     componentProps: {
-      name: 'assigned',
-      label: 'Assigned',
-      placeholder: 'Select Assignee',
+      name: 'endDate',
+      label: 'End Date',
+      placeholder: 'Select End Date',
       fullWidth: true,
     },
     component: RHFDatePicker,

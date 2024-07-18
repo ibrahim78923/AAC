@@ -2,25 +2,25 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const salesReportsApi = baseAPI?.injectEndpoints({
-  endpoints: (builder: any) => ({
+  endpoints: (builder) => ({
     deleteRestoreReportPermanently: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        url: ``,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
     }),
     deleteReportTemporary: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        url: `${END_POINTS?.DELETE_GENERIC_REPORTS}`,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
     }),
     restoreDeletedReport: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}`,
-        method: 'DELETE',
+        url: ``,
+        method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
     }),
@@ -34,40 +34,42 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     addReportToFavoriteList: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}/${apiDataParameter?.pathParams?.id}`,
+        url: ``,
         method: 'PATCH',
+        params: apiDataParameter?.queryParams,
       }),
     }),
     renameReports: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.EDIT_SOFTWARE_CATEGORY}`,
+        url: ``,
         method: 'PUT',
         body: apiDataParameter?.body,
       }),
     }),
     addReportsToDashboard: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.EDIT_SOFTWARE_CATEGORY}`,
+        url: ``,
         method: 'PUT',
         body: apiDataParameter?.body,
       }),
     }),
     cloneReports: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.EDIT_SOFTWARE_CATEGORY}/${apiDataParameter?.pathParams?.id}`,
+        url: ``,
         method: 'POST',
+        params: apiDataParameter?.queryParams,
       }),
     }),
     changeReportOwner: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        url: ``,
         method: 'PUT',
         params: apiDataParameter?.queryParams,
       }),
     }),
     manageReportAccess: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        url: ``,
         method: 'PUT',
         params: apiDataParameter?.queryParams,
       }),
@@ -85,6 +87,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
+      keepUnusedDataFor: 1,
     }),
     getReportsOwnersDropdownListForReports: builder?.query({
       query: ({ params }: any) => ({

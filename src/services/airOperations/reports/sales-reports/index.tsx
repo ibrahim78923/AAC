@@ -161,7 +161,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     restoreSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.GET_RESTORE_GENERIC_REPORTS_LIST,
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
@@ -169,7 +169,7 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response && response?.data) {
           return {
             ...response,
-            list: response?.data,
+            list: response?.data?.genericReports,
             data: {
               contracts: response?.data,
               meta: response?.data?.meta,

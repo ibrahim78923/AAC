@@ -11,6 +11,7 @@ import {
 } from '@/services/airOperations/reports/services-reports';
 import { useRouter } from 'next/router';
 import { servicesReportsListTabsDynamic } from './ServicesReports.data';
+import { useLazyGetAllGenericReportsListQuery } from '@/services/airOperations/reports';
 
 export const useServicesReports = () => {
   const router = useRouter();
@@ -27,6 +28,7 @@ export const useServicesReports = () => {
     useLazyExportAllFavoritesServicesReportsListQuery?.();
   const exportApiQueryDashboardReports =
     useLazyExportAllDashboardsServicesReportsListQuery?.();
+  const getReportsApiQuery = useLazyGetAllGenericReportsListQuery?.();
 
   const restoreReportsPath = () => {
     router?.push({
@@ -48,6 +50,9 @@ export const useServicesReports = () => {
     exportApiQueryDashboardReports,
     exportApiQueryFavoriteReports,
     exportApiQueryAllReports,
+    getReportsApiQuery,
+    restoreReportsPath,
+    editReportPath,
   };
 
   const servicesReportsListTabs = servicesReportsListTabsDynamic(

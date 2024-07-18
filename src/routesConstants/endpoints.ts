@@ -458,6 +458,9 @@ export const END_POINTS = {
   GET_SINGLE_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/get-dynamic-dashboard`,
   CREATE_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/create-dynamic-dashboard`,
   EDIT_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/edit-dynamic-dashboard`,
+  DASHBOARD_DROPDOWN: `/air-services-dashboard`,
+  GET_RESTORE_GENERIC_REPORTS_LIST: `/generic-reports/list-deleted-generic-reports`,
+  DELETE_GENERIC_REPORTS: `/generic-reports/delete-generic-reports`,
   SERVICE_DASHBOARD_DROPDOWN: `/air-services-dashboard`,
   SALES_DASHBOARD_DROPDOWN: `/sales-dashboard`,
 };

@@ -1,5 +1,4 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
 import {
@@ -15,13 +14,12 @@ import dayjs from 'dayjs';
 export const actionsForRestoreReportListsDynamic = (
   setIsPortalOpen: any,
   selectedReportList: any,
+  permissions: any,
 ) => [
   {
     id: 1,
     title: 'Restore',
-    permissionKey: [
-      AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ADD_CONDITION,
-    ],
+    permissionKey: permissions,
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -38,9 +36,7 @@ export const actionsForRestoreReportListsDynamic = (
   {
     id: 2,
     title: 'Delete',
-    permissionKey: [
-      AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ADD_CONDITION,
-    ],
+    permissionKey: permissions,
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -132,7 +128,7 @@ export const restoreReportColumnsDynamic = (
     cell: (info: any) => truncateText(info?.getValue()),
   },
   {
-    accessorFn: (row: any) => row?.user,
+    accessorFn: (row: any) => row?.deletedBy,
     id: 'user',
     isSortable: true,
     header: 'Deleted By',
@@ -146,25 +142,24 @@ export const restoreReportColumnsDynamic = (
       >
         <Avatar
           sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.getValue()?.avatar?.url)}
+          src={generateImage(info?.row?.original?.avatar?.url)}
         >
           <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(
-              info?.getValue()?.firstName,
-              info?.getValue()?.lastName,
-            )}
+            {fullNameInitial(info?.getValue())}
           </Typography>
         </Avatar>
-        {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        {fullName(info?.getValue())}
       </Box>
     ),
   },
   {
-    accessorFn: (row: any) => row?.createdAt,
-    id: 'timeDeleted',
+    accessorFn: (row: any) => row?.deletedAt,
+    id: 'deletedAt',
     isSortable: true,
     header: 'Time Deleted',
     cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI) ?? '--',
+      !!info?.getValue()
+        ? dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI)
+        : '--',
   },
 ];

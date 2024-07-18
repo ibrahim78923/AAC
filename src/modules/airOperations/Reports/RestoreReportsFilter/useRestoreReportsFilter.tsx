@@ -12,8 +12,8 @@ export const useRestoreReportsFilter = (props: any) => {
   });
   const { handleSubmit, reset } = methods;
 
-  const submit = async (data: any) => {
-    const filterValues = filteredEmptyValues?.(data);
+  const submit = async (formData: any) => {
+    const filterValues = filteredEmptyValues?.(formData);
     setReportFilter?.(filterValues);
     closeFilterForm?.();
   };
