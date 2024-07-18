@@ -31,8 +31,10 @@ const useCreateTeams = (
     product: ActiveProduct?._id,
   };
 
-  const { data: availableUsersData } =
-    useGetAvailedUsersQuery(availableUsersParams);
+  const { data: availableUsersData } = useGetAvailedUsersQuery(
+    availableUsersParams,
+    { skip: !teamDataById?.data?._id },
+  );
   const [postTeams, { isLoading: postTeamLoading }] = usePostTeamsMutation();
   const [updateTeams, { isLoading: updateTeamLoading }] =
     useUpdateTeamsMutation();

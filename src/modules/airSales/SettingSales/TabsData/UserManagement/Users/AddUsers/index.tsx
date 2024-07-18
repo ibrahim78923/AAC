@@ -1,6 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Skeleton, Typography, useTheme } from '@mui/material';
 import { dataArray } from '../Users.data';
 import useAddUser from './useAddUser';
 import {
@@ -19,6 +19,7 @@ const AddUsers = (props: any) => {
     productUsersById,
     postUserLoading,
     updateUserLoading,
+    productUserByIdLoading,
   } = useAddUser(checkedUser, isAddUserDrawer, setIsAddUserDrawer);
 
   return (
@@ -58,24 +59,28 @@ const AddUsers = (props: any) => {
           <Grid container spacing={1}>
             {dataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
-                <item.component
-                  {...item.componentProps}
-                  size={'small'}
-                  disabled={
-                    isAddUserDrawer?.type === DRAWER_TYPES?.VIEW ||
-                    (isAddUserDrawer?.type === DRAWER_TYPES?.EDIT &&
-                      item?.componentProps?.name === 'email')
-                      ? true
-                      : false
-                  }
-                >
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
+                {productUserByIdLoading ? (
+                  <Skeleton variant="rectangular" height={40} />
+                ) : (
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                    disabled={
+                      isAddUserDrawer?.type === DRAWER_TYPES?.VIEW ||
+                      (isAddUserDrawer?.type === DRAWER_TYPES?.EDIT &&
+                        item?.componentProps?.name === 'email')
+                        ? true
+                        : false
+                    }
+                  >
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                )}
               </Grid>
             ))}
           </Grid>

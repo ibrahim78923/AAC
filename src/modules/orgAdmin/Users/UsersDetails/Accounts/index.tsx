@@ -24,11 +24,14 @@ const Accounts = (props: any) => {
     data: userAccounts,
     isLoading,
     isSuccess,
-  } = useGetUsersAccountsQuery({
-    id: employeeDataById,
-    orgId: user?.organization?._id,
-    values: accountsParams,
-  });
+  } = useGetUsersAccountsQuery(
+    {
+      id: employeeDataById,
+      orgId: user?.organization?._id,
+      values: accountsParams,
+    },
+    { skip: !employeeDataById },
+  );
 
   return (
     <TanstackTable

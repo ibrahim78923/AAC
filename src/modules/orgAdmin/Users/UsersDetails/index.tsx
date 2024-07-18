@@ -28,7 +28,7 @@ const UsersDetails = (props: any) => {
   } = useUsersDetails();
 
   const { data: profileData, isLoading: profileDataLoading } =
-    useGetUsersByIdQuery(employeeDataById);
+    useGetUsersByIdQuery(employeeDataById, { skip: !employeeDataById });
   return (
     <Box>
       <Grid container spacing={2}>

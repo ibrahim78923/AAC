@@ -101,6 +101,7 @@ const UserTable = (props: any) => {
               setIsAddUserDrawer({
                 isToggle: true,
                 type: DRAWER_TYPES?.EDIT,
+                recordId: checkedUser,
               });
               handleClose();
             }}
@@ -113,6 +114,7 @@ const UserTable = (props: any) => {
                 ...isAddUserDrawer,
                 isToggle: true,
                 type: DRAWER_TYPES?.VIEW,
+                recordId: checkedUser,
               });
               handleClose();
             }}

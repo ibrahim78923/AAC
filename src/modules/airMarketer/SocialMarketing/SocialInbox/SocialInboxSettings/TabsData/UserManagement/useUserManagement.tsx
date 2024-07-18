@@ -24,7 +24,8 @@ const useUserManagement = () => {
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
   const [isAddUserDrawer, setIsAddUserDrawer] = useState({
     isToggle: false,
-    type: DRAWER_TYPES?.ADD,
+    type: '',
+    recordId: null,
   });
   const [searchUser, setSearchUser] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);

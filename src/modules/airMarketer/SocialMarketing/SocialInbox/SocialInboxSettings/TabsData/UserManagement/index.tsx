@@ -51,6 +51,7 @@ const Users = () => {
               {
                 activeTab === INITIAL_VAL
                   ? (setIsAddUserDrawer({
+                      ...isAddUserDrawer,
                       isToggle: true,
                       type: drawyerType?.ADD,
                     }),
@@ -101,12 +102,14 @@ const Users = () => {
         </CommonTabs>
       </Box>
 
-      <AddUsers
-        isAddUserDrawer={isAddUserDrawer}
-        setIsAddUserDrawer={setIsAddUserDrawer}
-        setCheckedUser={setCheckedUser}
-        checkedUser={checkedUser}
-      />
+      {isAddUserDrawer?.isToggle && (
+        <AddUsers
+          isAddUserDrawer={isAddUserDrawer}
+          setIsAddUserDrawer={setIsAddUserDrawer}
+          setCheckedUser={setCheckedUser}
+          checkedUser={checkedUser}
+        />
+      )}
       {isOpenDelete && (
         <AlertModals
           message={'Are you sure you want to delete this team?'}

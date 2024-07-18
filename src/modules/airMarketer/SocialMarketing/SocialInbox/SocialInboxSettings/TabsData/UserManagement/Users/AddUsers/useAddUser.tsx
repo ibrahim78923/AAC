@@ -9,10 +9,11 @@ import {
 } from '@/services/airMarketer/settings/users';
 import { enqueueSnackbar } from 'notistack';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { indexNumbers } from '@/constants';
 
 const useAddUser = (
   checkedUser: any,
-  drawerType: any,
+  isAddUserDrawer: any,
   setIsAddUserDrawer: any,
 ) => {
   const [postPoductUser, { isLoading: postUserLoading }] =
@@ -43,9 +44,17 @@ const useAddUser = (
 
   const { handleSubmit, setValue, reset } = methods;
 
-  const { data: productUsersById } = useGetproductUsersByIdQuery({
-    id: checkedUser,
-  });
+  const { data: productUsersById, isLoading: productUserByIdLoading } =
+    useGetproductUsersByIdQuery(
+      {
+        id: isAddUserDrawer?.recordId,
+      },
+      {
+        skip:
+          !Array?.isArray(isAddUserDrawer?.recordId) ||
+          isAddUserDrawer?.recordId?.length === indexNumbers?.ZERO,
+      },
+    );
 
   useEffect(() => {
     const data = productUsersById?.data;
@@ -76,13 +85,13 @@ const useAddUser = (
     values.role = values?.role?._id;
     values.team = values?.team?._id;
     try {
-      if (drawerType?.type === DRAWER_TYPES?.ADD) {
+      if (isAddUserDrawer?.type === DRAWER_TYPES?.ADD) {
         await postPoductUser({ body: values })?.unwrap();
         reset();
         enqueueSnackbar('User added successfully', {
           variant: 'success',
         });
-        setIsAddUserDrawer({ ...drawerType, isToggle: false });
+        setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false });
       } else {
         delete values['email'];
         delete values['timeZone'];
@@ -90,7 +99,7 @@ const useAddUser = (
         enqueueSnackbar('User updated successfully', {
           variant: 'success',
         });
-        setIsAddUserDrawer({ ...drawerType, isToggle: false });
+        setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false });
       }
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
@@ -105,6 +114,7 @@ const useAddUser = (
     onSubmit,
     postUserLoading,
     updateUserLoading,
+    productUserByIdLoading,
   };
 };
 

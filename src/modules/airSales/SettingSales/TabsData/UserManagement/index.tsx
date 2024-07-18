@@ -29,7 +29,6 @@ const Users = () => {
     setIsOpenDelete,
     handleDeleteTeam,
     deleteTeamLoading,
-    // productsUsers
   } = useUserManagement();
 
   return (
@@ -57,6 +56,7 @@ const Users = () => {
                 {
                   activeTab === 0
                     ? (setIsAddUserDrawer({
+                        ...isAddUserDrawer,
                         isToggle: true,
                         type: DRAWER_TYPES?.ADD,
                       }),
@@ -108,12 +108,14 @@ const Users = () => {
         </Box>
       </Box>
 
-      <AddUsers
-        isAddUserDrawer={isAddUserDrawer}
-        setIsAddUserDrawer={setIsAddUserDrawer}
-        setCheckedUser={setCheckedUser}
-        checkedUser={checkedUser}
-      />
+      {isAddUserDrawer?.isToggle && (
+        <AddUsers
+          isAddUserDrawer={isAddUserDrawer}
+          setIsAddUserDrawer={setIsAddUserDrawer}
+          setCheckedUser={setCheckedUser}
+          checkedUser={checkedUser}
+        />
+      )}
       {isOpenDelete && (
         <AlertModals
           message={'Are you sure you want to delete this team?'}
