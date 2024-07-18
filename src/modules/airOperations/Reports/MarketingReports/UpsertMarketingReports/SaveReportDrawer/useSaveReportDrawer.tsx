@@ -9,9 +9,9 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import {
   useLazyUsersDropdownQuery,
-  usePostServiceReportsMutation,
+  usePostGenericReportsMutation,
   useLazyDashboardDropdownQuery,
-} from '@/services/airOperations/reports/services-reports/upsert-services-reports';
+} from '@/services/airOperations/reports/marketing-reports/upsert-marketing-reports';
 import { CHARTS, REPORT_TYPE, FIELD_TYPE } from '@/constants/strings';
 import {
   SaveReportI,
@@ -61,8 +61,8 @@ export const useSaveReportDrawer = (props: any) => {
   const dashboardDropdown = useLazyDashboardDropdownQuery();
   const usersDropdown = useLazyUsersDropdownQuery();
   const reportsArray = reportsDataArray(usersDropdown, dashboardDropdown);
-  const [postServiceReportTrigger, postServiceReportStatus] =
-    usePostServiceReportsMutation();
+  const [postGenericReportTrigger, postGenericReportStatus] =
+    usePostGenericReportsMutation();
 
   const onSubmit = async (data: SaveReportI) => {
     const specificUsersIds = data?.specificUsersConditionOne?.map(
@@ -182,7 +182,7 @@ export const useSaveReportDrawer = (props: any) => {
       }
     } else {
       try {
-        await postServiceReportTrigger(payload)?.unwrap();
+        await postGenericReportTrigger(payload)?.unwrap();
         successSnackbar('Report Created Successfully');
         setForm([]);
         handleCancel();
@@ -203,6 +203,6 @@ export const useSaveReportDrawer = (props: any) => {
     handleCancel,
     selectAddToNewDashboard,
     reportsArray,
-    postServiceReportStatus,
+    postGenericReportStatus,
   };
 };

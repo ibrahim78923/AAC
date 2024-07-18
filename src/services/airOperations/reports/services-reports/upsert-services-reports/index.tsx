@@ -5,7 +5,7 @@ const TAG = 'UPSERT_SERVICE_REPORT';
 
 export const UpsertServiceReportApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    postServiceReports: builder?.mutation({
+    postGenericReports: builder?.mutation({
       query: (payload: any) => ({
         url: `${OPERATION?.POST_GENERIC_REPORT}`,
         method: 'POST',
@@ -73,7 +73,7 @@ export const UpsertServiceReportApi = baseAPI?.injectEndpoints({
     }),
     dashboardDropdown: builder?.query({
       query: () => ({
-        url: `${END_POINTS?.DASHBOARD_DROPDOWN}`,
+        url: `${END_POINTS?.SERVICE_DASHBOARD_DROPDOWN}`,
         method: 'GET',
       }),
       transformResponse: (response: any) => {
@@ -85,7 +85,7 @@ export const UpsertServiceReportApi = baseAPI?.injectEndpoints({
 });
 
 export const {
-  usePostServiceReportsMutation,
+  usePostGenericReportsMutation,
   useLazyAssetTypeDropdownQuery,
   useLazyLocationDropdownQuery,
   useLazyDepartmentDropdownQuery,

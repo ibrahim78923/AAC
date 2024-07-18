@@ -166,6 +166,7 @@ export const reportsDataArray = (
         name="addToExistingCondition"
         label="Select Dashboard"
         required={true}
+        multiple={true}
         apiQuery={dashboardDropdown}
         getOptionLabel={(option: any) => option?.name}
         placeholder="Select Option"

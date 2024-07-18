@@ -14,7 +14,7 @@ export const SaveReportDrawer = (props: any) => {
     handleCancel,
     selectAddToNewDashboard,
     reportsArray,
-    postServiceReportStatus,
+    postGenericReportStatus,
   } = useSaveReportDrawer(props);
 
   return (
@@ -27,7 +27,7 @@ export const SaveReportDrawer = (props: any) => {
       okText="Apply"
       isOk={true}
       footer={true}
-      isLoading={postServiceReportStatus?.isLoading}
+      isLoading={postGenericReportStatus?.isLoading}
     >
       <FormProvider methods={saveReportsMethods}>
         <Grid container spacing={1}>

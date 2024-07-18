@@ -4,7 +4,7 @@ const TAG = 'UPSERT_MARKETING_REPORT';
 
 export const UpsertMarketingReportApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    postMarketingReports: builder?.mutation({
+    postGenericReports: builder?.mutation({
       query: (payload: any) => ({
         url: `${OPERATION?.POST_GENERIC_REPORT}`,
         method: 'POST',
@@ -23,13 +23,12 @@ export const UpsertMarketingReportApi = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     dashboardDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DASHBOARD_DROPDOWN}`,
+      query: () => ({
+        url: `${END_POINTS?.SALES_DASHBOARD_DROPDOWN}`,
         method: 'GET',
-        params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.dynamicdashboards;
+        if (response) return response?.data?.salesDashboards;
       },
       providesTags: [TAG],
     }),
@@ -37,7 +36,7 @@ export const UpsertMarketingReportApi = baseAPI?.injectEndpoints({
 });
 
 export const {
-  usePostMarketingReportsMutation,
+  usePostGenericReportsMutation,
   useLazyUsersDropdownQuery,
   useLazyDashboardDropdownQuery,
 } = UpsertMarketingReportApi;

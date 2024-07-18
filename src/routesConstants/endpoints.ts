@@ -458,7 +458,8 @@ export const END_POINTS = {
   GET_SINGLE_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/get-dynamic-dashboard`,
   CREATE_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/create-dynamic-dashboard`,
   EDIT_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/edit-dynamic-dashboard`,
-  DASHBOARD_DROPDOWN: `/air-services-dashboard`,
+  SERVICE_DASHBOARD_DROPDOWN: `/air-services-dashboard`,
+  SALES_DASHBOARD_DROPDOWN: `/sales-dashboard`,
 };
 
 export const LEAD_CAPTURE_FORM = {
