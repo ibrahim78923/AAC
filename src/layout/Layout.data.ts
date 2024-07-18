@@ -567,11 +567,6 @@ export const LowerSuperAdminRoutes = [
     permissions: superAdminAllPermissionsSetting,
     textNames: [
       {
-        key: '/super-admin/settings/jobs',
-        label: 'Jobs',
-        permissions: Permissions?.SETTING_JOBS,
-      },
-      {
         key: '/super-admin/settings/faqs',
         label: 'FAQs',
         permissions: Permissions?.SETTING_FAQ,

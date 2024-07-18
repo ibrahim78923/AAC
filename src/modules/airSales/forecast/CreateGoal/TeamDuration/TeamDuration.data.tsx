@@ -11,7 +11,7 @@ import { getSession } from '@/utils';
 import * as Yup from 'yup';
 
 export const teamDurationValidationSchema = Yup.object().shape({
-  // collaborators: Yup?.mixed()?.nullable()?.required('field is required'),
+  collaborators: Yup?.mixed()?.nullable()?.required('field is required'),
   selectTeams: Yup?.string(),
   duration: Yup?.string()?.required('field is required'),
   userTeam: Yup?.string(),

@@ -33,7 +33,7 @@ const TemplateBasic = () => {
 
         <Box sx={styles?.vRow}>
           <Box sx={styles?.vCellLef}>Unit of Measurement</Box>
-          <Box sx={styles?.vCellRight}> Euro €</Box>
+          <Box sx={styles?.vCellRight}>£ Pound </Box>
         </Box>
 
         <Box sx={styles?.vRow}>

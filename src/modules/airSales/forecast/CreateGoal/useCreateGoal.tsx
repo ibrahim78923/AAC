@@ -19,9 +19,12 @@ import {
   teamDurationDefaultValues,
   teamDurationValidationSchema,
 } from './TeamDuration/TeamDuration.data';
+import { enqueueSnackbar } from 'notistack';
+import { GOALS_YEARLY_FORMAT } from '@/constants';
 
 export const useCreateGoal = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [tableRowValues, setTableRowValues] = useState([]);
   const dispatch = useDispatch();
 
   const router: any = useRouter();
@@ -56,6 +59,12 @@ export const useCreateGoal = () => {
   const { handleSubmit: teamDurationHandleSubmit, watch: watchRadioValue } =
     teamDurationMethods;
   const onSubmitTeamDuration = async (values: any) => {
+    if (values?.duration === GOALS_YEARLY_FORMAT?.CUSTOM) {
+      if (values?.to === undefined || values?.from === undefined) {
+        enqueueSnackbar('Please enter date', { variant: 'error' });
+        return;
+      }
+    }
     dispatch(setTeamDurationFormData(values));
     setActiveStep((prev: any) => prev + 1);
   };
@@ -113,7 +122,12 @@ export const useCreateGoal = () => {
     {
       key: 'performance',
       label: 'Performance',
-      component: <Performance />,
+      component: (
+        <Performance
+          tableRowValues={tableRowValues}
+          setTableRowValues={setTableRowValues}
+        />
+      ),
     },
     {
       key: 'settings',

@@ -45,7 +45,7 @@ export const manageTableColumns: any = (
           }}
         />
       ),
-      header: <Checkbox color="primary" name="id" />,
+      header: '',
       isSortable: false,
     },
     {

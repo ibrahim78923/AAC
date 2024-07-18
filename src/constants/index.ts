@@ -46,6 +46,8 @@ export const DATE_TIME_FORMAT = {
   ddddDDMMMYYYYhhmmA: 'dddd, DD MMM YYYY hh:mm A',
   ddddDDMMMYYYY: 'dddd, DD MMM YYYY',
   YYMMDD: 'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
+  DDMMM: 'DD MMM',
+  DDMMMYYYY: 'DD MMM YYYY',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -509,4 +511,11 @@ export const TEMPLATES_CARDS = {
   LOYALTY_TOKEN: 'Loyalty Token',
   VOUCHER: 'Voucher',
   CREDITS: 'Credits',
+};
+
+export const GOALS_YEARLY_FORMAT = {
+  MONTHLY: 'monthly',
+  YEARLY: 'yearly',
+  QUARTERLY: 'quarterly',
+  CUSTOM: 'custom',
 };

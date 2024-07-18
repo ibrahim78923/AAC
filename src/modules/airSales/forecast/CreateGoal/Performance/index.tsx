@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
-  FormControl,
   Grid,
-  ListItemText,
-  MenuItem,
-  OutlinedInput,
-  Select,
   TextField,
   Typography,
   useTheme,
@@ -19,20 +14,49 @@ import {
 } from '@/assets/icons';
 import CommonModal from '@/components/CommonModal';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { teamGoalTableColumns, teamGoalTableData } from './Performance.data';
+import { teamGoalTableColumns } from './Performance.data';
+import { useAppSelector } from '@/redux/store';
+import { isNullOrEmpty } from '@/utils';
+import { useGetDealPipeLineQuery } from '@/services/airSales/deals/index';
 
-const Performance = () => {
+const Performance = ({ tableRowValues, setTableRowValues }: any) => {
   const theme = useTheme();
   const [isAddTargetModal, setIsAddTargetModal] = useState(false);
-  const [personName, setPersonName] = useState<string[]>([]);
 
-  const handleChange = (event: any) => {
+  const { data: dealPipelineData } = useGetDealPipeLineQuery({ meta: false });
+  const [selectedValues, setSelectedValues] = useState({});
+
+  const processData = (data: any) => {
+    return data?.map((item: any) => ({
+      id: item?._id,
+      name: item?.name,
+    }));
+  };
+
+  // Assuming 'apiResponse' is the data you get from the API
+  const processedData = processData(dealPipelineData?.data);
+
+  const handleChange = (rowId: any) => (event: any) => {
     const {
       target: { value },
     } = event;
-    setPersonName(typeof value === 'string' ? value?.split(',') : value);
+
+    const selectedStagesArray =
+      typeof value === 'string' ? value.split(',') : value;
+
+    const stagesForRow = processedData.filter(
+      (stage: any) => selectedStagesArray?.includes(stage?.id),
+    );
+
+    setSelectedValues({
+      ...selectedValues,
+      [rowId]: stagesForRow,
+    });
   };
-  const names = ['Team Name 1', 'Team Name 2', 'Team Name 3'];
+
+  const teamDurationForm: any = useAppSelector(
+    (state) => state?.forecastForm?.teamDurationForm,
+  );
 
   return (
     <>
@@ -59,26 +83,6 @@ const Performance = () => {
             </Typography>
           </Grid>
 
-          <Grid item xs={12} sm={3}>
-            <FormControl sx={{ mt: 1, width: '100%' }}>
-              <Select
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                value={personName}
-                onChange={handleChange}
-                input={<OutlinedInput label="Tag" />}
-                renderValue={(selected: any) => selected?.join(', ')}
-                placeholder="all"
-                sx={{ height: '44px' }}
-              >
-                {names?.map((name: any) => (
-                  <MenuItem key={name} value={name}>
-                    <ListItemText primary={name} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
           <Grid item xs={12} sm={7}>
             <Box
               sx={{
@@ -106,6 +110,7 @@ const Performance = () => {
               className="small"
               onClick={() => setIsAddTargetModal(true)}
               sx={{ width: { xs: '100%', sm: 'fit-content' } }}
+              disabled={isNullOrEmpty(tableRowValues)}
             >
               {' '}
               Apply Target
@@ -129,8 +134,16 @@ const Performance = () => {
         </Grid>
 
         <TanstackTable
-          columns={teamGoalTableColumns(handleChange, personName)}
-          data={teamGoalTableData}
+          columns={teamGoalTableColumns(
+            handleChange,
+            teamDurationForm,
+            tableRowValues,
+            setTableRowValues,
+            selectedValues,
+            processedData,
+            theme,
+          )}
+          data={teamDurationForm?.collaborators}
           isPagination
         />
       </Box>

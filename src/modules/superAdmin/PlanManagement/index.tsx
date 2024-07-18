@@ -60,6 +60,7 @@ const PlanManagement = () => {
     setIsDisabled,
     tableRowValues,
     setTableRowValues,
+    theme,
   );
   return (
     <Box sx={styles?.main}>
@@ -114,7 +115,7 @@ const PlanManagement = () => {
         >
           <Box width={{ xs: '100%', sm: 'auto' }}>
             <Search
-              label="Search here"
+              label="Search by Description"
               width={'260px'}
               searchBy={searchBy}
               size="small"

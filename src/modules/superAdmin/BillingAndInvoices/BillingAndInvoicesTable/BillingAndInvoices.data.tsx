@@ -43,7 +43,7 @@ export const Columns = (
           }}
         />
       ),
-      header: <Checkbox color="primary" name="Id" disabled />,
+      header: '',
       isSortable: false,
     },
     {
@@ -150,7 +150,9 @@ export const Columns = (
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        return `£ ${info?.getValue()}`;
+      },
     },
 
     {
