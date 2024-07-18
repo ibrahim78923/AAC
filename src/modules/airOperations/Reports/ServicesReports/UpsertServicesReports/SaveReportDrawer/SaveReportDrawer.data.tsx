@@ -36,7 +36,7 @@ export const reportsValidationSchema = (reportValidation: any) =>
     ),
     specificUsersConditionOne: Yup?.array()?.when(() =>
       reportValidation?.selectSharedWith === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.array()?.nullable()?.required('Required')
+        ? Yup?.array()?.min(1, 'At least one user is required')
         : Yup?.array()?.notRequired(),
     ),
     specificUsersConditionTwo: Yup?.string()?.when(() =>
@@ -46,7 +46,7 @@ export const reportsValidationSchema = (reportValidation: any) =>
     ),
     addToExistingCondition: Yup?.array()?.when(() =>
       reportValidation?.selectAddToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
-        ? Yup?.array()?.nullable()?.required('Required')
+        ? Yup?.array()?.min(1, 'At least one dashboard is required')
         : Yup?.array()?.notRequired(),
     ),
     addToNewConditionOne: Yup?.string()?.when(() =>
@@ -66,7 +66,7 @@ export const reportsValidationSchema = (reportValidation: any) =>
     ),
     newDashboardSpecificUsersConditionOne: Yup?.array()?.when(() =>
       reportValidation?.selectAddToNewDashboard === REPORT_TYPE?.SPECIFIC_USERS
-        ? Yup?.array()?.nullable()?.required('Required')
+        ? Yup?.array()?.min(1, 'At least one user is required')
         : Yup?.array()?.notRequired(),
     ),
     newDashboardSpecificUsersConditionTwo: Yup?.string()?.when(() =>

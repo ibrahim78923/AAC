@@ -33,8 +33,6 @@ export const useSaveReportDrawer = (props: any) => {
   const { watch, handleSubmit, reset, setValue } = saveReportsMethods;
 
   const ADD_TO = {
-    ADD_TO_EXISTING: 'addToExisting',
-    DO_NOT_ADD: 'doNotAdd',
     ADD_TO_NEW_CONDITION_TWO: 'addToNewConditionTwo',
     ADD_TO_DASHBOARD: 'addToDashboard',
     SHARED_WITH: 'sharedWith',
@@ -51,8 +49,8 @@ export const useSaveReportDrawer = (props: any) => {
       selectAddToNewDashboard,
     });
     if (
-      selectAddToDashboard === ADD_TO?.ADD_TO_EXISTING ||
-      selectAddToDashboard === ADD_TO?.DO_NOT_ADD
+      selectAddToDashboard === REPORT_TYPE?.ADD_TO_EXISTING ||
+      selectAddToDashboard === REPORT_TYPE?.DO_NOT_ADD
     ) {
       setValue(ADD_TO?.ADD_TO_NEW_CONDITION_TWO, null);
     }
@@ -75,6 +73,13 @@ export const useSaveReportDrawer = (props: any) => {
     const existingDashboardIds = data?.addToExistingCondition?.map(
       (item: any) => item?._id,
     );
+    const getPermissions = () => {
+      if (data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE) {
+        return data?.newDashboardEveryoneCondition;
+      } else if (data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS) {
+        return data?.newDashboardSpecificUsersConditionTwo;
+      }
+    };
     const payload = {
       module: metricType,
       widgets: form?.map((item: any) => {
@@ -135,7 +140,9 @@ export const useSaveReportDrawer = (props: any) => {
         access:
           data?.sharedWith === REPORT_TYPE?.EVERYONE
             ? data?.everyoneCondition
-            : data?.specificUsersConditionTwo,
+            : data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS
+              ? data?.specificUsersConditionTwo
+              : null,
         users:
           data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS
             ? specificUsersIds
@@ -147,25 +154,21 @@ export const useSaveReportDrawer = (props: any) => {
         name:
           data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
             ? data?.addToNewConditionOne
-            : '',
+            : null,
         access:
           data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
             ? data?.addToNewConditionTwo
-            : '',
+            : null,
         specialUsers:
           data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
             ? data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS
               ? newDashboardSpecificUsersIds
               : []
             : [],
-        permissions:
-          data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW
-            ? data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE
-              ? data?.newDashboardEveryoneCondition
-              : data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS
-                ? data?.newDashboardSpecificUsersConditionTwo
-                : ''
-            : '',
+        ...((data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE ||
+          data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS) && {
+          permissions: getPermissions(),
+        }),
         existingDashboards:
           data?.addToDashboard === REPORT_TYPE?.ADD_TO_EXISTING
             ? existingDashboardIds
