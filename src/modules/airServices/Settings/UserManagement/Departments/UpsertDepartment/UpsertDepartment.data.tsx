@@ -8,25 +8,37 @@ import {
 } from '@/components/ReactHookForm';
 import { ROLES } from '@/constants/strings';
 import { PAGINATION } from '@/config';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
-export const departmentFormValidation: any = Yup?.object()?.shape({
-  fileUrl: Yup?.mixed()?.nullable(),
-  name: Yup?.string()
-    ?.trim()
-    ?.required('Name is required')
-    ?.max(30, 'First Name up to 30 characters'),
-  departmentHeadDetails: Yup?.mixed()?.nullable(),
-  description: Yup?.string()?.trim(),
-  membersListDetails: Yup?.array(),
-});
+export const departmentFormValidation: any = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const departmentFormValues: any = (data: any) => {
+  return Yup?.object()?.shape({
+    fileUrl: Yup?.mixed()?.nullable(),
+    name: Yup?.string()
+      ?.trim()
+      ?.required('Name is required')
+      ?.max(30, 'First Name up to 30 characters'),
+    departmentHeadDetails: Yup?.mixed()?.nullable(),
+    description: Yup?.string()?.trim(),
+    membersListDetails: Yup?.array(),
+    ...formSchema,
+  });
+};
+
+export const departmentFormValues: any = (data: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
   return {
     name: data?.name ?? '',
     departmentHeadDetails: data?.departmentHeadDetails ?? null,
     description: data?.description ?? '',
     membersListDetails: data?.membersListDetails ?? [],
     fileUrl: null,
+    ...initialValues,
   };
 };
 

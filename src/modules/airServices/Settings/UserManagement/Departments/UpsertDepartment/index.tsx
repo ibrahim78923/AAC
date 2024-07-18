@@ -12,8 +12,10 @@ import { LoadingButton } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertDepartment } from './useUpsertDepartment';
-import { Attachments } from '@/components/Attachments';
-import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
 
 export const UpsertDepartment = (props: any) => {
   const { openUpsertModal, selectedDepartment } = props;
@@ -25,7 +27,11 @@ export const UpsertDepartment = (props: any) => {
     method,
     updateDepartmentStatus,
     departmentFormFields,
+    form,
+    getDynamicFieldsStatus,
+    postAttachmentStatus,
   } = useUpsertDepartment(props);
+
   return (
     <Dialog
       open={openUpsertModal}
@@ -54,35 +60,32 @@ export const UpsertDepartment = (props: any) => {
         onSubmit={handleSubmit(submitUpsertDepartment)}
       >
         <DialogContent>
-          <Grid container spacing={1}>
-            {departmentFormFields?.map((item: any) => (
-              <Grid item key={item?.id} xs={12}>
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.heading ? item?.heading : null}
-                </item.component>
-              </Grid>
-            ))}
-          </Grid>
-          {!!selectedDepartment?._id && (
+          {getDynamicFieldsStatus?.isLoading ||
+          getDynamicFieldsStatus?.isFetching ? (
+            <SkeletonForm />
+          ) : getDynamicFieldsStatus?.isError ? (
+            <ApiErrorState />
+          ) : (
             <>
-              <Typography
-                variant="body1"
-                fontWeight={500}
-                color="slateBlue.main"
-                mb={2}
-              >
-                {' '}
-                Attachments{' '}
-              </Typography>
-              <Box maxHeight={'20vh'}>
-                <Attachments
-                  recordId={selectedDepartment?._id}
-                  permissionKey={[
-                    AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DEPARTMENT,
-                  ]}
-                  colSpan={{ sm: 12, lg: 12 }}
-                />
-              </Box>
+              <Grid container spacing={1}>
+                {departmentFormFields?.map((item: any) => (
+                  <Grid item key={item?.id} xs={12}>
+                    <item.component {...item?.componentProps} size={'small'}>
+                      {item?.heading ? item?.heading : null}
+                    </item.component>
+                  </Grid>
+                ))}
+                {form?.map((item: any) => (
+                  <Grid item xs={12} key={item?.id}>
+                    {componentMap[item?.component] &&
+                      createElement(componentMap[item?.component], {
+                        ...item?.componentProps,
+                        name: item?.componentProps?.label,
+                        size: 'small',
+                      })}
+                  </Grid>
+                ))}
+              </Grid>
             </>
           )}
         </DialogContent>
@@ -93,7 +96,8 @@ export const UpsertDepartment = (props: any) => {
             onClick={handleClose}
             disabled={
               postDepartmentStatus?.isLoading ||
-              updateDepartmentStatus?.isLoading
+              updateDepartmentStatus?.isLoading ||
+              postAttachmentStatus?.isLoading
             }
           >
             Cancel
@@ -103,11 +107,13 @@ export const UpsertDepartment = (props: any) => {
             type="submit"
             loading={
               postDepartmentStatus?.isLoading ||
-              updateDepartmentStatus?.isLoading
+              updateDepartmentStatus?.isLoading ||
+              postAttachmentStatus?.isLoading
             }
             disabled={
               postDepartmentStatus?.isLoading ||
-              updateDepartmentStatus?.isLoading
+              updateDepartmentStatus?.isLoading ||
+              postAttachmentStatus?.isLoading
             }
           >
             Save
