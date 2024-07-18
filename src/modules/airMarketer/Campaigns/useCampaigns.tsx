@@ -62,6 +62,21 @@ const useCampaigns = () => {
   const [checkedColumns, setcheckedColumns] = useState<any>(null);
   const [rowId, setRowId] = useState(null);
 
+  // collapse menu task filters start here
+
+  const [isFilters, setIsFilters] = useState(false);
+  const [taskFilters, setTaskFilters] = useState({
+    campaignId: '',
+  });
+
+  const resetTasksFilters = () => {
+    setTaskFilters({
+      campaignId: '',
+    });
+  };
+
+  // collapse menu task filters ends here
+
   const [filters, setFilters] = useState<any>({
     campaignOwner: null,
     campaignStatus: '',
@@ -308,18 +323,23 @@ const useCampaigns = () => {
     setIsActionsDisabled,
     checkedColumns,
     setcheckedColumns,
-    rowId,
-    setRowId,
-    campaignsLoadingById,
     updateCampaignLoading,
-    currentTabVal,
+    campaignsLoadingById,
+    resetTasksFilters,
     setCurrentTabVal,
-    userListData,
-    user,
     organizationId,
+    setTaskFilters,
+    currentTabVal,
+    setIsFilters,
+    userListData,
     handleSubmit,
-    methods,
+    taskFilters,
+    isFilters,
+    setRowId,
     onSubmit,
+    methods,
+    rowId,
+    user,
   };
 };
 export default useCampaigns;

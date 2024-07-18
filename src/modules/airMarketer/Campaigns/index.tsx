@@ -28,6 +28,7 @@ const Campaigns = () => {
     isResetTaskFilter,
     allCamopaignsData,
     isActionsDisabled,
+    resetTasksFilters,
     setcheckedColumns,
     setCurrentTabVal,
     setIsCreateTask,
@@ -35,17 +36,21 @@ const Campaigns = () => {
     searchCampaigns,
     setSelectedRows,
     checkedColumns,
+    setTaskFilters,
     organizationId,
     campaignsData,
     filterLoading,
     isCreateTask,
+    setIsFilters,
     selectedRows,
     setPageLimit,
     setIsCompare,
     currentTabVal,
     userListData,
     handleSubmit,
+    taskFilters,
     setFilters,
+    isFilters,
     isCompare,
     setRowId,
     onSubmit,
@@ -230,9 +235,14 @@ const Campaigns = () => {
 
       {isResetTaskFilter && (
         <ResetTasksFilter
-          isOpen={isResetTaskFilter}
-          setIsOpen={setIsResetTaskFilter}
           setCurrentTabVal={setCurrentTabVal}
+          setIsOpen={setIsResetTaskFilter}
+          setTaskFilters={setTaskFilters}
+          setIsFiltersOpen={setIsFilters}
+          isOpen={isResetTaskFilter}
+          taskFilters={taskFilters}
+          reset={resetTasksFilters}
+          isFilterOpen={isFilters}
         />
       )}
     </Box>

@@ -4,26 +4,49 @@ import useDrawerComponents from './DrawerComponents/useDrawerComponents';
 import { CAMPAIGNS_CONSTANTS } from '@/constants/strings';
 import useResetTasksFilter from './useResetTasksFilter';
 
+interface TaskFilters {
+  campaignId: string;
+}
 interface Props {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
+  setTaskFilters: (value: TaskFilters) => void;
+  setIsFiltersOpen: (value: boolean) => void;
   setCurrentTabVal: (value: number) => void;
+  setIsOpen: (value: boolean) => void;
+  taskFilters: TaskFilters;
+  isFilterOpen: boolean;
+  reset: () => void;
+  isOpen: boolean;
 }
 
 const ResetTasksFilter = (props: Props) => {
-  const { isOpen, setIsOpen, setCurrentTabVal } = props;
-  const { handleSubmit, onSubmit, methods } = useResetTasksFilter();
   const {
-    selectedButton,
-    handleActiveButton,
-    setSelectedButton,
-    isFilters,
-    setIsFilters,
-  } = useDrawerComponents({ setIsOpen, methods, setCurrentTabVal });
+    isOpen,
+    setIsOpen,
+    setCurrentTabVal,
+    setTaskFilters,
+    taskFilters,
+    reset,
+    setIsFiltersOpen,
+    isFilterOpen,
+  } = props;
+  const { handleSubmit, onSubmit, methods } = useResetTasksFilter(
+    setTaskFilters,
+    setIsFiltersOpen,
+  );
+  const { selectedButton, handleActiveButton, setSelectedButton } =
+    useDrawerComponents({
+      setIsOpen,
+      methods,
+      setCurrentTabVal,
+      taskFilters,
+      reset,
+      setIsFiltersOpen,
+      isFilterOpen,
+    });
 
   const handleCloseDrawer = () => {
-    if (isFilters) {
-      setIsFilters(false);
+    if (isFilterOpen) {
+      setIsFiltersOpen(false);
     } else {
       setIsOpen(false);
     }
@@ -32,14 +55,14 @@ const ResetTasksFilter = (props: Props) => {
   return (
     <CommonDrawer
       isDrawerOpen={isOpen}
-      title={isFilters ? 'Filters' : 'Tasks'}
-      okText={isFilters ? 'Filter' : 'Apply'}
+      title={isFilterOpen ? 'Filters' : 'Tasks'}
+      okText={isFilterOpen ? 'Filter' : 'Apply'}
       isOk={true}
-      footer={isFilters ? true : false}
+      footer={isFilterOpen ? true : false}
       onClose={handleCloseDrawer}
       submitHandler={handleSubmit(onSubmit)}
     >
-      {!isFilters && (
+      {!isFilterOpen && (
         <ButtonGroup variant="outlined" aria-label="Basic button group">
           <Button
             className="small"

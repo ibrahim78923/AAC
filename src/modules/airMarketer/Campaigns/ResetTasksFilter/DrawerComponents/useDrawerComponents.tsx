@@ -4,27 +4,68 @@ import Task from './Task';
 import Comments from './Comments';
 import Calander from './Calendar';
 import { PAGINATION } from '@/config';
-import { useGetCampaignsTasksQuery } from '@/services/airMarketer/campaigns';
-import { CAMPAIGNS_CONSTANTS } from '@/constants/strings';
+import {
+  useDeleteCampaignTasksMutation,
+  useGetCampaignsTasksQuery,
+} from '@/services/airMarketer/campaigns';
+import { CAMPAIGNS_CONSTANTS, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { enqueueSnackbar } from 'notistack';
 
-const useDrawerComponents = ({ setCurrentTabVal, setIsOpen, methods }: any) => {
+const useDrawerComponents = ({
+  setCurrentTabVal,
+  setIsOpen,
+  methods,
+  taskFilters,
+  reset,
+  setIsFiltersOpen,
+  isFilterOpen,
+}: any) => {
   const theme = useTheme();
   const [selectedButton, setSelectedButton] = useState(
     CAMPAIGNS_CONSTANTS?.TASKS,
   );
-  const [isFilters, setIsFilters] = useState(false);
+  // const [isFilters, setIsFilters] = useState(false);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState({
+    isToggled: false,
+    id: '',
+  });
+  const [isEditDrawer, setIsEditDrawer] = useState({
+    isToggled: false,
+    id: '',
+    type: '',
+  });
 
   const taskParams = {
     page: page,
     limit: pageLimit,
+    campaignId: taskFilters?.campaignId ? taskFilters?.campaignId : undefined,
   };
 
   const { data: getCampaignsTasks, isLoading } =
     useGetCampaignsTasksQuery(taskParams);
 
   const compaignsTasksData = getCampaignsTasks?.data?.campaigntasks;
+
+  const [deleteTasks, { isLoading: deleteTaskLoading }] =
+    useDeleteCampaignTasksMutation();
+
+  const handleDeleteModal = async (id: any) => {
+    try {
+      await deleteTasks({ ids: id })?.unwrap();
+      enqueueSnackbar('Task Deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+    setIsOpenDeleteDrawer({ ...isOpenDeleteDrawer, isToggled: false });
+  };
 
   const handleActiveButton = (active: string) => {
     switch (active) {
@@ -37,13 +78,20 @@ const useDrawerComponents = ({ setCurrentTabVal, setIsOpen, methods }: any) => {
       default:
         return (
           <Task
-            setIsFilters={setIsFilters}
+            setIsOpenDeleteDrawer={setIsOpenDeleteDrawer}
+            isOpenDeleteDrawer={isOpenDeleteDrawer}
+            deleteTaskLoading={deleteTaskLoading}
+            handleDeleteModal={handleDeleteModal}
+            setCurrentTabVal={setCurrentTabVal}
+            setIsFilters={setIsFiltersOpen}
             data={compaignsTasksData}
-            isFilters={isFilters}
             setIsOpen={setIsOpen}
+            isFilters={isFilterOpen}
             loading={isLoading}
             methods={methods}
-            setCurrentTabVal={setCurrentTabVal}
+            setIsEditDrawer={setIsEditDrawer}
+            isEditDrawer={isEditDrawer}
+            reset={reset}
           />
         );
     }
@@ -54,8 +102,6 @@ const useDrawerComponents = ({ setCurrentTabVal, setIsOpen, methods }: any) => {
     setSelectedButton,
     selectedButton,
     setPageLimit,
-    setIsFilters,
-    isFilters,
     setPage,
     theme,
   };

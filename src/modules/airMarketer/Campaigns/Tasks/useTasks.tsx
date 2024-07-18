@@ -54,12 +54,12 @@ const useTasks = () => {
 
   const handleDeleteModal = async (id: any) => {
     try {
-      await deleteTasks({ ids: id });
+      await deleteTasks({ ids: id })?.unwrap();
       enqueueSnackbar('Task Deleted Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
-      const errMsg = error?.data?.message;
+      const errMsg = error?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,

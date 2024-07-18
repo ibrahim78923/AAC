@@ -12,7 +12,7 @@ import { getSession } from '@/utils';
 export const defaultValues = {
   taskStatus: '',
   assignee: null,
-  campaings: null,
+  campaignId: null,
   taskType: '',
 };
 
@@ -51,7 +51,7 @@ export const dataArray = () => {
     {
       componentProps: {
         placeholder: 'Select campaign',
-        name: 'campaings',
+        name: 'campaignId',
         label: 'Campaign',
         apiQuery: campaignsList,
         getOptionLabel: (option: any) => option?.title,

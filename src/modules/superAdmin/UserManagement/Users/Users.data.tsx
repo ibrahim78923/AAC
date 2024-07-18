@@ -98,7 +98,7 @@ export const columns: any = (columnsProps: ColumnsProps) => {
       cell: (info: any) => info?.getValue()?.name ?? 'N/A',
     },
     {
-      accessorFn: (row: RowInterface) => row?.Products,
+      accessorFn: (row: RowInterface) => row?.activeProducts,
       id: 'products',
       isSortable: true,
       header: 'Products',

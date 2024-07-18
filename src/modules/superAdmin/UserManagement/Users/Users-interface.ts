@@ -25,7 +25,7 @@ export interface RowInterface {
   email: string;
   role: string;
   organization: { name: string };
-  Products: { name: string }[];
+  activeProducts: { name: string }[];
   Status: string;
   createdOn: string;
   createdAt: string;
