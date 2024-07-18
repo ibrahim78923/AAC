@@ -168,23 +168,23 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
     activeSidebarItem === TASK_TABS?.CONTACTS
       ? contactsData?.data?.contacts
       : activeSidebarItem === TASK_TABS?.COMPANIES
-        ? companiesData?.data?.companies
-        : activeSidebarItem === TASK_TABS?.DEALS
-          ? dealsData?.data?.deals
-          : activeSidebarItem === TASK_TABS?.TICKETS
-            ? ticketsData?.data
-            : [];
+      ? companiesData?.data?.companies
+      : activeSidebarItem === TASK_TABS?.DEALS
+      ? dealsData?.data?.deals
+      : activeSidebarItem === TASK_TABS?.TICKETS
+      ? ticketsData?.data
+      : [];
 
   const statusCheck =
     activeSidebarItem === TASK_TABS?.CONTACTS
       ? contactsStatus
       : activeSidebarItem === TASK_TABS?.COMPANIES
-        ? companiesStatus
-        : activeSidebarItem === TASK_TABS?.DEALS
-          ? dealsStatus
-          : activeSidebarItem === TASK_TABS?.TICKETS
-            ? ticketsStatus
-            : [];
+      ? companiesStatus
+      : activeSidebarItem === TASK_TABS?.DEALS
+      ? dealsStatus
+      : activeSidebarItem === TASK_TABS?.TICKETS
+      ? ticketsStatus
+      : [];
 
   return (
     <>
@@ -357,23 +357,23 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                           activeSidebarItem === TASK_TABS?.CONTACTS
                             ? contactsData?.data?.meta?.pages
                             : activeSidebarItem === TASK_TABS?.COMPANIES
-                              ? companiesData?.data?.meta?.pages
-                              : activeSidebarItem === TASK_TABS?.DEALS
-                                ? dealsData?.data?.meta?.pages
-                                : activeSidebarItem === TASK_TABS?.TICKETS
-                                  ? ticketsData?.data?.meta?.pages || 1
-                                  : 0
+                            ? companiesData?.data?.meta?.pages
+                            : activeSidebarItem === TASK_TABS?.DEALS
+                            ? dealsData?.data?.meta?.pages
+                            : activeSidebarItem === TASK_TABS?.TICKETS
+                            ? ticketsData?.data?.meta?.pages || 1
+                            : 0
                         }
                         page={
                           activeSidebarItem === TASK_TABS?.CONTACTS
                             ? contactsData?.data?.meta?.page
                             : activeSidebarItem === TASK_TABS?.COMPANIES
-                              ? companiesData?.data?.meta?.page
-                              : activeSidebarItem === TASK_TABS?.DEALS
-                                ? dealsData?.data?.meta?.page
-                                : activeSidebarItem === TASK_TABS?.TICKETS
-                                  ? ticketsData?.data?.meta?.page || 1
-                                  : 0
+                            ? companiesData?.data?.meta?.page
+                            : activeSidebarItem === TASK_TABS?.DEALS
+                            ? dealsData?.data?.meta?.page
+                            : activeSidebarItem === TASK_TABS?.TICKETS
+                            ? ticketsData?.data?.meta?.page || 1
+                            : 0
                         }
                         onChange={handlePageChange}
                       />

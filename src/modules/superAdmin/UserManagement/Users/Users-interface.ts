@@ -7,7 +7,7 @@ export interface IFilterValues {
 export interface IUsersProps {
   checkedRows: string;
   setCheckedRows: (val: any) => void;
-  filterValues: IFilterValues;
+  filterValues?: IFilterValues;
   searchVal: string;
   page: number;
   setPage: (page: number) => void;
@@ -42,7 +42,7 @@ export interface AddUserProps {
     | {
         drawer: boolean;
         type: string;
-        data: any;
+        recordId: string;
       }
     | any;
   onClose?: () => void;
@@ -59,34 +59,9 @@ export interface UseActionParams {
   setIsOpenAdduserDrawer?: any;
   setIsOpenAddUserDrawer?: any;
   isOpenAddUserDrawer?: {
+    drawer: boolean;
     type: string;
-    data: {
-      data: {
-        _id: string;
-        firstName: string;
-        lastName: string;
-        email: string;
-        address: {
-          composite: string;
-          flatNumber?: string;
-          city?: string;
-          country?: string;
-          buildingName?: string;
-          buildingNumber?: string;
-          streetName?: string;
-        };
-        postCode: string;
-        phoneNumber: string;
-        jobTitle: string;
-        facebookUrl: string;
-        linkedInUrl: string;
-        organization: {
-          crn: string;
-          name: string;
-        };
-        activeProducts: Array<{ _id: string }>;
-      };
-    };
+    recordId: string;
   };
 }
 
@@ -104,4 +79,6 @@ export interface UseAddUserReturn {
   setIsToggled: (isToggled: boolean) => void;
   addressVal: string;
   postUserLoading: boolean;
+  userDetailLoading: boolean;
+  updateUserLoading: boolean;
 }

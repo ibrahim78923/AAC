@@ -18,7 +18,7 @@ const useUserManagement = () => {
   const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState({
     drawer: false,
     type: '',
-    data: {},
+    recordId: '',
   });
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [userType, setUserType] = useState();
@@ -61,10 +61,10 @@ const useUserManagement = () => {
     setSelectedValue(null);
   };
 
-  const handleUsersList = (data: any) => {
+  const handleUsersList = (recordId: any) => {
     navigate.push({
       pathname: SUPER_ADMIN?.USERS_LIST,
-      query: { id: data?._id },
+      query: { id: recordId },
     });
     setSelectedValue(null);
   };

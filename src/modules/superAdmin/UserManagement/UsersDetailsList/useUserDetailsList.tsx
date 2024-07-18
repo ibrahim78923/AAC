@@ -30,6 +30,7 @@ const useUserDetailsList = () => {
   ) => {
     setPage(value);
   };
+
   const handleCloseAddCompanyDrawer = () => {
     setISOpenCompanyDrawer(false);
   };

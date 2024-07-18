@@ -319,6 +319,10 @@ export const DOCUMENTS_ACTION_TYPES = {
   UPDATE_FOLDER: 'update-folder',
 };
 
+export const fieldName = {
+  ADDRESS: 'address',
+};
+
 export const CREATE_EMAIL_TYPES = {
   NEW_EMAIL: 'new',
   FORWARD: 'forward',

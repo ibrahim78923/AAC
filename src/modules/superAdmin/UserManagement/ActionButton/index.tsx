@@ -17,10 +17,7 @@ const ActionButton = (props: ActionButtonProps) => {
     handleClose,
     handleUsersList,
     isOpenAddUserDrawer,
-    useGetUsersByIdQuery,
   } = useUserManagement();
-
-  const { data } = useGetUsersByIdQuery(checkedRows);
 
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
@@ -47,7 +44,7 @@ const ActionButton = (props: ActionButtonProps) => {
         }}
       >
         {tabVal === 0 && (
-          <MenuItem onClick={() => handleUsersList(data?.data)}>
+          <MenuItem onClick={() => handleUsersList(checkedRows)}>
             User List
           </MenuItem>
         )}
@@ -62,10 +59,9 @@ const ActionButton = (props: ActionButtonProps) => {
             onClick={() => {
               handleClose();
               setIsOpenAddUserDrawer({
-                ...isOpenAddUserDrawer,
                 drawer: true,
                 type: 'view',
-                data: data,
+                recordId: checkedRows,
               });
             }}
           >
@@ -84,10 +80,9 @@ const ActionButton = (props: ActionButtonProps) => {
             onClick={() => {
               handleClose();
               setIsOpenAddUserDrawer({
-                ...isOpenAddUserDrawer,
                 drawer: true,
                 type: 'edit',
-                data: data,
+                recordId: checkedRows,
               });
             }}
           >

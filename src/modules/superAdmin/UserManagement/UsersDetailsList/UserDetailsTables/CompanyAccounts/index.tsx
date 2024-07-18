@@ -23,11 +23,16 @@ const CompanyAccounts = (props: CompanyAccountsProps) => {
     data: userAccounts,
     isLoading,
     isSuccess,
-  } = useGetUsersAccountsQuery({
-    id: employeeDataById,
-    orgId: organizationId,
-    values: accountsParams,
-  });
+  } = useGetUsersAccountsQuery(
+    {
+      id: employeeDataById,
+      orgId: organizationId,
+      values: accountsParams,
+    },
+    {
+      skip: !employeeDataById || !organizationId,
+    },
+  );
 
   return (
     <Box

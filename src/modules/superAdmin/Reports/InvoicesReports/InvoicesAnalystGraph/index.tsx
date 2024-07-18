@@ -169,7 +169,7 @@ const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
       </Box>
       <Box height="350px">
         <ReactApexChart
-          options={options()}
+          options={options(invoicesReportsGraph)}
           series={series(invoicesReportsGraph)}
           type="bar"
           height={350}

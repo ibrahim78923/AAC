@@ -38,6 +38,9 @@ export const fullNameInitial = (firstName?: any, lastName?: any) => {
 };
 
 export const generateImage = (imgSrc?: any) => {
+  if (!!!imgSrc) {
+    return '';
+  }
   return `${IMG_URL}${imgSrc}`;
 };
 

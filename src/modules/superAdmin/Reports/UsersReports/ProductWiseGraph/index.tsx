@@ -8,7 +8,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { ProductWiseGraphProps } from '../../Reports.interface';
 
 const ProductWiseGrpah = (props: ProductWiseGraphProps) => {
-  const { usersReportsGraphData } = props;
+  const { usersReportsGraphData }: any = props;
 
   const { isLoading } = useUserReports();
 
@@ -33,7 +33,7 @@ const ProductWiseGrpah = (props: ProductWiseGraphProps) => {
           <SkeletonTable />
         ) : (
           <ReactApexChart
-            options={options(theme)}
+            options={options(theme, usersReportsGraphData)}
             series={series(usersReportsGraphData)}
             type="bar"
             height={350}

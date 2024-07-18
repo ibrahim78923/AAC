@@ -11,5 +11,5 @@ export interface UsersManagementFiltersProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   tabVal: number;
   setFilterValues: Dispatch<SetStateAction<any>>;
-  filterValues: any; // Replace `any` with the appropriate type if known
+  filterValues: any;
 }
