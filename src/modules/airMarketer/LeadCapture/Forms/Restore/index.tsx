@@ -40,11 +40,11 @@ const Restore = () => {
     isDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,
-    handleDeleteContact,
+    handleDeleteForms,
     loadingDelete,
     isRestoreModal,
     handleOpenModalRestore,
-    handleSubmitRestoreContact,
+    handleSubmitRestoreForm,
     handleCloseModalRestore,
     loadingRestore,
     theme,
@@ -146,7 +146,7 @@ const Restore = () => {
       <Paper sx={{ mb: 2 }}>
         <TanstackTable
           columns={columns}
-          data={dataGetDeletedContacts?.data?.contacts}
+          data={dataGetDeletedContacts?.data?.leadcaptureforms}
           isLoading={loadingGetContact || fetchingGetContacts}
           currentPage={dataGetDeletedContacts?.data?.meta?.page}
           count={dataGetDeletedContacts?.data?.meta?.pages}
@@ -168,14 +168,14 @@ const Restore = () => {
       <RestoreDeleteModal
         open={isDeleteModal}
         onClose={handleCloseModalDelete}
-        handlePermanantDelete={handleDeleteContact}
+        handlePermanantDelete={handleDeleteForms}
         loading={loadingDelete}
       />
 
       <RestoreModal
         open={isRestoreModal}
         onClose={handleCloseModalRestore}
-        handleSubmit={handleSubmitRestoreContact}
+        handleSubmit={handleSubmitRestoreForm}
         loading={loadingRestore}
       />
     </>

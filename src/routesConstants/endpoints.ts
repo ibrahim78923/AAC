@@ -477,6 +477,9 @@ export const LEAD_CAPTURE_FORM = {
   GET_MANAGE_FIELD: '/lead-capture-form/get-form-field',
   GET_FORM_SUBMISSIONS: '/lead-capture-form/get-lead-capture-submissions',
   POST_FORM_SUBMISSIONS: '/lead-capture-form/lead-capture-submission',
+  GET_RESTORE_FORMS: '/lead-capture-form/get-lead-capture-soft-deleted-forms',
+  DELETE_FORM_PERMANENT: '/lead-capture-form/permanent-delete-forms',
+  PATCH_RESTORE_FORM: '/lead-capture-form/restore-deleted-forms',
 };
 
 export const superAdminBillingInvoices = {

@@ -1,13 +1,12 @@
 import { useState } from 'react';
-
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
 import {
-  useGetDeletedContactsQuery,
-  useRestoreContactMutation,
-  useDeleteContactPermanentMutation,
-} from '@/services/commonFeatures/contacts';
+  useGetRestoreFormsQuery,
+  usePatchRestoreFormMutation,
+  useDeleteFormPermanentMutation,
+} from '@/services/airMarketer/lead-capture/forms';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
@@ -35,7 +34,7 @@ const useRestore = () => {
     data: dataGetDeletedContacts,
     isLoading: loadingGetContact,
     isFetching: fetchingGetContacts,
-  } = useGetDeletedContactsQuery({
+  } = useGetRestoreFormsQuery({
     params: { ...filterParams, ...searchPayLoad, ...paginationParams },
   });
 
@@ -61,26 +60,22 @@ const useRestore = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { createdAt, ...others } = values;
-    const startDate = createdAt?.[0]
-      ? dayjs(createdAt[0]).format(DATE_FORMAT.API)
-      : null;
-    const endDate = createdAt?.[1]
-      ? dayjs(createdAt[1]).format(DATE_FORMAT.API)
-      : null;
-    setFilterParams((prev) => {
-      const updatedParams = {
-        ...prev,
-        ...others,
-      };
+    const filterPayload: any = {};
 
-      if (startDate !== null && endDate !== null) {
-        updatedParams.startDate = startDate;
-        updatedParams.endDate = endDate;
+    Object.entries(values).forEach(([key, value]: any) => {
+      if (value) {
+        switch (key) {
+          case 'filterByDate':
+            filterPayload.startDate = dayjs(value[0]).format(DATE_FORMAT.API);
+            filterPayload.endDate = dayjs(value[1]).format(DATE_FORMAT.API);
+            break;
+          default:
+            filterPayload[key] = value;
+            break;
+        }
       }
-
-      return updatedParams;
     });
+    setFilterParams(filterPayload);
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
@@ -93,10 +88,10 @@ const useRestore = () => {
     resetFilters();
   };
 
-  // Delete Contacts Permanent
+  // Delete Forms Permanent
   const [isDeleteModal, setIsDeleteModal] = useState(false);
-  const [deleteContact, { isLoading: loadingDelete }] =
-    useDeleteContactPermanentMutation();
+  const [deleteForms, { isLoading: loadingDelete }] =
+    useDeleteFormPermanentMutation();
   const handleOpenModalDelete = () => {
     handleActionsMenuClose();
     setIsDeleteModal(true);
@@ -105,13 +100,13 @@ const useRestore = () => {
     setIsDeleteModal(false);
   };
 
-  const handleDeleteContact = async () => {
-    const contactIds = await selectedRow;
+  const handleDeleteForms = async () => {
+    const formIds = await selectedRow;
     try {
-      await deleteContact({ contactIds })?.unwrap();
+      await deleteForms({ formIds })?.unwrap();
       handleCloseModalDelete();
       setSelectedRow([]);
-      enqueueSnackbar('Contact has been permanently deleted.', {
+      enqueueSnackbar('Form has been permanently deleted.', {
         variant: 'success',
       });
     } catch (error: any) {
@@ -121,10 +116,10 @@ const useRestore = () => {
     }
   };
 
-  // Restore Contacts
+  // Restore Forms
   const [isRestoreModal, setIsRestoreModal] = useState(false);
-  const [restoreContacts, { isLoading: loadingRestore }] =
-    useRestoreContactMutation();
+  const [restoreForms, { isLoading: loadingRestore }] =
+    usePatchRestoreFormMutation();
 
   const handleOpenModalRestore = () => {
     handleActionsMenuClose();
@@ -134,10 +129,11 @@ const useRestore = () => {
     setIsRestoreModal(false);
   };
 
-  const handleSubmitRestoreContact = async () => {
-    const contactIds = await selectedRow;
+  const handleSubmitRestoreForm = async () => {
+    // const ids = await selectedRow;
+    const ids = await selectedRow?.join(',');
     try {
-      await restoreContacts({ contactIds })?.unwrap();
+      await restoreForms({ ids })?.unwrap();
 
       handleCloseModalRestore();
       setSelectedRow([]);
@@ -201,11 +197,11 @@ const useRestore = () => {
     isDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,
-    handleDeleteContact,
+    handleDeleteForms,
     loadingDelete,
     isRestoreModal,
     handleOpenModalRestore,
-    handleSubmitRestoreContact,
+    handleSubmitRestoreForm,
     handleCloseModalRestore,
     loadingRestore,
 

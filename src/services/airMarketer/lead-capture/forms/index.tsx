@@ -66,9 +66,10 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
     }),
 
     getFormSubmissions: builder.query({
-      query: ({ id }: any) => ({
+      query: ({ id, params }) => ({
         url: `${LEAD_CAPTURE_FORM?.GET_FORM_SUBMISSIONS}?id=${id}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: [TAG],
     }),
@@ -78,6 +79,33 @@ export const leadCaptureFormsAPI = baseAPI.injectEndpoints({
         url: LEAD_CAPTURE_FORM?.POST_FORM_SUBMISSIONS,
         method: 'POST',
         body: body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+
+    getRestoreForms: builder.query({
+      query: ({ params }) => ({
+        url: LEAD_CAPTURE_FORM?.GET_RESTORE_FORMS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: [TAG],
+    }),
+
+    patchRestoreForm: builder.mutation({
+      query: ({ ids }: any) => ({
+        url: `${LEAD_CAPTURE_FORM?.PATCH_RESTORE_FORM}`,
+        method: 'PATCH',
+        body: ids,
+      }),
+      invalidatesTags: [TAG],
+    }),
+
+    deleteFormPermanent: builder.mutation({
+      query: ({ ids }: any) => ({
+        url: `${LEAD_CAPTURE_FORM?.DELETE_FORM_PERMANENT}`,
+        method: 'DELETE',
+        body: { ids },
       }),
       invalidatesTags: [TAG],
     }),
@@ -94,4 +122,7 @@ export const {
   usePostManageFieldsMutation,
   useGetFormSubmissionsQuery,
   usePostFormSubmissionsMutation,
+  useGetRestoreFormsQuery,
+  usePatchRestoreFormMutation,
+  useDeleteFormPermanentMutation,
 } = leadCaptureFormsAPI;

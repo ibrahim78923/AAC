@@ -40,7 +40,7 @@ export const submissionsArray = [
 export const columns: any = () => {
   return [
     {
-      accessorFn: (row: any) => row?.email,
+      accessorFn: (row: any) => row?.submission?.email,
       id: 'email',
       header: 'Email',
       isSortable: true,

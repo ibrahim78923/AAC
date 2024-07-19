@@ -46,14 +46,15 @@ export const restoreTableColumns: any = (
     },
 
     {
-      accessorFn: (row: any) => row?.deletedBy,
-      id: 'deletedby',
+      accessorFn: (row: any) => row?.deletedByUser,
+      id: 'deletedByUser',
       isSortable: true,
       header: 'Deleted By',
       cell: (info: any) => {
-        const firstName = info.getValue()?.firstName;
-        const lastName = info.getValue()?.lastName;
+        const firstName = info.getValue()?.firstName ?? '';
+        const lastName = info.getValue()?.lastName ?? '';
         const imgUrl = info.getValue()?.profilePicture?.url;
+        const email = info.getValue()?.email ?? '';
 
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -73,6 +74,7 @@ export const restoreTableColumns: any = (
               <Box sx={{ color: 'blue.dull_blue' }}>
                 {firstName} {lastName}
               </Box>
+              <Box sx={{ fontSize: '12px' }}>{email}</Box>
             </Box>
           </Box>
         );
