@@ -55,7 +55,7 @@ export const useRestoreReportsLists = (props: any) => {
   const restoreReportColumns = restoreReportColumnsDynamic?.(
     selectedReportLists,
     setSelectedReportLists,
-    lazyGetRestoreReportsListStatus?.data?.list,
+    lazyGetRestoreReportsListStatus?.data?.data?.genericReports,
   );
 
   const portalComponentProps = {
@@ -65,6 +65,11 @@ export const useRestoreReportsLists = (props: any) => {
     selectedReportLists: selectedReportLists,
     reportFilters: reportFilters,
     setReportFilter: setReportFilter,
+    getRestoreReportsList: getRestoreReportsList,
+    page,
+    setPage,
+    totalRecords:
+      lazyGetRestoreReportsListStatus?.data?.data?.genericReports?.length,
   };
 
   const renderPortalComponent = () => {
@@ -85,7 +90,6 @@ export const useRestoreReportsLists = (props: any) => {
 
   const actionButtonDropdown = actionsForRestoreReportListsDynamic?.(
     setIsPortalOpen,
-    selectedReportLists,
     permissions,
   );
 

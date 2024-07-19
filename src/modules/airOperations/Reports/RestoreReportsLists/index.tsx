@@ -94,7 +94,7 @@ export const RestoreReportsLists = (props: any) => {
         <br />
         <TanstackTable
           columns={restoreReportColumns}
-          data={lazyGetRestoreReportsListStatus?.data?.list}
+          data={lazyGetRestoreReportsListStatus?.data?.data?.genericReports}
           isLoading={lazyGetRestoreReportsListStatus?.isLoading}
           currentPage={lazyGetRestoreReportsListStatus?.data?.data?.meta?.page}
           count={lazyGetRestoreReportsListStatus?.data?.data?.meta?.pages}

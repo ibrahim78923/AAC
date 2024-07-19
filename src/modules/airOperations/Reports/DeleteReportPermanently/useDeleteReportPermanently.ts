@@ -10,7 +10,7 @@ export const useDeleteReportPermanently = (props: any) => {
     setPage,
     totalRecords,
     page,
-    getReportListData,
+    getRestoreReportsList,
   } = props;
 
   const [
@@ -39,7 +39,7 @@ export const useDeleteReportPermanently = (props: any) => {
           ? PAGINATION?.CURRENT_PAGE
           : page;
       setPage?.(newPage);
-      await getReportListData?.(newPage);
+      await getRestoreReportsList?.(newPage);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

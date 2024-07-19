@@ -1,6 +1,4 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
 import {
   fullName,
   fullNameInitial,
@@ -13,7 +11,6 @@ import dayjs from 'dayjs';
 
 export const actionsForRestoreReportListsDynamic = (
   setIsPortalOpen: any,
-  selectedReportList: any,
   permissions: any,
 ) => [
   {
@@ -21,11 +18,6 @@ export const actionsForRestoreReportListsDynamic = (
     title: 'Restore',
     permissionKey: permissions,
     handleClick: (closeMenu: any) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setIsPortalOpen?.({
         isRestore: true,
         isOpen: true,
@@ -38,11 +30,6 @@ export const actionsForRestoreReportListsDynamic = (
     title: 'Delete',
     permissionKey: permissions,
     handleClick: (closeMenu: any) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setIsPortalOpen({ isOpen: true, isDelete: true });
       closeMenu();
     },

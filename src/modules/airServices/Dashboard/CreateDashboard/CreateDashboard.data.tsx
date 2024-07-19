@@ -124,6 +124,11 @@ export const createDashboardValidationSchema = () => {
         then: () => Yup?.array()?.min(1, 'User is required'),
         otherwise: (schema: any) => schema?.notRequired(''),
       }),
+    permissions: Yup?.string()?.when('access', {
+      is: (value: any) => value === MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE,
+      then: () => Yup?.string()?.required('Permission is required'),
+      otherwise: (schema: any) => schema?.notRequired(''),
+    }),
     permissionsUsers: Yup?.array()
       ?.of(
         Yup?.object()?.shape({
@@ -162,11 +167,12 @@ export const filterAndConcatWidgets = (
     (obj: any) => !widgetValuesSet?.has(obj?.value),
   );
 
-  const mapAsOptions = arrayToFilter?.map((item: any) => ({
-    value: item?.name,
-    label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[item?.name],
-  }));
-
+  const mapAsOptions = arrayToFilter
+    ?.filter((item: any) => item?.type === REPORT_TYPES?.STATIC)
+    ?.map((item: any) => ({
+      value: item?.name,
+      label: SERVICES_DASHBOARD_WIDGETS_API_MAPPED?.[item?.name],
+    }));
   const modifiedArray = [...mapAsOptions, ...filteredArrayToConcat];
   return modifiedArray;
 };

@@ -77,7 +77,7 @@ export const useManageDashboard = () => {
     setDashboardFilterLists: setDashboardFilterLists,
     setPage: setPage,
     page: page,
-    totalRecords: lazyGetDashboardStatus?.data?.data?.length,
+    totalRecords: lazyGetDashboardStatus?.data?.dynamicdashboards?.length,
     getDashboardListData: getDashboardListData,
   };
 

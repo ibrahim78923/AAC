@@ -9,7 +9,7 @@ export const dashboardDropdownActionsDynamic = (
 ) => [
   {
     id: 1,
-    title: 'Copy URL',
+    title: 'Copy Link',
     handleClick: (closeMenu: any) => {
       copyEmail();
       closeMenu?.();

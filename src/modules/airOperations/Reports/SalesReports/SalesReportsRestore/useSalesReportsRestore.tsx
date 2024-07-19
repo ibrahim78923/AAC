@@ -1,10 +1,10 @@
 import { AIR_OPERATIONS } from '@/constants';
-import { useLazyRestoreSalesReportsListQuery } from '@/services/airOperations/reports/sales-reports';
+import { useLazyRestoreGenericReportsListQuery } from '@/services/airOperations/reports';
 import { useRouter } from 'next/router';
 
 export const useSalesReportsRestore = () => {
   const router = useRouter();
-  const apiQueryAllReports = useLazyRestoreSalesReportsListQuery?.();
+  const apiQueryAllReports = useLazyRestoreGenericReportsListQuery?.();
 
   const reportsPath = () => {
     router?.push({

@@ -119,7 +119,7 @@ export const useReportLists = (props: any) => {
   const reportListsColumns = reportListsColumnsDynamic?.(
     selectedReportLists,
     setSelectedReportLists,
-    lazyGetReportsListStatus?.data?.list,
+    lazyGetReportsListStatus?.data?.data?.genericReports,
     addReportToFavorite,
     addReportToFavoriteListStatus,
   );
@@ -134,6 +134,7 @@ export const useReportLists = (props: any) => {
     getReportListData: getReportsList,
     page,
     setPage,
+    totalRecords: lazyGetReportsListStatus?.data?.data?.genericReports?.length,
   };
 
   const renderPortalComponent = () => {

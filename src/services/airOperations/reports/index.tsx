@@ -5,22 +5,22 @@ const salesReportsApi = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     deleteRestoreReportPermanently: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: `${END_POINTS?.HARD_DELETE_GENERIC_REPORTS}`,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
     }),
     deleteReportTemporary: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.DELETE_GENERIC_REPORTS}`,
-        method: 'DELETE',
+        url: `${END_POINTS?.SOFT_DELETE_GENERIC_REPORTS}`,
+        method: 'PATCH',
         params: apiDataParameter?.queryParams,
       }),
     }),
     restoreDeletedReport: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'GET',
+        url: `${END_POINTS?.RESTORE_DELETED_GENERIC_REPORTS}`,
+        method: 'PATCH',
         params: apiDataParameter?.queryParams,
       }),
     }),
@@ -99,6 +99,13 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+    restoreGenericReportsList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.GET_RESTORE_GENERIC_REPORTS_LIST,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -116,4 +123,6 @@ export const {
   useEmailReportsMutation,
   useLazyGetAllGenericReportsListQuery,
   useLazyGetReportsOwnersDropdownListForReportsQuery,
+  useRestoreGenericReportsListQuery,
+  useLazyRestoreGenericReportsListQuery,
 } = salesReportsApi;

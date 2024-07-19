@@ -7,7 +7,7 @@ export const restoreReportFiltersDefaultValues: any = (filterValue: any) => {
   };
 };
 
-export const restoreReportFilterFormFieldsDynamic = () => [
+export const restoreReportFilterFormFieldsDynamic = (startDateWatch: any) => [
   {
     id: 1,
     componentProps: {
@@ -25,7 +25,12 @@ export const restoreReportFilterFormFieldsDynamic = () => [
       label: 'End Date',
       placeholder: 'Select End Date',
       fullWidth: true,
+      minDate: startDateWatch,
     },
     component: RHFDatePicker,
   },
 ];
+
+export const DATE_DIFFERENCE = {
+  ZERO: 0,
+};
