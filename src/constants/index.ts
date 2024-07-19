@@ -170,6 +170,8 @@ export const AIR_SERVICES = {
   TICKET_FIELDS: `/air-services/settings/service-management/field-manager/ticket-fields`,
   TASK_FIELDS: `/air-services/settings/service-management/field-manager/task-fields`,
   TIME_ENTRY_FIELDS: `/air-services/settings/service-management/field-manager/time-entry-fields`,
+  ASSET_TYPE_DEFAULT_FIELDS: `/air-services/settings/asset-management/asset-type/default-fields`,
+  ASSET_TYPE_CREATE_FIELDS: `/air-services/settings/asset-management/asset-type/create-fields`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
