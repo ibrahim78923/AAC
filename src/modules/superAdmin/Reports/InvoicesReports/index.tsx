@@ -40,6 +40,7 @@ const InvoicesReports = () => {
           filter={filter}
           setFilter={setFilter}
           resetFilters={resetFilters}
+          isLoading={isLoading}
         />
       </Card>
       <Card>

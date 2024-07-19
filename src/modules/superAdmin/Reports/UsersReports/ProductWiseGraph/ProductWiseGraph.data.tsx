@@ -44,6 +44,9 @@ export const options: any = (theme: Theme, usersReportsGraphData: any[]) => {
     chart: {
       type: 'bar',
       height: 350,
+      toolbar: {
+        show: false,
+      },
     },
     colors: [
       theme.palette.success.main,

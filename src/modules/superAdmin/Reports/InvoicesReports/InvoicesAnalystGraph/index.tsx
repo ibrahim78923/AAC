@@ -17,9 +17,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { RefreshTasksIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { InvoicesAnalystGraphProps } from '@/modules/superAdmin/Reports/Reports.interface';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
-  const { invoicesReportsGraph, filter, setFilter, resetFilters } = props;
+  const { invoicesReportsGraph, filter, setFilter, resetFilters, isLoading } =
+    props;
   const {
     monthsFilter,
     clientsFilter,
@@ -167,14 +169,42 @@ const InvoicesAnalystGraph = (props: InvoicesAnalystGraphProps) => {
           </Box>
         </Box>
       </Box>
-      <Box height="350px">
-        <ReactApexChart
-          options={options(invoicesReportsGraph)}
-          series={series(invoicesReportsGraph)}
-          type="bar"
-          height={350}
-        />
-      </Box>
+      {isLoading ? (
+        <SkeletonTable />
+      ) : (
+        <Box height="350px">
+          {invoicesReportsGraph?.length === 0 ||
+          invoicesReportsGraph?.every(
+            (item: any) =>
+              item?.paid === 0 &&
+              item?.followUpSoon === 0 &&
+              item?.followUpNow === 0 &&
+              item?.totalAmount === 0,
+          ) ? (
+            <Box
+              height="330px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                color={theme?.palette?.grey[900]}
+              >
+                No Data Found
+              </Typography>
+            </Box>
+          ) : (
+            <ReactApexChart
+              options={options(invoicesReportsGraph)}
+              series={series(invoicesReportsGraph)}
+              type="bar"
+              height={350}
+            />
+          )}
+        </Box>
+      )}
     </Box>
   );
 };

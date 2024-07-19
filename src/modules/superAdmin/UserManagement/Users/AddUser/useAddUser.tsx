@@ -219,6 +219,7 @@ const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
         'role',
         'organization',
         'email',
+        'activeProducts',
       );
     }
 

@@ -1,8 +1,11 @@
 export interface InvoiceReport {
-  week: string | number;
+  week?: string | number;
+  month?: string | number;
   paid: number;
   followUpNow: number;
   followUpSoon: number;
+  name: string;
+  data: string[];
 }
 
 export interface InvoicesAnalystGraphProps {
@@ -13,6 +16,7 @@ export interface InvoicesAnalystGraphProps {
   };
   setFilter: (filter: { month?: string; clients?: string[] }) => void;
   resetFilters: () => void;
+  isLoading: boolean;
 }
 
 export interface RowInterface {
