@@ -1,9 +1,12 @@
 import { CustomChart } from '@/components/Chart';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { Box, Button } from '@mui/material';
+import { usePieChart } from './usePieChart';
 
 export const PieChart = (props: any) => {
-  const { title, isDateFilter, data } = props;
+  const { title, isDateFilter } = props;
+  const { uniqueCounts, dataItems } = usePieChart(props);
+
   return (
     <Box
       borderRadius={3}
@@ -17,9 +20,9 @@ export const PieChart = (props: any) => {
       </PageTitledHeader>
       <CustomChart
         options={{
-          labels: data?.items,
+          labels: dataItems,
         }}
-        series={data?.counts
+        series={uniqueCounts
           ?.filter((item: any) => item?.value)
           ?.map((item: any) => item?.count)}
         type={'pie'}

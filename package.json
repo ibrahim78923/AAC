@@ -54,6 +54,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "file-saver": "^2.0.5",
     "google-libphonenumber": "^3.2.33",
+    "html-to-image": "^1.11.11",
     "html2canvas": "^1.4.1",
     "json2csv": "^6.0.0-alpha.2",
     "jspdf": "^2.5.1",

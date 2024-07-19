@@ -4,25 +4,20 @@ import { MONTH_NAMES } from '@/constants/strings';
 
 export const useHorizontalChart = (props: any) => {
   const { data, barChart } = props;
+  const { items = [], counts = [] } = data;
 
   const theme = useTheme();
 
   const dataItems =
     barChart?.xAxis?.fieldType === ITEMS_DATA_TYPE?.OBJECT_ID
-      ? data?.items?.map((item: any) => item?.value)
-      : data?.items;
+      ? items
+          ?.filter((item: any) => !!item?.value)
+          ?.map((item: any) => item?.value)
+      : items;
 
-  const initializeAccumulator = dataItems?.reduce(
-    (statusAcc: any, item: any) => {
-      statusAcc[item] = 0;
-      return statusAcc;
-    },
-    {},
-  );
-
-  const groupedData = data?.counts?.reduce((acc: any, curr: any) => {
+  const groupedData = counts?.reduce((acc: any, curr: any) => {
     const { month, value, count } = curr;
-    acc[month] = acc?.[month] || initializeAccumulator;
+    acc[month] = acc?.[month] || {};
     acc[month][value] = count;
     return acc;
   }, {});

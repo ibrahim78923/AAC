@@ -1,9 +1,12 @@
 import { CustomChart } from '@/components/Chart';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { Box, Button } from '@mui/material';
+import { useDonutChart } from './useDonutChart';
 
 export const DonutChart = (props: any) => {
-  const { isDateFilter, title, data } = props;
+  const { isDateFilter, title } = props;
+  const { uniqueCounts, dataItems } = useDonutChart(props);
+
   return (
     <Box
       borderRadius={3}
@@ -17,9 +20,9 @@ export const DonutChart = (props: any) => {
       </PageTitledHeader>
       <CustomChart
         options={{
-          labels: data?.items,
+          labels: dataItems,
         }}
-        series={data?.counts
+        series={uniqueCounts
           ?.filter((item: any) => item?.value)
           ?.map((item: any) => item?.count)}
         type={'donut'}

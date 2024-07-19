@@ -38,7 +38,7 @@ export const manageDashboardsDataColumnsDynamic = (
         <AntSwitch
           checked={info?.getValue()}
           onChange={(e: any) =>
-            changeDefaultDashboard?.(e, info?.row?.original?._id)
+            changeDefaultDashboard?.(e, info?.row?.original)
           }
           isLoading={
             changeDefaultServicesDashboardStatus?.isLoading &&

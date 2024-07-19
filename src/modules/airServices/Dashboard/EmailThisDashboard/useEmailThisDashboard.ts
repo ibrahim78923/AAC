@@ -1,44 +1,46 @@
-import { useTheme } from '@mui/material';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  constantData,
   createEmailThisDashboardDefaultValues,
   createEmailThisDashboardValidationSchema,
+  EMAIL_SEND_TYPE,
+  sendDashboardViaEmailFormFieldsDynamic,
 } from './EmailThisDashboard.data';
 import { usePostEmailDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export function useEmailThisDashboard() {
+export const useEmailThisDashboard = () => {
   const methods: any = useForm({
     resolver: yupResolver(createEmailThisDashboardValidationSchema),
     defaultValues: createEmailThisDashboardDefaultValues,
   });
 
-  const { handleSubmit, watch, setValue } = methods;
+  const { handleSubmit, control, reset, setIsDrawerOpen } = methods;
 
   const [postEmailTrigger, postEmailProgress] = usePostEmailDashboardMutation();
 
-  const submit = async (data: any) => {
+  const emailSendTypeWatch = useWatch({
+    control,
+    name: 'emailSendType',
+    defaultValue: '',
+  });
+
+  const submitEmail = async (data: any) => {
     const formData = new FormData();
     formData?.append('isRecurring', data?.emailCondition);
     formData?.append('email', data?.internalRecipients);
     formData?.append('subject', data?.emailSubject);
     formData?.append('message', data?.message);
     formData?.append('fileType', data?.fileType);
-    data?.emailCondition === constantData?.recurring &&
+    data?.emailSendType === EMAIL_SEND_TYPE?.RECURRING &&
       formData?.append('time', data?.time);
-    data?.emailCondition === constantData?.recurring &&
+    data?.emailSendType === EMAIL_SEND_TYPE?.RECURRING &&
       formData?.append('schedule', data?.schedule);
-    data?.emailCondition === constantData?.recurring &&
-      formData?.append('weekDays', data?.scheduleDay);
-    data?.emailCondition === constantData?.recurring &&
-      formData?.append('monthDays', data?.scheduleDate);
 
     const postEmailParameter = {
       body: formData,
     };
+
     try {
       await postEmailTrigger(postEmailParameter)?.unwrap();
       successSnackbar('Email sent successfully');
@@ -46,20 +48,21 @@ export function useEmailThisDashboard() {
       errorSnackbar(error?.data?.message);
     }
   };
-  const theme = useTheme();
-  const router = useRouter();
 
-  const watchRecurringEmail = watch('emailCondition');
+  const sendDashboardViaEmailFormFields =
+    sendDashboardViaEmailFormFieldsDynamic?.(emailSendTypeWatch);
+
+  const closeDrawer = () => {
+    reset();
+    setIsDrawerOpen?.(false);
+  };
 
   return {
-    theme,
-    router,
-    handleSubmit,
     methods,
-    submit,
-    watchRecurringEmail,
-    watch,
-    setValue,
+    sendDashboardViaEmailFormFields,
     postEmailProgress,
+    handleSubmit,
+    submitEmail,
+    closeDrawer,
   };
-}
+};

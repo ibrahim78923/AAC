@@ -963,6 +963,7 @@ export const ATTACHMENT_FILE_TYPE = {
   DOCX: 'docx',
   CSV: 'csv',
 };
+
 export const DATA_TYPE = {
   object: 'object',
 };
@@ -1002,6 +1003,9 @@ export const MANAGE_ACCESS_TYPES = {
   EVERYONE_CAPITAL: 'EVERYONE',
   PRIVATE_CAPITAL: 'PRIVATE',
   SPECIFIC_USERS: 'SPECIFIC_USERS',
+  VIEW_ONLY_CAPITAL: 'VIEW_ONLY',
+  VIEW_AND_EDIT_CAPITAL: 'VIEW_AND_EDIT',
+  SPECIAL_CAPITAL: 'SPECIAL',
 };
 
 export const REPORT_TYPES = {
@@ -1039,7 +1043,12 @@ export const MONTH_NAMES = [
   'NOV',
   'DEC',
 ];
+
 export const MONTH_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+export const DOWNLOAD_FILE_TYPE = {
+  PDF: 'PDF',
+  PNG: 'PNG',
+};
 export const WEEK_NUMBERS = [1, 2, 3, 4, 5, 6, 7];
 export const WEEK_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];

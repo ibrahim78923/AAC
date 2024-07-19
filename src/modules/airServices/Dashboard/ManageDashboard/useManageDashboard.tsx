@@ -9,7 +9,7 @@ import {
 import { buildQueryParams, errorSnackbar } from '@/utils/api';
 import { ManageDashboardFilter } from './ManageDashboardFilter';
 import { PreviewDashboard } from '../PreviewDashboard';
-import { DeleteDashboard } from './DeleteDashboard';
+import { DeleteDashboard } from '../DeleteDashboard';
 import { manageDashboardsDataColumnsDynamic } from './ManageDashboard.data';
 
 export const useManageDashboard = () => {
@@ -54,10 +54,11 @@ export const useManageDashboard = () => {
     getDashboardListData();
   }, [search, page, pageLimit, dashboardFilterLists]);
 
-  const changeDefaultDashboard = async (e: any, id: string) => {
+  const changeDefaultDashboard = async (_: any, data: any) => {
     const apiDataParameter = {
       body: {
-        id,
+        id: data?._id,
+        reports: data?.reports,
         isDefault: true,
       },
     };

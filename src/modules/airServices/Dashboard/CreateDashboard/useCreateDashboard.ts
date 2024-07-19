@@ -88,6 +88,7 @@ export const useCreateDashboard = () => {
         specificUserWatch?.map((item: any) => ({
           name: `${item?.firstName} ${item?.lastName}`,
           userId: item?._id,
+          permission: item?.permission,
         })),
       );
   }, [specificUserWatch]);
@@ -115,7 +116,7 @@ export const useCreateDashboard = () => {
               userId: user?.userId,
               permission: user?.permission,
             }))
-          : [],
+          : [{}],
     };
 
     delete body?.everyoneAccess;

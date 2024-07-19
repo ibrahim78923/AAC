@@ -463,6 +463,7 @@ export const END_POINTS = {
   DELETE_GENERIC_REPORTS: `/generic-reports/delete-generic-reports`,
   SERVICE_DASHBOARD_DROPDOWN: `/air-services-dashboard`,
   SALES_DASHBOARD_DROPDOWN: `/sales-dashboard`,
+  DELETE_SERVICES_DASHBOARD: `/air-services-dashboard/delete-dashboards`,
 };
 
 export const LEAD_CAPTURE_FORM = {

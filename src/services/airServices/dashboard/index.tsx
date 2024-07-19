@@ -166,6 +166,13 @@ export const dashboardAPI = baseAPI.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    deleteDynamicServicesDashboard: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.DELETE_SERVICES_DASHBOARD}`,
+        method: 'DELETE',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -190,4 +197,5 @@ export const {
   useUpdateSingleServicesDashboardMutation,
   useGetSingleServicesDashboardQuery,
   useGetDashboardNameListDropdownListForDashboardQuery,
+  useDeleteDynamicServicesDashboardMutation,
 } = dashboardAPI;

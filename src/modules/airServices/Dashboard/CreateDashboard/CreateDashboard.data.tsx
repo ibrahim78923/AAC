@@ -33,13 +33,13 @@ import { AgentAvailability } from '../AgentAvailability';
 import { TicketBased } from '../TicketBased';
 
 export const MANAGE_DASHBOARD_ACCESS_TYPES = {
-  PRIVATE_TO_OWNER: MANAGE_ACCESS_TYPES?.PRIVATE,
-  EVERYONE: MANAGE_ACCESS_TYPES?.EVERYONE,
-  EVERYONE_EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT,
-  EVERYONE_ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW,
-  EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT,
-  ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW,
-  SPECIFIC_USER_AND_TEAMS: MANAGE_ACCESS_TYPES?.SPECIAL,
+  PRIVATE_TO_OWNER: MANAGE_ACCESS_TYPES?.PRIVATE_CAPITAL,
+  EVERYONE: MANAGE_ACCESS_TYPES?.EVERYONE_CAPITAL,
+  EVERYONE_EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL,
+  EVERYONE_ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL,
+  EDIT_AND_VIEW: MANAGE_ACCESS_TYPES?.VIEW_AND_EDIT_CAPITAL,
+  ONLY_VIEW: MANAGE_ACCESS_TYPES?.VIEW_ONLY_CAPITAL,
+  SPECIFIC_USER_AND_TEAMS: MANAGE_ACCESS_TYPES?.SPECIFIC_USERS,
 };
 
 export const SERVICES_DASHBOARD_WIDGETS: any = {
@@ -183,7 +183,7 @@ export const createDashboardDefaultValue = (
           ?.map((item: any) => item?.name)
       : [],
     specialUsers: data?.specialUsers?.length
-      ? data?.specialUsers?.map((user: any) => ({ ...user?.name }))
+      ? data?.specialUsers?.map((user: any) => ({ ...user?.name, ...user }))
       : [],
     permissionsUsers: data?.specialUsers?.length
       ? data?.specialUsers?.map((user: any) => ({

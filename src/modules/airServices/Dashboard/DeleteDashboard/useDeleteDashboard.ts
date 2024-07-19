@@ -1,19 +1,29 @@
 import { PAGINATION } from '@/config';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
-import { useDeleteSingleServicesDashboardMutation } from '@/services/airServices/dashboard';
+import { useDeleteDynamicServicesDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { PortalComponentPropsI } from '../ManageDashboard.interface';
+import { PortalComponentPropsI } from '../ManageDashboard/ManageDashboard.interface';
 
 export const useDeleteDashboard = (props: PortalComponentPropsI) => {
-  const { setPage, totalRecords, page, getDashboardListData, setIsPortalOpen } =
-    props;
+  const {
+    setPage,
+    totalRecords,
+    page,
+    getDashboardListData,
+    setIsPortalOpen,
+    isPortalOpen,
+  } = props;
   const [
     deleteSingleServicesDashboardTrigger,
     deleteSingleServicesDashboardStatus,
-  ] = useDeleteSingleServicesDashboardMutation();
+  ] = useDeleteDynamicServicesDashboardMutation();
 
   const deleteDashboard = async () => {
-    const apiDataParameter = {};
+    const apiDataParameter = {
+      queryParams: {
+        ids: isPortalOpen?.data?._id,
+      },
+    };
     try {
       await deleteSingleServicesDashboardTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Dashboard deleted successfully!');

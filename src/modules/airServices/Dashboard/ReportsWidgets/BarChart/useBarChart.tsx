@@ -5,23 +5,18 @@ import { MONTH_NAMES } from '@/constants/strings';
 export const useBarChart = (props: any) => {
   const { data, barChart } = props;
   const theme = useTheme();
+  const { items = [], counts = [] } = data;
 
   const dataItems =
     barChart?.xAxis?.fieldType === ITEMS_DATA_TYPE?.OBJECT_ID
-      ? data?.items?.map((item: any) => item?.value)
-      : data?.items;
+      ? items
+          ?.filter((item: any) => !!item?.value)
+          ?.map((item: any) => item?.value)
+      : items;
 
-  const initializeAccumulator = dataItems?.reduce(
-    (statusAcc: any, item: any) => {
-      statusAcc[item] = 0;
-      return statusAcc;
-    },
-    {},
-  );
-
-  const groupedData = data?.counts?.reduce((acc: any, curr: any) => {
+  const groupedData = counts?.reduce((acc: any, curr: any) => {
     const { month, value, count } = curr;
-    acc[month] = acc?.[month] || initializeAccumulator;
+    acc[month] = acc?.[month] || {};
     acc[month][value] = count;
     return acc;
   }, {});
@@ -34,20 +29,6 @@ export const useBarChart = (props: any) => {
     name: status,
     data: months?.map((month) => groupedData?.[month]?.[status] || 0),
   }));
-
-  const processedData = dataItems?.map((item: any) => {
-    const totalCount = data?.counts?.reduce((sum: any, record: any) => {
-      return record?.value === item ? sum + record?.count : sum;
-    }, 0);
-    return { name: item, count: totalCount };
-  });
-
-  const serieData = [
-    {
-      name: 'Counts',
-      data: processedData?.map((item: any) => item?.count),
-    },
-  ];
 
   const options = {
     xaxis: {
@@ -70,5 +51,5 @@ export const useBarChart = (props: any) => {
     },
   };
 
-  return { options, seriesData, serieData };
+  return { options, seriesData };
 };

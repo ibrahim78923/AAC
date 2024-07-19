@@ -12,11 +12,11 @@ export const ReportsWidgets = (props: any) => {
         {reportWidgets?.isDateFilter && <Button></Button>}
       </PageTitledHeader>
       <Grid container spacing={2}>
-        {reportWidgets?.widgets?.map((item: any) => (
+        {reportWidgets?.widgets?.map((item: any, index: any) => (
           <Grid item xs={12} key={item?._id}>
             {REPORTS_WIDGET_COMPONENT?.[item?.type] &&
               createElement(REPORTS_WIDGET_COMPONENT?.[item?.type], {
-                data: { counts: [], items: [] }, //TODO: will send the BE data once the data from BE is ready
+                data: reportResults?.[index],
                 title: item?.title,
                 description: item?.text?.description,
                 isDateFilter: item?.isDateFilter,
