@@ -546,19 +546,27 @@ const DashboardLayout = ({ children, window }: any) => {
       dispatch(setChatContacts(payload));
     });
     socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, () => {});
+    socket.on(CHAT_SOCKETS?.UPDATE_MESSAGE, () => {});
+    socket.on('on-message-update', (payload: any) => {
+      dispatch(setChatMessages(payload?.data));
+    });
+  }
 
-    socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, (payload: any) => {
+  useEffect(() => {
+    const handleOnMessageReceived = (payload: any) => {
       if (activeChatId !== payload?.data?.chatId) {
         if (payload?.data) {
           const currentData = chatContacts?.find(
             (ele: any) => ele?._id === payload?.data?.chatId,
           );
-          dispatch(
-            setChatContacts({
-              ...currentData,
-              unReadMessagesCount: currentData?.unReadMessagesCount + 1,
-            }),
-          );
+          if (currentData) {
+            dispatch(
+              setChatContacts({
+                ...currentData,
+                unReadMessagesCount: currentData?.unReadMessagesCount + 1,
+              }),
+            );
+          }
         }
       }
       if (activeChatId === payload?.data?.chatId) {
@@ -568,13 +576,9 @@ const DashboardLayout = ({ children, window }: any) => {
           dispatch(setIsNewMessages(false));
         }
       }
-    });
-    socket.on(CHAT_SOCKETS?.UPDATE_MESSAGE, () => {});
-    socket.on('on-message-update', (payload: any) => {
-      dispatch(setChatMessages(payload?.data));
-    });
+    };
 
-    socket.on(CHAT_SOCKETS?.ON_TYPING_START, (payload: any) => {
+    const handleTypingStart = (payload: any) => {
       if (activeChatId === payload?.chatId) {
         dispatch(
           setTypingUserData({
@@ -582,12 +586,25 @@ const DashboardLayout = ({ children, window }: any) => {
           }),
         );
       }
-    });
-    socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, () => {
-      dispatch(setTypingUserData({}));
-    });
-  }
+    };
 
+    const handleTypingStop = () => {
+      dispatch(setTypingUserData({}));
+    };
+
+    if (socket) {
+      socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, handleOnMessageReceived);
+      socket.on(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
+      socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
+    }
+    return () => {
+      if (socket) {
+        socket.off(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, handleOnMessageReceived);
+        socket.off(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
+        socket.off(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
+      }
+    };
+  }, [activeChatId, chatContacts, dispatch, socket]);
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -615,8 +632,10 @@ const DashboardLayout = ({ children, window }: any) => {
           {drawer}
         </Drawer>
       </Box>
+
       <Box component="main" sx={styles?.layoutBox(drawerWidth)}>
         <Toolbar />
+
         <Box sx={styles?.layoutInnerBox(theme, isZeroPaddingRoutes)}>
           {authMeLoadingState ? (
             <>
