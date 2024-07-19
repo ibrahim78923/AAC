@@ -1,16 +1,47 @@
-import { AnnoucementIcon } from '@/assets/icons';
+import { AnnoucementIcon, RefreshTasksIcon } from '@/assets/icons';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
-import { Box, Card, Stack, Typography, useTheme } from '@mui/material';
-import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Card,
+  Skeleton,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import { DATE_FORMAT, DATE_TIME_FORMAT, indexNumbers } from '@/constants';
+import useCalander from './useCalander';
+import dayjs from 'dayjs';
 
+interface taskFilters {
+  campaignId: string;
+  assignedTo: string;
+  status: string;
+  taskType: string;
+  startDate: string;
+  endDate: string;
+}
 interface Props {
+  setTaskFilters: (value: taskFilters) => void;
   setCurrentTabVal: (value: number) => void;
   setIsOpen: (value: boolean) => void;
+  taskFilters: taskFilters;
 }
 
-const Calander = ({ setCurrentTabVal, setIsOpen }: Props) => {
-  const theme = useTheme();
-  const [datePickerVal, setDatePickerVal] = useState();
+const Calander = ({
+  setCurrentTabVal,
+  setIsOpen,
+  taskFilters,
+  setTaskFilters,
+}: Props) => {
+  const {
+    theme,
+    datePickerVal,
+    setDatePickerVal,
+    campaignsTasksData,
+    isLoading,
+  } = useCalander({ taskFilters });
+
   return (
     <>
       <Box sx={{ mt: 1, height: '420px' }}>
@@ -30,34 +61,92 @@ const Calander = ({ setCurrentTabVal, setIsOpen }: Props) => {
           View full calendar
         </Typography>
         <SwitchableDatepicker
+          cancelText="Reset"
           isCalendarOpen
           dateValue={datePickerVal}
           setDateValue={setDatePickerVal}
+          handleDateSubmit={() => {
+            setTaskFilters({
+              ...taskFilters,
+              startDate: datePickerVal[indexNumbers?.ZERO],
+              endDate: datePickerVal[indexNumbers?.ONE],
+            });
+          }}
         />
       </Box>
       <Box>
         <Stack direction="row" justifyContent="space-between" mb={1}>
-          <Typography variant="body1" fontWeight={600}>
-            Wednesday, March, 2022
-          </Typography>
-          <Typography variant="body2">2 Event</Typography>
+          {isLoading ? (
+            <Skeleton height={36} width={150} animation="wave" />
+          ) : (
+            <Typography variant="body1" fontWeight={600}>
+              {taskFilters?.startDate
+                ? dayjs(datePickerVal[0])?.format(
+                    DATE_TIME_FORMAT?.ddddDDMMMYYYY,
+                  )
+                : 'All Tasks'}
+            </Typography>
+          )}
+          {isLoading ? (
+            <Skeleton height={36} width={150} animation="wave" />
+          ) : (
+            <Typography fontWeight={600} variant="body2">
+              {campaignsTasksData?.length < 10
+                ? `0${campaignsTasksData?.length}`
+                : campaignsTasksData?.length}{' '}
+              Events
+            </Typography>
+          )}
+          {taskFilters?.startDate && (
+            <Tooltip title={'Refresh Filter'}>
+              <Button
+                sx={{ width: { xs: '100%', sm: '50px' } }}
+                variant="outlined"
+                color="inherit"
+                className="small"
+                onClick={() => {
+                  setTaskFilters({
+                    ...taskFilters,
+                    startDate: '',
+                    endDate: '',
+                  });
+                }}
+              >
+                <RefreshTasksIcon />
+              </Button>
+            </Tooltip>
+          )}
         </Stack>
-        <Card
-          sx={{
-            padding: 2,
-            borderLeft: `3px solid ${theme?.palette?.primary?.main}`,
-          }}
-        >
-          <Stack direction="row" gap={2} alignItems="center">
-            <AnnoucementIcon />
-            <Stack direction="column">
-              <Typography variant="body2">Meeting with CEO</Typography>
-              <Typography variant="body2">
-                03:00 PM EDT March, 16,2022
-              </Typography>
-            </Stack>
-          </Stack>
-        </Card>
+        {campaignsTasksData?.length > 0 ? (
+          campaignsTasksData?.map((item: any) => {
+            return isLoading ? (
+              <Skeleton height={66} animation="wave" />
+            ) : (
+              <Card
+                sx={{
+                  padding: 2,
+                  borderLeft: `3px solid ${theme?.palette?.primary?.main}`,
+                  mb: 1,
+                }}
+              >
+                <Stack direction="row" gap={2} alignItems="center">
+                  <AnnoucementIcon />
+                  <Stack direction="column">
+                    <Typography variant="body2">
+                      {item?.taskName ?? 'N/A'}
+                    </Typography>
+                    <Typography variant="body2">
+                      {dayjs(item?.startDate)?.format(DATE_TIME_FORMAT?.HHMMA)}-
+                      {dayjs(item?.startDate)?.format(DATE_FORMAT?.UI)}
+                    </Typography>
+                  </Stack>
+                </Stack>
+              </Card>
+            );
+          })
+        ) : (
+          <Typography variant="body1">No data found</Typography>
+        )}
       </Box>
     </>
   );

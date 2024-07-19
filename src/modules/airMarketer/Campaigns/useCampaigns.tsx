@@ -65,13 +65,24 @@ const useCampaigns = () => {
   // collapse menu task filters start here
 
   const [isFilters, setIsFilters] = useState(false);
+
   const [taskFilters, setTaskFilters] = useState({
     campaignId: '',
+    assignedTo: '',
+    status: '',
+    taskType: '',
+    startDate: '',
+    endDate: '',
   });
 
   const resetTasksFilters = () => {
     setTaskFilters({
       campaignId: '',
+      assignedTo: '',
+      status: '',
+      taskType: '',
+      startDate: '',
+      endDate: '',
     });
   };
 
@@ -155,7 +166,7 @@ const useCampaigns = () => {
     });
 
   const { data: campaignsById, isLoading: campaignsLoadingById } =
-    useGetCampaignsByIdQuery(campaignId);
+    useGetCampaignsByIdQuery(campaignId, { skip: !campaignId });
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
   const { data: UserListData } = useGetUsersListQuery({

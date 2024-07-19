@@ -21,7 +21,7 @@ const useEditTask = ({
   const [updateCampaignTasks, { isLoading: updateTaskLoading }] =
     useUpdateCampaignTasksMutation();
 
-  const { data: getCampaignsTaskById } =
+  const { data: getCampaignsTaskById, isLoading: loadingCampaignTasks } =
     useGetCampaignsTaskByIdQuery(selectedRec);
 
   const methods: any = useForm({
@@ -71,6 +71,7 @@ const useEditTask = ({
   };
 
   return {
+    loadingCampaignTasks,
     updateTaskLoading,
     handleSubmit,
     CAMPAIGN_ID,

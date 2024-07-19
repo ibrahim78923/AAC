@@ -6,6 +6,9 @@ import useResetTasksFilter from './useResetTasksFilter';
 
 interface TaskFilters {
   campaignId: string;
+  taskType: string;
+  status: string;
+  assignedTo: string;
 }
 interface Props {
   setTaskFilters: (value: TaskFilters) => void;
@@ -42,6 +45,7 @@ const ResetTasksFilter = (props: Props) => {
       reset,
       setIsFiltersOpen,
       isFilterOpen,
+      setTaskFilters,
     });
 
   const handleCloseDrawer = () => {
@@ -67,6 +71,7 @@ const ResetTasksFilter = (props: Props) => {
           <Button
             className="small"
             color="inherit"
+            disabled={selectedButton === CAMPAIGNS_CONSTANTS?.TASKS}
             onClick={() => {
               setSelectedButton(CAMPAIGNS_CONSTANTS?.TASKS);
             }}
@@ -76,6 +81,7 @@ const ResetTasksFilter = (props: Props) => {
           <Button
             className="small"
             color="inherit"
+            disabled={selectedButton === CAMPAIGNS_CONSTANTS?.COMMENTS}
             onClick={() => {
               setSelectedButton(CAMPAIGNS_CONSTANTS?.COMMENTS);
             }}
@@ -85,6 +91,7 @@ const ResetTasksFilter = (props: Props) => {
           <Button
             className="small"
             color="inherit"
+            disabled={selectedButton === CAMPAIGNS_CONSTANTS?.CALENDAR}
             onClick={() => {
               setSelectedButton(CAMPAIGNS_CONSTANTS?.CALENDAR);
             }}

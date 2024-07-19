@@ -48,6 +48,7 @@ export const DATE_TIME_FORMAT = {
   YYMMDD: 'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
   DDMMM: 'DD MMM',
   DDMMMYYYY: 'DD MMM YYYY',
+  HHMMA: 'hh:mm A',
 };
 
 export const VALIDATION_CONSTANT = {

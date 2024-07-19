@@ -10,8 +10,8 @@ import {
 import { getSession } from '@/utils';
 
 export const defaultValues = {
-  taskStatus: '',
-  assignee: null,
+  status: '',
+  assignedTo: null,
   campaignId: null,
   taskType: '',
 };
@@ -25,11 +25,11 @@ export const dataArray = () => {
   return [
     {
       componentProps: {
-        name: 'taskStatus',
+        name: 'status',
         label: 'Task Status',
         fullWidth: true,
         placeholder: 'Select status',
-        options: ['All', 'Pending', 'In progress', 'Completed'],
+        options: ['All', 'pending', 'inprogress', 'completed'],
       },
       component: RHFAutocomplete,
       md: 12,
@@ -37,7 +37,7 @@ export const dataArray = () => {
     {
       componentProps: {
         placeholder: 'Select assignee',
-        name: 'assignee',
+        name: 'assignedTo',
         label: 'Assignee',
         apiQuery: userListData,
         getOptionLabel: (option: any) =>

@@ -8,7 +8,11 @@ import {
   useDeleteCampaignTasksMutation,
   useGetCampaignsTasksQuery,
 } from '@/services/airMarketer/campaigns';
-import { CAMPAIGNS_CONSTANTS, NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  CAMPAIGNS_CONSTANTS,
+  NOTISTACK_VARIANTS,
+  REPORT_TYPE,
+} from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 
 const useDrawerComponents = ({
@@ -19,12 +23,13 @@ const useDrawerComponents = ({
   reset,
   setIsFiltersOpen,
   isFilterOpen,
+  setTaskFilters,
 }: any) => {
   const theme = useTheme();
   const [selectedButton, setSelectedButton] = useState(
     CAMPAIGNS_CONSTANTS?.TASKS,
   );
-  // const [isFilters, setIsFilters] = useState(false);
+
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState({
@@ -41,6 +46,12 @@ const useDrawerComponents = ({
     page: page,
     limit: pageLimit,
     campaignId: taskFilters?.campaignId ? taskFilters?.campaignId : undefined,
+    assignedTo: taskFilters?.assignedTo ? taskFilters?.assignedTo : undefined,
+    status:
+      taskFilters?.status === REPORT_TYPE?.ALL
+        ? undefined
+        : taskFilters?.status,
+    taskType: taskFilters?.taskType ? taskFilters?.taskType : undefined,
   };
 
   const { data: getCampaignsTasks, isLoading } =
@@ -73,7 +84,12 @@ const useDrawerComponents = ({
         return <Comments />;
       case CAMPAIGNS_CONSTANTS?.CALENDAR:
         return (
-          <Calander setCurrentTabVal={setCurrentTabVal} setIsOpen={setIsOpen} />
+          <Calander
+            setCurrentTabVal={setCurrentTabVal}
+            setTaskFilters={setTaskFilters}
+            taskFilters={taskFilters}
+            setIsOpen={setIsOpen}
+          />
         );
       default:
         return (
