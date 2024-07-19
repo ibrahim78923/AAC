@@ -19,6 +19,7 @@ import { SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS } from '@/constants/permission
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
 import { usePatchUnassignPlanMutation } from '@/services/superAdmin/billing-invoices';
+import { DataItemI, DataItemOptionI } from './billingandinvoices.interface';
 
 const BillingAndInvoicesTable = () => {
   const {
@@ -71,7 +72,7 @@ const BillingAndInvoicesTable = () => {
       enqueueSnackbar('plan unassign successfully', {
         variant: 'success',
       });
-    } catch (error: any) {
+    } catch (error) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
       });
@@ -200,7 +201,7 @@ const BillingAndInvoicesTable = () => {
           columns={getRowValues}
           data={assignPlanTableData?.data?.organizationplans}
           totalRecords={assignPlanTableData?.data?.meta?.total}
-          onPageChange={(page: any) => setPage(page)}
+          onPageChange={(page: number) => setPage(page)}
           setPage={setPage}
           setPageLimit={setPageLimit}
           count={assignPlanTableData?.data?.meta?.pages}
@@ -209,7 +210,6 @@ const BillingAndInvoicesTable = () => {
           currentPage={assignPlanTableData?.data?.meta?.page}
         />
       </Grid>
-      {/* <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} /> */}
       {isOpenDrawer && (
         <EditForm
           isOpenDrawer={isOpenDrawer}
@@ -234,7 +234,7 @@ const BillingAndInvoicesTable = () => {
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {dataArray()?.map((item: any, index: any) => (
+              {dataArray()?.map((item: DataItemI, index: number) => (
                 <Grid
                   item
                   xs={12}
@@ -247,7 +247,7 @@ const BillingAndInvoicesTable = () => {
                 >
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
+                      item?.options?.map((option: DataItemOptionI) => (
                         <option key={option?.value} value={option?.value}>
                           {option?.label}
                         </option>

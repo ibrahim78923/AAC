@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
 import { PAGINATION } from '@/config';
+import { BillingDetailsFiltersI } from './billingandinvoices.interface';
 
 const useBillingAndInvoices = () => {
   const [searchByClientName, setSearchByClientName] = useState('');
@@ -45,7 +46,7 @@ const useBillingAndInvoices = () => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: BillingDetailsFiltersI) => {
     setFilterValues(values);
     setIsOpenFilter(false);
   };

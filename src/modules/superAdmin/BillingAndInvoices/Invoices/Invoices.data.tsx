@@ -126,12 +126,12 @@ export const columns = (
 };
 
 export const FilterInvoiceValidationSchema = Yup?.object()?.shape({
-  organizationId: Yup?.string().trim().optional(),
-  productId: Yup?.string().trim().optional(),
-  planTypeId: Yup?.string().trim().optional(),
-  status: Yup?.string().trim().optional(),
-  billingDate: Yup?.string().trim().optional().nullable(),
-  dueDate: Yup?.string().trim().optional().nullable(),
+  organizationId: Yup?.string()?.trim()?.optional(),
+  productId: Yup?.string()?.trim()?.optional(),
+  planTypeId: Yup?.string()?.trim()?.optional(),
+  status: Yup?.string()?.trim()?.optional(),
+  billingDate: Yup?.string()?.trim()?.optional()?.nullable(),
+  dueDate: Yup?.string()?.trim()?.optional()?.nullable(),
 });
 
 export const FilterInvoiceFiltersDataArray = () => {

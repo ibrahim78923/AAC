@@ -7,6 +7,7 @@ import useMenuOptions from './useMenuOptions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS } from '@/constants/permission-keys';
 import { REQUESTORS_STATUS } from '@/constants/strings';
+import { MenuItemsPropsI } from './menuItems.interface';
 
 const MenuItems = ({
   setIsOpenDrawer,
@@ -15,7 +16,7 @@ const MenuItems = ({
   setIsEditModal,
   setIsUnassignPlan,
   planStatus,
-}: any) => {
+}: MenuItemsPropsI) => {
   const {
     handleClickActions,
     handleCloseMenuOptions,

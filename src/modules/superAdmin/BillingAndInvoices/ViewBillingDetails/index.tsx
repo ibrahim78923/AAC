@@ -14,7 +14,7 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
     paramsObj['organizationPlanId'] = orginzationPlanId;
 
   const queryParams = Object.entries(paramsObj)
-    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+    .map(([key, value]) => `${key}=${encodeURIComponent(value as string)}`)
     .join('&');
   const query = `&${queryParams}`;
   const { data: BillingDetailsHistory } = useGetBillingHistoryQuery<any>({
@@ -90,14 +90,14 @@ const ViewBillingDetails = ({ isOpenDrawer, onClose, isGetRowValues }: any) => {
                 <Typography variant="caption">
                   Invoice Date:{' '}
                   {data?.billingDate
-                    ? new Date(data.billingDate).toLocaleDateString('en-GB')
+                    ? new Date(data?.billingDate)?.toLocaleDateString('en-GB')
                     : 'Invalid Date'}
                 </Typography>
                 <Box sx={{ ml: 'auto' }}>
                   <Typography variant="caption">
                     Due Date:{' '}
                     {data?.dueDate
-                      ? new Date(data.dueDate).toLocaleDateString('en-GB')
+                      ? new Date(data?.dueDate)?.toLocaleDateString('en-GB')
                       : 'Invalid Date'}
                   </Typography>
                 </Box>

@@ -34,17 +34,20 @@ const UserInfo = () => {
 
   const router = useRouter();
   const theme = useTheme();
-  let EditInvoice: any;
+  let EditInvoice: EditInvoiceTypeI | null = null;
   if (router?.query?.key) {
-    EditInvoice = JSON?.parse(router?.query?.key);
+    const key = Array.isArray(router?.query?.key)
+      ? router?.query?.key[0]
+      : router?.query?.key;
+    EditInvoice = JSON?.parse(key);
   }
   const [dateValue, setDateValue] = useState<Date | null>(
-    new Date(EditInvoice?.dueDate),
+    new Date(EditInvoice?.dueDate ?? '') ?? null,
   );
   const [discountValue, setDiscountValue] = useState(
     EditInvoice?.invoiceDiscount,
   );
-  const inputDate = new Date(dateValue);
+  const inputDate = new Date(dateValue ?? '');
 
   const [updateInvoice, { isLoading }] = usePatchUpdateInvoicesMutation();
 
@@ -77,15 +80,15 @@ const UserInfo = () => {
     }
   };
 
-  const planPrice = EditInvoice?.plans?.planPrice;
+  const planPrice = EditInvoice?.plans?.planPrice ?? 0;
 
   const totalAdditionalUserPrice =
-    EditInvoice?.details?.sumAdditionalUsersPrices;
+    EditInvoice?.details?.sumAdditionalUsersPrices ?? 0;
 
   const totalAdditionalStoragePrice =
-    EditInvoice?.details?.sumAdditionalStoragePrices;
+    EditInvoice?.details?.sumAdditionalStoragePrices ?? 0;
 
-  const planDiscount = EditInvoice?.details?.planDiscount;
+  const planDiscount = EditInvoice?.details?.planDiscount ?? 0;
 
   const subtotalBeforeDiscount =
     planPrice + totalAdditionalUserPrice + totalAdditionalStoragePrice;
@@ -93,12 +96,12 @@ const UserInfo = () => {
   const subtotalAfterDiscount =
     subtotalBeforeDiscount - (planDiscount / 100) * subtotalBeforeDiscount;
 
-  const invoiceDiscount = EditInvoice?.invoiceDiscount;
+  const invoiceDiscount = EditInvoice?.invoiceDiscount ?? 0;
 
   const total =
     subtotalAfterDiscount - (invoiceDiscount / 100) * subtotalAfterDiscount;
 
-  const tax = EditInvoice?.tax;
+  const tax = EditInvoice?.tax ?? 0;
   const TaxAmountOfSubtotal = (tax / 100) * total;
 
   const netAmout = EditInvoice?.netAmount;
@@ -242,8 +245,8 @@ const UserInfo = () => {
                   type="number"
                   sx={{ width: '100px', '& input': { padding: '11px' } }}
                   value={discountValue}
-                  onChange={(value: any) =>
-                    setDiscountValue(value?.target?.value)
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setDiscountValue(Number(event.target.value))
                   }
                 />{' '}
               </Box>
@@ -291,7 +294,7 @@ const UserInfo = () => {
               handleUpdate();
             }}
             sx={{ marginLeft: '15px' }}
-            isLoading={isLoading}
+            loading={isLoading}
           >
             Update
           </LoadingButton>

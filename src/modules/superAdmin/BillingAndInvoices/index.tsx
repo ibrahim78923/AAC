@@ -4,9 +4,10 @@ import { TabList, TabPanel, TabContext } from '@mui/lab';
 import BillingAndInvoicesTable from './BillingAndInvoicesTable';
 import Invoices from './Invoices';
 import { useRouter } from 'next/router';
+import { BILLING_AND_INVOICES_TAB } from '@/constants';
 
 const BillingAndInvoices = () => {
-  const [value, setValue] = useState('subscription');
+  const [value, setValue] = useState(BILLING_AND_INVOICES_TAB?.SUBSCRIPTION);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -17,9 +18,9 @@ const BillingAndInvoices = () => {
   useEffect(() => {
     if (router?.asPath) {
       if (router?.asPath?.includes('redirect')) {
-        setValue('invoices');
+        setValue(BILLING_AND_INVOICES_TAB?.INVOICES);
       } else {
-        setValue('subscription');
+        setValue(BILLING_AND_INVOICES_TAB?.SUBSCRIPTION);
       }
     }
   }, [router?.asPath]);
@@ -31,15 +32,18 @@ const BillingAndInvoices = () => {
           onChange={handleChange}
           aria-label="subscription & invoices tabs"
         >
-          <Tab label="Plan Assignment" value="subscription" />
-          <Tab label="Invoices" value="invoices" />
+          <Tab
+            label="Plan Assignment"
+            value={BILLING_AND_INVOICES_TAB?.SUBSCRIPTION}
+          />
+          <Tab label="Invoices" value={BILLING_AND_INVOICES_TAB?.INVOICES} />
         </TabList>
       </Box>
       <Box sx={{ pt: '40px', '& .MuiTabPanel-root': { p: '0' } }}>
-        <TabPanel value="subscription">
+        <TabPanel value={BILLING_AND_INVOICES_TAB?.SUBSCRIPTION}>
           <BillingAndInvoicesTable />
         </TabPanel>
-        <TabPanel value="invoices">
+        <TabPanel value={BILLING_AND_INVOICES_TAB?.INVOICES}>
           <Invoices />
         </TabPanel>
       </Box>

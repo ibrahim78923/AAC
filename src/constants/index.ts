@@ -287,6 +287,7 @@ export const EMAIL_SUB_ROUTES = {
 export const productSuiteName = {
   crm: 'CRM',
   string: 'string',
+  product: 'product',
 };
 
 export const dealStatus = {
@@ -525,4 +526,8 @@ export const GOALS_YEARLY_FORMAT = {
   YEARLY: 'yearly',
   QUARTERLY: 'quarterly',
   CUSTOM: 'custom',
+};
+export const BILLING_AND_INVOICES_TAB = {
+  INVOICES: 'invoices',
+  SUBSCRIPTION: 'subscription',
 };
