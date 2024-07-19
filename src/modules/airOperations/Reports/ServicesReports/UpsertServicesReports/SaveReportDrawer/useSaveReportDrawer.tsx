@@ -63,30 +63,9 @@ export const useSaveReportDrawer = (props: any) => {
     usePostGenericReportsMutation();
 
   const onSubmit = async (data: SaveReportI) => {
-    const specificUsersIds = data?.specificUsersConditionOne?.map(
-      (item: usersDropdownOptionsI) => item?._id,
-    );
-    const newDashboardSpecificUsersIds =
-      data?.newDashboardSpecificUsersConditionOne?.map(
-        (item: usersDropdownOptionsI) => item?._id,
-      );
     const existingDashboardIds = data?.addToExistingCondition?.map(
       (item: any) => item?._id,
     );
-    const getPermissions = () => {
-      if (data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE) {
-        return data?.newDashboardEveryoneCondition;
-      } else if (data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS) {
-        return data?.newDashboardSpecificUsersConditionTwo;
-      }
-    };
-    const getAccess = () => {
-      if (data?.sharedWith === REPORT_TYPE?.EVERYONE) {
-        return data?.everyoneCondition;
-      } else if (data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS) {
-        return data?.specificUsersConditionTwo;
-      }
-    };
     const payload = {
       module: metricType,
       widgets: form?.map((item: any) => {
@@ -138,26 +117,28 @@ export const useSaveReportDrawer = (props: any) => {
               fields: item?.columnObject,
             },
           }),
-          // TODO: Functionality is missing in BA side
-          // ...(item?.type === 'TEMPLATE_TEXT' && {
-          //   templateText: {
-          //     fieldType: "STATIC",
-          //     fieldName: "totalAsset",
-          //   },
-          // }),
-
+          ...(item?.reportType === REPORT_TYPE?.COUNTER && {
+            templateText: {
+              fieldType: FIELD_TYPE?.STATIC,
+              fieldName: item?.title,
+            },
+          }),
           isDateFilter: item?.subFilter ?? false,
         };
       }),
       name: data?.reportName,
       accessLevel: {
         type: data?.sharedWith,
-        ...((data?.sharedWith === REPORT_TYPE?.EVERYONE ||
-          data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS) && {
-          access: getAccess(),
+        ...(data?.sharedWith === REPORT_TYPE?.EVERYONE && {
+          access: data?.everyoneCondition,
         }),
         ...(data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS && {
-          users: specificUsersIds,
+          users: data?.specificUsersConditionOne?.map(
+            (item: usersDropdownOptionsI) => ({
+              id: item?._id,
+              access: data?.specificUsersConditionTwo,
+            }),
+          ),
         }),
       },
       isDateFilter: data?.addFilter,
@@ -170,11 +151,15 @@ export const useSaveReportDrawer = (props: any) => {
           access: data?.addToNewConditionTwo,
         }),
         ...(data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS && {
-          specialUsers: newDashboardSpecificUsersIds,
+          specialUsers: data?.newDashboardSpecificUsersConditionOne?.map(
+            (item: usersDropdownOptionsI) => ({
+              id: item?._id,
+              permissions: data?.newDashboardSpecificUsersConditionTwo,
+            }),
+          ),
         }),
-        ...((data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE ||
-          data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS) && {
-          permissions: getPermissions(),
+        ...(data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE && {
+          permissions: data?.newDashboardEveryoneCondition,
         }),
         ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_EXISTING && {
           existingDashboards: existingDashboardIds,
