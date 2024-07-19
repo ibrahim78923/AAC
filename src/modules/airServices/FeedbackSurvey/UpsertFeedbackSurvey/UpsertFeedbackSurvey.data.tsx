@@ -163,6 +163,10 @@ export const feedbackSurveyValidationSchema: any = (
               createSurvey === feedbackTypes?.feedback
                 ? Yup?.string()?.required('Required')
                 : Yup?.string(),
+            questionType:
+              createSurvey === feedbackTypes?.feedback
+                ? Yup?.mixed()?.required('Required')
+                : Yup?.mixed(),
           }),
         ),
       }),
@@ -226,5 +230,5 @@ export const surveyWatchArray: any[] = [
   'displayName',
   'satisfactionSurveyLinkType',
   'customerSupportLinkType',
-  'magicLink',
+  'UUID',
 ];

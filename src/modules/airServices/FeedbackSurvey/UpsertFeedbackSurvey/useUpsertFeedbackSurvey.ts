@@ -57,6 +57,7 @@ export const useUpsertFeedbackSurvey = () => {
     satisfactionSurveyLinkType: surveyData?.satisfactionSurveyLinkType,
     surveyDuration: surveyData?.surveyDuration,
     customerSupportLinkType: surveyData?.customerSupportLinkType,
+    UUID: surveyData?.UUID,
     sendSurveyPeople:
       surveyData?.customerSupportLinkType === feedbackTypes?.viaEmail &&
       surveyData?.sendSurveyPeople?.length
@@ -73,7 +74,6 @@ export const useUpsertFeedbackSurvey = () => {
   });
   const handleCreateSurvey = async (surveyData: any) => {
     const response: any = await createFeedbackSurveyTrigger({
-      UUID: surveyData?.UUID,
       magicLink:
         surveyData?.customerSupportLinkType !== feedbackTypes?.viaEmail
           ? `${window?.location?.origin}/survey/response?surveyId=${surveyData?.UUID}`
@@ -124,7 +124,7 @@ export const useUpsertFeedbackSurvey = () => {
     displayName: data?.data?.displayName,
     satisfactionSurveyLinkType: data?.data?.satisfactionSurveyLinkType,
     customerSupportLinkType: data?.data?.customerSupportLinkType,
-    magicLink: data?.data?.magicLink,
+    UUID: data?.data?.UUID,
     sendSurveyPeople: data?.data?.sendSurveyPeople,
     surveyDuration: data?.data?.surveyDuration,
   };

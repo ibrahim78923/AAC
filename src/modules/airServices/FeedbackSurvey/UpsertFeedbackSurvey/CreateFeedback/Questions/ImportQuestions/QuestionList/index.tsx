@@ -19,6 +19,7 @@ export const QuestionList = (props: any) => {
     handleCheckboxClick,
     handleInsert,
     questionsData,
+    isQuestionSelected,
   } = useQuestionList(props);
   if (isError) return <ApiErrorState />;
   if (isLoading || isFetching) return <SkeletonTable />;
@@ -68,7 +69,13 @@ export const QuestionList = (props: any) => {
                 }
                 return (
                   <Grid container alignItems="center" key={question?._id}>
-                    <Grid item xs={0.5}>
+                    <Grid
+                      item
+                      md={0.6}
+                      xs={12}
+                      mt={{ md: 'none', xs: 1 }}
+                      textAlign="center"
+                    >
                       <Checkbox
                         icon={<CheckboxIcon />}
                         checkedIcon={<CheckboxCheckedIcon />}
@@ -77,12 +84,18 @@ export const QuestionList = (props: any) => {
                     </Grid>
                     <Grid
                       item
-                      xs={11.4}
-                      border={'1px solid'}
-                      borderColor={'custom.off_white_three'}
-                      p={1}
-                      my={1}
-                      borderRadius={2}
+                      md={11.3}
+                      xs={12}
+                      sx={(theme) => ({
+                        border: `1px solid ${
+                          isQuestionSelected(question)
+                            ? theme?.palette?.primary?.main
+                            : theme?.palette?.custom?.off_white_three
+                        }`,
+                        p: 1,
+                        my: { md: 1 },
+                        borderRadius: 2,
+                      })}
                     >
                       <Typography variant="h6" mb={1}>
                         {question?.questionTitle}

@@ -6,7 +6,6 @@ import {
   useLazyGetAdminUserDropdownListQuery,
   useLazyGetDealDropdownListQuery,
   useLazyGetLifeCycleStagesDropdownListQuery,
-  useLazyGetUserDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { useRouter } from 'next/router';
 
@@ -33,7 +32,6 @@ export const useWorkflowActionExecuted = (props: any) => {
   };
   const { palette } = useTheme();
   const dealsDropdown = useLazyGetDealDropdownListQuery();
-  const userDropdown = useLazyGetUserDropdownListQuery();
   const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
   const adminUserDropdown = useLazyGetAdminUserDropdownListQuery();
   const router = useRouter();
@@ -52,7 +50,6 @@ export const useWorkflowActionExecuted = (props: any) => {
     palette,
     handleDeleteClick,
     dealsDropdown,
-    userDropdown,
     stagesDropdown,
     adminUserDropdown,
   };

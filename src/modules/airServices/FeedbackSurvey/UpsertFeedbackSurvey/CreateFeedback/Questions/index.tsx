@@ -117,7 +117,6 @@ export const Questions = (props: any) => {
                             <Grid
                               item
                               md={
-                                watchType &&
                                 watchType?.value !== questionTypeData?.text
                                   ? 8
                                   : 12
@@ -127,7 +126,6 @@ export const Questions = (props: any) => {
                               <RHFTextField
                                 name={`sections.${sectionIndex}.questions.${index}.questionTitle`}
                                 label={
-                                  watchType &&
                                   watchType?.value !== questionTypeData?.text
                                     ? `${questionTypeData?.question} ${
                                         index + 1
@@ -135,7 +133,6 @@ export const Questions = (props: any) => {
                                     : `${questionTypeData?.title} ${index + 1}`
                                 }
                                 placeholder={
-                                  watchType &&
                                   watchType?.value !== questionTypeData?.text
                                     ? questionTypeData?.writeQuestion
                                     : questionTypeData?.writeTitle
@@ -145,66 +142,63 @@ export const Questions = (props: any) => {
                                 required
                               />
                             </Grid>
-                            {watchType &&
-                              watchType?.value !== questionTypeData?.text && (
-                                <Grid item md={4} xs={12}>
-                                  <RHFAutocomplete
-                                    name={`sections.${sectionIndex}.questions.${index}.questionType`}
-                                    label={'\u00a0'}
-                                    placeholder="Select"
-                                    size="small"
-                                    options={questionTypeOptions}
-                                    disabled={sectionCondition}
-                                    renderOption={(
-                                      renderProps: any,
-                                      option: any,
-                                    ) => {
-                                      return (
-                                        <Box
-                                          {...renderProps}
-                                          display="flex"
-                                          alignItems="center"
-                                          gap={1}
-                                        >
-                                          {option?.icon}
-                                          {option?.label}
-                                        </Box>
-                                      );
-                                    }}
-                                    getOptionLabel={(option: any) =>
-                                      option?.label
-                                    }
-                                  />
-                                </Grid>
-                              )}
-                            {watchType &&
-                              watchType?.value !== questionTypeData?.text && (
-                                <Grid item xs={12}>
-                                  {
-                                    surveyQuestionComponent(
-                                      sectionIndex,
-                                      index,
-                                      methods,
-                                      watchType,
-                                      sectionCondition,
-                                    )[watchType?.value]
+                            {watchType?.value !== questionTypeData?.text && (
+                              <Grid item md={4} xs={12}>
+                                <RHFAutocomplete
+                                  name={`sections.${sectionIndex}.questions.${index}.questionType`}
+                                  label={'\u00a0'}
+                                  placeholder="Select"
+                                  size="small"
+                                  options={questionTypeOptions}
+                                  disabled={sectionCondition}
+                                  renderOption={(
+                                    renderProps: any,
+                                    option: any,
+                                  ) => {
+                                    return (
+                                      <Box
+                                        {...renderProps}
+                                        display="flex"
+                                        alignItems="center"
+                                        gap={1}
+                                      >
+                                        {option?.icon}
+                                        {option?.label}
+                                      </Box>
+                                    );
+                                  }}
+                                  getOptionLabel={(option: any) =>
+                                    option?.label
                                   }
-                                </Grid>
-                              )}
-                            {watchType &&
-                              watchType?.value === questionTypeData?.text && (
-                                <Grid item xs={12}>
-                                  <RHFTextField
-                                    name={`sections.${sectionIndex}.questions.${index}.description`}
-                                    label="Description"
-                                    placeholder="Write Description"
-                                    multiline
-                                    minRows={3}
-                                    size="small"
-                                    disabled={sectionCondition}
-                                  />
-                                </Grid>
-                              )}
+                                />
+                              </Grid>
+                            )}
+                            {watchType?.value !== questionTypeData?.text && (
+                              <Grid item xs={12}>
+                                {
+                                  surveyQuestionComponent(
+                                    sectionIndex,
+                                    index,
+                                    methods,
+                                    watchType,
+                                    sectionCondition,
+                                  )[watchType?.value]
+                                }
+                              </Grid>
+                            )}
+                            {watchType?.value === questionTypeData?.text && (
+                              <Grid item xs={12}>
+                                <RHFTextField
+                                  name={`sections.${sectionIndex}.questions.${index}.description`}
+                                  label="Description"
+                                  placeholder="Write Description"
+                                  multiline
+                                  minRows={3}
+                                  size="small"
+                                  disabled={sectionCondition}
+                                />
+                              </Grid>
+                            )}
                           </Grid>
                           <Box
                             display="flex"
@@ -245,28 +239,27 @@ export const Questions = (props: any) => {
                                   />
                                 </>
                               )}
-                              {watchType &&
-                                watchType?.value !== questionTypeData?.text && (
-                                  <>
-                                    <RHFSwitch
-                                      name={`sections.${sectionIndex}.questions.${index}.isRequired`}
-                                      label="Required"
-                                      disabled={
-                                        sectionCondition ||
-                                        qusLoading ||
-                                        secLoading ||
-                                        deleteLoading
-                                      }
-                                    />
-                                    <Box
-                                      sx={{
-                                        width: '1px',
-                                        height: 35,
-                                        bgcolor: 'grey.0',
-                                      }}
-                                    />
-                                  </>
-                                )}
+                              {watchType?.value !== questionTypeData?.text && (
+                                <>
+                                  <RHFSwitch
+                                    name={`sections.${sectionIndex}.questions.${index}.isRequired`}
+                                    label="Required"
+                                    disabled={
+                                      sectionCondition ||
+                                      qusLoading ||
+                                      secLoading ||
+                                      deleteLoading
+                                    }
+                                  />
+                                  <Box
+                                    sx={{
+                                      width: '1px',
+                                      height: 35,
+                                      bgcolor: 'grey.0',
+                                    }}
+                                  />
+                                </>
+                              )}
                               {deleteLoading && deleteIndex === index ? (
                                 <CircularProgress size="30px" />
                               ) : (

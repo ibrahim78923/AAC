@@ -1,10 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  Chip,
-  CircularProgress,
-  Typography,
-} from '@mui/material';
+import { Box, Checkbox, Chip, LinearProgress, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
 import { capitalizeFirstLetter, errorSnackbar } from '@/utils/api';
@@ -15,10 +9,12 @@ import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission
 
 const statusColor = (status: string) => {
   switch (status) {
-    case 'published':
+    case FEEDBACK_STATUS?.PUBLISHED:
       return 'secondary';
-    case 'draft':
+    case FEEDBACK_STATUS?.DRAFT:
       return 'default';
+    case FEEDBACK_STATUS?.INACTIVE:
+      return 'warning';
   }
 };
 const surveyType: any = {
@@ -152,12 +148,14 @@ export const feedbackDropdown = (
   router: any,
   handleCloneSurvey: any,
   cloneLoading: any,
+  handleStatus: (closeMenu: () => void) => void,
+  statusLoading: boolean,
 ) => {
   const shouldAddStatusSwitch = activeCheck?.map((item: any) => item?.status);
   const dropdownData = [
     {
       id: 1,
-      title: cloneLoading ? <CircularProgress size="22px" /> : 'Clone',
+      title: cloneLoading ? <LinearProgress sx={{ width: '70px' }} /> : 'Clone',
       handleClick: (closeMenu: any) => {
         if (activeCheck?.length > 1) {
           errorSnackbar('Please select only one survey to clone');
@@ -166,7 +164,7 @@ export const feedbackDropdown = (
         }
         handleCloneSurvey(closeMenu);
       },
-      disabled: cloneLoading,
+      disabled: cloneLoading || statusLoading,
       permissionKey: [
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_CLONE,
       ],
@@ -178,12 +176,37 @@ export const feedbackDropdown = (
         setOpenModal(true);
         closeMenu?.();
       },
-      disabled: cloneLoading,
+      disabled: cloneLoading || statusLoading,
       permissionKey: [
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_DELETE,
       ],
     },
   ];
+  if (
+    !shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.INACTIVE) &&
+    !shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.DRAFT)
+  ) {
+    dropdownData?.unshift({
+      id: 1,
+      title: statusLoading ? (
+        <LinearProgress sx={{ width: '70px' }} />
+      ) : (
+        'Draft'
+      ),
+      handleClick: (closeMenu: any) => {
+        if (activeCheck?.length > 1) {
+          errorSnackbar('Please select only one to change status');
+          closeMenu?.();
+          return;
+        }
+        handleStatus(closeMenu);
+      },
+      disabled: cloneLoading || statusLoading,
+      permissionKey: [
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SATISFACTION_SURVEY_EDIT,
+      ],
+    });
+  }
   if (!shouldAddStatusSwitch?.includes(FEEDBACK_STATUS?.PUBLISHED)) {
     dropdownData?.splice(1, 0, {
       id: 2,

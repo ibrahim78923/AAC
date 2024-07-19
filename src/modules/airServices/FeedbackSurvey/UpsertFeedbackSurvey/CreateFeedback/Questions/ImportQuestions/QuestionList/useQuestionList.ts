@@ -46,6 +46,9 @@ export const useQuestionList = (props: any) => {
     setValue(`sections.${sectionIndex}.questions`, insertQuestions);
     setOpenImport(false);
   };
+  const isQuestionSelected = (question: any) => {
+    return questionsData?.some((q: any) => q?._id === question?._id);
+  };
   return {
     surveyData,
     handleMoveBack,
@@ -56,5 +59,6 @@ export const useQuestionList = (props: any) => {
     handleCheckboxClick,
     handleInsert,
     questionsData,
+    isQuestionSelected,
   };
 };

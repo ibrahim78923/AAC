@@ -29,7 +29,6 @@ export const actionsExecutedFields = (
   index: any,
   watch: any,
   dealsDropdown: any,
-  userDropdown: any,
   stagesDropdown: any,
   adminUserDropdown: any,
 ) => {
@@ -121,10 +120,15 @@ export const actionsExecutedFields = (
     } else if (watchKey === actionName?.setAssignedTo) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
-          apiQuery: userDropdown,
+          apiQuery: adminUserDropdown,
+          placeholder: 'Select User',
+          externalParams: {
+            role: ROLES?.ORG_EMPLOYEE,
+            organization: sessionUser?.organization?._id,
+            limit: 500,
+          },
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
-          placeholder: 'Select User',
         });
     } else if (watchKey === actionName?.setDueDate) {
       (component = RHFDatePicker),

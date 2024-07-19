@@ -11,7 +11,6 @@ export const WorkflowActionExecuted = (props: any) => {
     palette,
     handleDeleteClick,
     dealsDropdown,
-    userDropdown,
     stagesDropdown,
     adminUserDropdown,
   } = useWorkflowActionExecuted(props);
@@ -44,7 +43,6 @@ export const WorkflowActionExecuted = (props: any) => {
                   index,
                   watch,
                   dealsDropdown,
-                  userDropdown,
                   stagesDropdown,
                   adminUserDropdown,
                 )?.map((item) => (

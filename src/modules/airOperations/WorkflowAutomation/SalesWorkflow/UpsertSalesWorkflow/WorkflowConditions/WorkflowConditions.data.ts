@@ -198,7 +198,12 @@ export const workflowConditionsDataArray = (
         componentProps = {
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
-          apiQuery: userDropdown,
+          externalParams: {
+            role: ROLES?.ORG_EMPLOYEE,
+            organization: sessionUser?.organization?._id,
+            limit: 500,
+          },
+          apiQuery: adminUserDropdown,
           placeholder: 'Select User',
         };
       } else if (
@@ -297,7 +302,12 @@ export const workflowConditionsDataArray = (
         componentProps = {
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
-          apiQuery: userDropdown,
+          externalParams: {
+            role: ROLES?.ORG_EMPLOYEE,
+            organization: sessionUser?.organization?._id,
+            limit: 500,
+          },
+          apiQuery: adminUserDropdown,
           placeholder: 'Select User',
         };
       } else if (

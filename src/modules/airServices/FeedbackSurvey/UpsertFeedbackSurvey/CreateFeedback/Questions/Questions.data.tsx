@@ -124,7 +124,7 @@ export const surveyQuestionComponent: any = (
   ),
   shortAnswers: (
     <RHFTextField
-      name={`displayName`}
+      name={`displayNameText`}
       placeholder="Write answer"
       multiline
       minRows={3}
@@ -133,7 +133,11 @@ export const surveyQuestionComponent: any = (
     />
   ),
   linearScale: (
-    <RHFRadioGroup name={`displayName`} disabled options={linearScaleOptions} />
+    <RHFRadioGroup
+      name={`displayNameRadio`}
+      disabled
+      options={linearScaleOptions}
+    />
   ),
 });
 

@@ -89,10 +89,7 @@ export const useCreateFeedback = (props: any) => {
         `Invitation to Participate in ${surveyTitle} Survey`,
       );
       emailParams?.append('html', emailHtml({ sessionData, theme }));
-      const res: any = await postSurveyEmailTrigger(emailParams);
-      if (res?.error?.data?.message) {
-        errorSnackbar(res?.error?.data?.message);
-      }
+      await postSurveyEmailTrigger(emailParams);
     }
     const publishParams = {
       body: {

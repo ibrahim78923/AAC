@@ -1,9 +1,14 @@
 import { PAGINATION } from '@/config';
-import { ARRAY_INDEX, FEEDBACK_SURVEY_TYPES } from '@/constants/strings';
+import {
+  ARRAY_INDEX,
+  FEEDBACK_STATUS,
+  FEEDBACK_SURVEY_TYPES,
+} from '@/constants/strings';
 import {
   useDeleteFeedbackSurveyMutation,
   useLazyGetFeedbackListQuery,
   usePatchDefaultSurveyMutation,
+  usePatchFeedbackSurveyMutation,
   usePostCloneFeedbackSurveyMutation,
 } from '@/services/airServices/feedback-survey';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -34,6 +39,8 @@ export const useCustomerSatisfactionList = (props: any) => {
     usePostCloneFeedbackSurveyMutation();
   const [patchDefaultSurveyTrigger, { isLoading: patchLoading }] =
     usePatchDefaultSurveyMutation();
+  const [patchSurveyTrigger, { isLoading: statusLoading }] =
+    usePatchFeedbackSurveyMutation();
   const handleDeleteSurvey = async () => {
     const deleteParams = new URLSearchParams();
     activeCheck?.forEach((item: any) => deleteParams?.append('ids', item?._id));
@@ -113,12 +120,34 @@ export const useCustomerSatisfactionList = (props: any) => {
       setDefaultLoading({});
     }
   };
+  const handleStatus = async (closeMenu: any) => {
+    const patchParams = {
+      params: {
+        id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
+      },
+      body: {
+        status: FEEDBACK_STATUS?.DRAFT,
+      },
+    };
+    const response: any = await patchSurveyTrigger(patchParams);
+    if (response?.data?.message) {
+      closeMenu();
+      successSnackbar(
+        `${response?.data?.data?.surveyTitle} Save as draft successfully`,
+      );
+      setActiveCheck([]);
+    } else {
+      errorSnackbar(response?.error?.data?.message);
+    }
+  };
   const feedbackDropdownOption = feedbackDropdown(
     activeCheck,
     setOpenModal,
     router,
     handleCloneSurvey,
     cloneLoading,
+    handleStatus,
+    statusLoading,
   );
   const feedbackTableData = data?.data?.feedbackSurvey;
   const meta = data?.data?.meta;
