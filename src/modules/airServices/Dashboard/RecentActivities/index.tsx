@@ -22,9 +22,9 @@ export const RecentActivities = (props: any) => {
           Recent Activities
         </Typography>
       </Box>
-      {data?.announcements?.annoucements?.length ? (
+      {data?.recentActivities?.length ? (
         <Box height={'45vh'} overflow={'scroll'}>
-          {data?.announcements?.annoucements?.map((item: any, index: any) => (
+          {data?.recentActivities?.map((item: any, index: any) => (
             <Fragment key={item?._id}>
               <RecentActivitiesCard data={item} index={index} />
             </Fragment>

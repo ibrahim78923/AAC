@@ -7,11 +7,12 @@ import * as Yup from 'yup';
 
 export const useAgentAvailability = (props: any) => {
   const { data, departmentId, setDepartmentId } = props;
+
   const theme = useTheme();
   const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
 
   const methods = useForm({
-    defaultValues: { departmentId: departmentId },
+    defaultValues: { departmentId: null },
     resolver: yupResolver(
       Yup?.object()?.shape({
         departmentId: Yup?.mixed()?.nullable(),
@@ -19,17 +20,24 @@ export const useAgentAvailability = (props: any) => {
     ),
   });
 
-  const { control } = methods;
+  const { control, reset, handleSubmit } = methods;
 
-  const watchDepartment = useWatch({
+  const watchDepartment: any = useWatch({
     control,
     name: 'departmentId',
-    defaultValue: null,
   });
 
+  const onsubmit = (data: any) => {
+    setDepartmentId?.(data?.departmentId);
+  };
+
   useEffect(() => {
-    setDepartmentId?.(watchDepartment);
-  }, [watchDepartment]);
+    reset({ departmentId: departmentId });
+  }, [departmentId, reset]);
+
+  useEffect(() => {
+    handleSubmit(onsubmit)();
+  }, [watchDepartment?._id]);
 
   const pieChartSeries = [
     data?.agentAvailabilty?.data?.availableAgents || 0,

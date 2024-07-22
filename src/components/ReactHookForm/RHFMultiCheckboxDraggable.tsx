@@ -49,7 +49,14 @@ export const RHFMultiCheckboxDraggable = (
                     (value: string) => value !== option?.value,
                   );
                 } else {
-                  return [...selectedValues, option?.value];
+                  const index = options?.findIndex(
+                    (item: any) => item?.value === option?.value,
+                  );
+                  return [
+                    ...selectedValues?.slice?.(0, index),
+                    option?.value,
+                    ...selectedValues?.slice?.(index),
+                  ];
                 }
               };
 

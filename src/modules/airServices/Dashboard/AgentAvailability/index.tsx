@@ -89,7 +89,7 @@ export const AgentAvailability = (props: any) => {
                 <CustomChart
                   options={{
                     ...pieChartDataOptions(theme),
-                    legend: { show: false },
+                    labels: ['Available', 'Not Available'],
                   }}
                   series={pieChartSeries}
                   type="pie"

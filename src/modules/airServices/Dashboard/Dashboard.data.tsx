@@ -41,8 +41,9 @@ export const dashboardsListsOptionsDynamic = (
             display={'flex'}
             justifyContent={'space-between'}
             alignItems={'center'}
+            component={'span'}
           >
-            <Typography variant="body2" component={'div'} flex={1}>
+            <Typography variant="body2" component={'span'} flex={1}>
               {truncateText(item?.name)}
             </Typography>
 
@@ -52,6 +53,7 @@ export const dashboardsListsOptionsDynamic = (
                 label="Default"
                 variant="outlined"
                 color={'success'}
+                component={'span'}
               />
             )}
           </Box>

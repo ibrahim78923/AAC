@@ -1,5 +1,4 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
-import { UserAvatarImage } from '@/assets/images';
 import { Avatar, Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
@@ -11,6 +10,13 @@ import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import { AntSwitch } from '@/components/AntSwitch';
 import dayjs from 'dayjs';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../CreateDashboard/CreateDashboard.data';
+
+export const MANAGE_ACCESS_TYPES_API_MAPPED = {
+  [MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER]: 'Private to owner',
+  [MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE]: 'Everyone',
+  [MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS]: 'Specific user',
+};
 
 export const manageDashboardsDataColumnsDynamic = (
   setIsPortalOpen: any,
@@ -89,7 +95,7 @@ export const manageDashboardsDataColumnsDynamic = (
         component={'div'}
         textTransform={'capitalize'}
       >
-        {info?.getValue()}
+        {MANAGE_ACCESS_TYPES_API_MAPPED?.[info?.getValue()] ?? '---'}
       </Typography>
     ),
   },
@@ -165,34 +171,5 @@ export const manageDashboardsDataColumnsDynamic = (
         </PermissionsGuard>
       </Box>
     ),
-  },
-];
-
-export const dashboardsData: any = [
-  {
-    actions: 1,
-    dashboardName: 'Service_1',
-    default: true,
-    owner: {
-      name: 'Olivia Rhye',
-      email: 'olivia@gmail.com',
-      src: UserAvatarImage,
-    },
-    accessRights: 'Everyone',
-    lastViewed: '10/04/2023',
-    lastUpdated: '10/04/2023',
-  },
-  {
-    actions: 2,
-    dashboardName: 'Service_1',
-    default: false,
-    owner: {
-      name: 'Olivia Rhye',
-      email: 'olivia@gmail.com',
-      src: UserAvatarImage,
-    },
-    accessRights: 'Everyone',
-    lastViewed: '10/04/2023',
-    lastUpdated: '10/04/2023',
   },
 ];

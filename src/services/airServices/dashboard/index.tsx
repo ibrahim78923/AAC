@@ -41,7 +41,7 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: postAnnouncementParameter?.body,
       }),
-      invalidatesTags: [TAG_TWO],
+      invalidatesTags: [TAG],
     }),
     postEmailDashboard: builder?.mutation({
       query: (postEmailParameter: any) => ({
@@ -173,6 +173,26 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
+    getUsersDropdownListForDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+    getDepartmentsDropdownListForDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+    }),
   }),
 });
 
@@ -198,4 +218,6 @@ export const {
   useGetSingleServicesDashboardQuery,
   useGetDashboardNameListDropdownListForDashboardQuery,
   useDeleteDynamicServicesDashboardMutation,
+  useLazyGetDepartmentsDropdownListForDashboardQuery,
+  useLazyGetUsersDropdownListForDashboardQuery,
 } = dashboardAPI;

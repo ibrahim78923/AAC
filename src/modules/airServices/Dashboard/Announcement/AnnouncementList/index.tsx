@@ -6,22 +6,24 @@ import { Fragment } from 'react';
 import { AnnouncementCard } from '../AnnouncementCard';
 import NoData from '@/components/NoData';
 import CustomPagination from '@/components/CustomPagination';
+import { useAnnouncementList } from './useAnnouncementList';
 
 export const AnnouncementList = (props: any) => {
+  const { isPortalOpen } = props;
+
   const {
+    data,
     isLoading,
     isFetching,
     isError,
-    data,
-    isDrawerOpen,
-    onClose,
-    setPage,
     setPageLimit,
-  } = props;
+    setPage,
+    onClose,
+  } = useAnnouncementList?.(props);
   return (
     <CommonDrawer
       title="Announcements"
-      isDrawerOpen={isDrawerOpen}
+      isDrawerOpen={isPortalOpen?.isView}
       onClose={() => onClose?.()}
       isOk
       okText=""

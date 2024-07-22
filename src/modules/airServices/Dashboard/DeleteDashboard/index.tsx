@@ -14,7 +14,7 @@ export const DeleteDashboard = (props: PortalComponentPropsI) => {
   return (
     <>
       <AlertModals
-        message={'Are you sure you want to delete dashboard'}
+        message={'Are you sure you want to delete dashboard ?'}
         type={ALERT_MODALS_TYPE?.DELETE}
         open={isPortalOpen?.isDelete}
         handleClose={() => closeDashboardDeleteModal?.()}

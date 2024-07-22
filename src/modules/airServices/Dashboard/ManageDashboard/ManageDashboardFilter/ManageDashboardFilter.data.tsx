@@ -3,21 +3,21 @@ import {
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
-import { MANAGE_ACCESS_TYPES } from '@/constants/strings';
 import { ManageDashboardFilterFormDefaultValuesDynamicI } from './ManageDashboardFilter.interface';
+import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../../CreateDashboard/CreateDashboard.data';
 
 const accessRightsOptions = [
   {
     label: 'Private to owner',
-    _id: MANAGE_ACCESS_TYPES?.PRIVATE,
+    _id: MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER,
   },
   {
     label: 'Everyone',
-    _id: MANAGE_ACCESS_TYPES?.EVERYONE,
+    _id: MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE,
   },
   {
     label: 'Special user',
-    _id: MANAGE_ACCESS_TYPES?.SPECIAL,
+    _id: MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
   },
 ];
 

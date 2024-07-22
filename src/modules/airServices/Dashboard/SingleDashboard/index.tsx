@@ -47,7 +47,7 @@ export const SingleDashboard = (props: any) => {
         ) : ticketDashboardCardsData(cardData)?.length > 0 ? (
           <Grid container spacing={3}>
             {ticketDashboardCardsData(cardData)?.map((item: any) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?._id}>
+              <Grid key={item?.id} item xs={12} sm={6} md={4} lg={3} xl={2.4}>
                 <TicketDashboardCards
                   icon={item?.icon}
                   count={item?.count}
@@ -71,7 +71,7 @@ export const SingleDashboard = (props: any) => {
             {lazyGetSingleServicesDashboardStatus?.data?.data?.dashboard?.reports?.map(
               (item: any, index: any) =>
                 item?.type === REPORT_TYPES?.STATIC ? (
-                  <Grid item xs={12} md={6} key={item?._id}>
+                  <Grid item xs={12} md={6} key={item?.name}>
                     {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name] &&
                       createElement(
                         AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item?.name],
@@ -87,7 +87,7 @@ export const SingleDashboard = (props: any) => {
                       )}
                   </Grid>
                 ) : (
-                  <Grid item xs={12} key={item?._id}>
+                  <Grid item xs={12} key={item?.name ?? index}>
                     <ReportsWidgets
                       reportWidgets={
                         lazyGetSingleServicesDashboardStatus?.data?.data?.[

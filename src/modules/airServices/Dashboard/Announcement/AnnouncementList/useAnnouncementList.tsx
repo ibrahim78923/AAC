@@ -3,10 +3,8 @@ import { useGetCustomerAnnouncementQuery } from '@/services/airServices/dashboar
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
 
-export const useAnnouncement = () => {
-  const [openDrawer, setDrawerOpen] = useState(false);
-  const [openAddAnnouncementDrawer, setOpenAddAnnouncementDrawer] =
-    useState(false);
+export const useAnnouncementList = (props: any) => {
+  const { setIsPortalOpen } = props;
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
@@ -18,34 +16,26 @@ export const useAnnouncement = () => {
     },
   };
 
-  const {
-    data: announcementsList,
-    isLoading,
-    isFetching,
-    isError,
-  } = useGetCustomerAnnouncementQuery(getCustomerAnnouncementApiParameter, {
-    refetchOnMountOrArgChange: true,
-  });
+  const { data, isLoading, isFetching, isError } =
+    useGetCustomerAnnouncementQuery(getCustomerAnnouncementApiParameter, {
+      refetchOnMountOrArgChange: true,
+    });
 
   const onClose = () => {
-    setDrawerOpen(false);
+    setIsPortalOpen({});
     setPage(PAGINATION?.CURRENT_PAGE);
   };
 
   return {
-    announcementsList,
+    data,
     isLoading,
     isFetching,
     isError,
     router,
-    openDrawer,
-    setDrawerOpen,
     setPageLimit,
     pageLimit,
     page,
     setPage,
     onClose,
-    openAddAnnouncementDrawer,
-    setOpenAddAnnouncementDrawer,
   };
 };
