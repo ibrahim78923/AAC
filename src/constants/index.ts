@@ -208,7 +208,7 @@ export const AIR_OPERATIONS = {
   UPSERT_SALES_WORKFLOW: `/air-operations/workflow-automation/sales-workflow/upsert-sales-workflow`,
   SERVICES_WORKFLOW: `/air-operations/workflow-automation/services-workflow`,
   MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow`,
-  ROLES_AND_RIGHTS: `/air-operations/role-and-right`,
+  ROLES_AND_RIGHTS: `/air-operations/roles-and-right`,
   UPSERT_MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow/upsert-marketing-workflow`,
   UPSERT_SCHEDULE_WORKFLOW: `/air-operations/workflow-automation/services-workflow/upsert-schedule-workflow`,
   UPSERT_EVENT_BASED_WORKFLOW: `/air-operations/workflow-automation/services-workflow/upsert-event-based-workflow`,

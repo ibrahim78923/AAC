@@ -1,12 +1,11 @@
 import { useForm } from 'react-hook-form';
-import { filteredEmptyValues } from '@/utils/api';
+import { filteredEmptyValues, makeDateTime } from '@/utils/api';
 import {
   reportFilterFormFieldsDynamic,
   reportFiltersDefaultValues,
 } from './FilterReport.data';
 import { useLazyGetReportsOwnersDropdownListForReportsQuery } from '@/services/airOperations/reports';
 import useAuth from '@/hooks/useAuth';
-import dayjs from 'dayjs';
 
 export const useFilterReport = (props: any) => {
   const { setIsPortalOpen, reportFilters, setReportFilter } = props;
@@ -22,10 +21,10 @@ export const useFilterReport = (props: any) => {
 
   const submit = async (formData: any) => {
     const startDate = formData?.createdDate?.startDate
-      ? dayjs(formData?.createdDate?.startDate)?.toISOString()
+      ? makeDateTime(formData?.createdDate?.startDate, new Date())
       : undefined;
     const endDate = formData?.createdDate?.endDate
-      ? dayjs(formData?.createdDate?.endDate)?.toISOString()
+      ? makeDateTime(formData?.createdDate?.endDate, new Date())
       : undefined;
 
     const data = {

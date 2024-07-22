@@ -10,8 +10,6 @@ export default ReportsPage;
 
 ReportsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT}>
-      {page}
-    </Layout>
+    <Layout permissions={Permissions?.AIR_SERVICES_REPORTS}>{page}</Layout>
   );
 };

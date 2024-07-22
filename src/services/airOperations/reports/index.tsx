@@ -106,6 +106,46 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
       }),
     }),
+    getServicesDashboardDropdownListToAddReportsToDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_AIR_SERVICES_DASHBOARD_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.dynamicdashboards;
+      },
+    }),
+    getSalesDashboardDropdownListToAddReportsToDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.SALES_DASHBOARD_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.salesDashboards;
+      },
+    }),
+    getMarketingDashboardDropdownListToAddReportsToDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_AIR_SERVICES_DASHBOARD_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.dynamicdashboards;
+      },
+    }),
+    getUserAccessListDropdownListForReportsAccessManagement: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
@@ -125,4 +165,8 @@ export const {
   useLazyGetReportsOwnersDropdownListForReportsQuery,
   useRestoreGenericReportsListQuery,
   useLazyRestoreGenericReportsListQuery,
+  useLazyGetMarketingDashboardDropdownListToAddReportsToDashboardQuery,
+  useLazyGetSalesDashboardDropdownListToAddReportsToDashboardQuery,
+  useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery,
+  useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
 } = salesReportsApi;

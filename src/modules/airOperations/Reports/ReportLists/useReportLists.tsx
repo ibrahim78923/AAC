@@ -135,6 +135,7 @@ export const useReportLists = (props: any) => {
     page,
     setPage,
     totalRecords: lazyGetReportsListStatus?.data?.data?.genericReports?.length,
+    baseModule,
   };
 
   const renderPortalComponent = () => {

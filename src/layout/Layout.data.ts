@@ -222,7 +222,7 @@ export const ServicesRoutes: any = [
     icon: ReportsImage,
     label: 'Reports',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_REPORTS,
   },
   {
     key: '/air-services/enquiries',
@@ -303,6 +303,20 @@ export const LoyaltyProgramsRoutes: any = [
         permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS,
       },
     ],
+  },
+  {
+    key: LOYALTY_PROGRAM?.ROLE_AND_RIGHT,
+    icon: ForecastImage,
+    label: 'Roles and Right',
+    role: 'AIR_OPERATIONS',
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_ROLES_AND_RIGHT,
+  },
+  {
+    key: LOYALTY_PROGRAM?.USER_MANAGEMENT,
+    icon: ProfileUserManagementImage,
+    label: 'User Management',
+    role: 'AIR_OPERATIONS',
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_USER_MANAGEMENT_USERS,
   },
   // {
   //   key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
@@ -487,6 +501,13 @@ export const AirOperationsRoutes: any = [
     label: 'Workflow Automation',
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATIONS_WORKFLOWS,
+  },
+  {
+    key: AIR_OPERATION?.ROLE_AND_RIGHT,
+    icon: ForecastImage,
+    label: 'Roles and Right',
+    role: 'AIR_OPERATIONS',
+    permissions: Permissions?.AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST,
   },
   {
     key: AIR_OPERATION?.USER_MANAGEMENT,

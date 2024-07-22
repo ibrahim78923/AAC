@@ -1565,8 +1565,8 @@ export const AIR_CALL_CENTER_SETTING_CHANNELS_PHONE_NUMBER_PERMISSION = {
   CHANNELS_PHONE_NUMBERS_DELETE: 'call-center-channels-phone-numbers-delete',
 };
 export const AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS = {
-  CREATE_REPORT_FROM_SCRATCH: '',
-  CREATE_REPORT_FROM_TEMPLATE: '',
+  CREATE_REPORT_FROM_SCRATCH: 'operation-report-sales-create-report',
+  CREATE_REPORT_FROM_TEMPLATE: 'operation-report-sales-create-template',
 };
 export const AIR_OPERATION_REPORTS_SALES_ALL_REPORTS_PERMISSIONS = {
   SEARCH_RECORD: 'operations-report-sales-all-report-search',
@@ -1794,4 +1794,49 @@ export const AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS = {
   CREATE_TEAMS: 'call-center-user-management-teams-create-team',
   TEAM_GRID_VIEW: 'call-center-user-management-teams-grid-view',
   TEAMS_ACTION: 'call-center-user-management-teams-actions-',
+};
+
+export const AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS = {
+  VIEW: 'services-reports-tickets-view',
+  DOWNLOAD: 'services-reports-tickets-download',
+  FILTER: 'services-reports-tickets-filter',
+};
+
+export const AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS = {
+  VIEW: 'services-reports-inventory-view',
+  DOWNLOAD: 'services-reports-inventory-download',
+  FILTER: 'services-reports-inventory-filter',
+};
+export const AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS = {
+  VIEW: 'services-reports-software-view',
+  DOWNLOAD: 'services-reports-software-download',
+  FILTER: 'services-reports-software-filter',
+};
+export const AIR_SERVICES_REPORTS_PURCHASE_ORDER_PERMISSIONS = {
+  VIEW: 'services-reports-purchase-order-view',
+  DOWNLOAD: 'services-reports-purchase-order-download',
+  FILTER: 'services-reports-purchase-order-filter',
+};
+
+export const AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS = {
+  VIEW: 'services-reports-contract-view',
+  DOWNLOAD: 'services-reports-contract-download',
+  FILTER: 'services-reports-contract-filter',
+};
+
+export const AIR_LOYALTY_PROGRAM_ROLES_AND_RIGHT_PERMISSIONS = {
+  SEARCH_RECORD: 'loyalty-program-roles-and-right-search-record',
+  EDIT_ROLE: 'loyalty-program-roles-and-right-edit-role',
+  VIEW_ROLE: 'loyalty-program-roles-and-right-view-role',
+  DELETE_ROLE: `loyalty-program-roles-and-right-delete-role`,
+  ADD_ROLE: `loyalty-program-roles-and-right-add-role`,
+};
+
+export const AIR_LOYALTY_PROGRAM_USER_MANAGEMENT_USERS_PERMISSIONS = {
+  USER_LIST: `loyalty-program-user-managment-user-list`,
+  SEARCH_RECORD: 'loyalty-program-user-managment-search-record',
+  ACTIVE_INACTIVE_USER: 'loyalty-program-user-managment-active-inactive-user',
+  VIEW_USER_DETAIL: 'loyalty-program-user-managment-view-user-detail',
+  EDIT_USER: `loyalty-program-user-managment-edit-user`,
+  DELETE_USER: `loyalty-program-user-managment-delete-user`,
 };

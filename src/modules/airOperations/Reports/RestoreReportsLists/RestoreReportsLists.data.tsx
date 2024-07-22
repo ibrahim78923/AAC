@@ -36,25 +36,6 @@ export const actionsForRestoreReportListsDynamic = (
   },
 ];
 
-export const data = [
-  {
-    _id: '1222',
-    isFavorite: false,
-    user: {
-      name: 'ali',
-      avatar: {
-        url: 'qwe',
-      },
-    },
-    name: 'Deal',
-    dashboard: 'Deal',
-    type: 'Systematic Report',
-    createdAt: '10/4/2023',
-    assigned: 'Everyone',
-    updatedAt: '10/5/2023',
-  },
-];
-
 export const restoreReportColumnsDynamic = (
   selectedReportList?: any,
   setSelectedReportList?: any,
@@ -129,7 +110,7 @@ export const restoreReportColumnsDynamic = (
       >
         <Avatar
           sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.row?.original?.avatar?.url)}
+          src={generateImage(info?.row?.original?.avatar)}
         >
           <Typography variant="body2" textTransform={'uppercase'}>
             {fullNameInitial(info?.getValue())}

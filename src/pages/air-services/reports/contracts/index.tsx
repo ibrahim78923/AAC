@@ -10,7 +10,7 @@ export default ContractsReportsPage;
 
 ContractsReportsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT}>
+    <Layout permissions={Permissions?.AIR_SERVICES_CONTRACT_TICKETS}>
       {page}
     </Layout>
   );

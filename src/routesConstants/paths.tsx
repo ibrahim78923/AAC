@@ -215,6 +215,8 @@ export const LOYALTY_PROGRAM = {
   ),
   GIFT_CARDS_SETTLEMENTS: path(LOYALTY_PROGRAM_PAGE, '/gift-cards/settlements'),
   GIFT_CARDS_SETTLED: path(LOYALTY_PROGRAM_PAGE, '/gift-cards/settled'),
+  ROLE_AND_RIGHT: path(LOYALTY_PROGRAM_PAGE, '/roles-and-right'),
+  USER_MANAGEMENT: path(LOYALTY_PROGRAM_PAGE, '/user-management'),
   PREPARED_FUNDS_TRANSACTIONS: path(
     LOYALTY_PROGRAM_PAGE,
     '/prepaid/funds-transactions',
