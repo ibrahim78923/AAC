@@ -920,6 +920,19 @@ export const COLLECTION_NAME = {
   USERS: 'users',
   SERVICE_CATEGORIES: 'servicecategories',
   DEAL_PIPELINES: 'dealpipelines',
+  EVERYONE: 'everyone',
+  SPECIFIC_USERS: 'specificUsers',
+  ADD_TO_EXISTING: 'addToExisting',
+  ADD_TO_NEW: 'addToNew',
+  ALL: 'All',
+  INVENTORIES: 'Inventory',
+  TICKETS: 'Tickets',
+  SOFTWARE: 'Software',
+  CONTRACTS: 'Contract',
+  PURCHASE_ORDER: 'Purchase Order',
+  DEALS: 'Deals',
+  PIPELINE_FORECAST: 'Pipeline Forecast',
+  FORECAST_CATEGORY: 'Forecast Category',
 };
 
 export const USER_MANAGEMENT_DRAWER_ACTION = {

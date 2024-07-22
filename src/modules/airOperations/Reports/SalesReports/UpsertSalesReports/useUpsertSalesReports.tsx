@@ -146,7 +146,6 @@ export default function useUpsertSalesReports() {
     setDisableTemplate(false);
     setShowTemplate(false);
   };
-
   return {
     handleDragEnd,
     form,

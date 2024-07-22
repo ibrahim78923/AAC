@@ -32,7 +32,6 @@ const useSendEmailDrawer = ({
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
   );
-
   const [isSendLater, setIsSendLater] = useState(false);
   const methodsDealsTasks: any = useForm({
     resolver: yupResolver(emailValidationsSchema(drawerType, isSendLater)),

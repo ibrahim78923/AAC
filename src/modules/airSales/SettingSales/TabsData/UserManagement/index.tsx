@@ -29,6 +29,7 @@ const Users = () => {
     setIsOpenDelete,
     handleDeleteTeam,
     deleteTeamLoading,
+    // productsUsers
   } = useUserManagement();
 
   return (
