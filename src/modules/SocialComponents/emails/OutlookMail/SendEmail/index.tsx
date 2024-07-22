@@ -7,6 +7,7 @@ import {
   Grid,
   TextField,
   Typography,
+  useTheme,
 } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
@@ -23,6 +24,7 @@ import {
 import { options } from './SendEmailDrawer.data';
 
 import {
+  ClearIcon,
   ExclimatoryCircleIcon,
   GmailIcon,
   InfoBlueIcon,
@@ -33,15 +35,19 @@ import {
 
 import { v4 as uuidv4 } from 'uuid';
 import useSendEmailDrawer from './useSendEmailDrawer';
-import { CREATE_EMAIL_TYPES } from '@/constants';
+import { CREATE_EMAIL_TYPES, indexNumbers } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import { UnixDateFormatter } from '@/utils/dateTime';
 import { styles } from '../../Email.styles';
 import CustomLabel from '@/components/CustomLabel';
 import * as yup from 'yup';
+import { ImageComponent } from '../Chat/RightPane';
+import { useDispatch } from 'react-redux';
+import { setCurrentForwardAttachments } from '@/redux/slices/email/outlook/slice';
+import dayjs from 'dayjs';
 
 const SendEmailDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, drawerType } = props;
+  const { openDrawer, setOpenDrawer, drawerType, emailSettingsData } = props;
 
   const {
     handleSubmit,
@@ -57,14 +63,25 @@ const SendEmailDrawer = (props: any) => {
     handelSendLaterAction,
     setAutocompleteValues,
     autocompleteValues,
+
+    setAutocompleteCCValues,
+    autocompleteCCValues,
+
+    setAutocompleteBCCValues,
+    autocompleteBCCValues,
+
     isToValid,
     isLoadingForward,
     loadingOtherReply,
-  } = useSendEmailDrawer({ setOpenDrawer, drawerType });
+  } = useSendEmailDrawer({ setOpenDrawer, drawerType, emailSettingsData });
 
+  const dispatch = useDispatch();
   const isCrmConnected = false;
   const currentEmailAssets = useAppSelector(
     (state: any) => state?.outlook?.currentEmailAssets,
+  );
+  const currentForwardAttachments = useAppSelector(
+    (state: any) => state?.outlook?.currentForwardAttachments,
   );
 
   const removeRePrefix = (title: any) => {
@@ -73,8 +90,15 @@ const SendEmailDrawer = (props: any) => {
   const removeFwPrefix = (title: any) => {
     return title?.startsWith('Fw: ') ? title?.replace(/^Fw: /, '') : title;
   };
+
   const handleAutocompleteChange = (_: any, newValue: string[]) => {
     setAutocompleteValues(newValue);
+  };
+  const handleAutocompleteCCChange = (_: any, newValue: string[]) => {
+    setAutocompleteCCValues(newValue);
+  };
+  const handleAutocompleteBCCChange = (_: any, newValue: string[]) => {
+    setAutocompleteBCCValues(newValue);
   };
 
   const emailSchema = yup?.string()?.email()?.required();
@@ -87,6 +111,23 @@ const SendEmailDrawer = (props: any) => {
     }
   };
   const isValidEmails = checkEmails(autocompleteValues);
+  const isValidCCEmails = checkEmails(autocompleteCCValues);
+  const isValidBCCEmails = checkEmails(autocompleteBCCValues);
+
+  const handleRemove = (item: any, attachments: any) => {
+    const updatedAttachments = attachments?.filter(
+      (attachment: any) => attachment !== item,
+    );
+    dispatch(
+      setCurrentForwardAttachments(
+        updatedAttachments?.map((attachment: any) => ({
+          contentBytes: attachment?.contentBytes,
+          contentType: attachment?.contentType,
+          name: attachment?.name,
+        })),
+      ),
+    );
+  };
 
   return (
     <div>
@@ -127,7 +168,6 @@ const SendEmailDrawer = (props: any) => {
         okText={isSendLater ? 'Send Later' : 'Send'}
         isOk={true}
         footer={true}
-        // footerActionText={isSendLater ? 'Send Now' : 'Send Later'}
         {...(drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL && {
           footerActionText: isSendLater ? 'Send Now' : 'Send Later',
         })}
@@ -147,107 +187,46 @@ const SendEmailDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={2}>
-              {drawerType === CREATE_EMAIL_TYPES?.REPLY ||
-              drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL ? (
-                <Grid item xs={12}>
-                  <RHFTextField
-                    name="to"
-                    label="to"
-                    size="small"
-                    required={false}
-                    disabled
-                    value={currentEmailAssets?.from || ''}
-                  />
-                </Grid>
-              ) : (
-                <Grid item xs={12}>
-                  <Autocomplete
-                    multiple
-                    freeSolo
-                    id="tags-filled"
-                    options={[]}
-                    value={autocompleteValues}
-                    onChange={handleAutocompleteChange}
-                    renderTags={(value: readonly string[], getTagProps) =>
-                      value?.map((option: string, index: number) => (
-                        <Chip
-                          variant="outlined"
-                          label={option}
-                          {...getTagProps({ index })}
-                          key={uuidv4()}
-                        />
-                      ))
-                    }
-                    renderInput={(params: any) => (
-                      <>
-                        <CustomLabel label={'To'} required={true} />
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          placeholder="Enter email"
-                          size="small"
-                          error={isToValid}
-                          helperText={
-                            <>
-                              {isToValid ? (
-                                <>
-                                  <Typography
-                                    component={'span'}
-                                    sx={{ display: 'block', mt: -1, ml: -1 }}
-                                  >
-                                    Field is Required
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  {isValidEmails ? (
-                                    params.inputProps?.value?.length > 1 ? (
-                                      <Typography
-                                        fontSize={13}
-                                        color={
-                                          theme?.palette?.custom?.dodger_blue
-                                        }
-                                        sx={{
-                                          display: 'flex',
-                                          alignItems: 'center',
-                                          gap: '5px',
-                                        }}
-                                      >
-                                        <InfoBlueIcon size={'16'} /> Press enter
-                                        to add email
-                                      </Typography>
-                                    ) : null
-                                  ) : (
-                                    <Typography
-                                      color={theme?.palette?.error?.main}
-                                    >
-                                      Email you entered is not valid
-                                    </Typography>
-                                  )}
-                                </>
-                              )}
-                            </>
-                          }
-                        />
-                      </>
-                    )}
-                  />
-                </Grid>
-              )}
+              <Grid item xs={12}>
+                <MultiTextField
+                  label={'To'}
+                  required={true}
+                  values={autocompleteValues}
+                  handleAutocompleteChange={handleAutocompleteChange}
+                  isValid={isToValid}
+                  isValidEmails={isValidEmails}
+                />
+              </Grid>
               <Grid item xs={4}>
                 <RHFCheckbox name="ccChecked" label="CC" />
               </Grid>
               <Grid item xs={4}>
                 <RHFCheckbox name="bccChecked" label="BCC" />
               </Grid>
-              {watchEmailsForm[0] && (
+              {watchEmailsForm[indexNumbers?.ZERO] && (
                 <Grid item xs={12}>
-                  <RHFTextField name="cc" label="CC" size="small" />
+                  {/* <RHFTextField name="cc" label="CC" size="small" /> */}
+                  <MultiTextField
+                    label={'CC'}
+                    required={false}
+                    values={autocompleteCCValues}
+                    handleAutocompleteChange={handleAutocompleteCCChange}
+                    isValid={false}
+                    isValidEmails={isValidCCEmails}
+                  />
                 </Grid>
               )}
-              {watchEmailsForm[1] && (
+              {watchEmailsForm[indexNumbers?.ONE] && (
                 <Grid item xs={12}>
-                  <RHFTextField name="bcc" label="BCC" size="small" />
+                  {/* <RHFTextField name="bcc" label="BCC" size="small" /> */}
+                  <MultiTextField
+                    label={'BCC'}
+                    required={false}
+                    values={autocompleteBCCValues}
+                    handleAutocompleteChange={handleAutocompleteBCCChange}
+                    isValid={false}
+                    isValidEmails={isValidBCCEmails}
+                  />
                 </Grid>
               )}
               <Grid item md={6}>
@@ -372,10 +351,61 @@ const SendEmailDrawer = (props: any) => {
                 </Grid>
               )}
               <Grid item xs={12}>
-                <RHFEditor name="description" label="Description" />
+                <RHFEditor
+                  name="description"
+                  label={
+                    drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+                    drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
+                      ? 'Comment'
+                      : 'Description'
+                  }
+                />
               </Grid>
+
               <Grid item xs={12}>
-                <RHFDropZone name="attachments" label="Attachments" />
+                <Box sx={{ marginBottom: '10px' }}>
+                  {currentForwardAttachments &&
+                    currentForwardAttachments?.map((item: any) => {
+                      return (
+                        <Box
+                          key={uuidv4()}
+                          sx={{
+                            marginTop: '10px',
+                            borderRadius: '8px',
+                            overflow: 'hidden',
+                            display: 'flex',
+                            backgroundColor: '#f3f4f6',
+                            padding: '10px',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <ImageComponent
+                            base64={item?.contentBytes}
+                            contentType={item?.contentType}
+                            fileName={item?.name}
+                          />
+                          <Box
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() =>
+                              handleRemove(item, currentForwardAttachments)
+                            }
+                          >
+                            <ClearIcon />
+                          </Box>
+                        </Box>
+                      );
+                    })}
+                </Box>
+              </Grid>
+
+              <Grid item xs={12}>
+                <RHFDropZone
+                  name="attachments"
+                  label="Attachments"
+                  multiple
+                  maxSize={25 * 1024 * 1024}
+                  fileType={'PNG, JPG, PDF, DOC, and CSV (max 25.00 MB)'}
+                />
               </Grid>
             </Grid>
 
@@ -386,6 +416,8 @@ const SendEmailDrawer = (props: any) => {
                   fullWidth
                   label="Select Data and Time"
                   size="small"
+                  disablePast
+                  minDateTime={dayjs()}
                 />
               </Box>
             )}
@@ -428,6 +460,85 @@ const SendEmailDrawer = (props: any) => {
         </Box>
       </CommonDrawer>
     </div>
+  );
+};
+
+const MultiTextField = ({
+  values,
+  handleAutocompleteChange,
+  isValid,
+  isValidEmails,
+  label,
+  required,
+}: any) => {
+  const theme = useTheme();
+  return (
+    <Autocomplete
+      multiple
+      freeSolo
+      id="tags-filled"
+      options={[]}
+      value={values}
+      onChange={handleAutocompleteChange}
+      renderTags={(value: readonly string[], getTagProps) =>
+        value?.map((option: string, index: number) => (
+          <Chip
+            variant="outlined"
+            label={option}
+            {...getTagProps({ index })}
+            key={uuidv4()}
+          />
+        ))
+      }
+      renderInput={(params: any) => (
+        <>
+          <CustomLabel label={label} required={required} />
+          <TextField
+            {...params}
+            variant="outlined"
+            placeholder="Enter email"
+            size="small"
+            error={isValid}
+            helperText={
+              <>
+                {isValid ? (
+                  <>
+                    <Typography
+                      component={'span'}
+                      sx={{ display: 'block', mt: -1, ml: -1 }}
+                    >
+                      Field is Required
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    {isValidEmails ? (
+                      params.inputProps?.value?.length > 1 ? (
+                        <Typography
+                          fontSize={13}
+                          color={theme?.palette?.custom?.dodger_blue}
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                          }}
+                        >
+                          <InfoBlueIcon size={'16'} /> Press enter to add email
+                        </Typography>
+                      ) : null
+                    ) : (
+                      <Typography color={theme?.palette?.error?.main}>
+                        Email you entered is not valid
+                      </Typography>
+                    )}
+                  </>
+                )}
+              </>
+            }
+          />
+        </>
+      )}
+    />
   );
 };
 

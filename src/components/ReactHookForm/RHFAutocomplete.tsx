@@ -62,7 +62,7 @@ export default function RHFAutocomplete({
             autoComplete
             noOptionsText={noOptionsText}
             groupBy={groupBy}
-            value={value}
+            value={value || (multiple ? [] : null)}
             getOptionLabel={getOptionLabel}
             isOptionEqualToValue={isOptionEqualToValue}
             PaperComponent={(props) => (

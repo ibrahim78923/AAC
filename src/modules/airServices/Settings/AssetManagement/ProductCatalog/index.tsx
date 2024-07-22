@@ -27,7 +27,7 @@ export const ProductCatalog = () => {
   return (
     <>
       <PageTitledHeader
-        title={'Product'}
+        title={'Product Catalog'}
         addTitle={'New Product'}
         hasExport
         hasImport

@@ -1,4 +1,4 @@
-import { Button, DialogActions, Divider, Grid } from '@mui/material';
+import { DialogActions, Divider, Grid } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { RHFEditor } from '@/components/ReactHookForm';
 import { meetingFormFields } from './MeetingForm.data';
@@ -6,6 +6,7 @@ import { AttendeePeople } from './AttendeePeople';
 import { useRouter } from 'next/router';
 
 export const MeetingForm = (props: any) => {
+  const { addMeetingProgress } = props;
   const router = useRouter();
   return (
     <>
@@ -32,6 +33,7 @@ export const MeetingForm = (props: any) => {
             name="description"
             label="Meeting Agenda"
             style={{ minHeight: 200 }}
+            required={true}
           />
           <AttendeePeople {...props} />
         </Grid>
@@ -39,14 +41,20 @@ export const MeetingForm = (props: any) => {
       <br />
       <Divider sx={{ borderColor: 'grey.700' }} />
       <DialogActions>
-        <Button
+        <LoadingButton
           variant="outlined"
           color="secondary"
           onClick={() => router?.back()}
+          disabled={addMeetingProgress?.isLoading}
         >
           Cancel
-        </Button>
-        <LoadingButton variant="contained" type="submit">
+        </LoadingButton>
+        <LoadingButton
+          variant="contained"
+          type="submit"
+          disabled={addMeetingProgress?.isLoading}
+          loading={addMeetingProgress?.isLoading}
+        >
           Save & Next
         </LoadingButton>
       </DialogActions>

@@ -1,9 +1,9 @@
 import { Button, Grid, Typography } from '@mui/material';
 import { createSurveyFields, surveyConditions } from './CreateSurvey.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_SERVICES } from '@/constants';
 import { LoadingButton } from '@mui/lab';
 import { useCreateSurvey } from './useCreateSurvey';
+import { ShareModal } from './ShareModal';
 
 export const CreateSurvey = (props: any) => {
   const {
@@ -13,16 +13,28 @@ export const CreateSurvey = (props: any) => {
     router,
     customerSupportLinkType,
     displayWatch,
+    setSubmitType,
+    openShare,
+    setOpenShare,
+    userDropdown,
   } = useCreateSurvey(props);
   return (
     <>
       <PageTitledHeader
-        title="Create Survey"
-        moveBack={() => router?.push(AIR_SERVICES?.FEEDBACK_SURVEY)}
+        title={
+          router?.query?.id
+            ? surveyConditions?.editSurveyTitle
+            : surveyConditions?.createSurveyTitle
+        }
+        moveBack={() => router?.back()}
         canMovedBack
       />
       <Grid container spacing={2}>
-        {createSurveyFields?.map((field: any) => {
+        {createSurveyFields(
+          props?.methods?.watch,
+          setOpenShare,
+          userDropdown,
+        )?.map((field: any) => {
           if (
             field?.conditionalComponent &&
             customerSupportLinkType === surveyConditions?.email
@@ -30,9 +42,8 @@ export const CreateSurvey = (props: any) => {
             return null;
           }
           if (
-            (field?.componentProps?.name === surveyConditions?.surveyDuration ||
-              field?.componentProps?.name ===
-                surveyConditions?.sendSurveyPeople) &&
+            field?.componentProps?.name ===
+              surveyConditions?.sendSurveyPeople &&
             customerSupportLinkType === surveyConditions?.link
           ) {
             return null;
@@ -81,15 +92,23 @@ export const CreateSurvey = (props: any) => {
             variant="outlined"
             color="secondary"
             disabled={isLoading}
-            onClick={() => router?.push(AIR_SERVICES?.FEEDBACK_SURVEY)}
+            onClick={() => router?.back()}
           >
             Cancel
           </Button>
-          <LoadingButton variant="contained" type="submit" loading={isLoading}>
+          <LoadingButton
+            variant="contained"
+            onClick={() => setSubmitType(surveyConditions?.createSurvey)}
+            type="submit"
+            loading={isLoading}
+          >
             Next
           </LoadingButton>
         </Grid>
       </Grid>
+      {openShare && (
+        <ShareModal openShare={openShare} setOpenShare={setOpenShare} />
+      )}
     </>
   );
 };

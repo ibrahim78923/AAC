@@ -18,8 +18,8 @@ const TransformResponse = (response: any) =>
       item?.status === COMPLETED
         ? styles?.completed
         : item?.status === IN_PROGRESS
-          ? styles?.inprogress
-          : styles?.toDo,
+        ? styles?.inprogress
+        : styles?.toDo,
     extendedProps: {
       data: { ...item },
       status: item?.status,
@@ -82,10 +82,11 @@ export const workloadAPI = baseAPI.injectEndpoints({
     }),
 
     patchTask: builder?.mutation({
-      query: (body: any) => ({
-        url: `${END_POINTS?.TASK}/${body?.id}`,
+      query: (patchTaskParameter: any) => ({
+        url: END_POINTS?.UPDATE_TASK,
         method: 'PATCH',
-        params: body?.data,
+        params: patchTaskParameter?.queryParams,
+        body: patchTaskParameter?.reqBody,
       }),
       invalidatesTags: [TAG],
     }),

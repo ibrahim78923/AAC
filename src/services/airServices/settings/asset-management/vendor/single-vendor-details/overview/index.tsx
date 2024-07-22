@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'VENDOR_DETAIL_OVERVIEW';
+const TAG = 'VENDOR_LIST';
 export const vendorsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getDetailVendorsList: builder?.query({

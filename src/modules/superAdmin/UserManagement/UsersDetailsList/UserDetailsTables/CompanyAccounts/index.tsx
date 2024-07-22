@@ -6,8 +6,9 @@ import useCompanyAccounts from './useCompanyAccounts';
 import useAccounts from '@/modules/orgAdmin/Users/UsersDetails/Accounts/useAccounts';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { CompanyAccountsProps } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
 
-const CompanyAccounts = (props: any) => {
+const CompanyAccounts = (props: CompanyAccountsProps) => {
   const { organizationId, employeeDataById, searchAccount } = props;
   const { useGetUsersAccountsQuery } = userListApi;
   const { page, setPage, pageLimit, setPageLimit } = useCompanyAccounts();
@@ -22,11 +23,16 @@ const CompanyAccounts = (props: any) => {
     data: userAccounts,
     isLoading,
     isSuccess,
-  } = useGetUsersAccountsQuery({
-    id: employeeDataById,
-    orgId: organizationId,
-    values: accountsParams,
-  });
+  } = useGetUsersAccountsQuery(
+    {
+      id: employeeDataById,
+      orgId: organizationId,
+      values: accountsParams,
+    },
+    {
+      skip: !employeeDataById || !organizationId,
+    },
+  );
 
   return (
     <Box

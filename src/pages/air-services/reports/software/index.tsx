@@ -10,7 +10,7 @@ export default SoftwareReportsPage;
 
 SoftwareReportsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT}>
+    <Layout permissions={Permissions?.AIR_SERVICES_SOFTWARE_TICKETS}>
       {page}
     </Layout>
   );

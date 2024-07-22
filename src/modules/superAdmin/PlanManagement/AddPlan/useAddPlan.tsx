@@ -44,7 +44,12 @@ import {
   useGetPlanIdQuery,
 } from '@/services/superAdmin/billing-invoices';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
-import { productSuiteName } from '@/constants';
+import { indexNumbers, productSuiteName } from '@/constants';
+import {
+  DRAWER_TYPES,
+  IMPORT_ACTION_TYPE,
+  PLAN_STATUS,
+} from '@/constants/strings';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
@@ -65,7 +70,7 @@ export const useAddPlan = () => {
     }
   };
 
-  const handleChangeSubModule = (subModule) => {
+  const handleChangeSubModule = (subModule: string) => {
     if (subModule === selectedSubModule) {
       setSelectedSubModule('');
     } else {
@@ -131,8 +136,14 @@ export const useAddPlan = () => {
             additionalPerUserPrice,
             additionalStoragePrice,
             description,
-            allowAdditionalUsers: additionalPerUserPrice > 0 ? 'Yes' : 'No',
-            allowAdditionalStorage: additionalStoragePrice > 0 ? 'Yes' : 'No',
+            allowAdditionalUsers:
+              additionalPerUserPrice > indexNumbers?.ZERO
+                ? PLAN_STATUS?.YES
+                : PLAN_STATUS?.NO,
+            allowAdditionalStorage:
+              additionalStoragePrice > indexNumbers?.ZERO
+                ? PLAN_STATUS?.YES
+                : PLAN_STATUS?.NO,
             productId,
             suite,
             planTypeId,
@@ -188,7 +199,7 @@ export const useAddPlan = () => {
     crmData = data;
   }
   let planExist: any;
-  if (selectProductSuite === 'product') {
+  if (selectProductSuite === IMPORT_ACTION_TYPE?.PRODUCT) {
     const { data } = useGetPlanIdQuery<any>(
       { params: queryParameters },
       { skip: isNullOrEmpty(planTypeId) },
@@ -211,38 +222,44 @@ export const useAddPlan = () => {
   });
 
   const onSubmitPlan = async (values: any) => {
-    if (values?.suite?.length > 0 && values?.suite?.length < 2) {
+    if (
+      values?.suite?.length > indexNumbers?.ZERO &&
+      values?.suite?.length < indexNumbers?.TWO
+    ) {
       enqueueSnackbar('Please select more then one product', {
         variant: 'error',
       });
-    } else if (values?.suite?.length < 2 && isNullOrEmpty(values?.productId)) {
+    } else if (
+      values?.suite?.length < indexNumbers?.TWO &&
+      isNullOrEmpty(values?.productId)
+    ) {
       enqueueSnackbar('Please select product', {
         variant: 'error',
       });
     } else if (
-      values?.allowAdditionalUsers === 'Yes' &&
+      values?.allowAdditionalUsers === PLAN_STATUS?.YES &&
       isNullOrEmpty(values?.additionalPerUserPrice)
     ) {
       enqueueSnackbar('Please enter additional Per User Price', {
         variant: 'error',
       });
     } else if (
-      values?.allowAdditionalUsers === 'Yes' &&
-      values?.additionalPerUserPrice <= 0
+      values?.allowAdditionalUsers === PLAN_STATUS?.YES &&
+      values?.additionalPerUserPrice <= indexNumbers?.ZERO
     ) {
       enqueueSnackbar('Please enter positive number', {
         variant: 'error',
       });
     } else if (
-      values?.allowAdditionalStorage === 'Yes' &&
+      values?.allowAdditionalStorage === PLAN_STATUS?.YES &&
       isNullOrEmpty(values?.additionalStoragePrice)
     ) {
       enqueueSnackbar('Please enter additional Storage Price', {
         variant: 'error',
       });
     } else if (
-      values?.allowAdditionalStorage === 'Yes' &&
-      values?.additionalStoragePrice <= 0
+      values?.allowAdditionalStorage === PLAN_STATUS?.YES &&
+      values?.additionalStoragePrice <= indexNumbers?.ZERO
     ) {
       enqueueSnackbar('Please enter positive number', {
         variant: 'error',
@@ -252,11 +269,14 @@ export const useAddPlan = () => {
         variant: 'error',
       });
     } else {
-      if (!isNullOrEmpty(singlePlan) && values?.productId?.length > 1) {
+      if (
+        !isNullOrEmpty(singlePlan) &&
+        values?.productId?.length > indexNumbers?.ONE
+      ) {
         values.suite = values?.productId;
       }
       dispatch(addPlanFormData(values));
-      setActiveStep((previous) => previous + 1);
+      setActiveStep((previous) => previous + indexNumbers?.ONE);
 
       enqueueSnackbar('Plan Details Added Successfully', {
         variant: 'success',
@@ -279,7 +299,7 @@ export const useAddPlan = () => {
       setCrmValue(parsedRowData?.name);
     }
 
-    if (singlePlan && checkQuery === 'edit') {
+    if (singlePlan && checkQuery === DRAWER_TYPES?.EDIT) {
       const tempData = [...singlePlan?.data?.planProductPermissions];
       setPermissionSlugs(
         'permissionSlugs',
@@ -333,7 +353,7 @@ export const useAddPlan = () => {
   const onSubmitPlanFeaturesHandler = async (values: any) => {
     let addExtraFeatures: any;
     let featuresData;
-    if (selectProductSuite != 'product') {
+    if (selectProductSuite != IMPORT_ACTION_TYPE?.PRODUCT) {
       featuresData = planForm?.suite?.map((productIdItem: any) => {
         return {
           features: values?.features
@@ -375,7 +395,7 @@ export const useAddPlan = () => {
       };
     }
     dispatch(planFeaturesFormData(featuresData));
-    setActiveStep((previous) => previous + 1);
+    setActiveStep((previous) => previous + indexNumbers?.ONE);
     enqueueSnackbar('Plan Features Details Added Successfully', {
       variant: 'success',
     });
@@ -400,9 +420,9 @@ export const useAddPlan = () => {
     });
 
     dispatch(modulesFormData(values));
-    if (activeStep == AddPlanStepperData?.length - 1) {
+    if (activeStep == AddPlanStepperData?.length - indexNumbers?.ONE) {
       const planFormData = {
-        ...(selectProductSuite === 'product'
+        ...(selectProductSuite === IMPORT_ACTION_TYPE?.PRODUCT
           ? { productId: planForm?.productId }
           : { suite: planForm?.suite }),
         ...(isNullOrEmpty(planForm?.productId) && {
@@ -417,23 +437,26 @@ export const useAddPlan = () => {
         additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
       };
 
-      const planPermission = values?.permissionSlugs.reduce((acc, item) => {
-        const [productId, permissionSlug] = item.split(':');
-        const existingProduct = acc?.find(
-          (entry) => entry?.productId === productId,
-        );
+      const planPermission = values?.permissionSlugs.reduce(
+        (acc: any, item: any) => {
+          const [productId, permissionSlug] = item.split(':');
+          const existingProduct = acc?.find(
+            (entry: any) => entry?.productId === productId,
+          );
 
-        if (existingProduct) {
-          existingProduct?.permissionSlugs?.push(permissionSlug);
-        } else {
-          acc?.push({
-            productId,
-            permissionSlugs: [permissionSlug],
-          });
-        }
+          if (existingProduct) {
+            existingProduct?.permissionSlugs?.push(permissionSlug);
+          } else {
+            acc?.push({
+              productId,
+              permissionSlugs: [permissionSlug],
+            });
+          }
 
-        return acc;
-      }, []);
+          return acc;
+        },
+        [],
+      );
 
       const transformedModulesFormData = { planPermission };
       let res: any;
@@ -564,7 +587,7 @@ export const useAddPlan = () => {
   ];
 
   const hanldeGoPreviousBack = () => {
-    if (activeStep === 0) {
+    if (activeStep === indexNumbers?.ZERO) {
       router.push('/super-admin/plan-management');
       return;
     }
@@ -603,31 +626,32 @@ export const useAddPlan = () => {
     }
   }, [crmData, planExist]);
 
-  const AdditionalStorageValue = AdditionalStorage[0];
-  const AdditionalUserValue = AdditionalUser[0];
+  const AdditionalStorageValue = AdditionalStorage[indexNumbers?.ZERO];
+  const AdditionalUserValue = AdditionalUser[indexNumbers?.ZERO];
 
   useEffect(() => {
-    if (AdditionalStorageValue === 'No') {
+    if (AdditionalStorageValue === PLAN_STATUS?.NO) {
       setValue('additionalStoragePrice', 0);
     } else if (
-      AdditionalStorageValue === 'Yes' &&
-      checkValueAdditionalStoragePrice[0] === 0
+      AdditionalStorageValue === PLAN_STATUS?.YES &&
+      checkValueAdditionalStoragePrice[indexNumbers?.ZERO] ===
+        indexNumbers?.ZERO
     ) {
-      setValue('additionalStoragePrice', 1);
+      setValue('additionalStoragePrice', indexNumbers?.ONE);
     }
     if (
-      AdditionalUserValue === 'Yes' &&
-      checkValueAdditionalPerUserPrice[0] === 0
+      AdditionalUserValue === PLAN_STATUS?.YES &&
+      checkValueAdditionalPerUserPrice[indexNumbers?.ZERO] ===
+        indexNumbers?.ZERO
     ) {
-      setValue('additionalPerUserPrice', 1);
-    } else if (AdditionalUserValue === 'No') {
-      setValue('additionalPerUserPrice', 0);
+      setValue('additionalPerUserPrice', indexNumbers?.ONE);
+    } else if (AdditionalUserValue === PLAN_STATUS?.NO) {
+      setValue('additionalPerUserPrice', indexNumbers?.ZERO);
     }
   }, [AdditionalStorageValue, AdditionalUserValue]);
 
   return {
     methods,
-
     activeStep,
     handleSubmit,
     hanldeGoBack,

@@ -1,11 +1,12 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFMultiCheckbox,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-import { useGetUsersListQuery } from '@/services/airSales/deals';
+import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import * as Yup from 'yup';
 import { getSession } from '@/utils';
@@ -13,14 +14,14 @@ import { ROLES } from '@/constants/strings';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  dealPipelineId: Yup?.string()?.required('Field is Required'),
+  dealPipelineId: Yup?.object()?.required('Field is Required'),
   dealStageId: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
   name: '',
-  dealPipelineId: '',
-  ownerId: '',
+  dealPipelineId: null,
+  ownerId: null,
   dealStageId: '',
   products: [],
   closeDate: null,
@@ -29,15 +30,14 @@ export const createDealData = ({ dealPipelineId }: any) => {
   const { user }: any = getSession();
 
   const organizationId: any = user?.organization?._id;
-  const { pipelineData, salesProduct } = useDealTab();
-  const { data: UserListData } = useGetUsersListQuery({
-    role: ROLES?.ORG_EMPLOYEE,
-    organization: organizationId,
-  });
-  const filteredStages =
-    pipelineData?.data?.dealpipelines?.find(
-      (pipeline: any) => pipeline?._id === dealPipelineId,
-    )?.stages || [];
+  const { pipelineListDropdown, salesProduct }: any = useDealTab();
+  const UserListData = useLazyGetUsersListDropdownQuery();
+
+  const filteredStages: any = pipelineListDropdown
+    ? pipelineListDropdown[1]?.data?.find(
+        (pipeline: any) => pipeline?._id === dealPipelineId?._id,
+      )?.stages
+    : [];
 
   return [
     {
@@ -53,21 +53,22 @@ export const createDealData = ({ dealPipelineId }: any) => {
       componentProps: {
         name: 'dealPipelineId',
         label: 'Deal Pipeline',
-        select: true,
+        placeholder: 'Select Pipeline',
+        apiQuery: pipelineListDropdown,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: { meta: false },
         required: true,
+        clearIcon: false,
       },
-      options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })) ?? [{ label: '', value: '' }],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {
         name: 'dealStageId',
         label: 'Deal Stage',
-        select: true,
+        disabled: !dealPipelineId,
         required: true,
+        select: true,
       },
       options: filteredStages?.map((item: any) => ({
         value: item?._id,
@@ -103,13 +104,16 @@ export const createDealData = ({ dealPipelineId }: any) => {
       componentProps: {
         name: 'ownerId',
         label: 'Deal Owner',
-        select: true,
+        placeholder: 'Select Owner',
+        apiQuery: UserListData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: {
+          role: ROLES?.ORG_EMPLOYEE,
+          organization: organizationId,
+        },
       },
-      options: UserListData?.data?.users?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
-      })) ?? [{ label: '', value: '' }],
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {

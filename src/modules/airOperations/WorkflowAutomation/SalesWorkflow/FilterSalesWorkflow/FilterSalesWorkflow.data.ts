@@ -2,6 +2,8 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
+import { fullName } from '@/utils/avatarUtils';
 
 export const salesWorkflowsFilterValues = {
   status: '',
@@ -11,7 +13,10 @@ export const salesWorkflowsFilterValues = {
 const statusOption = ['ACTIVE', 'INACTIVE', 'DRAFT'];
 const typeOptions = ['EVENT_BASE', 'SCHEDULED'];
 
-export const salesWorkflowFilterFields = (userDropdown: any) => [
+export const salesWorkflowFilterFields = (
+  userDropdown: any,
+  sessionUserData: any,
+) => [
   {
     id: 434,
     componentProps: {
@@ -29,10 +34,16 @@ export const salesWorkflowFilterFields = (userDropdown: any) => [
       name: 'createdBy',
       label: 'Created By',
       fullWidth: true,
-      placeholder: 'Select',
-      apiQuery: userDropdown,
+
       getOptionLabel: (option: any) =>
-        option?.firstName + ' ' + option?.lastName,
+        fullName(option?.firstName, option?.lastName),
+      externalParams: {
+        role: ROLES?.ORG_EMPLOYEE,
+        organization: sessionUserData?.organization?._id,
+        limit: 500,
+      },
+      apiQuery: userDropdown,
+      placeholder: 'Select User',
     },
     component: RHFAutocompleteAsync,
   },

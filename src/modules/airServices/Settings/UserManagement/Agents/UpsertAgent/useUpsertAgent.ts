@@ -20,10 +20,22 @@ import { ROLES } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import { useEffect, useState } from 'react';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostAttachmentsMutation,
+} from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
 
 export const useUpsertAgent = (props: any) => {
   const auth: any = useAuth();
+  const [form, setForm] = useState<any>([]);
   const router = useRouter();
+
   const { _id: productId } = auth?.product;
   const { _id: organizationCompanyAccountId } =
     auth?.product?.accounts?.[0]?.company;
@@ -39,11 +51,38 @@ export const useUpsertAgent = (props: any) => {
   const { selectedAgentList, setIsAgentModalOpen, setSelectedAgentList } =
     props;
 
+  const [postAgentTrigger, postAgentStatus] = usePostAddAgentMutation();
   const [patchAgentTrigger, patchAgentStatus] = usePatchAgentMutation();
 
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const [postAttachmentTrigger, postAttachmentStatus] =
+    usePostAttachmentsMutation();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_SERVICES,
+      moduleType: DYNAMIC_FIELDS?.MT_ADD_AGENT,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+
   const method = useForm({
-    resolver: yupResolver(validationSchemaAgentFields),
-    defaultValues: defaultValues(selectedAgentList),
+    resolver: yupResolver(validationSchemaAgentFields?.(form)),
+    defaultValues: defaultValues?.(selectedAgentList, form),
   });
 
   const { handleSubmit, reset } = method;
@@ -51,36 +90,81 @@ export const useUpsertAgent = (props: any) => {
   const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
   const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();
 
-  const [postAgentTrigger, postAgentStatus] = usePostAddAgentMutation();
+  useEffect(() => {
+    reset(() => defaultValues(selectedAgentList, form));
+  }, [selectedAgentList, reset, form]);
 
-  const handleUpsertAgentSubmit = async (formData: any) => {
-    const newFormData = filteredEmptyValues(formData);
-    const body = {
-      firstName: newFormData?.firstName,
-      lastName: newFormData?.lastName,
-      phoneNumber: newFormData?.phoneNumber,
-      email: newFormData?.email,
-      departmentId: newFormData?.departmentId?._id,
-      permissionsRole: newFormData?.permissionsRole?._id,
-      role: ROLES?.ORG_EMPLOYEE,
-      timezone: newFormData?.timezone,
-    };
+  const handleUpsertAgentSubmit = async (data: any) => {
+    const filteredEmptyData = filteredEmptyValues(data);
 
-    const apiDataParameter = {
-      body,
-    };
-
-    if (selectedAgentList?.length) {
-      updateAgent?.(body);
-      return;
-    }
+    const customFields: any = {};
+    const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
 
     try {
+      dynamicAttachmentsPost({
+        form,
+        data,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
+      });
+
+      await Promise?.all(attachmentPromises);
+
+      const customFieldKeys = new Set(
+        form?.map((field: any) => field?.componentProps?.label),
+      );
+
+      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+        if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = value?.toISOString();
+          }
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > 0) {
+        body.customFields = customFields;
+      }
+
+      const payload = {
+        firstName: filteredEmptyData?.firstName,
+        lastName: filteredEmptyData?.lastName,
+        phoneNumber: filteredEmptyData?.phoneNumber,
+        email: filteredEmptyData?.email,
+        departmentId: filteredEmptyData?.departmentId?._id,
+        permissionsRole: filteredEmptyData?.permissionsRole?._id,
+        role: ROLES?.ORG_EMPLOYEE,
+        timezone: filteredEmptyData?.timezone,
+        customFields,
+      };
+
+      const apiDataParameter = {
+        body: payload,
+      };
+
+      if (selectedAgentList?.length) {
+        updateAgent?.(body);
+        return;
+      }
+
       await postAgentTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Invite Agent Successfully!');
       handleClose?.();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
+    } catch (e: any) {
+      errorSnackbar(e?.data?.message);
     }
   };
 
@@ -140,5 +224,8 @@ export const useUpsertAgent = (props: any) => {
     postAgentStatus,
     handleClose,
     upsertAgentFormFields,
+    getDynamicFieldsStatus,
+    postAttachmentStatus,
+    form,
   };
 };

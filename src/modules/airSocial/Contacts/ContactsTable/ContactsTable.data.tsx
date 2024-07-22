@@ -14,7 +14,7 @@ export const ContactsColumns = (
 ) => {
   const router = useRouter();
   const COLUMNS_ATTR = {
-    CONTACTS: 'contacts',
+    CONTACTS: 'firstName lastName',
     EMAIL: 'email',
     ADDRESS: 'address',
     DATE_BIRTH: 'dateOfBirth',
@@ -23,7 +23,7 @@ export const ContactsColumns = (
   };
 
   const activeColumnsData = (attribute: any, info: any) => {
-    if (attribute?.includes(COLUMNS_ATTR?.CONTACTS)) {
+    if (attribute === COLUMNS_ATTR?.CONTACTS) {
       const firstName = info?.cell?.row?.original?.firstName
         ? info?.cell?.row?.original?.firstName
         : '';
@@ -71,7 +71,7 @@ export const ContactsColumns = (
       const formattedDate = dayjs(info?.getValue()).format(DATE_FORMAT?.UI);
       return formattedDate;
     } else {
-      return info?.getValue();
+      return info?.getValue() ?? 'N/A';
     }
   };
 

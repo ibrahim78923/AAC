@@ -9,28 +9,27 @@ import { InputAdornment, IconButton } from '@mui/material';
 import { AddPlusPrimaryIcon } from '@/assets/icons';
 import {
   useLazyGetAllCampaignsListQuery,
-  useLazyGetAllTemplateListQuery,
+  useLazyGetAllWhatsAppTemplateListQuery,
 } from '@/services/common-APIs';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  campaign: Yup?.string()?.required('Field is Required'),
-  contacts: Yup?.string()?.required('Field is Required'),
-  details: Yup?.string()?.required('Field is Required'),
+  campaignId: Yup?.object()?.required('Field is Required'),
+  detail: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
   name: '',
-  campaign: '',
-  template: '',
-  contacts: '',
-  details: '',
+  campaignId: null,
+  templateId: null,
+  recipients: '',
+  detail: '',
   attachment: '',
 };
 
 export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
   const campaignsList = useLazyGetAllCampaignsListQuery();
-  const templateList = useLazyGetAllTemplateListQuery();
+  const templateList = useLazyGetAllWhatsAppTemplateListQuery();
   return [
     {
       id: '01',
@@ -72,7 +71,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
     {
       id: '04',
       componentProps: {
-        name: 'contacts',
+        name: 'recipients',
         label: 'Add Contacts',
         fullWidth: true,
         required: true,
@@ -95,7 +94,7 @@ export const createBroadcastFields = (handleOpenContactsDrawer: any) => {
       component: RHFEditor,
       md: 12,
       componentProps: {
-        name: 'details',
+        name: 'detail',
         label: 'Details',
         fullWidth: true,
         required: true,
@@ -132,14 +131,14 @@ export const contactDetails: any = [
 
 export const contactsColumns: any = [
   {
-    accessorFn: (row: any) => row?.Name,
+    accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,
     id: 'name',
     isSortable: false,
     header: 'Name',
     cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row?.PhoneNumber,
+    accessorFn: (row: any) => row?.phoneNumber,
     id: 'phoneNo',
     isSortable: false,
     header: 'Phone Number',

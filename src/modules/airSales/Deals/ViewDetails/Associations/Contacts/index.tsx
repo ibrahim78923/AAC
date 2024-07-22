@@ -74,7 +74,7 @@ const Contacts = ({ contactsData, dealId, isLoading, handleSearch }: any) => {
                 variant="contained"
                 className="medium"
                 sx={{ minWidth: '0px', gap: 0.5 }}
-                onClick={() => setOpenDrawer('Add')}
+                onClick={() => setOpenDrawer(true)}
               >
                 <PlusIcon /> Add Contacts
               </Button>

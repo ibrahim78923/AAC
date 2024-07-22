@@ -2,14 +2,17 @@ import * as Yup from 'yup';
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
-  RHFDatePicker,
+  RHFDesktopDateTimePicker,
   RHFEditor,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { PAGINATION } from '@/config';
 import { ARRAY_INDEX, GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 import { TASK_STATUS } from '@/constants/strings';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
 const statusOptions = [TO_DO, IN_PROGRESS, DONE];
@@ -31,22 +34,27 @@ const notifyBeforeOption = [
   { _id: 30, label: '30 Minutes' },
 ];
 
-export const upsertTicketTaskFormValidationSchema: any = Yup?.object()?.shape({
-  title: Yup?.string()?.trim()?.required('Title is Required'),
-  description: Yup?.string()?.trim()?.required('Description is Required'),
-  departmentId: Yup?.mixed()?.required('Department is Required'),
-  assignTo: Yup?.mixed()?.nullable(),
-  notifyBefore: Yup?.mixed()?.nullable(),
-  status: Yup?.mixed()?.required('Status is Required'),
-  startDate: Yup?.date(),
-  startDateTime: Yup?.date(),
-  endDate: Yup?.date()?.nullable()?.required('End Date is Required'),
-  endDateTime: Yup?.date()?.nullable()?.required('End Time is Required'),
-  plannedEffort: Yup?.string()?.trim(),
-});
+export const upsertTicketTaskFormValidationSchema: any = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const upsertTicketTaskFormDefaultValues = (data?: any) => {
+  return Yup?.object()?.shape({
+    title: Yup?.string()?.trim()?.required('Title is Required'),
+    description: Yup?.string()?.trim()?.required('Description is Required'),
+    departmentId: Yup?.mixed()?.required('Department is Required'),
+    assignTo: Yup?.mixed()?.nullable(),
+    notifyBefore: Yup?.mixed()?.nullable(),
+    status: Yup?.mixed()?.required('Status is Required'),
+    startDate: Yup?.date(),
+    endDate: Yup?.date()?.nullable()?.required('End Date is Required'),
+    plannedEffort: Yup?.string()?.trim(),
+    ...formSchema,
+  });
+};
+
+export const upsertTicketTaskFormDefaultValues = (data?: any, form?: any) => {
   const taskData = data?.[ARRAY_INDEX?.ZERO];
+  const initialValues: any = dynamicFormInitialValue(taskData, form);
+
   return {
     title: taskData?.title ?? '',
     description: taskData?.description ?? '',
@@ -59,12 +67,9 @@ export const upsertTicketTaskFormDefaultValues = (data?: any) => {
         )
       : null,
     startDate: taskData?.startDate ? new Date(taskData?.startDate) : new Date(),
-    startDateTime: taskData?.startDateTime
-      ? new Date(taskData?.startDateTime)
-      : new Date(),
     endDate: taskData?.endDate ? new Date(taskData?.endDate) : null,
-    endDateTime: taskData?.endDateTime ? new Date(taskData?.endDateTime) : null,
     plannedEffort: taskData?.plannedEffort ?? '',
+    ...initialValues,
   };
 };
 
@@ -159,20 +164,11 @@ export const upsertTicketTaskFormFormFieldsDynamic = (
       label: 'Planned Start Date',
       fullWidth: true,
       disabled: true,
+      textFieldProps: { readOnly: true },
+      ampm: false,
     },
-    component: RHFDatePicker,
-    md: 8,
-  },
-  {
-    id: 8,
-    componentProps: {
-      name: 'startDateTime',
-      label: '\u00a0',
-      fullWidth: true,
-      disabled: true,
-    },
-    component: RHFTimePicker,
-    md: 4,
+    component: RHFDesktopDateTimePicker,
+    md: 12,
   },
   {
     id: 9,
@@ -183,22 +179,10 @@ export const upsertTicketTaskFormFormFieldsDynamic = (
       disablePast: true,
       required: true,
       textFieldProps: { readOnly: true },
-    },
-    component: RHFDatePicker,
-    md: 8,
-  },
-  {
-    id: 10,
-    componentProps: {
-      name: 'endDateTime',
-      label: '\u00a0',
-      fullWidth: true,
-      disablePast: true,
       ampm: false,
-      textFieldProps: { readOnly: true },
     },
-    component: RHFTimePicker,
-    md: 4,
+    component: RHFDesktopDateTimePicker,
+    md: 12,
   },
   {
     id: 11,

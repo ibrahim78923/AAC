@@ -55,9 +55,7 @@ const OrganizationCard = () => {
     getSession();
 
   const { data: productsData, isLoading } = useGetAllProductsQuery({});
-  const { data: orgProductsData } = useGetOrganizationProductsQuery({
-    id: user?.organization?._id,
-  });
+  const { data: orgProductsData } = useGetOrganizationProductsQuery({});
 
   const activeProducts = orgProductsData?.data?.length;
   const totalProducts = productsData?.data?.length || 0;

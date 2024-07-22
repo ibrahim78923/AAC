@@ -7,14 +7,17 @@ import useUploadLogo from './useUploadLogo';
 import { UserProfileImage } from '@/assets/images';
 
 import { AddPenIcon } from '@/assets/icons';
+import { UploadLogoProps } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
 
-const UploadLogo = (props: any) => {
+const UploadLogo = (props: UploadLogoProps) => {
   const { companyImg, setCompanyImg } = props;
 
-  const { handleChangeImg, onImageError } = useUploadLogo(
+  const useUploadLogoParams = {
     companyImg,
     setCompanyImg,
-  );
+  };
+
+  const { handleChangeImg, onImageError } = useUploadLogo(useUploadLogoParams);
 
   return (
     <Box

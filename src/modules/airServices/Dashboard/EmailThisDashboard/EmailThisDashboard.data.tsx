@@ -3,6 +3,7 @@ import {
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { DOWNLOAD_FILE_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
@@ -14,131 +15,205 @@ export const constantData = {
   weekly: 'weekly',
 };
 
-export const conditionOptions = [
+export const EMAIL_SEND_SCHEDULE = {
+  DAILY: 'DAILY',
+  MONTHLY: 'MONTHLY',
+  WEEKLY: 'WEEKLY',
+};
+
+export const EMAIL_SEND_TYPE = {
+  ONCE: 'once',
+  RECURRING: 'recurring',
+};
+
+export const emailSendTypeOptions = [
   {
-    value: 'once',
-    label: ' No, this email will only be sent once',
+    value: EMAIL_SEND_TYPE?.ONCE,
+    label: 'No, this email will only be sent once',
   },
   {
-    value: 'recurring',
+    value: EMAIL_SEND_TYPE?.RECURRING,
     label: 'Yes, this is recurring email',
+  },
+];
+
+export const fileTypeOptions = [
+  {
+    _id: DOWNLOAD_FILE_TYPE?.PDF,
+    label: DOWNLOAD_FILE_TYPE?.PDF,
+  },
+  {
+    _id: DOWNLOAD_FILE_TYPE?.PNG,
+    label: DOWNLOAD_FILE_TYPE?.PNG,
+  },
+];
+
+export const emailScheduleOptions = [
+  {
+    _id: EMAIL_SEND_SCHEDULE?.DAILY,
+    label: EMAIL_SEND_SCHEDULE?.DAILY,
+  },
+  {
+    _id: EMAIL_SEND_SCHEDULE?.WEEKLY,
+    label: EMAIL_SEND_SCHEDULE?.WEEKLY,
+  },
+  {
+    _id: EMAIL_SEND_SCHEDULE?.MONTHLY,
+    label: EMAIL_SEND_SCHEDULE?.MONTHLY,
   },
 ];
 
 export const createEmailThisDashboardValidationSchema: any =
   Yup?.object()?.shape({
-    emailCondition: Yup?.string()?.required('Required'),
-    internalRecipients: Yup?.string()?.trim()?.required('Required'),
-    emailSubject: Yup?.string(),
-    message: Yup?.string(),
-    fileType: Yup?.string(),
-    schedule: Yup?.string(),
-    time: Yup?.string()?.when(constantData?.condition, {
-      is: (emailCondition: string) =>
-        emailCondition === constantData?.recurring,
-      then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema: any) => schema?.notRequired(),
-    }),
-    scheduleDate: Yup?.string()?.when(
-      constantData?.condition || constantData?.schedule,
-      {
-        is: (emailCondition: string, schedule: string) =>
-          emailCondition === constantData?.recurring &&
-          schedule === constantData?.monthly,
-        then: (schema: any) => schema?.required('Required'),
-        otherwise: (schema: any) => schema?.notRequired(),
-      },
-    ),
-    scheduleDay: Yup?.string()?.when(
-      constantData?.condition || constantData?.schedule,
-      {
-        is: (emailCondition: string, schedule: string) =>
-          emailCondition === constantData?.recurring &&
-          schedule === constantData?.weekly,
-        then: (schema: any) => schema?.required('Required'),
-        otherwise: (schema: any) => schema?.notRequired(),
-      },
-    ),
+    emailSendType: Yup?.string()?.required('Required'),
+    internalRecipients: Yup?.array()
+      ?.of(Yup?.string())
+      ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
+        if (!value || value?.length === SELECTED_ARRAY_LENGTH?.ZERO) {
+          return false;
+        }
+        return value?.every(
+          (email) => Yup?.string()?.email()?.isValidSync(email),
+        );
+      }),
+    emailSubject: Yup?.string()?.trim()?.required('Subject is required'),
+    message: Yup?.string()?.trim(),
+    fileType: Yup?.mixed()?.nullable(),
+    schedule: Yup?.mixed()
+      ?.nullable()
+      ?.when('emailSendType', {
+        is: (value: any) => value === EMAIL_SEND_TYPE?.RECURRING,
+        then: () => Yup?.mixed()?.nullable()?.required('Required'),
+        otherwise: () => Yup?.mixed()?.nullable(),
+      }),
+    timeOfDays: Yup?.mixed()
+      ?.nullable()
+      ?.when('emailSendType', {
+        is: (value: any) => value === EMAIL_SEND_TYPE?.RECURRING,
+        then: () => Yup?.mixed()?.nullable()?.required('Required'),
+        otherwise: () => Yup?.mixed()?.nullable(),
+      }),
   });
 
 export const createEmailThisDashboardDefaultValues: any = {
-  emailCondition: '',
-  internalRecipients: '',
+  emailSendType: '',
+  internalRecipients: [],
   emailSubject: '',
   message: '',
-  fileType: '',
-  schedule: '',
-  time: new Date(),
-  scheduleDate: '',
-  scheduleDay: '',
+  fileType: null,
+  emailNickname: '',
+  schedule: null,
+  timeOfDays: null,
 };
 
-const filetype = ['PDF', 'PNG', 'JPEG'];
-export const createEmailThisDashboardDataArray = [
-  {
-    id: 1,
-    componentProps: {
-      value: 'Is this a recurring email ?',
+export const sendDashboardViaEmailFormFieldsDynamic = (
+  emailSendTypeWatch: any,
+) => {
+  return [
+    {
+      id: 1,
+      componentProps: {
+        color: 'slateBlue.main',
+        variant: 'h5',
+      },
+      md: 12,
+      heading: 'Is this a recurring email ?',
+      component: Typography,
     },
-    gridLength: 12,
-    component: Typography,
-  },
-  {
-    id: 2,
-    componentProps: {
-      name: 'emailCondition',
-      fullWidth: true,
-      row: false,
-      options: conditionOptions,
+    {
+      id: 2,
+      componentProps: {
+        name: 'emailSendType',
+        fullWidth: true,
+        row: false,
+        options: emailSendTypeOptions,
+      },
+      component: RHFRadioGroup,
+      md: 12,
     },
-    component: RHFRadioGroup,
-    md: 12,
-  },
-  {
-    id: 3,
-    componentProps: {
-      name: 'internalRecipients',
-      label: 'Internal recipients',
-      fullWidth: true,
-      required: true,
-      placeholder: 'Add internal recipient email',
+    {
+      id: 3,
+      componentProps: {
+        name: 'internalRecipients',
+        label: 'Internal recipients',
+        fullWidth: true,
+        required: true,
+        placeholder: 'Add internal recipient email',
+        freeSolo: true,
+        options: [],
+        multiple: true,
+        isOptionEqualToValue: () => {},
+      },
+      component: RHFAutocomplete,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 4,
-    componentProps: {
-      name: 'emailSubject',
-      label: 'Email subject',
-      fullWidth: true,
-      placeholder: 'Email Subject',
+    {
+      id: 4,
+      componentProps: {
+        name: 'emailSubject',
+        label: 'Email subject',
+        fullWidth: true,
+        required: true,
+        placeholder: 'Email Subject',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 5,
-    componentProps: {
-      name: 'message',
-      label: 'Message',
-      fullWidth: true,
-      multiline: true,
-      rows: 3,
+    {
+      id: 5,
+      componentProps: {
+        name: 'message',
+        label: 'Message',
+        fullWidth: true,
+        multiline: true,
+        rows: 4,
+        placeholder: 'Type the message here',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 6,
-    componentProps: {
-      name: 'filetype',
-      label: 'File Type',
-      placeholder: 'Select',
-      fullWidth: true,
-      options: filetype,
+    ...(emailSendTypeWatch === EMAIL_SEND_TYPE?.RECURRING
+      ? [
+          {
+            id: 42,
+            componentProps: {
+              name: 'schedule',
+              label: 'Schedule',
+              fullWidth: true,
+              required: true,
+              placeholder: 'Select the option',
+              options: emailScheduleOptions,
+              getOptionLabel: (option: any) => option?.label,
+            },
+            component: RHFAutocomplete,
+            md: 12,
+          },
+          {
+            id: 43,
+            componentProps: {
+              name: 'timeOfDays',
+              label: 'Time of days',
+              fullWidth: true,
+              required: true,
+              placeholder: 'Select the option',
+            },
+            component: RHFTextField,
+            md: 12,
+          },
+        ]
+      : []),
+    {
+      id: 6,
+      componentProps: {
+        name: 'filetype',
+        label: 'File type',
+        placeholder: 'Select',
+        fullWidth: true,
+        options: fileTypeOptions,
+        getOptionLabel: (option: any) => option?.label,
+      },
+      component: RHFAutocomplete,
+      md: 12,
     },
-    component: RHFAutocomplete,
-    md: 12,
-  },
-];
+  ];
+};

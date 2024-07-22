@@ -17,6 +17,7 @@ export const styles = {
   emailWrap: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
     flexWrap: 'wrap',
     gap: '14px',
     mb: '24px',

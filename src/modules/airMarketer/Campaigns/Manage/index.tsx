@@ -24,6 +24,8 @@ import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys'
 import CampaingFilters from '../Filters';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { useEffect } from 'react';
+import useCustomize from '../EditColumns/useCustomize';
 
 const Manage = ({
   campaignsData,
@@ -40,6 +42,9 @@ const Manage = ({
   setFilters,
   setPage,
   setPageLimit,
+  setIsActionsDisabled,
+  setcheckedColumns,
+  setRowId,
 }: any) => {
   const theme = useTheme();
   const {
@@ -51,6 +56,25 @@ const Manage = ({
     setActionsModalDetails,
     saveViewCampaignsData,
   } = useCampaigns();
+
+  const { activeColumns } = useCustomize({});
+
+  const getQuotesColumns = columns(
+    selectedRows,
+    setSelectedRows,
+    setIsActionsDisabled,
+    setRowId,
+    activeColumns,
+    handleSelectSingleCheckBox,
+    handleSelectAllCheckbox,
+    selectedRows,
+    allCamopaignsData,
+    setSelectedRows,
+  );
+
+  useEffect(() => {
+    setcheckedColumns(getQuotesColumns?.map((column: any) => column?.id));
+  }, []);
 
   return (
     <>
@@ -82,23 +106,6 @@ const Manage = ({
             selectedRows={selectedRows}
             setSelectedRows={setSelectedRows}
           />
-          {/* <PermissionsGuard
-            permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SAVE_ALL_VIEWS]}
-          >
-            <Button
-              onClick={() => router?.push(AIR_MARKETER?.ALL_VIEW)}
-              startIcon={<BookMarkDarkIcon />}
-              className="small"
-              sx={{
-                border: `1px solid ${theme?.palette?.custom?.dark}`,
-                color: theme?.palette?.custom?.main,
-                width: { sm: '130px', xs: '100%' },
-                height: '36px',
-              }}
-            >
-              See All Views
-            </Button>
-          </PermissionsGuard> */}
           <PermissionsGuard
             permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_COLUMNS]}
           >
@@ -193,32 +200,29 @@ const Manage = ({
           All Campaigns
         </Button>
         {saveViewCampaignsData?.data?.views?.map((item: any) => (
-          <Button
-            variant="outlined"
-            color="inherit"
-            className="small"
-            key={item?.name}
-            onClick={() =>
-              setFilters({
-                ...filters,
-                campaignStatus: item?.campaignStatus,
-                startDate: dayjs(item?.startDate).format(DATE_FORMAT?.API),
-                endDate: dayjs(item?.endDate).format(DATE_FORMAT?.API),
-              })
-            }
-          >
-            {item?.name}
-          </Button>
+          <Box key={item?._id}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              key={item?.name}
+              onClick={() =>
+                setFilters({
+                  ...filters,
+                  campaignStatus: item?.campaignStatus,
+                  startDate: dayjs(item?.startDate)?.format(DATE_FORMAT?.API),
+                  endDate: dayjs(item?.endDate)?.format(DATE_FORMAT?.API),
+                })
+              }
+            >
+              {item?.name}
+            </Button>
+          </Box>
         ))}
       </ButtonGroup>
 
       <TanstackTable
-        columns={columns(
-          handleSelectSingleCheckBox,
-          handleSelectAllCheckbox,
-          selectedRows,
-          allCamopaignsData,
-        )}
+        columns={getQuotesColumns}
         data={campaignsData?.data?.campaigns}
         isPagination
         onPageChange={(page: any) => setPage(page)}

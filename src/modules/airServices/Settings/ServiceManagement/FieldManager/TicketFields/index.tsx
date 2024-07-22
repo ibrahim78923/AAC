@@ -1,0 +1,177 @@
+import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { AIR_SERVICES } from '@/constants';
+import { Box, Grid } from '@mui/material';
+import { DragDropContext } from 'react-beautiful-dnd';
+import {
+  Date,
+  DraggableFields,
+  Dropdown,
+  DroppableArea,
+  MultipleSelection,
+  ParagraphText,
+  SingleSelection,
+  Text,
+  Upload,
+} from '@/components/DynamicFormModals';
+import { DYNAMIC_FIELDS } from '@/utils/dynamic-forms';
+import useTicketFields from './useTicketFields';
+import { predefinedTicketDataArray } from './TicketFields.data';
+
+export default function TicketFields() {
+  const {
+    handleDragEnd,
+    router,
+    form,
+    setForm,
+    modal,
+    setModal,
+    handleEdit,
+    editId,
+    isLoading,
+    isFetching,
+    isError,
+    getBackendData,
+    handleDragStart,
+    overlay,
+  } = useTicketFields();
+
+  return (
+    <DragDropContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_NEW_FIELDS_FOR_TICKET_AND_THEIR_TASKS,
+        ]}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={8}>
+            <Box
+              borderRadius={2}
+              bgcolor={'common.white'}
+              display={'flex'}
+              alignItems={'center'}
+              p={2}
+              mb={2}
+            >
+              <PageTitledHeader
+                title={'Ticket Fields'}
+                canMovedBack
+                moveBack={() => {
+                  router?.push({
+                    pathname: AIR_SERVICES?.FIELD_MANAGER,
+                  });
+                }}
+              />
+            </Box>
+
+            <Box
+              borderRadius={2}
+              bgcolor={'common.white'}
+              p={2}
+              height={'70vh'}
+              overflow={'auto'}
+            >
+              <DroppableArea
+                form={form}
+                setForm={setForm}
+                handleEdit={handleEdit}
+                isLoading={isLoading}
+                isFetching={isFetching}
+                isError={isError}
+                getBackendData={getBackendData}
+                overlay={overlay}
+                predefinedDataArray={predefinedTicketDataArray}
+                moduleType={DYNAMIC_FIELDS?.MT_TICKETS}
+                productType={DYNAMIC_FIELDS?.PT_SERVICES}
+                successPath={AIR_SERVICES?.FIELD_MANAGER}
+                cancelPath={AIR_SERVICES?.FIELD_MANAGER}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Box
+              borderRadius={2}
+              bgcolor={'common.white'}
+              p={2}
+              height={'80vh'}
+              overflow={'auto'}
+            >
+              <DraggableFields />
+            </Box>
+          </Grid>
+        </Grid>
+
+        {modal?.text && (
+          <Text
+            open={modal?.text}
+            setOpen={setModal}
+            form={form}
+            setForm={setForm}
+            editId={editId}
+          />
+        )}
+
+        {modal?.paragraphText && (
+          <ParagraphText
+            open={modal?.paragraphText}
+            setOpen={setModal}
+            form={form}
+            setForm={setForm}
+            editId={editId}
+          />
+        )}
+
+        {modal?.singleSelection && (
+          <SingleSelection
+            open={modal?.singleSelection}
+            setOpen={setModal}
+            form={form}
+            setForm={setForm}
+            editId={editId}
+          />
+        )}
+
+        {modal?.multipleSelection && (
+          <MultipleSelection
+            open={modal?.multipleSelection}
+            setOpen={setModal}
+            form={form}
+            setForm={setForm}
+            editId={editId}
+          />
+        )}
+
+        {modal?.date && (
+          <Date
+            open={modal?.date}
+            setOpen={setModal}
+            form={form}
+            setForm={setForm}
+            editId={editId}
+          />
+        )}
+
+        {modal?.upload && (
+          <Upload
+            open={modal?.upload}
+            setOpen={setModal}
+            form={form}
+            setForm={setForm}
+            editId={editId}
+          />
+        )}
+
+        {modal?.dropdown && (
+          <Dropdown
+            open={modal?.dropdown}
+            setOpen={setModal}
+            form={form}
+            setForm={setForm}
+            editId={editId}
+          />
+        )}
+      </PermissionsGuard>
+    </DragDropContext>
+  );
+}

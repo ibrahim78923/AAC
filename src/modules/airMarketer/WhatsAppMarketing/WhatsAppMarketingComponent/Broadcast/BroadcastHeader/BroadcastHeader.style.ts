@@ -12,6 +12,7 @@ export const styles = {
     display: 'flex',
   }),
   headerRight: () => ({
+    flexWrap: 'wrap',
     alignItems: 'center',
     '@media (max-width: 1200px)': {
       mt: '16px',

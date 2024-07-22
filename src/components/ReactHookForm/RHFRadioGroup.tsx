@@ -28,14 +28,20 @@ export default function RHFRadioGroup({
       name={name}
       control={control}
       defaultValue={defaultValue}
-      render={({ field, fieldState: { error } }) => {
+      render={({ field, fieldState: { error } }: any) => {
         return (
           <>
             <Box position="relative" sx={other?.boxSx}>
               {other?.label && (
                 <CustomLabel label={other?.label} required={required} />
               )}
-              <RadioGroup {...field} row {...other}>
+              <RadioGroup
+                {...field}
+                row
+                value={field?.value || ''}
+                onChange={(e) => field?.onChange(e?.target?.value)}
+                {...other}
+              >
                 {options?.map((option: any) => (
                   <Fragment key={option?.value}>
                     <FormControlLabel

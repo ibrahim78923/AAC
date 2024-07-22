@@ -206,8 +206,11 @@ const ContactsCard = ({
                     <>{cardData?.item?.groupName}</>
                   ) : (
                     <>
-                      {filteredParticipants[0]?.firstName}&nbsp;
-                      {filteredParticipants[0]?.lastName}
+                      {filteredParticipants &&
+                        filteredParticipants[0]?.firstName}
+                      &nbsp;
+                      {filteredParticipants &&
+                        filteredParticipants[0]?.lastName}
                     </>
                   )}
                 </Typography>

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
 import { useTheme } from '@mui/material';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { detailsValidationSchema, detailsDefaultValues } from './Details.data';
+import { useRouter } from 'next/router';
+import useAuth from '@/hooks/useAuth';
+import { enqueueSnackbar } from 'notistack';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 import {
   useGetContactByIdQuery,
   useUpdateContactMutation,
@@ -15,12 +17,6 @@ import {
   useLazyGetContactsStatusQuery,
 } from '@/services/common-APIs';
 import { useLazyGetOrganizationUsersQuery } from '@/services/dropdowns';
-
-import { useRouter } from 'next/router';
-import useAuth from '@/hooks/useAuth';
-import { enqueueSnackbar } from 'notistack';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
 
 const useDetails = () => {
   const router = useRouter();
@@ -74,10 +70,6 @@ const useDetails = () => {
 
   useEffect(() => {
     if (contactData) {
-      const contactOwner: any = {
-        _id: contactData?.contactOwnerId,
-        name: '',
-      };
       // setValue('profilePicture', contactData?.profilePicture?.url);
       setValue('firstName', contactData?.firstName);
       setValue('lastName', contactData?.lastName);
@@ -87,12 +79,12 @@ const useDetails = () => {
         'dateOfBirth',
         contactData?.dateOfBirth ? new Date(contactData?.dateOfBirth) : null,
       );
-      setValue('contactOwnerId', contactOwner);
+      setValue('contactOwnerId', contactData?.ownerData[0]);
       setValue('phoneNumber', contactData?.phoneNumber || null);
       setValue('whatsAppNumber', contactData?.whatsAppNumber || null);
-      setValue('lifeCycleStageId', { _id: contactData?.lifeCycleStageId });
+      setValue('lifeCycleStageId', contactData?.lifeCycleStageData[0]);
       setValue('jobTitle', contactData?.jobTitle || '');
-      setValue('statusId', { _id: contactData?.statusId });
+      setValue('statusId', contactData?.statusData[0]);
       setValue(
         'dateOfJoining',
         contactData?.dateOfJoining
@@ -105,7 +97,7 @@ const useDetails = () => {
   const onSubmitUpdateContactDetail = async (values: any) => {
     const formData = new FormData();
     Object.entries(values)?.forEach(([key, value]: any) => {
-      if (value !== undefined && value !== null && value !== '') {
+      if (value !== undefined && value !== null) {
         switch (key) {
           case 'dateOfBirth':
           case 'dateOfJoining':

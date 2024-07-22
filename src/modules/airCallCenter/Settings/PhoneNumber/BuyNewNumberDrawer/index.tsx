@@ -7,6 +7,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Button, Grid, Tab, Tabs, Typography } from '@mui/material';
 import { newNumberArray, numberDetails } from './BuyNewNumber.data';
 import { style } from './BuyNewNumber.style';
+import { AIR_CALL_CENTER_SETTING_CHANNELS_PHONE_NUMBER_PERMISSION } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const BuyNewNumberDrawer = (props: any) => {
   const {
@@ -81,45 +83,54 @@ const BuyNewNumberDrawer = (props: any) => {
           ))}
         </Grid>
         {!isNumberDetail && (
-          <Box>
-            {numberDetails?.map((item: any) => (
-              <Box sx={style?.detailBoxWrapper(theme?.palette)} key={item?.id}>
-                <Box display="flex" gap={2} alignItems="center">
-                  <Box>
+          <PermissionsGuard
+            permissions={[
+              AIR_CALL_CENTER_SETTING_CHANNELS_PHONE_NUMBER_PERMISSION?.CHANNELS_PHONE_NUMBERS_BUY_A_NEW_NUMBER_SELECT_NUMBER,
+            ]}
+          >
+            <Box>
+              {numberDetails?.map((item: any) => (
+                <Box
+                  sx={style?.detailBoxWrapper(theme?.palette)}
+                  key={item?.id}
+                >
+                  <Box display="flex" gap={2} alignItems="center">
+                    <Box>
+                      <Typography
+                        variant="body3"
+                        color={theme?.palette?.blue?.dull_blue}
+                        fontWeight={500}
+                      >
+                        {item?.no}
+                      </Typography>
+                      <Typography
+                        variant="body3"
+                        color={theme?.palette?.custom?.light}
+                        fontWeight={500}
+                        component="p"
+                      >
+                        {item?.state}
+                      </Typography>
+                    </Box>
                     <Typography
                       variant="body3"
                       color={theme?.palette?.blue?.dull_blue}
                       fontWeight={500}
                     >
-                      {item?.no}
-                    </Typography>
-                    <Typography
-                      variant="body3"
-                      color={theme?.palette?.custom?.light}
-                      fontWeight={500}
-                      component="p"
-                    >
-                      {item?.state}
+                      {item?.ammount}
                     </Typography>
                   </Box>
-                  <Typography
-                    variant="body3"
-                    color={theme?.palette?.blue?.dull_blue}
-                    fontWeight={500}
+                  <Button
+                    variant="contained"
+                    className="small nextBtn"
+                    onClick={handleNextDetail}
                   >
-                    {item?.ammount}
-                  </Typography>
+                    Next
+                  </Button>
                 </Box>
-                <Button
-                  variant="contained"
-                  className="small nextBtn"
-                  onClick={handleNextDetail}
-                >
-                  Next
-                </Button>
-              </Box>
-            ))}
-          </Box>
+              ))}
+            </Box>
+          </PermissionsGuard>
         )}
       </FormProvider>
     </CommonDrawer>

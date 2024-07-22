@@ -45,7 +45,7 @@ export const useCalendarIntegration = () => {
     }
   };
 
-  const [deleteTrigger] = useDeleteCalendarMutation();
+  const [deleteTrigger, deleteProgress] = useDeleteCalendarMutation();
   const handleDelete = async (calendarId: string) => {
     try {
       const response: any = await deleteTrigger({ id: calendarId })?.unwrap();
@@ -61,7 +61,8 @@ export const useCalendarIntegration = () => {
     }
   };
 
-  const [changeStatusTrigger] = useChangeStatusCalendarMutation();
+  const [changeStatusTrigger, changeStatusProgress] =
+    useChangeStatusCalendarMutation();
 
   const handleChangeStatus = async (calendarId: string) => {
     const calendarToChange = calendarListData?.find(
@@ -135,5 +136,7 @@ export const useCalendarIntegration = () => {
     officeAuth,
     isLoading,
     isFetching,
+    changeStatusProgress,
+    deleteProgress,
   };
 };

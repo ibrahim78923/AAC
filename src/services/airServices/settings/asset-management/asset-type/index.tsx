@@ -2,21 +2,23 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'ASSET_TYPE';
+
 const { GET_ASSET_TYPE, POST_ASSET_TYPE, PATCH_ASSET_TYPE, EDIT_ASSET_TYPE } =
   END_POINTS;
+
 export const assetTypeAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getAssetTypeFields: builder.query({
-      query: (param) => ({
-        url: `${GET_ASSET_TYPE}`,
+      query: (params) => ({
+        url: GET_ASSET_TYPE,
         method: 'GET',
-        params: param,
+        params,
       }),
       providesTags: [TAG],
     }),
     postAssetType: builder.mutation({
       query: (body: any) => ({
-        url: `${POST_ASSET_TYPE}`,
+        url: POST_ASSET_TYPE,
         method: 'POST',
         body,
       }),
@@ -24,7 +26,7 @@ export const assetTypeAPI = baseAPI?.injectEndpoints({
     }),
     patchAssetType: builder.mutation({
       query: (body: any) => ({
-        url: `${PATCH_ASSET_TYPE}`,
+        url: PATCH_ASSET_TYPE,
         method: 'PATCH',
         body,
       }),
@@ -32,7 +34,7 @@ export const assetTypeAPI = baseAPI?.injectEndpoints({
     }),
     patchEditAssetType: builder.mutation({
       query: (body: any) => ({
-        url: `${EDIT_ASSET_TYPE}`,
+        url: EDIT_ASSET_TYPE,
         method: 'PATCH',
         body,
       }),

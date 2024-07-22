@@ -28,13 +28,21 @@ export const WorkingHoursFieldArray = ({ control, name }: any) => {
             spacing={1}
           >
             <Grid item sm={5}>
-              <RHFTimePicker name={`${name}.${index}.startTime`} size="small" />
+              <RHFTimePicker
+                name={`${name}.${index}.startTime`}
+                size="small"
+                ampm={false}
+              />
             </Grid>
             <Grid item sm={1}>
               to
             </Grid>
             <Grid item sm={5}>
-              <RHFTimePicker name={`${name}.${index}.endTime`} size="small" />
+              <RHFTimePicker
+                name={`${name}.${index}.endTime`}
+                size="small"
+                ampm={false}
+              />
             </Grid>
             <Grid item xs={1}>
               {index === 0 ? (

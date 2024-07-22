@@ -2,25 +2,25 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const salesReportsApi = baseAPI?.injectEndpoints({
-  endpoints: (builder: any) => ({
+  endpoints: (builder) => ({
     deleteRestoreReportPermanently: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        url: `${END_POINTS?.HARD_DELETE_GENERIC_REPORTS}`,
         method: 'DELETE',
         params: apiDataParameter?.queryParams,
       }),
     }),
     deleteReportTemporary: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}`,
-        method: 'DELETE',
+        url: `${END_POINTS?.SOFT_DELETE_GENERIC_REPORTS}`,
+        method: 'PATCH',
         params: apiDataParameter?.queryParams,
       }),
     }),
     restoreDeletedReport: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}`,
-        method: 'DELETE',
+        url: `${END_POINTS?.RESTORE_DELETED_GENERIC_REPORTS}`,
+        method: 'PATCH',
         params: apiDataParameter?.queryParams,
       }),
     }),
@@ -34,40 +34,42 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     addReportToFavoriteList: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}/${apiDataParameter?.pathParams?.id}`,
+        url: ``,
         method: 'PATCH',
+        params: apiDataParameter?.queryParams,
       }),
     }),
     renameReports: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.EDIT_SOFTWARE_CATEGORY}`,
+        url: ``,
         method: 'PUT',
         body: apiDataParameter?.body,
       }),
     }),
     addReportsToDashboard: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.EDIT_SOFTWARE_CATEGORY}`,
+        url: ``,
         method: 'PUT',
         body: apiDataParameter?.body,
       }),
     }),
     cloneReports: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.EDIT_SOFTWARE_CATEGORY}/${apiDataParameter?.pathParams?.id}`,
+        url: ``,
         method: 'POST',
+        params: apiDataParameter?.queryParams,
       }),
     }),
     changeReportOwner: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        url: ``,
         method: 'PUT',
         params: apiDataParameter?.queryParams,
       }),
     }),
     manageReportAccess: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        url: ``,
         method: 'PUT',
         params: apiDataParameter?.queryParams,
       }),
@@ -78,6 +80,71 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         method: 'POST',
         body: apiDataParameter?.body,
       }),
+    }),
+    getAllGenericReportsList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.GET_GENERIC_REPORTS,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      keepUnusedDataFor: 1,
+    }),
+    getReportsOwnersDropdownListForReports: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+    restoreGenericReportsList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.GET_RESTORE_GENERIC_REPORTS_LIST,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    getServicesDashboardDropdownListToAddReportsToDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_AIR_SERVICES_DASHBOARD_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.dynamicdashboards;
+      },
+    }),
+    getSalesDashboardDropdownListToAddReportsToDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.SALES_DASHBOARD_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.salesDashboards;
+      },
+    }),
+    getMarketingDashboardDropdownListToAddReportsToDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_AIR_SERVICES_DASHBOARD_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.dynamicdashboards;
+      },
+    }),
+    getUserAccessListDropdownListForReportsAccessManagement: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
     }),
   }),
 });
@@ -94,4 +161,12 @@ export const {
   useManageReportAccessMutation,
   useChangeReportOwnerMutation,
   useEmailReportsMutation,
+  useLazyGetAllGenericReportsListQuery,
+  useLazyGetReportsOwnersDropdownListForReportsQuery,
+  useRestoreGenericReportsListQuery,
+  useLazyRestoreGenericReportsListQuery,
+  useLazyGetMarketingDashboardDropdownListToAddReportsToDashboardQuery,
+  useLazyGetSalesDashboardDropdownListToAddReportsToDashboardQuery,
+  useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery,
+  useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
 } = salesReportsApi;

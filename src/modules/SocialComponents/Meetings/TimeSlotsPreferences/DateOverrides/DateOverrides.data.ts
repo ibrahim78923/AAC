@@ -16,3 +16,12 @@ export const bufferTime = [
   { value: 15, label: '15 Minutes' },
   { value: 20, label: '20 Minutes' },
 ];
+
+export const overrideValues = {
+  dateOverrides: [
+    {
+      date: new Date(),
+      timeRanges: [{ startHour: new Date(), endHour: new Date() }],
+    },
+  ],
+};

@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { defaultValues } from './Filter.data';
+import { useLazyGetUsersDropdownListQuery } from '@/services/airOperations/data-management/import';
 
 export const useFilter = (props: any) => {
   const { setIsOpenFilterDrawer, setFilterValues, filterValues, setPage } =
@@ -38,12 +39,13 @@ export const useFilter = (props: any) => {
     reset?.();
     setIsOpenFilterDrawer?.(false);
   };
-
+  const userList = useLazyGetUsersDropdownListQuery();
   return {
     methods,
     handleSubmit,
     onSubmit,
     clearFilter,
     onClose,
+    userList,
   };
 };

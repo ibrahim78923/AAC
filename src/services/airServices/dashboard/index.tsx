@@ -41,7 +41,7 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: postAnnouncementParameter?.body,
       }),
-      invalidatesTags: [TAG_TWO],
+      invalidatesTags: [TAG],
     }),
     postEmailDashboard: builder?.mutation({
       query: (postEmailParameter: any) => ({
@@ -86,6 +86,113 @@ export const dashboardAPI = baseAPI.injectEndpoints({
           );
       },
     }),
+    //TODO: MVP-2 API's
+    getServicesDashboardList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.GET_AIR_SERVICES_DASHBOARD_LIST}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    addSingleServicesDashboard: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.CREATE_AIR_SERVICES_DASHBOARD}`,
+        method: 'POST',
+        params: apiDataParameter?.queryParams,
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    updateSingleServicesDashboard: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.EDIT_AIR_SERVICES_DASHBOARD}`,
+        method: 'PATCH',
+        params: apiDataParameter?.queryParams,
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    changeDefaultServicesDashboard: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.EDIT_AIR_SERVICES_DASHBOARD}`,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    deleteSingleServicesDashboard: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${GET_DASHBOARD_TICKETS}`,
+        method: 'DELETE',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    getDashboardOwnersDropdownListForDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+    getDashboardNameListDropdownListForDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_AIR_SERVICES_DASHBOARD_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.dynamicdashboards;
+      },
+    }),
+    getDashboardUserAccessListDropdownListForDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+    getSingleServicesDashboard: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_AIR_SERVICES_DASHBOARD}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    deleteDynamicServicesDashboard: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.DELETE_SERVICES_DASHBOARD}`,
+        method: 'DELETE',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    getUsersDropdownListForDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+    getDepartmentsDropdownListForDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+    }),
   }),
 });
 
@@ -99,4 +206,18 @@ export const {
   useLazyGetDashboardAgentQuery,
   useGetDashboardTopPerformerQuery,
   usePostEmailDashboardMutation,
+  useLazyGetServicesDashboardListQuery,
+  useDeleteSingleServicesDashboardMutation,
+  useLazyGetDashboardNameListDropdownListForDashboardQuery,
+  useLazyGetDashboardOwnersDropdownListForDashboardQuery,
+  useChangeDefaultServicesDashboardMutation,
+  useLazyGetDashboardUserAccessListDropdownListForDashboardQuery,
+  useLazyGetSingleServicesDashboardQuery,
+  useAddSingleServicesDashboardMutation,
+  useUpdateSingleServicesDashboardMutation,
+  useGetSingleServicesDashboardQuery,
+  useGetDashboardNameListDropdownListForDashboardQuery,
+  useDeleteDynamicServicesDashboardMutation,
+  useLazyGetDepartmentsDropdownListForDashboardQuery,
+  useLazyGetUsersDropdownListForDashboardQuery,
 } = dashboardAPI;

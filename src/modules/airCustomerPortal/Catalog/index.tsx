@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Grid, Skeleton, Typography } from '@mui/material';
 
 import useCatalog from './useCatalog';
 import { FolderIcon } from '@/assets/icons';
@@ -10,18 +10,20 @@ import { AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS } from '@/constants/permission-
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { generateImage } from '@/utils/avatarUtils';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { CATALOG_SERVICE_TYPES } from '@/constants/strings';
+import { CATALOG_SERVICE_TYPES, DATA_TYPES } from '@/constants/strings';
+
 export const Catalog = () => {
   const {
-    result,
     handleClickService,
-    data,
+    serviceCatalogCategories,
     handlePageChange,
     setPageLimit,
     setPage,
     isLoading,
     isFetching,
     router,
+    services,
+    categoryId,
   } = useCatalog();
 
   return (
@@ -37,7 +39,7 @@ export const Catalog = () => {
             <Grid item xs={12} md={6} lg={3}>
               <Box
                 onClick={() => {
-                  router.push({
+                  router?.push({
                     pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
                     query: {
                       categoryName: CATALOG_SERVICE_TYPES?.ALL,
@@ -45,8 +47,15 @@ export const Catalog = () => {
                   });
                 }}
                 borderRadius={2}
-                border={'0.2rem solid'}
-                borderColor={'primary.lighter'}
+                border={'2px solid'}
+                borderColor={
+                  categoryId === DATA_TYPES?.UNDEFINED
+                    ? 'primary.main'
+                    : 'primary.lighter'
+                }
+                bgcolor={
+                  categoryId === DATA_TYPES?.UNDEFINED ? 'primary.lighter' : ''
+                }
                 textAlign="center"
                 mt={2}
                 minHeight={'15rem'}
@@ -83,69 +92,92 @@ export const Catalog = () => {
                 </Box>
               </Box>
             </Grid>
-            {!!data?.data?.servicecategories?.length &&
-              data?.data?.servicecategories?.map((service: any) => (
-                <Grid item xs={12} md={6} lg={3} key={service?._id}>
-                  <Box
-                    onClick={() => {
-                      router.push({
-                        pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
-                        query: {
-                          categoryId: service?._id,
-                          categoryName: service?.categoryName,
-                        },
-                      });
-                    }}
-                    borderRadius={2}
-                    border={'0.2rem solid'}
-                    borderColor={'primary.lighter'}
-                    textAlign="center"
-                    mt={2}
-                    minHeight={'15rem'}
-                    p={2}
-                    sx={{ cursor: 'pointer' }}
-                  >
+            {serviceCatalogCategories?.isLoading ||
+            serviceCatalogCategories?.isFetching ? (
+              <SkeletonForm />
+            ) : (
+              !!serviceCatalogCategories?.data?.data?.servicecategories
+                ?.length &&
+              serviceCatalogCategories?.data?.data?.servicecategories?.map(
+                (service: any) => (
+                  <Grid item xs={12} md={6} lg={3} key={service?._id}>
                     <Box
-                      alignItems={'center'}
-                      display={'flex'}
-                      justifyContent={'center'}
+                      onClick={() => {
+                        router?.push({
+                          pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
+                          query: {
+                            categoryId: service?._id,
+                            categoryName: service?.categoryName,
+                          },
+                        });
+                      }}
+                      borderRadius={2}
+                      border={'2px solid'}
+                      borderColor={
+                        service?._id === categoryId
+                          ? 'primary.main'
+                          : 'primary.lighter'
+                      }
+                      bgcolor={
+                        service?._id === categoryId ? 'primary.lighter' : ''
+                      }
+                      textAlign="center"
                       mt={2}
+                      minHeight={'15rem'}
+                      p={2}
+                      sx={{ cursor: 'pointer' }}
                     >
-                      <FolderIcon />
-                    </Box>
-                    <Typography variant="h5" mt={2}>
-                      {service?.categoryName ?? '-'}
-                    </Typography>
-                    <Box
-                      alignItems={'center'}
-                      display={'flex'}
-                      justifyContent={'center'}
-                    >
-                      <Typography
-                        variant="body2"
-                        align="center"
-                        gutterBottom
-                        mt={1}
-                        mb={2}
-                        ml={2}
-                        mr={2}
+                      <Box
+                        alignItems={'center'}
+                        display={'flex'}
+                        justifyContent={'center'}
+                        mt={2}
                       >
-                        {service?.description ?? '-'}
+                        <FolderIcon />
+                      </Box>
+                      <Typography variant="h5" mt={2}>
+                        {service?.categoryName ?? '-'}
                       </Typography>
+                      <Box
+                        alignItems={'center'}
+                        display={'flex'}
+                        justifyContent={'center'}
+                      >
+                        <Typography
+                          variant="body2"
+                          align="center"
+                          gutterBottom
+                          mt={1}
+                          mb={2}
+                          ml={2}
+                          mr={2}
+                        >
+                          {service?.description ?? '-'}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                </Grid>
-              ))}
+                  </Grid>
+                ),
+              )
+            )}
           </Grid>
-          <CustomPagination
-            count={data?.data?.meta?.pages}
-            pageLimit={data?.data?.meta?.limit}
-            currentPage={data?.data?.meta?.page}
-            totalRecords={data?.data?.meta?.total}
-            onPageChange={handlePageChange}
-            setPage={setPage}
-            setPageLimit={setPageLimit}
-          />
+          {serviceCatalogCategories?.isLoading ||
+          serviceCatalogCategories?.isFetching ? (
+            <Skeleton />
+          ) : (
+            <>
+              <br />
+              <CustomPagination
+                count={serviceCatalogCategories?.data?.data?.meta?.pages}
+                pageLimit={serviceCatalogCategories?.data?.data?.meta?.limit}
+                currentPage={serviceCatalogCategories?.data?.data?.meta?.page}
+                totalRecords={serviceCatalogCategories?.data?.data?.meta?.total}
+                onPageChange={handlePageChange}
+                setPage={setPage}
+                setPageLimit={setPageLimit}
+              />
+            </>
+          )}
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[
@@ -156,7 +188,7 @@ export const Catalog = () => {
             {isLoading || isFetching ? (
               <SkeletonForm />
             ) : (
-              result?.map((allService: any) => (
+              services?.data?.map((allService: any) => (
                 <Grid item xs={12} md={6} lg={4} key={allService?._id}>
                   <Box
                     key={allService?._id}
@@ -199,14 +231,14 @@ export const Catalog = () => {
                       mt={2}
                     >
                       <Typography variant="h5">
-                        {allService?.itemName ?? '-'}
+                        {allService?.itemName ?? '---'}
                       </Typography>
 
                       <Typography variant="body2" component={'span'}>
-                        {allService?.description ?? '-'}
+                        {allService?.description ?? '---'}
                       </Typography>
                       <Typography variant="body2" component={'span'}>
-                        {allService?.cost ?? '-'}
+                        {allService?.cost ?? '---'}
                       </Typography>
                     </Box>
                   </Box>

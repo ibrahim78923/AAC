@@ -2,18 +2,16 @@ export const styles = {
   mainDiv: (theme: any) => ({
     backgroundColor: theme?.palette?.custom?.pale_grayish_blue,
     height: '100vh',
-    '@media (max-width:700px)': {
-      height: 'fit-content',
-    },
+    position: 'relative',
   }),
 
   headerBar: (theme: any) => ({
+    px: '30px',
     backgroundColor: theme?.palette?.common?.white,
     height: '80px',
+    display: 'flex',
     alignItems: 'center',
     borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
-    justifyContent: 'space-between',
-    textAlign: 'center',
     '@media (max-width:900px)': {
       height: 'fit-content',
       paddingY: '20px',
@@ -82,8 +80,8 @@ export const styles = {
     padding: '20px',
     borderTopLeftRadius: '20px',
     borderBottomLeftRadius: '20px',
-    height: '90vh',
-    overflow: 'scroll',
+    height: 'calc(100vh - 80px)',
+    overflowY: 'auto',
   }),
 
   customField: (theme: any) => ({

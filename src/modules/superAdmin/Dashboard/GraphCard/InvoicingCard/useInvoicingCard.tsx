@@ -52,7 +52,7 @@ const useInvoicingCard = (details: any) => {
               show: true,
               label: 'Total Revenue',
               formatter: function () {
-                return '€' + sumOfThreeValues?.toFixed(1) + 'K';
+                return '£ ' + sumOfThreeValues?.toFixed(1) + 'K';
               },
             },
           },

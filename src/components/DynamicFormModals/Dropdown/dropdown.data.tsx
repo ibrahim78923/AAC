@@ -5,7 +5,7 @@ export const validationSchema: any = Yup?.object()?.shape({
   placeholder: Yup?.string()?.trim(),
   options: Yup?.array()?.of(
     Yup?.object()?.shape({
-      label: Yup?.string()?.required('Required'),
+      label: Yup?.string()?.trim()?.required('Required'),
     }),
   ),
   required: Yup?.boolean()?.nullable(),
@@ -14,6 +14,6 @@ export const validationSchema: any = Yup?.object()?.shape({
 export const defaultValues: any = {
   name: '',
   placeholder: '',
-  options: [{ label: '' }],
+  options: [{ label: '', value: '' }],
   required: false,
 };

@@ -17,3 +17,7 @@ export const PAGINATION = {
 export const FILE_MAX_SIZE = {
   ATTACH_FILE_MAX_SIZE: 1024 * 1024 * 2.44,
 };
+export const FILE_SIZE_MESSAGES = {
+  FILE_TOO_LARGE: 'file-too-large',
+  TOTAL_FILE_SIZE: 'total-size-too-large',
+};

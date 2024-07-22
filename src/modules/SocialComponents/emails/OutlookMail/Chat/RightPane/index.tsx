@@ -26,11 +26,13 @@ import {
   CREATE_EMAIL_TYPES,
   EMAIL_TABS_TYPES,
   FILE_TYPES,
+  indexNumbers,
 } from '@/constants';
 import { useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import {
   setCurrentEmailAssets,
+  setCurrentForwardAttachments,
   setSearchTerm,
 } from '@/redux/slices/email/outlook/slice';
 import Draft from './Draft';
@@ -47,6 +49,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { PdfImage } from '@/assets/images';
+import { useGetEmailSettingsQuery } from '@/services/commonFeatures/email/others';
 
 const RightPane = ({
   isOpenSendEmailDrawer,
@@ -61,6 +64,8 @@ const RightPane = ({
   const mailTabType: any = useAppSelector(
     (state: any) => state?.outlook?.mailTabType,
   );
+
+  const { data: emailSettingsData } = useGetEmailSettingsQuery({});
 
   const [isUserDetailDrawerOpen, setIsUserDetailDrawerOpen] = useState(false);
 
@@ -281,7 +286,8 @@ const RightPane = ({
                                         ?.split(' ')[0]
                                     }
                                     lastName={
-                                      nameParts[1] ??
+                                      (nameParts &&
+                                        nameParts[indexNumbers?.ONE]) ??
                                       obj?.from?.emailAddress?.name
                                         ?.trim()
                                         ?.split(' ')[1]
@@ -298,33 +304,23 @@ const RightPane = ({
                                     >
                                       {obj?.from?.emailAddress?.name}
                                     </Typography>
-                                    {obj?.toRecipients.map((item: any) => (
-                                      <Typography
-                                        variant="body2"
-                                        key={uuidv4()}
-                                        sx={{ cursor: 'default' }}
-                                      >
-                                        To: {item?.emailAddress?.name}
-                                      </Typography>
-                                    ))}
-                                    {obj?.ccRecipients?.map((item: any) => (
-                                      <Typography
-                                        variant="body2"
-                                        key={uuidv4()}
-                                        sx={{ cursor: 'default' }}
-                                      >
-                                        Cc: {item?.emailAddress?.name}
-                                      </Typography>
-                                    ))}
-                                    {obj?.bccRecipients?.map((item: any) => (
-                                      <Typography
-                                        variant="body2"
-                                        key={uuidv4()}
-                                        sx={{ cursor: 'default' }}
-                                      >
-                                        Bcc: {item?.emailAddress?.name}
-                                      </Typography>
-                                    ))}
+
+                                    <RecipientsBoxWrapper
+                                      data={obj?.toRecipients}
+                                      label={'To'}
+                                    />
+                                    {obj?.ccRecipients?.length > 0 && (
+                                      <RecipientsBoxWrapper
+                                        data={obj?.ccRecipients}
+                                        label={'Cc'}
+                                      />
+                                    )}
+                                    {obj?.bccRecipients?.length > 0 && (
+                                      <RecipientsBoxWrapper
+                                        data={obj?.bccRecipients}
+                                        label={'Bcc'}
+                                      />
+                                    )}
                                   </Box>
                                   <Box
                                     display={'flex'}
@@ -368,9 +364,11 @@ const RightPane = ({
                                                   : obj?.from?.emailAddress
                                                       ?.address,
                                               others: {
-                                                from: `${obj?.from[0]
-                                                  ?.name} ${'<'}
-                                                ${obj?.from[0]?.email}
+                                                from: `${obj?.from[
+                                                  indexNumbers?.ZERO
+                                                ]?.name} ${'<'}
+                                                ${obj?.from[indexNumbers?.ZERO]
+                                                  ?.email}
                                                 ${'>'}`,
                                                 sent: obj?.date,
                                                 to: `<>`,
@@ -412,15 +410,21 @@ const RightPane = ({
                                               from: obj?.from?.emailAddress
                                                 ?.address,
                                               others: {
-                                                from: `${obj?.from?.emailAddress
-                                                  ?.name} ${'<'}
-                                                 ${obj?.from?.emailAddress
-                                                   ?.address}
+                                                from: `${obj?.from?.emailAddress?.name} ${'<'}
+                                                 ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
                                                 sent: obj?.createdDateTime,
                                                 to: `<>`,
                                                 subject: obj?.subject,
                                                 body: '',
+                                                cc: obj?.ccRecipients?.map(
+                                                  (item: any) =>
+                                                    item?.emailAddress?.address,
+                                                ),
+                                                bcc: obj?.bccRecipients?.map(
+                                                  (item: any) =>
+                                                    item?.emailAddress?.address,
+                                                ),
                                               },
                                             }),
                                           );
@@ -449,17 +453,24 @@ const RightPane = ({
                                               from: obj?.from?.emailAddress
                                                 ?.address,
                                               others: {
-                                                from: `${obj?.from?.emailAddress
-                                                  ?.name} ${'<'}
-                                                 ${obj?.from?.emailAddress
-                                                   ?.address}
+                                                from: `${obj?.from?.emailAddress?.name} ${'<'}
+                                                 ${obj?.from?.emailAddress?.address}
                                                  ${'>'}`,
                                                 sent: obj?.createdDateTime,
                                                 to: `<>`,
                                                 subject: obj?.subject,
                                                 body: obj?.body?.content,
+                                                attachments: obj?.attachments,
                                               },
                                             }),
+                                          );
+
+                                          dispatch(
+                                            setCurrentForwardAttachments(
+                                              obj?.attachments?.map(
+                                                (item: any) => item,
+                                              ),
+                                            ),
                                           );
                                         }}
                                       >
@@ -527,7 +538,8 @@ const RightPane = ({
                                     <Box>
                                       <Typography variant="body3">
                                         <strong>From :</strong>
-                                        {obj?.from?.emailAddress?.name}
+                                        {obj?.from?.emailAddress?.name}{' '}
+                                        {`<${obj?.from?.emailAddress?.address}>`}
                                       </Typography>
                                     </Box>
                                     <Box>
@@ -617,6 +629,7 @@ const RightPane = ({
         setOpenDrawer={setIsOpenSendEmailDrawer}
         drawerType={mailType}
         setMailType={setMailType}
+        emailSettingsData={emailSettingsData}
       />
 
       <UserDetailsDrawer
@@ -628,7 +641,7 @@ const RightPane = ({
   );
 };
 
-function ImageComponent({ base64, contentType, fileName }: any) {
+export function ImageComponent({ base64, contentType, fileName }: any) {
   const src = `data:${contentType};base64,${base64}`;
   const theme = useTheme();
 
@@ -717,6 +730,22 @@ export const DocumentBoxWrapper = ({ children }: any) => {
       }}
     >
       {children}
+    </Box>
+  );
+};
+
+const RecipientsBoxWrapper = ({ data = [], label }: any) => {
+  return (
+    <Box>
+      <Typography variant="body2" sx={{ cursor: 'default', fontWeight: '600' }}>
+        {label}: &nbsp;
+        {data?.map((item: any, index: number) => (
+          <span key={uuidv4()} style={{ fontWeight: '500' }}>
+            {item?.emailAddress?.name}
+            {index < data?.length - 1 && ', '}
+          </span>
+        ))}
+      </Typography>
     </Box>
   );
 };

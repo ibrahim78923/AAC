@@ -1,43 +1,42 @@
 import { useState } from 'react';
-
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
 import {
-  useGetDeletedContactsQuery,
-  useRestoreContactMutation,
-  useDeleteContactPermanentMutation,
-} from '@/services/commonFeatures/contacts';
+  useGetRestoreFormsQuery,
+  usePatchRestoreFormMutation,
+  useDeleteFormPermanentMutation,
+} from '@/services/airMarketer/lead-capture/forms';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 
 const useRestore = () => {
+  const theme = useTheme();
   const [selectedRow, setSelectedRow]: any = useState([]);
-  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const defaultParams = {
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
-  };
   const [searchValue, setSearchValue] = useState(null);
-  const [filterParams, setFilterParams] = useState({
+  const [filterParams, setFilterParams] = useState({});
+  const paginationParams = {
     page: page,
     limit: pageLimit,
-  });
+  };
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
+
   const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
-  const { data: dataGetDeletedContacts, isLoading: loadingGetContact } =
-    useGetDeletedContactsQuery({
-      params: { ...filterParams, ...searchPayLoad },
-    });
+  const {
+    data: dataGetDeletedContacts,
+    isLoading: loadingGetContact,
+    isFetching: fetchingGetContacts,
+  } = useGetRestoreFormsQuery({
+    params: { ...filterParams, ...searchPayLoad, ...paginationParams },
+  });
 
   // Dropdown Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -61,51 +60,38 @@ const useRestore = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { createdAt, ...others } = values;
-    const startDate = createdAt?.[0]
-      ? dayjs(createdAt[0]).format(DATE_FORMAT.API)
-      : null;
-    const endDate = createdAt?.[1]
-      ? dayjs(createdAt[1]).format(DATE_FORMAT.API)
-      : null;
-    setFilterParams((prev) => {
-      const updatedParams = {
-        ...prev,
-        ...others,
-      };
+    const filterPayload: any = {};
 
-      if (startDate !== null && endDate !== null) {
-        updatedParams.startDate = startDate;
-        updatedParams.endDate = endDate;
+    Object.entries(values).forEach(([key, value]: any) => {
+      if (value) {
+        switch (key) {
+          case 'filterByDate':
+            filterPayload.startDate = dayjs(value[0]).format(DATE_FORMAT.API);
+            filterPayload.endDate = dayjs(value[1]).format(DATE_FORMAT.API);
+            break;
+          default:
+            filterPayload[key] = value;
+            break;
+        }
       }
-
-      return updatedParams;
     });
+    setFilterParams(filterPayload);
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
 
   // Refresh
   const handleRefresh = () => {
-    setFilterParams(defaultParams);
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
     resetFilters();
   };
 
-  // Hadle PAGE CHANGE
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
-  };
-
-  // Delete Contacts Permanent
+  // Delete Forms Permanent
   const [isDeleteModal, setIsDeleteModal] = useState(false);
-  const [deleteContact, { isLoading: loadingDelete }] =
-    useDeleteContactPermanentMutation();
+  const [deleteForms, { isLoading: loadingDelete }] =
+    useDeleteFormPermanentMutation();
   const handleOpenModalDelete = () => {
     handleActionsMenuClose();
     setIsDeleteModal(true);
@@ -114,16 +100,15 @@ const useRestore = () => {
     setIsDeleteModal(false);
   };
 
-  const handleDeleteContact = async () => {
-    const contactIds = await selectedRow;
+  const handleDeleteForms = async () => {
+    const formIds = await selectedRow;
     try {
-      await deleteContact({ contactIds })?.unwrap();
+      await deleteForms({ formIds })?.unwrap();
       handleCloseModalDelete();
       setSelectedRow([]);
-      enqueueSnackbar('Contact has been permanently deleted.', {
+      enqueueSnackbar('Form has been permanently deleted.', {
         variant: 'success',
       });
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -131,10 +116,10 @@ const useRestore = () => {
     }
   };
 
-  // Restore Contacts
+  // Restore Forms
   const [isRestoreModal, setIsRestoreModal] = useState(false);
-  const [restoreContacts, { isLoading: loadingRestore }] =
-    useRestoreContactMutation();
+  const [restoreForms, { isLoading: loadingRestore }] =
+    usePatchRestoreFormMutation();
 
   const handleOpenModalRestore = () => {
     handleActionsMenuClose();
@@ -144,17 +129,17 @@ const useRestore = () => {
     setIsRestoreModal(false);
   };
 
-  const handleSubmitRestoreContact = async () => {
-    const contactIds = await selectedRow;
+  const handleSubmitRestoreForm = async () => {
+    // const ids = await selectedRow;
+    const ids = await selectedRow?.join(',');
     try {
-      await restoreContacts({ contactIds })?.unwrap();
+      await restoreForms({ ids })?.unwrap();
 
       handleCloseModalRestore();
       setSelectedRow([]);
       enqueueSnackbar('Record has been restored.', {
         variant: 'success',
       });
-      setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -162,7 +147,6 @@ const useRestore = () => {
     }
   };
 
-  const theme = useTheme();
   const [isRestoreFilter, setIsRestoreFilter] = useState(false);
   const [search, setSearch] = useState('');
   const [isPermanantlyDel, setIsPermanantlyDel] = useState(false);
@@ -200,6 +184,7 @@ const useRestore = () => {
     handleOpenFilters,
     handleCloseFilters,
     loadingGetContact,
+    fetchingGetContacts,
     dataGetDeletedContacts,
     searchValue,
     methodsFilter,
@@ -207,21 +192,16 @@ const useRestore = () => {
     handleRefresh,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    isActionsDisabled,
-    setRowId,
-    rowId,
     isDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,
-    handleDeleteContact,
+    handleDeleteForms,
     loadingDelete,
     isRestoreModal,
     handleOpenModalRestore,
-    handleSubmitRestoreContact,
+    handleSubmitRestoreForm,
     handleCloseModalRestore,
     loadingRestore,
 

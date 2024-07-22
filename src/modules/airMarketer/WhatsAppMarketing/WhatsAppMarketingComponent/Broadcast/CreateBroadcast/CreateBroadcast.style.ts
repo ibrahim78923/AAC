@@ -49,4 +49,15 @@ export const styles = {
     borderRadius: '8px',
     padding: '10px',
   }),
+  buttonPicker: {
+    position: 'relative',
+    display: 'inline-block',
+  },
+  datePickerWrapper: {
+    position: 'absolute',
+    bottom: '100%',
+    right: '0',
+    zIndex: '100',
+    boxShadow: ' rgba(0, 0, 0, 0.35) 0px 5px 15px',
+  },
 };

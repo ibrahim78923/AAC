@@ -6,20 +6,22 @@ import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 
 const DateOverrides = (props: any) => {
-  const { theme, disabled, submittedData } = props;
+  const { theme, disabled, submittedData, timeSlotsData } = props;
   const {
     openModule,
     setOpenModule,
     showData,
     setShowData,
-    methods,
     handleSubmit,
     onSubmit,
+    methods,
+    control,
   } = useDateOverrides(props);
+
   return (
     <>
       <Typography variant="h3">Date Overrides</Typography>
-      {disabled === false ? (
+      {!disabled ? (
         <Box
           border={`1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`}
           borderRadius={3}
@@ -27,13 +29,54 @@ const DateOverrides = (props: any) => {
           height={460}
           textAlign={'center'}
         >
-          {showData === false ? (
-            <Typography p={3} textAlign={'center'}>
-              Add dates when your availability changes from your weekly hours
-            </Typography>
+          {!showData ? (
+            <>
+              {!timeSlotsData?.dateOverrides ? (
+                <Typography p={3} textAlign={'center'}>
+                  Add dates when your availability changes from your weekly
+                  hours
+                </Typography>
+              ) : (
+                <>
+                  {timeSlotsData?.dateOverrides?.map(
+                    (data: any, index: number) => (
+                      <Box key={data?._id}>
+                        <Box
+                          display={'flex'}
+                          justifyContent={'center'}
+                          alignItems={'center'}
+                          gap={2}
+                          p={1}
+                        >
+                          <Typography>
+                            {data?.date
+                              ? dayjs(data?.overrideDate)?.format(
+                                  DATE_TIME_FORMAT?.DMY,
+                                )
+                              : ''}
+                          </Typography>
+                          <Box>
+                            {data?.timeRanges?.map((time: any) => (
+                              <Typography key={time?._id}>
+                                {`${time?.startHour} - ${time?.endHour}`}
+                              </Typography>
+                            ))}
+                          </Box>
+                        </Box>
+                        {index !== submittedData?.dateOverrides?.length - 1 && (
+                          <Grid item xs={12}>
+                            <Divider />
+                          </Grid>
+                        )}
+                      </Box>
+                    ),
+                  )}
+                </>
+              )}
+            </>
           ) : (
             <>
-              {submittedData?.map((data: any, index: number) => (
+              {submittedData?.dateOverrides?.map((data: any, index: number) => (
                 <Box key={data?._id}>
                   <Box
                     display={'flex'}
@@ -43,7 +86,7 @@ const DateOverrides = (props: any) => {
                     p={1}
                   >
                     <Typography>
-                      {data?.overrideDate
+                      {data?.date
                         ? dayjs(data?.overrideDate)?.format(
                             DATE_TIME_FORMAT?.DMY,
                           )
@@ -61,7 +104,7 @@ const DateOverrides = (props: any) => {
                       ))}
                     </Box>
                   </Box>
-                  {index !== submittedData?.length - 1 && (
+                  {index !== submittedData?.dateOverrides?.length - 1 && (
                     <Grid item xs={12}>
                       <Divider />
                     </Grid>
@@ -83,19 +126,67 @@ const DateOverrides = (props: any) => {
           </Box>
         </Box>
       ) : (
-        <Box
-          border={`1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`}
-          borderRadius={3}
-          mt={1}
-          height={460}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          <Typography width={'310px'}>
-            Add dates when your availability changes from your weekly hours
-          </Typography>
-        </Box>
+        <>
+          {!timeSlotsData?.dateOverrides ? (
+            <Box
+              border={`1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`}
+              borderRadius={3}
+              mt={1}
+              height={460}
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'center'}
+            >
+              <Typography width={'310px'}>
+                Add dates when your availability changes from your weekly hours
+              </Typography>
+            </Box>
+          ) : (
+            <>
+              <Box
+                border={`1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`}
+                borderRadius={3}
+                mt={1}
+                height={460}
+                textAlign={'center'}
+              >
+                {timeSlotsData?.dateOverrides?.map(
+                  (data: any, index: number) => (
+                    <Box key={data?._id}>
+                      <Box
+                        display={'flex'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        gap={2}
+                        p={1}
+                      >
+                        <Typography>
+                          {data?.date
+                            ? dayjs(data?.overrideDate)?.format(
+                                DATE_TIME_FORMAT?.DMY,
+                              )
+                            : ''}
+                        </Typography>
+                        <Box>
+                          {data?.timeRanges?.map((time: any) => (
+                            <Typography key={time?._id}>
+                              {`${time?.startHour} - ${time?.endHour}`}
+                            </Typography>
+                          ))}
+                        </Box>
+                      </Box>
+                      {index !== submittedData?.dateOverrides?.length - 1 && (
+                        <Grid item xs={12}>
+                          <Divider />
+                        </Grid>
+                      )}
+                    </Box>
+                  ),
+                )}
+              </Box>
+            </>
+          )}
+        </>
       )}
       <AddDateOverrides
         methods={methods}
@@ -104,6 +195,7 @@ const DateOverrides = (props: any) => {
         openModule={openModule}
         setOpenModule={setOpenModule}
         setShowData={setShowData}
+        control={control}
       />
     </>
   );

@@ -27,6 +27,7 @@ const CreateTemplate = () => {
     Details,
     type,
     theme,
+    handleCancelBtn,
   } = useCreateTemplate();
 
   return (
@@ -180,7 +181,7 @@ const CreateTemplate = () => {
               border: `1px solid ${theme?.palette?.custom?.dark}`,
               color: theme?.palette?.custom?.main,
             }}
-            onClick={() => router?.back()}
+            onClick={handleCancelBtn}
           >
             Cancel
           </Button>

@@ -5,13 +5,13 @@ import TicketsEditorDrawer from './TicketsEditorDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import useTickets from './useTickets';
 import { columns } from './Tickets.data';
-// import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { PlusIcon } from '@/assets/icons';
 import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { DRAWER_TYPES } from '@/constants/strings';
 
-const Tickets = ({ ticketsData, isLoading, dealId }: any) => {
+const Tickets = ({ isLoading }: any) => {
   const {
     theme,
     isOpenAlert,
@@ -25,7 +25,9 @@ const Tickets = ({ ticketsData, isLoading, dealId }: any) => {
     deleteTicketHandler,
     setTicketRecord,
     ticketRecord,
-  } = useTickets(dealId);
+    ticketsData,
+    getTicketsLoading,
+  } = useTickets();
 
   return (
     <Box
@@ -74,9 +76,16 @@ const Tickets = ({ ticketsData, isLoading, dealId }: any) => {
                 variant="contained"
                 className="medium"
                 sx={{ minWidth: '0px', gap: 0.5 }}
-                onClick={() => setOpenDrawer('Add')}
+                onClick={() =>
+                  setOpenDrawer({
+                    isToggle: true,
+                    type: DRAWER_TYPES?.ADD,
+                    data: {},
+                  })
+                }
+                startIcon={<PlusIcon />}
               >
-                <PlusIcon /> Add Tickets
+                Add Tickets
               </Button>
             </PermissionsGuard>
           </Box>
@@ -89,23 +98,26 @@ const Tickets = ({ ticketsData, isLoading, dealId }: any) => {
               setTicketRecord,
             })}
             data={ticketsData}
+            isLoading={getTicketsLoading}
           />
         </Grid>
       </Grid>
-      <TicketsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-        ticketRecord={ticketRecord}
-      />
+      {openDrawer?.isToggle && (
+        <TicketsEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          ticketRecord={ticketRecord}
+        />
+      )}
 
-      {isOpenAlert && (
+      {isOpenAlert?.isToggle && (
         <AlertModals
           message={"You're about to remove a record. Are you sure?"}
           type={'delete'}
-          open={isOpenAlert}
+          open={isOpenAlert?.isToggle}
           handleClose={handleCloseAlert}
-          handleSubmitBtn={deleteTicketHandler}
-          isLoading={delTicketLoading}
+          handleSubmitBtn={() => deleteTicketHandler(isOpenAlert?.data)}
+          loading={delTicketLoading}
         />
       )}
     </Box>

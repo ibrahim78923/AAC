@@ -43,7 +43,7 @@ const useConnectNumber = ({ setIsConnected }: any) => {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
       } catch (error: any) {
-        const errMsg = error?.data?.message;
+        const errMsg = error?.message;
         const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
         enqueueSnackbar(errMessage ?? 'Error occurred', {
           variant: NOTISTACK_VARIANTS?.ERROR,

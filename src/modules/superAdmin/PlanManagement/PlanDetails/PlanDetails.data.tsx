@@ -56,6 +56,7 @@ export const PlanDetailsDataColumnFunction: any = (
   setIsDisabled: (value: boolean) => void,
   tableRowValues: any,
   setTableRowValues: any,
+  theme: any,
 ) => {
   return [
     {
@@ -74,7 +75,7 @@ export const PlanDetailsDataColumnFunction: any = (
           }}
         />
       ),
-      header: <Checkbox color="primary" name="id" disabled />,
+      header: '',
       isSortable: false,
     },
     {
@@ -140,11 +141,33 @@ export const PlanDetailsDataColumnFunction: any = (
     },
     {
       //Todo: Getting status at index 0
-      accessorFn: (row: any) => row?.planProducts[0]?.status,
+      accessorFn: (row: any) => row?.isActive,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        const planProducts = info?.row?.original?.isActive;
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography
+              sx={{
+                borderRadius: '25px',
+                padding: '2px 7px',
+                textAlign: 'center',
+                background: `${
+                  planProducts
+                    ? theme?.palette?.custom?.active_bg
+                    : theme?.palette?.custom?.inactive_bg
+                }`,
+              }}
+              variant="body3"
+              key={uuidv4()}
+            >
+              {planProducts ? 'active' : 'inActive'}
+            </Typography>
+          </Box>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.defaultUsers,
@@ -158,9 +181,10 @@ export const PlanDetailsDataColumnFunction: any = (
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        return `£ ${info?.getValue()}`;
+      },
     },
-
     {
       accessorFn: (row: any) => row?.defaultStorage,
       id: 'defaultStorage',

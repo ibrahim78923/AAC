@@ -36,6 +36,7 @@ const CTA = () => {
     handleDrawerSubmit,
     dataGetCTAs,
     loadingGetCTAs,
+    fetchingGetCTAs,
     setSearchValue,
     setPageLimit,
     setPage,
@@ -148,7 +149,7 @@ const CTA = () => {
           <TanstackTable
             columns={tableColumns}
             data={dataGetCTAs?.data?.leadcapturectas}
-            isLoading={loadingGetCTAs}
+            isLoading={loadingGetCTAs || fetchingGetCTAs}
             currentPage={dataGetCTAs?.data?.meta?.page}
             count={dataGetCTAs?.data?.meta?.pages}
             pageLimit={dataGetCTAs?.data?.meta?.limit}

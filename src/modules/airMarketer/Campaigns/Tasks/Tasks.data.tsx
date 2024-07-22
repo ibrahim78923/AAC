@@ -66,7 +66,12 @@ export const columns: any = (columnsProps: any) => {
       id: 'taskStatus',
       isSortable: true,
       header: 'Task Status',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => {
+        const value = info?.getValue();
+        return value
+          ? `${value?.charAt(0)?.toUpperCase()}${value?.slice(1)}`
+          : 'N/A';
+      },
     },
     {
       accessorFn: (row: any) => row?.campaignDetails[0]?.title,

@@ -1,10 +1,15 @@
-import { RHFAutocomplete, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
+import { getActiveProductSession } from '@/utils';
 export const defaultValues = {
   quoteStatus: '',
   createdBy: '',
 };
 
-export const dataArray = (UserListData: any) => {
+export const dataArray = (productsAllUsers: any) => {
+  const ActiveProduct: any = getActiveProductSession();
   return [
     {
       md: 12,
@@ -19,16 +24,16 @@ export const dataArray = (UserListData: any) => {
     },
     {
       md: 12,
-      component: RHFSelect,
-      options: UserListData?.data?.usercompanyaccounts?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.user?.firstName} ${item?.user?.lastName}`,
-      })),
+      component: RHFAutocompleteAsync,
       componentProps: {
         name: 'createdBy',
         label: 'Created By',
         fullWidth: true,
-        select: true,
+        placeholder: 'select option',
+        apiQuery: productsAllUsers,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: { productId: ActiveProduct?._id },
       },
     },
   ];

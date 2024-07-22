@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
@@ -17,7 +16,7 @@ import {
   createViewValidationSchema,
 } from './CreateView.data';
 
-const useCreateView = () => {
+const useCreateView = (sharedWithvalue: string) => {
   const { user }: any = useAuth();
   // const teamId = '6663f6c093824f083240ed0c' || null;
   const teamId = null;
@@ -25,11 +24,6 @@ const useCreateView = () => {
   const contactOwnerData = useLazyGetOrganizationUsersQuery();
   const contactStatusData = useLazyGetContactsStatusQuery();
   const lifeCycleStagesData = useLazyGetLifeCycleStagesQuery();
-
-  const [sharedWithvalue, setSharedWithValue] = useState('EVERYONE');
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSharedWithValue((event.target as HTMLInputElement).value);
-  };
 
   const [postContactsView, { isLoading: loadingCreateView }] =
     usePostContactsViewMutation();
@@ -41,7 +35,9 @@ const useCreateView = () => {
   const { handleSubmit, reset } = methodsCreateView;
 
   const onSubmit = async (values: any, closeDrawer: any) => {
-    const payload: any = {};
+    const payload: any = {
+      sharedWith: sharedWithvalue,
+    };
     if (sharedWithvalue === 'MY_TEAM') {
       payload['teamId'] = teamId;
     }
@@ -90,8 +86,6 @@ const useCreateView = () => {
     lifeCycleStagesData,
     contactStatusData,
     reset,
-    sharedWithvalue,
-    handleChange,
     teamId,
   };
 };

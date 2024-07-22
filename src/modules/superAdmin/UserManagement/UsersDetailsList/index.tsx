@@ -86,7 +86,7 @@ const UsersDetailsList = () => {
 
   const { id } = navigate.query;
   const { data: userDataById, isLoading: userDataLoading } =
-    useGetUsersByIdQuery(id);
+    useGetUsersByIdQuery(id, { skip: !id });
 
   const organizationId = userDataById?.data?.organization?._id;
   const organizationBasesProducts = userDataById?.data?.products;
@@ -101,10 +101,15 @@ const UsersDetailsList = () => {
     status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
   const { data: employeeList, isLoading: employeeListLoading } =
-    useGetEmployeeListQuery({
-      orgId: organizationId,
-      values: empListParams,
-    });
+    useGetEmployeeListQuery(
+      {
+        orgId: organizationId,
+        values: empListParams,
+      },
+      {
+        skip: !organizationId,
+      },
+    );
   const empDetail = employeeList?.data?.users;
 
   const { data: profileData, isLoading: profileDataLoading } =
@@ -112,6 +117,9 @@ const UsersDetailsList = () => {
       employeeDataById
         ? employeeDataById
         : employeeList?.data?.users && employeeList?.data?.users[0]?._id,
+      {
+        skip: !employeeDataById && !employeeList?.data?.users,
+      },
     );
   useEffect(() => {
     setEmployeeDataById(employeeList?.data?.users[0]?._id);

@@ -4,13 +4,14 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
+import { FilterProps } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
 
 export default function Filter({
   isOpenDrawer,
   setIsOpenDrawer,
   employeeFilter,
   setEmployeeFilter,
-}: any) {
+}: FilterProps) {
   const methods: any = useForm({
     defaultValues: usersFilterDefaultValues(employeeFilter),
   });

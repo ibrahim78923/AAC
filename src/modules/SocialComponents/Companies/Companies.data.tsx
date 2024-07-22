@@ -52,7 +52,7 @@ export const columns: any = (columnsProps: any) => {
       );
     } else if (attribute === 'owner.phoneNumber') {
       return info?.row?.original?.owner?.phoneNumber ?? 'N/A';
-    } else if (attribute === 'owner.name') {
+    } else if (attribute === 'owner.name' || attribute === 'owner') {
       const imgAlt = `${info?.row?.original?.owner?.name?.charAt(1)}`;
       return (
         <Box sx={{ display: 'flex', gap: '5px' }}>

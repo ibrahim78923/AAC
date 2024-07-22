@@ -25,7 +25,7 @@ import NoData from '@/components/NoData';
 import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { generateImage, truncateLargeText } from '@/utils/avatarUtils';
+import { generateImage, truncateText } from '@/utils/avatarUtils';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const Services = () => {
@@ -229,7 +229,7 @@ const Services = () => {
 
                   <Tooltip title={service?.description ?? '-'} arrow>
                     <Typography variant="body2" align="center" gutterBottom>
-                      {truncateLargeText(service?.description ?? '-', 160)}
+                      {truncateText(service?.description ?? '-', 160)}
                     </Typography>
                   </Tooltip>
                 </Box>
@@ -416,7 +416,7 @@ const Services = () => {
                           noWrap
                         >
                           Description:{' '}
-                          {truncateLargeText(result?.description ?? '-', 160)}
+                          {truncateText(result?.description ?? '-', 160)}
                         </Typography>
                       </Tooltip>
                     </Box>

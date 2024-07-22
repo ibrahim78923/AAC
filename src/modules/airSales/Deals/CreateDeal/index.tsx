@@ -16,12 +16,16 @@ import {
 import dayjs from 'dayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
-import { DATE_FORMAT } from '@/constants';
+import { ASSOCIATIONS_API_PARAMS_FOR, DATE_FORMAT } from '@/constants';
 import { useEffect } from 'react';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
 
 const CreateDeal = ({ open, onClose }: any) => {
   const [postDeals, { isLoading: isCreateDealLodaing }] =
     usePostDealsMutation();
+  const [postAssociation, { isLoading: createAssociationDealsLoading }] =
+    usePostAssociationCompaniesMutation();
   const { data: dealPipelines } = useGetDealPipeLineQuery({ meta: false });
 
   const defaultPipelineData = dealPipelines?.data?.find(
@@ -41,46 +45,58 @@ const CreateDeal = ({ open, onClose }: any) => {
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = async (values: any) => {
-    const closeDate = dayjs(values?.closeDate)?.format(DATE_FORMAT?.API);
-    const products = values?.products?.map((id: string) => ({
-      productId: id,
-      quantity: 1,
-      unitDiscount: 0,
-    }));
-    delete values.products;
+    const closeDate = values.closeDate
+      ? dayjs(values.closeDate).format(DATE_FORMAT?.API)
+      : undefined;
+
+    const products =
+      values.products?.map((item: string) => ({
+        productId: item,
+        quantity: 1,
+        unitDiscount: 0,
+      })) || [];
+
     values.dealPipelineId = values.dealPipelineId?._id;
     values.ownerId = values.ownerId?._id;
-    const obj = {
+    delete values.products;
+
+    const obj: any = {
       closeDate,
       products,
       ...values,
     };
 
-    const formData = new FormData();
-    Object.entries(values)?.forEach(([key, value]: any) => {
-      if (value !== undefined && value !== null && value !== '') {
-        if (key === closeDate) {
-          formData?.append(key, dayjs(value)?.format(DATE_FORMAT?.API));
-        } else {
-          formData?.append(key, value);
-        }
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] === undefined || obj[key] === null || obj[key] === '') {
+        delete obj[key];
       }
     });
 
     try {
-      await postDeals({ body: obj })?.unwrap();
-      enqueueSnackbar('Deal created successfully', {
-        variant: 'success',
-      });
-      reset();
+      const response = await postDeals({ body: obj })?.unwrap();
+
+      if (response?.data) {
+        try {
+          const associationPayload = {
+            recordId: response?.data?._id,
+            recordType: ASSOCIATIONS_API_PARAMS_FOR?.DEALS,
+            operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+          };
+          await postAssociation({ body: associationPayload })?.unwrap();
+          enqueueSnackbar('Deal created successfully', { variant: 'success' });
+        } catch (error: any) {
+          const errMsg = error?.data?.message;
+          enqueueSnackbar(errMsg ?? 'Error occurred', {
+            variant: NOTISTACK_VARIANTS?.ERROR,
+          });
+        }
+      }
     } catch (error) {
-      enqueueSnackbar('Error while creating deal', {
-        variant: 'error',
-      });
+      enqueueSnackbar('Error while creating deal', { variant: 'error' });
     }
+    reset();
     onClose();
   };
-
   const dealDataArray = createDealData({ dealPipelineId });
 
   return (
@@ -92,7 +108,7 @@ const CreateDeal = ({ open, onClose }: any) => {
       okText="Create"
       isOk
       submitHandler={handleSubmit(onSubmit)}
-      isLoading={isCreateDealLodaing}
+      isLoading={isCreateDealLodaing || createAssociationDealsLoading}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={1}>

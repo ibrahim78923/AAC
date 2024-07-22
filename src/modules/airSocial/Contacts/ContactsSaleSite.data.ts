@@ -1,1 +1,5 @@
-export const ContactsSaleSite = ['All Contacts'];
+export const sharedWithOptions = {
+  everyone: 'EVERYONE',
+  myTeam: 'MY_TEAM',
+  private: 'PRIVATE',
+};

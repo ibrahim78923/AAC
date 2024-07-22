@@ -67,6 +67,9 @@ export const IMPORT_ACTIONS_STEPS = {
   STEP_THREE: 2,
 };
 
+export const PHONE_NUMBER_TYPE = {
+  MASK_NUMBER: 'maskNumber',
+};
 export const TICKET_APPROVALS = {
   RECEIVED: 'RECIEVED',
   REQUESTED: 'REQUESTED',
@@ -146,6 +149,13 @@ export const SOFTWARE_STATUS = {
   MANAGED: 'Managed',
   DISABLED: 'Disabled',
   IN_REVIEW: 'InReview',
+};
+
+export const expande_status = {
+  List_View: 'List View',
+  Broad_List: 'Board List',
+  Create_Deal: 'Create Deal',
+  Import_Deals: 'Import Deals',
 };
 
 export const SOFTWARE_TYPE = {
@@ -387,6 +397,9 @@ export const TICKETS_STATE = {
   NEW: 'New',
   RESPONSE_DUE: 'Response due',
   OVERDUE: 'Overdue',
+  PENDING: 'PENDING',
+  OVERDUES: 'OVERDUE',
+  PAID: 'PAID',
 };
 
 export const ROLE = {
@@ -512,6 +525,7 @@ export const IMPORT_ACTION_TYPE = {
   VENDORS: 'vendors',
   DEALS: 'DEALS',
   TASKS: 'TASKS',
+  PRODUCT: 'product',
 };
 
 export const OBJECT_URL_IMPORT = {
@@ -578,6 +592,30 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const CONTACTS_CONSTANTS = {
+  WHATSAPP_NUMBER: 'whatsAppNumber',
+  PHONE_NUMBER: 'phoneNumber',
+};
+
+export const CAMPAIGNS_CONSTANTS = {
+  TASKS: 'tasks',
+  COMMENTS: 'comments',
+  CALENDAR: 'calander',
+};
+
+export const STATICTICS_STATUS = {
+  RECIEVED: 'Received',
+  SENT: 'Sent',
+  FAILED: 'Failed',
+};
+
+export const SMS_MARKETING_CONSTANTS = {
+  ALL: 'all',
+  DETAIL: 'detail',
+  NAME: 'name',
+  ATTACHMENT: 'attachment',
+};
+
 export const DRAWER_TITLES = {
   EDIT: 'Edit User',
   ADD: 'Add User',
@@ -634,6 +672,7 @@ export const VOUCHERS_STATUS = {
 };
 export const DATA_TYPES = {
   NULL: null,
+  UNDEFINED: undefined,
 };
 
 export const LOYALTY_TIERS_REWARD_TYPE = {
@@ -759,18 +798,19 @@ export const IMPORT_FILE_TYPE = {
 };
 
 export const FEEDBACK_SURVEY_QUESTION_TYPE = {
-  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
-  CHECK_BOXES: 'CHECK_BOXES',
-  SHORT_ANSWERS: 'SHORT_ANSWERS',
-  LINEAR_SCALE: 'LINEAR_SCALE',
+  MULTIPLE_CHOICE: 'multipleChoice',
+  CHECK_BOXES: 'checkboxes',
+  SHORT_ANSWERS: 'shortAnswers',
+  LINEAR_SCALE: 'linearScale',
+  TEXT: 'text',
 };
 
 export const FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE = {
-  EXCELLENT: 'EXCELLENT',
-  VERY_GOOD: 'VERY_GOOD',
-  GOOD: 'GOOD',
-  SATISFIED: 'SATISFIED',
-  UN_SATISFIED: 'UN_SATISFIED',
+  EXCELLENT: 'Excellent',
+  VERY_GOOD: 'Very Good',
+  GOOD: 'Good',
+  SATISFIED: 'Satisfied',
+  UN_SATISFIED: 'Unsatisfied',
 };
 
 export const ARRAY_INDEX = {
@@ -791,6 +831,10 @@ export const GENERIC_UPSERT_FORM_CONSTANT = {
   BACK: 'Back',
   VIEW: 'View',
   ADD: 'Add',
+  NEW: 'New',
+  UPDATE: 'Update',
+  APPLY: 'Apply',
+  CREATE: 'Create',
 };
 
 export const TEXT_FORMATE: any = {
@@ -808,15 +852,18 @@ export const TEXT_FORMATE: any = {
 };
 
 export const CHARTS: any = {
-  BAR_CHART: 'Bar Chart',
-  DONUT_CHART: 'Donut Chart',
-  PIE_CHART: 'Pie Chart',
-  HORIZONTAL_BAR_CHART: 'Horizontal Bar Chart',
+  BAR_CHART: 'BAR_CHART',
+  HORIZONTAL_BAR_CHART: 'HORIZONTAL_BAR_CHART',
+  DONUT_CHART: 'DONUT_CHART',
+  PIE_CHART: 'PIE_CHART',
+  TEMPLATE_BAR_CHART: 'TEMPLATE_BAR_CHART',
+  TEMPLATE_PIE_OR_DONUT_CHART: 'TEMPLATE_PIE_OR_DONUT_CHART',
 };
 
 export const SELECTED_ARRAY_LENGTH = {
   ZERO: 0,
   ONE: 1,
+  TWO: 2,
 };
 
 export const SCREENS: any = {
@@ -830,9 +877,49 @@ export const TIME_TO_RESTORE_DELETED_RECORD = {
 
 export const REPORT_TYPE = {
   CHART: 'chart',
-  TABLE: 'table',
-  TEXT: 'text',
+  TABLE: 'TABLE',
+  TEXT: 'TEXT_FIELD',
   COUNTER: 'counter',
+  EVERYONE: 'EVERYONE',
+  PRIVATE: 'PRIVATE',
+  SPECIFIC_USERS: 'SPECIFIC_USERS',
+  VIEW_AND_EDIT: 'VIEW_AND_EDIT',
+  VIEW_ONLY: 'VIEW_ONLY',
+  ADD_TO_EXISTING: 'ADD_TO_EXISTING_DASHBOARD',
+  ADD_TO_NEW: 'ADD_TO_NEW_DASHBOARD',
+  DO_NOT_ADD: 'DO_NOT_ADD_TO_DASHBOARD',
+  ALL: 'All',
+  INVENTORIES: 'INVENTORY',
+  TICKETS: 'TICKETS',
+  SOFTWARE: 'SOFTWARE',
+  CONTRACTS: 'CONTRACT',
+  PURCHASE_ORDER: 'PURCHASE_ORDER',
+  DEALS: 'DEALS',
+  PIPELINE_FORECAST: 'PIPELINE_FORECAST',
+  FORECAST_CATEGORY: 'FORECAST_CATEGORY',
+  NO_OF_RECORDS: 'NO_OF_RECORDS',
+  TEMPLATE_TABLE: 'TEMPLATE_TABLE',
+  TEMPLATE_TEXT: 'TEMPLATE_TEXT',
+  LEADS: 'LEADS',
+  EMAIL_MARKETING: 'EMAIL_MARKETING',
+  CAMPAIGNS: 'CAMPAIGN',
+  addToNew: 'addToNew',
+};
+
+export const FIELD_TYPE = {
+  STATIC: 'STATIC',
+  OBJECT_ID: 'OBJECT_ID',
+  STRING: 'STRING',
+};
+
+export const COLLECTION_NAME = {
+  ASSET_TYPES: 'assettypes',
+  LOCATION: 'location',
+  DEPARTMENT: 'department',
+  VENDORS: 'vendors',
+  USERS: 'users',
+  SERVICE_CATEGORIES: 'servicecategories',
+  DEAL_PIPELINES: 'dealpipelines',
   EVERYONE: 'everyone',
   SPECIFIC_USERS: 'specificUsers',
   ADD_TO_EXISTING: 'addToExisting',
@@ -881,3 +968,100 @@ export const TIME_ENTRIES_TICKETS_TIMES = {
   PREVIOUS_SECOND: 59,
   PREVIOUS_MINUTE: 59,
 };
+
+export const ATTACHMENT_FILE_TYPE = {
+  PDF: 'pdf',
+  XLS: 'xls',
+  DOC: 'doc',
+  DOCX: 'docx',
+  CSV: 'csv',
+};
+
+export const DATA_TYPE = {
+  object: 'object',
+};
+
+export const FEEDBACK_SURVEY_QUESTION_LINEAR_SCALE = {
+  STRONGLY_AGREE: 'Strongly Agree 😇',
+  AGREE: 'Agree 😊',
+  NEUTRAL: 'Neutral 😐',
+  DISAGREE: 'Disagree 😑',
+  STRONGLY_DISAGREE: 'Strongly Disagree 😠',
+};
+
+export const PERCENTAGES_VALUES = {
+  ZERO: 0,
+  TWENTY: 20,
+  FORTY: 40,
+  SIXTY: 60,
+  EIGHTY: 80,
+};
+
+export const GENERIC_REPORT_MODULES = {
+  SERVICES: 'SERVICES',
+  SALES: 'SALES',
+  MARKETING: 'MARKETING',
+};
+export const CUSTOMER_SURVEY_TICKET_STATUS_BASED = {
+  AFTER_TICKET_CLOSED: 'afterTicketClosed',
+  AFTER_TICKET_RESOLVED: 'afterTicketResolved',
+};
+
+export const MANAGE_ACCESS_TYPES = {
+  EVERYONE: 'everyone',
+  SPECIAL: 'special',
+  PRIVATE: 'private',
+  VIEW: 'view',
+  VIEW_AND_EDIT: 'edit_&_view',
+  EVERYONE_CAPITAL: 'EVERYONE',
+  PRIVATE_CAPITAL: 'PRIVATE',
+  SPECIFIC_USERS: 'SPECIFIC_USERS',
+  VIEW_ONLY_CAPITAL: 'VIEW_ONLY',
+  VIEW_AND_EDIT_CAPITAL: 'VIEW_AND_EDIT',
+  SPECIAL_CAPITAL: 'SPECIAL',
+};
+
+export const REPORT_TYPES = {
+  STATIC: 'static',
+  DYNAMIC: 'dynamic',
+};
+
+export const FEEDBACK_STATUS = {
+  PUBLISHED: 'published',
+  DRAFT: 'draft',
+  INACTIVE: 'inactive',
+};
+
+export const FEEDBACK_SURVEY_PATH_TYPES = {
+  CUSTOMER_SATISFACTION: 'customer-satisfaction',
+  CUSTOMER_SUPPORT: 'customer-support',
+};
+
+export const PLAN_STATUS = {
+  YES: 'Yes',
+  NO: 'No',
+};
+
+export const MONTH_NAMES = [
+  'JAN',
+  'FEB',
+  'MAR',
+  'APR',
+  'MAY',
+  'JUN',
+  'JUL',
+  'AUG',
+  'SEP',
+  'OCT',
+  'NOV',
+  'DEC',
+];
+
+export const MONTH_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+export const DOWNLOAD_FILE_TYPE = {
+  PDF: 'PDF',
+  PNG: 'PNG',
+};
+export const WEEK_NUMBERS = [1, 2, 3, 4, 5, 6, 7];
+export const WEEK_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];

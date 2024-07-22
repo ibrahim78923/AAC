@@ -12,6 +12,10 @@ import { CloseModalIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { useUpsertAgent } from './useUpsertAgent';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
 
 export const UpsertAgent = (props: any) => {
   const { isAgentModalOpen, selectedAgentList } = props;
@@ -23,16 +27,24 @@ export const UpsertAgent = (props: any) => {
     postAgentStatus,
     handleClose,
     upsertAgentFormFields,
+    getDynamicFieldsStatus,
+    postAttachmentStatus,
+    form,
   } = useUpsertAgent(props);
 
   return (
-    <>
-      <Dialog
-        open={isAgentModalOpen}
-        onClose={() => handleClose?.()}
-        fullWidth
-        maxWidth={'sm'}
-      >
+    <Dialog
+      open={isAgentModalOpen}
+      onClose={() => handleClose?.()}
+      fullWidth
+      maxWidth={'sm'}
+    >
+      {getDynamicFieldsStatus?.isLoading ||
+      getDynamicFieldsStatus?.isFetching ? (
+        <SkeletonForm />
+      ) : getDynamicFieldsStatus?.isError ? (
+        <ApiErrorState />
+      ) : (
         <FormProvider
           methods={method}
           onSubmit={handleSubmit(handleUpsertAgentSubmit)}
@@ -63,6 +75,16 @@ export const UpsertAgent = (props: any) => {
                   <form.component {...form?.componentProps} size="small" />
                 </Grid>
               ))}
+              {form?.map((item: any) => (
+                <Grid item xs={12} key={item?.id}>
+                  {componentMap[item?.component] &&
+                    createElement(componentMap[item?.component], {
+                      ...item?.componentProps,
+                      name: item?.componentProps?.label,
+                      size: 'small',
+                    })}
+                </Grid>
+              ))}
             </Grid>
           </DialogContent>
           <DialogActions>
@@ -71,7 +93,9 @@ export const UpsertAgent = (props: any) => {
               variant="outlined"
               color="secondary"
               disabled={
-                patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+                patchAgentStatus?.isLoading ||
+                postAgentStatus?.isLoading ||
+                postAttachmentStatus?.isLoading
               }
             >
               Cancel
@@ -80,17 +104,21 @@ export const UpsertAgent = (props: any) => {
               type="submit"
               variant="contained"
               disabled={
-                patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+                patchAgentStatus?.isLoading ||
+                postAgentStatus?.isLoading ||
+                postAttachmentStatus?.isLoading
               }
               loading={
-                patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+                patchAgentStatus?.isLoading ||
+                postAgentStatus?.isLoading ||
+                postAttachmentStatus?.isLoading
               }
             >
               {!!selectedAgentList?.length ? 'Update' : 'Save'}
             </LoadingButton>
           </DialogActions>
         </FormProvider>
-      </Dialog>
-    </>
+      )}
+    </Dialog>
   );
 };

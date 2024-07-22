@@ -68,7 +68,7 @@ export const ticketsTasksListsColumnsDynamic: any = (
     },
     {
       accessorFn: (row: any) => row?._id,
-      id: '_id',
+      id: 'TaskId',
       cell: (info: any) => (
         <Typography
           variant="body4"

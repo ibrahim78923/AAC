@@ -45,6 +45,8 @@ export default function DroppableArea(props: any) {
     setForm,
     setDraggedItemData,
     handleCancel,
+    handleChooseTemplate,
+    setValue,
   } = props;
 
   const { handleDelete, handleCopy, theme, setCalendarFilter } =
@@ -109,7 +111,7 @@ export default function DroppableArea(props: any) {
                       variant="contained"
                       onClick={
                         showTemplate
-                          ? () => setShowTemplate(false)
+                          ? () => handleChooseTemplate()
                           : () => setShowTemplate(true)
                       }
                     >
@@ -124,8 +126,8 @@ export default function DroppableArea(props: any) {
                       <Grid container spacing={1} mb={1}>
                         {form?.map((item: any) => (
                           <>
-                            {item?.type === REPORT_TYPE?.CHART && (
-                              <Grid item xs={12} sm={6} key={item?.id}>
+                            {item?.reportType === REPORT_TYPE?.CHART && (
+                              <Grid item sm={12} lg={6} key={item?.id}>
                                 <Box
                                   borderRadius={2}
                                   border={`1px solid ${theme?.palette?.grey[700]}`}
@@ -170,7 +172,7 @@ export default function DroppableArea(props: any) {
                                       </Box>
                                     </Box>
                                   </Box>
-                                  {allChartComponents[item?.component]}
+                                  {allChartComponents[item?.type]}
                                 </Box>
                               </Grid>
                             )}
@@ -283,7 +285,7 @@ export default function DroppableArea(props: any) {
                       <Grid container spacing={1} mb={1}>
                         {form?.map((item: any) => (
                           <>
-                            {item?.type === REPORT_TYPE?.COUNTER && (
+                            {item?.reportType === REPORT_TYPE?.COUNTER && (
                               <Grid item xs={12} sm={6} key={item?.id}>
                                 <Box
                                   borderRadius={2}
@@ -301,7 +303,7 @@ export default function DroppableArea(props: any) {
                                       overflow={'scroll'}
                                       width={'80%'}
                                     >
-                                      {item?.title} {item?.templateType}
+                                      {item?.title}
                                     </Typography>
                                     <Box
                                       display={'flex'}
@@ -359,6 +361,7 @@ export default function DroppableArea(props: any) {
                   fontSize={fontSize}
                   color={color}
                   textTitle={textTitle}
+                  setValue={setValue}
                 />
               )}
               {modal?.table && (

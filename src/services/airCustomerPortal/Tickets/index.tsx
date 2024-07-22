@@ -42,6 +42,20 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         body: apiDataParameter?.body,
       }),
     }),
+    getSingleDefaultSurveyForCustomerTickets: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_DEFAULT_CUSTOMER_SURVEY}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    checkSingleDefaultSurveySubmittedForRequester: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.CHECK_SINGLE_DEFAULT_CUSTOMER_SURVEY_SUBMITTED}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -52,4 +66,7 @@ export const {
   useGetCustomerPortalTicketsByIdQuery,
   useGetSingleTicketConversationsQuery,
   usePostReplyToConversationEmailMutation,
+  useLazyGetSingleDefaultSurveyForCustomerTicketsQuery,
+  useGetSingleDefaultSurveyForCustomerTicketsQuery,
+  useLazyCheckSingleDefaultSurveySubmittedForRequesterQuery,
 } = ticketsAPI;

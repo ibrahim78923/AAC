@@ -1,7 +1,7 @@
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFTextField,
 } from '@/components/ReactHookForm';
 
 export const productOptions = [
@@ -39,7 +39,7 @@ export const defaultValues = (filterValues: any) => {
   };
 };
 
-export const filterFields = [
+export const filterFields = (userList: any) => [
   {
     id: 2,
     component: RHFAutocomplete,
@@ -53,7 +53,6 @@ export const filterFields = [
       options: productOptions,
     },
   },
-
   {
     id: 920,
     componentProps: {
@@ -61,9 +60,11 @@ export const filterFields = [
       label: 'User',
       fullWidth: true,
       placeholder: 'User',
+      apiQuery: userList,
+      getOptionLabel: (option: any) => option?.firstName,
     },
     gridLength: 12,
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 4575,

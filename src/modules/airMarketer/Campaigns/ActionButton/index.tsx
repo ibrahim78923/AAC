@@ -20,6 +20,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 import { useGetCampaignsByIdQuery } from '@/services/airMarketer/campaigns';
 import { enqueueSnackbar } from 'notistack';
+import { indexNumbers } from '@/constants';
 
 const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
   const {
@@ -29,9 +30,14 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
     actionsModalDetails,
     setActionsModalDetails,
     deleteCampaigns,
+    deleteCampaignsLoading,
   } = useCampaigns();
 
-  const { data: compaignsDataById } = useGetCampaignsByIdQuery(selectedRows);
+  const { data: compaignsDataById } = useGetCampaignsByIdQuery(selectedRows, {
+    skip:
+      !Array?.isArray(selectedRows) ||
+      selectedRows?.length === indexNumbers?.ZERO,
+  });
 
   const handleDeleteCampaigns = async (id: any) => {
     try {
@@ -111,6 +117,7 @@ const ActionButton = ({ selectedRows, setSelectedRows }: any) => {
               })
             }
             handleSubmitBtn={() => handleDeleteCampaigns(selectedRows)}
+            loading={deleteCampaignsLoading}
           />
         </PermissionsGuard>
       )}

@@ -30,7 +30,10 @@ import { useAppSelector } from '@/redux/store';
 import { enqueueSnackbar } from 'notistack';
 import { AlertModals } from '@/components/AlertModals';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import {
+  DATE_FORMAT,
+  SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES,
+} from '@/constants';
 const ChoosePlan = () => {
   const router = useRouter();
   const theme = useTheme();
@@ -45,18 +48,37 @@ const ChoosePlan = () => {
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
   );
   const isCRM = parsedManageData?.isCRM;
-  const { data, isLoading } = useGetProductPlanListProductIdQuery({
-    id: parsedManageData?.productId,
-  });
+  const { data, isLoading } = useGetProductPlanListProductIdQuery(
+    {
+      id: parsedManageData?.productId,
+    },
+    { skip: parsedManageData?.productId ? false : true },
+  );
+
   const { data: crmPlanData, isLoading: isCRMplanLoading } =
-    useGetCRMPlanListQuery({
-      name: parsedManageData?.planName || parsedManageData?.name,
-    });
-  const { data: featuresData } = useGetProductFeaturesQuery({
-    id: isCRM
-      ? parsedManageData?.plans?.planProducts
-      : parsedManageData?.productId,
-  });
+    useGetCRMPlanListQuery(
+      {
+        name: parsedManageData?.planName || parsedManageData?.name,
+      },
+      {
+        skip:
+          parsedManageData?.planName || parsedManageData?.name ? false : true,
+      },
+    );
+
+  const { data: featuresData } = useGetProductFeaturesQuery(
+    {
+      id: isCRM
+        ? parsedManageData?.plans?.planProducts
+        : parsedManageData?.productId,
+    },
+    {
+      skip:
+        parsedManageData?.productId || parsedManageData?.plans?.planProducts
+          ? false
+          : true,
+    },
+  );
 
   const [getData, setGetData] = useState<any>([]);
 
@@ -111,7 +133,18 @@ const ChoosePlan = () => {
           `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
         );
       } catch (error: any) {
-        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        if (
+          error?.data?.message ===
+          SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES?.PLAN_ALREADY_ASSIGNED
+        ) {
+          enqueueSnackbar(
+            SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES?.PLAN_ALREADY_ASSIGNED,
+            { variant: 'error' },
+          );
+        } else {
+          enqueueSnackbar('Something went wrong !', { variant: 'error' });
+        }
+        setIsBuyPlan(false);
       }
     }
   };

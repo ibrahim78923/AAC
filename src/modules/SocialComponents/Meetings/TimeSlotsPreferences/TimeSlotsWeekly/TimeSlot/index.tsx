@@ -2,7 +2,7 @@ import { RHFTimePicker } from '@/components/ReactHookForm';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Delete } from '@mui/icons-material';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
-import { useFieldArray } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Permissions } from '@/constants/permissions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -16,7 +16,6 @@ export const TimeSlot = ({
   daySlotsState,
   setDaySlotsState,
   control,
-  handleCheckboxChange,
 }: any) => {
   const { remove, append } = useFieldArray({
     name: `daysTimeRanges.${parentIndex}.timeRanges`,
@@ -25,8 +24,11 @@ export const TimeSlot = ({
   const watchTimeRange = watch(`daysTimeRanges.${parentIndex}.timeRanges`);
   const handleAppend = () => {
     append({ startHour: new Date(), endHour: new Date() });
-    handleCheckboxChange(`daysTimeRanges.${parentIndex}`);
   };
+  const { getValues } = useFormContext();
+  const incomeBaseFields = getValues(
+    `daysTimeRanges.${parentIndex}.timeRanges`,
+  );
 
   return (
     <Box display="flex" flexDirection="row-reverse" alignItems="end">
@@ -40,14 +42,13 @@ export const TimeSlot = ({
           </Grid>
         ) : (
           <>
-            {watchTimeRange?.map((field: any, index: number) => {
+            {incomeBaseFields?.map((field: any, index: number) => {
               const startHour = watch(
                 `daysTimeRanges.${parentIndex}.timeRanges.${index}.startHour`,
               );
               const endHour = watch(
                 `daysTimeRanges.${parentIndex}.timeRanges.${index}.endHour`,
               );
-
               return (
                 <Grid
                   item

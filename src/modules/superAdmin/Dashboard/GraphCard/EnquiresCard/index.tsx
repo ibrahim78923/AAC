@@ -4,8 +4,9 @@ import { Box, Typography } from '@mui/material';
 import useEnquiriesCards from './useEnquiriesCards';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { style } from './EnquiriesCard.style';
+import { EnquiriesCardPropsI } from '@/modules/superAdmin/Dashboard/Dashboard-interface';
 
-const EnquiriesCard = ({ details, isLoading }: any) => {
+const EnquiriesCard = ({ details, isLoading }: EnquiriesCardPropsI) => {
   const { series, options, theme } = useEnquiriesCards(details);
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,

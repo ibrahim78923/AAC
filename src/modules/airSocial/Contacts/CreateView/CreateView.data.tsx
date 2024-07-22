@@ -17,7 +17,6 @@ export const createViewDefaultValues = {
   statusId: null,
   createdAtFilter: null,
   createdByFilter: null,
-  sharedWith: 'EVERYONE',
 };
 
 export const createViewData = (

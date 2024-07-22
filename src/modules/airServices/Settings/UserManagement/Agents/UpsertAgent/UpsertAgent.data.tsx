@@ -6,35 +6,47 @@ import {
 } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
 import { VALIDATION_CONSTANT } from '@/constants';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
+import { ARRAY_INDEX } from '@/constants/strings';
 
-export const validationSchemaAgentFields: any = yup?.object()?.shape({
-  firstName: yup?.string()?.trim()?.required('First name is required'),
-  lastName: yup?.string()?.trim()?.required('Last name is required'),
-  email: yup
-    ?.string()
-    ?.trim()
-    ?.email('Please provide valid email')
-    ?.required('Email is required'),
-  phoneNumber: yup
-    ?.string()
-    ?.trim()
-    ?.test(
-      'is-valid-phone',
-      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
-      function (value) {
-        if (value) {
-          return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
-        }
-        return true;
-      },
-    ),
-  departmentId: yup?.mixed()?.nullable(),
-  permissionsRole: yup?.mixed()?.nullable(),
-  timezone: yup?.mixed()?.nullable(),
-});
+export const validationSchemaAgentFields: any = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const defaultValues = (selectedAgentList: any) => {
-  const updateData = selectedAgentList?.[0];
+  return yup?.object()?.shape({
+    firstName: yup?.string()?.trim()?.required('First name is required'),
+    lastName: yup?.string()?.trim()?.required('Last name is required'),
+    email: yup
+      ?.string()
+      ?.trim()
+      ?.email('Please provide valid email')
+      ?.required('Email is required'),
+    phoneNumber: yup
+      ?.string()
+      ?.trim()
+      ?.test(
+        'is-valid-phone',
+        VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+        function (value) {
+          if (value) {
+            return VALIDATION_CONSTANT?.PHONE_NUMBER?.regex?.test(value);
+          }
+          return true;
+        },
+      ),
+    departmentId: yup?.mixed()?.nullable(),
+    permissionsRole: yup?.mixed()?.nullable(),
+    timezone: yup?.mixed()?.nullable(),
+    ...formSchema,
+  });
+};
+
+export const defaultValues = (selectedAgentList: any, form?: any) => {
+  const updateData = selectedAgentList?.[ARRAY_INDEX?.ZERO];
+  const initialValues: any = dynamicFormInitialValue(updateData, form);
+
   return {
     firstName: updateData?.firstName ?? '',
     lastName: updateData?.lastName ?? '',
@@ -43,6 +55,7 @@ export const defaultValues = (selectedAgentList: any) => {
     departmentId: updateData?.departmentData ?? null,
     permissionsRole: updateData?.accountsPermissions ?? null,
     timezone: updateData?.timezone ?? null,
+    ...initialValues,
   };
 };
 

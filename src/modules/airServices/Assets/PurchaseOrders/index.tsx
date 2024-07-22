@@ -7,6 +7,7 @@ import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/perm
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { PurchaseOrderHeader } from './PurchaseOrderHeader';
 import { EXPORT_TYPE } from '@/constants/strings';
+import { Box } from '@mui/material';
 
 const PurchaseOrder = () => {
   const {
@@ -28,6 +29,7 @@ const PurchaseOrder = () => {
     setPurchaseOrderFilter,
     getPurchaseOrderListData,
     onDeleteClick,
+    theme,
   }: any = usePurchaseOrders();
 
   return (
@@ -40,43 +42,50 @@ const PurchaseOrder = () => {
         ]}
         handleAction={handleNewPurchaseOrder}
       />
-      <br />
-      <PurchaseOrderHeader
-        handleExcelExport={() =>
-          getPurchaseOrderListDataExport?.(EXPORT_TYPE?.XLS)
-        }
-        handleCsvExport={() =>
-          getPurchaseOrderListDataExport?.(EXPORT_TYPE?.CSV)
-        }
-        deleteButtonDisabled={!!!purchaseOrderData?.length}
-        setSearchValue={setSearchValue}
-        onFilterClick={() => setIsDrawerOpen?.(true)}
-        onDeleteClick={() => onDeleteClick?.()}
-      />
-      <br />
-      <PermissionsGuard
-        permissions={[
-          AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.PURCAHSE_ORDER_LIST_VIEW,
-        ]}
+      <Box
+        py={2}
+        borderRadius={2}
+        boxShadow={1}
+        border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
       >
-        <TanstackTable
-          data={lazyGetPurchaseOrderListStatus?.data?.data?.purchases}
-          columns={purchaseOrderColumns}
-          isPagination
-          isLoading={lazyGetPurchaseOrderListStatus?.isLoading}
-          isError={lazyGetPurchaseOrderListStatus?.isError}
-          isFetching={lazyGetPurchaseOrderListStatus?.isFetching}
-          isSuccess={lazyGetPurchaseOrderListStatus?.isSuccess}
-          setPageLimit={setPageLimit}
-          setPage={setPage}
-          count={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.pages}
-          totalRecords={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.total}
-          onPageChange={(page: any) => setPage(page)}
-          currentPage={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.page}
-          pageLimit={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.limit}
+        <PurchaseOrderHeader
+          handleExcelExport={() =>
+            getPurchaseOrderListDataExport?.(EXPORT_TYPE?.XLS)
+          }
+          handleCsvExport={() =>
+            getPurchaseOrderListDataExport?.(EXPORT_TYPE?.CSV)
+          }
+          deleteButtonDisabled={!!!purchaseOrderData?.length}
+          setSearchValue={setSearchValue}
+          onFilterClick={() => setIsDrawerOpen?.(true)}
+          onDeleteClick={() => onDeleteClick?.()}
         />
-      </PermissionsGuard>
-
+        <br />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.PURCAHSE_ORDER_LIST_VIEW,
+          ]}
+        >
+          <TanstackTable
+            data={lazyGetPurchaseOrderListStatus?.data?.data?.purchases}
+            columns={purchaseOrderColumns}
+            isPagination
+            isLoading={lazyGetPurchaseOrderListStatus?.isLoading}
+            isError={lazyGetPurchaseOrderListStatus?.isError}
+            isFetching={lazyGetPurchaseOrderListStatus?.isFetching}
+            isSuccess={lazyGetPurchaseOrderListStatus?.isSuccess}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+            count={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.pages}
+            totalRecords={
+              lazyGetPurchaseOrderListStatus?.data?.data?.meta?.total
+            }
+            onPageChange={(page: any) => setPage(page)}
+            currentPage={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.page}
+            pageLimit={lazyGetPurchaseOrderListStatus?.data?.data?.meta?.limit}
+          />
+        </PermissionsGuard>
+      </Box>
       {deleteModalOpen && (
         <DeletePurchaseOrder
           deleteModalOpen={deleteModalOpen}

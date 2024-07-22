@@ -21,6 +21,8 @@ export const VideoConferencing = () => {
     isLoading,
     isFetching,
     handleZoomClick,
+    changeStatusProgress,
+    deleteProgress,
   } = useVideoConferencing();
   const meetings = {
     MS_TEAM: 'MS Teams',
@@ -166,10 +168,18 @@ export const VideoConferencing = () => {
                               checked={account?.isDefault === true}
                               isLoading={switchLoading?.[account?._id]}
                               onClick={() => handleChangeStatus(account?._id)}
+                              disabled={
+                                changeStatusProgress?.isLoading ||
+                                deleteProgress?.isLoading
+                              }
                             />
                             <Box sx={{ scale: '1.3' }}>
                               <IconButton
                                 onClick={() => handleDelete(account?._id)}
+                                disabled={
+                                  changeStatusProgress?.isLoading ||
+                                  deleteProgress?.isLoading
+                                }
                               >
                                 <DeleteIcon />
                               </IconButton>

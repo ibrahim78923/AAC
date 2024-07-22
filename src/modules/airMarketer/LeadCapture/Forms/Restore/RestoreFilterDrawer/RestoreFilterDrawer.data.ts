@@ -2,20 +2,10 @@ import { RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 
 export const filterFormFields = [
   {
-    id: 'createdAt',
+    id: 'filterByDate',
     componentProps: {
-      name: 'createdAt',
-      label: 'Start Date',
-      fullWidth: true,
-    },
-    component: RHFSwitchableDatepicker,
-    md: 12,
-  },
-  {
-    id: 'endDate',
-    componentProps: {
-      name: 'endDate',
-      label: 'End Date',
+      name: 'filterByDate',
+      label: 'Filter By Date',
       fullWidth: true,
     },
     component: RHFSwitchableDatepicker,

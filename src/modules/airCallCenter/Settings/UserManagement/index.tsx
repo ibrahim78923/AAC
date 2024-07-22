@@ -8,6 +8,8 @@ import useUserManagement from './useUserManagement';
 import { styles } from './UserManagement.style';
 import AddUser from './AddUser';
 import AddTeams from './AddTeams';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 const UserManagement = () => {
   const {
@@ -39,24 +41,36 @@ const UserManagement = () => {
           </Box>
           <Box sx={styles?.headerActions}>
             {tabValue === 'users' && (
-              <Button
-                variant="contained"
-                className="small"
-                startIcon={<PlusShared />}
-                onClick={handleOpenDrawerAddUser}
+              <PermissionsGuard
+                permissions={[
+                  AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS?.ADD_USER,
+                ]}
               >
-                Add User
-              </Button>
+                <Button
+                  variant="contained"
+                  className="small"
+                  startIcon={<PlusShared />}
+                  onClick={handleOpenDrawerAddUser}
+                >
+                  Add User
+                </Button>
+              </PermissionsGuard>
             )}
             {tabValue === 'teams' && (
-              <Button
-                variant="contained"
-                className="small"
-                startIcon={<PlusShared />}
-                onClick={handleOpenDrawerAddTeams}
+              <PermissionsGuard
+                permissions={[
+                  AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS?.CREATE_TEAMS,
+                ]}
               >
-                Create Team
-              </Button>
+                <Button
+                  variant="contained"
+                  className="small"
+                  startIcon={<PlusShared />}
+                  onClick={handleOpenDrawerAddTeams}
+                >
+                  Create Team
+                </Button>
+              </PermissionsGuard>
             )}
           </Box>
         </Box>

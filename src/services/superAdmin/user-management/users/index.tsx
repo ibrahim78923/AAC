@@ -76,6 +76,7 @@ export const {
   useUpdateUsersMutation,
   usePostUsersMutation,
   useGetUsersQuery,
+  useLazyGetUsersQuery,
   useDeleteUsersMutation,
   useGetUsersByIdQuery,
   useGetSuperAdminRolesQuery,

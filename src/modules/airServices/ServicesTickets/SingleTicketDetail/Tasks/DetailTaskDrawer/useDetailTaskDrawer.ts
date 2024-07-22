@@ -1,7 +1,11 @@
 import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { defaultValues, validationSchema } from './DetailTaskDrawer.data';
+import {
+  defaultValues,
+  overviewDataArray,
+  validationSchema,
+} from './DetailTaskDrawer.data';
 import { usePatchTaskByIdMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
@@ -16,6 +20,8 @@ export const useDetailTaskDrawer = (props: any) => {
   const { handleSubmit, reset } = method;
 
   const [patchMutation, { isLoading }] = usePatchTaskByIdMutation();
+
+  const overviewData = overviewDataArray(isPortalOpen?.data);
 
   const onSubmitDrawer = async (formData: any) => {
     delete formData?.ticketId;
@@ -51,5 +57,6 @@ export const useDetailTaskDrawer = (props: any) => {
     theme,
     isLoading,
     handleCloseDrawer,
+    overviewData,
   };
 };

@@ -26,8 +26,10 @@ import {
 } from '@/services/chat';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
+  setActiveReceiverId,
   setChatContacts,
   setChatContactsLoading,
+  setChatMessages,
 } from '@/redux/slices/chat/slice';
 import { isNullOrEmpty } from '@/utils';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -177,6 +179,8 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
         variant: 'success',
       });
       setIsDeleteAllModal(false);
+      dispatch(setChatMessages([]));
+      dispatch(setActiveReceiverId(null));
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }

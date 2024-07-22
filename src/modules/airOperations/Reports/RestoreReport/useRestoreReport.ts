@@ -1,15 +1,17 @@
+import { PAGINATION } from '@/config';
 import { useRestoreDeletedReportMutation } from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useRestoreReport = (props: any) => {
   const {
     setIsPortalOpen,
-    setSelectedReportLists,
-    page,
-    getReportListData,
     selectedReportLists,
+    setSelectedReportLists,
+    setPage,
+    totalRecords,
+    page,
+    getRestoreReportsList,
   } = props;
-
   const [restoreDeletedReportTrigger, restoreDeletedReportStatus] =
     useRestoreDeletedReportMutation();
 
@@ -29,10 +31,14 @@ export const useRestoreReport = (props: any) => {
       successSnackbar('Report restore successfully');
       setSelectedReportLists?.([]);
       closeModal?.();
-      await getReportListData?.(page);
+      const newPage =
+        selectedReportLists?.length === totalRecords
+          ? PAGINATION?.CURRENT_PAGE
+          : page;
+      setPage?.(newPage);
+      await getRestoreReportsList?.(newPage);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      closeModal?.();
     }
   };
   const closeModal = () => {

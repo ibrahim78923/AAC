@@ -3,9 +3,9 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDatePicker,
+  RHFDesktopDateTimePicker,
   RHFEditor,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
@@ -26,8 +26,7 @@ export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
   department: Yup?.mixed()?.nullable(),
   assetLifeExpiry: Yup?.date()?.nullable(),
   usedBy: Yup?.mixed()?.nullable(),
-  assignedOnTime: Yup?.date()?.nullable(),
-  assignedOnDate: Yup?.date()?.nullable(),
+  assignedOn: Yup?.date()?.nullable(),
   fileUrl: Yup?.mixed()?.nullable(),
 });
 
@@ -43,8 +42,8 @@ export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
     description: data?.description ?? '',
     location: data?.locationDetails ?? null,
     department: data?.departmentDetails ?? null,
-    assignedOnDate: new Date(data?.assignedOn ?? todayDate),
-    assignedOnTime: new Date(data?.assignedOn ?? todayDate),
+    assignedOn:
+      typeof data?.assignedOn === 'string' ? new Date(data?.assignedOn) : null,
     usedBy: data?.usedByDetails ?? null,
     fileUrl: null,
   };
@@ -56,7 +55,7 @@ export const editInventoryDefaultValues = {
   assetLifeExpiry: '',
   description: '',
   location: '',
-  assignedOnDate: '',
+  assignedOn: '',
   assignedOnTime: '',
   usedBy: '',
 };
@@ -65,6 +64,7 @@ export const upsertInventoryFormFieldsDynamic = (
   apiQueryDepartmentType: any,
   apiQueryLocationType: any,
   apiQueryUsedByType: any,
+  productId: any,
 ) => [
   {
     id: 1,
@@ -164,29 +164,16 @@ export const upsertInventoryFormFieldsDynamic = (
   },
   {
     id: 10,
-    component: RHFDatePicker,
+    component: RHFDesktopDateTimePicker,
     componentProps: {
-      fullWidth: true,
-      name: 'assignedOnDate',
+      name: 'assignedOn',
       label: 'Assigned on',
-      disablePast: true,
-      textFieldProps: { readOnly: true },
-    },
-    md: 3,
-  },
-
-  {
-    id: 12,
-    componentProps: {
-      name: 'assignedOnTime',
-      label: '\u00a0\u00a0',
       fullWidth: true,
       disablePast: true,
       ampm: false,
       textFieldProps: { readOnly: true },
     },
-    component: RHFTimePicker,
-    md: 3,
+    md: 6,
   },
   {
     id: 9,
@@ -198,6 +185,7 @@ export const upsertInventoryFormFieldsDynamic = (
       apiQuery: apiQueryUsedByType,
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option.lastName}`,
+      externalParams: { productId },
     },
     component: RHFAutocompleteAsync,
     md: 6,

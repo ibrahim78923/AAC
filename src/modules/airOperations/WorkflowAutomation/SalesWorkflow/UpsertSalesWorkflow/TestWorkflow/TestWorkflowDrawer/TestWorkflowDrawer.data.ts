@@ -25,11 +25,11 @@ export const WorkflowConditionData = (
   let color;
   if (!total) {
     icon = Cancel;
-    heading = `The matching condition is ${total ?? 0}`;
+    heading = `The matching record is ${total ?? 0}`;
     color = 'error.main';
   } else {
     icon = CheckCircleIcon;
-    heading = `The matching condition is ${total}`;
+    heading = `The matching condition is ${total ?? 0}`;
     color = 'success.main';
   }
 
@@ -49,7 +49,7 @@ export const WorkflowConditionData = (
         {
           _id: 358,
           boxColor: 'custom.steel_blue_alpha',
-          conditionNum: '1',
+          conditionNum: total,
           conditionDetail: titleData,
           statusColor: 'custom.steel_blue',
           conditionStatus: 'Will Execute',

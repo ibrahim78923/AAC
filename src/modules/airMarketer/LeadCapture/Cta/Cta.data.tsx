@@ -6,6 +6,7 @@ import RowSelectionAll from '@/components/RowSelectionAll';
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import Link from 'next/link';
 
 export const columns = (
   selectedRow: any,
@@ -113,9 +114,9 @@ export const columns = (
             <PermissionsGuard
               permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.DELETE]}
             >
-              <Box sx={{ cursor: 'pointer' }}>
+              <Link href={data?.url} target="_blank">
                 <CtaExternalLink />
-              </Box>
+              </Link>
             </PermissionsGuard>
           </Box>
         );

@@ -21,6 +21,7 @@ export const AlertModals = ({
   submitBtnText = 'Yes',
   typeImage,
   disableCancelBtn,
+  isDisableSubmitBtn = false,
   loading,
   footer = true,
 }: any) => {
@@ -75,6 +76,7 @@ export const AlertModals = ({
           <LoadingButton
             variant="contained"
             onClick={handleSubmitBtn}
+            disabled={isDisableSubmitBtn}
             loading={loading}
           >
             {submitBtnText}

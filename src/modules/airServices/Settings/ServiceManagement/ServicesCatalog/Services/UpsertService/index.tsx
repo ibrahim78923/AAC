@@ -1,13 +1,10 @@
 import { Box, Grid, Typography } from '@mui/material';
-
 import useUpsertService from './useUpsertService';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { AIR_SERVICES } from '@/constants';
 import { LoadingButton } from '@mui/lab';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const UpsertService = () => {
   const {
@@ -16,34 +13,25 @@ export const UpsertService = () => {
     onSubmit,
     upsertServiceFormField,
     categoryId,
-    router,
-
     postAddServiceCatalogStatus,
     filteredServices,
+    handleCancelBtn,
   } = useUpsertService();
 
   return (
     <>
-      <Box
-        display={'flex'}
-        alignItems={'center'}
-        flexWrap={'wrap'}
-        gap={1}
-        sx={{ cursor: 'pointer' }}
-      >
-        <ArrowBackIcon
-          onClick={() => router.push(AIR_SERVICES?.SERVICE_CATALOG)}
-        />
-        <Typography variant="h4">General Details</Typography>
-      </Box>
+      <PageTitledHeader
+        title={`General Details`}
+        canMovedBack
+        moveBack={() => handleCancelBtn()}
+      />
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={3} mt={2}>
+        <Grid container spacing={3}>
           {upsertServiceFormField?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>
-              {item?.componentProps?.heading && (
-                <Typography mt={4}>{item?.componentProps?.heading}</Typography>
-              )}
-              <item.component {...item?.componentProps} size={'small'} />
+              <item.component {...item?.componentProps} size={'small'}>
+                {item?.heading ? item?.heading : null}
+              </item.component>
             </Grid>
           ))}
         </Grid>
@@ -55,36 +43,24 @@ export const UpsertService = () => {
           ))}
         </Grid>
 
-        <Grid container spacing={4} mt={2}>
-          <Box
-            display={'flex'}
-            alignItems={'end'}
-            justifyContent={'end'}
-            flexDirection={'row'}
-            bottom={'1rem'}
-            right={'2rem'}
-            marginLeft={'auto'}
+        <Box display={'flex'} justifyContent={'flex-end'} gap={2} my={2}>
+          <LoadingButton
+            type="button"
+            color="secondary"
+            variant="outlined"
+            onClick={() => handleCancelBtn()}
+            disabled={postAddServiceCatalogStatus?.isLoading}
           >
-            <LoadingButton
-              sx={{ marginRight: '1rem' }}
-              type="button"
-              color="secondary"
-              variant="outlined"
-              onClick={() => methods?.reset()}
-              disabled={postAddServiceCatalogStatus?.isLoading}
-            >
-              cancel
-            </LoadingButton>
-
-            <LoadingButton
-              variant="contained"
-              type="submit"
-              loading={postAddServiceCatalogStatus?.isLoading}
-            >
-              Save
-            </LoadingButton>
-          </Box>
-        </Grid>
+            cancel
+          </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={postAddServiceCatalogStatus?.isLoading}
+          >
+            Save
+          </LoadingButton>
+        </Box>
         <br />
 
         {!!categoryId && (

@@ -15,6 +15,9 @@ export const SingleTicket = () => {
     isLoading,
     isFetching,
     isError,
+    lazyGetSingleDefaultSurveyForCustomerTicketsStatus,
+    getSingleDefaultSurveyForCustomerTickets,
+    lazyCheckSingleDefaultSurveySubmittedForRequesterStatus,
   } = useSingleTicket();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -26,10 +29,31 @@ export const SingleTicket = () => {
         id={ticketId}
         ticketNumber={singleTicketData?.ticketIdNumber}
         setOpenShareModal={setOpenShareModal}
+        getSingleDefaultSurveyForCustomerTickets={
+          getSingleDefaultSurveyForCustomerTickets
+        }
+        singleTicketData={singleTicketData}
       />
       <br />
 
-      <SingleTicketDetail singleTicketData={singleTicketData} />
+      <SingleTicketDetail
+        singleTicketData={singleTicketData}
+        lazyGetSingleDefaultSurveyForCustomerTicketsStatus={
+          lazyGetSingleDefaultSurveyForCustomerTicketsStatus
+        }
+        getSingleDefaultSurveyForCustomerTickets={
+          getSingleDefaultSurveyForCustomerTickets
+        }
+        isLoader={
+          lazyGetSingleDefaultSurveyForCustomerTicketsStatus?.isLoading ||
+          lazyCheckSingleDefaultSurveySubmittedForRequesterStatus?.isLoading ||
+          lazyGetSingleDefaultSurveyForCustomerTicketsStatus?.isFetching ||
+          lazyCheckSingleDefaultSurveySubmittedForRequesterStatus?.isFetching
+        }
+        lazyCheckSingleDefaultSurveySubmittedForRequesterStatus={
+          lazyCheckSingleDefaultSurveySubmittedForRequesterStatus
+        }
+      />
       <br />
       <SingleTicketForm singleTicketData={singleTicketData} />
 

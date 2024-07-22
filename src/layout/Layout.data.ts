@@ -215,14 +215,14 @@ export const ServicesRoutes: any = [
     icon: FeedbackSurveyImage,
     label: 'Feedback Survey',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_FEEDBACK_SURVEY,
   },
   {
     key: '/air-services/reports',
     icon: ReportsImage,
     label: 'Reports',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_REPORTS,
   },
   {
     key: '/air-services/enquiries',
@@ -303,6 +303,20 @@ export const LoyaltyProgramsRoutes: any = [
         permissions: Permissions?.AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS,
       },
     ],
+  },
+  {
+    key: LOYALTY_PROGRAM?.ROLE_AND_RIGHT,
+    icon: ForecastImage,
+    label: 'Roles and Right',
+    role: 'AIR_OPERATIONS',
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_ROLES_AND_RIGHT,
+  },
+  {
+    key: LOYALTY_PROGRAM?.USER_MANAGEMENT,
+    icon: ProfileUserManagementImage,
+    label: 'User Management',
+    role: 'AIR_OPERATIONS',
+    permissions: Permissions?.AIR_LOYALTY_PROGRAM_USER_MANAGEMENT_USERS,
   },
   // {
   //   key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
@@ -489,6 +503,13 @@ export const AirOperationsRoutes: any = [
     permissions: Permissions?.AIR_OPERATIONS_WORKFLOWS,
   },
   {
+    key: AIR_OPERATION?.ROLE_AND_RIGHT,
+    icon: ForecastImage,
+    label: 'Roles and Right',
+    role: 'AIR_OPERATIONS',
+    permissions: Permissions?.AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST,
+  },
+  {
     key: AIR_OPERATION?.USER_MANAGEMENT,
     icon: ProfileUserManagementImage,
     label: 'User Management',
@@ -500,7 +521,7 @@ export const AirOperationsRoutes: any = [
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATION_REPORTS,
   },
 ];
 
@@ -566,11 +587,6 @@ export const LowerSuperAdminRoutes = [
     key: '/super-admin/settings',
     permissions: superAdminAllPermissionsSetting,
     textNames: [
-      {
-        key: '/super-admin/settings/jobs',
-        label: 'Jobs',
-        permissions: Permissions?.SETTING_JOBS,
-      },
       {
         key: '/super-admin/settings/faqs',
         label: 'FAQs',
@@ -895,4 +911,13 @@ export const zeroPaddingRoutes = [
   '/air-loyalty-program',
   '/social-components/email/gmail/conversations',
   '/air-services/settings/asset-management/vendor-fields',
+  '/air-services/settings/user-management/department-field',
+  '/air-services/settings/asset-management/purchase-order-fields',
+  '/air-services/settings/asset-management/software-fields',
+  '/air-services/settings/service-management/field-manager/task-fields',
+  '/air-services/settings/service-management/field-manager/time-entry-fields',
+  '/air-marketer/email-marketing/email-templates/create-template',
+  '/air-services/settings/user-management/requester-fields',
+  '/air-services/settings/user-management/agent-fields',
+  '/air-services/settings/service-management/field-manager/ticket-fields',
 ];

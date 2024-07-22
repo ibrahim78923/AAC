@@ -113,6 +113,7 @@ const CUSTOM_COLORS = {
   border_grayish_blue: '#e7e7e9',
   dim_grey: '#555656',
   dim_blue: '#6E7191',
+  dark_grey_bright: '#626E8E',
   text_slate_blue: '#405893',
   cadet_color: '#A5ACBE',
   dark_grey: '#8F98AE ',
@@ -164,6 +165,8 @@ const CUSTOM_COLORS = {
   light_green_bg_two: '#7BFE14',
   light_green_bg_three: '#74D4CB',
   primary_blue: '#277EFF',
+  greenish_cyan: '#41CCB8',
+  shadow_black: '#00000040',
 };
 const GRAPH = {
   cyan: 'blue',

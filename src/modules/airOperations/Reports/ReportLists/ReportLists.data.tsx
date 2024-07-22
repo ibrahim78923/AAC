@@ -4,8 +4,7 @@ import {
   CheckedFavoriteIcon,
   UnCheckedFavoriteIcon,
 } from '@/assets/icons';
-import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
-import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { ARRAY_INDEX, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
 import {
   fullName,
@@ -22,34 +21,32 @@ import {
 } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
 
 export const actionsForReportListsDynamic = (
   setIsPortalOpen: any,
   selectedReportList: any,
   editReportPath: any,
+  permission: any,
 ) => [
   {
     id: 1,
     title: 'Customize',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.CUSTOMIZE],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
         closeMenu?.();
         return;
       }
-      editReportPath?.(selectedReportList[0]?._id);
+      editReportPath?.(selectedReportList[ARRAY_INDEX?.ZERO]?._id);
       closeMenu();
     },
   },
   {
     id: 2,
     title: 'Rename',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-    ],
+    permissionKey: [permission?.RENAME],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -66,9 +63,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 3,
     title: 'Clone',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-    ],
+    permissionKey: [permission?.CLONE],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -85,9 +80,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 4,
     title: 'Export',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-    ],
+    permissionKey: [permission?.EXPORT_RECORD],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -104,9 +97,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 5,
     title: 'Email This Report',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.EMAIL_THIS_REPORT],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -120,9 +111,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 6,
     title: 'Change Owner',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.CHANGE_OWNER],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -139,9 +128,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 7,
     title: 'Add to Dashboard',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.ADD_TO_DASHBOARD],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -158,15 +145,8 @@ export const actionsForReportListsDynamic = (
   {
     id: 8,
     title: 'Delete',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.DELETE],
     handleClick: (closeMenu: any) => {
-      if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
-        errorSnackbar('Please select only one');
-        closeMenu?.();
-        return;
-      }
       setIsPortalOpen({ isOpen: true, isDelete: true });
       closeMenu();
     },
@@ -174,9 +154,7 @@ export const actionsForReportListsDynamic = (
   {
     id: 9,
     title: 'Manage Access',
-    permissionKey: [
-      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
-    ],
+    permissionKey: [permission?.MANAGE_ACCESS],
     handleClick: (closeMenu: any) => {
       if (selectedReportList?.length > SELECTED_ARRAY_LENGTH?.ONE) {
         errorSnackbar('Please select only one');
@@ -186,25 +164,6 @@ export const actionsForReportListsDynamic = (
       setIsPortalOpen({ isOpen: true, isAccessManage: true });
       closeMenu();
     },
-  },
-];
-
-export const data = [
-  {
-    _id: '1222',
-    isFavorite: false,
-    user: {
-      name: 'ali',
-      avatar: {
-        url: 'qwe',
-      },
-    },
-    name: 'Deal',
-    dashboard: 'Deal',
-    type: 'Systematic Report',
-    createdAt: '10/4/2023',
-    assigned: 'Everyone',
-    updatedAt: '10/5/2023',
   },
 ];
 
@@ -263,12 +222,12 @@ export const reportListsColumnsDynamic = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.user,
-    id: 'user',
+    accessorFn: (row: any) => row?.owner,
+    id: 'owner',
     isSortable: true,
     header: 'Report Owner',
     cell: (info: any) => (
-      <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
+      <Box display={'flex'} alignItems={'center'} gap={1}>
         {addReportToFavoriteListStatus?.isLoading &&
         addReportToFavoriteListStatus?.originalArgs?.pathParams?.id ===
           info?.row?.original?._id ? (
@@ -286,18 +245,20 @@ export const reportListsColumnsDynamic = (
             name={info?.getValue()}
           />
         )}
-        <Avatar
-          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.getValue()?.avatar?.url)}
-        >
-          <Typography variant="body2" textTransform={'uppercase'}>
-            {fullNameInitial(
-              info?.getValue()?.firstName,
-              info?.getValue()?.lastName,
-            )}
-          </Typography>
-        </Avatar>
-        {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        <Box display={'flex'} alignItems={'center'} gap={1}>
+          <Avatar
+            sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+            src={generateImage(info?.getValue()?.avatar?.url)}
+          >
+            <Typography variant="body2" textTransform={'uppercase'}>
+              {fullNameInitial(
+                info?.getValue()?.firstName,
+                info?.getValue()?.lastName,
+              )}
+            </Typography>
+          </Avatar>
+          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
+        </Box>
       </Box>
     ),
   },
@@ -317,14 +278,17 @@ export const reportListsColumnsDynamic = (
     id: 'dashboard',
     isSortable: true,
     header: 'Dashboard Name',
-    cell: (info: any) => truncateText(info?.getValue()),
+    cell: (info: any) =>
+      !!info?.getValue()?.length
+        ? info?.getValue()?.find((item: any) => item?.name)
+        : '---',
   },
   {
     accessorFn: (row: any) => row?.type,
     id: 'type',
     isSortable: true,
     header: 'Type',
-    cell: (info: any) => info?.getValue() ?? '--',
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.createdAt,
@@ -332,14 +296,17 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Created Date',
     cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '--',
+      !!info?.getValue()
+        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+        : '---',
   },
   {
-    accessorFn: (row: any) => row?.assigned,
-    id: 'assigned',
+    accessorFn: (row: any) => row?.accessLevel,
+    id: 'accessLevel',
     isSortable: true,
     header: 'Assigned',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      MANAGE_REPORTS_ACCESS_TYPES_MAPPED?.[info?.getValue()?.type],
   },
   {
     accessorFn: (row: any) => row?.updatedAt,
@@ -347,6 +314,8 @@ export const reportListsColumnsDynamic = (
     isSortable: true,
     header: 'Last Updated Date',
     cell: (info: any) =>
-      dayjs(info?.getValue())?.format(DATE_FORMAT?.UI) ?? '--',
+      !!info?.getValue()
+        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+        : '--',
   },
 ];

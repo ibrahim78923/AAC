@@ -1,9 +1,11 @@
 export const styles = {
   media: (theme: any) => ({
     bgcolor: theme?.palette?.custom?.light_grayish_blue,
-    height: '150px',
+    placeItems: 'center',
     borderRadius: '12px',
     maxWidth: '504px',
+    display: 'grid',
+    height: 'auto',
   }),
   previewDetails: (theme: any) => ({
     border: `1.5px solid ${theme?.palette?.grey[700]}`,

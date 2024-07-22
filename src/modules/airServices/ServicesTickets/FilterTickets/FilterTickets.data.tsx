@@ -38,7 +38,7 @@ export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
     status: data?.status ?? null,
     agent: data?.agent ?? null,
     requester: data?.requester ?? null,
-    priority: data?.priority ?? null,
+    pirority: data?.pirority ?? null,
     impact: data?.impact ?? null,
     category: data?.category ?? null,
     department: data?.department ?? null,
@@ -143,7 +143,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     id: 7,
     componentProps: {
       fullWidth: true,
-      name: 'priority',
+      name: 'pirority',
       label: 'Priority',
       placeholder: 'Priority',
       options: ticketPriorityOptions,

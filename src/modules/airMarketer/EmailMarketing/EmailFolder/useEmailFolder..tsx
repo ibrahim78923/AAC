@@ -6,8 +6,20 @@ import {
   createFolderValidationSchema,
 } from './EmailFolder.data';
 import { enqueueSnackbar } from 'notistack';
+import {
+  useGetEmailFolderQuery,
+  usePostEmailFolderMutation,
+} from '@/services/airMarketer/emailFolder';
 
 const useEmailFolder = () => {
+  const [allSelectedFoldersIds, setAllSelectedFoldersIds] = useState<string[]>(
+    [],
+  );
+  const [searchValue, setSearchValue] = useState('');
+  const { data: allFolder, isLoading } = useGetEmailFolderQuery({
+    ...(searchValue && { search: searchValue }),
+  });
+
   // Create Folder
   const methodsCreateFolder = useForm({
     resolver: yupResolver(createFolderValidationSchema),
@@ -24,10 +36,12 @@ const useEmailFolder = () => {
   const handleCloseModalCreateFolder = () => {
     setOpenModalCreateFolder(false);
   };
+  const [postEmailFolder, { isLoading: isLoadingPost }] =
+    usePostEmailFolderMutation();
 
-  const onSubmitCreateFolder = async () => {
+  const onSubmitCreateFolder = async (values: any) => {
     try {
-      // await postAddFaq({ body: values })?.unwrap();
+      await postEmailFolder({ body: values })?.unwrap();
       handleCloseModalCreateFolder();
       resetCreateFolderForm();
       enqueueSnackbar('Created new folder successfully', {
@@ -48,6 +62,13 @@ const useEmailFolder = () => {
     handleCloseModalCreateFolder,
     methodsCreateFolder,
     handleCreateFolderSubmit,
+    allFolder,
+    allSelectedFoldersIds,
+    setAllSelectedFoldersIds,
+    searchValue,
+    setSearchValue,
+    isLoading,
+    isLoadingPost,
   };
 };
 export default useEmailFolder;

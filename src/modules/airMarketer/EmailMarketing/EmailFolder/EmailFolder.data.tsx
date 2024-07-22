@@ -14,6 +14,7 @@ export const createFolderFormFields = [
       name: 'name',
       label: 'Name',
       placeholder: 'Enter name',
+      required: true,
     },
     component: RHFTextField,
     md: 12,

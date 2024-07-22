@@ -5,6 +5,7 @@ import {
   Button,
   Grid,
   InputAdornment,
+  Skeleton,
   Stack,
   Typography,
 } from '@mui/material';
@@ -40,11 +41,12 @@ const CreateSMSBroadcast = () => {
     postBroadcastLoading,
     selectedContactsData,
     flattenContactsData,
+    smsBroadcastLoading,
     setSelectedDateVal,
     handleSaveAsDraft,
-    broadcastName,
     setCreateStatus,
     setSelectedRec,
+    broadcastName,
     setIsSchedule,
     handleSubmit,
     createStatus,
@@ -109,92 +111,106 @@ const CreateSMSBroadcast = () => {
                     md={item?.md}
                     key={item?.componentProps?.name}
                   >
-                    {item?.componentProps?.name === 'recipients' && (
-                      <Box
-                        position="relative"
-                        onClick={() => setIsAddContactDrawerOpen(true)}
-                      >
-                        <InputAdornment
-                          sx={{
-                            position: 'absolute',
-                            top: 53,
-                            right: 10,
-                            zIndex: 1,
-                          }}
-                          position="end"
+                    {item?.componentProps?.name === 'recipients' &&
+                      !smsBroadcastLoading && (
+                        <Box
+                          position="relative"
+                          onClick={() => setIsAddContactDrawerOpen(true)}
                         >
-                          <Box
+                          <InputAdornment
                             sx={{
-                              display: 'flex',
-                              gap: '10px',
-                              alignItems: 'center',
+                              position: 'absolute',
+                              top: 53,
+                              right: 10,
+                              zIndex: 1,
                             }}
+                            position="end"
                           >
-                            <Box sx={{ cursor: 'pointer' }}>
-                              <PlusSharedColorIcon
-                                color={theme?.palette?.primary?.main}
-                              />
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                gap: '10px',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <Box sx={{ cursor: 'pointer' }}>
+                                <PlusSharedColorIcon
+                                  color={theme?.palette?.primary?.main}
+                                />
+                              </Box>
                             </Box>
-                          </Box>
-                        </InputAdornment>
-                      </Box>
-                    )}
+                          </InputAdornment>
+                        </Box>
+                      )}
 
-                    <item.component
-                      disabled={
-                        item.componentProps?.name ===
-                        SMS_BROADCAST_CONSTANTS?.RECIPIENTS
-                          ? true
-                          : false
-                      }
-                      {...item.componentProps}
-                      size={'small'}
-                    >
-                      {item?.componentProps?.select &&
-                        item?.options?.map((option: any) => (
-                          <option
-                            key={item?.componentProps?.name}
-                            value={option?.value}
-                          >
-                            <Typography variant="body2">
-                              {option?.label}
-                            </Typography>
-                          </option>
-                        ))}
-                    </item.component>
+                    {smsBroadcastLoading ? (
+                      <Skeleton
+                        variant="rectangular"
+                        height={48}
+                        animation={'wave'}
+                      />
+                    ) : (
+                      <item.component
+                        disabled={
+                          item.componentProps?.name ===
+                          SMS_BROADCAST_CONSTANTS?.RECIPIENTS
+                            ? true
+                            : false
+                        }
+                        {...item.componentProps}
+                        size={'small'}
+                      >
+                        {item?.componentProps?.select &&
+                          item?.options?.map((option: any) => (
+                            <option
+                              key={item?.componentProps?.name}
+                              value={option?.value}
+                            >
+                              <Typography variant="body2">
+                                {option?.label}
+                              </Typography>
+                            </option>
+                          ))}
+                      </item.component>
+                    )}
 
                     {item?.componentProps?.name ===
-                      SMS_BROADCAST_CONSTANTS?.RECIPIENTS && (
-                      <Box sx={{ display: 'flex' }}>
-                        <AvatarGroup
-                          max={4}
-                          sx={{
-                            '& .MuiAvatar-root': {
-                              background: theme?.palette?.primary?.main,
-                              height: '30px',
-                              width: '30px',
-                              fontSize: '12px',
-                            },
-                          }}
-                        >
-                          {selectedContactsData?.map((item: any) => {
-                            const contacts = item?.contacts || [item];
-                            return contacts?.map((contact: any) => (
-                              <Avatar
-                                key={uuidv4()}
-                                alt="recipient_avatar"
-                                src=""
-                              >
-                                <Typography variant="body3" fontWeight={500}>
-                                  {contact?.firstName?.charAt(0)?.toUpperCase()}
-                                  {contact?.lastName?.charAt(0)?.toUpperCase()}
-                                </Typography>
-                              </Avatar>
-                            ));
-                          })}
-                        </AvatarGroup>
-                      </Box>
-                    )}
+                      SMS_BROADCAST_CONSTANTS?.RECIPIENTS &&
+                      !smsBroadcastLoading && (
+                        <Box sx={{ display: 'flex' }}>
+                          <AvatarGroup
+                            max={4}
+                            sx={{
+                              '& .MuiAvatar-root': {
+                                background: theme?.palette?.primary?.main,
+                                height: '30px',
+                                width: '30px',
+                                fontSize: '12px',
+                              },
+                            }}
+                          >
+                            {selectedContactsData?.map((item: any) => {
+                              const contacts = item?.contacts || [item];
+                              return contacts?.map((contact: any) => (
+                                <Avatar
+                                  key={uuidv4()}
+                                  alt="recipient_avatar"
+                                  src=""
+                                >
+                                  <Typography variant="body3" fontWeight={500}>
+                                    {contact?.firstName
+                                      ?.charAt(0)
+                                      ?.toUpperCase()}
+                                    {contact?.lastName
+                                      ?.charAt(0)
+                                      ?.toUpperCase()}
+                                  </Typography>
+                                </Avatar>
+                              ));
+                            })}
+                          </AvatarGroup>
+                        </Box>
+                      )}
                   </Grid>
                 );
               })}
@@ -266,6 +282,7 @@ const CreateSMSBroadcast = () => {
                   <TanstackTable
                     columns={contactsColumns}
                     data={flattenContactsData(selectedContactsData)}
+                    isLoading={smsBroadcastLoading}
                   />
                 </Box>
               </Grid>

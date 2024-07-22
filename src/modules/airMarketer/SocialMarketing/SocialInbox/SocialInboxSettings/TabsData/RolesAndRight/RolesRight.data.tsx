@@ -25,7 +25,7 @@ export const columns: any = (columnsProps: any) => {
           }
         />
       ),
-      header: <Checkbox disabled color="primary" name="Id" />,
+      header: '',
       isSortable: false,
     },
     {
@@ -49,7 +49,7 @@ export const columns: any = (columnsProps: any) => {
       header: 'Created On',
       cell: (info: any) =>
         info?.getValue()
-          ? dayjs(info?.getValue()).format(DATE_FORMAT?.UI)
+          ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
           : 'N/A',
     },
     {
@@ -57,7 +57,10 @@ export const columns: any = (columnsProps: any) => {
       id: 'description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => {
+        const value = info?.getValue();
+        return value === '' ? 'N/A' : value;
+      },
     },
   ];
 };

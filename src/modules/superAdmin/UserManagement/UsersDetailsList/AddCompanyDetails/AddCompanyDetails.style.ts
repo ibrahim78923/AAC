@@ -1,3 +1,5 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
   productItem: () => {
     return {
@@ -22,7 +24,7 @@ export const styles = {
       },
     };
   },
-  productCard: (theme: any) => {
+  productCard: (theme: Theme) => {
     return {
       width: '150px',
       height: '160px',

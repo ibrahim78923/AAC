@@ -1,16 +1,17 @@
 import { Theme, useTheme } from '@mui/material';
+import { ResultItemI } from '../../Dashboard-interface';
 
-const useStatisticsCard = (data: any) => {
+const useStatisticsCard = (data: string[]) => {
   const theme = useTheme<Theme>();
 
-  const transformData = (data: any) => {
-    const result: any = [];
+  const transformData = (data: string[]) => {
+    const result: ResultItemI[] = [];
     data?.forEach((item: any) => {
       item?.data?.forEach((product: any) => {
         result?.push({
           count: product?.count,
           product: product?.product,
-          productType: item?.productType, // assuming the index is the month
+          productType: item?.productType,
         });
       });
     });

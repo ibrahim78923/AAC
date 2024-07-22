@@ -4,9 +4,9 @@ import * as Yup from 'yup';
 export const teamsValidationSchema = Yup.object().shape({
   name: Yup.string().required('Field is Required'),
   userAccounts: Yup.array()
-    .of(Yup.string()) // Assuming userAccounts is an array of strings
-    .min(1, 'At least one member is required') // Validate that at least one member is present
-    .required('Members are Required'), // Validate that the userAccounts array itself is required
+    .of(Yup.string())
+    .min(1, 'At least one member is required')
+    .required('Members are Required'),
 });
 
 export const teamsDefaultValues: any = {
@@ -35,7 +35,7 @@ export const teamsDataArray: any = (filterdTeamMembers: any) => [
       required: true,
       options: filterdTeamMembers?.map((item: any) => ({
         value: item?._id,
-        label: `${item?.user?.firstName} ${item?.user?.lastName}`,
+        label: item?.username ?? 'N/A',
       })),
       fullWidth: true,
     },

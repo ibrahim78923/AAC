@@ -25,6 +25,7 @@ const SelectPostModal = (props: any) => {
         <CommonModal
           open={isSelectPostModal}
           handleClose={() => setIsSelectPostModal(false)}
+          handleCancel={() => setIsSelectPostModal(false)}
           handleSubmit={() => setIsSelectPostModal(false)}
           title="Select Post"
           footer={false}

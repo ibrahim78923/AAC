@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFCheckbox,
   RHFDatePicker,
   RHFSwitch,
@@ -15,31 +16,25 @@ import { AllowAttendee } from './AllowAttendee';
 import { Reminder } from './Reminder';
 
 const meetingTypeOption = [
-  'In person meeting',
-  'Google meet',
-  'Zoom',
-  'MS teams',
-];
-const locationOption = [
-  'Meeting hall 1',
-  'Meeting hall 2',
-  'Meeting hall 3',
-  'Meeting hall 4',
+  { value: 'IN_PERSON_MEETING', label: 'In person meeting' },
+  { value: 'GOOGLE_MEET', label: 'Google meet' },
+  { value: 'ZOOM', label: 'Zoom' },
+  { value: 'MS_TEAMS', label: 'MS teams' },
 ];
 const bufferTimeOption = [
-  '5 Minutes',
-  '10 Minutes',
-  '15 Minutes',
-  '20 Minutes',
-  '25 Minutes',
-  '30 Minutes',
+  { value: 5, label: '5 Minutes' },
+  { value: 10, label: '10 Minutes' },
+  { value: 15, label: '15 Minutes' },
+  { value: 20, label: '20 Minutes' },
+  { value: 25, label: '25 Minutes' },
+  { value: 30, label: '30 Minutes' },
 ];
 const meetingContents = {
   inPersonMeeting: 'In person meeting',
   group: 'Group',
 };
 export const meetingFormFields = (props: any) => {
-  const { watch, meetingType } = props;
+  const { watch, meetingType, meetingLocationApi } = props;
   const watchAllDay = watch('allDay');
   const watchRecurring = watch('recurring');
   const watchMeetingType = watch('meetingType');
@@ -153,6 +148,7 @@ export const meetingFormFields = (props: any) => {
         required: true,
         disabled: watchAllDay,
         options: meetingTypeOption,
+        getOptionLabel: (item: any) => item?.label,
         fullWidth: true,
         size: 'small',
       },
@@ -163,7 +159,7 @@ export const meetingFormFields = (props: any) => {
       sm: 6,
       sx: {
         display:
-          watchMeetingType === meetingContents?.inPersonMeeting
+          watchMeetingType?.label === meetingContents?.inPersonMeeting
             ? 'block'
             : 'none',
       },
@@ -172,11 +168,13 @@ export const meetingFormFields = (props: any) => {
         name: 'location',
         placeholder: 'Select Location',
         required: true,
-        options: locationOption,
+        apiQuery: meetingLocationApi,
+        externalParams: { limit: 50 },
+        getOptionLabel: (option: any) => `${option?.locationName}`,
         fullWidth: true,
         size: 'small',
       },
-      component: RHFAutocomplete,
+      component: RHFAutocompleteAsync,
     },
     {
       id: 11,
@@ -228,6 +226,7 @@ export const meetingFormFields = (props: any) => {
         placeholder: 'Select Buffer time',
         fullWidth: true,
         size: 'small',
+        getOptionLabel: (option: any) => `${option?.label}`,
       },
       component: RHFAutocomplete,
     },
@@ -260,6 +259,7 @@ export const meetingFormFields = (props: any) => {
         placeholder: 'Select Buffer time',
         fullWidth: true,
         size: 'small',
+        getOptionLabel: (option: any) => `${option?.label}`,
       },
       component: RHFAutocomplete,
     },

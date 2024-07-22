@@ -1,5 +1,8 @@
 import { usePostUserEmployeeMutation } from '@/services/superAdmin/user-management/UserList';
-import { usersApi } from '@/services/superAdmin/user-management/users';
+import {
+  useGetUsersByIdQuery,
+  usersApi,
+} from '@/services/superAdmin/user-management/users';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
@@ -16,8 +19,12 @@ import { enqueueSnackbar } from 'notistack';
 import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
 import useToggle from '@/hooks/useToggle';
 import { ACTIONS_TYPES } from '@/constants/strings';
+import {
+  UseActionParams,
+  UseAddUserReturn,
+} from '@/modules/superAdmin/UserManagement/Users/Users-interface';
 
-const useAddUser = (useActionParams?: any) => {
+const useAddUser = (useActionParams: UseActionParams): UseAddUserReturn => {
   const [isToggled, setIsToggled] = useToggle(false);
   const {
     tabVal,
@@ -30,17 +37,25 @@ const useAddUser = (useActionParams?: any) => {
   const pathName = window?.location?.pathname;
   const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
   const [postUsers, { isLoading: postUserLoading }] = usePostUsersMutation();
-  const [updateUsers] = useUpdateUsersMutation();
+  const [updateUsers, { isLoading: updateUserLoading }] =
+    useUpdateUsersMutation();
   const [postUserEmployee] = usePostUserEmployeeMutation();
   const { setIsOpenAdduserDrawer: setIsAddEmployyeDrawer } =
     useUserDetailsList();
-  const updateUserId = isOpenAddUserDrawer?.data?.data?._id;
-  const userDetail = isOpenAddUserDrawer?.data?.data;
+  const updateUserId = isOpenAddUserDrawer?.recordId;
+
+  const { data: userDetailData, isLoading: userDetailLoading } =
+    useGetUsersByIdQuery(isOpenAddUserDrawer?.recordId, {
+      skip: !isOpenAddUserDrawer?.recordId,
+    });
+  const userDetail = userDetailData?.data;
+
   const initialTab = 0;
   const tabTitle =
     tabVal === initialTab
       ? EQuickLinksType?.COMPANY_OWNER
       : EQuickLinksType?.SUPER_ADMIN;
+
   // for super admin form methods
   const superAdminValues: any = {
     firstName: '',
@@ -63,20 +78,10 @@ const useAddUser = (useActionParams?: any) => {
     defaultValues: superAdminValues,
   });
 
-  // for company awner form values
-  const companyOwnerValues = {
-    ...userDetail,
-    crn: userDetail?.organization?.crn,
-    companyName: userDetail?.organization?.name,
-    products: userDetail?.products?.map((item: any) => {
-      return item?._id;
-    }),
-  };
-
   // for company owner form methods
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
-    defaultValues: userDetail ? companyOwnerValues : companyOwnerDefaultValues,
+    defaultValues: userDetailData ? userDetail : companyOwnerDefaultValues,
   });
 
   //constant methods for both forms
@@ -84,8 +89,8 @@ const useAddUser = (useActionParams?: any) => {
     pathName === SUPER_ADMIN?.USERS_LIST
       ? orgEmployeeMethods
       : tabTitle === EQuickLinksType?.SUPER_ADMIN
-        ? superAdminMethods
-        : companyOwnerMethods;
+      ? superAdminMethods
+      : companyOwnerMethods;
 
   const { watch, setValue, handleSubmit, reset } = methods;
 
@@ -123,6 +128,7 @@ const useAddUser = (useActionParams?: any) => {
       lastName: userDetail?.lastName,
       email: userDetail?.email,
       address: userDetail?.address?.composite,
+      crn: userDetail?.organization?.crn,
       flat: userDetail?.address?.flatNumber ?? '',
       city: userDetail?.address?.city ?? '',
       country: userDetail?.address?.country ?? '',
@@ -134,22 +140,25 @@ const useAddUser = (useActionParams?: any) => {
       jobTitle: userDetail?.jobTitle,
       facebookUrl: userDetail?.facebookUrl,
       linkedInUrl: userDetail?.linkedInUrl,
+      companyName: userDetail?.organization?.name,
+      products: userDetail?.activeProducts?.map((item: any) => {
+        return item?._id;
+      }),
     };
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
     }
-    // }
-  }, [userDetail]);
+  }, [userDetailData]);
+
   // watch crn number from values
   const organizationNumber = formValues?.crn;
 
   debouncedSearch(organizationNumber, setOrgNumber);
-  const { data, isSuccess, isError } =
-    tabVal === initialTab
-      ? useGetAuthCompaniesQuery({
-          q: orgNumber,
-        })
-      : { data: null, isSuccess: false, isError: false };
+
+  const { data, isSuccess, isError } = useGetAuthCompaniesQuery(
+    { q: orgNumber },
+    { skip: !orgNumber || isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT },
+  );
 
   let companyDetails: any = {};
   if (isSuccess) {
@@ -210,6 +219,7 @@ const useAddUser = (useActionParams?: any) => {
         'role',
         'organization',
         'email',
+        'activeProducts',
       );
     }
 
@@ -223,12 +233,12 @@ const useAddUser = (useActionParams?: any) => {
           reset(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-          ? (await postUserEmployee({
-              id: organizationId,
-              body: values,
-            })?.unwrap(),
-            setIsOpenAdduserDrawer(false))
-          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+        ? (await postUserEmployee({
+            id: organizationId,
+            body: values,
+          })?.unwrap(),
+          setIsOpenAdduserDrawer(false))
+        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
       enqueueSnackbar(
         `User ${
           isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT
@@ -261,6 +271,8 @@ const useAddUser = (useActionParams?: any) => {
     setIsToggled,
     addressVal: formValues.address,
     postUserLoading,
+    userDetailLoading,
+    updateUserLoading,
   };
 };
 

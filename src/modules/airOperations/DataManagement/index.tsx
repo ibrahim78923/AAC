@@ -1,7 +1,7 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { Typography } from '@mui/material';
-import ImportTab from './ImportTab';
-import ExportTab from './ExportTab';
+import { ImportTab } from './ImportTab';
+import { ExportTab } from './ExportTab';
 
 export const dataManagementTabs = ['Import', 'Export'];
 

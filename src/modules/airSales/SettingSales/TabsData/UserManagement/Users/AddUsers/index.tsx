@@ -1,6 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Skeleton, Typography, useTheme } from '@mui/material';
 import { dataArray } from '../Users.data';
 import useAddUser from './useAddUser';
 import {
@@ -12,11 +12,15 @@ import {
 const AddUsers = (props: any) => {
   const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
   const theme = useTheme();
-  const { methods, handleSubmit, onSubmit, productUsersById } = useAddUser(
-    checkedUser,
-    isAddUserDrawer,
-    setIsAddUserDrawer,
-  );
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    productUsersById,
+    postUserLoading,
+    updateUserLoading,
+    productUserByIdLoading,
+  } = useAddUser(checkedUser, isAddUserDrawer, setIsAddUserDrawer);
 
   return (
     <CommonDrawer
@@ -28,8 +32,8 @@ const AddUsers = (props: any) => {
         isAddUserDrawer?.type === DRAWER_TYPES?.VIEW
           ? `${productUsersById?.data?.user?.firstName} ${productUsersById?.data?.user?.lastName}`
           : isAddUserDrawer?.type === DRAWER_TYPES?.EDIT
-            ? DRAWER_TITLES?.EDIT
-            : DRAWER_TITLES?.ADD
+          ? DRAWER_TITLES?.EDIT
+          : DRAWER_TITLES?.ADD
       }
       okText={
         isAddUserDrawer?.type === DRAWER_TYPES?.EDIT
@@ -39,6 +43,7 @@ const AddUsers = (props: any) => {
       footer={isAddUserDrawer?.type === DRAWER_TYPES?.VIEW ? false : true}
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={postUserLoading || updateUserLoading}
     >
       <Typography
         sx={{
@@ -54,24 +59,28 @@ const AddUsers = (props: any) => {
           <Grid container spacing={1}>
             {dataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
-                <item.component
-                  {...item.componentProps}
-                  size={'small'}
-                  disabled={
-                    isAddUserDrawer?.type === DRAWER_TYPES?.VIEW ||
-                    (isAddUserDrawer?.type === DRAWER_TYPES?.EDIT &&
-                      item?.componentProps?.name === 'email')
-                      ? true
-                      : false
-                  }
-                >
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={option?.value} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
+                {productUserByIdLoading ? (
+                  <Skeleton variant="rectangular" height={40} />
+                ) : (
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                    disabled={
+                      isAddUserDrawer?.type === DRAWER_TYPES?.VIEW ||
+                      (isAddUserDrawer?.type === DRAWER_TYPES?.EDIT &&
+                        item?.componentProps?.name === 'email')
+                        ? true
+                        : false
+                    }
+                  >
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                )}
               </Grid>
             ))}
           </Grid>

@@ -1,102 +1,90 @@
-import { HeaderDashboard } from '@/modules/airServices/Dashboard/HeaderDashboard';
-import { TicketDashboardCards } from '@/modules/airServices/Dashboard/TicketDashboardCards';
-import { Box, Grid, Skeleton } from '@mui/material';
-import { TopPerformer } from '@/modules/airServices/Dashboard/TopPerformer';
-import { ticketDashboardCardsData } from './TicketDashboardCards/TicketDashboardCards.data';
-import { useDashboard } from './useDashboard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
-import NoData from '@/components/NoData';
-import { PieChart } from './Chart/PieChart';
-import { TicketBased } from './Chart/TicketBased';
-import { Announcement } from './Announcement';
-import { RecentActivities } from './RecentActivities';
+import { SingleDashboard } from './SingleDashboard';
+import { useDashboard } from './useDashboard';
+import EmailThisDashboard from './EmailThisDashboard';
+import { Box, Button, Skeleton, Typography } from '@mui/material';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { pxToRem } from '@/utils/getFontValue';
+import { truncateText } from '@/utils/avatarUtils';
+import { AIR_SERVICES } from '@/constants';
 
 const Dashboard = () => {
-  const { theme, cardData, isLoading, isFetching } = useDashboard();
+  const {
+    dashboardId,
+    setDashboardId,
+    apiLoader,
+    setApiLoader,
+    dashboardDropdownActions,
+    router,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    user,
+    dashboardsListsOptions,
+  } = useDashboard();
 
   return (
     <PermissionsGuard
       permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
     >
-      <Box>
-        <HeaderDashboard />
-        <br />
-        {isLoading || isFetching ? (
-          <Skeleton variant="text" height="100%" />
-        ) : ticketDashboardCardsData(cardData)?.length > 0 ? (
-          <Grid container spacing={3}>
-            {ticketDashboardCardsData(cardData)?.map((item: any) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?._id}>
-                <TicketDashboardCards
-                  icon={item?.icon}
-                  count={item?.count}
-                  label={item?.label}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <NoData message={'No data is available'} height={'100%'} />
-        )}
-
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} lg={8} sx={{ marginTop: 2 }}>
-                <Box
-                  borderRadius={3}
-                  border={`1px solid ${theme?.palette?.grey?.[700]}`}
-                  height="100%"
-                >
-                  <Box marginLeft={2}>
-                    <Box marginTop={2} marginBottom={2}>
-                      <TicketBased />
-                    </Box>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid item xs={12} lg={4} sx={{ marginTop: 2 }}>
-                <Box
-                  borderRadius={3}
-                  border={`1px solid ${theme?.palette?.grey?.[700]}`}
-                  height="100%"
-                >
-                  <RecentActivities />
-                </Box>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} lg={4}>
-                <Box
-                  borderRadius={3}
-                  p={2}
-                  border={`1px solid ${theme?.palette?.grey?.[700]}`}
-                  height="100%"
-                >
-                  <PieChart />
-                </Box>
-              </Grid>
-
-              <Grid item xs={12} lg={4}>
-                <TopPerformer />
-              </Grid>
-
-              <Grid item xs={12} lg={4}>
-                <Box
-                  borderRadius={3}
-                  border={`1px solid ${theme?.palette?.grey?.[700]}`}
-                  height="100%"
-                >
-                  <Announcement />
-                </Box>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+      {apiLoader?.isLoading || apiLoader?.isFetching ? (
+        <Skeleton />
+      ) : (
+        <Typography variant="h3" color="primary.main">
+          {`${truncateText(apiLoader?.data?.data?.dashboard?.name, 30)}` ??
+            '---'}
+        </Typography>
+      )}
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}
+        gap={1}
+        mt={1}
+      >
+        <Typography variant="h4" fontWeight={500} color="blue.main">
+          <Typography component="span" variant="h4">
+            Hi {user?.firstName ?? '---'}!
+          </Typography>{' '}
+          Happy to See You again
+        </Typography>
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
+          <SingleDropdownButton
+            dropdownOptions={dashboardDropdownActions}
+            dropdownName="Actions"
+            disabled={apiLoader?.isLoading || apiLoader?.isFetching}
+          />
+          <SingleDropdownButton
+            dropdownOptions={dashboardsListsOptions}
+            dropdownName="Dashboards"
+            menuSxProps={{ height: pxToRem(400) }}
+            disabled={apiLoader?.isLoading || apiLoader?.isFetching}
+          />
+          <Button
+            color="secondary"
+            variant="outlined"
+            onClick={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
+            disabled={apiLoader?.isLoading || apiLoader?.isFetching}
+          >
+            Manage Dashboards
+          </Button>
+        </Box>
       </Box>
+      <br />
+      <SingleDashboard
+        dashboardId={dashboardId}
+        setDashboardId={setDashboardId}
+        apiLoader={apiLoader}
+        setApiLoader={setApiLoader}
+      />
+      <br />
+      {isDrawerOpen && (
+        <EmailThisDashboard
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+        />
+      )}
     </PermissionsGuard>
   );
 };

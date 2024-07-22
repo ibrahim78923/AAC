@@ -1,71 +1,75 @@
-import { RHFAutocomplete } from '@/components/ReactHookForm';
-import { dashboardsData } from '../ManageDashboard.data';
-
-// filter options data
-const dashboardNameOptions = dashboardsData?.map((item: any) => ({
-  label: item?.dashboardName,
-  value: item?.dashboardName,
-}));
-
-const ownerOptions = dashboardsData?.map((item: any) => ({
-  label: item?.owner?.name,
-  value: item?.owner?.name,
-}));
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
+import { ManageDashboardFilterFormDefaultValuesDynamicI } from './ManageDashboardFilter.interface';
+import { MANAGE_DASHBOARD_ACCESS_TYPES } from '../../CreateDashboard/CreateDashboard.data';
 
 const accessRightsOptions = [
   {
     label: 'Private to owner',
-    value: 'Private to owner',
+    _id: MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER,
   },
   {
-    label: 'Everyone (View and edit)',
-    value: 'Everyone (View and edit)',
-  },
-  {
-    label: 'Everyone (View)',
-    value: 'Everyone (View)',
+    label: 'Everyone',
+    _id: MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE,
   },
   {
     label: 'Special user',
-    value: 'Special user',
+    _id: MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
   },
 ];
 
-export const defaultValuesManageDashboard = {
-  dashboardName: null,
-  owner: null,
-  accessRights: null,
+export const manageDashboardFilterFormDefaultValuesDynamic = (
+  data: ManageDashboardFilterFormDefaultValuesDynamicI,
+) => {
+  return {
+    dashboard: data?.dashboard ?? null,
+    owner: data?.owner ?? null,
+    accessRights: data?.accessRights ?? null,
+  };
 };
 
-export const filterFieldsManageDashboard = [
+export const manageDashboardsFilterFormFieldsDynamic = (
+  apiQueryDashboardName?: any,
+  apiQueryOwner?: any,
+  productId?: string,
+) => [
   {
-    id: 2,
-    component: RHFAutocomplete,
+    id: 1,
+    component: RHFAutocompleteAsync,
     gridLength: 12,
     componentProps: {
       fullWidth: true,
-      name: 'dashboardName',
+      name: 'dashboard',
       label: 'Dashboard Name',
       placeholder: 'Select Dashboard Name',
-      options: dashboardNameOptions,
-      getOptionLabel: (option: any) => option?.label,
+      apiQuery: apiQueryDashboardName,
+      externalParams: {
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+        page: PAGINATION?.CURRENT_PAGE,
+      },
+      getOptionLabel: (option: any) => option?.name,
     },
   },
   {
-    id: 920,
+    id: 2,
     componentProps: {
       fullWidth: true,
       name: 'owner',
       label: 'Owner',
       placeholder: 'Select Owner',
-      options: ownerOptions,
-      getOptionLabel: (option: any) => option?.label,
+      apiQuery: apiQueryOwner,
+      externalParams: { productId },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
     gridLength: 12,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
-    id: 150,
+    id: 3,
     componentProps: {
       fullWidth: true,
       name: 'accessRights',

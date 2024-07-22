@@ -3,8 +3,9 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AddAccountArray } from './AddAccountDrawer.data';
 import useAddAccountDrawer from './useAddAccountDrawer';
+import { AddAccountDrawerProps } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
 
-const AddAccountDrawer = (props: any) => {
+const AddAccountDrawer = (props: AddAccountDrawerProps) => {
   const {
     isOpen,
     setIsOpen,

@@ -46,6 +46,7 @@ const LeftPane = ({
 
   const [isRefresh, setIsRefresh] = useState(false);
   const [isReloginModalOpen, setIsReloginModalOpen] = useState(false);
+  const [manualActionsTrack, setManualActionsTrack] = useState(1);
 
   const mailTabType: any = useAppSelector(
     (state: any) => state?.outlook?.mailTabType,
@@ -143,17 +144,19 @@ const LeftPane = ({
     }
   }, [isLoadingEmailsByFolderIdData]);
 
-  const handelToggleTab = (value: any) => {
+  const handelToggleTab = async (value: any) => {
     if (value?.displayName !== mailTabType?.displayName) {
+      dispatch(setMailList('clear'));
       dispatch(setMailTabType(value));
       dispatch(setActiveRecord({}));
       dispatch(setSelectedRecords([]));
-      dispatch(setMailList('clear'));
       dispatch(setMailCurrentPage(1));
       dispatch(setBreakScrollOperation(false));
       setTrackRenders(1);
-      refetch();
 
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      refetch();
+      setManualActionsTrack(manualActionsTrack + 1);
       dispatch(setSearchTerm(''));
     }
   };
@@ -170,14 +173,15 @@ const LeftPane = ({
     }
   }, [searchTerm]);
 
-  const handelRefresh = () => {
+  const handelRefresh = async () => {
     dispatch(setMailList('clear'));
     dispatch(setMailCurrentPage(1));
     dispatch(setBreakScrollOperation(false));
     setIsRefresh(true);
-    refetch();
-
     dispatch(setSearchTerm(''));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    refetch();
+    setManualActionsTrack(manualActionsTrack + 1);
   };
 
   return (
@@ -269,6 +273,7 @@ const LeftPane = ({
         setIsRefresh={setIsRefresh}
         isRefresh={isRefresh}
         handelRefresh={handelRefresh}
+        manualActionsTrack={manualActionsTrack}
       />
 
       <CommonDrawer

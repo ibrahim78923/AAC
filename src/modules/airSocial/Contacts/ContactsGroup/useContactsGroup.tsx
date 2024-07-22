@@ -13,12 +13,17 @@ import {
   createGroupValidationSchema,
 } from './CreateGroupModal/CreateGroupModal.data';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
+import { CONTACTS_CONSTANTS } from '@/constants/strings';
 
 const useContactsGroup = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState(null);
   const [groupId, setGroupId] = useState(null);
+  const [filterParams, setFilterParams] = useState({});
 
+  const router = useRouter();
   // Get Contacts
   let searchPayLoad;
   if (searchValue) {
@@ -28,16 +33,26 @@ const useContactsGroup = () => {
     data: dataGetContacts,
     isLoading: loadingGetContacts,
     refetch: refetchContacts,
-  } = useGetContactsQuery({ params: searchPayLoad });
+  } = useGetContactsQuery({
+    params: { ...filterParams, ...searchPayLoad },
+  });
   useEffect(() => {
     if (isCreateModalOpen) {
       refetchContacts();
     }
   }, [isCreateModalOpen]);
 
+  useEffect(() => {
+    if (router?.pathname === AIR_MARKETER?.WHATSAPP_MARKETING) {
+      setFilterParams({ numberType: CONTACTS_CONSTANTS?.WHATSAPP_NUMBER });
+    } else if (router?.pathname === AIR_MARKETER?.SMS_MARKETING) {
+      setFilterParams({ numberType: CONTACTS_CONSTANTS?.PHONE_NUMBER });
+    }
+  }, [router?.pathname]);
+
   // Get Groups
   const { data: dataGetContactGroups, isLoading: loadingGetGroups } =
-    useGetGroupsQuery({});
+    useGetGroupsQuery({ params: filterParams });
 
   // Create Group
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -67,6 +82,7 @@ const useContactsGroup = () => {
     setIsCreateModalOpen(false);
     resetAddGroupForm();
     setSearchValue(null);
+    setSelectedUsers([]);
   };
 
   const onSubmitCreatGroup = async (values: any) => {

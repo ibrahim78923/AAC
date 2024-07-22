@@ -32,7 +32,12 @@ export default function ParagraphText({
   });
 
   return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
+    <Dialog
+      open={open}
+      onClose={() => setOpen(false)}
+      maxWidth={'sm'}
+      fullWidth
+    >
       <DialogTitle variant={'h3'}>
         <Box display={'flex'} gap={1} alignItems={'center'}>
           <Box bgcolor={'primary.lighter'} px={1} pt={1} borderRadius={2}>
@@ -41,7 +46,9 @@ export default function ParagraphText({
               fontSize={'large'}
             />
           </Box>
-          <Typography variant={'h5'}>Field Properties - Paragraph</Typography>
+          <Typography variant={'h5'}>
+            Field Properties - Paragraph Text
+          </Typography>
         </Box>
       </DialogTitle>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

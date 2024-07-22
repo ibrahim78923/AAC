@@ -6,6 +6,7 @@ export const ShortAnswersResponse = (props: any) => {
   return (
     <Box bgcolor={'common.white'} p={2} boxShadow={1} borderRadius={2}>
       <Typography variant="body2">{question}</Typography>
+      <br />
       {!!answers?.length ? (
         answers?.map((answer: any, index: any) => (
           <Box display={'flex'} gap={1} alignItems={'center'} key={answer}>
@@ -18,7 +19,7 @@ export const ShortAnswersResponse = (props: any) => {
           </Box>
         ))
       ) : (
-        <NoData message="No answers yet" />
+        <NoData message="No answers yet" height="" />
       )}
     </Box>
   );

@@ -1,20 +1,41 @@
 import { useForm } from 'react-hook-form';
-import { filteredEmptyValues } from '@/utils/api';
-import { useLazyGetShopDropdownForLoyaltyTransactionQuery } from '@/services/airLoyaltyProgram/loyalty/transactions';
+import { filteredEmptyValues, makeDateTime } from '@/utils/api';
 import {
   reportFilterFormFieldsDynamic,
   reportFiltersDefaultValues,
 } from './FilterReport.data';
+import { useLazyGetReportsOwnersDropdownListForReportsQuery } from '@/services/airOperations/reports';
+import useAuth from '@/hooks/useAuth';
 
 export const useFilterReport = (props: any) => {
   const { setIsPortalOpen, reportFilters, setReportFilter } = props;
+  const auth: any = useAuth();
+
+  const { _id: productId } = auth?.product;
+
   const methods: any = useForm({
     defaultValues: reportFiltersDefaultValues?.(reportFilters),
   });
+
   const { handleSubmit, reset } = methods;
 
-  const submit = async (data: any) => {
+  const submit = async (formData: any) => {
+    const startDate = formData?.createdDate?.startDate
+      ? makeDateTime(formData?.createdDate?.startDate, new Date())
+      : undefined;
+    const endDate = formData?.createdDate?.endDate
+      ? makeDateTime(formData?.createdDate?.endDate, new Date())
+      : undefined;
+
+    const data = {
+      ...formData,
+      startDate,
+      endDate,
+    };
+
     const filterValues = filteredEmptyValues?.(data);
+    delete filterValues?.createdDate;
+
     setReportFilter?.(filterValues);
     closeFilterForm?.();
   };
@@ -30,11 +51,11 @@ export const useFilterReport = (props: any) => {
   };
 
   const reportOwnerApiQuery =
-    useLazyGetShopDropdownForLoyaltyTransactionQuery?.();
-  const assigneeApiQuery = useLazyGetShopDropdownForLoyaltyTransactionQuery?.();
+    useLazyGetReportsOwnersDropdownListForReportsQuery?.();
+
   const reportFilterFormFields = reportFilterFormFieldsDynamic?.(
     reportOwnerApiQuery,
-    assigneeApiQuery,
+    productId,
   );
 
   return {

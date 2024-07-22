@@ -13,7 +13,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['DEALS'],
+      providesTags: TAG,
     }),
 
     getQuotes: builder.query({
@@ -138,11 +138,31 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getProductCatagoriesUpdated: builder.query({
+      query: () => ({
+        url: settingSalesProductCategory.GET_SALES_PRODUCT_CATEGORY,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.productcategories;
+      },
+      providesTags: TAG,
+    }),
     getContacts: builder.query({
       query: () => ({
         url: END_POINTS?.CONTACTS,
         method: 'GET',
       }),
+      providesTags: TAG,
+    }),
+    getContactsUpdated: builder.query({
+      query: () => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.contacts;
+      },
       providesTags: TAG,
     }),
     getProductsById: builder.query({
@@ -240,6 +260,16 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    postManageAssociate: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.TICKETS_ASSOCIATES,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -258,8 +288,10 @@ export const {
   usePostAddbuyerInfoMutation,
   useCreateAssociationQuoteMutation,
   useGetProductCatagoriesQuery,
+  useLazyGetProductCatagoriesUpdatedQuery,
   useDeleteProductsMutation,
   useGetContactsQuery,
+  useLazyGetContactsUpdatedQuery,
   useGetProductsByIdQuery,
   useLazyGetProductsByIdQuery,
   useUpdateProductByIdMutation,
@@ -274,4 +306,5 @@ export const {
   useGetTaxCalculationsQuery,
   usePostAttachmentQuoteMutation,
   useGetPrdouctUsersQuery,
+  usePostManageAssociateMutation,
 } = quotesAPI;

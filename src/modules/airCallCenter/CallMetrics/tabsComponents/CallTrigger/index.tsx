@@ -19,6 +19,8 @@ import { KeypadIcon } from '@/assets/icons';
 import { useCallTrigger } from './useCallTrigger';
 import PowerDialerDialog from '../PowerDialerDialog';
 import Keypad from '../Keypad';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CALL_CENTER_CALL_METRICS_PERMISSION } from '@/constants/permission-keys';
 
 const CallTrigger = () => {
   const {
@@ -37,19 +39,25 @@ const CallTrigger = () => {
 
   return (
     <>
-      <IconButton
-        sx={{
-          position: 'fixed',
-          bottom: '3%',
-          right: '3%',
-          bgcolor: 'success.main',
-          color: 'common.white',
-          '&:hover': { bgcolor: 'success.main' },
-        }}
-        onClick={handleClick}
+      <PermissionsGuard
+        permissions={[
+          AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.INCOMING_CALL_POP_UP,
+        ]}
       >
-        <CallIcon sx={{ fontSize: 40, rotate: '-10deg' }} />
-      </IconButton>
+        <IconButton
+          sx={{
+            position: 'fixed',
+            bottom: '3%',
+            right: '3%',
+            bgcolor: 'success.main',
+            color: 'common.white',
+            '&:hover': { bgcolor: 'success.main' },
+          }}
+          onClick={handleClick}
+        >
+          <CallIcon sx={{ fontSize: 40, rotate: '-10deg' }} />
+        </IconButton>
+      </PermissionsGuard>
       <Popover
         id={id}
         open={open}
@@ -133,7 +141,7 @@ const CallTrigger = () => {
             </Button>
           </Box>
           <Box my={2} maxHeight={350} overflow="auto">
-            {recentCallsData?.map((call) => (
+            {recentCallsData?.map((call: any) => (
               <Box
                 key={call?.id}
                 mt={1}

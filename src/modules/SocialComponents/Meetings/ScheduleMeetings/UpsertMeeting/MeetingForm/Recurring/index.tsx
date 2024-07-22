@@ -15,7 +15,6 @@ import {
   monthWeekOption,
   optionTypes,
   recurringTypeOption,
-  weekDayOption,
 } from './Recurring.data';
 
 export const Recurring = (props: any) => {
@@ -24,7 +23,7 @@ export const Recurring = (props: any) => {
     isSameDate,
     watchRecurring,
     differenceInDays,
-    watchRecurringType,
+    watchType,
     watchDailyType,
     watchMonthType,
   } = useRecurring(props);
@@ -49,9 +48,10 @@ export const Recurring = (props: any) => {
                 (option === optionTypes?.weekly && differenceInDays < 7) ||
                 (option === optionTypes?.monthly && differenceInDays < 30)
               }
+              getOptionLabel={(option: any) => option?.label}
             />
           </Grid>
-          {watchRecurringType === optionTypes?.daily && (
+          {watchType === optionTypes?.daily && (
             <>
               <Grid item xs={12}>
                 <RHFRadioGroup name="dailyType" options={dayTypeOption} />
@@ -65,12 +65,13 @@ export const Recurring = (props: any) => {
                     required
                     placeholder="Select Day"
                     options={dayOption}
+                    getOptionLabel={(option: any) => option}
                   />
                 </Grid>
               )}
             </>
           )}
-          {watchRecurringType === optionTypes?.weekly && (
+          {watchType === optionTypes?.weekly && (
             <Grid item xs={12}>
               <RHFMultiCheckbox
                 name="weekDays"
@@ -79,7 +80,7 @@ export const Recurring = (props: any) => {
               />
             </Grid>
           )}
-          {watchRecurringType === optionTypes?.monthly && (
+          {watchType === optionTypes?.monthly && (
             <>
               <Grid item xs={12}>
                 <RHFRadioGroup name="monthType" options={monthTypeOption} />
@@ -121,7 +122,8 @@ export const Recurring = (props: any) => {
                       name="monthlyDays"
                       label="Days"
                       size="small"
-                      options={weekDayOption}
+                      options={checkOption}
+                      getOptionLabel={(item: any) => item?.label}
                       required
                       multiple
                       placeholder="Select Day"

@@ -2,28 +2,42 @@ import { useForm } from 'react-hook-form';
 import { Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { usePostDealsMutation } from '@/services/airSales/deals';
+import {
+  useGetDealPipeLineQuery,
+  usePostDealsMutation,
+} from '@/services/airSales/deals';
 
 import {
   createDealData,
   defaultValues,
   validationSchema,
 } from './FormCreateDeal.data';
-import { v4 as uuidv4 } from 'uuid';
+
 import dayjs from 'dayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { DATE_FORMAT } from '@/constants';
+import { useEffect } from 'react';
 
-const CreateDeal = ({ open, onClose, refetchDealsDropdown }: any) => {
+const CreateDeal = ({ open, onClose }: any) => {
   const [postDeals, { isLoading: isCreateDealLodaing }] =
     usePostDealsMutation();
+  const { data: dealPipelines } = useGetDealPipeLineQuery({ meta: false });
+
+  const defaultPipelineData = dealPipelines?.data?.find(
+    (item: any) => item?.isDefault,
+  );
+
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
 
-  const { handleSubmit, reset, watch } = methods;
+  const { handleSubmit, reset, watch, setValue } = methods;
+
+  useEffect(() => {
+    setValue('dealPipelineId', defaultPipelineData);
+  }, [dealPipelines?.data]);
   const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = async (values: any) => {
@@ -34,11 +48,24 @@ const CreateDeal = ({ open, onClose, refetchDealsDropdown }: any) => {
       unitDiscount: 0,
     }));
     delete values.products;
+    values.dealPipelineId = values.dealPipelineId?._id;
+    values.ownerId = values.ownerId?._id;
     const obj = {
       closeDate,
       products,
       ...values,
     };
+
+    const formData = new FormData();
+    Object.entries(values)?.forEach(([key, value]: any) => {
+      if (value !== undefined && value !== null && value !== '') {
+        if (key === closeDate) {
+          formData?.append(key, dayjs(value)?.format(DATE_FORMAT?.API));
+        } else {
+          formData?.append(key, value);
+        }
+      }
+    });
 
     try {
       await postDeals({ body: obj })?.unwrap();
@@ -46,7 +73,6 @@ const CreateDeal = ({ open, onClose, refetchDealsDropdown }: any) => {
         variant: 'success',
       });
       reset();
-      refetchDealsDropdown();
     } catch (error) {
       enqueueSnackbar('Error while creating deal', {
         variant: 'error',
@@ -71,14 +97,13 @@ const CreateDeal = ({ open, onClose, refetchDealsDropdown }: any) => {
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
           {dealDataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
               <item.component {...item?.componentProps} size={'small'}>
-                {item?.componentProps?.select &&
-                  item?.options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
+                {item?.options?.map((option: any) => (
+                  <option key={option?.value} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
               </item.component>
             </Grid>
           ))}

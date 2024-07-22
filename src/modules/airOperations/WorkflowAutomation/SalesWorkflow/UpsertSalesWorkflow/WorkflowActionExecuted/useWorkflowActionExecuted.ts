@@ -3,9 +3,9 @@ import { useTheme } from '@mui/material';
 import { useFieldArray } from 'react-hook-form';
 import { errorSnackbar, warningSnackbar } from '@/utils/api';
 import {
+  useLazyGetAdminUserDropdownListQuery,
   useLazyGetDealDropdownListQuery,
   useLazyGetLifeCycleStagesDropdownListQuery,
-  useLazyGetUserDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { useRouter } from 'next/router';
 
@@ -32,8 +32,8 @@ export const useWorkflowActionExecuted = (props: any) => {
   };
   const { palette } = useTheme();
   const dealsDropdown = useLazyGetDealDropdownListQuery();
-  const userDropdown = useLazyGetUserDropdownListQuery();
   const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
+  const adminUserDropdown = useLazyGetAdminUserDropdownListQuery();
   const router = useRouter();
   const moduleType = watch('module');
   if (router?.query?.id === undefined) {
@@ -50,7 +50,7 @@ export const useWorkflowActionExecuted = (props: any) => {
     palette,
     handleDeleteClick,
     dealsDropdown,
-    userDropdown,
     stagesDropdown,
+    adminUserDropdown,
   };
 };

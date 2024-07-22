@@ -15,6 +15,7 @@ export const FilterSalesWorkflow = (props: any) => {
     createdByValue,
     statusValue,
     typeValue,
+    sessionUserData,
   } = useFilterSalesWorkflow(props);
   return (
     <CommonDrawer
@@ -34,11 +35,13 @@ export const FilterSalesWorkflow = (props: any) => {
     >
       <FormProvider methods={filterMethod} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={3}>
-          {salesWorkflowFilterFields(userDropdown)?.map((item) => (
-            <Grid item key={item?.id} xs={12}>
-              <item.component {...item?.componentProps} size="small" />
-            </Grid>
-          ))}
+          {salesWorkflowFilterFields(userDropdown, sessionUserData)?.map(
+            (item) => (
+              <Grid item key={item?.id} xs={12}>
+                <item.component {...item?.componentProps} size="small" />
+              </Grid>
+            ),
+          )}
         </Grid>
       </FormProvider>
     </CommonDrawer>

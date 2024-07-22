@@ -1,8 +1,10 @@
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
+  RHFDateRangePicker,
 } from '@/components/ReactHookForm';
-import { TIME_PERIODS } from '@/constants/strings';
+import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
+import { MANAGE_ACCESS_TYPES, TIME_PERIODS } from '@/constants/strings';
 
 export const dateOptions = [
   {
@@ -31,17 +33,45 @@ export const dateOptions = [
   },
 ];
 
+export const assignedReportsOptions = [
+  {
+    _id: MANAGE_ACCESS_TYPES?.PRIVATE_CAPITAL,
+    label:
+      MANAGE_REPORTS_ACCESS_TYPES_MAPPED?.[
+        MANAGE_ACCESS_TYPES?.PRIVATE_CAPITAL
+      ],
+  },
+  {
+    _id: MANAGE_ACCESS_TYPES?.EVERYONE_CAPITAL,
+    label:
+      MANAGE_REPORTS_ACCESS_TYPES_MAPPED?.[
+        MANAGE_ACCESS_TYPES?.EVERYONE_CAPITAL
+      ],
+  },
+  {
+    _id: MANAGE_ACCESS_TYPES?.SPECIFIC_USERS,
+    label:
+      MANAGE_REPORTS_ACCESS_TYPES_MAPPED?.[MANAGE_ACCESS_TYPES?.SPECIFIC_USERS],
+  },
+];
+
 export const reportFiltersDefaultValues: any = (filterValue: any) => {
   return {
     owner: filterValue?.owner ?? null,
-    assigned: filterValue?.assigned ?? null,
-    createdDate: filterValue?.createdDate ?? null,
+    accessType: filterValue?.accessType ?? null,
+    createdDate: {
+      startDate: !!filterValue?.startDate
+        ? new Date(filterValue?.startDate)
+        : null,
+      endDate: !!filterValue?.startDate ? new Date(filterValue?.endDate) : null,
+      key: 'selection',
+    },
   };
 };
 
 export const reportFilterFormFieldsDynamic = (
-  reportOwnerApiQuery?: any,
-  assigneeApiQuery?: any,
+  reportOwnerApiQuery: any,
+  productId: string,
 ) => [
   {
     id: 1,
@@ -51,32 +81,32 @@ export const reportFilterFormFieldsDynamic = (
       placeholder: 'Select report owner',
       fullWidth: true,
       apiQuery: reportOwnerApiQuery,
-      getOptionLabel: (option: any) => option?.name,
+      externalParams: { productId },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },
   {
     id: 2,
     componentProps: {
-      name: 'assigned',
+      name: 'accessType',
       label: 'Assigned',
       placeholder: 'Select Assignee',
       fullWidth: true,
-      apiQuery: assigneeApiQuery,
-      getOptionLabel: (option: any) => option?.name,
+      options: assignedReportsOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
-    component: RHFAutocompleteAsync,
+    component: RHFAutocomplete,
   },
   {
-    id: 3,
+    id: 70,
     componentProps: {
       name: 'createdDate',
       label: 'Created Date',
       placeholder: 'Select created date',
-      fullWidth: true,
-      options: dateOptions,
-      getOptionLabel: (option: any) => option?.label,
     },
-    component: RHFAutocomplete,
+    component: RHFDateRangePicker,
+    md: 12,
   },
 ];

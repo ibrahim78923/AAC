@@ -150,7 +150,17 @@ const useDealPipelines = () => {
     1: true,
     2: true,
   };
+  const hasDefaultPipeline = (
+    pipelines: any[],
+    checkedDeal: string | any[],
+  ) => {
+    return pipelines?.some(
+      (pipeline) =>
+        pipeline?.isDefault === true && checkedDeal.includes(pipeline?._id),
+    );
+  };
 
+  const isDefaultPipeline = hasDefaultPipeline(data?.data, checkedDeal);
   return {
     dealPipelinesData: data?.data,
     updateDealPipelineLoading,
@@ -185,6 +195,7 @@ const useDealPipelines = () => {
     anchorEl,
     theme,
     open,
+    isDefaultPipeline,
   };
 };
 

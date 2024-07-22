@@ -1,42 +1,27 @@
 import React from 'react';
-import { Box, Grid, Tooltip, Typography, useTheme } from '@mui/material';
-import { FormProvider } from '@/components/ReactHookForm';
+import { Box, Grid, Tooltip, Typography } from '@mui/material';
+import { FormProvider, RHFDatePicker } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  teamDurationArray,
-  teamDurationDefaultValues,
-  teamDurationValidationSchema,
-} from './TeamDuration.data';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { teamDurationArray } from './TeamDuration.data';
 import TemplateFrame from '../Describe/TemplateFrame';
 import TemplateBasic from '../Describe/TemplateBasic';
-import Link from 'next/link';
 import { HeaderInfoIcon } from '@/assets/icons';
-import { createGoal } from '@/constants';
+import { createGoal, RADIO_VALUE } from '@/constants';
 
-const TeamDuration = () => {
-  const theme = useTheme();
+const TeamDuration = (props: any) => {
+  const { methods, handleSubmit, userTeamValue, customDateValue } = props;
 
-  const methods: any = useForm({
-    resolver: yupResolver(teamDurationValidationSchema),
-    defaultValues: teamDurationDefaultValues,
-  });
-
-  const { handleSubmit, watch } = methods;
-  const onSubmit = async () => {};
-  const userTeamValue = watch('userTeam');
   return (
     <Grid container xs={12} spacing={2}>
       <Grid item md={6} xs={12}>
-        <FormProvider methods={methods} handleSubmit={handleSubmit(onSubmit)}>
+        <FormProvider methods={methods} onSubmit={handleSubmit}>
           <Grid container spacing={1}>
             {teamDurationArray(userTeamValue)?.map((item: any) => (
               <Grid
                 item
                 xs={12}
                 md={item?.md}
-                key={uuidv4()}
+                key={item?._id}
                 sx={{ position: 'relative' }}
               >
                 <item.component {...item.componentProps} size={'small'}>
@@ -47,17 +32,15 @@ const TeamDuration = () => {
                       </option>
                     ))}
                 </item.component>
-                {item?.componentProps?.name === createGoal?.setting && (
-                  <Link
-                    href=""
-                    style={{
-                      color: theme?.palette?.primary?.main,
-                      marginLeft: '-10px',
-                    }}
-                  >
-                    View Settings
-                  </Link>
-                )}
+
+                {item?.componentProps?.name === RADIO_VALUE?.FROM &&
+                  customDateValue === 'custom' && (
+                    <RHFDatePicker name="from" fullWidth label="From" />
+                  )}
+                {item?.componentProps?.name === RADIO_VALUE?.TO &&
+                  customDateValue === 'custom' && (
+                    <RHFDatePicker name="to" fullWidth label="To" />
+                  )}
 
                 {item?.componentProps?.name === createGoal?.userTeam &&
                   userTeamValue === createGoal?.team && (

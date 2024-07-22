@@ -6,6 +6,7 @@ import {
   FormControl,
   MenuItem,
   Select,
+  Stack,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import CommonTabs from '@/components/Tabs';
@@ -18,6 +19,8 @@ import useWhatsAppMarketingComponent from './useWhatsAppMarketingComponent';
 import EditSmsIcon from '@/assets/icons/modules/airMarketer/SMSMarketing/edit-sms-icon';
 import { styles } from './WhatsAppMarketing.style';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_WHATSAPP_BROADCAST_CREATE_BROADCAST } from '@/constants/permission-keys';
 
 const WhatsAppMarketingComponent = () => {
   const router = useRouter();
@@ -25,17 +28,15 @@ const WhatsAppMarketingComponent = () => {
 
   return (
     <Box sx={styles?.wrapper}>
-      <Box sx={styles.heading}>
+      <Stack
+        direction={{ sm: 'row' }}
+        gap={2}
+        justifyContent={'space-between'}
+        sx={{ p: '24px' }}
+      >
         <Typography variant="h3">WhatsApp Marketing </Typography>
         {tabVal === 0 && (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '20px',
-            }}
-          >
+          <Stack direction={{ sm: 'row' }} gap={2}>
             <Box>
               <FormControl
                 fullWidth
@@ -60,21 +61,27 @@ const WhatsAppMarketingComponent = () => {
             <Box sx={{ height: '52px' }}>
               <EditSmsIcon />
             </Box>
-          </Box>
+          </Stack>
         )}
         {tabVal === 1 && (
-          <Button
-            startIcon={<PlusIcon />}
-            className="small"
-            variant="contained"
-            onClick={() =>
-              router.push(AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST)
-            }
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_WHATSAPP_BROADCAST_CREATE_BROADCAST?.CREATE_BROADCAST,
+            ]}
           >
-            Create Broadcast
-          </Button>
+            <Button
+              startIcon={<PlusIcon />}
+              className="small"
+              variant="contained"
+              onClick={() =>
+                router.push(AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST)
+              }
+            >
+              Create Broadcast
+            </Button>
+          </PermissionsGuard>
         )}
-      </Box>
+      </Stack>
 
       <CommonTabs
         tabsArray={['Dashboard', 'Broadcast', 'Contacts', 'Templates']}

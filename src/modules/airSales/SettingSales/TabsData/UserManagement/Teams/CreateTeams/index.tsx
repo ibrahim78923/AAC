@@ -6,11 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { teamsDataArray } from './CreateTeams.data';
 import useUserManagement from '../../useUserManagement';
 import { DRAWER_TYPES } from '@/constants/strings';
-import { getActiveAccountSession, getSession } from '@/utils';
 
 const CreateTeams = (props?: any) => {
-  const { user }: any = getSession();
-  const activeAccountData = getActiveAccountSession();
   const { isAddTeam, setIsAddTeam, teamDataById, teamByIdLoading } = props;
   const {
     methods,
@@ -19,24 +16,9 @@ const CreateTeams = (props?: any) => {
     productsUsers,
     postTeamLoading,
     updateTeamLoading,
+    availableUsersData,
   } = useCreateTeams(teamDataById, setIsAddTeam, isAddTeam?.type);
   const { skeletonLines } = useUserManagement();
-  const filteredUsers = productsUsers
-    ? productsUsers?.data?.usercompanyaccounts
-    : [];
-
-  const loggedUserData = [
-    {
-      _id: activeAccountData?._id,
-      user: {
-        firstName: user?.firstName,
-        lastName: user?.lastName,
-      },
-    },
-  ];
-
-  const allTeamMembers = [...loggedUserData, ...filteredUsers];
-  const filterdTeamMembers = allTeamMembers?.filter((item: any) => !item?.team);
 
   return (
     <CommonDrawer
@@ -63,8 +45,8 @@ const CreateTeams = (props?: any) => {
             <Grid container spacing={1}>
               {teamsDataArray(
                 isAddTeam?.type === DRAWER_TYPES?.ADD
-                  ? filterdTeamMembers
-                  : allTeamMembers,
+                  ? productsUsers?.data
+                  : availableUsersData?.data,
               )?.map((item: any) => (
                 <Grid
                   item

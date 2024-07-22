@@ -1,15 +1,19 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 export const createComapnySchema = Yup?.object()?.shape({
   domain: Yup?.string()?.required('Field is Required'),
-  ownerId: Yup?.string()?.required('Field is Required'),
+  ownerId: Yup.object().nullable()?.required('Field is Required'),
 });
 
 export const defaultCreateCompanyValues = {
   domain: '',
   name: '',
-  ownerId: '',
+  ownerId: null,
   industry: '',
   type: '',
   noOfEmloyee: null,
@@ -50,16 +54,13 @@ export const dataArray = (contacts: any) => {
       componentProps: {
         name: 'ownerId',
         label: 'Company Owner',
-        fullWidth: true,
-        select: true,
+        placeholder: 'Select Owner',
         required: true,
+        apiQuery: contacts,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
       },
-      options: contacts?.data?.contacts?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
-      })),
-      component: RHFSelect,
-      md: 12,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {
@@ -67,14 +68,15 @@ export const dataArray = (contacts: any) => {
         label: 'Industry',
         fullWidth: true,
         select: true,
+        placeholder: 'Select Industry',
+        options: [
+          'Computer software',
+          'Computer Services',
+          'Construction',
+          'None',
+        ],
       },
-      options: [
-        { value: 'computerSoftware', label: 'Computer software' },
-        { value: 'computerServices', label: 'Computer Services' },
-        { value: 'construction', label: 'Construction' },
-        { value: 'none', label: 'None' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
     {
@@ -83,13 +85,10 @@ export const dataArray = (contacts: any) => {
         label: 'Company Type',
         fullWidth: true,
         select: true,
+        placeholder: 'Select Company type',
+        options: ['Partner', 'Vendor', 'None'],
       },
-      options: [
-        { value: 'Partner', label: 'Partner' },
-        { value: 'Vendor', label: 'Vendor' },
-        { value: 'None', label: 'None' },
-      ],
-      component: RHFSelect,
+      component: RHFAutocomplete,
       md: 12,
     },
     {

@@ -8,10 +8,11 @@ import {
   Typography,
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { CloseModalIcon } from '@/assets/icons';
 import { useCreateNewFolder } from './useCreateNewFolder';
 import { createNewFolderArray } from './CreateNewFolder.data';
 import { LoadingButton } from '@mui/lab';
+import CloseIcon from '@mui/icons-material/Close';
+import { GENERIC_UPSERT_FORM_CONSTANT } from '@/constants/strings';
 
 export const CreateNewFolder = (props: any) => {
   const {
@@ -28,32 +29,28 @@ export const CreateNewFolder = (props: any) => {
         <Dialog
           open={openCreateNewFolderModal?.open}
           onClose={closeCreateNewFolderModal}
-          aria-labelledby="responsive-dialog-title"
-          PaperProps={{
-            style: {
-              maxWidth: 736,
-              borderRadius: 12,
-            },
-          }}
+          maxWidth={'sm'}
+          fullWidth
         >
-          <DialogTitle
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            paddingBottom={2.4}
-          >
-            <Typography variant="h4" color="primary?.main">
-              {openCreateNewFolderModal?.editData
-                ? 'Edit Folder'
-                : 'Create New Folder'}
-            </Typography>
+          <DialogTitle>
             <Box
-              onClick={closeCreateNewFolderModal}
-              sx={{
-                cursor: 'pointer',
-              }}
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              gap={1}
+              flexWrap={'wrap'}
             >
-              <CloseModalIcon />
+              <Typography variant="h4" color="slateBlue.main">
+                {`${
+                  openCreateNewFolderModal?.editData
+                    ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+                    : GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+                } Folder`}
+              </Typography>
+              <CloseIcon
+                sx={{ color: 'custom.darker', cursor: 'pointer' }}
+                onClick={() => closeCreateNewFolderModal?.()}
+              />
             </Box>
           </DialogTitle>
           <FormProvider
@@ -61,35 +58,39 @@ export const CreateNewFolder = (props: any) => {
             onSubmit={method?.handleSubmit(onSubmit)}
           >
             <DialogContent>
-              <Grid container gap={1.4}>
-                {createNewFolderArray?.map((item) => (
+              <Grid container spacing={1.4}>
+                {createNewFolderArray?.map((item: any) => (
                   <Grid key={item?.id} item xs={12}>
                     <item.component {...item?.componentProps} />
                   </Grid>
                 ))}
               </Grid>
             </DialogContent>
-            <DialogActions>
-              <Box display="flex" justifyContent="flex-end" gap={2}>
-                <LoadingButton
-                  onClick={closeCreateNewFolderModal}
-                  variant="outlined"
-                  color="secondary"
-                >
-                  Cancel
-                </LoadingButton>
-                <LoadingButton
-                  type="submit"
-                  loading={
-                    postCannedResponseStatus?.isLoading ||
-                    patchCannedResponseStatus?.isLoading
-                  }
-                  variant="contained"
-                  color="primary"
-                >
-                  {openCreateNewFolderModal?.editData ? 'Apply' : 'Submit'}
-                </LoadingButton>
-              </Box>
+            <DialogActions sx={{ paddingTop: `0rem !important` }}>
+              <LoadingButton
+                onClick={closeCreateNewFolderModal}
+                variant="outlined"
+                color="secondary"
+                disabled={
+                  postCannedResponseStatus?.isLoading ||
+                  patchCannedResponseStatus?.isLoading
+                }
+              >
+                Cancel
+              </LoadingButton>
+              <LoadingButton
+                type="submit"
+                loading={
+                  postCannedResponseStatus?.isLoading ||
+                  patchCannedResponseStatus?.isLoading
+                }
+                variant="contained"
+                color="primary"
+              >
+                {openCreateNewFolderModal?.editData
+                  ? GENERIC_UPSERT_FORM_CONSTANT?.APPLY
+                  : GENERIC_UPSERT_FORM_CONSTANT?.SUBMIT}
+              </LoadingButton>
             </DialogActions>
           </FormProvider>
         </Dialog>

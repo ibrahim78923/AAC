@@ -85,7 +85,7 @@ const Templates = () => {
             ]}
           >
             <TanstackTable
-              data={getTemplatesData?.data?.smstemplates}
+              data={getTemplatesData?.data?.whatsapptemplates}
               columns={getColumns}
               isPagination
               isLoading={getTempLoading}

@@ -8,7 +8,7 @@ const useInvoicesAnalyst = () => {
   const [clientsFilter, setClientsFilter] = useState<HTMLButtonElement | null>(
     null,
   );
-  const [searchCompany, setSearchCompany] = useState<any>('');
+  const [searchCompany, setSearchCompany] = useState<string>('');
 
   const openMonthsFilter = Boolean(monthsFilter);
   const openClientsFilter = Boolean(clientsFilter);

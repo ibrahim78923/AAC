@@ -3,7 +3,9 @@ import {
   AIR_MARKETER,
   END_POINTS,
   OPERATION,
+  organization,
   settingSalesProductCategory,
+  WHATSAPP_MARKETING,
 } from '@/routesConstants/endpoints';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
@@ -19,7 +21,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
 
     getDropdownProducts: builder.query({
       query: () => ({
-        url: END_POINTS?.DROPDOWN_PRODUCTS,
+        url: organization?.USERS_PRODUCTS,
         method: 'GET',
       }),
       transformResponse: (response: any) => {
@@ -152,6 +154,17 @@ export const CommonAPIS = baseAPI.injectEndpoints({
     getAllTemplateList: builder.query({
       query: () => ({
         url: END_POINTS?.GET_SMS_TEMPLATES,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.smstemplates;
+      },
+      providesTags: ['CAMPAIGNS_LISTS'],
+    }),
+
+    getAllWhatsAppTemplateList: builder.query({
+      query: () => ({
+        url: WHATSAPP_MARKETING?.GET_WHATSAAP_TEMPLATE,
         method: 'GET',
       }),
       transformResponse: (response: any) => {
@@ -322,6 +335,7 @@ export const {
   useLazyGetCompanyContactsListQuery,
   useLazyGetAllCompaniesQuery,
   useLazyGetAllTemplateListQuery,
+  useLazyGetAllWhatsAppTemplateListQuery,
   useLazyGetAllUsersQuery,
   useGetDropdownProductsListQuery,
   useLazyGetAllTicketsQuery,

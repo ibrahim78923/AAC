@@ -73,7 +73,7 @@ export const TestWorkflowDrawer = (props: any) => {
                   >
                     <Box display="flex" alignItems="center" gap={1}>
                       <Box
-                        p="10px 18px"
+                        p="10px 14px"
                         borderRadius={1.5}
                         color={palette?.common?.white}
                         bgcolor={val?.boxColor}

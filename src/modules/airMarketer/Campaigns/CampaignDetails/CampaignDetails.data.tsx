@@ -3,7 +3,8 @@ import { Tooltip } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const campaignDetailsData = (campaignsById: any) => {
-  const campaignsData = campaignsById?.data?.data[0];
+  const campaignsData = campaignsById?.data[0];
+
   return [
     {
       deatilsName: 'Campaign Name',

@@ -1,4 +1,5 @@
-import { Checkbox } from '@mui/material';
+import React from 'react';
+import { Box, Checkbox, Tooltip, Typography } from '@mui/material';
 
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 
@@ -12,157 +13,185 @@ import { SwitchBtn } from '@/components/SwitchButton';
 
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 
-export const data: any = [
-  {
-    id: 1,
-    campaignName: `Campaign Name`,
-    compareOwner: 'Campaign Owner',
-    compareBugets: '120.31.00',
-    campaignComments: 0,
-    startDate: '10/04/2023',
-    endDate: '10/04/2023',
-    campaignStatus: 'Active',
-  },
-  {
-    id: 2,
-    campaignName: `Campaign Name`,
-    compareOwner: 'Campaign Owner',
-    compareBugets: '120.31.00',
-    campaignComments: 0,
-    startDate: '10/04/2023',
-    endDate: '10/04/2023',
-    campaignStatus: 'Active',
-  },
-  {
-    id: 3,
-    campaignName: `Campaign Name`,
-    compareOwner: 'Campaign Owner',
-    compareBugets: '120.31.00',
-    campaignComments: 0,
-    startDate: '10/04/2023',
-    endDate: '10/04/2023',
-    campaignStatus: 'Active',
-  },
-  {
-    id: 4,
-    campaignName: `Campaign Name`,
-    compareOwner: 'Campaign Owner',
-    compareBugets: '120.31.00',
-    campaignComments: 0,
-    startDate: '10/04/2023',
-    endDate: '10/04/2023',
-    campaignStatus: 'Active',
-  },
-  {
-    id: 5,
-    campaignName: `Campaign Name`,
-    compareOwner: 'Campaign Owner',
-    compareBugets: '120.31.00',
-    campaignComments: 0,
-    startDate: '10/04/2023',
-    endDate: '10/04/2023',
-    campaignStatus: 'Active',
-  },
-];
-
 export const columns: any = (
-  handleSelectSingleCheckBox: any,
-  handleSelectAllCheckbox: any,
   selectedRows: any,
-  allCamopaignsData: any,
+  setSelectedRows: any,
+  setIsActionsDisabled: any,
+  setRowId: any,
+  activeColumns: any,
 ) => {
   const router = useRouter();
+  const handleRowClick = (id: any, status: any) => {
+    const selectedIndex = selectedRows?.indexOf(id);
 
-  return [
-    {
-      accessorFn: (row: any) => row?.id,
-      id: 'Id',
-      cell: ({ row: { original } }: any) => (
-        <Checkbox
-          checked={selectedRows?.includes(original?._id)}
-          onChange={(val: any) => {
-            handleSelectSingleCheckBox(val, original?._id);
-            if (val?.target?.checked) {
-              router.push(`?id=${original?._id}`);
-            } else {
-              const { ...query } = router?.query;
-              router.push({
-                pathname: router?.pathname,
-                query,
-              });
-            }
-          }}
-        />
-      ),
-      header: (
-        <Checkbox
-          checked={
-            allCamopaignsData?.length &&
-            selectedRows?.length === allCamopaignsData?.length
+    let newSelected: any = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected?.concat(selectedRows, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected?.concat(selectedRows?.slice(1));
+    } else if (selectedIndex === selectedRows?.length - 1) {
+      newSelected = newSelected?.concat(selectedRows?.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected?.concat(
+        selectedRows?.slice(0, selectedIndex),
+        selectedRows?.slice(selectedIndex + 1),
+      );
+    }
+    setSelectedRows(newSelected);
+    setIsActionsDisabled(newSelected?.length === 0);
+    if (newSelected?.length === 1) {
+      setRowId(newSelected[0]);
+    } else {
+      setRowId(null);
+    }
+    router.push({
+      ...(newSelected?.length > 0 && {
+        query: { status: status, id: id },
+      }),
+    });
+  };
+
+  const handleSelectAllClick = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    rows: any,
+  ) => {
+    if (event?.target?.checked) {
+      const newSelected = rows?.map((n: any) => n?._id);
+      setSelectedRows(newSelected);
+      setIsActionsDisabled(false);
+      return;
+    }
+    setSelectedRows([]);
+    setIsActionsDisabled(true);
+  };
+
+  const isSelected = (id: any) => selectedRows?.indexOf(id) !== -1;
+
+  const CAMNPAIGNS_ATTRIBUTES = {
+    campaignOwner: 'campaignOwner.name',
+    campaignGoal: 'campaignGoal',
+    campaignAudience: 'campaignAudience',
+    campaignbudget: 'campaignBudget',
+    campaignStatus: 'campaignStatus',
+    description: 'description',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    title: 'title',
+  };
+
+  const activeColumnsData = (attribute: any, info: any) => {
+    const userDetails = info?.row?.original?.userDetails;
+    const userName = userDetails
+      ? `${userDetails?.firstName} ${userDetails?.lastName}` ?? 'N/A'
+      : 'N/A';
+    const userEmail = userDetails ? userDetails?.email : 'N/A';
+    if (attribute === CAMNPAIGNS_ATTRIBUTES?.title) {
+      return info?.row?.original?.title ?? 'N/A';
+    } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignOwner) {
+      return (
+        <Tooltip
+          title={
+            <React.Fragment>
+              <Typography
+                sx={{ textAlign: 'center', fontSize: '12px', fontWeight: 500 }}
+              >
+                {userName}
+              </Typography>
+              <Typography
+                sx={{ textAlign: 'center', fontSize: '12px', fontWeight: 500 }}
+              >
+                {userEmail}
+              </Typography>
+            </React.Fragment>
           }
-          onChange={(val: any) => {
-            handleSelectAllCheckbox(val?.target?.checked);
+          arrow
+          placement="top-start"
+        >
+          <Box>
+            <Typography sx={{ cursor: 'default' }}>{userName}</Typography>
+          </Box>
+        </Tooltip>
+      );
+    } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignbudget) {
+      return info?.row?.original?.campaignBudget ?? 'N/A';
+    } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignGoal) {
+      return info?.row?.original?.campaignGoal ?? 'N/A';
+    } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignAudience) {
+      return info?.row?.original?.campaignAudience ?? 'N/A';
+    } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.campaignStatus) {
+      return info?.row?.original?.campaignStatus ?? 'N/A';
+    } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.description) {
+      return info?.row?.original?.deal?.description ?? 'N/A';
+    } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.startDate) {
+      return (
+        dayjs(info?.row?.original?.startDate)?.format(
+          DATE_TIME_FORMAT?.DDMMYYY,
+        ) ?? 'N/A'
+      );
+    } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.endDate) {
+      return (
+        dayjs(info?.row?.original?.endDate)?.format(
+          DATE_TIME_FORMAT?.DDMMYYY,
+        ) ?? 'N/A'
+      );
+    } else if (attribute === CAMNPAIGNS_ATTRIBUTES?.title) {
+      return info?.row?.original?.title ?? 'N/A';
+    } else {
+      return info?.row?.original[attribute] ?? 'N/A';
+    }
+  };
+
+  const checkboxColumn = {
+    accessorFn: (row: any) => row?._id,
+    id: 'Id',
+    cell: (info: any) => {
+      const checked = info?.cell?.row?.original;
+      return (
+        <Checkbox
+          color="primary"
+          checked={isSelected(checked?._id)}
+          name={checked?._id}
+          onClick={() => {
+            handleRowClick(checked?._id, checked?.status);
           }}
         />
-      ),
-      isSortable: false,
+      );
     },
-    {
-      accessorFn: (row: any) => row?.title,
-      id: 'title',
-      cell: (info: any) => info?.getValue(),
-      header: 'Campaign Name',
-      isSortable: false,
+    header: (info: any) => {
+      const rows = info?.table?.options?.data;
+      return (
+        <Checkbox
+          color="primary"
+          indeterminate={
+            selectedRows?.length > 0 && selectedRows?.length < rows?.length
+          }
+          checked={
+            rows?.length > 0 &&
+            selectedRows?.length === info?.table?.options?.data?.length
+          }
+          onChange={(event) => handleSelectAllClick(event, rows)}
+        />
+      );
     },
-    {
-      accessorFn: (row: any) => row?.campaignOwner,
-      id: 'campaignOwner',
+    isSortable: false,
+  };
+
+  const tableActiveColumns =
+    activeColumns?.map((col: any) => ({
+      accessorFn: (row: any) => row?.attributes,
+      id: col?.attributes,
       isSortable: true,
-      header: 'Campaign Owner',
-      cell: (info: any) =>
-        `${info?.row?.original?.userDetails?.firstName ?? 'N/A'} ${
-          info?.row?.original?.userDetails?.lastName ?? ''
-        }`,
-    },
-    {
-      accessorFn: (row: any) => row?.campaignBudget,
-      id: 'compareBudget',
-      isSortable: true,
-      header: 'Campaign Budget',
-      cell: (info: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.campaignAudience,
-      id: 'campaignComments',
-      isSortable: true,
-      header: 'Campaign Comments',
-      cell: (info: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.startDate,
-      id: 'startDate',
-      isSortable: true,
-      header: 'Start Date',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.API),
-    },
-    {
-      accessorFn: (row: any) => row?.endDate,
-      id: 'endDate',
-      isSortable: true,
-      header: 'End Date',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.API),
-    },
-    {
-      accessorFn: (row: any) => row?.campaignStatus,
-      id: 'campaignStatus',
-      isSortable: true,
-      header: 'Campaign Status',
-      cell: (info: any) => info?.getValue(),
-    },
-  ];
+      header: col?.slug,
+      cell: (info: any) => activeColumnsData(col?.attributes, info),
+    })) || [];
+
+  const columns = [checkboxColumn, ...tableActiveColumns];
+
+  return columns;
 };
 export const rolesValidationSchema = Yup?.object()?.shape({
   roleName: Yup?.string()?.required('Field is Required'),

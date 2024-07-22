@@ -51,7 +51,7 @@ import * as io from 'socket.io-client';
 import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
-import { CHAT_SOCKETS } from '@/routesConstants/paths';
+import { CHAT_SOCKETS, ORG_ADMIN } from '@/routesConstants/paths';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 const drawerWidth = 230;
@@ -102,7 +102,10 @@ const DashboardLayout = ({ children, window }: any) => {
   const basePath = pathSegments[0];
 
   let productName = '';
-  if (`/${basePath}` === AIR_CUSTOMER_PORTAL.DASHBOARD) {
+  if (
+    `/${basePath}` === AIR_CUSTOMER_PORTAL?.DASHBOARD ||
+    `/${basePath}` === ORG_ADMIN?.EDIT_PROFILE
+  ) {
     productName = 'Customer Portal';
   } else {
     productName = getActiveProductSession()?.name;
@@ -543,19 +546,27 @@ const DashboardLayout = ({ children, window }: any) => {
       dispatch(setChatContacts(payload));
     });
     socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, () => {});
+    socket.on(CHAT_SOCKETS?.UPDATE_MESSAGE, () => {});
+    socket.on('on-message-update', (payload: any) => {
+      dispatch(setChatMessages(payload?.data));
+    });
+  }
 
-    socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, (payload: any) => {
-      if (!activeChatId === payload?.data?.chatId) {
+  useEffect(() => {
+    const handleOnMessageReceived = (payload: any) => {
+      if (activeChatId !== payload?.data?.chatId) {
         if (payload?.data) {
-          const currentData = chatContacts.find(
+          const currentData = chatContacts?.find(
             (ele: any) => ele?._id === payload?.data?.chatId,
           );
-          dispatch(
-            setChatContacts({
-              ...currentData,
-              unReadMessagesCount: currentData?.unReadMessagesCount + 1,
-            }),
-          );
+          if (currentData) {
+            dispatch(
+              setChatContacts({
+                ...currentData,
+                unReadMessagesCount: currentData?.unReadMessagesCount + 1,
+              }),
+            );
+          }
         }
       }
       if (activeChatId === payload?.data?.chatId) {
@@ -565,24 +576,35 @@ const DashboardLayout = ({ children, window }: any) => {
           dispatch(setIsNewMessages(false));
         }
       }
-    });
-    socket.on(CHAT_SOCKETS?.UPDATE_MESSAGE, () => {});
-    socket.on('on-message-update', (payload: any) => {
-      dispatch(setChatMessages(payload?.data));
-    });
+    };
 
-    socket.on(CHAT_SOCKETS?.ON_TYPING_START, (payload: any) => {
-      dispatch(
-        setTypingUserData({
-          userName: payload?.typingUserName,
-        }),
-      );
-    });
-    socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, () => {
+    const handleTypingStart = (payload: any) => {
+      if (activeChatId === payload?.chatId) {
+        dispatch(
+          setTypingUserData({
+            userName: payload?.typingUserName,
+          }),
+        );
+      }
+    };
+
+    const handleTypingStop = () => {
       dispatch(setTypingUserData({}));
-    });
-  }
+    };
 
+    if (socket) {
+      socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, handleOnMessageReceived);
+      socket.on(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
+      socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
+    }
+    return () => {
+      if (socket) {
+        socket.off(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, handleOnMessageReceived);
+        socket.off(CHAT_SOCKETS?.ON_TYPING_START, handleTypingStart);
+        socket.off(CHAT_SOCKETS?.ON_TYPING_STOP, handleTypingStop);
+      }
+    };
+  }, [activeChatId, chatContacts, dispatch, socket]);
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -610,8 +632,10 @@ const DashboardLayout = ({ children, window }: any) => {
           {drawer}
         </Drawer>
       </Box>
+
       <Box component="main" sx={styles?.layoutBox(drawerWidth)}>
         <Toolbar />
+
         <Box sx={styles?.layoutInnerBox(theme, isZeroPaddingRoutes)}>
           {authMeLoadingState ? (
             <>

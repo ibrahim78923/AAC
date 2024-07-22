@@ -12,7 +12,7 @@ import {
 } from './SendEmailDrawer.data';
 import { enqueueSnackbar } from 'notistack';
 import { useAppSelector } from '@/redux/store';
-import { CREATE_EMAIL_TYPES } from '@/constants';
+import { CREATE_EMAIL_TYPES, indexNumbers } from '@/constants';
 import { useEffect, useState } from 'react';
 import {
   useForwardEmailOutlookMutation,
@@ -22,7 +22,11 @@ import {
   usePostSendEmailOutlookMutation,
 } from '@/services/commonFeatures/email/outlook';
 
-const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
+const useSendEmailDrawer = ({
+  setOpenDrawer,
+  drawerType,
+  emailSettingsData,
+}: any) => {
   const theme = useTheme();
 
   const currentEmailAssets = useAppSelector(
@@ -33,8 +37,17 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     resolver: yupResolver(emailValidationsSchema(drawerType, isSendLater)),
     defaultValues: emailDefaultValues,
   });
+  const currentForwardAttachments = useAppSelector(
+    (state: any) => state?.outlook?.currentForwardAttachments,
+  );
 
   const [autocompleteValues, setAutocompleteValues] = useState<string[]>([]);
+  const [autocompleteCCValues, setAutocompleteCCValues] = useState<string[]>(
+    [],
+  );
+  const [autocompleteBCCValues, setAutocompleteBCCValues] = useState<string[]>(
+    [],
+  );
 
   const [isLoadingProcessDraft, setIsLoadingProcessDraft] = useState(false);
   const [isProcessDraft, setIsProcessDraft] = useState(false);
@@ -42,11 +55,24 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const [isToValid, setisToValid] = useState(false);
 
   const { handleSubmit, watch, reset, setValue } = methodsDealsTasks;
-  const watchEmailsForm = watch(['ccChecked', 'bccChecked', 'to', 'sentDate']);
+  const watchEmailsForm = watch([
+    'ccChecked',
+    'bccChecked',
+    'to',
+    'sentDate',
+    'subject',
+    'attachments',
+  ]);
 
   useEffect(() => {
     setValue('to', autocompleteValues);
   }, [autocompleteValues]);
+  useEffect(() => {
+    setValue('cc', autocompleteCCValues);
+  }, [autocompleteCCValues]);
+  useEffect(() => {
+    setValue('bcc', autocompleteBCCValues);
+  }, [autocompleteBCCValues]);
 
   useEffect(() => {
     if (drawerType === CREATE_EMAIL_TYPES?.FORWARD) {
@@ -56,9 +82,50 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     }
   }, [currentEmailAssets]);
 
+  const updateEmailValues = (
+    drawerType: any,
+    setAutocompleteValues: any,
+    setAutocompleteCCValues: any,
+    setAutocompleteBCCValues: any,
+    setValue: any,
+    currentEmailAssets: any,
+  ) => {
+    const isReplyOrReplyAll =
+      drawerType === CREATE_EMAIL_TYPES?.REPLY ||
+      drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL;
+
+    if (isReplyOrReplyAll) {
+      setAutocompleteValues([currentEmailAssets?.from]);
+      setAutocompleteCCValues(currentEmailAssets?.others?.cc);
+      setAutocompleteBCCValues(currentEmailAssets?.others?.bcc);
+
+      setValue('ccChecked', !!currentEmailAssets?.others?.cc?.length);
+      setValue('bccChecked', !!currentEmailAssets?.others?.bcc?.length);
+    } else {
+      setValue('to', '');
+      setValue('cc', '');
+      setValue('bcc', '');
+      setValue('ccChecked', false);
+      setValue('bccChecked', false);
+    }
+  };
+
+  useEffect(() => {
+    updateEmailValues(
+      drawerType,
+      setAutocompleteValues,
+      setAutocompleteCCValues,
+      setAutocompleteBCCValues,
+      setValue,
+      currentEmailAssets,
+    );
+  }, [drawerType, currentEmailAssets]);
+
   useEffect(() => {
     if (drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL) {
       setValue('description', '');
+      setValue('bccChecked', false);
+      setValue('ccChecked', false);
     }
   }, [drawerType]);
 
@@ -73,7 +140,8 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const [postforwardOutlookEmail, { isLoading: isLoadingForward }] =
     useForwardEmailOutlookMutation();
 
-  const isToExists = watchEmailsForm[2];
+  const isToExists = watchEmailsForm[indexNumbers?.TWO];
+  const isSubjectExists = watchEmailsForm[indexNumbers?.FOUR];
 
   const handleOnClose = () => {
     setisToValid(false);
@@ -81,7 +149,7 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
       drawerType === CREATE_EMAIL_TYPES?.NEW_EMAIL ||
       drawerType === CREATE_EMAIL_TYPES?.REPLY
     ) {
-      if (isToExists?.length > 0) {
+      if (isToExists?.length > 0 && isSubjectExists?.length > 0) {
         setIsProcessDraft(true);
       } else {
         reset();
@@ -104,7 +172,6 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   const [sendLaterDate, setSendLaterDate] = useState<any>();
 
   const [toStateDep, setToStateDep] = useState(1);
-
   useEffect(() => {
     if (isToExists?.length === 0 || isToExists?.length === undefined) {
       null;
@@ -156,10 +223,10 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
             values?.description?.length ? values?.description : ' ',
           );
 
-          if (values?.cc && values?.cc?.trim() !== '') {
+          if (values?.cc?.length) {
             formDataSend.append('cc', values?.cc);
           }
-          if (values?.bcc && values?.bcc?.trim() !== '') {
+          if (values?.bcc?.length) {
             formDataSend.append('bcc', values?.bcc);
           }
           if (values?.attachments) {
@@ -196,16 +263,31 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           const formDataSend = new FormData();
           formDataSend.append('to', values?.to);
           formDataSend.append('subject', values?.subject);
-          formDataSend.append('content', values?.description || '<p></p>');
+          formDataSend.append(
+            'content',
+            `<div 
+            style="font-family:${emailSettingsData?.data?.emailSettings?.fontName}; 
+            font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
+            ${values?.description} 
+            <br> 
+            <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+            </div>` || '<p></p>',
+          );
 
-          if (!isSendLater) {
-            formDataSend.append('attachments', values?.attachments);
+          if (!isSendLater && values?.attachments) {
+            if (Array?.isArray(values?.attachments)) {
+              values?.attachments.forEach((file: File) => {
+                formDataSend?.append(`attachments`, file);
+              });
+            } else {
+              formDataSend.append('attachments', values?.attachments);
+            }
           }
 
-          if (values?.cc && values?.cc?.trim() !== '') {
+          if (values?.cc?.length) {
             formDataSend.append('cc', values?.cc);
           }
-          if (values?.bcc && values?.bcc?.trim() !== '') {
+          if (values?.bcc?.length) {
             formDataSend.append('bcc', values?.bcc);
           }
           if (sendLaterDate) {
@@ -239,13 +321,11 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           drawerType === CREATE_EMAIL_TYPES?.REPLY ||
           drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
         ) {
-          const formDataReply = new FormData();
-          formDataReply.append('messageId', currentEmailAssets?.messageId);
-          formDataReply.append('replyText', values?.description);
-          formDataReply.append('type', 'reply');
-          formDataReply.append('attachments', values?.attachments);
           try {
             await postReplyOtherEmail({
+              to: values?.to,
+              cc: values?.cc ?? [],
+              bcc: values?.bcc ?? [],
               messageId: currentEmailAssets?.messageId,
               type:
                 drawerType === CREATE_EMAIL_TYPES?.REPLY_ALL
@@ -273,17 +353,34 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
           formDataForward.append('messageId', currentEmailAssets?.messageId);
           formDataForward.append('to', values?.to);
           formDataForward.append('subject', values?.subject);
-          formDataForward.append('content', values?.description || '<p></p>');
+          formDataForward.append(
+            'content',
+            `<div 
+            style="font-family:${emailSettingsData?.data?.emailSettings?.fontName}; 
+            font-size:${emailSettingsData?.data?.emailSettings?.fontSize}px ">
+            ${values?.description} 
+            <br> 
+            <div style="font-size:16px;" >${emailSettingsData?.data?.emailSettings?.signature}</div> 
+            </div>` || '<p></p>',
+          );
 
-          if (!values?.attachments) {
-            formDataForward.append('attachments', values?.attachments);
-          }
-          if (values?.cc && values?.cc?.trim() !== '') {
+          if (values?.cc?.length) {
             formDataForward.append('cc', values?.cc);
           }
-          if (values?.bcc && values?.bcc?.trim() !== '') {
+          if (values?.bcc?.length) {
             formDataForward.append('bcc', values?.bcc);
           }
+
+          currentForwardAttachments?.forEach((data: any) => {
+            const base64 = data?.contentBytes;
+            const contentType = data?.contentType;
+            const fileName = data?.name;
+
+            const blob = base64ToBlob(base64, contentType);
+            const file = new File([blob], fileName, { type: contentType });
+
+            formDataForward?.append(`attachments`, file);
+          });
 
           try {
             await postforwardOutlookEmail({
@@ -333,6 +430,13 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
     handelSendLaterAction,
     setAutocompleteValues,
     autocompleteValues,
+
+    setAutocompleteCCValues,
+    autocompleteCCValues,
+
+    setAutocompleteBCCValues,
+    autocompleteBCCValues,
+
     isToValid,
     isLoadingForward,
 
@@ -341,3 +445,15 @@ const useSendEmailDrawer = ({ setOpenDrawer, drawerType }: any) => {
   };
 };
 export default useSendEmailDrawer;
+
+function base64ToBlob(base64: any, contentType: any) {
+  const byteCharacters = atob(base64);
+  const byteNumbers = new Array(byteCharacters?.length);
+
+  for (let i = 0; i < byteCharacters?.length; i++) {
+    byteNumbers[i] = byteCharacters?.charCodeAt(i);
+  }
+
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: contentType });
+}

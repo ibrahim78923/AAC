@@ -9,14 +9,6 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
   title: Yup?.string()?.required('Field is Required'),
-  // compaignOwner: Yup?.string()?.trim()?.required('Field is Required'),
-  // startDate: Yup?.string()?.required('Field is Required'),
-  // endDate: Yup?.string()?.required('Field is Required'),
-  // compaignGoal: Yup?.string()?.required('Field is Required'),
-  // compaignAudience: Yup?.string()?.required('Field is Required'),
-  // compaignBudget: Yup?.string()?.required('Field is Required'),
-  // compaignStatus: Yup?.string()?.required('Field is Required'),
-  // editor: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -46,7 +38,7 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignOwner',
-        label: 'Compaign Owner',
+        label: 'Campaign Owner',
         fullWidth: true,
         select: true,
       },
@@ -85,7 +77,7 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignGoal',
-        label: 'Compaign Goal',
+        label: 'Campaign Goal',
         placeholder: 'Get 5k likes on instagram',
         fullWidth: true,
       },
@@ -95,7 +87,7 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignAudience',
-        label: 'Compaign Audience',
+        label: 'Campaign Audience',
         placeholder: 'Instagram influencers',
         fullWidth: true,
       },
@@ -105,7 +97,7 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignBudget',
-        label: 'Compaign Budget',
+        label: 'Campaign Budget',
         placeholder: '£20.105.00',
         fullWidth: true,
       },
@@ -115,7 +107,7 @@ export const dataArray = (UserListData: any) => {
     {
       componentProps: {
         name: 'campaignStatus',
-        label: 'compaign Status',
+        label: 'campaign Status',
         fullWidth: true,
         select: true,
       },

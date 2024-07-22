@@ -10,6 +10,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const useAddServiceCatalog = (prop: any) => {
   const { open, setOpen } = prop;
+
   const [postServiceCatalogTrigger, postServiceCatalogTriggerStatus] =
     usePostServiceCatalogMutation();
 
@@ -26,7 +27,7 @@ const useAddServiceCatalog = (prop: any) => {
         body: data,
       })?.unwrap();
       successSnackbar('Service Add Successfully');
-      reset(addServiceCatalogDefaultValues);
+      handleClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -34,6 +35,7 @@ const useAddServiceCatalog = (prop: any) => {
   };
 
   const handleClose = () => {
+    reset();
     setOpen(false);
   };
 

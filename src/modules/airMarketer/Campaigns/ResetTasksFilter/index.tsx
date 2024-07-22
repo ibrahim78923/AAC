@@ -1,53 +1,105 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { Button, ButtonGroup } from '@mui/material';
 import useDrawerComponents from './DrawerComponents/useDrawerComponents';
+import { CAMPAIGNS_CONSTANTS } from '@/constants/strings';
+import useResetTasksFilter from './useResetTasksFilter';
 
-const ResetTasksFilter = (props: any) => {
-  const { isOpen, setIsOpen } = props;
+interface TaskFilters {
+  campaignId: string;
+  taskType: string;
+  status: string;
+  assignedTo: string;
+}
+interface Props {
+  setTaskFilters: (value: TaskFilters) => void;
+  setIsFiltersOpen: (value: boolean) => void;
+  setCurrentTabVal: (value: number) => void;
+  setIsOpen: (value: boolean) => void;
+  taskFilters: TaskFilters;
+  isFilterOpen: boolean;
+  reset: () => void;
+  isOpen: boolean;
+}
+
+const ResetTasksFilter = (props: Props) => {
+  const {
+    isOpen,
+    setIsOpen,
+    setCurrentTabVal,
+    setTaskFilters,
+    taskFilters,
+    reset,
+    setIsFiltersOpen,
+    isFilterOpen,
+  } = props;
+  const { handleSubmit, onSubmit, methods } = useResetTasksFilter(
+    setTaskFilters,
+    setIsFiltersOpen,
+  );
   const { selectedButton, handleActiveButton, setSelectedButton } =
-    useDrawerComponents();
+    useDrawerComponents({
+      setIsOpen,
+      methods,
+      setCurrentTabVal,
+      taskFilters,
+      reset,
+      setIsFiltersOpen,
+      isFilterOpen,
+      setTaskFilters,
+    });
+
+  const handleCloseDrawer = () => {
+    if (isFilterOpen) {
+      setIsFiltersOpen(false);
+    } else {
+      setIsOpen(false);
+    }
+  };
 
   return (
     <CommonDrawer
       isDrawerOpen={isOpen}
-      title="Tasks"
-      okText="Apply"
-      // submitHandler={()=>{}}
+      title={isFilterOpen ? 'Filters' : 'Tasks'}
+      okText={isFilterOpen ? 'Filter' : 'Apply'}
       isOk={true}
-      footer={false}
-      onClose={() => {
-        setIsOpen(false);
-      }}
+      footer={isFilterOpen ? true : false}
+      onClose={handleCloseDrawer}
+      submitHandler={handleSubmit(onSubmit)}
     >
-      <ButtonGroup variant="outlined" aria-label="Basic button group">
-        <Button
-          className="small"
-          color="inherit"
-          onClick={() => {
-            setSelectedButton('tasks');
-          }}
-        >
-          Task
-        </Button>
-        <Button
-          className="small"
-          color="inherit"
-          onClick={() => {
-            setSelectedButton('comments');
-          }}
-        >
-          Comments
-        </Button>
-        <Button
-          className="small"
-          color="inherit"
-          onClick={() => {
-            setSelectedButton('calander');
-          }}
-        >
-          Calendar
-        </Button>
-      </ButtonGroup>
+      {!isFilterOpen && (
+        <ButtonGroup variant="outlined" aria-label="Basic button group">
+          <Button
+            className="small"
+            color="inherit"
+            disabled={selectedButton === CAMPAIGNS_CONSTANTS?.TASKS}
+            onClick={() => {
+              setSelectedButton(CAMPAIGNS_CONSTANTS?.TASKS);
+            }}
+          >
+            Task
+          </Button>
+          <Button
+            className="small"
+            color="inherit"
+            disabled={selectedButton === CAMPAIGNS_CONSTANTS?.COMMENTS}
+            onClick={() => {
+              setSelectedButton(CAMPAIGNS_CONSTANTS?.COMMENTS);
+            }}
+          >
+            Comments
+          </Button>
+          <Button
+            className="small"
+            color="inherit"
+            disabled={selectedButton === CAMPAIGNS_CONSTANTS?.CALENDAR}
+            onClick={() => {
+              setSelectedButton(CAMPAIGNS_CONSTANTS?.CALENDAR);
+            }}
+          >
+            Calendar
+          </Button>
+        </ButtonGroup>
+      )}
       {handleActiveButton(selectedButton)}
     </CommonDrawer>
   );

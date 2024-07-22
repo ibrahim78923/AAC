@@ -1,44 +1,37 @@
 import { DATE_FORMAT } from '@/constants';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { truncateText } from '@/utils/avatarUtils';
+import { DYNAMIC_FORM_FIELDS_TYPES } from '@/utils/dynamic-forms';
 import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
-export const overviewData = (purchaseOrderData: any) => [
-  {
-    id: purchaseOrderData?._id,
-    heading: 'Purchase Details',
-    detailsData: [
-      {
-        name: 'Vendor',
-        detail: purchaseOrderData?.vendorDetails?.name ?? '---',
-      },
-      { name: 'Details', detail: purchaseOrderData?.orderName ?? '---' },
-      { name: 'Currency', detail: purchaseOrderData?.currency ?? '---' },
-      {
-        name: 'Department',
-        detail: purchaseOrderData?.departmentDetails?.name ?? '---',
-      },
-      {
-        name: 'Expected delivery date',
-        detail:
-          dayjs(purchaseOrderData?.expectedDeliveryDate)?.format(
-            DATE_FORMAT?.UI,
-          ) ?? '---',
-      },
-      {
-        name: 'Location',
-        detail: purchaseOrderData?.locationDetails?.locationName ?? '---',
-      },
-      {
-        name: 'Terms and conditions',
-        detail:
-          `${purchaseOrderData?.termAndCondition?.slice?.(0, 29)} ... ` ??
-          '---',
-      },
-    ],
-  },
-];
+export const overviewDataArray = (purchaseOrderData: any) => {
+  const predefinedFields = {
+    Vendor: purchaseOrderData?.vendorDetails?.name ?? '---',
+    Details: purchaseOrderData?.orderName ?? '---',
+    Currency: purchaseOrderData?.currency ?? '---',
+    Department: purchaseOrderData?.departmentDetails?.name ?? '---',
+    'Expected Delivery Date':
+      dayjs(purchaseOrderData?.expectedDeliveryDate)?.format(DATE_FORMAT?.UI) ??
+      '---',
+    Location: purchaseOrderData?.locationDetails?.locationName ?? '---',
+    'Terms and conditions':
+      truncateText(purchaseOrderData?.termAndCondition) ?? '---',
+  };
+
+  const customFields =
+    purchaseOrderData?.customFields &&
+    typeof purchaseOrderData?.customFields === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT
+      ? Object?.keys(purchaseOrderData?.customFields)?.reduce(
+          (acc: any, key: any) => {
+            acc[key] = purchaseOrderData?.customFields[key] ?? '---';
+            return acc;
+          },
+          {},
+        )
+      : {};
+  return { ...predefinedFields, ...customFields };
+};
 
 export const overviewTableColumns: any = (
   handleRowClick: any,

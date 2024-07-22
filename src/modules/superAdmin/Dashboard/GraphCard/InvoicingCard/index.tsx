@@ -4,8 +4,10 @@ import { Box, Typography, Grid } from '@mui/material';
 import useInvoicingCard from './useInvoicingCard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { v4 as uuidv4 } from 'uuid';
+import { InvoicingCardPropsI } from '@/modules/superAdmin/Dashboard/Dashboard-interface';
+import { TICKETS_STATE } from '@/constants/strings';
 
-const InvoicingCard = ({ details, isLoading }: any) => {
+const InvoicingCard = ({ details, isLoading }: InvoicingCardPropsI) => {
   const { options, theme, invoiceHeadings, invoiceAmount } =
     useInvoicingCard(details);
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
@@ -59,13 +61,13 @@ const InvoicingCard = ({ details, isLoading }: any) => {
                             variant="h6"
                             sx={{
                               color:
-                                item?._id === 'PAID'
+                                item?._id === TICKETS_STATE.PAID
                                   ? theme?.palette?.success?.main
-                                  : item?._id === 'PENDING'
-                                    ? theme?.palette?.custom?.bright
-                                    : item?._id === 'OVERDUE'
-                                      ? theme.palette.error?.main
-                                      : theme?.palette?.text?.primary,
+                                  : item?._id === TICKETS_STATE?.PENDING
+                                  ? theme?.palette?.custom?.bright
+                                  : item?._id === TICKETS_STATE?.OVERDUES
+                                  ? theme.palette.error?.main
+                                  : theme?.palette?.text?.primary,
                             }}
                           >
                             {invoiceAmount({

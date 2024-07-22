@@ -1,41 +1,72 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  submissionsDefaultValues,
-  submissionsValidationSchema,
-} from './Submissions.data';
 import { useTheme } from '@mui/material';
+import { useGetFormSubmissionsQuery } from '@/services/airMarketer/lead-capture/forms';
+import { PAGINATION } from '@/config';
 
-const useSubmissions = () => {
-  const [isFIlterDraweropen, setIsFIlterDraweropen] = useState(false);
-  const [searchByClientName, setSearchByClientName] = useState('');
+const useSubmissions = (formId: string) => {
   const theme = useTheme();
-  const handleCloseDrawer = () => {
-    setIsFIlterDraweropen(false);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [searchValue, setSearchValue] = useState(null);
+  const [filterParams, setFilterParams] = useState({});
+  const paginationParams = {
+    page: page,
+    limit: pageLimit,
   };
-  const submissionsMethods = useForm({
-    resolver: yupResolver(submissionsValidationSchema),
-    defaultValues: submissionsDefaultValues,
+
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+  const methodsFilter: any = useForm();
+  const { handleSubmit: handleMethodFilter, reset: resetFilters } =
+    methodsFilter;
+  const {
+    data: dataGetFormSubmissions,
+    isLoading: loadingFormSubmissions,
+    isFetching: fetchingFormSubmissions,
+  } = useGetFormSubmissionsQuery({
+    id: formId,
+    params: {
+      ...filterParams,
+      ...searchPayLoad,
+      ...paginationParams,
+    },
   });
 
-  const { handleSubmit, reset } = submissionsMethods;
-
-  const onSubmit = () => {
-    setIsFIlterDraweropen(false);
-    reset();
+  // Filters
+  const [openFilters, setOpenFilters] = useState(false);
+  const handleOpenFilters = () => {
+    setOpenFilters(true);
+  };
+  const handleCloseFilters = () => {
+    setOpenFilters(false);
+    resetFilters();
   };
 
+  const onSubmitFilters = async (values: any) => {
+    setFilterParams((prev: any) => ({
+      ...prev,
+      ...values,
+    }));
+    handleCloseFilters();
+  };
+  const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
+
   return {
-    setIsFIlterDraweropen,
-    isFIlterDraweropen,
-    handleCloseDrawer,
-    handleSubmit,
-    onSubmit,
-    submissionsMethods,
-    searchByClientName,
-    setSearchByClientName,
     theme,
+    setPageLimit,
+    setPage,
+    setSearchValue,
+    dataGetFormSubmissions,
+    loadingFormSubmissions,
+    fetchingFormSubmissions,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
   };
 };
 

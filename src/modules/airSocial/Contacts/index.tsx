@@ -54,7 +54,8 @@ const Contacts = () => {
     isCreateViewOpen,
     handleOpenCreateView,
     handleCloseCreateView,
-
+    handleChangeSharedWith,
+    sharedWithvalue,
     isCustomize,
     setIsCustomize,
     columnsData,
@@ -111,7 +112,12 @@ const Contacts = () => {
         />
       </Box>
 
-      <CreateView open={isCreateViewOpen} onClose={handleCloseCreateView} />
+      <CreateView
+        open={isCreateViewOpen}
+        onClose={handleCloseCreateView}
+        sharedWithvalue={sharedWithvalue}
+        changeRadio={handleChangeSharedWith}
+      />
 
       <ContactsCustomize
         columns={selecttedColumns}

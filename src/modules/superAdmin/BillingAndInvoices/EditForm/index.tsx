@@ -1,4 +1,4 @@
-import { Grid, Box, Button, Typography } from '@mui/material';
+import { Grid, Box, Button, Typography, useTheme } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -7,6 +7,12 @@ import { assignPlanData } from './EditForm.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import useEditForm from './useEditForm';
+import { productSuiteName } from '@/constants';
+import {
+  AssignPlanDataItemI,
+  AssignPlanDataItemOptionI,
+  EditFormPropsI,
+} from './editForm.interface';
 
 export default function EditForm({
   isOpenDrawer,
@@ -15,7 +21,7 @@ export default function EditForm({
   isGetRowValues,
   setIsGetRowValues,
   setIsChecked,
-}: any) {
+}: EditFormPropsI) {
   const {
     selectProductSuite,
     setSelectProductSuite,
@@ -35,6 +41,8 @@ export default function EditForm({
     setIsGetRowValues,
     setIsChecked,
   );
+
+  const theme = useTheme();
 
   return (
     <CommonDrawer
@@ -59,7 +67,7 @@ export default function EditForm({
               isEditModal,
               isStoragePrice,
               isUserPrice,
-            )?.map((item: any, index: any) => (
+            )?.map((item: AssignPlanDataItemI, index: number) => (
               <Grid
                 item
                 xs={12}
@@ -73,7 +81,7 @@ export default function EditForm({
               >
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
+                    item?.options?.map((option: AssignPlanDataItemOptionI) => (
                       <option key={option?.value} value={option?.value}>
                         {option?.label}
                       </option>
@@ -85,14 +93,18 @@ export default function EditForm({
                       position: 'absolute',
                       top: 10,
                       right: 0,
-                      background: '#E5E7EB',
+                      background: theme?.palette?.grey[700],
                       borderRadius: '10px',
                     }}
                   >
                     <Button
-                      onClick={() => setSelectProductSuite('product')}
+                      onClick={() =>
+                        setSelectProductSuite(productSuiteName?.product)
+                      }
                       variant={`${
-                        selectProductSuite === 'product' ? 'contained' : 'text'
+                        selectProductSuite === productSuiteName?.product
+                          ? 'contained'
+                          : 'text'
                       }`}
                       sx={{
                         height: '25px',
@@ -104,9 +116,13 @@ export default function EditForm({
                       <Typography variant="body3">Product</Typography>{' '}
                     </Button>
                     <Button
-                      onClick={() => setSelectProductSuite('CRM')}
+                      onClick={() =>
+                        setSelectProductSuite(productSuiteName?.crm)
+                      }
                       variant={`${
-                        selectProductSuite === 'CRM' ? 'contained' : 'text'
+                        selectProductSuite === productSuiteName?.crm
+                          ? 'contained'
+                          : 'text'
                       }`}
                       sx={{
                         height: '25px',

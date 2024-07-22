@@ -2,25 +2,27 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns, submissionsArray } from './Submissions.data';
 import Search from '@/components/Search';
 import { Box, Button, Divider, Grid } from '@mui/material';
-import { SubmissionsTableData } from '@/mock/modules/airMarketer/LeadCapture/Forms';
 import { ExportSubmissionIcon, FilterSubmissionsIcon } from '@/assets/icons';
 import useSubmissions from './useSubmissions';
 import CommonDrawer from '@/components/CommonDrawer';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
 
-const Submissions = () => {
+const Submissions = ({ formId }: any) => {
   const {
-    setIsFIlterDraweropen,
-    isFIlterDraweropen,
-    handleCloseDrawer,
-    handleSubmit,
-    onSubmit,
-    submissionsMethods,
-    searchByClientName,
-    setSearchByClientName,
     theme,
-  } = useSubmissions();
+    setPageLimit,
+    setPage,
+    setSearchValue,
+    dataGetFormSubmissions,
+    loadingFormSubmissions,
+    fetchingFormSubmissions,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
+  } = useSubmissions(formId);
 
   return (
     <Box
@@ -35,9 +37,8 @@ const Submissions = () => {
         justifyContent={'space-between'}
       >
         <Search
-          searchBy={searchByClientName}
-          setSearchBy={setSearchByClientName}
-          label="Search Here"
+          setSearchBy={setSearchValue}
+          label="Search Heresa"
           size="small"
           sx={{ margin: '15px' }}
         />
@@ -48,7 +49,7 @@ const Submissions = () => {
             color="inherit"
             className="small"
             startIcon={<FilterSubmissionsIcon />}
-            onClick={() => setIsFIlterDraweropen(true)}
+            onClick={handleOpenFilters}
           >
             Filters
           </Button>
@@ -67,21 +68,29 @@ const Submissions = () => {
       <Divider sx={{ marginBottom: '15px' }} />
       <TanstackTable
         columns={columns()}
-        data={SubmissionsTableData}
+        data={dataGetFormSubmissions?.data?.leadcapturesubmissions}
+        isLoading={fetchingFormSubmissions || loadingFormSubmissions}
+        currentPage={dataGetFormSubmissions?.data?.meta?.page}
+        count={dataGetFormSubmissions?.data?.meta?.pages}
+        pageLimit={dataGetFormSubmissions?.data?.meta?.limit}
+        totalRecords={dataGetFormSubmissions?.data?.meta?.total}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        onPageChange={(page: any) => setPage(page)}
         isPagination
       />
 
       <CommonDrawer
-        isDrawerOpen={isFIlterDraweropen}
-        onClose={handleCloseDrawer}
+        isDrawerOpen={openFilters}
+        onClose={handleCloseFilters}
         title={'Filters'}
         okText={'Done'}
         footer={true}
         isOk={true}
-        submitHandler={handleSubmit(onSubmit)}
+        submitHandler={handleFiltersSubmit}
       >
         <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={submissionsMethods}>
+          <FormProvider methods={methodsFilter}>
             <Grid container spacing={4}>
               {submissionsArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>

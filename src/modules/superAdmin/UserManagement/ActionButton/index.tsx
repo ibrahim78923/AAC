@@ -7,8 +7,9 @@ import {
   SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS,
 } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ActionButtonProps } from '@/modules/superAdmin/UserManagement/useManagement-interface';
 
-const ActionButton = (props?: any) => {
+const ActionButton = (props: ActionButtonProps) => {
   const { checkedRows, tabVal, setIsOpenAddUserDrawer } = props;
   const {
     selectedValue,
@@ -16,10 +17,7 @@ const ActionButton = (props?: any) => {
     handleClose,
     handleUsersList,
     isOpenAddUserDrawer,
-    useGetUsersByIdQuery,
   } = useUserManagement();
-
-  const { data } = useGetUsersByIdQuery(checkedRows);
 
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
@@ -46,7 +44,7 @@ const ActionButton = (props?: any) => {
         }}
       >
         {tabVal === 0 && (
-          <MenuItem onClick={() => handleUsersList(data?.data)}>
+          <MenuItem onClick={() => handleUsersList(checkedRows)}>
             User List
           </MenuItem>
         )}
@@ -61,10 +59,9 @@ const ActionButton = (props?: any) => {
             onClick={() => {
               handleClose();
               setIsOpenAddUserDrawer({
-                ...isOpenAddUserDrawer,
                 drawer: true,
                 type: 'view',
-                data: data,
+                recordId: checkedRows,
               });
             }}
           >
@@ -83,10 +80,9 @@ const ActionButton = (props?: any) => {
             onClick={() => {
               handleClose();
               setIsOpenAddUserDrawer({
-                ...isOpenAddUserDrawer,
                 drawer: true,
                 type: 'edit',
-                data: data,
+                recordId: checkedRows,
               });
             }}
           >

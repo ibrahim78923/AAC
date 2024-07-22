@@ -313,12 +313,23 @@ export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
 
   CRAETE_GROUP: 'marketer-sms-marketing-contacts-create-group',
   CONTACTS_LIST_VIEW: 'marketer-sms-marketing-contacts-list-view',
-  CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
   SEARCH_TEMPLATE: 'marketer-sms-marketing-templates-search-and-filter',
   SAVE_TEMPLATE: 'marketer-sms-marketing-templates-save',
   EDIT_TEMPLATE: 'marketer-sms-marketing-templates-edit',
   DELETE_TEMPLATE: 'marketer-sms-marketing-templates-delete',
   TEMPLATES_LIST_VIEW: 'marketer-sms-marketing-templates-list-view',
+};
+
+export const AIR_MARKETER_SMS_MARKETING_CREATE_TEMPLATE_PERMISSIONS = {
+  CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
+};
+
+export const AIR_MARKETER_SMS_BROADCAST_CREATE_BROADCAST = {
+  CREATE_BROADCAST: 'marketer-sms-marketing-sms-broadcast-create',
+};
+
+export const AIR_MARKETER_WHATSAPP_BROADCAST_CREATE_BROADCAST = {
+  CREATE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-create-broadcast',
 };
 
 export const AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS = {
@@ -1510,4 +1521,322 @@ export const AIR_LOYALTY_PROGRAM_GIFT_CARDS_TRANSACTIONS_PERMISSIONS = {
   EXPORT: 'loyalty-program-gift-card-transaction-export',
   APPLY_FILTERS: 'loyalty-program-gift-card-transaction-apply-filters',
   SEARCH_DETAILS: 'loyalty-program-gift-card-transaction-search',
+};
+
+export const AIR_CALL_CENTER_CALL_METRICS_PERMISSION = {
+  ALL_CALLS_LIST: 'call-center-all-calls-list',
+  ALL_CALLS_SEARCH_AND_FILTER: 'call-center-all-calls-search-&-filter',
+  ALL_CALLS_EXPORT: 'call-center-all-calls-export',
+  EXPORT_CALL_SUMMARY: 'call-center-export-call-summary',
+  EXPORT_CALL_LIVE_CYCLE: 'call-center-export-call-lifecycle',
+  ALL_CALLS_CALL_DETAILS: 'call-center-all-calls-call-details',
+  CALL_DETAILS_ACTIONS_VIEW_CALL_SUMMARY:
+    'call-center-call-details-actions-view-call-summary',
+  CALL_DETAILS_ACTIONS_VIEW_CALL_LIVE_CYCLE:
+    'call-center-call-details-actions-view-call-lifecycle',
+  CALL_DETAILS_ACTIONS_VIEW_CALL_TRANSCRIPTION:
+    'call-center-call-details-actions-view-call-transcription',
+  CALL_DETAILS_ACTIONS_VIEW_CALL_NETWORK_LOG:
+    'call-center-call-details-actions-view-network-log',
+  ALL_CALLS_ACTIONS_ADD_NOTES: 'call-center-all-calls-actions-add-notes',
+  INCOMING_CALL_POP_UP: 'call-center-incoming-call-pop-up',
+  CALLS_IN_QUEUE: 'call-center-calls-in-queue',
+  CALLS_IN_QUEUE_SEARCH: 'call-center-calls-in-queue-search',
+  CALLS_IN_QUEUE_TAKE_THE_CALL: 'call-center-calls-in-queue-take-the-call',
+  CALL_IN_CONVERSATION: 'call-center-calls-in-conversation',
+  CALL_IN_CONVERSATION_SEARCH_AND_FILTER:
+    'call-center-calls-in-conversation-search-&-filter',
+  CALL_IN_CONVERSATION_CALL_TYPE: 'call-center-calls-in-conversation-call-type',
+  CALL_IN_CONVERSATION_LISTEN_CALL_DISCREETLY:
+    'call-center-calls-in-conversation-listen-call-discreetly',
+  INCOMING_CALL_QUEUES: 'call-center-incoming-call-queues',
+};
+
+export const AIR_CALL_CENTER_SETTING_CHANNELS_PHONE_NUMBER_PERMISSION = {
+  CHANNELS_PHONE_NUMBERS: 'call-center-channels-phone-numbers',
+  CHANNELS_PHONE_NUMBERS_BUY_A_NEW_NUMBER:
+    'call-center-channels-phone-numbers-buy-a-new-numbers',
+  CHANNELS_PHONE_NUMBERS_BUY_A_NEW_NUMBER_SELECT_NUMBER:
+    'call-center-channels-phone-numbers-buy-a-new-numbers-select-number',
+  CHANNELS_PHONE_NUMBERS_EDIT_PROPERTIES:
+    'call-center-channels-phone-numbers-edit-properties',
+  CHANNELS_PHONE_NUMBERS_EDIT_CALL_ACTIONS:
+    'call-center-channels-phone-numbers-edit-call-actions',
+  CHANNELS_PHONE_NUMBERS_DELETE: 'call-center-channels-phone-numbers-delete',
+};
+export const AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS = {
+  CREATE_REPORT_FROM_SCRATCH: 'operation-report-sales-create-report',
+  CREATE_REPORT_FROM_TEMPLATE: 'operation-report-sales-create-template',
+};
+export const AIR_OPERATION_REPORTS_SALES_ALL_REPORTS_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-sales-all-report-search',
+  FILTER_RECORD: 'operations-report-sales-all-report-filter',
+  RESTORE_RECORD: 'operations-report-sales-all-report-restore',
+  EXPORT_RECORD: 'operations-report-sales-all-report-export',
+  CHANGE_OWNER: 'operations-report-sales-all-report-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-sales-all-report-add-to-dashboard',
+  DELETE: 'operations-report-sales-all-report-delete',
+  MANAGE_ACCESS: 'operations-report-sales-all-report-manage-acces',
+  CUSTOMIZE: 'operations-report-sales-all-report-customize',
+  RENAME: 'operations-report-sales-all-report-rename',
+  CLONE: 'operations-report-sales-all-report-clone',
+  EMAIL_THIS_REPORT: 'operations-report-sales-all-report-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_SALES_FAVOURITES_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-sales-favourites-search',
+  FILTER_RECORD: 'operations-report-sales-favourites-filter',
+  RESTORE_RECORD: 'operations-report-sales-favourites-restore',
+  EXPORT_RECORD: 'operations-report-sales-favourites-export',
+  CHANGE_OWNER: 'operations-report-sales-favourites-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-sales-favourites-add-to-dashboard',
+  DELETE: 'operations-report-sales-favourites-delete',
+  MANAGE_ACCESS: 'operations-report-sales-favourites-manage-access',
+  CUSTOMIZE: 'operations-report-sales-favourites-customize',
+  RENAME: 'operations-report-sales-favourites-rename',
+  CLONE: 'operations-report-sales-favourites-clone',
+  EMAIL_THIS_REPORT: 'operations-report-sales-favourites-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_SALES_DASHBOARD_REPORTS_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-sales-dashboard-search',
+  FILTER_RECORD: 'operations-report-sales-dashboard-filter',
+  RESTORE_RECORD: 'operations-report-sales-dashboard-restore',
+  EXPORT_RECORD: 'operations-report-sales-dashboard-export',
+  CHANGE_OWNER: 'operations-report-sales-dashboard-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-sales-dashboard-add-to-dashboard',
+  DELETE: 'operations-report-sales-dashboard-delete',
+  MANAGE_ACCESS: 'operations-report-sales-dashboard-manage-access',
+  CUSTOMIZE: 'operations-report-sales-dashboard-customize',
+  RENAME: 'operations-report-sales-dashboard-rename',
+  CLONE: 'operations-report-sales-dashboard-clone',
+  EMAIL_THIS_REPORT: 'operations-report-sales-dashboard-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_SALES_CUSTOM_REPORTS_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-sales-custom-search',
+  FILTER_RECORD: 'operations-report-sales-custom-filter',
+  RESTORE_RECORD: 'operations-report-sales-custom-restore',
+  EXPORT_RECORD: 'operations-report-sales-custom-export',
+  CHANGE_OWNER: 'operations-report-sales-custom-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-sales-custom-add-to-dashboard',
+  DELETE: 'operations-report-sales-custom-delete',
+  MANAGE_ACCESS: 'operations-report-sales-custom-manage-access',
+  CUSTOMIZE: 'operations-report-sales-custom-customize',
+  RENAME: 'operations-report-sales-custom-rename',
+  CLONE: 'operations-report-sales-custom-clone',
+  EMAIL_THIS_REPORT: 'operations-report-sales-custom-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS = {
+  CREATE_REPORT_FROM_SCRATCH: '',
+  CREATE_REPORT_FROM_TEMPLATE: '',
+};
+
+export const AIR_OPERATION_REPORTS_SERVICES_ALL_REPORTS_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-services-all-report-search',
+  FILTER_RECORD: 'operations-report-services-all-report-filter',
+  RESTORE_RECORD: 'operations-report-services-all-report-restore',
+  EXPORT_RECORD: 'operations-report-services-all-report-export',
+  CHANGE_OWNER: 'operations-report-services-all-report-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-services-all-report-add-to-dashboard',
+  DELETE: 'operations-report-services-all-report-delete',
+  MANAGE_ACCESS: 'operations-report-services-all-report-manage-access',
+  CUSTOMIZE: 'operations-report-services-all-report-customize',
+  RENAME: 'operations-report-services-all-report-rename',
+  CLONE: 'operations-report-services-all-report-clone',
+  EMAIL_THIS_REPORT: 'operations-report-services-all-report-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_SERVICES_FAVOURITES_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-services-favourites-search',
+  FILTER_RECORD: 'operations-report-services-favourites-filter',
+  RESTORE_RECORD: 'operations-report-services-favourites-restore',
+  EXPORT_RECORD: 'operations-report-services-favourites-export',
+  CHANGE_OWNER: 'operations-report-services-favourites-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-services-favourites-add-to-dashboard',
+  DELETE: 'operations-report-services-favourites-delete',
+  MANAGE_ACCESS: 'operations-report-services-favourites-manage-access',
+  CUSTOMIZE: 'operations-report-services-favourites-customize',
+  RENAME: 'operations-report-services-favourites-rename',
+  CLONE: 'operations-report-services-favourites-clone',
+  EMAIL_THIS_REPORT: 'operations-report-services-favourites-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_SERVICES_DASHBOARD_REPORTS_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-services-dashboard-search',
+  FILTER_RECORD: 'operations-report-services-dashboard-filter',
+  RESTORE_RECORD: 'operations-report-services-dashboard-restore',
+  EXPORT_RECORD: 'operations-report-services-dashboard-export',
+  CHANGE_OWNER: 'operations-report-services-dashboard-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-services-dashboard-add-to-dashboard',
+  DELETE: 'operations-report-services-dashboard-delete',
+  MANAGE_ACCESS: 'operations-report-services-dashboard-manage-access',
+  CUSTOMIZE: 'operations-report-services-dashboard-customize',
+  RENAME: 'operations-report-services-dashboard-rename',
+  CLONE: 'operations-report-services-dashboard-clone',
+  EMAIL_THIS_REPORT: 'operations-report-services-dashboard-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_SERVICES_CUSTOM_REPORTS_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-services-custom-search',
+  FILTER_RECORD: 'operations-report-services-custom-filter',
+  RESTORE_RECORD: 'operations-report-services-custom-restore',
+  EXPORT_RECORD: 'operations-report-services-custom-export',
+  CHANGE_OWNER: 'operations-report-services-custom-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-services-custom-add-to-dashboard',
+  DELETE: 'operations-report-services-custom-delete',
+  MANAGE_ACCESS: 'operations-report-services-custom-manage-access',
+  CUSTOMIZE: 'operations-report-services-custom-customize',
+  RENAME: 'operations-report-services-custom-rename',
+  CLONE: 'operations-report-services-custom-clone',
+  EMAIL_THIS_REPORT: 'operations-report-services-custom-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS = {
+  CREATE_REPORT_FROM_SCRATCH: '',
+  CREATE_REPORT_FROM_TEMPLATE: '',
+};
+
+export const AIR_OPERATION_REPORTS_MARKETING_ALL_REPORTS_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-marketing-all-report-search',
+  FILTER_RECORD: 'operations-report-marketing-all-report-filter',
+  RESTORE_RECORD: 'operations-report-marketing-all-report-restore',
+  EXPORT_RECORD: 'operations-report-marketing-all-report-export',
+  CHANGE_OWNER: 'operations-report-marketing-all-report-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-marketing-all-report-add-to-dashboard',
+  DELETE: 'operations-report-marketing-all-report-delete',
+  MANAGE_ACCESS: 'operations-report-marketing-all-report-manage-access',
+  CUSTOMIZE: 'operations-report-marketing-all-report-customize',
+  RENAME: 'operations-report-marketing-all-report-rename',
+  CLONE: 'operations-report-marketing-all-report-clone',
+  EMAIL_THIS_REPORT: 'operations-report-marketing-all-report-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_MARKETING_FAVOURITES_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-marketing-favourites-search',
+  FILTER_RECORD: 'operations-report-marketing-favourites-filter',
+  RESTORE_RECORD: 'operations-report-marketing-favourites-restore',
+  EXPORT_RECORD: 'operations-report-marketing-favourites-export',
+  CHANGE_OWNER: 'operations-report-marketing-favourites-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-marketing-favourites-add-to-dashboard',
+  DELETE: 'operations-report-marketing-favourites-delete',
+  MANAGE_ACCESS: 'operations-report-marketing-favourites-manage-access',
+  CUSTOMIZE: 'operations-report-marketing-favourites-customize',
+  RENAME: 'operations-report-marketing-favourites-rename',
+  CLONE: 'operations-report-marketing-favourites-clone',
+  EMAIL_THIS_REPORT: 'operations-report-marketing-favourites-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_MARKETING_DASHBOARD_REPORTS_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-marketing-dashboard-search',
+  FILTER_RECORD: 'operations-report-marketing-dashboard-filter',
+  RESTORE_RECORD: 'operations-report-marketing-dashboard-restore',
+  EXPORT_RECORD: 'operations-report-marketing-dashboard-export',
+  CHANGE_OWNER: 'operations-report-marketing-dashboard-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-marketing-dashboard-add-to-dashboard',
+  DELETE: 'operations-report-marketing-dashboard-delete',
+  MANAGE_ACCESS: 'operations-report-marketing-dashboard-manage-access',
+  CUSTOMIZE: 'operations-report-marketing-dashboard-customize',
+  RENAME: 'operations-report-marketing-dashboard-rename',
+  CLONE: 'operations-report-marketing-dashboard-clone',
+  EMAIL_THIS_REPORT: 'operations-report-marketing-dashboard-email-this-report',
+};
+
+export const AIR_OPERATION_REPORTS_MARKETING_CUSTOM_REPORTS_PERMISSIONS = {
+  SEARCH_RECORD: 'operations-report-marketing-custom-search',
+  FILTER_RECORD: 'operations-report-marketing-custom-filter',
+  RESTORE_RECORD: 'operations-report-marketing-custom-restore',
+  EXPORT_RECORD: 'operations-report-marketing-custom-export',
+  CHANGE_OWNER: 'operations-report-marketing-custom-change-owner',
+  ADD_TO_DASHBOARD: 'operations-report-marketing-custom-add-to-dashboard',
+  DELETE: 'operations-report-marketing-custom-delete',
+  MANAGE_ACCESS: 'operations-report-marketing-custom-manage-access',
+  CUSTOMIZE: 'operations-report-marketing-custom-customize',
+  RENAME: 'operations-report-marketing-custom-rename',
+  CLONE: 'operations-report-marketing-custom-clone',
+  EMAIL_THIS_REPORT: 'operations-report-marketing-custom-email-this-report',
+};
+
+export const AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS = {
+  CUSTOMER_SUPPORT_SURVEY_LIST_VIEW:
+    'services-customer-support-survey-list-view',
+  CUSTOMER_SUPPORT_SURVEY_ADD: 'services-customer-support-survey-add',
+  CUSTOMER_SUPPORT_SURVEY_CLONE: 'services-customer-support-survey-clone',
+  CUSTOMER_SUPPORT_SURVEY_VIEW: 'services-customer-support-survey-view',
+  CUSTOMER_SUPPORT_SURVEY_EDIT: 'services-customer-support-survey-edit',
+  CUSTOMER_SUPPORT_SURVEY_DELETE: 'services-customer-support-survey-delete',
+  CUSTOMER_SUPPORT_SURVEY_VIEW_RESPONSE:
+    'services-customer-support-survey-view-response',
+  CUSTOMER_SATISFACTION_SURVEY_LIST_VIEW:
+    'services-customer-satisfaction-survey-list-view',
+  CUSTOMER_SATISFACTION_SURVEY_ADD: 'services-customer-satisfaction-survey-add',
+  CUSTOMER_SATISFACTION_SURVEY_CLONE:
+    'services-customer-satisfaction-survey-clone',
+  CUSTOMER_SATISFACTION_SURVEY_VIEW:
+    'services-customer-satisfaction-survey-view',
+  CUSTOMER_SATISFACTION_SURVEY_EDIT:
+    'services-customer-satisfaction-survey-edit',
+  CUSTOMER_SATISFACTION_SURVEY_DELETE:
+    'services-customer-satisfaction-survey-delete',
+  CUSTOMER_SATISFACTION_SURVEY_VIEW_RESPONSE:
+    'services-customer-satisfaction-survey-view-response',
+};
+export const AIR_CALL_CENTER_SETTING_GENERAL_SETTING_PERMISSIONS = {
+  BUSINESS_HOURS_LIST: 'call-center-general-settings-business-hours-list',
+  ADD_BUSINESS_HOURS: 'call-center-general-settings-add-business-hours',
+  EDIT_BUSINESS_HOURS: 'call-center-general-settings-edit-business-hours',
+  AGENT_STATUSES: 'call-center-agent-statuses',
+};
+export const AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS = {
+  ADD_USER: 'call-center-user-manamegment-users-add-users',
+  USER_GRID_VIEW: 'call-center-user-management-users-grid-view',
+  CREATE_TEAMS: 'call-center-user-management-teams-create-team',
+  TEAM_GRID_VIEW: 'call-center-user-management-teams-grid-view',
+  TEAMS_ACTION: 'call-center-user-management-teams-actions-',
+};
+
+export const AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS = {
+  VIEW: 'services-reports-tickets-view',
+  DOWNLOAD: 'services-reports-tickets-download',
+  FILTER: 'services-reports-tickets-filter',
+};
+
+export const AIR_SERVICES_REPORTS_INVENTORY_PERMISSIONS = {
+  VIEW: 'services-reports-inventory-view',
+  DOWNLOAD: 'services-reports-inventory-download',
+  FILTER: 'services-reports-inventory-filter',
+};
+export const AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS = {
+  VIEW: 'services-reports-software-view',
+  DOWNLOAD: 'services-reports-software-download',
+  FILTER: 'services-reports-software-filter',
+};
+export const AIR_SERVICES_REPORTS_PURCHASE_ORDER_PERMISSIONS = {
+  VIEW: 'services-reports-purchase-order-view',
+  DOWNLOAD: 'services-reports-purchase-order-download',
+  FILTER: 'services-reports-purchase-order-filter',
+};
+
+export const AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS = {
+  VIEW: 'services-reports-contract-view',
+  DOWNLOAD: 'services-reports-contract-download',
+  FILTER: 'services-reports-contract-filter',
+};
+
+export const AIR_LOYALTY_PROGRAM_ROLES_AND_RIGHT_PERMISSIONS = {
+  SEARCH_RECORD: 'loyalty-program-roles-and-right-search-record',
+  EDIT_ROLE: 'loyalty-program-roles-and-right-edit-role',
+  VIEW_ROLE: 'loyalty-program-roles-and-right-view-role',
+  DELETE_ROLE: `loyalty-program-roles-and-right-delete-role`,
+  ADD_ROLE: `loyalty-program-roles-and-right-add-role`,
+};
+
+export const AIR_LOYALTY_PROGRAM_USER_MANAGEMENT_USERS_PERMISSIONS = {
+  USER_LIST: `loyalty-program-user-managment-user-list`,
+  SEARCH_RECORD: 'loyalty-program-user-managment-search-record',
+  ACTIVE_INACTIVE_USER: 'loyalty-program-user-managment-active-inactive-user',
+  VIEW_USER_DETAIL: 'loyalty-program-user-managment-view-user-detail',
+  EDIT_USER: `loyalty-program-user-managment-edit-user`,
+  DELETE_USER: `loyalty-program-user-managment-delete-user`,
 };

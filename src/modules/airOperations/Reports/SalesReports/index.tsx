@@ -1,23 +1,11 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_OPERATIONS } from '@/constants';
 import { useSalesReports } from './useSalesReports';
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { ReportLists } from '../ReportLists';
+import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
+import { AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SalesReports = () => {
-  const {
-    router,
-    apiQueryAllReports,
-    apiQueryFavoriteReports,
-    apiQueryDashboardReports,
-    apiQueryCustomReports,
-    restoreReportsPath,
-    exportApiQueryCustomReports,
-    exportApiQueryAllReports,
-    exportApiQueryFavoriteReports,
-    exportApiQueryDashboardReports,
-    editReportPath,
-  } = useSalesReports();
+  const { router, salesReportsListTabs } = useSalesReports();
 
   return (
     <>
@@ -31,40 +19,12 @@ export const SalesReports = () => {
         handleAction={() => {
           router?.push(AIR_OPERATIONS?.UPSERT_SALES_REPORTS);
         }}
-      />
-      <HorizontalTabs
-        tabsDataArray={[
-          'All Reports',
-          'Favorite',
-          'Dashboard Reports',
-          'Custom Report',
+        createPermissionKey={[
+          AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
+          AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,
         ]}
-      >
-        <ReportLists
-          apiQuery={apiQueryAllReports}
-          onRestoreClick={() => restoreReportsPath?.()}
-          editReportPath={(id: any) => editReportPath?.(id)}
-          exportApiQuery={exportApiQueryAllReports}
-        />
-        <ReportLists
-          apiQuery={apiQueryFavoriteReports}
-          onRestoreClick={() => restoreReportsPath?.()}
-          editReportPath={(id: any) => editReportPath?.(id)}
-          exportApiQuery={exportApiQueryFavoriteReports}
-        />
-        <ReportLists
-          apiQuery={apiQueryDashboardReports}
-          onRestoreClick={() => restoreReportsPath?.()}
-          editReportPath={(id: any) => editReportPath?.(id)}
-          exportApiQuery={exportApiQueryDashboardReports}
-        />
-        <ReportLists
-          apiQuery={apiQueryCustomReports}
-          onRestoreClick={() => restoreReportsPath?.()}
-          editReportPath={(id: any) => editReportPath?.(id)}
-          exportApiQuery={exportApiQueryCustomReports}
-        />
-      </HorizontalTabs>
+      />
+      <PermissionsTabs spacing={0.3} tabsDataArray={salesReportsListTabs} />
     </>
   );
 };

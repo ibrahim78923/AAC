@@ -5,10 +5,11 @@ import { options, series } from './ProductWiseGraph.data';
 import { useTheme } from '@mui/material/styles';
 import useUserReports from '../useUserReports';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { ProductWiseGraphProps } from '../../Reports.interface';
 
-const ProductWiseGrpah = (props: any) => {
-  const { usersReportsGraphData } = props;
-  const graphData = usersReportsGraphData?.data;
+const ProductWiseGrpah = (props: ProductWiseGraphProps) => {
+  const { usersReportsGraphData }: any = props;
+
   const { isLoading } = useUserReports();
 
   const theme = useTheme();
@@ -32,8 +33,8 @@ const ProductWiseGrpah = (props: any) => {
           <SkeletonTable />
         ) : (
           <ReactApexChart
-            options={options}
-            series={series(graphData)}
+            options={options(theme, usersReportsGraphData)}
+            series={series(usersReportsGraphData)}
             type="bar"
             height={350}
           />

@@ -1,8 +1,7 @@
 import { UserAvatarImage } from '@/assets/images';
+import { UseUploadLogoProps } from '../../UsesDetailList-interface';
 
-const useUploadLogo = (companyImg: any, setCompanyImg: any) => {
-  // const { companyImg, setCompanyImg } = props;
-
+const useUploadLogo = ({ companyImg, setCompanyImg }: UseUploadLogoProps) => {
   const handleChangeImg = (e: any) => {
     if (e?.target?.files?.length) {
       setCompanyImg(e?.target?.files[0]);

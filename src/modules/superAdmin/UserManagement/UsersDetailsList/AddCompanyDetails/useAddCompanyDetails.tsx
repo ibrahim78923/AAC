@@ -7,9 +7,9 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 
 const useAddCompanyDetails = (
-  organizationId: any,
+  organizationId: string,
   setISOpenCompanyDrawer: any,
-  isToggled: any,
+  isToggled: boolean,
 ) => {
   const theme = useTheme();
   const { usePostCompanyMutation } = userListApi;

@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import {
   placeRequest,
   placeRequestDefaultValues,
@@ -18,10 +18,13 @@ import {
   TICKET_TYPE,
 } from '@/constants/strings';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { useEffect } from 'react';
 
 const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
   const router = useRouter();
+
   const { serviceId } = router?.query;
+
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const CategoryType =
     servicesDetails?.data?.categoryDetails?.categoryName ||
@@ -35,7 +38,8 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
     ),
     defaultValues: placeRequestDefaultValues,
   });
-  const { handleSubmit, getValues, control, watch, reset } = methodRequest;
+
+  const { handleSubmit, getValues, control, reset, setValue } = methodRequest;
 
   const onSubmitRequest = async (data: any) => {
     const addItemToDescription =
@@ -66,25 +70,36 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
       router?.push({
         pathname: AIR_CUSTOMER_PORTAL?.TICKETS,
       });
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
   const handleClose = () => {
-    methodRequest?.reset();
+    reset();
     setOpen(false);
   };
-  const requestForSomeOne = watch('requestForSomeOneElse');
+
+  const requestForSomeOne = useWatch({
+    control,
+    name: 'requestForSomeOneElse',
+    defaultValue: false,
+  });
+
+  useEffect(() => {
+    if (requestForSomeOne) {
+      setValue('requestor', null);
+    }
+  }, [requestForSomeOne]);
 
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
 
   const CatalogRequestFormField = placeRequest(
     apiQueryRequester,
-    router,
     searchStringLowerCase,
     requestForSomeOne,
   );
+
   return {
     methodRequest,
     handleSubmit,

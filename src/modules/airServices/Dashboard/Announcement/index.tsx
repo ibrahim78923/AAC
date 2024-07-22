@@ -1,89 +1,70 @@
 import { ViewDetailSharedIcon } from '@/assets/icons';
 import { Box, Typography, IconButton, Button } from '@mui/material';
-import { useAnnouncementHeader } from './useAnnouncement';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import ApiErrorState from '@/components/ApiErrorState';
+import { useAnnouncement } from './useAnnouncement';
 import { Fragment } from 'react';
 import { AnnouncementCard } from './AnnouncementCard';
 import NoData from '@/components/NoData';
-import AddAnnouncement from './AddAnnouncement';
-import { AnnouncementList } from './AnnouncementList';
 
-export const Announcement = () => {
-  const {
-    data,
-    isLoading,
-    isFetching,
-    isError,
-    openDrawer,
-    setDrawerOpen,
-    setPageLimit,
-    setPage,
-    onClose,
-    openAddAnnouncementDrawer,
-    setOpenAddAnnouncementDrawer,
-  } = useAnnouncementHeader();
+export const Announcement = (props: any) => {
+  const { data, isPreviewMode } = props;
+  const { renderPortalComponent, isPortalOpen, setIsPortalOpen } =
+    useAnnouncement();
 
   return (
     <>
       <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        flexWrap={'wrap'}
-        p={2}
-        borderBottom={'1px solid'}
-        color="custom.off_white"
+        borderRadius={3}
+        border={`1px solid`}
+        borderColor="custom.off_white"
+        height="100%"
       >
-        <Typography variant="h5" color="slateBlue.main">
-          Announcements
-        </Typography>
-        <IconButton onClick={() => setOpenAddAnnouncementDrawer(true)}>
-          <ViewDetailSharedIcon />
-        </IconButton>
-      </Box>
-      <Box height={'30vh'} overflow={'auto'}>
-        {isLoading || isFetching ? (
-          <SkeletonForm />
-        ) : isError ? (
-          <ApiErrorState height={'100%'} />
-        ) : (
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          flexWrap={'wrap'}
+          p={2}
+          borderBottom={'1px solid'}
+          color="custom.off_white"
+        >
+          <Typography variant="h5" color="slateBlue.main">
+            Announcements
+          </Typography>
+          <IconButton
+            disabled={isPreviewMode}
+            onClick={() => setIsPortalOpen({ isOpen: true, isAdd: true })}
+          >
+            <ViewDetailSharedIcon />
+          </IconButton>
+        </Box>
+        <Box height={'30vh'} overflow={'auto'}>
           <Box my="0.75rem">
-            {!!data?.annoucements?.length ? (
-              data?.annoucements?.map((announcement: any, index: number) => (
-                <Fragment key={announcement?._id}>
-                  <AnnouncementCard data={announcement} index={index} />
-                </Fragment>
-              ))
+            {!!data?.announcements?.annoucements?.length ? (
+              data?.announcements?.annoucements?.map(
+                (announcement: any, index: number) => (
+                  <Fragment key={announcement?._id}>
+                    <AnnouncementCard data={announcement} index={index} />
+                  </Fragment>
+                ),
+              )
             ) : (
               <NoData height={'100%'} />
             )}
           </Box>
-        )}
+          {/* )} */}
+        </Box>
+        <Box textAlign={'center'}>
+          <Button
+            variant="text"
+            disabled={isPreviewMode}
+            fullWidth
+            onClick={() => setIsPortalOpen({ isOpen: true, isView: true })}
+          >
+            View All
+          </Button>
+        </Box>
       </Box>
-      <Box textAlign={'center'}>
-        <Button variant="text" fullWidth onClick={() => setDrawerOpen(true)}>
-          View All
-        </Button>
-      </Box>
-      {openAddAnnouncementDrawer && (
-        <AddAnnouncement
-          isDrawerOpen={openAddAnnouncementDrawer}
-          setIsDrawerOpen={setOpenAddAnnouncementDrawer}
-        />
-      )}
-      {openDrawer && (
-        <AnnouncementList
-          isDrawerOpen={openDrawer}
-          onClose={() => onClose?.()}
-          data={data}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          isError={isError}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-      )}
+      {isPortalOpen?.isOpen && renderPortalComponent?.()}
     </>
   );
 };

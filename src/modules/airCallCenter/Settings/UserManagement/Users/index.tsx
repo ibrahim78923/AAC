@@ -8,6 +8,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns, usersMockData } from './Users.data';
 import EditUser from './EditUser';
 import { AlertModals } from '@/components/AlertModals';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 const Users = (props: any) => {
   const {
@@ -86,18 +88,23 @@ const Users = (props: any) => {
             </Menu>
           </Box>
         </Box>
-
-        <TanstackTable
-          columns={getColumns}
-          data={usersMockData}
-          // isLoading={loadingJobPosting}
-          isPagination
-          // count={jopPostingData?.data?.meta?.pages}
-          // totalRecords={jopPostingData?.data?.meta?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_CALL_CENTER_USER_MANAGEMENT_PERMISSIONS?.USER_GRID_VIEW,
+          ]}
+        >
+          <TanstackTable
+            columns={getColumns}
+            data={usersMockData}
+            // isLoading={loadingJobPosting}
+            isPagination
+            // count={jopPostingData?.data?.meta?.pages}
+            // totalRecords={jopPostingData?.data?.meta?.total}
+            onPageChange={handlePageChange}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </PermissionsGuard>
       </Box>
 
       <EditUser

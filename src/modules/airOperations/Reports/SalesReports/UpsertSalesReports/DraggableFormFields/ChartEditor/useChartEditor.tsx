@@ -1,12 +1,8 @@
-import { CHARTS, REPORT_TYPE } from '@/constants/strings';
+import { REPORT_TYPE } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useState } from 'react';
-import {
-  dealsMetrics,
-  pipelineMetrics,
-  forecastMetrics,
-} from './ChartEditor.data';
+import { useLazyDealsDropdownQuery } from '@/services/airOperations/reports/sales-reports/upsert-sales-reports';
 export const useChartEditor = (props: any) => {
   const {
     setFieldData,
@@ -17,29 +13,15 @@ export const useChartEditor = (props: any) => {
     setForm,
     metricType,
     xAxisData,
-    yAxisData,
-    chartMetricType,
     chartType,
     subFilter,
     setDraggedItemData,
-    setChartMetricType,
+    xAxisType,
+    draggedItemData,
   } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
-
-  const getDropdownOptions = () => {
-    switch (metricType) {
-      case REPORT_TYPE?.DEALS:
-        return dealsMetrics(setChartMetricType);
-      case REPORT_TYPE?.PIPELINE_FORECAST:
-        return pipelineMetrics(setChartMetricType);
-      case REPORT_TYPE?.FORECAST_CATEGORY:
-        return forecastMetrics(setChartMetricType);
-      default:
-        return [];
-    }
-  };
-  const dropdownOptions = getDropdownOptions();
+  const xAxesTypeIds = xAxisType?.map((item: any) => item?._id);
 
   const handleSave = () => {
     const uniqueId = generateUniqueId();
@@ -47,13 +29,13 @@ export const useChartEditor = (props: any) => {
       ...form,
       {
         id: uniqueId,
-        component: chartType,
         title: chartTitle,
-        type: REPORT_TYPE?.CHART,
+        reportType: REPORT_TYPE?.CHART,
+        type: chartType,
+        templateType: draggedItemData ? draggedItemData?.type : false,
         metric: metricType,
-        xAxis: chartType === CHARTS?.BAR_CHART ? xAxisData : null,
-        yAxis: chartType === CHARTS?.BAR_CHART ? yAxisData : null,
-        chartMetric: chartType != CHARTS?.BAR_CHART ? chartMetricType : null,
+        xAxis: xAxisData,
+        xAxisType: xAxisData?.ref ? xAxesTypeIds : null,
         subFilter: subFilter,
       },
     ]);
@@ -71,12 +53,28 @@ export const useChartEditor = (props: any) => {
     successSnackbar('Chart Added');
   };
 
+  const dealsDropdown = useLazyDealsDropdownQuery();
+
+  const xAxesFields = {
+    DEALS_PIPELINE_ID: 'deals_dealPipelineId',
+  };
+
+  const getSingleFieldDropdown = () => {
+    switch (xAxisData?.value) {
+      case xAxesFields?.DEALS_PIPELINE_ID:
+        return dealsDropdown;
+      default:
+        return [];
+    }
+  };
+  const singleFieldDropdown = getSingleFieldDropdown();
+
   return {
     handleSave,
     edit,
     setEdit,
     editValue,
     setEditValue,
-    dropdownOptions,
+    singleFieldDropdown,
   };
 };

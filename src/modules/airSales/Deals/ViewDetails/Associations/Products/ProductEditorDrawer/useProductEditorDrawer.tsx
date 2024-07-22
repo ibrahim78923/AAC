@@ -8,7 +8,8 @@ import {
 import { usePostSalesProductMutation } from '@/services/airSales/deals/settings/sales-product';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
+import { ASSOCIATIONS_API_PARAMS_FOR } from '@/constants';
+import { usePostAssociationCompaniesMutation } from '@/services/commonFeatures/companies';
 
 const useProductsEditorDrawer = ({
   selectedProduct,
@@ -18,7 +19,8 @@ const useProductsEditorDrawer = ({
 }: any) => {
   const [postSalesProduct, { isLoading: addProductLoading }] =
     usePostSalesProductMutation();
-  const [createAssociation] = useCreateAssociationMutation();
+  const [postAssociation, { isLoading: postAssociationLoading }] =
+    usePostAssociationCompaniesMutation();
 
   const methodsProducts = useForm({
     resolver: yupResolver<any>(productsValidationSchema),
@@ -34,6 +36,7 @@ const useProductsEditorDrawer = ({
           unitPrice,
           file,
         } = selectedProduct;
+
         return {
           name,
           sku,
@@ -54,7 +57,7 @@ const useProductsEditorDrawer = ({
     formData.append('name', values?.name);
     formData.append('sku', values?.sku);
     formData.append('purchasePrice', values?.purchasePrice);
-    formData.append('category', values?.category);
+    formData.append('category', values?.category?._id);
     formData.append('description', values?.description);
     formData.append('unitPrice', values?.unitPrice);
     formData.append('isActive', values?.isActive);
@@ -62,18 +65,19 @@ const useProductsEditorDrawer = ({
 
     try {
       const response = await postSalesProduct({ body: formData })?.unwrap();
-      setOpenDrawer('');
       if (response?.data) {
         try {
-          await createAssociation({
-            body: {
-              dealId: dealId,
-              product: { productId: response?.data?._id },
-            },
-          }).unwrap();
+          const associationPayload = {
+            recordId: dealId,
+            recordType: ASSOCIATIONS_API_PARAMS_FOR?.DEALS,
+            operation: ASSOCIATIONS_API_PARAMS_FOR?.ADD,
+            products: [{ productId: response?.data?._id }],
+          };
+          await postAssociation({ body: associationPayload })?.unwrap();
           enqueueSnackbar(` Product Added Successfully`, {
             variant: NOTISTACK_VARIANTS?.SUCCESS,
           });
+          setOpenDrawer('');
         } catch (error: any) {
           const errMsg = error?.data?.message;
           enqueueSnackbar(errMsg ?? 'Error occurred', {
@@ -96,6 +100,7 @@ const useProductsEditorDrawer = ({
     onSubmit,
     methodsProducts,
     addProductLoading,
+    postAssociationLoading,
   };
 };
 

@@ -67,9 +67,12 @@ const TabToolbar = () => {
     (state: any) => state?.task?.selectedTaskIds,
   );
 
-  const { data: taskData, isLoading } = useGetTaskDetailsQuery({
-    id: selectedTaskIds?.length === 1 && selectedTaskIds[0],
-  });
+  const { data: taskData, isLoading } = useGetTaskDetailsQuery(
+    {
+      id: selectedTaskIds?.length === 1 && selectedTaskIds[0],
+    },
+    { skip: selectedTaskIds?.length > 0 ? false : true },
+  );
 
   const [deleteTask] = useDeleteTasksMutation();
 

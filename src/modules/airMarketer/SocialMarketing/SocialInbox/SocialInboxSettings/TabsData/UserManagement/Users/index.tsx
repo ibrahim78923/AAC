@@ -110,6 +110,7 @@ const UserTable = (props: any) => {
                 setIsAddUserDrawer({
                   isToggle: true,
                   type: drawyerType?.EDIT,
+                  recordId: checkedUser,
                 });
                 handleClose();
               }}
@@ -126,6 +127,7 @@ const UserTable = (props: any) => {
                   ...isAddUserDrawer,
                   isToggle: true,
                   type: drawyerType?.VIEW,
+                  recordId: checkedUser,
                 });
                 handleClose();
               }}

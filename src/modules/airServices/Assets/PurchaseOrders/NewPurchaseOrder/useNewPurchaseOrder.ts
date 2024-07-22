@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   defaultValues,
@@ -10,26 +10,67 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AIR_SERVICES } from '@/constants';
 import {
   useGetPurchaseOrderByIdQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetLocationsDropdownQuery,
-  useLazyGetVendorDropdownQuery,
+  useLazyGetDepartmentDropdownForPurchaseOrderQuery,
+  useLazyGetLocationsDropdownForPurchaseOrderQuery,
+  useLazyGetVendorDropdownForPurchaseOrderQuery,
   usePatchPurchaseOrderMutation,
   usePostPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders';
-import { useSearchParams } from 'next/navigation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostAttachmentsMutation,
+} from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 
 const useNewPurchaseOrders = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const purchaseOrderId = searchParams.get('purchaseOrderId');
+  const [form, setForm] = useState<any>([]);
+
+  const { purchaseOrderId } = router?.query;
+
   const [postPurchaseOrderTrigger, postPurchaseOrderStatus] =
     usePostPurchaseOrderMutation();
   const [patchPurchaseOrderTrigger, patchPurchaseOrderStatus] =
     usePatchPurchaseOrderMutation();
+
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const [postAttachmentTrigger, postAttachmentStatus] =
+    usePostAttachmentsMutation();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_SERVICES,
+      moduleType: DYNAMIC_FIELDS?.MT_PURCHASE_ORDER,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+
   const singlePurchaseOrder: any = useGetPurchaseOrderByIdQuery(
     purchaseOrderId,
     {
@@ -38,49 +79,100 @@ const useNewPurchaseOrders = () => {
     },
   );
   const loadingStatus =
-    patchPurchaseOrderStatus?.isLoading || postPurchaseOrderStatus?.isLoading;
+    patchPurchaseOrderStatus?.isLoading ||
+    postPurchaseOrderStatus?.isLoading ||
+    postAttachmentStatus?.isLoading;
+
   const methods = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues(),
+    resolver: yupResolver(validationSchema?.(form)),
+    defaultValues: defaultValues?.(),
   });
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
-  const apiQueryVendor: any = useLazyGetVendorDropdownQuery();
+
+  const apiQueryDepartment =
+    useLazyGetDepartmentDropdownForPurchaseOrderQuery();
+  const apiQueryLocations = useLazyGetLocationsDropdownForPurchaseOrderQuery();
+  const apiQueryVendor: any = useLazyGetVendorDropdownForPurchaseOrderQuery();
+
   const { watch, reset } = methods;
   const vendorValue = watch('vendor');
 
   const submit = async (data: any) => {
-    const { location, vendor, department, purchaseDetails, ...rest } = data;
-    const taxRate = rest?.taxRatio;
-    delete rest?.taxRatio;
-    const apiParameter = {
-      body: {
-        ...rest,
-        taxRate,
-        locationId: location?._id,
-        vendorId: vendor?._id,
-        departmentId: department?._id,
-        status: PURCHASE_ORDER_STATUS?.OPEN,
-        purchaseDetails: purchaseDetails?.map((purchaseDetail: any) => {
-          const name = purchaseDetail?.itemName?._id;
-          delete purchaseDetail?.itemName;
-          return { itemName: name, ...purchaseDetail };
-        }),
-      },
-    };
-    if (!!purchaseOrderId) {
-      submitUpdatePurchaseOrder(apiParameter);
-      return;
-    }
+    const filteredEmptyData = filteredEmptyValues(data);
+
+    const customFields: any = {};
+    const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
     try {
+      dynamicAttachmentsPost({
+        form,
+        data,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
+      });
+
+      await Promise?.all(attachmentPromises);
+
+      const customFieldKeys = new Set(
+        form?.map((field: any) => field?.componentProps?.label),
+      );
+
+      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+        if (customFieldKeys?.has(key)) {
+          if (value instanceof Date) {
+            value = value?.toISOString();
+          }
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > 0) {
+        body.customFields = customFields;
+      }
+
+      const { location, vendor, department, purchaseDetails, ...rest } = body;
+      const taxRate = rest?.taxRatio;
+      delete rest?.taxRatio;
+
+      const apiParameter = {
+        body: {
+          ...rest,
+          taxRate,
+          locationId: location?._id,
+          vendorId: vendor?._id,
+          departmentId: department?._id,
+          status: PURCHASE_ORDER_STATUS?.OPEN,
+          purchaseDetails: purchaseDetails?.map((purchaseDetail: any) => {
+            const name = purchaseDetail?.itemName?._id;
+            delete purchaseDetail?.itemName;
+            return { itemName: name, ...purchaseDetail };
+          }),
+          customFields,
+        },
+      };
+
+      if (!!purchaseOrderId) {
+        submitUpdatePurchaseOrder(apiParameter);
+        return;
+      }
       await postPurchaseOrderTrigger(apiParameter)?.unwrap();
-      successSnackbar('New Purchase Order Created successfully');
-      reset();
+      successSnackbar('New Purchase Order Created Successfully!');
       handlePageBack();
-    } catch (error: any) {
-      errorSnackbar();
+    } catch (e: any) {
+      errorSnackbar(e?.data?.message);
     }
   };
+
   const submitUpdatePurchaseOrder = async (data: any) => {
     const patchPurchaseOrderParameter = {
       body: {
@@ -91,26 +183,29 @@ const useNewPurchaseOrders = () => {
     try {
       await patchPurchaseOrderTrigger(patchPurchaseOrderParameter)?.unwrap();
       successSnackbar('Purchase Order Updated Successfully!');
-      reset();
       handlePageBack();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
+
   const handlePageBack = () => {
     router?.push(PURCHASE_ORDER);
     reset();
   };
+
   const newPurchaseFields = newPurchaseFieldsFunction(
     apiQueryDepartment,
     apiQueryLocations,
     apiQueryVendor,
   );
+
   useEffect(() => {
     if (singlePurchaseOrder?.data) {
-      reset(() => defaultValues(singlePurchaseOrder?.data?.data));
+      reset(() => defaultValues(singlePurchaseOrder?.data?.data, form));
     }
-  }, [singlePurchaseOrder?.data, reset]);
+  }, [singlePurchaseOrder?.data, reset, form]);
+
   return {
     methods,
     submit,
@@ -122,6 +217,9 @@ const useNewPurchaseOrders = () => {
     loadingStatus,
     watch,
     singlePurchaseOrder,
+    form,
+    getDynamicFieldsStatus,
   };
 };
+
 export default useNewPurchaseOrders;

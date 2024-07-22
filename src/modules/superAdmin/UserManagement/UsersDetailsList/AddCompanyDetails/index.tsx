@@ -7,6 +7,7 @@ import { styles } from './AddCompanyDetails.style';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import useToggle from '@/hooks/useToggle';
 import useAddCompanyDetails from './useAddCompanyDetails';
+import { AddCompanyDetailsProps } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
 
 export default function AddCompanyDetails({
   isOpenDrawer,
@@ -14,7 +15,7 @@ export default function AddCompanyDetails({
   organizationId,
   setISOpenCompanyDrawer,
   organizationBasesProducts,
-}: any) {
+}: AddCompanyDetailsProps) {
   const [isToggled, setIsToggled] = useToggle(false);
 
   const { theme, methods, handleSubmit, onSubmit, companyImg, setCompanyImg } =
@@ -24,6 +25,7 @@ export default function AddCompanyDetails({
     value: item?._id,
     label: (
       <Card sx={styles?.productCard}>
+        {/* need this code after some time */}
         {/* <Image
           src={generateImage(item?.logo?.url)}
           alt="sales-image"

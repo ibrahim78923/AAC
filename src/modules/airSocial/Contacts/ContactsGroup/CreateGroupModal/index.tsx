@@ -1,10 +1,12 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import CommonModal from '@/components/CommonModal';
 import { FormProvider } from '@/components/ReactHookForm';
 import { columns, createGroupFiltersDataArray } from './CreateGroupModal.data';
 import { v4 as uuidv4 } from 'uuid';
 import TanstackTable from '@/components/Table/TanstackTable';
+import { createGroupModalTitle } from '../Contacts.data';
+import { ContactI } from '../../Contacts.interface';
 
 import Search from '@/components/Search';
 
@@ -27,12 +29,16 @@ const CreateGroupModal = ({
     title,
   });
 
+  const selectedContacts = contactList?.filter((contact: ContactI) => {
+    return selectedUsers?.includes(contact?._id);
+  });
+
   return (
     <CommonModal
       open={isOpen}
       title={`${title} Group`}
-      okText={title === 'Edit' ? 'Update' : 'Create'}
-      footer={title !== 'View'}
+      okText={title === createGroupModalTitle?.edit ? 'Update' : 'Create'}
+      footer={title !== createGroupModalTitle?.view}
       isSubmitDisabled={selectedUsers?.length < 2}
       handleClose={onClose}
       handleCancel={onClose}
@@ -40,7 +46,7 @@ const CreateGroupModal = ({
       handleSubmit={onSubmit}
       isLoading={loadingPost}
     >
-      <Box sx={{ maxHeight: 'calc(100vh - 180px)', overflowY: 'auto' }}>
+      <Box sx={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
             {createGroupFiltersDataArray(title)?.map((item: any) => (
@@ -61,19 +67,34 @@ const CreateGroupModal = ({
               </Grid>
             ))}
             <Grid item xs={12} md={12}>
-              <Box sx={{ mb: 2 }}>
-                <Search
-                  setSearchBy={setSearchValue}
-                  label="Search By Name"
-                  fullWidth
-                  size="small"
-                />
-              </Box>
+              {title !== createGroupModalTitle?.view && (
+                <Box sx={{ mb: 2 }}>
+                  <Search
+                    setSearchBy={setSearchValue}
+                    label="Search By Name"
+                    fullWidth
+                    size="small"
+                  />
+                </Box>
+              )}
             </Grid>
+
+            {title === createGroupModalTitle?.view && (
+              <Grid item xs={12}>
+                <Typography variant="body2">
+                  {selectedUsers?.length} Group Members
+                </Typography>
+              </Grid>
+            )}
+
             <Grid item xs={12} md={12}>
               <TanstackTable
                 columns={getColumns}
-                data={contactList}
+                data={
+                  title === createGroupModalTitle?.view
+                    ? selectedContacts
+                    : contactList
+                }
                 loading={loadingTable}
               />
             </Grid>

@@ -1,5 +1,7 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
-  productWiseGraph: (theme: any) => {
+  productWiseGraph: (theme: Theme) => {
     return {
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',

@@ -14,8 +14,10 @@ export const useTableEditor = (props: any) => {
     setColumnsData,
     columnsData,
     setDraggedItemData,
+    draggedItemData,
   } = props;
   const [edit, setEdit] = useState(true);
+  const [columnObject, setColumnObject] = useState([]);
   const [editValue, setEditValue] = useState(tableTitle);
   const handleSave = () => {
     const uniqueId = generateUniqueId();
@@ -26,6 +28,10 @@ export const useTableEditor = (props: any) => {
         type: REPORT_TYPE?.TABLE,
         title: tableTitle,
         component: columnsData,
+        columnObject: draggedItemData
+          ? draggedItemData?.templateColumnsData
+          : columnObject,
+        templateType: draggedItemData ? draggedItemData?.type : false,
       },
     ]);
     setFieldData(false);
@@ -47,5 +53,6 @@ export const useTableEditor = (props: any) => {
     setEdit,
     edit,
     handleSave,
+    setColumnObject,
   };
 };

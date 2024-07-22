@@ -1,16 +1,17 @@
 import { Badge, Box, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useTopPerformer } from './useTopPerformer';
-import NoData from '@/components/NoData';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-import ApiErrorState from '@/components/ApiErrorState';
 import { fullName, generateImage } from '@/utils/avatarUtils';
 import { AGENT_LEVELS_IMAGES } from '@/constants/images';
 import { AGENT_LEVELS } from '@/constants/strings';
+import NoData from '@/components/NoData';
 
-export const TopPerformer = () => {
-  const { data, isLoading, isError, isFetching } = useTopPerformer();
+export const TopPerformer = (props: any) => {
+  const { data } = props;
+
+  const hasTopPerformer = data?.topPerformer?.data?.find(
+    (performer: any) => performer?.topPerformer,
+  );
 
   return (
     <Box
@@ -23,11 +24,7 @@ export const TopPerformer = () => {
       <Typography variant="h5" color="slateBlue.main">
         Top Performer
       </Typography>
-      {isLoading || isFetching ? (
-        <SkeletonTable />
-      ) : isError ? (
-        <ApiErrorState height="100%" />
-      ) : !!!data ? (
+      {!!!hasTopPerformer ? (
         <NoData height={'100%'} message="No Top Performer" />
       ) : (
         <>
@@ -37,15 +34,15 @@ export const TopPerformer = () => {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               badgeContent={
                 <Avatar
-                  alt={data?.badges}
-                  src={AGENT_LEVELS_IMAGES?.[data?.badges]?.src}
+                  alt={hasTopPerformer?.badges}
+                  src={AGENT_LEVELS_IMAGES?.[hasTopPerformer?.badges]?.src}
                   sx={{ width: 22, height: 22 }}
                 />
               }
             >
               <Avatar
-                alt={fullName(data?.name)}
-                src={generateImage(data?.agent?.avatar?.url)}
+                alt={fullName(hasTopPerformer?.name)}
+                src={generateImage(hasTopPerformer?.agent?.avatar?.url)}
                 sx={{
                   width: 40,
                   height: 40,
@@ -54,10 +51,10 @@ export const TopPerformer = () => {
             </Badge>
             <Box>
               <Typography variant="body2" fontWeight={600} color={'grey.600'}>
-                {fullName(data?.name)}
+                {fullName(hasTopPerformer?.name)}
               </Typography>
               <Typography variant="body3" color={'grey.600'}>
-                {data?.department}
+                {hasTopPerformer?.department}
               </Typography>
             </Box>
           </Box>
@@ -66,24 +63,36 @@ export const TopPerformer = () => {
             color={'grey.600'}
             textTransform={'capitalize'}
           >
-            {data?.badges}
+            {hasTopPerformer?.badges}
           </Typography>
           <Typography variant="body3" color={'slateBlue.main'}>
-            {data?.totalPoints} + {data?.masterPoints - data?.totalPoints}{' '}
-            points to {AGENT_LEVELS?.MASTER}
+            {!!!hasTopPerformer?.masterPoints
+              ? `${hasTopPerformer?.totalPoints} 
+            points and has ${hasTopPerformer?.badges} level`
+              : `${hasTopPerformer?.totalPoints} + 
+            ${hasTopPerformer?.masterPoints - hasTopPerformer?.totalPoints}
+            points to ${AGENT_LEVELS?.MASTER} level`}
           </Typography>
           <br />
           <Typography variant="body3" color={'primary.main'}>
-            {Math?.round(
-              (data?.totalPoints / data?.masterPoints) * 100,
-            )?.toFixed?.(2)}
+            {!!!hasTopPerformer?.masterPoints
+              ? 0
+              : +Math?.round(
+                  (hasTopPerformer?.totalPoints /
+                    hasTopPerformer?.masterPoints) *
+                    100,
+                )?.toFixed?.(2)}
             %
           </Typography>
           <LinearProgress
             value={
-              +Math?.round(
-                (data?.totalPoints / data?.masterPoints) * 100,
-              )?.toFixed?.(2)
+              !!!hasTopPerformer?.masterPoints
+                ? 0
+                : +Math?.round(
+                    (hasTopPerformer?.totalPoints /
+                      hasTopPerformer?.masterPoints) *
+                      100,
+                  )?.toFixed?.(2)
             }
             variant="determinate"
           />

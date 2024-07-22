@@ -1,5 +1,6 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
 const TAG = 'FEEDBACK_SURVEY';
 export const feedbackSurvey = baseAPI?.injectEndpoints({
@@ -12,6 +13,21 @@ export const feedbackSurvey = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    postCloneFeedbackSurvey: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.CLONE_FEEDBACK_SURVEY}`,
+        method: 'POST',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    postSurveyEmail: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.CONVERSATION_EMAIL}`,
+        method: 'POST',
+        body,
+      }),
+    }),
     patchFeedbackSurvey: builder?.mutation({
       query: ({ body, params }: any) => ({
         url: `${END_POINTS?.UPDATE_FEEDBACK_SURVEY}`,
@@ -21,9 +37,50 @@ export const feedbackSurvey = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    patchMergeFeedbackSection: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.MERGE_FEEDBACK_SECTION}`,
+        method: 'PATCH',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchCloneFeedbackSection: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.CLONE_FEEDBACK_SECTION}`,
+        method: 'PATCH',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    addFeedbackQuestions: builder?.mutation({
+      query: ({ body, params }: any) => ({
+        url: `${END_POINTS?.ADD_FEEDBACK_QUESTIONS}`,
+        method: 'PATCH',
+        body,
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchDefaultSurvey: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.SET_SURVEY_DEFAULT}`,
+        method: 'PATCH',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
     getFeedbackList: builder?.query({
       query: (params: any) => ({
         url: `${END_POINTS?.GET_FEEDBACK_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
+    getSingleFeedback: builder?.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_FEEDBACK}`,
         method: 'GET',
         params,
       }),
@@ -37,6 +94,31 @@ export const feedbackSurvey = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    deleteFeedbackSurveySection: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.DELETE_FEEDBACK_SURVEY_SECTION}`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    deleteFeedbackSurveyQuestion: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.DELETE_FEEDBACK_SURVEY_QUESTION}`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    allUserDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse,
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -45,4 +127,14 @@ export const {
   usePatchFeedbackSurveyMutation,
   useLazyGetFeedbackListQuery,
   useDeleteFeedbackSurveyMutation,
+  useGetSingleFeedbackQuery,
+  useAddFeedbackQuestionsMutation,
+  useDeleteFeedbackSurveyQuestionMutation,
+  useDeleteFeedbackSurveySectionMutation,
+  usePatchMergeFeedbackSectionMutation,
+  usePatchCloneFeedbackSectionMutation,
+  usePostCloneFeedbackSurveyMutation,
+  usePatchDefaultSurveyMutation,
+  useLazyAllUserDropdownQuery,
+  usePostSurveyEmailMutation,
 } = feedbackSurvey;

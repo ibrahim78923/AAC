@@ -11,14 +11,9 @@ import {
 import { style } from './EventCard.style';
 import { steps } from './EventCard.data';
 import { v4 as uuidv4 } from 'uuid';
+import { CustomStepperIconProps } from '@/modules/superAdmin/Dashboard/Dashboard-interface';
 
-const CustomStepperIcon = ({
-  icon,
-  borderColor,
-}: {
-  icon: any;
-  borderColor: any;
-}) => {
+const CustomStepperIcon = ({ icon, borderColor }: CustomStepperIconProps) => {
   return (
     <Box sx={style.stepperIconColor(borderColor)}>
       <>{icon}</>

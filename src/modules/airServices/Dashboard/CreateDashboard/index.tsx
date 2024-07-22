@@ -1,255 +1,138 @@
 import { DashboardMockImage } from '@/assets/images';
-import {
-  FormProvider,
-  RHFSwitch,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import {
-  Avatar,
-  Box,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  Radio,
-  RadioGroup,
-  Typography,
-} from '@mui/material';
-import Image from 'next/image';
-import { previewDashboard, userData } from './CreateDashboard.data';
-import { SearchableMultiSelect } from './SearchableMultiSelect';
+import { FormProvider } from '@/components/ReactHookForm';
+import { Box, Button, Grid, Typography } from '@mui/material';
+import { AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS } from './CreateDashboard.data';
 import { useCreateDashboard } from './useCreateDashboard';
 import { styles } from './CreateDashboard.styles';
-import { PreviewDashboardModal } from '../PreviewDashboardItems/PreviewDashboardModal';
+import { PreviewDashboard } from '../PreviewDashboard';
 import { DragDropContext } from 'react-beautiful-dnd';
 import dynamic from 'next/dynamic';
 import { LoadingButton } from '@mui/lab';
-import { DASHBOARD } from '@/constants/strings';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  DASHBOARD,
+  GENERIC_UPSERT_FORM_CONSTANT,
+  TICKET_GRAPH_TYPES,
+} from '@/constants/strings';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
+import { UpsertServiceDashboardFormFieldsDynamicI } from './CreateDashboard.interface';
+import { createElement } from 'react';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { Visibility } from '@mui/icons-material';
+import NoData from '@/components/NoData';
 
 const RHFMultiCheckboxDraggable = dynamic(
   () => import('@/components/ReactHookForm/RHFMultiCheckboxDraggable'),
   { ssr: false },
 );
 
-const EVERYONE = 'Everyone';
-
 export const CreateDashboard = () => {
   const {
-    methodsCreateDashboardFilterForm,
-    accessValue,
-    handleChangeAccessValue,
-    specificUsers,
-    setPendingValue,
-    pendingValue,
-    anchorElUserList,
-    handleOpenUsersList,
-    handleCloseUsersList,
-    usersPermissions,
-    setSpecificUserPermissions,
+    methods,
     submitCreateDashboardFilterForm,
-    resetCreateDashboardFilterForm,
-    dashboardItems,
+    reportsWatch,
     onDragEnd,
-    dashboardCheckboxItems,
     action,
     router,
     handleSubmit,
+    upsertServiceDashboardFormFields,
+    addSingleServicesDashboardStatus,
+    updateSingleServicesDashboardStatus,
+    isLoading,
+    isFetching,
+    isError,
+    dashboardWidgetsWatch,
+    isPortalOpen,
+    setIsPortalOpen,
   } = useCreateDashboard();
+
+  if (isLoading || isFetching) return <SkeletonForm />;
+  if (isError) return <ApiErrorState />;
 
   return (
     <>
       <FormProvider
-        methods={methodsCreateDashboardFilterForm}
+        methods={methods}
         onSubmit={handleSubmit(submitCreateDashboardFilterForm)}
       >
-        <Box display="flex" alignItems="center" position="relative">
-          <PageTitledHeader
-            title={`${
-              action === DASHBOARD?.EDIT ? 'Edit' : 'Create'
-            } Dashboard`}
-            canMovedBack
-            moveBack={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
-          />
-          <PermissionsGuard
-            permissions={[
-              AIR_SERVICES_DASHBOARD_PERMISSIONS?.SET_DEFAULT_DASHBOARD,
-            ]}
-          >
-            <Box sx={styles()?.rhfSwitchBox}>
-              <RHFSwitch name="default" label="Set as default" />
-            </Box>
-          </PermissionsGuard>
-        </Box>
+        <PageTitledHeader
+          title={`${
+            action === DASHBOARD?.EDIT
+              ? GENERIC_UPSERT_FORM_CONSTANT?.EDIT
+              : GENERIC_UPSERT_FORM_CONSTANT?.CREATE
+          } Dashboard`}
+          canMovedBack
+          moveBack={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
+        />
         <Grid container spacing={3} sx={styles()?.createDashboardContainer}>
           <Grid item xl={6} xs={12}>
-            <Box>
-              <RHFTextField
-                fullWidth={true}
-                name="dashboardName"
-                label="Dashboard Name"
-                placeholder="Enter Name"
-                required={true}
-                size="small"
-              />
-            </Box>
-            <Box display="flex" justifyContent="space-between">
-              <Box>
-                <FormControl>
-                  <Typography
-                    variant="h6"
-                    fontWeight={600}
-                    color="slateblue.main"
-                  >
-                    Who can access this dashboard?
-                  </Typography>
-                  <RadioGroup
-                    value={accessValue}
-                    onChange={handleChangeAccessValue}
-                    name="access"
-                  >
-                    <FormControlLabel
-                      value="Private to owner (me)"
-                      control={<Radio />}
-                      label="Private to owner (me)"
-                    />
-                    <FormControlLabel
-                      value="Everyone"
-                      control={<Radio />}
-                      label="Everyone"
-                    />
-                    {accessValue === EVERYONE && (
-                      <FormControl sx={{ ml: 2 }} component="fieldset">
-                        <RadioGroup aria-label="child" name="child">
-                          <FormControlLabel
-                            value="View and edit"
-                            control={<Radio />}
-                            label="View and edit"
-                          />
-                          <FormControlLabel
-                            value="View only"
-                            control={<Radio />}
-                            label="View only"
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    )}
-                    <FormControlLabel
-                      onClick={handleOpenUsersList}
-                      value="Only specific user and teams"
-                      control={<Radio />}
-                      label="Only specific user and teams"
-                    />
-                    <SearchableMultiSelect
-                      labels={userData}
-                      anchorEl={anchorElUserList}
-                      handleClose={handleCloseUsersList}
-                      pendingValue={pendingValue}
-                      setPendingValue={setPendingValue}
-                      value={specificUsers}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Box>
-              <Box display={{ xl: 'block', xs: 'none' }}>
-                <RHFSwitch name="default" label="Set as default" />
-              </Box>
-            </Box>
-            <Box ml="2rem" mb="2rem">
-              {usersPermissions?.map((user: any) => (
-                <Box key={user?.id}>
-                  <Box sx={styles()?.userCardOuter}>
-                    <Box sx={styles()?.userCardInner}>
-                      <Box display="flex" alignItems="center" gap="10px">
-                        <Avatar sx={styles()?.userAvatar} alt={user?.name}>
-                          <Image
-                            src={user?.src}
-                            alt={user?.name}
-                            layout="fill"
-                          />
-                        </Avatar>
-                        <Typography
-                          variant="body2"
-                          color="grey.600"
-                          fontWeight="500"
-                        >
-                          {user?.name}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                  <Box>
-                    <FormControlLabel
-                      value="View and edit"
-                      control={
-                        <Radio
-                          checked={user?.permission === 'View and edit'}
-                          onChange={(event: any) =>
-                            setSpecificUserPermissions(user?.id, event)
-                          }
-                        />
-                      }
-                      label="View and edit"
-                    />
-                  </Box>
-                  <Box>
-                    <FormControlLabel
-                      value="View only"
-                      control={
-                        <Radio
-                          checked={user?.permission === 'View only'}
-                          onChange={(event: any) =>
-                            setSpecificUserPermissions(user?.id, event)
-                          }
-                        />
-                      }
-                      label="View only"
-                    />
-                  </Box>
-                </Box>
-              ))}
-            </Box>
+            <Grid container spacing={2}>
+              {upsertServiceDashboardFormFields?.map(
+                (form: UpsertServiceDashboardFormFieldsDynamicI) => (
+                  <Grid key={form?.id} item xs={12} md={form?.md}>
+                    <form.component {...form?.componentProps} size="small">
+                      {form?.heading ? form?.heading : null}
+                    </form.component>
+                  </Grid>
+                ),
+              )}
+            </Grid>
+            <br />
             <Typography variant="h6" fontWeight={600} color="slateblue.main">
               Use the checkboxes to remove/add any report you want
             </Typography>
             <Box sx={styles()?.multiCheckboxContainer}>
               <DragDropContext onDragEnd={onDragEnd}>
                 <RHFMultiCheckboxDraggable
-                  name="dashboardItems"
-                  options={dashboardCheckboxItems}
+                  name="reports"
+                  options={dashboardWidgetsWatch}
                 />
               </DragDropContext>
             </Box>
             <Box display="flex" justifyContent="flex-end">
-              <PreviewDashboardModal
-                dashboardItems={dashboardItems}
-                type="Manage"
-              />
+              <Button
+                variant="text"
+                onClick={() =>
+                  setIsPortalOpen({
+                    isView: true,
+                    isStaticView: true,
+                    data: reportsWatch,
+                  })
+                }
+                startIcon={<Visibility />}
+              >
+                Preview Dashboard
+              </Button>
             </Box>
           </Grid>
           <Grid item xl={6} xs={12}>
-            <Box sx={styles(dashboardItems)?.detailsViewBox}>
+            <Box sx={styles(reportsWatch)?.detailsViewBox}>
               <Typography variant="subtitle1" color="slateBlue.main" mb={2}>
                 Details view
               </Typography>
-              {!!!dashboardItems?.length ? (
-                <>
-                  <Box sx={styles()?.bgImageBox}>
-                    <Image
-                      src={DashboardMockImage}
-                      style={{ pointerEvents: 'none', userSelect: 'none' }}
-                      alt={'DashboardPrototypeImage'}
-                    />
-                  </Box>
-                  <Box></Box>
-                </>
+
+              {!!!reportsWatch?.length ? (
+                <NoData image={DashboardMockImage} message="" />
               ) : (
-                <Grid container spacing={3} height={680} overflow="scroll">
-                  {dashboardItems?.map((item: any) => (
-                    <Grid item xs={12} key={item?.id}>
-                      {previewDashboard?.[item as string]}
+                <Grid
+                  container
+                  spacing={3}
+                  p={2}
+                  maxHeight={'70vh'}
+                  minHeight={'70vh'}
+                  overflow={'auto'}
+                >
+                  {reportsWatch?.map((item: any) => (
+                    <Grid item xs={12} key={item}>
+                      {AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item] &&
+                        createElement(
+                          AIR_SERVICES_DASHBOARD_WIDGETS_COMPONENTS?.[item],
+                          {
+                            ticketType: TICKET_GRAPH_TYPES?.PRIORITY,
+                            isPreviewMode: true,
+                          },
+                        )}
                     </Grid>
                   ))}
                 </Grid>
@@ -259,22 +142,36 @@ export const CreateDashboard = () => {
         </Grid>
         <Box display="flex" gap="0.6rem" justifyContent="flex-end">
           <LoadingButton
-            sx={styles()?.buttonStyles}
             variant="outlined"
             color="secondary"
-            onClick={resetCreateDashboardFilterForm}
+            onClick={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
+            disabled={
+              addSingleServicesDashboardStatus?.isLoading ||
+              updateSingleServicesDashboardStatus?.isLoading
+            }
           >
             Cancel
           </LoadingButton>
           <LoadingButton
             variant="contained"
-            sx={styles()?.buttonStyles}
             type="submit"
+            disabled={
+              addSingleServicesDashboardStatus?.isLoading ||
+              updateSingleServicesDashboardStatus?.isLoading
+            }
           >
-            {action === DASHBOARD?.EDIT ? 'Update' : 'Create'}
+            {action === DASHBOARD?.EDIT
+              ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+              : GENERIC_UPSERT_FORM_CONSTANT?.CREATE}
           </LoadingButton>
         </Box>
       </FormProvider>
+      {isPortalOpen?.isView && (
+        <PreviewDashboard
+          isPortalOpen={isPortalOpen}
+          setIsPortalOpen={setIsPortalOpen}
+        />
+      )}
     </>
   );
 };

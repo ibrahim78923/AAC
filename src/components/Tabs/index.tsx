@@ -49,7 +49,6 @@ const CommonTabs = (props: CommonTabsPropsI) => {
 
   const theme = useTheme();
   const arrayChildren = React.Children.toArray(children);
-
   const [value, setValue] = useState(0);
 
   useEffect(() => {

@@ -11,7 +11,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
-import { API_STATUS, DATE_TIME_FORMAT, EMAIL_TABS_TYPES } from '@/constants';
+import { API_STATUS, EMAIL_DATE_FORMAT, EMAIL_TABS_TYPES } from '@/constants';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useRef, useState } from 'react';
@@ -24,6 +24,7 @@ import {
 } from '@/redux/slices/email/gmail/slice';
 import { usePatchGmailMessageMutation } from '@/services/commonFeatures/email/gmail';
 import { isNullOrEmpty } from '@/utils';
+import { PaperClipIcon } from '@/assets/icons';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -35,6 +36,7 @@ const MailList = ({
   const theme = useTheme();
   const [isDataEnd, setIsDataEnd] = useState<any>(true);
   const [dataArray, setDataArray] = useState<any>([]);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -99,7 +101,7 @@ const MailList = ({
           await patchGmailMessage({
             body: payload,
           })?.unwrap();
-          // dispatch(setGmailList('clear'));
+          dispatch(setGmailList('clear'));
         } catch (error: any) {
           enqueueSnackbar('Something went wrong while updating message!', {
             variant: 'error',
@@ -134,7 +136,7 @@ const MailList = ({
   };
 
   useEffect(() => {
-    if (isNullOrEmpty(pageToken?.data?.nextPageToken)) {
+    if (isNullOrEmpty(pageToken?.data?.nextPageToken) || isRefresh) {
       setIsDataEnd(false);
     } else {
       setIsDataEnd(true);
@@ -158,9 +160,15 @@ const MailList = ({
   }, [emailsByFolderIdData?.data]);
 
   const loadingCheck =
-    gmailList?.length === 0
+    gmailList?.length === 0 || isRefresh
       ? isLoadingEmailsByFolderIdData === API_STATUS?.PENDING
       : false;
+
+  useEffect(() => {
+    if (isLoadingEmailsByFolderIdData === API_STATUS?.FULFILLED) {
+      setIsRefresh(false);
+    }
+  }, [isLoadingEmailsByFolderIdData]);
 
   function decodeHtmlEntities(str: any) {
     const entityMap = {
@@ -174,6 +182,12 @@ const MailList = ({
     return str.replace(/&amp;|&lt;|&gt;|&quot;|&#39;/g, function (match: any) {
       return entityMap[match];
     });
+  }
+
+  function hasNonEmptyFilename(emailParts: any) {
+    return emailParts?.some(
+      (partArray: any) => partArray?.some((part: any) => part?.filename !== ''),
+    );
   }
 
   return (
@@ -204,7 +218,7 @@ const MailList = ({
           }}
           onClick={() => {
             refetch();
-            dispatch(setGmailList('clear'));
+            setIsRefresh(true);
           }}
         >
           Refresh
@@ -292,20 +306,61 @@ const MailList = ({
                                   {item?.name}{' '}
                                 </Typography>
                               )}
-
                               <Typography
-                                variant="body3"
+                                variant="body2"
                                 sx={{
-                                  fontWeight: item?.readMessage ? 700 : 600,
-                                  wordBreak: 'break-all',
+                                  width: '19vw',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                  fontWeight: item?.readMessage ? 400 : 700,
                                 }}
-                                color={'primary'}
-                                margin={'8px 0px'}
                               >
-                                {item?.subject === 'undefined'
-                                  ? '(No subject)'
-                                  : item?.subject}
+                                {gmailTabType?.name?.toLowerCase() ===
+                                EMAIL_TABS_TYPES?.DRAFT ? (
+                                  <>
+                                    <span
+                                      style={{
+                                        color: theme?.palette?.error?.main,
+                                      }}
+                                    >
+                                      [DRAFT]
+                                    </span>{' '}
+                                    {item?.toRecipients?.map((item: any) => (
+                                      <>{item?.emailAddress?.address}; </>
+                                    ))}
+                                  </>
+                                ) : (
+                                  <>{item?.from?.emailAddress?.name ?? ''} </>
+                                )}
                               </Typography>
+                              <Box
+                                display={'flex'}
+                                justifyContent={'space-between'}
+                                alignItems={'center'}
+                                pr={2}
+                              >
+                                <Typography
+                                  variant="body3"
+                                  sx={{
+                                    fontWeight: item?.readMessage ? 700 : 600,
+                                    wordBreak: 'break-all',
+                                  }}
+                                  color={'primary'}
+                                  margin={'8px 0px'}
+                                >
+                                  {item?.subject === 'undefined'
+                                    ? '(No subject)'
+                                    : item?.subject}
+                                </Typography>
+
+                                {hasNonEmptyFilename(item?.attchImages) && (
+                                  <PaperClipIcon
+                                    color={theme?.palette?.primary?.main}
+                                  />
+                                )}
+                              </Box>
+
                               <Typography
                                 variant="body3"
                                 margin={'3px 0px'}
@@ -328,7 +383,7 @@ const MailList = ({
                                 }}
                               >
                                 {dayjs(item?.date).format(
-                                  DATE_TIME_FORMAT?.MMMDDYYYY,
+                                  EMAIL_DATE_FORMAT?.DATE_FORMAT,
                                 )}
                               </Typography>
                             </Box>

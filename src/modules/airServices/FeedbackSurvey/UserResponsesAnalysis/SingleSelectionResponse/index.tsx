@@ -9,10 +9,13 @@ export const SingleSelectionResponse = (props: any) => {
         <Typography variant="h6" color="slateBlue.main">
           {question}
         </Typography>
-        <Typography variant="body2" color="slateBlue.main">
-          Score: {score}
-        </Typography>
+        {!!score && (
+          <Typography variant="body2" color="slateBlue.main">
+            Score: {score}
+          </Typography>
+        )}
       </Box>
+      <br />
       <MultiLevelLinearProgressBar valuesArray={answers} />
     </Box>
   );

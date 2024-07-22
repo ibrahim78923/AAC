@@ -12,6 +12,8 @@ import {
 import Image from 'next/image';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CALL_CENTER_CALL_METRICS_PERMISSION } from '@/constants/permission-keys';
 
 export const columnsCallInQueue = ({ setStartPowerDialerModal }: any) => {
   return [
@@ -297,16 +299,22 @@ const MenuTableOpen = ({ setStartPowerDialerModal }: any) => {
           </>
         ))}
 
-        <Button
-          variant="contained"
-          sx={{ width: '300px', gap: '0.5rem' }}
-          onClick={() => {
-            setStartPowerDialerModal(true);
-          }}
+        <PermissionsGuard
+          permissions={[
+            AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.CALLS_IN_QUEUE_TAKE_THE_CALL,
+          ]}
         >
-          <CallTakeIcon />
-          Take the Call
-        </Button>
+          <Button
+            variant="contained"
+            sx={{ width: '300px', gap: '0.5rem' }}
+            onClick={() => {
+              setStartPowerDialerModal(true);
+            }}
+          >
+            <CallTakeIcon />
+            Take the Call
+          </Button>
+        </PermissionsGuard>
       </Menu>
     </>
   );

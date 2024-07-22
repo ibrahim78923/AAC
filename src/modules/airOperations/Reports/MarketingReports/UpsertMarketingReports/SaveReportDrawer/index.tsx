@@ -1,13 +1,22 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { useSaveReportDrawer } from './useSaveReportDrawer';
-import { FormProvider } from 'react-hook-form';
+import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
-import { reportsDataArray } from './SaveReportDrawer.data';
+import { REPORT_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
 export const SaveReportDrawer = (props: any) => {
   const { open } = props;
-  const { saveReportsMethods, watch, handleSubmit, onSubmit, handleCancel } =
-    useSaveReportDrawer(props);
+  const {
+    saveReportsMethods,
+    watch,
+    handleSubmit,
+    onSubmit,
+    handleCancel,
+    selectAddToNewDashboard,
+    reportsArray,
+    postGenericReportStatus,
+  } = useSaveReportDrawer(props);
+
   return (
     <CommonDrawer
       isDrawerOpen={open}
@@ -18,31 +27,52 @@ export const SaveReportDrawer = (props: any) => {
       okText="Apply"
       isOk={true}
       footer={true}
+      isLoading={postGenericReportStatus?.isLoading}
     >
-      <FormProvider {...saveReportsMethods}>
+      <FormProvider methods={saveReportsMethods}>
         <Grid container spacing={1}>
-          {reportsDataArray?.map((item: any) => {
+          {reportsArray?.map((item: any) => {
             return (
               <>
-                <Grid item key={item?.componentProps?.name} xs={12}>
+                <Grid item key={item?.id} xs={12}>
                   <item.component {...item?.componentProps} />
                 </Grid>
                 {watch(item?.componentProps?.name) ===
-                  item?.componentProps?.options?.[1]?.value && (
-                  <Grid item xs={12} ml={2}>
+                  item?.componentProps?.options?.[SELECTED_ARRAY_LENGTH?.ONE]
+                    ?.value && (
+                  <Grid item xs={12} mx={2}>
                     {item?.conditionalComponentOne}
                   </Grid>
                 )}
                 {watch(item?.componentProps?.name) ===
-                  item?.componentProps?.options?.[2]?.value && (
-                  <Grid item xs={12}>
+                  item?.componentProps?.options?.[SELECTED_ARRAY_LENGTH?.TWO]
+                    ?.value && (
+                  <Grid item xs={12} mx={2}>
                     {item?.conditionalComponentTwo}
                   </Grid>
                 )}
                 {watch(item?.componentProps?.name) ===
-                  item?.componentProps?.options?.[2]?.value && (
-                  <Grid item xs={12}>
+                  item?.componentProps?.options?.[SELECTED_ARRAY_LENGTH?.TWO]
+                    ?.value && (
+                  <Grid item xs={12} mx={2}>
                     {item?.conditionalComponentTree}
+                  </Grid>
+                )}
+                {watch(item?.componentProps?.name) ===
+                  item?.componentProps?.options?.[SELECTED_ARRAY_LENGTH?.ONE]
+                    ?.value && (
+                  <Grid item xs={12} mx={2}>
+                    {item?.conditionalComponentFour}
+                  </Grid>
+                )}
+                {selectAddToNewDashboard === REPORT_TYPE?.EVERYONE && (
+                  <Grid item xs={12} mx={4}>
+                    {item?.conditionalComponentFive}
+                  </Grid>
+                )}
+                {selectAddToNewDashboard === REPORT_TYPE?.SPECIFIC_USERS && (
+                  <Grid item xs={12} mx={4}>
+                    {item?.conditionalComponentSix}
                   </Grid>
                 )}
               </>

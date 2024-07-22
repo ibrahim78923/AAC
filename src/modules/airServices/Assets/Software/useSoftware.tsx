@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useGetAssetsSoftwareQuery } from '@/services/airServices/assets/software';
 import { PAGINATION } from '@/config';
+import { useTheme } from '@mui/material';
 
 export const useSoftware = () => {
   const router = useRouter();
+  const theme = useTheme();
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
   const [softwareData, setSoftwareData] = useState([]);
   const [openAssignModal, setOpenAssignModal] = useState(false);
@@ -52,5 +54,6 @@ export const useSoftware = () => {
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
     filterValues,
+    theme,
   };
 };

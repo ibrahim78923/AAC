@@ -4,7 +4,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { useAddAnnouncement } from './useAddAnnouncement';
 
 const AddAnnouncement = (props: any) => {
-  const { isDrawerOpen } = props;
+  const { isPortalOpen } = props;
   const {
     createAddAnnouncementFormFields,
     submit,
@@ -16,7 +16,7 @@ const AddAnnouncement = (props: any) => {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
+        isDrawerOpen={isPortalOpen?.isAdd}
         onClose={handleClose}
         title={'New Announcements'}
         submitHandler={() => handleSubmit(submit)()}
@@ -25,6 +25,7 @@ const AddAnnouncement = (props: any) => {
         okText={'Announce'}
         isLoading={postAnnouncementStatus?.isLoading}
         isDisabled={postAnnouncementStatus?.isLoading}
+        disabledCancelBtn={postAnnouncementStatus?.isLoading}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>

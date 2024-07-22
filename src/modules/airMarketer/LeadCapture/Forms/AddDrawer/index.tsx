@@ -4,7 +4,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { formsArray } from './AddDrawer.data';
 
 const AddDrawer = (props: any) => {
-  const { isOpen, onClose, methods, onSubmit } = props;
+  const { isOpen, onClose, methods, onSubmit, loading } = props;
 
   return (
     <CommonDrawer
@@ -15,6 +15,7 @@ const AddDrawer = (props: any) => {
       footer={true}
       isOk={true}
       submitHandler={onSubmit}
+      isLoading={loading}
     >
       <Box sx={{ paddingTop: '1rem' }}>
         <FormProvider methods={methods}>

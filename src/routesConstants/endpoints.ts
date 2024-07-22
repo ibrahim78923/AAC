@@ -322,6 +322,7 @@ export const END_POINTS = {
   CONNECT_PHONE_NUMBER: '/sms-marketing/connect-number',
   WHATSAPP_TEMPLATE: '/whatsapp-marketing/template',
   SALES_TEAM: '/teams',
+  SALES_TEAM_USERS: '/quote/team/user',
   SERVICE_CATALOG_CATEGORIES_DETAILS: '/service-catalog/get-detail-service',
   UPDATE_CONTRACT_SUBMIT_APPROVAL: '/contract/approval-request',
   GET_CONTRACT_VENDOR_LIST: '/vendors/get-vendor-contracts',
@@ -333,6 +334,8 @@ export const END_POINTS = {
   UPDATE_CONTRACT_APPROVE: '/contract/approve-contract',
   UPDATE_CONTRACT_REJECT: '/contract/reject-contract',
   PRODUCTS_USERS: '/product-users',
+  PRODUCT_ALL_USERS: '/quote/all/user',
+  AVAILABLE_USERS: '/quote/team/user',
   POST_APPROVALS: `/articles/approve`,
   GET_KNOWLEDGE_INSIGHTS: `/articles/knowledge-insights`,
   GET_KNOWLEDGE_INSIGHTS_DETAILS: `/articles/knowledge-insights/tickets`,
@@ -419,14 +422,51 @@ export const END_POINTS = {
   GET_MS_TEAMS: '/auth/msteams/authorize',
   GET_GOOGLE_MEET: '/auth/google-meet/authorize',
   CREATE_FEEDBACK_SURVEY: '/feedback-survey/create-feedback-survey',
+  CLONE_FEEDBACK_SURVEY: '/feedback-survey/clone-survey',
   UPDATE_FEEDBACK_SURVEY: '/feedback-survey/update-feedback-survey',
   GET_FEEDBACK_LIST: '/feedback-survey/list-feedback-survey',
+  GET_SINGLE_FEEDBACK: '/feedback-survey/get-feedback-survey',
   DELETE_FEEDBACK_SURVEY: '/feedback-survey/delete-feedback-survey',
+  DELETE_FEEDBACK_SURVEY_SECTION:
+    '/feedback-survey/delete-feedback-survey-section',
+  DELETE_FEEDBACK_SURVEY_QUESTION: '/feedback-survey/delete-question',
+  ADD_FEEDBACK_QUESTIONS: '/feedback-survey/add-feedback-survey-questions',
+  MERGE_FEEDBACK_SECTION: '/feedback-survey/merge-section',
+  CLONE_FEEDBACK_SECTION: '/feedback-survey/clone-survey-section',
+  SET_SURVEY_DEFAULT: '/feedback-survey/set-servey-default',
   GET_ZOOM_AUTH: '/auth/zoom/authorize',
   GET_TIME_SLOTS: '/meeting-time-slots/get-time-slots',
   PUT_DYNAMIC_FIELDS: `/customized-columns/create-or-update-custom-fields`,
   GET_DYNAMIC_FIELDS: `/customized-columns/get-custom-field`,
   DELETE_DYNAMIC_FIELDS: `/customized-columns/delete-field`,
+  CATEGORY_DROPDOWN: '/product-categories',
+  GET_SINGLE_FEEDBACK_FOR_RESPONSE:
+    '/feedback-survey/get-survey-questions-by-uuid',
+  PATCH_SINGLE_FEEDBACK_ANSWERS_FOR_RESPONSE:
+    '/feedback-survey/add-feedback-survey-questions-answer',
+  PATCH_SINGLE_FEEDBACK_DROPOUT_ANSWERS_FOR_RESPONSE:
+    '/feedback-survey/dropout-by-uuid',
+  GET_SINGLE_SURVEY_ALL_RESPONSES_DETAILS:
+    '/feedback-survey/get-survey-responses-details',
+  ADD_MEETING: '/Meetings/add-meeting',
+  GET_GENERIC_REPORTS: `/generic-reports`,
+  GET_SINGLE_DEFAULT_CUSTOMER_SURVEY:
+    '/feedback-survey/get-default-feedback-survey',
+  CHECK_SINGLE_DEFAULT_CUSTOMER_SURVEY_SUBMITTED:
+    '/feedback-survey/check-survey-submitted',
+  GET_AIR_SERVICES_DASHBOARD_LIST: `/air-services-dashboard`,
+  GET_SINGLE_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/get-dynamic-dashboard`,
+  CREATE_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/create-dynamic-dashboard`,
+  EDIT_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/edit-dynamic-dashboard`,
+  DASHBOARD_DROPDOWN: `/air-services-dashboard`,
+  GET_RESTORE_GENERIC_REPORTS_LIST: `/generic-reports/list-deleted-generic-reports`,
+  DELETE_GENERIC_REPORTS: `/generic-reports/delete-generic-reports`,
+  SERVICE_DASHBOARD_DROPDOWN: `/air-services-dashboard`,
+  SALES_DASHBOARD_DROPDOWN: `/sales-dashboard`,
+  DELETE_SERVICES_DASHBOARD: `/air-services-dashboard/delete-dashboards`,
+  SOFT_DELETE_GENERIC_REPORTS: `/generic-reports/soft-delete-generic-reports`,
+  RESTORE_DELETED_GENERIC_REPORTS: `/generic-reports/restore-deleted-generic-reports`,
+  HARD_DELETE_GENERIC_REPORTS: `/generic-reports/hard-delete-generic-reports`,
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -435,6 +475,14 @@ export const LEAD_CAPTURE_FORM = {
   GET_FORM_BY_ID: '/lead-capture-form/get-form',
   UPDATE_FORM: '/lead-capture-form/update-form',
   DELETE_FORM: '/lead-capture-form/delete-form',
+  PUT_ADD_VIEW_FORM: '/lead-capture-form/add-view-form',
+  POST_MANAGE_FIELDS: '/lead-capture-form/manage-lead-form-fields',
+  GET_MANAGE_FIELD: '/lead-capture-form/get-form-field',
+  GET_FORM_SUBMISSIONS: '/lead-capture-form/get-lead-capture-submissions',
+  POST_FORM_SUBMISSIONS: '/lead-capture-form/lead-capture-submission',
+  GET_RESTORE_FORMS: '/lead-capture-form/get-lead-capture-soft-deleted-forms',
+  DELETE_FORM_PERMANENT: '/lead-capture-form/permanent-delete-forms',
+  PATCH_RESTORE_FORM: '/lead-capture-form/restore-deleted-forms',
 };
 
 export const superAdminBillingInvoices = {
@@ -462,6 +510,7 @@ export const organization = {
   UPDATE_ORGANIZATION_ACCOUNT_STATUS: '/org-company-account/update-status',
   DELETE_ORGANIZATION_ACCOUNT: '/org-company-account',
   DELETE_ORGANIZARION_MULTIPLE: '/org-company-account/delete-multiple',
+  USERS_PRODUCTS: '/users/products',
 };
 
 export const settingSalesProductCategory = {
@@ -524,7 +573,9 @@ export const OPERATION = {
   SAVE_WORKFLOW: '/workflows/save',
   CLONE_WORKFLOW: '/workflows/clone',
   TEST_WORKFLOW: '/workflows/test',
-  GET_DATA_MANAGEMENT: '/data-management/get-data-management',
+  GET_IMPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
+  GET_EXPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
+  POST_GENERIC_REPORT: '/generic-reports',
 };
 
 export const AIR_SALES = {
@@ -555,6 +606,7 @@ export const WHATSAPP_MARKETING = {
   CONNECT_PHONE_NUMBER: '/whatsapp-marketing/connect-number',
   GET_IS_PHONE_CONNECTED: '/whatsapp-marketing/connected-number',
   GET_WHATSAPP_MARKETING_BROADCAST: '/whatsapp-marketing/broadcast',
+  GET_WHATSAAP_TEMPLATE: '/whatsapp-marketing/template',
   DELETE_SMS_MARKETING_BROADCAST:
     '/whatsapp-marketing/broadcast/{whatsappBroadcastId}',
 };
@@ -564,4 +616,11 @@ export const SALES_DASHBOARD = {
   WIDGET:
     '/sales-dashboard/sales-total-deals-open-deals-team-goals-closed-won-published-quotes',
   SALES_DASHBOARD: '/sales-dashboard',
+};
+
+export const AIR_MARKETER_EMAIL_FOLDER = {
+  GET_EMAIL_FOLDER: '/emails-marketing/get-all-folders',
+  POST_EMAIL_FOLDER: '/emails-marketing/create-emails-folder',
+  DELETE_EMAIL_FOLDER: '/emails-marketing/delete-folder',
+  DUPLICATE_EMAIL_FOLDER: '/emails-marketing/duplicate-folder',
 };

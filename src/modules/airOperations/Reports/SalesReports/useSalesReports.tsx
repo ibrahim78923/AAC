@@ -10,6 +10,8 @@ import {
   useLazyExportAllFavoritesSalesReportsListQuery,
 } from '@/services/airOperations/reports/sales-reports';
 import { useRouter } from 'next/router';
+import { salesReportsListTabsDynamic } from './SalesReports.data';
+import { useLazyGetAllGenericReportsListQuery } from '@/services/airOperations/reports';
 
 export const useSalesReports = () => {
   const router = useRouter();
@@ -27,6 +29,8 @@ export const useSalesReports = () => {
   const exportApiQueryDashboardReports =
     useLazyExportAllDashboardsSalesReportsListQuery?.();
 
+  const getReportsApiQuery = useLazyGetAllGenericReportsListQuery?.();
+
   const restoreReportsPath = () => {
     router?.push({
       pathname: AIR_OPERATIONS?.SALES_REPORTS_RESTORE,
@@ -40,6 +44,24 @@ export const useSalesReports = () => {
     });
   };
 
+  const salesReportsListTabsParams = {
+    apiQueryAllReports,
+    apiQueryFavoriteReports,
+    apiQueryDashboardReports,
+    exportApiQueryDashboardReports,
+    exportApiQueryFavoriteReports,
+    exportApiQueryAllReports,
+    getReportsApiQuery,
+    restoreReportsPath,
+    editReportPath,
+  };
+
+  const salesReportsListTabs = salesReportsListTabsDynamic(
+    salesReportsListTabsParams,
+  );
+
+  const tabsArrayData = salesReportsListTabs?.map((tabs: any) => tabs?.name);
+
   return {
     router,
     apiQueryAllReports,
@@ -52,5 +74,7 @@ export const useSalesReports = () => {
     exportApiQueryDashboardReports,
     restoreReportsPath,
     editReportPath,
+    tabsArrayData,
+    salesReportsListTabs,
   };
 };

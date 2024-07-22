@@ -215,6 +215,8 @@ export const LOYALTY_PROGRAM = {
   ),
   GIFT_CARDS_SETTLEMENTS: path(LOYALTY_PROGRAM_PAGE, '/gift-cards/settlements'),
   GIFT_CARDS_SETTLED: path(LOYALTY_PROGRAM_PAGE, '/gift-cards/settled'),
+  ROLE_AND_RIGHT: path(LOYALTY_PROGRAM_PAGE, '/roles-and-right'),
+  USER_MANAGEMENT: path(LOYALTY_PROGRAM_PAGE, '/user-management'),
   PREPARED_FUNDS_TRANSACTIONS: path(
     LOYALTY_PROGRAM_PAGE,
     '/prepaid/funds-transactions',
@@ -234,6 +236,15 @@ export const SOCIAL_FEATURES_CHAT = {
   UPDATE_CHAT: 'chat/',
   UPLOAD_ATTACHMENT_CHAT: 'chat/message',
   CREATE_GROUP: 'chat/create-group',
+};
+
+export const EMAIL_TEMPLATES = {
+  GET_TEMPLATES: '/email-templates/templates',
+  POST_TEMPLATES: '/email-templates/create',
+  POST_EMAIL_WITH_TEMPLATES: '/emails-marketing/create-email',
+  UPDATE_TEMPLATES: '/email-templates/update',
+  GET_TEMPLATES_BY_ID: '/email-templates/template',
+  DELETE_TEMPLATES_BY_ID: '/email-templates/delete',
 };
 
 export const SOCIAL_FEATURES_EMAIL = {

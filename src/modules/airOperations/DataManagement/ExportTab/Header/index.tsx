@@ -1,11 +1,23 @@
 import { Box, Button } from '@mui/material';
-import { DownloadLargeIcon } from '@/assets/icons';
+import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { Filter } from '../Filter';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import { ExportButton } from '@/components/ExportButton';
 
-export const Header = () => {
+export const Header = (props: any) => {
+  const {
+    search,
+    setSearch,
+    setIsOpenFilterDrawer,
+    isOpenFilterDrawer,
+    setFilterValues,
+    setPage,
+    filterValues,
+    handleCsvExport,
+    handleExcelExport,
+  } = props;
   return (
     <Box
       display={'flex'}
@@ -16,33 +28,50 @@ export const Header = () => {
     >
       <PermissionsGuard
         permissions={[
-          AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS?.SEARCH_RECORD,
+          AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.SEARCH_RECORD,
         ]}
       >
-        <Search label="Search Here" searchBy="" setSearchBy={''} />
+        <Search label="Search Here" searchBy={search} setSearchBy={setSearch} />
       </PermissionsGuard>
       <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
         <PermissionsGuard
           permissions={[
-            AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS?.DOWNLOAD_RECORD,
+            AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.DOWNLOAD_RECORD,
+          ]}
+        >
+          <ExportButton
+            handleExcelExport={() => {
+              handleExcelExport?.();
+            }}
+            handleCsvExport={() => {
+              handleCsvExport?.();
+            }}
+          />
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.FILTER_RECORD,
           ]}
         >
           <Button
             variant="outlined"
+            startIcon={<FilterSharedIcon />}
             color="secondary"
-            startIcon={<DownloadLargeIcon />}
+            onClick={() => setIsOpenFilterDrawer(true)}
           >
-            Download
+            Filter
           </Button>
         </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[
-            AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS?.FILTER_RECORD,
-          ]}
-        >
-          <Filter />
-        </PermissionsGuard>
       </Box>
+      {isOpenFilterDrawer && (
+        <Filter
+          setIsOpenFilterDrawer={setIsOpenFilterDrawer}
+          setFilterValues={setFilterValues}
+          isOpenFilterDrawer={isOpenFilterDrawer}
+          setPage={setPage}
+          filterValues={filterValues}
+        />
+      )}
     </Box>
   );
 };

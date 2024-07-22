@@ -4,26 +4,26 @@ import { FIELDS_CONSTANTS } from '@/utils/dynamic-forms';
 
 const transformResponse = (response: any) => {
   return response?.data?.map((field: any) => {
-    let options = field?.options;
-
-    if (field?.fieldType === FIELDS_CONSTANTS?.RHFAUTOCOMPLETE) {
-      options = options?.map((option: any) => option.label);
-    }
-
     return {
       componentProps: {
         name: field?.label,
         label: field?.label,
-        placeholder: field?.placeholder,
+        placeholder: field?.placeholder ?? '',
         required: field?.isRequired,
         ...(field?.multiLine && { rows: 4, multiline: field?.multiLine }),
-        options: options,
+        ...(field?.options?.length && { options: field?.options }),
         ...(field?.fieldType === FIELDS_CONSTANTS?.RHFDATEPICKER && {
           fullWidth: true,
           textFieldProps: { readOnly: true },
         }),
         ...(field?.fieldType === FIELDS_CONSTANTS?.RHFDROPZONE && {
           fileType: field?.placeholder,
+        }),
+        ...(field?.fieldType === FIELDS_CONSTANTS?.RHFDATEPICKER && {
+          format: field?.dateformate,
+        }),
+        ...(field?.fieldType === FIELDS_CONSTANTS?.RHFAUTOCOMPLETE && {
+          getOptionLabel: (option: any) => option?.label,
         }),
       },
       component: field?.fieldType,
@@ -44,7 +44,7 @@ export const DynamicFieldsApi = baseAPI.injectEndpoints({
     }),
 
     getDynamicFields: builder?.query({
-      query: ({ getDynamicFieldsParameters }: any) => ({
+      query: (getDynamicFieldsParameters: any) => ({
         url: END_POINTS?.GET_DYNAMIC_FIELDS,
         method: 'GET',
         params: getDynamicFieldsParameters?.params,
@@ -59,6 +59,14 @@ export const DynamicFieldsApi = baseAPI.injectEndpoints({
         params: deleteDynamicFieldsParameters?.params,
       }),
     }),
+
+    postAttachments: builder?.mutation({
+      query: ({ postAttachmentsParameters }: any) => ({
+        url: END_POINTS?.POST_ATTACHMENT,
+        method: 'POST',
+        body: postAttachmentsParameters?.body,
+      }),
+    }),
   }),
 });
 
@@ -66,4 +74,5 @@ export const {
   usePutDynamicFieldsMutation,
   useLazyGetDynamicFieldsQuery,
   useDeleteDynamicFieldsMutation,
+  usePostAttachmentsMutation,
 } = DynamicFieldsApi;

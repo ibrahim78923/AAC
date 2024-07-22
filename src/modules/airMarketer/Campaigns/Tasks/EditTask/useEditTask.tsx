@@ -10,6 +10,7 @@ import {
   useUpdateCampaignTasksMutation,
 } from '@/services/airMarketer/campaigns';
 import { useEffect } from 'react';
+import { indexNumbers } from '@/constants';
 
 const useEditTask = ({
   initialValueProps,
@@ -19,14 +20,19 @@ const useEditTask = ({
 }: any) => {
   const theme = useTheme();
   const CAMPAIGN_ID = 'campaignId';
+
   const [postCampaignTask, { isLoading: postTaskLoading }] =
     usePostCampaignTaskMutation();
 
   const [updateCampaignTasks, { isLoading: updateTaskLoading }] =
     useUpdateCampaignTasksMutation();
 
-  const { data: getCampaignsTaskById } =
-    useGetCampaignsTaskByIdQuery(selectedRec);
+  const { data: getCampaignsTaskById, isLoading: loadingCampaignTasks } =
+    useGetCampaignsTaskByIdQuery(selectedRec, {
+      skip:
+        !Array?.isArray(selectedRec) ||
+        selectedRec?.length === indexNumbers?.ZERO,
+    });
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -72,7 +78,9 @@ const useEditTask = ({
         });
       }
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
+      const errMsg = error?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
@@ -81,6 +89,7 @@ const useEditTask = ({
   };
 
   return {
+    loadingCampaignTasks,
     updateTaskLoading,
     postTaskLoading,
     handleSubmit,

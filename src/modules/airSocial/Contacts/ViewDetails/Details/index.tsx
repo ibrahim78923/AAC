@@ -45,6 +45,9 @@ const Details = () => {
     contactStatusData,
   );
 
+  const firstName = contactData?.firstName ?? '';
+  const lastName = contactData?.lastName ?? '';
+
   return (
     <>
       <Box sx={styles?.horizontalTabsBox}>
@@ -72,9 +75,7 @@ const Details = () => {
             >
               {loadingContactById
                 ? ''
-                : `${contactData?.firstName?.charAt(
-                    0,
-                  )}${contactData?.lastName?.charAt(0)}`}
+                : `${firstName?.charAt(0)}${lastName?.charAt(0)}`}
             </Avatar>
             <Box
               sx={{

@@ -83,23 +83,17 @@ export const useKnowledgeBaseTicketDetail = () => {
     const payload = {
       id: singleArticleId,
       helpful: false,
-      feedback: JSON.stringify({
-        content: data?.content,
-        information: data?.information,
-        link: data?.link,
-        understand: data?.understand,
-      }),
+      feedback: JSON.stringify(data?.feedback),
       comment: data?.comment,
     };
-
     try {
       const res: any = await postArticleFeedbackTrigger(payload)?.unwrap();
       successSnackbar(res?.message ?? 'Feedback Added Successfully');
       setShowFeedbackField(false);
       setShowOkFeedback(true);
       reset(feedbackDefaultValues);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -112,8 +106,8 @@ export const useKnowledgeBaseTicketDetail = () => {
       const res: any = await postArticleFeedbackTrigger(payload)?.unwrap();
       successSnackbar(res?.message ?? 'This answer is helpful');
       setShowOkFeedback(true);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

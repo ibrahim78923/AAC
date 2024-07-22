@@ -1,4 +1,5 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFRadioGroup,
   RHFSelect,
@@ -6,7 +7,7 @@ import {
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
-import { useGetUsersListQuery } from '@/services/airSales/deals';
+import { useLazyGetUsersListDropdownQuery } from '@/services/airSales/deals';
 import useDealTab from '../DealTab/useDealTab';
 import { getSession } from '@/utils';
 import { ROLES } from '@/constants/strings';
@@ -20,18 +21,17 @@ export const defaultValues = {
   sharedWith: '',
 };
 
-export const CreateViewData = (dealPipelineId: string | null) => {
-  const { pipelineData } = useDealTab();
+export const CreateViewData = (dealPipelineId: any) => {
+  const { pipelineListDropdown } = useDealTab();
   const { user }: any = getSession();
   const organizationId: any = user?.organization?._id;
-  const { data: UserListData } = useGetUsersListQuery({
-    role: ROLES?.ORG_EMPLOYEE,
-    organization: organizationId,
-  });
-  const filteredStages = pipelineData?.data?.dealpipelines?.find(
-    (obj: { _id: string }) => obj?._id === dealPipelineId,
-  )?.stages;
+  const UserListData = useLazyGetUsersListDropdownQuery();
 
+  const filteredStages: any = pipelineListDropdown
+    ? pipelineListDropdown[1]?.data?.find(
+        (pipeline: any) => pipeline?._id === dealPipelineId?._id,
+      )?.stages
+    : [];
   return [
     {
       componentProps: {
@@ -46,31 +46,44 @@ export const CreateViewData = (dealPipelineId: string | null) => {
     {
       componentProps: {
         name: 'dealPipelineId',
-        label: 'Deal Pipline',
-        select: true,
+        label: 'Deal Pipeline',
+        placeholder: 'Select Pipeline',
+        apiQuery: pipelineListDropdown,
+        getOptionLabel: (option: any) => option?.name,
+        externalParams: { meta: false },
+        clearIcon: false,
       },
-      options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
+      title: 'Deal Owner',
       componentProps: {
         name: 'dealOwnerId',
         label: 'Deal Owner',
-        select: true,
+        placeholder: 'Select Owner',
+        apiQuery: UserListData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: {
+          role: ROLES?.ORG_EMPLOYEE,
+          organization: organizationId,
+        },
       },
-      options: UserListData?.data?.users?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.firstName} ${item?.lastName}`,
-      })),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {
-        name: 'CloseDate',
-        label: 'Close Date',
+        label: 'Start Date',
+        name: 'dateStart',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 12,
+    },
+    {
+      componentProps: {
+        label: 'End Date',
+        name: 'dateEnd',
         fullWidth: true,
       },
       component: RHFDatePicker,
@@ -81,11 +94,14 @@ export const CreateViewData = (dealPipelineId: string | null) => {
         name: 'dealStageId',
         label: 'Deal Stage',
         select: true,
+        disabled: !dealPipelineId,
       },
-      options: filteredStages?.map((item: any) => ({
-        value: item?._id,
-        label: item?.name,
-      })),
+      options: filteredStages?.map((item: any) => {
+        return {
+          value: item?._id,
+          label: item?.name,
+        };
+      }),
       component: RHFSelect,
     },
     {

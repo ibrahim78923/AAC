@@ -1,6 +1,7 @@
-import { useForm } from 'react-hook-form';
-import { filteredEmptyValues } from '@/utils/api';
+import { useForm, useWatch } from 'react-hook-form';
+import { errorSnackbar, filteredEmptyValues } from '@/utils/api';
 import {
+  DATE_DIFFERENCE,
   restoreReportFilterFormFieldsDynamic,
   restoreReportFiltersDefaultValues,
 } from './RestoreReportsFilter.data';
@@ -10,10 +11,15 @@ export const useRestoreReportsFilter = (props: any) => {
   const methods: any = useForm({
     defaultValues: restoreReportFiltersDefaultValues?.(reportFilters),
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, control } = methods;
 
-  const submit = async (data: any) => {
-    const filterValues = filteredEmptyValues?.(data);
+  const submit = async (formData: any) => {
+    if (!!formData?.endDate) {
+      const dateDifference = formData?.endDate - formData?.startDate;
+      if (dateDifference < DATE_DIFFERENCE?.ZERO)
+        return errorSnackbar('End Date should be greater than Start Date');
+    }
+    const filterValues = filteredEmptyValues?.(formData);
     setReportFilter?.(filterValues);
     closeFilterForm?.();
   };
@@ -28,8 +34,14 @@ export const useRestoreReportsFilter = (props: any) => {
     setIsPortalOpen?.({});
   };
 
+  const startDateWatch = useWatch({
+    control,
+    name: 'startDate',
+    defaultValue: null,
+  });
+
   const restoreReportFilterFormFields =
-    restoreReportFilterFormFieldsDynamic?.();
+    restoreReportFilterFormFieldsDynamic?.(startDateWatch);
 
   return {
     methods,

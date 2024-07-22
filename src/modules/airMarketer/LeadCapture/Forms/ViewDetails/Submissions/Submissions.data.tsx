@@ -1,6 +1,7 @@
 import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-import { Typography } from '@mui/material';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const submissionsValidationSchema = Yup?.object()?.shape({
   Customer: Yup?.string()?.required('Field is Required'),
@@ -39,26 +40,38 @@ export const submissionsArray = [
 export const columns: any = () => {
   return [
     {
-      accessorFn: (row: any) => row?.Customer,
-      id: 'Customer',
-      header: 'Customer',
+      accessorFn: (row: any) => row?.submission?.email,
+      id: 'email',
+      header: 'Email',
       isSortable: true,
-      cell: (info: any) => (
-        <Typography variant="body4" sx={{ color: '#667085' }}>
-          {info?.getValue()}{' '}
-        </Typography>
-      ),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.SubmittedAt,
-      id: 'SubmittedAt',
+      accessorFn: (row: any) => row?.type,
+      id: 'type',
+      isSortable: true,
+      header: 'Type',
+      cell: (info: any) => {
+        return <>{info?.getValue()}</>;
+      },
+    },
+    {
+      accessorFn: (row: any) => row?.domain,
+      id: 'domain',
+      isSortable: true,
+      header: 'Domain',
+      cell: (info: any) => {
+        return <>{info?.getValue()}</>;
+      },
+    },
+    {
+      accessorFn: (row: any) => row?.submittedAt,
+      id: 'submittedAt',
       isSortable: true,
       header: 'Submitted at',
-      cell: (info: any) => (
-        <Typography variant="body4" sx={{ color: '#6B7280' }}>
-          {info?.getValue()}{' '}
-        </Typography>
-      ),
+      cell: (info: any) => {
+        return <>{dayjs(info?.getValue()).format(DATE_FORMAT?.UI)}</>;
+      },
     },
   ];
 };

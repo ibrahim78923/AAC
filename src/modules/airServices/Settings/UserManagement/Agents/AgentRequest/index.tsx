@@ -15,6 +15,7 @@ import { DATE_FORMAT } from '@/constants';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { LoadingButton } from '@mui/lab';
+import NoData from '@/components/NoData';
 
 const AgentRequest = () => {
   const {
@@ -34,6 +35,7 @@ const AgentRequest = () => {
 
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
+  if (!data?.data?.length) return <NoData />;
 
   return (
     <>

@@ -98,7 +98,10 @@ const useCalendar = () => {
   };
 
   const { data: getCampaignsById, isLoading: campaignDetailsLoading } =
-    useGetCampaignsByIdQuery({ id: selectedEventData?.id });
+    useGetCampaignsByIdQuery(
+      { id: selectedEventData?.id },
+      { skip: !selectedEventData?.id },
+    );
   const campaignDetails = getCampaignsById?.data;
 
   const campaignDetailsData = [
@@ -116,7 +119,9 @@ const useCalendar = () => {
   ];
 
   const { data: getCampaignsTaskById, isLoading: campaignsTaskLoading } =
-    useGetCampaignsTaskByIdQuery(selectedEventData?.id);
+    useGetCampaignsTaskByIdQuery(selectedEventData?.id, {
+      skip: !selectedEventData?.id,
+    });
   const campaignsTaskDetails = getCampaignsTaskById?.data[0];
   const campaignTasksData = [
     { Type: campaignsTaskDetails?.taskType ?? 'N/A' },

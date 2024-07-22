@@ -9,7 +9,11 @@ import {
   Dialog,
   DialogContent,
 } from '@mui/material';
-import { ViewInvoicesI } from './ViewInvoices.interface';
+import {
+  InvoiceDataI,
+  PlanCellInfoI,
+  ViewInvoicesI,
+} from './ViewInvoices.interface';
 import { CloseModalIcon, LogoIcon } from '@/assets/icons';
 import { styles } from './ViewInvoices.style';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -20,27 +24,27 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
 const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
-  let planPrice: any;
+  let planPrice: number = 0;
 
-  let totalAdditionalUserPrice: any;
+  let totalAdditionalUserPrice: number = 0;
 
-  let totalAdditionalStoragePrice: any;
+  let totalAdditionalStoragePrice: number = 0;
 
-  let planDiscount;
+  let planDiscount: number = 0;
 
-  let subtotalBeforeDiscount;
+  let subtotalBeforeDiscount: number = 0;
 
-  let subtotalAfterDiscount: any;
+  let subtotalAfterDiscount: number = 0;
 
-  let invoiceDiscount;
+  let invoiceDiscount: number = 0;
 
-  let total;
+  let total: number = 0;
 
-  let tax;
+  let tax: number = 0;
 
-  let netAmout;
-  let invoiceDiscountAmount;
-  let TaxAmountOfSubtotal;
+  let netAmout: number = 0;
+  let invoiceDiscountAmount: number = 0;
+  let TaxAmountOfSubtotal: number = 0;
 
   const columns = (data: any) => {
     planPrice = data?.plans?.planPrice;
@@ -71,16 +75,16 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
 
     return [
       {
-        accessorFn: (row: any) => row?.id,
+        accessorFn: (row: InvoiceDataI) => row?.id,
         id: 'srNumber',
         cell: () => '1',
         header: 'Sr#',
         isSortable: false,
       },
       {
-        accessorFn: (row: any) => row?.products,
+        accessorFn: (row: InvoiceDataI) => row?.products,
         id: 'product',
-        cell: (info: any) => (
+        cell: (info: PlanCellInfoI) => (
           <>
             <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
               {info?.getValue()}
@@ -99,18 +103,18 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
         isSortable: true,
       },
       {
-        accessorFn: (row: any) => row?.details?.plans?.planPrice,
+        accessorFn: (row: InvoiceDataI) => row?.details?.plans?.planPrice,
         id: 'planPrice',
         isSortable: true,
         header: 'Plan Price',
         cell: () => <>£ {planPrice}</>,
       },
       {
-        accessorFn: (row: any) => row?.details?.additionalUsers,
+        accessorFn: (row: InvoiceDataI) => row?.details?.additionalUsers,
         id: 'additionalUsers',
         isSortable: true,
         header: 'Additional Users',
-        cell: (info: any) => (
+        cell: (info: PlanCellInfoI) => (
           <>
             {info?.getValue()} *(£
             {info?.row?.original?.plans?.additionalPerUserPrice}) = £{' '}
@@ -119,7 +123,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
         ),
       },
       {
-        accessorFn: (row: any) => row?.details?.additionalStorage,
+        accessorFn: (row: InvoiceDataI) => row?.details?.additionalStorage,
         id: 'additionalStorage',
         isSortable: true,
         header: 'Additional Storage',
@@ -132,7 +136,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
         ),
       },
       {
-        accessorFn: (row: any) => row?.details?.planDiscount,
+        accessorFn: (row: InvoiceDataI) => row?.details?.planDiscount,
         id: 'discount',
         isSortable: true,
         header: 'Discount(%)',
@@ -141,7 +145,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
         ),
       },
       {
-        accessorFn: (row: any) => row?.subTotal,
+        accessorFn: (row: InvoiceDataI) => row?.subTotal,
         id: 'subTotal',
         isSortable: true,
         header: 'Subtotal',
@@ -158,13 +162,6 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
     });
     onClose();
   };
-  // const TaxAmountOfSubtotal =
-  //   (isGetRowValues?.row?.original?.vat / 100) *
-  //   isGetRowValues?.row?.original?.subTotal;
-  // const findAmountAfterTax =
-  //   (isGetRowValues?.row?.original?.vat / 100) *
-  //   isGetRowValues?.row?.original?.subTotal +
-  //   isGetRowValues?.row?.original?.subTotal;
 
   return (
     <Dialog

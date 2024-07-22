@@ -12,9 +12,7 @@ export const Counter = (props: any) => {
       p={1}
       width={'50%'}
     >
-      <Typography variant="h5">
-        {draggedItemData?.title} {draggedItemData?.templateType}
-      </Typography>
+      <Typography variant="h5">{draggedItemData?.title}</Typography>
       <Box p={10}>
         <Typography
           display={'flex'}

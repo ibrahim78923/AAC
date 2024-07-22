@@ -1,46 +1,53 @@
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
-  RHFDatePicker,
+  RHFDesktopDateTimePicker,
   RHFEditor,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { ROLES } from '@/constants/strings';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 import { pxToRem } from '@/utils/getFontValue';
 import * as Yup from 'yup';
 
 const statusOptions = ['Todo', 'In-Progress', 'Done'];
 
-export const validationSchema: any = Yup?.object()?.shape({
-  title: Yup?.string()?.trim()?.required('Required'), //1
-  description: Yup?.string()?.trim()?.required('Required'), //2
-  departmentId: Yup?.mixed()?.nullable()?.required('Required'), //3
-  assignTo: Yup?.mixed()?.nullable(), //4
-  status: Yup.string()?.required('Required'), //5
-  startDate: Yup?.date()?.nullable(), //6
-  startDateTime: Yup?.date()?.nullable(), //7
-  endDate: Yup?.date()?.nullable(), //8
-  endDateTime: Yup?.date()?.nullable(), //9
-  plannedEffort: Yup?.string(), //10
-});
+export const validationSchema: any = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
 
-export const getWorkloadDefaultValues = (data?: any) => {
+  return Yup?.object()?.shape({
+    title: Yup?.string()?.trim()?.required('Required'),
+    description: Yup?.string()?.trim()?.required('Required'),
+    departmentId: Yup?.mixed()?.nullable()?.required('Required'),
+    assignTo: Yup?.mixed()?.nullable(),
+    status: Yup.string()?.required('Required'),
+    startDate: Yup?.date()?.nullable(),
+    endDate: Yup?.date()?.nullable(),
+    plannedEffort: Yup?.string(),
+    ...formSchema,
+  });
+};
+
+export const getWorkloadDefaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
   return {
-    title: data?.title ?? '', //1
-    description: data?.description ?? '', //2
+    title: data?.title ?? '',
+    description: data?.description ?? '',
     departmentId: !!Object?.keys(data?.departmentData ?? {})?.length
       ? data?.departmentData
-      : null, //3
+      : null,
     assignTo: !!Object?.keys(data?.assignedUser ?? {})?.length
       ? data?.assignedUser
-      : null, //4
-    status: data?.status ?? '', //5
-    startDate: data?.startDate ? new Date(data?.startDate) : null, //6
-    startDateTime: data?.startDateTime ? new Date(data?.startDateTime) : null, //7
-    endDate: data?.endDate ? new Date(data?.endDate) : null, //8
-    endDateTime: data?.endDateTime ? new Date(data?.endDateTime) : null, //9
-    plannedEffort: data?.plannedEffort ?? '', //10
+      : null,
+    status: data?.status ?? '',
+    startDate: data?.startDate ? new Date(data?.startDate) : null,
+    endDate: data?.endDate ? new Date(data?.endDate) : null,
+    plannedEffort: data?.plannedEffort ?? '',
+    ...initialValues,
   };
 };
 
@@ -114,19 +121,7 @@ export const getWorkloadDataArray = ({
         fullWidth: true,
         disabled: true,
       },
-      component: RHFDatePicker,
-      md: 8,
-    },
-    {
-      id: 7,
-      componentProps: {
-        name: 'startDateTime',
-        label: '\u00a0',
-        fullWidth: true,
-        disabled: true,
-      },
-      component: RHFTimePicker,
-      md: 4,
+      component: RHFDesktopDateTimePicker,
     },
     {
       id: 8,
@@ -136,20 +131,9 @@ export const getWorkloadDataArray = ({
         fullWidth: true,
         disablePast: true,
         textFieldProps: { readOnly: true },
+        ampm: false,
       },
-      component: RHFDatePicker,
-      md: 8,
-    },
-    {
-      id: 9,
-      componentProps: {
-        name: 'endDateTime',
-        label: '\u00a0\u00a0',
-        fullWidth: true,
-        textFieldProps: { readOnly: true },
-      },
-      component: RHFTimePicker,
-      md: 4,
+      component: RHFDesktopDateTimePicker,
     },
     {
       id: 10,

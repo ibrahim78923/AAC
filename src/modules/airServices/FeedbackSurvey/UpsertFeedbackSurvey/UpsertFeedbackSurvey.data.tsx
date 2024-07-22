@@ -1,0 +1,234 @@
+import * as Yup from 'yup';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  RadioButtonChecked,
+  CheckBox,
+  LinearScale,
+  ShortText,
+} from '@mui/icons-material';
+import { NextRouter } from 'next/router';
+export const feedbackTypes = {
+  createSurvey: 'createSurvey',
+  saveQuestion: 'saveQuestion',
+  linearScale: 'linearScale',
+  text: 'text',
+  shortAnswers: 'shortAnswers',
+  feedback: 'feedback',
+  survey: 'survey',
+  preview: 'preview',
+  viaEmail: 'viaEmail',
+  published: 'published',
+  draft: 'draft',
+  customerSatisfaction: 'customer-satisfaction',
+  viaMagicLink: 'viaMagicLink',
+};
+export const questionTypeOptions = [
+  {
+    id: 1,
+    label: 'Multiple Choice',
+    value: 'multipleChoice',
+    icon: <RadioButtonChecked />,
+  },
+  {
+    id: 2,
+    label: 'Check Boxes',
+    value: 'checkboxes',
+    icon: <CheckBox />,
+  },
+  {
+    id: 3,
+    label: 'Short Answers',
+    value: 'shortAnswers',
+    icon: <ShortText />,
+  },
+  {
+    id: 4,
+    label: 'Linear Scale',
+    value: 'linearScale',
+    icon: <LinearScale />,
+  },
+  { value: 'text' },
+];
+export const feedbackSurveyValues = (data: any) => {
+  return {
+    surveyTitle: data?.surveyTitle ?? '',
+    description: data?.description ?? '',
+    surveyDuration: data?.surveyDuration
+      ? new Date(data?.surveyDuration)
+      : null,
+    display: !!data?.displayName ?? false,
+    displayName: data?.displayName ?? '',
+    customerSupportLinkType: data?.customerSupportLinkType ?? 'viaEmail',
+    sendSurveyPeople:
+      data?.customerSupportLinkType === feedbackTypes?.viaEmail &&
+      data?.sendSurveyPeople
+        ? data?.sendSurveyPeople
+        : [],
+    shareSurveyPeople:
+      data?.customerSupportLinkType === feedbackTypes?.viaMagicLink &&
+      data?.sendSurveyPeople
+        ? data?.sendSurveyPeople
+        : [],
+    magicLink: data?.magicLink ?? '',
+    satisfactionSurveyLinkType:
+      data?.satisfactionSurveyLinkType ?? 'toAllAgents',
+    UUID: data?.UUID ? data?.UUID : uuidv4(),
+    sections: data?.sections?.map((section: any) => ({
+      id: section?._id ?? '',
+      heading: section?.heading ?? '',
+      description: section?.description ?? '',
+      questions: !!section?.questions?.length
+        ? section?.questions?.map((question: any) => ({
+            id: question?._id ?? '',
+            questionTitle: question?.questionTitle ?? '',
+            questionType: questionTypeOptions?.find(
+              (type: any) => type?.value === question?.questionType,
+            ) ?? {
+              label: 'Multiple Choice',
+              value: 'multipleChoice',
+            },
+            text: question?.options?.map((text: any) => ({
+              text: text?.text ?? '',
+            })) ?? [{ text: '1' }],
+            options: question?.options?.map((option: any) => ({
+              text: option?.text ?? '',
+              index: option?.index ?? 0,
+            })) ?? [{ text: '1', index: 0 }],
+            description: question?.description ?? '',
+            isRequired: question?.isRequired ?? false,
+          }))
+        : [
+            {
+              questionTitle: '',
+              questionType: {
+                label: 'Multiple Choice',
+                value: 'multipleChoice',
+              },
+              text: [{ text: '1' }],
+              options: [{ text: '1', index: 0 }],
+              description: '',
+              isRequired: false,
+            },
+          ],
+    })) ?? [
+      {
+        heading: '',
+        description: '',
+        questions: [
+          {
+            questionTitle: '',
+            questionType: {
+              label: 'Multiple Choice',
+              value: 'multipleChoice',
+            },
+            text: [{ text: '1' }],
+            options: [{ text: '1', index: 0 }],
+            description: '',
+            isRequired: false,
+          },
+        ],
+      },
+    ],
+  };
+};
+export const feedbackSurveyValidationSchema: any = (
+  createSurvey: string,
+  router: NextRouter,
+) =>
+  Yup?.object()?.shape({
+    surveyTitle: Yup?.string()?.required('Required'),
+    description: Yup?.string()?.required('Required'),
+    surveyDuration: Yup?.date()?.nullable(),
+    customerSupportLinkType: Yup?.string(),
+    sendSurveyPeople: Yup?.array()?.when('customerSupportLinkType', {
+      is: (type: string) =>
+        type === feedbackTypes?.viaEmail &&
+        router?.query?.type !== feedbackTypes?.customerSatisfaction,
+      then: (schema) => schema?.min(1, 'Required'),
+      otherwise: (schema) => schema?.notRequired(),
+    }),
+    sections: Yup?.array()?.of(
+      Yup?.object()?.shape({
+        heading:
+          createSurvey === feedbackTypes?.feedback
+            ? Yup?.string()?.required('Required')
+            : Yup?.string(),
+        description:
+          createSurvey === feedbackTypes?.feedback
+            ? Yup?.string()?.required('Required')
+            : Yup?.string(),
+        questions: Yup?.array()?.of(
+          Yup?.object()?.shape({
+            questionTitle:
+              createSurvey === feedbackTypes?.feedback
+                ? Yup?.string()?.required('Required')
+                : Yup?.string(),
+            questionType:
+              createSurvey === feedbackTypes?.feedback
+                ? Yup?.mixed()?.required('Required')
+                : Yup?.mixed(),
+          }),
+        ),
+      }),
+    ),
+  });
+export const feedbackSurveyType: any = {
+  ['customer-support']: 'customerSupport',
+  ['customer-satisfaction']: 'customerSatisfaction',
+};
+
+export const linearScaleOption = [
+  {
+    index: 0,
+    text: 'Strongly Agree 😇',
+  },
+  {
+    index: 1,
+    text: 'Agree 😊',
+  },
+  {
+    index: 2,
+    text: 'Neutral 😐',
+  },
+  {
+    index: 3,
+    text: 'Disagree 😑',
+  },
+  {
+    index: 4,
+    text: 'Strongly Disagree 😠',
+  },
+];
+
+export const apiSectionData = (data: any) => {
+  const section = data?.data?.sections;
+  return section?.map((item: any) => ({
+    heading: item?.heading,
+    description: item?.description,
+    id: item?._id,
+    questions: item?.questions?.map((ques: any) => ({
+      id: ques?._id,
+      questionTitle: ques?.questionTitle,
+      questionType: questionTypeOptions?.find(
+        (type: any) => type?.value === ques?.questionType,
+      ),
+      text: ques?.options?.map((option: any) => ({
+        text: option?.text,
+      })),
+      options: ques?.options?.map((option: any) => ({
+        text: option?.text,
+        index: option?.index,
+      })),
+      description: ques?.description,
+      isRequired: !!ques?.isRequired,
+    })),
+  }));
+};
+export const surveyWatchArray: any[] = [
+  'surveyTitle',
+  'description',
+  'displayName',
+  'satisfactionSurveyLinkType',
+  'customerSupportLinkType',
+  'UUID',
+];

@@ -136,6 +136,7 @@ export const buttonInfoData = [
       name: 'urlRedirectType',
       label: 'URL Redirect Type',
       select: true,
+      required: true,
     },
     options: [
       { value: 'new', label: 'New' },
@@ -152,6 +153,7 @@ export const buttonInfoData = [
       name: 'url',
       label: 'Enter URL',
       fullWidth: true,
+      required: true,
     },
   },
 ];

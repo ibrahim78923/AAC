@@ -13,6 +13,8 @@ import { enqueueSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { useGetSalesProductlineItemQuery } from '@/services/airSales/quotes';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const useDealTab = () => {
   const router = useRouter();
@@ -33,13 +35,8 @@ const useDealTab = () => {
   ]);
 
   const [value, setValue] = useState(0);
-  const [filters, setFilters] = useState({
-    dealPipelineId: '',
-    dealName: '',
-    dealOwner: '',
-    dealStage: '',
-    closeDate: null,
-  });
+  const [filters, setFilters] = useState<any>({});
+
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchDeal, setSearchDeal] = useState('');
@@ -50,19 +47,24 @@ const useDealTab = () => {
   const [deleteDealsMutation, { isLoading: deleteDealLoading }] =
     useDeleteDealsMutation();
 
-  const { data: dealViewsData } = useGetDealsViewsQuery({});
+  const { data: dealViewsData }: any = useGetDealsViewsQuery({});
 
-  const dealListparams: any = {
+  const dealListparams = {
     page: page,
     limit: pageLimit,
     search: searchDeal ? searchDeal : undefined,
     dealPipelineId: filters?.dealPipelineId
-      ? filters?.dealPipelineId
+      ? filters?.dealPipelineId?._id
       : undefined,
     name: filters?.dealName ? filters?.dealName : undefined,
-    ownerId: filters?.dealOwner ? filters?.dealOwner : undefined,
+    ownerId: filters?.dealOwner ? filters?.dealOwner?._id : undefined,
     dealStageId: filters?.dealStage ? filters?.dealStage : undefined,
-    // CloseDate: filters?.CloseDate ? filters?.CloseDate : undefined,
+    dateStart: filters.dateStart
+      ? dayjs(filters?.dateStart)?.format(DATE_FORMAT?.API)
+      : undefined,
+    dateEnd: filters?.dateEnd
+      ? dayjs(filters?.dateEnd)?.format(DATE_FORMAT?.API)
+      : undefined,
   };
 
   const {
@@ -81,32 +83,37 @@ const useDealTab = () => {
   );
 
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
-
   const pipelineListDropdown = useLazyGetDealPipeLineListQuery();
 
   const dealListApiUrl = dealViewsData?.data?.map((obj: any) => {
-    const dateStart = obj?.apiUrl?.match(/dateStart=([^&]*)/);
-    const dateEnd = obj?.apiUrl?.match(/dateEnd=([^&]*)/);
     let dealPipelineId;
-    let dealOwnerId;
-    let dealStageId;
+    let dealOwner;
+    let dealStage;
+    let dateStart;
+    let dateEnd;
 
+    if (obj?.apiUrl?.match(/dateStart=([^&]*)/)) {
+      dateStart = obj?.apiUrl?.match(/dateStart=([^&]*)/)[1];
+    }
+    if (obj?.apiUrl?.match(/dateEnd=([^&]*)/)) {
+      dateEnd = obj?.apiUrl?.match(/dateEnd=([^&]*)/)[1];
+    }
     if (obj?.apiUrl?.match(/dealPiplineId=([^&]*)/)) {
-      dealPipelineId = obj?.apiUrl?.match(/dealPiplineId=([^&]*)/)[1];
+      dealPipelineId = { _id: obj?.apiUrl?.match(/dealPiplineId=([^&]*)/)[1] };
     }
     if (obj?.apiUrl?.match(/dealOwnerId=([^&]*)/)) {
-      dealOwnerId = obj?.apiUrl?.match(/dealOwnerId=([^&]*)/)[1];
+      dealOwner = { _id: obj?.apiUrl?.match(/dealOwnerId=([^&]*)/)[1] };
     }
     if (obj?.apiUrl?.match(/dealStageId=([^&]*)/)) {
-      dealStageId = obj?.apiUrl?.match(/dealStageId=([^&]*)/)[1];
+      dealStage = obj?.apiUrl?.match(/dealStageId=([^&]*)/)[1];
     }
     return {
+      name: obj?.name,
       ...(dateStart && { dateStart }),
       ...(dateEnd && { dateEnd }),
-      name: obj?.name,
       ...(dealPipelineId && { dealPipelineId }),
-      ...(dealOwnerId && { dealOwnerId }),
-      ...(dealStageId && { dealStageId }),
+      ...(dealOwner && { dealOwner }),
+      ...(dealStage && { dealStage }),
     };
   });
   const { data: salesProduct } = useGetSalesProductlineItemQuery({});
@@ -130,39 +137,22 @@ const useDealTab = () => {
   };
   const handleTabChange = (tab: any) => {
     const tabName = tab?.name;
-    const ownerId = tab?.dealOwnerId;
     delete tab?.name;
-    delete tab?.dealOwnerId;
     if (tabName === 'All Deals') {
       setFilters(allDealsParams);
     } else {
       setFilters({
         ...tab,
-        dealOwner: ownerId,
+        dealOwner: tab?.dealOwner,
         dealPipelineId: tab?.dealPipelineId,
-        dealStage: tab?.dealStageId,
-        dateStart: tab?.CloseDate,
+        dealStage: tab?.dealStage,
+        dateStart: tab?.dateStart,
+        dateEnd: tab?.dateEnd,
       });
     }
   };
-
-  const handeApplyFilter = (values: any) => {
-    const filteredObj = Object?.fromEntries(
-      Object?.entries(values)?.filter(
-        (value: any) => value[1] !== '' && value[1] !== null,
-      ),
-    );
-    setFilters({ ...filters, ...filteredObj });
-  };
-
   const handleResetFilters = () => {
-    setFilters({
-      dealPipelineId: '',
-      dealName: '',
-      dealOwner: '',
-      dealStage: '',
-      closeDate: null,
-    });
+    setFilters({});
   };
 
   const handleListViewClick = (val: string) => {
@@ -269,10 +259,10 @@ const useDealTab = () => {
     selectedRows,
     setSelectedRows,
     handleDeleteDeals,
-    handeApplyFilter,
     handleListViewClick,
     handleResetFilters,
     handleFilter,
+    setFilters,
     isFilterDrawer,
     handleAddTab,
     isAddTabOpen,
@@ -296,6 +286,10 @@ const useDealTab = () => {
     salesProduct,
     deleteDealLoading,
     customizeLoading,
+    isLoading,
+    filters,
+    page,
+    pageLimit,
   };
 };
 

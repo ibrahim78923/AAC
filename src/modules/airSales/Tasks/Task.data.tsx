@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import useTaskCustomize from './EditColumn/useTaskCustomize';
 import { getSession } from '@/utils';
+import { ROLES } from '@/constants/strings';
 
 export const filterDefaultValues = {
   assignTo: null,
@@ -249,8 +250,7 @@ export const createTaskData = ({ data, usersData }: any) => {
         apiQuery: usersData,
         externalParams: {
           organization: user?.organization?._id,
-          limit: 50,
-          role: user?.role,
+          role: ROLES?.ORG_EMPLOYEE,
         },
         getOptionLabel: (option: any) =>
           option?.firstName + ' ' + option?.lastName,
@@ -381,14 +381,16 @@ export const TasksData = ({ data }: any) => {
             };
           case 'dueDate':
             return {
-              accessorFn: (row?: any) => row?.updatedAt,
+              accessorFn: (row?: any) => row?.dueDate,
               id: 'updatedAt',
               isSortable: true,
               header: 'Last Date',
               cell: (info?: any) =>
-                dayjs(info?.row?.original?.dueDate).format(
-                  DATE_TIME_FORMAT?.YMDHM,
-                ),
+                info?.row?.original?.dueDate
+                  ? dayjs(info?.row?.original?.dueDate).format(
+                      DATE_TIME_FORMAT?.YMDHM,
+                    )
+                  : '--',
             };
           default:
             return null;

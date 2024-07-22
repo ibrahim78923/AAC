@@ -11,6 +11,7 @@ interface EmailStateI {
   searchTerm: string;
   mailCurrentPage: any;
   breakScrollOperation: boolean;
+  currentForwardAttachments: any;
 }
 
 const initialState: EmailStateI = {
@@ -26,6 +27,7 @@ const initialState: EmailStateI = {
   searchTerm: '',
   mailCurrentPage: 1,
   breakScrollOperation: false,
+  currentForwardAttachments: [],
 };
 
 const outlookSlice = createSlice({
@@ -46,6 +48,9 @@ const outlookSlice = createSlice({
     },
     setSelectedRecords: (state, action: PayloadAction<any>) => {
       state.selectedRecords = action?.payload;
+    },
+    setCurrentForwardAttachments: (state, action: PayloadAction<any>) => {
+      state.currentForwardAttachments = action?.payload;
     },
     setMailList: (state, action: PayloadAction<any>) => {
       if (action.payload === 'clear') {
@@ -105,5 +110,6 @@ export const {
   setBreakScrollOperation,
   setUpdateMailList,
   setFilterMailList,
+  setCurrentForwardAttachments,
 } = outlookSlice.actions;
 export default outlookSlice.reducer;

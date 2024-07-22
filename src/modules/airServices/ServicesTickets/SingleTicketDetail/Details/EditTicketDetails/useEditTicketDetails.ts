@@ -9,8 +9,12 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/details';
 
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
+import { useEffect, useState } from 'react';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 import { AIR_SERVICES } from '@/constants';
 import { ARRAY_INDEX } from '@/constants/strings';
 import {
@@ -18,12 +22,51 @@ import {
   editTicketDetailsFormFieldsDynamic,
   editTicketDetailsValidationSchema,
 } from './EditTicketDetails.data';
+import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/tickets';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostAttachmentsMutation,
+} from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
 
 export const useEditTicketDetails = () => {
   const router = useRouter();
+  const [form, setForm] = useState<any>([]);
+
   const { ticketId } = router?.query;
   const [editTicketsDetailsTrigger, editTicketsDetailsStatus] =
     useEditTicketsDetailsMutation();
+
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const [postAttachmentTrigger, postAttachmentStatus] =
+    usePostAttachmentsMutation();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_SERVICES,
+      moduleType: DYNAMIC_FIELDS?.MT_TICKETS,
+    };
+    const getDynamicFieldsParameters = { params };
+
+    try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  useEffect(() => {
+    getDynamicFormData();
+  }, []);
+
   const getSingleTicketParameter = {
     pathParam: {
       ticketId,
@@ -37,75 +80,136 @@ export const useEditTicketDetails = () => {
     });
 
   const methods: any = useForm<any>({
-    resolver: yupResolver(editTicketDetailsValidationSchema),
+    resolver: yupResolver(editTicketDetailsValidationSchema?.(form)),
     defaultValues: editTicketDetailsDefaultValuesDynamic(),
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, getValues } = methods;
+
+  useEffect(() => {
+    reset(() =>
+      editTicketDetailsDefaultValuesDynamic(
+        data?.data?.[ARRAY_INDEX?.ZERO],
+        form,
+      ),
+    );
+  }, [data, reset, form]);
 
   const onSubmit = async (formData: any) => {
-    const ticketDetailsData = new FormData();
-    ticketDetailsData?.append(
-      'requester',
-      data?.data?.[ARRAY_INDEX?.ZERO]?.requester,
-    );
-    ticketDetailsData.append('status', formData?.status?._id);
-    ticketDetailsData.append('pirority', formData?.priority?._id);
-    !!formData?.source &&
-      ticketDetailsData.append('source', formData?.source?._id);
-    ticketDetailsData.append('ticketType', formData?.ticketType);
-    !!formData?.impact &&
-      ticketDetailsData.append('impact', formData?.impact?._id);
-    !!formData?.agent &&
-      ticketDetailsData.append('agent', formData?.agent?._id);
-    !!formData?.category &&
-      ticketDetailsData.append('category', formData?.category?._id);
-    ticketDetailsData?.append(
-      'moduleType',
-      data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType,
-    );
+    const newFormData = filteredEmptyValues(formData);
 
-    (!!formData?.plannedEndDate || !!formData?.plannedEndTime) &&
-      ticketDetailsData?.append(
-        'plannedEndDate',
-        makeDateTime(
-          formData?.plannedEndDate,
-          formData?.plannedEndTime,
-        )?.toISOString(),
+    const { plannedEffort } = getValues();
+    if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
+      errorSnackbar(
+        'Invalid format for Planned Effort. Please use format like 1h10m',
       );
-    ticketDetailsData.append('plannedEffort', formData?.plannedEffort);
-    ticketDetailsData?.append(
-      'isChildTicket',
-      data?.data?.[ARRAY_INDEX?.ZERO]?.isChildTicket,
-    );
-    ticketDetailsData?.append('id', ticketId as string);
+      return;
+    }
 
-    const editTicketsDetailsParameter = {
-      body: ticketDetailsData,
-    };
+    const customFields: any = {};
+    const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
+
     try {
+      dynamicAttachmentsPost({
+        form,
+        data: formData,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
+      });
+
+      await Promise?.all(attachmentPromises);
+
+      const customFieldKeys = new Set(
+        form?.map((field: any) => field?.componentProps?.label),
+      );
+
+      Object?.entries(newFormData)?.forEach(([key, value]) => {
+        if (customFieldKeys?.has(key)) {
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > 0) {
+        body.customFields = customFields;
+      }
+
+      const ticketDetailsData = new FormData();
+      ticketDetailsData?.append(
+        'requester',
+        data?.data?.[ARRAY_INDEX?.ZERO]?.requester,
+      );
+      ticketDetailsData.append('status', newFormData?.status?._id);
+      ticketDetailsData.append('pirority', newFormData?.priority?._id);
+      !!newFormData?.department?._id &&
+        ticketDetailsData?.append('department', newFormData?.department?._id);
+      !!newFormData?.source &&
+        ticketDetailsData.append('source', newFormData?.source?._id);
+      ticketDetailsData.append('ticketType', newFormData?.ticketType);
+      !!newFormData?.impact &&
+        ticketDetailsData.append('impact', newFormData?.impact?._id);
+      !!newFormData?.agent &&
+        ticketDetailsData.append('agent', newFormData?.agent?._id);
+      !!newFormData?.category &&
+        ticketDetailsData.append('category', newFormData?.category?._id);
+      ticketDetailsData?.append(
+        'moduleType',
+        data?.data?.[ARRAY_INDEX?.ZERO]?.moduleType,
+      );
+
+      !!newFormData?.plannedEndDate &&
+        ticketDetailsData?.append(
+          'plannedEndDate',
+          newFormData?.plannedEndDate?.toISOString(),
+        );
+      !!newFormData?.plannedEffort &&
+        ticketDetailsData.append('plannedEffort', newFormData?.plannedEffort);
+      ticketDetailsData?.append(
+        'isChildTicket',
+        data?.data?.[ARRAY_INDEX?.ZERO]?.isChildTicket,
+      );
+      ticketDetailsData?.append('id', ticketId as string);
+
+      if (body?.customFields) {
+        ticketDetailsData?.append(
+          'customFields',
+          JSON?.stringify(body?.customFields),
+        );
+      }
+
+      const editTicketsDetailsParameter = {
+        body: ticketDetailsData,
+      };
+
       await editTicketsDetailsTrigger(editTicketsDetailsParameter)?.unwrap();
       router?.push(AIR_SERVICES?.TICKETS);
-      successSnackbar(' ticket updated successfully');
+      successSnackbar('Ticket updated successfully');
       reset();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
   };
 
-  useEffect(() => {
-    reset(() =>
-      editTicketDetailsDefaultValuesDynamic(data?.data?.[ARRAY_INDEX?.ZERO]),
-    );
-  }, [data, reset]);
-
   const apiQueryAgent = useLazyGetAgentDropdownForEditTicketDetailsQuery();
   const apiQueryCategory =
     useLazyGetCategoriesDropdownForEditTicketDetailsQuery();
+  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
 
   const ticketDetailsFormFields = editTicketDetailsFormFieldsDynamic(
     apiQueryAgent,
     apiQueryCategory,
+    apiQueryDepartment,
   );
   return {
     methods,
@@ -117,5 +221,8 @@ export const useEditTicketDetails = () => {
     isFetching,
     isError,
     editTicketsDetailsStatus,
+    form,
+    getDynamicFieldsStatus,
+    postAttachmentStatus,
   };
 };

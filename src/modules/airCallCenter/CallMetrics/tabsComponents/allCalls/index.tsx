@@ -15,6 +15,9 @@ import { useAllCalls } from './useAllCalls';
 import ExportAllCalls from './exportAllCalls';
 import CallsNotesDrawer from './callNotesDrawer';
 import { AlertModals } from '@/components/AlertModals';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+
+import { AIR_CALL_CENTER_CALL_METRICS_PERMISSION } from '@/constants/permission-keys';
 
 const AllCalls = () => {
   const {
@@ -45,44 +48,65 @@ const AllCalls = () => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Search label="Search Here" setSearchBy={setSearchTerm} />
+        <PermissionsGuard
+          permissions={[
+            AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.ALL_CALLS_SEARCH_AND_FILTER,
+          ]}
+        >
+          <Search label="Search Here" setSearchBy={setSearchTerm} />
+        </PermissionsGuard>
 
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-          <Button
-            variant="outlined"
-            color="inherit"
-            startIcon={<ExportBlackIcon />}
-            onClick={() => setIsExportDrawerOpen(true)}
+          <PermissionsGuard
+            permissions={[
+              AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.ALL_CALLS_EXPORT,
+            ]}
           >
-            Export
-          </Button>
-          <Button
-            variant="outlined"
-            color="inherit"
-            startIcon={<FilterSharedIcon />}
-            onClick={() => setIsDrawerOpen(true)}
+            <Button
+              variant="outlined"
+              color="inherit"
+              startIcon={<ExportBlackIcon />}
+              onClick={() => setIsExportDrawerOpen(true)}
+            >
+              Export
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.ALL_CALLS_SEARCH_AND_FILTER,
+            ]}
           >
-            Filter
-          </Button>
+            <Button
+              variant="outlined"
+              color="inherit"
+              startIcon={<FilterSharedIcon />}
+              onClick={() => setIsDrawerOpen(true)}
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
 
       <br />
-
-      <TanstackTable
-        columns={getColumns}
-        data={allCallsData}
-        setPage={setPage}
-        setPageLimit={setPageLimit}
-        isPagination
-        // isLoading={isLoading}
-        currentPage={page}
-        // count={Calls?.meta?.total}
-        pageLimit={pageLimit}
-        // totalRecords={Calls?.meta?.total}
-        // isSuccess={true}
-        // onPageChange={(page: any) => setPage(page)}
-      />
+      <PermissionsGuard
+        permissions={[AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.ALL_CALLS_LIST]}
+      >
+        <TanstackTable
+          columns={getColumns}
+          data={allCallsData}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isPagination
+          // isLoading={isLoading}
+          currentPage={page}
+          // count={Calls?.meta?.total}
+          pageLimit={pageLimit}
+          // totalRecords={Calls?.meta?.total}
+          // isSuccess={true}
+          // onPageChange={(page: any) => setPage(page)}
+        />
+      </PermissionsGuard>
       <CallsDetailsDrawer
         setIsCallDetailsDrawerOpen={setIsCallDetailsDrawerOpen}
         isCallDetailsDrawerOpen={isCallDetailsDrawerOpen}

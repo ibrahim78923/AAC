@@ -1,8 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { dashboardFunction, dropDownMenus } from './HeaderDashboard.data';
 import EmailThisDashboard from '../EmailThisDashboard';
 import { useHeaderDashboard } from './useHeaderDashboard';
+import { AIR_SERVICES } from '@/constants';
 
 export const HeaderDashboard = () => {
   const { theme, router, isDrawerOpen, setIsDrawerOpen, user, copyEmail } =
@@ -36,6 +37,15 @@ export const HeaderDashboard = () => {
             dropdownOptions={dashboardFunction(theme, router)}
             dropdownName="Dashboards"
           />
+          <Button
+            sx={{
+              border: `1px solid ${theme?.palette?.grey?.[600]}`,
+              color: theme?.palette?.grey?.[600],
+            }}
+            onClick={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
+          >
+            Manage Dashboards
+          </Button>
         </Box>
         <EmailThisDashboard
           isDrawerOpen={isDrawerOpen}

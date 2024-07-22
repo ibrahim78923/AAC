@@ -42,9 +42,12 @@ const useCreateTask = ({ creationMode, setIsCreateTaskDrawerOpen }: any) => {
     (state: any) => state?.task?.contactsSelectedIds,
   );
 
-  const { data: taskData } = useGetTaskDetailsQuery({
-    id: selectedTaskIds?.length === 1 && selectedTaskIds[0],
-  });
+  const { data: taskData } = useGetTaskDetailsQuery(
+    {
+      id: selectedTaskIds?.length === 1 && selectedTaskIds[0],
+    },
+    { skip: selectedTaskIds?.length > 0 ? false : true },
+  );
 
   const dealsSelectedIds = useAppSelector(
     (state: any) => state?.task?.dealsSelectedIds,

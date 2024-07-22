@@ -1,6 +1,7 @@
 import { useFieldArray } from 'react-hook-form';
 import { useEffect } from 'react';
 import {
+  useLazyGetAdminUserDropdownListQuery,
   useLazyGetDealDropdownListQuery,
   useLazyGetLifeCycleStagesDropdownListQuery,
   useLazyGetUserDropdownListQuery,
@@ -36,6 +37,7 @@ export const useSubWorkflowConditions = (props: any) => {
   const dealDropdown = useLazyGetDealDropdownListQuery();
   const stagesDropdown = useLazyGetLifeCycleStagesDropdownListQuery();
   const userDropdown = useLazyGetUserDropdownListQuery();
+  const adminUserDropdown = useLazyGetAdminUserDropdownListQuery();
   const router = useRouter();
   const moduleType = watch('module');
   if (!router?.query?.id) {
@@ -54,5 +56,6 @@ export const useSubWorkflowConditions = (props: any) => {
     dealDropdown,
     stagesDropdown,
     userDropdown,
+    adminUserDropdown,
   };
 };

@@ -1,4 +1,15 @@
 import * as Yup from 'yup';
+import { bufferTime } from './DateOverrides/DateOverrides.data';
+
+const timeSlotsWeeklyDataArray = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
 
 export const weeklyDaysSchemaFields: any = Yup?.object()?.shape({
   months: Yup?.array()
@@ -40,48 +51,32 @@ export const weeklyDaysSchemaFields: any = Yup?.object()?.shape({
   }),
 });
 
-export const timeSlotsDefaultValues = () => {
+export const timeSlotsDefaultValues = (timeSlotsData: any) => {
   return {
-    months: [],
-    daysTimeRanges: [
-      {
-        days: 'Sunday',
-        timeRanges: [],
-      },
-      {
-        days: 'Monday',
-        timeRanges: [],
-      },
-      {
-        days: 'Tuesday',
-        timeRanges: [],
-      },
-      {
-        days: 'Wednesday',
-        timeRanges: [],
-      },
-      {
-        days: 'Thursday',
-        timeRanges: [],
-      },
-      {
-        days: 'Friday',
-        timeRanges: [],
-      },
-      {
-        days: 'Saturday',
-        timeRanges: [],
-      },
-    ],
-    dateOverrides: [
-      {
-        date: new Date(),
-        timeRanges: [{ startHour: new Date(), endHour: new Date() }],
-      },
-    ],
+    months: timeSlotsData?.months ?? [],
+    daysTimeRanges: timeSlotsWeeklyDataArray?.map((day: any) => ({
+      days: day,
+      timeRanges:
+        timeSlotsData?.daysTimeRanges
+          ?.find((item: any) => item?.days === day)
+          ?.timeRanges?.map((slot: any) => ({
+            startHour: new Date(slot?.startHour),
+            endHour: new Date(slot?.endHour),
+          })) ?? [],
+    })),
     bufferTime: {
-      bufferBefore: null,
-      bufferAfter: null,
+      bufferBefore: timeSlotsData?.bufferTime?.bufferBefore
+        ? bufferTime?.find(
+            (item: any) =>
+              item?.value === timeSlotsData?.bufferTime?.bufferBefore,
+          )
+        : null,
+      bufferAfter: timeSlotsData?.bufferTime?.bufferAfter
+        ? bufferTime?.find(
+            (item: any) =>
+              item?.value === timeSlotsData?.bufferTime?.bufferAfter,
+          )
+        : null,
     },
   };
 };

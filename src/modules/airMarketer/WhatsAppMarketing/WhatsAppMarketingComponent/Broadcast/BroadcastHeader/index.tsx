@@ -11,10 +11,8 @@ import {
 import { ArrowDropDown } from '@mui/icons-material';
 import Search from '@/components/Search';
 import useBroadcast from '../useBroadcast';
-// import { BroadcastHeaderI } from './BroadcastHeader.interface';
 import { styles } from './BroadcastHeader.style';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
-import { useRouter } from 'next/navigation';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
@@ -27,10 +25,8 @@ import { LoadingButton } from '@mui/lab';
 import { AlertModals } from '@/components/AlertModals';
 
 const BroadcastHeader = (props: any) => {
-  const router = useRouter();
   const {
     setDatePickerVal,
-
     setFilterValues,
     datePickerVal,
     resetFilters,
@@ -50,6 +46,7 @@ const BroadcastHeader = (props: any) => {
     deleteBroadcastLoading,
     handleActionsMenuClose,
     handleSMSBroadcastDelete,
+    navigate,
   } = useBroadcast();
 
   return (
@@ -74,7 +71,7 @@ const BroadcastHeader = (props: any) => {
           />
         </PermissionsGuard>
       </Box>
-      <Stack direction="row" spacing={'8px'} sx={styles?.headerRight}>
+      <Stack direction={'row'} gap={1} sx={styles?.headerRight}>
         <PermissionsGuard
           permissions={[
             AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,
@@ -178,10 +175,11 @@ const BroadcastHeader = (props: any) => {
               >
                 <MenuItem
                   onClick={() => {
-                    handleActionsMenuClose();
-                    router.push(
-                      AIR_MARKETER?.WHATSAPP_MERKETING_UPDATE_BROADCAST,
-                    );
+                    navigate?.push({
+                      pathname:
+                        AIR_MARKETER?.WHATSAPP_MERKETING_CREATE_BROADCAST,
+                      query: { type: 'edit', id: checkedRows },
+                    });
                   }}
                 >
                   Edit

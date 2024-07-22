@@ -1,5 +1,7 @@
+import { Theme } from '@mui/material';
+
 export const style = {
-  mainBox: (theme: any) => {
+  mainBox: (theme: Theme) => {
     return {
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
@@ -14,7 +16,7 @@ export const style = {
       paddingLeft: { lg: '10rem', md: '0rem', sm: '3rem', xs: '0rem' },
     };
   },
-  completePercent: (theme: any) => {
+  completePercent: (theme: Theme) => {
     return {
       background: `${theme.palette.primary?.main}`,
       borderRadius: '6px',
@@ -26,7 +28,7 @@ export const style = {
       color: `${theme?.palette?.common?.white}`,
     };
   },
-  pendingPercent: (theme: any) => {
+  pendingPercent: (theme: Theme) => {
     return {
       background: `${theme.palette.error?.main}`,
       borderRadius: '6px',
@@ -38,7 +40,7 @@ export const style = {
       color: `${theme?.palette?.common?.white}`,
     };
   },
-  enquryTypo: (theme: any) => {
+  enquryTypo: (theme: Theme) => {
     return {
       display: 'flex',
       alignItems: 'center',

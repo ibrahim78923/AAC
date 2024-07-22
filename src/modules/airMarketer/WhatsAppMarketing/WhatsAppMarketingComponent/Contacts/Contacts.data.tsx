@@ -1,32 +1,42 @@
-import { Box } from '@mui/material';
-import Image from 'next/image';
+import { generateImage } from '@/utils/avatarUtils';
+import { Avatar, Box, Typography } from '@mui/material';
 
-export const columns: any = [
-  {
-    accessorFn: (row: any) => row?.name,
-    id: 'name',
-    header: 'name',
-    cell: (info: any) => (
-      <>
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Box sx={{}}>
-            <Image
-              src={info?.row?.original?.image}
-              width={20}
-              height={20}
-              style={{ borderRadius: '50%' }}
-              alt="user-image"
-            />
-          </Box>
-          {info?.getValue()}
+export const columns: any = (theme: any) => {
+  return [
+    {
+      accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,
+      id: 'name',
+      header: 'Name',
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <Avatar
+            alt="user"
+            src={generateImage(info?.row?.original?.profilePicture?.url)}
+            sx={{
+              width: 35,
+              height: 35,
+              background: theme?.palette?.grey[400],
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                color: theme?.palette?.custom?.dim_grey,
+              }}
+            >
+              {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
+              {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+            </Typography>
+          </Avatar>
+          {info?.getValue() ?? 'N/A'}
         </Box>
-      </>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.phoneNo,
-    id: 'phoneNo',
-    header: 'Phone Number',
-    cell: (info: any) => info?.getValue(),
-  },
-];
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.whatsAppNumber,
+      id: 'phoneNo',
+      header: 'Phone Number',
+      cell: (info: any) => info?.getValue() ?? 'N/A',
+    },
+  ];
+};

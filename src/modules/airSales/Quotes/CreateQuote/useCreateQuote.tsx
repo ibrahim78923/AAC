@@ -10,11 +10,14 @@ import {
   usePostQuoteMutation,
 } from '@/services/airSales/quotes';
 import { AIR_SALES } from '@/routesConstants/paths';
+import { PAGINATION } from '@/config';
 const useCreateQuote = () => {
   const router = useRouter();
-
-  const { data: dataGetDeals, refetch: refetchDealsDropdown } =
-    useGetDealsQuery({});
+  const getDealsParams = {
+    page: PAGINATION?.PAGE_COUNT,
+    limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+  };
+  const { data: dataGetDeals } = useGetDealsQuery({ params: getDealsParams });
   const methodsAddQuote = useForm<any>({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
@@ -133,7 +136,6 @@ const useCreateQuote = () => {
     handleOpenFormCreateDeal,
     handleCloseFormCreateDeal,
     loadingAddQuote,
-    refetchDealsDropdown,
   };
 };
 

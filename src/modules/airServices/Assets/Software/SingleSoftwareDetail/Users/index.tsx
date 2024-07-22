@@ -49,7 +49,11 @@ export const Users = () => {
         gap={2}
       >
         <Box>
-          <Search label="Search" setSearchBy={setSearch} searchBy={search} />
+          <Search
+            label="Search Here"
+            setSearchBy={setSearch}
+            searchBy={search}
+          />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <SingleDropdownButton
@@ -83,10 +87,10 @@ export const Users = () => {
             selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
               ? 'Add Device'
               : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
-                ? 'Deallocate Contract '
-                : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
-                  ? 'Remove Contract'
-                  : 'Add Device'
+              ? 'Deallocate Contract '
+              : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
+              ? 'Remove Contract'
+              : 'Add Device'
           }
         >
           {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (

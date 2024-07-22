@@ -4,20 +4,22 @@ import {
   useGetCrmQuery,
   useGetProductsQuery,
 } from '@/services/superAdmin/plan-mangement';
+import { DRAWER_TITLE } from '@/constants';
+import { IMPORT_ACTION_TYPE } from '@/constants/strings';
 
 export const useAddPlanForm = (
-  AdditionalStorageValue: any,
-  AdditionalUsereValue: any,
-  selectProductSuite: any,
+  AdditionalStorageValue: number,
+  AdditionalUsereValue: number,
+  selectProductSuite: string,
   setSelectProductSuite: any,
-  isSuccess: any,
+  isSuccess: boolean,
 ) => {
   const router = useRouter();
   const { data } = useGetProductsQuery({});
   const { data: getCRM } = useGetCrmQuery({});
 
   const formDefaultValuesFunction = dataArray(
-    router?.query?.action === 'view',
+    router?.query?.action === DRAWER_TITLE?.VIEW,
     AdditionalStorageValue,
     AdditionalUsereValue,
     isSuccess,
@@ -29,8 +31,9 @@ export const useAddPlanForm = (
   }));
 
   const planLabelRender =
-    selectProductSuite == 'product' ? 'productId' : 'suite';
-  const planNameRender = selectProductSuite == 'product' ? 'Product' : 'Suite';
+    selectProductSuite == IMPORT_ACTION_TYPE?.PRODUCT ? 'productId' : 'suite';
+  const planNameRender =
+    selectProductSuite == IMPORT_ACTION_TYPE?.PRODUCT ? 'Product' : 'Suite';
 
   const crmOptions = getCRM?.data?.map((product: any) => ({
     value: product?._id,

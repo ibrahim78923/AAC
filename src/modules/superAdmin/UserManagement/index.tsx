@@ -68,8 +68,8 @@ const UserManagement = () => {
             tabVal === initialTab
               ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
               : tabVal === tabOne
-                ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
-                : [SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ADD_ROLE]
+              ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
+              : [SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ADD_ROLE]
           }
         >
           <Button
@@ -79,9 +79,9 @@ const UserManagement = () => {
               tabVal === tabTwo
                 ? handleAddRole()
                 : setIsOpenAddUserDrawer({
+                    ...isOpenAddUserDrawer,
                     drawer: true,
                     type: ACTIONS_TYPES?.ADD,
-                    data: {},
                   })
             }
             variant="contained"
@@ -90,8 +90,8 @@ const UserManagement = () => {
             {tabVal === initialTab
               ? 'Add Company Owner'
               : tabVal === tabOne
-                ? 'Add Super Admin '
-                : 'Add Role'}
+              ? 'Add Super Admin '
+              : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
@@ -215,8 +215,9 @@ const UserManagement = () => {
           isOpenDrawer={isOpenAddUserDrawer?.drawer}
           onClose={() =>
             setIsOpenAddUserDrawer({
-              ...isOpenAddUserDrawer,
               drawer: false,
+              type: '',
+              recordId: '',
             })
           }
           isOpenAddUserDrawer={isOpenAddUserDrawer}

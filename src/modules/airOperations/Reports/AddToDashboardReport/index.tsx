@@ -13,13 +13,14 @@ import { useAddToDashboardReport } from './useAddToDashboardReport';
 import CloseIcon from '@mui/icons-material/Close';
 
 export const AddToDashboardReport = (props: any) => {
-  const { isPortalOpen } = props;
+  const { isPortalOpen, baseModule } = props;
   const {
     methods,
     handleSubmit,
     submitAddToDashboardForm,
     closeModal,
-    apiQueryDashboard,
+    API_QUERY_DASHBOARD,
+    apiQueryServicesDashboard,
     addReportsToDashboardStatus,
   }: any = useAddToDashboardReport(props);
 
@@ -28,7 +29,7 @@ export const AddToDashboardReport = (props: any) => {
       open={isPortalOpen?.isAddedToDashboard}
       onClose={() => closeModal?.()}
       fullWidth
-      maxWidth={'xs'}
+      maxWidth={'sm'}
     >
       <FormProvider
         methods={methods}
@@ -59,7 +60,9 @@ export const AddToDashboardReport = (props: any) => {
             name="dashboard"
             fullWidth
             required
-            apiQuery={apiQueryDashboard}
+            apiQuery={
+              API_QUERY_DASHBOARD?.[baseModule] ?? apiQueryServicesDashboard
+            }
             multiple
             size="small"
             placeholder="Search Here"

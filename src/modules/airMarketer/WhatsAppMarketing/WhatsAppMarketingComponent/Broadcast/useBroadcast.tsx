@@ -57,11 +57,8 @@ const useBroadcast = () => {
     useDeleteWhatsAppBroadcastMutation();
 
   const handleSMSBroadcastDelete = async (id: any) => {
-    const values = {
-      ids: id,
-    };
     try {
-      await deleteSmsBroadcast({ body: values })?.unwrap();
+      await deleteSmsBroadcast(id)?.unwrap();
       setOpenModalDelete(false);
       setCheckedRows([]);
       enqueueSnackbar(`Broadcast Deleted Successfully`, {

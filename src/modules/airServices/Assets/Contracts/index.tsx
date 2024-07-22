@@ -49,70 +49,64 @@ const Contracts = () => {
         boxShadow={1}
         border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
       >
-        <Box px={2}>
-          <Box
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            flexWrap={'wrap'}
-            gap={2}
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          flexWrap={'wrap'}
+          gap={2}
+          px={2}
+        >
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.SEARCH_AND_FILTER,
+            ]}
           >
+            <Search label="Search Here" setSearchBy={setSearch} />
+          </PermissionsGuard>
+          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.DELETE_CONTRACTS,
+              ]}
+            >
+              <Button
+                variant="outlined"
+                color="secondary"
+                disabled={!!!selectedContractList?.length}
+                onClick={() => setIsDeleteModalOpen(true)}
+              >
+                Delete
+              </Button>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.EXPORT_CONTRACTS,
+              ]}
+            >
+              <ExportButton
+                handleExcelExport={() =>
+                  getContractListDataExport?.(EXPORT_TYPE?.XLS)
+                }
+                handleCsvExport={() =>
+                  getContractListDataExport?.(EXPORT_TYPE?.CSV)
+                }
+              />
+            </PermissionsGuard>
             <PermissionsGuard
               permissions={[
                 AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.SEARCH_AND_FILTER,
               ]}
             >
-              <Search label="Search Here" setSearchBy={setSearch} />
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<FilterSharedIcon />}
+                onClick={() => setIsDrawerOpen(true)}
+              >
+                Filter
+              </Button>
             </PermissionsGuard>
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              gap={1}
-              flexWrap={'wrap'}
-            >
-              <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.DELETE_CONTRACTS,
-                ]}
-              >
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  disabled={!!!selectedContractList?.length}
-                  onClick={() => setIsDeleteModalOpen(true)}
-                >
-                  Delete
-                </Button>
-              </PermissionsGuard>
-              <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.EXPORT_CONTRACTS,
-                ]}
-              >
-                <ExportButton
-                  handleExcelExport={() =>
-                    getContractListDataExport?.(EXPORT_TYPE?.XLS)
-                  }
-                  handleCsvExport={() =>
-                    getContractListDataExport?.(EXPORT_TYPE?.CSV)
-                  }
-                />
-              </PermissionsGuard>
-              <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.SEARCH_AND_FILTER,
-                ]}
-              >
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  startIcon={<FilterSharedIcon />}
-                  onClick={() => setIsDrawerOpen(true)}
-                >
-                  Filter
-                </Button>
-              </PermissionsGuard>
-            </Box>
           </Box>
         </Box>
         <br />

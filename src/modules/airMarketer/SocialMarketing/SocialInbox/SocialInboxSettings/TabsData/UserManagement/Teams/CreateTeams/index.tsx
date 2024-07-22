@@ -8,6 +8,7 @@ import useUserManagement from '../../useUserManagement';
 
 const CreateTeams = (props?: any) => {
   const { isAddTeam, setIsAddTeam, teamDataById, teamByIdLoading } = props;
+
   const {
     methods,
     handleSubmit,
@@ -15,6 +16,7 @@ const CreateTeams = (props?: any) => {
     productsUsers,
     postTeamLoading,
     updateTeamLoading,
+    availableUsersData,
   } = useCreateTeams(teamDataById, setIsAddTeam, isAddTeam?.type);
   const { skeletonLines, drawyerType } = useUserManagement();
 
@@ -39,7 +41,11 @@ const CreateTeams = (props?: any) => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {teamsDataArray(productsUsers)?.map((item: any) => (
+              {teamsDataArray(
+                isAddTeam?.type === drawyerType?.ADD
+                  ? productsUsers?.data
+                  : availableUsersData?.data,
+              )?.map((item: any) => (
                 <Grid
                   item
                   xs={12}

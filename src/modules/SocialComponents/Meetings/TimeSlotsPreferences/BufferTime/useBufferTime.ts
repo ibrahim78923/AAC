@@ -1,17 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-export const useBufferTime = (props: any) => {
-  const { setValue } = props;
+export const useBufferTime = () => {
   const [beforeChecked, setBeforeChecked] = useState(false);
   const [afterChecked, setAfterChecked] = useState(false);
-
-  useEffect(() => {
-    if (!beforeChecked) setValue('bufferTime.bufferBefore', null);
-  }, [beforeChecked]);
-
-  useEffect(() => {
-    if (!afterChecked) setValue('bufferTime.bufferAfter', null);
-  }, [afterChecked]);
 
   return {
     beforeChecked,

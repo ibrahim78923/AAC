@@ -1,5 +1,7 @@
 import { CustomCircularProgressBar } from '@/components/CustomCircularProgressBar';
 import { Box, Typography, useTheme } from '@mui/material';
+import { SURVEY_WIDGET_IDS } from '../AllResponses/AllResponses.data';
+import { FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE_DESCRIPTION } from './TotalSurveyScore.data';
 
 export const TotalSurveyScore = (props: any) => {
   const { data } = props;
@@ -22,21 +24,41 @@ export const TotalSurveyScore = (props: any) => {
             size={150}
             thickness={3}
             progressColor={theme?.palette?.warning?.main}
-            value={data?.value}
+            percentage={
+              !!data?.data?.surveyResponses?.[
+                SURVEY_WIDGET_IDS?.TOTAL_SURVEY_SCORE
+              ]
+                ? data?.data?.surveyResponses?.[
+                    SURVEY_WIDGET_IDS?.TOTAL_SURVEY_SCORE
+                  ] * 20
+                : 0
+            }
+            value={
+              data?.data?.surveyResponses?.[
+                SURVEY_WIDGET_IDS?.TOTAL_SURVEY_SCORE
+              ] ?? 0
+            }
           />
         </Box>
         <Box flex={1}>
           <Typography variant="h4" color="slateBlue.main">
-            Very Good
+            {data?.data?.surveyResponses?.[
+              SURVEY_WIDGET_IDS?.SATISFACTION_LEVEL
+            ] ?? '---'}
           </Typography>
-          <Typography variant="body2" color="slateBlue.main">
-            Awesome!
+          <Typography variant="body2" color="slateBlue.main" my={0.5}>
+            {FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE_DESCRIPTION?.[
+              data?.data?.surveyResponses?.[
+                SURVEY_WIDGET_IDS?.SATISFACTION_LEVEL
+              ]
+            ]?.title ?? '---'}
           </Typography>
           <Typography variant="body4" color="slateBlue.main">
-            The overall average of this survey scaled answers indicates a
-            positive result. This means that you’re generally doing a good job
-            keeping your people happy, specifically in connection to topics
-            brought up in this survey.
+            {FEEDBACK_SURVEY_QUESTION_RESPONSE_GRADE_DESCRIPTION?.[
+              data?.data?.surveyResponses?.[
+                SURVEY_WIDGET_IDS?.SATISFACTION_LEVEL
+              ]
+            ]?.description ?? '---'}
           </Typography>
         </Box>
       </Box>

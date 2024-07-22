@@ -5,6 +5,9 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useUpsertTicket } from './useUpsertTicket';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import ApiErrorState from '@/components/ApiErrorState';
+import { componentMap } from '@/utils/dynamic-forms';
+import { createElement } from 'react';
 
 export const UpsertTicket = (props: any) => {
   const { isDrawerOpen } = props;
@@ -20,6 +23,9 @@ export const UpsertTicket = (props: any) => {
     putTicketStatus,
     postTicketStatus,
     isError,
+    form,
+    getDynamicFieldsStatus,
+    postAttachmentStatus,
   }: any = useUpsertTicket(props);
 
   return (
@@ -32,73 +38,86 @@ export const UpsertTicket = (props: any) => {
       isOk
       cancelText={'Cancel'}
       footer
-      isLoading={putTicketStatus?.isLoading || postTicketStatus?.isLoading}
+      isLoading={
+        putTicketStatus?.isLoading ||
+        postTicketStatus?.isLoading ||
+        postAttachmentStatus?.isLoading
+      }
       isDisabled={
-        isError || postTicketStatus?.isLoading || putTicketStatus?.isLoading
+        isError ||
+        postTicketStatus?.isLoading ||
+        putTicketStatus?.isLoading ||
+        postAttachmentStatus?.isLoading
       }
       disabledCancelBtn={
-        isError || postTicketStatus?.isLoading || putTicketStatus?.isLoading
+        isError ||
+        postTicketStatus?.isLoading ||
+        putTicketStatus?.isLoading ||
+        postAttachmentStatus?.isLoading
       }
     >
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : (
-        <>
-          {isError && (
-            <Typography
-              component="div"
-              color="error.main"
-              textAlign={'center'}
-              variant="body3"
-            >
-              Something went wrong. Try again later
-            </Typography>
-          )}
-          <Box mt={1}>
-            <FormProvider
-              methods={methods}
-              onSubmit={handleSubmit(submitUpsertTicket)}
-            >
-              <Grid container spacing={2}>
-                {upsertTicketFormFields?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={item?.id}>
-                    <item.component
-                      {...item?.componentProps}
-                      size={'small'}
-                      disabled={item?.componentProps?.disabled ?? isError}
-                    />
+      <Box mt={1}>
+        {isLoading ||
+        isFetching ||
+        getDynamicFieldsStatus?.isLoading ||
+        getDynamicFieldsStatus?.isFetching ? (
+          <SkeletonForm />
+        ) : isError && getDynamicFieldsStatus?.isError ? (
+          <ApiErrorState />
+        ) : (
+          <FormProvider
+            methods={methods}
+            onSubmit={handleSubmit(submitUpsertTicket)}
+          >
+            <Grid container spacing={2}>
+              {upsertTicketFormFields?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={item?.id}>
+                  <item.component
+                    {...item?.componentProps}
+                    size={'small'}
+                    disabled={item?.componentProps?.disabled ?? isError}
+                  />
+                </Grid>
+              ))}
+              {!!!ticketId &&
+                form?.map((item: any) => (
+                  <Grid item xs={12} key={item?.id}>
+                    {componentMap[item?.component] &&
+                      createElement(componentMap[item?.component], {
+                        ...item?.componentProps,
+                        name: item?.componentProps?.label,
+                        size: 'small',
+                      })}
                   </Grid>
                 ))}
-              </Grid>
-              <br />
+            </Grid>
+            <br />
 
-              {!!ticketId && (
-                <>
-                  <Typography
-                    variant="body1"
-                    fontWeight={500}
-                    color="slateBlue.main"
-                    mb={2}
-                  >
-                    {' '}
-                    Attachments{' '}
-                  </Typography>
-                  <Box maxHeight={'20vh'}>
-                    <Attachments
-                      recordId={ticketId}
-                      permissionKey={[
-                        AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
-                      ]}
-                      colSpan={{ sm: 12, lg: 12 }}
-                    />
-                  </Box>
-                </>
-              )}
-            </FormProvider>
-          </Box>
-        </>
-      )}
-      <br />
+            {!!ticketId && (
+              <>
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                  color="slateBlue.main"
+                  mb={2}
+                >
+                  {' '}
+                  Attachments{' '}
+                </Typography>
+                <Box maxHeight={'20vh'}>
+                  <Attachments
+                    recordId={ticketId}
+                    permissionKey={[
+                      AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
+                    ]}
+                    colSpan={{ sm: 12, lg: 12 }}
+                  />
+                </Box>
+              </>
+            )}
+          </FormProvider>
+        )}
+      </Box>
     </CommonDrawer>
   );
 };

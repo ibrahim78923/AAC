@@ -1,9 +1,11 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import {
   CallCompletedIcon,
   CallListenToDiscretelyIcon,
   CallOutGoingIcon,
 } from '@/assets/icons';
 import { UserDefault, UserProfileVectorImage } from '@/assets/images';
+import { AIR_CALL_CENTER_CALL_METRICS_PERMISSION } from '@/constants/permission-keys';
 
 import { Box, Tooltip, Typography } from '@mui/material';
 import Image from 'next/image';
@@ -34,26 +36,38 @@ export const callInConversationColumns = ({}: any) => {
       accessorFn: (row: any) => row?.types,
       id: 'types',
       cell: (info: any) => (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          {info?.row?.original?.types === CallTypes?.COMPLETED ? (
-            <Tooltip title="Incoming Calls" placement="top-start">
-              <Box>
-                <CallCompletedIcon />
-              </Box>
-            </Tooltip>
-          ) : (
-            <Tooltip title="Outgoing Calls" placement="top-start">
-              <Box>
-                <CallOutGoingIcon />
-              </Box>
-            </Tooltip>
-          )}
-          <Tooltip title="Listen To Calls Discretely" placement="top-start">
-            <Box>
+        <PermissionsGuard
+          permissions={[
+            AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.CALL_IN_CONVERSATION_CALL_TYPE,
+          ]}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            {info?.row?.original?.types === CallTypes?.COMPLETED ? (
+              <PermissionsGuard
+                permissions={[
+                  AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.CALL_IN_CONVERSATION_LISTEN_CALL_DISCREETLY,
+                ]}
+              >
+                <Tooltip title="Incoming Calls" placement="top-start">
+                  <CallCompletedIcon />
+                </Tooltip>
+              </PermissionsGuard>
+            ) : (
+              <PermissionsGuard
+                permissions={[
+                  AIR_CALL_CENTER_CALL_METRICS_PERMISSION?.INCOMING_CALL_QUEUES,
+                ]}
+              >
+                <Tooltip title="Outgoing Calls" placement="top-start">
+                  <CallOutGoingIcon />
+                </Tooltip>
+              </PermissionsGuard>
+            )}
+            <Tooltip title="Listen To Calls Discretely" placement="top-start">
               <CallListenToDiscretelyIcon />
-            </Box>
-          </Tooltip>
-        </Box>
+            </Tooltip>
+          </Box>
+        </PermissionsGuard>
       ),
       header: 'Call Types',
       isSortable: true,

@@ -1,25 +1,46 @@
 import { PAGINATION } from '@/config';
-import { FEEDBACK_SURVEY_TYPES } from '@/constants/strings';
+import {
+  ARRAY_INDEX,
+  FEEDBACK_STATUS,
+  FEEDBACK_SURVEY_TYPES,
+} from '@/constants/strings';
 import {
   useDeleteFeedbackSurveyMutation,
   useLazyGetFeedbackListQuery,
+  usePatchDefaultSurveyMutation,
+  usePatchFeedbackSurveyMutation,
+  usePostCloneFeedbackSurveyMutation,
 } from '@/services/airServices/feedback-survey';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import {
+  feedbackDropdown,
+  surveyDataTypes,
+} from './CustomerSatisfactionList.data';
+import { getActivePermissionsSession } from '@/utils';
+import { AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_SERVICES } from '@/constants';
 
 export const useCustomerSatisfactionList = (props: any) => {
   const { status } = props;
   const router = useRouter();
-  const [activeCheck, setActiveCheck] = useState([]);
+  const [activeCheck, setActiveCheck] = useState<any[]>([]);
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [defaultLoading, setDefaultLoading] = useState<any>({});
   const [getFeedbackList, { data, isLoading, isFetching, isError, isSuccess }] =
     useLazyGetFeedbackListQuery();
   const [deleteSurveyTrigger, { isLoading: deleteLoading }] =
     useDeleteFeedbackSurveyMutation();
+  const [cloneSurveyTrigger, { isLoading: cloneLoading }] =
+    usePostCloneFeedbackSurveyMutation();
+  const [patchDefaultSurveyTrigger, { isLoading: patchLoading }] =
+    usePatchDefaultSurveyMutation();
+  const [patchSurveyTrigger, { isLoading: statusLoading }] =
+    usePatchFeedbackSurveyMutation();
   const handleDeleteSurvey = async () => {
     const deleteParams = new URLSearchParams();
     activeCheck?.forEach((item: any) => deleteParams?.append('ids', item?._id));
@@ -44,10 +65,93 @@ export const useCustomerSatisfactionList = (props: any) => {
   useEffect(() => {
     handleFeedbackList();
   }, [search, page, limit, status]);
+  const handleCloneSurvey = async (closeMenu: any) => {
+    const cloneParams = {
+      id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
+    };
+    const response: any = await cloneSurveyTrigger(cloneParams);
+    if (response?.data?.message) {
+      closeMenu();
+      successSnackbar(response?.data?.message && 'Survey clone successfully');
+    } else {
+      errorSnackbar(response?.error?.data?.message);
+    }
+  };
+  const handleTitleClick = (surveyData: any) => {
+    if (
+      getActivePermissionsSession()?.includes(
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_EDIT,
+      ) &&
+      surveyData?.status === surveyDataTypes?.draft
+    ) {
+      return router?.push({
+        pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
+        query: {
+          type: surveyDataTypes?.customerSatisfaction,
+          id: surveyData?._id,
+        },
+      });
+    } else if (
+      getActivePermissionsSession()?.includes(
+        AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_VIEW_RESPONSE,
+      ) &&
+      surveyData?.status !== surveyDataTypes?.draft
+    ) {
+      return router?.push({
+        pathname: AIR_SERVICES?.FEEDBACK_SURVEY_RESPONSES,
+        query: {
+          surveyId: surveyData?._id,
+        },
+      });
+    }
+    return;
+  };
+  const handleDefaultSurvey = async (surveyValues: any) => {
+    setDefaultLoading({ [surveyValues?._id]: true });
+    const patchParams = { id: surveyValues?._id };
+    const response: any = await patchDefaultSurveyTrigger(patchParams);
+    if (response?.data?.message) {
+      successSnackbar(
+        `${surveyValues?.surveyTitle} set as default successfully`,
+      );
+      setDefaultLoading({});
+    } else {
+      errorSnackbar(response?.error?.data?.message);
+      setDefaultLoading({});
+    }
+  };
+  const handleStatus = async (closeMenu: any) => {
+    const patchParams = {
+      params: {
+        id: activeCheck?.[ARRAY_INDEX?.ZERO]?._id,
+      },
+      body: {
+        status: FEEDBACK_STATUS?.DRAFT,
+      },
+    };
+    const response: any = await patchSurveyTrigger(patchParams);
+    if (response?.data?.message) {
+      closeMenu();
+      successSnackbar(
+        `${response?.data?.data?.surveyTitle} Save as draft successfully`,
+      );
+      setActiveCheck([]);
+    } else {
+      errorSnackbar(response?.error?.data?.message);
+    }
+  };
+  const feedbackDropdownOption = feedbackDropdown(
+    activeCheck,
+    setOpenModal,
+    router,
+    handleCloneSurvey,
+    cloneLoading,
+    handleStatus,
+    statusLoading,
+  );
   const feedbackTableData = data?.data?.feedbackSurvey;
   const meta = data?.data?.meta;
   return {
-    search,
     setSearch,
     activeCheck,
     setActiveCheck,
@@ -66,5 +170,10 @@ export const useCustomerSatisfactionList = (props: any) => {
     openModal,
     setOpenModal,
     deleteLoading,
+    feedbackDropdownOption,
+    handleTitleClick,
+    handleDefaultSurvey,
+    patchLoading,
+    defaultLoading,
   };
 };

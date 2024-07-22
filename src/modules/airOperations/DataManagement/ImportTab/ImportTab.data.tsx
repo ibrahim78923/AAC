@@ -1,6 +1,6 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { DATE_TIME_FORMAT } from '@/constants';
-import { Checkbox, Typography } from '@mui/material';
+import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const importTabColumnsFunction: any = (
@@ -57,11 +57,21 @@ export const importTabColumnsFunction: any = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.name,
-    id: 'name',
+    accessorFn: (row: any) => row?.user,
+    id: 'user',
     isSortable: true,
     header: 'User',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) => (
+      <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
+        <Avatar
+          sx={{ bgcolor: 'error.lighter' }}
+          style={{ width: 24, height: 24 }}
+          src={info?.row?.original?.user?.profileImg?.src}
+          alt={info?.row?.original?.user?.name}
+        />
+        {info?.getValue() ?? '---'}
+      </Box>
+    ),
   },
   {
     accessorFn: (row: any) => row?.fileName,

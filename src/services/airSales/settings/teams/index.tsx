@@ -1,6 +1,8 @@
 import { baseAPI } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
 
+const USER_MANAGEMENT = 'SETTINGS_USERS_MANAGEMENT';
+
 export const TeamsApi: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getTeams: builder.query({
@@ -9,7 +11,16 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['SETTINGS_USERS_MANAGEMENT'],
+      providesTags: [USER_MANAGEMENT],
+    }),
+
+    getTeamsUsers: builder.query({
+      query: (params) => ({
+        url: END_POINTS?.SALES_TEAM_USERS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: [USER_MANAGEMENT],
     }),
 
     getTeamsList: builder.query({
@@ -20,7 +31,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.userTeams;
       },
-      providesTags: ['SETTINGS_USERS_MANAGEMENT'],
+      providesTags: [USER_MANAGEMENT],
     }),
 
     getTeamsById: builder.query({
@@ -30,7 +41,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           method: 'GET',
         };
       },
-      providesTags: ['SETTINGS_USERS_MANAGEMENT'],
+      providesTags: [USER_MANAGEMENT],
     }),
 
     postTeams: builder.mutation({
@@ -41,7 +52,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['SETTINGS_USERS_MANAGEMENT'],
+      invalidatesTags: [USER_MANAGEMENT],
     }),
 
     updateTeams: builder.mutation({
@@ -52,7 +63,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['SETTINGS_USERS_MANAGEMENT'],
+      invalidatesTags: [USER_MANAGEMENT],
     }),
 
     deleteTeams: builder.mutation({
@@ -60,7 +71,7 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
         url: `${END_POINTS?.SALES_TEAM}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['SETTINGS_USERS_MANAGEMENT'],
+      invalidatesTags: [USER_MANAGEMENT],
     }),
   }),
 });
@@ -72,4 +83,5 @@ export const {
   usePostTeamsMutation,
   useUpdateTeamsMutation,
   useDeleteTeamsMutation,
+  useGetTeamsUsersQuery,
 } = TeamsApi;

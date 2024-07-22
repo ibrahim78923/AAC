@@ -1,44 +1,93 @@
-import { Button, Divider, Box } from '@mui/material';
-import { GrayPlusIcon } from '@/assets/icons';
-import ItemsDetailsHeader from './ItemDetailsComponents/ItemsDetailsHeader';
+import {
+  Button,
+  Box,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Typography,
+} from '@mui/material';
 import useItemsDetails from './useItemsDetails';
-import ItemBilling from './ItemDetailsComponents/ItemBilling';
-import { styles } from './ItemsDetails.style';
-import { ItemDetail } from './ItemDetailsComponents/ItemDetail';
+import { ItemDetail } from './ItemDetail';
+import {
+  itemsDetailsColumnsList,
+  upsertPurchaseOrderItemDetailsDynamic,
+} from './ItemsDetails.data';
+import { useLazyGetVendorProductsDropdownQuery } from '@/services/airServices/assets/purchase-orders';
+import ItemBilling from './ItemBilling';
+import { pxToRem } from '@/utils/getFontValue';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const ItemsDetails = (props: any) => {
-  const { fields, append, vendorId, watch } = useItemsDetails(props);
-  const { itemsWrapper, flexBetween } = styles();
+  const { name } = props;
+  const { fields, append, vendorId, watch, remove, control } =
+    useItemsDetails(props);
+
+  const apiQueryVendorProducts: any = useLazyGetVendorProductsDropdownQuery();
+
   return (
     <>
-      <Box width="100%" overflow="scroll">
-        <Box sx={{ ...itemsWrapper }}>
-          <ItemsDetailsHeader />
-          {fields?.map((item: any, index: number) => (
-            <Box key={item?.id} sx={{ ...flexBetween }}>
-              <ItemDetail index={index} vendorId={vendorId} watch={watch} />
-            </Box>
-          ))}
-          <Button
-            color="secondary"
-            onClick={() =>
-              append({
-                itemName: null,
-                description: '',
-                quantity: 0,
-                costPerItem: 0,
-                taxRate: 0,
-                total: 0,
-              })
-            }
-            sx={{ px: 2 }}
-            startIcon={<GrayPlusIcon />}
-          >
-            Add Additional items
-          </Button>
-        </Box>
+      <br />
+      <Box boxShadow={1}>
+        <TableContainer>
+          <Table sx={{ minWidth: pxToRem(1800) }}>
+            <TableHead>
+              <TableRow>
+                {itemsDetailsColumnsList?.map((column: any) => (
+                  <TableCell key={column?.value}>{column?.label}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {fields?.map((item: any, index: any) => {
+                return (
+                  <TableRow key={item?.id}>
+                    {upsertPurchaseOrderItemDetailsDynamic?.(
+                      apiQueryVendorProducts,
+                      index,
+                      vendorId?._id,
+                      remove,
+                    )?.map((singleField: any) => (
+                      <TableCell key={singleField?.id}>
+                        <ItemDetail
+                          data={singleField?.data}
+                          index={index}
+                          watch={watch}
+                        />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Button
+          type="button"
+          color="secondary"
+          onClick={() => {
+            append({
+              itemName: null,
+              description: '',
+              quantity: '0',
+              costPerItem: '0',
+              taxRate: '0',
+              total: '0',
+            });
+          }}
+          startIcon={<AddCircleIcon />}
+          sx={{ marginY: 2, marginLeft: 2 }}
+        >
+          Add Additional Items
+        </Button>
       </Box>
-      <Divider />
+      <br />
+      <Typography variant="body1" color="error">
+        {control?.getFieldState?.(name)?.error?.root?.message}
+      </Typography>
+      <br />
       <ItemBilling watch={watch} />
     </>
   );

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { CATALOG_SERVICE_TYPES } from '@/constants/strings';
@@ -8,6 +7,7 @@ import {
   useGetServiceCatalogCategoriesQuery,
   useGetServiceCatalogQuery,
 } from '@/services/airCustomerPortal/catalog';
+
 const useCatalog = () => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -15,17 +15,25 @@ const useCatalog = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
   const [result, setResult] = useState<any[]>([]);
+
   const handlePageChange = (page: number) => {
     setPage(page);
   };
+
   const param = {
     page: page,
     limit: pageLimit,
     search,
   };
-  const { data } = useGetServiceCatalogCategoriesQuery({
-    param,
-  });
+
+  const serviceCatalogCategories = useGetServiceCatalogCategoriesQuery(
+    {
+      param,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
 
   const { categoryId } = router?.query;
 
@@ -34,6 +42,7 @@ const useCatalog = () => {
       categoryId,
     },
   };
+
   const {
     data: services,
     isLoading,
@@ -79,11 +88,12 @@ const useCatalog = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   return {
     handleClick,
     result,
     handleClickService,
-    data,
+    serviceCatalogCategories,
     handleClickOpen,
     isLoading,
     isFetching,
@@ -96,6 +106,8 @@ const useCatalog = () => {
     open,
     setOpen,
     router,
+    services,
+    categoryId,
   };
 };
 

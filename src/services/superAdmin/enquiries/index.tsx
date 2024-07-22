@@ -5,13 +5,14 @@ const TAG = ['ENQUIRIES'];
 export const enquiriesApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getEnquiries: builder.query({
-      query: ({ ...params }) => ({
+      query: ({ params }) => ({
         url: END_POINTS?.ENQUIRIES,
         method: 'GET',
         params: params,
       }),
       providesTags: TAG,
     }),
+
     deleteEnquiry: builder.mutation({
       query: ({ id }) => ({
         url: `${END_POINTS?.ENQUIRIES}/${id}`,
@@ -19,7 +20,20 @@ export const enquiriesApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    patchEnquiries: builder?.mutation({
+      query: (patchEnquiriesParameter: any) => ({
+        url: `${END_POINTS?.ENQUIRIES}/${patchEnquiriesParameter?.queryParams}`,
+        method: 'PATCH',
+        body: patchEnquiriesParameter?.body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
-export const { useGetEnquiriesQuery, useDeleteEnquiryMutation } = enquiriesApi;
+export const {
+  useGetEnquiriesQuery,
+  useDeleteEnquiryMutation,
+  usePatchEnquiriesMutation,
+} = enquiriesApi;

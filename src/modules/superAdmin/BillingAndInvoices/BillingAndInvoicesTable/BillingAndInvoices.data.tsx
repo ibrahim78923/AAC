@@ -1,4 +1,11 @@
-import { Avatar, Box, Checkbox, Tooltip, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  Theme,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { RHFSelect } from '@/components/ReactHookForm';
 import {
   useGetOrganizationsQuery,
@@ -9,19 +16,26 @@ import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import { IMG_URL } from '@/config';
 import { REQUESTORS_STATUS } from '@/constants/strings';
+import {
+  CellInfoI,
+  OrganizationI,
+  PlanProductI,
+  PlanTypeI,
+  RowDataI,
+} from './billingandinvoices.interface';
 
 export const Columns = (
-  setIsGetRowValues: any,
-  setIsChecked: any,
-  isChecked: any,
-  isGetRowValues: any,
-  theme: any,
+  setIsGetRowValues: (value: any) => void,
+  setIsChecked: (value: boolean) => void,
+  isChecked: boolean,
+  isGetRowValues: { cell: { row: { original: { _id: string } } } },
+  theme: Theme,
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?.Id,
+      accessorFn: (row: RowDataI) => row?.Id,
       id: 'Id',
-      cell: (info: any) => (
+      cell: (info: CellInfoI) => (
         <Checkbox
           color="primary"
           checked={
@@ -36,15 +50,15 @@ export const Columns = (
           }}
         />
       ),
-      header: <Checkbox color="primary" name="Id" disabled />,
+      header: '',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => {
+      accessorFn: (row: RowDataI) => {
         `${row?.usersOrg?.firstName}  ${row?.usersOrg?.lastName}`;
       },
       id: 'clientName',
-      cell: (info: any) => {
+      cell: (info: CellInfoI) => {
         const avatarUrl = info?.row?.original?.organizations?.avatar?.url;
         const firstName = info?.row?.original?.usersOrg?.firstName;
         const lastName = info?.row?.original?.usersOrg?.lastName;
@@ -71,15 +85,15 @@ export const Columns = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.planProducts,
+      accessorFn: (row: RowDataI) => row?.planProducts,
       id: 'productsSuite',
       isSortable: true,
       header: 'Products/Suite',
-      cell: (info: any) => {
+      cell: (info: CellInfoI) => {
         const planProducts = info?.row?.original?.planProducts;
         const tooltipTitle = (
           <Box>
-            {planProducts?.map((data: any) => (
+            {planProducts?.map((data: PlanProductI) => (
               <Typography key={uuidv4()} variant="h6">
                 {data?.name}
               </Typography>
@@ -88,7 +102,7 @@ export const Columns = (
         );
         return (
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            {info?.row?.original?.planProducts?.length > 1 ? (
+            {info?.row?.original?.planProducts?.length ?? 0 > 1 ? (
               <>
                 <Tooltip title={tooltipTitle}>
                   <Typography variant="body3" sx={{ cursor: 'pointer' }}>
@@ -97,7 +111,7 @@ export const Columns = (
                 </Tooltip>
               </>
             ) : (
-              info?.row?.original?.planProducts?.map((data: any) => (
+              info?.row?.original?.planProducts?.map((data: PlanProductI) => (
                 <Typography variant="body3" key={uuidv4()}>
                   {data?.name}{' '}
                 </Typography>
@@ -108,18 +122,18 @@ export const Columns = (
       },
     },
     {
-      accessorFn: (row: any) => row?.plantypes?.name,
+      accessorFn: (row: RowDataI) => row?.plantypes?.name,
       id: 'plantypes',
       isSortable: true,
       header: 'Plan Type',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: CellInfoI) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: RowDataI) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'plan Status',
-      cell: (info: any) => {
+      cell: (info: CellInfoI) => {
         return (
           <Typography
             variant="body3"
@@ -139,56 +153,58 @@ export const Columns = (
       },
     },
     {
-      accessorFn: (row: any) => row?.plans?.planPrice,
+      accessorFn: (row: RowDataI) => row?.plans?.planPrice,
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: CellInfoI) => {
+        return `£ ${info?.getValue()}`;
+      },
     },
 
     {
-      accessorFn: (row: any) => row?.planDiscount,
+      accessorFn: (row: RowDataI) => row?.planDiscount,
       id: 'planDiscount',
       isSortable: true,
       header: 'Discount',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: CellInfoI) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row?.plans?.defaultUsers,
+      accessorFn: (row: RowDataI) => row?.plans?.defaultUsers,
       id: 'defaultUsers',
       isSortable: true,
       header: 'Default users',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: CellInfoI) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row?.additionalUsers,
+      accessorFn: (row: RowDataI) => row?.additionalUsers,
       id: 'additionalUsers',
       isSortable: true,
       header: 'Additional Users',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: CellInfoI) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.plans?.defaultStorage,
+      accessorFn: (row: RowDataI) => row?.plans?.defaultStorage,
       id: 'DefaultStorage',
       isSortable: true,
       header: 'Default storage',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: CellInfoI) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.additionalStorage,
+      accessorFn: (row: RowDataI) => row?.additionalStorage,
       id: 'additionalStorage',
       isSortable: true,
       header: 'Additional storage',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: CellInfoI) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.billingDate?.substring(0, 10),
+      accessorFn: (row: RowDataI) => row?.billingDate?.substring(0, 10),
       id: 'billingDate',
       isSortable: true,
       header: 'Billing Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: CellInfoI) => info?.getValue(),
     },
   ];
 };
@@ -215,7 +231,7 @@ export const dataArray = () => {
     pagination: `page=1&limit=10`,
   });
 
-  const planType = planTypeData?.data?.map((planType: any) => ({
+  const planType = planTypeData?.data?.map((planType: PlanTypeI) => ({
     value: planType?._id,
     label: planType?.name,
   }));
@@ -225,10 +241,12 @@ export const dataArray = () => {
     pagination: `page=1&limit=10`,
   });
 
-  const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
-    value: Organizations?._id,
-    label: Organizations?.name,
-  }));
+  const Organizations = OrganizationsData?.data?.map(
+    (Organizations: OrganizationI) => ({
+      value: Organizations?._id,
+      label: Organizations?.name,
+    }),
+  );
 
   return [
     {

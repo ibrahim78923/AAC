@@ -1,35 +1,51 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { defaultValues } from './Filter.data';
-import { useRouter } from 'next/router';
+import { useLazyGetUsersDropdownListQuery } from '@/services/airOperations/data-management/import';
 
-const useFilter = () => {
-  const router = useRouter();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isNewFilter, setIsNewFilter] = useState(true);
+export const useFilter = (props: any) => {
+  const { setIsOpenFilterDrawer, setFilterValues, filterValues, setPage } =
+    props;
 
-  const methodsFilterForm = useForm({
-    defaultValues,
+  const methods = useForm({
+    defaultValues: defaultValues(filterValues),
   });
 
-  const submitFilterForm = async () => {
-    setIsDrawerOpen(false);
+  const { handleSubmit, reset } = methods;
+
+  const onSubmit = async (data: any) => {
+    const softwareFiltered: any = Object?.entries(data || {})
+      ?.filter(
+        ([, value]: any) => value !== undefined && value != '' && value != null,
+      )
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+
+    if (!Object?.keys(softwareFiltered || {})?.length) {
+      setFilterValues?.(softwareFiltered);
+      onClose();
+      return;
+    }
+    setPage?.(1);
+    setFilterValues?.(softwareFiltered);
+    setIsOpenFilterDrawer?.(false);
   };
 
-  const resetFilterForm = async () => {
-    methodsFilterForm?.reset();
-    setIsDrawerOpen(false);
+  const clearFilter = () => {
+    reset?.();
+    setFilterValues?.(null);
+    setIsOpenFilterDrawer?.(false);
   };
 
+  const onClose = () => {
+    reset?.();
+    setIsOpenFilterDrawer?.(false);
+  };
+  const userList = useLazyGetUsersDropdownListQuery();
   return {
-    isDrawerOpen,
-    setIsDrawerOpen,
-    methodsFilterForm,
-    submitFilterForm,
-    resetFilterForm,
-    isNewFilter,
-    setIsNewFilter,
-    router,
+    methods,
+    handleSubmit,
+    onSubmit,
+    clearFilter,
+    onClose,
+    userList,
   };
 };
-export default useFilter;

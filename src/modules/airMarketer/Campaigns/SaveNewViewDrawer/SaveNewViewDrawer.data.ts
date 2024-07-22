@@ -9,9 +9,7 @@ import { Typography, useTheme } from '@mui/material';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
-  campaignStatus: Yup?.string()?.required('Field is Required'),
-  startDate: Yup?.string()?.trim()?.required('Field is Required'),
-  endDate: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -39,7 +37,6 @@ export const dataArray = () => {
         name: 'campaignStatus',
         label: 'Campaign Status',
         fullWidth: true,
-        required: true,
         placeholder: 'Select Campaign Status',
         options: ['scheduled', 'inprogress', 'active', 'paused', 'completed'],
       },
@@ -53,7 +50,6 @@ export const dataArray = () => {
         name: 'startDate',
         label: 'Start Date',
         fullWidth: true,
-        required: true,
       },
 
       component: RHFDatePicker,
@@ -65,7 +61,6 @@ export const dataArray = () => {
         name: 'endDate',
         label: 'End Date',
         fullWidth: true,
-        required: true,
       },
 
       component: RHFDatePicker,
@@ -85,8 +80,8 @@ export const dataArray = () => {
       componentProps: {
         name: 'sharedWith',
         fullWidth: true,
-        defaultValue: 'all',
         row: false,
+        defaultValue: 'everyone',
         options: [
           { value: 'private', label: 'Private' },
           { value: 'specific user or team', label: 'My Team (test)' },

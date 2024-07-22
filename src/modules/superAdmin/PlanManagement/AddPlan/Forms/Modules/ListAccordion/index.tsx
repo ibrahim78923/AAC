@@ -22,6 +22,7 @@ import {
 import CheckboxLabel from '../CheckboxLabel';
 
 import { v4 as uuidv4 } from 'uuid';
+import { expande_status } from '@/constants/strings';
 
 const ListAccordion = () => {
   const { expanded, handleChange, ListAccordionData } = useListAccordion();
@@ -29,8 +30,8 @@ const ListAccordion = () => {
   return (
     <div>
       <Accordion
-        expanded={expanded === 'List View'}
-        onChange={handleChange('List View')}
+        expanded={expanded === expande_status?.List_View}
+        onChange={handleChange(expande_status?.List_View)}
       >
         <AccordionSummary aria-controls="panel2a-content" id="panel2a-header">
           <Typography variant="h4">List View</Typography>
@@ -55,8 +56,8 @@ const ListAccordion = () => {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        expanded={expanded === 'Board List'}
-        onChange={handleChange('Board List')}
+        expanded={expanded === expande_status?.Broad_List}
+        onChange={handleChange(expande_status?.Broad_List)}
       >
         <AccordionSummary aria-controls="panel2a-content" id="panel2a-header">
           <Typography variant="h4">Board List</Typography>
@@ -81,8 +82,8 @@ const ListAccordion = () => {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        expanded={expanded === 'Create Deal'}
-        onChange={handleChange('Create Deal')}
+        expanded={expanded === expande_status?.Create_Deal}
+        onChange={handleChange(expande_status?.Create_Deal)}
       >
         <AccordionSummary aria-controls="panel2a-content" id="panel2a-header">
           <Typography variant="h4">Create Deal</Typography>
@@ -108,8 +109,8 @@ const ListAccordion = () => {
       </Accordion>
 
       <Accordion
-        expanded={expanded === 'Import Deals'}
-        onChange={handleChange('Import Deals')}
+        expanded={expanded === expande_status?.Import_Deals}
+        onChange={handleChange(expande_status?.Import_Deals)}
       >
         <AccordionSummary aria-controls="panel2a-content" id="panel2a-header">
           <Typography variant="h4">Import Deals</Typography>

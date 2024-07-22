@@ -6,16 +6,35 @@ import {
   useUpdateTeamsMutation,
 } from '@/services/airSales/settings/teams';
 import { enqueueSnackbar } from 'notistack';
-import useUserManagement from '../../useUserManagement';
 import { useEffect } from 'react';
 import { DRAWER_TYPES } from '@/constants/strings';
+import { getActiveProductSession } from '@/utils';
+import {
+  useGetAvailedUsersQuery,
+  useGetProductsUsersQuery,
+} from '@/services/airSales/settings/users';
 
 const useCreateTeams = (
   teamDataById: any,
   setIsAddTeam: any,
   drawerType: any,
 ) => {
-  const { productsUsers } = useUserManagement();
+  const ActiveProduct = getActiveProductSession();
+
+  const productUserParams = {
+    product: ActiveProduct?._id,
+    meta: false,
+  };
+  const { data: productsUsers } = useGetProductsUsersQuery(productUserParams);
+  const availableUsersParams = {
+    teamId: teamDataById?.data?._id,
+    product: ActiveProduct?._id,
+  };
+
+  const { data: availableUsersData } = useGetAvailedUsersQuery(
+    availableUsersParams,
+    { skip: !teamDataById?.data?._id },
+  );
   const [postTeams, { isLoading: postTeamLoading }] = usePostTeamsMutation();
   const [updateTeams, { isLoading: updateTeamLoading }] =
     useUpdateTeamsMutation();
@@ -73,6 +92,7 @@ const useCreateTeams = (
     productsUsers,
     postTeamLoading,
     updateTeamLoading,
+    availableUsersData,
   };
 };
 

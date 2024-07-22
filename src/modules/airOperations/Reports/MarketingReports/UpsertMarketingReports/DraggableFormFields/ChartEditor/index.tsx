@@ -1,6 +1,7 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFCheckbox,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -12,12 +13,15 @@ import {
   Typography,
 } from '@mui/material';
 import { useChartEditor } from './useChartEditor';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { CheckBox } from '@mui/icons-material';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { servicesChartMetrics } from './ChartEditor.data';
 import { CHARTS } from '@/constants/strings';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import {
+  CheckboxCheckedIcon,
+  CheckboxIcon,
+  EditInputIcon,
+} from '@/assets/icons';
+import { xAxesDataArray } from './ChartEditor.data';
+import { chartTypeI, xAxisOptionsI } from './ChartEditor.interface';
 
 export const ChartEditor = (props: any) => {
   const {
@@ -25,15 +29,20 @@ export const ChartEditor = (props: any) => {
     metricType,
     setValue,
     chartTitle,
-    setChartMetricType,
-    chartMetricType,
     xAxisData,
-    yAxisData,
     handleCancel,
+    disableTemplate,
+    xAxisType,
   } = props;
 
-  const { handleSave, edit, setEdit, editValue, setEditValue } =
-    useChartEditor(props);
+  const {
+    handleSave,
+    edit,
+    setEdit,
+    editValue,
+    setEditValue,
+    singleFieldDropdown,
+  } = useChartEditor(props);
 
   return (
     <>
@@ -46,9 +55,8 @@ export const ChartEditor = (props: any) => {
         name={'chartTitle'}
         size="small"
         label="Title"
-        disabled={edit}
+        disabled={edit || disableTemplate}
         InputProps={{
-          onClick: () => {},
           endAdornment: (
             <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
               {edit ? (
@@ -57,7 +65,7 @@ export const ChartEditor = (props: any) => {
                     setEdit(false), setValue === editValue;
                   }}
                 >
-                  <BorderColorIcon />
+                  <EditInputIcon />
                 </Box>
               ) : (
                 <Box
@@ -77,32 +85,58 @@ export const ChartEditor = (props: any) => {
           name="chartType"
           label="Type"
           size="small"
-          options={['Bar Chart', 'Donut Chart', 'Pie Chart']}
-          getOptionLabel={(option: any) => option}
+          disabled={disableTemplate}
+          options={[
+            CHARTS?.BAR_CHART,
+            CHARTS?.HORIZONTAL_BAR_CHART,
+            CHARTS?.PIE_CHART,
+            CHARTS?.DONUT_CHART,
+          ]}
+          getOptionLabel={(option: chartTypeI) => option}
           required
         />
-        {chartType === CHARTS?.BAR_CHART && (
+        {(chartType === CHARTS?.BAR_CHART ||
+          chartType === CHARTS?.HORIZONTAL_BAR_CHART) && (
           <Box border={1} borderColor={'grey.700'} borderRadius={2} m={1}>
             <Box borderRadius={2} p={1} bgcolor={'primary.light'}>
               <Typography variant="h6">{metricType}</Typography>
             </Box>
-
-            <Box p={1}>
+            <Box m={1}>
               <RHFAutocomplete
                 size="small"
                 label="X Axis"
                 name="xAxis"
-                options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
-                getOptionLabel={(option: string) => option}
+                placeholder="Select Option"
+                disabled={disableTemplate}
+                options={xAxesDataArray[metricType]}
+                getOptionLabel={(option: xAxisOptionsI) => option?.label}
               />
             </Box>
-            <Box p={1}>
-              <RHFAutocomplete
+            {xAxisData?.ref && (
+              <Box mx={2} my={1}>
+                <RHFAutocompleteAsync
+                  size="small"
+                  name="xAxisType"
+                  label={`${xAxisData?.label} Fields`}
+                  multiple={true}
+                  apiQuery={singleFieldDropdown}
+                  getOptionLabel={(option: any) =>
+                    `${option?.firstName} ${option?.lastName}`
+                  }
+                  placeholder="Select Option"
+                  externalParams={{
+                    meta: false,
+                  }}
+                />
+              </Box>
+            )}
+            <Box m={1}>
+              <RHFTextField
                 size="small"
                 label="Y Axis"
                 name="yAxis"
-                options={['Task Owner', 'Created Date', 'Status', 'Task Count']}
-                getOptionLabel={(option: string) => option}
+                disabled={true}
+                placeholder="NO_OF_RECORDS"
               />
             </Box>
           </Box>
@@ -111,16 +145,40 @@ export const ChartEditor = (props: any) => {
           chartType === CHARTS?.DONUT_CHART) && (
           <>
             <Box m={1}>
-              <SingleDropdownButton
-                dropdownOptions={servicesChartMetrics(setChartMetricType)}
-                dropdownName={chartMetricType}
+              <RHFAutocomplete
+                size="small"
+                label="Add Metric"
+                name="xAxis"
+                placeholder="Select Option"
+                disabled={disableTemplate}
+                options={xAxesDataArray[metricType]}
+                getOptionLabel={(option: xAxisOptionsI) => option?.label}
               />
             </Box>
+            {xAxisData?.ref && (
+              <Box mx={2} my={1}>
+                <RHFAutocompleteAsync
+                  size="small"
+                  name="xAxisType"
+                  label={`${xAxisData?.label} Fields`}
+                  multiple={true}
+                  apiQuery={singleFieldDropdown}
+                  getOptionLabel={(option: any) =>
+                    `${option?.firstName} ${option?.lastName}`
+                  }
+                  placeholder="Select Option"
+                  externalParams={{
+                    meta: false,
+                  }}
+                />
+              </Box>
+            )}
           </>
         )}
         <RHFCheckbox
           name="subFilter"
           label="Add Date Range Filter"
+          disabled={disableTemplate}
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
         />
@@ -133,9 +191,7 @@ export const ChartEditor = (props: any) => {
         </Button>
         <Button
           variant="contained"
-          disabled={
-            (!xAxisData || !yAxisData) && chartMetricType === 'Add Metric'
-          }
+          disabled={!xAxisData || (xAxisData?.ref && !xAxisType?.length)}
           onClick={() => handleSave()}
         >
           Save

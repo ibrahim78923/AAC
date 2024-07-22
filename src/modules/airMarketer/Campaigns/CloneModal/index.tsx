@@ -18,6 +18,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 import useCampaigns from '../useCampaigns';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, indexNumbers } from '@/constants';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const CloneModal = ({
   openCloneModal,
@@ -31,10 +32,10 @@ const CloneModal = ({
   useEffect(() => {
     const data = compaignsDataById?.data[indexNumbers?.ZERO];
     const fieldsToSet: any = {
-      title: data?.title,
+      // title: data?.title,
       campaignOwner: data?.campaignOwner,
       startDate: dayjs(data?.startDate)?.isValid()
-        ? dayjs(data?.startDate).toDate()
+        ? dayjs(data?.startDate)?.toDate()
         : null,
       endDate: dayjs(data?.endDate)?.isValid()
         ? dayjs(data?.endDate)?.toDate()
@@ -98,29 +99,33 @@ const CloneModal = ({
         submitHandler={handleSubmit(onSubmit)}
         isLoading={createCampaignsLoading}
       >
-        <Box mt={1}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={2}>
-              {dataArrayFeatures(UserListData)?.map((item: any) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={item?.md}
-                  key={item?.componentProps?.name}
-                >
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
+        {createCampaignsLoading ? (
+          <SkeletonTable />
+        ) : (
+          <Box mt={1}>
+            <FormProvider methods={methods}>
+              <Grid container spacing={2}>
+                {dataArrayFeatures(UserListData)?.map((item: any) => (
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={item?.componentProps?.name}
+                  >
+                    <item.component {...item?.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={uuidv4()} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        )}
       </CommonDrawer>
     </div>
   );

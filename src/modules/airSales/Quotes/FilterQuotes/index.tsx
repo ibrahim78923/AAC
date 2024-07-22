@@ -2,11 +2,10 @@ import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { dataArray } from './FilterQuotes.data';
-import { useGetPrdouctUsersQuery } from '@/services/airSales/quotes';
+import { useLazyGetUsersDropdownListQuery } from '@/services/airOperations/data-management/export';
 
 const FilterQuotes = ({ open, onClose, methods, onFilterSubmit }: any) => {
-  const { data: UserListData } = useGetPrdouctUsersQuery({});
-
+  const getDropdownAllUsers = useLazyGetUsersDropdownListQuery();
   return (
     <CommonDrawer
       isDrawerOpen={open}
@@ -21,7 +20,7 @@ const FilterQuotes = ({ open, onClose, methods, onFilterSubmit }: any) => {
       <Box sx={{ pt: '24px' }}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {dataArray(UserListData)?.map((item: any) => (
+            {dataArray(getDropdownAllUsers)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.name}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&

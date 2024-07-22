@@ -1,4 +1,4 @@
-import { useGetContactsQuery } from '@/services/airSales/quotes';
+import { useLazyGetContactsUpdatedQuery } from '@/services/airSales/quotes';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
@@ -12,7 +12,7 @@ import useUpdateQuote from '../useUpdateQuote';
 
 const useFormAddContact = (onClose: () => void) => {
   const { usePostCompaniesMutation } = companiesAPI;
-  const { data: contacts } = useGetContactsQuery({});
+  const contacts = useLazyGetContactsUpdatedQuery();
 
   const { dataGetQuoteById, createAssociationQuote } = useUpdateQuote();
   const [postCompanies, { isLoading: loadingCompnayPost }] =
@@ -24,6 +24,7 @@ const useFormAddContact = (onClose: () => void) => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
+    values.ownerId = values?.ownerId?._id;
     const formData = new FormData();
     Object.entries(values)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {
@@ -31,7 +32,7 @@ const useFormAddContact = (onClose: () => void) => {
       }
     });
     try {
-      postCompanies({ body: formData })?.then((res: any) => {
+      await postCompanies({ body: formData })?.then((res: any) => {
         const associationBody = {
           dealId: dataGetQuoteById?.data?.dealId,
           companyId: res?.data?.data?._id,

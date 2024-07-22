@@ -1,7 +1,18 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 
-const typeOptions = ['Email', 'Chat'];
-const durationOption = ['Minutes', 'Hours', 'Days', 'Weeks'];
+const typeOptions = [
+  { value: 'EMAIL', label: 'Email' },
+  { value: 'CHAT', label: 'Chat' },
+];
+
+const durationOption = [
+  { value: 'MINUTES', label: 'Minutes' },
+  { value: 'HOURS', label: 'Hours' },
+  { value: 'DAYS', label: 'Days' },
+  { value: 'WEEKS', label: 'Weeks' },
+];
+
+const counterOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export const reminderFields = (index: number) => [
   {
@@ -15,6 +26,7 @@ export const reminderFields = (index: number) => [
       size: 'small',
       placeholder: 'Select',
       options: typeOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -27,9 +39,10 @@ export const reminderFields = (index: number) => [
       placeholder: 'Counter',
       label: '\u00a0',
       size: 'small',
-      type: 'number',
+      options: counterOptions,
+      getOptionLabel: (option: any) => option,
     },
-    component: RHFTextField,
+    component: RHFAutocomplete,
   },
   {
     id: 3,
@@ -41,6 +54,7 @@ export const reminderFields = (index: number) => [
       size: 'small',
       placeholder: 'Select',
       options: durationOption,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },

@@ -8,7 +8,7 @@ import { CALENDER_TYPES } from '@/constants/strings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { EditPenCustomIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
-import { truncateSmallText, truncateText } from '@/utils/avatarUtils';
+import { truncateText } from '@/utils/avatarUtils';
 import { TIME_FORMAT } from '@/constants';
 
 export const FullCalendarView = (props: any) => {
@@ -251,12 +251,13 @@ export const FullCalendarView = (props: any) => {
                   </Box>
                   <Box>
                     <Typography variant="body4">
-                      {truncateSmallText(eventInfo?.event?._def?.title)}
+                      {truncateText(eventInfo?.event?._def?.title, 10)}
                     </Typography>
                     <br />
                     <Typography variant="body4">
-                      {truncateSmallText(
+                      {truncateText(
                         eventInfo?.event?._def?.extendedProps?.data?.invitedBy,
+                        10,
                       )}
                     </Typography>
                   </Box>
@@ -331,12 +332,13 @@ export const FullCalendarView = (props: any) => {
                   </Box>
                   <Box>
                     <Typography variant="body4">
-                      {truncateSmallText(eventInfo?.event?._def?.title)}
+                      {truncateText(eventInfo?.event?._def?.title, 10)}
                     </Typography>
                     <br />
                     <Typography variant="body4">
-                      {truncateSmallText(
+                      {truncateText(
                         eventInfo?.event?._def?.extendedProps?.data?.invitedBy,
+                        10,
                       )}
                     </Typography>
                   </Box>

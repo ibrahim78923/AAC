@@ -11,7 +11,11 @@ import {
 } from '@/services/superAdmin/billing-invoices';
 import { isNullOrEmpty } from '@/utils';
 import { useGetCrmQuery } from '@/services/superAdmin/plan-mangement';
-import { productSuiteName } from '@/constants';
+import {
+  productSuiteName,
+  SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES,
+} from '@/constants';
+import { SubmitValuesI } from './editForm.interface';
 
 const useEditForm = (
   isEditModal: any,
@@ -132,7 +136,7 @@ const useEditForm = (
   }
 
   let ExistingplanData: any;
-  let ExistingisSuccessPlan: boolean;
+  let ExistingisSuccessPlan: boolean = false;
 
   if (selectProductSuite === productSuiteName?.crm) {
     const { data, isSuccess } = useGetExistingCrmQuery<any>(
@@ -208,9 +212,9 @@ const useEditForm = (
     }
   }, [selectProductSuite, ExistingplanData, planData]);
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: SubmitValuesI) => {
     const originalDate = values?.date;
-    const date = new Date(originalDate);
+    const date = new Date(originalDate ?? '');
     const year = date?.getUTCFullYear();
     const month = (date?.getUTCMonth() + 1)?.toString()?.padStart(2, '0');
     const day = date?.getUTCDate()?.toString()?.padStart(2, '0');
@@ -254,10 +258,18 @@ const useEditForm = (
       onClose(false);
       setIsGetRowValues([]);
       setIsChecked(false);
-    } catch (error) {
-      enqueueSnackbar('Some thing went wrong', {
-        variant: 'error',
-      });
+    } catch (error: any) {
+      if (
+        error?.data?.message ===
+        SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES?.PLAN_ALREADY_ASSIGNED
+      ) {
+        enqueueSnackbar(
+          SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES?.PLAN_ALREADY_ASSIGNED,
+          { variant: 'error' },
+        );
+      } else {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
     }
   };
 

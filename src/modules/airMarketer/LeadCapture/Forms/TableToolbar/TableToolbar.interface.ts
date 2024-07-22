@@ -1,4 +1,5 @@
 export interface ToolbarI {
+  status: string;
   setSearchBy: (value: any) => void;
   disabledActions: boolean;
   disabledMenuItem: boolean;

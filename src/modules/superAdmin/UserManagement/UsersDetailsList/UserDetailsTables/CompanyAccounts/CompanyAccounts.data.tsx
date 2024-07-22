@@ -7,45 +7,6 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { generateImage } from '@/utils/avatarUtils';
 
-export const companyData: any = [
-  {
-    Id: 1,
-    Company: 'Orcalo Holding',
-    Email: 'orcalo@airapple.co.uk',
-    ManageRole: 'user select here',
-  },
-  {
-    Id: 2,
-    Company: 'Orcalo Holding',
-    Email: 'orcalo@airapple.co.uk',
-    ManageRole: 'user select here',
-  },
-  {
-    Id: 3,
-    Company: 'Orcalo Holding',
-    Email: 'orcalo@airapple.co.uk',
-    ManageRole: 'user select here',
-  },
-  {
-    Id: 4,
-    Company: 'Orcalo Holding',
-    Email: 'orcalo@airapple.co.uk',
-    ManageRole: 'user select here',
-  },
-  {
-    Id: 5,
-    Company: 'Orcalo Holding',
-    Email: 'orcalo@airapple.co.uk',
-    ManageRole: 'user select here',
-  },
-  {
-    Id: 6,
-    Company: 'Orcalo Holding',
-    Email: 'orcalo@airapple.co.uk',
-    ManageRole: 'user',
-  },
-];
-
 export const companyColumns: any = (handleStatusUpdate: any) => [
   {
     accessorFn: (row: any) => row?.product,

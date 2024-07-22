@@ -1,5 +1,7 @@
+import { Theme } from '@mui/material';
+
 export const style = {
-  avatarStyle: (theme: any) => {
+  avatarStyle: (theme: Theme | any) => {
     return {
       display: 'flex',
       justifyContent: 'start',

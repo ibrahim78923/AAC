@@ -11,6 +11,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'airapplecart-dev.s3.eu-west-2.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'tf-staging-airapplecart-public.s3.eu-west-2.amazonaws.com',
+      },
     ],
   },
 

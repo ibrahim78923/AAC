@@ -2,40 +2,136 @@ import { useState } from 'react';
 import {
   useDeleteEnquiryMutation,
   useGetEnquiriesQuery,
+  usePatchEnquiriesMutation,
 } from '@/services/superAdmin/enquiries';
-import { Checkbox } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS } from '@/constants/permission-keys';
+import { PAGINATION } from '@/config';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useEnquiries = () => {
-  const [search, setSearch] = useState('');
-  const [tableRowIds, setTableRowIds] = useState<string[]>([]);
-  const [isEnquiriesDeleteModal, setIsEnquiriesDeleteModal] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const isActionMenuOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-  const [deleteRnquiriesMutation] = useDeleteEnquiryMutation();
+  // Get Data
+  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [searchValue, setSearchValue] = useState(null);
+  const [filterParams, setFilterParams] = useState({});
+
+  const paginationParams = {
+    page: page,
+    limit: pageLimit,
+  };
+
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+
+  const methodsFilter: any = useForm();
+  const { handleSubmit: handleMethodFilter, reset: resetFilters } =
+    methodsFilter;
+
   const {
     data: enquiriesData,
-    isLoading,
-    isError,
-    isSuccess,
-    isFetching,
-  } = useGetEnquiriesQuery({});
+    isLoading: enquiriesIsLoading,
+    isFetching: enquiriesIsFetching,
+  } = useGetEnquiriesQuery({
+    params: { ...filterParams, ...searchPayLoad, ...paginationParams },
+  });
 
-  const handleAction = (checked: boolean, id: string) => {
-    if (checked) {
-      setTableRowIds([...tableRowIds, id]);
-    } else {
-      setTableRowIds(tableRowIds?.filter((_id) => _id !== id));
+  // Filters
+  const [openFilters, setOpenFilters] = useState(false);
+  const handleOpenFilters = () => {
+    setOpenFilters(true);
+  };
+  const handleCloseFilters = () => {
+    setOpenFilters(false);
+    resetFilters();
+  };
+
+  const onSubmitFilters = async (values: any) => {
+    setFilterParams(values);
+    handleCloseFilters();
+  };
+  const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
+
+  // Refresh
+  const handleRefresh = () => {
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
+    resetFilters();
+  };
+
+  const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
+  const [selectedRowData, setSelectedRowData] = useState<any>(null);
+  const [trigger, status] = usePostNewEmailMutation();
+  const methodsQueryForm: any = useForm({
+    resolver: yupResolver(
+      Yup?.object()?.shape({
+        reply: Yup?.string()?.trim()?.required('Reply is Required'),
+      }),
+    ),
+    defaultValues: {
+      reply: '',
+    },
+  });
+  const { handleSubmit: handleMethodQuery, reset: resetQueryForm } =
+    methodsQueryForm;
+
+  const handleOpenModalQuery = () => {
+    handleClose();
+    setIsQueryModalOpen(true);
+  };
+  const handleCloseModalQuery = () => {
+    resetQueryForm();
+    setIsQueryModalOpen(false);
+  };
+
+  const onSubmitQuery = async (values: any) => {
+    const emailFormData = new FormData();
+    emailFormData?.append('recipients', selectedRowData?.email);
+    emailFormData?.append('subject', selectedRowData?.query);
+    emailFormData?.append('html', values?.reply);
+
+    try {
+      await trigger(emailFormData)?.unwrap();
+      successSnackbar('Reply Sent Successfully!');
+      handleCloseModalQuery();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+      handleCloseModalQuery();
     }
   };
-  const handleDeleteModal = () => {
-    setIsEnquiriesDeleteModal(!isEnquiriesDeleteModal);
+  const handleQuerySubmit = handleMethodQuery(onSubmitQuery);
+
+  const [isEnquiriesDeleteModal, setIsEnquiriesDeleteModal] = useState(false);
+  const [deleteEnquiriesMutation] = useDeleteEnquiryMutation();
+
+  const handleOpenModalDelete = () => {
+    handleClose();
+    setIsEnquiriesDeleteModal(true);
   };
+  const handleCloseModalDelete = () => {
+    setIsEnquiriesDeleteModal(false);
+  };
+
   const handleDeleteEnquiries = async () => {
     try {
-      await deleteRnquiriesMutation({ ids: tableRowIds?.join(',') });
-      handleDeleteModal();
+      await deleteEnquiriesMutation({ ids: selectedRow?.join(',') });
+      handleCloseModalDelete();
       enqueueSnackbar('Enquiries delete successfully', {
         variant: 'success',
       });
@@ -46,91 +142,55 @@ export const useEnquiries = () => {
     }
   };
 
-  const columns: any = [
-    {
-      accessorFn: (row: any) => row._id,
-      id: 'id',
-      cell: (info: any) => (
-        <Checkbox
-          onChange={({ target: { checked } }) => {
-            handleAction(checked, info?.row?.original?._id);
-          }}
-          color="primary"
-          checked={tableRowIds.includes(info?.row?.original?._id)}
-          name={info?.getValue()}
-        />
-      ),
-      header: <Checkbox color="primary" name="Id" />,
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row?.name,
-      id: 'name',
-      cell: (info: any) => info?.getValue() ?? '--',
-      header: 'Name',
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row?.companyName,
-      id: 'companyName',
-      isSortable: true,
-      header: 'Company Name',
-      cell: (info: any) => info?.getValue() ?? '--',
-    },
-    {
-      accessorFn: (row: any) => row?.email,
-      id: 'email',
-      isSortable: true,
-      header: 'Email',
-      cell: (info: any) => info?.getValue() ?? '--',
-    },
-    {
-      accessorFn: (row: any) => row?.phoneNumber,
-      id: 'phoneNumber',
-      isSortable: true,
-      header: 'Phone Number',
-      cell: (info: any) => info?.getValue() ?? '--',
-    },
-    {
-      accessorFn: (row: any) => row?.comments,
-      id: 'comments',
-      isSortable: true,
-      header: 'Comments',
-      cell: (info: any) => info?.getValue() ?? '--',
-    },
-    {
-      accessorFn: (row: any) => row?.status,
-      id: 'status',
-      isSortable: true,
-      header: 'Status',
-      cell: (info: any) => (
-        <PermissionsGuard
-          permissions={[
-            SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Update_Status,
-          ]}
-        >
-          {info?.getValue()} ?? '--'
-        </PermissionsGuard>
-      ),
-    },
-  ];
+  const [patchEnquiriesTrigger, patchEnquiriesStatus] =
+    usePatchEnquiriesMutation();
 
-  const tableData = {
-    data: enquiriesData?.data?.enquiries,
-    columns,
-    isLoading,
-    isError,
-    isSuccess,
-    isFetching,
+  const handleStatusChange = async (info: any, event: any) => {
+    const patchEnquiriesParameter = {
+      queryParams: info?._id,
+      body: { status: event?.target?.value },
+    };
+
+    try {
+      await patchEnquiriesTrigger(patchEnquiriesParameter)?.unwrap();
+      successSnackbar('Status Updated successfully!');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   return {
-    tableData,
-    tableRowIds,
-    handleDeleteEnquiries,
-    handleDeleteModal,
+    anchorEl,
+    isActionMenuOpen,
+    handleClick,
+    handleClose,
+    setSearchValue,
+    setPageLimit,
+    setPage,
+    selectedRow,
+    setSelectedRow,
+    selectedRowData,
+    setSelectedRowData,
+    enquiriesData,
+    enquiriesIsLoading,
+    enquiriesIsFetching,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
+    isQueryModalOpen,
+    handleOpenModalQuery,
+    handleCloseModalQuery,
+    methodsQueryForm,
+    handleQuerySubmit,
+    status,
     isEnquiriesDeleteModal,
-    search,
-    setSearch,
+    handleCloseModalDelete,
+    handleOpenModalDelete,
+    handleDeleteEnquiries,
+    handleStatusChange,
+    patchEnquiriesStatus,
   };
 };

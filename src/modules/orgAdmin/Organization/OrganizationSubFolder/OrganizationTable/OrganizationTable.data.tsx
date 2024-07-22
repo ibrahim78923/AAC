@@ -93,7 +93,7 @@ export const columns = (
           <Tooltip
             title={
               <Box>
-                {info?.row?.original?.products?.map((item: any) => (
+                {info?.row?.original?.activeProduct?.map((item: any) => (
                   <Typography variant="body2" key={uuidv4()}>
                     {item?.name}
                   </Typography>

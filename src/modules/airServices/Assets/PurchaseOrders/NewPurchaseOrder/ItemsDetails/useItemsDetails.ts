@@ -1,10 +1,10 @@
 import { useFieldArray } from 'react-hook-form';
 
 const useItemsDetails = (props: any) => {
-  const { control, vendorId, watch } = props;
-  const { fields, append } = useFieldArray({
+  const { control, vendorId, watch, name } = props;
+  const { fields, append, remove } = useFieldArray({
     control,
-    name: 'purchaseDetails',
+    name,
   });
 
   return {
@@ -12,6 +12,9 @@ const useItemsDetails = (props: any) => {
     append,
     vendorId,
     watch,
+    remove,
+    control,
   };
 };
+
 export default useItemsDetails;

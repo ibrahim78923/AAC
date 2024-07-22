@@ -4,8 +4,9 @@ import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { profileValidationSchema } from './UserDetailsProfile.data';
 import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
+import { UserProfileParams } from '@/modules/superAdmin/UserManagement/UsersDetailsList/UsesDetailList-interface';
 
-const useUserDeatilProfile = (userprofileParams: any) => {
+const useUserDeatilProfile = (userprofileParams: UserProfileParams) => {
   const { isToggled, userDetails, setTabVal } = userprofileParams;
   const { updateUsers }: any = useUserManagement();
   const id = userDetails?._id;

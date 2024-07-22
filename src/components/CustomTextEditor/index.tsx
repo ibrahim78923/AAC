@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import 'react-quill/dist/quill.snow.css';
+import { indexNumbers } from '@/constants';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -19,8 +20,8 @@ const CustomTextEditor = ({
   const modules = {
     toolbar: toolbar || {
       container: [
-        [{ size: ['small', false, 'large', 'huge'] }, { align: [] }],
         ['bold', 'italic', 'underline', 'strike'],
+        [{ align: [] }],
         [{ color: [] }, { background: [] }],
         [{ list: 'ordered' }, { list: 'bullet' }],
       ],
@@ -31,9 +32,10 @@ const CustomTextEditor = ({
     <Box
       sx={{
         position: 'relative',
+        minHeight: '200px',
         border: other?.error
           ? `1px solid ${theme?.palette?.error?.main}`
-          : `1px solid ${theme?.palette?.grey?.['0']}`,
+          : `1px solid ${theme?.palette?.grey?.[indexNumbers?.ZERO]}`,
         borderRadius: '8px',
         overflow: 'hidden',
         '& .ql-toolbar.ql-snow': {
@@ -43,13 +45,16 @@ const CustomTextEditor = ({
         '& .ql-container.ql-snow': {
           border: 'none',
         },
+        '& .ql-editor': {
+          minHeight: '151px',
+        },
       }}
     >
       <ReactQuill
         value={value}
         onChange={(newValue) => onChange(newValue)}
         modules={modules}
-        style={{ position: 'relative', ...style }}
+        style={{ position: 'relative', minHeight: '198px', ...style }}
         {...other}
       />
     </Box>

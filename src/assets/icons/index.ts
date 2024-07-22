@@ -72,6 +72,7 @@ export { default as ViewDetailMeetingIcon } from './modules/airServices/Tickets/
 export { default as ViewDetailDocumentTextIcon } from './modules/airServices/Tickets/view-detail-document-text-icon';
 export { default as ViewDetailCallIcon } from './modules/airServices/Tickets/view-details-call-icon';
 export { default as ViewDetailBackArrowIcon } from './shared/view-detail-back-arrow-icon';
+export { default as EditWhiteBGPenIcon } from './shared/edit-pen-white-bg-icon';
 
 // More exports from here
 export { default as SubTabIcon } from './shared/sub-tab-icon';
@@ -525,3 +526,5 @@ export { default as RedoIcon } from './shared/redo-icon';
 export { default as DesignCardRefreshIcon } from './shared/design-Card-Refresh-icon';
 export { default as StartTimerIcon } from './modules/airServices/Tickets/start-timer-icon';
 export { default as InfoIconBlueBg } from './modules/airSales/Quotes/info-icon';
+export { default as TicketFieldsIcon } from './modules/airServices/Settings/ticket-fields-icon';
+export { default as TimeEntryFieldsIcon } from './modules/airServices/Settings/time-entry-fields-icon';

@@ -8,7 +8,7 @@ const RestoreDealModal = ({
   onClose,
   handlePermanantDeleteRetore,
 }: any) => {
-  const { restoreLoading } = useRestore();
+  const { updateRestoreLoading } = useRestore();
   return (
     <>
       <AlertModals
@@ -18,7 +18,7 @@ const RestoreDealModal = ({
         open={open}
         handleClose={onClose}
         handleSubmitBtn={handlePermanantDeleteRetore}
-        isLoading={restoreLoading}
+        isLoading={updateRestoreLoading}
       />
     </>
   );

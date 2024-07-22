@@ -10,11 +10,13 @@ import {
 } from '@/services/airServices/assets/purchase-orders';
 import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import { purchaseOrderColumnsFunction } from './PurchaseOrders.data';
+import { useTheme } from '@mui/material';
 
 const { NEW_PURCHASE_ORDER } = AIR_SERVICES;
 
 const usePurchaseOrders = () => {
   const router = useRouter();
+  const theme = useTheme();
   const [purchaseOrderData, setPurchaseOrderData] = useState([]);
   const [searchValue, setSearchValue] = useState<string>('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -128,6 +130,7 @@ const usePurchaseOrders = () => {
     setPurchaseOrderFilter,
     getPurchaseOrderListData,
     onDeleteClick,
+    theme,
   };
 };
 export default usePurchaseOrders;

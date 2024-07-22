@@ -28,12 +28,22 @@ import { useAppSelector } from '@/redux/store';
 import { MailColoredIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
-import { usePostSendEmailOutlookMutation } from '@/services/commonFeatures/email/outlook';
+import {
+  useDeleteEmailOutlookMutation,
+  usePostSendEmailOutlookMutation,
+} from '@/services/commonFeatures/email/outlook';
 import CustomLabel from '@/components/CustomLabel';
 import * as yup from 'yup';
+import {
+  setActiveRecord,
+  setFilterMailList,
+  setSelectedRecords,
+} from '@/redux/slices/email/outlook/slice';
+import { useDispatch } from 'react-redux';
 
 const Draft = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const [autocompleteValues, setAutocompleteValues] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -70,12 +80,14 @@ const Draft = () => {
 
   const [postSendOtherEmail, { isLoading: loadingOtherSend }] =
     usePostSendEmailOutlookMutation();
+  const [deleteEmailOutlook, { isLoading: loadingDelete }] =
+    useDeleteEmailOutlookMutation();
 
   const onSubmit = async (values: any) => {
     const formDataSend = new FormData();
     formDataSend.append('to', autocompleteValues?.join(', '));
     formDataSend.append('subject', values?.subject);
-    formDataSend.append('content', values?.description);
+    formDataSend.append('content', values?.description ?? ' ');
 
     if (values?.attachments) {
       formDataSend.append('attachments', values?.attachments);
@@ -90,6 +102,23 @@ const Draft = () => {
       await postSendOtherEmail({
         body: formDataSend,
       })?.unwrap();
+
+      try {
+        await deleteEmailOutlook({
+          body: {
+            messageIds: [activeRecord?.id],
+          },
+        })?.unwrap();
+        enqueueSnackbar('Mail permanently deleted', {
+          variant: 'success',
+        });
+        dispatch(setFilterMailList(activeRecord?.id ? [activeRecord?.id] : []));
+        dispatch(setSelectedRecords([]));
+        dispatch(setActiveRecord({}));
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
+
       enqueueSnackbar('Email send successfully', {
         variant: 'success',
       });
@@ -182,9 +211,6 @@ const Draft = () => {
                   />
                 </Grid>
                 <Grid item xs={2} sx={{ mt: 3 }}>
-                  <RHFCheckbox name="fromChecked" label="From" />
-                </Grid>
-                <Grid item xs={2} sx={{ mt: 3 }}>
                   <RHFCheckbox name="ccChecked" label="CC" />
                 </Grid>
                 <Grid item xs={2} sx={{ mt: 3 }}>
@@ -228,7 +254,14 @@ const Draft = () => {
                   <RHFDropZone name="attachFile" label="Attachments" />
                 </Grid>
 
-                <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: '20px',
+                    mt: 2,
+                    marginLeft: '20px',
+                  }}
+                >
                   <Button
                     variant="outlined"
                     color="inherit"
@@ -237,7 +270,7 @@ const Draft = () => {
                     Cancel
                   </Button>
                   <LoadingButton
-                    loading={loadingOtherSend}
+                    loading={loadingOtherSend || loadingDelete}
                     variant="contained"
                     type="submit"
                     sx={{ height: '36px' }}

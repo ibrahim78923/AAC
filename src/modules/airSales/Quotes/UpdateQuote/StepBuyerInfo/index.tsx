@@ -30,18 +30,15 @@ const StepBuyerInfo = ({
   selectedCompanyIds,
 }: any) => {
   const {
-    handleDeleteCompanies,
     dataGetQuoteById,
-    handleDeleteModal,
-    deleteModalId,
-    isCompanyDeleteLoading,
-    isContactDeleteLoading,
-    handleContactDeleteModal,
-    deleteContactModalId,
-    handleDeleteContacts,
     BuyerInfoLoading,
+    postManageLoading,
+    isModalOpen,
+    setIsModalOpen,
+    handleDeleteSubmitBtn,
   } = useUpdateQuote();
   const contactData: any = dataGetQuoteById?.data?.deal;
+
   const theme = useTheme();
 
   return (
@@ -91,74 +88,81 @@ const StepBuyerInfo = ({
                     </Typography>
                     <Box component="ul" sx={styles?.contactsList}>
                       {contactData &&
-                        contactData[0]?.contacts?.map((item: any) => (
-                          <Box
-                            component="li"
-                            sx={styles?.listItem}
-                            key={item?.id}
-                          >
-                            <Avatar
-                              alt="user"
-                              src={generateImage(
-                                item?.owner?.profilePicture?.url,
-                              )}
-                              sx={{
-                                width: 35,
-                                height: 35,
-                                background: theme?.palette?.grey[400],
-                              }}
+                        contactData[0]?.contacts?.map((item: any) => {
+                          return (
+                            <Box
+                              component="li"
+                              sx={styles?.listItem}
+                              key={item?.id}
                             >
-                              <Typography
-                                variant="body1"
+                              <Avatar
+                                alt="user"
+                                src={generateImage(
+                                  item?.owner?.profilePicture?.url,
+                                )}
                                 sx={{
-                                  color: theme?.palette?.custom?.dim_grey,
+                                  width: 35,
+                                  height: 35,
+                                  background: theme?.palette?.grey[400],
                                 }}
                               >
-                                {item?.name?.charAt(1)}
-                                {item?.name?.charAt(item?.name?.length - 1)}
-                              </Typography>
-                            </Avatar>
-                            <Box flex={1}>
-                              <Typography sx={styles?.itemText}>
-                                {item?.name}
-                              </Typography>
-
-                              <Tooltip title={item?.email}>
                                 <Typography
+                                  variant="body1"
                                   sx={{
-                                    ...styles?.itemText,
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                    overflow: 'hidden',
-                                    width: '150px',
+                                    color: theme?.palette?.custom?.dim_grey,
                                   }}
                                 >
-                                  {item?.email}
+                                  {item?.name?.charAt(1)}
+                                  {item?.name?.charAt(item?.name?.length - 1)}
                                 </Typography>
-                              </Tooltip>
-                              <Typography sx={styles?.itemText}>
-                                {item?.phoneNumber}
-                              </Typography>
-                            </Box>
-                            <Box sx={{ cursor: 'pointer' }}>
-                              <Image
-                                src={CrossCircleImage}
-                                alt="delIcon"
-                                onClick={() =>
-                                  handleContactDeleteModal(item?._id)
+                              </Avatar>
+                              <Box flex={1}>
+                                <Typography sx={styles?.itemText}>
+                                  {item?.name}
+                                </Typography>
+                                <Tooltip title={item?.email}>
+                                  <Typography
+                                    sx={{
+                                      ...styles?.itemText,
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      overflow: 'hidden',
+                                      width: '150px',
+                                    }}
+                                  >
+                                    {item?.email}
+                                  </Typography>
+                                </Tooltip>
+                                <Typography sx={styles?.itemText}>
+                                  {item?.phoneNumber}
+                                </Typography>
+                              </Box>
+                              <Box sx={{ cursor: 'pointer' }}>
+                                <Image
+                                  src={CrossCircleImage}
+                                  alt="delIcon"
+                                  onClick={() => {
+                                    setIsModalOpen({
+                                      ...isModalOpen,
+                                      contactsModal: {
+                                        isToggle: true,
+                                        id: item?._id,
+                                      },
+                                    });
+                                  }}
+                                />
+                              </Box>
+                              <Checkbox
+                                defaultChecked
+                                checked={selectedBuyerContactIds === item?._id}
+                                value={item?._id}
+                                onChange={() =>
+                                  handleBuyerContactChange(item?._id)
                                 }
                               />
                             </Box>
-                            <Checkbox
-                              defaultChecked
-                              checked={selectedBuyerContactIds === item?._id}
-                              value={item?._id}
-                              onChange={() =>
-                                handleBuyerContactChange(item?._id)
-                              }
-                            />
-                          </Box>
-                        ))}
+                          );
+                        })}
                     </Box>
                   </Box>
                 </>
@@ -181,61 +185,88 @@ const StepBuyerInfo = ({
                   </Box>
                   <Box component="ul" sx={styles?.contactsList}>
                     {contactData &&
-                      contactData[0]?.companies?.map((item: any) => (
-                        <Box
-                          component="li"
-                          sx={styles?.listItem}
-                          key={item?.id}
-                        >
-                          <Box>
-                            <Avatar
-                              alt="user"
-                              src={generateImage(
-                                item?.owner?.profilePicture?.url,
-                              )}
-                              sx={{
-                                width: 35,
-                                height: 35,
-                                background: theme?.palette?.grey[400],
-                              }}
-                            >
-                              <Typography
-                                variant="body1"
+                      contactData[0]?.companies?.map((item: any) => {
+                        return (
+                          <Box
+                            component="li"
+                            sx={styles?.listItem}
+                            key={item?.id}
+                          >
+                            <Box>
+                              <Avatar
+                                alt="user"
+                                src={generateImage(
+                                  item?.owner?.profilePicture?.url,
+                                )}
                                 sx={{
-                                  color: theme?.palette?.custom?.dim_grey,
+                                  width: 35,
+                                  height: 35,
+                                  background: theme?.palette?.grey[400],
                                 }}
                               >
-                                {item?.name?.charAt(1)}
-                                {item?.name?.charAt(item?.name?.length - 1)}
-                              </Typography>
-                            </Avatar>
-                          </Box>
-                          <Box flex={1}>
-                            <Typography sx={styles?.itemTitle}>
-                              {item?.domain}
-                            </Typography>
-                            <Box sx={styles?.itemText}> {item?.name}</Box>
-                            <Box sx={styles?.itemText}>
-                              {item?.owner?.email}
+                                <Typography
+                                  variant="body1"
+                                  sx={{
+                                    color: theme?.palette?.custom?.dim_grey,
+                                  }}
+                                >
+                                  {item?.name?.charAt(1)}
+                                  {item?.name?.charAt(item?.name?.length - 1)}
+                                </Typography>
+                              </Avatar>
                             </Box>
-                            <Box sx={styles?.itemText}>
-                              {item?.owner?.phoneNumber}
+                            <Box flex={1}>
+                              {/* <Typography sx={styles?.itemTitle}>
+                                {item?.domain}
+                              </Typography> */}
+                              <Tooltip title={item?.domain}>
+                                <Typography
+                                  sx={{
+                                    ...styles?.itemText,
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    width: '150px',
+                                  }}
+                                >
+                                  {item?.domain}
+                                </Typography>
+                              </Tooltip>
+                              <Box sx={styles?.itemText}> {item?.name}</Box>
+                              <Box sx={styles?.itemText}>
+                                {item?.owner?.email}
+                              </Box>
+                              <Box sx={styles?.itemText}>
+                                {item?.owner?.phoneNumber}
+                              </Box>
+                            </Box>
+                            <Box sx={{ cursor: 'pointer' }}>
+                              <Image
+                                src={CrossCircleImage}
+                                alt="delIcon"
+                                onClick={() => {
+                                  setIsModalOpen({
+                                    ...isModalOpen,
+                                    companyModal: {
+                                      isToggle: true,
+                                      id: item?._id,
+                                    },
+                                  });
+                                }}
+                              />
+                            </Box>
+                            <Box>
+                              <Checkbox
+                                defaultChecked={
+                                  selectedCompanyIds === item?._id
+                                }
+                                checked={selectedCompanyIds === item?._id}
+                                onChange={() => handleCompanyChange(item._id)}
+                              />
                             </Box>
                           </Box>
-                          <Box sx={{ cursor: 'pointer' }}>
-                            <Image
-                              src={CrossCircleImage}
-                              alt="delIcon"
-                              onClick={() => handleDeleteModal(item?._id)}
-                            />
-                          </Box>
-                          <Checkbox
-                            defaultChecked={selectedCompanyIds === item?._id}
-                            checked={selectedCompanyIds === item?._id}
-                            onChange={() => handleCompanyChange(item._id)}
-                          />
-                        </Box>
-                      ))}
+                        );
+                      })}
                   </Box>
                 </Box>
               </Box>
@@ -248,24 +279,34 @@ const StepBuyerInfo = ({
           </TemplateFrame>
         </Grid>
       </Grid>
-      {deleteModalId && (
+      {isModalOpen?.companyModal?.isToggle && (
         <AlertModals
           message="Are you sure you want to delete this?"
           type="delete"
-          open={Boolean(deleteModalId)}
-          handleClose={() => handleDeleteModal(null)}
-          handleSubmitBtn={handleDeleteCompanies}
-          loading={isCompanyDeleteLoading}
+          open={isModalOpen?.companyModal}
+          handleClose={() =>
+            setIsModalOpen({
+              ...isModalOpen,
+              companyModal: { isToggle: false, id: '' },
+            })
+          }
+          handleSubmitBtn={handleDeleteSubmitBtn}
+          loading={postManageLoading}
         />
       )}
-      {deleteContactModalId && (
+      {isModalOpen?.contactsModal?.isToggle && (
         <AlertModals
           message="Are you sure you want to delete this?"
           type="delete"
-          open={Boolean(deleteContactModalId)}
-          handleClose={() => handleContactDeleteModal(null)}
-          handleSubmitBtn={handleDeleteContacts}
-          loading={isContactDeleteLoading}
+          open={isModalOpen?.contactsModal}
+          handleClose={() =>
+            setIsModalOpen({
+              ...isModalOpen,
+              contactsModal: { isToggle: false, id: '' },
+            })
+          }
+          handleSubmitBtn={handleDeleteSubmitBtn}
+          loading={postManageLoading}
         />
       )}
     </>

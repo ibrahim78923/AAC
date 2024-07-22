@@ -9,13 +9,13 @@ import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
 export const createAddAnnouncementValidationSchema: any = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
+  title: Yup?.string()?.trim()?.required('Title is required'),
   description: Yup?.string()?.trim(),
-  notifyMembers: Yup?.string(),
-  managedById: Yup?.mixed()?.required('Required'),
-  vibilityId: Yup?.mixed()?.required('Required'),
-  additionalEmail: Yup?.string(),
-  addMember: Yup?.string(),
+  notifyMembers: Yup?.string()?.trim(),
+  managedById: Yup?.mixed()?.required('Managed by is required'),
+  vibilityId: Yup?.mixed()?.required('visibility is required'),
+  additionalEmail: Yup?.string()?.trim(),
+  addMember: Yup?.string()?.trim(),
 });
 
 export const createAddAnnouncementDefaultValues: any = {
@@ -31,6 +31,7 @@ export const createAddAnnouncementDefaultValues: any = {
 export const createAddAnnouncementDataArray = (
   departmentDropdown: any,
   userDropdown: any,
+  productId: any,
 ) => [
   {
     id: 1,
@@ -94,8 +95,9 @@ export const createAddAnnouncementDataArray = (
       fullWidth: true,
       apiQuery: userDropdown,
       required: true,
+      externalParams: { productId, requester: true },
       getOptionLabel: (option: any) =>
-        option?.firstName + ' ' + option?.lastName,
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -113,13 +115,11 @@ export const createAddAnnouncementDataArray = (
     component: RHFAutocompleteAsync,
     md: 12,
   },
-
   {
     id: 8,
     componentProps: {
       name: 'notifyMembers',
       label: 'Notify members via email',
-      fullWidth: true,
     },
     component: RHFCheckbox,
     md: 12,

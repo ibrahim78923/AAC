@@ -19,7 +19,7 @@ const UsersReports = () => {
     isFetching,
     isSuccess,
     usersLoading,
-  }: any = useUserReports();
+  } = useUserReports();
   const { handleUserSwitchChange } = useUserManagement();
 
   return (
@@ -33,7 +33,7 @@ const UsersReports = () => {
         <Typography variant="h3">User Report</Typography>
       </Box>
       <Card sx={{ mb: '30px' }}>
-        <ProductWiseGrpah usersReportsGraphData={usersReportsGraphData} />
+        <ProductWiseGrpah usersReportsGraphData={usersReportsGraphData?.data} />
       </Card>
       <Card>
         <Box

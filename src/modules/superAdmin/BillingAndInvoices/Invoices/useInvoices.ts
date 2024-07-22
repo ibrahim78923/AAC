@@ -14,7 +14,7 @@ const useInvoices = () => {
   const [openPayInvoice, setOpenPayInvoice] = useState(false);
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [isGetRowValues, setIsGetRowValues] = useState('');
+  const [isGetRowValues, setIsGetRowValues] = useState<string>('');
   const [searchByClientName, setSearchByClientName] = useState('');
   const [filterValues, setFilterValues] = useState({});
   const searchObject = { search: searchByClientName };

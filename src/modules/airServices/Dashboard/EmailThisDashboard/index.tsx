@@ -1,25 +1,26 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useEmailThisDashboard } from './useEmailThisDashboard ';
-import { createEmailThisDashboardDataArray } from './EmailThisDashboard.data';
-import { RecurringEmail } from './RecurringEmail';
+import { useEmailThisDashboard } from './useEmailThisDashboard';
 
-function EmailThisDashboard({ isDrawerOpen, setIsDrawerOpen }: any) {
-  const { methods, watchRecurringEmail, watch, setValue, postEmailProgress } =
-    useEmailThisDashboard();
-  const recurringEmail = 'recurring';
+const EmailThisDashboard = (props: any) => {
+  const { isDrawerOpen } = props;
+  const {
+    methods,
+    sendDashboardViaEmailFormFields,
+    postEmailProgress,
+    closeDrawer,
+  } = useEmailThisDashboard();
+
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-        }}
+        onClose={() => closeDrawer?.()}
         title="Email this dashboard"
         submitHandler={() => {}}
-        footer={true}
-        isOk={true}
+        footer
+        isOk
         okText="Send"
         isDisabled={postEmailProgress?.isLoading}
         isLoading={postEmailProgress?.isLoading}
@@ -27,26 +28,20 @@ function EmailThisDashboard({ isDrawerOpen, setIsDrawerOpen }: any) {
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={3}>
-              {createEmailThisDashboardDataArray?.map((item: any) => (
+            <Grid container spacing={1}>
+              {sendDashboardViaEmailFormFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
-                  {item?.component === Typography && (
-                    <Typography>{item?.componentProps?.value}</Typography>
-                  )}
-                  {item?.component !== Typography && (
-                    <item.component {...item?.componentProps} size="small" />
-                  )}
+                  <item.component {...item?.componentProps} size="small">
+                    {item?.heading ? item?.heading : null}
+                  </item.component>
                 </Grid>
               ))}
-              {watchRecurringEmail === recurringEmail && (
-                <RecurringEmail watch={watch} setValue={setValue} />
-              )}
             </Grid>
           </FormProvider>
         </Box>
       </CommonDrawer>
     </>
   );
-}
+};
 
 export default EmailThisDashboard;

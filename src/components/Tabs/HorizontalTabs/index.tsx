@@ -22,6 +22,7 @@ const HorizontalTabs = (props: any) => {
   const [value, setValue] = useState(defaultValue);
   const handleChange = (_: any, newValue: number) => {
     setValue(newValue);
+    setActiveTab(newValue);
   };
 
   useEffect(() => {

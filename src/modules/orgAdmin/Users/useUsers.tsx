@@ -28,10 +28,13 @@ const useUsers = () => {
   };
 
   const { data: employeeList, isLoading: employeeListLoading } =
-    useGetEmployeeListQuery({
-      orgId: user?.organization?._id,
-      values: empListParams,
-    });
+    useGetEmployeeListQuery(
+      {
+        orgId: user?.organization?._id,
+        values: empListParams,
+      },
+      { skip: !user?.organization?._id },
+    );
 
   const employeeDetails = employeeList?.data?.users;
   const employeeMetaData = employeeList?.data?.meta;

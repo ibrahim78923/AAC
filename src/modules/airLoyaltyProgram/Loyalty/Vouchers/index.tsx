@@ -13,7 +13,7 @@ import { AddVouchers } from './AddVouchers';
 import { Filters } from './Filters';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_LOYALTY_PROGRAM_VOUCHERS_PERMISSIONS } from '@/constants/permission-keys';
-import { truncateLargeText, truncateText } from '@/utils/avatarUtils';
+import { truncateText } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
 import Image from 'next/image';
@@ -163,7 +163,7 @@ export const Vouchers = () => {
                   {truncateText(singleVouchers?.name)}
                 </Typography>
                 <Typography color={'white'} variant="body1">
-                  {truncateLargeText(singleVouchers?.description)}
+                  {truncateText(singleVouchers?.description, 160)}
                 </Typography>
               </Box>
             </Grid>

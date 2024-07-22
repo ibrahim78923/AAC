@@ -5,12 +5,19 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { PAGINATION } from '@/config';
+import { Typography } from '@mui/material';
+import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
 export const currencyOptions = ['Pound', 'Dollar'];
 
 const purchaseDetailSchema = yup?.object()?.shape({
-  itemName: yup?.object()?.nullable(),
-  description: yup?.string()?.default(''),
+  itemName: yup?.mixed()?.nullable()?.required('Item Name is required'),
+  description: yup?.string()?.trim()?.required('Description is required'),
   quantity: yup
     ?.number()
     ?.positive('Greater than zero')
@@ -23,70 +30,92 @@ const purchaseDetailSchema = yup?.object()?.shape({
     ?.number()
     ?.positive('Greater than zero')
     ?.typeError('Not a number'),
-  total: yup?.number(),
-});
-// form validation schema
-export const validationSchema: any = yup?.object()?.shape({
-  orderName: yup?.string()?.required('Order Name is Required'),
-  orderNumber: yup?.string()?.required('Order Number is Required'),
-  vendor: yup?.object()?.required('Vendor is Required'),
-  currency: yup?.string()?.required('Currency is Required'),
-  department: yup?.object()?.nullable(),
-  expectedDeliveryDate: yup
-    ?.date()
-    ?.nullable()
-    ?.required('Delivery Date is Required'),
-  location: yup?.object()?.nullable(),
-  termAndCondition: yup?.string(),
-  subTotal: yup?.number(),
-  taxRatio: yup?.number(),
-  shipping: yup?.number(),
-  discount: yup?.number(),
-  total: yup?.number(),
-  purchaseDetails: yup?.array()?.of(purchaseDetailSchema),
+  total: yup?.number()?.positive('\u00a0')?.typeError('\u00a0'),
 });
 
-export const defaultValues = (data?: any) => ({
-  orderName: data?.orderName ?? '',
-  orderNumber: data?.orderNumber ?? '',
-  vendor: data?.vendorDetails ?? null,
-  currency: data?.currency ?? '',
-  department: data?.departmentDetails ?? null,
-  expectedDeliveryDate: data?.expectedDeliveryDate
-    ? new Date(data?.expectedDeliveryDate)
-    : null,
-  location: data?.locationDetails ?? null,
-  termAndCondition: data?.termAndCondition ?? '',
-  subTotal: data?.subTotal ?? 0,
-  taxRatio: data?.taxRatio ?? 0,
-  shipping: data?.shipping ?? 0,
-  discount: data?.discount ?? 0,
-  total: data?.total ?? 0,
-  status: data?.status ?? 'ORDERED',
-  purchaseDetails: data?.purchaseDetails?.map((item: any, index: any) => {
-    const { ...rest } = item;
-    delete rest?.itemName;
-    return {
-      itemName: data?.productDetails[index],
-      ...rest,
-    };
-  }) ?? [
-    {
-      itemName: null,
-      description: '',
-      quantity: 0,
-      costPerItem: 0,
-      taxRate: 0,
-      total: 0,
-    },
-  ],
-});
+export const validationSchema: any = (form: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+
+  return yup?.object()?.shape({
+    orderName: yup?.string()?.required('Order Name is Required'),
+    orderNumber: yup?.string()?.required('Order Number is Required'),
+    vendor: yup?.mixed()?.nullable()?.required('Vendor is Required'),
+    currency: yup?.mixed()?.nullable()?.required('Currency is Required'),
+    department: yup?.mixed()?.nullable(),
+    expectedDeliveryDate: yup
+      ?.date()
+      ?.nullable()
+      ?.required('Delivery Date is Required'),
+    location: yup?.mixed()?.nullable(),
+    termAndCondition: yup?.string(),
+    subTotal: yup?.number(),
+    taxRatio: yup?.number(),
+    shipping: yup?.number(),
+    discount: yup?.number(),
+    total: yup?.number(),
+    purchaseDetails: yup?.array()?.of(purchaseDetailSchema),
+    ...formSchema,
+  });
+};
+
+export const defaultValues = (data?: any, form?: any) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
+  return {
+    orderName: data?.orderName ?? '',
+    orderNumber: data?.orderNumber ?? '',
+    vendor: data?.vendorDetails ?? null,
+    currency: data?.currency ?? null,
+    department: data?.departmentDetails ?? null,
+    expectedDeliveryDate: data?.expectedDeliveryDate
+      ? new Date(data?.expectedDeliveryDate)
+      : null,
+    location: data?.locationDetails ?? null,
+    termAndCondition: data?.termAndCondition ?? '',
+    subTotal: data?.subTotal ?? 0,
+    taxRatio: data?.taxRatio ?? 0,
+    shipping: data?.shipping ?? 0,
+    discount: data?.discount ?? 0,
+    total: data?.total ?? 0,
+    status: data?.status ?? PURCHASE_ORDER_STATUS?.OPEN,
+    purchaseDetails: !!data?.purchaseDetails?.length
+      ? data?.purchaseDetails?.map((item: any, index: any) => {
+          const { ...rest } = item;
+          delete rest?.itemName;
+          return {
+            itemName: data?.productDetails?.[index],
+            ...rest,
+          };
+        })
+      : [
+          {
+            itemName: null,
+            description: '',
+            quantity: '0',
+            costPerItem: '0',
+            taxRate: '0',
+            total: '0',
+          },
+        ],
+    ...initialValues,
+  };
+};
 
 export const newPurchaseFieldsFunction = (
   departmentApiQuery: any,
   locationApiQuery: any,
   vendorApiQuery: any,
 ) => [
+  {
+    id: 10,
+    componentProps: {
+      color: 'slateBlue.main',
+      variant: 'h5',
+    },
+    heading: 'Purchase Details',
+    md: 12,
+    component: Typography,
+  },
   {
     id: 1,
     component: RHFTextField,
@@ -122,9 +151,12 @@ export const newPurchaseFieldsFunction = (
       fullWidth: true,
       name: 'vendor',
       label: 'Vendor',
-      placeholder: 'Select Location',
+      placeholder: 'Select Vendor',
       apiQuery: vendorApiQuery,
-      externalParams: { meta: false, limit: 50 },
+      externalParams: {
+        meta: false,
+        limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
+      },
       required: true,
     },
   },
@@ -136,7 +168,6 @@ export const newPurchaseFieldsFunction = (
       fullWidth: true,
       name: 'currency',
       label: 'Currency',
-      select: true,
       options: currencyOptions,
       required: true,
       placeholder: 'Select Currency',
@@ -193,12 +224,14 @@ export const newPurchaseFieldsFunction = (
     component: RHFTextField,
   },
 ];
+
 export const itemsDetailsList = [
-  { label: 'item name', value: 'itemName' },
-  { label: 'description', value: 'description' },
-  { label: 'cost per item', value: 'costPerItem' },
-  { label: 'quantity', value: 'quantity' },
-  { label: 'tax rate(%)', value: 'taxRate' },
-  { label: 'total()', value: 'total' },
+  { label: 'Item Name', value: 'itemName' },
+  { label: 'Description', value: 'description' },
+  { label: 'Cost Per Item', value: 'costPerItem' },
+  { label: 'Quantity', value: 'quantity' },
+  { label: 'Tax Rate(%)', value: 'taxRate' },
+  { label: 'Total()', value: 'total' },
 ];
+
 export const itemsDetailsSubList = ['itemName', 'description', 'total'];

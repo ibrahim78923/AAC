@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetAllKnowledgeBaseArticleQuery } from '@/services/airCustomerPortal/KnowledgeBase';
 import { PAGINATION } from '@/config';
+import { ARRAY_INDEX, ARTICLE_STATUS } from '@/constants/strings';
 
 export const useKnowledgeBaseDetail = () => {
   const router = useRouter();
@@ -25,6 +26,7 @@ export const useKnowledgeBaseDetail = () => {
     limit: pageLimit,
     search: searchValue,
     folderId: folderId,
+    status: ARTICLE_STATUS?.PUBLISHED,
   };
 
   const { data, isLoading, isFetching, isError } =
@@ -34,7 +36,7 @@ export const useKnowledgeBaseDetail = () => {
     });
   const articlesData = data?.data?.articles;
   const articlesMetaData = data?.data?.meta;
-  const folderName = data?.data?.articles?.[0]?.folder?.name;
+  const folderName = data?.data?.articles?.[ARRAY_INDEX?.ZERO]?.folder?.name;
   return {
     handleKnowledgeBase,
     searchValue,

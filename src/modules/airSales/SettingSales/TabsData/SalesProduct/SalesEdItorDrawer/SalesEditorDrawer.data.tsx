@@ -13,6 +13,7 @@ export const salesProductvalidationSchema = Yup?.object()?.shape({
   purchasePrice: Yup?.number()?.positive()?.required('Field is Required'),
   unitPrice: Yup?.number()?.positive()?.required('Field is Required'),
   name: Yup?.string()?.required('Field is Required'),
+  category: Yup?.object()?.required('Field is Required'),
   description: Yup?.string(),
 });
 

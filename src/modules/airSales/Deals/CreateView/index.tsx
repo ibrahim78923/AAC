@@ -21,20 +21,24 @@ const CreateView = ({ open, onClose }: any) => {
     resolver: yupResolver(validationSchema),
     defaultValues: 'EVERYONE',
   });
-  const [createViewDeals] = useCreateViewDealsMutation();
+  const [createViewDeals, { isLoading: viewDealsLoading }] =
+    useCreateViewDealsMutation();
   const { handleSubmit, watch } = methods;
   const dealPipelineId = watch('dealPipelineId');
 
-  const onSubmit = (values: any) => {
+  const onSubmit = async (values: any) => {
     const paramsObj: any = {};
 
-    if (values?.CloseDate)
-      paramsObj['CloseDate'] = dayjs(values?.CloseDate)?.format(
+    if (values?.dateStart)
+      paramsObj['dateStart'] = dayjs(values?.dateStart)?.format(
         DATE_FORMAT?.API,
       );
+    if (values?.dateEnd)
+      paramsObj['dateEnd'] = dayjs(values?.dateEnd)?.format(DATE_FORMAT?.API);
     if (values?.dealPipelineId)
-      paramsObj['dealPiplineId'] = values?.dealPipelineId;
-    if (values?.dealOwnerId) paramsObj['dealOwnerId'] = values?.dealOwnerId;
+      paramsObj['dealPiplineId'] = values?.dealPipelineId?._id;
+    if (values?.dealOwnerId)
+      paramsObj['dealOwnerId'] = values?.dealOwnerId?._id;
     if (values?.dealStageId) paramsObj['dealStageId'] = values?.dealStageId;
 
     const query = '?' + new URLSearchParams(paramsObj)?.toString();
@@ -46,7 +50,7 @@ const CreateView = ({ open, onClose }: any) => {
     };
 
     try {
-      createViewDeals({ body: obj })?.unwrap();
+      await createViewDeals({ body: obj })?.unwrap();
       enqueueSnackbar('View created successfully', {
         variant: 'success',
       });
@@ -69,11 +73,12 @@ const CreateView = ({ open, onClose }: any) => {
         cancelText="Cancel"
         title="Create View"
         footer
+        isLoading={viewDealsLoading}
       >
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
             {CreateViewData(dealPipelineId)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

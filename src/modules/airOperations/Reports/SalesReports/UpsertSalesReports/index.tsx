@@ -4,9 +4,9 @@ import { fieldsList } from './UpsertSalesReports.data';
 import { DragDropContext } from 'react-beautiful-dnd';
 import DroppableArea from './DroppableArea';
 import useUpsertSalesReports from './useUpsertSalesReports';
-import { FormProvider } from 'react-hook-form';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_OPERATIONS, REPORTS_HEADER_TITLE } from '@/constants';
+import { FormProvider } from '@/components/ReactHookForm';
 
 export const UpsertSalesReports = () => {
   const {
@@ -38,10 +38,7 @@ export const UpsertSalesReports = () => {
     chartTitle,
     form,
     setForm,
-    yAxisData,
     xAxisData,
-    setChartMetricType,
-    chartMetricType,
     subFilter,
     allChartComponents,
     showTemplate,
@@ -54,17 +51,19 @@ export const UpsertSalesReports = () => {
     draggedItemData,
     disableTemplate,
     handleChooseTemplate,
+    xAxisType,
   } = useUpsertSalesReports();
   const { text, table, chart, counter } = modal || {};
+
   return (
-    <FormProvider {...methods}>
+    <FormProvider methods={methods}>
       <DragDropContext
         onDragEnd={showTemplate ? handleTemplateDragEnd : handleDragEnd}
       >
         <Grid container display={'flex'} justifyContent={'space-between'}>
           <Grid
             item
-            sm={12}
+            xs={12}
             lg={7.9}
             p={2}
             borderRadius={3}
@@ -88,7 +87,7 @@ export const UpsertSalesReports = () => {
                   ? handleCancel
                   : () => {
                       router?.push({
-                        pathname: AIR_OPERATIONS?.SERVICES_REPORTS,
+                        pathname: AIR_OPERATIONS?.SALES_REPORTS,
                       });
                     }
               }
@@ -131,13 +130,14 @@ export const UpsertSalesReports = () => {
               setDraggedItemData={setDraggedItemData}
               handleCancel={handleCancel}
               handleChooseTemplate={handleChooseTemplate}
+              setValue={setValue}
             />
           </Grid>
           <Grid
             item
-            sm={12}
+            xs={12}
             lg={4}
-            mt={{ sm: 1, lg: 0 }}
+            mt={{ xs: 1, lg: 0 }}
             p={2}
             borderRadius={3}
             boxShadow={`0rem 0rem .2rem .2rem ${theme?.palette?.grey[400]}`}
@@ -167,18 +167,17 @@ export const UpsertSalesReports = () => {
               chartTitle={chartTitle}
               form={form}
               setForm={setForm}
-              chartMetricType={chartMetricType}
-              setChartMetricType={setChartMetricType}
               allChartComponents={allChartComponents}
               xAxisData={xAxisData}
-              yAxisData={yAxisData}
               subFilter={subFilter}
               columnsData={columnsData}
               showTemplate={showTemplate}
               handleCancel={handleCancel}
               reportId={reportId}
               setDraggedItemData={setDraggedItemData}
+              draggedItemData={draggedItemData}
               disableTemplate={disableTemplate}
+              xAxisType={xAxisType}
             />
           </Grid>
         </Grid>

@@ -4,15 +4,16 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { FilterIcon, RestoreIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useReportLists } from './useReportLists';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const ReportLists = (props: any) => {
-  const { onRestoreClick } = props;
+  const { onRestoreClick, permission } = props;
   const {
     reportListsColumns,
     setSearch,
     setPageLimit,
     setPage,
-    lazyGetRestoreReportsListStatus,
+    lazyGetReportsListStatus,
     setIsPortalOpen,
     isPortalOpen,
     renderPortalComponent,
@@ -20,6 +21,7 @@ export const ReportLists = (props: any) => {
     setSelectedReportLists,
     selectedReportLists,
   }: any = useReportLists(props);
+
   return (
     <>
       <Box
@@ -30,51 +32,71 @@ export const ReportLists = (props: any) => {
         flexWrap={'wrap'}
       >
         <Box>
-          <Search label="Search Here" setSearchBy={setSearch} />
+          <PermissionsGuard permissions={[permission?.SEARCH_RECORD]}>
+            <Search label="Search Here" setSearchBy={setSearch} />
+          </PermissionsGuard>
         </Box>
         <Box display={'flex'} gap={2}>
-          <SingleDropdownButton
-            dropdownOptions={actionButtonDropdown}
-            disabled={!!!selectedReportLists?.length}
-          />
-          <Button
-            variant="outlined"
-            color="inherit"
-            startIcon={<RestoreIcon />}
-            onClick={() => onRestoreClick?.()}
+          <PermissionsGuard
+            permissions={[
+              permission?.CUSTOMIZE,
+              permission?.RENAME,
+              permission?.CLONE,
+              permission?.EXPORT_RECORD,
+              permission?.EMAIL_THIS_REPORT,
+              permission?.CHANGE_OWNER,
+              permission?.ADD_TO_DASHBOARD,
+              permission?.DELETE,
+              permission?.MANAGE_ACCESS,
+            ]}
           >
-            Restore
-          </Button>
-          <Button
-            variant="outlined"
-            color="inherit"
-            startIcon={<FilterIcon />}
-            onClick={() => {
-              setSelectedReportLists?.([]);
-              setIsPortalOpen?.({
-                isOpen: true,
-                isFilter: true,
-              });
-            }}
-          >
-            Filter
-          </Button>
+            <SingleDropdownButton
+              dropdownOptions={actionButtonDropdown}
+              disabled={!!!selectedReportLists?.length}
+            />
+          </PermissionsGuard>
+          <PermissionsGuard permissions={[permission?.RESTORE_RECORD]}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              startIcon={<RestoreIcon />}
+              onClick={() => onRestoreClick?.()}
+            >
+              Restore
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard permissions={[permission?.FILTER_RECORD]}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              startIcon={<FilterIcon />}
+              onClick={() => {
+                setSelectedReportLists?.([]);
+                setIsPortalOpen?.({
+                  isOpen: true,
+                  isFilter: true,
+                });
+              }}
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <br />
       <TanstackTable
         columns={reportListsColumns}
-        data={lazyGetRestoreReportsListStatus?.data?.list}
-        isLoading={lazyGetRestoreReportsListStatus?.isLoading}
-        currentPage={lazyGetRestoreReportsListStatus?.data?.data?.meta?.page}
-        count={lazyGetRestoreReportsListStatus?.data?.data?.meta?.pages}
-        pageLimit={lazyGetRestoreReportsListStatus?.data?.data?.meta?.limit}
-        totalRecords={lazyGetRestoreReportsListStatus?.data?.data?.meta?.total}
+        data={lazyGetReportsListStatus?.data?.data?.genericReports}
+        isLoading={lazyGetReportsListStatus?.isLoading}
+        currentPage={lazyGetReportsListStatus?.data?.data?.meta?.page}
+        count={lazyGetReportsListStatus?.data?.data?.meta?.pages}
+        pageLimit={lazyGetReportsListStatus?.data?.data?.meta?.limit}
+        totalRecords={lazyGetReportsListStatus?.data?.data?.meta?.total}
         setPage={setPage}
         setPageLimit={setPageLimit}
-        isFetching={lazyGetRestoreReportsListStatus?.isFetching}
-        isError={lazyGetRestoreReportsListStatus?.isError}
-        isSuccess={lazyGetRestoreReportsListStatus?.isSuccess}
+        isFetching={lazyGetReportsListStatus?.isFetching}
+        isError={lazyGetReportsListStatus?.isError}
+        isSuccess={lazyGetReportsListStatus?.isSuccess}
         onPageChange={(page: any) => setPage(page)}
         isPagination
       />

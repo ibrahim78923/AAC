@@ -13,7 +13,6 @@ export const UpsertMeeting = () => {
     handleMoveBack,
     meetingProps,
     meetingType,
-    handleTemplatePage,
     meetingTemplate,
   } = useUpsertMeeting();
   return (
@@ -25,10 +24,7 @@ export const UpsertMeeting = () => {
           moveBack={handleMoveBack}
         />
       ) : null}
-      <FormProvider
-        methods={methods}
-        onSubmit={handleSubmit(meetingTemplate ? onSubmit : handleTemplatePage)}
-      >
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         {!meetingTemplate ? (
           <MeetingForm {...meetingProps} />
         ) : (

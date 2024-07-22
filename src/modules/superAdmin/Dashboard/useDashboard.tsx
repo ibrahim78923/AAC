@@ -10,9 +10,8 @@ import {
 } from '@/services/superAdmin/dashboard';
 
 const useDashboard = () => {
-  const PAGE_LIMIT = 5;
   const theme = useTheme<Theme>();
-  const [pageLimit, setPageLimit] = useState(PAGE_LIMIT);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.OPTIONAL_PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
   const { data: getUsersStats, isLoading: userStatsLoading } =

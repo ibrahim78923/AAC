@@ -1,4 +1,5 @@
 import { IMG_URL } from '@/config';
+import { FILE_TYPE_BASED_IMAGES } from '@/constants/images';
 
 const colorLoop = (str: string = '') => {
   let a = 1;
@@ -26,18 +27,6 @@ export const truncateText = (text = '---', sliceLimit = 20) => {
     : text;
 };
 
-export const truncateSmallText = (text = '---', sliceLimit = 10) => {
-  return text?.length > sliceLimit
-    ? `${text?.slice?.(0, sliceLimit)} ...`
-    : text;
-};
-
-export const truncateLargeText = (text = '---', sliceLimit = 160) => {
-  return text?.length > sliceLimit
-    ? `${text?.slice?.(0, sliceLimit)} ...`
-    : text;
-};
-
 export const fullName = (firstName?: any, lastName?: any) => {
   if (!!!firstName && !!!lastName) return 'None';
   return `${firstName ?? ''} ${lastName ?? ''}`;
@@ -49,6 +38,9 @@ export const fullNameInitial = (firstName?: any, lastName?: any) => {
 };
 
 export const generateImage = (imgSrc?: any) => {
+  if (!!!imgSrc) {
+    return '';
+  }
   return `${IMG_URL}${imgSrc}`;
 };
 
@@ -73,4 +65,10 @@ export const formatFileSize = (fileSize = 0) => {
   if (fileSize < MEGA_BYTES)
     return (fileSize / KILO_BYTES).toFixed(DECIMAL) + ' MB';
   return (fileSize / MEGA_BYTES).toFixed(DECIMAL) + ' GB';
+};
+
+export const getImageByType = (data: any, imageUrl = data?.fileUrl) => {
+  return (
+    FILE_TYPE_BASED_IMAGES?.[data?.fileType]?.src || generateImage(imageUrl)
+  );
 };

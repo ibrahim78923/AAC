@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
 import { PAGINATION } from '@/config';
+import { BillingDetailsFiltersI } from './billingandinvoices.interface';
 
 const useBillingAndInvoices = () => {
   const [searchByClientName, setSearchByClientName] = useState('');
@@ -21,7 +22,7 @@ const useBillingAndInvoices = () => {
   const { isShowViewBillingDetails, setIsShowViewBillingDetails } =
     useMenuOptions();
   const [isChecked, setIsChecked] = useState(false);
-  const [isGetRowValues, setIsGetRowValues] = useState('');
+  const [isGetRowValues, setIsGetRowValues] = useState<any>('');
   const [filterValues, setFilterValues] = useState({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -45,7 +46,7 @@ const useBillingAndInvoices = () => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: BillingDetailsFiltersI) => {
     setFilterValues(values);
     setIsOpenFilter(false);
   };

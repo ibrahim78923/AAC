@@ -13,18 +13,28 @@ import { styles } from './NotificationCard.styles';
 import { useAppSelector } from '@/redux/store';
 import {
   setActiveRecord,
+  setFilterMailList,
   setMailCurrentPage,
   setMailList,
   setSelectedRecords,
   setUpdateMailList,
 } from '@/redux/slices/email/outlook/slice';
-import { API_STATUS, EMAIL_TABS_TYPES, TIME_FORMAT } from '@/constants';
+import {
+  API_STATUS,
+  EMAIL_TABS_TYPES,
+  OUTLOOK_EMAIL_TABS_TYPES,
+  TIME_FORMAT,
+} from '@/constants';
 import { useDispatch } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
-import { usePatchOutlookEmailMessageMutation } from '@/services/commonFeatures/email/outlook';
+import {
+  useDeleteEmailOutlookMutation,
+  usePatchOutlookEmailMessageMutation,
+} from '@/services/commonFeatures/email/outlook';
 import { enqueueSnackbar } from 'notistack';
 import { PaperClipIcon } from '@/assets/icons';
+import { AlertModals } from '@/components/AlertModals';
 
 const MailList = ({
   emailsByFolderIdData,
@@ -33,8 +43,11 @@ const MailList = ({
   setIsRefresh,
   isRefresh,
   handelRefresh,
+  manualActionsTrack,
 }: any) => {
   const theme = useTheme();
+
+  const [isEmptyTrashModal, setIsEmptyTrashModal] = useState(false);
 
   const dispatch = useDispatch();
   const breakScrollOperation: any = useAppSelector(
@@ -69,12 +82,12 @@ const MailList = ({
   };
 
   const handleSelectAll = () => {
-    const totalEmails = emailsByFolderIdData?.data?.length || 0;
+    const totalEmails = mailList?.length || 0;
     const selectedCount = selectedRecords?.length;
     if (selectedCount === totalEmails) {
       dispatch(setSelectedRecords([]));
     } else {
-      dispatch(setSelectedRecords(emailsByFolderIdData?.data));
+      dispatch(setSelectedRecords(mailList));
     }
   };
 
@@ -137,7 +150,7 @@ const MailList = ({
         setMailList(emailsByFolderIdData?.data?.map((item: any) => item)),
       );
     }
-  }, [emailsByFolderIdData?.data]);
+  }, [emailsByFolderIdData?.data, manualActionsTrack]);
 
   const loadingCheck =
     mailList?.length === 0 || isRefresh
@@ -149,6 +162,34 @@ const MailList = ({
       setIsRefresh(false);
     }
   }, [isLoadingEmailsByFolderIdData]);
+
+  const [deleteEmailOutlook, { isLoading: loadingDelete }] =
+    useDeleteEmailOutlookMutation();
+
+  const handelDelete = async () => {
+    const ids =
+      selectedRecords &&
+      mailList
+        ?.filter((message: any) => message?.parentFolderId === mailTabType?.id)
+        ?.map((message: any) => message.id);
+
+    try {
+      await deleteEmailOutlook({
+        body: {
+          messageIds: ids,
+        },
+      })?.unwrap();
+      enqueueSnackbar('Trash emptied successfully.', {
+        variant: 'success',
+      });
+      dispatch(setSelectedRecords([]));
+      dispatch(setActiveRecord({}));
+      dispatch(setFilterMailList(ids ? ids : []));
+      setIsEmptyTrashModal(false);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
 
   return (
     <Box
@@ -167,9 +208,8 @@ const MailList = ({
               name="Id"
               onClick={handleSelectAll}
               checked={
-                emailsByFolderIdData?.data?.length > 0
-                  ? selectedRecords?.length ===
-                    emailsByFolderIdData?.data?.length
+                mailList?.length > 0
+                  ? selectedRecords?.length === mailList?.length
                   : false
               }
             />
@@ -188,24 +228,31 @@ const MailList = ({
         </Button>
       </Box>
 
-      {mailTabType?.display_name?.toLowerCase() === EMAIL_TABS_TYPES?.TRASH && (
-        <Box
-          sx={{
-            background: theme?.palette?.grey[100],
-            padding: '20px',
-            borderRadius: '10px',
-            marginTop: '-20px',
-          }}
-        >
-          <Typography variant="body2" sx={{ color: theme?.palette?.grey[800] }}>
-            Messages that have been in Trash more than 30 days will be
-            automatically deleted.{' '}
-            <strong>
-              <u>Empty Trash now</u>
-            </strong>
-          </Typography>
-        </Box>
-      )}
+      {mailList?.length > 0 &&
+        mailTabType?.displayName === OUTLOOK_EMAIL_TABS_TYPES?.TRASH && (
+          <Box
+            sx={{
+              background: theme?.palette?.grey[100],
+              padding: '20px',
+              borderRadius: '10px',
+              marginTop: '-20px',
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{ color: theme?.palette?.grey[800] }}
+            >
+              Messages that have been in Trash more than 30 days will be
+              automatically deleted.{' '}
+              <strong
+                onClick={() => setIsEmptyTrashModal(true)}
+                style={{ cursor: 'pointer' }}
+              >
+                <u>Empty Trash now</u>
+              </strong>
+            </Typography>
+          </Box>
+        )}
 
       <Box sx={{ maxHeight: '62vh', overflow: 'auto' }} ref={boxRef}>
         {isLoadingEmailsByFolderIdData === API_STATUS?.REJECTED ? (
@@ -226,119 +273,152 @@ const MailList = ({
                   <>
                     {mailList?.length > 0 ? (
                       mailList?.map((item: any) => (
-                        <Box
-                          key={uuidv4()}
-                          sx={styles?.card(theme)}
-                          style={{
-                            background:
-                              activeRecord?.id === item?.id
-                                ? theme?.palette?.grey[100]
-                                : theme?.palette?.common?.white,
-                          }}
-                        >
-                          <Checkbox
-                            checked={selectedRecords?.some(
-                              (email: any) => email?.id === item?.id,
-                            )}
-                            onChange={() => handleCheckboxClick(item)}
-                          />
-                          <Box onClick={() => handelMailClick(item)}>
-                            {mailTabType?.display_name ===
-                            EMAIL_TABS_TYPES?.SCHEDULE ? (
-                              <Typography
-                                variant="h6"
-                                sx={{
-                                  fontWeight: item?.isRead ? '' : 700,
-                                  color: theme?.palette?.success?.main,
-                                }}
-                              >
-                                {'['} Scheduled {']'}
-                              </Typography>
-                            ) : (
+                        <>
+                          {mailTabType?.id === item?.parentFolderId && (
+                            <>
                               <Box
-                                sx={{
-                                  display: 'flex',
-                                  justifyContent: 'space-between',
-                                  paddingRight: '20px',
+                                key={uuidv4()}
+                                sx={styles?.card(theme)}
+                                style={{
+                                  background:
+                                    activeRecord?.id === item?.id
+                                      ? theme?.palette?.grey[100]
+                                      : theme?.palette?.common?.white,
                                 }}
                               >
-                                <Typography
-                                  variant="h6"
-                                  sx={{
-                                    width: '19vw',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                    fontWeight: item?.isRead ? '' : 700,
-                                  }}
-                                >
-                                  <>
-                                    {mailTabType?.displayName?.toLowerCase() ===
-                                    EMAIL_TABS_TYPES?.DRAFTS ? (
-                                      <>
-                                        <span
-                                          style={{
-                                            color: theme?.palette?.error?.main,
-                                          }}
-                                        >
-                                          [DRAFT]
-                                        </span>{' '}
-                                        {item?.toRecipients?.map(
-                                          (item: any) => (
-                                            <>{item?.emailAddress?.address}; </>
-                                          ),
-                                        )}
-                                      </>
-                                    ) : (
-                                      <>
-                                        {item?.from?.emailAddress?.name ?? '--'}{' '}
-                                      </>
-                                    )}
-                                  </>
-                                </Typography>
-                                {item?.hasAttachments && (
-                                  <PaperClipIcon
-                                    color={theme?.palette?.primary?.main}
-                                  />
-                                )}
-                              </Box>
-                            )}
+                                <Checkbox
+                                  checked={selectedRecords?.some(
+                                    (email: any) => email?.id === item?.id,
+                                  )}
+                                  onChange={() => handleCheckboxClick(item)}
+                                />
+                                <Box onClick={() => handelMailClick(item)}>
+                                  {mailTabType?.display_name ===
+                                  EMAIL_TABS_TYPES?.SCHEDULE ? (
+                                    <Typography
+                                      variant="h6"
+                                      sx={{
+                                        fontWeight: item?.isRead ? '' : 700,
+                                        color: theme?.palette?.success?.main,
+                                      }}
+                                    >
+                                      {'['} Scheduled {']'}
+                                    </Typography>
+                                  ) : (
+                                    <Box
+                                      sx={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        paddingRight: '20px',
+                                      }}
+                                    >
+                                      <Typography
+                                        variant="h6"
+                                        sx={{
+                                          width: '19vw',
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          whiteSpace: 'nowrap',
+                                          fontWeight: item?.isRead ? '' : 700,
+                                        }}
+                                      >
+                                        <>
+                                          {mailTabType?.displayName?.toLowerCase() ===
+                                          EMAIL_TABS_TYPES?.DRAFTS ? (
+                                            <>
+                                              <span
+                                                style={{
+                                                  color:
+                                                    theme?.palette?.error?.main,
+                                                }}
+                                              >
+                                                [DRAFT]
+                                              </span>{' '}
+                                              {item?.toRecipients?.map(
+                                                (item: any) => (
+                                                  <>
+                                                    {
+                                                      item?.emailAddress
+                                                        ?.address
+                                                    }
+                                                    ;{' '}
+                                                  </>
+                                                ),
+                                              )}
+                                            </>
+                                          ) : (
+                                            <>
+                                              {mailTabType?.displayName?.toLowerCase() ===
+                                              OUTLOOK_EMAIL_TABS_TYPES?.SENT?.toLowerCase() ? (
+                                                <>
+                                                  {item?.toRecipients?.map(
+                                                    (item: any) =>
+                                                      item?.emailAddress
+                                                        ?.address,
+                                                  ) ?? '--'}{' '}
+                                                </>
+                                              ) : (
+                                                <>
+                                                  {item?.from?.emailAddress
+                                                    ?.name ?? '--'}{' '}
+                                                </>
+                                              )}
+                                            </>
+                                          )}
+                                        </>
+                                      </Typography>
+                                      {item?.hasAttachments && (
+                                        <PaperClipIcon
+                                          color={theme?.palette?.primary?.main}
+                                        />
+                                      )}
+                                    </Box>
+                                  )}
 
-                            <Typography
-                              variant="body3"
-                              sx={{ fontWeight: item?.isRead ? 600 : 700 }}
-                              color={theme?.palette?.custom?.bright}
-                              margin={'8px 0px'}
-                            >
-                              {item?.subject}
-                            </Typography>
-                            <Typography
-                              variant="body3"
-                              margin={'3px 0px'}
-                              sx={{
-                                display: '-webkit-box',
-                                WebkitBoxOrient: 'vertical',
-                                WebkitLineClamp: 3,
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                wordBreak: 'break-all',
-                              }}
-                            >
-                              {item?.bodyPreview}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                color: theme?.palette?.grey[900],
-                                fontSize: '12px',
-                              }}
-                            >
-                              {dayjs(item?.lastModifiedDateTime)?.format(
-                                TIME_FORMAT?.UI,
-                              )}
-                            </Typography>
-                          </Box>
-                        </Box>
+                                  <Typography
+                                    variant="body3"
+                                    sx={{
+                                      fontWeight: item?.isRead ? 600 : 700,
+                                    }}
+                                    color={theme?.palette?.custom?.bright}
+                                    margin={'8px 0px'}
+                                  >
+                                    {item?.subject === 'undefined'
+                                      ? '--'
+                                      : item?.subject}
+                                  </Typography>
+                                  <Typography
+                                    variant="body3"
+                                    margin={'3px 0px'}
+                                    sx={{
+                                      display: '-webkit-box',
+                                      WebkitBoxOrient: 'vertical',
+                                      WebkitLineClamp: 3,
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      wordBreak: 'break-all',
+                                    }}
+                                  >
+                                    {item?.bodyPreview?.length > 0
+                                      ? item?.bodyPreview
+                                      : 'No preview is available'}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    sx={{
+                                      color: theme?.palette?.grey[900],
+                                      fontSize: '12px',
+                                    }}
+                                  >
+                                    {dayjs(item?.lastModifiedDateTime)?.format(
+                                      TIME_FORMAT?.UI,
+                                    )}
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            </>
+                          )}
+                        </>
                       ))
                     ) : (
                       <>No record found</>
@@ -379,6 +459,16 @@ const MailList = ({
           </>
         )}
       </Box>
+
+      <AlertModals
+        type={'Delete'}
+        message={`Are you sure you want to empty trash`}
+        open={isEmptyTrashModal}
+        disabled={false}
+        handleClose={() => setIsEmptyTrashModal(false)}
+        loading={loadingDelete}
+        handleSubmitBtn={handelDelete}
+      />
     </Box>
   );
 };

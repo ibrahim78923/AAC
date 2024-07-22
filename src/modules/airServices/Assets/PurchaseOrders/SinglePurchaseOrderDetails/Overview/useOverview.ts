@@ -3,6 +3,7 @@ import { useTheme } from '@mui/material';
 import jsPDF from 'jspdf';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { overviewDataArray } from './Overview.data';
 
 export const useOverview = () => {
   const [openOverviewModal, setOpenOverviewModal] = useState(false);
@@ -41,6 +42,8 @@ export const useOverview = () => {
     setUniqueNumber(randomNumber);
   }, []);
 
+  const overviewData = overviewDataArray(purchaseOrderData);
+
   return {
     openOverviewModal,
     setOpenOverviewModal,
@@ -54,5 +57,6 @@ export const useOverview = () => {
     isFetching,
     handleRowClick,
     isError,
+    overviewData,
   };
 };

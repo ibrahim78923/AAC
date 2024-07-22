@@ -1,4 +1,12 @@
-import { Box, Grid, Button, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Button,
+  Menu,
+  MenuItem,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -13,6 +21,7 @@ import { isNullOrEmpty } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { superAdminBillingInvoicesPath } from '@/routesConstants/paths';
 import Link from 'next/link';
+import { FilterInvoiceFiltersI } from './Invoices.interface';
 
 const Invoices = () => {
   const {
@@ -42,6 +51,8 @@ const Invoices = () => {
     setPage,
     setPageLimit,
   } = useInvoices();
+
+  const theme = useTheme();
 
   return (
     <>
@@ -128,7 +139,7 @@ const Invoices = () => {
 
               <Button
                 sx={{
-                  border: '1px solid #D1D5DB',
+                  border: `1px solid  ${theme?.palette?.grey[100]}`,
                   marginLeft: '10px',
                   height: '36px',
                 }}
@@ -183,28 +194,30 @@ const Invoices = () => {
         <Box sx={{ marginTop: '1.5rem' }}>
           <FormProvider methods={FilterInvoiceFilters}>
             <Grid container spacing={4}>
-              {FilterInvoiceFiltersDataArray()?.map((item: any, index: any) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={item?.md}
-                  key={uuidv4()}
-                  sx={{
-                    paddingTop:
-                      index === 0 ? '40px !important' : '17px !important',
-                  }}
-                >
-                  <item.component {...item.componentProps} size={'small'}>
-                    {!isNullOrEmpty(item?.componentProps?.select)
-                      ? item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
+              {FilterInvoiceFiltersDataArray()?.map(
+                (item: FilterInvoiceFiltersI, index: any) => (
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={uuidv4()}
+                    sx={{
+                      paddingTop:
+                        index === 0 ? '40px !important' : '17px !important',
+                    }}
+                  >
+                    <item.component {...item.componentProps} size={'small'}>
+                      {!isNullOrEmpty(item?.componentProps?.select)
+                        ? item?.options?.map((option: any) => (
+                            <option key={uuidv4()} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : null}
+                    </item.component>
+                  </Grid>
+                ),
+              )}
             </Grid>
           </FormProvider>
         </Box>

@@ -17,8 +17,9 @@ import {
 } from '@mui/material';
 import { styles } from './Overview.style';
 import useOverview from './useOverview';
+import { formStatus } from '@/constants/form-builder';
 
-const Overview = ({ data }: any) => {
+const Overview = ({ data, htmlTemplate }: any) => {
   const {
     isEmbedDialogOpen,
     handleOpenEmbedDialog,
@@ -37,13 +38,13 @@ const Overview = ({ data }: any) => {
       <Grid container spacing={'40px'}>
         <Grid item xs={12} sm={8} md={4}>
           <Box sx={styles?.fieldLabel}>Name</Box>
-          <Box sx={styles?.nameField}>{data?.name}</Box>
+          <Box sx={styles?.nameField}>{data?.form?.name}</Box>
         </Grid>
 
         <Grid item xs={12} sm={8} md={4}>
           <Box sx={styles?.fieldLabel}>URL</Box>
           <Box sx={styles?.nameField} className="fieldURL">
-            <Box component="span">{'https://forms.activitytok.eu/forms/'}</Box>
+            <Box component="span">{data?.form?.link ?? ''}</Box>
             <Tooltip
               open={isCopiedURL}
               title="Copied"
@@ -52,6 +53,7 @@ const Overview = ({ data }: any) => {
               key="copy-url"
             >
               <IconButton
+                disabled={data?.form?.status === formStatus?.draft}
                 size="small"
                 onClick={() =>
                   handleCopyURL('https://forms.activitytok.eu/forms/')
@@ -70,6 +72,7 @@ const Overview = ({ data }: any) => {
         sx={styles?.embedBtn}
         className="medium"
         onClick={handleOpenEmbedDialog}
+        disabled={data?.form?.status === formStatus?.draft}
       >
         Embed Code
       </Button>
@@ -101,9 +104,7 @@ const Overview = ({ data }: any) => {
           <Box sx={styles?.dialogContent}>
             <Typography variant="body2" sx={styles?.dialogCode}>
               <pre>
-                <code style={{ whiteSpace: 'pre-wrap' }}>
-                  {data?.htmlTemplate}
-                </code>
+                <code style={{ whiteSpace: 'pre-wrap' }}>{htmlTemplate}</code>
               </pre>
             </Typography>
             <Tooltip
@@ -115,7 +116,7 @@ const Overview = ({ data }: any) => {
             >
               <Box
                 sx={styles?.copyBtn}
-                onClick={() => handleCopyEmbededCode(data?.htmlTemplate)}
+                onClick={() => handleCopyEmbededCode(htmlTemplate)}
               >
                 <CopyIcon />
               </Box>

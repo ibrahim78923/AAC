@@ -6,6 +6,7 @@ import {
   SoftwareReportsIcon,
   TicketsReportsIcon,
 } from '@/assets/icons';
+import { Permissions } from '@/constants/permissions';
 
 export const reportsTypes = [
   {
@@ -14,33 +15,38 @@ export const reportsTypes = [
     type: 'Tickets',
     purpose: `Overview Ticket Report`,
     link: AIR_SERVICES?.TICKETS_REPORTS,
+    permissions: Permissions?.AIR_SERVICES_REPORTS_TICKETS,
   },
   {
     id: 2,
     avatar: InventoryReportsIcon,
     type: 'Inventory',
-    purpose: `Overview Ticket Report`,
+    purpose: `Overview Inventory Report`,
     link: AIR_SERVICES?.INVENTORY_REPORTS,
+    permissions: Permissions?.AIR_SERVICES_REPORTS_INVENTORY,
   },
   {
     id: 3,
     avatar: SoftwareReportsIcon,
     type: 'Software',
-    purpose: `Overview Inventory Report`,
+    purpose: `Overview Software Report`,
     link: AIR_SERVICES?.SOFTWARE_REPORTS,
+    permissions: Permissions?.AIR_SERVICES_REPORTS_SOFTWARE,
   },
   {
     id: 4,
     avatar: PurchaseOrderReportsIcon,
     type: 'Purchase Order',
-    purpose: `Overview Software Report`,
+    purpose: `Overview Purchase Order Report`,
     link: AIR_SERVICES?.PURCHASE_ORDER_REPORTS,
+    permissions: Permissions?.AIR_SERVICES_REPORTS_PURCHASE_ORDER,
   },
   {
     id: 5,
     avatar: ContractReportsIcon,
     type: 'Contract',
-    purpose: `Overview Ticket Report`,
+    purpose: `Overview Contract Report`,
     link: AIR_SERVICES?.CONTRACTS_REPORTS,
+    permissions: Permissions?.AIR_SERVICES_REPORTS_CONTRACT,
   },
 ];

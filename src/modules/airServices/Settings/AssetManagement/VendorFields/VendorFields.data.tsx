@@ -1,78 +1,97 @@
-import TextFormatIcon from '@mui/icons-material/TextFormat';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import { RHFTextField } from '@/components/ReactHookForm';
 
-export const fieldsList = [
+export const predefinedVendorDataArray = [
   {
-    id: '0',
-    title: 'Text',
-    match: 'text',
-    icon: <TextFormatIcon sx={{ color: 'custom.main' }} />,
-    description: 'Single Line Text Area',
+    id: 1,
+    componentProps: {
+      name: 'name',
+      label: 'Name',
+      required: true,
+    },
+    component: RHFTextField,
   },
   {
-    id: '1',
-    title: 'Paragraph Text',
-    match: 'paragraphText',
-    icon: <FormatListBulletedIcon sx={{ color: 'custom.main' }} />,
-    description: 'Multi Line Text Area',
+    id: 2,
+    componentProps: {
+      name: 'contactName',
+      label: 'Contact Name',
+    },
+    component: RHFTextField,
   },
   {
-    id: '2',
-    title: 'Single Selection',
-    match: 'singleSelection',
-    icon: <RadioButtonCheckedIcon sx={{ color: 'custom.main' }} />,
-    description: 'Only one item with a radio button',
+    id: 3,
+    componentProps: {
+      name: 'phone',
+      label: 'Phone',
+    },
+    component: RHFTextField,
   },
   {
-    id: '3',
-    title: 'Multiple Selection',
-    match: 'multipleSelection',
-    icon: <CheckBoxIcon sx={{ color: 'custom.main' }} />,
-    description: 'Multiple options using a checkbox',
+    id: 4,
+    componentProps: {
+      name: 'mobile',
+      label: 'Mobile',
+    },
+    component: RHFTextField,
   },
   {
-    id: '4',
-    title: 'Date',
-    match: 'date',
-    icon: <CalendarMonthIcon sx={{ color: 'custom.main' }} />,
-    description: 'Select Date From Date Picker',
+    id: 5,
+    componentProps: {
+      name: 'email',
+      label: 'Email',
+    },
+    component: RHFTextField,
   },
   {
-    id: '5',
-    title: 'Upload',
-    match: 'upload',
-    icon: <CloudUploadIcon sx={{ color: 'custom.main' }} />,
-    description: 'Send files via Documents and Media ',
+    id: 6,
+    componentProps: {
+      name: 'description',
+      label: 'Description',
+      multiline: true,
+      minRows: 3,
+    },
+    component: RHFTextField,
   },
   {
-    id: '6',
-    title: 'Dropdown',
-    match: 'dropdown',
-    icon: <ArrowDropDownCircleIcon sx={{ color: 'custom.main' }} />,
-    description: 'Add Dropdown List',
+    id: 7,
+    componentProps: {
+      name: 'address',
+      label: 'Address',
+      multiline: true,
+      minRows: 3,
+    },
+    component: RHFTextField,
+  },
+  {
+    id: 8,
+    componentProps: {
+      name: 'country',
+      label: 'Country',
+    },
+    component: RHFTextField,
+  },
+  {
+    id: 9,
+    componentProps: {
+      name: 'state',
+      label: 'State',
+    },
+    component: RHFTextField,
+  },
+  {
+    id: 10,
+    componentProps: {
+      name: 'city',
+      label: 'City',
+    },
+    component: RHFTextField,
+  },
+  {
+    id: 11,
+    componentProps: {
+      name: 'zipCode',
+      label: 'Zip Code',
+    },
+    component: RHFTextField,
   },
 ];
-
-export const modalInitialState: any = {
-  text: false,
-  paragraphText: false,
-  singleSelection: false,
-  multipleSelection: false,
-  date: false,
-  upload: false,
-  dropdown: false,
-};
-
-export const componentToMatchMap: any = {
-  RHFDATEPICKER: 'date',
-  RHFAUTOCOMPLETE: 'dropdown',
-  RHFMULTICHECKBOX: 'multipleSelection',
-  RHFTEXTFIELD: ['text', 'paragraphText'],
-  RHFRADIOGROUP: 'singleSelection',
-  RHFDROPZONE: 'upload',
-};

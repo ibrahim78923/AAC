@@ -1,6 +1,11 @@
 import { PAGINATION } from '@/config';
-import { useAddReportsToDashboardMutation } from '@/services/airOperations/reports';
-import { useLazyGetAgentDropdownQuery } from '@/services/airServices/tickets';
+import { GENERIC_REPORT_MODULES } from '@/constants/strings';
+import {
+  useAddReportsToDashboardMutation,
+  useLazyGetMarketingDashboardDropdownListToAddReportsToDashboardQuery,
+  useLazyGetSalesDashboardDropdownListToAddReportsToDashboardQuery,
+  useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery,
+} from '@/services/airOperations/reports';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -59,14 +64,26 @@ export const useAddToDashboardReport = (props: any) => {
     setIsPortalOpen?.({});
   };
 
-  const apiQueryDashboard = useLazyGetAgentDropdownQuery();
+  const apiQueryServicesDashboard =
+    useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery();
+  const apiQuerySalesDashboard =
+    useLazyGetSalesDashboardDropdownListToAddReportsToDashboardQuery();
+  const apiQueryMarketingDashboard =
+    useLazyGetMarketingDashboardDropdownListToAddReportsToDashboardQuery();
+
+  const API_QUERY_DASHBOARD = {
+    [GENERIC_REPORT_MODULES?.SERVICES]: apiQueryServicesDashboard,
+    [GENERIC_REPORT_MODULES?.SALES]: apiQuerySalesDashboard,
+    [GENERIC_REPORT_MODULES?.MARKETING]: apiQueryMarketingDashboard,
+  };
 
   return {
     methods,
     handleSubmit,
     submitAddToDashboardForm,
     closeModal,
-    apiQueryDashboard,
+    API_QUERY_DASHBOARD,
+    apiQueryServicesDashboard,
     addReportsToDashboardStatus,
   };
 };

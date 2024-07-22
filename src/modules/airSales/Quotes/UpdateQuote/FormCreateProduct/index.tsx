@@ -7,12 +7,13 @@ import CommonDrawer from '@/components/CommonDrawer';
 import {
   addContactFields,
   ProductValidationSchema,
-  initValues,
+  productDefaultValues,
 } from './FormCreateProduct.data';
 import {
   useCreateAssociationQuoteMutation,
-  useGetProductCatagoriesQuery,
+  // useGetProductCatagoriesQuery,
   useGetQuoteByIdQuery,
+  useLazyGetProductCatagoriesUpdatedQuery,
   useLazyGetProductsByIdQuery,
   usePostProductMutation,
   useUpdateProductByIdMutation,
@@ -35,19 +36,23 @@ const FormCreateProduct = ({ open, onClose }: any) => {
 
   const { data: Quotenew } = useGetQuoteByIdQuery({ id: quoteId });
 
-  const { data: productCatagories } = useGetProductCatagoriesQuery({});
+  // const { data: productCatagories } = useGetProductCatagoriesQuery({});
+  const productCatagories = useLazyGetProductCatagoriesUpdatedQuery();
 
   const [lazyGetProductsByIdQuery] = useLazyGetProductsByIdQuery();
 
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
 
-  const methods: any = useForm<any>({
+  const methods: any = useForm({
     resolver: yupResolver(ProductValidationSchema),
-    defaultValues: initValues,
+    defaultValues: async () => {
+      return productDefaultValues;
+    },
   });
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
+    values.category = values?.category?._id;
     const formData = new FormData();
     Object.entries(values)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {
@@ -147,24 +152,22 @@ const FormCreateProduct = ({ open, onClose }: any) => {
       <Box sx={{ pt: '27px' }}>
         <FormProvider methods={methods}>
           <Grid container spacing={'22px'}>
-            {addContactFields(productCatagories?.data?.productcategories)?.map(
-              (item: any) => (
-                <Grid item xs={12} key={item?.id}>
-                  <item.component
-                    disabled={disableForm}
-                    {...item?.componentProps}
-                    size={'small'}
-                  >
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ),
-            )}
+            {addContactFields(productCatagories)?.map((item: any) => (
+              <Grid item xs={12} key={item?.componentProps?.name}>
+                <item.component
+                  disabled={disableForm}
+                  {...item?.componentProps}
+                  size={'small'}
+                >
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={option?.value} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
+              </Grid>
+            ))}
           </Grid>
         </FormProvider>
       </Box>

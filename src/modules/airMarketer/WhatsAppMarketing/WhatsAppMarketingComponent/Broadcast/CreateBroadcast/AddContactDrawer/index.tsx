@@ -1,34 +1,32 @@
 import { Box, Grid } from '@mui/material';
-import { useForm } from 'react-hook-form';
-
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-
-import {
-  contactsArray,
-  contactsDefaultValues,
-  contactsValidationSchema,
-} from './AllContactDrawer.data';
-import { yupResolver } from '@hookform/resolvers/yup';
-
+import { contactsArray } from './AllContactDrawer.data';
 import { v4 as uuidv4 } from 'uuid';
 import AllContacts from './AllContacts';
 import GroupContacts from './GroupContacts';
+import useAddContactDrawer from './useAddContactsDrawer';
+import { useEffect } from 'react';
+import { SMS_MARKETING_CONSTANTS } from '@/constants/strings';
 
 const AddContactDrawer = (props: any) => {
-  const { isDrawerOpen, onClose } = props;
+  const {
+    setSelectedContactsData,
+    setSelectedRec,
+    isDrawerOpen,
+    selectedRec,
+    onClose,
+  } = props;
 
-  const methods: any = useForm({
-    resolver: yupResolver(contactsValidationSchema),
-    defaultValues: contactsDefaultValues,
-  });
+  const { onSubmit, handleSubmit, radioVal, methods } = useAddContactDrawer(
+    onClose,
+    setSelectedContactsData,
+    selectedRec,
+  );
 
-  const { handleSubmit, watch } = methods;
-  const radioVal = watch('contacts');
-
-  const onSubmit = async (data: any) => {
-    alert(data);
-  };
+  useEffect(() => {
+    setSelectedRec([]);
+  }, [radioVal]);
 
   return (
     <CommonDrawer
@@ -56,7 +54,17 @@ const AddContactDrawer = (props: any) => {
               </Grid>
             ))}
           </Grid>
-          {radioVal === 'all' ? <AllContacts /> : <GroupContacts />}
+          {radioVal === SMS_MARKETING_CONSTANTS?.ALL ? (
+            <AllContacts
+              setSelectedRec={setSelectedRec}
+              selectedRec={selectedRec}
+            />
+          ) : (
+            <GroupContacts
+              setSelectedRec={setSelectedRec}
+              selectedRec={selectedRec}
+            />
+          )}
         </FormProvider>
       </Box>
     </CommonDrawer>

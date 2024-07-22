@@ -17,10 +17,10 @@ export const useCounter = (props: any) => {
       ...form,
       {
         id: uniqueId,
-        type: REPORT_TYPE?.COUNTER,
+        reportType: REPORT_TYPE?.COUNTER,
         ticketCount: draggedItemData?.ticketCount,
         title: draggedItemData?.title,
-        templateType: draggedItemData?.templateType,
+        templateType: draggedItemData?.type,
       },
     ]);
     setFieldData(false);

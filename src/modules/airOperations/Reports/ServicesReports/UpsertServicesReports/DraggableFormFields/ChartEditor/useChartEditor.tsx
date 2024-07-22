@@ -1,14 +1,15 @@
-import { CHARTS, REPORT_TYPE } from '@/constants/strings';
+import { REPORT_TYPE } from '@/constants/strings';
 import { successSnackbar } from '@/utils/api';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useState } from 'react';
 import {
-  inventoryMetrics,
-  ticketsMetrics,
-  purchaseOrderMetrics,
-  contractsMetrics,
-  softwareMetrics,
-} from './ChartEditor.data';
+  useLazyAssetTypeDropdownQuery,
+  useLazyCategoriesDropdownQuery,
+  useLazyDepartmentDropdownQuery,
+  useLazyLocationDropdownQuery,
+  useLazyUsersDropdownQuery,
+  useLazyVendorsDropdownQuery,
+} from '@/services/airOperations/reports/services-reports/upsert-services-reports';
 export const useChartEditor = (props: any) => {
   const {
     setFieldData,
@@ -19,33 +20,15 @@ export const useChartEditor = (props: any) => {
     setForm,
     metricType,
     xAxisData,
-    yAxisData,
-    chartMetricType,
     chartType,
     subFilter,
     setDraggedItemData,
-    setChartMetricType,
+    xAxisType,
+    draggedItemData,
   } = props;
   const [edit, setEdit] = useState(true);
   const [editValue, setEditValue] = useState();
-
-  const getDropdownOptions = () => {
-    switch (metricType) {
-      case REPORT_TYPE?.INVENTORIES:
-        return inventoryMetrics(setChartMetricType);
-      case REPORT_TYPE?.TICKETS:
-        return ticketsMetrics(setChartMetricType);
-      case REPORT_TYPE?.SOFTWARE:
-        return softwareMetrics(setChartMetricType);
-      case REPORT_TYPE?.CONTRACTS:
-        return contractsMetrics(setChartMetricType);
-      case REPORT_TYPE?.PURCHASE_ORDER:
-        return purchaseOrderMetrics(setChartMetricType);
-      default:
-        return [];
-    }
-  };
-  const dropdownOptions = getDropdownOptions();
+  const xAxesTypeIds = xAxisType?.map((item: any) => item?._id);
 
   const handleSave = () => {
     const uniqueId = generateUniqueId();
@@ -53,13 +36,13 @@ export const useChartEditor = (props: any) => {
       ...form,
       {
         id: uniqueId,
-        component: chartType,
         title: chartTitle,
-        type: REPORT_TYPE?.CHART,
+        reportType: REPORT_TYPE?.CHART,
+        type: chartType,
+        templateType: draggedItemData ? draggedItemData?.type : false,
         metric: metricType,
-        xAxis: chartType === CHARTS?.BAR_CHART ? xAxisData : null,
-        yAxis: chartType === CHARTS?.BAR_CHART ? yAxisData : null,
-        chartMetric: chartType != CHARTS?.BAR_CHART ? chartMetricType : null,
+        xAxis: xAxisData,
+        xAxisType: xAxisData?.ref ? xAxesTypeIds : null,
         subFilter: subFilter,
       },
     ]);
@@ -77,12 +60,66 @@ export const useChartEditor = (props: any) => {
     successSnackbar('Chart Added');
   };
 
+  const assetTypeDropdown = useLazyAssetTypeDropdownQuery();
+  const locationDropdown = useLazyLocationDropdownQuery();
+  const departmentDropdown = useLazyDepartmentDropdownQuery();
+  const usersDropdown = useLazyUsersDropdownQuery();
+  const categoriesDropdown = useLazyCategoriesDropdownQuery();
+  const vendorsDropdown = useLazyVendorsDropdownQuery();
+
+  const xAxesFields = {
+    ASSET_TYPE: 'inventory_assetType',
+    INVENTORY_LOCATION: 'inventory_locationId',
+    INVENTORY_DEPARTMENT: 'inventory_departmentId',
+    REQUESTER: 'ticket_requester',
+    CATEGORY: 'ticket_category',
+    TICKETS_DEPARTMENT: 'ticket_department',
+    AGENT: 'ticket_agent',
+    CONTACT_VENDORS: 'contract_vendor',
+    APPROVERS: 'contract_approver',
+    PURCHASE_ORDER_VENDORS: 'purchaseOrder_vendorId',
+    PURCHASE_ORDER_LOCATION: 'purchaseOrder_locationId',
+    PURCHASE_ORDER_DEPARTMENT: 'purchaseOrder_departmentId',
+  };
+
+  const getSingleFieldDropdown = () => {
+    switch (xAxisData?.value) {
+      case xAxesFields?.ASSET_TYPE:
+        return assetTypeDropdown;
+      case xAxesFields?.INVENTORY_LOCATION:
+        return locationDropdown;
+      case xAxesFields?.INVENTORY_DEPARTMENT:
+        return departmentDropdown;
+      case xAxesFields?.REQUESTER:
+        return usersDropdown;
+      case xAxesFields?.CATEGORY:
+        return categoriesDropdown;
+      case xAxesFields?.TICKETS_DEPARTMENT:
+        return departmentDropdown;
+      case xAxesFields?.AGENT:
+        return usersDropdown;
+      case xAxesFields?.CONTACT_VENDORS:
+        return vendorsDropdown;
+      case xAxesFields?.APPROVERS:
+        return usersDropdown;
+      case xAxesFields?.PURCHASE_ORDER_VENDORS:
+        return vendorsDropdown;
+      case xAxesFields?.PURCHASE_ORDER_LOCATION:
+        return locationDropdown;
+      case xAxesFields?.PURCHASE_ORDER_DEPARTMENT:
+        return departmentDropdown;
+      default:
+        return [];
+    }
+  };
+  const singleFieldDropdown = getSingleFieldDropdown();
+
   return {
     handleSave,
     edit,
     setEdit,
     editValue,
     setEditValue,
-    dropdownOptions,
+    singleFieldDropdown,
   };
 };

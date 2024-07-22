@@ -11,7 +11,10 @@ import { addResponseDataArray, stringAvatar } from './AddResponseForm.data';
 import { SelectAgentsModal } from './SelectAgentsModal';
 import { useAddResponseForm } from './useAddResponseForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { CANNED_RESPONSES } from '@/constants/strings';
+import {
+  CANNED_RESPONSES,
+  GENERIC_UPSERT_FORM_CONSTANT,
+} from '@/constants/strings';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
@@ -34,28 +37,37 @@ export const AddResponseForm = (props: any) => {
     hasAttachment,
     setHasAttachment,
   } = useAddResponseForm(props);
+
   return (
     <>
       <CommonDrawer
         isDrawerOpen={open}
         onClose={closeDrawer}
-        title={`${editableObj ? 'Update' : 'Add'} Response`}
+        title={`${
+          editableObj
+            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.ADD
+        } Response`}
         submitHandler={() => {
           methodsAddResponseForm?.handleSubmit(submitAddResponse)();
         }}
-        isOk={true}
+        isOk
         isLoading={
           postResponseStatus?.isLoading || patchResponseStatus?.isLoading
         }
-        footer={true}
-        okText={`${editableObj ? 'Update' : 'Save'}`}
+        footer
+        okText={`${
+          editableObj
+            ? GENERIC_UPSERT_FORM_CONSTANT?.UPDATE
+            : GENERIC_UPSERT_FORM_CONSTANT?.SAVE
+        }`}
       >
         <Box mt={1}>
           <FormProvider
             methods={methodsAddResponseForm}
             onSubmit={handleSubmit(submitAddResponse)}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               {addResponseDataArray(
                 setOpenSelectAgentsModal,
                 hasAttachment,

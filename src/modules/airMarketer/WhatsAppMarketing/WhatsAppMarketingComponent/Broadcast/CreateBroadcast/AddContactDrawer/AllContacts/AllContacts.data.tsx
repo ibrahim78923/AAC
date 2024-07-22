@@ -1,65 +1,96 @@
-import { Avatar, Checkbox, Stack, Typography } from '@mui/material';
+import { Avatar, Checkbox, Stack, Typography, useTheme } from '@mui/material';
+import { generateImage } from '@/utils/avatarUtils';
 
-import { AvatarImage } from '@/assets/images';
+export const allContactsColumns: any = ({
+  selectedRec,
+  setSelectedRec,
+  allContactsData,
+}: any) => {
+  const theme = useTheme();
 
-export const allContactsData: any = [
-  {
-    Id: 1,
-    Name: 'Kristin Waston',
-    PhoneNumber: '(219)555-0114',
-  },
-  {
-    Id: 2,
-    Name: 'Esther Howard',
-    PhoneNumber: '(201)555-0124',
-  },
-  {
-    Id: 3,
-    Name: 'Cody Fisher',
-    PhoneNumber: '(219)555-0114',
-  },
-  {
-    Id: 4,
-    Name: 'Wade Warren',
-    PhoneNumber: '(201)555-0124',
-  },
-  {
-    Id: 5,
-    Name: 'Brooklyn Simmons',
-    PhoneNumber: '(219)555-0114',
-  },
-  {
-    Id: 6,
-    Name: 'Albert Flores',
-    PhoneNumber: '(201)555-0124',
-  },
-];
+  const handleSelectContactById = (checked: boolean, id: string): void => {
+    if (checked) {
+      const contact = allContactsData?.find(
+        (contact: any) => contact?._id === id,
+      );
+      setSelectedRec([...selectedRec, contact]);
+    } else {
+      setSelectedRec(
+        selectedRec?.filter((contact: any) => contact?._id !== id),
+      );
+    }
+  };
 
-export const allContactsColumns: any = [
-  {
-    accessorFn: (row: any) => row?.Id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.Name,
-    id: 'name',
-    isSortable: false,
-    header: 'Name',
-    cell: (info: any) => (
-      <Stack direction="row" gap={1} alignItems="center">
-        <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
-        <Typography>{info?.getValue()}</Typography>
-      </Stack>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.PhoneNumber,
-    id: 'phoneNumber',
-    isSortable: false,
-    header: 'Phone Number',
-    cell: (info: any) => info?.getValue(),
-  },
-];
+  const handleSelectAllContacts = (checked: boolean): void => {
+    setSelectedRec(checked ? allContactsData : []);
+  };
+  return [
+    {
+      accessorFn: (row: any) => row?._id,
+      id: 'Id',
+      cell: ({ row: { original } }: any) => (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectContactById(target?.checked, original?._id);
+          }}
+          checked={selectedRec?.some(
+            (contact: any) => contact?._id === original?._id,
+          )}
+          defaultChecked={selectedRec?.map((contact: any) => contact?._id)}
+        />
+      ),
+      header: (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectAllContacts(target?.checked);
+          }}
+          checked={
+            allContactsData?.length &&
+            selectedRec?.length === allContactsData?.length
+          }
+        />
+      ),
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) =>
+        row?.firstName || row?.lastName
+          ? `${row?.firstName || ''} ${row?.lastName || ''}`
+          : 'N/A',
+      id: 'name',
+      isSortable: false,
+      header: 'Name',
+      cell: (info: any) => (
+        <Stack direction="row" gap={1} alignItems="center">
+          <Avatar
+            alt="user_avatar"
+            src={generateImage(
+              info?.row?.original?.profilePicture?.url || 'N/A',
+            )}
+          >
+            <Typography
+              variant="body1"
+              fontWeight={500}
+              sx={{
+                color: theme?.palette?.custom?.dim_grey,
+                textTransform: 'upperCase',
+              }}
+            >
+              {info?.row?.original?.firstName?.charAt(0) ||
+                info?.row?.original?.lastName?.charAt(0) ||
+                'N/A'}
+            </Typography>
+          </Avatar>
+          <Typography>{info?.getValue() || 'N/A'}</Typography>
+        </Stack>
+      ),
+    },
+    {
+      accessorFn: (row: any) => row?.phoneNumber,
+      id: 'phoneNumber',
+      isSortable: false,
+      header: 'Phone Number',
+      cell: (info: any) => info?.getValue() ?? 'N/A',
+    },
+  ];
+};

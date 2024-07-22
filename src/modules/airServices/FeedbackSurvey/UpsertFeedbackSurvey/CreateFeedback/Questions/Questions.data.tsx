@@ -19,6 +19,7 @@ export const tooltipData = (
   appendSection: any,
   appendQuestion: any,
   appendText: any,
+  handleImportOpen: any,
 ) => [
   {
     id: 1,
@@ -35,7 +36,7 @@ export const tooltipData = (
   {
     id: 3,
     title: 'Import questions',
-    onClick: () => {},
+    onClick: handleImportOpen,
     icon: <ImportQuestionIcon />,
   },
   {
@@ -101,6 +102,7 @@ export const surveyQuestionComponent: any = (
   index: number,
   methods: any,
   watchType: any,
+  sectionCondition: any,
 ) => ({
   checkboxes: (
     <DynamicQuestions
@@ -108,6 +110,7 @@ export const surveyQuestionComponent: any = (
       sectionIndex={sectionIndex}
       questionIndex={index}
       watchType={watchType}
+      sectionCondition={sectionCondition}
     />
   ),
   multipleChoice: (
@@ -116,11 +119,12 @@ export const surveyQuestionComponent: any = (
       sectionIndex={sectionIndex}
       questionIndex={index}
       watchType={watchType}
+      sectionCondition={sectionCondition}
     />
   ),
   shortAnswers: (
     <RHFTextField
-      name={`section.${sectionIndex}.questions.${index}.singleAnswer`}
+      name={`displayNameText`}
       placeholder="Write answer"
       multiline
       minRows={3}
@@ -130,7 +134,7 @@ export const surveyQuestionComponent: any = (
   ),
   linearScale: (
     <RHFRadioGroup
-      name={`section.${sectionIndex}.questions.${index}.singleAnswer`}
+      name={`displayNameRadio`}
       disabled
       options={linearScaleOptions}
     />
@@ -142,6 +146,8 @@ export const questionTypeData = {
   writeTitle: 'Write short title',
   question: 'Question',
   title: 'Title',
+  text: 'text',
+  saveQuestion: 'saveQuestion',
 };
 
 const slideFromLeft = keyframes`

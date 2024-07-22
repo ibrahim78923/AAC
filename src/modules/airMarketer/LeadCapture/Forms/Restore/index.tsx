@@ -29,39 +29,28 @@ const Restore = () => {
     handleOpenFilters,
     handleCloseFilters,
     loadingGetContact,
+    fetchingGetContacts,
     dataGetDeletedContacts,
-    // searchValue,
     methodsFilter,
     handleFiltersSubmit,
-    // handleRefresh,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
-    setIsActionsDisabled,
-    // isActionsDisabled,
-    setRowId,
-    // rowId,
     isDeleteModal,
     handleOpenModalDelete,
     handleCloseModalDelete,
-    handleDeleteContact,
+    handleDeleteForms,
     loadingDelete,
     isRestoreModal,
     handleOpenModalRestore,
-    handleSubmitRestoreContact,
+    handleSubmitRestoreForm,
     handleCloseModalRestore,
     loadingRestore,
     theme,
   } = useRestore();
 
-  const columns = restoreTableColumns(
-    selectedRow,
-    setSelectedRow,
-    setIsActionsDisabled,
-    setRowId,
-  );
+  const columns = restoreTableColumns(selectedRow, setSelectedRow);
 
   return (
     <>
@@ -116,7 +105,7 @@ const Restore = () => {
               color="inherit"
               onClick={handleActionsMenuClick}
               classes={{ outlined: 'outlined_btn' }}
-              // disabled={disabledActions}
+              disabled={selectedRow?.length === 0}
             >
               Actions &nbsp; <DownIcon />
             </Button>
@@ -143,15 +132,7 @@ const Restore = () => {
               </MenuItem>
             </Menu>
           </Box>
-          {/* <ContactsActions
-            anchorEl={anchorEl}
-            actionMenuOpen={actionMenuOpen}
-            handleActionsMenuClick={handleActionsMenuClick}
-            handleActionsMenuClose={handleActionsMenuClose}
-            disableActionBtn={isActionsDisabled}
-            openDelete={handleOpenModalDelete}
-            openRestoreModal={handleOpenModalRestore}
-          /> */}
+
           <Button
             startIcon={<FilterIcon />}
             sx={styles?.filterButton}
@@ -165,15 +146,16 @@ const Restore = () => {
       <Paper sx={{ mb: 2 }}>
         <TanstackTable
           columns={columns}
-          data={dataGetDeletedContacts?.data?.contacts}
-          isLoading={loadingGetContact}
-          isPagination
+          data={dataGetDeletedContacts?.data?.leadcaptureforms}
+          isLoading={loadingGetContact || fetchingGetContacts}
+          currentPage={dataGetDeletedContacts?.data?.meta?.page}
           count={dataGetDeletedContacts?.data?.meta?.pages}
+          pageLimit={dataGetDeletedContacts?.data?.meta?.limit}
           totalRecords={dataGetDeletedContacts?.data?.meta?.total}
-          onPageChange={handlePageChange}
           setPage={setPage}
           setPageLimit={setPageLimit}
-          pageLimit={dataGetDeletedContacts?.data?.meta?.limit}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
         />
       </Paper>
 
@@ -186,14 +168,14 @@ const Restore = () => {
       <RestoreDeleteModal
         open={isDeleteModal}
         onClose={handleCloseModalDelete}
-        handlePermanantDelete={handleDeleteContact}
+        handlePermanantDelete={handleDeleteForms}
         loading={loadingDelete}
       />
 
       <RestoreModal
         open={isRestoreModal}
         onClose={handleCloseModalRestore}
-        handleSubmit={handleSubmitRestoreContact}
+        handleSubmit={handleSubmitRestoreForm}
         loading={loadingRestore}
       />
     </>

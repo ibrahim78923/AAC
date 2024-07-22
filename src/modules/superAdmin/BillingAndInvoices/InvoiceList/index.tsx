@@ -14,24 +14,26 @@ import useInvoiceList from './useInvoiceList';
 
 import { PlaneIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
+import { InvoiceListPropsI, ListProductI } from './invoicesList.interface';
+
 const InvoiceList = ({
   setOpenViewInvoice,
   EditInvoice,
   discountValue,
-}: any) => {
+}: InvoiceListPropsI) => {
   const { isOpenInvoiceList, setIsOpenInvoiceList, handleCloseInvoiceList } =
     useInvoiceList();
   const theme = useTheme();
 
-  const planPrice = EditInvoice?.plans?.planPrice;
+  const planPrice = EditInvoice?.plans?.planPrice ?? 0;
 
   const totalAdditionalUserPrice =
-    EditInvoice?.details?.sumAdditionalUsersPrices;
+    EditInvoice?.details?.sumAdditionalUsersPrices ?? 0;
 
   const totalAdditionalStoragePrice =
-    EditInvoice?.details?.sumAdditionalStoragePrices;
+    EditInvoice?.details?.sumAdditionalStoragePrices ?? 0;
 
-  const planDiscount = EditInvoice?.details?.planDiscount;
+  const planDiscount = EditInvoice?.details?.planDiscount ?? 0;
 
   const subtotalBeforeDiscount =
     planPrice + totalAdditionalUserPrice + totalAdditionalStoragePrice;
@@ -39,15 +41,15 @@ const InvoiceList = ({
   const subtotalAfterDiscount =
     subtotalBeforeDiscount - (planDiscount / 100) * subtotalBeforeDiscount;
 
-  const invoiceDiscount = EditInvoice?.invoiceDiscount;
+  const invoiceDiscount = EditInvoice?.invoiceDiscount ?? 0;
 
   const invoiceDiscountAmount =
-    (invoiceDiscount / 100) * EditInvoice?.details?.subTotal;
+    (invoiceDiscount / 100) * (EditInvoice?.details?.subTotal ?? 0);
 
   const total =
     subtotalAfterDiscount - (invoiceDiscount / 100) * subtotalAfterDiscount;
 
-  const tax = EditInvoice?.tax;
+  const tax = EditInvoice?.tax ?? 0;
   const TaxAmountOfSubtotal = (tax / 100) * total;
 
   const netAmout = EditInvoice?.netAmount;
@@ -63,7 +65,7 @@ const InvoiceList = ({
             <PlaneIcon />
           </Box>
           <Box>
-            {EditInvoice.plans?.products?.map((data: any) => (
+            {EditInvoice?.plans?.products?.map((data: ListProductI) => (
               <Typography
                 variant="h6"
                 sx={{ fontWeight: '600' }}
@@ -177,13 +179,6 @@ const InvoiceList = ({
             >
               Download
             </Button>
-            {/* <Button
-              variant="contained"
-              color="primary"
-              onClick={() => router?.back()}
-            >
-              Generate Invoice
-            </Button> */}
           </Stack>
         </Grid>
       </Grid>

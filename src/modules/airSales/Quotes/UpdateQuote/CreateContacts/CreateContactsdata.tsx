@@ -1,17 +1,24 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFDropZone,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
-// import useCreateContacts from './useCreateContacts';
-// Define your Yup validation schema
+
+const phoneRegex = /^\+\d{1,3}[-.\s]?\d{10,}$/;
 export const contactsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
+  phoneNumber: Yup.string()
+    .nullable()
+    .matches(phoneRegex, 'Phone number is not valid'),
+
+  whatsAppNumber: Yup.string()
+    .nullable()
+    .matches(phoneRegex, 'Phone number is not valid'),
 });
 
-// Define your default values
 export const contactsDefaultValues = {
   email: '',
   profilePicture: '',
@@ -27,11 +34,10 @@ export const contactsDefaultValues = {
   dateOfBirth: null,
   dateOfJoining: null,
 };
-export const contactsDataArray = (
-  contactStatusData: any,
-  lifeCycleStagesData: any,
-  userList: any,
-) => {
+export const contactsDataArray = (contactDataArrayParasm: any) => {
+  const { contactsStatus, lifeCycleStages, UserListData } =
+    contactDataArrayParasm;
+
   const maxDate = new Date();
   return [
     {
@@ -58,7 +64,7 @@ export const contactsDataArray = (
       componentProps: {
         name: 'firstName',
         label: 'First Name',
-        placeholder: 'Enter Email',
+        placeholder: 'Enter First Name',
         require: true,
       },
       md: 12,
@@ -100,7 +106,6 @@ export const contactsDataArray = (
         name: 'phoneNumber',
         label: 'Phone Number',
         placeholder: 'Enter Phone Number',
-        // type: 'number',
       },
       md: 12,
       component: RHFTextField,
@@ -110,7 +115,6 @@ export const contactsDataArray = (
         name: 'whatsAppNumber',
         label: 'WhatsApp Number',
         placeholder: 'Enter WhatsApp Number',
-        // type: 'number',
       },
       md: 12,
       component: RHFTextField,
@@ -119,14 +123,15 @@ export const contactsDataArray = (
       componentProps: {
         name: 'contactOwnerId',
         label: 'Contact Owner',
-        select: true,
+        placeholder: 'Select Owner',
+        apiQuery: UserListData,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
+        externalParams: {
+          role: ROLES?.ORG_ADMIN,
+        },
       },
-      options: userList?.data?.users?.map((item: any) => ({
-        value: item?._id,
-        label: item?.firstName,
-      })),
-      md: 12,
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {
@@ -138,25 +143,24 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
-      title: 'Lifecycle Stage',
       componentProps: {
         name: 'lifeCycleStageId',
         label: 'Lifecycle Stage',
-        select: true,
+        placeholder: 'Select Stage',
+        apiQuery: lifeCycleStages,
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: lifeCycleStagesData,
-      md: 12,
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {
         name: 'statusId',
         label: 'Status',
-        select: true,
+        placeholder: 'Select Status',
+        apiQuery: contactsStatus,
+        getOptionLabel: (option: any) => option?.name,
       },
-      options: contactStatusData,
-      md: 12,
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       componentProps: {

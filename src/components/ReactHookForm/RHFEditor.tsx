@@ -31,7 +31,6 @@ export default function RHFEditor({ name, required, disabled, ...other }: any) {
           <FormHelperText
             error
             sx={{
-              textTransform: 'capitalize',
               mt: 0,
             }}
           >

@@ -28,6 +28,7 @@ const useTeams = (teamId?: any) => {
     teamId !== undefined
       ? useGetTeamsByIdQuery(teamId)
       : { data: null, isLoading: false };
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };

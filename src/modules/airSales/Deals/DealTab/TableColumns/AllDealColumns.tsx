@@ -125,12 +125,13 @@ export const AllDealColumns = ({
   };
 
   const tableActiveColumns: any =
-    activeColumns?.map((item: any) => ({
+    activeColumns?.map((item: any, index: number) => ({
       accessorFn: (row: any) => row?.attributes,
       id: item?.attributes,
       isSortable: true,
       header: item?.slug,
       cell: (info: any) => activeColumnsData(item?.attributes, info),
+      key: `column-${index}`,
     })) || [];
   const columns = [checkboxColumn, ...tableActiveColumns];
   return columns;

@@ -3,8 +3,9 @@ import { superAdminColumns } from '../Users.data';
 import useUserManagement from '../../useUserManagement';
 import { DATE_FORMAT, EQuickLinksType } from '@/constants';
 import dayjs from 'dayjs';
+import { IUsersProps } from '@/modules/superAdmin/UserManagement/Users/Users-interface';
 
-const Admin = (props: any) => {
+const Admin = (props: IUsersProps) => {
   const {
     checkedRows,
     setCheckedRows,
@@ -46,7 +47,7 @@ const Admin = (props: any) => {
         columns={columnParams}
         data={data?.data?.users}
         isPagination
-        onPageChange={(page: any) => setPage(page)}
+        onPageChange={(page: number) => setPage(page)}
         setPage={setPage}
         setPageLimit={setPageLimit}
         count={data?.data?.meta?.pages}

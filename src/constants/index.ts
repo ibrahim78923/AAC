@@ -46,6 +46,9 @@ export const DATE_TIME_FORMAT = {
   ddddDDMMMYYYYhhmmA: 'dddd, DD MMM YYYY hh:mm A',
   ddddDDMMMYYYY: 'dddd, DD MMM YYYY',
   YYMMDD: 'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
+  DDMMM: 'DD MMM',
+  DDMMMYYYY: 'DD MMM YYYY',
+  HHMMA: 'hh:mm A',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -58,6 +61,11 @@ export const VALIDATION_CONSTANT = {
 export const ERROR_PAGES = {
   NOT_FOUND: '/404',
   NOT_ACCESS: '/403',
+};
+
+export const SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES = {
+  PLAN_ALREADY_ASSIGNED:
+    'Product Plan is Already Active! Please In-Active/Un-Assign Previous Plan First',
 };
 
 export const SUPER_ADMIN: any = {
@@ -152,6 +160,19 @@ export const AIR_SERVICES = {
   SOFTWARE_REPORTS: `/air-services/reports/software`,
   FEEDBACK_SURVEY: `/air-services/feedback-survey`,
   UPSERT_FEEDBACK_SURVEY: `/air-services/feedback-survey/upsert-feedback-survey`,
+  FEEDBACK_SURVEY_RESPONSES: `/air-services/feedback-survey/detail`,
+  DEPARTMENT_FIELD: `/air-services/settings/user-management/department-field`,
+  AGENT_FIELDS: `/air-services/settings/user-management/agent-fields`,
+  REQUESTER_FIELDS: `/air-services/settings/user-management/requester-fields`,
+  SOFTWARE_FIELDS: `/air-services/settings/asset-management/software-fields`,
+  CONTRACT_TYPES: `/air-services/settings/asset-management/contract-types`,
+  PURCHASE_ORDER_FIELDS: `/air-services/settings/asset-management/purchase-order-fields`,
+  FIELD_MANAGER: `/air-services/settings/service-management/field-manager`,
+  TICKET_FIELDS: `/air-services/settings/service-management/field-manager/ticket-fields`,
+  TASK_FIELDS: `/air-services/settings/service-management/field-manager/task-fields`,
+  TIME_ENTRY_FIELDS: `/air-services/settings/service-management/field-manager/time-entry-fields`,
+  ASSET_TYPE_DEFAULT_FIELDS: `/air-services/settings/asset-management/asset-type/default-fields`,
+  ASSET_TYPE_CREATE_FIELDS: `/air-services/settings/asset-management/asset-type/create-fields`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
@@ -172,6 +193,7 @@ export const AIR_CUSTOMER_PORTAL = {
   CUSTOMER_PORTAL_DASHBOARD: '/air-customer-portal',
   APPROVALS: '/air-customer-portal/catalog/approvals',
   APPROVALS_DETAIL: '/air-customer-portal/catalog/approvals/detail',
+  UPSERT_SURVEY_RESPONSE: '/air-customer-portal/survey',
 };
 
 export const ORG_ADMIN: any = {
@@ -186,7 +208,7 @@ export const AIR_OPERATIONS = {
   UPSERT_SALES_WORKFLOW: `/air-operations/workflow-automation/sales-workflow/upsert-sales-workflow`,
   SERVICES_WORKFLOW: `/air-operations/workflow-automation/services-workflow`,
   MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow`,
-  ROLES_AND_RIGHTS: `/air-operations/role-and-right`,
+  ROLES_AND_RIGHTS: `/air-operations/roles-and-right`,
   UPSERT_MARKETING_WORKFLOW: `/air-operations/workflow-automation/marketing-workflow/upsert-marketing-workflow`,
   UPSERT_SCHEDULE_WORKFLOW: `/air-operations/workflow-automation/services-workflow/upsert-schedule-workflow`,
   UPSERT_EVENT_BASED_WORKFLOW: `/air-operations/workflow-automation/services-workflow/upsert-event-based-workflow`,
@@ -264,6 +286,8 @@ export const EMAIL_SUB_ROUTES = {
 
 export const productSuiteName = {
   crm: 'CRM',
+  string: 'string',
+  product: 'product',
 };
 
 export const dealStatus = {
@@ -297,6 +321,10 @@ export const QUICKLINKSROLES = {
 export const DOCUMENTS_ACTION_TYPES = {
   MOVE_FOLDER: 'move-folder',
   UPDATE_FOLDER: 'update-folder',
+};
+
+export const fieldName = {
+  ADDRESS: 'address',
 };
 
 export const CREATE_EMAIL_TYPES = {
@@ -369,6 +397,8 @@ export const indexNumbers = {
   ZERO: 0,
   ONE: 1,
   TWO: 2,
+  THREE: 2,
+  FOUR: 2,
 };
 export const TASK_TABS_TYPES = {
   PENDING: 'Pending',
@@ -389,7 +419,9 @@ export const TASK_TABS = {
   ASSOCIATIONS: 'associations',
   TICKETS: 'tickets',
 };
-
+export const TICKETS_TYPE = {
+  NEW_TICKETS: 'new-ticket',
+};
 export const CREATE_DASHBOARD_KEYS = {
   DEALS_CREATED_VS_CLOSED: 'Deals created vs Closed Deals',
   DEAL_REPORTS: 'Deal Reports',
@@ -417,6 +449,7 @@ export const Gmail_CONST = {
   PHONE: 'phone',
   SENT: 'SENT',
   TRASH: 'TRASH',
+  Cc: 'Cc',
 };
 
 export const REPORTS_HEADER_TITLE = {
@@ -456,4 +489,45 @@ export const FILE_TYPES = {
   TEXT: 'text/',
   PDF: 'application/pdf',
   DOC: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+};
+export const TEMPLATE_CONTENT_TYPES = {
+  TEXT_AREA: 'textarea',
+  SPACE: 'space',
+  DIVIDER: 'divider',
+  BUTTON: 'button',
+};
+export const TEMPLATE_VIEW_TYPES = {
+  MOBILE: 'mobile',
+  LAPTOP: 'laptop',
+};
+
+export const EMAIL_DATE_FORMAT = {
+  DATE_FORMAT: 'MMMM D, YYYY [at] h:mm:ss A',
+};
+
+export const RADIO_VALUE = {
+  USER: 'USER',
+  FROM: 'from',
+  TO: 'to',
+};
+export const CHAT_MESSAGE_ROLES = {
+  SENDER: 'sender',
+  RECEIVER: 'receiver',
+};
+export const TEMPLATES_CARDS = {
+  GIFT_CARD: 'GiftCard',
+  LOYALTY_TOKEN: 'Loyalty Token',
+  VOUCHER: 'Voucher',
+  CREDITS: 'Credits',
+};
+
+export const GOALS_YEARLY_FORMAT = {
+  MONTHLY: 'monthly',
+  YEARLY: 'yearly',
+  QUARTERLY: 'quarterly',
+  CUSTOM: 'custom',
+};
+export const BILLING_AND_INVOICES_TAB = {
+  INVOICES: 'invoices',
+  SUBSCRIPTION: 'subscription',
 };
