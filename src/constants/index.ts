@@ -217,12 +217,9 @@ export const AIR_OPERATIONS = {
   SALES_REPORTS: `/air-operations/reports/sales-reports`,
   SERVICES_REPORTS: `/air-operations/reports/services-reports`,
   MARKETING_REPORTS: `/air-operations/reports/marketing-reports`,
-  UPSERT_SERVICES_REPORTS: `/air-operations/reports/services-reports/upsert-services-reports`,
   SALES_REPORTS_RESTORE: `/air-operations/reports/sales-reports/restore`,
   SERVICES_REPORTS_RESTORE: `/air-operations/reports/services-reports/restore`,
   MARKETING_REPORTS_RESTORE: `/air-operations/reports/marketing-reports/restore`,
-  UPSERT_MARKETING_REPORTS: `/air-operations/reports/marketing-reports/upsert-marketing-reports`,
-  UPSERT_SALES_REPORTS: `/air-operations/reports/sales-reports/upsert-sales-reports`,
   UPSERT_ROLES: '/air-operations/roles-and-right/upsert-roles-and-right',
   UPSERT_GENERIC_REPORTS: `/air-operations/reports/upsert-generic-reports`,
 };
