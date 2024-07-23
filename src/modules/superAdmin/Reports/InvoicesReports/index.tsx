@@ -1,5 +1,5 @@
 import Search from '@/components/Search';
-import { Box, Card, Typography } from '@mui/material';
+import { Box, Card, Typography, useTheme } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { usersColumns } from './useInvoicesReports.data';
@@ -8,6 +8,7 @@ import InvoicesAnalystGraph from './InvoicesAnalystGraph';
 import useInvoicesReports from './useInvoicesReports';
 
 const InvoicesReports = () => {
+  const theme = useTheme();
   const {
     searchBy,
     setSearchBy,
@@ -62,7 +63,7 @@ const InvoicesReports = () => {
         </Box>
         <Box>
           <TanstackTable
-            columns={usersColumns}
+            columns={usersColumns(theme)}
             data={invoicesReportsList}
             isPagination
             onPageChange={(page: any) => setPage(page)}

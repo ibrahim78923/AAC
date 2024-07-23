@@ -1,14 +1,15 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { profileValidationSchema } from './UserDetailsProfile.data';
-import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect } from 'react';
+import { indexNumbers } from '@/constants';
+import { useUpdateUsersMutation } from '@/services/superAdmin/user-management/users';
 
 const useProfile = (profileParams: any) => {
   const { isToggled, setTabVal, profileData } = profileParams;
-  const { updateUsers }: any = useUserManagement();
-  const initialTab = 0;
+  const [updateUsers, { isLoading: updateUserLoading }] =
+    useUpdateUsersMutation();
 
   const defaultValues = {
     firstName: '',
@@ -41,8 +42,8 @@ const useProfile = (profileParams: any) => {
     formValues.city && `${formValues.city}, `,
     formValues.country && formValues.country,
   ]
-    .filter(Boolean)
-    .join('');
+    ?.filter(Boolean)
+    ?.join('');
 
   // Set value of address fields
   useEffect(() => {
@@ -85,7 +86,6 @@ const useProfile = (profileParams: any) => {
     };
 
     if (isToggled) {
-      // If isToggled is true, construct the address object with individual fields
       bodyVals.address = {
         flatNumber: values?.flat,
         buildingName: values?.buildingName,
@@ -95,7 +95,6 @@ const useProfile = (profileParams: any) => {
         country: values?.country,
       };
     } else {
-      // If isToggled is false, use a composite address value
       bodyVals.address = {
         composite: values?.address,
       };
@@ -106,7 +105,7 @@ const useProfile = (profileParams: any) => {
       enqueueSnackbar('User updated successfully', {
         variant: 'success',
       });
-      setTabVal(initialTab);
+      setTabVal(indexNumbers?.ZERO);
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
@@ -118,7 +117,7 @@ const useProfile = (profileParams: any) => {
     methods,
     handleSubmit,
     onSubmit,
-    initialTab,
+    updateUserLoading,
     addressVal: formValues.address,
   };
 };

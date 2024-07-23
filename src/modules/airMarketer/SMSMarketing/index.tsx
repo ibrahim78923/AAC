@@ -18,6 +18,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { getSession } from '@/utils';
 import { generateImage } from '@/utils/avatarUtils';
 import { indexNumbers } from '@/constants';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const SMSMarketing = () => {
   const {
@@ -68,15 +69,20 @@ const SMSMarketing = () => {
                     src={generateImage(user?.avatar?.url)}
                     sx={{ color: theme?.palette?.grey[600] }}
                   >
-                    {user?.firstName?.[0]}
-                    {user?.lastName?.[0]}
+                    {capitalizeFirstLetter(
+                      user?.firstName?.[indexNumbers?.ZERO],
+                    )}
+                    {capitalizeFirstLetter(
+                      user?.lastName?.[indexNumbers?.ZERO],
+                    )}
                   </Avatar>
                   <Box display="flex" flexDirection="column">
                     <Typography
                       color={theme?.palette?.grey[900]}
                       variant="body3"
                     >
-                      {user?.firstName} {user?.lastName}
+                      {capitalizeFirstLetter(user?.firstName)}
+                      {capitalizeFirstLetter(user?.lastName)}
                     </Typography>
                     <Typography
                       variant="body3"

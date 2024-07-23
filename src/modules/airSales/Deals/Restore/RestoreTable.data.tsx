@@ -1,4 +1,5 @@
 import { DATE_FORMAT } from '@/constants';
+import { capitalizeFirstLetter } from '@/utils/api';
 import { Checkbox } from '@mui/material';
 
 import dayjs from 'dayjs';
@@ -44,40 +45,19 @@ export const RestoreTableColumns: any = (columnProps: any) => {
       ),
       isSortable: false,
     },
-    // {
-    //   accessorFn: (row: any) => row?._id,
-    //   id: '_id',
-    //   cell: (info: any) => (
-    //     <Checkbox
-    //       color="primary"
-    //       name={info?.getValue()}
-    //       checked={checkedAll?.includes(info?.row?.original?._id)}
-    //       onChange={(event) => handleSingleChecked(event, info)}
-    //     />
-    //   ),
-    //   header: (
-    //     <Checkbox
-    //       color="primary"
-    //       name="id"
-    //       checked={checkedAll.length === restoeDealData?.data?.deals?.length}
-    //       onChange={handleCheckAll}
-    //     />
-    //   ),
-    //   isSortable: false,
-    // },
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
       isSortable: true,
       header: 'Deal Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.deletedBy?.name,
       id: 'deletedby',
       isSortable: true,
       header: 'Deleted By',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.deletedAt,

@@ -12,6 +12,7 @@ import { DATE_FORMAT, SUPER_ADMIN } from '@/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { style } from '@/modules/superAdmin/UserManagement/Users/Users.style';
 import Link from 'next/link';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const usersColumns: any = (handleUserSwitchChange: any) => {
   const theme = useTheme();
@@ -39,12 +40,14 @@ export const usersColumns: any = (handleUserSwitchChange: any) => {
               fontWeight: 500,
             }}
           >
-            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
-            {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+            {capitalizeFirstLetter(info?.row?.original?.firstName?.charAt(0))}
+            {capitalizeFirstLetter(info?.row?.original?.lastName?.charAt(0))}
           </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
-              {info?.row?.original?.firstName} {info?.row?.original?.lastName}
+              {`${capitalizeFirstLetter(
+                info?.row?.original?.firstName,
+              )} ${capitalizeFirstLetter(info?.row?.original?.lastName)}`}
             </Typography>
             <Typography component={'span'}>
               {info?.row?.original?.email ?? 'N/A'}

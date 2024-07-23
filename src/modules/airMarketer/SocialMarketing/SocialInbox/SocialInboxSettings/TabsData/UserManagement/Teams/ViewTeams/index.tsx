@@ -5,6 +5,7 @@ import { styles } from '../Teams.style';
 import MemberDetails from '../MemberDetails';
 import { v4 as uuidv4 } from 'uuid';
 import useUserManagement from '../../useUserManagement';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const ViewTeams = (props: any) => {
   const theme = useTheme();
@@ -55,7 +56,9 @@ const ViewTeams = (props: any) => {
             <MemberDetails
               key={uuidv4()}
               img={item?.user?.avatar?.url}
-              name={`${item?.user?.firstName ?? 'N/A'} ${item?.user?.lastName}`}
+              name={`${
+                capitalizeFirstLetter(item?.user?.firstName) ?? 'N/A'
+              } ${capitalizeFirstLetter(item?.user?.lastName)}`}
               email={item?.user?.email ?? 'N/A'}
               designation={item?.user?.jobTitle ?? 'N/A'}
             />

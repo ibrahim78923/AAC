@@ -4,6 +4,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { IMG_URL } from '@/config';
 import { convertIdToShortNumber } from '@/utils';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const columns: any = ({
   setOpenDrawer,
@@ -37,9 +38,9 @@ export const columns: any = ({
           />
           <Box>
             <Typography variant="body3" sx={{ color: '#111827' }}>
-              {`${info?.row?.original?.firstName ?? 'N/A'} ${
-                info?.row?.original?.lastName ?? 'N/A'
-              }`}
+              {`${
+                capitalizeFirstLetter(info?.row?.original?.firstName) ?? 'N/A'
+              } ${capitalizeFirstLetter(info?.row?.original?.lastName) ?? ''}`}
             </Typography>
             <br />
             <Typography variant="body3">

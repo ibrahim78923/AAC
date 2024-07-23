@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { capitalizeFirstLetter } from '@/utils/api';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -18,7 +19,7 @@ export const columns: any = ({
     {
       accessorFn: (row: any) => row?.name,
       id: 'product_name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
       header: 'Product Name',
       isSortable: true,
     },

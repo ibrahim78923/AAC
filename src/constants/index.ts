@@ -325,6 +325,7 @@ export const DOCUMENTS_ACTION_TYPES = {
 
 export const fieldName = {
   ADDRESS: 'address',
+  EMAIL: 'email',
 };
 
 export const CREATE_EMAIL_TYPES = {

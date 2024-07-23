@@ -3,6 +3,7 @@ import { DeleteIcon, EditPenBorderedIcon } from '@/assets/icons';
 import { DATE_FORMAT, TASK_TYPE } from '@/constants';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { capitalizeFirstLetter } from '@/utils/api';
 import { Box, Button } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -11,7 +12,7 @@ export const columns = ({ setDeleteTemplateModal, router }: any) => {
     {
       accessorFn: (row: any) => row?.name,
       id: 'templateName',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()),
       header: 'Template Name',
       isSortable: false,
     },

@@ -2,6 +2,7 @@ import { DATE_FORMAT } from '@/constants';
 import { setSelectedDealsTaskIds } from '@/redux/slices/airSales/Deals/ViewDetails/Tasks/taskSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { convertIdToShortNumber } from '@/utils';
+import { capitalizeFirstLetter } from '@/utils/api';
 import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -66,7 +67,7 @@ export const columns = ({ data }: any) => {
       id: 'name',
       isSortable: true,
       header: 'Task Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
     },
 
     {
@@ -84,8 +85,11 @@ export const columns = ({ data }: any) => {
       header: 'Assigned To',
       cell: (info: any) => (
         <Box>
-          {`${info?.row?.original?.assignTo?.firstName ?? 'N'} ${
-            info?.row?.original?.assignTo?.lastName ?? '/A'
+          {`${
+            capitalizeFirstLetter(info?.row?.original?.assignTo?.firstName) ??
+            'N/A'
+          } ${
+            capitalizeFirstLetter(info?.row?.original?.assignTo?.lastName) ?? ''
           }`}
         </Box>
       ),

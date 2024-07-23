@@ -2,6 +2,7 @@ import { Avatar, Box, Typography } from '@mui/material';
 import { SwitchBtn } from '@/components/SwitchButton';
 import { LogoIcon } from '@/assets/icons';
 import { generateImage } from '@/utils/avatarUtils';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const companyColumns: any = (handleStatusUpdate: any) => [
   {
@@ -21,7 +22,7 @@ export const companyColumns: any = (handleStatusUpdate: any) => [
             <LogoIcon />
           )}
           <Typography sx={{ fontSize: '12px' }}>
-            {info?.getValue()?.name}
+            {capitalizeFirstLetter(info?.getValue()?.name)}
           </Typography>
         </Box>
       );

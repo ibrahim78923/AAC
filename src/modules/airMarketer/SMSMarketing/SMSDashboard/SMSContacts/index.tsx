@@ -6,6 +6,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 import useSMSDashboard from '../useSMSDashboard';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const SMSContacts = (props: any) => {
   const { setTabVal } = props;
@@ -97,21 +98,23 @@ const SMSContacts = (props: any) => {
                     fontWeight: 500,
                   }}
                 >
-                  {item?.firstName?.charAt(0) + item?.lastName?.charAt(0)}
+                  {capitalizeFirstLetter(item?.firstName?.charAt(0)) +
+                    capitalizeFirstLetter(item?.lastName?.charAt(0))}
                 </Avatar>
                 <Typography
                   variant="body2"
                   fontWeight="500"
                   sx={{ color: theme?.palette?.grey[600] }}
                 >
-                  {item?.firstName} {item?.lastName}
+                  {capitalizeFirstLetter(item?.firstName) ?? 'N/A'}{' '}
+                  {capitalizeFirstLetter(item?.lastName)}
                 </Typography>
               </Box>
               <Typography
                 variant="body2"
                 sx={{ color: theme?.palette?.grey[600] }}
               >
-                {item?.phoneNumber}
+                {item?.phoneNumber ?? 'N/A'}
               </Typography>
             </Stack>
           ))}

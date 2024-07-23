@@ -1,4 +1,5 @@
 import { RHFMultiCheckbox, RHFTextField } from '@/components/ReactHookForm';
+import { capitalizeFirstLetter } from '@/utils/api';
 import * as Yup from 'yup';
 
 export const teamsValidationSchema = Yup.object().shape({
@@ -35,7 +36,7 @@ export const teamsDataArray: any = (filterdTeamMembers: any) => [
       required: true,
       options: filterdTeamMembers?.map((item: any) => ({
         value: item?._id,
-        label: item?.username ?? 'N/A',
+        label: capitalizeFirstLetter(item?.username) ?? 'N/A',
       })),
       fullWidth: true,
     },

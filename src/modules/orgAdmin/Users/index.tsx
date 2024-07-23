@@ -4,6 +4,7 @@ import UsersDetails from './UsersDetails';
 import useUsers from './useUsers';
 import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
+import { indexNumbers } from '@/constants';
 
 const Users = () => {
   const {
@@ -25,7 +26,6 @@ const Users = () => {
         <UsersSidebar
           employeeDetails={employeeDetails}
           setSearchAccount={setSearchAccount}
-          employeeDataById={employeeDataById}
           setEmployeeDataById={setEmployeeDataById}
           setSearchEmployee={setSearchEmployee}
           employeeFilter={employeeFilter}
@@ -35,12 +35,11 @@ const Users = () => {
         />
       </Grid>
       <Grid item xl={9} lg={8} xs={12}>
-        {employeeDetails?.length > 0 ? (
+        {employeeDetails?.length > indexNumbers?.ZERO ? (
           <UsersDetails
             searchAccount={searchAccount}
             setSearchAccount={setSearchAccount}
             employeeDataById={employeeDataById}
-            setEmployeeDataById={setEmployeeDataById}
           />
         ) : (
           <Box mt={10}>

@@ -50,6 +50,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import SkeletonComponent from '@/components/CardSkeletons';
 import { generateImage } from '@/utils/avatarUtils';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const UsersDetailsList = () => {
   const {
@@ -171,7 +172,6 @@ const UsersDetailsList = () => {
                     }}
                   >
                     Add User
-                    {/* <AddUserCircleIcon /> */}
                   </Button>
                 </PermissionsGuard>
                 <PermissionsGuard
@@ -188,7 +188,6 @@ const UsersDetailsList = () => {
                     }}
                   >
                     Add Company
-                    {/* <AddShopIcon /> */}
                   </Button>
                 </PermissionsGuard>
               </Stack>
@@ -292,9 +291,11 @@ const UsersDetailsList = () => {
                               fontWeight: 500,
                             }}
                           >
-                            {`${item?.firstName?.charAt(
-                              0,
-                            )}${item?.lastName?.charAt(0)}`}
+                            {`${capitalizeFirstLetter(
+                              item?.firstName?.charAt(0),
+                            )}${capitalizeFirstLetter(
+                              item?.lastName?.charAt(0),
+                            )}`}
                           </Avatar>
                           <Box sx={{ width: '100%' }}>
                             <Box
@@ -304,7 +305,9 @@ const UsersDetailsList = () => {
                               }}
                             >
                               <Typography>
-                                {item?.firstName} {item?.lastName}
+                                {`${capitalizeFirstLetter(
+                                  item?.firstName,
+                                )} ${capitalizeFirstLetter(item?.lastName)}`}
                               </Typography>
                               <PermissionsGuard
                                 permissions={[
@@ -361,7 +364,9 @@ const UsersDetailsList = () => {
                 <>
                   <Grid item xs={12}>
                     <ProfileCard
-                      userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
+                      userName={`${capitalizeFirstLetter(
+                        profileData?.data?.firstName,
+                      )} ${capitalizeFirstLetter(profileData?.data?.lastName)}`}
                       isBadge={false}
                       email={profileData?.data?.email}
                       phone={profileData?.data?.phoneNumber}

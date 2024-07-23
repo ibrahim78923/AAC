@@ -3,6 +3,7 @@ import { DeleteIcon, EditBlackIcon } from '@/assets/icons';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, TASK_TYPE } from '@/constants';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const columns = (
   setIsOpenDeleteModal: any,
@@ -13,7 +14,7 @@ export const columns = (
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => capitalizeFirstLetter(info.getValue()),
       header: 'Template Name',
       isSortable: false,
     },

@@ -5,6 +5,7 @@ import { EditPenIcon } from '@/assets/icons';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { UserAvatarImage } from '@/assets/images';
 import useUserManagement from '@/modules/airMarketer/SocialMarketing/SocialInbox/SocialInboxSettings/TabsData/UserManagement/useUserManagement';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const columnsTeams = (props: any) => {
   const { setIsTeamDrawer, setIsOpenDelete, theme, setTeamId, setIsAddTeam } =
@@ -14,7 +15,7 @@ export const columnsTeams = (props: any) => {
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()),
       header: 'Name',
       isSortable: true,
     },
