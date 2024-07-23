@@ -102,6 +102,7 @@ export const useUpsertInventory = () => {
   const filledFormValues = getValues();
 
   const updatedFilledValues = {
+    ...data?.data?.[ARRAY_INDEX?.ZERO],
     displayName: filledFormValues?.displayName ?? '',
     assetTypeDetails: filledFormValues?.assetType ?? null,
     impact: filledFormValues?.impact ?? ASSET_IMPACT?.LOW,
