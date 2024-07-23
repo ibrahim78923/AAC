@@ -467,6 +467,9 @@ export const END_POINTS = {
   SOFT_DELETE_GENERIC_REPORTS: `/generic-reports/soft-delete-generic-reports`,
   RESTORE_DELETED_GENERIC_REPORTS: `/generic-reports/restore-deleted-generic-reports`,
   HARD_DELETE_GENERIC_REPORTS: `/generic-reports/hard-delete-generic-reports`,
+  CLONE_GENERIC_REPORTS: `/generic-reports/clone-generic-report`,
+  UPDATE_GENERIC_REPORTS_ACTION: `/generic-reports/update-generic-report-action`,
+  CHANGE_DEFAULT_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/edit-default-option`,
 };
 
 export const LEAD_CAPTURE_FORM = {

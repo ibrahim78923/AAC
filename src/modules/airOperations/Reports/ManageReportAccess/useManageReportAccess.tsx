@@ -1,25 +1,35 @@
-import { PAGINATION } from '@/config';
-import { useLazyGetAgentDropdownQuery } from '@/services/airServices/tickets';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, useWatch } from 'react-hook-form';
 import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useFieldArray, useForm, useWatch } from 'react-hook-form';
+import {
+  MANAGE_REPORT_ACCESS_TYPES,
   manageReportAccessDefaultValues,
   manageReportAccessFromFieldsDynamic,
   manageReportAccessValidationSchema,
 } from './ManageReportAccess.data';
 import { useEffect } from 'react';
-import { useManageReportAccessMutation } from '@/services/airOperations/reports';
+import {
+  useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
+  useManageReportAccessMutation,
+} from '@/services/airOperations/reports';
+import useAuth from '@/hooks/useAuth';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useManageReportAccess = (props: any) => {
   const {
     setIsPortalOpen,
     setSelectedReportLists,
-    setPage,
+    page,
     getReportListData,
-    setReportFilter,
     selectedReportLists,
   } = props;
+
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product;
 
   const [manageReportAccessTrigger, manageReportAccessStatus] =
     useManageReportAccessMutation();
@@ -29,7 +39,7 @@ export const useManageReportAccess = (props: any) => {
     resolver: yupResolver(manageReportAccessValidationSchema),
   });
 
-  const { handleSubmit, reset, control, clearErrors } = methods;
+  const { handleSubmit, reset, control, clearErrors, setValue } = methods;
 
   const watchForAccessType = useWatch({
     control,
@@ -41,28 +51,63 @@ export const useManageReportAccess = (props: any) => {
     clearErrors();
   }, [watchForAccessType]);
 
-  const submitAssignedTicketsForm = async (formData: any) => {
-    const apiSearchParams = new URLSearchParams();
+  const { fields } = useFieldArray<any>({
+    control,
+    name: 'permissionsUsers',
+  });
+  const specificUserWatch = useWatch({
+    control,
+    name: 'specialUsers',
+    defaultValue: [],
+  });
 
-    selectedReportLists?.forEach(
-      (reportId: any) => apiSearchParams?.append('ids', reportId),
-    );
+  useEffect(() => {
+    if (!!specificUserWatch?.length)
+      setValue(
+        'permissionsUsers',
+        specificUserWatch?.map((item: any) => ({
+          name: `${item?.firstName} ${item?.lastName}`,
+          userId: item?._id,
+        })),
+      );
+  }, [specificUserWatch]);
+
+  const submitAssignedTicketsForm = async (formData: any) => {
+    const filterFormData = filteredEmptyValues(formData);
+    const body = {
+      ...filterFormData,
+      permissions:
+        filterFormData?.access === MANAGE_REPORT_ACCESS_TYPES?.PRIVATE_TO_OWNER
+          ? MANAGE_REPORT_ACCESS_TYPES?.EVERYONE_EDIT_AND_VIEW
+          : filterFormData?.permissions,
+      specialUsers:
+        filterFormData?.access ===
+        MANAGE_REPORT_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS
+          ? formData?.permissionsUsers?.map((user: any) => ({
+              userId: user?.userId,
+              permission: user?.permission,
+            }))
+          : [{}],
+    };
+
+    delete body?.everyoneAccess;
+    delete body?.permissionsUsers;
+    delete body?.dashboardWidgets;
 
     const apiDataParameter = {
-      queryParams: apiSearchParams,
+      queryParams: {
+        id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+      },
       body: {
-        ...formData,
+        ...body,
       },
     };
 
     try {
       await manageReportAccessTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Ticket assigned Successfully');
-      reset();
-      await getReportListData?.(PAGINATION?.CURRENT_PAGE, {});
-      setReportFilter?.({});
-      setPage?.(PAGINATION?.CURRENT_PAGE);
+      successSnackbar('Report access updated successfully');
       closeModal?.();
+      await getReportListData?.(page);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -70,13 +115,18 @@ export const useManageReportAccess = (props: any) => {
 
   const closeModal = () => {
     reset();
-    setSelectedReportLists([]);
+    setSelectedReportLists?.([]);
     setIsPortalOpen?.({});
   };
 
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const manageReportAccessFromFields =
-    manageReportAccessFromFieldsDynamic?.(apiQueryAgent);
+  const apiQueryUsers =
+    useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery();
+
+  const manageReportAccessFromFields = manageReportAccessFromFieldsDynamic?.(
+    apiQueryUsers,
+    productId,
+    fields,
+  );
 
   return {
     methods,

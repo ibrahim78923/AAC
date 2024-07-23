@@ -30,7 +30,6 @@ export const useDeleteReport = (props: any) => {
     try {
       await deleteReportTemporaryTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Record deleted successfully');
-      setSelectedReportLists?.([]);
       closeModal?.();
       const newPage =
         selectedReportLists?.length === totalRecords

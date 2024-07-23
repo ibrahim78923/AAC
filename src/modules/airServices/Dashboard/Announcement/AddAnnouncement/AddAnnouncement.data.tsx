@@ -16,13 +16,15 @@ export const createAddAnnouncementValidationSchema: any = Yup?.object()?.shape({
   vibilityId: Yup?.mixed()?.required('visibility is required'),
   additionalEmail: Yup?.string()?.trim(),
   addMember: Yup?.string()?.trim(),
+  startDate: Yup?.mixed()?.nullable()?.required('Start date is required'),
+  endDate: Yup?.mixed()?.nullable()?.required('End date is required'),
 });
 
 export const createAddAnnouncementDefaultValues: any = {
   title: '',
   description: '',
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: null,
+  endDate: null,
   notifyMembers: '',
   additionalEmail: '',
   addMember: '',
@@ -31,7 +33,7 @@ export const createAddAnnouncementDefaultValues: any = {
 export const createAddAnnouncementDataArray = (
   departmentDropdown: any,
   userDropdown: any,
-  productId: any,
+  startDateWatch: any,
 ) => [
   {
     id: 1,
@@ -70,7 +72,8 @@ export const createAddAnnouncementDataArray = (
       name: 'startDate',
       label: 'Start Date',
       fullWidth: true,
-      disabled: true,
+      required: true,
+      disablePast: true,
     },
     component: RHFDatePicker,
     md: 6,
@@ -81,7 +84,8 @@ export const createAddAnnouncementDataArray = (
       name: 'endDate',
       label: 'End Date',
       fullWidth: true,
-      disabled: true,
+      minDate: startDateWatch,
+      required: true,
     },
     component: RHFDatePicker,
     md: 6,
@@ -95,7 +99,7 @@ export const createAddAnnouncementDataArray = (
       fullWidth: true,
       apiQuery: userDropdown,
       required: true,
-      externalParams: { productId, requester: true },
+      externalParams: { requester: false },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },
@@ -147,3 +151,6 @@ export const createAddAnnouncementDataArray = (
     md: 12,
   },
 ];
+export const DATE_DIFFERENCE = {
+  ZERO: 0,
+};

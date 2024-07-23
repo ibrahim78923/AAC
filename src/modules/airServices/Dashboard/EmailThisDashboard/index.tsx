@@ -10,7 +10,7 @@ const EmailThisDashboard = (props: any) => {
     sendDashboardViaEmailFormFields,
     postEmailProgress,
     closeDrawer,
-  } = useEmailThisDashboard();
+  } = useEmailThisDashboard(props);
 
   return (
     <>

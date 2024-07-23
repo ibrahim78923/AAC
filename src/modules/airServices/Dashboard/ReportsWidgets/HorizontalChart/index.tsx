@@ -2,6 +2,7 @@ import { CustomChart } from '@/components/Chart';
 import { useHorizontalChart } from './useHorizontalChart';
 import { Box, Button } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import NoData from '@/components/NoData';
 
 export const HorizontalChart = (props: any) => {
   const { title, isDateFilter } = props;
@@ -18,12 +19,16 @@ export const HorizontalChart = (props: any) => {
       <PageTitledHeader title={title}>
         {isDateFilter && <Button></Button>}
       </PageTitledHeader>
-      <CustomChart
-        options={options}
-        series={seriesData}
-        type={'bar'}
-        height={348}
-      />
+      {!!seriesData?.length ? (
+        <CustomChart
+          options={options}
+          series={seriesData}
+          type={'bar'}
+          height={348}
+        />
+      ) : (
+        <NoData height="" />
+      )}
     </Box>
   );
 };

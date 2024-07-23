@@ -41,36 +41,40 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     renameReports: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'PUT',
+        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
         body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
       }),
     }),
     addReportsToDashboard: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'PUT',
+        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
         body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
       }),
     }),
     cloneReports: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'POST',
+        url: END_POINTS?.CLONE_GENERIC_REPORTS,
+        method: 'PATCH',
         params: apiDataParameter?.queryParams,
       }),
     }),
     changeReportOwner: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'PUT',
+        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
         params: apiDataParameter?.queryParams,
       }),
     }),
     manageReportAccess: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'PUT',
+        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
         params: apiDataParameter?.queryParams,
       }),
     }),

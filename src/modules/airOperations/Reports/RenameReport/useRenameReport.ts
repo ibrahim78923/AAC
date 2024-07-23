@@ -3,9 +3,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import * as Yup from 'yup';
 import { useRenameReportsMutation } from '@/services/airOperations/reports';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useRenameReport = (props: any) => {
-  const { setIsPortalOpen, setSelectedReportList, selectedReportLists } = props;
+  const {
+    setIsPortalOpen,
+    setSelectedReportLists,
+    page,
+    getReportListData,
+    selectedReportLists,
+  } = props;
 
   const [renameReportsTrigger, renameReportsStatus] =
     useRenameReportsMutation();
@@ -23,16 +30,18 @@ export const useRenameReport = (props: any) => {
 
   const onSubmit = async (formData: any) => {
     const apiDataParameter = {
+      queryParams: {
+        id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+      },
       body: {
-        reportIds: selectedReportLists,
         name: formData?.name,
       },
     };
-
     try {
       await renameReportsTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Report renamed Successfully');
       handleClose?.();
+      await getReportListData?.(page);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -41,7 +50,7 @@ export const useRenameReport = (props: any) => {
   const handleClose = () => {
     reset();
     setIsPortalOpen?.({});
-    setSelectedReportList?.([]);
+    setSelectedReportLists?.([]);
   };
 
   return {

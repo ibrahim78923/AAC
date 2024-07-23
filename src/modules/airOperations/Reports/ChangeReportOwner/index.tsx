@@ -8,9 +8,7 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { ROLES } from '@/constants/strings';
 import { useChangeReportOwner } from './useChangeReportOwner';
-import { PAGINATION } from '@/config';
 import CloseIcon from '@mui/icons-material/Close';
 
 export const ChangeReportOwner = (props: any) => {
@@ -20,8 +18,9 @@ export const ChangeReportOwner = (props: any) => {
     handleSubmit,
     submitChangeOwner,
     closeModal,
-    apiQueryAgent,
+    reportOwnerApiQuery,
     changeReportOwnerStatus,
+    productId,
   }: any = useChangeReportOwner(props);
 
   return (
@@ -29,7 +28,7 @@ export const ChangeReportOwner = (props: any) => {
       open={isPortalOpen?.isChangeOwner}
       onClose={() => closeModal?.()}
       fullWidth
-      maxWidth={'xs'}
+      maxWidth={'sm'}
     >
       <FormProvider
         methods={methods}
@@ -56,15 +55,14 @@ export const ChangeReportOwner = (props: any) => {
         <DialogContent>
           <RHFAutocompleteAsync
             label="Owner Name"
-            name="user"
+            name="owner"
             fullWidth
             required
-            apiQuery={apiQueryAgent}
+            apiQuery={reportOwnerApiQuery}
             size="small"
             placeholder="Choose Owner"
             externalParams={{
-              limit: PAGINATION?.DROPDOWNS_RECORD_LIMIT,
-              role: ROLES?.ORG_EMPLOYEE,
+              productId,
             }}
             getOptionLabel={(option: any) =>
               `${option?.firstName} ${option?.lastName}`

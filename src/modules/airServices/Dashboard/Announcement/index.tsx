@@ -17,6 +17,8 @@ export const Announcement = (props: any) => {
         border={`1px solid`}
         borderColor="custom.off_white"
         height="100%"
+        display="flex"
+        flexDirection={'column'}
       >
         <Box
           display={'flex'}
@@ -37,22 +39,19 @@ export const Announcement = (props: any) => {
             <ViewDetailSharedIcon />
           </IconButton>
         </Box>
-        <Box height={'30vh'} overflow={'auto'}>
-          <Box my="0.75rem">
-            {!!data?.announcements?.annoucements?.length ? (
-              data?.announcements?.annoucements?.map(
-                (announcement: any, index: number) => (
-                  <Fragment key={announcement?._id}>
-                    <AnnouncementCard data={announcement} index={index} />
-                  </Fragment>
-                ),
-              )
-            ) : (
-              <NoData height={'100%'} />
+        {!!data?.announcements?.annoucements?.length ? (
+          <Box height={'40vh'} overflow={'auto'}>
+            {data?.announcements?.annoucements?.map(
+              (announcement: any, index: number) => (
+                <Fragment key={announcement?._id}>
+                  <AnnouncementCard data={announcement} index={index} />
+                </Fragment>
+              ),
             )}
           </Box>
-          {/* )} */}
-        </Box>
+        ) : (
+          <NoData height={'100%'} />
+        )}
         <Box textAlign={'center'}>
           <Button
             variant="text"

@@ -58,7 +58,6 @@ export const useManageDashboard = () => {
     const apiDataParameter = {
       body: {
         id: data?._id,
-        reports: data?.reports,
         isDefault: true,
       },
     };

@@ -1629,8 +1629,10 @@ export const AIR_OPERATION_REPORTS_SALES_CUSTOM_REPORTS_PERMISSIONS = {
 };
 
 export const AIR_OPERATION_REPORTS_SERVICES_CREATE_REPORTS_PERMISSIONS = {
-  CREATE_REPORT_FROM_SCRATCH: '',
-  CREATE_REPORT_FROM_TEMPLATE: '',
+  CREATE_REPORT_FROM_SCRATCH:
+    'operations-report-services-report-create-from-scratch',
+  CREATE_REPORT_FROM_TEMPLATE:
+    'operations-report-services-template-create-from-scratch',
 };
 
 export const AIR_OPERATION_REPORTS_SERVICES_ALL_REPORTS_PERMISSIONS = {
@@ -1694,8 +1696,10 @@ export const AIR_OPERATION_REPORTS_SERVICES_CUSTOM_REPORTS_PERMISSIONS = {
 };
 
 export const AIR_OPERATION_REPORTS_MARKETING_CREATE_REPORTS_PERMISSIONS = {
-  CREATE_REPORT_FROM_SCRATCH: '',
-  CREATE_REPORT_FROM_TEMPLATE: '',
+  CREATE_REPORT_FROM_SCRATCH:
+    'operations-report-marketing-report-create-from-scratch',
+  CREATE_REPORT_FROM_TEMPLATE:
+    'operations-report-marketing-template-create-from-scratch',
 };
 
 export const AIR_OPERATION_REPORTS_MARKETING_ALL_REPORTS_PERMISSIONS = {
