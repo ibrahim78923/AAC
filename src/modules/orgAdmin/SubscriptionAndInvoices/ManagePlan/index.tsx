@@ -22,7 +22,11 @@ import {
   useUpdateSubscriptionMutation,
 } from '@/services/orgAdmin/subscription-and-invoices';
 import dayjs from 'dayjs';
-import { DATE_FORMAT, PLAN_CALCULATIONS } from '@/constants';
+import {
+  DATE_FORMAT,
+  PLAN_CALCULATIONS,
+  PLAN_PAYMENT_TYPE_TAGS,
+} from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import Link from 'next/link';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
@@ -43,9 +47,11 @@ const ManagePlan = () => {
   );
 
   const defaultValues =
-    parsedManageData?.billingCycle === 'MONTHLY' ? 'paidMonthly' : '';
+    parsedManageData?.billingCycle === 'MONTHLY'
+      ? PLAN_PAYMENT_TYPE_TAGS?.PAID_MONTHLY
+      : '';
 
-  const [value, setValue] = useState<any>(defaultValues);
+  const [value, setValue] = useState<string>(defaultValues);
 
   const [maxAddUsers, setMaxAddUsers] = useState(
     parsedManageData?.additionalUsers,
@@ -69,7 +75,7 @@ const ManagePlan = () => {
     billingDate: dayjs(parsedManageData?.billingDate)?.format(DATE_FORMAT?.API),
     status: parsedManageData?.status,
     //TODO:We will only send billing cycle monthly as discussed
-    billingCycle: 'MONTHLY',
+    billingCycle: PLAN_PAYMENT_TYPE_TAGS?.PAID_MONTHLY,
     planDiscount: 1,
   };
 
@@ -95,7 +101,7 @@ const ManagePlan = () => {
       enqueueSnackbar('Plan Updated Successfully', {
         variant: 'success',
       });
-    } catch (error: any) {
+    } catch (error) {
       enqueueSnackbar('SomeThing Went Wrong', {
         variant: 'success',
       });
@@ -118,7 +124,7 @@ const ManagePlan = () => {
       });
       setIsUnassignPlanAlertOpen(false);
       router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
-    } catch (error: any) {
+    } catch (error) {
       enqueueSnackbar('SomeThing Went Wrong', {
         variant: 'success',
       });
@@ -145,7 +151,7 @@ const ManagePlan = () => {
             >
               <Link
                 href={{
-                  pathname: `${orgAdminSubcriptionInvoices.choose_plan}`,
+                  pathname: `${orgAdminSubcriptionInvoices?.choose_plan}`,
                   query: { data: parsedManageData?.productId },
                 }}
                 as={`${orgAdminSubcriptionInvoices?.choose_plan}`}
@@ -202,7 +208,9 @@ const ManagePlan = () => {
                     type="number"
                     fullWidth
                     defaultValue={maxAddUsers}
-                    onChange={(e: any) => setMaxAddUsers(e?.target?.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setMaxAddUsers(e?.target?.value)
+                    }
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -211,7 +219,9 @@ const ManagePlan = () => {
                     type="number"
                     fullWidth
                     defaultValue={maxAddStorage}
-                    onChange={(e: any) => setMaxAddStorage(e?.target?.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setMaxAddStorage(e?.target?.value)
+                    }
                   />
                 </Grid>
               </Grid>

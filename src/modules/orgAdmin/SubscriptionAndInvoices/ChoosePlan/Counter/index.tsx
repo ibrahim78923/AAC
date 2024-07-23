@@ -15,14 +15,13 @@ const Counter: FC<any> = ({
     const newValue = parseInt(event?.target?.value);
     setValue(isNaN(newValue) ? 0 : newValue);
   };
-  // setValue((prev: any) => prev + 1);
   const increment = () => {
-    setValue((prev: any) => prev + 1);
+    setValue((prev: number) => prev + 1);
   };
 
   const decrement = () => {
     if (value > 0) {
-      setValue((prev: any) => prev - 1);
+      setValue((prev: number) => prev - 1);
     }
   };
 

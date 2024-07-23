@@ -7,7 +7,11 @@ import {
   useTheme,
 } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-import { BillingDetailI } from './BillingDetail.interface';
+import {
+  BillingDetailI,
+  InvoiceCardPropsI,
+  InvoiceI,
+} from './BillingDetail.interface';
 import { AirPlaneIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { useGetInvoicesByIdQuery } from '@/services/orgAdmin/subscription-and-invoices';
@@ -50,7 +54,7 @@ const BillingDetail: FC<BillingDetailI> = ({
         <>
           {data?.data?.invoices?.length ? (
             <>
-              {data?.data?.invoices?.map((data: any) => {
+              {data?.data?.invoices?.map((data: InvoiceI) => {
                 const planDiscount = data?.details?.planDiscount;
                 const subbTotal =
                   data?.details?.plans?.planPrice +
@@ -132,6 +136,7 @@ const BillingDetail: FC<BillingDetailI> = ({
                 discount={planCalculations?.discountApplied}
                 tax={planCalculations?.taxAmount}
                 totalCost={planCalculations?.finalPrice}
+                subTotal={''}
               />
             </>
           )}
@@ -163,7 +168,7 @@ const InvoiceCard = ({
   discount,
   tax,
   totalCost, // subTotal,
-}: any) => {
+}: InvoiceCardPropsI) => {
   const theme = useTheme();
   return (
     <Box

@@ -32,14 +32,24 @@ import { AlertModals } from '@/components/AlertModals';
 import dayjs from 'dayjs';
 import {
   DATE_FORMAT,
+  PLAN_PAYMENT,
+  PLAN_PAYMENT_TYPE_TAGS,
+  PLAN_STATUS,
   SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES,
 } from '@/constants';
+import {
+  ChoosePlanI,
+  FeatureI,
+  GroupedDataI,
+  PlanDataI,
+  ProductFeatureI,
+} from './choosePlan.interface';
 const ChoosePlan = () => {
   const router = useRouter();
   const theme = useTheme();
 
   const [isBuyPlan, setIsBuyPlan] = useState(false);
-  const [activePlanToBuy, setActivePlanToBuy] = useState<any>();
+  const [activePlanToBuy, setActivePlanToBuy] = useState<ChoosePlanI>();
 
   const [maxAdditionalUsers, setMaxAdditionalUsers] = useState();
   const [maxAdditionalStorage, setMaxAdditionalStorage] = useState();
@@ -81,9 +91,8 @@ const ChoosePlan = () => {
   );
 
   const [getData, setGetData] = useState<any>([]);
-
   const freePlanIndex = getData?.findIndex(
-    (plan: any) => plan?.planType?.name === 'Free',
+    (plan: ChoosePlanI) => plan?.planType?.name === PLAN_PAYMENT?.FREE,
   );
   if (freePlanIndex !== -1 && freePlanIndex !== 0) {
     const freePlan = getData?.splice(freePlanIndex, 1)[0];
@@ -100,8 +109,8 @@ const ChoosePlan = () => {
       additionalUsers: maxAdditionalUsers,
       additionalStorage: maxAdditionalStorage,
       billingDate: dayjs(Date.now())?.format(DATE_FORMAT?.API),
-      status: 'ACTIVE',
-      billingCycle: 'MONTHLY',
+      status: PLAN_STATUS?.ACTIVE,
+      billingCycle: PLAN_PAYMENT_TYPE_TAGS?.PAID_MONTHLY,
       planDiscount: 0,
       ...(isCRM && { isCRM: true }),
     };
@@ -119,7 +128,7 @@ const ChoosePlan = () => {
         router.push(
           `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
         );
-      } catch (error: any) {
+      } catch (error) {
         enqueueSnackbar('Something went wrong !', { variant: 'error' });
       }
     } else {
@@ -170,7 +179,7 @@ const ChoosePlan = () => {
   }, [parsedManageData]);
 
   const groupedData = featuresData?.data?.productfeatures?.reduce(
-    (acc: any, obj: any) => {
+    (acc: GroupedDataI, obj: FeatureI) => {
       const productName = obj?.productName;
       if (!acc[productName]) {
         acc[productName] = [];
@@ -240,7 +249,7 @@ const ChoosePlan = () => {
                   </Typography>
                 </TableCell>
                 {getData?.length
-                  ? getData?.map((choosePlan: any) => {
+                  ? getData?.map((choosePlan: PlanDataI) => {
                       return (
                         <TableCell key={uuidv4()} component="th">
                           {choosePlan?.planType?.name ||
@@ -252,7 +261,7 @@ const ChoosePlan = () => {
               </TableRow>
               <TableRow>
                 {getData?.length
-                  ? getData?.map((choosePlan: any) => {
+                  ? getData?.map((choosePlan: PlanDataI) => {
                       return (
                         <TableCell sx={styles?.planBox} key={uuidv4()}>
                           <Typography variant="h3">
@@ -298,7 +307,7 @@ const ChoosePlan = () => {
               </TableRow>
               <TableRow sx={styles?.planDetailText}>
                 {getData?.length
-                  ? getData?.map((choosePlan: any) => {
+                  ? getData?.map((choosePlan: PlanDataI) => {
                       return (
                         <TableCell key={uuidv4()}>
                           <Typography variant="body2">
@@ -312,7 +321,7 @@ const ChoosePlan = () => {
               <TableRow>
                 <TableCell sx={styles?.sideHeader}>Users</TableCell>
                 {getData?.length
-                  ? getData?.map((choosePlan: any) => {
+                  ? getData?.map((choosePlan: PlanDataI) => {
                       return (
                         <TableCell key={uuidv4()} sx={styles?.userIncludes}>
                           <Typography variant="h6">
@@ -330,7 +339,7 @@ const ChoosePlan = () => {
               <TableRow>
                 <TableCell sx={styles?.sideHeader}>Storage</TableCell>
                 {getData?.length
-                  ? getData?.map((choosePlan: any) => {
+                  ? getData?.map((choosePlan: PlanDataI) => {
                       return (
                         <TableCell key={uuidv4()} sx={styles?.userIncludes}>
                           <Typography variant="h6">
@@ -351,11 +360,11 @@ const ChoosePlan = () => {
                   Max Additional Users
                 </TableCell>
                 {getData?.length
-                  ? getData?.map((item: any, index: any) => {
+                  ? getData?.map((item: PlanDataI, index: number) => {
                       return (
                         // eslint-disable-next-line
                         <TableCell key={index} sx={styles?.userIncludes}>
-                          {item?.planType?.name === 'Free' ? (
+                          {item?.planType?.name === PLAN_PAYMENT?.FREE ? (
                             <Box
                               sx={{
                                 background: theme?.palette?.common?.black,
@@ -397,7 +406,7 @@ const ChoosePlan = () => {
                   Max Additional Storage
                 </TableCell>
                 {getData?.length
-                  ? getData?.map((item: any, index: any) => {
+                  ? getData?.map((item: PlanDataI, index: number) => {
                       return (
                         // eslint-disable-next-line
                         <TableCell key={index} sx={styles?.userIncludes}>
@@ -468,10 +477,10 @@ const ChoosePlan = () => {
                                       {feature?.name}
                                     </Typography>
                                   </TableCell>
-                                  {getData?.map((planFeature: any) => {
+                                  {getData?.map((planFeature: ChoosePlanI) => {
                                     const isFeatureIncluded =
                                       planFeature?.planProductFeatures?.some(
-                                        (row: any) =>
+                                        (row) =>
                                           row?.featureId === feature?._id,
                                       );
                                     if (isFeatureIncluded) {
@@ -522,49 +531,53 @@ const ChoosePlan = () => {
                 </>
               ) : (
                 <>
-                  {featuresData?.data?.productfeatures?.map((feature: any) => {
-                    return (
-                      <TableRow key={uuidv4()}>
-                        <TableCell sx={styles?.salesActivities}>
-                          <Typography variant="h6">{feature?.name}</Typography>
-                        </TableCell>
-                        {getData?.map((planFeature: any) => {
-                          const isFeatureIncluded =
-                            planFeature?.planProductFeatures?.some(
-                              (row: any) => row?.featureId === feature?._id,
-                            );
-                          if (isFeatureIncluded) {
-                            return (
-                              <TableCell key={uuidv4()} align="center">
-                                <TickCircleIcon />
-                                <p>
-                                  {
-                                    planFeature?.planProductFeatures?.find(
-                                      (row: any) =>
-                                        row?.featureId === feature?._id,
-                                    )?.dealsAssociationsDetail
-                                  }
-                                </p>
-                              </TableCell>
-                            );
-                          } else {
-                            return (
-                              <TableCell key={uuidv4()} align="center">
-                                <Box
-                                  sx={{
-                                    background: theme?.palette?.common?.black,
-                                    width: '9px',
-                                    height: '2.5px',
-                                    margin: '0 auto',
-                                  }}
-                                ></Box>
-                              </TableCell>
-                            );
-                          }
-                        })}
-                      </TableRow>
-                    );
-                  })}
+                  {featuresData?.data?.productfeatures?.map(
+                    (feature: ProductFeatureI) => {
+                      return (
+                        <TableRow key={uuidv4()}>
+                          <TableCell sx={styles?.salesActivities}>
+                            <Typography variant="h6">
+                              {feature?.name}
+                            </Typography>
+                          </TableCell>
+                          {getData?.map((planFeature: PlanDataI) => {
+                            const isFeatureIncluded =
+                              planFeature?.planProductFeatures?.some(
+                                (row: any) => row?.featureId === feature?._id,
+                              );
+                            if (isFeatureIncluded) {
+                              return (
+                                <TableCell key={uuidv4()} align="center">
+                                  <TickCircleIcon />
+                                  <p>
+                                    {
+                                      planFeature?.planProductFeatures?.find(
+                                        (row: any) =>
+                                          row?.featureId === feature?._id,
+                                      )?.dealsAssociationsDetail
+                                    }
+                                  </p>
+                                </TableCell>
+                              );
+                            } else {
+                              return (
+                                <TableCell key={uuidv4()} align="center">
+                                  <Box
+                                    sx={{
+                                      background: theme?.palette?.common?.black,
+                                      width: '9px',
+                                      height: '2.5px',
+                                      margin: '0 auto',
+                                    }}
+                                  ></Box>
+                                </TableCell>
+                              );
+                            }
+                          })}
+                        </TableRow>
+                      );
+                    },
+                  )}
                 </>
               )}
             </TableBody>
@@ -581,7 +594,7 @@ const CounterMaxUser = ({
   mainId,
   setMaxAdditionalUsers,
 }: any) => {
-  const [value, setValue] = useState<any>(defaultUsers);
+  const [value, setValue] = useState<number>(defaultUsers);
   useEffect(() => {
     if (mapId === mainId) {
       setMaxAdditionalUsers(value);
@@ -599,7 +612,7 @@ const CounterAdditionalStorage = ({
   mainId,
   setMaxAdditionalStorage,
 }: any) => {
-  const [value, setValue] = useState<any>(defaultUsers);
+  const [value, setValue] = useState<number>(defaultUsers);
   useEffect(() => {
     if (mapId === mainId) {
       setMaxAdditionalStorage(value);

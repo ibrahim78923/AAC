@@ -531,3 +531,19 @@ export const BILLING_AND_INVOICES_TAB = {
   INVOICES: 'invoices',
   SUBSCRIPTION: 'subscription',
 };
+
+export const PLAN_PRICE_TYPE_TAGS = {
+  FREE_PLAN: 'Free Plan',
+  PAID_PLAN: 'Paid Plan',
+};
+export const PLAN_PAYMENT_TYPE_TAGS = {
+  PAID_MONTHLY: 'paidMonthly',
+};
+export const PLAN_PAYMENT = {
+  FREE: 'Free',
+  PAID: 'PAID',
+};
+export const PLAN_STATUS = {
+  ACTIVE: 'ACTIVE',
+  IN_ACTIVE: 'INACTIVE',
+};

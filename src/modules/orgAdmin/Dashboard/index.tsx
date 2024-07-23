@@ -15,6 +15,7 @@ import { getProductIcon } from '../SubscriptionAndInvoices/Subscriptions';
 import { getSession } from '@/utils';
 import { useGetProductsQuery } from '@/services/common-APIs';
 import { useGetOrganizationProductsQuery } from '@/services/orgAdmin/organization';
+import { AccountsDataProductI, ProductI } from './dashboard.interface';
 
 const Dashboard = () => {
   const { theme } = useDashboard();
@@ -50,7 +51,7 @@ const Dashboard = () => {
                   ? generateImage(getUserData?.data?.avatar?.url)
                   : ''
               }`}
-              handleChangeImg={(e: any) =>
+              handleChangeImg={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleChangeImg(e, getUserData?.data?._id)
               }
             />
@@ -108,7 +109,7 @@ const Dashboard = () => {
       </Box>
       <Grid container spacing={2}>
         {accountsData?.data ? (
-          accountsData?.data?.map((item: any) => (
+          accountsData?.data?.map((item: AccountsDataProductI) => (
             <Grid item lg={3} md={6} sm={12} xs={12} key={uuidv4()}>
               <Card sx={{ p: '24px', mt: 3 }}>
                 <Image
@@ -124,7 +125,7 @@ const Dashboard = () => {
                 >
                   {item?.name}
                 </Typography>
-                {item?.accounts?.map((account: any) => (
+                {item?.accounts?.map((account) => (
                   <Typography
                     variant="body2"
                     key={uuidv4()}
@@ -193,7 +194,7 @@ const Dashboard = () => {
           </>
         ) : (
           <>
-            {productsData?.data?.map((item: any) => {
+            {productsData?.data?.map((item: ProductI) => {
               return (
                 <>
                   <Box
@@ -214,7 +215,8 @@ const Dashboard = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         filter: orgProductsData?.data?.some(
-                          (userProduct: any) => userProduct?._id === item?._id,
+                          (userProduct: ProductI) =>
+                            userProduct?._id === item?._id,
                         )
                           ? 'none'
                           : 'grayscale(1) brightness(1.0) opacity(0.8)',
