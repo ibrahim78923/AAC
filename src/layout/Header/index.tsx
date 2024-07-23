@@ -34,8 +34,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { generateImage } from '@/utils/avatarUtils';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ROLES } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
 
 const Header = (props: any) => {
+  const { currentPermissions } = useAuth();
+
   const { handleDrawerToggle } = props;
   const theme = useTheme();
   const { user } = getSession();
@@ -115,7 +118,7 @@ const Header = (props: any) => {
             alignItems: 'center',
           }}
         >
-          {role !== ROLES?.SUPER_ADMIN && (
+          {role !== ROLES?.SUPER_ADMIN && currentPermissions && (
             <Box sx={styles?.quickLinkBox(theme, innerBoxesRendered)}>
               {!isNullOrEmpty(QuickLinkData) &&
                 QuickLinkData?.map((image) => (
