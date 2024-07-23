@@ -26,6 +26,7 @@ import {
 } from '@/services/superAdmin/plan-mangement';
 import { useGetProductsQuery } from '@/services/common-APIs';
 import { isNullOrEmpty } from '@/utils';
+import { Module, ModulesProps, SubModule } from './modules.interface';
 
 const Modules = ({
   methods,
@@ -39,9 +40,9 @@ const Modules = ({
   selectedSubModule,
   updatePlanLoading,
   isLoading,
-}: any) => {
+}: ModulesProps) => {
   const { theme } = useModules();
-  let prevProductId: any = null;
+  let prevProductId: string | null = null;
 
   const planManagement: any = useAppSelector(
     (state: any) => state?.planManagementForms,
@@ -56,7 +57,7 @@ const Modules = ({
     id: planManagement?.addPlanForm?.productId,
   });
 
-  let productIdArray: any = [];
+  let productIdArray: string[] = [];
   if (!isNullOrEmpty(planManagement?.addPlanForm?.suite)) {
     productIdArray = planManagement?.addPlanForm?.suite;
   }
@@ -72,8 +73,8 @@ const Modules = ({
     modulesPermissionsArray.push(modulesPermissions);
   }
 
-  const groupedData: any = {};
-  modulesPermissions?.data?.forEach((item: any) => {
+  const groupedData: { [key: string]: SubModule[] } = {};
+  modulesPermissions?.data?.forEach((item: Module) => {
     const moduleName = item?.module;
 
     if (!groupedData[moduleName]) {
@@ -86,9 +87,9 @@ const Modules = ({
       subModule: item?.subModule,
     });
   });
-  const groupedDataCrm: any = {};
+  const groupedDataCrm: { [key: string]: SubModule[] } = {};
   modulesPermissionsArray?.map((modulesPermissions: any) => {
-    return modulesPermissions?.data.forEach((item: any) => {
+    return modulesPermissions?.data.forEach((item: Module) => {
       const moduleName = item?.module;
       if (!groupedDataCrm[moduleName]) {
         groupedDataCrm[moduleName] = [];
@@ -125,7 +126,7 @@ const Modules = ({
       ) : (
         <>
           {isNullOrEmpty(planManagement?.addPlanForm?.suite) &&
-            productPermissionsData?.data?.map((item: any) => (
+            productPermissionsData?.data?.map((item: Module) => (
               <Accordion
                 key={uuidv4()}
                 disableGutters
@@ -203,9 +204,9 @@ const Modules = ({
           {modulesPermissionsArray?.map((perProduct: any) => (
             <>
               {perProduct?.data?.map(
-                (itema: any) =>
+                (itema: Module) =>
                   itema?.subModules?.map(
-                    (itemb: any) =>
+                    (itemb: SubModule) =>
                       itemb?.permissions?.map((itemc: any) => {
                         const currentProductId = itemc?.productId;
                         const productName =
@@ -228,7 +229,7 @@ const Modules = ({
                   ),
               )}
 
-              {perProduct?.data?.map((item: any) => (
+              {perProduct?.data?.map((item: Module) => (
                 <Accordion
                   key={uuidv4()}
                   disableGutters

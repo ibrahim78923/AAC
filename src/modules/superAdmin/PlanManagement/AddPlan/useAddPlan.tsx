@@ -92,9 +92,12 @@ export const useAddPlan = () => {
     data: singlePlan,
     isSuccess,
     isLoading: GetsinglePlanLoading,
-  } = useGetPlanMangementByIdQuery({
-    id: parsedRowData?._id,
-  });
+  } = useGetPlanMangementByIdQuery(
+    {
+      id: parsedRowData?._id,
+    },
+    { skip: isNullOrEmpty(parsedRowData) },
+  );
 
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
@@ -216,10 +219,13 @@ export const useAddPlan = () => {
   const featuresFormData: any = useAppSelector(
     (state) => state?.planManagementForms?.planFeature,
   );
-  const { data: modulesData } = useGetPermissionsByProductsQuery({
-    id: productIdModules,
-    skip,
-  });
+  const { data: modulesData } = useGetPermissionsByProductsQuery(
+    {
+      id: productIdModules,
+      skip,
+    },
+    { skip: isNullOrEmpty(productIdModules) },
+  );
 
   const onSubmitPlan = async (values: any) => {
     if (

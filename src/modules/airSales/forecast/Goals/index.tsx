@@ -1,5 +1,5 @@
 import { Box, Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
-import { manageTableColumns, manageTableData } from './Goals.data';
+import { manageTableColumns } from './Goals.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
@@ -34,6 +34,7 @@ const Goals = () => {
     setIsEditDrawer,
     isDelete,
     setIsDelete,
+    goalsData,
   } = useGoals();
 
   return (
@@ -123,7 +124,7 @@ const Goals = () => {
             tableRowValues,
             setTableRowValues,
           )}
-          data={manageTableData}
+          data={goalsData?.goals}
           isPagination
         />
       </Box>

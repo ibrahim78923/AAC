@@ -23,6 +23,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { useGetProductsFeaturesQuery } from '@/services/superAdmin/plan-mangement';
 import { useGetProductsQuery } from '@/services/common-APIs';
 import { useRouter } from 'next/router';
+import {
+  Feature,
+  PlanManagementState,
+  Product,
+} from './PlanFeatures.interface';
 
 const PlanFeatures = ({ methods, handleSubmit }: any) => {
   const {
@@ -37,8 +42,9 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
     featureId,
     setFeatureId,
   } = usePlanFeatures();
-  const planManagement: any = useAppSelector(
-    (state) => state?.planManagementForms,
+  const planManagement = useAppSelector(
+    (state: { planManagementForms: PlanManagementState }) =>
+      state?.planManagementForms,
   );
 
   const [expandedAccordion, setExpandedAccordion] = useState<string | false>(
@@ -55,17 +61,18 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
     { id: accordianId },
     { skip: isNullOrEmpty(accordianId) },
   );
-  let productFeatures: any;
+  let productFeatures: { data?: { productfeatures: Feature[] } } | undefined;
   if (isSuccess) {
     productFeatures = data;
   }
 
   const { data: productList } = useGetProductsQuery({});
 
-  const productsOptions = productList?.data?.map((product: any) => ({
-    value: product?._id,
-    label: product?.name,
-  }));
+  const productsOptions: { value: string; label: string }[] =
+    productList?.data?.map((product: Product) => ({
+      value: product?._id,
+      label: product?.name,
+    })) || [];
 
   const router = useRouter();
   const { type } = router.query;

@@ -1,5 +1,7 @@
 import HeaderInfoIcon from '@/assets/icons/shared/header-info';
 import { goalsStatus } from '@/constants';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { isNullOrEmpty } from '@/utils';
 import {
   Box,
   Checkbox,
@@ -54,7 +56,25 @@ export const manageTableColumns: any = (
       id: 'contributor',
       header: 'Contributor',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Stack direction="row" gap={2} alignItems="center">
+          <Box>
+            <Typography>{info?.getValue()}</Typography>
+
+            <Box display="flex" gap={0.5}>
+              <Typography fontSize="12px" fontWeight={500}>
+                {isNullOrEmpty(info?.row?.original?.contributorDetails)
+                  ? info?.row?.original?.teamDetails[ARRAY_INDEX?.ZERO]?.name
+                  : `${info?.row?.original?.contributorDetails[
+                      ARRAY_INDEX?.ZERO
+                    ]?.firstName} ${info?.row?.original?.contributorDetails[
+                      ARRAY_INDEX?.ZERO
+                    ]?.lastName}`}
+              </Typography>
+            </Box>
+          </Box>
+        </Stack>
+      ),
     },
 
     {
@@ -79,11 +99,11 @@ export const manageTableColumns: any = (
       cell: (info: any) => (
         <Stack direction="row" gap={2} alignItems="center">
           <Box>
-            <Typography>{info?.getValue()}</Typography>
+            <Typography fontSize="13px">{info?.getValue()}</Typography>
 
             <Box display="flex" gap={0.5}>
               <Typography fontSize="12px" fontWeight={500}>
-                {info?.row?.original?.durationData} Deals
+                {info?.row?.original?.durationData}
               </Typography>
             </Box>
           </Box>
@@ -95,7 +115,25 @@ export const manageTableColumns: any = (
       id: 'target',
       header: 'Target',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        let sumOfMonths = 0;
+        for (const month in info?.row?.original?.targets[ARRAY_INDEX?.ZERO]
+          ?.months) {
+          if (
+            info?.row?.original?.targets[
+              ARRAY_INDEX?.ZERO
+            ].months?.hasOwnProperty(month)
+          ) {
+            sumOfMonths +=
+              info?.row?.original?.targets[ARRAY_INDEX?.ZERO]?.months[month];
+          }
+        }
+        return (
+          <Typography fontSize="12px" fontWeight={500}>
+            £ {sumOfMonths}
+          </Typography>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.progress,
@@ -145,9 +183,9 @@ export const manageTableColumns: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.forecastSub,
-      id: 'forecastSub',
-      header: 'Forecast Sub..',
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      header: 'status',
       isSortable: true,
       cell: (info: any) => (
         <Typography

@@ -1,7 +1,8 @@
+import { useGetForecastGoalsQuery } from '@/services/airSales/forecast';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 
-const useDealStage = () => {
+const useGoals = () => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isDisabled, setIsDisabled] = useState(true);
@@ -10,6 +11,8 @@ const useDealStage = () => {
   const [isDelete, setIsDelete] = useState(false);
 
   const open = Boolean(anchorEl);
+
+  const { data: goalsData } = useGetForecastGoalsQuery({});
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -34,7 +37,8 @@ const useDealStage = () => {
     setIsEditDrawer,
     isDelete,
     setIsDelete,
+    goalsData,
   };
 };
 
-export default useDealStage;
+export default useGoals;

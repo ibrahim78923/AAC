@@ -11,6 +11,7 @@ import {
 } from './PlanManagement.data';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { SubmitValues } from './planManagement.interface';
 
 export const usePlanManagement = () => {
   const [isOpenEditDrawer, setIsOpenEditDrawer] = useState(false);
@@ -37,7 +38,7 @@ export const usePlanManagement = () => {
     defaultValues: planManagementFilterDefaultValues,
   });
 
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: SubmitValues) => {
     const filterPlanManagementValues = {
       ...(values?.productId && { productId: values?.productId }),
       ...(values?.planTypeId && { planTypeId: values?.planTypeId }),

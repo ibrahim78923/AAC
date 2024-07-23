@@ -6,6 +6,7 @@ import {
 } from '@/services/superAdmin/plan-mangement';
 import { DRAWER_TITLE } from '@/constants';
 import { IMPORT_ACTION_TYPE } from '@/constants/strings';
+import { ProductOption } from './planForm.interface';
 
 export const useAddPlanForm = (
   AdditionalStorageValue: number,
@@ -25,7 +26,7 @@ export const useAddPlanForm = (
     isSuccess,
   );
 
-  const productsOptions = data?.data?.map((product: any) => ({
+  const productsOptions = data?.data?.map((product: ProductOption) => ({
     value: product?._id,
     label: product?.name,
   }));
@@ -35,7 +36,7 @@ export const useAddPlanForm = (
   const planNameRender =
     selectProductSuite == IMPORT_ACTION_TYPE?.PRODUCT ? 'Product' : 'Suite';
 
-  const crmOptions = getCRM?.data?.map((product: any) => ({
+  const crmOptions = getCRM?.data?.map((product: ProductOption) => ({
     value: product?._id,
     label: product?.name,
   }));
