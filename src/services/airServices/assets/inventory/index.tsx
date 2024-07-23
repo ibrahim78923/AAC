@@ -116,6 +116,14 @@ export const inventoryAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getAssetTypeInventoryDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.ASSET_TYPE_DROPDOWN,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG_TWO],
+    }),
   }),
 });
 
@@ -133,4 +141,5 @@ export const {
   usePatchAddToInventoryMutation,
   useGetAddToInventoryByIdQuery,
   useGetAttachmentToInventoryQuery,
+  useLazyGetAssetTypeInventoryDropdownQuery,
 } = inventoryAPI;

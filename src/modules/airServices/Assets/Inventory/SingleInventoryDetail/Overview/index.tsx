@@ -1,55 +1,71 @@
-import { Box, Typography } from '@mui/material';
-import { overviewData } from './Overview.data';
-import { styles } from './Overview.style';
+import { Avatar, Box, Typography } from '@mui/material';
 import { useOverview } from './useOverview';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
-
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { isValidElement } from 'react';
+import { DYNAMIC_FORM_FIELDS_TYPES, isValidDate } from '@/utils/dynamic-forms';
+import { getImageByType } from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const Overview = () => {
-  const { theme, inventoryData, isLoading, isFetching, isError } =
-    useOverview();
+  const { isLoading, isFetching, isError, overviewData } = useOverview();
 
   if (isLoading || isFetching) return <SkeletonTable />;
   if (isError) return <ApiErrorState />;
 
   return (
-    <Box>
-      <PermissionsGuard
-        permissions={[AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.OVERVIEW]}
-      >
-        {overviewData(inventoryData)?.map((item: any) => (
-          <Box key={item?._id}>
-            <Typography variant="h5" py={'.5rem'}>
-              {item?.heading}
+    <PermissionsGuard
+      permissions={[AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.OVERVIEW]}
+    >
+      <Typography variant="h5" py={'0.625rem'}>
+        Inventory Details
+      </Typography>
+
+      <Box bgcolor={'primary.lighter'} borderRadius={2}>
+        {Object?.entries(overviewData)?.map(([key, value]: any) => (
+          <Box key={key} display={'flex'}>
+            <Typography
+              variant={'body2'}
+              fontWeight={500}
+              p={2}
+              color={'grey.600'}
+              minWidth={'25%'}
+            >
+              {key}:
             </Typography>
-            <Box sx={styles?.mainContainerBox}>
-              {item?.detailsData?.map((detail: any) => (
-                <Box key={item?._id}>
-                  <Box sx={styles?.childContainerBox}>
-                    <Box width={{ sm: '20%', xs: '8.75rem' }}>
-                      <Typography variant="body2" fontWeight={500}>
-                        {detail?.name}
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <Typography
-                        variant="body2"
-                        color={theme.palette.grey[900]}
-                      >
-                        {detail?.detail}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              ))}
-            </Box>
-            <Box sx={styles?.borderBox} />
+            <Typography
+              variant={'body2'}
+              p={2}
+              color={'grey.900'}
+              fontWeight={500}
+            >
+              {isValidElement(value) ? (
+                value
+              ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+                value !== null &&
+                DYNAMIC_FORM_FIELDS_TYPES?.LABEL in value ? (
+                value?.label
+              ) : typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+                value !== null &&
+                DYNAMIC_FORM_FIELDS_TYPES?.FILE_URL in value ? (
+                <Avatar
+                  src={getImageByType(value?.fileType, value?.fileUrl)}
+                  alt="file-preview"
+                  sx={{ width: 45, height: 45 }}
+                  variant={'rounded'}
+                />
+              ) : isValidDate(value) ? (
+                dayjs(value)?.format(DATE_FORMAT?.UI)
+              ) : (
+                value?.toString()
+              )}
+            </Typography>
           </Box>
         ))}
-      </PermissionsGuard>
-    </Box>
+      </Box>
+    </PermissionsGuard>
   );
 };

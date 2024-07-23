@@ -98,7 +98,7 @@ export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
       placeholder: 'All Assets',
       required: true,
       apiQuery: apiQueryAssetType,
-      externalParams: { meta: false, limit: 50 },
+      externalParams: { limit: 50 },
     },
     component: RHFAutocompleteAsync,
     md: 6,

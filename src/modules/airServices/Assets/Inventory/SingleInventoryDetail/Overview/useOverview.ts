@@ -1,9 +1,9 @@
 import { useGetSingleInventoryOverviewQuery } from '@/services/airServices/assets/inventory/single-inventory-details/overview';
-import { useTheme } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
+import { overviewDataArray } from './Overview.data';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useOverview = () => {
-  const theme = useTheme();
   const searchParams = useSearchParams();
   const inventoryId = searchParams?.get('inventoryId');
 
@@ -12,13 +12,14 @@ export const useOverview = () => {
       refetchOnMountOrArgChange: true,
       skip: !!!inventoryId,
     });
-  const inventoryData = data?.data?.[0];
+  const inventoryData = data?.data?.[ARRAY_INDEX?.ZERO] ?? {};
+
+  const overviewData = overviewDataArray(inventoryData);
 
   return {
-    theme,
-    inventoryData,
     isLoading,
     isFetching,
     isError,
+    overviewData,
   };
 };

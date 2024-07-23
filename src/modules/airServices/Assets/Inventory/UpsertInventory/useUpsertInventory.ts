@@ -11,7 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import {
   useGetAddToInventoryByIdQuery,
-  useLazyGetAssetTypeQuery,
+  useLazyGetAssetTypeInventoryDropdownQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
   useLazyGetUsersDropdownQuery,
@@ -121,6 +121,7 @@ export const useUpsertInventory = () => {
         : null,
     usedByDetails: filledFormValues?.usedBy ?? null,
     fileUrl: null,
+    ...data?.data?.[ARRAY_INDEX?.ZERO],
   };
 
   const prevAssetTypeWatch = useRef(assetTypeWatch);
@@ -263,7 +264,7 @@ export const useUpsertInventory = () => {
 
   const { _id: productId } = auth?.product;
 
-  const apiQueryAssetType = useLazyGetAssetTypeQuery();
+  const apiQueryAssetType = useLazyGetAssetTypeInventoryDropdownQuery();
   const apiQueryDepartmentType = useLazyGetDepartmentDropdownQuery();
   const apiQueryLocationType = useLazyGetLocationsDropdownQuery();
   const apiQueryUsedByType = useLazyGetUsersDropdownQuery();
