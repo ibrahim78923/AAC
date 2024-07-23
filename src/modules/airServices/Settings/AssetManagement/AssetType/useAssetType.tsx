@@ -17,7 +17,7 @@ export default function useAssetType() {
   });
   const [childDetails, setChildDetails] = useState<any>({
     open: false,
-    parentId: null,
+    parentData: null,
     childData: null,
   });
 

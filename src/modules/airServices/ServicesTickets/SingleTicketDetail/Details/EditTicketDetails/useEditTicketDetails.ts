@@ -25,7 +25,7 @@ import {
 import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/tickets';
 import {
   useLazyGetDynamicFieldsQuery,
-  usePostAttachmentsMutation,
+  usePostDynamicFormAttachmentsMutation,
 } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
@@ -44,7 +44,7 @@ export const useEditTicketDetails = () => {
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
   const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostAttachmentsMutation();
+    usePostDynamicFormAttachmentsMutation();
 
   const getDynamicFormData = async () => {
     const params = {

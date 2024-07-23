@@ -26,6 +26,8 @@ export default function DroppableArea({
   productType,
   successPath,
   cancelPath,
+  section,
+  sectionType,
 }: any) {
   const {
     router,
@@ -43,6 +45,8 @@ export default function DroppableArea({
     moduleType,
     productType,
     successPath,
+    section,
+    sectionType,
   });
 
   if (isError)

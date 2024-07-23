@@ -21,7 +21,7 @@ import { ARRAY_INDEX } from '@/constants/strings';
 import { useEffect, useState } from 'react';
 import {
   useLazyGetDynamicFieldsQuery,
-  usePostAttachmentsMutation,
+  usePostDynamicFormAttachmentsMutation,
 } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
@@ -51,7 +51,7 @@ export const useUpsertTasks = (props: any) => {
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
   const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostAttachmentsMutation();
+    usePostDynamicFormAttachmentsMutation();
 
   const getDynamicFormData = async () => {
     const params = {

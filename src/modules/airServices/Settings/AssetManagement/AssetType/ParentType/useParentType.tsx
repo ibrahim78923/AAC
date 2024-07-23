@@ -10,11 +10,15 @@ import {
   usePostAssetTypeMutation,
 } from '@/services/airServices/settings/asset-management/asset-type';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
 
 export default function useParentType({
   parentDetails,
   setParentDetails,
 }: any) {
+  const router: any = useRouter();
+
   const [postAssetTypeTrigger, postAssetTypeStatus] =
     usePostAssetTypeMutation();
   const [patchAssetTypeTrigger, patchAssetTypeStatus] =
@@ -38,9 +42,16 @@ export default function useParentType({
     }
 
     try {
-      await postAssetTypeTrigger(data);
+      const res: any = await postAssetTypeTrigger(data);
       successSnackbar('Asset Type Added Successfully!');
       onClose?.();
+      router?.push({
+        pathname: AIR_SERVICES?.ASSET_TYPE_CREATE_FIELDS,
+        query: {
+          section: res?.data?.data?._id,
+          parentName: res?.data?.data?.name,
+        },
+      });
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
       onClose?.();
@@ -54,9 +65,16 @@ export default function useParentType({
     };
 
     try {
-      await patchAssetTypeTrigger(body);
+      const res: any = await patchAssetTypeTrigger(body);
       successSnackbar('Asset Type Updated Successfully!');
       onClose?.();
+      router?.push({
+        pathname: AIR_SERVICES?.ASSET_TYPE_CREATE_FIELDS,
+        query: {
+          section: res?.data?.data?._id,
+          parentName: res?.data?.data?.name,
+        },
+      });
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
       onClose?.();

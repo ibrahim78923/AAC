@@ -19,7 +19,7 @@ import {
 } from '@/services/airServices/settings/user-management/requesters';
 import {
   useLazyGetDynamicFieldsQuery,
-  usePostAttachmentsMutation,
+  usePostDynamicFormAttachmentsMutation,
 } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
@@ -43,7 +43,7 @@ export const useUpsertRequester = (props: any) => {
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
   const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostAttachmentsMutation();
+    usePostDynamicFormAttachmentsMutation();
 
   const getDynamicFormData = async () => {
     const params = {

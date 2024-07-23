@@ -24,7 +24,7 @@ import {
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import {
   useLazyGetDynamicFieldsQuery,
-  usePostAttachmentsMutation,
+  usePostDynamicFormAttachmentsMutation,
 } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
@@ -48,7 +48,7 @@ const useNewPurchaseOrders = () => {
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
   const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostAttachmentsMutation();
+    usePostDynamicFormAttachmentsMutation();
 
   const getDynamicFormData = async () => {
     const params = {
