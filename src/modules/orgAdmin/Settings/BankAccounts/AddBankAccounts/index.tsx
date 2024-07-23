@@ -8,12 +8,19 @@ import useAddBankAccounts from './useAddBankAccounts';
 const AddBankAccounts = (props: any) => {
   const { isOpenAddAccountDrawer, setIsOpenAddAccountDrawer, setCheckedRows } =
     props;
-  const { methods, handleSubmit, onSubmit, reset, companyAccounts } =
-    useAddBankAccounts(
-      setIsOpenAddAccountDrawer,
-      isOpenAddAccountDrawer,
-      setCheckedRows,
-    );
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    reset,
+    companyAccounts,
+    updateReceiverAccountLoading,
+    postReceiverAccountLoading,
+  } = useAddBankAccounts(
+    setIsOpenAddAccountDrawer,
+    isOpenAddAccountDrawer,
+    setCheckedRows,
+  );
 
   return (
     <CommonDrawer
@@ -27,27 +34,28 @@ const AddBankAccounts = (props: any) => {
       isOk
       submitHandler={handleSubmit(onSubmit)}
       footer
+      isLoading={updateReceiverAccountLoading || postReceiverAccountLoading}
     >
-      <FormProvider>
-        <Grid container spacing={1} mt={1}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={2}>
-              {addAccountsForm(companyAccounts)?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Grid>
-      </FormProvider>
+      {/* <FormProvider> */}
+      <Grid container spacing={1} mt={1}>
+        <FormProvider methods={methods}>
+          <Grid container spacing={2}>
+            {addAccountsForm(companyAccounts)?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={option?.value} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      </Grid>
+      {/* </FormProvider> */}
     </CommonDrawer>
   );
 };

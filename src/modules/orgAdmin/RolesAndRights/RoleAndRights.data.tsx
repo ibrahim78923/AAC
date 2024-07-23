@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 
 import { useLazyGetCompanyAccountsListsQuery } from '@/services/common-APIs';
 import { convertIdToShortNumber, getSession } from '@/utils';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const columns: any = (columnsProps: any) => {
   const { updateStatus, checkedRows, setCheckedRows } = columnsProps;
@@ -48,7 +49,7 @@ export const columns: any = (columnsProps: any) => {
       id: 'name',
       isSortable: true,
       header: 'Role Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.productDetails?.name,
@@ -62,7 +63,7 @@ export const columns: any = (columnsProps: any) => {
       id: 'companyAccount',
       isSortable: true,
       header: 'Company Accounts',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.Status,

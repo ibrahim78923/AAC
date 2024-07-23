@@ -10,12 +10,17 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS } from '@/constants/permission-keys';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import {
+  DRAWER_ACTIONS_TITLES,
+  GENERIC_UPSERT_FORM_CONSTANT,
+} from '@/constants/strings';
+import { capitalizeFirstLetter } from '@/utils/api';
 
-export const LifeCycleStagevalidationSchema: any = Yup.object().shape({
-  name: Yup.string()
-    .required('Field is Required')
-    .matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
-  description: Yup.string().required('Field is Required'),
+export const LifeCycleStagevalidationSchema: any = Yup?.object()?.shape({
+  name: Yup?.string()
+    ?.required('Field is Required')
+    ?.matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
+  description: Yup?.string()?.required('Field is Required'),
 });
 
 export const LifeCycleStageDefaultValues = {
@@ -23,14 +28,14 @@ export const LifeCycleStageDefaultValues = {
   description: '',
 };
 
-export const dataArray = (isModalHeading: any) => {
+export const dataArray = (isModalHeading: string) => {
   return [
     {
       componentProps: {
         name: 'name',
         label: 'Add stage name',
-        fullWidth: true,
-        disabled: isModalHeading === 'View',
+        disabled: isModalHeading === GENERIC_UPSERT_FORM_CONSTANT?.VIEW,
+        required: true,
       },
       component: RHFTextField,
       md: 12,
@@ -39,8 +44,8 @@ export const dataArray = (isModalHeading: any) => {
       componentProps: {
         name: 'description',
         label: 'Description',
-        fullWidth: true,
-        disabled: isModalHeading === 'View',
+        required: true,
+        disabled: isModalHeading === GENERIC_UPSERT_FORM_CONSTANT?.VIEW,
       },
       component: RHFEditor,
       md: 12,
@@ -48,43 +53,11 @@ export const dataArray = (isModalHeading: any) => {
   ];
 };
 
-// table
-export const LifeCycleStageTableData: any = [
-  {
-    Id: 1,
-    name: `Subscriber`,
-    Description: 'Subscriber',
-    CompaniesUsage: '8',
-    ContactUsage: '8',
-    createdDate: '12/01/2023',
-    action: 'action',
-  },
-  {
-    Id: 2,
-    name: `Lead`,
-    Description: 'Lead',
-    CompaniesUsage: '0',
-    ContactUsage: '0',
-    createdDate: '12/02/2023',
-    action: 'action',
-  },
-
-  {
-    Id: 3,
-    name: `Customer`,
-    Description: 'Customer',
-    CompaniesUsage: '3',
-    ContactUsage: '3',
-    createdDate: '23/12/2022',
-    action: 'action',
-  },
-];
-
 export const columns = (
-  setIsDraweropen: any,
-  setIsModalHeading: any,
-  handleDeleteRecord: any,
-  handleEditClick: any,
+  setIsDraweropen: (value: boolean) => void,
+  setIsModalHeading: (value: string) => void,
+  handleDeleteRecord: (id: string) => void,
+  handleEditClick: (id: string) => void,
 ) => {
   return [
     {
@@ -97,7 +70,7 @@ export const columns = (
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => capitalizeFirstLetter(info.getValue()),
       header: 'Stage Name',
       isSortable: true,
     },
@@ -136,7 +109,7 @@ export const columns = (
               onClick={() => {
                 handleEditClick(info?.row?.original);
                 setIsDraweropen(true);
-                setIsModalHeading('View');
+                setIsModalHeading(GENERIC_UPSERT_FORM_CONSTANT?.VIEW);
               }}
             >
               <ViewEyeIcon />
@@ -145,7 +118,7 @@ export const columns = (
               sx={{ cursor: 'pointer' }}
               onClick={() => {
                 handleEditClick(info?.row?.original);
-                setIsModalHeading('Edit');
+                setIsModalHeading(DRAWER_ACTIONS_TITLES?.EDIT);
               }}
             >
               <EditPenIcon />

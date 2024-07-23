@@ -9,7 +9,7 @@ import {
   addAccountsFormValidationSchema,
 } from './AddBankAccounts.data';
 import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { CommonAPIS } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 
@@ -19,7 +19,7 @@ const useAddBankAccounts = (
   setCheckedRows: any,
 ) => {
   const selectedUser = isOpenAddAccountDrawer?.data?._id;
-  const { user } = getSession();
+  const { user }: any = getSession();
   const { usePostReceiverBankAccountMutation } = receiversBankAccountsAPI;
   const { useGetCompanyAccountsQuery } = CommonAPIS;
 
@@ -27,9 +27,12 @@ const useAddBankAccounts = (
     orgId: user?.organization?._id,
   });
 
-  const [postReceiverBankAccount]: any = usePostReceiverBankAccountMutation();
-  const [updateReceiverBankAccount]: any =
-    useUpdateReceiverBankAccountMutation();
+  const [postReceiverBankAccount, { isLoading: postReceiverAccountLoading }] =
+    usePostReceiverBankAccountMutation();
+  const [
+    updateReceiverBankAccount,
+    { isLoading: updateReceiverAccountLoading },
+  ] = useUpdateReceiverBankAccountMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(addAccountsFormValidationSchema),
@@ -41,31 +44,63 @@ const useAddBankAccounts = (
 
   const { handleSubmit, reset } = methods;
 
-  const onSubmit = (values: any) => {
-    if (isOpenAddAccountDrawer?.type === 'add') {
-      postReceiverBankAccount({ body: values });
-    } else {
-      delete values?.__v;
-      delete values?.isDeleted;
-      delete values?._id;
-      delete values?.createdBy;
-      delete values?.updatedBy;
-      updateReceiverBankAccount({ id: selectedUser, body: values });
+  const onSubmit = async (values: any) => {
+    try {
+      if (isOpenAddAccountDrawer?.type === DRAWER_TYPES?.ADD) {
+        await postReceiverBankAccount({ body: values })?.unwrap();
+      } else {
+        delete values?.__v;
+        delete values?.isDeleted;
+        delete values?._id;
+        delete values?.createdBy;
+        delete values?.updatedBy;
+        await updateReceiverBankAccount({ id: selectedUser, body: values });
+      }
+      reset();
+      setIsOpenAddAccountDrawer(false);
+      enqueueSnackbar(
+        isOpenAddAccountDrawer?.type === DRAWER_TYPES?.ADD
+          ? 'Bank account added successfully'
+          : 'Bank account edited successfully',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+      setCheckedRows([]);
+    } catch (error: any) {
+      const errMsg = error?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
-    reset();
-    setIsOpenAddAccountDrawer(false);
-    enqueueSnackbar(
-      isOpenAddAccountDrawer?.type === 'add'
-        ? 'Bank account added successfully'
-        : 'Bank account edited successfully',
-      {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      },
-    );
-    setCheckedRows([]);
+
+    // if (isOpenAddAccountDrawer?.type === DRAWER_TYPES?.ADD) {
+    //   postReceiverBankAccount({ body: values });
+    // } else {
+    //   delete values?.__v;
+    //   delete values?.isDeleted;
+    //   delete values?._id;
+    //   delete values?.createdBy;
+    //   delete values?.updatedBy;
+    //   updateReceiverBankAccount({ id: selectedUser, body: values });
+    // }
+    // reset();
+    // setIsOpenAddAccountDrawer(false);
+    // enqueueSnackbar(
+    //   isOpenAddAccountDrawer?.type === DRAWER_TYPES?.ADD
+    //     ? 'Bank account added successfully'
+    //     : 'Bank account edited successfully',
+    //   {
+    //     variant: NOTISTACK_VARIANTS?.SUCCESS,
+    //   },
+    // );
+    // setCheckedRows([]);
   };
 
   return {
+    updateReceiverAccountLoading,
+    postReceiverAccountLoading,
     postReceiverBankAccount,
     companyAccounts,
     handleSubmit,

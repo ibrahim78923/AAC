@@ -1,23 +1,23 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const addAccountsFormValidationSchema = Yup.object().shape({
+export const addAccountsFormValidationSchema = Yup?.object()?.shape({
   // validation commented for future use
-  companyAccountName: Yup.string()
+  companyAccountName: Yup?.string()
     // .matches(/^[a-zA-Z\s]+$/, 'Company account name must contain only alphabets')
-    .required('Field is Required'),
-  bankName: Yup.string()
+    ?.required('Field is Required'),
+  bankName: Yup?.string()
     // .matches(/^[a-zA-Z\s]+$/, 'Bank name must contain only alphabets')
-    .required('Field is Required'),
-  accountHolder: Yup.string()
+    ?.required('Field is Required'),
+  accountHolder: Yup?.string()
     // .matches(/^[a-zA-Z\s]+$/, 'Account holder must contain only alphabets')
-    .required('Field is Required'),
-  accountNumber: Yup.string()
+    ?.required('Field is Required'),
+  accountNumber: Yup?.string()
     // .matches(/^[0-9]+$/, 'Account number must contain only numbers')
-    .required('Field is Required'),
-  sortCode: Yup.string()
+    ?.required('Field is Required'),
+  sortCode: Yup?.string()
     // .matches(/^[0-9]+$/, 'Sort code must contain only numbers')
-    .required('Field is Required'),
+    ?.required('Field is Required'),
 });
 
 export const addAccountsFormDefaultValues = {
@@ -41,7 +41,6 @@ export const addAccountsForm = (companyAccounts: any) => {
       },
       options: companyAccounts?.data?.organizationcompanyaccounts?.map(
         (item: any) => ({
-          // item?._id
           value: item?.accountName,
           label: item?.accountName,
         }),

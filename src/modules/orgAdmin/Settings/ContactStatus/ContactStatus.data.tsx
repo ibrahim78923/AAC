@@ -11,12 +11,14 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS } from '@/constants/permission-keys';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { capitalizeFirstLetter } from '@/utils/api';
+import { DRAWER_ACTIONS_TITLES } from '@/constants/strings';
 
-export const ContactStatusvalidationSchema: any = Yup.object().shape({
-  name: Yup.string()
-    .required('Field is Required')
-    .matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
-  description: Yup.string().required('Field is Required'),
+export const ContactStatusvalidationSchema: any = Yup?.object()?.shape({
+  name: Yup?.string()
+    ?.required('Field is Required')
+    ?.matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed in this field'),
+  description: Yup?.string()?.required('Field is Required'),
 });
 
 export const ContactStatusDefaultValues = {
@@ -48,36 +50,10 @@ export const dataArray = [
   },
 ];
 
-// table
-export const ContactStatusTableData: any = [
-  {
-    Id: 1,
-    name: `New`,
-    Description: 'new stage',
-    createdDate: '12/01/2023',
-    action: 'action',
-  },
-  {
-    Id: 2,
-    name: `Open `,
-    Description: 'open stage',
-    createdDate: '12/02/2023',
-    action: 'action',
-  },
-
-  {
-    Id: 3,
-    name: `Inprogress`,
-    Description: 'in progress stage',
-    createdDate: '23/12/2022',
-    action: 'action',
-  },
-];
-
 export const columns = (
-  handleDeleteRecord: any,
-  setIsModalHeading: any,
-  handleEditClick: any,
+  handleDeleteRecord: (id: string) => void,
+  setIsModalHeading: (value: string) => void,
+  handleEditClick: (id: string) => void,
 ) => {
   return [
     {
@@ -90,7 +66,7 @@ export const columns = (
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => capitalizeFirstLetter(info.getValue()),
       header: 'Status Name',
       isSortable: true,
     },
@@ -126,7 +102,7 @@ export const columns = (
               sx={{ cursor: 'pointer' }}
               onClick={() => {
                 handleEditClick(info?.row?.original);
-                setIsModalHeading('View');
+                setIsModalHeading(DRAWER_ACTIONS_TITLES?.EDIT);
               }}
             >
               <ViewEyeIcon />

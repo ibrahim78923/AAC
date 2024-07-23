@@ -19,6 +19,7 @@ import useCreateSMSBroadcast from './useCreateSMSBroadcast';
 import AddContactDrawer from './AddContactDrawer';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import {
+  ARRAY_INDEX,
   DRAWER_TYPES,
   SMS_BROADCAST_CONSTANTS,
   STATUS_CONTANTS,
@@ -199,10 +200,10 @@ const CreateSMSBroadcast = () => {
                                 >
                                   <Typography variant="body3" fontWeight={500}>
                                     {contact?.firstName
-                                      ?.charAt(0)
+                                      ?.charAt(ARRAY_INDEX?.ZERO)
                                       ?.toUpperCase()}
                                     {contact?.lastName
-                                      ?.charAt(0)
+                                      ?.charAt(ARRAY_INDEX?.ZERO)
                                       ?.toUpperCase()}
                                   </Typography>
                                 </Avatar>
@@ -228,7 +229,9 @@ const CreateSMSBroadcast = () => {
                       variant="body1"
                       fontWeight={700}
                     >
-                      {broadcastName?.title?.charAt(0)?.toUpperCase()}
+                      {broadcastName?.title
+                        ?.charAt(ARRAY_INDEX?.ZERO)
+                        ?.toUpperCase()}
                       {broadcastName?.title?.slice(-1)?.toUpperCase()}
                     </Typography>
                   </Avatar>

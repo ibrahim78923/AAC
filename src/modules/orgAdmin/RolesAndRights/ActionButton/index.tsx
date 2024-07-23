@@ -4,9 +4,12 @@ import useRolesAndRights from '../useRolesAndRights';
 import { ORG_ADMIN } from '@/constants';
 import { ORG_ADMIN_ROLE_AND_RIGHTS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { actionButton } from '../Roles-inerface';
+import { DRAWER_TYPES } from '@/constants/strings';
 
-const ActionButton = (props?: any) => {
+const ActionButton = (props: actionButton) => {
   const { checkedRows } = props;
+
   const { selectedValue, handleClick, handleClose, navigate } =
     useRolesAndRights();
 
@@ -44,7 +47,7 @@ const ActionButton = (props?: any) => {
               handleClose();
               navigate?.push({
                 pathname: ORG_ADMIN?.ADD_ROLE,
-                query: { id: checkedRows, type: 'view' },
+                query: { id: checkedRows, type: DRAWER_TYPES?.VIEW },
               });
             }}
           >
@@ -62,7 +65,7 @@ const ActionButton = (props?: any) => {
               handleClose();
               navigate?.push({
                 pathname: ORG_ADMIN?.ADD_ROLE,
-                query: { id: checkedRows, type: 'edit' },
+                query: { id: checkedRows, type: DRAWER_TYPES?.EDIT },
               });
             }}
           >

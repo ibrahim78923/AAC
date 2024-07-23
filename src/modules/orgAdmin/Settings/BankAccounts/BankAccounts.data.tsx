@@ -1,13 +1,20 @@
+import { capitalizeFirstLetter } from '@/utils/api';
 import { Checkbox } from '@mui/material';
 
-export const bankAccountsColumns = (columnsProps: any) => {
+interface IBankAccountsColumns {
+  checkedRows: any;
+  setCheckedRows: any;
+  receiversData: any;
+}
+
+export const bankAccountsColumns = (columnsProps: IBankAccountsColumns) => {
   const { checkedRows, setCheckedRows, receiversData } = columnsProps;
 
   const handleSelectCompaniesById = (checked: boolean, id: string): void => {
     if (checked) {
       setCheckedRows([...checkedRows, id]);
     } else {
-      setCheckedRows(checkedRows?.filter((_id: any) => _id !== id));
+      setCheckedRows(checkedRows?.filter((_id: string) => _id !== id));
     }
   };
 
@@ -45,35 +52,19 @@ export const bankAccountsColumns = (columnsProps: any) => {
       ),
       isSortable: false,
     },
-    // {
-    //   accessorFn: (row: any) => row?._id,
-    //   id: 'Id',
-    //   cell: (info: any) => (
-    //     <Checkbox
-    //       color="primary"
-    //       name={info?.getValue()}
-    //       defaultChecked={checkedRows === info?.row?.original?._id}
-    //       onChange={(e: any) =>
-    //         handleCheckboxChange(e, info?.row?.original?._id)
-    //       }
-    //     />
-    //   ),
-    //   header: <Checkbox color="primary" name="Id" />,
-    //   isSortable: false,
-    // },
     {
       accessorFn: (row: any) => row?.companyAccountName,
       id: 'companyAccounts',
       header: 'Company Account',
       isSortable: true,
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.bankName,
       id: 'bankName',
       isSortable: true,
       header: 'Banks Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.accountHolder,

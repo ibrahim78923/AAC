@@ -1,4 +1,5 @@
-import { DATE_TIME_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT, indexNumbers } from '@/constants';
+
 import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 export const columns: any = (columnsProps: any) => {
@@ -69,7 +70,9 @@ export const columns: any = (columnsProps: any) => {
       cell: (info: any) => {
         const value = info?.getValue();
         return value
-          ? `${value?.charAt(0)?.toUpperCase()}${value?.slice(1)}`
+          ? `${value?.charAt(indexNumbers?.ZERO)?.toUpperCase()}${value?.slice(
+              indexNumbers?.ONE,
+            )}`
           : 'N/A';
       },
     },

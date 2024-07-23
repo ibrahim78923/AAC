@@ -21,6 +21,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const LifeCycleStage = () => {
   const {
+    postLifeCyleStageLoading,
     isDraweropen,
     setIsDraweropen,
     productSearch,
@@ -46,36 +47,39 @@ const LifeCycleStage = () => {
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isDraweropen}
-        onClose={handleCloseDrawer}
-        title={`${isModalHeading} Lifecycle Stage`}
-        okText={isModalHeading === 'Edit' ? 'Update' : 'Add'}
-        footer={isModalHeading === 'View' ? false : true}
-        isOk={true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={LifeCycleStage}>
-            <Grid container spacing={4}>
-              {dataArray(isModalHeading)?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component
-                    {...item.componentProps}
-                    size={'small'}
-                  ></item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
+      {isDraweropen && (
+        <CommonDrawer
+          isDrawerOpen={isDraweropen}
+          onClose={handleCloseDrawer}
+          title={`${isModalHeading} Lifecycle Stage`}
+          okText={isModalHeading === 'Edit' ? 'Update' : 'Add'}
+          footer={isModalHeading === 'View' ? false : true}
+          isOk={true}
+          submitHandler={handleSubmit(onSubmit)}
+          isLoading={postLifeCyleStageLoading}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={LifeCycleStage}>
+              <Grid container spacing={4}>
+                {dataArray(isModalHeading)?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component
+                      {...item.componentProps}
+                      size={'small'}
+                    ></item.component>
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
 
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
           padding: '1rem',
-          boxShadow: '0px 1px 2px 0px #1018280F',
+          boxShadow: `0px 1px 2px 0px ${theme?.palette?.custom?.dark_shade_green}`,
           borderRadius: '8px',
         }}
       >
@@ -115,7 +119,7 @@ const LifeCycleStage = () => {
             label={'Search here'}
             searchBy={productSearch}
             setSearchBy={setproductSearch}
-            width="260px"
+            size="small"
           />
         </Box>
         <Grid>

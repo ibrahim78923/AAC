@@ -1,46 +1,25 @@
 import { Grid } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
 import {
   rolesFilterDefaultValues,
   rolesFiltersArray,
 } from './RoleFilters.data';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
+import { RoleFiltersProps } from '../Roles-inerface';
 
-const RoleFilters = (props: any) => {
+const RoleFilters = (props: RoleFiltersProps) => {
   const { isOpen, setIsOpen, filterVal, setFilterValues } = props;
 
-  const methods: any = useForm({
+  const methods = useForm({
     defaultValues: rolesFilterDefaultValues(filterVal),
   });
 
   const { handleSubmit } = methods;
-  // commented for future use if needed
-  // const startedDate = 0;
-  // const endedDate = 1;
 
   const onSubmit = async (values: any) => {
-    // commented for future use if needed
-    // Extract and format the date values separately
-    // const { date } = values;
-    // const dateStart = date?.[startedDate]
-    //   ? dayjs(date[startedDate])?.format(DATE_FORMAT?.API)
-    //   : null;
-    // const dateEnd = date?.[endedDate]
-    //   ? dayjs(date[endedDate])?.format(DATE_FORMAT?.API)
-    //   : null;
-
     const filteredValues = filteredEmptyValues?.(values);
-    // commented for future use if needed
-    // const finalValues = {
-    //   ...filteredValues,
-    //   dateStart,
-    //   dateEnd,
-    // };
-
     setFilterValues(filteredValues);
     setIsOpen(false);
   };

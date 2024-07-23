@@ -1,19 +1,12 @@
 import { useEffect, useState } from 'react';
-
 import { useRouter } from 'next/router';
-
 import { useTheme } from '@mui/material';
-
 import { useForm } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { addUserSchema } from '../RoleAndRights.data';
-
 import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 import { enqueueSnackbar } from 'notistack';
-
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { DRAWER_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { ORG_ADMIN } from '@/constants';
 import { useSearchParams } from 'next/navigation';
 import { getSession } from '@/utils';
@@ -24,9 +17,15 @@ const useAddRole = () => {
   const roleId = useSearchParams()?.get('id');
   const { user }: any = getSession();
   const { query } = navigate;
-  const disabled = query?.type === 'view';
-  const { useLazyGetPermissionsRolesByIdQuery, usePostPermissionRoleMutation } =
-    rolesAndRightsAPI;
+  const disabled = query?.type === DRAWER_TYPES?.VIEW;
+
+  const {
+    useLazyGetPermissionsRolesByIdQuery,
+    usePostPermissionRoleMutation,
+    useGetProductsPermissionsQuery,
+    useUpdateRoleRightsMutation,
+  } = rolesAndRightsAPI;
+
   const [postPermissionRole, { isLoading: loadingAddRole }] =
     usePostPermissionRoleMutation();
 
@@ -78,7 +77,7 @@ const useAddRole = () => {
     const data = viewPerdetails?.data;
     const fieldsToSet: any = {
       productId:
-        query?.type !== 'add'
+        query?.type !== DRAWER_TYPES?.ADD
           ? data
             ? {
                 _id: data?.productDetails?.id,
@@ -87,7 +86,7 @@ const useAddRole = () => {
             : null
           : null,
       organizationCompanyAccountId:
-        query?.type !== 'add'
+        query?.type !== DRAWER_TYPES?.ADD
           ? data
             ? {
                 _id: data?.companyAccountDetails?.id,
@@ -95,9 +94,9 @@ const useAddRole = () => {
               }
             : null
           : null,
-      name: query?.type !== 'add' ? data?.name : '',
-      description: query?.type !== 'add' ? data?.description : '',
-      status: query?.type !== 'add' ? data?.status : '',
+      name: query?.type !== DRAWER_TYPES?.ADD ? data?.name : '',
+      description: query?.type !== DRAWER_TYPES?.ADD ? data?.description : '',
+      status: query?.type !== DRAWER_TYPES?.ADD ? data?.status : '',
       permissions: permissionsArray || [],
     };
     for (const key in fieldsToSet) {
@@ -106,14 +105,16 @@ const useAddRole = () => {
   };
 
   useEffect(() => {
-    trigger(query?.type !== 'add' && roleId);
+    if (query?.type !== DRAWER_TYPES?.ADD && roleId) {
+      trigger(roleId);
+    }
   }, [roleId]);
 
   useEffect(() => {
     const data = viewPerdetails?.data;
 
     const permissionsArray =
-      query?.type === 'view' || query?.type === 'edit'
+      query?.type === DRAWER_TYPES?.VIEW || query?.type === DRAWER_TYPES?.EDIT
         ? data?.permissions?.flatMap(
             (item: any) =>
               item?.subModules?.flatMap(
@@ -128,9 +129,6 @@ const useAddRole = () => {
     setIsSwitchVal(!isSwitchVal);
   };
 
-  const { useGetProductsPermissionsQuery, useUpdateRoleRightsMutation } =
-    rolesAndRightsAPI;
-
   const {
     data: productPermissionsData,
     isLoading: loadingProduct,
@@ -140,8 +138,10 @@ const useAddRole = () => {
   });
 
   useEffect(() => {
-    refetch();
-  }, [productVal]);
+    if (productVal?._id) {
+      refetch();
+    }
+  }, [productVal?._id, refetch]);
 
   const [updateRoleRights, { isLoading: loadingUpdateRole }] =
     useUpdateRoleRightsMutation();
@@ -152,7 +152,7 @@ const useAddRole = () => {
     values.organizationCompanyAccountId =
       values?.organizationCompanyAccountId?._id;
     try {
-      if (query?.type === 'add') {
+      if (query?.type === DRAWER_TYPES?.ADD) {
         values.organizationId = user?.organization?._id;
         await postPermissionRole({ body: values });
       } else {
@@ -160,11 +160,11 @@ const useAddRole = () => {
       }
       navigate.push({
         pathname: ORG_ADMIN?.ROLES_AND_RIGHTS,
-        query: { type: 'add' },
+        query: { type: DRAWER_TYPES?.ADD },
       });
       enqueueSnackbar(
         `${
-          query?.type === 'add'
+          query?.type === DRAWER_TYPES?.ADD
             ? `Role has been Added successfully`
             : `Information Updated successfully`
         }`,
@@ -180,25 +180,26 @@ const useAddRole = () => {
       });
     }
   };
+
   return {
     productPermissionsData,
+    selectAllPermissions,
+    getModulePermissions,
+    loadingUpdateRole,
     viewPerdetails,
     setIsSwitchVal,
+    loadingProduct,
+    loadingAddRole,
     handleSubmit,
     handleSwitch,
     isSwitchVal,
     productVal,
-    loadingProduct,
     navigate,
     onSubmit,
     disabled,
+    refetch,
     methods,
     theme,
-    selectAllPermissions,
-    getModulePermissions,
-    loadingAddRole,
-    loadingUpdateRole,
-    refetch,
   };
 };
 

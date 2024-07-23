@@ -10,6 +10,7 @@ import RoleFilters from './RoleFilters';
 
 import { FilterSharedIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import ActionButton from './ActionButton';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const RolesAndRights = () => {
   const {
@@ -54,7 +55,7 @@ const RolesAndRights = () => {
           onClick={() => {
             navigate.push({
               pathname: ORG_ADMIN?.ADD_ROLE,
-              query: { type: 'add' },
+              query: { type: DRAWER_TYPES?.ADD },
             });
           }}
         >

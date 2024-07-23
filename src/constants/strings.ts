@@ -592,6 +592,10 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const ROLES_AND_RIGHTS_CONST = {
+  PERMISSIONS: 'permissions',
+};
+
 export const CONTACTS_CONSTANTS = {
   WHATSAPP_NUMBER: 'whatsAppNumber',
   PHONE_NUMBER: 'phoneNumber',

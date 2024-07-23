@@ -28,7 +28,9 @@ const useSalesEditorDrawer = ({
     useUpdateSalesProductMutation();
 
   const { data: productUsersById, isLoading: productsDataLoading } =
-    useGetSalesProductByIdQuery(selectedCheckboxes);
+    useGetSalesProductByIdQuery(selectedCheckboxes, {
+      skip: !selectedCheckboxes,
+    });
 
   const salesProduct = useForm({
     resolver: yupResolver(salesProductvalidationSchema),
