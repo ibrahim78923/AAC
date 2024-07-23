@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
-import { formStatus } from '../Forms.data';
+import { formStatus } from '@/constants/form-builder';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { generateFormHtml } from '@/utils/form-builder';
 import {
@@ -82,16 +82,16 @@ const useCreateForm = () => {
     };
 
     try {
-      if (status === formStatus.DRAFT) {
+      if (status === formStatus?.draft) {
         setLoadingDraft(true);
-      } else if (status === formStatus.PUBLISHED) {
+      } else if (status === formStatus?.published) {
         setLoadingPublished(true);
       }
       const response = await postCreateForm({ body: payload })?.unwrap();
       enqueueSnackbar(`Form saved as ${status} successfully`, {
         variant: 'success',
       });
-      if (status === formStatus?.PUBLISHED) {
+      if (status === formStatus?.published) {
         if (response) {
           setFormHtml(generateFormHtml(response?.data?.fields));
           handleOpenAlertCreatedForm();
@@ -102,9 +102,9 @@ const useCreateForm = () => {
         variant: 'error',
       });
     } finally {
-      if (status === formStatus.DRAFT) {
+      if (status === formStatus?.draft) {
         setLoadingDraft(false);
-      } else if (status === formStatus.PUBLISHED) {
+      } else if (status === formStatus?.published) {
         setLoadingPublished(false);
       }
     }
