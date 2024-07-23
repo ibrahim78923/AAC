@@ -17,13 +17,13 @@ import { DATE_FORMAT } from '@/constants';
 import { PAGINATION } from '@/config';
 
 const useFaqs = () => {
-  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [selectedRow, setSelectedRow] = useState<string[]>([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  const [rowId, setRowId] = useState(null);
+  const [rowId, setRowId] = useState<string | null>(null);
   const [modalTitle, setModalTitle] = useState('FAQ');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [searchValue, setSearchValue] = useState(null);
+  const [searchValue, setSearchValue] = useState<string | null>(null);
   const [filterParams, setFilterParams] = useState({});
   useEffect(() => {
     if (selectedRow?.length === 0) {
@@ -41,7 +41,7 @@ const useFaqs = () => {
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
-  const methodsFilter: any = useForm();
+  const methodsFilter = useForm();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
   const { data: dataGetFaqs, isLoading: loagingGetFaqs } = useGetFaqsQuery({

@@ -4,7 +4,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-export const editFaqsDataArray = (onViewDisabled: boolean, products: any) => {
+export const editFaqsDataArray = (products: any, onViewDisabled?: boolean) => {
   return [
     {
       md: 12,
