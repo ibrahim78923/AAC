@@ -1,17 +1,9 @@
-import { END_POINTS, OPERATION } from '@/routesConstants/endpoints';
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 const TAG = 'UPSERT_SALES_REPORT';
 
 export const UpsertSalesReportApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    postGenericReports: builder?.mutation({
-      query: (payload: any) => ({
-        url: `${OPERATION?.POST_GENERIC_REPORT}`,
-        method: 'POST',
-        body: payload,
-      }),
-      providesTags: [TAG],
-    }),
     dealsDropdown: builder.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DEALS_PIPELINE}`,
@@ -23,17 +15,7 @@ export const UpsertSalesReportApi = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
-    usersDropdown: builder?.query({
-      query: () => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}`,
-        method: 'GET',
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data;
-      },
-      providesTags: [TAG],
-    }),
-    dashboardDropdown: builder?.query({
+    salesDashboardDropdown: builder?.query({
       query: () => ({
         url: `${END_POINTS?.SALES_DASHBOARD_DROPDOWN}`,
         method: 'GET',
@@ -46,9 +28,5 @@ export const UpsertSalesReportApi = baseAPI?.injectEndpoints({
   }),
 });
 
-export const {
-  usePostGenericReportsMutation,
-  useLazyDealsDropdownQuery,
-  useLazyUsersDropdownQuery,
-  useLazyDashboardDropdownQuery,
-} = UpsertSalesReportApi;
+export const { useLazyDealsDropdownQuery, useLazySalesDashboardDropdownQuery } =
+  UpsertSalesReportApi;

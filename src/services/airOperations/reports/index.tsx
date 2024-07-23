@@ -1,4 +1,4 @@
-import { END_POINTS } from '@/routesConstants/endpoints';
+import { END_POINTS, OPERATION } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const salesReportsApi = baseAPI?.injectEndpoints({
@@ -146,6 +146,22 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+    postGenericReports: builder?.mutation({
+      query: (payload: any) => ({
+        url: `${OPERATION?.POST_GENERIC_REPORT}`,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+    usersDropdown: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
@@ -169,4 +185,6 @@ export const {
   useLazyGetSalesDashboardDropdownListToAddReportsToDashboardQuery,
   useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery,
   useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
+  usePostGenericReportsMutation,
+  useLazyUsersDropdownQuery,
 } = salesReportsApi;

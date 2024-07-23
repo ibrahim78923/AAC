@@ -7,11 +7,6 @@ import {
 } from './SaveReportDrawer.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect, useState } from 'react';
-import {
-  useLazyUsersDropdownQuery,
-  usePostGenericReportsMutation,
-  useLazyDashboardDropdownQuery,
-} from '@/services/airOperations/reports/sales-reports/upsert-sales-reports';
 import { CHARTS, REPORT_TYPE, FIELD_TYPE } from '@/constants/strings';
 import {
   SaveReportI,
@@ -19,7 +14,16 @@ import {
 } from './SaveReportDrawer.interface';
 
 export const useSaveReportDrawer = (props: any) => {
-  const { form, setOpen, reportId, setForm, metricType } = props;
+  const {
+    form,
+    setOpen,
+    reportId,
+    setForm,
+    metricType,
+    useLazyUsersDropdownQuery,
+    usePostGenericReportsMutation,
+    useLazyDashboardDropdownQuery,
+  } = props;
   const [reportValidation, setReportValidation] = useState<any>({
     selectSharedWith: '',
     selectAddToDashboard: '',

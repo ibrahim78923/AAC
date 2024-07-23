@@ -1,18 +1,10 @@
-import { END_POINTS, OPERATION } from '@/routesConstants/endpoints';
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 import { transformResponse } from '@/utils/api';
 const TAG = 'UPSERT_SERVICE_REPORT';
 
 export const UpsertServiceReportApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    postGenericReports: builder?.mutation({
-      query: (payload: any) => ({
-        url: `${OPERATION?.POST_GENERIC_REPORT}`,
-        method: 'POST',
-        body: payload,
-      }),
-      providesTags: [TAG],
-    }),
     assetTypeDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
@@ -42,16 +34,6 @@ export const UpsertServiceReportApi = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
-    usersDropdown: builder?.query({
-      query: () => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}`,
-        method: 'GET',
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data;
-      },
-      providesTags: [TAG],
-    }),
     categoriesDropdown: builder.query({
       query: () => ({
         url: `${END_POINTS?.CATEGORY_DROPDOWN}`,
@@ -71,7 +53,7 @@ export const UpsertServiceReportApi = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
     }),
-    dashboardDropdown: builder?.query({
+    serviceDashboardDropdown: builder?.query({
       query: () => ({
         url: `${END_POINTS?.SERVICE_DASHBOARD_DROPDOWN}`,
         method: 'GET',
@@ -85,12 +67,10 @@ export const UpsertServiceReportApi = baseAPI?.injectEndpoints({
 });
 
 export const {
-  usePostGenericReportsMutation,
   useLazyAssetTypeDropdownQuery,
   useLazyLocationDropdownQuery,
   useLazyDepartmentDropdownQuery,
-  useLazyUsersDropdownQuery,
   useLazyCategoriesDropdownQuery,
   useLazyVendorsDropdownQuery,
-  useLazyDashboardDropdownQuery,
+  useLazyServiceDashboardDropdownQuery,
 } = UpsertServiceReportApi;

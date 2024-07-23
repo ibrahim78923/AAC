@@ -9,12 +9,11 @@ import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { EditorState } from 'draft-js';
 import { CHARTS } from '@/constants/strings';
-import { DonutChart } from './DraggableFormFields/Chart/DonutChart';
-import { PieChart } from './DraggableFormFields/Chart/PieChart';
-import { BarChart } from './DraggableFormFields/Chart/BarChart';
 import { useRouter } from 'next/router';
-import { HorizontalBarChart } from './DraggableFormFields/Chart/HorizontalBarChart';
-
+import { HorizontalBarChart } from '@/components/GenericReport/DraggableFormFields/Chart/HorizontalBarChart';
+import { BarChart } from '@/components/GenericReport/DraggableFormFields/Chart/BarChart';
+import { DonutChart } from '@/components/GenericReport/DraggableFormFields/Chart/DonutChart';
+import { PieChart } from '@/components/GenericReport/DraggableFormFields/Chart/PieChart';
 export default function useUpsertSalesReports() {
   const [draggedItemData, setDraggedItemData] = useState<any>(null);
   const theme: any = useTheme();

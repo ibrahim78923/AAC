@@ -1,12 +1,17 @@
 import { Button, Grid } from '@mui/material';
-import DraggableFields from './DraggableFields';
-import { fieldsList } from './UpsertSalesReports.data';
+import {
+  fieldsList,
+  salesMetrics,
+  templateList,
+} from './UpsertSalesReports.data';
 import { DragDropContext } from 'react-beautiful-dnd';
-import DroppableArea from './DroppableArea';
 import useUpsertSalesReports from './useUpsertSalesReports';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_OPERATIONS, REPORTS_HEADER_TITLE } from '@/constants';
 import { FormProvider } from '@/components/ReactHookForm';
+import DroppableArea from '@/components/GenericReport/DroppableArea';
+import DraggableFields from '@/components/GenericReport/DraggableFields';
+import { GENERIC_REPORT_MODULES } from '@/constants/strings';
 
 export const UpsertSalesReports = () => {
   const {
@@ -74,12 +79,12 @@ export const UpsertSalesReports = () => {
                 text
                   ? REPORTS_HEADER_TITLE?.CREATE_TEXT
                   : table
-                  ? REPORTS_HEADER_TITLE?.CREATE_TABLE
-                  : chart
-                  ? REPORTS_HEADER_TITLE?.CREATE_CHART
-                  : counter
-                  ? REPORTS_HEADER_TITLE?.CREATE_COUNTER
-                  : REPORTS_HEADER_TITLE?.CREATE_REPORT
+                    ? REPORTS_HEADER_TITLE?.CREATE_TABLE
+                    : chart
+                      ? REPORTS_HEADER_TITLE?.CREATE_CHART
+                      : counter
+                        ? REPORTS_HEADER_TITLE?.CREATE_COUNTER
+                        : REPORTS_HEADER_TITLE?.CREATE_REPORT
               }
               canMovedBack
               moveBack={
@@ -178,6 +183,9 @@ export const UpsertSalesReports = () => {
               draggedItemData={draggedItemData}
               disableTemplate={disableTemplate}
               xAxisType={xAxisType}
+              templateList={templateList}
+              mainMetrics={salesMetrics}
+              selectedModule={GENERIC_REPORT_MODULES?.SALES}
             />
           </Grid>
         </Grid>

@@ -246,8 +246,8 @@ const CreateSMSBroadcast = () => {
                       {broadcastName === ''
                         ? 'Broadcast Name'
                         : broadcastName?.title
-                        ? broadcastName?.title
-                        : broadcastName}
+                          ? broadcastName?.title
+                          : broadcastName}
                       {/* {broadcastName ? broadcastName?.title : 'Broadcast Name'} */}
                     </Typography>
                     <Typography
