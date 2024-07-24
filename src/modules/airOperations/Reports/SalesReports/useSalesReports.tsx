@@ -49,6 +49,7 @@ export const useSalesReports = () => {
     apiQueryAllReports,
     apiQueryFavoriteReports,
     apiQueryDashboardReports,
+    apiQueryCustomReports,
     exportApiQueryDashboardReports,
     exportApiQueryFavoriteReports,
     exportApiQueryAllReports,

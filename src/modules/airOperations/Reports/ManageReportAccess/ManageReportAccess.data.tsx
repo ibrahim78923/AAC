@@ -103,7 +103,6 @@ export const specificUsersAccessFormFieldsDynamic = (
       <RHFRadioGroup
         name={`${name}.${index}.permission`}
         size="small"
-        fullWidth
         options={[
           {
             value: MANAGE_REPORT_ACCESS_TYPES?.EDIT_AND_VIEW,
@@ -119,7 +118,6 @@ export const specificUsersAccessFormFieldsDynamic = (
       <RHFRadioGroup
         name={`${name}.${index}.permission`}
         size="small"
-        fullWidth
         options={[
           {
             value: MANAGE_REPORT_ACCESS_TYPES?.ONLY_VIEW,
@@ -131,7 +129,6 @@ export const specificUsersAccessFormFieldsDynamic = (
 ];
 export const manageReportAccessFromFieldsDynamic = (
   apiQueryUsers: any,
-  productId: any,
   fields: any,
 ) => [
   {
@@ -181,9 +178,6 @@ export const manageReportAccessFromFieldsDynamic = (
                 multiple
                 size="small"
                 placeholder="Select users"
-                externalParams={{
-                  productId,
-                }}
                 getOptionLabel={(option: any) =>
                   `${option?.firstName} ${option?.lastName}`
                 }

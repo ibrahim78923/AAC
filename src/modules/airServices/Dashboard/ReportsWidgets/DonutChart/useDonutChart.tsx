@@ -1,7 +1,7 @@
 import { ITEMS_DATA_TYPE } from '../ReportsWidgets.data';
 
 export const useDonutChart = (props: any) => {
-  const { data, donutChart } = props;
+  const { data = { counts: [], items: [] }, donutChart } = props;
 
   const { items = [], counts = [] } = data;
 

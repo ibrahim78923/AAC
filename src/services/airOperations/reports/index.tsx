@@ -34,8 +34,9 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     addReportToFavoriteList: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
         method: 'PATCH',
+        body: apiDataParameter?.body,
         params: apiDataParameter?.queryParams,
       }),
     }),
@@ -150,6 +151,13 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+    getSingleGenericReportDetail: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.GET_SINGLE_GENERIC_REPORT_DETAIL,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -173,4 +181,5 @@ export const {
   useLazyGetSalesDashboardDropdownListToAddReportsToDashboardQuery,
   useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery,
   useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
+  useGetSingleGenericReportDetailQuery,
 } = salesReportsApi;

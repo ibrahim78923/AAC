@@ -222,6 +222,7 @@ export const AIR_OPERATIONS = {
   MARKETING_REPORTS_RESTORE: `/air-operations/reports/marketing-reports/restore`,
   UPSERT_ROLES: '/air-operations/roles-and-right/upsert-roles-and-right',
   UPSERT_GENERIC_REPORTS: `/air-operations/reports/upsert-generic-reports`,
+  SINGLE_GENERIC_REPORTS_DETAILS: `/air-operations/reports/single-report-view`,
 };
 
 export const AIR_CALL_CENTER = {

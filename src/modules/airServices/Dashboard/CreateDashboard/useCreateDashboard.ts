@@ -19,7 +19,6 @@ import {
   useLazyGetDashboardUserAccessListDropdownListForDashboardQuery,
   useUpdateSingleServicesDashboardMutation,
 } from '@/services/airServices/dashboard';
-import useAuth from '@/hooks/useAuth';
 import {
   errorSnackbar,
   filteredEmptyValues,
@@ -32,8 +31,6 @@ import { AIR_SERVICES } from '@/constants';
 export const useCreateDashboard = () => {
   const router = useRouter();
   const { dashboardId } = router?.query;
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
   const { action } = router?.query;
   const [isPortalOpen, setIsPortalOpen] = useState<any>({});
 
@@ -42,7 +39,7 @@ export const useCreateDashboard = () => {
     resolver: yupResolver(createDashboardValidationSchema?.()),
   });
 
-  const { handleSubmit, reset, setValue, control } = methods;
+  const { handleSubmit, reset, setValue, control, getValues } = methods;
 
   const { fields } = useFieldArray<any>({
     control,
@@ -81,16 +78,52 @@ export const useCreateDashboard = () => {
     defaultValue: dashboardWidgetsData,
   });
 
+  const setPermissions = () => {
+    const permissionUser = getValues('permissionsUsers');
+
+    const userMap = new Map(
+      specificUserWatch?.map((item: any) => [item?._id, item]),
+    );
+
+    const validUserIds = new Set(
+      specificUserWatch?.map((item: any) => item?._id),
+    );
+
+    const updatedPermissionUser = permissionUser
+      ?.filter((item: any) => validUserIds?.has(item?.userId))
+      ?.map((item: any) => {
+        const mappedUser: any = userMap?.get(item?.userId);
+        if (mappedUser) {
+          return {
+            ...item,
+            ...mappedUser,
+            name: `${mappedUser?.firstName} ${mappedUser?.lastName}`,
+            permission: item?.permission ?? '',
+          };
+        }
+        return item;
+      });
+
+    const newEntries = specificUserWatch
+      ?.filter(
+        (item: any) =>
+          !permissionUser?.some(
+            (existingItem: any) => existingItem?.userId === item?._id,
+          ),
+      )
+      ?.map((item: any) => ({
+        ...item,
+        name: `${item?.firstName} ${item?.lastName}`,
+        userId: item?._id,
+        permission: item?.permission ?? '',
+      }));
+
+    const finalResult = [...updatedPermissionUser, ...newEntries];
+    setValue('permissionsUsers', finalResult);
+  };
+
   useEffect(() => {
-    if (!!specificUserWatch?.length)
-      setValue(
-        'permissionsUsers',
-        specificUserWatch?.map((item: any) => ({
-          name: `${item?.firstName} ${item?.lastName}`,
-          userId: item?._id,
-          permission: item?.permission,
-        })),
-      );
+    setPermissions();
   }, [specificUserWatch]);
 
   const submitCreateDashboardFilterForm = async (
@@ -206,7 +239,7 @@ export const useCreateDashboard = () => {
     useLazyGetDashboardUserAccessListDropdownListForDashboardQuery?.();
 
   const upsertServiceDashboardFormFields =
-    upsertServiceDashboardFormFieldsDynamic?.(apiQueryUsers, productId, fields);
+    upsertServiceDashboardFormFieldsDynamic?.(apiQueryUsers, fields);
 
   useEffect(() => {
     reset(() => createDashboardDefaultValue(data?.data?.dashboard));

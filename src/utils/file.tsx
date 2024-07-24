@@ -1,6 +1,8 @@
 import { toPng } from 'html-to-image';
 import jsPDF from 'jspdf';
 import { errorSnackbar } from './api';
+import { parse } from 'json2csv';
+import * as XLSX from 'xlsx';
 
 export const downloadFile = (blob: any, name: any, type: any) => {
   const url = window?.URL?.createObjectURL?.(
@@ -53,7 +55,7 @@ export const htmlToPdfConvert = (elementRef: any, name = 'Pdf') => {
   const pdfWidth = pdf?.internal?.pageSize?.getWidth();
 
   toPng(elementRef?.current, { cacheBust: false })
-    ?.then((dataUrl) => {
+    ?.then((dataUrl: any) => {
       let imgHeight =
         (contentHeight * pdfWidth) / elementRef?.current?.clientWidth;
 
@@ -80,4 +82,20 @@ export const htmlToPngConvert = (elementRef: any, name = 'image') => {
     ?.catch((err) => {
       errorSnackbar(err?.message);
     });
+};
+
+export const exportDataToCSV = (dataToExport: any, name: any, type: any) => {
+  const csv = parse(dataToExport);
+  downloadFile?.(csv, name, type);
+};
+
+export const exportDataToXLS = (dataToExport: any, name: any, type: any) => {
+  const worksheet = XLSX?.utils?.json_to_sheet(dataToExport);
+  const workbook = XLSX?.utils?.book_new();
+  XLSX?.utils?.book_append_sheet(workbook, worksheet, 'Data');
+  const excelBuffer = XLSX?.write(workbook, {
+    bookType: 'xlsx',
+    type: 'array',
+  });
+  downloadFile?.(excelBuffer, name, type);
 };

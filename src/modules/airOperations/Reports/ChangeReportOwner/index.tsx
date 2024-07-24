@@ -20,7 +20,6 @@ export const ChangeReportOwner = (props: any) => {
     closeModal,
     reportOwnerApiQuery,
     changeReportOwnerStatus,
-    productId,
   }: any = useChangeReportOwner(props);
 
   return (
@@ -61,9 +60,6 @@ export const ChangeReportOwner = (props: any) => {
             apiQuery={reportOwnerApiQuery}
             size="small"
             placeholder="Choose Owner"
-            externalParams={{
-              productId,
-            }}
             getOptionLabel={(option: any) =>
               `${option?.firstName} ${option?.lastName}`
             }

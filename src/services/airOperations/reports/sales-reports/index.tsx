@@ -9,18 +9,6 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
-      transformResponse: (response: any) => {
-        if (response && response?.data) {
-          return {
-            ...response,
-            list: response?.data?.genericReports,
-            data: {
-              contracts: response?.data,
-              meta: response?.data?.meta,
-            },
-          };
-        }
-      },
     }),
     getAllFavoritesSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -28,18 +16,6 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
-      transformResponse: (response: any) => {
-        if (response && response?.data) {
-          return {
-            ...response,
-            list: response?.data?.genericReports,
-            data: {
-              contracts: response?.data,
-              meta: response?.data?.meta,
-            },
-          };
-        }
-      },
     }),
     getAllDashboardsSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -47,18 +23,6 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
-      transformResponse: (response: any) => {
-        if (response && response?.data) {
-          return {
-            ...response,
-            list: response?.data?.genericReports,
-            data: {
-              contracts: response?.data,
-              meta: response?.data?.meta,
-            },
-          };
-        }
-      },
     }),
     getAllCustomSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -66,18 +30,6 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
-      transformResponse: (response: any) => {
-        if (response && response?.data) {
-          return {
-            ...response,
-            list: response?.data?.genericReports,
-            data: {
-              contracts: response?.data,
-              meta: response?.data?.meta,
-            },
-          };
-        }
-      },
     }),
     exportAllSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -86,18 +38,6 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
       }),
-      transformResponse: (response: any) => {
-        if (response && response?.data) {
-          return {
-            ...response,
-            list: response?.data?.genericReports,
-            data: {
-              contracts: response?.data,
-              meta: response?.data?.meta,
-            },
-          };
-        }
-      },
     }),
     exportAllFavoritesSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -106,18 +46,6 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
       }),
-      transformResponse: (response: any) => {
-        if (response && response?.data) {
-          return {
-            ...response,
-            list: response?.data?.genericReports,
-            data: {
-              contracts: response?.data,
-              meta: response?.data?.meta,
-            },
-          };
-        }
-      },
     }),
     exportAllDashboardsSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -126,18 +54,6 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
       }),
-      transformResponse: (response: any) => {
-        if (response && response?.data) {
-          return {
-            ...response,
-            list: response?.data?.genericReports,
-            data: {
-              contracts: response?.data,
-              meta: response?.data?.meta,
-            },
-          };
-        }
-      },
     }),
     exportAllCustomSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -146,18 +62,6 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         params: apiDataParameter?.queryParams,
         responseHandler: (response: any) => response?.blob(),
       }),
-      transformResponse: (response: any) => {
-        if (response && response?.data) {
-          return {
-            ...response,
-            list: response?.data?.genericReports,
-            data: {
-              contracts: response?.data,
-              meta: response?.data?.meta,
-            },
-          };
-        }
-      },
     }),
     restoreSalesReportsList: builder?.query({
       query: (apiDataParameter: any) => ({

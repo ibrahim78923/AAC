@@ -1,5 +1,4 @@
 import { ARRAY_INDEX } from '@/constants/strings';
-import useAuth from '@/hooks/useAuth';
 import {
   useChangeReportOwnerMutation,
   useLazyGetReportsOwnersDropdownListForReportsQuery,
@@ -17,10 +16,6 @@ export const useChangeReportOwner = (props: any) => {
     getReportListData,
     selectedReportLists,
   } = props;
-
-  const auth: any = useAuth();
-
-  const { _id: productId } = auth?.product;
 
   const [changeReportOwnerTrigger, changeReportOwnerStatus] =
     useChangeReportOwnerMutation();
@@ -74,6 +69,5 @@ export const useChangeReportOwner = (props: any) => {
     closeModal,
     reportOwnerApiQuery,
     changeReportOwnerStatus,
-    productId,
   };
 };

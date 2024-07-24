@@ -6,6 +6,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 export const Table = (props: any) => {
   const { tableColumns, title } = props;
   const tableColumn = makeDynamicColumn(tableColumns);
+
   return (
     <Box
       borderRadius={3}

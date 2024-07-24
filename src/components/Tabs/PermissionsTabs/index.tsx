@@ -74,8 +74,13 @@ export const PermissionsTabs = (props: any) => {
       <Box sx={{ py: { md: 2, xs: 0.5 } }}>
         {filteredTabs?.map((child: any, index: any) => {
           return (
-            <Box key={index ?? child}>
-              {value === index && <child.component {...child.componentProps} />}
+            <Box key={child?._id}>
+              {value === index && (
+                <>
+                  <br />
+                  <child.component {...child?.componentProps} />
+                </>
+              )}
             </Box>
           );
         })}

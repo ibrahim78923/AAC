@@ -1,6 +1,10 @@
 import { PAGINATION } from '@/config';
 import { useEffect, useState } from 'react';
-import { EXPORT_FILE_TYPE, PRODUCT_USER_STATUS } from '@/constants/strings';
+import {
+  EXPORT_FILE_TYPE,
+  EXPORT_TYPE,
+  SELECTED_ARRAY_LENGTH,
+} from '@/constants/strings';
 import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   actionsForReportListsDynamic,
@@ -13,10 +17,14 @@ import { ChangeReportOwner } from '../ChangeReportOwner';
 import { EmailReport } from '../EmailReport';
 import { FilterReport } from '../FilterReport';
 import { ExportModal } from '@/components/ExportModal';
-import { downloadFile } from '@/utils/file';
+import { downloadFile, exportDataToCSV, exportDataToXLS } from '@/utils/file';
 import { useAddReportToFavoriteListMutation } from '@/services/airOperations/reports';
 import { ManageReportAccess } from '../ManageReportAccess';
 import { AddToDashboardReport } from '../AddToDashboardReport';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { fullName } from '@/utils/avatarUtils';
+import { MANAGE_REPORTS_ACCESS_TYPES_MAPPED } from '@/constants/api-mapped';
 
 export const useReportLists = (props: any) => {
   const {
@@ -70,13 +78,11 @@ export const useReportLists = (props: any) => {
 
   const addReportToFavorite = async (e: any, id: any) => {
     const body = {
-      status: e?.target?.checked
-        ? PRODUCT_USER_STATUS?.ACTIVE
-        : PRODUCT_USER_STATUS?.INACTIVE,
+      isFavorite: e?.target?.checked,
     };
 
     const apiDataParameter = {
-      pathParams: {
+      queryParams: {
         id,
       },
       body,
@@ -84,12 +90,64 @@ export const useReportLists = (props: any) => {
 
     try {
       await addReportToFavoriteListTrigger(apiDataParameter)?.unwrap();
+      successSnackbar?.('Report added to favourite');
+      const newPage =
+        lazyGetReportsListStatus?.data?.data?.genericReports?.length ===
+        SELECTED_ARRAY_LENGTH?.ONE
+          ? PAGINATION?.CURRENT_PAGE
+          : page;
+      setPage?.(newPage);
+      await getReportsList?.(newPage);
     } catch (error: any) {
       errorSnackbar?.(error?.data?.message);
+      const newPage =
+        lazyGetReportsListStatus?.data?.data?.genericReports?.length ===
+        SELECTED_ARRAY_LENGTH?.ONE
+          ? PAGINATION?.CURRENT_PAGE
+          : page;
+      setPage?.(newPage);
+      await getReportsList?.(newPage);
     }
   };
 
   const handleFileExportSubmit = async (type: any) => {
+    const exportData =
+      lazyGetReportsListStatus?.data?.data?.genericReports?.map(
+        (item: any) => ({
+          'Report Owner': fullName(
+            item?.owner?.firstName,
+            item?.owner?.lastName,
+          ),
+          'Report Name': item?.name ?? '---',
+          Dashboard: item?.dashboard?.name ?? '---',
+          Type: item?.type ?? '---',
+          'Created Date': !!item?.createdAt
+            ? dayjs(item?.createdAt)?.format(DATE_FORMAT?.UI)
+            : '---',
+          Assigned:
+            MANAGE_REPORTS_ACCESS_TYPES_MAPPED?.[item?.accessLevel?.type] ??
+            '---',
+          'Last Updated Date': !!item?.updatedAt
+            ? dayjs(item?.updatedAt)?.format(DATE_FORMAT?.UI)
+            : '---',
+        }),
+      );
+
+    if (type === EXPORT_TYPE?.CSV) {
+      exportDataToCSV?.(exportData, 'ReportsLists', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar(`File Exported successfully`);
+      setIsPortalOpen({});
+      return;
+    }
+    if (type === EXPORT_TYPE?.XLS) {
+      exportDataToXLS?.(exportData, 'ReportsLists', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar(`File Exported successfully`);
+      setIsPortalOpen({});
+      return;
+    }
+  };
+
+  const handleFileExportSubmits = async (type: any) => {
     const additionalParams = [
       ['page', page + ''],
       ['limit', pageLimit + ''],
@@ -194,5 +252,6 @@ export const useReportLists = (props: any) => {
     actionButtonDropdown,
     setSelectedReportLists,
     selectedReportLists,
+    handleFileExportSubmits,
   };
 };

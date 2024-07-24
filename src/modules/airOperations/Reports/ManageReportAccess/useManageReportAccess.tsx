@@ -16,7 +16,6 @@ import {
   useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
   useManageReportAccessMutation,
 } from '@/services/airOperations/reports';
-import useAuth from '@/hooks/useAuth';
 import { ARRAY_INDEX } from '@/constants/strings';
 
 export const useManageReportAccess = (props: any) => {
@@ -27,9 +26,6 @@ export const useManageReportAccess = (props: any) => {
     getReportListData,
     selectedReportLists,
   } = props;
-
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
 
   const [manageReportAccessTrigger, manageReportAccessStatus] =
     useManageReportAccessMutation();
@@ -94,12 +90,22 @@ export const useManageReportAccess = (props: any) => {
     delete body?.permissionsUsers;
     delete body?.dashboardWidgets;
 
+    const modifiedBody = {
+      accessLevel: {
+        type: body?.access,
+        access: body?.permissions,
+        ...(body?.access === MANAGE_REPORT_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS
+          ? { users: body?.specialUsers }
+          : {}),
+      },
+    };
+
     const apiDataParameter = {
       queryParams: {
         id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
       },
       body: {
-        ...body,
+        ...modifiedBody,
       },
     };
 
@@ -124,7 +130,6 @@ export const useManageReportAccess = (props: any) => {
 
   const manageReportAccessFromFields = manageReportAccessFromFieldsDynamic?.(
     apiQueryUsers,
-    productId,
     fields,
   );
 

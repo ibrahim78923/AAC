@@ -195,7 +195,7 @@ export const createDashboardDefaultValue = (
       ? data?.specialUsers?.map((user: any) => ({
           name: `${user?.name?.firstName} ${user?.name?.lastName}`,
           userId: user?.userId,
-          permission: user?.permission,
+          permission: user?.permission ?? '',
         }))
       : [],
     access: data?.access ?? '',
@@ -211,7 +211,6 @@ export const createDashboardDefaultValue = (
 
 export const upsertServiceDashboardFormFieldsDynamic = (
   apiQueryUsers: any,
-  productId: string,
   fields: SpecialUsersFieldsI[],
 ) => [
   {
@@ -300,10 +299,7 @@ export const upsertServiceDashboardFormFieldsDynamic = (
                 apiQuery={apiQueryUsers}
                 multiple
                 size="small"
-                placeholder="Select user and team"
-                externalParams={{
-                  productId,
-                }}
+                placeholder="Select users"
                 getOptionLabel={(option: UsersDropdownOptionI) =>
                   `${option?.firstName} ${option?.lastName}`
                 }
@@ -386,7 +382,6 @@ export const specificUsersAccessFormFieldsDynamic = (
       <RHFRadioGroup
         name={`${name}.${index}.permission`}
         size="small"
-        fullWidth
         options={[
           {
             value: MANAGE_DASHBOARD_ACCESS_TYPES?.EDIT_AND_VIEW,
@@ -402,7 +397,6 @@ export const specificUsersAccessFormFieldsDynamic = (
       <RHFRadioGroup
         name={`${name}.${index}.permission`}
         size="small"
-        fullWidth
         options={[
           {
             value: MANAGE_DASHBOARD_ACCESS_TYPES?.ONLY_VIEW,

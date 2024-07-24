@@ -470,6 +470,7 @@ export const END_POINTS = {
   HARD_DELETE_GENERIC_REPORTS: `/generic-reports/hard-delete-generic-reports`,
   CLONE_GENERIC_REPORTS: `/generic-reports/clone-generic-report`,
   UPDATE_GENERIC_REPORTS_ACTION: `/generic-reports/update-generic-report-action`,
+  GET_SINGLE_GENERIC_REPORT_DETAIL: `/generic-reports/get-generic-report-details`,
   CHANGE_DEFAULT_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/edit-default-option`,
 };
 
