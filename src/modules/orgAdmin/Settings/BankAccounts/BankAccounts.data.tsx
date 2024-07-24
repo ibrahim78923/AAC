@@ -2,8 +2,8 @@ import { capitalizeFirstLetter } from '@/utils/api';
 import { Checkbox } from '@mui/material';
 
 interface IBankAccountsColumns {
-  checkedRows: any;
-  setCheckedRows: any;
+  checkedRows: string[];
+  setCheckedRows: (value: string[]) => void;
   receiversData: any;
 }
 

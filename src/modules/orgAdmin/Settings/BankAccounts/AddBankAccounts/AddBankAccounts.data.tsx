@@ -1,51 +1,49 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
+import { useLazyGetCompanyAccountsListsQuery } from '@/services/common-APIs';
+import { getSession } from '@/utils';
 import * as Yup from 'yup';
 
 export const addAccountsFormValidationSchema = Yup?.object()?.shape({
-  // validation commented for future use
-  companyAccountName: Yup?.string()
-    // .matches(/^[a-zA-Z\s]+$/, 'Company account name must contain only alphabets')
-    ?.required('Field is Required'),
+  companyAccountName: Yup?.object()?.required('Field is Required')?.nullable(),
   bankName: Yup?.string()
-    // .matches(/^[a-zA-Z\s]+$/, 'Bank name must contain only alphabets')
+    .matches(/^[a-zA-Z\s]+$/, 'Bank name must contain only alphabets')
     ?.required('Field is Required'),
   accountHolder: Yup?.string()
-    // .matches(/^[a-zA-Z\s]+$/, 'Account holder must contain only alphabets')
+    .matches(/^[a-zA-Z\s]+$/, 'Account holder must contain only alphabets')
     ?.required('Field is Required'),
   accountNumber: Yup?.string()
-    // .matches(/^[0-9]+$/, 'Account number must contain only numbers')
+    .matches(/^[0-9]+$/, 'Account number must contain only numbers')
     ?.required('Field is Required'),
   sortCode: Yup?.string()
-    // .matches(/^[0-9]+$/, 'Sort code must contain only numbers')
+    .matches(/^[0-9]+$/, 'Sort code must contain only numbers')
     ?.required('Field is Required'),
 });
 
 export const addAccountsFormDefaultValues = {
-  companyAccountName: '',
+  companyAccountName: null,
   bankName: '',
   accountHolder: '',
   accountNumber: '',
   sortCode: '',
 };
 
-export const addAccountsForm = (companyAccounts: any) => {
+export const addAccountsForm = () => {
+  const { user }: any = getSession();
+
+  const companyAccounts = useLazyGetCompanyAccountsListsQuery();
   return [
     {
       componentProps: {
+        label: 'Company Account Name',
         name: 'companyAccountName',
-        label: 'Company Account name',
-        placeholder: 'Blling Frequency',
+        placeholder: 'Select Company Account',
         required: true,
-        fullWidth: true,
-        select: true,
+        apiQuery: companyAccounts,
+        getOptionLabel: (option: any) => option?.accountName,
+        externalParams: { orgId: user?.organization?._id },
+        queryKey: 'ordId',
       },
-      options: companyAccounts?.data?.organizationcompanyaccounts?.map(
-        (item: any) => ({
-          value: item?.accountName,
-          label: item?.accountName,
-        }),
-      ),
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       md: 12,
     },
     {

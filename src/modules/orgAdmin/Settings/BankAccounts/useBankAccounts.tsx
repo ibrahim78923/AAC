@@ -7,20 +7,24 @@ import {
 } from './AddBankAccounts/AddBankAccounts.data';
 import { receiversBankAccountsAPI } from '@/services/orgAdmin/settings/receivers-bank-acconts';
 import { PAGINATION } from '@/config';
+import { DRAWER_TYPES } from '@/constants/strings';
 
 const useBankAccounts = () => {
   const [checkedRows, setCheckedRows] = useState<string[]>([]);
   const [selectedValue, setSelectedValue] = useState(null);
+
   const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState({
     isToggle: false,
-    type: 'add',
-    data: [],
+    type: DRAWER_TYPES?.ADD,
+    recId: '',
   });
+
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [searchBy, setSearchBy] = useState();
   const [filterValues, setFilterValues] = useState({
     search: '',
   });
+
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
@@ -42,9 +46,9 @@ const useBankAccounts = () => {
     isSuccess,
   } = useGetReceiverBankAccountsQuery(receiversParams);
 
-  const [deleteReceiverBankAccount]: any =
+  const [deleteReceiverBankAccount, { isLoading: deleteAccountLoading }] =
     useDeleteReceiverBankAccountMutation();
-  const [postReceiverBankAccount]: any = usePostReceiverBankAccountMutation();
+  const [postReceiverBankAccount] = usePostReceiverBankAccountMutation();
 
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
@@ -54,7 +58,7 @@ const useBankAccounts = () => {
     setSelectedValue(null);
   };
 
-  const methods: any = useForm({
+  const methods = useForm({
     resolver: yupResolver(addAccountsFormValidationSchema),
     defaultValues: addAccountsFormDefaultValues,
   });
@@ -68,6 +72,7 @@ const useBankAccounts = () => {
   };
 
   return {
+    deleteAccountLoading,
     selectedValue,
     setSelectedValue,
     handleClick,

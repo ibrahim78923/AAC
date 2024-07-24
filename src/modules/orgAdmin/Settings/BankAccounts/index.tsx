@@ -10,6 +10,8 @@ import AddBankAccounts from './AddBankAccounts';
 const BankAccounts = () => {
   const theme = useTheme();
   const {
+    deleteReceiverBankAccount,
+    deleteAccountLoading,
     isOpenAddAccountDrawer,
     setIsOpenAddAccountDrawer,
     filterValues,
@@ -45,9 +47,10 @@ const BankAccounts = () => {
           />
           <Stack direction={{ sm: 'row' }} gap={1}>
             <ActionDropDown
+              deleteReceiverBankAccount={deleteReceiverBankAccount}
+              deleteAccountLoading={deleteAccountLoading}
               checkedRows={checkedRows}
               setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
-              isOpenAddAccountDrawer={isOpenAddAccountDrawer}
               setCheckedRows={setCheckedRows}
             />
             <Button

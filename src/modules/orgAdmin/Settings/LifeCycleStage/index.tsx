@@ -64,7 +64,7 @@ const LifeCycleStage = () => {
                 {dataArray(isModalHeading)?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component
-                      {...item.componentProps}
+                      {...item?.componentProps}
                       size={'small'}
                     ></item.component>
                   </Grid>
@@ -90,7 +90,7 @@ const LifeCycleStage = () => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">Life cycle Stages</Typography>
+          <Typography variant="h4">Life Cycle Stages</Typography>
           <PermissionsGuard
             permissions={[
               ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS?.CREATE_STAGES,
