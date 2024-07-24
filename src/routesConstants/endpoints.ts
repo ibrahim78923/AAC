@@ -581,6 +581,8 @@ export const OPERATION = {
   GET_IMPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
   GET_EXPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
   POST_GENERIC_REPORT: '/generic-reports',
+  PATCH_GENERIC_REPORT: '/generic-reports/update-generic-report',
+  GET_SINGLE_GENERIC_REPORT: '/generic-reports/get-generic-report-details',
 };
 
 export const AIR_SALES = {

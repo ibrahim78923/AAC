@@ -5,7 +5,7 @@ import { Grid } from '@mui/material';
 import { REPORT_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 
 export const SaveReportDrawer = (props: any) => {
-  const { open } = props;
+  const { open, reportId } = props;
   const {
     saveReportsMethods,
     watch,
@@ -15,6 +15,7 @@ export const SaveReportDrawer = (props: any) => {
     selectAddToNewDashboard,
     reportsArray,
     postGenericReportStatus,
+    patchGenericReportStatus,
   } = useSaveReportDrawer(props);
 
   return (
@@ -27,7 +28,11 @@ export const SaveReportDrawer = (props: any) => {
       okText="Apply"
       isOk={true}
       footer={true}
-      isLoading={postGenericReportStatus?.isLoading}
+      isLoading={
+        reportId
+          ? patchGenericReportStatus?.isLoading
+          : postGenericReportStatus?.isLoading
+      }
     >
       <FormProvider methods={saveReportsMethods}>
         <Grid container spacing={1}>

@@ -23,6 +23,7 @@ import {
   useLazySalesDashboardDropdownQuery,
   useLazyServiceDashboardDropdownQuery,
   usePostGenericReportsMutation,
+  usePatchGenericReportsMutation,
 } from '@/services/airOperations/reports/upsert-generic-reports';
 
 export const useSaveReportDrawer = (props: any) => {
@@ -85,6 +86,8 @@ export const useSaveReportDrawer = (props: any) => {
   const reportsArray = reportsDataArray(usersDropdown, dashboardDropdown);
   const [postGenericReportTrigger, postGenericReportStatus] =
     usePostGenericReportsMutation();
+  const [patchGenericReportTrigger, patchGenericReportStatus] =
+    usePatchGenericReportsMutation();
 
   const onSubmit = async (data: SaveReportI) => {
     const existingDashboardIds = data?.addToExistingCondition?.map(
@@ -192,6 +195,7 @@ export const useSaveReportDrawer = (props: any) => {
     };
     if (reportId) {
       try {
+        await patchGenericReportTrigger({ ...payload, id: reportId })?.unwrap();
         successSnackbar('Report Edit Successfully');
         setForm([]);
         handleCancel();
@@ -222,5 +226,6 @@ export const useSaveReportDrawer = (props: any) => {
     selectAddToNewDashboard,
     reportsArray,
     postGenericReportStatus,
+    patchGenericReportStatus,
   };
 };

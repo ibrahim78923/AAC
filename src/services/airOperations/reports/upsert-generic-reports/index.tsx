@@ -112,6 +112,22 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    patchGenericReports: builder?.mutation({
+      query: (payload: any, id: any) => ({
+        url: `${OPERATION?.PATCH_GENERIC_REPORT}`,
+        method: 'POST',
+        body: payload,
+        param: id,
+      }),
+      providesTags: [TAG],
+    }),
+    getSingleGenericReports: builder?.query({
+      query: (params: any) => ({
+        url: `${OPERATION?.GET_SINGLE_GENERIC_REPORT}?id=${params?.id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -127,4 +143,6 @@ export const {
   useLazySalesDashboardDropdownQuery,
   useLazyUsersDropdownQuery,
   useLazyMarketingDashboardDropdownQuery,
+  usePatchGenericReportsMutation,
+  useGetSingleGenericReportsQuery,
 } = UpsertGenericReportApi;
