@@ -91,6 +91,9 @@ export const AIR_SALES = {
   CATEOGRORY_REPORTS: path(AIR_SALES_PAGE, '/reports/categoryForecast-reports'),
   PIPELINE_REPORTS: path(AIR_SALES_PAGE, '/reports/pipelineForecast-reports'),
   CREATE_GOALS: path(AIR_SALES_PAGE, '/forecast/create-goal'),
+  SALES_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard'),
+  MANAGE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/manage'),
+  CREATE_DASHBOARD: path(AIR_SALES_PAGE, '/dashboard/create'),
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {

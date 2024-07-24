@@ -10,19 +10,37 @@ import Filters from './Filters';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { AIR_SALES } from '@/routesConstants/paths';
 
-const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
+const Manage = () => {
+  const router = useRouter();
   const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
 
   const [searchByName, setSearchByName] = useState('');
 
   const theme: any = useTheme();
 
+  const handelNavigate = () => {
+    router?.push({
+      pathname: `${AIR_SALES?.CREATE_DASHBOARD}`,
+      query: { id: '' },
+    });
+  };
+
   return (
     <Grid container style={{ paddingLeft: '20px' }}>
       <Grid item xs={6} sm={6} style={{ paddingLeft: '0px' }}>
         <Box sx={{ display: 'flex' }}>
-          <Box mt={0.7} onClick={() => toggle()} sx={{ cursor: 'pointer' }}>
+          <Box
+            mt={0.7}
+            onClick={() =>
+              router?.push({
+                pathname: `${AIR_SALES?.SALES_DASHBOARD}`,
+              })
+            }
+            sx={{ cursor: 'pointer' }}
+          >
             <ArrowLeft />
           </Box>
           <Typography
@@ -41,7 +59,7 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
             startIcon={<PlusIcon />}
             variant="contained"
             className="medium"
-            onClick={() => setIsShowCreateDashboardForm(true)}
+            onClick={handelNavigate}
           >
             Create Dashboard
           </Button>

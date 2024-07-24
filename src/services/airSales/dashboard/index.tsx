@@ -1,4 +1,4 @@
-import { SALES_DASHBOARD } from '@/routesConstants/endpoints';
+import { END_POINTS, SALES_DASHBOARD } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 const TAG = ['SALES_DASHBOARD'];
 
@@ -29,6 +29,17 @@ export const salesDashboardApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getSalesDashboardUserAccessListDropdownListForDashboard: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
   }),
 });
 
@@ -36,4 +47,6 @@ export const {
   useGetDealsCreatedQuery,
   useGetSalesDashboardsQuery,
   usePostSalesDashboardMutation,
+
+  useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
 } = salesDashboardApi;

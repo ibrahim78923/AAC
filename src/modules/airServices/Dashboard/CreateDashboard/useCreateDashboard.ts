@@ -229,7 +229,6 @@ export const useCreateDashboard = () => {
       source?.index,
       destination?.index,
     );
-
     const dragAndDropAlignment = alignArrays(reportsWatch, newItems);
     setValue('reports', dragAndDropAlignment);
     setValue('dashboardWidgets', newItems);

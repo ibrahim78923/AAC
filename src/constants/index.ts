@@ -547,3 +547,14 @@ export const PLAN_STATUS = {
   ACTIVE: 'ACTIVE',
   IN_ACTIVE: 'INACTIVE',
 };
+
+export const AIR_SALES_DASHBOARD_REPORTS_TYPES = {
+  DEALS_CREATED_VS_CLOSED: 'Deals created vs Closed Deals',
+  DEAL_REPORTS: 'Deal Reports',
+  MEETING_DETAILS: 'Meeting Details',
+  FORECAST_CATEGORY_REPORTS: 'Forecast Category Reports',
+  FORECAST_PIPELINE_REPORT: 'Forecast Pipeline Report',
+  TEAM_ACTIVITIES_BY_DATE: 'Team Activities by Activity Date',
+  TOTAL_DEALS_OPEN_DEALS:
+    'Total Deals, Open Deals, Team Goals, Closed/Won, Published Quotes',
+};
