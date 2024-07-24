@@ -53,7 +53,7 @@ export const PurchaseOrder = () => {
                 <Typography color={theme?.palette?.grey?.[900]}>
                   Cost:
                 </Typography>
-                <Typography>${singlePurchaseOrder?.subTotal}</Typography>
+                <Typography>£{singlePurchaseOrder?.subTotal}</Typography>
               </Box>
             </InventoryCard>
           </div>

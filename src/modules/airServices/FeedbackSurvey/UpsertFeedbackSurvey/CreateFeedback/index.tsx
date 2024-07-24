@@ -133,6 +133,7 @@ export const CreateFeedback = (props: any) => {
         <Button
           variant="outlined"
           color="secondary"
+          disabled={!sectionVerification}
           onClick={() => setCreateSurvey(feedbackValuesType?.survey)}
         >
           Back

@@ -98,10 +98,11 @@ export const useCustomerSupportList = (props: any) => {
   };
   const handleTitleClick = (surveyData: any) => {
     if (
-      getActivePermissionsSession()?.includes(
+      (getActivePermissionsSession()?.includes(
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_EDIT,
       ) &&
-      surveyData?.status === FEEDBACK_STATUS?.DRAFT
+        surveyData?.status === FEEDBACK_STATUS?.DRAFT) ||
+      surveyData?.status === FEEDBACK_STATUS?.INACTIVE
     ) {
       return router?.push({
         pathname: AIR_SERVICES?.UPSERT_FEEDBACK_SURVEY,
@@ -114,7 +115,7 @@ export const useCustomerSupportList = (props: any) => {
       getActivePermissionsSession()?.includes(
         AIR_SERVICES_FEEDBACK_SURVEY_PERMISSIONS?.CUSTOMER_SUPPORT_SURVEY_VIEW_RESPONSE,
       ) &&
-      surveyData?.status !== FEEDBACK_STATUS?.DRAFT
+      surveyData?.status === FEEDBACK_STATUS?.PUBLISHED
     ) {
       return router?.push({
         pathname: AIR_SERVICES?.FEEDBACK_SURVEY_RESPONSES,
