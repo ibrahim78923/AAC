@@ -538,7 +538,13 @@ export const PLAN_PRICE_TYPE_TAGS = {
 };
 export const PLAN_PAYMENT_TYPE_TAGS = {
   PAID_MONTHLY: 'paidMonthly',
+  MONTHLY: 'MONTHLY',
+  QUARTERLY: 'QUARTERLY',
+  HALF_YEARLY: 'HALF_YEARLY',
+  YEARLY: 'YEARLY',
+  ONE_TIME: 'ONE_TIME',
 };
+
 export const PLAN_PAYMENT = {
   FREE: 'Free',
   PAID: 'PAID',

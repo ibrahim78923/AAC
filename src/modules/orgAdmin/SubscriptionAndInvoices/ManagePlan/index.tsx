@@ -190,6 +190,7 @@ const ManagePlan = () => {
                       // label="Age"
                       onChange={handleChange}
                       disabled
+                      size="small"
                     >
                       <MenuItem value={'paidMonthly'}>Paid Monthly</MenuItem>
                       <MenuItem value={'paidQuarterly'}>
@@ -206,6 +207,7 @@ const ManagePlan = () => {
                   <CustomLabel label={'Max Additional User'} />
                   <TextField
                     type="number"
+                    size="small"
                     fullWidth
                     defaultValue={maxAddUsers}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -217,6 +219,7 @@ const ManagePlan = () => {
                   <CustomLabel label={'Additional Storage'} />
                   <TextField
                     type="number"
+                    size="small"
                     fullWidth
                     defaultValue={maxAddStorage}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

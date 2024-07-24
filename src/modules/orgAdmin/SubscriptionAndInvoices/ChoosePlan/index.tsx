@@ -110,7 +110,7 @@ const ChoosePlan = () => {
       additionalStorage: maxAdditionalStorage,
       billingDate: dayjs(Date.now())?.format(DATE_FORMAT?.API),
       status: PLAN_STATUS?.ACTIVE,
-      billingCycle: PLAN_PAYMENT_TYPE_TAGS?.PAID_MONTHLY,
+      billingCycle: PLAN_PAYMENT_TYPE_TAGS?.MONTHLY,
       planDiscount: 0,
       ...(isCRM && { isCRM: true }),
     };
@@ -268,7 +268,8 @@ const ChoosePlan = () => {
                             £{choosePlan?.planPrice}
                             <Box component={'span'}>/Month</Box>
                           </Typography>
-                          {choosePlan?.planType?.name === 'Free' ? null : (
+                          {/* choosePlan?.planType?.name === 'Free' ? null : */}
+                          {
                             <>
                               {parsedManageData?.planId === choosePlan?._id ? (
                                 <PermissionsGuard
@@ -286,20 +287,23 @@ const ChoosePlan = () => {
                                     ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
                                   ]}
                                 >
-                                  <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => {
-                                      setActivePlanToBuy(choosePlan),
-                                        setIsBuyPlan(true);
-                                    }}
-                                  >
-                                    Buy Plan
-                                  </Button>
+                                  {choosePlan?.planType?.name ===
+                                  'Free' ? null : (
+                                    <Button
+                                      variant="contained"
+                                      color="primary"
+                                      onClick={() => {
+                                        setActivePlanToBuy(choosePlan),
+                                          setIsBuyPlan(true);
+                                      }}
+                                    >
+                                      Buy Plan
+                                    </Button>
+                                  )}
                                 </PermissionsGuard>
                               )}
                             </>
-                          )}
+                          }
                         </TableCell>
                       );
                     })
@@ -385,7 +389,7 @@ const ChoosePlan = () => {
                                 <CounterMaxUser
                                   defaultUsers={
                                     parsedManageData?.planId === item?._id
-                                      ? parsedManageData?.additionalUsers
+                                      ? parsedManageData?.additionalUsers || 0
                                       : 0
                                   }
                                   setMaxAdditionalUsers={setMaxAdditionalUsers}
@@ -431,7 +435,7 @@ const ChoosePlan = () => {
                                 <CounterAdditionalStorage
                                   defaultUsers={
                                     parsedManageData?.planId === item?._id
-                                      ? parsedManageData?.additionalStorage
+                                      ? parsedManageData?.additionalStorage || 0
                                       : 0
                                   }
                                   setMaxAdditionalStorage={
