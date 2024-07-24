@@ -3,6 +3,10 @@ import { AlertModals } from '@/components/AlertModals';
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
+interface optionsArrayI {
+  value: string;
+  label: string;
+}
 
 const ExportModal = ({ setIsExport, isExport }: any) => {
   const methods = useForm();
@@ -26,7 +30,7 @@ const ExportModal = ({ setIsExport, isExport }: any) => {
               select={true}
               size="small"
             >
-              {optionsArray?.map((item: any) => (
+              {optionsArray?.map((item: optionsArrayI) => (
                 <option key={uuidv4()} value={item?.value}>
                   {item?.label}
                 </option>

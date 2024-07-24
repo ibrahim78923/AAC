@@ -27,6 +27,11 @@ import {
 } from '@/services/commonFeatures/email/gmail';
 import { setGmailTabType } from '@/redux/slices/email/gmail/slice';
 
+interface templateOptionsI {
+  value: string;
+  label: string;
+}
+
 const Draft = () => {
   const theme = useTheme();
 
@@ -46,7 +51,8 @@ const Draft = () => {
   const { data: foldersData } = useGetGmailFoldersQuery({});
 
   const fetchedSentFolder = foldersData?.data?.labels?.find(
-    (folder: any) => folder?.name?.toLowerCase() === EMAIL_TABS_TYPES?.SENT,
+    (folder: { name: string }) =>
+      folder?.name?.toLowerCase() === EMAIL_TABS_TYPES?.SENT,
   );
   const [postSendGmail, { isLoading: loadingOtherSend }] =
     usePostDraftSendGmailMutation();
@@ -165,7 +171,7 @@ const Draft = () => {
 
                 <Grid item xs={6}>
                   <RHFSelect name="template" label="Template" size="small">
-                    {options?.map((option: any) => (
+                    {options?.map((option: templateOptionsI) => (
                       <option key={uuidv4()} value={option?.value}>
                         {option?.label}
                       </option>

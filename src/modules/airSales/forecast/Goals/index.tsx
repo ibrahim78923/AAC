@@ -35,6 +35,14 @@ const Goals = () => {
     isDelete,
     setIsDelete,
     goalsData,
+    isLoading,
+    setPageLimit,
+    setPage,
+    isError,
+    isSuccess,
+    isFetching,
+    search,
+    setSearch,
   } = useGoals();
 
   return (
@@ -46,7 +54,12 @@ const Goals = () => {
         flexDirection={{ xs: 'column', sm: 'row' }}
         gap={1}
       >
-        <Search placeholder="Search" size="small" />
+        <Search
+          placeholder="Search by Name"
+          size="small"
+          searchBy={search}
+          setSearchBy={setSearch}
+        />
         <Box display="flex" gap={1} flexWrap="wrap">
           <Stack
             direction={{ xs: 'row' }}
@@ -126,6 +139,17 @@ const Goals = () => {
           )}
           data={goalsData?.goals}
           isPagination
+          isLoading={isLoading}
+          isError={isError}
+          isFetching={isFetching}
+          isSuccess={isSuccess}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+          currentPage={goalsData?.meta?.page}
+          count={goalsData?.meta?.pages}
+          pageLimit={goalsData?.meta?.limit}
+          totalRecords={goalsData?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
         />
       </Box>
       {isFilterDrawer && (

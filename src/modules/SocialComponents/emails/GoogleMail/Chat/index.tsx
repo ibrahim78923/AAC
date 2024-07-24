@@ -10,7 +10,7 @@ import { MAIL_TYPES } from '@/constants';
 const GmailChat = () => {
   const dispatch = useDispatch();
   const { data: foldersData } = useGetGmailFoldersQuery({});
-  const result = foldersData?.data?.labels?.find((item: any) => {
+  const result = foldersData?.data?.labels?.find((item: { name: string }) => {
     return item?.name?.toLowerCase() === 'inbox';
   });
 

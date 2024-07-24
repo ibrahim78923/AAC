@@ -1,7 +1,5 @@
 import HeaderInfoIcon from '@/assets/icons/shared/header-info';
 import { goalsStatus } from '@/constants';
-import { ARRAY_INDEX } from '@/constants/strings';
-import { isNullOrEmpty } from '@/utils';
 import {
   Box,
   Checkbox,
@@ -63,13 +61,20 @@ export const manageTableColumns: any = (
 
             <Box display="flex" gap={0.5}>
               <Typography fontSize="12px" fontWeight={500}>
-                {isNullOrEmpty(info?.row?.original?.contributorDetails)
-                  ? info?.row?.original?.teamDetails[ARRAY_INDEX?.ZERO]?.name
-                  : `${info?.row?.original?.contributorDetails[
-                      ARRAY_INDEX?.ZERO
-                    ]?.firstName} ${info?.row?.original?.contributorDetails[
-                      ARRAY_INDEX?.ZERO
-                    ]?.lastName}`}
+                {info?.row?.original?.contributorDetails &&
+                info?.row?.original?.contributorDetails?.length > 0
+                  ? info?.row?.original?.contributorDetails
+                      ?.map(
+                        (contributor: any) =>
+                          `${contributor?.firstName} ${contributor?.lastName}`,
+                      )
+                      .join(', ')
+                  : info?.row?.original?.teamDetails &&
+                      info?.row?.original?.teamDetails?.length > 0
+                    ? info?.row?.original?.teamDetails
+                        ?.map((team: any) => team?.name)
+                        .join(', ')
+                    : '--'}
               </Typography>
             </Box>
           </Box>
@@ -82,7 +87,7 @@ export const manageTableColumns: any = (
       id: 'type',
       header: 'Type',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: () => 'Sum',
     },
     {
       accessorFn: (row: any) => row?.goalName,
@@ -117,17 +122,13 @@ export const manageTableColumns: any = (
       isSortable: true,
       cell: (info: any) => {
         let sumOfMonths = 0;
-        for (const month in info?.row?.original?.targets[ARRAY_INDEX?.ZERO]
-          ?.months) {
-          if (
-            info?.row?.original?.targets[
-              ARRAY_INDEX?.ZERO
-            ].months?.hasOwnProperty(month)
-          ) {
-            sumOfMonths +=
-              info?.row?.original?.targets[ARRAY_INDEX?.ZERO]?.months[month];
+        info?.row?.original?.targets?.forEach((target: any) => {
+          for (const month in target?.months) {
+            if (target?.months?.hasOwnProperty(month)) {
+              sumOfMonths += target?.months[month];
+            }
           }
-        }
+        });
         return (
           <Typography fontSize="12px" fontWeight={500}>
             £ {sumOfMonths}

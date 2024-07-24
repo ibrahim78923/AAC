@@ -15,6 +15,11 @@ import { useMergeCompaniesMutation } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
+interface CompaniesDropdownI {
+  _id: number;
+  name: string;
+}
+
 const MergeModal = ({
   isMerge,
   setIsMerge,
@@ -66,7 +71,7 @@ const MergeModal = ({
             <Grid item lg={6}>
               <FormProvider methods={methods}>
                 <RHFSelect name="mergeCompanies" select={true} size="small">
-                  {companiesDropdown?.map((item: any) => (
+                  {companiesDropdown?.map((item: CompaniesDropdownI) => (
                     <option key={uuidv4()} value={item?._id}>
                       {item?.name}
                     </option>

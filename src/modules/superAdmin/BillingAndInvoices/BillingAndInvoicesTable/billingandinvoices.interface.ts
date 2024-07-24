@@ -54,6 +54,7 @@ export interface RowDataI {
   additionalUsers: number;
   additionalStorage: string;
   billingDate: string;
+  isCRM: boolean;
 }
 
 export interface CellInfoI {

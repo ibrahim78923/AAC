@@ -10,6 +10,7 @@ import {
 } from '@/services/superAdmin/billing-invoices';
 
 import * as Yup from 'yup';
+import { Organization, PlanType, Product } from './editForm.interface';
 
 export const validationSchema = Yup?.object()?.shape({
   clientName: Yup?.string()?.trim()?.required('Field is Required'),
@@ -55,7 +56,7 @@ export const assignPlanData = (
     refetchOnMountOrArgChange: true,
   });
 
-  const productSuite = productData?.data?.map((product: any) => ({
+  const productSuite = productData?.data?.map((product: Product) => ({
     value: product?._id,
     label: product?.name,
   }));
@@ -64,7 +65,7 @@ export const assignPlanData = (
     refetchOnMountOrArgChange: true,
   });
 
-  const planType = planTypeData?.data?.map((planType: any) => ({
+  const planType = planTypeData?.data?.map((planType: PlanType) => ({
     value: planType?._id,
     label: planType?.name,
   }));
@@ -73,10 +74,12 @@ export const assignPlanData = (
     refetchOnMountOrArgChange: true,
   });
 
-  const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
-    value: Organizations?._id,
-    label: Organizations?.name,
-  }));
+  const Organizations = OrganizationsData?.data?.map(
+    (Organizations: Organization) => ({
+      value: Organizations?._id,
+      label: Organizations?.name,
+    }),
+  );
 
   const options = selectProductSuite === 'product' ? productSuite : crmOptions;
 
@@ -88,6 +91,7 @@ export const assignPlanData = (
         fullWidth: true,
         select: true,
         disabled: isEditModal,
+        required: true,
       },
 
       options: Organizations,
@@ -106,6 +110,7 @@ export const assignPlanData = (
         fullWidth: true,
         select: true,
         disabled: isEditModal,
+        required: true,
       },
 
       options: options,
@@ -121,7 +126,7 @@ export const assignPlanData = (
         label: 'Plan Type',
         fullWidth: true,
         select: true,
-        disabled: isEditModal,
+        required: true,
       },
 
       options: planType,
@@ -208,6 +213,7 @@ export const assignPlanData = (
         label: 'Billing Cycle',
         fullWidth: true,
         select: true,
+        required: true,
       },
 
       options: [
@@ -227,6 +233,7 @@ export const assignPlanData = (
         name: 'date',
         label: 'Billing Date',
         fullWidth: true,
+        required: true,
       },
 
       component: RHFDatePicker,

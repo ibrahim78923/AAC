@@ -1,3 +1,4 @@
+import { PAGINATION } from '@/config';
 import { useGetForecastGoalsQuery } from '@/services/airSales/forecast';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
@@ -9,10 +10,25 @@ const useGoals = () => {
   const [tableRowValues, setTableRowValues] = useState();
   const [isEditDrawer, setIsEditDrawer] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<any>('');
+
+  const Params = {
+    page: page,
+    limit: pageLimit,
+    search: search,
+  };
 
   const open = Boolean(anchorEl);
 
-  const { data: goalsData } = useGetForecastGoalsQuery({});
+  const {
+    data: goalsData,
+    isLoading,
+    isError,
+    isSuccess,
+    isFetching,
+  } = useGetForecastGoalsQuery({ params: { ...Params } });
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -38,6 +54,14 @@ const useGoals = () => {
     isDelete,
     setIsDelete,
     goalsData,
+    isLoading,
+    setPageLimit,
+    setPage,
+    isError,
+    isSuccess,
+    isFetching,
+    search,
+    setSearch,
   };
 };
 

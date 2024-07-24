@@ -50,12 +50,19 @@ const Modules = ({
   const {
     data: productPermissionsData,
     isLoading: GetSinglePermissionsLoading,
-  } = useGetProductsPermissionsPlanQuery({
-    productId: planManagement?.addPlanForm?.productId,
-  });
-  const { data: modulesPermissions } = useGetPermissionsByProductsQuery({
-    id: planManagement?.addPlanForm?.productId,
-  });
+  } = useGetProductsPermissionsPlanQuery(
+    {
+      productId: planManagement?.addPlanForm?.productId,
+    },
+    { skip: isNullOrEmpty(planManagement?.addPlanForm?.productId) },
+  );
+
+  const { data: modulesPermissions } = useGetPermissionsByProductsQuery(
+    {
+      id: planManagement?.addPlanForm?.productId,
+    },
+    { skip: isNullOrEmpty(planManagement?.addPlanForm?.productId) },
+  );
 
   let productIdArray: string[] = [];
   if (!isNullOrEmpty(planManagement?.addPlanForm?.suite)) {
@@ -66,9 +73,12 @@ const Modules = ({
   let isLoadingMultiple;
   for (const productId of productIdArray) {
     const { data: modulesPermissions, isLoading } =
-      useGetPermissionsByProductsQuery({
-        id: productId,
-      });
+      useGetPermissionsByProductsQuery(
+        {
+          id: productId,
+        },
+        { skip: isNullOrEmpty(productId) },
+      );
     isLoadingMultiple = isLoading;
     modulesPermissionsArray.push(modulesPermissions);
   }
