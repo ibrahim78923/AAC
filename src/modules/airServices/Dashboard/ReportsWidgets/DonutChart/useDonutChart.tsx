@@ -14,7 +14,7 @@ export const useDonutChart = (props: any) => {
 
   const groupByValue = counts?.reduce((acc: any, item: any) => {
     if (acc[item?.value]) {
-      acc[item?.value].count += item?.count;
+      acc[item?.value]!.count += item?.count;
     } else {
       acc[item?.value] = { ...item };
     }
@@ -23,8 +23,13 @@ export const useDonutChart = (props: any) => {
 
   const uniqueCounts = Object?.values(groupByValue ?? {});
 
+  const seriesData = uniqueCounts
+    ?.filter((item: any) => item?.value)
+    ?.map((item: any) => item?.count);
+
   return {
     uniqueCounts,
     dataItems,
+    seriesData,
   };
 };

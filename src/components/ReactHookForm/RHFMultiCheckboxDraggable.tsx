@@ -52,11 +52,24 @@ export const RHFMultiCheckboxDraggable = (
                   const index = options?.findIndex(
                     (item: any) => item?.value === option?.value,
                   );
-                  return [
-                    ...selectedValues?.slice?.(0, index),
-                    option?.value,
-                    ...selectedValues?.slice?.(index),
-                  ];
+
+                  const updatedSelectedValues = [...selectedValues];
+
+                  if (index !== -1) {
+                    const insertionIndex = options
+                      ?.slice?.(0, index)
+                      ?.map((item: any) => item?.value)
+                      ?.filter((value: any) => selectedValues?.includes(value))
+                      ?.length;
+
+                    updatedSelectedValues?.splice?.(
+                      insertionIndex,
+                      0,
+                      option?.value,
+                    );
+                  }
+
+                  return updatedSelectedValues;
                 }
               };
 

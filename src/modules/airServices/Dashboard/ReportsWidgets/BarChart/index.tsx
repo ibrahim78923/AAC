@@ -1,6 +1,6 @@
 import { CustomChart } from '@/components/Chart';
 import { useBarChart } from './useBarChart';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import NoData from '@/components/NoData';
 
@@ -16,9 +16,7 @@ export const BarChart = (props: any) => {
       borderColor="custom.off_white"
       height="100%"
     >
-      <PageTitledHeader title={title}>
-        {isDateFilter && <Button></Button>}
-      </PageTitledHeader>
+      <PageTitledHeader title={title}>{isDateFilter && <></>}</PageTitledHeader>
       {!!seriesData?.length ? (
         <CustomChart
           options={options}
