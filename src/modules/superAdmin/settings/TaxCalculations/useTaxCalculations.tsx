@@ -15,15 +15,16 @@ import {
   addTaxFormValidationSchema,
 } from './TaxCalculations.data';
 import { PAGINATION } from '@/config';
+import { AddTaxFormValuesI, FilterValuesI } from './TaxCalculations.interface';
 
 const useTaxCalculations = () => {
-  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [selectedRow, setSelectedRow] = useState<string[]>([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
-  const [filterParams, setFilterParams] = useState({});
+  const [filterParams, setFilterParams] = useState<Record<string, any>>({});
   const paginationParams = {
     page: page,
     limit: pageLimit,
@@ -33,7 +34,7 @@ const useTaxCalculations = () => {
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
-  const methodsFilter: any = useForm();
+  const methodsFilter = useForm<FilterValuesI>();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
   const { data: dataGetTaxCalculation, isLoading: loagingGetTaxCalculation } =
@@ -63,7 +64,7 @@ const useTaxCalculations = () => {
     resetFilters();
   };
 
-  const onSubmitFilters = async (values: any) => {
+  const onSubmitFilters = async (values: FilterValuesI) => {
     const { createdDate, ...others } = values;
     const dateStart = createdDate?.[0]
       ? dayjs(createdDate[0]).format(DATE_FORMAT.API)
@@ -72,7 +73,7 @@ const useTaxCalculations = () => {
       ? dayjs(createdDate[1]).format(DATE_FORMAT.API)
       : null;
     setFilterParams((prev) => {
-      const updatedParams = {
+      const updatedParams: Record<string, any> = {
         ...prev,
         ...others,
       };
@@ -102,7 +103,7 @@ const useTaxCalculations = () => {
   const [isAddTaxCalculationDrawerOpen, setIsAddTaxCalculationDrawerOpen] =
     useState(false);
 
-  const methodsAddTaxForm = useForm({
+  const methodsAddTaxForm = useForm<AddTaxFormValuesI>({
     resolver: yupResolver(addTaxFormValidationSchema),
     defaultValues: addTaxFormDefaultValues,
   });
@@ -119,7 +120,7 @@ const useTaxCalculations = () => {
     resetAddTaxForm();
   };
 
-  const onSubmitAddTax = async (values: any) => {
+  const onSubmitAddTax = async (values: AddTaxFormValuesI) => {
     const payLoad = {
       ...values,
       percentage: Number(values?.percentage),
@@ -159,7 +160,7 @@ const useTaxCalculations = () => {
   };
 
   // Update Tax
-  const methodsEditTaxForm = useForm({
+  const methodsEditTaxForm = useForm<AddTaxFormValuesI>({
     resolver: yupResolver(addTaxFormValidationSchema),
     defaultValues: addTaxFormDefaultValues,
   });
@@ -182,7 +183,7 @@ const useTaxCalculations = () => {
   const handleCloseDrawerEditTax = () => {
     setOpenDrawerEditTax(false);
   };
-  const onSubmitEditJob = async (values: any) => {
+  const onSubmitEditJob = async (values: AddTaxFormValuesI) => {
     try {
       await updateTax({ id: rowId, body: values })?.unwrap();
       handleCloseDrawerEditTax();

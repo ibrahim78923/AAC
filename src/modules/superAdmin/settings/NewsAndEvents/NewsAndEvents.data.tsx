@@ -2,21 +2,9 @@ import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import { DATE_FORMAT } from '@/constants';
 import { Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import * as Yup from 'yup';
 import RowSelection from '@/components/RowSelection';
 import RowSelectionAll from '@/components/RowSelectionAll';
-
-export const newsAndEventsDateValidationSchema = Yup.object().shape({
-  createdDate: Yup?.date()?.required('Field is Required'),
-  status: Yup?.string(),
-  type: Yup?.string(),
-});
-
-export const newsAndEventsDateDefaultValues = {
-  createdDate: null,
-  status: '',
-  type: '',
-};
+import { ColumnsPropsI, RowDataI } from './NewsAndEvents.interface';
 
 export const newsAndEventsDateFiltersDataArray = [
   {
@@ -56,10 +44,10 @@ export const newsAndEventsDateFiltersDataArray = [
   },
 ];
 
-export const columns = (selectedRow: any, setSelectedRow: any, theme: any) => {
+export const columns: ColumnsPropsI = (selectedRow, setSelectedRow, theme) => {
   return [
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: RowDataI) => row?._id,
       id: '_id',
       isSortable: false,
       header: (info: any) => {
@@ -85,14 +73,14 @@ export const columns = (selectedRow: any, setSelectedRow: any, theme: any) => {
       },
     },
     {
-      accessorFn: (row: any) => row?.name,
+      accessorFn: (row: RowDataI) => row?.name,
       id: 'name',
       cell: (info: any) => info?.getValue(),
       header: 'Name',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.description,
+      accessorFn: (row: RowDataI) => row?.description,
       id: 'description',
       isSortable: true,
       header: 'Description',
@@ -101,7 +89,7 @@ export const columns = (selectedRow: any, setSelectedRow: any, theme: any) => {
       },
     },
     {
-      accessorFn: (row: any) => row?.type,
+      accessorFn: (row: RowDataI) => row?.type,
       id: 'type',
       isSortable: true,
       header: 'Type',
@@ -113,14 +101,14 @@ export const columns = (selectedRow: any, setSelectedRow: any, theme: any) => {
       },
     },
     {
-      accessorFn: (row: any) => row?.createdAt,
+      accessorFn: (row: RowDataI) => row?.createdAt,
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date & Time',
       cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: RowDataI) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',

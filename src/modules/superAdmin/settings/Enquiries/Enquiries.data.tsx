@@ -3,6 +3,8 @@ import * as Yup from 'yup';
 import RowSelection from '@/components/RowSelection';
 import RowSelectionAll from '@/components/RowSelectionAll';
 import { Box, CircularProgress, MenuItem, Select } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
+import { RowDataI, ColumnsProps } from './Enquiries.Interface';
 
 export const enquiriesFiltersValidationSchema = Yup.object().shape({
   candidates: Yup.string().trim().required('Field is Required'),
@@ -30,16 +32,16 @@ export const enquiriesFiltersFiltersDataArray = [
   },
 ];
 
-export const columns: any = (
-  selectedRow: any,
-  setSelectedRow: any,
-  setSelectedRowData: any,
-  handleStatusChange: any,
-  patchEnquiriesStatus: any,
+export const columns: ColumnsProps = (
+  selectedRow,
+  setSelectedRow,
+  setSelectedRowData,
+  handleStatusChange,
+  patchEnquiriesStatus,
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: RowDataI) => row?._id,
       id: '_id',
       isSortable: false,
       header: (info: any) => {
@@ -68,42 +70,42 @@ export const columns: any = (
       },
     },
     {
-      accessorFn: (row: any) => row?.name,
+      accessorFn: (row: RowDataI) => row?.name,
       id: 'name',
       cell: (info: any) => info?.getValue() ?? '--',
       header: 'Name',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.companyAccount,
+      accessorFn: (row: RowDataI) => row?.companyAccount,
       id: 'companyAccount',
       isSortable: true,
       header: 'Company Name',
       cell: (info: any) => info?.getValue()?.accountName ?? '--',
     },
     {
-      accessorFn: (row: any) => row?.email,
+      accessorFn: (row: RowDataI) => row?.email,
       id: 'email',
       isSortable: true,
       header: 'Email',
       cell: (info: any) => info?.getValue() ?? '--',
     },
     {
-      accessorFn: (row: any) => row?.phoneNumber,
+      accessorFn: (row: RowDataI) => row?.phoneNumber,
       id: 'phoneNumber',
       isSortable: true,
       header: 'Phone Number',
       cell: (info: any) => info?.getValue() ?? '--',
     },
     {
-      accessorFn: (row: any) => row?.query,
+      accessorFn: (row: RowDataI) => row?.query,
       id: 'query',
       isSortable: true,
       header: 'Comments',
       cell: (info: any) => info?.getValue() ?? '--',
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: RowDataI) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
@@ -117,7 +119,7 @@ export const columns: any = (
             <Select
               value={info?.getValue()}
               label={''}
-              onChange={(event: any) =>
+              onChange={(event: SelectChangeEvent) =>
                 handleStatusChange?.(info?.row?.original, event)
               }
               disabled={patchEnquiriesStatus?.isLoading}
