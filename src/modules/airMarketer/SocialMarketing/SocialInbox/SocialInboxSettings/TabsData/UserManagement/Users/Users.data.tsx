@@ -6,6 +6,7 @@ import useUsers from './useUsers';
 import { useLazyGetTeamsListQuery } from '@/services/airSales/settings/teams';
 import { useLazyGetCompanyAccountsRolesListQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const userValidationSchema = Yup?.object()?.shape({
   firstName: Yup?.string()
@@ -222,7 +223,7 @@ export const columnsUser = (
     {
       accessorFn: (row: any) => row?.username,
       id: 'name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
       header: 'Name',
       isSortable: true,
     },

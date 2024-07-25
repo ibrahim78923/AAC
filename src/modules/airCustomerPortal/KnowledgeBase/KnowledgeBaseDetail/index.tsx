@@ -58,7 +58,7 @@ export const KnowledgeBaseDetail = () => {
           <SkeletonTable />
         ) : (
           <>
-            <Box height={'35rem'} overflow={'scroll'}>
+            <Box height={'34rem'} overflow={'scroll'}>
               {!!articlesData?.length ? (
                 articlesData?.map((item: any) => (
                   <KnowledgeBaseTicket

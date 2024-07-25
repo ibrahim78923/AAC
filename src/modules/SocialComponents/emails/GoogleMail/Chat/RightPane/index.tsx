@@ -104,7 +104,7 @@ const RightPane = () => {
     }
   }, [activeGmailRecord?.threadId]);
 
-  const handelMoreinfo = (id: any) => {
+  const handelMoreinfo = (id: string) => {
     if (selectedRecordId === id) {
       setSelectedRecordId('');
     } else {
@@ -267,7 +267,7 @@ const RightPane = () => {
                               <Box flex={1} sx={{ cursor: 'pointer' }}>
                                 <Typography variant="h5">
                                   {obj?.payload?.headers?.find(
-                                    (header: any) =>
+                                    (header: { name: string }) =>
                                       header?.name === Gmail_CONST?.FROM,
                                   )?.value ?? '--'}
                                 </Typography>
@@ -277,13 +277,13 @@ const RightPane = () => {
                                     To:
                                   </span>{' '}
                                   {obj?.payload?.headers?.find(
-                                    (header: any) =>
+                                    (header: { name: string }) =>
                                       header?.name === Gmail_CONST?.TO,
                                   )?.value ?? '--'}
                                 </Typography>
 
                                 {obj?.payload?.headers?.find(
-                                  (header: any) =>
+                                  (header: { name: string }) =>
                                     header?.name === Gmail_CONST?.Cc,
                                 )?.value && (
                                   <Typography variant="body2">
@@ -292,14 +292,14 @@ const RightPane = () => {
                                       CC:
                                     </span>{' '}
                                     {obj?.payload?.headers?.find(
-                                      (header: any) =>
+                                      (header: { name: string }) =>
                                         header?.name === Gmail_CONST?.Cc,
                                     )?.value ?? '--'}
                                   </Typography>
                                 )}
 
                                 {obj?.payload?.headers?.find(
-                                  (header: any) =>
+                                  (header: { name: string }) =>
                                     header?.name === Gmail_CONST?.BCC,
                                 )?.value && (
                                   <Typography variant="body2">
@@ -308,7 +308,7 @@ const RightPane = () => {
                                       Bcc:
                                     </span>{' '}
                                     {obj?.payload?.headers?.find(
-                                      (header: any) =>
+                                      (header: { name: string }) =>
                                         header?.name === Gmail_CONST?.BCC,
                                     )?.value ?? '--'}
                                   </Typography>
@@ -347,41 +347,41 @@ const RightPane = () => {
                                           id: obj?.id,
                                           from:
                                             obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.FROM,
                                             )?.value === loggedInState
                                               ? obj?.payload?.headers?.find(
-                                                  (header: any) =>
+                                                  (header: { name: string }) =>
                                                     header?.name ===
                                                     Gmail_CONST?.TO,
                                                 )?.value
                                               : obj?.payload?.headers?.find(
-                                                  (header: any) =>
+                                                  (header: { name: string }) =>
                                                     header?.name ===
                                                     Gmail_CONST?.FROM,
                                                 )?.value,
                                           others: {
                                             from: `${obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.FROM,
                                             )?.value}
                                     ${'>'}`,
                                             sent: obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.DATE,
                                             )?.value,
                                             to: ` ${obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.FROM,
                                             )?.value}
                                     ${'>'}`,
                                             subject:
                                               obj?.payload?.headers?.find(
-                                                (header: any) =>
+                                                (header: { name: string }) =>
                                                   header?.name ===
                                                   Gmail_CONST?.SUBJECT,
                                               )?.value,
@@ -405,41 +405,41 @@ const RightPane = () => {
                                           id: obj?.id,
                                           from:
                                             obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.FROM,
                                             )?.value === loggedInState
                                               ? obj?.payload?.headers?.find(
-                                                  (header: any) =>
+                                                  (header: { name: string }) =>
                                                     header?.name ===
                                                     Gmail_CONST?.TO,
                                                 )?.value
                                               : obj?.payload?.headers?.find(
-                                                  (header: any) =>
+                                                  (header: { name: string }) =>
                                                     header?.name ===
                                                     Gmail_CONST?.FROM,
                                                 )?.value,
                                           others: {
                                             from: `${obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.FROM,
                                             )?.value}
                                     ${'>'}`,
                                             sent: obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.DATE,
                                             )?.value,
                                             to: ` ${obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.FROM,
                                             )?.value}
                                     ${'>'}`,
                                             subject:
                                               obj?.payload?.headers?.find(
-                                                (header: any) =>
+                                                (header: { name: string }) =>
                                                   header?.name ===
                                                   Gmail_CONST?.SUBJECT,
                                               )?.value,
@@ -488,41 +488,41 @@ const RightPane = () => {
                                           // messageBody: obj?.snippet,
                                           from:
                                             obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.FROM,
                                             )?.value === loggedInState
                                               ? obj?.payload?.headers?.find(
-                                                  (header: any) =>
+                                                  (header: { name: string }) =>
                                                     header?.name ===
                                                     Gmail_CONST?.TO,
                                                 )?.value
                                               : obj?.payload?.headers?.find(
-                                                  (header: any) =>
+                                                  (header: { name: string }) =>
                                                     header?.name ===
                                                     Gmail_CONST?.FROM,
                                                 )?.value,
                                           others: {
                                             from: `${obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.FROM,
                                             )?.value}
                                     ${'>'}`,
                                             sent: obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.DATE,
                                             )?.value,
                                             to: ` ${obj?.payload?.headers?.find(
-                                              (header: any) =>
+                                              (header: { name: string }) =>
                                                 header?.name ===
                                                 Gmail_CONST?.FROM,
                                             )?.value}
                                     ${'>'}`,
                                             subject:
                                               obj?.payload?.headers?.find(
-                                                (header: any) =>
+                                                (header: { name: string }) =>
                                                   header?.name ===
                                                   Gmail_CONST?.SUBJECT,
                                               )?.value,
@@ -603,7 +603,7 @@ const RightPane = () => {
                                   <Typography variant="body3">
                                     <strong>From :</strong>
                                     {obj?.payload?.headers?.find(
-                                      (header: any) =>
+                                      (header: { name: string }) =>
                                         header?.name === Gmail_CONST?.FROM,
                                     )?.value ?? '--'}
                                   </Typography>
@@ -613,7 +613,7 @@ const RightPane = () => {
                                     <strong>Sent :</strong>{' '}
                                     {dayjs(
                                       obj?.payload?.headers?.find(
-                                        (header: any) =>
+                                        (header: { name: string }) =>
                                           header?.name === Gmail_CONST?.DATE,
                                       )?.value ?? '--',
                                     ).format(DATE_TIME_FORMAT?.MMMDDYYYY)}
@@ -623,7 +623,7 @@ const RightPane = () => {
                                   <Typography variant="body3">
                                     <strong>To : </strong>
                                     {obj?.payload?.headers?.find(
-                                      (header: any) =>
+                                      (header: { name: string }) =>
                                         header?.name === Gmail_CONST?.TO,
                                     )?.value ?? '--'}
                                   </Typography>
@@ -632,7 +632,7 @@ const RightPane = () => {
                                   <Typography variant="body3">
                                     <strong>Subject : </strong>{' '}
                                     {obj?.payload?.headers?.find(
-                                      (header: any) =>
+                                      (header: { name: string }) =>
                                         header?.name === Gmail_CONST?.SUBJECT,
                                     )?.value ?? '--'}
                                   </Typography>

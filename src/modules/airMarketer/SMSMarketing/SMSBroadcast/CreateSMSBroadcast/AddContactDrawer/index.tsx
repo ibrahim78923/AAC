@@ -17,11 +17,19 @@ const AddContactDrawer = (props: any) => {
     setSelectedRec,
     setSelectedContactsData,
   } = props;
-  const { onSubmit, handleSubmit, radioVal, methods } = useAddContactDrawer(
-    onClose,
-    setSelectedContactsData,
-    selectedRec,
-  );
+  const {
+    onSubmit,
+    handleSubmit,
+    radioVal,
+    methods,
+    allContactsData,
+    setPageLimit,
+    setPage,
+  } = useAddContactDrawer(onClose, setSelectedContactsData, selectedRec);
+
+  useEffect(() => {
+    setSelectedRec([]);
+  }, [radioVal]);
 
   useEffect(() => {
     setSelectedRec([]);
@@ -59,6 +67,9 @@ const AddContactDrawer = (props: any) => {
           <AllContacts
             setSelectedRec={setSelectedRec}
             selectedRec={selectedRec}
+            allContactsData={allContactsData}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
           />
         ) : (
           <GroupContacts

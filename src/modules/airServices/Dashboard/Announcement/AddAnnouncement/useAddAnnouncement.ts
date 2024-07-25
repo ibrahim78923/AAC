@@ -5,30 +5,39 @@ import {
 } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 
 import {
   createAddAnnouncementDataArray,
   createAddAnnouncementDefaultValues,
   createAddAnnouncementValidationSchema,
+  DATE_DIFFERENCE,
 } from './AddAnnouncement.data';
-import useAuth from '@/hooks/useAuth';
 
 export const useAddAnnouncement = (props: any) => {
   const { setIsPortalOpen } = props;
-  const auth: any = useAuth();
-  const { _id: productId } = auth?.product;
 
   const methods: any = useForm({
     resolver: yupResolver(createAddAnnouncementValidationSchema),
     defaultValues: createAddAnnouncementDefaultValues,
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, control } = methods;
 
   const [postAnnouncementTrigger, postAnnouncementStatus] =
     usePostAnnouncementMutation();
 
+  const startDateWatch = useWatch({
+    control,
+    name: 'startDate',
+    defaultValue: null,
+  });
+
   const submit = async (data: any) => {
+    if (!!data?.endDate) {
+      const dateDifference = data?.endDate - data?.startDate;
+      if (dateDifference < DATE_DIFFERENCE?.ZERO)
+        return errorSnackbar('End Date should be greater than Start Date');
+    }
     const notifyMembers = !!data?.notifyMembers;
     const payload = {
       title: data?.title,
@@ -64,7 +73,7 @@ export const useAddAnnouncement = (props: any) => {
   const createAddAnnouncementFormFields = createAddAnnouncementDataArray(
     departmentDropdown,
     userDropdown,
-    productId,
+    startDateWatch,
   );
 
   return {

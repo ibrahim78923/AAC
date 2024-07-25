@@ -13,8 +13,11 @@ import Search from '@/components/Search';
 import SkeletonComponent from '@/components/CardSkeletons';
 import useUsers from '../useUsers';
 import { generateImage } from '@/utils/avatarUtils';
+import { UsersDetailsProps } from './UsersDetails-interface';
+import { indexNumbers } from '@/constants';
+import { capitalizeFirstLetter } from '@/utils/api';
 
-const UsersDetails = (props: any) => {
+const UsersDetails = (props: UsersDetailsProps) => {
   const { employeeDataById, searchAccount, setSearchAccount } = props;
   const { employeeListLoading } = useUsers();
 
@@ -37,13 +40,13 @@ const UsersDetails = (props: any) => {
             permissions={[ORG_ADMIN_USERS_PERMISSIONS?.VIEW_USER_PROFILE]}
           >
             <ProfileCard
-              userName={`${profileData?.data?.firstName ?? 'N/A'} ${
-                profileData?.data?.lastName ?? ''
-              }`}
+              userName={`${
+                capitalizeFirstLetter(profileData?.data?.firstName) ?? 'N/A'
+              } ${capitalizeFirstLetter(profileData?.data?.lastName) ?? ''}`}
               isBadge={false}
               email={profileData?.data?.email}
               phone={profileData?.data?.phoneNumber}
-              handleEditProfile={() => setTabVal(1)}
+              handleEditProfile={() => setTabVal(indexNumbers?.ONE)}
               isLoading={profileDataLoading}
               src={`${
                 profileData?.data?.avatar
@@ -67,7 +70,7 @@ const UsersDetails = (props: any) => {
                 <SkeletonComponent numberOfSkeletons={7} />
               ) : (
                 <CommonTabs
-                  isHeader={tabValue === 0 ? true : false}
+                  isHeader={tabValue === indexNumbers?.ZERO ? true : false}
                   activeTab={tabValue}
                   getTabVal={(val: number) => {
                     setTabVal(val);

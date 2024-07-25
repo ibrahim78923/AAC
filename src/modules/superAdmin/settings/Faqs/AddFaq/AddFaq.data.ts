@@ -3,19 +3,20 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
-
 import * as Yup from 'yup';
-export const addFaqsValidationSchema = Yup.object().shape({
-  faqCategory: Yup.object().required('Field is Required'),
-  faqQuestion: Yup.string().trim().required('Field is Required'),
-  faqAnswer: Yup.string().trim().required('Field is Required'),
-});
+import { FormDataI } from '../FaqInterface';
 
-export const addFaqsDefaultValues = {
+export const addFaqsDefaultValues: FormDataI = {
   faqCategory: null,
   faqQuestion: '',
   faqAnswer: '',
 };
+
+export const addFaqsValidationSchema = Yup.object().shape({
+  faqCategory: Yup?.mixed()?.nullable()?.required('Field is Required'),
+  faqQuestion: Yup?.string()?.trim()?.required('Field is Required'),
+  faqAnswer: Yup?.string()?.trim()?.required('Field is Required'),
+});
 
 export const addFaqsFiltersDataArray = (products: any) => {
   return [

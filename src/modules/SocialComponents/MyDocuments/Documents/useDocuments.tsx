@@ -18,8 +18,9 @@ import { validationSchema } from './Documents.data';
 import { isNullOrEmpty } from '@/utils';
 import { DOCUMENTS_ACTION_TYPES } from '@/constants';
 import { successSnackbar } from '@/utils/api';
+import { CreateFolderValuesI } from './Documents.interface';
 
-const useDocuments: any = () => {
+const useDocuments = () => {
   const theme = useTheme<Theme>();
   const [searchValue, setSearchValue] = useState('');
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -35,7 +36,7 @@ const useDocuments: any = () => {
   const [allSelectedFoldersIds, setAllSelectedFoldersIds] = useState<string[]>(
     [],
   );
-  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [actionType, setActionType] = useState('');
   const [selectedFolder, setSelectedFolder] = useState(null);
   const { user }: any = useAuth();
@@ -90,7 +91,7 @@ const useDocuments: any = () => {
     }
   };
 
-  const handleBoxClick = (itemId: any) => {
+  const handleBoxClick = (itemId: string) => {
     setSelectedItemId(itemId === selectedItemId ? null : itemId);
   };
 
@@ -104,9 +105,9 @@ const useDocuments: any = () => {
     setAnchorEl(null);
   };
 
-  const FolderAdd: any = useForm({
+  const FolderAdd = useForm<CreateFolderValuesI>({
     resolver: yupResolver(validationSchema),
-    defaultValues: async () => {
+    defaultValues: async (): Promise<CreateFolderValuesI> => {
       if (isEditOpenModal) {
         if (!isNullOrEmpty(Object?.keys(isEditOpenModal))) {
           return {

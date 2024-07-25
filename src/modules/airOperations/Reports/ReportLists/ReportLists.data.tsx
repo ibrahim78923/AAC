@@ -229,7 +229,7 @@ export const reportListsColumnsDynamic = (
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
         {addReportToFavoriteListStatus?.isLoading &&
-        addReportToFavoriteListStatus?.originalArgs?.pathParams?.id ===
+        addReportToFavoriteListStatus?.originalArgs?.queryParams?.id ===
           info?.row?.original?._id ? (
           <CircularProgress size={20} />
         ) : (

@@ -70,12 +70,6 @@ export const addTaxFormDataArray = [
 ];
 
 //Filters
-export const taxFormFiltersDefaultValues = {
-  status: '',
-  createdDate: null,
-  applyOn: '',
-};
-
 export const taxFormFiltersDataArray = [
   {
     componentProps: {

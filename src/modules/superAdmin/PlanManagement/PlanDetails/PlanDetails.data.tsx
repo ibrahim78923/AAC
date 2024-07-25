@@ -1,9 +1,10 @@
-import { Box, Checkbox, Tooltip, Typography } from '@mui/material';
+import { Box, Checkbox, Theme, Tooltip, Typography } from '@mui/material';
 
-import { avatarGroupMockData } from '../PlanManagement.data';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
+import { PlanProduct, TableColumn, TableRow } from './planDetails.interface';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -12,55 +13,16 @@ export const TABLE_CONSTANTS = {
   CREATE_NEW_TICKET: 'create-new-ticket',
 };
 
-export const PlanDetailsData: any = [
-  {
-    id: 1,
-    planId: ` #123`,
-    product: avatarGroupMockData,
-    planType: 'Growth',
-    description: 'Sales files',
-    createdOn: '12/10/2023',
-    defaultUsers: '08',
-    planPrice: '£48',
-    status: 'Active',
-    defaultStorage: '1 GB',
-  },
-  {
-    id: 2,
-    planId: ` #456`,
-    product: avatarGroupMockData,
-    planType: 'Enterprise',
-    description: 'Marketing files',
-    createdOn: '12/10/2023',
-    defaultUsers: '06',
-    planPrice: '£91',
-    status: 'Inactive',
-    defaultStorage: '4 GB',
-  },
-  {
-    id: 3,
-    planId: ` #7899`,
-    product: avatarGroupMockData,
-    planType: 'Premium',
-    description: 'Services files',
-    createdOn: '12/10/2023',
-    defaultUsers: '09',
-    planPrice: '£95',
-    status: 'Active',
-    defaultStorage: '2 GB',
-  },
-];
-
-export const PlanDetailsDataColumnFunction: any = (
+export const PlanDetailsDataColumnFunction = (
   isDisabled: boolean,
   setIsDisabled: (value: boolean) => void,
-  tableRowValues: any,
-  setTableRowValues: any,
-  theme: any,
-) => {
+  tableRowValues: TableRow,
+  setTableRowValues: (row: any) => void,
+  theme: Theme,
+): TableColumn[] => {
   return [
     {
-      accessorFn: (row: any) => row?.id,
+      accessorFn: (row: TableRow) => row?.id,
       id: 'id',
       cell: (info: any) => (
         <Checkbox
@@ -79,7 +41,7 @@ export const PlanDetailsDataColumnFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.planProducts,
+      accessorFn: (row: TableRow) => row?.planProducts,
       id: 'productsSuite',
       isSortable: true,
       header: 'Products/Suite',
@@ -87,7 +49,7 @@ export const PlanDetailsDataColumnFunction: any = (
         const planProducts = info?.row?.original?.planProducts;
         const tooltipTitle = (
           <Box>
-            {planProducts?.map((data: any) => (
+            {planProducts?.map((data: PlanProduct) => (
               <Typography key={uuidv4()} variant="h6">
                 {data?.name}
               </Typography>
@@ -101,14 +63,14 @@ export const PlanDetailsDataColumnFunction: any = (
                 <Tooltip title={tooltipTitle}>
                   <Typography variant="body2" sx={{ cursor: 'pointer' }}>
                     {' '}
-                    {info?.row?.original?.name}
+                    {capitalizeFirstLetter(info?.row?.original?.name)}
                   </Typography>
                 </Tooltip>
               </>
             ) : (
-              info?.row?.original?.planProducts?.map((data: any) => (
+              info?.row?.original?.planProducts?.map((data: PlanProduct) => (
                 <Typography variant="body3" key={uuidv4()}>
-                  {data?.name}{' '}
+                  {capitalizeFirstLetter(data?.name)}{' '}
                 </Typography>
               ))
             )}
@@ -117,7 +79,7 @@ export const PlanDetailsDataColumnFunction: any = (
       },
     },
     {
-      accessorFn: (row: any) => row?.planType?.name,
+      accessorFn: (row: TableRow) => row?.planType?.name,
       id: 'planType',
       isSortable: true,
       header: 'Plan Type',
@@ -125,15 +87,16 @@ export const PlanDetailsDataColumnFunction: any = (
     },
     {
       //Todo: Getting description at index 0
-      accessorFn: (row: any) => row?.description,
+      accessorFn: (row: TableRow) => row?.description,
       id: 'description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()),
     },
     {
       //Todo: Getting createdAt at index 0
-      accessorFn: (row: any) => dayjs(row?.createdAt)?.format(DATE_FORMAT?.UI),
+      accessorFn: (row: TableRow) =>
+        dayjs(row?.createdAt)?.format(DATE_FORMAT?.UI),
       id: 'createdAt',
       isSortable: true,
       header: 'Created on',
@@ -141,7 +104,7 @@ export const PlanDetailsDataColumnFunction: any = (
     },
     {
       //Todo: Getting status at index 0
-      accessorFn: (row: any) => row?.isActive,
+      accessorFn: (row: TableRow) => row?.isActive,
       id: 'status',
       isSortable: true,
       header: 'Status',
@@ -163,21 +126,21 @@ export const PlanDetailsDataColumnFunction: any = (
               variant="body3"
               key={uuidv4()}
             >
-              {planProducts ? 'active' : 'inActive'}
+              {planProducts ? 'Active' : 'InActive'}
             </Typography>
           </Box>
         );
       },
     },
     {
-      accessorFn: (row: any) => row?.defaultUsers,
+      accessorFn: (row: TableRow) => row?.defaultUsers,
       id: 'defaultUsers',
       isSortable: true,
       header: 'Default Users',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.planPrice,
+      accessorFn: (row: TableRow) => row?.planPrice,
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
@@ -186,7 +149,7 @@ export const PlanDetailsDataColumnFunction: any = (
       },
     },
     {
-      accessorFn: (row: any) => row?.defaultStorage,
+      accessorFn: (row: TableRow) => row?.defaultStorage,
       id: 'defaultStorage',
       isSortable: true,
       header: 'Default Storage',

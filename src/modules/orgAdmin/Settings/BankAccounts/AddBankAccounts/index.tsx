@@ -1,51 +1,90 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { Grid } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
+import { Grid, Skeleton } from '@mui/material';
 import { addAccountsForm } from './AddBankAccounts.data';
 import useAddBankAccounts from './useAddBankAccounts';
+import { DRAWER_TYPES } from '@/constants/strings';
 
-const AddBankAccounts = (props: any) => {
+interface DrawerInterface {
+  isToggle: boolean;
+  type: string;
+  recId: string;
+}
+interface AddBankAccountsI {
+  setIsOpenAddAccountDrawer: (value: DrawerInterface) => void;
+  isOpenAddAccountDrawer: DrawerInterface;
+  setCheckedRows: (value: string[]) => void;
+}
+const AddBankAccounts = (props: AddBankAccountsI) => {
   const { isOpenAddAccountDrawer, setIsOpenAddAccountDrawer, setCheckedRows } =
     props;
-  const { methods, handleSubmit, onSubmit, reset, companyAccounts } =
-    useAddBankAccounts(
-      setIsOpenAddAccountDrawer,
-      isOpenAddAccountDrawer,
-      setCheckedRows,
-    );
+
+  const {
+    updateReceiverAccountLoading,
+    postReceiverAccountLoading,
+    editAccountLoading,
+    handleSubmit,
+    onSubmit,
+    methods,
+    reset,
+  } = useAddBankAccounts(
+    setIsOpenAddAccountDrawer,
+    setCheckedRows,
+    isOpenAddAccountDrawer,
+  );
 
   return (
     <CommonDrawer
       isDrawerOpen={isOpenAddAccountDrawer?.isToggle}
       onClose={() => {
-        setIsOpenAddAccountDrawer(false);
+        setIsOpenAddAccountDrawer({
+          ...isOpenAddAccountDrawer,
+          isToggle: false,
+        });
         reset();
       }}
-      title="Add Bank Account"
-      okText="Add"
+      title={
+        isOpenAddAccountDrawer?.type === DRAWER_TYPES?.EDIT
+          ? 'Edit Bank Account'
+          : 'Add Bank Account'
+      }
+      okText={
+        isOpenAddAccountDrawer?.type === DRAWER_TYPES?.EDIT ? 'Update' : 'Add'
+      }
       isOk
       submitHandler={handleSubmit(onSubmit)}
       footer
+      isLoading={updateReceiverAccountLoading || postReceiverAccountLoading}
     >
-      <FormProvider>
-        <Grid container spacing={1} mt={1}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={2}>
-              {addAccountsForm(companyAccounts)?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
+      <FormProvider methods={methods}>
+        <Grid container spacing={2} width="100%">
+          {addAccountsForm()?.map((item: any) => (
+            <Grid
+              item
+              xs={12}
+              md={item?.md}
+              key={item.componentProps?.name}
+              width="100%"
+            >
+              {editAccountLoading ? (
+                <Skeleton
+                  sx={{ width: '100%' }}
+                  height={46}
+                  variant="rectangular"
+                  animation="wave"
+                />
+              ) : (
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={option?.value} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
+              )}
             </Grid>
-          </FormProvider>
+          ))}
         </Grid>
       </FormProvider>
     </CommonDrawer>

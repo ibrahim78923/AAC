@@ -142,25 +142,31 @@ const LeftPane = () => {
           const messageId = thread?.message?.id || '';
           const headers = thread?.message?.payload?.headers || [];
           const to =
-            headers?.find((header: any) => header?.name === Gmail_CONST?.TO)
-              ?.value || '';
+            headers?.find(
+              (header: { name: string }) => header?.name === Gmail_CONST?.TO,
+            )?.value || '';
           const cc =
-            headers?.find((header: any) => header?.name === Gmail_CONST?.CC)
-              ?.value || '';
+            headers?.find(
+              (header: { name: string }) => header?.name === Gmail_CONST?.CC,
+            )?.value || '';
           const Bcc =
-            headers?.find((header: any) => header?.name === Gmail_CONST?.BCC)
-              ?.value || '';
+            headers?.find(
+              (header: { name: string }) => header?.name === Gmail_CONST?.BCC,
+            )?.value || '';
           const name =
-            headers?.find((header: any) => header?.name === Gmail_CONST?.FROM)
-              ?.value || '';
+            headers?.find(
+              (header: { name: string }) => header?.name === Gmail_CONST?.FROM,
+            )?.value || '';
           const subject =
             headers?.find(
-              (header: any) => header?.name === Gmail_CONST?.SUBJECT,
+              (header: { name: string }) =>
+                header?.name === Gmail_CONST?.SUBJECT,
             )?.value || '(no-subject)';
           const snippet = thread?.message?.snippet || '';
           const date =
-            headers?.find((header: any) => header?.name === Gmail_CONST?.DATE)
-              ?.value || '';
+            headers?.find(
+              (header: { name: string }) => header?.name === Gmail_CONST?.DATE,
+            )?.value || '';
           const readMessage = thread?.message?.labelIds?.includes('UNREAD');
           const attchImages = thread?.messages?.payload?.parts;
           return {
@@ -198,26 +204,34 @@ const LeftPane = () => {
           const messageId = lastMessage?.id || '';
           const headers = lastMessage?.payload?.headers || [];
           const to =
-            headers?.find((header: any) => header?.name === Gmail_CONST?.TO)
-              ?.value || '';
+            headers?.find(
+              (header: { name: string }) => header?.name === Gmail_CONST?.TO,
+            )?.value || '';
           const cc =
-            headers?.find((header: any) => header?.name === Gmail_CONST?.Cc)
-              ?.value || '';
+            headers?.find(
+              (header: { name: string }) => header?.name === Gmail_CONST?.Cc,
+            )?.value || '';
           const Bcc =
-            headers?.find((header: any) => header?.name === Gmail_CONST?.BCC)
-              ?.value || '';
+            headers?.find(
+              (header: { name: string }) => header?.name === Gmail_CONST?.BCC,
+            )?.value || '';
           const name =
-            headers?.find((header: any) => header?.name === Gmail_CONST?.FROM)
-              ?.value || '';
+            headers?.find(
+              (header: { name: string }) => header?.name === Gmail_CONST?.FROM,
+            )?.value || '';
           const subject =
             headers?.find(
-              (header: any) => header?.name === Gmail_CONST?.SUBJECT,
+              (header: { name: string }) =>
+                header?.name === Gmail_CONST?.SUBJECT,
             )?.value || '(no-subject)';
           const snippet = lastMessage?.snippet || '';
           const date =
             headers
-              ?.find((header: any) => header?.name === Gmail_CONST?.DATE)
-              ?.value.replace(/ -\d{4}$/, '') || '';
+              ?.find(
+                (header: { name: string }) =>
+                  header?.name === Gmail_CONST?.DATE,
+              )
+              ?.value?.replace(/ -\d{4}$/, '') || '';
           const readMessage = lastMessage?.labelIds?.includes('UNREAD');
 
           return {
@@ -314,7 +328,7 @@ const LeftPane = () => {
           aria-label="Basic button group"
           sx={{ mb: 1 }}
         >
-          {filteredData?.map((item: any) => (
+          {filteredData?.map((item: { name: string }) => (
             <Button
               key={uuidv4()}
               onClick={() => handelToggleTab(item)}

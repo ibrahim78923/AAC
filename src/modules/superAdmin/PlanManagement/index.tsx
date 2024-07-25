@@ -33,6 +33,7 @@ import { PlanDetailsDataColumnFunction } from './PlanDetails/PlanDetails.data';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS } from '@/constants/permission-keys';
+import { FilterData, Option } from './planManagement.interface';
 
 const PlanManagement = () => {
   const {
@@ -218,19 +219,21 @@ const PlanManagement = () => {
         <Box sx={{ marginTop: '1.5rem' }}>
           <FormProvider methods={methodsFaqsFilters}>
             <Grid container spacing={4}>
-              {planManagementFilterFiltersDataArray()?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {!isNullOrEmpty(item?.componentProps?.select)
-                      ? item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
+              {planManagementFilterFiltersDataArray()?.map(
+                (item: FilterData) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item?.componentProps} size={'small'}>
+                      {!isNullOrEmpty(item?.componentProps?.select)
+                        ? item?.options?.map((option: Option) => (
+                            <option key={uuidv4()} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : null}
+                    </item.component>
+                  </Grid>
+                ),
+              )}
             </Grid>
           </FormProvider>
         </Box>

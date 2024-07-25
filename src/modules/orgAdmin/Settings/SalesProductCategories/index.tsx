@@ -42,35 +42,37 @@ const SalesProductCategories = () => {
   } = useSalesProduct();
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isDraweropen}
-        onClose={handleCloseDrawer}
-        title={isEditMode ? 'Edit Category' : 'Product Category'}
-        okText={isEditMode ? 'Update' : 'Add'}
-        footer={true}
-        isOk={true}
-        submitHandler={handleSubmit(onSubmit)}
-        isLoading={loadingAdd || loadingUpdate}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={ProductCategory}>
-            <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
+      {isDraweropen && (
+        <CommonDrawer
+          isDrawerOpen={isDraweropen}
+          onClose={handleCloseDrawer}
+          title={isEditMode ? 'Edit Category' : 'Product Category'}
+          okText={isEditMode ? 'Update' : 'Add'}
+          footer={true}
+          isOk={true}
+          submitHandler={handleSubmit(onSubmit)}
+          isLoading={loadingAdd || loadingUpdate}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={ProductCategory}>
+              <Grid container spacing={4}>
+                {dataArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
 
       <Box
         sx={{
@@ -103,7 +105,7 @@ const SalesProductCategories = () => {
                   color: `${theme?.palette?.common?.white}`,
                   fontSize: '16px',
                 }}
-              />{' '}
+              />
               Product Category
             </Button>
           </PermissionsGuard>
@@ -113,7 +115,7 @@ const SalesProductCategories = () => {
             label="Search here"
             searchBy={productSearch}
             setSearchBy={setproductSearch}
-            width="260px"
+            size="small"
           />
           <PermissionsGuard
             permissions={[
@@ -133,6 +135,11 @@ const SalesProductCategories = () => {
             </Button>
 
             <Menu
+              sx={{
+                '.MuiPopover-paper': {
+                  minWidth: '110px',
+                },
+              }}
               id="basic-menu"
               anchorEl={anchorEl}
               open={open}

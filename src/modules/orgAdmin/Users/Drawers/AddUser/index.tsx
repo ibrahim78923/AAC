@@ -6,8 +6,13 @@ import { v4 as uuidv4 } from 'uuid';
 import useAddUser from './useAddUsers';
 import useUsers from '../../useUsers';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { AddUserProps } from '@/modules/orgAdmin/Users/UsersSidebar/UserSidebar-interface';
 
-const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
+const AddUser = ({
+  isOpenDrawer,
+  onClose,
+  setIsOpenAdduserDrawer,
+}: AddUserProps) => {
   const { user } = useUsers();
   const organizationId = user?.organization?._id;
   const useActionParams: any = {
@@ -22,6 +27,7 @@ const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
     isToggled,
     setIsToggled,
     addressVal,
+    postUserLoading,
   } = useAddUser(useActionParams);
 
   return (
@@ -33,6 +39,7 @@ const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
       footer
+      isLoading={postUserLoading}
     >
       <Typography variant="body2">
         Add a new user to this organization

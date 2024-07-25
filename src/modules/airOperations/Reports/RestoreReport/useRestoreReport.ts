@@ -29,7 +29,6 @@ export const useRestoreReport = (props: any) => {
     try {
       await restoreDeletedReportTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Report restore successfully');
-      setSelectedReportLists?.([]);
       closeModal?.();
       const newPage =
         selectedReportLists?.length === totalRecords

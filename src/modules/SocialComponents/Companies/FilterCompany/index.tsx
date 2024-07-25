@@ -11,6 +11,10 @@ import useFilterCompany from './useFilterCompany';
 import { FilterArray } from './FilterCompany.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import {
+  DrawerItemI,
+  DrawerItemOptionI,
+} from '../CreateCompany/createcompany.interface';
 
 const FilterCompany = ({
   isFilter,
@@ -39,11 +43,11 @@ const FilterCompany = ({
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {FilterArray()?.map((item: any) => (
+              {FilterArray()?.map((item: DrawerItemI) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
+                      item?.options?.map((option: DrawerItemOptionI) => (
                         <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>

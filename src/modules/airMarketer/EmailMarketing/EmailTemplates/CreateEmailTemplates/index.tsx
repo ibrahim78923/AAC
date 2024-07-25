@@ -37,6 +37,7 @@ import { useGetEmailTemplatesByIDQuery } from '@/services/airMarketer/emailTempl
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { enqueueSnackbar } from 'notistack';
 import { TEMPLATES_CARDS } from '@/constants';
+import { ARRAY_INDEX } from '@/constants/strings';
 
 const CreateTemplatesForm = () => {
   const {
@@ -221,16 +222,16 @@ const CreateTemplatesForm = () => {
                                     headerValue === templateContants?.giftCard
                                       ? '0px !important'
                                       : (index === 4 || index === 3) &&
-                                        (headerValue ===
-                                          templateContants?.LoyaltyToken ||
-                                          headerValue ===
-                                            templateContants?.Credits ||
-                                          headerValue ===
-                                            templateContants?.Voucher)
-                                      ? '0px !important'
-                                      : index != 0
-                                      ? '20px !important'
-                                      : '20px !important',
+                                          (headerValue ===
+                                            templateContants?.LoyaltyToken ||
+                                            headerValue ===
+                                              templateContants?.Credits ||
+                                            headerValue ===
+                                              templateContants?.Voucher)
+                                        ? '0px !important'
+                                        : index != 0
+                                          ? '20px !important'
+                                          : '20px !important',
                                   paddingLeft:
                                     index === 9 || index === 10
                                       ? '10px !important'
@@ -403,13 +404,16 @@ const CreateTemplatesForm = () => {
                                         theme?.palette?.custom
                                           ?.light_gray_color,
                                       width:
-                                        index === 0
+                                        index === ARRAY_INDEX?.ZERO
                                           ? '100%'
                                           : index === 1
-                                          ? '50%'
-                                          : '33%',
+                                            ? '50%'
+                                            : '33%',
                                       height: '20px',
-                                      marginLeft: index !== 0 ? '2px' : '0',
+                                      marginLeft:
+                                        index !== ARRAY_INDEX?.ZERO
+                                          ? '2px'
+                                          : '0',
                                     }}
                                   ></Box>
                                 ))

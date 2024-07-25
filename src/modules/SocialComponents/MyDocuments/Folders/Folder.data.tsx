@@ -2,18 +2,18 @@ import { RHFDropZone, RHFTextField } from '@/components/ReactHookForm';
 import { generateImage } from '@/utils/avatarUtils';
 import { Box, Checkbox } from '@mui/material';
 import Image from 'next/image';
-
 import * as Yup from 'yup';
+import { RowI } from './Folder.interface';
 
 export const columns: any = (
-  setIsGetRowValues: any,
-  setIschecked: any,
-  ischecked: any,
-  isGetRowValues: any,
+  setIsGetRowValues: React.Dispatch<React.SetStateAction<string[]>>,
+  setIschecked: React.Dispatch<React.SetStateAction<boolean>>,
+  ischecked: boolean,
+  isGetRowValues: string[],
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: RowI) => row?._id,
       id: 'id',
       cell: (info: any) => (
         <Checkbox
@@ -42,7 +42,7 @@ export const columns: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.name,
+      accessorFn: (row: RowI) => row?.name,
       id: 'name',
       cell: (info: any) => {
         return (
@@ -61,21 +61,21 @@ export const columns: any = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.sharedLinks,
+      accessorFn: (row: RowI) => row?.sharedLinks,
       id: 'sharedLinks',
       isSortable: true,
       header: 'Shared Links',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.readsCount,
+      accessorFn: (row: RowI) => row?.readsCount,
       id: 'readsCount',
       isSortable: true,
       header: 'Reads',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.createdBy,
+      accessorFn: (row: RowI) => row?.createdBy,
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',

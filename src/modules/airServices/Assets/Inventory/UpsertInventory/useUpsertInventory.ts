@@ -1,35 +1,57 @@
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, useRef, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import {
   UpsertInventoryValidationSchema,
   upsertInventoryFieldsDefaultValuesFunction,
-  upsertInventoryFormFieldsDynamic,
+  upsertInventoryFormFieldsFirst,
+  upsertInventoryFormFieldsSecond,
 } from './UpsertInventory.data';
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import {
   useGetAddToInventoryByIdQuery,
-  useLazyGetAssetTypeQuery,
+  useLazyGetAssetTypeInventoryDropdownQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
   useLazyGetUsersDropdownQuery,
   usePatchAddToInventoryMutation,
   usePostInventoryMutation,
 } from '@/services/airServices/assets/inventory';
-import { AIR_SERVICES } from '@/constants';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 import useAuth from '@/hooks/useAuth';
+import {
+  useLazyGetDynamicFieldsQuery,
+  usePostDynamicFormAttachmentsMutation,
+} from '@/services/dynamic-fields';
+import {
+  DYNAMIC_FIELDS,
+  DYNAMIC_FORM_FIELDS_TYPES,
+  dynamicAttachmentsPost,
+} from '@/utils/dynamic-forms';
+import { ARRAY_INDEX, ASSET_IMPACT } from '@/constants/strings';
+import dayjs from 'dayjs';
 
 export const useUpsertInventory = () => {
-  const { query }: any = useRouter();
-  const router = useRouter();
-  const { inventoryId } = router?.query;
   const theme = useTheme();
+  const router = useRouter();
+
+  const [form, setForm] = useState<any>([]);
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  const { query }: any = useRouter();
+  const { inventoryId } = router?.query;
+
   const [patchAddToInventoryTrigger, patchAddToInventoryStatus] =
     usePatchAddToInventoryMutation();
   const [postAddToInventoryTrigger, postAddToInventoryStatus] =
     usePostInventoryMutation();
+
   const getSingleInventoryDetailsParameter = {
     pathParam: {
       inventoryId,
@@ -41,79 +63,192 @@ export const useUpsertInventory = () => {
       refetchOnMountOrArgChange: true,
       skip: !!!inventoryId,
     });
+
   const methods = useForm({
-    resolver: yupResolver(UpsertInventoryValidationSchema),
-    defaultValues: upsertInventoryFieldsDefaultValuesFunction(data),
+    resolver: yupResolver(UpsertInventoryValidationSchema?.(form)),
+    defaultValues: upsertInventoryFieldsDefaultValuesFunction?.(data, form),
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, control, getValues } = methods;
 
-  const submitUpsertInventory = async (data: any) => {
-    const inventoryDetailsData = new FormData();
-    inventoryDetailsData.append('displayName', data?.displayName);
-    inventoryDetailsData.append('assetType', data?.assetType?._id);
-    inventoryDetailsData.append('impact', data?.impact);
-    inventoryDetailsData.append('description', data?.description);
-    inventoryDetailsData.append(
-      'assetLifeExpiry',
-      data?.assetLifeExpiry?.toISOString(),
-    );
-    !!data?.location?._id &&
-      inventoryDetailsData.append('locationId', data?.location?._id);
-    !!data?.department?._id &&
-      inventoryDetailsData.append('departmentId', data?.department?._id);
-    !!data?.usedBy?._id &&
-      inventoryDetailsData.append('usedBy', data?.usedBy?._id);
-    inventoryDetailsData.append('assignedOn', data?.assignedOn?.toISOString());
+  const assetTypeWatch = useWatch({
+    control,
+    name: 'assetType',
+    defaultValue: null,
+  });
 
-    data?.fileUrl !== null &&
-      inventoryDetailsData?.append('attachment', data?.fileUrl);
-    const body = inventoryDetailsData;
-    if (!!inventoryId) {
-      submitUpdateInventory(data);
-      return;
-    }
-    const postInventoryParameter = {
-      body,
+  const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
+    useLazyGetDynamicFieldsQuery();
+  const [postAttachmentTrigger, postAttachmentStatus] =
+    usePostDynamicFormAttachmentsMutation();
+
+  const getDynamicFormData = async () => {
+    const params = {
+      productType: DYNAMIC_FIELDS?.PT_SERVICES,
+      moduleType: DYNAMIC_FIELDS?.MT_ASSET_TYPE,
+      section: assetTypeWatch?._id,
     };
+    const getDynamicFieldsParameters = { params };
 
     try {
+      const res: any = await getDynamicFieldsTrigger(
+        getDynamicFieldsParameters,
+      )?.unwrap();
+      setForm(res);
+    } catch (error: any) {
+      setForm([]);
+    }
+  };
+
+  const filledFormValues = getValues();
+
+  const updatedFilledValues = {
+    ...data?.data?.[ARRAY_INDEX?.ZERO],
+    displayName: filledFormValues?.displayName ?? '',
+    assetTypeDetails: filledFormValues?.assetType ?? null,
+    impact: filledFormValues?.impact ?? ASSET_IMPACT?.LOW,
+    assetLifeExpiry:
+      typeof filledFormValues?.assetLifeExpiry === 'string'
+        ? new Date(
+            filledFormValues?.assetLifeExpiry ??
+              dayjs()?.format(DATE_FORMAT?.UI),
+          )
+        : new Date(),
+    description: filledFormValues?.description ?? '',
+    locationDetails: filledFormValues?.location ?? null,
+    departmentDetails: filledFormValues?.department ?? null,
+    assignedOn:
+      typeof filledFormValues?.assignedOn === 'string'
+        ? new Date(filledFormValues?.assignedOn)
+        : null,
+    usedByDetails: filledFormValues?.usedBy ?? null,
+    fileUrl: null,
+    ...data?.data?.[ARRAY_INDEX?.ZERO],
+  };
+
+  const prevAssetTypeWatch = useRef(assetTypeWatch);
+
+  useEffect(() => {
+    if (
+      !!assetTypeWatch &&
+      assetTypeWatch?._id !== prevAssetTypeWatch?.current?._id
+    ) {
+      getDynamicFormData();
+      prevAssetTypeWatch.current = assetTypeWatch;
+    }
+  }, [assetTypeWatch]);
+
+  useEffect(() => {
+    if (initialLoad && inventoryId) {
+      if (Object?.keys(data?.data?.[ARRAY_INDEX?.ZERO] ?? {})?.length) {
+        reset(() =>
+          upsertInventoryFieldsDefaultValuesFunction(
+            data?.data?.[ARRAY_INDEX?.ZERO],
+            form,
+          ),
+        );
+        setInitialLoad(false);
+      }
+    } else {
+      reset(() =>
+        upsertInventoryFieldsDefaultValuesFunction(updatedFilledValues, form),
+      );
+    }
+  }, [data, reset, form, initialLoad, inventoryId]);
+
+  const submitUpsertInventory = async (data: any) => {
+    const filteredEmptyData = filteredEmptyValues(data);
+
+    const customFields: any = {};
+    const body: any = {};
+    const attachmentPromises: Promise<any>[] = [];
+
+    try {
+      dynamicAttachmentsPost({
+        form,
+        data,
+        attachmentPromises,
+        customFields,
+        postAttachmentTrigger,
+      });
+
+      await Promise?.all(attachmentPromises);
+
+      const customFieldKeys = new Set(
+        form?.map((field: any) => field?.componentProps?.label),
+      );
+
+      Object?.entries(filteredEmptyData)?.forEach(([key, value]) => {
+        if (customFieldKeys?.has(key)) {
+          if (
+            typeof value === DYNAMIC_FORM_FIELDS_TYPES?.OBJECT &&
+            !Array?.isArray(value) &&
+            value !== null
+          ) {
+            customFields[key] = { ...customFields[key], ...value };
+          } else {
+            customFields[key] = value;
+          }
+        } else {
+          body[key] = value;
+        }
+      });
+
+      if (Object?.keys(customFields)?.length > 0) {
+        body.customFields = customFields;
+      }
+
+      const inventoryDetailsData = new FormData();
+      inventoryDetailsData.append('displayName', data?.displayName);
+      inventoryDetailsData.append('assetType', data?.assetType?._id);
+      inventoryDetailsData.append('impact', data?.impact);
+      inventoryDetailsData.append('description', data?.description);
+      inventoryDetailsData.append(
+        'assetLifeExpiry',
+        data?.assetLifeExpiry?.toISOString(),
+      );
+      !!data?.location?._id &&
+        inventoryDetailsData.append('locationId', data?.location?._id);
+      !!data?.department?._id &&
+        inventoryDetailsData.append('departmentId', data?.department?._id);
+      !!data?.usedBy?._id &&
+        inventoryDetailsData.append('usedBy', data?.usedBy?._id);
+      !!data?.assignedOn &&
+        inventoryDetailsData.append(
+          'assignedOn',
+          data?.assignedOn?.toISOString(),
+        );
+      data?.fileUrl !== null &&
+        inventoryDetailsData?.append('attachment', data?.fileUrl);
+
+      if (body?.customFields) {
+        inventoryDetailsData?.append(
+          'customFields',
+          JSON?.stringify(body?.customFields),
+        );
+      }
+
+      if (!!inventoryId) {
+        submitUpdateInventory(inventoryDetailsData);
+        return;
+      }
+
+      const postInventoryParameter = {
+        body: inventoryDetailsData,
+      };
       await postAddToInventoryTrigger(postInventoryParameter)?.unwrap();
       successSnackbar?.('Inventory Added Successfully');
       moveBack?.();
       reset();
-    } catch (error: any) {
-      errorSnackbar?.(error?.data?.message);
+    } catch (e: any) {
+      errorSnackbar(e?.data?.message);
     }
   };
-  useEffect(() => {
-    reset(() => upsertInventoryFieldsDefaultValuesFunction(data?.data?.[0]));
-  }, [data, reset]);
 
-  const submitUpdateInventory = async (data: any) => {
-    const inventoryEditData = new FormData();
-    inventoryEditData.append('id', inventoryId as string);
-    inventoryEditData.append('displayName', data?.displayName);
-    inventoryEditData.append('assetId', data?.assetType?._id);
-    inventoryEditData.append('assetType', data?.assetType?._id);
-    inventoryEditData.append('impact', data?.impact);
-    inventoryEditData.append('description', data?.description);
-    inventoryEditData.append(
-      'assetLifeExpiry',
-      data?.assetLifeExpiry?.toISOString(),
-    );
-    !!data?.location?._id &&
-      inventoryEditData.append('locationId', data?.location?._id);
-    !!data?.department?._id &&
-      inventoryEditData.append('departmentId', data?.department?._id);
-    !!data?.usedBy?._id &&
-      inventoryEditData.append('usedBy', data?.usedBy?._id);
-    inventoryEditData.append('assignedOn', data?.assignedOn?.toISOString());
-    data?.fileUrl !== null &&
-      inventoryEditData?.append('fileUrl', data?.fileUrl);
-    const body = inventoryEditData;
+  const submitUpdateInventory = async (inventoryDetailsData: any) => {
+    inventoryDetailsData.append('id', inventoryId as string);
 
     const patchProductCatalogParameter = {
-      body,
+      body: inventoryDetailsData,
     };
 
     try {
@@ -130,12 +265,15 @@ export const useUpsertInventory = () => {
 
   const { _id: productId } = auth?.product;
 
-  const apiQueryAssetType = useLazyGetAssetTypeQuery();
+  const apiQueryAssetType = useLazyGetAssetTypeInventoryDropdownQuery();
   const apiQueryDepartmentType = useLazyGetDepartmentDropdownQuery();
   const apiQueryLocationType = useLazyGetLocationsDropdownQuery();
   const apiQueryUsedByType = useLazyGetUsersDropdownQuery();
-  const upsertInventoryFormFields = upsertInventoryFormFieldsDynamic(
-    apiQueryAssetType,
+
+  const upsertInventoryFormFieldsOne =
+    upsertInventoryFormFieldsFirst(apiQueryAssetType);
+
+  const upsertInventoryFormFieldsTwo = upsertInventoryFormFieldsSecond(
     apiQueryDepartmentType,
     apiQueryLocationType,
     apiQueryUsedByType,
@@ -164,7 +302,6 @@ export const useUpsertInventory = () => {
     submitUpsertInventory,
     handleSubmit,
     patchAddToInventoryStatus,
-    upsertInventoryFormFields,
     isLoading,
     isFetching,
     isError,
@@ -172,5 +309,11 @@ export const useUpsertInventory = () => {
     inventoryId,
     router,
     moveBack,
+    upsertInventoryFormFieldsOne,
+    upsertInventoryFormFieldsTwo,
+    form,
+    getDynamicFieldsStatus,
+    postAttachmentStatus,
+    assetTypeWatch,
   };
 };

@@ -22,7 +22,7 @@ const PlanCard: FC<PlanCardI> = ({
   handleBillingDetail,
   plan,
 }) => {
-  const dispatch: any = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <Box sx={styles?.planCard}>

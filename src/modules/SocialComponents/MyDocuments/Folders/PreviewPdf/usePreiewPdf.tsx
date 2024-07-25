@@ -1,7 +1,7 @@
 import { Theme, useTheme } from '@mui/material';
 import { useState } from 'react';
 
-const usePreiewPdf: any = () => {
+const usePreiewPdf = () => {
   const theme = useTheme<Theme>();
   const [isShow, setIsShow] = useState(false);
 

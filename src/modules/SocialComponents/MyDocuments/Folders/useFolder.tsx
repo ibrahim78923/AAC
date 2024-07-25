@@ -28,6 +28,7 @@ import { PAGINATION } from '@/config';
 import { errorSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
+import { FolderI } from './Folder.interface';
 
 const useFolder: any = () => {
   const router = useRouter();
@@ -36,7 +37,7 @@ const useFolder: any = () => {
   const [searchValue, setSearchValue] = useState('');
   const [modalHeading, setModalHeading] = useState('');
   const [cardBox, setCardBox] = useState<string[]>([]);
-  const [selectedFolder, setSelectedFolder] = useState(null);
+  const [selectedFolder, setSelectedFolder] = useState<FolderI | null>(null);
   const [isEditOpenModal, setIsEditOpenModal] = useState();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenFolderDrawer, setIsOpenFolderDrawer] = useState(false);
@@ -53,9 +54,11 @@ const useFolder: any = () => {
   const [isOpenFile, setIsOpenFile] = useState(false);
   const [actionType, setActionType] = useState('');
   const [slectedFolderForMovingData, setSlectedFolderForMovingData] =
-    useState(null);
+    useState<null | Record<string, any>>(null);
   const [selectedFolderId, setSelectedFolderId] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<null | Record<string, any>>(
+    null,
+  );
   const [page, setPage] = useState(PAGINATION.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [moveChildFolder, setMoveChildFolder] = useState(false);
@@ -113,7 +116,7 @@ const useFolder: any = () => {
       });
       resetImage(defaultValuesImage);
       setIsImage(false);
-    } catch (error) {
+    } catch (error: any) {
       enqueueSnackbar(error?.message, { variant: 'error' });
     }
   };

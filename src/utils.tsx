@@ -201,6 +201,8 @@ export const statusTag = (val: any, theme: any) => {
   switch (val) {
     case 'Completed':
       return theme?.palette?.primary?.main;
+    case 'Failed':
+      return theme?.palette?.error?.main;
     case 'Scheduled':
       return theme?.palette?.warning?.main;
     case 'Draft':

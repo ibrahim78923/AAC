@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { useGetInvoicesQuery } from '@/services/orgAdmin/subscription-and-invoices';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { OnSubmitFiltersValueI } from './Invoices.interface';
 
 const useInvoices = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -71,7 +72,7 @@ const useInvoices = () => {
     defaultValues: FilterInvoiceDefaultValues,
   });
 
-  const onSubmit = (value: any) => {
+  const onSubmit = (value: OnSubmitFiltersValueI) => {
     const { status, productId, planId, billingDate, dueDate } = value;
     const filterPayloadValues = {
       status,

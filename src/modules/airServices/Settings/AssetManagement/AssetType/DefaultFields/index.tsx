@@ -24,7 +24,7 @@ export default function DefaultFields() {
       <PageTitledHeader
         moveBack={() => moveBack?.()}
         canMovedBack
-        title={'Default Asset Inventory Fields'}
+        title={'Default Fields'}
       />
 
       <FormProvider methods={methods}>

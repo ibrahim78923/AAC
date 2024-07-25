@@ -4,13 +4,14 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { usersFilterArray, usersFilterDefaultValues } from './FilterUser.data';
 import { useForm } from 'react-hook-form';
 import { filteredEmptyValues } from '@/utils/api';
+import { FilterUserProps } from '../../UsersSidebar/UserSidebar-interface';
 
 const FilterUser = ({
   isOpenDrawer,
   setIsOpenFilterDrawer,
   employeeFilter,
   setEmployeeFilter,
-}: any) => {
+}: FilterUserProps) => {
   const methods: any = useForm({
     defaultValues: usersFilterDefaultValues(employeeFilter),
   });

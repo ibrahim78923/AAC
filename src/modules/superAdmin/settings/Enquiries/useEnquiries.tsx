@@ -11,6 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { usePostNewEmailMutation } from '@/services/airServices/tickets/single-ticket-details/new-email';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 export const useEnquiries = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -23,7 +24,7 @@ export const useEnquiries = () => {
   };
 
   // Get Data
-  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [selectedRow, setSelectedRow] = useState<string[]>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [searchValue, setSearchValue] = useState(null);
@@ -39,7 +40,7 @@ export const useEnquiries = () => {
     searchPayLoad = { search: searchValue };
   }
 
-  const methodsFilter: any = useForm();
+  const methodsFilter = useForm();
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
 
@@ -145,7 +146,7 @@ export const useEnquiries = () => {
   const [patchEnquiriesTrigger, patchEnquiriesStatus] =
     usePatchEnquiriesMutation();
 
-  const handleStatusChange = async (info: any, event: any) => {
+  const handleStatusChange = async (info: any, event: SelectChangeEvent) => {
     const patchEnquiriesParameter = {
       queryParams: info?._id,
       body: { status: event?.target?.value },

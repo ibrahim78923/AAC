@@ -2,6 +2,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import { DATE_FORMAT } from '@/constants';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { capitalizeFirstLetter } from '@/utils/api';
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 export const columns: any = ({
@@ -19,7 +20,7 @@ export const columns: any = ({
       id: 'title',
       header: 'Title',
       isSortable: true,
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()) ?? 'N/A',
     },
 
     {

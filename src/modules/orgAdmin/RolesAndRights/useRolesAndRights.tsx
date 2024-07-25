@@ -48,7 +48,9 @@ const useRolesAndRights = () => {
     data: getPermissions,
     isSuccess,
     isLoading,
-  } = useGetPermissionsRolesQuery(permissionParams);
+  } = useGetPermissionsRolesQuery(permissionParams, {
+    skip: !user?.organization?._id,
+  });
 
   const handleClose = () => {
     setSelectedValue(null);
@@ -66,7 +68,7 @@ const useRolesAndRights = () => {
     });
   };
 
-  const updateStatus = async (id: any, val: any) => {
+  const updateStatus = async (id: string, val: any) => {
     const status = val?.target?.checked ? 'ACTIVE' : 'INACTIVE';
     try {
       await updateRoleRights({ id, body: { status: status } });

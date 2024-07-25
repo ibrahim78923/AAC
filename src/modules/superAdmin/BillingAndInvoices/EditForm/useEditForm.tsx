@@ -15,15 +15,20 @@ import {
   productSuiteName,
   SUBSCRIPTION_AND_INVOICES_ERROR_MESSAGES,
 } from '@/constants';
-import { SubmitValuesI } from './editForm.interface';
+import {
+  GetCRM,
+  ProductCRMI,
+  SubmitValuesI,
+  UseEditFormI,
+} from './editForm.interface';
 
-const useEditForm = (
-  isEditModal: any,
-  isGetRowValues: any,
-  onClose: any,
-  setIsGetRowValues: any,
-  setIsChecked: any,
-) => {
+const useEditForm = ({
+  isEditModal,
+  isGetRowValues,
+  onClose,
+  setIsGetRowValues,
+  setIsChecked,
+}: UseEditFormI) => {
   const [selectProductSuite, setSelectProductSuite] = useState('product');
   const [isExistingPlan, setIsExistingPlan] = useState(false);
   const [isUserPrice, setIsUserPrice] = useState(true);
@@ -88,7 +93,7 @@ const useEditForm = (
 
   const { data: getCRM } = useGetCrmQuery({});
 
-  const crmOptions = getCRM?.data?.map((product: any) => ({
+  const crmOptions = getCRM?.data?.map((product: GetCRM) => ({
     value: product?._id,
     label: product?.name,
   }));
@@ -109,7 +114,7 @@ const useEditForm = (
   let planData: any;
   let isSuccessPlan: any;
   const productName = getCRM?.data?.find(
-    (product: any) => product?._id === productId,
+    (product: ProductCRMI) => product?._id === productId,
   )?.name;
 
   const queryParameters = {

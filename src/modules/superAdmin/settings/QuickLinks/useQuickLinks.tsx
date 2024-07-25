@@ -11,9 +11,10 @@ import {
 import { DATE_FORMAT } from '@/constants';
 import { PAGINATION } from '@/config';
 import { useGetProductsQuery } from '@/services/superAdmin/plan-mangement';
+import { FilterValuesI } from './QuickLinks.interface';
 
 const useQuickLinks = () => {
-  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [selectedRow, setSelectedRow] = useState<string[]>([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -62,7 +63,7 @@ const useQuickLinks = () => {
     setOpenFilters(false);
   };
 
-  const onSubmitFilters = async (values: any) => {
+  const onSubmitFilters = async (values: FilterValuesI) => {
     const { createdAt, productId } = values;
 
     const formattedDates = createdAt?.map((date: any) =>

@@ -20,7 +20,7 @@ export const RenameReport = (props: any) => {
     <Dialog
       open={isPortalOpen?.isRename}
       onClose={() => handleClose()}
-      maxWidth={'xs'}
+      maxWidth={'sm'}
       fullWidth
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

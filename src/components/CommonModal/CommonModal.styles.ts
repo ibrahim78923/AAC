@@ -9,7 +9,7 @@ export const styles = {
       bgcolor: theme?.palette?.common?.white,
       p: 2,
       borderRadius: '20px',
-      maxHeight: '600px',
+      maxHeight: '90vh',
       '@media (max-width:1200px)': {
         width: '60vw',
       },

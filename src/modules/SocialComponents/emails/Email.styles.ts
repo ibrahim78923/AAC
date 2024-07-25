@@ -1,10 +1,12 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
   emailWrapper: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  heading: (theme: any) => ({
+  heading: (theme: Theme) => ({
     color: theme?.palette?.grey[800],
     m: 0,
   }),
@@ -18,7 +20,7 @@ export const styles = {
     alignItems: 'center',
     gap: '10px',
   },
-  paragraph: (theme: any) => ({
+  paragraph: (theme: Theme) => ({
     color: theme?.palette?.custom?.main,
     paddingBottom: '20px',
   }),
@@ -42,7 +44,7 @@ export const styles = {
     py: '12px',
     cursor: 'pointer',
   },
-  emailArray: (theme: any) => ({
+  emailArray: (theme: Theme) => ({
     position: 'relative',
     flexBasis: '256px',
     borderRadius: '8px',
@@ -52,7 +54,7 @@ export const styles = {
     mb: '24px',
     border: `1px solid ${theme?.palette?.grey[700]}`,
   }),
-  overlayWrapper: (theme: any) => ({
+  overlayWrapper: (theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

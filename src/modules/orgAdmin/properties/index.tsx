@@ -8,13 +8,14 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
 import PropertiesTable from './ProperiesTable';
 import Image from 'next/image';
+import { PRODUCT_USER_STATUS } from '@/constants/strings';
 
 const Properties = () => {
   const theme = useTheme();
-  const { activeProduct, setActiveProduct } = useProperties();
-  const { productList, isLoading } = useProperties();
+  const { productList, isLoading, activeProduct, setActiveProduct } =
+    useProperties();
   const filteredroducts = productList?.data?.filter(
-    (item: any) => item?.status === 'active',
+    (item: any) => item?.status === PRODUCT_USER_STATUS?.active,
   );
   const methods = useForm({});
 
@@ -36,7 +37,9 @@ const Properties = () => {
               onClick={() => setActiveProduct(item?.id)}
             >
               <Card
-                className={`${activeProduct === item?.id && 'active'}`}
+                className={`${
+                  activeProduct === item?.id && PRODUCT_USER_STATUS?.active
+                }`}
                 sx={styles?.productIconColor(theme)}
               >
                 <Box display="flex" gap={1} alignItems="center">

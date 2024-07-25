@@ -9,13 +9,14 @@ import {
 import { usePostEmailDashboardMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useEmailThisDashboard = () => {
+export const useEmailThisDashboard = (props: any) => {
+  const { setIsDrawerOpen } = props;
   const methods: any = useForm({
     resolver: yupResolver(createEmailThisDashboardValidationSchema),
     defaultValues: createEmailThisDashboardDefaultValues,
   });
 
-  const { handleSubmit, control, reset, setIsDrawerOpen } = methods;
+  const { handleSubmit, control, reset } = methods;
 
   const [postEmailTrigger, postEmailProgress] = usePostEmailDashboardMutation();
 

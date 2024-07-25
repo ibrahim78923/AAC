@@ -1,5 +1,6 @@
 import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { generateImage } from '@/utils/avatarUtils';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const MemberDetails = (props: any) => {
   const theme = useTheme();
@@ -22,13 +23,17 @@ const MemberDetails = (props: any) => {
             gap: 1.5,
           }}
         >
-          {/* <Image
-            src={gene}
-            alt="img"
-            width={40}
-            height={40}
-          /> */}
-          <Avatar src={generateImage(props?.img)}></Avatar>
+          <Avatar
+            src={generateImage(props?.img)}
+            alt="Remy Sharp"
+            sx={{
+              color: theme?.palette?.grey[600],
+              fontSize: '12px',
+              fontWeight: 500,
+            }}
+          >
+            {capitalizeFirstLetter(props?.name?.charAt(0))}
+          </Avatar>
           <Box sx={{ display: 'grid' }}>
             <Typography
               variant="body3"

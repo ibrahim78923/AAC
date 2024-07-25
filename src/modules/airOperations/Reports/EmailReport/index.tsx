@@ -4,12 +4,19 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import { useNewEmailDrawer } from './useEmailReport';
 import { emailReportFormFields } from './EmailReport.data';
+import { LoadingButton } from '@mui/lab';
 
 export const EmailReport = (props: any) => {
   const { isPortalOpen } = props;
 
-  const { methods, handleSubmit, onSubmit, onClose, emailReportsStatus } =
-    useNewEmailDrawer(props);
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    onClose,
+    emailReportsStatus,
+    downloadPath,
+  } = useNewEmailDrawer(props);
 
   return (
     <CommonDrawer
@@ -33,6 +40,11 @@ export const EmailReport = (props: any) => {
           ))}
         </Grid>
       </FormProvider>
+      <LoadingButton sx={{ my: 1 }} onClick={downloadPath}>
+        Click here to download Report
+      </LoadingButton>
+      <br />
+      <br />
     </CommonDrawer>
   );
 };

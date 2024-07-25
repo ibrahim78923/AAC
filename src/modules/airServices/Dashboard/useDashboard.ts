@@ -8,6 +8,7 @@ import {
   dashboardDropdownActionsDynamic,
   dashboardsListsOptionsDynamic,
 } from './Dashboard.data';
+import { successSnackbar } from '@/utils/api';
 
 export const useDashboard = () => {
   const [dashboardId, setDashboardId] = useState('');
@@ -26,6 +27,7 @@ export const useDashboard = () => {
 
   const copyEmail = () => {
     navigator?.clipboard?.writeText(emailToCopy);
+    successSnackbar('Link has been copied successfully.');
   };
 
   const dashboardsList = useGetDashboardNameListDropdownListForDashboardQuery(

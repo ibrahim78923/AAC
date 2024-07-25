@@ -8,16 +8,21 @@ import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { styled } from '@mui/material/styles';
 import { RHFMultiCheckbox } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  DashboardAccordionProps,
+  SubModule,
+  Permission,
+} from '@/modules/orgAdmin/RolesAndRights/AddRole/PermissionsAccordion/DashboardAccordion/Dashboard-interface';
 
 const DashboardAccordion = ({
+  handleChangeSubModule,
+  selectedSubModule,
   subModules,
   disabled,
-  selectedSubModule,
-  handleChangeSubModule,
-}: any) => {
+}: DashboardAccordionProps) => {
   return (
     <>
-      {subModules?.map((item: any) => (
+      {subModules?.map((item: SubModule) => (
         <Accordion
           sx={{ p: 0 }}
           key={uuidv4()}
@@ -40,9 +45,9 @@ const DashboardAccordion = ({
               <RHFMultiCheckbox
                 disabled={disabled}
                 name="permissions"
-                options={item?.permissions?.map((item: any) => ({
-                  label: item?.name,
-                  value: item?.slug,
+                options={item?.permissions?.map((permission: Permission) => ({
+                  label: permission?.name,
+                  value: permission?.slug,
                 }))}
                 GridView={4}
               />

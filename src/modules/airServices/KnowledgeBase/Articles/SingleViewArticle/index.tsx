@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Skeleton, Typography } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import FiberManualRecordSharpIcon from '@mui/icons-material/FiberManualRecordSharp';
 import { styles } from './SingleViewArticle.style';
@@ -11,6 +11,7 @@ import { Attachments } from '@/components/Attachments';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { truncateText } from '@/utils/avatarUtils';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const SingleViewArticle = () => {
   const {
@@ -24,7 +25,7 @@ export const SingleViewArticle = () => {
     router,
   } = useSingleViewArticle();
 
-  if (isLoading || isFetching) return <Skeleton />;
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <>
       <Grid container spacing={1} justifyContent={'space-between'}>

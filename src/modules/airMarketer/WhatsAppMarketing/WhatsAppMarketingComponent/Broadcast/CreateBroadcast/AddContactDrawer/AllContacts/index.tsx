@@ -3,15 +3,9 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { allContactsColumns } from './AllContacts.data';
 import useAddContactDrawer from '../useAddContactsDrawer';
 
-const AllContacts = ({ setSelectedRec, selectedRec }: any) => {
-  const {
-    loadingAllContacts,
-    allContactsData,
-    getContactsData,
-    setPageLimit,
-    setPage,
-    theme,
-  } = useAddContactDrawer();
+const AllContacts = ({ setSelectedRec, selectedRec, allContactsData }: any) => {
+  const { loadingAllContacts, getContactsData, setPageLimit, setPage, theme } =
+    useAddContactDrawer();
 
   const columnsProps = {
     allContactsData,

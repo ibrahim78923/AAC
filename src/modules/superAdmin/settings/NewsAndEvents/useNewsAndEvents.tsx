@@ -17,6 +17,7 @@ import {
   newsAndEventsFormDefaultValues,
   newsAndEventsFormValidationSchema,
 } from './NewsAndEventsModal/NewsAndEventsModal.data';
+import { FilterValuesI, AddNewsEventValuesI } from './NewsAndEvents.interface';
 
 const useNewsAndEvents = () => {
   const theme = useTheme();
@@ -29,7 +30,7 @@ const useNewsAndEvents = () => {
     setAnchorEl(null);
   };
 
-  const [selectedRow, setSelectedRow] = useState([]);
+  const [selectedRow, setSelectedRow] = useState<string[]>([]);
   const [tableRowValues, setTableRowValues] = useState<any>(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -53,8 +54,8 @@ const useNewsAndEvents = () => {
   const [updateNewsEvents, { isLoading: loadingUpdate }] =
     useUpdateNewsEventsMutation();
 
-  const methodsNewsAndEventsFilters = useForm();
-  const onSubmit = (value: any) => {
+  const methodsNewsAndEventsFilters = useForm<FilterValuesI>();
+  const onSubmit = (value: FilterValuesI) => {
     const filterNewsAndEventsValues = {
       ...(value?.status && { status: value?.status }),
       ...(value?.type && { type: value?.type }),
@@ -79,7 +80,7 @@ const useNewsAndEvents = () => {
   };
 
   // Add/Edit News & Events
-  const methodsAddNewsEvents = useForm<any>({
+  const methodsAddNewsEvents = useForm<AddNewsEventValuesI>({
     resolver: yupResolver(newsAndEventsFormValidationSchema),
     defaultValues: newsAndEventsFormDefaultValues,
   });
@@ -111,7 +112,7 @@ const useNewsAndEvents = () => {
     resetAddNewsEvents();
   };
 
-  const onSubmitAddNewsEvents = async (values: any) => {
+  const onSubmitAddNewsEvents = async (values: AddNewsEventValuesI) => {
     const payload: any = {};
     Object.entries(values)?.forEach(([key, value]: any) => {
       if (value !== undefined && value !== null && value !== '') {

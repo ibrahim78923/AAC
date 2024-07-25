@@ -7,8 +7,12 @@ import {
 import { useEffect } from 'react';
 import { usePatchAssetTypeMutation } from '@/services/airServices/settings/asset-management/asset-type';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
 
 export default function useChildType({ childDetails, setChildDetails }: any) {
+  const router: any = useRouter();
+
   const [patchChildAssetTypeTrigger, patchChildAssetTypeStatus] =
     usePatchAssetTypeMutation();
 
@@ -30,12 +34,19 @@ export default function useChildType({ childDetails, setChildDetails }: any) {
     }
     const body = {
       ...data,
-      id: childDetails?.parentId,
+      id: childDetails?.parentData?._id,
     };
     try {
-      await patchChildAssetTypeTrigger(body);
+      const res: any = await patchChildAssetTypeTrigger(body);
       successSnackbar('Asset Type Added Successfully!');
       onClose?.();
+      router?.push({
+        pathname: AIR_SERVICES?.ASSET_TYPE_CREATE_FIELDS,
+        query: {
+          section: res?.data?.data?._id,
+          childName: res?.data?.data?.name,
+        },
+      });
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
       onClose?.();
@@ -45,13 +56,20 @@ export default function useChildType({ childDetails, setChildDetails }: any) {
   const updateChildType = async (data: any) => {
     const body = {
       ...data,
-      id: childDetails?.parentId,
-      childId: childDetails?.childData?._id,
+      id: childDetails?.parentData?._id,
+      chlidId: childDetails?.childData?._id,
     };
     try {
-      await patchChildAssetTypeTrigger(body);
+      const res: any = await patchChildAssetTypeTrigger(body);
       successSnackbar('Asset Type Updated Successfully!');
       onClose?.();
+      router?.push({
+        pathname: AIR_SERVICES?.ASSET_TYPE_CREATE_FIELDS,
+        query: {
+          section: res?.data?.data?._id,
+          childName: res?.data?.data?.name,
+        },
+      });
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
       onClose?.();
@@ -61,7 +79,7 @@ export default function useChildType({ childDetails, setChildDetails }: any) {
   const onClose = () => {
     setChildDetails({
       open: false,
-      parentId: null,
+      parentData: null,
       childData: null,
     });
   };

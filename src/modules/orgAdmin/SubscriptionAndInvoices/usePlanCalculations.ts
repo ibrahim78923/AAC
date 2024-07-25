@@ -1,4 +1,8 @@
 import { useEffect, useState } from 'react';
+import {
+  PlanCalculationsParamsI,
+  PlanCalculationsResultI,
+} from './subscriptionAndInvoices.interface';
 
 const usePlanCalculations = ({
   additionalDefaultUser,
@@ -9,8 +13,23 @@ const usePlanCalculations = ({
   planDefaultDiscount,
 
   PLAN_CALCULATIONS,
-}: any) => {
-  const [planCalculations, setPlanCalculations] = useState<any>(null);
+}: PlanCalculationsParamsI) => {
+  const [planCalculations, setPlanCalculations] =
+    useState<PlanCalculationsResultI>({
+      perUserPrice: 0,
+      perStoragePrice: 0,
+      planPrice: 0,
+      additionalUsers: 0,
+      additionalStorage: 0,
+      planDiscount: 0,
+      planTax: 0,
+      convertedPlanDiscount: 0,
+      totalCostBeforeDiscount: 0,
+      discountedPriceBeforeTax: 0,
+      discountApplied: 0,
+      taxAmount: 0,
+      finalPrice: 0,
+    });
   useEffect(() => {
     const perUserPrice = additionalUserPrice || 0;
     const perStoragePrice = additionalStoragePrice || 0;

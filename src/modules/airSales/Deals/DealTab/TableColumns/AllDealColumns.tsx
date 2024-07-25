@@ -5,6 +5,7 @@ import { DATE_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { generateImage } from '@/utils/avatarUtils';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const AllDealColumns = ({
   selectedRows,
@@ -49,13 +50,16 @@ export const AllDealColumns = ({
                   color: theme?.palette?.custom?.dim_grey,
                 }}
               >
-                {info?.row?.original?.dealOwner?.name?.charAt(0) ?? ''}
+                {capitalizeFirstLetter(
+                  info?.row?.original?.dealOwner?.name?.charAt(0),
+                ) ?? ''}
               </Typography>
             </Avatar>
           </>
           <Box>
             <Typography component="p" variant="body3" fontWeight={500}>
-              {info?.row?.original?.dealOwner?.name ?? 'N/A'}
+              {capitalizeFirstLetter(info?.row?.original?.dealOwner?.name) ??
+                'N/A'}
             </Typography>
             <Typography component="p" variant="body3">
               {info?.row?.original?.dealOwner?.email ?? 'N/A'}
@@ -81,7 +85,7 @@ export const AllDealColumns = ({
               fontWeight: 500,
             }}
           >
-            {info?.row?.original?.name ?? 'N/A'}
+            {capitalizeFirstLetter(info?.row?.original?.name) ?? 'N/A'}
           </Typography>
         </Box>
       );

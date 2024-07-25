@@ -20,13 +20,15 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { PAGINATION } from '@/config';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useLifeCycleStage = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
-  const [isModalHeading, setIsModalHeading] = useState('Create');
-  const [postSettingLifeCycleStage] = usePostSettingLifeCycleStageMutation();
+  const [isModalHeading, setIsModalHeading] = useState<string>('Create');
+  const [postSettingLifeCycleStage, { isLoading: postLifeCyleStageLoading }] =
+    usePostSettingLifeCycleStageMutation();
   const [rowId, setRowId] = useState<string>('');
   const [editData, setEditData] = useState<any>({});
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -111,21 +113,23 @@ const useLifeCycleStage = () => {
         }).unwrap();
         setIsDraweropen(false);
         enqueueSnackbar('Status Updated Successfully', {
-          variant: 'success',
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
         handleCloseDrawer();
       } else {
         await postSettingLifeCycleStage({
           body: settingLifeCycleStage,
-        }).unwrap();
+        })?.unwrap();
         enqueueSnackbar('Satge Added Successfully', {
-          variant: 'success',
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
         handleCloseDrawer();
         setIsDraweropen(false);
       }
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      enqueueSnackbar('Something went wrong !', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
@@ -165,6 +169,7 @@ const useLifeCycleStage = () => {
     setPage,
     setPageLimit,
     loadingDelete,
+    postLifeCyleStageLoading,
   };
 };
 

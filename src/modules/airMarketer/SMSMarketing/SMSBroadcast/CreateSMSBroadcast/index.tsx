@@ -11,14 +11,18 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { contactsColumns, createBroadcast } from './CreateSMSBroadcast.data';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFDateTimePicker } from '@/components/ReactHookForm';
 import TanstackTable from '@/components/Table/TanstackTable';
-import DateRangeIcon from '@mui/icons-material/DateRange';
-import { BookMarkIcon, PlusSharedColorIcon } from '@/assets/icons';
+import {
+  BookMarkIcon,
+  PlusSharedColorIcon,
+  TimeClockIcon,
+} from '@/assets/icons';
 import useCreateSMSBroadcast from './useCreateSMSBroadcast';
 import AddContactDrawer from './AddContactDrawer';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import {
+  ARRAY_INDEX,
   DRAWER_TYPES,
   SMS_BROADCAST_CONSTANTS,
   STATUS_CONTANTS,
@@ -26,11 +30,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 import { styles } from './CreateSMSBroadcast.style';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
 import dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from '@/constants';
 
 const CreateSMSBroadcast = () => {
   const {
@@ -42,7 +42,6 @@ const CreateSMSBroadcast = () => {
     selectedContactsData,
     flattenContactsData,
     smsBroadcastLoading,
-    setSelectedDateVal,
     handleSaveAsDraft,
     setCreateStatus,
     setSelectedRec,
@@ -81,7 +80,7 @@ const CreateSMSBroadcast = () => {
           </Box>
           <Box
             onMouseOver={() => {
-              setCreateStatus('Draft');
+              setCreateStatus(STATUS_CONTANTS?.DRAFT);
             }}
           >
             {type === DRAWER_TYPES?.ADD && (
@@ -173,7 +172,6 @@ const CreateSMSBroadcast = () => {
                           ))}
                       </item.component>
                     )}
-
                     {item?.componentProps?.name ===
                       SMS_BROADCAST_CONSTANTS?.RECIPIENTS &&
                       !smsBroadcastLoading && (
@@ -188,6 +186,7 @@ const CreateSMSBroadcast = () => {
                                 fontSize: '12px',
                               },
                             }}
+                            position="end"
                           >
                             {selectedContactsData?.map((item: any) => {
                               const contacts = item?.contacts || [item];
@@ -199,16 +198,31 @@ const CreateSMSBroadcast = () => {
                                 >
                                   <Typography variant="body3" fontWeight={500}>
                                     {contact?.firstName
-                                      ?.charAt(0)
+                                      ?.charAt(ARRAY_INDEX?.ZERO)
                                       ?.toUpperCase()}
                                     {contact?.lastName
-                                      ?.charAt(0)
+                                      ?.charAt(ARRAY_INDEX?.ZERO)
                                       ?.toUpperCase()}
                                   </Typography>
                                 </Avatar>
                               ));
                             })}
                           </AvatarGroup>
+                        </Box>
+                      )}
+                    {item?.componentProps?.name ===
+                      SMS_BROADCAST_CONSTANTS?.RECIPIENTS &&
+                      isSchedule && (
+                        <Box sx={{ mt: 2 }}>
+                          <RHFDateTimePicker
+                            name="schedualDate"
+                            label="Select Date and Time"
+                            fullWidth
+                            size="small"
+                            disablePast
+                            required
+                            minDateTime={dayjs()}
+                          />
                         </Box>
                       )}
                   </Grid>
@@ -228,7 +242,9 @@ const CreateSMSBroadcast = () => {
                       variant="body1"
                       fontWeight={700}
                     >
-                      {broadcastName?.title?.charAt(0)?.toUpperCase()}
+                      {broadcastName?.title
+                        ?.charAt(ARRAY_INDEX?.ZERO)
+                        ?.toUpperCase()}
                       {broadcastName?.title?.slice(-1)?.toUpperCase()}
                     </Typography>
                   </Avatar>
@@ -246,8 +262,8 @@ const CreateSMSBroadcast = () => {
                       {broadcastName === ''
                         ? 'Broadcast Name'
                         : broadcastName?.title
-                        ? broadcastName?.title
-                        : broadcastName}
+                          ? broadcastName?.title
+                          : broadcastName}
                       {/* {broadcastName ? broadcastName?.title : 'Broadcast Name'} */}
                     </Typography>
                     <Typography
@@ -313,37 +329,17 @@ const CreateSMSBroadcast = () => {
                 Save as Template
               </Button>
             )}
-            <Box sx={styles?.buttonPicker}>
-              <Button
-                variant="outlined"
-                color="inherit"
-                className="small"
-                onClick={() => {
-                  setIsSchedule(!isSchedule);
-                }}
-                startIcon={<DateRangeIcon />}
-              >
-                Schedule
-              </Button>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                {isSchedule && (
-                  <Box sx={styles?.datePickerWrapper}>
-                    <StaticDateTimePicker
-                      defaultValue={dayjs()}
-                      onAccept={(date: any) => {
-                        setIsSchedule(false);
-                        setSelectedDateVal(
-                          dayjs(date)?.format(DATE_TIME_FORMAT?.YYMMDD),
-                        );
-                      }}
-                      onClose={() => {
-                        setIsSchedule(false);
-                      }}
-                    />
-                  </Box>
-                )}
-              </LocalizationProvider>
-            </Box>
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={() => {
+                setIsSchedule(!isSchedule);
+              }}
+              startIcon={<TimeClockIcon />}
+            >
+              {isSchedule ? 'Send Now' : 'Send Later'}
+            </Button>
             <LoadingButton
               variant="contained"
               className="small"
@@ -353,7 +349,7 @@ const CreateSMSBroadcast = () => {
                 (postBroadcastLoading || updateBroadcastLoading)
               }
             >
-              Send Now
+              {isSchedule ? 'Send Later' : 'Send Now'}
             </LoadingButton>
           </Grid>
         </Grid>

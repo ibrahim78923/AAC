@@ -4,7 +4,7 @@ import { makeDynamicColumn } from './Table.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const Table = (props: any) => {
-  const { tableColumns, title } = props;
+  const { tableColumns, title, data = [] } = props;
   const tableColumn = makeDynamicColumn(tableColumns);
   return (
     <Box
@@ -15,7 +15,9 @@ export const Table = (props: any) => {
       height="100%"
     >
       <PageTitledHeader title={title} />
-      <TanstackTable data={[]} columns={tableColumn} />
+      <Box maxHeight={'40vh'} overflow={'auto'}>
+        <TanstackTable data={data} columns={tableColumn} />
+      </Box>
     </Box>
   );
 };

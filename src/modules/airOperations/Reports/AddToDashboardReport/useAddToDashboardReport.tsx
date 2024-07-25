@@ -1,5 +1,9 @@
 import { PAGINATION } from '@/config';
-import { GENERIC_REPORT_MODULES } from '@/constants/strings';
+import {
+  ARRAY_INDEX,
+  GENERIC_REPORT_MODULES,
+  REPORT_TYPE,
+} from '@/constants/strings';
 import {
   useAddReportsToDashboardMutation,
   useLazyGetMarketingDashboardDropdownListToAddReportsToDashboardQuery,
@@ -14,11 +18,12 @@ import * as Yup from 'yup';
 export const useAddToDashboardReport = (props: any) => {
   const {
     setIsPortalOpen,
+    selectedReportLists,
     setSelectedReportLists,
     setPage,
+    totalRecords,
+    page,
     getReportListData,
-    setReportFilter,
-    selectedReportLists,
   } = props;
 
   const [addReportsToDashboardTrigger, addReportsToDashboardStatus] =
@@ -39,20 +44,29 @@ export const useAddToDashboardReport = (props: any) => {
 
   const submitAddToDashboardForm = async (formData: any) => {
     const apiDataParameter = {
+      queryParams: {
+        id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+      },
       body: {
-        reportIds: selectedReportLists,
-        dashboard: formData?.dashboard,
+        linkDashboard: {
+          action: REPORT_TYPE?.ADD_TO_EXISTING,
+          existingDashboards: formData?.dashboard?.map(
+            (dashboard: any) => dashboard?._id,
+          ),
+        },
       },
     };
 
     try {
       await addReportsToDashboardTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Report added to dashboard successfully');
-      reset();
-      await getReportListData?.(PAGINATION?.CURRENT_PAGE, {});
-      setReportFilter?.({});
-      setPage?.(PAGINATION?.CURRENT_PAGE);
       closeModal?.();
+      const newPage =
+        selectedReportLists?.length === totalRecords
+          ? PAGINATION?.CURRENT_PAGE
+          : page;
+      setPage?.(newPage);
+      await getReportListData?.(newPage);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

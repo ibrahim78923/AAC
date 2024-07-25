@@ -226,7 +226,7 @@ export const AssetType = () => {
                           onClick={() =>
                             setChildDetails({
                               open: true,
-                              parentId: parent?._id,
+                              parentData: parent,
                               childData: child,
                             })
                           }
@@ -252,7 +252,7 @@ export const AssetType = () => {
                   onClick={() =>
                     setChildDetails({
                       open: true,
-                      parentId: parent?._id,
+                      parentData: parent,
                       childData: null,
                     })
                   }

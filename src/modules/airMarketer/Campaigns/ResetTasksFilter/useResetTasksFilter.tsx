@@ -11,8 +11,8 @@ const useResetTasksFilter = (setTaskFilters: any, setIsFiltersOpen: any) => {
 
   const onSubmit = (values: any) => {
     setIsFiltersOpen(false);
-    values.campaignId = values.campaignId?._id;
-    values.assignedTo = values.assignedTo?._id;
+    values.campaignId = values?.campaignId?._id;
+    values.assignedTo = values?.assignedTo?._id;
     const filterValues = filteredEmptyValues?.(values);
     setTaskFilters(filterValues);
   };

@@ -8,10 +8,10 @@ import {
   fieldTypeDefaultValues,
 } from './CreatePropertyDrawer.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { dealStatus } from '@/constants';
+import { dealStatus, indexNumbers } from '@/constants';
 
 const useCreatePropertyDrawer = (onClose?: any) => {
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(indexNumbers?.ONE);
   const [basicInfoData, setBasicInfoData] = useState({});
 
   const basicInfoMethods = useForm({

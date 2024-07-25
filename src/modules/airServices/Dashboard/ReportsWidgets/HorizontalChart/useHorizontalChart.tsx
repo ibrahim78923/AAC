@@ -3,7 +3,7 @@ import { ITEMS_DATA_TYPE } from '../ReportsWidgets.data';
 import { MONTH_NAMES } from '@/constants/strings';
 
 export const useHorizontalChart = (props: any) => {
-  const { data, barChart } = props;
+  const { data = { counts: [], items: [] }, barChart } = props;
   const { items = [], counts = [] } = data;
 
   const theme = useTheme();

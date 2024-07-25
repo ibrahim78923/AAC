@@ -7,10 +7,16 @@ import {
 } from './EmailReport.data';
 import { useEmailReportsMutation } from '@/services/airOperations/reports';
 import useAuth from '@/hooks/useAuth';
+import { ARRAY_INDEX } from '@/constants/strings';
+import { AIR_OPERATIONS } from '@/constants';
+import { useRouter } from 'next/router';
 
 export const useNewEmailDrawer = (props: any) => {
+  const { setIsPortalOpen, selectedReportLists, setSelectedReportLists } =
+    props;
+
   const { user }: any = useAuth();
-  const { setIsPortalOpen, setSelectedReportLists } = props;
+  const router = useRouter();
 
   const [emailReportsTrigger, emailReportsStatus] = useEmailReportsMutation();
 
@@ -30,6 +36,7 @@ export const useNewEmailDrawer = (props: any) => {
     emailFormData?.append('recipients', data?.recipients);
     emailFormData?.append('subject', data?.subject);
     emailFormData?.append('html', data?.html);
+    emailFormData?.append('attachments', data?.attachments);
 
     const apiDataParameter = {
       body: emailFormData,
@@ -49,6 +56,13 @@ export const useNewEmailDrawer = (props: any) => {
     setIsPortalOpen?.({});
     setSelectedReportLists?.([]);
   };
+  const downloadPath = () =>
+    router?.push({
+      pathname: AIR_OPERATIONS?.SINGLE_GENERIC_REPORTS_DETAILS,
+      query: {
+        reportId: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
+      },
+    });
 
   return {
     methods,
@@ -56,5 +70,6 @@ export const useNewEmailDrawer = (props: any) => {
     onSubmit,
     onClose,
     emailReportsStatus,
+    downloadPath,
   };
 };

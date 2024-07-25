@@ -1,5 +1,7 @@
+import { Theme } from '@mui/material';
+
 export const styles = {
-  productIconColor: (theme: any) => ({
+  productIconColor: (theme: Theme) => ({
     padding: 3,
     cursor: 'pointer',
     '&.active': {

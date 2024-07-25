@@ -81,7 +81,7 @@ const Calander = ({
           ) : (
             <Typography variant="body1" fontWeight={600}>
               {taskFilters?.startDate
-                ? dayjs(datePickerVal[0])?.format(
+                ? dayjs(datePickerVal[indexNumbers?.ZERO])?.format(
                     DATE_TIME_FORMAT?.ddddDDMMMYYYY,
                   )
                 : 'All Tasks'}

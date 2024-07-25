@@ -47,31 +47,33 @@ const ContactStatus = () => {
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isDraweropen}
-        onClose={handleCloseDrawer}
-        title={`${isModalHeading} Status Name`}
-        okText={isModalHeading === 'Edit' ? 'Update' : 'Add'}
-        footer={isModalHeading === 'View' ? false : true}
-        isOk={true}
-        submitHandler={handleSubmit(onSubmit)}
-        isLoading={loadingUpdateContactStatus || loadingAddStatus}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={ContactStatus}>
-            <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component
-                    {...item.componentProps}
-                    size={'small'}
-                  ></item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
+      {isDraweropen && (
+        <CommonDrawer
+          isDrawerOpen={isDraweropen}
+          onClose={handleCloseDrawer}
+          title={`${isModalHeading} Status Name`}
+          okText={isModalHeading === 'Edit' ? 'Update' : 'Add'}
+          footer={isModalHeading === 'View' ? false : true}
+          isOk={true}
+          submitHandler={handleSubmit(onSubmit)}
+          isLoading={loadingUpdateContactStatus || loadingAddStatus}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={ContactStatus}>
+              <Grid container spacing={4}>
+                {dataArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component
+                      {...item.componentProps}
+                      size={'small'}
+                    ></item.component>
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
 
       <Box
         sx={{
@@ -116,7 +118,7 @@ const ContactStatus = () => {
           <Search
             label={'Search here'}
             setSearchBy={setSearchValue}
-            width="260px"
+            size="small"
           />
         </Box>
         <Grid>

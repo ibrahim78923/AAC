@@ -3,9 +3,9 @@ export interface PlanCardI {
   icon: any;
   title: string;
   planDuration?: string;
-  planUsers?: string;
+  planUsers?: number;
   planData?: string;
-  price: string;
+  price: number;
   billOn: string;
   type?: string;
   handleBillingDetail?: any;

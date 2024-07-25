@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getSession } from '@/utils';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
+import { indexNumbers } from '@/constants';
+import { PAGINATION } from '@/config';
 
 const useUsers = () => {
   const { user }: any = getSession();
-  const [employeeDataById, setEmployeeDataById] = useState();
+  const [employeeDataById, setEmployeeDataById] = useState('');
   const [searchEmployee, setSearchEmployee] = useState('');
   const [employeeFilter, setEmployeeFilter] = useState<any>({
     product: {},
@@ -14,11 +16,10 @@ const useUsers = () => {
   const [searchAccount, setSearchAccount] = useState('');
 
   const [page, setPage] = useState(1);
-  const employeeRecordsLimit = 10;
 
   const empListParams = {
     page: page,
-    limit: employeeRecordsLimit,
+    limit: PAGINATION?.PAGE_LIMIT,
     search: searchEmployee,
     product: employeeFilter?.product?._id,
     company: employeeFilter?.company?._id,
@@ -40,7 +41,9 @@ const useUsers = () => {
   const employeeMetaData = employeeList?.data?.meta;
 
   useEffect(() => {
-    setEmployeeDataById(employeeList?.data?.users[0]?._id ?? null);
+    setEmployeeDataById(
+      employeeList?.data?.users[indexNumbers?.ZERO]?._id ?? null,
+    );
   }, [employeeList?.data?.users]);
 
   const handleEmpListPaginationChange = (

@@ -7,7 +7,7 @@ import Search from '@/components/Search';
 import { styles } from './TableToolbar.style';
 import useTableToolbar from './useTableToolbar';
 import { ToolbarI } from './TableToolbar.interface';
-import { formStatus } from '@/utils/form-builder';
+import { formStatus } from '@/constants/form-builder';
 
 const TableToolbar: React.FC<ToolbarI> = (props) => {
   const {

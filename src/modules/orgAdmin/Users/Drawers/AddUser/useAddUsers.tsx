@@ -5,13 +5,15 @@ import { superAdminValidationSchema } from './AddUser.data';
 import { useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import useToggle from '@/hooks/useToggle';
+import { EQuickLinksType } from '@/constants';
 
 const useAddUser = (useActionParams?: any) => {
   const { organizationId, setIsOpenAdduserDrawer } = useActionParams;
 
   const [isToggled, setIsToggled] = useToggle(false);
 
-  const [postUserEmployee] = usePostUserEmployeeMutation();
+  const [postUserEmployee, { isLoading: postUserLoading }] =
+    usePostUserEmployeeMutation();
 
   // form methods
   const methods: any = useForm({
@@ -33,8 +35,8 @@ const useAddUser = (useActionParams?: any) => {
     formValues.city && `${formValues.city}, `,
     formValues.country && formValues.country,
   ]
-    .filter(Boolean)
-    .join('');
+    ?.filter(Boolean)
+    ?.join('');
 
   // Set value of address fields
   useEffect(() => {
@@ -50,13 +52,12 @@ const useAddUser = (useActionParams?: any) => {
       email: values?.email,
       phoneNumber: values?.phoneNumber,
       jobTitle: values?.jobTitle,
-      role: 'ORG_EMPLOYEE',
+      role: EQuickLinksType?.ORG_EMPLOYEE,
       facebookUrl: values?.facebookURl,
       twitterUrl: values?.twitterUrl,
     };
 
     if (isToggled) {
-      // If isToggled is true, construct the address object with individual fields
       bodyVals.address = {
         flatNumber: values?.flat,
         buildingName: values?.buildingName,
@@ -66,7 +67,6 @@ const useAddUser = (useActionParams?: any) => {
         country: values?.country,
       };
     } else {
-      // If isToggled is false, use a composite address value
       bodyVals.address = {
         composite: values?.compositeAddress,
       };
@@ -93,6 +93,7 @@ const useAddUser = (useActionParams?: any) => {
     onSubmit,
     isToggled,
     setIsToggled,
+    postUserLoading,
     addressVal: formValues.compositeAddress,
   };
 };

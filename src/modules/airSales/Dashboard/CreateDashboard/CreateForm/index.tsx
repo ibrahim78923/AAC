@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   Grid,
@@ -6,117 +6,158 @@ import {
   Button,
   useTheme,
   Typography,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
+  TableContainer,
+  Table,
+  TableHead,
+  TableCell,
+  TableRow,
+  TableBody,
 } from '@mui/material';
 
-import { FormProvider, RHFSwitch } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFAutocompleteAsync,
+  RHFCheckbox,
+  RHFRadioGroup,
+  RHFSwitch,
+} from '@/components/ReactHookForm';
 
 import {
-  createFormOptions,
-  dataArray,
-  defaultValues,
+  createDashboardDefaultValue,
+  dashboardReportsData,
   validationSchema,
 } from './CreateForm.data';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import DetailsView from '../DetailsView';
 import { PrimaryPreviewEyeIcon } from '@/assets/icons';
 import DialogCards from '../../Preview/DialogCards';
 import useCreateForm from './useCreateForm';
-import { CREATE_DASHBOARD_KEYS } from '@/constants';
-import { usePostSalesDashboardMutation } from '@/services/airSales/dashboard';
+import {
+  useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery,
+  usePostSalesDashboardMutation,
+} from '@/services/airSales/dashboard';
 import { LoadingButton } from '@mui/lab';
+import RHFTextField from '../../../../../components/ReactHookForm/RHFTextField';
+import useAuth from '@/hooks/useAuth';
+import { pxToRem } from '@/utils/getFontValue';
+import { MANAGE_DASHBOARD_ACCESS_TYPES } from '@/modules/airServices/Dashboard/CreateDashboard/CreateDashboard.data';
+import { enqueueSnackbar } from 'notistack';
 
-const CreateForm = ({
-  isShowEditDashboard,
-  setIsShowCreateDashboardForm,
-}: any) => {
-  const {
-    isOpenPreview,
-    setIsOpenPreview,
-    selectedDashoardWidget,
-    setSelectedDashboardWidgets,
-    handleChangeAccessValue,
-    accessValue,
-  } = useCreateForm();
+export const specificUsersAccessColumns = [
+  { _id: 'name', label: 'Name' },
+  { _id: 'viewAndEdit', label: 'View and Edit' },
+  { _id: 'viewOnly', label: 'View Only' },
+];
+
+export const specificUsersAccessFormFieldsDynamic = (
+  name: string,
+  index: number,
+) => [
+  {
+    id: 1,
+    data: <RHFTextField name={`${name}.${index}.name`} size="small" disabled />,
+  },
+  {
+    id: 2,
+    align: 'center',
+    data: (
+      <RHFRadioGroup
+        name={`${name}.${index}.permission`}
+        size="small"
+        fullWidth
+        options={[
+          {
+            value: MANAGE_DASHBOARD_ACCESS_TYPES?.EDIT_AND_VIEW,
+          },
+        ]}
+      />
+    ),
+  },
+  {
+    id: 3,
+    align: 'center',
+    data: (
+      <RHFRadioGroup
+        name={`${name}.${index}.permission`}
+        size="small"
+        fullWidth
+        options={[
+          {
+            value: MANAGE_DASHBOARD_ACCESS_TYPES?.ONLY_VIEW,
+          },
+        ]}
+      />
+    ),
+  },
+];
+
+const CreateForm = ({}: any) => {
+  const { isOpenPreview, setIsOpenPreview, selectedDashoardWidget } =
+    useCreateForm();
+
+  const theme = useTheme();
+
   const methods = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: defaultValues,
+    defaultValues: createDashboardDefaultValue?.(),
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, control, setValue } = methods;
 
   const [postSalesDashboard, { isLoading: postSalesDashboardLoading }] =
     usePostSalesDashboardMutation();
+
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product;
+
+  const specificUserWatch: any = useWatch({
+    control,
+    name: 'specialUsers',
+    defaultValue: [],
+  });
+
+  useEffect(() => {
+    if (!!specificUserWatch?.length)
+      setValue(
+        'permissionsUsers',
+        specificUserWatch?.map((item: any) => ({
+          name: `${item?.firstName} ${item?.lastName}`,
+          userId: item?._id,
+          permission: item?.permission,
+        })),
+      );
+  }, [specificUserWatch]);
 
   const onSubmit = async (values: any) => {
     const payload: any = {
       name: values?.dashboardName,
       reportType: [],
-      sharedWith: accessValue,
+      sharedWith: values?.access,
     };
 
-    const valueKeyMapping = {
-      closedAndCreatedDeals: CREATE_DASHBOARD_KEYS?.DEALS_CREATED_VS_CLOSED,
-      dealReports: CREATE_DASHBOARD_KEYS?.DEAL_REPORTS,
-      mettingDetails: CREATE_DASHBOARD_KEYS?.MEETING_DETAILS,
-      ForecastcategoryReport: CREATE_DASHBOARD_KEYS?.FORECAST_CATEGORY_REPORTS,
-      ForecastpipelineReport: CREATE_DASHBOARD_KEYS?.FORECAST_PIPELINE_REPORT,
-      teamActivities: CREATE_DASHBOARD_KEYS?.TEAM_ACTIVITIES_BY_DATE,
-      totalDeals: CREATE_DASHBOARD_KEYS?.TOTAL_DEALS_OPEN_DEALS,
-    };
-
-    for (const [valueKey, dashboardKey] of Object?.entries(valueKeyMapping)) {
-      if (values[valueKey]) {
-        payload?.reportType?.push(dashboardKey);
-      }
-    }
     try {
-      const responsesData: any = await postSalesDashboard({
+      await postSalesDashboard({
         body: payload,
       }).unwrap();
       enqueueSnackbar('Dashboard Created Successfully', {
         variant: 'success',
       });
-
-      if (responsesData) {
-        setSelectedDashboardWidgets({
-          _id: responsesData?._id,
-          closedAndCreatedDeals: responsesData?.reportType?.includes(
-            CREATE_DASHBOARD_KEYS?.DEALS_CREATED_VS_CLOSED,
-          ),
-          dealReports: responsesData?.reportType?.includes(
-            CREATE_DASHBOARD_KEYS?.DEAL_REPORTS,
-          ),
-          mettingDetails: responsesData?.reportType?.includes(
-            CREATE_DASHBOARD_KEYS?.MEETING_DETAILS,
-          ),
-          ForecastcategoryReport: responsesData?.reportType?.includes(
-            CREATE_DASHBOARD_KEYS?.FORECAST_CATEGORY_REPORTS,
-          ),
-          ForecastpipelineReport: responsesData?.reportType?.includes(
-            CREATE_DASHBOARD_KEYS?.FORECAST_PIPELINE_REPORT,
-          ),
-          teamActivities: responsesData?.reportType?.includes(
-            CREATE_DASHBOARD_KEYS?.TEAM_ACTIVITIES_BY_DATE,
-          ),
-          totalDeals: responsesData?.reportType?.includes(
-            CREATE_DASHBOARD_KEYS?.TOTAL_DEALS_OPEN_DEALS,
-          ),
-        });
-      }
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
     reset();
   };
-  const theme = useTheme();
+
+  const { fields } = useFieldArray<any>({
+    control,
+    name: 'permissionsUsers',
+  });
+
+  const apiQueryUsers =
+    useLazyGetSalesDashboardUserAccessListDropdownListForDashboardQuery?.();
 
   return (
     <>
@@ -124,95 +165,154 @@ const CreateForm = ({
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={1}>
             <Grid sm={12} lg={6}>
-              {dataArray?.map((item: any) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={item?.md}
-                  key={uuidv4()}
-                  style={{ paddingTop: '10px' }}
-                >
-                  {item?.componentProps?.name ===
-                  createFormOptions?.accessDashboard ? (
-                    <Box display="flex" justifyContent="space-between">
-                      <Box>
-                        <FormControl>
-                          <Typography
-                            variant="h6"
-                            fontWeight={600}
-                            color={theme?.palette?.slateBlue.main}
-                          >
-                            Who can access this dashboard?
-                          </Typography>
-                          <RadioGroup
-                            value={accessValue}
-                            onChange={handleChangeAccessValue}
-                            name="access"
-                          >
-                            <FormControlLabel
-                              value="privatetoowner"
-                              control={<Radio />}
-                              label="Private to owner (me)"
-                            />
-                            <FormControlLabel
-                              value="everyone"
-                              control={<Radio />}
-                              label="Everyone"
-                            />
-                            {accessValue === 'everyone' && (
-                              <FormControl sx={{ ml: 2 }} component="fieldset">
-                                <RadioGroup aria-label="child" name="child">
-                                  <FormControlLabel
-                                    value="viewandedit"
-                                    control={<Radio />}
-                                    label="View and edit"
-                                  />
-                                  <FormControlLabel
-                                    value="viewonly"
-                                    control={<Radio />}
-                                    label="View only"
-                                  />
-                                </RadioGroup>
-                              </FormControl>
-                            )}
-                            <FormControlLabel
-                              value="onlySpecificUserAndTeams"
-                              control={<Radio />}
-                              label="Only specific user and teams"
-                            />
-                          </RadioGroup>
-                        </FormControl>
-                      </Box>
-                      <Box display={{ xl: 'block', xs: 'none' }}>
-                        <RHFSwitch name="default" label="Set as default" />
-                      </Box>
-                    </Box>
-                  ) : (
-                    <>
-                      <Typography
-                        fontWeight={600}
-                        color={theme?.palette?.slateBlue.main}
-                        variant="h6"
-                      >
-                        {item?.componentProps?.heading}
-                      </Typography>
-                      <item.component {...item?.componentProps} size="small" />
-                    </>
-                  )}
+              <Grid item xs={12} style={{ paddingTop: '10px' }}>
+                <RHFTextField
+                  size="small"
+                  placeholder="Enter name"
+                  name="dashboardName"
+                  label="Dashboard Name"
+                />
+              </Grid>
+              <Grid item xs={12} style={{ paddingTop: '10px' }}>
+                <Box display="flex" justifyContent="space-between">
+                  <Grid item xs={12} md={9}>
+                    <RHFRadioGroup
+                      name="access"
+                      row={false}
+                      options={[
+                        {
+                          value:
+                            MANAGE_DASHBOARD_ACCESS_TYPES?.PRIVATE_TO_OWNER,
+                          label: 'Private to owner',
+                        },
+                        {
+                          value: MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE,
+                          label: 'Everyone',
+                          filter: (
+                            <Box px={3}>
+                              <RHFRadioGroup
+                                name="permissions"
+                                row={false}
+                                options={[
+                                  {
+                                    value:
+                                      MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_EDIT_AND_VIEW,
+                                    label: 'Everyone can edit and view',
+                                  },
+                                  {
+                                    value:
+                                      MANAGE_DASHBOARD_ACCESS_TYPES?.EVERYONE_ONLY_VIEW,
+                                    label: 'Everyone can view',
+                                  },
+                                ]}
+                              />
+                            </Box>
+                          ),
+                        },
+                        {
+                          value:
+                            MANAGE_DASHBOARD_ACCESS_TYPES?.SPECIFIC_USER_AND_TEAMS,
+                          label: 'Only Specific users',
+                          filter: (
+                            <>
+                              <RHFAutocompleteAsync
+                                label=""
+                                name="specialUsers"
+                                fullWidth
+                                required
+                                apiQuery={apiQueryUsers}
+                                multiple
+                                size="small"
+                                placeholder="Select user and team"
+                                externalParams={{
+                                  productId,
+                                }}
+                                getOptionLabel={(option: any) =>
+                                  `${option?.firstName} ${option?.lastName}`
+                                }
+                              />
+                              {specificUserWatch?.length > 0 && (
+                                <TableContainer
+                                  sx={{
+                                    maxHeight: pxToRem(400),
+                                    border: '1px solid',
+                                    borderColor: 'custom.off_white_three',
+                                    borderRadius: 2,
+                                  }}
+                                >
+                                  <Table
+                                    stickyHeader
+                                    sx={{ minWidth: pxToRem(400) }}
+                                  >
+                                    <TableHead>
+                                      <TableRow>
+                                        {specificUsersAccessColumns?.map(
+                                          (column: any) => (
+                                            <TableCell key={column?._id}>
+                                              {column?.label}
+                                            </TableCell>
+                                          ),
+                                        )}
+                                      </TableRow>
+                                    </TableHead>
+
+                                    <TableBody>
+                                      {fields?.map(
+                                        (item: any, index: number) => {
+                                          return (
+                                            <TableRow key={item?.id}>
+                                              {specificUsersAccessFormFieldsDynamic?.(
+                                                'permissionsUsers',
+                                                index,
+                                              )?.map((singleField: any) => (
+                                                <TableCell
+                                                  key={singleField?.id}
+                                                  align={singleField?.align}
+                                                >
+                                                  {singleField?.data}
+                                                </TableCell>
+                                              ))}
+                                            </TableRow>
+                                          );
+                                        },
+                                      )}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              )}
+                            </>
+                          ),
+                        },
+                      ]}
+                    />
+                  </Grid>
+
+                  <Box display={{ xl: 'block', xs: 'none' }}>
+                    <RHFSwitch name="default" label="Set as default" />
+                  </Box>
+                </Box>
+              </Grid>
+
+              <Typography variant="h6" sx={{ fontWeight: '600', mt: 2, mb: 1 }}>
+                Use the checkboxes to remove/add any report you want
+              </Typography>
+
+              {dashboardReportsData?.map((item: any) => (
+                <Grid item xs={12} key={uuidv4()}>
+                  <RHFCheckbox name={item?.value} label={item?.label} />
                 </Grid>
               ))}
-              {isShowEditDashboard && (
-                <Grid sm={12} sx={{ textAlign: 'end' }} mt={6} mr={3}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => setIsOpenPreview(true)}
-                    startIcon={<PrimaryPreviewEyeIcon />}
-                    sx={{ border: '1px solid White' }}
-                  >
-                    Preview Dashboard
-                  </Button>
-                </Grid>
-              )}
+
+              <Grid sm={12} sx={{ textAlign: 'end' }} mt={6} mr={3}>
+                <Button
+                  variant="outlined"
+                  onClick={() => setIsOpenPreview(true)}
+                  startIcon={<PrimaryPreviewEyeIcon />}
+                  sx={{ border: '1px solid White' }}
+                >
+                  Preview Dashboard
+                </Button>
+              </Grid>
             </Grid>
             <Grid sm={12} lg={6}>
               <DetailsView selectedDashoardWidget={selectedDashoardWidget} />
@@ -226,7 +326,6 @@ const CreateForm = ({
                   color: theme?.palette?.custom?.main,
                   width: '112px',
                 }}
-                onClick={() => setIsShowCreateDashboardForm(false)}
               >
                 Cancel
               </Button>

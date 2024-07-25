@@ -67,7 +67,7 @@ const CommonModal = ({
               </Box>
             )}
           </Box>
-          {children}
+          <Box sx={{ overflow: 'scroll', maxHeight: '70vh' }}>{children}</Box>
           {footer && (
             <Box
               sx={{

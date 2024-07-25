@@ -11,26 +11,43 @@ import { Typography } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { ASSET_IMPACT } from '@/constants/strings';
+import { pxToRem } from '@/utils/getFontValue';
+import {
+  dynamicFormInitialValue,
+  dynamicFormValidationSchema,
+} from '@/utils/dynamic-forms';
 
 export const assetsImpactOptions = [
   ASSET_IMPACT?.LOW,
   ASSET_IMPACT?.MEDIUM,
   ASSET_IMPACT?.HIGH,
 ];
-const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
-export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
-  displayName: Yup?.string()?.trim()?.required('Display name is required'),
-  assetType: Yup?.mixed()?.nullable()?.required('Asset type is required'),
-  description: Yup?.string(),
-  impact: Yup?.mixed()?.nullable(),
-  department: Yup?.mixed()?.nullable(),
-  assetLifeExpiry: Yup?.date()?.nullable(),
-  usedBy: Yup?.mixed()?.nullable(),
-  assignedOn: Yup?.date()?.nullable(),
-  fileUrl: Yup?.mixed()?.nullable(),
-});
 
-export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
+const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
+
+export const UpsertInventoryValidationSchema: any = (form?: any) => {
+  const formSchema: any = dynamicFormValidationSchema(form);
+
+  return Yup?.object()?.shape({
+    displayName: Yup?.string()?.trim()?.required('Display name is required'),
+    assetType: Yup?.mixed()?.nullable()?.required('Asset type is required'),
+    description: Yup?.string(),
+    impact: Yup?.mixed()?.nullable(),
+    department: Yup?.mixed()?.nullable(),
+    assetLifeExpiry: Yup?.date()?.nullable(),
+    usedBy: Yup?.mixed()?.nullable(),
+    assignedOn: Yup?.date()?.nullable(),
+    fileUrl: Yup?.mixed()?.nullable(),
+    ...formSchema,
+  });
+};
+
+export const upsertInventoryFieldsDefaultValuesFunction = (
+  data?: any,
+  form?: any,
+) => {
+  const initialValues: any = dynamicFormInitialValue(data, form);
+
   return {
     displayName: data?.displayName ?? '',
     assetType: data?.assetTypeDetails ?? null,
@@ -46,8 +63,10 @@ export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
       typeof data?.assignedOn === 'string' ? new Date(data?.assignedOn) : null,
     usedBy: data?.usedByDetails ?? null,
     fileUrl: null,
+    ...initialValues,
   };
 };
+
 export const editInventoryDefaultValues = {
   displayName: '',
   assetType: '',
@@ -59,46 +78,36 @@ export const editInventoryDefaultValues = {
   assignedOnTime: '',
   usedBy: '',
 };
-export const upsertInventoryFormFieldsDynamic = (
-  apiQueryAssetType: any,
-  apiQueryDepartmentType: any,
-  apiQueryLocationType: any,
-  apiQueryUsedByType: any,
-  productId: any,
-) => [
+
+export const upsertInventoryFormFieldsFirst = (apiQueryAssetType: any) => [
   {
     id: 1,
-    component: RHFTextField,
-    gridLength: 6,
     componentProps: {
-      fullWidth: true,
       name: 'displayName',
       label: 'Display name',
       required: true,
     },
+    component: RHFTextField,
     md: 6,
   },
-
   {
-    id: 3,
+    id: 2,
     componentProps: {
       name: 'assetType',
       label: 'Asset Type',
       placeholder: 'All Assets',
-      fullWidth: true,
       required: true,
       apiQuery: apiQueryAssetType,
-      externalParams: { meta: false, limit: 50 },
+      externalParams: { limit: 50 },
     },
     component: RHFAutocompleteAsync,
     md: 6,
   },
   {
-    id: 4,
+    id: 3,
     componentProps: {
       name: 'impact',
       label: 'Impact',
-      fullWidth: true,
       placeholder: 'Choose Impact',
       options: assetsImpactOptions,
     },
@@ -106,20 +115,16 @@ export const upsertInventoryFormFieldsDynamic = (
     md: 6,
   },
   {
-    id: 5,
+    id: 4,
     componentProps: {
-      fullWidth: true,
       name: 'description',
       label: 'Description',
-
-      style: { height: '200px' },
+      style: { height: pxToRem(200) },
     },
-    gridLength: 12,
     component: RHFEditor,
   },
   {
-    id: 6,
-    component: RHFDatePicker,
+    id: 5,
     componentProps: {
       name: 'assetLifeExpiry',
       label: 'Expiry date',
@@ -127,43 +132,48 @@ export const upsertInventoryFormFieldsDynamic = (
       disablePast: true,
       textFieldProps: { readOnly: true },
     },
+    component: RHFDatePicker,
     md: 6,
   },
+];
+
+export const upsertInventoryFormFieldsSecond = (
+  apiQueryDepartmentType: any,
+  apiQueryLocationType: any,
+  apiQueryUsedByType: any,
+  productId: any,
+) => [
   {
-    id: 7,
+    id: 6,
     componentProps: {
       variant: 'h4',
     },
     heading: 'Assignment',
-    gridLength: 12,
     component: Typography,
   },
   {
-    id: 8,
+    id: 7,
     componentProps: {
       name: 'location',
       label: 'Location',
-      fullWidth: true,
       apiQuery: apiQueryLocationType,
-
       getOptionLabel: (option: any) => option?.locationName,
     },
     component: RHFAutocompleteAsync,
     md: 6,
   },
   {
-    id: 19,
+    id: 8,
     componentProps: {
       name: 'department',
       label: 'Department',
-      fullWidth: true,
       apiQuery: apiQueryDepartmentType,
     },
     component: RHFAutocompleteAsync,
     md: 6,
   },
   {
-    id: 10,
+    id: 9,
     component: RHFDesktopDateTimePicker,
     componentProps: {
       name: 'assignedOn',
@@ -176,9 +186,8 @@ export const upsertInventoryFormFieldsDynamic = (
     md: 6,
   },
   {
-    id: 9,
+    id: 10,
     componentProps: {
-      fullWidth: true,
       name: 'usedBy',
       label: 'Used By',
       placeholder: 'Name',

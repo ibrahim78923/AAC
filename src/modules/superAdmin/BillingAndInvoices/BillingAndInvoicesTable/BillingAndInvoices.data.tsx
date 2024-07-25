@@ -102,7 +102,7 @@ export const Columns = (
         );
         return (
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            {info?.row?.original?.planProducts?.length ?? 0 > 1 ? (
+            {info?.row?.original?.isCRM ? (
               <>
                 <Tooltip title={tooltipTitle}>
                   <Typography variant="body3" sx={{ cursor: 'pointer' }}>

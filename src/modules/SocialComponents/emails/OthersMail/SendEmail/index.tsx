@@ -324,7 +324,7 @@ const SendEmailDrawer = (props: any) => {
                 <RHFDateTimePicker
                   name="sentDate"
                   fullWidth
-                  label="Select Data and Time"
+                  label="Select Date and Time"
                   size="small"
                 />
               </Box>

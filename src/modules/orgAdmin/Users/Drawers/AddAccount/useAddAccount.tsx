@@ -15,7 +15,8 @@ const useAddAccount = (
   setIsOpenAddAccountDrawer?: any,
 ) => {
   const { user } = useUsers();
-  const [postUsersAccount] = usePostUsersAccountMutation();
+  const [postUsersAccount, { isLoading: postAccountLoading }] =
+    usePostUsersAccountMutation();
   const {
     useLazyGetCompanyAccountsListsQuery,
     useLazyGetCompanyAccountsRolesListQuery,
@@ -39,8 +40,8 @@ const useAddAccount = (
 
   if (companyAccountValue && productValue) {
     companyRoleParams = {
-      organizationCompanyAccountId: companyAccountValue._id,
-      productId: productValue._id,
+      organizationCompanyAccountId: companyAccountValue?._id,
+      productId: productValue?._id,
     };
   }
   const companyRoles = useLazyGetCompanyAccountsRolesListQuery();
@@ -79,6 +80,7 @@ const useAddAccount = (
     onSubmit,
     methods,
     companyRoleParams,
+    postAccountLoading,
   };
 };
 

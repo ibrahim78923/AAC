@@ -6,6 +6,12 @@ import { DragIcon } from '@/assets/icons';
 import { styles } from './CustomizeCompany.styles';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
+interface customizeCompanyI {
+  active: boolean;
+  attributes: string;
+  slug: string;
+}
+
 const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
   const {
     handleChackboxChange,
@@ -43,7 +49,7 @@ const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
               >
                 <Box sx={{ paddingTop: '1rem', width: '100%' }}>
                   <Grid container>
-                    {order?.map((col: any, i: number) => (
+                    {order?.map((col: customizeCompanyI, i: number) => (
                       <Draggable
                         key={uuidv4()}
                         draggableId={col?.slug}

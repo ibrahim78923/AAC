@@ -96,6 +96,7 @@ export const baroptions = (
   },
   legend: {
     show: true,
+    showForSingleSeries: true,
     position: 'bottom',
     markers: {
       width: 12,

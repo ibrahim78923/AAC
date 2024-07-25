@@ -3,12 +3,18 @@ import { ArrowDropDown } from '@mui/icons-material';
 import useBankAccounts from '../useBankAccounts';
 import { AlertModals } from '@/components/AlertModals';
 import { DeleteIcon } from '@/assets/icons';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useGetReceiverBankAccountsByIdQuery } from '@/services/orgAdmin/settings/receivers-bank-acconts';
+import { LoadingButton } from '@mui/lab';
+import useActionDropDown from './useActionDropDown';
+import { ActionDropDownI } from '../BankAccount.interface';
 
-const ActionDropDown = (props: any) => {
-  const { setIsOpenAddAccountDrawer, checkedRows, setCheckedRows } = props;
+const ActionDropDown = (props: ActionDropDownI) => {
+  const {
+    setIsOpenAddAccountDrawer,
+    checkedRows,
+    setCheckedRows,
+    deleteAccountLoading,
+    deleteReceiverBankAccount,
+  } = props;
 
   const {
     selectedValue,
@@ -16,30 +22,28 @@ const ActionDropDown = (props: any) => {
     handleClose,
     isDeleteModal,
     setIsDeleteModal,
-    deleteReceiverBankAccount,
   } = useBankAccounts();
 
-  const { data: EditAccountData } =
-    useGetReceiverBankAccountsByIdQuery(checkedRows);
+  const { handleBulkDelete, handleConfirmDelete } = useActionDropDown(
+    setCheckedRows,
+    checkedRows,
+    deleteReceiverBankAccount,
+    setIsDeleteModal,
+  );
 
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
       {checkedRows?.length > 1 ? (
-        <Button
+        <LoadingButton
           className="small"
           variant="outlined"
           color="inherit"
           startIcon={<DeleteIcon />}
-          onClick={() => {
-            deleteReceiverBankAccount({ body: { ids: checkedRows } });
-            setCheckedRows([]);
-            enqueueSnackbar(`Accounts deleted successfully`, {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            });
-          }}
+          onClick={handleBulkDelete}
+          loading={deleteAccountLoading}
         >
           Delete
-        </Button>
+        </LoadingButton>
       ) : (
         <>
           <Button
@@ -69,7 +73,7 @@ const ActionDropDown = (props: any) => {
                 handleClose();
                 setIsOpenAddAccountDrawer({
                   isToggle: true,
-                  data: EditAccountData?.data,
+                  recId: checkedRows[0],
                   type: 'edit',
                 });
               }}
@@ -95,14 +99,8 @@ const ActionDropDown = (props: any) => {
           submitBtnText="Delete"
           open={isDeleteModal}
           handleClose={() => setIsDeleteModal(false)}
-          handleSubmitBtn={() => {
-            setIsDeleteModal(false);
-            deleteReceiverBankAccount({ body: { ids: checkedRows } });
-            setCheckedRows([]);
-            enqueueSnackbar(`Account deleted successfully`, {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            });
-          }}
+          handleSubmitBtn={handleConfirmDelete}
+          loading={deleteAccountLoading}
         />
       )}
     </Box>

@@ -28,7 +28,7 @@ const RecentActivitiesList = (props: any) => {
               <>
                 {data?.recentActivities?.map((item: any, index: any) => (
                   <>
-                    <Box key={item?.id} marginTop={1}>
+                    <Box key={item?._id} marginTop={1}>
                       <Fragment key={item?._id}>
                         <RecentActivitiesCard data={item} index={index} />
                       </Fragment>

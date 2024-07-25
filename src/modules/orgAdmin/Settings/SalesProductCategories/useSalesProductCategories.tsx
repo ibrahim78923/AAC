@@ -19,13 +19,14 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
 import { PAGINATION } from '@/config';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useSalesProductCategories = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
   const [isChecked, setIsChecked] = useState(false);
-  const [isGetRowValues, setIsGetRowValues] = useState('');
+  const [isGetRowValues, setIsGetRowValues] = useState([]);
   const [postSalesProductCategories, { isLoading: loadingAdd }] =
     usePostSalesProductCategoriesMutation();
   const [editData, setEditData] = useState<any>({});
@@ -42,7 +43,7 @@ const useSalesProductCategories = () => {
 
   const [updateSalesProductCategories, { isLoading: loadingUpdate }] =
     useUpdateSalesProductCategoriesMutation();
-  const [userStatus, setUserStatus] = useState('active');
+  // const [userStatus, setUserStatus] = useState('active');
   const theme = useTheme<Theme>();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -97,38 +98,36 @@ const useSalesProductCategories = () => {
         await updateSalesProductCategories({
           body: salesProductCartegoryData,
           id: editData?._id,
-        }).unwrap();
+        })?.unwrap();
         setIsDraweropen(false);
         enqueueSnackbar('Categories Updated Successfully', {
-          variant: 'success',
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
       } else {
         await postSalesProductCategories({
           body: salesProductCartegoryData,
-        }).unwrap();
+        })?.unwrap();
         enqueueSnackbar('Product Added Successfully', {
-          variant: 'success',
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
         reset(ProductCategoryvalidationSchema);
         setIsDraweropen(false);
       }
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      enqueueSnackbar('Something went wrong !', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
-  const getRowValues = columns(
-    setIsGetRowValues,
-    setIsChecked,
-    isChecked,
-    isGetRowValues,
-    userStatus,
-    setUserStatus,
-    theme,
-    setEditData,
-    editData,
+  const getRowValues = columns({
     updateSalesProductCategories,
-  );
+    setIsGetRowValues,
+    isGetRowValues,
+    setIsChecked,
+    setEditData,
+    theme,
+  });
 
   return {
     tableRow: data,

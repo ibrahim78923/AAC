@@ -217,13 +217,12 @@ export const AIR_OPERATIONS = {
   SALES_REPORTS: `/air-operations/reports/sales-reports`,
   SERVICES_REPORTS: `/air-operations/reports/services-reports`,
   MARKETING_REPORTS: `/air-operations/reports/marketing-reports`,
-  UPSERT_SERVICES_REPORTS: `/air-operations/reports/services-reports/upsert-services-reports`,
   SALES_REPORTS_RESTORE: `/air-operations/reports/sales-reports/restore`,
   SERVICES_REPORTS_RESTORE: `/air-operations/reports/services-reports/restore`,
   MARKETING_REPORTS_RESTORE: `/air-operations/reports/marketing-reports/restore`,
-  UPSERT_MARKETING_REPORTS: `/air-operations/reports/marketing-reports/upsert-marketing-reports`,
-  UPSERT_SALES_REPORTS: `/air-operations/reports/sales-reports/upsert-sales-reports`,
   UPSERT_ROLES: '/air-operations/roles-and-right/upsert-roles-and-right',
+  UPSERT_GENERIC_REPORTS: `/air-operations/reports/upsert-generic-reports`,
+  SINGLE_GENERIC_REPORTS_DETAILS: `/air-operations/reports/single-report-view`,
 };
 
 export const AIR_CALL_CENTER = {
@@ -325,6 +324,7 @@ export const DOCUMENTS_ACTION_TYPES = {
 
 export const fieldName = {
   ADDRESS: 'address',
+  EMAIL: 'email',
 };
 
 export const CREATE_EMAIL_TYPES = {
@@ -458,6 +458,7 @@ export const REPORTS_HEADER_TITLE = {
   CREATE_CHART: 'Create Chart',
   CREATE_TEXT: 'Create Text',
   CREATE_COUNTER: 'Create Counter',
+  CUSTOMIZE_REPORT: 'Customize Report',
 };
 
 export const ASSOCIATIONS_API_PARAMS_FOR = {
@@ -530,4 +531,37 @@ export const GOALS_YEARLY_FORMAT = {
 export const BILLING_AND_INVOICES_TAB = {
   INVOICES: 'invoices',
   SUBSCRIPTION: 'subscription',
+};
+
+export const PLAN_PRICE_TYPE_TAGS = {
+  FREE_PLAN: 'Free Plan',
+  PAID_PLAN: 'Paid Plan',
+};
+export const PLAN_PAYMENT_TYPE_TAGS = {
+  PAID_MONTHLY: 'paidMonthly',
+  MONTHLY: 'MONTHLY',
+  QUARTERLY: 'QUARTERLY',
+  HALF_YEARLY: 'HALF_YEARLY',
+  YEARLY: 'YEARLY',
+  ONE_TIME: 'ONE_TIME',
+};
+
+export const PLAN_PAYMENT = {
+  FREE: 'Free',
+  PAID: 'PAID',
+};
+export const PLAN_STATUS = {
+  ACTIVE: 'ACTIVE',
+  IN_ACTIVE: 'INACTIVE',
+};
+
+export const AIR_SALES_DASHBOARD_REPORTS_TYPES = {
+  DEALS_CREATED_VS_CLOSED: 'Deals created vs Closed Deals',
+  DEAL_REPORTS: 'Deal Reports',
+  MEETING_DETAILS: 'Meeting Details',
+  FORECAST_CATEGORY_REPORTS: 'Forecast Category Reports',
+  FORECAST_PIPELINE_REPORT: 'Forecast Pipeline Report',
+  TEAM_ACTIVITIES_BY_DATE: 'Team Activities by Activity Date',
+  TOTAL_DEALS_OPEN_DEALS:
+    'Total Deals, Open Deals, Team Goals, Closed/Won, Published Quotes',
 };

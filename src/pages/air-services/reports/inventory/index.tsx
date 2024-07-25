@@ -10,7 +10,7 @@ export default InventoryReportsPage;
 
 InventoryReportsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={Permissions?.AIR_SERVICES_INVENTORY_TICKETS}>
+    <Layout permissions={Permissions?.AIR_SERVICES_REPORTS_INVENTORY}>
       {page}
     </Layout>
   );

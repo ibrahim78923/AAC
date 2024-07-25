@@ -4,6 +4,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const columns: any = ({
   setOpenDrawer,
@@ -18,7 +19,7 @@ export const columns: any = ({
     {
       accessorFn: (row: any) => row?.orignalName,
       id: 'contact_id',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => capitalizeFirstLetter(info?.getValue()),
       header: 'Title',
       isSortable: false,
     },

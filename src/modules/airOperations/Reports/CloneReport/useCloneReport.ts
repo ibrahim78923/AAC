@@ -10,19 +10,19 @@ export const useCloneReport = (props: any) => {
     getReportListData,
     selectedReportLists,
   } = props;
+
   const [cloneReportsTrigger, cloneReportsStatus] = useCloneReportsMutation();
 
   const cloneReport = async () => {
     const apiDataParameter = {
-      pathParams: {
+      queryParams: {
         id: selectedReportLists?.[ARRAY_INDEX?.ZERO]?._id,
       },
     };
 
     try {
       await cloneReportsTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Record clone successfully');
-      setSelectedReportLists?.([]);
+      successSnackbar('Report clone successfully');
       closeModal?.();
       await getReportListData?.(page);
     } catch (error: any) {

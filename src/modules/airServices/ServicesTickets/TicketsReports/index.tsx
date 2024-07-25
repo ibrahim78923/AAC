@@ -17,6 +17,8 @@ import { DownloadLargeIcon } from '@/assets/icons';
 import ReportCalendarFilter from '@/components/ReportCalendarFilter';
 import { FormProvider } from 'react-hook-form';
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const TicketsReports = () => {
   const {
@@ -37,38 +39,47 @@ export const TicketsReports = () => {
           router?.push(AIR_SERVICES?.REPORTS);
         }}
       >
-        <ReportCalendarFilter setCalendarFilter={setCalendarFilter} />
-        <FormProvider {...agentFilterMethod}>
-          <Box width={'10rem'} mt={1}>
-            <RHFAutocompleteAsync
-              name="agent"
-              size="small"
-              placeholder="Agent"
-              apiQuery={apiQueryAgents}
-              getOptionLabel={(option: any) => option?.name}
-              renderOption={(option: any) => (
-                <Box display={'flex'} alignItems={'center'} gap={1}>
-                  <Avatar />
-                  <Typography
-                    variant={'body2'}
-                    color={'grey.600'}
-                    fontWeight={500}
-                  >
-                    {option?.name}
-                  </Typography>
-                </Box>
-              )}
-            />
-          </Box>
-        </FormProvider>
-        <IconButton
-          aria-label={'download'}
-          size={'small'}
-          sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
-          onClick={handlePrint}
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.FILTER]}
         >
-          <DownloadLargeIcon />
-        </IconButton>
+          <ReportCalendarFilter setCalendarFilter={setCalendarFilter} />
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.DOWNLOAD]}
+        >
+          <FormProvider {...agentFilterMethod}>
+            <Box width={'10rem'} mt={1}>
+              <RHFAutocompleteAsync
+                name="agent"
+                size="small"
+                placeholder="Agent"
+                apiQuery={apiQueryAgents}
+                getOptionLabel={(option: any) => option?.name}
+                renderOption={(option: any) => (
+                  <Box display={'flex'} alignItems={'center'} gap={1}>
+                    <Avatar />
+                    <Typography
+                      variant={'body2'}
+                      color={'grey.600'}
+                      fontWeight={500}
+                    >
+                      {option?.name}
+                    </Typography>
+                  </Box>
+                )}
+              />
+            </Box>
+          </FormProvider>
+
+          <IconButton
+            aria-label={'download'}
+            size={'small'}
+            sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
+            onClick={handlePrint}
+          >
+            <DownloadLargeIcon />
+          </IconButton>
+        </PermissionsGuard>
       </PageTitledHeader>
       <Divider />
       {loading ? (
@@ -81,19 +92,23 @@ export const TicketsReports = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <Box id="main-content">
-          <Grid container spacing={2} my={2}>
-            {cardOptions?.map((item: any) => (
-              <Grid item xs={12} md={6} lg={3} key={item?.id}>
-                <TicketsReportCard
-                  label={item.label}
-                  chipValue={item.chipValue}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          <TicketsReportChart />
-        </Box>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_TICKETS_PERMISSIONS?.VIEW]}
+        >
+          <Box id="main-content">
+            <Grid container spacing={2} my={2}>
+              {cardOptions?.map((item: any) => (
+                <Grid item xs={12} md={6} lg={3} key={item?.id}>
+                  <TicketsReportCard
+                    label={item.label}
+                    chipValue={item.chipValue}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            <TicketsReportChart />
+          </Box>
+        </PermissionsGuard>
       )}
     </>
   );

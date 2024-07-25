@@ -592,6 +592,10 @@ export const DRAWER_TYPES = {
   UPDATE: 'update',
 };
 
+export const ROLES_AND_RIGHTS_CONST = {
+  PERMISSIONS: 'permissions',
+};
+
 export const CONTACTS_CONSTANTS = {
   WHATSAPP_NUMBER: 'whatsAppNumber',
   PHONE_NUMBER: 'phoneNumber',
@@ -857,7 +861,9 @@ export const CHARTS: any = {
   DONUT_CHART: 'DONUT_CHART',
   PIE_CHART: 'PIE_CHART',
   TEMPLATE_BAR_CHART: 'TEMPLATE_BAR_CHART',
-  TEMPLATE_PIE_OR_DONUT_CHART: 'TEMPLATE_PIE_OR_DONUT_CHART',
+  TEMPLATE_HORIZONTAL_CHART: 'TEMPLATE_HORIZONTAL_CHART',
+  TEMPLATE_PIE_CHART: 'TEMPLATE_PIE_CHART',
+  TEMPLATE_DONUT_CHART: 'TEMPLATE_DONUT_CHART',
 };
 
 export const SELECTED_ARRAY_LENGTH = {
@@ -895,13 +901,11 @@ export const REPORT_TYPE = {
   CONTRACTS: 'CONTRACT',
   PURCHASE_ORDER: 'PURCHASE_ORDER',
   DEALS: 'DEALS',
-  PIPELINE_FORECAST: 'PIPELINE_FORECAST',
-  FORECAST_CATEGORY: 'FORECAST_CATEGORY',
+  FORECAST: 'FORECAST',
   NO_OF_RECORDS: 'NO_OF_RECORDS',
   TEMPLATE_TABLE: 'TEMPLATE_TABLE',
   TEMPLATE_TEXT: 'TEMPLATE_TEXT',
   LEADS: 'LEADS',
-  EMAIL_MARKETING: 'EMAIL_MARKETING',
   CAMPAIGNS: 'CAMPAIGN',
   addToNew: 'addToNew',
 };
@@ -920,6 +924,7 @@ export const COLLECTION_NAME = {
   USERS: 'users',
   SERVICE_CATEGORIES: 'servicecategories',
   DEAL_PIPELINES: 'dealpipelines',
+  SALES_PIPELINES: 'salespipeline',
   EVERYONE: 'everyone',
   SPECIFIC_USERS: 'specificUsers',
   ADD_TO_EXISTING: 'addToExisting',
@@ -931,8 +936,7 @@ export const COLLECTION_NAME = {
   CONTRACTS: 'Contract',
   PURCHASE_ORDER: 'Purchase Order',
   DEALS: 'Deals',
-  PIPELINE_FORECAST: 'Pipeline Forecast',
-  FORECAST_CATEGORY: 'Forecast Category',
+  FORECAST: 'Forecast',
 };
 
 export const USER_MANAGEMENT_DRAWER_ACTION = {
@@ -1065,3 +1069,8 @@ export const DOWNLOAD_FILE_TYPE = {
 };
 export const WEEK_NUMBERS = [1, 2, 3, 4, 5, 6, 7];
 export const WEEK_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+export const DYNAMIC_REPORTS_TYPES = {
+  CUSTOM: 'CUSTOM',
+  DASHBOARD: 'DASHBOARD',
+};

@@ -7,21 +7,13 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-
 import FilterUser from '../Drawers/FilterUser';
-
 import { FilterSharedIcon, RefreshTasksIcon } from '@/assets/icons';
-
 import Search from '@/components/Search';
-
 import StatusBadge from '@/components/StatusBadge';
-
 import AddUser from '../Drawers/AddUser';
-
 import useUsersSidebar from './useUsersSidebar';
-
 import { NoAssociationFoundImage } from '@/assets/images';
-
 import { AddCircle } from '@mui/icons-material';
 import useUsers from '../useUsers';
 import { v4 as uuidv4 } from 'uuid';
@@ -31,8 +23,11 @@ import { IMG_URL } from '@/config';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import SkeletonComponent from '@/components/CardSkeletons';
+import { UsersSidebarProps } from './UserSidebar-interface';
+import { indexNumbers } from '@/constants';
+import { capitalizeFirstLetter } from '@/utils/api';
 
-const UsersSidebar = (props: any) => {
+const UsersSidebar = (props: UsersSidebarProps) => {
   const {
     setEmployeeDataById,
     setSearchAccount,
@@ -130,7 +125,8 @@ const UsersSidebar = (props: any) => {
         <SkeletonComponent numberOfSkeletons={7} />
       ) : (
         <Box>
-          {(employeeDetails === undefined || employeeDetails?.length < 1) && (
+          {(employeeDetails === undefined ||
+            employeeDetails?.length < indexNumbers?.ONE) && (
             <NoData
               image={NoAssociationFoundImage}
               message={'No data is available'}
@@ -180,11 +176,9 @@ const UsersSidebar = (props: any) => {
                       }}
                       src={item?.avatar && `${IMG_URL}${item?.avatar?.url}`}
                     >
-                      {`${item?.firstName
-                        ?.charAt(0)
-                        ?.toUpperCase()}${item?.lastName
-                        ?.charAt(0)
-                        ?.toUpperCase()}`}
+                      {`${capitalizeFirstLetter(
+                        item?.firstName?.charAt(0),
+                      )}${capitalizeFirstLetter(item?.lastName?.charAt(0))}`}
                     </Avatar>
                     <Box sx={{ width: '100%' }}>
                       <Box
@@ -194,7 +188,8 @@ const UsersSidebar = (props: any) => {
                         }}
                       >
                         <Typography>
-                          {item?.firstName} {item?.lastName}
+                          {`${capitalizeFirstLetter(item?.firstName)} 
+                          ${capitalizeFirstLetter(item?.lastName)}`}
                         </Typography>
                         <PermissionsGuard
                           permissions={[

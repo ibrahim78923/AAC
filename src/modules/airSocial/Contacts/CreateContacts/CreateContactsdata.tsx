@@ -66,8 +66,11 @@ export const contactsDataArray = (
       componentProps: {
         name: 'profilePicture',
         label: 'Profile Picture',
-
-        select: false,
+        accept: {
+          'image/png': ['.png', '.PNG'],
+          'image/jpeg': ['.jpg', '.jpeg', '.JPG', '.JPEG'],
+        },
+        fileType: 'Only .jpeg and .png images will be accepted (max 2.44 MB).',
       },
       md: 12,
       component: RHFDropZone,

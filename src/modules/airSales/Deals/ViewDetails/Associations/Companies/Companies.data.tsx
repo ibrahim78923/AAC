@@ -3,6 +3,7 @@ import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { IMG_URL } from '@/config';
+import { capitalizeFirstLetter } from '@/utils/api';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -30,7 +31,7 @@ export const columns: any = ({
               variant="body3"
               sx={{ color: theme?.palette?.blue?.dull_blue }}
             >
-              {info?.row?.original?.name ?? 'N/A'}
+              {capitalizeFirstLetter(info?.row?.original?.name) ?? 'N/A'}
             </Typography>
             <br />
             <Typography variant="body3">

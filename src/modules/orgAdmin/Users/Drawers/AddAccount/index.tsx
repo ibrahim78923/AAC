@@ -3,13 +3,17 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AddAccountArray } from './AddAccount.data';
 import useAddAccount from './useAddAccount';
+import { AddAccountProps } from '@/modules/orgAdmin/Users/UsersDetails/UsersDetails-interface';
 
-const AddAccount = (props: any) => {
+const AddAccount = (props: AddAccountProps) => {
   const { isOpen, employeeDataById, setIsOpenAddAccountDrawer } = props;
-  const { handleSubmit, onSubmit, methods, companyRoleParams } = useAddAccount(
-    employeeDataById,
-    setIsOpenAddAccountDrawer,
-  );
+  const {
+    handleSubmit,
+    onSubmit,
+    methods,
+    companyRoleParams,
+    postAccountLoading,
+  } = useAddAccount(employeeDataById, setIsOpenAddAccountDrawer);
 
   return (
     <CommonDrawer
@@ -20,6 +24,7 @@ const AddAccount = (props: any) => {
       isOk={true}
       footer
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={postAccountLoading}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>

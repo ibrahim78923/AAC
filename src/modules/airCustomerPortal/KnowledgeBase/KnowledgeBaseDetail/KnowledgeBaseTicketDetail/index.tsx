@@ -202,30 +202,32 @@ export const KnowledgeBaseTicketDetail = () => {
                   </Typography>
                 </Box>
               )}
-              <Divider sx={{ mt: 2 }} />
               {!showOkFeedback && !showFeedbackField && (
-                <Grid
-                  item
-                  display={'flex'}
-                  justifyContent={'flex-end'}
-                  gap={1}
-                  mb={2}
-                >
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={() => setShowFeedbackField(true)}
+                <>
+                  <Divider sx={{ m: 1.5 }} />
+                  <Grid
+                    item
+                    display={'flex'}
+                    justifyContent={'flex-end'}
+                    gap={1}
+                    mb={2}
                   >
-                    No
-                  </Button>
-                  <LoadingButton
-                    loading={feedbackIsLoading}
-                    variant="contained"
-                    onClick={helpfulSubmit}
-                  >
-                    Yes
-                  </LoadingButton>
-                </Grid>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => setShowFeedbackField(true)}
+                    >
+                      No
+                    </Button>
+                    <LoadingButton
+                      loading={feedbackIsLoading}
+                      variant="contained"
+                      onClick={helpfulSubmit}
+                    >
+                      Yes
+                    </LoadingButton>
+                  </Grid>
+                </>
               )}
             </Grid>
           </Box>

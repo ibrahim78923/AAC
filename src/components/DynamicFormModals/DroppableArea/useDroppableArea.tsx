@@ -18,6 +18,8 @@ export default function useDroppableArea({
   moduleType,
   productType,
   successPath,
+  section,
+  sectionType,
 }: any) {
   const router: any = useRouter();
   const methods: any = useForm({});
@@ -33,6 +35,8 @@ export default function useDroppableArea({
   const params = {
     productType,
     moduleType,
+    section,
+    sectionType,
   };
 
   const handleFormCreation = async () => {

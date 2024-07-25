@@ -115,7 +115,7 @@ export const dashboardAPI = baseAPI.injectEndpoints({
     }),
     changeDefaultServicesDashboard: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: `${END_POINTS?.EDIT_AIR_SERVICES_DASHBOARD}`,
+        url: `${END_POINTS?.CHANGE_DEFAULT_AIR_SERVICES_DASHBOARD}`,
         method: 'PATCH',
         body: apiDataParameter?.body,
       }),

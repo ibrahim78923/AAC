@@ -29,7 +29,7 @@ import { ARRAY_INDEX, MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import {
   useLazyGetDynamicFieldsQuery,
-  usePostAttachmentsMutation,
+  usePostDynamicFormAttachmentsMutation,
 } from '@/services/dynamic-fields';
 import {
   DYNAMIC_FIELDS,
@@ -59,7 +59,7 @@ export const useUpsertTicket = (props: any) => {
   const [getDynamicFieldsTrigger, getDynamicFieldsStatus] =
     useLazyGetDynamicFieldsQuery();
   const [postAttachmentTrigger, postAttachmentStatus] =
-    usePostAttachmentsMutation();
+    usePostDynamicFormAttachmentsMutation();
 
   const getDynamicFormData = async () => {
     const params = {

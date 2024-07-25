@@ -1,18 +1,24 @@
 import { RHFAutocompleteAsync, RHFEditor } from '@/components/ReactHookForm';
-
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 import {
   useLazyGetAllCampaignsListQuery,
   useLazyGetAllTemplateListQuery,
 } from '@/services/common-APIs';
-
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  name: Yup?.string()?.required('Field is Required'),
-  campaignId: Yup?.object()?.required('Field is Required'),
-  detail: Yup?.string()?.required('Field is Required'),
-});
+export const validationSchema = (isScheduled: boolean) =>
+  Yup.object().shape({
+    name: Yup.string().required('Field is Required'),
+    campaignId: Yup.object().required('Field is Required'),
+    detail: Yup.string().required('Field is Required'),
+    schedualDate: Yup?.date()
+      ?.nullable()
+      ?.when([], () =>
+        isScheduled
+          ? Yup.date()?.required('Field is Required')
+          : Yup?.date()?.nullable(),
+      ),
+  });
 
 export const defaultValues = (getIsPhoneConnected: any) => {
   return {
@@ -21,6 +27,7 @@ export const defaultValues = (getIsPhoneConnected: any) => {
     campaignId: null,
     templateId: null,
     recipients: '',
+    schedualDate: null,
     detail: '',
   };
 };

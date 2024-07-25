@@ -32,7 +32,6 @@ export const useDeleteReportPermanently = (props: any) => {
     try {
       await deleteRestoreReportPermanentlyTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Record deleted successfully');
-      setSelectedReportLists?.([]);
       closeModal?.();
       const newPage =
         selectedReportLists?.length === totalRecords

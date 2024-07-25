@@ -20,6 +20,7 @@ import {
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { ColumnsProps, RowInterface } from './Users-interface';
 import { convertIdToShortNumber } from '@/utils';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const columns: any = (columnsProps: ColumnsProps) => {
   const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
@@ -56,7 +57,7 @@ export const columns: any = (columnsProps: ColumnsProps) => {
       isSortable: true,
       header: 'Name',
       cell: (info: any) => (
-        <Box sx={{ display: 'flex', gap: '5px' }}>
+        <Box sx={{ display: 'flex', gap: '10px' }}>
           <Avatar
             alt="Remy Sharp"
             sx={{
@@ -65,12 +66,14 @@ export const columns: any = (columnsProps: ColumnsProps) => {
               fontWeight: 500,
             }}
           >
-            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
-            {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+            {capitalizeFirstLetter(info?.row?.original?.firstName?.charAt(0))}
+            {capitalizeFirstLetter(info?.row?.original?.lastName?.charAt(0))}
           </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
-              {info?.row?.original?.firstName} {info?.row?.original?.lastName}
+              {`${capitalizeFirstLetter(
+                info?.row?.original?.firstName,
+              )} ${capitalizeFirstLetter(info?.row?.original?.lastName)}`}
             </Typography>
             <Typography component={'span'}>
               {info?.row?.original?.email ?? 'N/A'}
@@ -185,7 +188,7 @@ export const superAdminColumns: any = (columnsProps: any) => {
       isSortable: true,
       header: 'Name',
       cell: (info: any) => (
-        <Box sx={{ display: 'flex', gap: '5px' }}>
+        <Box sx={{ display: 'flex', gap: '10px' }}>
           <Avatar
             alt="Remy Sharp"
             sx={{
@@ -194,12 +197,14 @@ export const superAdminColumns: any = (columnsProps: any) => {
               fontWeight: 500,
             }}
           >
-            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
-            {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+            {capitalizeFirstLetter(info?.row?.original?.firstName?.charAt(0))}
+            {capitalizeFirstLetter(info?.row?.original?.lastName?.charAt(0))}
           </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
-              {info?.row?.original?.firstName} {info?.row?.original?.lastName}
+              {`${capitalizeFirstLetter(
+                info?.row?.original?.firstName,
+              )} ${capitalizeFirstLetter(info?.row?.original?.lastName)}`}
             </Typography>
             <Typography component={'span'}>
               {info?.row?.original?.email ?? 'N/A'}

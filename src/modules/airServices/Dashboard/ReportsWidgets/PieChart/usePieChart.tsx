@@ -1,7 +1,7 @@
 import { ITEMS_DATA_TYPE } from '../ReportsWidgets.data';
 
 export const usePieChart = (props: any) => {
-  const { data, pieChart } = props;
+  const { data = { counts: [], items: [] }, pieChart } = props;
   const { items = [], counts = [] } = data;
 
   const dataItems =
@@ -22,8 +22,13 @@ export const usePieChart = (props: any) => {
 
   const uniqueCounts = Object?.values(groupByValue ?? {});
 
+  const seriesData = uniqueCounts
+    ?.filter((item: any) => item?.value)
+    ?.map((item: any) => item?.count);
+
   return {
     uniqueCounts,
     dataItems,
+    seriesData,
   };
 };

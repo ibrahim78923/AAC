@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'next/router';
 import { marketingReportsListTabsDynamic } from './MarketingReports.data';
 import { useLazyGetAllGenericReportsListQuery } from '@/services/airOperations/reports';
+import { GENERIC_REPORT_MODULES } from '@/constants/strings';
 
 export const useMarketingReports = () => {
   const router = useRouter();
@@ -41,8 +42,8 @@ export const useMarketingReports = () => {
 
   const editReportPath = (id: any) => {
     router?.push({
-      pathname: AIR_OPERATIONS?.UPSERT_MARKETING_REPORTS,
-      query: { reportId: id },
+      pathname: AIR_OPERATIONS?.UPSERT_GENERIC_REPORTS,
+      query: { reportId: id, moduleName: GENERIC_REPORT_MODULES?.MARKETING },
     });
   };
 
@@ -50,6 +51,7 @@ export const useMarketingReports = () => {
     apiQueryAllReports,
     apiQueryFavoriteReports,
     apiQueryDashboardReports,
+    apiQueryCustomReports,
     exportApiQueryDashboardReports,
     exportApiQueryFavoriteReports,
     exportApiQueryAllReports,

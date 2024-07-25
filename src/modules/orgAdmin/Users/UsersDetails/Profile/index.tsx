@@ -4,8 +4,11 @@ import { profileFields } from './UserDetailsProfile.data';
 import useToggle from '@/hooks/useToggle';
 import useProfile from './useProfile';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { UserDetailsProfileProps } from '@/modules/orgAdmin/Users/UsersDetails/UsersDetails-interface';
+import { fieldName, indexNumbers } from '@/constants';
+import { LoadingButton } from '@mui/lab';
 
-const UserDetailsProfile = (props: any) => {
+const UserDetailsProfile = (props: UserDetailsProfileProps) => {
   const { profileData, setTabVal } = props;
   const [isToggled, setIsToggled] = useToggle(false);
 
@@ -15,7 +18,7 @@ const UserDetailsProfile = (props: any) => {
     profileData,
   };
 
-  const { methods, handleSubmit, onSubmit, initialTab, addressVal } =
+  const { methods, handleSubmit, onSubmit, addressVal, updateUserLoading } =
     useProfile(profileParams);
 
   return (
@@ -30,8 +33,7 @@ const UserDetailsProfile = (props: any) => {
                   {item?.componentProps?.heading}
                 </Typography>
               )}
-              {/* for address fileds */}
-              {item?.componentProps?.name === 'address' && (
+              {item?.componentProps?.name === fieldName?.ADDRESS && (
                 <Box
                   sx={{
                     position: 'relative',
@@ -46,7 +48,7 @@ const UserDetailsProfile = (props: any) => {
                     }}
                     position="end"
                   >
-                    {addressVal?.length > 0 ? (
+                    {addressVal?.length > indexNumbers?.ZERO ? (
                       <BorderColorIcon
                         sx={{
                           cursor: 'not-allowed',
@@ -65,13 +67,14 @@ const UserDetailsProfile = (props: any) => {
                   </InputAdornment>
                 </Box>
               )}
-              {!item?.toShow?.includes('address') && (
+              {!item?.toShow?.includes(fieldName?.ADDRESS) && (
                 <item.component
                   {...item?.componentProps}
                   size={'small'}
                   disabled={
-                    (isToggled && item?.componentProps?.name === 'address') ||
-                    item?.componentProps?.name === 'email'
+                    (isToggled &&
+                      item?.componentProps?.name === fieldName?.ADDRESS) ||
+                    item?.componentProps?.name === fieldName?.EMAIL
                       ? true
                       : false
                   }
@@ -87,7 +90,7 @@ const UserDetailsProfile = (props: any) => {
                     ))}
                 </item.component>
               )}
-              {isToggled && item?.toShow?.includes('address') && (
+              {isToggled && item?.toShow?.includes(fieldName?.ADDRESS) && (
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
@@ -112,13 +115,17 @@ const UserDetailsProfile = (props: any) => {
         <Button
           variant="outlined"
           color="inherit"
-          onClick={() => setTabVal(initialTab)}
+          onClick={() => setTabVal(indexNumbers?.ZERO)}
         >
           Cancel
         </Button>
-        <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+        <LoadingButton
+          variant="contained"
+          onClick={handleSubmit(onSubmit)}
+          loading={updateUserLoading}
+        >
           Save
-        </Button>
+        </LoadingButton>
       </Grid>
     </FormProvider>
   );

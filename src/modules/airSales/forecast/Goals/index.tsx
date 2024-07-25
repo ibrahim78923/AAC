@@ -1,5 +1,5 @@
 import { Box, Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
-import { manageTableColumns, manageTableData } from './Goals.data';
+import { manageTableColumns } from './Goals.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
@@ -34,6 +34,15 @@ const Goals = () => {
     setIsEditDrawer,
     isDelete,
     setIsDelete,
+    goalsData,
+    isLoading,
+    setPageLimit,
+    setPage,
+    isError,
+    isSuccess,
+    isFetching,
+    search,
+    setSearch,
   } = useGoals();
 
   return (
@@ -45,7 +54,12 @@ const Goals = () => {
         flexDirection={{ xs: 'column', sm: 'row' }}
         gap={1}
       >
-        <Search placeholder="Search" size="small" />
+        <Search
+          placeholder="Search by Name"
+          size="small"
+          searchBy={search}
+          setSearchBy={setSearch}
+        />
         <Box display="flex" gap={1} flexWrap="wrap">
           <Stack
             direction={{ xs: 'row' }}
@@ -123,8 +137,19 @@ const Goals = () => {
             tableRowValues,
             setTableRowValues,
           )}
-          data={manageTableData}
+          data={goalsData?.goals}
           isPagination
+          isLoading={isLoading}
+          isError={isError}
+          isFetching={isFetching}
+          isSuccess={isSuccess}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+          currentPage={goalsData?.meta?.page}
+          count={goalsData?.meta?.pages}
+          pageLimit={goalsData?.meta?.limit}
+          totalRecords={goalsData?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
         />
       </Box>
       {isFilterDrawer && (

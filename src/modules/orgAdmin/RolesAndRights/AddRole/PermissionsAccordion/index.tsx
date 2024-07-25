@@ -7,27 +7,26 @@ import {
   Box,
   FormControlLabel,
 } from '@mui/material';
-
 import { SwitchBtn } from '@/components/SwitchButton';
-
 import usePermissionAccordion from './usePermissionAccordion';
 import DashboardAccordion from './DashboardAccordion';
-
-import { v4 as uuidv4 } from 'uuid';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { PermissionsAccordionInterface } from '@/modules/orgAdmin/RolesAndRights/Roles-inerface';
+import { DRAWER_TYPES, ROLES_AND_RIGHTS_CONST } from '@/constants/strings';
+import { v4 as uuidv4 } from 'uuid';
 
-const PermissionsAccordion = (props: any) => {
+const PermissionsAccordion = (props: PermissionsAccordionInterface) => {
   const {
-    permissionsData,
-    query,
-    getModulePermissions,
     selectAllPermissions,
-    watch,
+    getModulePermissions,
+    permissionsData,
     disabled,
+    query,
+    watch,
   } = props;
+
   const {
     theme,
-    // commented for future use
     selectedModule,
     handleExpandAccordionChange,
     handleChangeSubModule,
@@ -35,14 +34,13 @@ const PermissionsAccordion = (props: any) => {
   } = usePermissionAccordion();
 
   const dataArray =
-    query?.type === 'view'
+    query?.type === DRAWER_TYPES?.VIEW
       ? permissionsData?.permissions
       : permissionsData?.data;
   return (
     <Stack gap={3}>
       {dataArray?.map((item: any) => (
         <>
-          {' '}
           <Accordion
             key={uuidv4()}
             expanded={selectedModule === item?.name?.toLowerCase()}
@@ -81,7 +79,9 @@ const PermissionsAccordion = (props: any) => {
                     <SwitchBtn
                       checked={getModulePermissions(item?.subModules)?.every(
                         (permission: any) =>
-                          watch('permissions')?.includes(permission),
+                          watch(ROLES_AND_RIGHTS_CONST?.PERMISSIONS)?.includes(
+                            permission,
+                          ),
                       )}
                       handleSwitchChange={() =>
                         selectAllPermissions(item?.subModules)

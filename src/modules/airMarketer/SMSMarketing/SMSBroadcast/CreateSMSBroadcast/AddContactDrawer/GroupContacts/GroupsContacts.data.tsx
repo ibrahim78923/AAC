@@ -19,6 +19,7 @@ export const groupsColumns: any = ({
   const handleSelectAllContactGroups = (checked: boolean): void => {
     setSelectedRec(checked ? contactsGroupData : []);
   };
+
   return [
     {
       accessorFn: (row: any) => row?._id,
@@ -28,9 +29,10 @@ export const groupsColumns: any = ({
           onChange={({ target }) => {
             handleSelectContactGroupById(target?.checked, original._id);
           }}
-          checked={selectedRec?.some(
+          checked={contactsGroupData?.some(
             (contact: any) => contact._id === original._id,
           )}
+          // defaultChecked={contactsGroupData?.map((contact: any) => contact._id)}
         />
       ),
       header: (

@@ -34,13 +34,13 @@ export default function EditForm({
     isStoragePrice,
     isUserPrice,
     isLoading,
-  } = useEditForm(
+  } = useEditForm({
     isEditModal,
     isGetRowValues,
     onClose,
     setIsGetRowValues,
     setIsChecked,
-  );
+  });
 
   const theme = useTheme();
 

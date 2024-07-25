@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { useGetPlanTypesQuery } from '@/services/superAdmin/plan-mangement';
+import { ProductOption } from './planForm.interface';
 
 export const defaultValues = {
   suite: [],
@@ -84,16 +85,16 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
 
 export const dataArray = (
   _: any,
-  AdditionalStorageValue: any,
-  AdditionalUsereValue: any,
-  isSuccess: any,
+  AdditionalStorageValue: number,
+  AdditionalUsereValue: number,
+  isSuccess: boolean,
 ) => {
   const { data: planTypeData } = useGetPlanTypesQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
   });
 
-  const planType = planTypeData?.data?.map((planType: any) => ({
+  const planType = planTypeData?.data?.map((planType: ProductOption) => ({
     value: planType?._id,
     label: planType?.name,
   }));

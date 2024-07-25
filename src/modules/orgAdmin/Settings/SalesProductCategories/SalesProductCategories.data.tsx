@@ -1,24 +1,29 @@
 import { Box, Checkbox } from '@mui/material';
-
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-
 import * as Yup from 'yup';
 import StatusBadge from '@/components/StatusBadge';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import {
+  ColumnsFunctionParams,
+  ColumnsFunctionReturnType,
+  DataArrayItem,
+  ProductCategoryDefaultValI,
+} from './SalesProductCategories.interface';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-export const ProductCategoryvalidationSchema: any = Yup.object().shape({
-  name: Yup.string().required('Field is Required'),
-  description: Yup.string(),
+export const ProductCategoryvalidationSchema: any = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
+  description: Yup?.string(),
 });
 
-export const ProductCategoryDefaultValues = {
+export const ProductCategoryDefaultValues: ProductCategoryDefaultValI = {
   name: '',
   description: '',
 };
 
-export const dataArray = [
+export const dataArray: DataArrayItem[] = [
   {
     componentProps: {
       name: 'name',
@@ -40,44 +45,14 @@ export const dataArray = [
   },
 ];
 
-// table
-export const ProductCategoryTableData: any = [
-  {
-    Id: 1,
-    name: `Hardware`,
-    Description: 'John Doe',
-    createdDate: '12/01/2023',
-    action: 'action',
-  },
-  {
-    Id: 2,
-    name: `Setup`,
-    Description: 'Liever anderson',
-    createdDate: '12/02/2023',
-    action: 'action',
-  },
-
-  {
-    Id: 3,
-    name: `Maintenance`,
-    Description: 'Little Struit',
-    createdDate: '23/12/2022',
-    action: 'action',
-  },
-];
-
-export const columns = (
-  setIsGetRowValues: any,
-  setIschecked: any,
-  ischecked: any,
-  isGetRowValues: any,
-  userStatus: any,
-  setUserStatus: any,
-  theme: any,
-  setEditData: any,
-  editData: any,
-  updateSalesProductCategories: any,
-) => {
+export const columns = ({
+  setIsGetRowValues,
+  setIsChecked,
+  isGetRowValues,
+  theme,
+  setEditData,
+  updateSalesProductCategories,
+}: ColumnsFunctionParams): ColumnsFunctionReturnType => {
   return [
     {
       accessorFn: (row: any) => row?.Id,
@@ -97,12 +72,13 @@ export const columns = (
                 info?.row?.original?._id,
               ]);
             } else {
-              setIsGetRowValues((prev: any) =>
-                prev.filter((id: any) => id !== info?.row?.original?._id),
+              setIsGetRowValues(
+                (prev: any) =>
+                  prev?.filter((id: any) => id !== info?.row?.original?._id),
               );
             }
             setEditData(info?.row?.original);
-            setIschecked(!isChecked);
+            setIsChecked(!isChecked);
           }}
         />
       ),
@@ -122,7 +98,11 @@ export const columns = (
       isSortable: true,
       header: 'Description',
       cell: (info: any) => {
-        return <Box dangerouslySetInnerHTML={{ __html: info?.getValue() }} />;
+        return (
+          <Box
+            dangerouslySetInnerHTML={{ __html: info?.getValue() ?? 'N/A' }}
+          />
+        );
       },
     },
     {
@@ -140,19 +120,19 @@ export const columns = (
       cell: (info: any) => (
         <StatusBadge
           value={info?.row?.original?.status}
-          onChange={async (e: any) => {
-            try {
-              await updateSalesProductCategories({
-                body: { status: e?.target?.value },
-                id: info?.row?.original?._id,
-              }).unwrap();
-
-              enqueueSnackbar('Categories status Updated Successfully', {
-                variant: 'success',
+          onChange={(e: any) => {
+            updateSalesProductCategories({
+              body: { status: e?.target?.value },
+              id: info?.row?.original?._id,
+            })
+              ?.then(() => {
+                enqueueSnackbar('Categories status Updated Successfully', {
+                  variant: NOTISTACK_VARIANTS?.SUCCESS,
+                });
+              })
+              ?.catch((error: any) => {
+                enqueueSnackbar(error, { variant: NOTISTACK_VARIANTS?.ERROR });
               });
-            } catch (error: any) {
-              enqueueSnackbar('Something went wrong !', { variant: 'error' });
-            }
           }}
           options={[
             {
@@ -166,7 +146,6 @@ export const columns = (
               color: theme?.palette?.error?.main,
             },
           ]}
-          defaultValue={''}
         />
       ),
     },

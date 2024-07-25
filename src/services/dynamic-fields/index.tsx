@@ -60,7 +60,7 @@ export const DynamicFieldsApi = baseAPI.injectEndpoints({
       }),
     }),
 
-    postAttachments: builder?.mutation({
+    postDynamicFormAttachments: builder?.mutation({
       query: ({ postAttachmentsParameters }: any) => ({
         url: END_POINTS?.POST_ATTACHMENT,
         method: 'POST',
@@ -74,5 +74,5 @@ export const {
   usePutDynamicFieldsMutation,
   useLazyGetDynamicFieldsQuery,
   useDeleteDynamicFieldsMutation,
-  usePostAttachmentsMutation,
+  usePostDynamicFormAttachmentsMutation,
 } = DynamicFieldsApi;

@@ -7,6 +7,7 @@ import {
 } from '@/services/superAdmin/plan-mangement';
 
 import * as Yup from 'yup';
+import { PlanType, Product } from './planManagement.interface';
 
 export const avatarGroupMockData: IAVATARGROUPDATA[] = [
   {
@@ -55,7 +56,7 @@ export const planManagementFilterFiltersDataArray = () => {
   const { data } = useGetProductsQuery({});
 
   const productsOptions: { value: number; label: string } = data?.data?.map(
-    (products: any) => {
+    (products: Product) => {
       return {
         value: products?._id,
         label: products?.name,
@@ -67,7 +68,7 @@ export const planManagementFilterFiltersDataArray = () => {
     pagination: `page=1&limit=10`,
   });
 
-  const planType = planTypeData?.data?.map((planType: any) => ({
+  const planType = planTypeData?.data?.map((planType: PlanType) => ({
     value: planType?._id,
     label: planType?.name,
   }));

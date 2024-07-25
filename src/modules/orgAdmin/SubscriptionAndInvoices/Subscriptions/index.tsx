@@ -14,12 +14,13 @@ import {
   useGetSubscriptionsAllCrmWithSubscriptionsQuery,
   useGetSubscriptionsAndInvoicesQuery,
 } from '@/services/orgAdmin/subscription-and-invoices';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, PLAN_PRICE_TYPE_TAGS } from '@/constants';
 import dayjs from 'dayjs';
 
 import { v4 as uuidv4 } from 'uuid';
+import { PlanCRMI, PlanI } from './subscriptions.interface';
 
-export const getProductIcon = (product: any) => {
+export const getProductIcon = (product: string) => {
   let iconProduct;
   switch (product) {
     case 'Air Sales':
@@ -52,7 +53,7 @@ const Subscriptions = () => {
   const { data: getSubscriptionCRMData } =
     useGetSubscriptionsAllCrmWithSubscriptionsQuery({});
 
-  const handleDrawerOpen = (id: any) => {
+  const handleDrawerOpen = (id: string) => {
     setSubscriptionId(id);
     setIsOpenDrawer(true);
   };
@@ -85,42 +86,44 @@ const Subscriptions = () => {
           rowSpacing={'24px'}
           columnSpacing={{ xs: '24px', xl: '60px' }}
         >
-          {getSubscriptionData?.data?.map((plan: any) => {
-            return (
-              <Grid item key={plan?.id} xs={12} md={6} lg={4}>
-                <PlanCard
-                  status={plan?.status}
-                  icon={getProductIcon(plan?.name || plan?.productName)}
-                  title={plan?.name || plan?.productName}
-                  planDuration={plan?.planDuration}
-                  planUsers={plan?.additionalUsers}
-                  planData={plan?.billingCycle}
-                  price={plan?.planData?.planPrice ?? 0}
-                  billOn={dayjs(plan?.billingDate).format(DATE_FORMAT?.UI)}
-                  type={plan?.planTypeName ?? plan?.plan}
-                  handleBillingDetail={handleDrawerOpen}
-                  id={plan?._id}
-                  plan={plan}
-                />
-              </Grid>
-            );
-          })}
-          {/* <Grid item  xs={12} md={6} lg={4}>
-            CRMs
-          </Grid> */}
-          {getSubscriptionCRMData?.data?.map((plan: any) => {
+          {getSubscriptionData &&
+            getSubscriptionData?.data?.map((plan: PlanI) => {
+              return (
+                <Grid item key={plan?._id} xs={12} md={6} lg={4}>
+                  <PlanCard
+                    status={plan?.status}
+                    icon={getProductIcon(plan?.name || plan?.productName || '')}
+                    title={plan?.name ?? plan?.productName ?? ''}
+                    planDuration={plan?.planDuration}
+                    planUsers={plan?.additionalUsers ?? ''}
+                    planData={plan?.billingCycle}
+                    price={plan?.planData?.planPrice ?? 0}
+                    billOn={dayjs(plan?.billingDate)?.format(DATE_FORMAT?.UI)}
+                    type={plan?.planTypeName ?? plan?.plan}
+                    handleBillingDetail={handleDrawerOpen}
+                    id={plan?._id}
+                    plan={plan}
+                  />
+                </Grid>
+              );
+            })}
+          {getSubscriptionCRMData?.data?.map((plan: PlanCRMI) => {
             return (
               <Grid item key={plan?.id} xs={12} md={6} lg={4}>
                 <PlanCard
                   status={plan?.status}
                   icon={<CrmSuiteIcon />}
-                  title={plan?.name || plan?.planName}
+                  title={plan?.name || plan?.planName || ''}
                   planDuration={plan?.planDuration}
                   planUsers={plan?.additionalUsers}
                   planData={plan?.billingCycle}
-                  price={plan?.planPrice || plan?.plans?.planPrice}
+                  price={plan?.planPrice || plan?.plans?.planPrice || 0}
                   billOn={dayjs(plan?.billingDate).format(DATE_FORMAT?.UI)}
-                  type={plan?.planTypeName ? plan?.planTypeName : 'Free Plan'}
+                  type={
+                    plan?.planTypeName
+                      ? plan?.planTypeName
+                      : PLAN_PRICE_TYPE_TAGS?.FREE_PLAN
+                  }
                   handleBillingDetail={handleDrawerOpen}
                   id={plan?._id}
                   plan={plan}

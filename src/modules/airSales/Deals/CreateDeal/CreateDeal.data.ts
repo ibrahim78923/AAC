@@ -11,6 +11,7 @@ import useDealTab from '../DealTab/useDealTab';
 import * as Yup from 'yup';
 import { getSession } from '@/utils';
 import { ROLES } from '@/constants/strings';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -133,7 +134,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
         label: 'Add Line Item',
         options: salesProduct?.data?.salesproducts?.map((item: any) => ({
           value: item?._id,
-          label: item?.name,
+          label: capitalizeFirstLetter(item?.name),
         })),
         fullWidth: true,
       },

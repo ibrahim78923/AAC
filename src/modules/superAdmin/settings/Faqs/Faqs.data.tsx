@@ -1,81 +1,16 @@
-import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
-import * as Yup from 'yup';
 import dayjs from 'dayjs';
-import useFaqs from './useFaqs';
 import { DATE_FORMAT } from '@/constants';
-
-export const faqsFilterValidationSchema = Yup.object().shape({
-  faqCategory: Yup.string().trim().required('Field is Required'),
-  createdBy: Yup.string().trim().required('Field is Required'),
-  createdAt: Yup.string().trim().required('Field is Required'),
-});
-
-export const faqsFilterFiltersDataArray = () => {
-  const { dataGetFaqs } = useFaqs();
-  const createdByOptions = dataGetFaqs?.data?.faqs?.reduce(
-    (uniqueOptions: any, option: any) => {
-      const createdById = option?.createdBy?._id;
-      if (
-        createdById &&
-        !uniqueOptions.some((item: any) => item?.value === createdById)
-      ) {
-        uniqueOptions.push({
-          value: createdById,
-          label: option?.createdBy?.name,
-        });
-      }
-      return uniqueOptions;
-    },
-    [],
-  );
-  return [
-    {
-      componentProps: {
-        name: 'faqCategory',
-        label: 'Category',
-        select: true,
-      },
-      options: [
-        { value: 'SALES', label: 'Sales' },
-        { value: 'MARKETING', label: 'Marketing' },
-        { value: 'SERVICES', label: 'Services' },
-        { value: 'OPERATIONS', label: 'Operations' },
-        { value: 'LOYALTY_PROGRAM', label: 'Loyalty Program' },
-      ],
-      component: RHFSelect,
-      md: 12,
-    },
-    {
-      componentProps: {
-        name: 'createdBy',
-        label: 'Created By',
-        select: true,
-      },
-      options: createdByOptions,
-      component: RHFSelect,
-      md: 12,
-    },
-    {
-      componentProps: {
-        name: 'createdAt',
-        label: 'Created Date',
-        fullWidth: true,
-      },
-      component: RHFSwitchableDatepicker,
-      md: 12,
-    },
-  ];
-};
+import { FaqI, ColumnPropsI } from './FaqInterface';
 
 export const columns = (
-  selectedRow: any,
-  setSelectedRow: any,
-  setRowId: any,
-) => {
-  const handleRowClick = (id: any) => {
+  selectedRow: string[],
+  setSelectedRow: React.Dispatch<React.SetStateAction<string[]>>,
+  setRowId: React.Dispatch<React.SetStateAction<string | null>>,
+): ColumnPropsI[] => {
+  const handleRowClick = (id: string) => {
     const selectedIndex = selectedRow?.indexOf(id);
-    let newSelected: any = [];
+    let newSelected: string[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selectedRow, id);
@@ -100,10 +35,10 @@ export const columns = (
   // Select All Row
   const handleSelectAllClick = (
     event: React.ChangeEvent<HTMLInputElement>,
-    rows: any,
+    rows: FaqI[],
   ) => {
     if (event?.target?.checked) {
-      const newSelected = rows?.map((n: any) => n?._id);
+      const newSelected = rows?.map((n) => n?._id);
       setSelectedRow(newSelected);
       return;
     } else {
@@ -111,13 +46,13 @@ export const columns = (
     }
   };
 
-  const isSelected = (id: any) => selectedRow?.indexOf(id) !== -1;
+  const isSelected = (id: string) => selectedRow?.indexOf(id) !== -1;
 
   return [
     {
-      accessorFn: (row: any) => row._id,
+      accessorFn: (row: FaqI) => row._id,
       id: '_id',
-      cell: (info: any) => {
+      cell: (info) => {
         return (
           <Checkbox
             color="primary"
@@ -129,7 +64,7 @@ export const columns = (
           />
         );
       },
-      header: (info: any) => {
+      header: (info) => {
         const rows = info?.table?.options?.data;
         return (
           <Checkbox
@@ -145,42 +80,42 @@ export const columns = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.faqQuestion,
+      accessorFn: (row: FaqI) => row?.faqQuestion,
       id: 'faqQuestion',
-      cell: (info: any) => info?.getValue(),
+      cell: (info) => info?.getValue(),
       header: 'Question',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.faqCategory,
+      accessorFn: (row: FaqI) => row?.faqCategory,
       id: 'faqCategory',
       isSortable: true,
       header: 'FAQ Category',
-      cell: (info: any) => info?.getValue()?.name,
+      cell: (info) => info?.getValue()?.name,
     },
     {
-      accessorFn: (row: any) => row?.faqAnswer,
+      accessorFn: (row: FaqI) => row?.faqAnswer,
       id: 'faqAnswer',
       isSortable: true,
       header: 'Answer',
-      cell: (info: any) => {
-        const response = info?.getValue().replace(/<[^>]*>/g, '');
+      cell: (info) => {
+        const response = info?.getValue()?.replace(/<[^>]*>/g, '');
         return <>{response}</>;
       },
     },
     {
-      accessorFn: (row: any) => row?.createdBy,
+      accessorFn: (row: FaqI) => row?.createdBy,
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) => info?.getValue().name,
+      cell: (info) => info?.getValue()?.name,
     },
     {
-      accessorFn: (row: any) => row?.createdAt,
+      accessorFn: (row: FaqI) => row?.createdAt,
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
+      cell: (info) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
   ];
 };

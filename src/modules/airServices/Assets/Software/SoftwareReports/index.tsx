@@ -19,6 +19,8 @@ import { DownloadLargeIcon } from '@/assets/icons';
 import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
 import { CustomChart } from '@/components/Chart';
 import useSoftwareReports from './useSoftwareReports';
+import { AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const SoftwareReports = () => {
   const {
@@ -42,25 +44,36 @@ export const SoftwareReports = () => {
           })
         }
       >
-        <ReportCalendarFilter setCalendarFilter={{}} />
-        <FormProvider methods={methods} onSubmit={handleSubmit(onFilterSubmit)}>
-          <Box mt={1} width={'10rem'}>
-            <RHFAutocomplete
-              name={'All'}
-              placeholder={'All'}
-              size={'small'}
-              options={['Mobile', 'Desktop', 'Saas']}
-            />
-          </Box>
-        </FormProvider>
-        <IconButton
-          aria-label={'download'}
-          size={'small'}
-          sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
-          onClick={handleDownload}
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.FILTER]}
         >
-          <DownloadLargeIcon />
-        </IconButton>
+          <ReportCalendarFilter setCalendarFilter={{}} />
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.DOWNLOAD]}
+        >
+          <FormProvider
+            methods={methods}
+            onSubmit={handleSubmit(onFilterSubmit)}
+          >
+            <Box mt={1} width={'10rem'}>
+              <RHFAutocomplete
+                name={'All'}
+                placeholder={'All'}
+                size={'small'}
+                options={['Mobile', 'Desktop', 'Saas']}
+              />
+            </Box>
+          </FormProvider>
+          <IconButton
+            aria-label={'download'}
+            size={'small'}
+            sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
+            onClick={handleDownload}
+          >
+            <DownloadLargeIcon />
+          </IconButton>
+        </PermissionsGuard>
       </PageTitledHeader>
 
       <Divider />
@@ -75,78 +88,82 @@ export const SoftwareReports = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <Box id={'software-reports'}>
-          <SoftwareReportsCards
-            softwareReportsCardsData={softwareReportsCardsData}
-          />
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={4}>
-              <Box
-                height={'100%'}
-                boxShadow={1}
-                border={'1px solid'}
-                borderColor={'custom.off_white_one'}
-                borderRadius={2}
-                px={2}
-                py={3}
-              >
-                <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
-                  Software Distribution
-                </Typography>
-                <CustomChart
-                  type={'pie'}
-                  series={[54, 14, 6, 16, 24]}
-                  options={{
-                    labels: [
-                      'Managed',
-                      'InReview',
-                      'Disabled',
-                      'Ignored',
-                      'Restricted',
-                    ],
-                  }}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <Box
-                boxShadow={1}
-                border={'1px solid'}
-                borderColor={'custom.off_white_one'}
-                borderRadius={2}
-                px={2}
-                py={3}
-                height={'100%'}
-              >
-                <FormProvider
-                  methods={methods}
-                  onSubmit={handleSubmit(onFilterSubmit)}
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_SOFTWARE_PERMISSIONS?.VIEW]}
+        >
+          <Box id={'software-reports'}>
+            <SoftwareReportsCards
+              softwareReportsCardsData={softwareReportsCardsData}
+            />
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={4}>
+                <Box
+                  height={'100%'}
+                  boxShadow={1}
+                  border={'1px solid'}
+                  borderColor={'custom.off_white_one'}
+                  borderRadius={2}
+                  px={2}
+                  py={3}
                 >
-                  <Grid container mb={1}>
-                    <Grid item xs={3}>
-                      <RHFAutocomplete
-                        name={'Software'}
-                        placeholder={'All Software'}
-                        options={[
-                          'TotalSoftware',
-                          'Restricted',
-                          'Ignored',
-                          'Managed',
-                          'Disabled',
-                          'InReview',
-                        ]}
-                      />
+                  <Typography mb={2} variant={'h5'} color={'slateBlue.main'}>
+                    Software Distribution
+                  </Typography>
+                  <CustomChart
+                    type={'pie'}
+                    series={[54, 14, 6, 16, 24]}
+                    options={{
+                      labels: [
+                        'Managed',
+                        'InReview',
+                        'Disabled',
+                        'Ignored',
+                        'Restricted',
+                      ],
+                    }}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Box
+                  boxShadow={1}
+                  border={'1px solid'}
+                  borderColor={'custom.off_white_one'}
+                  borderRadius={2}
+                  px={2}
+                  py={3}
+                  height={'100%'}
+                >
+                  <FormProvider
+                    methods={methods}
+                    onSubmit={handleSubmit(onFilterSubmit)}
+                  >
+                    <Grid container mb={1}>
+                      <Grid item xs={3}>
+                        <RHFAutocomplete
+                          name={'Software'}
+                          placeholder={'All Software'}
+                          options={[
+                            'TotalSoftware',
+                            'Restricted',
+                            'Ignored',
+                            'Managed',
+                            'Disabled',
+                            'InReview',
+                          ]}
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </FormProvider>
-                <TanstackTable
-                  data={softwareReportsTableData}
-                  columns={softwareReportsTabelCoulmns}
-                />
-              </Box>
+                  </FormProvider>
+                  <TanstackTable
+                    data={softwareReportsTableData}
+                    columns={softwareReportsTabelCoulmns}
+                  />
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </PermissionsGuard>
       )}
     </>
   );

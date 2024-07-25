@@ -22,6 +22,7 @@ export const allContactsColumns: any = ({
   const handleSelectAllContacts = (checked: boolean): void => {
     setSelectedRec(checked ? allContactsData : []);
   };
+
   return [
     {
       accessorFn: (row: any) => row?._id,
@@ -29,12 +30,11 @@ export const allContactsColumns: any = ({
       cell: ({ row: { original } }: any) => (
         <Checkbox
           onChange={({ target }) => {
-            handleSelectContactById(target?.checked, original._id);
+            handleSelectContactById(target?.checked, original?._id);
           }}
           checked={selectedRec?.some(
-            (contact: any) => contact._id === original._id,
+            (contact: any) => contact?._id === original?._id,
           )}
-          defaultChecked={selectedRec?.map((contact: any) => contact._id)}
         />
       ),
       header: (

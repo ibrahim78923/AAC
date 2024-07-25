@@ -10,6 +10,7 @@ import { companiesAPI } from '@/services/commonFeatures/companies';
 
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { companyFormValuesI } from './createcompany.interface';
 
 const useCreateCompany = (setIsOpenDrawer?: any) => {
   const { usePostCompaniesMutation } = companiesAPI;
@@ -32,7 +33,7 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
 
   const { handleSubmit, reset } = methods;
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: companyFormValuesI) => {
     const formData = new FormData();
 
     formData.append('noOfEmloyee', values?.noOfEmloyee);
@@ -42,16 +43,16 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
     formData.append('ownerId', values?.ownerId);
     formData.append('industry', values?.industry);
     if (!isNullOrEmpty(values?.type)) {
-      formData.append('type', values?.type);
+      formData.append('type', values?.type ?? '');
     }
     formData.append('city', values?.city);
     formData.append('postalCode', values?.postalCode);
     formData.append('address', values?.address);
     if (!isNullOrEmpty(values?.description)) {
-      formData.append('description', values?.description);
+      formData.append('description', values?.description ?? '');
     }
     if (!isNullOrEmpty(values?.linkedInUrl)) {
-      formData.append('linkedInUrl', values?.linkedInUrl);
+      formData.append('linkedInUrl', values?.linkedInUrl ?? '');
     }
 
     try {

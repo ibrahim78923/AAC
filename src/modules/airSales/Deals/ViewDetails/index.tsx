@@ -21,6 +21,7 @@ import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { IMG_URL } from '@/config';
 import { v4 as uuidv4 } from 'uuid';
+import { capitalizeFirstLetter } from '@/utils/api';
 
 const ViewDetails = () => {
   const { theme, viewDeal, isLoading, selecetdDealId } = useViewDetails();
@@ -38,7 +39,9 @@ const ViewDetails = () => {
               <Skeleton width="15%" height="60px" />
             ) : (
               <Box>
-                <Typography variant="h4">{viewDeal?.name}</Typography>
+                <Typography variant="h4">
+                  {capitalizeFirstLetter(viewDeal?.name)}
+                </Typography>
                 <Typography
                   variant="body2"
                   sx={{ color: theme?.palette?.custom?.main }}
@@ -73,12 +76,14 @@ const ViewDetails = () => {
                       textTransform: 'upperCase',
                     }}
                   >
-                    {viewDeal?.dealOwner?.name?.charAt(0)}
+                    {capitalizeFirstLetter(
+                      viewDeal?.dealOwner?.name?.charAt(0),
+                    )}
                   </Typography>
                 </Avatar>
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                    {viewDeal?.dealOwner?.name ?? 'N/A'}
+                    {capitalizeFirstLetter(viewDeal?.dealOwner?.name) ?? 'N/A'}
                   </Typography>
                   <Typography
                     variant="body3"
@@ -144,7 +149,7 @@ const ViewDetails = () => {
                           variant="body3"
                           sx={styles?.salesTextBox(theme)}
                         >
-                          {item.name}
+                          {capitalizeFirstLetter(item.name)}
                         </Typography>
                         <Typography
                           variant="body3"

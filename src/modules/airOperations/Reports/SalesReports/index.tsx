@@ -3,6 +3,7 @@ import { AIR_OPERATIONS } from '@/constants';
 import { useSalesReports } from './useSalesReports';
 import { PermissionsTabs } from '@/components/Tabs/PermissionsTabs';
 import { AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS } from '@/constants/permission-keys';
+import { GENERIC_REPORT_MODULES } from '@/constants/strings';
 
 export const SalesReports = () => {
   const { router, salesReportsListTabs } = useSalesReports();
@@ -16,9 +17,12 @@ export const SalesReports = () => {
           router?.push(AIR_OPERATIONS?.REPORTS);
         }}
         addTitle="Create report"
-        handleAction={() => {
-          router?.push(AIR_OPERATIONS?.UPSERT_SALES_REPORTS);
-        }}
+        handleAction={() =>
+          router?.push({
+            pathname: AIR_OPERATIONS?.UPSERT_GENERIC_REPORTS,
+            query: { moduleName: GENERIC_REPORT_MODULES?.SALES },
+          })
+        }
         createPermissionKey={[
           AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_SCRATCH,
           AIR_OPERATION_REPORTS_SALES_CREATE_REPORT_PERMISSIONS?.CREATE_REPORT_FROM_TEMPLATE,

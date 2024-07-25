@@ -58,7 +58,7 @@ const TaskEditorDrawer = (props: any) => {
             methods={methodsdealsTasks}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               {/* eslint-disable */}
               {getDealsTasksDataArray?.map((item: any, index: any) => (
                 <Grid item xs={12} md={item?.md} key={index}>

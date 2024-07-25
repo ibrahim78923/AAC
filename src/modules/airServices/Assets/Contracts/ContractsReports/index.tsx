@@ -20,6 +20,8 @@ import {
   contractReportsTabelCoulmns,
   contractReportsTableData,
 } from './ContractReportsCard.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const ContractsReports = () => {
   const {
@@ -39,27 +41,41 @@ export const ContractsReports = () => {
         moveBack={() => router?.push({ pathname: AIR_SERVICES?.REPORTS })}
       >
         <ReportCalendarFilter setcalender={{}} />
-        <Box mt={1} width={'10rem'}>
-          <FormProvider
-            methods={methods}
-            onSubmit={handleSubmit(onFilterSubmit)}
-          >
-            <RHFAutocomplete
-              name={'All'}
-              placeholder={'All'}
-              options={['Active', 'Draft', 'Approved', 'Expired', 'Terminate']}
-              size={'small'}
-            />
-          </FormProvider>
-        </Box>
-        <IconButton
-          aria-label={'download'}
-          size={'small'}
-          sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
-          onClick={handleDownload}
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.FILTER]}
         >
-          <DownloadLargeIcon />
-        </IconButton>
+          <Box mt={1} width={'10rem'}>
+            <FormProvider
+              methods={methods}
+              onSubmit={handleSubmit(onFilterSubmit)}
+            >
+              <RHFAutocomplete
+                name={'All'}
+                placeholder={'All'}
+                options={[
+                  'Active',
+                  'Draft',
+                  'Approved',
+                  'Expired',
+                  'Terminate',
+                ]}
+                size={'small'}
+              />
+            </FormProvider>
+          </Box>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.DOWNLOAD]}
+        >
+          <IconButton
+            aria-label={'download'}
+            size={'small'}
+            sx={{ border: 1, borderRadius: 1, color: 'grey.700' }}
+            onClick={handleDownload}
+          >
+            <DownloadLargeIcon />
+          </IconButton>
+        </PermissionsGuard>
       </PageTitledHeader>
       <Divider />
       {loading ? (
@@ -72,77 +88,81 @@ export const ContractsReports = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <Box id={'contract-reports'}>
-          <ContractReportsCard
-            contractReportsCardData={contractReportsCardData}
-          />
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_REPORTS_CONTRACT_PERMISSIONS?.VIEW]}
+        >
+          <Box id={'contract-reports'}>
+            <ContractReportsCard
+              contractReportsCardData={contractReportsCardData}
+            />
 
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={12} md={4}>
-              <Box
-                border={'1px solid'}
-                borderColor={'custom.off_white_one'}
-                borderRadius={2}
-                boxShadow={1}
-                height={'100%'}
-                px={2}
-                py={3}
-              >
-                <Typography variant={'h5'} color={'slateBlue.main'}>
-                  Contracts Distribution
-                </Typography>
-                <CustomChart
-                  type={'pie'}
-                  series={[16, 54, 6, 24]}
-                  options={{
-                    labels: [
-                      'Warranty',
-                      'Software License',
-                      'Maintenance',
-                      'Lease',
-                    ],
-                  }}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <Box
-                boxShadow={1}
-                border={'1px solid'}
-                borderColor={'custom.off_white_one'}
-                borderRadius={2}
-                px={2}
-                py={3}
-                height={'100%'}
-              >
-                <FormProvider
-                  methods={methods}
-                  onSubmit={handleSubmit(onFilterSubmit)}
+            <Grid container spacing={2} mt={2}>
+              <Grid item xs={12} md={4}>
+                <Box
+                  border={'1px solid'}
+                  borderColor={'custom.off_white_one'}
+                  borderRadius={2}
+                  boxShadow={1}
+                  height={'100%'}
+                  px={2}
+                  py={3}
                 >
-                  <Grid container mb={1}>
-                    <Grid item xs={3}>
-                      <RHFAutocomplete
-                        name={'Contracts'}
-                        placeholder={'All Contracts'}
-                        options={[
-                          ' All',
-                          'Lease',
-                          'Maintaince',
-                          'Software',
-                          'Warranty',
-                        ]}
-                      />
+                  <Typography variant={'h5'} color={'slateBlue.main'}>
+                    Contracts Distribution
+                  </Typography>
+                  <CustomChart
+                    type={'pie'}
+                    series={[16, 54, 6, 24]}
+                    options={{
+                      labels: [
+                        'Warranty',
+                        'Software License',
+                        'Maintenance',
+                        'Lease',
+                      ],
+                    }}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Box
+                  boxShadow={1}
+                  border={'1px solid'}
+                  borderColor={'custom.off_white_one'}
+                  borderRadius={2}
+                  px={2}
+                  py={3}
+                  height={'100%'}
+                >
+                  <FormProvider
+                    methods={methods}
+                    onSubmit={handleSubmit(onFilterSubmit)}
+                  >
+                    <Grid container mb={1}>
+                      <Grid item xs={3}>
+                        <RHFAutocomplete
+                          name={'Contracts'}
+                          placeholder={'All Contracts'}
+                          options={[
+                            ' All',
+                            'Lease',
+                            'Maintaince',
+                            'Software',
+                            'Warranty',
+                          ]}
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </FormProvider>
-                <TanstackTable
-                  data={contractReportsTableData}
-                  columns={contractReportsTabelCoulmns}
-                />
-              </Box>
+                  </FormProvider>
+                  <TanstackTable
+                    data={contractReportsTableData}
+                    columns={contractReportsTabelCoulmns}
+                  />
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </PermissionsGuard>
       )}
     </>
   );

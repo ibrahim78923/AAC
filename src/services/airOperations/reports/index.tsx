@@ -34,43 +34,48 @@ const salesReportsApi = baseAPI?.injectEndpoints({
     }),
     addReportToFavoriteList: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
+        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
         method: 'PATCH',
+        body: apiDataParameter?.body,
         params: apiDataParameter?.queryParams,
       }),
     }),
     renameReports: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'PUT',
+        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
         body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
       }),
     }),
     addReportsToDashboard: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'PUT',
+        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
         body: apiDataParameter?.body,
+        params: apiDataParameter?.queryParams,
       }),
     }),
     cloneReports: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'POST',
+        url: END_POINTS?.CLONE_GENERIC_REPORTS,
+        method: 'PATCH',
         params: apiDataParameter?.queryParams,
       }),
     }),
     changeReportOwner: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'PUT',
+        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
         params: apiDataParameter?.queryParams,
       }),
     }),
     manageReportAccess: builder?.mutation({
       query: (apiDataParameter: any) => ({
-        url: ``,
-        method: 'PUT',
+        url: END_POINTS?.UPDATE_GENERIC_REPORTS_ACTION,
+        method: 'PATCH',
+        body: apiDataParameter?.body,
         params: apiDataParameter?.queryParams,
       }),
     }),
@@ -146,6 +151,13 @@ const salesReportsApi = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
     }),
+    getSingleGenericReportDetail: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.GET_SINGLE_GENERIC_REPORT_DETAIL,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -169,4 +181,5 @@ export const {
   useLazyGetSalesDashboardDropdownListToAddReportsToDashboardQuery,
   useLazyGetServicesDashboardDropdownListToAddReportsToDashboardQuery,
   useLazyGetUserAccessListDropdownListForReportsAccessManagementQuery,
+  useGetSingleGenericReportDetailQuery,
 } = salesReportsApi;

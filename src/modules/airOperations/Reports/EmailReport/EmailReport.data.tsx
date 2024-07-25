@@ -1,11 +1,13 @@
 import {
   RHFAutocomplete,
+  RHFDropZone,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { pxToRem } from '@/utils/getFontValue';
 import { SELECTED_ARRAY_LENGTH } from '@/constants/strings';
+import { FILE_MAX_SIZE } from '@/config';
 
 export const emailReportValidationSchema = Yup?.object()?.shape({
   recipients: Yup?.array()
@@ -20,6 +22,7 @@ export const emailReportValidationSchema = Yup?.object()?.shape({
     }),
   subject: Yup?.string()?.trim()?.required('Subject is required'),
   html: Yup?.string()?.trim()?.required('Message is required'),
+  attachments: Yup?.mixed()?.nullable()?.required('Attachment is required'),
 });
 
 export const emailReportDefaultValues = (data?: any) => {
@@ -28,6 +31,7 @@ export const emailReportDefaultValues = (data?: any) => {
     subject: data?.subject ?? '',
     html: data?.html ?? '',
     sender: data?.sender ?? '',
+    attachments: null,
   };
 };
 
@@ -62,7 +66,7 @@ export const emailReportFormFields = [
     componentProps: {
       name: 'subject',
       label: 'Email subject',
-      placeholder: 'add Subject Line',
+      placeholder: 'Add subject',
       required: true,
     },
     component: RHFTextField,
@@ -76,5 +80,22 @@ export const emailReportFormFields = [
       style: { height: pxToRem(200) },
     },
     component: RHFEditor,
+  },
+  {
+    id: 5,
+    componentProps: {
+      name: 'attachments',
+      label: 'Attach Report',
+      fullWidth: true,
+      required: true,
+      fileName: 'Attach the report',
+      fileType: `PDF only (max ${
+        FILE_MAX_SIZE?.ATTACH_FILE_MAX_SIZE / (1024 * 1024)
+      } MB)`,
+      accept: {
+        'application/pdf': ['.pdf'],
+      },
+    },
+    component: RHFDropZone,
   },
 ];

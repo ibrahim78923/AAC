@@ -1,13 +1,24 @@
 import { useState } from 'react';
+import { useTheme, Theme } from '@mui/material';
+import { useForm, UseFormReturn } from 'react-hook-form';
 
-import { useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
+interface Permission {
+  slug: string;
+}
+
+interface SubModule {
+  permissions: Permission[];
+}
+
+interface FormValues {
+  permissions: string[];
+}
 
 const usePermissionAccordion = () => {
-  const theme = useTheme();
+  const theme: Theme = useTheme();
 
-  const [selectedModule, setSelectedModule] = useState<string>();
-  const [selectedSubModule, setSelectedSubModule] = useState<string>();
+  const [selectedModule, setSelectedModule] = useState<string | undefined>();
+  const [selectedSubModule, setSelectedSubModule] = useState<string>('');
 
   const handleExpandAccordionChange = (module: string) => {
     if (module === selectedModule) {
@@ -17,7 +28,7 @@ const usePermissionAccordion = () => {
     }
   };
 
-  const handleChangeSubModule = (subModule) => {
+  const handleChangeSubModule = (subModule: string) => {
     if (subModule === selectedSubModule) {
       setSelectedSubModule('');
     } else {
@@ -25,43 +36,39 @@ const usePermissionAccordion = () => {
     }
   };
 
-  const defaultValues: any = {
+  const defaultValues: FormValues = {
     permissions: [],
   };
 
-  const methods: any = useForm<any>({
-    defaultValues: defaultValues,
+  const methods: UseFormReturn<FormValues> = useForm<FormValues>({
+    defaultValues,
   });
 
   const { watch, setValue } = methods;
 
-  const getModulePermissions = (subModules: any) => {
-    return subModules.flatMap((firstItem: any) => {
-      return firstItem.permissions.map((item: any) => item.slug);
-    });
+  const getModulePermissions = (subModules: SubModule[]) => {
+    return subModules?.flatMap(
+      (subModule) =>
+        subModule?.permissions?.map((permission) => permission?.slug),
+    );
   };
 
-  const selectAllPermissions = (subModules: any) => {
-    let permissionsArray = [];
+  const selectAllPermissions = (subModules: SubModule[]) => {
+    let permissionsArray: string[] = [];
     const modulePermissions = getModulePermissions(subModules);
     if (
-      !modulePermissions?.every(
-        (permission: any) => watch('permissions')?.includes(permission),
+      !modulePermissions.every(
+        (permission) => watch('permissions')?.includes(permission),
       )
     ) {
       permissionsArray = modulePermissions?.concat(watch('permissions'));
     } else {
       permissionsArray = watch('permissions')?.filter(
-        (permission: any) => !modulePermissions?.includes(permission),
+        (permission) => !modulePermissions?.includes(permission),
       );
     }
 
-    const fieldsToSet: any = {
-      permissions: permissionsArray,
-    };
-    for (const key in fieldsToSet) {
-      setValue(key, fieldsToSet[key]);
-    }
+    setValue('permissions', permissionsArray);
   };
 
   return {

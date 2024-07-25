@@ -296,7 +296,7 @@ export const END_POINTS = {
   GET_APPROVAL_TICKETS: `/ticket/get-tickets-approval`,
   UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,
   GET_UNAPPROVED_ARTICLES: `/articles/unapproved-articles`,
-
+  ASSET_TYPE_DROPDOWN: `/asset-type/drop-down-asset-type`,
   ADD_WORKLOAD_SCHEDULE: `/Work-Shchedule/add-work-shchedule`,
   EDIT_WORKLOAD_SCHEDULE: `/Work-Shchedule/edit-work-shchedule`,
   DELETE_WORKLOAD_SCHEDULE: `/Work-Shchedule/delete-work-shchedule`,
@@ -463,10 +463,15 @@ export const END_POINTS = {
   DELETE_GENERIC_REPORTS: `/generic-reports/delete-generic-reports`,
   SERVICE_DASHBOARD_DROPDOWN: `/air-services-dashboard`,
   SALES_DASHBOARD_DROPDOWN: `/sales-dashboard`,
+  GOALS: '/goals',
   DELETE_SERVICES_DASHBOARD: `/air-services-dashboard/delete-dashboards`,
   SOFT_DELETE_GENERIC_REPORTS: `/generic-reports/soft-delete-generic-reports`,
   RESTORE_DELETED_GENERIC_REPORTS: `/generic-reports/restore-deleted-generic-reports`,
   HARD_DELETE_GENERIC_REPORTS: `/generic-reports/hard-delete-generic-reports`,
+  CLONE_GENERIC_REPORTS: `/generic-reports/clone-generic-report`,
+  UPDATE_GENERIC_REPORTS_ACTION: `/generic-reports/update-generic-report-action`,
+  GET_SINGLE_GENERIC_REPORT_DETAIL: `/generic-reports/get-generic-report-details`,
+  CHANGE_DEFAULT_AIR_SERVICES_DASHBOARD: `/air-services-dashboard/edit-default-option`,
 };
 
 export const LEAD_CAPTURE_FORM = {
@@ -576,6 +581,8 @@ export const OPERATION = {
   GET_IMPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
   GET_EXPORT_DATA_MANAGEMENT: '/data-management/get-data-management',
   POST_GENERIC_REPORT: '/generic-reports',
+  PATCH_GENERIC_REPORT: '/generic-reports/update-generic-report',
+  GET_SINGLE_GENERIC_REPORT: '/generic-reports/get-generic-report-details',
 };
 
 export const AIR_SALES = {
