@@ -53,8 +53,8 @@ const AddUser = ({
         isOpenAddUserDrawer?.type === ACTIONS_TYPES?.VIEW
           ? userDetail?.firstName
           : isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT
-            ? 'Edit User'
-            : 'Add User'
+          ? 'Edit User'
+          : 'Add User'
       }
       okText={
         isOpenAddUserDrawer?.type === ACTIONS_TYPES?.EDIT

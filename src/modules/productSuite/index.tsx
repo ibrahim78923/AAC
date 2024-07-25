@@ -305,6 +305,7 @@ const ProductSuite = () => {
                         marginTop: '20px',
                         display: 'block',
                         padding: '10px 0px 10px 5px',
+
                         color: theme?.palette?.custom?.main,
                         width: '100%',
                         '&:hover': {

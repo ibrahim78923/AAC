@@ -31,6 +31,10 @@ const AddContactDrawer = (props: any) => {
     setSelectedRec([]);
   }, [radioVal]);
 
+  useEffect(() => {
+    setSelectedRec([]);
+  }, [radioVal]);
+
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
