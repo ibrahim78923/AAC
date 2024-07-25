@@ -51,43 +51,47 @@ export const TimeSlot = ({
               );
               return (
                 <Grid
-                  item
-                  xs={12}
-                  lg={11.5}
+                  container
                   key={field?.id}
-                  display={'flex'}
                   gap={1}
                   justifyContent={'center'}
                   alignItems={'center'}
+                  sx={{ pl: { xs: 2, md: 0 } }}
                 >
-                  <RHFTimePicker
-                    name={`daysTimeRanges.${parentIndex}.timeRanges.${index}.startHour`}
-                    size="small"
-                  />
-                  <RHFTimePicker
-                    name={`daysTimeRanges.${parentIndex}.timeRanges.${index}.endHour`}
-                    size="small"
-                  />
-                  <IconButton onClick={() => remove(index)}>
-                    <Delete />
-                  </IconButton>
-                  <PermissionsGuard
-                    permissions={Permissions?.SOCIAL_COMPONENTS_EMAIL}
-                  >
-                    <SingleDropdownButton
-                      dropdownOptions={timeSlotsWeeklyDropdown({
-                        startHour,
-                        endHour,
-                        setValue,
-                        daySlotsState,
-                        setDaySlotsState,
-                        index,
-                      })}
-                      dropdownName={<CopyIconButton />}
-                      hasEndIcon={false}
-                      btnVariant="text"
+                  <Grid item md={4} xs={12}>
+                    <RHFTimePicker
+                      name={`daysTimeRanges.${parentIndex}.timeRanges.${index}.startHour`}
+                      size="small"
                     />
-                  </PermissionsGuard>
+                  </Grid>
+                  <Grid item md={4} xs={12}>
+                    <RHFTimePicker
+                      name={`daysTimeRanges.${parentIndex}.timeRanges.${index}.endHour`}
+                      size="small"
+                    />
+                  </Grid>
+                  <Grid item md={3} xs={12}>
+                    <IconButton onClick={() => remove(index)}>
+                      <Delete />
+                    </IconButton>
+                    <PermissionsGuard
+                      permissions={Permissions?.SOCIAL_COMPONENTS_EMAIL}
+                    >
+                      <SingleDropdownButton
+                        dropdownOptions={timeSlotsWeeklyDropdown({
+                          startHour,
+                          endHour,
+                          setValue,
+                          daySlotsState,
+                          setDaySlotsState,
+                          index,
+                        })}
+                        dropdownName={<CopyIconButton />}
+                        hasEndIcon={false}
+                        btnVariant="text"
+                      />
+                    </PermissionsGuard>
+                  </Grid>
                 </Grid>
               );
             })}

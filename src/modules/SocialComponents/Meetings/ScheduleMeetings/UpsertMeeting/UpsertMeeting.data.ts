@@ -1,6 +1,19 @@
+import { DATE_TIME_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import { recurringTypeOption } from './MeetingForm/Recurring/Recurring.data';
+import {
+  bufferTimeOption,
+  meetingTypeOption,
+} from './MeetingForm/MeetingForm.data';
+import {
+  durationOption,
+  typeOptions,
+} from './MeetingForm/Reminder/Reminder.data';
+import { timeZone } from '@/constants/time-zone';
+import { capitalizeFirstLetter, timeFormatter } from '@/utils/api';
 
-const schemaTypes = {
+export const schemaTypes = {
   allDay: 'allDay',
   recurring: 'recurring',
   allowAttendee: 'allowAttendee',
@@ -16,37 +29,82 @@ const schemaTypes = {
   onDate: 'onDate',
   monthly: 'Monthly',
   group: 'group',
+  onWorkingDay: 'workingDay',
 };
-export const upsertMeetingValues = (router: any) => {
+export const upsertMeetingValues = (router: any, meetingData: any) => {
+  const todayDate = dayjs()?.format(DATE_TIME_FORMAT?.UI);
   return {
-    title: '',
-    allDay: false,
-    timeZone: null,
-    startDate: new Date(),
-    startTime: new Date(),
-    endDate: null,
-    endTime: null,
-    recurring: false,
-    recurringType: '',
-    dailyType: 'onThe',
-    recurringDay: Number(),
-    weekDays: [],
-    monthType: 'onDate',
-    monthlyDate: [],
-    monthlyWeeks: [],
-    monthlyDays: [],
-    description: '',
-    meetingType: null,
-    location: null,
+    title: meetingData?.title ?? '',
+    allDay: meetingData?.isAllDay ?? false,
+    timeZone: meetingData?.timeZone
+      ? timeZone?.find((item: any) => item?.label === meetingData?.timeZone)
+      : null,
+    startDate: meetingData?.startDate
+      ? new Date(meetingData?.startDate ?? todayDate)
+      : null,
+    startTime: timeFormatter(meetingData?.startTime) ?? new Date(),
+    endDate: meetingData?.startDate ? new Date(meetingData?.endDate) : null,
+    endTime: timeFormatter(meetingData?.endTime) ?? new Date(),
+    recurring: meetingData?.isRecurring ?? false,
+    recurringType: meetingData?.recurring?.type
+      ? recurringTypeOption?.find(
+          (item: any) => item?.value === meetingData?.recurring?.type,
+        )
+      : '',
+    dailyType:
+      meetingData?.recurring?.isWeekdays === false
+        ? schemaTypes?.onThe
+        : schemaTypes?.onWorkingDay,
+    recurringDay: meetingData?.recurring?.interval?.toString() ?? Number(),
+    weekDays: meetingData?.recurring?.onDay ?? [],
+    monthType:
+      meetingData?.recurring?.isWeekdays === false
+        ? schemaTypes?.onDate
+        : schemaTypes?.onThe,
+    monthlyDate: meetingData?.recurring?.days ?? [],
+    monthlyWeeks: capitalizeFirstLetter(meetingData?.recurring?.onWeek) ?? [],
+    monthlyDays: capitalizeFirstLetter(meetingData?.recurring?.onDay) ?? [],
+    description: meetingData?.agenda ?? '',
+    meetingType: meetingData?.type
+      ? meetingTypeOption?.find(
+          (item: any) => item?.value === meetingData?.type,
+        )
+      : null,
+    location: meetingData?.location ?? null,
     bufferBefore: true,
     bufferAfter: true,
-    bufferBeforeTime: '',
-    bufferAfterTime: '',
-    people: router?.query?.type === schemaTypes?.group ? [] : null,
+    bufferBeforeTime: meetingData?.bufferTime?.before
+      ? bufferTimeOption?.find(
+          (item: any) => item?.value === meetingData?.bufferTime?.before,
+        )
+      : '',
+    bufferAfterTime: meetingData?.bufferTime?.after
+      ? bufferTimeOption?.find(
+          (item: any) => item?.value === meetingData?.bufferTime?.after,
+        )
+      : '',
+    people:
+      meetingData?.peoples ?? router?.query?.type === schemaTypes?.group
+        ? []
+        : null,
     allowAttendee: false,
     timeSlotDuration: { label: '30 Minutes', value: 30 },
     selectedSlots: [],
-    reminder: [{ type: null, counter: Number(), duration: null }],
+    reminder: meetingData?.reminders?.map((data: any) => ({
+      type: data?.type
+        ? typeOptions?.find((item: any) => item?.value === data?.type)
+        : null,
+      counter: data?.interval?.toString() ?? Number(),
+      duration: data?.timeUnit
+        ? durationOption?.find((item: any) => item?.value === data?.timeUnit)
+        : null,
+    })) ?? [
+      {
+        type: null,
+        counter: Number(),
+        duration: null,
+      },
+    ],
   };
 };
 export const upsertMeetingSchema: any = (router: any) =>
@@ -69,15 +127,12 @@ export const upsertMeetingSchema: any = (router: any) =>
         otherwise: (schema: any) => schema?.required('Required'),
       },
     ),
-    endTime: Yup?.mixed()?.when(
-      [schemaTypes?.allDay, schemaTypes?.recurring, schemaTypes?.allowAttendee],
-      {
-        is: (allDay: boolean, recurring: boolean, allowAttendee: boolean) =>
-          allDay || recurring || allowAttendee,
-        then: (schema: any) => schema?.notRequired(),
-        otherwise: (schema: any) => schema?.required('Required'),
-      },
-    ),
+    endTime: Yup?.mixed()?.when([schemaTypes?.allDay], {
+      is: (allDay: boolean, recurring: boolean, allowAttendee: boolean) =>
+        allDay || recurring || allowAttendee,
+      then: (schema: any) => schema?.notRequired(),
+      otherwise: (schema: any) => schema?.required('Required'),
+    }),
     recurring: Yup?.boolean(),
     recurringType: Yup?.mixed()
       ?.nullable()
@@ -169,7 +224,7 @@ export const upsertMeetingSchema: any = (router: any) =>
     people:
       router?.query?.type === schemaTypes?.group
         ? Yup?.array()?.min(1, 'Required')
-        : Yup?.mixed()?.required('Required'),
+        : Yup?.mixed()?.nullable()?.required('Required'),
     allowAttendee: Yup?.boolean(),
     timeSlotDuration: Yup?.mixed(),
     selectedSlots: Yup?.mixed(),

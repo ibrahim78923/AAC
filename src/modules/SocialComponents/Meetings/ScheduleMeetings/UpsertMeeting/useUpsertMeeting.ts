@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import {
   allDayValues,
   meetingTitle,
+  schemaTypes,
   upsertMeetingSchema,
   upsertMeetingValues,
 } from './UpsertMeeting.data';
@@ -12,12 +13,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useAddMeetingMutation,
+  useGetByIdMeetingsListQuery,
   useLazyGetLocationListQuery,
+  useUpdateMeetingMutation,
 } from '@/services/commonFeatures/meetings';
 import dayjs from 'dayjs';
+import { MEETINGS_ACTION_TYPE } from '@/constants/strings';
 
 export const useUpsertMeeting = () => {
   const router: any = useRouter();
+  const { id: meetingId } = router?.query;
+
   const [meetingTemplate, setMeetingTemplate] = useState<boolean>(false);
   const [activeMeetingType, setActiveMeetingType] = useState(
     router?.query?.type || '',
@@ -41,11 +47,19 @@ export const useUpsertMeeting = () => {
     collectiveMeeting: 'COLLECTIVE',
   };
 
+  const { data, isLoading, isFetching, isError }: any =
+    useGetByIdMeetingsListQuery(meetingId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!meetingId,
+    });
+
+  const meetingData = data?.data;
+
   const methods = useForm({
-    defaultValues: upsertMeetingValues(router),
+    defaultValues: upsertMeetingValues(router, meetingData),
     resolver: yupResolver(upsertMeetingSchema(router)),
   });
-  const { handleSubmit, watch, setValue, control, clearErrors } = methods;
+  const { handleSubmit, watch, setValue, control, reset } = methods;
   const meetingType = meetingTitle?.[router?.query?.type];
 
   useEffect(() => {
@@ -54,8 +68,41 @@ export const useUpsertMeeting = () => {
     }
   }, [router?.query?.type]);
 
+  useEffect(() => {
+    reset(upsertMeetingValues(router, meetingData));
+  }, [meetingData]);
+
+  const workingDay = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'];
+
   const [addMeetingTrigger, addMeetingProgress] = useAddMeetingMutation();
+  const [updateMeetingTrigger, updateMeetingProgress] =
+    useUpdateMeetingMutation();
+
   const onSubmit = async (formData: any) => {
+    const isRecurringDailyOnTheDay =
+      formData?.recurringType?.label === recurringConstant?.daily &&
+      formData?.dailyType === recurringConstant?.onTheDay &&
+      formData?.recurring === true;
+
+    const isRecurringDailyOnWorkingDay =
+      formData?.recurringType?.label === recurringConstant?.daily &&
+      formData?.dailyType === recurringConstant?.onWorkingDay &&
+      formData?.recurring === true;
+
+    const isRecurringMonthlyOnTheDay =
+      formData?.recurringType?.label === recurringConstant?.monthly &&
+      formData?.monthType === recurringConstant?.onTheDay &&
+      formData?.recurring === true;
+
+    const isRecurringMonthlyOnMonthDate =
+      formData?.recurringType?.label === recurringConstant?.monthly &&
+      formData?.monthType === recurringConstant?.onMonthDate &&
+      formData?.recurring === true;
+
+    const isRecurringWeekly =
+      formData?.recurringType?.label === recurringConstant?.weekly &&
+      formData?.recurring === true;
+
     const body = {
       title: formData?.title,
       agenda: formData?.description,
@@ -69,60 +116,38 @@ export const useUpsertMeeting = () => {
       timeZone: formData?.timeZone?.label,
       startDate: formData?.startDate,
       endDate: formData?.endDate,
-      startTime: dayjs(formData?.startTime)?.format(TIME_FORMAT?.TH),
-      endTime: dayjs(formData?.endTime)?.format(TIME_FORMAT?.TH),
+      startTime:
+        formData?.allDay === false
+          ? dayjs(formData?.startTime)?.format(TIME_FORMAT?.TH)
+          : '',
+      endTime:
+        formData?.allDay === false
+          ? dayjs(formData?.endTime)?.format(TIME_FORMAT?.TH)
+          : '',
       type: formData?.meetingType?.value,
       isRecurring: formData?.recurring,
       recurring:
         formData?.recurring === true
           ? {
-              type:
-                formData?.recurring === true
-                  ? formData?.recurringType?.value
-                  : '',
-              interval:
-                formData?.recurringType?.label === recurringConstant?.daily &&
-                formData?.dailyType === recurringConstant?.onTheDay &&
-                formData?.recurring === true
-                  ? formData?.recurringDay
-                  : 0,
+              type: formData?.recurring ? formData?.recurringType?.value : '',
+              interval: isRecurringDailyOnTheDay ? formData?.recurringDay : 0,
               isWeekdays:
-                formData?.recurringType?.label === recurringConstant?.daily &&
-                formData?.monthType === recurringConstant?.onWorkingDay &&
-                formData?.recurring === true
-                  ? true
-                  : formData?.recurringType?.label ===
-                        recurringConstant?.monthly &&
-                      formData?.monthType === recurringConstant?.onTheDay &&
-                      formData?.recurring === true
-                    ? true
-                    : formData?.recurringType?.label ===
-                          recurringConstant?.weekly &&
-                        formData?.recurring === true
-                      ? true
-                      : false,
-              days:
-                formData?.recurringType?.label === recurringConstant?.monthly &&
-                formData?.monthType === recurringConstant?.onMonthDate &&
-                formData?.recurring === true
-                  ? formData?.monthlyDate
-                  : [],
-              onDay:
-                formData?.recurringType?.label === recurringConstant?.weekly
-                  ? formData?.weekDays?.map((day: string) => day?.toUpperCase())
-                  : formData?.recurringType?.label ===
-                        recurringConstant?.monthly &&
-                      formData?.monthType === recurringConstant?.onTheDay &&
-                      formData?.recurring === true
-                    ? formData?.monthlyDays?.map((day: any) => day?.value)
+                isRecurringDailyOnWorkingDay ||
+                isRecurringMonthlyOnTheDay ||
+                isRecurringWeekly,
+              days: isRecurringMonthlyOnMonthDate ? formData?.monthlyDate : [],
+              onDay: isRecurringWeekly
+                ? formData?.weekDays?.map((day: any) => day?.toUpperCase())
+                : isRecurringMonthlyOnTheDay
+                  ? formData?.weekDays?.map((day: any) => day?.toUpperCase())
+                  : isRecurringDailyOnWorkingDay
+                    ? workingDay
                     : [],
-              onWeek:
-                formData?.recurringType?.label === recurringConstant?.monthly &&
-                formData?.recurring === true
-                  ? formData?.monthlyWeeks?.map(
-                      (week: string) => week?.toUpperCase(),
-                    )
-                  : [],
+              onWeek: isRecurringMonthlyOnTheDay
+                ? formData?.monthlyWeeks?.map(
+                    (week: any) => week?.toUpperCase(),
+                  )
+                : [],
             }
           : {
               days: [],
@@ -139,14 +164,28 @@ export const useUpsertMeeting = () => {
         interval: reminder?.counter,
         timeUnit: reminder?.duration?.value,
       })),
-      peoples: [formData?.people?._id],
+      peoples:
+        router?.query?.type === schemaTypes?.group
+          ? formData?.people?.map((item: any) => item?._id)
+          : [formData?.people?._id],
     };
-    const meetingParameter = {
-      body,
-    };
+
+    const meetingParameter = meetingId ? { ...body, id: meetingId } : body;
+
     try {
-      await addMeetingTrigger(meetingParameter)?.unwrap();
-      successSnackbar(`${meetingType} Meeting created successfully`);
+      const res: any = meetingId
+        ? await updateMeetingTrigger(meetingParameter)?.unwrap()
+        : await addMeetingTrigger(meetingParameter)?.unwrap();
+
+      const action = meetingId
+        ? MEETINGS_ACTION_TYPE?.UPDATES
+        : MEETINGS_ACTION_TYPE?.CREATED;
+      successSnackbar(`${meetingType} Meeting ${action} successfully`);
+
+      router?.push({
+        pathname: SOCIAL_COMPONENTS?.MEETINGS,
+        query: { id: res?.data?._id },
+      });
     } catch (err: any) {
       errorSnackbar(err?.data?.message);
     }
@@ -161,24 +200,30 @@ export const useUpsertMeeting = () => {
 
   const watchAllDay = watch('allDay');
   const watchMeetingType = watch('meetingType');
-  const watchBefore = watch('bufferBefore');
-  const watchAfter = watch('bufferAfter');
-  const watchRecurring = watch('recurring');
   useEffect(() => {
     allDayValues?.forEach((item: any) => setValue(item?.name, item?.value));
   }, [watchAllDay]);
   useEffect(() => {
     setValue('location', null);
   }, [watchMeetingType]);
-  useEffect(() => {
-    clearErrors(['endDate', 'endTime']);
-  }, [watchRecurring]);
-  useEffect(() => {
-    setValue('bufferBeforeTime', '');
-  }, [watchBefore]);
-  useEffect(() => {
-    setValue('bufferAfterTime', '');
-  }, [watchAfter]);
+  const [beforeChecked, setBeforeChecked] = useState(false);
+  const [afterChecked, setAfterChecked] = useState(false);
+
+  const handleBeforeChange = (e: any) => {
+    const isChecked = e?.target?.checked;
+    setBeforeChecked(isChecked);
+    if (!isChecked) {
+      setValue('bufferBeforeTime', '');
+    }
+  };
+
+  const handleAfterChange = (e: any) => {
+    const isChecked = e?.target?.checked;
+    setAfterChecked(isChecked);
+    if (!isChecked) {
+      setValue('bufferAfterTime', '');
+    }
+  };
 
   const meetingLocationApi = useLazyGetLocationListQuery();
   const meetingProps = {
@@ -189,6 +234,16 @@ export const useUpsertMeeting = () => {
     setMeetingTemplate,
     meetingLocationApi,
     addMeetingProgress,
+    router,
+    updateMeetingProgress,
+    isLoading,
+    isFetching,
+    isError,
+    beforeChecked,
+    afterChecked,
+    handleBeforeChange,
+    handleAfterChange,
+    meetingId,
   };
   return {
     methods,

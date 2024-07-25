@@ -13,7 +13,6 @@ export const ListView = () => {
     meetings,
     setSearch,
     setCardValue,
-    listData,
     theme,
     setDeleteModal,
     deleteModal,
@@ -21,6 +20,12 @@ export const ListView = () => {
     router,
     isActiveCard,
     activeCard,
+    getMeetingListStatus,
+    setPage,
+    setPageLimit,
+    setOpenForm,
+    meetingActiveType,
+    deleteMeetingsStatus,
   } = useListView();
   return (
     <>
@@ -63,19 +68,36 @@ export const ListView = () => {
         </Box>
         <br />
         <TanstackTable
-          data={listData}
-          columns={listViewDetails(theme, setDeleteModal)}
+          columns={listViewDetails(
+            setDeleteModal,
+            setOpenForm,
+            router,
+            meetingActiveType,
+          )}
+          data={getMeetingListStatus?.data?.data?.meetings}
+          isLoading={getMeetingListStatus?.isLoading}
+          currentPage={getMeetingListStatus?.data?.data?.meta?.page}
+          count={getMeetingListStatus?.data?.data?.meta?.pages}
+          pageLimit={getMeetingListStatus?.data?.data?.meta?.limit}
+          totalRecords={getMeetingListStatus?.data?.data?.meta?.total}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isFetching={getMeetingListStatus?.isFetching}
+          isError={getMeetingListStatus?.isError}
+          isSuccess={getMeetingListStatus?.isSuccess}
+          onPageChange={(page: any) => setPage(page)}
           isPagination
         />
       </Box>
       {deleteModal && (
         <AgentConversionDelete
           message={'Are you sure you want to delete this entry?'}
-          open={deleteModal}
+          open={deleteModal?.isOpen}
           handleClose={() => {
-            setDeleteModal(false);
+            setDeleteModal({});
           }}
           submitDeleteModal={submitDeleteModal}
+          deleteMeetingsStatus={deleteMeetingsStatus}
         />
       )}
     </>

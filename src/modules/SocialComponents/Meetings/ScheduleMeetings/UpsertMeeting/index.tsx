@@ -3,7 +3,6 @@ import { Box } from '@mui/material';
 import { useUpsertMeeting } from './useUpsertMeeting';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { MeetingForm } from './MeetingForm';
-import EmailTemplate from './EmailTemplate';
 
 export const UpsertMeeting = () => {
   const {
@@ -25,13 +24,7 @@ export const UpsertMeeting = () => {
         />
       ) : null}
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        {!meetingTemplate ? (
-          <MeetingForm {...meetingProps} />
-        ) : (
-          <>
-            <EmailTemplate />
-          </>
-        )}
+        <MeetingForm {...meetingProps} />
       </FormProvider>
     </Box>
   );

@@ -6,7 +6,7 @@ import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/consta
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
-import { REQUESTORS_STATUS } from '@/constants/strings';
+import { REQUESTORS_STATUS, WORKFLOW_TYPE } from '@/constants/strings';
 import { DATE_TIME_FORMAT } from '@/constants';
 
 export const ScheduleWorkflowActionsDropdown = (
@@ -141,6 +141,9 @@ export const listsColumnsFunction = (
           ]}
         >
           <AntSwitch
+            disabled={
+              info?.row?.original?.activity?.type === WORKFLOW_TYPE?.SAVED
+            }
             checked={getValues}
             isLoading={switchLoading?.[info?.row?.original?._id]}
             onClick={() => handleChangeStatus?.(info?.row?.original)}

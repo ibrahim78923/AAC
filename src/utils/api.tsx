@@ -1,4 +1,5 @@
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 
 export const transformResponse = (response: any) => {
@@ -82,6 +83,26 @@ export const makeDateTime = (date: any, time: any) => {
   const day = date?.getDate() ?? time?.getDate();
   const combined: any = new Date(year, month, day, hour, minutes, 0);
   return combined;
+};
+
+export const TimeFormatDuration = (
+  startTime: string,
+  endTime: string,
+): string => {
+  const [startHours, startMinutes] = startTime?.split(':')?.map(Number) || [
+    0, 0,
+  ];
+  const [endHours, endMinutes] = endTime?.split(':')?.map(Number) || [0, 0];
+  const startDateTime = dayjs()
+    .set('hour', startHours)
+    ?.set('minute', startMinutes);
+  const endDateTime = dayjs().set('hour', endHours)?.set('minute', endMinutes);
+  const durationMinutes = endDateTime?.diff(startDateTime, 'minute');
+  const adjustedDurationMinutes =
+    durationMinutes < 0 ? 1440 + durationMinutes : durationMinutes;
+  return `${Math?.floor(adjustedDurationMinutes / 60)}h ${
+    adjustedDurationMinutes % 60
+  }m`;
 };
 
 export const addDateTimeParam = (

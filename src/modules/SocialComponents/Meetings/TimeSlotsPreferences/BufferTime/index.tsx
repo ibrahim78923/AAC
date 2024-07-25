@@ -6,8 +6,9 @@ import { useBufferTime } from './useBufferTime';
 
 const BufferTime = (props: any) => {
   const { disabled, theme } = props;
-  const { beforeChecked, setBeforeChecked, afterChecked, setAfterChecked } =
-    useBufferTime();
+  const { beforeChecked, afterChecked, handleBeforeChange, handleAfterChange } =
+    useBufferTime(props);
+
   return (
     <>
       <Typography variant="h4">Set buffer time</Typography>
@@ -22,7 +23,7 @@ const BufferTime = (props: any) => {
               checkedIcon={<CheckboxCheckedIcon />}
               disabled={disabled}
               checked={beforeChecked}
-              onChange={(e: any) => setBeforeChecked(e?.target?.checked)}
+              onChange={handleBeforeChange}
             />
             <Typography color={!!disabled ? theme?.palette?.grey?.[900] : ''}>
               Before event
@@ -46,7 +47,7 @@ const BufferTime = (props: any) => {
               checkedIcon={<CheckboxCheckedIcon />}
               disabled={disabled}
               checked={afterChecked}
-              onChange={(e: any) => setAfterChecked(e?.target?.checked)}
+              onChange={handleAfterChange}
             />
             <Typography color={!!disabled ? theme?.palette?.grey?.[900] : ''}>
               After event

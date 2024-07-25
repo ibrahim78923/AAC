@@ -14,14 +14,16 @@ import CustomLabel from '@/components/CustomLabel';
 import { Recurring } from './Recurring';
 import { AllowAttendee } from './AllowAttendee';
 import { Reminder } from './Reminder';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { SOCIAL_COMPONENTS } from '@/constants';
 
-const meetingTypeOption = [
+export const meetingTypeOption = [
   { value: 'IN_PERSON_MEETING', label: 'In person meeting' },
   { value: 'GOOGLE_MEET', label: 'Google meet' },
   { value: 'ZOOM', label: 'Zoom' },
   { value: 'MS_TEAMS', label: 'MS teams' },
 ];
-const bufferTimeOption = [
+export const bufferTimeOption = [
   { value: 5, label: '5 Minutes' },
   { value: 10, label: '10 Minutes' },
   { value: 15, label: '15 Minutes' },
@@ -34,14 +36,22 @@ const meetingContents = {
   group: 'Group',
 };
 export const meetingFormFields = (props: any) => {
-  const { watch, meetingType, meetingLocationApi } = props;
+  const {
+    watch,
+    meetingType,
+    meetingLocationApi,
+    router,
+    beforeChecked,
+    afterChecked,
+    handleBeforeChange,
+    handleAfterChange,
+    meetingId,
+  } = props;
   const watchAllDay = watch('allDay');
-  const watchRecurring = watch('recurring');
   const watchMeetingType = watch('meetingType');
-  const watchBefore = watch('bufferBefore');
-  const watchAfter = watch('bufferAfter');
   const watchFrom = watch('fromDate');
   const watchAllowAttendee = watch('allowAttendee');
+  const OTHER_SETTINGS = 'Other Settings';
   return [
     {
       id: 1,
@@ -113,7 +123,7 @@ export const meetingFormFields = (props: any) => {
         label: 'End Date',
         name: 'endDate',
         minDate: watchFrom,
-        required: !watchRecurring,
+        required: true,
         fullWidth: true,
         size: 'small',
       },
@@ -127,7 +137,7 @@ export const meetingFormFields = (props: any) => {
         label: 'End Time',
         name: 'endTime',
         disabled: watchAllDay || watchAllowAttendee,
-        required: !watchRecurring,
+        required: true,
         fullWidth: true,
         size: 'small',
       },
@@ -146,7 +156,7 @@ export const meetingFormFields = (props: any) => {
         name: 'meetingType',
         placeholder: 'Select Type',
         required: true,
-        disabled: watchAllDay,
+        disabled: watchAllDay || meetingId,
         options: meetingTypeOption,
         getOptionLabel: (item: any) => item?.label,
         fullWidth: true,
@@ -173,6 +183,13 @@ export const meetingFormFields = (props: any) => {
         getOptionLabel: (option: any) => `${option?.locationName}`,
         fullWidth: true,
         size: 'small',
+        EndIcon: AddCircleIcon,
+        endIconClick: () => {
+          router?.push({
+            pathname: SOCIAL_COMPONENTS?.MEETINGS_SETTINGS,
+            query: { module: OTHER_SETTINGS },
+          });
+        },
       },
       component: RHFAutocompleteAsync,
     },
@@ -209,6 +226,8 @@ export const meetingFormFields = (props: any) => {
         name: 'bufferBefore',
         icon: <CheckboxIcon />,
         checkedIcon: <CheckboxCheckedIcon />,
+        checked: beforeChecked,
+        onChange: handleBeforeChange,
       },
       component: RHFCheckbox,
     },
@@ -221,7 +240,7 @@ export const meetingFormFields = (props: any) => {
       },
       componentProps: {
         name: 'bufferBeforeTime',
-        disabled: !watchBefore,
+        disabled: !beforeChecked,
         options: bufferTimeOption,
         placeholder: 'Select Buffer time',
         fullWidth: true,
@@ -242,6 +261,8 @@ export const meetingFormFields = (props: any) => {
         name: 'bufferAfter',
         icon: <CheckboxIcon />,
         checkedIcon: <CheckboxCheckedIcon />,
+        checked: afterChecked,
+        onChange: handleAfterChange,
       },
       component: RHFCheckbox,
     },
@@ -254,7 +275,7 @@ export const meetingFormFields = (props: any) => {
       },
       componentProps: {
         name: 'bufferAfterTime',
-        disabled: !watchAfter,
+        disabled: !afterChecked,
         options: bufferTimeOption,
         placeholder: 'Select Buffer time',
         fullWidth: true,
