@@ -39,8 +39,6 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
     ?.matches(/^[0-9]*$/, 'must be a number'),
   planPrice: Yup?.string()
     ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.required('Required field')
-    ?.min(1, 'Mininum 1 characters')
     ?.max(12, 'max is 12'),
   allowAdditionalUsers: Yup?.string(),
   additionalPerUserPrice: Yup?.string()?.matches(
@@ -88,6 +86,7 @@ export const dataArray = (
   AdditionalStorageValue: number,
   AdditionalUsereValue: number,
   isSuccess: boolean,
+  isFreePlan: boolean,
 ) => {
   const { data: planTypeData } = useGetPlanTypesQuery<any>({
     refetchOnMountOrArgChange: true,
@@ -172,7 +171,8 @@ export const dataArray = (
         label: 'Plan Price',
         fullWidth: true,
         placeholder: '£',
-        required: true,
+        required: isFreePlan ? false : true,
+        disabled: isFreePlan,
       },
       component: RHFTextField,
       md: 6,
@@ -185,6 +185,7 @@ export const dataArray = (
         fullWidth: true,
         select: true,
         placeholder: 'Select',
+        disabled: isFreePlan,
       },
       component: RHFSelect,
       options: [
@@ -214,6 +215,7 @@ export const dataArray = (
         fullWidth: true,
         select: true,
         placeholder: 'Select',
+        disabled: isFreePlan,
       },
       component: RHFSelect,
       options: [

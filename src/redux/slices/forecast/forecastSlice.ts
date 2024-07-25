@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   describeForm: {},
   teamDurationForm: {},
-  planPermission: {},
+  performanceData: {},
   featureDetails: '',
 };
 
@@ -17,8 +17,8 @@ const forecastSlice = createSlice({
     setTeamDurationFormData: (state, action) => {
       state.teamDurationForm = action?.payload;
     },
-    modulesFormData: (state, action) => {
-      state.planPermission = action?.payload;
+    setPerformanceData: (state, action) => {
+      state.performanceData = action?.payload;
     },
     setFeatureDetails: (state, action) => {
       state.featureDetails = action?.payload;
@@ -30,7 +30,7 @@ const forecastSlice = createSlice({
 export const {
   setDescribeFormData,
   setTeamDurationFormData,
-  modulesFormData,
+  setPerformanceData,
   setFeatureDetails,
   clearState,
 } = forecastSlice?.actions;

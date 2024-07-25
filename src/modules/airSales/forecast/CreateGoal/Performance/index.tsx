@@ -17,42 +17,20 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { teamGoalTableColumns } from './Performance.data';
 import { useAppSelector } from '@/redux/store';
 import { isNullOrEmpty } from '@/utils';
-import { useGetDealPipeLineQuery } from '@/services/airSales/deals/index';
+import dayjs from 'dayjs';
 
-const Performance = ({ tableRowValues, setTableRowValues }: any) => {
+const Performance = ({
+  tableRowValues,
+  setTableRowValues,
+  inputValues,
+  handleInputChange,
+  handlePipelineChange,
+  processedData,
+  selectedValues,
+  handleChange,
+}: any) => {
   const theme = useTheme();
   const [isAddTargetModal, setIsAddTargetModal] = useState(false);
-
-  const { data: dealPipelineData } = useGetDealPipeLineQuery({ meta: false });
-  const [selectedValues, setSelectedValues] = useState({});
-
-  const processData = (data: any) => {
-    return data?.map((item: any) => ({
-      id: item?._id,
-      name: item?.name,
-    }));
-  };
-
-  // Assuming 'apiResponse' is the data you get from the API
-  const processedData = processData(dealPipelineData?.data);
-
-  const handleChange = (rowId: any) => (event: any) => {
-    const {
-      target: { value },
-    } = event;
-
-    const selectedStagesArray =
-      typeof value === 'string' ? value.split(',') : value;
-
-    const stagesForRow = processedData.filter(
-      (stage: any) => selectedStagesArray?.includes(stage?.id),
-    );
-
-    setSelectedValues({
-      ...selectedValues,
-      [rowId]: stagesForRow,
-    });
-  };
 
   const teamDurationForm: any = useAppSelector(
     (state) => state?.forecastForm?.teamDurationForm,
@@ -60,7 +38,9 @@ const Performance = ({ tableRowValues, setTableRowValues }: any) => {
 
   return (
     <>
-      <Typography variant="h3">What are your 2023 targets?</Typography>
+      <Typography variant="h3">
+        What are your {dayjs().year()} targets?
+      </Typography>
       <Box
         sx={{
           border: '1px solid #EAECF0',
@@ -127,7 +107,7 @@ const Performance = ({ tableRowValues, setTableRowValues }: any) => {
                 width: { xs: '100%', sm: 'fit-content' },
               }}
             >
-              <ArrowCircleLeftIcon /> &nbsp; 2023 &nbsp;{' '}
+              <ArrowCircleLeftIcon /> &nbsp; {dayjs().year()} &nbsp;{' '}
               <ArrowCircleRightIcon />
             </Button>
           </Grid>
@@ -142,6 +122,9 @@ const Performance = ({ tableRowValues, setTableRowValues }: any) => {
             selectedValues,
             processedData,
             theme,
+            inputValues,
+            handleInputChange,
+            handlePipelineChange,
           )}
           data={teamDurationForm?.collaborators}
           isPagination

@@ -1,13 +1,17 @@
 import { PAGINATION } from '@/config';
-import { useGetForecastGoalsQuery } from '@/services/airSales/forecast';
+import {
+  useDeleteForecastGoalsMutation,
+  useGetForecastGoalsQuery,
+} from '@/services/airSales/forecast';
+import { successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 const useGoals = () => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [tableRowValues, setTableRowValues] = useState();
+  const [tableRowValues, setTableRowValues] = useState<string[]>([]);
   const [isEditDrawer, setIsEditDrawer] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -38,11 +42,24 @@ const useGoals = () => {
     setAnchorEl(event?.currentTarget);
   };
 
+  const [deleteGoal, { isLoading: loadingDelete }] =
+    useDeleteForecastGoalsMutation();
+
+  const handleDelete = async () => {
+    try {
+      await deleteGoal({ ids: tableRowValues }).unwrap();
+      successSnackbar('Record Deleted Successfully');
+      setIsDelete(false);
+      setTableRowValues([]);
+      handleClose();
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' });
+    }
+  };
+
   return {
     theme,
     anchorEl,
-    isDisabled,
-    setIsDisabled,
     tableRowValues,
     setTableRowValues,
     open,
@@ -62,6 +79,8 @@ const useGoals = () => {
     isFetching,
     search,
     setSearch,
+    handleDelete,
+    loadingDelete,
   };
 };
 
