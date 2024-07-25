@@ -36,7 +36,7 @@ export default function ParentType({ parentDetails, setParentDetails }: any) {
         alignItems={'center'}
         justifyContent={'space-between'}
       >
-        <Typography variant={'h5'}>
+        <Typography variant={'h5'} component={'span'}>
           {parentDetails?.parentData ? 'Edit Asset Type' : 'Add Asset Type'}
         </Typography>
 

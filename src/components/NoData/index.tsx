@@ -1,6 +1,5 @@
 import { NoAssociationFoundImage } from '@/assets/images';
-import { Grid, Typography, Box } from '@mui/material';
-import Image from 'next/image';
+import { Grid, Typography, Box, Avatar } from '@mui/material';
 
 const NoData = ({
   image = NoAssociationFoundImage,
@@ -17,7 +16,12 @@ const NoData = ({
     >
       <Grid item textAlign={'center'}>
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Image src={image} width={0} height={0} alt="Not Found" />
+          <Avatar
+            src={image?.src}
+            alt="Not Found"
+            style={{ width: '100%', height: '100%' }}
+            variant={'rounded'}
+          />
         </Box>
         <Typography variant="h6" mb={2}>
           {message}

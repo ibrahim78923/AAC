@@ -11,7 +11,7 @@ import {
 
 export default function useCreateFields() {
   const router: any = useRouter();
-  const { section, parentName, childName } = router?.query;
+  const { section, name } = router?.query;
 
   const [form, setForm] = useState<any>([]);
   const [modal, setModal] = useState<any>(dynamicFormModalsInitialState);
@@ -24,7 +24,7 @@ export default function useCreateFields() {
   const getBackendData = async () => {
     const params = {
       productType: DYNAMIC_FIELDS?.PT_SERVICES,
-      moduleType: DYNAMIC_FIELDS?.MT_ASSET_TYPE,
+      moduleType: DYNAMIC_FIELDS?.MT_CONTRACT_TYPE,
       section,
     };
     const getDynamicFieldsParameters = { params };
@@ -111,7 +111,6 @@ export default function useCreateFields() {
     handleDragStart,
     overlay,
     section,
-    parentName,
-    childName,
+    name,
   };
 }

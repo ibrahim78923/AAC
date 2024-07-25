@@ -99,10 +99,10 @@ export default function RHFAutocompleteAsync({
             filterOptions={(x) => x}
             renderOption={(props, option: any, { selected }) => {
               return (
-                <li {...props} key={option?.id}>
+                <li {...props} key={option?._id ?? option?.id}>
                   {multiple && (
                     <Checkbox
-                      key={option?.id}
+                      key={option?._id ?? option?.id}
                       icon={icon}
                       checkedIcon={checkedIcon}
                       style={{ marginRight: 8 }}
@@ -110,7 +110,6 @@ export default function RHFAutocompleteAsync({
                     />
                   )}
                   {renderOption ? renderOption(option) : getOptionLabel(option)}
-                  {/* {getOptionLabel(option)} */}
                 </li>
               );
             }}
@@ -118,7 +117,7 @@ export default function RHFAutocompleteAsync({
               return tagValue?.map((option: any, index) => (
                 <Chip
                   {...getTagProps({ index })}
-                  key={option?.id}
+                  key={index ?? option?.id}
                   label={getOptionLabel(option)}
                 />
               ));

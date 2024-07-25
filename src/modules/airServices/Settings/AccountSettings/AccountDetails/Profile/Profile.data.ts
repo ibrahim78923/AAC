@@ -50,7 +50,7 @@ export const profileDefaultValues = (profileDetail: any) => {
     lastName: profileDetail?.lastName ?? '',
     workPhoneNumber: profileDetail?.phoneNumber ?? '',
     mobileNumber: profileDetail?.mobileNumber ?? '',
-    companyName: profileDetail?.company ?? '',
+    companyName: profileDetail?.organization?.name ?? '',
     jobTitle: profileDetail?.jobTitle ?? '',
     language: profileDetail?.language ?? '',
     timeZone: profileDetail?.timezone

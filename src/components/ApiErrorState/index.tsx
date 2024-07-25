@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import { Box, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import { NoAssociationFoundImage } from '@/assets/images';
 
 const ApiErrorState = (props: any) => {
@@ -19,12 +18,11 @@ const ApiErrorState = (props: any) => {
           placeContent: 'center',
         }}
       >
-        <Image
-          src={NoAssociationFoundImage}
+        <Avatar
+          src={NoAssociationFoundImage?.src}
           alt="Error"
-          width={0}
-          height={0}
           style={{ width: '100%', height: '100%' }}
+          variant={'rounded'}
         />
       </Box>
       <Typography variant="h5" color={textColor}>

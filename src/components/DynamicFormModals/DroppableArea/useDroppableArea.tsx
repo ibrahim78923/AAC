@@ -52,7 +52,6 @@ export default function useDroppableArea({
     try {
       await putDynamicFieldsTrigger({ putDynamicFieldsParameters })?.unwrap();
       successSnackbar('Field(s) Updated Successfully');
-      getBackendData();
       setForm([]);
       router?.push({
         pathname: successPath,

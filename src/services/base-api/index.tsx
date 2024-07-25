@@ -174,6 +174,10 @@ export const TAGS = [
   'DEALS_SHIPPING',
   'DEALS_PAYMENT',
   'UPSERT_GENERIC_REPORT',
+  'CONTRACT_TYPE',
+  'companies',
+  'Permissions',
+  'PRODUCTS',
 ];
 
 const BYPASS_AUTH_API_ROUTES = [

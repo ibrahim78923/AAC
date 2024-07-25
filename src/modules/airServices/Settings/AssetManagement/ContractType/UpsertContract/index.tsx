@@ -9,29 +9,22 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider } from '@/components/ReactHookForm';
-import { AssetFieldFormDataArray } from '../AssetType.data';
 import { LoadingButton } from '@mui/lab';
-import useChildType from './useChildType';
+import useUpsertContract from './useUpsertContract';
+import { ContractFieldsFormDataArray } from './UpsertContract.data';
 
-export default function ChildType({ childDetails, setChildDetails }: any) {
+export default function UpsertContract({ openDialog, setOpenDialog }: any) {
   const {
     onClose,
     methods,
     handleSubmit,
     onSubmit,
-    patchChildAssetTypeStatus,
-  } = useChildType({
-    childDetails,
-    setChildDetails,
-  });
+    postContractTypeStatus,
+    patchContractTypeStatus,
+  } = useUpsertContract({ openDialog, setOpenDialog });
 
   return (
-    <Dialog
-      open={childDetails?.open}
-      onClose={onClose}
-      maxWidth={'sm'}
-      fullWidth
-    >
+    <Dialog open={openDialog?.open} onClose={onClose} maxWidth={'sm'} fullWidth>
       <DialogTitle
         variant={'h3'}
         display={'flex'}
@@ -39,7 +32,7 @@ export default function ChildType({ childDetails, setChildDetails }: any) {
         justifyContent={'space-between'}
       >
         <Typography variant={'h5'} component={'span'}>
-          {childDetails?.childData ? 'Edit Asset Type' : 'Add Asset Type'}
+          {openDialog?.data ? 'Edit Contract Type' : 'Add Contract Type'}
         </Typography>
 
         <CloseIcon onClick={onClose} sx={{ cursor: 'pointer' }} />
@@ -48,7 +41,7 @@ export default function ChildType({ childDetails, setChildDetails }: any) {
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
           <Grid container spacing={1}>
-            {AssetFieldFormDataArray?.map((item: any) => (
+            {ContractFieldsFormDataArray?.map((item: any) => (
               <Grid item xs={12} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
@@ -68,10 +61,16 @@ export default function ChildType({ childDetails, setChildDetails }: any) {
           <LoadingButton
             type={'submit'}
             variant={'contained'}
-            disabled={patchChildAssetTypeStatus?.isLoading}
-            loading={patchChildAssetTypeStatus?.isLoading}
+            disabled={
+              postContractTypeStatus?.isLoading ||
+              patchContractTypeStatus?.isLoading
+            }
+            loading={
+              postContractTypeStatus?.isLoading ||
+              patchContractTypeStatus?.isLoading
+            }
           >
-            {childDetails?.parentData ? 'Update' : 'Save'}
+            {openDialog?.data ? 'Update' : 'Save'}
           </LoadingButton>
         </DialogActions>
       </FormProvider>

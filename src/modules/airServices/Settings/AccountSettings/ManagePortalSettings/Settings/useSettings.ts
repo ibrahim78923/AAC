@@ -7,6 +7,7 @@ import {
   settingsValidationSchema,
 } from './Settings.data';
 import { useGetCompanyAccountsByIdQuery } from '@/services/airServices/settings/account-settings/account-details';
+import { useEffect } from 'react';
 
 export const useSettings = () => {
   const domain = window.location.hostname;
@@ -17,7 +18,12 @@ export const useSettings = () => {
 
   const encryptedValue = btoa(companyId);
 
-  const { data } = useGetCompanyAccountsByIdQuery(companyId);
+  const { data, isLoading, isFetching } = useGetCompanyAccountsByIdQuery(
+    companyId,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
   const apiKeyData = data?.data?.apiKey;
 
   const settingsMethods = useForm({
@@ -29,7 +35,17 @@ export const useSettings = () => {
     }),
   });
 
-  const { getValues }: any = settingsMethods;
+  const { getValues, reset }: any = settingsMethods;
+
+  useEffect(() => {
+    reset(
+      settingsDefaultValues({
+        domain,
+        encryptedValue,
+        apiKeyData,
+      }),
+    );
+  }, [data, reset, apiKeyData, domain, encryptedValue]);
 
   const handleTextFieldClick = () => {
     navigator.clipboard.writeText(getValues('portalURL'));
@@ -46,5 +62,7 @@ export const useSettings = () => {
   return {
     settingsMethods,
     settingsDataArray,
+    isLoading,
+    isFetching,
   };
 };
