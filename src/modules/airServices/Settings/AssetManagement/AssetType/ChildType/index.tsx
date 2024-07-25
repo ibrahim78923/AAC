@@ -38,7 +38,7 @@ export default function ChildType({ childDetails, setChildDetails }: any) {
         alignItems={'center'}
         justifyContent={'space-between'}
       >
-        <Typography variant={'h5'}>
+        <Typography variant={'h5'} component={'span'}>
           {childDetails?.childData ? 'Edit Asset Type' : 'Add Asset Type'}
         </Typography>
 

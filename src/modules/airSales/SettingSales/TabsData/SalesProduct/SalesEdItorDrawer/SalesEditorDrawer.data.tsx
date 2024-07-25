@@ -58,7 +58,7 @@ export const dataArray = () => {
     {
       componentProps: {
         name: 'purchasePrice',
-        label: 'Purchase Price',
+        label: 'Purchase Price  (£) ',
         fullWidth: true,
         placeholder: 'Enter here',
         required: true,

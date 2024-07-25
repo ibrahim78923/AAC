@@ -46,7 +46,7 @@ export const TimeSlotPreferences = () => {
           timeSlotsData={timeSlotsData}
         />
         <Grid container gap={1}>
-          <Grid item lg={6} xs={12} mr={2}>
+          <Grid item xl={6} lg={8.4} xs={12} mr={2}>
             <TimeSlotsWeekly
               disabled={disabled}
               theme={theme}
@@ -61,7 +61,7 @@ export const TimeSlotPreferences = () => {
               timeSlotsData={timeSlotsData}
             />
           </Grid>
-          <Grid item lg={5} xs={12}>
+          <Grid item xl={5} lg={3} xs={12}>
             <DateOverrides
               disabled={disabled}
               theme={theme}

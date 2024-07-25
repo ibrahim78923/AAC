@@ -7,12 +7,12 @@ import {
   MenuItem,
   Typography,
   InputAdornment,
+  Checkbox,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {
   FormProvider,
-  RHFCheckbox,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -22,13 +22,19 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { dataArray } from './OrganizationTable.data';
 import useOrganizationTable from './useOrganizationTable';
-import { FeaturedImage, AddCircleImage } from '@/assets/images';
+import { AddCircleImage } from '@/assets/images';
 import { AddPenIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './OrganizationTable.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
-import { ORGANIZATION_DRAWER_TYPES } from '@/constants';
+import { getProductIcon } from '@/modules/orgAdmin/SubscriptionAndInvoices/Subscriptions';
+import { API_STATUS, ORGANIZATION_DRAWER_TYPES } from '@/constants';
+import {
+  DateArrayItemI,
+  OptionI,
+  ProductListPropsI,
+} from './organizationTable.interface';
 
 const OrganizationTable = () => {
   const {
@@ -56,25 +62,38 @@ const OrganizationTable = () => {
     setDrawerHeading,
     loadingAddCompanyAccount,
     loadingUpdateCompanyAccount,
-    editData,
     setEditData,
     setIsGetRowValues,
     setPageLimit,
     setPage,
     tableInfo,
     handlePageChange,
-    isLoading,
     addressLength,
     handleImageChangeCompany,
     imagePreview,
     reset,
     setImagePreview,
     productsList,
+    status,
+    setSelectedProducts,
+    selectedProducts,
+    deleteLoading,
   } = useOrganizationTable();
 
   const getDateArray = dataArray({ drawerHeading, isToggled });
 
   const isViewMode = drawerHeading === 'Company Account';
+
+  const handleCheckboxChange = (event: any, productId: any) => {
+    const isChecked = event?.target?.checked;
+    if (isChecked) {
+      setSelectedProducts((prev: any[]) => [...prev, productId]);
+    } else {
+      setSelectedProducts(
+        (prev: any[]) => prev?.filter((id) => id !== productId),
+      );
+    }
+  };
 
   return (
     <>
@@ -155,30 +174,47 @@ const OrganizationTable = () => {
                 alignItems: 'center',
                 overflowX: 'auto',
                 marginBottom: '1rem',
+                mt: 1,
               }}
             >
-              {productsList?.data?.map((product: any) => (
+              {productsList?.data?.map((product: ProductListPropsI) => (
                 <Box sx={styles?.productCard} key={product?._id}>
-                  <RHFCheckbox
+                  <Checkbox
                     name={product?._id}
-                    defaultChecked={editData?.products?.some(
-                      (p: any) => p?._id === product?._id,
-                    )}
+                    checked={selectedProducts.includes(product?._id)}
+                    onChange={(event) =>
+                      handleCheckboxChange(event, product?._id)
+                    }
                     disabled={isViewMode}
                     sx={{
                       marginLeft: '7rem',
                     }}
                   />
                   <Box sx={styles?.productItem}>
-                    <Image src={FeaturedImage} alt="1" />
-                    <Typography>{product?.name}</Typography>
+                    <Box
+                      sx={{
+                        height: '55px',
+                        background: theme?.palette?.primary?.light,
+                        width: '55px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {getProductIcon(product?.name)}
+                    </Box>
+
+                    <Typography sx={{ whiteSpace: 'nowrap', mt: 1 }}>
+                      {product?.name}
+                    </Typography>
                   </Box>
                 </Box>
               ))}
             </Box>
             <Grid container spacing={1}>
-              {getDateArray?.map((item: any, index: any) => (
-                // eslint-disable-next-line
+              {getDateArray?.map((item: DateArrayItemI, index: number) => (
+                //eslint-disable-next-line
                 <Grid item xs={12} md={item?.md} key={index}>
                   {item?.componentProps?.name === 'address' && (
                     <Box
@@ -205,7 +241,6 @@ const OrganizationTable = () => {
                             mt: 2,
                           }}
                         >
-                          {/* <EraserIcon /> */}
                           {addressLength?.length > 0 ? (
                             <BorderColorIcon
                               sx={{
@@ -228,7 +263,7 @@ const OrganizationTable = () => {
                   )}
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
+                      item?.options?.map((option: OptionI) => (
                         <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
@@ -420,7 +455,9 @@ const OrganizationTable = () => {
           onPageChange={handlePageChange}
           setPage={setPage}
           setPageLimit={setPageLimit}
-          isLoading={isLoading}
+          isLoading={status === API_STATUS?.PENDING}
+          currentPage={tableInfo?.page}
+          pageLimit={tableInfo?.limit}
         />
       </Grid>
       <AlertModals
@@ -432,8 +469,8 @@ const OrganizationTable = () => {
         handleClose={() => setIsOpenDelete(false)}
         handleSubmitBtn={() => {
           deleteOrganizationCompany();
-          setIsOpenDelete(false);
         }}
+        loading={deleteLoading}
       />
     </>
   );

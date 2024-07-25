@@ -16,7 +16,6 @@ const useDashboard = () => {
     theme,
     tabVal,
     setTabVal,
-
     getUserData,
     profileDataLoading,
   };

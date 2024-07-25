@@ -192,11 +192,13 @@ const ManagePlan = () => {
                       disabled
                       size="small"
                     >
-                      <MenuItem value={'paidMonthly'}>Paid Monthly</MenuItem>
-                      <MenuItem value={'paidQuarterly'}>
+                      <MenuItem value={PLAN_PAYMENT_TYPE_TAGS?.MONTHLY}>
+                        Paid Monthly
+                      </MenuItem>
+                      <MenuItem value={PLAN_PAYMENT_TYPE_TAGS?.QUARTERLY}>
                         Paid Quarterly
                       </MenuItem>
-                      <MenuItem value={'paidHalfYearly'}>
+                      <MenuItem value={PLAN_PAYMENT_TYPE_TAGS?.HALF_YEARLY}>
                         Paid Half-Yearly
                       </MenuItem>
                       <MenuItem value={'paidAnnually'}>Paid Annually</MenuItem>

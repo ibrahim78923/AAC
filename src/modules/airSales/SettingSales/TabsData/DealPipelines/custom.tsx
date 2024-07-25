@@ -22,15 +22,7 @@ import {
   dealPipelinesDefaultValues,
 } from './DealPipelines.data';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
-
-interface Props {
-  open: boolean;
-  onClose: () => void;
-  loading: boolean;
-  isEditMode: boolean;
-  onSubmit: (data: any) => void;
-  id: string[];
-}
+import { CustomFieldProps } from '../TabsData.interface';
 
 export function CustomField({
   isEditMode,
@@ -39,7 +31,7 @@ export function CustomField({
   open,
   onSubmit,
   id,
-}: Props) {
+}: CustomFieldProps) {
   const {
     register,
     control,

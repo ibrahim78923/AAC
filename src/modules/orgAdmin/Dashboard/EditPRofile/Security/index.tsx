@@ -27,6 +27,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { RQCodeImage } from '@/assets/images';
 import { CopyIcon, DownloadIcon } from '@/assets/icons';
+import { ProfileSecurityDataItemI } from './security.interface';
 
 const Security = () => {
   const [isMatchPassword, setIsMatchPassword] = useState<boolean>(false);
@@ -35,7 +36,7 @@ const Security = () => {
 
   const theme = useTheme();
 
-  const SwitchhandleChange = (e: any) => {
+  const SwitchhandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e?.target?.checked);
   };
 
@@ -74,19 +75,21 @@ const Security = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={3}>
-              {profileSecurityDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
+              {profileSecurityDataArray?.map(
+                (item: ProfileSecurityDataItemI) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item?.componentProps} size={'small'}>
+                      {item?.componentProps?.select
+                        ? item?.options?.map((option) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : null}
+                    </item.component>
+                  </Grid>
+                ),
+              )}
             </Grid>
             {isMatchPassword && (
               <Typography

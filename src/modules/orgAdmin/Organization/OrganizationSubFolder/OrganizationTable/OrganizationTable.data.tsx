@@ -116,7 +116,7 @@ export const columns = (
                     },
                   }}
                 >
-                  {info?.row?.original?.products?.map((item: any) => (
+                  {info?.row?.original?.activeProduct?.map((item: any) => (
                     <Avatar
                       key={uuidv4()}
                       alt="product-image"

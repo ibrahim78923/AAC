@@ -1,9 +1,15 @@
 import { useTheme } from '@mui/material';
-import { listViewDetailsData, meetingCardsDetails } from './ListView.data';
+import { meetingCardsDetails } from './ListView.data';
 import { useEffect, useState } from 'react';
-import { MEETINGS_DETAILS_TYPE } from '@/constants/strings';
+import { MEETINGS_DETAILS_TYPE, ROUTER_CONSTANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  useDeleteMeetingsMutation,
+  useLazyGetMeetingsListQuery,
+} from '@/services/commonFeatures/meetings';
+import { PAGINATION } from '@/config';
+import dayjs from 'dayjs';
 
 export const useListView = () => {
   const theme = useTheme();
@@ -12,11 +18,38 @@ export const useListView = () => {
   const [search, setSearch] = useState('');
   const [cardValue, setCardValue] = useState<any>(MEETINGS_DETAILS_TYPE?.ALL);
   const [listData, setListData] = useState<any>([]);
-  const [deleteModal, setDeleteModal] = useState<any>();
+  const [openForm, setOpenForm] = useState<any>({});
+  const [deleteModal, setDeleteModal] = useState<any>({});
   const [isActiveCard, setIsActiveCard] = useState<any>(
     meetingsType ? meetingsType : MEETINGS_DETAILS_TYPE?.ALL,
   );
-  const meetings = meetingCardsDetails(theme);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const [getMeetingListTrigger, getMeetingListStatus]: any =
+    useLazyGetMeetingsListQuery();
+  const getMeetingListData = async (pages = page) => {
+    const additionalParams = [
+      ['page', pages + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+    ];
+    const meetingParam: any = buildQueryParams(additionalParams);
+
+    const meetingParameter = {
+      queryParams: meetingParam,
+    };
+
+    try {
+      await getMeetingListTrigger(meetingParameter)?.unwrap();
+      setListData([]);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getMeetingListData();
+  }, [search, page, pageLimit]);
+  const listViewMeetingData = getMeetingListStatus?.data?.data?.meetings;
 
   const activeCard = (meetingHeading: any) => {
     setIsActiveCard(meetingHeading);
@@ -31,23 +64,48 @@ export const useListView = () => {
   }, [meetingsType]);
 
   useEffect(() => {
-    if (cardValue === MEETINGS_DETAILS_TYPE?.ALL) {
-      setListData(listViewDetailsData);
-    } else {
-      const listFilter = listViewDetailsData?.filter(
-        (item: any) => item?.status === cardValue,
-      );
-      setListData(listFilter);
+    const now = dayjs();
+
+    if (listViewMeetingData) {
+      const filteredData = listViewMeetingData?.filter((item: any) => {
+        if (cardValue === MEETINGS_DETAILS_TYPE?.ALL) {
+          return true;
+        }
+        if (cardValue === MEETINGS_DETAILS_TYPE?.UPCOMING) {
+          return dayjs(item?.startDate)?.isAfter(now);
+        }
+        if (cardValue === MEETINGS_DETAILS_TYPE?.COMPLETED) {
+          return dayjs(item?.startDate)?.isBefore(now);
+        }
+        return false;
+      });
+
+      setListData(filteredData);
     }
-  }, [cardValue]);
+  }, [cardValue, listViewMeetingData]);
+
+  const meetings = meetingCardsDetails(theme, getMeetingListStatus);
+  const [deleteMeetingsTrigger, deleteMeetingsStatus]: any =
+    useDeleteMeetingsMutation();
 
   const submitDeleteModal = async () => {
+    const deleteMeetingsParameter = {
+      queryParams: {
+        id: deleteModal?.data?._id,
+        platform: deleteModal?.data?.type?.toLowerCase(),
+      },
+    };
     try {
-      await successSnackbar('Delete Successfully');
-      setDeleteModal(false);
+      await deleteMeetingsTrigger(deleteMeetingsParameter)?.unwrap();
+      successSnackbar();
+      setDeleteModal({});
     } catch (error: any) {
-      errorSnackbar(error);
+      errorSnackbar(error?.data?.message);
     }
+  };
+
+  const meetingActiveType = (activeMeeting: any) => {
+    return ROUTER_CONSTANTS?.[activeMeeting];
   };
 
   return {
@@ -64,5 +122,15 @@ export const useListView = () => {
     isActiveCard,
     setIsActiveCard,
     activeCard,
+    getMeetingListStatus,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    listViewMeetingData,
+    openForm,
+    setOpenForm,
+    meetingActiveType,
+    deleteMeetingsStatus,
   };
 };

@@ -4,10 +4,20 @@ import { RHFEditor } from '@/components/ReactHookForm';
 import { meetingFormFields } from './MeetingForm.data';
 import { AttendeePeople } from './AttendeePeople';
 import { useRouter } from 'next/router';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const MeetingForm = (props: any) => {
-  const { addMeetingProgress } = props;
+  const {
+    addMeetingProgress,
+    updateMeetingProgress,
+    isLoading,
+    isFetching,
+    isError,
+  } = props;
   const router = useRouter();
+  if (isLoading || isFetching) return <SkeletonForm />;
+  if (isError) return <ApiErrorState />;
   return (
     <>
       <Grid container spacing={2}>
@@ -45,15 +55,21 @@ export const MeetingForm = (props: any) => {
           variant="outlined"
           color="secondary"
           onClick={() => router?.back()}
-          disabled={addMeetingProgress?.isLoading}
+          disabled={
+            addMeetingProgress?.isLoading || updateMeetingProgress?.isLoading
+          }
         >
           Cancel
         </LoadingButton>
         <LoadingButton
           variant="contained"
           type="submit"
-          disabled={addMeetingProgress?.isLoading}
-          loading={addMeetingProgress?.isLoading}
+          disabled={
+            addMeetingProgress?.isLoading || updateMeetingProgress?.isLoading
+          }
+          loading={
+            addMeetingProgress?.isLoading || updateMeetingProgress?.isLoading
+          }
         >
           Save & Next
         </LoadingButton>

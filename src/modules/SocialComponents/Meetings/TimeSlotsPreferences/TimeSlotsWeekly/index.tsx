@@ -55,7 +55,7 @@ const TimeSlotsWeekly = (props: any) => {
                   />
                   <Typography>{dayField?.days?.substring(0, 3)}</Typography>
                 </Grid>
-                <Grid item xs={12} lg={9}>
+                <Grid item md={9} lg={9}>
                   <TimeSlot
                     parentIndex={dayIndex}
                     watch={watch}

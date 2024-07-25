@@ -268,7 +268,6 @@ const ChoosePlan = () => {
                             £{choosePlan?.planPrice}
                             <Box component={'span'}>/Month</Box>
                           </Typography>
-                          {/* choosePlan?.planType?.name === 'Free' ? null : */}
                           {
                             <>
                               {parsedManageData?.planId === choosePlan?._id ? (

@@ -22,10 +22,10 @@ export const meetingApi = baseAPI?.injectEndpoints({
       invalidatesTags: [TAGS],
     }),
     addMeeting: builder?.mutation({
-      query: (meetingParameter: any) => ({
+      query: (body: any) => ({
         url: `${END_POINTS?.ADD_MEETING}`,
         method: 'POST',
-        body: meetingParameter?.body,
+        body,
       }),
       invalidatesTags: [MEETINGS_TAG],
     }),
@@ -40,6 +40,36 @@ export const meetingApi = baseAPI?.injectEndpoints({
       },
       providesTags: [LOCATION_TAG],
     }),
+    updateMeeting: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.POST_MEETINGS}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [MEETINGS_TAG],
+    }),
+    getMeetingsList: builder?.query({
+      query: (meetingParameter: any) => ({
+        url: `${END_POINTS?.GET_MEETINGS_LIST}`,
+        method: 'GET',
+        params: meetingParameter?.queryParams,
+      }),
+      providesTags: [MEETINGS_TAG],
+    }),
+    getByIdMeetingsList: builder?.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.GET_BY_ID_MEETINGS}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: [MEETINGS_TAG],
+    }),
+    deleteMeetings: builder?.mutation({
+      query: (meetingParameter: any) => ({
+        url: `${END_POINTS?.DELETE_MEETINGS}`,
+        method: 'DELETE',
+        params: meetingParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -48,4 +78,9 @@ export const {
   useGetTimeSlotsQuery,
   useAddMeetingMutation,
   useLazyGetLocationListQuery,
+  useUpdateMeetingMutation,
+  useGetMeetingsListQuery,
+  useLazyGetMeetingsListQuery,
+  useGetByIdMeetingsListQuery,
+  useDeleteMeetingsMutation,
 } = meetingApi;

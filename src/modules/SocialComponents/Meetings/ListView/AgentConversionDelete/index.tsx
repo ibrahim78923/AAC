@@ -6,6 +6,7 @@ export const AgentConversionDelete = ({
   handleClose,
   message,
   submitDeleteModal,
+  deleteMeetingsStatus,
 }: any) => {
   return (
     <>
@@ -17,6 +18,8 @@ export const AgentConversionDelete = ({
         handleSubmitBtn={() => {
           submitDeleteModal();
         }}
+        loading={deleteMeetingsStatus?.isLoading}
+        disableCancelBtn={deleteMeetingsStatus?.isLoading}
       />
     </>
   );

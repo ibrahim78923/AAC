@@ -38,7 +38,7 @@ const CustomPagination = (props: any) => {
           <TablePagination
             component="div"
             count={totalRecords}
-            page={currentPage - 1}
+            page={currentPage === 0 ? 0 : currentPage - 1}
             onPageChange={(_: any, page) => onPageChange?.(page)}
             rowsPerPage={pageLimit}
             onRowsPerPageChange={(event: any) => {

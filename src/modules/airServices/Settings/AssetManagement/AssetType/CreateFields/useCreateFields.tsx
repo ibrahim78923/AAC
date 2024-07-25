@@ -40,7 +40,9 @@ export default function useCreateFields() {
   };
 
   useEffect(() => {
-    getBackendData();
+    if (!!section) {
+      getBackendData();
+    }
   }, []);
 
   const getModalState = (item: any) => {

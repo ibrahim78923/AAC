@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { dataArray } from './SalesEditorDrawer.data';
 import useSalesEditorDrawer from './useSalesEditorDrawer';
-// import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { SalesEditorDrawerProps } from '../Salesproduct.interface';
 
 const SalesEditorDrawer = ({
   isDraweropen,
@@ -13,14 +13,14 @@ const SalesEditorDrawer = ({
   setIsDraweropen,
   setSelectedCheckboxes,
   selectedCheckboxes,
-}: any) => {
+}: SalesEditorDrawerProps) => {
   const {
     handleSubmit,
     onSubmit,
     salesProduct,
     productLoading,
     updateProductLoading,
-    // productsDataLoading,
+    productsDataLoading,
   } = useSalesEditorDrawer({
     selectedCheckboxes,
     isEditMode,
@@ -39,9 +39,6 @@ const SalesEditorDrawer = ({
         submitHandler={handleSubmit(onSubmit)}
         isLoading={isEditMode ? updateProductLoading : productLoading}
       >
-        {/* {productsDataLoading ? (
-          <SkeletonTable />
-        ) : ( */}
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={salesProduct}>
             <Grid container spacing={1}>
@@ -52,20 +49,27 @@ const SalesEditorDrawer = ({
                   md={item?.md}
                   key={item?.componentProps?.name}
                 >
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
+                  {productsDataLoading ? (
+                    <Skeleton
+                      height={46}
+                      variant="rectangular"
+                      animation="wave"
+                    />
+                  ) : (
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  )}
                 </Grid>
               ))}
             </Grid>
           </FormProvider>
         </Box>
-        {/* )} */}
       </CommonDrawer>
     </>
   );

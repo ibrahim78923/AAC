@@ -42,14 +42,14 @@ export default function useParentType({
     }
 
     try {
-      const res: any = await postAssetTypeTrigger(data);
+      const res: any = await postAssetTypeTrigger(data)?.unwrap();
       successSnackbar('Asset Type Added Successfully!');
       onClose?.();
       router?.push({
         pathname: AIR_SERVICES?.ASSET_TYPE_CREATE_FIELDS,
         query: {
-          section: res?.data?.data?._id,
-          parentName: res?.data?.data?.name,
+          section: res?.data?._id,
+          parentName: res?.data?.name,
         },
       });
     } catch (error: any) {
@@ -65,14 +65,14 @@ export default function useParentType({
     };
 
     try {
-      const res: any = await patchAssetTypeTrigger(body);
+      const res: any = await patchAssetTypeTrigger(body)?.unwrap();
       successSnackbar('Asset Type Updated Successfully!');
       onClose?.();
       router?.push({
         pathname: AIR_SERVICES?.ASSET_TYPE_CREATE_FIELDS,
         query: {
-          section: res?.data?.data?._id,
-          parentName: res?.data?.data?.name,
+          section: res?.data?._id,
+          parentName: res?.data?.name,
         },
       });
     } catch (error: any) {

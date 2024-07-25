@@ -16,7 +16,7 @@ const useSalesProduct = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

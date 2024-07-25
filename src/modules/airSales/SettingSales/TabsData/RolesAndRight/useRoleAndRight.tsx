@@ -8,9 +8,10 @@ import {
   getActiveProductSession,
   getSession,
 } from '@/utils';
+import { DRAWER_TYPES } from '@/constants/strings';
 
-const useRoleAndRight: any = () => {
-  const { user } = getSession();
+const useRoleAndRight = () => {
+  const { user }: any = getSession();
   const theme = useTheme<Theme>();
   const navigate = useRouter();
   const activeProduct = getActiveProductSession();
@@ -28,7 +29,7 @@ const useRoleAndRight: any = () => {
 
   const [isDraweropen, setIsDraweropen] = useState({
     isToggle: false,
-    type: 'add',
+    type: DRAWER_TYPES?.ADD,
     id: '',
   });
 

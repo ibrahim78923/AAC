@@ -1,11 +1,11 @@
 import { RHFAutocomplete } from '@/components/ReactHookForm';
 
-const typeOptions = [
+export const typeOptions = [
   { value: 'EMAIL', label: 'Email' },
   { value: 'CHAT', label: 'Chat' },
 ];
 
-const durationOption = [
+export const durationOption = [
   { value: 'MINUTES', label: 'Minutes' },
   { value: 'HOURS', label: 'Hours' },
   { value: 'DAYS', label: 'Days' },

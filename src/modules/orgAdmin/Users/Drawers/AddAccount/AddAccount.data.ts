@@ -34,7 +34,7 @@ export const AddAccountArray = (companyRoleParams: any) => {
         required: true,
         apiQuery: companyAccounts,
         getOptionLabel: (option: any) => option?.accountName,
-        externalParams: { orgId: user?.organization?._id },
+        externalParams: { orgId: user?.organization?._id, limit: 50 },
         queryKey: 'ordId',
       },
       component: RHFAutocompleteAsync,

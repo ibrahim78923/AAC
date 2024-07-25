@@ -12,15 +12,16 @@ import {
 } from '@/services/airSales/deals/settings/sales-product';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-
 import { useEffect } from 'react';
+import { indexNumbers } from '@/constants';
+import { UseSalesEditorDrawerProps } from '../Salesproduct.interface';
 
 const useSalesEditorDrawer = ({
   selectedCheckboxes,
   isEditMode,
   setSelectedCheckboxes,
   setIsDraweropen,
-}: any) => {
+}: UseSalesEditorDrawerProps) => {
   const [postSalesProduct, { isLoading: productLoading }] =
     usePostSalesProductMutation();
 
@@ -29,7 +30,9 @@ const useSalesEditorDrawer = ({
 
   const { data: productUsersById, isLoading: productsDataLoading } =
     useGetSalesProductByIdQuery(selectedCheckboxes, {
-      skip: !selectedCheckboxes,
+      skip:
+        !Array?.isArray(selectedCheckboxes) ||
+        selectedCheckboxes?.length === indexNumbers?.ZERO,
     });
 
   const salesProduct = useForm({
@@ -78,12 +81,18 @@ const useSalesEditorDrawer = ({
       } else {
         await postSalesProduct({ body: formData })?.unwrap();
       }
-      setSelectedCheckboxes([]),
-        setIsDraweropen(false),
-        enqueueSnackbar(
-          `Product ${isEditMode ? 'Updated ' : 'Added'} Successfully`,
-          { variant: NOTISTACK_VARIANTS?.SUCCESS },
-        );
+      if (setSelectedCheckboxes) {
+        setSelectedCheckboxes([]);
+      }
+      if (setIsDraweropen) {
+        setIsDraweropen(false);
+      }
+      // setSelectedCheckboxes([]),
+      //   setIsDraweropen(false),
+      enqueueSnackbar(
+        `Product ${isEditMode ? 'Updated ' : 'Added'} Successfully`,
+        { variant: NOTISTACK_VARIANTS?.SUCCESS },
+      );
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;

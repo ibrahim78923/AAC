@@ -37,6 +37,10 @@ export const useTimeSlotPreferences = () => {
 
   const watchMonths = watch('months');
   const [selectedMonths, setSelectedMonths] = useState<any[]>(watchMonths);
+  useEffect(() => {
+    setSelectedMonths(watchMonths);
+  }, [watchMonths]);
+
   const [postTimeSlotsTrigger, timeSlotsProcess] = usePostTimeSlotsMutation();
 
   const formattedOverrides = submittedOverrideData?.dateOverrides?.map(

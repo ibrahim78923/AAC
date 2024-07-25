@@ -577,6 +577,11 @@ export const MEETINGS_DETAILS_TYPE = {
   UPCOMING: 'Upcoming',
   COMPLETED: 'Completed',
 };
+export const MEETINGS_ACTION_TYPE = {
+  CREATED: 'created',
+  UPDATES: 'updated',
+  DELETED: 'deleted',
+};
 
 export const CALENDER_TYPES = {
   DAY_VIEW_CALENDER: 'timeGridDay',
@@ -1063,6 +1068,14 @@ export const MONTH_NAMES = [
 
 export const MONTH_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+export const ROUTER_CONSTANTS: any = {
+  ONE_TO_ONE: 'one-to-one',
+  ONE_TO_ONE_MEETING: 'ONE_TO_ONE',
+  GROUP: 'group',
+  GROUP_MEETING: 'GROUP',
+  COLLECTIVE: 'collective',
+  COLLECTIVE_MEETING: 'COLLECTIVE',
+};
 export const DOWNLOAD_FILE_TYPE = {
   PDF: 'PDF',
   PNG: 'PNG',
