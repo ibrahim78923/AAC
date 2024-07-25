@@ -29,11 +29,13 @@ const useOrganizationTable = () => {
   const [drawerHeading, setDrawerHeading] = useState('Create Company');
   const [isGetRowValues, setIsGetRowValues] = useState<any>([]);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
-
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
   const [value, setValue] = useState('');
   const [imagePreview, setImagePreview] = useState<any>();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const [selectedProducts, setSelectedProducts] = useState<any>([]);
+
   const open = Boolean(anchorEl);
   const theme = useTheme<Theme>();
   const [postOrganization, { isLoading: loadingAddCompanyAccount }] =
@@ -42,7 +44,8 @@ const useOrganizationTable = () => {
     updateOrganizationCompany,
     { isLoading: loadingUpdateCompanyAccount },
   ] = useUpdateOrganizationMutation();
-  const [deleteOrganization] = useDeleteOrganizationMutation();
+  const [deleteOrganization, { isLoading: deleteLoading }] =
+    useDeleteOrganizationMutation();
   const [updateOrganizationStatus] = useUpdateOrganizationStatusMutation();
   const [imageHandler, setImageHandler] = useState(false);
   const { user }: any = useAuth();
@@ -50,7 +53,7 @@ const useOrganizationTable = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const { data, isLoading, isError, isFetching, isSuccess } =
+  const { data, isLoading, status, isError, isFetching, isSuccess } =
     useGetOrganizationQuery({
       organizationId: user?.organization?._id,
       search: value,
@@ -70,6 +73,8 @@ const useOrganizationTable = () => {
       enqueueSnackbar('Company Deleted Successfully', {
         variant: 'success',
       });
+      setIsOpenDelete(false);
+      setIsGetRowValues([]);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', { variant: 'error' });
     }
@@ -94,14 +99,31 @@ const useOrganizationTable = () => {
   });
 
   useEffect(() => {
-    if (Object?.keys(editData).length > 0) {
+    if (editData?.activeProduct) {
+      setSelectedProducts(
+        editData?.activeProduct?.map((item: any) => item?._id),
+      );
+    } else {
+      setSelectedProducts([]);
+    }
+    setSelectedProducts;
+  }, [editData]);
+
+  useEffect(() => {
+    if (Object?.keys(editData)?.length > 0) {
       const { accountName, phoneNo, address, postCode } = editData;
       setImagePreview(generateImage(editData?.image?.url));
 
       let addressOthFields;
 
       if (typeof address === 'string') {
-        addressOthFields = JSON.parse(address);
+        if (address.startsWith('{')) {
+          addressOthFields = JSON.parse(address);
+        } else {
+          addressOthFields = {
+            composite: address ?? '',
+          };
+        }
       } else {
         addressOthFields = address;
       }
@@ -173,10 +195,6 @@ const useOrganizationTable = () => {
   };
 
   const onSubmit = async (data: any) => {
-    const products: any = [];
-    productsList?.data?.forEach((product: any) => {
-      if (data[product?._id]) products?.push(product?._id);
-    });
     const address = {
       flatNumber: data?.unit,
       buildingName: data?.buildingName,
@@ -187,7 +205,7 @@ const useOrganizationTable = () => {
       composite: data?.address,
     };
     formData.append('image', imageToUpload);
-    formData.append('products', products);
+    formData.append('products', selectedProducts);
     formData.append('accountName', data?.accountName);
     formData.append('phoneNo', data?.phoneNo);
     formData.append('postCode', data?.postCode);
@@ -205,6 +223,7 @@ const useOrganizationTable = () => {
           variant: 'success',
         });
         setIsGetRowValues([]);
+        reset(validationSchema);
         setIsOpenDrawer(false);
       } else {
         await postOrganization({ body: formData }).unwrap();
@@ -216,7 +235,9 @@ const useOrganizationTable = () => {
         setIsGetRowValues([]);
       }
     } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      enqueueSnackbar(error?.data?.message || 'Something went wrong !', {
+        variant: 'error',
+      });
     }
   };
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -296,6 +317,11 @@ const useOrganizationTable = () => {
     addressDefaultValuesCheck,
     reset,
     setImagePreview,
+    status,
+    deleteLoading,
+
+    setSelectedProducts,
+    selectedProducts,
   };
 };
 

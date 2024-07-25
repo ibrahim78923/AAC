@@ -7,12 +7,12 @@ import {
   MenuItem,
   Typography,
   InputAdornment,
+  Checkbox,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {
   FormProvider,
-  RHFCheckbox,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -28,7 +28,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { styles } from './OrganizationTable.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
-import { ORGANIZATION_DRAWER_TYPES } from '@/constants';
+import { API_STATUS, ORGANIZATION_DRAWER_TYPES } from '@/constants';
 
 const OrganizationTable = () => {
   const {
@@ -56,25 +56,38 @@ const OrganizationTable = () => {
     setDrawerHeading,
     loadingAddCompanyAccount,
     loadingUpdateCompanyAccount,
-    editData,
     setEditData,
     setIsGetRowValues,
     setPageLimit,
     setPage,
     tableInfo,
     handlePageChange,
-    isLoading,
     addressLength,
     handleImageChangeCompany,
     imagePreview,
     reset,
     setImagePreview,
     productsList,
+    status,
+    setSelectedProducts,
+    selectedProducts,
+    deleteLoading,
   } = useOrganizationTable();
 
   const getDateArray = dataArray({ drawerHeading, isToggled });
 
   const isViewMode = drawerHeading === 'Company Account';
+
+  const handleCheckboxChange = (event: any, productId: any) => {
+    const isChecked = event?.target?.checked;
+    if (isChecked) {
+      setSelectedProducts((prev: any[]) => [...prev, productId]);
+    } else {
+      setSelectedProducts(
+        (prev: any[]) => prev?.filter((id) => id !== productId),
+      );
+    }
+  };
 
   return (
     <>
@@ -159,11 +172,12 @@ const OrganizationTable = () => {
             >
               {productsList?.data?.map((product: any) => (
                 <Box sx={styles?.productCard} key={product?._id}>
-                  <RHFCheckbox
+                  <Checkbox
                     name={product?._id}
-                    defaultChecked={editData?.products?.some(
-                      (p: any) => p?._id === product?._id,
-                    )}
+                    checked={selectedProducts.includes(product?._id)}
+                    onChange={(event) =>
+                      handleCheckboxChange(event, product?._id)
+                    }
                     disabled={isViewMode}
                     sx={{
                       marginLeft: '7rem',
@@ -420,7 +434,9 @@ const OrganizationTable = () => {
           onPageChange={handlePageChange}
           setPage={setPage}
           setPageLimit={setPageLimit}
-          isLoading={isLoading}
+          isLoading={status === API_STATUS?.PENDING}
+          currentPage={tableInfo?.page}
+          pageLimit={tableInfo?.limit}
         />
       </Grid>
       <AlertModals
@@ -432,8 +448,8 @@ const OrganizationTable = () => {
         handleClose={() => setIsOpenDelete(false)}
         handleSubmitBtn={() => {
           deleteOrganizationCompany();
-          setIsOpenDelete(false);
         }}
+        loading={deleteLoading}
       />
     </>
   );
