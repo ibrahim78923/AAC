@@ -913,6 +913,8 @@ export const REPORT_TYPE = {
   LEADS: 'LEADS',
   CAMPAIGNS: 'CAMPAIGN',
   addToNew: 'addToNew',
+  SHARED_WITH_PERMISSIONS: 'sharedWithPermissions',
+  NEW_DASHBOARD_PERMISSIONS: 'newDashboardPermissions',
 };
 
 export const FIELD_TYPE = {

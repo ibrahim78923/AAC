@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import {
   reportsDataArray,
   reportsDefaultValues,
@@ -47,17 +47,31 @@ export const useSaveReportDrawer = (props: any) => {
     defaultValues: reportsDefaultValues(singleReport),
   });
 
-  const { watch, handleSubmit, reset, setValue } = saveReportsMethods;
+  const { watch, handleSubmit, reset, setValue, control, getValues } =
+    saveReportsMethods;
 
   const ADD_TO = {
     ADD_TO_NEW_CONDITION_TWO: 'addToNewConditionTwo',
     ADD_TO_DASHBOARD: 'addToDashboard',
     SHARED_WITH: 'sharedWith',
+    SPECIFIC_USERS_CONDITION_ONE: 'specificUsersConditionOne',
+    NEW_DASHBOARD_SPECIFIC_USERS_CONDITION_ONE:
+      'newDashboardSpecificUsersConditionOne',
   };
 
   const selectSharedWith = watch(ADD_TO?.SHARED_WITH);
   const selectAddToDashboard = watch(ADD_TO?.ADD_TO_DASHBOARD);
   const selectAddToNewDashboard = watch(ADD_TO?.ADD_TO_NEW_CONDITION_TWO);
+  const sharedWithSpecificUser = watch(ADD_TO?.SPECIFIC_USERS_CONDITION_ONE);
+  const newDashboardSpecificUser = watch(
+    ADD_TO?.NEW_DASHBOARD_SPECIFIC_USERS_CONDITION_ONE,
+  );
+  const sharedWithSpecificUserWatch = watch(
+    REPORT_TYPE?.SHARED_WITH_PERMISSIONS,
+  );
+  const newDashboardSpecificUserWatch = watch(
+    REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS,
+  );
 
   useEffect(() => {
     setReportValidation({
@@ -89,9 +103,119 @@ export const useSaveReportDrawer = (props: any) => {
         return [];
     }
   };
+  const { fields: sharedWithFields } = useFieldArray<any>({
+    control,
+    name: REPORT_TYPE?.SHARED_WITH_PERMISSIONS,
+  });
+
+  const { fields: newDashboardFields } = useFieldArray<any>({
+    control,
+    name: REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS,
+  });
+
+  const setSharedWithPermissions = () => {
+    const permissionUser = getValues(REPORT_TYPE?.SHARED_WITH_PERMISSIONS);
+
+    const userMap = new Map(
+      sharedWithSpecificUser?.map((item: any) => [item?._id, item]),
+    );
+
+    const validUserIds = new Set(
+      sharedWithSpecificUser?.map((item: any) => item?._id),
+    );
+
+    const updatedPermissionUser = permissionUser
+      ?.filter((item: any) => validUserIds?.has(item?.userId))
+      ?.map((item: any) => {
+        const mappedUser: any = userMap?.get(item?.userId);
+        if (mappedUser) {
+          return {
+            ...item,
+            ...mappedUser,
+            name: `${mappedUser?.firstName} ${mappedUser?.lastName}`,
+            permission: item?.permission ?? '',
+          };
+        }
+        return item;
+      });
+
+    const newEntries = sharedWithSpecificUser
+      ?.filter(
+        (item: any) =>
+          !permissionUser?.some(
+            (existingItem: any) => existingItem?.userId === item?._id,
+          ),
+      )
+      ?.map((item: any) => ({
+        ...item,
+        name: `${item?.firstName} ${item?.lastName}`,
+        userId: item?._id,
+        permission: item?.permission ?? '',
+      }));
+
+    const finalResult = [...updatedPermissionUser, ...newEntries];
+    setValue(REPORT_TYPE?.SHARED_WITH_PERMISSIONS, finalResult);
+  };
+
+  const setNewDashboardPermissions = () => {
+    const permissionUser = getValues(REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS);
+
+    const userMap = new Map(
+      newDashboardSpecificUser?.map((item: any) => [item?._id, item]),
+    );
+
+    const validUserIds = new Set(
+      newDashboardSpecificUser?.map((item: any) => item?._id),
+    );
+
+    const updatedPermissionUser = permissionUser
+      ?.filter((item: any) => validUserIds?.has(item?.userId))
+      ?.map((item: any) => {
+        const mappedUser: any = userMap?.get(item?.userId);
+        if (mappedUser) {
+          return {
+            ...item,
+            ...mappedUser,
+            name: `${mappedUser?.firstName} ${mappedUser?.lastName}`,
+            permission: item?.permission ?? '',
+          };
+        }
+        return item;
+      });
+
+    const newEntries = newDashboardSpecificUser
+      ?.filter(
+        (item: any) =>
+          !permissionUser?.some(
+            (existingItem: any) => existingItem?.userId === item?._id,
+          ),
+      )
+      ?.map((item: any) => ({
+        ...item,
+        name: `${item?.firstName} ${item?.lastName}`,
+        userId: item?._id,
+        permission: item?.permission ?? '',
+      }));
+
+    const finalResult = [...updatedPermissionUser, ...newEntries];
+    setValue(REPORT_TYPE?.NEW_DASHBOARD_PERMISSIONS, finalResult);
+  };
+
+  useEffect(() => {
+    setSharedWithPermissions();
+  }, [sharedWithSpecificUser]);
+  useEffect(() => {
+    setNewDashboardPermissions();
+  }, [newDashboardSpecificUser]);
+
   const dashboardDropdown = getDashboardDropdown();
   const usersDropdown = useLazyUsersDropdownQuery();
-  const reportsArray = reportsDataArray(usersDropdown, dashboardDropdown);
+  const reportsArray = reportsDataArray(
+    usersDropdown,
+    dashboardDropdown,
+    newDashboardFields,
+    sharedWithFields,
+  );
   const [postGenericReportTrigger, postGenericReportStatus] =
     usePostGenericReportsMutation();
   const [patchGenericReportTrigger, patchGenericReportStatus] =
@@ -170,10 +294,10 @@ export const useSaveReportDrawer = (props: any) => {
             access: data?.everyoneCondition,
           }),
           ...(data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS && {
-            users: data?.specificUsersConditionOne?.map(
+            users: sharedWithSpecificUserWatch?.map(
               (item: usersDropdownOptionsI) => ({
-                id: item?._id,
-                access: data?.specificUsersConditionTwo,
+                id: item?.userId,
+                access: item?.permission,
               }),
             ),
           }),
@@ -188,10 +312,10 @@ export const useSaveReportDrawer = (props: any) => {
             access: data?.addToNewConditionTwo,
           }),
           ...(data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS && {
-            specialUsers: data?.newDashboardSpecificUsersConditionOne?.map(
+            specialUsers: newDashboardSpecificUserWatch?.map(
               (item: usersDropdownOptionsI) => ({
-                id: item?._id,
-                permissions: data?.newDashboardSpecificUsersConditionTwo,
+                userId: item?.userId,
+                permission: item?.permission,
               }),
             ),
           }),
