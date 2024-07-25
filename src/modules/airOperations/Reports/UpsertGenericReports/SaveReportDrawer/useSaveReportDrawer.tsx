@@ -27,8 +27,16 @@ import {
 } from '@/services/airOperations/reports/upsert-generic-reports';
 
 export const useSaveReportDrawer = (props: any) => {
-  const { form, setOpen, reportId, setForm, metricType, selectedModule } =
-    props;
+  const {
+    form,
+    setOpen,
+    reportId,
+    setForm,
+    metricType,
+    selectedModule,
+    singleReport,
+    handleMoveBack,
+  } = props;
   const [reportValidation, setReportValidation] = useState<any>({
     selectSharedWith: '',
     selectAddToDashboard: '',
@@ -36,7 +44,7 @@ export const useSaveReportDrawer = (props: any) => {
 
   const saveReportsMethods = useForm({
     resolver: yupResolver<any>(reportsValidationSchema(reportValidation)),
-    defaultValues: reportsDefaultValues,
+    defaultValues: reportsDefaultValues(singleReport),
   });
 
   const { watch, handleSubmit, reset, setValue } = saveReportsMethods;
@@ -93,16 +101,37 @@ export const useSaveReportDrawer = (props: any) => {
     const existingDashboardIds = data?.addToExistingCondition?.map(
       (item: any) => item?._id,
     );
-    const payload = {
-      module: metricType,
-      widgets: form?.map((item: any) => {
-        return {
-          type: item?.templateType ? item?.templateType : item?.type,
-          title: item.title,
-          ...((item?.type === CHARTS?.BAR_CHART ||
-            item?.type === CHARTS?.HORIZONTAL_BAR_CHART) && {
-            barChart: {
-              xAxis: {
+    const params = {
+      id: reportId,
+      payload: {
+        module: metricType,
+        widgets: form?.map((item: any) => {
+          return {
+            type: item?.templateType ? item?.templateType : item?.type,
+            title: item.title,
+            ...((item?.type === CHARTS?.BAR_CHART ||
+              item?.type === CHARTS?.HORIZONTAL_BAR_CHART) && {
+              barChart: {
+                xAxis: {
+                  fieldType: item?.xAxis?.ref
+                    ? FIELD_TYPE?.OBJECT_ID
+                    : FIELD_TYPE?.STATIC,
+                  fieldName: item?.xAxis?.value,
+                  ...(item?.xAxis?.ref && {
+                    collectionName: item?.xAxis?.ref,
+                  }),
+                  ...(item?.xAxis?.ref && {
+                    selectedIds: item?.xAxisType,
+                  }),
+                },
+                yAxis: {
+                  fieldName: REPORT_TYPE?.NO_OF_RECORDS,
+                },
+              },
+            }),
+            ...((item?.type === CHARTS?.PIE_CHART ||
+              item?.type === CHARTS?.DONUT_CHART) && {
+              genericChart: {
                 fieldType: item?.xAxis?.ref
                   ? FIELD_TYPE?.OBJECT_ID
                   : FIELD_TYPE?.STATIC,
@@ -114,100 +143,84 @@ export const useSaveReportDrawer = (props: any) => {
                   selectedIds: item?.xAxisType,
                 }),
               },
-              yAxis: {
-                fieldName: REPORT_TYPE?.NO_OF_RECORDS,
+            }),
+            ...(item?.type === REPORT_TYPE?.TEXT && {
+              text: {
+                description: item?.component,
               },
-            },
-          }),
-          ...((item?.type === CHARTS?.PIE_CHART ||
-            item?.type === CHARTS?.DONUT_CHART) && {
-            genericChart: {
-              fieldType: item?.xAxis?.ref
-                ? FIELD_TYPE?.OBJECT_ID
-                : FIELD_TYPE?.STATIC,
-              fieldName: item?.xAxis?.value,
-              ...(item?.xAxis?.ref && {
-                collectionName: item?.xAxis?.ref,
-              }),
-              ...(item?.xAxis?.ref && {
-                selectedIds: item?.xAxisType,
-              }),
-            },
-          }),
-          ...(item?.type === REPORT_TYPE?.TEXT && {
-            text: {
-              description: item?.component,
-            },
-          }),
-          ...(item?.type === REPORT_TYPE?.TABLE && {
-            table: {
-              fields: item?.columnObject,
-            },
-          }),
-          ...(item?.reportType === REPORT_TYPE?.COUNTER && {
-            templateText: {
-              fieldType: FIELD_TYPE?.STATIC,
-              fieldName: item?.title,
-            },
-          }),
-          isDateFilter: item?.subFilter ?? false,
-        };
-      }),
-      name: data?.reportName,
-      accessLevel: {
-        type: data?.sharedWith,
-        ...(data?.sharedWith === REPORT_TYPE?.EVERYONE && {
-          access: data?.everyoneCondition,
-        }),
-        ...(data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS && {
-          users: data?.specificUsersConditionOne?.map(
-            (item: usersDropdownOptionsI) => ({
-              id: item?._id,
-              access: data?.specificUsersConditionTwo,
             }),
-          ),
-        }),
-      },
-      isDateFilter: data?.addFilter,
-      linkDashboard: {
-        action: data?.addToDashboard,
-        ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
-          name: data?.addToNewConditionOne,
-        }),
-        ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
-          access: data?.addToNewConditionTwo,
-        }),
-        ...(data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS && {
-          specialUsers: data?.newDashboardSpecificUsersConditionOne?.map(
-            (item: usersDropdownOptionsI) => ({
-              id: item?._id,
-              permissions: data?.newDashboardSpecificUsersConditionTwo,
+            ...(item?.type === REPORT_TYPE?.TABLE && {
+              table: {
+                fields: item?.columnObject,
+              },
             }),
-          ),
+            ...(item?.reportType === REPORT_TYPE?.COUNTER && {
+              templateText: {
+                fieldType: FIELD_TYPE?.STATIC,
+                fieldName: item?.title,
+              },
+            }),
+            isDateFilter: item?.subFilter ?? false,
+          };
         }),
-        ...(data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE && {
-          permissions: data?.newDashboardEveryoneCondition,
-        }),
-        ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_EXISTING && {
-          existingDashboards: existingDashboardIds,
-        }),
+        name: data?.reportName,
+        accessLevel: {
+          type: data?.sharedWith,
+          ...(data?.sharedWith === REPORT_TYPE?.EVERYONE && {
+            access: data?.everyoneCondition,
+          }),
+          ...(data?.sharedWith === REPORT_TYPE?.SPECIFIC_USERS && {
+            users: data?.specificUsersConditionOne?.map(
+              (item: usersDropdownOptionsI) => ({
+                id: item?._id,
+                access: data?.specificUsersConditionTwo,
+              }),
+            ),
+          }),
+        },
+        isDateFilter: data?.addFilter,
+        linkDashboard: {
+          action: data?.addToDashboard,
+          ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
+            name: data?.addToNewConditionOne,
+          }),
+          ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_NEW && {
+            access: data?.addToNewConditionTwo,
+          }),
+          ...(data?.addToNewConditionTwo === REPORT_TYPE?.SPECIFIC_USERS && {
+            specialUsers: data?.newDashboardSpecificUsersConditionOne?.map(
+              (item: usersDropdownOptionsI) => ({
+                id: item?._id,
+                permissions: data?.newDashboardSpecificUsersConditionTwo,
+              }),
+            ),
+          }),
+          ...(data?.addToNewConditionTwo === REPORT_TYPE?.EVERYONE && {
+            permissions: data?.newDashboardEveryoneCondition,
+          }),
+          ...(data?.addToDashboard === REPORT_TYPE?.ADD_TO_EXISTING && {
+            existingDashboards: existingDashboardIds,
+          }),
+        },
       },
     };
     if (reportId) {
       try {
-        await patchGenericReportTrigger({ ...payload, id: reportId })?.unwrap();
+        await patchGenericReportTrigger(params)?.unwrap();
         successSnackbar('Report Edit Successfully');
         setForm([]);
         handleCancel();
+        handleMoveBack();
       } catch (err: any) {
         errorSnackbar(err?.message ?? 'Error in Edit report');
       }
     } else {
       try {
-        await postGenericReportTrigger(payload)?.unwrap();
+        await postGenericReportTrigger(params)?.unwrap();
         successSnackbar('Report Created Successfully');
         setForm([]);
         handleCancel();
+        handleMoveBack();
       } catch (err: any) {
         errorSnackbar(err?.message ?? 'Error in saving report');
       }

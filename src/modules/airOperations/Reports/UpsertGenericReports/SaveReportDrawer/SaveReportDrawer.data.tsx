@@ -5,7 +5,7 @@ import {
   RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { REPORT_TYPE } from '@/constants/strings';
+import { REPORT_TYPE, SELECTED_ARRAY_LENGTH } from '@/constants/strings';
 import * as Yup from 'yup';
 import { usersDropdownOptionsI } from './SaveReportDrawer.interface';
 
@@ -76,20 +76,23 @@ export const reportsValidationSchema = (reportValidation: any) =>
     ),
   });
 
-export const reportsDefaultValues = {
-  reportName: '',
-  sharedWith: null,
-  addToDashboard: null,
-  addToExistingCondition: [],
-  everyoneCondition: null,
-  specificUsersConditionOne: [],
-  specificUsersConditionTwo: null,
-  addToNewConditionOne: '',
-  addToNewConditionTwo: null,
-  newDashboardEveryoneCondition: null,
-  newDashboardSpecificUsersConditionOne: [],
-  newDashboardSpecificUsersConditionTwo: null,
-  addFilter: false,
+export const reportsDefaultValues = (singleReport: any) => {
+  return {
+    reportName: singleReport?.name ?? '',
+    sharedWith: singleReport?.accessLevel?.type ?? null,
+    addToDashboard: null,
+    addToExistingCondition: [],
+    everyoneCondition: singleReport?.accessLevel?.access ?? null,
+    specificUsersConditionOne: singleReport?.accessLevel?.users ?? [],
+    specificUsersConditionTwo:
+      singleReport?.accessLevel?.users[SELECTED_ARRAY_LENGTH?.ZERO] ?? null,
+    addToNewConditionOne: '',
+    addToNewConditionTwo: null,
+    newDashboardEveryoneCondition: null,
+    newDashboardSpecificUsersConditionOne: [],
+    newDashboardSpecificUsersConditionTwo: null,
+    addFilter: singleReport?.isDateFilter ?? false,
+  };
 };
 
 export const reportsDataArray = (

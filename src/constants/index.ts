@@ -458,6 +458,7 @@ export const REPORTS_HEADER_TITLE = {
   CREATE_CHART: 'Create Chart',
   CREATE_TEXT: 'Create Text',
   CREATE_COUNTER: 'Create Counter',
+  CUSTOMIZE_REPORT: 'Customize Report',
 };
 
 export const ASSOCIATIONS_API_PARAMS_FOR = {

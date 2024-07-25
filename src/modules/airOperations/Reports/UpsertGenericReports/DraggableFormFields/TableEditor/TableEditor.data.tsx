@@ -130,48 +130,26 @@ export const tableEditorData: any = {
       fieldName: 'billingFrequency',
     },
   ],
-  PIPELINE_FORECAST: [
+  FORECAST: [
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
-      fieldName: 'dealPipelineId',
-      collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+      fieldName: 'salesPipelineId',
+      collectionName: COLLECTION_NAME?.SALES_PIPELINES,
     },
     {
       fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'priority',
+      fieldName: 'users',
     },
     {
       fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'billingFrequency',
-    },
-  ],
-  FORECAST_CATEGORY: [
-    {
-      fieldType: FIELD_TYPE?.OBJECT_ID,
-      fieldName: 'dealPipelineId',
-      collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+      fieldName: 'goalStatus',
     },
     {
       fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'priority',
-    },
-    {
-      fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'billingFrequency',
+      fieldName: 'target',
     },
   ],
   CAMPAIGN: [
-    {
-      fieldType: FIELD_TYPE?.OBJECT_ID,
-      fieldName: 'campaignOwner',
-      collectionName: COLLECTION_NAME?.USERS,
-    },
-    {
-      fieldType: FIELD_TYPE?.STRING,
-      fieldName: 'status',
-    },
-  ],
-  EMAIL_MARKETING: [
     {
       fieldType: FIELD_TYPE?.OBJECT_ID,
       fieldName: 'campaignOwner',

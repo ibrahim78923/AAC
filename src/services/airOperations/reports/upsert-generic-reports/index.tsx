@@ -85,10 +85,10 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     postGenericReports: builder?.mutation({
-      query: (payload: any) => ({
+      query: (params: any) => ({
         url: `${OPERATION?.POST_GENERIC_REPORT}`,
         method: 'POST',
-        body: payload,
+        body: params?.payload,
       }),
       providesTags: [TAG],
     }),
@@ -113,11 +113,10 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     patchGenericReports: builder?.mutation({
-      query: (payload: any, id: any) => ({
-        url: `${OPERATION?.PATCH_GENERIC_REPORT}`,
-        method: 'POST',
-        body: payload,
-        param: id,
+      query: (params: any) => ({
+        url: `${OPERATION?.PATCH_GENERIC_REPORT}?id=${params?.id}`,
+        method: 'PATCH',
+        body: params?.payload,
       }),
       providesTags: [TAG],
     }),
@@ -126,6 +125,16 @@ export const UpsertGenericReportApi = baseAPI?.injectEndpoints({
         url: `${OPERATION?.GET_SINGLE_GENERIC_REPORT}?id=${params?.id}`,
         method: 'GET',
       }),
+      providesTags: [TAG],
+    }),
+    salesDropdown: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.SALE_PRODUCTS}`,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.salesproducts;
+      },
       providesTags: [TAG],
     }),
   }),
@@ -145,4 +154,5 @@ export const {
   useLazyMarketingDashboardDropdownQuery,
   usePatchGenericReportsMutation,
   useGetSingleGenericReportsQuery,
+  useLazySalesDropdownQuery,
 } = UpsertGenericReportApi;

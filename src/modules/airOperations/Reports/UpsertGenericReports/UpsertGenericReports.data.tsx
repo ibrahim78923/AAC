@@ -106,7 +106,7 @@ export const templateList = [
     id: '7',
     title: 'Assets Distribution',
     chartType: CHARTS?.PIE_CHART,
-    type: CHARTS?.TEMPLATE_PIE_OR_DONUT_CHART,
+    type: CHARTS?.TEMPLATE_PIE_CHART,
     xAxis: {
       label: 'Inventory Asset Type',
       value: 'inventory_assetType',
@@ -206,7 +206,7 @@ export const templateList = [
     id: '14',
     title: 'Software Distribution',
     chartType: CHARTS?.PIE_CHART,
-    type: CHARTS?.TEMPLATE_PIE_OR_DONUT_CHART,
+    type: CHARTS?.TEMPLATE_PIE_CHART,
     xAxis: { label: 'Status', value: 'status', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
@@ -290,7 +290,7 @@ export const templateList = [
     id: '22',
     title: 'Contract Distribution',
     chartType: CHARTS?.PIE_CHART,
-    type: CHARTS?.TEMPLATE_PIE_OR_DONUT_CHART,
+    type: CHARTS?.TEMPLATE_PIE_CHART,
     xAxis: { label: 'Contract Type', value: 'contractType', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
@@ -375,7 +375,7 @@ export const templateList = [
     id: '29',
     title: 'Purchase Order Distribution',
     chartType: CHARTS?.PIE_CHART,
-    type: CHARTS?.TEMPLATE_PIE_OR_DONUT_CHART,
+    type: CHARTS?.TEMPLATE_PIE_CHART,
     xAxis: { label: 'Approval Status', value: 'approvalStatus', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
@@ -462,11 +462,11 @@ export const templateList = [
     id: '36',
     title: 'Forecast Analytics',
     chartType: CHARTS?.HORIZONTAL_BAR_CHART,
-    type: CHARTS?.TEMPLATE_BAR_CHART,
+    type: CHARTS?.TEMPLATE_HORIZONTAL_CHART,
     xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
-    templateType: REPORT_TYPE?.FORECAST_CATEGORY,
+    templateType: REPORT_TYPE?.FORECAST,
     description: 'Visualize your data',
   },
   {
@@ -477,7 +477,7 @@ export const templateList = [
     xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
-    templateType: REPORT_TYPE?.FORECAST_CATEGORY,
+    templateType: REPORT_TYPE?.FORECAST,
     description: 'Visualize your data',
   },
   {
@@ -488,80 +488,39 @@ export const templateList = [
     xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
-    templateType: REPORT_TYPE?.FORECAST_CATEGORY,
+    templateType: REPORT_TYPE?.FORECAST,
     description: 'Visualize your data',
   },
   {
     id: '39',
     title: 'Overview',
-    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
+    tableColumns: ['salesPipelineId', 'users', 'goalStatus', 'target'],
     templateColumnsData: [
       {
         fieldType: FIELD_TYPE?.OBJECT_ID,
-        fieldName: 'dealPipelineId',
-        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
+        fieldName: 'salesPipelineId',
+        collectionName: COLLECTION_NAME?.SALES_PIPELINES,
+      },
+      {
+        fieldType: FIELD_TYPE?.OBJECT_ID,
+        fieldName: 'users',
+        collectionName: COLLECTION_NAME?.USERS,
       },
       {
         fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'priority',
+        fieldName: 'goalStatus',
       },
       {
         fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'billingFrequency',
+        fieldName: 'target',
       },
     ],
     match: 'table',
-    templateType: REPORT_TYPE?.FORECAST_CATEGORY,
+    templateType: REPORT_TYPE?.FORECAST,
     description: 'General Table',
   },
   {
     id: '40',
-    title: 'Month Deal Stage',
-    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
-    templateColumnsData: [
-      {
-        fieldType: FIELD_TYPE?.OBJECT_ID,
-        fieldName: 'dealPipelineId',
-        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
-      },
-      {
-        fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'priority',
-      },
-      {
-        fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'billingFrequency',
-      },
-    ],
-    match: 'table',
-    templateType: REPORT_TYPE?.FORECAST_CATEGORY,
-    description: 'General Table',
-  },
-  {
-    id: '41',
-    title: 'Year Deal Stage',
-    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
-    templateColumnsData: [
-      {
-        fieldType: FIELD_TYPE?.OBJECT_ID,
-        fieldName: 'dealPipelineId',
-        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
-      },
-      {
-        fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'priority',
-      },
-      {
-        fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'billingFrequency',
-      },
-    ],
-    match: 'table',
-    templateType: REPORT_TYPE?.FORECAST_CATEGORY,
-    description: 'General Table',
-  },
-  {
-    id: '42',
     title: 'Deals Analytics',
     chartType: CHARTS?.BAR_CHART,
     type: CHARTS?.TEMPLATE_BAR_CHART,
@@ -572,10 +531,10 @@ export const templateList = [
     description: 'Visualize your data',
   },
   {
-    id: '43',
+    id: '41',
     title: 'Deals Analytics',
     chartType: CHARTS?.PIE_CHART,
-    type: CHARTS?.TEMPLATE_PIE_OR_DONUT_CHART,
+    type: CHARTS?.TEMPLATE_PIE_CHART,
     xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
@@ -583,7 +542,7 @@ export const templateList = [
     description: 'Visualize your data',
   },
   {
-    id: '44',
+    id: '42',
     title: 'Deals Overview',
     type: REPORT_TYPE?.TEMPLATE_TABLE,
     tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
@@ -607,7 +566,7 @@ export const templateList = [
     description: 'General Table',
   },
   {
-    id: '45',
+    id: '43',
     title: 'Total',
     ticketCount: '6',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
@@ -616,7 +575,7 @@ export const templateList = [
     description: 'Total deals count',
   },
   {
-    id: '46',
+    id: '44',
     title: 'Open',
     ticketCount: '3',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
@@ -625,7 +584,7 @@ export const templateList = [
     description: 'Open deals count',
   },
   {
-    id: '47',
+    id: '45',
     title: 'Close',
     ticketCount: '3',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
@@ -634,110 +593,40 @@ export const templateList = [
     description: 'Close deals count',
   },
   {
-    id: '48',
+    id: '46',
     title: 'Forecast Analytics',
     chartType: CHARTS?.HORIZONTAL_BAR_CHART,
-    type: CHARTS?.TEMPLATE_BAR_CHART,
+    type: CHARTS?.TEMPLATE_HORIZONTAL_CHART,
     xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
-    templateType: REPORT_TYPE?.PIPELINE_FORECAST,
+    templateType: REPORT_TYPE?.FORECAST,
     description: 'Visualize your data',
   },
   {
-    id: '49',
+    id: '47',
     title: 'Over Time',
     chartType: CHARTS?.BAR_CHART,
     type: CHARTS?.TEMPLATE_BAR_CHART,
     xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
-    templateType: REPORT_TYPE?.PIPELINE_FORECAST,
+    templateType: REPORT_TYPE?.FORECAST,
     description: 'Visualize your data',
   },
   {
-    id: '50',
+    id: '48',
     title: 'Comparison',
     chartType: CHARTS?.BAR_CHART,
     type: CHARTS?.TEMPLATE_BAR_CHART,
     xAxis: { label: 'Priority', value: 'priority', ref: null },
     subFilter: true,
     match: REPORT_TYPE?.CHART,
-    templateType: REPORT_TYPE?.PIPELINE_FORECAST,
+    templateType: REPORT_TYPE?.FORECAST,
     description: 'Visualize your data',
   },
   {
-    id: '51',
-    title: 'Overview',
-    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
-    templateColumnsData: [
-      {
-        fieldType: FIELD_TYPE?.OBJECT_ID,
-        fieldName: 'dealPipelineId',
-        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
-      },
-      {
-        fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'priority',
-      },
-      {
-        fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'billingFrequency',
-      },
-    ],
-    match: 'table',
-    templateType: REPORT_TYPE?.PIPELINE_FORECAST,
-    description: 'General Table',
-  },
-  {
-    id: '52',
-    title: 'Month Deal Stage',
-    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
-    templateColumnsData: [
-      {
-        fieldType: FIELD_TYPE?.OBJECT_ID,
-        fieldName: 'dealPipelineId',
-        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
-      },
-      {
-        fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'priority',
-      },
-      {
-        fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'billingFrequency',
-      },
-    ],
-    match: 'table',
-    templateType: REPORT_TYPE?.PIPELINE_FORECAST,
-    description: 'General Table',
-  },
-  {
-    id: '53',
-    title: 'Year Deal Stage',
-    tableColumns: ['dealPipelineId', 'priority', 'billingFrequency'],
-    templateColumnsData: [
-      {
-        fieldType: FIELD_TYPE?.OBJECT_ID,
-        fieldName: 'dealPipelineId',
-        collectionName: COLLECTION_NAME?.DEAL_PIPELINES,
-      },
-      {
-        fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'priority',
-      },
-      {
-        fieldType: FIELD_TYPE?.STRING,
-        fieldName: 'billingFrequency',
-      },
-    ],
-    match: 'table',
-    templateType: REPORT_TYPE?.PIPELINE_FORECAST,
-    description: 'General Table',
-  },
-
-  {
-    id: '54',
+    id: '49',
     title: 'Leads Geerated by CTA',
     chartType: CHARTS?.BAR_CHART,
     type: CHARTS?.TEMPLATE_BAR_CHART,
@@ -748,7 +637,7 @@ export const templateList = [
     description: 'Visualize your data',
   },
   {
-    id: '55',
+    id: '50',
     title: 'Table',
     type: REPORT_TYPE?.TEMPLATE_TABLE,
     tableColumns: ['campaignOwner', 'status'],
@@ -768,7 +657,7 @@ export const templateList = [
     description: 'LeadsCTAs Table',
   },
   {
-    id: '56',
+    id: '51',
     title: 'Form Views',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '68',
@@ -777,7 +666,7 @@ export const templateList = [
     description: 'LeadsCTAs',
   },
   {
-    id: '57',
+    id: '52',
     title: 'CTA Rate',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '62%',
@@ -786,7 +675,7 @@ export const templateList = [
     description: 'LeadsCTAs',
   },
   {
-    id: '58',
+    id: '53',
     title: 'Entraces',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '68',
@@ -795,7 +684,7 @@ export const templateList = [
     description: 'LeadsCTAs',
   },
   {
-    id: '59',
+    id: '54',
     title: 'Average Time Per Page View',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '68',
@@ -804,7 +693,7 @@ export const templateList = [
     description: 'LeadsCTAs',
   },
   {
-    id: '60',
+    id: '55',
     title: 'Total Submissions',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '156',
@@ -813,7 +702,7 @@ export const templateList = [
     description: 'LeadsCTAs',
   },
   {
-    id: '61',
+    id: '56',
     title: 'CTA Clicks',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '06',
@@ -822,7 +711,7 @@ export const templateList = [
     description: 'LeadsCTAs',
   },
   {
-    id: '62',
+    id: '57',
     title: 'CTA Views',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '42',
@@ -831,7 +720,7 @@ export const templateList = [
     description: 'LeadsCTAs',
   },
   {
-    id: '63',
+    id: '58',
     title: 'Bounce Rate',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '40%',
@@ -839,74 +728,8 @@ export const templateList = [
     templateType: REPORT_TYPE?.LEADS,
     description: 'LeadsCTAs',
   },
-
   {
-    id: '64',
-    title: 'Total Send',
-    type: REPORT_TYPE?.TEMPLATE_TEXT,
-    ticketCount: '3282',
-    match: 'counter',
-    templateType: REPORT_TYPE?.EMAIL_MARKETING,
-    description: 'EmailMarketing',
-  },
-  {
-    id: '65',
-    title: 'Total Activity',
-    type: REPORT_TYPE?.TEMPLATE_TEXT,
-    ticketCount: '08',
-    match: 'counter',
-    templateType: REPORT_TYPE?.EMAIL_MARKETING,
-    description: 'EmailMarketing',
-  },
-  {
-    id: '66',
-    title: 'Total Bounced',
-    type: REPORT_TYPE?.TEMPLATE_TEXT,
-    ticketCount: '12',
-    match: 'counter',
-    templateType: REPORT_TYPE?.EMAIL_MARKETING,
-    description: 'EmailMarketing',
-  },
-  {
-    id: '67',
-    title: 'Total Unsuscribe',
-    type: REPORT_TYPE?.TEMPLATE_TEXT,
-    ticketCount: '03',
-    match: 'counter',
-    templateType: REPORT_TYPE?.EMAIL_MARKETING,
-    description: 'EmailMarketing',
-  },
-  {
-    id: '68',
-    title: 'Report',
-    chartType: CHARTS?.BAR_CHART,
-    type: CHARTS?.TEMPLATE_BAR_CHART,
-    xAxis: { label: 'Status', value: 'status', ref: null },
-    subFilter: true,
-    match: REPORT_TYPE?.CHART,
-    templateType: REPORT_TYPE?.EMAIL_MARKETING,
-    description: 'Visualize your data',
-  },
-  {
-    id: '69',
-    title: 'Total Unsubcribes',
-    type: REPORT_TYPE?.TEMPLATE_TEXT,
-    ticketCount: '03',
-    match: 'counter',
-    templateType: REPORT_TYPE?.EMAIL_MARKETING,
-    description: 'EmailMarketing',
-  },
-  {
-    id: '70',
-    title: 'Total Software',
-    type: REPORT_TYPE?.TEMPLATE_TEXT,
-    ticketCount: '0',
-    match: 'counter',
-    templateType: REPORT_TYPE?.EMAIL_MARKETING,
-    description: 'EmailMarketing',
-  },
-  {
-    id: '71',
+    id: '59',
     title: 'Total Add Spend',
     chartType: CHARTS?.BAR_CHART,
     type: CHARTS?.TEMPLATE_BAR_CHART,
@@ -917,7 +740,7 @@ export const templateList = [
     description: 'Visualize your data',
   },
   {
-    id: '72',
+    id: '60',
     title: 'Ad Campaigns',
     type: REPORT_TYPE?.TEMPLATE_TABLE,
     tableColumns: ['campaignOwner', 'status'],
@@ -937,7 +760,7 @@ export const templateList = [
     description: 'General Table',
   },
   {
-    id: '73',
+    id: '61',
     title: 'Impressions',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '4k',
@@ -946,7 +769,7 @@ export const templateList = [
     description: 'AdCampaigns',
   },
   {
-    id: '74',
+    id: '62',
     title: 'Amount Spend',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '$20',
@@ -955,7 +778,7 @@ export const templateList = [
     description: 'AdCampaigns',
   },
   {
-    id: '75',
+    id: '63',
     title: 'Clicks',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '93',
@@ -964,7 +787,7 @@ export const templateList = [
     description: 'AdCampaigns',
   },
   {
-    id: '76',
+    id: '64',
     title: 'ROI',
     type: REPORT_TYPE?.TEMPLATE_TEXT,
     ticketCount: '50%',
@@ -1029,16 +852,9 @@ export const mainMetrics = (setMetricType: any) => {
         },
       },
       {
-        title: REPORT_TYPE?.PIPELINE_FORECAST,
+        title: REPORT_TYPE?.FORECAST,
         handleClick: (closeMenu: any) => {
-          setMetricType(REPORT_TYPE?.PIPELINE_FORECAST);
-          closeMenu?.();
-        },
-      },
-      {
-        title: REPORT_TYPE?.FORECAST_CATEGORY,
-        handleClick: (closeMenu: any) => {
-          setMetricType(REPORT_TYPE?.FORECAST_CATEGORY);
+          setMetricType(REPORT_TYPE?.FORECAST);
           closeMenu?.();
         },
       },
@@ -1048,13 +864,6 @@ export const mainMetrics = (setMetricType: any) => {
         title: REPORT_TYPE?.LEADS,
         handleClick: (closeMenu: any) => {
           setMetricType(REPORT_TYPE?.LEADS);
-          closeMenu?.();
-        },
-      },
-      {
-        title: REPORT_TYPE?.EMAIL_MARKETING,
-        handleClick: (closeMenu: any) => {
-          setMetricType(REPORT_TYPE?.EMAIL_MARKETING);
           closeMenu?.();
         },
       },

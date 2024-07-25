@@ -21,23 +21,35 @@ import { HorizontalBarChart } from './DraggableFormFields/Chart/HorizontalBarCha
 import { BarChart } from './DraggableFormFields/Chart/BarChart';
 import { generateUniqueId } from '@/utils/dynamic-forms';
 import { useGetSingleGenericReportsQuery } from '@/services/airOperations/reports/upsert-generic-reports';
+import { AIR_OPERATIONS } from '@/constants';
 
 export default function useUpsertGenericReports() {
   const [draggedItemData, setDraggedItemData] = useState<any>(null);
   const theme: any = useTheme();
   const router: any = useRouter();
   const reportId = router?.query?.reportId;
-
   const moduleName = router?.query?.moduleName;
+
+  const params = {
+    id: reportId,
+  };
+  const { data, isLoading, isFetching } = useGetSingleGenericReportsQuery(
+    params,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!reportId,
+    },
+  );
+  const singleReport = (data as any)?.data?.report?.reportDoc;
 
   const getDefaultModule = () => {
     switch (moduleName) {
       case GENERIC_REPORT_MODULES?.SERVICES:
-        return 'INVENTORY';
+        return REPORT_TYPE?.INVENTORIES;
       case GENERIC_REPORT_MODULES?.SALES:
-        return 'DEALS';
+        return REPORT_TYPE?.DEALS;
       case GENERIC_REPORT_MODULES?.MARKETING:
-        return 'CAMPAIGN';
+        return REPORT_TYPE?.LEADS;
       default:
         return [];
     }
@@ -68,6 +80,11 @@ export default function useUpsertGenericReports() {
   const [columnsData, setColumnsData] = useState([]);
   const [showTemplate, setShowTemplate] = useState(false);
   const [disableTemplate, setDisableTemplate] = useState(false);
+  useEffect(() => {
+    if (singleReport) {
+      setMetricType(singleReport?.module);
+    }
+  }, [singleReport]);
   useEffect(() => {
     setValue('chartType', draggedItemData?.chartType ?? '');
     setValue('xAxis', draggedItemData?.xAxis ?? null);
@@ -170,103 +187,130 @@ export default function useUpsertGenericReports() {
     setDisableTemplate(false);
     setShowTemplate(false);
   };
-  const params = {
-    id: reportId,
-  };
-  const { data, isLoading, isFetching, isSuccess } =
-    useGetSingleGenericReportsQuery(params, {
-      refetchOnMountOrArgChange: true,
-    });
-  const singleReport = (data as any)?.data?.report?.reportDoc;
 
   useEffect(() => {
-    if (isSuccess) {
-      const uniqueId = generateUniqueId();
-      {
-        singleReport?.widgets?.map((item: any) => {
-          item?.type === REPORT_TYPE?.TEXT &&
-            setForm([
-              ...form,
-              {
-                id: uniqueId,
-                component: item?.text?.description,
-                title: item?.title,
-                type: REPORT_TYPE?.TEXT,
-              },
-            ]),
+    if (singleReport) {
+      const newFormItems = singleReport?.widgets
+        ?.map((item: any) => {
+          const uniqueId = generateUniqueId();
+          if (item?.type === REPORT_TYPE?.TEXT) {
+            return {
+              id: uniqueId,
+              component: item?.text?.description,
+              title: item?.title,
+              type: REPORT_TYPE?.TEXT,
+            };
+          }
+          if (
             item?.type === REPORT_TYPE?.TABLE ||
-              (item?.type === REPORT_TYPE?.TEMPLATE_TABLE &&
-                setForm([
-                  ...form,
-                  {
-                    id: uniqueId,
-                    type: REPORT_TYPE?.TABLE,
-                    title: item?.title,
-                    component: item?.table?.fields.map(
-                      (field: any) => field?.fieldName,
-                    ),
-                    columnObject: item?.table?.fields,
-                    templateType:
-                      item?.type === REPORT_TYPE?.TEMPLATE_TABLE
-                        ? item?.type
-                        : false,
-                  },
-                ])),
+            item?.type === REPORT_TYPE?.TEMPLATE_TABLE
+          ) {
+            return {
+              id: uniqueId,
+              type: REPORT_TYPE?.TABLE,
+              title: item?.title,
+              component: item?.table?.fields.map(
+                (field: any) => field?.fieldName,
+              ),
+              columnObject: item?.table?.fields,
+              templateType:
+                item?.type === REPORT_TYPE?.TEMPLATE_TABLE ? item?.type : false,
+            };
+          }
+          if (
             item?.type === CHARTS?.BAR_CHART ||
-              item?.type === CHARTS?.HORIZONTAL_BAR_CHART ||
-              item?.type === CHARTS?.DONUT_CHART ||
-              item?.type === CHARTS?.PIE_CHART ||
-              item?.type === CHARTS?.TEMPLATE_BAR_CHART ||
-              (item?.type === CHARTS?.TEMPLATE_PIE_OR_DONUT_CHART &&
-                setForm([
-                  ...form,
-                  {
-                    id: uniqueId,
-                    title: item?.title,
-                    reportType: REPORT_TYPE?.CHART,
-                    type: item?.type,
-                    templateType:
-                      item?.type === CHARTS?.TEMPLATE_BAR_CHART ||
-                      item?.type === CHARTS?.TEMPLATE_PIE_OR_DONUT_CHART
-                        ? item?.type
-                        : false,
-                    xAxis:
-                      item?.type === CHARTS?.TEMPLATE_BAR_CHART ||
-                      item?.type === CHARTS?.TEMPLATE_PIE_OR_DONUT_CHART
-                        ? {
-                            value: item?.genericChart?.xAxis?.fieldName,
-                            ref:
-                              item?.genericChart?.xAxis?.fieldType ===
-                              FIELD_TYPE?.OBJECT_ID
-                                ? item?.genericChart?.xAxis?.collectionName
-                                : null,
-                          }
-                        : {
-                            value: item?.barChart?.xAxis?.fieldName,
-                            ref:
-                              item?.barChart?.xAxis?.fieldType ===
-                              FIELD_TYPE?.OBJECT_ID
-                                ? item?.barChart?.xAxis?.collectionName
-                                : null,
-                          },
-                    xAxisType:
-                      item?.type === CHARTS?.TEMPLATE_BAR_CHART ||
-                      item?.type === CHARTS?.TEMPLATE_PIE_OR_DONUT_CHART
-                        ? item?.genericChart?.xAxis?.fieldType ===
-                          FIELD_TYPE?.OBJECT_ID
-                          ? item?.genericChart?.xAxis?.selectedIds
-                          : null
-                        : item?.barChart?.xAxis?.fieldType ===
-                            FIELD_TYPE?.OBJECT_ID
-                          ? item?.barChart?.xAxis?.selectedIds
+            item?.type === CHARTS?.HORIZONTAL_BAR_CHART ||
+            item?.type === CHARTS?.DONUT_CHART ||
+            item?.type === CHARTS?.PIE_CHART ||
+            item?.type === CHARTS?.TEMPLATE_BAR_CHART ||
+            item?.type === CHARTS?.TEMPLATE_HORIZONTAL_CHART ||
+            item?.type === CHARTS?.TEMPLATE_PIE_CHART ||
+            item?.type === CHARTS?.TEMPLATE_DONUT_CHART
+          ) {
+            return {
+              id: uniqueId,
+              title: item?.title,
+              reportType: REPORT_TYPE?.CHART,
+              type:
+                item?.type === CHARTS?.TEMPLATE_BAR_CHART ||
+                item?.type === CHARTS?.BAR_CHART
+                  ? CHARTS?.BAR_CHART
+                  : item?.type === CHARTS?.TEMPLATE_HORIZONTAL_CHART ||
+                      item?.type === CHARTS?.HORIZONTAL_BAR_CHART
+                    ? CHARTS?.HORIZONTAL_BAR_CHART
+                    : item?.type === CHARTS?.TEMPLATE_PIE_CHART ||
+                        item?.type === CHARTS?.PIE_CHART
+                      ? CHARTS?.PIE_CHART
+                      : item?.type === CHARTS?.TEMPLATE_DONUT_CHART ||
+                          item?.type === CHARTS?.DONUT_CHART
+                        ? CHARTS?.DONUT_CHART
+                        : null,
+              templateType:
+                item?.type === CHARTS?.TEMPLATE_BAR_CHART ||
+                item?.type === CHARTS?.TEMPLATE_HORIZONTAL_CHART ||
+                item?.type === CHARTS?.TEMPLATE_PIE_CHART ||
+                item?.type === CHARTS?.TEMPLATE_DONUT_CHART
+                  ? item?.type
+                  : false,
+              xAxis:
+                item?.type === CHARTS?.DONUT_CHART ||
+                item?.type === CHARTS?.PIE_CHART ||
+                item?.type === CHARTS?.TEMPLATE_DONUT_CHART ||
+                item?.type === CHARTS?.TEMPLATE_PIE_CHART
+                  ? {
+                      value: item?.genericChart?.fieldName,
+                      ref:
+                        item?.genericChart?.fieldType === FIELD_TYPE?.OBJECT_ID
+                          ? item?.genericChart?.collectionName
                           : null,
-                    subFilter: item?.isDateFilter,
-                  },
-                ]));
-        });
-      }
+                    }
+                  : {
+                      value: item?.barChart?.xAxis?.fieldName,
+                      ref:
+                        item?.barChart?.xAxis?.fieldType ===
+                        FIELD_TYPE?.OBJECT_ID
+                          ? item?.barChart?.xAxis?.collectionName
+                          : null,
+                    },
+              xAxisType:
+                item?.type === CHARTS?.DONUT_CHART ||
+                item?.type === CHARTS?.PIE_CHART ||
+                item?.type === CHARTS?.TEMPLATE_DONUT_CHART ||
+                item?.type === CHARTS?.TEMPLATE_PIE_CHART
+                  ? item?.genericChart?.fieldType === FIELD_TYPE?.OBJECT_ID
+                    ? item?.genericChart?.selectedIds
+                    : null
+                  : item?.barChart?.xAxis?.fieldType === FIELD_TYPE?.OBJECT_ID
+                    ? item?.barChart?.xAxis?.selectedIds
+                    : null,
+              subFilter: item?.isDateFilter,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
+      setForm([...form, ...newFormItems]);
     }
-  }, [isSuccess]);
+  }, [singleReport]);
+
+  const handleMoveBack = () => {
+    switch (moduleName) {
+      case GENERIC_REPORT_MODULES?.SERVICES:
+        return router?.push({
+          pathname: AIR_OPERATIONS?.SERVICES_REPORTS,
+        });
+      case GENERIC_REPORT_MODULES?.SALES:
+        return router?.push({
+          pathname: AIR_OPERATIONS?.SALES_REPORTS,
+        });
+      case GENERIC_REPORT_MODULES?.MARKETING:
+        return router?.push({
+          pathname: AIR_OPERATIONS?.MARKETING_REPORTS,
+        });
+      default:
+        return [];
+    }
+  };
 
   return {
     handleDragEnd,
@@ -303,7 +347,6 @@ export default function useUpsertGenericReports() {
     showTemplate,
     setShowTemplate,
     handleTemplateDragEnd,
-    router,
     handleCancel,
     reportId,
     setDraggedItemData,
@@ -314,5 +357,7 @@ export default function useUpsertGenericReports() {
     moduleName,
     isLoading,
     isFetching,
+    singleReport,
+    handleMoveBack,
   };
 }

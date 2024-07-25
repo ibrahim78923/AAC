@@ -91,22 +91,22 @@ export const xAxesDataArray: any = {
     { label: 'Priority', value: 'priority', ref: null },
     { label: 'Billing Frequency', value: 'billingFrequency', ref: null },
   ],
-  PIPELINE_FORECAST: [
-    { label: 'Status', value: 'status', ref: null },
-    { label: 'Type', value: 'type', ref: null },
-  ],
-  FORECAST_CATEGORY: [
-    { label: 'Contract Type', value: 'contractType', ref: null },
-    { label: 'Status', value: 'status', ref: null },
+  FORECAST: [
     {
-      label: 'Contract Vendor',
-      value: 'contract_vendor',
-      ref: COLLECTION_NAME?.VENDORS,
+      label: 'Pipelines',
+      value: 'sales_pipelineId',
+      ref: COLLECTION_NAME?.SALES_PIPELINES,
+    },
+    { label: 'Goal Status', value: 'goal_status', ref: null },
+    {
+      label: 'Target',
+      value: 'target',
+      ref: null,
     },
     {
-      label: 'Contract Approver',
-      value: 'contract_approver',
-      ref: COLLECTION_NAME?.USERS,
+      label: 'Users',
+      value: 'users',
+      ref: null,
     },
   ],
   CAMPAIGN: [
@@ -116,10 +116,6 @@ export const xAxesDataArray: any = {
       ref: COLLECTION_NAME?.USERS,
     },
     { label: 'Campaign Status', value: 'campaignStatus', ref: null },
-  ],
-  EMAIL_MARKETING: [
-    { label: 'Status', value: 'status', ref: null },
-    { label: 'Type', value: 'type', ref: null },
   ],
   LEADS: [
     { label: 'Contract Type', value: 'contractType', ref: null },

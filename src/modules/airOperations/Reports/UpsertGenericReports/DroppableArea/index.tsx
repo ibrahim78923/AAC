@@ -19,6 +19,7 @@ import ReportCalendarFilter from '@/components/ReportCalendarFilter';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { tableColumn } from '../DraggableFormFields/Table/Table.data';
 import { Counter } from '../DraggableFormFields/Counter';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export default function DroppableArea(props: any) {
   const {
@@ -47,6 +48,8 @@ export default function DroppableArea(props: any) {
     handleCancel,
     handleChooseTemplate,
     setValue,
+    isLoading,
+    isFetching,
   } = props;
 
   const { handleDelete, handleCopy, theme, setCalendarFilter } =
@@ -60,327 +63,341 @@ export default function DroppableArea(props: any) {
           ref={provided?.innerRef}
           {...provided?.droppableProps}
         >
-          {!!!fieldData ? (
+          {isLoading || isFetching ? (
+            <SkeletonTable />
+          ) : (
             <>
-              {!!!form?.length ? (
+              {!!!fieldData ? (
                 <>
-                  <Box
-                    display={'flex'}
-                    flexDirection={'column'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    height={'100%'}
-                  >
-                    <ReportsIcon />
-                    <Typography variant={'h6'} mt={1} component={'span'}>
-                      <span style={{ color: theme.palette.primary.main }}>
-                        {' '}
-                        Drag{' '}
-                      </span>
-                      or
-                      <span style={{ color: theme.palette.primary.main }}>
-                        {' '}
-                        Drop{' '}
-                      </span>
-                      widgets here to create your report!
-                    </Typography>
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      m={2}
-                      width={'50%'}
-                    >
-                      <Divider
-                        sx={{
-                          flexGrow: 1,
-                          border: `.1rem solid ${theme?.palette?.grey[400]}`,
-                        }}
-                      />
-                      <Typography variant="h4" sx={{ mx: 2 }}>
-                        or
-                      </Typography>
-                      <Divider
-                        sx={{
-                          flexGrow: 1,
-                          border: `.1rem solid ${theme?.palette?.grey[400]}`,
-                        }}
-                      />
-                    </Box>
-                    <Button
-                      variant="contained"
-                      onClick={
-                        showTemplate
-                          ? () => handleChooseTemplate()
-                          : () => setShowTemplate(true)
-                      }
-                    >
-                      {showTemplate ? 'Create Report' : 'Choose Template'}
-                    </Button>
-                  </Box>
-                </>
-              ) : (
-                <>
-                  {!!form?.length && (
+                  {!!!form?.length ? (
                     <>
-                      <Grid container spacing={1} mb={1}>
-                        {form?.map((item: any) => (
-                          <>
-                            {item?.reportType === REPORT_TYPE?.CHART && (
-                              <Grid item sm={12} lg={6} key={item?.id}>
-                                <Box
-                                  borderRadius={2}
-                                  border={`1px solid ${theme?.palette?.grey[700]}`}
-                                >
-                                  <Box
-                                    display={'flex'}
-                                    justifyContent={'space-between'}
-                                    alignItems={'center'}
-                                    p={1}
-                                  >
-                                    <Typography
-                                      color="secondary"
-                                      variant="h5"
-                                      overflow={'scroll'}
-                                      width={'55%'}
-                                    >
-                                      {item?.title}
-                                    </Typography>
+                      <Box
+                        display={'flex'}
+                        flexDirection={'column'}
+                        alignItems={'center'}
+                        justifyContent={'center'}
+                        height={'100%'}
+                      >
+                        <ReportsIcon />
+                        <Typography variant={'h6'} mt={1} component={'span'}>
+                          <span style={{ color: theme.palette.primary.main }}>
+                            {' '}
+                            Drag{' '}
+                          </span>
+                          or
+                          <span style={{ color: theme.palette.primary.main }}>
+                            {' '}
+                            Drop{' '}
+                          </span>
+                          widgets here to create your report!
+                        </Typography>
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          m={2}
+                          width={'50%'}
+                        >
+                          <Divider
+                            sx={{
+                              flexGrow: 1,
+                              border: `.1rem solid ${theme?.palette?.grey[400]}`,
+                            }}
+                          />
+                          <Typography variant="h4" sx={{ mx: 2 }}>
+                            or
+                          </Typography>
+                          <Divider
+                            sx={{
+                              flexGrow: 1,
+                              border: `.1rem solid ${theme?.palette?.grey[400]}`,
+                            }}
+                          />
+                        </Box>
+                        <Button
+                          variant="contained"
+                          onClick={
+                            showTemplate
+                              ? () => handleChooseTemplate()
+                              : () => setShowTemplate(true)
+                          }
+                        >
+                          {showTemplate ? 'Create Report' : 'Choose Template'}
+                        </Button>
+                      </Box>
+                    </>
+                  ) : (
+                    <>
+                      {!!form?.length && (
+                        <>
+                          <Grid container spacing={1} mb={1}>
+                            {form?.map((item: any) => (
+                              <>
+                                {item?.reportType === REPORT_TYPE?.CHART && (
+                                  <Grid item sm={12} lg={6} key={item?.id}>
                                     <Box
-                                      display={'flex'}
-                                      justifyContent={'center'}
-                                      alignItems={'center'}
+                                      borderRadius={2}
+                                      border={`1px solid ${theme?.palette?.grey[700]}`}
                                     >
-                                      <IconButton
-                                        onClick={() => handleDelete(item?.id)}
+                                      <Box
+                                        display={'flex'}
+                                        justifyContent={'space-between'}
+                                        alignItems={'center'}
+                                        p={1}
                                       >
-                                        <DeleteIcon />
-                                      </IconButton>
-                                      <IconButton
-                                        onClick={() => handleCopy(item?.id)}
-                                      >
-                                        <ContentCopyIcon />
-                                      </IconButton>
-                                      <Box ml={1}>
-                                        {item?.subFilter && (
-                                          <ReportCalendarFilter
-                                            setCalendarFilter={
-                                              setCalendarFilter
+                                        <Typography
+                                          color="secondary"
+                                          variant="h5"
+                                          overflow={'scroll'}
+                                          width={'55%'}
+                                        >
+                                          {item?.title}
+                                        </Typography>
+                                        <Box
+                                          display={'flex'}
+                                          justifyContent={'center'}
+                                          alignItems={'center'}
+                                        >
+                                          <IconButton
+                                            onClick={() =>
+                                              handleDelete(item?.id)
                                             }
-                                          />
-                                        )}
+                                          >
+                                            <DeleteIcon />
+                                          </IconButton>
+                                          <IconButton
+                                            onClick={() => handleCopy(item?.id)}
+                                          >
+                                            <ContentCopyIcon />
+                                          </IconButton>
+                                          <Box ml={1}>
+                                            {item?.subFilter && (
+                                              <ReportCalendarFilter
+                                                setCalendarFilter={
+                                                  setCalendarFilter
+                                                }
+                                              />
+                                            )}
+                                          </Box>
+                                        </Box>
                                       </Box>
+                                      {allChartComponents[item?.type]}
                                     </Box>
-                                  </Box>
-                                  {allChartComponents[item?.type]}
-                                </Box>
-                              </Grid>
-                            )}
-                          </>
-                        ))}
-                      </Grid>
-                      <Grid container spacing={1} mb={1}>
-                        {form?.map((item: any) => (
-                          <>
-                            {item?.type === REPORT_TYPE?.TEXT && (
-                              <Grid item xs={12} sm={6} key={item?.id}>
-                                <Box
-                                  borderRadius={2}
-                                  border={`1px solid ${theme?.palette?.grey[700]}`}
-                                  p={1}
-                                  pl={2.5}
-                                >
-                                  <Box
-                                    display={'flex'}
-                                    justifyContent={'space-between'}
-                                    alignItems={'center'}
-                                  >
-                                    <Typography
-                                      color="secondary"
-                                      variant="h5"
-                                      overflow={'scroll'}
-                                      width={'70%'}
-                                    >
-                                      {item?.title}
-                                    </Typography>
+                                  </Grid>
+                                )}
+                              </>
+                            ))}
+                          </Grid>
+                          <Grid container spacing={1} mb={1}>
+                            {form?.map((item: any) => (
+                              <>
+                                {item?.type === REPORT_TYPE?.TEXT && (
+                                  <Grid item xs={12} sm={6} key={item?.id}>
                                     <Box
-                                      display={'flex'}
-                                      justifyContent={'center'}
-                                      alignItems={'center'}
+                                      borderRadius={2}
+                                      border={`1px solid ${theme?.palette?.grey[700]}`}
+                                      p={1}
+                                      pl={2.5}
                                     >
-                                      <IconButton
-                                        onClick={() => handleDelete(item?.id)}
+                                      <Box
+                                        display={'flex'}
+                                        justifyContent={'space-between'}
+                                        alignItems={'center'}
                                       >
-                                        <DeleteIcon />
-                                      </IconButton>
-                                      <IconButton
-                                        onClick={() => handleCopy(item?.id)}
-                                      >
-                                        <ContentCopyIcon />
-                                      </IconButton>
+                                        <Typography
+                                          color="secondary"
+                                          variant="h5"
+                                          overflow={'scroll'}
+                                          width={'70%'}
+                                        >
+                                          {item?.title}
+                                        </Typography>
+                                        <Box
+                                          display={'flex'}
+                                          justifyContent={'center'}
+                                          alignItems={'center'}
+                                        >
+                                          <IconButton
+                                            onClick={() =>
+                                              handleDelete(item?.id)
+                                            }
+                                          >
+                                            <DeleteIcon />
+                                          </IconButton>
+                                          <IconButton
+                                            onClick={() => handleCopy(item?.id)}
+                                          >
+                                            <ContentCopyIcon />
+                                          </IconButton>
+                                        </Box>
+                                      </Box>
+                                      <div
+                                        dangerouslySetInnerHTML={{
+                                          __html: item?.component,
+                                        }}
+                                      />
                                     </Box>
-                                  </Box>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html: item?.component,
-                                    }}
-                                  />
-                                </Box>
-                              </Grid>
-                            )}
-                          </>
-                        ))}
-                      </Grid>
-                      <Grid container spacing={1} mb={1}>
-                        {form?.map((item: any) => (
-                          <>
-                            {item?.type === REPORT_TYPE?.TABLE && (
-                              <Grid item xs={12} sm={6} key={item?.id}>
-                                <Box
-                                  borderRadius={2}
-                                  border={`1px solid ${theme?.palette?.grey[700]}`}
-                                  p={1}
-                                >
-                                  <Box
-                                    display={'flex'}
-                                    justifyContent={'space-between'}
-                                    alignItems={'center'}
-                                  >
-                                    <Typography
-                                      color="secondary"
-                                      variant="h5"
-                                      overflow={'scroll'}
-                                      width={'80%'}
-                                    >
-                                      {item?.title}
-                                    </Typography>
+                                  </Grid>
+                                )}
+                              </>
+                            ))}
+                          </Grid>
+                          <Grid container spacing={1} mb={1}>
+                            {form?.map((item: any) => (
+                              <>
+                                {item?.type === REPORT_TYPE?.TABLE && (
+                                  <Grid item xs={12} sm={6} key={item?.id}>
                                     <Box
-                                      display={'flex'}
-                                      justifyContent={'center'}
-                                      alignItems={'center'}
+                                      borderRadius={2}
+                                      border={`1px solid ${theme?.palette?.grey[700]}`}
+                                      p={1}
                                     >
-                                      <IconButton
-                                        onClick={() => handleDelete(item?.id)}
+                                      <Box
+                                        display={'flex'}
+                                        justifyContent={'space-between'}
+                                        alignItems={'center'}
                                       >
-                                        <DeleteIcon />
-                                      </IconButton>
-                                      <IconButton
-                                        onClick={() => handleCopy(item?.id)}
-                                      >
-                                        <ContentCopyIcon />
-                                      </IconButton>
+                                        <Typography
+                                          color="secondary"
+                                          variant="h5"
+                                          overflow={'scroll'}
+                                          width={'80%'}
+                                        >
+                                          {item?.title}
+                                        </Typography>
+                                        <Box
+                                          display={'flex'}
+                                          justifyContent={'center'}
+                                          alignItems={'center'}
+                                        >
+                                          <IconButton
+                                            onClick={() =>
+                                              handleDelete(item?.id)
+                                            }
+                                          >
+                                            <DeleteIcon />
+                                          </IconButton>
+                                          <IconButton
+                                            onClick={() => handleCopy(item?.id)}
+                                          >
+                                            <ContentCopyIcon />
+                                          </IconButton>
+                                        </Box>
+                                      </Box>
+                                      <TanstackTable
+                                        columns={tableColumn(item?.component)}
+                                        data={[]}
+                                      />
                                     </Box>
-                                  </Box>
-                                  <TanstackTable
-                                    columns={tableColumn(item?.component)}
-                                    data={[]}
-                                  />
-                                </Box>
-                              </Grid>
-                            )}
-                          </>
-                        ))}
-                      </Grid>
+                                  </Grid>
+                                )}
+                              </>
+                            ))}
+                          </Grid>
 
-                      <Grid container spacing={1} mb={1}>
-                        {form?.map((item: any) => (
-                          <>
-                            {item?.reportType === REPORT_TYPE?.COUNTER && (
-                              <Grid item xs={12} sm={6} key={item?.id}>
-                                <Box
-                                  borderRadius={2}
-                                  border={`1px solid ${theme?.palette?.grey[700]}`}
-                                  p={1}
-                                >
-                                  <Box
-                                    display={'flex'}
-                                    justifyContent={'space-between'}
-                                    alignItems={'center'}
-                                  >
-                                    <Typography
-                                      color="secondary"
-                                      variant="h5"
-                                      overflow={'scroll'}
-                                      width={'80%'}
-                                    >
-                                      {item?.title}
-                                    </Typography>
+                          <Grid container spacing={1} mb={1}>
+                            {form?.map((item: any) => (
+                              <>
+                                {item?.reportType === REPORT_TYPE?.COUNTER && (
+                                  <Grid item xs={12} sm={6} key={item?.id}>
                                     <Box
-                                      display={'flex'}
-                                      justifyContent={'center'}
-                                      alignItems={'center'}
+                                      borderRadius={2}
+                                      border={`1px solid ${theme?.palette?.grey[700]}`}
+                                      p={1}
                                     >
-                                      <IconButton
-                                        onClick={() => handleDelete(item?.id)}
+                                      <Box
+                                        display={'flex'}
+                                        justifyContent={'space-between'}
+                                        alignItems={'center'}
                                       >
-                                        <DeleteIcon />
-                                      </IconButton>
-                                      <IconButton
-                                        onClick={() => handleCopy(item?.id)}
+                                        <Typography
+                                          color="secondary"
+                                          variant="h5"
+                                          overflow={'scroll'}
+                                          width={'80%'}
+                                        >
+                                          {item?.title}
+                                        </Typography>
+                                        <Box
+                                          display={'flex'}
+                                          justifyContent={'center'}
+                                          alignItems={'center'}
+                                        >
+                                          <IconButton
+                                            onClick={() =>
+                                              handleDelete(item?.id)
+                                            }
+                                          >
+                                            <DeleteIcon />
+                                          </IconButton>
+                                          <IconButton
+                                            onClick={() => handleCopy(item?.id)}
+                                          >
+                                            <ContentCopyIcon />
+                                          </IconButton>
+                                        </Box>
+                                      </Box>
+                                      <Typography
+                                        display={'flex'}
+                                        justifyContent={'center'}
+                                        alignItems={'center'}
+                                        variant="h1"
+                                        color={'primary'}
+                                        p={10}
                                       >
-                                        <ContentCopyIcon />
-                                      </IconButton>
+                                        {item?.ticketCount}
+                                      </Typography>
                                     </Box>
-                                  </Box>
-                                  <Typography
-                                    display={'flex'}
-                                    justifyContent={'center'}
-                                    alignItems={'center'}
-                                    variant="h1"
-                                    color={'primary'}
-                                    p={10}
-                                  >
-                                    {item?.ticketCount}
-                                  </Typography>
-                                </Box>
-                              </Grid>
-                            )}
-                          </>
-                        ))}
-                      </Grid>
+                                  </Grid>
+                                )}
+                              </>
+                            ))}
+                          </Grid>
+                        </>
+                      )}
                     </>
                   )}
                 </>
-              )}
-            </>
-          ) : (
-            <>
-              {modal?.chart && (
-                <Chart
-                  chartType={chartType}
-                  allChartComponents={allChartComponents}
-                  chartTitle={chartTitle}
-                  subFilter={subFilter}
-                  setCalendarFilter={setCalendarFilter}
-                />
-              )}
-              {modal?.text && (
-                <Text
-                  editorState={editorState}
-                  setEditorState={setEditorState}
-                  fontSize={fontSize}
-                  color={color}
-                  textTitle={textTitle}
-                  setValue={setValue}
-                />
-              )}
-              {modal?.table && (
-                <Table
-                  tableTitle={tableTitle}
-                  setAddProperties={setAddProperties}
-                  columnsData={columnsData}
-                />
-              )}
-              {modal?.counter && (
-                <Counter
-                  draggedItemData={draggedItemData}
-                  setModal={setModal}
-                  setFieldData={setFieldData}
-                  setForm={setForm}
-                  setDraggedItemData={setDraggedItemData}
-                  form={form}
-                  handleCancel={handleCancel}
-                />
+              ) : (
+                <>
+                  {modal?.chart && (
+                    <Chart
+                      chartType={chartType}
+                      allChartComponents={allChartComponents}
+                      chartTitle={chartTitle}
+                      subFilter={subFilter}
+                      setCalendarFilter={setCalendarFilter}
+                    />
+                  )}
+                  {modal?.text && (
+                    <Text
+                      editorState={editorState}
+                      setEditorState={setEditorState}
+                      fontSize={fontSize}
+                      color={color}
+                      textTitle={textTitle}
+                      setValue={setValue}
+                    />
+                  )}
+                  {modal?.table && (
+                    <Table
+                      tableTitle={tableTitle}
+                      setAddProperties={setAddProperties}
+                      columnsData={columnsData}
+                    />
+                  )}
+                  {modal?.counter && (
+                    <Counter
+                      draggedItemData={draggedItemData}
+                      setModal={setModal}
+                      setFieldData={setFieldData}
+                      setForm={setForm}
+                      setDraggedItemData={setDraggedItemData}
+                      form={form}
+                      handleCancel={handleCancel}
+                    />
+                  )}
+                </>
               )}
             </>
           )}

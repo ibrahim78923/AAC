@@ -7,7 +7,7 @@ import {
 import { DragDropContext } from 'react-beautiful-dnd';
 import useUpsertGenericReports from './useUpsertGenericReports';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AIR_OPERATIONS, REPORTS_HEADER_TITLE } from '@/constants';
+import { REPORTS_HEADER_TITLE } from '@/constants';
 import { FormProvider } from '@/components/ReactHookForm';
 import DroppableArea from './DroppableArea';
 import DraggableFields from './DraggableFields';
@@ -48,7 +48,6 @@ export const UpsertGenericReports = () => {
     showTemplate,
     setShowTemplate,
     handleTemplateDragEnd,
-    router,
     handleCancel,
     reportId,
     setDraggedItemData,
@@ -57,6 +56,10 @@ export const UpsertGenericReports = () => {
     handleChooseTemplate,
     xAxisType,
     moduleName,
+    isLoading,
+    isFetching,
+    singleReport,
+    handleMoveBack,
   } = useUpsertGenericReports();
   const { text, table, chart, counter } = modal || {};
 
@@ -84,17 +87,15 @@ export const UpsertGenericReports = () => {
                       ? REPORTS_HEADER_TITLE?.CREATE_CHART
                       : counter
                         ? REPORTS_HEADER_TITLE?.CREATE_COUNTER
-                        : REPORTS_HEADER_TITLE?.CREATE_REPORT
+                        : reportId
+                          ? REPORTS_HEADER_TITLE?.CUSTOMIZE_REPORT
+                          : REPORTS_HEADER_TITLE?.CREATE_REPORT
               }
               canMovedBack
               moveBack={
                 text || table || chart || counter
                   ? handleCancel
-                  : () => {
-                      router?.push({
-                        pathname: AIR_OPERATIONS?.SERVICES_REPORTS,
-                      });
-                    }
+                  : handleMoveBack
               }
             >
               {!!form?.length && !text && !table && !chart && !counter && (
@@ -136,6 +137,8 @@ export const UpsertGenericReports = () => {
               handleCancel={handleCancel}
               handleChooseTemplate={handleChooseTemplate}
               setValue={setValue}
+              isLoading={isLoading}
+              isFetching={isFetching}
             />
           </Grid>
           <Grid
@@ -186,6 +189,8 @@ export const UpsertGenericReports = () => {
               templateList={templateList}
               mainMetrics={mainMetrics}
               selectedModule={moduleName}
+              singleReport={singleReport}
+              handleMoveBack={handleMoveBack}
             />
           </Grid>
         </Grid>

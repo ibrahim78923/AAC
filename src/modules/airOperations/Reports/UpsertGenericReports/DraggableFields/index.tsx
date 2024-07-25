@@ -55,6 +55,8 @@ export default function DraggableFields({
   templateList,
   mainMetrics,
   selectedModule,
+  singleReport,
+  handleMoveBack,
 }: any) {
   const theme: any = useTheme();
 
@@ -296,6 +298,8 @@ export default function DraggableFields({
               setForm={setForm}
               metricType={metricType}
               selectedModule={selectedModule}
+              singleReport={singleReport}
+              handleMoveBack={handleMoveBack}
             />
           )}
         </Box>

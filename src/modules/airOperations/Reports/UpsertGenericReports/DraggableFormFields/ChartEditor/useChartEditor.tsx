@@ -10,6 +10,7 @@ import {
   useLazyVendorsDropdownQuery,
   useLazyDealsDropdownQuery,
   useLazyUsersDropdownQuery,
+  useLazySalesDropdownQuery,
 } from '@/services/airOperations/reports/upsert-generic-reports';
 
 export const useChartEditor = (props: any) => {
@@ -67,6 +68,7 @@ export const useChartEditor = (props: any) => {
   const categoriesDropdown = useLazyCategoriesDropdownQuery();
   const vendorsDropdown = useLazyVendorsDropdownQuery();
   const dealsDropdown = useLazyDealsDropdownQuery();
+  const salesDropdown = useLazySalesDropdownQuery();
 
   const xAxesFields = {
     ASSET_TYPE: 'inventory_assetType',
@@ -83,6 +85,7 @@ export const useChartEditor = (props: any) => {
     PURCHASE_ORDER_DEPARTMENT: 'purchaseOrder_departmentId',
     DEALS_PIPELINE_ID: 'deals_dealPipelineId',
     CAMPAIGN_OWNER: 'campaign_campaignOwner',
+    SALES_PIPELINE_ID: 'sales_pipelineId',
   };
 
   const getSingleFieldDropdown = () => {
@@ -115,6 +118,8 @@ export const useChartEditor = (props: any) => {
         return dealsDropdown;
       case xAxesFields?.CAMPAIGN_OWNER:
         return usersDropdown;
+      case xAxesFields?.SALES_PIPELINE_ID:
+        return salesDropdown;
       default:
         return [];
     }
