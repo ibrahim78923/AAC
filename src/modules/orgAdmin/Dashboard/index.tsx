@@ -44,7 +44,9 @@ const Dashboard = () => {
               phone={getUserData?.data?.phoneNumber}
               role={getUserData?.data?.role}
               editBtn={true}
-              handleEditProfile={() => navigate.push(ORG_ADMIN?.EDIT_PROFILE)}
+              handleEditProfile={() =>
+                navigate.push(ORG_ADMIN?.DASHBOARD_EDIT_PROFILE)
+              }
               isLoading={profileDataLoading}
               src={`${
                 getUserData?.data?.avatar

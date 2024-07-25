@@ -13,6 +13,7 @@ import {
 import useDashboard from '../../useDashboard';
 
 import { v4 as uuidv4 } from 'uuid';
+import { EditProfileDataItemI } from './Profile.interface';
 
 const Profile = () => {
   const { theme } = useDashboard();
@@ -32,7 +33,7 @@ const Profile = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Grid container spacing={3}>
-          {editProfileDataArray()?.map((item: any) => (
+          {editProfileDataArray()?.map((item: EditProfileDataItemI) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               {item?.componentProps?.heading && (
                 <Typography variant="h5">

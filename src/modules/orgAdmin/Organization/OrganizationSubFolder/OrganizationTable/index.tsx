@@ -22,13 +22,19 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { dataArray } from './OrganizationTable.data';
 import useOrganizationTable from './useOrganizationTable';
-import { FeaturedImage, AddCircleImage } from '@/assets/images';
+import { AddCircleImage } from '@/assets/images';
 import { AddPenIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './OrganizationTable.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
+import { getProductIcon } from '@/modules/orgAdmin/SubscriptionAndInvoices/Subscriptions';
 import { API_STATUS, ORGANIZATION_DRAWER_TYPES } from '@/constants';
+import {
+  DateArrayItemI,
+  OptionI,
+  ProductListPropsI,
+} from './organizationTable.interface';
 
 const OrganizationTable = () => {
   const {
@@ -168,9 +174,10 @@ const OrganizationTable = () => {
                 alignItems: 'center',
                 overflowX: 'auto',
                 marginBottom: '1rem',
+                mt: 1,
               }}
             >
-              {productsList?.data?.map((product: any) => (
+              {productsList?.data?.map((product: ProductListPropsI) => (
                 <Box sx={styles?.productCard} key={product?._id}>
                   <Checkbox
                     name={product?._id}
@@ -184,15 +191,30 @@ const OrganizationTable = () => {
                     }}
                   />
                   <Box sx={styles?.productItem}>
-                    <Image src={FeaturedImage} alt="1" />
-                    <Typography>{product?.name}</Typography>
+                    <Box
+                      sx={{
+                        height: '55px',
+                        background: theme?.palette?.primary?.light,
+                        width: '55px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {getProductIcon(product?.name)}
+                    </Box>
+
+                    <Typography sx={{ whiteSpace: 'nowrap', mt: 1 }}>
+                      {product?.name}
+                    </Typography>
                   </Box>
                 </Box>
               ))}
             </Box>
             <Grid container spacing={1}>
-              {getDateArray?.map((item: any, index: any) => (
-                // eslint-disable-next-line
+              {getDateArray?.map((item: DateArrayItemI, index: number) => (
+                //eslint-disable-next-line
                 <Grid item xs={12} md={item?.md} key={index}>
                   {item?.componentProps?.name === 'address' && (
                     <Box
@@ -219,7 +241,6 @@ const OrganizationTable = () => {
                             mt: 2,
                           }}
                         >
-                          {/* <EraserIcon /> */}
                           {addressLength?.length > 0 ? (
                             <BorderColorIcon
                               sx={{
@@ -242,7 +263,7 @@ const OrganizationTable = () => {
                   )}
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
+                      item?.options?.map((option: OptionI) => (
                         <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
