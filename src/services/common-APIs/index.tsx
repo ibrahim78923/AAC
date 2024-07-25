@@ -8,6 +8,7 @@ import {
   WHATSAPP_MARKETING,
 } from '@/routesConstants/endpoints';
 import { PRODUCT_USER_STATUS } from '@/constants/strings';
+import { SMS_MARKETING } from '@/services/airMarketer/SmsMarketing';
 
 export const CommonAPIS = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -307,6 +308,15 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['DEALS'],
     }),
+
+    getContactsList: builder.query({
+      query: (params) => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: SMS_MARKETING,
+    }),
   }),
 });
 
@@ -340,4 +350,5 @@ export const {
   useGetDropdownProductsListQuery,
   useLazyGetAllTicketsQuery,
   useGetPipelineQuery,
+  useGetContactsListQuery,
 } = CommonAPIS;

@@ -19,6 +19,7 @@ import { getSession } from '@/utils';
 import { generateImage } from '@/utils/avatarUtils';
 import { indexNumbers } from '@/constants';
 import { capitalizeFirstLetter } from '@/utils/api';
+import { ACTIONS_TYPES } from '@/constants/strings';
 
 const SMSMarketing = () => {
   const {
@@ -81,7 +82,7 @@ const SMSMarketing = () => {
                       color={theme?.palette?.grey[900]}
                       variant="body3"
                     >
-                      {capitalizeFirstLetter(user?.firstName)}
+                      {capitalizeFirstLetter(user?.firstName)}{' '}
                       {capitalizeFirstLetter(user?.lastName)}
                     </Typography>
                     <Typography
@@ -104,7 +105,7 @@ const SMSMarketing = () => {
                     onClick={() => {
                       navigate.push({
                         pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
-                        query: { type: 'edit' },
+                        query: { type: ACTIONS_TYPES?.ADD },
                       });
                     }}
                   >

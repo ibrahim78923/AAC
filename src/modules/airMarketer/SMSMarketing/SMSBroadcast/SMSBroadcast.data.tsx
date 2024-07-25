@@ -10,7 +10,7 @@ import { styles } from '../SMSDashboard/ScheduledSMS/ScheduledSMS.style';
 import LinearProgress from '@mui/material/LinearProgress';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, indexNumbers } from '@/constants';
 import { useRouter } from 'next/router';
 import { getProgressColor, statusTag } from '@/utils';
 
@@ -89,7 +89,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
       isSortable: false,
       header: 'Successful',
       cell: (info: any) => {
-        const value = info?.getValue() || 0;
+        const value = info?.getValue() || indexNumbers?.ZERO;
         return (
           <Stack gap={1}>
             <Typography variant="body3" textAlign={'center'}>
@@ -114,7 +114,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
       isSortable: false,
       header: 'Replied',
       cell: (info: any) => {
-        const value = info?.getValue() || 0;
+        const value = info?.getValue() || indexNumbers?.ZERO;
         return (
           <Stack gap={1}>
             <Typography variant="body3" textAlign={'center'}>
@@ -135,12 +135,12 @@ export const broadcastColumns: any = (columnsProps: any) => {
     },
     {
       accessorFn: (row: any) => row?.recipients,
-      id: 'Recipients',
+      id: 'recipients',
       isSortable: false,
       header: 'Recipients',
       cell: (info: any) => {
         const recipients = info?.row?.original?.recipients;
-        if (!recipients || recipients.length === 0) {
+        if (!recipients || recipients.length === indexNumbers?.ZERO) {
           return 'N/A';
         }
         return (

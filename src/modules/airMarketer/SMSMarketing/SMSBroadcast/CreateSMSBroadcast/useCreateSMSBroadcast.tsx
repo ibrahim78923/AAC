@@ -17,6 +17,7 @@ import {
 } from '@/constants/strings';
 import useSMSMarketing from '../../useSMSMarketing';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { indexNumbers, productSuiteName } from '@/constants';
 
 const useCreateSMSBroadcast = () => {
   const navigate = useRouter();
@@ -25,13 +26,16 @@ const useCreateSMSBroadcast = () => {
   const [isAddContactDrawerOpen, setIsAddContactDrawerOpen] = useState(false);
   const [selectedRec, setSelectedRec] = useState<string[]>([]);
   const [selectedContactsData, setSelectedContactsData] = useState<any>([]);
-  const [selectedDateVal, setSelectedDateVal] = useState<any>(null);
   const [createStatus, setCreateStatus] = useState(STATUS_CONTANTS?.COMPLETED);
-  const [isSchedule, setIsSchedule] = useState(false);
+  const [isSchedule, setIsSchedule] = useState(
+    type === DRAWER_TYPES?.EDIT ? true : false,
+  );
   const { getIsPhoneConnected } = useSMSMarketing();
 
   const { data: getSmsBroadcatsById, isLoading: smsBroadcastLoading } =
-    useGetSmsBroadcatsByIdQuery(selectedBroadCast);
+    useGetSmsBroadcatsByIdQuery(selectedBroadCast, {
+      skip: !selectedBroadCast,
+    });
 
   const [postSmsBroadcast, { isLoading: postBroadcastLoading }] =
     usePostSmsBroadcastMutation();
@@ -39,7 +43,7 @@ const useCreateSMSBroadcast = () => {
     useUpdateSmsBroadcastMutation();
 
   const methods: any = useForm({
-    resolver: yupResolver<any>(validationSchema),
+    resolver: yupResolver<any>(validationSchema(isSchedule)),
     defaultValues: defaultValues(getIsPhoneConnected),
   });
 
@@ -47,6 +51,11 @@ const useCreateSMSBroadcast = () => {
 
   const broadcastName = watch('name');
   const detailsText = watch('detail');
+  const templateData = watch('templateId');
+
+  useEffect(() => {
+    setValue('detail', templateData?.detail);
+  }, [templateData?.detail]);
 
   useEffect(() => {
     if (type === DRAWER_TYPES?.EDIT) {
@@ -60,6 +69,10 @@ const useCreateSMSBroadcast = () => {
           data?.recipients?.map(
             (item: any) => `${item?.firstName} ${item?.lastName}`,
           ) ?? [],
+        schedualDate:
+          typeof data?.schedualDate === productSuiteName?.string
+            ? new Date(data?.schedualDate)
+            : null,
       };
       for (const key in fieldsToSet) {
         setValue(key, fieldsToSet[key]);
@@ -67,7 +80,7 @@ const useCreateSMSBroadcast = () => {
       setSelectedContactsData(data?.recipients ?? []);
       setSelectedRec(data?.recipients);
     }
-  }, [getSmsBroadcatsById?.data]);
+  }, [getSmsBroadcatsById]);
 
   const onSubmit = async (values: any) => {
     const removeHtmlTags = (text: string) => text?.replace(/<[^>]*>?/gm, '');
@@ -75,10 +88,12 @@ const useCreateSMSBroadcast = () => {
     values.senderId = getIsPhoneConnected?.data?._id;
     values.campaignId = values?.campaignId?._id;
     values.templateId = values?.templateId?._id;
-    values.recipients = selectedContactsData?.map((item: any) => item?._id);
+    values.recipients = selectedContactsData[indexNumbers?.ZERO]?.contacts?.map(
+      (item: any) => item?._id,
+    );
     values.detail = cleanedDetailsText;
     values.status = createStatus;
-    values.schedualDate = selectedDateVal ?? undefined;
+    values.schedualDate = values.schedualDate ?? undefined;
 
     try {
       if (type === DRAWER_TYPES?.EDIT) {
@@ -89,7 +104,7 @@ const useCreateSMSBroadcast = () => {
         enqueueSnackbar(`Sms Broadcast updated Successfully`, {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         });
-        return;
+        navigate?.push(AIR_MARKETER?.SMS_MARKETING);
       }
       await postSmsBroadcast({ body: values })?.unwrap();
       enqueueSnackbar(`Sms Broadcast created Successfully`, {
@@ -97,7 +112,9 @@ const useCreateSMSBroadcast = () => {
       });
     } catch (error: any) {
       const errMsg = error?.data?.message;
-      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      const errMessage = Array?.isArray(errMsg)
+        ? errMsg[indexNumbers?.ZERO]
+        : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
@@ -129,7 +146,6 @@ const useCreateSMSBroadcast = () => {
     selectedContactsData,
     flattenContactsData,
     smsBroadcastLoading,
-    setSelectedDateVal,
     handleSaveAsDraft,
     setCreateStatus,
     setSelectedRec,

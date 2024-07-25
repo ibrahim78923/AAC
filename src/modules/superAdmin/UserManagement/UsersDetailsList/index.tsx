@@ -154,7 +154,7 @@ const UsersDetailsList = () => {
                     }}
                     sx={{ cursor: 'pointer' }}
                   />
-                  <Typography variant="h3">{`${userDataById?.data?.firstName} ${userDataById?.data?.firstName}`}</Typography>
+                  <Typography variant="h3">{`${userDataById?.data?.firstName} ${userDataById?.data?.lastName}`}</Typography>
                 </Stack>
               )}
               <Stack direction={{ sm: 'row' }} gap={1}>

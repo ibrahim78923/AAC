@@ -1,6 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+export const SMS_MARKETING = ['DASHBOARD_INSIGHTS', 'BROADCAST'];
 export const SmsMarketingAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getSmsDashboardInsights: builder.query({
@@ -9,7 +10,7 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['DASHBOARD_INSIGHTS'],
+      providesTags: SMS_MARKETING,
     }),
 
     getSmsBroadcats: builder.query({
@@ -18,7 +19,7 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['BROADCAST', 'DASHBOARD_INSIGHTS'],
+      providesTags: SMS_MARKETING,
     }),
 
     connectPhoneNumber: builder.mutation({
@@ -36,7 +37,7 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
         method: 'DELETE',
         body: body,
       }),
-      invalidatesTags: ['BROADCAST'],
+      invalidatesTags: SMS_MARKETING,
     }),
 
     getIsPhoneConnected: builder.query({
@@ -44,7 +45,7 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
         url: END_POINTS?.GET_IS_PHONE_CONNECTED,
         method: 'GET',
       }),
-      providesTags: ['BROADCAST'],
+      providesTags: SMS_MARKETING,
     }),
 
     postSmsBroadcast: builder.mutation({
@@ -55,7 +56,7 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['PERMISSIONS'],
+      invalidatesTags: SMS_MARKETING,
     }),
 
     getSmsBroadcatsById: builder.query({
@@ -63,7 +64,7 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.GET_SMS_MARKETING_BROADCAST}/${id}`,
         method: 'GET',
       }),
-      providesTags: ['BROADCAST'],
+      providesTags: SMS_MARKETING,
     }),
 
     updateSmsBroadcast: builder.mutation({
@@ -74,7 +75,7 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['BROADCAST'],
+      invalidatesTags: SMS_MARKETING,
     }),
   }),
 });
