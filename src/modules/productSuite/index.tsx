@@ -286,7 +286,7 @@ const ProductSuite = () => {
                       },
                     }}
                   >
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                       {product?.logo && (
                         <Image
                           src={generateImage(product?.logo?.url)}
@@ -304,8 +304,7 @@ const ProductSuite = () => {
                       sx={{
                         marginTop: '20px',
                         display: 'block',
-                        padding: '0px',
-                        height: '46px',
+                        padding: '10px 0px 10px 5px',
                         color: theme?.palette?.custom?.main,
                         width: '100%',
                         '&:hover': {
