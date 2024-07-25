@@ -48,7 +48,7 @@ const RolesRight = () => {
           justifyContent="space-between"
           gap={1}
         >
-          <Typography variant="h3">Roles and Rights</Typography>
+          <Typography variant="h3">Roles And Rights</Typography>
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.ADD_NEW_ROLE]}>
             <Button
               className="small"

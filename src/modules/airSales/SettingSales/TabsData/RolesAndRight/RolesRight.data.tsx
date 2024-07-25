@@ -1,10 +1,10 @@
 import { Checkbox } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
-import { convertIdToShortNumber } from '@/utils';
+import { capitalizeFirstLetters, convertIdToShortNumber } from '@/utils';
 
 // table data starts here
-export const columns: any = (columnsProps: any) => {
+export const columns = (columnsProps: any) => {
   const { checkedRows, setCheckedRows } = columnsProps;
 
   const handleCheckboxChange = (val: any, rowId: string) => {
@@ -40,7 +40,7 @@ export const columns: any = (columnsProps: any) => {
       id: 'roleName',
       isSortable: true,
       header: 'Role Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => capitalizeFirstLetters(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.createdAt,
@@ -57,7 +57,10 @@ export const columns: any = (columnsProps: any) => {
       id: 'description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => {
+        const value = info?.getValue();
+        return value === undefined || value === '' ? 'N/A' : value;
+      },
     },
   ];
 };

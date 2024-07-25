@@ -40,6 +40,13 @@ export const convertIdToShortNumber = (mongodbId: string): any => {
   return uniqueFiveDigitNumber;
 };
 
+export const capitalizeFirstLetters = (str: string): string => {
+  return str
+    ?.split(' ')
+    ?.map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    ?.join(' ');
+};
+
 //=====debounce search
 
 const DEBOUNCE_DELAY = 1000;

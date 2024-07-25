@@ -1,5 +1,6 @@
 import { SwitchBtn } from '@/components/SwitchButton';
 import { DATE_FORMAT } from '@/constants';
+import { capitalizeFirstLetters } from '@/utils';
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -53,7 +54,7 @@ export const columns = ({
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => capitalizeFirstLetters(info?.getValue()),
       header: 'Name',
       isSortable: true,
     },
@@ -69,14 +70,14 @@ export const columns = ({
       id: 'unitPrice',
       isSortable: true,
       header: 'Unit Price',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => `${info?.getValue()} £`,
     },
     {
       accessorFn: (row: any) => row?.purchasePrice,
       id: 'purchasePrice',
       isSortable: true,
       header: 'Purchase Price',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => `${info?.getValue()} £`,
     },
     {
       accessorFn: (row: any) => row?.createdBy,
@@ -84,8 +85,8 @@ export const columns = ({
       isSortable: true,
       header: 'Created By',
       cell: (info: any) => {
-        const firstName = info?.getValue()?.firstName;
-        const lastName = info?.getValue()?.lastName;
+        const firstName = capitalizeFirstLetters(info?.getValue()?.firstName);
+        const lastName = capitalizeFirstLetters(info?.getValue()?.lastName);
         return firstName && lastName ? ` ${firstName} ${lastName}` : 'N/A';
       },
     },

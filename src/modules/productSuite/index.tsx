@@ -302,21 +302,27 @@ const ProductSuite = () => {
 
                     <CardContent
                       sx={{
+                        marginTop: '20px',
                         display: 'block',
                         padding: '0px',
+                        height: '46px',
                         color: theme?.palette?.custom?.main,
+                        width: '100%',
+                        '&:hover': {
+                          color: theme?.palette?.common?.black,
+                          backgroundColor: theme?.palette?.primary?.light,
+                          borderRadius: '10px',
+                          display: 'flex',
+                          alignItems: 'center',
+                        },
                       }}
                     >
                       {product?.accounts?.map((account: any) => (
-                        <Box
-                          sx={{
-                            marginTop: '15px',
-                          }}
-                          key={uuidv4()}
-                        >
+                        <Box key={uuidv4()}>
                           <Typography
                             variant="body2"
                             color="inherit"
+                            fontWeight={600}
                             sx={{
                               cursor: 'pointer',
                               marginLeft: '20px',
@@ -331,9 +337,10 @@ const ProductSuite = () => {
                                 left: '-15px',
                                 top: '8px',
                                 borderRadius: '50%',
-                              },
-                              '&:hover': {
-                                color: theme?.palette?.primary?.main,
+                                '&:hover': {
+                                  backgroundColor:
+                                    theme?.palette?.common?.black,
+                                },
                               },
                             }}
                             onClick={() => {

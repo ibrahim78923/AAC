@@ -13,7 +13,7 @@ const useDealPipelines = () => {
   const theme = useTheme<Theme>();
   const [isDraweropen, setIsDraweropen] = useState({
     isToggle: false,
-    type: 'add',
+    type: DRAWER_TYPES?.ADD,
   });
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);

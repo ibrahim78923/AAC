@@ -89,7 +89,11 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.GET_COMPANY_ORGANIZATION_DROPDOWN}/${params?.orgId}${END_POINTS?.GET_COMPANY_ACCOUNTS}`,
         method: 'GET',
-        params: { productId: params?.productId },
+        params: {
+          productId: params?.productId,
+          search: params?.search,
+          limit: params?.limit,
+        },
       }),
       providesTags: ['USERS', 'PERMISSIONS'],
       transformResponse: (response: any) => {
