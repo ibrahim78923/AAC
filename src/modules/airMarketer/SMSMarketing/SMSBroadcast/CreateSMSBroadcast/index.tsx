@@ -185,8 +185,8 @@ const CreateSMSBroadcast = () => {
                                 width: '30px',
                                 fontSize: '12px',
                               },
+                              position: 'end',
                             }}
-                            position="end"
                           >
                             {selectedContactsData?.map((item: any) => {
                               const contacts = item?.contacts || [item];
